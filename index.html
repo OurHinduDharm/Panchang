@@ -1,1 +1,621 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
+<title>हिंदू पंचांग - OurHinduDharm</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Devanagari",sans-serif;
+  background:linear-gradient(135deg,#fff7e6,#ffe0b2);
+  color:#3d2412;
+}
+
+.container{
+  max-width:650px;
+  margin:auto;
+  padding:15px;
+}
+
+.header{
+  text-align:center;
+  background:linear-gradient(135deg,#8b1e00,#d35400);
+  color:white;
+  padding:20px 15px;
+  border-radius:18px;
+  margin-bottom:15px;
+  box-shadow:0 5px 15px #0002;
+}
+
+.header h1{
+  margin:0 0 5px;
+  font-size:27px;
+}
+
+.header p{
+  margin:0;
+  opacity:.9;
+}
+
+.controls{
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  box-shadow:0 3px 12px #0002;
+  margin-bottom:15px;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+input{
+  width:100%;
+  padding:11px;
+  border:1px solid #ddd;
+  border-radius:9px;
+  font-size:16px;
+  margin-bottom:10px;
+}
+
+button{
+  border:0;
+  padding:11px 15px;
+  border-radius:9px;
+  background:#c0392b;
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+  margin:3px;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+.location{
+  text-align:center;
+  font-size:14px;
+  color:#777;
+  margin-top:8px;
+}
+
+.date-title{
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+  margin:15px 0;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.card{
+  background:white;
+  padding:15px;
+  border-radius:13px;
+  box-shadow:0 2px 9px #0002;
+  border-left:4px solid #d35400;
+}
+
+.card .label{
+  font-size:13px;
+  color:#777;
+  margin-bottom:5px;
+}
+
+.card .value{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.error{
+  background:#ffe0e0;
+  color:#a00000;
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.loading{
+  text-align:center;
+  padding:20px;
+  font-weight:bold;
+}
+
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:#777;
+  margin:20px 0;
+}
+
+@media(max-width:450px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>🕉️ हिंदू पंचांग</h1>
+    <p>OurHinduDharm</p>
+  </div>
+
+  <div class="controls">
+
+    <label>📅 तारीख चुनें</label>
+
+    <input type="date" id="dateInput">
+
+    <div style="text-align:center">
+      <button onclick="showToday()">आज</button>
+      <button onclick="getMyLocation()">📍 मेरा स्थान</button>
+    </div>
+
+    <div class="location" id="locationText">
+      स्थान: डिफ़ॉल्ट स्थान
+    </div>
+
+  </div>
+
+  <div id="result">
+    <div class="loading">पंचांग तैयार हो रहा है...</div>
+  </div>
+
+  <div class="footer">
+    गणना: @ishubhamx/panchangam-js · MIT License
+  </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+  getPanchangam,
+  Observer,
+  tithiNames,
+  nakshatraNames,
+  yogaNames
+} from "https://unpkg.com/@ishubhamx/panchangam-js/dist/index.js";
+
+
+const IST_OFFSET = 330;
+
+
+// -----------------------------
+// हिंदी नाम
+// -----------------------------
+
+const varaNames = [
+  "रविवार",
+  "सोमवार",
+  "मंगलवार",
+  "बुधवार",
+  "गुरुवार",
+  "शुक्रवार",
+  "शनिवार"
+];
+
+const pakshaNames = [
+  "शुक्ल पक्ष",
+  "कृष्ण पक्ष"
+];
+
+
+// -----------------------------
+// Default location
+// -----------------------------
+
+let locationData = {
+  name: "भारत",
+  lat: 22.9734,
+  lon: 78.6569,
+  elevation: 0
+};
+
+
+// -----------------------------
+// Saved location
+// -----------------------------
+
+try{
+
+  const saved = localStorage.getItem("ohdPanchangLocation");
+
+  if(saved){
+    locationData = JSON.parse(saved);
+  }
+
+}catch(e){}
+
+
+// -----------------------------
+// Date
+// -----------------------------
+
+const dateInput = document.getElementById("dateInput");
+
+function todayString(){
+
+  const d = new Date();
+
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+
+  return `${y}-${m}-${day}`;
+}
+
+dateInput.value = todayString();
+
+
+// -----------------------------
+// Date formatting
+// -----------------------------
+
+function formatDate(dateString){
+
+  const d = new Date(dateString + "T00:00:00");
+
+  return d.toLocaleDateString(
+    "hi-IN",
+    {
+      weekday:"long",
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  );
+}
+
+
+// -----------------------------
+// Time formatting
+// -----------------------------
+
+function formatTime(value){
+
+  if(!value) return "—";
+
+  try{
+
+    const d = new Date(value);
+
+    return d.toLocaleTimeString(
+      "hi-IN",
+      {
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:true
+      }
+    );
+
+  }catch(e){
+
+    return "—";
+
+  }
+}
+
+
+// -----------------------------
+// Tithi name
+// -----------------------------
+
+function getTithiName(value){
+
+  if(typeof value === "number" && tithiNames[value]){
+    return tithiNames[value];
+  }
+
+  return value ?? "—";
+}
+
+
+// -----------------------------
+// Nakshatra
+// -----------------------------
+
+function getNakshatraName(value){
+
+  if(typeof value === "number" && nakshatraNames[value]){
+    return nakshatraNames[value];
+  }
+
+  return value ?? "—";
+}
+
+
+// -----------------------------
+// Yoga
+// -----------------------------
+
+function getYogaName(value){
+
+  if(typeof value === "number" && yogaNames[value]){
+    return yogaNames[value];
+  }
+
+  return value ?? "—";
+}
+
+
+// -----------------------------
+// Show Panchang
+// -----------------------------
+
+function loadPanchang(){
+
+  const dateString = dateInput.value;
+
+  if(!dateString) return;
+
+  document.getElementById("result").innerHTML =
+    `<div class="loading">🕉️ पंचांग गणना हो रही है...</div>`;
+
+  try{
+
+    const observer = new Observer(
+      locationData.lat,
+      locationData.lon,
+      locationData.elevation
+    );
+
+
+    const date = new Date(
+      dateString + "T12:00:00"
+    );
+
+
+    const p = getPanchangam(
+      date,
+      observer,
+      {
+        timezoneOffset: IST_OFFSET
+      }
+    );
+
+
+    document.getElementById("locationText").innerHTML =
+      `📍 स्थान: <b>${locationData.name}</b>`;
+
+
+    document.getElementById("result").innerHTML = `
+
+      <div class="date-title">
+        ${formatDate(dateString)}
+      </div>
+
+      <div class="grid">
+
+        <div class="card">
+          <div class="label">वार</div>
+          <div class="value">
+            ${varaNames[p.vara] || p.vara || "—"}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">पक्ष</div>
+          <div class="value">
+            ${p.paksha ?? "—"}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">तिथि</div>
+          <div class="value">
+            ${getTithiName(p.tithi)}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">नक्षत्र</div>
+          <div class="value">
+            ${getNakshatraName(p.nakshatra)}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">योग</div>
+          <div class="value">
+            ${getYogaName(p.yoga)}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">करण</div>
+          <div class="value">
+            ${p.karana ?? "—"}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">🌅 सूर्योदय</div>
+          <div class="value">
+            ${formatTime(p.sunrise)}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">🌇 सूर्यास्त</div>
+          <div class="value">
+            ${formatTime(p.sunset)}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">🌙 चंद्रोदय</div>
+          <div class="value">
+            ${formatTime(p.moonrise)}
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class="label">🌙 चंद्रास्त</div>
+          <div class="value">
+            ${formatTime(p.moonset)}
+          </div>
+        </div>
+
+      </div>
+
+    `;
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    document.getElementById("result").innerHTML = `
+
+      <div class="error">
+
+        ❌ पंचांग लोड नहीं हो पाया।
+
+        <br><br>
+
+        कृपया दोबारा प्रयास करें।
+
+        <br><br>
+
+        Error:
+        ${error.message || error}
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+// -----------------------------
+// Today button
+// -----------------------------
+
+window.showToday = function(){
+
+  dateInput.value = todayString();
+
+  loadPanchang();
+
+};
+
+
+// -----------------------------
+// Location
+// -----------------------------
+
+window.getMyLocation = function(){
+
+  if(!navigator.geolocation){
+
+    alert("आपके browser में location सुविधा उपलब्ध नहीं है।");
+
+    return;
+
+  }
+
+
+  navigator.geolocation.getCurrentPosition(
+
+    position => {
+
+      locationData = {
+
+        name:"आपका वर्तमान स्थान",
+
+        lat:position.coords.latitude,
+
+        lon:position.coords.longitude,
+
+        elevation:position.coords.altitude || 0
+
+      };
+
+
+      try{
+
+        localStorage.setItem(
+          "ohdPanchangLocation",
+          JSON.stringify(locationData)
+        );
+
+      }catch(e){}
+
+
+      loadPanchang();
+
+    },
+
+    error => {
+
+      alert(
+        "Location नहीं मिल पाई। कृपया browser में Location permission दें।"
+      );
+
+    },
+
+    {
+      enableHighAccuracy:true,
+      timeout:10000,
+      maximumAge:86400000
+    }
+
+  );
+
+};
+
+
+// -----------------------------
+// Date change
+// -----------------------------
+
+dateInput.addEventListener(
+  "change",
+  loadPanchang
+);
+
+
+// -----------------------------
+// First load
+// -----------------------------
+
+loadPanchang();
+
+</script>
+
+</body>
+  </html>
