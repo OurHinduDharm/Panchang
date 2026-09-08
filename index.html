@@ -1,71 +1,66 @@
 <!DOCTYPE html>
+
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
 <title>हिंदू पंचांग | OurHinduDharm</title>
 
 <style>
 *{box-sizing:border-box}
 
-body{
-  margin:0;
+#ohdPanchang{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:14px;
   font-family:Arial,"Noto Sans Devanagari",sans-serif;
   background:linear-gradient(135deg,#fff8e7,#ffe0b2);
   color:#3b2415;
+  border-radius:20px;
 }
 
-.container{
-  max-width:680px;
-  margin:auto;
-  padding:14px;
-}
-
-.header{
+#ohdPanchang .header{
   background:linear-gradient(135deg,#8e2100,#d85b00);
   color:#fff;
   text-align:center;
-  padding:22px 15px;
+  padding:24px 15px;
   border-radius:20px;
   box-shadow:0 5px 18px #0002;
 }
 
-.header h1{
+#ohdPanchang .header h1{
   margin:0 0 5px;
-  font-size:28px;
+  font-size:29px;
 }
 
-.header p{
+#ohdPanchang .header p{
   margin:0;
   opacity:.9;
 }
 
-.searchbox{
+#ohdPanchang .searchbox,
+#ohdPanchang .datebox{
   background:#fff;
   margin-top:14px;
-  padding:16px;
+  padding:17px;
   border-radius:16px;
   box-shadow:0 3px 12px #0002;
 }
 
-.searchbox label{
+#ohdPanchang label{
   display:block;
   font-weight:bold;
   margin-bottom:7px;
 }
 
-.searchrow{
+#ohdPanchang .searchrow{
   display:flex;
   gap:8px;
 }
 
-.searchrow input{
-  flex:1;
-  min-width:0;
-}
-
-input{
+#ohdPanchang input{
   width:100%;
   padding:12px;
   border:1px solid #ddd;
@@ -74,11 +69,11 @@ input{
   outline:none;
 }
 
-input:focus{
+#ohdPanchang input:focus{
   border-color:#d35400;
 }
 
-button{
+#ohdPanchang button{
   border:0;
   background:#c0392b;
   color:white;
@@ -88,99 +83,109 @@ button{
   cursor:pointer;
 }
 
-button:hover{
+#ohdPanchang button:hover{
   opacity:.9;
 }
 
-.secondary{
+#ohdPanchang .secondary{
   background:#777;
   margin-top:9px;
   width:100%;
 }
 
-#suggestions{
+#ohdPanchang #suggestions{
   margin-top:8px;
 }
 
-.city{
+#ohdPanchang .city{
   padding:11px;
   border-bottom:1px solid #eee;
   cursor:pointer;
 }
 
-.city:hover{
+#ohdPanchang .city:hover{
   background:#fff3df;
 }
 
-.selected{
+#ohdPanchang .selected{
   margin-top:10px;
   padding:9px;
-  background:#fff3df;
+  backgrou2nd:#fff3df;
   border-radius:9px;
   font-size:14px;
 }
 
-.datebox{
-  background:#fff;
-  margin-top:14px;
-  padding:15px;
-  border-radius:16px;
-  box-shadow:0 3px 12px #0002;
-}
-
-.datebox label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:7px;
-}
-
-.datebuttons{
+#ohdPanchang .datebuttons{
   margin-top:9px;
   display:flex;
   gap:7px;
 }
 
-.datebuttons button{
+#ohdPanchang .datebuttons button{
   flex:1;
 }
 
-.date-title{
+#ohdPanchang .date-title{
   text-align:center;
-  font-size:20px;
+  font-size:21px;
   font-weight:bold;
-  margin:18px 0 12px;
+  margin:20px 0 13px;
 }
 
-.grid{
+#ohdPanchang .grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
 }
 
-.card{
+#ohdPanchang .card{
   background:#fff;
-  padding:14px;
+  padding:15px;
   border-radius:14px;
   box-shadow:0 2px 9px #0002;
   border-left:4px solid #d35400;
+  min-width:0;
 }
 
-.card.full{
+#ohdPanchang .card.full{
   grid-column:1/-1;
 }
 
-.label{
+#ohdPanchang .label{
   color:#777;
   font-size:13px;
-  margin-bottom:5px;
+  margin-bottom:6px;
 }
 
-.value{
+#ohdPanchang .value{
   font-size:17px;
   font-weight:bold;
+  word-break:break-word;
 }
 
-.loading{
+#ohdPanchang .endtime{
+  display:block;
+  margin-top:7px;
+  font-size:13px;
+  color:#b44b00;
+  font-weight:normal;
+}
+
+#ohdPanchang .karana-list{
+  margin-top:8px;
+}
+
+#ohdPanchang .karana-item{
+  padding:7px 0;
+  border-bottom:1px dashed #ddd;
+  font-size:14px;
+}
+
+#ohdPanchang .karana-item:last-child{
+  border-bottom:0;
+}
+
+#ohdPanchang .loading{
   text-align:center;
   background:#fff;
   padding:20px;
@@ -188,7 +193,7 @@ button:hover{
   border-radius:15px;
 }
 
-.error{
+#ohdPanchang .error{
   background:#ffe1e1;
   color:#900;
   padding:14px;
@@ -196,94 +201,127 @@ button:hover{
   border-radius:12px;
 }
 
-.footer{
+#ohdPanchang .footer{
   text-align:center;
   color:#777;
   font-size:12px;
-  margin:20px 0;
+  margin:20px 0 5px;
 }
 
 @media(max-width:480px){
-  .searchrow{
+
+  #ohdPanchang .searchrow{
     flex-direction:column;
   }
 
-  .grid{
+  #ohdPanchang .grid{
     grid-template-columns:1fr;
   }
 
-  .card.full{
+  #ohdPanchang .card.full{
     grid-column:auto;
   }
+  
+ #ohdPanchang .time-row{
+  padding:9px 0;
+  border-bottom:1px dashed #ddd;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+#ohdPanchang .time-row:last-child{
+  border-bottom:0;
+}
+
+#ohdPanchang .time-row span{
+  text-align:right;
+  font-size:14px;
+}
+  #ohdPanchang .choghadiya-list{
+  margin-top:8px;
 }
 </style>
 </head>
 
 <body>
+<div class="panchang-intro">
+  <p>सनातन धर्म में किसी भी शुभ कार्य, पूजा-अनुष्ठान या नए कार्य की शुरुआत के लिए सही समय और स्थिति का ज्ञान होना अत्यंत आवश्यक है। इस दैनिक पंचांग के माध्यम से आप अपने शहर के अनुसार आज की तिथि, वार, नक्षत्र, योग, करण तथा सूर्योदय, सूर्यास्त, चंद्रोदय और चंद्रास्त की जानकारी प्राप्त कर सकते हैं। अपना शहर और तारीख चुनें और उस दिन का पंचांग आसानी से देखें।</p>
 
-<div class="container">
+  <h3>इस पंचांग की मुख्य विशेषताएं:</h3>
+
+  <p><strong>सटीक स्थान चयन:</strong><br />
+  अपने शहर का नाम खोजें और अपने स्थानीय स्थान के अनुसार पंचांग देखें।</p>
+
+  <p><strong>तिथि एवं तिथि परिवर्तन:</strong><br />
+  किसी भी भूत या भविष्य की तारीख का चयन करके उस दिन का पंचांग आसानी से जांचें।</p>
+
+  <p><strong>सूर्योदय एवं सूर्यास्त:</strong><br />
+  अपने चुने हुए स्थान के अनुसार सूर्योदय और सूर्यास्त का स्थानीय समय देखें।</p>
+
+  <p><strong>चंद्रोदय एवं चंद्रास्त:</strong><br />
+  चंद्रमा के उदय और अस्त होने का स्थानीय समय भी देखें।</p>
+
+  <p><strong>दैनिक पंचांग विवरण:</strong><br />
+  विक्रम संवत्, मास, पक्ष, तिथि, वार, नक्षत्र, योग, करण, ऋतु और अयन की जानकारी एक ही स्थान पर प्राप्त करें।</p>
+</div>
+<div id="ohdPanchang">
 
   <div class="header">
     <h1>🕉️ हिंदू पंचांग</h1>
     <p>OurHinduDharm</p>
   </div>
 
-  <!-- CITY SEARCH -->
-
   <div class="searchbox">
 
     <label>📍 अपना शहर खोजें</label>
 
     <div class="searchrow">
-      <input
-        id="cityInput"
-        type="text"
-        placeholder="जैसे Pithoragarh, Delhi, Mumbai..."
-        autocomplete="off"
-      >
+
+      <input autocomplete="off" id="cityInput" placeholder="जैसे Pithoragarh, Delhi, Mumbai..." type="text" />
 
       <button onclick="searchCity()">🔍 खोजें</button>
+
     </div>
 
     <button class="secondary" onclick="useMyLocation()">
-      📍 मेरी वर्तमान Location
+      📍 मेरी वर्तमान स्थिति
     </button>
 
     <div id="suggestions"></div>
 
-    <div id="selectedCity" class="selected" style="display:none"></div>
+    <div class="selected" id="selectedCity" style="display: none;"></div>
 
   </div>
-
-
-  <!-- DATE -->
 
   <div class="datebox">
 
     <label>📅 तारीख</label>
 
-    <input type="date" id="dateInput">
+    <input id="dateInput" type="date" />
 
     <div class="datebuttons">
+
       <button onclick="today()">आज</button>
+
       <button onclick="previousDay()">‹ पिछला</button>
+
       <button onclick="nextDay()">अगला ›</button>
+
     </div>
 
   </div>
 
-
-  <!-- RESULT -->
-
   <div id="result">
+
     <div class="loading">
       पहले अपना शहर खोजें और चुनें।
     </div>
+
   </div>
 
-
   <div class="footer">
-    Panchang calculations powered by Panchangam JS
+    पंचांग गणना: Panchangam JS
   </div>
 
 </div>
@@ -293,16 +331,9 @@ button:hover{
 
 import {
   getPanchangam,
-  Observer,
-  tithiNames,
-  nakshatraNames,
-  yogaNames
+  Observer
 } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 
-
-// --------------------------------
-// VARIABLES
-// --------------------------------
 
 let selectedLocation = null;
 
@@ -322,9 +353,7 @@ const result =
   document.getElementById("result");
 
 
-// --------------------------------
-// TODAY
-// --------------------------------
+/* TODAY */
 
 function todayString(){
 
@@ -335,14 +364,220 @@ function todayString(){
     + String(d.getMonth()+1).padStart(2,"0")
     + "-"
     + String(d.getDate()).padStart(2,"0");
+
 }
 
 dateInput.value = todayString();
 
 
-// --------------------------------
-// SEARCH CITY
-// --------------------------------
+/* HINDI DATA */
+
+const pakshaHindi = {
+
+  Shukla:"शुक्ल पक्ष",
+  Krishna:"कृष्ण पक्ष",
+  shukla:"शुक्ल पक्ष",
+  krishna:"कृष्ण पक्ष"
+
+};
+
+
+const tithiHindi = [
+
+  "प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी",
+  "षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी",
+  "एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा",
+
+  "प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी",
+  "षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी",
+  "एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","अमावस्या"
+
+];
+
+
+const nakshatraHindi = [
+
+  "अश्विनी","भरणी","कृत्तिका","रोहिणी","मृगशीर्ष","आर्द्रा",
+  "पुनर्वसु","पुष्य","आश्लेषा","मघा","पूर्वाफाल्गुनी",
+  "उत्तराफाल्गुनी","हस्त","चित्रा","स्वाती","विशाखा",
+  "अनुराधा","ज्येष्ठा","मूल","पूर्वाषाढ़ा","उत्तराषाढ़ा",
+  "श्रवण","धनिष्ठा","शतभिषा","पूर्वाभाद्रपद",
+  "उत्तराभाद्रपद","रेवती"
+
+];
+
+
+const yogaHindi = [
+
+  "विष्कम्भ","प्रीति","आयुष्मान","सौभाग्य","शोभन","अतिगण्ड",
+  "सुकर्मा","धृति","शूल","गण्ड","वृद्धि","ध्रुव","व्याघात",
+  "हर्षण","वज्र","सिद्धि","व्यतीपात","वरीयान","परिघ","शिव",
+  "सिद्ध","साध्य","शुभ","शुक्ल","ब्रह्म","इन्द्र","वैधृति"
+
+];
+
+
+const karanaHindi = {
+
+  Bava:"बव",
+  Balava:"बालव",
+  Kaulava:"कौलव",
+  Taitila:"तैतिल",
+  Gara:"गर",
+  Vanija:"वणिज",
+  Vishti:"विष्टि",
+  Shakuni:"शकुनि",
+  Chatushpada:"चतुष्पद",
+  Naga:"नाग",
+  Kimstughna:"किंस्तुघ्न"
+
+};
+
+
+const masaHindi = {
+
+  Chaitra:"चैत्र",
+  Vaishakha:"वैशाख",
+  Jyeshtha:"ज्येष्ठ",
+  Ashadha:"आषाढ़",
+  Shravana:"श्रावण",
+  Bhadrapada:"भाद्रपद",
+  Ashwin:"आश्विन",
+  Kartika:"कार्तिक",
+  Margashirsha:"मार्गशीर्ष",
+  Pausha:"पौष",
+  Magha:"माघ",
+  Phalguna:"फाल्गुन"
+
+};
+
+
+const rituHindi = {
+
+  Vasanta:"वसंत ऋतु",
+  Grishma:"ग्रीष्म ऋतु",
+  Varsha:"वर्षा ऋतु",
+  Sharad:"शरद ऋतु",
+  Hemanta:"हेमंत ऋतु",
+  Shishira:"शिशिर ऋतु"
+
+};
+
+
+const ayanaHindi = {
+
+  Uttarayana:"उत्तरायण",
+  Dakshinayana:"दक्षिणायन"
+
+};
+
+
+/* NAME FUNCTIONS */
+
+function getTithiName(value){
+
+  if(typeof value === "object" && value !== null){
+
+    value =
+      value.index ??
+      value.number ??
+      value.value ??
+      value.name;
+
+  }
+
+  if(typeof value === "number"){
+
+    return tithiHindi[value]
+      || tithiHindi[value-1]
+      || "—";
+
+  }
+
+  return tithiHindi[value]
+    || value
+    || "—";
+
+}
+
+
+function getNakshatraName(value){
+
+  if(typeof value === "object" && value !== null){
+
+    value =
+      value.index ??
+      value.number ??
+      value.value ??
+      value.name;
+
+  }
+
+  if(typeof value === "number"){
+
+    return nakshatraHindi[value]
+      || nakshatraHindi[value-1]
+      || "—";
+
+  }
+
+  return nakshatraHindi[value]
+    || value
+    || "—";
+
+}
+
+
+function getYogaName(value){
+
+  if(typeof value === "object" && value !== null){
+
+    value =
+      value.index ??
+      value.number ??
+      value.value ??
+      value.name;
+
+  }
+
+  if(typeof value === "number"){
+
+    return yogaHindi[value]
+      || yogaHindi[value-1]
+      || "—";
+
+  }
+
+  return yogaHindi[value]
+    || value
+    || "—";
+
+}
+
+
+function getSimpleHindi(value,map){
+
+  if(value === null || value === undefined)
+    return "—";
+
+  if(typeof value === "object"){
+
+    value =
+      value.name ??
+      value.value ??
+      value.index ??
+      value.number;
+
+  }
+
+  return map[value]
+    || value
+    || "—";
+
+}
+
+
+/* CITY SEARCH */
 
 window.searchCity = async function(){
 
@@ -351,12 +586,18 @@ window.searchCity = async function(){
 
   if(q.length < 2){
 
-    alert("कम से कम 2 अक्षर शहर का नाम लिखें।");
+    alert(
+      "कम से कम 2 अक्षर शहर का नाम लिखें।"
+    );
+
     return;
+
   }
 
   suggestions.innerHTML =
-    `<div class="loading">🔎 शहर खोजा जा रहा है...</div>`;
+    `<div class="loading">
+      🔎 शहर खोजा जा रहा है...
+    </div>`;
 
   try{
 
@@ -369,15 +610,17 @@ window.searchCity = async function(){
       + encodeURIComponent(q);
 
     const response =
-      await fetch(url,{
-        headers:{
-          "Accept":"application/json"
+      await fetch(
+        url,
+        {
+          headers:{
+            "Accept":"application/json"
+          }
         }
-      });
+      );
 
-    if(!response.ok){
+    if(!response.ok)
       throw new Error("City search failed");
-    }
 
     const places =
       await response.json();
@@ -390,6 +633,7 @@ window.searchCity = async function(){
         </div>`;
 
       return;
+
     }
 
     suggestions.innerHTML = "";
@@ -404,11 +648,8 @@ window.searchCity = async function(){
       div.innerHTML =
         "📍 " + place.display_name;
 
-      div.onclick = () => {
-
-        selectCity(place);
-
-      };
+      div.onclick =
+        () => selectCity(place);
 
       suggestions.appendChild(div);
 
@@ -430,29 +671,22 @@ window.searchCity = async function(){
 };
 
 
-// --------------------------------
-// SELECT CITY
-// --------------------------------
+/* SELECT CITY */
 
 function selectCity(place){
 
   selectedLocation = {
 
-    name: place.display_name,
-
-    lat: Number(place.lat),
-
-    lon: Number(place.lon),
-
-    elevation: 0
+    name:place.display_name,
+    lat:Number(place.lat),
+    lon:Number(place.lon),
+    elevation:0
 
   };
-
 
   cityInput.value =
     place.name ||
     place.display_name;
-
 
   selectedCity.style.display =
     "block";
@@ -462,11 +696,7 @@ function selectCity(place){
     + place.display_name
     + "</b>";
 
-
   suggestions.innerHTML = "";
-
-
-  // SAVE LOCATION
 
   try{
 
@@ -478,15 +708,12 @@ function selectCity(place){
   }
   catch(e){}
 
-
   calculatePanchang();
 
 }
 
 
-// --------------------------------
-// LOAD SAVED LOCATION
-// --------------------------------
+/* LOAD SAVED CITY */
 
 try{
 
@@ -514,9 +741,7 @@ try{
 catch(e){}
 
 
-// --------------------------------
-// PANCHANG
-// --------------------------------
+/* PANCHANG */
 
 function calculatePanchang(){
 
@@ -528,14 +753,13 @@ function calculatePanchang(){
       </div>`;
 
     return;
-  }
 
+  }
 
   result.innerHTML =
     `<div class="loading">
       🕉️ पंचांग की गणना हो रही है...
     </div>`;
-
 
   try{
 
@@ -546,19 +770,11 @@ function calculatePanchang(){
         selectedLocation.elevation
       );
 
-
-    /*
-      Noon date is used as input.
-      Library handles sunrise-anchored
-      Panchang calculations.
-    */
-
     const date =
       new Date(
         dateInput.value
         + "T12:00:00"
       );
-
 
     const p =
       getPanchangam(
@@ -569,6 +785,7 @@ function calculatePanchang(){
         }
       );
 
+    window.__panchangTest = p;
 
     displayPanchang(p);
 
@@ -579,8 +796,11 @@ function calculatePanchang(){
 
     result.innerHTML =
       `<div class="error">
-        ❌ पंचांग की गणना नहीं हो सकी।<br><br>
-        <small>${error.message || error}</small>
+        ❌ पंचांग की गणना नहीं हो सकी।
+        <br><br>
+        <small>
+          ${error.message || error}
+        </small>
       </div>`;
 
   }
@@ -588,200 +808,70 @@ function calculatePanchang(){
 }
 
 
-// --------------------------------
-// DISPLAY
-// --------------------------------
+/* DATE + TIME FORMAT */
 
-function displayPanchang(p){
+function formatDateTimeHindi(value){
 
-  const date =
-    new Date(
-      dateInput.value
-      + "T12:00:00"
-    );
+  if(!value)
+    return "—";
 
+  try{
 
-  const dateText =
-    date.toLocaleDateString(
-      "hi-IN",
-      {
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-      }
-    );
+    const d = new Date(value);
 
+    const date =
+      d.toLocaleDateString(
+        "hi-IN",
+        {
+          day:"numeric",
+          month:"long"
+        }
+      );
 
-  result.innerHTML = `
+    const time =
+      d.toLocaleTimeString(
+        "hi-IN",
+        {
+          hour:"2-digit",
+          minute:"2-digit",
+          hour12:true
+        }
+      );
 
-    <div class="date-title">
-      ${dateText}
-    </div>
+    return date + ", " + time;
 
-    <div class="grid">
+  }
+  catch(e){
 
-      <div class="card">
-        <div class="label">वार</div>
-        <div class="value">
-          ${getVara(p)}
-        </div>
-      </div>
+    return "—";
 
-
-      <div class="card">
-        <div class="label">पक्ष</div>
-        <div class="value">
-          ${p.paksha || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">तिथि</div>
-        <div class="value">
-          ${tithiNames[p.tithi] || p.tithi || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">मास</div>
-        <div class="value">
-          ${p.masa?.name || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">नक्षत्र</div>
-        <div class="value">
-          ${nakshatraNames[p.nakshatra]
-            || p.nakshatra
-            || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">योग</div>
-        <div class="value">
-          ${yogaNames[p.yoga]
-            || p.yoga
-            || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">करण</div>
-        <div class="value">
-          ${p.karana || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">ऋतु</div>
-        <div class="value">
-          ${p.ritu || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">अयन</div>
-        <div class="value">
-          ${p.ayana || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">विक्रम संवत</div>
-        <div class="value">
-          ${p.samvat || "—"}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">🌅 सूर्योदय</div>
-        <div class="value">
-          ${formatTime(p.sunrise)}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">🌇 सूर्यास्त</div>
-        <div class="value">
-          ${formatTime(p.sunset)}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">🌙 चंद्रोदय</div>
-        <div class="value">
-          ${formatTime(p.moonrise)}
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="label">🌙 चंद्रास्त</div>
-        <div class="value">
-          ${formatTime(p.moonset)}
-        </div>
-      </div>
-
-
-      <div class="card full">
-        <div class="label">📍 स्थान</div>
-        <div class="value">
-          ${selectedLocation.name}
-        </div>
-      </div>
-
-    </div>
-  `;
+  }
 
 }
 
 
-// --------------------------------
-// VARA
-// --------------------------------
-
-function getVara(p){
-
-  if(p.varaName)
-    return p.varaName;
-
-  const names = [
-    "रविवार",
-    "सोमवार",
-    "मंगलवार",
-    "बुधवार",
-    "गुरुवार",
-    "शुक्रवार",
-    "शनिवार"
-  ];
-
-  if(typeof p.vara === "number")
-    return names[p.vara];
-
-  return p.vara || "—";
-}
-
-
-// --------------------------------
-// TIME
-// --------------------------------
+/* सिर्फ समय */
 
 function formatTime(value){
+function formatTimeRange(start, end){
+  if(!start || !end) return "—";
 
+  return `${formatTime(start)} से ${formatTime(end)} तक`;
+}
+  const choghadiyaHindi = {
+  Shubh: "शुभ",
+  Rog: "रोग",
+  Udveg: "उद्वेग",
+  Chal: "चल",
+  Labh: "लाभ",
+  Amrit: "अमृत",
+  Kaal: "काल"
+};
+
+function getchoghadiyaname(value){
+  if(!value) return "—";
+  return choghadiyaHindi[value] || value;
+}
   if(!value)
     return "—";
 
@@ -806,20 +896,562 @@ function formatTime(value){
 
 }
 
+function formatTimeRange(start, end){
+  if(!start || !end) return "—";
+  return `${formatTime(start)} से ${formatTime(end)} तक`;
+}
+  
+/* END TIME */
 
-// --------------------------------
-// DATE CHANGE
-// --------------------------------
+function getEndTimeText(value){
+
+  if(!value)
+    return "";
+
+  return `
+    <span class="endtime">
+      समाप्ति: ${formatDateTimeHindi(value)}
+    </span>
+  `;
+
+}
+
+
+/* KARANA LIST */
+
+function getKaranaList(p){
+
+  if(!p.karanas ||
+     !Array.isArray(p.karanas))
+    return "—";
+
+  return `
+    <div class="karana-list">
+
+      ${
+        p.karanas.map(k => {
+
+          const name =
+            karanaHindi[k.name]
+            || k.name
+            || "—";
+
+          return `
+            <div class="karana-item">
+
+              <b>${name}</b>
+
+              <span class="endtime">
+                ${formatDateTimeHindi(k.endTime)}
+                तक
+              </span>
+
+            </div>
+          `;
+
+        }).join("")
+      }
+
+    </div>
+  `;
+
+}
+
+
+/* DISPLAY */
+
+function displayPanchang(p){
+
+  const date =
+    new Date(
+      dateInput.value
+      + "T12:00:00"
+    );
+
+  const dateText =
+    date.toLocaleDateString(
+      "hi-IN",
+      {
+        weekday:"long",
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+      }
+    );
+
+
+  const paksha =
+    getSimpleHindi(
+      p.paksha,
+      pakshaHindi
+    );
+
+  const tithi =
+    getTithiName(p.tithi);
+
+  const masa =
+    getSimpleHindi(
+      p.masa,
+      masaHindi
+    );
+
+  const nakshatra =
+    getNakshatraName(
+      p.nakshatra
+    );
+
+  const yoga =
+    getYogaName(p.yoga);
+
+  const ritu =
+    getSimpleHindi(
+      p.ritu,
+      rituHindi
+    );
+
+  const ayana =
+    getSimpleHindi(
+      p.ayana,
+      ayanaHindi
+    );
+
+  const samvat =
+    getSamvat(p);
+
+
+  result.innerHTML = `
+
+    <div class="date-title">
+      ${dateText}
+    </div>
+
+    <div class="grid">
+
+
+      <div class="card full">
+
+        <div class="label">
+          विक्रम संवत्
+        </div>
+
+        <div class="value">
+          ${samvat}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          मास
+        </div>
+
+        <div class="value">
+          ${masa}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          पक्ष
+        </div>
+
+        <div class="value">
+          ${paksha}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          तिथि
+        </div>
+
+        <div class="value">
+          ${tithi}
+        </div>
+
+        ${getEndTimeText(
+          p.tithiEndTime
+        )}
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          योग
+        </div>
+
+        <div class="value">
+          ${yoga}
+        </div>
+
+        ${getEndTimeText(
+          p.yogaEndTime
+        )}
+
+      </div>
+
+<div class="card">
+
+  <div class="label">
+    करण
+  </div>
+
+  ${getKaranaList(p)}
+
+</div>
+     
+<div class="card full">
+  <div class="label">🕉️ शुभ-अशुभ समय</div>
+
+  <div class="time-row">
+    <b>🟢 अभिजीत मुहूर्त</b>
+    <span>${formatTimeRange(p.abhijitMuhurta?.start, p.abhijitMuhurta?.end)}</span>
+  </div>
+
+  <div class="time-row">
+    <b>🔴 राहुकाल</b>
+    <span>${formatTimeRange(p.rahuKalamStart, p.rahuKalamEnd)}</span>
+  </div>
+
+  <div class="time-row">
+    <b>🔴 यमगण्ड</b>
+    <span>${formatTimeRange(p.yamagandaKalam?.start, p.yamagandaKalam?.end)}</span>
+  </div>
+
+  <div class="time-row">
+    <b>🔴 गुलिक काल</b>
+    <span>${formatTimeRange(p.gulikaKalam?.start, p.gulikaKalam?.end)}</span>
+  </div>
+</div>
+
+<div class="card full">
+  <div class="label">🕐 दिन के चौघड़िया</div>
+
+  ${
+    (p.choghadiya?.day || []).map(c => {
+      const names = {
+        Shubh:"शुभ",
+        Rog:"रोग",
+        Udveg:"उद्वेग",
+        Chal:"चल",
+        Labh:"लाभ",
+        Amrit:"अमृत",
+        Kaal:"काल"
+      };
+
+      return `
+        <div class="time-row">
+          <b>${names[c.name] || c.name}</b>
+          <span>${formatTimeRange(c.startTime,c.endTime)}</span>
+        </div>
+      `;
+    }).join("")
+  }
+</div>
+</div>
+
+<div class="card full">
+  <div class="label">🌙 रात्रि के चौघड़िया</div>
+
+  ${
+    (p.choghadiya?.night || []).map(c => {
+      const names = {
+        Shubh:"शुभ",
+        Rog:"रोग",
+        Udveg:"उद्वेग",
+        Chal:"चल",
+        Labh:"लाभ",
+        Amrit:"अमृत",
+        Kaal:"काल"
+      };
+
+      return `
+        <div class="time-row">
+          <b>${names[c.name] || c.name}</b>
+          <span>${formatTimeRange(c.startTime,c.endTime)}</span>
+        </div>
+      `;
+    }).join("")
+  }
+</div>
+
+<div class="card full">
+  <div class="label">✨ अन्य महत्वपूर्ण समय</div>
+
+  <div class="time-row">
+    <b>🌅 ब्रह्म मुहूर्त</b>
+    <span>${formatTimeRange(p.brahmaMuhurta?.start, p.brahmaMuhurta?.end)}</span>
+  </div>
+
+  <div class="time-row">
+    <b>⚠️ दुर्मुहूर्त</b>
+    <span>${formatTimeRange(p.durMuhurta?.start, p.durMuhurta?.end)}</span>
+  </div>
+</div>
+      <div class="card">
+
+        <div class="label">
+          वार
+        </div>
+
+        <div class="value">
+          ${getVara(p)}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          नक्षत्र
+        </div>
+
+        <div class="value">
+          ${nakshatra}
+        </div>
+
+        ${getEndTimeText(
+          p.nakshatraEndTime
+        )}
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          ऋतु
+        </div>
+
+        <div class="value">
+          ${ritu}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          अयन
+        </div>
+
+        <div class="value">
+          ${ayana}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          🌅 सूर्योदय
+        </div>
+
+        <div class="value">
+          ${formatTime(p.sunrise)}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          🌇 सूर्यास्त
+        </div>
+
+        <div class="value">
+          ${formatTime(p.sunset)}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          🌙 चंद्रोदय
+        </div>
+
+        <div class="value">
+          ${formatTime(p.moonrise)}
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="label">
+          🌙 चंद्रास्त
+        </div>
+
+        <div class="value">
+          ${formatTime(p.moonset)}
+        </div>
+
+      </div>
+
+      <div class="card full">
+
+        <div class="label">
+          📍 स्थान
+        </div>
+
+        <div class="value">
+          ${selectedLocation.name}
+        </div>
+
+      </div>
+
+
+    </div>
+
+  `;
+
+}
+
+
+/* SAMVAT */
+
+function getSamvat(p){
+
+  const s = p.samvat;
+
+  if(!s)
+    return "उपलब्ध नहीं";
+
+
+  const samvatsaraHindi = {
+
+    Prabhava:"प्रभव",
+    Vibhava:"विभव",
+    Shukla:"शुक्ल",
+    Pramoda:"प्रमोद",
+    Prajapati:"प्रजापति",
+    Angirasa:"आंगिरस",
+    Shrimukha:"श्रीमुख",
+    Bhava:"भाव",
+    Yuva:"युवा",
+    Dhata:"धाता",
+    Ishvara:"ईश्वर",
+    Bahudhanya:"बहुधान्य",
+    Pramathi:"प्रमाथी",
+    Vikrama:"विक्रम",
+    Vrisha:"वृष",
+    Chitrabhanu:"चित्रभानु",
+    Svabhanu:"स्वभानु",
+    Tarana:"तारण",
+    Parthiva:"पार्थिव",
+    Vyaya:"व्यय",
+    Sarvajit:"सर्वजित",
+    Sarvadhari:"सर्वधारी",
+    Virodhi:"विरोधी",
+    Vikrita:"विकृति",
+    Khara:"खर",
+    Nandana:"नंदन",
+    Vijaya:"विजय",
+    Jaya:"जय",
+    Manmatha:"मन्मथ",
+    Durmukha:"दुर्मुख",
+    Hevilambi:"हेविलंबी",
+    Vilambi:"विलंबी",
+    Vikari:"विकारी",
+    Sharvari:"शार्वरी",
+    Plava:"प्लव",
+    Shubhakrit:"शुभकृत",
+    Shobhana:"शोभन",
+    Krodhi:"क्रोधी",
+    Vishvavasu:"विश्वावसु",
+    Parabhava:"रौद्र",
+    Plavanga:"प्लवंग",
+    Kilaka:"कीलक",
+    Saumya:"सौम्य",
+    Sadharana:"साधारण",
+    Virodhikrit:"विरोधकृत",
+    Paridhavi:"परिधावी",
+    Pramadin:"प्रमादी",
+    Ananda:"आनंद",
+    Rakshasa:"राक्षस",
+    Nala:"नल",
+    Pingala:"पिंगल",
+    Kalayukti:"कालयुक्ति",
+    Siddharthi:"सिद्धार्थी",
+    Raudra:"रौद्र",
+    Durmati:"दुर्मति",
+    Dundubhi:"दुन्दुभि",
+    Rudhirodgari:"रुधिरोद्गारी",
+    Raktakshi:"रक्ताक्षी",
+    Krodhana:"क्रोधन",
+    Kshaya:"क्षय"
+
+  };
+
+
+  const year = s.vikram;
+
+  const name =
+    samvatsaraHindi[s.samvatsara]
+    || s.samvatsara;
+
+
+  return "विक्रम संवत् "
+    + year
+    + " (" + name + ")";
+
+}
+
+
+/* VARA */
+
+function getVara(p){
+
+  const names = [
+
+    "रविवार",
+    "सोमवार",
+    "मंगलवार",
+    "बुधवार",
+    "गुरुवार",
+    "शुक्रवार",
+    "शनिवार"
+
+  ];
+
+
+  if(typeof p.vara === "number")
+    return names[p.vara] || "—";
+
+
+  if(p.varaName)
+    return p.varaName;
+
+
+  return p.vara || "—";
+
+}
+
+
+/* DATE */
 
 dateInput.addEventListener(
   "change",
   calculatePanchang
 );
 
-
-// --------------------------------
-// TODAY
-// --------------------------------
 
 window.today = function(){
 
@@ -830,10 +1462,6 @@ window.today = function(){
 
 };
 
-
-// --------------------------------
-// PREVIOUS
-// --------------------------------
 
 window.previousDay = function(){
 
@@ -850,18 +1478,18 @@ window.previousDay = function(){
   dateInput.value =
     d.getFullYear()
     + "-"
-    + String(d.getMonth()+1).padStart(2,"0")
+    + String(
+        d.getMonth()+1
+      ).padStart(2,"0")
     + "-"
-    + String(d.getDate()).padStart(2,"0");
+    + String(
+        d.getDate()
+      ).padStart(2,"0");
 
   calculatePanchang();
 
 };
 
-
-// --------------------------------
-// NEXT
-// --------------------------------
 
 window.nextDay = function(){
 
@@ -878,18 +1506,20 @@ window.nextDay = function(){
   dateInput.value =
     d.getFullYear()
     + "-"
-    + String(d.getMonth()+1).padStart(2,"0")
+    + String(
+        d.getMonth()+1
+      ).padStart(2,"0")
     + "-"
-    + String(d.getDate()).padStart(2,"0");
+    + String(
+        d.getDate()
+      ).padStart(2,"0");
 
   calculatePanchang();
 
 };
 
 
-// --------------------------------
-// GPS
-// --------------------------------
+/* GPS */
 
 window.useMyLocation = function(){
 
@@ -900,12 +1530,13 @@ window.useMyLocation = function(){
     );
 
     return;
+
   }
 
 
   result.innerHTML =
     `<div class="loading">
-      📍 आपकी location ली जा रही है...
+      📍 आपकी स्थिति ली जा रही है...
     </div>`;
 
 
@@ -932,6 +1563,7 @@ window.useMyLocation = function(){
       selectedCity.style.display =
         "block";
 
+
       selectedCity.innerHTML =
         "📍 <b>वर्तमान स्थान</b>";
 
@@ -940,7 +1572,9 @@ window.useMyLocation = function(){
 
         localStorage.setItem(
           "ohdPanchangLocation",
-          JSON.stringify(selectedLocation)
+          JSON.stringify(
+            selectedLocation
+          )
         );
 
       }
@@ -951,21 +1585,29 @@ window.useMyLocation = function(){
 
     },
 
+
     error => {
 
       result.innerHTML =
         `<div class="error">
+
           ❌ Location permission नहीं मिली।
+
           <br><br>
+
           आप शहर का नाम manually खोज सकते हैं।
+
         </div>`;
 
     },
 
+
     {
+
       enableHighAccuracy:true,
       timeout:10000,
       maximumAge:86400000
+
     }
 
   );
