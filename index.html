@@ -1246,10 +1246,18 @@ const ritu =
 
   <div class="time-row">
     <b>⚠️ दुर्मुहूर्त</b>
-    <span>${formatTimeRange(p.durMuhurta?.start, p.durMuhurta?.end)}</span>
+    <span>
+      ${
+        Array.isArray(p.durMuhurta)
+          ? p.durMuhurta
+              .map(x => formatTimeRange(x?.start, x?.end))
+              .join("<br>")
+          : "—"
+      }
+    </span>
   </div>
 </div>
-      <div class="card">
+<div class="card">
 
         <div class="label">
           वार
