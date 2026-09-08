@@ -1007,11 +1007,23 @@ function displayPanchang(p){
   const yoga =
     getYogaName(p.yoga);
 
-  const ritu =
-    getSimpleHindi(
-      p.ritu,
-      rituHindi
-    );
+ const rituBySunRashi = {
+  0: "ग्रीष्म ऋतु",  // मेष
+  1: "ग्रीष्म ऋतु",  // वृषभ
+  2: "ग्रीष्म ऋतु",  // मिथुन
+  3: "वर्षा ऋतु",   // कर्क
+  4: "वर्षा ऋतु",   // सिंह
+  5: "शरद ऋतु",     // कन्या
+  6: "शरद ऋतु",     // तुला
+  7: "हेमंत ऋतु",   // वृश्चिक
+  8: "हेमंत ऋतु",   // धनु
+  9: "शिशिर ऋतु",   // मकर
+  10: "शिशिर ऋतु",  // कुंभ
+  11: "वसंत ऋतु"    // मीन
+};
+
+const ritu =
+  rituBySunRashi[p.sunRashi?.index] || "—";
 
   const ayana =
     getSimpleHindi(
