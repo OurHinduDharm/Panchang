@@ -711,8 +711,14 @@ function selectCity(place){
 
 }
 
+/* LOAD SAVED CITY / DEFAULT PITHORAGARH */
 
-/* LOAD SAVED CITY */
+const defaultPithoragarh = {
+  name: "पिथौरागढ़, उत्तराखंड, भारत",
+  lat: 29.5828,
+  lon: 80.2182,
+  elevation: 1650
+};
 
 try{
 
@@ -734,12 +740,45 @@ try{
       + selectedLocation.name
       + "</b>";
 
+  }else{
+
+    selectedLocation =
+      defaultPithoragarh;
+
+    selectedCity.style.display =
+      "block";
+
+    selectedCity.innerHTML =
+      "📍 डिफ़ॉल्ट स्थान:<br><b>"
+      + selectedLocation.name
+      + "</b>";
+
+    localStorage.setItem(
+      "ohdPanchangLocation",
+      JSON.stringify(selectedLocation)
+    );
+
   }
 
+}catch(e){
+
+  selectedLocation =
+    defaultPithoragarh;
+
+  selectedCity.style.display =
+    "block";
+
+  selectedCity.innerHTML =
+    "📍 डिफ़ॉल्ट स्थान:<br><b>"
+    + selectedLocation.name
+    + "</b>";
+
 }
-catch(e){}
 
 
+/* PAGE LOAD पर आज का पंचांग */
+calculatePanchang();
+  
 /* PANCHANG */
 
 function calculatePanchang(){
