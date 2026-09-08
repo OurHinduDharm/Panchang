@@ -1244,18 +1244,58 @@ const ritu =
     <span>${formatTimeRange(p.brahmaMuhurta?.start, p.brahmaMuhurta?.end)}</span>
   </div>
 
-  <div class="time-row">
-    <b>⚠️ दुर्मुहूर्त</b>
-    <span>
-      ${
-        Array.isArray(p.durMuhurta)
+<div class="time-row">
+  <b>⚠️ दुर्मुहूर्त</b>
+  <span>
+    ${
+      (() => {
+        const sunrise = p.sunrise;
+        const sunset = p.sunset;
+
+        if (!sunrise || !sunset) return "—";
+
+        const dayMs = sunset.getTime() - sunrise.getTime();
+        const nightStart = sunset;
+        const nextSunrise = new Date(sunrise);
+        nextSunrise.setDate(nextSunrise.getDate() + 1);
+
+        const nightMs = nextSunrise.getTime() - nightStart.getTime();
+
+        // मंगलवार:
+        // पहला = दिन का 4th Muhurta
+        // दूसरा = रात का 7th Muhurta
+        if (p.vara === 2 || p.weekday === 2) {
+          const firstStart = new Date(
+            sunrise.getTime() + dayMs * (3 / 15)
+          );
+          const firstEnd = new Date(
+            sunrise.getTime() + dayMs * (4 / 15)
+          );
+
+          const secondStart = new Date(
+            nightStart.getTime() + nightMs * (6 / 15)
+          );
+          const secondEnd = new Date(
+            nightStart.getTime() + nightMs * (7 / 15)
+          );
+
+          return (
+            formatTimeRange(firstStart, firstEnd) +
+            "<br>" +
+            formatTimeRange(secondStart, secondEnd)
+          );
+        }
+
+        return Array.isArray(p.durMuhurta)
           ? p.durMuhurta
               .map(x => formatTimeRange(x?.start, x?.end))
               .join("<br>")
-          : "—"
-      }
-    </span>
-  </div>
+          : "—";
+      })()
+    }
+  </span>
+</div>
+  
 </div>
 <div class="card">
 
