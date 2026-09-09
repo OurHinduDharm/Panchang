@@ -110,7 +110,7 @@
 #ohdPanchang .selected{
   margin-top:10px;
   padding:9px;
-  backgrou2nd:#fff3df;
+  background:#fff3df;  /* ✅ यहाँ टाइपो ठीक किया */
   border-radius:9px;
   font-size:14px;
 }
@@ -321,7 +321,7 @@
   </div>
 
   <div class="footer">
-    <p>© 2026 OurHinduDharm</p>
+    <p>© <span id="current-year"></span> OurHinduDharm</p> <!-- ✅ ऑटो अपडेट के लिए बदला -->
   </div>
 
 </div>
@@ -780,6 +780,24 @@ catch(e){
 /* PAGE LOAD पर आज का पंचांग */
 calculatePanchang();
   
+/* --- 🔧 यहाँ सबसे बड़ी गड़बड़ी ठीक की गई है --- */
+/* सिर्फ समय (अब साफ और सही) */
+function formatTime(value){
+  if(!value) return "—";
+  try{
+    return new Date(value).toLocaleTimeString("hi-IN", {
+      hour:"2-digit",
+      minute:"2-digit",
+      hour12:true
+    });
+  } catch(e) { return "—"; }
+}
+
+function formatTimeRange(start, end){
+  if(!start || !end) return "—";
+  return `${formatTime(start)} से ${formatTime(end)} तक`;
+}
+
 /* PANCHANG */
 
 function calculatePanchang(){
@@ -888,58 +906,6 @@ function formatDateTimeHindi(value){
 
 }
 
-
-/* सिर्फ समय */
-
-function formatTime(value){
-function formatTimeRange(start, end){
-  if(!start || !end) return "—";
-
-  return `${formatTime(start)} से ${formatTime(end)} तक`;
-}
-  const choghadiyaHindi = {
-  Shubh: "शुभ",
-  Rog: "रोग",
-  Udveg: "उद्वेग",
-  Chal: "चल",
-  Labh: "लाभ",
-  Amrit: "अमृत",
-  Kaal: "काल"
-};
-
-function getchoghadiyaname(value){
-  if(!value) return "—";
-  return choghadiyaHindi[value] || value;
-}
-  if(!value)
-    return "—";
-
-  try{
-
-    return new Date(value)
-      .toLocaleTimeString(
-        "hi-IN",
-        {
-          hour:"2-digit",
-          minute:"2-digit",
-          hour12:true
-        }
-      );
-
-  }
-  catch(e){
-
-    return "—";
-
-  }
-
-}
-
-function formatTimeRange(start, end){
-  if(!start || !end) return "—";
-  return `${formatTime(start)} से ${formatTime(end)} तक`;
-}
-  
 /* END TIME */
 
 function getEndTimeText(value){
@@ -1712,6 +1678,9 @@ window.useMyLocation = function(){
   );
 
 };
+
+/* ✅ Footer का साल अपने आप बदलने के लिए */
+document.getElementById('current-year').textContent = new Date().getFullYear();
 
 </script>
 
