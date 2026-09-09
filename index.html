@@ -132,46 +132,83 @@
   margin:20px 0 13px;
 }
 
-/* --- STAGE 3 STYLES --- */
-.prahar-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 8px;
+/* --- Prahar Grid (4‑column) --- */
+.prahar-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
 }
-.prahar-group {
-  margin-bottom: 6px;
-}
+
 .prahar-group-title {
-  font-weight: bold;
-  font-size: 14px;
-  color: #2c3e50;
-  margin-bottom: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 4px;
 }
-.prahar-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 0;
-  border-bottom: 1px dashed #eee;
-  font-size: 13px;
+
+.prahar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
 }
-.prahar-row:last-child {
-  border-bottom: none;
+
+.prahar-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-.prahar-row .p-name {
-  font-weight: 500;
+
+.prahar-item .p-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: #2c3e50;
 }
-.prahar-row .p-time {
-  color: #555;
+
+.prahar-item .p-time {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
 }
-.prahar-row.active {
-  background: #d35400;
-  color: #fff;
-  border-radius: 4px;
-  padding: 4px 8px;
+
+/* Current Prahar highlight */
+.prahar-item.active {
+    background: #d35400;
+    border-color: #d35400;
+    box-shadow: 0 2px 8px rgba(211, 84, 0, 0.3);
+    transform: scale(1.02);
 }
-.prahar-row.active .p-time {
-  color: #fff;
+
+.prahar-item.active .p-name,
+.prahar-item.active .p-time {
+    color: #fff;
+}
+
+/* Mobile: 2 columns */
+@media (max-width: 480px) {
+    .prahar-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+    .prahar-item {
+        padding: 8px 4px;
+        min-height: 60px;
+    }
+    .prahar-item .p-name {
+        font-size: 12px;
+    }
+    .prahar-item .p-time {
+        font-size: 10px;
+    }
 }
 
 .bhadra-parts {
@@ -210,7 +247,7 @@
   background: #ffe8e8;
   border-left-color: #c0392b;
 }
-/* --- END STAGE 3 STYLES --- */
+/* --- END PRAHAR & BHADRA STYLES --- */
 
 #ohdPanchang .grid{
   display:grid;
@@ -834,7 +871,7 @@ function calculatePanchang(){
   }
 }
 
-/* --- DISPLAY PANCHANG (Updated: fixed "तत्पश्चात", redesigned Prahar) --- */
+/* --- DISPLAY PANCHANG (UPDATED: Fixed "तत्पश्चात", redesigned Prahar) --- */
 
 function displayPanchang(p, nextSunrise, referenceNow){
 
@@ -883,7 +920,6 @@ function displayPanchang(p, nextSunrise, referenceNow){
       tithiVal = tithiVal.index ?? tithiVal.number ?? tithiVal.value ?? tithiVal.name;
     }
     if (typeof tithiVal === 'number') {
-      // Directly use as 0-based index (library returns 0–29)
       const len = tithiHindi.length;
       if (tithiVal >= 0 && tithiVal < len) {
         const nextIdx = (tithiVal + 1) % len;
@@ -940,34 +976,39 @@ function displayPanchang(p, nextSunrise, referenceNow){
     ghatiHtml = `<div style="font-size:13px;color:#999;margin-bottom:10px;">🕰️ घटी-पल (Dynamic) उपलब्ध नहीं</div>`;
   }
 
-  // --- PRAHAR SECTION (Redesigned with grouping) ---
-  let praharHtml = `<div class="prahar-grid">`;
-  
+  // --- PRAHAR SECTION (New grid layout) ---
+  let praharHtml = `<div class="prahar-groups">`;
+
   // Day Prahar group
   praharHtml += `<div class="prahar-group">`;
   praharHtml += `<div class="prahar-group-title">☀️ दिन के प्रहर</div>`;
+  praharHtml += `<div class="prahar-grid">`;
   const praharNames = ['प्रथम', 'द्वितीय', 'तृतीय', 'चतुर्थ'];
   prahar.dayPrahar.forEach((pItem, i) => {
     const activeClass = pItem.isActive ? 'active' : '';
-    praharHtml += `<div class="prahar-row ${activeClass}">
-      <span class="p-name">${praharNames[i]} प्रहर</span>
-      <span class="p-time">${formatTime(pItem.start)} - ${formatTime(pItem.end)}</span>
-    </div>`;
+    praharHtml += `
+        <div class="prahar-item ${activeClass}">
+            <div class="p-name">${praharNames[i]} प्रहर</div>
+            <div class="p-time">${formatTime(pItem.start)} - ${formatTime(pItem.end)}</div>
+        </div>
+    `;
   });
-  praharHtml += `</div>`;
+  praharHtml += `</div></div>`;
 
   // Night Prahar group
   praharHtml += `<div class="prahar-group">`;
   praharHtml += `<div class="prahar-group-title">🌙 रात्रि के प्रहर</div>`;
+  praharHtml += `<div class="prahar-grid">`;
   prahar.nightPrahar.forEach((pItem, i) => {
     const activeClass = pItem.isActive ? 'active' : '';
-    praharHtml += `<div class="prahar-row ${activeClass}">
-      <span class="p-name">${praharNames[i]} प्रहर</span>
-      <span class="p-time">${formatTime(pItem.start)} - ${formatTime(pItem.end)}</span>
-    </div>`;
+    praharHtml += `
+        <div class="prahar-item ${activeClass}">
+            <div class="p-name">${praharNames[i]} प्रहर</div>
+            <div class="p-time">${formatTime(pItem.start)} - ${formatTime(pItem.end)}</div>
+        </div>
+    `;
   });
-  praharHtml += `</div>`;
-
+  praharHtml += `</div></div>`;
   praharHtml += `</div>`;
 
   // --- BHADRA PARTS + NIWAS + SUGGESTION ---
