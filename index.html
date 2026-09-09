@@ -585,11 +585,16 @@ function getBhadraDetails(p, moonRashiIndex, referenceNow) {
   };
 }
 
-// 2. प्रहर गणना
+// 2. प्रहर गणना (FIXED: highlight only if selected date is today)
 function getPraharDetails(p, nextSunriseTime, referenceNow) {
   const sunrise = new Date(p.sunrise);
   const sunset = new Date(p.sunset);
   const now = referenceNow;
+
+  // --- FIX: Highlight only if the selected date is today ---
+  const selectedDate = sunrise.toDateString();
+  const todayDate = now ? now.toDateString() : null;
+  const shouldHighlight = !!(now && selectedDate === todayDate);
 
   if (!nextSunriseTime) {
     return { dayPrahar: [], nightPrahar: [], currentPrahar: null, error: 'अगला सूर्योदय उपलब्ध नहीं' };
@@ -606,7 +611,7 @@ function getPraharDetails(p, nextSunriseTime, referenceNow) {
   for (let i = 0; i < 4; i++) {
     const start = new Date(sunrise.getTime() + i * dayPraharMs);
     const end = new Date(sunrise.getTime() + (i + 1) * dayPraharMs);
-    const isActive = !!(now && now >= start && now < end);
+    const isActive = shouldHighlight && now >= start && now < end;
     dayPrahar.push({ start, end, isActive, type: 'day' });
   }
 
@@ -614,7 +619,7 @@ function getPraharDetails(p, nextSunriseTime, referenceNow) {
   for (let i = 0; i < 4; i++) {
     const start = new Date(sunset.getTime() + i * nightPraharMs);
     const end = new Date(sunset.getTime() + (i + 1) * nightPraharMs);
-    const isActive = !!(now && now >= start && now < end);
+    const isActive = shouldHighlight && now >= start && now < end;
     nightPrahar.push({ start, end, isActive, type: 'night' });
   }
 
