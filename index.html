@@ -529,13 +529,12 @@ function getBhadraDetails(p, moonRashiIndex, referenceNow) {
   let niwasColor = '#95a5a6';
   const isActiveOverall = !!(now && now >= start && now < end);
 
-  // FIX 2: Safe Moon Rashi Normalization (0–11 → 1–12, exactly once)
+  // FIX 1: Deterministic Moon Rashi Normalization (Exactly +1 from library source)
   let rashiIndex = null;
-
   if (typeof moonRashiIndex === 'number') {
-    rashiIndex = (moonRashiIndex >= 0 && moonRashiIndex <= 11) ? moonRashiIndex + 1 : moonRashiIndex;
+    rashiIndex = moonRashiIndex + 1;
   } else if (typeof p.moonRashi?.index === 'number') {
-    rashiIndex = (p.moonRashi.index >= 0 && p.moonRashi.index <= 11) ? p.moonRashi.index + 1 : p.moonRashi.index;
+    rashiIndex = p.moonRashi.index + 1;
   } else if (typeof p.moonLongitude === 'number') {
     rashiIndex = Math.floor(p.moonLongitude / 30) + 1;
   }
@@ -644,7 +643,7 @@ function getGhatiPal(p, nextSunriseTime, referenceNow) {
   return { ghati: ghati + 1, pal: pal };
 }
 
-// 4. Recommendation (FIX 1: Bhadra Nuance — Mrityulok vs Swarga/Patal)
+// 4. Recommendation (FIX 4: Removed generic suggestion, updated fallback)
 function getRecommendation(p, bhadraDetails, referenceNow) {
   // अगर referenceNow null है (Past/Future Date) तो Static Message
   if (!referenceNow) {
@@ -687,7 +686,7 @@ function getRecommendation(p, bhadraDetails, referenceNow) {
     };
   }
 
-  // --- FIX 1: Bhadra Niwas-based Nuance ---
+  // FIX 4: Bhadra Niwas-based Nuance (Conservative Wording)
   if (isBhadraActive) {
     if (bhadraNiwas === 'मृत्युलोक') {
       return {
@@ -703,9 +702,9 @@ function getRecommendation(p, bhadraDetails, referenceNow) {
     }
   }
 
-  // --- अगर कोई विशेष मुहूर्त सक्रिय नहीं है ---
+  // --- FINAL FALLBACK (FIX 4: Removed generic suggestion) ---
   return {
-    text: '🟡 इस समय कोई विशेष मुहूर्त (राहु/भद्रा/अभिजित) सक्रिय नहीं है। आप अपने कार्य सामान्य रूप से कर सकते हैं।',
+    text: '🟡 इस समय कोई प्रमुख राहुकाल/भद्रा/अभिजित स्थिति सक्रिय नहीं है। विशेष कार्य हेतु संबंधित मुहूर्त देखें।',
     type: 'neutral'
   };
 }
@@ -937,13 +936,24 @@ function displayPanchang(p, nextSunrise, referenceNow){
   const reco = getRecommendation(p, bhadra, referenceNow);
   const ghatiPal = getGhatiPal(p, nextSunrise, referenceNow);
 
-  // --- SUMMARY BOX ---
+  // --- SUMMARY BOX (FIX 2: Bhadra Status Explicit) ---
+  let bhadraStatus = 'नहीं';
+  if (bhadra.available) {
+    if (bhadra.isActive) {
+      bhadraStatus = 'चल रही है';
+    } else if (referenceNow && referenceNow < bhadra.start) {
+      bhadraStatus = 'आगामी';
+    } else {
+      bhadraStatus = 'समाप्त';
+    }
+  }
+
   let summaryHtml = `
     <div class="summary-box">
       <div class="sb-item"><span class="label">🔴 राहुकाल</span><span class="value">${formatTimeRange(p.rahuKalamStart, p.rahuKalamEnd)}</span></div>
       <div class="sb-item"><span class="label">🟡 गुलिक काल</span><span class="value">${formatTimeRange(p.gulikaKalam?.start, p.gulikaKalam?.end)}</span></div>
       <div class="sb-item"><span class="label">🟢 अभिजित</span><span class="value">${formatTimeRange(p.abhijitMuhurta?.start, p.abhijitMuhurta?.end)}</span></div>
-      <div class="sb-item"><span class="label">🔴 भद्रा (विष्टि)</span><span class="value ${bhadra.isActive ? 'red' : 'green'}">${bhadra.isActive ? 'चल रही है' : (bhadra.available ? 'समाप्त' : 'नहीं')}</span></div>
+      <div class="sb-item"><span class="label">🔴 भद्रा (विष्टि)</span><span class="value ${bhadra.isActive ? 'red' : 'green'}">${bhadraStatus}</span></div>
     </div>
   `;
 
@@ -958,8 +968,8 @@ function displayPanchang(p, nextSunrise, referenceNow){
     ghatiHtml = `<div style="font-size:13px;color:#999;margin-bottom:10px;">🕰️ घटी-पल (Dynamic) उपलब्ध नहीं</div>`;
   }
 
-  // --- PRAHAR GRID ---
-  let praharHtml = `<div style="margin:10px 0 5px 0;font-weight:bold;font-size:14px;">⏳ आज के प्रहर</div><div class="prahar-grid">`;
+  // --- PRAHAR GRID (FIX 3: Changed Heading) ---
+  let praharHtml = `<div style="margin:10px 0 5px 0;font-weight:bold;font-size:14px;">⏳ चयनित तिथि के प्रहर</div><div class="prahar-grid">`;
   const praharNames = ['प्रथम', 'द्वितीय', 'तृतीय', 'चतुर्थ'];
   prahar.dayPrahar.forEach((pItem, i) => {
     praharHtml += `<div class="prahar-item ${pItem.isActive ? 'active' : ''}">
