@@ -590,7 +590,9 @@ function getPraharDetails(p, nextSunriseTime, referenceNow) {
   const sunrise = new Date(p.sunrise);
   const sunset = new Date(p.sunset);
   const now = referenceNow;
-
+console.log("PRAHAR NOW:", now);
+console.log("PRAHAR REFERENCE:", referenceNow);
+  
   // --- FIX: Highlight only if selected date is today ---
   const selectedDate = sunrise.toDateString();
   const todayDate = now ? now.toDateString() : null;
