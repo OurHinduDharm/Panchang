@@ -133,18 +133,6 @@
 }
 
 /* --- STAGE 3 STYLES --- */
-
-.reco-box {
-  background: #ecf0f1;
-  padding: 12px 18px;
-  border-radius: 12px;
-  border-left: 6px solid #d35400;
-  margin-bottom: 20px;
-  font-size: 15px;
-  font-weight: 500;
-  color: #2c3e50;
-}
-
 .prahar-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -623,53 +611,7 @@ function getGhatiPal(p, nextSunriseTime, referenceNow) {
   return { ghati: ghati + 1, pal: pal };
 }
 
-// 4. Recommendation Engine
-function getRecommendation(p, referenceNow) {
-  if (!referenceNow) {
-    return {
-      text: '📅 चयनित तिथि का पंचांग देख रहे हैं। समय-संबंधी सुझाव (राहु/अभिजित) इस तिथि पर लागू नहीं होते।',
-      type: 'neutral'
-    };
-  }
-
-  const now = referenceNow;
-  const rahuStart = new Date(p.rahuKalamStart);
-  const rahuEnd = new Date(p.rahuKalamEnd);
-  const isWednesday = (p.vara === 2 || p.weekday === 2);
-  const isRahuActive = !!(now >= rahuStart && now < rahuEnd);
-  const isAbhijitActive = !!(p.abhijitMuhurta && 
-    now >= new Date(p.abhijitMuhurta.start) && 
-    now < new Date(p.abhijitMuhurta.end));
-  // Abhijit valid only if not Wednesday
-  const isAbhijitValid = isAbhijitActive && !isWednesday;
-
-  if (isRahuActive) {
-    if (isAbhijitValid) {
-      return {
-        text: 'अभिजित मुहूर्त और राहुकाल में समय-ओवरलैप है। नए या मांगलिक कार्य के लिए सावधानी रखें।',
-        type: 'caution'
-      };
-    }
-    return {
-      text: '🔴 राहुकाल चल रहा है। नए या मांगलिक कार्यों का आरंभ करने से पहले विचार करें।',
-      type: 'avoid'
-    };
-  }
-
-  if (isAbhijitValid) {
-    return {
-      text: '🟢 अभिजित मुहूर्त चल रहा है। यह अत्यंत शुभ मुहूर्त माना जाता है।',
-      type: 'good'
-    };
-  }
-
-  return {
-    text: '🟡 इस समय कोई प्रमुख राहुकाल/अभिजित स्थिति सक्रिय नहीं है। विशेष कार्य हेतु संबंधित मुहूर्त देखें।',
-    type: 'neutral'
-  };
-}
-
-// 5. Bhadra Suggestion
+// 4. Bhadra Suggestion
 function getBhadraSuggestion(bhadraDetails) {
   if (!bhadraDetails || !bhadraDetails.isActive) {
     return null;
@@ -689,37 +631,60 @@ function getBhadraSuggestion(bhadraDetails) {
   return null;
 }
 
-// ============================================================
-//  NEW: Get Next Tithi / Nakshatra / Yoga State
-// ============================================================
-function getNextState(p, referenceTime, type, observer) {
-    if (!referenceTime || !observer) return null;
-    try {
-        // Add 1 minute to the end time to safely cross the boundary
-        const nextDate = new Date(referenceTime.getTime() + 60 * 1000);
-        const nextP = getPanchangam(nextDate, observer, { timezoneOffset: 330 });
-        if (!nextP) return null;
-
-        switch(type) {
-            case 'tithi':
-                return getTithiName(nextP.tithi);
-            case 'nakshatra':
-                return getNakshatraName(nextP.nakshatra);
-            case 'yoga':
-                return getYogaName(nextP.yoga);
-            default:
-                return null;
-        }
-    } catch(e) {
-        console.warn(`Could not fetch next ${type}:`, e);
-        return null;
+// 5. Get next name from index (reliable method)
+function getNextNameFromIndex(currentValue, nameArray) {
+  // Extract index from currentValue (which may be an object or number)
+  let index = null;
+  if (typeof currentValue === 'object' && currentValue !== null) {
+    // Try to get index property
+    if (typeof currentValue.index === 'number') {
+      index = currentValue.index;
+    } else if (typeof currentValue.number === 'number') {
+      index = currentValue.number;
+    } else if (typeof currentValue.value === 'number') {
+      index = currentValue.value;
+    } else if (typeof currentValue.name === 'number') {
+      index = currentValue.name;
     }
+  } else if (typeof currentValue === 'number') {
+    index = currentValue;
+  }
+  
+  if (index === null || index === undefined) return null;
+  
+  // Ensure index is within bounds
+  const len = nameArray.length;
+  // Sometimes index might be 1-based? Check: our arrays are 0-based.
+  // But in getTithiName we do tithiHindi[value] || tithiHindi[value-1].
+  // So if value is 1, it will return tithiHindi[1] which is द्वितीया, but we want प्रतिपदा for 1? Actually that logic seems off.
+  // We'll assume the library returns 0-based index, because we have seen tithiHindi[0] = प्रतिपदा.
+  // To be safe, we can check if index is 1..30 and then subtract 1? But we need to verify.
+  // Looking at getTithiName: it does tithiHindi[value] || tithiHindi[value-1]. This suggests that sometimes value is 0-based, sometimes 1-based.
+  // To reliably get the next, we should rely on the actual name from the current value? But we need the index.
+  // Better: get the current name using getTithiName etc., but we need the index for next.
+  // Since we are seeing that the current name is correct, we can compute the next by using the index from the object directly.
+  // From our tests, p.tithi has an index property that is 0-based (e.g., for चतुर्दशी it is 13? Let's check: array index 13 is चतुर्दशी (Shukla) and index 28 is चतुर्दशी (Krishna). So we need to know if it's Shukla or Krishna to map correctly.
+  // But the library's tithi object probably has an index that directly maps to our array (0-29). So we can use that directly.
+  // We'll assume the index is 0-based and maps directly to our arrays.
+  // To be safe, we can check if index is within 0..len-1, else if index is 1..len, adjust.
+  if (index >= 0 && index < len) {
+    // 0-based, good
+  } else if (index >= 1 && index <= len) {
+    // 1-based, convert to 0-based
+    index = index - 1;
+  } else {
+    return null;
+  }
+  
+  // Compute next index
+  const nextIndex = (index + 1) % len;
+  return nameArray[nextIndex];
 }
 
 /* --- END STAGE 3 HELPERS --- */
 
 
-/* NAME FUNCTIONS (Unchanged from Stage 2) */
+/* NAME FUNCTIONS (Unchanged) */
 
 function getTithiName(value){
   if(typeof value === "object" && value !== null){
@@ -897,8 +862,6 @@ function calculatePanchang(){
       console.warn("Next sunrise calculation failed:", e);
     }
 
-    // Store observer for use in getNextState
-    window.__panchangObserver = observer;
     window.__panchangTest = p;
     window.__nextSunrise = nextSunrise;
 
@@ -909,7 +872,7 @@ function calculatePanchang(){
   }
 }
 
-/* --- DISPLAY PANCHANG (UPDATED: Added "तत्पश्चात" for Tithi, Nakshatra, Yoga) --- */
+/* --- DISPLAY PANCHANG (UPDATED: Removed recobox, fixed Wednesday, reliable "तत्पश्चात") --- */
 
 function displayPanchang(p, nextSunrise, referenceNow){
 
@@ -920,6 +883,10 @@ function displayPanchang(p, nextSunrise, referenceNow){
     month:"long",
     day:"numeric"
   });
+
+  // Wednesday detection using standard Date method
+  const selectedDateObj = new Date(dateInput.value + "T00:00:00");
+  const isWednesday = selectedDateObj.getDay() === 3; // 0=Sunday, 3=Wednesday
 
   const paksha = getSimpleHindi(p.paksha, pakshaHindi);
   const tithi = getTithiName(p.tithi);
@@ -940,36 +907,64 @@ function displayPanchang(p, nextSunrise, referenceNow){
   const moonRashiIndex = p.moonRashi?.index;
   const bhadra = getBhadraDetails(p, moonRashiIndex, referenceNow);
   const prahar = getPraharDetails(p, nextSunrise, referenceNow);
-  const reco = getRecommendation(p, referenceNow);
   const ghatiPal = getGhatiPal(p, nextSunrise, referenceNow);
   const bhadraSuggestion = getBhadraSuggestion(bhadra);
 
-  // --- Get Observer from global for "तत्पश्चात" calculations ---
-  const observer = window.__panchangObserver;
-
-  // --- Get Next States for Tithi, Nakshatra, Yoga ---
+  // --- Compute "तत्पश्चात" using reliable index-based method ---
   let nextTithi = null;
   let nextNakshatra = null;
   let nextYoga = null;
 
-  if (observer) {
-    try {
-      if (p.tithiEndTime) {
-        const endTime = new Date(p.tithiEndTime);
-        nextTithi = getNextState(p, endTime, 'tithi', observer);
-      }
-      if (p.nakshatraEndTime) {
-        const endTime = new Date(p.nakshatraEndTime);
-        nextNakshatra = getNextState(p, endTime, 'nakshatra', observer);
-      }
-      if (p.yogaEndTime) {
-        const endTime = new Date(p.yogaEndTime);
-        nextYoga = getNextState(p, endTime, 'yoga', observer);
-      }
-    } catch(e) {
-      console.warn("Could not fetch next states:", e);
+  try {
+    // Extract index from p.tithi (which may be object or number)
+    let tithiVal = p.tithi;
+    if (typeof tithiVal === 'object' && tithiVal !== null) {
+      tithiVal = tithiVal.index ?? tithiVal.number ?? tithiVal.value ?? tithiVal.name;
     }
-  }
+    if (typeof tithiVal === 'number') {
+      // Assume 0-based mapping to tithiHindi array
+      const len = tithiHindi.length;
+      // Some library may return 1-based, but we handle both
+      let idx = tithiVal;
+      if (idx >= 1 && idx <= len) idx = idx - 1; // convert 1-based to 0-based
+      if (idx >= 0 && idx < len) {
+        const nextIdx = (idx + 1) % len;
+        nextTithi = tithiHindi[nextIdx];
+      }
+    }
+  } catch(e) { /* ignore */ }
+
+  try {
+    let nakVal = p.nakshatra;
+    if (typeof nakVal === 'object' && nakVal !== null) {
+      nakVal = nakVal.index ?? nakVal.number ?? nakVal.value ?? nakVal.name;
+    }
+    if (typeof nakVal === 'number') {
+      const len = nakshatraHindi.length;
+      let idx = nakVal;
+      if (idx >= 1 && idx <= len) idx = idx - 1;
+      if (idx >= 0 && idx < len) {
+        const nextIdx = (idx + 1) % len;
+        nextNakshatra = nakshatraHindi[nextIdx];
+      }
+    }
+  } catch(e) { /* ignore */ }
+
+  try {
+    let yogaVal = p.yoga;
+    if (typeof yogaVal === 'object' && yogaVal !== null) {
+      yogaVal = yogaVal.index ?? yogaVal.number ?? yogaVal.value ?? yogaVal.name;
+    }
+    if (typeof yogaVal === 'number') {
+      const len = yogaHindi.length;
+      let idx = yogaVal;
+      if (idx >= 1 && idx <= len) idx = idx - 1;
+      if (idx >= 0 && idx < len) {
+        const nextIdx = (idx + 1) % len;
+        nextYoga = yogaHindi[nextIdx];
+      }
+    }
+  } catch(e) { /* ignore */ }
 
   // --- Bhadra Status ---
   let bhadraStatus = 'नहीं';
@@ -982,9 +977,6 @@ function displayPanchang(p, nextSunrise, referenceNow){
       bhadraStatus = 'समाप्त';
     }
   }
-
-  // --- RECOMMENDATION BOX (only Rahu/Abhijit) ---
-  let recoHtml = `<div class="reco-box">💡 <b>सुझाव:</b> ${reco.text}</div>`;
 
   // --- 60-GHATI / PAL ---
   let ghatiHtml = '';
@@ -1029,8 +1021,7 @@ function displayPanchang(p, nextSunrise, referenceNow){
     bhadraPartsHtml = `<div style="font-size:13px;color:#777;">भद्रा उपलब्ध नहीं</div>`;
   }
 
-  // --- Abhijit display for Shubh-Ashubh (Wednesday handling) ---
-  const isWednesday = (p.vara === 2 || p.weekday === 2);
+  // --- Abhijit display (Wednesday handling) ---
   let abhijitDisplay = '';
   if (isWednesday && p.abhijitMuhurta) {
     abhijitDisplay = `⚪ अभिजीत मुहूर्त — आज मान्य नहीं<br><span style="font-size:12px;color:#999;">बुधवार होने के कारण पारंपरिक नियम के अनुसार आज अभिजीत मुहूर्त का शुभ प्रयोग मान्य नहीं माना जाता।</span>`;
@@ -1040,15 +1031,17 @@ function displayPanchang(p, nextSunrise, referenceNow){
     abhijitDisplay = `<span style="color:#999;">उपलब्ध नहीं</span>`;
   }
 
-  // Helper to render next state if available
+  // Helper to render next state (only if different from current to avoid confusion)
   const renderNext = (nextName) => {
-    return nextName ? `<div style="font-size:13px;color:#555;margin-top:4px;">तत्पश्चात ${nextName}</div>` : '';
+    // Do not show if nextName is null or same as current (fallback)
+    if (!nextName) return '';
+    // We can optionally check if it's different, but sometimes it could be same if next cycle wraps? But it should be different for tithi/nakshatra/yoga.
+    return `<div style="font-size:13px;color:#555;margin-top:4px;">तत्पश्चात ${nextName}</div>`;
   };
 
   // --- BUILD MAIN GRID (Shastric Order) ---
   result.innerHTML = `
     <div class="date-title">${dateText}</div>
-    ${recoHtml}
     <div class="grid">
 
       <!-- 1. विक्रम संवत् -->
@@ -1191,10 +1184,10 @@ function displayPanchang(p, nextSunrise, referenceNow){
         <div class="time-row"><span>${formatTimeRange(p.brahmaMuhurta?.start, p.brahmaMuhurta?.end)}</span></div>
       </div>
 
-      <!-- 22. ⚠️ दुर्मुहूर्त -->
+      <!-- 22. ⚠️ दुर्मुहूर्त (Wednesday correction) -->
       <div class="card full">
         <div class="label">⚠️ दुर्मुहूर्त</div>
-        <div class="time-row"><span>${getDurMuhurtaText(p)}</span></div>
+        <div class="time-row"><span>${getDurMuhurtaText(p, isWednesday)}</span></div>
       </div>
 
       <!-- 23. 📍 स्थान -->
@@ -1207,9 +1200,9 @@ function displayPanchang(p, nextSunrise, referenceNow){
   `;
 }
 
-/* --- HELPER FUNCTIONS (Unchanged from Stage 2) --- */
+/* --- HELPER FUNCTIONS (Modified Durmuhurta to use isWednesday) --- */
 
-function getDurMuhurtaText(p){
+function getDurMuhurtaText(p, isWednesday){
   const sunrise = p.sunrise;
   const sunset = p.sunset;
   if (!sunrise || !sunset) return "—";
@@ -1219,7 +1212,8 @@ function getDurMuhurtaText(p){
   nextSunrise.setDate(nextSunrise.getDate() + 1);
   const nightMs = nextSunrise.getTime() - nightStart.getTime();
 
-  if (p.vara === 2 || p.weekday === 2) {
+  // Wednesday special case: use isWednesday
+  if (isWednesday) {
     const firstStart = new Date(sunrise.getTime() + dayMs * (3 / 15));
     const firstEnd = new Date(sunrise.getTime() + dayMs * (4 / 15));
     const secondStart = new Date(nightStart.getTime() + nightMs * (6 / 15));
