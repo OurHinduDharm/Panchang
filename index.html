@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
@@ -256,7 +255,38 @@
   border-left-color:#c0392b;
 }
 
-/* --- END PRAHAR & BHADRA STYLES --- */
+/* --- Sankalp --- */
+
+.sankalp-box{
+  background:#fffdf7;
+  border:1px solid #ead7bd;
+  border-left:4px solid #d35400;
+  border-radius:12px;
+  padding:14px;
+  line-height:1.8;
+  font-size:15px;
+  color:#4a2b18;
+  margin-top:8px;
+}
+
+.sankalp-text{
+  white-space:normal;
+}
+
+.sankalp-copy{
+  margin-top:12px;
+  width:100%;
+  background:#8e2100 !important;
+}
+
+.sankalp-note{
+  margin-top:8px;
+  font-size:11px;
+  color:#777;
+  line-height:1.5;
+}
+
+/* --- END PRAHAR & BHADRA & SANKALP STYLES --- */
 
 #ohdPanchang .grid{
   display:grid;
@@ -366,6 +396,11 @@
 
   #ohdPanchang .choghadiya-list{
     margin-top:8px;
+  }
+
+  .sankalp-box{
+    font-size:14px;
+    line-height:1.75;
   }
 }
 </style>
@@ -695,14 +730,6 @@ function getBhadraDetails(p, moonRashiIndex, referenceNow){
 
 /* =========================================================
    2. प्रहर गणना — FINAL FIX
-   =========================================================
-
-   महत्वपूर्ण:
-   - Highlight केवल आज के लिए।
-   - आज सूर्योदय से पहले का समय पिछली रात का हिस्सा है।
-   - इसलिए previousSunset लिया जाता है।
-   - Past/Future date में referenceNow = null रहेगा,
-     इसलिए कोई highlight नहीं होगा.
    ========================================================= */
 
 function getPraharDetails(
@@ -728,19 +755,11 @@ function getPraharDetails(
 
   const nextSunrise = new Date(nextSunriseTime);
 
-  /*
-   * केवल आज के selected date पर highlight.
-   * dateInput.value और todayString() दोनों YYYY-MM-DD हैं,
-   * इसलिए timezone/midnight comparison की समस्या नहीं होगी.
-   */
-
   const shouldHighlight =
     !!(now && dateInput.value === todayString());
 
 
-  /* -------------------------
-     दिन के 4 प्रहर
-     ------------------------- */
+  /* दिन के 4 प्रहर */
 
   const dayDuration =
     sunset.getTime() - sunrise.getTime();
@@ -774,18 +793,10 @@ function getPraharDetails(
   }
 
 
-  /* -------------------------
-     रात्रि के 4 प्रहर
-     ------------------------- */
+  /* रात्रि के 4 प्रहर */
 
   let nightStart;
   let nightEnd;
-
-  /*
-   * अगर अभी आज के सूर्योदय से पहले हैं,
-   * तो वर्तमान रात्रि कल के सूर्यास्त से
-   * आज के सूर्योदय तक है।
-   */
 
   if(
     shouldHighlight &&
@@ -800,11 +811,6 @@ function getPraharDetails(
       sunrise;
 
   }else{
-
-    /*
-     * सूर्यास्त के बाद:
-     * आज का सूर्यास्त → अगले दिन का सूर्योदय
-     */
 
     nightStart =
       sunset;
@@ -845,10 +851,6 @@ function getPraharDetails(
     });
   }
 
-
-  /* -------------------------
-     वर्तमान प्रहर
-     ------------------------- */
 
   let currentPrahar = null;
 
@@ -1375,6 +1377,72 @@ function formatDateTimeHindi(value){
 
 
 /* =========================================================
+   SANKALP GENERATOR
+   ========================================================= */
+
+function getSankalpText({
+  samvat,
+  ritu,
+  ayana,
+  masa,
+  paksha,
+  tithi,
+  vara,
+  nakshatra,
+  location
+}){
+
+  /*
+   * यह सामान्य दैनिक संकल्प है।
+   * विशेष पूजा/व्रत के देवता, उद्देश्य और कर्म
+   * बाद के चरण में अलग से जोड़े जा सकते हैं।
+   */
+
+  const cleanSamvat =
+    String(samvat || "")
+      .replace("विक्रम संवत् ","")
+      .trim();
+
+  return (
+    "ॐ विष्णुर्विष्णुर्विष्णुः। " +
+
+    "अद्य " +
+
+    cleanSamvat +
+    " संवत्सरे, " +
+
+    ayana +
+    " अयने, " +
+
+    ritu +
+    " ऋतौ, " +
+
+    masa +
+    " मासे, " +
+
+    paksha +
+    " पक्षे, " +
+
+    tithi +
+    " तिथौ, " +
+
+    vara +
+    " वासरे, " +
+
+    nakshatra +
+    " नक्षत्रे, " +
+
+    location +
+    " स्थाने, " +
+
+    "मम सकलदुरितक्षयपूर्वकं " +
+    "श्रीपरमेश्वरप्रीत्यर्थं " +
+    "यथाशक्ति पूजन-जपादिकं करिष्ये।"
+  );
+}
+
+
+/* =========================================================
    PANCHANG CALCULATE — UPDATED
    ========================================================= */
 
@@ -1416,14 +1484,6 @@ function calculatePanchang(){
       );
 
 
-    /*
-     * केवल आज selected होने पर
-     * referenceNow = वर्तमान समय.
-     *
-     * Past/Future date:
-     * referenceNow = null
-     */
-
     const referenceNow =
       (
         dateInput.value ===
@@ -1433,9 +1493,7 @@ function calculatePanchang(){
       : null;
 
 
-    /* -------------------------
-       अगला सूर्योदय
-       ------------------------- */
+    /* अगला सूर्योदय */
 
     let nextSunrise = null;
 
@@ -1475,12 +1533,7 @@ function calculatePanchang(){
     }
 
 
-    /* -------------------------
-       पिछला सूर्यास्त
-       IMPORTANT:
-       सूर्योदय से पहले आज का
-       current Prahar पिछली रात का है.
-       ------------------------- */
+    /* पिछला सूर्यास्त */
 
     let previousSunset = null;
 
@@ -1519,12 +1572,6 @@ function calculatePanchang(){
       );
     }
 
-
-    /*
-     * Debug values.
-     * Browser console में जरूरत पड़ने पर
-     * इन्हें देखा जा सकता है.
-     */
 
     window.__panchangTest = p;
     window.__nextSunrise = nextSunrise;
@@ -1691,6 +1738,27 @@ function displayPanchang(
     getBhadraSuggestion(
       bhadra
     );
+
+
+  /* =====================================================
+     SANKALP
+     ===================================================== */
+
+  const vara =
+    getVara(p);
+
+  const sankalpText =
+    getSankalpText({
+      samvat,
+      ritu,
+      ayana,
+      masa,
+      paksha,
+      tithi,
+      vara,
+      nakshatra,
+      location:selectedLocation.name
+    });
 
 
   /* =====================================================
@@ -2429,7 +2497,41 @@ function displayPanchang(
       </div>
 
 
-      <!-- 19. दिन के चौघड़िया -->
+      <!-- 19. संकल्प -->
+
+      <div class="card full">
+
+        <div class="label">
+          🕉️ दैनिक संकल्प
+        </div>
+
+        <div class="sankalp-box">
+
+          <div
+            class="sankalp-text"
+            id="sankalpText"
+          >
+            ${sankalpText}
+          </div>
+
+          <button
+            class="sankalp-copy"
+            onclick="copySankalp()"
+          >
+            📋 संकल्प कॉपी करें
+          </button>
+
+          <div class="sankalp-note">
+            यह सामान्य दैनिक संकल्प है। विशेष पूजा, व्रत या अनुष्ठान के
+            अनुसार देवता, उद्देश्य और कर्म का पाठ आगे अलग से जोड़ा जा सकता है।
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- 20. दिन के चौघड़िया -->
 
       <div class="card full">
 
@@ -2470,7 +2572,7 @@ function displayPanchang(
       </div>
 
 
-      <!-- 20. रात्रि के चौघड़िया -->
+      <!-- 21. रात्रि के चौघड़िया -->
 
       <div class="card full">
 
@@ -2511,7 +2613,7 @@ function displayPanchang(
       </div>
 
 
-      <!-- 21. ब्रह्म मुहूर्त -->
+      <!-- 22. ब्रह्म मुहूर्त -->
 
       <div class="card full">
 
@@ -2533,7 +2635,7 @@ function displayPanchang(
       </div>
 
 
-      <!-- 22. दुर्मुहूर्त -->
+      <!-- 23. दुर्मुहूर्त -->
 
       <div class="card full">
 
@@ -2555,7 +2657,7 @@ function displayPanchang(
       </div>
 
 
-      <!-- 23. स्थान -->
+      <!-- 24. स्थान -->
 
       <div class="card full">
 
@@ -2573,6 +2675,109 @@ function displayPanchang(
     </div>
   `;
 }
+
+
+/* =========================================================
+   COPY SANKALP
+   ========================================================= */
+
+window.copySankalp = async function(){
+
+  const element =
+    document.getElementById("sankalpText");
+
+  if(!element){
+    return;
+  }
+
+  const text =
+    element.innerText.trim();
+
+  try{
+
+    await navigator.clipboard.writeText(text);
+
+    const button =
+      document.querySelector(".sankalp-copy");
+
+    if(button){
+
+      const oldText =
+        button.textContent;
+
+      button.textContent =
+        "✅ संकल्प कॉपी हो गया";
+
+      setTimeout(() => {
+
+        button.textContent =
+          oldText;
+
+      },1800);
+    }
+
+  }catch(error){
+
+    /*
+     * Fallback for browsers where Clipboard API
+     * is unavailable.
+     */
+
+    try{
+
+      const textarea =
+        document.createElement("textarea");
+
+      textarea.value =
+        text;
+
+      textarea.style.position =
+        "fixed";
+
+      textarea.style.opacity =
+        "0";
+
+      document.body.appendChild(
+        textarea
+      );
+
+      textarea.select();
+
+      document.execCommand(
+        "copy"
+      );
+
+      document.body.removeChild(
+        textarea
+      );
+
+      const button =
+        document.querySelector(".sankalp-copy");
+
+      if(button){
+
+        const oldText =
+          button.textContent;
+
+        button.textContent =
+          "✅ संकल्प कॉपी हो गया";
+
+        setTimeout(() => {
+
+          button.textContent =
+            oldText;
+
+        },1800);
+      }
+
+    }catch(e){
+
+      alert(
+        "संकल्प कॉपी नहीं हो सका। कृपया इसे manually select करके copy करें।"
+      );
+    }
+  }
+};
 
 
 /* =========================================================
