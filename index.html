@@ -134,29 +134,44 @@
 
 /* --- STAGE 3 STYLES --- */
 .prahar-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 6px;
-  margin: 10px 0 5px 0;
+  margin-top: 8px;
 }
-.prahar-item {
-  text-align: center;
-  background: #fff;
-  padding: 8px 2px;
-  border-radius: 8px;
-  font-size: 11px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-  border: 1px solid #eee;
+.prahar-group {
+  margin-bottom: 6px;
 }
-.prahar-item.active {
+.prahar-group-title {
+  font-weight: bold;
+  font-size: 14px;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+.prahar-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px dashed #eee;
+  font-size: 13px;
+}
+.prahar-row:last-child {
+  border-bottom: none;
+}
+.prahar-row .p-name {
+  font-weight: 500;
+}
+.prahar-row .p-time {
+  color: #555;
+}
+.prahar-row.active {
   background: #d35400;
   color: #fff;
-  border-color: #d35400;
-  font-weight: bold;
+  border-radius: 4px;
+  padding: 4px 8px;
 }
-.prahar-item .p-time {
-  font-size: 10px;
-  opacity: 0.8;
+.prahar-row.active .p-time {
+  color: #fff;
 }
 
 .bhadra-parts {
@@ -297,9 +312,6 @@
   }
   #ohdPanchang .card.full{
     grid-column:auto;
-  }
-  .prahar-grid {
-    grid-template-columns: repeat(4, 1fr);
   }
   #ohdPanchang .choghadiya-list{
     margin-top:8px;
@@ -631,56 +643,6 @@ function getBhadraSuggestion(bhadraDetails) {
   return null;
 }
 
-// 5. Get next name from index (reliable method)
-function getNextNameFromIndex(currentValue, nameArray) {
-  // Extract index from currentValue (which may be an object or number)
-  let index = null;
-  if (typeof currentValue === 'object' && currentValue !== null) {
-    // Try to get index property
-    if (typeof currentValue.index === 'number') {
-      index = currentValue.index;
-    } else if (typeof currentValue.number === 'number') {
-      index = currentValue.number;
-    } else if (typeof currentValue.value === 'number') {
-      index = currentValue.value;
-    } else if (typeof currentValue.name === 'number') {
-      index = currentValue.name;
-    }
-  } else if (typeof currentValue === 'number') {
-    index = currentValue;
-  }
-  
-  if (index === null || index === undefined) return null;
-  
-  // Ensure index is within bounds
-  const len = nameArray.length;
-  // Sometimes index might be 1-based? Check: our arrays are 0-based.
-  // But in getTithiName we do tithiHindi[value] || tithiHindi[value-1].
-  // So if value is 1, it will return tithiHindi[1] which is द्वितीया, but we want प्रतिपदा for 1? Actually that logic seems off.
-  // We'll assume the library returns 0-based index, because we have seen tithiHindi[0] = प्रतिपदा.
-  // To be safe, we can check if index is 1..30 and then subtract 1? But we need to verify.
-  // Looking at getTithiName: it does tithiHindi[value] || tithiHindi[value-1]. This suggests that sometimes value is 0-based, sometimes 1-based.
-  // To reliably get the next, we should rely on the actual name from the current value? But we need the index.
-  // Better: get the current name using getTithiName etc., but we need the index for next.
-  // Since we are seeing that the current name is correct, we can compute the next by using the index from the object directly.
-  // From our tests, p.tithi has an index property that is 0-based (e.g., for चतुर्दशी it is 13? Let's check: array index 13 is चतुर्दशी (Shukla) and index 28 is चतुर्दशी (Krishna). So we need to know if it's Shukla or Krishna to map correctly.
-  // But the library's tithi object probably has an index that directly maps to our array (0-29). So we can use that directly.
-  // We'll assume the index is 0-based and maps directly to our arrays.
-  // To be safe, we can check if index is within 0..len-1, else if index is 1..len, adjust.
-  if (index >= 0 && index < len) {
-    // 0-based, good
-  } else if (index >= 1 && index <= len) {
-    // 1-based, convert to 0-based
-    index = index - 1;
-  } else {
-    return null;
-  }
-  
-  // Compute next index
-  const nextIndex = (index + 1) % len;
-  return nameArray[nextIndex];
-}
-
 /* --- END STAGE 3 HELPERS --- */
 
 
@@ -872,7 +834,7 @@ function calculatePanchang(){
   }
 }
 
-/* --- DISPLAY PANCHANG (UPDATED: Removed recobox, fixed Wednesday, reliable "तत्पश्चात") --- */
+/* --- DISPLAY PANCHANG (Updated: fixed "तत्पश्चात", redesigned Prahar) --- */
 
 function displayPanchang(p, nextSunrise, referenceNow){
 
@@ -910,25 +872,21 @@ function displayPanchang(p, nextSunrise, referenceNow){
   const ghatiPal = getGhatiPal(p, nextSunrise, referenceNow);
   const bhadraSuggestion = getBhadraSuggestion(bhadra);
 
-  // --- Compute "तत्पश्चात" using reliable index-based method ---
+  // --- FIXED: "तत्पश्चात" using direct 0-based index (no conversion) ---
   let nextTithi = null;
   let nextNakshatra = null;
   let nextYoga = null;
 
   try {
-    // Extract index from p.tithi (which may be object or number)
     let tithiVal = p.tithi;
     if (typeof tithiVal === 'object' && tithiVal !== null) {
       tithiVal = tithiVal.index ?? tithiVal.number ?? tithiVal.value ?? tithiVal.name;
     }
     if (typeof tithiVal === 'number') {
-      // Assume 0-based mapping to tithiHindi array
+      // Directly use as 0-based index (library returns 0–29)
       const len = tithiHindi.length;
-      // Some library may return 1-based, but we handle both
-      let idx = tithiVal;
-      if (idx >= 1 && idx <= len) idx = idx - 1; // convert 1-based to 0-based
-      if (idx >= 0 && idx < len) {
-        const nextIdx = (idx + 1) % len;
+      if (tithiVal >= 0 && tithiVal < len) {
+        const nextIdx = (tithiVal + 1) % len;
         nextTithi = tithiHindi[nextIdx];
       }
     }
@@ -941,10 +899,8 @@ function displayPanchang(p, nextSunrise, referenceNow){
     }
     if (typeof nakVal === 'number') {
       const len = nakshatraHindi.length;
-      let idx = nakVal;
-      if (idx >= 1 && idx <= len) idx = idx - 1;
-      if (idx >= 0 && idx < len) {
-        const nextIdx = (idx + 1) % len;
+      if (nakVal >= 0 && nakVal < len) {
+        const nextIdx = (nakVal + 1) % len;
         nextNakshatra = nakshatraHindi[nextIdx];
       }
     }
@@ -957,10 +913,8 @@ function displayPanchang(p, nextSunrise, referenceNow){
     }
     if (typeof yogaVal === 'number') {
       const len = yogaHindi.length;
-      let idx = yogaVal;
-      if (idx >= 1 && idx <= len) idx = idx - 1;
-      if (idx >= 0 && idx < len) {
-        const nextIdx = (idx + 1) % len;
+      if (yogaVal >= 0 && yogaVal < len) {
+        const nextIdx = (yogaVal + 1) % len;
         nextYoga = yogaHindi[nextIdx];
       }
     }
@@ -986,21 +940,34 @@ function displayPanchang(p, nextSunrise, referenceNow){
     ghatiHtml = `<div style="font-size:13px;color:#999;margin-bottom:10px;">🕰️ घटी-पल (Dynamic) उपलब्ध नहीं</div>`;
   }
 
-  // --- PRAHAR GRID ---
+  // --- PRAHAR SECTION (Redesigned with grouping) ---
   let praharHtml = `<div class="prahar-grid">`;
+  
+  // Day Prahar group
+  praharHtml += `<div class="prahar-group">`;
+  praharHtml += `<div class="prahar-group-title">☀️ दिन के प्रहर</div>`;
   const praharNames = ['प्रथम', 'द्वितीय', 'तृतीय', 'चतुर्थ'];
   prahar.dayPrahar.forEach((pItem, i) => {
-    praharHtml += `<div class="prahar-item ${pItem.isActive ? 'active' : ''}">
-      <div>☀️ ${praharNames[i]}</div>
-      <div class="p-time">${formatTime(pItem.start)} - ${formatTime(pItem.end)}</div>
+    const activeClass = pItem.isActive ? 'active' : '';
+    praharHtml += `<div class="prahar-row ${activeClass}">
+      <span class="p-name">${praharNames[i]} प्रहर</span>
+      <span class="p-time">${formatTime(pItem.start)} - ${formatTime(pItem.end)}</span>
     </div>`;
   });
+  praharHtml += `</div>`;
+
+  // Night Prahar group
+  praharHtml += `<div class="prahar-group">`;
+  praharHtml += `<div class="prahar-group-title">🌙 रात्रि के प्रहर</div>`;
   prahar.nightPrahar.forEach((pItem, i) => {
-    praharHtml += `<div class="prahar-item ${pItem.isActive ? 'active' : ''}">
-      <div>🌙 ${praharNames[i]}</div>
-      <div class="p-time">${formatTime(pItem.start)} - ${formatTime(pItem.end)}</div>
+    const activeClass = pItem.isActive ? 'active' : '';
+    praharHtml += `<div class="prahar-row ${activeClass}">
+      <span class="p-name">${praharNames[i]} प्रहर</span>
+      <span class="p-time">${formatTime(pItem.start)} - ${formatTime(pItem.end)}</span>
     </div>`;
   });
+  praharHtml += `</div>`;
+
   praharHtml += `</div>`;
 
   // --- BHADRA PARTS + NIWAS + SUGGESTION ---
@@ -1031,11 +998,9 @@ function displayPanchang(p, nextSunrise, referenceNow){
     abhijitDisplay = `<span style="color:#999;">उपलब्ध नहीं</span>`;
   }
 
-  // Helper to render next state (only if different from current to avoid confusion)
+  // Helper to render next state
   const renderNext = (nextName) => {
-    // Do not show if nextName is null or same as current (fallback)
     if (!nextName) return '';
-    // We can optionally check if it's different, but sometimes it could be same if next cycle wraps? But it should be different for tithi/nakshatra/yoga.
     return `<div style="font-size:13px;color:#555;margin-top:4px;">तत्पश्चात ${nextName}</div>`;
   };
 
@@ -1062,7 +1027,7 @@ function displayPanchang(p, nextSunrise, referenceNow){
         <div class="value">${paksha}</div>
       </div>
 
-      <!-- 4. तिथि (with तत्पश्चात) -->
+      <!-- 4. तिथि -->
       <div class="card">
         <div class="label">तिथि</div>
         <div class="value">${tithi}</div>
@@ -1076,7 +1041,7 @@ function displayPanchang(p, nextSunrise, referenceNow){
         <div class="value">${getVara(p)}</div>
       </div>
 
-      <!-- 6. नक्षत्र (with तत्पश्चात) -->
+      <!-- 6. नक्षत्र -->
       <div class="card">
         <div class="label">नक्षत्र</div>
         <div class="value">${nakshatra}</div>
@@ -1084,7 +1049,7 @@ function displayPanchang(p, nextSunrise, referenceNow){
         ${renderNext(nextNakshatra)}
       </div>
 
-      <!-- 7. योग (with तत्पश्चात) -->
+      <!-- 7. योग -->
       <div class="card">
         <div class="label">योग</div>
         <div class="value">${yoga}</div>
