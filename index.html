@@ -585,16 +585,14 @@ function getBhadraDetails(p, moonRashiIndex, referenceNow) {
   };
 }
 
-// 2. प्रहर गणना (FIXED: highlight only if selected date is today)
+// 2. प्रहर गणना (FIXED: highlight only if referenceNow is available)
 function getPraharDetails(p, nextSunriseTime, referenceNow) {
   const sunrise = new Date(p.sunrise);
   const sunset = new Date(p.sunset);
   const now = referenceNow;
 
-  // --- FIX: Highlight only if the selected date is today ---
-  const selectedDate = sunrise.toDateString();
-  const todayDate = now ? now.toDateString() : null;
-  const shouldHighlight = !!(now && selectedDate === todayDate);
+  // --- Highlight only if referenceNow is provided (i.e., today) ---
+  const shouldHighlight = !!referenceNow;
 
   if (!nextSunriseTime) {
     return { dayPrahar: [], nightPrahar: [], currentPrahar: null, error: 'अगला सूर्योदय उपलब्ध नहीं' };
