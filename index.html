@@ -800,7 +800,7 @@ function buildSankalpText(){
 
   const parts = [];
   parts.push("श्रीगणपतिर्जयति। श्रीविष्णुर्विष्णुर्विष्णुः। ॐ तत्सत्।");
-  parts.push("अद्य श्रीमद्भगवतो महापुरुषस्य विष्णोराज्ञया प्रवर्तमानस्य श्रीब्रह्मणोऽह्नि द्वितीयपरार्धे श्रीश्वेतवाराहकल्पे वैवस्वतमन्वन्तरे, अष्टाविंशतितमे कलियुगे, कलिप्रथमचरणे जम्बूद्वीपे भरतखण्डे भारतवर्षे पुण्यभूप्रदेशे");
+  parts.push("अद्य श्रीमद्भगवतो महापुरुषस्य विष्णोराज्ञया प्रवर्तमानस्य श्रीब्रह्मणोऽह्नि द्वितीयपरार्धे श्रीश्वेतवाराहकल्पे वैवस्वतमन्वन्तरे, अष्टाविंशतितमे कलियुगे, कलिप्रथमचरणे जम्बूद्वीपे भरतखण्डे भारतवर्षे आर्यावर्तान्तर्गत पुण्यभूप्रदेशे");
 
   if(locationForm) parts.push(locationForm);
   if(samvatForm) parts.push(samvatForm);
@@ -886,8 +886,8 @@ function renderSankalpControls(){
         <select id="sankalpVarna">
           <option value="शर्मा" ${sankalpState.varna === "शर्मा" ? "selected" : ""}>शर्मा (ब्राह्मण)</option>
           <option value="वर्मा" ${sankalpState.varna === "वर्मा" ? "selected" : ""}>वर्मा (क्षत्रिय)</option>
-          <option value="गुप्त" ${sankalpState.varna === "गुप्त" ? "selected" : ""}>गुप्त (वैश्य)</option>
-          <option value="दास" ${sankalpState.varna === "दास" ? "selected" : ""}>दास (शूद्र)</option>
+          <option value="गुप्त" ${sankalpState.varna === "गुप्तो" ? "selected" : ""}>गुप्त (वैश्य)</option>
+          <option value="दास" ${sankalpState.varna === "दासो" ? "selected" : ""}>दास (शूद्र)</option>
           <option value="none" ${sankalpState.varna === "none" ? "selected" : ""}>कुछ न लगायें</option>
         </select>
       </div>
@@ -1000,7 +1000,7 @@ function renderSankalpTypeInputs(){
         <select id="sankalpSandhyaDevta">
           <option value="श्रीगायत्री" ${st.sandhyaDevta==="श्रीगायत्री"?"selected":""}>श्रीगायत्री</option>
           <option value="श्रीपरमेश्वर" ${st.sandhyaDevta==="श्रीपरमेश्वर"?"selected":""}>श्रीपरमेश्वर</option>
-          <option value="अन्य" ${st.sandhyaDevta==="अन्य"?"selected":""}>अन्य देवता</option>
+          <option value="अन्य" ${st.sandhyaDevta==="अन्य"?"selected":""}>अन्य देवता का नाम</option>
         </select>
         ${st.sandhyaDevta==="अन्य" ? `<input type="text" id="sankalpSandhyaDevtaCustom" placeholder="देवता का नाम" value="${escapeHtmlAttr(st.sandhyaDevtaCustom)}" autocomplete="off" style="margin-top:6px;"/>` : ""}
       </div>
@@ -1052,7 +1052,8 @@ function renderSankalpTypeInputs(){
           <option value="वस्त्र" ${st.daanItem==="वस्त्र"?"selected":""}>वस्त्र</option>
           <option value="गो" ${st.daanItem==="गो"?"selected":""}>गो</option>
           <option value="दीप" ${st.daanItem==="दीप"?"selected":""}>दीप</option>
-          <option value="अन्य" ${st.daanItem==="अन्य"?"selected":""}>अन्य</option>
+          <option value="अन्य" ${st.daanItem==="अन्य"?"selected":""}>अन्य सामग्री दक्षिणा आदि 
+          </option>
         </select>
         ${st.daanItem==="अन्य" ? `<input type="text" id="sankalpDaanItemCustom" placeholder="दान सामग्री" value="${escapeHtmlAttr(st.daanItemCustom)}" autocomplete="off" style="margin-top:6px;"/>` : ""}
       </div>
@@ -1074,7 +1075,7 @@ function renderSankalpTypeInputs(){
         <label class="ti-label">तर्पण / श्राद्ध प्रकार</label>
         <div class="radio-row">
           <label><input type="radio" name="tarpanaType" value="tilanjali" ${st.tarpanaType==="tilanjali"?"checked":""}/> तिलाञ्जलि-तर्पणम्</label>
-          <label><input type="radio" name="tarpanaType" value="ekaparvan" ${st.tarpanaType==="ekaparvan"?"checked":""}/> एकपार्वण-श्राद्ध-कर्म</label>
+          <label><input type="radio" name="tarpanaType" value="ekaparvan" ${st.tarpanaType==="ekaparvan"?"checked":""}/> एकपार्वण-श्राद्ध-कर्मं</label>
         </div>
       </div>
     `;
