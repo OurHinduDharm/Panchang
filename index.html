@@ -1111,7 +1111,7 @@ function renderSankalpTypeInputs(){
           <option value="षडङ्गरुद्रेण" ${st.rudraPath==="षडङ्गरुद्रेण"?"selected":""}>षडङ्गरुद्रेण</option>
           <option value="रुद्रैकादशिन्या" ${st.rudraPath==="रुद्रैकादशिन्या"?"selected":""}>रुद्रैकादशिन्या</option>
           <option value="लघुरुद्रेण" ${st.rudraPath==="लघुरुद्रेण"?"selected":""}>लघुरुद्रेण</option>
-          <option value="शिवाष्टोत्तरशतेन" ${st.rudraPath==="शिवाष्टोत्तरशतेन"?"selected":""}>शिवाष्टोत्तरशतेन</option>
+          <option value="शिवस्तोत्रेण" ${st.rudraPath==="शिवस्तोत्रेण"?"selected":""}>शिवस्तोत्रेण</option>
           <option value="अन्य" ${st.rudraPath==="अन्य"?"selected":""}>अन्य</option>
         </select>
         ${st.rudraPath==="अन्य" ? `<input type="text" id="sankalpRudraPathCustom" placeholder="पाठ/मंत्र" value="${escapeHtmlAttr(st.rudraPathCustom)}" autocomplete="off" style="margin-top:6px;"/>` : ""}
@@ -1159,6 +1159,10 @@ function renderSankalpTypeInputs(){
           <option value="सर्वविघ्ननिवारणपूर्वकं चतुर्विधपुरुषार्थसिद्धये" ${st.pujaKamna==="सर्वविघ्ननिवारणपूर्वकं चतुर्विधपुरुषार्थसिद्धये"?"selected":""}>सर्वविघ्ननिवारणपूर्वकं चतुर्विधपुरुषार्थसिद्धये</option>
           <option value="सर्वारिष्टशान्त्यर्थं" ${st.pujaKamna==="सर्वारिष्टशान्त्यर्थं"?"selected":""}>सर्वारिष्टशान्त्यर्थं</option>
           <option value="भगवत्प्रीत्यर्थम्" ${st.pujaKamna==="भगवत्प्रीत्यर्थम्"?"selected":""}>भगवत्प्रीत्यर्थम्</option>
+        <option value="मम दीर्घायुष्यारोग्यप्राप्त्यर्थम्" ${st.pujaKamna==="मम दीर्घायुष्यारोग्यप्राप्त्यर्थम्"?"selected":""}>मम दीर्घायुष्यारोग्यप्राप्त्यर्थम् (उत्तम स्वास्थ्य और लंबी आयु हेतु)</option>
+  <option value="धनधान्यसमृद्धिसुखशान्त्यैश्वर्यप्राप्त्यर्थम्" ${st.pujaKamna==="धनधान्यसमृद्धिसुखशान्त्यैश्वर्यप्राप्त्यर्थम्"?"selected":""}>धनधान्यसमृद्धिसुखशान्त्यैश्वर्यप्राप्त्यर्थम् (धन, समृद्धि, सुख-शांति और ऐश्वर्य हेतु)</option>
+  <option value="पुत्रपौत्रादिवंशवृद्ध्यर्थम्" ${st.pujaKamna==="पुत्रपौत्रादिवंशवृद्ध्यर्थम्"?"selected":""}>पुत्रपौत्रादिवंशवृद्ध्यर्थम् (संतान और वंश वृद्धि हेतु)</option>
+  <option value="नवग्रहपीडानिवारणपूर्वकं अनुकूलतासिद्धये" ${st.pujaKamna==="नवग्रहपीडानिवारणपूर्वकं अनुकूलतासिद्धये"?"selected":""}>नवग्रहपीडानिवारणपूर्वकं अनुकूलतासिद्धये (नवग्रह शांति व अनुकूलता हेतु)</option>
         </select>
       </div>
     `;
