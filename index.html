@@ -1270,13 +1270,13 @@ function displayPanchang( p, nextSunrise, previousSunset, referenceNow ){
   const yoga = getYogaName(p.yoga);
 
   const rituBySunRashi = {
-    0:"ग्रीष्म ऋतु", 1:"ग्रीष्म ऋतु", 2:"ग्रीष्म ऋतु",
-    3:"वर्षा ऋतु", 4:"वर्षा ऋतु",
-    5:"शरद ऋतु", 6:"शरद ऋतु",
-    7:"हेमंत ऋतु", 8:"हेमंत ऋतु",
-    9:"शिशिर ऋतु", 10:"शिशिर ऋतु",
-    11:"वसंत ऋतु"
-  };
+  11: "वसंत ऋतु", 0: "वसंत ऋतु",  // मीन और मेष (लगभग 14 मार्च - 15 मई)
+  1: "ग्रीष्म ऋतु", 2: "ग्रीष्म ऋतु", // वृषभ और मिथुन (लगभग 15 मई - 16 जुलाई)
+  3: "वर्षा ऋतु",  4: "वर्षा ऋतु",  // कर्क और सिंह (लगभग 16 जुलाई - 17 सितंबर)
+  5: "शरद ऋतु",  6: "शरद ऋतु",   // कन्या और तुला (लगभग 17 सितंबर - 16 नवंबर)
+  7: "हेमंत ऋतु",  8: "हेमंत ऋतु",  // वृश्चिक और धनु (लगभग 16 नवंबर - 14 जनवरी)
+  9: "शिशिर ऋतु", 10: "शिशिर ऋतु"  // मकर और कुंभ (लगभग 14 जनवरी - 14 मार्च)
+};
   const ritu = rituBySunRashi[ p.sunRashi?.index ] || "—";
   const ayana = getSimpleHindi( p.ayana, ayanaHindi );
   const samvat = getSamvat(p);
@@ -1416,7 +1416,7 @@ function displayPanchang( p, nextSunrise, previousSunset, referenceNow ){
       bhadraPartsHtml += `<div class="${cls}"> 💡 ${bhadraSuggestion.text} </div>`;
     }
   }else{
-    bhadraPartsHtml = `<div style="font-size:13px;color:#777;"> भद्रा उपलब्ध नहीं </div>`;
+    bhadraPartsHtml = `<div style="font-size:13px;color:#777;"> भद्रा नहीं है</div>`;
   }
 
   let abhijitDisplay = "";
@@ -1534,7 +1534,7 @@ function displayPanchang( p, nextSunrise, previousSunset, referenceNow ){
         <div class="sankalp-box">
           <div class="sankalp-text" id="sankalpText"></div>
           <button class="sankalp-copy" type="button" onclick="copySankalp()"> 📋 संकल्प कॉपी करें </button>
-          <div class="sankalp-note"> यह संकल्प चयनित प्रकार के अनुसार स्वतः निर्मित है। गोत्र, नाम, वर्ण आदि भरने पर वे संकल्प में सम्मिलित हो जाते हैं। (विशेष: जिनका यज्ञोपवीत संस्कार नहीं हुआ हो, वे 'ॐ' की जगह 'औं' का उच्चारण करें।) अपनी परंपरा व गुरु-निर्देशानुसार इसमें परिवर्तन किया जा सकता है। </div>
+          <div class="sankalp-note"> यह संकल्प चयनित प्रकार के अनुसार स्वतः निर्मित है। गोत्र, नाम, वर्ण आदि भरने पर वे संकल्प में सम्मिलित हो जाते हैं। (विशेष: जिनका यज्ञोपवीत संस्कार नहीं हुआ हो, वे 'ॐ' की जगह 'औं' का उच्चारण करें।) अपनी परंपरा व गुरु-निर्देशानुसार संकल्प वाक्य में परिवर्तन किया जा सकता है। </div>
         </div>
       </div>
       <div class="card full">
