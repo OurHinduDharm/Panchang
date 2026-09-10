@@ -3568,15 +3568,15 @@ window.copySankalp = async function(){
       );
 
     if(button){
-      const oldText =
-        button.textContent;
+     const oldText =
+  decodeHtmlEntities(button.textContent);
 
-      button.textContent =
-        "✅ संकल्प कॉपी हो गया";
+button.textContent =
+  "✅ संकल्प कॉपी हो गया";
 
-      setTimeout(() => {
-        button.textContent = oldText;
-      }, 1800);
+setTimeout(() => {
+  button.textContent = oldText;
+}, 1800);
     }
   };
 
