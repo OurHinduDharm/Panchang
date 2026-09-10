@@ -518,7 +518,7 @@
   </div>
   <div class="datebox">
     <label>📅 तारीख</label>
-    <input id="dateInput" type="date"/>
+    <input id="dateInput" type="date" lang="en-GB"/>
     <div class="datebuttons">
       <button onclick="today()">आज</button>
       <button onclick="previousDay()">‹ पिछला</button>
@@ -1608,8 +1608,10 @@ function extractStateCity(loc){
       i >= 0;
       i--
     ){
-      const p = parts[i].toLowerCase();
+      const rawPart = parts[i];
+      const p = rawPart.toLowerCase();
 
+      // Skip country names
       if(
         countryWords.some(
           c => p === c || p.includes(c)
@@ -1617,7 +1619,22 @@ function extractStateCity(loc){
       )
         continue;
 
-      state = parts[i];
+      // Skip numeric-only tokens (postcodes like "262500")
+      if(
+        /^\d+$/.test(
+          rawPart.replace(/\s+/g, "")
+        )
+      )
+        continue;
+
+      // Skip sub-region tokens (district / tehsil / taluk etc.)
+      if(
+        /\b(district|tehsil|taluka|taluk|subdistrict|sub-district|mandal|block|pargana)\b/i.test(rawPart) ||
+        /(जिला|तहसील|तालुका|मंडल|ब्लॉक|परगना)/.test(rawPart)
+      )
+        continue;
+
+      state = rawPart;
       break;
     }
   }
