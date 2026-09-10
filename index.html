@@ -879,16 +879,16 @@ function renderSankalpControls(){
       </div>
       <div class="sp-item">
         <label for="sankalpNaam">आपका नाम</label>
-        <input id="sankalpNaam" type="text" placeholder="जैसे राम" value="${escapeHtmlAttr(sankalpState.naam)}" autocomplete="off"/>
+        <input id="sankalpNaam" type="text" placeholder="जैसे हिमांशु" value="${escapeHtmlAttr(sankalpState.naam)}" autocomplete="off"/>
       </div>
       <div class="sp-item">
-        <label for="sankalpVarna">वर्ण / पदवी</label>
+        <label for="sankalpVarna">वर्ण</label>
         <select id="sankalpVarna">
           <option value="शर्मा" ${sankalpState.varna === "शर्मा" ? "selected" : ""}>शर्मा (ब्राह्मण)</option>
           <option value="वर्मा" ${sankalpState.varna === "वर्मा" ? "selected" : ""}>वर्मा (क्षत्रिय)</option>
           <option value="गुप्त" ${sankalpState.varna === "गुप्त" ? "selected" : ""}>गुप्त (वैश्य)</option>
           <option value="दास" ${sankalpState.varna === "दास" ? "selected" : ""}>दास (शूद्र)</option>
-          <option value="none" ${sankalpState.varna === "none" ? "selected" : ""}>कोई नहीं</option>
+          <option value="none" ${sankalpState.varna === "none" ? "selected" : ""}>कुछ न लगायें</option>
         </select>
       </div>
     </div>
@@ -1106,7 +1106,7 @@ function renderSankalpTypeInputs(){
       <div class="ti-block">
         <label class="ti-label">पाठ / मंत्र</label>
         <select id="sankalpRudraPath">
-          <option value="शिव मन्त्रेण" ${st.rudraPath==="शिव मन्त्रेण"?"selected":""}>शिव मन्त्रेण</option>
+          <option value="शिव मन्त्रेण" ${st.rudraPath==="शिव मन्त्रेण"?"selected":""}>शिव पंचाक्षरी / महामृत्युंजय मन्त्रेण</option>
           <option value="रुद्रसूक्तेन" ${st.rudraPath==="रुद्रसूक्तेन"?"selected":""}>रुद्रसूक्तेन</option>
           <option value="षडङ्गरुद्रेण" ${st.rudraPath==="षडङ्गरुद्रेण"?"selected":""}>षडङ्गरुद्रेण</option>
           <option value="रुद्रैकादशिन्या" ${st.rudraPath==="रुद्रैकादशिन्या"?"selected":""}>रुद्रैकादशिन्या</option>
@@ -1156,7 +1156,7 @@ function renderSankalpTypeInputs(){
       <div class="ti-block">
         <label class="ti-label">कामना</label>
         <select id="sankalpPujaKamna">
-          <option value="सर्वविघ्ननिवारणपूर्वकं चतुर्थपुरुषार्थसिद्धये" ${st.pujaKamna==="सर्वविघ्ननिवारणपूर्वकं चतुर्थपुरुषार्थसिद्धये"?"selected":""}>सर्वविघ्ननिवारणपूर्वकं चतुर्थपुरुषार्थसिद्धये</option>
+          <option value="सर्वविघ्ननिवारणपूर्वकं चतुर्विधपुरुषार्थसिद्धये" ${st.pujaKamna==="सर्वविघ्ननिवारणपूर्वकं चतुर्विधपुरुषार्थसिद्धये"?"selected":""}>सर्वविघ्ननिवारणपूर्वकं चतुर्विधपुरुषार्थसिद्धये</option>
           <option value="सर्वारिष्टशान्त्यर्थं" ${st.pujaKamna==="सर्वारिष्टशान्त्यर्थं"?"selected":""}>सर्वारिष्टशान्त्यर्थं</option>
           <option value="भगवत्प्रीत्यर्थम्" ${st.pujaKamna==="भगवत्प्रीत्यर्थम्"?"selected":""}>भगवत्प्रीत्यर्थम्</option>
         </select>
