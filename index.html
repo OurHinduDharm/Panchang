@@ -499,7 +499,7 @@ const samvatsaraHindiMap = {
   Chitrabhanu:"चित्रभानु", Svabhanu:"स्वभानु", Tarana:"तारण", Parthiva:"पार्थिव", Vyaya:"व्यय",
   Sarvajit:"सर्वजित", Sarvadhari:"सर्वधारी", Virodhi:"विरोधी", Vikrita:"विकृति", Khara:"खर",
   Nandana:"नंदन", Vijaya:"विजय", Jaya:"जय", Manmatha:"मन्मथ", Durmukha:"दुर्मुख",
-  Hevilambi:"हेविलंबी", Vilambi:"विलंबी", Vikari:"विकारी", Sharvari:"शार्वरी", Plava:"प्लव",
+  Hevilambi:"हेमलंब", Vilambi:"विलंबी", Vikari:"विकारी", Sharvari:"शार्वरी", Plava:"प्लव",
   Shubhakrit:"शुभकृत", Shobhana:"शोभन", Krodhi:"क्रोधी", Vishvavasu:"विश्वावसु", Parabhava:"रौद्र",
   Plavanga:"प्लवंग", Kilaka:"कीलक", Saumya:"सौम्य", Sadharana:"साधारण", Virodhikrit:"विरोधकृत",
   Paridhavi:"परिधावी", Pramadin:"प्रमादी", Ananda:"आनंद", Rakshasa:"राक्षस", Nala:"नल",
@@ -535,8 +535,11 @@ function getSamvat(p){
 function toAyanaForm(v){
   const s = String(v || "").trim();
   if(!s || s === "—") return "";
-  const base = s.replace(/अयने\s*$/, "").replace(/अयन\s*$/, "").trim();
-  return base ? base + "ायने" : "";
+
+  if(/दक्षिणायन/.test(s)) return "दक्षिणायने";
+  if(/उत्तरायण/.test(s)) return "उत्तरायणे";
+
+  return s.replace(/अयने\s*$/, "").replace(/अयन\s*$/, "").trim() + "े";
 }
 function toRituForm(v){
   const s = String(v || "").trim();
@@ -582,7 +585,7 @@ function toKaranaForm(v){
 }
 function toVaraForm(v){
   const map = {
-    "रविवार":"रविवासरे", "सोमवार":"सोमवासरे", "मंगलवार":"मंगलवासरे",
+    "रविवार":"रविवासरे", "सोमवार":"सोमवासरे", "मंगलवार":"भौमवासरे",
     "बुधवार":"बुधवासरे", "गुरुवार":"गुरुवासरे", "शुक्रवार":"शुक्रवासरे", "शनिवार":"शनिवासरे"
   };
   const s = String(v || "").trim();
@@ -724,13 +727,13 @@ function getKarmaPhrase(){
     }
     case "satyanarayan": {
       if(st.satyaMode === "sakam"){
-        return `श्रीसत्यनारायण-विष्णुप्रीति द्वारा ममात्मनः सर्वारिष्टनिरसनपूर्वकं मनोवांछितफलप्राप्त्यर्थं सकुटुम्बस्य सुखशान्तिसमृद्धिप्राप्तये श्रीसत्यनारायणव्रतकथाश्रवणं पूजनं च`;
+        return `श्रीसत्यनारायण-विष्णुप्रीति द्वारा ममात्मनः सर्वारिष्टनिरसनपूर्वकं मनोवांछितफलप्राप्त्यर्थं सकुटुम्बस्य सुखशान्तिसमृद्धिप्राप्तये श्रीसत्यनारायण-व्रतकथा-पठनं/श्रवणं पूजनं च`;
       }
       return `श्रीविष्णुप्रीत्यर्थे श्रीसत्यनारायणव्रतकथाश्रवणं पूजनं च`;
     }
     case "puja": {
       const dev = String(st.pujaDevta || "").trim() || "श्रीपरमेश्वर";
-      return `मम ${st.pujaKamna} ${dev} पूजनमर्चनं`;
+      return `मम ${st.pujaKamna} ${dev} पूजनं`;
     }
     case "vrat": {
       const vratName = st.vratName === "अन्य"
@@ -742,7 +745,8 @@ function getKarmaPhrase(){
       } else if(st.vratMode === "upavas"){
         return `मम सर्वपापक्षयार्थं, ${dev} प्रीत्यर्थं ${vratName} उपवासं`;
       }
-      return `${dev} प्रीत्यर्थं ${vratName} एकभुक्तव्रतं`;
+      else if(st.vratMode === "nirjal"){
+      return `${dev} प्रीत्यर्थं ${vratName}  निर्जल व्रतं`;
     }
     default:
       return "मम सकलदुरितक्षयपूर्वकं श्रीपरमेश्वरप्रीत्यर्थं यथाशक्ति पूजन-जपादिकं";
