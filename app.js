@@ -64,7 +64,10 @@ const masaHindi = {
   Kartik:"कार्तिक",
   Margashir:"मार्गशीर्ष",
   Paush:"पौष",
-  Phalgun:"फाल्गुन"
+  Phalgun:"फाल्गुन",
+  Ashwayuja:"आश्विन",
+  Agrahayana:"मार्गशीर्ष",
+  Aghrayana:"मार्गशीर्ष"
 };
 
 const rituHindi = {
@@ -512,6 +515,57 @@ function getSimpleHindi(value,map){
   );
 }
 
+/* --- NEW: RASHI HELPER (safe for library object or number) --- */
+function getRashiHindi(rashi){
+  if(!rashi) return "—";
+  if(typeof rashi === "number"){
+    return rashiHindi[rashi] || "—";
+  }
+  if(typeof rashi === "object"){
+    const idx = rashi.index ?? rashi.number ?? rashi.value;
+    if(typeof idx === "number" && rashiHindi[idx]){
+      return rashiHindi[idx];
+    }
+    return rashi.name || "—";
+  }
+  return rashiHindi[rashi] || String(rashi) || "—";
+}
+
+/* --- NEW: MASA HELPER (handles object, isAdhika, case-insensitive fallback) --- */
+function getMasaHindi(masa){
+  if(!masa) return "—";
+
+  let name = "";
+  let isAdhika = false;
+
+  if(typeof masa === "object"){
+    name = masa.name ?? masa.value ?? "";
+    isAdhika = masa.isAdhika === true;
+  } else {
+    name = String(masa);
+  }
+
+  if(!name) return "—";
+
+  // exact match
+  let hindiName = masaHindi[name];
+
+  // case-insensitive fallback
+  if(!hindiName){
+    const lowerName = name.toLowerCase();
+    for(const [key, val] of Object.entries(masaHindi)){
+      if(key.toLowerCase() === lowerName){
+        hindiName = val;
+        break;
+      }
+    }
+  }
+
+  hindiName = hindiName || name;
+
+  return isAdhika ? `अधिक ${hindiName}` : hindiName;
+}
+
 /* =========================================================
    CITY SEARCH
    ========================================================= */
@@ -656,11 +710,9 @@ function selectCity(place){
     place.display_name;
 
   selectedCity.style.display = "block";
-
   selectedCity.textContent =
     "✅ चुना गया स्थान: " +
     place.display_name;
-
   suggestions.innerHTML = "";
 
   try{
@@ -787,66 +839,21 @@ function formatDateTimeHindi(value){
    SAMVAT PARTS
    ========================================================= */
 const samvatsaraHindiMap = {
-  Prabhava:"प्रभव",
-  Vibhava:"विभव",
-  Shukla:"शुक्ल",
-  Pramoda:"प्रमोद",
-  Prajapati:"प्रजापति",
-  Angirasa:"आंगिरस",
-  Shrimukha:"श्रीमुख",
-  Bhava:"भाव",
-  Yuva:"युवा",
-  Dhata:"धाता",
-  Ishvara:"ईश्वर",
-  Bahudhanya:"बहुधान्य",
-  Pramathi:"प्रमाथी",
-  Vikrama:"विक्रम",
-  Vrisha:"वृष",
-  Chitrabhanu:"चित्रभानु",
-  Svabhanu:"स्वभानु",
-  Tarana:"तारण",
-  Parthiva:"पार्थिव",
-  Vyaya:"व्यय",
-  Sarvajit:"सर्वजित",
-  Sarvadhari:"सर्वधारी",
-  Virodhi:"विरोधी",
-  Vikrita:"विकृति",
-  Khara:"खर",
-  Nandana:"नंदन",
-  Vijaya:"विजय",
-  Jaya:"जय",
-  Manmatha:"मन्मथ",
-  Durmukha:"दुर्मुख",
-  Hevilambi:"हेमलंब",
-  Vilambi:"विलंबी",
-  Vikari:"विकारी",
-  Sharvari:"शार्वरी",
-  Plava:"प्लव",
-  Shubhakrit:"शुभकृत",
-  Shobhana:"शोभन",
-  Krodhi:"क्रोधी",
-  Vishvavasu:"विश्वावसु",
-  Parabhava:"पराभव",
-  Plavanga:"प्लवंग",
-  Kilaka:"कीलक",
-  Saumya:"सौम्य",
-  Sadharana:"साधारण",
-  Virodhikrit:"विरोधकृत",
-  Paridhavi:"परिधावी",
-  Pramadin:"प्रमादी",
-  Ananda:"आनंद",
-  Rakshasa:"राक्षस",
-  Nala:"नल",
-  Pingala:"पिंगल",
-  Kalayukti:"कालयुक्ति",
-  Siddharthi:"सिद्धार्थी",
-  Raudra:"रौद्र",
-  Durmati:"दुर्मति",
-  Dundubhi:"दुन्दुभि",
-  Rudhirodgari:"रुधिरोद्गारी",
-  Raktakshi:"रक्ताक्षी",
-  Krodhana:"क्रोधन",
-  Kshaya:"क्षय"
+  Prabhava:"प्रभव", Vibhava:"विभव", Shukla:"शुक्ल", Pramoda:"प्रमोद",
+  Prajapati:"प्रजापति", Angirasa:"आंगिरस", Shrimukha:"श्रीमुख", Bhava:"भाव",
+  Yuva:"युवा", Dhata:"धाता", Ishvara:"ईश्वर", Bahudhanya:"बहुधान्य",
+  Pramathi:"प्रमाथी", Vikrama:"विक्रम", Vrisha:"वृष", Chitrabhanu:"चित्रभानु",
+  Svabhanu:"स्वभानु", Tarana:"तारण", Parthiva:"पार्थिव", Vyaya:"व्यय",
+  Sarvajit:"सर्वजित", Sarvadhari:"सर्वधारी", Virodhi:"विरोधी", Vikrita:"विकृति",
+  Khara:"खर", Nandana:"नंदन", Vijaya:"विजय", Jaya:"जय", Manmatha:"मन्मथ",
+  Durmukha:"दुर्मुख", Hevilambi:"हेमलंब", Vilambi:"विलंबी", Vikari:"विकारी",
+  Sharvari:"शार्वरी", Plava:"प्लव", Shubhakrit:"शुभकृत", Shobhana:"शोभन",
+  Krodhi:"क्रोधी", Vishvavasu:"विश्वावसु", Parabhava:"पराभव", Plavanga:"प्लवंग",
+  Kilaka:"कीलक", Saumya:"सौम्य", Sadharana:"साधारण", Virodhikrit:"विरोधकृत",
+  Paridhavi:"परिधावी", Pramadin:"प्रमादी", Ananda:"आनंद", Rakshasa:"राक्षस",
+  Nala:"नल", Pingala:"पिंगल", Kalayukti:"कालयुक्ति", Siddharthi:"सिद्धार्थी",
+  Raudra:"रौद्र", Durmati:"दुर्मति", Dundubhi:"दुन्दुभि", Rudhirodgari:"रुधिरोद्गारी",
+  Raktakshi:"रक्ताक्षी", Krodhana:"क्रोधन", Kshaya:"क्षय"
 };
 
 function getSamvatParts(p){
@@ -913,167 +920,81 @@ function toAyanaForm(v){
   const s = String(v || "").trim();
 
   if(!s || s === "—") return "";
-
-  if(/दक्षिणायन/.test(s))
-    return "दक्षिणायने";
-
-  if(/उत्तरायण/.test(s))
-    return "उत्तरायणे";
-
-  return s
-    .replace(/अयने\s*$/, "")
-    .replace(/अयन\s*$/, "")
-    .trim() + "े";
+  if(/दक्षिणायन/.test(s)) return "दक्षिणायने";
+  if(/उत्तरायण/.test(s)) return "उत्तरायणे";
+  return s.replace(/अयने\s*$/, "").replace(/अयन\s*$/, "").trim() + "े";
 }
 
 function toRituForm(v){
   const s = String(v || "").trim();
-
   if(!s || s === "—") return "";
-
-  const base = s
-    .replace(/ऋतौ\s*$/, "")
-    .replace(/ऋतु\s*$/, "")
-    .trim();
-
-  return base
-    ? base + " ऋतौ"
-    : "";
+  const base = s.replace(/ऋतौ\s*$/, "").replace(/ऋतु\s*$/, "").trim();
+  return base ? base + " ऋतौ" : "";
 }
 
 function toMasaForm(v){
   const s = String(v || "").trim();
-
   if(!s || s === "—") return "";
-
-  const base = s
-    .replace(/मासे\s*$/, "")
-    .replace(/मास\s*$/, "")
-    .trim();
-
-  return base
-    ? base + " मासे"
-    : "";
+  const base = s.replace(/मासे\s*$/, "").replace(/मास\s*$/, "").trim();
+  return base ? base + " मासे" : "";
 }
 
 function toPakshaForm(v){
   const s = String(v || "").trim();
-
   if(!s || s === "—") return "";
-
-  const base = s
-    .replace(/पक्षे\s*$/, "")
-    .replace(/पक्ष\s*$/, "")
-    .trim();
-
-  return base
-    ? base + " पक्षे"
-    : "";
+  const base = s.replace(/पक्षे\s*$/, "").replace(/पक्ष\s*$/, "").trim();
+  return base ? base + " पक्षे" : "";
 }
 
 function toTithiForm(v){
   const s = String(v || "").trim();
-
   if(!s || s === "—") return "";
-
-  const base = s
-    .replace(/तिथौ\s*$/, "")
-    .replace(/तिथि\s*$/, "")
-    .trim();
-
-  return base
-    ? base + " तिथौ"
-    : "";
+  const base = s.replace(/तिथौ\s*$/, "").replace(/तिथि\s*$/, "").trim();
+  return base ? base + " तिथौ" : "";
 }
 
 function toNakshatraForm(v){
   const s = String(v || "").trim();
-
   if(!s || s === "—") return "";
-
-  const base = s
-    .replace(/नक्षत्रे\s*$/, "")
-    .replace(/नक्षत्र\s*$/, "")
-    .trim();
-
-  return base
-    ? base + " नक्षत्रे"
-    : "";
+  const base = s.replace(/नक्षत्रे\s*$/, "").replace(/नक्षत्र\s*$/, "").trim();
+  return base ? base + " नक्षत्रे" : "";
 }
 
 function toYogaForm(v){
   const s = String(v || "").trim();
-
   if(!s || s === "—") return "";
-
-  const base = s
-    .replace(/योगे\s*$/, "")
-    .replace(/योग\s*$/, "")
-    .trim();
-
-  return base
-    ? base + " योगे"
-    : "";
+  const base = s.replace(/योगे\s*$/, "").replace(/योग\s*$/, "").trim();
+  return base ? base + " योगे" : "";
 }
 
 function toKaranaForm(v){
   const s = String(v || "").trim();
-
   if(!s || s === "—") return "";
-
-  const base = s
-    .replace(/करणे\s*$/, "")
-    .replace(/करण\s*$/, "")
-    .trim();
-
-  return base
-    ? base + " करणे"
-    : "";
+  const base = s.replace(/करणे\s*$/, "").replace(/करण\s*$/, "").trim();
+  return base ? base + " करणे" : "";
 }
 
 function toVaraForm(v){
   const map = {
-    "रविवार":"रविवासरे",
-    "सोमवार":"सोमवासरे",
-    "मंगलवार":"भौमवासरे",
-    "बुधवार":"बुधवासरे",
-    "गुरुवार":"गुरुवासरे",
-    "शुक्रवार":"शुक्रवासरे",
+    "रविवार":"रविवासरे", "सोमवार":"सोमवासरे", "मंगलवार":"भौमवासरे",
+    "बुधवार":"बुधवासरे", "गुरुवार":"गुरुवासरे", "शुक्रवार":"शुक्रवासरे",
     "शनिवार":"शनिवासरे"
   };
 
   const s = String(v || "").trim();
-
   if(!s || s === "—") return "";
-
-  return (
-    map[s] ||
-    (s + "वासरे")
-  );
+  return map[s] || (s + "वासरे");
 }
 
 function toSamvatForm(parts){
-  if(!parts){
-    return "";
-  }
+  if(!parts) return "";
 
-  if(
-    parts.name &&
-    parts.name !== "—"
-  ){
-    return (
-      parts.name +
-      "नाम्नि संवत्सरे"
-    );
+  if(parts.name && parts.name !== "—"){
+    return parts.name + "नाम्नि संवत्सरे";
   }
-
   if(parts.year){
-    return (
-      "विक्रमसंवत्सरे " +
-      parts.year
-    );
+    return "विक्रमसंवत्सरे " + parts.year;
   }
-
   return "";
 }
 
@@ -1081,34 +1002,19 @@ function toSamvatForm(parts){
    LOCATION FOR SANKALP — only state + city (no full address)
    ========================================================= */
 function extractStateCity(loc){
-  if(!loc)
-    return { state:"", city:"" };
+  if(!loc) return { state:"", city:"" };
 
-  let state = String(
-    loc.state || ""
-  ).trim();
+  let state = String(loc.state || "").trim();
+  let city = String(loc.city || "").trim();
 
-  let city = String(
-    loc.city || ""
-  ).trim();
+  if(state && city) return { state, city };
 
-  if(state && city)
-    return { state, city };
+  const raw = String(loc.name || "").trim();
+  const parts = raw.split(",").map(s => s.trim()).filter(Boolean);
 
-  const raw = String(
-    loc.name || ""
-  ).trim();
+  if(!parts.length) return { state, city };
 
-  const parts = raw
-    .split(",")
-    .map(s => s.trim())
-    .filter(Boolean);
-
-  if(!parts.length)
-    return { state, city };
-
-  if(!city && parts[0])
-    city = parts[0];
+  if(!city && parts[0]) city = parts[0];
 
   if(!state && parts.length >= 2){
     const countryWords = [
@@ -1118,33 +1024,17 @@ function extractStateCity(loc){
       "china","चीन"
     ];
 
-    for(
-      let i = parts.length - 1;
-      i >= 0;
-      i--
-    ){
+    for(let i = parts.length - 1; i >= 0; i--){
       const rawPart = parts[i];
       const p = rawPart.toLowerCase();
 
-      if(
-        countryWords.some(
-          c => p === c || p.includes(c)
-        )
-      )
-        continue;
-
-      if(
-        /^\d+$/.test(
-          rawPart.replace(/\s+/g, "")
-        )
-      )
-        continue;
+      if(countryWords.some(c => p === c || p.includes(c))) continue;
+      if(/^\d+$/.test(rawPart.replace(/\s+/g, ""))) continue;
 
       if(
         /\b(district|tehsil|taluka|taluk|subdistrict|sub-district|mandal|block|pargana)\b/i.test(rawPart) ||
         /(जिला|तहसील|तालुका|मंडल|ब्लॉक|परगना)/.test(rawPart)
-      )
-        continue;
+      ) continue;
 
       state = rawPart;
       break;
@@ -1157,36 +1047,19 @@ function extractStateCity(loc){
 function formatSankalpLocation(loc){
   if(!loc) return "";
 
-  const { state, city } =
-    extractStateCity(loc);
+  const { state, city } = extractStateCity(loc);
 
-  if(state && city)
-    return (
-      state +
-      "-प्रदेशे " +
-      city +
-      "-नगरे"
-    );
-
-  if(state)
-    return state + "-प्रदेशे";
-
-  if(city)
-    return city + "-नगरे";
-
+  if(state && city) return state + "-प्रदेशे " + city + "-नगरे";
+  if(state) return state + "-प्रदेशे";
+  if(city) return city + "-नगरे";
   return "";
 }
 
 /* =========================================================
    KAAL / PRAHAR FOR SANKALP
    ========================================================= */
-function getCurrentKaalPrahar(
-  p,
-  praharData,
-  referenceNow
-){
-  if(!referenceNow)
-    return { kaal:"", praharName:"" };
+function getCurrentKaalPrahar(p, praharData, referenceNow){
+  if(!referenceNow) return { kaal:"", praharName:"" };
 
   const sunrise = new Date(p.sunrise);
   const sunset = new Date(p.sunset);
@@ -1195,20 +1068,12 @@ function getCurrentKaalPrahar(
   let kaal = "";
 
   if(now >= sunrise && now < sunset){
-    const dayMs =
-      sunset.getTime() -
-      sunrise.getTime();
+    const dayMs = sunset.getTime() - sunrise.getTime();
+    const fromSunrise = now.getTime() - sunrise.getTime();
 
-    const fromSunrise =
-      now.getTime() -
-      sunrise.getTime();
-
-    if(fromSunrise < dayMs/4)
-      kaal = "प्रातः";
-    else if(fromSunrise < 3*dayMs/4)
-      kaal = "मध्याह्न";
-    else
-      kaal = "सायं";
+    if(fromSunrise < dayMs/4) kaal = "प्रातः";
+    else if(fromSunrise < 3*dayMs/4) kaal = "मध्याह्न";
+    else kaal = "सायं";
   } else {
     kaal = "रात्रि";
   }
@@ -1216,40 +1081,18 @@ function getCurrentKaalPrahar(
   let praharName = "";
 
   if(praharData){
-    const dayActive =
-      praharData.dayPrahar.find(
-        pr => pr.isActive
-      );
+    const dayActive = praharData.dayPrahar.find(pr => pr.isActive);
+    const nightActive = praharData.nightPrahar.find(pr => pr.isActive);
 
-    const nightActive =
-      praharData.nightPrahar.find(
-        pr => pr.isActive
-      );
-
-    const names = [
-      "प्रथम",
-      "द्वितीय",
-      "तृतीय",
-      "चतुर्थ"
-    ];
+    const names = ["प्रथम", "द्वितीय", "तृतीय", "चतुर्थ"];
 
     if(dayActive){
-      const idx =
-        praharData.dayPrahar.indexOf(
-          dayActive
-        );
-
-      if(idx >= 0 && idx < 4)
-        praharName = names[idx];
+      const idx = praharData.dayPrahar.indexOf(dayActive);
+      if(idx >= 0 && idx < 4) praharName = names[idx];
     }
     else if(nightActive){
-      const idx =
-        praharData.nightPrahar.indexOf(
-          nightActive
-        );
-
-      if(idx >= 0 && idx < 4)
-        praharName = names[idx];
+      const idx = praharData.nightPrahar.indexOf(nightActive);
+      if(idx >= 0 && idx < 4) praharName = names[idx];
     }
   }
 
@@ -1260,33 +1103,15 @@ function getCurrentKaalPrahar(
    SANKALP TYPE — AUTO SANDHYA
    ========================================================= */
 function getAutoSandhyaType(){
-  const isToday = (
-    dateInput.value === todayString()
-  );
-
+  const isToday = (dateInput.value === todayString());
   if(!isToday) return "pratah";
 
   const now = new Date();
+  const minutes = now.getHours() * 60 + now.getMinutes();
 
-  const minutes =
-    now.getHours() * 60 +
-    now.getMinutes();
-
-  if(minutes >= 4*60 && minutes < 8*60)
-    return "pratah";
-
-  if(
-    minutes >= 11*60+30 &&
-    minutes < 13*60+30
-  )
-    return "madhyahna";
-
-  if(
-    minutes >= 17*60+30 &&
-    minutes < 19*60+30
-  )
-    return "sayam";
-
+  if(minutes >= 4*60 && minutes < 8*60) return "pratah";
+  if(minutes >= 11*60+30 && minutes < 13*60+30) return "madhyahna";
+  if(minutes >= 17*60+30 && minutes < 19*60+30) return "sayam";
   return "pratah";
 }
 
@@ -1300,20 +1125,14 @@ function getKarmaPhrase(){
     case "sandhya": {
       const dev =
         st.sandhyaDevta === "अन्य"
-          ? (String(
-              st.sandhyaDevtaCustom || ""
-            ).trim() || "श्रीपरमेश्वर")
+          ? (String(st.sandhyaDevtaCustom || "").trim() || "श्रीपरमेश्वर")
           : st.sandhyaDevta;
 
       const timeMap = {
-        pratah:"प्रातः",
-        madhyahna:"मध्याह्न",
-        sayam:"सायं"
+        pratah:"प्रातः", madhyahna:"मध्याह्न", sayam:"सायं"
       };
 
-      const time =
-        timeMap[st.sandhyaType] ||
-        "प्रातः";
+      const time = timeMap[st.sandhyaType] || "प्रातः";
 
       return `ममोपात्त-समस्त-दुरितक्षयद्वारा ${dev} प्रीत्यर्थं ${time}-संध्योपासन-कर्म`;
     }
@@ -1321,16 +1140,12 @@ function getKarmaPhrase(){
     case "daan": {
       const dev =
         st.daanDevta === "अन्य"
-          ? (String(
-              st.daanDevtaCustom || ""
-            ).trim() || "श्रीपरमेश्वर")
+          ? (String(st.daanDevtaCustom || "").trim() || "श्रीपरमेश्वर")
           : st.daanDevta;
 
       const item =
         st.daanItem === "अन्य"
-          ? (String(
-              st.daanItemCustom || ""
-            ).trim() || "अन्न")
+          ? (String(st.daanItemCustom || "").trim() || "अन्न")
           : st.daanItem;
 
       return `मम पूर्वजन्मतथैतज्जन्मकृत-पापक्षयार्थं, ${st.daanKamna}, ${dev} प्रीत्यर्थं, यथाशक्ति ${item} दानं`;
@@ -1348,16 +1163,12 @@ function getKarmaPhrase(){
     case "rudrabhishek": {
       const dravya =
         st.rudraDravya === "अन्य"
-          ? (String(
-              st.rudraDravyaCustom || ""
-            ).trim() || "जल")
+          ? (String(st.rudraDravyaCustom || "").trim() || "जल")
           : st.rudraDravya;
 
       const path =
         st.rudraPath === "अन्य"
-          ? (String(
-              st.rudraPathCustom || ""
-            ).trim() || "रुद्रसूक्तेन")
+          ? (String(st.rudraPathCustom || "").trim() || "रुद्रसूक्तेन")
           : st.rudraPath;
 
       if(st.rudraMode === "sakam"){
@@ -1376,10 +1187,7 @@ function getKarmaPhrase(){
     }
 
     case "puja": {
-      const dev =
-        String(
-          st.pujaDevta || ""
-        ).trim() || "श्रीपरमेश्वर";
+      const dev = String(st.pujaDevta || "").trim() || "श्रीपरमेश्वर";
 
       return `मम ${st.pujaKamna} ${dev} पूजनं`;
     }
@@ -1387,15 +1195,10 @@ function getKarmaPhrase(){
     case "vrat": {
       const vratName =
         st.vratName === "अन्य"
-          ? (String(
-              st.vratNameCustom || ""
-            ).trim() || "व्रत")
+          ? (String(st.vratNameCustom || "").trim() || "व्रत")
           : st.vratName;
 
-      const dev =
-        String(
-          st.vratDevta || ""
-        ).trim() || "श्रीपरमेश्वर";
+      const dev = String(st.vratDevta || "").trim() || "श्रीपरमेश्वर";
 
       if(st.vratMode === "vrat"){
         return `मम कायिक-वाचिक-मानसिक-पापनिवारणार्थं, ${dev} प्रीत्यर्थं ${vratName} व्रत`;
@@ -1416,16 +1219,9 @@ function getKarmaPhrase(){
    IDENTITY CONSTRUCTION
    ========================================================= */
 function buildYajmanIdentity(){
-  const gotra = String(
-    sankalpState.gotra || ""
-  ).trim();
-
-  const naam = String(
-    sankalpState.naam || ""
-  ).trim();
-
-  const varna =
-    sankalpState.varna || "";
+  const gotra = String(sankalpState.gotra || "").trim();
+  const naam = String(sankalpState.naam || "").trim();
+  const varna = sankalpState.varna || "";
 
   const gotraPart = gotra
     ? (gotra + "गोत्रोत्पन्नो")
@@ -1447,13 +1243,8 @@ function buildYajmanIdentity(){
 }
 
 function buildBrahminIdentity(){
-  const bGotra = String(
-    sankalpState.brahminGotra || ""
-  ).trim();
-
-  const bNaam = String(
-    sankalpState.brahminNaam || ""
-  ).trim();
+  const bGotra = String(sankalpState.brahminGotra || "").trim();
+  const bNaam = String(sankalpState.brahminNaam || "").trim();
 
   const gotraPart = bGotra
     ? (bGotra + "गोत्रोत्पन्नेन")
@@ -1629,12 +1420,12 @@ function renderSankalpControls(){
 
   const kartaToggleHtml = isRestrictedType
     ? `<div class="karta-toggle">
-        <label><input type="radio" name="kartaMode" value="self" checked/> स्वयं (करिष्ये)</label>
-      </div>`
+         <label><input type="radio" name="kartaMode" value="self" checked/> स्वयं (करिष्ये)</label>
+       </div>`
     : `<div class="karta-toggle">
-        <label><input type="radio" name="kartaMode" value="self" ${sankalpState.kartaMode === "self" ? "checked" : ""}/> स्वयं (करिष्ये)</label>
-        <label><input type="radio" name="kartaMode" value="brahmin" ${sankalpState.kartaMode === "brahmin" ? "checked" : ""}/> ब्राह्मण द्वारा (कारयिष्ये)</label>
-      </div>`;
+         <label><input type="radio" name="kartaMode" value="self" ${sankalpState.kartaMode === "self" ? "checked" : ""}/> स्वयं (करिष्ये)</label>
+         <label><input type="radio" name="kartaMode" value="brahmin" ${sankalpState.kartaMode === "brahmin" ? "checked" : ""}/> ब्राह्मण द्वारा (कारयिष्ये)</label>
+       </div>`;
 
   container.innerHTML = `
     <div class="sankalp-types">${buttonsHtml}</div>
@@ -2199,6 +1990,7 @@ function renderSankalpTypeInputs(){
     });
   }
 }
+
 function decodeHtmlEntities(str){
   if(str == null) return "";
 
@@ -2213,14 +2005,14 @@ function decodeHtmlEntities(str){
     return String(str);
   }
 }
+
 function updateSankalpText(){
   const el = document.getElementById(
     "sankalpText"
   );
 
   if(!el) return;
-
- el.textContent = decodeHtmlEntities(buildSankalpText());
+  el.textContent = decodeHtmlEntities(buildSankalpText());
 }
 
 /* =========================================================
@@ -2376,10 +2168,8 @@ function displayPanchang(
 
   const tithi = getTithiName(p.tithi);
 
-  const masa = getSimpleHindi(
-    p.masa,
-    masaHindi
-  );
+  /* ---- TASK 2 FIX: use getMasaHindi for adhika + case-insensitive ---- */
+  const masa = getMasaHindi(p.masa);
 
   const nakshatra =
     getNakshatraName(p.nakshatra);
@@ -2387,18 +2177,12 @@ function displayPanchang(
   const yoga = getYogaName(p.yoga);
 
   const rituBySunRashi = {
-    11: "वसंत ऋतु",
-    0: "वसंत ऋतु",
-    1: "ग्रीष्म ऋतु",
-    2: "ग्रीष्म ऋतु",
-    3: "वर्षा ऋतु",
-    4: "वर्षा ऋतु",
-    5: "शरद ऋतु",
-    6: "शरद ऋतु",
-    7: "हेमंत ऋतु",
-    8: "हेमंत ऋतु",
-    9: "शिशिर ऋतु",
-    10: "शिशिर ऋतु"
+    11: "वसंत ऋतु", 0: "वसंत ऋतु",
+    1: "ग्रीष्म ऋतु", 2: "ग्रीष्म ऋतु",
+    3: "वर्षा ऋतु", 4: "वर्षा ऋतु",
+    5: "शरद ऋतु", 6: "शरद ऋतु",
+    7: "हेमंत ऋतु", 8: "हेमंत ऋतु",
+    9: "शिशिर ऋतु", 10: "शिशिर ऋतु"
   };
 
   const ritu =
@@ -2719,7 +2503,6 @@ function displayPanchang(
     </div>
 
     <div class="grid">
-
       <div class="card full">
         <div class="label">
           विक्रम संवत्
@@ -2810,9 +2593,9 @@ function displayPanchang(
           🌞 सूर्य व 🌙 चंद्र स्थिति
         </div>
         <div class="value" style="font-size:14px;line-height:1.7;">
-          सूर्य राशि — ${rashiHindi[p.sunRashi?.index] || "—"}<br>
-          चंद्र राशि — ${rashiHindi[p.moonRashi?.index] || "—"}<br>
-          सूर्य नक्षत्र — ${p.sunNakshatra?.name ? getNakshatraName(p.sunNakshatra.name) : "—"}${p.sunNakshatra?.pada ? ` (पाद ${p.sunNakshatra.pada})` : ""}
+          सूर्य राशि — ${getRashiHindi(p.sunRashi)}<br>
+          चंद्र राशि — ${getRashiHindi(p.moonRashi)}<br>
+          सूर्य नक्षत्र — ${p.sunNakshatra ? getNakshatraName(p.sunNakshatra) : "—"}${p.sunNakshatra?.pada ? ` (पाद ${p.sunNakshatra.pada})` : ""}
         </div>
       </div>
 
@@ -3074,13 +2857,11 @@ window.copySankalp = async function(){
       );
 
     if(button){
-     const oldText =
+    const oldText =
   decodeHtmlEntities(button.textContent);
-
-button.textContent =
-  "✅ संकल्प कॉपी हो गया";
-
-setTimeout(() => {
+  button.textContent =
+    "✅ संकल्प कॉपी हो गया";
+  setTimeout(() => {
   button.textContent = oldText;
 }, 1800);
     }
@@ -3102,7 +2883,6 @@ setTimeout(() => {
     throw new Error(
       "clipboard-api-unavailable"
     );
-
   }catch(error){
     try{
       const textarea =
