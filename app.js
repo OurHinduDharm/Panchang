@@ -1224,8 +1224,8 @@ function buildYajmanIdentity(){
   const varna = sankalpState.varna || "";
 
   const gotraPart = gotra
-    ? (gotra + "गोत्रोत्पन्नो")
-    : "अमुकगोत्रोत्पन्नो";
+    ? (gotra + "गोत्रोत्पन्नः")
+    : "अमुकगोत्रोत्पन्नः";
 
   const naamPart = naam || "अमुकः";
 
@@ -1304,7 +1304,7 @@ function buildSankalpText(){
   const parts = [];
 
   parts.push(
-    "श्रीगणपतिर्जयति। श्रीविष्णुर्विष्णुर्विष्णुः। ॐ तत्सत्।"
+    "श्रीगणपतिर्जयति। श्रीविष्णुर्विष्णुर्विष्णुः। ॐ तत्सत्"
   );
 
   parts.push(
@@ -1325,11 +1325,11 @@ function buildSankalpText(){
   if(kaalForm) parts.push(kaalForm);
   if(praharForm) parts.push(praharForm);
 
-  const ahamWord =
-    (sankalpState.varna === "दासो" ||
-     sankalpState.varna === "गुप्तो")
-      ? "ऽहं"
-      : " अहं";
+  const useAvagraha = ["दासो", "गुप्तो"];
+const ahamWord = useAvagraha.includes(sankalpState.varna)
+  ? "ऽहं"
+  : " अहं";
+
 
   const isRestrictedType =
     restrictedSankalpTypes.includes(sankalpState.type);
