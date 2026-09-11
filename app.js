@@ -515,7 +515,19 @@ function getSimpleHindi(value,map){
 /* =========================================================
    CITY SEARCH
    ========================================================= */
-window.searchCity = async function(){
+let citySearchAbortController = null;
+
+function debounce(fn, delay){
+  let timer = null;
+  return function(...args){
+    if(timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
+async function performCitySearch(){
   const q = cityInput.value.trim();
 
   if(q.length < 2){
@@ -524,6 +536,12 @@ window.searchCity = async function(){
     );
     return;
   }
+
+  if(citySearchAbortController){
+    citySearchAbortController.abort();
+  }
+
+  citySearchAbortController = new AbortController();
 
   suggestions.innerHTML =
     `<div class="loading">🔎 शहर खोजा जा रहा है...</div>`;
@@ -538,14 +556,17 @@ window.searchCity = async function(){
       {
         headers:{
           "Accept":"application/json"
-        }
+        },
+        signal: citySearchAbortController.signal
       }
     );
 
+    if(response.status === 429){
+      throw new Error("RATE_LIMIT");
+    }
+
     if(!response.ok){
-      throw new Error(
-        "City search failed"
-      );
+      throw new Error("HTTP_" + response.status);
     }
 
     const places = await response.json();
@@ -574,12 +595,29 @@ window.searchCity = async function(){
     });
 
   }catch(error){
+    if(error.name === "AbortError"){
+      return;
+    }
+
     console.error(error);
 
+    let msg =
+      "❌ शहर खोजने में समस्या हुई। कृपया Internet connection जाँचें।";
+
+    if(error.message === "RATE_LIMIT"){
+      msg =
+        "❌ बहुत अधिक खोजें की गईं। कृपया कुछ क्षण रुककर पुनः प्रयास करें।";
+    }else if(error.message && error.message.startsWith("HTTP_")){
+      msg =
+        "❌ सर्वर से प्रतिक्रिया नहीं मिली। कृपया कुछ देर बाद प्रयास करें।";
+    }
+
     suggestions.innerHTML =
-      `<div class="error">❌ शहर खोजने में समस्या हुई। कृपया Internet connection जाँचें।</div>`;
+      `<div class="error">${msg}</div>`;
   }
-};
+}
+
+window.searchCity = debounce(performCitySearch, 500);
 
 /* =========================================================
    SELECT CITY (stores state & city for Sankalp)
