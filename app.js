@@ -2201,24 +2201,17 @@ function renderSankalpTypeInputs(){
 }
 function decodeHtmlEntities(str){
   if(str == null) return "";
-  var s = String(str);
-  s = s.replace(/&#(\d+);/g, function(_, d){
-    var n = Number(d);
-    if(!isFinite(n) || n < 0 || n > 0x10FFFF) return _;
-    try { return String.fromCodePoint(n); } catch(e){ return _; }
-  });
-  s = s.replace(/&#x([0-9a-fA-F]+);/g, function(_, h){
-    var n = parseInt(h, 16);
-    if(!isFinite(n) || n < 0 || n > 0x10FFFF) return _;
-    try { return String.fromCodePoint(n); } catch(e){ return _; }
-  });
-  s = s.replace(/&amp;/g, "&");
-  s = s.replace(/&lt;/g, "<");
-  s = s.replace(/&gt;/g, ">");
-  s = s.replace(/&quot;/g, '"');
-  s = s.replace(/&#39;/g, "'");
-  s = s.replace(/&nbsp;/g, " ");
-  return s;
+
+  try{
+    const doc = new DOMParser().parseFromString(
+      String(str),
+      "text/html"
+    );
+    const decoded = doc.documentElement.textContent;
+    return decoded == null ? String(str) : decoded;
+  }catch(e){
+    return String(str);
+  }
 }
 function updateSankalpText(){
   const el = document.getElementById(
