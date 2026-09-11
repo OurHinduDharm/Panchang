@@ -1,0 +1,17 @@
+name: Purge jsDelivr Cache
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app.js'
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Purge jsDelivr cache
+        run: |
+          curl -X POST "https://purge.jsdelivr.net/gh/OurHinduDharm/Panchang@main/app.js"
