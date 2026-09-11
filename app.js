@@ -856,6 +856,8 @@ const samvatsaraHindiMap = {
   Raktakshi:"रक्ताक्षी", Krodhana:"क्रोधन", Kshaya:"क्षय"
 };
 
+const samvatsaraList = Object.values(samvatsaraHindiMap);
+
 function getSamvatParts(p){
   const s = p.samvat;
 
@@ -863,36 +865,31 @@ function getSamvatParts(p){
     return { year:null, name:null };
   }
 
-  const year = s.vikram;
-  let name = samvatsaraHindiMap[
-    s.samvatsara
-  ];
+  const year = Number(s.vikram);
 
-  if(!name){
-    const lowerKey =
-      s.samvatsara?.toLowerCase();
-
-    for(
-      const [key,val] of Object.entries(
-        samvatsaraHindiMap
-      )
-    ){
-      if(
-        key.toLowerCase() ===
-        lowerKey
-      ){
-        name = val;
-        break;
-      }
-    }
+  if(!Number.isFinite(year)){
+    return {
+      year: s.vikram || null,
+      name: null
+    };
   }
 
-  name =
-    name ||
-    s.samvatsara ||
-    null;
+  /*
+   * OurHinduDharm tradition:
+   * Vikram Samvat 2083 = Raudra.
+   *
+   * 60-year cycle:
+   * (Vikram year + 10) % 60
+   *
+   * 2083 -> index 53 -> Raudra
+   */
+  const index = (year + 10) % 60;
+  const name = samvatsaraList[index];
 
-  return { year, name };
+  return {
+    year,
+    name: name || null
+  };
 }
 
 function getSamvat(p){
