@@ -788,7 +788,7 @@ const samvatsaraHindiMap = {
   Shobhana:"शोभन",
   Krodhi:"क्रोधी",
   Vishvavasu:"विश्वावसु",
-  Parabhava:"रौद्र",
+  Parabhava:"पराभव",
   Plavanga:"प्लवंग",
   Kilaka:"कीलक",
   Saumya:"सौम्य",
@@ -1088,7 +1088,6 @@ function extractStateCity(loc){
       const rawPart = parts[i];
       const p = rawPart.toLowerCase();
 
-      // Skip country names
       if(
         countryWords.some(
           c => p === c || p.includes(c)
@@ -1096,7 +1095,6 @@ function extractStateCity(loc){
       )
         continue;
 
-      // Skip numeric-only tokens (postcodes like "262500")
       if(
         /^\d+$/.test(
           rawPart.replace(/\s+/g, "")
@@ -1104,7 +1102,6 @@ function extractStateCity(loc){
       )
         continue;
 
-      // Skip sub-region tokens (district / tehsil / taluk etc.)
       if(
         /\b(district|tehsil|taluka|taluk|subdistrict|sub-district|mandal|block|pargana)\b/i.test(rawPart) ||
         /(जिला|तहसील|तालुका|मंडल|ब्लॉक|परगना)/.test(rawPart)
@@ -1505,9 +1502,12 @@ function buildSankalpText(){
       ? "ऽहं"
       : " अहं";
 
+  const isRestrictedType =
+    restrictedSankalpTypes.includes(sankalpState.type);
+
   let identity = "";
 
-  if(sankalpState.kartaMode === "brahmin"){
+  if(!isRestrictedType && sankalpState.kartaMode === "brahmin"){
     const brahminId = buildBrahminIdentity();
     identity =
       yajmanId +
@@ -1523,7 +1523,7 @@ function buildSankalpText(){
   parts.push(identity);
 
   const verb =
-    (sankalpState.kartaMode === "brahmin")
+    (!isRestrictedType && sankalpState.kartaMode === "brahmin")
       ? "कारयिष्ये"
       : "करिष्ये";
 
