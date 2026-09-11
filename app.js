@@ -838,6 +838,7 @@ function formatDateTimeHindi(value){
 /* =========================================================
    SAMVAT PARTS
    ========================================================= */
+
 const samvatsaraHindiMap = {
   Prabhava:"प्रभव", Vibhava:"विभव", Shukla:"शुक्ल", Pramoda:"प्रमोद",
   Prajapati:"प्रजापति", Angirasa:"आंगिरस", Shrimukha:"श्रीमुख", Bhava:"भाव",
@@ -858,16 +859,16 @@ const samvatsaraHindiMap = {
 
 const samvatsaraList = Object.values(samvatsaraHindiMap);
 
-function getSamvatParts(p){
+function getSamvatParts(p) {
   const s = p.samvat;
 
-  if(!s){
-    return { year:null, name:null };
+  if (!s) {
+    return { year: null, name: null };
   }
 
   const year = Number(s.vikram);
 
-  if(!Number.isFinite(year)){
+  if (!Number.isFinite(year)) {
     return {
       year: s.vikram || null,
       name: null
@@ -875,13 +876,12 @@ function getSamvatParts(p){
   }
 
   /*
-   * OurHinduDharm tradition:
-   * Vikram Samvat 2083 = Raudra.
-   *
-   * 60-year cycle:
-   * (Vikram year + 10) % 60
-   *
-   * 2083 -> index 53 -> Raudra
+   * OurHinduDharm tradition fix:
+   * Vikram Samvat 2083 = Raudra (रौद्र)
+   * 
+   * Formula: (Vikram year + 10) % 60
+   * Calculation for 2083: (2083 + 10) % 60 = 2093 % 60 = 53
+   * Index 53 in array = "रौद्र"
    */
   const index = (year + 10) % 60;
   const name = samvatsaraList[index];
@@ -892,24 +892,17 @@ function getSamvatParts(p){
   };
 }
 
-function getSamvat(p){
+function getSamvat(p) {
   const parts = getSamvatParts(p);
 
-  if(!parts.year && !parts.name){
+  if (!parts.year && !parts.name) {
     return "उपलब्ध नहीं";
   }
 
-  const namePart = parts.name
-    ? " (" + parts.name + ")"
-    : "";
+  const namePart = parts.name ? " (" + parts.name + ")" : "";
 
-  return (
-    "विक्रम संवत् " +
-    (parts.year || "—") +
-    namePart
-  );
+  return "विक्रम संवत् " + (parts.year || "—") + namePart;
 }
-
 /* =========================================================
    SANSKRIT CASE-FORM HELPERS
    ========================================================= */
