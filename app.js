@@ -58,7 +58,13 @@ const karanaHindi = {
 const masaHindi = {
   Chaitra:"चैत्र", Vaishakha:"वैशाख", Jyeshtha:"ज्येष्ठ", Ashadha:"आषाढ़",
   Shravana:"श्रावण", Bhadrapada:"भाद्रपद", Ashwin:"आश्विन", Kartika:"कार्तिक",
-  Margashirsha:"मार्गशीर्ष", Pausha:"पौष", Magha:"माघ", Phalguna:"फाल्गुन"
+  Margashirsha:"मार्गशीर्ष", Pausha:"पौष", Magha:"माघ", Phalguna:"फाल्गुन",
+  Bhadra:"भाद्रपद",
+  Ashwina:"आश्विन",
+  Kartik:"कार्तिक",
+  Margashir:"मार्गशीर्ष",
+  Paush:"पौष",
+  Phalgun:"फाल्गुन"
 };
 
 const rituHindi = {
@@ -69,6 +75,12 @@ const rituHindi = {
 const ayanaHindi = {
   Uttarayana:"उत्तरायण",
   Dakshinayana:"दक्षिणायन"
+};
+
+const rashiHindi = {
+  0: "मेष", 1: "वृषभ", 2: "मिथुन", 3: "कर्क",
+  4: "सिंह", 5: "कन्या", 6: "तुला", 7: "वृश्चिक",
+  8: "धनु", 9: "मकर", 10: "कुम्भ", 11: "मीन"
 };
 
 /* =========================================================
@@ -1531,6 +1543,8 @@ function buildSankalpText(){
 /* =========================================================
    SANKALP CONTROLS — render / update
    ========================================================= */
+const restrictedSankalpTypes = ["sandhya", "daan", "tarpana", "vrat"];
+
 function escapeHtmlAttr(s){
   return String(s == null ? "" : s)
     .replace(/&/g,"&amp;")
@@ -1568,12 +1582,21 @@ function renderSankalpControls(){
     })
     .join("");
 
-  const kartaToggleHtml = `
-    <div class="karta-toggle">
-      <label><input type="radio" name="kartaMode" value="self" ${sankalpState.kartaMode === "self" ? "checked" : ""}/> स्वयं (करिष्ये)</label>
-      <label><input type="radio" name="kartaMode" value="brahmin" ${sankalpState.kartaMode === "brahmin" ? "checked" : ""}/> ब्राह्मण द्वारा (कारयिष्ये)</label>
-    </div>
-  `;
+  const isRestrictedType =
+    restrictedSankalpTypes.includes(sankalpState.type);
+
+  if(isRestrictedType){
+    sankalpState.kartaMode = "self";
+  }
+
+  const kartaToggleHtml = isRestrictedType
+    ? `<div class="karta-toggle">
+        <label><input type="radio" name="kartaMode" value="self" checked/> स्वयं (करिष्ये)</label>
+      </div>`
+    : `<div class="karta-toggle">
+        <label><input type="radio" name="kartaMode" value="self" ${sankalpState.kartaMode === "self" ? "checked" : ""}/> स्वयं (करिष्ये)</label>
+        <label><input type="radio" name="kartaMode" value="brahmin" ${sankalpState.kartaMode === "brahmin" ? "checked" : ""}/> ब्राह्मण द्वारा (कारयिष्ये)</label>
+      </div>`;
 
   container.innerHTML = `
     <div class="sankalp-types">${buttonsHtml}</div>
@@ -1615,6 +1638,10 @@ function renderSankalpControls(){
 
         sankalpState.type = t;
 
+        if(restrictedSankalpTypes.includes(t)){
+          sankalpState.kartaMode = "self";
+        }
+
         container
           .querySelectorAll(
             ".sankalp-type-btn"
@@ -1626,7 +1653,7 @@ function renderSankalpControls(){
             );
           });
 
-        renderSankalpTypeInputs();
+        renderSankalpControls();
         updateSankalpText();
       });
     });
@@ -2544,7 +2571,7 @@ function displayPanchang(
   praharHtml += `<div class="prahar-group">`;
 
   praharHtml += `<div class="prahar-group-title">
-    ☀️ दिन के प्रहर
+    🌙 रात्रि के प्रहर
   </div>`;
 
   praharHtml += `<div class="prahar-grid">`;
@@ -2555,34 +2582,6 @@ function displayPanchang(
     "तृतीय",
     "चतुर्थ"
   ];
-
-  prahar.dayPrahar.forEach(
-    (pItem,i) => {
-      const activeClass =
-        pItem.isActive ? "active" : "";
-
-      praharHtml += `
-        <div class="prahar-item ${activeClass}">
-          <div class="p-name">
-            ${praharNames[i]} प्रहर
-          </div>
-          <div class="p-time">
-            ${formatTime(pItem.start)} - ${formatTime(pItem.end)}
-          </div>
-        </div>
-      `;
-    }
-  );
-
-  praharHtml += `</div></div>`;
-
-  praharHtml += `<div class="prahar-group">`;
-
-  praharHtml += `<div class="prahar-group-title">
-    🌙 रात्रि के प्रहर
-  </div>`;
-
-  praharHtml += `<div class="prahar-grid">`;
 
   prahar.nightPrahar.forEach(
     (pItem,i) => {
@@ -2772,6 +2771,17 @@ function displayPanchang(
         </div>
         <div class="value">
           ${ritu}
+        </div>
+      </div>
+
+      <div class="card full">
+        <div class="label">
+          🌞 सूर्य व 🌙 चंद्र स्थिति
+        </div>
+        <div class="value" style="font-size:14px;line-height:1.7;">
+          सूर्य राशि — ${rashiHindi[p.sunRashi?.index] || "—"}<br>
+          चंद्र राशि — ${rashiHindi[p.moonRashi?.index] || "—"}<br>
+          सूर्य नक्षत्र — ${p.sunNakshatra?.name ? getNakshatraName(p.sunNakshatra.name) : "—"}${p.sunNakshatra?.pada ? ` (पाद ${p.sunNakshatra.pada})` : ""}
         </div>
       </div>
 
