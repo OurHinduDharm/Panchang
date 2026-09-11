@@ -1068,15 +1068,23 @@ function extractStateCity(loc){
 
   return { state, city };
 }
-
+   
 function formatSankalpLocation(loc){
   if(!loc) return "";
 
   const { state, city } = extractStateCity(loc);
 
-  if(state && city) return state + "-प्रदेशे " + city + "-नगरे";
-  if(state) return state + "-प्रदेशे";
-  if(city) return city + "-नगरे";
+  if(state && city && state === city)
+  return city + "-नगरे";
+
+if(state && city)
+  return state + "-राज्यान्तर्गते " + city + "-नगरे";
+
+if(state)
+  return state + "-राज्ये";
+
+if(city)
+  return city + "-नगरे";
   return "";
 }
 
