@@ -910,8 +910,8 @@ function toAyanaForm(v){
   const s = String(v || "").trim();
 
   if(!s || s === "—") return "";
-  if(/दक्षिणायन/.test(s)) return "दक्षिणायने";
-  if(/उत्तरायण/.test(s)) return "उत्तरायणे";
+  if(/दक्षिणायन/.test(s)) return "सूर्य दक्षिणायने";
+  if(/उत्तरायण/.test(s)) return "सूर्य उत्तरायणे";
   return s.replace(/अयने\s*$/, "").replace(/अयन\s*$/, "").trim() + "े";
 }
 
@@ -937,26 +937,26 @@ function toPakshaForm(v){
 }
 
 const tithiSanskritMap = {
-  "प्रथमा": "प्रतिपदि",
-  "प्रतिपदा": "प्रतिपदि",
-  "द्वितीया": "द्वितीयायाम्",
-  "तृतीया": "तृतीयायाम्",
-  "चतुर्थी": "चतुर्थ्याम्",
-  "पञ्चमी": "पञ्चम्याम्",
-  "पंचमी": "पञ्चम्याम्",
-  "षष्ठी": "षष्ठ्याम्",
-  "सप्तमी": "सप्तम्याम्",
-  "अष्टमी": "अष्टम्याम्",
-  "नवमी": "नवम्याम्",
-  "दशमी": "दशम्याम्",
-  "एकादशी": "एकादश्याम्",
-  "द्वादशी": "द्वादश्याम्",
-  "त्रयोदशी": "त्रयोदश्याम्",
-  "चतुर्दशी": "चतुर्दश्याम्",
-  "पूर्णिमा": "पूर्णिमायाम्",
-  "पौर्णमासी": "पौर्णमास्याम्",
-  "अमावस्या": "अमावास्यायाम्",
-  "अमावास्या": "अमावास्यायाम्"
+  "प्रथमा": "प्रतिपदि तिथौ",
+  "प्रतिपदा": "प्रतिपदि तिथौ",
+  "द्वितीया": "द्वितीयायाम् तिथौ",
+  "तृतीया": "तृतीयायाम् तिथौ",
+  "चतुर्थी": "चतुर्थ्याम् तिथौ",
+  "पञ्चमी": "पञ्चम्याम् तिथौ",
+  "पंचमी": "पञ्चम्याम् तिथौ",
+  "षष्ठी": "षष्ठ्याम् तिथौ",
+  "सप्तमी": "सप्तम्याम् तिथौ",
+  "अष्टमी": "अष्टम्याम् तिथौ",
+  "नवमी": "नवम्याम् तिथौ",
+  "दशमी": "दशम्याम् तिथौ",
+  "एकादशी": "एकादश्याम् तिथौ",
+  "द्वादशी": "द्वादश्याम् तिथौ",
+  "त्रयोदशी": "त्रयोदश्याम् तिथौ",
+  "चतुर्दशी": "चतुर्दश्याम् तिथौ",
+  "पूर्णिमा": "पूर्णिमायाम् तिथौ",
+  "पौर्णमासी": "पौर्णमास्याम् तिथौ",
+  "अमावस्या": "अमावास्यायाम् तिथौ",
+  "अमावास्या": "अमावास्यायाम् तिथौ"
 };
 
 function toTithiForm(v){
@@ -969,8 +969,9 @@ function toTithiForm(v){
     return tithiSanskritMap[base];
   }
 
-  return base ? base + " तिथौ" : "";
+  return base;
 }
+
 function toNakshatraForm(v){
   const s = String(v || "").trim();
   if(!s || s === "—") return "";
@@ -991,6 +992,7 @@ function toKaranaForm(v){
   const base = s.replace(/करणे\s*$/, "").replace(/करण\s*$/, "").trim();
   return base ? base + " करणे" : "";
 }
+
 
 function toVaraForm(v){
   const map = {
@@ -1308,6 +1310,25 @@ function buildSankalpText(){
   const nakshatraForm = toNakshatraForm(ctx.nakshatra);
   const yogaForm = toYogaForm(ctx.yoga);
   const karanaForm = toKaranaForm(ctx.karana);
+ 
+const sunRashiForm = getRashiHindi(
+  ctx.panchang?.sunRashi
+);
+
+const moonRashiForm = getRashiHindi(
+  ctx.panchang?.moonRashi
+);
+
+const suryaSthitiForm =
+  sunRashiForm && sunRashiForm !== "—"
+    ? `${sunRashiForm} राशि स्थितो सूर्यो`
+    : "";
+
+const chandraSthitiForm =
+  moonRashiForm && moonRashiForm !== "—"
+    ? `${moonRashiForm} राशि स्थितो चन्द्रो`
+    : "";
+
   const locationForm = formatSankalpLocation(ctx.location);
 
   const kaalPrahar = getCurrentKaalPrahar(
@@ -1348,6 +1369,8 @@ function buildSankalpText(){
   if(nakshatraForm) parts.push(nakshatraForm);
   if(yogaForm) parts.push(yogaForm);
   if(karanaForm) parts.push(karanaForm);
+if(suryaSthitiForm) parts.push(suryaSthitiForm);
+if(chandraSthitiForm) parts.push(chandraSthitiForm);
   if(kaalForm) parts.push(kaalForm);
   if(praharForm) parts.push(praharForm);
 
