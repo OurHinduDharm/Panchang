@@ -1094,33 +1094,26 @@ function getCurrentKaalPrahar(p, praharData, referenceNow){
   const now = referenceNow;
 
   let kaal = "";
+  let praharName = "";
 
   if(now >= sunrise && now < sunset){
     const dayMs = sunset.getTime() - sunrise.getTime();
     const fromSunrise = now.getTime() - sunrise.getTime();
 
-    if(fromSunrise < dayMs/4) kaal = "प्रातः";
-    else if(fromSunrise < 3*dayMs/4) kaal = "मध्याह्न";
-    else kaal = "सायं";
+    if(fromSunrise < dayMs/4) kaal = "प्रातःकाले";
+    else if(fromSunrise < 3*dayMs/4) kaal = "मध्याह्नकाले";
+    else kaal = "सायंकाले";
   } else {
-    kaal = "रात्रि";
-  }
+    kaal = "रात्रिकाले";
 
-  let praharName = "";
+    if(praharData){
+      const nightActive = praharData.nightPrahar.find(pr => pr.isActive);
+      const names = ["प्रथम प्रहरे", "द्वितीय प्रहरे", "तृतीय प्रहरे", "चतुर्थ प्रहरे"];
 
-  if(praharData){
-    const dayActive = praharData.dayPrahar.find(pr => pr.isActive);
-    const nightActive = praharData.nightPrahar.find(pr => pr.isActive);
-
-    const names = ["प्रथम", "द्वितीय", "तृतीय", "चतुर्थ"];
-
-    if(dayActive){
-      const idx = praharData.dayPrahar.indexOf(dayActive);
-      if(idx >= 0 && idx < 4) praharName = names[idx];
-    }
-    else if(nightActive){
-      const idx = praharData.nightPrahar.indexOf(nightActive);
-      if(idx >= 0 && idx < 4) praharName = names[idx];
+      if(nightActive){
+        const idx = praharData.nightPrahar.indexOf(nightActive);
+        if(idx >= 0 && idx < 4) praharName = names[idx];
+      }
     }
   }
 
