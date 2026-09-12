@@ -1334,12 +1334,12 @@ const moonRashiForm = getRashiHindi(
 
 const suryaSthitiForm =
   sunRashiForm && sunRashiForm !== "—"
-    ? `${sunRashiForm} राशि स्थितो सूर्यो`
+    ? `${sunRashiForm} राशि स्थिते अर्के`
     : "";
 
 const chandraSthitiForm =
   moonRashiForm && moonRashiForm !== "—"
-    ? `${moonRashiForm} राशि स्थितो चन्द्रो`
+    ? `${moonRashiForm} राशि स्थिते चन्द्रे`
     : "";
 
   const locationForm = formatSankalpLocation(ctx.location);
