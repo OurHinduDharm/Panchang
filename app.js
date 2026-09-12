@@ -106,7 +106,8 @@ const sankalpState = {
 
   /* Tarpana */
   tarpanaType: "tilanjali",
-
+  tarpanaTypeCustom: "",
+  
   /* Rudrabhishek */
   rudraMode: "sakam",
   rudraDravya: "जल",
@@ -1185,11 +1186,17 @@ function getKarmaPhrase(){
       return `मम पूर्वजन्मतथैतज्जन्मकृत-पापक्षयार्थं, ${st.daanKamna}, ${dev} प्रीत्यर्थं, यथाशक्ति ${item} दानं`;
     }
 
-    case "tarpana": {
+        case "tarpana": {
       const act =
         st.tarpanaType === "ekaparvan"
           ? "एकपार्वण-श्राद्ध-कर्म"
-          : "तिलाञ्जलि-तर्पणम्";
+          : st.tarpanaType === "अन्य"
+            ? (
+                String(
+                  st.tarpanaTypeCustom || ""
+                ).trim() || "तर्पण / श्राद्ध-कर्म"
+              )
+            : "तिलाञ्जलि-तर्पणम्";
 
       return `मम समस्तपितृणां तृप्त्यर्थं, अक्षयतृप्तिलोकप्राप्तये, ${act}`;
     }
@@ -1808,14 +1815,57 @@ function renderSankalpTypeInputs(){
       updateSankalpText();
     });
 
-  } else if(st.type === "tarpana"){
+      } else if(st.type === "tarpana"){
     container.innerHTML = `
       <div class="ti-block">
         <label class="ti-label">तर्पण / श्राद्ध प्रकार</label>
+
         <div class="radio-row">
-          <label><input type="radio" name="tarpanaType" value="tilanjali" ${st.tarpanaType==="tilanjali"?"checked":""}/> तिलाञ्जलि-तर्पणम्</label>
-          <label><input type="radio" name="tarpanaType" value="ekaparvan" ${st.tarpanaType==="ekaparvan"?"checked":""}/> एकपार्वण-श्राद्ध-कर्मं</label>
+          <label>
+            <input
+              type="radio"
+              name="tarpanaType"
+              value="tilanjali"
+              ${st.tarpanaType==="tilanjali"?"checked":""}
+            />
+            तिलाञ्जलि-तर्पणम्
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="tarpanaType"
+              value="ekaparvan"
+              ${st.tarpanaType==="ekaparvan"?"checked":""}
+            />
+            एकपार्वण-श्राद्ध-कर्म
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="tarpanaType"
+              value="अन्य"
+              ${st.tarpanaType==="अन्य"?"checked":""}
+            />
+            अन्य
+          </label>
         </div>
+
+        ${
+          st.tarpanaType === "अन्य"
+            ? `
+              <input
+                type="text"
+                id="tarpanaTypeCustom"
+                placeholder="श्राद्ध / तर्पण का प्रकार लिखें"
+                value="${escapeHtmlAttr(st.tarpanaTypeCustom || "")}"
+                autocomplete="off"
+                style="margin-top:6px;"
+              />
+            `
+            : ""
+        }
       </div>
     `;
 
@@ -1828,10 +1878,25 @@ function renderSankalpTypeInputs(){
           if(e.target.checked){
             st.tarpanaType =
               e.target.value;
+
+            renderSankalpTypeInputs();
             updateSankalpText();
           }
         });
       });
+
+    const tc = document.getElementById(
+      "tarpanaTypeCustom"
+    );
+
+    if(tc){
+      tc.addEventListener("input", e => {
+        st.tarpanaTypeCustom =
+          e.target.value;
+
+        updateSankalpText();
+      });
+    }
 
   } else if(st.type === "rudrabhishek"){
     container.innerHTML = `
