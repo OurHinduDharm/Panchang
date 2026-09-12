@@ -610,28 +610,6 @@
   </div>
 </div>
 <script type="module" src="app.js"></script>
-<div id="test-output" style="background:#f0f0f0; padding:15px; margin:20px; border:2px solid #333; font-family:monospace; word-break:break-all;">
-  कीवर्ड्स खोजे जा रहे हैं...
-</div>
 
-<script>
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      if (window.__panchangTest) {
-        let allKeys = Object.keys(window.__panchangTest);
-        let matchedKeys = allKeys.filter(k => 
-          /muhurta|sandhya|godhuli|nish/i.test(k)
-        );
-
-        document.getElementById('test-output').innerHTML = 
-          '<b>ALL KEYS:</b><br>' + allKeys.join(', ') + 
-          '<br><br><b>MATCHED KEYS:</b><br>' + matchedKeys.join(', ');
-      } else {
-        document.getElementById('test-output').innerHTML = 'Error: window.__panchangTest नहीं मिला!';
-      }
-    }, 1000);
-  });
-</script>
-  
 </body>
 </html>
