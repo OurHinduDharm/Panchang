@@ -1086,6 +1086,7 @@ if(city)
 /* =========================================================
    KAAL / PRAHAR FOR SANKALP
    ========================================================= */
+
 function getCurrentKaalPrahar(p, praharData, referenceNow){
   if(!referenceNow) return { kaal:"", praharName:"" };
 
@@ -1100,26 +1101,38 @@ function getCurrentKaalPrahar(p, praharData, referenceNow){
     const dayMs = sunset.getTime() - sunrise.getTime();
     const fromSunrise = now.getTime() - sunrise.getTime();
 
-    if(fromSunrise < dayMs/4) kaal = "प्रातःकाले";
-    else if(fromSunrise < 3*dayMs/4) kaal = "मध्याह्नकाले";
-    else kaal = "सायंकाले";
-  } else {
-    kaal = "रात्रिकाले";
+    if(fromSunrise < dayMs/4) kaal = "प्रातः";
+    else if(fromSunrise < 3*dayMs/4) kaal = "मध्याह्न";
+    else kaal = "सायं";
 
-    if(praharData){
-      const nightActive = praharData.nightPrahar.find(pr => pr.isActive);
-      const names = ["प्रथम प्रहरे", "द्वितीय प्रहरे", "तृतीय प्रहरे", "चतुर्थ प्रहरे"];
+  } else {
+    kaal = "रात्रि";
+
+    if(praharData && praharData.nightPrahar){
+      const nightActive = praharData.nightPrahar.find(
+        pr => pr.isActive
+      );
+
+      const names = [
+        "प्रथम",
+        "द्वितीय",
+        "तृतीय",
+        "चतुर्थ"
+      ];
 
       if(nightActive){
-        const idx = praharData.nightPrahar.indexOf(nightActive);
-        if(idx >= 0 && idx < 4) praharName = names[idx];
+        const idx =
+          praharData.nightPrahar.indexOf(nightActive);
+
+        if(idx >= 0 && idx < 4){
+          praharName = names[idx];
+        }
       }
     }
   }
 
   return { kaal, praharName };
 }
-
 /* =========================================================
    SANKALP TYPE — AUTO SANDHYA
    ========================================================= */
@@ -1330,14 +1343,17 @@ const chandraSthitiForm =
     ctx.referenceNow
   );
 
-  const kaalForm = kaalPrahar.kaal
-    ? (kaalPrahar.kaal + " काले")
-    : "";
+  const kaalForm = {
+  "प्रातः": "प्रातःकाले",
+  "मध्याह्न": "मध्याह्न काले",
+  "सायं": "सायंकाले",
+  "रात्रि": "रात्रिकाले"
+}[kaalPrahar.kaal] || "";
 
-  const praharForm = kaalPrahar.praharName
-    ? (kaalPrahar.praharName + " प्रहरे")
-    : "";
-
+const praharForm = kaalPrahar.praharName
+  ? (kaalPrahar.praharName + " प्रहरे")
+  : "";
+  
   const yajmanId = buildYajmanIdentity();
   const karmaPhrase = getKarmaPhrase();
 
@@ -2425,42 +2441,71 @@ function displayPanchang(
 
   let praharHtml = `<div class="prahar-groups">`;
 
-  praharHtml += `<div class="prahar-group">`;
+const praharNames = [
+  "प्रथम",
+  "द्वितीय",
+  "तृतीय",
+  "चतुर्थ"
+];
 
-  praharHtml += `<div class="prahar-group-title">
-    🌙 रात्रि के प्रहर
-  </div>`;
+/* दिन के प्रहर */
+praharHtml += `<div class="prahar-group">`;
+praharHtml += `<div class="prahar-group-title">
+  ☀️ दिन के प्रहर
+</div>`;
 
-  praharHtml += `<div class="prahar-grid">`;
+praharHtml += `<div class="prahar-grid">`;
 
-  const praharNames = [
-    "प्रथम",
-    "द्वितीय",
-    "तृतीय",
-    "चतुर्थ"
-  ];
+prahar.dayPrahar.forEach(
+  (pItem,i) => {
+    const activeClass =
+      pItem.isActive ? "active" : "";
 
-  prahar.nightPrahar.forEach(
-    (pItem,i) => {
-      const activeClass =
-        pItem.isActive ? "active" : "";
-
-      praharHtml += `
-        <div class="prahar-item ${activeClass}">
-          <div class="p-name">
-            ${praharNames[i]} प्रहर
-          </div>
-          <div class="p-time">
-            ${formatTime(pItem.start)} - ${formatTime(pItem.end)}
-          </div>
+    praharHtml += `
+      <div class="prahar-item ${activeClass}">
+        <div class="p-name">
+          ${praharNames[i]} प्रहर
         </div>
-      `;
-    }
-  );
+        <div class="p-time">
+          ${formatTime(pItem.start)} - ${formatTime(pItem.end)}
+        </div>
+      </div>
+    `;
+  }
+);
 
-  praharHtml += `</div></div>`;
+praharHtml += `</div></div>`;
 
-  praharHtml += `</div>`;
+
+/* रात के प्रहर */
+praharHtml += `<div class="prahar-group">`;
+praharHtml += `<div class="prahar-group-title">
+  🌙 रात्रि के प्रहर
+</div>`;
+
+praharHtml += `<div class="prahar-grid">`;
+
+prahar.nightPrahar.forEach(
+  (pItem,i) => {
+    const activeClass =
+      pItem.isActive ? "active" : "";
+
+    praharHtml += `
+      <div class="prahar-item ${activeClass}">
+        <div class="p-name">
+          ${praharNames[i]} प्रहर
+        </div>
+        <div class="p-time">
+          ${formatTime(pItem.start)} - ${formatTime(pItem.end)}
+        </div>
+      </div>
+    `;
+  }
+);
+
+praharHtml += `</div></div>`;
+
+praharHtml += `</div>`;
 
   let bhadraPartsHtml = "";
 
