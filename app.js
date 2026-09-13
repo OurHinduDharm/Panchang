@@ -413,8 +413,7 @@ function isRaviYoga(
 function getSunNakshatraTransition(
   observer,
   startTime,
-  endTime,
-  timezoneOffset
+  endTime
 ){
   if(
     !observer ||
@@ -439,21 +438,20 @@ function getSunNakshatraTransition(
   }
 
   let startP;
-
   let endP;
 
   try{
-    startP = getPanchangam(
-      start,
-      observer,
-      { timezoneOffset }
-    );
+    startP =
+      getPanchangam(
+        start,
+        observer
+      );
 
-    endP = getPanchangam(
-      end,
-      observer,
-      { timezoneOffset }
-    );
+    endP =
+      getPanchangam(
+        end,
+        observer
+      );
   }catch(e){
     console.warn(
       "Sun Nakshatra transition calculation failed:",
@@ -463,80 +461,45 @@ function getSunNakshatraTransition(
     return null;
   }
 
-  const startLongitude =
-    startP?.planetaryPositions?.sun?.longitude;
-
-  const endLongitude =
-    endP?.planetaryPositions?.sun?.longitude;
-
-  if(
-    typeof startLongitude !== "number" ||
-    typeof endLongitude !== "number"
-  ){
-    return null;
-  }
-
   const startIndex =
-    getNakshatraIndexFromLongitude(
-      startLongitude
-    );
+    startP?.sunNakshatra?.index;
 
   const endIndex =
-    getNakshatraIndexFromLongitude(
-      endLongitude
-    );
+    endP?.sunNakshatra?.index;
 
   if(
-    startIndex === null ||
-    endIndex === null ||
-    startIndex === endIndex
+    typeof startIndex !== "number" ||
+    typeof endIndex !== "number"
   ){
     return null;
   }
 
   /*
-   * सूर्य सामान्यतः एक दिन में एक ही
-   * नक्षत्र सीमा पार करता है।
-   *
-   * अब उसी सीमा को binary search से खोजेंगे।
+   * यदि पूरे दिन Sun का Nakshatra
+   * नहीं बदला तो transition नहीं है।
    */
-
-  const boundary =
-    ((startIndex + 1) * (360 / 27)) % 360;
-
-  const angularForwardDistance = (
-    from,
-    to
-  ) => (
-    (to - from + 360) % 360
-  );
-
-  const totalForward =
-    angularForwardDistance(
-      startLongitude,
-      endLongitude
-    );
-
-  const boundaryForward =
-    angularForwardDistance(
-      startLongitude,
-      boundary
-    );
-
-  if(
-    boundaryForward > totalForward
-  ){
+  if(startIndex === endIndex){
     return null;
   }
 
-  let low = start.getTime();
+  /*
+   * अब सीधे library के अपने
+   * sunNakshatra.index को देखकर
+   * binary search करेंगे।
+   */
 
-  let high = end.getTime();
+  let low =
+    start.getTime();
 
-  for(let i = 0; i < 35; i++){
+  let high =
+    end.getTime();
+
+  for(let i = 0; i < 40; i++){
 
     const mid =
-      Math.floor((low + high) / 2);
+      Math.floor(
+        (low + high) / 2
+      );
 
     const midDate =
       new Date(mid);
@@ -544,34 +507,39 @@ function getSunNakshatraTransition(
     let midP;
 
     try{
-      midP = getPanchangam(
-        midDate,
-        observer,
-        { timezoneOffset }
-      );
+      midP =
+        getPanchangam(
+          midDate,
+          observer
+        );
     }catch(e){
       return null;
     }
 
-    const midLongitude =
-      midP?.planetaryPositions?.sun?.longitude;
+    const midIndex =
+      midP?.sunNakshatra?.index;
 
     if(
-      typeof midLongitude !== "number"
+      typeof midIndex !== "number"
     ){
       return null;
     }
 
-    const passed =
-      angularForwardDistance(
-        startLongitude,
-        midLongitude
-      ) >= boundaryForward;
+    /*
+     * जब तक पुराना Nakshatra है,
+     * transition आगे है।
+     *
+     * जैसे:
+     * Purva Phalguni = 10
+     * Uttara Phalguni = 11
+     */
+    if(midIndex === startIndex){
 
-    if(passed){
-      high = mid;
-    }else{
       low = mid;
+
+    }else{
+
+      high = mid;
     }
   }
 
@@ -760,7 +728,6 @@ function getSpecialYogaDetails(
       observer,
       sunrise,
       nextSunrise,
-      timezoneOffset
     );
 
   const sunSegments = [];
