@@ -362,7 +362,571 @@ function getSpecialKaalDetails(
     nishitaKaal
   };
 }
+ /* =========================================================
+    SPECIAL YOGA HELPERS
+    ========================================================= */
 
+function getNakshatraIndexFromLongitude(longitude){
+  if(typeof longitude !== "number") return null;
+
+  const normalized =
+    ((longitude % 360) + 360) % 360;
+
+  return Math.floor(
+    normalized / (360 / 27)
+  );
+}
+
+function getRaviYogaDistance(
+  sunNakshatraIndex,
+  moonNakshatraIndex
+){
+  if(
+    typeof sunNakshatraIndex !== "number" ||
+    typeof moonNakshatraIndex !== "number"
+  ){
+    return null;
+  }
+
+  return (
+    (moonNakshatraIndex -
+      sunNakshatraIndex +
+      27) % 27
+  ) + 1;
+}
+
+function isRaviYoga(
+  sunNakshatraIndex,
+  moonNakshatraIndex
+){
+  const distance =
+    getRaviYogaDistance(
+      sunNakshatraIndex,
+      moonNakshatraIndex
+    );
+
+  return [
+    4, 6, 9, 10, 13, 20
+  ].includes(distance);
+}
+
+function getSunNakshatraTransition(
+  observer,
+  startTime,
+  endTime,
+  timezoneOffset
+){
+  if(
+    !observer ||
+    !startTime ||
+    !endTime
+  ){
+    return null;
+  }
+
+  const start =
+    new Date(startTime);
+
+  const end =
+    new Date(endTime);
+
+  if(
+    isNaN(start.getTime()) ||
+    isNaN(end.getTime()) ||
+    end <= start
+  ){
+    return null;
+  }
+
+  let startP;
+
+  let endP;
+
+  try{
+    startP = getPanchangam(
+      start,
+      observer,
+      { timezoneOffset }
+    );
+
+    endP = getPanchangam(
+      end,
+      observer,
+      { timezoneOffset }
+    );
+  }catch(e){
+    console.warn(
+      "Sun Nakshatra transition calculation failed:",
+      e
+    );
+
+    return null;
+  }
+
+  const startLongitude =
+    startP?.planetaryPositions?.sun?.longitude;
+
+  const endLongitude =
+    endP?.planetaryPositions?.sun?.longitude;
+
+  if(
+    typeof startLongitude !== "number" ||
+    typeof endLongitude !== "number"
+  ){
+    return null;
+  }
+
+  const startIndex =
+    getNakshatraIndexFromLongitude(
+      startLongitude
+    );
+
+  const endIndex =
+    getNakshatraIndexFromLongitude(
+      endLongitude
+    );
+
+  if(
+    startIndex === null ||
+    endIndex === null ||
+    startIndex === endIndex
+  ){
+    return null;
+  }
+
+  /*
+   * सूर्य सामान्यतः एक दिन में एक ही
+   * नक्षत्र सीमा पार करता है।
+   *
+   * अब उसी सीमा को binary search से खोजेंगे।
+   */
+
+  const boundary =
+    ((startIndex + 1) * (360 / 27)) % 360;
+
+  const angularForwardDistance = (
+    from,
+    to
+  ) => (
+    (to - from + 360) % 360
+  );
+
+  const totalForward =
+    angularForwardDistance(
+      startLongitude,
+      endLongitude
+    );
+
+  const boundaryForward =
+    angularForwardDistance(
+      startLongitude,
+      boundary
+    );
+
+  if(
+    boundaryForward > totalForward
+  ){
+    return null;
+  }
+
+  let low = start.getTime();
+
+  let high = end.getTime();
+
+  for(let i = 0; i < 35; i++){
+
+    const mid =
+      Math.floor((low + high) / 2);
+
+    const midDate =
+      new Date(mid);
+
+    let midP;
+
+    try{
+      midP = getPanchangam(
+        midDate,
+        observer,
+        { timezoneOffset }
+      );
+    }catch(e){
+      return null;
+    }
+
+    const midLongitude =
+      midP?.planetaryPositions?.sun?.longitude;
+
+    if(
+      typeof midLongitude !== "number"
+    ){
+      return null;
+    }
+
+    const passed =
+      angularForwardDistance(
+        startLongitude,
+        midLongitude
+      ) >= boundaryForward;
+
+    if(passed){
+      high = mid;
+    }else{
+      low = mid;
+    }
+  }
+
+  return new Date(high);
+}
+
+function getSpecialYogaDetails(
+  p,
+  observer,
+  nextSunriseTime,
+  timezoneOffset = 330
+){
+  const sunrise =
+    new Date(p.sunrise);
+
+  const nextSunrise =
+    new Date(nextSunriseTime);
+
+  if(
+    isNaN(sunrise.getTime()) ||
+    isNaN(nextSunrise.getTime())
+  ){
+    return {
+      amritSiddhi: null,
+      sarvarthaSiddhi: null,
+      raviYoga: []
+    };
+  }
+
+  /*
+   * रविवार से शनिवार तक
+   *
+   * Amrit Siddhi Yoga
+   */
+  const amritTable = {
+    0:[12], // रविवार - हस्त
+    1:[4],  // सोमवार - मृगशीर्ष
+    2:[0],  // मंगलवार - अश्विनी
+    3:[16], // बुधवार - अनुराधा
+    4:[7],  // गुरुवार - पुष्य
+    5:[26], // शुक्रवार - रेवती
+    6:[3]   // शनिवार - रोहिणी
+  };
+
+  /*
+   * Sarvartha Siddhi Yoga
+   */
+  const sarvarthaTable = {
+    0:[0,7,11,12,18,20,25],
+    1:[3,4,7,16,21],
+    2:[0,2,8,25],
+    3:[2,3,4,12,16],
+    4:[0,6,7,16,26],
+    5:[0,6,16,21,26],
+    6:[3,14,21]
+  };
+
+  const weekday =
+    new Date(
+      dateInput.value + "T00:00:00"
+    ).getDay();
+
+  const moonNakshatras =
+    Array.isArray(p.nakshatras)
+      ? p.nakshatras
+      : [];
+
+  const buildYogaIntervals = (
+    allowedIndexes
+  ) => {
+
+    const intervals = [];
+
+    moonNakshatras.forEach(n => {
+
+      if(
+        !n ||
+        typeof n.index !== "number"
+      ){
+        return;
+      }
+
+      if(
+        !allowedIndexes.includes(
+          n.index
+        )
+      ){
+        return;
+      }
+
+      const rawStart =
+        new Date(n.startTime);
+
+      const rawEnd =
+        new Date(n.endTime);
+
+      if(
+        isNaN(rawStart.getTime()) ||
+        isNaN(rawEnd.getTime())
+      ){
+        return;
+      }
+
+      const start =
+        new Date(
+          Math.max(
+            rawStart.getTime(),
+            sunrise.getTime()
+          )
+        );
+
+      const end =
+        new Date(
+          Math.min(
+            rawEnd.getTime(),
+            nextSunrise.getTime()
+          )
+        );
+
+      if(end > start){
+        intervals.push({
+          start,
+          end
+        });
+      }
+    });
+
+    intervals.sort(
+      (a,b) =>
+        a.start.getTime() -
+        b.start.getTime()
+    );
+
+    const merged = [];
+
+    intervals.forEach(item => {
+
+      const last =
+        merged[merged.length - 1];
+
+      if(
+        last &&
+        item.start.getTime() <=
+        last.end.getTime() + 60000
+      ){
+        if(
+          item.end > last.end
+        ){
+          last.end = item.end;
+        }
+      }else{
+        merged.push({
+          start:item.start,
+          end:item.end
+        });
+      }
+    });
+
+    return merged;
+  };
+
+  const amritIntervals =
+    buildYogaIntervals(
+      amritTable[weekday] || []
+    );
+
+  const sarvarthaIntervals =
+    buildYogaIntervals(
+      sarvarthaTable[weekday] || []
+    );
+
+  /*
+   * Ravi Yoga
+   *
+   * Moon transitions are already supplied
+   * by the Panchang library.
+   *
+   * Sun transition is calculated only when
+   * required.
+   */
+
+  const raviIntervals = [];
+
+  const sunTransition =
+    getSunNakshatraTransition(
+      observer,
+      sunrise,
+      nextSunrise,
+      timezoneOffset
+    );
+
+  const sunSegments = [];
+
+  if(sunTransition){
+
+    sunSegments.push({
+      start:sunrise,
+      end:sunTransition,
+      sunIndex:
+        getNakshatraIndexFromLongitude(
+          p.planetaryPositions?.sun?.longitude
+        )
+    });
+
+    let transitionP = null;
+
+    try{
+      transitionP =
+        getPanchangam(
+          sunTransition,
+          observer,
+          { timezoneOffset }
+        );
+    }catch(e){}
+
+    const transitionSunIndex =
+      getNakshatraIndexFromLongitude(
+        transitionP
+          ?.planetaryPositions
+          ?.sun
+          ?.longitude
+      );
+
+    if(
+      transitionSunIndex !== null
+    ){
+      sunSegments.push({
+        start:sunTransition,
+        end:nextSunrise,
+        sunIndex:transitionSunIndex
+      });
+    }
+
+  }else{
+
+    const sunIndex =
+      getNakshatraIndexFromLongitude(
+        p.planetaryPositions?.sun?.longitude
+      );
+
+    if(sunIndex !== null){
+      sunSegments.push({
+        start:sunrise,
+        end:nextSunrise,
+        sunIndex
+      });
+    }
+  }
+
+  moonNakshatras.forEach(moon => {
+
+    if(
+      !moon ||
+      typeof moon.index !== "number"
+    ){
+      return;
+    }
+
+    const moonStart =
+      new Date(moon.startTime);
+
+    const moonEnd =
+      new Date(moon.endTime);
+
+    if(
+      isNaN(moonStart.getTime()) ||
+      isNaN(moonEnd.getTime())
+    ){
+      return;
+    }
+
+    sunSegments.forEach(sun => {
+
+      const start =
+        new Date(
+          Math.max(
+            moonStart.getTime(),
+            sun.start.getTime(),
+            sunrise.getTime()
+          )
+        );
+
+      const end =
+        new Date(
+          Math.min(
+            moonEnd.getTime(),
+            sun.end.getTime(),
+            nextSunrise.getTime()
+          )
+        );
+
+      if(
+        end <= start
+      ){
+        return;
+      }
+
+      if(
+        isRaviYoga(
+          sun.sunIndex,
+          moon.index
+        )
+      ){
+        raviIntervals.push({
+          start,
+          end
+        });
+      }
+    });
+  });
+
+  raviIntervals.sort(
+    (a,b) =>
+      a.start.getTime() -
+      b.start.getTime()
+  );
+
+  const mergedRavi = [];
+
+  raviIntervals.forEach(item => {
+
+    const last =
+      mergedRavi[
+        mergedRavi.length - 1
+      ];
+
+    if(
+      last &&
+      item.start.getTime() <=
+      last.end.getTime() + 60000
+    ){
+      if(item.end > last.end){
+        last.end = item.end;
+      }
+    }else{
+      mergedRavi.push({
+        start:item.start,
+        end:item.end
+      });
+    }
+  });
+
+  return {
+    amritSiddhi:
+      amritIntervals[0] || null,
+
+    sarvarthaSiddhi:
+      sarvarthaIntervals[0] || null,
+
+    raviYoga:
+      mergedRavi,
+
+    sunTransition
+  };
+}
 function getPraharDetails(
   p,
   nextSunriseTime,
@@ -2357,12 +2921,24 @@ function calculatePanchang(){
     window.__nextSunrise = nextSunrise;
     window.__previousSunset = previousSunset;
 
-    displayPanchang(
-      p,
-      nextSunrise,
-      previousSunset,
-      referenceNow
-    );
+    const specialYoga =
+  getSpecialYogaDetails(
+    p,
+    observer,
+    nextSunrise,
+    330
+  );
+
+window.__specialYogaTest =
+  specialYoga;
+
+displayPanchang(
+  p,
+  nextSunrise,
+  previousSunset,
+  referenceNow,
+  specialYoga
+);
 
   }catch(error){
     console.error(error);
@@ -2384,7 +2960,8 @@ function displayPanchang(
   p,
   nextSunrise,
   previousSunset,
-  referenceNow
+  referenceNow,
+  specialYoga
 ){
   const date = new Date(
     dateInput.value + "T12:00:00"
