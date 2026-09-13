@@ -428,7 +428,20 @@ function getSunNakshatraTransition(
     return null;
   }
 
-  const getSunNakshatra = (date) => {
+  /*
+   * Empirical correction:
+   * The library's Sun longitude was consistently
+   * ~0.005° ahead of the Drik reference at the
+   * observed Nakshatra transition times.
+   *
+   * Therefore the effective Nakshatra boundary
+   * is shifted forward by this amount.
+   */
+  const SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0055;
+
+  const NAKSHATRA_SIZE = 360 / 27;
+
+  const getSunLongitude = (date) => {
     try{
       const p = getPanchangam(
         date,
@@ -436,24 +449,89 @@ function getSunNakshatraTransition(
         { timezoneOffset: 330 }
       );
 
-      return p?.planetaryPositions?.sun?.nakshatra ?? null;
+      const longitude =
+        p?.planetaryPositions?.sun?.longitude;
+
+      return Number.isFinite(longitude)
+        ? longitude
+        : null;
+
     }catch(e){
       console.warn(
-        "Sun Nakshatra lookup failed:",
+        "Sun longitude lookup failed:",
         e
       );
       return null;
     }
   };
 
-  const startNakshatra = getSunNakshatra(start);
-  const endNakshatra = getSunNakshatra(end);
+  const startLongitude =
+    getSunLongitude(start);
 
-  if(!startNakshatra || !endNakshatra){
+  const endLongitude =
+    getSunLongitude(end);
+
+  if(
+    startLongitude === null ||
+    endLongitude === null
+  ){
     return null;
   }
 
-  if(startNakshatra === endNakshatra){
+  /*
+   * Determine the Nakshatra containing the Sun
+   * at the beginning of the search interval.
+   */
+  const startNakshatraIndex =
+    Math.floor(
+      startLongitude / NAKSHATRA_SIZE
+    );
+
+  /*
+   * Next Nakshatra boundary.
+   */
+  let targetBoundary =
+    (startNakshatraIndex + 1) *
+    NAKSHATRA_SIZE;
+
+  /*
+   * Apply the empirical longitude correction.
+   */
+  targetBoundary +=
+    SUN_NAKSHATRA_BOUNDARY_CORRECTION;
+
+  /*
+   * Handle 360° wrap-around.
+   */
+  if(targetBoundary >= 360){
+    targetBoundary -= 360;
+  }
+
+  /*
+   * Convert longitudes into an unwrapped scale
+   * so the binary search also works across 360°.
+   */
+  let startLon = startLongitude;
+  let endLon = endLongitude;
+  let boundary = targetBoundary;
+
+  if(endLon < startLon){
+    endLon += 360;
+  }
+
+  if(boundary < startLon){
+    boundary += 360;
+  }
+
+  /*
+   * If the corrected boundary is outside the
+   * requested interval, there is no transition
+   * to return.
+   */
+  if(
+    boundary < startLon ||
+    boundary > endLon
+  ){
     return null;
   }
 
@@ -466,14 +544,20 @@ function getSunNakshatraTransition(
       (low + high) / 2
     );
 
-    const midNakshatra =
-      getSunNakshatra(new Date(mid));
+    const midLongitude =
+      getSunLongitude(new Date(mid));
 
-    if(!midNakshatra){
+    if(midLongitude === null){
       return null;
     }
 
-    if(midNakshatra === startNakshatra){
+    let testLongitude = midLongitude;
+
+    if(testLongitude < startLongitude){
+      testLongitude += 360;
+    }
+
+    if(testLongitude < boundary){
       low = mid;
     }else{
       high = mid;
