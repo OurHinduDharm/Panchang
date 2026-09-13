@@ -415,19 +415,10 @@ function getSunNakshatraTransition(
   startTime,
   endTime
 ){
-  if(
-    !observer ||
-    !startTime ||
-    !endTime
-  ){
-    return null;
-  }
+  if(!observer || !startTime || !endTime) return null;
 
-  const start =
-    new Date(startTime);
-
-  const end =
-    new Date(endTime);
+  const start = new Date(startTime);
+  const end = new Date(endTime);
 
   if(
     isNaN(start.getTime()) ||
@@ -437,108 +428,54 @@ function getSunNakshatraTransition(
     return null;
   }
 
-  let startP;
-  let endP;
-
-  try{
-    startP =
-      getPanchangam(
-        start,
-        observer
+  const getSunNakshatra = (date) => {
+    try{
+      const p = getPanchangam(
+        date,
+        observer,
+        { timezoneOffset: 330 }
       );
 
-    endP =
-      getPanchangam(
-        end,
-        observer
+      return p?.planetaryPositions?.sun?.nakshatra ?? null;
+    }catch(e){
+      console.warn(
+        "Sun Nakshatra lookup failed:",
+        e
       );
-  }catch(e){
-    console.warn(
-      "Sun Nakshatra transition calculation failed:",
-      e
-    );
+      return null;
+    }
+  };
 
+  const startNakshatra = getSunNakshatra(start);
+  const endNakshatra = getSunNakshatra(end);
+
+  if(!startNakshatra || !endNakshatra){
     return null;
   }
 
-  const startIndex =
-    startP?.sunNakshatra?.index;
-
-  const endIndex =
-    endP?.sunNakshatra?.index;
-
-  if(
-    typeof startIndex !== "number" ||
-    typeof endIndex !== "number"
-  ){
+  if(startNakshatra === endNakshatra){
     return null;
   }
 
-  /*
-   * यदि पूरे दिन Sun का Nakshatra
-   * नहीं बदला तो transition नहीं है।
-   */
-  if(startIndex === endIndex){
-    return null;
-  }
-
-  /*
-   * अब सीधे library के अपने
-   * sunNakshatra.index को देखकर
-   * binary search करेंगे।
-   */
-
-  let low =
-    start.getTime();
-
-  let high =
-    end.getTime();
+  let low = start.getTime();
+  let high = end.getTime();
 
   for(let i = 0; i < 40; i++){
 
-    const mid =
-      Math.floor(
-        (low + high) / 2
-      );
+    const mid = Math.floor(
+      (low + high) / 2
+    );
 
-    const midDate =
-      new Date(mid);
+    const midNakshatra =
+      getSunNakshatra(new Date(mid));
 
-    let midP;
-
-    try{
-      midP =
-        getPanchangam(
-          midDate,
-          observer
-        );
-    }catch(e){
+    if(!midNakshatra){
       return null;
     }
 
-    const midIndex =
-      midP?.sunNakshatra?.index;
-
-    if(
-      typeof midIndex !== "number"
-    ){
-      return null;
-    }
-
-    /*
-     * जब तक पुराना Nakshatra है,
-     * transition आगे है।
-     *
-     * जैसे:
-     * Purva Phalguni = 10
-     * Uttara Phalguni = 11
-     */
-    if(midIndex === startIndex){
-
+    if(midNakshatra === startNakshatra){
       low = mid;
-
     }else{
-
       high = mid;
     }
   }
