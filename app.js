@@ -2835,25 +2835,51 @@ function calculatePanchang(){
 
 window.__specialYogaTest =
   specialYoga;
-const debugSun2153 = getPanchangam(
-  new Date("2026-09-13T16:14:50Z"),
-  observer,
-  { timezoneOffset: 330 }
-);
+ const debugSunTransitions = [
+  {
+    label: "27 SEP 2026 13:25 IST",
+    date: "2026-09-27T07:55:00Z"
+  },
+  {
+    label: "11 OCT 2026 02:25 IST",
+    date: "2026-10-10T20:55:00Z"
+  },
+  {
+    label: "24 OCT 2026 12:56 IST",
+    date: "2026-10-24T07:26:00Z"
+  }
+];
 
 console.log(
-  "SUN 13 SEP 21:53 IST:",
-  {
-    longitude:
-      debugSun2153?.planetaryPositions?.sun?.longitude,
-    degree:
-      debugSun2153?.planetaryPositions?.sun?.degree,
-    nakshatra:
-      debugSun2153?.planetaryPositions?.sun?.nakshatra,
-    pada:
-      debugSun2153?.planetaryPositions?.sun?.pada
-  }
+  "=== SUN NAKSHATRA TRANSITION TEST ==="
 );
+
+debugSunTransitions.forEach(item => {
+
+  const debugSun = getPanchangam(
+    new Date(item.date),
+    observer,
+    { timezoneOffset: 330 }
+  );
+
+  console.log(
+    item.label,
+    {
+      longitude:
+        debugSun?.planetaryPositions?.sun?.longitude,
+
+      degree:
+        debugSun?.planetaryPositions?.sun?.degree,
+
+      nakshatra:
+        debugSun?.planetaryPositions?.sun?.nakshatra,
+
+      pada:
+        debugSun?.planetaryPositions?.sun?.pada
+    }
+  );
+
+});
     
 displayPanchang(
   p,
