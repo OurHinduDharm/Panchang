@@ -2919,50 +2919,137 @@ function calculatePanchang(){
 
 window.__specialYogaTest =
   specialYoga;
- const debugSunTransitions = [
+ 
+    const debugSunTransitions = [
   {
-    label: "27 SEP 2026 13:25 IST",
-    date: "2026-09-27T07:55:00Z"
+    label: "13 SEP 2026",
+    date: "2026-09-13",
+    reference: "21:53"
   },
   {
-    label: "11 OCT 2026 02:25 IST",
-    date: "2026-10-10T20:55:00Z"
+    label: "27 SEP 2026",
+    date: "2026-09-27",
+    reference: "13:25"
   },
   {
-    label: "24 OCT 2026 12:56 IST",
-    date: "2026-10-24T07:26:00Z"
+    label: "11 OCT 2026",
+    date: "2026-10-11",
+    reference: "02:25"
+  },
+  {
+    label: "24 OCT 2026",
+    date: "2026-10-24",
+    reference: "12:56"
   }
 ];
 
 console.log(
-  "=== SUN NAKSHATRA TRANSITION TEST ==="
+  "=== CORRECTED SUN NAKSHATRA TRANSITION TEST ==="
 );
 
 debugSunTransitions.forEach(item => {
+  try{
 
-  const debugSun = getPanchangam(
-    new Date(item.date),
-    observer,
-    { timezoneOffset: 330 }
-  );
+    const debugDate = new Date(
+      item.date + "T12:00:00+05:30"
+    );
 
-  console.log(
-    item.label,
-    {
-      longitude:
-        debugSun?.planetaryPositions?.sun?.longitude,
+    const debugPanchang =
+      getPanchangam(
+        debugDate,
+        observer,
+        { timezoneOffset:330 }
+      );
 
-      degree:
-        debugSun?.planetaryPositions?.sun?.degree,
+    const nextDebugDate =
+      new Date(
+        debugDate.getTime() +
+        24 * 60 * 60 * 1000
+      );
 
-      nakshatra:
-        debugSun?.planetaryPositions?.sun?.nakshatra,
+    const nextDebugPanchang =
+      getPanchangam(
+        nextDebugDate,
+        observer,
+        { timezoneOffset:330 }
+      );
 
-      pada:
-        debugSun?.planetaryPositions?.sun?.pada
-    }
-  );
+    const sunrise =
+      new Date(
+        debugPanchang.sunrise
+      );
 
+    const nextSunrise =
+      new Date(
+        nextDebugPanchang.sunrise
+      );
+
+    const transition =
+      getSunNakshatraTransition(
+        observer,
+        sunrise,
+        nextSunrise
+      );
+
+    const reference =
+      new Date(
+        item.date +
+        "T" +
+        item.reference +
+        ":00+05:30"
+      );
+
+    const difference =
+      transition
+        ? (
+            transition.getTime() -
+            reference.getTime()
+          ) / 60000
+        : null;
+
+    console.log(
+      item.label,
+      {
+        drikReference:
+          item.reference + " IST",
+
+        calculatedTransition:
+          transition
+            ? transition.toISOString()
+            : null,
+
+        calculatedIST:
+          transition
+            ? transition.toLocaleTimeString(
+                "en-IN",
+                {
+                  timeZone:"Asia/Kolkata",
+                  hour:"2-digit",
+                  minute:"2-digit",
+                  second:"2-digit",
+                  hour12:false
+                }
+              )
+            : null,
+
+        differenceMinutes:
+          difference !== null
+            ? Number(
+                difference.toFixed(2)
+              )
+            : null
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "Transition test failed:",
+      item.label,
+      error
+    );
+
+  }
 });
     
 displayPanchang(
