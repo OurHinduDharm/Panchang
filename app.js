@@ -2836,7 +2836,7 @@ function calculatePanchang(){
 window.__specialYogaTest =
   specialYoga;
 const debugSun2153 = getPanchangam(
-  new Date("2026-09-13T16:23:00Z"),
+  new Date("2026-09-13T16:14:50Z"),
   observer,
   { timezoneOffset: 330 }
 );
