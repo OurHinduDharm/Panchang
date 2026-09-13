@@ -437,7 +437,7 @@ function getSunNakshatraTransition(
    * Therefore the effective Nakshatra boundary
    * is shifted forward by this amount.
    */
-  const SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0055;
+  const SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0054;
 
   const NAKSHATRA_SIZE = 360 / 27;
 
