@@ -2920,177 +2920,6 @@ function calculatePanchang(){
 window.__specialYogaTest =
   specialYoga;
  
-    const debugSunTransitions = [
-  {
-    label: "13 SEP 2026",
-    date: "2026-09-13",
-    reference: "21:53"
-  },
-  {
-    label: "27 SEP 2026",
-    date: "2026-09-27",
-    reference: "13:25"
-  },
-  {
-    label: "11 OCT 2026",
-    date: "2026-10-11",
-    reference: "02:25"
-  },
-  {
-    label: "24 OCT 2026",
-    date: "2026-10-24",
-    reference: "12:56"
-  }
-];
-
-console.log(
-  "=== CORRECTED SUN NAKSHATRA TRANSITION TEST ==="
-);
-
-debugSunTransitions.forEach(item => {
-  try{
-
-    const reference =
-      new Date(
-        item.date +
-        "T" +
-        item.reference +
-        ":00+05:30"
-      );
-
-    /*
-     * Get Panchangam for the reference date
-     * and the previous date.
-     */
-    const referenceDate =
-      new Date(
-        item.date + "T12:00:00+05:30"
-      );
-
-    const previousDate =
-      new Date(
-        referenceDate.getTime() -
-        24 * 60 * 60 * 1000
-      );
-
-    const currentPanchang =
-      getPanchangam(
-        referenceDate,
-        observer,
-        { timezoneOffset:330 }
-      );
-
-    const previousPanchang =
-      getPanchangam(
-        previousDate,
-        observer,
-        { timezoneOffset:330 }
-      );
-
-    const currentSunrise =
-      new Date(
-        currentPanchang.sunrise
-      );
-
-    const previousSunrise =
-      new Date(
-        previousPanchang.sunrise
-      );
-
-    let sunrise;
-    let nextSunrise;
-
-    /*
-     * Select the sunrise-to-sunrise interval
-     * that actually contains the reference time.
-     */
-    if(
-      reference >= previousSunrise &&
-      reference < currentSunrise
-    ){
-      sunrise = previousSunrise;
-      nextSunrise = currentSunrise;
-    }else{
-
-      const nextDate =
-        new Date(
-          referenceDate.getTime() +
-          24 * 60 * 60 * 1000
-        );
-
-      const nextPanchang =
-        getPanchangam(
-          nextDate,
-          observer,
-          { timezoneOffset:330 }
-        );
-
-      sunrise = currentSunrise;
-      nextSunrise =
-        new Date(
-          nextPanchang.sunrise
-        );
-    }
-
-    const transition =
-      getSunNakshatraTransition(
-        observer,
-        sunrise,
-        nextSunrise
-      );
-
-    const difference =
-      transition
-        ? (
-            transition.getTime() -
-            reference.getTime()
-          ) / 60000
-        : null;
-
-    console.log(
-      item.label,
-      {
-        drikReference:
-          item.reference + " IST",
-
-        calculatedTransition:
-          transition
-            ? transition.toISOString()
-            : null,
-
-        calculatedIST:
-          transition
-            ? transition.toLocaleTimeString(
-                "en-IN",
-                {
-                  timeZone:"Asia/Kolkata",
-                  hour:"2-digit",
-                  minute:"2-digit",
-                  second:"2-digit",
-                  hour12:false
-                }
-              )
-            : null,
-
-        differenceMinutes:
-          difference !== null
-            ? Number(
-                difference.toFixed(2)
-              )
-            : null
-      }
-    );
-
-  }catch(error){
-
-    console.error(
-      "Transition test failed:",
-      item.label,
-      error
-    );
-
-  }
-});
     
 displayPanchang(
   p,
@@ -3889,23 +3718,76 @@ praharHtml += `</div>`;
 </div>
 
       <div class="card full">
-        <div class="label">
-          ⚠️ दुर्मुहूर्त
-        </div>
-        <div class="time-row">
-          <span>
-            ${getDurMuhurtaText(
-              p,
-              isWednesday
-            )}
-          </span>
-        </div>
-      </div>
+  <div class="label">
+    ⚠️ दुर्मुहूर्त
+  </div>
+  <div class="time-row">
+    <span>
+      ${getDurMuhurtaText(
+        p,
+        isWednesday
+      )}
+    </span>
+  </div>
+</div>
 
-      <div class="card full">
-        <div class="label">
-          📍 स्थान
-        </div>
+<div class="card full">
+  <div class="label">
+    🕉️ सिद्धि योग
+  </div>
+
+  <div class="time-row">
+    <b>अमृत सिद्धि योग</b>
+    <span>
+      ${
+        specialYoga?.amritSiddhi
+          ? formatTimeRange(
+              specialYoga.amritSiddhi.start,
+              specialYoga.amritSiddhi.end
+            )
+          : "नहीं है"
+      }
+    </span>
+  </div>
+
+  <div class="time-row">
+    <b>सर्वार्थ सिद्धि योग</b>
+    <span>
+      ${
+        specialYoga?.sarvarthaSiddhi
+          ? formatTimeRange(
+              specialYoga.sarvarthaSiddhi.start,
+              specialYoga.sarvarthaSiddhi.end
+            )
+          : "नहीं है"
+      }
+    </span>
+  </div>
+
+  <div class="time-row">
+    <b>रवि योग</b>
+    <span>
+      ${
+        specialYoga?.raviYoga &&
+        specialYoga.raviYoga.length
+          ? specialYoga.raviYoga
+              .map(item =>
+                formatTimeRange(
+                  item.start,
+                  item.end
+                )
+              )
+              .join("<br>")
+          : "नहीं है"
+      }
+    </span>
+  </div>
+</div>
+
+<div class="card full">
+  <div class="label">
+    📍 स्थान
+  </div>
         <div class="value">
           ${selectedLocation.name}
         </div>
