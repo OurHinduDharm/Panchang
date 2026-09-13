@@ -610,18 +610,12 @@
   </div>
 </div>
 <script type="module" src="app.js"></script>
-<!-- Eruda DevTools Force Initialization -->
+<!-- Eruda conditional load -->
 <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
 <script>
-  if (typeof eruda !== 'undefined') {
+  if (new URLSearchParams(window.location.search).has('debug')) {
     eruda.init();
-  } else {
-    var script = document.createElement('script');
-    script.src = "https://unpkg.com/eruda";
-    script.onload = function () { eruda.init(); };
-    document.head.appendChild(script);
   }
 </script>
-  
 </body>
 </html>
