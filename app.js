@@ -239,6 +239,129 @@ function getBhadraDetails(p, moonRashiIndex, referenceNow){
     isActive:isActiveOverall
   };
 }
+/* =========================================================
+   SPECIAL KAAL / MUHURTA
+   ========================================================= */
+function getSpecialKaalDetails(
+  p,
+  nextSunriseTime
+){
+  const sunrise = new Date(p.sunrise);
+  const sunset = new Date(p.sunset);
+  const nextSunrise = nextSunriseTime
+    ? new Date(nextSunriseTime)
+    : null;
+
+  if(
+    isNaN(sunrise.getTime()) ||
+    isNaN(sunset.getTime()) ||
+    !nextSunrise ||
+    isNaN(nextSunrise.getTime())
+  ){
+    return {
+      pratahSandhya:null,
+      vijayaMuhurta:null,
+      godhuliMuhurta:null,
+      sayahnaSandhya:null,
+      nishitaKaal:null
+    };
+  }
+
+  /* दिनमान */
+  const dayMs =
+    sunset.getTime() -
+    sunrise.getTime();
+
+  /* रात्रिमान */
+  const nightMs =
+    nextSunrise.getTime() -
+    sunset.getTime();
+
+  /*
+   * दिन के 15 मुहूर्त
+   */
+  const dayMuhurtaMs =
+    dayMs / 15;
+
+  /*
+   * रात के 15 मुहूर्त
+   */
+  const nightMuhurtaMs =
+    nightMs / 15;
+
+  /*
+   * प्रातः संध्या
+   * सूर्योदय से 24 मिनट पूर्व → सूर्योदय
+   */
+  const pratahSandhya = {
+    start:new Date(
+      sunrise.getTime() - 24 * 60 * 1000
+    ),
+    end:new Date(
+      sunrise.getTime()
+    )
+  };
+
+  /*
+   * विजय मुहूर्त
+   * दिन के 15 मुहूर्तों में 11वाँ मुहूर्त
+   */
+  const vijayaMuhurta = {
+    start:new Date(
+      sunrise.getTime() + dayMuhurtaMs * 10
+    ),
+    end:new Date(
+      sunrise.getTime() + dayMuhurtaMs * 11
+    )
+  };
+
+  /*
+   * गोधूलि मुहूर्त
+   * सूर्यास्त से 12 मिनट पूर्व → 12 मिनट बाद
+   */
+  const godhuliMuhurta = {
+    start:new Date(
+      sunset.getTime() - 12 * 60 * 1000
+    ),
+    end:new Date(
+      sunset.getTime() + 12 * 60 * 1000
+    )
+  };
+
+  /*
+   * सायं संध्या
+   * सूर्यास्त → 24 मिनट बाद
+   */
+  const sayahnaSandhya = {
+    start:new Date(
+      sunset.getTime()
+    ),
+    end:new Date(
+      sunset.getTime() + 24 * 60 * 1000
+    )
+  };
+
+  /*
+   * निशीथ काल
+   * रात्रि के 15 मुहूर्तों में 8वाँ मुहूर्त
+   */
+  const nishitaKaal = {
+    start:new Date(
+      sunset.getTime() + nightMuhurtaMs * 7
+    ),
+    end:new Date(
+      sunset.getTime() + nightMuhurtaMs * 8
+    )
+  };
+
+  return {
+    pratahSandhya,
+    vijayaMuhurta,
+    godhuliMuhurta,
+    sayahnaSandhya,
+    nishitaKaal
+  };
+}
 
 function getPraharDetails(
   p,
@@ -2346,17 +2469,22 @@ function displayPanchang(
   );
 
   const prahar = getPraharDetails(
-    p,
-    nextSunrise,
-    previousSunset,
-    referenceNow
-  );
+  p,
+  nextSunrise,
+  previousSunset,
+  referenceNow
+);
 
-  const ghatiPal = getGhatiPal(
-    p,
-    nextSunrise,
-    referenceNow
-  );
+const specialKaal = getSpecialKaalDetails(
+  p,
+  nextSunrise
+);
+
+const ghatiPal = getGhatiPal(
+  p,
+  nextSunrise,
+  referenceNow
+);
 
   const bhadraSuggestion =
     getBhadraSuggestion(bhadra);
@@ -2940,18 +3068,88 @@ praharHtml += `</div>`;
       </div>
 
       <div class="card full">
-        <div class="label">
-          🌅 ब्रह्म मुहूर्त
-        </div>
-        <div class="time-row">
-          <span>
-            ${formatTimeRange(
-              p.brahmaMuhurta?.start,
-              p.brahmaMuhurta?.end
-            )}
-          </span>
-        </div>
-      </div>
+  <div class="label">
+    🌅 ब्रह्म मुहूर्त
+  </div>
+  <div class="time-row">
+    <span>
+      ${formatTimeRange(
+        p.brahmaMuhurta?.start,
+        p.brahmaMuhurta?.end
+      )}
+    </span>
+  </div>
+</div>
+
+<div class="card full">
+  <div class="label">
+    🌄 प्रातः संध्या
+  </div>
+  <div class="time-row">
+    <span>
+      ${formatTimeRange(
+        specialKaal?.pratahSandhya?.start,
+        specialKaal?.pratahSandhya?.end
+      )}
+    </span>
+  </div>
+</div>
+
+<div class="card full">
+  <div class="label">
+    ☀️ विजय मुहूर्त
+  </div>
+  <div class="time-row">
+    <span>
+      ${formatTimeRange(
+        specialKaal?.vijayaMuhurta?.start,
+        specialKaal?.vijayaMuhurta?.end
+      )}
+    </span>
+  </div>
+</div>
+
+<div class="card full">
+  <div class="label">
+    🌇 गोधूलि मुहूर्त
+  </div>
+  <div class="time-row">
+    <span>
+      ${formatTimeRange(
+        specialKaal?.godhuliMuhurta?.start,
+        specialKaal?.godhuliMuhurta?.end
+      )}
+    </span>
+  </div>
+</div>
+
+<div class="card full">
+  <div class="label">
+    🌆 सायं संध्या
+  </div>
+  <div class="time-row">
+    <span>
+      ${formatTimeRange(
+        specialKaal?.sayahnaSandhya?.start,
+        specialKaal?.sayahnaSandhya?.end
+      )}
+    </span>
+  </div>
+</div>
+
+<div class="card full">
+  <div class="label">
+    🌙 निशीथ काल
+  </div>
+  <div class="time-row">
+    <span>
+      ${formatTimeRange(
+        specialKaal?.nishitaKaal?.start,
+        specialKaal?.nishitaKaal?.end
+      )}
+    </span>
+  </div>
+</div>
 
       <div class="card full">
         <div class="label">
