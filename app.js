@@ -2950,53 +2950,93 @@ console.log(
 debugSunTransitions.forEach(item => {
   try{
 
-    const debugDate = new Date(
-      item.date + "T12:00:00+05:30"
-    );
-
-    const debugPanchang =
-      getPanchangam(
-        debugDate,
-        observer,
-        { timezoneOffset:330 }
-      );
-
-    const nextDebugDate =
-      new Date(
-        debugDate.getTime() +
-        24 * 60 * 60 * 1000
-      );
-
-    const nextDebugPanchang =
-      getPanchangam(
-        nextDebugDate,
-        observer,
-        { timezoneOffset:330 }
-      );
-
-    const sunrise =
-      new Date(
-        debugPanchang.sunrise
-      );
-
-    const nextSunrise =
-      new Date(
-        nextDebugPanchang.sunrise
-      );
-
-    const transition =
-      getSunNakshatraTransition(
-        observer,
-        sunrise,
-        nextSunrise
-      );
-
     const reference =
       new Date(
         item.date +
         "T" +
         item.reference +
         ":00+05:30"
+      );
+
+    /*
+     * Get Panchangam for the reference date
+     * and the previous date.
+     */
+    const referenceDate =
+      new Date(
+        item.date + "T12:00:00+05:30"
+      );
+
+    const previousDate =
+      new Date(
+        referenceDate.getTime() -
+        24 * 60 * 60 * 1000
+      );
+
+    const currentPanchang =
+      getPanchangam(
+        referenceDate,
+        observer,
+        { timezoneOffset:330 }
+      );
+
+    const previousPanchang =
+      getPanchangam(
+        previousDate,
+        observer,
+        { timezoneOffset:330 }
+      );
+
+    const currentSunrise =
+      new Date(
+        currentPanchang.sunrise
+      );
+
+    const previousSunrise =
+      new Date(
+        previousPanchang.sunrise
+      );
+
+    let sunrise;
+    let nextSunrise;
+
+    /*
+     * Select the sunrise-to-sunrise interval
+     * that actually contains the reference time.
+     */
+    if(
+      reference >= previousSunrise &&
+      reference < currentSunrise
+    ){
+      sunrise = previousSunrise;
+      nextSunrise = currentSunrise;
+    }else{
+
+      const nextDate =
+        new Date(
+          referenceDate.getTime() +
+          24 * 60 * 60 * 1000
+        );
+
+      const nextPanchang =
+        getPanchangam(
+          nextDate,
+          observer,
+          { timezoneOffset:330 }
+        );
+
+      sunrise = currentSunrise;
+      nextSunrise =
+        new Date(
+          nextPanchang.sunrise
+        );
+    }
+
+    const transition =
+      getSunNakshatraTransition(
+        observer,
+        sunrise,
+        nextSunrise
       );
 
     const difference =
