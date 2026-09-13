@@ -2835,7 +2835,26 @@ function calculatePanchang(){
 
 window.__specialYogaTest =
   specialYoga;
+const debugSun2153 = getPanchangam(
+  new Date("2026-09-13T16:23:00Z"),
+  observer,
+  { timezoneOffset: 330 }
+);
 
+console.log(
+  "SUN 13 SEP 21:53 IST:",
+  {
+    longitude:
+      debugSun2153?.planetaryPositions?.sun?.longitude,
+    degree:
+      debugSun2153?.planetaryPositions?.sun?.degree,
+    nakshatra:
+      debugSun2153?.planetaryPositions?.sun?.nakshatra,
+    pada:
+      debugSun2153?.planetaryPositions?.sun?.pada
+  }
+);
+    
 displayPanchang(
   p,
   nextSunrise,
