@@ -566,59 +566,7 @@ function getSunNakshatraTransition(
 
   return new Date(high);
 }
-const transitionTestDates = [
-  {
-    label: "13 SEP 2026",
-    sunrise: "2026-09-12T23:59:00Z",
-    nextSunrise: "2026-09-13T23:59:00Z"
-  },
-  {
-    label: "27 SEP 2026",
-    sunrise: "2026-09-26T23:59:00Z",
-    nextSunrise: "2026-09-27T23:59:00Z"
-  },
-  {
-    label: "11 OCT 2026",
-    sunrise: "2026-10-10T23:59:00Z",
-    nextSunrise: "2026-10-11T23:59:00Z"
-  },
-  {
-    label: "24 OCT 2026",
-    sunrise: "2026-10-23T23:59:00Z",
-    nextSunrise: "2026-10-24T23:59:00Z"
-  }
-];
 
-console.log(
-  "=== CORRECTED SUN TRANSITION TEST ==="
-);
-
-transitionTestDates.forEach(item => {
-
-  const transition =
-    getSunNakshatraTransition(
-      observer,
-      new Date(item.sunrise),
-      new Date(item.nextSunrise)
-    );
-
-  console.log(
-    item.label,
-    transition
-      ? {
-          UTC: transition.toISOString(),
-          IST: transition.toLocaleString(
-            "en-IN",
-            {
-              timeZone: "Asia/Kolkata",
-              hour12: false
-            }
-          )
-        }
-      : null
-  );
-
-});
 function getSpecialYogaDetails(
   p,
   observer,
