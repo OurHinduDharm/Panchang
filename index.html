@@ -610,10 +610,17 @@
   </div>
 </div>
 <script type="module" src="app.js"></script>
-<!-- Eruda DevTools -->
+<!-- Eruda DevTools Force Initialization -->
 <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
 <script>
-  eruda.init();
+  if (typeof eruda !== 'undefined') {
+    eruda.init();
+  } else {
+    var script = document.createElement('script');
+    script.src = "https://unpkg.com/eruda";
+    script.onload = function () { eruda.init(); };
+    document.head.appendChild(script);
+  }
 </script>
   
 </body>
