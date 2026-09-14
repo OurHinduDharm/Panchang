@@ -1511,6 +1511,30 @@ function formatDateTimeHindi(value){
   }
 }
 
+function formatDateTimeRangeHindi(start,end){
+  if(!start || !end) return "—";
+
+  try{
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    if(
+      isNaN(startDate.getTime()) ||
+      isNaN(endDate.getTime())
+    ){
+      return "—";
+    }
+
+    return (
+      `${formatDateTimeHindi(startDate)} से ` +
+      `${formatDateTimeHindi(endDate)} तक`
+    );
+
+  }catch(e){
+    return "—";
+  }
+}
+
 /* =========================================================
    SAMVAT PARTS
    ========================================================= */
@@ -3741,7 +3765,7 @@ praharHtml += `</div>`;
     <span>
       ${
         specialYoga?.amritSiddhi
-          ? formatTimeRange(
+          ? formatDateTimeRangeHindi(
               specialYoga.amritSiddhi.start,
               specialYoga.amritSiddhi.end
             )
@@ -3755,7 +3779,7 @@ praharHtml += `</div>`;
     <span>
       ${
         specialYoga?.sarvarthaSiddhi
-          ? formatTimeRange(
+          ? formatDateTimeRangeHindi(
               specialYoga.sarvarthaSiddhi.start,
               specialYoga.sarvarthaSiddhi.end
             )
@@ -3772,7 +3796,7 @@ praharHtml += `</div>`;
         specialYoga.raviYoga.length
           ? specialYoga.raviYoga
               .map(item =>
-                formatTimeRange(
+                formatDateTimeRangeHindi(
                   item.start,
                   item.end
                 )
