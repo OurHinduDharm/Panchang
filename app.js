@@ -3664,13 +3664,13 @@ bhadraPartsHtml += `</div></div>`;
         ${(p.choghadiya?.day || [])
           .map(c => {
             const names = {
-              Shubh:"शुभ",
-              Rog:"रोग",
-              Udveg:"उद्वेग",
-              Chal:"चल",
-              Labh:"लाभ",
-              Amrit:"अमृत",
-              Kaal:"काल"
+              Shubh:"🟢शुभ",
+              Rog:"🔴रोग",
+              Udveg:"🔴उद्वेग",
+              Chal:"🟢चल",
+              Labh:"🟢लाभ",
+              Amrit:"🟢अमृत",
+              Kaal:"🔴काल"
             };
 
             return `
@@ -3696,13 +3696,13 @@ bhadraPartsHtml += `</div></div>`;
         ${(p.choghadiya?.night || [])
           .map(c => {
             const names = {
-              Shubh:"शुभ",
-              Rog:"रोग",
-              Udveg:"उद्वेग",
-              Chal:"चल",
-              Labh:"लाभ",
-              Amrit:"अमृत",
-              Kaal:"काल"
+              Shubh:"🟢शुभ",
+              Rog:"🔴रोग",
+              Udveg:"🔴उद्वेग",
+              Chal:"🟢चल",
+              Labh:"🟢लाभ",
+              Amrit:"🟢अमृत",
+              Kaal:"🔴काल"
             };
 
             return `
