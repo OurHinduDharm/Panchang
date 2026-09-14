@@ -3293,17 +3293,23 @@ praharHtml += `</div>`;
   let bhadraPartsHtml = "";
 
   if(bhadra.available && bhadra.parts){
-    bhadraPartsHtml = `<div>
-  <b>भद्रा अंग — आरंभ समय:</b>
+     bhadraPartsHtml = `<div>
+  <b>भद्रा अंग:</b>
   <div class="bhadra-parts">`;
 
-bhadra.parts.forEach(part => {
+bhadra.parts.forEach((part, index) => {
   const cls = part.isActive
     ? "bhadra-part active"
     : "bhadra-part";
 
+  const nextPart = bhadra.parts[index + 1];
+
+  const endTime = nextPart
+    ? nextPart.start
+    : bhadra.end;
+
   bhadraPartsHtml += `<span class="${cls}">
-    ${part.name} (${formatTime(part.start)})
+    ${part.name} — ${formatTime(part.start)} से ${formatTime(endTime)} तक
   </span>`;
 });
 
