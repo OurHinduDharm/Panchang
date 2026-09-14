@@ -3551,7 +3551,7 @@ bhadraPartsHtml += `</div></div>`;
           अयन
         </div>
         <div class="value">
-          ${ayana}
+          सूर्य - ${ayana}
         </div>
       </div>
 <div class="card">
