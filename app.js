@@ -3294,20 +3294,20 @@ praharHtml += `</div>`;
 
   if(bhadra.available && bhadra.parts){
     bhadraPartsHtml = `<div>
-      <b>भद्रा अंग:</b>
-      <div class="bhadra-parts">`;
+  <b>भद्रा अंग — आरंभ समय:</b>
+  <div class="bhadra-parts">`;
 
-    bhadra.parts.forEach(part => {
-      const cls = part.isActive
-        ? "bhadra-part active"
-        : "bhadra-part";
+bhadra.parts.forEach(part => {
+  const cls = part.isActive
+    ? "bhadra-part active"
+    : "bhadra-part";
 
-      bhadraPartsHtml += `<span class="${cls}">
-        ${part.name} (${formatTime(part.start)})
-      </span>`;
-    });
+  bhadraPartsHtml += `<span class="${cls}">
+    ${part.name} (${formatTime(part.start)})
+  </span>`;
+});
 
-    bhadraPartsHtml += `</div></div>`;
+bhadraPartsHtml += `</div></div>`;
 
     bhadraPartsHtml += `<div>
       <b>निवास स्थान:</b>
@@ -3477,42 +3477,29 @@ praharHtml += `</div>`;
           ${ayana}
         </div>
       </div>
+<div class="card">
+  <div class="label">
+    🌅 सूर्योदय — ${formatTime(p.sunrise)}
+  </div>
+</div>
 
-      <div class="card">
-        <div class="label">
-          🌅 सूर्योदय
-        </div>
-        <div class="value">
-          ${formatTime(p.sunrise)}
-        </div>
-      </div>
+<div class="card">
+  <div class="label">
+    🌇 सूर्यास्त — ${formatTime(p.sunset)}
+  </div>
+</div>
 
-      <div class="card">
-        <div class="label">
-          🌇 सूर्यास्त
-        </div>
-        <div class="value">
-          ${formatTime(p.sunset)}
-        </div>
-      </div>
+<div class="card">
+  <div class="label">
+    🌙 चंद्रोदय — ${formatTime(p.moonrise)}
+  </div>
+</div>
 
-      <div class="card">
-        <div class="label">
-          🌙 चंद्रोदय
-        </div>
-        <div class="value">
-          ${formatTime(p.moonrise)}
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="label">
-          🌙 चंद्रास्त
-        </div>
-        <div class="value">
-          ${formatTime(p.moonset)}
-        </div>
-      </div>
+<div class="card">
+  <div class="label">
+    🌙 चंद्रास्त — ${formatTime(p.moonset)}
+  </div>
+</div>
 
       <div class="card full">
         <div class="label">
