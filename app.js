@@ -3821,7 +3821,7 @@ bhadraPartsHtml += `</div></div>`;
 
 <div class="card full">
   <div class="label">
-    🕉️ सिद्धि योग
+     🌟 विशेष शुभ योग 🌟 
   </div>
 
   <div class="time-row">
