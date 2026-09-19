@@ -1959,10 +1959,19 @@ function getAutoSandhyaType(){
   const now = new Date();
   const minutes = now.getHours() * 60 + now.getMinutes();
 
-  if(minutes >= 4*60 && minutes < 8*60) return "pratah";
-  if(minutes >= 11*60+30 && minutes < 13*60+30) return "madhyahna";
-  if(minutes >= 17*60+30 && minutes < 19*60+30) return "sayam";
-  return "pratah";
+  // 1. प्रातः संध्या (04:00 AM से 11:30 AM)
+  if(minutes >= 4*60 && minutes < 11*60+30) return "pratah";
+
+  // 2. मध्याह्न संध्या (11:30 AM से 04:00 PM)
+  if(minutes >= 11*60+30 && minutes < 16*60) return "madhyahna";
+
+  // 3. सायं संध्या (04:00 PM से 10:00 PM)
+  if(minutes >= 16*60 && minutes < 22*60) return "sayam";
+
+  // 4. तुरीया / निशा संध्या (10:00 PM से 04:00 AM)
+  if(minutes >= 22*60 || minutes < 4*60) return "turiya";
+
+  return "pratah"; // केवल सुरक्षा (Safety Fallback) के लिए
 }
 
 /* =========================================================
@@ -2493,12 +2502,13 @@ function renderSankalpTypeInputs(){
 
   if(st.type === "sandhya"){
     container.innerHTML = `
-      <div class="ti-block">y
+      <div class="ti-block">
         <label class="ti-label">संध्या का समय</label>
         <div class="radio-row">
           <label><input type="radio" name="sandhyaType" value="pratah" ${st.sandhyaType==="pratah"?"checked":""}/> प्रातः संध्या</label>
           <label><input type="radio" name="sandhyaType" value="madhyahna" ${st.sandhyaType==="madhyahna"?"checked":""}/> मध्याह्न संध्या</label>
           <label><input type="radio" name="sandhyaType" value="sayam" ${st.sandhyaType==="sayam"?"checked":""}/> सायं संध्या</label>
+        <label><input type="radio" name="sandhyaType" value="turiya" ${st.sandhyaType==="turiya"?"checked":""}/> तुरीय संध्या</label>
         </div>
       </div>
       <div class="ti-block">
