@@ -1971,7 +1971,7 @@ function getAutoSandhyaType(){
   // 4. तुरीया / निशा संध्या (10:00 PM से 04:00 AM)
   if(minutes >= 22*60 || minutes < 4*60) return "turiya";
 
-  return "pratah"; // केवल सुरक्षा (Safety Fallback) के लिए
+  return "turiya"; // केवल सुरक्षा (Safety Fallback) के लिए
 }
 
 /* =========================================================
