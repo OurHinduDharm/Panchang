@@ -601,41 +601,257 @@ const sankalpState = {
 /* =========================================================
    STAGE 3 HELPERS
    ========================================================= */
-function getBhadraDetails(p, moonRashiIndex, referenceNow){
-  const vishtiKarana = (p.karanas || []).find(
-    k => k.name && k.name.toLowerCase() === "vishti"
+ function getBhadraDetails(
+  p,
+  moonRashiIndex,
+  referenceNow,
+  nextSunrise,
+  previousSunset
+){
+  /*
+   * =========================================================
+   * भद्रा / विष्टि करण
+   *
+   * शास्त्रीय आधार:
+   * मुहूर्त चिन्तामणि — भद्रा विचार
+   *
+   * भद्रा अंग:
+   * मुख 5
+   * कंठ 1
+   * हृदय 11
+   * नाभि 4
+   * कटि 6
+   * पुच्छ 3
+   *
+   * कुल = 30 घटी
+   *
+   * अतः वास्तविक विष्टि अवधि को
+   * 5:1:11:4:6:3 के अनुपात में बाँटा जाता है।
+   *
+   * मुख/पुच्छ अलग शास्त्रीय प्रहर-नियम से निकाले जाते हैं।
+   * =========================================================
+   */
+
+  const selectedDayStart =
+    new Date(
+      dateInput.value + "T00:00:00"
+    );
+
+  const selectedDayEnd =
+    new Date(selectedDayStart);
+
+  selectedDayEnd.setDate(
+    selectedDayEnd.getDate() + 1
   );
 
-  if(!vishtiKarana){
-    return { available:false };
+  const now = referenceNow;
+
+  /*
+   * केवल उस विष्टि करण को लें जो चयनित दिन से
+   * वास्तव में संबंधित हो।
+   *
+   * इससे पिछले दिन की समाप्त भद्रा गलती से
+   * "आगामी" नहीं बनेगी।
+   */
+  const vishtiCandidates =
+    (p.karanas || [])
+      .filter(
+        k =>
+          k &&
+          String(k.name || "")
+            .toLowerCase() === "vishti"
+      )
+      .map(k => ({
+        raw:k,
+        start:new Date(k.startTime),
+        end:new Date(k.endTime)
+      }))
+      .filter(k =>
+        !isNaN(k.start.getTime()) &&
+        !isNaN(k.end.getTime()) &&
+        k.end > k.start
+      );
+
+  let vishtiKarana = null;
+
+  /*
+   * आज की तारीख पर पहले वर्तमान में चल रही
+   * भद्रा को प्राथमिकता।
+   */
+  if(now){
+    vishtiKarana =
+      vishtiCandidates.find(
+        k =>
+          now >= k.start &&
+          now < k.end
+      ) || null;
   }
 
-  const start = new Date(vishtiKarana.startTime);
-  const end = new Date(vishtiKarana.endTime);
-  const totalMs = end.getTime() - start.getTime();
+  /*
+   * अन्यथा चयनित calendar-date से overlap वाली भद्रा।
+   */
+  if(!vishtiKarana){
+    vishtiKarana =
+      vishtiCandidates.find(
+        k =>
+          k.start < selectedDayEnd &&
+          k.end > selectedDayStart
+      ) || null;
+  }
+
+  if(!vishtiKarana){
+    return {
+      available:false
+    };
+  }
+
+  const start =
+    vishtiKarana.start;
+
+  const end =
+    vishtiKarana.end;
+
+  const totalMs =
+    end.getTime() -
+    start.getTime();
 
   if(totalMs <= 0){
-    return { available:false };
+    return {
+      available:false
+    };
   }
 
+  /*
+   * =========================================================
+   * तिथि + पक्ष से भद्रा का पूर्वार्ध / उत्तरार्ध
+   *
+   * शुक्ल:
+   * चतुर्थी  = उत्तरार्ध
+   * अष्टमी   = पूर्वार्ध
+   * एकादशी  = उत्तरार्ध
+   * पूर्णिमा = पूर्वार्ध
+   *
+   * कृष्ण:
+   * तृतीया    = उत्तरार्ध
+   * सप्तमी    = पूर्वार्ध
+   * दशमी      = उत्तरार्ध
+   * चतुर्दशी  = पूर्वार्ध
+   * =========================================================
+   */
+
+  let tithiIndex = p.tithi;
+
+  if(
+    typeof tithiIndex === "object" &&
+    tithiIndex !== null
+  ){
+    tithiIndex =
+      tithiIndex.index ??
+      tithiIndex.number ??
+      tithiIndex.value;
+  }
+
+  const pakshaValue =
+    typeof p.paksha === "object" &&
+    p.paksha !== null
+      ? (
+          p.paksha.name ??
+          p.paksha.value
+        )
+      : p.paksha;
+
+  const pakshaText =
+    String(pakshaValue || "")
+      .toLowerCase();
+
+  let bhadraHalf = null;
+
+  if(pakshaText.includes("shukla")){
+    if(
+      [3,10].includes(tithiIndex)
+    ){
+      bhadraHalf = "उत्तरार्ध";
+    }
+    else if(
+      [7,14].includes(tithiIndex)
+    ){
+      bhadraHalf = "पूर्वार्ध";
+    }
+  }
+  else if(
+    pakshaText.includes("krishna") ||
+    pakshaText.includes("kṛṣṇa")
+  ){
+    if(
+      [17,24].includes(tithiIndex)
+    ){
+      bhadraHalf = "उत्तरार्ध";
+    }
+    else if(
+      [21,28].includes(tithiIndex)
+    ){
+      bhadraHalf = "पूर्वार्ध";
+    }
+  }
+
+  /*
+   * =========================================================
+   * भद्रा के 6 अंग
+   *
+   * 5 : 1 : 11 : 4 : 6 : 3
+   *
+   * यदि वास्तविक भद्रा 30 घटी से छोटी-बड़ी हो,
+   * तो उसी अनुपात में प्रत्येक अंग की अवधि बदलेगी।
+   * =========================================================
+   */
+
   const partNames = [
-    "मुख", "कंठ", "हृदय", "नाभि", "कटि", "पुच्छ"
+    "मुख",
+    "कंठ",
+    "हृदय",
+    "नाभि",
+    "कटि",
+    "पुच्छ"
   ];
+
+  const partRatios = [
+    5,
+    1,
+    11,
+    4,
+    6,
+    3
+  ];
+
+  const ratioTotal = 30;
 
   const parts = [];
   let activeIndex = -1;
-  const now = referenceNow;
 
-  for(let i=0;i<6;i++){
-    const pStart = new Date(
-      start.getTime() + (totalMs * i / 6)
-    );
-    const pEnd = new Date(
-      start.getTime() + (totalMs * (i+1) / 6)
-    );
+  let cursor =
+    start.getTime();
+
+  for(let i = 0; i < partNames.length; i++){
+
+    const partMs =
+      totalMs *
+      partRatios[i] /
+      ratioTotal;
+
+    const pStart =
+      new Date(cursor);
+
+    const pEnd =
+      new Date(
+        i === partNames.length - 1
+          ? end.getTime()
+          : cursor + partMs
+      );
 
     const isActive = !!(
-      now && now >= pStart && now < pEnd
+      now &&
+      now >= pStart &&
+      now < pEnd
     );
 
     if(isActive){
@@ -648,56 +864,360 @@ function getBhadraDetails(p, moonRashiIndex, referenceNow){
       end:pEnd,
       isActive
     });
+
+    cursor =
+      pEnd.getTime();
   }
+
+  /*
+   * =========================================================
+   * 8 प्रहर
+   *
+   * 1–4 = दिन
+   * 5–8 = रात्रि
+   *
+   * पिछली रात्रि भी शामिल की जाती है क्योंकि
+   * चयनित दिन के सूर्योदय से पहले भद्रा चल सकती है।
+   * =========================================================
+   */
+
+  const praharList = [];
+
+  function addPrahars(
+    rangeStart,
+    rangeEnd,
+    firstPraharNumber
+  ){
+    if(
+      !rangeStart ||
+      !rangeEnd
+    ){
+      return;
+    }
+
+    const startTime =
+      new Date(rangeStart);
+
+    const endTime =
+      new Date(rangeEnd);
+
+    if(
+      isNaN(startTime.getTime()) ||
+      isNaN(endTime.getTime()) ||
+      endTime <= startTime
+    ){
+      return;
+    }
+
+    const duration =
+      (
+        endTime.getTime() -
+        startTime.getTime()
+      ) / 4;
+
+    for(let i = 0; i < 4; i++){
+
+      praharList.push({
+        number:
+          firstPraharNumber + i,
+
+        start:
+          new Date(
+            startTime.getTime() +
+            duration * i
+          ),
+
+        end:
+          new Date(
+            startTime.getTime() +
+            duration * (i + 1)
+          )
+      });
+    }
+  }
+
+  /*
+   * पिछली रात्रि = प्रहर 5–8
+   */
+  if(previousSunset){
+    addPrahars(
+      previousSunset,
+      new Date(p.sunrise),
+      5
+    );
+  }
+
+  /*
+   * वर्तमान दिन = प्रहर 1–4
+   */
+  addPrahars(
+    new Date(p.sunrise),
+    new Date(p.sunset),
+    1
+  );
+
+  /*
+   * वर्तमान रात्रि = प्रहर 5–8
+   */
+  if(nextSunrise){
+    addPrahars(
+      new Date(p.sunset),
+      new Date(nextSunrise),
+      5
+    );
+  }
+
+  /*
+   * =========================================================
+   * मुख / पुच्छ के शास्त्रीय प्रहर
+   *
+   * शुक्ल:
+   * चतुर्थी  → मुख 5, पुच्छ 8
+   * अष्टमी   → मुख 2, पुच्छ 1
+   * एकादशी  → मुख 7, पुच्छ 6
+   * पूर्णिमा → मुख 4, पुच्छ 3
+   *
+   * कृष्ण:
+   * तृतीया   → मुख 8, पुच्छ 7
+   * सप्तमी   → मुख 3, पुच्छ 2
+   * दशमी    → मुख 6, पुच्छ 5
+   * चतुर्दशी → मुख 1, पुच्छ 4
+   * =========================================================
+   */
+
+  const bhadraPraharRules = {
+    Shukla:{
+      3:{mukha:5,puccha:8},
+      7:{mukha:2,puccha:1},
+      10:{mukha:7,puccha:6},
+      14:{mukha:4,puccha:3}
+    },
+
+    Krishna:{
+      17:{mukha:8,puccha:7},
+      21:{mukha:3,puccha:2},
+      24:{mukha:6,puccha:5},
+      28:{mukha:1,puccha:4}
+    }
+  };
+
+  const pakshaKey =
+    pakshaText.includes("shukla")
+      ? "Shukla"
+      : (
+          pakshaText.includes("krishna") ||
+          pakshaText.includes("kṛṣṇa")
+        )
+          ? "Krishna"
+          : null;
+
+  const praharRule =
+    pakshaKey &&
+    bhadraPraharRules[pakshaKey]
+      ? bhadraPraharRules[pakshaKey][tithiIndex]
+      : null;
+
+  /*
+   * 1 घटी = 24 मिनट
+   */
+  const ghatiMs =
+    24 * 60 * 1000;
+
+  let mukha = null;
+  let puccha = null;
+
+  if(praharRule){
+
+    const mukhaPrahar =
+      praharList.find(
+        item =>
+          item.number ===
+          praharRule.mukha &&
+          item.end > start &&
+          item.start < end
+      );
+
+    if(mukhaPrahar){
+
+      const mukhaStart =
+        new Date(
+          mukhaPrahar.start
+        );
+
+      const mukhaEnd =
+        new Date(
+          Math.min(
+            mukhaPrahar.end.getTime(),
+            mukhaPrahar.start.getTime() +
+            ghatiMs * 5
+          )
+        );
+
+      mukha = {
+        prahar:
+          praharRule.mukha,
+        start:mukhaStart,
+        end:mukhaEnd,
+        isActive:!!(
+          now &&
+          now >= mukhaStart &&
+          now < mukhaEnd
+        )
+      };
+    }
+
+    const pucchaPrahar =
+      praharList.find(
+        item =>
+          item.number ===
+          praharRule.puccha &&
+          item.end > start &&
+          item.start < end
+      );
+
+    if(pucchaPrahar){
+
+      const pucchaEnd =
+        new Date(
+          pucchaPrahar.end
+        );
+
+      const pucchaStart =
+        new Date(
+          Math.max(
+            pucchaPrahar.start.getTime(),
+            pucchaPrahar.end.getTime() -
+            ghatiMs * 3
+          )
+        );
+
+      puccha = {
+        prahar:
+          praharRule.puccha,
+        start:pucchaStart,
+        end:pucchaEnd,
+        isActive:!!(
+          now &&
+          now >= pucchaStart &&
+          now < pucchaEnd
+        )
+      };
+    }
+  }
+
+  /*
+   * =========================================================
+   * भद्रा निवास
+   *
+   * मेष, वृषभ, मिथुन, वृश्चिक → स्वर्ग
+   * कन्या, तुला, धनु, मकर → पाताल
+   * कुम्भ, मीन, कर्क, सिंह → मृत्युलोक
+   * =========================================================
+   */
 
   let niwas = "—";
   let niwasColor = "#95a5a6";
 
   const isActiveOverall = !!(
-    now && now >= start && now < end
+    now &&
+    now >= start &&
+    now < end
   );
 
   let rashiIndex = null;
 
-  if(typeof moonRashiIndex === "number"){
-    rashiIndex = moonRashiIndex + 1;
-  }else if(typeof p.moonRashi?.index === "number"){
-    rashiIndex = p.moonRashi.index + 1;
-  }else if(typeof p.moonLongitude === "number"){
-    rashiIndex = Math.floor(p.moonLongitude / 30) + 1;
+  if(
+    typeof moonRashiIndex === "number"
+  ){
+    rashiIndex =
+      moonRashiIndex + 1;
+  }
+  else if(
+    typeof p.moonRashi?.index === "number"
+  ){
+    rashiIndex =
+      p.moonRashi.index + 1;
+  }
+  else if(
+    typeof p.moonLongitude === "number"
+  ){
+    rashiIndex =
+      Math.floor(
+        p.moonLongitude / 30
+      ) + 1;
   }
 
-  const swargaRashi = [1,2,3,8];
-  const patalRashi = [6,7,9,10];
+  const swargaRashi =
+    [1,2,3,8];
+
+  const patalRashi =
+    [6,7,9,10];
 
   if(
     rashiIndex !== null &&
     rashiIndex >= 1 &&
     rashiIndex <= 12
   ){
-    if(swargaRashi.includes(rashiIndex)){
-      niwas = "स्वर्ग";
-      niwasColor = "#2ecc71";
+    if(
+      swargaRashi.includes(
+        rashiIndex
+      )
+    ){
+      niwas =
+        "स्वर्ग";
+
+      niwasColor =
+        "#2ecc71";
     }
-    else if(patalRashi.includes(rashiIndex)){
-      niwas = "पाताल";
-      niwasColor = "#8e44ad";
+    else if(
+      patalRashi.includes(
+        rashiIndex
+      )
+    ){
+      niwas =
+        "पाताल";
+
+      niwasColor =
+        "#8e44ad";
     }
     else{
-      niwas = "मृत्युलोक";
-      niwasColor = "#e67e22";
+      niwas =
+        "मृत्युलोक";
+
+      niwasColor =
+        "#e67e22";
     }
   }
 
   return {
     available:true,
+
     start,
     end,
     parts,
     activeIndex,
+
     niwas,
     niwasColor,
-    isActive:isActiveOverall
+
+    isActive:
+      isActiveOverall,
+
+    bhadraHalf,
+
+    mukha,
+    puccha,
+
+    mukhaPrahar:
+      praharRule?.mukha ||
+      null,
+
+    pucchaPrahar:
+      praharRule?.puccha ||
+      null,
+
+    source:
+      "मुहूर्त चिन्तामणि — शुभाशुभ प्रकरण"
   };
 }
 /* =========================================================
@@ -3613,10 +4133,14 @@ function displayPanchang(
     p.moonRashi?.index;
 
   const bhadra = getBhadraDetails(
-    p,
-    moonRashiIndex,
-    referenceNow
-  );
+  p,
+  moonRashiIndex,
+  referenceNow,
+  nextSunrise,
+  previousSunset
+);
+
+window.__bhadraTest = bhadra;
 
   const prahar = getPraharDetails(
   p,
@@ -3861,52 +4385,154 @@ praharHtml += `</div></div>`;
 
 praharHtml += `</div>`;
 
-  let bhadraPartsHtml = "";
+ let bhadraPartsHtml = "";
 
-  if(bhadra.available && bhadra.parts){
-     bhadraPartsHtml = `<div>
-  <b>भद्रा अंग:</b>
-  <div class="bhadra-parts">`;
+if(
+  bhadra.available &&
+  bhadra.parts
+){
 
-bhadra.parts.forEach((part, index) => {
-  const cls = part.isActive
-    ? "bhadra-part active"
-    : "bhadra-part";
+  bhadraPartsHtml = `<div>
+    <b>भद्रा अंग:</b>
+    <div class="bhadra-parts">`;
 
-  const nextPart = bhadra.parts[index + 1];
+  bhadra.parts.forEach(part => {
 
-  const endTime = nextPart
-    ? nextPart.start
-    : bhadra.end;
+    const cls =
+      part.isActive
+        ? "bhadra-part active"
+        : "bhadra-part";
 
-  bhadraPartsHtml += `<span class="${cls}">
-    ${part.name} — ${formatTime(part.start)} से ${formatTime(endTime)} तक
-  </span>`;
-});
+    bhadraPartsHtml += `
+      <span class="${cls}">
+        ${part.name} —
+        ${formatTime(part.start)}
+        से
+        ${formatTime(part.end)}
+        तक
+      </span>
+    `;
+  });
 
-bhadraPartsHtml += `</div></div>`;
+  bhadraPartsHtml += `
+    </div>
+  </div>`;
 
-    bhadraPartsHtml += `<div>
+  /*
+   * मुख
+   */
+  if(bhadra.mukha){
+
+    bhadraPartsHtml += `
+      <div class="time-row">
+        <b>🔴 भद्रा मुख</b>
+        <span>
+          ${formatTimeRange(
+            bhadra.mukha.start,
+            bhadra.mukha.end
+          )}
+          <small>
+            — ${bhadra.mukhaPrahar}वाँ प्रहर
+          </small>
+        </span>
+      </div>
+    `;
+  }
+
+  /*
+   * पुच्छ
+   */
+  if(bhadra.puccha){
+
+    bhadraPartsHtml += `
+      <div class="time-row">
+        <b>🟢 भद्रा पुच्छ</b>
+        <span>
+          ${formatTimeRange(
+            bhadra.puccha.start,
+            bhadra.puccha.end
+          )}
+          <small>
+            — ${bhadra.pucchaPrahar}वाँ प्रहर
+          </small>
+        </span>
+      </div>
+    `;
+  }
+
+  /*
+   * भद्रा किस तिथि-अर्ध से उत्पन्न हुई
+   */
+  if(bhadra.bhadraHalf){
+
+    bhadraPartsHtml += `
+      <div class="time-row">
+        <b>📖 भद्रा अर्ध</b>
+        <span>
+          ${bhadra.bhadraHalf}
+        </span>
+      </div>
+    `;
+  }
+
+  /*
+   * निवास
+   */
+  bhadraPartsHtml += `
+    <div>
       <b>निवास स्थान:</b>
-      <span class="bhadra-niwas" style="background:${bhadra.niwasColor};" >
+      <span
+        class="bhadra-niwas"
+        style="background:${bhadra.niwasColor};"
+      >
         ${bhadra.niwas}
       </span>
-    </div>`;
+    </div>
+  `;
 
-    if(bhadraSuggestion){
-      const cls =
-        bhadraSuggestion.type === "avoid"
-          ? "bhadra-suggestion avoid"
-          : "bhadra-suggestion";
+  /*
+   * स्रोत
+   */
+  bhadraPartsHtml += `
+    <div style="
+      font-size:12px;
+      color:#777;
+      margin-top:8px;
+    ">
+      📖 स्रोत:
+      मुहूर्त चिन्तामणि —
+      भद्रा विचार
+    </div>
+  `;
 
-      bhadraPartsHtml += `<div class="${cls}">
+  /*
+   * मौजूदा suggestion
+   */
+  if(bhadraSuggestion){
+
+    const cls =
+      bhadraSuggestion.type === "avoid"
+        ? "bhadra-suggestion avoid"
+        : "bhadra-suggestion";
+
+    bhadraPartsHtml += `
+      <div class="${cls}">
         💡 ${bhadraSuggestion.text}
-      </div>`;
-    }
-  }else{
-    bhadraPartsHtml = `<div style="font-size:13px;color:#777;">
-      भद्रा नहीं है</div>`;
+      </div>
+    `;
   }
+
+}else{
+
+  bhadraPartsHtml = `
+    <div style="
+      font-size:13px;
+      color:#777;
+    ">
+      भद्रा नहीं है
+    </div>
+  `;
+}
 
   let abhijitDisplay = "";
 
