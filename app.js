@@ -1988,7 +1988,7 @@ function getKarmaPhrase(){
           : st.sandhyaDevta;
 
       const timeMap = {
-        pratah:"प्रातः", madhyahna:"मध्याह्न", sayam:"सायं", turiya:"रात्रि"
+        pratah:"प्रातः", madhyahna:"मध्याह्न", sayam:"सायं", turiya:"तुरीय"
       };
 
       const time = timeMap[st.sandhyaType] || "प्रातः";
