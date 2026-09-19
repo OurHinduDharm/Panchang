@@ -92,7 +92,40 @@ const directionHindi = {
   North: "उत्तर",
   South: "दक्षिण"
 };
+const gowriHindi = {
+  Shunya: "शून्य",
+  Udyoga: "उद्योग",
+  Visha: "विष",
+  Amrita: "अमृत",
+  Roga: "रोग",
+  Laabha: "लाभ",
+  Dhana: "धन",
+  Shubha: "शुभ"
+};
 
+function getGowriDisplay(item){
+  if(!item){
+    return "—";
+  }
+
+  const name =
+    gowriHindi[item.name] ||
+    item.name ||
+    "—";
+
+  const rating =
+    String(item.rating || "")
+      .toLowerCase();
+
+  const indicator =
+    rating === "good"
+      ? "🟢"
+      : rating === "bad"
+        ? "🔴"
+        : "";
+
+  return `${indicator}${name}`;
+}
 /* =========================================================
    SANKALP STATE (persists across type switches & date changes)
    ========================================================= */
@@ -3752,7 +3785,25 @@ bhadraPartsHtml += `</div></div>`;
           .join("") || '<div style="color:#777;">उपलब्ध नहीं</div>'
         }
       </div>
-
+<div class="card full">
+  <div class="label">
+    🌞 दिन का गौरी काल
+  </div>
+  ${(p.gowri?.day || [])
+    .map(item => `
+      <div class="time-row">
+        <b>${getGowriDisplay(item)}</b>
+        <span>
+          ${formatTimeRange(
+            item.startTime,
+            item.endTime
+          )}
+        </span>
+      </div>
+    `)
+    .join("") || '<div style="color:#777;">उपलब्ध नहीं</div>'
+  }
+</div>
       <div class="card full">
         <div class="label">
           🌙 रात्रि के चौघड़िया
@@ -3784,7 +3835,25 @@ bhadraPartsHtml += `</div></div>`;
           .join("") || '<div style="color:#777;">उपलब्ध नहीं</div>'
         }
       </div>
-
+<div class="card full">
+  <div class="label">
+    🌙 रात्रि का गौरी काल
+  </div>
+  ${(p.gowri?.night || [])
+    .map(item => `
+      <div class="time-row">
+        <b>${getGowriDisplay(item)}</b>
+        <span>
+          ${formatTimeRange(
+            item.startTime,
+            item.endTime
+          )}
+        </span>
+      </div>
+    `)
+    .join("") || '<div style="color:#777;">उपलब्ध नहीं</div>'
+  }
+</div>
       <div class="card full">
   <div class="label">
     🌅 ब्रह्म मुहूर्त
