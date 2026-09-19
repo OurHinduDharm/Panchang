@@ -86,6 +86,13 @@ const rashiHindi = {
   8: "धनु", 9: "मकर", 10: "कुम्भ", 11: "मीन"
 };
 
+const directionHindi = {
+  East: "पूर्व",
+  West: "पश्चिम",
+  North: "उत्तर",
+  South: "दक्षिण"
+};
+
 /* =========================================================
    SANKALP STATE (persists across type switches & date changes)
    ========================================================= */
@@ -3599,7 +3606,7 @@ bhadraPartsHtml += `</div></div>`;
   </div>
 </div>
 
-      <div class="card full">
+            <div class="card full">
         <div class="label">
           🕉️ शुभ-अशुभ समय
         </div>
@@ -3636,6 +3643,42 @@ bhadraPartsHtml += `</div></div>`;
               p.gulikaKalam?.start,
               p.gulikaKalam?.end
             )}
+          </span>
+        </div>
+      </div>
+
+      <div class="card full">
+        <div class="label">
+          🧭 दिशा शूल
+        </div>
+
+        <div class="time-row">
+          <b>🔴 दिशा शूल</b>
+          <span>
+            ${
+              directionHindi[
+                p.dishaShoola?.inauspiciousDirection
+              ]
+              || "—"
+            }
+          </span>
+        </div>
+
+        <div class="time-row">
+          <b>🟢दिशाशूल से मुक्त दिशाएँ</b>
+          <span>
+            ${
+              Array.isArray(
+                p.dishaShoola?.safeDirections
+              )
+                ? p.dishaShoola.safeDirections
+                    .map(
+                      d =>
+                        directionHindi[d] || d
+                    )
+                    .join("، ")
+                : "—"
+            }
           </span>
         </div>
       </div>
