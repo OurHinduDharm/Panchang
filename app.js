@@ -2950,9 +2950,10 @@ function calculatePanchang(){
       : null;
 
     let nextSunrise = null;
+let nextMoonset = null;
 
-    try{
-      const nextDate = new Date(date);
+try{
+  const nextDate = new Date(date);
       nextDate.setDate(
         nextDate.getDate() + 1
       );
@@ -2964,12 +2965,22 @@ function calculatePanchang(){
       );
 
       if(
-        nextPanchang &&
-        nextPanchang.sunrise
-      ){
-        nextSunrise =
-          nextPanchang.sunrise;
-      }
+  nextPanchang &&
+  nextPanchang.sunrise
+){
+  nextSunrise =
+    nextPanchang.sunrise;
+}
+
+if(
+  !p.moonset &&
+  nextPanchang &&
+  nextPanchang.moonset &&
+  nextPanchang.moonset <= nextSunrise
+){
+  nextMoonset =
+    nextPanchang.moonset;
+}
     }catch(e){
       console.warn(
         "Next sunrise calculation failed:",
@@ -3026,7 +3037,8 @@ displayPanchang(
   nextSunrise,
   previousSunset,
   referenceNow,
-  specialYoga
+  specialYoga,
+  nextMoonset
 );
 
   }catch(error){
@@ -3050,7 +3062,8 @@ function displayPanchang(
   nextSunrise,
   previousSunset,
   referenceNow,
-  specialYoga
+  specialYoga,
+  nextMoonset
 ){
   const date = new Date(
     dateInput.value + "T12:00:00"
@@ -3582,7 +3595,7 @@ bhadraPartsHtml += `</div></div>`;
 
 <div class="card">
   <div class="label">
-    🌙 चंद्रास्त — ${formatTime(p.moonset)}
+🌙 चंद्रास्त — ${formatTime(p.moonset || nextMoonset)}
   </div>
 </div>
 
