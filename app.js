@@ -2448,7 +2448,7 @@ function renderSankalpTypeInputs(){
 
   if(st.type === "sandhya"){
     container.innerHTML = `
-      <div class="ti-block">
+      <div class="ti-block">y
         <label class="ti-label">संध्या का समय</label>
         <div class="radio-row">
           <label><input type="radio" name="sandhyaType" value="pratah" ${st.sandhyaType==="pratah"?"checked":""}/> प्रातः संध्या</label>
@@ -3813,7 +3813,8 @@ bhadraPartsHtml += `</div></div>`;
     <span>
       ${getDurMuhurtaText(
         p,
-        isWednesday
+        isWednesday,
+        nextSunrise
       )}
     </span>
   </div>
@@ -3988,12 +3989,41 @@ window.copySankalp = async function(){
    ========================================================= */
 function getDurMuhurtaText(
   p,
-  isWednesday
+  isWednesday,
+  nextSunriseTime
 ){
-  const sunrise = p.sunrise;
-  const sunset = p.sunset;
+  const sunrise = new Date(p?.sunrise);
+  const sunset = new Date(p?.sunset);
 
-  if(!sunrise || !sunset){
+  if(
+    Number.isNaN(sunrise.getTime()) ||
+    Number.isNaN(sunset.getTime())
+  ){
+    return "—";
+  }
+
+  if(!isWednesday){
+    return Array.isArray(p?.durMuhurta)
+      ? p.durMuhurta
+          .map(x =>
+            formatTimeRange(
+              x?.start,
+              x?.end
+            )
+          )
+          .join("<br>")
+      : "—";
+  }
+
+  const nextSunrise =
+    nextSunriseTime
+      ? new Date(nextSunriseTime)
+      : null;
+
+  if(
+    !nextSunrise ||
+    Number.isNaN(nextSunrise.getTime())
+  ){
     return "—";
   }
 
@@ -4003,61 +4033,41 @@ function getDurMuhurtaText(
 
   const nightStart = sunset;
 
-  const nextSunrise =
-    new Date(sunrise);
-
-  nextSunrise.setDate(
-    nextSunrise.getDate() + 1
-  );
-
   const nightMs =
     nextSunrise.getTime() -
     nightStart.getTime();
 
-  if(isWednesday){
-    const firstStart = new Date(
-      sunrise.getTime() +
-      dayMs * (3/15)
-    );
+  const firstStart = new Date(
+    sunrise.getTime() +
+    dayMs * (3/15)
+  );
 
-    const firstEnd = new Date(
-      sunrise.getTime() +
-      dayMs * (4/15)
-    );
+  const firstEnd = new Date(
+    sunrise.getTime() +
+    dayMs * (4/15)
+  );
 
-    const secondStart = new Date(
-      nightStart.getTime() +
-      nightMs * (6/15)
-    );
+  const secondStart = new Date(
+    nightStart.getTime() +
+    nightMs * (6/15)
+  );
 
-    const secondEnd = new Date(
-      nightStart.getTime() +
-      nightMs * (7/15)
-    );
+  const secondEnd = new Date(
+    nightStart.getTime() +
+    nightMs * (7/15)
+  );
 
-    return (
-      formatTimeRange(
-        firstStart,
-        firstEnd
-      ) +
-      "<br>" +
-      formatTimeRange(
-        secondStart,
-        secondEnd
-      )
-    );
-  }
-
-  return Array.isArray(p.durMuhurta)
-    ? p.durMuhurta
-        .map(x =>
-          formatTimeRange(
-            x?.start,
-            x?.end
-          )
-        )
-        .join("<br>")
-    : "—";
+  return (
+    formatTimeRange(
+      firstStart,
+      firstEnd
+    ) +
+    "<br>" +
+    formatTimeRange(
+      secondStart,
+      secondEnd
+    )
+  );
 }
 
 function getEndTimeText(value){
