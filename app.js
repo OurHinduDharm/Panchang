@@ -3506,7 +3506,6 @@ bhadraPartsHtml += `</div></div>`;
       उपलब्ध नहीं
     </span>`;
   }
-
   const renderNext = nextName => {
     if(!nextName) return "";
 
@@ -3515,7 +3514,38 @@ bhadraPartsHtml += `</div></div>`;
     </div>`;
   };
 
+  const selectedDayStart =
+    new Date(dateInput.value + "T00:00:00");
+
+  const selectedDayEnd =
+    new Date(selectedDayStart);
+
+  selectedDayEnd.setDate(
+    selectedDayEnd.getDate() + 1
+  );
+
+  const amritKalamForDate =
+    (p.amritKalam || []).filter(item => {
+      const start = new Date(item.start);
+
+      return (
+        start >= selectedDayStart &&
+        start < selectedDayEnd
+      );
+    });
+
+  const varjyamForDate =
+    (p.varjyam || []).filter(item => {
+      const start = new Date(item.start);
+
+      return (
+        start >= selectedDayStart &&
+        start < selectedDayEnd
+      );
+    });
+
   result.innerHTML = `
+  
     <div class="date-title">
       ${dateText}
     </div>
@@ -3678,7 +3708,41 @@ bhadraPartsHtml += `</div></div>`;
             )}
           </span>
         </div>
+        <div class="time-row">
+          <b>🟢 अमृत काल</b>
+          <span>
+            ${
+              amritKalamForDate.length
+                ? amritKalamForDate
+                    .map(item =>
+                      formatTimeRange(
+                        item.start,
+                        item.end
+                      )
+                    )
+                    .join("<br>")
+                : "उपलब्ध नहीं"
+            }
+          </span>
+        </div>
 
+        <div class="time-row">
+          <b>🔴 वर्ज्यम्</b>
+          <span>
+            ${
+              varjyamForDate.length
+                ? varjyamForDate
+                    .map(item =>
+                      formatTimeRange(
+                        item.start,
+                        item.end
+                      )
+                    )
+                    .join("<br>")
+                : "उपलब्ध नहीं"
+            }
+          </span>
+        </div>
         <div class="time-row">
           <b>🔴 गुलिक काल</b>
           <span>
