@@ -92,6 +92,427 @@ const directionHindi = {
   North: "उत्तर",
   South: "दक्षिण"
 };
+
+/* =========================================================
+   YATRA SHULA — MUHURTA CHINTAMANI
+   यात्रा प्रकरण, श्लोक १०–११
+   ========================================================= */
+
+/*
+ * नक्षत्रशूल
+ *
+ * पूर्व     → ज्येष्ठा
+ * दक्षिण   → पूर्वाभाद्रपदा
+ * पश्चिम   → रोहिणी
+ * उत्तर    → उत्तराफाल्गुनी
+ */
+const nakshatraShoolaByDirection = {
+  East: 17,   // ज्येष्ठा
+  South: 24,  // पूर्वाभाद्रपदा
+  West: 3,    // रोहिणी
+  North: 11   // उत्तराफाल्गुनी
+};
+
+/*
+ * कालशूल के लिए नक्षत्र-गण
+ *
+ * मुहूर्त चिन्तामणि यात्रा प्रकरण, श्लोक ११
+ */
+const kalaShoolaGroups = {
+  Dhruva: {
+    hindi: "ध्रुव",
+    nakshatras: [
+      "रोहिणी",
+      "उत्तराफाल्गुनी",
+      "उत्तराषाढ़ा",
+      "उत्तराभाद्रपद"
+    ]
+  },
+
+  Mishra: {
+    hindi: "मिश्र",
+    nakshatras: [
+      "कृत्तिका",
+      "विशाखा"
+    ]
+  },
+
+  Tikshna: {
+    hindi: "तीक्ष्ण",
+    nakshatras: [
+      "आर्द्रा",
+      "आश्लेषा",
+      "ज्येष्ठा",
+      "मूल"
+    ]
+  },
+
+  Laghu: {
+    hindi: "लघु",
+    nakshatras: [
+      "अश्विनी",
+      "पुष्य",
+      "हस्त"
+    ]
+  },
+
+  Mridu: {
+    hindi: "मृदु",
+    nakshatras: [
+      "मृगशीर्ष",
+      "चित्रा",
+      "अनुराधा",
+      "रेवती"
+    ]
+  },
+
+  Ugra: {
+    hindi: "उग्र",
+    nakshatras: [
+      "भरणी",
+      "मघा",
+      "पूर्वाफाल्गुनी",
+      "पूर्वाषाढ़ा",
+      "पूर्वाभाद्रपद"
+    ]
+  },
+
+  Chara: {
+    hindi: "चर",
+    nakshatras: [
+      "पुनर्वसु",
+      "स्वाती",
+      "श्रवण",
+      "धनिष्ठा",
+      "शतभिषा"
+    ]
+  }
+};
+
+/*
+ * विशेष शुभ नक्षत्र
+ *
+ * श्रवण, हस्त, पुष्य, मृगशीर्ष
+ * → श्लोक ११ में सर्वकाले शुभ
+ */
+const specialYatraShubhaNakshatras = [
+  "श्रवण",
+  "हस्त",
+  "पुष्य",
+  "मृगशीर्ष"
+];
+
+/*
+ * वारशूल परिहार
+ * गुरु के मत के अनुसार
+ */
+const varShoolaRemedy = {
+  0: "घी",     // रविवार
+  1: "दूध",    // सोमवार
+  2: "गुड़",   // मंगलवार
+  3: "तिल",    // बुधवार
+  4: "दही",    // गुरुवार
+  5: "जौ",     // शुक्रवार
+  6: "उड़द"    // शनिवार
+};
+
+/*
+ * चयनित दिन का relevant नक्षत्र निकालना।
+ *
+ * आज की तारीख पर referenceNow उपलब्ध है।
+ * पुराने/भविष्य के दिन पर दोपहर 12 बजे के आसपास
+ * चयनित दिन का Panchang nakshatra लिया जाएगा।
+ */
+function getYatraNakshatra(
+  p,
+  referenceNow
+){
+  const fallback =
+    getNakshatraName(p.nakshatra);
+
+  const baseTime =
+    referenceNow ||
+    new Date(
+      dateInput.value + "T12:00:00"
+    );
+
+  if(
+    Array.isArray(p.nakshatras)
+  ){
+    const found =
+      p.nakshatras.find(item => {
+
+        if(
+          !item ||
+          typeof item.index !== "number"
+        ){
+          return false;
+        }
+
+        const start =
+          new Date(item.startTime);
+
+        const end =
+          new Date(item.endTime);
+
+        if(
+          isNaN(start.getTime()) ||
+          isNaN(end.getTime())
+        ){
+          return false;
+        }
+
+        return (
+          baseTime >= start &&
+          baseTime < end
+        );
+      });
+
+    if(found){
+      return getNakshatraName(
+        found.index
+      );
+    }
+  }
+
+  return fallback || "—";
+}
+
+/*
+ * कालशूल के 6 काल
+ *
+ * दिन = 3 भाग
+ * रात्रि = 3 भाग
+ */
+function getKalaShoolaDetails(
+  p,
+  nextSunrise,
+  nakshatraName,
+  referenceNow
+){
+  const sunrise =
+    new Date(p.sunrise);
+
+  const sunset =
+    new Date(p.sunset);
+
+  const nextRise =
+    nextSunrise
+      ? new Date(nextSunrise)
+      : null;
+
+  if(
+    isNaN(sunrise.getTime()) ||
+    isNaN(sunset.getTime()) ||
+    !nextRise ||
+    isNaN(nextRise.getTime())
+  ){
+    return {
+      available:false,
+      periods:[],
+      active:null
+    };
+  }
+
+  const dayPartMs =
+    (sunset.getTime() -
+      sunrise.getTime()) / 3;
+
+  const nightPartMs =
+    (nextRise.getTime() -
+      sunset.getTime()) / 3;
+
+  const periods = [
+    {
+      name:"पूर्वाह्न",
+      start:new Date(sunrise),
+      end:new Date(
+        sunrise.getTime() + dayPartMs
+      ),
+      groups:["ध्रुव","मिश्र"]
+    },
+    {
+      name:"मध्याह्न",
+      start:new Date(
+        sunrise.getTime() + dayPartMs
+      ),
+      end:new Date(
+        sunrise.getTime() + dayPartMs * 2
+      ),
+      groups:["तीक्ष्ण"]
+    },
+    {
+      name:"अपराह्न",
+      start:new Date(
+        sunrise.getTime() + dayPartMs * 2
+      ),
+      end:new Date(sunset),
+      groups:["लघु"]
+    },
+    {
+      name:"पूर्वरात्रि",
+      start:new Date(sunset),
+      end:new Date(
+        sunset.getTime() + nightPartMs
+      ),
+      groups:["मृदु"]
+    },
+    {
+      name:"मध्यरात्रि",
+      start:new Date(
+        sunset.getTime() + nightPartMs
+      ),
+      end:new Date(
+        sunset.getTime() + nightPartMs * 2
+      ),
+      groups:["उग्र"]
+    },
+    {
+      name:"रात्र्यन्त",
+      start:new Date(
+        sunset.getTime() + nightPartMs * 2
+      ),
+      end:new Date(nextRise),
+      groups:["चर"]
+    }
+  ];
+
+  let active = null;
+
+  if(referenceNow){
+    active =
+      periods.find(period =>
+        referenceNow >= period.start &&
+        referenceNow < period.end
+      ) || null;
+  }
+
+  let activeBlocked = false;
+
+  if(active){
+    activeBlocked =
+      active.groups.some(groupName => {
+
+        const group =
+          Object.values(
+            kalaShoolaGroups
+          ).find(
+            item =>
+              item.hindi === groupName
+          );
+
+        return !!(
+          group &&
+          group.nakshatras.includes(
+            nakshatraName
+          )
+        );
+      });
+  }
+
+  /*
+   * विशेष शुभ नक्षत्र होने पर
+   * कालशूल का दोष लागू नहीं माना जाएगा।
+   */
+  const specialShubha =
+    specialYatraShubhaNakshatras.includes(
+      nakshatraName
+    );
+
+  if(specialShubha){
+    activeBlocked = false;
+  }
+
+  return {
+    available:true,
+    periods,
+    active,
+    activeBlocked,
+    specialShubha
+  };
+}
+
+/*
+ * पूरी यात्रा-विचार जानकारी
+ */
+function getYatraShoolaDetails(
+  p,
+  nextSunrise,
+  referenceNow
+){
+  const selectedDate =
+    new Date(
+      dateInput.value + "T00:00:00"
+    );
+
+  const weekday =
+    selectedDate.getDay();
+
+  /*
+   * मौजूदा Panchang library का दिशाशूल
+   * calculation ही प्राथमिक रहेगा।
+   */
+  const direction =
+    p.dishaShoola?.inauspiciousDirection ||
+    null;
+
+  const directionHindiName =
+    directionHindi[direction] ||
+    "—";
+
+  const nakshatraName =
+    getYatraNakshatra(
+      p,
+      referenceNow
+    );
+
+  const nakshatraIndex =
+    nakshatraHindi.indexOf(
+      nakshatraName
+    );
+
+  const nakshatraShoolaDirection =
+    Object.keys(
+      nakshatraShoolaByDirection
+    ).find(
+      d =>
+        nakshatraShoolaByDirection[d] ===
+        nakshatraIndex
+    ) || null;
+
+  const nakshatraShoola =
+    nakshatraShoolaDirection
+      ? directionHindi[
+          nakshatraShoolaDirection
+        ]
+      : null;
+
+  const nakshatraShoolaActive =
+    nakshatraShoolaDirection ===
+    direction;
+
+  const kalaShoola =
+    getKalaShoolaDetails(
+      p,
+      nextSunrise,
+      nakshatraName,
+      referenceNow
+    );
+
+  return {
+    weekday,
+    direction,
+    directionHindiName,
+    nakshatraName,
+    nakshatraShoola,
+    nakshatraShoolaDirection,
+    nakshatraShoolaActive,
+    kalaShoola,
+    remedy:
+      varShoolaRemedy[weekday] ||
+      null
+  };
+}
 const gowriHindi = {
   Shunya: "शून्य",
   Udyoga: "उद्योग",
@@ -3203,17 +3624,25 @@ function displayPanchang(
   previousSunset,
   referenceNow
 );
-
+  
 const specialKaal = getSpecialKaalDetails(
   p,
   nextSunrise
 );
+
+const yatraShoola =
+  getYatraShoolaDetails(
+    p,
+    nextSunrise,
+    referenceNow
+  );
 
 const ghatiPal = getGhatiPal(
   p,
   nextSunrise,
   referenceNow
 );
+ 
 
   const bhadraSuggestion =
   getBhadraSuggestion(
@@ -3754,41 +4183,118 @@ bhadraPartsHtml += `</div></div>`;
         </div>
       </div>
 
-      <div class="card full">
-        <div class="label">
-          🧭 दिशा शूल
-        </div>
+       <div class="card full">
+  <div class="label">
+    🧭 यात्रा शूल विचार
+  </div>
 
-        <div class="time-row">
-          <b>🔴 दिशा शूल</b>
-          <span>
-            ${
-              directionHindi[
-                p.dishaShoola?.inauspiciousDirection
-              ]
-              || "—"
-            }
-          </span>
-        </div>
+  <div class="time-row">
+    <b>🔴 दिशाशूल</b>
+    <span>
+      ${yatraShoola.directionHindiName}
+    </span>
+  </div>
 
-        <div class="time-row">
-          <b>🟢दिशाशूल से मुक्त दिशाएँ</b>
-          <span>
-            ${
-              Array.isArray(
-                p.dishaShoola?.safeDirections
+  <div class="time-row">
+    <b>🟢 दिशाशूल से मुक्त दिशाएँ</b>
+    <span>
+      ${
+        Array.isArray(
+          p.dishaShoola?.safeDirections
+        )
+          ? p.dishaShoola.safeDirections
+              .map(
+                d =>
+                  directionHindi[d] || d
               )
-                ? p.dishaShoola.safeDirections
-                    .map(
-                      d =>
-                        directionHindi[d] || d
-                    )
-                    .join("، ")
-                : "—"
-            }
+              .join("، ")
+          : "—"
+      }
+    </span>
+  </div>
+
+  <div class="time-row">
+    <b>🔴 नक्षत्रशूल</b>
+    <span>
+      ${
+        yatraShoola.nakshatraShoola
+          ? `${yatraShoola.nakshatraShoola} दिशा — ${yatraShoola.nakshatraName}`
+          : "इस नक्षत्र के लिए नक्षत्रशूल नहीं"
+      }
+    </span>
+  </div>
+
+  ${
+    yatraShoola.nakshatraShoolaActive
+      ? `
+        <div class="time-row">
+          <b>⚠️ वर्तमान स्थिति</b>
+          <span>
+            नक्षत्रशूल लागू
           </span>
         </div>
+      `
+      : ""
+  }
+
+  <div class="time-row">
+    <b>⏳ कालशूल</b>
+    <span>
+      ${
+        yatraShoola.kalaShoola.specialShubha
+          ? "🟢 विशेष शुभ नक्षत्र — कालशूल से बाधा नहीं"
+          : yatraShoola.kalaShoola.activeBlocked
+            ? "🔴 वर्तमान काल में कालशूल"
+            : "🟢 वर्तमान काल में कालशूल नहीं"
+      }
+    </span>
+  </div>
+
+   ${
+  yatraShoola.kalaShoola.active
+    ? `
+      <div class="time-row">
+        <b>वर्तमान काल</b>
+        <span>
+          ${yatraShoola.kalaShoola.active.name}
+          —
+          ${yatraShoola.kalaShoola.active.groups.join(" + ")}
+        </span>
       </div>
+    `
+    : ""
+}
+
+  ${
+    yatraShoola.kalaShoola.specialShubha
+      ? `
+        <div class="time-row">
+          <b>🟢 विशेष यात्रा-शुभ</b>
+          <span>
+            ${yatraShoola.nakshatraName}
+            — सर्वकाले शुभ
+          </span>
+        </div>
+      `
+      : ""
+  }
+
+  <div class="time-row">
+    <b>📖 स्रोत</b>
+    <span>
+      मुहूर्त चिन्तामणि — यात्रा प्रकरण, श्लोक १०–११
+    </span>
+  </div>
+
+  <div style="font-size:12px;color:#777;margin-top:8px;">
+    वारशूल परिहार:
+    ${
+      yatraShoola.remedy
+        ? `आपात यात्रा में ${yatraShoola.remedy} का सेवन`
+        : "—"
+    }
+  </div>
+</div>
 
       <div class="card full">
         <div class="label">
