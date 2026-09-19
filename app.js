@@ -1060,7 +1060,10 @@ function getGhatiPal(
   return { ghati:ghati + 1, pal:pal };
 }
 
- function getBhadraSuggestion(bhadraDetails){
+ function getBhadraSuggestion(
+  bhadraDetails,
+  referenceNow
+){
   if(!bhadraDetails || !bhadraDetails.available){
     return null;
   }
@@ -1123,7 +1126,9 @@ function getGhatiPal(
   if(
     bhadraDetails.start &&
     bhadraDetails.end &&
-    bhadraDetails.isActive === false
+    bhadraDetails.isActive === false &&
+  referenceNow &&
+  referenceNow < bhadraDetails.start
   ){
 
     if(niwas === "मृत्युलोक"){
@@ -3148,8 +3153,11 @@ const ghatiPal = getGhatiPal(
 );
 
   const bhadraSuggestion =
-    getBhadraSuggestion(bhadra);
-
+  getBhadraSuggestion(
+    bhadra,
+    referenceNow
+  );
+  
   const vara = getVara(p);
 
   /* Store context for Sankalp */
