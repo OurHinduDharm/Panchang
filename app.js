@@ -4997,14 +4997,18 @@ if(
     </span>
   </div>
 
-  <div style="font-size:12px;color:#777;margin-top:8px;">
-    वारशूल परिहार:
-    ${
-      yatraShoola.remedy
-        ? `आपात यात्रा में ${yatraShoola.remedy} का सेवन`
-        : "—"
-    }
-  </div>
+<div style="font-size:12px;color:#777;margin-top:8px;">
+  🟢वारशूल परिहार:
+  ${
+    yatraShoola.remedy
+      ? `आपात यात्रा में ${yatraShoola.remedy} का सेवन`
+      : "—"
+  }
+</div>
+
+<div style="font-size:12px;color:#777;margin-top:8px;">
+  📌 नक्षत्रशूल में दिशा की, जबकि कालशूल में प्रातः, मध्याह्न, सायं आदि कालखंड के अनुसार यात्रा की वर्ज्यता देखी जाती है।
+</div>
 </div>
 
       <div class="card full">
