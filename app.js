@@ -601,7 +601,7 @@ const sankalpState = {
 /* =========================================================
    STAGE 3 HELPERS
    ========================================================= */
- function getBhadraDetails(
+  function getBhadraDetails(
   p,
   moonRashiIndex,
   referenceNow,
@@ -615,43 +615,126 @@ const sankalpState = {
    * शास्त्रीय आधार:
    * मुहूर्त चिन्तामणि — भद्रा विचार
    *
-   * भद्रा अंग:
-   * मुख 5
-   * कंठ 1
-   * हृदय 11
-   * नाभि 4
-   * कटि 6
-   * पुच्छ 3
+   * भद्रा केवल इन 8 तिथियों पर:
    *
-   * कुल = 30 घटी
+   * शुक्ल:
+   * 4, 8, 11, 15
    *
-   * अतः वास्तविक विष्टि अवधि को
-   * 5:1:11:4:6:3 के अनुपात में बाँटा जाता है।
+   * कृष्ण:
+   * 3, 7, 10, 14
    *
-   * मुख/पुच्छ अलग शास्त्रीय प्रहर-नियम से निकाले जाते हैं।
+   * 0-based tithiIndex:
+   * शुक्ल = 3, 7, 10, 14
+   * कृष्ण = 17, 21, 24, 28
    * =========================================================
    */
 
-  const selectedDayStart =
-    new Date(
-      dateInput.value + "T00:00:00"
-    );
+  /*
+   * ---------------------------------------------------------
+   * तिथि index निकालना
+   * ---------------------------------------------------------
+   */
+  let tithiIndex = p.tithi;
 
-  const selectedDayEnd =
-    new Date(selectedDayStart);
-
-  selectedDayEnd.setDate(
-    selectedDayEnd.getDate() + 1
-  );
-
-  const now = referenceNow;
+  if(
+    typeof tithiIndex === "object" &&
+    tithiIndex !== null
+  ){
+    tithiIndex =
+      tithiIndex.index ??
+      tithiIndex.number ??
+      tithiIndex.value;
+  }
 
   /*
-   * केवल उस विष्टि करण को लें जो चयनित दिन से
-   * वास्तव में संबंधित हो।
-   *
-   * इससे पिछले दिन की समाप्त भद्रा गलती से
-   * "आगामी" नहीं बनेगी।
+   * ---------------------------------------------------------
+   * पक्ष निकालना
+   * ---------------------------------------------------------
+   */
+  const pakshaValue =
+    typeof p.paksha === "object" &&
+    p.paksha !== null
+      ? (
+          p.paksha.name ??
+          p.paksha.value
+        )
+      : p.paksha;
+
+  const pakshaText =
+    String(pakshaValue || "")
+      .toLowerCase();
+
+  const pakshaKey =
+    pakshaText.includes("shukla")
+      ? "Shukla"
+      : (
+          pakshaText.includes("krishna") ||
+          pakshaText.includes("kṛṣṇa")
+        )
+          ? "Krishna"
+          : null;
+
+  /*
+   * ---------------------------------------------------------
+   * STRICT BHADRA TITHI GUARD
+   * ---------------------------------------------------------
+   */
+  const validBhadraTithis = [
+    3, 7, 10, 14,
+    17, 21, 24, 28
+  ];
+
+  if(
+    !validBhadraTithis.includes(
+      tithiIndex
+    )
+  ){
+    return {
+      available:false,
+      reason:"Non-Bhadra Tithi"
+    };
+  }
+
+  /*
+   * ---------------------------------------------------------
+   * भद्रा पूर्वार्ध / उत्तरार्ध
+   * ---------------------------------------------------------
+   */
+  let bhadraHalf = null;
+
+  if(pakshaKey === "Shukla"){
+
+    if(
+      [3,10].includes(tithiIndex)
+    ){
+      bhadraHalf = "उत्तरार्ध";
+    }
+    else if(
+      [7,14].includes(tithiIndex)
+    ){
+      bhadraHalf = "पूर्वार्ध";
+    }
+
+  }
+  else if(pakshaKey === "Krishna"){
+
+    if(
+      [17,24].includes(tithiIndex)
+    ){
+      bhadraHalf = "उत्तरार्ध";
+    }
+    else if(
+      [21,28].includes(tithiIndex)
+    ){
+      bhadraHalf = "पूर्वार्ध";
+    }
+
+  }
+
+  /*
+   * ---------------------------------------------------------
+   * केवल Vishti करण खोजें
+   * ---------------------------------------------------------
    */
   const vishtiCandidates =
     (p.karanas || [])
@@ -672,25 +755,40 @@ const sankalpState = {
         k.end > k.start
       );
 
+  /*
+   * आज की तारीख पर यदि अभी Vishti चल रही है
+   * तो उसे प्राथमिकता।
+   */
   let vishtiKarana = null;
 
-  /*
-   * आज की तारीख पर पहले वर्तमान में चल रही
-   * भद्रा को प्राथमिकता।
-   */
-  if(now){
+  if(referenceNow){
+
     vishtiKarana =
       vishtiCandidates.find(
         k =>
-          now >= k.start &&
-          now < k.end
+          referenceNow >= k.start &&
+          referenceNow < k.end
       ) || null;
+
   }
 
   /*
-   * अन्यथा चयनित calendar-date से overlap वाली भद्रा।
+   * अन्यथा चयनित civil date से संबंधित Vishti लें।
    */
   if(!vishtiKarana){
+
+    const selectedDayStart =
+      new Date(
+        dateInput.value + "T00:00:00"
+      );
+
+    const selectedDayEnd =
+      new Date(selectedDayStart);
+
+    selectedDayEnd.setDate(
+      selectedDayEnd.getDate() + 1
+    );
+
     vishtiKarana =
       vishtiCandidates.find(
         k =>
@@ -700,9 +798,12 @@ const sankalpState = {
   }
 
   if(!vishtiKarana){
+
     return {
-      available:false
+      available:false,
+      reason:"Vishti not found"
     };
+
   }
 
   const start =
@@ -716,10 +817,435 @@ const sankalpState = {
     start.getTime();
 
   if(totalMs <= 0){
+
     return {
       available:false
     };
+
   }
+
+  /*
+   * =========================================================
+   * भद्रा के 6 अंग
+   *
+   * मुख  5
+   * कंठ  1
+   * हृदय 11
+   * नाभि  4
+   * कटि   6
+   * पुच्छ 3
+   *
+   * कुल = 30
+   *
+   * वास्तविक Vishti अवधि पर त्रैराशिक।
+   * =========================================================
+   */
+
+  const partNames = [
+    "मुख",
+    "कंठ",
+    "हृदय",
+    "नाभि",
+    "कटि",
+    "पुच्छ"
+  ];
+
+  const partRatios = [
+    5,
+    1,
+    11,
+    4,
+    6,
+    3
+  ];
+
+  const ratioTotal = 30;
+
+  const parts = [];
+
+  let activeIndex = -1;
+
+  let cursor =
+    start.getTime();
+
+  for(
+    let i = 0;
+    i < partNames.length;
+    i++
+  ){
+
+    const partMs =
+      totalMs *
+      partRatios[i] /
+      ratioTotal;
+
+    const pStart =
+      new Date(cursor);
+
+    const pEnd =
+      new Date(
+        i === partNames.length - 1
+          ? end.getTime()
+          : cursor + partMs
+      );
+
+    const isActive = !!(
+      referenceNow &&
+      referenceNow >= pStart &&
+      referenceNow < pEnd
+    );
+
+    if(isActive){
+      activeIndex = i;
+    }
+
+    parts.push({
+      name:partNames[i],
+      start:pStart,
+      end:pEnd,
+      isActive
+    });
+
+    cursor =
+      pEnd.getTime();
+  }
+
+  /*
+   * =========================================================
+   * भद्रा मुख / पुच्छ
+   *
+   * मुहूर्त चिन्तामणि के अनुसार:
+   *
+   * पूर्ण तिथि-मान = 60 घटी मानकर
+   *
+   * 1 प्रहर = तिथि का 1/8
+   *
+   * मुख = 5 घटी
+   *      = तिथि का 5/60
+   *      = तिथि का 1/12
+   *
+   * पुच्छ = 3 घटी
+   *       = तिथि का 3/60
+   *       = तिथि का 1/20
+   *
+   * वास्तविक तिथि छोटी/बड़ी हो तो
+   * यही अनुपात वास्तविक तिथि पर लगाया जाता है।
+   * =========================================================
+   */
+
+  const bhadraPraharRules = {
+
+    Shukla:{
+      3:{
+        mukha:5,
+        puccha:8
+      },
+
+      7:{
+        mukha:2,
+        puccha:1
+      },
+
+      10:{
+        mukha:7,
+        puccha:6
+      },
+
+      14:{
+        mukha:4,
+        puccha:3
+      }
+    },
+
+    Krishna:{
+      17:{
+        mukha:8,
+        puccha:7
+      },
+
+      21:{
+        mukha:3,
+        puccha:2
+      },
+
+      24:{
+        mukha:6,
+        puccha:5
+      },
+
+      28:{
+        mukha:1,
+        puccha:4
+      }
+    }
+
+  };
+
+  const praharRule =
+    bhadraPraharRules[pakshaKey]?.[
+      tithiIndex
+    ] || null;
+
+  let mukha = null;
+  let puccha = null;
+
+  /*
+   * ---------------------------------------------------------
+   * वास्तविक तिथि का Start / End
+   *
+   * Library के scalar tithiStartTime / tithiEndTime
+   * sunrise वाली तिथि की वास्तविक सीमा देते हैं।
+   * ---------------------------------------------------------
+   */
+  const tithiStart =
+    p.tithiStartTime
+      ? new Date(p.tithiStartTime)
+      : null;
+
+  const tithiEnd =
+    p.tithiEndTime
+      ? new Date(p.tithiEndTime)
+      : null;
+
+  if(
+    praharRule &&
+    tithiStart &&
+    tithiEnd &&
+    !isNaN(tithiStart.getTime()) &&
+    !isNaN(tithiEnd.getTime()) &&
+    tithiEnd > tithiStart
+  ){
+
+    const tithiDuration =
+      tithiEnd.getTime() -
+      tithiStart.getTime();
+
+    /*
+     * एक शास्त्रीय प्रहर =
+     * पूर्ण तिथि का 1/8
+     */
+    const tithiPraharMs =
+      tithiDuration / 8;
+
+    /*
+     * 5 घटी मुख =
+     * वास्तविक तिथि का 5/60 = 1/12
+     */
+    const mukhaDurationMs =
+      tithiDuration / 12;
+
+    /*
+     * 3 घटी पुच्छ =
+     * वास्तविक तिथि का 3/60 = 1/20
+     */
+    const pucchaDurationMs =
+      tithiDuration / 20;
+
+    /*
+     * -------------------------------------------------------
+     * मुख
+     *
+     * संबंधित प्रहर के आरंभ से।
+     * -------------------------------------------------------
+     */
+    const mukhaPraharStart =
+      new Date(
+        tithiStart.getTime() +
+        (
+          praharRule.mukha - 1
+        ) *
+        tithiPraharMs
+      );
+
+    const mukhaEnd =
+      new Date(
+        mukhaPraharStart.getTime() +
+        mukhaDurationMs
+      );
+
+    mukha = {
+      prahar:
+        praharRule.mukha,
+
+      start:
+        mukhaPraharStart,
+
+      end:
+        mukhaEnd,
+
+      isActive:!!(
+        referenceNow &&
+        referenceNow >= mukhaPraharStart &&
+        referenceNow < mukhaEnd
+      )
+    };
+
+    /*
+     * -------------------------------------------------------
+     * पुच्छ
+     *
+     * संबंधित प्रहर के अंतिम 3 घटी।
+     * -------------------------------------------------------
+     */
+    const pucchaPraharStart =
+      new Date(
+        tithiStart.getTime() +
+        (
+          praharRule.puccha - 1
+        ) *
+        tithiPraharMs
+      );
+
+    const pucchaPraharEnd =
+      new Date(
+        pucchaPraharStart.getTime() +
+        tithiPraharMs
+      );
+
+    const pucchaStart =
+      new Date(
+        pucchaPraharEnd.getTime() -
+        pucchaDurationMs
+      );
+
+    puccha = {
+      prahar:
+        praharRule.puccha,
+
+      start:
+        pucchaStart,
+
+      end:
+        pucchaPraharEnd,
+
+      isActive:!!(
+        referenceNow &&
+        referenceNow >= pucchaStart &&
+        referenceNow < pucchaPraharEnd
+      )
+    };
+
+  }
+
+  /*
+   * =========================================================
+   * भद्रा निवास
+   *
+   * मेष, वृषभ, मिथुन, वृश्चिक → स्वर्ग
+   * कन्या, तुला, धनु, मकर → पाताल
+   * कुम्भ, मीन, कर्क, सिंह → मृत्युलोक
+   * =========================================================
+   */
+
+  let niwas = "—";
+  let niwasColor = "#95a5a6";
+
+  const isActiveOverall = !!(
+    referenceNow &&
+    referenceNow >= start &&
+    referenceNow < end
+  );
+
+  let rashiIndex = null;
+
+  if(
+    typeof moonRashiIndex === "number"
+  ){
+    rashiIndex =
+      moonRashiIndex + 1;
+  }
+  else if(
+    typeof p.moonRashi?.index === "number"
+  ){
+    rashiIndex =
+      p.moonRashi.index + 1;
+  }
+  else if(
+    typeof p.moonLongitude === "number"
+  ){
+    rashiIndex =
+      Math.floor(
+        p.moonLongitude / 30
+      ) + 1;
+  }
+
+  const swargaRashi = [
+    1,2,3,8
+  ];
+
+  const patalRashi = [
+    6,7,9,10
+  ];
+
+  if(
+    rashiIndex !== null &&
+    rashiIndex >= 1 &&
+    rashiIndex <= 12
+  ){
+
+    if(
+      swargaRashi.includes(
+        rashiIndex
+      )
+    ){
+
+      niwas = "स्वर्ग";
+      niwasColor = "#2ecc71";
+
+    }
+    else if(
+      patalRashi.includes(
+        rashiIndex
+      )
+    ){
+
+      niwas = "पाताल";
+      niwasColor = "#8e44ad";
+
+    }
+    else{
+
+      niwas = "मृत्युलोक";
+      niwasColor = "#e67e22";
+
+    }
+
+  }
+
+  return {
+
+    available:true,
+
+    start,
+    end,
+
+    parts,
+    activeIndex,
+
+    niwas,
+    niwasColor,
+
+    isActive:
+      isActiveOverall,
+
+    bhadraHalf,
+
+    mukha,
+    puccha,
+
+    mukhaPrahar:
+      praharRule?.mukha ||
+      null,
+
+    pucchaPrahar:
+      praharRule?.puccha ||
+      null,
+
+    source:
+      "मुहूर्त चिन्तामणि — शुभाशुभ प्रकरण में भद्रा विचार"
+
+  };
+}
 
   /*
    * =========================================================
