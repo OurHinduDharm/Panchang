@@ -278,6 +278,25 @@ function getYatraNakshatra(
   return fallback || "—";
 }
 
+function getNakshatraSanjna(
+  nakshatraName
+){
+  for(
+    const group of Object.values(
+      kalaShoolaGroups
+    )
+  ){
+    if(
+      group.nakshatras.includes(
+        nakshatraName
+      )
+    ){
+      return group.hindi;
+    }
+  }
+
+  return null;
+}
 /*
  * कालशूल के 6 काल
  *
@@ -4903,20 +4922,52 @@ if(
     </span>
   </div>
 
-   ${
-  yatraShoola.kalaShoola.active
-    ? `
       <div class="time-row">
-        <b>वर्तमान काल</b>
-        <span>
-          ${yatraShoola.kalaShoola.active.name}
-          —
-          ${yatraShoola.kalaShoola.active.groups.join(" + ")}
-        </span>
-      </div>
-    `
-    : ""
-}
+     <b>वर्तमान काल</b>
+     <span>
+       ${
+         yatraShoola.kalaShoola.active
+           ? yatraShoola.kalaShoola.active.name
+           : "—"
+       }
+     </span>
+   </div>
+
+   <div class="time-row">
+     <b>नक्षत्र की संज्ञा</b>
+     <span>
+       ${
+         getNakshatraSanjna(
+           yatraShoola.nakshatraName
+         )
+           ? `${getNakshatraSanjna(
+               yatraShoola.nakshatraName
+             )} संज्ञक`
+           : "—"
+       }
+     </span>
+   </div>
+
+   <div class="time-row">
+     <b>
+       ${
+         yatraShoola.kalaShoola.activeBlocked
+           ? "🔴 वर्ज्यता"
+           : "🟢 वर्ज्यता"
+       }
+     </b>
+     <span>
+       ${
+         yatraShoola.kalaShoola.activeBlocked
+           ? `${getNakshatraSanjna(
+               yatraShoola.nakshatraName
+             )} संज्ञक नक्षत्र इस समय वर्ज्य है`
+           : `${getNakshatraSanjna(
+               yatraShoola.nakshatraName
+             )} संज्ञक नक्षत्र है, परन्तु वर्तमान काल में वर्ज्य नहीं है`
+       }
+     </span>
+   </div>
 
   ${
     yatraShoola.kalaShoola.specialShubha
