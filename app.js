@@ -4933,20 +4933,27 @@ if(
      </span>
    </div>
 
-   <div class="time-row">
-     <b>नक्षत्र की संज्ञा</b>
-     <span>
-       ${
-         getNakshatraSanjna(
-           yatraShoola.nakshatraName
-         )
-           ? `${getNakshatraSanjna(
-               yatraShoola.nakshatraName
-             )} संज्ञक`
-           : "—"
-       }
-     </span>
-   </div>
+    <div class="time-row">
+  <b>नक्षत्र</b>
+  <span>
+    ${yatraShoola.nakshatraName || "—"}
+  </span>
+</div>
+
+<div class="time-row">
+  <b>नक्षत्र की संज्ञा</b>
+  <span>
+    ${
+      getNakshatraSanjna(
+        yatraShoola.nakshatraName
+      )
+        ? `${getNakshatraSanjna(
+            yatraShoola.nakshatraName
+          )} संज्ञक`
+        : "—"
+    }
+  </span>
+</div>
 
    <div class="time-row">
      <b>
