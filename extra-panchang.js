@@ -1,6 +1,8 @@
 import {
   Elongation,
-  Observer
+  Observer,
+  EclipticLongitude,
+  AngleFromSun
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
 const PLANETS = [
@@ -274,31 +276,116 @@ function updatePlanetRiseSet() {
   /*
    * Astronomy Engine connection test.
    */
-  const testDate =
+  /* =========================================
+   TEMPORARY VENUS DIAGNOSTIC
+   ========================================= */
+
+function venusDiagnostic(dateString) {
+
+  const base =
     new Date(
-      `${selectedDate}T12:00:00+05:30`
+      `${dateString}T12:00:00+05:30`
     );
 
-  try {
+  console.log(
+    "===================================="
+  );
 
-    const venus =
-      Elongation(
-        "Venus",
-        testDate
+  console.log(
+    "🌟 VENUS DIAGNOSTIC:",
+    dateString
+  );
+
+  console.log(
+    "===================================="
+  );
+
+  /*
+   * दिन के आसपास हर 6 घंटे की value
+   */
+  for (
+    let hour = -24;
+    hour <= 24;
+    hour += 6
+  ) {
+
+    const date =
+      new Date(
+        base.getTime() +
+        hour * 60 * 60 * 1000
       );
 
-    console.log(
-      "Extra Panchang Venus:",
-      venus.ecliptic_separation
-    );
+    const result =
+      Elongation(
+        "Venus",
+        date
+      );
 
-  } catch (error) {
+    const sunAngle =
+      AngleFromSun(
+        "Venus",
+        date
+      );
 
-    console.error(
-      "Extra Panchang Venus calculation error:",
-      error
-    );
+    const venusLon =
+      EclipticLongitude(
+        "Venus",
+        date
+      );
+
+    const time =
+      date.toLocaleString(
+        "en-IN",
+        {
+          timeZone: "Asia/Kolkata",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }
+      );
+
+    console.log({
+      time: time,
+
+      visibility:
+        result.visibility,
+
+      elongation:
+        Number(
+          result.elongation.toFixed(6)
+        ),
+
+      eclipticSeparation:
+        Number(
+          result.ecliptic_separation.toFixed(6)
+        ),
+
+      angleFromSun:
+        Number(
+          sunAngle.toFixed(6)
+        ),
+
+      venusEclipticLongitude:
+        Number(
+          venusLon.toFixed(6)
+        )
+    });
   }
+
+  console.log(
+    "===================================="
+  );
+}
+
+
+/*
+ * Tantrakulam reference dates
+ */
+venusDiagnostic("2026-10-19");
+venusDiagnostic("2026-10-30");
 
   /*
    * फिलहाल verified reference data।
