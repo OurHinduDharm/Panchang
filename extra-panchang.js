@@ -216,21 +216,39 @@ function updatePlanetRiseSet() {
   }
 
   const result =
-    document.getElementById("result");
+  document.getElementById("result");
 
-  if (!result) {
-    console.warn(
-      "Extra Panchang: #result not found."
-    );
-    return;
-  }
+if (!result) {
+  console.warn(
+    "Extra Panchang: #result not found."
+  );
+  return;
+}
 
+/*
+ * चंद्रास्त वाले timing card को खोजकर
+ * उसके तुरंत बाद ग्रह उदय-अस्त card रखें।
+ */
+const cards = [...result.children];
+
+const moonsetCard = cards.find(card =>
+  /चंद्रास्त|चन्द्रास्त|moonset/i.test(
+    card.textContent || ""
+  )
+);
+
+if (moonsetCard) {
+  moonsetCard.insertAdjacentElement(
+    "afterend",
+    newCard
+  );
+} else {
   /*
-   * अभी card को result में डाल रहे हैं।
-   * अगला छोटा step इसे moonset के तुरंत बाद
-   * सही timing-card position में insert करेगा।
+   * अगर चंद्रास्त card अभी render नहीं हुआ,
+   * तो फिलहाल अंत में रखें।
    */
   result.appendChild(newCard);
+}
 }
 
 function initExtraPanchang() {
