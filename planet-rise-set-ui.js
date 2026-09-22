@@ -80,3 +80,4 @@ export function updatePlanetRiseSet() {
     container.appendChild(createPlanetRiseSetCard(data));
   }
 }
+window.updatePlanetRiseSet = updatePlanetRiseSet;
