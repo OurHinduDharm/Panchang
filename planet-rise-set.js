@@ -11,28 +11,25 @@ const PLANETS = [
   { key: "saturn",  name: "शनि", body: "Saturn" }
 ];
 
-function localDateTime(date, timeZone = "Asia/Kolkata") {
+function formatTime(date, timeZone = "Asia/Kolkata") {
   if (!date) return null;
 
   return new Intl.DateTimeFormat("en-IN", {
     timeZone,
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
     hour12: true
   }).format(date);
 }
 
-function getPlanetEvent(body, observer, startDate, direction) {
+function getEvent(body, observer, startDate, direction) {
   try {
     const result = SearchRiseSet(
       body,
       observer,
       direction,
       startDate,
-      2
+      1
     );
 
     return result?.date || null;
@@ -50,30 +47,30 @@ export function getPlanetRiseSet({
   timeZone = "Asia/Kolkata"
 }) {
   if (
-    !Number.isFinite(latitude) ||
-    !Number.isFinite(longitude) ||
+    !Number.isFinite(Number(latitude)) ||
+    !Number.isFinite(Number(longitude)) ||
     !date
   ) {
     return [];
   }
 
   const observer = new Observer(
-    latitude,
-    longitude,
-    elevation
+    Number(latitude),
+    Number(longitude),
+    Number(elevation) || 0
   );
 
   const startDate = new Date(date);
 
   return PLANETS.map(planet => {
-    const rise = getPlanetEvent(
+    const rise = getEvent(
       planet.body,
       observer,
       startDate,
       +1
     );
 
-    const set = getPlanetEvent(
+    const set = getEvent(
       planet.body,
       observer,
       startDate,
@@ -83,12 +80,8 @@ export function getPlanetRiseSet({
     return {
       key: planet.key,
       name: planet.name,
-      rise: rise
-        ? localDateTime(rise, timeZone)
-        : null,
-      set: set
-        ? localDateTime(set, timeZone)
-        : null
+      rise: rise ? formatTime(rise, timeZone) : null,
+      set: set ? formatTime(set, timeZone) : null
     };
   });
 }
