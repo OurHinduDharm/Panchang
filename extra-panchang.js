@@ -73,15 +73,131 @@ function formatEventDate(dateString) {
  * यह permanent hard-coded Panchang calculation नहीं है।
  * यह केवल UI और module architecture verify करने के लिए है।
  */
-const VERIFIED_EVENTS = {
-  venus: {
-    asta: "2026-10-19",
-    astaDegree: "7.76°",
-
-    udaya: "2026-10-30",
-    udayaDegree: "9.70°"
-  }
+const VENUS_EVENT_RULE = {
+  // शुक्र के Asta/Udaya के लिए प्रारंभिक independent calculation rule
+  astaDegree: 8,
+  udayaDegree: 10
 };
+
+function getVenusEvent(dateString, direction) {
+  const location = getLocation();
+
+  if (!location) return null;
+
+  const baseDate = new Date(
+    `${dateString}T12:00:00+05:30`
+  );
+
+  const observer = new Observer(
+    location.latitude,
+    location.longitude,
+    location.elevation
+  );
+
+  /*
+   * अगले/पिछले event की खोज।
+   *
+   * हर दिन 12:00 IST पर Venus की
+   * सूर्य से ecliptic separation देखते हैं।
+   */
+  const target =
+    direction === "asta"
+      ? VENUS_EVENT_RULE.astaDegree
+      : VENUS_EVENT_RULE.udayaDegree;
+
+  const step = direction === "asta" ? -1 : 1;
+
+  let previousDate = new Date(baseDate);
+  let previousValue =
+    Elongation("Venus", previousDate).ecliptic_separation;
+
+  for (let i = 1; i <= 370; i++) {
+    const currentDate = new Date(baseDate);
+    currentDate.setDate(
+      currentDate.getDate() + step * i
+    );
+
+    const currentValue =
+      Elongation(
+        "Venus",
+        currentDate
+      ).ecliptic_separation;
+
+    const crossed =
+      direction === "asta"
+        ? previousValue >= target &&
+          currentValue < target
+        : previousValue <= target &&
+          currentValue > target;
+
+    if (crossed) {
+      return {
+        date: currentDate,
+        degree: currentValue
+      };
+    }
+
+    previousDate = currentDate;
+    previousValue = currentValue;
+  }
+
+  return null;
+}
+
+function formatEventDateTime(date) {
+  if (!date) return "—";
+
+  return new Intl.DateTimeFormat("hi-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  }).format(date);
+}
+
+function getPlanetEvent(planet) {
+  if (planet.key !== "venus") {
+    return {
+      name: planet.name,
+      asta: null,
+      astaDegree: null,
+      udaya: null,
+      udayaDegree: null
+    };
+  }
+
+  const selectedDate = getSelectedDate();
+
+  const asta = getVenusEvent(
+    selectedDate,
+    "asta"
+  );
+
+  const udaya = getVenusEvent(
+    selectedDate,
+    "udaya"
+  );
+
+  return {
+    name: planet.name,
+
+    asta: asta
+      ? formatEventDateTime(asta.date)
+      : null,
+
+    astaDegree: asta
+      ? `${asta.degree.toFixed(2)}°`
+      : null,
+
+    udaya: udaya
+      ? formatEventDateTime(udaya.date)
+      : null,
+
+    udayaDegree: udaya
+      ? `${udaya.degree.toFixed(2)}°`
+      : null
+  };
+}
 
 function getPlanetEvent(planet) {
   const event = VERIFIED_EVENTS[planet.key];
