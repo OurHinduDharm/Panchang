@@ -407,40 +407,52 @@ function findEvent(
   referenceDate,
   evtType
 ) {
-
   const referenceJD =
     dateToJD(referenceDate);
 
+  const rows = [];
 
   /*
-   * Search 30 days before the reference date.
-   *
-   * This is ONLY the starting point for swe.heliacal_ut().
-   * We are not forcing the result to the reference date.
+   * Reference date से 15 दिन पहले से
+   * reference date के 15 दिन बाद तक
+   * अलग-अलग starting JD से heliacal_ut()
+   * को test करेंगे.
    */
+  for (let offset = -15; offset <= 15; offset++) {
 
-  const searchStart =
-    referenceJD - 30;
+    const jdFrom =
+      referenceJD + offset;
 
+    const jd =
+      nextEvent(
+        planet,
+        jdFrom,
+        evtType
+      );
 
-  const jd =
-    nextEvent(
-      planet,
-      searchStart,
-      evtType
-    );
+    if (jd === null) {
+      rows.push({
+        offset,
+        jdFrom: jdFrom.toFixed(6),
+        result: null
+      });
 
+      continue;
+    }
 
-  if (jd === null) {
-    return null;
+    const resultDate =
+      jdToDate(jd);
+
+    rows.push({
+      offset,
+      jdFrom: jdFrom.toFixed(6),
+      resultJD: jd.toFixed(6),
+      utc: resultDate.toISOString(),
+      ist: formatIST(resultDate)
+    });
   }
 
-
-  return {
-    jd,
-    date: jdToDate(jd)
-  };
-
+  return rows;
 }
 
 
