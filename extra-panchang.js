@@ -5,6 +5,65 @@ import {
   AngleFromSun
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
+window.ohdVenusDiagnostic = function () {
+
+  const dates = [
+    "2026-10-19",
+    "2026-10-30"
+  ];
+
+  for (const dateString of dates) {
+
+    console.log(
+      `===== VENUS ${dateString} =====`
+    );
+
+    const start =
+      new Date(
+        `${dateString}T00:00:00+05:30`
+      );
+
+    for (let hour = 0; hour < 24; hour++) {
+
+      const date =
+        new Date(
+          start.getTime() +
+          hour * 60 * 60 * 1000
+        );
+
+      const v =
+        Elongation(
+          "Venus",
+          date
+        );
+
+      console.log({
+        time: date.toLocaleString(
+          "en-IN",
+          {
+            timeZone: "Asia/Kolkata",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+          }
+        ),
+
+        visibility: v.visibility,
+
+        eclipticSeparation:
+          Number(
+            v.ecliptic_separation.toFixed(6)
+          ),
+
+        elongation:
+          Number(
+            v.elongation.toFixed(6)
+          )
+      });
+    }
+  }
+};
+
 const PLANETS = [
   { key: "mercury", name: "बुध", body: "Mercury" },
   { key: "venus", name: "शुक्र", body: "Venus" },
