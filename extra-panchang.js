@@ -1,88 +1,72 @@
 import {
   Elongation,
-  Observer,
-  EclipticLongitude,
-  AngleFromSun
+  Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
-window.ohdVenusDiagnostic = function () {
 
-  const dates = [
-    "2026-10-19",
-    "2026-10-30"
-  ];
-
-  for (const dateString of dates) {
-
-    console.log(
-      `===== VENUS ${dateString} =====`
-    );
-
-    const start =
-      new Date(
-        `${dateString}T00:00:00+05:30`
-      );
-
-    for (let hour = 0; hour < 24; hour++) {
-
-      const date =
-        new Date(
-          start.getTime() +
-          hour * 60 * 60 * 1000
-        );
-
-      const v =
-        Elongation(
-          "Venus",
-          date
-        );
-
-      console.log({
-        time: date.toLocaleString(
-          "en-IN",
-          {
-            timeZone: "Asia/Kolkata",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false
-          }
-        ),
-
-        visibility: v.visibility,
-
-        eclipticSeparation:
-          Number(
-            v.ecliptic_separation.toFixed(6)
-          ),
-
-        elongation:
-          Number(
-            v.elongation.toFixed(6)
-          )
-      });
-    }
-  }
-};
+/* =========================================
+   ग्रह सूची
+   ========================================= */
 
 const PLANETS = [
-  { key: "mercury", name: "बुध", body: "Mercury" },
-  { key: "venus", name: "शुक्र", body: "Venus" },
-  { key: "mars", name: "मंगल", body: "Mars" },
-  { key: "jupiter", name: "गुरु", body: "Jupiter" },
-  { key: "saturn", name: "शनि", body: "Saturn" }
+  {
+    key: "mercury",
+    name: "बुध",
+    body: "Mercury"
+  },
+
+  {
+    key: "venus",
+    name: "शुक्र",
+    body: "Venus"
+  },
+
+  {
+    key: "mars",
+    name: "मंगल",
+    body: "Mars"
+  },
+
+  {
+    key: "jupiter",
+    name: "गुरु",
+    body: "Jupiter"
+  },
+
+  {
+    key: "saturn",
+    name: "शनि",
+    body: "Saturn"
+  }
 ];
 
+
+/* =========================================
+   Location
+   ========================================= */
+
 function getLocation() {
+
   try {
+
     const saved =
-      localStorage.getItem("ohdPanchangLocation");
+      localStorage.getItem(
+        "ohdPanchangLocation"
+      );
 
-    if (!saved) return null;
+    if (!saved) {
+      return null;
+    }
 
-    const location = JSON.parse(saved);
+    const location =
+      JSON.parse(saved);
 
-    const lat = Number(location.lat);
-    const lon = Number(location.lon);
+    const lat =
+      Number(location.lat);
+
+    const lon =
+      Number(location.lon);
+
     const elevation =
       Number(location.elevation) || 0;
 
@@ -98,7 +82,9 @@ function getLocation() {
       longitude: lon,
       elevation
     };
+
   } catch (error) {
+
     console.error(
       "Extra Panchang location error:",
       error
@@ -108,100 +94,512 @@ function getLocation() {
   }
 }
 
+
+/* =========================================
+   Selected date
+   ========================================= */
+
 function getSelectedDate() {
+
   return (
-    document.getElementById("dateInput")?.value ||
-    null
+    document.getElementById(
+      "dateInput"
+    )?.value || null
   );
 }
 
-/*
- * अभी केवल UI/module verification के लिए
- * शुक्र का verified reference रखा गया है।
- *
- * यह permanent calculation नहीं है।
- */
-const VENUS_REFERENCE = {
-  asta: {
-    date: "2026-10-19",
-    degree: "7.76°"
-  },
 
-  udaya: {
-    date: "2026-10-30",
-    degree: "9.70°"
+/* =========================================
+   Date formatting
+   ========================================= */
+
+function formatEventDate(
+  dateString
+) {
+
+  if (!dateString) {
+    return "—";
   }
-};
 
-function formatEventDate(dateString) {
-  if (!dateString) return "—";
+  const date =
+    new Date(
+      `${dateString}T12:00:00+05:30`
+    );
 
-  const date = new Date(
+  return new Intl.DateTimeFormat(
+    "hi-IN",
+    {
+      timeZone: "Asia/Kolkata",
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }
+  ).format(date);
+}
+
+
+/* =========================================
+   Local noon
+
+   Tantrakulam के displayed degree
+   values से तुलना के लिए फिलहाल
+   local noon पर ecliptic separation
+   record किया जाता है।
+   ========================================= */
+
+function getLocalNoon(
+  dateString
+) {
+
+  return new Date(
     `${dateString}T12:00:00+05:30`
   );
-
-  return new Intl.DateTimeFormat("hi-IN", {
-    timeZone: "Asia/Kolkata",
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  }).format(date);
 }
 
-function getPlanetEvent(planet) {
 
-  /*
-   * अभी केवल शुक्र का reference दिखाएँ।
-   */
-  if (planet.key === "venus") {
-    return {
-      name: planet.name,
+/* =========================================
+   Date helper
+   ========================================= */
 
-      asta:
-        formatEventDate(
-          VENUS_REFERENCE.asta.date
-        ),
+function addDays(
+  dateString,
+  days
+) {
 
-      astaDegree:
-        VENUS_REFERENCE.asta.degree,
+  const date =
+    new Date(
+      `${dateString}T12:00:00+05:30`
+    );
 
-      udaya:
-        formatEventDate(
-          VENUS_REFERENCE.udaya.date
-        ),
+  date.setDate(
+    date.getDate() + days
+  );
 
-      udayaDegree:
-        VENUS_REFERENCE.udaya.degree
-    };
-  }
+  return (
+    date
+      .toLocaleDateString(
+        "en-CA",
+        {
+          timeZone: "Asia/Kolkata"
+        }
+      )
+  );
+}
 
-  /*
-   * बाकी ग्रहों की calculation
-   * अगले चरण में आएगी।
-   */
+
+/* =========================================
+   Venus daily calculation
+   ========================================= */
+
+function getVenusDailyData(
+  dateString
+) {
+
+  const date =
+    getLocalNoon(
+      dateString
+    );
+
+  const result =
+    Elongation(
+      "Venus",
+      date
+    );
+
   return {
-    name: planet.name,
-    asta: null,
-    astaDegree: null,
-    udaya: null,
-    udayaDegree: null
+
+    date: dateString,
+
+    visibility:
+      result.visibility,
+
+    elongation:
+      Number(
+        result.elongation.toFixed(6)
+      ),
+
+    eclipticSeparation:
+      Number(
+        result.ecliptic_separation.toFixed(6)
+      )
   };
 }
 
-function createPlanetCard(data) {
+
+/* =========================================
+   Venus motion
+
+   पिछले और अगले दिन की
+   ecliptic separation देखकर
+   पता लगाएँ कि Venus direct है
+   या retrograde.
+
+   यह केवल threshold selection
+   के लिए है।
+   ========================================= */
+
+function getVenusMotion(
+  dateString
+) {
+
+  const previousDate =
+    addDays(
+      dateString,
+      -1
+    );
+
+  const nextDate =
+    addDays(
+      dateString,
+      1
+    );
+
+  const previous =
+    getVenusDailyData(
+      previousDate
+    );
+
+  const current =
+    getVenusDailyData(
+      dateString
+    );
+
+  const next =
+    getVenusDailyData(
+      nextDate
+    );
+
+  /*
+   * ecliptic separation conjunction
+   * के आसपास घटता-बढ़ता है।
+   *
+   * यहां actual Venus longitude की जगह
+   * separation trend को अभी केवल
+   * temporary threshold-selection
+   * signal की तरह इस्तेमाल किया गया है।
+   */
+
+  if (
+    next.eclipticSeparation >
+    previous.eclipticSeparation
+  ) {
+
+    return "direct";
+
+  }
+
+  if (
+    next.eclipticSeparation <
+    previous.eclipticSeparation
+  ) {
+
+    return "retrograde";
+  }
+
+  return "unknown";
+}
+
+
+/* =========================================
+   Venus threshold
+
+   Surya-Siddhanta approximate rule:
+
+   Direct Venus:
+   10°
+
+   Retrograde Venus:
+   8°
+
+   NOTE:
+   यह अभी working approximation है।
+   Tantrakulam matching के लिए बाद में
+   अलग event rule test किया जाएगा।
+   ========================================= */
+
+function getVenusThreshold(
+  motion
+) {
+
+  if (
+    motion === "retrograde"
+  ) {
+
+    return 8;
+
+  }
+
+  if (
+    motion === "direct"
+  ) {
+
+    return 10;
+
+  }
+
+  return 10;
+}
+
+
+/* =========================================
+   Search Venus Asta
+
+   selected date से लगभग
+   180 दिन पीछे तक search.
+
+   Asta:
+   evening Venus
+   + separation threshold के
+   नीचे/बराबर जाना.
+   ========================================= */
+
+function findVenusAsta(
+  selectedDate
+) {
+
+  for (
+    let offset = -180;
+    offset <= 30;
+    offset++
+  ) {
+
+    const date =
+      addDays(
+        selectedDate,
+        offset
+      );
+
+    const data =
+      getVenusDailyData(
+        date
+      );
+
+    if (
+      data.visibility !== "evening"
+    ) {
+      continue;
+    }
+
+    const motion =
+      getVenusMotion(
+        date
+      );
+
+    const threshold =
+      getVenusThreshold(
+        motion
+      );
+
+    if (
+      data.eclipticSeparation <=
+      threshold
+    ) {
+
+      return {
+        date: data.date,
+
+        degree:
+          data.eclipticSeparation,
+
+        motion,
+
+        threshold
+      };
+    }
+  }
+
+  return null;
+}
+
+
+/* =========================================
+   Search Venus Udaya
+
+   selected date से लगभग
+   180 दिन पीछे तक search.
+
+   Udaya:
+   morning Venus
+   + separation threshold के
+   ऊपर/बराबर जाना.
+   ========================================= */
+
+function findVenusUdaya(
+  selectedDate
+) {
+
+  for (
+    let offset = -30;
+    offset <= 180;
+    offset++
+  ) {
+
+    const date =
+      addDays(
+        selectedDate,
+        offset
+      );
+
+    const data =
+      getVenusDailyData(
+        date
+      );
+
+    if (
+      data.visibility !== "morning"
+    ) {
+      continue;
+    }
+
+    const motion =
+      getVenusMotion(
+        date
+      );
+
+    const threshold =
+      getVenusThreshold(
+        motion
+      );
+
+    if (
+      data.eclipticSeparation >=
+      threshold
+    ) {
+
+      return {
+        date: data.date,
+
+        degree:
+          data.eclipticSeparation,
+
+        motion,
+
+        threshold
+      };
+    }
+  }
+
+  return null;
+}
+
+
+/* =========================================
+   Venus event
+
+   ========================================= */
+
+function getVenusEvent(
+  selectedDate
+) {
+
+  const asta =
+    findVenusAsta(
+      selectedDate
+    );
+
+  const udaya =
+    findVenusUdaya(
+      selectedDate
+    );
+
+  return {
+
+    name: "शुक्र",
+
+    asta:
+      asta
+        ? formatEventDate(
+            asta.date
+          )
+        : null,
+
+    astaDegree:
+      asta
+        ? `${asta.degree.toFixed(2)}°`
+        : null,
+
+    udaya:
+      udaya
+        ? formatEventDate(
+            udaya.date
+          )
+        : null,
+
+    udayaDegree:
+      udaya
+        ? `${udaya.degree.toFixed(2)}°`
+        : null
+  };
+}
+
+
+/* =========================================
+   बाकी ग्रह
+
+   अभी dynamic calculation नहीं।
+   अगले चरण में आएगा।
+   ========================================= */
+
+function getPlanetEvent(
+  planet,
+  selectedDate
+) {
+
+  if (
+    planet.key === "venus"
+  ) {
+
+    return getVenusEvent(
+      selectedDate
+    );
+  }
+
+  return {
+
+    name:
+      planet.name,
+
+    asta:
+      null,
+
+    astaDegree:
+      null,
+
+    udaya:
+      null,
+
+    udayaDegree:
+      null
+  };
+}
+
+
+/* =========================================
+   Card creation
+   ========================================= */
+
+function createPlanetCard(
+  data
+) {
 
   const card =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  card.className = "card full";
-  card.id = "planetRiseSetCard";
+  card.className =
+    "card full";
+
+  card.id =
+    "planetRiseSetCard";
 
   card.innerHTML = `
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
     <div class="planet-rise-set-grid">
 
-      ${data.map(planet => `
+      ${data.map(
+        planet => `
 
         <div class="planet-rise-set-row">
 
@@ -252,7 +650,8 @@ function createPlanetCard(data) {
 
         </div>
 
-      `).join("")}
+      `
+      ).join("")}
 
     </div>
   `;
@@ -260,12 +659,22 @@ function createPlanetCard(data) {
   return card;
 }
 
-function placePlanetCard(newCard) {
+
+/* =========================================
+   Card placement
+   ========================================= */
+
+function placePlanetCard(
+  newCard
+) {
 
   const result =
-    document.getElementById("result");
+    document.getElementById(
+      "result"
+    );
 
   if (!result) {
+
     console.warn(
       "Extra Panchang: #result not found."
     );
@@ -274,17 +683,19 @@ function placePlanetCard(newCard) {
   }
 
   /*
-   * चंद्रास्त वाले section के तुरंत बाद
-   * ग्रह उदय-अस्त card रखें।
+   * चंद्रास्त वाले section के
+   * तुरंत बाद card रखें।
    */
+
   const cards =
     [...result.children];
 
   const moonsetCard =
-    cards.find(card =>
-      /चंद्रास्त|चन्द्रास्त|moonset/i.test(
-        card.textContent || ""
-      )
+    cards.find(
+      card =>
+        /चंद्रास्त|चन्द्रास्त|moonset/i.test(
+          card.textContent || ""
+        )
     );
 
   if (moonsetCard) {
@@ -296,13 +707,16 @@ function placePlanetCard(newCard) {
 
   } else {
 
-    /*
-     * यदि उस समय चंद्रास्त card
-     * उपलब्ध नहीं है तो अंत में रखें।
-     */
-    result.appendChild(newCard);
+    result.appendChild(
+      newCard
+    );
   }
 }
+
+
+/* =========================================
+   Main update
+   ========================================= */
 
 function updatePlanetRiseSet() {
 
@@ -312,7 +726,10 @@ function updatePlanetRiseSet() {
   const selectedDate =
     getSelectedDate();
 
-  if (!location || !selectedDate) {
+  if (
+    !location ||
+    !selectedDate
+  ) {
 
     console.warn(
       "Extra Panchang: location/date unavailable."
@@ -321,10 +738,13 @@ function updatePlanetRiseSet() {
     return;
   }
 
+
   /*
-   * Observer अभी केवल future
-   * location-based calculation के लिए तैयार है।
+   * Observer अभी future
+   * location-dependent calculations
+   * के लिए रखा गया है।
    */
+
   const observer =
     new Observer(
       location.latitude,
@@ -332,128 +752,45 @@ function updatePlanetRiseSet() {
       location.elevation
     );
 
+
   /*
-   * Astronomy Engine connection test.
+   * Observer currently does not
+   * alter Elongation().
+   *
+   * Keep it here because future
+   * rise/set calculations will use it.
    */
-  /* =========================================
-   TEMPORARY VENUS DIAGNOSTIC
-   ========================================= */
 
-function venusDiagnostic(dateString) {
+  void observer;
 
-  const base =
-    new Date(
-      `${dateString}T12:00:00+05:30`
+
+  /*
+   * सभी ग्रहों का data
+   */
+
+  const data =
+    PLANETS.map(
+      planet =>
+        getPlanetEvent(
+          planet,
+          selectedDate
+        )
     );
 
-  console.log(
-    "===================================="
-  );
-
-  console.log(
-    "🌟 VENUS DIAGNOSTIC:",
-    dateString
-  );
-
-  console.log(
-    "===================================="
-  );
 
   /*
-   * दिन के आसपास हर 6 घंटे की value
+   * नया card
    */
-  for (
-    let hour = -24;
-    hour <= 24;
-    hour += 6
-  ) {
-
-    const date =
-      new Date(
-        base.getTime() +
-        hour * 60 * 60 * 1000
-      );
-
-    const result =
-      Elongation(
-        "Venus",
-        date
-      );
-
-    const sunAngle =
-      AngleFromSun(
-        "Venus",
-        date
-      );
-
-    const venusLon =
-      EclipticLongitude(
-        "Venus",
-        date
-      );
-
-    const time =
-      date.toLocaleString(
-        "en-IN",
-        {
-          timeZone: "Asia/Kolkata",
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false
-        }
-      );
-
-    console.log({
-      time: time,
-
-      visibility:
-        result.visibility,
-
-      elongation:
-        Number(
-          result.elongation.toFixed(6)
-        ),
-
-      eclipticSeparation:
-        Number(
-          result.ecliptic_separation.toFixed(6)
-        ),
-
-      angleFromSun:
-        Number(
-          sunAngle.toFixed(6)
-        ),
-
-      venusEclipticLongitude:
-        Number(
-          venusLon.toFixed(6)
-        )
-    });
-  }
-
-  console.log(
-    "===================================="
-  );
-}
-
-
-/*
- * Tantrakulam reference dates
- */
-venusDiagnostic("2026-10-19");
-venusDiagnostic("2026-10-30");
-
-  /*
-   * फिलहाल verified reference data।
-   */
-  const data =
-    PLANETS.map(getPlanetEvent);
 
   const newCard =
-    createPlanetCard(data);
+    createPlanetCard(
+      data
+    );
+
+
+  /*
+   * पुराने card को replace करें।
+   */
 
   const oldCard =
     document.getElementById(
@@ -461,16 +798,37 @@ venusDiagnostic("2026-10-30");
     );
 
   if (oldCard) {
-    oldCard.replaceWith(newCard);
+
+    oldCard.replaceWith(
+      newCard
+    );
+
     return;
   }
 
-  placePlanetCard(newCard);
+
+  /*
+   * पहली बार card लगाएँ।
+   */
+
+  placePlanetCard(
+    newCard
+  );
 }
+
+
+/* =========================================
+   Initialization
+   ========================================= */
 
 function initExtraPanchang() {
 
   updatePlanetRiseSet();
+
+
+  /*
+   * Date change
+   */
 
   const dateInput =
     document.getElementById(
@@ -486,9 +844,8 @@ function initExtraPanchang() {
         /*
          * app.js पहले #result को
          * दोबारा render कर सकता है।
-         *
-         * इसलिए थोड़ा बाद में card लगाएँ।
          */
+
         setTimeout(
           updatePlanetRiseSet,
           100
@@ -497,6 +854,11 @@ function initExtraPanchang() {
       }
     );
   }
+
+
+  /*
+   * Location change
+   */
 
   window.addEventListener(
     "ohd:locationChanged",
@@ -511,8 +873,14 @@ function initExtraPanchang() {
   );
 }
 
+
+/* =========================================
+   Start
+   ========================================= */
+
 if (
-  document.readyState === "loading"
+  document.readyState ===
+  "loading"
 ) {
 
   document.addEventListener(
