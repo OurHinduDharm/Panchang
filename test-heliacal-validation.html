@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heliacal Asta/Udaya Validation</title>
+
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    padding: 16px;
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  button {
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #status {
+    margin: 12px 0;
+    font-weight: bold;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 7px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    background: #f5f5f5;
+    padding: 12px;
+    overflow-x: auto;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>🌌 Swiss Ephemeris Heliacal Validation</h1>
+
+<p>
+  Standalone test — this file does not use <code>app.js</code> or
+  <code>extra-panchang.js</code>.
+</p>
+
+<p>
+  Coordinates used for validation:
+  <br>
+  Latitude: <b>30.1265</b>
+  <br>
+  Longitude: <b>80.4817</b>
+  <br>
+  Altitude: <b>0 m</b>
+  <br>
+  Timezone: <b>Asia/Kolkata</b>
+</p>
+
+<button id="runBtn">Run Validation</button>
+
+<div id="status">Ready.</div>
+
+<div id="results"></div>
+
+<h3>Raw diagnostic output</h3>
+<pre id="log"></pre>
+
+
+<script type="module">
+
+/*
+ * ============================================================
+ * Swiss Ephemeris WASM
+ * ============================================================
+ */
+
+const mod = await import(
+  "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js"
+);
+
+const SwissEph = mod.default;
+
+const swe = new SwissEph();
+
+await swe.initSwissEph();
+
+
+/*
+ * ============================================================
+ * Swiss Ephemeris constants
+ * ============================================================
+ */
+
+const HELIACAL_RISING = 1;
+const HELIACAL_SETTING = 2;
+
+const EVENING_FIRST = 3;
+const MORNING_LAST = 4;
+
+const FLG_SWIEPH = 2;
+
+
+/*
+ * ============================================================
+ * Python source equivalents
+ * ============================================================
+ */
+
+const STD_ATMO = [
+  1013.25,
+  15.0,
+  40.0,
+  0.0
+];
+
+
+/*
+ * These are copied from the supplied Python source.
+ */
+
+const SNELLEN = {
+
+  Saturn: {
+    setting: 5.0,
+    rising: 1.0,
+    morningLast: 5.0,
+    eveningFirst: 1.0
+  },
+
+  Jupiter: {
+    setting: 3.0,
+    rising: 3.0,
+    morningLast: 3.0,
+    eveningFirst: 3.0
+  },
+
+  Mars: {
+    setting: 5.0,
+    rising: 0.9,
+    morningLast: 5.0,
+    eveningFirst: 0.9
+  },
+
+  Mercury: {
+    setting: 3.0,
+    rising: 3.0,
+    morningLast: 3.0,
+    eveningFirst: 3.0
+  },
+
+  Venus: {
+    setting: 3.0,
+    rising: 3.0,
+    morningLast: 3.0,
+    eveningFirst: 3.0
+  }
+
+};
+
+
+/*
+ * ============================================================
+ * Pithoragarh validation coordinates
+ * ============================================================
+ */
+
+const GEO_POS = [
+  80.4817,  // longitude
+  30.1265,  // latitude
+  0.0       // altitude
+];
+
+
+/*
+ * ============================================================
+ * Reference events
+ *
+ * These are NOT used to calculate anything.
+ * They are only validation targets.
+ * ============================================================
+ */
+
+const TESTS = [
+
+  {
+    planet: "Venus",
+    event: "Asta",
+    date: "2026-10-19",
+    referenceDegree: 7.76,
+    evtType: HELIACAL_SETTING
+  },
+
+  {
+    planet: "Venus",
+    event: "Udaya",
+    date: "2026-10-30",
+    referenceDegree: 9.70,
+    evtType: HELIACAL_RISING
+  },
+
+  {
+    planet: "Jupiter",
+    event: "Asta",
+    date: "2027-08-17",
+    referenceDegree: 10.49,
+    evtType: HELIACAL_SETTING
+  },
+
+  {
+    planet: "Jupiter",
+    event: "Udaya",
+    date: "2027-09-15",
+    referenceDegree: 11.28,
+    evtType: HELIACAL_RISING
+  }
+
+];
+
+
+/*
+ * ============================================================
+ * Helpers
+ * ============================================================
+ */
+
+
+/*
+ * Convert Gregorian UTC date to Julian Day.
+ *
+ * This corresponds to:
+ *
+ * swe.julday(year, month, day, 0.0)
+ */
+function dateToJD(dateString) {
+
+  const [year, month, day] =
+    dateString.split("-").map(Number);
+
+  return swe.julday(
+    year,
+    month,
+    day,
+    0.0
+  );
+}
+
+
+/*
+ * Convert Julian Day to JS Date.
+ *
+ * Julian Day 2440587.5 = Unix epoch.
+ */
+function jdToDate(jd) {
+
+  return new Date(
+    (jd - 2440587.5) *
+    86400000
+  );
+
+}
+
+
+/*
+ * Format date in Indian timezone.
+ */
+function formatIST(date) {
+
+  if (!date || Number.isNaN(date.getTime())) {
+    return "Invalid";
+  }
+
+  return new Intl.DateTimeFormat(
+    "en-IN",
+    {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }
+  ).format(date);
+
+}
+
+
+/*
+ * ============================================================
+ * Python _next_event() equivalent
+ * ============================================================
+ */
+
+function nextEvent(
+  planet,
+  jdFrom,
+  evtType
+) {
+
+  let snellen;
+
+  switch (evtType) {
+
+    case HELIACAL_SETTING:
+      snellen =
+        SNELLEN[planet].setting;
+      break;
+
+    case HELIACAL_RISING:
+      snellen =
+        SNELLEN[planet].rising;
+      break;
+
+    case MORNING_LAST:
+      snellen =
+        SNELLEN[planet].morningLast;
+      break;
+
+    case EVENING_FIRST:
+      snellen =
+        SNELLEN[planet].eveningFirst;
+      break;
+
+    default:
+      throw new Error(
+        `Unknown event type: ${evtType}`
+      );
+
+  }
+
+
+  /*
+   * Exactly as supplied Python source:
+   *
+   * observer = [36.0, snellen, 0, 0, 0, 0]
+   */
+
+  const observer = [
+    36.0,
+    snellen,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ];
+
+
+  try {
+
+    const result =
+      swe.heliacal_ut(
+        jdFrom,
+        GEO_POS,
+        STD_ATMO,
+        observer,
+        planet,
+        evtType,
+        FLG_SWIEPH
+      );
+
+    return Number(result[0]);
+
+  } catch (error) {
+
+    console.error(
+      "heliacal_ut error:",
+      planet,
+      evtType,
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+/*
+ * ============================================================
+ * Find event around requested reference date
+ *
+ * We deliberately search a window rather than hard-code
+ * the reference event itself.
+ * ============================================================
+ */
+
+function findEvent(
+  planet,
+  referenceDate,
+  evtType
+) {
+
+  const referenceJD =
+    dateToJD(referenceDate);
+
+
+  /*
+   * Search 30 days before the reference date.
+   *
+   * This is ONLY the starting point for swe.heliacal_ut().
+   * We are not forcing the result to the reference date.
+   */
+
+  const searchStart =
+    referenceJD - 30;
+
+
+  const jd =
+    nextEvent(
+      planet,
+      searchStart,
+      evtType
+    );
+
+
+  if (jd === null) {
+    return null;
+  }
+
+
+  return {
+    jd,
+    date: jdToDate(jd)
+  };
+
+}
+
+
+/*
+ * ============================================================
+ * Run one test
+ * ============================================================
+ */
+
+function runTest(test) {
+
+  const result =
+    findEvent(
+      test.planet,
+      test.date,
+      test.evtType
+    );
+
+
+  if (!result) {
+
+    return {
+      ...test,
+      calculated: "No result",
+      utc: "-",
+      ist: "-"
+    };
+
+  }
+
+
+  const calculatedDate =
+    result.date;
+
+
+  const referenceDate =
+    new Date(
+      `${test.date}T00:00:00Z`
+    );
+
+
+  const differenceDays =
+    (
+      calculatedDate.getTime() -
+      referenceDate.getTime()
+    ) /
+    86400000;
+
+
+  return {
+
+    ...test,
+
+    calculatedJD:
+      result.jd.toFixed(6),
+
+    utc:
+      calculatedDate.toISOString(),
+
+    ist:
+      formatIST(calculatedDate),
+
+    differenceDays:
+      differenceDays.toFixed(3)
+
+  };
+
+}
+
+
+/*
+ * ============================================================
+ * Main validation
+ * ============================================================
+ */
+
+function runValidation() {
+
+  const status =
+    document.getElementById("status");
+
+  const results =
+    document.getElementById("results");
+
+  const log =
+    document.getElementById("log");
+
+
+  status.textContent =
+    "⏳ Running Swiss Ephemeris validation...";
+
+
+  results.innerHTML = "";
+  log.textContent = "";
+
+
+  const output = [];
+
+
+  for (const test of TESTS) {
+
+    const result =
+      runTest(test);
+
+    output.push(result);
+
+  }
+
+
+  /*
+   * Console diagnostic
+   */
+
+  console.log(
+    "=== HELIACAL VALIDATION ==="
+  );
+
+  console.table(output);
+
+
+  /*
+   * HTML table
+   */
+
+  let html = `
+    <table>
+      <thead>
+        <tr>
+          <th>Planet</th>
+          <th>Event</th>
+          <th>Reference Date</th>
+          <th>Reference Degree</th>
+          <th>Calculated UTC</th>
+          <th>Calculated IST</th>
+          <th>Difference</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+
+  for (const r of output) {
+
+    html += `
+      <tr>
+        <td>${r.planet}</td>
+        <td>${r.event}</td>
+        <td>${r.date}</td>
+        <td>${r.referenceDegree}°</td>
+        <td>${r.utc || "-"}</td>
+        <td>${r.ist || "-"}</td>
+        <td>${r.differenceDays ?? "-"}</td>
+      </tr>
+    `;
+
+  }
+
+
+  html += `
+      </tbody>
+    </table>
+  `;
+
+
+  results.innerHTML = html;
+
+
+  /*
+   * Raw diagnostic text
+   */
+
+  log.textContent =
+    JSON.stringify(
+      {
+        coordinates: GEO_POS,
+        atmosphere: STD_ATMO,
+        tests: output
+      },
+      null,
+      2
+    );
+
+
+  status.textContent =
+    "✅ Validation completed.";
+
+}
+
+
+/*
+ * ============================================================
+ * Button
+ * ============================================================
+ */
+
+document
+  .getElementById("runBtn")
+  .addEventListener(
+    "click",
+    runValidation
+  );
+
+</script>
+
+</body>
+</html>
