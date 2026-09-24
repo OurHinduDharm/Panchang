@@ -4911,7 +4911,8 @@ if(
           </span>
         </div>
       </div>
-<div class="card full">
+
+ <div class="card full">
   <div class="label">
     🧭 यात्रा शूल विचार
   </div>
@@ -4925,7 +4926,7 @@ if(
     </div>
 
     <div class="time-row">
-      <b>दिशाशूल</b>
+      <b>वर्ज्य दिशा</b>
       <span>
         ${yatraShoola.directionHindiName}
       </span>
@@ -4961,12 +4962,12 @@ if(
     </div>
 
     <div class="time-row">
-      <b>नक्षत्रशूल</b>
+      <b>स्थिति</b>
       <span>
         ${
           yatraShoola.nakshatraShoola
             ? `${yatraShoola.nakshatraShoola} दिशा — ${yatraShoola.nakshatraName}`
-            : "इस नक्षत्र के लिए नक्षत्रशूल नहीं"
+            : "नक्षत्रशूल नहीं"
         }
       </span>
     </div>
@@ -4996,14 +4997,14 @@ if(
     </div>
 
     <div class="time-row">
-      <b>कालशूल</b>
+      <b>स्थिति</b>
       <span>
         ${
           yatraShoola.kalaShoola.specialShubha
             ? "🟢 विशेष शुभ नक्षत्र — कालशूल से बाधा नहीं"
             : yatraShoola.kalaShoola.activeBlocked
-              ? "🔴 वर्तमान काल में कालशूल"
-              : "🟢 वर्तमान काल में कालशूल नहीं"
+              ? "🔴 कालशूल लागू"
+              : "🟢 कालशूल नहीं"
         }
       </span>
     </div>
@@ -5027,7 +5028,7 @@ if(
     </div>
 
     <div class="time-row">
-      <b>नक्षत्र की संज्ञा</b>
+      <b>संज्ञा</b>
       <span>
         ${
           getNakshatraSanjna(
@@ -5087,7 +5088,7 @@ if(
 
     ${
       yatraShoola.remedy
-        ? `आपात यात्रा में ${yatraShoola.remedy} का सेवन (प्राश्य गच्छन् शूले न दोषभाक्।)`
+        ? `आपात यात्रा में ${yatraShoola.remedy} का सेवन करें। <br> (प्राश्य गच्छन् शूले न दोषभाक्।)`
         : "—"
     }
 
@@ -5112,7 +5113,7 @@ if(
     <b>📌 नोट:</b><br>
 
     • <b>दिशाशूल</b> (वार अनुसार) एवं
-      <b>नक्षत्रशूल</b> (नक्षत्र अनुसार) में
+      <b>नक्षत्रशूल</b> में<br>
       <i>वर्ज्य दिशा</i> देखी जाती है।<br>
 
     • <b>कालशूल</b> में
