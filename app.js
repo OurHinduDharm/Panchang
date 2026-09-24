@@ -4610,7 +4610,23 @@ const ghatiPal = getGhatiPal(
 
   const selectedDateKalaShoola =
     kalaShoola.blockedPeriods || [];
-   
+   const formatKalaShoolaUpcomingDate = (date) => {
+  if (!date || !referenceNow) return "";
+
+  const sameDate =
+    date.getFullYear() === referenceNow.getFullYear() &&
+    date.getMonth() === referenceNow.getMonth() &&
+    date.getDate() === referenceNow.getDate();
+
+  if (sameDate) {
+    return "आज";
+  }
+
+  return date.toLocaleDateString("hi-IN", {
+    day: "numeric",
+    month: "long"
+  });
+};
   let ghatiHtml = "";
 
   if(
@@ -5150,7 +5166,7 @@ if(
                   d =>
                     directionHindi[d] || d
                 )
-                .join("، ")
+                .join(", ")
             : "—"
         }
       </span>
@@ -5260,24 +5276,29 @@ if(
                     upcomingKalaShoola
                       ? `
                         <div class="time-row">
-                          <b>⚠️ आगामी कालशूल वर्ज्य काल</b>
-                          <span>
-                            ${upcomingKalaShoola.periodName}
-                            —
-                            ${formatTime(
-                              upcomingKalaShoola.start
-                            )}
-                            से
-                            ${formatTime(
-                              upcomingKalaShoola.end
-                            )}
-                            तक
-                            <br>
-                            <small>
-                              ${upcomingKalaShoola.nakshatraName}
-                              — ${upcomingKalaShoola.sanjna} संज्ञा
-                            </small>
-                          </span>
+ <b>⚠️ आगामी कालशूल वर्ज्य काल</b>
+<span>
+  <b>
+    ${formatKalaShoolaUpcomingDate(
+      upcomingKalaShoola.start
+    )}
+    — ${upcomingKalaShoola.periodName}
+  </b>
+  <br>
+  ${formatTime(
+    upcomingKalaShoola.start
+  )}
+  से
+  ${formatTime(
+    upcomingKalaShoola.end
+  )}
+  तक
+  <br>
+  <small>
+    ${upcomingKalaShoola.nakshatraName}
+    — ${upcomingKalaShoola.sanjna} संज्ञा
+  </small>
+</span>
                         </div>
                       `
                       : `
@@ -5367,7 +5388,7 @@ if(
   <div class="yatra-note">
 
     <b>📌 नोट:</b><br>
-    • <b>दिशाशूल</b> (वार अनुसार) एवं
+    • <b>दिशाशूल</b> (वारानुसार) व
       <b>नक्षत्रशूल</b> में
       <i>वर्ज्य दिशा</i> देखी जाती है।<br>
 
