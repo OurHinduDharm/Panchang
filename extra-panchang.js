@@ -932,27 +932,13 @@ function updatePlanetRiseSet() {
     !location ||
     !selectedDate
   ) {
-
     console.warn(
       "Extra Panchang: location/date unavailable."
     );
-
     return;
   }
 
 
-  /*
-   * Observer अभी future
-   * location-dependent calculations
-   * के लिए रखा गया है।
-   */
-
-  const observer =
-    new Observer(
-      location.latitude,
-      location.longitude,
-      location.elevation
-    );
   /*
    * =========================================================
    * HORA
@@ -1029,19 +1015,11 @@ function updatePlanetRiseSet() {
       horaDetails
     );
 
-  /*
-   * Observer currently does not
-   * alter Elongation().
-   *
-   * Keep it here because future
-   * rise/set calculations will use it.
-   */
-
-  void observer;
-
 
   /*
-   * सभी ग्रहों का data
+   * =========================================================
+   * ग्रह उदय-अस्त
+   * =========================================================
    */
 
   const data =
@@ -1053,15 +1031,18 @@ function updatePlanetRiseSet() {
         )
     );
 
-
-  /*
-   * नया card
-   */
-
-  const newCard =
+  const planetCard =
     createPlanetCard(
       data
     );
+
+
+  /*
+   * =========================================================
+   * पुराने Extra cards हटाएँ
+   * =========================================================
+   */
+
   const oldHoraCard =
     document.getElementById(
       "horaCard"
@@ -1070,35 +1051,37 @@ function updatePlanetRiseSet() {
   if (oldHoraCard) {
     oldHoraCard.remove();
   }
-  /*
-   * पुराने card को replace करें।
-   */
 
-  const oldCard =
+  const oldPlanetCard =
     document.getElementById(
       "planetRiseSetCard"
     );
 
-  if (oldCard) {
+  if (oldPlanetCard) {
+    oldPlanetCard.remove();
+  }
 
-  oldCard.replaceWith(
-    newCard
+
+  /*
+   * =========================================================
+   * नए cards लगाएँ
+   * =========================================================
+   */
+
+  placePlanetCard(
+    planetCard
   );
 
   placeHoraCard(
     horaCard
   );
 
-  return;
 }
-
-  placeHoraCard(
-    horaCard
-  );
-  
+    
 function placeHoraCard(
   newCard
 ) {
+
   const result =
     document.getElementById(
       "result"
@@ -1108,20 +1091,14 @@ function placeHoraCard(
     return;
   }
 
-  const cards =
-    [...result.children];
-
-  const moonsetCard =
-    cards.find(
-      card =>
-        /चंद्रास्त|चन्द्रास्त|moonset/i.test(
-          card.textContent || ""
-        )
+  const planetCard =
+    document.getElementById(
+      "planetRiseSetCard"
     );
 
-  if (moonsetCard) {
+  if (planetCard) {
 
-    moonsetCard.insertAdjacentElement(
+    planetCard.insertAdjacentElement(
       "afterend",
       newCard
     );
@@ -1131,15 +1108,9 @@ function placeHoraCard(
     result.appendChild(
       newCard
     );
-  }
-}
-  /*
-   * पहली बार card लगाएँ।
-   */
 
-  placePlanetCard(
-    newCard
-  );
+  }
+
 }
 
 
@@ -1295,23 +1266,22 @@ function initExtraPanchang() {
     );
 
   if (dateInput) {
+dateInput.addEventListener(
+  "change",
+  () => {
 
-    dateInput.addEventListener(
-      "change",
-      () => {
+    /*
+     * app.js पहले मुख्य Panchang render करेगा।
+     * उसके बाद Extra Panchang को लगाएँ।
+     */
 
-        /*
-         * app.js पहले #result को
-         * दोबारा render कर सकता है।
-         */
-
-        setTimeout(
-          updatePlanetRiseSet,
-          100
-        );
-
-      }
+    setTimeout(
+      updatePlanetRiseSet,
+      300
     );
+
+  }
+);
   }
 
 
@@ -1325,7 +1295,7 @@ function initExtraPanchang() {
 
       setTimeout(
         updatePlanetRiseSet,
-        100
+        300
       );
 
     }
