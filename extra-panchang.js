@@ -988,36 +988,6 @@ function updatePlanetRiseSet() {
     createPlanetCard(
       data
     );
-const oldHoraCard =
-  document.getElementById(
-    "horaCard"
-  );
-
-if(oldHoraCard){
-  oldHoraCard.remove();
-}
-
-const moonsetCard =
-  [...result.children].find(card =>
-    /चंद्रास्त|चन्द्रास्त|moonset/i.test(
-      card.textContent || ""
-    )
-  );
-
-if(moonsetCard){
-  moonsetCard.insertAdjacentElement(
-    "afterend",
-    horaCard
-  );
-
-  horaCard.insertAdjacentElement(
-    "afterend",
-    newCard
-  );
-}else{
-  result.appendChild(horaCard);
-  result.appendChild(newCard);
-}
 
   /*
    * पुराने card को replace करें।
