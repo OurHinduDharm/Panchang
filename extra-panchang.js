@@ -953,7 +953,81 @@ function updatePlanetRiseSet() {
       location.longitude,
       location.elevation
     );
+  /*
+   * =========================================================
+   * HORA
+   * =========================================================
+   */
 
+  const horaDate =
+    new Date(
+      `${selectedDate}T00:00:00+05:30`
+    );
+
+  const horaObserver =
+    new Observer(
+      location.latitude,
+      location.longitude,
+      location.elevation
+    );
+
+  const pHora =
+    getPanchangam(
+      horaDate,
+      horaObserver,
+      {
+        timezoneOffset: 330
+      }
+    );
+
+  const nextHoraDate =
+    new Date(horaDate);
+
+  nextHoraDate.setDate(
+    nextHoraDate.getDate() + 1
+  );
+
+  const nextPHora =
+    getPanchangam(
+      nextHoraDate,
+      horaObserver,
+      {
+        timezoneOffset: 330
+      }
+    );
+
+  const today =
+    new Date();
+
+  const todayString =
+    today.getFullYear() +
+    "-" +
+    String(
+      today.getMonth() + 1
+    ).padStart(2, "0") +
+    "-" +
+    String(
+      today.getDate()
+    ).padStart(2, "0");
+
+  const horaReferenceNow =
+    selectedDate === todayString
+      ? new Date()
+      : null;
+
+  const horaDetails =
+    calculateHoraDetails(
+      pHora.sunrise,
+      pHora.sunset,
+      nextPHora.sunrise,
+      selectedDate,
+      horaReferenceNow
+    );
+
+  const horaCard =
+    createHoraCard(
+      horaDetails
+    );
 
   /*
    * Observer currently does not
@@ -988,7 +1062,14 @@ function updatePlanetRiseSet() {
     createPlanetCard(
       data
     );
+  const oldHoraCard =
+    document.getElementById(
+      "horaCard"
+    );
 
+  if (oldHoraCard) {
+    oldHoraCard.remove();
+  }
   /*
    * पुराने card को replace करें।
    */
@@ -1000,14 +1081,58 @@ function updatePlanetRiseSet() {
 
   if (oldCard) {
 
-    oldCard.replaceWith(
-      newCard
+  oldCard.replaceWith(
+    newCard
+  );
+
+  placeHoraCard(
+    horaCard
+  );
+
+  return;
+}
+
+  placeHoraCard(
+    horaCard
+  );
+  
+function placeHoraCard(
+  newCard
+) {
+  const result =
+    document.getElementById(
+      "result"
     );
 
+  if (!result) {
     return;
   }
 
+  const cards =
+    [...result.children];
 
+  const moonsetCard =
+    cards.find(
+      card =>
+        /चंद्रास्त|चन्द्रास्त|moonset/i.test(
+          card.textContent || ""
+        )
+    );
+
+  if (moonsetCard) {
+
+    moonsetCard.insertAdjacentElement(
+      "afterend",
+      newCard
+    );
+
+  } else {
+
+    result.appendChild(
+      newCard
+    );
+  }
+}
   /*
    * पहली बार card लगाएँ।
    */
