@@ -360,7 +360,7 @@ function getNakshatraSanjna(
  * दिन = 3 भाग
  * रात्रि = 3 भाग
  */
-function getKalaShoolaDetails(
+ function getKalaShoolaDetails(
   p,
   nextSunrise,
   nakshatraName,
@@ -386,10 +386,20 @@ function getKalaShoolaDetails(
     return {
       available:false,
       periods:[],
-      active:null
+      active:null,
+      activeBlocked:false,
+      blockedPeriods:[],
+      upcoming:null,
+      specialShubha:false
     };
   }
 
+  /*
+   * कालशूल के 6 काल
+   *
+   * दिन = 3 भाग
+   * रात्रि = 3 भाग
+   */
   const dayPartMs =
     (sunset.getTime() -
       sunrise.getTime()) / 3;
@@ -453,6 +463,9 @@ function getKalaShoolaDetails(
     }
   ];
 
+  /*
+   * वर्तमान 6 काल
+   */
   let active = null;
 
   if(referenceNow){
@@ -463,47 +476,226 @@ function getKalaShoolaDetails(
       ) || null;
   }
 
-  let activeBlocked = false;
+  /*
+   * नक्षत्र-संज्ञा → कालशूल group
+   */
+  const getGroupForNakshatra =
+    name => {
 
-  if(active){
-    activeBlocked =
-      active.groups.some(groupName => {
+      for(
+        const group of Object.values(
+          kalaShoolaGroups
+        )
+      ){
+        if(
+          group.nakshatras.includes(name)
+        ){
+          return group;
+        }
+      }
 
-        const group =
-          Object.values(
-            kalaShoolaGroups
-          ).find(
-            item =>
-              item.hindi === groupName
+      return null;
+    };
+
+  /*
+   * वास्तविक नक्षत्र intervals को
+   * 6 कालों के साथ intersect करें।
+   *
+   * इससे नक्षत्र बदलने के समय
+   * कालशूल भी सही बदलता है।
+   */
+  const blockedPeriods = [];
+
+  if(
+    Array.isArray(p.nakshatras)
+  ){
+
+    p.nakshatras.forEach(item => {
+
+      if(
+        !item ||
+        typeof item.index !== "number"
+      ){
+        return;
+      }
+
+      const nakStart =
+        new Date(item.startTime);
+
+      const nakEnd =
+        new Date(item.endTime);
+
+      if(
+        isNaN(nakStart.getTime()) ||
+        isNaN(nakEnd.getTime()) ||
+        nakEnd <= nakStart
+      ){
+        return;
+      }
+
+      const actualNakshatra =
+        getNakshatraName(item.index);
+
+      const group =
+        getGroupForNakshatra(
+          actualNakshatra
+        );
+
+      if(!group){
+        return;
+      }
+
+      const specialShubha =
+        specialYatraShubhaNakshatras.includes(
+          actualNakshatra
+        );
+
+      /*
+       * विशेष शुभ नक्षत्र पर कालशूल लागू नहीं।
+       */
+      if(specialShubha){
+        return;
+      }
+
+      periods.forEach(period => {
+
+        /*
+         * केवल overlapping समय लें।
+         */
+        const startMs =
+          Math.max(
+            period.start.getTime(),
+            nakStart.getTime()
           );
 
-        return !!(
-          group &&
-          group.nakshatras.includes(
-            nakshatraName
+        const endMs =
+          Math.min(
+            period.end.getTime(),
+            nakEnd.getTime()
+          );
+
+        if(
+          endMs <= startMs
+        ){
+          return;
+        }
+
+        /*
+         * इस काल में यह नक्षत्र
+         * उसी कालशूल group में है या नहीं।
+         */
+        if(
+          !period.groups.includes(
+            group.hindi
           )
-        );
+        ){
+          return;
+        }
+
+        blockedPeriods.push({
+          periodName:period.name,
+          start:new Date(startMs),
+          end:new Date(endMs),
+          nakshatraName:actualNakshatra,
+          sanjna:group.hindi
+        });
+
       });
+
+    });
+
   }
 
   /*
-   * विशेष शुभ नक्षत्र होने पर
-   * कालशूल का दोष लागू नहीं माना जाएगा।
+   * यदि p.nakshatras उपलब्ध न हो,
+   * तो वर्तमान स्थिति के लिए पुराना
+   * fallback logic रखें।
+   */
+  let activeBlocked = false;
+  let activeSegment = null;
+
+  if(
+    referenceNow &&
+    active
+  ){
+
+    activeSegment =
+      blockedPeriods.find(item =>
+        referenceNow >= item.start &&
+        referenceNow < item.end
+      ) || null;
+
+    if(activeSegment){
+      activeBlocked = true;
+    }
+    else{
+
+      const currentGroup =
+        getGroupForNakshatra(
+          nakshatraName
+        );
+
+      const specialShubha =
+        specialYatraShubhaNakshatras.includes(
+          nakshatraName
+        );
+
+      activeBlocked =
+        !specialShubha &&
+        !!currentGroup &&
+        active.groups.includes(
+          currentGroup.hindi
+        );
+    }
+  }
+
+  /*
+   * वर्तमान नक्षत्र के लिए
+   * special-shubha status।
    */
   const specialShubha =
     specialYatraShubhaNakshatras.includes(
       nakshatraName
     );
 
-  if(specialShubha){
-    activeBlocked = false;
+  /*
+   * आज के वर्तमान समय के बाद आने वाला
+   * अगला वास्तविक कालशूल।
+   */
+  let upcoming = null;
+
+  if(referenceNow){
+
+    upcoming =
+      blockedPeriods
+        .filter(item =>
+          item.start > referenceNow
+        )
+        .sort(
+          (a,b) =>
+            a.start.getTime() -
+            b.start.getTime()
+        )[0] || null;
+
   }
+
+  /*
+   * Selected date के लिए chronological order।
+   */
+  blockedPeriods.sort(
+    (a,b) =>
+      a.start.getTime() -
+      b.start.getTime()
+  );
 
   return {
     available:true,
     periods,
     active,
     activeBlocked,
+    activeSegment,
+    blockedPeriods,
+    upcoming,
     specialShubha
   };
 }
@@ -4404,7 +4596,21 @@ const ghatiPal = getGhatiPal(
       bhadraStatus = "समाप्त";
     }
   }
+  /*
+   * कालशूल UI data
+   */
+  const kalaShoola =
+    yatraShoola.kalaShoola;
 
+  const activeKalaSegment =
+    kalaShoola.activeSegment;
+
+  const upcomingKalaShoola =
+    kalaShoola.upcoming;
+
+  const selectedDateKalaShoola =
+    kalaShoola.blockedPeriods || [];
+   
   let ghatiHtml = "";
 
   if(
@@ -4988,7 +5194,7 @@ if(
   </div>
 
 
-  <!-- ================= कालशूल ================= -->
+    <!-- ================= कालशूल ================= -->
   <div class="yatra-section">
 
     <div class="yatra-section-title">
@@ -4996,82 +5202,133 @@ if(
       <span>समय आधारित</span>
     </div>
 
-    <div class="time-row">
-      <b>स्थिति</b>
-      <span>
-        ${
-          yatraShoola.kalaShoola.specialShubha
-            ? "🟢 विशेष शुभ नक्षत्र — कालशूल से बाधा नहीं"
-            : yatraShoola.kalaShoola.activeBlocked
-              ? "🔴 कालशूल लागू"
-              : "🟢 कालशूल नहीं"
-        }
-      </span>
-    </div>
-
-    <div class="time-row">
-      <b>वर्तमान काल</b>
-      <span>
-        ${
-          yatraShoola.kalaShoola.active
-            ? yatraShoola.kalaShoola.active.name
-            : "—"
-        }
-      </span>
-    </div>
-
-    <div class="time-row">
-      <b>नक्षत्र</b>
-      <span>
-        ${yatraShoola.nakshatraName || "—"}
-      </span>
-    </div>
-
-    <div class="time-row">
-      <b>संज्ञा</b>
-      <span>
-        ${
-          getNakshatraSanjna(
-            yatraShoola.nakshatraName
-          )
-            ? `${getNakshatraSanjna(
-                yatraShoola.nakshatraName
-              )} संज्ञक`
-            : "—"
-        }
-      </span>
-    </div>
-
-    <div class="time-row">
-      <b>
-        ${
-          yatraShoola.kalaShoola.activeBlocked
-            ? "🔴 वर्ज्यता"
-            : "🟢 वर्ज्यता"
-        }
-      </b>
-
-      <span>
-        ${
-          yatraShoola.kalaShoola.activeBlocked
-            ? `${getNakshatraSanjna(
-                yatraShoola.nakshatraName
-              )} संज्ञक नक्षत्र इस समय वर्ज्य है`
-            : `${getNakshatraSanjna(
-                yatraShoola.nakshatraName
-              )} संज्ञक नक्षत्र, परन्तु अभी वर्ज्य नहीं।`
-        }
-      </span>
-    </div>
-
     ${
-      yatraShoola.kalaShoola.specialShubha
+      !kalaShoola.available
         ? `
           <div class="time-row">
-            <b>🟢 विशेष यात्रा-शुभ</b>
+            <b>स्थिति</b>
+            <span>⚪ कालशूल समय उपलब्ध नहीं</span>
+          </div>
+        `
+        : referenceNow
+          ? (
+              kalaShoola.activeBlocked
+                ? `
+                  <div class="time-row">
+                    <b>🔴 वर्तमान स्थिति</b>
+                    <span>
+                      अभी कालशूल का वर्ज्य काल चल रहा है।
+                    </span>
+                  </div>
+
+                  ${
+                    activeKalaSegment
+                      ? `
+                        <div class="time-row">
+                          <b>वर्ज्य काल</b>
+                          <span>
+                            ${activeKalaSegment.periodName}
+                            —
+                            ${formatTime(
+                              activeKalaSegment.start
+                            )}
+                            से
+                            ${formatTime(
+                              activeKalaSegment.end
+                            )}
+                            तक
+                            <br>
+                            <small>
+                              ${activeKalaSegment.nakshatraName}
+                              — ${activeKalaSegment.sanjna} संज्ञा
+                            </small>
+                          </span>
+                        </div>
+                      `
+                      : ""
+                  }
+                `
+                : `
+                  <div class="time-row">
+                    <b>🟢 वर्तमान स्थिति</b>
+                    <span>
+                      अभी कालशूल वर्ज्य काल नहीं है।
+                    </span>
+                  </div>
+
+                  ${
+                    upcomingKalaShoola
+                      ? `
+                        <div class="time-row">
+                          <b>⚠️ आगामी कालशूल वर्ज्य काल</b>
+                          <span>
+                            ${upcomingKalaShoola.periodName}
+                            —
+                            ${formatTime(
+                              upcomingKalaShoola.start
+                            )}
+                            से
+                            ${formatTime(
+                              upcomingKalaShoola.end
+                            )}
+                            तक
+                            <br>
+                            <small>
+                              ${upcomingKalaShoola.nakshatraName}
+                              — ${upcomingKalaShoola.sanjna} संज्ञा
+                            </small>
+                          </span>
+                        </div>
+                      `
+                      : `
+                        <div class="time-row">
+                          <b>🟢 आगे की स्थिति</b>
+                          <span>
+                            आज आगे कोई कालशूल वर्ज्य काल नहीं है।
+                          </span>
+                        </div>
+                      `
+                  }
+                `
+            )
+          : `
+            <div class="time-row">
+              <b>📅 चयनित तिथि के वर्ज्य काल</b>
+              <span>
+                ${
+                  selectedDateKalaShoola.length
+                    ? selectedDateKalaShoola
+                        .map(item => `
+                          <div style="margin-bottom:6px;">
+                            <b>${item.periodName}</b>
+                            —
+                            ${formatTime(item.start)}
+                            से
+                            ${formatTime(item.end)}
+                            तक
+                            <br>
+                            <small>
+                              ${item.nakshatraName}
+                              — ${item.sanjna} संज्ञा
+                            </small>
+                          </div>
+                        `)
+                        .join("")
+                    : "इस चयनित तिथि में कालशूल का वर्ज्य काल नहीं मिला।"
+                }
+              </span>
+            </div>
+          `
+
+    ${
+      kalaShoola.specialShubha &&
+      referenceNow
+        ? `
+          <div class="time-row">
+            <b>🟢 वर्तमान नक्षत्र</b>
             <span>
               ${yatraShoola.nakshatraName}
-              — सर्वकाले शुभ
+              — विशेष यात्रा-शुभ नक्षत्र
             </span>
           </div>
         `
@@ -5079,7 +5336,6 @@ if(
     }
 
   </div>
-
 
   <!-- ================= वारशूल परिहार ================= -->
   <div class="yatra-remedy">
@@ -5111,14 +5367,13 @@ if(
   <div class="yatra-note">
 
     <b>📌 नोट:</b><br>
-
     • <b>दिशाशूल</b> (वार अनुसार) एवं
-      <b>नक्षत्रशूल</b> में<br>
+      <b>नक्षत्रशूल</b> में
       <i>वर्ज्य दिशा</i> देखी जाती है।<br>
 
     • <b>कालशूल</b> में
-      <i>वर्ज्य समय</i> (प्रातः, मध्याह्न, सायं)
-      देखा जाता है।
+      दिन-रात्रि के 6 कालखण्डों के अनुसार
+      <i>वर्ज्य समय</i> देखा जाता है।
 
   </div>
 
