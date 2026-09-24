@@ -5704,6 +5704,11 @@ if(
 
   renderSankalpControls();
   updateSankalpText();
+   window.dispatchEvent(
+  new CustomEvent(
+    "ohd:panchangUpdated"
+  )
+);
 }
 
 /* =========================================================
