@@ -1114,24 +1114,42 @@ function updatePlanetRiseSet() {
       }
     );
 
-  const today =
-    new Date();
+const now =
+  new Date();
 
-  const todayString =
-    today.getFullYear() +
-    "-" +
-    String(
-      today.getMonth() + 1
-    ).padStart(2, "0") +
-    "-" +
-    String(
-      today.getDate()
-    ).padStart(2, "0");
+const indiaDateParts =
+  new Intl.DateTimeFormat(
+    "en-CA",
+    {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }
+  ).formatToParts(now);
 
-  const horaReferenceNow =
-    selectedDate === todayString
-      ? new Date()
-      : null;
+const indiaYear =
+  indiaDateParts.find(
+    part => part.type === "year"
+  )?.value;
+
+const indiaMonth =
+  indiaDateParts.find(
+    part => part.type === "month"
+  )?.value;
+
+const indiaDay =
+  indiaDateParts.find(
+    part => part.type === "day"
+  )?.value;
+
+const indiaToday =
+  `${indiaYear}-${indiaMonth}-${indiaDay}`;
+
+const horaReferenceNow =
+  selectedDate === indiaToday
+    ? now
+    : null;
 
   const horaDetails =
     calculateHoraDetails(
@@ -1252,16 +1270,8 @@ function placeHoraCard(
 
 function initExtraPanchang() {
 
-  /*
-   * पहली बार
-   */
   updatePlanetRiseSet();
 
-
-  /*
-   * Main Panchang के दोबारा render होने के बाद
-   * Extra Panchang भी दोबारा render करें।
-   */
   window.addEventListener(
     "ohd:panchangUpdated",
     () => {
@@ -1269,15 +1279,42 @@ function initExtraPanchang() {
     }
   );
 
-
-  /*
-   * Location change
-   */
   window.addEventListener(
     "ohd:locationChanged",
     () => {
       updatePlanetRiseSet();
     }
+  );
+
+  setInterval(
+    () => {
+
+      const selectedDate =
+        getSelectedDate();
+
+      if (!selectedDate) {
+        return;
+      }
+
+      const now =
+        new Date();
+
+      const indiaToday =
+        new Intl.DateTimeFormat(
+          "en-CA",
+          {
+            timeZone: "Asia/Kolkata"
+          }
+        ).format(now);
+
+      if (
+        selectedDate === indiaToday
+      ) {
+        updatePlanetRiseSet();
+      }
+
+    },
+    30000
   );
 
 }
