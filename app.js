@@ -3,6 +3,63 @@ import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js
 let selectedLocation = null;
 let currentSankalpContext = null;
 
+/* =========================================================
+   YATRA SHULA — UI STYLES
+   ========================================================= */
+
+const yatraShoolaStyles = document.createElement("style");
+
+yatraShoolaStyles.textContent = `
+.yatra-section {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 9px 10px;
+  margin-top: 9px;
+  background: rgba(0, 0, 0, 0.018);
+}
+
+.yatra-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.yatra-section-title span {
+  font-size: 11px;
+  font-weight: 400;
+  color: #777;
+}
+
+.yatra-remedy {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-left: 3px solid #4caf50;
+  border-radius: 4px;
+  background: rgba(76, 175, 80, 0.07);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.yatra-source {
+  margin-top: 8px;
+}
+
+.yatra-note {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.025);
+  color: #666;
+  font-size: 11px;
+  line-height: 1.5;
+}
+`;
+
+document.head.appendChild(yatraShoolaStyles);
+
 const cityInput = document.getElementById("cityInput");
 const dateInput = document.getElementById("dateInput");
 const suggestions = document.getElementById("suggestions");
@@ -4854,163 +4911,216 @@ if(
           </span>
         </div>
       </div>
-
-       <div class="card full">
+<div class="card full">
   <div class="label">
     🧭 यात्रा शूल विचार
   </div>
 
-  <div class="time-row">
-    <b>🔴 दिशाशूल</b>
-    <span>
-      ${yatraShoola.directionHindiName}
-    </span>
-  </div>
+  <!-- ================= दिशाशूल ================= -->
+  <div class="yatra-section">
 
-  <div class="time-row">
-    <b>🟢 दिशाशूल से मुक्त दिशाएँ</b>
-    <span>
-      ${
-        Array.isArray(
-          p.dishaShoola?.safeDirections
-        )
-          ? p.dishaShoola.safeDirections
-              .map(
-                d =>
-                  directionHindi[d] || d
-              )
-              .join("، ")
-          : "—"
-      }
-    </span>
-  </div>
-
-  <div class="time-row">
-    <b>🔴 नक्षत्रशूल</b>
-    <span>
-      ${
-        yatraShoola.nakshatraShoola
-          ? `${yatraShoola.nakshatraShoola} दिशा — ${yatraShoola.nakshatraName}`
-          : "इस नक्षत्र के लिए नक्षत्रशूल नहीं"
-      }
-    </span>
-  </div>
-
-  ${
-    yatraShoola.nakshatraShoolaActive
-      ? `
-        <div class="time-row">
-          <b>⚠️ वर्तमान स्थिति</b>
-          <span>
-            नक्षत्रशूल लागू
-          </span>
-        </div>
-      `
-      : ""
-  }
-
-  <div class="time-row">
-    <b>⏳ कालशूल</b>
-    <span>
-      ${
-        yatraShoola.kalaShoola.specialShubha
-          ? "🟢 विशेष शुभ नक्षत्र — कालशूल से बाधा नहीं"
-          : yatraShoola.kalaShoola.activeBlocked
-            ? "🔴 वर्तमान काल में कालशूल"
-            : "🟢 वर्तमान काल में कालशूल नहीं"
-      }
-    </span>
-  </div>
-
-      <div class="time-row">
-     <b>वर्तमान काल</b>
-     <span>
-       ${
-         yatraShoola.kalaShoola.active
-           ? yatraShoola.kalaShoola.active.name
-           : "—"
-       }
-     </span>
-   </div>
+    <div class="yatra-section-title">
+      🔴 दिशाशूल
+      <span>वार आधारित</span>
+    </div>
 
     <div class="time-row">
-  <b>नक्षत्र</b>
-  <span>
-    ${yatraShoola.nakshatraName || "—"}
-  </span>
-</div>
+      <b>दिशाशूल</b>
+      <span>
+        ${yatraShoola.directionHindiName}
+      </span>
+    </div>
 
-<div class="time-row">
-  <b>नक्षत्र की संज्ञा</b>
-  <span>
+    <div class="time-row">
+      <b>🟢 दिशाशूल से मुक्त दिशाएँ</b>
+      <span>
+        ${
+          Array.isArray(
+            p.dishaShoola?.safeDirections
+          )
+            ? p.dishaShoola.safeDirections
+                .map(
+                  d =>
+                    directionHindi[d] || d
+                )
+                .join("، ")
+            : "—"
+        }
+      </span>
+    </div>
+
+  </div>
+
+
+  <!-- ================= नक्षत्रशूल ================= -->
+  <div class="yatra-section">
+
+    <div class="yatra-section-title">
+      🔴 नक्षत्रशूल
+      <span>नक्षत्र आधारित</span>
+    </div>
+
+    <div class="time-row">
+      <b>नक्षत्रशूल</b>
+      <span>
+        ${
+          yatraShoola.nakshatraShoola
+            ? `${yatraShoola.nakshatraShoola} दिशा — ${yatraShoola.nakshatraName}`
+            : "इस नक्षत्र के लिए नक्षत्रशूल नहीं"
+        }
+      </span>
+    </div>
+
     ${
-      getNakshatraSanjna(
-        yatraShoola.nakshatraName
-      )
-        ? `${getNakshatraSanjna(
+      yatraShoola.nakshatraShoolaActive
+        ? `
+          <div class="time-row">
+            <b>⚠️ वर्तमान स्थिति</b>
+            <span>
+              नक्षत्रशूल लागू
+            </span>
+          </div>
+        `
+        : ""
+    }
+
+  </div>
+
+
+  <!-- ================= कालशूल ================= -->
+  <div class="yatra-section">
+
+    <div class="yatra-section-title">
+      ⏳ कालशूल
+      <span>समय आधारित</span>
+    </div>
+
+    <div class="time-row">
+      <b>कालशूल</b>
+      <span>
+        ${
+          yatraShoola.kalaShoola.specialShubha
+            ? "🟢 विशेष शुभ नक्षत्र — कालशूल से बाधा नहीं"
+            : yatraShoola.kalaShoola.activeBlocked
+              ? "🔴 वर्तमान काल में कालशूल"
+              : "🟢 वर्तमान काल में कालशूल नहीं"
+        }
+      </span>
+    </div>
+
+    <div class="time-row">
+      <b>वर्तमान काल</b>
+      <span>
+        ${
+          yatraShoola.kalaShoola.active
+            ? yatraShoola.kalaShoola.active.name
+            : "—"
+        }
+      </span>
+    </div>
+
+    <div class="time-row">
+      <b>नक्षत्र</b>
+      <span>
+        ${yatraShoola.nakshatraName || "—"}
+      </span>
+    </div>
+
+    <div class="time-row">
+      <b>नक्षत्र की संज्ञा</b>
+      <span>
+        ${
+          getNakshatraSanjna(
             yatraShoola.nakshatraName
-          )} संज्ञक`
+          )
+            ? `${getNakshatraSanjna(
+                yatraShoola.nakshatraName
+              )} संज्ञक`
+            : "—"
+        }
+      </span>
+    </div>
+
+    <div class="time-row">
+      <b>
+        ${
+          yatraShoola.kalaShoola.activeBlocked
+            ? "🔴 वर्ज्यता"
+            : "🟢 वर्ज्यता"
+        }
+      </b>
+
+      <span>
+        ${
+          yatraShoola.kalaShoola.activeBlocked
+            ? `${getNakshatraSanjna(
+                yatraShoola.nakshatraName
+              )} संज्ञक नक्षत्र इस समय वर्ज्य है`
+            : `${getNakshatraSanjna(
+                yatraShoola.nakshatraName
+              )} संज्ञक नक्षत्र है, परन्तु वर्तमान काल में वर्ज्य नहीं है`
+        }
+      </span>
+    </div>
+
+    ${
+      yatraShoola.kalaShoola.specialShubha
+        ? `
+          <div class="time-row">
+            <b>🟢 विशेष यात्रा-शुभ</b>
+            <span>
+              ${yatraShoola.nakshatraName}
+              — सर्वकाले शुभ
+            </span>
+          </div>
+        `
+        : ""
+    }
+
+  </div>
+
+
+  <!-- ================= वारशूल परिहार ================= -->
+  <div class="yatra-remedy">
+
+    🟢 <b>वारशूल परिहार:</b>
+
+    ${
+      yatraShoola.remedy
+        ? `आपात यात्रा में ${yatraShoola.remedy} का सेवन (प्राश्य गच्छन् शूले न दोषभाक्।)`
         : "—"
     }
-  </span>
-</div>
 
-   <div class="time-row">
-     <b>
-       ${
-         yatraShoola.kalaShoola.activeBlocked
-           ? "🔴 वर्ज्यता"
-           : "🟢 वर्ज्यता"
-       }
-     </b>
-     <span>
-       ${
-         yatraShoola.kalaShoola.activeBlocked
-           ? `${getNakshatraSanjna(
-               yatraShoola.nakshatraName
-             )} संज्ञक नक्षत्र इस समय वर्ज्य है`
-           : `${getNakshatraSanjna(
-               yatraShoola.nakshatraName
-             )} संज्ञक नक्षत्र है, परन्तु वर्तमान काल में वर्ज्य नहीं है`
-       }
-     </span>
-   </div>
+  </div>
 
-  ${
-    yatraShoola.kalaShoola.specialShubha
-      ? `
-        <div class="time-row">
-          <b>🟢 विशेष यात्रा-शुभ</b>
-          <span>
-            ${yatraShoola.nakshatraName}
-            — सर्वकाले शुभ
-          </span>
-        </div>
-      `
-      : ""
-  }
 
-  <div class="time-row">
+  <!-- ================= स्रोत ================= -->
+  <div class="time-row yatra-source">
+
     <b>📖 स्रोत</b>
+
     <span>
       मुहूर्त चिन्तामणि — यात्रा प्रकरण, श्लोक १०–११
     </span>
+
   </div>
 
-<div style="font-size:12px;color:#777;margin-top:8px;">
-  🟢वारशूल परिहार:
-  ${
-    yatraShoola.remedy
-      ? `आपात यात्रा में ${yatraShoola.remedy} का सेवन (प्राश्य गच्छन् शूले न दोषभाक्।)`
-      : "—"
-  }
-</div>
 
-<div style="font-size:12px;color:#666;margin-top:10px;line-height:1.5;">
-  <b>📌 नोट:</b><br>
-  • <b>दिशाशूल</b> (वार अनुसार) एवं <b>नक्षत्रशूल</b> (नक्षत्र अनुसार) में <i>वर्ज्य दिशा</i> देखी जाती है।<br>
-  • <b>कालशूल</b> में <i>वर्ज्य समय</i> (प्रातः, मध्याह्न, सायं) देखा जाता है।
-</div>
+  <!-- ================= नोट ================= -->
+  <div class="yatra-note">
+
+    <b>📌 नोट:</b><br>
+
+    • <b>दिशाशूल</b> (वार अनुसार) एवं
+      <b>नक्षत्रशूल</b> (नक्षत्र अनुसार) में
+      <i>वर्ज्य दिशा</i> देखी जाती है।<br>
+
+    • <b>कालशूल</b> में
+      <i>वर्ज्य समय</i> (प्रातः, मध्याह्न, सायं)
+      देखा जाता है।
+
+  </div>
+
 </div>
 
       <div class="card full">
