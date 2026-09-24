@@ -5319,7 +5319,7 @@ if(
               </span>
             </div>
           `
-
+}
     ${
       kalaShoola.specialShubha &&
       referenceNow
