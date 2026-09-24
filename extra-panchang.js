@@ -3,6 +3,10 @@ import {
   Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
+import {
+  getPanchangam
+} from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+
 
 /* =========================================
    ग्रह सूची
@@ -39,7 +43,205 @@ const PLANETS = [
     body: "Saturn"
   }
 ];
+/* =========================================================
+   HORA
+   वैदिक होरा — दिन 12 + रात्रि 12
+   ========================================================= */
 
+const HORA_PLANETS = [
+  {
+    key: "sun",
+    name: "सूर्य",
+    symbol: "☀️"
+  },
+  {
+    key: "venus",
+    name: "शुक्र",
+    symbol: "♀️"
+  },
+  {
+    key: "mercury",
+    name: "बुध",
+    symbol: "☿"
+  },
+  {
+    key: "moon",
+    name: "चन्द्र",
+    symbol: "🌙"
+  },
+  {
+    key: "saturn",
+    name: "शनि",
+    symbol: "♄"
+  },
+  {
+    key: "jupiter",
+    name: "गुरु",
+    symbol: "♃"
+  },
+  {
+    key: "mars",
+    name: "मंगल",
+    symbol: "♂️"
+  }
+];
+
+/*
+ * वारेश
+ *
+ * 0 = रविवार
+ * 1 = सोमवार
+ * ...
+ * 6 = शनिवार
+ */
+const HORA_DAY_LORD = {
+  0: 0, // सूर्य
+  1: 3, // चन्द्र
+  2: 6, // मंगल
+  3: 2, // बुध
+  4: 5, // गुरु
+  5: 1, // शुक्र
+  6: 4  // शनि
+};
+function formatHoraTime(date){
+  if(!date) return "—";
+
+  return new Intl.DateTimeFormat(
+    "hi-IN",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    }
+  ).format(date);
+}
+
+function calculateHoraDetails(
+  sunrise,
+  sunset,
+  nextSunrise,
+  selectedDate,
+  referenceNow = null
+){
+  const sunriseTime =
+    new Date(sunrise);
+
+  const sunsetTime =
+    new Date(sunset);
+
+  const nextSunriseTime =
+    new Date(nextSunrise);
+
+  if(
+    isNaN(sunriseTime.getTime()) ||
+    isNaN(sunsetTime.getTime()) ||
+    isNaN(nextSunriseTime.getTime())
+  ){
+    return {
+      available: false,
+      horas: [],
+      current: null
+    };
+  }
+
+  const weekday =
+    new Date(
+      `${selectedDate}T00:00:00`
+    ).getDay();
+
+  const firstPlanetIndex =
+    HORA_DAY_LORD[weekday];
+
+  const dayHoraMs =
+    (
+      sunsetTime.getTime() -
+      sunriseTime.getTime()
+    ) / 12;
+
+  const nightHoraMs =
+    (
+      nextSunriseTime.getTime() -
+      sunsetTime.getTime()
+    ) / 12;
+
+  const horas = [];
+
+  /*
+   * 12 दिन की Horas
+   */
+  for(let i = 0; i < 12; i++){
+
+    const startMs =
+      sunriseTime.getTime() +
+      i * dayHoraMs;
+
+    const endMs =
+      sunriseTime.getTime() +
+      (i + 1) * dayHoraMs;
+
+    const planetIndex =
+      (
+        firstPlanetIndex + i
+      ) % HORA_PLANETS.length;
+
+    horas.push({
+      number: i + 1,
+      part: "दिन",
+      planet:
+        HORA_PLANETS[planetIndex],
+      start: new Date(startMs),
+      end: new Date(endMs)
+    });
+  }
+
+  /*
+   * 12 रात्रि की Horas
+   *
+   * Hora planetary cycle दिन की 12वीं
+   * Hora के बाद लगातार चलता है।
+   */
+  for(let i = 0; i < 12; i++){
+
+    const startMs =
+      sunsetTime.getTime() +
+      i * nightHoraMs;
+
+    const endMs =
+      sunsetTime.getTime() +
+      (i + 1) * nightHoraMs;
+
+    const planetIndex =
+      (
+        firstPlanetIndex + 12 + i
+      ) % HORA_PLANETS.length;
+
+    horas.push({
+      number: i + 13,
+      part: "रात्रि",
+      planet:
+        HORA_PLANETS[planetIndex],
+      start: new Date(startMs),
+      end: new Date(endMs)
+    });
+  }
+
+  let current = null;
+
+  if(referenceNow){
+
+    current =
+      horas.find(hora =>
+        referenceNow >= hora.start &&
+        referenceNow < hora.end
+      ) || null;
+  }
+
+  return {
+    available: true,
+    horas,
+    current
+  };
+}
 
 /* =========================================
    Location
@@ -786,7 +988,36 @@ function updatePlanetRiseSet() {
     createPlanetCard(
       data
     );
+const oldHoraCard =
+  document.getElementById(
+    "horaCard"
+  );
 
+if(oldHoraCard){
+  oldHoraCard.remove();
+}
+
+const moonsetCard =
+  [...result.children].find(card =>
+    /चंद्रास्त|चन्द्रास्त|moonset/i.test(
+      card.textContent || ""
+    )
+  );
+
+if(moonsetCard){
+  moonsetCard.insertAdjacentElement(
+    "afterend",
+    horaCard
+  );
+
+  horaCard.insertAdjacentElement(
+    "afterend",
+    newCard
+  );
+}else{
+  result.appendChild(horaCard);
+  result.appendChild(newCard);
+}
 
   /*
    * पुराने card को replace करें।
@@ -820,6 +1051,139 @@ function updatePlanetRiseSet() {
 /* =========================================
    Initialization
    ========================================= */
+function createHoraCard(
+  horaDetails
+){
+  const card =
+    document.createElement("div");
+
+  card.className =
+    "card full";
+
+  card.id =
+    "horaCard";
+
+  if(!horaDetails.available){
+
+    card.innerHTML = `
+      <div class="label">
+        🕐 होरा
+      </div>
+
+      <div class="time-row">
+        <b>स्थिति</b>
+        <span>
+          ⚪ होरा गणना उपलब्ध नहीं
+        </span>
+      </div>
+    `;
+
+    return card;
+  }
+
+  const current =
+    horaDetails.current;
+
+  const currentText =
+    current
+      ? `
+        <div class="time-row">
+          <b>🟢 वर्तमान होरा</b>
+          <span>
+            ${current.planet.symbol}
+            <b>${current.planet.name} होरा</b>
+            —
+            ${formatHoraTime(current.start)}
+            से
+            ${formatHoraTime(current.end)}
+            तक
+          </span>
+        </div>
+      `
+      : `
+        <div class="time-row">
+          <b>🕐 वर्तमान होरा</b>
+          <span>
+            चयनित तिथि के लिए वर्तमान समय लागू नहीं है।
+          </span>
+        </div>
+      `;
+
+  const rows =
+    horaDetails.horas
+      .map(hora => {
+
+        const isCurrent =
+          current &&
+          hora.start.getTime() ===
+            current.start.getTime();
+
+        return `
+          <div
+            class="time-row"
+            ${
+              isCurrent
+                ? 'style="font-weight:700;"'
+                : ""
+            }
+          >
+            <b>
+              ${
+                isCurrent
+                  ? "🟢 "
+                  : ""
+              }
+              ${hora.number}.
+              ${hora.part}
+            </b>
+
+            <span>
+              ${hora.planet.symbol}
+              <b>
+                ${hora.planet.name}
+              </b>
+              —
+              ${formatHoraTime(hora.start)}
+              से
+              ${formatHoraTime(hora.end)}
+              तक
+            </span>
+          </div>
+        `;
+      })
+      .join("");
+
+  card.innerHTML = `
+    <div class="label">
+      🕐 होरा
+    </div>
+
+    ${currentText}
+
+    <div
+      style="
+        margin-top:8px;
+        margin-bottom:6px;
+        font-size:12px;
+        font-weight:700;
+      "
+    >
+      📅 चयनित तिथि की 24 होरा
+    </div>
+
+    ${rows}
+
+    <div class="yatra-note">
+      <b>📌 नोट:</b><br>
+      दिन की 12 होरा सूर्योदय से सूर्यास्त तक
+      और रात्रि की 12 होरा सूर्यास्त से अगले
+      सूर्योदय तक के वास्तविक समय को 12-12
+      समान भागों में विभाजित करके निर्धारित की गई हैं।
+    </div>
+  `;
+
+  return card;
+}
 
 function initExtraPanchang() {
 
