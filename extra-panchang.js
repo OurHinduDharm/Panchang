@@ -860,7 +860,139 @@ function createPlanetCard(
 
   return card;
 }
+function createHoraCard(
+  horaDetails
+){
+  const card =
+    document.createElement("div");
 
+  card.className =
+    "card full";
+
+  card.id =
+    "horaCard";
+
+  if(!horaDetails.available){
+
+    card.innerHTML = `
+      <div class="label">
+        🕐 होरा
+      </div>
+
+      <div class="time-row">
+        <b>स्थिति</b>
+        <span>
+          ⚪ होरा गणना उपलब्ध नहीं
+        </span>
+      </div>
+    `;
+
+    return card;
+  }
+
+  const current =
+    horaDetails.current;
+
+  const currentText =
+    current
+      ? `
+        <div class="time-row">
+          <b>🟢 वर्तमान होरा</b>
+          <span>
+            ${current.planet.symbol}
+            <b>${current.planet.name} होरा</b>
+            —
+            ${formatHoraTime(current.start)}
+            से
+            ${formatHoraTime(current.end)}
+            तक
+          </span>
+        </div>
+      `
+      : `
+        <div class="time-row">
+          <b>🕐 वर्तमान होरा</b>
+          <span>
+            चयनित तिथि के लिए वर्तमान समय लागू नहीं है।
+          </span>
+        </div>
+      `;
+
+  const rows =
+    horaDetails.horas
+      .map(hora => {
+
+        const isCurrent =
+          current &&
+          hora.start.getTime() ===
+            current.start.getTime();
+
+        return `
+          <div
+            class="time-row"
+            ${
+              isCurrent
+                ? 'style="font-weight:700;"'
+                : ""
+            }
+          >
+            <b>
+              ${
+                isCurrent
+                  ? "🟢 "
+                  : ""
+              }
+              ${hora.number}.
+              ${hora.part}
+            </b>
+
+            <span>
+              ${hora.planet.symbol}
+              <b>
+                ${hora.planet.name}
+              </b>
+              —
+              ${formatHoraTime(hora.start)}
+              से
+              ${formatHoraTime(hora.end)}
+              तक
+            </span>
+          </div>
+        `;
+      })
+      .join("");
+
+  card.innerHTML = `
+    <div class="label">
+      🕐 होरा
+    </div>
+
+    ${currentText}
+
+    <div
+      style="
+        margin-top:8px;
+        margin-bottom:6px;
+        font-size:12px;
+        font-weight:700;
+      "
+    >
+      📅 चयनित तिथि की 24 होरा
+    </div>
+
+    ${rows}
+
+    <div class="yatra-note">
+      <b>📌 नोट:</b><br>
+      दिन की 12 होरा सूर्योदय से सूर्यास्त तक
+      और रात्रि की 12 होरा सूर्यास्त से अगले
+      सूर्योदय तक के वास्तविक समय को 12-12
+      समान भागों में विभाजित करके निर्धारित की गई हैं।
+    </div>
+  `;
+
+  return card;
+}
 
 /* =========================================
    Card placement
@@ -1117,189 +1249,37 @@ function placeHoraCard(
 /* =========================================
    Initialization
    ========================================= */
-function createHoraCard(
-  horaDetails
-){
-  const card =
-    document.createElement("div");
-
-  card.className =
-    "card full";
-
-  card.id =
-    "horaCard";
-
-  if(!horaDetails.available){
-
-    card.innerHTML = `
-      <div class="label">
-        🕐 होरा
-      </div>
-
-      <div class="time-row">
-        <b>स्थिति</b>
-        <span>
-          ⚪ होरा गणना उपलब्ध नहीं
-        </span>
-      </div>
-    `;
-
-    return card;
-  }
-
-  const current =
-    horaDetails.current;
-
-  const currentText =
-    current
-      ? `
-        <div class="time-row">
-          <b>🟢 वर्तमान होरा</b>
-          <span>
-            ${current.planet.symbol}
-            <b>${current.planet.name} होरा</b>
-            —
-            ${formatHoraTime(current.start)}
-            से
-            ${formatHoraTime(current.end)}
-            तक
-          </span>
-        </div>
-      `
-      : `
-        <div class="time-row">
-          <b>🕐 वर्तमान होरा</b>
-          <span>
-            चयनित तिथि के लिए वर्तमान समय लागू नहीं है।
-          </span>
-        </div>
-      `;
-
-  const rows =
-    horaDetails.horas
-      .map(hora => {
-
-        const isCurrent =
-          current &&
-          hora.start.getTime() ===
-            current.start.getTime();
-
-        return `
-          <div
-            class="time-row"
-            ${
-              isCurrent
-                ? 'style="font-weight:700;"'
-                : ""
-            }
-          >
-            <b>
-              ${
-                isCurrent
-                  ? "🟢 "
-                  : ""
-              }
-              ${hora.number}.
-              ${hora.part}
-            </b>
-
-            <span>
-              ${hora.planet.symbol}
-              <b>
-                ${hora.planet.name}
-              </b>
-              —
-              ${formatHoraTime(hora.start)}
-              से
-              ${formatHoraTime(hora.end)}
-              तक
-            </span>
-          </div>
-        `;
-      })
-      .join("");
-
-  card.innerHTML = `
-    <div class="label">
-      🕐 होरा
-    </div>
-
-    ${currentText}
-
-    <div
-      style="
-        margin-top:8px;
-        margin-bottom:6px;
-        font-size:12px;
-        font-weight:700;
-      "
-    >
-      📅 चयनित तिथि की 24 होरा
-    </div>
-
-    ${rows}
-
-    <div class="yatra-note">
-      <b>📌 नोट:</b><br>
-      दिन की 12 होरा सूर्योदय से सूर्यास्त तक
-      और रात्रि की 12 होरा सूर्यास्त से अगले
-      सूर्योदय तक के वास्तविक समय को 12-12
-      समान भागों में विभाजित करके निर्धारित की गई हैं।
-    </div>
-  `;
-
-  return card;
-}
 
 function initExtraPanchang() {
 
+  /*
+   * पहली बार
+   */
   updatePlanetRiseSet();
 
 
   /*
-   * Date change
+   * Main Panchang के दोबारा render होने के बाद
+   * Extra Panchang भी दोबारा render करें।
    */
-
-  const dateInput =
-    document.getElementById(
-      "dateInput"
-    );
-
-  if (dateInput) {
-dateInput.addEventListener(
-  "change",
-  () => {
-
-    /*
-     * app.js पहले मुख्य Panchang render करेगा।
-     * उसके बाद Extra Panchang को लगाएँ।
-     */
-
-    setTimeout(
-      updatePlanetRiseSet,
-      300
-    );
-
-  }
-);
-  }
+  window.addEventListener(
+    "ohd:panchangUpdated",
+    () => {
+      updatePlanetRiseSet();
+    }
+  );
 
 
   /*
    * Location change
    */
-
   window.addEventListener(
     "ohd:locationChanged",
     () => {
-
-      setTimeout(
-        updatePlanetRiseSet,
-        300
-      );
-
+      updatePlanetRiseSet();
     }
   );
+
 }
 
 
