@@ -3,23 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heliacal Asta/Udaya Validation</title>
+
+<title>Swiss Ephemeris Heliacal Validation</title>
 
 <style>
   body {
     font-family: system-ui, sans-serif;
     padding: 16px;
     line-height: 1.5;
+    max-width: 1200px;
+    margin: auto;
   }
 
   h1 {
     font-size: 22px;
   }
 
+  h2 {
+    margin-top: 30px;
+    font-size: 19px;
+  }
+
   button {
-    padding: 10px 16px;
+    padding: 11px 18px;
     font-size: 16px;
     cursor: pointer;
+    margin: 5px 0;
   }
 
   #status {
@@ -27,11 +36,21 @@
     font-weight: bold;
   }
 
+  .info {
+    background: #f5f5f5;
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
   table {
     border-collapse: collapse;
     width: 100%;
-    margin-top: 16px;
-    font-size: 14px;
+    margin-top: 12px;
+    font-size: 13px;
   }
 
   th,
@@ -40,6 +59,11 @@
     padding: 7px;
     text-align: left;
     vertical-align: top;
+    white-space: nowrap;
+  }
+
+  th {
+    font-weight: 700;
   }
 
   pre {
@@ -47,6 +71,11 @@
     background: #f5f5f5;
     padding: 12px;
     overflow-x: auto;
+    font-size: 12px;
+  }
+
+  .section {
+    margin-top: 24px;
   }
 </style>
 </head>
@@ -56,39 +85,111 @@
 <h1>🌌 Swiss Ephemeris Heliacal Validation</h1>
 
 <p>
-  Standalone test — this file does not use <code>app.js</code> or
-  <code>extra-panchang.js</code>.
+  <b>Standalone diagnostic.</b>
+  This file does NOT load <code>app.js</code>,
+  <code>extra-panchang.js</code>, or any Panchang UI code.
 </p>
+
+<div class="info">
+  <b>Pithoragarh validation coordinates</b><br>
+  Latitude: <b>30.1265</b><br>
+  Longitude: <b>80.4817</b><br>
+  Altitude: <b>0 m</b><br>
+  Timezone: <b>Asia/Kolkata</b>
+</div>
 
 <p>
-  Coordinates used for validation:
-  <br>
-  Latitude: <b>30.1265</b>
-  <br>
-  Longitude: <b>80.4817</b>
-  <br>
-  Altitude: <b>0 m</b>
-  <br>
-  Timezone: <b>Asia/Kolkata</b>
+  <button id="runBtn">▶ Run All Tests</button>
 </p>
-
-<button id="runBtn">Run Validation</button>
 
 <div id="status">Ready.</div>
 
-<div id="results"></div>
 
-<h3>Raw diagnostic output</h3>
+<!-- =========================================================
+     TEST 1
+     BASELINE
+     ========================================================= -->
+
+<div class="section">
+
+<h2>Test 1 — Baseline</h2>
+
+<p>
+  This reproduces the original test:
+  <br>
+  <code>reference date − 30 days → heliacal_ut()</code>
+</p>
+
+<div class="table-wrap">
+  <div id="baselineResults"></div>
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     TEST 2
+     SEARCH WINDOW
+     ========================================================= -->
+
+<div class="section">
+
+<h2>Test 2 — Search-Window Diagnostic</h2>
+
+<p>
+  For every reference event, <code>heliacal_ut()</code> is called
+  repeatedly using starting dates from <b>−15 to +15 days</b>
+  relative to the reference date.
+</p>
+
+<div class="table-wrap">
+  <div id="searchResults"></div>
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     TEST 3
+     SNELLEN SENSITIVITY
+     ========================================================= -->
+
+<div class="section">
+
+<h2>Test 3 — Snellen Sensitivity</h2>
+
+<p>
+  The event is recalculated using different Snellen values.
+  This is a diagnostic only — we are <b>not</b> tuning the
+  values to force a Drik match.
+</p>
+
+<div class="table-wrap">
+  <div id="snellenResults"></div>
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     RAW DIAGNOSTIC
+     ========================================================= -->
+
+<div class="section">
+
+<h2>Raw Diagnostic Output</h2>
+
 <pre id="log"></pre>
+
+</div>
 
 
 <script type="module">
 
-/*
- * ============================================================
- * Swiss Ephemeris WASM
- * ============================================================
- */
+
+/* ============================================================
+   SWISS EPHEMERIS WASM
+   ============================================================ */
 
 const mod = await import(
   "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js"
@@ -101,11 +202,9 @@ const swe = new SwissEph();
 await swe.initSwissEph();
 
 
-/*
- * ============================================================
- * Swiss Ephemeris constants
- * ============================================================
- */
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
 
 const HELIACAL_RISING = 1;
 const HELIACAL_SETTING = 2;
@@ -116,11 +215,9 @@ const MORNING_LAST = 4;
 const FLG_SWIEPH = 2;
 
 
-/*
- * ============================================================
- * Python source equivalents
- * ============================================================
- */
+/* ============================================================
+   ATMOSPHERE
+   ============================================================ */
 
 const STD_ATMO = [
   1013.25,
@@ -130,9 +227,21 @@ const STD_ATMO = [
 ];
 
 
-/*
- * These are copied from the supplied Python source.
- */
+/* ============================================================
+   PITHORAGARH
+   ============================================================ */
+
+const GEO_POS = [
+  80.4817,
+  30.1265,
+  0.0
+];
+
+
+/* ============================================================
+   ORIGINAL SNELLEN VALUES
+   Copied from maudhya_calendar.py
+   ============================================================ */
 
 const SNELLEN = {
 
@@ -174,27 +283,9 @@ const SNELLEN = {
 };
 
 
-/*
- * ============================================================
- * Pithoragarh validation coordinates
- * ============================================================
- */
-
-const GEO_POS = [
-  80.4817,  // longitude
-  30.1265,  // latitude
-  0.0       // altitude
-];
-
-
-/*
- * ============================================================
- * Reference events
- *
- * These are NOT used to calculate anything.
- * They are only validation targets.
- * ============================================================
- */
+/* ============================================================
+   VALIDATION TARGETS
+   ============================================================ */
 
 const TESTS = [
 
@@ -233,20 +324,29 @@ const TESTS = [
 ];
 
 
-/*
- * ============================================================
- * Helpers
- * ============================================================
- */
+/* ============================================================
+   SNELLEN VALUES FOR SENSITIVITY TEST
+   ============================================================ */
+
+const SENSITIVITY_VALUES = [
+  0.5,
+  0.75,
+  0.9,
+  1.0,
+  1.5,
+  2.0,
+  3.0,
+  4.0,
+  5.0,
+  6.0,
+  8.0
+];
 
 
-/*
- * Convert Gregorian UTC date to Julian Day.
- *
- * This corresponds to:
- *
- * swe.julday(year, month, day, 0.0)
- */
+/* ============================================================
+   DATE → JULIAN DAY
+   ============================================================ */
+
 function dateToJD(dateString) {
 
   const [year, month, day] =
@@ -258,14 +358,14 @@ function dateToJD(dateString) {
     day,
     0.0
   );
+
 }
 
 
-/*
- * Convert Julian Day to JS Date.
- *
- * Julian Day 2440587.5 = Unix epoch.
- */
+/* ============================================================
+   JULIAN DAY → JS DATE
+   ============================================================ */
+
 function jdToDate(jd) {
 
   return new Date(
@@ -276,9 +376,10 @@ function jdToDate(jd) {
 }
 
 
-/*
- * Format date in Indian timezone.
- */
+/* ============================================================
+   IST FORMAT
+   ============================================================ */
+
 function formatIST(date) {
 
   if (!date || Number.isNaN(date.getTime())) {
@@ -302,41 +403,71 @@ function formatIST(date) {
 }
 
 
-/*
- * ============================================================
- * Python _next_event() equivalent
- * ============================================================
- */
+/* ============================================================
+   UTC FORMAT
+   ============================================================ */
 
-function nextEvent(
-  planet,
-  jdFrom,
-  evtType
-) {
+function formatUTC(date) {
 
-  let snellen;
+  if (!date || Number.isNaN(date.getTime())) {
+    return "Invalid";
+  }
+
+  return date.toISOString();
+
+}
+
+
+/* ============================================================
+   EVENT NAME
+   ============================================================ */
+
+function eventTypeName(evtType) {
 
   switch (evtType) {
 
     case HELIACAL_SETTING:
-      snellen =
-        SNELLEN[planet].setting;
-      break;
+      return "HELIACAL_SETTING";
 
     case HELIACAL_RISING:
-      snellen =
-        SNELLEN[planet].rising;
-      break;
-
-    case MORNING_LAST:
-      snellen =
-        SNELLEN[planet].morningLast;
-      break;
+      return "HELIACAL_RISING";
 
     case EVENING_FIRST:
-      snellen =
-        SNELLEN[planet].eveningFirst;
-      break;
+      return "EVENING_FIRST";
+
+    case MORNING_LAST:
+      return "MORNING_LAST";
+
+    default:
+      return "UNKNOWN";
+
+  }
+
+}
+
+
+/* ============================================================
+   GET SNELLEN
+   ============================================================ */
+
+function getDefaultSnellen(
+  planet,
+  evtType
+) {
+
+  switch (evtType) {
+
+    case HELIACAL_SETTING:
+      return SNELLEN[planet].setting;
+
+    case HELIACAL_RISING:
+      return SNELLEN[planet].rising;
+
+    case MORNING_LAST:
+      return SNELLEN[planet].morningLast;
+
+    case EVENING_FIRST:
+      return SNELLEN[planet].eveningFirst;
 
     default:
       throw new Error(
@@ -345,11 +476,33 @@ function nextEvent(
 
   }
 
+}
+
+
+/* ============================================================
+   CORE HELIACAL CALL
+   ============================================================ */
+
+function heliacalEvent(
+  planet,
+  jdFrom,
+  evtType,
+  snellenOverride = null
+) {
+
+  const snellen =
+    snellenOverride !== null
+      ? snellenOverride
+      : getDefaultSnellen(
+          planet,
+          evtType
+        );
+
 
   /*
-   * Exactly as supplied Python source:
+   * EXACT observer array from Python source:
    *
-   * observer = [36.0, snellen, 0, 0, 0, 0]
+   * [36.0, snellen, 0, 0, 0, 0]
    */
 
   const observer = [
@@ -375,15 +528,34 @@ function nextEvent(
         FLG_SWIEPH
       );
 
-    return Number(result[0]);
+    if (
+      !result ||
+      result.length === 0 ||
+      !Number.isFinite(Number(result[0]))
+    ) {
+      return null;
+    }
+
+    const jd =
+      Number(result[0]);
+
+    return {
+      jd,
+      date: jdToDate(jd),
+      snellen
+    };
 
   } catch (error) {
 
     console.error(
       "heliacal_ut error:",
-      planet,
-      evtType,
-      error
+      {
+        planet,
+        evtType,
+        snellen,
+        jdFrom,
+        error
+      }
     );
 
     return null;
@@ -393,81 +565,29 @@ function nextEvent(
 }
 
 
-/*
- * ============================================================
- * Find event around requested reference date
- *
- * We deliberately search a window rather than hard-code
- * the reference event itself.
- * ============================================================
- */
+/* ============================================================
+   TEST 1
+   BASELINE
+   ============================================================ */
 
-function findEvent(
-  planet,
-  referenceDate,
-  evtType
-) {
+function runBaseline(test) {
+
   const referenceJD =
-    dateToJD(referenceDate);
-
-  const rows = [];
+    dateToJD(test.date);
 
   /*
-   * Reference date से 15 दिन पहले से
-   * reference date के 15 दिन बाद तक
-   * अलग-अलग starting JD से heliacal_ut()
-   * को test करेंगे.
+   * Exactly like the original test:
+   *
+   * reference date - 30 days
    */
-  for (let offset = -15; offset <= 15; offset++) {
 
-    const jdFrom =
-      referenceJD + offset;
-
-    const jd =
-      nextEvent(
-        planet,
-        jdFrom,
-        evtType
-      );
-
-    if (jd === null) {
-      rows.push({
-        offset,
-        jdFrom: jdFrom.toFixed(6),
-        result: null
-      });
-
-      continue;
-    }
-
-    const resultDate =
-      jdToDate(jd);
-
-    rows.push({
-      offset,
-      jdFrom: jdFrom.toFixed(6),
-      resultJD: jd.toFixed(6),
-      utc: resultDate.toISOString(),
-      ist: formatIST(resultDate)
-    });
-  }
-
-  return rows;
-}
-
-
-/*
- * ============================================================
- * Run one test
- * ============================================================
- */
-
-function runTest(test) {
+  const jdFrom =
+    referenceJD - 30.0;
 
   const result =
-    findEvent(
+    heliacalEvent(
       test.planet,
-      test.date,
+      jdFrom,
       test.evtType
     );
 
@@ -476,44 +596,47 @@ function runTest(test) {
 
     return {
       ...test,
-      calculated: "No result",
-      utc: "-",
-      ist: "-"
+      snellen:
+        getDefaultSnellen(
+          test.planet,
+          test.evtType
+        ),
+      calculatedUTC: "No result",
+      calculatedIST: "No result",
+      differenceDays: null
     };
 
   }
 
 
-  const calculatedDate =
-    result.date;
-
-
-  const referenceDate =
+  const referenceTime =
     new Date(
       `${test.date}T00:00:00Z`
-    );
+    ).getTime();
 
 
   const differenceDays =
     (
-      calculatedDate.getTime() -
-      referenceDate.getTime()
-    ) /
-    86400000;
+      result.date.getTime() -
+      referenceTime
+    ) / 86400000;
 
 
   return {
 
     ...test,
 
+    snellen:
+      result.snellen,
+
     calculatedJD:
       result.jd.toFixed(6),
 
-    utc:
-      calculatedDate.toISOString(),
+    calculatedUTC:
+      formatUTC(result.date),
 
-    ist:
-      formatIST(calculatedDate),
+    calculatedIST:
+      formatIST(result.date),
 
     differenceDays:
       differenceDays.toFixed(3)
@@ -523,59 +646,216 @@ function runTest(test) {
 }
 
 
-/*
- * ============================================================
- * Main validation
- * ============================================================
- */
+/* ============================================================
+   TEST 2
+   SEARCH WINDOW DIAGNOSTIC
+   ============================================================ */
 
-function runValidation() {
+function runSearchDiagnostic(test) {
 
-  const status =
-    document.getElementById("status");
+  const referenceJD =
+    dateToJD(test.date);
 
-  const results =
-    document.getElementById("results");
-
-  const log =
-    document.getElementById("log");
+  const rows = [];
 
 
-  status.textContent =
-    "⏳ Running Swiss Ephemeris validation...";
+  /*
+   * Starting date:
+   *
+   * reference -15
+   *
+   * through
+   *
+   * reference +15
+   */
 
+  for (
+    let offset = -15;
+    offset <= 15;
+    offset++
+  ) {
 
-  results.innerHTML = "";
-  log.textContent = "";
-
-
-  const output = [];
-
-
-  for (const test of TESTS) {
+    const jdFrom =
+      referenceJD + offset;
 
     const result =
-      runTest(test);
+      heliacalEvent(
+        test.planet,
+        jdFrom,
+        test.evtType
+      );
 
-    output.push(result);
+
+    if (!result) {
+
+      rows.push({
+
+        offset,
+
+        searchDate:
+          formatUTC(
+            jdToDate(jdFrom)
+          ),
+
+        resultUTC:
+          "No result",
+
+        resultIST:
+          "No result"
+
+      });
+
+      continue;
+
+    }
+
+
+    rows.push({
+
+      offset,
+
+      searchDate:
+        formatUTC(
+          jdToDate(jdFrom)
+        ),
+
+      resultJD:
+        result.jd.toFixed(6),
+
+      resultUTC:
+        formatUTC(result.date),
+
+      resultIST:
+        formatIST(result.date)
+
+    });
 
   }
 
 
+  return rows;
+
+}
+
+
+/* ============================================================
+   TEST 3
+   SNELLEN SENSITIVITY
+   ============================================================ */
+
+function runSnellenSensitivity(test) {
+
+  const referenceJD =
+    dateToJD(test.date);
+
   /*
-   * Console diagnostic
+   * Keep search start FIXED.
+   *
+   * This is important:
+   * only Snellen changes.
    */
 
-  console.log(
-    "=== HELIACAL VALIDATION ==="
-  );
+  const jdFrom =
+    referenceJD - 30.0;
 
-  console.table(output);
+  const referenceTime =
+    new Date(
+      `${test.date}T00:00:00Z`
+    ).getTime();
 
 
-  /*
-   * HTML table
-   */
+  const rows = [];
+
+
+  for (
+    const snellen of SENSITIVITY_VALUES
+  ) {
+
+    const result =
+      heliacalEvent(
+        test.planet,
+        jdFrom,
+        test.evtType,
+        snellen
+      );
+
+
+    if (!result) {
+
+      rows.push({
+
+        snellen,
+
+        resultUTC:
+          "No result",
+
+        resultIST:
+          "No result",
+
+        differenceDays:
+          null
+
+      });
+
+      continue;
+
+    }
+
+
+    const differenceDays =
+      (
+        result.date.getTime() -
+        referenceTime
+      ) / 86400000;
+
+
+    rows.push({
+
+      snellen,
+
+      resultJD:
+        result.jd.toFixed(6),
+
+      resultUTC:
+        formatUTC(result.date),
+
+      resultIST:
+        formatIST(result.date),
+
+      differenceDays:
+        differenceDays.toFixed(3)
+
+    });
+
+  }
+
+
+  return rows;
+
+}
+
+
+/* ============================================================
+   HTML ESCAPE
+   ============================================================ */
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* ============================================================
+   RENDER BASELINE
+   ============================================================ */
+
+function renderBaseline(results) {
 
   let html = `
     <table>
@@ -583,8 +863,8 @@ function runValidation() {
         <tr>
           <th>Planet</th>
           <th>Event</th>
-          <th>Reference Date</th>
-          <th>Reference Degree</th>
+          <th>Reference</th>
+          <th>Snellen</th>
           <th>Calculated UTC</th>
           <th>Calculated IST</th>
           <th>Difference</th>
@@ -594,17 +874,17 @@ function runValidation() {
   `;
 
 
-  for (const r of output) {
+  for (const r of results) {
 
     html += `
       <tr>
-        <td>${r.planet}</td>
-        <td>${r.event}</td>
-        <td>${r.date}</td>
-        <td>${r.referenceDegree}°</td>
-        <td>${r.utc || "-"}</td>
-        <td>${r.ist || "-"}</td>
-        <td>${r.differenceDays ?? "-"}</td>
+        <td>${escapeHTML(r.planet)}</td>
+        <td>${escapeHTML(r.event)}</td>
+        <td>${escapeHTML(r.date)}</td>
+        <td>${escapeHTML(r.snellen)}</td>
+        <td>${escapeHTML(r.calculatedUTC)}</td>
+        <td>${escapeHTML(r.calculatedIST)}</td>
+        <td>${escapeHTML(r.differenceDays ?? "-")}</td>
       </tr>
     `;
 
@@ -617,36 +897,336 @@ function runValidation() {
   `;
 
 
-  results.innerHTML = html;
+  document.getElementById(
+    "baselineResults"
+  ).innerHTML = html;
+
+}
+
+
+/* ============================================================
+   RENDER SEARCH DIAGNOSTIC
+   ============================================================ */
+
+function renderSearchDiagnostic(
+  diagnosticResults
+) {
+
+  let html = "";
+
+
+  for (
+    const item of diagnosticResults
+  ) {
+
+    html += `
+      <h3>
+        ${escapeHTML(item.planet)}
+        —
+        ${escapeHTML(item.event)}
+        —
+        Reference:
+        ${escapeHTML(item.date)}
+      </h3>
+
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Offset</th>
+            <th>Search Start UTC</th>
+            <th>Result UTC</th>
+            <th>Result IST</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+
+    for (const row of item.rows) {
+
+      html += `
+        <tr>
+          <td>${escapeHTML(row.offset)}</td>
+          <td>${escapeHTML(row.searchDate)}</td>
+          <td>${escapeHTML(row.resultUTC ?? "-")}</td>
+          <td>${escapeHTML(row.resultIST ?? "-")}</td>
+        </tr>
+      `;
+
+    }
+
+
+    html += `
+        </tbody>
+      </table>
+      </div>
+    `;
+
+  }
+
+
+  document.getElementById(
+    "searchResults"
+  ).innerHTML = html;
+
+}
+
+
+/* ============================================================
+   RENDER SNELLEN
+   ============================================================ */
+
+function renderSnellen(
+  sensitivityResults
+) {
+
+  let html = "";
+
+
+  for (
+    const item of sensitivityResults
+  ) {
+
+    html += `
+      <h3>
+        ${escapeHTML(item.planet)}
+        —
+        ${escapeHTML(item.event)}
+        —
+        Reference:
+        ${escapeHTML(item.date)}
+      </h3>
+
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Snellen</th>
+            <th>Result UTC</th>
+            <th>Result IST</th>
+            <th>Difference from Reference</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+
+    for (const row of item.rows) {
+
+      html += `
+        <tr>
+          <td>${escapeHTML(row.snellen)}</td>
+          <td>${escapeHTML(row.resultUTC ?? "-")}</td>
+          <td>${escapeHTML(row.resultIST ?? "-")}</td>
+          <td>${escapeHTML(row.differenceDays ?? "-")}</td>
+        </tr>
+      `;
+
+    }
+
+
+    html += `
+        </tbody>
+      </table>
+      </div>
+    `;
+
+  }
+
+
+  document.getElementById(
+    "snellenResults"
+  ).innerHTML = html;
+
+}
+
+
+/* ============================================================
+   MAIN
+   ============================================================ */
+
+async function runValidation() {
+
+  const status =
+    document.getElementById("status");
+
+  const log =
+    document.getElementById("log");
+
+
+  status.textContent =
+    "⏳ Running all three tests...";
+
+
+  document.getElementById(
+    "baselineResults"
+  ).innerHTML = "";
+
+  document.getElementById(
+    "searchResults"
+  ).innerHTML = "";
+
+  document.getElementById(
+    "snellenResults"
+  ).innerHTML = "";
 
 
   /*
-   * Raw diagnostic text
+   * ----------------------------------------------------------
+   * TEST 1
+   * ----------------------------------------------------------
    */
+
+  const baselineResults =
+    TESTS.map(
+      runBaseline
+    );
+
+
+  /*
+   * ----------------------------------------------------------
+   * TEST 2
+   * ----------------------------------------------------------
+   */
+
+  const searchDiagnosticResults =
+    TESTS.map(test => ({
+
+      ...test,
+
+      rows:
+        runSearchDiagnostic(test)
+
+    }));
+
+
+  /*
+   * ----------------------------------------------------------
+   * TEST 3
+   * ----------------------------------------------------------
+   */
+
+  const sensitivityResults =
+    TESTS.map(test => ({
+
+      ...test,
+
+      rows:
+        runSnellenSensitivity(test)
+
+    }));
+
+
+  /*
+   * ----------------------------------------------------------
+   * RENDER
+   * ----------------------------------------------------------
+   */
+
+  renderBaseline(
+    baselineResults
+  );
+
+  renderSearchDiagnostic(
+    searchDiagnosticResults
+  );
+
+  renderSnellen(
+    sensitivityResults
+  );
+
+
+  /*
+   * ----------------------------------------------------------
+   * RAW OUTPUT
+   * ----------------------------------------------------------
+   */
+
+  const raw = {
+
+    coordinates: GEO_POS,
+
+    atmosphere: STD_ATMO,
+
+    eventConstants: {
+      HELIACAL_RISING,
+      HELIACAL_SETTING,
+      EVENING_FIRST,
+      MORNING_LAST
+    },
+
+    originalSnellen: SNELLEN,
+
+    sensitivityValues:
+      SENSITIVITY_VALUES,
+
+    baseline:
+      baselineResults,
+
+    searchDiagnostic:
+      searchDiagnosticResults,
+
+    snellenSensitivity:
+      sensitivityResults
+
+  };
+
+
+  console.log(
+    "======================================"
+  );
+
+  console.log(
+    "SWISS EPHEMERIS HELIACAL VALIDATION"
+  );
+
+  console.log(
+    "======================================"
+  );
+
+  console.log(
+    "BASELINE"
+  );
+
+  console.table(
+    baselineResults
+  );
+
+  console.log(
+    "SEARCH DIAGNOSTIC"
+  );
+
+  console.log(
+    searchDiagnosticResults
+  );
+
+  console.log(
+    "SNELLEN SENSITIVITY"
+  );
+
+  console.log(
+    sensitivityResults
+  );
+
 
   log.textContent =
     JSON.stringify(
-      {
-        coordinates: GEO_POS,
-        atmosphere: STD_ATMO,
-        tests: output
-      },
+      raw,
       null,
       2
     );
 
 
   status.textContent =
-    "✅ Validation completed.";
+    "✅ All three validation tests completed.";
 
 }
 
 
-/*
- * ============================================================
- * Button
- * ============================================================
- */
+/* ============================================================
+   BUTTON
+   ============================================================ */
 
 document
   .getElementById("runBtn")
