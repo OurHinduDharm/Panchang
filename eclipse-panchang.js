@@ -1,23 +1,26 @@
 /* =========================================================
-   OUR HINDU DHARM — ECLIPSE PANCHANG (OPTIMIZED & FAST)
+   OUR HINDU DHARM — ECLIPSE PANCHANG (ULTRA-FAST & ACCURATE)
    Hosted on GitHub | 100% Accurate Calculations
    ========================================================= */
 
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 
 /* =========================================================
-   CONFIGURATION
+   CONFIGURATION & CITIES
    ========================================================= */
+const CITIES = {
+  pithoragarh: { name: "पिथौरागढ़", latitude: 29.5829, longitude: 80.2182, elevation: 1650 },
+  delhi: { name: "दिल्ली", latitude: 28.6139, longitude: 77.2090, elevation: 216 },
+  mumbai: { name: "मुंबई", latitude: 19.0760, longitude: 72.8777, elevation: 10 },
+  haridwar: { name: "हरिद्वार", latitude: 29.9457, longitude: 78.1642, elevation: 310 },
+  varanasi: { name: "वाराणसी", latitude: 25.3176, longitude: 82.9739, elevation: 80 }
+};
+
 const ECLIPSE_CONFIG = {
   timezoneOffset: 330,
-  defaultLocation: {
-    name: "पिथौरागढ़",
-    latitude: 29.5829,
-    longitude: 80.2182,
-    elevation: 1650
-  },
+  defaultLocation: CITIES.pithoragarh,
   yearsBefore: 0,
-  yearsAfter: 5,
+  yearsAfter: 5, // Dropdown में दिखाने के लिए, लेकिन गणना केवल 1 साल की होगी
   scanStepHours: 12, // 12 hours is scientifically safe & 2x faster than 6
   language: "hi-IN"
 };
@@ -73,8 +76,7 @@ function escapeHtml(value) {
    LOCATION & ADAPTERS
    ========================================================= */
 export function createObserver(location) {
-  const loc = { ...ECLIPSE_CONFIG.defaultLocation, ...(location || {}) };
-  return new Observer(Number(loc.latitude), Number(loc.longitude), Number(loc.elevation || 0));
+  return new Observer(Number(location.latitude), Number(location.longitude), Number(location.elevation || 0));
 }
 
 function getGrahanaFromPanchang(panchang) {
@@ -82,56 +84,43 @@ function getGrahanaFromPanchang(panchang) {
   return panchang.grahana ?? panchang.grahan ?? panchang.eclipse ?? panchang.eclipseInfo ?? null;
 }
 
-function pick(obj, names) {
-  if (!obj) return null;
-  for (const name of names) {
-    if (Object.prototype.hasOwnProperty.call(obj, name) && obj[name] != null) return obj[name];
-  }
-  return null;
-}
-
 /* =========================================================
-   NORMALIZE GRAHANA (100% Accurate Logic Preserved)
+   NORMALIZE GRAHANA (FIXED: Correctly maps nested v3.0.0 properties)
    ========================================================= */
 function normalizeGrahana(raw, calculationDate, location) {
   if (!raw) return null;
 
-  const typeRaw = String(pick(raw, ["type", "grahanaType", "eclipseType"]) || "").toLowerCase();
+  const typeRaw = String(raw.type || "").toLowerCase();
   let type = null;
-
-  if (typeRaw.includes("solar") || typeRaw.includes("surya")) type = "solar";
-  if (typeRaw.includes("lunar") || typeRaw.includes("chandra")) type = "lunar";
-
-  if (!type) {
-    if (raw.isSolar === true || raw.solar === true) type = "solar";
-    if (raw.isLunar === true || raw.lunar === true) type = "lunar";
-  }
+  if (typeRaw.includes("surya") || typeRaw.includes("solar")) type = "solar";
+  if (typeRaw.includes("chandra") || typeRaw.includes("lunar")) type = "lunar";
   if (!type) return null;
 
-  const subtypeRaw = String(pick(raw, ["subtype", "grahanaSubtype", "eclipseSubtype", "kind"]) || "").toLowerCase();
-  let subtype = subtypeRaw || "unknown";
+  const subtypeRaw = String(raw.subtype || "").toLowerCase();
+  let subtype = "unknown";
+  if (subtypeRaw.includes("total") || subtypeRaw.includes("पूर्ण")) subtype = "total";
+  else if (subtypeRaw.includes("annular") || subtypeRaw.includes("वलय")) subtype = "annular";
+  else if (subtypeRaw.includes("partial") || subtypeRaw.includes("आंशिक")) subtype = "partial";
+  else if (subtypeRaw.includes("penumbral") || subtypeRaw.includes("उपच्छाया")) subtype = "penumbral";
 
-  if (subtype.includes("total") || subtype.includes("पूर्ण")) subtype = "total";
-  else if (subtype.includes("annular") || subtype.includes("वलय")) subtype = "annular";
-  else if (subtype.includes("partial") || subtype.includes("आंशिक")) subtype = "partial";
-  else if (subtype.includes("penumbral") || subtype.includes("उपच्छाया")) subtype = "penumbral";
+  // v3.0.0 nested structure mapping
+  const contact = raw.contact || {};
+  const sutak = raw.sutakKaal || {};
+  const punya = raw.punyaKala || {};
 
   return {
     raw, type, subtype, calculationDate, location,
-    date: safeDate(pick(raw, ["maximum", "maximumTime", "maxTime", "greatest", "greatestEclipse", "midTime", "peakTime", "peak"])) ||
-          safeDate(pick(raw, ["firstContact", "firstContactTime", "contact1", "c1", "partialStart", "partialBegin", "startTime", "start"])) ||
-          safeDate(pick(raw, ["fourthContact", "fourthContactTime", "contact4", "c4", "partialEnd", "partialEndTime", "endTime", "end"])) ||
-          calculationDate,
-    firstContact: safeDate(pick(raw, ["firstContact", "firstContactTime", "contact1", "c1", "partialStart", "partialBegin", "startTime", "start"])),
-    secondContact: safeDate(pick(raw, ["secondContact", "secondContactTime", "contact2", "c2", "totalStart", "centralStart", "centralBegin"])),
-    maximum: safeDate(pick(raw, ["maximum", "maximumTime", "maxTime", "greatest", "greatestEclipse", "midTime", "peakTime", "peak"])),
-    thirdContact: safeDate(pick(raw, ["thirdContact", "thirdContactTime", "contact3", "c3", "totalEnd", "centralEnd"])),
-    fourthContact: safeDate(pick(raw, ["fourthContact", "fourthContactTime", "contact4", "c4", "partialEnd", "partialEndTime", "endTime", "end"])),
-    sutakStart: safeDate(pick(raw, ["sutakStartTime", "sutakStart", "sutakBegin"])),
-    sutakEnd: safeDate(pick(raw, ["sutakEndTime", "sutakEnd"])),
-    punyaStart: safeDate(pick(raw, ["punyaKalaStart", "punyaKalaStartTime", "punyaStart", "punyaStartTime"])),
-    punyaEnd: safeDate(pick(raw, ["punyaKalaEnd", "punyaKalaEndTime", "punyaEnd", "punyaEndTime"])),
-    visible: pick(raw, ["visible", "isVisible", "visibleAtLocation", "visibility"])
+    date: safeDate(contact.peak || contact.firstContact || calculationDate),
+    firstContact: safeDate(contact.firstContact),
+    secondContact: safeDate(contact.totalityBegin), // Null for partial, which is astronomically correct
+    maximum: safeDate(contact.peak),
+    thirdContact: safeDate(contact.totalityEnd),
+    fourthContact: safeDate(contact.lastContact),
+    sutakStart: safeDate(sutak.start),
+    sutakEnd: safeDate(sutak.end),
+    punyaStart: safeDate(punya.start),
+    punyaEnd: safeDate(punya.end),
+    visible: raw.isVisible === true
   };
 }
 
@@ -139,11 +128,10 @@ function normalizeGrahana(raw, calculationDate, location) {
    SINGLE DATE CALCULATION
    ========================================================= */
 export function calculateEclipseAt(date, location) {
-  const loc = { ...ECLIPSE_CONFIG.defaultLocation, ...(location || {}) };
-  const observer = createObserver(loc);
+  const observer = createObserver(location);
   const panchang = getPanchangam(date, observer, { timezoneOffset: ECLIPSE_CONFIG.timezoneOffset, calendarType: "purnimanta" });
   const raw = getGrahanaFromPanchang(panchang);
-  return normalizeGrahana(raw, date, loc);
+  return normalizeGrahana(raw, date, location);
 }
 
 /* =========================================================
@@ -191,7 +179,7 @@ export async function findEclipses({ startDate, endDate, location }) {
    YEAR RANGE (Async + Smart Caching)
    ========================================================= */
 export async function getEclipsesForYears(startYear, numberOfYears, location) {
-  const cacheKey = `ohd_eclipse_${startYear}_${numberOfYears}_${location?.name || 'default'}`;
+  const cacheKey = `ohd_eclipse_${startYear}_${numberOfYears}_${location.name}`;
   
   // 1. Check Cache First (Instant Load for returning users)
   try {
@@ -302,10 +290,19 @@ export function renderEclipseCard(eclipse) {
   `;
 }
 
-function createYearOptions(currentYear, yearsBefore = 1, yearsAfter = 10) {
+function createYearOptions(currentYear, yearsBefore = 0, yearsAfter = 5) {
   let html = "";
   for (let y = currentYear - yearsBefore; y <= currentYear + yearsAfter; y++) {
     html += `<option value="${y}">${y}</option>`;
+  }
+  return html;
+}
+
+function createCityOptions(selectedCityKey) {
+  let html = "";
+  for (const [key, city] of Object.entries(CITIES)) {
+    const selected = key === selectedCityKey ? "selected" : "";
+    html += `<option value="${key}" ${selected}>${city.name}</option>`;
   }
   return html;
 }
@@ -317,7 +314,16 @@ export async function initEclipsePanchang(options = {}) {
   const container = document.getElementById("ohd-eclipse-panchang");
   if (!container) return;
 
-  const location = { ...ECLIPSE_CONFIG.defaultLocation, ...(options.location || {}) };
+  let currentLocation = { ...ECLIPSE_CONFIG.defaultLocation, ...(options.location || {}) };
+  let currentCityKey = "pithoragarh";
+  
+  for (const [key, city] of Object.entries(CITIES)) {
+    if (city.name === currentLocation.name) {
+      currentCityKey = key;
+      break;
+    }
+  }
+
   const now = new Date();
   const currentYear = now.getFullYear();
 
@@ -336,7 +342,10 @@ export async function initEclipsePanchang(options = {}) {
           </select>
         </label>
         <label style="font-size:0.95em;">
-          स्थान: <span class="ohd-eclipse-location" style="font-weight:bold;color:#8b4513;">${escapeHtml(location.name)}</span>
+          स्थान: 
+          <select id="ohd-eclipse-city" style="padding:6px;border-radius:4px;border:1px solid #ccc;font-size:1em;">
+            ${createCityOptions(currentCityKey)}
+          </select>
         </label>
       </div>
 
@@ -349,6 +358,7 @@ export async function initEclipsePanchang(options = {}) {
   `;
 
   const yearSelect = document.getElementById("ohd-eclipse-year");
+  const citySelect = document.getElementById("ohd-eclipse-city");
   const results = document.getElementById("ohd-eclipse-results");
 
   async function loadYear(year) {
@@ -356,7 +366,8 @@ export async function initEclipsePanchang(options = {}) {
     await new Promise(resolve => setTimeout(resolve, 50)); // Let browser paint
 
     try {
-      const eclipses = await getEclipsesForYears(year, 1, location);
+      // STRICTLY 1 year at a time for instant loading
+      const eclipses = await getEclipsesForYears(year, 1, currentLocation);
 
       if (!eclipses.length) {
         results.innerHTML = `<div class="ohd-eclipse-empty" style="text-align:center;padding:20px;color:#666;">इस वर्ष के लिए कोई ग्रहण उपलब्ध नहीं मिला।</div>`;
@@ -377,12 +388,30 @@ export async function initEclipsePanchang(options = {}) {
   }
 
   yearSelect.addEventListener("change", () => loadYear(Number(yearSelect.value)));
+  
+  citySelect.addEventListener("change", () => {
+    const selectedKey = citySelect.value;
+    currentLocation = CITIES[selectedKey];
+    
+    // Clear cache for old location to force fresh calculation
+    try {
+      const keys = Object.keys(localStorage);
+      keys.forEach(key => {
+        if (key.startsWith("ohd_eclipse_")) {
+          localStorage.removeItem(key);
+        }
+      });
+    } catch (e) {}
+    
+    loadYear(Number(yearSelect.value));
+  });
+
   yearSelect.value = String(currentYear);
   await loadYear(currentYear);
 }
 
 /* =========================================================
-   AUTO INIT (Safe for every page load)
+   AUTO INIT
    ========================================================= */
 function autoInit() {
   if (document.getElementById("ohd-eclipse-panchang")) {
