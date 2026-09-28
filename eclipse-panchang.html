@@ -1,2833 +1,2181 @@
-/**
- * eclipse-panchang.js
- * OurHinduDharm — Grahan Panchang
- *
- * Public API:
- *   window.initEclipsePanchang(year?)
- *
- * Architecture:
- *   Blogger / GitHub HTML
- *          ↓
- *   Mini Panchang creates window.__ohdPanchangam
- *          ↓
- *   This module consumes the same shared API
- *
- * Important:
- *   - No static eclipse dates
- *   - No hard-coded city results
- *   - No 6/12-hour astronomical scanning
- *   - No custom binary-search eclipse calculation
- *   - No external astronomy API
- *   - Eclipse truth comes from getGrahana()
- *   - Discovery uses findTithiTransitions()
- *   - getPanchangam() only runs for actual eclipse dates
- *   - No auto-init
- */
+<!DOCTYPE html>
+<html lang="hi">
+<head>
 
-(function () {
-  'use strict';
+<meta charset="UTF-8">
 
-  /* ============================================================
-     CONSTANTS
-     ============================================================ */
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  var CONTAINER_ID = 'ohd-eclipse-panchang';
-  var APP_CONTAINER_ID = 'ohd-eclipse-app';
+<title>
+  हिंदू पंचांग एवं ग्रहण पंचांग | OurHinduDharm
+</title>
 
-  /*
-   * IMPORTANT:
-   * This is the same location key used by OurHinduDharm.
-   */
-  var STORAGE_KEY = 'ohdPanchangLocation';
+<meta
+  name="description"
+  content="स्थान और तारीख के अनुसार हिंदू पंचांग तथा सूर्य एवं चंद्र ग्रहण पंचांग।"
+>
 
-  var TZ_OFFSET = 330;
+<style>
 
-  var YEAR_MIN = 2026;
-  var YEAR_MAX = 2031;
+/* =========================================================
+   GLOBAL
+   ========================================================= */
 
-  var PURASHCHARANA_URL =
-    'https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html';
+* {
+  box-sizing: border-box;
+}
 
-  var LOCATION_HINT =
-    'स्थान बदलने पर ग्रहण की दृश्यता, समय और दिन का पंचांग उसी स्थान के अनुसार पुनर्गणित होगा।';
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #3b2415;
+  font-family:
+    Arial,
+    "Noto Sans Devanagari",
+    sans-serif;
+}
+
+a {
+  color: inherit;
+}
 
 
-  /* ============================================================
-     STATE
-     ============================================================ */
+/* =========================================================
+   PAGE WRAPPER
+   ========================================================= */
 
-  var state = {
-    initialized: false,
-    controller: null
-  };
+.ohd-test-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px;
+}
 
 
-  /* ============================================================
-     DEBUG
-     ============================================================ */
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
 
-  function isDebug() {
-    return window.__OHDEclipseDebug === true;
-  }
-
-  function log() {
-    if (!isDebug()) return;
-
-    console.log.apply(
-      console,
-      ['[EclipsePanchang]'].concat(
-        Array.prototype.slice.call(arguments)
-      )
+.ohd-test-header {
+  background:
+    linear-gradient(
+      135deg,
+      #8e2100,
+      #d85b00
     );
+
+  color: #fff;
+
+  padding: 22px 16px;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,.14);
+
+  margin-bottom: 18px;
+}
+
+.ohd-test-header h1 {
+  margin: 0 0 6px;
+  font-size: 27px;
+  line-height: 1.4;
+}
+
+.ohd-test-header p {
+  margin: 0;
+  opacity: .92;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   MINI PANCHANG
+   Blogger widget equivalent
+   ========================================================= */
+
+.whitefield {
+  width: 100%;
+  margin: 14px 0;
+}
+
+#ohd-mini-panchang {
+  width: 100%;
+  background: #fffaf0;
+  border: 1px solid #ead9a8;
+  border-radius: 12px;
+  padding: 12px;
+  line-height: 1.8;
+  color: #5b3a00;
+}
+
+
+/* =========================================================
+   PANCHANG INTRO
+   ========================================================= */
+
+.ohd-info-card {
+  background: #fffaf0;
+  border: 1px solid #d8c6a3;
+  border-radius: 14px;
+
+  padding: 18px;
+
+  margin: 18px 0;
+
+  line-height: 1.8;
+
+  box-shadow:
+    0 2px 8px rgba(80,60,30,.07);
+}
+
+.ohd-info-card h2 {
+  margin:
+    0 0 12px;
+
+  color: #6b3410;
+
+  font-size: 21px;
+}
+
+.ohd-info-card p {
+  margin:
+    0 0 12px;
+}
+
+
+/* =========================================================
+   ECLIPSE AREA
+   ========================================================= */
+
+#ohd-eclipse-panchang {
+  width: 100%;
+  margin: 22px 0;
+}
+
+
+/*
+   IMPORTANT:
+
+   eclipse-panchang.js केवल
+   #ohd-eclipse-app के अंदर dynamic HTML बनाएगा।
+
+   इससे static HTML सुरक्षित रहेगा।
+*/
+
+#ohd-eclipse-app {
+  width: 100%;
+}
+
+
+/* =========================================================
+   STATIC ECLIPSE CONTENT
+   ========================================================= */
+
+.ohd-eclipse-static {
+  background: #fffaf0;
+
+  border: 1px solid #d8c6a3;
+
+  border-radius: 14px;
+
+  padding: 19px;
+
+  margin: 18px 0;
+
+  line-height: 1.8;
+
+  color: #4a4035;
+
+  box-shadow:
+    0 2px 8px rgba(80,60,30,.07);
+}
+
+.ohd-eclipse-static h2 {
+  margin:
+    0 0 13px;
+
+  color: #6b3410;
+
+  font-size: 22px;
+}
+
+.ohd-eclipse-static h3 {
+  margin-top: 22px;
+
+  color: #6b4f2a;
+
+  font-size: 18px;
+}
+
+.ohd-eclipse-static p {
+  margin:
+    0 0 13px;
+}
+
+.ohd-eclipse-static ul {
+  padding-left: 22px;
+}
+
+.ohd-eclipse-static li {
+  margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   SHLOKA
+   ========================================================= */
+
+.ohd-shloka {
+  background: #fff;
+
+  border-left:
+    4px solid #d35400;
+
+  border-radius: 8px;
+
+  padding: 13px;
+
+  line-height: 2;
+
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+.ohd-eclipse-static details {
+  background: #fff;
+
+  border:
+    1px solid #dfcfb2;
+
+  border-radius: 9px;
+
+  padding: 11px 13px;
+
+  margin: 12px 0;
+}
+
+.ohd-eclipse-static summary {
+  cursor: pointer;
+
+  font-weight: bold;
+
+  color: #6b3410;
+}
+
+.ohd-eclipse-static details p {
+  margin-top: 12px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.ohd-test-footer {
+  text-align: center;
+
+  margin:
+    25px 0 10px;
+
+  color: #777;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .ohd-test-page {
+    padding: 8px;
   }
 
-  function logErr() {
-    if (!isDebug()) return;
+  .ohd-test-header {
+    border-radius: 14px;
+  }
 
-    console.error.apply(
-      console,
-      ['[EclipsePanchang]'].concat(
-        Array.prototype.slice.call(arguments)
-      )
+  .ohd-test-header h1 {
+    font-size: 23px;
+  }
+
+  .ohd-eclipse-static {
+    padding: 15px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="ohd-test-page">
+
+
+<!-- =========================================================
+     TEST PAGE HEADER
+     ========================================================= -->
+
+<header class="ohd-test-header">
+
+  <h1>
+    🕉️ OurHinduDharm
+  </h1>
+
+  <p>
+    Mini Panchangam + Grahan Panchang — GitHub Testing Page
+  </p>
+
+</header>
+
+
+
+<!-- =========================================================
+     MINI PANCHANG
+     EXACT BLOGGER-WIDGET STYLE
+     ========================================================= -->
+
+<div class="whitefield">
+
+  <div id="ohd-mini-panchang">
+    पंचांग लोड हो रहा है...
+  </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     MINI PANCHANG SCRIPT
+     ========================================================= -->
+
+<script>
+
+(() => {
+
+  "use strict";
+
+
+  const currentPage =
+    window.location.pathname.toLowerCase();
+
+
+  const miniPanchang =
+    document.getElementById(
+      "ohd-mini-panchang"
     );
-  }
 
 
-  /* ============================================================
-     BASIC HELPERS
-     ============================================================ */
-
-  function pad2(n) {
-    return n < 10 ? '0' + n : String(n);
-  }
-
-  function esc(value) {
-    return String(value == null ? '' : value)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function toDate(value) {
-    if (!value) return null;
-
-    if (value instanceof Date) {
-      return isNaN(value.getTime()) ? null : value;
-    }
-
-    var d = new Date(value);
-
-    return isNaN(d.getTime()) ? null : d;
-  }
-
-  function yieldToMain() {
-    return new Promise(function (resolve) {
-      if (typeof requestIdleCallback === 'function') {
-        requestIdleCallback(
-          function () {
-            resolve();
-          },
-          { timeout: 50 }
-        );
-      } else {
-        setTimeout(resolve, 0);
-      }
-    });
-  }
+  const PANCHANG_TIMEOUT = 10000;
 
 
-  /* ============================================================
-     HINDI MAPS
-     ============================================================ */
+  /* =========================================================
+     PANCHANG IMPORT
+     ========================================================= */
 
-  var TITHI_MAP = {
-    Prathama: 'प्रतिपदा',
-    Dvitiya: 'द्वितीया',
-    Tritiya: 'तृतीया',
-    Chaturthi: 'चतुर्थी',
-    Panchami: 'पंचमी',
-    Shashthi: 'षष्ठी',
-    Saptami: 'सप्तमी',
-    Ashtami: 'अष्टमी',
-    Navami: 'नवमी',
-    Dashami: 'दशमी',
-    Ekadashi: 'एकादशी',
-    Dvadashi: 'द्वादशी',
-    Trayodashi: 'त्रयोदशी',
-    Chaturdashi: 'चतुर्दशी',
-    Purnima: 'पूर्णिमा',
-    Amavasya: 'अमावस्या'
-  };
+  const loadPanchangamWithTimeout = () => {
 
-  var PAKSHA_MAP = {
-    Shukla: 'शुक्ल पक्ष',
-    Krishna: 'कृष्ण पक्ष'
-  };
-
-  var MASA_MAP = {
-    Chaitra: 'चैत्र',
-    Vaishakha: 'वैशाख',
-    Jyeshtha: 'ज्येष्ठ',
-    Ashadha: 'आषाढ़',
-    Shravana: 'श्रावण',
-    Bhadrapada: 'भाद्रपद',
-    Ashwin: 'आश्विन',
-    Kartika: 'कार्तिक',
-    Margashirsha: 'मार्गशीर्ष',
-    Pausha: 'पौष',
-    Magha: 'माघ',
-    Phalguna: 'फाल्गुन'
-  };
-
-  var NAKSHATRA_MAP = {
-    Ashwini: 'अश्विनी',
-    Bharani: 'भरणी',
-    Krittika: 'कृत्तिका',
-    Rohini: 'रोहिणी',
-    Mrigashira: 'मृगशीर्ष',
-    Ardra: 'आर्द्रा',
-    Punarvasu: 'पुनर्वसु',
-    Pushya: 'पुष्य',
-    Ashlesha: 'आश्लेषा',
-    Magha: 'मघा',
-    'Purva Phalguni': 'पूर्वाफाल्गुनी',
-    'Uttara Phalguni': 'उत्तराफाल्गुनी',
-    Hasta: 'हस्त',
-    Chitra: 'चित्रा',
-    Swati: 'स्वाती',
-    Vishakha: 'विशाखा',
-    Anuradha: 'अनुराधा',
-    Jyeshtha: 'ज्येष्ठा',
-    Mula: 'मूल',
-    'Purva Ashadha': 'पूर्वाषाढ़ा',
-    'Uttara Ashadha': 'उत्तराषाढ़ा',
-    Shravana: 'श्रवण',
-    Dhanishtha: 'धनिष्ठा',
-    Shatabhisha: 'शतभिषा',
-    'Purva Bhadrapada': 'पूर्वाभाद्रपदा',
-    'Uttara Bhadrapada': 'उत्तराभाद्रपदा',
-    Revati: 'रेवती'
-  };
-
-  var WEEKDAY_MAP = [
-    'रविवार',
-    'सोमवार',
-    'मंगलवार',
-    'बुधवार',
-    'गुरुवार',
-    'शुक्रवार',
-    'शनिवार'
-  ];
-
-
-  /* ============================================================
-     LOCATION
-     ============================================================ */
-
-  function normalizeLocation(location) {
-    if (!location || typeof location !== 'object') {
-      return null;
-    }
-
-    var lat = Number(location.lat);
-    var lon = Number(location.lon);
-
-    if (
-      !isFinite(lat) ||
-      !isFinite(lon) ||
-      Math.abs(lat) > 90 ||
-      Math.abs(lon) > 180
-    ) {
-      return null;
-    }
-
-    var elevation = Number(location.elevation);
-
-    if (!isFinite(elevation)) {
-      elevation = 0;
-    }
-
-    return {
-      name:
-        String(
-          location.name ||
-          location.city ||
-          location.state ||
-          'चयनित स्थान'
-        ),
-      lat: lat,
-      lon: lon,
-      elevation: elevation,
-      state: String(location.state || ''),
-      city: String(location.city || '')
-    };
-  }
-
-
-  function readLocation() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-
-      if (!raw) {
-        return null;
-      }
-
-      var parsed = JSON.parse(raw);
-
-      return normalizeLocation(parsed);
-    } catch (e) {
-      logErr('Location read failed:', e);
-      return null;
-    }
-  }
-
-
-  function saveLocation(location) {
-    var normalized = normalizeLocation(location);
-
-    if (!normalized) {
-      logErr('Invalid location; not saved:', location);
-      return false;
-    }
-
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(normalized)
+    const importPromise =
+      import(
+        "https://esm.sh/@ishubhamx/panchangam-js@3.0.0"
       );
 
-      return true;
-    } catch (e) {
-      logErr('Location save failed:', e);
-      return false;
-    }
-  }
 
+    const timeoutPromise =
+      new Promise((_, reject) => {
 
-  function locationDisplayName(location) {
-    if (!location) {
-      return 'स्थान उपलब्ध नहीं';
-    }
-
-    var city = String(location.city || '').trim();
-    var stateName = String(location.state || '').trim();
-    var name = String(location.name || '').trim();
-
-    if (city && stateName) {
-      return city + ', ' + stateName + ', भारत';
-    }
-
-    if (city) {
-      return city +
-        (name.indexOf('भारत') >= 0 ? '' : ', भारत');
-    }
-
-    if (stateName) {
-      return stateName +
-        (name.indexOf('भारत') >= 0 ? '' : ', भारत');
-    }
-
-    return name || 'चयनित स्थान';
-  }
-
-
-  /* ============================================================
-     SHARED PANCHANG API
-     ============================================================ */
-
-  function getSharedApi() {
-    return window.__ohdPanchangam || null;
-  }
-
-
-  function waitForSharedApi() {
-    return new Promise(function (resolve, reject) {
-      var api = getSharedApi();
-
-      if (api) {
-        resolve(api);
-        return;
-      }
-
-      var timer = setTimeout(function () {
-        window.removeEventListener(
-          'ohd:panchangam-ready',
-          onReady
-        );
-
-        reject(
-          new Error(
-            'पंचांग लाइब्रेरी लोड नहीं हो सकी।'
-          )
-        );
-      }, 30000);
-
-
-      function onReady() {
-        window.removeEventListener(
-          'ohd:panchangam-ready',
-          onReady
-        );
-
-        clearTimeout(timer);
-
-        var shared = getSharedApi();
-
-        if (shared) {
-          resolve(shared);
-        } else {
-          reject(
+        window.setTimeout(
+          () => reject(
             new Error(
-              'पंचांग लाइब्रेरी तैयार नहीं हुई।'
+              "Panchang import timeout"
             )
-          );
-        }
-      }
+          ),
+          PANCHANG_TIMEOUT
+        );
 
-
-      window.addEventListener(
-        'ohd:panchangam-ready',
-        onReady,
-        { once: true }
-      );
-    });
-  }
-
-
-  function resolveFunction(api, name) {
-    if (!api) return null;
-
-    if (typeof api[name] === 'function') {
-      return api[name];
-    }
-
-    if (
-      api.module &&
-      typeof api.module[name] === 'function'
-    ) {
-      return api.module[name];
-    }
-
-    return null;
-  }
-
-
-  /* ============================================================
-     TIME / DATE
-     ============================================================ */
-
-  function fmtTime(date, tzOffsetMin) {
-    var d = toDate(date);
-
-    if (!d) return '—';
-
-    var wall = new Date(
-      d.getTime() + tzOffsetMin * 60000
-    );
-
-    var h = wall.getUTCHours();
-    var m = wall.getUTCMinutes();
-
-    var ampm = h >= 12 ? 'PM' : 'AM';
-
-    var h12 = h % 12;
-
-    if (h12 === 0) {
-      h12 = 12;
-    }
-
-    return (
-      pad2(h12) +
-      ':' +
-      pad2(m) +
-      ' ' +
-      ampm
-    );
-  }
-
-
-  function fmtDate(date, tzOffsetMin) {
-    var d = toDate(date);
-
-    if (!d) return '—';
-
-    var wall = new Date(
-      d.getTime() + tzOffsetMin * 60000
-    );
-
-    return (
-      pad2(wall.getUTCDate()) +
-      '/' +
-      pad2(wall.getUTCMonth() + 1) +
-      '/' +
-      wall.getUTCFullYear()
-    );
-  }
-
-
-  function fmtWeekday(date, tzOffsetMin) {
-    var d = toDate(date);
-
-    if (!d) return '—';
-
-    var wall = new Date(
-      d.getTime() + tzOffsetMin * 60000
-    );
-
-    return WEEKDAY_MAP[wall.getUTCDay()] || '—';
-  }
-
-
-  /* ============================================================
-     PANCHANG EXTRACTION
-     Verified against live @ishubhamx/panchangam-js runtime.
-     ============================================================ */
-
-  function extractPanchangFields(p) {
-    if (!p) {
-      return {};
-    }
-
-    var tithiHindi = '—';
-
-    if (
-      Array.isArray(p.tithis) &&
-      typeof p.tithi === 'number'
-    ) {
-      var tObj = p.tithis.find(function (t) {
-        return t && t.index === p.tithi;
       });
 
-      if (
-        tObj &&
-        typeof tObj.name === 'string'
-      ) {
-        tithiHindi =
-          TITHI_MAP[tObj.name] ||
-          tObj.name;
-      }
-    } else if (
-      typeof p.tithi === 'string'
-    ) {
-      tithiHindi =
-        TITHI_MAP[p.tithi] ||
-        p.tithi;
-    }
+
+    return Promise.race([
+      importPromise,
+      timeoutPromise
+    ]);
+
+  };
 
 
-    var pakshaHindi = '—';
+  /* =========================================================
+     BASIC HELPERS
+     ========================================================= */
 
-    if (typeof p.paksha === 'string') {
-      pakshaHindi =
-        PAKSHA_MAP[p.paksha] ||
-        p.paksha;
-    }
+  const decodeHTML = (str) => {
 
+    if (!str) return "";
 
-    var masaHindi = '—';
-
-    if (
-      p.masa &&
-      typeof p.masa.name === 'string'
-    ) {
-      masaHindi =
-        MASA_MAP[p.masa.name] ||
-        p.masa.name;
-
-      if (p.masa.isAdhika) {
-        masaHindi =
-          'अधिक ' + masaHindi;
-      }
-    } else if (
-      typeof p.masa === 'string'
-    ) {
-      masaHindi =
-        MASA_MAP[p.masa] ||
-        p.masa;
-    }
-
-
-    var nakshatraHindi = '—';
-
-    if (
-      Array.isArray(p.nakshatras) &&
-      typeof p.nakshatra === 'number'
-    ) {
-      var nObj = p.nakshatras.find(function (n) {
-        return n && n.index === p.nakshatra;
-      });
-
-      if (
-        nObj &&
-        typeof nObj.name === 'string'
-      ) {
-        nakshatraHindi =
-          NAKSHATRA_MAP[nObj.name] ||
-          nObj.name;
-      }
-    } else if (
-      typeof p.nakshatra === 'string'
-    ) {
-      nakshatraHindi =
-        NAKSHATRA_MAP[p.nakshatra] ||
-        p.nakshatra;
-    }
-
-
-    var vikramSamvat = null;
-
-    if (
-      p.samvat &&
-      typeof p.samvat.vikram === 'number' &&
-      p.samvat.vikram > 2000
-    ) {
-      vikramSamvat = p.samvat.vikram;
-    }
-
-
-    return {
-      tithi: tithiHindi,
-      paksha: pakshaHindi,
-      masa: masaHindi,
-      nakshatra: nakshatraHindi,
-      vikramSamvat: vikramSamvat
-    };
-  }
-
-
-  /* ============================================================
-     DAY PANCHANG
-     Only actual eclipse dates.
-     ============================================================ */
-
-  function getDayPanchang(
-    eclipseDate,
-    observer,
-    api
-  ) {
-    var getPanchangam =
-      resolveFunction(
-        api,
-        'getPanchangam'
+    const txt =
+      document.createElement(
+        "textarea"
       );
 
-    if (
-      typeof getPanchangam !== 'function'
-    ) {
-      throw new Error(
-        'getPanchangam उपलब्ध नहीं है।'
-      );
-    }
+    txt.innerHTML = str;
 
-    var p = getPanchangam(
-      eclipseDate,
-      observer,
-      {
-        timezoneOffset: TZ_OFFSET,
-        calendarType: 'purnimanta'
-      }
-    );
+    return txt.value;
 
-    return {
-      fields: extractPanchangFields(p),
-
-      sunrise:
-        p && p.sunrise
-          ? toDate(p.sunrise)
-          : null,
-
-      sunset:
-        p && p.sunset
-          ? toDate(p.sunset)
-          : null
-    };
-  }
+  };
 
 
-  /* ============================================================
-     UI STYLES
-     ============================================================ */
+  const normalize = (val) => {
 
-  function renderStyles() {
-    if (
-      document.getElementById(
-        'ohd-eclipse-panchang-styles'
+    if (!val) return "";
+
+    return decodeHTML(
+      String(val)
+    )
+      .replace(
+        /&nbsp;|\u00A0/gi,
+        " "
       )
+      .trim();
+
+  };
+
+
+  const getValue = (val) => {
+
+    if (
+      val &&
+      typeof val === "object"
     ) {
-      return;
+
+      return (
+        val.name ||
+        val.value ||
+        val.key ||
+        ""
+      );
+
     }
 
-    var style =
-      document.createElement('style');
+    return val || "";
 
-    style.id =
-      'ohd-eclipse-panchang-styles';
-
-    style.textContent = `
-      .ohd-eclipse-wrap {
-        width: 100%;
-      }
-
-      .ohd-eclipse-controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-        margin-bottom: 10px;
-      }
-
-      .ohd-eclipse-field {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 700;
-      }
-
-      .ohd-eclipse-field select {
-        min-width: 90px;
-        padding: 7px 9px;
-        border-radius: 7px;
-      }
-
-      .ohd-eclipse-loc {
-        flex: 1 1 240px;
-        min-width: 0;
-      }
-
-      .ohd-eclipse-loc-name {
-        font-weight: 700;
-      }
-
-      .ohd-eclipse-hint {
-        margin: 6px 0 18px;
-        font-size: .9em;
-        opacity: .78;
-      }
-
-      .ohd-eclipse-location-tools {
-        margin: 12px 0 18px;
-      }
-
-      .ohd-eclipse-location-search {
-        display: flex;
-        gap: 7px;
-        flex-wrap: wrap;
-      }
-
-      .ohd-eclipse-location-search input {
-        flex: 1 1 220px;
-        min-width: 0;
-        padding: 9px 10px;
-        border-radius: 7px;
-        border: 1px solid rgba(0,0,0,.2);
-      }
-
-      .ohd-eclipse-location-search button,
-      .ohd-eclipse-gps button {
-        padding: 9px 12px;
-        border-radius: 7px;
-        cursor: pointer;
-      }
-
-      .ohd-eclipse-gps {
-        margin-top: 8px;
-      }
-
-      .ohd-eclipse-location-results {
-        margin-top: 8px;
-      }
-
-      .ohd-eclipse-location-result {
-        display: block;
-        width: 100%;
-        text-align: left;
-        margin: 5px 0;
-        padding: 9px 10px;
-        border-radius: 7px;
-        border: 1px solid rgba(0,0,0,.12);
-        background: transparent;
-        cursor: pointer;
-      }
-
-      .ohd-eclipse-card {
-        margin: 0 0 18px;
-        padding: 16px;
-        border-radius: 12px;
-        border: 1px solid rgba(0,0,0,.13);
-      }
-
-      .ohd-eclipse-card h3 {
-        margin-top: 0;
-      }
-
-      .ohd-eclipse-card p {
-        margin: 7px 0;
-      }
-
-      .ohd-eclipse-visibility-note {
-        margin: 12px 0;
-        padding: 10px 12px;
-        border-radius: 8px;
-        border: 1px solid rgba(0,0,0,.10);
-      }
-
-      .ohd-eclipse-panchang-details {
-        margin-top: 14px;
-        border-top: 1px solid rgba(0,0,0,.12);
-      }
-
-      .ohd-eclipse-panchang-details summary {
-        cursor: pointer;
-        padding: 12px 4px;
-        font-weight: 700;
-        list-style: none;
-        user-select: none;
-      }
-
-      .ohd-eclipse-panchang-details
-      summary::-webkit-details-marker {
-        display: none;
-      }
-
-      .ohd-eclipse-panchang-details
-      summary::after {
-        content: "＋";
-        float: right;
-        font-weight: 700;
-      }
-
-      .ohd-eclipse-panchang-details[open]
-      summary::after {
-        content: "−";
-      }
-
-      .ohd-eclipse-panchang-inner {
-        padding: 4px 0 10px;
-      }
-
-      .ohd-panchang-row {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 7px 0;
-        border-bottom: 1px solid rgba(0,0,0,.07);
-      }
-
-      .ohd-panchang-row:last-child {
-        border-bottom: 0;
-      }
-
-      .ohd-panchang-row span {
-        opacity: .78;
-      }
-
-      .ohd-panchang-row strong {
-        text-align: right;
-      }
-
-      .ohd-purashcharan-card {
-        margin-top: 24px;
-        padding: 18px;
-        border-radius: 12px;
-        border: 1px solid rgba(0,0,0,.13);
-      }
-
-      .ohd-purashcharan-card h2 {
-        margin-top: 0;
-      }
-
-      .ohd-purashcharan-card p {
-        line-height: 1.7;
-      }
-
-      .ohd-shloka {
-        margin: 14px 0;
-        padding: 12px 14px;
-        text-align: center;
-        font-weight: 600;
-        line-height: 1.9;
-      }
-
-      .ohd-purashcharan-link {
-        display: block;
-        padding: 12px 14px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 700;
-        border: 1px solid rgba(0,0,0,.13);
-      }
-
-      .ohd-eclipse-loading,
-      .ohd-eclipse-error,
-      .ohd-eclipse-none {
-        padding: 12px;
-      }
-    `;
-
-    document.head.appendChild(style);
-  }
+  };
 
 
-  /* ============================================================
-     UI SHELL
-     ============================================================ */
+  /* =========================================================
+     HINDI NUMBER
+     ========================================================= */
 
-  function buildYearOptions(selected) {
-    var html = '';
+  const toHindiNumber = (value) => {
 
-    for (
-      var y = YEAR_MIN;
-      y <= YEAR_MAX;
-      y++
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
     ) {
-      html +=
-        '<option value="' +
-        y +
-        '"' +
-        (y === selected
-          ? ' selected'
-          : '') +
-        '>' +
-        y +
-        '</option>';
+      return "";
     }
 
-    return html;
-  }
+
+    const digits = {
+
+      "0": "०",
+      "1": "१",
+      "2": "२",
+      "3": "३",
+      "4": "४",
+      "5": "५",
+      "6": "६",
+      "7": "७",
+      "8": "८",
+      "9": "९"
+
+    };
 
 
-  function renderShell(
-    container,
-    year,
-    location
-  ) {
-    var app =
-      container.querySelector(
-        '#' + APP_CONTAINER_ID
+    return String(value)
+      .replace(
+        /\d/g,
+        digit => digits[digit]
       );
 
-    if (!app) {
-      app =
-        document.createElement('div');
+  };
 
-      app.id =
-        APP_CONTAINER_ID;
 
-      app.className =
-        'ohd-eclipse-app';
+  /* =========================================================
+     DATE FORMAT
+     ========================================================= */
 
-      /*
-       * Never replace the outer static HTML.
-       */
-      container.appendChild(app);
+  const formatHindiDate = (date) => {
+
+    if (
+      !(date instanceof Date) ||
+      isNaN(date.getTime())
+    ) {
+      return "";
     }
 
-    app.innerHTML = [
-      '<div class="ohd-eclipse-wrap">',
 
-      '<div class="ohd-eclipse-controls">',
+    return date.toLocaleDateString(
+      "hi-IN",
+      {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }
+    );
 
-      '<label class="ohd-eclipse-field">',
-      '<span>वर्ष:</span>',
-      '<select id="ohd-eclipse-year">',
-      buildYearOptions(year),
-      '</select>',
-      '</label>',
-
-      '<div class="ohd-eclipse-loc">',
-      '<span class="ohd-eclipse-loc-name" id="ohd-eclipse-loc-name">',
-      esc(
-        locationDisplayName(location)
-      ),
-      '</span>',
-      '</div>',
-
-      '</div>',
-
-      '<div class="ohd-eclipse-location-tools">',
-
-      '<div class="ohd-eclipse-location-search">',
-
-      '<input',
-      ' id="ohd-eclipse-location-input"',
-      ' type="search"',
-      ' placeholder="शहर / स्थान खोजें..."',
-      ' autocomplete="off">',
-
-      '<button',
-      ' type="button"',
-      ' id="ohd-eclipse-location-search-btn">',
-      'स्थान खोजें',
-      '</button>',
-
-      '</div>',
-
-      '<div class="ohd-eclipse-gps">',
-      '<button',
-      ' type="button"',
-      ' id="ohd-eclipse-gps-btn">',
-      '📍 वर्तमान स्थान का उपयोग करें',
-      '</button>',
-      '</div>',
-
-      '<div',
-      ' id="ohd-eclipse-location-results"',
-      ' class="ohd-eclipse-location-results">',
-      '</div>',
-
-      '</div>',
-
-      '<div class="ohd-eclipse-hint">',
-      esc(LOCATION_HINT),
-      '</div>',
-
-      '<div',
-      ' class="ohd-eclipse-results"',
-      ' id="ohd-eclipse-results">',
-      '</div>',
-
-      '</div>'
-    ].join('');
-  }
+  };
 
 
-  function getApp(container) {
-    if (!container) {
-      return null;
+  /* =========================================================
+     SANKALP DYNAMIC FIELD STYLE
+     ========================================================= */
+
+  const updateElement = (
+    id,
+    text
+  ) => {
+
+    const el =
+      document.getElementById(id);
+
+
+    if (
+      !el ||
+      !text
+    ) {
+      return false;
     }
 
-    return container.querySelector(
-      '#' + APP_CONTAINER_ID
-    );
-  }
-
-
-  function setResults(
-    container,
-    html
-  ) {
-    var app =
-      getApp(container);
-
-    if (!app) return;
-
-    var box =
-      app.querySelector(
-        '#ohd-eclipse-results'
-      );
-
-    if (box) {
-      box.innerHTML = html;
-    }
-  }
-
-
-  function renderLoading(
-    container,
-    message
-  ) {
-    setResults(
-      container,
-      '<p class="ohd-eclipse-loading">' +
-      esc(message) +
-      '</p>'
-    );
-  }
-
-
-  function renderError(
-    container,
-    message
-  ) {
-    setResults(
-      container,
-      '<p class="ohd-eclipse-error">' +
-      esc(message) +
-      '</p>'
-    );
-  }
-
-
-  function setLocationLabel(
-    container,
-    location
-  ) {
-    var app =
-      getApp(container);
-
-    if (!app) return;
-
-    var el =
-      app.querySelector(
-        '#ohd-eclipse-loc-name'
-      );
-
-    if (!el) return;
 
     el.textContent =
-      locationDisplayName(
-        location
-      );
-  }
+      decodeHTML(text);
 
 
-  /* ============================================================
-     LOCATION SEARCH
-     ============================================================ */
+    el.style.color =
+      "#5b3a00";
 
-  async function searchLocation(
-    query
-  ) {
-    var url =
-      'https://nominatim.openstreetmap.org/search' +
-      '?format=json' +
-      '&addressdetails=1' +
-      '&q=' +
-      encodeURIComponent(query) +
-      '&limit=5' +
-      '&countrycodes=in';
 
-    var response =
-      await fetch(
-        url,
-        {
-          headers: {
-            Accept:
-              'application/json'
-          }
-        }
-      );
+    el.style.backgroundColor =
+      "#fff7df";
 
-    if (!response.ok) {
-      throw new Error(
-        'स्थान खोजने में समस्या हुई।'
-      );
+
+    el.style.padding =
+      "2px 7px";
+
+
+    el.style.borderRadius =
+      "6px";
+
+
+    el.style.border =
+      "1px solid #ead9a8";
+
+
+    el.style.boxShadow =
+      "0 1px 3px rgba(91,58,0,0.10)";
+
+
+    el.style.fontWeight =
+      "bold";
+
+
+    el.style.display =
+      "inline-block";
+
+
+    el.style.lineHeight =
+      "1.5";
+
+
+    return true;
+
+  };
+
+
+  /* =========================================================
+     SIMPLE ARTICLE FIELD UPDATE
+     ========================================================= */
+
+  const updateArticleElement = (
+    id,
+    text
+  ) => {
+
+    const el =
+      document.getElementById(id);
+
+
+    if (
+      !el ||
+      text === null ||
+      text === undefined
+    ) {
+      return false;
     }
 
-    return response.json();
-  }
+
+    el.textContent =
+      decodeHTML(
+        String(text)
+      );
 
 
-  function resultToLocation(item) {
-    var address =
-      item.address || {};
+    return true;
 
-    var city =
-      address.city ||
-      address.town ||
-      address.village ||
-      address.municipality ||
-      address.county ||
-      '';
+  };
 
-    var stateName =
-      address.state || '';
 
-    var lat =
-      parseFloat(item.lat);
+  /* =========================================================
+     SANKALP REPLACEMENT
+     ========================================================= */
 
-    var lon =
-      parseFloat(item.lon);
+  const replaceSankalp = (
+    sankalpData
+  ) => {
 
-    var name =
+    if (
+      !document.getElementById(
+        "sankalp-masa"
+      )
+    ) {
+      return false;
+    }
+
+
+    updateElement(
+      "sankalp-samvat",
+      sankalpData.samvat
+    );
+
+
+    updateElement(
+      "sankalp-ayana-ritu",
       [
-        city,
-        stateName,
-        'भारत'
+        sankalpData.ayana,
+        sankalpData.ritu
       ]
         .filter(Boolean)
-        .join(', ');
-
-    if (!name) {
-      name =
-        item.display_name ||
-        'चयनित स्थान';
-    }
-
-    return normalizeLocation({
-      name: name,
-      lat: lat,
-      lon: lon,
-      elevation: 0,
-      state: stateName,
-      city: city
-    });
-  }
+        .join(", ")
+    );
 
 
-  /* ============================================================
-     ECLIPSE DISCOVERY
-     ============================================================ */
+    updateElement(
+      "sankalp-masa",
+      sankalpData.masa
+    );
 
-  function transitionToCandidate(
-    endTime,
-    tithiIndex
-  ) {
-    var end =
-      toDate(endTime);
 
-    if (!end) {
-      return null;
-    }
+    updateElement(
+      "sankalp-paksha",
+      sankalpData.paksha
+    );
 
-    /*
-     * Convert transition instant to
-     * IST civil date.
-     */
-    var ist =
-      new Date(
-        end.getTime() +
-        TZ_OFFSET * 60000
+
+    updateElement(
+      "sankalp-tithi",
+      sankalpData.tithi
+    );
+
+
+    updateElement(
+      "sankalp-nakshatra",
+      sankalpData.nakshatra
+    );
+
+
+    updateElement(
+      "sankalp-weekday",
+      sankalpData.weekday
+    );
+
+
+    return true;
+
+  };
+
+
+  /* =========================================================
+     KALI / SHAKA ARTICLE UPDATE
+     ========================================================= */
+
+  const updateEraArticle = ({
+    kaliSamvat,
+    kaliElapsed,
+    newYearDate,
+    shakaSamvat
+  }) => {
+
+    const hasEraArticle =
+      document.getElementById(
+        "ohd-kali-date"
+      ) ||
+      document.getElementById(
+        "ohd-kali-samvat"
+      ) ||
+      document.getElementById(
+        "ohd-shaka-samvat"
       );
 
-    var year =
-      ist.getUTCFullYear();
 
-    var month =
-      ist.getUTCMonth();
-
-    var day =
-      ist.getUTCDate();
-
-    /*
-     * Local noon IST represented as UTC.
-     */
-    var noonUtc =
-      new Date(
-        Date.UTC(
-          year,
-          month,
-          day,
-          12,
-          0,
-          0
-        ) -
-        TZ_OFFSET * 60000
-      );
-
-    return {
-      date: noonUtc,
-      tithiIndex: tithiIndex,
-      yearIst: year
-    };
-  }
-
-
-  async function discoverEclipses(
-    year,
-    location,
-    api
-  ) {
-    var module =
-      api &&
-      api.module;
-
-    if (!module) {
-      throw new Error(
-        'Panchangam module उपलब्ध नहीं है।'
-      );
+    if (!hasEraArticle) {
+      return false;
     }
 
-    var findTithiTransitions =
-      module.findTithiTransitions;
 
-    var getGrahana =
-      module.getGrahana ||
-      api.getGrahana;
+    updateArticleElement(
+      "ohd-kali-date",
+      formatHindiDate(
+        newYearDate
+      )
+    );
 
-    var Observer =
-      api.Observer ||
-      module.Observer;
+
+    updateArticleElement(
+      "ohd-kali-elapsed",
+      toHindiNumber(
+        kaliElapsed
+      )
+    );
+
+
+    updateArticleElement(
+      "ohd-kali-newyear",
+      formatHindiDate(
+        newYearDate
+      )
+    );
+
+
+    updateArticleElement(
+      "ohd-kali-samvat",
+      toHindiNumber(
+        kaliSamvat
+      )
+    );
+
+
+    updateArticleElement(
+      "ohd-shaka-newyear",
+      formatHindiDate(
+        newYearDate
+      )
+    );
+
+
+    updateArticleElement(
+      "ohd-shaka-samvat",
+      toHindiNumber(
+        shakaSamvat
+      )
+    );
+
+
+    updateArticleElement(
+      "ohd-shaka-samvat-2",
+      toHindiNumber(
+        shakaSamvat
+      )
+    );
+
+
+    updateArticleElement(
+      "ohd-kali-samvat-2",
+      toHindiNumber(
+        kaliSamvat
+      )
+    );
+
+
+    return true;
+
+  };
+
+
+  /* =========================================================
+     SAMVATSARA
+     ========================================================= */
+
+  const samvatsaraHindiMap = {
+
+    Prabhava: "प्रभव",
+    Vibhava: "विभव",
+    Shukla: "शुक्ल",
+    Pramoda: "प्रमोद",
+    Prajapati: "प्रजापति",
+    Angirasa: "आंगिरस",
+    Shrimukha: "श्रीमुख",
+    Bhava: "भाव",
+    Yuva: "युवा",
+    Dhata: "धाता",
+    Ishvara: "ईश्वर",
+    Bahudhanya: "बहुधान्य",
+    Pramathi: "प्रमाथी",
+    Vikrama: "विक्रम",
+    Vrisha: "वृष",
+    Chitrabhanu: "चित्रभानु",
+    Svabhanu: "स्वभानु",
+    Tarana: "तारण",
+    Parthiva: "पार्थिव",
+    Vyaya: "व्यय",
+    Sarvajit: "सर्वजित",
+    Sarvadhari: "सर्वधारी",
+    Virodhi: "विरोधी",
+    Vikrita: "विकृति",
+    Khara: "खर",
+    Nandana: "नंदन",
+    Vijaya: "विजय",
+    Jaya: "जय",
+    Manmatha: "मन्मथ",
+    Durmukha: "दुर्मुख",
+    Hevilambi: "हेमलंब",
+    Vilambi: "विलंबी",
+    Vikari: "विकारी",
+    Sharvari: "शार्वरी",
+    Plava: "प्लव",
+    Shubhakrit: "शुभकृत",
+    Shobhana: "शोभन",
+    Krodhi: "क्रोधी",
+    Vishvavasu: "विश्वावसु",
+    Parabhava: "पराभव",
+    Plavanga: "प्लवंग",
+    Kilaka: "कीलक",
+    Saumya: "सौम्य",
+    Sadharana: "साधारण",
+    Virodhikrit: "विरोधकृत",
+    Paridhavi: "परिधावी",
+    Pramadin: "प्रमादी",
+    Ananda: "आनंद",
+    Rakshasa: "राक्षस",
+    Nala: "नल",
+    Pingala: "पिंगल",
+    Kalayukti: "कालयुक्ति",
+    Siddharthi: "सिद्धार्थी",
+    Raudra: "रौद्र",
+    Durmati: "दुर्मति",
+    Dundubhi: "दुन्दुभि",
+    Rudhirodgari: "रुधिरोद्गारी",
+    Raktakshi: "रक्ताक्षी",
+    Krodhana: "क्रोधन",
+    Kshaya: "क्षय"
+
+  };
+
+
+  const samvatsaraList =
+    Object.values(
+      samvatsaraHindiMap
+    );
+
+
+  const getSamvatName = (p) => {
+
+    const year =
+      Number(
+        p?.samvat?.vikram
+      );
 
 
     if (
-      typeof findTithiTransitions !==
-      'function'
+      !Number.isFinite(year)
     ) {
-      throw new Error(
-        'findTithiTransitions उपलब्ध नहीं है।'
-      );
-    }
-
-    if (
-      typeof getGrahana !==
-      'function'
-    ) {
-      throw new Error(
-        'getGrahana उपलब्ध नहीं है।'
-      );
-    }
-
-    if (
-      typeof Observer !==
-      'function'
-    ) {
-      throw new Error(
-        'Observer उपलब्ध नहीं है।'
-      );
+      return "";
     }
 
 
-    /*
-     * Safe IST year window.
-     */
-    var start =
-      new Date(
-        Date.UTC(
-          year,
-          0,
-          1
-        ) -
-        TZ_OFFSET * 60000 -
-        86400000
-      );
-
-    var end =
-      new Date(
-        Date.UTC(
-          year + 1,
-          0,
-          1
-        ) -
-        TZ_OFFSET * 60000 +
-        86400000
-      );
-
-
-    log(
-      'Discovery:',
-      year,
-      locationDisplayName(location)
+    return (
+      samvatsaraList[
+        (year + 10) % 60
+      ] || ""
     );
 
-
-    /*
-     * Important:
-     * This is the validated candidate discovery.
-     */
-    var raw =
-      findTithiTransitions(
-        start,
-        end
-      );
-
-    var transitions =
-      Array.isArray(raw)
-        ? raw
-        : [];
+  };
 
 
-    var candidates = [];
+  const getVikramSamvat = (p) => {
 
+    const candidates = [
 
-    transitions.forEach(
-      function (transition) {
-        if (!transition) {
-          return;
-        }
+      p?.samvat?.vikram,
 
-        /*
-         * 14 = Purnima
-         * 29 = Amavasya
-         */
-        if (
-          transition.index !== 14 &&
-          transition.index !== 29
-        ) {
-          return;
-        }
+      p?.samvat?.vikrama,
 
-        var candidate =
-          transitionToCandidate(
-            transition.endTime,
-            transition.index
-          );
+      p?.samvat?.vikramSamvat
 
-        if (!candidate) {
-          return;
-        }
-
-        if (
-          candidate.yearIst !== year
-        ) {
-          return;
-        }
-
-        candidates.push(
-          candidate
-        );
-      }
-    );
-
-
-    /*
-     * Observer is location-specific.
-     */
-    var observer =
-      new Observer(
-        location.lat,
-        location.lon,
-        location.elevation || 0
-      );
-
-
-    var results = [];
-
-
-    /*
-     * Only candidates are sent to
-     * getGrahana().
-     */
-    for (
-      var i = 0;
-      i < candidates.length;
-      i++
-    ) {
-      var candidate =
-        candidates[i];
-
-      var grahana = null;
-
-      try {
-        grahana =
-          getGrahana(
-            candidate.tithiIndex,
-            candidate.date,
-            observer,
-            TZ_OFFSET
-          );
-      } catch (e) {
-        logErr(
-          'getGrahana failed:',
-          e
-        );
-      }
-
-
-      if (grahana) {
-        results.push({
-          date:
-            candidate.date,
-
-          grahan:
-            grahana
-        });
-      }
-
-
-      /*
-       * Keep browser responsive.
-       */
-      if (i % 5 === 0) {
-        await yieldToMain();
-      }
-    }
-
-
-    /*
-     * Remove duplicate type + peak.
-     */
-    var seen =
-      Object.create(null);
-
-    var unique = [];
-
-
-    results.forEach(
-      function (item) {
-        var g =
-          item.grahan;
-
-        var peak =
-          g &&
-          g.contact &&
-          toDate(
-            g.contact.peak
-          );
-
-        var peakMs =
-          peak
-            ? peak.getTime()
-            : item.date.getTime();
-
-        var key =
-          String(
-            g.type || ''
-          ) +
-          '|' +
-          peakMs;
-
-        if (seen[key]) {
-          return;
-        }
-
-        seen[key] = true;
-
-        unique.push(item);
-      }
-    );
-
-
-    unique.sort(
-      function (a, b) {
-        var peakA =
-          a.grahan &&
-          a.grahan.contact &&
-          toDate(
-            a.grahan.contact.peak
-          );
-
-        var peakB =
-          b.grahan &&
-          b.grahan.contact &&
-          toDate(
-            b.grahan.contact.peak
-          );
-
-        var timeA =
-          peakA
-            ? peakA.getTime()
-            : a.date.getTime();
-
-        var timeB =
-          peakB
-            ? peakB.getTime()
-            : b.date.getTime();
-
-        return timeA - timeB;
-      }
-    );
-
-
-    return unique;
-  }
-
-
-  /* ============================================================
-     PANCHANG HTML
-     ============================================================ */
-
-  function renderPanchangDetails(
-    dayPanchang,
-    eclipseDate
-  ) {
-    var fields =
-      dayPanchang.fields || {};
-
-    var sunrise =
-      dayPanchang.sunrise
-        ? fmtTime(
-            dayPanchang.sunrise,
-            TZ_OFFSET
-          )
-        : '—';
-
-    var sunset =
-      dayPanchang.sunset
-        ? fmtTime(
-            dayPanchang.sunset,
-            TZ_OFFSET
-          )
-        : '—';
-
-    var rows = [
-      [
-        'वार',
-        fmtWeekday(
-          eclipseDate,
-          TZ_OFFSET
-        )
-      ],
-      [
-        'तिथि',
-        fields.tithi || '—'
-      ],
-      [
-        'पक्ष',
-        fields.paksha || '—'
-      ],
-      [
-        'मास',
-        fields.masa || '—'
-      ],
-      [
-        'नक्षत्र',
-        fields.nakshatra || '—'
-      ]
     ];
 
 
-    if (
-      fields.vikramSamvat
+    for (
+      const value of candidates
     ) {
-      rows.push([
-        'विक्रम संवत',
-        String(
-          fields.vikramSamvat
-        )
-      ]);
+
+      const year =
+        Number(value);
+
+
+      if (
+        Number.isFinite(year) &&
+        year > 2000 &&
+        year < 3000
+      ) {
+
+        return year;
+
+      }
+
     }
 
 
-    rows.push(
-      [
-        'सूर्योदय',
-        sunrise
-      ],
-      [
-        'सूर्यास्त',
-        sunset
-      ]
-    );
+    return null;
+
+  };
 
 
-    return [
-      '<details class="ohd-eclipse-panchang-details">',
+  /* =========================================================
+     CHAITRA SHUKLA PRATIPADA SEARCH
+     ========================================================= */
 
-      '<summary>',
-      '📅 इस ग्रहण-दिन का पंचांग देखें',
-      '</summary>',
-
-      '<div class="ohd-eclipse-panchang-inner">',
-
-      rows
-        .map(
-          function (row) {
-            return [
-              '<div class="ohd-panchang-row">',
-              '<span>',
-              esc(row[0]),
-              '</span>',
-              '<strong>',
-              esc(row[1]),
-              '</strong>',
-              '</div>'
-            ].join('');
-          }
-        )
-        .join(''),
-
-      '</div>',
-      '</details>'
-    ].join('');
-  }
-
-
-  /* ============================================================
-     VISIBILITY
-     ============================================================ */
-
-  function renderVisibility(g) {
-    if (
-      g.isVisible === true
-    ) {
-      return (
-        '<p><strong>दृश्यता:</strong> दृश्य</p>'
-      );
-    }
-
-    if (
-      g.isVisible === false
-    ) {
-      return [
-        '<p><strong>दृश्यता:</strong> अदृश्य</p>',
-
-        '<div class="ohd-eclipse-visibility-note">',
-
-        'इस चयनित स्थान पर यह ग्रहण ',
-        'खगोलीय रूप से स्थानीय रूप से दृश्य नहीं है। ',
-
-        'अतः इस स्थान से ग्रहण का दर्शन संभव नहीं होगा।',
-
-        '</div>'
-      ].join('');
-    }
-
-    return (
-      '<p><strong>दृश्यता:</strong> निर्धारित नहीं</p>'
-    );
-  }
-
-
-  /* ============================================================
-     ECLIPSE CARD
-     ============================================================ */
-
-  function renderEclipseCard(
-    item,
+  const findChaitraShuklaPratipada = (
+    getPanchangam,
     observer,
-    api
-  ) {
-    var g =
-      item.grahan;
+    year
+  ) => {
 
-    if (!g) {
-      return '';
-    }
+    try {
 
-
-    var peak =
-      g.contact &&
-      g.contact.peak;
+      const cached =
+        localStorage.getItem(
+          `ohd_chaitra_${year}`
+        );
 
 
-    var dateStr =
-      fmtDate(
-        peak || item.date,
-        TZ_OFFSET
+      if (cached) {
+
+        return new Date(
+          cached
+        );
+
+      }
+
+    } catch (e) {}
+
+
+    const start =
+      new Date(
+        year,
+        2,
+        15,
+        12,
+        0,
+        0
       );
 
 
-    var html = '';
-
-    html +=
-      '<div class="ohd-eclipse-card">';
-
-
-    html +=
-      '<h3>' +
-      esc(dateStr) +
-      ' — ' +
-      esc(
-        g.type ||
-        'ग्रहण'
-      ) +
-      (
-        g.subtype
-          ? ' (' +
-            esc(g.subtype) +
-            ')'
-          : ''
-      ) +
-      '</h3>';
+    const end =
+      new Date(
+        year,
+        3,
+        25,
+        12,
+        0,
+        0
+      );
 
 
-    html +=
-      renderVisibility(g);
+    for (
+      let cursor =
+        new Date(start);
 
+      cursor <= end;
 
-    if (
-      typeof g.obscuration ===
-        'number' &&
-      isFinite(
-        g.obscuration
+      cursor.setDate(
+        cursor.getDate() + 1
       )
     ) {
-      html +=
-        '<p><strong>आच्छादन:</strong> ' +
-        (
-          g.obscuration *
-          100
-        ).toFixed(1) +
-        '%</p>';
-    }
+
+      try {
+
+        const testDate =
+          new Date(cursor);
 
 
-    if (g.contact) {
+        const testP =
+          getPanchangam(
+            testDate,
+            observer,
+            {
+              timezoneOffset: 330
+            }
+          );
 
-      if (
-        g.contact.firstContact
-      ) {
-        html +=
-          '<p><strong>प्रथम स्पर्श:</strong> ' +
-          esc(
-            fmtTime(
-              g.contact.firstContact,
-              TZ_OFFSET
+
+        const masa =
+          normalize(
+            getValue(
+              testP?.masa?.name ||
+              testP?.masa
             )
-          ) +
-          '</p>';
-      }
+          );
 
 
-      if (
-        g.contact.totalityBegin &&
-        g.contact.totalityEnd
-      ) {
-        html +=
-          '<p><strong>पूर्णता:</strong> ' +
-          esc(
-            fmtTime(
-              g.contact.totalityBegin,
-              TZ_OFFSET
+        const paksha =
+          normalize(
+            getValue(
+              testP?.paksha
             )
-          ) +
-          ' — ' +
-          esc(
-            fmtTime(
-              g.contact.totalityEnd,
-              TZ_OFFSET
-            )
-          ) +
-          '</p>';
-      }
+          );
 
 
-      if (
-        g.contact.peak
-      ) {
-        html +=
-          '<p><strong>मध्य:</strong> ' +
-          esc(
-            fmtTime(
-              g.contact.peak,
-              TZ_OFFSET
-            )
-          ) +
-          '</p>';
-      }
+        const tithi =
+          testP?.tithi?.number ??
+          testP?.tithi?.index ??
+          (
+            typeof testP?.tithi ===
+            "number"
+              ? testP.tithi
+              : null
+          );
 
 
-      if (
-        g.contact.lastContact
-      ) {
-        html +=
-          '<p><strong>अंतिम स्पर्श:</strong> ' +
-          esc(
-            fmtTime(
-              g.contact.lastContact,
-              TZ_OFFSET
-            )
-          ) +
-          '</p>';
-      }
-    }
+        if (
+          masa === "Chaitra" &&
+          (
+            paksha === "Shukla" ||
+            paksha === "shukla"
+          ) &&
+          Number(tithi) === 0
+        ) {
+
+          try {
+
+            localStorage.setItem(
+              `ohd_chaitra_${year}`,
+              testDate.toISOString()
+            );
+
+          } catch (e) {}
 
 
-    if (
-      g.sutakKaal &&
-      g.sutakKaal.start &&
-      g.sutakKaal.end
-    ) {
-      html +=
-        '<p><strong>सूतक काल:</strong> ' +
-        esc(
-          fmtTime(
-            g.sutakKaal.start,
-            TZ_OFFSET
-          )
-        ) +
-        ' — ' +
-        esc(
-          fmtTime(
-            g.sutakKaal.end,
-            TZ_OFFSET
-          )
-        ) +
-        '</p>';
-    }
+          return testDate;
 
+        }
 
-    if (
-      g.punyaKala &&
-      g.punyaKala.start &&
-      g.punyaKala.end
-    ) {
-      html +=
-        '<p><strong>पुण्य काल:</strong> ' +
-        esc(
-          fmtTime(
-            g.punyaKala.start,
-            TZ_OFFSET
-          )
-        ) +
-        ' — ' +
-        esc(
-          fmtTime(
-            g.punyaKala.end,
-            TZ_OFFSET
-          )
-        ) +
-        '</p>';
-    }
+      } catch (error) {
 
-
-    /*
-     * Panchang is calculated ONLY here,
-     * after a real eclipse is confirmed.
-     */
-    try {
-      var dayPanchang =
-        getDayPanchang(
-          item.date,
-          observer,
-          api
+        console.warn(
+          "New Year Panchang lookup failed:",
+          error
         );
 
-      html +=
-        renderPanchangDetails(
-          dayPanchang,
-          item.date
-        );
+      }
 
-    } catch (e) {
-
-      logErr(
-        'Day Panchang failed:',
-        e
-      );
-
-      html += [
-        '<details class="ohd-eclipse-panchang-details">',
-
-        '<summary>',
-        '📅 इस ग्रहण-दिन का पंचांग देखें',
-        '</summary>',
-
-        '<div class="ohd-eclipse-panchang-inner">',
-
-        '<p>',
-        'इस दिन का पंचांग उपलब्ध नहीं हो सका।',
-        '</p>',
-
-        '</div>',
-        '</details>'
-      ].join('');
     }
 
 
-    html +=
-      '</div>';
+    return null;
 
-    return html;
-  }
+  };
 
 
-  /* ============================================================
-     PURASHCHARANA CTA
-     ============================================================ */
+  /* =========================================================
+     INITIALIZE
+     ========================================================= */
 
-  function renderPurashcharanaCard() {
-    return [
-      '<section class="ohd-section ohd-purashcharan-card">',
+  const initialize = async () => {
 
-      '<h2>📿 ग्रहण में मन्त्र-पुरश्चरण</h2>',
-
-      '<p>',
-      'ग्रहणकाल में मन्त्र-जप और पुरश्चरण के सम्बन्ध में ',
-      'शास्त्रीय ग्रन्थों में विशेष विधि का वर्णन मिलता है। ',
-      'स्पर्श से मोक्ष तक मन्त्र-जप तथा उसके पश्चात् ',
-      'होम, तर्पण, अभिषेक और ब्राह्मण-भोजन आदि की विधि ',
-      'विस्तार से जानने के लिए सम्पूर्ण आलेख देखें।',
-      '</p>',
-
-      '<div class="ohd-shloka">',
-      'अथवान्य-प्रकारेण पौरश्चारणिको-विधिः।<br>',
-      'चन्द्र-सूर्योपरागे च स्नात्वा प्रयत-मानसः।<br>',
-      'स्पर्शनादि-विमोक्षान्तं जपेन्मन्त्रं समाहितः॥',
-      '</div>',
-
-      '<a',
-      ' class="ohd-purashcharan-link"',
-      ' href="',
-      PURASHCHARANA_URL,
-      '" target="_blank"',
-      ' rel="noopener">',
-
-      '📖 ग्रहण में मन्त्र-पुरश्चरण की सम्पूर्ण विधि पढ़ें →',
-
-      '</a>',
-
-      '</section>'
-    ].join('');
-  }
-
-
-  /* ============================================================
-     RENDER RESULTS
-     ============================================================ */
-
-  function renderEclipses(
-    container,
-    eclipses,
-    location,
-    api
-  ) {
     if (
-      !eclipses ||
-      eclipses.length === 0
+      currentPage.includes(
+        "panchang-today"
+      )
     ) {
-      setResults(
-        container,
-        [
-          '<p class="ohd-eclipse-none">',
 
-          'वर्ष ',
-          esc(
-            String(
-              state.controller
-                ? state.controller.year
-                : ''
-            )
-          ),
+      if (miniPanchang) {
 
-          ' में ',
+        miniPanchang.style.display =
+          "none";
 
-          esc(
-            locationDisplayName(
-              location
-            )
-          ),
-
-          ' के लिए कोई खगोलीय ग्रहण ',
-          'इस गणना से प्राप्त नहीं हुआ।',
-
-          '</p>'
-        ].join('')
-      );
+      }
 
       return;
+
     }
 
 
-    var Observer =
-      api.Observer ||
-      (
-        api.module &&
-        api.module.Observer
-      );
+    try {
 
+      const importedModule =
+        await loadPanchangamWithTimeout();
 
-    if (
-      typeof Observer !==
-      'function'
-    ) {
-      throw new Error(
-        'Observer उपलब्ध नहीं है।'
-      );
-    }
 
+      const getPanchangam =
+        importedModule?.getPanchangam;
 
-    var observer =
-      new Observer(
-        location.lat,
-        location.lon,
-        location.elevation || 0
-      );
 
-
-    var html = '';
-
-
-    eclipses.forEach(
-      function (item) {
-        html +=
-          renderEclipseCard(
-            item,
-            observer,
-            api
-          );
-      }
-    );
-
-
-    html +=
-      renderPurashcharanaCard();
-
-
-    setResults(
-      container,
-      html
-    );
-  }
-
-
-  /* ============================================================
-     CONTROLLER
-     ============================================================ */
-
-  function createController() {
-
-    var ctl = {
-      container: null,
-      year: YEAR_MIN,
-      location: null,
-      api: null,
-
-      /*
-       * Every calculation gets a unique ID.
-       * This prevents stale results from replacing
-       * newer location/year results.
-       */
-      runId: 0,
-
-      wired: false
-    };
-
-
-    async function run() {
-
-      if (
-        !ctl.container ||
-        !ctl.location ||
-        !ctl.api
-      ) {
-        return;
-      }
-
-
-      var myRunId =
-        ++ctl.runId;
-
-
-      renderLoading(
-        ctl.container,
-        'ग्रहण की गणना जारी है...'
-      );
-
-
-      try {
-
-        var eclipses =
-          await discoverEclipses(
-            ctl.year,
-            ctl.location,
-            ctl.api
-          );
-
-
-        /*
-         * A newer run started.
-         * Ignore this old result.
-         */
-        if (
-          myRunId !== ctl.runId
-        ) {
-          return;
-        }
-
-
-        renderEclipses(
-          ctl.container,
-          eclipses,
-          ctl.location,
-          ctl.api
-        );
-
-      } catch (e) {
-
-        if (
-          myRunId !== ctl.runId
-        ) {
-          return;
-        }
-
-        logErr(
-          'Discovery failed:',
-          e
-        );
-
-
-        renderError(
-          ctl.container,
-          'ग्रहण जानकारी लोड करने में त्रुटि। कृपया पुनः प्रयास करें।'
-        );
-      }
-    }
-
-
-    function attach(
-      container
-    ) {
-      ctl.container =
-        container;
-
-      renderShell(
-        container,
-        ctl.year,
-        ctl.location
-      );
-
-      ctl.wired = false;
-
-      wireControls();
-    }
-
-
-    function wireControls() {
-
-      if (ctl.wired) {
-        return;
-      }
-
-
-      var yearSelect =
-        ctl.container.querySelector(
-          '#ohd-eclipse-year'
-        );
-
-
-      if (yearSelect) {
-        yearSelect.addEventListener(
-          'change',
-          function (event) {
-
-            var year =
-              parseInt(
-                event.target.value,
-                10
-              );
-
-            if (
-              !isFinite(year) ||
-              year < YEAR_MIN ||
-              year > YEAR_MAX
-            ) {
-              return;
-            }
-
-            ctl.year =
-              year;
-
-            run();
-          }
-        );
-      }
-
-
-      var input =
-        ctl.container.querySelector(
-          '#ohd-eclipse-location-input'
-        );
-
-      var button =
-        ctl.container.querySelector(
-          '#ohd-eclipse-location-search-btn'
-        );
-
-
-      if (
-        input &&
-        button
-      ) {
-
-        button.addEventListener(
-          'click',
-          function () {
-            performLocationSearch(
-              input.value
-            );
-          }
-        );
-
-
-        input.addEventListener(
-          'keydown',
-          function (event) {
-
-            if (
-              event.key ===
-              'Enter'
-            ) {
-
-              event.preventDefault();
-
-              performLocationSearch(
-                input.value
-              );
-            }
-          }
-        );
-      }
-
-
-      var gpsButton =
-        ctl.container.querySelector(
-          '#ohd-eclipse-gps-btn'
-        );
-
-
-      if (gpsButton) {
-        gpsButton.addEventListener(
-          'click',
-          useCurrentLocation
-        );
-      }
-
-
-      ctl.wired = true;
-    }
-
-
-    async function performLocationSearch(
-      query
-    ) {
-
-      query =
-        String(
-          query || ''
-        ).trim();
-
-
-      if (!query) {
-        return;
-      }
-
-
-      var resultsBox =
-        ctl.container.querySelector(
-          '#ohd-eclipse-location-results'
-        );
-
-
-      if (!resultsBox) {
-        return;
-      }
-
-
-      resultsBox.innerHTML =
-        '<p>स्थान खोजा जा रहा है...</p>';
-
-
-      try {
-
-        var results =
-          await searchLocation(
-            query
-          );
-
-
-        if (
-          !Array.isArray(results) ||
-          results.length === 0
-        ) {
-
-          resultsBox.innerHTML =
-            '<p>कोई स्थान नहीं मिला।</p>';
-
-          return;
-        }
-
-
-        resultsBox.innerHTML =
-          results
-            .map(
-              function (
-                item,
-                index
-              ) {
-
-                return [
-                  '<button',
-                  ' type="button"',
-                  ' class="ohd-eclipse-location-result"',
-                  ' data-location-index="',
-                  index,
-                  '">',
-
-                  esc(
-                    item.display_name ||
-                    'स्थान'
-                  ),
-
-                  '</button>'
-                ].join('');
-              }
-            )
-            .join('');
-
-
-        Array.prototype.forEach.call(
-          resultsBox.querySelectorAll(
-            '[data-location-index]'
-          ),
-          function (button) {
-
-            button.addEventListener(
-              'click',
-              function () {
-
-                var index =
-                  parseInt(
-                    button.getAttribute(
-                      'data-location-index'
-                    ),
-                    10
-                  );
-
-
-                var selected =
-                  results[index];
-
-
-                if (!selected) {
-                  return;
-                }
-
-
-                var location =
-                  resultToLocation(
-                    selected
-                  );
-
-
-                if (!location) {
-
-                  resultsBox.innerHTML =
-                    '<p>इस स्थान के coordinates उपलब्ध नहीं हैं।</p>';
-
-                  return;
-                }
-
-
-                /*
-                 * THIS is the important path:
-                 *
-                 * search result
-                 *      ↓
-                 * resultToLocation
-                 *      ↓
-                 * saveLocation
-                 *      ↓
-                 * ctl.location
-                 *      ↓
-                 * new calculation
-                 */
-                saveAndRunLocation(
-                  location
-                );
-              }
-            );
-          }
-        );
-
-      } catch (e) {
-
-        logErr(
-          'Location search failed:',
-          e
-        );
-
-        resultsBox.innerHTML =
-          '<p>स्थान खोजने में समस्या हुई।</p>';
-      }
-    }
-
-
-    function useCurrentLocation() {
-
-      if (
-        !navigator.geolocation
-      ) {
-
-        renderError(
-          ctl.container,
-          'इस ब्राउज़र में GPS उपलब्ध नहीं है।'
-        );
-
-        return;
-      }
-
-
-      renderLoading(
-        ctl.container,
-        'वर्तमान स्थान प्राप्त किया जा रहा है...'
-      );
-
-
-      navigator.geolocation.getCurrentPosition(
-
-        function (position) {
-
-          var coords =
-            position.coords;
-
-
-          var location =
-            normalizeLocation({
-              name:
-                'वर्तमान स्थान',
-
-              lat:
-                coords.latitude,
-
-              lon:
-                coords.longitude,
-
-              elevation:
-                typeof coords.altitude ===
-                'number'
-                  ? coords.altitude
-                  : 0,
-
-              state: '',
-              city: ''
-            });
-
-
-          if (!location) {
-
-            renderError(
-              ctl.container,
-              'वर्तमान स्थान के coordinates मान्य नहीं हैं।'
-            );
-
-            return;
-          }
-
-
-          saveAndRunLocation(
-            location
-          );
-        },
-
-
-        function (error) {
-
-          logErr(
-            'Geolocation failed:',
-            error
-          );
-
-
-          renderError(
-            ctl.container,
-            'वर्तमान स्थान प्राप्त नहीं हो सका। कृपया स्थान खोज का उपयोग करें।'
-          );
-        },
-
-
-        {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 300000
-        }
-      );
-    }
-
-
-    function saveAndRunLocation(
-      location
-    ) {
-
-      var normalized =
-        normalizeLocation(
-          location
-        );
-
-
-      if (!normalized) {
-        return;
-      }
-
-
-      /*
-       * Save first.
-       */
-      saveLocation(
-        normalized
-      );
-
-
-      /*
-       * Update active controller immediately.
-       */
-      ctl.location =
-        normalized;
-
-
-      /*
-       * Invalidate every previous calculation.
-       */
-      ++ctl.runId;
-
-
-      /*
-       * Update UI immediately.
-       */
-      setLocationLabel(
-        ctl.container,
-        normalized
-      );
-
-
-      var resultsBox =
-        ctl.container.querySelector(
-          '#ohd-eclipse-location-results'
-        );
-
-
-      if (resultsBox) {
-        resultsBox.innerHTML = '';
-      }
-
-
-      /*
-       * Start fresh calculation.
-       */
-      run();
-    }
-
-
-    function setYear(year) {
-      ctl.year = year;
-    }
-
-
-    function setLocation(location) {
-      ctl.location =
-        normalizeLocation(
-          location
-        );
-    }
-
-
-    function setApi(api) {
-      ctl.api =
-        api;
-    }
-
-
-    return {
-      attach: attach,
-      setYear: setYear,
-      setLocation: setLocation,
-      setApi: setApi,
-      run: run,
-
-      get year() {
-        return ctl.year;
-      }
-    };
-  }
-
-
-  /* ============================================================
-     PUBLIC INIT
-     ============================================================ */
-
-  async function initEclipsePanchang(
-    requestedYear
-  ) {
-
-    var container =
-      document.getElementById(
-        CONTAINER_ID
-      );
-
-
-    if (!container) {
-
-      log(
-        'Container #' +
-        CONTAINER_ID +
-        ' not found.'
-      );
-
-      return null;
-    }
-
-
-    renderStyles();
-
-
-    /*
-     * Reuse controller if already initialized.
-     */
-    if (
-      state.initialized &&
-      state.controller
-    ) {
-
-      var existing =
-        state.controller;
-
-
-      var year =
-        typeof requestedYear ===
-        'number'
-          ? requestedYear
-          : existing.year;
-
-
-      if (
-        year >= YEAR_MIN &&
-        year <= YEAR_MAX
-      ) {
-        existing.setYear(
-          year
-        );
-      }
+      const Observer =
+        importedModule?.Observer;
 
 
       /*
        * IMPORTANT:
-       * Read location again.
-       * This lets a previous Mini Panchang/location
-       * selection be picked up.
+       *
+       * Eclipse Panchang इसी shared API
+       * को use करेगा।
        */
-      var savedLocation =
-        readLocation();
+
+      window.__ohdPanchangam = {
+
+        getPanchangam,
+
+        Observer,
+
+        module:
+          importedModule
+
+      };
 
 
-      existing.attach(
-        container
+      window.dispatchEvent(
+        new CustomEvent(
+          "ohd:panchangam-ready"
+        )
       );
 
 
-      if (!savedLocation) {
+      if (
+        typeof getPanchangam !==
+          "function" ||
+        typeof Observer !==
+          "function"
+      ) {
 
-        existing.setLocation(
-          null
+        console.error(
+          "Panchang API उपलब्ध नहीं है।"
         );
 
-        renderError(
-          container,
-          'स्थान उपलब्ध नहीं है। कृपया ऊपर स्थान खोजें या वर्तमान स्थान का उपयोग करें।'
-        );
+        return;
 
-        return existing;
       }
 
 
-      existing.setLocation(
-        savedLocation
+      /*
+       * Blogger widget की तरह
+       * वर्तमान reference location.
+       *
+       * Eclipse module बाद में
+       * shared selected location संभालेगा।
+       */
+
+      const observer =
+        new Observer(
+          29.58,
+          80.22,
+          1650
+        );
+
+
+      const today =
+        new Date();
+
+
+      const p =
+        getPanchangam(
+          today,
+          observer,
+          {
+            timezoneOffset: 330
+          }
+        );
+
+
+      if (!p) return;
+
+
+      const dateHindi =
+        today.toLocaleDateString(
+          "hi-IN",
+          {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+          }
+        );
+
+
+      const weekday =
+        today.toLocaleDateString(
+          "hi-IN",
+          {
+            weekday: "long"
+          }
+        );
+
+
+      const tithiNames = [
+
+        "प्रतिपदा",
+        "द्वितीया",
+        "तृतीया",
+        "चतुर्थी",
+        "पंचमी",
+        "षष्ठी",
+        "सप्तमी",
+        "अष्टमी",
+        "नवमी",
+        "दशमी",
+        "एकादशी",
+        "द्वादशी",
+        "त्रयोदशी",
+        "चतुर्दशी",
+        "पूर्णिमा",
+        "प्रतिपदा",
+        "द्वितीया",
+        "तृतीया",
+        "चतुर्थी",
+        "पंचमी",
+        "षष्ठी",
+        "सप्तमी",
+        "अष्टमी",
+        "नवमी",
+        "दशमी",
+        "एकादशी",
+        "द्वादशी",
+        "त्रयोदशी",
+        "चतुर्दशी",
+        "अमावास्या"
+
+      ];
+
+
+      const sankalpTithiForms = [
+
+        "प्रतिपदि",
+        "द्वितीयायाम्",
+        "तृतीयायाम्",
+        "चतुर्थ्याम्",
+        "पञ्चम्याम्",
+        "षष्ठ्याम्",
+        "सप्तम्याम्",
+        "अष्टम्याम्",
+        "नवम्याम्",
+        "दशम्याम्",
+        "एकादश्याम्",
+        "द्वादश्याम्",
+        "त्रयोदश्याम्",
+        "चतुर्दश्याम्",
+        "पूर्णिमायाम्",
+        "प्रतिपदि",
+        "द्वितीयायाम्",
+        "तृतीयायाम्",
+        "चतुर्थ्याम्",
+        "पञ्चम्याम्",
+        "षष्ठ्याम्",
+        "सप्तम्याम्",
+        "अष्टम्याम्",
+        "नवम्याम्",
+        "दशम्याम्",
+        "एकादश्याम्",
+        "द्वादश्याम्",
+        "त्रयोदश्याम्",
+        "चतुर्दश्याम्",
+        "अमावास्यायाम्"
+
+      ];
+
+
+      const masaRaw =
+        normalize(
+          getValue(
+            p.masa?.name ||
+            p.masa
+          )
+        );
+
+
+      const pakshaRaw =
+        normalize(
+          getValue(
+            p.paksha
+          )
+        );
+
+
+      const ayanaRaw =
+        normalize(
+          getValue(
+            p.ayana
+          )
+        );
+
+
+      const tithiNum =
+        p.tithi?.number ??
+        p.tithi?.index ??
+        (
+          typeof p.tithi ===
+          "number"
+            ? p.tithi
+            : null
+        );
+
+
+      const nakshatraRaw =
+        normalize(
+          getValue(
+            p.nakshatras?.[0]?.name ||
+            p.nakshatras?.[0]
+          )
+        );
+
+
+      const vikramSamvat =
+        getVikramSamvat(p);
+
+
+      const kaliSamvat =
+        vikramSamvat !== null
+          ? vikramSamvat + 3044
+          : null;
+
+
+      const kaliElapsed =
+        kaliSamvat !== null
+          ? kaliSamvat - 1
+          : null;
+
+
+      const shakaSamvat =
+        vikramSamvat !== null
+          ? vikramSamvat - 135
+          : null;
+
+
+      const masaMap = {
+
+        Chaitra: "चैत्र",
+        Vaishakha: "वैशाख",
+        Jyeshtha: "ज्येष्ठ",
+        Ashadha: "आषाढ़",
+        Shravana: "श्रावण",
+        Bhadrapada: "भाद्रपद",
+        Ashwina: "आश्विन",
+        Kartika: "कार्तिक",
+        Margashirsha: "मार्गशीर्ष",
+        Pausha: "पौष",
+        Magha: "माघ",
+        Phalguna: "फाल्गुन"
+
+      };
+
+
+      const pakshaMap = {
+
+        Shukla: "शुक्ल पक्ष",
+        Krishna: "कृष्ण पक्ष"
+
+      };
+
+
+      const ayanaMap = {
+
+        Uttarayana:
+          "सूर्य उत्तरायण",
+
+        Dakshinayana:
+          "सूर्य दक्षिणायन"
+
+      };
+
+
+      const sankalpAyanaMap = {
+
+        Uttarayana:
+          "सूर्य उत्तरायणे",
+
+        Dakshinayana:
+          "सूर्य दक्षिणायने"
+
+      };
+
+
+      const rituMap = {
+
+        Chaitra:
+          "वसंत ऋतु",
+
+        Vaishakha:
+          "वसंत ऋतु",
+
+        Jyeshtha:
+          "ग्रीष्म ऋतु",
+
+        Ashadha:
+          "ग्रीष्म ऋतु",
+
+        Shravana:
+          "वर्षा ऋतु",
+
+        Bhadrapada:
+          "वर्षा ऋतु",
+
+        Ashwin:
+          "शरद ऋतु",
+
+        Kartika:
+          "शरद ऋतु",
+
+        Margashirsha:
+          "हेमंत ऋतु",
+
+        Pausha:
+          "हेमंत ऋतु",
+
+        Magha:
+          "शिशिर ऋतु",
+
+        Phalguna:
+          "शिशिर ऋतु"
+
+      };
+
+
+      const sankalpRituMap = {
+
+        Chaitra:
+          "वसंत ऋतौ",
+
+        Vaishakha:
+          "वसंत ऋतौ",
+
+        Jyeshtha:
+          "ग्रीष्म ऋतौ",
+
+        Ashadha:
+          "ग्रीष्म ऋतौ",
+
+        Shravana:
+          "वर्षा ऋतौ",
+
+        Bhadrapada:
+          "वर्षा ऋतौ",
+
+        Ashwin:
+          "शरद ऋतौ",
+
+        Kartika:
+          "शरद ऋतौ",
+
+        Margashirsha:
+          "हेमंत ऋतौ",
+
+        Pausha:
+          "हेमंत ऋतौ",
+
+        Magha:
+          "शिशिर ऋतौ",
+
+        Phalguna:
+          "शिशिर ऋतौ"
+
+      };
+
+
+      const nakshatraMap = {
+
+        Ashwini: "अश्विनी",
+        Bharani: "भरणी",
+        Krittika: "कृत्तिका",
+        Rohini: "रोहिणी",
+        Mrigashirsha: "मृगशीर्ष",
+        Ardra: "आर्द्रा",
+        Punarvasu: "पुनर्वसु",
+        Pushya: "पुष्य",
+        Ashlesha: "आश्लेषा",
+        Magha: "मघा",
+        PurvaPhalguni:
+          "पूर्वाफाल्गुनी",
+        UttaraPhalguni:
+          "उत्तराफाल्गुनी",
+        Hasta: "हस्त",
+        Chitra: "चित्रा",
+        Swati: "स्वाती",
+        Vishakha: "विशाखा",
+        Anuradha: "अनुराधा",
+        Jyeshtha: "ज्येष्ठा",
+        Mula: "मूल",
+        PurvaAshadha:
+          "पूर्वाषाढ़ा",
+        UttaraAshadha:
+          "उत्तराषाढ़ा",
+        Shravana: "श्रवण",
+        Dhanishtha: "धनिष्ठा",
+        Shatabhisha: "शतभिषा",
+        PurvaBhadrapada:
+          "पूर्वाभाद्रपद",
+        UttaraBhadrapada:
+          "उत्तराभाद्रपद",
+        Revati: "रेवती"
+
+      };
+
+
+      const masa =
+        masaMap[masaRaw] ||
+        masaRaw ||
+        "—";
+
+
+      const pakshaPlain =
+        pakshaMap[pakshaRaw] ||
+        pakshaRaw ||
+        "—";
+
+
+      const ayanaPlain =
+        ayanaMap[ayanaRaw] ||
+        ayanaRaw ||
+        "—";
+
+
+      const rituPlain =
+        rituMap[masaRaw] ||
+        "—";
+
+
+      const tithiPlain =
+        (
+          tithiNum !== null &&
+          tithiNames[tithiNum]
+        )
+          ? tithiNames[tithiNum]
+          : "—";
+
+
+      const sankalpSamvat =
+        getSamvatName(p);
+
+
+      /* =====================================================
+         MINI PANCHANG
+         ===================================================== */
+
+      if (miniPanchang) {
+
+        miniPanchang.innerHTML =
+
+          "<div " +
+
+          "style='" +
+
+          "font-family:Arial,sans-serif;" +
+          "font-size:15px;" +
+          "line-height:1.9;" +
+          "text-align:center;" +
+          "padding:8px 5px;" +
+
+          "'>" +
+
+          dateHindi +
+
+          " • " +
+
+          weekday +
+
+          " • " +
+
+          "<a " +
+
+          "href='https://ourhindudharm.blogspot.com/2014/03/About-Hindu-Navsamvatsar.html' " +
+
+          "target='_blank' " +
+
+          "rel='noopener' " +
+
+          "style='" +
+          "font-weight:bold;" +
+          "color:#8b4513;" +
+          "text-decoration:none;" +
+          "'" +
+
+          "> रौद्र संवत्सर</a>" +
+
+          " • <br/>" +
+
+          "|<b>आज है " +
+
+          masa +
+
+          " मास के " +
+
+          pakshaPlain +
+
+          " की " +
+
+          tithiPlain +
+
+          "</b>|" +
+
+          "<br/> • " +
+
+          ayanaPlain +
+
+          " • " +
+
+          rituPlain +
+
+          "<br>" +
+
+          "<a " +
+
+          "href='https://ourhindudharm.blogspot.com/p/panchang-today.html' " +
+
+          "target='_blank' " +
+
+          "rel='noopener' " +
+
+          "style='" +
+          "color:#7a5a00;" +
+          "text-decoration:none;" +
+          "font-weight:bold;" +
+          "'" +
+
+          ">विस्तृत पंचांग देखें</a>" +
+
+          "</div>";
+
+      }
+
+
+      /* =====================================================
+         SANKALP
+         ===================================================== */
+
+      replaceSankalp({
+
+        samvat:
+          sankalpSamvat,
+
+        ayana:
+          sankalpAyanaMap[
+            ayanaRaw
+          ] || "",
+
+        ritu:
+          sankalpRituMap[
+            masaRaw
+          ] || "",
+
+        masa:
+          masa !== "—"
+            ? masa + " मासे"
+            : "",
+
+        paksha:
+          pakshaRaw === "Shukla"
+            ? "शुक्ल पक्षे"
+            : pakshaRaw === "Krishna"
+              ? "कृष्ण पक्षे"
+              : "",
+
+        tithi:
+          (
+            tithiNum !== null &&
+            sankalpTithiForms[tithiNum]
+          )
+            ? sankalpTithiForms[
+                tithiNum
+              ] + " तिथौ"
+            : "",
+
+        weekday:
+          [
+            "रविवासरे",
+            "सोमवासरे",
+            "मंगलवासरे",
+            "बुधवासरे",
+            "गुरुवासरे",
+            "शुक्रवासरे",
+            "शनिवासरे"
+          ][today.getDay()] || "",
+
+        nakshatra:
+          nakshatraMap[
+            nakshatraRaw
+          ]
+            ? nakshatraMap[
+                nakshatraRaw
+              ] + " नक्षत्रे"
+            : ""
+
+      });
+
+
+      /* =====================================================
+         KALI / SHAKA ARTICLE
+         ===================================================== */
+
+      const hasEraArticle =
+
+        document.getElementById(
+          "ohd-kali-date"
+        ) ||
+
+        document.getElementById(
+          "ohd-kali-samvat"
+        ) ||
+
+        document.getElementById(
+          "ohd-shaka-samvat"
+        );
+
+
+      if (
+        hasEraArticle &&
+        kaliSamvat !== null &&
+        shakaSamvat !== null
+      ) {
+
+        setTimeout(() => {
+
+          try {
+
+            let chaitraDate =
+              findChaitraShuklaPratipada(
+                getPanchangam,
+                observer,
+                today.getFullYear()
+              );
+
+
+            if (
+              chaitraDate &&
+              today < chaitraDate
+            ) {
+
+              const prevYearDate =
+                findChaitraShuklaPratipada(
+                  getPanchangam,
+                  observer,
+                  today.getFullYear() - 1
+                );
+
+
+              if (prevYearDate) {
+
+                chaitraDate =
+                  prevYearDate;
+
+              }
+
+            }
+
+
+            if (chaitraDate) {
+
+              updateEraArticle({
+
+                kaliSamvat,
+
+                kaliElapsed,
+
+                newYearDate:
+                  chaitraDate,
+
+                shakaSamvat
+
+              });
+
+            }
+
+          } catch (error) {
+
+            console.warn(
+              "Deferred Era Article update failed:",
+              error
+            );
+
+          }
+
+        }, 50);
+
+      }
+
+
+    } catch (error) {
+
+      console.error(
+        "Mini Panchang Error:",
+        error
       );
 
+      if (miniPanchang) {
 
-      if (!existing.api) {
+        miniPanchang.innerHTML =
+          "पंचांग लोड नहीं हो सका।";
 
-        try {
-
-          existing.setApi(
-            await waitForSharedApi()
-          );
-
-        } catch (e) {
-
-          logErr(e);
-
-          renderError(
-            container,
-            'पंचांग लाइब्रेरी लोड नहीं हो सकी।'
-          );
-
-          return existing;
-        }
       }
 
-
-      existing.run();
-
-      return existing;
     }
 
-
-    /* ==========================================================
-       FIRST INITIALIZATION
-       ========================================================== */
-
-    var controller =
-      createController();
+  };
 
 
-    state.controller =
-      controller;
+  if (
+    document.readyState ===
+    "loading"
+  ) {
 
-    state.initialized =
-      true;
+    document.addEventListener(
+      "DOMContentLoaded",
+      initialize,
+      {
+        once: true
+      }
+    );
+
+  } else {
+
+    initialize();
+
+  }
+
+})();
+
+</script>
 
 
-    var year =
-      typeof requestedYear ===
-      'number'
-        ? requestedYear
-        : new Date().getFullYear();
+
+<!-- =========================================================
+     ECLIPSE PANCHANG SECTION
+     ========================================================= -->
+
+<section id="ohd-eclipse-panchang">
+
+
+  <!-- =======================================================
+       STATIC INTRO
+       ======================================================= -->
+
+  <div class="ohd-eclipse-static">
+
+    <h2>
+      🌑 ग्रहण पंचांग
+    </h2>
+
+    <p>
+      सूर्य एवं चंद्र ग्रहण की तिथि, स्थानीय दृश्यता,
+      स्पर्श, मध्य और मोक्ष समय तथा ग्रहण-दिन के पंचांग
+      की गणना नीचे चयनित स्थान के अनुसार की जाती है।
+    </p>
+
+    <p>
+      यह GitHub Pages testing environment है। यहां
+      Mini Panchangam और Eclipse Panchang दोनों
+      एक ही Panchang library context के साथ परीक्षण
+      किए जा रहे हैं।
+    </p>
+
+  </div>
+
+
+  <!-- =======================================================
+       DYNAMIC ECLIPSE APP
+       ======================================================= -->
+
+  <div id="ohd-eclipse-app"></div>
+
+
+  <!-- =======================================================
+       STATIC ECLIPSE INFORMATION
+       ======================================================= -->
+
+  <div class="ohd-eclipse-static">
+
+    <h2>
+      ग्रहण पंचांग के बारे में
+    </h2>
+
+    <p>
+      ग्रहण की तिथि एवं समय खगोलीय गणना के आधार पर
+      निर्धारित किए जाते हैं। स्थानीय स्थान के अनुसार
+      ग्रहण की दृश्यता और स्थानीय संपर्क समय में
+      अंतर हो सकता है।
+    </p>
+
+    <p>
+      ग्रहण की खगोलीय घटना और बादलों के कारण उसका
+      दिखाई न देना अलग-अलग बातें हैं। पंचांग में
+      खगोलीय दृश्यता को अलग रखा जाता है।
+    </p>
+
+
+    <h3>
+      शास्त्रीय संदर्भ
+    </h3>
+
+    <p>
+      ग्रहणकाल में स्नान, जप, होम, देवपूजन, दान आदि
+      के संबंध में धर्मशास्त्रीय ग्रंथों में विभिन्न
+      विधियां वर्णित हैं।
+    </p>
+
+
+    <p class="ohd-shloka">
+
+      ग्रहणस्पर्शकाले स्नानं
+      मध्ये होमः सुरार्चनम्।<br>
+
+      श्राद्धं च मुच्यमाने दानं
+      मुक्ते स्नानमिति क्रमः॥
+
+    </p>
+
+
+    <details>
+
+      <summary>
+        📿 ग्रहण एवं मन्त्र-पुरश्चरण
+      </summary>
+
+      <p>
+        ग्रहणकाल में मन्त्र-जप एवं पुरश्चरण के संबंध
+        में विस्तृत विधि के लिए प्रमाणित सामग्री देखें।
+      </p>
+
+      <p>
+
+        <a
+          href="https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html"
+          target="_blank"
+          rel="noopener"
+        >
+          📖 ग्रहण में मन्त्र-पुरश्चरण की सम्पूर्ण विधि पढ़ें →
+        </a>
+
+      </p>
+
+    </details>
+
+
+    <h3>
+      सामान्य प्रश्न
+    </h3>
+
+
+    <details>
+
+      <summary>
+        क्या ग्रहण का समय हर स्थान पर समान होता है?
+      </summary>
+
+      <p>
+        नहीं। ग्रहण की स्थानीय दृश्यता और स्थानीय
+        संपर्क समय स्थान के अनुसार अलग हो सकते हैं।
+      </p>
+
+    </details>
+
+
+    <details>
+
+      <summary>
+        यदि ग्रहण बादलों के कारण दिखाई न दे तो?
+      </summary>
+
+      <p>
+        बादलों के कारण आकाशीय घटना का दिखाई न देना
+        और खगोलीय रूप से उस स्थान पर ग्रहण का
+        अदृश्य होना एक ही बात नहीं है।
+      </p>
+
+    </details>
+
+
+    <details>
+
+      <summary>
+        क्या स्थान बदलने पर ग्रहण पंचांग बदलेगा?
+      </summary>
+
+      <p>
+        हाँ। स्थानीय दृश्यता और स्थानीय समय
+        चयनित स्थान के अनुसार पुनर्गणित किए जाते हैं।
+      </p>
+
+    </details>
+
+  </div>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     ECLIPSE JS
+     ========================================================= -->
+
+<script
+  src="eclipse-panchang.js"
+></script>
+
+
+<!-- =========================================================
+     ECLIPSE INITIALIZATION
+     ========================================================= -->
+
+<script>
+
+window.addEventListener(
+  "load",
+  function () {
+
+    console.log(
+      "================================="
+    );
+
+    console.log(
+      "OurHinduDharm Eclipse Test"
+    );
+
+    console.log(
+      "Mini Panchang API:",
+      window.__ohdPanchangam
+    );
+
+    console.log(
+      "initEclipsePanchang:",
+      typeof window.initEclipsePanchang
+    );
+
+    console.log(
+      "================================="
+    );
 
 
     if (
-      year < YEAR_MIN ||
-      year > YEAR_MAX
+      typeof window.initEclipsePanchang ===
+      "function"
     ) {
-      year = YEAR_MIN;
-    }
 
+      window.initEclipsePanchang();
 
-    controller.setYear(
-      year
-    );
+    } else {
 
-
-    /*
-     * Attach first so the location search UI
-     * is available immediately.
-     */
-    controller.attach(
-      container
-    );
-
-
-    renderLoading(
-      container,
-      'स्थान लोड हो रहा है...'
-    );
-
-
-    /*
-     * Read shared saved location.
-     */
-    var location =
-      readLocation();
-
-
-    if (!location) {
-
-      renderError(
-        container,
-        'स्थान उपलब्ध नहीं है। कृपया ऊपर स्थान खोजें या वर्तमान स्थान का उपयोग करें।'
+      console.error(
+        "OurHinduDharm: initEclipsePanchang उपलब्ध नहीं है।"
       );
 
-      return controller;
     }
 
-
-    controller.setLocation(
-      location
-    );
-
-
-    /*
-     * Wait for Mini Panchang shared API.
-     */
-    try {
-
-      var api =
-        await waitForSharedApi();
-
-      controller.setApi(
-        api
-      );
-
-    } catch (e) {
-
-      logErr(e);
-
-      renderError(
-        container,
-        'पंचांग लाइब्रेरी लोड नहीं हो सकी।'
-      );
-
-      return controller;
-    }
-
-
-    /*
-     * First calculation.
-     */
-    await controller.run();
-
-
-    return controller;
   }
+);
+
+</script>
 
 
-  /* ============================================================
-     PUBLIC API
-     ============================================================ */
 
-  window.initEclipsePanchang =
-    initEclipsePanchang;
+<!-- =========================================================
+     DEBUG INFORMATION
+     ========================================================= -->
+
+<div class="ohd-info-card">
+
+  <h2>
+    🔧 Testing Information
+  </h2>
+
+  <p>
+    इस पेज पर Mini Panchangam और Eclipse Panchang
+    दोनों का परीक्षण किया जा रहा है।
+  </p>
+
+  <p>
+    Browser console में निम्न जांचे जा सकते हैं:
+  </p>
+
+  <ul>
+
+    <li>
+      <code>window.__ohdPanchangam</code>
+    </li>
+
+    <li>
+      <code>typeof window.initEclipsePanchang</code>
+    </li>
+
+    <li>
+      <code>window.__OHDEclipseDebug</code>
+    </li>
+
+  </ul>
+
+</div>
 
 
-})();
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<div class="ohd-test-footer">
+
+  OurHinduDharm Panchang Testing Page
+
+</div>
+
+
+</div>
+
+
+<!-- =========================================================
+     OPTIONAL ERUDA
+     =========================================================
+
+     केवल URL के अंत में ?debug लगाने पर खुलेगा:
+
+     eclipse-panchang.html?debug
+
+     ========================================================= -->
+
+<script
+  src="https://cdn.jsdelivr.net/npm/eruda"
+></script>
+
+<script>
+
+if (
+  new URLSearchParams(
+    window.location.search
+  ).has("debug")
+) {
+
+  eruda.init();
+
+}
+
+</script>
+
+
+</body>
+</html>
