@@ -1442,13 +1442,31 @@
 
   if (location) {
     city = String(location.city || '').trim();
+
+    /*
+     * यदि city अलग field में उपलब्ध नहीं है,
+     * तो location.name के पहले भाग से शहर लें।
+     *
+     * उदाहरण:
+     * "Mumbai, Maharashtra, भारत"
+     * → "Mumbai"
+     */
+    if (!city) {
+      var name = String(location.name || '').trim();
+
+      if (name) {
+        city = name
+          .split(',')
+          .map(function (part) {
+            return part.trim();
+          })
+          .filter(function (part) {
+            return part;
+          })[0] || '';
+      }
+    }
   }
 
-  /*
-   * वास्तविक city उपलब्ध हो तो वही दिखाएँ।
-   * GPS में city खाली हो सकता है, इसलिए वहाँ
-   * केवल "चयनित स्थान" लिखा जाएगा।
-   */
   var placeName = city || 'चयनित स्थान';
 
   if (g.isVisible === true) {
