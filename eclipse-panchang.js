@@ -1,56 +1,58 @@
 /**
- * eclipse-panchang.js
- * OurHinduDharm — Grahan Panchang
+ * eclipse-panchang.js — Grahana-based Eclipse Panchang
+ * OurHinduDharm
  *
- * Public:
+ * Public entry:
  *   window.initEclipsePanchang(year?)
  *
- * Data source:
- *   window.__ohdPanchangam
- *
  * Design:
- *   Eclipse discovery:
- *     findTithiTransitions()
- *       → Purnima / Amavasya
- *       → getGrahana()
- *
- *   Day Panchang:
- *     getPanchangam()
- *       → same date + same location + IST
- *
- * No static eclipse dates.
- * No static Panchang values.
- * No hard-coded city.
+ *   - Eclipse discovery uses module.findTithiTransitions()
+ *   - Eclipse truth comes only from getGrahana()
+ *   - getPanchangam() is called only for actual eclipses
+ *   - No static eclipse dates
+ *   - No hard-coded city/date results
+ *   - No custom 6h/12h astronomical scanning
+ *   - No custom binary-search eclipse calculation
+ *   - No external astronomy API
+ *   - No auto-init
  */
 
 (function () {
-  "use strict";
+  'use strict';
 
-  /* =========================================================
+  /* ============================================================
      CONSTANTS
-     ========================================================= */
+     ============================================================ */
 
-  var CONTAINER_ID = "ohd-eclipse-panchang";
-  var STORAGE_KEY = "ohdPanchangLocation";
+  var CONTAINER_ID = 'ohd-eclipse-panchang';
+  var STORAGE_KEY = 'ohdPanchangLocation';
+
+  // Existing OurHinduDharm convention.
   var TZ_OFFSET = 330;
 
   var YEAR_MIN = 2026;
   var YEAR_MAX = 2031;
 
-  var MAIN_PANCHANG_URL =
-    "https://ourhindudharm.blogspot.com/p/panchang-today.html?m=1";
+  var PURASHCHARANA_URL =
+    'https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html';
 
-  var PURASHCHARAN_URL =
-    "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html";
+  var LOCATION_HINT =
+    'स्थान बदलने पर ग्रहण की दृश्यता, समय और दिन का पंचांग उसी स्थान के अनुसार पुनर्गणित होगा।';
+
+
+  /* ============================================================
+     STATE
+     ============================================================ */
 
   var state = {
     initialized: false,
     controller: null
   };
 
-  /* =========================================================
+
+  /* ============================================================
      DEBUG
-     ========================================================= */
+     ============================================================ */
 
   function isDebug() {
     return window.__OHDEclipseDebug === true;
@@ -61,9 +63,7 @@
 
     console.log.apply(
       console,
-      ["[EclipsePanchang]"].concat(
-        Array.prototype.slice.call(arguments)
-      )
+      ['[EclipsePanchang]'].concat([].slice.call(arguments))
     );
   }
 
@@ -72,43 +72,42 @@
 
     console.error.apply(
       console,
-      ["[EclipsePanchang]"].concat(
-        Array.prototype.slice.call(arguments)
-      )
+      ['[EclipsePanchang]'].concat([].slice.call(arguments))
     );
   }
 
-  /* =========================================================
+
+  /* ============================================================
      BASIC HELPERS
-     ========================================================= */
+     ============================================================ */
 
   function pad2(n) {
-    return n < 10 ? "0" + n : "" + n;
+    return n < 10 ? '0' + n : '' + n;
   }
 
-  function esc(value) {
-    return String(value == null ? "" : value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
-  function toDate(value) {
-    if (!value) return null;
+  function toDate(v) {
+    if (!v) return null;
 
-    if (value instanceof Date) {
-      return isNaN(value.getTime()) ? null : value;
+    if (v instanceof Date) {
+      return isNaN(v.getTime()) ? null : v;
     }
 
-    var d = new Date(value);
+    var d = new Date(v);
 
     return isNaN(d.getTime()) ? null : d;
   }
 
   function yieldToMain() {
     return new Promise(function (resolve) {
-      if (typeof requestIdleCallback === "function") {
+      if (typeof requestIdleCallback === 'function') {
         requestIdleCallback(
           function () {
             resolve();
@@ -121,9 +120,94 @@
     });
   }
 
-  /* =========================================================
+
+  /* ============================================================
+     HINDI MAPS
+     ============================================================ */
+
+  var TITHI_MAP = {
+    Prathama: 'प्रतिपदा',
+    Dvitiya: 'द्वितीया',
+    Tritiya: 'तृतीया',
+    Chaturthi: 'चतुर्थी',
+    Panchami: 'पंचमी',
+    Shashthi: 'षष्ठी',
+    Saptami: 'सप्तमी',
+    Ashtami: 'अष्टमी',
+    Navami: 'नवमी',
+    Dashami: 'दशमी',
+    Ekadashi: 'एकादशी',
+    Dvadashi: 'द्वादशी',
+    Trayodashi: 'त्रयोदशी',
+    Chaturdashi: 'चतुर्दशी',
+    Purnima: 'पूर्णिमा',
+    Amavasya: 'अमावस्या'
+  };
+
+  var PAKSHA_MAP = {
+    Shukla: 'शुक्ल पक्ष',
+    Krishna: 'कृष्ण पक्ष'
+  };
+
+  var MASA_MAP = {
+    Chaitra: 'चैत्र',
+    Vaishakha: 'वैशाख',
+    Jyeshtha: 'ज्येष्ठ',
+    Ashadha: 'आषाढ़',
+    Shravana: 'श्रावण',
+    Bhadrapada: 'भाद्रपद',
+    Ashwin: 'आश्विन',
+    Kartika: 'कार्तिक',
+    Margashirsha: 'मार्गशीर्ष',
+    Pausha: 'पौष',
+    Magha: 'माघ',
+    Phalguna: 'फाल्गुन'
+  };
+
+  var NAKSHATRA_MAP = {
+    Ashwini: 'अश्विनी',
+    Bharani: 'भरणी',
+    Krittika: 'कृत्तिका',
+    Rohini: 'रोहिणी',
+    Mrigashira: 'मृगशीर्ष',
+    Ardra: 'आर्द्रा',
+    Punarvasu: 'पुनर्वसु',
+    Pushya: 'पुष्य',
+    Ashlesha: 'आश्लेषा',
+    Magha: 'मघा',
+    Purva Phalguni: 'पूर्वाफाल्गुनी',
+    Uttara Phalguni: 'उत्तराफाल्गुनी',
+    Hasta: 'हस्त',
+    Chitra: 'चित्रा',
+    Swati: 'स्वाती',
+    Vishakha: 'विशाखा',
+    Anuradha: 'अनुराधा',
+    Jyeshtha: 'ज्येष्ठा',
+    Mula: 'मूल',
+    Purva Ashadha: 'पूर्वाषाढ़ा',
+    Uttara Ashadha: 'उत्तराषाढ़ा',
+    Shravana: 'श्रवण',
+    Dhanishtha: 'धनिष्ठा',
+    Shatabhisha: 'शतभिषा',
+    Purva Bhadrapada: 'पूर्वाभाद्रपदा',
+    Uttara Bhadrapada: 'उत्तराभाद्रपदा',
+    Revati: 'रेवती'
+  };
+
+  var WEEKDAY_MAP = [
+    'रविवार',
+    'सोमवार',
+    'मंगलवार',
+    'बुधवार',
+    'गुरुवार',
+    'शुक्रवार',
+    'शनिवार'
+  ];
+
+
+  /* ============================================================
      LOCATION
-     ========================================================= */
+     ============================================================ */
 
   function readLocation() {
     var raw;
@@ -131,7 +215,7 @@
     try {
       raw = localStorage.getItem(STORAGE_KEY);
     } catch (e) {
-      logErr("localStorage read failed:", e);
+      logErr('localStorage read failed:', e);
       return null;
     }
 
@@ -141,23 +225,16 @@
 
     try {
       o = JSON.parse(raw);
-    } catch (e) {
-      logErr("Invalid location JSON:", e);
+    } catch (e2) {
+      logErr('Invalid location JSON:', e2);
       return null;
     }
 
-    if (!o || typeof o !== "object") {
-      return null;
-    }
+    if (!o || typeof o !== 'object') return null;
 
     if (
-      typeof o.lat !== "number" ||
-      typeof o.lon !== "number"
-    ) {
-      return null;
-    }
-
-    if (
+      typeof o.lat !== 'number' ||
+      typeof o.lon !== 'number' ||
       !isFinite(o.lat) ||
       !isFinite(o.lon)
     ) {
@@ -172,30 +249,46 @@
     }
 
     var elevation =
-      typeof o.elevation === "number" &&
-      isFinite(o.elevation)
+      typeof o.elevation === 'number' && isFinite(o.elevation)
         ? o.elevation
         : 0;
 
     return {
-      name:
-        o.name ||
-        o.city ||
-        o.state ||
-        "चयनित स्थान",
-
-      city: o.city || "",
-      state: o.state || "",
-
+      name: o.name || o.city || o.state || 'चयनित स्थान',
       lat: o.lat,
       lon: o.lon,
-      elevation: elevation
+      elevation: elevation,
+      state: o.state || '',
+      city: o.city || ''
     };
   }
 
-  /* =========================================================
-     SHARED API
-     ========================================================= */
+  function saveLocation(location) {
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(location)
+      );
+    } catch (e) {
+      logErr('Could not save location:', e);
+    }
+  }
+
+  function locationDisplayName(location) {
+    if (!location) return 'स्थान उपलब्ध नहीं';
+
+    return (
+      location.name ||
+      location.city ||
+      location.state ||
+      'चयनित स्थान'
+    );
+  }
+
+
+  /* ============================================================
+     SHARED PANCHANG API
+     ============================================================ */
 
   function getSharedApi() {
     return window.__ohdPanchangam || null;
@@ -212,40 +305,40 @@
 
       var timer = setTimeout(function () {
         window.removeEventListener(
-          "ohd:panchangam-ready",
+          'ohd:panchangam-ready',
           onReady
         );
 
         reject(
           new Error(
-            "पंचांग लाइब्रेरी उपलब्ध नहीं हुई।"
+            'पंचांग लाइब्रेरी लोड नहीं हो सकी।'
           )
         );
       }, 30000);
 
       function onReady() {
         window.removeEventListener(
-          "ohd:panchangam-ready",
+          'ohd:panchangam-ready',
           onReady
         );
 
         clearTimeout(timer);
 
-        var readyApi = getSharedApi();
+        var a = getSharedApi();
 
-        if (readyApi) {
-          resolve(readyApi);
+        if (a) {
+          resolve(a);
         } else {
           reject(
             new Error(
-              "पंचांग API उपलब्ध नहीं हुई।"
+              'पंचांग लाइब्रेरी तैयार नहीं हुई।'
             )
           );
         }
       }
 
       window.addEventListener(
-        "ohd:panchangam-ready",
+        'ohd:panchangam-ready',
         onReady,
         { once: true }
       );
@@ -255,13 +348,13 @@
   function resolveFunction(api, name) {
     if (!api) return null;
 
-    if (typeof api[name] === "function") {
+    if (typeof api[name] === 'function') {
       return api[name];
     }
 
     if (
       api.module &&
-      typeof api.module[name] === "function"
+      typeof api.module[name] === 'function'
     ) {
       return api.module[name];
     }
@@ -269,790 +362,673 @@
     return null;
   }
 
-  /* =========================================================
-     HINDI DATA
-     ========================================================= */
 
-  var TITHI = [
-    "प्रतिपदा",
-    "द्वितीया",
-    "तृतीया",
-    "चतुर्थी",
-    "पंचमी",
-    "षष्ठी",
-    "सप्तमी",
-    "अष्टमी",
-    "नवमी",
-    "दशमी",
-    "एकादशी",
-    "द्वादशी",
-    "त्रयोदशी",
-    "चतुर्दशी",
-    "पूर्णिमा",
+  /* ============================================================
+     TIME / DATE FORMATTING
+     ============================================================ */
 
-    "प्रतिपदा",
-    "द्वितीया",
-    "तृतीया",
-    "चतुर्थी",
-    "पंचमी",
-    "षष्ठी",
-    "सप्तमी",
-    "अष्टमी",
-    "नवमी",
-    "दशमी",
-    "एकादशी",
-    "द्वादशी",
-    "त्रयोदशी",
-    "चतुर्दशी",
-    "अमावस्या"
-  ];
+  function fmtTime(date, tzOffsetMin) {
+    var d = toDate(date);
 
-  var NAKSHATRA = [
-    "अश्विनी",
-    "भरणी",
-    "कृत्तिका",
-    "रोहिणी",
-    "मृगशीर्ष",
-    "आर्द्रा",
-    "पुनर्वसु",
-    "पुष्य",
-    "आश्लेषा",
-    "मघा",
-    "पूर्वाफाल्गुनी",
-    "उत्तराफाल्गुनी",
-    "हस्त",
-    "चित्रा",
-    "स्वाती",
-    "विशाखा",
-    "अनुराधा",
-    "ज्येष्ठा",
-    "मूल",
-    "पूर्वाषाढ़ा",
-    "उत्तराषाढ़ा",
-    "श्रवण",
-    "धनिष्ठा",
-    "शतभिषा",
-    "पूर्वाभाद्रपद",
-    "उत्तराभाद्रपद",
-    "रेवती"
-  ];
+    if (!d) return '—';
 
-  var YOGA = [
-    "विष्कम्भ",
-    "प्रीति",
-    "आयुष्मान",
-    "सौभाग्य",
-    "शोभन",
-    "अतिगण्ड",
-    "सुकर्मा",
-    "धृति",
-    "शूल",
-    "गण्ड",
-    "वृद्धि",
-    "ध्रुव",
-    "व्याघात",
-    "हर्षण",
-    "वज्र",
-    "सिद्धि",
-    "व्यतीपात",
-    "वरीयान",
-    "परिघ",
-    "शिव",
-    "सिद्ध",
-    "साध्य",
-    "शुभ",
-    "शुक्ल",
-    "ब्रह्म",
-    "इन्द्र",
-    "वैधृति"
-  ];
-
-  var KARANA = {
-    Bava: "बव",
-    Balava: "बालव",
-    Kaulava: "कौलव",
-    Taitila: "तैतिल",
-    Gara: "गर",
-    Vanija: "वणिज",
-    Vishti: "विष्टि",
-    Shakuni: "शकुनि",
-    Chatushpada: "चतुष्पद",
-    Naga: "नाग",
-    Kimstughna: "किंस्तुघ्न"
-  };
-
-  var MASA = {
-    Chaitra: "चैत्र",
-    Vaishakha: "वैशाख",
-    Jyeshtha: "ज्येष्ठ",
-    Ashadha: "आषाढ़",
-    Shravana: "श्रावण",
-    Bhadrapada: "भाद्रपद",
-    Bhadra: "भाद्रपद",
-    Ashwin: "आश्विन",
-    Ashwina: "आश्विन",
-    Kartika: "कार्तिक",
-    Kartik: "कार्तिक",
-    Margashirsha: "मार्गशीर्ष",
-    Margashir: "मार्गशीर्ष",
-    Margashirsha: "मार्गशीर्ष",
-    Pausha: "पौष",
-    Paush: "पौष",
-    Magha: "माघ",
-    Phalguna: "फाल्गुन",
-    Phalgun: "फाल्गुन",
-    Ashwayuja: "आश्विन",
-    Agrahayana: "मार्गशीर्ष",
-    Aghrayana: "मार्गशीर्ष"
-  };
-
-  var VARA = [
-    "रविवार",
-    "सोमवार",
-    "मंगलवार",
-    "बुधवार",
-    "गुरुवार",
-    "शुक्रवार",
-    "शनिवार"
-  ];
-
-  var PAKSHA = {
-    Shukla: "शुक्ल पक्ष",
-    shukla: "शुक्ल पक्ष",
-    Krishna: "कृष्ण पक्ष",
-    krishna: "कृष्ण पक्ष"
-  };
-
-  /* =========================================================
-     NAME HELPERS
-     ========================================================= */
-
-  function extractValue(value) {
-    if (
-      value &&
-      typeof value === "object"
-    ) {
-      return (
-        value.index ??
-        value.number ??
-        value.value ??
-        value.name
-      );
-    }
-
-    return value;
-  }
-
-  function indexedName(value, array) {
-    value = extractValue(value);
-
-    if (typeof value === "number") {
-      return (
-        array[value] ||
-        array[value - 1] ||
-        "—"
-      );
-    }
-
-    return value || "—";
-  }
-
-  function getTithiName(value) {
-    return indexedName(value, TITHI);
-  }
-
-  function getNakshatraName(value) {
-    return indexedName(value, NAKSHATRA);
-  }
-
-  function getYogaName(value) {
-    return indexedName(value, YOGA);
-  }
-
-  function getKaranaName(value) {
-    value = extractValue(value);
-
-    if (typeof value === "number") {
-      return "—";
-    }
-
-    return (
-      KARANA[value] ||
-      value ||
-      "—"
-    );
-  }
-
-  function getMasaName(value) {
-    if (!value) return "—";
-
-    var name = "";
-    var adhika = false;
-
-    if (typeof value === "object") {
-      name =
-        value.name ||
-        value.value ||
-        "";
-
-      adhika =
-        value.isAdhika === true;
-    } else {
-      name = String(value);
-    }
-
-    var hindi = MASA[name];
-
-    if (!hindi) {
-      var lower = name.toLowerCase();
-
-      Object.keys(MASA).some(
-        function (key) {
-          if (
-            key.toLowerCase() === lower
-          ) {
-            hindi = MASA[key];
-            return true;
-          }
-
-          return false;
-        }
-      );
-    }
-
-    hindi = hindi || name || "—";
-
-    return adhika
-      ? "अधिक " + hindi
-      : hindi;
-  }
-
-  function getPakshaName(value) {
-    value = extractValue(value);
-
-    return (
-      PAKSHA[value] ||
-      PAKSHA[String(value)] ||
-      value ||
-      "—"
-    );
-  }
-
-  function getVaraName(value, p) {
-    value = extractValue(value);
-
-    if (typeof value === "number") {
-      return VARA[value] || "—";
-    }
-
-    return (
-      (p && p.varaName) ||
-      value ||
-      "—"
-    );
-  }
-
-  /* =========================================================
-     TIME FORMATTING
-     ========================================================= */
-
-  function fmtTime(value) {
-    var d = toDate(value);
-
-    if (!d) return "—";
-
+    // Explicit timezone arithmetic.
+    // Independent of browser timezone.
     var wall = new Date(
-      d.getTime() +
-      TZ_OFFSET * 60000
+      d.getTime() + tzOffsetMin * 60000
     );
 
     var h = wall.getUTCHours();
     var m = wall.getUTCMinutes();
 
+    var ampm = h >= 12 ? 'PM' : 'AM';
+
+    var h12 = h % 12;
+
+    if (h12 === 0) h12 = 12;
+
     return (
-      pad2(h) +
-      ":" +
-      pad2(m)
+      pad2(h12) +
+      ':' +
+      pad2(m) +
+      ' ' +
+      ampm
     );
   }
 
-  function fmtDate(value) {
-    var d = toDate(value);
+  function fmtDate(date, tzOffsetMin) {
+    var d = toDate(date);
 
-    if (!d) return "—";
+    if (!d) return '—';
 
     var wall = new Date(
-      d.getTime() +
-      TZ_OFFSET * 60000
+      d.getTime() + tzOffsetMin * 60000
     );
 
     return (
       pad2(wall.getUTCDate()) +
-      "/" +
+      '/' +
       pad2(wall.getUTCMonth() + 1) +
-      "/" +
+      '/' +
       wall.getUTCFullYear()
     );
   }
 
-  function fmtRange(a, b) {
-    var start = fmtTime(a);
-    var end = fmtTime(b);
+  function fmtWeekday(date, tzOffsetMin) {
+    var d = toDate(date);
 
-    if (start === "—" && end === "—") {
-      return "—";
-    }
+    if (!d) return '—';
 
-    return start + " — " + end;
+    var wall = new Date(
+      d.getTime() + tzOffsetMin * 60000
+    );
+
+    return WEEKDAY_MAP[wall.getUTCDay()] || '—';
   }
 
-  /* =========================================================
-     PANCHANG FOR ECLIPSE DATE
-     ========================================================= */
 
-  function calculateDayPanchang(
+  /* ============================================================
+     PANCHANG EXTRACTION
+     Verified against current runtime:
+     p.tithi       = number
+     p.tithis[]    = objects with index/name
+     p.paksha      = string
+     p.masa        = object
+     p.nakshatra   = number
+     p.nakshatras[]= objects with index/name
+     p.samvat.vikram= number
+     ============================================================ */
+
+  function extractPanchangFields(p) {
+    if (!p) return {};
+
+    var tithiHindi = '—';
+
+    if (
+      Array.isArray(p.tithis) &&
+      typeof p.tithi === 'number'
+    ) {
+      var tObj = p.tithis.find(function (t) {
+        return t && t.index === p.tithi;
+      });
+
+      if (
+        tObj &&
+        typeof tObj.name === 'string'
+      ) {
+        tithiHindi =
+          TITHI_MAP[tObj.name] ||
+          tObj.name;
+      }
+    } else if (
+      typeof p.tithi === 'string'
+    ) {
+      tithiHindi =
+        TITHI_MAP[p.tithi] ||
+        p.tithi;
+    }
+
+    var pakshaHindi = '—';
+
+    if (typeof p.paksha === 'string') {
+      pakshaHindi =
+        PAKSHA_MAP[p.paksha] ||
+        p.paksha;
+    }
+
+    var masaHindi = '—';
+
+    if (
+      p.masa &&
+      typeof p.masa.name === 'string'
+    ) {
+      masaHindi =
+        MASA_MAP[p.masa.name] ||
+        p.masa.name;
+
+      if (p.masa.isAdhika) {
+        masaHindi =
+          'अधिक ' + masaHindi;
+      }
+    } else if (
+      typeof p.masa === 'string'
+    ) {
+      masaHindi =
+        MASA_MAP[p.masa] ||
+        p.masa;
+    }
+
+    var nakshatraHindi = '—';
+
+    if (
+      Array.isArray(p.nakshatras) &&
+      typeof p.nakshatra === 'number'
+    ) {
+      var nObj = p.nakshatras.find(function (n) {
+        return n && n.index === p.nakshatra;
+      });
+
+      if (
+        nObj &&
+        typeof nObj.name === 'string'
+      ) {
+        nakshatraHindi =
+          NAKSHATRA_MAP[nObj.name] ||
+          nObj.name;
+      }
+    } else if (
+      typeof p.nakshatra === 'string'
+    ) {
+      nakshatraHindi =
+        NAKSHATRA_MAP[p.nakshatra] ||
+        p.nakshatra;
+    }
+
+    var vikramSamvat = null;
+
+    if (
+      p.samvat &&
+      typeof p.samvat.vikram === 'number' &&
+      p.samvat.vikram > 2000
+    ) {
+      vikramSamvat = p.samvat.vikram;
+    }
+
+    return {
+      tithi: tithiHindi,
+      paksha: pakshaHindi,
+      masa: masaHindi,
+      nakshatra: nakshatraHindi,
+      vikramSamvat: vikramSamvat
+    };
+  }
+
+
+  /* ============================================================
+     PANCHANG FOR ACTUAL ECLIPSE DATE
+     ============================================================ */
+
+  function getDayPanchang(
     eclipseDate,
-    location,
+    observer,
     api
   ) {
     var getPanchangam =
-      resolveFunction(
-        api,
-        "getPanchangam"
-      );
+      resolveFunction(api, 'getPanchangam');
 
-    var Observer =
-      api.Observer ||
-      (
-        api.module &&
-        api.module.Observer
-      );
-
-    if (
-      typeof getPanchangam !==
-      "function"
-    ) {
+    if (typeof getPanchangam !== 'function') {
       throw new Error(
-        "getPanchangam उपलब्ध नहीं है।"
+        'getPanchangam उपलब्ध नहीं है।'
       );
     }
 
-    if (
-      typeof Observer !==
-      "function"
-    ) {
-      throw new Error(
-        "Observer उपलब्ध नहीं है।"
-      );
-    }
-
-    var observer =
-      new Observer(
-        location.lat,
-        location.lon,
-        location.elevation || 0
-      );
-
-    return getPanchangam(
+    var p = getPanchangam(
       eclipseDate,
       observer,
       {
         timezoneOffset: TZ_OFFSET,
-        calendarType: "purnimanta"
+        calendarType: 'purnimanta'
       }
     );
+
+    return {
+      fields: extractPanchangFields(p),
+      sunrise: p && p.sunrise
+        ? toDate(p.sunrise)
+        : null,
+      sunset: p && p.sunset
+        ? toDate(p.sunset)
+        : null
+    };
   }
 
-  /* =========================================================
-     LOCATION + PANCHANG DATA
-     ========================================================= */
 
-  function renderLocationCard(
+  /* ============================================================
+     UI SHELL
+     ============================================================ */
+
+  function buildYearOptions(selected) {
+    var out = '';
+
+    for (
+      var y = YEAR_MIN;
+      y <= YEAR_MAX;
+      y++
+    ) {
+      out +=
+        '<option value="' +
+        y +
+        '"' +
+        (y === selected
+          ? ' selected'
+          : '') +
+        '>' +
+        y +
+        '</option>';
+    }
+
+    return out;
+  }
+
+  function renderStyles() {
+    if (
+      document.getElementById(
+        'ohd-eclipse-panchang-styles'
+      )
+    ) {
+      return;
+    }
+
+    var style =
+      document.createElement('style');
+
+    style.id =
+      'ohd-eclipse-panchang-styles';
+
+    style.textContent = `
+      .ohd-eclipse-wrap {
+        width: 100%;
+      }
+
+      .ohd-eclipse-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .ohd-eclipse-field {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+      }
+
+      .ohd-eclipse-field select {
+        min-width: 90px;
+        padding: 7px 9px;
+        border-radius: 7px;
+      }
+
+      .ohd-eclipse-loc {
+        flex: 1 1 240px;
+        min-width: 0;
+      }
+
+      .ohd-eclipse-loc-name {
+        font-weight: 700;
+      }
+
+      .ohd-eclipse-hint {
+        margin: 6px 0 18px;
+        font-size: .9em;
+        opacity: .78;
+      }
+
+      .ohd-eclipse-location-tools {
+        margin: 12px 0 18px;
+      }
+
+      .ohd-eclipse-location-search {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+
+      .ohd-eclipse-location-search input {
+        flex: 1 1 220px;
+        min-width: 0;
+        padding: 9px 10px;
+        border-radius: 7px;
+        border: 1px solid rgba(0,0,0,.2);
+      }
+
+      .ohd-eclipse-location-search button {
+        padding: 9px 12px;
+        border-radius: 7px;
+        cursor: pointer;
+      }
+
+      .ohd-eclipse-gps {
+        margin-top: 8px;
+      }
+
+      .ohd-eclipse-gps button {
+        padding: 8px 11px;
+        border-radius: 7px;
+        cursor: pointer;
+      }
+
+      .ohd-eclipse-location-results {
+        margin-top: 8px;
+      }
+
+      .ohd-eclipse-location-result {
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin: 5px 0;
+        padding: 9px 10px;
+        border-radius: 7px;
+        border: 1px solid rgba(0,0,0,.12);
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .ohd-eclipse-card {
+        margin: 0 0 18px;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,.13);
+      }
+
+      .ohd-eclipse-card h3 {
+        margin-top: 0;
+      }
+
+      .ohd-eclipse-card p {
+        margin: 7px 0;
+      }
+
+      .ohd-eclipse-visibility-note {
+        margin: 12px 0;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(0,0,0,.10);
+      }
+
+      .ohd-eclipse-panchang-details {
+        margin-top: 14px;
+        border-top: 1px solid rgba(0,0,0,.12);
+      }
+
+      .ohd-eclipse-panchang-details summary {
+        cursor: pointer;
+        padding: 12px 4px;
+        font-weight: 700;
+        list-style: none;
+        user-select: none;
+      }
+
+      .ohd-eclipse-panchang-details summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .ohd-eclipse-panchang-details summary::after {
+        content: "＋";
+        float: right;
+        font-weight: 700;
+      }
+
+      .ohd-eclipse-panchang-details[open] summary::after {
+        content: "−";
+      }
+
+      .ohd-eclipse-panchang-inner {
+        padding: 4px 0 10px;
+      }
+
+      .ohd-panchang-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 7px 0;
+        border-bottom: 1px solid rgba(0,0,0,.07);
+      }
+
+      .ohd-panchang-row:last-child {
+        border-bottom: 0;
+      }
+
+      .ohd-panchang-row span {
+        opacity: .78;
+      }
+
+      .ohd-panchang-row strong {
+        text-align: right;
+      }
+
+      .ohd-purashcharan-card {
+        margin-top: 24px;
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,.13);
+      }
+
+      .ohd-purashcharan-card h2 {
+        margin-top: 0;
+      }
+
+      .ohd-purashcharan-card p {
+        line-height: 1.7;
+      }
+
+      .ohd-shloka {
+        margin: 14px 0;
+        padding: 12px 14px;
+        text-align: center;
+        font-weight: 600;
+        line-height: 1.9;
+      }
+
+      .ohd-purashcharan-link {
+        display: block;
+        padding: 12px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+        border: 1px solid rgba(0,0,0,.13);
+      }
+
+      .ohd-eclipse-loading,
+      .ohd-eclipse-error,
+      .ohd-eclipse-none {
+        padding: 12px;
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  function renderShell(
+    container,
+    year,
     location
   ) {
-    if (!location) {
-      return (
-        '<div class="ohd-ep-location">' +
-        "<strong>📍 स्थान उपलब्ध नहीं है</strong>" +
-        "<p>मुख्य पंचांग में स्थान चुनने के बाद " +
-        "ग्रहण पंचांग पुनः खोलें।</p>" +
-        "</div>"
-      );
-    }
+    var locName =
+      locationDisplayName(location);
 
-    return [
-      '<div class="ohd-ep-location">',
-      '  <div class="ohd-ep-location-icon">📍</div>',
-      '  <div class="ohd-ep-location-main">',
-      "    <strong>चयनित स्थान</strong>",
-      '    <div class="ohd-ep-location-name">',
-      esc(location.name),
-      "</div>",
-      '    <div class="ohd-ep-location-note">',
-      "ग्रहण की दृश्यता और समय इसी स्थान के अनुसार हैं।",
-      "</div>",
-      "  </div>",
-      '  <a class="ohd-ep-location-btn" href="' +
-        MAIN_PANCHANG_URL +
-        '">',
-      "स्थान बदलें",
-      "</a>",
-      "</div>"
-    ].join("");
+    container.innerHTML = [
+      '<div class="ohd-eclipse-wrap">',
+
+      '  <div class="ohd-eclipse-controls">',
+
+      '    <label class="ohd-eclipse-field">',
+      '      <span>वर्ष:</span>',
+      '      <select id="ohd-eclipse-year">',
+      buildYearOptions(year),
+      '      </select>',
+      '    </label>',
+
+      '    <div class="ohd-eclipse-loc">',
+      '      <span class="ohd-eclipse-loc-name" id="ohd-eclipse-loc-name">',
+      esc(locName),
+      '      </span>',
+      '    </div>',
+
+      '  </div>',
+
+      '  <div class="ohd-eclipse-location-tools">',
+
+      '    <div class="ohd-eclipse-location-search">',
+      '      <input id="ohd-eclipse-location-input" type="search" placeholder="शहर / स्थान खोजें..." autocomplete="off">',
+      '      <button type="button" id="ohd-eclipse-location-search-btn">स्थान खोजें</button>',
+      '    </div>',
+
+      '    <div class="ohd-eclipse-gps">',
+      '      <button type="button" id="ohd-eclipse-gps-btn">📍 वर्तमान स्थान का उपयोग करें</button>',
+      '    </div>',
+
+      '    <div id="ohd-eclipse-location-results" class="ohd-eclipse-location-results"></div>',
+
+      '  </div>',
+
+      '  <div class="ohd-eclipse-hint">',
+      esc(LOCATION_HINT),
+      '  </div>',
+
+      '  <div class="ohd-eclipse-results" id="ohd-eclipse-results"></div>',
+
+      '</div>'
+    ].join('');
   }
 
-  function renderDayPanchang(
-    p
+  function setResults(
+    container,
+    html
   ) {
-    if (!p) return "";
-
-    var tithi =
-      getTithiName(p.tithi);
-
-    var paksha =
-      getPakshaName(p.paksha);
-
-    var masa =
-      getMasaName(p.masa);
-
-    var vara =
-      getVaraName(
-        p.vara,
-        p
+    var box =
+      container.querySelector(
+        '#ohd-eclipse-results'
       );
 
-    var nakshatra =
-      getNakshatraName(
-        p.nakshatra
-      );
-
-    var yoga =
-      getYogaName(
-        p.yoga
-      );
-
-    var karana =
-      getKaranaName(
-        p.karana
-      );
-
-    return [
-      '<div class="ohd-ep-day-panchang">',
-      '  <div class="ohd-ep-subtitle">',
-      "इस दिन का पंचांग",
-      "  </div>",
-
-      '  <div class="ohd-ep-panchang-grid">',
-
-      row("वार", vara),
-      row("तिथि", tithi),
-      row("पक्ष", paksha),
-      row("मास", masa),
-      row("नक्षत्र", nakshatra),
-      row("योग", yoga),
-      row("करण", karana),
-
-      row(
-        "सूर्योदय",
-        fmtTime(p.sunrise)
-      ),
-
-      row(
-        "सूर्यास्त",
-        fmtTime(p.sunset)
-      ),
-
-      row(
-        "चन्द्रोदय",
-        fmtTime(p.moonrise)
-      ),
-
-      row(
-        "चन्द्रास्त",
-        fmtTime(p.moonset)
-      ),
-
-      "  </div>",
-      "</div>"
-    ].join("");
+    if (box) {
+      box.innerHTML = html;
+    }
   }
 
-  function row(
-    label,
-    value
+  function renderLoading(
+    container,
+    msg
   ) {
-    return [
-      '<div class="ohd-ep-panchang-row">',
-      "  <span>",
-      esc(label),
-      "</span>",
-      "  <strong>",
-      esc(value),
-      "</strong>",
-      "</div>"
-    ].join("");
+    setResults(
+      container,
+      '<p class="ohd-eclipse-loading">' +
+        esc(msg) +
+        '</p>'
+    );
   }
 
-  /* =========================================================
-     ECLIPSE RENDERING
-     ========================================================= */
-
-  function renderEclipseCard(
-    item,
-    location,
-    api
+  function renderError(
+    container,
+    msg
   ) {
-    var g = item.grahan;
-
-    if (!g) return "";
-
-    var peak =
-      g.contact &&
-      g.contact.peak;
-
-    var eclipseDate =
-      item.date;
-
-    var dateStr =
-      fmtDate(
-        peak || eclipseDate
-      );
-
-    var panchang;
-
-    try {
-      panchang =
-        calculateDayPanchang(
-          eclipseDate,
-          location,
-          api
-        );
-    } catch (e) {
-      logErr(
-        "Day Panchang failed:",
-        e
-      );
-
-      panchang = null;
-    }
-
-    var subtype =
-      g.subtype || "";
-
-    var visibility =
-      g.isVisible
-        ? "दृश्य"
-        : "अदृश्य";
-
-    var html = [];
-
-    html.push(
-      '<article class="ohd-ep-eclipse-card">'
+    setResults(
+      container,
+      '<p class="ohd-eclipse-error">' +
+        esc(msg) +
+        '</p>'
     );
-
-    html.push(
-      '<div class="ohd-ep-eclipse-heading">'
-    );
-
-    html.push(
-      '<div class="ohd-ep-eclipse-date">'
-    );
-
-    html.push(
-      esc(dateStr)
-    );
-
-    html.push(
-      "</div>"
-    );
-
-    html.push(
-      '<h3>'
-    );
-
-    html.push(
-      esc(
-        g.type ||
-        "ग्रहण"
-      )
-    );
-
-    if (subtype) {
-      html.push(
-        ' <span class="ohd-ep-subtype">'
-      );
-
-      html.push(
-        esc(subtype)
-      );
-
-      html.push(
-        "</span>"
-      );
-    }
-
-    html.push(
-      "</h3>"
-    );
-
-    html.push(
-      "</div>"
-    );
-
-    html.push(
-      renderDayPanchang(
-        panchang
-      )
-    );
-
-    html.push(
-      '<div class="ohd-ep-grahan-details">'
-    );
-
-    html.push(
-      '<div class="ohd-ep-subtitle">',
-      "ग्रहण का विवरण",
-      "</div>"
-    );
-
-    html.push(
-      row(
-        "दृश्यता",
-        visibility
-      )
-    );
-
-    if (
-      typeof g.obscuration ===
-      "number"
-    ) {
-      html.push(
-        row(
-          "आच्छादन",
-          (
-            g.obscuration *
-            100
-          ).toFixed(1) +
-            "%"
-        )
-      );
-    }
-
-    if (g.contact) {
-      html.push(
-        row(
-          "प्रथम स्पर्श",
-          fmtTime(
-            g.contact.firstContact
-          )
-        )
-      );
-
-      if (
-        g.contact.totalityBegin &&
-        g.contact.totalityEnd
-      ) {
-        html.push(
-          row(
-            "पूर्णता",
-            fmtRange(
-              g.contact.totalityBegin,
-              g.contact.totalityEnd
-            )
-          )
-        );
-      }
-
-      html.push(
-        row(
-          "मध्य",
-          fmtTime(
-            g.contact.peak
-          )
-        )
-      );
-
-      html.push(
-        row(
-          "मोक्ष / अंतिम स्पर्श",
-          fmtTime(
-            g.contact.lastContact
-          )
-        )
-      );
-    }
-
-    if (
-      g.sutakKaal &&
-      g.sutakKaal.start &&
-      g.sutakKaal.end
-    ) {
-      html.push(
-        row(
-          "सूतक काल",
-          fmtRange(
-            g.sutakKaal.start,
-            g.sutakKaal.end
-          )
-        )
-      );
-    }
-
-    if (
-      g.punyaKala &&
-      g.punyaKala.start &&
-      g.punyaKala.end
-    ) {
-      html.push(
-        row(
-          "पुण्य काल",
-          fmtRange(
-            g.punyaKala.start,
-            g.punyaKala.end
-          )
-        )
-      );
-    }
-
-    html.push(
-      "</div>"
-    );
-
-    if (!g.isVisible) {
-      html.push(
-        '<div class="ohd-ep-visibility-note">',
-        "इस चयनित स्थान पर यह ग्रहण खगोलीय रूप से स्थानीय रूप से दृश्य नहीं है; ",
-        "इसलिए स्थानीय दृश्यता के आधार पर इसे देखने का अवसर नहीं होगा।",
-        "</div>"
-      );
-    }
-
-    html.push(
-      "</article>"
-    );
-
-    return html.join("");
   }
 
-  /* =========================================================
-     YEAR DISCOVERY
-     ========================================================= */
+  function setLocationLabel(
+    container,
+    location
+  ) {
+    var el =
+      container.querySelector(
+        '#ohd-eclipse-loc-name'
+      );
+
+    if (!el) return;
+
+    el.textContent =
+      locationDisplayName(location);
+  }
+
+
+  /* ============================================================
+     LOCATION SEARCH
+     ============================================================ */
+
+  async function searchLocation(
+    query
+  ) {
+    var url =
+      'https://nominatim.openstreetmap.org/search' +
+      '?format=json' +
+      '&addressdetails=1' +
+      '&q=' +
+      encodeURIComponent(query) +
+      '&limit=5' +
+      '&countrycodes=in';
+
+    var response =
+      await fetch(url, {
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+    if (!response.ok) {
+      throw new Error(
+        'स्थान खोजने में समस्या हुई।'
+      );
+    }
+
+    return response.json();
+  }
+
+  function resultToLocation(item) {
+    var address =
+      item.address || {};
+
+    var city =
+      address.city ||
+      address.town ||
+      address.village ||
+      address.municipality ||
+      address.county ||
+      '';
+
+    var stateName =
+      address.state || '';
+
+    var name =
+      [
+        city,
+        stateName,
+        'भारत'
+      ]
+        .filter(Boolean)
+        .join(', ');
+
+    if (!name) {
+      name =
+        item.display_name ||
+        'चयनित स्थान';
+    }
+
+    return {
+      name: name,
+      lat: parseFloat(item.lat),
+      lon: parseFloat(item.lon),
+      elevation: 0,
+      state: stateName,
+      city: city
+    };
+  }
+
+
+  /* ============================================================
+     DISCOVERY
+     ============================================================ */
 
   function transitionToCandidate(
     endTime,
     tithiIndex
   ) {
-    var end =
-      toDate(endTime);
+    var end = toDate(endTime);
 
     if (!end) return null;
 
+    // Convert transition instant to IST civil date.
     var istMs =
       end.getTime() +
       TZ_OFFSET * 60000;
 
-    var ist =
-      new Date(istMs);
+    var ist = new Date(istMs);
 
     var y =
       ist.getUTCFullYear();
@@ -1063,6 +1039,7 @@
     var d =
       ist.getUTCDate();
 
+    // Local noon IST expressed as UTC.
     var noonUtc =
       new Date(
         Date.UTC(
@@ -1073,8 +1050,7 @@
           0,
           0
         ) -
-          TZ_OFFSET *
-          60000
+          TZ_OFFSET * 60000
       );
 
     return {
@@ -1092,75 +1068,73 @@
     var module =
       api && api.module;
 
-    var findTithiTransitions =
-      resolveFunction(
-        api,
-        "findTithiTransitions"
+    if (!module) {
+      throw new Error(
+        'Panchangam module उपलब्ध नहीं है।'
       );
+    }
+
+    var findTithiTransitions =
+      module.findTithiTransitions;
 
     var getGrahana =
-      resolveFunction(
-        api,
-        "getGrahana"
-      );
+      module.getGrahana ||
+      api.getGrahana;
 
     var Observer =
       api.Observer ||
-      (
-        module &&
-        module.Observer
-      );
+      module.Observer;
 
     if (
       typeof findTithiTransitions !==
-      "function"
+      'function'
     ) {
       throw new Error(
-        "findTithiTransitions उपलब्ध नहीं है।"
+        'findTithiTransitions उपलब्ध नहीं है।'
       );
     }
 
     if (
       typeof getGrahana !==
-      "function"
+      'function'
     ) {
       throw new Error(
-        "getGrahana उपलब्ध नहीं है।"
+        'getGrahana उपलब्ध नहीं है।'
       );
     }
 
     if (
       typeof Observer !==
-      "function"
+      'function'
     ) {
       throw new Error(
-        "Observer उपलब्ध नहीं है।"
+        'Observer उपलब्ध नहीं है।'
       );
     }
 
+    /*
+     * IST year boundaries with one-day safety margin.
+     */
     var start =
       new Date(
-        Date.UTC(
-          year,
-          0,
-          1
-        ) -
-          TZ_OFFSET *
-          60000 -
+        Date.UTC(year, 0, 1) -
+          TZ_OFFSET * 60000 -
           86400000
       );
 
     var end =
       new Date(
-        Date.UTC(
-          year + 1,
-          0,
-          1
-        ) -
-          TZ_OFFSET *
-          60000 +
+        Date.UTC(year + 1, 0, 1) -
+          TZ_OFFSET * 60000 +
           86400000
       );
+
+    log(
+      'findTithiTransitions:',
+      start.toISOString(),
+      '→',
+      end.toISOString()
+    );
 
     var raw =
       findTithiTransitions(
@@ -1173,22 +1147,20 @@
         ? raw
         : [];
 
-    var purnima = [];
-    var amavasya = [];
+    var purnimaList = [];
+    var amavasyaList = [];
 
-    list.forEach(
-      function (t) {
-        if (!t) return;
+    list.forEach(function (t) {
+      if (!t) return;
 
-        if (t.index === 14) {
-          purnima.push(t);
-        } else if (
-          t.index === 29
-        ) {
-          amavasya.push(t);
-        }
+      if (t.index === 14) {
+        purnimaList.push(t);
+      } else if (
+        t.index === 29
+      ) {
+        amavasyaList.push(t);
       }
-    );
+    });
 
     var candidates = [];
 
@@ -1196,34 +1168,32 @@
       arr,
       tithiIndex
     ) {
-      arr.forEach(
-        function (t) {
-          var c =
-            transitionToCandidate(
-              t.endTime,
-              tithiIndex
-            );
+      arr.forEach(function (t) {
+        var c =
+          transitionToCandidate(
+            t.endTime,
+            tithiIndex
+          );
 
-          if (!c) return;
+        if (!c) return;
 
-          if (
-            c.yearIst !== year
-          ) {
-            return;
-          }
-
-          candidates.push(c);
+        if (
+          c.yearIst !== year
+        ) {
+          return;
         }
-      );
+
+        candidates.push(c);
+      });
     }
 
     pushCandidates(
-      purnima,
+      purnimaList,
       14
     );
 
     pushCandidates(
-      amavasya,
+      amavasyaList,
       29
     );
 
@@ -1256,7 +1226,7 @@
           );
       } catch (e) {
         logErr(
-          "getGrahana failed:",
+          'getGrahana failed:',
           e
         );
       }
@@ -1268,53 +1238,45 @@
         });
       }
 
-      if (
-        i % 5 === 0
-      ) {
+      if (i % 5 === 0) {
         await yieldToMain();
       }
     }
 
-    /* DEDUPE */
-
+    /*
+     * Final dedupe by type + peak timestamp.
+     */
     var seen =
       Object.create(null);
 
     var unique = [];
 
-    results.forEach(
-      function (item) {
-        var g =
-          item.grahan;
+    results.forEach(function (r) {
+      var g = r.grahan;
 
-        var peak =
-          g.contact &&
-          toDate(
-            g.contact.peak
-          );
+      var peak =
+        g &&
+        g.contact &&
+        toDate(
+          g.contact.peak
+        );
 
-        var key =
-          String(
-            g.type || ""
-          ) +
-          "|" +
-          (
-            peak
-              ? peak.getTime()
-              : item.date.getTime()
-          );
+      var peakMs =
+        peak
+          ? peak.getTime()
+          : r.date.getTime();
 
-        if (seen[key]) {
-          return;
-        }
+      var key =
+        String(g.type || '') +
+        '|' +
+        peakMs;
 
-        seen[key] = true;
+      if (seen[key]) return;
 
-        unique.push(item);
-      }
-    );
+      seen[key] = true;
 
-    /* SORT */
+      unique.push(r);
+    });
 
     unique.sort(
       function (a, b) {
@@ -1347,142 +1309,483 @@
     return unique;
   }
 
-  /* =========================================================
-     SHELL
-     ========================================================= */
 
-  function buildYearOptions(
-    selected
+  /* ============================================================
+     PANCHANG HTML
+     ============================================================ */
+
+  function renderPanchangDetails(
+    dayPanchang,
+    eclipseDate
   ) {
-    var html = "";
+    var f =
+      dayPanchang.fields || {};
 
-    for (
-      var y = YEAR_MIN;
-      y <= YEAR_MAX;
-      y++
+    var sunrise =
+      dayPanchang.sunrise
+        ? fmtTime(
+            dayPanchang.sunrise,
+            TZ_OFFSET
+          )
+        : '—';
+
+    var sunset =
+      dayPanchang.sunset
+        ? fmtTime(
+            dayPanchang.sunset,
+            TZ_OFFSET
+          )
+        : '—';
+
+    var weekday =
+      fmtWeekday(
+        eclipseDate,
+        TZ_OFFSET
+      );
+
+    var rows = [
+      [
+        'वार',
+        weekday
+      ],
+      [
+        'तिथि',
+        f.tithi || '—'
+      ],
+      [
+        'पक्ष',
+        f.paksha || '—'
+      ],
+      [
+        'मास',
+        f.masa || '—'
+      ],
+      [
+        'नक्षत्र',
+        f.nakshatra || '—'
+      ]
+    ];
+
+    if (f.vikramSamvat) {
+      rows.push([
+        'विक्रम संवत',
+        String(
+          f.vikramSamvat
+        )
+      ]);
+    }
+
+    rows.push(
+      [
+        'सूर्योदय',
+        sunrise
+      ],
+      [
+        'सूर्यास्त',
+        sunset
+      ]
+    );
+
+    return [
+      '<details class="ohd-eclipse-panchang-details">',
+      '  <summary>📅 इस ग्रहण-दिन का पंचांग देखें</summary>',
+      '  <div class="ohd-eclipse-panchang-inner">',
+
+      rows
+        .map(function (row) {
+          return (
+            '<div class="ohd-panchang-row">' +
+              '<span>' +
+              esc(row[0]) +
+              '</span>' +
+              '<strong>' +
+              esc(row[1]) +
+              '</strong>' +
+            '</div>'
+          );
+        })
+        .join(''),
+
+      '  </div>',
+      '</details>'
+    ].join('');
+  }
+
+
+  /* ============================================================
+     VISIBILITY
+     ============================================================ */
+
+  function renderVisibility(
+    g
+  ) {
+    /*
+     * Strict rule:
+     * true  = दृश्य
+     * false = अदृश्य
+     * undefined = visibility not determined
+     */
+    if (g.isVisible === true) {
+      return (
+        '<p><strong>दृश्यता:</strong> दृश्य</p>'
+      );
+    }
+
+    if (g.isVisible === false) {
+      return [
+        '<p><strong>दृश्यता:</strong> अदृश्य</p>',
+        '<div class="ohd-eclipse-visibility-note">',
+        'इस चयनित स्थान पर यह ग्रहण खगोलीय रूप से स्थानीय रूप से दृश्य नहीं है। ',
+        'अतः इस स्थान से ग्रहण का दर्शन संभव नहीं होगा।',
+        '</div>'
+      ].join('');
+    }
+
+    return (
+      '<p><strong>दृश्यता:</strong> निर्धारित नहीं</p>'
+    );
+  }
+
+
+  /* ============================================================
+     ECLIPSE CARD
+     ============================================================ */
+
+  function renderEclipseCard(
+    item,
+    observer,
+    api,
+    tzOffsetMin
+  ) {
+    var g =
+      item.grahan;
+
+    if (!g) return '';
+
+    var peak =
+      g.contact &&
+      g.contact.peak;
+
+    var dateStr =
+      fmtDate(
+        peak || item.date,
+        tzOffsetMin
+      );
+
+    var html = '';
+
+    html +=
+      '<div class="ohd-eclipse-card">';
+
+    html +=
+      '<h3>' +
+      esc(dateStr) +
+      ' — ' +
+      esc(
+        g.type || 'ग्रहण'
+      ) +
+      (
+        g.subtype
+          ? ' (' +
+            esc(g.subtype) +
+            ')'
+          : ''
+      ) +
+      '</h3>';
+
+    html +=
+      renderVisibility(g);
+
+    if (
+      typeof g.obscuration ===
+        'number' &&
+      isFinite(
+        g.obscuration
+      )
     ) {
       html +=
-        '<option value="' +
-        y +
-        '"' +
+        '<p><strong>आच्छादन:</strong> ' +
         (
-          y === selected
-            ? " selected"
-            : ""
-        ) +
-        ">" +
-        y +
-        "</option>";
+          g.obscuration * 100
+        ).toFixed(1) +
+        '%</p>';
     }
+
+    if (g.contact) {
+      if (
+        g.contact.firstContact
+      ) {
+        html +=
+          '<p><strong>प्रथम स्पर्श:</strong> ' +
+          esc(
+            fmtTime(
+              g.contact.firstContact,
+              tzOffsetMin
+            )
+          ) +
+          '</p>';
+      }
+
+      if (
+        g.contact.totalityBegin &&
+        g.contact.totalityEnd
+      ) {
+        html +=
+          '<p><strong>पूर्णता:</strong> ' +
+          esc(
+            fmtTime(
+              g.contact.totalityBegin,
+              tzOffsetMin
+            )
+          ) +
+          ' — ' +
+          esc(
+            fmtTime(
+              g.contact.totalityEnd,
+              tzOffsetMin
+            )
+          ) +
+          '</p>';
+      }
+
+      if (g.contact.peak) {
+        html +=
+          '<p><strong>मध्य:</strong> ' +
+          esc(
+            fmtTime(
+              g.contact.peak,
+              tzOffsetMin
+            )
+          ) +
+          '</p>';
+      }
+
+      if (
+        g.contact.lastContact
+      ) {
+        html +=
+          '<p><strong>अंतिम स्पर्श:</strong> ' +
+          esc(
+            fmtTime(
+              g.contact.lastContact,
+              tzOffsetMin
+            )
+          ) +
+          '</p>';
+      }
+    }
+
+    if (
+      g.sutakKaal &&
+      g.sutakKaal.start &&
+      g.sutakKaal.end
+    ) {
+      html +=
+        '<p><strong>सूतक काल:</strong> ' +
+        esc(
+          fmtTime(
+            g.sutakKaal.start,
+            tzOffsetMin
+          )
+        ) +
+        ' — ' +
+        esc(
+          fmtTime(
+            g.sutakKaal.end,
+            tzOffsetMin
+          )
+        ) +
+        '</p>';
+    }
+
+    if (
+      g.punyaKala &&
+      g.punyaKala.start &&
+      g.punyaKala.end
+    ) {
+      html +=
+        '<p><strong>पुण्य काल:</strong> ' +
+        esc(
+          fmtTime(
+            g.punyaKala.start,
+            tzOffsetMin
+          )
+        ) +
+        ' — ' +
+        esc(
+          fmtTime(
+            g.punyaKala.end,
+            tzOffsetMin
+          )
+        ) +
+        '</p>';
+    }
+
+    /*
+     * IMPORTANT:
+     * Day Panchang is calculated only for an actual
+     * eclipse result. It is NOT calculated during discovery.
+     */
+    try {
+      var dayPanchang =
+        getDayPanchang(
+          item.date,
+          observer,
+          api
+        );
+
+      html +=
+        renderPanchangDetails(
+          dayPanchang,
+          item.date
+        );
+    } catch (e) {
+      logErr(
+        'Day Panchang failed:',
+        e
+      );
+
+      /*
+       * Do not fabricate Panchang values.
+       * Eclipse card remains valid without them.
+       */
+      html +=
+        '<details class="ohd-eclipse-panchang-details">' +
+        '<summary>📅 इस ग्रहण-दिन का पंचांग देखें</summary>' +
+        '<div class="ohd-eclipse-panchang-inner">' +
+        '<p>इस दिन का पंचांग उपलब्ध नहीं हो सका।</p>' +
+        '</div>' +
+        '</details>';
+    }
+
+    html +=
+      '</div>';
 
     return html;
   }
 
-  function renderShell(
-    container,
-    year,
-    location
-  ) {
-    container.innerHTML = [
-      '<div class="ohd-ep-wrap">',
 
-      '<div class="ohd-ep-control-box">',
+  /* ============================================================
+     PURASHCHARANA CTA
+     ============================================================ */
 
-      '<div class="ohd-ep-year-control">',
-      "<label>",
-      "<span>वर्ष</span>",
-      '<select id="ohd-eclipse-year">',
-      buildYearOptions(year),
-      "</select>",
-      "</label>",
-      "</div>",
+  function renderPurashcharanaCard() {
+    return [
+      '<section class="ohd-section ohd-purashcharan-card">',
 
-      renderLocationCard(
-        location
-      ),
+      '<h2>📿 ग्रहण में मन्त्र-पुरश्चरण</h2>',
 
-      "</div>",
+      '<p>',
+      'ग्रहणकाल में मन्त्र-जप और पुरश्चरण के सम्बन्ध में ',
+      'शास्त्रीय ग्रन्थों में विशेष विधि का वर्णन मिलता है। ',
+      'स्पर्श से मोक्ष तक मन्त्र-जप तथा उसके पश्चात् ',
+      'होम, तर्पण, अभिषेक और ब्राह्मण-भोजन आदि की विधि ',
+      'विस्तार से जानने के लिए सम्पूर्ण आलेख देखें।',
+      '</p>',
 
-      '<div id="ohd-eclipse-results" class="ohd-ep-results"></div>',
+      '<div class="ohd-shloka">',
+      'अथवान्य-प्रकारेण पौरश्चारणिको-विधिः।<br>',
+      'चन्द्र-सूर्योपरागे च स्नात्वा प्रयत-मानसः।<br>',
+      'स्पर्शनादि-विमोक्षान्तं जपेन्मन्त्रं समाहितः॥',
+      '</div>',
 
-      "</div>"
-    ].join("");
+      '<a class="ohd-purashcharan-link"',
+      ' href="',
+      PURASHCHARANA_URL,
+      '" target="_blank" rel="noopener">',
+      '📖 ग्रहण में मन्त्र-पुरश्चरण की सम्पूर्ण विधि पढ़ें →',
+      '</a>',
+
+      '</section>'
+    ].join('');
   }
 
- function renderLoading(container) {
-  var box = container.querySelector("#ohd-eclipse-results");
-  if (!box) return;
 
-  box.innerHTML =
-    '<div class="ohd-ep-loading">ग्रहण की गणना जारी है…</div>';
-}
+  /* ============================================================
+     RENDER ALL ECLIPSES
+     ============================================================ */
 
-  function renderError(
-    container,
-    message
-  ) {
-    var box =
-      container.querySelector(
-        "#ohd-eclipse-results"
-      );
-
-    if (!box) return;
-
-    box.innerHTML =
-      '<div class="ohd-ep-error">' +
-      esc(message) +
-      "</div>";
-  }
-
-  function renderResults(
+  function renderEclipses(
     container,
     eclipses,
     location,
-    api
+    api,
+    tzOffsetMin
   ) {
-    var box =
-      container.querySelector(
-        "#ohd-eclipse-results"
-      );
-
-    if (!box) return;
-
     if (
       !eclipses ||
-      !eclipses.length
+      eclipses.length === 0
     ) {
-      box.innerHTML =
-        '<div class="ohd-ep-none">' +
-        "इस वर्ष चयनित स्थान के लिए इस गणना में कोई स्थानीय ग्रहण परिणाम नहीं मिला।" +
-        "</div>";
+      setResults(
+        container,
+        [
+          '<p class="ohd-eclipse-none">',
+          'वर्ष ',
+          esc(
+            String(
+              state.controller
+                ? state.controller.year
+                : ''
+            )
+          ),
+          ' में ',
+          esc(
+            locationDisplayName(
+              location
+            )
+          ),
+          ' के लिए कोई खगोलीय ग्रहण ',
+          'इस गणना से प्राप्त नहीं हुआ।',
+          '</p>'
+        ].join('')
+      );
 
       return;
     }
 
-    var html = "";
+    var observer =
+      new api.Observer(
+        location.lat,
+        location.lon,
+        location.elevation || 0
+      );
+
+    var html = '';
 
     eclipses.forEach(
       function (item) {
         html +=
           renderEclipseCard(
             item,
-            location,
-            api
+            observer,
+            api,
+            tzOffsetMin
           );
       }
     );
 
-    box.innerHTML = html;
+    /*
+     * Article CTA is deliberately after the results.
+     * This keeps the primary eclipse information first.
+     */
+    html +=
+      renderPurashcharanaCard();
+
+    setResults(
+      container,
+      html
+    );
   }
 
-  /* =========================================================
+
+  /* ============================================================
      CONTROLLER
-     ========================================================= */
+     ============================================================ */
 
   function createController() {
     var ctl = {
       container: null,
-      year: new Date().getFullYear(),
+      year: YEAR_MIN,
       location: null,
       api: null,
       runId: 0,
@@ -1498,18 +1801,16 @@
         return;
       }
 
-      var currentRun =
+      /*
+       * Every new run invalidates the previous one.
+       */
+      var myId =
         ++ctl.runId;
 
       renderLoading(
-        ctl.container
+        ctl.container,
+        'ग्रहण की गणना जारी है...'
       );
-
-      var started =
-        performance &&
-        performance.now
-          ? performance.now()
-          : Date.now();
 
       try {
         var eclipses =
@@ -1520,86 +1821,35 @@
           );
 
         if (
-          currentRun !==
-          ctl.runId
+          myId !== ctl.runId
         ) {
           return;
         }
 
-        var elapsed =
-          (
-            performance &&
-            performance.now
-          )
-            ? performance.now() -
-              started
-            : Date.now() -
-              started;
-
-        log(
-          "Eclipse discovery:",
-          Math.round(
-            elapsed
-          ) + " ms"
-        );
-
-        renderResults(
+        renderEclipses(
           ctl.container,
           eclipses,
           ctl.location,
-          ctl.api
+          ctl.api,
+          TZ_OFFSET
         );
       } catch (e) {
         if (
-          currentRun !==
-          ctl.runId
+          myId !== ctl.runId
         ) {
           return;
         }
 
-        logErr(e);
+        logErr(
+          'Discovery failed:',
+          e
+        );
 
         renderError(
           ctl.container,
-          "ग्रहण जानकारी लोड करने में त्रुटि हुई। कृपया पुनः प्रयास करें।"
+          'ग्रहण जानकारी लोड करने में त्रुटि। कृपया पुनः प्रयास करें।'
         );
       }
-    }
-
-    function wireControls() {
-      if (ctl.wired) return;
-
-      var select =
-        ctl.container.querySelector(
-          "#ohd-eclipse-year"
-        );
-
-      if (select) {
-        select.addEventListener(
-          "change",
-          function (event) {
-            var year =
-              parseInt(
-                event.target.value,
-                10
-              );
-
-            if (
-              !isFinite(year) ||
-              year < YEAR_MIN ||
-              year > YEAR_MAX
-            ) {
-              return;
-            }
-
-            ctl.year = year;
-
-            run();
-          }
-        );
-      }
-
-      ctl.wired = true;
     }
 
     function attach(
@@ -1619,48 +1869,333 @@
       wireControls();
     }
 
-    function setLocation(
-      location
-    ) {
-      ctl.location =
-        location;
+    function wireControls() {
+      if (ctl.wired) {
+        return;
+      }
 
-      if (ctl.container) {
-        renderShell(
-          ctl.container,
-          ctl.year,
-          ctl.location
+      var sel =
+        ctl.container.querySelector(
+          '#ohd-eclipse-year'
         );
 
-        ctl.wired = false;
+      if (sel) {
+        sel.addEventListener(
+          'change',
+          function (e) {
+            var y =
+              parseInt(
+                e.target.value,
+                10
+              );
 
-        wireControls();
+            if (
+              !isFinite(y) ||
+              y < YEAR_MIN ||
+              y > YEAR_MAX
+            ) {
+              return;
+            }
+
+            ctl.year = y;
+
+            run();
+          }
+        );
+      }
+
+      var searchInput =
+        ctl.container.querySelector(
+          '#ohd-eclipse-location-input'
+        );
+
+      var searchBtn =
+        ctl.container.querySelector(
+          '#ohd-eclipse-location-search-btn'
+        );
+
+      if (
+        searchBtn &&
+        searchInput
+      ) {
+        searchBtn.addEventListener(
+          'click',
+          function () {
+            performLocationSearch(
+              searchInput.value
+            );
+          }
+        );
+
+        searchInput.addEventListener(
+          'keydown',
+          function (e) {
+            if (
+              e.key === 'Enter'
+            ) {
+              e.preventDefault();
+
+              performLocationSearch(
+                searchInput.value
+              );
+            }
+          }
+        );
+      }
+
+      var gpsBtn =
+        ctl.container.querySelector(
+          '#ohd-eclipse-gps-btn'
+        );
+
+      if (gpsBtn) {
+        gpsBtn.addEventListener(
+          'click',
+          useCurrentLocation
+        );
+      }
+
+      ctl.wired = true;
+    }
+
+    async function performLocationSearch(
+      query
+    ) {
+      query =
+        String(
+          query || ''
+        ).trim();
+
+      if (!query) {
+        return;
+      }
+
+      var resultsBox =
+        ctl.container.querySelector(
+          '#ohd-eclipse-location-results'
+        );
+
+      if (!resultsBox) {
+        return;
+      }
+
+      resultsBox.innerHTML =
+        '<p>स्थान खोजा जा रहा है...</p>';
+
+      try {
+        var results =
+          await searchLocation(
+            query
+          );
+
+        if (
+          !Array.isArray(
+            results
+          ) ||
+          results.length === 0
+        ) {
+          resultsBox.innerHTML =
+            '<p>कोई स्थान नहीं मिला।</p>';
+
+          return;
+        }
+
+        resultsBox.innerHTML =
+          results
+            .map(
+              function (item, index) {
+                return (
+                  '<button type="button" ' +
+                  'class="ohd-eclipse-location-result" ' +
+                  'data-location-index="' +
+                  index +
+                  '">' +
+                  esc(
+                    item.display_name ||
+                    'स्थान'
+                  ) +
+                  '</button>'
+                );
+              }
+            )
+            .join('');
+
+        Array.prototype.forEach.call(
+          resultsBox.querySelectorAll(
+            '[data-location-index]'
+          ),
+          function (btn) {
+            btn.addEventListener(
+              'click',
+              function () {
+                var index =
+                  parseInt(
+                    btn.getAttribute(
+                      'data-location-index'
+                    ),
+                    10
+                  );
+
+                var selected =
+                  results[index];
+
+                if (!selected) {
+                  return;
+                }
+
+                var location =
+                  resultToLocation(
+                    selected
+                  );
+
+                if (
+                  !isFinite(
+                    location.lat
+                  ) ||
+                  !isFinite(
+                    location.lon
+                  )
+                ) {
+                  return;
+                }
+
+                saveAndRunLocation(
+                  location
+                );
+              }
+            );
+          }
+        );
+      } catch (e) {
+        logErr(
+          'Location search failed:',
+          e
+        );
+
+        resultsBox.innerHTML =
+          '<p>स्थान खोजने में समस्या हुई।</p>';
       }
     }
 
+    function useCurrentLocation() {
+      if (
+        !navigator.geolocation
+      ) {
+        renderError(
+          ctl.container,
+          'इस ब्राउज़र में GPS उपलब्ध नहीं है।'
+        );
+
+        return;
+      }
+
+      renderLoading(
+        ctl.container,
+        'वर्तमान स्थान प्राप्त किया जा रहा है...'
+      );
+
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          var coords =
+            position.coords;
+
+          var location = {
+            name: 'वर्तमान स्थान',
+            lat: coords.latitude,
+            lon: coords.longitude,
+            elevation:
+              typeof coords.altitude ===
+              'number'
+                ? coords.altitude
+                : 0,
+            state: '',
+            city: ''
+          };
+
+          saveAndRunLocation(
+            location
+          );
+        },
+        function (error) {
+          logErr(
+            'Geolocation failed:',
+            error
+          );
+
+          renderError(
+            ctl.container,
+            'वर्तमान स्थान प्राप्त नहीं हो सका। कृपया स्थान खोज का उपयोग करें।'
+          );
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 300000
+        }
+      );
+    }
+
+    function saveAndRunLocation(
+      location
+    ) {
+      saveLocation(
+        location
+      );
+
+      ctl.location =
+        location;
+
+      ctl.runId++;
+
+      setLocationLabel(
+        ctl.container,
+        location
+      );
+
+      var resultsBox =
+        ctl.container.querySelector(
+          '#ohd-eclipse-location-results'
+        );
+
+      if (resultsBox) {
+        resultsBox.innerHTML =
+          '';
+      }
+
+      run();
+    }
+
+    function setYear(y) {
+      ctl.year = y;
+    }
+
+    function setLocation(loc) {
+      ctl.location =
+        loc;
+    }
+
     function setApi(api) {
-      ctl.api = api;
+      ctl.api =
+        api;
     }
 
     return {
       attach: attach,
+      setYear: setYear,
       setLocation: setLocation,
       setApi: setApi,
       run: run,
 
       get year() {
         return ctl.year;
-      },
-
-      setYear: function (y) {
-        ctl.year = y;
       }
     };
   }
 
-  /* =========================================================
+
+  /* ============================================================
      PUBLIC INIT
-     ========================================================= */
+     ============================================================ */
 
   async function initEclipsePanchang(
     requestedYear
@@ -1672,165 +2207,172 @@
 
     if (!container) {
       log(
-        "Container not found."
+        'Container #' +
+          CONTAINER_ID +
+          ' not found.'
       );
 
       return null;
     }
 
-    var ctl;
+    renderStyles();
 
+    /*
+     * Reuse existing controller.
+     */
     if (
       state.initialized &&
       state.controller
     ) {
-      ctl =
+      var ctl =
         state.controller;
-    } else {
-      ctl =
-        createController();
 
-      state.controller =
-        ctl;
+      var y =
+        typeof requestedYear ===
+        'number'
+          ? requestedYear
+          : ctl.year;
 
-      state.initialized =
-        true;
+      if (
+        y >= YEAR_MIN &&
+        y <= YEAR_MAX
+      ) {
+        ctl.setYear(y);
+      }
+
+      var location =
+        readLocation();
+
+      ctl.attach(
+        container
+      );
+
+      if (!location) {
+        ctl.setLocation(
+          null
+        );
+
+        renderError(
+          container,
+          'स्थान उपलब्ध नहीं है। कृपया ऊपर स्थान खोजें या वर्तमान स्थान का उपयोग करें।'
+        );
+
+        return ctl;
+      }
+
+      ctl.setLocation(
+        location
+      );
+
+      if (!ctl.api) {
+        try {
+          ctl.setApi(
+            await waitForSharedApi()
+          );
+        } catch (e) {
+          logErr(e);
+
+          renderError(
+            container,
+            'पंचांग लाइब्रेरी लोड नहीं हो सकी।'
+          );
+
+          return ctl;
+        }
+      }
+
+      ctl.run();
+
+      return ctl;
     }
+
+
+    /* ==========================================================
+       FIRST INIT
+       ========================================================== */
+
+    var controller =
+      createController();
+
+    state.controller =
+      controller;
+
+    state.initialized =
+      true;
 
     var year =
       typeof requestedYear ===
-      "number"
+      'number'
         ? requestedYear
-        : ctl.year;
+        : new Date().getFullYear();
 
     if (
       year < YEAR_MIN ||
       year > YEAR_MAX
     ) {
-      year =
-        new Date().getFullYear();
-
-      if (
-        year < YEAR_MIN ||
-        year > YEAR_MAX
-      ) {
-        year = YEAR_MIN;
-      }
+      year = YEAR_MIN;
     }
 
-    ctl.setYear(year);
+    controller.setYear(
+      year
+    );
+
+    controller.attach(
+      container
+    );
+
+    renderLoading(
+      container,
+      'स्थान लोड हो रहा है...'
+    );
 
     var location =
       readLocation();
 
-    ctl.location =
-      location;
-
-    ctl.attach(
-      container
-    );
-
     if (!location) {
       renderError(
         container,
-        "स्थान उपलब्ध नहीं है। कृपया मुख्य पंचांग में स्थान चुनें।"
+        'स्थान उपलब्ध नहीं है। कृपया ऊपर स्थान खोजें या वर्तमान स्थान का उपयोग करें।'
       );
 
-      return ctl;
+      return controller;
     }
 
-    try {
-      var api =
-        ctl.api ||
-        await waitForSharedApi();
+    controller.setLocation(
+      location
+    );
 
-      ctl.setApi(api);
+    var api;
+
+    try {
+      api =
+        await waitForSharedApi();
     } catch (e) {
       logErr(e);
 
       renderError(
         container,
-        "पंचांग लाइब्रेरी लोड नहीं हो सकी।"
+        'पंचांग लाइब्रेरी लोड नहीं हो सकी।'
       );
 
-      return ctl;
+      return controller;
     }
 
-    await ctl.run();
+    controller.setApi(
+      api
+    );
 
-    return ctl;
+    await controller.run();
+
+    return controller;
   }
 
-  /* =========================================================
-     GLOBAL SYNC
-     ========================================================= */
 
-  window.addEventListener(
-    "storage",
-    function (event) {
-      if (
-        event.key !==
-        STORAGE_KEY
-      ) {
-        return;
-      }
-
-      if (
-        !state.controller
-      ) {
-        return;
-      }
-
-      initEclipsePanchang(
-        state.controller.year
-      );
-    }
-  );
-
-  document.addEventListener(
-    "visibilitychange",
-    function () {
-      if (
-        document.visibilityState !==
-        "visible"
-      ) {
-        return;
-      }
-
-      if (
-        !state.controller
-      ) {
-        return;
-      }
-
-      var latest =
-        readLocation();
-
-      if (!latest) return;
-
-      var old =
-        state.controller.location;
-
-      if (
-        !old ||
-        old.lat !== latest.lat ||
-        old.lon !== latest.lon ||
-        old.elevation !==
-          latest.elevation
-      ) {
-        initEclipsePanchang(
-          state.controller.year
-        );
-      }
-    }
-  );
-
-  /*
-   * IMPORTANT:
-   * No auto-init.
-   * Blogger explicitly calls this.
-   */
+  /* ============================================================
+     PUBLIC API
+     ============================================================ */
 
   window.initEclipsePanchang =
     initEclipsePanchang;
+
 })();
