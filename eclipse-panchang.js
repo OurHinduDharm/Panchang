@@ -162,6 +162,7 @@
     Shravana: 'श्रावण',
     Bhadrapada: 'भाद्रपद',
     Ashwin: 'आश्विन',
+    Ashwina: 'आश्विन',
     Kartika: 'कार्तिक',
     Margashirsha: 'मार्गशीर्ष',
     Pausha: 'पौष',
