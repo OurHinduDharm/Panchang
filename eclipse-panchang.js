@@ -1436,38 +1436,23 @@
   /* ============================================================
      VISIBILITY
      ============================================================ */
-
- function renderVisibility(g, location) {
-  var city = '';
+function renderVisibility(g, location) {
+  var placeName = 'चयनित स्थान';
 
   if (location) {
-    city = String(location.city || '').trim();
+    var fullName = locationDisplayName(location);
 
-    /*
-     * यदि city अलग field में उपलब्ध नहीं है,
-     * तो location.name के पहले भाग से शहर लें।
-     *
-     * उदाहरण:
-     * "Mumbai, Maharashtra, भारत"
-     * → "Mumbai"
-     */
-    if (!city) {
-      var name = String(location.name || '').trim();
-
-      if (name) {
-        city = name
-          .split(',')
-          .map(function (part) {
-            return part.trim();
-          })
-          .filter(function (part) {
-            return part;
-          })[0] || '';
-      }
+    if (fullName && fullName !== 'अपने शहर का नाम डालें') {
+      placeName = String(fullName)
+        .split(',')
+        .map(function (part) {
+          return part.trim();
+        })
+        .filter(function (part) {
+          return part;
+        })[0] || placeName;
     }
   }
-
-  var placeName = city || 'चयनित स्थान';
 
   if (g.isVisible === true) {
     return [
@@ -1497,6 +1482,7 @@
     ' में दृश्यता निर्धारित नहीं</p>'
   ].join('');
 }
+
 
   /* ============================================================
      ECLIPSE CARD
