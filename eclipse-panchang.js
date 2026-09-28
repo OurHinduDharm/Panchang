@@ -1437,28 +1437,48 @@
      VISIBILITY
      ============================================================ */
 
-  function renderVisibility(g) {
-    if (g.isVisible === true) {
-      return (
-        '<p><strong>दृश्यता:</strong> दृश्य</p>'
-      );
-    }
+ function renderVisibility(g, location) {
+  var city = '';
 
-    if (g.isVisible === false) {
-      return [
-        '<p><strong>दृश्यता:</strong> अदृश्य</p>',
-        '<div class="ohd-eclipse-visibility-note">',
-        'इस चयनित स्थान पर यह ग्रहण ',
-        'खगोलीय रूप से स्थानीय रूप से दृश्य नहीं है। ',
-        'अतः इस स्थान से ग्रहण का दर्शन संभव नहीं होगा।',
-        '</div>'
-      ].join('');
-    }
-
-    return (
-      '<p><strong>दृश्यता:</strong> निर्धारित नहीं</p>'
-    );
+  if (location) {
+    city = String(location.city || '').trim();
   }
+
+  /*
+   * वास्तविक city उपलब्ध हो तो वही दिखाएँ।
+   * GPS में city खाली हो सकता है, इसलिए वहाँ
+   * केवल "चयनित स्थान" लिखा जाएगा।
+   */
+  var placeName = city || 'चयनित स्थान';
+
+  if (g.isVisible === true) {
+    return [
+      '<p><strong>दृश्यता:</strong> ',
+      '<span style="color:green;font-weight:700;">✓</span> ',
+      esc(placeName),
+      ' में दृश्य</p>'
+    ].join('');
+  }
+
+  if (g.isVisible === false) {
+    return [
+      '<p><strong>दृश्यता:</strong> ',
+      esc(placeName),
+      ' में अदृश्य</p>',
+      '<div class="ohd-eclipse-visibility-note">',
+      'इस चयनित स्थान पर यह ग्रहण ',
+      'खगोलीय रूप से स्थानीय रूप से दृश्य नहीं है। ',
+      'अतः इस स्थान से ग्रहण का दर्शन संभव नहीं होगा।',
+      '</div>'
+    ].join('');
+  }
+
+  return [
+    '<p><strong>दृश्यता:</strong> ',
+    esc(placeName),
+    ' में दृश्यता निर्धारित नहीं</p>'
+  ].join('');
+}
 
   /* ============================================================
      ECLIPSE CARD
@@ -1494,7 +1514,7 @@
         : '') +
       '</h3>';
 
-    html += renderVisibility(g);
+    html += renderVisibility(g, state.controller.location);
 
     if (
       typeof g.obscuration === 'number' &&
