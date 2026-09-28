@@ -25,7 +25,7 @@
      ============================================================ */
 
   var CONTAINER_ID = 'ohd-eclipse-panchang';
-  var STORAGE_KEY = 'ohdPanchangLocation';
+var APP_CONTAINER_ID = 'ohd-eclipse-app';
 
   // Existing OurHinduDharm convention.
   var TZ_OFFSET = 330;
@@ -274,16 +274,28 @@ var NAKSHATRA_MAP = {
     }
   }
 
-  function locationDisplayName(location) {
-    if (!location) return 'स्थान उपलब्ध नहीं';
+function locationDisplayName(location) {
+  if (!location) return 'स्थान उपलब्ध नहीं';
 
-    return (
-      location.name ||
-      location.city ||
-      location.state ||
-      'चयनित स्थान'
-    );
+  var city = String(location.city || '').trim();
+  var state = String(location.state || '').trim();
+  var name = String(location.name || '').trim();
+
+  // यदि city/state उपलब्ध हैं तो इन्हें प्राथमिकता दें।
+  if (city && state) {
+    return city + ', ' + state + ', भारत';
   }
+
+  if (city) {
+    return city + (name.indexOf('भारत') >= 0 ? '' : ', भारत');
+  }
+
+  if (state) {
+    return state + (name.indexOf('भारत') >= 0 ? '' : ', भारत');
+  }
+
+  return name || 'चयनित स्थान';
+}
 
 
   /* ============================================================
@@ -831,72 +843,101 @@ var NAKSHATRA_MAP = {
     document.head.appendChild(style);
   }
 
-  function renderShell(
-    container,
-    year,
-    location
-  ) {
-    var locName =
-      locationDisplayName(location);
+ function renderShell(
+  container,
+  year,
+  location
+) {
+  var locName = locationDisplayName(location);
 
-    container.innerHTML = [
-      '<div class="ohd-eclipse-wrap">',
+  /*
+   * IMPORTANT:
+   * Blogger के static content को कभी replace नहीं करना है।
+   *
+   * केवल #ohd-eclipse-app dynamic application mount है।
+   */
+  var app =
+    container.querySelector(
+      '#' + APP_CONTAINER_ID
+    );
 
-      '  <div class="ohd-eclipse-controls">',
+  if (!app) {
+    app = document.createElement('div');
+    app.id = APP_CONTAINER_ID;
+    app.className = 'ohd-eclipse-app';
 
-      '    <label class="ohd-eclipse-field">',
-      '      <span>वर्ष:</span>',
-      '      <select id="ohd-eclipse-year">',
-      buildYearOptions(year),
-      '      </select>',
-      '    </label>',
-
-      '    <div class="ohd-eclipse-loc">',
-      '      <span class="ohd-eclipse-loc-name" id="ohd-eclipse-loc-name">',
-      esc(locName),
-      '      </span>',
-      '    </div>',
-
-      '  </div>',
-
-      '  <div class="ohd-eclipse-location-tools">',
-
-      '    <div class="ohd-eclipse-location-search">',
-      '      <input id="ohd-eclipse-location-input" type="search" placeholder="शहर / स्थान खोजें..." autocomplete="off">',
-      '      <button type="button" id="ohd-eclipse-location-search-btn">स्थान खोजें</button>',
-      '    </div>',
-
-      '    <div class="ohd-eclipse-gps">',
-      '      <button type="button" id="ohd-eclipse-gps-btn">📍 वर्तमान स्थान का उपयोग करें</button>',
-      '    </div>',
-
-      '    <div id="ohd-eclipse-location-results" class="ohd-eclipse-location-results"></div>',
-
-      '  </div>',
-
-      '  <div class="ohd-eclipse-hint">',
-      esc(LOCATION_HINT),
-      '  </div>',
-
-      '  <div class="ohd-eclipse-results" id="ohd-eclipse-results"></div>',
-
-      '</div>'
-    ].join('');
+    /*
+     * Dynamic application को static Blogger content के
+     * बाद render करें।
+     */
+    container.appendChild(app);
   }
 
-  function setResults(
-    container,
-    html
-  ) {
-    var box =
-      container.querySelector(
-        '#ohd-eclipse-results'
-      );
+  app.innerHTML = [
+    '<div class="ohd-eclipse-wrap">',
 
-    if (box) {
-      box.innerHTML = html;
-    }
+    '  <div class="ohd-eclipse-controls">',
+
+    '    <label class="ohd-eclipse-field">',
+    '      <span>वर्ष:</span>',
+    '      <select id="ohd-eclipse-year">',
+    buildYearOptions(year),
+    '      </select>',
+    '    </label>',
+
+    '    <div class="ohd-eclipse-loc">',
+    '      <span class="ohd-eclipse-loc-name" id="ohd-eclipse-loc-name">',
+    esc(locName),
+    '      </span>',
+    '    </div>',
+
+    '  </div>',
+
+    '  <div class="ohd-eclipse-location-tools">',
+
+    '    <div class="ohd-eclipse-location-search">',
+    '      <input id="ohd-eclipse-location-input" type="search" placeholder="शहर / स्थान खोजें..." autocomplete="off">',
+    '      <button type="button" id="ohd-eclipse-location-search-btn">स्थान खोजें</button>',
+    '    </div>',
+
+    '    <div class="ohd-eclipse-gps">',
+    '      <button type="button" id="ohd-eclipse-gps-btn">📍 वर्तमान स्थान का उपयोग करें</button>',
+    '    </div>',
+
+    '    <div id="ohd-eclipse-location-results" class="ohd-eclipse-location-results"></div>',
+
+    '  </div>',
+
+    '  <div class="ohd-eclipse-hint">',
+    esc(LOCATION_HINT),
+    '  </div>',
+
+    '  <div class="ohd-eclipse-results" id="ohd-eclipse-results"></div>',
+
+    '</div>'
+  ].join('');
+}
+
+function setResults(
+  container,
+  html
+) {
+  var app =
+    container.querySelector(
+      '#' + APP_CONTAINER_ID
+    );
+
+  if (!app) return;
+
+  var box =
+    app.querySelector(
+      '#ohd-eclipse-results'
+    );
+
+  if (box) {
+    box.innerHTML = html;
   }
+}
 
   function renderLoading(
     container,
@@ -922,20 +963,27 @@ var NAKSHATRA_MAP = {
     );
   }
 
-  function setLocationLabel(
-    container,
-    location
-  ) {
-    var el =
-      container.querySelector(
-        '#ohd-eclipse-loc-name'
-      );
+function setLocationLabel(
+  container,
+  location
+) {
+  var app =
+    container.querySelector(
+      '#' + APP_CONTAINER_ID
+    );
 
-    if (!el) return;
+  if (!app) return;
 
-    el.textContent =
-      locationDisplayName(location);
-  }
+  var el =
+    app.querySelector(
+      '#ohd-eclipse-loc-name'
+    );
+
+  if (!el) return;
+
+  el.textContent =
+    locationDisplayName(location);
+}
 
 
   /* ============================================================
