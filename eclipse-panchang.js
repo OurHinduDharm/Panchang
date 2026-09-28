@@ -284,7 +284,7 @@
 
   function locationDisplayName(location) {
     if (!location) {
-      return 'स्थान उपलब्ध नहीं';
+      return 'अपने शहर का नाम डालें';
     }
 
     var city = String(location.city || '').trim();
