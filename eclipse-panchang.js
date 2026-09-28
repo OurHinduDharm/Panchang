@@ -1409,21 +1409,13 @@
     ].join("");
   }
 
-  function renderLoading(
-    container
-  ) {
-    var box =
-      container.querySelector(
-        "#ohd-eclipse-results"
-      );
+ function renderLoading(container) {
+  var box = container.querySelector("#ohd-eclipse-results");
+  if (!box) return;
 
-    if (!box) return;
-
-    box.innerHTML =
-      '<div class="ohd-ep-loading">',
-      "ग्रहण की गणना जारी है…",
-      "</div>";
-  }
+  box.innerHTML =
+    '<div class="ohd-ep-loading">ग्रहण की गणना जारी है…</div>';
+}
 
   function renderError(
     container,
