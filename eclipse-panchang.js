@@ -1491,7 +1491,8 @@ function renderVisibility(g, location) {
   function renderEclipseCard(
     item,
     observer,
-    api
+    api,
+  location
   ) {
     var g = item.grahan;
     if (!g) {
@@ -1518,7 +1519,7 @@ function renderVisibility(g, location) {
         : '') +
       '</h3>';
 
-    html += renderVisibility(g, state.controller.location);
+  html += renderVisibility(g, location);
 
     if (
       typeof g.obscuration === 'number' &&
@@ -1755,7 +1756,8 @@ function renderVisibility(g, location) {
       html += renderEclipseCard(
         item,
         observer,
-        api
+        api,
+  location
       );
     });
 
