@@ -703,12 +703,12 @@
         display: none;
       }
       .ohd-eclipse-panchang-details summary::after {
-        content: "⌄";
+        content: "\002B";
         float: right;
         font-weight: 700;
       }
       .ohd-eclipse-panchang-details[open] summary::after {
-        content: "⌃";
+        content: "\2212";
       }
       .ohd-eclipse-panchang-inner {
         padding: 4px 0 10px;
