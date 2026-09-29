@@ -101,7 +101,58 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   }
+  /* ============================================================
+     SVG ICONS — PRESENTATION ONLY
+     No calculation logic depends on these icons.
+     ============================================================ */
 
+  var ICON = {
+    location:
+      '<svg class="ohd-icon ohd-icon-location" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z" fill="none" stroke="currentColor" stroke-width="1.8"/>' +
+      '<circle cx="12" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/>' +
+      '</svg>',
+
+    gps:
+      '<svg class="ohd-icon ohd-icon-gps" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/>' +
+      '<circle cx="12" cy="12" r="2.2" fill="currentColor"/>' +
+      '<path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>' +
+      '</svg>',
+
+    search:
+      '<svg class="ohd-icon ohd-icon-search" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<circle cx="10.8" cy="10.8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.9"/>' +
+      '<path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>' +
+      '</svg>',
+
+    calendar:
+      '<svg class="ohd-icon ohd-icon-calendar" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/>' +
+      '<path d="M7 3v4M17 3v4M3.5 9h17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>' +
+      '<path d="M8 13h3M13 13h3M8 16.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
+      '</svg>',
+
+    book:
+      '<svg class="ohd-icon ohd-icon-book" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21V4.5Z" fill="none" stroke="currentColor" stroke-width="1.7"/>' +
+      '<path d="M4 4.5v16.2M8 6h8M8 9h8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' +
+      '</svg>',
+
+    eclipseSun:
+      '<svg class="ohd-icon ohd-icon-eclipse-sun" viewBox="0 0 32 32" aria-hidden="true" focusable="false">' +
+      '<circle cx="16" cy="16" r="8.2" fill="currentColor"/>' +
+      '<circle cx="13" cy="13" r="7.8" fill="currentColor"/>' +
+      '<path d="M16 3v3M16 26v3M3 16h3M26 16h3M6.8 6.8l2.1 2.1M23.1 23.1l2.1 2.1M25.2 6.8l-2.1 2.1M8.9 23.1l-2.1 2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' +
+      '</svg>',
+
+    eclipseMoon:
+      '<svg class="ohd-icon ohd-icon-eclipse-moon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">' +
+      '<circle cx="16" cy="16" r="10" fill="currentColor"/>' +
+      '<circle cx="20" cy="12" r="8" fill="var(--ohd-eclipse-bg, transparent)"/>' +
+      '</svg>'
+  };
+  
   function toDate(value) {
     if (!value) return null;
     if (value instanceof Date) {
@@ -590,7 +641,43 @@
     style.id = 'ohd-eclipse-panchang-styles';
     style.textContent = `
       .ohd-eclipse-wrap { width: 100%; }
+      .ohd-icon {
+        width: 1.15em;
+        height: 1.15em;
+        display: inline-block;
+        flex: 0 0 auto;
+        vertical-align: -0.18em;
+        color: currentColor;
+      }
 
+      .ohd-icon-location,
+      .ohd-icon-gps,
+      .ohd-icon-search,
+      .ohd-icon-calendar,
+      .ohd-icon-book {
+        width: 1.15em;
+        height: 1.15em;
+      }
+
+      .ohd-icon-eclipse-sun,
+      .ohd-icon-eclipse-moon {
+        width: 2.1em;
+        height: 2.1em;
+        vertical-align: middle;
+      }
+
+      .ohd-eclipse-label-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 5px;
+      }
+
+      .ohd-eclipse-button-content {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
       .ohd-eclipse-controls {
         display: flex;
         flex-wrap: wrap;
@@ -703,13 +790,13 @@
         display: none;
       }
       .ohd-eclipse-panchang-details summary::after {
-        content: "⌄";
-        float: right;
-        font-weight: 700;
-      }
-      .ohd-eclipse-panchang-details[open] summary::after {
-        content: "⌃";
-      }
+  content: "\002B"; /* + का चिह्न */
+  float: right;
+  font-weight: 700;
+}
+.ohd-eclipse-panchang-details[open] summary::after {
+  content: "\2212"; /* − (Minus) का चिह्न */
+}
       .ohd-eclipse-panchang-inner {
         padding: 4px 0 10px;
       }
@@ -821,7 +908,8 @@
       '<div class="ohd-eclipse-loc">',
 
       '<div class="ohd-eclipse-location-heading">',
-      '📍 चयनित शहर / स्थान',
+      ICON.location,
+      ' चयनित शहर / स्थान',
       '</div>',
 
       '<h2 class="ohd-eclipse-location-title" id="ohd-eclipse-loc-name">',
@@ -849,7 +937,10 @@
       '<button',
       ' type="button"',
       ' id="ohd-eclipse-location-search-btn">',
-      'स्थान खोजें',
+      '<span class="ohd-eclipse-button-content">',
+      ICON.search,
+      '<span>स्थान खोजें</span>',
+      '</span>',
       '</button>',
       '</div>',
 
@@ -857,7 +948,10 @@
       '<button',
       ' type="button"',
       ' id="ohd-eclipse-gps-btn">',
-      '📍 वर्तमान स्थान का उपयोग करें',
+      '<span class="ohd-eclipse-button-content">',
+      ICON.gps,
+      '<span>वर्तमान स्थान का उपयोग करें</span>',
+      '</span>',
       '</button>',
       '</div>',
 
@@ -1411,9 +1505,10 @@
 
     return [
       '<details class="ohd-eclipse-panchang-details">',
-      '<summary>',
-      '📅 इस ग्रहण-दिन का पंचांग देखें',
-      '</summary>',
+   '<summary>',
+      ICON.calendar,
+      ' इस ग्रहण-दिन का पंचांग देखें',
+   '</summary>',
       '<div class="ohd-eclipse-panchang-inner">',
       rows
         .map(function (row) {
@@ -1653,9 +1748,10 @@ function renderVisibility(g, location) {
       logErr('Day Panchang failed:', e);
       html += [
         '<details class="ohd-eclipse-panchang-details">',
-        '<summary>',
-        '📅 इस ग्रहण-दिन का पंचांग देखें',
-        '</summary>',
+     '<summary>',
+        ICON.calendar,
+        ' इस ग्रहण-दिन का पंचांग देखें',
+     '</summary>',
         '<div class="ohd-eclipse-panchang-inner">',
         '<p>',
         'इस दिन का पंचांग उपलब्ध नहीं हो सका।',
@@ -1696,8 +1792,8 @@ function renderVisibility(g, location) {
       PURASHCHARANA_URL,
       '" target="_blank"',
       ' rel="noopener">',
-      '📖 ग्रहण में मन्त्र-पुरश्चरण की सम्पूर्ण विधि पढ़ें →',
-      '</a>',
+           ICON.book,
+      ' ग्रहण में मन्त्र-पुरश्चरण की सम्पूर्ण विधि पढ़ें →',
       '</section>'
     ].join('');
   }
