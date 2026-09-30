@@ -1733,6 +1733,14 @@ function renderVisibility(g, location) {
   location
   ) {
     var g = item.grahan;
+    
+    if (window.__OHDEclipseDebug === true) {
+  console.log(
+    '[EclipsePanchang] Grahana object:',
+    g
+  );
+    }
+    
     if (!g) {
       return '';
     }
