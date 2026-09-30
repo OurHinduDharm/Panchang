@@ -632,15 +632,27 @@
       }
     );
 
-    return {
+        return {
       fields: extractPanchangFields(p),
+
       sunrise:
         p && p.sunrise
           ? toDate(p.sunrise)
           : null,
+
       sunset:
         p && p.sunset
           ? toDate(p.sunset)
+          : null,
+
+      moonrise:
+        p && p.moonrise
+          ? toDate(p.moonrise)
+          : null,
+
+      moonset:
+        p && p.moonset
+          ? toDate(p.moonset)
           : null
     };
   }
@@ -805,6 +817,11 @@
         border-radius: 12px;
         border: 1px solid rgba(0,0,0,.13);
       }
+      .ohd-purashcharan-card hr {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,.12);
+}
       .ohd-purashcharan-card h2 { margin-top: 0; }
       .ohd-purashcharan-card p { line-height: 1.7; }
 
@@ -1556,6 +1573,150 @@ function renderVisibility(g, location) {
   ].join('');
 }
 
+    /* ============================================================
+     GRASTASTA / GRASTODAYA
+     ============================================================ */
+
+  function getGrahanBodyInterval(g) {
+    if (
+      !g ||
+      !g.contact
+    ) {
+      return null;
+    }
+
+    var first = toDate(
+      g.contact.firstContact
+    );
+
+    var last = toDate(
+      g.contact.lastContact
+    );
+
+    if (!first || !last) {
+      return null;
+    }
+
+    return {
+      start: first,
+      end: last
+    };
+  }
+
+  function getGrahanRiseSetStatus(
+    g,
+    dayPanchang
+  ) {
+    var interval =
+      getGrahanBodyInterval(g);
+
+    if (!interval || !dayPanchang) {
+      return {
+        grastasta: false,
+        grastodaya: false
+      };
+    }
+
+    /*
+     * सूर्य ग्रहण:
+     * सूर्य के rise/set का उपयोग।
+     *
+     * चंद्र ग्रहण:
+     * चंद्रमा के rise/set का उपयोग।
+     */
+    var isSolar =
+      String(g.type || '')
+        .toLowerCase() === 'solar';
+
+    var rise = isSolar
+      ? toDate(dayPanchang.sunrise)
+      : toDate(dayPanchang.moonrise);
+
+    var set = isSolar
+      ? toDate(dayPanchang.sunset)
+      : toDate(dayPanchang.moonset);
+
+    var grastodaya = false;
+    var grastasta = false;
+
+    /*
+     * ग्रस्तोदय:
+     * ग्रहण प्रारम्भ हो चुका हो और
+     * सूर्य/चंद्रमा उसके बाद उदित हो।
+     *
+     * firstContact < rise < lastContact
+     */
+    if (
+      rise &&
+      rise.getTime() >
+        interval.start.getTime() &&
+      rise.getTime() <
+        interval.end.getTime()
+    ) {
+      grastodaya = true;
+    }
+
+    /*
+     * ग्रस्तास्त:
+     * ग्रहण चल रहा हो और
+     * सूर्य/चंद्रमा अस्त हो जाए।
+     *
+     * firstContact < set < lastContact
+     */
+    if (
+      set &&
+      set.getTime() >
+        interval.start.getTime() &&
+      set.getTime() <
+        interval.end.getTime()
+    ) {
+      grastasta = true;
+    }
+
+    return {
+      grastasta: grastasta,
+      grastodaya: grastodaya
+    };
+  }
+
+  function renderGrahanRiseSetStatus(
+    g,
+    dayPanchang
+  ) {
+    var status =
+      getGrahanRiseSetStatus(
+        g,
+        dayPanchang
+      );
+
+    if (
+      !status.grastasta &&
+      !status.grastodaya
+    ) {
+      return '';
+    }
+
+    var html =
+      '<div class="ohd-eclipse-visibility-note">';
+
+    if (status.grastasta) {
+      html +=
+        '<p><strong>⚠ ग्रस्तास्त:</strong> ' +
+        'ग्रहण के मोक्ष से पहले सूर्य/चंद्रमा अस्त हो जाता है।' +
+        '</p>';
+    }
+
+    if (status.grastodaya) {
+      html +=
+        '<p><strong>⚠ ग्रस्तोदय:</strong> ' +
+        'ग्रहण प्रारम्भ होने के बाद सूर्य/चंद्रमा उदित होता है।' +
+        '</p>';
+    }
+
+    html += '</div>';
+
+    return html;
+  }
 
   /* ============================================================
      ECLIPSE CARD
@@ -1714,6 +1875,16 @@ html +=
         observer,
         api
       );
+
+      /*
+       * ग्रस्तास्त / ग्रस्तोदय
+       * astronomical rise/set + eclipse interval
+       */
+      html += renderGrahanRiseSetStatus(
+        g,
+        dayPanchang
+      );
+
       html += renderPanchangDetails(
         dayPanchang,
         item.date
