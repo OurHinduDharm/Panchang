@@ -214,9 +214,6 @@
    * ============================================================
    * GRAHANA TYPE — HINDI DISPLAY
    *
-   * Library internal values remain unchanged.
-   * Only UI display is translated.
-   *
    * Site terminology:
    * Solar:
    *   total    → पूर्ण
@@ -230,61 +227,51 @@
    *   penumbral  → उपच्छाया
    * ============================================================
    */
-
-  var ECLIPSE_TYPE_MAP = {
-    total: 'पूर्ण',
-    partial: 'आंशिक',
-    annular: 'वलयाकार',
-    hybrid: 'संकर',
-    penumbral: 'उपच्छाया'
-  };
+var ECLIPSE_TYPE_MAP = {
+  total: 'पूर्ण',
+  partial: 'आंशिक',
+  annular: 'वलयाकार',
+  hybrid: 'संकर',
+  penumbral: 'उपच्छाया'
+};
 
 function getEclipseTypeHindi(g) {
-  if (!g) {
-    return 'ग्रहण';
-  }
+  if (!g) return 'ग्रहण';
 
-  var type = String(
-    g.type || ''
-  ).toLowerCase();
+  var type = String(g.type || '').trim().toLowerCase();
+  var subtype = String(g.subtype || '').trim().toLowerCase();
 
-  var subtype = String(
-    g.subtype || ''
-  ).toLowerCase();
+  var mapped = ECLIPSE_TYPE_MAP[subtype] || '';
 
   /*
-   * Library का actual eclipse subtype
-   * पहले देखें।
+   * @ishubhamx/panchangam-js GrahanaInfo में
+   * type सीधे "Chandra Grahan" / "Surya Grahan" आता है।
    */
-  var mapped =
-    ECLIPSE_TYPE_MAP[subtype];
+  var isLunar =
+    type === 'chandra grahan' ||
+    type.indexOf('chandra') !== -1 ||
+    type.indexOf('lunar') !== -1;
 
-  /*
-   * यदि subtype उपलब्ध नहीं है,
-   * तो type से fallback।
-   */
-  if (!mapped) {
-    mapped =
-      ECLIPSE_TYPE_MAP[type];
-  }
+  var isSolar =
+    type === 'surya grahan' ||
+    type.indexOf('surya') !== -1 ||
+    type.indexOf('solar') !== -1;
 
   if (!mapped) {
-    mapped = 'ग्रहण';
+    mapped = type === 'total' ? 'पूर्ण' :
+             type === 'partial' ? 'आंशिक' :
+             type === 'annular' ? 'वलयाकार' :
+             type === 'hybrid' ? 'संकर' :
+             type === 'penumbral' ? 'उपच्छाया' :
+             'ग्रहण';
   }
 
-  /*
-   * सूर्य / चंद्र ग्रहण स्पष्ट रूप से दिखाएँ।
-   */
-  if (type === 'solar') {
-    return mapped + ' सूर्य ग्रहण';
-  }
-
-  if (type === 'lunar') {
-    return mapped + ' चंद्र ग्रहण';
-  }
+  if (isLunar) return mapped + ' चंद्र ग्रहण';
+  if (isSolar) return mapped + ' सूर्य ग्रहण';
 
   return mapped;
 }
+ 
 
   /* ============================================================
      LOCATION
