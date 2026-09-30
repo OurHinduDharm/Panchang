@@ -41,7 +41,7 @@
 
   var TZ_OFFSET = 330;
   var YEAR_MIN = 2026;
-  var YEAR_MAX = 2031;
+  var YEAR_MAX = 2050;
 
   var PURASHCHARANA_URL =
     'https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html';
@@ -209,6 +209,78 @@
     'शुक्रवार',
     'शनिवार'
   ];
+
+  /*
+   * ============================================================
+   * GRAHANA TYPE — HINDI DISPLAY
+   *
+   * Library internal values remain unchanged.
+   * Only UI display is translated.
+   *
+   * Site terminology:
+   * Solar:
+   *   total    → पूर्ण
+   *   partial  → आंशिक
+   *   annular  → वलयाकार
+   *   hybrid   → संकर
+   *
+   * Lunar:
+   *   total      → पूर्ण
+   *   partial    → आंशिक
+   *   penumbral  → उपच्छाया
+   * ============================================================
+   */
+
+  var ECLIPSE_TYPE_MAP = {
+    total: 'पूर्ण',
+    partial: 'आंशिक',
+    annular: 'वलयाकार',
+    hybrid: 'संकर',
+    penumbral: 'उपच्छाया'
+  };
+
+  function getEclipseTypeHindi(g) {
+    if (!g) {
+      return 'ग्रहण';
+    }
+
+    var type = String(
+      g.type || ''
+    ).toLowerCase();
+
+    var subtype = String(
+      g.subtype || ''
+    ).toLowerCase();
+
+    /*
+     * कुछ library versions में मुख्य type
+     * solar/lunar और subtype में वास्तविक प्रकार
+     * आता है।
+     *
+     * इसलिए पहले subtype देखें।
+     */
+    var mapped =
+      ECLIPSE_TYPE_MAP[subtype];
+
+    if (!mapped) {
+      mapped =
+        ECLIPSE_TYPE_MAP[type];
+    }
+
+    if (!mapped) {
+      return 'ग्रहण';
+    }
+
+    if (type === 'solar') {
+      return mapped + ' सूर्य ग्रहण';
+    }
+
+    if (type === 'lunar') {
+      return mapped + ' चंद्र ग्रहण';
+    }
+
+    return mapped + ' ग्रहण';
+  }
 
   /* ============================================================
      LOCATION
@@ -1510,15 +1582,12 @@ function renderVisibility(g, location) {
 
     html += '<div class="ohd-eclipse-card">';
 
-    html +=
-      '<h3>' +
-      esc(dateStr) +
-      ' — ' +
-      esc(g.type || 'ग्रहण') +
-      (g.subtype
-        ? ' (' + esc(g.subtype) + ')'
-        : '') +
-      '</h3>';
+html +=
+  '<h3>' +
+  esc(dateStr) +
+  ' — ' +
+  esc(getEclipseTypeHindi(g)) +
+  '</h3>';
 
   html += renderVisibility(g, location);
 
@@ -1674,10 +1743,49 @@ function renderVisibility(g, location) {
      PURASHCHARANA CTA
      ============================================================ */
 
-  function renderPurashcharanaCard() {
+   function renderPurashcharanaCard() {
     return [
       '<section class="ohd-section ohd-purashcharan-card">',
-      '<h2>📿 ग्रहण में मन्त्र-पुरश्चरण</h2>',
+
+      '<h2>📿 ग्रहण में दीक्षा और मन्त्र-पुरश्चरण</h2>',
+
+      '<div class="ohd-shloka">',
+      'ग्रस्तास्ते ग्रस्तोदये दीक्षा-पुरश्चरणयो-र्निषेधमाह- ग्रस्तास्ते द्युदिते नैव कुर्याद्दीक्षाजपं प्रिये।<br>',
+      'कृते नाशो भवेदाशु ह्यायुः श्री-सुत-सम्पदाम्‌॥',
+      '</div>',
+
+      '<p>',
+      '<strong>बृहत्तन्त्रसार में उद्धृत निर्देश के अनुसार</strong>, ',
+      'ग्रस्तास्त और ग्रस्तोदय की स्थिति में ',
+      'दीक्षा तथा मन्त्र-पुरश्चरण न करने का निषेध बताया गया है। ',
+      'अतः ग्रहण का केवल होना ही पर्याप्त नहीं है; ',
+      'ग्रहण के समय सूर्य या चंद्रमा की स्थानीय उदय-अस्त स्थिति ',
+      'भी विचारणीय है।',
+      '</p>',
+
+      '<div class="ohd-eclipse-visibility-note">',
+      '<p>',
+      '<strong>ग्रस्तास्त:</strong> ',
+      'ग्रहण प्रारम्भ होने के बाद सूर्य या चंद्रमा अस्त हो जाए ',
+      'और उस समय ग्रहण का मोक्ष अभी न हुआ हो।',
+      '</p>',
+
+      '<p>',
+      '<strong>ग्रस्तोदय:</strong> ',
+      'ग्रहण प्रारम्भ हो जाने के बाद सूर्य या चंद्रमा उदित हो।',
+      '</p>',
+      '</div>',
+
+      '<p>',
+      'यहाँ ग्रस्तास्त/ग्रस्तोदय की पहचान स्थानीय ',
+      'ग्रहण-स्पर्श, मोक्ष तथा सूर्य/चंद्रमा के उदय-अस्त ',
+      'समय के आधार पर की जाती है।',
+      '</p>',
+
+      '<hr>',
+
+      '<h3>📿 ग्रहणकालीन मन्त्र-जप और पुरश्चरण</h3>',
+
       '<p>',
       'ग्रहणकाल में मन्त्र-जप और पुरश्चरण के सम्बन्ध में ',
       'शास्त्रीय ग्रन्थों में विशेष विधि का वर्णन मिलता है। ',
@@ -1685,11 +1793,13 @@ function renderVisibility(g, location) {
       'होम, तर्पण, अभिषेक और ब्राह्मण-भोजन आदि की विधि ',
       'विस्तार से जानने के लिए सम्पूर्ण आलेख देखें।',
       '</p>',
+
       '<div class="ohd-shloka">',
       'अथवान्य-प्रकारेण पौरश्चारणिको-विधिः।<br>',
       'चन्द्र-सूर्योपरागे च स्नात्वा प्रयत-मानसः।<br>',
       'स्पर्शनादि-विमोक्षान्तं जपेन्मन्त्रं समाहितः॥',
       '</div>',
+
       '<a',
       ' class="ohd-purashcharan-link"',
       ' href="',
@@ -1698,6 +1808,7 @@ function renderVisibility(g, location) {
       ' rel="noopener">',
       '📖 ग्रहण में मन्त्र-पुरश्चरण की सम्पूर्ण विधि पढ़ें →',
       '</a>',
+
       '</section>'
     ].join('');
   }
