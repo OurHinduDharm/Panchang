@@ -517,7 +517,28 @@ function fmtDateTime(date, tzOffsetMin) {
     fmtTime(d, tzOffsetMin)
   );
 }
+  
+function getHindiWeekday(date, tzOffsetMin) {
+  var d = toDate(date);
+  if (!d) return '';
 
+  var wall = new Date(
+    d.getTime() + tzOffsetMin * 60000
+  );
+
+  var days = [
+    'रविवार',
+    'सोमवार',
+    'मंगलवार',
+    'बुधवार',
+    'गुरुवार',
+    'शुक्रवार',
+    'शनिवार'
+  ];
+
+  return days[wall.getUTCDay()];
+}
+  
   function fmtWeekday(date, tzOffsetMin) {
     var d = toDate(date);
     if (!d) return '—';
@@ -1765,14 +1786,20 @@ var dateStr = fmtDate(
   eclipseDate,
   TZ_OFFSET
 );
-
+var weekdayStr = getHindiWeekday(
+  eclipseDate,
+  TZ_OFFSET
+);
+    
     var html = '';
 
     html += '<div class="ohd-eclipse-card">';
 
-html +=
+ html +=
   '<h3>' +
   esc(dateStr) +
+  ' — ' +
+  esc(weekdayStr) +
   ' — ' +
   esc(getEclipseTypeHindi(g)) +
   '</h3>';
