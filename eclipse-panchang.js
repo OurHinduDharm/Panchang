@@ -239,48 +239,52 @@
     penumbral: 'उपच्छाया'
   };
 
-  function getEclipseTypeHindi(g) {
-    if (!g) {
-      return 'ग्रहण';
-    }
-
-    var type = String(
-      g.type || ''
-    ).toLowerCase();
-
-    var subtype = String(
-      g.subtype || ''
-    ).toLowerCase();
-
-    /*
-     * कुछ library versions में मुख्य type
-     * solar/lunar और subtype में वास्तविक प्रकार
-     * आता है।
-     *
-     * इसलिए पहले subtype देखें।
-     */
-    var mapped =
-      ECLIPSE_TYPE_MAP[subtype];
-
-    if (!mapped) {
-      mapped =
-        ECLIPSE_TYPE_MAP[type];
-    }
-
-    if (!mapped) {
-      return 'ग्रहण';
-    }
-
-    if (type === 'solar') {
-      return mapped + ' सूर्य ग्रहण';
-    }
-
-    if (type === 'lunar') {
-      return mapped + ' चंद्र ग्रहण';
-    }
-
-    return mapped + ' ग्रहण';
+function getEclipseTypeHindi(g) {
+  if (!g) {
+    return 'ग्रहण';
   }
+
+  var type = String(
+    g.type || ''
+  ).toLowerCase();
+
+  var subtype = String(
+    g.subtype || ''
+  ).toLowerCase();
+
+  /*
+   * Library का actual eclipse subtype
+   * पहले देखें।
+   */
+  var mapped =
+    ECLIPSE_TYPE_MAP[subtype];
+
+  /*
+   * यदि subtype उपलब्ध नहीं है,
+   * तो type से fallback।
+   */
+  if (!mapped) {
+    mapped =
+      ECLIPSE_TYPE_MAP[type];
+  }
+
+  if (!mapped) {
+    mapped = 'ग्रहण';
+  }
+
+  /*
+   * सूर्य / चंद्र ग्रहण स्पष्ट रूप से दिखाएँ।
+   */
+  if (type === 'solar') {
+    return mapped + ' सूर्य ग्रहण';
+  }
+
+  if (type === 'lunar') {
+    return mapped + ' चंद्र ग्रहण';
+  }
+
+  return mapped;
+}
 
   /* ============================================================
      LOCATION
