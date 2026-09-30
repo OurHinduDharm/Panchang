@@ -481,20 +481,42 @@ function getEclipseTypeHindi(g) {
     );
   }
 
-  function fmtDate(date, tzOffsetMin) {
-    var d = toDate(date);
-    if (!d) return '—';
-    var wall = new Date(
-      d.getTime() + tzOffsetMin * 60000
-    );
-    return (
-      pad2(wall.getUTCDate()) +
-      '/' +
-      pad2(wall.getUTCMonth() + 1) +
-      '/' +
-      wall.getUTCFullYear()
-    );
-  }
+function fmtDate(date, tzOffsetMin) {
+  var d = toDate(date);
+  if (!d) return '—';
+
+  var wall = new Date(
+    d.getTime() + tzOffsetMin * 60000
+  );
+
+  return (
+    pad2(wall.getUTCDate()) +
+    '/' +
+    pad2(wall.getUTCMonth() + 1) +
+    '/' +
+    wall.getUTCFullYear()
+  );
+}
+
+/*
+ * तारीख + समय
+ *
+ * महत्वपूर्ण:
+ * ग्रहण आधी रात पार कर सकता है और
+ * सूतक पिछली तारीख से शुरू हो सकता है।
+ * इसलिए contact/sutak/punya के लिए
+ * केवल fmtTime() का उपयोग नहीं करना चाहिए।
+ */
+function fmtDateTime(date, tzOffsetMin) {
+  var d = toDate(date);
+  if (!d) return '—';
+
+  return (
+    fmtDate(d, tzOffsetMin) +
+    ' — ' +
+    fmtTime(d, tzOffsetMin)
+  );
+}
 
   function fmtWeekday(date, tzOffsetMin) {
     var d = toDate(date);
@@ -1767,108 +1789,112 @@ html +=
         '%</p>';
     }
 
-    if (g.contact) {
-      if (g.contact.firstContact) {
-        html +=
-          '<p><strong>प्रथम स्पर्श:</strong> ' +
-          esc(
-            fmtTime(
-              g.contact.firstContact,
-              TZ_OFFSET
-            )
-          ) +
-          '</p>';
-      }
-      if (
-        g.contact.totalityBegin &&
-        g.contact.totalityEnd
-      ) {
-        html +=
-          '<p><strong>पूर्णता:</strong> ' +
-          esc(
-            fmtTime(
-              g.contact.totalityBegin,
-              TZ_OFFSET
-            )
-          ) +
-          ' — ' +
-          esc(
-            fmtTime(
-              g.contact.totalityEnd,
-              TZ_OFFSET
-            )
-          ) +
-          '</p>';
-      }
-      if (g.contact.peak) {
-        html +=
-          '<p><strong>मध्य:</strong> ' +
-          esc(
-            fmtTime(
-              g.contact.peak,
-              TZ_OFFSET
-            )
-          ) +
-          '</p>';
-      }
-      if (g.contact.lastContact) {
-        html +=
-          '<p><strong>अंतिम स्पर्श:</strong> ' +
-          esc(
-            fmtTime(
-              g.contact.lastContact,
-              TZ_OFFSET
-            )
-          ) +
-          '</p>';
-      }
-    }
+ if (g.contact) {
 
-    if (
-      g.sutakKaal &&
-      g.sutakKaal.start &&
-      g.sutakKaal.end
-    ) {
-      html +=
-        '<p><strong>सूतक काल:</strong> ' +
-        esc(
-          fmtTime(
-            g.sutakKaal.start,
-            TZ_OFFSET
-          )
-        ) +
-        ' — ' +
-        esc(
-          fmtTime(
-            g.sutakKaal.end,
-            TZ_OFFSET
-          )
-        ) +
-        '</p>';
-    }
+  if (g.contact.firstContact) {
+    html +=
+      '<p><strong>प्रथम स्पर्श:</strong><br>' +
+      esc(
+        fmtDateTime(
+          g.contact.firstContact,
+          TZ_OFFSET
+        )
+      ) +
+      '</p>';
+  }
 
-    if (
-      g.punyaKala &&
-      g.punyaKala.start &&
-      g.punyaKala.end
-    ) {
-      html +=
-        '<p><strong>पुण्य काल:</strong> ' +
-        esc(
-          fmtTime(
-            g.punyaKala.start,
-            TZ_OFFSET
-          )
-        ) +
-        ' — ' +
-        esc(
-          fmtTime(
-            g.punyaKala.end,
-            TZ_OFFSET
-          )
-        ) +
-        '</p>';
-    }
+  if (
+    g.contact.totalityBegin &&
+    g.contact.totalityEnd
+  ) {
+    html +=
+      '<p><strong>पूर्णता:</strong><br>' +
+      esc(
+        fmtDateTime(
+          g.contact.totalityBegin,
+          TZ_OFFSET
+        )
+      ) +
+      '<br>से<br>' +
+      esc(
+        fmtDateTime(
+          g.contact.totalityEnd,
+          TZ_OFFSET
+        )
+      ) +
+      '</p>';
+  }
+
+  if (g.contact.peak) {
+    html +=
+      '<p><strong>मध्य:</strong><br>' +
+      esc(
+        fmtDateTime(
+          g.contact.peak,
+          TZ_OFFSET
+        )
+      ) +
+      '</p>';
+  }
+
+  if (g.contact.lastContact) {
+    html +=
+      '<p><strong>अंतिम स्पर्श:</strong><br>' +
+      esc(
+        fmtDateTime(
+          g.contact.lastContact,
+          TZ_OFFSET
+        )
+      ) +
+      '</p>';
+  }
+}
+
+ if (
+  g.sutakKaal &&
+  g.sutakKaal.start &&
+  g.sutakKaal.end
+) {
+  html +=
+    '<p><strong>सूतक काल:</strong><br>' +
+    esc(
+      fmtDateTime(
+        g.sutakKaal.start,
+        TZ_OFFSET
+      )
+    ) +
+    '<br>से<br>' +
+    esc(
+      fmtDateTime(
+        g.sutakKaal.end,
+        TZ_OFFSET
+      )
+    ) +
+    '</p>';
+}
+
+if (
+  g.punyaKala &&
+  g.punyaKala.start &&
+  g.punyaKala.end
+) {
+  html +=
+    '<p><strong>पुण्य काल:</strong><br>' +
+    esc(
+      fmtDateTime(
+        g.punyaKala.start,
+        TZ_OFFSET
+      )
+    ) +
+    '<br>से<br>' +
+    esc(
+      fmtDateTime(
+        g.punyaKala.end,
+        TZ_OFFSET
+      )
+    ) +
+    '</p>';
+}
 
     /*
      * Panchang is calculated ONLY here,
