@@ -1732,11 +1732,17 @@ function renderVisibility(g, location) {
       return '';
     }
 
-    var peak = g.contact && g.contact.peak;
-    var dateStr = fmtDate(
-      peak || item.date,
-      TZ_OFFSET
-    );
+var peak = g.contact && g.contact.peak;
+
+var eclipseDate =
+  g.contact && g.contact.firstContact
+    ? g.contact.firstContact
+    : (peak || item.date);
+
+var dateStr = fmtDate(
+  eclipseDate,
+  TZ_OFFSET
+);
 
     var html = '';
 
