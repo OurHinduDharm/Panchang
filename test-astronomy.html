@@ -843,270 +843,223 @@ async function runVisibilityTest() {
 /* ============================================================
    6. FOCUSED 10-MINUTE EVENT SCAN
    ============================================================ */
+ <section class="card">
+  <h2>6. Geometric Event Candidates</h2>
+  <p class="muted">
+    Internal scan: 10-minute steps. Display: only the horizon-transition
+    candidate and its neighbouring points. This is geometric astronomy,
+    not heliacal visibility.
+  </p>
 
-/*
-   यह scan heliacal visibility का निर्णय नहीं करता।
+  <div id="candidateScan"></div>
+</section>
 
-   इसका उद्देश्य केवल reference event के आसपास वास्तविक
-   local-sky geometry को high resolution में देखना है:
+<script type="module">
+  const candidateBox = document.getElementById("candidateScan");
 
-   • Planet altitude
-   • Sun altitude
-   • Sun–planet elongation
-   • Planet azimuth
-
-   Asta  → evening window
-   Udaya → morning window
-
-   Reference date के ±2 दिन scan किए जाते हैं।
-   10-minute interval रखा गया है।
-*/
-
-function getFocusedScanRows(ref) {
-
-  const centerDate =
-    localDateTime(ref.date, "12:00");
-
-  const rows = [];
-
-  /*
-     Asta:
-       sunset के आसपास planet नीचे जाता है,
-       इसलिए evening window.
-
-     Udaya:
-       sunrise से पहले planet दिखाई देने की
-       geometry देखनी है, इसलिए morning window.
-  */
-
-  const startHour =
-    ref.event === "Asta" ? 16 : 3;
-
-  const endHour =
-    ref.event === "Asta" ? 21 : 9;
-
-  for (let dayOffset = -2; dayOffset <= 2; dayOffset++) {
-
-    const base =
-      new Date(
-        centerDate.getTime() +
-        dayOffset * 24 * 60 * 60 * 1000
-      );
-
-    for (
-      let hour = startHour;
-      hour <= endHour;
-      hour++
-    ) {
-
-      for (
-        let minute = 0;
-        minute < 60;
-        minute += 10
-      ) {
-
-        const date =
-          new Date(
-            base.getFullYear(),
-            base.getMonth(),
-            base.getDate(),
-            hour,
-            minute,
-            0,
-            0
-          );
-
-        const p =
-          getPanchang(date);
-
-        const sunLon =
-          getPlanetLongitude(
-            p,
-            "Sun"
-          );
-
-        const planetLon =
-          getPlanetLongitude(
-            p,
-            ref.planet
-          );
-
-        const elongation =
-          angularDifference(
-            sunLon,
-            planetLon
-          );
-
-        const sky =
-          getSkyData(
-            date,
-            ref.body
-          );
-
-        const planetAltitude =
-          sky.horizon?.altitude;
-
-        const planetAzimuth =
-          sky.horizon?.azimuth;
-
-        const sunAltitude =
-          sky.sunHorizon?.altitude;
-
-        /*
-           केवल वह geometry window रखें जिसमें
-           heliacal transition practically inspect
-           किया जा सकता है।
-
-           यह visibility threshold नहीं है।
-           यह सिर्फ diagnostic filtering है:
-             Planet horizon के आसपास/ऊपर
-             और Sun twilight से थोड़ा पहले/बाद.
-        */
-
-        if (
-          Number.isFinite(planetAltitude) &&
-          Number.isFinite(sunAltitude) &&
-          planetAltitude >= -2 &&
-          planetAltitude <= 15 &&
-          sunAltitude >= -18 &&
-          sunAltitude <= 8
-        ) {
-
-          rows.push({
-            date,
-            planetAltitude,
-            planetAzimuth,
-            sunAltitude,
-            elongation
-          });
-
-        }
-
-      }
-
+  const EVENT_SCAN = [
+    {
+      planet: "Venus",
+      event: "Asta",
+      refDate: "2026-10-19",
+      direction: "setting"
+    },
+    {
+      planet: "Venus",
+      event: "Udaya",
+      refDate: "2026-10-30",
+      direction: "rising"
+    },
+    {
+      planet: "Jupiter",
+      event: "Asta",
+      refDate: "2027-08-17",
+      direction: "setting"
+    },
+    {
+      planet: "Jupiter",
+      event: "Udaya",
+      refDate: "2027-09-15",
+      direction: "rising"
     }
+  ];
 
+  const OBSERVER = new Astronomy.Observer(
+    30.1265,
+    80.4817,
+    0
+  );
+
+  function fmtDate(date) {
+    return date.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    });
   }
 
-  return rows;
-}
+  function getGeometry(planet, date) {
+    const equator = Astronomy.Equator(
+      planet,
+      date,
+      OBSERVER,
+      true,
+      true
+    );
 
+    const hor = Astronomy.Horizon(
+      date,
+      OBSERVER,
+      equator.ra,
+      equator.dec,
+      "normal"
+    );
 
-async function runTransitionScan() {
+    const sunEq = Astronomy.Equator(
+      "Sun",
+      date,
+      OBSERVER,
+      true,
+      true
+    );
 
-  let html = `
-    <p class="small muted">
-      यह diagnostic geometry scan है। यह स्वयं heliacal
-      visibility का निर्णय नहीं करता। Reference event के
-      आसपास ±2 दिन में 10-minute local-sky samples दिखाए जाते हैं।
-    </p>
-  `;
+    const sunHor = Astronomy.Horizon(
+      date,
+      OBSERVER,
+      sunEq.ra,
+      sunEq.dec,
+      "normal"
+    );
 
-  for (const ref of REFERENCES) {
+    const elongation = Astronomy.AngleFromSun(
+      planet,
+      date
+    );
 
-    const rows =
-      getFocusedScanRows(ref);
+    return {
+      date,
+      planetAlt: hor.altitude,
+      planetAz: hor.azimuth,
+      sunAlt: sunHor.altitude,
+      elongation
+    };
+  }
+
+  function scanCandidate(item) {
+    const center = new Date(
+      `${item.refDate}T12:00:00+05:30`
+    );
+
+    const start = new Date(
+      center.getTime() - 2 * 86400000
+    );
+
+    const end = new Date(
+      center.getTime() + 2 * 86400000
+    );
+
+    let previous = null;
+    let transition = null;
+
+    for (
+      let t = start.getTime();
+      t <= end.getTime();
+      t += 10 * 60 * 1000
+    ) {
+      const date = new Date(t);
+      const current = getGeometry(item.planet, date);
+
+      if (previous) {
+        const crossed =
+          item.direction === "rising"
+            ? previous.planetAlt < 0 &&
+              current.planetAlt >= 0
+            : previous.planetAlt > 0 &&
+              current.planetAlt <= 0;
+
+        if (crossed) {
+          transition = {
+            before: previous,
+            at: current
+          };
+          break;
+        }
+      }
+
+      previous = current;
+    }
+
+    return transition;
+  }
+
+  function row(label, g) {
+    return `
+      <tr>
+        <td>${label}</td>
+        <td>${fmtDate(g.date)}</td>
+        <td>${g.planetAlt.toFixed(3)}°</td>
+        <td>${g.sunAlt.toFixed(3)}°</td>
+        <td>${g.elongation.toFixed(3)}°</td>
+        <td>${g.planetAz.toFixed(3)}°</td>
+      </tr>
+    `;
+  }
+
+  let html = "";
+
+  for (const item of EVENT_SCAN) {
+    const result = scanCandidate(item);
+
+    if (!result) {
+      html += `
+        <h3>${item.planet} — ${item.event}</h3>
+        <p>Geometric horizon transition not found in ±2 days.</p>
+      `;
+      continue;
+    }
+
+    const before = result.before;
+    const at = result.at;
+
+    const middleTime =
+      (before.date.getTime() + at.date.getTime()) / 2;
+
+    const middle = getGeometry(
+      item.planet,
+      new Date(middleTime)
+    );
 
     html += `
-      <div style="margin-bottom:28px">
+      <h3>${item.planet} — ${item.event}</h3>
 
-        <h3>
-          ${ref.planet} — ${ref.event}
-          — Reference ${ref.date}
-        </h3>
-
-        <p class="small muted">
-          Window:
-          ${ref.event === "Asta"
-            ? "16:00–21:00 IST"
-            : "03:00–09:00 IST"}
-          · Reference ±2 days
-          · Step 10 minutes
-        </p>
-
+      <div class="table-wrap">
         <table>
-
           <thead>
             <tr>
-              <th>Date / Time</th>
+              <th>Point</th>
+              <th>IST</th>
               <th>Planet Alt.</th>
               <th>Sun Alt.</th>
               <th>Elongation</th>
-              <th>Planet Azimuth</th>
+              <th>Azimuth</th>
             </tr>
           </thead>
-
           <tbody>
-    `;
-
-    if (!rows.length) {
-
-      html += `
-        <tr>
-          <td colspan="5">
-            No samples found in the diagnostic geometry window.
-          </td>
-        </tr>
-      `;
-
-    } else {
-
-      for (const row of rows) {
-
-        html += `
-          <tr>
-
-            <td>
-              ${formatDate(row.date)}
-            </td>
-
-            <td>
-              ${formatNumber(
-                row.planetAltitude,
-                3
-              )}°
-            </td>
-
-            <td>
-              ${formatNumber(
-                row.sunAltitude,
-                3
-              )}°
-            </td>
-
-            <td>
-              ${formatNumber(
-                row.elongation,
-                3
-              )}°
-            </td>
-
-            <td>
-              ${formatNumber(
-                row.planetAzimuth,
-                3
-              )}°
-            </td>
-
-          </tr>
-        `;
-
-      }
-
-    }
-
-    html += `
+            ${row("Before", before)}
+            ${row("≈ Horizon", middle)}
+            ${row("After", at)}
           </tbody>
         </table>
-
       </div>
     `;
-
   }
 
-  $("scanOutput").innerHTML =
-    html;
-}
+  candidateBox.innerHTML = html;
+</script>
 
 /* ============================================================
    7. RAW LIBRARY OBJECT
