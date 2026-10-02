@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🌌 Astronomy Validation — OurHinduDharm</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 16px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    line-height: 1.45;
+  }
+
+  main {
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  h1 {
+    margin-top: 0;
+  }
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 14px 0;
+    overflow-x: auto;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  button {
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    background: #222;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
+
+  input {
+    padding: 9px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+  }
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 7px 9px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #f0f0f0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #111;
+    color: #eee;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 12px;
+  }
+
+  .ok {
+    color: #087f23;
+    font-weight: 700;
+  }
+
+  .warn {
+    color: #9a6700;
+    font-weight: 700;
+  }
+
+  .bad {
+    color: #b00020;
+    font-weight: 700;
+  }
+
+  .muted {
+    color: #666;
+  }
+
+  .small {
+    font-size: 13px;
+  }
+
+  #status {
+    font-weight: 700;
+  }
+</style>
+</head>
+
+<body>
+
+<main>
+
+  <h1>🌌 Astronomy Validation — OurHinduDharm</h1>
+
+  <div class="card">
+    <div class="controls">
+      <button id="runAll">▶ Run All Tests</button>
+      <button id="runRaw">Raw Astronomy</button>
+      <button id="runReference">Reference Comparison</button>
+      <button id="runVisibility">Visibility Scan</button>
+    </div>
+
+    <p id="status" class="muted">
+      Ready.
+    </p>
+  </div>
+
+
+  <!-- =========================================================
+       1. CONFIGURATION
+       ========================================================= -->
+
+  <section class="card">
+    <h2>1. Test Configuration</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <th>Location</th>
+          <td>Pithoragarh validation point</td>
+        </tr>
+
+        <tr>
+          <th>Latitude</th>
+          <td id="cfgLat"></td>
+        </tr>
+
+        <tr>
+          <th>Longitude</th>
+          <td id="cfgLon"></td>
+        </tr>
+
+        <tr>
+          <th>Elevation</th>
+          <td id="cfgElevation"></td>
+        </tr>
+
+        <tr>
+          <th>Timezone</th>
+          <td>Asia/Kolkata — UTC+05:30</td>
+        </tr>
+
+        <tr>
+          <th>Timezone offset</th>
+          <td id="cfgTz"></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- =========================================================
+       2. REFERENCE DATA
+       ========================================================= -->
+
+  <section class="card">
+    <h2>2. Reference Dataset</h2>
+
+    <p class="small muted">
+      Reference values are external comparison points. They are not used
+      to hard-code the calculation.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Planet</th>
+          <th>Event</th>
+          <th>Reference date</th>
+          <th>Reference elongation</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+
+      <tbody id="referenceTable"></tbody>
+    </table>
+  </section>
+
+
+  <!-- =========================================================
+       3. RAW PANCHANGAM-JS
+       ========================================================= -->
+
+  <section class="card">
+    <h2>3. Raw Panchangam-JS Planetary Data</h2>
+
+    <div id="rawOutput">
+      <p class="muted">Not run yet.</p>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       4. REFERENCE COMPARISON
+       ========================================================= -->
+
+  <section class="card">
+    <h2>4. Sun–Planet Elongation vs Reference</h2>
+
+    <div id="comparisonOutput">
+      <p class="muted">Not run yet.</p>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       5. HORIZON / ALTITUDE
+       ========================================================= -->
+
+  <section class="card">
+    <h2>5. Horizon / Altitude Geometry</h2>
+
+    <p class="small muted">
+      This section uses Astronomy Engine independently to inspect the
+      actual local sky geometry. It does not assume that elongation alone
+      means visibility.
+    </p>
+
+    <div id="visibilityOutput">
+      <p class="muted">Not run yet.</p>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       6. HOURLY TRANSITION SCAN
+       ========================================================= -->
+
+  <section class="card">
+    <h2>6. Hourly Transition Scan</h2>
+
+    <div id="scanOutput">
+      <p class="muted">Not run yet.</p>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       7. LIBRARY OBJECT
+       ========================================================= -->
+
+  <section class="card">
+    <h2>7. Raw Library Object</h2>
+
+    <pre id="libraryOutput">Not run yet.</pre>
+  </section>
+
+
+  <!-- =========================================================
+       8. DIAGNOSTIC NOTES
+       ========================================================= -->
+
+  <section class="card">
+    <h2>8. Diagnostic Notes</h2>
+
+    <div id="notesOutput">
+      <ul>
+        <li>Tests have not been run yet.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+
+<script type="module">
+
+/* ============================================================
+   IMPORTS
+   ============================================================ */
+
+import {
+  getPanchangam,
+  Observer
+} from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+
+import * as Astronomy
+  from "https://esm.sh/astronomy-engine@2.1.19";
+
+
+/* ============================================================
+   CONFIGURATION
+   ============================================================ */
+
+const CONFIG = {
+  latitude: 30.1265,
+  longitude: 80.4817,
+  elevation: 0,
+
+  timezoneOffset: 330,
+
+  timezoneName: "Asia/Kolkata"
+};
+
+const observer = new Observer(
+  CONFIG.latitude,
+  CONFIG.longitude,
+  CONFIG.elevation
+);
+
+
+/* ============================================================
+   REFERENCE DATA
+   ============================================================ */
+
+const REFERENCES = [
+  {
+    planet: "Venus",
+    body: Astronomy.Body.Venus,
+    event: "Asta",
+    date: "2026-10-19",
+    time: "12:00",
+    elongation: 7.76,
+    source: "Drik / Tantrakulam"
+  },
+
+  {
+    planet: "Venus",
+    body: Astronomy.Body.Venus,
+    event: "Udaya",
+    date: "2026-10-30",
+    time: "06:00",
+    elongation: 9.70,
+    source: "Drik / Tantrakulam"
+  },
+
+  {
+    planet: "Jupiter",
+    body: Astronomy.Body.Jupiter,
+    event: "Asta",
+    date: "2027-08-17",
+    time: "12:00",
+    elongation: 10.49,
+    source: "Drik / Tantrakulam"
+  },
+
+  {
+    planet: "Jupiter",
+    body: Astronomy.Body.Jupiter,
+    event: "Udaya",
+    date: "2027-09-15",
+    time: "06:00",
+    elongation: 11.28,
+    source: "Drik / Tantrakulam"
+  }
+];
+
+
+/* ============================================================
+   PLANETS
+   ============================================================ */
+
+const PLANETS = [
+  ["Mercury", Astronomy.Body.Mercury],
+  ["Venus", Astronomy.Body.Venus],
+  ["Mars", Astronomy.Body.Mars],
+  ["Jupiter", Astronomy.Body.Jupiter],
+  ["Saturn", Astronomy.Body.Saturn]
+];
+
+
+/* ============================================================
+   DOM
+   ============================================================ */
+
+const $ = id => document.getElementById(id);
+
+$("cfgLat").textContent = CONFIG.latitude;
+$("cfgLon").textContent = CONFIG.longitude;
+$("cfgElevation").textContent = `${CONFIG.elevation} m`;
+$("cfgTz").textContent = `${CONFIG.timezoneOffset} minutes`;
+
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+function localDateTime(dateString, timeString = "12:00") {
+
+  return new Date(
+    `${dateString}T${timeString}:00+05:30`
+  );
+}
+
+
+function formatDate(date) {
+
+  return new Intl.DateTimeFormat(
+    "en-IN",
+    {
+      timeZone: CONFIG.timezoneName,
+      dateStyle: "medium",
+      timeStyle: "medium"
+    }
+  ).format(date);
+}
+
+
+function formatNumber(value, digits = 3) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    !Number.isFinite(value)
+  ) {
+    return "—";
+  }
+
+  return Number(value).toFixed(digits);
+}
+
+
+function normalizeAngle(angle) {
+
+  let x = angle % 360;
+
+  if (x < 0) {
+    x += 360;
+  }
+
+  return x;
+}
+
+
+function angularDifference(a, b) {
+
+  let d = Math.abs(
+    normalizeAngle(a) -
+    normalizeAngle(b)
+  );
+
+  return Math.min(d, 360 - d);
+}
+
+
+function safe(fn) {
+
+  try {
+    return fn();
+  } catch (error) {
+    return {
+      error: error?.message || String(error)
+    };
+  }
+}
+
+
+/* ============================================================
+   GET PANCHANGAM
+   ============================================================ */
+
+function getPanchang(date) {
+
+  return getPanchangam(
+    date,
+    observer,
+    {
+      timezoneOffset: CONFIG.timezoneOffset
+    }
+  );
+}
+
+
+/* ============================================================
+   GET PLANET LONGITUDE
+   ============================================================ */
+
+function getPlanetLongitude(panchang, planetName) {
+
+  const key = planetName.toLowerCase();
+
+  return panchang
+    ?.planetaryPositions
+    ?.[
+      key
+    ]
+    ?.longitude;
+}
+
+
+/* ============================================================
+   3. RAW PANCHANGAM-JS TEST
+   ============================================================ */
+
+async function runRawTest() {
+
+  $("rawOutput").innerHTML = "";
+
+  const dates = [
+    localDateTime("2026-10-19", "12:00"),
+    localDateTime("2026-10-30", "06:00"),
+    localDateTime("2027-08-17", "12:00"),
+    localDateTime("2027-09-15", "06:00")
+  ];
+
+  let html = `
+    <table>
+      <thead>
+        <tr>
+          <th>Date / Time</th>
+          <th>Sun</th>
+          <th>Mercury</th>
+          <th>Venus</th>
+          <th>Mars</th>
+          <th>Jupiter</th>
+          <th>Saturn</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  for (const date of dates) {
+
+    const p = getPanchang(date);
+
+    html += `
+      <tr>
+        <td>${formatDate(date)}</td>
+        <td>${formatNumber(getPlanetLongitude(p, "Sun"))}</td>
+        <td>${formatNumber(getPlanetLongitude(p, "Mercury"))}</td>
+        <td>${formatNumber(getPlanetLongitude(p, "Venus"))}</td>
+        <td>${formatNumber(getPlanetLongitude(p, "Mars"))}</td>
+        <td>${formatNumber(getPlanetLongitude(p, "Jupiter"))}</td>
+        <td>${formatNumber(getPlanetLongitude(p, "Saturn"))}</td>
+      </tr>
+    `;
+  }
+
+  html += `
+      </tbody>
+    </table>
+  `;
+
+  $("rawOutput").innerHTML = html;
+}
+
+
+/* ============================================================
+   4. REFERENCE COMPARISON
+   ============================================================ */
+
+async function runReferenceTest() {
+
+  let html = `
+    <table>
+      <thead>
+        <tr>
+          <th>Planet</th>
+          <th>Event</th>
+          <th>Reference date</th>
+          <th>Reference °</th>
+          <th>panchangam-js °</th>
+          <th>Difference</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  for (const ref of REFERENCES) {
+
+    const date = localDateTime(
+      ref.date,
+      ref.time
+    );
+
+    const p = getPanchang(date);
+
+    const sunLon =
+      getPlanetLongitude(p, "Sun");
+
+    const planetLon =
+      getPlanetLongitude(p, ref.planet);
+
+    const elongation =
+      angularDifference(
+        sunLon,
+        planetLon
+      );
+
+    const diff =
+      elongation - ref.elongation;
+
+    const status =
+      Math.abs(diff) <= 0.05
+        ? `<span class="ok">MATCH</span>`
+        : Math.abs(diff) <= 0.25
+          ? `<span class="warn">CLOSE</span>`
+          : `<span class="bad">CHECK</span>`;
+
+    html += `
+      <tr>
+        <td>${ref.planet}</td>
+        <td>${ref.event}</td>
+        <td>${ref.date} ${ref.time}</td>
+        <td>${ref.elongation.toFixed(3)}°</td>
+        <td>${elongation.toFixed(3)}°</td>
+        <td>${diff >= 0 ? "+" : ""}${diff.toFixed(3)}°</td>
+        <td>${status}</td>
+      </tr>
+    `;
+  }
+
+  html += `
+      </tbody>
+    </table>
+  `;
+
+  $("comparisonOutput").innerHTML = html;
+}
+
+
+/* ============================================================
+   5. HORIZON / ALTITUDE TEST
+   ============================================================ */
+
+function getSkyData(date, body) {
+
+  const equator = safe(() =>
+    Astronomy.Equator(
+      body,
+      date,
+      observer,
+      true,
+      true
+    )
+  );
+
+  const horizon = safe(() => {
+
+    if (
+      !equator ||
+      equator.error
+    ) {
+      return null;
+    }
+
+    return Astronomy.Horizon(
+      date,
+      observer,
+      equator.ra,
+      equator.dec,
+      "normal"
+    );
+  });
+
+  const sunEquator = safe(() =>
+    Astronomy.Equator(
+      Astronomy.Body.Sun,
+      date,
+      observer,
+      true,
+      true
+    )
+  );
+
+  const sunHorizon = safe(() => {
+
+    if (
+      !sunEquator ||
+      sunEquator.error
+    ) {
+      return null;
+    }
+
+    return Astronomy.Horizon(
+      date,
+      observer,
+      sunEquator.ra,
+      sunEquator.dec,
+      "normal"
+    );
+  });
+
+  const ecliptic = safe(() =>
+    Astronomy.Ecliptic(
+      Astronomy.GeoVector(
+        body,
+        date
+      )
+    )
+  );
+
+  return {
+    equator,
+    horizon,
+    sunEquator,
+    sunHorizon,
+    ecliptic
+  };
+}
+
+
+async function runVisibilityTest() {
+
+  let html = "";
+
+  for (const ref of REFERENCES) {
+
+    const date = localDateTime(
+      ref.date,
+      ref.time
+    );
+
+    const sky =
+      getSkyData(
+        date,
+        ref.body
+      );
+
+    const planetAlt =
+      sky.horizon?.altitude;
+
+    const planetAz =
+      sky.horizon?.azimuth;
+
+    const sunAlt =
+      sky.sunHorizon?.altitude;
+
+    const planetLat =
+      sky.ecliptic?.lat;
+
+    html += `
+      <div style="margin-bottom:24px">
+
+        <h3>
+          ${ref.planet} — ${ref.event}
+          — ${ref.date} ${ref.time}
+        </h3>
+
+        <table>
+          <tbody>
+
+            <tr>
+              <th>Planet altitude</th>
+              <td>
+                ${formatNumber(planetAlt, 3)}°
+              </td>
+            </tr>
+
+            <tr>
+              <th>Planet azimuth</th>
+              <td>
+                ${formatNumber(planetAz, 3)}°
+              </td>
+            </tr>
+
+            <tr>
+              <th>Sun altitude</th>
+              <td>
+                ${formatNumber(sunAlt, 3)}°
+              </td>
+            </tr>
+
+            <tr>
+              <th>Planet ecliptic latitude</th>
+              <td>
+                ${formatNumber(planetLat, 3)}°
+              </td>
+            </tr>
+
+            <tr>
+              <th>Sun–planet elongation</th>
+              <td>
+                ${(() => {
+
+                  const p =
+                    getPanchang(date);
+
+                  return formatNumber(
+                    angularDifference(
+                      getPlanetLongitude(
+                        p,
+                        "Sun"
+                      ),
+                      getPlanetLongitude(
+                        p,
+                        ref.planet
+                      )
+                    ),
+                    3
+                  );
+
+                })()}°
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    `;
+  }
+
+  $("visibilityOutput").innerHTML =
+    html;
+}
+
+
+/* ============================================================
+   6. HOURLY TRANSITION SCAN
+   ============================================================ */
+
+function getHourlyScan(
+  startDate,
+  endDate,
+  planetName,
+  body
+) {
+
+  const rows = [];
+
+  const start =
+    new Date(startDate);
+
+  const end =
+    new Date(endDate);
+
+  for (
+    let t = start.getTime();
+    t <= end.getTime();
+    t += 60 * 60 * 1000
+  ) {
+
+    const date =
+      new Date(t);
+
+    const p =
+      getPanchang(date);
+
+    const sunLon =
+      getPlanetLongitude(
+        p,
+        "Sun"
+      );
+
+    const planetLon =
+      getPlanetLongitude(
+        p,
+        planetName
+      );
+
+    const elongation =
+      angularDifference(
+        sunLon,
+        planetLon
+      );
+
+    const sky =
+      getSkyData(
+        date,
+        body
+      );
+
+    rows.push({
+      date,
+      elongation,
+      planetAltitude:
+        sky.horizon?.altitude,
+      sunAltitude:
+        sky.sunHorizon?.altitude
+    });
+  }
+
+  return rows;
+}
+
+
+async function runTransitionScan() {
+
+  const scans = [
+
+    {
+      planet: "Venus",
+      body: Astronomy.Body.Venus,
+      start: localDateTime(
+        "2026-10-17",
+        "12:00"
+      ),
+      end: localDateTime(
+        "2026-11-01",
+        "12:00"
+      )
+    },
+
+    {
+      planet: "Jupiter",
+      body: Astronomy.Body.Jupiter,
+      start: localDateTime(
+        "2027-08-15",
+        "12:00"
+      ),
+      end: localDateTime(
+        "2027-09-17",
+        "12:00"
+      )
+    }
+  ];
+
+  let html = "";
+
+  for (const scan of scans) {
+
+    const rows =
+      getHourlyScan(
+        scan.start,
+        scan.end,
+        scan.planet,
+        scan.body
+      );
+
+    html += `
+      <h3>
+        ${scan.planet}
+        —
+        ${formatDate(scan.start)}
+        → ${formatDate(scan.end)}
+      </h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date / Time</th>
+            <th>Elongation</th>
+            <th>Planet Alt.</th>
+            <th>Sun Alt.</th>
+          </tr>
+        </thead>
+
+        <tbody>
+    `;
+
+    for (const row of rows) {
+
+      html += `
+        <tr>
+          <td>${formatDate(row.date)}</td>
+
+          <td>
+            ${formatNumber(
+              row.elongation,
+              4
+            )}°
+          </td>
+
+          <td>
+            ${formatNumber(
+              row.planetAltitude,
+              4
+            )}°
+          </td>
+
+          <td>
+            ${formatNumber(
+              row.sunAltitude,
+              4
+            )}°
+          </td>
+        </tr>
+      `;
+    }
+
+    html += `
+        </tbody>
+      </table>
+    `;
+  }
+
+  $("scanOutput").innerHTML =
+    html;
+}
+
+
+/* ============================================================
+   7. RAW LIBRARY OBJECT
+   ============================================================ */
+
+async function runLibraryObjectTest() {
+
+  const date =
+    localDateTime(
+      "2026-10-19",
+      "12:00"
+    );
+
+  const p =
+    getPanchang(date);
+
+  $("libraryOutput").textContent =
+    JSON.stringify(
+      p,
+      (key, value) => {
+
+        if (
+          value instanceof Date
+        ) {
+          return value.toISOString();
+        }
+
+        return value;
+      },
+      2
+    );
+}
+
+
+/* ============================================================
+   8. REFERENCE TABLE
+   ============================================================ */
+
+function renderReferenceTable() {
+
+  $("referenceTable").innerHTML =
+    REFERENCES
+      .map(ref => `
+        <tr>
+          <td>${ref.planet}</td>
+          <td>${ref.event}</td>
+          <td>${ref.date}</td>
+          <td>${ref.elongation.toFixed(2)}°</td>
+          <td>${ref.source}</td>
+        </tr>
+      `)
+      .join("");
+}
+
+
+/* ============================================================
+   9. NOTES
+   ============================================================ */
+
+function renderNotes() {
+
+  $("notesOutput").innerHTML = `
+    <ul>
+
+      <li>
+        <strong>Elongation:</strong>
+        angular separation between the Sun and planet.
+      </li>
+
+      <li>
+        <strong>Altitude:</strong>
+        actual local horizon position of the planet.
+      </li>
+
+      <li>
+        <strong>Sun altitude:</strong>
+        indicates the local twilight / daylight geometry.
+      </li>
+
+      <li>
+        <strong>Ecliptic latitude:</strong>
+        helps avoid treating the planet as if it were exactly
+        on the ecliptic.
+      </li>
+
+      <li>
+        A reference elongation is not by itself proof that
+        heliacal visibility occurs exactly at that instant.
+      </li>
+
+      <li>
+        This diagnostic intentionally does not use a hard-coded
+        Asta/Udaya threshold.
+      </li>
+
+      <li>
+        The eventual visibility algorithm will be chosen only
+        after these measurements are compared with the reference
+        dates.
+      </li>
+
+    </ul>
+  `;
+}
+
+
+/* ============================================================
+   10. RUN ALL
+   ============================================================ */
+
+async function runAllTests() {
+
+  $("status").textContent =
+    "⏳ Running all astronomy diagnostics...";
+
+  $("status").className = "";
+
+  try {
+
+    renderReferenceTable();
+
+    await runRawTest();
+
+    await runReferenceTest();
+
+    await runVisibilityTest();
+
+    await runTransitionScan();
+
+    await runLibraryObjectTest();
+
+    renderNotes();
+
+    $("status").textContent =
+      "✅ All diagnostic tests completed.";
+
+    $("status").className =
+      "ok";
+
+  } catch (error) {
+
+    console.error(error);
+
+    $("status").textContent =
+      "❌ Test failed: " +
+      (error?.message || String(error));
+
+    $("status").className =
+      "bad";
+  }
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+$("runAll")
+  .addEventListener(
+    "click",
+    runAllTests
+  );
+
+$("runRaw")
+  .addEventListener(
+    "click",
+    async () => {
+
+      $("status").textContent =
+        "⏳ Running raw astronomy...";
+
+      try {
+
+        await runRawTest();
+
+        $("status").textContent =
+          "✅ Raw astronomy completed.";
+
+      } catch (error) {
+
+        $("status").textContent =
+          "❌ " +
+          (error?.message || String(error));
+      }
+    }
+  );
+
+
+$("runReference")
+  .addEventListener(
+    "click",
+    async () => {
+
+      $("status").textContent =
+        "⏳ Running reference comparison...";
+
+      try {
+
+        await runReferenceTest();
+
+        $("status").textContent =
+          "✅ Reference comparison completed.";
+
+      } catch (error) {
+
+        $("status").textContent =
+          "❌ " +
+          (error?.message || String(error));
+      }
+    }
+  );
+
+
+$("runVisibility")
+  .addEventListener(
+    "click",
+    async () => {
+
+      $("status").textContent =
+        "⏳ Running visibility geometry...";
+
+      try {
+
+        await runVisibilityTest();
+
+        await runTransitionScan();
+
+        $("status").textContent =
+          "✅ Visibility diagnostics completed.";
+
+      } catch (error) {
+
+        $("status").textContent =
+          "❌ " +
+          (error?.message || String(error));
+      }
+    }
+  );
+
+
+/* ============================================================
+   INITIALIZE
+   ============================================================ */
+
+renderReferenceTable();
+
+renderNotes();
+
+console.log(
+  "🌌 OurHinduDharm Astronomy Validation loaded."
+);
+
+console.log(
+  "panchangam-js:",
+  {
+    getPanchangam,
+    Observer
+  }
+);
+
+console.log(
+  "Astronomy Engine:",
+  Astronomy
+);
+
+</script>
+
+</body>
+</html>
