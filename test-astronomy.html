@@ -266,11 +266,11 @@
 
 
   <!-- =========================================================
-       6. HOURLY TRANSITION SCAN
+       6. Geometric Transition Scan
        ========================================================= -->
 
   <section class="card">
-    <h2>6. Hourly Transition Scan</h2>
+    <h2>6. Geometric Transition Scan</h2>
 
     <div id="scanOutput">
       <p class="muted">Not run yet.</p>
@@ -841,225 +841,334 @@ async function runVisibilityTest() {
 
 
 /* ============================================================
-   6. FOCUSED 10-MINUTE EVENT SCAN
+   6. COMPACT GEOMETRIC TRANSITION SCAN
    ============================================================ */
- <section class="card">
-  <h2>6. Geometric Event Candidates</h2>
-  <p class="muted">
-    Internal scan: 10-minute steps. Display: only the horizon-transition
-    candidate and its neighbouring points. This is geometric astronomy,
-    not heliacal visibility.
-  </p>
 
-  <div id="candidateScan"></div>
-</section>
+function getTransitionCandidate(
+  reference,
+  direction
+) {
 
-<script type="module">
-  const candidateBox = document.getElementById("candidateScan");
+  const center =
+    localDateTime(
+      reference.date,
+      reference.time
+    );
 
-  const EVENT_SCAN = [
+  /*
+   * Internal scan:
+   * ±2 days around the reference date
+   * at 10-minute intervals.
+   *
+   * We do NOT display all samples.
+   */
+
+  const start =
+    new Date(
+      center.getTime() -
+      2 * 24 * 60 * 60 * 1000
+    );
+
+  const end =
+    new Date(
+      center.getTime() +
+      2 * 24 * 60 * 60 * 1000
+    );
+
+  let previous = null;
+
+  for (
+    let t = start.getTime();
+    t <= end.getTime();
+    t += 10 * 60 * 1000
+  ) {
+
+    const date =
+      new Date(t);
+
+    const sky =
+      getSkyData(
+        date,
+        reference.body
+      );
+
+    const current = {
+      date,
+      planetAltitude:
+        sky.horizon?.altitude,
+      sunAltitude:
+        sky.sunHorizon?.altitude,
+      azimuth:
+        sky.horizon?.azimuth,
+      elongation:
+        angularDifference(
+          getPlanetLongitude(
+            getPanchang(date),
+            "Sun"
+          ),
+          getPlanetLongitude(
+            getPanchang(date),
+            reference.planet
+          )
+        )
+    };
+
+    if (
+      previous &&
+      Number.isFinite(
+        previous.planetAltitude
+      ) &&
+      Number.isFinite(
+        current.planetAltitude
+      )
+    ) {
+
+      const rising =
+        previous.planetAltitude < 0 &&
+        current.planetAltitude >= 0;
+
+      const setting =
+        previous.planetAltitude > 0 &&
+        current.planetAltitude <= 0;
+
+      if (
+        (direction === "rising" && rising) ||
+        (direction === "setting" && setting)
+      ) {
+
+        /*
+         * Linear interpolation gives a better
+         * approximate horizon-crossing time than
+         * simply taking one 10-minute sample.
+         */
+
+        const a =
+          previous.planetAltitude;
+
+        const b =
+          current.planetAltitude;
+
+        const fraction =
+          Math.abs(a) /
+          (Math.abs(a) + Math.abs(b));
+
+        const transitionTime =
+          previous.date.getTime() +
+          fraction *
+          (
+            current.date.getTime() -
+            previous.date.getTime()
+          );
+
+        const transitionDate =
+          new Date(transitionTime);
+
+        const transitionSky =
+          getSkyData(
+            transitionDate,
+            reference.body
+          );
+
+        const transition = {
+          date: transitionDate,
+          planetAltitude:
+            transitionSky.horizon?.altitude,
+          sunAltitude:
+            transitionSky.sunHorizon?.altitude,
+          azimuth:
+            transitionSky.horizon?.azimuth,
+          elongation:
+            angularDifference(
+              getPlanetLongitude(
+                getPanchang(transitionDate),
+                "Sun"
+              ),
+              getPlanetLongitude(
+                getPanchang(transitionDate),
+                reference.planet
+              )
+            )
+        };
+
+        return {
+          before: previous,
+          transition,
+          after: current
+        };
+      }
+    }
+
+    previous = current;
+  }
+
+  return null;
+}
+
+
+function renderTransitionRow(
+  label,
+  row
+) {
+
+  return `
+    <tr>
+
+      <td>${label}</td>
+
+      <td>
+        ${formatDate(row.date)}
+      </td>
+
+      <td>
+        ${formatNumber(
+          row.planetAltitude,
+          3
+        )}°
+      </td>
+
+      <td>
+        ${formatNumber(
+          row.sunAltitude,
+          3
+        )}°
+      </td>
+
+      <td>
+        ${formatNumber(
+          row.elongation,
+          3
+        )}°
+      </td>
+
+      <td>
+        ${formatNumber(
+          row.azimuth,
+          3
+        )}°
+      </td>
+
+    </tr>
+  `;
+}
+
+
+async function runTransitionScan() {
+
+  const events = [
     {
       planet: "Venus",
+      body: Astronomy.Body.Venus,
       event: "Asta",
-      refDate: "2026-10-19",
+      date: "2026-10-19",
+      time: "12:00",
       direction: "setting"
     },
+
     {
       planet: "Venus",
+      body: Astronomy.Body.Venus,
       event: "Udaya",
-      refDate: "2026-10-30",
+      date: "2026-10-30",
+      time: "06:00",
       direction: "rising"
     },
+
     {
       planet: "Jupiter",
+      body: Astronomy.Body.Jupiter,
       event: "Asta",
-      refDate: "2027-08-17",
+      date: "2027-08-17",
+      time: "12:00",
       direction: "setting"
     },
+
     {
       planet: "Jupiter",
+      body: Astronomy.Body.Jupiter,
       event: "Udaya",
-      refDate: "2027-09-15",
+      date: "2027-09-15",
+      time: "06:00",
       direction: "rising"
     }
   ];
 
-  const OBSERVER = new Astronomy.Observer(
-    30.1265,
-    80.4817,
-    0
-  );
+  let html = `
+    <p class="small muted">
+      Internal scan: 10-minute steps over ±2 days.
+      Only the geometric horizon-transition candidate
+      and its neighbouring points are displayed.
+    </p>
+  `;
 
-  function fmtDate(date) {
-    return date.toLocaleString("en-IN", {
-      timeZone: "Asia/Kolkata",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true
-    });
-  }
+  for (const event of events) {
 
-  function getGeometry(planet, date) {
-    const equator = Astronomy.Equator(
-      planet,
-      date,
-      OBSERVER,
-      true,
-      true
-    );
+    const result =
+      getTransitionCandidate(
+        event,
+        event.direction
+      );
 
-    const hor = Astronomy.Horizon(
-      date,
-      OBSERVER,
-      equator.ra,
-      equator.dec,
-      "normal"
-    );
-
-    const sunEq = Astronomy.Equator(
-      "Sun",
-      date,
-      OBSERVER,
-      true,
-      true
-    );
-
-    const sunHor = Astronomy.Horizon(
-      date,
-      OBSERVER,
-      sunEq.ra,
-      sunEq.dec,
-      "normal"
-    );
-
-    const elongation = Astronomy.AngleFromSun(
-      planet,
-      date
-    );
-
-    return {
-      date,
-      planetAlt: hor.altitude,
-      planetAz: hor.azimuth,
-      sunAlt: sunHor.altitude,
-      elongation
-    };
-  }
-
-  function scanCandidate(item) {
-    const center = new Date(
-      `${item.refDate}T12:00:00+05:30`
-    );
-
-    const start = new Date(
-      center.getTime() - 2 * 86400000
-    );
-
-    const end = new Date(
-      center.getTime() + 2 * 86400000
-    );
-
-    let previous = null;
-    let transition = null;
-
-    for (
-      let t = start.getTime();
-      t <= end.getTime();
-      t += 10 * 60 * 1000
-    ) {
-      const date = new Date(t);
-      const current = getGeometry(item.planet, date);
-
-      if (previous) {
-        const crossed =
-          item.direction === "rising"
-            ? previous.planetAlt < 0 &&
-              current.planetAlt >= 0
-            : previous.planetAlt > 0 &&
-              current.planetAlt <= 0;
-
-        if (crossed) {
-          transition = {
-            before: previous,
-            at: current
-          };
-          break;
-        }
-      }
-
-      previous = current;
-    }
-
-    return transition;
-  }
-
-  function row(label, g) {
-    return `
-      <tr>
-        <td>${label}</td>
-        <td>${fmtDate(g.date)}</td>
-        <td>${g.planetAlt.toFixed(3)}°</td>
-        <td>${g.sunAlt.toFixed(3)}°</td>
-        <td>${g.elongation.toFixed(3)}°</td>
-        <td>${g.planetAz.toFixed(3)}°</td>
-      </tr>
+    html += `
+      <h3>
+        ${event.planet} — ${event.event}
+        <span class="muted">
+          — reference ${event.date}
+        </span>
+      </h3>
     `;
-  }
-
-  let html = "";
-
-  for (const item of EVENT_SCAN) {
-    const result = scanCandidate(item);
 
     if (!result) {
+
       html += `
-        <h3>${item.planet} — ${item.event}</h3>
-        <p>Geometric horizon transition not found in ±2 days.</p>
+        <p class="bad">
+          No geometric horizon transition found
+          within ±2 days.
+        </p>
       `;
+
       continue;
     }
 
-    const before = result.before;
-    const at = result.at;
-
-    const middleTime =
-      (before.date.getTime() + at.date.getTime()) / 2;
-
-    const middle = getGeometry(
-      item.planet,
-      new Date(middleTime)
-    );
-
     html += `
-      <h3>${item.planet} — ${item.event}</h3>
+      <table>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Point</th>
-              <th>IST</th>
-              <th>Planet Alt.</th>
-              <th>Sun Alt.</th>
-              <th>Elongation</th>
-              <th>Azimuth</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${row("Before", before)}
-            ${row("≈ Horizon", middle)}
-            ${row("After", at)}
-          </tbody>
-        </table>
-      </div>
+        <thead>
+          <tr>
+            <th>Point</th>
+            <th>IST</th>
+            <th>Planet Alt.</th>
+            <th>Sun Alt.</th>
+            <th>Elongation</th>
+            <th>Azimuth</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          ${renderTransitionRow(
+            "Before",
+            result.before
+          )}
+
+          ${renderTransitionRow(
+            "≈ Horizon",
+            result.transition
+          )}
+
+          ${renderTransitionRow(
+            "After",
+            result.after
+          )}
+
+        </tbody>
+
+      </table>
     `;
   }
 
-  candidateBox.innerHTML = html;
-</script>
+  $("scanOutput").innerHTML =
+    html;
+}
 
 /* ============================================================
    7. RAW LIBRARY OBJECT
