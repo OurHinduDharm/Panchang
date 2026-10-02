@@ -271,7 +271,7 @@ function getEclipseTypeHindi(g) {
 
   return mapped;
 }
- 
+
 
   /* ============================================================
      LOCATION
@@ -517,7 +517,7 @@ function fmtDateTime(date, tzOffsetMin) {
     fmtTime(d, tzOffsetMin)
   );
 }
-  
+
 function getHindiWeekday(date, tzOffsetMin) {
   var d = toDate(date);
   if (!d) return '';
@@ -538,7 +538,7 @@ function getHindiWeekday(date, tzOffsetMin) {
 
   return days[wall.getUTCDay()];
 }
-  
+
   function fmtWeekday(date, tzOffsetMin) {
     var d = toDate(date);
     if (!d) return '—';
@@ -546,6 +546,52 @@ function getHindiWeekday(date, tzOffsetMin) {
       d.getTime() + tzOffsetMin * 60000
     );
     return WEEKDAY_MAP[wall.getUTCDay()] || '—';
+  }
+
+  /*
+   * Return the IST civil day as noon IST represented in UTC. Noon is used
+   * deliberately: it is a stable date-only instant and never inherits the
+   * browser's current clock time.
+   */
+  function istCivilDate(date) {
+    var d = toDate(date);
+    if (!d) return null;
+
+    var wall = new Date(d.getTime() + TZ_OFFSET * 60000);
+    return new Date(
+      Date.UTC(
+        wall.getUTCFullYear(),
+        wall.getUTCMonth(),
+        wall.getUTCDate(),
+        12,
+        0,
+        0
+      ) - TZ_OFFSET * 60000
+    );
+  }
+
+  function addIstCivilDays(date, days) {
+    var base = istCivilDate(date);
+    if (!base) return null;
+    var wall = new Date(base.getTime() + TZ_OFFSET * 60000);
+    return new Date(
+      Date.UTC(
+        wall.getUTCFullYear(),
+        wall.getUTCMonth(),
+        wall.getUTCDate() + days,
+        12,
+        0,
+        0
+      ) - TZ_OFFSET * 60000
+    );
+  }
+
+  function canonicalEclipseDate(g, fallback) {
+    var first =
+      g && g.contact
+        ? toDate(g.contact.firstContact)
+        : null;
+    return istCivilDate(first || fallback);
   }
 
   /* ============================================================
@@ -1560,7 +1606,206 @@ function getHindiWeekday(date, tzOffsetMin) {
   /* ============================================================
      VISIBILITY
      ============================================================ */
-function renderVisibility(g, location) {
+  function isSolarEclipse(g) {
+    var type = String(g && g.type || '').toLowerCase();
+    return (
+      type.indexOf('surya') !== -1 ||
+      type.indexOf('solar') !== -1
+    );
+  }
+
+  function getGrahanBodyInterval(g) {
+    var first =
+      g && g.contact
+        ? toDate(g.contact.firstContact)
+        : null;
+    var last =
+      g && g.contact
+        ? toDate(g.contact.lastContact)
+        : null;
+
+    if (!first || !last || last.getTime() <= first.getTime()) {
+      return null;
+    }
+
+    return { start: first, end: last };
+  }
+
+  function normalizeIntervals(intervals) {
+    var ordered = intervals
+      .filter(function (interval) {
+        return (
+          interval &&
+          interval.start &&
+          interval.end &&
+          interval.end.getTime() > interval.start.getTime()
+        );
+      })
+      .sort(function (a, b) {
+        return a.start.getTime() - b.start.getTime();
+      });
+
+    var normalized = [];
+    ordered.forEach(function (interval) {
+      var previous = normalized[normalized.length - 1];
+      if (
+        previous &&
+        interval.start.getTime() <= previous.end.getTime()
+      ) {
+        if (interval.end.getTime() > previous.end.getTime()) {
+          previous.end = interval.end;
+        }
+        return;
+      }
+      normalized.push({
+        start: interval.start,
+        end: interval.end
+      });
+    });
+
+    return normalized;
+  }
+
+  function getLunarHorizonIntervals(dayPanchangs) {
+    var rises = [];
+    var sets = [];
+
+    dayPanchangs.forEach(function (day) {
+      var rise = toDate(day && day.moonrise);
+      var set = toDate(day && day.moonset);
+      if (rise) rises.push(rise);
+      if (set) sets.push(set);
+    });
+
+    rises.sort(function (a, b) {
+      return a.getTime() - b.getTime();
+    });
+    sets.sort(function (a, b) {
+      return a.getTime() - b.getTime();
+    });
+
+    return normalizeIntervals(
+      rises.map(function (rise) {
+        var set = sets.find(function (candidate) {
+          return candidate.getTime() > rise.getTime();
+        });
+        return set ? { start: rise, end: set } : null;
+      })
+    );
+  }
+
+  function getSolarHorizonIntervals(dayPanchangs) {
+    var sunrises = [];
+    var sunsets = [];
+
+    dayPanchangs.forEach(function (day) {
+      var sunrise = toDate(day && day.sunrise);
+      var sunset = toDate(day && day.sunset);
+      if (sunrise) sunrises.push(sunrise);
+      if (sunset) sunsets.push(sunset);
+    });
+
+    sunrises.sort(function (a, b) {
+      return a.getTime() - b.getTime();
+    });
+    sunsets.sort(function (a, b) {
+      return a.getTime() - b.getTime();
+    });
+
+    return normalizeIntervals(
+      sunrises.map(function (sunrise) {
+        var sunset = sunsets.find(function (candidate) {
+          return candidate.getTime() > sunrise.getTime();
+        });
+        return sunset ? { start: sunrise, end: sunset } : null;
+      })
+    );
+  }
+
+  function getLocalVisibility(g, dayPanchangs) {
+    var eclipse = getGrahanBodyInterval(g);
+    if (!eclipse) {
+      return {
+        localVisible: false,
+        localStatus: 'अदृश्य',
+        visibleStart: null,
+        visibleEnd: null,
+        visibleDuration: 0,
+        grastodaya: false,
+        grastasta: false
+      };
+    }
+
+    var intervals = isSolarEclipse(g)
+      ? getSolarHorizonIntervals(dayPanchangs)
+      : getLunarHorizonIntervals(dayPanchangs);
+    var segments = [];
+    var grastodaya = false;
+    var grastasta = false;
+
+    intervals.forEach(function (interval) {
+      var start = new Date(Math.max(
+        eclipse.start.getTime(),
+        interval.start.getTime()
+      ));
+      var end = new Date(Math.min(
+        eclipse.end.getTime(), interval.end.getTime()));
+
+      if (end.getTime() <= start.getTime()) return;
+
+      segments.push({ start: start, end: end });
+      if (
+        interval.start.getTime() > eclipse.start.getTime() &&
+        interval.start.getTime() < eclipse.end.getTime()
+      ) {
+        grastodaya = true;
+      }
+      if (
+        interval.end.getTime() > eclipse.start.getTime() &&
+        interval.end.getTime() < eclipse.end.getTime()
+      ) {
+        grastasta = true;
+      }
+    });
+
+    segments = normalizeIntervals(segments);
+    if (!segments.length) {
+      return {
+        localVisible: false,
+        localStatus: 'अदृश्य',
+        visibleStart: null,
+        visibleEnd: null,
+        visibleDuration: 0,
+        grastodaya: false,
+        grastasta: false
+      };
+    }
+
+    var visibleStart = segments[0].start;
+    var visibleEnd = segments[segments.length - 1].end;
+    var visibleDuration = segments.reduce(function (total, segment) {
+      return total + segment.end.getTime() - segment.start.getTime();
+    }, 0);
+    var localStatus = grastodaya && grastasta
+      ? 'ग्रस्तोदय एवं ग्रस्तास्त'
+      : grastodaya
+        ? 'ग्रस्तोदय'
+        : grastasta
+          ? 'ग्रस्तास्त'
+          : 'दृश्य';
+
+    return {
+      localVisible: true,
+      localStatus: localStatus,
+      visibleStart: visibleStart,
+      visibleEnd: visibleEnd,
+      visibleDuration: visibleDuration,
+      grastodaya: grastodaya,
+      grastasta: grastasta
+    };
+  }
+
+  function renderVisibility(visibility, location) {
   var placeName = 'चयनित स्थान';
 
   if (location) {
@@ -1578,178 +1823,54 @@ function renderVisibility(g, location) {
     }
   }
 
-  if (g.isVisible === true) {
+  if (visibility && visibility.localVisible) {
     return [
       '<p><strong>दृश्यता:</strong> ',
       '<span style="color:green;font-weight:700;">✓</span> ',
       esc(placeName),
-      ' में दृश्य</p>'
-    ].join('');
-  }
-
-  if (g.isVisible === false) {
-    return [
-      '<p><strong>दृश्यता:</strong> ',
-      esc(placeName),
-      ' में अदृश्य</p>',
-      '<div class="ohd-eclipse-visibility-note">',
-      'इस चयनित स्थान पर यह ग्रहण ',
-      'खगोलीय रूप से स्थानीय रूप से दृश्य नहीं है। ',
-      'अतः इस स्थान से ग्रहण का दर्शन संभव नहीं होगा।',
-      '</div>'
+      ' में ',
+      esc(visibility.localStatus),
+      '</p>'
     ].join('');
   }
 
   return [
     '<p><strong>दृश्यता:</strong> ',
     esc(placeName),
-    ' में दृश्यता निर्धारित नहीं</p>'
+    ' में अदृश्य</p>',
+    '<div class="ohd-eclipse-visibility-note">',
+    'इस चयनित स्थान पर ग्रहण का कोई स्थानीय उदय-अस्त overlap नहीं है।',
+    '</div>'
   ].join('');
 }
 
-    /* ============================================================
-     GRASTASTA / GRASTODAYA
-     ============================================================ */
+  function renderLocalVisibilityDetails(visibility) {
+    if (!visibility || !visibility.localVisible) return '';
 
-  function getGrahanBodyInterval(g) {
-    if (
-      !g ||
-      !g.contact
-    ) {
-      return null;
-    }
+    var minutes = Math.round(visibility.visibleDuration / 60000);
+    var duration = Math.floor(minutes / 60) + ' घं ' +
+      (minutes % 60) + ' मि';
 
-    var first = toDate(
-      g.contact.firstContact
-    );
-
-    var last = toDate(
-      g.contact.lastContact
-    );
-
-    if (!first || !last) {
-      return null;
-    }
-
-    return {
-      start: first,
-      end: last
-    };
+    return [
+      '<p><strong>स्थानीय दृश्य अवधि:</strong><br>',
+      esc(fmtDateTime(visibility.visibleStart, TZ_OFFSET)),
+      '<br>से<br>',
+      esc(fmtDateTime(visibility.visibleEnd, TZ_OFFSET)),
+      '<br>(', esc(duration), ')</p>'
+    ].join('');
   }
 
-  function getGrahanRiseSetStatus(
-    g,
-    dayPanchang
+  function getEclipseDayPanchangs(
+    eclipseDate,
+    observer,
+    api
   ) {
-    var interval =
-      getGrahanBodyInterval(g);
-
-    if (!interval || !dayPanchang) {
-      return {
-        grastasta: false,
-        grastodaya: false
-      };
-    }
-
-    /*
-     * सूर्य ग्रहण:
-     * सूर्य के rise/set का उपयोग।
-     *
-     * चंद्र ग्रहण:
-     * चंद्रमा के rise/set का उपयोग।
-     */
-    var isSolar =
-      String(g.type || '')
-        .toLowerCase() === 'solar';
-
-    var rise = isSolar
-      ? toDate(dayPanchang.sunrise)
-      : toDate(dayPanchang.moonrise);
-
-    var set = isSolar
-      ? toDate(dayPanchang.sunset)
-      : toDate(dayPanchang.moonset);
-
-    var grastodaya = false;
-    var grastasta = false;
-
-    /*
-     * ग्रस्तोदय:
-     * ग्रहण प्रारम्भ हो चुका हो और
-     * सूर्य/चंद्रमा उसके बाद उदित हो।
-     *
-     * firstContact < rise < lastContact
-     */
-    if (
-      rise &&
-      rise.getTime() >
-        interval.start.getTime() &&
-      rise.getTime() <
-        interval.end.getTime()
-    ) {
-      grastodaya = true;
-    }
-
-    /*
-     * ग्रस्तास्त:
-     * ग्रहण चल रहा हो और
-     * सूर्य/चंद्रमा अस्त हो जाए।
-     *
-     * firstContact < set < lastContact
-     */
-    if (
-      set &&
-      set.getTime() >
-        interval.start.getTime() &&
-      set.getTime() <
-        interval.end.getTime()
-    ) {
-      grastasta = true;
-    }
-
-    return {
-      grastasta: grastasta,
-      grastodaya: grastodaya
-    };
-  }
-
-  function renderGrahanRiseSetStatus(
-    g,
-    dayPanchang
-  ) {
-    var status =
-      getGrahanRiseSetStatus(
-        g,
-        dayPanchang
-      );
-
-    if (
-      !status.grastasta &&
-      !status.grastodaya
-    ) {
-      return '';
-    }
-
-    var html =
-      '<div class="ohd-eclipse-visibility-note">';
-
-    if (status.grastasta) {
-      html +=
-        '<p><strong>⚠ ग्रस्तास्त:</strong> ' +
-        'ग्रहण के मोक्ष से पहले सूर्य/चंद्रमा अस्त हो जाता है।' +
-        '</p>';
-    }
-
-    if (status.grastodaya) {
-      html +=
-        '<p><strong>⚠ ग्रस्तोदय:</strong> ' +
-        'ग्रहण प्रारम्भ होने के बाद सूर्य/चंद्रमा उदित होता है।' +
-        '</p>';
-    }
-
-    html += '</div>';
-
-    return html;
+    return [-1, 0, 1].map(function (offset) {
+      var date = addIstCivilDays(eclipseDate, offset);
+      return date
+        ? getDayPanchang(date, observer, api)
+        : null;
+    });
   }
 
   /* ============================================================
@@ -1775,12 +1896,7 @@ function renderVisibility(g, location) {
       return '';
     }
 
-var peak = g.contact && g.contact.peak;
-
-var eclipseDate =
-  g.contact && g.contact.firstContact
-    ? g.contact.firstContact
-    : (peak || item.date);
+var eclipseDate = canonicalEclipseDate(g, item.date);
 
 var dateStr = fmtDate(
   eclipseDate,
@@ -1804,7 +1920,6 @@ var weekdayStr = getHindiWeekday(
   esc(getEclipseTypeHindi(g)) +
   '</h3>';
 
-  html += renderVisibility(g, location);
 
     if (
       typeof g.obscuration === 'number' &&
@@ -1928,25 +2043,18 @@ if (
      * after a real eclipse is confirmed.
      */
     try {
-      var dayPanchang = getDayPanchang(
-        item.date,
+      var eclipseDays = getEclipseDayPanchangs(
+        eclipseDate,
         observer,
         api
       );
+      var dayPanchang = eclipseDays[1];
+      var visibility = getLocalVisibility(g, eclipseDays);
 
-      /*
-       * ग्रस्तास्त / ग्रस्तोदय
-       * astronomical rise/set + eclipse interval
-       */
-      html += renderGrahanRiseSetStatus(
-        g,
-        dayPanchang
-      );
+      html += renderVisibility(visibility, location);
+      html += renderLocalVisibilityDetails(visibility);
 
-      html += renderPanchangDetails(
-        dayPanchang,
-        item.date
-      );
+
     } catch (e) {
       logErr('Day Panchang failed:', e);
       html += [
