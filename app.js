@@ -1445,12 +1445,11 @@ const sankalpState = {
     6,7,9,10
   ];
 
-  if(
+    if(
     rashiIndex !== null &&
     rashiIndex >= 1 &&
     rashiIndex <= 12
   ){
-
     if(
       swargaRashi.includes(
         rashiIndex
@@ -1476,6 +1475,147 @@ const sankalpState = {
       niwas = "मृत्युलोक";
       niwasColor = "#e67e22";
 
+    }
+
+  }
+
+  /*
+   * =========================================================
+   * भद्रा — दिन / रात्रि एवं विशेष परिहार
+   *
+   * मुख्य आधार:
+   * मुहूर्त चिन्तामणि — भद्रा विचार, श्लोक ४४
+   *
+   * तिथि के उत्तरार्ध की भद्रा यदि दिन में हो
+   * तथा तिथि के पूर्वार्ध की भद्रा यदि रात्रि में हो,
+   * तो विशेष परिहार माना गया है।
+   * =========================================================
+   */
+
+  const sunrise =
+    p.sunrise
+      ? new Date(p.sunrise)
+      : null;
+
+  const sunset =
+    p.sunset
+      ? new Date(p.sunset)
+      : null;
+
+  const previousSunsetDate =
+    previousSunset
+      ? new Date(previousSunset)
+      : null;
+
+  const nextSunriseDate =
+    nextSunrise
+      ? new Date(nextSunrise)
+      : null;
+
+  const validTime =
+    date => (
+      date &&
+      !isNaN(date.getTime())
+    );
+
+  /*
+   * भद्रा का वास्तविक interval
+   * दिन/रात्रि से overlap।
+   */
+  const dayStart =
+    validTime(sunrise)
+      ? sunrise
+      : null;
+
+  const dayEnd =
+    validTime(sunset)
+      ? sunset
+      : null;
+
+  const nightStart =
+    validTime(sunset)
+      ? sunset
+      : previousSunsetDate;
+
+  const nightEnd =
+    validTime(nextSunriseDate)
+      ? nextSunriseDate
+      : null;
+
+  const overlaps =
+    (aStart, aEnd, bStart, bEnd) =>
+      validTime(aStart) &&
+      validTime(aEnd) &&
+      validTime(bStart) &&
+      validTime(bEnd) &&
+      aStart.getTime() < bEnd.getTime() &&
+      aEnd.getTime() > bStart.getTime();
+
+  const bhadraDayOverlap =
+    overlaps(
+      start,
+      end,
+      dayStart,
+      dayEnd
+    );
+
+  const bhadraNightOverlap =
+    overlaps(
+      start,
+      end,
+      nightStart,
+      nightEnd
+    );
+
+  /*
+   * विशेष शास्त्रीय परिहार
+   *
+   * उत्तरार्ध + दिन
+   * पूर्वार्ध + रात्रि
+   */
+  const specialParihara =
+    (
+      bhadraHalf === "उत्तरार्ध" &&
+      bhadraDayOverlap
+    ) ||
+    (
+      bhadraHalf === "पूर्वार्ध" &&
+      bhadraNightOverlap
+    );
+
+  /*
+   * शास्त्रीय फल
+   */
+  let shastriyaPhal = "";
+
+  if(niwas === "मृत्युलोक"){
+    shastriyaPhal =
+      "मृत्युलोकवासी भद्रा पृथ्वी के सामान्य शुभ एवं मांगलिक कार्यों में दोषकारी मानी गई है; ऐसे कार्यों में भद्रा का त्याग उचित माना जाता है।";
+  }
+  else if(niwas === "स्वर्ग"){
+    shastriyaPhal =
+      "स्वर्गवासी भद्रा का फल स्वर्ग में माना गया है; पृथ्वी पर इसके भद्रा-दोष का प्रभाव सामान्यतः नहीं माना जाता।";
+  }
+  else if(niwas === "पाताल"){
+    shastriyaPhal =
+      "पातालवासी भद्रा का फल पाताल में माना गया है; परंपरागत मत में इसे धनागम से संबद्ध माना गया है।";
+  }
+
+  /*
+   * यदि शास्त्रीय परिहार लागू है,
+   * तो उसे अलग और स्पष्ट रखें।
+   */
+  let pariharaText = "";
+
+  if(specialParihara){
+
+    if(bhadraHalf === "उत्तरार्ध"){
+      pariharaText =
+        "विशेष भद्रा-परिहार: तिथि के उत्तरार्ध की यह भद्रा दिन में है; मुहूर्त चिन्तामणि के अनुसार ऐसी स्थिति में भद्रा-दोष का परिहार माना गया है।";
+    }
+    else if(bhadraHalf === "पूर्वार्ध"){
+      pariharaText =
+        "विशेष भद्रा-परिहार: तिथि के पूर्वार्ध की यह भद्रा रात्रि में है; मुहूर्त चिन्तामणि के अनुसार ऐसी स्थिति में भद्रा-दोष का परिहार माना गया है।";
     }
 
   }
@@ -1509,8 +1649,25 @@ const sankalpState = {
       praharRule?.puccha ||
       null,
 
+    /*
+     * दिन / रात्रि स्थिति
+     */
+    bhadraDayOverlap,
+    bhadraNightOverlap,
+
+    /*
+     * शास्त्रीय परिहार
+     */
+    specialParihara,
+    pariharaText,
+
+    /*
+     * शास्त्रीय फल
+     */
+    shastriyaPhal,
+
     source:
-      "मुहूर्त चिन्तामणि — शुभाशुभ प्रकरण में भद्रा विचार"
+      "मुहूर्त चिन्तामणि — शुभाशुभ प्रकरण, श्लोक ४४–४५"
 
   };
 }
@@ -4580,21 +4737,40 @@ const ghatiPal = getGhatiPal(
     }
   }catch(e){}
 
-  let bhadraStatus = "नहीं";
+   let bhadraStatus = "नहीं";
 
   if(bhadra.available){
-    if(bhadra.isActive){
-      bhadraStatus = "चल रही है";
+
+    /*
+     * आज की तारीख:
+     * वर्तमान समय के आधार पर live status।
+     */
+    if(referenceNow){
+
+      if(bhadra.isActive){
+        bhadraStatus = "चल रही है";
+      }
+      else if(
+        referenceNow < bhadra.start
+      ){
+        bhadraStatus = "आगामी";
+      }
+      else{
+        bhadraStatus = "समाप्त";
+      }
+
     }
-    else if(
-      referenceNow &&
-      referenceNow < bhadra.start
-    ){
-      bhadraStatus = "आगामी";
-    }
+
+    /*
+     * पुरानी/भविष्य की चयनित तारीख:
+     * वर्तमान समय से तुलना नहीं।
+     */
     else{
-      bhadraStatus = "समाप्त";
+
+      bhadraStatus = "उपलब्ध";
+
     }
+
   }
   /*
    * कालशूल UI data
@@ -4800,8 +4976,10 @@ if(
     `;
   }
 
-  /*
-   * निवास
+   /*
+   * =========================================================
+   * भद्रा निवास + शास्त्रीय फल
+   * =========================================================
    */
   bhadraPartsHtml += `
     <div>
@@ -4812,6 +4990,102 @@ if(
       >
         ${bhadra.niwas}
       </span>
+    </div>
+  `;
+
+  if(bhadra.shastriyaPhal){
+
+    bhadraPartsHtml += `
+      <div style="
+        margin-top:8px;
+        padding:8px 10px;
+        border-left:3px solid #8a6d3b;
+        border-radius:4px;
+        background:rgba(138,109,59,0.07);
+        font-size:12px;
+        line-height:1.55;
+      ">
+        <b>📜 शास्त्रीय फल:</b>
+        ${bhadra.shastriyaPhal}
+      </div>
+    `;
+
+  }
+
+  /*
+   * =========================================================
+   * विशेष भद्रा परिहार
+   * =========================================================
+   */
+  if(bhadra.specialParihara){
+
+    bhadraPartsHtml += `
+      <div style="
+        margin-top:8px;
+        padding:8px 10px;
+        border-left:3px solid #188038;
+        border-radius:4px;
+        background:rgba(24,128,56,0.07);
+        font-size:12px;
+        line-height:1.55;
+      ">
+        <b>🟢 विशेष भद्रा-परिहार:</b>
+        ${bhadra.pariharaText}
+      </div>
+    `;
+
+  }
+
+  /*
+   * =========================================================
+   * मुख / पुच्छ का शास्त्रीय फल
+   * =========================================================
+   */
+
+  if(bhadra.mukha){
+
+    bhadraPartsHtml += `
+      <div style="
+        margin-top:8px;
+        font-size:12px;
+        line-height:1.5;
+      ">
+        <b>🔴 मुख का फल:</b>
+        कार्यहानिकर माना गया है; सामान्य शुभ एवं मांगलिक कार्यों का आरंभ टालना उचित है।
+      </div>
+    `;
+
+  }
+
+  if(bhadra.puccha){
+
+    bhadraPartsHtml += `
+      <div style="
+        margin-top:6px;
+        font-size:12px;
+        line-height:1.5;
+      ">
+        <b>🟢 पुच्छ का फल:</b>
+        शुभ एवं विजयदायिनी मानी गई है; आवश्यकता की स्थिति में इसे भद्रा-परिहार के रूप में विचार किया जाता है।
+      </div>
+    `;
+
+  }
+
+  /*
+   * =========================================================
+   * स्रोत
+   * =========================================================
+   */
+  bhadraPartsHtml += `
+    <div style="
+      font-size:12px;
+      color:#777;
+      margin-top:9px;
+    ">
+      📖 मुख्य शास्त्रीय आधार:
+      मुहूर्त चिन्तामणि — (पीयूषधारा टीका)
+      शुभाशुभ प्रकरण, श्लोक ४४–४५
     </div>
   `;
 
