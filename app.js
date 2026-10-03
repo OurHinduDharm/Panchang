@@ -865,7 +865,56 @@ const sankalpState = {
   brahminGotra: "",
   brahminNaam: ""
 };
+function getPartEffect(part){
 
+  switch(part){
+
+    case "मुख":
+      return {
+        text:
+          "शास्त्रीय अंग-फल में मुख को कार्यहानि से संबद्ध बताया गया है; सामान्य शुभ कार्यों के आरंभ में इसका त्याग किया जाता है।",
+        type:"avoid"
+      };
+
+    case "कंठ":
+      return {
+        text:
+          "शास्त्रीय अंग-फल में कंठ को मृत्यु-फल से संबद्ध बताया गया है; अतः शुभ कार्यों में इसका त्याग किया जाता है।",
+        type:"avoid"
+      };
+
+    case "हृदय":
+      return {
+        text:
+          "शास्त्रीय अंग-फल में हृदय को निःस्वता अर्थात् धन-क्षय/दरिद्रता के फल से संबद्ध बताया गया है।",
+        type:"avoid"
+      };
+
+    case "नाभि":
+      return {
+        text:
+          "शास्त्रीय अंग-फल में नाभि को च्युति अर्थात् स्थान या स्थिति से विचलन के फल से संबद्ध बताया गया है।",
+        type:"avoid"
+      };
+
+    case "कटि":
+      return {
+        text:
+          "शास्त्रीय अंग-फल में कटि को उन्मत्तता अर्थात् अस्थिरता के फल से संबद्ध बताया गया है।",
+        type:"avoid"
+      };
+
+    case "पुच्छ":
+      return {
+        text:
+          "शास्त्रीय अंग-फल में पुच्छ को ध्रुव जय अर्थात् विजय और कार्यसिद्धि से संबद्ध बताया गया है।",
+        type:"good"
+      };
+
+    default:
+      return null;
+  }
+}
 /* =========================================================
    STAGE 3 HELPERS
    ========================================================= */
@@ -4897,21 +4946,46 @@ if(
     <b>भद्रा अंग:</b>
     <div class="bhadra-parts">`;
 
-  bhadra.parts.forEach(part => {
+   bhadra.parts.forEach(part => {
 
     const cls =
       part.isActive
         ? "bhadra-part active"
         : "bhadra-part";
 
+    const effect =
+      getPartEffect(part.name);
+
     bhadraPartsHtml += `
-      <span class="${cls}">
-        ${part.name} —
-        ${formatTime(part.start)}
-        से
-        ${formatTime(part.end)}
-        तक
-      </span>
+      <div class="${cls}" style="
+        display:block;
+        margin-bottom:7px;
+        padding:7px 9px;
+      ">
+        <div>
+          <b>${part.name}</b>
+          —
+          ${formatTime(part.start)}
+          से
+          ${formatTime(part.end)}
+          तक
+        </div>
+
+        ${
+          effect
+            ? `
+              <div style="
+                margin-top:4px;
+                font-size:11px;
+                line-height:1.5;
+                color:#666;
+              ">
+                📜 ${effect.text}
+              </div>
+            `
+            : ""
+        }
+      </div>
     `;
   });
 
