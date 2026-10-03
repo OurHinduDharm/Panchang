@@ -673,11 +673,43 @@ function getHindiWeekday(date, tzOffsetMin) {
       vikramSamvat = p.samvat.vikram;
     }
 
+    var yogaHindi = '—';
+    if (
+      Array.isArray(p.yogas) &&
+      typeof p.yoga === 'number'
+    ) {
+      var yObj = p.yogas.find(function (y) {
+        return y && y.index === p.yoga;
+      });
+      if (yObj && typeof yObj.name === 'string') {
+        yogaHindi = yObj.name;
+      }
+    } else if (typeof p.yoga === 'string') {
+      yogaHindi = p.yoga;
+    }
+
+    var karanaHindi = '—';
+    if (
+      Array.isArray(p.karanas) &&
+      typeof p.karana === 'number'
+    ) {
+      var kObj = p.karanas.find(function (k) {
+        return k && k.index === p.karana;
+      });
+      if (kObj && typeof kObj.name === 'string') {
+        karanaHindi = kObj.name;
+      }
+    } else if (typeof p.karana === 'string') {
+      karanaHindi = p.karana;
+    }
+
     return {
       tithi: tithiHindi,
       paksha: pakshaHindi,
       masa: masaHindi,
       nakshatra: nakshatraHindi,
+      yoga: yogaHindi,
+      karana: karanaHindi,
       vikramSamvat: vikramSamvat
     };
   }
@@ -1562,6 +1594,14 @@ function getHindiWeekday(date, tzOffsetMin) {
         fields.nakshatra || '—'
       ],
       [
+        'योग',
+        fields.yoga || '—'
+      ],
+      [
+        'करण',
+        fields.karana || '—'
+      ],
+      [
         'वार',
         fmtWeekday(
           eclipseDate,
@@ -1575,6 +1615,18 @@ function getHindiWeekday(date, tzOffsetMin) {
       [
         'सूर्यास्त',
         sunset
+      ],
+      [
+        'चंद्रोदय',
+        dayPanchang.moonrise
+          ? fmtTime(dayPanchang.moonrise, TZ_OFFSET)
+          : '—'
+      ],
+      [
+        'चंद्रास्त',
+        dayPanchang.moonset
+          ? fmtTime(dayPanchang.moonset, TZ_OFFSET)
+          : '—'
       ]
     ];
 
@@ -2053,6 +2105,7 @@ if (
 
       html += renderVisibility(visibility, location);
       html += renderLocalVisibilityDetails(visibility);
+      html += renderPanchangDetails(dayPanchang, eclipseDate);
 
 
     } catch (e) {
