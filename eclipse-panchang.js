@@ -136,7 +136,7 @@ var YOGA_MAP = {
   Saubhagya: 'सौभाग्य',
   Shobhana: 'शोभन',
   Atiganda: 'अतिगण्ड',
-  Sukarma: 'सुकर्मा',
+  Sukarman: 'सुकर्मा',
   Dhriti: 'धृति',
   Shula: 'शूल',
   Ganda: 'गण्ड',
@@ -961,7 +961,26 @@ function getHindiWeekday(date, tzOffsetMin) {
         border-radius: 8px;
         border: 1px solid rgba(0,0,0,.10);
       }
+      .ohd-eclipse-local-duration {
+        margin: 14px 0;
+        padding: 11px 13px;
+        border-radius: 9px;
+        background: #fff8e1;
+        border: 1px solid #f0d98a;
+        text-align: center;
+      }
 
+      .ohd-eclipse-local-duration-time {
+        margin-top: 5px;
+        font-size: 1.05em;
+        font-weight: 700;
+      }
+
+      .ohd-eclipse-local-duration-total {
+        margin-top: 4px;
+        font-size: .88em;
+        opacity: .78;
+      }
       .ohd-eclipse-panchang-details {
         margin-top: 14px;
         border-top: 1px solid rgba(0,0,0,.12);
@@ -1996,7 +2015,7 @@ function getHindiWeekday(date, tzOffsetMin) {
   ].join('');
 }
 
-  function renderLocalVisibilityDetails(visibility) {
+function renderLocalVisibilityDetails(visibility) {
     if (!visibility || !visibility.localVisible) return '';
 
     var minutes = Math.round(visibility.visibleDuration / 60000);
@@ -2004,11 +2023,17 @@ function getHindiWeekday(date, tzOffsetMin) {
       (minutes % 60) + ' मि';
 
     return [
-      '<p><strong>स्थानीय दृश्य अवधि:</strong><br>',
+      '<div class="ohd-eclipse-local-duration">',
+      '<strong>स्थानीय दृश्य अवधि</strong>',
+      '<div class="ohd-eclipse-local-duration-time">',
       esc(fmtDateTime(visibility.visibleStart, TZ_OFFSET)),
-      '<br>से<br>',
+      ' से ',
       esc(fmtDateTime(visibility.visibleEnd, TZ_OFFSET)),
-      '<br>(', esc(duration), ')</p>'
+      '</div>',
+      '<div class="ohd-eclipse-local-duration-total">',
+      'कुल अवधि: ', esc(duration),
+      '</div>',
+      '</div>'
     ].join('');
   }
 
