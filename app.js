@@ -1062,13 +1062,16 @@ const sankalpState = {
   vratNameCustom: "",
   vratDevta: "",
 
-  /* Common identity */
+    /* Common identity */
   gotra: "",
   naam: "",
   varna: "शर्मा",
   kartaMode: "self",
   brahminGotra: "",
-  brahminNaam: ""
+  brahminNaam: "",
+
+  /* Sankalp — optional night Prahar */
+  includeNightPrahar: false
 };
 
  function getPartEffect(part){
@@ -2604,51 +2607,51 @@ function getSpecialYogaDetails(
     sunTransition
   };
 }
-function getPraharDetails(
+ function getPraharDetails(
   p,
   nextSunriseTime,
   previousSunsetTime,
   referenceNow
 ){
-  const sunrise = new Date(p.sunrise);
-  const sunset = new Date(p.sunset);
-  const now = referenceNow;
+
+  const sunrise =
+    new Date(p.sunrise);
+
+  const sunset =
+    new Date(p.sunset);
+
+  const now =
+    referenceNow;
 
   if(!nextSunriseTime){
+
     return {
-      dayPrahar:[],
       nightPrahar:[],
       currentPrahar:null,
       error:"अगला सूर्योदय उपलब्ध नहीं"
     };
   }
 
-  const nextSunrise = new Date(nextSunriseTime);
-  const shouldHighlight = !!(
-    now && dateInput.value === todayString()
-  );
+  const nextSunrise =
+    new Date(nextSunriseTime);
 
-  const dayDuration = sunset.getTime() - sunrise.getTime();
-  const dayPraharMs = dayDuration / 4;
-  const dayPrahar = [];
-
-  for(let i=0;i<4;i++){
-    const start = new Date(
-      sunrise.getTime() + i * dayPraharMs
+  const shouldHighlight =
+    !!(
+      now &&
+      dateInput.value === todayString()
     );
-    const end = new Date(
-      sunrise.getTime() + (i+1) * dayPraharMs
-    );
-    const isActive = shouldHighlight &&
-      now >= start && now < end;
 
-    dayPrahar.push({
-      start,
-      end,
-      isActive,
-      type:"day"
-    });
-  }
+  /*
+   * ---------------------------------------------------------
+   * वर्तमान रात्रि की सही सीमा
+   *
+   * यदि अभी today's sunrise से पहले है,
+   * तो current astronomical night पिछली sunset से
+   * today's sunrise तक है।
+   *
+   * अन्यथा today's sunset से next sunrise तक।
+   * ---------------------------------------------------------
+   */
 
   let nightStart;
   let nightEnd;
@@ -2658,26 +2661,64 @@ function getPraharDetails(
     now < sunrise &&
     previousSunsetTime
   ){
-    nightStart = new Date(previousSunsetTime);
-    nightEnd = sunrise;
+
+    nightStart =
+      new Date(
+        previousSunsetTime
+      );
+
+    nightEnd =
+      sunrise;
+
   }else{
-    nightStart = sunset;
-    nightEnd = nextSunrise;
+
+    nightStart =
+      sunset;
+
+    nightEnd =
+      nextSunrise;
   }
 
-  const nightDuration = nightEnd.getTime() - nightStart.getTime();
-  const nightPraharMs = nightDuration / 4;
+  const nightDuration =
+    nightEnd.getTime() -
+    nightStart.getTime();
+
+  if(nightDuration <= 0){
+
+    return {
+      nightPrahar:[],
+      currentPrahar:null,
+      error:"रात्रि अवधि अमान्य"
+    };
+  }
+
+  const nightPraharMs =
+    nightDuration / 4;
+
   const nightPrahar = [];
 
-  for(let i=0;i<4;i++){
-    const start = new Date(
-      nightStart.getTime() + i * nightPraharMs
-    );
-    const end = new Date(
-      nightStart.getTime() + (i+1) * nightPraharMs
-    );
-    const isActive = shouldHighlight &&
-      now >= start && now < end;
+  for(
+    let i = 0;
+    i < 4;
+    i++
+  ){
+
+    const start =
+      new Date(
+        nightStart.getTime() +
+        i * nightPraharMs
+      );
+
+    const end =
+      new Date(
+        nightStart.getTime() +
+        (i + 1) * nightPraharMs
+      );
+
+    const isActive =
+      shouldHighlight &&
+      now >= start &&
+      now < end;
 
     nightPrahar.push({
       start,
@@ -2690,27 +2731,27 @@ function getPraharDetails(
   let currentPrahar = null;
 
   if(shouldHighlight){
-    const all = [
-      ...dayPrahar,
-      ...nightPrahar
-    ];
+
     currentPrahar =
-      all.find(item => item.isActive) || null;
+      nightPrahar.find(
+        item => item.isActive
+      ) || null;
   }
 
   return {
-    dayPrahar,
     nightPrahar,
     currentPrahar
   };
 }
-
 function getGhatiPal(
   p,
   nextSunriseTime,
+  previousSunriseTime,
   referenceNow
 ){
+
   if(!referenceNow){
+
     return {
       ghati:null,
       pal:null,
@@ -2718,10 +2759,8 @@ function getGhatiPal(
     };
   }
 
-  const sunrise = new Date(p.sunrise);
-  const now = referenceNow;
-
   if(!nextSunriseTime){
+
     return {
       ghati:null,
       pal:null,
@@ -2729,26 +2768,126 @@ function getGhatiPal(
     };
   }
 
-  const nextSunrise = new Date(nextSunriseTime);
-  const diffMs = now.getTime() - sunrise.getTime();
+  const sunrise =
+    new Date(p.sunrise);
 
-  if(diffMs < 0){
-    return { ghati:0, pal:0 };
+  const nextSunrise =
+    new Date(nextSunriseTime);
+
+  const previousSunrise =
+    previousSunriseTime
+      ? new Date(previousSunriseTime)
+      : null;
+
+  const now =
+    referenceNow;
+
+  /*
+   * ---------------------------------------------------------
+   * सामान्य स्थिति:
+   * आज के sunrise से अगले sunrise तक
+   * ---------------------------------------------------------
+   */
+
+  let dayStart =
+    sunrise;
+
+  let dayEnd =
+    nextSunrise;
+
+  /*
+   * ---------------------------------------------------------
+   * Midnight → today's sunrise
+   *
+   * अभी current astronomical day पिछली sunrise से
+   * चल रहा है।
+   * ---------------------------------------------------------
+   */
+
+  if(
+    now < sunrise
+  ){
+
+    if(!previousSunrise){
+
+      return {
+        ghati:null,
+        pal:null,
+        error:"पिछला सूर्योदय उपलब्ध नहीं"
+      };
+    }
+
+    dayStart =
+      previousSunrise;
+
+    dayEnd =
+      sunrise;
   }
 
   const totalMs =
-    nextSunrise.getTime() - sunrise.getTime();
+    dayEnd.getTime() -
+    dayStart.getTime();
 
-  const ghatiMs = totalMs / 60;
-  const palMs = ghatiMs / 60;
+  if(totalMs <= 0){
 
-  const ghati = Math.floor(diffMs / ghatiMs);
-  const remaining = diffMs % ghatiMs;
-  const pal = Math.floor(remaining / palMs);
+    return {
+      ghati:null,
+      pal:null,
+      error:"अहोरात्र अवधि अमान्य"
+    };
+  }
 
-  return { ghati:ghati + 1, pal:pal };
+  const diffMs =
+    now.getTime() -
+    dayStart.getTime();
+
+  if(
+    diffMs < 0 ||
+    diffMs >= totalMs
+  ){
+
+    return {
+      ghati:null,
+      pal:null,
+      error:"वर्तमान समय अहोरात्र सीमा से बाहर"
+    };
+  }
+
+  /*
+   * पूर्ण अहोरात्र = 60 घटी
+   * 1 घटी = 60 पल
+   */
+
+  const ghatiMs =
+    totalMs / 60;
+
+  const palMs =
+    ghatiMs / 60;
+
+  const ghatiIndex =
+    Math.floor(
+      diffMs / ghatiMs
+    );
+
+  const remainingMs =
+    diffMs % ghatiMs;
+
+  const pal =
+    Math.floor(
+      remainingMs / palMs
+    );
+
+  return {
+    ghati:
+      ghatiIndex + 1,
+
+    pal,
+
+    dayStart,
+    dayEnd
+  };
 }
-
+ 
  function getBhadraSuggestion(
   bhadraDetails,
   referenceNow
@@ -3551,9 +3690,17 @@ if(city)
 /* =========================================================
    KAAL / PRAHAR FOR SANKALP
    ========================================================= */
-
-function getCurrentKaalPrahar(p, praharData, referenceNow){
-  if(!referenceNow) return { kaal:"", praharName:"" };
+function getCurrentKaalPrahar(
+  p,
+  praharData,
+  referenceNow
+){
+  if(!referenceNow){
+    return {
+      kaal:"",
+      praharName:""
+    };
+  }
 
   const sunrise = new Date(p.sunrise);
   const sunset = new Date(p.sunset);
@@ -3562,21 +3709,77 @@ function getCurrentKaalPrahar(p, praharData, referenceNow){
   let kaal = "";
   let praharName = "";
 
-  if(now >= sunrise && now < sunset){
-    const dayMs = sunset.getTime() - sunrise.getTime();
-    const fromSunrise = now.getTime() - sunrise.getTime();
+  /*
+   * ---------------------------------------------------------
+   * दिन का काल
+   *
+   * Classical Panchadha:
+   * प्रातः → संगव → मध्याह्न → अपराह्न → सायाह्न
+   *
+   * Sankalp में इन्हें चार broad कालों में map किया जाता है:
+   *
+   * प्रातः + संगव      → प्रातः
+   * मध्याह्न            → मध्याह्न
+   * अपराह्न + सायाह्न → सायं
+   *
+   * ---------------------------------------------------------
+   */
 
-    if(fromSunrise < dayMs/4) kaal = "प्रातः";
-    else if(fromSunrise < 3*dayMs/4) kaal = "मध्याह्न";
-    else kaal = "सायं";
+  if(
+    now >= sunrise &&
+    now < sunset
+  ){
 
-  } else {
+    const dayMs =
+      sunset.getTime() -
+      sunrise.getTime();
+
+    const oneFifth =
+      dayMs / 5;
+
+    const fromSunrise =
+      now.getTime() -
+      sunrise.getTime();
+
+    if(fromSunrise < 2 * oneFifth){
+
+      kaal = "प्रातः";
+
+    }else if(
+      fromSunrise < 3 * oneFifth
+    ){
+
+      kaal = "मध्याह्न";
+
+    }else{
+
+      kaal = "सायं";
+    }
+
+  }else{
+
+    /*
+     * सूर्यास्त के बाद से अगले सूर्योदय तक
+     * रात्रि।
+     */
     kaal = "रात्रि";
 
-    if(praharData && praharData.nightPrahar){
-      const nightActive = praharData.nightPrahar.find(
-        pr => pr.isActive
-      );
+    /*
+     * रात्रि प्रहर केवल तभी Sankalp में जोड़ें
+     * जब user ने checkbox ON किया हो।
+     */
+    if(
+      sankalpState.includeNightPrahar &&
+      praharData &&
+      Array.isArray(
+        praharData.nightPrahar
+      )
+    ){
+
+      const nightActive =
+        praharData.nightPrahar.find(
+          pr => pr.isActive
+        );
 
       const names = [
         "प्रथम",
@@ -3586,41 +3789,100 @@ function getCurrentKaalPrahar(p, praharData, referenceNow){
       ];
 
       if(nightActive){
-        const idx =
-          praharData.nightPrahar.indexOf(nightActive);
 
-        if(idx >= 0 && idx < 4){
-          praharName = names[idx];
+        const idx =
+          praharData.nightPrahar.indexOf(
+            nightActive
+          );
+
+        if(
+          idx >= 0 &&
+          idx < 4
+        ){
+          praharName =
+            names[idx];
         }
       }
     }
   }
 
-  return { kaal, praharName };
+  return {
+    kaal,
+    praharName
+  };
 }
+
 /* =========================================================
    SANKALP TYPE — AUTO SANDHYA
    ========================================================= */
-function getAutoSandhyaType(){
-  const isToday = (dateInput.value === todayString());
-  if(!isToday) return "pratah";
+function getAutoSandhyaType(
+  p = null,
+  referenceNow = null
+){
 
-  const now = new Date();
-  const minutes = now.getHours() * 60 + now.getMinutes();
+  const isToday =
+    dateInput.value === todayString();
 
-  // 1. प्रातः संध्या (04:00 AM से 11:30 AM)
-  if(minutes >= 4*60 && minutes < 11*60+30) return "pratah";
+  if(
+    !isToday ||
+    !p ||
+    !referenceNow
+  ){
+    return "pratah";
+  }
 
-  // 2. मध्याह्न संध्या (11:30 AM से 04:00 PM)
-  if(minutes >= 11*60+30 && minutes < 16*60) return "madhyahna";
+  const sunrise =
+    new Date(p.sunrise);
 
-  // 3. सायं संध्या (04:00 PM से 10:00 PM)
-  if(minutes >= 16*60 && minutes < 22*60) return "sayam";
+  const sunset =
+    new Date(p.sunset);
 
-  // 4. तुरीया / निशा संध्या (10:00 PM से 04:00 AM)
-  if(minutes >= 22*60 || minutes < 4*60) return "turiya";
+  const now =
+    referenceNow;
 
-  return "turiya"; // केवल सुरक्षा (Safety Fallback) के लिए
+  /*
+   * सूर्यास्त के बाद रात्रि / तुरीय।
+   */
+  if(now >= sunset){
+    return "turiya";
+  }
+
+  /*
+   * मध्यरात्रि के बाद लेकिन सूर्योदय से पहले।
+   */
+  if(now < sunrise){
+    return "turiya";
+  }
+
+  const dayMs =
+    sunset.getTime() -
+    sunrise.getTime();
+
+  const oneFifth =
+    dayMs / 5;
+
+  const fromSunrise =
+    now.getTime() -
+    sunrise.getTime();
+
+  /*
+   * प्रातः + संगव
+   */
+  if(fromSunrise < 2 * oneFifth){
+    return "pratah";
+  }
+
+  /*
+   * मध्याह्न
+   */
+  if(fromSunrise < 3 * oneFifth){
+    return "madhyahna";
+  }
+
+  /*
+   * अपराह्न + सायाह्न
+   */
+  return "sayam";
 }
 
 /* =========================================================
