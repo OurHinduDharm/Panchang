@@ -4949,38 +4949,55 @@ if(
       );
     }
 
-    let previousSunset = null;
+let previousSunset = null;
+let previousSunrise = null;
 
-    try{
-      const previousDate = new Date(date);
-      previousDate.setDate(
-        previousDate.getDate() - 1
-      );
+try{
 
-      const previousPanchang = getPanchangam(
-        previousDate,
-        observer,
-        { timezoneOffset:330 }
-      );
+  const previousDate =
+    new Date(date);
 
-      if(
-        previousPanchang &&
-        previousPanchang.sunset
-      ){
-        previousSunset =
-          previousPanchang.sunset;
-      }
-    }catch(e){
-      console.warn(
-        "Previous sunset calculation failed:",
-        e
-      );
-    }
+  previousDate.setDate(
+    previousDate.getDate() - 1
+  );
+
+  const previousPanchang =
+    getPanchangam(
+      previousDate,
+      observer,
+      { timezoneOffset:330 }
+    );
+
+  if(
+    previousPanchang &&
+    previousPanchang.sunset
+  ){
+    previousSunset =
+      previousPanchang.sunset;
+  }
+
+  if(
+    previousPanchang &&
+    previousPanchang.sunrise
+  ){
+    previousSunrise =
+      previousPanchang.sunrise;
+  }
+
+}catch(e){
+
+  console.warn(
+    "Previous sunrise/sunset calculation failed:",
+    e
+  );
+}
 
     window.__panchangTest = p;
-    window.__nextSunrise = nextSunrise;
-    window.__previousSunset = previousSunset;
-
+window.__previousSunset =
+  previousSunset;
+window.__previousSunrise =
+  previousSunrise;
+     
     const specialYoga =
   getSpecialYogaDetails(
     p,
@@ -4992,11 +5009,11 @@ if(
 window.__specialYogaTest =
   specialYoga;
  
-    
-displayPanchang(
+ displayPanchang(
   p,
   nextSunrise,
   previousSunset,
+  previousSunrise,
   referenceNow,
   specialYoga,
   nextMoonset
@@ -5022,6 +5039,7 @@ function displayPanchang(
   p,
   nextSunrise,
   previousSunset,
+  previousSunrise,
   referenceNow,
   specialYoga,
   nextMoonset
@@ -5134,10 +5152,10 @@ const yatraShoola =
 const ghatiPal = getGhatiPal(
   p,
   nextSunrise,
+  previousSunrise,
   referenceNow
 );
  
-
   const bhadraSuggestion =
   getBhadraSuggestion(
     bhadra,
@@ -5336,7 +5354,7 @@ const ghatiPal = getGhatiPal(
     </div>`;
   }
 
-  let praharHtml = `<div class="prahar-groups">`;
+ let praharHtml = `<div class="prahar-groups">`;
 
 const praharNames = [
   "प्रथम",
@@ -5345,64 +5363,46 @@ const praharNames = [
   "चतुर्थ"
 ];
 
-/* दिन के प्रहर */
-praharHtml += `<div class="prahar-group">`;
-praharHtml += `<div class="prahar-group-title">
-  ☀️ दिन के प्रहर
-</div>`;
+/* केवल रात्रि के प्रहर */
 
-praharHtml += `<div class="prahar-grid">`;
+praharHtml += `
+  <div class="prahar-group">
+    <div class="prahar-group-title">
+      🌙 रात्रि के प्रहर
+    </div>
 
-prahar.dayPrahar.forEach(
-  (pItem,i) => {
-    const activeClass =
-      pItem.isActive ? "active" : "";
-
-    praharHtml += `
-      <div class="prahar-item ${activeClass}">
-        <div class="p-name">
-          ${praharNames[i]} प्रहर
-        </div>
-        <div class="p-time">
-          ${formatTime(pItem.start)} - ${formatTime(pItem.end)}
-        </div>
-      </div>
-    `;
-  }
-);
-
-praharHtml += `</div></div>`;
-
-
-/* रात के प्रहर */
-praharHtml += `<div class="prahar-group">`;
-praharHtml += `<div class="prahar-group-title">
-  🌙 रात्रि के प्रहर
-</div>`;
-
-praharHtml += `<div class="prahar-grid">`;
+    <div class="prahar-grid">
+`;
 
 prahar.nightPrahar.forEach(
   (pItem,i) => {
+
     const activeClass =
-      pItem.isActive ? "active" : "";
+      pItem.isActive
+        ? "active"
+        : "";
 
     praharHtml += `
       <div class="prahar-item ${activeClass}">
         <div class="p-name">
           ${praharNames[i]} प्रहर
         </div>
+
         <div class="p-time">
-          ${formatTime(pItem.start)} - ${formatTime(pItem.end)}
+          ${formatTime(pItem.start)}
+          -
+          ${formatTime(pItem.end)}
         </div>
       </div>
     `;
   }
 );
 
-praharHtml += `</div></div>`;
-
-praharHtml += `</div>`;
+praharHtml += `
+    </div>
+  </div>
+</div>
+`;
 
  let bhadraPartsHtml = "";
 
