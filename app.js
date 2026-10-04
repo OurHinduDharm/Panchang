@@ -4085,9 +4085,9 @@ const chandraSthitiForm =
     ctx.referenceNow
   );
 
-  const kaalForm = {
+const kaalForm = {
   "प्रातः": "प्रातःकाले",
-  "मध्याह्न": "मध्याह्न काले",
+  "मध्याह्न": "मध्याह्नकाले",
   "सायं": "सायंकाले",
   "रात्रि": "रात्रिकाले"
 }[kaalPrahar.kaal] || "";
@@ -4251,6 +4251,38 @@ function renderSankalpControls(){
       </div>
     </div>
     ${kartaToggleHtml}
+
+    <div class="sankalp-night-prahar-toggle"
+         style="
+           margin-top:10px;
+           padding:8px 10px;
+           border:1px solid #e2e2e2;
+           border-radius:8px;
+           background:#fafafa;
+         ">
+
+      <label style="
+        display:flex;
+        align-items:center;
+        gap:7px;
+        cursor:pointer;
+        font-size:13px;
+      ">
+
+        <input
+          type="checkbox"
+          id="sankalpNightPrahar"
+          ${sankalpState.includeNightPrahar ? "checked" : ""}
+        />
+
+        <span>
+          संकल्प में रात्रि प्रहर जोड़ें
+        </span>
+
+      </label>
+
+    </div>
+
     <div id="brahminFieldsWrap"></div>
   `;
 
@@ -4331,7 +4363,21 @@ function renderSankalpControls(){
       }
     );
   }
+const nightPraharEl = document.getElementById(
+  "sankalpNightPrahar"
+);
 
+if(nightPraharEl){
+  nightPraharEl.addEventListener(
+    "change",
+    e => {
+      sankalpState.includeNightPrahar =
+        e.target.checked;
+
+      updateSankalpText();
+    }
+  );
+}
   container
     .querySelectorAll(
       'input[name="kartaMode"]'
@@ -4909,7 +4955,16 @@ function calculatePanchang(){
     )
       ? new Date()
       : null;
-
+if(
+  referenceNow &&
+  dateInput.value === todayString()
+){
+  sankalpState.sandhyaType =
+    getAutoSandhyaType(
+      p,
+      referenceNow
+    );
+}
     let nextSunrise = null;
 let nextMoonset = null;
 
@@ -6701,10 +6756,17 @@ dateInput.addEventListener(
 );
 
 window.today = function(){
-  dateInput.value = todayString();
 
-  sankalpState.sandhyaType =
-    getAutoSandhyaType();
+  dateInput.value =
+    todayString();
+
+  /*
+   * calculatePanchang() के बाद वास्तविक
+   * sunrise/sunset उपलब्ध होते हैं।
+   *
+   * इसलिए auto Sandhya type को वहाँ
+   * calculate किया जाएगा।
+   */
 
   calculatePanchang();
 };
