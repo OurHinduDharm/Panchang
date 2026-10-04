@@ -860,6 +860,7 @@ function createPlanetCard(
 
   return card;
 }
+
 function createHoraCard(
   horaDetails
 ){
@@ -873,7 +874,6 @@ function createHoraCard(
     "horaCard";
 
   if(!horaDetails.available){
-
     card.innerHTML = `
       <div class="label">
         🕐 होरा
@@ -893,30 +893,71 @@ function createHoraCard(
   const current =
     horaDetails.current;
 
+  /*
+   * =========================================
+   * वर्तमान होरा
+   *
+   * यह details के बाहर रहेगा।
+   * इसलिए पूरा chart collapsed होने पर भी
+   * वर्तमान होरा हमेशा दिखाई देगा।
+   * =========================================
+   */
+
   const currentText =
     current
       ? `
-        <div class="time-row">
-          <b>🟢 वर्तमान होरा</b>
-          <span>
-            ${current.planet.symbol}
-            <b>${current.planet.name} होरा</b>
-            —
-            ${formatHoraTime(current.start)}
-            से
-            ${formatHoraTime(current.end)}
-            तक
-          </span>
+        <div style="
+          margin:0 0 8px 0;
+          padding:8px 10px;
+          border-radius:7px;
+          background:rgba(76,175,80,0.09);
+          border:1px solid rgba(76,175,80,0.28);
+        ">
+
+          <div class="time-row" style="
+            margin:0;
+            font-weight:600;
+          ">
+
+            <b>
+              🟢 वर्तमान होरा
+            </b>
+
+            <span>
+              ${current.planet.symbol}
+              <b>
+                ${current.planet.name} होरा
+              </b>
+              —
+              ${formatHoraTime(current.start)}
+              से
+              ${formatHoraTime(current.end)}
+              तक
+            </span>
+
+          </div>
+
         </div>
       `
       : `
-        <div class="time-row">
-          <b>🕐 वर्तमान होरा</b>
-          <span>
-            चयनित तिथि के लिए वर्तमान समय लागू नहीं है।
-          </span>
+        <div style="
+          margin:0 0 8px 0;
+          padding:6px 9px;
+          border-radius:6px;
+          background:rgba(128,128,128,0.045);
+          color:#777;
+          font-size:11px;
+        ">
+          🕐 चयनित तिथि के लिए वर्तमान समय लागू नहीं है।
         </div>
       `;
+
+
+  /*
+   * =========================================
+   * पूरी 24 होरा
+   * =========================================
+   */
 
   const rows =
     horaDetails.horas
@@ -932,55 +973,238 @@ function createHoraCard(
             class="time-row"
             ${
               isCurrent
-                ? 'style="font-weight:700;"'
+                ? `
+                  style="
+                    font-weight:700;
+                    border-radius:6px;
+                  "
+                `
                 : ""
             }
           >
+
             <b>
               ${
                 isCurrent
                   ? "🟢 "
                   : ""
               }
+
               ${hora.number}.
               ${hora.part}
             </b>
 
             <span>
               ${hora.planet.symbol}
+
               <b>
                 ${hora.planet.name}
               </b>
+
               —
               ${formatHoraTime(hora.start)}
               से
               ${formatHoraTime(hora.end)}
               तक
             </span>
+
           </div>
         `;
       })
       .join("");
 
+
+  /*
+   * =========================================
+   * दिन / रात की heading
+   * =========================================
+   */
+
+  const dayRows =
+    horaDetails.horas
+      .filter(
+        hora => hora.part === "दिन"
+      )
+      .map(hora => {
+
+        const isCurrent =
+          current &&
+          hora.start.getTime() ===
+            current.start.getTime();
+
+        return `
+          <div
+            class="time-row"
+            ${
+              isCurrent
+                ? `
+                  style="
+                    font-weight:700;
+                    border-radius:6px;
+                  "
+                `
+                : ""
+            }
+          >
+
+            <b>
+              ${
+                isCurrent
+                  ? "🟢 "
+                  : ""
+              }
+
+              ${hora.number}.
+              ${hora.part}
+            </b>
+
+            <span>
+              ${hora.planet.symbol}
+
+              <b>
+                ${hora.planet.name}
+              </b>
+
+              —
+              ${formatHoraTime(hora.start)}
+              से
+              ${formatHoraTime(hora.end)}
+              तक
+            </span>
+
+          </div>
+        `;
+      })
+      .join("");
+
+
+  const nightRows =
+    horaDetails.horas
+      .filter(
+        hora => hora.part === "रात्रि"
+      )
+      .map(hora => {
+
+        const isCurrent =
+          current &&
+          hora.start.getTime() ===
+            current.start.getTime();
+
+        return `
+          <div
+            class="time-row"
+            ${
+              isCurrent
+                ? `
+                  style="
+                    font-weight:700;
+                    border-radius:6px;
+                  "
+                `
+                : ""
+            }
+          >
+
+            <b>
+              ${
+                isCurrent
+                  ? "🟢 "
+                  : ""
+              }
+
+              ${hora.number}.
+              ${hora.part}
+            </b>
+
+            <span>
+              ${hora.planet.symbol}
+
+              <b>
+                ${hora.planet.name}
+              </b>
+
+              —
+              ${formatHoraTime(hora.start)}
+              से
+              ${formatHoraTime(hora.end)}
+              तक
+            </span>
+
+          </div>
+        `;
+      })
+      .join("");
+
+
+  /*
+   * =========================================
+   * Card
+   *
+   * वर्तमान होरा बाहर
+   * बाकी chart details में collapsed
+   * =========================================
+   */
+
   card.innerHTML = `
+
     <div class="label">
       🕐 होरा
     </div>
 
     ${currentText}
 
-    <div
-      style="
-        margin-top:8px;
-        margin-bottom:6px;
-        font-size:12px;
-        font-weight:700;
-      "
-    >
-      📅 चयनित तिथि की 24 होरा
-    </div>
 
-    ${rows}
+    <details>
+
+      <summary style="
+        cursor:pointer;
+        font-weight:700;
+        list-style-position:inside;
+      ">
+
+        📅 चयनित तिथि की 24 होरा
+
+        <span style="
+          float:right;
+          font-size:11px;
+          font-weight:400;
+          color:#777;
+        ">
+          विस्तार करें
+        </span>
+
+      </summary>
+
+
+      <div style="
+        margin-top:10px;
+      ">
+
+        <div style="
+          margin:4px 0 6px;
+          font-size:12px;
+          font-weight:700;
+        ">
+          🌞 दिन की 12 होरा
+        </div>
+
+        ${dayRows}
+
+
+        <div style="
+          margin:12px 0 6px;
+          font-size:12px;
+          font-weight:700;
+        ">
+          🌙 रात्रि की 12 होरा
+        </div>
+
+        ${nightRows}
+
+      </div>
+
+    </details>
+
 
     <div class="yatra-note">
       <b>📌 नोट:</b><br>
@@ -989,6 +1213,7 @@ function createHoraCard(
       सूर्योदय तक के वास्तविक समय को 12-12
       समान भागों में विभाजित करके निर्धारित की गई हैं।
     </div>
+
   `;
 
   return card;
