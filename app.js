@@ -792,7 +792,7 @@ const gowriHindi = {
   Shubha: "शुभ"
 };
 
-function getGowriDisplay(item){
+ function getGowriDisplay(item){
   if(!item){
     return "—";
   }
@@ -814,6 +814,138 @@ function getGowriDisplay(item){
         : "";
 
   return `${indicator}${name}`;
+}
+
+
+/* =========================================================
+   COLLAPSIBLE TIME PERIODS
+   चौघड़िया / गौरी काल
+   ========================================================= */
+function renderCollapsibleTimePeriods(
+  items,
+  title,
+  referenceNow,
+  displayNameFn
+){
+  const list =
+    Array.isArray(items)
+      ? items
+      : [];
+
+  if(!list.length){
+    return `
+      <div class="card full">
+        <div class="label">
+          ${title}
+        </div>
+        <div style="color:#777;">
+          उपलब्ध नहीं
+        </div>
+      </div>
+    `;
+  }
+
+  const current =
+    referenceNow
+      ? list.find(item => {
+          const start =
+            new Date(item.startTime);
+
+          const end =
+            new Date(item.endTime);
+
+          return (
+            !Number.isNaN(start.getTime()) &&
+            !Number.isNaN(end.getTime()) &&
+            referenceNow >= start &&
+            referenceNow < end
+          );
+        })
+      : null;
+
+  const currentText =
+    current
+      ? `
+        <div class="time-row" style="
+          margin-top:6px;
+          font-weight:600;
+        ">
+          <b>${displayNameFn(current)}</b>
+          <span>
+            ${formatTimeRange(
+              current.startTime,
+              current.endTime
+            )}
+          </span>
+        </div>
+      `
+      : `
+        <div style="
+          margin-top:6px;
+          font-size:12px;
+          color:#777;
+        ">
+          ${referenceNow
+            ? "इस समय यह कालखंड नहीं चल रहा है।"
+            : "चयनित तिथि के लिए वर्तमान समय लागू नहीं है।"
+          }
+        </div>
+      `;
+
+  const allRows =
+    list
+      .map(item => {
+        const isCurrent =
+          current === item;
+
+        return `
+          <div class="time-row"
+            ${isCurrent
+              ? `style="font-weight:600;"`
+              : ""
+            }
+          >
+            <b>${displayNameFn(item)}</b>
+            <span>
+              ${formatTimeRange(
+                item.startTime,
+                item.endTime
+              )}
+            </span>
+          </div>
+        `;
+      })
+      .join("");
+
+  return `
+    <div class="card full">
+      <details>
+        <summary style="
+          cursor:pointer;
+          font-weight:700;
+          list-style-position:inside;
+        ">
+          ${title}
+          <span style="
+            float:right;
+            font-size:11px;
+            font-weight:400;
+            color:#777;
+          ">
+            विस्तार करें
+          </span>
+        </summary>
+
+        ${currentText}
+
+        <div style="
+          margin-top:8px;
+        ">
+          ${allRows}
+        </div>
+      </details>
+    </div>
+  `;
 }
 /* =========================================================
    SANKALP STATE (persists across type switches & date changes)
@@ -5750,107 +5882,59 @@ if(
           </div>
         </div>
       </div>
+      
+       ${renderCollapsibleTimePeriods(
+        p.choghadiya?.day,
+        "🕐 दिन के चौघड़िया",
+        referenceNow,
+        item => {
+          const names = {
+            Shubh:"🟢शुभ",
+            Rog:"🔴रोग",
+            Udveg:"🔴उद्वेग",
+            Chal:"🟢चल",
+            Labh:"🟢लाभ",
+            Amrit:"🟢अमृत",
+            Kaal:"🔴काल"
+          };
 
-      <div class="card full">
-        <div class="label">
-          🕐 दिन के चौघड़िया
-        </div>
-        ${(p.choghadiya?.day || [])
-          .map(c => {
-            const names = {
-              Shubh:"🟢शुभ",
-              Rog:"🔴रोग",
-              Udveg:"🔴उद्वेग",
-              Chal:"🟢चल",
-              Labh:"🟢लाभ",
-              Amrit:"🟢अमृत",
-              Kaal:"🔴काल"
-            };
-
-            return `
-              <div class="time-row">
-                <b>${names[c.name] || c.name}</b>
-                <span>
-                  ${formatTimeRange(
-                    c.startTime,
-                    c.endTime
-                  )}
-                </span>
-              </div>
-            `;
-          })
-          .join("") || '<div style="color:#777;">उपलब्ध नहीं</div>'
+          return names[item.name] ||
+            item.name ||
+            "—";
         }
-      </div>
-<div class="card full">
-  <div class="label">
-    🌞 दिन का गौरी काल
-  </div>
-  ${(p.gowri?.day || [])
-    .map(item => `
-      <div class="time-row">
-        <b>${getGowriDisplay(item)}</b>
-        <span>
-          ${formatTimeRange(
-            item.startTime,
-            item.endTime
-          )}
-        </span>
-      </div>
-    `)
-    .join("") || '<div style="color:#777;">उपलब्ध नहीं</div>'
-  }
-</div>
-      <div class="card full">
-        <div class="label">
-          🌙 रात्रि के चौघड़िया
-        </div>
-        ${(p.choghadiya?.night || [])
-          .map(c => {
-            const names = {
-              Shubh:"🟢शुभ",
-              Rog:"🔴रोग",
-              Udveg:"🔴उद्वेग",
-              Chal:"🟢चल",
-              Labh:"🟢लाभ",
-              Amrit:"🟢अमृत",
-              Kaal:"🔴काल"
-            };
+      )}
+      ${renderCollapsibleTimePeriods(
+  p.gowri?.day,
+  "🌞 दिन का गौरी काल",
+  referenceNow,
+  getGowriDisplay
+)}
+      ${renderCollapsibleTimePeriods(
+        p.choghadiya?.night,
+        "🌙 रात्रि के चौघड़िया",
+        referenceNow,
+        item => {
+          const names = {
+            Shubh:"🟢शुभ",
+            Rog:"🔴रोग",
+            Udveg:"🔴उद्वेग",
+            Chal:"🟢चल",
+            Labh:"🟢लाभ",
+            Amrit:"🟢अमृत",
+            Kaal:"🔴काल"
+          };
 
-            return `
-              <div class="time-row">
-                <b>${names[c.name] || c.name}</b>
-                <span>
-                  ${formatTimeRange(
-                    c.startTime,
-                    c.endTime
-                  )}
-                </span>
-              </div>
-            `;
-          })
-          .join("") || '<div style="color:#777;">उपलब्ध नहीं</div>'
+          return names[item.name] ||
+            item.name ||
+            "—";
         }
-      </div>
-<div class="card full">
-  <div class="label">
-    🌙 रात्रि का गौरी काल
-  </div>
-  ${(p.gowri?.night || [])
-    .map(item => `
-      <div class="time-row">
-        <b>${getGowriDisplay(item)}</b>
-        <span>
-          ${formatTimeRange(
-            item.startTime,
-            item.endTime
-          )}
-        </span>
-      </div>
-    `)
-    .join("") || '<div style="color:#777;">उपलब्ध नहीं</div>'
-  }
-</div>
+      )}
+      ${renderCollapsibleTimePeriods(
+  p.gowri?.night,
+  "🌙 रात्रि का गौरी काल",
+  referenceNow,
+  getGowriDisplay
+)}
       <div class="card full">
   <div class="label">
     🌅 ब्रह्म मुहूर्त
