@@ -129,7 +129,18 @@
   /* ============================================================
      HINDI MAPS
      ============================================================ */
+var YOGA_MAP = [
+  "विष्कम्भ","प्रीति","आयुष्मान","सौभाग्य","शोभन","अतिगण्ड",
+  "सुकर्मा","धृति","शूल","गण्ड","वृद्धि","ध्रुव","व्याघात",
+  "हर्षण","वज्र","सिद्धि","व्यतीपात","वरीयान","परिघ","शिव",
+  "सिद्ध","साध्य","शुभ","शुक्ल","ब्रह्म","इन्द्र","वैधृति"
+];
 
+var KARANA_MAP = {
+  Bava:"बव", Balava:"बालव", Kaulava:"कौलव", Taitila:"तैतिल",
+  Gara:"गर", Vanija:"वणिज", Vishti:"विष्टि", Shakuni:"शकुनि",
+  Chatushpada:"चतुष्पद", Naga:"नाग", Kimstughna:"किंस्तुघ्न"
+};
   var TITHI_MAP = {
     Prathama: 'प्रतिपदा',
     Dvitiya: 'द्वितीया',
@@ -673,34 +684,38 @@ function getHindiWeekday(date, tzOffsetMin) {
       vikramSamvat = p.samvat.vikram;
     }
 
-    var yogaHindi = '—';
-    if (
+Var yogaHindi = '—';
+    If (
       Array.isArray(p.yogas) &&
-      typeof p.yoga === 'number'
+      Typeof p.yoga === 'number'
     ) {
-      var yObj = p.yogas.find(function (y) {
-        return y && y.index === p.yoga;
+      Var yObj = p.yogas.find(function (y) {
+        Return y && y.index === p.yoga;
       });
-      if (yObj && typeof yObj.name === 'string') {
-        yogaHindi = yObj.name;
+      If (yObj && typeof yObj.name === 'string') {
+        // YOGA_MAP यहाँ लागू किया गया है
+        YogaHindi = YOGA_MAP[yObj.name] || yObj.name;
       }
     } else if (typeof p.yoga === 'string') {
-      yogaHindi = p.yoga;
+      // YOGA_MAP यहाँ लागू किया गया है
+      YogaHindi = YOGA_MAP[p.yoga] || p.yoga;
     }
 
-    var karanaHindi = '—';
-    if (
+    Var karanaHindi = '—';
+    If (
       Array.isArray(p.karanas) &&
-      typeof p.karana === 'number'
+      Typeof p.karana === 'number'
     ) {
-      var kObj = p.karanas.find(function (k) {
-        return k && k.index === p.karana;
+      Var kObj = p.karanas.find(function (k) {
+        Return k && k.index === p.karana;
       });
-      if (kObj && typeof kObj.name === 'string') {
-        karanaHindi = kObj.name;
+      If (kObj && typeof kObj.name === 'string') {
+        // KARANA_MAP यहाँ लागू किया गया है
+        KaranaHindi = KARANA_MAP[kObj.name] || kObj.name;
       }
     } else if (typeof p.karana === 'string') {
-      karanaHindi = p.karana;
+      // KARANA_MAP यहाँ लागू किया गया है
+      KaranaHindi = KARANA_MAP[p.karana] || p.karana;
     }
 
     return {
