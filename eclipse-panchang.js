@@ -129,18 +129,50 @@
   /* ============================================================
      HINDI MAPS
      ============================================================ */
-var YOGA_MAP = [
-  "विष्कम्भ","प्रीति","आयुष्मान","सौभाग्य","शोभन","अतिगण्ड",
-  "सुकर्मा","धृति","शूल","गण्ड","वृद्धि","ध्रुव","व्याघात",
-  "हर्षण","वज्र","सिद्धि","व्यतीपात","वरीयान","परिघ","शिव",
-  "सिद्ध","साध्य","शुभ","शुक्ल","ब्रह्म","इन्द्र","वैधृति"
-];
+var YOGA_MAP = {
+  Vishkambha: 'विष्कम्भ',
+  Priti: 'प्रीति',
+  Ayushman: 'आयुष्मान',
+  Saubhagya: 'सौभाग्य',
+  Shobhana: 'शोभन',
+  Atiganda: 'अतिगण्ड',
+  Sukarma: 'सुकर्मा',
+  Dhriti: 'धृति',
+  Shula: 'शूल',
+  Ganda: 'गण्ड',
+  Vriddhi: 'वृद्धि',
+  Dhruva: 'ध्रुव',
+  Vyaghata: 'व्याघात',
+  Harshana: 'हर्षण',
+  Vajra: 'वज्र',
+  Siddhi: 'सिद्धि',
+  Vyatipata: 'व्यतीपात',
+  Variyana: 'वरीयान',
+  Parigha: 'परिघ',
+  Shiva: 'शिव',
+  Siddha: 'सिद्ध',
+  Sadhya: 'साध्य',
+  Shubha: 'शुभ',
+  Shukla: 'शुक्ल',
+  Brahma: 'ब्रह्म',
+  Indra: 'इन्द्र',
+  Vaidhriti: 'वैधृति'
+};
 
 var KARANA_MAP = {
-  Bava:"बव", Balava:"बालव", Kaulava:"कौलव", Taitila:"तैतिल",
-  Gara:"गर", Vanija:"वणिज", Vishti:"विष्टि", Shakuni:"शकुनि",
-  Chatushpada:"चतुष्पद", Naga:"नाग", Kimstughna:"किंस्तुघ्न"
+  Bava: 'बव',
+  Balava: 'बालव',
+  Kaulava: 'कौलव',
+  Taitila: 'तैतिल',
+  Gara: 'गर',
+  Vanija: 'वणिज',
+  Vishti: 'विष्टि',
+  Shakuni: 'शकुनि',
+  Chatushpada: 'चतुष्पद',
+  Naga: 'नाग',
+  Kimstughna: 'किंस्तुघ्न'
 };
+  
   var TITHI_MAP = {
     Prathama: 'प्रतिपदा',
     Dvitiya: 'द्वितीया',
@@ -684,38 +716,50 @@ function getHindiWeekday(date, tzOffsetMin) {
       vikramSamvat = p.samvat.vikram;
     }
 
-Var yogaHindi = '—';
-    If (
+     var yogaHindi = '—';
+    if (
       Array.isArray(p.yogas) &&
-      Typeof p.yoga === 'number'
+      typeof p.yoga === 'number'
     ) {
-      Var yObj = p.yogas.find(function (y) {
-        Return y && y.index === p.yoga;
+      var yObj = p.yogas.find(function (y) {
+        return y && y.index === p.yoga;
       });
-      If (yObj && typeof yObj.name === 'string') {
+
+      if (
+        yObj &&
+        typeof yObj.name === 'string'
+      ) {
         // YOGA_MAP यहाँ लागू किया गया है
-        YogaHindi = YOGA_MAP[yObj.name] || yObj.name;
+        yogaHindi =
+          YOGA_MAP[yObj.name] || yObj.name;
       }
     } else if (typeof p.yoga === 'string') {
       // YOGA_MAP यहाँ लागू किया गया है
-      YogaHindi = YOGA_MAP[p.yoga] || p.yoga;
+      yogaHindi =
+        YOGA_MAP[p.yoga] || p.yoga;
     }
 
-    Var karanaHindi = '—';
-    If (
+    var karanaHindi = '—';
+    if (
       Array.isArray(p.karanas) &&
-      Typeof p.karana === 'number'
+      typeof p.karana === 'number'
     ) {
-      Var kObj = p.karanas.find(function (k) {
-        Return k && k.index === p.karana;
+      var kObj = p.karanas.find(function (k) {
+        return k && k.index === p.karana;
       });
-      If (kObj && typeof kObj.name === 'string') {
+
+      if (
+        kObj &&
+        typeof kObj.name === 'string'
+      ) {
         // KARANA_MAP यहाँ लागू किया गया है
-        KaranaHindi = KARANA_MAP[kObj.name] || kObj.name;
+        karanaHindi =
+          KARANA_MAP[kObj.name] || kObj.name;
       }
     } else if (typeof p.karana === 'string') {
       // KARANA_MAP यहाँ लागू किया गया है
-      KaranaHindi = KARANA_MAP[p.karana] || p.karana;
+      karanaHindi =
+        KARANA_MAP[p.karana] || p.karana;
     }
 
     return {
