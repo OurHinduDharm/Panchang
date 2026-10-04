@@ -225,10 +225,14 @@ function calculateHoraDetails(
     });
   }
 
-  let current = null;
+   let current = null;
 
   if(referenceNow){
 
+    /*
+     * सामान्य स्थिति:
+     * selected date के sunrise → next sunrise
+     */
     current =
       horas.find(hora =>
         referenceNow >= hora.start &&
@@ -1371,19 +1375,95 @@ const indiaDay =
 const indiaToday =
   `${indiaYear}-${indiaMonth}-${indiaDay}`;
 
-const horaReferenceNow =
+ const horaReferenceNow =
   selectedDate === indiaToday
     ? now
     : null;
 
-  const horaDetails =
-    calculateHoraDetails(
-      pHora.sunrise,
-      pHora.sunset,
-      nextPHora.sunrise,
-      selectedDate,
-      horaReferenceNow
+let horaDetails =
+  calculateHoraDetails(
+    pHora.sunrise,
+    pHora.sunset,
+    nextPHora.sunrise,
+    selectedDate,
+    null
+  );
+
+/*
+ * =========================================================
+ * CURRENT HORA — MIDNIGHT AWARE
+ *
+ * यदि अभी today's sunrise से पहले है,
+ * तो वर्तमान समय previous Panchang day की
+ * रात्रि की Horā में है।
+ *
+ * UI की 24-Hora list selected date की ही रहेगी।
+ * केवल CURRENT Horā previous astronomical day
+ * से resolve होगी।
+ * =========================================================
+ */
+
+if(
+  horaReferenceNow &&
+  horaReferenceNow < new Date(pHora.sunrise)
+){
+
+  try{
+
+    const previousDateObj =
+      new Date(
+        `${selectedDate}T12:00:00`
+      );
+
+    previousDateObj.setDate(
+      previousDateObj.getDate() - 1
     );
+
+    const previousSelectedDate =
+      previousDateObj.getFullYear() +
+      "-" +
+      String(
+        previousDateObj.getMonth() + 1
+      ).padStart(2,"0") +
+      "-" +
+      String(
+        previousDateObj.getDate()
+      ).padStart(2,"0");
+
+    const previousPanchang =
+      getPanchangam(
+        previousDateObj,
+        observer,
+        { timezoneOffset:330 }
+      );
+
+    const previousHoraDetails =
+      calculateHoraDetails(
+        previousPanchang.sunrise,
+        previousPanchang.sunset,
+        pHora.sunrise,
+        previousSelectedDate,
+        horaReferenceNow
+      );
+
+    /*
+     * Selected date की 24-Hora list preserve रहेगी।
+     * केवल current को previous night से लिया जाएगा।
+     */
+    horaDetails.current =
+      previousHoraDetails.current || null;
+
+  }catch(e){
+
+    console.warn(
+      "Previous-day current Hora calculation failed:",
+      e
+    );
+
+    horaDetails.current =
+      null;
+  }
+}
 
   const horaCard =
     createHoraCard(
