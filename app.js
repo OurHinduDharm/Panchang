@@ -1987,7 +1987,7 @@ function getSpecialKaalDetails(
    */
   const pratahSandhya = {
     start:new Date(
-      sunrise.getTime() - 24 * 60 * 1000
+      sunrise.getTime() - nightMuhurtaMs
     ),
     end:new Date(
       sunrise.getTime()
@@ -2029,7 +2029,7 @@ function getSpecialKaalDetails(
       sunset.getTime()
     ),
     end:new Date(
-      sunset.getTime() + 24 * 60 * 1000
+      sunset.getTime() + nightMuhurtaMs
     )
   };
 
@@ -3817,6 +3817,7 @@ function getCurrentKaalPrahar(
    ========================================================= */
 function getAutoSandhyaType(
   p = null,
+  praharData = null,
   referenceNow = null
 ){
 
@@ -3841,19 +3842,72 @@ function getAutoSandhyaType(
     referenceNow;
 
   /*
-   * सूर्यास्त के बाद रात्रि / तुरीय।
+   * वास्तविक रात्रिमान:
+   * sunset → next sunrise.
+   *
+   * चार Night Prahar से कुल रात्रि अवधि
+   * निकालकर 15 रात्रि-मुहूर्त प्राप्त होते हैं।
+   */
+  let nightMuhurtaMs = null;
+
+  if(
+    praharData &&
+    Array.isArray(praharData.nightPrahar)
+  ){
+    const night =
+      praharData.nightPrahar;
+
+    if(
+      night.length === 4 &&
+      night[0]?.start &&
+      night[3]?.end
+    ){
+      const nightMs =
+        new Date(night[3].end).getTime() -
+        new Date(night[0].start).getTime();
+
+      if(nightMs > 0){
+        nightMuhurtaMs =
+          nightMs / 15;
+      }
+    }
+  }
+
+  /*
+   * सूर्यास्त के बाद पहला रात्रि-मुहूर्त
+   * सायं संध्या है।
    */
   if(now >= sunset){
+
+    if(
+      nightMuhurtaMs &&
+      now.getTime() <
+        sunset.getTime() + nightMuhurtaMs
+    ){
+      return "sayam";
+    }
+
     return "turiya";
   }
 
   /*
-   * मध्यरात्रि के बाद लेकिन सूर्योदय से पहले।
+   * सूर्योदय से पहले अंतिम रात्रि-मुहूर्त
+   * प्रातः संध्या है।
+   *
+   * उससे पहले के समय को स्वतः तुरीय
+   * नहीं माना जाएगा।
    */
   if(now < sunrise){
-    return "turiya";
+
+    return "pratah";
   }
 
+  /*
+   * दिन के broad Panchadha काल:
+   * प्रातः + संगव → प्रातः
+   * मध्याह्न → मध्याह्न
+   * अपराह्न + सायाह्न → सायं
+   */
   const dayMs =
     sunset.getTime() -
     sunrise.getTime();
@@ -3865,26 +3919,20 @@ function getAutoSandhyaType(
     now.getTime() -
     sunrise.getTime();
 
-  /*
-   * प्रातः + संगव
-   */
-  if(fromSunrise < 2 * oneFifth){
+  if(
+    fromSunrise < 2 * oneFifth
+  ){
     return "pratah";
   }
 
-  /*
-   * मध्याह्न
-   */
-  if(fromSunrise < 3 * oneFifth){
+  if(
+    fromSunrise < 3 * oneFifth
+  ){
     return "madhyahna";
   }
 
-  /*
-   * अपराह्न + सायाह्न
-   */
   return "sayam";
 }
-
 /* =========================================================
    KARMA PHRASE (WITHOUT final verb & without अहं)
    ========================================================= */
@@ -4955,17 +5003,7 @@ function calculatePanchang(){
     )
       ? new Date()
       : null;
-if(
-  referenceNow &&
-  dateInput.value === todayString()
-){
-  sankalpState.sandhyaType =
-    getAutoSandhyaType(
-      p,
-      referenceNow
-    );
-}
-    let nextSunrise = null;
+let nextSunrise = null;
 let nextMoonset = null;
 
 try{
@@ -5192,6 +5230,18 @@ window.__bhadraTest = bhadra;
   referenceNow
 );
   
+if(
+  referenceNow &&
+  dateInput.value === todayString()
+){
+  sankalpState.sandhyaType =
+    getAutoSandhyaType(
+      p,
+      prahar,
+      referenceNow
+    );
+}
+
 const specialKaal = getSpecialKaalDetails(
   p,
   nextSunrise
