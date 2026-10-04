@@ -845,9 +845,18 @@ function renderCollapsibleTimePeriods(
     `;
   }
 
+  /*
+   * केवल आज के वास्तविक वर्तमान समय पर
+   * वर्तमान चौघड़िया / गौरी निकालें।
+   *
+   * पुराने/भविष्य के दिन में referenceNow = null
+   * रहता है, इसलिए वहाँ कोई कालखंड
+   * "अभी चल रहा है" नहीं बताया जाएगा।
+   */
   const current =
     referenceNow
       ? list.find(item => {
+
           const start =
             new Date(item.startTime);
 
@@ -860,30 +869,82 @@ function renderCollapsibleTimePeriods(
             referenceNow >= start &&
             referenceNow < end
           );
+
         })
       : null;
 
+  /*
+   * वर्तमान item का नाम
+   * और उसके अनुसार हल्का रंग।
+   *
+   * 🟢 = शुभ
+   * 🔴 = अशुभ
+   * अन्य = neutral
+   */
+  const currentDisplay =
+    current
+      ? displayNameFn(current)
+      : "";
+
+  const isGood =
+    currentDisplay.startsWith("🟢");
+
+  const isBad =
+    currentDisplay.startsWith("🔴");
+
+  const currentBg =
+    isGood
+      ? "rgba(76,175,80,0.09)"
+      : isBad
+        ? "rgba(244,67,54,0.08)"
+        : "rgba(128,128,128,0.06)";
+
+  const currentBorder =
+    isGood
+      ? "rgba(76,175,80,0.28)"
+      : isBad
+        ? "rgba(244,67,54,0.25)"
+        : "rgba(128,128,128,0.18)";
+
+  /*
+   * वर्तमान चौघड़िया / गौरी
+   * details के बाहर रहेगा।
+   *
+   * इसलिए section collapsed होने पर भी
+   * यह हमेशा दिखाई देगा।
+   */
   const currentText =
     current
       ? `
-        <div class="time-row" style="
-          margin-top:6px;
-          font-weight:600;
+        <div style="
+          margin:0 0 7px 0;
+          padding:7px 9px;
+          border-radius:7px;
+          background:${currentBg};
+          border:1px solid ${currentBorder};
         ">
-          <b>${displayNameFn(current)}</b>
-          <span>
-            ${formatTimeRange(
-              current.startTime,
-              current.endTime
-            )}
-          </span>
+          <div class="time-row" style="
+            margin:0;
+            font-weight:600;
+          ">
+            <b>${currentDisplay}</b>
+            <span>
+              ${formatTimeRange(
+                current.startTime,
+                current.endTime
+              )}
+            </span>
+          </div>
         </div>
       `
       : `
         <div style="
-          margin-top:6px;
-          font-size:12px;
+          margin:0 0 7px 0;
+          padding:6px 9px;
+          border-radius:6px;
+          background:rgba(128,128,128,0.045);
           color:#777;
+          font-size:11px;
         ">
           ${referenceNow
             ? "इस समय यह कालखंड नहीं चल रहा है।"
@@ -892,9 +953,13 @@ function renderCollapsibleTimePeriods(
         </div>
       `;
 
+  /*
+   * पूरी सूची
+   */
   const allRows =
     list
       .map(item => {
+
         const isCurrent =
           current === item;
 
@@ -914,18 +979,26 @@ function renderCollapsibleTimePeriods(
             </span>
           </div>
         `;
+
       })
       .join("");
 
   return `
     <div class="card full">
+
+      <!-- वर्तमान काल हमेशा दिखाई देगा -->
+      ${currentText}
+
+      <!-- पूरी सूची collapsed रहेगी -->
       <details>
+
         <summary style="
           cursor:pointer;
           font-weight:700;
           list-style-position:inside;
         ">
           ${title}
+
           <span style="
             float:right;
             font-size:11px;
@@ -936,14 +1009,14 @@ function renderCollapsibleTimePeriods(
           </span>
         </summary>
 
-        ${currentText}
-
         <div style="
           margin-top:8px;
         ">
           ${allRows}
         </div>
+
       </details>
+
     </div>
   `;
 }
