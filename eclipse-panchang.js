@@ -805,7 +805,26 @@ function getHindiWeekday(date, tzOffsetMin) {
         padding: 7px 9px;
         border-radius: 7px;
       }
+      .ohd-eclipse-year-nav {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
 
+      .ohd-eclipse-year-nav button {
+        padding: 7px 11px;
+        border-radius: 7px;
+        cursor: pointer;
+        border: 1px solid rgba(0,0,0,.16);
+        background: transparent;
+        font-weight: 600;
+      }
+
+      .ohd-eclipse-year-nav button:disabled {
+        opacity: .45;
+        cursor: default;
+    }
       .ohd-eclipse-loc {
         flex: 1 1 240px;
         min-width: 0;
@@ -1012,12 +1031,34 @@ function getHindiWeekday(date, tzOffsetMin) {
 
       '<div class="ohd-eclipse-controls">',
 
+      '<div class="ohd-eclipse-year-nav">',
+
       '<label class="ohd-eclipse-field">',
       '<span>वर्ष:</span>',
       '<select id="ohd-eclipse-year">',
       buildYearOptions(year),
       '</select>',
       '</label>',
+
+      '<button',
+      ' type="button"',
+      ' id="ohd-eclipse-prev-year"',
+      year <= YEAR_MIN ? ' disabled' : '',
+      '>',
+      '← ',
+      year - 1,
+      '</button>',
+
+      '<button',
+      ' type="button"',
+      ' id="ohd-eclipse-next-year"',
+      year >= YEAR_MAX ? ' disabled' : '',
+      '>',
+      year + 1,
+      ' का ग्रहण देखें →',
+      '</button>',
+
+      '</div>',
 
       '<div class="ohd-eclipse-loc">',
 
@@ -2287,7 +2328,43 @@ if (
       runId: 0,
       wired: false
     };
+    function changeYear(year) {
+      if (
+        !isFinite(year) ||
+        year < YEAR_MIN ||
+        year > YEAR_MAX
+      ) {
+        return;
+      }
 
+      /*
+       * नया वर्ष active करें।
+       */
+      ctl.year = year;
+
+      /*
+       * पुराने results हटाकर
+       * नई year UI बनाएं।
+       */
+      renderShell(
+        ctl.container,
+        ctl.year,
+        ctl.location
+      );
+
+      /*
+       * renderShell() ने नया DOM बनाया है,
+       * इसलिए controls फिर से wire करने होंगे।
+       */
+      ctl.wired = false;
+      wireControls();
+
+      /*
+       * उसी selected location पर
+       * नए वर्ष की वास्तविक calculation।
+       */
+      run();
+    }
     async function run() {
       if (
         !ctl.container ||
@@ -2353,9 +2430,10 @@ if (
         return;
       }
 
-      var yearSelect = ctl.container.querySelector(
+       var yearSelect = ctl.container.querySelector(
         '#ohd-eclipse-year'
       );
+
       if (yearSelect) {
         yearSelect.addEventListener(
           'change',
@@ -2364,6 +2442,7 @@ if (
               event.target.value,
               10
             );
+
             if (
               !isFinite(year) ||
               year < YEAR_MIN ||
@@ -2371,8 +2450,40 @@ if (
             ) {
               return;
             }
-            ctl.year = year;
-            run();
+
+            changeYear(year);
+          }
+        );
+      }
+
+      var prevYearButton =
+        ctl.container.querySelector(
+          '#ohd-eclipse-prev-year'
+        );
+
+      if (prevYearButton) {
+        prevYearButton.addEventListener(
+          'click',
+          function () {
+            if (ctl.year > YEAR_MIN) {
+              changeYear(ctl.year - 1);
+            }
+          }
+        );
+      }
+
+      var nextYearButton =
+        ctl.container.querySelector(
+          '#ohd-eclipse-next-year'
+        );
+
+      if (nextYearButton) {
+        nextYearButton.addEventListener(
+          'click',
+          function () {
+            if (ctl.year < YEAR_MAX) {
+              changeYear(ctl.year + 1);
+            }
           }
         );
       }
