@@ -35,6 +35,10 @@
     font-size: 1.1rem;
   }
 
+  h3 {
+    margin: 0 0 10px;
+  }
+
   .card {
     background: #fff;
     border: 1px solid #ddd;
@@ -65,12 +69,6 @@
     opacity: 0.9;
   }
 
-  input {
-    padding: 9px;
-    border: 1px solid #bbb;
-    border-radius: 7px;
-  }
-
   table {
     width: 100%;
     border-collapse: collapse;
@@ -87,17 +85,6 @@
 
   th {
     background: #f0f0f0;
-  }
-
-  pre {
-    white-space: pre-wrap;
-    word-break: break-word;
-    background: #111;
-    color: #eee;
-    padding: 12px;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-size: 12px;
   }
 
   .ok {
@@ -136,16 +123,31 @@
   <h1>🌌 Astronomy Validation — OurHinduDharm</h1>
 
   <div class="card">
+
     <div class="controls">
-      <button id="runAll">▶ Run All Tests</button>
-      <button id="runRaw">Raw Astronomy</button>
-      <button id="runReference">Reference Comparison</button>
-      <button id="runVisibility">Visibility Scan</button>
+
+      <button id="runAll">
+        ▶ Run All Tests
+      </button>
+
+      <button id="runRaw">
+        Raw Astronomy
+      </button>
+
+      <button id="runReference">
+        Reference Comparison
+      </button>
+
+      <button id="runVisibility">
+        Visibility Scan
+      </button>
+
     </div>
 
     <p id="status" class="muted">
       Ready.
     </p>
+
   </div>
 
 
@@ -154,10 +156,13 @@
        ========================================================= -->
 
   <section class="card">
+
     <h2>1. Test Configuration</h2>
 
     <table>
+
       <tbody>
+
         <tr>
           <th>Location</th>
           <td>Pithoragarh validation point</td>
@@ -180,15 +185,20 @@
 
         <tr>
           <th>Timezone</th>
-          <td>Asia/Kolkata — UTC+05:30</td>
+          <td>
+            Asia/Kolkata — UTC+05:30
+          </td>
         </tr>
 
         <tr>
           <th>Timezone offset</th>
           <td id="cfgTz"></td>
         </tr>
+
       </tbody>
+
     </table>
+
   </section>
 
 
@@ -197,15 +207,18 @@
        ========================================================= -->
 
   <section class="card">
+
     <h2>2. Reference Dataset</h2>
 
     <p class="small muted">
-      Reference values are external comparison points. They are not used
-      to hard-code the calculation.
+      Reference values are external comparison points.
+      They are not used to hard-code the calculation.
     </p>
 
     <table>
+
       <thead>
+
         <tr>
           <th>Planet</th>
           <th>Event</th>
@@ -213,10 +226,13 @@
           <th>Reference elongation</th>
           <th>Source</th>
         </tr>
+
       </thead>
 
       <tbody id="referenceTable"></tbody>
+
     </table>
+
   </section>
 
 
@@ -225,11 +241,17 @@
        ========================================================= -->
 
   <section class="card">
+
     <h2>3. Raw Panchangam-JS Planetary Data</h2>
 
     <div id="rawOutput">
-      <p class="muted">Not run yet.</p>
+
+      <p class="muted">
+        Not run yet.
+      </p>
+
     </div>
+
   </section>
 
 
@@ -238,11 +260,17 @@
        ========================================================= -->
 
   <section class="card">
+
     <h2>4. Sun–Planet Elongation vs Reference</h2>
 
     <div id="comparisonOutput">
-      <p class="muted">Not run yet.</p>
+
+      <p class="muted">
+        Not run yet.
+      </p>
+
     </div>
+
   </section>
 
 
@@ -251,38 +279,49 @@
        ========================================================= -->
 
   <section class="card">
+
     <h2>5. Horizon / Altitude Geometry</h2>
 
     <p class="small muted">
-      This section uses Astronomy Engine independently to inspect the
-      actual local sky geometry. It does not assume that elongation alone
-      means visibility.
+      This section uses Astronomy Engine independently to inspect
+      the actual local sky geometry. It does not assume that
+      elongation alone means visibility.
     </p>
 
     <div id="visibilityOutput">
-      <p class="muted">Not run yet.</p>
+
+      <p class="muted">
+        Not run yet.
+      </p>
+
     </div>
+
   </section>
 
 
   <!-- =========================================================
-       8. DIAGNOSTIC NOTES
+       6. DIAGNOSTIC NOTES
        ========================================================= -->
 
   <section class="card">
-    <h2>8. Diagnostic Notes</h2>
+
+    <h2>6. Diagnostic Notes</h2>
 
     <div id="notesOutput">
+
       <ul>
         <li>Tests have not been run yet.</li>
       </ul>
+
     </div>
+
   </section>
 
 </main>
 
 
 <script type="module">
+
 
 /* ============================================================
    IMPORTS
@@ -302,19 +341,28 @@ import * as Astronomy
    ============================================================ */
 
 const CONFIG = {
+
   latitude: 30.1265,
+
   longitude: 80.4817,
+
   elevation: 0,
 
   timezoneOffset: 330,
 
   timezoneName: "Asia/Kolkata"
+
 };
 
+
 const observer = new Observer(
+
   CONFIG.latitude,
+
   CONFIG.longitude,
+
   CONFIG.elevation
+
 );
 
 
@@ -323,45 +371,74 @@ const observer = new Observer(
    ============================================================ */
 
 const REFERENCES = [
+
   {
     planet: "Venus",
+
     body: Astronomy.Body.Venus,
+
     event: "Asta",
+
     date: "2026-10-19",
+
     time: "12:00",
+
     elongation: 7.76,
+
     source: "Drik / Tantrakulam"
   },
+
 
   {
     planet: "Venus",
+
     body: Astronomy.Body.Venus,
+
     event: "Udaya",
+
     date: "2026-10-30",
+
     time: "06:00",
+
     elongation: 9.70,
+
     source: "Drik / Tantrakulam"
   },
 
+
   {
     planet: "Jupiter",
+
     body: Astronomy.Body.Jupiter,
+
     event: "Asta",
+
     date: "2027-08-17",
+
     time: "12:00",
+
     elongation: 10.49,
+
     source: "Drik / Tantrakulam"
   },
 
+
   {
     planet: "Jupiter",
+
     body: Astronomy.Body.Jupiter,
+
     event: "Udaya",
+
     date: "2027-09-15",
+
     time: "06:00",
+
     elongation: 11.28,
+
     source: "Drik / Tantrakulam"
   }
+
 ];
 
 
@@ -370,11 +447,17 @@ const REFERENCES = [
    ============================================================ */
 
 const PLANETS = [
+
   ["Mercury", Astronomy.Body.Mercury],
+
   ["Venus", Astronomy.Body.Venus],
+
   ["Mars", Astronomy.Body.Mars],
+
   ["Jupiter", Astronomy.Body.Jupiter],
+
   ["Saturn", Astronomy.Body.Saturn]
+
 ];
 
 
@@ -382,85 +465,114 @@ const PLANETS = [
    DOM
    ============================================================ */
 
-const $ = id => document.getElementById(id);
+const $ = id =>
+  document.getElementById(id);
 
-$("cfgLat").textContent = CONFIG.latitude;
-$("cfgLon").textContent = CONFIG.longitude;
-$("cfgElevation").textContent = `${CONFIG.elevation} m`;
-$("cfgTz").textContent = `${CONFIG.timezoneOffset} minutes`;
+
+$("cfgLat").textContent =
+  CONFIG.latitude;
+
+
+$("cfgLon").textContent =
+  CONFIG.longitude;
+
+
+$("cfgElevation").textContent =
+  `${CONFIG.elevation} m`;
+
+
+$("cfgTz").textContent =
+  `${CONFIG.timezoneOffset} minutes`;
 
 
 /* ============================================================
    UTILITIES
    ============================================================ */
 
-function localDateTime(dateString, timeString = "12:00") {
+function localDateTime(
+  dateString,
+  timeString = "12:00"
+) {
 
   return new Date(
     `${dateString}T${timeString}:00+05:30`
   );
+
 }
 
 
 function formatDate(date) {
 
   return new Intl.DateTimeFormat(
+
     "en-IN",
+
     {
       timeZone: CONFIG.timezoneName,
+
       dateStyle: "medium",
+
       timeStyle: "medium"
     }
+
   ).format(date);
+
 }
 
 
-function formatNumber(value, digits = 3) {
+function formatNumber(
+  value,
+  digits = 3
+) {
 
   if (
     value === null ||
     value === undefined ||
     !Number.isFinite(value)
   ) {
+
     return "—";
+
   }
 
-  return Number(value).toFixed(digits);
+  return Number(value)
+    .toFixed(digits);
+
 }
 
 
 function normalizeAngle(angle) {
 
-  let x = angle % 360;
+  let x =
+    angle % 360;
 
   if (x < 0) {
+
     x += 360;
+
   }
 
   return x;
+
 }
 
 
-function angularDifference(a, b) {
+function angularDifference(
+  a,
+  b
+) {
 
-  let d = Math.abs(
-    normalizeAngle(a) -
-    normalizeAngle(b)
+  let d =
+    Math.abs(
+      normalizeAngle(a) -
+      normalizeAngle(b)
+    );
+
+  return Math.min(
+    d,
+    360 - d
   );
 
-  return Math.min(d, 360 - d);
-}
-
-
-function safe(fn) {
-
-  try {
-    return fn();
-  } catch (error) {
-    return {
-      error: error?.message || String(error)
-    };
-  }
 }
 
 
@@ -471,12 +583,18 @@ function safe(fn) {
 function getPanchang(date) {
 
   return getPanchangam(
+
     date,
+
     observer,
+
     {
-      timezoneOffset: CONFIG.timezoneOffset
+      timezoneOffset:
+        CONFIG.timezoneOffset
     }
+
   );
+
 }
 
 
@@ -484,16 +602,19 @@ function getPanchang(date) {
    GET PLANET LONGITUDE
    ============================================================ */
 
-function getPlanetLongitude(panchang, planetName) {
+function getPlanetLongitude(
+  panchang,
+  planetName
+) {
 
-  const key = planetName.toLowerCase();
+  const key =
+    planetName.toLowerCase();
 
   return panchang
     ?.planetaryPositions
-    ?.[
-      key
-    ]
+    ?.[key]
     ?.longitude;
+
 }
 
 
@@ -506,15 +627,36 @@ async function runRawTest() {
   $("rawOutput").innerHTML = "";
 
   const dates = [
-    localDateTime("2026-10-19", "12:00"),
-    localDateTime("2026-10-30", "06:00"),
-    localDateTime("2027-08-17", "12:00"),
-    localDateTime("2027-09-15", "06:00")
+
+    localDateTime(
+      "2026-10-19",
+      "12:00"
+    ),
+
+    localDateTime(
+      "2026-10-30",
+      "06:00"
+    ),
+
+    localDateTime(
+      "2027-08-17",
+      "12:00"
+    ),
+
+    localDateTime(
+      "2027-09-15",
+      "06:00"
+    )
+
   ];
 
+
   let html = `
+
     <table>
+
       <thead>
+
         <tr>
           <th>Date / Time</th>
           <th>Sun</th>
@@ -524,33 +666,103 @@ async function runRawTest() {
           <th>Jupiter</th>
           <th>Saturn</th>
         </tr>
+
       </thead>
+
       <tbody>
+
   `;
 
-  for (const date of dates) {
 
-    const p = getPanchang(date);
+  for (
+    const date of dates
+  ) {
+
+    const p =
+      getPanchang(date);
+
 
     html += `
+
       <tr>
-        <td>${formatDate(date)}</td>
-        <td>${formatNumber(getPlanetLongitude(p, "Sun"))}</td>
-        <td>${formatNumber(getPlanetLongitude(p, "Mercury"))}</td>
-        <td>${formatNumber(getPlanetLongitude(p, "Venus"))}</td>
-        <td>${formatNumber(getPlanetLongitude(p, "Mars"))}</td>
-        <td>${formatNumber(getPlanetLongitude(p, "Jupiter"))}</td>
-        <td>${formatNumber(getPlanetLongitude(p, "Saturn"))}</td>
+
+        <td>
+          ${formatDate(date)}
+        </td>
+
+        <td>
+          ${formatNumber(
+            getPlanetLongitude(
+              p,
+              "Sun"
+            )
+          )}
+        </td>
+
+        <td>
+          ${formatNumber(
+            getPlanetLongitude(
+              p,
+              "Mercury"
+            )
+          )}
+        </td>
+
+        <td>
+          ${formatNumber(
+            getPlanetLongitude(
+              p,
+              "Venus"
+            )
+          )}
+        </td>
+
+        <td>
+          ${formatNumber(
+            getPlanetLongitude(
+              p,
+              "Mars"
+            )
+          )}
+        </td>
+
+        <td>
+          ${formatNumber(
+            getPlanetLongitude(
+              p,
+              "Jupiter"
+            )
+          )}
+        </td>
+
+        <td>
+          ${formatNumber(
+            getPlanetLongitude(
+              p,
+              "Saturn"
+            )
+          )}
+        </td>
+
       </tr>
+
     `;
+
   }
 
+
   html += `
+
       </tbody>
+
     </table>
+
   `;
 
-  $("rawOutput").innerHTML = html;
+
+  $("rawOutput").innerHTML =
+    html;
+
 }
 
 
@@ -561,8 +773,11 @@ async function runRawTest() {
 async function runReferenceTest() {
 
   let html = `
+
     <table>
+
       <thead>
+
         <tr>
           <th>Planet</th>
           <th>Event</th>
@@ -572,24 +787,42 @@ async function runReferenceTest() {
           <th>Difference</th>
           <th>Status</th>
         </tr>
+
       </thead>
+
       <tbody>
+
   `;
 
-  for (const ref of REFERENCES) {
 
-    const date = localDateTime(
-      ref.date,
-      ref.time
-    );
+  for (
+    const ref of REFERENCES
+  ) {
 
-    const p = getPanchang(date);
+    const date =
+      localDateTime(
+        ref.date,
+        ref.time
+      );
+
+
+    const p =
+      getPanchang(date);
+
 
     const sunLon =
-      getPlanetLongitude(p, "Sun");
+      getPlanetLongitude(
+        p,
+        "Sun"
+      );
+
 
     const planetLon =
-      getPlanetLongitude(p, ref.planet);
+      getPlanetLongitude(
+        p,
+        ref.planet
+      );
+
 
     const elongation =
       angularDifference(
@@ -597,35 +830,83 @@ async function runReferenceTest() {
         planetLon
       );
 
+
     const diff =
-      elongation - ref.elongation;
+      elongation -
+      ref.elongation;
+
 
     const status =
+
       Math.abs(diff) <= 0.05
-        ? `<span class="ok">MATCH</span>`
+
+        ? `<span class="ok">
+             MATCH
+           </span>`
+
         : Math.abs(diff) <= 0.25
-          ? `<span class="warn">CLOSE</span>`
-          : `<span class="bad">CHECK</span>`;
+
+          ? `<span class="warn">
+               CLOSE
+             </span>`
+
+          : `<span class="bad">
+               CHECK
+             </span>`;
+
 
     html += `
+
       <tr>
-        <td>${ref.planet}</td>
-        <td>${ref.event}</td>
-        <td>${ref.date} ${ref.time}</td>
-        <td>${ref.elongation.toFixed(3)}°</td>
-        <td>${elongation.toFixed(3)}°</td>
-        <td>${diff >= 0 ? "+" : ""}${diff.toFixed(3)}°</td>
-        <td>${status}</td>
+
+        <td>
+          ${ref.planet}
+        </td>
+
+        <td>
+          ${ref.event}
+        </td>
+
+        <td>
+          ${ref.date} ${ref.time}
+        </td>
+
+        <td>
+          ${ref.elongation.toFixed(3)}°
+        </td>
+
+        <td>
+          ${elongation.toFixed(3)}°
+        </td>
+
+        <td>
+          ${diff >= 0 ? "+" : ""}
+          ${diff.toFixed(3)}°
+        </td>
+
+        <td>
+          ${status}
+        </td>
+
       </tr>
+
     `;
+
   }
 
+
   html += `
+
       </tbody>
+
     </table>
+
   `;
 
-  $("comparisonOutput").innerHTML = html;
+
+  $("comparisonOutput").innerHTML =
+    html;
+
 }
 
 
@@ -633,93 +914,205 @@ async function runReferenceTest() {
    5. HORIZON / ALTITUDE TEST
    ============================================================ */
 
-function getSkyData(date, body) {
+function getSkyData(
+  date,
+  body
+) {
 
-  const equator = safe(() =>
-    Astronomy.Equator(
-      body,
-      date,
-      observer,
-      true,
-      true
-    )
-  );
+  const equator = (() => {
 
-  const horizon = safe(() => {
+    try {
+
+      return Astronomy.Equator(
+
+        body,
+
+        date,
+
+        observer,
+
+        true,
+
+        true
+
+      );
+
+    } catch (error) {
+
+      return {
+        error:
+          error?.message ||
+          String(error)
+      };
+
+    }
+
+  })();
+
+
+  const horizon = (() => {
 
     if (
       !equator ||
       equator.error
     ) {
+
       return null;
+
     }
 
-    return Astronomy.Horizon(
-      date,
-      observer,
-      equator.ra,
-      equator.dec,
-      "normal"
-    );
-  });
 
-  const sunEquator = safe(() =>
-    Astronomy.Equator(
-      Astronomy.Body.Sun,
-      date,
-      observer,
-      true,
-      true
-    )
-  );
+    try {
 
-  const sunHorizon = safe(() => {
+      return Astronomy.Horizon(
+
+        date,
+
+        observer,
+
+        equator.ra,
+
+        equator.dec,
+
+        "normal"
+
+      );
+
+    } catch {
+
+      return null;
+
+    }
+
+  })();
+
+
+  const sunEquator = (() => {
+
+    try {
+
+      return Astronomy.Equator(
+
+        Astronomy.Body.Sun,
+
+        date,
+
+        observer,
+
+        true,
+
+        true
+
+      );
+
+    } catch (error) {
+
+      return {
+        error:
+          error?.message ||
+          String(error)
+      };
+
+    }
+
+  })();
+
+
+  const sunHorizon = (() => {
 
     if (
       !sunEquator ||
       sunEquator.error
     ) {
+
       return null;
+
     }
 
-    return Astronomy.Horizon(
-      date,
-      observer,
-      sunEquator.ra,
-      sunEquator.dec,
-      "normal"
-    );
-  });
 
-  const ecliptic = safe(() =>
-    Astronomy.Ecliptic(
-      Astronomy.GeoVector(
-        body,
-        date
-      )
-    )
-  );
+    try {
+
+      return Astronomy.Horizon(
+
+        date,
+
+        observer,
+
+        sunEquator.ra,
+
+        sunEquator.dec,
+
+        "normal"
+
+      );
+
+    } catch {
+
+      return null;
+
+    }
+
+  })();
+
+
+  const ecliptic = (() => {
+
+    try {
+
+      return Astronomy.Ecliptic(
+
+        Astronomy.GeoVector(
+          body,
+          date
+        )
+
+      );
+
+    } catch {
+
+      return null;
+
+    }
+
+  })();
+
 
   return {
+
     equator,
+
     horizon,
+
     sunEquator,
+
     sunHorizon,
+
     ecliptic
+
   };
+
 }
 
+
+/* ============================================================
+   RUN VISIBILITY GEOMETRY
+   ============================================================ */
 
 async function runVisibilityTest() {
 
   let html = "";
 
-  for (const ref of REFERENCES) {
 
-    const date = localDateTime(
-      ref.date,
-      ref.time
-    );
+  for (
+    const ref of REFERENCES
+  ) {
+
+    const date =
+      localDateTime(
+        ref.date,
+        ref.time
+      );
+
 
     const sky =
       getSkyData(
@@ -727,125 +1120,211 @@ async function runVisibilityTest() {
         ref.body
       );
 
+
     const planetAlt =
       sky.horizon?.altitude;
+
 
     const planetAz =
       sky.horizon?.azimuth;
 
+
     const sunAlt =
       sky.sunHorizon?.altitude;
+
 
     const planetLat =
       sky.ecliptic?.lat;
 
+
+    const p =
+      getPanchang(date);
+
+
+    const sunLon =
+      getPlanetLongitude(
+        p,
+        "Sun"
+      );
+
+
+    const planetLon =
+      getPlanetLongitude(
+        p,
+        ref.planet
+      );
+
+
+    const elongation =
+      angularDifference(
+        sunLon,
+        planetLon
+      );
+
+
     html += `
+
       <div style="margin-bottom:24px">
 
         <h3>
-          ${ref.planet} — ${ref.event}
-          — ${ref.date} ${ref.time}
+          ${ref.planet}
+          — ${ref.event}
+          — ${ref.date}
+          ${ref.time}
         </h3>
 
+
         <table>
+
           <tbody>
 
             <tr>
-              <th>Planet altitude</th>
+
+              <th>
+                Planet altitude
+              </th>
+
               <td>
-                ${formatNumber(planetAlt, 3)}°
+                ${formatNumber(
+                  planetAlt,
+                  3
+                )}°
               </td>
+
             </tr>
 
+
             <tr>
-              <th>Planet azimuth</th>
+
+              <th>
+                Planet azimuth
+              </th>
+
               <td>
-                ${formatNumber(planetAz, 3)}°
+                ${formatNumber(
+                  planetAz,
+                  3
+                )}°
               </td>
+
             </tr>
 
+
             <tr>
-              <th>Sun altitude</th>
+
+              <th>
+                Sun altitude
+              </th>
+
               <td>
-                ${formatNumber(sunAlt, 3)}°
+                ${formatNumber(
+                  sunAlt,
+                  3
+                )}°
               </td>
+
             </tr>
 
+
             <tr>
-              <th>Planet ecliptic latitude</th>
+
+              <th>
+                Planet ecliptic latitude
+              </th>
+
               <td>
-                ${formatNumber(planetLat, 3)}°
+                ${formatNumber(
+                  planetLat,
+                  3
+                )}°
               </td>
+
             </tr>
 
+
             <tr>
-              <th>Sun–planet elongation</th>
+
+              <th>
+                Sun–planet elongation
+              </th>
+
               <td>
-                ${(() => {
-
-                  const p =
-                    getPanchang(date);
-
-                  return formatNumber(
-                    angularDifference(
-                      getPlanetLongitude(
-                        p,
-                        "Sun"
-                      ),
-                      getPlanetLongitude(
-                        p,
-                        ref.planet
-                      )
-                    ),
-                    3
-                  );
-
-                })()}°
+                ${formatNumber(
+                  elongation,
+                  3
+                )}°
               </td>
+
             </tr>
 
           </tbody>
+
         </table>
 
       </div>
+
     `;
+
   }
+
 
   $("visibilityOutput").innerHTML =
     html;
+
 }
 
 
-
-
 /* ============================================================
-   8. REFERENCE TABLE
+   REFERENCE TABLE
    ============================================================ */
 
 function renderReferenceTable() {
 
   $("referenceTable").innerHTML =
+
     REFERENCES
+
       .map(ref => `
+
         <tr>
-          <td>${ref.planet}</td>
-          <td>${ref.event}</td>
-          <td>${ref.date}</td>
-          <td>${ref.elongation.toFixed(2)}°</td>
-          <td>${ref.source}</td>
+
+          <td>
+            ${ref.planet}
+          </td>
+
+          <td>
+            ${ref.event}
+          </td>
+
+          <td>
+            ${ref.date}
+          </td>
+
+          <td>
+            ${ref.elongation.toFixed(2)}°
+          </td>
+
+          <td>
+            ${ref.source}
+          </td>
+
         </tr>
+
       `)
+
       .join("");
+
 }
 
 
 /* ============================================================
-   9. NOTES
+   DIAGNOSTIC NOTES
    ============================================================ */
 
 function renderNotes() {
 
   $("notesOutput").innerHTML = `
+
     <ul>
 
       <li>
@@ -853,15 +1332,18 @@ function renderNotes() {
         angular separation between the Sun and planet.
       </li>
 
+
       <li>
         <strong>Altitude:</strong>
         actual local horizon position of the planet.
       </li>
 
+
       <li>
         <strong>Sun altitude:</strong>
         indicates the local twilight / daylight geometry.
       </li>
+
 
       <li>
         <strong>Ecliptic latitude:</strong>
@@ -869,29 +1351,34 @@ function renderNotes() {
         on the ecliptic.
       </li>
 
+
       <li>
         A reference elongation is not by itself proof that
         heliacal visibility occurs exactly at that instant.
       </li>
+
 
       <li>
         This diagnostic intentionally does not use a hard-coded
         Asta/Udaya threshold.
       </li>
 
+
       <li>
-        The eventual visibility algorithm will be chosen only
-        after these measurements are compared with the reference
+        The next validation stage will test an actual
+        heliacal visibility calculation against the reference
         dates.
       </li>
 
     </ul>
+
   `;
+
 }
 
 
 /* ============================================================
-   10. RUN ALL
+   RUN ALL
    ============================================================ */
 
 async function runAllTests() {
@@ -899,7 +1386,9 @@ async function runAllTests() {
   $("status").textContent =
     "⏳ Running all astronomy diagnostics...";
 
+
   $("status").className = "";
+
 
   try {
 
@@ -911,29 +1400,37 @@ async function runAllTests() {
 
     await runVisibilityTest();
 
-    await runTransitionScan();
-
-    await runLibraryObjectTest();
-
     renderNotes();
+
 
     $("status").textContent =
       "✅ All diagnostic tests completed.";
 
+
     $("status").className =
       "ok";
 
-  } catch (error) {
+  }
+
+
+  catch (error) {
 
     console.error(error);
 
+
     $("status").textContent =
       "❌ Test failed: " +
-      (error?.message || String(error));
+      (
+        error?.message ||
+        String(error)
+      );
+
 
     $("status").className =
       "bad";
+
   }
+
 }
 
 
@@ -947,6 +1444,7 @@ $("runAll")
     runAllTests
   );
 
+
 $("runRaw")
   .addEventListener(
     "click",
@@ -955,19 +1453,40 @@ $("runRaw")
       $("status").textContent =
         "⏳ Running raw astronomy...";
 
+
       try {
 
         await runRawTest();
 
+
         $("status").textContent =
           "✅ Raw astronomy completed.";
 
-      } catch (error) {
+
+        $("status").className =
+          "ok";
+
+      }
+
+
+      catch (error) {
+
+        console.error(error);
+
 
         $("status").textContent =
           "❌ " +
-          (error?.message || String(error));
+          (
+            error?.message ||
+            String(error)
+          );
+
+
+        $("status").className =
+          "bad";
+
       }
+
     }
   );
 
@@ -980,19 +1499,40 @@ $("runReference")
       $("status").textContent =
         "⏳ Running reference comparison...";
 
+
       try {
 
         await runReferenceTest();
 
+
         $("status").textContent =
           "✅ Reference comparison completed.";
 
-      } catch (error) {
+
+        $("status").className =
+          "ok";
+
+      }
+
+
+      catch (error) {
+
+        console.error(error);
+
 
         $("status").textContent =
           "❌ " +
-          (error?.message || String(error));
+          (
+            error?.message ||
+            String(error)
+          );
+
+
+        $("status").className =
+          "bad";
+
       }
+
     }
   );
 
@@ -1005,21 +1545,40 @@ $("runVisibility")
       $("status").textContent =
         "⏳ Running visibility geometry...";
 
+
       try {
 
         await runVisibilityTest();
 
-        await runTransitionScan();
 
         $("status").textContent =
           "✅ Visibility diagnostics completed.";
 
-      } catch (error) {
+
+        $("status").className =
+          "ok";
+
+      }
+
+
+      catch (error) {
+
+        console.error(error);
+
 
         $("status").textContent =
           "❌ " +
-          (error?.message || String(error));
+          (
+            error?.message ||
+            String(error)
+          );
+
+
+        $("status").className =
+          "bad";
+
       }
+
     }
   );
 
@@ -1032,9 +1591,11 @@ renderReferenceTable();
 
 renderNotes();
 
+
 console.log(
   "🌌 OurHinduDharm Astronomy Validation loaded."
 );
+
 
 console.log(
   "panchangam-js:",
@@ -1043,6 +1604,7 @@ console.log(
     Observer
   }
 );
+
 
 console.log(
   "Astronomy Engine:",
