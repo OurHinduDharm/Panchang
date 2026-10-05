@@ -14,8 +14,8 @@
   body {
     margin: 0;
     padding: 16px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                 sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", sans-serif;
     background: #f5f5f5;
     color: #222;
     line-height: 1.45;
@@ -69,6 +69,11 @@
     opacity: 0.9;
   }
 
+  button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -110,8 +115,24 @@
     font-size: 13px;
   }
 
+  .note {
+    padding: 10px 12px;
+    background: #fafafa;
+    border-left: 3px solid #888;
+    margin: 10px 0;
+  }
+
   #status {
     font-weight: 700;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #f7f7f7;
+    padding: 10px;
+    border-radius: 8px;
+    overflow-x: auto;
   }
 </style>
 </head>
@@ -140,6 +161,10 @@
 
       <button id="runVisibility">
         Visibility Scan
+      </button>
+
+      <button id="runHeliacal">
+        Heliacal Validation
       </button>
 
     </div>
@@ -300,12 +325,41 @@
 
 
   <!-- =========================================================
-       6. DIAGNOSTIC NOTES
+       6. HELIACAL VALIDATION
        ========================================================= -->
 
   <section class="card">
 
-    <h2>6. Diagnostic Notes</h2>
+    <h2>6. Heliacal Udaya / Asta Validation</h2>
+
+    <p class="small muted">
+      This section uses Swiss Ephemeris heliacal visibility
+      calculation. Reference dates are comparison targets only;
+      they are not supplied as the calculated answer.
+    </p>
+
+    <div id="swissStatus" class="note">
+      Swiss Ephemeris has not been initialized yet.
+    </div>
+
+    <div id="heliacalOutput">
+
+      <p class="muted">
+        Not run yet.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       7. DIAGNOSTIC NOTES
+       ========================================================= -->
+
+  <section class="card">
+
+    <h2>7. Diagnostic Notes</h2>
 
     <div id="notesOutput">
 
@@ -334,6 +388,9 @@ import {
 
 import * as Astronomy
   from "https://esm.sh/astronomy-engine@2.1.19";
+
+import SwissEph
+  from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
 
 
 /* ============================================================
@@ -374,89 +431,51 @@ const REFERENCES = [
 
   {
     planet: "Venus",
-
     body: Astronomy.Body.Venus,
-
+    swissPlanet: "Venus",
     event: "Asta",
-
+    eventType: 2,
     date: "2026-10-19",
-
     time: "12:00",
-
     elongation: 7.76,
-
     source: "Drik / Tantrakulam"
   },
-
 
   {
     planet: "Venus",
-
     body: Astronomy.Body.Venus,
-
+    swissPlanet: "Venus",
     event: "Udaya",
-
+    eventType: 1,
     date: "2026-10-30",
-
     time: "06:00",
-
     elongation: 9.70,
-
     source: "Drik / Tantrakulam"
   },
 
-
   {
     planet: "Jupiter",
-
     body: Astronomy.Body.Jupiter,
-
+    swissPlanet: "Jupiter",
     event: "Asta",
-
+    eventType: 2,
     date: "2027-08-17",
-
     time: "12:00",
-
     elongation: 10.49,
-
     source: "Drik / Tantrakulam"
   },
 
-
   {
     planet: "Jupiter",
-
     body: Astronomy.Body.Jupiter,
-
+    swissPlanet: "Jupiter",
     event: "Udaya",
-
+    eventType: 1,
     date: "2027-09-15",
-
     time: "06:00",
-
     elongation: 11.28,
-
     source: "Drik / Tantrakulam"
   }
-
-];
-
-
-/* ============================================================
-   PLANETS
-   ============================================================ */
-
-const PLANETS = [
-
-  ["Mercury", Astronomy.Body.Mercury],
-
-  ["Venus", Astronomy.Body.Venus],
-
-  ["Mars", Astronomy.Body.Mars],
-
-  ["Jupiter", Astronomy.Body.Jupiter],
-
-  ["Saturn", Astronomy.Body.Saturn]
 
 ];
 
@@ -472,14 +491,11 @@ const $ = id =>
 $("cfgLat").textContent =
   CONFIG.latitude;
 
-
 $("cfgLon").textContent =
   CONFIG.longitude;
 
-
 $("cfgElevation").textContent =
   `${CONFIG.elevation} m`;
-
 
 $("cfgTz").textContent =
   `${CONFIG.timezoneOffset} minutes`;
@@ -509,9 +525,7 @@ function formatDate(date) {
 
     {
       timeZone: CONFIG.timezoneName,
-
       dateStyle: "medium",
-
       timeStyle: "medium"
     }
 
@@ -547,9 +561,7 @@ function normalizeAngle(angle) {
     angle % 360;
 
   if (x < 0) {
-
     x += 360;
-
   }
 
   return x;
@@ -692,55 +704,37 @@ async function runRawTest() {
 
         <td>
           ${formatNumber(
-            getPlanetLongitude(
-              p,
-              "Sun"
-            )
+            getPlanetLongitude(p, "Sun")
           )}
         </td>
 
         <td>
           ${formatNumber(
-            getPlanetLongitude(
-              p,
-              "Mercury"
-            )
+            getPlanetLongitude(p, "Mercury")
           )}
         </td>
 
         <td>
           ${formatNumber(
-            getPlanetLongitude(
-              p,
-              "Venus"
-            )
+            getPlanetLongitude(p, "Venus")
           )}
         </td>
 
         <td>
           ${formatNumber(
-            getPlanetLongitude(
-              p,
-              "Mars"
-            )
+            getPlanetLongitude(p, "Mars")
           )}
         </td>
 
         <td>
           ${formatNumber(
-            getPlanetLongitude(
-              p,
-              "Jupiter"
-            )
+            getPlanetLongitude(p, "Jupiter")
           )}
         </td>
 
         <td>
           ${formatNumber(
-            getPlanetLongitude(
-              p,
-              "Saturn"
-            )
+            getPlanetLongitude(p, "Saturn")
           )}
         </td>
 
@@ -840,53 +834,35 @@ async function runReferenceTest() {
 
       Math.abs(diff) <= 0.05
 
-        ? `<span class="ok">
-             MATCH
-           </span>`
+        ? `<span class="ok">MATCH</span>`
 
         : Math.abs(diff) <= 0.25
 
-          ? `<span class="warn">
-               CLOSE
-             </span>`
+          ? `<span class="warn">CLOSE</span>`
 
-          : `<span class="bad">
-               CHECK
-             </span>`;
+          : `<span class="bad">CHECK</span>`;
 
 
     html += `
 
       <tr>
 
-        <td>
-          ${ref.planet}
-        </td>
+        <td>${ref.planet}</td>
 
-        <td>
-          ${ref.event}
-        </td>
+        <td>${ref.event}</td>
 
-        <td>
-          ${ref.date} ${ref.time}
-        </td>
+        <td>${ref.date} ${ref.time}</td>
 
-        <td>
-          ${ref.elongation.toFixed(3)}°
-        </td>
+        <td>${ref.elongation.toFixed(3)}°</td>
 
-        <td>
-          ${elongation.toFixed(3)}°
-        </td>
+        <td>${elongation.toFixed(3)}°</td>
 
         <td>
           ${diff >= 0 ? "+" : ""}
           ${diff.toFixed(3)}°
         </td>
 
-        <td>
-          ${status}
-        </td>
+        <td>${status}</td>
 
       </tr>
 
@@ -911,7 +887,7 @@ async function runReferenceTest() {
 
 
 /* ============================================================
-   5. HORIZON / ALTITUDE TEST
+   5. HORIZON / ALTITUDE
    ============================================================ */
 
 function getSkyData(
@@ -924,17 +900,11 @@ function getSkyData(
     try {
 
       return Astronomy.Equator(
-
         body,
-
         date,
-
         observer,
-
         true,
-
         true
-
       );
 
     } catch (error) {
@@ -956,26 +926,18 @@ function getSkyData(
       !equator ||
       equator.error
     ) {
-
       return null;
-
     }
 
 
     try {
 
       return Astronomy.Horizon(
-
         date,
-
         observer,
-
         equator.ra,
-
         equator.dec,
-
         "normal"
-
       );
 
     } catch {
@@ -992,17 +954,11 @@ function getSkyData(
     try {
 
       return Astronomy.Equator(
-
         Astronomy.Body.Sun,
-
         date,
-
         observer,
-
         true,
-
         true
-
       );
 
     } catch (error) {
@@ -1024,26 +980,18 @@ function getSkyData(
       !sunEquator ||
       sunEquator.error
     ) {
-
       return null;
-
     }
 
 
     try {
 
       return Astronomy.Horizon(
-
         date,
-
         observer,
-
         sunEquator.ra,
-
         sunEquator.dec,
-
         "normal"
-
       );
 
     } catch {
@@ -1060,12 +1008,10 @@ function getSkyData(
     try {
 
       return Astronomy.Ecliptic(
-
         Astronomy.GeoVector(
           body,
           date
         )
-
       );
 
     } catch {
@@ -1078,25 +1024,15 @@ function getSkyData(
 
 
   return {
-
     equator,
-
     horizon,
-
     sunEquator,
-
     sunHorizon,
-
     ecliptic
-
   };
 
 }
 
-
-/* ============================================================
-   RUN VISIBILITY GEOMETRY
-   ============================================================ */
 
 async function runVisibilityTest() {
 
@@ -1179,82 +1115,38 @@ async function runVisibilityTest() {
           <tbody>
 
             <tr>
-
-              <th>
-                Planet altitude
-              </th>
-
+              <th>Planet altitude</th>
               <td>
-                ${formatNumber(
-                  planetAlt,
-                  3
-                )}°
+                ${formatNumber(planetAlt)}°
               </td>
-
             </tr>
 
-
             <tr>
-
-              <th>
-                Planet azimuth
-              </th>
-
+              <th>Planet azimuth</th>
               <td>
-                ${formatNumber(
-                  planetAz,
-                  3
-                )}°
+                ${formatNumber(planetAz)}°
               </td>
-
             </tr>
 
-
             <tr>
-
-              <th>
-                Sun altitude
-              </th>
-
+              <th>Sun altitude</th>
               <td>
-                ${formatNumber(
-                  sunAlt,
-                  3
-                )}°
+                ${formatNumber(sunAlt)}°
               </td>
-
             </tr>
 
-
             <tr>
-
-              <th>
-                Planet ecliptic latitude
-              </th>
-
+              <th>Planet ecliptic latitude</th>
               <td>
-                ${formatNumber(
-                  planetLat,
-                  3
-                )}°
+                ${formatNumber(planetLat)}°
               </td>
-
             </tr>
 
-
             <tr>
-
-              <th>
-                Sun–planet elongation
-              </th>
-
+              <th>Sun–planet elongation</th>
               <td>
-                ${formatNumber(
-                  elongation,
-                  3
-                )}°
+                ${formatNumber(elongation)}°
               </td>
-
             </tr>
 
           </tbody>
@@ -1283,8 +1175,679 @@ function renderReferenceTable() {
   $("referenceTable").innerHTML =
 
     REFERENCES
-
       .map(ref => `
+
+        <tr>
+
+          <td>${ref.planet}</td>
+
+          <td>${ref.event}</td>
+
+          <td>${ref.date}</td>
+
+          <td>${ref.elongation.toFixed(2)}°</td>
+
+          <td>${ref.source}</td>
+
+        </tr>
+
+      `)
+      .join("");
+
+}
+
+
+/* ============================================================
+   SWISS EPHEMERIS
+   ============================================================ */
+
+let swe = null;
+
+let swissReady = false;
+
+
+/* ------------------------------------------------------------
+   Swiss initialization
+   ------------------------------------------------------------ */
+
+async function initSwissEph() {
+
+  if (swissReady && swe) {
+    return swe;
+  }
+
+
+  $("swissStatus").textContent =
+    "⏳ Initializing Swiss Ephemeris…";
+
+
+  swe =
+    new SwissEph();
+
+
+  await swe.initSwissEph();
+
+
+  swissReady = true;
+
+
+  $("swissStatus").innerHTML = `
+    <span class="ok">
+      ✅ Swiss Ephemeris initialized successfully.
+    </span>
+  `;
+
+
+  return swe;
+
+}
+
+
+/* ============================================================
+   SWISS EPHEMERIS CONFIGURATION
+   ============================================================ */
+
+/*
+  Swiss Ephemeris:
+
+  TypeEvent:
+    1 = morning first  → Udaya
+    2 = evening last   → Asta
+
+  Atmospheric data:
+    [pressure hPa, temperature °C, RH %, meteorological range]
+
+  Observer:
+    [age, Snellen factor, binocular,
+     optical magnification, aperture, transmission]
+
+  We intentionally start with:
+    - standard atmosphere
+    - naked-eye observer
+    - high-precision Swiss Ephemeris calculation
+*/
+
+const SWISS_ATMOSPHERE = [
+
+  1013.25,  // pressure hPa
+  15,       // temperature °C
+  40,       // relative humidity %
+  0         // VR / default atmospheric coefficient
+
+];
+
+
+const SWISS_OBSERVER = [
+
+  36,  // observer age
+  1,   // Snellen factor
+  0,   // binocular
+  0,   // magnification
+  0,   // aperture
+  0    // transmission
+
+];
+
+
+/* ============================================================
+   DATE → JULIAN DAY
+   ============================================================ */
+
+function dateStringToJulianDay(
+  dateString,
+  hourUTC = 0
+) {
+
+  const parts =
+    dateString
+      .split("-")
+      .map(Number);
+
+
+  return swe.julday(
+    parts[0],
+    parts[1],
+    parts[2],
+    hourUTC
+  );
+
+}
+
+
+/* ============================================================
+   JULIAN DAY → UTC / IST
+   ============================================================ */
+
+function jdToUTCDate(jd) {
+
+  const rev =
+    swe.revjul(
+      jd,
+      swe.SE_GREG_CAL
+    );
+
+
+  const milliseconds =
+    Math.round(
+      rev.hour * 3600000
+    );
+
+
+  const base =
+    Date.UTC(
+      rev.year,
+      rev.month - 1,
+      rev.day
+    );
+
+
+  return new Date(
+    base + milliseconds
+  );
+
+}
+
+
+function jdToISTString(jd) {
+
+  const date =
+    jdToUTCDate(jd);
+
+
+  return new Intl.DateTimeFormat(
+    "en-IN",
+    {
+      timeZone: CONFIG.timezoneName,
+      dateStyle: "medium",
+      timeStyle: "medium"
+    }
+  ).format(date);
+
+}
+
+
+/* ============================================================
+   REFERENCE DATE → SEARCH START
+   ============================================================ */
+
+function searchStartJD(
+  referenceDate
+) {
+
+  /*
+    Start sufficiently before the reference date.
+
+    This is intentionally NOT the answer.
+
+    Swiss Ephemeris then searches forward for the actual
+    heliacal event.
+  */
+
+  const refJD =
+    dateStringToJulianDay(
+      referenceDate,
+      -5.5
+    );
+
+
+  return refJD - 50;
+
+}
+
+
+/* ============================================================
+   DIFFERENCE FROM REFERENCE DATE
+   ============================================================ */
+
+function differenceFromReference(
+  jd,
+  referenceDate
+) {
+
+  const refJD =
+    dateStringToJulianDay(
+      referenceDate,
+      -5.5
+    );
+
+
+  return jd - refJD;
+
+}
+
+
+/* ============================================================
+   HELIACAL RESULT STATUS
+   ============================================================ */
+
+function heliacalStatus(
+  difference
+) {
+
+  const abs =
+    Math.abs(difference);
+
+
+  if (abs <= 0.5) {
+
+    return `
+      <span class="ok">
+        MATCH
+      </span>
+    `;
+
+  }
+
+
+  if (abs <= 2) {
+
+    return `
+      <span class="warn">
+        CLOSE
+      </span>
+    `;
+
+  }
+
+
+  return `
+    <span class="bad">
+      CHECK
+    </span>
+  `;
+
+}
+
+
+/* ============================================================
+   HELIACAL PHENOMENA
+   ============================================================ */
+
+function getHeliacalPhenomena(
+  eventJD,
+  ref
+) {
+
+  /*
+    SwissEph heliacal_pheno_ut() output:
+
+    0  object altitude
+    1  apparent object altitude
+    2  geocentric object altitude
+    3  object azimuth
+    4  Sun altitude
+    5  Sun azimuth
+    6  actual topocentric arcus visionis
+    7  actual geocentric arcus visionis
+    8  azimuth difference
+    9  actual arcus
+    10 extinction coefficient
+    11 minimum TAV
+    12 first visibility VR
+    13 optimum visibility VR
+    14 last visibility VR
+    15 Yallop optimum
+    19 parallax
+    20 magnitude
+    21 object rise/set
+    22 Sun rise/set
+    23 lag
+    24 visibility duration
+    26 elongation
+    27 illumination
+  */
+
+
+  const data =
+    swe.heliacal_pheno_ut(
+
+      eventJD,
+
+      [
+        CONFIG.longitude,
+        CONFIG.latitude,
+        CONFIG.elevation
+      ],
+
+      SWISS_ATMOSPHERE,
+
+      SWISS_OBSERVER,
+
+      ref.swissPlanet,
+
+      ref.eventType,
+
+      swe.SEFLG_SWIEPH |
+      swe.SE_HELFLAG_HIGH_PRECISION
+
+    );
+
+
+  return data;
+
+}
+
+
+/* ============================================================
+   ONE HELIACAL TEST
+   ============================================================ */
+
+async function calculateHeliacal(
+  ref
+) {
+
+  const searchJD =
+    searchStartJD(
+      ref.date
+    );
+
+
+  const flags =
+    swe.SEFLG_SWIEPH |
+    swe.SE_HELFLAG_HIGH_PRECISION;
+
+
+  const result =
+    swe.heliacal_ut(
+
+      searchJD,
+
+      [
+        CONFIG.longitude,
+        CONFIG.latitude,
+        CONFIG.elevation
+      ],
+
+      SWISS_ATMOSPHERE,
+
+      SWISS_OBSERVER,
+
+      ref.swissPlanet,
+
+      ref.eventType,
+
+      flags
+
+    );
+
+
+  if (
+    !result ||
+    !Number.isFinite(result[0])
+  ) {
+
+    throw new Error(
+      `Swiss Ephemeris did not return a heliacal event.`
+    );
+
+  }
+
+
+  /*
+    SwissEph dret[0] is the start of the heliacal
+    visibility interval for the event.
+  */
+
+  const eventJD =
+    result[0];
+
+
+  const optimumJD =
+    Number.isFinite(result[1]) &&
+    result[1] !== 0
+      ? result[1]
+      : null;
+
+
+  const endJD =
+    Number.isFinite(result[2]) &&
+    result[2] !== 0
+      ? result[2]
+      : null;
+
+
+  const difference =
+    differenceFromReference(
+      eventJD,
+      ref.date
+    );
+
+
+  let phenomena =
+    null;
+
+
+  try {
+
+    phenomena =
+      getHeliacalPhenomena(
+        eventJD,
+        ref
+      );
+
+  } catch (error) {
+
+    console.warn(
+      "Heliacal phenomena unavailable:",
+      error
+    );
+
+  }
+
+
+  return {
+
+    eventJD,
+
+    optimumJD,
+
+    endJD,
+
+    difference,
+
+    phenomena,
+
+    raw: Array.from(result)
+
+  };
+
+}
+
+
+/* ============================================================
+   FORMAT PHENOMENA
+   ============================================================ */
+
+function phenoValue(
+  data,
+  index,
+  digits = 3
+) {
+
+  if (
+    !data ||
+    !Number.isFinite(data[index])
+  ) {
+
+    return "—";
+
+  }
+
+  return data[index]
+    .toFixed(digits);
+
+}
+
+
+/* ============================================================
+   HELIACAL VALIDATION
+   ============================================================ */
+
+async function runHeliacalValidation() {
+
+  const button =
+    $("runHeliacal");
+
+
+  button.disabled =
+    true;
+
+
+  $("heliacalOutput").innerHTML = `
+
+    <p class="muted">
+      ⏳ Initializing Swiss Ephemeris and calculating
+      heliacal events…
+    </p>
+
+  `;
+
+
+  try {
+
+    await initSwissEph();
+
+
+    const rows = [];
+
+
+    for (
+      const ref of REFERENCES
+    ) {
+
+      try {
+
+        const result =
+          await calculateHeliacal(
+            ref
+          );
+
+
+        rows.push({
+
+          ref,
+
+          result,
+
+          error: null
+
+        });
+
+
+      } catch (error) {
+
+        rows.push({
+
+          ref,
+
+          result: null,
+
+          error:
+            error?.message ||
+            String(error)
+
+        });
+
+      }
+
+    }
+
+
+    let html = `
+
+      <div class="note">
+
+        <strong>Swiss Ephemeris model:</strong>
+
+        Swiss Ephemeris heliacal visibility calculation,
+        Swiss ephemeris data, high-precision mode,
+        standard atmospheric parameters and naked-eye observer.
+
+      </div>
+
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Planet</th>
+
+            <th>Event</th>
+
+            <th>Reference</th>
+
+            <th>Calculated event</th>
+
+            <th>Difference</th>
+
+            <th>Status</th>
+
+            <th>Optimum</th>
+
+            <th>End</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+    `;
+
+
+    for (
+      const row of rows
+    ) {
+
+      const ref =
+        row.ref;
+
+
+      if (row.error) {
+
+        html += `
+
+          <tr>
+
+            <td>${ref.planet}</td>
+
+            <td>${ref.event}</td>
+
+            <td>${ref.date}</td>
+
+            <td colspan="4">
+              <span class="bad">
+                ERROR:
+              </span>
+              ${row.error}
+            </td>
+
+            <td>—</td>
+
+          </tr>
+
+        `;
+
+        continue;
+
+      }
+
+
+      const result =
+        row.result;
+
+
+      const diff =
+        result.difference;
+
+
+      const sign =
+        diff >= 0 ? "+" : "";
+
+
+      html += `
 
         <tr>
 
@@ -1301,24 +1864,310 @@ function renderReferenceTable() {
           </td>
 
           <td>
-            ${ref.elongation.toFixed(2)}°
+            ${jdToISTString(
+              result.eventJD
+            )}
           </td>
 
           <td>
-            ${ref.source}
+            ${sign}${diff.toFixed(3)} days
+          </td>
+
+          <td>
+            ${heliacalStatus(diff)}
+          </td>
+
+          <td>
+            ${
+              result.optimumJD
+                ? jdToISTString(
+                    result.optimumJD
+                  )
+                : "—"
+            }
+          </td>
+
+          <td>
+            ${
+              result.endJD
+                ? jdToISTString(
+                    result.endJD
+                  )
+                : "—"
+            }
           </td>
 
         </tr>
 
-      `)
+      `;
 
-      .join("");
+    }
+
+
+    html += `
+
+        </tbody>
+
+      </table>
+
+      <h3 style="margin-top:24px">
+        Detailed Heliacal Geometry
+      </h3>
+
+    `;
+
+
+    for (
+      const row of rows
+    ) {
+
+      if (
+        row.error ||
+        !row.result
+      ) {
+        continue;
+      }
+
+
+      const ref =
+        row.ref;
+
+
+      const result =
+        row.result;
+
+
+      const d =
+        result.phenomena;
+
+
+      html += `
+
+        <div style="margin-bottom:26px">
+
+          <h3>
+            ${ref.planet}
+            — ${ref.event}
+          </h3>
+
+
+          <table>
+
+            <tbody>
+
+              <tr>
+                <th>Reference date</th>
+                <td>${ref.date}</td>
+              </tr>
+
+              <tr>
+                <th>Calculated heliacal event</th>
+                <td>
+                  ${jdToISTString(
+                    result.eventJD
+                  )}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Difference from reference</th>
+                <td>
+                  ${
+                    result.difference >= 0
+                      ? "+"
+                      : ""
+                  }${result.difference.toFixed(3)}
+                  days
+                </td>
+              </tr>
+
+              <tr>
+                <th>Object altitude</th>
+                <td>
+                  ${phenoValue(d, 0)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Apparent object altitude</th>
+                <td>
+                  ${phenoValue(d, 1)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Object azimuth</th>
+                <td>
+                  ${phenoValue(d, 3)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Sun altitude</th>
+                <td>
+                  ${phenoValue(d, 4)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Sun azimuth</th>
+                <td>
+                  ${phenoValue(d, 5)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Actual topocentric arcus visionis</th>
+                <td>
+                  ${phenoValue(d, 6)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Actual geocentric arcus visionis</th>
+                <td>
+                  ${phenoValue(d, 7)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Azimuth difference</th>
+                <td>
+                  ${phenoValue(d, 8)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Actual arcus / ARCL</th>
+                <td>
+                  ${phenoValue(d, 9)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Extinction coefficient</th>
+                <td>
+                  ${phenoValue(d, 10)}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Planet magnitude</th>
+                <td>
+                  ${phenoValue(d, 20)}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Planet–Sun elongation</th>
+                <td>
+                  ${phenoValue(d, 26)}°
+                </td>
+              </tr>
+
+              <tr>
+                <th>Illumination</th>
+                <td>
+                  ${phenoValue(d, 27)}%
+                </td>
+              </tr>
+
+              <tr>
+                <th>Rise / Set lag</th>
+                <td>
+                  ${phenoValue(d, 23, 6)} days
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      `;
+
+    }
+
+
+    html += `
+
+      <div class="note">
+
+        <strong>Interpretation:</strong>
+
+        MATCH means the calculated heliacal event is within
+        ±0.5 day of the reference date.
+
+        CLOSE means the difference is within ±2 days.
+
+        CHECK means the difference is larger than 2 days.
+
+        These labels are diagnostic only; they do not prove
+        that the reference source and Swiss Ephemeris use
+        identical visibility criteria.
+
+      </div>
+
+    `;
+
+
+    $("heliacalOutput").innerHTML =
+      html;
+
+
+    $("swissStatus").innerHTML = `
+
+      <span class="ok">
+        ✅ Swiss Ephemeris heliacal validation completed.
+      </span>
+
+    `;
+
+  }
+
+
+  catch (error) {
+
+    console.error(
+      "Heliacal validation failed:",
+      error
+    );
+
+
+    $("heliacalOutput").innerHTML = `
+
+      <pre>${String(
+        error?.stack ||
+        error
+      )}</pre>
+
+    `;
+
+
+    $("swissStatus").innerHTML = `
+
+      <span class="bad">
+        ❌ Swiss Ephemeris validation failed.
+      </span>
+
+    `;
+
+  }
+
+
+  finally {
+
+    button.disabled =
+      false;
+
+  }
 
 }
 
 
 /* ============================================================
-   DIAGNOSTIC NOTES
+   7. DIAGNOSTIC NOTES
    ============================================================ */
 
 function renderNotes() {
@@ -1332,42 +2181,53 @@ function renderNotes() {
         angular separation between the Sun and planet.
       </li>
 
-
       <li>
         <strong>Altitude:</strong>
         actual local horizon position of the planet.
       </li>
 
-
       <li>
         <strong>Sun altitude:</strong>
-        indicates the local twilight / daylight geometry.
+        indicates local twilight / daylight geometry.
       </li>
 
-
       <li>
-        <strong>Ecliptic latitude:</strong>
-        helps avoid treating the planet as if it were exactly
-        on the ecliptic.
+        <strong>Heliacal Udaya:</strong>
+        Swiss Ephemeris event type
+        <strong>morning first</strong>.
       </li>
 
-
       <li>
-        A reference elongation is not by itself proof that
-        heliacal visibility occurs exactly at that instant.
+        <strong>Heliacal Asta:</strong>
+        Swiss Ephemeris event type
+        <strong>evening last</strong>.
       </li>
 
-
       <li>
-        This diagnostic intentionally does not use a hard-coded
-        Asta/Udaya threshold.
+        The heliacal calculation considers visibility
+        conditions rather than using a single hard-coded
+        elongation threshold.
       </li>
 
+      <li>
+        The reference dates are comparison targets only.
+        They are not returned directly by the calculation.
+      </li>
 
       <li>
-        The next validation stage will test an actual
-        heliacal visibility calculation against the reference
-        dates.
+        A difference between Swiss Ephemeris and Drik does
+        not automatically mean that either calculation is
+        wrong. Atmospheric and visibility criteria may differ.
+      </li>
+
+      <li>
+        This validation does not change production Panchang
+        calculations.
+      </li>
+
+      <li>
+        <strong>app.js</strong> and
+        <strong>extra-panchang.js</strong> remain untouched.
       </li>
 
     </ul>
@@ -1399,6 +2259,8 @@ async function runAllTests() {
     await runReferenceTest();
 
     await runVisibilityTest();
+
+    await runHeliacalValidation();
 
     renderNotes();
 
@@ -1468,11 +2330,9 @@ $("runRaw")
 
       }
 
-
       catch (error) {
 
         console.error(error);
-
 
         $("status").textContent =
           "❌ " +
@@ -1480,7 +2340,6 @@ $("runRaw")
             error?.message ||
             String(error)
           );
-
 
         $("status").className =
           "bad";
@@ -1514,11 +2373,9 @@ $("runReference")
 
       }
 
-
       catch (error) {
 
         console.error(error);
-
 
         $("status").textContent =
           "❌ " +
@@ -1526,7 +2383,6 @@ $("runReference")
             error?.message ||
             String(error)
           );
-
 
         $("status").className =
           "bad";
@@ -1560,11 +2416,9 @@ $("runVisibility")
 
       }
 
-
       catch (error) {
 
         console.error(error);
-
 
         $("status").textContent =
           "❌ " +
@@ -1573,6 +2427,51 @@ $("runVisibility")
             String(error)
           );
 
+        $("status").className =
+          "bad";
+
+      }
+
+    }
+  );
+
+
+$("runHeliacal")
+  .addEventListener(
+    "click",
+    async () => {
+
+      $("status").textContent =
+        "⏳ Running Swiss Ephemeris heliacal validation...";
+
+
+      $("status").className = "";
+
+
+      try {
+
+        await runHeliacalValidation();
+
+
+        $("status").textContent =
+          "✅ Heliacal validation completed.";
+
+
+        $("status").className =
+          "ok";
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        $("status").textContent =
+          "❌ " +
+          (
+            error?.message ||
+            String(error)
+          );
 
         $("status").className =
           "bad";
@@ -1584,7 +2483,7 @@ $("runVisibility")
 
 
 /* ============================================================
-   INITIALIZE
+   INITIALIZE STATIC CONTENT
    ============================================================ */
 
 renderReferenceTable();
@@ -1609,6 +2508,13 @@ console.log(
 console.log(
   "Astronomy Engine:",
   Astronomy
+);
+
+
+console.log(
+  "SwissEph:"
+  ,
+  SwissEph
 );
 
 </script>
