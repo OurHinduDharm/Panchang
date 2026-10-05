@@ -1380,14 +1380,13 @@ const indiaToday =
     ? now
     : null;
 
-let horaDetails =
-  calculateHoraDetails(
-    pHora.sunrise,
-    pHora.sunset,
-    nextPHora.sunrise,
-    selectedDate,
-    null
-  );
+let horaDetails = calculateHoraDetails(
+  pHora.sunrise,
+  pHora.sunset,
+  nextPHora.sunrise,
+  selectedDate,
+  horaReferenceNow
+);
 
 /*
  * =========================================================
