@@ -4371,6 +4371,16 @@ function renderSankalpControls(){
           type="checkbox"
           id="sankalpNightPrahar"
           ${sankalpState.includeNightPrahar ? "checked" : ""}
+          ${
+            currentSankalpContext?.referenceNow &&
+            getCurrentKaalPrahar(
+              currentSankalpContext.panchang,
+              currentSankalpContext.praharData,
+              currentSankalpContext.referenceNow
+            ).kaal === "रात्रि"
+              ? ""
+              : "disabled"
+          }
         />
 
         <span>
