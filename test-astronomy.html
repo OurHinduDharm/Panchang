@@ -14,11 +14,11 @@
   body {
     margin: 0;
     padding: 16px;
+    background: #f5f7fa;
+    color: #17202a;
     font-family: system-ui, -apple-system, BlinkMacSystemFont,
-                 "Segoe UI", sans-serif;
-    background: #f5f5f5;
-    color: #222;
-    line-height: 1.45;
+      "Segoe UI", sans-serif;
+    line-height: 1.5;
   }
 
   main {
@@ -27,112 +27,180 @@
   }
 
   h1 {
-    margin-top: 0;
+    margin: 0 0 6px;
+    font-size: 1.6rem;
   }
 
   h2 {
-    margin: 0 0 12px;
-    font-size: 1.1rem;
+    margin-top: 28px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #d7dce2;
+    padding-bottom: 6px;
   }
 
   h3 {
-    margin: 0 0 10px;
+    margin-top: 22px;
+    font-size: 1.05rem;
   }
 
-  .card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 16px;
-    margin: 14px 0;
-    overflow-x: auto;
+  .subtitle {
+    color: #5f6b76;
+    margin-bottom: 18px;
   }
 
   .controls {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    align-items: center;
+    margin-bottom: 18px;
   }
 
   button {
-    border: 0;
-    border-radius: 8px;
-    padding: 10px 14px;
+    border: 1px solid #bbc3cc;
+    background: white;
+    border-radius: 7px;
+    padding: 9px 13px;
     cursor: pointer;
-    background: #222;
-    color: #fff;
     font-size: 14px;
   }
 
   button:hover {
-    opacity: 0.9;
+    background: #eef2f5;
   }
 
-  button:disabled {
-    opacity: 0.55;
-    cursor: wait;
+  .status {
+    padding: 10px 12px;
+    background: white;
+    border: 1px solid #d7dce2;
+    border-radius: 8px;
+    margin: 12px 0;
+  }
+
+  .ok {
+    color: #146c2e;
+  }
+
+  .warn {
+    color: #9a6700;
+  }
+
+  .error {
+    color: #b42318;
+  }
+
+  .info {
+    color: #245b8a;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 10px 0 18px;
+    border: 1px solid #d7dce2;
+    border-radius: 8px;
+    background: white;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 720px;
+    min-width: 760px;
   }
 
   th,
   td {
-    border: 1px solid #ddd;
     padding: 7px 9px;
+    border-bottom: 1px solid #e4e7eb;
     text-align: left;
-    vertical-align: top;
-  }
-
-  th {
-    background: #f0f0f0;
-  }
-
-  .ok {
-    color: #087f23;
-    font-weight: 700;
-  }
-
-  .warn {
-    color: #9a6700;
-    font-weight: 700;
-  }
-
-  .bad {
-    color: #b00020;
-    font-weight: 700;
-  }
-
-  .muted {
-    color: #666;
-  }
-
-  .small {
+    white-space: nowrap;
     font-size: 13px;
   }
 
-  .note {
-    padding: 10px 12px;
-    background: #fafafa;
-    border-left: 3px solid #888;
+  th {
+    background: #eef1f4;
+    font-weight: 650;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .card {
+    background: white;
+    border: 1px solid #d7dce2;
+    border-radius: 9px;
+    padding: 13px;
+    margin: 12px 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 8px;
+  }
+
+  .metric {
+    padding: 8px 10px;
+    background: #f7f8fa;
+    border-radius: 6px;
+  }
+
+  .metric strong {
+    display: block;
+    font-size: 12px;
+    color: #59636e;
+    margin-bottom: 2px;
+  }
+
+  .metric span {
+    font-size: 14px;
+  }
+
+  .small {
+    font-size: 12px;
+    color: #5f6b76;
+  }
+
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  .match {
+    color: #146c2e;
+    font-weight: 650;
+  }
+
+  .close {
+    color: #8a5a00;
+    font-weight: 650;
+  }
+
+  .check {
+    color: #b42318;
+    font-weight: 650;
+  }
+
+  .reference-row {
+    background: #fff9e6;
+    font-weight: 650;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  details {
     margin: 10px 0;
   }
 
-  #status {
-    font-weight: 700;
+  summary {
+    cursor: pointer;
+    font-weight: 650;
   }
 
-  pre {
-    white-space: pre-wrap;
-    word-break: break-word;
-    background: #f7f7f7;
-    padding: 10px;
-    border-radius: 8px;
-    overflow-x: auto;
+  code {
+    background: #eef1f4;
+    padding: 1px 4px;
+    border-radius: 4px;
   }
 </style>
 </head>
@@ -143,232 +211,220 @@
 
   <h1>🌌 Astronomy Validation — OurHinduDharm</h1>
 
-  <div class="card">
-
-    <div class="controls">
-
-      <button id="runAll">
-        ▶ Run All Tests
-      </button>
-
-      <button id="runRaw">
-        Raw Astronomy
-      </button>
-
-      <button id="runReference">
-        Reference Comparison
-      </button>
-
-      <button id="runVisibility">
-        Visibility Scan
-      </button>
-
-      <button id="runHeliacal">
-        Heliacal Validation
-      </button>
-
-    </div>
-
-    <p id="status" class="muted">
-      Ready.
-    </p>
-
+  <div class="subtitle">
+    Independent astronomy / heliacal validation laboratory
   </div>
 
+  <div class="controls">
+    <button id="runAllBtn">▶ Run All Tests</button>
+    <button id="runRawBtn">Raw Astronomy</button>
+    <button id="runRefBtn">Reference Comparison</button>
+    <button id="runHeliacalBtn">Heliacal Validation</button>
+    <button id="runScanBtn">Reference Window Scan</button>
+  </div>
 
-  <!-- =========================================================
-       1. CONFIGURATION
-       ========================================================= -->
+  <div id="status" class="status">
+    Ready.
+  </div>
 
-  <section class="card">
+  <!-- ========================================================= -->
+  <!-- 1. CONFIGURATION -->
+  <!-- ========================================================= -->
 
+  <section>
     <h2>1. Test Configuration</h2>
 
-    <table>
-
-      <tbody>
-
-        <tr>
-          <th>Location</th>
-          <td>Pithoragarh validation point</td>
-        </tr>
-
-        <tr>
-          <th>Latitude</th>
-          <td id="cfgLat"></td>
-        </tr>
-
-        <tr>
-          <th>Longitude</th>
-          <td id="cfgLon"></td>
-        </tr>
-
-        <tr>
-          <th>Elevation</th>
-          <td id="cfgElevation"></td>
-        </tr>
-
-        <tr>
-          <th>Timezone</th>
-          <td>
-            Asia/Kolkata — UTC+05:30
-          </td>
-        </tr>
-
-        <tr>
-          <th>Timezone offset</th>
-          <td id="cfgTz"></td>
-        </tr>
-
-      </tbody>
-
-    </table>
-
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr>
+            <th>Location</th>
+            <td>Pithoragarh validation point</td>
+          </tr>
+          <tr>
+            <th>Latitude</th>
+            <td>30.1265°</td>
+          </tr>
+          <tr>
+            <th>Longitude</th>
+            <td>80.4817° E</td>
+          </tr>
+          <tr>
+            <th>Elevation</th>
+            <td>0 m</td>
+          </tr>
+          <tr>
+            <th>Timezone</th>
+            <td>Asia/Kolkata — UTC+05:30</td>
+          </tr>
+          <tr>
+            <th>Timezone offset</th>
+            <td>330 minutes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
+  <!-- ========================================================= -->
+  <!-- 2. REFERENCES -->
+  <!-- ========================================================= -->
 
-  <!-- =========================================================
-       2. REFERENCE DATA
-       ========================================================= -->
-
-  <section class="card">
-
+  <section>
     <h2>2. Reference Dataset</h2>
 
-    <p class="small muted">
-      Reference values are external comparison points.
-      They are not used to hard-code the calculation.
-    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Planet</th>
+            <th>Event</th>
+            <th>Reference date</th>
+            <th>Reference elongation</th>
+            <th>Source</th>
+          </tr>
+        </thead>
 
-    <table>
-
-      <thead>
-
-        <tr>
-          <th>Planet</th>
-          <th>Event</th>
-          <th>Reference date</th>
-          <th>Reference elongation</th>
-          <th>Source</th>
-        </tr>
-
-      </thead>
-
-      <tbody id="referenceTable"></tbody>
-
-    </table>
-
-  </section>
-
-
-  <!-- =========================================================
-       3. RAW PANCHANGAM-JS
-       ========================================================= -->
-
-  <section class="card">
-
-    <h2>3. Raw Panchangam-JS Planetary Data</h2>
-
-    <div id="rawOutput">
-
-      <p class="muted">
-        Not run yet.
-      </p>
-
+        <tbody id="referenceTable"></tbody>
+      </table>
     </div>
-
   </section>
 
+  <!-- ========================================================= -->
+  <!-- 3. RAW ASTRONOMY -->
+  <!-- ========================================================= -->
 
-  <!-- =========================================================
-       4. REFERENCE COMPARISON
-       ========================================================= -->
+  <section>
+    <h2>3. Raw Panchangam-JS Planetary Data</h2>
+    <div id="rawOutput">
+      <div class="status info">Not run yet.</div>
+    </div>
+  </section>
 
-  <section class="card">
+  <!-- ========================================================= -->
+  <!-- 4. REFERENCE COMPARISON -->
+  <!-- ========================================================= -->
 
+  <section>
     <h2>4. Sun–Planet Elongation vs Reference</h2>
 
-    <div id="comparisonOutput">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Planet</th>
+            <th>Event</th>
+            <th>Reference</th>
+            <th>Reference elongation</th>
+            <th>Calculated</th>
+            <th>Difference</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-      <p class="muted">
-        Not run yet.
-      </p>
-
+        <tbody id="comparisonTable">
+          <tr>
+            <td colspan="7">Not run yet.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
   </section>
 
+  <!-- ========================================================= -->
+  <!-- 5. HORIZON -->
+  <!-- ========================================================= -->
 
-  <!-- =========================================================
-       5. HORIZON / ALTITUDE
-       ========================================================= -->
-
-  <section class="card">
-
+  <section>
     <h2>5. Horizon / Altitude Geometry</h2>
-
-    <p class="small muted">
-      This section uses Astronomy Engine independently to inspect
-      the actual local sky geometry. It does not assume that
-      elongation alone means visibility.
-    </p>
-
-    <div id="visibilityOutput">
-
-      <p class="muted">
-        Not run yet.
-      </p>
-
+    <div id="horizonOutput">
+      <div class="status info">Not run yet.</div>
     </div>
-
   </section>
 
+  <!-- ========================================================= -->
+  <!-- 6. HELIACAL -->
+  <!-- ========================================================= -->
 
-  <!-- =========================================================
-       6. HELIACAL VALIDATION
-       ========================================================= -->
-
-  <section class="card">
-
+  <section>
     <h2>6. Heliacal Udaya / Asta Validation</h2>
 
-    <p class="small muted">
-      This section uses Swiss Ephemeris heliacal visibility
-      calculation. Reference dates are comparison targets only;
-      they are not supplied as the calculated answer.
+    <p class="small">
+      This section uses Swiss Ephemeris heliacal visibility calculation.
+      Reference dates are comparison targets only; they are not supplied
+      as the calculated answer.
     </p>
 
-    <div id="swissStatus" class="note">
-      Swiss Ephemeris has not been initialized yet.
-    </div>
-
     <div id="heliacalOutput">
-
-      <p class="muted">
-        Not run yet.
-      </p>
-
+      <div class="status info">Not run yet.</div>
     </div>
-
   </section>
 
+  <!-- ========================================================= -->
+  <!-- 7. REFERENCE WINDOW SCAN -->
+  <!-- ========================================================= -->
 
-  <!-- =========================================================
-       7. DIAGNOSTIC NOTES
-       ========================================================= -->
+  <section>
+    <h2>7. Heliacal Reference Window Scan</h2>
 
-  <section class="card">
+    <p>
+      This is the next diagnostic stage. Each reference event is scanned
+      across <strong>±15 days</strong>. The reference date is only the
+      center of the diagnostic window; it is not used as the calculated
+      heliacal answer.
+    </p>
 
-    <h2>7. Diagnostic Notes</h2>
-
-    <div id="notesOutput">
-
-      <ul>
-        <li>Tests have not been run yet.</li>
-      </ul>
-
+    <div class="status info">
+      Purpose: determine the actual astronomical geometry around the
+      reference event and identify whether a consistent visibility
+      criterion exists.
     </div>
 
+    <div id="scanOutput">
+      <div class="status info">Not run yet.</div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- 8. DIAGNOSTIC NOTES -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>8. Diagnostic Notes</h2>
+
+    <div class="card">
+      <ul>
+        <li>
+          Elongation = angular separation between Sun and planet.
+        </li>
+
+        <li>
+          Altitude = actual local horizon position of the object.
+        </li>
+
+        <li>
+          Sun altitude indicates twilight/daylight geometry.
+        </li>
+
+        <li>
+          ARCV = apparent/geometric vertical separation relevant to
+          heliacal visibility.
+        </li>
+
+        <li>
+          Magnitude is important because visibility is not determined
+          by elongation alone.
+        </li>
+
+        <li>
+          The reference dates are validation targets only.
+        </li>
+
+        <li>
+          No production Panchang file is modified by this test.
+        </li>
+      </ul>
+    </div>
   </section>
 
 </main>
@@ -376,10 +432,9 @@
 
 <script type="module">
 
-
-/* ============================================================
+/* =============================================================
    IMPORTS
-   ============================================================ */
+   ============================================================= */
 
 import {
   getPanchangam,
@@ -393,282 +448,343 @@ import SwissEph
   from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
 
 
-/* ============================================================
+/* =============================================================
    CONFIGURATION
-   ============================================================ */
+   ============================================================= */
 
 const CONFIG = {
-
   latitude: 30.1265,
-
   longitude: 80.4817,
-
   elevation: 0,
+  timezone: "Asia/Kolkata",
+  offsetMinutes: 330
+};
 
-  timezoneOffset: 330,
+const REFERENCES = [
+  {
+    planet: "Venus",
+    event: "Asta",
+    date: "2026-10-19",
+    sampleTime: "2026-10-19T12:00:00Z",
+    elongation: 7.76,
+    eventType: 2
+  },
+  {
+    planet: "Venus",
+    event: "Udaya",
+    date: "2026-10-30",
+    sampleTime: "2026-10-30T00:30:00Z",
+    elongation: 9.70,
+    eventType: 1
+  },
+  {
+    planet: "Jupiter",
+    event: "Asta",
+    date: "2027-08-17",
+    sampleTime: "2027-08-17T12:00:00Z",
+    elongation: 10.49,
+    eventType: 2
+  },
+  {
+    planet: "Jupiter",
+    event: "Udaya",
+    date: "2027-09-15",
+    sampleTime: "2027-09-15T00:30:00Z",
+    elongation: 11.28,
+    eventType: 1
+  }
+];
 
-  timezoneName: "Asia/Kolkata"
+const PLANETS = {
+  Mercury: "Mercury",
+  Venus: "Venus",
+  Mars: "Mars",
+  Jupiter: "Jupiter",
+  Saturn: "Saturn"
+};
 
+const BODY_NAMES = {
+  Mercury: Astronomy.Body.Mercury,
+  Venus: Astronomy.Body.Venus,
+  Mars: Astronomy.Body.Mars,
+  Jupiter: Astronomy.Body.Jupiter,
+  Saturn: Astronomy.Body.Saturn
 };
 
 
-const observer = new Observer(
+/* =============================================================
+   DOM
+   ============================================================= */
 
+const statusEl =
+  document.getElementById("status");
+
+const referenceTable =
+  document.getElementById("referenceTable");
+
+const rawOutput =
+  document.getElementById("rawOutput");
+
+const comparisonTable =
+  document.getElementById("comparisonTable");
+
+const horizonOutput =
+  document.getElementById("horizonOutput");
+
+const heliacalOutput =
+  document.getElementById("heliacalOutput");
+
+const scanOutput =
+  document.getElementById("scanOutput");
+
+
+/* =============================================================
+   STATUS
+   ============================================================= */
+
+function setStatus(message, type = "info") {
+  statusEl.className = `status ${type}`;
+  statusEl.textContent = message;
+}
+
+
+/* =============================================================
+   FORMATTERS
+   ============================================================= */
+
+function round(value, digits = 3) {
+  if (!Number.isFinite(value)) return "—";
+  return Number(value).toFixed(digits);
+}
+
+function formatDateUTC(date) {
+  return date.toISOString()
+    .replace("T", " ")
+    .replace(".000Z", " UTC");
+}
+
+function formatLocalFromUTCDate(date) {
+  return new Intl.DateTimeFormat("en-IN", {
+    timeZone: CONFIG.timezone,
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  }).format(date);
+}
+
+function parseDateUTC(value) {
+  return new Date(value);
+}
+
+function dateOnlyUTC(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function addDays(date, days) {
+  return new Date(date.getTime() + days * 86400000);
+}
+
+function angularDifference(a, b) {
+  let d = Math.abs(a - b);
+  if (d > 180) d = 360 - d;
+  return d;
+}
+
+function statusForDifference(diff) {
+  const abs = Math.abs(diff);
+
+  if (abs <= 0.5) {
+    return {
+      text: "MATCH",
+      className: "match"
+    };
+  }
+
+  if (abs <= 2) {
+    return {
+      text: "CLOSE",
+      className: "close"
+    };
+  }
+
+  return {
+    text: "CHECK",
+    className: "check"
+  };
+}
+
+
+/* =============================================================
+   REFERENCE TABLE
+   ============================================================= */
+
+function renderReferences() {
+
+  referenceTable.innerHTML = REFERENCES.map(r => `
+    <tr>
+      <td>${r.planet}</td>
+      <td>${r.event}</td>
+      <td>${r.date}</td>
+      <td>${r.elongation.toFixed(2)}°</td>
+      <td>Drik / Tantrakulam</td>
+    </tr>
+  `).join("");
+}
+
+renderReferences();
+
+
+/* =============================================================
+   ASTRONOMY ENGINE HELPERS
+   ============================================================= */
+
+const observer = new Astronomy.Observer(
   CONFIG.latitude,
-
   CONFIG.longitude,
-
   CONFIG.elevation
-
 );
 
+function getBodyVector(body, date) {
+  return Astronomy.GeoVector(body, date);
+}
 
-/* ============================================================
-   REFERENCE DATA
-   ============================================================ */
-
-const REFERENCES = [
-
-  {
-    planet: "Venus",
-    body: Astronomy.Body.Venus,
-    swissPlanet: "Venus",
-    event: "Asta",
-    eventType: 2,
-    date: "2026-10-19",
-    time: "12:00",
-    elongation: 7.76,
-    source: "Drik / Tantrakulam"
-  },
-
-  {
-    planet: "Venus",
-    body: Astronomy.Body.Venus,
-    swissPlanet: "Venus",
-    event: "Udaya",
-    eventType: 1,
-    date: "2026-10-30",
-    time: "06:00",
-    elongation: 9.70,
-    source: "Drik / Tantrakulam"
-  },
-
-  {
-    planet: "Jupiter",
-    body: Astronomy.Body.Jupiter,
-    swissPlanet: "Jupiter",
-    event: "Asta",
-    eventType: 2,
-    date: "2027-08-17",
-    time: "12:00",
-    elongation: 10.49,
-    source: "Drik / Tantrakulam"
-  },
-
-  {
-    planet: "Jupiter",
-    body: Astronomy.Body.Jupiter,
-    swissPlanet: "Jupiter",
-    event: "Udaya",
-    eventType: 1,
-    date: "2027-09-15",
-    time: "06:00",
-    elongation: 11.28,
-    source: "Drik / Tantrakulam"
-  }
-
-];
-
-
-/* ============================================================
-   DOM
-   ============================================================ */
-
-const $ = id =>
-  document.getElementById(id);
-
-
-$("cfgLat").textContent =
-  CONFIG.latitude;
-
-$("cfgLon").textContent =
-  CONFIG.longitude;
-
-$("cfgElevation").textContent =
-  `${CONFIG.elevation} m`;
-
-$("cfgTz").textContent =
-  `${CONFIG.timezoneOffset} minutes`;
-
-
-/* ============================================================
-   UTILITIES
-   ============================================================ */
-
-function localDateTime(
-  dateString,
-  timeString = "12:00"
-) {
-
-  return new Date(
-    `${dateString}T${timeString}:00+05:30`
+function vectorLength(v) {
+  return Math.sqrt(
+    v.x * v.x +
+    v.y * v.y +
+    v.z * v.z
   );
-
 }
 
-
-function formatDate(date) {
-
-  return new Intl.DateTimeFormat(
-
-    "en-IN",
-
-    {
-      timeZone: CONFIG.timezoneName,
-      dateStyle: "medium",
-      timeStyle: "medium"
-    }
-
-  ).format(date);
-
+function vectorDot(a, b) {
+  return (
+    a.x * b.x +
+    a.y * b.y +
+    a.z * b.z
+  );
 }
 
+function vectorSeparationDegrees(a, b) {
 
-function formatNumber(
-  value,
-  digits = 3
-) {
+  const denominator =
+    vectorLength(a) * vectorLength(b);
 
-  if (
-    value === null ||
-    value === undefined ||
-    !Number.isFinite(value)
-  ) {
+  if (!denominator) return NaN;
 
-    return "—";
+  let x = vectorDot(a, b) / denominator;
 
-  }
+  x = Math.max(-1, Math.min(1, x));
 
-  return Number(value)
-    .toFixed(digits);
-
+  return Math.acos(x) * 180 / Math.PI;
 }
 
+function getElongation(body, date) {
 
-function normalizeAngle(angle) {
+  const sun =
+    getBodyVector(Astronomy.Body.Sun, date);
 
-  let x =
-    angle % 360;
+  const planet =
+    getBodyVector(body, date);
 
-  if (x < 0) {
-    x += 360;
-  }
-
-  return x;
-
+  return vectorSeparationDegrees(sun, planet);
 }
 
+function getHorizontal(body, date) {
 
-function angularDifference(
-  a,
-  b
-) {
-
-  let d =
-    Math.abs(
-      normalizeAngle(a) -
-      normalizeAngle(b)
+  const eq =
+    Astronomy.Equator(
+      body,
+      date,
+      observer,
+      true,
+      true
     );
 
-  return Math.min(
-    d,
-    360 - d
-  );
+  const hor =
+    Astronomy.Horizon(
+      date,
+      observer,
+      eq.ra,
+      eq.dec,
+      "normal"
+    );
 
+  return {
+    altitude: hor.altitude,
+    azimuth: hor.azimuth,
+    ra: eq.ra,
+    dec: eq.dec
+  };
+}
+
+function getSunHorizontal(date) {
+  return getHorizontal(
+    Astronomy.Body.Sun,
+    date
+  );
 }
 
 
-/* ============================================================
-   GET PANCHANGAM
-   ============================================================ */
+/* =============================================================
+   PANCHANGAM-JS RAW DATA
+   ============================================================= */
 
-function getPanchang(date) {
-
-  return getPanchangam(
-
-    date,
-
-    observer,
-
-    {
-      timezoneOffset:
-        CONFIG.timezoneOffset
-    }
-
-  );
-
-}
-
-
-/* ============================================================
-   GET PLANET LONGITUDE
-   ============================================================ */
-
-function getPlanetLongitude(
-  panchang,
+async function getPanchangPlanetLongitude(
+  date,
   planetName
 ) {
+
+  const observerP =
+    new Observer(
+      CONFIG.latitude,
+      CONFIG.longitude,
+      CONFIG.elevation
+    );
+
+  const panchang =
+    await getPanchangam(
+      date,
+      observerP
+    );
 
   const key =
     planetName.toLowerCase();
 
-  return panchang
-    ?.planetaryPositions
-    ?.[key]
-    ?.longitude;
+  const item =
+    panchang?.planetaryPositions?.[key];
 
+  if (!item) {
+    return NaN;
+  }
+
+  return Number(item.longitude);
 }
 
 
-/* ============================================================
-   3. RAW PANCHANGAM-JS TEST
-   ============================================================ */
+/* =============================================================
+   SECTION 3
+   ============================================================= */
 
-async function runRawTest() {
+async function runRawAstronomy() {
 
-  $("rawOutput").innerHTML = "";
+  rawOutput.innerHTML =
+    `<div class="status info">Running raw astronomy...</div>`;
 
-  const dates = [
-
-    localDateTime(
-      "2026-10-19",
-      "12:00"
-    ),
-
-    localDateTime(
-      "2026-10-30",
-      "06:00"
-    ),
-
-    localDateTime(
-      "2027-08-17",
-      "12:00"
-    ),
-
-    localDateTime(
-      "2027-09-15",
-      "06:00"
-    )
-
+  const samples = [
+    "2026-10-19T12:00:00Z",
+    "2026-10-30T00:30:00Z",
+    "2027-08-17T12:00:00Z",
+    "2027-09-15T00:30:00Z"
   ];
 
-
   let html = `
-
+    <div class="table-wrap">
     <table>
-
       <thead>
-
         <tr>
           <th>Date / Time</th>
           <th>Sun</th>
@@ -678,1843 +794,1049 @@ async function runRawTest() {
           <th>Jupiter</th>
           <th>Saturn</th>
         </tr>
-
       </thead>
-
       <tbody>
-
   `;
 
-
-  for (
-    const date of dates
-  ) {
-
-    const p =
-      getPanchang(date);
-
-
-    html += `
-
-      <tr>
-
-        <td>
-          ${formatDate(date)}
-        </td>
-
-        <td>
-          ${formatNumber(
-            getPlanetLongitude(p, "Sun")
-          )}
-        </td>
-
-        <td>
-          ${formatNumber(
-            getPlanetLongitude(p, "Mercury")
-          )}
-        </td>
-
-        <td>
-          ${formatNumber(
-            getPlanetLongitude(p, "Venus")
-          )}
-        </td>
-
-        <td>
-          ${formatNumber(
-            getPlanetLongitude(p, "Mars")
-          )}
-        </td>
-
-        <td>
-          ${formatNumber(
-            getPlanetLongitude(p, "Jupiter")
-          )}
-        </td>
-
-        <td>
-          ${formatNumber(
-            getPlanetLongitude(p, "Saturn")
-          )}
-        </td>
-
-      </tr>
-
-    `;
-
-  }
-
-
-  html += `
-
-      </tbody>
-
-    </table>
-
-  `;
-
-
-  $("rawOutput").innerHTML =
-    html;
-
-}
-
-
-/* ============================================================
-   4. REFERENCE COMPARISON
-   ============================================================ */
-
-async function runReferenceTest() {
-
-  let html = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-          <th>Planet</th>
-          <th>Event</th>
-          <th>Reference date</th>
-          <th>Reference °</th>
-          <th>panchangam-js °</th>
-          <th>Difference</th>
-          <th>Status</th>
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-  `;
-
-
-  for (
-    const ref of REFERENCES
-  ) {
+  for (const sample of samples) {
 
     const date =
-      localDateTime(
-        ref.date,
-        ref.time
-      );
+      new Date(sample);
 
+    const values = {};
 
-    const p =
-      getPanchang(date);
+    for (const planet of [
+      "Sun",
+      "Mercury",
+      "Venus",
+      "Mars",
+      "Jupiter",
+      "Saturn"
+    ]) {
 
+      if (planet === "Sun") {
+        const vec =
+          Astronomy.GeoVector(
+            Astronomy.Body.Sun,
+            date
+          );
 
-    const sunLon =
-      getPlanetLongitude(
-        p,
-        "Sun"
-      );
+        const ecl =
+          Astronomy.Ecliptic(vec);
 
+        values[planet] =
+          ecl.lon;
 
-    const planetLon =
-      getPlanetLongitude(
-        p,
-        ref.planet
-      );
+      } else {
 
-
-    const elongation =
-      angularDifference(
-        sunLon,
-        planetLon
-      );
-
-
-    const diff =
-      elongation -
-      ref.elongation;
-
-
-    const status =
-
-      Math.abs(diff) <= 0.05
-
-        ? `<span class="ok">MATCH</span>`
-
-        : Math.abs(diff) <= 0.25
-
-          ? `<span class="warn">CLOSE</span>`
-
-          : `<span class="bad">CHECK</span>`;
-
+        try {
+          values[planet] =
+            await getPanchangPlanetLongitude(
+              date,
+              planet
+            );
+        } catch {
+          values[planet] = NaN;
+        }
+      }
+    }
 
     html += `
-
       <tr>
-
-        <td>${ref.planet}</td>
-
-        <td>${ref.event}</td>
-
-        <td>${ref.date} ${ref.time}</td>
-
-        <td>${ref.elongation.toFixed(3)}°</td>
-
-        <td>${elongation.toFixed(3)}°</td>
-
-        <td>
-          ${diff >= 0 ? "+" : ""}
-          ${diff.toFixed(3)}°
-        </td>
-
-        <td>${status}</td>
-
+        <td>${formatLocalFromUTCDate(date)}</td>
+        <td>${round(values.Sun, 3)}°</td>
+        <td>${round(values.Mercury, 3)}°</td>
+        <td>${round(values.Venus, 3)}°</td>
+        <td>${round(values.Mars, 3)}°</td>
+        <td>${round(values.Jupiter, 3)}°</td>
+        <td>${round(values.Saturn, 3)}°</td>
       </tr>
-
     `;
-
   }
 
-
   html += `
-
       </tbody>
-
     </table>
-
+    </div>
   `;
 
-
-  $("comparisonOutput").innerHTML =
-    html;
-
+  rawOutput.innerHTML = html;
 }
 
 
-/* ============================================================
-   5. HORIZON / ALTITUDE
-   ============================================================ */
+/* =============================================================
+   SECTION 4
+   ============================================================= */
 
-function getSkyData(
-  date,
-  body
-) {
+async function runReferenceComparison() {
 
-  const equator = (() => {
-
-    try {
-
-      return Astronomy.Equator(
-        body,
-        date,
-        observer,
-        true,
-        true
-      );
-
-    } catch (error) {
-
-      return {
-        error:
-          error?.message ||
-          String(error)
-      };
-
-    }
-
-  })();
-
-
-  const horizon = (() => {
-
-    if (
-      !equator ||
-      equator.error
-    ) {
-      return null;
-    }
-
-
-    try {
-
-      return Astronomy.Horizon(
-        date,
-        observer,
-        equator.ra,
-        equator.dec,
-        "normal"
-      );
-
-    } catch {
-
-      return null;
-
-    }
-
-  })();
-
-
-  const sunEquator = (() => {
-
-    try {
-
-      return Astronomy.Equator(
-        Astronomy.Body.Sun,
-        date,
-        observer,
-        true,
-        true
-      );
-
-    } catch (error) {
-
-      return {
-        error:
-          error?.message ||
-          String(error)
-      };
-
-    }
-
-  })();
-
-
-  const sunHorizon = (() => {
-
-    if (
-      !sunEquator ||
-      sunEquator.error
-    ) {
-      return null;
-    }
-
-
-    try {
-
-      return Astronomy.Horizon(
-        date,
-        observer,
-        sunEquator.ra,
-        sunEquator.dec,
-        "normal"
-      );
-
-    } catch {
-
-      return null;
-
-    }
-
-  })();
-
-
-  const ecliptic = (() => {
-
-    try {
-
-      return Astronomy.Ecliptic(
-        Astronomy.GeoVector(
-          body,
-          date
-        )
-      );
-
-    } catch {
-
-      return null;
-
-    }
-
-  })();
-
-
-  return {
-    equator,
-    horizon,
-    sunEquator,
-    sunHorizon,
-    ecliptic
-  };
-
-}
-
-
-async function runVisibilityTest() {
+  comparisonTable.innerHTML = `
+    <tr>
+      <td colspan="7">Calculating...</td>
+    </tr>
+  `;
 
   let html = "";
 
-
-  for (
-    const ref of REFERENCES
-  ) {
+  for (const ref of REFERENCES) {
 
     const date =
-      localDateTime(
-        ref.date,
-        ref.time
+      new Date(ref.sampleTime);
+
+    const calculated =
+      getElongation(
+        BODY_NAMES[ref.planet],
+        date
       );
 
+    const diff =
+      calculated - ref.elongation;
 
-    const sky =
-      getSkyData(
-        date,
-        ref.body
-      );
-
-
-    const planetAlt =
-      sky.horizon?.altitude;
-
-
-    const planetAz =
-      sky.horizon?.azimuth;
-
-
-    const sunAlt =
-      sky.sunHorizon?.altitude;
-
-
-    const planetLat =
-      sky.ecliptic?.lat;
-
-
-    const p =
-      getPanchang(date);
-
-
-    const sunLon =
-      getPlanetLongitude(
-        p,
-        "Sun"
-      );
-
-
-    const planetLon =
-      getPlanetLongitude(
-        p,
-        ref.planet
-      );
-
-
-    const elongation =
-      angularDifference(
-        sunLon,
-        planetLon
-      );
-
+    const status =
+      statusForDifference(diff);
 
     html += `
+      <tr>
+        <td>${ref.planet}</td>
+        <td>${ref.event}</td>
+        <td>${ref.date}</td>
+        <td>${ref.elongation.toFixed(3)}°</td>
+        <td>${round(calculated, 3)}°</td>
+        <td>${diff >= 0 ? "+" : ""}${round(diff, 3)}°</td>
+        <td class="${status.className}">
+          ${status.text}
+        </td>
+      </tr>
+    `;
+  }
 
-      <div style="margin-bottom:24px">
+  comparisonTable.innerHTML = html;
+}
+
+
+/* =============================================================
+   SECTION 5
+   ============================================================= */
+
+function runHorizonGeometry() {
+
+  let html = "";
+
+  for (const ref of REFERENCES) {
+
+    const date =
+      new Date(ref.sampleTime);
+
+    const planet =
+      getHorizontal(
+        BODY_NAMES[ref.planet],
+        date
+      );
+
+    const sun =
+      getSunHorizontal(date);
+
+    const elongation =
+      getElongation(
+        BODY_NAMES[ref.planet],
+        date
+      );
+
+    html += `
+      <div class="card">
 
         <h3>
-          ${ref.planet}
-          — ${ref.event}
-          — ${ref.date}
-          ${ref.time}
+          ${ref.planet} — ${ref.event}
         </h3>
 
+        <div class="small">
+          Reference date: ${ref.date}
+        </div>
 
-        <table>
+        <div class="grid">
 
-          <tbody>
+          <div class="metric">
+            <strong>Planet altitude</strong>
+            <span>${round(planet.altitude)}°</span>
+          </div>
 
-            <tr>
-              <th>Planet altitude</th>
-              <td>
-                ${formatNumber(planetAlt)}°
-              </td>
-            </tr>
+          <div class="metric">
+            <strong>Planet azimuth</strong>
+            <span>${round(planet.azimuth)}°</span>
+          </div>
 
-            <tr>
-              <th>Planet azimuth</th>
-              <td>
-                ${formatNumber(planetAz)}°
-              </td>
-            </tr>
+          <div class="metric">
+            <strong>Sun altitude</strong>
+            <span>${round(sun.altitude)}°</span>
+          </div>
 
-            <tr>
-              <th>Sun altitude</th>
-              <td>
-                ${formatNumber(sunAlt)}°
-              </td>
-            </tr>
+          <div class="metric">
+            <strong>Sun azimuth</strong>
+            <span>${round(sun.azimuth)}°</span>
+          </div>
 
-            <tr>
-              <th>Planet ecliptic latitude</th>
-              <td>
-                ${formatNumber(planetLat)}°
-              </td>
-            </tr>
+          <div class="metric">
+            <strong>Planet–Sun elongation</strong>
+            <span>${round(elongation)}°</span>
+          </div>
 
-            <tr>
-              <th>Sun–planet elongation</th>
-              <td>
-                ${formatNumber(elongation)}°
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
+        </div>
       </div>
-
     `;
-
   }
 
-
-  $("visibilityOutput").innerHTML =
-    html;
-
+  horizonOutput.innerHTML = html;
 }
 
 
-/* ============================================================
-   REFERENCE TABLE
-   ============================================================ */
-
-function renderReferenceTable() {
-
-  $("referenceTable").innerHTML =
-
-    REFERENCES
-      .map(ref => `
-
-        <tr>
-
-          <td>${ref.planet}</td>
-
-          <td>${ref.event}</td>
-
-          <td>${ref.date}</td>
-
-          <td>${ref.elongation.toFixed(2)}°</td>
-
-          <td>${ref.source}</td>
-
-        </tr>
-
-      `)
-      .join("");
-
-}
-
-
-/* ============================================================
+/* =============================================================
    SWISS EPHEMERIS
-   ============================================================ */
+   ============================================================= */
 
-let swe = null;
+let swiss = null;
 
-let swissReady = false;
+async function initSwiss() {
 
+  if (swiss) return swiss;
 
-/* ------------------------------------------------------------
-   Swiss initialization
-   ------------------------------------------------------------ */
-
-async function initSwissEph() {
-
-  if (swissReady && swe) {
-    return swe;
-  }
-
-
-  $("swissStatus").textContent =
-    "⏳ Initializing Swiss Ephemeris…";
-
-
-  swe =
-    new SwissEph();
-
-
-  await swe.initSwissEph();
-
-
-  swissReady = true;
-
-
-  $("swissStatus").innerHTML = `
-    <span class="ok">
-      ✅ Swiss Ephemeris initialized successfully.
-    </span>
-  `;
-
-
-  return swe;
-
-}
-
-
-/* ============================================================
-   SWISS EPHEMERIS CONFIGURATION
-   ============================================================ */
-
-/*
-  Swiss Ephemeris:
-
-  TypeEvent:
-    1 = morning first  → Udaya
-    2 = evening last   → Asta
-
-  Atmospheric data:
-    [pressure hPa, temperature °C, RH %, meteorological range]
-
-  Observer:
-    [age, Snellen factor, binocular,
-     optical magnification, aperture, transmission]
-
-  We intentionally start with:
-    - standard atmosphere
-    - naked-eye observer
-    - high-precision Swiss Ephemeris calculation
-*/
-
-const SWISS_ATMOSPHERE = [
-
-  1013.25,  // pressure hPa
-  15,       // temperature °C
-  40,       // relative humidity %
-  0         // VR / default atmospheric coefficient
-
-];
-
-
-const SWISS_OBSERVER = [
-
-  36,  // observer age
-  1,   // Snellen factor
-  0,   // binocular
-  0,   // magnification
-  0,   // aperture
-  0    // transmission
-
-];
-
-
-/* ============================================================
-   DATE → JULIAN DAY
-   ============================================================ */
-
-function dateStringToJulianDay(
-  dateString,
-  hourUTC = 0
-) {
-
-  const parts =
-    dateString
-      .split("-")
-      .map(Number);
-
-
-  return swe.julday(
-    parts[0],
-    parts[1],
-    parts[2],
-    hourUTC
+  setStatus(
+    "Loading Swiss Ephemeris...",
+    "info"
   );
 
+  swiss = new SwissEph();
+
+  await swiss.initSwissEph();
+
+  return swiss;
 }
 
 
-/* ============================================================
-   JULIAN DAY → UTC / IST
-   ============================================================ */
+/* =============================================================
+   SWISS CONSTANTS
+   ============================================================= */
 
-function jdToUTCDate(jd) {
+const SWISS = {
 
-  const rev =
-    swe.revjul(
-      jd,
-      swe.SE_GREG_CAL
-    );
+  HELIACAL_RISING: 1,
+  HELIACAL_SETTING: 2,
+
+  FLG_SWIEPH: 2,
+
+  HELFLAG_HIGH_PRECISION: 256,
+
+  ATMOSPHERE: [
+    1013.25,
+    15,
+    40,
+    0
+  ],
+
+  OBSERVER: [
+    36,
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+
+  GEO: [
+    CONFIG.longitude,
+    CONFIG.latitude,
+    CONFIG.elevation
+  ]
+};
 
 
-  const milliseconds =
-    Math.round(
-      rev.hour * 3600000
-    );
+/* =============================================================
+   JULIAN DAY
+   ============================================================= */
 
-
-  const base =
-    Date.UTC(
-      rev.year,
-      rev.month - 1,
-      rev.day
-    );
-
-
-  return new Date(
-    base + milliseconds
-  );
-
+function unixMsToJulian(ms) {
+  return ms / 86400000 + 2440587.5;
 }
 
 
-function jdToISTString(jd) {
+/* =============================================================
+   SWISS HELIACAL EVENT
+   ============================================================= */
 
-  const date =
-    jdToUTCDate(jd);
+async function calculateSwissHeliacal(ref) {
 
+  const swe =
+    await initSwiss();
 
-  return new Intl.DateTimeFormat(
-    "en-IN",
-    {
-      timeZone: CONFIG.timezoneName,
-      dateStyle: "medium",
-      timeStyle: "medium"
-    }
-  ).format(date);
-
-}
-
-
-/* ============================================================
-   REFERENCE DATE → SEARCH START
-   ============================================================ */
-
-function searchStartJD(
-  referenceDate
-) {
-
-  /*
-    Start sufficiently before the reference date.
-
-    This is intentionally NOT the answer.
-
-    Swiss Ephemeris then searches forward for the actual
-    heliacal event.
-  */
-
-  const refJD =
-    dateStringToJulianDay(
-      referenceDate,
-      -5.5
+  const startDate =
+    addDays(
+      new Date(ref.date + "T00:00:00Z"),
+      -50
     );
 
-
-  return refJD - 50;
-
-}
-
-
-/* ============================================================
-   DIFFERENCE FROM REFERENCE DATE
-   ============================================================ */
-
-function differenceFromReference(
-  jd,
-  referenceDate
-) {
-
-  const refJD =
-    dateStringToJulianDay(
-      referenceDate,
-      -5.5
+  const jdStart =
+    unixMsToJulian(
+      startDate.getTime()
     );
 
+  const dret =
+    new Array(50).fill(0);
 
-  return jd - refJD;
-
-}
-
-
-/* ============================================================
-   HELIACAL RESULT STATUS
-   ============================================================ */
-
-function heliacalStatus(
-  difference
-) {
-
-  const abs =
-    Math.abs(difference);
-
-
-  if (abs <= 0.5) {
-
-    return `
-      <span class="ok">
-        MATCH
-      </span>
-    `;
-
-  }
-
-
-  if (abs <= 2) {
-
-    return `
-      <span class="warn">
-        CLOSE
-      </span>
-    `;
-
-  }
-
-
-  return `
-    <span class="bad">
-      CHECK
-    </span>
-  `;
-
-}
-
-
-/* ============================================================
-   HELIACAL PHENOMENA
-   ============================================================ */
-
-function getHeliacalPhenomena(
-  eventJD,
-  ref
-) {
-
-  /*
-    SwissEph heliacal_pheno_ut() output:
-
-    0  object altitude
-    1  apparent object altitude
-    2  geocentric object altitude
-    3  object azimuth
-    4  Sun altitude
-    5  Sun azimuth
-    6  actual topocentric arcus visionis
-    7  actual geocentric arcus visionis
-    8  azimuth difference
-    9  actual arcus
-    10 extinction coefficient
-    11 minimum TAV
-    12 first visibility VR
-    13 optimum visibility VR
-    14 last visibility VR
-    15 Yallop optimum
-    19 parallax
-    20 magnitude
-    21 object rise/set
-    22 Sun rise/set
-    23 lag
-    24 visibility duration
-    26 elongation
-    27 illumination
-  */
-
-
-  const data =
-    swe.heliacal_pheno_ut(
-
-      eventJD,
-
-      [
-        CONFIG.longitude,
-        CONFIG.latitude,
-        CONFIG.elevation
-      ],
-
-      SWISS_ATMOSPHERE,
-
-      SWISS_OBSERVER,
-
-      ref.swissPlanet,
-
-      ref.eventType,
-
-      swe.SEFLG_SWIEPH |
-      swe.SE_HELFLAG_HIGH_PRECISION
-
-    );
-
-
-  return data;
-
-}
-
-
-/* ============================================================
-   ONE HELIACAL TEST
-   ============================================================ */
-
-async function calculateHeliacal(
-  ref
-) {
-
-  const searchJD =
-    searchStartJD(
-      ref.date
-    );
-
+  let serr = "";
 
   const flags =
-    swe.SEFLG_SWIEPH |
-    swe.SE_HELFLAG_HIGH_PRECISION;
+    SWISS.FLG_SWIEPH |
+    SWISS.HELFLAG_HIGH_PRECISION;
 
-
-  const result =
+  const returnCode =
     swe.heliacal_ut(
-
-      searchJD,
-
-      [
-        CONFIG.longitude,
-        CONFIG.latitude,
-        CONFIG.elevation
-      ],
-
-      SWISS_ATMOSPHERE,
-
-      SWISS_OBSERVER,
-
-      ref.swissPlanet,
-
+      jdStart,
+      [...SWISS.GEO],
+      [...SWISS.ATMOSPHERE],
+      [...SWISS.OBSERVER],
+      ref.planet,
       ref.eventType,
-
-      flags
-
+      flags,
+      dret,
+      serr
     );
-
 
   if (
-    !result ||
-    !Number.isFinite(result[0])
+    returnCode < 0 ||
+    !Number.isFinite(dret[0])
   ) {
-
     throw new Error(
-      `Swiss Ephemeris did not return a heliacal event.`
+      `Swiss heliacal calculation failed for ${ref.planet} ${ref.event}`
     );
-
   }
 
-
-  /*
-    SwissEph dret[0] is the start of the heliacal
-    visibility interval for the event.
-  */
-
-  const eventJD =
-    result[0];
-
-
-  const optimumJD =
-    Number.isFinite(result[1]) &&
-    result[1] !== 0
-      ? result[1]
-      : null;
-
-
-  const endJD =
-    Number.isFinite(result[2]) &&
-    result[2] !== 0
-      ? result[2]
-      : null;
-
-
-  const difference =
-    differenceFromReference(
-      eventJD,
-      ref.date
+  const eventDate =
+    new Date(
+      (dret[0] - 2440587.5) * 86400000
     );
 
-
-  let phenomena =
-    null;
-
+  let pheno = null;
 
   try {
 
-    phenomena =
-      getHeliacalPhenomena(
-        eventJD,
-        ref
-      );
+    const p =
+      new Array(50).fill(0);
 
-  } catch (error) {
+    let phenoErr = "";
 
-    console.warn(
-      "Heliacal phenomena unavailable:",
-      error
+    swe.heliacal_pheno_ut(
+      unixMsToJulian(
+        eventDate.getTime()
+      ),
+      [...SWISS.GEO],
+      [...SWISS.ATMOSPHERE],
+      [...SWISS.OBSERVER],
+      ref.planet,
+      ref.eventType,
+      flags,
+      p,
+      phenoErr
     );
 
-  }
+    pheno = p;
 
+  } catch {
+    pheno = null;
+  }
 
   return {
-
-    eventJD,
-
-    optimumJD,
-
-    endJD,
-
-    difference,
-
-    phenomena,
-
-    raw: Array.from(result)
-
+    eventDate,
+    optimum:
+      Number.isFinite(dret[1])
+        ? new Date(
+            (dret[1] - 2440587.5) * 86400000
+          )
+        : null,
+    end:
+      Number.isFinite(dret[2])
+        ? new Date(
+            (dret[2] - 2440587.5) * 86400000
+          )
+        : null,
+    pheno
   };
-
 }
 
 
-/* ============================================================
-   FORMAT PHENOMENA
-   ============================================================ */
-
-function phenoValue(
-  data,
-  index,
-  digits = 3
-) {
-
-  if (
-    !data ||
-    !Number.isFinite(data[index])
-  ) {
-
-    return "—";
-
-  }
-
-  return data[index]
-    .toFixed(digits);
-
-}
-
-
-/* ============================================================
-   HELIACAL VALIDATION
-   ============================================================ */
+/* =============================================================
+   SECTION 6
+   ============================================================= */
 
 async function runHeliacalValidation() {
 
-  const button =
-    $("runHeliacal");
-
-
-  button.disabled =
-    true;
-
-
-  $("heliacalOutput").innerHTML = `
-
-    <p class="muted">
-      ⏳ Initializing Swiss Ephemeris and calculating
-      heliacal events…
-    </p>
-
-  `;
-
+  heliacalOutput.innerHTML =
+    `<div class="status info">
+      Running Swiss Ephemeris heliacal validation...
+    </div>`;
 
   try {
 
-    await initSwissEph();
+    await initSwiss();
 
+    const results = [];
 
-    const rows = [];
-
-
-    for (
-      const ref of REFERENCES
-    ) {
-
-      try {
-
-        const result =
-          await calculateHeliacal(
-            ref
-          );
-
-
-        rows.push({
-
-          ref,
-
-          result,
-
-          error: null
-
-        });
-
-
-      } catch (error) {
-
-        rows.push({
-
-          ref,
-
-          result: null,
-
-          error:
-            error?.message ||
-            String(error)
-
-        });
-
-      }
-
-    }
-
-
-    let html = `
-
-      <div class="note">
-
-        <strong>Swiss Ephemeris model:</strong>
-
-        Swiss Ephemeris heliacal visibility calculation,
-        Swiss ephemeris data, high-precision mode,
-        standard atmospheric parameters and naked-eye observer.
-
-      </div>
-
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>Planet</th>
-
-            <th>Event</th>
-
-            <th>Reference</th>
-
-            <th>Calculated event</th>
-
-            <th>Difference</th>
-
-            <th>Status</th>
-
-            <th>Optimum</th>
-
-            <th>End</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-    `;
-
-
-    for (
-      const row of rows
-    ) {
-
-      const ref =
-        row.ref;
-
-
-      if (row.error) {
-
-        html += `
-
-          <tr>
-
-            <td>${ref.planet}</td>
-
-            <td>${ref.event}</td>
-
-            <td>${ref.date}</td>
-
-            <td colspan="4">
-              <span class="bad">
-                ERROR:
-              </span>
-              ${row.error}
-            </td>
-
-            <td>—</td>
-
-          </tr>
-
-        `;
-
-        continue;
-
-      }
-
+    for (const ref of REFERENCES) {
 
       const result =
-        row.result;
-
+        await calculateSwissHeliacal(ref);
 
       const diff =
-        result.difference;
+        (
+          result.eventDate.getTime() -
+          new Date(ref.date + "T00:00:00Z").getTime()
+        ) / 86400000;
 
-
-      const sign =
-        diff >= 0 ? "+" : "";
-
-
-      html += `
-
-        <tr>
-
-          <td>
-            ${ref.planet}
-          </td>
-
-          <td>
-            ${ref.event}
-          </td>
-
-          <td>
-            ${ref.date}
-          </td>
-
-          <td>
-            ${jdToISTString(
-              result.eventJD
-            )}
-          </td>
-
-          <td>
-            ${sign}${diff.toFixed(3)} days
-          </td>
-
-          <td>
-            ${heliacalStatus(diff)}
-          </td>
-
-          <td>
-            ${
-              result.optimumJD
-                ? jdToISTString(
-                    result.optimumJD
-                  )
-                : "—"
-            }
-          </td>
-
-          <td>
-            ${
-              result.endJD
-                ? jdToISTString(
-                    result.endJD
-                  )
-                : "—"
-            }
-          </td>
-
-        </tr>
-
-      `;
-
+      results.push({
+        ref,
+        result,
+        diff
+      });
     }
 
-
-    html += `
-
-        </tbody>
-
-      </table>
-
-      <h3 style="margin-top:24px">
-        Detailed Heliacal Geometry
-      </h3>
-
-    `;
-
-
-    for (
-      const row of rows
-    ) {
-
-      if (
-        row.error ||
-        !row.result
-      ) {
-        continue;
-      }
-
-
-      const ref =
-        row.ref;
-
-
-      const result =
-        row.result;
-
-
-      const d =
-        result.phenomena;
-
-
-      html += `
-
-        <div style="margin-bottom:26px">
-
-          <h3>
-            ${ref.planet}
-            — ${ref.event}
-          </h3>
-
-
-          <table>
-
-            <tbody>
-
-              <tr>
-                <th>Reference date</th>
-                <td>${ref.date}</td>
-              </tr>
-
-              <tr>
-                <th>Calculated heliacal event</th>
-                <td>
-                  ${jdToISTString(
-                    result.eventJD
-                  )}
-                </td>
-              </tr>
-
-              <tr>
-                <th>Difference from reference</th>
-                <td>
-                  ${
-                    result.difference >= 0
-                      ? "+"
-                      : ""
-                  }${result.difference.toFixed(3)}
-                  days
-                </td>
-              </tr>
-
-              <tr>
-                <th>Object altitude</th>
-                <td>
-                  ${phenoValue(d, 0)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Apparent object altitude</th>
-                <td>
-                  ${phenoValue(d, 1)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Object azimuth</th>
-                <td>
-                  ${phenoValue(d, 3)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Sun altitude</th>
-                <td>
-                  ${phenoValue(d, 4)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Sun azimuth</th>
-                <td>
-                  ${phenoValue(d, 5)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Actual topocentric arcus visionis</th>
-                <td>
-                  ${phenoValue(d, 6)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Actual geocentric arcus visionis</th>
-                <td>
-                  ${phenoValue(d, 7)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Azimuth difference</th>
-                <td>
-                  ${phenoValue(d, 8)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Actual arcus / ARCL</th>
-                <td>
-                  ${phenoValue(d, 9)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Extinction coefficient</th>
-                <td>
-                  ${phenoValue(d, 10)}
-                </td>
-              </tr>
-
-              <tr>
-                <th>Planet magnitude</th>
-                <td>
-                  ${phenoValue(d, 20)}
-                </td>
-              </tr>
-
-              <tr>
-                <th>Planet–Sun elongation</th>
-                <td>
-                  ${phenoValue(d, 26)}°
-                </td>
-              </tr>
-
-              <tr>
-                <th>Illumination</th>
-                <td>
-                  ${phenoValue(d, 27)}%
-                </td>
-              </tr>
-
-              <tr>
-                <th>Rise / Set lag</th>
-                <td>
-                  ${phenoValue(d, 23, 6)} days
-                </td>
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      `;
-
-    }
-
-
-    html += `
-
-      <div class="note">
-
-        <strong>Interpretation:</strong>
-
-        MATCH means the calculated heliacal event is within
-        ±0.5 day of the reference date.
-
-        CLOSE means the difference is within ±2 days.
-
-        CHECK means the difference is larger than 2 days.
-
-        These labels are diagnostic only; they do not prove
-        that the reference source and Swiss Ephemeris use
-        identical visibility criteria.
-
+    let html = `
+      <div class="status ok">
+        ✅ Swiss Ephemeris heliacal validation completed.
       </div>
 
+      <p class="small">
+        Swiss Ephemeris model: heliacal visibility calculation,
+        Swiss ephemeris data, high-precision mode, standard
+        atmospheric parameters and naked-eye observer.
+      </p>
+
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Planet</th>
+            <th>Event</th>
+            <th>Reference</th>
+            <th>Calculated event</th>
+            <th>Difference</th>
+            <th>Status</th>
+            <th>Optimum</th>
+            <th>End</th>
+          </tr>
+        </thead>
+        <tbody>
     `;
 
+    for (const item of results) {
 
-    $("heliacalOutput").innerHTML =
-      html;
+      const status =
+        statusForDifference(item.diff);
 
+      html += `
+        <tr>
+          <td>${item.ref.planet}</td>
+          <td>${item.ref.event}</td>
+          <td>${item.ref.date}</td>
+          <td>
+            ${formatLocalFromUTCDate(
+              item.result.eventDate
+            )}
+          </td>
+          <td>
+            ${item.diff >= 0 ? "+" : ""}
+            ${item.diff.toFixed(3)} days
+          </td>
+          <td class="${status.className}">
+            ${status.text}
+          </td>
+          <td>
+            ${
+              item.result.optimum
+                ? formatLocalFromUTCDate(
+                    item.result.optimum
+                  )
+                : "—"
+            }
+          </td>
+          <td>
+            ${
+              item.result.end
+                ? formatLocalFromUTCDate(
+                    item.result.end
+                  )
+                : "—"
+            }
+          </td>
+        </tr>
+      `;
+    }
 
-    $("swissStatus").innerHTML = `
-
-      <span class="ok">
-        ✅ Swiss Ephemeris heliacal validation completed.
-      </span>
-
+    html += `
+        </tbody>
+      </table>
+      </div>
     `;
 
-  }
+    for (const item of results) {
 
+      const p =
+        item.result.pheno || [];
 
-  catch (error) {
+      const planetBody =
+        BODY_NAMES[item.ref.planet];
 
-    console.error(
-      "Heliacal validation failed:",
-      error
-    );
+      const geometryDate =
+        item.result.eventDate;
 
+      const planet =
+        getHorizontal(
+          planetBody,
+          geometryDate
+        );
 
-    $("heliacalOutput").innerHTML = `
+      const sun =
+        getSunHorizontal(
+          geometryDate
+        );
 
-      <pre>${String(
-        error?.stack ||
-        error
-      )}</pre>
+      const elongation =
+        getElongation(
+          planetBody,
+          geometryDate
+        );
 
+      html += `
+        <div class="card">
+
+          <h3>
+            ${item.ref.planet} — ${item.ref.event}
+          </h3>
+
+          <div class="grid">
+
+            <div class="metric">
+              <strong>Reference date</strong>
+              <span>${item.ref.date}</span>
+            </div>
+
+            <div class="metric">
+              <strong>Calculated heliacal event</strong>
+              <span>
+                ${formatLocalFromUTCDate(
+                  item.result.eventDate
+                )}
+              </span>
+            </div>
+
+            <div class="metric">
+              <strong>Difference from reference</strong>
+              <span>
+                ${item.diff >= 0 ? "+" : ""}
+                ${item.diff.toFixed(3)} days
+              </span>
+            </div>
+
+            <div class="metric">
+              <strong>Object altitude</strong>
+              <span>${round(planet.altitude)}°</span>
+            </div>
+
+            <div class="metric">
+              <strong>Sun altitude</strong>
+              <span>${round(sun.altitude)}°</span>
+            </div>
+
+            <div class="metric">
+              <strong>Planet–Sun elongation</strong>
+              <span>${round(elongation)}°</span>
+            </div>
+
+            <div class="metric">
+              <strong>ARCV</strong>
+              <span>
+                ${
+                  Number.isFinite(p[7])
+                    ? round(p[7]) + "°"
+                    : "—"
+                }
+              </span>
+            </div>
+
+            <div class="metric">
+              <strong>Magnitude</strong>
+              <span>
+                ${
+                  Number.isFinite(p[20])
+                    ? round(p[20])
+                    : "—"
+                }
+              </span>
+            </div>
+
+            <div class="metric">
+              <strong>Illumination</strong>
+              <span>
+                ${
+                  Number.isFinite(p[27])
+                    ? round(p[27]) + "%"
+                    : "—"
+                }
+              </span>
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
+
+    html += `
+      <div class="card small">
+        <strong>Interpretation:</strong>
+        MATCH means the calculated heliacal event is within
+        ±0.5 day of the reference date. CLOSE means the
+        difference is within ±2 days. CHECK means the difference
+        is larger than 2 days.
+        These labels are diagnostic only; they do not prove that
+        the reference source and Swiss Ephemeris use identical
+        visibility criteria.
+      </div>
     `;
 
+    heliacalOutput.innerHTML = html;
 
-    $("swissStatus").innerHTML = `
-
-      <span class="bad">
-        ❌ Swiss Ephemeris validation failed.
-      </span>
-
-    `;
-
-  }
-
-
-  finally {
-
-    button.disabled =
-      false;
-
-  }
-
-}
-
-
-/* ============================================================
-   7. DIAGNOSTIC NOTES
-   ============================================================ */
-
-function renderNotes() {
-
-  $("notesOutput").innerHTML = `
-
-    <ul>
-
-      <li>
-        <strong>Elongation:</strong>
-        angular separation between the Sun and planet.
-      </li>
-
-      <li>
-        <strong>Altitude:</strong>
-        actual local horizon position of the planet.
-      </li>
-
-      <li>
-        <strong>Sun altitude:</strong>
-        indicates local twilight / daylight geometry.
-      </li>
-
-      <li>
-        <strong>Heliacal Udaya:</strong>
-        Swiss Ephemeris event type
-        <strong>morning first</strong>.
-      </li>
-
-      <li>
-        <strong>Heliacal Asta:</strong>
-        Swiss Ephemeris event type
-        <strong>evening last</strong>.
-      </li>
-
-      <li>
-        The heliacal calculation considers visibility
-        conditions rather than using a single hard-coded
-        elongation threshold.
-      </li>
-
-      <li>
-        The reference dates are comparison targets only.
-        They are not returned directly by the calculation.
-      </li>
-
-      <li>
-        A difference between Swiss Ephemeris and Drik does
-        not automatically mean that either calculation is
-        wrong. Atmospheric and visibility criteria may differ.
-      </li>
-
-      <li>
-        This validation does not change production Panchang
-        calculations.
-      </li>
-
-      <li>
-        <strong>app.js</strong> and
-        <strong>extra-panchang.js</strong> remain untouched.
-      </li>
-
-    </ul>
-
-  `;
-
-}
-
-
-/* ============================================================
-   RUN ALL
-   ============================================================ */
-
-async function runAllTests() {
-
-  $("status").textContent =
-    "⏳ Running all astronomy diagnostics...";
-
-
-  $("status").className = "";
-
-
-  try {
-
-    renderReferenceTable();
-
-    await runRawTest();
-
-    await runReferenceTest();
-
-    await runVisibilityTest();
-
-    await runHeliacalValidation();
-
-    renderNotes();
-
-
-    $("status").textContent =
-      "✅ All diagnostic tests completed.";
-
-
-    $("status").className =
-      "ok";
-
-  }
-
-
-  catch (error) {
+  } catch (error) {
 
     console.error(error);
 
-
-    $("status").textContent =
-      "❌ Test failed: " +
-      (
-        error?.message ||
-        String(error)
-      );
-
-
-    $("status").className =
-      "bad";
-
+    heliacalOutput.innerHTML = `
+      <div class="status error">
+        ❌ Heliacal validation failed:
+        ${error.message}
+      </div>
+    `;
   }
-
 }
 
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
+/* =============================================================
+   SECTION 7
+   REFERENCE WINDOW SCAN
+   ============================================================= */
 
-$("runAll")
-  .addEventListener(
-    "click",
-    runAllTests
-  );
+/*
+  Important:
+  We deliberately do NOT call Swiss heliacal_ut() for every day.
 
+  Why?
 
-$("runRaw")
-  .addEventListener(
-    "click",
-    async () => {
+  heliacal_ut() searches forward for an event. Calling it for each
+  date would repeatedly search for the next event and would not
+  give us a clean daily geometry diagnostic.
 
-      $("status").textContent =
-        "⏳ Running raw astronomy...";
+  Instead, this scan independently samples the actual astronomy
+  around each reference date.
 
+  Asta  -> evening sample around 18:00 IST
+  Udaya -> morning sample around 05:30 IST
 
-      try {
+  This lets us see:
+    - planet altitude
+    - Sun altitude
+    - elongation
+    - ARCV approximation
+    - azimuth separation
 
-        await runRawTest();
+  without using the reference date as the answer.
+*/
 
 
-        $("status").textContent =
-          "✅ Raw astronomy completed.";
+function makeLocalSampleDate(
+  dateOnly,
+  event
+) {
 
+  /*
+    UTC conversion for IST:
 
-        $("status").className =
-          "ok";
+    Asta:
+      18:00 IST = 12:30 UTC
 
-      }
+    Udaya:
+      05:30 IST = 00:00 UTC
+  */
 
-      catch (error) {
-
-        console.error(error);
-
-        $("status").textContent =
-          "❌ " +
-          (
-            error?.message ||
-            String(error)
-          );
-
-        $("status").className =
-          "bad";
-
-      }
-
-    }
-  );
-
-
-$("runReference")
-  .addEventListener(
-    "click",
-    async () => {
-
-      $("status").textContent =
-        "⏳ Running reference comparison...";
-
-
-      try {
-
-        await runReferenceTest();
-
-
-        $("status").textContent =
-          "✅ Reference comparison completed.";
-
-
-        $("status").className =
-          "ok";
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        $("status").textContent =
-          "❌ " +
-          (
-            error?.message ||
-            String(error)
-          );
-
-        $("status").className =
-          "bad";
-
-      }
-
-    }
-  );
-
-
-$("runVisibility")
-  .addEventListener(
-    "click",
-    async () => {
-
-      $("status").textContent =
-        "⏳ Running visibility geometry...";
-
-
-      try {
-
-        await runVisibilityTest();
-
-
-        $("status").textContent =
-          "✅ Visibility diagnostics completed.";
-
-
-        $("status").className =
-          "ok";
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        $("status").textContent =
-          "❌ " +
-          (
-            error?.message ||
-            String(error)
-          );
-
-        $("status").className =
-          "bad";
-
-      }
-
-    }
-  );
-
-
-$("runHeliacal")
-  .addEventListener(
-    "click",
-    async () => {
-
-      $("status").textContent =
-        "⏳ Running Swiss Ephemeris heliacal validation...";
-
-
-      $("status").className = "";
-
-
-      try {
-
-        await runHeliacalValidation();
-
-
-        $("status").textContent =
-          "✅ Heliacal validation completed.";
-
-
-        $("status").className =
-          "ok";
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        $("status").textContent =
-          "❌ " +
-          (
-            error?.message ||
-            String(error)
-          );
-
-        $("status").className =
-          "bad";
-
-      }
-
-    }
-  );
-
-
-/* ============================================================
-   INITIALIZE STATIC CONTENT
-   ============================================================ */
-
-renderReferenceTable();
-
-renderNotes();
-
-
-console.log(
-  "🌌 OurHinduDharm Astronomy Validation loaded."
-);
-
-
-console.log(
-  "panchangam-js:",
-  {
-    getPanchangam,
-    Observer
+  if (event === "Asta") {
+    return new Date(
+      `${dateOnly}T12:30:00Z`
+    );
   }
-);
+
+  return new Date(
+    `${dateOnly}T00:00:00Z`
+  );
+}
 
 
-console.log(
-  "Astronomy Engine:",
-  Astronomy
-);
+function calculateARCV(
+  planetAltitude,
+  sunAltitude
+) {
+  return planetAltitude - sunAltitude;
+}
 
 
-console.log(
-  "SwissEph:"
-  ,
-  SwissEph
+function renderScanTable(
+  ref,
+  rows
+) {
+
+  let html = `
+    <div class="card">
+
+      <h3>
+        ${ref.planet} — ${ref.event}
+      </h3>
+
+      <div class="small">
+        Reference date: ${ref.date}
+        · Window: ${dateOnlyUTC(
+          addDays(
+            new Date(ref.date + "T00:00:00Z"),
+            -15
+          )
+        )}
+        to
+        ${dateOnlyUTC(
+          addDays(
+            new Date(ref.date + "T00:00:00Z"),
+            15
+          )
+        )}
+      </div>
+
+      <div class="table-wrap">
+      <table>
+
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Sample IST</th>
+            <th>Planet Alt</th>
+            <th>Sun Alt</th>
+            <th>Elongation</th>
+            <th>ARCV approx.</th>
+            <th>Planet Az</th>
+            <th>Sun Az</th>
+            <th>Az diff</th>
+            <th>Ref row</th>
+          </tr>
+        </thead>
+
+        <tbody>
+  `;
+
+  for (const row of rows) {
+
+    html += `
+      <tr class="${row.isReference ? "reference-row" : ""}">
+
+        <td>${row.date}</td>
+
+        <td>
+          ${formatLocalFromUTCDate(
+            row.sample
+          )}
+        </td>
+
+        <td>${round(row.planetAlt)}°</td>
+
+        <td>${round(row.sunAlt)}°</td>
+
+        <td>${round(row.elongation)}°</td>
+
+        <td>${round(row.arcv)}°</td>
+
+        <td>${round(row.planetAz)}°</td>
+
+        <td>${round(row.sunAz)}°</td>
+
+        <td>${round(row.azDiff)}°</td>
+
+        <td>
+          ${row.isReference ? "REFERENCE" : ""}
+        </td>
+
+      </tr>
+    `;
+  }
+
+  html += `
+        </tbody>
+
+      </table>
+      </div>
+
+    </div>
+  `;
+
+  return html;
+}
+
+
+async function runReferenceWindowScan() {
+
+  scanOutput.innerHTML = `
+    <div class="status info">
+      Running ±15 day reference window scans...
+    </div>
+  `;
+
+  let html = `
+    <div class="status ok">
+      🔎 Reference window scan started.
+    </div>
+
+    <p class="small">
+      Each event is independently sampled over ±15 days.
+      The reference date is highlighted only for comparison.
+    </p>
+  `;
+
+  for (const ref of REFERENCES) {
+
+    const center =
+      new Date(
+        ref.date + "T00:00:00Z"
+      );
+
+    const rows = [];
+
+    for (let offset = -15; offset <= 15; offset++) {
+
+      const date =
+        addDays(center, offset);
+
+      const dateOnly =
+        dateOnlyUTC(date);
+
+      const sample =
+        makeLocalSampleDate(
+          dateOnly,
+          ref.event
+        );
+
+      const body =
+        BODY_NAMES[ref.planet];
+
+      const planet =
+        getHorizontal(
+          body,
+          sample
+        );
+
+      const sun =
+        getSunHorizontal(
+          sample
+        );
+
+      const elongation =
+        getElongation(
+          body,
+          sample
+        );
+
+      const arcv =
+        calculateARCV(
+          planet.altitude,
+          sun.altitude
+        );
+
+      const azDiff =
+        angularDifference(
+          planet.azimuth,
+          sun.azimuth
+        );
+
+      rows.push({
+        date: dateOnly,
+        sample,
+        planetAlt: planet.altitude,
+        sunAlt: sun.altitude,
+        elongation,
+        arcv,
+        planetAz: planet.azimuth,
+        sunAz: sun.azimuth,
+        azDiff,
+        isReference: offset === 0
+      });
+    }
+
+    html += renderScanTable(
+      ref,
+      rows
+    );
+  }
+
+  html += `
+    <div class="card">
+
+      <h3>How to read this scan</h3>
+
+      <ul>
+
+        <li>
+          <strong>Planet Alt</strong> shows the object's
+          local altitude at the selected morning/evening sample.
+        </li>
+
+        <li>
+          <strong>Sun Alt</strong> shows the solar twilight
+          geometry.
+        </li>
+
+        <li>
+          <strong>Elongation</strong> shows angular separation
+          between Sun and planet.
+        </li>
+
+        <li>
+          <strong>ARCV approx.</strong> here is a diagnostic
+          altitude difference only. It is not being claimed as
+          Swiss Ephemeris' exact ARCV calculation.
+        </li>
+
+        <li>
+          <strong>Az diff</strong> shows the horizontal angular
+          separation between the planet and Sun.
+        </li>
+
+        <li>
+          The highlighted row is the external reference date.
+          It is not used as the calculated answer.
+        </li>
+
+      </ul>
+
+    </div>
+  `;
+
+  scanOutput.innerHTML = html;
+}
+
+
+/* =============================================================
+   RUN ALL
+   ============================================================= */
+
+async function runAll() {
+
+  setStatus(
+    "Running complete astronomy validation...",
+    "info"
+  );
+
+  try {
+
+    await runRawAstronomy();
+
+    runReferenceComparison();
+
+    runHorizonGeometry();
+
+    await runHeliacalValidation();
+
+    await runReferenceWindowScan();
+
+    setStatus(
+      "✅ All diagnostic tests completed.",
+      "ok"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    setStatus(
+      "❌ Validation failed: " + error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =============================================================
+   BUTTONS
+   ============================================================= */
+
+document
+  .getElementById("runAllBtn")
+  .addEventListener(
+    "click",
+    runAll
+  );
+
+document
+  .getElementById("runRawBtn")
+  .addEventListener(
+    "click",
+    async () => {
+      try {
+        await runRawAstronomy();
+        setStatus(
+          "Raw astronomy test completed.",
+          "ok"
+        );
+      } catch (e) {
+        setStatus(
+          e.message,
+          "error"
+        );
+      }
+    }
+  );
+
+document
+  .getElementById("runRefBtn")
+  .addEventListener(
+    "click",
+    async () => {
+      try {
+        await runReferenceComparison();
+        setStatus(
+          "Reference comparison completed.",
+          "ok"
+        );
+      } catch (e) {
+        setStatus(
+          e.message,
+          "error"
+        );
+      }
+    }
+  );
+
+document
+  .getElementById("runHeliacalBtn")
+  .addEventListener(
+    "click",
+    runHeliacalValidation
+  );
+
+document
+  .getElementById("runScanBtn")
+  .addEventListener(
+    "click",
+    runReferenceWindowScan
+  );
+
+
+/* =============================================================
+   INITIAL
+   ============================================================= */
+
+renderReferences();
+
+setStatus(
+  "Ready. Click Run All Tests.",
+  "info"
 );
 
 </script>
