@@ -1028,6 +1028,7 @@ const sankalpState = {
 
   /* Sandhya */
   sandhyaType: "pratah",
+  sandhyaManualOverride: false,
   sandhyaDevta: "श्रीगायत्री",
   sandhyaDevtaCustom: "",
 
@@ -3727,7 +3728,24 @@ function getCurrentKaalPrahar(
    * ---------------------------------------------------------
    */
 
-  if(
+  if(now < sunrise){
+
+    const brahmaStart =
+      p?.brahmaMuhurta?.start
+        ? new Date(p.brahmaMuhurta.start)
+        : null;
+
+    if(
+      brahmaStart &&
+      !Number.isNaN(brahmaStart.getTime()) &&
+      now >= brahmaStart
+    ){
+      kaal = "प्रातः";
+    }else{
+      kaal = "रात्रि";
+    }
+
+  }else if(
     now >= sunrise &&
     now < sunset
   ){
@@ -3771,6 +3789,7 @@ function getCurrentKaalPrahar(
      * जब user ने checkbox ON किया हो।
      */
     if(
+      kaal === "रात्रि" &&
       sankalpState.includeNightPrahar &&
       praharData &&
       Array.isArray(
@@ -3910,12 +3929,22 @@ function getAutoSandhyaType(
     }
 
     /*
-     * प्रातः संध्या से पहले का pre-sunrise समय
-     * स्वतः प्रातः नहीं बनाया जाएगा।
-     * यहाँ तुरीय केवल automatic Sandhya selection
-     * के लिए fallback है; यह Sankalp Kaal को
-     * अपने-आप "रात्रिकाले" नहीं बदलता।
+     * Brahma Muhurta के बाद pre-sunrise समय
+     * morning context है; केवल उससे पहले तुरीय।
      */
+    const brahmaStart =
+      p?.brahmaMuhurta?.start
+        ? new Date(p.brahmaMuhurta.start)
+        : null;
+
+    if(
+      brahmaStart &&
+      !Number.isNaN(brahmaStart.getTime()) &&
+      now >= brahmaStart
+    ){
+      return "pratah";
+    }
+
     return "turiya";
   }
 
@@ -4553,6 +4582,7 @@ function renderSankalpTypeInputs(){
           if(e.target.checked){
             st.sandhyaType =
               e.target.value;
+            st.sandhyaManualOverride = true;
             updateSankalpText();
           }
         });
@@ -5249,7 +5279,8 @@ window.__bhadraTest = bhadra;
   
 if(
   referenceNow &&
-  dateInput.value === todayString()
+  dateInput.value === todayString() &&
+  !sankalpState.sandhyaManualOverride
 ){
   sankalpState.sandhyaType =
     getAutoSandhyaType(
@@ -6819,7 +6850,11 @@ function getVara(p){
    ========================================================= */
 dateInput.addEventListener(
   "change",
-  calculatePanchang
+  () => {
+    sankalpState.sandhyaManualOverride = false;
+    sankalpState.includeNightPrahar = false;
+    calculatePanchang();
+  }
 );
 
 window.today = function(){
