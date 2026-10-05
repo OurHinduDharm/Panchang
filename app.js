@@ -3899,7 +3899,22 @@ function getAutoSandhyaType(
    */
   if(now < sunrise){
 
-    return "pratah";
+    if(
+      nightMuhurtaMs &&
+      now.getTime() >=
+        sunrise.getTime() - nightMuhurtaMs
+    ){
+      return "pratah";
+    }
+
+    /*
+     * प्रातः संध्या से पहले का pre-sunrise समय
+     * स्वतः प्रातः नहीं बनाया जाएगा।
+     * यहाँ तुरीय केवल automatic Sandhya selection
+     * के लिए fallback है; यह Sankalp Kaal को
+     * अपने-आप "रात्रिकाले" नहीं बदलता।
+     */
+    return "turiya";
   }
 
   /*
