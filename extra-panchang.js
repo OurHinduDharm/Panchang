@@ -1433,7 +1433,7 @@ if(
     const previousPanchang =
       getPanchangam(
         previousDateObj,
-        observer,
+        horaObserver,
         { timezoneOffset:330 }
       );
 
