@@ -1305,440 +1305,480 @@ async function calculateSwissHeliacal(ref) {
   };
 }
 
-
 /* =============================================================
    SECTION 6
-   HELIACAL UDAYA / ASTA VALIDATION
+   HELIACAL UDAYA / ASTA DIAGNOSTIC
    ============================================================= */
 
 async function runHeliacalValidation() {
 
   heliacalOutput.innerHTML = `
     <div class="status info">
-      🔭 Running Swiss Ephemeris heliacal validation...
+      🔭 Starting Swiss Ephemeris diagnostic...
     </div>
   `;
 
-  try {
+  const logs = [];
 
-    /*
-     * Initialize only once.
-     */
+  function logStep(title, value) {
 
-    await initSwiss();
-
-    const results = [];
-
-    /*
-     * Run every reference independently.
-     */
-
-    for (const ref of REFERENCES) {
-
-      heliacalOutput.innerHTML = `
-        <div class="status info">
-          🔭 Calculating
-          <strong>
-            ${ref.planet} ${ref.event}
-          </strong>...
-        </div>
-      `;
-
-      console.log(
-        "======================================"
-      );
-
-      console.log(
-        `HELIACAL TEST: ${ref.planet} ${ref.event}`
-      );
-
-      const result =
-        await calculateSwissHeliacal(ref);
-
-      const referenceDate =
-        new Date(
-          ref.date + "T00:00:00Z"
-        );
-
-      const diff =
-        (
-          result.eventDate.getTime() -
-          referenceDate.getTime()
-        ) /
-        86400000;
-
-      results.push({
-        ref,
-        result,
-        diff
-      });
-    }
-
-
-    /* ---------------------------------------------------------
-       RESULT TABLE
-       --------------------------------------------------------- */
-
-    let html = `
-
-      <div class="status ok">
-        ✅ Swiss Ephemeris heliacal calculation completed.
-      </div>
-
-      <p class="small">
-        Reference dates are external comparison targets.
-        They are not supplied to Swiss Ephemeris as answers.
-      </p>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Planet</th>
-              <th>Event</th>
-              <th>Reference</th>
-              <th>Calculated</th>
-              <th>Difference</th>
-              <th>Status</th>
-              <th>Optimum</th>
-              <th>End</th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-    `;
-
-
-    for (const item of results) {
-
-      const status =
-        statusForDifference(
-          item.diff
-        );
-
-      html += `
-
-        <tr>
-
-          <td>
-            ${item.ref.planet}
-          </td>
-
-          <td>
-            ${item.ref.event}
-          </td>
-
-          <td>
-            ${item.ref.date}
-          </td>
-
-          <td>
-            ${formatLocalFromUTCDate(
-              item.result.eventDate
-            )}
-          </td>
-
-          <td>
-            ${item.diff >= 0 ? "+" : ""}
-            ${item.diff.toFixed(3)}
-            days
-          </td>
-
-          <td class="${status.className}">
-            ${status.text}
-          </td>
-
-          <td>
-            ${
-              item.result.optimum
-                ? formatLocalFromUTCDate(
-                    item.result.optimum
-                  )
-                : "—"
-            }
-          </td>
-
-          <td>
-            ${
-              item.result.end
-                ? formatLocalFromUTCDate(
-                    item.result.end
-                  )
-                : "—"
-            }
-          </td>
-
-        </tr>
-      `;
-    }
-
-
-    html += `
-
-          </tbody>
-
-        </table>
-
-      </div>
-    `;
-
-
-    /* ---------------------------------------------------------
-       DETAILED GEOMETRY
-       --------------------------------------------------------- */
-
-    for (const item of results) {
-
-      const planetBody =
-        BODY_NAMES[
-          item.ref.planet
-        ];
-
-      const geometryDate =
-        item.result.eventDate;
-
-      const planet =
-        getHorizontal(
-          planetBody,
-          geometryDate
-        );
-
-      const sun =
-        getSunHorizontal(
-          geometryDate
-        );
-
-      const elongation =
-        getElongation(
-          planetBody,
-          geometryDate
-        );
-
-      html += `
-
-        <div class="card">
-
-          <h3>
-            ${item.ref.planet}
-            —
-            ${item.ref.event}
-          </h3>
-
-          <div class="grid">
-
-            <div class="metric">
-              <strong>Reference</strong>
-              <span>
-                ${item.ref.date}
-              </span>
-            </div>
-
-            <div class="metric">
-              <strong>Calculated heliacal event</strong>
-              <span>
-                ${formatLocalFromUTCDate(
-                  item.result.eventDate
-                )}
-              </span>
-            </div>
-
-            <div class="metric">
-              <strong>Difference</strong>
-              <span>
-                ${item.diff >= 0 ? "+" : ""}
-                ${item.diff.toFixed(3)}
-                days
-              </span>
-            </div>
-
-            <div class="metric">
-              <strong>Planet altitude</strong>
-              <span>
-                ${round(
-                  planet.altitude
-                )}°
-              </span>
-            </div>
-
-            <div class="metric">
-              <strong>Sun altitude</strong>
-              <span>
-                ${round(
-                  sun.altitude
-                )}°
-              </span>
-            </div>
-
-            <div class="metric">
-              <strong>Planet–Sun elongation</strong>
-              <span>
-                ${round(
-                  elongation
-                )}°
-              </span>
-            </div>
-
-            <div class="metric">
-              <strong>Planet azimuth</strong>
-              <span>
-                ${round(
-                  planet.azimuth
-                )}°
-              </span>
-            </div>
-
-            <div class="metric">
-              <strong>Sun azimuth</strong>
-              <span>
-                ${round(
-                  sun.azimuth
-                )}°
-              </span>
-            </div>
-
-          </div>
-
-          <details>
-
-            <summary>
-              Raw Swiss heliacal result
-            </summary>
-
-            <pre
-              class="mono"
-              style="
-                white-space:pre-wrap;
-                overflow:auto;
-              "
-            >${JSON.stringify(
-              item.result.raw,
-              null,
-              2
-            )}</pre>
-
-          </details>
-
-        </div>
-      `;
-    }
-
-
-    /* ---------------------------------------------------------
-       INTERPRETATION
-       --------------------------------------------------------- */
-
-    html += `
-
-      <div class="card small">
-
-        <strong>
-          Diagnostic interpretation
-        </strong>
-
-        <ul>
-
-          <li>
-            <strong>MATCH</strong> =
-            within ±0.5 day.
-          </li>
-
-          <li>
-            <strong>CLOSE</strong> =
-            within ±2 days.
-          </li>
-
-          <li>
-            <strong>CHECK</strong> =
-            more than ±2 days.
-          </li>
-
-          <li>
-            Swiss Ephemeris heliacal visibility is
-            a visibility model and should not automatically
-            be treated as identical to the external Panchang
-            reference.
-          </li>
-
-          <li>
-            This section is validation only.
-            Production Panchang code is untouched.
-          </li>
-
-        </ul>
-
-      </div>
-    `;
-
-    heliacalOutput.innerHTML =
-      html;
-
-  } catch (error) {
-
-    console.error(
-      "HELIACAL VALIDATION ERROR:",
-      error
+    console.log(
+      "HELIACAL DIAGNOSTIC:",
+      title,
+      value
     );
 
-    /*
-     * Some WASM/browser errors are not normal Error objects.
-     * Never allow them to become "undefined".
-     */
-
-    let message;
-
-    if (
-      error &&
-      typeof error === "object"
-    ) {
-
-      message =
-        error.stack ||
-        error.message ||
-        JSON.stringify(
-          error,
-          Object.getOwnPropertyNames(error)
-        );
-
-    } else {
-
-      message =
-        String(error);
-    }
-
-    if (
-      !message ||
-      message === "undefined"
-    ) {
-
-      message =
-        "Unknown Swiss Ephemeris error. Check browser console.";
-    }
+    logs.push({
+      title,
+      value
+    });
 
     heliacalOutput.innerHTML = `
+      <div class="card">
+        <h3>🔭 Swiss Ephemeris Diagnostic</h3>
 
-      <div class="status error">
-
-        <strong>
-          ❌ Heliacal validation failed
-        </strong>
-
-        <pre
-          class="mono"
-          style="
-            white-space:pre-wrap;
-            overflow:auto;
-            margin-top:10px;
-          "
-        >${message}</pre>
+        ${logs.map(item => `
+          <div class="metric">
+            <strong>${item.title}</strong>
+            <span>
+              ${
+                typeof item.value === "object"
+                  ? JSON.stringify(item.value, null, 2)
+                  : String(item.value)
+              }
+            </span>
+          </div>
+        `).join("")}
 
       </div>
     `;
   }
+
+
+  try {
+
+    /* ---------------------------------------------------------
+       STEP 1 — Swiss instance
+       --------------------------------------------------------- */
+
+    logStep(
+      "1. Calling initSwiss()",
+      "starting..."
+    );
+
+    const swe =
+      await initSwiss();
+
+    logStep(
+      "2. Swiss instance",
+      !!swe
+    );
+
+
+    /* ---------------------------------------------------------
+       STEP 2 — Check methods
+       --------------------------------------------------------- */
+
+    logStep(
+      "3. typeof heliacal_ut",
+      typeof swe?.heliacal_ut
+    );
+
+    if (
+      typeof swe?.heliacal_ut !== "function"
+    ) {
+
+      throw new Error(
+        "SwissEph heliacal_ut() is not available."
+      );
+    }
+
+
+    /* ---------------------------------------------------------
+       STEP 3 — Test reference
+       --------------------------------------------------------- */
+
+    const ref = REFERENCES.find(
+      r =>
+        r.planet === "Venus" &&
+        r.event === "Asta"
+    );
+
+    if (!ref) {
+
+      throw new Error(
+        "Venus Asta reference not found."
+      );
+    }
+
+    logStep(
+      "4. Reference",
+      {
+        planet: ref.planet,
+        event: ref.event,
+        date: ref.date,
+        eventType: ref.eventType
+      }
+    );
+
+
+    /* ---------------------------------------------------------
+       STEP 4 — Event type
+       --------------------------------------------------------- */
+
+    const eventType =
+      Number(ref.eventType);
+
+    logStep(
+      "5. eventType",
+      {
+        value: eventType,
+        type: typeof eventType,
+        valid:
+          eventType === 1 ||
+          eventType === 2
+      }
+    );
+
+    if (
+      eventType !== 1 &&
+      eventType !== 2
+    ) {
+
+      throw new Error(
+        "Invalid Swiss heliacal eventType: " +
+        String(ref.eventType)
+      );
+    }
+
+
+    /* ---------------------------------------------------------
+       STEP 5 — Flags
+       --------------------------------------------------------- */
+
+    const flags =
+      2 | 256;
+
+    logStep(
+      "6. flags",
+      {
+        value: flags,
+        type: typeof flags
+      }
+    );
+
+
+    /* ---------------------------------------------------------
+       STEP 6 — Julian Day
+       --------------------------------------------------------- */
+
+    const startDate =
+      addDays(
+        new Date(
+          ref.date + "T00:00:00Z"
+        ),
+        -50
+      );
+
+    const jdStart =
+      unixMsToJulian(
+        startDate.getTime()
+      );
+
+    logStep(
+      "7. Julian Day",
+      {
+        startDate:
+          startDate.toISOString(),
+
+        jdStart,
+
+        finite:
+          Number.isFinite(jdStart)
+      }
+    );
+
+
+    if (
+      !Number.isFinite(jdStart)
+    ) {
+
+      throw new Error(
+        "Invalid Julian Day."
+      );
+    }
+
+
+    /* ---------------------------------------------------------
+       STEP 7 — Primitive input arrays
+       --------------------------------------------------------- */
+
+    const geoPos = [
+      Number(CONFIG.longitude),
+      Number(CONFIG.latitude),
+      Number(CONFIG.elevation)
+    ];
+
+    const atmosData = [
+      1013.25,
+      15,
+      40,
+      0
+    ];
+
+    const observerData = [
+      36,
+      1,
+      0,
+      0,
+      0,
+      0
+    ];
+
+    const objectName =
+      String(ref.planet)
+        .toLowerCase();
+
+    logStep(
+      "8. geoPos",
+      geoPos
+    );
+
+    logStep(
+      "9. atmosData",
+      atmosData
+    );
+
+    logStep(
+      "10. observerData",
+      observerData
+    );
+
+    logStep(
+      "11. objectName",
+      {
+        value: objectName,
+        type: typeof objectName
+      }
+    );
+
+
+    /* ---------------------------------------------------------
+       STEP 8 — Final argument validation
+       --------------------------------------------------------- */
+
+    const inputCheck = {
+
+      jdStart:
+        typeof jdStart === "number" &&
+        Number.isFinite(jdStart),
+
+      geoPos:
+        Array.isArray(geoPos) &&
+        geoPos.every(
+          v =>
+            typeof v === "number" &&
+            Number.isFinite(v)
+        ),
+
+      atmosData:
+        Array.isArray(atmosData) &&
+        atmosData.every(
+          v =>
+            typeof v === "number" &&
+            Number.isFinite(v)
+        ),
+
+      observerData:
+        Array.isArray(observerData) &&
+        observerData.every(
+          v =>
+            typeof v === "number" &&
+            Number.isFinite(v)
+        ),
+
+      objectName:
+        typeof objectName === "string" &&
+        objectName.length > 0,
+
+      eventType:
+        typeof eventType === "number" &&
+        Number.isFinite(eventType),
+
+      flags:
+        typeof flags === "number" &&
+        Number.isFinite(flags)
+    };
+
+    logStep(
+      "12. Final input validation",
+      inputCheck
+    );
+
+
+    /* ---------------------------------------------------------
+       STEP 9 — ACTUAL HELIACAL CALL
+       --------------------------------------------------------- */
+
+    logStep(
+      "13. Calling heliacal_ut()",
+      "NOW..."
+    );
+
+    let result;
+
+    try {
+
+      result =
+        swe.heliacal_ut(
+          jdStart,
+          geoPos,
+          atmosData,
+          observerData,
+          objectName,
+          eventType,
+          flags
+        );
+
+    } catch (error) {
+
+      console.error(
+        "HELIACAL_UT EXCEPTION:",
+        error
+      );
+
+      logStep(
+        "14. heliacal_ut exception",
+        {
+          name:
+            error?.name,
+
+          message:
+            error?.message,
+
+          stack:
+            error?.stack,
+
+          string:
+            String(error)
+        }
+      );
+
+      throw error;
+    }
+
+
+    /* ---------------------------------------------------------
+       STEP 10 — Raw result
+       --------------------------------------------------------- */
+
+    logStep(
+      "14. heliacal_ut returned",
+      {
+        isNull:
+          result === null,
+
+        isUndefined:
+          result === undefined,
+
+        type:
+          typeof result,
+
+        constructor:
+          result?.constructor?.name
+      }
+    );
+
+
+    /* ---------------------------------------------------------
+       STEP 11 — Result inspection
+       --------------------------------------------------------- */
+
+    if (
+      result === null
+    ) {
+
+      throw new Error(
+        "heliacal_ut() returned NULL."
+      );
+    }
+
+    if (
+      result === undefined
+    ) {
+
+      throw new Error(
+        "heliacal_ut() returned UNDEFINED."
+      );
+    }
+
+
+    const raw =
+      Array.from(result);
+
+    logStep(
+      "15. Raw result array",
+      raw
+    );
+
+
+    if (
+      raw.length === 0
+    ) {
+
+      throw new Error(
+        "heliacal_ut() returned an empty result."
+      );
+    }
+
+
+    /* ---------------------------------------------------------
+       SUCCESS
+       --------------------------------------------------------- */
+
+    logStep(
+      "✅ FINAL RESULT",
+      "Swiss heliacal_ut() executed successfully."
+    );
+
+    setStatus(
+      "✅ Swiss heliacal diagnostic completed.",
+      "ok"
+    );
+
+  } catch (error) {
+
+    console.error(
+      "HELIACAL DIAGNOSTIC ERROR:",
+      error
+    );
+
+    const message =
+      error?.stack ||
+      error?.message ||
+      String(error) ||
+      "Unknown heliacal diagnostic error";
+
+    logStep(
+      "❌ FINAL ERROR",
+      message
+    );
+
+    setStatus(
+      "❌ Heliacal diagnostic failed.",
+      "error"
+    );
+
+    /*
+     * IMPORTANT:
+     * Re-throw so Run All Tests also receives
+     * the real error.
+     */
+
+    throw error;
+  }
 }
+
 /* =============================================================
    SECTION 7
    REFERENCE WINDOW SCAN
@@ -2073,15 +2113,24 @@ async function runAll() {
       "ok"
     );
 
-  } catch (error) {
+} catch (error) {
 
-    console.error(error);
+  console.error(
+    "RUN ALL ERROR:",
+    error
+  );
 
-    setStatus(
-      "❌ Validation failed: " + error.message,
-      "error"
-    );
-  }
+  const message =
+    error?.stack ||
+    error?.message ||
+    String(error) ||
+    "Unknown validation error";
+
+  setStatus(
+    "❌ Validation failed: " + message,
+    "error"
+  );
+}
 }
 
 
