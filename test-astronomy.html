@@ -1057,50 +1057,47 @@ function unixMsToJulian(ms) {
   return ms / 86400000 + 2440587.5;
 }
 
-
 /* =============================================================
    SWISS HELIACAL EVENT
    ============================================================= */
+
 async function calculateSwissHeliacal(ref) {
 
-  const swe =
-    await initSwiss();
+  const swe = await initSwiss();
 
-  const startDate =
-    addDays(
-      new Date(ref.date + "T00:00:00Z"),
-      -50
-    );
+  const startDate = addDays(
+    new Date(ref.date + "T00:00:00Z"),
+    -50
+  );
 
-  const jdStart =
-    unixMsToJulian(
-      startDate.getTime()
-    );
+  const jdStart = unixMsToJulian(
+    startDate.getTime()
+  );
+
+  /*
+   * Swiss Ephemeris heliacal_ut():
+   *
+   * jdStart
+   * geoPos
+   * atmosData
+   * observerData
+   * objectName
+   * eventType
+   * flags
+   *
+   * swisseph-wasm v0.1.0 wrapper returns
+   * Float64Array | null.
+   */
 
   const flags =
     SWISS.FLG_SWIEPH |
     SWISS.HELFLAG_HIGH_PRECISION;
 
-  /*
-    swisseph-wasm v0.1.0 wrapper:
+  let dret;
 
-    heliacal_ut(
-      jdStart,
-      geoPos,
-      atmosData,
-      observerData,
-      objectName,
-      eventType,
-      flags
-    )
+  try {
 
-    returns Float64Array | null.
-
-    It does NOT accept dret/serr as JS arguments.
-  */
-
-  const dret =
-    swe.heliacal_ut(
+    dret = swe.heliacal_ut(
       jdStart,
       [...SWISS.GEO],
       [...SWISS.ATMOSPHERE],
@@ -1110,33 +1107,81 @@ async function calculateSwissHeliacal(ref) {
       flags
     );
 
-  if (
-    !dret ||
-    !Number.isFinite(dret[0])
-  ) {
+  } catch (error) {
 
-    const lastError =
-      typeof swe.getLastError === "function"
-        ? swe.getLastError()
-        : "";
+    console.error(
+      "Swiss heliacal_ut RAW ERROR:",
+      error
+    );
+
+    console.error(
+      "Swiss heliacal_ut ERROR TYPE:",
+      typeof error
+    );
+
+    console.error(
+      "Swiss heliacal_ut ERROR STRING:",
+      String(error)
+    );
 
     throw new Error(
-      lastError ||
-      `Swiss heliacal calculation returned no result for ${ref.planet} ${ref.event}`
+      "Swiss heliacal_ut exception: " +
+      String(
+        error?.stack ||
+        error?.message ||
+        error
+      )
+    );
+  }
+
+  console.log(
+    "Swiss heliacal_ut result:",
+    ref.planet,
+    ref.event,
+    dret
+  );
+
+  if (dret === null) {
+
+    throw new Error(
+      `Swiss heliacal_ut returned null for ${ref.planet} ${ref.event}`
+    );
+  }
+
+  if (!(dret instanceof Float64Array)) {
+
+    throw new Error(
+      `Unexpected Swiss heliacal_ut result type: ${
+        Object.prototype.toString.call(dret)
+      }`
+    );
+  }
+
+  if (dret.length < 3) {
+
+    throw new Error(
+      `Swiss heliacal_ut returned only ${dret.length} values`
+    );
+  }
+
+  if (!Number.isFinite(dret[0])) {
+
+    throw new Error(
+      `Swiss heliacal_ut returned invalid event JD: ${dret[0]}`
     );
   }
 
   /*
-    Swiss Ephemeris:
-      dret[0] = beginning/start of visibility
-      dret[1] = optimum visibility
-      dret[2] = end of visibility
-  */
+   * Swiss Ephemeris result:
+   *
+   * dret[0] = beginning/start of visibility
+   * dret[1] = optimum visibility
+   * dret[2] = end of visibility
+   */
 
-  const eventDate =
-    new Date(
-      (dret[0] - 2440587.5) * 86400000
-    );
+  const eventDate = new Date(
+    (dret[0] - 2440587.5) * 86400000
+  );
 
   const optimum =
     Number.isFinite(dret[1])
@@ -1152,72 +1197,67 @@ async function calculateSwissHeliacal(ref) {
         )
       : null;
 
-  /*
-    heliacal_pheno_ut() also returns Float64Array directly.
-  */
-
-  let pheno = null;
-
-  try {
-
-    pheno =
-      swe.heliacal_pheno_ut(
-        unixMsToJulian(
-          eventDate.getTime()
-        ),
-        [...SWISS.GEO],
-        [...SWISS.ATMOSPHERE],
-        [...SWISS.OBSERVER],
-        ref.planet.toLowerCase(),
-        ref.eventType,
-        flags
-      );
-
-  } catch (error) {
-
-    console.warn(
-      "heliacal_pheno_ut failed:",
-      error
-    );
-
-    pheno = null;
-  }
-
   return {
     eventDate,
     optimum,
     end,
-    pheno
+    raw: Array.from(dret)
   };
 }
-
-
+ 
 /* =============================================================
    SECTION 6
+   HELIACAL UDAYA / ASTA VALIDATION
    ============================================================= */
-
 async function runHeliacalValidation() {
 
-  heliacalOutput.innerHTML =
-    `<div class="status info">
+  heliacalOutput.innerHTML = `
+    <div class="status info">
       Running Swiss Ephemeris heliacal validation...
-    </div>`;
+    </div>
+  `;
 
   try {
 
-    await initSwiss();
+    /*
+     * Make absolutely sure SwissEph is initialized
+     * before heliacal_ut() is called.
+     */
+
+    const swe = await initSwiss();
+
+    console.log(
+      "SwissEph initialized:",
+      !!swe
+    );
+
+    console.log(
+      "SwissEph version:",
+      typeof swe.version === "function"
+        ? swe.version()
+        : "version() unavailable"
+    );
 
     const results = [];
 
     for (const ref of REFERENCES) {
 
+      console.log(
+        `Starting heliacal test: ${ref.planet} ${ref.event}`
+      );
+
       const result =
         await calculateSwissHeliacal(ref);
+
+      const referenceDate =
+        new Date(
+          ref.date + "T00:00:00Z"
+        );
 
       const diff =
         (
           result.eventDate.getTime() -
-          new Date(ref.date + "T00:00:00Z").getTime()
+          referenceDate.getTime()
         ) / 86400000;
 
       results.push({
@@ -1225,58 +1265,87 @@ async function runHeliacalValidation() {
         result,
         diff
       });
+
+      console.log(
+        `Completed: ${ref.planet} ${ref.event}`,
+        result
+      );
     }
 
+
+    /* ---------------------------------------------------------
+       SUMMARY TABLE
+       --------------------------------------------------------- */
+
     let html = `
+
       <div class="status ok">
-        ✅ Swiss Ephemeris heliacal validation completed.
+        ✅ Swiss Ephemeris heliacal calculation completed.
       </div>
 
       <p class="small">
-        Swiss Ephemeris model: heliacal visibility calculation,
-        Swiss ephemeris data, high-precision mode, standard
-        atmospheric parameters and naked-eye observer.
+        This is a diagnostic comparison only.
+        The external reference dates are not supplied to
+        Swiss Ephemeris as calculated answers.
       </p>
 
       <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Planet</th>
-            <th>Event</th>
-            <th>Reference</th>
-            <th>Calculated event</th>
-            <th>Difference</th>
-            <th>Status</th>
-            <th>Optimum</th>
-            <th>End</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
 
-    for (const item of results) {
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Planet</th>
+              <th>Event</th>
+              <th>Reference</th>
+              <th>Calculated event</th>
+              <th>Difference</th>
+              <th>Status</th>
+              <th>Optimum</th>
+              <th>End</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+    `;
+      for (const item of results) {
 
       const status =
         statusForDifference(item.diff);
 
       html += `
+
         <tr>
-          <td>${item.ref.planet}</td>
-          <td>${item.ref.event}</td>
-          <td>${item.ref.date}</td>
+
+          <td>
+            ${item.ref.planet}
+          </td>
+
+          <td>
+            ${item.ref.event}
+          </td>
+
+          <td>
+            ${item.ref.date}
+          </td>
+
           <td>
             ${formatLocalFromUTCDate(
               item.result.eventDate
             )}
           </td>
+
           <td>
             ${item.diff >= 0 ? "+" : ""}
             ${item.diff.toFixed(3)} days
           </td>
+
           <td class="${status.className}">
             ${status.text}
           </td>
+
           <td>
             ${
               item.result.optimum
@@ -1286,6 +1355,7 @@ async function runHeliacalValidation() {
                 : "—"
             }
           </td>
+
           <td>
             ${
               item.result.end
@@ -1295,20 +1365,27 @@ async function runHeliacalValidation() {
                 : "—"
             }
           </td>
+
         </tr>
       `;
     }
 
+
     html += `
-        </tbody>
-      </table>
+
+          </tbody>
+
+        </table>
+
       </div>
     `;
 
-    for (const item of results) {
 
-      const p =
-        item.result.pheno || [];
+    /* ---------------------------------------------------------
+       DETAILED GEOMETRY
+       --------------------------------------------------------- */
+
+    for (const item of results) {
 
       const planetBody =
         BODY_NAMES[item.ref.planet];
@@ -1333,7 +1410,9 @@ async function runHeliacalValidation() {
           geometryDate
         );
 
+
       html += `
+
         <div class="card">
 
           <h3>
@@ -1344,7 +1423,9 @@ async function runHeliacalValidation() {
 
             <div class="metric">
               <strong>Reference date</strong>
-              <span>${item.ref.date}</span>
+              <span>
+                ${item.ref.date}
+              </span>
             </div>
 
             <div class="metric">
@@ -1365,86 +1446,139 @@ async function runHeliacalValidation() {
             </div>
 
             <div class="metric">
-              <strong>Object altitude</strong>
-              <span>${round(planet.altitude)}°</span>
+              <strong>Planet altitude</strong>
+              <span>
+                ${round(planet.altitude)}°
+              </span>
             </div>
 
             <div class="metric">
               <strong>Sun altitude</strong>
-              <span>${round(sun.altitude)}°</span>
+              <span>
+                ${round(sun.altitude)}°
+              </span>
             </div>
 
             <div class="metric">
               <strong>Planet–Sun elongation</strong>
-              <span>${round(elongation)}°</span>
-            </div>
-
-            <div class="metric">
-              <strong>ARCV</strong>
               <span>
-                ${
-                  Number.isFinite(p[7])
-                    ? round(p[7]) + "°"
-                    : "—"
-                }
+                ${round(elongation)}°
               </span>
             </div>
 
             <div class="metric">
-              <strong>Magnitude</strong>
+              <strong>Planet azimuth</strong>
               <span>
-                ${
-                  Number.isFinite(p[20])
-                    ? round(p[20])
-                    : "—"
-                }
+                ${round(planet.azimuth)}°
               </span>
             </div>
 
             <div class="metric">
-              <strong>Illumination</strong>
+              <strong>Sun azimuth</strong>
               <span>
-                ${
-                  Number.isFinite(p[27])
-                    ? round(p[27]) + "%"
-                    : "—"
-                }
+                ${round(sun.azimuth)}°
               </span>
             </div>
 
           </div>
+
+          <details>
+
+            <summary>
+              Raw Swiss heliacal result
+            </summary>
+
+            <pre
+              class="mono"
+              style="white-space:pre-wrap;overflow:auto;"
+            >${JSON.stringify(
+              item.result.raw,
+              null,
+              2
+            )}</pre>
+
+          </details>
+
         </div>
       `;
     }
+       /* ---------------------------------------------------------
+       INTERPRETATION
+       --------------------------------------------------------- */
 
     html += `
+
       <div class="card small">
-        <strong>Interpretation:</strong>
-        MATCH means the calculated heliacal event is within
-        ±0.5 day of the reference date. CLOSE means the
-        difference is within ±2 days. CHECK means the difference
-        is larger than 2 days.
-        These labels are diagnostic only; they do not prove that
-        the reference source and Swiss Ephemeris use identical
-        visibility criteria.
+
+        <strong>Diagnostic interpretation:</strong>
+
+        <ul>
+
+          <li>
+            <strong>MATCH</strong> =
+            calculated event within ±0.5 day
+            of the reference.
+          </li>
+
+          <li>
+            <strong>CLOSE</strong> =
+            calculated event within ±2 days.
+          </li>
+
+          <li>
+            <strong>CHECK</strong> =
+            difference greater than 2 days.
+          </li>
+
+          <li>
+            These labels do not prove that
+            Swiss Ephemeris and the reference source
+            use identical visibility criteria.
+          </li>
+
+          <li>
+            This section is a validation laboratory only.
+            It is not production Panchang logic.
+          </li>
+
+        </ul>
+
       </div>
     `;
 
+
     heliacalOutput.innerHTML = html;
+
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "HELIACAL VALIDATION ERROR:",
+      error
+    );
+
+    const message =
+      String(
+        error?.stack ||
+        error?.message ||
+        error
+      );
 
     heliacalOutput.innerHTML = `
+
       <div class="status error">
+
         ❌ Heliacal validation failed:
-        ${error.message}
+
+        <pre
+          class="mono"
+          style="white-space:pre-wrap;overflow:auto;"
+        >${message}</pre>
+
       </div>
     `;
   }
 }
-
 
 /* =============================================================
    SECTION 7
