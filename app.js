@@ -1983,7 +1983,8 @@ function getSpecialKaalDetails(
 
   /*
    * प्रातः संध्या
-   * सूर्योदय से 24 मिनट पूर्व → सूर्योदय
+   * रात्रि के अंतिम 1/15 भाग से सूर्योदय तक।
+   * अवधि वास्तविक रात्रिमान से निकलेगी।
    */
   const pratahSandhya = {
     start:new Date(
@@ -2022,7 +2023,8 @@ function getSpecialKaalDetails(
 
   /*
    * सायं संध्या
-   * सूर्यास्त → 24 मिनट बाद
+   * सूर्यास्त से अगले 1 रात्रि-मुहूर्त तक।
+   * अवधि वास्तविक रात्रिमान से निकलेगी।
    */
   const sayahnaSandhya = {
     start:new Date(
