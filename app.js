@@ -825,7 +825,8 @@ function renderCollapsibleTimePeriods(
   items,
   title,
   referenceNow,
-  displayNameFn
+  displayNameFn,
+  currentItems = null
 ){
   const list =
     Array.isArray(items)
@@ -853,9 +854,12 @@ function renderCollapsibleTimePeriods(
    * रहता है, इसलिए वहाँ कोई कालखंड
    * "अभी चल रहा है" नहीं बताया जाएगा।
    */
+  const currentList =
+    Array.isArray(currentItems) ? currentItems : list;
+
   const current =
     referenceNow
-      ? list.find(item => {
+      ? currentList.find(item => {
 
           const start =
             new Date(item.startTime);
@@ -5091,6 +5095,7 @@ if(
 
 let previousSunset = null;
 let previousSunrise = null;
+let previousPanchang = null
 
 try{
 
@@ -5101,7 +5106,7 @@ try{
     previousDate.getDate() - 1
   );
 
-  const previousPanchang =
+  previousPanchang =
     getPanchangam(
       previousDate,
       observer,
@@ -5156,7 +5161,8 @@ window.__specialYogaTest =
   previousSunrise,
   referenceNow,
   specialYoga,
-  nextMoonset
+  nextMoonset,
+  previousPanchang
 );
 
   }catch(error){
@@ -5182,7 +5188,8 @@ function displayPanchang(
   previousSunrise,
   referenceNow,
   specialYoga,
-  nextMoonset
+  nextMoonset,
+  previousPanchang
 ){
   const date = new Date(
     dateInput.value + "T12:00:00"
@@ -5308,6 +5315,18 @@ const ghatiPal = getGhatiPal(
   previousSunrise,
   referenceNow
 );
+
+  const isPreSunriseToday = !!(
+    referenceNow &&
+    dateInput.value === todayString() &&
+    referenceNow < new Date(p.sunrise)
+  );
+
+  const currentNightChoghadiya =
+    isPreSunriseToday ? (previousPanchang?.choghadiya?.night || []) : (p.choghadiya?.night || []);
+
+  const currentNightGowri =
+    isPreSunriseToday ? (previousPanchang?.gowri?.night || []) : (p.gowri?.night || []);
  
   const bhadraSuggestion =
   getBhadraSuggestion(
@@ -6389,7 +6408,8 @@ if(
           return names[item.name] ||
             item.name ||
             "—";
-        }
+        },
+        currentNightChoghadiya
       )}
       ${renderCollapsibleTimePeriods(
   p.gowri?.day,
@@ -6421,7 +6441,8 @@ if(
   p.gowri?.night,
   "🌙 रात्रि का गौरी काल",
   referenceNow,
-  getGowriDisplay
+  getGowriDisplay,
+  currentNightGowri
 )}
       <div class="card full">
   <div class="label">
