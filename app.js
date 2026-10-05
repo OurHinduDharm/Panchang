@@ -6419,7 +6419,6 @@ if(
             item.name ||
             "—";
         },
-        currentNightChoghadiya
       )}
       ${renderCollapsibleTimePeriods(
   p.gowri?.day,
@@ -6445,7 +6444,8 @@ if(
           return names[item.name] ||
             item.name ||
             "—";
-        }
+        },
+        currentNightChoghadiya
       )}
       ${renderCollapsibleTimePeriods(
   p.gowri?.night,
