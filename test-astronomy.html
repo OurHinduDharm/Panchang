@@ -1061,7 +1061,6 @@ function unixMsToJulian(ms) {
 /* =============================================================
    SWISS HELIACAL EVENT
    ============================================================= */
-
 async function calculateSwissHeliacal(ref) {
 
   const swe =
@@ -1078,85 +1077,116 @@ async function calculateSwissHeliacal(ref) {
       startDate.getTime()
     );
 
-  const dret =
-    new Array(50).fill(0);
-
-  let serr = "";
-
   const flags =
     SWISS.FLG_SWIEPH |
     SWISS.HELFLAG_HIGH_PRECISION;
 
-  const returnCode =
+  /*
+    swisseph-wasm v0.1.0 wrapper:
+
+    heliacal_ut(
+      jdStart,
+      geoPos,
+      atmosData,
+      observerData,
+      objectName,
+      eventType,
+      flags
+    )
+
+    returns Float64Array | null.
+
+    It does NOT accept dret/serr as JS arguments.
+  */
+
+  const dret =
     swe.heliacal_ut(
       jdStart,
       [...SWISS.GEO],
       [...SWISS.ATMOSPHERE],
       [...SWISS.OBSERVER],
-      ref.planet,
+      ref.planet.toLowerCase(),
       ref.eventType,
-      flags,
-      dret,
-      serr
+      flags
     );
 
   if (
-    returnCode < 0 ||
+    !dret ||
     !Number.isFinite(dret[0])
   ) {
+
+    const lastError =
+      typeof swe.getLastError === "function"
+        ? swe.getLastError()
+        : "";
+
     throw new Error(
-      `Swiss heliacal calculation failed for ${ref.planet} ${ref.event}`
+      lastError ||
+      `Swiss heliacal calculation returned no result for ${ref.planet} ${ref.event}`
     );
   }
+
+  /*
+    Swiss Ephemeris:
+      dret[0] = beginning/start of visibility
+      dret[1] = optimum visibility
+      dret[2] = end of visibility
+  */
 
   const eventDate =
     new Date(
       (dret[0] - 2440587.5) * 86400000
     );
 
+  const optimum =
+    Number.isFinite(dret[1])
+      ? new Date(
+          (dret[1] - 2440587.5) * 86400000
+        )
+      : null;
+
+  const end =
+    Number.isFinite(dret[2])
+      ? new Date(
+          (dret[2] - 2440587.5) * 86400000
+        )
+      : null;
+
+  /*
+    heliacal_pheno_ut() also returns Float64Array directly.
+  */
+
   let pheno = null;
 
   try {
 
-    const p =
-      new Array(50).fill(0);
+    pheno =
+      swe.heliacal_pheno_ut(
+        unixMsToJulian(
+          eventDate.getTime()
+        ),
+        [...SWISS.GEO],
+        [...SWISS.ATMOSPHERE],
+        [...SWISS.OBSERVER],
+        ref.planet.toLowerCase(),
+        ref.eventType,
+        flags
+      );
 
-    let phenoErr = "";
+  } catch (error) {
 
-    swe.heliacal_pheno_ut(
-      unixMsToJulian(
-        eventDate.getTime()
-      ),
-      [...SWISS.GEO],
-      [...SWISS.ATMOSPHERE],
-      [...SWISS.OBSERVER],
-      ref.planet,
-      ref.eventType,
-      flags,
-      p,
-      phenoErr
+    console.warn(
+      "heliacal_pheno_ut failed:",
+      error
     );
 
-    pheno = p;
-
-  } catch {
     pheno = null;
   }
 
   return {
     eventDate,
-    optimum:
-      Number.isFinite(dret[1])
-        ? new Date(
-            (dret[1] - 2440587.5) * 86400000
-          )
-        : null,
-    end:
-      Number.isFinite(dret[2])
-        ? new Date(
-            (dret[2] - 2440587.5) * 86400000
-          )
-        : null,
+    optimum,
+    end,
     pheno
   };
 }
