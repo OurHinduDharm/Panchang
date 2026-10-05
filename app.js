@@ -5598,46 +5598,63 @@ if(
     <div class="bhadra-parts">`;
 
    bhadra.parts.forEach(part => {
+const cls =
+  part.isActive
+    ? "bhadra-part active"
+    : "bhadra-part";
 
-    const cls =
-      part.isActive
-        ? "bhadra-part active"
-        : "bhadra-part";
+const partBg =
+  part.isActive
+    ? "#c62828"
+    : "";
 
-    const effect =
-      getPartEffect(part.name);
+const partColor =
+  part.isActive
+    ? "#ffffff"
+    : "#212121";
 
-    bhadraPartsHtml += `
-      <div class="${cls}" style="
-        display:block;
-        margin-bottom:7px;
-        padding:7px 9px;
-      ">
-        <div>
-          <b>${part.name}</b>
-          —
-          ${formatTime(part.start)}
-          से
-          ${formatTime(part.end)}
-          तक
-        </div>
+const effectColor =
+  part.isActive
+    ? "#ffffff"
+    : "#555";
 
-        ${
-          effect
-            ? `
-              <div style="
-                margin-top:4px;
-                font-size:11px;
-                line-height:1.5;
-                color:#666;
-              ">
-                📜 ${effect.text}
-              </div>
-            `
-            : ""
-        }
-      </div>
-    `;
+const effect =
+  getPartEffect(part.name);
+
+bhadraPartsHtml += `
+  <div class="${cls}" style="
+    display:block;
+    margin-bottom:7px;
+    padding:7px 9px;
+    ${partBg ? `background:${partBg};` : ""}
+    color:${partColor};
+  ">
+    <div>
+      <b style="color:${partColor};">
+        ${part.name}
+      </b>
+      —
+      ${formatTime(part.start)}
+      से
+      ${formatTime(part.end)}
+      तक
+    </div>
+    ${
+      effect
+        ? `
+          <div style="
+            margin-top:4px;
+            font-size:11px;
+            line-height:1.5;
+            color:${effectColor};
+          ">
+            📜 ${effect.text}
+          </div>
+        `
+        : ""
+    }
+  </div>
+`;
   });
 
   bhadraPartsHtml += `
