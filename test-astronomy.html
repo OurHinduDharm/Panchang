@@ -1795,6 +1795,417 @@ async function runHeliacalValidation() {
   }
 }
 
+ // ============================================================
+// STAGE 9 — HELIACAL VISIBILITY THRESHOLD ANALYSIS
+// Diagnostic only — does NOT calculate production Udaya/Asta
+// ============================================================
+
+async function calculateSwissVisibilityLimit(
+  date,
+  planet,
+  eventType
+) {
+  const swe = await initSwiss();
+
+  // Convert JS Date -> Julian Day UT
+  const jd = swe.julday(
+    date.getUTCFullYear(),
+    date.getUTCMonth() + 1,
+    date.getUTCDate(),
+    date.getUTCHours() +
+      date.getUTCMinutes() / 60 +
+      date.getUTCSeconds() / 3600,
+    1
+  );
+
+  const geoPos = [
+    CONFIG.longitude,
+    CONFIG.latitude,
+    CONFIG.elevation
+  ];
+
+  const atmosphere = [
+    1013.25,
+    15,
+    40,
+    0
+  ];
+
+  const observer = [
+    36,
+    1,
+    0,
+    0,
+    0,
+    0
+  ];
+
+  const result = new Float64Array(50);
+
+  const helFlag =
+    SWISS.FLG_SWIEPH |
+    SWISS.HELFLAG_HIGH_PRECISION;
+
+  const objectName = planet.toLowerCase();
+
+  try {
+    const rc = await swe.heliacal_pheno_ut(
+      jd,
+      geoPos,
+      atmosphere,
+      observer,
+      objectName,
+      eventType,
+      helFlag,
+      result
+    );
+
+    if (rc === undefined || rc === null) {
+      return null;
+    }
+
+    return {
+      jd,
+      altitude: result[0],
+      apparentAltitude: result[1],
+      geocentricAltitude: result[2],
+      azimuth: result[3],
+      sunAltitude: result[4],
+      sunAzimuth: result[5],
+      tav: result[6],
+      arcv: result[7],
+      daz: result[8],
+      arcl: result[9],
+      kact: result[10],
+      minTav: result[11],
+      tfirstVR: result[12],
+      tbVR: result[13],
+      tlastVR: result[14],
+      tbYallop: result[15],
+      moonPhase: result[16],
+      qYal: result[17],
+      qCrit: result[18],
+      parallax: result[19],
+      magnitude: result[20],
+      riseObject: result[21],
+      riseSun: result[22],
+      lag: result[23],
+      tvisVR: result[24],
+      moonLimitingMagnitude: result[25],
+      elongation: result[26],
+      illumination: result[27]
+    };
+
+  } catch (error) {
+    console.warn(
+      "Swiss heliacal_pheno_ut failed:",
+      planet,
+      date.toISOString(),
+      error
+    );
+
+    return null;
+  }
+}
+
+
+// ------------------------------------------------------------
+// Convert Julian Day -> Date
+// ------------------------------------------------------------
+
+function swissJdToDate(jd) {
+  if (!Number.isFinite(jd)) return null;
+
+  const unixMs =
+    (jd - 2440587.5) * 86400000;
+
+  return new Date(unixMs);
+}
+
+
+// ------------------------------------------------------------
+// Format local time for validation display
+// ------------------------------------------------------------
+
+function formatLocalDateTime(date) {
+  if (!(date instanceof Date) || isNaN(date)) {
+    return "Invalid";
+  }
+
+  return date.toLocaleString(
+    "en-IN",
+    {
+      timeZone: CONFIG.timezone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }
+  );
+}
+
+
+// ------------------------------------------------------------
+// Stage 9 scan
+// ------------------------------------------------------------
+
+async function runVisibilityThresholdAnalysis() {
+
+  const container = document.getElementById("validation-results");
+
+  if (!container) {
+    console.warn(
+      "Stage 9: #validation-results not found."
+    );
+    return;
+  }
+
+  const references = [
+    {
+      planet: "Venus",
+      event: "Asta",
+      eventType: SWISS.HELIACAL_SETTING,
+      date: "2026-10-19"
+    },
+    {
+      planet: "Venus",
+      event: "Udaya",
+      eventType: SWISS.HELIACAL_RISING,
+      date: "2026-10-30"
+    },
+    {
+      planet: "Jupiter",
+      event: "Asta",
+      eventType: SWISS.HELIACAL_SETTING,
+      date: "2027-08-17"
+    },
+    {
+      planet: "Jupiter",
+      event: "Udaya",
+      eventType: SWISS.HELIACAL_RISING,
+      date: "2027-09-15"
+    }
+  ];
+
+  const rows = [];
+
+  for (const ref of references) {
+
+    const noon = new Date(
+      `${ref.date}T12:00:00Z`
+    );
+
+    // Scan ±2 days around reference.
+    // 10-minute resolution.
+    for (
+      let minutes = -2880;
+      minutes <= 2880;
+      minutes += 10
+    ) {
+
+      const date = new Date(
+        noon.getTime() +
+        minutes * 60000
+      );
+
+      const data =
+        await calculateSwissVisibilityLimit(
+          date,
+          ref.planet,
+          ref.eventType
+        );
+
+      if (!data) continue;
+
+      rows.push({
+        planet: ref.planet,
+        event: ref.event,
+        referenceDate: ref.date,
+        utc: date.toISOString(),
+        local: formatLocalDateTime(date),
+
+        altitude: data.altitude,
+        apparentAltitude:
+          data.apparentAltitude,
+
+        sunAltitude:
+          data.sunAltitude,
+
+        arcv: data.arcv,
+        daz: data.daz,
+        arcl: data.arcl,
+
+        kact: data.kact,
+        minTav: data.minTav,
+
+        qYal: data.qYal,
+        qCrit: data.qCrit,
+
+        magnitude:
+          data.magnitude,
+
+        lag:
+          data.lag,
+
+        elongation:
+          data.elongation,
+
+        illumination:
+          data.illumination
+      });
+    }
+  }
+
+  // ----------------------------------------------------------
+  // Find the most interesting samples
+  // ----------------------------------------------------------
+
+  const grouped = {};
+
+  for (const row of rows) {
+
+    const key =
+      `${row.planet}_${row.event}`;
+
+    if (!grouped[key]) {
+      grouped[key] = [];
+    }
+
+    grouped[key].push(row);
+  }
+
+  let html = `
+    <section class="validation-section">
+      <h2>8. Heliacal Visibility Threshold Analysis</h2>
+
+      <p>
+        This diagnostic scans the actual visibility parameters
+        around the reference events. It does not hard-code the
+        reference date as the calculated answer.
+      </p>
+  `;
+
+  for (const key of Object.keys(grouped)) {
+
+    const data = grouped[key];
+
+    const refDate =
+      new Date(
+        `${data[0].referenceDate}T12:00:00Z`
+      );
+
+    // Find sample closest to reference instant.
+    const closest =
+      data.reduce(
+        (best, current) => {
+
+          const d1 =
+            Math.abs(
+              new Date(current.utc) -
+              refDate
+            );
+
+          const d2 =
+            Math.abs(
+              new Date(best.utc) -
+              refDate
+            );
+
+          return d1 < d2
+            ? current
+            : best;
+        },
+        data[0]
+      );
+
+    html += `
+      <h3>
+        ${closest.planet} —
+        ${closest.event}
+      </h3>
+
+      <table class="validation-table">
+        <thead>
+          <tr>
+            <th>UTC</th>
+            <th>Local</th>
+            <th>Planet Alt</th>
+            <th>Sun Alt</th>
+            <th>ARCV</th>
+            <th>DAZ</th>
+            <th>ARCL</th>
+            <th>K</th>
+            <th>Min TAV</th>
+            <th>Magnitude</th>
+            <th>Elong.</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    // Display only samples near the reference:
+    // ±6 hours, keeping the table manageable.
+    const nearby =
+      data.filter(row => {
+
+        const diff =
+          Math.abs(
+            new Date(row.utc) -
+            refDate
+          );
+
+        return diff <= 6 * 3600000;
+      });
+
+    for (const row of nearby) {
+
+      html += `
+        <tr>
+          <td>${row.utc}</td>
+          <td>${row.local}</td>
+          <td>${Number(row.altitude).toFixed(3)}°</td>
+          <td>${Number(row.sunAltitude).toFixed(3)}°</td>
+          <td>${Number(row.arcv).toFixed(3)}°</td>
+          <td>${Number(row.daz).toFixed(3)}°</td>
+          <td>${Number(row.arcl).toFixed(3)}°</td>
+          <td>${Number(row.kact).toFixed(3)}</td>
+          <td>${Number(row.minTav).toFixed(3)}°</td>
+          <td>${Number(row.magnitude).toFixed(2)}</td>
+          <td>${Number(row.elongation).toFixed(3)}°</td>
+        </tr>
+      `;
+    }
+
+    html += `
+        </tbody>
+      </table>
+    `;
+  }
+
+  html += `
+      <p class="validation-note">
+        ⚠️ Diagnostic only. The values above are used to
+        determine the visibility criterion before production
+        Udaya/Asta calculation is implemented.
+      </p>
+    </section>
+  `;
+
+  container.insertAdjacentHTML(
+    "beforeend",
+    html
+  );
+
+  console.log(
+    "STAGE 9 VISIBILITY ANALYSIS:",
+    rows
+  );
+
+  return rows;
+}
 /* =============================================================
    SECTION 7
    REFERENCE WINDOW SCAN
@@ -2127,13 +2538,14 @@ async function runAll() {
     console.log("RUN ALL: Section 6 DONE");
 
     console.log("RUN ALL: Section 7 START");
-    await runReferenceWindowScan();
-    console.log("RUN ALL: Section 7 DONE");
+await runReferenceWindowScan();
+console.log("RUN ALL: Section 7 DONE");
 
-    setStatus(
-      "✅ All diagnostic tests completed.",
-      "ok"
-    );
+console.log("RUN ALL: Section 8 START");
+await runVisibilityThresholdAnalysis();
+console.log("RUN ALL: Section 8 DONE");
+
+setStatus("✅ All diagnostic tests completed.","ok");
 
   } catch (error) {
     console.error("RUN ALL ERROR:", error);
