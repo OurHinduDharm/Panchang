@@ -883,11 +883,27 @@ async function runReferenceComparison() {
     const date =
       new Date(ref.sampleTime);
 
-    const calculated =
-      getElongation(
-        BODY_NAMES[ref.planet],
-        date
-      );
+ console.log(
+  "SECTION 4 DEBUG:",
+  {
+    planet: ref.planet,
+    body: BODY_NAMES[ref.planet],
+    sampleTime: ref.sampleTime,
+    date,
+    dateType: typeof date
+  }
+);
+
+const calculated =
+  getElongation(
+    BODY_NAMES[ref.planet],
+    date
+  );
+
+console.log(
+  "SECTION 4 CALCULATED:",
+  calculated
+);
 
     const diff =
       calculated - ref.elongation;
