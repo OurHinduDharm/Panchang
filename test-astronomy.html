@@ -2104,13 +2104,15 @@ async function runReferenceWindowScan() {
 /* =============================================================
    RUN ALL
    ============================================================= */
-
-
 async function runAll() {
   setStatus("Running complete astronomy validation...", "info");
 
   try {
     console.log("RUN ALL: START");
+
+    console.log("RUN ALL: Section 3 START");
+    await runRawAstronomy();
+    console.log("RUN ALL: Section 3 DONE");
 
     console.log("RUN ALL: Section 4 START");
     await runReferenceComparison();
@@ -2124,7 +2126,14 @@ async function runAll() {
     await runHeliacalValidation();
     console.log("RUN ALL: Section 6 DONE");
 
-    setStatus("✅ All diagnostic tests completed.", "ok");
+    console.log("RUN ALL: Section 7 START");
+    await runReferenceWindowScan();
+    console.log("RUN ALL: Section 7 DONE");
+
+    setStatus(
+      "✅ All diagnostic tests completed.",
+      "ok"
+    );
 
   } catch (error) {
     console.error("RUN ALL ERROR:", error);
