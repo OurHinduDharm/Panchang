@@ -2429,6 +2429,12 @@ setStatus(
 );
 
 </script>
-
+  <!-- Eruda conditional load -->
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>
+  if (new URLSearchParams(window.location.search).has('debug')) {
+    eruda.init();
+  }
+</script>
 </body>
 </html>
