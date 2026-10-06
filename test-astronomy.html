@@ -648,8 +648,8 @@ const observer = new Astronomy.Observer(
   CONFIG.elevation
 );
 
-function getBodyVector(body, date) {
-  return Astronomy.GeoVector(body, date);
+ function getBodyVector(body, date) {
+  return Astronomy.GeoVector(body, date, true);
 }
 
 function vectorLength(v) {
@@ -683,13 +683,12 @@ function vectorSeparationDegrees(a, b) {
 }
 
 function getElongation(body, date) {
+const sun =
+  getBodyVector(Astronomy.Body.Sun, date, true);
 
-  const sun =
-    getBodyVector(Astronomy.Body.Sun, date);
-
-  const planet =
-    getBodyVector(body, date);
-
+const planet =
+  getBodyVector(body, date, true);
+  
   return vectorSeparationDegrees(sun, planet);
 }
 
@@ -814,12 +813,13 @@ async function runRawAstronomy() {
       "Saturn"
     ]) {
 
-      if (planet === "Sun") {
-        const vec =
-          Astronomy.GeoVector(
-            Astronomy.Body.Sun,
-            date
-          );
+ if (planet === "Sun") {
+  const vec =
+  Astronomy.GeoVector(
+    Astronomy.Body.Sun,
+    date,
+    true
+  );
 
         const ecl =
           Astronomy.Ecliptic(vec);
