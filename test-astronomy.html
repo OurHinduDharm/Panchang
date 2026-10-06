@@ -2541,9 +2541,42 @@ async function runAll() {
 await runReferenceWindowScan();
 console.log("RUN ALL: Section 7 DONE");
 
-console.log("RUN ALL: Section 8 START");
-await runVisibilityThresholdAnalysis();
-console.log("RUN ALL: Section 8 DONE");
+console.log("RUN ALL: Swiss API inspection START");
+
+await initSwiss();
+
+console.log("========== SWISS API INSPECTION ==========");
+console.log(
+  "heliacal_ut:",
+  typeof swiss?.heliacal_ut
+);
+console.log(
+  "heliacal_pheno_ut:",
+  typeof swiss?.heliacal_pheno_ut
+);
+console.log(
+  "vis_limit_mag:",
+  typeof swiss?.vis_limit_mag
+);
+
+console.log(
+  "Heliacal-related methods:",
+  Object.keys(swiss || {}).filter(
+    key => key.toLowerCase().includes("heli")
+  )
+);
+
+console.log(
+  "Swiss instance:",
+  swiss
+);
+
+console.log("========== SWISS API INSPECTION END ==========");
+
+setStatus(
+  "✅ Swiss heliacal API inspection completed. Check console.",
+  "ok"
+);
 
 setStatus("✅ All diagnostic tests completed.","ok");
 
