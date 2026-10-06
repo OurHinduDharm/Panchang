@@ -2098,15 +2098,15 @@ async function runAll() {
 
   try {
 
-    // await runRawAstronomy();
+    await runRawAstronomy();
 
-    runReferenceComparison();
+  await runReferenceComparison();
 
-    runHorizonGeometry();
+   await runHorizonGeometry();
 
     await runHeliacalValidation();
 
-    // await runReferenceWindowScan();
+    await runReferenceWindowScan();
 
     setStatus(
       "✅ All diagnostic tests completed.",
