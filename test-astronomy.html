@@ -1313,11 +1313,100 @@ async function calculateSwissHeliacal(ref) {
     );
   }
 
+  /*
+   * Diagnostic decoder
+   *
+   * Swiss returns heliacal times as Julian Days.
+   * Decode every non-zero slot without assuming that
+   * slots beyond 0..2 are additional event dates.
+   */
+  function formatHeliacalJD(jd) {
+    if (!Number.isFinite(jd) || jd === 0) {
+      return null;
+    }
+
+    const d = jdToDate(jd);
+
+    if (!d || Number.isNaN(d.getTime())) {
+      return {
+        jd,
+        isoUTC: null,
+        ist: null
+      };
+    }
+
+    return {
+      jd,
+      isoUTC: d.toISOString(),
+      ist: d.toLocaleString(
+        "en-IN",
+        {
+          timeZone: "Asia/Kolkata",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false
+        }
+      )
+    };
+  }
+
+  const decoded = raw
+    .map((value, index) => ({
+      index,
+      value: Number(value),
+      decoded: formatHeliacalJD(Number(value))
+    }))
+    .filter(item =>
+      item.decoded !== null
+    );
+
+  console.log(
+    "========== SWISS HELIACAL RESULT DECODER =========="
+  );
+
+  console.table(
+    decoded.map(item => ({
+      index: item.index,
+      jd: item.value,
+      isoUTC: item.decoded?.isoUTC || "",
+      IST: item.decoded?.ist || ""
+    }))
+  );
+
+  console.log(
+    "Beginning of visibility [0]:",
+    formatHeliacalJD(eventJD)
+  );
+
+  console.log(
+    "Optimum visibility [1]:",
+    formatHeliacalJD(optimumJD)
+  );
+
+  console.log(
+    "End of visibility [2]:",
+    formatHeliacalJD(endJD)
+  );
+
+  console.log(
+    "All non-zero returned slots:",
+    decoded
+  );
+
+  console.log(
+    "========== SWISS HELIACAL RESULT DECODER END =========="
+  );
+
   return {
     eventDate,
     optimum,
     end,
-    raw
+    raw,
+    decoded
   };
 }
 
