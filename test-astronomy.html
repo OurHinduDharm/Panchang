@@ -221,6 +221,7 @@
     <button id="runRefBtn">Reference Comparison</button>
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
+    <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
   </div>
 
   <div id="status" class="status">
@@ -386,7 +387,18 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- 8. DIAGNOSTIC NOTES -->
+  <!-- 8. CLASSICAL ASTA / UDAYA -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>8. Classical Asta / Udaya Threshold Test</h2>
+    <p>This diagnostic tests the traditional threshold rule using modern astronomical positions. The external reference date is not used as the calculated answer.</p>
+    <div class="status info">Venus: 10° direct, 8° retrograde. Jupiter: 11°. Ecliptic-longitude and true 3-D angular separation are both tested.</div>
+    <div id="classicalOutput"><div class="status info">Not run yet.</div></div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- 9. DIAGNOSTIC NOTES -->
   <!-- ========================================================= -->
 
   <section>
@@ -536,6 +548,9 @@ const heliacalOutput =
 
 const scanOutput =
   document.getElementById("scanOutput");
+
+const classicalOutput =
+  document.getElementById("classicalOutput");
 
 
 /* =============================================================
@@ -1962,6 +1977,129 @@ async function runVisibilityThresholdAnalysis() {
   return rows;
 }
 /* =============================================================
+   CLASSICAL ASTA / UDAYA DIAGNOSTIC
+   ============================================================= */
+
+function normalize360(value) {
+  let x = value % 360;
+  if (x < 0) x += 360;
+  return x;
+}
+
+function signedLongitudeDelta(a, b) {
+  let d = normalize360(a - b);
+  if (d > 180) d -= 360;
+  return d;
+}
+
+function getEclipticLongitude(body, date) {
+  const vec = Astronomy.GeoVector(body, date, true);
+  return normalize360(Astronomy.Ecliptic(vec).lon);
+}
+
+function getPlanetMotion(body, date) {
+  const before = new Date(date.getTime() - 3600000);
+  const after = new Date(date.getTime() + 3600000);
+  return signedLongitudeDelta(
+    getEclipticLongitude(body, after),
+    getEclipticLongitude(body, before)
+  ) / 2;
+}
+
+function getClassicalGeometry(body, date, planet) {
+  const sunLon = getEclipticLongitude(Astronomy.Body.Sun, date);
+  const planetLon = getEclipticLongitude(body, date);
+  const eclipticSeparation = Math.abs(signedLongitudeDelta(planetLon, sunLon));
+  const trueSeparation = getElongation(body, date);
+  const motion = getPlanetMotion(body, date);
+  let threshold = NaN;
+  if (planet === "Venus") threshold = motion >= 0 ? 10 : 8;
+  else if (planet === "Jupiter") threshold = 11;
+  return {
+    sunLon, planetLon, eclipticSeparation, trueSeparation, motion,
+    motionType: motion >= 0 ? "Direct" : "Retrograde",
+    threshold,
+    eclipticResidual: eclipticSeparation - threshold,
+    trueResidual: trueSeparation - threshold
+  };
+}
+
+function bisectClassicalRoot(body, planet, lo, hi, useTrue) {
+  let a = lo, b = hi;
+  const value = d => {
+    const g = getClassicalGeometry(body, d, planet);
+    return useTrue ? g.trueResidual : g.eclipticResidual;
+  };
+  let fa = value(a), fb = value(b);
+  if (!Number.isFinite(fa) || !Number.isFinite(fb) || fa === 0 || fb === 0 || fa * fb > 0) return null;
+  for (let i = 0; i < 36; i++) {
+    const mid = new Date((a.getTime() + b.getTime()) / 2);
+    const fm = value(mid);
+    if (!Number.isFinite(fm)) return null;
+    if (Math.abs(fm) < 0.000001) return mid;
+    if (fa * fm <= 0) { b = mid; fb = fm; }
+    else { a = mid; fa = fm; }
+  }
+  return new Date((a.getTime() + b.getTime()) / 2);
+}
+
+function findClassicalCrossing(ref, useTrue) {
+  const body = BODY_NAMES[ref.planet];
+  const center = new Date(ref.date + "T12:00:00Z");
+  const samples = [];
+  for (let minutes = -14400; minutes <= 14400; minutes += 60) {
+    const date = new Date(center.getTime() + minutes * 60000);
+    const g = getClassicalGeometry(body, date, ref.planet);
+    const residual = useTrue ? g.trueResidual : g.eclipticResidual;
+    if (Number.isFinite(residual)) samples.push({date, residual});
+  }
+  const candidates = [];
+  for (let i = 1; i < samples.length; i++) {
+    const p = samples[i - 1], q = samples[i];
+    if (p.residual === 0 || p.residual * q.residual <= 0) {
+      const root = p.residual === 0 ? p.date : bisectClassicalRoot(body, ref.planet, p.date, q.date, useTrue);
+      if (!root) continue;
+      const g = getClassicalGeometry(body, root, ref.planet);
+      const before = getClassicalGeometry(body, new Date(root.getTime() - 3600000), ref.planet);
+      const after = getClassicalGeometry(body, new Date(root.getTime() + 3600000), ref.planet);
+      const beforeSep = useTrue ? before.trueSeparation : before.eclipticSeparation;
+      const afterSep = useTrue ? after.trueSeparation : after.eclipticSeparation;
+      const increasing = afterSep > beforeSep;
+      const directionMatches = ref.event === "Asta" ? !increasing : increasing;
+      candidates.push({root, g, directionMatches, deltaHours:(root.getTime()-center.getTime())/3600000});
+    }
+  }
+  candidates.sort((a,b) => Math.abs(a.deltaHours) - Math.abs(b.deltaHours));
+  return candidates.find(x => x.directionMatches) || candidates[0] || null;
+}
+
+function classicalCard(ref, label, result, field) {
+  if (!result) return "<div class=\"metric\"><strong>"+label+"</strong><span>No threshold crossing found</span></div>";
+  const diff = (result.root.getTime() - new Date(ref.date+"T12:00:00Z").getTime()) / 86400000;
+  return "<div class=\"metric\"><strong>"+label+"</strong><span>" +
+    formatLocalFromUTCDate(result.root) + "<br>Threshold: " + round(result.g.threshold,6) +
+    "°<br>Separation: " + round(result.g[field],6) + "°<br>Motion: " + result.g.motionType +
+    " (" + round(result.g.motion,6) + "°/h)<br>Direction: " +
+    (result.directionMatches ? "✓ expected" : "⚠ opposite") +
+    "<br>Difference from reference date: " + (diff >= 0 ? "+" : "") + round(diff,4) + " days</span></div>";
+}
+
+async function runClassicalAstaUdayaTest() {
+  classicalOutput.innerHTML = "<div class=\"status info\">Calculating classical threshold crossings...</div>";
+  let html = "<div class=\"status info\">Traditional threshold diagnostic: Venus 10°/8°, Jupiter 11°.</div>";
+  for (const ref of REFERENCES) {
+    const e = findClassicalCrossing(ref, false);
+    const t = findClassicalCrossing(ref, true);
+    html += "<div class=\"card\"><h3>"+ref.planet+" — "+ref.event+"</h3><div class=\"small\">External reference date: "+ref.date+"</div><div class=\"grid\">";
+    html += classicalCard(ref,"Ecliptic-longitude threshold",e,"eclipticSeparation");
+    html += classicalCard(ref,"True 3-D angular threshold",t,"trueSeparation");
+    html += "</div></div>";
+  }
+  classicalOutput.innerHTML = html;
+  setStatus("Classical Asta/Udaya threshold test completed.","ok");
+}
+
+/* =============================================================
    SECTION 7
    REFERENCE WINDOW SCAN
    ============================================================= */
@@ -2414,6 +2552,13 @@ document
   .addEventListener(
     "click",
     runReferenceWindowScan
+  );
+
+document
+  .getElementById("runClassicalBtn")
+  .addEventListener(
+    "click",
+    runClassicalAstaUdayaTest
   );
 
 
