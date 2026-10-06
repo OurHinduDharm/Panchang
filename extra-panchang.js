@@ -1151,12 +1151,30 @@ function createHoraCard(
 
   card.innerHTML = `
 
-    <div class="label">
-      🕐 होरा
-    </div>
+<div class="label">
+  🕐 होरा
+</div>
 
-    ${currentText}
+<div style="
+  margin:2px 0 8px;
+  font-size:11px;
+  color:#777;
+">
+  ℹ️ होरा क्या है?
+  <a
+    href="https://ourhindudharm.blogspot.com/2026/10/about-hora-chakra-what-is-hora-in-astrology.html"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="
+      color:inherit;
+      text-decoration:underline;
+    "
+  >
+    संक्षेप में जानें
+  </a>
+</div>
 
+${currentText}
 
     <details>
 
