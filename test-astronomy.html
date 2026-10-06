@@ -2089,50 +2089,42 @@ async function runReferenceWindowScan() {
    RUN ALL
    ============================================================= */
 
-async function runAll() {
 
-  setStatus(
-    "Running complete astronomy validation...",
-    "info"
-  );
+async function runAll() {
+  setStatus("Running complete astronomy validation...", "info");
 
   try {
+    console.log("RUN ALL: START");
 
-    await runRawAstronomy();
+    console.log("RUN ALL: Section 4 START");
+    await runReferenceComparison();
+    console.log("RUN ALL: Section 4 DONE");
 
-  await runReferenceComparison();
+    console.log("RUN ALL: Section 5 START");
+    runHorizonGeometry();
+    console.log("RUN ALL: Section 5 DONE");
 
-   await runHorizonGeometry();
-
+    console.log("RUN ALL: Section 6 START");
     await runHeliacalValidation();
+    console.log("RUN ALL: Section 6 DONE");
 
-    await runReferenceWindowScan();
+    setStatus("✅ All diagnostic tests completed.", "ok");
+
+  } catch (error) {
+    console.error("RUN ALL ERROR:", error);
+
+    const message =
+      error?.stack ||
+      error?.message ||
+      String(error) ||
+      "Unknown validation error";
 
     setStatus(
-      "✅ All diagnostic tests completed.",
-      "ok"
+      "❌ Validation failed: " + message,
+      "error"
     );
-
-} catch (error) {
-
-  console.error(
-    "RUN ALL ERROR:",
-    error
-  );
-
-  const message =
-    error?.stack ||
-    error?.message ||
-    String(error) ||
-    "Unknown validation error";
-
-  setStatus(
-    "❌ Validation failed: " + message,
-    "error"
-  );
+  }
 }
-}
-
 
 /* =============================================================
    BUTTONS
