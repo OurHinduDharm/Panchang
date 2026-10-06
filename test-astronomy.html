@@ -1838,6 +1838,121 @@ async function runHeliacalValidation() {
 
 
     /* ---------------------------------------------------------
+       STEP 12 — Decode returned Julian Days
+       --------------------------------------------------------- */
+
+    function decodeHeliacalJD(jd) {
+
+      if (
+        !Number.isFinite(jd) ||
+        jd === 0
+      ) {
+        return null;
+      }
+
+      const date =
+        new Date(
+          (jd - 2440587.5) *
+          86400000
+        );
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+        return null;
+      }
+
+      return {
+        jd,
+        isoUTC:
+          date.toISOString(),
+        ist:
+          date.toLocaleString(
+            "en-IN",
+            {
+              timeZone: "Asia/Kolkata",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: false
+            }
+          )
+      };
+    }
+
+    const decoded =
+      raw
+        .map(
+          (value, index) => ({
+            index,
+            value: Number(value),
+            decoded:
+              decodeHeliacalJD(
+                Number(value)
+              )
+          })
+        )
+        .filter(
+          item =>
+            item.decoded !== null
+        );
+
+    logStep(
+      "16. Decoded non-zero Swiss JD slots",
+      decoded
+    );
+
+    console.log(
+      "========== SWISS HELIACAL RESULT DECODER =========="
+    );
+
+    console.table(
+      decoded.map(
+        item => ({
+          index: item.index,
+          jd: item.value,
+          isoUTC:
+            item.decoded.isoUTC,
+          IST:
+            item.decoded.ist
+        })
+      )
+    );
+
+    console.log(
+      "Swiss heliacal result slots [0..2]:",
+      {
+        beginning:
+          decodeHeliacalJD(
+            Number(raw[0])
+          ),
+        optimum:
+          decodeHeliacalJD(
+            Number(raw[1])
+          ),
+        end:
+          decodeHeliacalJD(
+            Number(raw[2])
+          )
+      }
+    );
+
+    console.log(
+      "All non-zero returned slots:",
+      decoded
+    );
+
+    console.log(
+      "========== SWISS HELIACAL RESULT DECODER END =========="
+    );
+
+
+    /* ---------------------------------------------------------
        SUCCESS
        --------------------------------------------------------- */
 
