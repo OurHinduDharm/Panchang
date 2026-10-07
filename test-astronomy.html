@@ -273,6 +273,7 @@
 
   <section>
     <h2>2. Reference Dataset</h2>
+<div class="status info"><strong>Canonical reference policy:</strong> Drik Ganita / Drik-engine data are the primary modern reference. Tantrakulam's Drik engine is an independent cross-check. Sūrya-siddhānta remains a separate classical benchmark and is never mixed with Drik positions or sunrise. Reference dates are validation targets only.</div>
 
     <div class="table-wrap">
       <table>
@@ -392,7 +393,7 @@
 
   <section>
     <h2>8. Classical Asta / Udaya Threshold Test</h2>
-    <p>This diagnostic tests the traditional threshold rule using modern astronomical positions. The external reference date is not used as the calculated answer.</p>
+    <p>This diagnostic tests the traditional threshold rule using modern astronomical positions. The external reference date is not used as the calculated answer.</p><div class="status warn"><strong>Important:</strong> 8°/10°/11° are classical Sūrya-siddhānta approximations. Diagnostic only; not the final local Asta/Udaya algorithm.</div>
     <div class="status info">Venus: 10° direct, 8° retrograde. Jupiter: 11°. Ecliptic-longitude and true 3-D angular separation are both tested.</div>
     <div id="classicalOutput"><div class="status info">Not run yet.</div></div>
   </section>
@@ -473,38 +474,10 @@ const CONFIG = {
 };
 
 const REFERENCES = [
-  {
-    planet: "Venus",
-    event: "Asta",
-    date: "2026-10-19",
-    sampleTime: "2026-10-19T12:00:00Z",
-    elongation: 7.76,
-    eventType: 2
-  },
-  {
-    planet: "Venus",
-    event: "Udaya",
-    date: "2026-10-30",
-    sampleTime: "2026-10-30T00:30:00Z",
-    elongation: 9.70,
-    eventType: 1
-  },
-  {
-    planet: "Jupiter",
-    event: "Asta",
-    date: "2027-08-17",
-    sampleTime: "2027-08-17T12:00:00Z",
-    elongation: 10.49,
-    eventType: 2
-  },
-  {
-    planet: "Jupiter",
-    event: "Udaya",
-    date: "2027-09-15",
-    sampleTime: "2027-09-15T00:30:00Z",
-    elongation: 11.28,
-    eventType: 1
-  }
+  { planet:"Venus", event:"Asta", date:"2026-10-19", sampleTime:"2026-10-19T12:00:00Z", elongation:7.76, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
+  { planet:"Venus", event:"Udaya", date:"2026-10-30", sampleTime:"2026-10-30T00:30:00Z", elongation:9.70, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
+  { planet:"Jupiter", event:"Asta", date:"2027-08-17", sampleTime:"2027-08-17T12:00:00Z", elongation:10.49, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
+  { planet:"Jupiter", event:"Udaya", date:"2027-09-15", sampleTime:"2027-09-15T00:30:00Z", elongation:11.28, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" }
 ];
 
 const PLANETS = {
@@ -645,7 +618,7 @@ function renderReferences() {
       <td>${r.event}</td>
       <td>${r.date}</td>
       <td>${r.elongation.toFixed(2)}°</td>
-      <td>Drik / Tantrakulam</td>
+      <td>${r.source} / ${r.engine}<br><span class="small">${r.referenceLocation}</span></td>
     </tr>
   `).join("");
 }
