@@ -2122,7 +2122,7 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+ref.date+'</td>';
-    html += '<td>'+(crossing ? formatLocalFromUTCDate(crossing.eventTime)+"<br><span class="small">K="+round(crossing.geometry.K,5)+"°</span>" : "No crossing in ±15 days")+'</td>';
+    html += '<td>'+(crossing ? formatLocalFromUTCDate(crossing.eventTime)+"<br>K="+round(crossing.geometry.K,5)+"°" : "No crossing in ±15 days")+'</td>';
     html += '</tr>';
   }
 
