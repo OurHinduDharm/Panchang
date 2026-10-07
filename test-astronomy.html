@@ -222,6 +222,7 @@
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
+    <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
   </div>
 
   <div id="status" class="status">
@@ -399,6 +400,16 @@
   </section>
 
   <!-- ========================================================= -->
+  <!-- 9. SHASTRIYA LAGNANTARA-ASU -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>9. Sūrya-siddhānta Ch.9 — Lagnāntara-asu Diagnostic</h2>
+    <p>Independent diagnostic of the classical <strong>lagnāntara-prāṇa</strong> method. This remains separate from the existing elongation and Swiss heliacal tests.</p>
+    <div class="status warn"><strong>Research status:</strong> Validation only. It uses local ascensional geometry and tests the classical <code>K = lagnāntara-asu ÷ 60</code> rule. Production Panchang logic is not changed by this section.</div>
+    <div id="lagnantaraOutput"><div class="status info">Not run yet.</div></div>
+  </section>
+  <!-- ========================================================= -->
   <!-- 9. DIAGNOSTIC NOTES -->
   <!-- ========================================================= -->
 
@@ -524,6 +535,9 @@ const scanOutput =
 
 const classicalOutput =
   document.getElementById("classicalOutput");
+
+const lagnantaraOutput =
+  document.getElementById("lagnantaraOutput");
 
 
 /* =============================================================
@@ -1950,6 +1964,130 @@ async function runVisibilityThresholdAnalysis() {
   return rows;
 }
 /* =============================================================
+   SHASTRIYA LAGNANTARA-ASU DIAGNOSTIC
+   ============================================================= */
+
+const SHASTRIYA_REFERENCES = [
+  { planet:"Venus", event:"Asta", date:"2026-10-12", direction:"west" },
+  { planet:"Venus", event:"Udaya", date:"2026-11-01", direction:"east" },
+  { planet:"Jupiter", event:"Asta", date:"2027-08-20", direction:"west" },
+  { planet:"Jupiter", event:"Udaya", date:"2027-09-13", direction:"east" }
+];
+
+/*
+  Sūrya-siddhānta Ch.9 verses 4–5:
+  western events use sunset-time Sun/planet positions;
+  eastern events use sunrise-time positions;
+  lagnāntara-prāṇa is then divided by 60 to obtain K.
+
+  First independent diagnostic:
+  local rising/setting hour-angle geometry is used to express
+  the ascensional interval in equatorial degrees.
+
+  This is deliberately NOT claimed to reproduce TKS dṛkkarma
+  exactly yet. The purpose is to establish the geometry before
+  any production integration.
+*/
+
+function clampUnit(x) {
+  return Math.max(-1, Math.min(1, x));
+}
+
+function risingHourAngleDegrees(latitudeDeg, declinationDeg) {
+  const phi = latitudeDeg * Math.PI / 180;
+  const dec = declinationDeg * Math.PI / 180;
+  const x = -Math.tan(phi) * Math.tan(dec);
+  if (x < -1 || x > 1) return NaN;
+  return Math.acos(clampUnit(x)) * 180 / Math.PI;
+}
+
+function getLagnantaraDiagnostic(planetBody, date, direction) {
+  const sun = Astronomy.Equator(Astronomy.Body.Sun, date, observer, true, true);
+  const planet = Astronomy.Equator(planetBody, date, observer, true, true);
+
+  const sunH0 = risingHourAngleDegrees(CONFIG.latitude, sun.dec);
+  const planetH0 = risingHourAngleDegrees(CONFIG.latitude, planet.dec);
+  if (![sunH0, planetH0].every(Number.isFinite)) return null;
+
+  const sunRAdeg = sun.ra * 15;
+  const planetRAdeg = planet.ra * 15;
+
+  const sunLST = direction === "east"
+    ? sunRAdeg - sunH0
+    : sunRAdeg + sunH0;
+  const planetLST = direction === "east"
+    ? planetRAdeg - planetH0
+    : planetRAdeg + planetH0;
+
+  const lagnaInterval = Math.abs(signedLongitudeDelta(planetLST, sunLST));
+  const lagnantaraAsu = lagnaInterval * 60;
+  const K = lagnantaraAsu / 60;
+
+  return {
+    sunRAdeg, planetRAdeg,
+    sunDec:sun.dec, planetDec:planet.dec,
+    sunH0, planetH0,
+    sunLST, planetLST,
+    lagnaInterval, lagnantaraAsu, K
+  };
+}
+
+function shastriyaC(planet) {
+  if (planet === "Jupiter") return 11;
+  if (planet === "Venus") return 8;
+  return NaN;
+}
+
+async function runLagnantaraDiagnostic() {
+  lagnantaraOutput.innerHTML = '<div class="status info">Calculating local lagnāntara geometry...</div>';
+
+  let html = '<div class="status info">TKS Pithoragarh validation targets: Venus 12 Oct / 1 Nov 2026; Jupiter 20 Aug / 13 Sep 2027. These dates are references only.</div>';
+  html += '<div class="table-wrap"><table><thead><tr>';
+  html += '<th>Planet</th><th>Event</th><th>Sample</th><th>Sun RA</th><th>Planet RA</th><th>Sun Dec</th><th>Planet Dec</th><th>Lagnāntara</th><th>Asu</th><th>K</th><th>C</th><th>K−C</th>';
+  html += '</tr></thead><tbody>';
+
+  for (const ref of SHASTRIYA_REFERENCES) {
+    const body = BODY_NAMES[ref.planet];
+    const sample = new Date(ref.date + (ref.direction === "east" ? "T00:30:00Z" : "T12:30:00Z"));
+    const g = getLagnantaraDiagnostic(body, sample, ref.direction);
+
+    if (!g) {
+      html += '<tr><td>' + ref.planet + '</td><td>' + ref.event + '</td><td>' + formatLocalFromUTCDate(sample) + '</td><td colspan="9">Geometry unavailable.</td></tr>';
+      continue;
+    }
+
+    const C = shastriyaC(ref.planet);
+    const residual = g.K - C;
+    html += '<tr class="reference-row">';
+    html += '<td>' + ref.planet + '</td>';
+    html += '<td>' + ref.event + '</td>';
+    html += '<td>' + formatLocalFromUTCDate(sample) + '</td>';
+    html += '<td>' + round(g.sunRAdeg,4) + '°</td>';
+    html += '<td>' + round(g.planetRAdeg,4) + '°</td>';
+    html += '<td>' + round(g.sunDec,4) + '°</td>';
+    html += '<td>' + round(g.planetDec,4) + '°</td>';
+    html += '<td>' + round(g.lagnaInterval,4) + '°</td>';
+    html += '<td>' + round(g.lagnantaraAsu,2) + '</td>';
+    html += '<td>' + round(g.K,4) + '°</td>';
+    html += '<td>' + round(C,2) + '°</td>';
+    html += '<td>' + (residual >= 0 ? "+" : "") + round(residual,4) + '°</td>';
+    html += '</tr>';
+  }
+
+  html += '</tbody></table></div>';
+  html += '<div class="card"><h3>Interpretation</h3><ul>';
+  html += '<li><strong>K</strong> is the independently calculated local ascensional interval.</li>';
+  html += '<li><strong>C</strong> is the classical threshold used for this first diagnostic: Venus 8°, Jupiter 11°.</li>';
+  html += '<li><strong>K &gt; C</strong> is the visible side of the classical threshold; <strong>K &lt; C</strong> is the invisible side.</li>';
+  html += '<li>This pass deliberately does not modify <code>extra-panchang.js</code>.</li>';
+  html += '<li>The remaining research step is exact dṛkkarma/apparent-longitude reproduction against TKS K values. We will not force dates to match.</li>';
+  html += '</ul></div>';
+
+  lagnantaraOutput.innerHTML = html;
+  setStatus("Sūrya-siddhānta lagnāntara diagnostic completed.", "ok");
+}
+
+/* =============================================================
    CLASSICAL ASTA / UDAYA DIAGNOSTIC
    ============================================================= */
 
@@ -2532,6 +2670,13 @@ document
   .addEventListener(
     "click",
     runClassicalAstaUdayaTest
+  );
+
+document
+  .getElementById("runLagnantaraBtn")
+  .addEventListener(
+    "click",
+    runLagnantaraDiagnostic
   );
 
 
