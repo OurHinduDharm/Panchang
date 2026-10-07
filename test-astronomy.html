@@ -484,6 +484,17 @@ const CONFIG = {
   offsetMinutes: 330
 };
 
+// TKS page supplied these Pithoragarh coordinates for its
+// Shāstrīya Udaya–Asta calculation. Elevation was not shown in
+// the supplied output, so this validation pass assumes 0 m.
+const TKS_CONFIG = {
+  latitude: 29.5830,
+  longitude: 80.2090,
+  elevation: 0,
+  timezone: "Asia/Kolkata",
+  offsetMinutes: 330
+};
+
 const REFERENCES = [
   { planet:"Venus", event:"Asta", date:"2026-10-19", sampleTime:"2026-10-19T12:00:00Z", elongation:7.76, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Venus", event:"Udaya", date:"2026-10-30", sampleTime:"2026-10-30T00:30:00Z", elongation:9.70, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
@@ -648,6 +659,12 @@ const observer = new Astronomy.Observer(
   CONFIG.latitude,
   CONFIG.longitude,
   CONFIG.elevation
+);
+
+const tksObserver = new Astronomy.Observer(
+  TKS_CONFIG.latitude,
+  TKS_CONFIG.longitude,
+  TKS_CONFIG.elevation
 );
 
  function getBodyVector(body, date) {
@@ -2002,22 +2019,18 @@ function risingHourAngleDegrees(latitudeDeg, declinationDeg) {
 }
 
 function getLagnantaraDiagnostic(planetBody, date, direction) {
-  const sun = Astronomy.Equator(Astronomy.Body.Sun, date, observer, true, true);
-  const planet = Astronomy.Equator(planetBody, date, observer, true, true);
+  const sun = Astronomy.Equator(Astronomy.Body.Sun, date, tksObserver, true, true);
+  const planet = Astronomy.Equator(planetBody, date, tksObserver, true, true);
 
-  const sunH0 = risingHourAngleDegrees(CONFIG.latitude, sun.dec);
-  const planetH0 = risingHourAngleDegrees(CONFIG.latitude, planet.dec);
+  const sunH0 = risingHourAngleDegrees(TKS_CONFIG.latitude, sun.dec);
+  const planetH0 = risingHourAngleDegrees(TKS_CONFIG.latitude, planet.dec);
   if (![sunH0, planetH0].every(Number.isFinite)) return null;
 
   const sunRAdeg = sun.ra * 15;
   const planetRAdeg = planet.ra * 15;
 
-  const sunLST = direction === "east"
-    ? sunRAdeg - sunH0
-    : sunRAdeg + sunH0;
-  const planetLST = direction === "east"
-    ? planetRAdeg - planetH0
-    : planetRAdeg + planetH0;
+  const sunLST = direction === "east" ? sunRAdeg - sunH0 : sunRAdeg + sunH0;
+  const planetLST = direction === "east" ? planetRAdeg - planetH0 : planetRAdeg + planetH0;
 
   const lagnaInterval = Math.abs(signedLongitudeDelta(planetLST, sunLST));
   const lagnantaraAsu = lagnaInterval * 60;
@@ -2032,6 +2045,55 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
   };
 }
 
+function getSunEventTimeForLagnantara(date, direction) {
+  const noon = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 12, 0, 0));
+  const riseSetDirection = direction === "east" ? +1 : -1;
+  return Astronomy.SearchRiseSet(
+    Astronomy.Body.Sun,
+    tksObserver,
+    riseSetDirection,
+    noon,
+    1
+  );
+}
+
+function getLagnantaraResidualForDate(ref, date) {
+  const eventTime = getSunEventTimeForLagnantara(date, ref.direction);
+  if (!eventTime) return null;
+  const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction);
+  if (!g) return null;
+  return { eventTime, geometry:g, residual:g.K - shastriyaC(ref.planet) };
+}
+
+function findLagnantaraCrossing(ref) {
+  const center = new Date(ref.date + "T12:00:00Z");
+  const samples = [];
+  for (let d=-15; d<=15; d++) {
+    const date = new Date(center.getTime() + d * 86400000);
+    const result = getLagnantaraResidualForDate(ref, date);
+    if (result) samples.push({date, ...result});
+  }
+
+  for (let i=1; i<samples.length; i++) {
+    const a=samples[i-1], b=samples[i];
+    if (a.residual === 0 || a.residual * b.residual <= 0) {
+      let lo=a.date.getTime(), hi=b.date.getTime();
+      for (let n=0;n<36;n++) {
+        const mid=(lo+hi)/2;
+        const m=getLagnantaraResidualForDate(ref,new Date(mid));
+        if (!m) break;
+        if (Math.abs(m.residual)<0.000001) { lo=hi=mid; break; }
+        if (a.residual*m.residual<=0) hi=mid;
+        else lo=mid;
+        a.residual = getLagnantaraResidualForDate(ref,new Date(lo)).residual;
+      }
+      const rootDate=new Date((lo+hi)/2);
+      const root=getLagnantaraResidualForDate(ref,rootDate);
+      return root ? {date:rootDate,...root} : null;
+    }
+  }
+  return null;
+}
 function shastriyaC(planet) {
   if (planet === "Jupiter") return 11;
   if (planet === "Venus") return 8;
@@ -2039,54 +2101,41 @@ function shastriyaC(planet) {
 }
 
 async function runLagnantaraDiagnostic() {
-  lagnantaraOutput.innerHTML = '<div class="status info">Calculating local lagnāntara geometry...</div>';
+  lagnantaraOutput.innerHTML = '<div class="status info">Calculating TKS-coordinate sunrise/sunset lagnāntara geometry...</div>';
 
-  let html = '<div class="status info">TKS Pithoragarh validation targets: Venus 12 Oct / 1 Nov 2026; Jupiter 20 Aug / 13 Sep 2027. These dates are references only.</div>';
+  let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sample</th><th>Sun RA</th><th>Planet RA</th><th>Sun Dec</th><th>Planet Dec</th><th>Lagnāntara</th><th>Asu</th><th>K</th><th>C</th><th>K−C</th>';
+  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>K</th><th>C</th><th>K−C</th><th>TKS target</th><th>Crossing found</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
-    const body = BODY_NAMES[ref.planet];
-    const sample = new Date(ref.date + (ref.direction === "east" ? "T00:30:00Z" : "T12:30:00Z"));
-    const g = getLagnantaraDiagnostic(body, sample, ref.direction);
-
-    if (!g) {
-      html += '<tr><td>' + ref.planet + '</td><td>' + ref.event + '</td><td>' + formatLocalFromUTCDate(sample) + '</td><td colspan="9">Geometry unavailable.</td></tr>';
-      continue;
-    }
-
+    const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
+    const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction) : null;
     const C = shastriyaC(ref.planet);
-    const residual = g.K - C;
+    const crossing = findLagnantaraCrossing(ref);
+
     html += '<tr class="reference-row">';
-    html += '<td>' + ref.planet + '</td>';
-    html += '<td>' + ref.event + '</td>';
-    html += '<td>' + formatLocalFromUTCDate(sample) + '</td>';
-    html += '<td>' + round(g.sunRAdeg,4) + '°</td>';
-    html += '<td>' + round(g.planetRAdeg,4) + '°</td>';
-    html += '<td>' + round(g.sunDec,4) + '°</td>';
-    html += '<td>' + round(g.planetDec,4) + '°</td>';
-    html += '<td>' + round(g.lagnaInterval,4) + '°</td>';
-    html += '<td>' + round(g.lagnantaraAsu,2) + '</td>';
-    html += '<td>' + round(g.K,4) + '°</td>';
-    html += '<td>' + round(C,2) + '°</td>';
-    html += '<td>' + (residual >= 0 ? "+" : "") + round(residual,4) + '°</td>';
+    html += '<td>'+ref.planet+'</td>';
+    html += '<td>'+ref.event+'</td>';
+    html += '<td>'+(sample ? formatLocalFromUTCDate(sample) : "—")+'</td>';
+    html += '<td>'+(g ? round(g.K,4)+"°" : "—")+'</td>';
+    html += '<td>'+round(C,2)+'°</td>';
+    html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
+    html += '<td>'+ref.date+'</td>';
+    html += '<td>'+(crossing ? formatLocalFromUTCDate(crossing.eventTime)+"<br><span class="small">K="+round(crossing.geometry.K,5)+"°</span>" : "No crossing in ±15 days")+'</td>';
     html += '</tr>';
   }
 
   html += '</tbody></table></div>';
-  html += '<div class="card"><h3>Interpretation</h3><ul>';
-  html += '<li><strong>K</strong> is the independently calculated local ascensional interval.</li>';
-  html += '<li><strong>C</strong> is the classical threshold used for this first diagnostic: Venus 8°, Jupiter 11°.</li>';
-  html += '<li><strong>K &gt; C</strong> is the visible side of the classical threshold; <strong>K &lt; C</strong> is the invisible side.</li>';
-  html += '<li>This pass deliberately does not modify <code>extra-panchang.js</code>.</li>';
-  html += '<li>The remaining research step is exact dṛkkarma/apparent-longitude reproduction against TKS K values. We will not force dates to match.</li>';
+  html += '<div class="card"><h3>What this test proves</h3><ul>';
+  html += '<li>The event is evaluated at the actual local sunrise/sunset rather than an arbitrary 05:30/18:00 sample.</li>';
+  html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
+  html += '<li>A close match is useful evidence; a mismatch means we continue the dṛkkarma/apparent-longitude investigation rather than altering the formula to fit.</li>';
   html += '</ul></div>';
 
   lagnantaraOutput.innerHTML = html;
   setStatus("Sūrya-siddhānta lagnāntara diagnostic completed.", "ok");
 }
-
 /* =============================================================
    CLASSICAL ASTA / UDAYA DIAGNOSTIC
    ============================================================= */
