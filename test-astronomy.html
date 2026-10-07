@@ -2046,15 +2046,28 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
 }
 
 function getSunEventTimeForLagnantara(date, direction) {
-  const noon = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 12, 0, 0));
+  const noon = new Date(Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    12, 0, 0
+  ));
+
   const riseSetDirection = direction === "east" ? +1 : -1;
-  return Astronomy.SearchRiseSet(
+
+  const result = Astronomy.SearchRiseSet(
     Astronomy.Body.Sun,
     tksObserver,
     riseSetDirection,
     noon,
     1
   );
+
+  // Astronomy Engine returns AstroTime here, not a native Date.
+  // Normalize it once so all downstream formatters receive Date.
+  return result && result.date instanceof Date
+    ? result.date
+    : null;
 }
 
 function getLagnantaraResidualForDate(ref, date) {
