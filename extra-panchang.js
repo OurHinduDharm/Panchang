@@ -750,32 +750,21 @@ function getPlanetEvent(
   planet,
   selectedDate
 ) {
-
-  if (
-    planet.key === "venus"
-  ) {
-
-    return getVenusEvent(
-      selectedDate
-    );
-  }
-
+  /*
+   * Safety gate for public display:
+   * The current Venus threshold scan is only a rough elongation
+   * approximation, not a validated Śāstriya heliacal event.
+   * Other planets do not yet have a validated event calculation.
+   * Keep the research helpers above for diagnostics, but do not
+   * publish unverified event dates in the public Panchang.
+   */
   return {
-
-    name:
-      planet.name,
-
-    asta:
-      null,
-
-    astaDegree:
-      null,
-
-    udaya:
-      null,
-
-    udayaDegree:
-      null
+    name: planet.name,
+    asta: null,
+    astaDegree: null,
+    udaya: null,
+    udayaDegree: null,
+    verificationPending: true
   };
 }
 
@@ -801,6 +790,11 @@ function createPlanetCard(
 
   card.innerHTML = `
     <h3>🌌 ग्रह उदय-अस्त</h3>
+
+    <p class="planet-rise-set-note">
+      शास्त्रीय ग्रह-अस्त/उदय की गणना का सत्यापन जारी है।
+      पुष्टि होने तक तिथियाँ प्रकाशित नहीं की जा रही हैं।
+    </p>
 
     <div class="planet-rise-set-grid">
 
@@ -848,7 +842,7 @@ function createPlanetCard(
             !planet.udaya
               ? `
                 <span>
-                  गणना उपलब्ध नहीं
+                  सत्यापन जारी
                 </span>
               `
               : ""
