@@ -2645,6 +2645,7 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Sun OA</strong><span>'+round(g.sunOA,6)+'°</span></div>';
       html += '<div class="metric"><strong>Planet OA</strong><span>'+round(g.planetOA,6)+'°</span></div>';
       html += '<div class="metric"><strong>Raw K before dṛkkarma</strong><span>'+round(g.rawK,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Geocentric right ascension used</strong><span>'+round(g.drikkarma.rightAscension,6)+'°</span></div>';
       html += '<div class="metric"><strong>Planet latitude</strong><span>'+round(g.drikkarma.latitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Ayana declination used</strong><span>'+round(g.drikkarma.declination,6)+'°</span></div>';
       html += '<div class="metric"><strong>Planet declination for half-day</strong><span>'+round(g.drikkarma.planetDeclination,6)+'°</span></div>';
@@ -2662,6 +2663,9 @@ async function runLagnantaraDiagnostic() {
   html += '</tbody></table></div>';
   html += '<div class="card"><h3>What this test proves</h3><ul>';
   html += '<li>The event is evaluated at the actual local sunrise/sunset rather than an arbitrary 05:30/18:00 sample.</li>';
+  html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
+  html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
+  html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
   html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
   html += '<li>A close match is useful evidence; a mismatch means we continue the dṛkkarma/apparent-longitude investigation rather than altering the formula to fit.</li>';
   html += '</ul></div>';
