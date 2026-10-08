@@ -2488,10 +2488,32 @@ function findLagnantaraCrossing(ref) {
     }
   }
 
-  // Near conjunction, K can approach its minimum and cross C
-  // twice. Report every bracket rather than silently selecting
-  // the first crossing, which may be the wrong branch for Udaya/Asta.
-  if (brackets.length) return { brackets };
+  /*
+   * The two crossings around conjunction have different meanings:
+   * Asta is visible -> invisible (K-C: + to -).
+   * Udaya is invisible -> visible (K-C: - to +).
+   * Keep every crossing in the diagnostic, but label which branch
+   * matches the requested event instead of treating both alike.
+   */
+  if (brackets.length) {
+    return {
+      brackets: brackets.map(bracket => {
+        const isAstaTransition =
+          bracket.beforeResidual > 0 && bracket.afterResidual < 0;
+        const isUdayaTransition =
+          bracket.beforeResidual < 0 && bracket.afterResidual > 0;
+        return {
+          ...bracket,
+          transition:
+            isAstaTransition ? "Asta" :
+            isUdayaTransition ? "Udaya" : "Exact",
+          matchesRequestedEvent:
+            (ref.event === "Asta" && isAstaTransition) ||
+            (ref.event === "Udaya" && isUdayaTransition)
+        };
+      })
+    };
+  }
 
   // No sign change: return closest tested event for diagnosis,
   // but do not label it a crossing.
@@ -2557,7 +2579,10 @@ async function runLagnantaraDiagnostic() {
       html += '<td>';
       crossing.brackets.forEach((bracket, index) => {
         if (index) html += '<hr>';
-        html += 'Bracket ' + (index + 1) + ':<br>' +
+        html += 'Bracket ' + (index + 1) +
+          ' — ' + bracket.transition +
+          (bracket.matchesRequestedEvent ? ' ✓ requested event' : ' — other transition') +
+          '<br>' +
           formatLocalFromUTCDate(bracket.before.eventTime) +
           ' (K−C=' + round(bracket.beforeResidual,4) + '°)<br>→ ' +
           formatLocalFromUTCDate(bracket.after.eventTime) +
