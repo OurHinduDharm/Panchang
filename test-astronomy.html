@@ -2446,10 +2446,21 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
 
   return {
     sunLon,
+    sunTropicalLongitude: getPlanetSiderealState(Astronomy.Body.Sun, date)?.tropicalLongitude,
+    sunSiderealLongitude: getPlanetSiderealState(Astronomy.Body.Sun, date)?.longitude,
+    sunRightAscension: getPlanetSiderealState(Astronomy.Body.Sun, date)?.rightAscension,
+    sunDeclination: getPlanetSiderealState(Astronomy.Body.Sun, date)?.declination,
     planetLon,
     rawPlanetLon: planetState.longitude,
+    planetTropicalLongitude: planetState.tropicalLongitude,
+    planetLatitude: planetState.latitude,
+    planetRightAscension: planetState.rightAscension,
+    planetGeocentricDeclination: planetState.declination,
+    rawSunOA,
+    rawPlanetOA,
     sunOA,
     planetOA,
+    rawLagnaInterval,
     lagnaInterval,
     lagnantaraAsu,
     K,
@@ -2661,14 +2672,24 @@ async function runLagnantaraDiagnostic() {
     if (g) {
       html += '<tr><td colspan="12"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
-      html += '<div class="metric"><strong>Raw planet longitude</strong><span>'+round(g.rawPlanetLon,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Corrected planet longitude</strong><span>'+round(g.planetLon,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Sun geocentric RA</strong><span>'+round(g.sunRightAscension,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Sun geocentric declination</strong><span>'+round(g.sunDeclination,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet tropical longitude (°)</strong><span>'+round(g.planetTropicalLongitude,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet sidereal longitude (°)</strong><span>'+round(g.rawPlanetLon,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet ecliptic latitude</strong><span>'+round(g.planetLatitude,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet geocentric RA</strong><span>'+round(g.planetRightAscension,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet geocentric declination</strong><span>'+round(g.planetGeocentricDeclination,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Corrected planet longitude (event frame)</strong><span>'+round(g.planetLon,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun longitude (event frame)</strong><span>'+round(g.sunLon,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Sun OA</strong><span>'+round(g.sunOA,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Planet OA</strong><span>'+round(g.planetOA,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Raw Sun OA (before dṛkkarma)</strong><span>'+round(g.rawSunOA,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Raw planet OA (before dṛkkarma)</strong><span>'+round(g.rawPlanetOA,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Corrected Sun OA</strong><span>'+round(g.sunOA,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Corrected planet OA</strong><span>'+round(g.planetOA,6)+'°</span></div>';
       html += '<div class="metric"><strong>Raw K before dṛkkarma</strong><span>'+round(g.rawK,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Geocentric right ascension used</strong><span>'+round(g.drikkarma.rightAscension,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Planet latitude</strong><span>'+round(g.drikkarma.latitude,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Geocentric right ascension used for dṛkkarma</strong><span>'+round(g.drikkarma.rightAscension,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet latitude used for dṛkkarma</strong><span>'+round(g.drikkarma.latitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Ayana declination used</strong><span>'+round(g.drikkarma.declination,6)+'°</span></div>';
       html += '<div class="metric"><strong>Planet declination for half-day</strong><span>'+round(g.drikkarma.planetDeclination,6)+'°</span></div>';
       html += '<div class="metric"><strong>Planet hour angle</strong><span>'+round(g.drikkarma.hourAngleDeg,6)+'°</span></div>';
