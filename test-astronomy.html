@@ -2080,25 +2080,200 @@ function obliqueAscensionFromSiderealLongitude(lambdaDeg) {
   );
 }
 
+function getPlanetSiderealState(body, date) {
+  const eq = Astronomy.Equator(
+    body,
+    date,
+    tksObserver,
+    true,
+    true
+  );
+
+  const vec = Astronomy.GeoVector(
+    body,
+    date,
+    true
+  );
+
+  const ecl = Astronomy.Ecliptic(vec);
+
+  return {
+    longitude: getSiderealEclipticLongitude(body, date),
+    latitude: Number(ecl.lat),
+    declination: Number(eq.dec)
+  };
+}
+
+function getSunriseSunsetSameDate(date) {
+  const noon = new Date(Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    12, 0, 0
+  ));
+
+  const sunrise = Astronomy.SearchRiseSet(
+    Astronomy.Body.Sun,
+    tksObserver,
+    +1,
+    noon,
+    1
+  );
+
+  const sunset = Astronomy.SearchRiseSet(
+    Astronomy.Body.Sun,
+    tksObserver,
+    -1,
+    noon,
+    1
+  );
+
+  if (
+    !sunrise ||
+    !sunset ||
+    !(sunrise.date instanceof Date) ||
+    !(sunset.date instanceof Date)
+  ) {
+    return null;
+  }
+
+  const dayMinutes =
+    (sunset.date.getTime() - sunrise.date.getTime()) / 60000;
+
+  if (!Number.isFinite(dayMinutes) || dayMinutes <= 0) {
+    return null;
+  }
+
+  return {
+    sunrise: sunrise.date,
+    sunset: sunset.date,
+    halfDayGhatis: (dayMinutes / 2) / 24
+  };
+}
+
+function getDrikkarmaCorrection(body, date, direction) {
+  const state = getPlanetSiderealState(body, date);
+  const day = getSunriseSunsetSameDate(date);
+
+  if (!day) return null;
+
+  /*
+   * Sūrya-siddhānta Ch.7 rules 8–10:
+   * Aksha correction = latitude × equinoctial shadow / 12,
+   * scaled by time from noon / half-day.
+   *
+   * At the actual sunrise/sunset used by this diagnostic,
+   * that ratio is −1 for sunrise and +1 for sunset.
+   *
+   * Ayana correction = planet latitude (arc-minutes) ×
+   * declination (degrees), expressed in arc-seconds.
+   */
+  const phi =
+    TKS_CONFIG.latitude * Math.PI / 180;
+
+  const equinoctialShadow =
+    12 * Math.tan(phi);
+
+  const latDeg =
+    state.latitude;
+
+  const latArcMin =
+    Math.abs(latDeg) * 60;
+
+  const timeRatio =
+    direction === "east" ? -1 : +1;
+
+  const akshaArcMin =
+    latArcMin *
+    (equinoctialShadow / 12) *
+    timeRatio;
+
+  const akshaDeg =
+    akshaArcMin / 60;
+
+  /*
+   * Rule 10: add three signs and find declination.
+   * The longitude used by this diagnostic is sidereal, so first
+   * restore the same TKS tropical frame, then apply +180°.
+   */
+  const tropicalLon =
+    normalize360(state.longitude + 24.217);
+
+  const declinationLon =
+    normalize360(tropicalLon + 180);
+
+  const eps =
+    23.4367 * Math.PI / 180;
+
+  const declination =
+    Math.asin(
+      clampUnit(
+        Math.sin(eps) *
+        Math.sin(declinationLon * Math.PI / 180)
+      )
+    ) * 180 / Math.PI;
+
+  const ayanaArcSec =
+    latArcMin *
+    Math.abs(declination);
+
+  const ayanaDeg =
+    (ayanaArcSec / 3600) *
+    (
+      Math.sign(latDeg) === Math.sign(declination)
+        ? 1
+        : -1
+    );
+
+  const totalCorrection =
+    ayanaDeg + akshaDeg;
+
+  return {
+    latitude: latDeg,
+    declination,
+    akshaDeg,
+    ayanaDeg,
+    totalCorrection,
+    correctedLongitude:
+      normalize360(
+        state.longitude + totalCorrection
+      )
+  };
+}
+
 function getLagnantaraDiagnostic(planetBody, date, direction) {
+  /*
+   * Ch.9.4: use the true longitude of Sun and planet at the
+   * actual Sun event, then apply dṛkkarma to the planet.
+   */
   let sunLon =
     getSiderealEclipticLongitude(
       Astronomy.Body.Sun,
       date
     );
 
-  let planetLon =
-    getSiderealEclipticLongitude(
+  const planetState =
+    getPlanetSiderealState(
       planetBody,
       date
     );
 
-  // Ch. 9 verse 5: for the western (Asta) calculation,
-  // add six signs to BOTH longitudes before finding the
-  // ascensional interval.  Adding 180° to both points does
-  // not alter their ordinary angular separation, but it DOES
-  // alter their oblique-ascension values, which is precisely
-  // why the western construction must be explicit.
+  const drikkarma =
+    getDrikkarmaCorrection(
+      planetBody,
+      date,
+      direction
+    );
+
+  if (!drikkarma) return null;
+
+  let planetLon =
+    drikkarma.correctedLongitude;
+
+  /*
+   * Ch.9.5: for Asta (western) calculation, add six signs
+   * to both longitudes before finding lagnāntara.
+   */
   if (direction === "west") {
     sunLon = normalize360(sunLon + 180);
     planetLon = normalize360(planetLon + 180);
@@ -2118,7 +2293,6 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
       )
     );
 
-  // 1 degree of equatorial/ascensional arc = 60 asus.
   const lagnantaraAsu =
     lagnaInterval * 60;
 
@@ -2128,14 +2302,15 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
   return {
     sunLon,
     planetLon,
+    rawPlanetLon: planetState.longitude,
     sunOA,
     planetOA,
     lagnaInterval,
     lagnantaraAsu,
-    K
+    K,
+    drikkarma
   };
 }
-
 function getSunEventTimeForLagnantara(date, direction) {
   const noon = new Date(Date.UTC(
     date.getUTCFullYear(),
