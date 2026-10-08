@@ -2248,13 +2248,27 @@ function getDrikkarmaCorrection(body, date, direction) {
   const latArcMin =
     Math.abs(latDeg) * 60;
 
-  const timeRatio =
+  /*
+   * Ch.7 rule 9:
+   *   north latitude: subtract in the east, add in the west
+   *   south latitude: add in the east, subtract in the west
+   *
+   * Therefore the sign depends on BOTH the planet's latitude
+   * and whether the event is eastern (rising) or western (setting).
+   */
+  const latitudeSign =
+    Math.sign(latDeg) || 1;
+
+  const directionSign =
     direction === "east" ? -1 : +1;
+
+  const akshaSign =
+    latitudeSign * directionSign;
 
   const akshaArcMin =
     latArcMin *
     (equinoctialShadow / 12) *
-    timeRatio;
+    akshaSign;
 
   const akshaDeg =
     akshaArcMin / 60;
