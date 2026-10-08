@@ -409,6 +409,9 @@
     <div class="status warn"><strong>Research status:</strong> Validation only. C is selected from Sūrya-siddhānta IX.6–9, not from TKS. The diagnostic uses a stated fixed ayanāṃśa benchmark and computes Aksha dṛkkarma with the planet's own hour-angle/half-day ratio. This is still a research implementation, not production Panchang logic.</div>
     <p><strong>Classical C reference:</strong> Jupiter 11°, Saturn 15°, Mars 17°; Venus 8° for west-setting/east-rising and 10° for east-setting/west-rising. Mercury's 12°/14° depends on its motion; that rule is intentionally not activated until independently validated. Chapter 9, verses 6–9; see the cited Sanskrit and translation sources.</p>
     <div id="lagnantaraOutput"><div class="status info">Not run yet.</div></div>
+    <h3>Coordinate-frame sensitivity audit (diagnostic only)</h3>
+    <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant.</p>
+    <div id="frameAuditOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this audit.</div></div>
   </section>
   <!-- ========================================================= -->
   <!-- 9. DIAGNOSTIC NOTES -->
@@ -2068,6 +2071,79 @@ function obliqueAscensionFromSiderealLongitude(lambdaDeg) {
   );
 }
 
+function obliqueAscensionWithObliquity(lambdaDeg, epsDeg) {
+  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  const lambda = normalize360(lambdaDeg + 24.217) * Math.PI / 180;
+  const eps = epsDeg * Math.PI / 180;
+  const dec = Math.asin(clampUnit(Math.sin(eps) * Math.sin(lambda)));
+  const ra = Math.atan2(Math.sin(lambda) * Math.cos(eps), Math.cos(lambda));
+  const ad = Math.asin(clampUnit(Math.tan(phi) * Math.tan(dec)));
+  return normalize360((ra - ad) * 180 / Math.PI);
+}
+
+function runCoordinateFrameSensitivityAudit() {
+  const out = document.getElementById("frameAuditOutput");
+  if (!out) return;
+
+  let html = '<div class="table-wrap"><table><thead><tr>' +
+    '<th>Planet / event</th><th>UTC instant</th>' +
+    '<th>True obliquity of date</th><th>Fixed obliquity</th>' +
+    '<th>K using fixed ε</th><th>K using date ε</th><th>ΔK</th>' +
+    '<th>Geocentric RA / Dec</th><th>Topocentric RA / Dec</th>' +
+    '</tr></thead><tbody>';
+
+  for (const ref of SHASTRIYA_REFERENCES) {
+    const eventTime = getSunEventTimeForLagnantara(
+      new Date(ref.date + "T12:00:00Z"), ref.direction
+    );
+    if (!eventTime) {
+      html += '<tr><td>' + ref.planet + ' ' + ref.event +
+        '</td><td colspan="8">No valid local Sun event found.</td></tr>';
+      continue;
+    }
+
+    const g = getLagnantaraDiagnostic(
+      BODY_NAMES[ref.planet], eventTime, ref.direction, "current"
+    );
+    const planetState = getPlanetSiderealState(BODY_NAMES[ref.planet], eventTime);
+    const sunState = getPlanetSiderealState(Astronomy.Body.Sun, eventTime);
+    if (!g || !planetState || !sunState) {
+      html += '<tr><td>' + ref.planet + ' ' + ref.event +
+        '</td><td colspan="8">Planetary state unavailable.</td></tr>';
+      continue;
+    }
+
+    const rot = Astronomy.Rotation_ECT_EQD(eventTime).rot;
+    const epsilonDate = Math.atan2(
+      Math.abs(rot[2][1]), rot[1][1]
+    ) * 180 / Math.PI;
+
+    const sunOAdate = obliqueAscensionWithObliquity(g.sunLon, epsilonDate);
+    const planetOAdate = obliqueAscensionWithObliquity(g.planetLon, epsilonDate);
+    const kDate = Math.abs(signedLongitudeDelta(planetOAdate, sunOAdate));
+    const kFixed = g.K;
+    const topo = Astronomy.Equator(
+      BODY_NAMES[ref.planet], eventTime, tksObserver, true, true
+    );
+
+    html += '<tr><td>' + ref.planet + ' ' + ref.event + '</td>' +
+      '<td>' + formatDateUTC(eventTime) + '</td>' +
+      '<td>' + round(epsilonDate, 8) + '°</td>' +
+      '<td>23.43670000°</td>' +
+      '<td>' + round(kFixed, 6) + '°</td>' +
+      '<td>' + round(kDate, 6) + '°</td>' +
+      '<td>' + ((kDate-kFixed)>=0?'+':'') + round(kDate-kFixed, 6) + '°</td>' +
+      '<td>RA ' + round(planetState.rightAscension, 6) + '° / Dec ' +
+        round(planetState.declination, 6) + '°</td>' +
+      '<td>RA ' + round(topo.ra*15, 6) + '° / Dec ' +
+        round(topo.dec, 6) + '°</td></tr>';
+  }
+
+  html += '</tbody></table></div>' +
+    '<div class="status warn">Interpretation: ΔK isolates only the sensitivity to obliquity in the OA conversion while keeping the current event time and corrected longitudes fixed. It does not validate the 24.217° ayanāṃśa, the classical correction order, or the ephemeris against TKS.</div>';
+  out.innerHTML = html;
+}
+
 function getPlanetSiderealState(body, date) {
   /*
    * Keep the dṛkkarma geometry in one coordinate frame.
@@ -2843,7 +2919,8 @@ async function runLagnantaraDiagnostic() {
   html += '</ul></div>';
 
   lagnantaraOutput.innerHTML = html;
-  setStatus("Sūrya-siddhānta lagnāntara diagnostic completed.", "ok");
+  runCoordinateFrameSensitivityAudit();
+  setStatus("Sūrya-siddhānta lagnāntara diagnostic completed; coordinate-frame sensitivity audit also populated.", "ok");
 }
 /* =============================================================
    CLASSICAL ASTA / UDAYA DIAGNOSTIC
