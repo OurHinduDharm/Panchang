@@ -2361,6 +2361,13 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
       planetBody,
       date
     );
+  const sunState =
+    getPlanetSiderealState(
+      Astronomy.Body.Sun,
+      date
+    );
+
+  if (!planetState || !sunState) return null;
 
   const drikkarma =
     getDrikkarmaCorrection(
@@ -2446,10 +2453,10 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
 
   return {
     sunLon,
-    sunTropicalLongitude: getPlanetSiderealState(Astronomy.Body.Sun, date)?.tropicalLongitude,
-    sunSiderealLongitude: getPlanetSiderealState(Astronomy.Body.Sun, date)?.longitude,
-    sunRightAscension: getPlanetSiderealState(Astronomy.Body.Sun, date)?.rightAscension,
-    sunDeclination: getPlanetSiderealState(Astronomy.Body.Sun, date)?.declination,
+    sunTropicalLongitude: sunState.tropicalLongitude,
+    sunSiderealLongitude: sunState.longitude,
+    sunRightAscension: sunState.rightAscension,
+    sunDeclination: sunState.declination,
     planetLon,
     rawPlanetLon: planetState.longitude,
     planetTropicalLongitude: planetState.tropicalLongitude,
