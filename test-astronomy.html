@@ -2473,6 +2473,16 @@ function getLagnantaraResidualForDate(ref, date) {
 }
 
 function findLagnantaraCrossing(ref) {
+  /*
+   * K is evaluated at one actual sunrise/sunset per civil date.
+   * Therefore this is a daily-event sequence, not a continuous
+   * function of the input timestamp. Do NOT bisect timestamps:
+   * getSunEventTimeForLagnantara intentionally ignores the time
+   * of day and returns that date's sunrise/sunset.
+   *
+   * Report the adjacent daily events that bracket K=C. This is
+   * honest about the resolution of the present method.
+   */
   const center = new Date(ref.date + "T12:00:00Z");
   const samples = [];
 
@@ -2485,58 +2495,30 @@ function findLagnantaraCrossing(ref) {
   }
 
   for (let i=1; i<samples.length; i++) {
-    const leftSample = samples[i-1];
-    const rightSample = samples[i];
+    const a = samples[i-1];
+    const b = samples[i];
 
-    if (leftSample.residual === 0 ||
-        leftSample.residual * rightSample.residual <= 0) {
-      let lo = leftSample.date.getTime();
-      let hi = rightSample.date.getTime();
-      let left = getLagnantaraResidualForDate(ref, new Date(lo));
-      let right = getLagnantaraResidualForDate(ref, new Date(hi));
-
-      if (!left || !right ||
-          left.residual * right.residual > 0) continue;
-
-      for (let n=0; n<48; n++) {
-        const mid = (lo + hi) / 2;
-        const middle = getLagnantaraResidualForDate(ref, new Date(mid));
-        if (!middle || !Number.isFinite(middle.residual)) break;
-
-        if (Math.abs(middle.residual) < 0.00001) {
-          lo = hi = mid;
-          left = right = middle;
-          break;
-        }
-
-        if (left.residual * middle.residual <= 0) {
-          hi = mid;
-          right = middle;
-        } else {
-          lo = mid;
-          left = middle;
-        }
-      }
-
-      const rootDate = new Date((lo + hi) / 2);
-      const root = getLagnantaraResidualForDate(ref, rootDate);
-
-      /*
-       * Never report a crossing unless its own recomputed K-C
-       * is close to zero. This prevents a misleading date from
-       * being presented as a validated threshold crossing.
-       */
-      if (root && Math.abs(root.residual) < 0.001) {
-        return {
-          date: root.eventTime,
-          ...root,
-          crossingResidual: root.residual
-        };
-      }
+    if (a.residual === 0 || a.residual * b.residual < 0) {
+      return {
+        before: a,
+        after: b,
+        beforeResidual: a.residual,
+        afterResidual: b.residual
+      };
     }
   }
 
-  return null;
+  // No sign change: return closest tested event for diagnosis,
+  // but do not label it a crossing.
+  if (!samples.length) return null;
+  const closest = samples.reduce((best, item) =>
+    Math.abs(item.residual) < Math.abs(best.residual) ? item : best
+  );
+  return {
+    closest,
+    closestResidual: closest.residual,
+    noCrossing: true
+  };
 }
 function shastriyaC(planet) {
   if (planet === "Jupiter") return 11;
@@ -2570,7 +2552,19 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+ref.date+'</td>';
-    html += '<td>'+(crossing ? formatLocalFromUTCDate(crossing.eventTime)+"<br>K="+round(crossing.geometry.K,5)+"°" : "No crossing in ±15 days")+'</td>';
+    if (crossing && !crossing.noCrossing) {
+      html += '<td>Bracket:<br>' +
+        formatLocalFromUTCDate(crossing.before.eventTime) +
+        ' (K−C=' + round(crossing.beforeResidual,4) + '°)<br>→ ' +
+        formatLocalFromUTCDate(crossing.after.eventTime) +
+        ' (K−C=' + round(crossing.afterResidual,4) + '°)</td>';
+    } else if (crossing && crossing.noCrossing) {
+      html += '<td>No crossing in ±15 days.<br>Closest: ' +
+        formatLocalFromUTCDate(crossing.closest.eventTime) +
+        ' (K−C=' + round(crossing.closestResidual,4) + '°)</td>';
+    } else {
+      html += '<td>No valid daily samples in ±15 days</td>';
+    }
     html += '</tr>';
 
     if (g) {
