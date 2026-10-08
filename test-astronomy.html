@@ -412,6 +412,9 @@
     <h3>Coordinate-frame sensitivity audit (diagnostic only)</h3>
     <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant.</p>
     <div id="frameAuditOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this audit.</div></div>
+    <h3>Jupiter Asta component sweep — 12, 13 and 20 August 2027</h3>
+    <p class="small">This table samples the actual local sunset on each date and exposes the input positions and each correction term. It is an internal component audit, not yet an independent ephemeris cross-check and not a formula change.</p>
+    <div id="jupiterAstaSweepOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this sweep.</div></div>
   </section>
   <!-- ========================================================= -->
   <!-- 9. DIAGNOSTIC NOTES -->
@@ -2144,6 +2147,63 @@ function runCoordinateFrameSensitivityAudit() {
   out.innerHTML = html;
 }
 
+function runJupiterAstaComponentSweep() {
+  const out = document.getElementById("jupiterAstaSweepOutput");
+  if (!out) return;
+
+  const dates = ["2027-08-12", "2027-08-13", "2027-08-20"];
+  let html = '<div class="table-wrap"><table><thead><tr>' +
+    '<th>Local sunset date</th><th>Actual sunset (IST)</th>' +
+    '<th>Sun tropical λ</th><th>Jupiter tropical λ</th><th>Jupiter β</th>' +
+    '<th>Jupiter RA / Dec</th><th>Raw K</th><th>Aksha</th><th>Ayana</th>' +
+    '<th>Current K</th><th>Sequential K</th><th>Current K−11°</th>' +
+    '</tr></thead><tbody>';
+
+  for (const day of dates) {
+    const eventTime = getSunEventTimeForLagnantara(
+      new Date(day + "T12:00:00Z"), "west"
+    );
+    if (!eventTime) {
+      html += '<tr><td>' + day + '</td><td colspan="11">Local sunset not found.</td></tr>';
+      continue;
+    }
+
+    const sun = getPlanetSiderealState(Astronomy.Body.Sun, eventTime);
+    const jupiter = getPlanetSiderealState(Astronomy.Body.Jupiter, eventTime);
+    const current = getLagnantaraDiagnostic(
+      Astronomy.Body.Jupiter, eventTime, "west", "current"
+    );
+    const sequential = getLagnantaraDiagnostic(
+      Astronomy.Body.Jupiter, eventTime, "west", "sequential"
+    );
+
+    if (!sun || !jupiter || !current || !sequential) {
+      html += '<tr><td>' + day + '</td><td colspan="11">Required state unavailable.</td></tr>';
+      continue;
+    }
+
+    const d = current.drikkarma;
+    html += '<tr class="' + (day === "2027-08-20" ? "reference-row" : "") + '">' +
+      '<td>' + day + '</td>' +
+      '<td>' + formatLocalFromUTCDate(eventTime) + '</td>' +
+      '<td>' + round(sun.tropicalLongitude, 6) + '°</td>' +
+      '<td>' + round(jupiter.tropicalLongitude, 6) + '°</td>' +
+      '<td>' + round(jupiter.latitude, 6) + '°</td>' +
+      '<td>RA ' + round(jupiter.rightAscension, 6) + '° / Dec ' + round(jupiter.declination, 6) + '°</td>' +
+      '<td>' + round(current.rawK, 6) + '°</td>' +
+      '<td>' + round(d.akshaDeg, 6) + '°</td>' +
+      '<td>' + round(d.ayanaDeg, 6) + '°</td>' +
+      '<td>' + round(current.K, 6) + '°</td>' +
+      '<td>' + round(sequential.K, 6) + '°</td>' +
+      '<td>' + ((current.K - 11) >= 0 ? '+' : '') + round(current.K - 11, 6) + '°</td>' +
+      '</tr>';
+  }
+
+  html += '</tbody></table></div>' +
+    '<div class="status warn">Read this as a reproducible position-and-correction trace. Because all rows still use Astronomy Engine, this isolates date/time and correction components but does not independently certify the ephemeris. The 20 August row is highlighted only as the comparison target.</div>';
+  out.innerHTML = html;
+}
+
 function getPlanetSiderealState(body, date) {
   /*
    * Keep the dṛkkarma geometry in one coordinate frame.
@@ -2920,7 +2980,8 @@ async function runLagnantaraDiagnostic() {
 
   lagnantaraOutput.innerHTML = html;
   runCoordinateFrameSensitivityAudit();
-  setStatus("Sūrya-siddhānta lagnāntara diagnostic completed; coordinate-frame sensitivity audit also populated.", "ok");
+  runJupiterAstaComponentSweep();
+  setStatus("Sūrya-siddhānta lagnāntara diagnostic completed; coordinate-frame and Jupiter Asta component audits also populated.", "ok");
 }
 /* =============================================================
    CLASSICAL ASTA / UDAYA DIAGNOSTIC
