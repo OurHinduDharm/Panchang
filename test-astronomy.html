@@ -2215,6 +2215,7 @@ function getDrikkarmaCorrection(body, date, direction) {
   if (
     !Number.isFinite(state.longitude) ||
     !Number.isFinite(state.latitude) ||
+    !Number.isFinite(state.rightAscension) ||
     !Number.isFinite(state.declination)
   ) {
     console.warn("Ch.9 dṛkkarma: non-finite planetary state", {
@@ -2230,8 +2231,8 @@ function getDrikkarmaCorrection(body, date, direction) {
    *
    * This is NOT automatically ±1 at solar sunrise/sunset: the
    * planet generally has a different right ascension from the Sun.
-   * Astronomy.HourAngle returns sidereal hours since culmination;
-   * convert to signed degrees in [-180°, +180°].
+   * Compute the planet's hour angle from local sidereal angle and
+   * the same geocentric right ascension used for its declination.
    */
   const phi = TKS_CONFIG.latitude * Math.PI / 180;
   /*
