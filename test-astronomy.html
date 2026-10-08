@@ -2475,42 +2475,67 @@ function getLagnantaraResidualForDate(ref, date) {
 function findLagnantaraCrossing(ref) {
   const center = new Date(ref.date + "T12:00:00Z");
   const samples = [];
+
   for (let d=-15; d<=15; d++) {
     const date = new Date(center.getTime() + d * 86400000);
     const result = getLagnantaraResidualForDate(ref, date);
-    if (result) samples.push({date, ...result});
+    if (result && Number.isFinite(result.residual)) {
+      samples.push({date, ...result});
+    }
   }
 
   for (let i=1; i<samples.length; i++) {
-    const a=samples[i-1], b=samples[i];
-    if (a.residual === 0 || a.residual * b.residual <= 0) {
-      let lo=a.date.getTime(), hi=b.date.getTime();
-      let flo=a.residual, fhi=b.residual;
+    const leftSample = samples[i-1];
+    const rightSample = samples[i];
 
-      for (let n=0; n<40; n++) {
-        const mid=(lo+hi)/2;
-        const m=getLagnantaraResidualForDate(ref,new Date(mid));
-        if (!m) break;
+    if (leftSample.residual === 0 ||
+        leftSample.residual * rightSample.residual <= 0) {
+      let lo = leftSample.date.getTime();
+      let hi = rightSample.date.getTime();
+      let left = getLagnantaraResidualForDate(ref, new Date(lo));
+      let right = getLagnantaraResidualForDate(ref, new Date(hi));
 
-        if (Math.abs(m.residual)<0.000001) {
-          lo=hi=mid;
+      if (!left || !right ||
+          left.residual * right.residual > 0) continue;
+
+      for (let n=0; n<48; n++) {
+        const mid = (lo + hi) / 2;
+        const middle = getLagnantaraResidualForDate(ref, new Date(mid));
+        if (!middle || !Number.isFinite(middle.residual)) break;
+
+        if (Math.abs(middle.residual) < 0.00001) {
+          lo = hi = mid;
+          left = right = middle;
           break;
         }
 
-        if (flo*m.residual <= 0) {
-          hi=mid;
-          fhi=m.residual;
+        if (left.residual * middle.residual <= 0) {
+          hi = mid;
+          right = middle;
         } else {
-          lo=mid;
-          flo=m.residual;
+          lo = mid;
+          left = middle;
         }
       }
 
-      const rootDate=new Date((lo+hi)/2);
-      const root=getLagnantaraResidualForDate(ref,rootDate);
-      return root ? {date:root.eventTime, ...root} : null;
+      const rootDate = new Date((lo + hi) / 2);
+      const root = getLagnantaraResidualForDate(ref, rootDate);
+
+      /*
+       * Never report a crossing unless its own recomputed K-C
+       * is close to zero. This prevents a misleading date from
+       * being presented as a validated threshold crossing.
+       */
+      if (root && Math.abs(root.residual) < 0.001) {
+        return {
+          date: root.eventTime,
+          ...root,
+          crossingResidual: root.residual
+        };
+      }
     }
   }
+
   return null;
 }
 function shastriyaC(planet) {
