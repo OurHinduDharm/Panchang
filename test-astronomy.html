@@ -2344,16 +2344,41 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
   const planetOA =
     obliqueAscensionFromSiderealLongitude(planetLon);
 
+  const rawSunLon =
+    direction === "west"
+      ? normalize360(
+          getSiderealEclipticLongitude(
+            Astronomy.Body.Sun,
+            date
+          ) + 180
+        )
+      : getSiderealEclipticLongitude(
+          Astronomy.Body.Sun,
+          date
+        );
+
+  const rawPlanetLon =
+    direction === "west"
+      ? normalize360(
+          planetState.longitude + 180
+        )
+      : planetState.longitude;
+
+  const rawSunOA =
+    obliqueAscensionFromSiderealLongitude(
+      rawSunLon
+    );
+
   const rawPlanetOA =
     obliqueAscensionFromSiderealLongitude(
-      planetState.longitude
+      rawPlanetLon
     );
 
   const rawLagnaInterval =
     Math.abs(
       signedLongitudeDelta(
         rawPlanetOA,
-        sunOA
+        rawSunOA
       )
     );
 
