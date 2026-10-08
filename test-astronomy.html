@@ -2069,35 +2069,60 @@ function obliqueAscensionFromSiderealLongitude(lambdaDeg) {
 }
 
 function getPlanetSiderealState(body, date) {
-  const eq = Astronomy.Equator(
-    body,
-    date,
-    tksObserver,
-    true,
-    true
-  );
-
-  const vec = Astronomy.GeoVector(
-    body,
-    date,
-    true
-  );
-
+  /*
+   * Keep the dṛkkarma geometry in one coordinate frame.
+   *
+   * GeoVector + Ecliptic gives geocentric ecliptic-of-date
+   * longitude and latitude. Do NOT combine that geocentric
+   * latitude with Astronomy.Equator(..., observer, ...).dec:
+   * Equator() returns topocentric coordinates, which include
+   * observer parallax. That was a coordinate-frame mismatch.
+   *
+   * For this validation pass, transform the same geocentric
+   * ecliptic coordinates into equatorial coordinates using the
+   * stated mean-obliquity assumption. This is internally
+   * consistent with obliqueAscensionFromSiderealLongitude().
+   * A date-dependent true-obliquity refinement remains a separate
+   * validation item; do not treat this as production astronomy.
+   */
+  const vec = Astronomy.GeoVector(body, date, true);
   const ecl = Astronomy.Ecliptic(vec);
 
-  /*
-   * Astronomy Engine's EclipticCoordinates uses elat for
-   * ecliptic latitude. lat is not a valid property.
-   *
-   * This was the reason Section 9 returned — for every case:
-   * Number(undefined) -> NaN -> non-finite state -> null.
-   */
+  const tropicalLongitude = Number(ecl.elon);
   const eclipticLatitude = Number(ecl.elat);
 
+  if (
+    !Number.isFinite(tropicalLongitude) ||
+    !Number.isFinite(eclipticLatitude)
+  ) {
+    return null;
+  }
+
+  const lambda = tropicalLongitude * Math.PI / 180;
+  const beta = eclipticLatitude * Math.PI / 180;
+  const eps = 23.4367 * Math.PI / 180;
+
+  // Ecliptic-of-date -> equatorial coordinates, same geocentric
+  // vector and the same declared obliquity approximation.
+  const x = Math.cos(beta) * Math.cos(lambda);
+  const y =
+    Math.cos(beta) * Math.sin(lambda) * Math.cos(eps) -
+    Math.sin(beta) * Math.sin(eps);
+  const z =
+    Math.cos(beta) * Math.sin(lambda) * Math.sin(eps) +
+    Math.sin(beta) * Math.cos(eps);
+
+  const rightAscension =
+    normalize360(Math.atan2(y, x) * 180 / Math.PI);
+  const declination =
+    Math.asin(clampUnit(z)) * 180 / Math.PI;
+
   return {
-    longitude: getSiderealEclipticLongitude(body, date),
+    longitude: normalize360(tropicalLongitude - 24.217),
+    tropicalLongitude,
     latitude: eclipticLatitude,
-    declination: Number(eq.dec)
+    rightAscension,
+    declination
   };
 }
 
@@ -2209,8 +2234,21 @@ function getDrikkarmaCorrection(body, date, direction) {
    * convert to signed degrees in [-180°, +180°].
    */
   const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  /*
+   * Derive hour angle from the same geocentric right ascension
+   * as state.declination. Astronomy.HourAngle(body, observer)
+   * uses topocentric coordinates, which would reintroduce the
+   * parallax/frame mismatch removed above.
+   *
+   * SiderealTime is Greenwich apparent sidereal time in hours;
+   * add east longitude to obtain local sidereal angle.
+   */
   let hourAngleDeg =
-    Astronomy.HourAngle(body, date, tksObserver) * 15;
+    normalize360(
+      Astronomy.SiderealTime(date) * 15 +
+      TKS_CONFIG.longitude -
+      state.rightAscension
+    );
   if (hourAngleDeg > 180) hourAngleDeg -= 360;
 
   // Half-day hour angle for the planet's actual declination.
