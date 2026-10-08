@@ -2446,7 +2446,7 @@ function getLagnantaraResidualForDate(ref, date) {
   if (!eventTime) return null;
   const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction);
   if (!g) return null;
-  const C = shastriyaC(ref.planet, ref.direction);
+  const C = shastriyaC(ref.planet, ref.event);
   if (!Number.isFinite(C)) return null;
   return { eventTime, geometry:g, residual:g.K - C };
 }
@@ -2499,14 +2499,23 @@ function findLagnantaraCrossing(ref) {
     noCrossing: true
   };
 }
-function shastriyaC(planet, direction) {
+function shastriyaC(planet, event) {
   // Sūrya-siddhānta IX.6–9, not values inferred from TKS.
   if (planet === "Jupiter") return 11;
   if (planet === "Saturn") return 15;
   if (planet === "Mars") return 17;
-  // IX.7: Venus is 8° for west-setting/east-rising,
-  // and 10° for east-setting/west-rising.
-  if (planet === "Venus") return direction === "west" ? 8 : 10;
+
+  /*
+   * IX.7 distinguishes the planet's event, not the Sun-event
+   * search direction: west-setting and east-rising are both 8°;
+   * east-setting and west-rising are both 10°.
+   * The present references test Asta and Udaya, so both use 8°.
+   */
+  if (planet === "Venus") {
+    if (event === "Asta" || event === "Udaya") return 8;
+    return NaN;
+  }
+
   // IX.8 gives Mercury 12°/14° according to motion; that
   // requires a separately validated motion-state rule.
   return NaN;
@@ -2523,7 +2532,7 @@ async function runLagnantaraDiagnostic() {
   for (const ref of SHASTRIYA_REFERENCES) {
     const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
     const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction) : null;
-    const C = shastriyaC(ref.planet, ref.direction);
+    const C = shastriyaC(ref.planet, ref.event);
     const crossing = findLagnantaraCrossing(ref);
 
     html += '<tr class="reference-row">';
