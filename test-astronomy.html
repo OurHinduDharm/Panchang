@@ -2193,6 +2193,20 @@ function getDrikkarmaCorrection(body, date, direction) {
     return null;
   }
 
+  if (
+    !Number.isFinite(state.longitude) ||
+    !Number.isFinite(state.latitude) ||
+    !Number.isFinite(state.declination)
+  ) {
+    console.warn("Ch.9 dṛkkarma: non-finite planetary state", {
+      body,
+      date: date?.toISOString?.(),
+      direction,
+      state
+    });
+    return null;
+  }
+
   if (!day) {
     console.warn("Ch.9 dṛkkarma: sunrise/sunset pair unavailable", {
       body,
@@ -2330,6 +2344,22 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
   const planetOA =
     obliqueAscensionFromSiderealLongitude(planetLon);
 
+  const rawPlanetOA =
+    obliqueAscensionFromSiderealLongitude(
+      planetState.longitude
+    );
+
+  const rawLagnaInterval =
+    Math.abs(
+      signedLongitudeDelta(
+        rawPlanetOA,
+        sunOA
+      )
+    );
+
+  const rawK =
+    rawLagnaInterval;
+
   const lagnaInterval =
     Math.abs(
       signedLongitudeDelta(
@@ -2353,6 +2383,7 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
     lagnaInterval,
     lagnantaraAsu,
     K,
+    rawK: rawK,
     drikkarma
   };
 }
@@ -2429,7 +2460,7 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>K</th><th>C</th><th>K−C</th><th>TKS target</th><th>Crossing found</th>';
+  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Total dṛkkarma</th><th>Final K</th><th>C</th><th>K−C</th><th>TKS target</th><th>Crossing found</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -2442,12 +2473,34 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+ref.planet+'</td>';
     html += '<td>'+ref.event+'</td>';
     html += '<td>'+(sample ? formatLocalFromUTCDate(sample) : "—")+'</td>';
+    html += '<td>'+(g ? round(g.rawK,4)+"°" : "—")+'</td>';
+    html += '<td>'+(g ? (g.drikkarma.akshaDeg>=0?"+":"")+round(g.drikkarma.akshaDeg,4)+"°" : "—")+'</td>';
+    html += '<td>'+(g ? (g.drikkarma.ayanaDeg>=0?"+":"")+round(g.drikkarma.ayanaDeg,4)+"°" : "—")+'</td>';
+    html += '<td>'+(g ? (g.drikkarma.totalCorrection>=0?"+":"")+round(g.drikkarma.totalCorrection,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? round(g.K,4)+"°" : "—")+'</td>';
     html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+ref.date+'</td>';
     html += '<td>'+(crossing ? formatLocalFromUTCDate(crossing.eventTime)+"<br>K="+round(crossing.geometry.K,5)+"°" : "No crossing in ±15 days")+'</td>';
     html += '</tr>';
+
+    if (g) {
+      html += '<tr><td colspan="12"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<div class="grid">';
+      html += '<div class="metric"><strong>Raw planet longitude</strong><span>'+round(g.rawPlanetLon,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Corrected planet longitude</strong><span>'+round(g.planetLon,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Sun longitude (event frame)</strong><span>'+round(g.sunLon,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Sun OA</strong><span>'+round(g.sunOA,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet OA</strong><span>'+round(g.planetOA,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Raw K before dṛkkarma</strong><span>'+round(g.rawK,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet latitude</strong><span>'+round(g.drikkarma.latitude,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Declination used by diagnostic</strong><span>'+round(g.drikkarma.declination,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Aksha dṛkkarma</strong><span>'+round(g.drikkarma.akshaDeg,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Ayana dṛkkarma</strong><span>'+round(g.drikkarma.ayanaDeg,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Total dṛkkarma</strong><span>'+round(g.drikkarma.totalCorrection,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Final lagnāntara</strong><span>'+round(g.lagnaInterval,6)+'°</span></div>';
+      html += '</div></details></td></tr>';
+    }
   }
 
   html += '</tbody></table></div>';
