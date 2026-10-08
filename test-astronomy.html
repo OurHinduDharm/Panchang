@@ -2078,12 +2078,11 @@ function getPlanetSiderealState(body, date) {
    * Equator() returns topocentric coordinates, which include
    * observer parallax. That was a coordinate-frame mismatch.
    *
-   * For this validation pass, transform the same geocentric
-   * ecliptic coordinates into equatorial coordinates using the
-   * stated mean-obliquity assumption. This is internally
-   * consistent with obliqueAscensionFromSiderealLongitude().
-   * A date-dependent true-obliquity refinement remains a separate
-   * validation item; do not treat this as production astronomy.
+   * The planet's RA/declination are now rotated into the true
+   * equator of date. The oblique-ascension helper still uses a
+   * fixed mean-obliquity approximation, so the full Section 9
+   * geometry is not yet a perfectly uniform date-dependent frame.
+   * Keep this as a research diagnostic, not production astronomy.
    */
   const vec = Astronomy.GeoVector(body, date, true);
   const ecl = Astronomy.Ecliptic(vec);
