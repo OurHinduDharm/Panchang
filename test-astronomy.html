@@ -2485,18 +2485,13 @@ function getSunEventTimeForLagnantara(date, direction) {
   if (!result || !(result.date instanceof Date)) return null;
 
   // Guard against any library result crossing the intended civil date.
-  const localDate = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Kolkata",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  }).format(result.date);
-  const expectedDate = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Kolkata",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  }).format(date);
+  const IST_OFFSET_MS = 330 * 60 * 1000;
+  const localDate = new Date(
+    result.date.getTime() + IST_OFFSET_MS
+  ).toISOString().slice(0, 10);
+  const expectedDate = new Date(
+    date.getTime() + IST_OFFSET_MS
+  ).toISOString().slice(0, 10);
 
   return localDate === expectedDate ? result.date : null;
 }
