@@ -2253,61 +2253,68 @@ async function runJupiterAstaComponentSweep() {
     { label: "Pithoragarh (29.5828° N, 80.2182° E; 1650 m)", config: CONFIG },
     { label: "TKS reference (29.5830° N, 80.2090° E; 0 m)", config: TKS_CONFIG }
   ];
-  const results = {};
   let html = '<div class="status info"><strong>Location standards</strong><br>' +
     'Pithoragarh: 29.5828° N, 80.2182° E, elevation 1650 m.<br>' +
     'TKS reference: 29.5830° N, 80.2090° E, elevation 0 m (as supplied; not independently confirmed).<br>' +
-    'Each row calculates the actual sunset for that location. Location ΔK is Pithoragarh K minus TKS K for the same date; Swiss ΔK is Swiss-state K minus Astronomy Engine K at the same instant.</div>';
+    'Location ΔK is Pithoragarh K minus TKS K for the same date; Swiss ΔK is Swiss-state K minus Astronomy Engine K at the same instant.</div>';
 
   try {
     const swe = await initSwiss();
-    html += '<div class="table-wrap"><table><thead><tr>' +
-      '<th>Location</th><th>Local sunset date</th><th>Sunset (IST)</th>' +
-      '<th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Final K</th>' +
-      '<th>Swiss K−AE K</th><th>Final K−11°</th><th>Same-date location ΔK</th>' +
-      '</tr></thead><tbody>';
-
+    const rows = [];
     for (const day of dates) {
-      results[day] = {};
+      const dayRows = [];
       for (const location of locations) {
         const config = location.config;
         const eventTime = getSunEventTimeForLagnantara(
           new Date(day + "T12:00:00Z"), "west", config
         );
         if (!eventTime) {
-          html += '<tr><td>' + location.label + '</td><td>' + day +
-            '</td><td colspan="8">Local sunset not found.</td></tr>';
+          dayRows.push({ day, location, error: "Local sunset not found." });
           continue;
         }
-
         const current = getLagnantaraDiagnostic(
           Astronomy.Body.Jupiter, eventTime, "west", "current", config
         );
         const swiss = calculateSwissStateLagnantara(swe, eventTime, "west", config);
         if (!current || !swiss) {
-          html += '<tr><td>' + location.label + '</td><td>' + day +
-            '</td><td colspan="8">Required calculation unavailable.</td></tr>';
+          dayRows.push({ day, location, eventTime, error: "Required calculation unavailable." });
           continue;
         }
-        results[day][location.label] = current.K;
-        const locationDelta = results[day][locations[0].label] !== undefined &&
-          results[day][locations[1].label] !== undefined
-          ? results[day][locations[0].label] - results[day][locations[1].label]
-          : NaN;
-        const d = current.drikkarma;
-        html += '<tr class="' + (day === "2027-08-20" ? "reference-row" : "") + '">' +
-          '<td>' + location.label + '</td>' +
-          '<td>' + day + '</td>' +
-          '<td>' + formatLocalFromUTCDate(eventTime) + '</td>' +
-          '<td>' + round(current.rawK, 6) + '°</td>' +
-          '<td>' + round(d.akshaDeg, 6) + '°</td>' +
-          '<td>' + round(d.ayanaDeg, 6) + '°</td>' +
-          '<td>' + round(current.K, 6) + '°</td>' +
-          '<td>' + (swiss.K-current.K >= 0 ? '+' : '') + round(swiss.K-current.K, 6) + '°</td>' +
-          '<td>' + (current.K-11 >= 0 ? '+' : '') + round(current.K-11, 6) + '°</td>' +
-          '<td>' + (Number.isFinite(locationDelta) ? (locationDelta >= 0 ? '+' : '') + round(locationDelta, 6) + '°' : 'calculating…') + '</td>' +
-          '</tr>';
+        dayRows.push({ day, location, eventTime, current, swiss });
       }
+      const valid = dayRows.filter(row => row.current);
+      const pith = valid.find(row => row.location.config === CONFIG);
+      const tks = valid.find(row => row.location.config === TKS_CONFIG);
+      const locationDelta = pith && tks ? pith.current.K - tks.current.K : NaN;
+      for (const row of dayRows) row.locationDelta = locationDelta;
+      rows.push(...dayRows);
+    }
+
+    html += '<div class="table-wrap"><table><thead><tr>' +
+      '<th>Location</th><th>Local sunset date</th><th>Sunset (IST)</th>' +
+      '<th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Final K</th>' +
+      '<th>Swiss K−AE K</th><th>Final K−11°</th><th>Same-date location ΔK</th>' +
+      '</tr></thead><tbody>';
+    for (const row of rows) {
+      html += '<tr class="' + (row.day === "2027-08-20" ? "reference-row" : "") + '">';
+      if (row.error) {
+        html += '<td>' + row.location.label + '</td><td>' + row.day +
+          '</td><td colspan="8">' + row.error + '</td></tr>';
+        continue;
+      }
+      const d = row.current.drikkarma;
+      const swissDelta = row.swiss.K - row.current.K;
+      html += '<td>' + row.location.label + '</td>' +
+        '<td>' + row.day + '</td>' +
+        '<td>' + formatLocalFromUTCDate(row.eventTime) + '</td>' +
+        '<td>' + round(row.current.rawK, 6) + '°</td>' +
+        '<td>' + round(d.akshaDeg, 6) + '°</td>' +
+        '<td>' + round(d.ayanaDeg, 6) + '°</td>' +
+        '<td>' + round(row.current.K, 6) + '°</td>' +
+        '<td>' + (swissDelta >= 0 ? '+' : '') + round(swissDelta, 6) + '°</td>' +
+        '<td>' + (row.current.K-11 >= 0 ? '+' : '') + round(row.current.K-11, 6) + '°</td>' +
+        '<td>' + (Number.isFinite(row.locationDelta) ? (row.locationDelta >= 0 ? '+' : '') + round(row.locationDelta, 6) + '°' : 'unavailable') + '</td>' +
+        '</tr>';
     }
     html += '</tbody></table></div>' +
       '<div class="status warn">This compares the same diagnostic formula at each location and compares Swiss-state inputs at the same instant. It does not independently validate the classical formula or establish an event date by itself. The height and coordinate differences must be evaluated numerically; they must not be assumed to explain a multi-day date discrepancy.</div>';
