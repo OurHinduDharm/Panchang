@@ -2098,24 +2098,30 @@ function getPlanetSiderealState(body, date) {
     return null;
   }
 
-  const lambda = tropicalLongitude * Math.PI / 180;
-  const beta = eclipticLatitude * Math.PI / 180;
-  const eps = 23.4367 * Math.PI / 180;
+  /*
+   * GeoVector returns a geocentric vector in the J2000 equatorial
+   * frame. Ecliptic() converts that vector to true ecliptic of date
+   * (ECT), so converting its angles with a fixed mean obliquity
+   * would mix mean and true frames. Instead rotate the ORIGINAL
+   * vector from J2000 equator to true equator of date (EQD).
+   * This yields geocentric right ascension/declination compatible
+   * with apparent sidereal time, without observer parallax and
+   * without a hand-coded obliquity approximation.
+   */
+  const eqd = Astronomy.RotateVector(
+    Astronomy.Rotation_EQJ_EQD(date),
+    vec
+  );
+  const radius = Math.hypot(eqd.x, eqd.y, eqd.z);
 
-  // Ecliptic-of-date -> equatorial coordinates, same geocentric
-  // vector and the same declared obliquity approximation.
-  const x = Math.cos(beta) * Math.cos(lambda);
-  const y =
-    Math.cos(beta) * Math.sin(lambda) * Math.cos(eps) -
-    Math.sin(beta) * Math.sin(eps);
-  const z =
-    Math.cos(beta) * Math.sin(lambda) * Math.sin(eps) +
-    Math.sin(beta) * Math.cos(eps);
+  if (!Number.isFinite(radius) || radius <= 0) {
+    return null;
+  }
 
   const rightAscension =
-    normalize360(Math.atan2(y, x) * 180 / Math.PI);
+    normalize360(Math.atan2(eqd.y, eqd.x) * 180 / Math.PI);
   const declination =
-    Math.asin(clampUnit(z)) * 180 / Math.PI;
+    Math.asin(clampUnit(eqd.z / radius)) * 180 / Math.PI;
 
   return {
     longitude: normalize360(tropicalLongitude - 24.217),
