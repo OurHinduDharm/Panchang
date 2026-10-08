@@ -2105,6 +2105,24 @@ function getPlanetSiderealState(body, date) {
 }
 
 function getSunriseSunsetSameDate(date) {
+  /*
+   * IMPORTANT:
+   * SearchRiseSet() searches forward from the supplied start time.
+   * Starting sunrise search at noon therefore finds the NEXT day's
+   * sunrise, not the same day's sunrise. That made dayMinutes negative
+   * and caused the entire dṛkkarma diagnostic to return null.
+   *
+   * Use 00:00 UTC for sunrise and 12:00 UTC for sunset. For this
+   * Pithoragarh validation pass, both searches then resolve to the
+   * same civil date in Asia/Kolkata.
+   */
+  const midnight = new Date(Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    0, 0, 0
+  ));
+
   const noon = new Date(Date.UTC(
     date.getUTCFullYear(),
     date.getUTCMonth(),
@@ -2116,7 +2134,7 @@ function getSunriseSunsetSameDate(date) {
     Astronomy.Body.Sun,
     tksObserver,
     +1,
-    noon,
+    midnight,
     1
   );
 
@@ -2134,6 +2152,11 @@ function getSunriseSunsetSameDate(date) {
     !(sunrise.date instanceof Date) ||
     !(sunset.date instanceof Date)
   ) {
+    console.warn("Ch.9 dṛkkarma: sunrise/sunset search returned no Date", {
+      date: date?.toISOString?.(),
+      sunrise,
+      sunset
+    });
     return null;
   }
 
@@ -2141,6 +2164,12 @@ function getSunriseSunsetSameDate(date) {
     (sunset.date.getTime() - sunrise.date.getTime()) / 60000;
 
   if (!Number.isFinite(dayMinutes) || dayMinutes <= 0) {
+    console.warn("Ch.9 dṛkkarma: invalid same-day daylight interval", {
+      date: date?.toISOString?.(),
+      sunrise: sunrise.date.toISOString(),
+      sunset: sunset.date.toISOString(),
+      dayMinutes
+    });
     return null;
   }
 
