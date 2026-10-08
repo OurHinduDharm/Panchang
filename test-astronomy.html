@@ -406,7 +406,7 @@
   <section>
     <h2>9. Sūrya-siddhānta Ch.9 — Lagnāntara-asu Diagnostic</h2>
     <p>Independent diagnostic of the classical <strong>lagnāntara-prāṇa</strong> method. This remains separate from the existing elongation and Swiss heliacal tests.</p>
-    <div class="status warn"><strong>Research status:</strong> Validation only. It uses local ascensional geometry and tests the classical <code>K = lagnāntara-asu ÷ 60</code> rule. Production Panchang logic is not changed by this section.</div>
+    <div class="status warn"><strong>Research status:</strong> Validation only. C is selected from Sūrya-siddhānta IX.6–9, not from TKS. The diagnostic uses a stated fixed ayanāṃśa benchmark and computes Aksha dṛkkarma with the planet's own hour-angle/half-day ratio. This is still a research implementation, not production Panchang logic.</div>
     <div id="lagnantaraOutput"><div class="status info">Not run yet.</div></div>
   </section>
   <!-- ========================================================= -->
@@ -2019,42 +2019,29 @@ function risingHourAngleDegrees(latitudeDeg, declinationDeg) {
 }
 
 function getSiderealEclipticLongitude(body, date) {
-  // TKS reports apparent sidereal longitudes.  For this diagnostic
-  // we use its published true-Spica ayanāṁśa benchmark (~24.217°).
-  // This is validation-only; it is not a production ayanāṁśa policy.
-  const eq = Astronomy.Equator(
-    body,
-    date,
-    tksObserver,
-    true,
-    true
-  );
-
-  const ra = eq.ra * 15 * Math.PI / 180;
-  const dec = eq.dec * Math.PI / 180;
-
-  // Mean obliquity is sufficient for this first exact-structure
-  // diagnostic; the next pass can replace it with the engine's
-  // date-specific apparent obliquity if needed.
-  const eps = 23.4367 * Math.PI / 180;
-
-  const sinLambda =
-    (Math.sin(ra) * Math.cos(eps) +
-      Math.tan(dec) * Math.sin(eps));
-
-  const cosLambda =
-    Math.cos(ra);
-
-  const tropical =
-    Math.atan2(sinLambda, cosLambda) * 180 / Math.PI;
-
-  return normalize360(tropical - 24.217);
+  /*
+   * Keep the coordinate frame consistent with the lagnāntara
+   * geometry: Astronomy.Ecliptic supplies ecliptic-of-date
+   * longitude/latitude. The fixed 24.217° true-Spica ayanāṃśa
+   * is only a stated validation assumption, not production policy.
+   */
+  const vec = Astronomy.GeoVector(body, date, true);
+  const ecl = Astronomy.Ecliptic(vec);
+  return normalize360(Number(ecl.elon) - 24.217);
 }
 
 function obliqueAscensionFromSiderealLongitude(lambdaDeg) {
   const eps = 23.4367 * Math.PI / 180;
   const phi = TKS_CONFIG.latitude * Math.PI / 180;
-  const lambda = lambdaDeg * Math.PI / 180;
+
+  /*
+   * Oblique ascension is equatorial geometry tied to the equinox.
+   * Convert the diagnostic's sidereal longitude back to the
+   * tropical ecliptic-of-date frame before computing RA/declination.
+   * Using nirayana longitude directly here mixes coordinate frames.
+   */
+  const lambda =
+    normalize360(lambdaDeg + 24.217) * Math.PI / 180;
 
   // Declination of the ecliptic point.
   const sinDec = Math.sin(eps) * Math.sin(lambda);
@@ -2191,13 +2178,10 @@ function getSunriseSunsetSameDate(date) {
 
 function getDrikkarmaCorrection(body, date, direction) {
   const state = getPlanetSiderealState(body, date);
-  const day = getSunriseSunsetSameDate(date);
 
   if (!state) {
     console.warn("Ch.9 dṛkkarma: planet state unavailable", {
-      body,
-      date: date?.toISOString?.(),
-      direction
+      body, date: date?.toISOString?.(), direction
     });
     return null;
   }
@@ -2208,75 +2192,68 @@ function getDrikkarmaCorrection(body, date, direction) {
     !Number.isFinite(state.declination)
   ) {
     console.warn("Ch.9 dṛkkarma: non-finite planetary state", {
-      body,
-      date: date?.toISOString?.(),
-      direction,
-      state
-    });
-    return null;
-  }
-
-  if (!day) {
-    console.warn("Ch.9 dṛkkarma: sunrise/sunset pair unavailable", {
-      body,
-      date: date?.toISOString?.(),
-      direction
+      body, date: date?.toISOString?.(), direction, state
     });
     return null;
   }
 
   /*
-   * Sūrya-siddhānta Ch.7 rules 8–10:
-   * Aksha correction = latitude × equinoctial shadow / 12,
-   * scaled by time from noon / half-day.
+   * Sūrya-siddhānta VII.8–9 (Burgess translation):
+   * Aksha correction scales with the planet's own time from
+   * meridian transit divided by its own half-day length.
    *
-   * At the actual sunrise/sunset used by this diagnostic,
-   * that ratio is −1 for sunrise and +1 for sunset.
-   *
-   * Ayana correction = planet latitude (arc-minutes) ×
-   * declination (degrees), expressed in arc-seconds.
+   * This is NOT automatically ±1 at solar sunrise/sunset: the
+   * planet generally has a different right ascension from the Sun.
+   * Astronomy.HourAngle returns sidereal hours since culmination;
+   * convert to signed degrees in [-180°, +180°].
    */
-  const phi =
-    TKS_CONFIG.latitude * Math.PI / 180;
+  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  let hourAngleDeg =
+    Astronomy.HourAngle(body, date, tksObserver) * 15;
+  if (hourAngleDeg > 180) hourAngleDeg -= 360;
 
-  const equinoctialShadow =
-    12 * Math.tan(phi);
+  // Half-day hour angle for the planet's actual declination.
+  const halfDayCos =
+    -Math.tan(phi) *
+    Math.tan(state.declination * Math.PI / 180);
 
-  const latDeg =
-    state.latitude;
+  if (halfDayCos < -1 || halfDayCos > 1) {
+    console.warn("Ch.7 Aksha correction: no ordinary rise/set half-day", {
+      body, date: date?.toISOString?.(),
+      declination: state.declination, halfDayCos
+    });
+    return null;
+  }
 
-  const latArcMin =
-    Math.abs(latDeg) * 60;
+  const halfDayAngleDeg =
+    Math.acos(clampUnit(halfDayCos)) * 180 / Math.PI;
+
+  if (!Number.isFinite(halfDayAngleDeg) || halfDayAngleDeg <= 0) {
+    return null;
+  }
+
+  const akshaTimeRatio =
+    hourAngleDeg / halfDayAngleDeg;
+
+  const latDeg = state.latitude;
+  const latArcMin = Math.abs(latDeg) * 60;
 
   /*
-   * Ch.7 rule 9:
-   *   north latitude: subtract in the east, add in the west
-   *   south latitude: add in the east, subtract in the west
-   *
-   * Therefore the sign depends on BOTH the planet's latitude
-   * and whether the event is eastern (rising) or western (setting).
+   * VII.9 sign convention is represented by signed latitude and
+   * signed hour angle: north/east and south/west reverse naturally.
+   * Equinoctial shadow / 12 = tan(latitude of observer).
    */
-  const latitudeSign =
-    Math.sign(latDeg) || 1;
-
-  const directionSign =
-    direction === "east" ? -1 : +1;
-
-  const akshaSign =
-    latitudeSign * directionSign;
-
   const akshaArcMin =
-    latArcMin *
-    (equinoctialShadow / 12) *
-    akshaSign;
+    latDeg * 60 *
+    Math.tan(phi) *
+    akshaTimeRatio;
 
-  const akshaDeg =
-    akshaArcMin / 60;
+  const akshaDeg = akshaArcMin / 60;
 
   /*
-   * Rule 10: add three signs and find declination.
-   * The longitude used by this diagnostic is sidereal, so first
-   * restore the same TKS tropical frame, then apply +180°.
+   * VII.10: use the planet's longitude increased by eight signs
+   * to obtain the declination for ayana-dṛkkarma. The diagnostic
+   * restores the tropical frame before finding that declination.
    */
   const tropicalLon =
     normalize360(state.longitude + 24.217);
@@ -2284,10 +2261,8 @@ function getDrikkarmaCorrection(body, date, direction) {
   const declinationLon =
     normalize360(tropicalLon + 180);
 
-  const eps =
-    23.4367 * Math.PI / 180;
-
-  const declination =
+  const eps = 23.4367 * Math.PI / 180;
+  const ayanaDeclination =
     Math.asin(
       clampUnit(
         Math.sin(eps) *
@@ -2296,33 +2271,31 @@ function getDrikkarmaCorrection(body, date, direction) {
     ) * 180 / Math.PI;
 
   const ayanaArcSec =
-    latArcMin *
-    Math.abs(declination);
+    latArcMin * Math.abs(ayanaDeclination);
 
   const ayanaDeg =
     (ayanaArcSec / 3600) *
     (
-      Math.sign(latDeg) === Math.sign(declination)
+      Math.sign(latDeg) === Math.sign(ayanaDeclination)
         ? 1
         : -1
     );
 
-  const totalCorrection =
-    ayanaDeg + akshaDeg;
+  const totalCorrection = ayanaDeg + akshaDeg;
 
   return {
     latitude: latDeg,
-    declination,
+    declination: ayanaDeclination,
+    planetDeclination: state.declination,
+    hourAngleDeg,
+    halfDayAngleDeg,
+    akshaTimeRatio,
     akshaDeg,
     ayanaDeg,
     totalCorrection,
-    correctedLongitude:
-      normalize360(
-        state.longitude + totalCorrection
-      )
+    correctedLongitude: normalize360(state.longitude + totalCorrection)
   };
 }
-
 function getLagnantaraDiagnostic(planetBody, date, direction) {
   /*
    * Ch.9.4: use the true longitude of Sun and planet at the
@@ -2469,7 +2442,9 @@ function getLagnantaraResidualForDate(ref, date) {
   if (!eventTime) return null;
   const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction);
   if (!g) return null;
-  return { eventTime, geometry:g, residual:g.K - shastriyaC(ref.planet) };
+  const C = shastriyaC(ref.planet, ref.direction);
+  if (!Number.isFinite(C)) return null;
+  return { eventTime, geometry:g, residual:g.K - C };
 }
 
 function findLagnantaraCrossing(ref) {
@@ -2521,8 +2496,15 @@ function findLagnantaraCrossing(ref) {
   };
 }
 function shastriyaC(planet) {
+  // Sūrya-siddhānta IX.6–9, not values inferred from TKS.
   if (planet === "Jupiter") return 11;
-  if (planet === "Venus") return 8;
+  if (planet === "Saturn") return 15;
+  if (planet === "Mars") return 17;
+  // IX.7: Venus is 8° for west-setting/east-rising,
+  // and 10° for east-setting/west-rising.
+  if (planet === "Venus") return direction === "west" ? 8 : 10;
+  // IX.8 gives Mercury 12°/14° according to motion; that
+  // requires a separately validated motion-state rule.
   return NaN;
 }
 
@@ -2531,13 +2513,13 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Total dṛkkarma</th><th>Final K</th><th>C</th><th>K−C</th><th>TKS target</th><th>Crossing found</th>';
+  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Total dṛkkarma</th><th>Final K</th><th>C (SS IX.6–9)</th><th>K−C</th><th>TKS target</th><th>Daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
     const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
     const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction) : null;
-    const C = shastriyaC(ref.planet);
+    const C = shastriyaC(ref.planet, ref.direction);
     const crossing = findLagnantaraCrossing(ref);
 
     html += '<tr class="reference-row">';
@@ -2577,7 +2559,11 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Planet OA</strong><span>'+round(g.planetOA,6)+'°</span></div>';
       html += '<div class="metric"><strong>Raw K before dṛkkarma</strong><span>'+round(g.rawK,6)+'°</span></div>';
       html += '<div class="metric"><strong>Planet latitude</strong><span>'+round(g.drikkarma.latitude,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Declination used by diagnostic</strong><span>'+round(g.drikkarma.declination,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Ayana declination used</strong><span>'+round(g.drikkarma.declination,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet declination for half-day</strong><span>'+round(g.drikkarma.planetDeclination,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet hour angle</strong><span>'+round(g.drikkarma.hourAngleDeg,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Planet half-day angle</strong><span>'+round(g.drikkarma.halfDayAngleDeg,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Aksha time ratio</strong><span>'+round(g.drikkarma.akshaTimeRatio,6)+'</span></div>';
       html += '<div class="metric"><strong>Aksha dṛkkarma</strong><span>'+round(g.drikkarma.akshaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Ayana dṛkkarma</strong><span>'+round(g.drikkarma.ayanaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Total dṛkkarma</strong><span>'+round(g.drikkarma.totalCorrection,6)+'°</span></div>';
