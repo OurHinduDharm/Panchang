@@ -2277,9 +2277,11 @@ function getDrikkarmaCorrection(body, date, direction) {
   const ayanaDeg =
     (ayanaArcSec / 3600) *
     (
+      // VII.10: same-name latitude/declination is subtractive;
+      // unlike names are additive.
       Math.sign(latDeg) === Math.sign(ayanaDeclination)
-        ? 1
-        : -1
+        ? -1
+        : 1
     );
 
   const totalCorrection = ayanaDeg + akshaDeg;
