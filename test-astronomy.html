@@ -2436,28 +2436,32 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
   };
 }
 function getSunEventTimeForLagnantara(date, direction) {
-  const noon = new Date(Date.UTC(
+  /*
+   * SearchRiseSet searches FORWARD from its start instant.
+   * For an eastern event, start before local sunrise (00:00 UTC);
+   * for a western event, start before local sunset (12:00 UTC).
+   * Starting both searches at noon UTC incorrectly moved Udaya
+   * to the following civil date.
+   */
+  const startHourUTC = direction === "east" ? 0 : 12;
+  const start = new Date(Date.UTC(
     date.getUTCFullYear(),
     date.getUTCMonth(),
     date.getUTCDate(),
-    12, 0, 0
+    startHourUTC, 0, 0
   ));
 
   const riseSetDirection = direction === "east" ? +1 : -1;
-
   const result = Astronomy.SearchRiseSet(
     Astronomy.Body.Sun,
     tksObserver,
     riseSetDirection,
-    noon,
+    start,
     1
   );
 
   // Astronomy Engine returns AstroTime here, not a native Date.
-  // Normalize it once so all downstream formatters receive Date.
-  return result && result.date instanceof Date
-    ? result.date
-    : null;
+  return result && result.date instanceof Date ? result.date : null;
 }
 
 function getLagnantaraResidualForDate(ref, date) {
@@ -2481,18 +2485,30 @@ function findLagnantaraCrossing(ref) {
     const a=samples[i-1], b=samples[i];
     if (a.residual === 0 || a.residual * b.residual <= 0) {
       let lo=a.date.getTime(), hi=b.date.getTime();
-      for (let n=0;n<36;n++) {
+      let flo=a.residual, fhi=b.residual;
+
+      for (let n=0; n<40; n++) {
         const mid=(lo+hi)/2;
         const m=getLagnantaraResidualForDate(ref,new Date(mid));
         if (!m) break;
-        if (Math.abs(m.residual)<0.000001) { lo=hi=mid; break; }
-        if (a.residual*m.residual<=0) hi=mid;
-        else lo=mid;
-        a.residual = getLagnantaraResidualForDate(ref,new Date(lo)).residual;
+
+        if (Math.abs(m.residual)<0.000001) {
+          lo=hi=mid;
+          break;
+        }
+
+        if (flo*m.residual <= 0) {
+          hi=mid;
+          fhi=m.residual;
+        } else {
+          lo=mid;
+          flo=m.residual;
+        }
       }
+
       const rootDate=new Date((lo+hi)/2);
       const root=getLagnantaraResidualForDate(ref,rootDate);
-      return root ? {date:rootDate,...root} : null;
+      return root ? {date:root.eventTime, ...root} : null;
     }
   }
   return null;
