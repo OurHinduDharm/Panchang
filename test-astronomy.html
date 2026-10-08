@@ -2345,7 +2345,91 @@ function getDrikkarmaCorrection(body, date, direction) {
     correctedLongitude: normalize360(state.longitude + totalCorrection)
   };
 }
-function getLagnantaraDiagnostic(planetBody, date, direction) {
+/*
+ * Parallel sequential-order experiment for SS VII.8–11.
+ * Apply Ayana to the longitude first, then derive the intermediate
+ * ecliptic point's equatorial coordinates and apply Aksha to that
+ * point. This is intentionally kept separate from the existing
+ * calculation until numerical comparisons are reviewed.
+ */
+function getDrikkarmaCorrectionSequential(body, date, direction) {
+  const state = getPlanetSiderealState(body, date);
+  if (!state ||
+      !Number.isFinite(state.longitude) ||
+      !Number.isFinite(state.latitude) ||
+      !Number.isFinite(state.rightAscension) ||
+      !Number.isFinite(state.declination)) {
+    return null;
+  }
+
+  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  const tropicalLon = normalize360(state.longitude + 24.217);
+  const ayanaDeclination =
+    Math.asin(clampUnit(
+      Math.sin(23.4367 * Math.PI / 180) *
+      Math.sin(normalize360(tropicalLon + 90) * Math.PI / 180)
+    )) * 180 / Math.PI;
+
+  const latArcMin = state.latitude * 60;
+  const ayanaSign =
+    Math.sign(state.latitude) === Math.sign(ayanaDeclination) ? -1 : 1;
+  const ayanaDeg =
+    (Math.abs(latArcMin) * Math.abs(ayanaDeclination) / 3600) *
+    ayanaSign;
+
+  // Stage 1: apply Ayana correction before deriving Aksha geometry.
+  const ayanaAppliedLongitude =
+    normalize360(state.longitude + ayanaDeg);
+  const pointTropicalLon =
+    normalize360(ayanaAppliedLongitude + 24.217);
+  const lambda = pointTropicalLon * Math.PI / 180;
+  const eps = 23.4367 * Math.PI / 180;
+
+  const pointDeclination =
+    Math.asin(clampUnit(Math.sin(eps) * Math.sin(lambda))) * 180 / Math.PI;
+  const pointRA =
+    normalize360(Math.atan2(
+      Math.sin(lambda) * Math.cos(eps),
+      Math.cos(lambda)
+    ) * 180 / Math.PI);
+
+  const localSiderealDeg =
+    normalize360(Astronomy.SiderealTime(date) * 15 + TKS_CONFIG.longitude);
+  let hourAngleDeg = normalize360(localSiderealDeg - pointRA);
+  if (hourAngleDeg > 180) hourAngleDeg -= 360;
+
+  const halfDayCos =
+    -Math.tan(phi) * Math.tan(pointDeclination * Math.PI / 180);
+  if (halfDayCos < -1 || halfDayCos > 1) return null;
+
+  const halfDayAngleDeg =
+    Math.acos(clampUnit(halfDayCos)) * 180 / Math.PI;
+  if (!Number.isFinite(halfDayAngleDeg) || halfDayAngleDeg <= 0) return null;
+
+  const akshaTimeRatio = hourAngleDeg / halfDayAngleDeg;
+  const akshaDeg =
+    state.latitude * Math.tan(phi) * akshaTimeRatio;
+
+  const totalCorrection = ayanaDeg + akshaDeg;
+  return {
+    latitude: state.latitude,
+    rightAscension: state.rightAscension,
+    declination: ayanaDeclination,
+    planetDeclination: state.declination,
+    hourAngleDeg,
+    halfDayAngleDeg,
+    akshaTimeRatio,
+    akshaDeg,
+    ayanaDeg,
+    totalCorrection,
+    ayanaAppliedLongitude,
+    akshaPointRA: pointRA,
+    akshaPointDeclination: pointDeclination,
+    correctedLongitude: normalize360(ayanaAppliedLongitude + akshaDeg)
+  };
+}
+
+function getLagnantaraDiagnostic(planetBody, date, direction, method = "current") {
   /*
    * Ch.9.4: use the true longitude of Sun and planet at the
    * actual Sun event, then apply dṛkkarma to the planet.
@@ -2370,11 +2454,9 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
   if (!planetState || !sunState) return null;
 
   const drikkarma =
-    getDrikkarmaCorrection(
-      planetBody,
-      date,
-      direction
-    );
+    method === "sequential"
+      ? getDrikkarmaCorrectionSequential(planetBody, date, direction)
+      : getDrikkarmaCorrection(planetBody, date, direction);
 
   if (!drikkarma) return null;
 
@@ -2519,17 +2601,17 @@ function getSunEventTimeForLagnantara(date, direction) {
   return localDate === expectedDate ? result.date : null;
 }
 
-function getLagnantaraResidualForDate(ref, date) {
+function getLagnantaraResidualForDate(ref, date, method = "current") {
   const eventTime = getSunEventTimeForLagnantara(date, ref.direction);
   if (!eventTime) return null;
-  const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction);
+  const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method);
   if (!g) return null;
   const C = shastriyaC(ref.planet, ref.event);
   if (!Number.isFinite(C)) return null;
   return { eventTime, geometry:g, residual:g.K - C };
 }
 
-function findLagnantaraCrossing(ref) {
+function findLagnantaraCrossing(ref, method = "current") {
   /*
    * K is evaluated at one actual sunrise/sunset per civil date.
    * Therefore this is a daily-event sequence, not a continuous
@@ -2545,7 +2627,7 @@ function findLagnantaraCrossing(ref) {
 
   for (let d=-15; d<=15; d++) {
     const date = new Date(center.getTime() + d * 86400000);
-    const result = getLagnantaraResidualForDate(ref, date);
+    const result = getLagnantaraResidualForDate(ref, date, method);
     if (result && Number.isFinite(result.residual)) {
       samples.push({date, ...result});
     }
@@ -2632,26 +2714,27 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Total dṛkkarma</th><th>Final K</th><th>C (SS IX.6–9)</th><th>K−C</th><th>TKS target</th><th>Daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
     const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
-    const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction) : null;
+    const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
+    const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
     const C = shastriyaC(ref.planet, ref.event);
-    const crossing = findLagnantaraCrossing(ref);
+    const crossing = findLagnantaraCrossing(ref, "current");
+    const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
 
     html += '<tr class="reference-row">';
     html += '<td>'+ref.planet+'</td>';
     html += '<td>'+ref.event+'</td>';
     html += '<td>'+(sample ? formatLocalFromUTCDate(sample) : "—")+'</td>';
     html += '<td>'+(g ? round(g.rawK,4)+"°" : "—")+'</td>';
-    html += '<td>'+(g ? (g.drikkarma.akshaDeg>=0?"+":"")+round(g.drikkarma.akshaDeg,4)+"°" : "—")+'</td>';
-    html += '<td>'+(g ? (g.drikkarma.ayanaDeg>=0?"+":"")+round(g.drikkarma.ayanaDeg,4)+"°" : "—")+'</td>';
-    html += '<td>'+(g ? (g.drikkarma.totalCorrection>=0?"+":"")+round(g.drikkarma.totalCorrection,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? round(g.K,4)+"°" : "—")+'</td>';
-    html += '<td>'+round(C,2)+'°</td>';
+    html += '<td>'+(gs ? round(gs.K,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
+    html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
+    html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+ref.date+'</td>';
     if (crossing && crossing.brackets && crossing.brackets.length) {
       html += '<td>';
@@ -2671,6 +2754,26 @@ async function runLagnantaraDiagnostic() {
       html += '<td>No crossing in ±15 days.<br>Closest: ' +
         formatLocalFromUTCDate(crossing.closest.eventTime) +
         ' (K−C=' + round(crossing.closestResidual,4) + '°)</td>';
+    } else {
+      html += '<td>No valid daily samples in ±15 days</td>';
+    }
+
+    if (sequentialCrossing && sequentialCrossing.brackets && sequentialCrossing.brackets.length) {
+      html += '<td>';
+      sequentialCrossing.brackets.forEach((bracket, index) => {
+        if (index) html += '<hr>';
+        html += 'Bracket ' + (index + 1) + ' — ' + bracket.transition +
+          (bracket.matchesRequestedEvent ? ' ✓ requested event' : ' — other transition') +
+          '<br>' + formatLocalFromUTCDate(bracket.before.eventTime) +
+          ' (K−C=' + round(bracket.beforeResidual,4) + '°)<br>→ ' +
+          formatLocalFromUTCDate(bracket.after.eventTime) +
+          ' (K−C=' + round(bracket.afterResidual,4) + '°)';
+      });
+      html += '</td>';
+    } else if (sequentialCrossing && sequentialCrossing.noCrossing) {
+      html += '<td>No crossing in ±15 days.<br>Closest: ' +
+        formatLocalFromUTCDate(sequentialCrossing.closest.eventTime) +
+        ' (K−C=' + round(sequentialCrossing.closestResidual,4) + '°)</td>';
     } else {
       html += '<td>No valid daily samples in ±15 days</td>';
     }
@@ -2705,7 +2808,16 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Aksha dṛkkarma</strong><span>'+round(g.drikkarma.akshaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Ayana dṛkkarma</strong><span>'+round(g.drikkarma.ayanaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Total dṛkkarma</strong><span>'+round(g.drikkarma.totalCorrection,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Final lagnāntara</strong><span>'+round(g.lagnaInterval,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Final lagnāntara (current method)</strong><span>'+round(g.lagnaInterval,6)+'°</span></div>';
+      if (gs) {
+        html += '<div class="metric"><strong>Sequential: longitude after Ayana</strong><span>'+round(gs.drikkarma.ayanaAppliedLongitude,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: RA of intermediate ecliptic point</strong><span>'+round(gs.drikkarma.akshaPointRA,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: declination of intermediate point</strong><span>'+round(gs.drikkarma.akshaPointDeclination,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: Aksha dṛkkarma</strong><span>'+round(gs.drikkarma.akshaDeg,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: Ayana dṛkkarma</strong><span>'+round(gs.drikkarma.ayanaDeg,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: corrected longitude</strong><span>'+round(gs.drikkarma.correctedLongitude,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: final K</strong><span>'+round(gs.K,6)+'°</span></div>';
+      }
       html += '</div></details></td></tr>';
     }
   }
@@ -2714,6 +2826,8 @@ async function runLagnantaraDiagnostic() {
   html += '<div class="card"><h3>What this test proves</h3><ul>';
   html += '<li>The event is evaluated at the actual local sunrise/sunset rather than an arbitrary 05:30/18:00 sample.</li>';
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
+  html += '<li>The table now compares the original correction calculation against a separate sequential-order experiment: Ayana is applied first, then Aksha is derived from the intermediate ecliptic point.</li>';
+  html += '<li>The sequential experiment is diagnostic only; it does not yet establish a complete classical ephemeris or prove that every modern-coordinate substitution matches the original procedure.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
   html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
