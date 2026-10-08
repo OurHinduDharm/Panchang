@@ -2455,17 +2455,21 @@ function getLagnantaraDiagnostic(planetBody, date, direction) {
 function getSunEventTimeForLagnantara(date, direction) {
   /*
    * SearchRiseSet searches FORWARD from its start instant.
-   * For an eastern event, start before local sunrise (00:00 UTC);
-   * for a western event, start before local sunset (12:00 UTC).
-   * Starting both searches at noon UTC incorrectly moved Udaya
-   * to the following civil date.
+   * Starting at 00:00 UTC (05:30 IST) can be too late for summer
+   * sunrise; starting at 12:00 UTC (17:30 IST) can be too late for
+   * winter sunset. Start at 18:00 UTC on the PREVIOUS UTC date
+   * (23:30 IST on the previous local date), safely before either
+   * event in this Pithoragarh validation range.
+   *
+   * The one-day search limit still includes the target date's
+   * sunrise/sunset and avoids silently returning the next day's
+   * event due to a season-dependent start-time boundary.
    */
-  const startHourUTC = direction === "east" ? 0 : 12;
   const start = new Date(Date.UTC(
     date.getUTCFullYear(),
     date.getUTCMonth(),
-    date.getUTCDate(),
-    startHourUTC, 0, 0
+    date.getUTCDate() - 1,
+    18, 0, 0
   ));
 
   const riseSetDirection = direction === "east" ? +1 : -1;
@@ -2478,7 +2482,23 @@ function getSunEventTimeForLagnantara(date, direction) {
   );
 
   // Astronomy Engine returns AstroTime here, not a native Date.
-  return result && result.date instanceof Date ? result.date : null;
+  if (!result || !(result.date instanceof Date)) return null;
+
+  // Guard against any library result crossing the intended civil date.
+  const localDate = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(result.date);
+  const expectedDate = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(date);
+
+  return localDate === expectedDate ? result.date : null;
 }
 
 function getLagnantaraResidualForDate(ref, date) {
