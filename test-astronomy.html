@@ -2097,9 +2097,18 @@ function getPlanetSiderealState(body, date) {
 
   const ecl = Astronomy.Ecliptic(vec);
 
+  /*
+   * Astronomy Engine's EclipticCoordinates uses elat for
+   * ecliptic latitude. lat is not a valid property.
+   *
+   * This was the reason Section 9 returned — for every case:
+   * Number(undefined) -> NaN -> non-finite state -> null.
+   */
+  const eclipticLatitude = Number(ecl.elat);
+
   return {
     longitude: getSiderealEclipticLongitude(body, date),
-    latitude: Number(ecl.lat),
+    latitude: eclipticLatitude,
     declination: Number(eq.dec)
   };
 }
