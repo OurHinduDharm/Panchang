@@ -2258,8 +2258,9 @@ function getDrikkarmaCorrection(body, date, direction) {
   const tropicalLon =
     normalize360(state.longitude + 24.217);
 
+  // VII.10 explicitly says add three signs (90°), not six signs.
   const declinationLon =
-    normalize360(tropicalLon + 180);
+    normalize360(tropicalLon + 90);
 
   const eps = 23.4367 * Math.PI / 180;
   const ayanaDeclination =
@@ -2495,7 +2496,7 @@ function findLagnantaraCrossing(ref) {
     noCrossing: true
   };
 }
-function shastriyaC(planet) {
+function shastriyaC(planet, direction) {
   // Sūrya-siddhānta IX.6–9, not values inferred from TKS.
   if (planet === "Jupiter") return 11;
   if (planet === "Saturn") return 15;
