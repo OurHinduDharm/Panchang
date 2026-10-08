@@ -2147,89 +2147,149 @@ function runCoordinateFrameSensitivityAudit() {
   out.innerHTML = html;
 }
 
+function calculateSwissStateLagnantara(swe, eventTime, direction) {
+  /*
+   * Independent state-input path:
+   * Swiss Ephemeris supplies apparent geocentric ecliptic longitude/latitude
+   * and equatorial RA/declination. The classical correction/OA formulas
+   * remain the same as the Astronomy Engine path so the state-source delta
+   * can be isolated without silently changing the method.
+   */
+  const jd = swe.julday(
+    eventTime.getUTCFullYear(),
+    eventTime.getUTCMonth() + 1,
+    eventTime.getUTCDate(),
+    eventTime.getUTCHours() +
+      eventTime.getUTCMinutes() / 60 +
+      eventTime.getUTCSeconds() / 3600 +
+      eventTime.getUTCMilliseconds() / 3600000,
+    1
+  );
+  const eclFlags = swe.SEFLG_SWIEPH;
+  const eqFlags = swe.SEFLG_SWIEPH | 2048; // SEFLG_EQUATORIAL
+  const swSun = swe.calc_ut(jd, swe.SE_SUN, eclFlags);
+  const swJupiter = swe.calc_ut(jd, swe.SE_JUPITER, eclFlags);
+  const swJupiterEq = swe.calc_ut(jd, swe.SE_JUPITER, eqFlags);
+
+  if (![swSun, swJupiter, swJupiterEq].every(v =>
+    v && Number.isFinite(v[0]) && Number.isFinite(v[1])
+  )) return null;
+
+  const longitude = normalize360(swJupiter[0] - 24.217);
+  const latitude = swJupiter[1];
+  const ra = normalize360(swJupiterEq[0]);
+  const dec = swJupiterEq[1];
+  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  let hourAngleDeg = normalize360(
+    Astronomy.SiderealTime(eventTime) * 15 +
+    TKS_CONFIG.longitude - ra
+  );
+  if (hourAngleDeg > 180) hourAngleDeg -= 360;
+
+  const halfDayCos = -Math.tan(phi) * Math.tan(dec * Math.PI / 180);
+  if (halfDayCos < -1 || halfDayCos > 1) return null;
+  const halfDayAngleDeg = Math.acos(clampUnit(halfDayCos)) * 180 / Math.PI;
+  if (!Number.isFinite(halfDayAngleDeg) || halfDayAngleDeg <= 0) return null;
+
+  const akshaDeg =
+    latitude * Math.tan(phi) *
+    (hourAngleDeg / halfDayAngleDeg);
+
+  const ayanaLongitude = normalize360(swJupiter[0] + 90);
+  const eps = 23.4367 * Math.PI / 180;
+  const ayanaDeclination = Math.asin(clampUnit(
+    Math.sin(eps) * Math.sin(ayanaLongitude * Math.PI / 180)
+  )) * 180 / Math.PI;
+  const ayanaDeg =
+    (Math.abs(latitude) * 60 * Math.abs(ayanaDeclination) / 3600) *
+    (Math.sign(latitude) === Math.sign(ayanaDeclination) ? -1 : 1);
+
+  const correctedLongitude = normalize360(longitude + akshaDeg + ayanaDeg);
+  const sunLongitude = normalize360(swSun[0] - 24.217);
+  const sunEventLongitude = direction === "west"
+    ? normalize360(sunLongitude + 180) : sunLongitude;
+  const planetEventLongitude = direction === "west"
+    ? normalize360(correctedLongitude + 180) : correctedLongitude;
+  const rawPlanetEventLongitude = direction === "west"
+    ? normalize360(longitude + 180) : longitude;
+  const rawSunOA = obliqueAscensionFromSiderealLongitude(sunEventLongitude);
+  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawPlanetEventLongitude);
+  const sunOA = rawSunOA;
+  const planetOA = obliqueAscensionFromSiderealLongitude(planetEventLongitude);
+
+  return {
+    sunLongitude: swSun[0],
+    planetLongitude: swJupiter[0],
+    planetLatitude: latitude,
+    ra,
+    dec,
+    rawK: Math.abs(signedLongitudeDelta(rawPlanetOA, rawSunOA)),
+    akshaDeg,
+    ayanaDeg,
+    K: Math.abs(signedLongitudeDelta(planetOA, sunOA))
+  };
+}
+
 async function runJupiterAstaComponentSweep() {
   const out = document.getElementById("jupiterAstaSweepOutput");
   if (!out) return;
-  out.innerHTML = '<div class="status info">Loading Swiss Ephemeris and comparing both engines at identical UTC instants…</div>';
+  out.innerHTML = '<div class="status info">Loading Swiss Ephemeris and comparing complete planetary state inputs at identical UTC instants…</div>';
 
   const dates = ["2027-08-12", "2027-08-13", "2027-08-20"];
   let html = '<div class="table-wrap"><table><thead><tr>' +
     '<th>Local sunset date</th><th>Actual sunset (IST)</th>' +
-    '<th>Sun λ AE / Swiss</th><th>Jupiter λ AE / Swiss</th>' +
-    '<th>Jupiter β AE / Swiss</th><th>Δ Jupiter λ (arcsec)</th>' +
-    '<th>Jupiter RA / Dec (AE)</th><th>Raw K</th><th>Aksha</th><th>Ayana</th>' +
-    '<th>Current K</th><th>Sequential K</th><th>Current K−11°</th>' +
+    '<th>Jupiter λ AE / Swiss</th><th>Jupiter β AE / Swiss</th>' +
+    '<th>RA AE / Swiss</th><th>Dec AE / Swiss</th>' +
+    '<th>Raw K AE / Swiss-state</th><th>Aksha AE / Swiss-state</th>' +
+    '<th>Ayana AE / Swiss-state</th><th>Final K AE / Swiss-state</th>' +
+    '<th>Δ final K</th><th>Swiss-state K−11°</th>' +
     '</tr></thead><tbody>';
 
   try {
     const swe = await initSwiss();
-    const swissFlags = swe.SEFLG_SWIEPH;
-
     for (const day of dates) {
       const eventTime = getSunEventTimeForLagnantara(
         new Date(day + "T12:00:00Z"), "west"
       );
       if (!eventTime) {
-        html += '<tr><td>' + day + '</td><td colspan="12">Local sunset not found.</td></tr>';
+        html += '<tr><td>' + day + '</td><td colspan="11">Local sunset not found.</td></tr>';
         continue;
       }
 
-      const sun = getPlanetSiderealState(Astronomy.Body.Sun, eventTime);
       const jupiter = getPlanetSiderealState(Astronomy.Body.Jupiter, eventTime);
       const current = getLagnantaraDiagnostic(
         Astronomy.Body.Jupiter, eventTime, "west", "current"
       );
-      const sequential = getLagnantaraDiagnostic(
-        Astronomy.Body.Jupiter, eventTime, "west", "sequential"
-      );
-
-      const jd = swe.julday(
-        eventTime.getUTCFullYear(),
-        eventTime.getUTCMonth() + 1,
-        eventTime.getUTCDate(),
-        eventTime.getUTCHours() +
-          eventTime.getUTCMinutes() / 60 +
-          eventTime.getUTCSeconds() / 3600 +
-          eventTime.getUTCMilliseconds() / 3600000,
-        1
-      );
-      const swissSun = swe.calc_ut(jd, swe.SE_SUN, swissFlags);
-      const swissJupiter = swe.calc_ut(jd, swe.SE_JUPITER, swissFlags);
-
-      if (!sun || !jupiter || !current || !sequential ||
-          !swissSun || !swissJupiter ||
-          !Number.isFinite(swissSun[0]) || !Number.isFinite(swissJupiter[0])) {
-        html += '<tr><td>' + day + '</td><td colspan="12">Required state unavailable from one of the engines.</td></tr>';
+      const swiss = calculateSwissStateLagnantara(swe, eventTime, "west");
+      if (!jupiter || !current || !swiss) {
+        html += '<tr><td>' + day + '</td><td colspan="11">Required state unavailable from one of the engines.</td></tr>';
         continue;
       }
 
       const d = current.drikkarma;
-      const jupiterLongitudeDeltaArcsec =
-        signedLongitudeDelta(jupiter.tropicalLongitude, swissJupiter[0]) * 3600;
-
+      const deltaK = swiss.K - current.K;
       html += '<tr class="' + (day === "2027-08-20" ? "reference-row" : "") + '">' +
         '<td>' + day + '</td>' +
         '<td>' + formatLocalFromUTCDate(eventTime) + '</td>' +
-        '<td>' + round(sun.tropicalLongitude, 6) + '° / ' + round(swissSun[0], 6) + '°</td>' +
-        '<td>' + round(jupiter.tropicalLongitude, 6) + '° / ' + round(swissJupiter[0], 6) + '°</td>' +
-        '<td>' + round(jupiter.latitude, 6) + '° / ' + round(swissJupiter[1], 6) + '°</td>' +
-        '<td>' + ((jupiterLongitudeDeltaArcsec >= 0) ? '+' : '') + round(jupiterLongitudeDeltaArcsec, 3) + '″</td>' +
-        '<td>RA ' + round(jupiter.rightAscension, 6) + '° / Dec ' + round(jupiter.declination, 6) + '°</td>' +
-        '<td>' + round(current.rawK, 6) + '°</td>' +
-        '<td>' + round(d.akshaDeg, 6) + '°</td>' +
-        '<td>' + round(d.ayanaDeg, 6) + '°</td>' +
-        '<td>' + round(current.K, 6) + '°</td>' +
-        '<td>' + round(sequential.K, 6) + '°</td>' +
-        '<td>' + ((current.K - 11) >= 0 ? '+' : '') + round(current.K - 11, 6) + '°</td>' +
+        '<td>' + round(jupiter.tropicalLongitude, 6) + '° / ' + round(swiss.planetLongitude, 6) + '°</td>' +
+        '<td>' + round(jupiter.latitude, 6) + '° / ' + round(swiss.planetLatitude, 6) + '°</td>' +
+        '<td>' + round(jupiter.rightAscension, 6) + '° / ' + round(swiss.ra, 6) + '°</td>' +
+        '<td>' + round(jupiter.declination, 6) + '° / ' + round(swiss.dec, 6) + '°</td>' +
+        '<td>' + round(current.rawK, 6) + '° / ' + round(swiss.rawK, 6) + '°</td>' +
+        '<td>' + round(d.akshaDeg, 6) + '° / ' + round(swiss.akshaDeg, 6) + '°</td>' +
+        '<td>' + round(d.ayanaDeg, 6) + '° / ' + round(swiss.ayanaDeg, 6) + '°</td>' +
+        '<td>' + round(current.K, 6) + '° / ' + round(swiss.K, 6) + '°</td>' +
+        '<td>' + (deltaK >= 0 ? '+' : '') + round(deltaK, 6) + '°</td>' +
+        '<td>' + ((swiss.K - 11) >= 0 ? '+' : '') + round(swiss.K - 11, 6) + '°</td>' +
         '</tr>';
     }
 
     html += '</tbody></table></div>' +
-      '<div class="status warn">Interpretation: the longitude delta is Astronomy Engine minus Swiss Ephemeris at the exact same UTC instant, wrapped to ±180° and expressed in arcseconds. If the ephemerides closely agree while K remains far below 11° on 20 August, the main discrepancy is not explained by the planet’s longitude alone; the classical coordinate/correction pipeline and the meaning of the TKS target still need separate validation. This comparison does not by itself validate the Sūrya-siddhānta formula.</div>';
+      '<div class="status warn">Comparison order in each paired cell is Astronomy Engine / Swiss-state. Swiss-state K uses Swiss geocentric ecliptic longitude/latitude and equatorial RA/declination, but intentionally reuses the same dṛkkarma and oblique-ascension formulas and the same 24.217° ayanāṃśa. This isolates ephemeris state inputs; it is not an independent validation of the classical method or the TKS event date.</div>';
     out.innerHTML = html;
   } catch (error) {
-    out.innerHTML = '<div class="status error">Independent ephemeris comparison failed: ' +
-      String(error?.message || error) + '. The lagnāntara table above remains available.</div>';
+    out.innerHTML = '<div class="status error">Independent state-input comparison failed: ' +
+      String(error?.message || error) + '. The main lagnāntara table remains available.</div>';
   }
 }
 
