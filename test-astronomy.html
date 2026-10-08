@@ -2018,30 +2018,121 @@ function risingHourAngleDegrees(latitudeDeg, declinationDeg) {
   return Math.acos(clampUnit(x)) * 180 / Math.PI;
 }
 
+function getSiderealEclipticLongitude(body, date) {
+  // TKS reports apparent sidereal longitudes.  For this diagnostic
+  // we use its published true-Spica ayanāṁśa benchmark (~24.217°).
+  // This is validation-only; it is not a production ayanāṁśa policy.
+  const eq = Astronomy.Equator(
+    body,
+    date,
+    tksObserver,
+    true,
+    true
+  );
+
+  const ra = eq.ra * 15 * Math.PI / 180;
+  const dec = eq.dec * Math.PI / 180;
+
+  // Mean obliquity is sufficient for this first exact-structure
+  // diagnostic; the next pass can replace it with the engine's
+  // date-specific apparent obliquity if needed.
+  const eps = 23.4367 * Math.PI / 180;
+
+  const sinLambda =
+    (Math.sin(ra) * Math.cos(eps) +
+      Math.tan(dec) * Math.sin(eps));
+
+  const cosLambda =
+    Math.cos(ra);
+
+  const tropical =
+    Math.atan2(sinLambda, cosLambda) * 180 / Math.PI;
+
+  return normalize360(tropical - 24.217);
+}
+
+function obliqueAscensionFromSiderealLongitude(lambdaDeg) {
+  const eps = 23.4367 * Math.PI / 180;
+  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  const lambda = lambdaDeg * Math.PI / 180;
+
+  // Declination of the ecliptic point.
+  const sinDec = Math.sin(eps) * Math.sin(lambda);
+  const dec = Math.asin(clampUnit(sinDec));
+
+  // Right ascension of the ecliptic point.
+  const ra = Math.atan2(
+    Math.sin(lambda) * Math.cos(eps),
+    Math.cos(lambda)
+  );
+
+  // Ascensional difference.
+  let x = Math.tan(phi) * Math.tan(dec);
+  x = Math.max(-1, Math.min(1, x));
+
+  const ad =
+    Math.asin(x);
+
+  // At a northern latitude, eastern oblique ascension is
+  // right ascension minus ascensional difference.
+  return normalize360(
+    (ra - ad) * 180 / Math.PI
+  );
+}
+
 function getLagnantaraDiagnostic(planetBody, date, direction) {
-  const sun = Astronomy.Equator(Astronomy.Body.Sun, date, tksObserver, true, true);
-  const planet = Astronomy.Equator(planetBody, date, tksObserver, true, true);
+  let sunLon =
+    getSiderealEclipticLongitude(
+      Astronomy.Body.Sun,
+      date
+    );
 
-  const sunH0 = risingHourAngleDegrees(TKS_CONFIG.latitude, sun.dec);
-  const planetH0 = risingHourAngleDegrees(TKS_CONFIG.latitude, planet.dec);
-  if (![sunH0, planetH0].every(Number.isFinite)) return null;
+  let planetLon =
+    getSiderealEclipticLongitude(
+      planetBody,
+      date
+    );
 
-  const sunRAdeg = sun.ra * 15;
-  const planetRAdeg = planet.ra * 15;
+  // Ch. 9 verse 5: for the western (Asta) calculation,
+  // add six signs to BOTH longitudes before finding the
+  // ascensional interval.  Adding 180° to both points does
+  // not alter their ordinary angular separation, but it DOES
+  // alter their oblique-ascension values, which is precisely
+  // why the western construction must be explicit.
+  if (direction === "west") {
+    sunLon = normalize360(sunLon + 180);
+    planetLon = normalize360(planetLon + 180);
+  }
 
-  const sunLST = direction === "east" ? sunRAdeg - sunH0 : sunRAdeg + sunH0;
-  const planetLST = direction === "east" ? planetRAdeg - planetH0 : planetRAdeg + planetH0;
+  const sunOA =
+    obliqueAscensionFromSiderealLongitude(sunLon);
 
-  const lagnaInterval = Math.abs(signedLongitudeDelta(planetLST, sunLST));
-  const lagnantaraAsu = lagnaInterval * 60;
-  const K = lagnantaraAsu / 60;
+  const planetOA =
+    obliqueAscensionFromSiderealLongitude(planetLon);
+
+  const lagnaInterval =
+    Math.abs(
+      signedLongitudeDelta(
+        planetOA,
+        sunOA
+      )
+    );
+
+  // 1 degree of equatorial/ascensional arc = 60 asus.
+  const lagnantaraAsu =
+    lagnaInterval * 60;
+
+  const K =
+    lagnantaraAsu / 60;
 
   return {
-    sunRAdeg, planetRAdeg,
-    sunDec:sun.dec, planetDec:planet.dec,
-    sunH0, planetH0,
-    sunLST, planetLST,
-    lagnaInterval, lagnantaraAsu, K
+    sunLon,
+    planetLon,
+    sunOA,
+    planetOA,
+    lagnaInterval,
+    lagnantaraAsu,
+    K
   };
 }
 
