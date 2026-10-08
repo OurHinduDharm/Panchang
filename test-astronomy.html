@@ -483,10 +483,11 @@ import SwissEph
    CONFIGURATION
    ============================================================= */
 
+// Standard Pithoragarh reference location (WGS84; elevation above sea level).
 const CONFIG = {
-  latitude: 30.1265,
-  longitude: 80.4817,
-  elevation: 0,
+  latitude: 29.5828,
+  longitude: 80.2182,
+  elevation: 1650,
   timezone: "Asia/Kolkata",
   offsetMinutes: 330
 };
@@ -502,6 +503,7 @@ const TKS_CONFIG = {
   offsetMinutes: 330
 };
 
+// Source-specific Dehradun references; these are distinct from SHASTRIYA_REFERENCES (TKS test dates).
 const REFERENCES = [
   { planet:"Venus", event:"Asta", date:"2026-10-19", sampleTime:"2026-10-19T12:00:00Z", elongation:7.76, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Venus", event:"Udaya", date:"2026-10-30", sampleTime:"2026-10-30T00:30:00Z", elongation:9.70, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
@@ -673,6 +675,17 @@ const tksObserver = new Astronomy.Observer(
   TKS_CONFIG.longitude,
   TKS_CONFIG.elevation
 );
+const pithoragarhObserver = new Astronomy.Observer(
+  CONFIG.latitude,
+  CONFIG.longitude,
+  CONFIG.elevation
+);
+
+function observerForConfig(config) {
+  if (config === CONFIG) return pithoragarhObserver;
+  if (config === TKS_CONFIG) return tksObserver;
+  return new Astronomy.Observer(config.latitude, config.longitude, config.elevation);
+}
 
  function getBodyVector(body, date) {
   return Astronomy.GeoVector(body, date, true);
@@ -2147,7 +2160,7 @@ function runCoordinateFrameSensitivityAudit() {
   out.innerHTML = html;
 }
 
-function calculateSwissStateLagnantara(swe, eventTime, direction) {
+function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_CONFIG) {
   /*
    * Independent state-input path:
    * Swiss Ephemeris supplies apparent geocentric ecliptic longitude/latitude
@@ -2179,10 +2192,10 @@ function calculateSwissStateLagnantara(swe, eventTime, direction) {
   const latitude = swJupiter[1];
   const ra = normalize360(swJupiterEq[0]);
   const dec = swJupiterEq[1];
-  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  const phi = config.latitude * Math.PI / 180;
   let hourAngleDeg = normalize360(
     Astronomy.SiderealTime(eventTime) * 15 +
-    TKS_CONFIG.longitude - ra
+    config.longitude - ra
   );
   if (hourAngleDeg > 180) hourAngleDeg -= 360;
 
@@ -2233,66 +2246,77 @@ function calculateSwissStateLagnantara(swe, eventTime, direction) {
 async function runJupiterAstaComponentSweep() {
   const out = document.getElementById("jupiterAstaSweepOutput");
   if (!out) return;
-  out.innerHTML = '<div class="status info">Loading Swiss Ephemeris and comparing complete planetary state inputs at identical UTC instants…</div>';
+  out.innerHTML = '<div class="status info">Comparing both standardized locations for 12, 13 and 20 August 2027…</div>';
 
   const dates = ["2027-08-12", "2027-08-13", "2027-08-20"];
-  let html = '<div class="table-wrap"><table><thead><tr>' +
-    '<th>Local sunset date</th><th>Actual sunset (IST)</th>' +
-    '<th>Jupiter λ AE / Swiss</th><th>Jupiter β AE / Swiss</th>' +
-    '<th>RA AE / Swiss</th><th>Dec AE / Swiss</th>' +
-    '<th>Raw K AE / Swiss-state</th><th>Aksha AE / Swiss-state</th>' +
-    '<th>Ayana AE / Swiss-state</th><th>Final K AE / Swiss-state</th>' +
-    '<th>Δ final K</th><th>Swiss-state K−11°</th>' +
-    '</tr></thead><tbody>';
+  const locations = [
+    { label: "Pithoragarh (29.5828° N, 80.2182° E; 1650 m)", config: CONFIG },
+    { label: "TKS reference (29.5830° N, 80.2090° E; 0 m)", config: TKS_CONFIG }
+  ];
+  const results = {};
+  let html = '<div class="status info"><strong>Location standards</strong><br>' +
+    'Pithoragarh: 29.5828° N, 80.2182° E, elevation 1650 m.<br>' +
+    'TKS reference: 29.5830° N, 80.2090° E, elevation 0 m (as supplied; not independently confirmed).<br>' +
+    'Each row calculates the actual sunset for that location. Location ΔK is Pithoragarh K minus TKS K for the same date; Swiss ΔK is Swiss-state K minus Astronomy Engine K at the same instant.</div>';
 
   try {
     const swe = await initSwiss();
+    html += '<div class="table-wrap"><table><thead><tr>' +
+      '<th>Location</th><th>Local sunset date</th><th>Sunset (IST)</th>' +
+      '<th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Final K</th>' +
+      '<th>Swiss K−AE K</th><th>Final K−11°</th><th>Same-date location ΔK</th>' +
+      '</tr></thead><tbody>';
+
     for (const day of dates) {
-      const eventTime = getSunEventTimeForLagnantara(
-        new Date(day + "T12:00:00Z"), "west"
-      );
-      if (!eventTime) {
-        html += '<tr><td>' + day + '</td><td colspan="11">Local sunset not found.</td></tr>';
-        continue;
-      }
+      results[day] = {};
+      for (const location of locations) {
+        const config = location.config;
+        const eventTime = getSunEventTimeForLagnantara(
+          new Date(day + "T12:00:00Z"), "west", config
+        );
+        if (!eventTime) {
+          html += '<tr><td>' + location.label + '</td><td>' + day +
+            '</td><td colspan="8">Local sunset not found.</td></tr>';
+          continue;
+        }
 
-      const jupiter = getPlanetSiderealState(Astronomy.Body.Jupiter, eventTime);
-      const current = getLagnantaraDiagnostic(
-        Astronomy.Body.Jupiter, eventTime, "west", "current"
-      );
-      const swiss = calculateSwissStateLagnantara(swe, eventTime, "west");
-      if (!jupiter || !current || !swiss) {
-        html += '<tr><td>' + day + '</td><td colspan="11">Required state unavailable from one of the engines.</td></tr>';
-        continue;
+        const current = getLagnantaraDiagnostic(
+          Astronomy.Body.Jupiter, eventTime, "west", "current", config
+        );
+        const swiss = calculateSwissStateLagnantara(swe, eventTime, "west", config);
+        if (!current || !swiss) {
+          html += '<tr><td>' + location.label + '</td><td>' + day +
+            '</td><td colspan="8">Required calculation unavailable.</td></tr>';
+          continue;
+        }
+        results[day][location.label] = current.K;
+        const locationDelta = results[day][locations[0].label] !== undefined &&
+          results[day][locations[1].label] !== undefined
+          ? results[day][locations[0].label] - results[day][locations[1].label]
+          : NaN;
+        const d = current.drikkarma;
+        html += '<tr class="' + (day === "2027-08-20" ? "reference-row" : "") + '">' +
+          '<td>' + location.label + '</td>' +
+          '<td>' + day + '</td>' +
+          '<td>' + formatLocalFromUTCDate(eventTime) + '</td>' +
+          '<td>' + round(current.rawK, 6) + '°</td>' +
+          '<td>' + round(d.akshaDeg, 6) + '°</td>' +
+          '<td>' + round(d.ayanaDeg, 6) + '°</td>' +
+          '<td>' + round(current.K, 6) + '°</td>' +
+          '<td>' + (swiss.K-current.K >= 0 ? '+' : '') + round(swiss.K-current.K, 6) + '°</td>' +
+          '<td>' + (current.K-11 >= 0 ? '+' : '') + round(current.K-11, 6) + '°</td>' +
+          '<td>' + (Number.isFinite(locationDelta) ? (locationDelta >= 0 ? '+' : '') + round(locationDelta, 6) + '°' : 'calculating…') + '</td>' +
+          '</tr>';
       }
-
-      const d = current.drikkarma;
-      const deltaK = swiss.K - current.K;
-      html += '<tr class="' + (day === "2027-08-20" ? "reference-row" : "") + '">' +
-        '<td>' + day + '</td>' +
-        '<td>' + formatLocalFromUTCDate(eventTime) + '</td>' +
-        '<td>' + round(jupiter.tropicalLongitude, 6) + '° / ' + round(swiss.planetLongitude, 6) + '°</td>' +
-        '<td>' + round(jupiter.latitude, 6) + '° / ' + round(swiss.planetLatitude, 6) + '°</td>' +
-        '<td>' + round(jupiter.rightAscension, 6) + '° / ' + round(swiss.ra, 6) + '°</td>' +
-        '<td>' + round(jupiter.declination, 6) + '° / ' + round(swiss.dec, 6) + '°</td>' +
-        '<td>' + round(current.rawK, 6) + '° / ' + round(swiss.rawK, 6) + '°</td>' +
-        '<td>' + round(d.akshaDeg, 6) + '° / ' + round(swiss.akshaDeg, 6) + '°</td>' +
-        '<td>' + round(d.ayanaDeg, 6) + '° / ' + round(swiss.ayanaDeg, 6) + '°</td>' +
-        '<td>' + round(current.K, 6) + '° / ' + round(swiss.K, 6) + '°</td>' +
-        '<td>' + (deltaK >= 0 ? '+' : '') + round(deltaK, 6) + '°</td>' +
-        '<td>' + ((swiss.K - 11) >= 0 ? '+' : '') + round(swiss.K - 11, 6) + '°</td>' +
-        '</tr>';
     }
-
     html += '</tbody></table></div>' +
-      '<div class="status warn">Comparison order in each paired cell is Astronomy Engine / Swiss-state. Swiss-state K uses Swiss geocentric ecliptic longitude/latitude and equatorial RA/declination, but intentionally reuses the same dṛkkarma and oblique-ascension formulas and the same 24.217° ayanāṃśa. This isolates ephemeris state inputs; it is not an independent validation of the classical method or the TKS event date.</div>';
+      '<div class="status warn">This compares the same diagnostic formula at each location and compares Swiss-state inputs at the same instant. It does not independently validate the classical formula or establish an event date by itself. The height and coordinate differences must be evaluated numerically; they must not be assumed to explain a multi-day date discrepancy.</div>';
     out.innerHTML = html;
   } catch (error) {
-    out.innerHTML = '<div class="status error">Independent state-input comparison failed: ' +
+    out.innerHTML = '<div class="status error">Location comparison failed: ' +
       String(error?.message || error) + '. The main lagnāntara table remains available.</div>';
   }
 }
-
 function getPlanetSiderealState(body, date) {
   /*
    * Keep the dṛkkarma geometry in one coordinate frame.
@@ -2432,7 +2456,7 @@ function getSunriseSunsetSameDate(date) {
   };
 }
 
-function getDrikkarmaCorrection(body, date, direction) {
+function getDrikkarmaCorrection(body, date, direction, config = TKS_CONFIG) {
   const state = getPlanetSiderealState(body, date);
 
   if (!state) {
@@ -2464,7 +2488,7 @@ function getDrikkarmaCorrection(body, date, direction) {
    * Compute the planet's hour angle from local sidereal angle and
    * the same geocentric right ascension used for its declination.
    */
-  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  const phi = config.latitude * Math.PI / 180;
   /*
    * Derive hour angle from the same geocentric right ascension
    * as state.declination. Astronomy.HourAngle(body, observer)
@@ -2477,7 +2501,7 @@ function getDrikkarmaCorrection(body, date, direction) {
   let hourAngleDeg =
     normalize360(
       Astronomy.SiderealTime(date) * 15 +
-      TKS_CONFIG.longitude -
+      config.longitude -
       state.rightAscension
     );
   if (hourAngleDeg > 180) hourAngleDeg -= 360;
@@ -2577,7 +2601,7 @@ function getDrikkarmaCorrection(body, date, direction) {
  * point. This is intentionally kept separate from the existing
  * calculation until numerical comparisons are reviewed.
  */
-function getDrikkarmaCorrectionSequential(body, date, direction) {
+function getDrikkarmaCorrectionSequential(body, date, direction, config = TKS_CONFIG) {
   const state = getPlanetSiderealState(body, date);
   if (!state ||
       !Number.isFinite(state.longitude) ||
@@ -2587,7 +2611,7 @@ function getDrikkarmaCorrectionSequential(body, date, direction) {
     return null;
   }
 
-  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  const phi = config.latitude * Math.PI / 180;
   const tropicalLon = normalize360(state.longitude + 24.217);
   const ayanaDeclination =
     Math.asin(clampUnit(
@@ -2619,7 +2643,7 @@ function getDrikkarmaCorrectionSequential(body, date, direction) {
     ) * 180 / Math.PI);
 
   const localSiderealDeg =
-    normalize360(Astronomy.SiderealTime(date) * 15 + TKS_CONFIG.longitude);
+    normalize360(Astronomy.SiderealTime(date) * 15 + config.longitude);
 
   /*
    * Experimental sequential variant: after shifting the ecliptic
@@ -2662,7 +2686,7 @@ function getDrikkarmaCorrectionSequential(body, date, direction) {
   };
 }
 
-function getLagnantaraDiagnostic(planetBody, date, direction, method = "current") {
+function getLagnantaraDiagnostic(planetBody, date, direction, method = "current", config = TKS_CONFIG) {
   /*
    * Ch.9.4: use the true longitude of Sun and planet at the
    * actual Sun event, then apply dṛkkarma to the planet.
@@ -2688,8 +2712,8 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
 
   const drikkarma =
     method === "sequential"
-      ? getDrikkarmaCorrectionSequential(planetBody, date, direction)
-      : getDrikkarmaCorrection(planetBody, date, direction);
+      ? getDrikkarmaCorrectionSequential(planetBody, date, direction, config)
+      : getDrikkarmaCorrection(planetBody, date, direction, config);
 
   if (!drikkarma) return null;
 
@@ -2790,7 +2814,7 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
     drikkarma
   };
 }
-function getSunEventTimeForLagnantara(date, direction) {
+function getSunEventTimeForLagnantara(date, direction, config = TKS_CONFIG) {
   /*
    * SearchRiseSet searches FORWARD from its start instant.
    * Starting at 00:00 UTC (05:30 IST) can be too late for summer
@@ -2813,7 +2837,7 @@ function getSunEventTimeForLagnantara(date, direction) {
   const riseSetDirection = direction === "east" ? +1 : -1;
   const result = Astronomy.SearchRiseSet(
     Astronomy.Body.Sun,
-    tksObserver,
+    observerForConfig(config),
     riseSetDirection,
     start,
     1
@@ -2823,7 +2847,7 @@ function getSunEventTimeForLagnantara(date, direction) {
   if (!result || !(result.date instanceof Date)) return null;
 
   // Guard against any library result crossing the intended civil date.
-  const IST_OFFSET_MS = 330 * 60 * 1000;
+  const IST_OFFSET_MS = config.offsetMinutes * 60 * 1000;
   const localDate = new Date(
     result.date.getTime() + IST_OFFSET_MS
   ).toISOString().slice(0, 10);
