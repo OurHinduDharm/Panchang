@@ -2473,19 +2473,25 @@ function findLagnantaraCrossing(ref) {
     }
   }
 
+  const brackets = [];
   for (let i=1; i<samples.length; i++) {
     const a = samples[i-1];
     const b = samples[i];
 
     if (a.residual === 0 || a.residual * b.residual < 0) {
-      return {
+      brackets.push({
         before: a,
         after: b,
         beforeResidual: a.residual,
         afterResidual: b.residual
-      };
+      });
     }
   }
+
+  // Near conjunction, K can approach its minimum and cross C
+  // twice. Report every bracket rather than silently selecting
+  // the first crossing, which may be the wrong branch for Udaya/Asta.
+  if (brackets.length) return { brackets };
 
   // No sign change: return closest tested event for diagnosis,
   // but do not label it a crossing.
@@ -2547,12 +2553,17 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+ref.date+'</td>';
-    if (crossing && !crossing.noCrossing) {
-      html += '<td>Bracket:<br>' +
-        formatLocalFromUTCDate(crossing.before.eventTime) +
-        ' (K−C=' + round(crossing.beforeResidual,4) + '°)<br>→ ' +
-        formatLocalFromUTCDate(crossing.after.eventTime) +
-        ' (K−C=' + round(crossing.afterResidual,4) + '°)</td>';
+    if (crossing && crossing.brackets && crossing.brackets.length) {
+      html += '<td>';
+      crossing.brackets.forEach((bracket, index) => {
+        if (index) html += '<hr>';
+        html += 'Bracket ' + (index + 1) + ':<br>' +
+          formatLocalFromUTCDate(bracket.before.eventTime) +
+          ' (K−C=' + round(bracket.beforeResidual,4) + '°)<br>→ ' +
+          formatLocalFromUTCDate(bracket.after.eventTime) +
+          ' (K−C=' + round(bracket.afterResidual,4) + '°)';
+      });
+      html += '</td>';
     } else if (crossing && crossing.noCrossing) {
       html += '<td>No crossing in ±15 days.<br>Closest: ' +
         formatLocalFromUTCDate(crossing.closest.eventTime) +
