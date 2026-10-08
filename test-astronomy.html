@@ -2397,13 +2397,13 @@ function getDrikkarmaCorrectionSequential(body, date, direction) {
     normalize360(Astronomy.SiderealTime(date) * 15 + TKS_CONFIG.longitude);
 
   /*
-   * The Ayana-corrected ecliptic point is intended to lie on the
-   * hour circle passing through the planet. Use the actual planet's
-   * geocentric RA for meridian distance, and the intermediate point's
-   * declination for the corresponding half-day angle. Report pointRA
-   * separately so the approximation can be inspected, not hidden.
+   * Experimental sequential variant: after shifting the ecliptic
+   * longitude by Ayana, recompute BOTH RA and declination for that
+   * intermediate ecliptic point. Use the same point consistently in
+   * its hour angle and half-day angle. This is a geometry-consistent
+   * experiment, not yet proof that SS VII prescribes iteration this way.
    */
-  let hourAngleDeg = normalize360(localSiderealDeg - state.rightAscension);
+  let hourAngleDeg = normalize360(localSiderealDeg - pointRA);
   if (hourAngleDeg > 180) hourAngleDeg -= 360;
 
   const halfDayCos =
