@@ -2155,7 +2155,23 @@ function getDrikkarmaCorrection(body, date, direction) {
   const state = getPlanetSiderealState(body, date);
   const day = getSunriseSunsetSameDate(date);
 
-  if (!day) return null;
+  if (!state) {
+    console.warn("Ch.9 dṛkkarma: planet state unavailable", {
+      body,
+      date: date?.toISOString?.(),
+      direction
+    });
+    return null;
+  }
+
+  if (!day) {
+    console.warn("Ch.9 dṛkkarma: sunrise/sunset pair unavailable", {
+      body,
+      date: date?.toISOString?.(),
+      direction
+    });
+    return null;
+  }
 
   /*
    * Sūrya-siddhānta Ch.7 rules 8–10:
