@@ -1478,6 +1478,18 @@ if(
       horaDetails
     );
 
+  const classicalYogaDetails =
+    getClassicalYogaDetails(
+      selectedDate,
+      location,
+      horaObserver
+    );
+
+  const classicalYogaCard =
+    createClassicalYogaCard(
+      classicalYogaDetails
+    );
+
 
   /*
    * =========================================================
@@ -1524,6 +1536,15 @@ if(
     oldPlanetCard.remove();
   }
 
+  const oldClassicalYogaCard =
+    document.getElementById(
+      "classicalYogasCard"
+    );
+
+  if (oldClassicalYogaCard) {
+    oldClassicalYogaCard.remove();
+  }
+
 
   /*
    * =========================================================
@@ -1539,8 +1560,178 @@ if(
     horaCard
   );
 
+  placeClassicalYogaCard(
+    classicalYogaCard
+  );
+
 }
     
+function nextSelectedDate(isoDate) {
+  const match = String(isoDate || "").match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  if (!match) return null;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  return new Date(Date.UTC(year, month - 1, day + 1)).toISOString().slice(0, 10);
+}
+
+let classicalYogaCacheKey = null;
+let classicalYogaCacheDetails = null;
+
+function getClassicalYogaDetails(selectedDate, location, observer) {
+  const engine = window.OHDPanchangClassicalYogas;
+
+  if (
+    !engine ||
+    typeof engine.getClassicalYogas !== "function" ||
+    typeof engine.buildSunNakshatraSegments !== "function"
+  ) {
+    return {
+      available: false,
+      error: "शास्त्रीय योग गणना मॉड्यूल उपलब्ध नहीं है।",
+      yogas: []
+    };
+  }
+
+  const cacheKey = [
+    selectedDate,
+    location.latitude,
+    location.longitude,
+    location.elevation
+  ].join("|");
+
+  if (cacheKey === classicalYogaCacheKey && classicalYogaCacheDetails) {
+    return classicalYogaCacheDetails;
+  }
+
+  try {
+    const nextDate = nextSelectedDate(selectedDate);
+    if (!nextDate) {
+      return { available: false, error: "चयनित तिथि अमान्य है।", yogas: [] };
+    }
+
+    const p = getPanchangam(
+      new Date(`${selectedDate}T12:00:00+05:30`),
+      observer,
+      { timezoneOffset: 330 }
+    );
+
+    const nextP = getPanchangam(
+      new Date(`${nextDate}T12:00:00+05:30`),
+      observer,
+      { timezoneOffset: 330 }
+    );
+
+    if (!p?.sunrise || !nextP?.sunrise) {
+      return {
+        available: false,
+        error: "सूर्योदय का समय उपलब्ध नहीं है।",
+        yogas: []
+      };
+    }
+
+    const sunSegments = engine.buildSunNakshatraSegments(
+      p.sunrise,
+      nextP.sunrise,
+      instant => {
+        const snapshot = getPanchangam(
+          new Date(instant),
+          observer,
+          { timezoneOffset: 330 }
+        );
+        const longitude = snapshot?.planetaryPositions?.sun?.longitude;
+        return Number.isFinite(longitude) ? longitude : null;
+      }
+    );
+
+    const details = engine.getClassicalYogas(p, {
+      selectedDate,
+      nextSunrise: nextP.sunrise,
+      sunSegments
+    });
+
+    if (details?.available) {
+      classicalYogaCacheKey = cacheKey;
+      classicalYogaCacheDetails = details;
+    }
+
+    return details;
+  } catch (error) {
+    console.error("Classical yoga calculation failed:", error);
+    return {
+      available: false,
+      error: "शास्त्रीय योगों की गणना नहीं हो सकी।",
+      yogas: []
+    };
+  }
+}
+
+function formatClassicalYogaDateTime(value) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return "—";
+
+  return new Intl.DateTimeFormat("hi-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  }).format(date);
+}
+
+function formatClassicalYogaIntervals(details, name) {
+  if (!details?.available) return "गणना उपलब्ध नहीं";
+
+  const yoga = (details.yogas || []).find(item => item.name === name);
+  if (!yoga) return "गणना उपलब्ध नहीं";
+  if (!Array.isArray(yoga.intervals) || yoga.intervals.length === 0) return "नहीं है";
+
+  return yoga.intervals.map(interval =>
+    `${formatClassicalYogaDateTime(interval.start)} से ${formatClassicalYogaDateTime(interval.end)} तक`
+  ).join("<br>");
+}
+
+function createClassicalYogaCard(details) {
+  const card = document.createElement("div");
+  card.className = "card full";
+  card.id = "classicalYogasCard";
+
+  card.innerHTML = `
+    <div class="label">🌟 विशेष शुभ योग 🌟</div>
+    <div class="time-row">
+      <b>अमृत सिद्धि योग</b>
+      <span>${formatClassicalYogaIntervals(details, "अमृत सिद्धि योग")}</span>
+    </div>
+    <div class="time-row">
+      <b>सर्वार्थ सिद्धि योग</b>
+      <span>${formatClassicalYogaIntervals(details, "सर्वार्थ सिद्धि योग")}</span>
+    </div>
+    <div class="time-row">
+      <b>रवि योग</b>
+      <span>${formatClassicalYogaIntervals(details, "रवि योग")}</span>
+    </div>
+  `;
+
+  return card;
+}
+
+function placeClassicalYogaCard(newCard) {
+  const result = document.getElementById("result");
+  if (!result) return;
+
+  const locationCard = [...result.children].find(card =>
+    /📍\\s*स्थान/.test(card.textContent || "")
+  );
+
+  if (locationCard) {
+    locationCard.insertAdjacentElement("beforebegin", newCard);
+  } else {
+    result.appendChild(newCard);
+  }
+}
+
+
 function placeHoraCard(
   newCard
 ) {
