@@ -6,7 +6,6 @@ on:
     paths:
       - "classical-yogas.js"
       - "tests/classical-yogas-intervals.test.js"
-      - ".github/workflows/classical-yogas-tests.yml"
   workflow_dispatch:
 
 permissions:
@@ -19,8 +18,8 @@ jobs:
       - name: Check out PR branch
         uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v4
         with:
           node-version: 20
+        uses: actions/setup-node@v4
       - name: Run interval regression tests
         run: node --test tests/classical-yogas-intervals.test.js
