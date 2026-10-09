@@ -1719,6 +1719,14 @@ function createClassicalYogaCard(details) {
       <b>रवि योग</b>
       <span>${formatClassicalYogaIntervals(details, "रवि योग")}</span>
     </div>
+    <div class="time-row">
+      <b>रवि पुष्य योग</b>
+      <span>${formatClassicalYogaIntervals(details, "रवि पुष्य योग")}</span>
+    </div>
+    <div class="time-row">
+      <b>गुरु पुष्य योग</b>
+      <span>${formatClassicalYogaIntervals(details, "गुरु पुष्य योग")}</span>
+    </div>
   `;
 
   return card;
