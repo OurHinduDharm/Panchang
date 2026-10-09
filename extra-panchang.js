@@ -1567,7 +1567,7 @@ if(
 }
     
 function nextSelectedDate(isoDate) {
-  const match = String(isoDate || "").match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  const match = String(isoDate || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) return null;
   const year = Number(match[1]);
   const month = Number(match[2]);
@@ -1721,7 +1721,7 @@ function placeClassicalYogaCard(newCard) {
   if (!result) return;
 
   const locationCard = [...result.children].find(card =>
-    /📍\\s*स्थान/.test(card.textContent || "")
+    /📍\s*स्थान/.test(card.textContent || "")
   );
 
   if (locationCard) {
