@@ -549,12 +549,12 @@ function ohdIsRaviYoga(sunNakshatraIndex, moonNakshatraIndex){
  * The longitude callback must calculate the Sun at the exact instant passed
  * in; do not pass the noon Panchang snapshot here.
  *
- * The 0.0054° boundary adjustment is inherited from the previous app.js
- * implementation for compatibility. Its independent astronomical validation
- * remains a separate task.
+ * Nakshatra boundaries are the exact 360/27-degree divisions. Do not add the
+ * inherited empirical 0.0054-degree offset: it shifts a transition by minutes
+ * without a demonstrated astronomical basis.
  */
 const OHN_SUN_NAKSHATRA_SIZE = 360 / 27;
-const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0054;
+const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0;
 
 function ohdBuildSunNakshatraSegments(
   sunriseValue,
