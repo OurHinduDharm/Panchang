@@ -5007,17 +5007,7 @@ function renderSankalpTypeInputs(){
 
 function decodeHtmlEntities(str){
   if(str == null) return "";
-
-  try{
-    const doc = new DOMParser().parseFromString(
-      String(str),
-      "text/html"
-    );
-    const decoded = doc.documentElement.textContent;
-    return decoded == null ? String(str) : decoded;
-  }catch(e){
-    return String(str);
-  }
+  return String(str);
 }
 
 function updateSankalpText(){
