@@ -241,27 +241,27 @@
         <tbody>
           <tr>
             <th>Location</th>
-            <td>Pithoragarh validation point</td>
+            <td id="configLocation">Pithoragarh validation point</td>
           </tr>
           <tr>
             <th>Latitude</th>
-            <td>30.1265°</td>
+            <td id="configLatitude">—</td>
           </tr>
           <tr>
             <th>Longitude</th>
-            <td>80.4817° E</td>
+            <td id="configLongitude">—</td>
           </tr>
           <tr>
             <th>Elevation</th>
-            <td>0 m</td>
+            <td id="configElevation">—</td>
           </tr>
           <tr>
             <th>Timezone</th>
-            <td>Asia/Kolkata — UTC+05:30</td>
+            <td id="configTimezone">—</td>
           </tr>
           <tr>
             <th>Timezone offset</th>
-            <td>330 minutes</td>
+            <td id="configOffset">—</td>
           </tr>
         </tbody>
       </table>
@@ -495,6 +495,13 @@ const CONFIG = {
 // TKS page supplied these Pithoragarh coordinates for its
 // Shāstrīya Udaya–Asta calculation. Elevation was not shown in
 // the supplied output, so this validation pass assumes 0 m.
+document.getElementById("configLocation").textContent = "Pithoragarh validation point";
+document.getElementById("configLatitude").textContent = CONFIG.latitude.toFixed(4) + "°";
+document.getElementById("configLongitude").textContent = CONFIG.longitude.toFixed(4) + "° E";
+document.getElementById("configElevation").textContent = CONFIG.elevation + " m";
+document.getElementById("configTimezone").textContent = CONFIG.timezone + " — UTC+05:30";
+document.getElementById("configOffset").textContent = CONFIG.offsetMinutes + " minutes";
+
 const TKS_CONFIG = {
   latitude: 29.5830,
   longitude: 80.2090,
@@ -3140,11 +3147,11 @@ function getClassicalGeometry(body, date, planet) {
   const trueSeparation = getElongation(body, date);
   const motion = getPlanetMotion(body, date);
   let threshold = NaN;
-  if (planet === "Venus") threshold = motion >= 0 ? 10 : 8;
+  if (planet === "Venus" && Number.isFinite(motion)) threshold = motion >= 0 ? 10 : 8;
   else if (planet === "Jupiter") threshold = 11;
   return {
     sunLon, planetLon, eclipticSeparation, trueSeparation, motion,
-    motionType: motion >= 0 ? "Direct" : "Retrograde",
+    motionType: Number.isFinite(motion) ? (motion >= 0 ? "Direct" : "Retrograde") : "Motion unavailable",
     threshold,
     eclipticResidual: eclipticSeparation - threshold,
     trueResidual: trueSeparation - threshold
