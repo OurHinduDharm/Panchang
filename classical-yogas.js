@@ -768,6 +768,36 @@ function getClassicalYogas(
     )
   );
 
+  // Pushya Nakshatra on Sunday (Ravi Pushya) or Thursday (Guru Pushya).
+  // These are distinct from Ravi Yoga and must be calculated separately.
+  yogas.push(
+    ohdResult(
+      "रवि पुष्य योग",
+      "शुभ",
+      ohdNakshatraWeekdayIntervals(
+        p,
+        weekday,
+        {0:[7]},
+        sunrise,
+        nextRise
+      )
+    )
+  );
+
+  yogas.push(
+    ohdResult(
+      "गुरु पुष्य योग",
+      "शुभ",
+      ohdNakshatraWeekdayIntervals(
+        p,
+        weekday,
+        {4:[7]},
+        sunrise,
+        nextRise
+      )
+    )
+  );
+
   /* शुभ — तिथि/वार */
   yogas.push(
     ohdResult(
