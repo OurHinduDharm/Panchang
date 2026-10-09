@@ -217,7 +217,10 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
       const gaps = gapCount(p.tithis) + gapCount(p.nakshatras);
       totalSourceGaps += gaps;
 
-      const sunSegments = buildSunSegments(observer, p.sunrise, nextP.sunrise);\n      assert.ok(sunSegments.length > 0, location.name + " " + isoDate + ": real Sun segments missing");\n      totalSunSegments += sunSegments.length;\n      const args = { selectedDate: isoDate, nextSunrise: nextP.sunrise, sunSegments };
+      const sunSegments = buildSunSegments(observer, p.sunrise, nextP.sunrise);
+      assert.ok(sunSegments.length > 0, location.name + " " + isoDate + ": real Sun segments missing");
+      totalSunSegments += sunSegments.length;
+      const args = { selectedDate: isoDate, nextSunrise: nextP.sunrise, sunSegments };
       const before = serialize(baselineEngine.getClassicalYogas(p, args));
       const after = serialize(patchedEngine.getClassicalYogas(p, args));
 
@@ -236,7 +239,10 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
         }
       }
 
-      const ravi = after.yogas.find(y => y.name === "रवि योग");\n      if ((ravi?.intervals || []).length > 0) casesWithRaviIntervals++;\n\n      const summary = [];
+      const ravi = after.yogas.find(y => y.name === "रवि योग");
+      if ((ravi?.intervals || []).length > 0) casesWithRaviIntervals++;
+
+      const summary = [];
       const standard = compareGroup(location.name + " " + isoDate, before.yogas, after.yogas, summary);
       const anandadi = compareGroup(location.name + " " + isoDate + " Anandadi", before.anandadi, after.anandadi, summary);
       changedYogaCount += standard.changedCount + anandadi.changedCount;
@@ -250,12 +256,15 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
     dates,
     locations: locations.map(x => x.name),
     cases,
-    exact60SecondSourceGaps: totalSourceGaps,\n    realSunSegments: totalSunSegments,\n    casesWithRaviIntervals,
+    exact60SecondSourceGaps: totalSourceGaps,
+    realSunSegments: totalSunSegments,
+    casesWithRaviIntervals,
     changedYogaOutputs: changedYogaCount,
     totalAddedMinutesAcrossYogaOutputs: Number((totalAddedMs / 60000).toFixed(3)),
     changes: report
   }));
 
   assert.ok(cases === dates.length * locations.length, "Not all date/location cases ran");
-  assert.ok(totalSourceGaps > 0, "No exact 60-second source gaps were found in the selected real Panchang cases");\n  assert.ok(totalSunSegments >= cases, "Real Sun segments were not supplied for every date/location case");
+  assert.ok(totalSourceGaps > 0, "No exact 60-second source gaps were found in the selected real Panchang cases");
+  assert.ok(totalSunSegments >= cases, "Real Sun segments were not supplied for every date/location case");
 });
