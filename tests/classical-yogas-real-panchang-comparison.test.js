@@ -112,7 +112,9 @@ function legacyYogaIntervals(p, allowedIndexes, sunriseValue, nextSunriseValue) 
 }
 
 function intervalTimes(intervals) {
-  return (intervals || []).map(i => ({
+  // Force a current-realm array: strict deep equality rejects VM-realm arrays
+  // even when their elements and values are identical.
+  return Array.from(intervals || [], i => ({
     start: new Date(i.start).getTime(),
     end: new Date(i.end).getTime()
   }));
