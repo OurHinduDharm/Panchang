@@ -221,6 +221,7 @@
     <button id="runRefBtn">Reference Comparison</button>
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
+    <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
@@ -400,6 +401,17 @@
   </section>
 
   <!-- ========================================================= -->
+  <!-- DRIK PUBLISHED BOUNDARY AUDIT -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>Drik Panchang Published Boundary Audit — Pithoragarh</h2>
+    <p>Uses the published local start/end times supplied for Pithoragarh. It calculates Sun–planet geometry at those exact instants with Astronomy Engine; it does not claim to reproduce Drik Panchang’s private visibility algorithm.</p>
+    <div class="status warn"><strong>Interpretation:</strong> Angular separation is a comparison diagnostic, not a pass/fail test for naked-eye visibility. Local altitude also does not account for terrain, haze, atmospheric extinction, or the full twilight visibility criterion.</div>
+    <div id="drikBoundaryOutput"><div class="status info">Not run yet.</div></div>
+  </section>
+
+  <!-- ========================================================= -->
   <!-- 8. CLASSICAL ASTA / UDAYA -->
   <!-- ========================================================= -->
 
@@ -538,6 +550,16 @@ const REFERENCES = [
   { planet:"Venus", event:"Udaya", date:"2026-10-30", sampleTime:"2026-10-30T00:30:00Z", elongation:9.70, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Jupiter", event:"Asta", date:"2027-08-17", sampleTime:"2027-08-17T12:00:00Z", elongation:10.49, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Jupiter", event:"Udaya", date:"2027-09-15", sampleTime:"2027-09-15T00:30:00Z", elongation:11.28, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" }
+];
+
+// Published event boundaries transcribed by the user from Drik Panchang.
+// Local times are Pithoragarh clock time (Asia/Kolkata, UTC+05:30).
+// Keep these separate from the older Dehradun/Tantrakulam reference set above.
+const DRIK_PITHORAGARH_BOUNDARIES = [
+  { planet: "Venus", event: "Asta begins — evening boundary", localTime: "2026-10-12T18:05:00" },
+  { planet: "Venus", event: "Asta ends — morning boundary", localTime: "2026-10-29T05:49:00" },
+  { planet: "Jupiter", event: "Asta begins — evening boundary", localTime: "2027-08-16T19:24:00" },
+  { planet: "Jupiter", event: "Asta ends — morning boundary", localTime: "2027-09-13T05:09:00" }
 ];
 
 const PLANETS = {
@@ -3229,6 +3251,48 @@ function getClassicalGeometry(body, date, planet) {
   };
 }
 
+function runDrikBoundaryAudit() {
+  const output = document.getElementById("drikBoundaryOutput");
+  const fmt = value => Number.isFinite(value) ? round(value, 3) + "°" : "—";
+  let rows = "";
+
+  for (const ref of DRIK_PITHORAGARH_BOUNDARIES) {
+    // The supplied strings are local wall-clock times in Pithoragarh (IST).
+    const date = new Date(ref.localTime + "+05:30");
+    if (Number.isNaN(date.getTime())) throw new Error("Invalid Drik boundary time: " + ref.localTime);
+
+    const body = BODY_NAMES[ref.planet];
+    const geometry = getClassicalGeometry(body, date, ref.planet);
+    const planet = getHorizontal(body, date);
+    const sun = getSunHorizontal(date);
+    const azimuthDifference = angularDifference(planet.azimuth, sun.azimuth);
+
+    rows += `<tr>
+      <td>${ref.planet}</td>
+      <td>${ref.event}</td>
+      <td>${ref.localTime.replace("T", " ")} IST</td>
+      <td>${geometry.motionType}</td>
+      <td>${fmt(geometry.eclipticSeparation)}</td>
+      <td>${fmt(geometry.trueSeparation)}</td>
+      <td>${fmt(geometry.threshold)}</td>
+      <td>${fmt(geometry.eclipticResidual)}</td>
+      <td>${fmt(geometry.trueResidual)}</td>
+      <td>${fmt(sun.altitude)}</td>
+      <td>${fmt(planet.altitude)}</td>
+      <td>${fmt(azimuthDifference)}</td>
+    </tr>`;
+  }
+
+  output.innerHTML = `<div class="status info">Observer: Pithoragarh (${CONFIG.latitude}°, ${CONFIG.longitude}°), elevation ${CONFIG.elevation} m. Published local event times are inputs; every angle and altitude below is calculated independently for that instant.</div>
+    <div class="table-wrap"><table><thead><tr>
+      <th>Planet</th><th>Published boundary</th><th>Local time</th><th>Motion</th>
+      <th>Ecliptic separation</th><th>True 3-D elongation</th><th>Classical C</th>
+      <th>Ecliptic Δ from C</th><th>3-D Δ from C</th><th>Sun altitude</th>
+      <th>Planet altitude</th><th>Azimuth difference</th>
+    </tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="small">“Δ from C” is calculated separation minus the classical angular threshold (Venus 8° retrograde / 10° direct; Jupiter 11°). Negative values mean the calculated separation is below C. The threshold rule is only a classical comparison and is not assumed to be Drik Panchang’s event criterion.</p>`;
+}
+
 function bisectClassicalRoot(body, planet, lo, hi, useTrue) {
   let a = lo, b = hi;
   const value = d => {
@@ -3719,6 +3783,10 @@ async function runAll() {
 await runReferenceWindowScan();
 console.log("RUN ALL: Section 7 DONE");
 
+console.log("RUN ALL: Drik boundary geometry START");
+runDrikBoundaryAudit();
+console.log("RUN ALL: Drik boundary geometry DONE");
+
 console.log("RUN ALL: Swiss API inspection START");
 
 await initSwiss();
@@ -3838,6 +3906,18 @@ document
     "click",
     runReferenceWindowScan
   );
+
+document
+  .getElementById("runDrikBoundaryBtn")
+  .addEventListener("click", () => {
+    try {
+      runDrikBoundaryAudit();
+      setStatus("Drik boundary geometry calculated (diagnostic only).", "info");
+    } catch (error) {
+      console.error("DRIK BOUNDARY AUDIT ERROR:", error);
+      setStatus(error?.message || String(error), "error");
+    }
+  });
 
 document
   .getElementById("runClassicalBtn")
