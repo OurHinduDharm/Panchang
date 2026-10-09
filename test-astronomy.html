@@ -299,7 +299,8 @@
   <!-- ========================================================= -->
 
   <section>
-    <h2>3. Raw Panchangam-JS Planetary Data</h2>
+    <h2>3. Raw Planetary Data — Mixed Sources</h2>
+    <div class="status info"><strong>Source warning:</strong> In this table, the Sun longitude comes from Astronomy Engine, while the other planetary longitudes come from Panchangam-JS. Do not subtract these values to infer a same-engine elongation until their coordinate frames and definitions are verified.</div>
     <div id="rawOutput">
       <div class="status info">Not run yet.</div>
     </div>
@@ -310,7 +311,8 @@
   <!-- ========================================================= -->
 
   <section>
-    <h2>4. Sun–Planet Elongation vs Reference</h2>
+    <h2>4. Astronomy Engine 3-D Separation vs Reference</h2>
+    <div class="status info"><strong>Interpretation:</strong> “Calculated” is the 3-D angular separation of Astronomy Engine Sun and planet vectors. The reference elongation definition/frame has not yet been independently confirmed, so the difference and status below are provisional diagnostics, not proof of a match or mismatch.</div>
 
     <div class="table-wrap">
       <table>
@@ -320,9 +322,9 @@
             <th>Event</th>
             <th>Reference</th>
             <th>Reference elongation</th>
-            <th>Calculated</th>
-            <th>Difference</th>
-            <th>Status</th>
+            <th>AE 3-D separation</th>
+            <th>Difference (provisional)</th>
+            <th>Diagnostic status</th>
           </tr>
         </thead>
 
