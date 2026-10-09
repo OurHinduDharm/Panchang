@@ -12,18 +12,18 @@ const sandbox = {
 };
 vm.runInNewContext(source, sandbox, { filename: "classical-yogas.js" });
 const engine = sandbox.window.OHDPanchangClassicalYogas;
-const zeroCorrectionSandbox = {
+const legacyCorrectionSandbox = {
   window: {},
   console: { info() {}, warn() {}, error() {} },
   Date, Array, Number, Math, Object, String
 };
-const zeroCorrectionSource = source.replace(
-  "const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0054;",
-  "const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0;"
+const legacyCorrectionSource = source.replace(
+  "const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0;",
+  "const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0054;"
 );
-if (zeroCorrectionSource === source) throw new Error("Could not isolate zero-correction diagnostic");
-vm.runInNewContext(zeroCorrectionSource, zeroCorrectionSandbox, { filename: "classical-yogas-zero-correction.js" });
-const zeroCorrectionEngine = zeroCorrectionSandbox.window.OHDPanchangClassicalYogas;
+if (legacyCorrectionSource === source) throw new Error("Could not isolate legacy-correction diagnostic");
+vm.runInNewContext(legacyCorrectionSource, legacyCorrectionSandbox, { filename: "classical-yogas-legacy-correction.js" });
+const legacyCorrectionEngine = legacyCorrectionSandbox.window.OHDPanchangClassicalYogas;
 const observer = new Observer(29.5828, 80.2182, 1650);
 
 function atISTNoon(date) {
@@ -90,7 +90,7 @@ const references = [
 ];
 
 test("Pithoragarh special-yoga intervals match supplied Drik references", () => {
-  let scoreCacheZero;
+  let scoreCacheLegacy;
   const byDate = new Map();
   for (const [, date] of references) {
     if (!byDate.has(date)) byDate.set(date, getDetails(date));
@@ -138,7 +138,7 @@ test("Pithoragarh special-yoga intervals match supplied Drik references", () => 
 
   const raviReferences = references.filter(item => item[0] === "रवि योग");
   let correctedScoreMs = 0;
-  let zeroCorrectionScoreMs = 0;
+  let legacyCorrectionScoreMs = 0;
   for (const [name, date, expectedStartText, expectedEndText] of raviReferences) {
     const expectedStart = localIST(expectedStartText);
     const expectedEnd = localIST(expectedEndText);
@@ -151,9 +151,9 @@ test("Pithoragarh special-yoga intervals match supplied Drik references", () => 
       ));
     };
     correctedScoreMs += score(byDate.get(date));
-    scoreCacheZero ??= new Map();
-    if (!scoreCacheZero.has(date)) scoreCacheZero.set(date, getDetails(date, zeroCorrectionEngine));
-    zeroCorrectionScoreMs += score(scoreCacheZero.get(date));
+    scoreCacheLegacy ??= new Map();
+    if (!scoreCacheLegacy.has(date)) scoreCacheLegacy.set(date, getDetails(date, legacyCorrectionEngine));
+    legacyCorrectionScoreMs += score(scoreCacheLegacy.get(date));
   }
 
   console.log("DRIK_REFERENCE_COMPARISON " + JSON.stringify({
@@ -164,8 +164,8 @@ test("Pithoragarh special-yoga intervals match supplied Drik references", () => 
   }));
   console.log("SUN_BOUNDARY_CORRECTION_DIAGNOSTIC " + JSON.stringify({
     raviReferenceCount: raviReferences.length,
-    totalEndpointErrorMinutesWithLegacyCorrection: Number((correctedScoreMs / 60000).toFixed(3)),
-    totalEndpointErrorMinutesWithZeroCorrection: Number((zeroCorrectionScoreMs / 60000).toFixed(3))
+    totalEndpointErrorMinutesWithExactBoundary: Number((correctedScoreMs / 60000).toFixed(3)),
+    totalEndpointErrorMinutesWithLegacyCorrection: Number((legacyCorrectionScoreMs / 60000).toFixed(3))
   }));
   assert.deepEqual(failures, [], "Some classical-yoga intervals differ from the supplied reference data");
 });
