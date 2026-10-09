@@ -157,12 +157,56 @@ function ohdResult(name, category, intervals, extra = {}){
   };
 }
 
+/*
+ * panchangam-js 3.0.0 transition scanners intentionally resume at
+ * previousEnd + 1 minute. That avoids re-detecting the same boundary,
+ * but leaves a 60-second hole between otherwise consecutive intervals.
+ *
+ * For classical-yoga interval intersections, close ONLY this known
+ * 60,000 ms scanner gap by using the previous interval's exact end as
+ * the next interval's start. Keep original end times and all other
+ * interval data unchanged. Do not modify the shared library output.
+ */
+function ohdNormalizeTransitionIntervals(items){
+  if(!Array.isArray(items)) return [];
+
+  const normalized = items.map(item => item ? {...item} : item);
+
+  for(let i = 1; i < normalized.length; i++){
+    const previous = normalized[i - 1];
+    const current = normalized[i];
+
+    if(!previous || !current) continue;
+
+    const previousEnd = ohdValidDate(
+      previous.endTime ?? previous.end
+    );
+    const currentStart = ohdValidDate(
+      current.startTime ?? current.start
+    );
+
+    if(
+      previousEnd &&
+      currentStart &&
+      currentStart.getTime() - previousEnd.getTime() === 60000
+    ){
+      if("startTime" in current || !("start" in current)){
+        current.startTime = new Date(previousEnd);
+      }else{
+        current.start = new Date(previousEnd);
+      }
+    }
+  }
+
+  return normalized;
+}
+
 function ohdGetMoonNakshatras(p){
-  return Array.isArray(p?.nakshatras) ? p.nakshatras : [];
+  return ohdNormalizeTransitionIntervals(p?.nakshatras);
 }
 
 function ohdGetTithis(p){
-  return Array.isArray(p?.tithis) ? p.tithis : [];
+  return ohdNormalizeTransitionIntervals(p?.tithis);
 }
 
 /* =========================================================
