@@ -1,0 +1,25 @@
+name: Classical yoga interval tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "classical-yogas.js"
+      - "tests/classical-yogas-intervals.test.js"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interval-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run interval regression tests
+        run: node --test tests/classical-yogas-intervals.test.js
