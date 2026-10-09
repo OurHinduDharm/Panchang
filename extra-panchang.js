@@ -1,3 +1,7 @@
+// Load the independent classical-yoga engine with this module so Blogger,
+ // GitHub Pages, and CDN consumers do not need a separate script tag.
+import "./classical-yogas.js";
+
 import {
   Elongation,
   Observer
