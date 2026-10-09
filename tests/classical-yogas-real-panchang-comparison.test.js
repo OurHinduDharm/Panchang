@@ -30,7 +30,7 @@ function loadEngine(source) {
 const baselineEngine = loadEngine(baselineSource);
 const patchedEngine = loadEngine(patchedSource);
 
-const dates = ["2026-09-18", "2026-09-19", "2026-09-20", "2026-10-09"];
+const dates = ["2026-09-18", "2026-09-19", "2026-09-20", "2026-09-26", "2026-09-27", "2026-10-09", "2026-10-10"];
 const locations = [
   { name: "Pithoragarh", lat: 29.5828, lon: 80.2182, elevation: 1650 },
   { name: "Delhi", lat: 28.6139, lon: 77.2090, elevation: 216 }
@@ -251,6 +251,7 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
   let totalAddedMs = 0;
   let totalSourceGaps = 0;
   let totalSunSegments = 0;
+  let casesWithSunTransition = 0;
   let casesWithRaviIntervals = 0;
 
   for (const location of locations) {
@@ -271,6 +272,7 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
       const sunSegments = buildSunSegments(observer, p.sunrise, nextP.sunrise);
       assert.ok(sunSegments.length > 0, location.name + " " + isoDate + ": real Sun segments missing");
       totalSunSegments += sunSegments.length;
+      if (sunSegments.length > 1) casesWithSunTransition++;
       const args = { selectedDate: isoDate, nextSunrise: nextP.sunrise, sunSegments };
       const before = serialize(baselineEngine.getClassicalYogas(p, args));
       const after = serialize(patchedEngine.getClassicalYogas(p, args));
@@ -290,7 +292,8 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
         }
       }
 
-      const weekday = new Date(isoDate + "T00:00:00").getDay();
+      const [year, month, day] = isoDate.split("-").map(Number);
+      const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
       for (const check of [
         ["अमृत सिद्धि योग", LEGACY_AMRIT_TABLE[weekday] || []],
         ["सर्वार्थ सिद्धि योग", LEGACY_SARVARTHA_TABLE[weekday] || []]
@@ -322,6 +325,7 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
     cases,
     exact60SecondSourceGaps: totalSourceGaps,
     realSunSegments: totalSunSegments,
+    casesWithSunTransition,
     casesWithRaviIntervals,
     changedYogaOutputs: changedYogaCount,
     totalAddedMinutesAcrossYogaOutputs: Number((totalAddedMs / 60000).toFixed(3)),
@@ -331,5 +335,6 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
   assert.ok(cases === dates.length * locations.length, "Not all date/location cases ran");
   assert.ok(totalSourceGaps > 0, "No exact 60-second source gaps were found in the selected real Panchang cases");
   assert.ok(totalSunSegments >= cases, "Real Sun segments were not supplied for every date/location case");
+  assert.ok(casesWithSunTransition > 0, "Solar Nakshatra transition was not exercised by any selected date/location case");
   assert.ok(casesWithRaviIntervals > 0, "Ravi Yoga was not exercised by any selected real date/location case");
 });
