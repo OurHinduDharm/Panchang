@@ -3125,9 +3125,9 @@ function signedLongitudeDelta(a, b) {
   return d;
 }
 
-function getEclipticLongitude(body, date) {
+ function getEclipticLongitude(body, date) {
   const vec = Astronomy.GeoVector(body, date, true);
-  return normalize360(Astronomy.Ecliptic(vec).lon);
+  return normalize360(Astronomy.Ecliptic(vec).elon);
 }
 
 function getPlanetMotion(body, date) {
