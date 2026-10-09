@@ -126,6 +126,8 @@ test("special yoga calculation is owned by Extra Panchang, not app.js", () => {
     /getSpecialYogaDetails|getSunNakshatraTransition|getRaviYogaDistance|विशेष शुभ योग/,
     "legacy special-yoga calculation/rendering must stay out of app.js"
   );
+  assert.match(extraSource, /import\s+["']\.\/classical-yogas\.js["']/,
+    "Extra Panchang must load the engine itself so the Blogger page works without a separate script tag");
   assert.match(extraSource, /engine\.getClassicalYogas/);
   assert.match(extraSource, /engine\.buildSunNakshatraSegments/);
   assert.match(extraSource, /classicalYogasCard/);
