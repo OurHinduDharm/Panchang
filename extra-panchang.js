@@ -1,5 +1,5 @@
 // Load the independent classical-yoga engine here so Blogger, GitHub Pages,
- // and CDN consumers do not need a separate script tag.
+// and CDN consumers do not need a separate script tag.
 import "./classical-yogas.js";
 
 import {
