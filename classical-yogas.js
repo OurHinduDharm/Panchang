@@ -157,12 +157,56 @@ function ohdResult(name, category, intervals, extra = {}){
   };
 }
 
+/*
+ * panchangam-js 3.0.0 transition scanners intentionally resume at
+ * previousEnd + 1 minute. That avoids re-detecting the same boundary,
+ * but leaves a 60-second hole between otherwise consecutive intervals.
+ *
+ * For classical-yoga interval intersections, close ONLY this known
+ * 60,000 ms scanner gap by using the previous interval's exact end as
+ * the next interval's start. Keep original end times and all other
+ * interval data unchanged. Do not modify the shared library output.
+ */
+function ohdNormalizeTransitionIntervals(items){
+  if(!Array.isArray(items)) return [];
+
+  const normalized = items.map(item => item ? {...item} : item);
+
+  for(let i = 1; i < normalized.length; i++){
+    const previous = normalized[i - 1];
+    const current = normalized[i];
+
+    if(!previous || !current) continue;
+
+    const previousEnd = ohdValidDate(
+      previous.endTime ?? previous.end
+    );
+    const currentStart = ohdValidDate(
+      current.startTime ?? current.start
+    );
+
+    if(
+      previousEnd &&
+      currentStart &&
+      currentStart.getTime() - previousEnd.getTime() === 60000
+    ){
+      if("startTime" in current || !("start" in current)){
+        current.startTime = new Date(previousEnd);
+      }else{
+        current.start = new Date(previousEnd);
+      }
+    }
+  }
+
+  return normalized;
+}
+
 function ohdGetMoonNakshatras(p){
-  return Array.isArray(p?.nakshatras) ? p.nakshatras : [];
+  return ohdNormalizeTransitionIntervals(p?.nakshatras);
 }
 
 function ohdGetTithis(p){
-  return Array.isArray(p?.tithis) ? p.tithis : [];
+  return ohdNormalizeTransitionIntervals(p?.tithis);
 }
 
 /* =========================================================
@@ -498,6 +542,103 @@ function ohdIsRaviYoga(sunNakshatraIndex, moonNakshatraIndex){
     ((moonNakshatraIndex - sunNakshatraIndex + 27) % 27) + 1;
 
   return [4,6,9,10,13,20].includes(distance);
+}
+
+/*
+ * Build the Sun's Nakshatra segments for the selected sunrise-to-sunrise day.
+ * The longitude callback must calculate the Sun at the exact instant passed
+ * in; do not pass the noon Panchang snapshot here.
+ *
+ * The 0.0054° boundary adjustment is inherited from the previous app.js
+ * implementation for compatibility. Its independent astronomical validation
+ * remains a separate task.
+ */
+const OHN_SUN_NAKSHATRA_SIZE = 360 / 27;
+const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0054;
+
+function ohdBuildSunNakshatraSegments(
+  sunriseValue,
+  nextSunriseValue,
+  getSunLongitudeAt
+){
+  const sunrise = ohdValidDate(sunriseValue);
+  const nextSunrise = ohdValidDate(nextSunriseValue);
+
+  if(
+    !sunrise ||
+    !nextSunrise ||
+    nextSunrise <= sunrise ||
+    typeof getSunLongitudeAt !== "function"
+  ){
+    return [];
+  }
+
+  const longitudeAt = instant => {
+    try{
+      const value = getSunLongitudeAt(new Date(instant));
+      if(typeof value !== "number" || !Number.isFinite(value)) return null;
+      return ((value % 360) + 360) % 360;
+    }catch(e){
+      return null;
+    }
+  };
+
+  const startLongitude = longitudeAt(sunrise);
+  const endLongitude = longitudeAt(nextSunrise);
+
+  if(startLongitude === null || endLongitude === null) return [];
+
+  const startIndex = Math.floor(startLongitude / OHN_SUN_NAKSHATRA_SIZE);
+  let boundary =
+    (startIndex + 1) * OHN_SUN_NAKSHATRA_SIZE +
+    OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION;
+
+  if(boundary >= 360) boundary -= 360;
+
+  let unwrappedEnd = endLongitude;
+  if(unwrappedEnd < startLongitude) unwrappedEnd += 360;
+  if(boundary < startLongitude) boundary += 360;
+
+  if(boundary < startLongitude || boundary > unwrappedEnd){
+    return [{start:sunrise, end:nextSunrise, sunIndex:startIndex}];
+  }
+
+  let low = sunrise.getTime();
+  let high = nextSunrise.getTime();
+
+  for(let i = 0; i < 40; i++){
+    const mid = Math.floor((low + high) / 2);
+    let longitude = longitudeAt(mid);
+    if(longitude === null) return [];
+
+    if(longitude < startLongitude) longitude += 360;
+
+    if(longitude < boundary){
+      low = mid;
+    }else{
+      high = mid;
+    }
+  }
+
+  const transition = new Date(high);
+  const transitionLongitude = longitudeAt(transition);
+
+  if(transitionLongitude === null){
+    return [{start:sunrise, end:nextSunrise, sunIndex:startIndex}];
+  }
+
+  const transitionIndex = Math.floor(
+    transitionLongitude / OHN_SUN_NAKSHATRA_SIZE
+  );
+
+  if(transitionIndex === startIndex){
+    return [{start:sunrise, end:nextSunrise, sunIndex:startIndex}];
+  }
+
+  return [
+    {start:sunrise, end:transition, sunIndex:startIndex},
+    {start:transition, end:nextSunrise, sunIndex:transitionIndex}
+  ];
 }
 
 function ohdRaviYogaIntervals(
@@ -947,6 +1088,7 @@ function getClassicalYogas(
 
 window.OHDPanchangClassicalYogas = {
   getClassicalYogas,
+  buildSunNakshatraSegments:ohdBuildSunNakshatraSegments,
   ohdAnandadiYogaName,
   ohdIsRaviYoga,
   ohdRaviYogaIntervals,

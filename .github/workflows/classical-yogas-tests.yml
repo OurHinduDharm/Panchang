@@ -1,11 +1,25 @@
 name: Classical yoga interval tests
 
 on:
+  push:
+    branches:
+      - "fix/classical-yoga-transition-gaps"
+    paths:
+      - "app.js"
+      - "extra-panchang.js"
+      - "classical-yogas.js"
+      - "tests/classical-yogas-intervals.test.js"
+      - "tests/classical-yogas-real-panchang-comparison.test.js"
+      - ".github/workflows/classical-yogas-tests.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
+      - "app.js"
+      - "extra-panchang.js"
       - "classical-yogas.js"
       - "tests/classical-yogas-intervals.test.js"
+      - "tests/classical-yogas-real-panchang-comparison.test.js"
+      - ".github/workflows/classical-yogas-tests.yml"
   workflow_dispatch:
 
 permissions:
@@ -21,5 +35,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run interval regression tests
-        run: node --test tests/classical-yogas-intervals.test.js
+      - name: Install pinned Panchang calculation library
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Syntax-check browser JavaScript
+        run: |
+          node --input-type=module --check < app.js
+          node --input-type=module --check < extra-panchang.js
+          node --check classical-yogas.js
+      - name: Run interval and real Panchang comparison tests
+        run: node --test tests/classical-yogas-intervals.test.js tests/classical-yogas-real-panchang-comparison.test.js
