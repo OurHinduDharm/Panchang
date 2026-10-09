@@ -1,6 +1,14 @@
 name: Classical yoga interval tests
 
 on:
+  push:
+    branches:
+      - "fix/classical-yoga-transition-gaps"
+    paths:
+      - "classical-yogas.js"
+      - "tests/classical-yogas-intervals.test.js"
+      - "tests/classical-yogas-real-panchang-comparison.test.js"
+      - ".github/workflows/classical-yogas-tests.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
