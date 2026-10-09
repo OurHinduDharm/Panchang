@@ -117,12 +117,90 @@ function compareGroup(label, beforeItems, afterItems, report) {
   return { changedCount, totalAddedMs };
 }
 
+// Mirror app.js's existing solar-nakshatra transition convention for test inputs.
+// The 0.0054° correction is deliberately confined to this test harness;
+// it is not presented as independently proven astronomical truth.
+const SUN_NAKSHATRA_SIZE = 360 / 27;
+const SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0054;
+
+function sunLongitudeAt(instant, observer) {
+  const snapshot = getPanchangam(new Date(instant), observer, { timezoneOffset: 330 });
+  const longitude = snapshot?.planetaryPositions?.sun?.longitude;
+  return typeof longitude === "number" && Number.isFinite(longitude)
+    ? ((longitude % 360) + 360) % 360
+    : null;
+}
+
+function findSunNakshatraTransition(observer, startValue, endValue) {
+  const start = new Date(startValue);
+  const end = new Date(endValue);
+  if (!Number.isFinite(start.getTime()) || !Number.isFinite(end.getTime()) || end <= start) {
+    return null;
+  }
+
+  const startLongitude = sunLongitudeAt(start, observer);
+  const endLongitude = sunLongitudeAt(end, observer);
+  if (startLongitude === null || endLongitude === null) return null;
+
+  const startIndex = Math.floor(startLongitude / SUN_NAKSHATRA_SIZE);
+  let boundary = (startIndex + 1) * SUN_NAKSHATRA_SIZE + SUN_NAKSHATRA_BOUNDARY_CORRECTION;
+  if (boundary >= 360) boundary -= 360;
+
+  let unwrappedEnd = endLongitude;
+  if (unwrappedEnd < startLongitude) unwrappedEnd += 360;
+  if (boundary < startLongitude) boundary += 360;
+  if (boundary < startLongitude || boundary > unwrappedEnd) return null;
+
+  let low = start.getTime();
+  let high = end.getTime();
+  for (let i = 0; i < 40; i++) {
+    const mid = Math.floor((low + high) / 2);
+    let longitude = sunLongitudeAt(new Date(mid), observer);
+    if (longitude === null) return null;
+    if (longitude < startLongitude) longitude += 360;
+    if (longitude < boundary) low = mid;
+    else high = mid;
+  }
+  return new Date(high);
+}
+
+function buildSunSegments(observer, sunriseValue, nextSunriseValue) {
+  const sunrise = new Date(sunriseValue);
+  const nextSunrise = new Date(nextSunriseValue);
+  const sunriseLongitude = sunLongitudeAt(sunrise, observer);
+  if (sunriseLongitude === null || nextSunrise <= sunrise) return [];
+
+  const sunriseIndex = Math.floor(sunriseLongitude / SUN_NAKSHATRA_SIZE);
+  const transition = findSunNakshatraTransition(observer, sunrise, nextSunrise);
+  if (!transition) {
+    return [{ start: sunrise, end: nextSunrise, sunIndex: sunriseIndex }];
+  }
+
+  const transitionLongitude = sunLongitudeAt(transition, observer);
+  if (transitionLongitude === null) {
+    return [{ start: sunrise, end: nextSunrise, sunIndex: sunriseIndex }];
+  }
+  const transitionIndex = Math.floor(transitionLongitude / SUN_NAKSHATRA_SIZE);
+  if (transitionIndex === sunriseIndex) {
+    // Avoid creating two segments with the same index if the library's
+    // longitude rounding places the corrected boundary on the prior side.
+    return [{ start: sunrise, end: nextSunrise, sunIndex: sunriseIndex }];
+  }
+
+  return [
+    { start: sunrise, end: transition, sunIndex: sunriseIndex },
+    { start: transition, end: nextSunrise, sunIndex: transitionIndex }
+  ];
+}
+
 test("real Panchang comparison: baseline vs 60-second-gap patch across dates and locations", () => {
   const report = [];
   let cases = 0;
   let changedYogaCount = 0;
   let totalAddedMs = 0;
   let totalSourceGaps = 0;
+  let totalSunSegments = 0;
+  let casesWithRaviIntervals = 0;
 
   for (const location of locations) {
     const observer = new Observer(location.lat, location.lon, location.elevation);
@@ -139,7 +217,7 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
       const gaps = gapCount(p.tithis) + gapCount(p.nakshatras);
       totalSourceGaps += gaps;
 
-      const args = { selectedDate: isoDate, nextSunrise: nextP.sunrise, sunSegments: [] };
+      const sunSegments = buildSunSegments(observer, p.sunrise, nextP.sunrise);\n      assert.ok(sunSegments.length > 0, location.name + " " + isoDate + ": real Sun segments missing");\n      totalSunSegments += sunSegments.length;\n      const args = { selectedDate: isoDate, nextSunrise: nextP.sunrise, sunSegments };
       const before = serialize(baselineEngine.getClassicalYogas(p, args));
       const after = serialize(patchedEngine.getClassicalYogas(p, args));
 
@@ -158,7 +236,7 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
         }
       }
 
-      const summary = [];
+      const ravi = after.yogas.find(y => y.name === "रवि योग");\n      if ((ravi?.intervals || []).length > 0) casesWithRaviIntervals++;\n\n      const summary = [];
       const standard = compareGroup(location.name + " " + isoDate, before.yogas, after.yogas, summary);
       const anandadi = compareGroup(location.name + " " + isoDate + " Anandadi", before.anandadi, after.anandadi, summary);
       changedYogaCount += standard.changedCount + anandadi.changedCount;
@@ -172,12 +250,12 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
     dates,
     locations: locations.map(x => x.name),
     cases,
-    exact60SecondSourceGaps: totalSourceGaps,
+    exact60SecondSourceGaps: totalSourceGaps,\n    realSunSegments: totalSunSegments,\n    casesWithRaviIntervals,
     changedYogaOutputs: changedYogaCount,
     totalAddedMinutesAcrossYogaOutputs: Number((totalAddedMs / 60000).toFixed(3)),
     changes: report
   }));
 
   assert.ok(cases === dates.length * locations.length, "Not all date/location cases ran");
-  assert.ok(totalSourceGaps > 0, "No exact 60-second source gaps were found in the selected real Panchang cases");
+  assert.ok(totalSourceGaps > 0, "No exact 60-second source gaps were found in the selected real Panchang cases");\n  assert.ok(totalSunSegments >= cases, "Real Sun segments were not supplied for every date/location case");
 });
