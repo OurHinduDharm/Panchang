@@ -2061,21 +2061,6 @@ function getSpecialKaalDetails(
     nishitaKaal
   };
 }
- /* =========================================================
-    SPECIAL YOGA HELPERS
-    ========================================================= */
-
-function getNakshatraIndexFromLongitude(longitude){
-  if(typeof longitude !== "number") return null;
-
-  const normalized =
-    ((longitude % 360) + 360) % 360;
-
-  return Math.floor(
-    normalized / (360 / 27)
-  );
-}
-
 function getPraharDetails(
   p,
   nextSunriseTime,
