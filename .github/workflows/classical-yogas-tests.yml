@@ -6,6 +6,8 @@ on:
     paths:
       - "classical-yogas.js"
       - "tests/classical-yogas-intervals.test.js"
+      - "tests/classical-yogas-real-panchang-comparison.test.js"
+      - ".github/workflows/classical-yogas-tests.yml"
   workflow_dispatch:
 
 permissions:
@@ -21,5 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run interval regression tests
-        run: node --test tests/classical-yogas-intervals.test.js
+      - name: Install pinned Panchang calculation library
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Run interval and real Panchang comparison tests
+        run: node --test tests/classical-yogas-intervals.test.js tests/classical-yogas-real-panchang-comparison.test.js
