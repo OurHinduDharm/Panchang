@@ -50,10 +50,43 @@ function ohdValidDate(value){
   return Number.isFinite(d.getTime()) ? d : null;
 }
 
+
 function ohdWeekday(selectedDate){
+  if(selectedDate == null) return null;
+
+  /*
+   * Date-only ISO string को local date मानें।
+   * उदाहरण: "2026-10-09"
+   * इससे UTC parsing के कारण वार बदलने का जोखिम नहीं रहेगा।
+   */
+  if(typeof selectedDate === "string"){
+    const match = selectedDate.trim().match(
+      /^(\d{4})-(\d{2})-(\d{2})$/
+    );
+
+    if(match){
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+      const day = Number(match[3]);
+
+      const d = new Date(year, month - 1, day);
+
+      if(
+        d.getFullYear() !== year ||
+        d.getMonth() !== month - 1 ||
+        d.getDate() !== day
+      ){
+        return null;
+      }
+
+      return d.getDay();
+    }
+  }
+
   const d = ohdValidDate(selectedDate);
   return d ? d.getDay() : null;
 }
+
 
 function ohdTithiOrdinal(index){
   if(typeof index !== "number" || index < 0) return null;
@@ -96,10 +129,10 @@ function ohdMergeIntervals(intervals){
   for(const item of valid){
     const last = merged[merged.length - 1];
 
-    if(
-      last &&
-      item.start.getTime() <= last.end.getTime() + 60000
-    ){
+if(
+  last &&
+  item.start.getTime() <= last.end.getTime()
+){
       if(item.end > last.end){
         last.end = item.end;
       }
@@ -406,14 +439,14 @@ const OHN_ANANDADI_NAKSHATRAS = [
   21,22,23,24,25,26
 ];
 
-const OHN_ANANDADI_STARTS = {
+ const OHN_ANANDADI_STARTS = {
   0:0,   // रविवार — अश्विनी
   1:4,   // सोमवार — मृगशीर्ष
   2:8,   // मंगलवार — आश्लेषा
   3:12,  // बुधवार — हस्त
   4:16,  // गुरुवार — अनुराधा
   5:20,  // शुक्रवार — उत्तराषाढ़ा
-  6:23   // शनिवार — शतभिषा
+  6:24   // शनिवार — शतभिषा
 };
 
 function ohdAnandadiPositionFromNakshatraIndex(nakshatraIndex){
