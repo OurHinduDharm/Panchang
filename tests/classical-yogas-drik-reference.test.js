@@ -12,6 +12,18 @@ const sandbox = {
 };
 vm.runInNewContext(source, sandbox, { filename: "classical-yogas.js" });
 const engine = sandbox.window.OHDPanchangClassicalYogas;
+const zeroCorrectionSandbox = {
+  window: {},
+  console: { info() {}, warn() {}, error() {} },
+  Date, Array, Number, Math, Object, String
+};
+const zeroCorrectionSource = source.replace(
+  "const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0.0054;",
+  "const OHN_SUN_NAKSHATRA_BOUNDARY_CORRECTION = 0;"
+);
+if (zeroCorrectionSource === source) throw new Error("Could not isolate zero-correction diagnostic");
+vm.runInNewContext(zeroCorrectionSource, zeroCorrectionSandbox, { filename: "classical-yogas-zero-correction.js" });
+const zeroCorrectionEngine = zeroCorrectionSandbox.window.OHDPanchangClassicalYogas;
 const observer = new Observer(29.5828, 80.2182, 1650);
 
 function atISTNoon(date) {
@@ -27,11 +39,11 @@ function localIST(value) {
   return new Date(value + "+05:30").getTime();
 }
 
-function getDetails(date) {
+function getDetails(date, engineToUse = engine) {
   const next = nextDate(date);
   const p = getPanchangam(atISTNoon(date), observer, { timezoneOffset: 330 });
   const nextP = getPanchangam(atISTNoon(next), observer, { timezoneOffset: 330 });
-  const sunSegments = engine.buildSunNakshatraSegments(
+  const sunSegments = engineToUse.buildSunNakshatraSegments(
     p.sunrise,
     nextP.sunrise,
     instant => {
@@ -40,7 +52,7 @@ function getDetails(date) {
       return Number.isFinite(longitude) ? longitude : null;
     }
   );
-  return engine.getClassicalYogas(p, {
+  return engineToUse.getClassicalYogas(p, {
     selectedDate: date,
     nextSunrise: nextP.sunrise,
     sunSegments
@@ -78,6 +90,7 @@ const references = [
 ];
 
 test("Pithoragarh special-yoga intervals match supplied Drik references", () => {
+  let scoreCacheZero;
   const byDate = new Map();
   for (const [, date] of references) {
     if (!byDate.has(date)) byDate.set(date, getDetails(date));
@@ -123,11 +136,36 @@ test("Pithoragarh special-yoga intervals match supplied Drik references", () => 
     }
   }
 
+  const raviReferences = references.filter(item => item[0] === "रवि योग");
+  let correctedScoreMs = 0;
+  let zeroCorrectionScoreMs = 0;
+  for (const [name, date, expectedStartText, expectedEndText] of raviReferences) {
+    const expectedStart = localIST(expectedStartText);
+    const expectedEnd = localIST(expectedEndText);
+    const score = details => {
+      const intervals = (details.yogas || []).find(item => item.name === name)?.intervals || [];
+      if (!intervals.length) return 1e12;
+      return Math.min(...intervals.map(interval =>
+        Math.abs(new Date(interval.start).getTime() - expectedStart) +
+        Math.abs(new Date(interval.end).getTime() - expectedEnd)
+      ));
+    };
+    correctedScoreMs += score(byDate.get(date));
+    scoreCacheZero ??= new Map();
+    if (!scoreCacheZero.has(date)) scoreCacheZero.set(date, getDetails(date, zeroCorrectionEngine));
+    zeroCorrectionScoreMs += score(scoreCacheZero.get(date));
+  }
+
   console.log("DRIK_REFERENCE_COMPARISON " + JSON.stringify({
     location: "Pithoragarh",
     toleranceMinutes: 4,
     referenceCount: references.length,
     failures
+  }));
+  console.log("SUN_BOUNDARY_CORRECTION_DIAGNOSTIC " + JSON.stringify({
+    raviReferenceCount: raviReferences.length,
+    totalEndpointErrorMinutesWithLegacyCorrection: Number((correctedScoreMs / 60000).toFixed(3)),
+    totalEndpointErrorMinutesWithZeroCorrection: Number((zeroCorrectionScoreMs / 60000).toFixed(3))
   }));
   assert.deepEqual(failures, [], "Some classical-yoga intervals differ from the supplied reference data");
 });
