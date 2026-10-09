@@ -1650,6 +1650,11 @@ function getClassicalYogaDetails(selectedDate, location, observer) {
       sunSegments
     });
 
+    // If Sun-segment calculation itself failed, don't misreport Ravi Yoga
+    // as absent; Amrit/Sarvartha can still be reported from Moon intervals.
+    details.raviCalculationAvailable =
+      Array.isArray(sunSegments) && sunSegments.length > 0;
+
     if (details?.available) {
       classicalYogaCacheKey = cacheKey;
       classicalYogaCacheDetails = details;
@@ -1682,6 +1687,9 @@ function formatClassicalYogaDateTime(value) {
 
 function formatClassicalYogaIntervals(details, name) {
   if (!details?.available) return "गणना उपलब्ध नहीं";
+  if (name === "रवि योग" && details.raviCalculationAvailable === false) {
+    return "गणना उपलब्ध नहीं";
+  }
 
   const yoga = (details.yogas || []).find(item => item.name === name);
   if (!yoga) return "गणना उपलब्ध नहीं";
