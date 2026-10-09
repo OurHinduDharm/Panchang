@@ -5,6 +5,8 @@ on:
     branches:
       - "fix/classical-yoga-transition-gaps"
     paths:
+      - "app.js"
+      - "extra-panchang.js"
       - "classical-yogas.js"
       - "tests/classical-yogas-intervals.test.js"
       - "tests/classical-yogas-real-panchang-comparison.test.js"
@@ -12,6 +14,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
+      - "app.js"
+      - "extra-panchang.js"
       - "classical-yogas.js"
       - "tests/classical-yogas-intervals.test.js"
       - "tests/classical-yogas-real-panchang-comparison.test.js"
