@@ -290,6 +290,78 @@ function buildLegacySunSegments(observer, p, sunriseValue, nextSunriseValue) {
   return segments;
 }
 
+test("detect legacy Ravi Yoga cases where noon Sun index differs from sunrise", () => {
+  const observer = new Observer(29.5828, 80.2182, 1650);
+  let isoDate = "2026-01-01";
+  let sunriseNoonIndexDifferences = 0;
+  let transitionsBeforeNoon = 0;
+  let mismatch = null;
+
+  while (isoDate <= "2028-12-31" && !mismatch) {
+    const p = getPanchangam(dateAtISTNoon(isoDate), observer, { timezoneOffset: 330 });
+    const sunriseLongitude = sunLongitudeAt(p.sunrise, observer);
+    const noonLongitude = p?.planetaryPositions?.sun?.longitude;
+    if (sunriseLongitude === null || !Number.isFinite(noonLongitude)) {
+      isoDate = nextIsoDate(isoDate);
+      continue;
+    }
+
+    const sunriseIndex = Math.floor(sunriseLongitude / SUN_NAKSHATRA_SIZE);
+    const noonIndex = Math.floor((((noonLongitude % 360) + 360) % 360) / SUN_NAKSHATRA_SIZE);
+    if (sunriseIndex === noonIndex) {
+      isoDate = nextIsoDate(isoDate);
+      continue;
+    }
+    sunriseNoonIndexDifferences++;
+
+    const nextDate = nextIsoDate(isoDate);
+    const nextP = getPanchangam(dateAtISTNoon(nextDate), observer, { timezoneOffset: 330 });
+    const transition = findSunNakshatraTransition(observer, p.sunrise, nextP.sunrise);
+    const noon = dateAtISTNoon(isoDate);
+    if (!transition || transition.getTime() >= noon.getTime()) {
+      isoDate = nextDate;
+      continue;
+    }
+    transitionsBeforeNoon++;
+
+    const correctedSegments = buildSunSegments(observer, p.sunrise, nextP.sunrise);
+    const legacySegments = buildLegacySunSegments(observer, p, p.sunrise, nextP.sunrise);
+    const args = { selectedDate: isoDate, nextSunrise: nextP.sunrise };
+    const corrected = serialize(patchedEngine.getClassicalYogas(p, {
+      ...args, sunSegments: correctedSegments
+    })).yogas.find(y => y.name === "रवि योग");
+    const legacy = serialize(patchedEngine.getClassicalYogas(p, {
+      ...args, sunSegments: legacySegments
+    })).yogas.find(y => y.name === "रवि योग");
+
+    const correctedIntervals = intervalTimes(corrected?.intervals);
+    const legacyIntervals = intervalTimes(legacy?.intervals);
+    if (JSON.stringify(correctedIntervals) !== JSON.stringify(legacyIntervals)) {
+      mismatch = {
+        date: isoDate,
+        sunrise: new Date(p.sunrise).toISOString(),
+        noon: noon.toISOString(),
+        sunTransition: transition.toISOString(),
+        sunriseSunNakshatraIndex: sunriseIndex,
+        noonSunNakshatraIndex: noonIndex,
+        correctedRaviIntervals: correctedIntervals,
+        legacyNoonBasedRaviIntervals: legacyIntervals
+      };
+    }
+    isoDate = nextDate;
+  }
+
+  console.log("LEGACY_RAVI_NOON_DIAGNOSTIC " + JSON.stringify({
+    searchedThrough: isoDate,
+    sunriseNoonIndexDifferences,
+    transitionsBeforeNoon,
+    mismatch
+  }));
+
+  assert.ok(transitionsBeforeNoon > 0, "No real Sun nakshatra transition before noon was found in the 2026-2028 scan");
+  assert.ok(mismatch, "No Ravi Yoga output difference was found when using noon-based vs sunrise-based Sun segments");
+});
+
 test("real Panchang comparison: baseline vs 60-second-gap patch across dates and locations", () => {
   const report = [];
   let cases = 0;
