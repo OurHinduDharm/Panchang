@@ -33,5 +33,10 @@ jobs:
           node-version: 20
       - name: Install pinned Panchang calculation library
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Syntax-check browser JavaScript
+        run: |
+          node --input-type=module --check < app.js
+          node --input-type=module --check < extra-panchang.js
+          node --check classical-yogas.js
       - name: Run interval and real Panchang comparison tests
         run: node --test tests/classical-yogas-intervals.test.js tests/classical-yogas-real-panchang-comparison.test.js
