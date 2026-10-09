@@ -355,9 +355,17 @@
 
     <p class="small">
       This section uses Swiss Ephemeris heliacal visibility calculation.
-      Reference dates are comparison targets only; they are not supplied
-      as the calculated answer.
+      The API searches forward from the supplied start date and returns
+      the next heliacal phenomenon; it does not target the reference date.
+      These visibility events are distinct from classical astrological
+      Asta/Udaya dates based on a prescribed angular threshold.
     </p>
+    <div class="status warn">
+      <strong>Event semantics:</strong> 1 = Morning First (प्रातः पहली दृश्यता);
+      2 = Evening Last (सायंकाल अंतिम दृश्यता). The search begins 50 days
+      before the reference date. The returned beginning/optimum/end times
+      describe the visibility window, not three different Asta/Udaya dates.
+    </div>
 
     <div id="heliacalOutput">
       <div class="status info">Not run yet.</div>
@@ -1466,7 +1474,13 @@ async function calculateSwissHeliacal(ref) {
     optimum,
     end,
     raw,
-    decoded
+    decoded,
+    searchStartDate: startDate,
+    eventType,
+    eventTypeLabel: eventType === 1
+      ? "Morning First — प्रातः पहली दृश्यता"
+      : "Evening Last — सायंकाल अंतिम दृश्यता",
+    daysFromSearchStart: (eventDate.getTime() - startDate.getTime()) / 86400000
   };
 }
 
@@ -1532,17 +1546,42 @@ async function runHeliacalValidation() {
           ? (eventMs - referenceDate.getTime()) / 86400000
           : null;
 
+      const visibilityPoints = [
+        { label: "Beginning of visibility", date: result.eventDate },
+        { label: "Optimum visibility", date: result.optimum },
+        { label: "End of visibility", date: result.end }
+      ].map(point => {
+        if (!(point.date instanceof Date) || Number.isNaN(point.date.getTime())) {
+          return { label: point.label, local: null, planetAlt: null, sunAlt: null, planetAz: null, sunAz: null, elongation: null };
+        }
+        const planetHorizontal = getHorizontal(BODY_NAMES[ref.planet], point.date);
+        const sunHorizontal = getSunHorizontal(point.date);
+        return {
+          label: point.label,
+          local: formatLocalFromUTCDate(point.date),
+          planetAlt: planetHorizontal.altitude,
+          planetAz: planetHorizontal.azimuth,
+          sunAlt: sunHorizontal.altitude,
+          sunAz: sunHorizontal.azimuth,
+          elongation: getElongation(BODY_NAMES[ref.planet], point.date)
+        };
+      });
+
       const row = {
         planet: ref.planet,
         event: ref.event,
         referenceDate: ref.date,
         eventType,
+        eventTypeLabel: result.eventTypeLabel,
+        searchStart: result.searchStartDate?.toISOString?.() || null,
+        daysFromSearchStart: result.daysFromSearchStart,
         swissStart:
           result.eventDate?.toISOString?.() || null,
         swissOptimum:
           result.optimum?.toISOString?.() || null,
         swissEnd:
           result.end?.toISOString?.() || null,
+        visibilityPoints,
         deltaDays
       };
 
@@ -1568,15 +1607,29 @@ async function runHeliacalValidation() {
           <span>1 = Morning First, 2 = Evening Last</span>
         </div>
         ${results.map(row => `
-          <div class="metric">
-            <strong>${row.planet} — ${row.event}</strong>
-            <span>
-              Reference: ${row.referenceDate}<br>
-              Swiss start: ${row.swissStart || "—"}<br>
-              Swiss optimum: ${row.swissOptimum || "—"}<br>
-              Swiss end: ${row.swissEnd || "—"}<br>
-              Difference: ${row.deltaDays === null ? "—" : row.deltaDays.toFixed(3) + " days"}
-            </span>
+          <div class="card">
+            <h3>${row.planet} — ${row.event}</h3>
+            <div class="metric">
+              <strong>Swiss heliacal event definition</strong>
+              <span>${row.eventTypeLabel || (row.eventType === 1 ? "Morning First — प्रातः पहली दृश्यता" : "Evening Last — सायंकाल अंतिम दृश्यता")}<br>
+              Search start (UTC): ${row.searchStart || "—"}<br>
+              Search start से visibility शुरू होने तक: ${Number.isFinite(row.daysFromSearchStart) ? row.daysFromSearchStart.toFixed(3) + " days" : "—"}<br>
+              Reference date: ${row.referenceDate}<br>
+              Beginning of visibility (UTC): ${row.swissStart || "—"}<br>
+              Optimum visibility (UTC): ${row.swissOptimum || "—"}<br>
+              End of visibility (UTC): ${row.swissEnd || "—"}<br>
+              Reference-date delta: ${row.deltaDays === null ? "—" : (row.deltaDays >= 0 ? "+" : "") + row.deltaDays.toFixed(3) + " days"}<br>
+              <span class="small">Delta is measured from reference-date 00:00 UTC, not from a known reference event instant.</span>
+              </span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Visibility point</th><th>Local time</th><th>Planet altitude</th><th>Sun altitude</th><th>Planet azimuth</th><th>Sun azimuth</th><th>Elongation</th></tr></thead>
+                <tbody>
+                  ${row.visibilityPoints.map(point => "<tr><td>" + point.label + "</td><td>" + (point.local || "—") + "</td><td>" + (Number.isFinite(point.planetAlt) ? round(point.planetAlt, 3) + "°" : "—") + "</td><td>" + (Number.isFinite(point.sunAlt) ? round(point.sunAlt, 3) + "°" : "—") + "</td><td>" + (Number.isFinite(point.planetAz) ? round(point.planetAz, 3) + "°" : "—") + "</td><td>" + (Number.isFinite(point.sunAz) ? round(point.sunAz, 3) + "°" : "—") + "</td><td>" + (Number.isFinite(point.elongation) ? round(point.elongation, 3) + "°" : "—") + "</td></tr>").join("")}
+                </tbody>
+              </table>
+            </div>
           </div>
         `).join("")}
       </div>
