@@ -644,47 +644,27 @@ function getClassicalYogas(
     )
   );
 
-  /* शुभ — द्विपुष्कर */
-  yogas.push(
-    ohdResult(
-      "द्विपुष्कर योग",
-      "शुभ",
-      ohdTithiIntervals(
-        p,
-        weekday,
-        (_, ordinal) => {
-          if(!OHN_PUSKAR_WEEKDAYS.includes(weekday)) return false;
-          if(!OHN_PUSKAR_TITHIS.includes(ordinal)) return false;
+  
+  /* शुभ — द्विपुष्कर एवं त्रिपुष्कर */
 
-          return ohdGetMoonNakshatras(p).some(
-            n =>
-              n &&
-              typeof n.index === "number" &&
-              OHN_DVIPUSHKAR_NAKSHATRAS.includes(n.index)
-          );
-        },
-        sunrise,
-        nextRise
-      )
-    )
-  );
-
-  /*
-   * पुष्कर योग वास्तव में तिथि और नक्षत्र दोनों के
-   * overlap पर बनता है। इसलिए ऊपर केवल tithi interval
-   * पर्याप्त नहीं; इसे वास्तविक overlap से पुनर्गणित करें।
-   */
-  const buildPushkar = (allowedNakshatras, name) => {
-    if(!OHN_PUSKAR_WEEKDAYS.includes(weekday)) return [];
+  const buildPushkar = (allowedNakshatras) => {
+    if(!OHN_PUSKAR_WEEKDAYS.includes(weekday)){
+      return [];
+    }
 
     const result = [];
 
     for(const tithi of ohdGetTithis(p)){
+      if(typeof tithi.index !== "number") continue;
+
       const t = ohdInterval(tithi);
       if(!t) continue;
 
       const ordinal = ohdTithiOrdinal(tithi.index);
-      if(!OHN_PUSKAR_TITHIS.includes(ordinal)) continue;
+
+      if(!OHN_PUSKAR_TITHIS.includes(ordinal)){
+        continue;
+      }
 
       for(const nak of ohdGetMoonNakshatras(p)){
         if(
@@ -711,7 +691,7 @@ function getClassicalYogas(
         ));
 
         if(end > start){
-          result.push({start,end});
+          result.push({start, end});
         }
       }
     }
@@ -719,21 +699,23 @@ function getClassicalYogas(
     return ohdMergeIntervals(result);
   };
 
-  /* Replace the preliminary tithi-only result with true overlap. */
-  yogas[yogas.length - 1] = ohdResult(
-    "द्विपुष्कर योग",
-    "शुभ",
-    buildPushkar(OHN_DVIPUSHKAR_NAKSHATRAS, "द्विपुष्कर")
+  yogas.push(
+    ohdResult(
+      "द्विपुष्कर योग",
+      "शुभ",
+      buildPushkar(OHN_DVIPUSHKAR_NAKSHATRAS)
+    )
   );
 
   yogas.push(
     ohdResult(
       "त्रिपुष्कर योग",
       "शुभ",
-      buildPushkar(OHN_TRIPUSHKAR_NAKSHATRAS, "त्रिपुष्कर")
+      buildPushkar(OHN_TRIPUSHKAR_NAKSHATRAS)
     )
   );
 
+  
   /* अशुभ — तिथि/वार */
   yogas.push(
     ohdResult(
