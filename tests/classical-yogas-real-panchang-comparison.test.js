@@ -88,7 +88,27 @@ function legacyYogaIntervals(p, allowedIndexes, sunriseValue, nextSunriseValue) 
   const nextSunrise = new Date(nextSunriseValue).getTime();
   const intervals = [];
 
-  for (const nak of (Array.isArray(p.nakshatras) ? p.nakshatras : [])) {
+  // Apply only the known 60-second scanner-gap correction before mirroring
+  // the legacy table/clamp/merge rules; otherwise this test would demand
+  // the very one-minute omission that the patch is intended to correct.
+  const nakshatras = (Array.isArray(p.nakshatras) ? p.nakshatras : [])
+    .map(item => item ? { ...item } : item);
+  for (let i = 1; i < nakshatras.length; i++) {
+    const previous = nakshatras[i - 1];
+    const current = nakshatras[i];
+    if (!previous || !current) continue;
+    const previousEnd = new Date(previous.endTime ?? previous.end).getTime();
+    const currentStart = new Date(current.startTime ?? current.start).getTime();
+    if (Number.isFinite(previousEnd) && currentStart - previousEnd === 60000) {
+      if ("startTime" in current || !("start" in current)) {
+        current.startTime = new Date(previousEnd);
+      } else {
+        current.start = new Date(previousEnd);
+      }
+    }
+  }
+
+  for (const nak of nakshatras) {
     if (!nak || typeof nak.index !== "number" || !allowedIndexes.includes(nak.index)) continue;
     const rawStart = new Date(nak.startTime).getTime();
     const rawEnd = new Date(nak.endTime).getTime();
