@@ -3,7 +3,7 @@ name: Classical yoga interval tests
 on:
   push:
     branches:
-      - "fix/classical-yoga-transition-gaps"
+      - "fix/classical-yogas-extra-panchang"
     paths:
       - "app.js"
       - "extra-panchang.js"
