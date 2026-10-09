@@ -266,6 +266,30 @@ function buildSunSegments(observer, sunriseValue, nextSunriseValue) {
   ];
 }
 
+function buildLegacySunSegments(observer, p, sunriseValue, nextSunriseValue) {
+  const sunrise = new Date(sunriseValue);
+  const nextSunrise = new Date(nextSunriseValue);
+  const noonLongitude = p?.planetaryPositions?.sun?.longitude;
+  const noonIndex = typeof noonLongitude === "number" && Number.isFinite(noonLongitude)
+    ? Math.floor((((noonLongitude % 360) + 360) % 360) / SUN_NAKSHATRA_SIZE)
+    : null;
+  const transition = findSunNakshatraTransition(observer, sunrise, nextSunrise);
+
+  if (!transition) {
+    return noonIndex === null ? [] : [{ start: sunrise, end: nextSunrise, sunIndex: noonIndex }];
+  }
+
+  const transitionLongitude = sunLongitudeAt(transition, observer);
+  const transitionIndex = transitionLongitude === null
+    ? null
+    : Math.floor(transitionLongitude / SUN_NAKSHATRA_SIZE);
+  const segments = [{ start: sunrise, end: transition, sunIndex: noonIndex }];
+  if (transitionIndex !== null) {
+    segments.push({ start: transition, end: nextSunrise, sunIndex: transitionIndex });
+  }
+  return segments;
+}
+
 test("real Panchang comparison: baseline vs 60-second-gap patch across dates and locations", () => {
   const report = [];
   let cases = 0;
@@ -275,6 +299,8 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
   let totalSunSegments = 0;
   let casesWithSunTransition = 0;
   let casesWithRaviIntervals = 0;
+  let legacySunNoonSegmentMismatches = 0;
+  let sunTransitionsBeforeNoon = 0;
 
   for (const location of locations) {
     const observer = new Observer(location.lat, location.lon, location.elevation);
@@ -294,7 +320,12 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
       const sunSegments = buildSunSegments(observer, p.sunrise, nextP.sunrise);
       assert.ok(sunSegments.length > 0, location.name + " " + isoDate + ": real Sun segments missing");
       totalSunSegments += sunSegments.length;
-      if (sunSegments.length > 1) casesWithSunTransition++;
+      if (sunSegments.length > 1) {
+        casesWithSunTransition++;
+        if (new Date(sunSegments[1].start).getTime() < new Date(isoDate + "T12:00:00+05:30").getTime()) {
+          sunTransitionsBeforeNoon++;
+        }
+      }
       const args = { selectedDate: isoDate, nextSunrise: nextP.sunrise, sunSegments };
       const before = serialize(baselineEngine.getClassicalYogas(p, args));
       const after = serialize(patchedEngine.getClassicalYogas(p, args));
@@ -331,6 +362,21 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
       const ravi = after.yogas.find(y => y.name === "रवि योग");
       if ((ravi?.intervals || []).length > 0) casesWithRaviIntervals++;
 
+      // Diagnostic only: reproduce the legacy app.js choice of the Sun's
+      // first segment index from p.planetaryPositions.sun.longitude (noon).
+      // The corrected engine receives the same Moon data in both calls, so
+      // any difference here isolates the Sun-segment convention.
+      const legacySunSegments = buildLegacySunSegments(observer, p, p.sunrise, nextP.sunrise);
+      const legacySunResult = serialize(patchedEngine.getClassicalYogas(p, {
+        selectedDate: isoDate,
+        nextSunrise: nextP.sunrise,
+        sunSegments: legacySunSegments
+      }));
+      const legacyRavi = legacySunResult.yogas.find(y => y.name === "रवि योग");
+      if (JSON.stringify(intervalTimes(legacyRavi?.intervals)) !== JSON.stringify(intervalTimes(ravi?.intervals))) {
+        legacySunNoonSegmentMismatches++;
+      }
+
       const summary = [];
       const standard = compareGroup(location.name + " " + isoDate, before.yogas, after.yogas, summary);
       const anandadi = compareGroup(location.name + " " + isoDate + " Anandadi", before.anandadi, after.anandadi, summary);
@@ -349,6 +395,8 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
     realSunSegments: totalSunSegments,
     casesWithSunTransition,
     casesWithRaviIntervals,
+    sunTransitionsBeforeNoon,
+    legacySunNoonSegmentMismatches,
     changedYogaOutputs: changedYogaCount,
     totalAddedMinutesAcrossYogaOutputs: Number((totalAddedMs / 60000).toFixed(3)),
     changes: report
