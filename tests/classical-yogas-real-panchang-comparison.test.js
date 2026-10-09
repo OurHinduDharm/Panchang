@@ -267,4 +267,5 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
   assert.ok(cases === dates.length * locations.length, "Not all date/location cases ran");
   assert.ok(totalSourceGaps > 0, "No exact 60-second source gaps were found in the selected real Panchang cases");
   assert.ok(totalSunSegments >= cases, "Real Sun segments were not supplied for every date/location case");
+  assert.ok(casesWithRaviIntervals > 0, "Ravi Yoga was not exercised by any selected real date/location case");
 });
