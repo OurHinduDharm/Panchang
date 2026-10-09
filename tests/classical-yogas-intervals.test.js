@@ -116,3 +116,17 @@ test("supports start/end property names and handles non-arrays", () => {
   assert.equal(result[1].end.getTime(), base + 90000);
   assert.equal(normalize(null).length, 0);
 });
+
+test("special yoga calculation is owned by Extra Panchang, not app.js", () => {
+  const appSource = fs.readFileSync("app.js", "utf8");
+  const extraSource = fs.readFileSync("extra-panchang.js", "utf8");
+
+  assert.doesNotMatch(
+    appSource,
+    /getSpecialYogaDetails|getSunNakshatraTransition|getRaviYogaDistance|विशेष शुभ योग/,
+    "legacy special-yoga calculation/rendering must stay out of app.js"
+  );
+  assert.match(extraSource, /engine\.getClassicalYogas/);
+  assert.match(extraSource, /engine\.buildSunNakshatraSegments/);
+  assert.match(extraSource, /classicalYogasCard/);
+});
