@@ -222,6 +222,7 @@
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
+    <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
   </div>
 
@@ -400,7 +401,18 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- 9. SHASTRIYA LAGNANTARA-ASU -->
+  <!-- 9. LOCAL HORIZON AT CLASSICAL THRESHOLD -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>9. Local Horizon at Classical Threshold</h2>
+    <p>This diagnostic evaluates local altitude and azimuth at each calculated classical threshold crossing. It does not claim naked-eye visibility or replace heliacal visibility calculations.</p>
+    <div class="status warn"><strong>Interpretation:</strong> Altitude above 0° means geometrically above the ideal horizon only. Atmospheric extinction, terrain, haze, and twilight can still prevent visibility.</div>
+    <div id="localHorizonOutput"><div class="status info">Not run yet.</div></div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- 10. SHASTRIYA LAGNANTARA-ASU -->
   <!-- ========================================================= -->
 
   <section>
@@ -562,6 +574,9 @@ const scanOutput =
 
 const classicalOutput =
   document.getElementById("classicalOutput");
+
+const localHorizonOutput =
+  document.getElementById("localHorizonOutput");
 
 const lagnantaraOutput =
   document.getElementById("lagnantaraOutput");
@@ -3232,6 +3247,46 @@ async function runClassicalAstaUdayaTest() {
   setStatus("Classical Asta/Udaya threshold test completed.","ok");
 }
 
+function localHorizonCard(ref, label, result) {
+  if (!result) return "<div class=\"metric\"><strong>"+label+"</strong><span>No matching threshold crossing found.</span></div>";
+  const planet = getHorizontal(BODY_NAMES[ref.planet], result.root);
+  const sun = getSunHorizontal(result.root);
+  const elongation = getElongation(BODY_NAMES[ref.planet], result.root);
+  const arcv = planet.altitude - sun.altitude;
+  const horizonState = planet.altitude > 0 ? "Above ideal horizon" : "Below ideal horizon";
+  return "<div class=\"metric\"><strong>"+label+"</strong><span>" +
+    "Crossing: " + formatLocalFromUTCDate(result.root) +
+    "<br>Planet altitude: " + round(planet.altitude, 3) + "°" +
+    "<br>Sun altitude: " + round(sun.altitude, 3) + "°" +
+    "<br>Planet azimuth: " + round(planet.azimuth, 3) + "°" +
+    "<br>Sun azimuth: " + round(sun.azimuth, 3) + "°" +
+    "<br>True elongation: " + round(elongation, 3) + "°" +
+    "<br>Altitude difference (ARCV approx.): " + round(arcv, 3) + "°" +
+    "<br>Horizon geometry: " + horizonState +
+    "</span></div>";
+}
+
+async function runLocalHorizonAtThreshold() {
+  localHorizonOutput.innerHTML = "<div class=\"status info\">Calculating threshold crossings and local horizon geometry...</div>";
+  try {
+    let html = "<div class=\"status info\">Observer: " + CONFIG.latitude + "°, " + CONFIG.longitude + "°; elevation " + CONFIG.elevation + " m. Times are shown in " + CONFIG.timezone + ".</div>";
+    for (const ref of REFERENCES) {
+      const e = findClassicalCrossing(ref, false);
+      const t = findClassicalCrossing(ref, true);
+      html += "<div class=\"card\"><h3>" + ref.planet + " — " + ref.event + "</h3><div class=\"small\">External reference date: " + ref.date + "</div><div class=\"grid\">";
+      html += localHorizonCard(ref, "Ecliptic-longitude threshold", e);
+      html += localHorizonCard(ref, "True 3-D angular threshold", t);
+      html += "</div></div>";
+    }
+    html += "<div class=\"status warn\">This is geometric context at the threshold crossing, not a final visibility verdict. A positive altitude alone does not prove that a planet is visually observable.</div>";
+    localHorizonOutput.innerHTML = html;
+    setStatus("Local horizon geometry at classical thresholds completed.", "ok");
+  } catch (error) {
+    localHorizonOutput.innerHTML = "<div class=\"status error\">Diagnostic failed: " + String(error?.message || error) + "</div>";
+    setStatus("Local horizon diagnostic failed.", "error");
+  }
+}
+
 /* =============================================================
    SECTION 7
    REFERENCE WINDOW SCAN
@@ -3692,6 +3747,13 @@ document
   .addEventListener(
     "click",
     runClassicalAstaUdayaTest
+  );
+
+document
+  .getElementById("runLocalHorizonBtn")
+  .addEventListener(
+    "click",
+    runLocalHorizonAtThreshold
   );
 
 document
