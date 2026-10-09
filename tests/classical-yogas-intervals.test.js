@@ -113,5 +113,5 @@ test("supports start/end property names and handles non-arrays", () => {
 
   assert.equal(result[1].start.getTime(), base + 1000);
   assert.equal(result[1].end.getTime(), base + 90000);
-  assert.deepEqual(normalize(null), []);
+  assert.equal(normalize(null).length, 0);
 });
