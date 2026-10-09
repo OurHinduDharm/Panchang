@@ -15,8 +15,9 @@
  *
  * Important:
  *   This module is intentionally independent from app.js.
- *   Existing app.js logic is NOT removed until this module is
- *   independently validated against the existing output.
+ *   The legacy special-yoga calculation/display now lives in Extra Panchang.
+ *   Regression coverage includes real library outputs and supplied Drik
+ *   reference intervals; see the tests directory for scope and tolerances.
  */
 
 const OHN_CLASSICAL_NAKSHATRAS = [
