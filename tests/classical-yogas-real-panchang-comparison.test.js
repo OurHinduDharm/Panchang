@@ -67,6 +67,57 @@ function serialize(result) {
   };
 }
 
+// Reproduce the legacy app.js weekday/nakshatra tables and interval builder
+// for Amrit Siddhi and Sarvartha Siddhi, so the new module is checked against
+// the actual old rules—not only against an unpatched copy of itself.
+const LEGACY_AMRIT_TABLE = {
+  0:[12], 1:[4], 2:[0], 3:[16], 4:[7], 5:[26], 6:[3]
+};
+const LEGACY_SARVARTHA_TABLE = {
+  0:[0,7,11,12,18,20,25],
+  1:[3,4,7,16,21],
+  2:[0,2,8,25],
+  3:[2,3,4,12,16],
+  4:[0,6,7,16,26],
+  5:[0,6,16,21,26],
+  6:[3,14,21]
+};
+
+function legacyYogaIntervals(p, allowedIndexes, sunriseValue, nextSunriseValue) {
+  const sunrise = new Date(sunriseValue).getTime();
+  const nextSunrise = new Date(nextSunriseValue).getTime();
+  const intervals = [];
+
+  for (const nak of (Array.isArray(p.nakshatras) ? p.nakshatras : [])) {
+    if (!nak || typeof nak.index !== "number" || !allowedIndexes.includes(nak.index)) continue;
+    const rawStart = new Date(nak.startTime).getTime();
+    const rawEnd = new Date(nak.endTime).getTime();
+    if (!Number.isFinite(rawStart) || !Number.isFinite(rawEnd)) continue;
+    const start = Math.max(rawStart, sunrise);
+    const end = Math.min(rawEnd, nextSunrise);
+    if (end > start) intervals.push({ start: new Date(start), end: new Date(end) });
+  }
+
+  intervals.sort((a,b) => a.start.getTime() - b.start.getTime());
+  const merged = [];
+  for (const item of intervals) {
+    const last = merged[merged.length - 1];
+    if (last && item.start.getTime() <= last.end.getTime() + 60000) {
+      if (item.end > last.end) last.end = item.end;
+    } else {
+      merged.push({ start: new Date(item.start), end: new Date(item.end) });
+    }
+  }
+  return merged.map(i => ({ start: i.start.getTime(), end: i.end.getTime() }));
+}
+
+function intervalTimes(intervals) {
+  return (intervals || []).map(i => ({
+    start: new Date(i.start).getTime(),
+    end: new Date(i.end).getTime()
+  }));
+}
+
 function duration(intervals) {
   return intervals.reduce((sum, item) => sum + item.end - item.start, 0);
 }
@@ -237,6 +288,19 @@ test("real Panchang comparison: baseline vs 60-second-gap patch across dates and
             assert.ok(interval.end > interval.start, location.name + " " + isoDate + " / " + yoga.name + ": invalid interval");
           }
         }
+      }
+
+      const weekday = new Date(isoDate + "T00:00:00").getDay();
+      for (const check of [
+        ["अमृत सिद्धि योग", LEGACY_AMRIT_TABLE[weekday] || []],
+        ["सर्वार्थ सिद्धि योग", LEGACY_SARVARTHA_TABLE[weekday] || []]
+      ]) {
+        const current = after.yogas.find(y => y.name === check[0]);
+        assert.deepEqual(
+          intervalTimes(current?.intervals),
+          legacyYogaIntervals(p, check[1], p.sunrise, nextP.sunrise),
+          location.name + " " + isoDate + " / " + check[0] + ": new module differs from legacy app.js rules"
+        );
       }
 
       const ravi = after.yogas.find(y => y.name === "रवि योग");
