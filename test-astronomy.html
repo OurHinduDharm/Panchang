@@ -3247,15 +3247,54 @@ async function runClassicalAstaUdayaTest() {
   setStatus("Classical Asta/Udaya threshold test completed.","ok");
 }
 
+function findAllClassicalCrossings(ref, useTrue) {
+  const body = BODY_NAMES[ref.planet];
+  const center = new Date(ref.date + "T12:00:00Z");
+  const samples = [];
+  for (let minutes = -14400; minutes <= 14400; minutes += 60) {
+    const date = new Date(center.getTime() + minutes * 60000);
+    const g = getClassicalGeometry(body, date, ref.planet);
+    const residual = useTrue ? g.trueResidual : g.eclipticResidual;
+    if (Number.isFinite(residual)) samples.push({date, residual});
+  }
+
+  const candidates = [];
+  for (let i = 1; i < samples.length; i++) {
+    const p = samples[i - 1], q = samples[i];
+    if (!(p.residual === 0 || p.residual * q.residual <= 0)) continue;
+    const root = p.residual === 0
+      ? p.date
+      : bisectClassicalRoot(body, ref.planet, p.date, q.date, useTrue);
+    if (!root || candidates.some(c => Math.abs(c.root - root) < 60000)) continue;
+
+    const g = getClassicalGeometry(body, root, ref.planet);
+    const before = getClassicalGeometry(body, new Date(root.getTime() - 3600000), ref.planet);
+    const after = getClassicalGeometry(body, new Date(root.getTime() + 3600000), ref.planet);
+    const beforeSep = useTrue ? before.trueSeparation : before.eclipticSeparation;
+    const afterSep = useTrue ? after.trueSeparation : after.eclipticSeparation;
+    const increasing = afterSep > beforeSep;
+    const directionMatches = ref.event === "Asta" ? !increasing : increasing;
+    candidates.push({
+      root,
+      g,
+      directionMatches,
+      deltaDays: (root.getTime() - center.getTime()) / 86400000
+    });
+  }
+  return candidates.sort((a, b) => a.root - b.root);
+}
+
 function localHorizonCard(ref, label, result) {
-  if (!result) return "<div class=\"metric\"><strong>"+label+"</strong><span>No matching threshold crossing found.</span></div>";
+  const title = label + (result.directionMatches ? " — expected direction" : " — opposite direction");
   const planet = getHorizontal(BODY_NAMES[ref.planet], result.root);
   const sun = getSunHorizontal(result.root);
   const elongation = getElongation(BODY_NAMES[ref.planet], result.root);
   const arcv = planet.altitude - sun.altitude;
   const horizonState = planet.altitude > 0 ? "Above ideal horizon" : "Below ideal horizon";
-  return "<div class=\"metric\"><strong>"+label+"</strong><span>" +
+  return "<div class=\"metric\"><strong>"+title+"</strong><span>" +
     "Crossing: " + formatLocalFromUTCDate(result.root) +
+    "<br>Difference from reference date: " + (result.deltaDays >= 0 ? "+" : "") + round(result.deltaDays, 4) + " days" +
+    "<br>Threshold: " + round(result.g.threshold, 3) + "°" +
     "<br>Planet altitude: " + round(planet.altitude, 3) + "°" +
     "<br>Sun altitude: " + round(sun.altitude, 3) + "°" +
     "<br>Planet azimuth: " + round(planet.azimuth, 3) + "°" +
@@ -3267,20 +3306,21 @@ function localHorizonCard(ref, label, result) {
 }
 
 async function runLocalHorizonAtThreshold() {
-  localHorizonOutput.innerHTML = "<div class=\"status info\">Calculating threshold crossings and local horizon geometry...</div>";
+  localHorizonOutput.innerHTML = "<div class=\"status info\">Calculating all threshold crossings and local horizon geometry...</div>";
   try {
-    let html = "<div class=\"status info\">Observer: " + CONFIG.latitude + "°, " + CONFIG.longitude + "°; elevation " + CONFIG.elevation + " m. Times are shown in " + CONFIG.timezone + ".</div>";
+    let html = "<div class=\"status info\">Observer: " + CONFIG.latitude + "°, " + CONFIG.longitude + "°; elevation " + CONFIG.elevation + " m. Times are shown in " + CONFIG.timezone + ". All crossings within ±10 days are listed to avoid silently selecting a morning/evening branch.</div>";
     for (const ref of REFERENCES) {
-      const e = findClassicalCrossing(ref, false);
-      const t = findClassicalCrossing(ref, true);
-      html += "<div class=\"card\"><h3>" + ref.planet + " — " + ref.event + "</h3><div class=\"small\">External reference date: " + ref.date + "</div><div class=\"grid\">";
-      html += localHorizonCard(ref, "Ecliptic-longitude threshold", e);
-      html += localHorizonCard(ref, "True 3-D angular threshold", t);
+      const e = findAllClassicalCrossings(ref, false);
+      const t = findAllClassicalCrossings(ref, true);
+      html += "<div class=\"card\"><h3>" + ref.planet + " — " + ref.event + "</h3><div class=\"small\">External reference date: " + ref.date + "</div><h4>Ecliptic-longitude threshold</h4><div class=\"grid\">";
+      html += e.length ? e.map((r, i) => localHorizonCard(ref, "Candidate " + (i + 1), r)).join("") : "<div class=\"metric\">No crossings found.</div>";
+      html += "</div><h4>True 3-D angular threshold</h4><div class=\"grid\">";
+      html += t.length ? t.map((r, i) => localHorizonCard(ref, "Candidate " + (i + 1), r)).join("") : "<div class=\"metric\">No crossings found.</div>";
       html += "</div></div>";
     }
-    html += "<div class=\"status warn\">This is geometric context at the threshold crossing, not a final visibility verdict. A positive altitude alone does not prove that a planet is visually observable.</div>";
+    html += "<div class=\"status warn\">This reports geometric context for every threshold crossing, not a final visibility verdict. A positive altitude alone does not prove visual observability; the correct dawn/dusk apparition branch must be identified separately.</div>";
     localHorizonOutput.innerHTML = html;
-    setStatus("Local horizon geometry at classical thresholds completed.", "ok");
+    setStatus("All local horizon threshold candidates completed.", "ok");
   } catch (error) {
     localHorizonOutput.innerHTML = "<div class=\"status error\">Diagnostic failed: " + String(error?.message || error) + "</div>";
     setStatus("Local horizon diagnostic failed.", "error");
