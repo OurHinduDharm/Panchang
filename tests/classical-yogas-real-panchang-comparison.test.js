@@ -238,32 +238,11 @@ function findSunNakshatraTransition(observer, startValue, endValue) {
 }
 
 function buildSunSegments(observer, sunriseValue, nextSunriseValue) {
-  const sunrise = new Date(sunriseValue);
-  const nextSunrise = new Date(nextSunriseValue);
-  const sunriseLongitude = sunLongitudeAt(sunrise, observer);
-  if (sunriseLongitude === null || nextSunrise <= sunrise) return [];
-
-  const sunriseIndex = Math.floor(sunriseLongitude / SUN_NAKSHATRA_SIZE);
-  const transition = findSunNakshatraTransition(observer, sunrise, nextSunrise);
-  if (!transition) {
-    return [{ start: sunrise, end: nextSunrise, sunIndex: sunriseIndex }];
-  }
-
-  const transitionLongitude = sunLongitudeAt(transition, observer);
-  if (transitionLongitude === null) {
-    return [{ start: sunrise, end: nextSunrise, sunIndex: sunriseIndex }];
-  }
-  const transitionIndex = Math.floor(transitionLongitude / SUN_NAKSHATRA_SIZE);
-  if (transitionIndex === sunriseIndex) {
-    // Avoid creating two segments with the same index if the library's
-    // longitude rounding places the corrected boundary on the prior side.
-    return [{ start: sunrise, end: nextSunrise, sunIndex: sunriseIndex }];
-  }
-
-  return [
-    { start: sunrise, end: transition, sunIndex: sunriseIndex },
-    { start: transition, end: nextSunrise, sunIndex: transitionIndex }
-  ];
+  return patchedEngine.buildSunNakshatraSegments(
+    sunriseValue,
+    nextSunriseValue,
+    instant => sunLongitudeAt(instant, observer)
+  );
 }
 
 function buildLegacySunSegments(observer, p, sunriseValue, nextSunriseValue) {
