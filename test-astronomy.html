@@ -430,7 +430,7 @@
     <p><strong>Classical C reference:</strong> Jupiter 11°, Saturn 15°, Mars 17°; Venus 8° for west-setting/east-rising and 10° for east-setting/west-rising. Mercury's 12°/14° depends on its motion; that rule is intentionally not activated until independently validated. Chapter 9, verses 6–9; see the cited Sanskrit and translation sources.</p>
     <div id="lagnantaraOutput"><div class="status info">Not run yet.</div></div>
     <h3>Coordinate-frame sensitivity audit (diagnostic only)</h3>
-    <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant.</p>
+    <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant. Important: the 24.217° value is subtracted to create the helper’s sidereal-longitude representation and then added back before oblique ascension is calculated. With that same offset used consistently, it cancels; this is not an independent test of ayanāṃśa choice.</p>
     <div id="frameAuditOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this audit.</div></div>
     <h3>Jupiter Asta component sweep — 12, 13 and 20 August 2027</h3>
     <p class="small">This table samples actual local sunset and compares Astronomy Engine against the page’s separately loaded Swiss Ephemeris at the identical UTC instant. It also exposes each correction term. This is an ephemeris cross-check, not a formula change.</p>
@@ -2124,9 +2124,9 @@ function getSiderealEclipticLongitude(body, date) {
   return normalize360(Number(ecl.elon) - 24.217);
 }
 
-function obliqueAscensionFromSiderealLongitude(lambdaDeg) {
+function obliqueAscensionFromSiderealLongitude(lambdaDeg, config = TKS_CONFIG) {
   const eps = 23.4367 * Math.PI / 180;
-  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+  const phi = config.latitude * Math.PI / 180;
 
   /*
    * Oblique ascension is equatorial geometry tied to the equinox.
@@ -2161,8 +2161,8 @@ function obliqueAscensionFromSiderealLongitude(lambdaDeg) {
   );
 }
 
-function obliqueAscensionWithObliquity(lambdaDeg, epsDeg) {
-  const phi = TKS_CONFIG.latitude * Math.PI / 180;
+function obliqueAscensionWithObliquity(lambdaDeg, epsDeg, config = TKS_CONFIG) {
+  const phi = config.latitude * Math.PI / 180;
   const lambda = normalize360(lambdaDeg + 24.217) * Math.PI / 180;
   const eps = epsDeg * Math.PI / 180;
   const dec = Math.asin(clampUnit(Math.sin(eps) * Math.sin(lambda)));
@@ -2230,7 +2230,7 @@ function runCoordinateFrameSensitivityAudit() {
   }
 
   html += '</tbody></table></div>' +
-    '<div class="status warn">Interpretation: ΔK isolates only the sensitivity to obliquity in the OA conversion while keeping the current event time and corrected longitudes fixed. It does not validate the 24.217° ayanāṃśa, the classical correction order, or the ephemeris against TKS.</div>';
+    '<div class="status warn">Interpretation: ΔK isolates only the sensitivity to obliquity in the OA conversion while keeping the current event time and corrected longitudes fixed. The 24.217° offset is restored before OA, so this test does not independently validate an ayanāṃśa choice. It also does not validate the classical correction order or the ephemeris against TKS.</div>';
   out.innerHTML = html;
 }
 
@@ -2299,10 +2299,10 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
     ? normalize360(correctedLongitude + 180) : correctedLongitude;
   const rawPlanetEventLongitude = direction === "west"
     ? normalize360(longitude + 180) : longitude;
-  const rawSunOA = obliqueAscensionFromSiderealLongitude(sunEventLongitude);
-  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawPlanetEventLongitude);
+  const rawSunOA = obliqueAscensionFromSiderealLongitude(sunEventLongitude, config);
+  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawPlanetEventLongitude, config);
   const sunOA = rawSunOA;
-  const planetOA = obliqueAscensionFromSiderealLongitude(planetEventLongitude);
+  const planetOA = obliqueAscensionFromSiderealLongitude(planetEventLongitude, config);
 
   return {
     sunLongitude: swSun[0],
@@ -2811,10 +2811,10 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
   }
 
   const sunOA =
-    obliqueAscensionFromSiderealLongitude(sunLon);
+    obliqueAscensionFromSiderealLongitude(sunLon, config);
 
   const planetOA =
-    obliqueAscensionFromSiderealLongitude(planetLon);
+    obliqueAscensionFromSiderealLongitude(planetLon, config);
 
   const rawSunLon =
     direction === "west"
@@ -2838,12 +2838,14 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
 
   const rawSunOA =
     obliqueAscensionFromSiderealLongitude(
-      rawSunLon
+      rawSunLon,
+      config
     );
 
   const rawPlanetOA =
     obliqueAscensionFromSiderealLongitude(
-      rawPlanetLon
+      rawPlanetLon,
+      config
     );
 
   const rawLagnaInterval =
