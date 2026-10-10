@@ -11,6 +11,7 @@ on:
       - "tests/classical-yogas-intervals.test.js"
       - "tests/classical-yogas-real-panchang-comparison.test.js"
       - "tests/classical-yogas-drik-reference.test.js"
+      - "tests/panchang-card-order.test.js"
       - ".github/workflows/classical-yogas-tests.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -20,6 +21,7 @@ on:
       - "classical-yogas.js"
       - "tests/classical-yogas-intervals.test.js"
       - "tests/classical-yogas-real-panchang-comparison.test.js"
+      - "tests/panchang-card-order.test.js"
       - ".github/workflows/classical-yogas-tests.yml"
   workflow_dispatch:
 
@@ -43,5 +45,7 @@ jobs:
           node --input-type=module --check < app.js
           node --input-type=module --check < extra-panchang.js
           node --check classical-yogas.js
+      - name: Run Panchang card-order regression tests
+        run: node --test tests/panchang-card-order.test.js
       - name: Run interval and real Panchang comparison tests
         run: node --test tests/classical-yogas-intervals.test.js tests/classical-yogas-real-panchang-comparison.test.js tests/classical-yogas-drik-reference.test.js
