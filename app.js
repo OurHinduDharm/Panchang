@@ -5225,10 +5225,39 @@ window.__runVaraBoundaryTest = function(){
       "गुरुवार", "शुक्रवार", "शनिवार"
     ];
 
+    /*
+     * Build the real Sankalp text with only its context temporarily
+     * simulated, then restore the live context immediately.
+     * No date input, Panchang data, or visible text is changed.
+     */
+    let sankalpText = "";
+    let sankalpVaraPhrase = "";
+    if (currentSankalpContext) {
+      const savedVara = currentSankalpContext.vara;
+      const savedReferenceNow = currentSankalpContext.referenceNow;
+      try {
+        currentSankalpContext.vara = getVara(effectivePanchang);
+        currentSankalpContext.referenceNow = simulatedNow;
+        sankalpText = buildSankalpText();
+        sankalpVaraPhrase = toVaraForm(currentSankalpContext.vara).trim();
+      } finally {
+        currentSankalpContext.vara = savedVara;
+        currentSankalpContext.referenceNow = savedReferenceNow;
+      }
+    }
+
+    const phraseIndex = sankalpText.indexOf(sankalpVaraPhrase);
+    const sankalpSnippet = phraseIndex >= 0
+      ? sankalpText.slice(Math.max(0, phraseIndex - 45), phraseIndex + sankalpVaraPhrase.length + 35)
+      : "वार का वाक्यांश संकल्प टेक्स्ट में नहीं मिला";
+
     return {
       simulatedTime: simulatedNow.toString(),
       isPreSunrise: isPreSunriseToday,
       sankalpVara: getVara(effectivePanchang),
+      generatedSankalpVaraPhrase: sankalpVaraPhrase,
+      generatedSankalpContainsVara: phraseIndex >= 0,
+      generatedSankalpSnippet: sankalpSnippet,
       yatraShoolaVara: weekdayNames[shoola.weekday] || "—",
       remedy: shoola.remedy,
       direction: shoola.directionHindiName
