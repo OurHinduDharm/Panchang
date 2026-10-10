@@ -5187,6 +5187,67 @@ window.__previousSunrise =
 
 window.__specialYogaTest =
   specialYoga;
+
+/*
+ * TEMPORARY, read-only boundary test for PR #14.
+ * Remove this test hook before merging the PR.
+ * It does not change the selected date or render the UI.
+ */
+window.__runVaraBoundaryTest = function(){
+  const sunrise = new Date(p.sunrise);
+  const selectedIsToday = dateInput.value === todayString();
+
+  function simulate(offsetMinutes){
+    const simulatedNow = new Date(
+      sunrise.getTime() + offsetMinutes * 60 * 1000
+    );
+
+    const isPreSunriseToday = !!(
+      selectedIsToday &&
+      p.sunrise &&
+      simulatedNow < sunrise
+    );
+
+    const effectivePanchang =
+      isPreSunriseToday && previousPanchang
+        ? previousPanchang
+        : p;
+
+    const shoola = getYatraShoolaDetails(
+      p,
+      nextSunrise,
+      simulatedNow,
+      previousPanchang
+    );
+
+    const weekdayNames = [
+      "रविवार", "सोमवार", "मंगलवार", "बुधवार",
+      "गुरुवार", "शुक्रवार", "शनिवार"
+    ];
+
+    return {
+      simulatedTime: simulatedNow.toString(),
+      isPreSunrise: isPreSunriseToday,
+      sankalpVara: getVara(effectivePanchang),
+      yatraShoolaVara: weekdayNames[shoola.weekday] || "—",
+      remedy: shoola.remedy,
+      direction: shoola.directionHindiName
+    };
+  }
+
+  return {
+    selectedDate: dateInput.value,
+    selectedIsToday,
+    sunrise: sunrise.toString(),
+    previousDayVara: previousPanchang ? getVara(previousPanchang) : "—",
+    dailyPanchangVara: getVara(p),
+    beforeSunrise: simulate(-60),
+    afterSunrise: simulate(60),
+    note: selectedIsToday
+      ? "Read-only simulation; page date and displayed Panchang were not changed."
+      : "Select today's date first, then run again."
+  };
+};
  
  displayPanchang(
   p,
