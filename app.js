@@ -706,22 +706,56 @@ function getNakshatraSanjna(
 function getYatraShoolaDetails(
   p,
   nextSunrise,
-  referenceNow
+  referenceNow,
+  previousPanchang
 ){
   const selectedDate =
     new Date(
       dateInput.value + "T00:00:00"
     );
 
-  const weekday =
-    selectedDate.getDay();
+  /*
+   * वर्तमान तारीख पर सूर्योदय से पहले,
+   * अभी चल रहे सूर्योदय-से-सूर्योदय वार
+   * के लिए पिछले दिन का पंचांग लें।
+   * चुनी हुई पुरानी/भविष्य की तारीख नहीं बदलें।
+   */
+  const isPreSunriseToday = !!(
+    referenceNow &&
+    dateInput.value === todayString() &&
+    p.sunrise &&
+    referenceNow < new Date(p.sunrise)
+  );
+
+  const effectivePanchang =
+    isPreSunriseToday && previousPanchang
+      ? previousPanchang
+      : p;
+
+  let weekday = selectedDate.getDay();
+
+  if (isPreSunriseToday && previousPanchang) {
+    const weekdayNames = [
+      "रविवार", "सोमवार", "मंगलवार", "बुधवार",
+      "गुरुवार", "शुक्रवार", "शनिवार"
+    ];
+    const previousVara = getVara(previousPanchang);
+    const previousVaraIndex = weekdayNames.indexOf(previousVara);
+
+    if (previousVaraIndex >= 0) {
+      weekday = previousVaraIndex;
+    } else if (typeof previousPanchang.vara === "number") {
+      weekday = previousPanchang.vara;
+    }
+  }
 
   /*
-   * मौजूदा Panchang library का दिशाशूल
-   * calculation ही प्राथमिक रहेगा।
+   * दिशाशूल और वारशूल परिहार एक ही
+   * प्रभावी वार से लें, ताकि सूर्योदय से पहले
+   * दोनों अलग-अलग वार न दिखाएँ।
    */
   const direction =
-    p.dishaShoola?.inauspiciousDirection ||
+    effectivePanchang.dishaShoola?.inauspiciousDirection ||
     null;
 
   const directionHindiName =
@@ -5153,6 +5187,7 @@ window.__previousSunrise =
 
 window.__specialYogaTest =
   specialYoga;
+
  
  displayPanchang(
   p,
@@ -5306,7 +5341,8 @@ const yatraShoola =
   getYatraShoolaDetails(
     p,
     nextSunrise,
-    referenceNow
+    referenceNow,
+    previousPanchang
   );
 
 const ghatiPal = getGhatiPal(
@@ -5334,7 +5370,17 @@ const ghatiPal = getGhatiPal(
     referenceNow
   );
   
-  const vara = getVara(p);
+  /*
+   * Sankalp का वर्तमान वार सूर्योदय-से-सूर्योदय
+   * परंपरा के अनुसार लें। दैनिक Panchang के p.vara
+   * को स्वयं नहीं बदलते; केवल आज सूर्योदय से पहले
+   * वर्तमान Sankalp के लिए पिछले पंचांग का वार लें।
+   */
+  const vara = getVara(
+    isPreSunriseToday && previousPanchang
+      ? previousPanchang
+      : p
+  );
 
   /* Store context for Sankalp */
   currentSankalpContext = {
