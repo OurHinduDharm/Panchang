@@ -60,6 +60,22 @@ yatraShoolaStyles.textContent = `
 
 document.head.appendChild(yatraShoolaStyles);
 
+/* COMPACT PANCHANG UI — presentation only; no calculation changes. */
+const compactPanchangStyles = document.createElement("style");
+compactPanchangStyles.textContent = `
+#result > .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; align-items:stretch; }
+#result > .grid > .card { box-sizing:border-box; min-width:0; margin:0; padding:10px; overflow-wrap:anywhere; }
+#result > .grid > .card.full { grid-column:1 / -1; }
+#result > .grid > .card:not(.full) .label { line-height:1.4; overflow-wrap:anywhere; }
+#result > .grid > .card:not(.full) .value { line-height:1.45; overflow-wrap:anywhere; }
+#result > .grid .sankalp-personal.three-col { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+#result > .grid .sankalp-personal .sp-item { min-width:0; }
+#result > .grid .sankalp-personal input, #result > .grid .sankalp-personal select { box-sizing:border-box; width:100%; max-width:100%; }
+#result > .grid .time-row { gap:8px; }
+@media (max-width:360px) { #result > .grid { gap:7px; } #result > .grid > .card { padding:8px; } #result > .grid .sankalp-personal.three-col { grid-template-columns:minmax(0,1fr); } }
+`;
+document.head.appendChild(compactPanchangStyles);
+
 const cityInput = document.getElementById("cityInput");
 const dateInput = document.getElementById("dateInput");
 const suggestions = document.getElementById("suggestions");
@@ -3269,45 +3285,20 @@ function getCurrentKaalPrahar(
      */
     kaal = "रात्रि";
 
-    /*
-     * रात्रि प्रहर केवल तभी Sankalp में जोड़ें
-     * जब user ने checkbox ON किया हो।
-     */
-    if(
-      kaal === "रात्रि" &&
-      sankalpState.includeNightPrahar &&
-      praharData &&
-      Array.isArray(
-        praharData.nightPrahar
-      )
-    ){
+  }
 
-      const nightActive =
-        praharData.nightPrahar.find(
-          pr => pr.isActive
-        );
-
-      const names = [
-        "प्रथम",
-        "द्वितीय",
-        "तृतीय",
-        "चतुर्थ"
-      ];
-
-      if(nightActive){
-
-        const idx =
-          praharData.nightPrahar.indexOf(
-            nightActive
-          );
-
-        if(
-          idx >= 0 &&
-          idx < 4
-        ){
-          praharName =
-            names[idx];
-        }
+  /* रात्रि प्रहर वैकल्पिक संदर्भ है; यह काल-लेबल से स्वतंत्र है। */
+  if(
+    sankalpState.includeNightPrahar &&
+    praharData &&
+    Array.isArray(praharData.nightPrahar)
+  ){
+    const nightActive = praharData.nightPrahar.find(pr => pr.isActive);
+    const names = ["प्रथम", "द्वितीय", "तृतीय", "चतुर्थ"];
+    if(nightActive){
+      const idx = praharData.nightPrahar.indexOf(nightActive);
+      if(idx >= 0 && idx < names.length){
+        praharName = names[idx];
       }
     }
   }
@@ -3854,11 +3845,8 @@ function renderSankalpControls(){
           ${sankalpState.includeNightPrahar ? "checked" : ""}
           ${
             currentSankalpContext?.referenceNow &&
-            getCurrentKaalPrahar(
-              currentSankalpContext.panchang,
-              currentSankalpContext.praharData,
-              currentSankalpContext.referenceNow
-            ).kaal === "रात्रि"
+            Array.isArray(currentSankalpContext.praharData?.nightPrahar) &&
+            currentSankalpContext.praharData.nightPrahar.some(pr => pr.isActive)
               ? ""
               : "disabled"
           }
