@@ -1473,6 +1473,42 @@ function createClassicalYogaCard(details) {
   card.className = "card full";
   card.id = "classicalYogasCard";
 
+  const primaryNames = [
+    "अमृत सिद्धि योग",
+    "सर्वार्थ सिद्धि योग",
+    "रवि योग",
+    "रवि पुष्य योग",
+    "गुरु पुष्य योग",
+    "द्विपुष्कर योग",
+    "त्रिपुष्कर योग"
+  ];
+
+  const anandadiRows = details?.available
+    ? (details.anandadi || [])
+        .filter(item => Array.isArray(item.intervals) && item.intervals.length > 0)
+        .map(item => `
+          <div class="time-row">
+            <b>${item.name}</b>
+            <span>${item.intervals.map(interval =>
+              `${formatClassicalYogaDateTime(interval.start)} से ${formatClassicalYogaDateTime(interval.end)} तक`
+            ).join("<br>")}</span>
+          </div>
+        `)
+        .join("")
+    : `<div class="time-row"><b>आनन्दादि योग</b><span>${details?.error || "गणना उपलब्ध नहीं"}</span></div>`;
+
+  const otherYogaRows = details?.available
+    ? (details.yogas || [])
+        .filter(item => !primaryNames.includes(item.name))
+        .map(item => `
+          <div class="time-row">
+            <b>${item.name}</b>
+            <span>${formatClassicalYogaIntervals(details, item.name)}</span>
+          </div>
+        `)
+        .join("")
+    : `<div class="time-row"><span>${details?.error || "गणना उपलब्ध नहीं"}</span></div>`;
+
   card.innerHTML = `
     <div class="label">🌟 विशेष शुभ योग 🌟</div>
     <div class="time-row">
@@ -1494,6 +1530,23 @@ function createClassicalYogaCard(details) {
     <div class="time-row">
       <b>गुरु पुष्य योग</b>
       <span>${formatClassicalYogaIntervals(details, "गुरु पुष्य योग")}</span>
+    </div>
+    <div class="time-row">
+      <b>द्विपुष्कर योग</b>
+      <span>${formatClassicalYogaIntervals(details, "द्विपुष्कर योग")}</span>
+    </div>
+    <div class="time-row">
+      <b>त्रिपुष्कर योग</b>
+      <span>${formatClassicalYogaIntervals(details, "त्रिपुष्कर योग")}</span>
+    </div>
+    <div class="label" style="margin-top:10px;">🌼 आनन्दादि योग</div>
+    ${anandadiRows || '<div class="time-row"><span>इस दिन आनन्दादि योग का अंतराल उपलब्ध नहीं है।</span></div>'}
+    <details class="classical-yoga-details">
+      <summary>अन्य शास्त्रीय योग (शुभ-अशुभ)</summary>
+      ${otherYogaRows}
+    </details>
+    <div class="yatra-note">
+      स्रोत: मुहूर्त्तचिन्तामणि — दैवज्ञ राम। योगों का समय चयनित स्थानीय सूर्योदय से अगले सूर्योदय तक सीमित है।
     </div>
   `;
 

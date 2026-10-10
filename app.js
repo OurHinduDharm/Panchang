@@ -5459,6 +5459,15 @@ bhadraPartsHtml += `
         </div>
       </div>
 
+      <div class="card">
+        <div class="label">
+          अयन
+        </div>
+        <div class="value">
+          सूर्य - ${ayana}
+        </div>
+      </div>
+
       <div class="card full">
         <div class="label">
           🌞 सूर्य व 🌙 चंद्र स्थिति
@@ -5470,14 +5479,6 @@ bhadraPartsHtml += `
         </div>
       </div>
 
-      <div class="card">
-        <div class="label">
-          अयन
-        </div>
-        <div class="value">
-          सूर्य - ${ayana}
-        </div>
-      </div>
 <div class="card">
   <div class="label">
     🌅 सूर्योदय — ${formatTime(p.sunrise)}
