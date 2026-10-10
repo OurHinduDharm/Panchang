@@ -1483,68 +1483,67 @@ function createClassicalYogaCard(details) {
     "त्रिपुष्कर योग"
   ];
 
-  const anandadiRows = details?.available
-    ? (details.anandadi || [])
-        .filter(item => Array.isArray(item.intervals) && item.intervals.length > 0)
-        .map(item => `
-          <div class="time-row">
-            <b>${item.name}</b>
-            <span>${item.intervals.map(interval =>
-              `${formatClassicalYogaDateTime(interval.start)} से ${formatClassicalYogaDateTime(interval.end)} तक`
-            ).join("<br>")}</span>
-          </div>
-        `)
-        .join("")
-    : `<div class="time-row"><b>आनन्दादि योग</b><span>${details?.error || "गणना उपलब्ध नहीं"}</span></div>`;
+  const yogaByName = new Map(
+    (Array.isArray(details?.yogas) ? details.yogas : [])
+      .map(item => [item.name, item])
+  );
 
-  const otherYogaRows = details?.available
-    ? (details.yogas || [])
-        .filter(item => !primaryNames.includes(item.name))
-        .map(item => `
-          <div class="time-row">
-            <b>${item.name}</b>
-            <span>${formatClassicalYogaIntervals(details, item.name)}</span>
-          </div>
-        `)
-        .join("")
-    : `<div class="time-row"><span>${details?.error || "गणना उपलब्ध नहीं"}</span></div>`;
+  const renderRows = items => items.map(item => {
+    const dotClass = item.category === "शुभ"
+      ? "is-auspicious"
+      : item.category === "अशुभ"
+        ? "is-inauspicious"
+        : "is-neutral";
+    const intervals = Array.isArray(item.intervals) ? item.intervals : [];
+    const timeText = item.unavailable
+      ? "गणना उपलब्ध नहीं"
+      : intervals.map(interval =>
+          `${formatClassicalYogaDateTime(interval.start)} से ${formatClassicalYogaDateTime(interval.end)} तक`
+        ).join("<br>");
+
+    return `
+      <div class="time-row">
+        <b class="classical-yoga-name">
+          <span class="classical-yoga-dot ${dotClass}" aria-hidden="true">●</span>
+          <span>${item.name}</span>
+        </b>
+        <span>${timeText}</span>
+      </div>
+    `;
+  }).join("");
+
+  const sectionUnavailable = details?.error || "गणना उपलब्ध नहीं है।";
+  const primaryItems = primaryNames.map(name => {
+    const item = yogaByName.get(name);
+    if (name === "रवि योग" && details?.raviCalculationAvailable === false) {
+      return { name, category: "शुभ", intervals: [], unavailable: true };
+    }
+    return item && Array.isArray(item.intervals) && item.intervals.length > 0 ? item : null;
+  }).filter(Boolean);
+
+  const anandadiItems = Array.isArray(details?.anandadi)
+    ? details.anandadi.filter(item => Array.isArray(item.intervals) && item.intervals.length > 0)
+    : [];
+  const otherItems = (Array.isArray(details?.yogas) ? details.yogas : [])
+    .filter(item => !primaryNames.includes(item.name) && Array.isArray(item.intervals) && item.intervals.length > 0);
+
+  const sections = [];
+  if (!details?.available) {
+    sections.push(`<section class="classical-yoga-section"><div class="label">🌟 शास्त्रीय योग</div><div class="time-row"><span>${sectionUnavailable}</span></div></section>`);
+  } else {
+    if (primaryItems.length) {
+      sections.push(`<section class="classical-yoga-section"><div class="label">🌟 विशेष शुभ योग 🌟</div>${renderRows(primaryItems)}</section>`);
+    }
+    if (anandadiItems.length) {
+      sections.push(`<section class="classical-yoga-section"><div class="label">🌼 आनन्दादि योग</div>${renderRows(anandadiItems)}</section>`);
+    }
+    if (otherItems.length) {
+      sections.push(`<details class="classical-yoga-details"><summary>अन्य शास्त्रीय योग (शुभ-अशुभ)</summary>${renderRows(otherItems)}</details>`);
+    }
+  }
 
   card.innerHTML = `
-    <div class="label">🌟 विशेष शुभ योग 🌟</div>
-    <div class="time-row">
-      <b>अमृत सिद्धि योग</b>
-      <span>${formatClassicalYogaIntervals(details, "अमृत सिद्धि योग")}</span>
-    </div>
-    <div class="time-row">
-      <b>सर्वार्थ सिद्धि योग</b>
-      <span>${formatClassicalYogaIntervals(details, "सर्वार्थ सिद्धि योग")}</span>
-    </div>
-    <div class="time-row">
-      <b>रवि योग</b>
-      <span>${formatClassicalYogaIntervals(details, "रवि योग")}</span>
-    </div>
-    <div class="time-row">
-      <b>रवि पुष्य योग</b>
-      <span>${formatClassicalYogaIntervals(details, "रवि पुष्य योग")}</span>
-    </div>
-    <div class="time-row">
-      <b>गुरु पुष्य योग</b>
-      <span>${formatClassicalYogaIntervals(details, "गुरु पुष्य योग")}</span>
-    </div>
-    <div class="time-row">
-      <b>द्विपुष्कर योग</b>
-      <span>${formatClassicalYogaIntervals(details, "द्विपुष्कर योग")}</span>
-    </div>
-    <div class="time-row">
-      <b>त्रिपुष्कर योग</b>
-      <span>${formatClassicalYogaIntervals(details, "त्रिपुष्कर योग")}</span>
-    </div>
-    <div class="label" style="margin-top:10px;">🌼 आनन्दादि योग</div>
-    ${anandadiRows || '<div class="time-row"><span>इस दिन आनन्दादि योग का अंतराल उपलब्ध नहीं है।</span></div>'}
-    <details class="classical-yoga-details">
-      <summary>अन्य शास्त्रीय योग (शुभ-अशुभ)</summary>
-      ${otherYogaRows}
-    </details>
+    ${sections.join("")}
     <div class="yatra-note">
       स्रोत: मुहूर्त्तचिन्तामणि — दैवज्ञ राम। योगों का समय चयनित स्थानीय सूर्योदय से अगले सूर्योदय तक सीमित है।
     </div>
@@ -1552,7 +1551,6 @@ function createClassicalYogaCard(details) {
 
   return card;
 }
-
 /* =========================================
    Initialization
    ========================================= */
