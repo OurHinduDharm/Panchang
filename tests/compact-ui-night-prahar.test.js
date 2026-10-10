@@ -78,6 +78,7 @@ test("special Muhurtas are grouped in one compact two-column section", () => {
   for (const label of [
     "🌅 ब्रह्म मुहूर्त",
     "🌄 प्रातः संध्या",
+    "🕛 मध्याह्न संध्या",
     "☀️ विजय मुहूर्त",
     "🌇 गोधूलि मुहूर्त",
     "🌆 सायं संध्या",
