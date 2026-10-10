@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "fix/classical-yogas-extra-panchang"
+      - "fix/compact-panchang-ui-night-prahar"
     paths:
       - "app.js"
       - "extra-panchang.js"
@@ -12,6 +13,7 @@ on:
       - "tests/classical-yogas-real-panchang-comparison.test.js"
       - "tests/classical-yogas-drik-reference.test.js"
       - "tests/panchang-card-order.test.js"
+      - "tests/compact-ui-night-prahar.test.js"
       - ".github/workflows/classical-yogas-tests.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -47,5 +49,7 @@ jobs:
           node --check classical-yogas.js
       - name: Run Panchang card-order regression tests
         run: node --test tests/panchang-card-order.test.js
+      - name: Run compact UI and night Prahar regression tests
+        run: node --test tests/compact-ui-night-prahar.test.js
       - name: Run interval and real Panchang comparison tests
         run: node --test tests/classical-yogas-intervals.test.js tests/classical-yogas-real-panchang-comparison.test.js tests/classical-yogas-drik-reference.test.js
