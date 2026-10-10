@@ -88,3 +88,22 @@ test("special Muhurtas are grouped in one compact two-column section", () => {
   }
   assert.match(source, /\.special-muhurta-grid \{ display:grid; grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 });
+
+test("Ritu and Ayana cards are adjacent in the compact grid", () => {
+  const ritu = source.indexOf(`          ऋतु`);
+  const ayana = source.indexOf(`          अयन`);
+  const sunMoon = source.indexOf(`🌞 सूर्य व 🌙 चंद्र स्थिति`);
+  assert.ok(ritu >= 0 && ayana >= 0 && sunMoon >= 0);
+  assert.ok(ritu < ayana && ayana < sunMoon, "Ayana should follow Ritu before the full-width Sun/Moon card");
+  assert.ok(!source.slice(ritu, ayana).includes('class="card full"'));
+});
+
+test("classical-yoga card renders Anandadi, Dwipushkar, Tripushkar, and remaining calculated yogas", () => {
+  const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  assert.match(extra, /<b>द्विपुष्कर योग<\/b>/);
+  assert.match(extra, /<b>त्रिपुष्कर योग<\/b>/);
+  assert.match(extra, /details\.anandadi/);
+  assert.match(extra, /अन्य शास्त्रीय योग \(शुभ-अशुभ\)/);
+  assert.match(extra, /details\.yogas/);
+  assert.match(extra, /function createClassicalYogaCard\(details\)/);
+});
