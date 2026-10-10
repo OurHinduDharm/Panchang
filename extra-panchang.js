@@ -1269,9 +1269,9 @@ function placeClassicalYogaCard(newCard) {
 
 function getPanchangCardOrder(card) {
   const id = card.id || "";
-  const content = (card.textContent || "").replace(/\\s+/g, " ").trim();
+  const content = (card.textContent || "").replace(/\s+/g, " ").trim();
 
-  if (/📍\\s*स्थान/.test(content)) return 0;
+  if (/📍\s*स्थान/.test(content)) return 0;
   if (/सूर्योदय|सूर्यास्त|चंद्रोदय|चन्द्रोदय|चंद्रास्त|चन्द्रास्त/.test(content)) return 1;
   if (id === "classicalYogasCard") return 3;
   if (/शुभ-अशुभ समय/.test(content)) return 4;
