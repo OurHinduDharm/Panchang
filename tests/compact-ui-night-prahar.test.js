@@ -72,3 +72,19 @@ test("night Prahar toggle is enabled only when a current active night segment ex
   assert.match(source, /currentSankalpContext\.praharData\.nightPrahar\.some\(pr => pr\.isActive\)/);
   assert.match(source, /sankalpState\.includeNightPrahar\s*=\s*e\.target\.checked/);
 });
+
+test("special Muhurtas are grouped in one compact two-column section", () => {
+  assert.match(source, /<div class="label">🌄 विशेष मुहूर्त<\/div>\s*<div class="special-muhurta-grid">/);
+  for (const label of [
+    "🌅 ब्रह्म मुहूर्त",
+    "🌄 प्रातः संध्या",
+    "☀️ विजय मुहूर्त",
+    "🌇 गोधूलि मुहूर्त",
+    "🌆 सायं संध्या",
+    "🌙 निशीथ काल",
+    "⚠️ दुर्मुहूर्त"
+  ]) {
+    assert.ok(source.includes(label), `missing special Muhurta: ${label}`);
+  }
+  assert.match(source, /\.special-muhurta-grid \{ display:grid; grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+});
