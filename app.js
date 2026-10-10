@@ -72,6 +72,11 @@ compactPanchangStyles.textContent = `
 #result > .grid .sankalp-personal .sp-item { min-width:0; }
 #result > .grid .sankalp-personal input, #result > .grid .sankalp-personal select { box-sizing:border-box; width:100%; max-width:100%; }
 #result > .grid .time-row { gap:8px; }
+.special-muhurta-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.special-muhurta-item { min-width:0; padding:8px; border:1px solid rgba(128,128,128,.22); border-radius:8px; background:rgba(128,128,128,.04); }
+.special-muhurta-item .label { line-height:1.35; margin-bottom:5px; }
+.special-muhurta-item .time-row { margin:0; font-size:13px; }
+@media (max-width:360px) { .special-muhurta-grid { gap:6px; } .special-muhurta-item { padding:7px; } }
 @media (max-width:360px) { #result > .grid { gap:7px; } #result > .grid > .card { padding:8px; } #result > .grid .sankalp-personal.three-col { grid-template-columns:minmax(0,1fr); } }
 `;
 document.head.appendChild(compactPanchangStyles);
@@ -5931,101 +5936,36 @@ bhadraPartsHtml += `
   currentNightGowri
 )}
       <div class="card full">
-  <div class="label">
-    🌅 ब्रह्म मुहूर्त
-  </div>
-  <div class="time-row">
-    <span>
-      ${formatTimeRange(
-        p.brahmaMuhurta?.start,
-        p.brahmaMuhurta?.end
-      )}
-    </span>
-  </div>
-</div>
-
-<div class="card full">
-  <div class="label">
-    🌄 प्रातः संध्या
-  </div>
-  <div class="time-row">
-    <span>
-      ${formatTimeRange(
-        specialKaal?.pratahSandhya?.start,
-        specialKaal?.pratahSandhya?.end
-      )}
-    </span>
-  </div>
-</div>
-
-<div class="card full">
-  <div class="label">
-    ☀️ विजय मुहूर्त
-  </div>
-  <div class="time-row">
-    <span>
-      ${formatTimeRange(
-        specialKaal?.vijayaMuhurta?.start,
-        specialKaal?.vijayaMuhurta?.end
-      )}
-    </span>
-  </div>
-</div>
-
-<div class="card full">
-  <div class="label">
-    🌇 गोधूलि मुहूर्त
-  </div>
-  <div class="time-row">
-    <span>
-      ${formatTimeRange(
-        specialKaal?.godhuliMuhurta?.start,
-        specialKaal?.godhuliMuhurta?.end
-      )}
-    </span>
-  </div>
-</div>
-
-<div class="card full">
-  <div class="label">
-    🌆 सायं संध्या
-  </div>
-  <div class="time-row">
-    <span>
-      ${formatTimeRange(
-        specialKaal?.sayahnaSandhya?.start,
-        specialKaal?.sayahnaSandhya?.end
-      )}
-    </span>
-  </div>
-</div>
-
-<div class="card full">
-  <div class="label">
-    🌙 निशीथ काल
-  </div>
-  <div class="time-row">
-    <span>
-      ${formatTimeRange(
-        specialKaal?.nishitaKaal?.start,
-        specialKaal?.nishitaKaal?.end
-      )}
-    </span>
-  </div>
-</div>
-
-      <div class="card full">
-  <div class="label">
-    ⚠️ दुर्मुहूर्त
-  </div>
-  <div class="time-row">
-    <span>
-      ${getDurMuhurtaText(
-        p,
-        isWednesday,
-        nextSunrise
-      )}
-    </span>
+  <div class="label">🌄 विशेष मुहूर्त</div>
+  <div class="special-muhurta-grid">
+    <div class="special-muhurta-item">
+      <div class="label">🌅 ब्रह्म मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(p.brahmaMuhurta?.start, p.brahmaMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌄 प्रातः संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.pratahSandhya?.start, specialKaal?.pratahSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">☀️ विजय मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.vijayaMuhurta?.start, specialKaal?.vijayaMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌇 गोधूलि मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.godhuliMuhurta?.start, specialKaal?.godhuliMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌆 सायं संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.sayahnaSandhya?.start, specialKaal?.sayahnaSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌙 निशीथ काल</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.nishitaKaal?.start, specialKaal?.nishitaKaal?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">⚠️ दुर्मुहूर्त</div>
+      <div class="time-row"><span>${getDurMuhurtaText(p, isWednesday, nextSunrise)}</span></div>
+    </div>
   </div>
 </div>
 
