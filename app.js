@@ -2022,6 +2022,7 @@ function getSpecialKaalDetails(
   ){
     return {
       pratahSandhya:null,
+      madhyahnaSandhya:null,
       vijayaMuhurta:null,
       godhuliMuhurta:null,
       sayahnaSandhya:null,
@@ -2063,6 +2064,17 @@ function getSpecialKaalDetails(
     end:new Date(
       sunrise.getTime()
     )
+  };
+
+  /*
+   * मध्याह्न संध्या — स्थानीय दिनमान के मध्य पर केंद्रित।
+   * अवधि एक दिन-मुहूर्त (दिनमान / 15); इसकी सीमा सूर्योदय-सूर्यास्त से निकलेगी।
+   * परंपरागत विधि/सीमा में मतभेद हो सकते हैं।
+   */
+  const dayMidpointMs = sunrise.getTime() + dayMs / 2;
+  const madhyahnaSandhya = {
+    start:new Date(dayMidpointMs - dayMuhurtaMs / 2),
+    end:new Date(dayMidpointMs + dayMuhurtaMs / 2)
   };
 
   /*
@@ -2120,6 +2132,7 @@ function getSpecialKaalDetails(
 
   return {
     pratahSandhya,
+    madhyahnaSandhya,
     vijayaMuhurta,
     godhuliMuhurta,
     sayahnaSandhya,
@@ -5002,7 +5015,8 @@ const ghatiPal = getGhatiPal(
     ghatiPal.pal !== null
   ){
     ghatiHtml = `<div style="font-size:13px;color:#555;margin-bottom:10px;">
-      🕰️ सूर्योदय से वर्तमान घटी-पल (Dynamic): ${ghatiPal.ghati} घटी ${ghatiPal.pal} पल
+      <div>🕰️ वैदिक घड़ी (सूर्योदय से): <b>${ghatiPal.ghati} घटी ${ghatiPal.pal} पल</b></div>
+      <div style="font-size:11px;color:#777;margin-top:3px;">1 घटी = 24 मिनट · 1 पल = 24 सेकंड · 60 घटी = 1 अहोरात्र</div>
     </div>`;
   }else{
     ghatiHtml = `<div style="font-size:13px;color:#999;margin-bottom:10px;">
@@ -5956,6 +5970,10 @@ bhadraPartsHtml += `
     <div class="special-muhurta-item">
       <div class="label">🌄 प्रातः संध्या</div>
       <div class="time-row"><span>${formatTimeRange(specialKaal?.pratahSandhya?.start, specialKaal?.pratahSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🕛 मध्याह्न संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.madhyahnaSandhya?.start, specialKaal?.madhyahnaSandhya?.end)}</span></div>
     </div>
     <div class="special-muhurta-item">
       <div class="label">☀️ विजय मुहूर्त</div>

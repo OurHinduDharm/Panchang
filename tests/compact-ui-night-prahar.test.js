@@ -78,6 +78,7 @@ test("special Muhurtas are grouped in one compact two-column section", () => {
   for (const label of [
     "🌅 ब्रह्म मुहूर्त",
     "🌄 प्रातः संध्या",
+    "🕛 मध्याह्न संध्या",
     "☀️ विजय मुहूर्त",
     "🌇 गोधूलि मुहूर्त",
     "🌆 सायं संध्या",
@@ -87,6 +88,18 @@ test("special Muhurtas are grouped in one compact two-column section", () => {
     assert.ok(source.includes(label), `missing special Muhurta: ${label}`);
   }
   assert.match(source, /\.special-muhurta-grid \{ display:grid; grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+});
+
+test("Anandadi yogas show auspiciousness colors and use Lumbaka spelling", () => {
+  const classical = readFileSync(new URL("../classical-yogas.js", import.meta.url), "utf8");
+  assert.match(classical, /"लुम्बक"/);
+  assert.match(classical, /const OHN_ANANDADI_AUSPICIOUS = new Set/);
+  assert.match(classical, /category:OHN_ANANDADI_AUSPICIOUS\.has\(name\) \? "शुभ" : "अशुभ"/);
+});
+
+test("Madhyahna Sandhya is calculated around local solar midday", () => {
+  assert.match(source, /const dayMidpointMs = sunrise\.getTime\(\) \+ dayMs \/ 2;/);
+  assert.match(source, /const madhyahnaSandhya = \{/);
 });
 
 test("Ritu and Ayana cards are adjacent in the compact grid", () => {
@@ -100,8 +113,8 @@ test("Ritu and Ayana cards are adjacent in the compact grid", () => {
 
 test("classical-yoga card renders Anandadi, Dwipushkar, Tripushkar, and remaining calculated yogas", () => {
   const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-  assert.match(extra, /<b>द्विपुष्कर योग<\/b>/);
-  assert.match(extra, /<b>त्रिपुष्कर योग<\/b>/);
+  assert.match(extra, /"द्विपुष्कर योग"/);
+  assert.match(extra, /"त्रिपुष्कर योग"/);
   assert.match(extra, /details\.anandadi/);
   assert.match(extra, /अन्य शास्त्रीय योग \(शुभ-अशुभ\)/);
   assert.match(extra, /details\.yogas/);

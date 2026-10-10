@@ -461,7 +461,7 @@ const OHN_ANANDADI_NAMES = [
   "मित्र",
   "मानस",
   "पद्म",
-  "लुम्ब",
+  "लुम्बक",
   "उत्पात",
   "मृत्यु",
   "काण",
@@ -476,6 +476,12 @@ const OHN_ANANDADI_NAMES = [
   "सुस्थिर",
   "प्रवर्धमान"
 ];
+
+const OHN_ANANDADI_AUSPICIOUS = new Set([
+  "आनन्द", "धाता", "सौम्य", "केतु", "श्रीवत्स", "छत्र",
+  "मित्र", "मानस", "पद्म", "सिद्धि", "शुभ", "अमृत",
+  "मातंग", "चर", "सुस्थिर", "प्रवर्धमान"
+]);
 
 const OHN_ANANDADI_NAKSHATRAS = [
   0,1,2,3,4,5,6,7,8,9,10,11,12,13,
@@ -1097,7 +1103,7 @@ function getClassicalYogas(
 
   const anandadi = OHN_ANANDADI_NAMES.map(name => ({
     name,
-    category:"आनंदादि",
+    category:OHN_ANANDADI_AUSPICIOUS.has(name) ? "शुभ" : "अशुभ",
     intervals:ohdMergeIntervals(
       anandadiIntervals[name] || []
     ),
