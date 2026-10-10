@@ -1749,58 +1749,6 @@ function createClassicalYogaCard(details) {
   return card;
 }
 
-function placeClassicalYogaCard(newCard) {
-  const result = document.getElementById("result");
-  if (!result) return;
-
-  const locationCard = [...result.children].find(card =>
-    /📍\s*स्थान/.test(card.textContent || "")
-  );
-
-  if (locationCard) {
-    locationCard.insertAdjacentElement("beforebegin", newCard);
-  } else {
-    result.appendChild(newCard);
-  }
-}
-
-
-function placeHoraCard(
-  newCard
-) {
-
-  const result =
-    document.getElementById(
-      "result"
-    );
-
-  if (!result) {
-    return;
-  }
-
-  const planetCard =
-    document.getElementById(
-      "planetRiseSetCard"
-    );
-
-  if (planetCard) {
-
-    planetCard.insertAdjacentElement(
-      "afterend",
-      newCard
-    );
-
-  } else {
-
-    result.appendChild(
-      newCard
-    );
-
-  }
-
-}
-
-
 /* =========================================
    Initialization
    ========================================= */
