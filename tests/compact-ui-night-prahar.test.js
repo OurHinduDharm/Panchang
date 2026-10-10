@@ -113,8 +113,8 @@ test("Ritu and Ayana cards are adjacent in the compact grid", () => {
 
 test("classical-yoga card renders Anandadi, Dwipushkar, Tripushkar, and remaining calculated yogas", () => {
   const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-  assert.match(extra, /<b>द्विपुष्कर योग<\/b>/);
-  assert.match(extra, /<b>त्रिपुष्कर योग<\/b>/);
+  assert.match(extra, /"द्विपुष्कर योग"/);
+  assert.match(extra, /"त्रिपुष्कर योग"/);
   assert.match(extra, /details\.anandadi/);
   assert.match(extra, /अन्य शास्त्रीय योग \(शुभ-अशुभ\)/);
   assert.match(extra, /details\.yogas/);
