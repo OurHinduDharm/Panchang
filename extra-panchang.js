@@ -1280,7 +1280,8 @@ function getPanchangCardOrder(card) {
   if (/ब्रह्म मुहूर्त|प्रातः संध्या|विजय मुहूर्त|गोधूलि मुहूर्त|सायं संध्या|निशीथ काल|दुर्मुहूर्त/.test(content)) return 5;
   if (/यात्रा शूल विचार|दिशाशूल|कालशूल/.test(content)) return 6;
   if (/चौघड़िया|चौघडिया|गौरी काल|गौरी/.test(content)) return 7;
-  if (/चयनित तिथि के प्रहर|भद्रा|घटी|पल/.test(content)) return 9;
+  if (/चयनित तिथि के प्रहर/.test(content)) return 9;
+  if (/भद्रा|घटी|पल/.test(content)) return 9.5;
   if (/संकल्प/.test(content)) return 10;
   // विक्रम संवत्, मास, पक्ष, तिथि, वार आदि मुख्य पंचांग।
   return 2;
