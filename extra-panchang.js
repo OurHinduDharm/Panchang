@@ -398,222 +398,80 @@ function addDays(
 
 
 /* =========================================
-   Venus daily calculation
+   Planetary elongation — preliminary
+   शास्त्रीय कोणीय सीमा के आधार पर दिन-स्तर
+   की प्रारंभिक घटना-तिथि। यह स्थानीय दृश्यता
+   या Drik के प्रकाशित समय की पुनर्रचना नहीं है।
    ========================================= */
 
-function getVenusDailyData(
-  dateString
-) {
+const PLANET_ASTA_THRESHOLDS = {
+  Mercury: 14,
+  Venus: 10,
+  Mars: 17,
+  Jupiter: 11,
+  Saturn: 15
+};
 
-  const date =
-    getLocalNoon(
-      dateString
-    );
+const planetDailyCache = new Map();
 
-  const result =
-    Elongation(
-      "Venus",
-      date
-    );
+function getPlanetDailyData(body, dateString) {
+  const cacheKey = body + "|" + dateString;
+  if (planetDailyCache.has(cacheKey)) {
+    return planetDailyCache.get(cacheKey);
+  }
 
-  return {
-
+  const result = Elongation(body, getLocalNoon(dateString));
+  const data = {
     date: dateString,
-
-    visibility:
-      result.visibility,
-
-    elongation:
-      Number(
-        result.elongation.toFixed(6)
-      ),
-
-    eclipticSeparation:
-      Number(
-        result.ecliptic_separation.toFixed(6)
-      )
+    eclipticSeparation: Number(result.ecliptic_separation)
   };
+
+  planetDailyCache.set(cacheKey, data);
+  return data;
 }
 
+function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
+  const selected = getPlanetDailyData(body, selectedDate);
+  if (!Number.isFinite(selected.eclipticSeparation)) return null;
 
-/* =========================================
-   Venus motion
+  // दिन-स्तर पर अधिकतम 400 दिन आगे/पीछे खोजें।
+  for (let offset = 1; offset <= 400; offset++) {
+    const pastDate = addDays(selectedDate, -offset);
+    const pastNextDate = addDays(selectedDate, -offset + 1);
+    const futurePrevDate = addDays(selectedDate, offset - 1);
+    const futureDate = addDays(selectedDate, offset);
 
-   पिछले और अगले दिन की
-   ecliptic separation देखकर
-   पता लगाएँ कि Venus direct है
-   या retrograde.
+    const pastA = getPlanetDailyData(body, pastDate);
+    const pastB = getPlanetDailyData(body, pastNextDate);
+    const futureA = getPlanetDailyData(body, futurePrevDate);
+    const futureB = getPlanetDailyData(body, futureDate);
 
-   यह केवल threshold selection
-   के लिए है।
-   ========================================= */
+    const crossedDown = (a, b) =>
+      a.eclipticSeparation > threshold &&
+      b.eclipticSeparation <= threshold;
 
-function getVenusMotion(
-  dateString
-) {
+    const crossedUp = (a, b) =>
+      a.eclipticSeparation <= threshold &&
+      b.eclipticSeparation > threshold;
 
-  const previousDate =
-    addDays(
-      dateString,
-      -1
-    );
+    const matches = eventType === "asta" ? crossedDown : crossedUp;
 
-  const nextDate =
-    addDays(
-      dateString,
-      1
-    );
-
-  const previous =
-    getVenusDailyData(
-      previousDate
-    );
-
-  const current =
-    getVenusDailyData(
-      dateString
-    );
-
-  const next =
-    getVenusDailyData(
-      nextDate
-    );
-
-  /*
-   * ecliptic separation conjunction
-   * के आसपास घटता-बढ़ता है।
-   *
-   * यहां actual Venus longitude की जगह
-   * separation trend को अभी केवल
-   * temporary threshold-selection
-   * signal की तरह इस्तेमाल किया गया है।
-   */
-
-  if (
-    next.eclipticSeparation >
-    previous.eclipticSeparation
-  ) {
-
-    return "direct";
-
-  }
-
-  if (
-    next.eclipticSeparation <
-    previous.eclipticSeparation
-  ) {
-
-    return "retrograde";
-  }
-
-  return "unknown";
-}
-
-
-/* =========================================
-   Venus threshold
-
-   Surya-Siddhanta approximate rule:
-
-   Direct Venus:
-   10°
-
-   Retrograde Venus:
-   8°
-
-   NOTE:
-   यह अभी working approximation है।
-   Tantrakulam matching के लिए बाद में
-   अलग event rule test किया जाएगा।
-   ========================================= */
-
-function getVenusThreshold(
-  motion
-) {
-
-  if (
-    motion === "retrograde"
-  ) {
-
-    return 8;
-
-  }
-
-  if (
-    motion === "direct"
-  ) {
-
-    return 10;
-
-  }
-
-  return 10;
-}
-
-
-/* =========================================
-   Search Venus Asta
-
-   selected date से लगभग
-   180 दिन पीछे तक search.
-
-   Asta:
-   evening Venus
-   + separation threshold के
-   नीचे/बराबर जाना.
-   ========================================= */
-
-function findVenusAsta(
-  selectedDate
-) {
-
-  for (
-    let offset = -180;
-    offset <= 30;
-    offset++
-  ) {
-
-    const date =
-      addDays(
-        selectedDate,
-        offset
-      );
-
-    const data =
-      getVenusDailyData(
-        date
-      );
-
-    if (
-      data.visibility !== "evening"
-    ) {
-      continue;
+    // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
+    if (matches(pastA, pastB)) {
+      return {
+        date: pastB.date,
+        degree: pastB.eclipticSeparation,
+        threshold,
+        direction: "past"
+      };
     }
 
-    const motion =
-      getVenusMotion(
-        date
-      );
-
-    const threshold =
-      getVenusThreshold(
-        motion
-      );
-
-    if (
-      data.eclipticSeparation <=
-      threshold
-    ) {
-
+    if (matches(futureA, futureB)) {
       return {
-        date: data.date,
-
-        degree:
-          data.eclipticSeparation,
-
-        motion,
-
-        threshold
+        date: futureB.date,
+        degree: futureB.eclipticSeparation,
+        threshold,
+        direction: "future"
       };
     }
   }
@@ -621,155 +479,47 @@ function findVenusAsta(
   return null;
 }
 
+function getPlanetEvent(planet, selectedDate) {
+  const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
 
-/* =========================================
-   Search Venus Udaya
-
-   selected date से लगभग
-   180 दिन पीछे तक search.
-
-   Udaya:
-   morning Venus
-   + separation threshold के
-   ऊपर/बराबर जाना.
-   ========================================= */
-
-function findVenusUdaya(
-  selectedDate
-) {
-
-  for (
-    let offset = -30;
-    offset <= 180;
-    offset++
-  ) {
-
-    const date =
-      addDays(
-        selectedDate,
-        offset
-      );
-
-    const data =
-      getVenusDailyData(
-        date
-      );
-
-    if (
-      data.visibility !== "morning"
-    ) {
-      continue;
-    }
-
-    const motion =
-      getVenusMotion(
-        date
-      );
-
-    const threshold =
-      getVenusThreshold(
-        motion
-      );
-
-    if (
-      data.eclipticSeparation >=
-      threshold
-    ) {
-
-      return {
-        date: data.date,
-
-        degree:
-          data.eclipticSeparation,
-
-        motion,
-
-        threshold
-      };
-    }
+  if (!Number.isFinite(threshold)) {
+    return {
+      name: planet.name,
+      asta: null,
+      astaDegree: null,
+      udaya: null,
+      udayaDegree: null,
+      verificationPending: true
+    };
   }
 
-  return null;
-}
-
-
-/* =========================================
-   Venus event
-
-   ========================================= */
-
-function getVenusEvent(
-  selectedDate
-) {
-
-  const asta =
-    findVenusAsta(
-      selectedDate
+  try {
+    const asta = findNearestAngularBoundary(
+      planet.body, selectedDate, threshold, "asta"
+    );
+    const udaya = findNearestAngularBoundary(
+      planet.body, selectedDate, threshold, "udaya"
     );
 
-  const udaya =
-    findVenusUdaya(
-      selectedDate
-    );
-
-  return {
-
-    name: "शुक्र",
-
-    asta:
-      asta
-        ? formatEventDate(
-            asta.date
-          )
-        : null,
-
-    astaDegree:
-      asta
-        ? `${asta.degree.toFixed(2)}°`
-        : null,
-
-    udaya:
-      udaya
-        ? formatEventDate(
-            udaya.date
-          )
-        : null,
-
-    udayaDegree:
-      udaya
-        ? `${udaya.degree.toFixed(2)}°`
-        : null
-  };
-}
-
-
-/* =========================================
-   बाकी ग्रह
-
-   अभी dynamic calculation नहीं।
-   अगले चरण में आएगा।
-   ========================================= */
-
-function getPlanetEvent(
-  planet,
-  selectedDate
-) {
-  /*
-   * Safety gate for public display:
-   * The current Venus threshold scan is only a rough elongation
-   * approximation, not a validated Śāstriya heliacal event.
-   * Other planets do not yet have a validated event calculation.
-   * Keep the research helpers above for diagnostics, but do not
-   * publish unverified event dates in the public Panchang.
-   */
-  return {
-    name: planet.name,
-    asta: null,
-    astaDegree: null,
-    udaya: null,
-    udayaDegree: null,
-    verificationPending: true
-  };
+    return {
+      name: planet.name,
+      asta: asta ? formatEventDate(asta.date) : null,
+      astaDegree: asta ? `${asta.threshold}° सीमा` : null,
+      udaya: udaya ? formatEventDate(udaya.date) : null,
+      udayaDegree: udaya ? `${udaya.threshold}° सीमा` : null,
+      verificationPending: true
+    };
+  } catch (error) {
+    console.warn("Planetary angular-boundary estimate failed:", planet.body, error);
+    return {
+      name: planet.name,
+      asta: null,
+      astaDegree: null,
+      udaya: null,
+      udayaDegree: null,
+      verificationPending: true
+    };
+  }
 }
 
 
@@ -796,8 +546,8 @@ function createPlanetCard(
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
     <p class="planet-rise-set-note">
-      शास्त्रीय ग्रह-अस्त/उदय की गणना का सत्यापन जारी है।
-      पुष्टि होने तक तिथियाँ प्रकाशित नहीं की जा रही हैं।
+      शास्त्रीय कोणीय सीमाओं (बुध 14°, शुक्र 10°, मंगल 17°, गुरु 11°, शनि 15°) पर आधारित प्रारंभिक अनुमान।
+      तिथियाँ दिन-स्तर पर हैं; ये स्थानीय दृश्यता या Drik के प्रकाशित समय नहीं हैं।
     </p>
 
     <div class="planet-rise-set-grid">
@@ -815,7 +565,7 @@ function createPlanetCard(
             planet.asta
               ? `
                 <span>
-                  अस्त — ${planet.asta}
+                  अस्त (अनुमान) — ${planet.asta}
                   ${
                     planet.astaDegree
                       ? ` (${planet.astaDegree})`
@@ -830,7 +580,7 @@ function createPlanetCard(
             planet.udaya
               ? `
                 <span>
-                  उदय — ${planet.udaya}
+                  उदय (अनुमान) — ${planet.udaya}
                   ${
                     planet.udayaDegree
                       ? ` (${planet.udayaDegree})`
@@ -846,7 +596,7 @@ function createPlanetCard(
             !planet.udaya
               ? `
                 <span>
-                  सत्यापन जारी
+                  गणना उपलब्ध नहीं
                 </span>
               `
               : ""
