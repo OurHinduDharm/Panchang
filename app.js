@@ -72,6 +72,16 @@ compactPanchangStyles.textContent = `
 #result > .grid .sankalp-personal .sp-item { min-width:0; }
 #result > .grid .sankalp-personal input, #result > .grid .sankalp-personal select { box-sizing:border-box; width:100%; max-width:100%; }
 #result > .grid .time-row { gap:8px; }
+#classicalYogasCard .time-row { display:flex; flex-direction:column; align-items:flex-start; gap:3px; }
+#classicalYogasCard .time-row > .classical-yoga-name { display:inline-flex; align-items:baseline; gap:6px; max-width:100%; white-space:nowrap; overflow-wrap:normal; word-break:keep-all; }
+#classicalYogasCard .time-row > .classical-yoga-name > span:last-child { white-space:inherit; overflow-wrap:inherit; word-break:inherit; }
+#classicalYogasCard .time-row > span:not(.classical-yoga-dot) { min-width:0; width:100%; overflow-wrap:anywhere; word-break:normal; }
+#classicalYogasCard .classical-yoga-dot { flex:0 0 auto; font-size:11px; }
+#classicalYogasCard .classical-yoga-dot.is-auspicious { color:#16a34a; }
+#classicalYogasCard .classical-yoga-dot.is-inauspicious { color:#dc2626; }
+#classicalYogasCard .classical-yoga-dot.is-neutral { color:#888; }
+#classicalYogasCard .classical-yoga-section + .classical-yoga-section, #classicalYogasCard .classical-yoga-details { margin-top:10px; }
+#classicalYogasCard .classical-yoga-section > .label { line-height:1.4; }
 .special-muhurta-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
 .special-muhurta-item { min-width:0; padding:8px; border:1px solid rgba(128,128,128,.22); border-radius:8px; background:rgba(128,128,128,.04); }
 .special-muhurta-item .label { line-height:1.35; margin-bottom:5px; }
