@@ -2071,10 +2071,10 @@ function getSpecialKaalDetails(
    * अवधि एक दिन-मुहूर्त (दिनमान / 15); इसकी सीमा सूर्योदय-सूर्यास्त से निकलेगी।
    * परंपरागत विधि/सीमा में मतभेद हो सकते हैं।
    */
-  const solarMiddayMs = sunrise.getTime() + dayMs / 2;
+  const dayMidpointMs = sunrise.getTime() + dayMs / 2;
   const madhyahnaSandhya = {
-    start:new Date(solarMiddayMs - dayMuhurtaMs / 2),
-    end:new Date(solarMiddayMs + dayMuhurtaMs / 2)
+    start:new Date(dayMidpointMs - dayMuhurtaMs / 2),
+    end:new Date(dayMidpointMs + dayMuhurtaMs / 2)
   };
 
   /*
