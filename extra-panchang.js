@@ -1013,7 +1013,7 @@ function placeHoraCard(newCard) {
 
 function placeClassicalYogaCard(newCard) {
   const grid = getPanchangResultsGrid();
-  if (!grid) return;
+  if (!grid || !newCard) return;
   grid.appendChild(newCard);
 }
 
@@ -1541,6 +1541,8 @@ function createClassicalYogaCard(details) {
       sections.push(`<details class="classical-yoga-details"><summary>अन्य शास्त्रीय योग (शुभ-अशुभ)</summary>${renderRows(otherItems)}</details>`);
     }
   }
+
+  if (details?.available && sections.length === 0) return null;
 
   card.innerHTML = `
     ${sections.join("")}
