@@ -1240,55 +1240,67 @@ ${currentText}
    Card placement
    ========================================= */
 
-function placePlanetCard(
-  newCard
-) {
-
-  const result =
-    document.getElementById(
-      "result"
-    );
-
-  if (!result) {
-
-    console.warn(
-      "Extra Panchang: #result not found."
-    );
-
-    return;
-  }
-
-  /*
-   * चंद्रास्त वाले section के
-   * तुरंत बाद card रखें।
-   */
-
-  const cards =
-    [...result.children];
-
-  const moonsetCard =
-    cards.find(
-      card =>
-        /चंद्रास्त|चन्द्रास्त|moonset/i.test(
-          card.textContent || ""
-        )
-    );
-
-  if (moonsetCard) {
-
-    moonsetCard.insertAdjacentElement(
-      "afterend",
-      newCard
-    );
-
-  } else {
-
-    result.appendChild(
-      newCard
-    );
-  }
+function getPanchangResultsGrid() {
+  return document.querySelector("#result > .grid");
 }
 
+/*
+ * सभी कार्ड एक ही परिणाम-ग्रिड में रहें।
+ * अंतिम क्रम normalizePanchangCardOrder() तय करता है,
+ * ताकि अलग-अलग मॉड्यूल के render timing से क्रम न बिगड़े।
+ */
+function placePlanetCard(newCard) {
+  const grid = getPanchangResultsGrid();
+  if (!grid) return;
+  grid.appendChild(newCard);
+}
+
+function placeHoraCard(newCard) {
+  const grid = getPanchangResultsGrid();
+  if (!grid) return;
+  grid.appendChild(newCard);
+}
+
+function placeClassicalYogaCard(newCard) {
+  const grid = getPanchangResultsGrid();
+  if (!grid) return;
+  grid.appendChild(newCard);
+}
+
+function getPanchangCardOrder(card) {
+  const id = card.id || "";
+  const content = (card.textContent || "").replace(/\s+/g, " ").trim();
+
+  if (id === "classicalYogasCard") return 3;
+  if (id === "planetRiseSetCard") return 11;
+  if (id === "horaCard") return 8;
+  if (/📍\s*स्थान/.test(content)) return 0;
+  if (/सूर्योदय|सूर्यास्त|चंद्रोदय|चन्द्रोदय|चंद्रास्त|चन्द्रास्त/.test(content)) return 1;
+  if (/शुभ-अशुभ समय/.test(content)) return 4;
+  if (/ब्रह्म मुहूर्त|प्रातः संध्या|विजय मुहूर्त|गोधूलि मुहूर्त|सायं संध्या|निशीथ काल|दुर्मुहूर्त/.test(content)) return 5;
+  if (/यात्रा शूल विचार|दिशाशूल|कालशूल/.test(content)) return 6;
+  if (/चौघड़िया|चौघडिया|गौरी काल|गौरी/.test(content)) return 7;
+  if (/चयनित तिथि के प्रहर/.test(content)) return 9;
+  if (/भद्रा|घटी|पल/.test(content)) return 9.5;
+  if (/संकल्प/.test(content)) return 10;
+  // विक्रम संवत्, मास, पक्ष, तिथि, वार आदि मुख्य पंचांग।
+  return 2;
+}
+
+function normalizePanchangCardOrder() {
+  const grid = getPanchangResultsGrid();
+  if (!grid) return;
+
+  const children = [...grid.children];
+  children
+    .map((element, index) => ({
+      element,
+      index,
+      order: getPanchangCardOrder(element)
+    }))
+    .sort((a, b) => a.order - b.order || a.index - b.index)
+    .forEach(item => grid.appendChild(item.element));
+}
 
 /* =========================================
    Main update
@@ -1568,6 +1580,8 @@ if(
     classicalYogaCard
   );
 
+  normalizePanchangCardOrder();
+
 }
     
 function nextSelectedDate(isoDate) {
@@ -1735,58 +1749,6 @@ function createClassicalYogaCard(details) {
 
   return card;
 }
-
-function placeClassicalYogaCard(newCard) {
-  const result = document.getElementById("result");
-  if (!result) return;
-
-  const locationCard = [...result.children].find(card =>
-    /📍\s*स्थान/.test(card.textContent || "")
-  );
-
-  if (locationCard) {
-    locationCard.insertAdjacentElement("beforebegin", newCard);
-  } else {
-    result.appendChild(newCard);
-  }
-}
-
-
-function placeHoraCard(
-  newCard
-) {
-
-  const result =
-    document.getElementById(
-      "result"
-    );
-
-  if (!result) {
-    return;
-  }
-
-  const planetCard =
-    document.getElementById(
-      "planetRiseSetCard"
-    );
-
-  if (planetCard) {
-
-    planetCard.insertAdjacentElement(
-      "afterend",
-      newCard
-    );
-
-  } else {
-
-    result.appendChild(
-      newCard
-    );
-
-  }
-
-}
-
 
 /* =========================================
    Initialization
