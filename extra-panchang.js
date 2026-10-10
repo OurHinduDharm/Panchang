@@ -1272,7 +1272,7 @@ function getPanchangCardOrder(card) {
   const content = (card.textContent || "").replace(/\\s+/g, " ").trim();
 
   if (/📍\\s*स्थान/.test(content)) return 0;
-  if (/सूर्योदय|सूर्यास्त|चंद्रोदय|चन्द्रోదय|चंद्रास्त|चन्द्रास्त/.test(content)) return 1;
+  if (/सूर्योदय|सूर्यास्त|चंद्रोदय|चन्द्रोदय|चंद्रास्त|चन्द्रास्त/.test(content)) return 1;
   if (id === "classicalYogasCard") return 3;
   if (/शुभ-अशुभ समय/.test(content)) return 4;
   if (/ब्रह्म मुहूर्त|प्रातः संध्या|विजय मुहूर्त|गोधूलि मुहूर्त|सायं संध्या|निशीथ काल|दुर्मुहूर्त/.test(content)) return 5;
