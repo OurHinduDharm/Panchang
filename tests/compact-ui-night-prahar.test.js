@@ -98,7 +98,7 @@ test("Anandadi yogas show auspiciousness colors and use Lumbaka spelling", () =>
 });
 
 test("Madhyahna Sandhya is calculated around local solar midday", () => {
-  assert.match(source, /const solarMiddayMs = sunrise\.getTime\(\) \+ dayMs \/ 2;/);
+  assert.match(source, /const dayMidpointMs = sunrise\.getTime\(\) \+ dayMs \/ 2;/);
   assert.match(source, /const madhyahnaSandhya = \{/);
 });
 
