@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PR Browser Preview — OurHinduDharm Panchang</title>
+<style>
+:root{color-scheme:light;--ink:#34251b;--muted:#6b625b;--accent:#a84308;--paper:#fffaf2;--line:#e6d8c7}
+*{box-sizing:border-box}
+body{margin:0;padding:20px;font-family:Arial,"Noto Sans Devanagari",sans-serif;background:#f5efe6;color:var(--ink);line-height:1.6}
+main{max-width:820px;margin:0 auto;background:white;border:1px solid var(--line);border-radius:18px;padding:clamp(16px,4vw,30px);box-shadow:0 8px 28px #4b2a1110}
+h1{font-size:clamp(23px,4vw,32px);line-height:1.25;margin:0 0 8px}
+h2{font-size:19px;margin:24px 0 8px}
+p{margin:8px 0}
+.muted{color:var(--muted);font-size:14px}
+label{display:block;font-weight:700;margin:18px 0 6px}
+input{width:100%;padding:13px;border:1px solid #cfc3b5;border-radius:10px;font:inherit}
+button,.button{display:inline-block;border:0;border-radius:10px;background:var(--accent);color:white;padding:12px 16px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;margin-top:10px}
+button:disabled{opacity:.55;cursor:wait}
+.panel{background:var(--paper);border:1px solid var(--line);padding:14px;border-radius:12px;margin-top:14px}
+.status{font-weight:700}
+ul{padding-left:22px}
+li{margin:5px 0;overflow-wrap:anywhere}
+.warning{border-left:4px solid #c17a13;background:#fff7e5;padding:12px;border-radius:8px;margin-top:16px}
+.success{color:#176b39}.error{color:#a32121}
+.hidden{display:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.actions a{flex:1;min-width:180px;text-align:center}
+code{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<main>
+  <h1>🧪 PR Browser Preview</h1>
+  <p>OurHinduDharm Panchang के Draft या खुले Pull Request को <strong>main में merge किए बिना</strong> अलग Preview में खोलने का सहायक पेज।</p>
+  <p class="muted">यह पेज PR की जानकारी और बदली हुई फ़ाइलें GitHub API से पढ़ता है। Preview सेवा पर उपलब्धता अलग से निर्भर करती है।</p>
+
+  <form id="prForm">
+    <label for="prUrl">GitHub Pull Request URL या नंबर</label>
+    <input id="prUrl" name="prUrl" type="text" inputmode="url" placeholder="https://github.com/OurHinduDharm/Panchang/pull/14" value="https://github.com/OurHinduDharm/Panchang/pull/14" required>
+    <button id="checkBtn" type="submit">PR की जाँच करें</button>
+  </form>
+
+  <section id="result" class="panel hidden" aria-live="polite"></section>
+
+  <h2>Preview में क्या जाँचें?</h2>
+  <ul>
+    <li>पेज बिना JavaScript या module errors के खुलता है।</li>
+    <li>बदले हुए फ़ीचर के साथ तारीख, स्थान और सामान्य उपयोग के मामले जाँचें।</li>
+    <li>मोबाइल और डेस्कटॉप लेआउट देखें।</li>
+    <li>Mini Panchang और अन्य मौजूदा सुविधाएँ पहले की तरह काम कर रही हैं।</li>
+    <li>ब्राउज़र DevTools Console में लाल errors देखें।</li>
+  </ul>
+
+  <div class="warning">
+    <strong>सुरक्षा और सीमाएँ:</strong> Preview में PR का JavaScript चलेगा। केवल भरोसेमंद PR खोलें। यह सुविधा अलग third-party Preview host का उपयोग करती है; अगर वहाँ Preview उपलब्ध न हो, तो GitHub branch/commit से स्थानीय server पर चलाना होगा। पेज खुल जाना अपने-आप में सही गणना या पूर्ण परीक्षण का प्रमाण नहीं है।
+  </div>
+  <p class="muted">यह परीक्षण उपकरण मुख्य Panchang की गणना या फ़ाइलों को नहीं बदलता।</p>
+</main>
+<script>
+(() => {
+  "use strict";
+  const form = document.getElementById("prForm");
+  const input = document.getElementById("prUrl");
+  const button = document.getElementById("checkBtn");
+  const result = document.getElementById("result");
+  const repo = "OurHinduDharm/Panchang";
+
+  function el(tag, text, className) {
+    const node = document.createElement(tag);
+    if (text !== undefined) node.textContent = text;
+    if (className) node.className = className;
+    return node;
+  }
+  function link(href, text, className) {
+    const a = el("a", text, className || "button");
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    return a;
+  }
+  function parsePrNumber(value) {
+    const trimmed = value.trim();
+    if (/^\d+$/.test(trimmed)) return Number(trimmed);
+    let url;
+    try { url = new URL(trimmed); } catch { throw new Error("कृपया सही GitHub PR URL या PR नंबर डालें।"); }
+    if (url.hostname !== "github.com") throw new Error("केवल github.com का PR URL स्वीकार है।");
+    const match = url.pathname.match(/^\/OurHinduDharm\/Panchang\/pull\/(\d+)\/?$/);
+    if (!match) throw new Error("URL इस रिपॉज़िटरी का होना चाहिए: github.com/OurHinduDharm/Panchang/pull/नंबर");
+    return Number(match[1]);
+  }
+  async function getJson(url) {
+    const response = await fetch(url, {headers: {"Accept":"application/vnd.github+json"}});
+    if (!response.ok) {
+      if (response.status === 404) throw new Error("PR नहीं मिला। URL/नंबर जाँचें।");
+      if (response.status === 403) throw new Error("GitHub API की rate limit या अनुमति की समस्या है। कुछ देर बाद फिर प्रयास करें।");
+      throw new Error("GitHub API से जानकारी नहीं मिली (HTTP " + response.status + ")।");
+    }
+    return response.json();
+  }
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    result.classList.remove("hidden");
+    result.replaceChildren(el("p", "PR की जानकारी लोड हो रही है…", "status"));
+    button.disabled = true;
+    try {
+      const number = parsePrNumber(input.value);
+      const base = "https://api.github.com/repos/" + repo + "/pulls/" + number;
+      const [pr, files] = await Promise.all([getJson(base), getJson(base + "/files?per_page=100")]);
+      if (!pr.head || !pr.head.sha || pr.head.repo?.full_name !== repo) {
+        throw new Error("यह PR उसी सार्वजनिक रिपॉज़िटरी की शाखा से नहीं है; इस Preview टूल से इसे नहीं खोला जा सकता।");
+      }
+      const previewUrl = "https://raw.githack.com/" + repo + "/" + encodeURIComponent(pr.head.sha) + "/index.html";
+      result.replaceChildren();
+      result.appendChild(el("h2", "#" + number + " — " + (pr.title || "बिना शीर्षक")));
+      const status = pr.merged ? "Merged" : (pr.draft ? "Draft" : "Review के लिए खुला");
+      result.appendChild(el("p", "स्थिति: " + status + " · शाखा: " + pr.head.ref));
+      result.appendChild(el("p", "Commit: " + pr.head.sha));
+      result.appendChild(el("p", "बदली हुई फ़ाइलें (" + files.length + "):", "status"));
+      const list = el("ul");
+      files.forEach(file => {
+        const li = el("li");
+        li.appendChild(el("code", file.filename));
+        li.appendChild(el("span", " — +" + file.additions + " / −" + file.deletions, "muted"));
+        list.appendChild(li);
+      });
+      result.appendChild(list);
+      const actions = el("div", undefined, "actions");
+      actions.appendChild(link(previewUrl, "Preview खोलें"));
+      actions.appendChild(link(pr.html_url, "GitHub पर PR देखें", "button"));
+      result.appendChild(actions);
+      result.appendChild(el("p", "Preview commit SHA से बनाया गया है, इसलिए यह PR के उसी commit को संदर्भित करता है। अगर पेज/मॉड्यूल लोड न हों, तो Preview host की सीमा हो सकती है।", "muted"));
+    } catch (error) {
+      result.replaceChildren(el("p", error.message || "अनपेक्षित त्रुटि हुई।", "status error"));
+    } finally {
+      button.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
