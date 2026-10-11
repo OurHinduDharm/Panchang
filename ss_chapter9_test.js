@@ -1,9 +1,9 @@
 /**
  * OurHinduDharm — Sūrya-siddhānta Chapter 9 research helper
  *
- * Scope: isolated arithmetic check for the relative-motion step described
- * in IX.10 ONLY. This does not calculate drik-karma, lagnāntara, the
- * prescribed kalāṃśa, local sunrise/sunset, or a final Asta/Udaya event.
+ * Scope: isolated tests for (1) the IX.10 relative-motion arithmetic and
+ * (2) the IX.6–8 prescribed angular-limit table. This does not calculate
+ * dṛkkarma, lagnāntara, event geometry, local sunrise/sunset, or a final event.
  *
  * Inputs must already be independently derived and expressed consistently:
  * - currentKalanshaTimeUnits: current corrected kalāṃśa/time measure
@@ -170,6 +170,6 @@ export function runChapter9ArithmeticTests() {
     passed: tests.filter(test => test.passed).length,
     total: tests.length,
     allPassed: tests.every(test => test.passed),
-    note: "Passing tests validate arithmetic only, not the full Sūrya-siddhānta procedure."
+    note: "Passing tests validate arithmetic and threshold selection only; they do not validate event classification or the full Sūrya-siddhānta procedure."
   };
 }
