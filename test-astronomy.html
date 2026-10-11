@@ -223,6 +223,7 @@
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
+    <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
   </div>
@@ -420,6 +421,17 @@
     <p>This diagnostic tests the traditional threshold rule using modern astronomical positions. The external reference date is not used as the calculated answer.</p><div class="status warn"><strong>Important:</strong> 8°/10°/11° are classical Sūrya-siddhānta approximations. Diagnostic only; not the final local Asta/Udaya algorithm.</div>
     <div class="status info">Venus: 10° direct, 8° retrograde. Jupiter: 11°. Ecliptic-longitude and true 3-D angular separation are both tested.</div>
     <div id="classicalOutput"><div class="status info">Not run yet.</div></div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- EXACT-TIME REFERENCE AUDIT -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>Exact-Time Asta/Udaya Boundary Audit — Pithoragarh</h2>
+    <p>This test calculates sub-day crossings of the selected angular-threshold model, then compares them with the supplied Drik local timestamps. A precise root of a chosen threshold is not automatically the same event as Drik visibility-based Asta/Udaya.</p>
+    <div class="status warn"><strong>Interpretation:</strong> A result marked as a time match only compares timestamps. A mismatch may mean the event definitions differ; do not tune the threshold merely to force a match.</div>
+    <div id="exactBoundaryAuditOutput"><div class="status info">Not run yet.</div></div>
   </section>
 
   <!-- ========================================================= -->
@@ -3754,6 +3766,50 @@ async function runReferenceWindowScan() {
 }
 
 
+
+/* =============================================================
+   EXACT-TIME BOUNDARY AUDIT
+   ============================================================= */
+const EXACT_TIME_BOUNDARY_REFERENCES = [
+  { planet:"Venus", event:"Asta", label:"Drik Asta begins", localTime:"2026-10-12T18:05:00" },
+  { planet:"Venus", event:"Udaya", label:"Drik Asta ends", localTime:"2026-10-29T05:49:00" },
+  { planet:"Jupiter", event:"Asta", label:"Drik Asta begins", localTime:"2027-08-16T19:24:00" },
+  { planet:"Jupiter", event:"Udaya", label:"Drik Asta ends", localTime:"2027-09-13T05:09:00" }
+];
+
+function runExactTimeBoundaryAudit() {
+  const output = document.getElementById("exactBoundaryAuditOutput");
+  const rows = [];
+
+  for (const ref of EXACT_TIME_BOUNDARY_REFERENCES) {
+    const published = new Date(ref.localTime + "+05:30");
+    const searchRef = { planet:ref.planet, event:ref.event, date:ref.localTime.slice(0,10) };
+    const ecliptic = findClassicalCrossing(searchRef, false);
+    const true3d = findClassicalCrossing(searchRef, true);
+
+    const resultCell = (result, label) => {
+      if (!result) return "<td>" + label + "<br>कोई सीमा-संक्रमण नहीं मिला</td>";
+      const deltaMinutes = (result.root.getTime() - published.getTime()) / 60000;
+      const deltaLabel = (deltaMinutes >= 0 ? "+" : "") + Math.round(deltaMinutes) + " min";
+      return "<td>" + label + "<br><strong>" + formatLocalFromUTCDate(result.root) +
+        " IST</strong><br>सीमा: " + round(result.g.threshold,4) + "°" +
+        "<br>संदर्भ से अंतर: " + deltaLabel +
+        "<br>दिशा: " + (result.directionMatches ? "अपेक्षित" : "विपरीत") + "</td>";
+    };
+
+    rows.push("<tr><td>" + ref.planet + "</td><td>" + ref.label +
+      "</td><td>" + ref.localTime.replace("T"," ") + " IST</td>" +
+      resultCell(ecliptic, "Ecliptic-longitude सीमा") +
+      resultCell(true3d, "True 3-D सीमा") + "</tr>");
+  }
+
+  output.innerHTML = '<div class="table-wrap"><table><thead><tr>' +
+    '<th>ग्रह</th><th>संदर्भ घटना</th><th>प्रकाशित स्थानीय समय</th>' +
+    '<th>गणितीय सीमा-संक्रमण (ecliptic)</th><th>गणितीय सीमा-संक्रमण (3-D)</th>' +
+    '</tr></thead><tbody>' + rows.join("") + '</tbody></table></div>' +
+    '<p class="small">संदर्भ समय Drik Panchang के Pithoragarh परिणामों से दिए गए परीक्षण-इनपुट हैं। यह ऑडिट उन्हें गणना का उत्तर नहीं मानता।</p>';
+}
+
 /* =============================================================
    RUN ALL
    ============================================================= */
@@ -3925,6 +3981,18 @@ document
     "click",
     runClassicalAstaUdayaTest
   );
+
+document
+  .getElementById("runExactBoundaryAuditBtn")
+  .addEventListener("click", () => {
+    try {
+      runExactTimeBoundaryAudit();
+      setStatus("Exact-time boundary audit completed. Compare the two definitions; do not treat threshold crossings as visibility proof.", "info");
+    } catch (error) {
+      console.error("EXACT-TIME BOUNDARY AUDIT ERROR:", error);
+      setStatus(error?.message || String(error), "error");
+    }
+  });
 
 document
   .getElementById("runLocalHorizonBtn")
