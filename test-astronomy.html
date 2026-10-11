@@ -223,7 +223,7 @@
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
     <button id="runClassicalBtn">Angular Threshold Diagnostic</button>
-    <button id="runChapter9ArithmeticBtn">SS IX.10 Arithmetic Test</button>
+    <button id="runChapter9ArithmeticBtn">SS IX.10–11 Time-Estimate Tests</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
@@ -536,7 +536,7 @@ import * as Astronomy
 import SwissEph
   from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
 
-import { chapter9Kalansha, classifyChapter9HorizonEvent, runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
+import { chapter9Kalansha, classifyChapter9HorizonEvent, estimateChapter9TimeCorrectionFromArcMotions, runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
 import { calculateChapter7SequentialDrikkarma, runChapter7DrikkarmaTests } from "./ss_chapter7_drikkarma.js";
 
 
@@ -3021,6 +3021,58 @@ function getClassifiedSunEventForDate(planet, date) {
   return result;
 }
 
+function getSignRisingAsus(siderealLongitudeDeg, config = TKS_CONFIG) {
+  const signStart = Math.floor(normalize360(siderealLongitudeDeg) / 30) * 30;
+  const oaStart = obliqueAscensionFromSiderealLongitude(signStart, config);
+  const oaEnd = obliqueAscensionFromSiderealLongitude(signStart + 30, config);
+  const risingArcDeg = normalize360(oaEnd - oaStart);
+  if (!Number.isFinite(risingArcDeg) || risingArcDeg <= 0 || risingArcDeg >= 180) {
+    return NaN;
+  }
+  return risingArcDeg * 60; // 60 prāṇas per time-degree
+}
+
+function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg, config = TKS_CONFIG) {
+  const planetBody = BODY_NAMES[planet];
+  const sunBody = Astronomy.Body.Sun;
+  const planetState = getPlanetSiderealState(planetBody, eventTime);
+  const sunState = getPlanetSiderealState(sunBody, eventTime);
+  const before = new Date(eventTime.getTime() - 12 * 3600000);
+  const after = new Date(eventTime.getTime() + 12 * 3600000);
+  const planetBefore = getPlanetSiderealState(planetBody, before);
+  const planetAfter = getPlanetSiderealState(planetBody, after);
+  const sunBefore = getPlanetSiderealState(sunBody, before);
+  const sunAfter = getPlanetSiderealState(sunBody, after);
+
+  if (!planetState || !sunState || !planetBefore || !planetAfter || !sunBefore || !sunAfter) {
+    return null;
+  }
+
+  // Signed ecliptic motion over a 24-hour interval, converted to arcminutes/day.
+  const planetDailyMotionArcminPerDay =
+    signedLongitudeDelta(planetAfter.longitude, planetBefore.longitude) * 60;
+  const sunDailyMotionArcminPerDay =
+    signedLongitudeDelta(sunAfter.longitude, sunBefore.longitude) * 60;
+  const planetSignRisingAsus = getSignRisingAsus(planetState.longitude, config);
+  const sunSignRisingAsus = getSignRisingAsus(sunState.longitude, config);
+  const signedLagnantaraDeg =
+    signedLongitudeDelta(geometry.planetOA, geometry.sunOA);
+
+  try {
+    return estimateChapter9TimeCorrectionFromArcMotions({
+      currentKalanshaDeg: geometry.K,
+      targetKalanshaDeg,
+      signedLagnantaraDeg,
+      sunDailyMotionArcminPerDay,
+      planetDailyMotionArcminPerDay,
+      sunSignRisingAsus,
+      planetSignRisingAsus
+    });
+  } catch (error) {
+    return { error: String(error?.message || error) };
+  }
+}
+
 function getLagnantaraResidualForDate(ref, date, method = "current") {
   const eventInfo = getClassifiedSunEventForDate(ref.planet, date);
   if (!eventInfo || eventInfo.ambiguous) return null;
@@ -3145,7 +3197,7 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -3156,6 +3208,9 @@ async function runLagnantaraDiagnostic() {
     const g = sampleResult?.geometry || null;
     const gs = sequentialResult?.geometry || null;
     const C = sampleResult?.C ?? NaN;
+    const timeEstimate = sample && gs && Number.isFinite(C)
+      ? getChapter9TimeEstimate(ref.planet, sample, gs, C)
+      : null;
     const branchLabel = sampleResult
       ? sampleResult.eventInfo.horizonEvent +
         (sampleResult.eventInfo.horizonEvent === ref.expectedHorizonEvent ? ' ✓ fixture' : ' ⚠ differs from fixture')
@@ -3174,6 +3229,9 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+(Number.isFinite(C) ? round(C,2)+'°' : '—')+'</td>';
+    html += '<td>'+(timeEstimate && Number.isFinite(timeEstimate.estimatedDays)
+      ? (timeEstimate.estimatedDays > 0 ? '+' : '') + round(timeEstimate.estimatedDays,4)
+      : (timeEstimate?.error || '—'))+'</td>';
     html += '<td>'+ref.date+'</td>';
     if (crossing && crossing.brackets && crossing.brackets.length) {
       html += '<td>';
@@ -3219,7 +3277,7 @@ async function runLagnantaraDiagnostic() {
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="13"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="14"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
@@ -4080,7 +4138,7 @@ document
       ).join("");
       output.innerHTML =
         '<div class="status ' + (result.allPassed ? 'ok' : 'error') + '">' +
-        result.passed + '/' + result.total + ' arithmetic tests passed. ' +
+        result.passed + '/' + result.total + ' Chapter IX tests passed. ' +
         result.note + '</div>' +
         '<div class="table-wrap"><table><thead><tr><th>Test</th><th>Result</th></tr></thead><tbody>' +
         rows + '</tbody></table></div>';
