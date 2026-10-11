@@ -7,11 +7,13 @@ on:
     paths:
       - "test-astronomy.html"
       - "ss_chapter9_test.js"
+      - "ss_chapter7_drikkarma.js"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
     paths:
       - "test-astronomy.html"
       - "ss_chapter9_test.js"
+      - "ss_chapter7_drikkarma.js"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   workflow_dispatch:
 
@@ -33,7 +35,9 @@ jobs:
           node-version: "22"
 
       - name: Check helper syntax
-        run: node --experimental-default-type=module --check ss_chapter9_test.js
+        run: |
+          node --experimental-default-type=module --check ss_chapter9_test.js
+          node --experimental-default-type=module --check ss_chapter7_drikkarma.js
 
       - name: Run arithmetic and threshold-selection tests
         run: |
@@ -47,6 +51,18 @@ jobs:
           if (!result.allPassed) process.exit(1);
           NODE
 
+      - name: Run Chapter VII dṛkkarma formula checks
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter7DrikkarmaTests } from './ss_chapter7_drikkarma.js';
+          const result = runChapter7DrikkarmaTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter VII tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
       - name: Check HTML structure and diagnostic wiring
         run: |
           node --input-type=module <<'NODE'
@@ -56,6 +72,8 @@ jobs:
           const checks = [
             ['Chapter 9 helper imported', html.includes('chapter9Kalansha, runChapter9ArithmeticTests') && html.includes('from "./ss_chapter9_test.js"')],
             ['source-based threshold selector is used', html.includes('return chapter9Kalansha({ planet, horizonEvent, motionClass });')],
+            ['Chapter VII helper imported and wired', html.includes('calculateChapter7SequentialDrikkarma, runChapter7DrikkarmaTests') && html.includes('runChapter7DrikkarmaTests()') && html.includes('from "./ss_chapter7_drikkarma.js"')],
+            ['Chapter VII helper is used by sequential candidate', html.includes('return calculateChapter7SequentialDrikkarma({')],
             ['arithmetic test button exists', html.includes('id="runChapter9ArithmeticBtn"')],
             ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
             ['legacy Venus limitation disclosed', html.includes('not the event-direction rule of Sūrya-siddhānta IX.7')],
