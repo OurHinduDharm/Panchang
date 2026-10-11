@@ -3053,8 +3053,13 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
     signedLongitudeDelta(planetAfter.longitude, planetBefore.longitude) * 60;
   const sunDailyMotionArcminPerDay =
     signedLongitudeDelta(sunAfter.longitude, sunBefore.longitude) * 60;
-  const planetSignRisingAsus = getSignRisingAsus(planetState.longitude, config);
-  const sunSignRisingAsus = getSignRisingAsus(sunState.longitude, config);
+  /*
+   * IX.5 shifts both western-event longitudes by six signs before
+   * computing lagnāntara. IX.11 must use the rising-asus of those same
+   * event-frame longitudes, not the unshifted zodiac signs.
+   */
+  const planetSignRisingAsus = getSignRisingAsus(geometry.planetLon, config);
+  const sunSignRisingAsus = getSignRisingAsus(geometry.sunLon, config);
   const signedLagnantaraDeg =
     signedLongitudeDelta(geometry.planetOA, geometry.sunOA);
 
