@@ -129,16 +129,18 @@ These are **internal arithmetic/invariant tests**, not observational validation.
 
 ## Current automated-test snapshot
 
-The latest successful workflow run after integrating the IX.2–3 classifier is:
-https://github.com/OurHinduDharm/Panchang/actions/runs/38182695977
+Latest successful full workflow for the current research-page code:  
+https://github.com/OurHinduDharm/Panchang/actions/runs/38185464745
 
 - 32/32 Chapter IX arithmetic, threshold-selection, event-classification, and IX.10–11 conversion tests passed.
-- 7/7 Chapter VII formula-component and invariant tests passed.
-- HTML module syntax, helper wiring, duplicate-ID checks, and production isolation passed.
-- Headless Chromium loaded the research page, calculated all four cases, and passed the event-branch and IX.10–11 bracket-consistency checks. Those bracket checks compare two calculations that share inputs and are **not** independent proof of the event dates.
+- 9/9 Chapter VII formula/invariant tests passed.
+- 5/5 Chapter III rising-asus tests passed.
+- HTML syntax/wiring, duplicate-ID checks, visible research-limit disclosures, and conservative K-candidate label passed.
+- Headless Chromium rendered all four cases and the correction diagnostics without page/console errors.
+- The browser test deliberately emits a **REVIEW** warning for the Venus Udaya IX.10–11 estimate/bracket difference of 0.2949 day; the wider 0.75-day hard-failure ceiling is not a claim of precision.
+- Production isolation passed: `app.js` and `extra-panchang.js` are unchanged from `main`.
 
-A headless Chromium run has been performed in CI. A separate manual run on the user's device has not been performed. The browser result does not validate the full classical calculation or resolve the two reference-date discrepancies.
-
+A headless Chromium run has been performed in CI. A separate manual run on the user's device has not been performed. These tests do not validate the full classical algorithm or resolve the reference-date discrepancies.
 
 ## Same-location comparison from headless Chromium
 
