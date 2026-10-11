@@ -78,7 +78,7 @@ try {
   }
   for (const item of estimates) console.log("IX.10–11 estimate audit:", JSON.stringify(item));
 
-  if (!chapter7.includes("7/7")) throw new Error("Chapter VII formula tests did not pass in browser.");
+  if (!chapter7.includes("9/9")) throw new Error("Chapter VII formula tests did not pass in browser.");
   if (!chapter3.includes("5/5")) throw new Error("Chapter III rising-asus tests did not pass in browser.");
   if (rows.length !== 4) throw new Error("Expected four reference rows.");
   if (correctionDetails.length !== 4 ||
@@ -134,7 +134,7 @@ try {
 
   console.log("PASS — research page loaded in Chromium");
   console.log("PASS — all four Chapter IX reference branches matched their expected event classes");
-  console.log("PASS — Chapter VII formula tests rendered in browser");
+  console.log("PASS — Chapter VII formula and hemisphere/input invariants rendered in browser");
   console.log("PASS — Chapter III sign-rising interpolation tests rendered in browser");
   console.log("PASS — all four ecliptic-longitude and true-elongation diagnostics are finite and displayed separately from classical K");
   console.log("PASS — all four apparent ecliptic-angle threshold scans rendered separately from the classical K brackets");
