@@ -27,7 +27,7 @@ function obliqueAscensionTropical(longitudeDeg, observerLatitudeDeg, obliquityDe
 export function chapter3SignRisingAsus({
   signIndex,
   observerLatitudeDeg,
-  obliquityDeg = 23.4367
+  obliquityDeg = 24
 }) {
   if (!Number.isInteger(signIndex) || signIndex < 0 || signIndex > 11 ||
       !Number.isFinite(observerLatitudeDeg) || Math.abs(observerLatitudeDeg) >= 90 ||
@@ -53,7 +53,7 @@ export function chapter3RisingAsusAtSiderealLongitude({
   siderealLongitudeDeg,
   observerLatitudeDeg,
   ayanamshaDeg = 24.217,
-  obliquityDeg = 23.4367
+  obliquityDeg = 24
 }) {
   if (![siderealLongitudeDeg, observerLatitudeDeg, ayanamshaDeg, obliquityDeg].every(Number.isFinite)) {
     throw new TypeError("All longitude/frame/latitude values must be finite.");
@@ -94,7 +94,7 @@ export function chapter9LagnantaraAsus({
   direction,
   observerLatitudeDeg,
   ayanamshaDeg = 24.217,
-  obliquityDeg = 23.4367
+  obliquityDeg = 24
 }) {
   if (![sunSiderealLongitudeDeg, planetSiderealLongitudeDeg].every(Number.isFinite) ||
       (direction !== "east" && direction !== "west")) {
