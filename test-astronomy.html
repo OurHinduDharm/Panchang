@@ -2757,17 +2757,18 @@ function getDrikkarmaCorrection(body, date, direction, config = TKS_CONFIG) {
 }
 /*
  * Parallel sequential-order experiment for SS VII.8–11.
- * Apply Ayana to the longitude first, then derive the intermediate
- * ecliptic point's equatorial coordinates and apply Aksha to that
- * point. This is intentionally kept separate from the existing
- * calculation until numerical comparisons are reviewed.
+ * Apply Ayana to the longitude first, then apply Aksha correction.
+ * The Chapter VII helper computes the Aksha time ratio from the original
+ * planet's own RA/declination, rather than the intermediate point's RA.
+ * This remains a research candidate until independently validated.
  */
 function getDrikkarmaCorrectionSequential(body, date, direction, config = TKS_CONFIG) {
   /*
    * The sequential candidate is delegated to the isolated, unit-tested
-   * Chapter VII helper. It applies Ayana first and derives Aksha from the
-   * intermediate corrected ecliptic point. The legacy calculation above
-   * remains as a comparison only; neither result is production logic.
+   * Chapter VII helper. It applies Ayana first; Aksha's meridian-time and
+   * half-day ratio uses the original planet's own RA/declination, while the
+   * correction is applied sequentially to longitude. The legacy calculation
+   * above remains a comparison only; neither result is production logic.
    */
   const state = getPlanetSiderealState(body, date);
   if (!state ||
