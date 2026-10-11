@@ -126,7 +126,7 @@ try {
   if (branchMismatches.length) {
     throw new Error("IX.2–3 branch classification did not match every expected reference: " + branchMismatches.join(" || "));
   }
-  if (!output.includes("Classical K bracket") || !output.includes("Sequential K bracket") ||
+  if (!output.includes("Current K bracket") || !output.includes("Sequential K bracket") ||
       !output.includes("Ecliptic Δλ bracket") ||
       !output.includes("IX.10–11 sequential estimate (days)")) {
     throw new Error("Daily crossing / IX.10–11 estimate table did not render fully.");
