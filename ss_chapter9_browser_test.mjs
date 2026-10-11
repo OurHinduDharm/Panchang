@@ -112,6 +112,10 @@ try {
   if (invalidEstimates.length) {
     throw new Error("Missing/non-finite IX.10–11 estimate or bracket comparison: " + JSON.stringify(invalidEstimates));
   }
+  const notableEstimateErrors = estimates.filter(item => Number(item.bracketErrorDays) > 0.25);
+  if (notableEstimateErrors.length) {
+    console.warn("REVIEW — IX.10–11 local-motion estimate differs from the daily-bracket interpolation by more than 0.25 day: " + JSON.stringify(notableEstimateErrors));
+  }
   const largeEstimateErrors = estimates.filter(item => Number(item.bracketErrorDays) > 0.75);
   if (largeEstimateErrors.length) {
     throw new Error("IX.10–11 estimates differ from linearly interpolated daily brackets by more than 0.75 day: " + JSON.stringify(largeEstimateErrors));
