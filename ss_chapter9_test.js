@@ -54,6 +54,36 @@ export function estimateChapter9TimeCorrection({
   };
 }
 
+
+/**
+ * Select the Chapter 9 visibility limit from the event geometry stated by
+ * verses IX.6–8. This is only a threshold selector: callers must independently
+ * determine which horizon event applies. Do not infer the Venus branch from
+ * the generic labels "Asta" or "Udaya" alone.
+ *
+ * horizonEvent: west-setting | east-rising | east-setting | west-rising
+ * motionClass for Mercury: retrograde | direct-fast
+ */
+export function chapter9Kalansha({ planet, horizonEvent, motionClass }) {
+  if (planet === "Jupiter") return 11;
+  if (planet === "Saturn") return 15;
+  if (planet === "Mars") return 17;
+
+  if (planet === "Venus") {
+    if (horizonEvent === "west-setting" || horizonEvent === "east-rising") return 8;
+    if (horizonEvent === "east-setting" || horizonEvent === "west-rising") return 10;
+    return NaN;
+  }
+
+  if (planet === "Mercury") {
+    if (motionClass === "retrograde") return 12;
+    if (motionClass === "direct-fast") return 14;
+    return NaN;
+  }
+
+  return NaN;
+}
+
 export function runChapter9ArithmeticTests() {
   const tests = [];
   const close = (actual, expected, tolerance = 1e-9) =>
@@ -112,6 +142,28 @@ export function runChapter9ArithmeticTests() {
     name: "Zero relative motion is rejected instead of fabricated",
     passed: zeroRelativeMotionRejected
   });
+
+  // Source-faithful IX.6–8 threshold selection. The horizon-event
+  // classification is supplied independently; this helper does not infer it.
+  const limits = [
+    { name: "Jupiter limit is 11°", args: { planet: "Jupiter" }, expected: 11 },
+    { name: "Saturn limit is 15°", args: { planet: "Saturn" }, expected: 15 },
+    { name: "Mars limit is 17°", args: { planet: "Mars" }, expected: 17 },
+    { name: "Venus west-setting limit is 8°", args: { planet: "Venus", horizonEvent: "west-setting" }, expected: 8 },
+    { name: "Venus east-rising limit is 8°", args: { planet: "Venus", horizonEvent: "east-rising" }, expected: 8 },
+    { name: "Venus east-setting limit is 10°", args: { planet: "Venus", horizonEvent: "east-setting" }, expected: 10 },
+    { name: "Venus west-rising limit is 10°", args: { planet: "Venus", horizonEvent: "west-rising" }, expected: 10 },
+    { name: "Mercury retrograde limit is 12°", args: { planet: "Mercury", motionClass: "retrograde" }, expected: 12 },
+    { name: "Mercury direct-fast limit is 14°", args: { planet: "Mercury", motionClass: "direct-fast" }, expected: 14 },
+    { name: "Unknown Venus event is not silently assigned a limit", args: { planet: "Venus", horizonEvent: "unknown" }, expected: NaN }
+  ];
+  for (const item of limits) {
+    const actual = chapter9Kalansha(item.args);
+    tests.push({
+      name: item.name,
+      passed: Number.isNaN(item.expected) ? Number.isNaN(actual) : actual === item.expected
+    });
+  }
 
   return {
     tests,
