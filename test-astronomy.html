@@ -535,7 +535,7 @@ import * as Astronomy
 import SwissEph
   from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
 
-import { runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
+import { chapter9Kalansha, runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
 
 
 /* =============================================================
@@ -2128,8 +2128,8 @@ async function runVisibilityThresholdAnalysis() {
    ============================================================= */
 
 const SHASTRIYA_REFERENCES = [
-  { planet:"Venus", event:"Asta", date:"2026-10-12", direction:"west" },
-  { planet:"Venus", event:"Udaya", date:"2026-11-01", direction:"east" },
+  { planet:"Venus", event:"Asta", horizonEvent:"west-setting", date:"2026-10-12", direction:"west" },
+  { planet:"Venus", event:"Udaya", horizonEvent:"east-rising", date:"2026-11-01", direction:"east" },
   { planet:"Jupiter", event:"Asta", date:"2027-08-20", direction:"west" },
   { planet:"Jupiter", event:"Udaya", date:"2027-09-13", direction:"east" }
 ];
@@ -2995,7 +2995,7 @@ function getLagnantaraResidualForDate(ref, date, method = "current") {
   if (!eventTime) return null;
   const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method);
   if (!g) return null;
-  const C = shastriyaC(ref.planet, ref.event);
+  const C = shastriyaC(ref.planet, ref.horizonEvent, ref.motionClass);
   if (!Number.isFinite(C)) return null;
   return { eventTime, geometry:g, residual:g.K - C };
 }
@@ -3076,26 +3076,13 @@ function findLagnantaraCrossing(ref, method = "current") {
     noCrossing: true
   };
 }
-function shastriyaC(planet, event) {
-  // Sūrya-siddhānta IX.6–9, not values inferred from TKS.
-  if (planet === "Jupiter") return 11;
-  if (planet === "Saturn") return 15;
-  if (planet === "Mars") return 17;
-
+function shastriyaC(planet, horizonEvent, motionClass) {
   /*
-   * IX.7 distinguishes the planet's event, not the Sun-event
-   * search direction: west-setting and east-rising are both 8°;
-   * east-setting and west-rising are both 10°.
-   * The present references test Asta and Udaya, so both use 8°.
+   * Delegate threshold selection to the isolated, unit-tested helper.
+   * The caller must independently classify the horizon geometry; the
+   * generic labels Asta/Udaya alone do not select every Venus branch.
    */
-  if (planet === "Venus") {
-    if (event === "Asta" || event === "Udaya") return 8;
-    return NaN;
-  }
-
-  // IX.8 gives Mercury 12°/14° according to motion; that
-  // requires a separately validated motion-state rule.
-  return NaN;
+  return chapter9Kalansha({ planet, horizonEvent, motionClass });
 }
 
 async function runLagnantaraDiagnostic() {
@@ -3110,7 +3097,7 @@ async function runLagnantaraDiagnostic() {
     const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
     const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
     const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
-    const C = shastriyaC(ref.planet, ref.event);
+    const C = shastriyaC(ref.planet, ref.horizonEvent, ref.motionClass);
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
 
