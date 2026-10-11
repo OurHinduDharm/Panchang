@@ -78,7 +78,7 @@ Location: TKS comparison point 29.5830° N, 80.2090° E; elevation assumed 0 m b
 | Jupiter Asta, target 20 Aug 2027 | 6.5093° | 11° | −7.1402 | 12 Aug 18:53:03 → 13 Aug 18:52:08 | 0.0380 d |
 | Jupiter Udaya, target 13 Sep 2027 | 11.1700° | 11° | −0.1949 | 12 Sep 05:52:00 → 13 Sep 05:52:31 | 0.0014 d |
 
-All four IX.10–11 estimates are within 0.75 day of the linear interpolation of the adjacent daily bracket. This is an **internal consistency check**, not an independent proof: both paths share the same ephemeris, event classification, and dṛkkarma candidate, and the bracket itself is a once-per-sunrise/sunset scan. The estimate is not an exact continuous-time root.
+All four IX.10–11 estimates are within 0.75 day of the linear interpolation of the adjacent daily bracket. The browser test now emits an explicit **REVIEW** warning for discrepancies greater than 0.25 day; Venus Udaya is flagged at about 0.295 day (roughly 7.1 hours). This should be investigated rather than hidden by the wider hard-failure tolerance. It may reflect the local linear-motion approximation, the conversion, or an upstream method mismatch; current evidence does not distinguish those causes. Both paths share the same ephemeris, event classification, and dṛkkarma candidate, and the bracket itself is a once-per-sunrise/sunset scan. The estimate is not an exact continuous-time root.
 
 ### Discrepancies that remain open
 
