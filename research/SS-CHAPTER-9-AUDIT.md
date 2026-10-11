@@ -12,6 +12,8 @@
 - Chapter 3, verse 50, on ascensional equivalents in prāṇas: https://www.swaveda.com/texts/surya-siddhanta/3/
 - Chapter 7, verses 8–11, including the Sanskrit dṛkkarma rules: https://www.vedaseek.com/books/suryasiddhanta/7
 - Burgess English translation, Chapter VII discussion of Akṣa/Āyana dṛkkarma and the stated correction order: https://www.wilbourhall.org/pdfs/suryaenglish.pdf
+- Chapter IX.5 and its editorial note on 60 prāṇas per time-degree: https://karmasakha.com/texts/surya-siddhanta
+- Chapter VII.8–10 Sanskrit and translation: https://karmasakha.com/texts/surya-siddhanta
 - Burgess English translation (Chapter IX discussion): https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf
 
 These references support the textual reading below; they do **not** independently validate the current JavaScript implementation.
@@ -30,13 +32,20 @@ These references support the textual reading below; they do **not** independentl
 | IX.10 | Difference between current and target kalāṃśa, divided by relative daily motion; retrograde motion uses the sum of motion magnitudes. | Ensure both the current/target measure and the daily motions are in the same corrected time measure. Do not feed raw Sun–planet elongation in place of lagnāntara. | Arithmetic tests pass; upstream conversion remains unvalidated. |
 | IX.11 | Supplies an additional rising-time conversion for the time-motion calculation. | Independently derive the precise conversion before implementing a complete date/time estimate. | Not implemented by the isolated arithmetic helper. |
 
+## Code audit findings (research branch)
+
+1. **Correction order:** the older `getDrikkarmaCorrection()` calculates Akṣa from the uncorrected planet RA/declination and then adds Āyana. This is retained only as a comparison baseline. The sequential candidate now calls the isolated `ss_chapter7_drikkarma.js` helper: apply Āyana first, recompute the intermediate ecliptic point's RA/declination, then derive Akṣa from that point. Burgess's explanatory note describes this same intermediate-point sequence. This is the better-supported candidate, but it still requires full numerical validation.
+2. **Akṣa arithmetic:** VII.8–9 states planetary latitude × equinoctial shadow ÷ 12, then × the planet's own time from meridian ÷ its own half-day. Since equinoctial shadow ÷ 12 = tan(observer latitude), the helper uses signed `planetLatitude × tan(latitude) × (hour angle / half-day hour angle)`. This equivalence assumes hour angle and the rising hour-angle are both expressed in the same sidereal-angle frame; the new tests cover sign and zero invariants.
+3. **Āyana arithmetic:** VII.10 multiplies planetary latitude in arcminutes by the absolute declination (degrees) of the longitude increased by three signs, giving arcseconds; same-name latitude/declination is subtractive and unlike-name is additive. The helper implements that unit conversion explicitly.
+4. **Important limitation:** these unit tests are formula-component tests, not independent proof that the full classical method reproduces a published date. The numerical fixture is a transparent, hand-checkable test vector and not an observed planetary event.
+
 ## Coordinate and correction audit
 
 The current research page uses Astronomy Engine geocentric vectors, converts the state to ecliptic-of-date, and rotates the original vector to equatorial-of-date for RA/declination. It intentionally avoids mixing geocentric ecliptic latitude with topocentric RA/declination.
 
-The current dṛkkarma implementation is still a hypothesis that must be checked against the Chapter VII construction:
+The dṛkkarma candidate must still be checked against the Chapter VII construction and independent ephemeris values:
 
-1. **Akṣa-dṛkkarma (VII.8–9):** the text says to multiply planetary latitude by equinoctial shadow, divide by 12, then multiply by the time in ghaṭikās from the planet's meridian passage and divide by the planet's half-day length. Since equinoctial shadow / 12 corresponds to tan(observer latitude), the code's hour-angle / half-day-angle ratio is a candidate conversion of the time ratio, but its units and signs still need explicit fixture tests. Check north/south planetary latitude and east/west hour-angle signs.
+1. **Akṣa-dṛkkarma (VII.8–9):** the text says to multiply planetary latitude by equinoctial shadow, divide by 12, then multiply by the time in ghaṭikās from the planet's meridian passage and divide by the planet's half-day length. Since equinoctial shadow / 12 corresponds to tan(observer latitude), the helper's hour-angle / half-day-angle ratio is the proposed conversion of that time ratio. The isolated tests now check its sign and zero invariants, but not independent event-date accuracy.
 2. **Āyana-dṛkkarma:** verify the prescribed longitude shifted by three signs, the declination calculation, the units of planetary latitude and declination, and the same-name/different-name sign rule.
 3. **Correction order:** Burgess's explanatory note says the Āyana correction first gives the ecliptic point on the six-o'clock line; applying Akṣa correction to that corrected point then gives the horizon point. This supports the *sequential* order as the source-faithful candidate. The current combined-from-raw-position variant is not equivalent by definition; the sequential code still needs independent numerical checks against the source proportions and sign rules. Do not choose a method merely because its output is closer to a reference date.
 4. **Coordinate frame:** the fixed 24.217° ayanāṃśa is a stated research assumption. In the current helper it is restored before the oblique-ascension calculation; this is not an independent validation of ayanāṃśa.
@@ -65,3 +74,12 @@ These checks do **not** establish that the complete classical algorithm is corre
 5. Perform a live browser test of the research page and inspect console errors before considering any merge.
 
 **Decision gate:** no production patch and no merge until the dṛkkarma derivation, event classification, all four cases, and live browser test have been reviewed.
+
+
+## New Chapter VII formula tests
+
+The research branch now contains `ss_chapter7_drikkarma.js`, an isolated implementation of the sequential VII.8–10 candidate. The research page's sequential diagnostic delegates to this helper; the earlier calculation remains visible as a comparison baseline.
+
+The helper includes a numeric fixture for the intermediate longitude, right ascension, declination, hour angle, half-day angle, both correction terms, and final corrected longitude. It also tests that Akṣa vanishes at the equator, both latitude-dependent corrections vanish for zero planetary latitude, the Akṣa sign reverses with hour-angle sign, and reversing planetary latitude reverses the fixture's correction signs.
+
+These are **internal arithmetic/invariant tests**, not observational validation. They do not make the four Asta/Udaya results authoritative. The next gate remains comparison against an independently implemented Chapter VII derivation and then the four same-location event cases.
