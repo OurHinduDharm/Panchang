@@ -46,7 +46,7 @@ Sources: https://tksephemeris.com/tks-home and https://tksephemeris.com/tks-uday
 
 ## Code audit findings (research branch)
 
-1. **Correction order:** the older `getDrikkarmaCorrection()` calculates Akṣa from the uncorrected planet RA/declination and then adds Āyana. This is retained only as a comparison baseline. The sequential candidate now calls the isolated `ss_chapter7_drikkarma.js` helper: apply Āyana first, recompute the intermediate ecliptic point's RA/declination, then derive Akṣa from that point. Burgess's explanatory note describes this same intermediate-point sequence. This is the better-supported candidate, but it still requires full numerical validation.
+1. **Correction order and Akṣa inputs:** Burgess's note says Āyana-corrected longitude gives the ecliptic point on the planet's hour circle, then Akṣa correction gives the point on the circle of position. But VII.8 defines the time from meridian and half-day as those of the planet's own place. The initial sequential experiment incorrectly recalculated RA/declination from the intermediate ecliptic point for the Akṣa time ratio. The helper has now been corrected: it applies Āyana to the intermediate longitude, while calculating Akṣa's hour angle and half-day from the planet's original longitude and signed ecliptic latitude using the stated obliquity. This is more faithful to the text, but still requires full numerical validation.
 2. **Akṣa arithmetic:** VII.8–9 states planetary latitude × equinoctial shadow ÷ 12, then × the planet's own time from meridian ÷ its own half-day. Since equinoctial shadow ÷ 12 = tan(observer latitude), the helper uses signed `planetLatitude × tan(latitude) × (hour angle / half-day hour angle)`. This equivalence assumes hour angle and the rising hour-angle are both expressed in the same sidereal-angle frame; the new tests cover sign and zero invariants.
 3. **Āyana arithmetic:** VII.10 multiplies planetary latitude in arcminutes by the absolute declination (degrees) of the longitude increased by three signs, giving arcseconds; same-name latitude/declination is subtractive and unlike-name is additive. The helper implements that unit conversion explicitly.
 4. **Important limitation:** these unit tests are formula-component tests, not independent proof that the full classical method reproduces a published date. The numerical fixture is a transparent, hand-checkable test vector and not an observed planetary event.
@@ -118,9 +118,9 @@ This is grounded in the source's explicit IX.2–3 contrast and is covered by tw
 
 ## New Chapter VII formula tests
 
-The research branch now contains `ss_chapter7_drikkarma.js`, an isolated implementation of the sequential VII.8–10 candidate. The research page's sequential diagnostic delegates to this helper; the earlier calculation remains visible as a comparison baseline.
+The research branch now contains `ss_chapter7_drikkarma.js`, an isolated implementation of the VII.8–10 candidate. The research page's sequential diagnostic delegates to this helper; the earlier calculation remains visible as a comparison baseline.
 
-The helper includes a cross-language numeric fixture (same equations independently evaluated in Python) for the intermediate longitude, right ascension, declination, hour angle, half-day angle, both correction terms, and final corrected longitude. It also tests that Akṣa vanishes at the equator, both latitude-dependent corrections vanish for zero planetary latitude, the Akṣa sign reverses with hour-angle sign, and reversing planetary latitude reverses the fixture's correction signs.
+The helper includes a cross-language numeric fixture (same equations independently evaluated in Python) for the Āyana-corrected intermediate longitude, the planet's own right ascension/declination used for Akṣa, hour angle, half-day angle, both correction terms, and final corrected longitude. It also tests that Akṣa vanishes at the equator, both latitude-dependent corrections vanish for zero planetary latitude, the Akṣa sign reverses with hour-angle sign, and reversing planetary latitude reverses the fixture's correction signs.
 
 These are **internal arithmetic/invariant tests**, not observational validation. They do not make the four Asta/Udaya results authoritative. The next gate remains comparison against an independently implemented Chapter VII derivation and then the four same-location event cases.
 
@@ -151,10 +151,17 @@ At the Pithoragarh validation coordinates (29.5830° N, 80.2090° E; elevation a
 
 These are calculated brackets from the current research implementation, not adjudicated correct dates. The browser test confirms that the page calculates and renders them without JavaScript errors; it does not prove the formulas are classically correct. The model separation is consistent with the fact that TKS publicly describes its classical (K)-based layer and apparent ecliptic-angle layer as distinct models, but that fact alone does not validate either of these calculated brackets.
 
-**Highest-priority next audit:** inspect the actual Akṣa and Āyana correction components for all four cases, especially Venus Asta. The corrected (K) and the uncorrected (K) differ materially in that case. Confirm the formula, signs, time-from-meridian ratio, event frame, and correction order against the source before interpreting the seven-day model difference.
+**Highest-priority next audit:** re-run all four cases with the corrected Chapter VII helper and inspect the actual Akṣa/Āyana components. Venus Asta has a large geocentric latitude (about −7.57° in the current ephemeris state), so Akṣa is a major term. Confirm its sign and time-from-meridian ratio against VII.8–9 before interpreting the seven-day difference between the classical K and apparent-angle brackets.
 
 ## Latest diagnostic extension — angular separation side by side
 
 The research table now prints both the ecliptic-longitude separation `Δλ` and the spherical 3-D angular separation alongside the Chapter IX classical `K). This is deliberately a comparison panel, not a replacement of the classical method with a modern angular threshold.
 
 **Important outstanding issue:** the current four reference dates are not yet a provenance-verified benchmark set. Do not describe the Venus Udaya or Jupiter Asta offsets as a proven error in Sūrya-siddhānta until the reference source, observer location, event-time convention, ephemeris, and model are matched. The Jupiter Asta discrepancy is large enough to require investigation, not enough by itself to identify the faulty component.
+
+
+## Chapter VII formula correction after component audit
+
+The browser's component audit exposed the reason to revisit the initial sequential candidate: it used the intermediate Āyana-corrected ecliptic point's RA/declination to compute the Akṣa time ratio. The wording of VII.8 specifies the planet's own time from meridian and its own half-day. The helper now uses the planet's original longitude and signed ecliptic latitude (converted with the stated 24° obliquity) for those quantities, while the Āyana-corrected longitude remains the intermediate longitude to which Akṣa is applied.
+
+The previous browser numbers for the sequential K brackets are therefore superseded by the next successful run. The apparent ecliptic-angle brackets remain a separate comparison model and are not changed by this helper-only correction.
