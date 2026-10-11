@@ -53,10 +53,10 @@ jobs:
             ['legacy Venus limitation disclosed', html.includes('not the event-direction rule of Sūrya-siddhānta IX.7')],
             ['threshold test no longer labelled a classical implementation', !html.includes('8. Classical Asta / Udaya Threshold Test')]
           ];
-          const ids = [...html.matchAll(/\\bid="([^"]+)"/g)].map(m => m[1]);
+          const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
           const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
           checks.push(['no duplicate HTML IDs', duplicates.length === 0]);
-          const moduleScript = [...html.matchAll(/<script type="module">([\\s\\S]*?)<\\/script>/gi)][0]?.[1];
+          const moduleScript = [...html.matchAll(/<script type="module">([\s\S]*?)<\/script>/gi)][0]?.[1];
           if (!moduleScript) {
             checks.push(['module script exists', false]);
           } else {
