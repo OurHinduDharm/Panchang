@@ -199,7 +199,7 @@ export function runChapter7DrikkarmaTests() {
     sample.tropicalLongitudeDeg, base.obliquityDeg, base.planetLatitudeDeg
   );
   const intermediateEquatorial = eclipticEquatorial(
-    sample.ayanaAppliedLongitudeDeg + base.ayanamshaDeg,
+    sample.ayanaAppliedLongitude + base.ayanamshaDeg,
     base.obliquityDeg, base.planetLatitudeDeg
   );
   tests.push({
