@@ -137,18 +137,18 @@ export function runChapter7DrikkarmaTests() {
   const sample = calculateChapter7SequentialDrikkarma(base);
 
   tests.push({
-    name: "Independent numeric fixture: Ayana correction",
+    name: "Cross-language numeric fixture: Ayana correction",
     passed: close(sample.ayanaDeclinationDeg, -12.923988030780762) &&
       close(sample.ayanaDeg, 0.25847976061561523)
   });
   tests.push({
-    name: "Independent numeric fixture: intermediate RA/declination",
+    name: "Cross-language numeric fixture: intermediate RA/declination",
     passed: close(sample.ayanaAppliedLongitude, 100.25847976061562) &&
       close(sample.akshaPointRA, 126.81094148374767) &&
       close(sample.akshaPointDeclination, 19.140196458364823)
   });
   tests.push({
-    name: "Independent numeric fixture: Aksha and corrected longitude",
+    name: "Cross-language numeric fixture: Aksha and corrected longitude",
     passed: close(sample.hourAngleDeg, 73.18905851625232) &&
       close(sample.halfDayAngleDeg, 101.36305842597778) &&
       close(sample.akshaDeg, 0.4918768693537018) &&
