@@ -3807,20 +3807,23 @@ function runExactTimeBoundaryAudit() {
     const ecliptic = findClassicalCrossing(searchRef, false);
     const true3d = findClassicalCrossing(searchRef, true);
 
-    const resultCell = (result, label) => {
-      if (!result) return "<td>" + label + "<br>कोई सीमा-संक्रमण नहीं मिला</td>";
+    const resultCell = (result, label, residualField) => {
+      if (!result) return "<td>" + label + "<br>कोई सत्यापित सीमा-संक्रमण नहीं मिला</td>";
       const deltaMinutes = (result.root.getTime() - published.getTime()) / 60000;
       const deltaLabel = (deltaMinutes >= 0 ? "+" : "") + Math.round(deltaMinutes) + " min";
+      const residual = result.g[residualField];
       return "<td>" + label + "<br><strong>" + formatLocalFromUTCDate(result.root) +
         " IST</strong><br>सीमा: " + round(result.g.threshold,4) + "°" +
-        "<br>संदर्भ से अंतर: " + deltaLabel +
+        "<br>ग्रह-गति: " + result.g.motionType +
+        "<br>सीमा से शेष अंतर: " + round(residual,6) + "°" +
+        "<br>संदर्भ से समय-अंतर: " + deltaLabel +
         "<br>दिशा: " + (result.directionMatches ? "अपेक्षित" : "विपरीत") + "</td>";
     };
 
     rows.push("<tr><td>" + ref.planet + "</td><td>" + ref.label +
       "</td><td>" + ref.localTime.replace("T"," ") + " IST</td>" +
-      resultCell(ecliptic, "Ecliptic-longitude सीमा") +
-      resultCell(true3d, "True 3-D सीमा") + "</tr>");
+      resultCell(ecliptic, "Ecliptic-longitude सीमा", "eclipticResidual") +
+      resultCell(true3d, "True 3-D सीमा", "trueResidual") + "</tr>");
   }
 
   output.innerHTML = '<div class="table-wrap"><table><thead><tr>' +
