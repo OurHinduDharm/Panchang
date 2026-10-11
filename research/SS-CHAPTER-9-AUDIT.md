@@ -22,7 +22,7 @@ These references support the textual reading below; they do **not** independentl
 
 | Verse | Textual requirement | Implementation / audit requirement | Status |
 |---|---|---|---|
-| IX.2–3 | Determine the relevant horizon and whether the planetary event is rising or setting, using the Sun–planet relationship and the planet's motion. | Classify the *planetary horizon event* independently: west-setting, east-rising, east-setting, or west-rising. A generic label such as “Asta” or “Udaya” is not enough to infer every possible case. | **Open** — current Venus reference fixtures explicitly label west-setting/east-rising; this is not yet a general event classifier. |
+| IX.2–3 | Determine the relevant horizon and whether the planetary event is rising or setting from Sun-relative longitude and motion. Superior planets (Jupiter, Mars, Saturn) use west-setting when ahead of the Sun and east-rising when behind; retrograde Venus/Mercury follow this rule; direct/swift Venus/Mercury use the reverse pair. | The research branch now classifies all four event geometries from signed circular longitude difference and signed daily motion. It evaluates the branch at both local sunrise and sunset; if they disagree or either is ambiguous, that date is rejected rather than guessed. | **Implemented as a tested candidate**; actual ephemeris classifications on the four target dates still need browser/output review. |
 | IX.4 | For a western event, use Sun/planet positions at sunset; for an eastern event, use positions at sunrise. Then apply dṛkkarma to the planet. | Confirm the exact civil-date sunrise/sunset selection, geocentric coordinate frame, and correction order. | Partially implemented in the research page; not independently validated. |
 | IX.5 | Find the interval between the two lagnas in prāṇas; for the western calculation add six signs to both longitudes. Divide the prāṇa interval by 60 to obtain kalāṃśa (time degrees). | The current diagnostic converts an oblique-ascension interval in degrees to prāṇas as `interval × 60`, then divides by 60. This is arithmetically equivalent to the interval in degrees, **provided** the oblique ascensions and their branch are correctly derived. Chapter III.50 describes ascensional equivalents in prāṇas; this equivalence alone does not validate the OA or dṛkkarma formulas. | Arithmetic identity clear; geometric inputs still open. |
 | IX.6 | Jupiter 11°, Saturn 15°, Mars 17°. | Use these limits without substituting a modern elongation threshold. | Added isolated unit tests. |
@@ -76,6 +76,12 @@ These checks do **not** establish that the complete classical algorithm is corre
 **Decision gate:** no production patch and no merge until the dṛkkarma derivation, event classification, all four cases, and live browser test have been reviewed.
 
 
+## Chapter IX event-classification candidate
+
+The research page now calls `classifyChapter9HorizonEvent()` for each date in the ±15-day scan. It derives signed daily longitude motion from geocentric states at ±12 hours around the Sun event, classifies at both sunrise and sunset, and accepts the date only if both classifications agree. It then chooses sunrise for east-side events and sunset for west-side events, and selects the corresponding Chapter IX threshold dynamically. The daily crossing detector now refuses to form a bracket if invalid/ambiguous dates create a gap; it will not silently call a multi-day gap “adjacent daily events”.
+
+This is grounded in the source's explicit IX.2–3 contrast and is covered by twelve added tests for superior-planet branches, direct/retrograde Venus and Mercury, longitude wraparound, exact conjunction, stationary motion, and unsupported bodies. It remains a candidate until the actual calculated classifications and four date brackets are inspected in a live run.
+
 ## New Chapter VII formula tests
 
 The research branch now contains `ss_chapter7_drikkarma.js`, an isolated implementation of the sequential VII.8–10 candidate. The research page's sequential diagnostic delegates to this helper; the earlier calculation remains visible as a comparison baseline.
@@ -83,3 +89,15 @@ The research branch now contains `ss_chapter7_drikkarma.js`, an isolated impleme
 The helper includes a cross-language numeric fixture (same equations independently evaluated in Python) for the intermediate longitude, right ascension, declination, hour angle, half-day angle, both correction terms, and final corrected longitude. It also tests that Akṣa vanishes at the equator, both latitude-dependent corrections vanish for zero planetary latitude, the Akṣa sign reverses with hour-angle sign, and reversing planetary latitude reverses the fixture's correction signs.
 
 These are **internal arithmetic/invariant tests**, not observational validation. They do not make the four Asta/Udaya results authoritative. The next gate remains comparison against an independently implemented Chapter VII derivation and then the four same-location event cases.
+
+
+## Current automated-test snapshot
+
+The latest successful workflow run after integrating the IX.2–3 classifier is:
+https://github.com/OurHinduDharm/Panchang/actions/runs/38182695977
+
+- 26/26 Chapter IX arithmetic, threshold-selection, and event-classification tests passed.
+- 7/7 Chapter VII formula-component and invariant tests passed.
+- HTML module syntax, helper wiring, duplicate-ID checks, and production isolation passed.
+
+No live browser run has been performed. Therefore the dynamic classifier and four event-date brackets have not yet been observed in the browser, and this does not validate the full classical calculation.
