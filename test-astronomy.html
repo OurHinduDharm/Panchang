@@ -2178,7 +2178,7 @@ function getSiderealEclipticLongitude(body, date) {
 }
 
 function obliqueAscensionFromSiderealLongitude(lambdaDeg, config = TKS_CONFIG) {
-  const eps = 24 * Math.PI / 180;
+  const eps = 23.4367 * Math.PI / 180;
   const phi = config.latitude * Math.PI / 180;
 
   /*
@@ -2342,7 +2342,7 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
     (hourAngleDeg / halfDayAngleDeg);
 
   const ayanaLongitude = normalize360(swJupiter[0] + 90);
-  const eps = 23.4367 * Math.PI / 180;
+  const eps = 24 * Math.PI / 180;
   const ayanaDeclination = Math.asin(clampUnit(
     Math.sin(eps) * Math.sin(ayanaLongitude * Math.PI / 180)
   )) * 180 / Math.PI;
@@ -2717,7 +2717,7 @@ function getDrikkarmaCorrection(body, date, direction, config = TKS_CONFIG) {
   const declinationLon =
     normalize360(tropicalLon + 90);
 
-  const eps = 23.4367 * Math.PI / 180;
+  const eps = 24 * Math.PI / 180;
   const ayanaDeclination =
     Math.asin(
       clampUnit(
