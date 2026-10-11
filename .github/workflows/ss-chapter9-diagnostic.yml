@@ -35,7 +35,7 @@ jobs:
       - name: Check helper syntax
         run: node --experimental-default-type=module --check ss_chapter9_test.js
 
-      - name: Run arithmetic tests
+      - name: Run arithmetic and threshold-selection tests
         run: |
           node --experimental-default-type=module --input-type=module <<'NODE'
           import { runChapter9ArithmeticTests } from './ss_chapter9_test.js';
@@ -54,7 +54,8 @@ jobs:
           import { spawnSync } from 'node:child_process';
           const html = fs.readFileSync('test-astronomy.html', 'utf8');
           const checks = [
-            ['arithmetic helper imported', html.includes('from "./ss_chapter9_test.js"')],
+            ['Chapter 9 helper imported', html.includes('chapter9Kalansha, runChapter9ArithmeticTests') && html.includes('from "./ss_chapter9_test.js"')],
+            ['source-based threshold selector is used', html.includes('return chapter9Kalansha({ planet, horizonEvent, motionClass });')],
             ['arithmetic test button exists', html.includes('id="runChapter9ArithmeticBtn"')],
             ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
             ['legacy Venus limitation disclosed', html.includes('not the event-direction rule of Sūrya-siddhānta IX.7')],
