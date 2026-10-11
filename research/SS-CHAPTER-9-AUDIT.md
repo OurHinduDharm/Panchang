@@ -10,7 +10,8 @@
 - Verses 6–10: https://www.siva.sh/surya-siddhanta/9/6-10
 - Chapter 9 verse-by-verse source and computational notes: https://www.vidhyamitra.com/surya-siddhanta/9
 - Chapter 3, verse 50, on ascensional equivalents in prāṇas: https://www.swaveda.com/texts/surya-siddhanta/3/
-- Chapter 7, verses 8–11, including the Sanskrit dṛkkarma rules: https://www.vedaseek.com/books/suryasiddhanta/7
+- Chapter 7, verses 7–11, Sanskrit with Burgess translation and the explanatory note distinguishing Āyana and Akṣa correction: https://www.swaveda.com/texts/surya-siddhanta/7/
+- Chapter 9, verses 2–5 and 6–10, including event classification and the prescribed limits: https://www.vidhyamitra.com/surya-siddhanta/9
 - Burgess English translation, Chapter VII discussion of Akṣa/Āyana dṛkkarma and the stated correction order: https://www.wilbourhall.org/pdfs/suryaenglish.pdf
 - Chapter IX.5 and its editorial note on 60 prāṇas per time-degree: https://karmasakha.com/texts/surya-siddhanta
 - Chapter VII.8–10 Sanskrit and translation: https://karmasakha.com/texts/surya-siddhanta
@@ -46,7 +47,7 @@ Sources: https://tksephemeris.com/tks-home and https://tksephemeris.com/tks-uday
 
 ## Code audit findings (research branch)
 
-1. **Correction order and Akṣa inputs:** Burgess's note says Āyana-corrected longitude gives the ecliptic point on the planet's hour circle, then Akṣa correction gives the point on the circle of position. But VII.8 defines the time from meridian and half-day as those of the planet's own place. The initial sequential experiment incorrectly recalculated RA/declination from the intermediate ecliptic point for the Akṣa time ratio. The helper has now been corrected: it applies Āyana to the intermediate longitude, while calculating Akṣa's hour angle and half-day from the planet's original longitude and signed ecliptic latitude using the stated obliquity. This is more faithful to the text, but still requires full numerical validation.
+1. **Correction order and Akṣa inputs:** Burgess's note says Āyana-corrected longitude gives the ecliptic point on the six-o'clock line, then Akṣa correction gives the point on the horizon. Verse VII.8 specifies the planet's own meridian-time and half-day quantities. The helper therefore applies Āyana to the intermediate longitude but calculates Akṣa's hour angle and half-day from the original planet's longitude and signed ecliptic latitude, using the stated 24° obliquity. This is a source-supported interpretation that now has a direct regression test; it still needs independent numerical validation.
 2. **Akṣa arithmetic:** VII.8–9 states planetary latitude × equinoctial shadow ÷ 12, then × the planet's own time from meridian ÷ its own half-day. Since equinoctial shadow ÷ 12 = tan(observer latitude), the helper uses signed `planetLatitude × tan(latitude) × (hour angle / half-day hour angle)`. This equivalence assumes hour angle and the rising hour-angle are both expressed in the same sidereal-angle frame; the new tests cover sign and zero invariants.
 3. **Āyana arithmetic:** VII.10 multiplies planetary latitude in arcminutes by the absolute declination (degrees) of the longitude increased by three signs, giving arcseconds; same-name latitude/declination is subtractive and unlike-name is additive. The helper implements that unit conversion explicitly.
 4. **Important limitation:** these unit tests are formula-component tests, not independent proof that the full classical method reproduces a published date. The numerical fixture is a transparent, hand-checkable test vector and not an observed planetary event.
@@ -68,16 +69,16 @@ The dṛkkarma candidate must still be checked against the Chapter VII construct
 
 ## Four-case calculation results from headless Chromium
 
-Location used for this comparison: TKS reference point 29.5830° N, 80.2090° E; elevation assumed 0 m because the reference did not specify elevation. Times are local IST. “Estimate” is signed days from the reference-date Sun event: positive = future, negative = past. The bracket is the daily sequential (K-C) sign change; the error is the absolute difference between the IX.10–11 estimate and a linear interpolation of that bracket.
+Location: TKS comparison point 29.5830° N, 80.2090° E; elevation assumed 0 m because the external reference did not specify it. Times are local IST. The “estimate” is the signed IX.10–11 time correction from the reference-date Sun event; negative means the threshold is estimated to have been passed earlier. The bracket is the adjacent daily sequential (K−C) sign change.
 
-| Case | Classified event | Sequential K at reference date | C | IX.10–11 estimate (days) | Daily sequential bracket | Estimate/bracket difference |
-|---|---|---:|---:|---:|---|---:|
-| Venus Asta, target 12 Oct 2026 | west-setting | 8.4127° | 8° | +0.4221 | 12 Oct 17:42:20 → 13 Oct 17:41:13 | 0.0204 d |
-| Venus Udaya, target 1 Nov 2026 | east-rising | 13.8062° | 8° | −3.3104 | 28 Oct 06:19:17 → 29 Oct 06:20:00 | 0.2672 d |
-| Jupiter Asta, target 20 Aug 2027 | west-setting | 6.5587° | 11° | −8.2404 | 12 Aug 18:53:03 → 13 Aug 18:52:08 | 0.6067 d |
-| Jupiter Udaya, target 13 Sep 2027 | east-rising | 11.1504° | 11° | −0.1719 | 12 Sep 05:52:00 → 13 Sep 05:52:31 | 0.0030 d |
+| Case | K at supplied reference event | C | IX.10–11 estimate (days) | Daily sequential bracket | Estimate vs bracket interpolation |
+|---|---:|---:|---:|---|---:|
+| Venus Asta, target 12 Oct 2026 | 7.8835° | 8° | −0.1182 | 11 Oct 17:43:27 → 12 Oct 17:42:20 | 0.0038 d |
+| Venus Udaya, target 1 Nov 2026 | 13.8429° | 8° | −3.3335 | 28 Oct 06:19:17 → 29 Oct 06:20:00 | 0.2949 d |
+| Jupiter Asta, target 20 Aug 2027 | 6.5093° | 11° | −7.1402 | 12 Aug 18:53:03 → 13 Aug 18:52:08 | 0.0380 d |
+| Jupiter Udaya, target 13 Sep 2027 | 11.1700° | 11° | −0.1949 | 12 Sep 05:52:00 → 13 Sep 05:52:31 | 0.0014 d |
 
-All four IX.10–11 estimates are within 0.75 day of the linearly interpolated daily bracket in the current test. This is an **internal consistency check**, not an independent proof: both paths share the same ephemeris, event classification, and dṛkkarma candidate, and the daily bracket itself is only a once-per-sunrise/sunset scan.
+All four IX.10–11 estimates are within 0.75 day of the linear interpolation of the adjacent daily bracket. This is an **internal consistency check**, not an independent proof: both paths share the same ephemeris, event classification, and dṛkkarma candidate, and the bracket itself is a once-per-sunrise/sunset scan. The estimate is not an exact continuous-time root.
 
 ### Discrepancies that remain open
 
@@ -88,16 +89,9 @@ All four IX.10–11 estimates are within 0.75 day of the linearly interpolated d
 
 ## What the latest automated tests establish
 
-At commit `86ab48a89010da334ae2b038dd191214d49f3c28`, GitHub Actions passed:
+At the latest completed full browser run before the current two additional Chapter VII invariants, GitHub Actions passed 32/32 Chapter IX tests, 7/7 Chapter VII tests, and 5/5 Chapter III tests. That run also loaded the research page in headless Chromium and checked all four event branches, correction components, estimates, rendered tables, and console errors. A new run is required after the latest added tests; those results are not yet claimed here.
 
-- 14/14 isolated tests: four relative-motion arithmetic cases plus ten threshold-selection cases.
-- Main HTML module syntax.
-- Helper import and selector wiring.
-- No duplicate HTML IDs.
-- Explicit disclosure of the legacy Venus-threshold limitation.
-- Production isolation check: `app.js` and `extra-panchang.js` unchanged.
-
-These checks do **not** establish that the complete classical algorithm is correct, nor do they count as a live browser test.
+These checks do **not** establish that the complete classical algorithm is correct. The browser run is headless CI validation, not a manual test on the user's phone.
 
 ## Next research steps
 
@@ -164,17 +158,17 @@ The research table now prints both the ecliptic-longitude separation `Δλ` and 
 
 The browser's component audit exposed the reason to revisit the initial sequential candidate: it used the intermediate Āyana-corrected ecliptic point's RA/declination to compute the Akṣa time ratio. The wording of VII.8 specifies the planet's own time from meridian and its own half-day. The helper now uses the planet's original longitude and signed ecliptic latitude (converted with the stated 24° obliquity) for those quantities, while the Āyana-corrected longitude remains the intermediate longitude to which Akṣa is applied.
 
-The updated headless Chromium run completed successfully after this correction. Sequential K values changed only slightly relative to the legacy values, and the four daily K brackets remained 11–12 Oct 2026 (Venus Asta), 28–29 Oct 2026 (Venus Udaya), 12–13 Aug 2027 (Jupiter Asta), and 12–13 Sep 2027 (Jupiter Udaya). The apparent ecliptic-angle brackets remain a separate comparison model and are not changed by this helper-only correction.
+The updated headless Chromium run completed successfully after the correction. At the latest tested point, the four daily K brackets were 11–12 Oct 2026 (Venus Asta), 28–29 Oct 2026 (Venus Udaya), 12–13 Aug 2027 (Jupiter Asta), and 12–13 Sep 2027 (Jupiter Udaya). The apparent ecliptic-angle brackets remain a separate comparison model and are not changed by the helper-only correction.
 
 
 ## Latest successful browser check after the Akṣa-input correction
 
-Workflow (latest complete head): https://github.com/OurHinduDharm/Panchang/actions/runs/38184107556
+Previously successful full workflow: https://github.com/OurHinduDharm/Panchang/actions/runs/38184164804
 
 - 32/32 Chapter IX arithmetic/classifier/time-conversion tests passed.
-- 7/7 Chapter VII formula and invariant tests passed, including the updated independent numeric fixture for the planet's own RA/declination.
+- 7/7 Chapter VII formula and invariant tests passed.
 - 5/5 Chapter III rising-asus tests passed.
 - Headless Chromium rendered all four reference cases, all three separate angular/K outputs, and all Akṣa/Āyana components without browser errors.
-- Production isolation passed; `app.js` and `extra-panchang.js` remain unchanged.
+- Production isolation passed; `app.js` and `extra-panchang.js` remained unchanged.
 
-The latest test run adds and passes a regression assertion that the browser diagnostic uses the planet's own RA/declination for the Akṣa time ratio and does not regress to the intermediate-point RA.
+The current branch adds two more Chapter VII checks (original-point RA/declination use and hemisphere sign reversal). Their updated result is pending the next CI run.
