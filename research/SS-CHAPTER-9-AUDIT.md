@@ -10,6 +10,8 @@
 - Verses 6–10: https://www.siva.sh/surya-siddhanta/9/6-10
 - Chapter 9 verse-by-verse source and computational notes: https://www.vidhyamitra.com/surya-siddhanta/9
 - Chapter 3, verse 50, on ascensional equivalents in prāṇas: https://www.swaveda.com/texts/surya-siddhanta/3/
+- Chapter 7, verses 8–11, including the Sanskrit dṛkkarma rules: https://www.vedaseek.com/books/suryasiddhanta/7
+- Burgess English translation, Chapter VII discussion of Akṣa/Āyana dṛkkarma and the stated correction order: https://www.wilbourhall.org/pdfs/suryaenglish.pdf
 - Burgess English translation (Chapter IX discussion): https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf
 
 These references support the textual reading below; they do **not** independently validate the current JavaScript implementation.
@@ -34,9 +36,9 @@ The current research page uses Astronomy Engine geocentric vectors, converts the
 
 The current dṛkkarma implementation is still a hypothesis that must be checked against the Chapter VII construction:
 
-1. **Akṣa-dṛkkarma:** verify the exact proportional construction, signs for north/south planetary latitude and east/west hour angle, and whether the planet's own half-day arc is the correct denominator at the selected solar event.
+1. **Akṣa-dṛkkarma (VII.8–9):** the text says to multiply planetary latitude by equinoctial shadow, divide by 12, then multiply by the time in ghaṭikās from the planet's meridian passage and divide by the planet's half-day length. Since equinoctial shadow / 12 corresponds to tan(observer latitude), the code's hour-angle / half-day-angle ratio is a candidate conversion of the time ratio, but its units and signs still need explicit fixture tests. Check north/south planetary latitude and east/west hour-angle signs.
 2. **Āyana-dṛkkarma:** verify the prescribed longitude shifted by three signs, the declination calculation, the units of planetary latitude and declination, and the same-name/different-name sign rule.
-3. **Correction order:** compare the current combined correction with the sequential variant against the original proportional construction. Neither variant is canonical merely because its output is closer to a reference date.
+3. **Correction order:** Burgess's explanatory note says the Āyana correction first gives the ecliptic point on the six-o'clock line; applying Akṣa correction to that corrected point then gives the horizon point. This supports the *sequential* order as the source-faithful candidate. The current combined-from-raw-position variant is not equivalent by definition; the sequential code still needs independent numerical checks against the source proportions and sign rules. Do not choose a method merely because its output is closer to a reference date.
 4. **Coordinate frame:** the fixed 24.217° ayanāṃśa is a stated research assumption. In the current helper it is restored before the oblique-ascension calculation; this is not an independent validation of ayanāṃśa.
 5. **Daily event bracket:** the current scan evaluates one local sunrise or sunset per civil date. A sign change brackets adjacent daily samples; it is not an exact continuous-time root and must not be reported as a precise event instant.
 6. **Independent ephemeris:** comparing Astronomy Engine and Swiss Ephemeris at the same UTC instant checks input-state consistency, not the classical formula itself.
