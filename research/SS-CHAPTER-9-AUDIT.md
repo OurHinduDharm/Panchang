@@ -169,7 +169,7 @@ The updated headless Chromium run completed successfully after this correction. 
 
 ## Latest successful browser check after the Akṣa-input correction
 
-Workflow: https://github.com/OurHinduDharm/Panchang/actions/runs/38184015152
+Workflow (latest complete head): https://github.com/OurHinduDharm/Panchang/actions/runs/38184107556
 
 - 32/32 Chapter IX arithmetic/classifier/time-conversion tests passed.
 - 7/7 Chapter VII formula and invariant tests passed, including the updated independent numeric fixture for the planet's own RA/declination.
@@ -177,4 +177,4 @@ Workflow: https://github.com/OurHinduDharm/Panchang/actions/runs/38184015152
 - Headless Chromium rendered all four reference cases, all three separate angular/K outputs, and all Akṣa/Āyana components without browser errors.
 - Production isolation passed; `app.js` and `extra-panchang.js` remain unchanged.
 
-The next test run also adds a regression assertion that the browser diagnostic uses the planet's own RA/declination for the Akṣa time ratio and does not regress to the intermediate-point RA. That run is pending.
+The latest test run adds and passes a regression assertion that the browser diagnostic uses the planet's own RA/declination for the Akṣa time ratio and does not regress to the intermediate-point RA.
