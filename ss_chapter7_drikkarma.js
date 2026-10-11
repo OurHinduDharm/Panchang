@@ -2,10 +2,11 @@
  * Isolated Sūrya-siddhānta VII.8–10 dṛkkarma candidate.
  *
  * Uses geocentric sidereal ecliptic longitude and signed ecliptic latitude,
- * converts to the stated tropical/equinox frame for declination/RA, applies
- * Ayana first, then derives Aksha from the intermediate corrected ecliptic
- * point. This is a testable candidate, not a claim that the whole Chapter VII
- * or Chapter IX event algorithm has been independently validated.
+ * restores the explicitly configured equinox frame for declination/RA, then
+ * applies Ayana followed by Aksha to the longitude. For the Aksha time ratio,
+ * it uses the original planet's RA/declination (not the intermediate Ayana-
+ * corrected point). This is a testable interpretation of VII.8–10, not proof
+ * that the full Chapter VII or Chapter IX event algorithm is validated.
  */
 
 function normalize360(value) {
@@ -192,6 +193,28 @@ export function runChapter7DrikkarmaTests() {
     name: "Aksha sign reverses when hour angle reverses",
     passed: close(east.hourAngleDeg, -west.hourAngleDeg) &&
       close(east.akshaDeg, -west.akshaDeg, 1e-8)
+  });
+
+  const originalEquatorial = eclipticEquatorial(
+    sample.tropicalLongitudeDeg, base.obliquityDeg, base.planetLatitudeDeg
+  );
+  const intermediateEquatorial = eclipticEquatorial(
+    sample.ayanaAppliedLongitudeDeg + base.ayanamshaDeg,
+    base.obliquityDeg, base.planetLatitudeDeg
+  );
+  tests.push({
+    name: "Aksha time ratio uses original planet RA/declination, not the Ayana-corrected intermediate point",
+    passed: close(sample.planetRAForAksha, originalEquatorial.rightAscensionDeg) &&
+      close(sample.planetDeclinationForHalfDay, originalEquatorial.declinationDeg) &&
+      Math.abs(sample.planetRAForAksha - intermediateEquatorial.rightAscensionDeg) > 1e-4
+  });
+
+  const southernObserver = calculateChapter7SequentialDrikkarma({
+    ...base, observerLatitudeDeg: -29.583
+  });
+  tests.push({
+    name: "Aksha correction reverses sign across observer hemispheres for the same planet/hour angle",
+    passed: Math.sign(southernObserver.akshaDeg) === -Math.sign(sample.akshaDeg)
   });
 
   const southPlanet = calculateChapter7SequentialDrikkarma({
