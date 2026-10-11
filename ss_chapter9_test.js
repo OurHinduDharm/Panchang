@@ -59,7 +59,7 @@ export function runChapter9ArithmeticTests() {
   const close = (actual, expected, tolerance = 1e-9) =>
     Math.abs(actual - expected) <= tolerance;
 
-  // Direct motion: |1.200 - 0.983| = 0.217 deg/day.
+  // Direct motion example: |1.200 - 0.983| = 0.217 time-units/day.
   const direct = estimateChapter9TimeCorrection({
     currentKalanshaTimeUnits: 9,
     targetKalanshaTimeUnits: 8,
@@ -73,7 +73,7 @@ export function runChapter9ArithmeticTests() {
   });
 
   // Retrograde motion: planet speed is negative, so relative speed is
-  // |(-0.500) - 0.983| = 1.483 deg/day (sum of magnitudes).
+  // |(-0.500) - 0.983| = 1.483 time-units/day (sum of magnitudes).
   const retrograde = estimateChapter9TimeCorrection({
     currentKalanshaTimeUnits: 7,
     targetKalanshaTimeUnits: 8,
