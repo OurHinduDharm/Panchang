@@ -153,7 +153,7 @@ export function runChapter7DrikkarmaTests() {
       close(sample.ayanaDeg, 0.2644341479650459)
   });
   tests.push({
-    name: "Cross-language numeric fixture: intermediate RA/declination",
+    name: "Cross-language numeric fixture: planet RA/declination for Aksha",
     passed: close(sample.ayanaAppliedLongitude, 100.26443414796505) &&
       close(sample.akshaPointRA, 126.93586520272719) &&
       close(sample.akshaPointDeclination, 19.5893801566642)
@@ -186,7 +186,7 @@ export function runChapter7DrikkarmaTests() {
   const west = sample;
   const east = calculateChapter7SequentialDrikkarma({
     ...base,
-    localSiderealAngleDeg: normalize360(sample.akshaPointRA - sample.hourAngleDeg)
+    localSiderealAngleDeg: normalize360(sample.planetRAForAksha - sample.hourAngleDeg)
   });
   tests.push({
     name: "Aksha sign reverses when hour angle reverses",
