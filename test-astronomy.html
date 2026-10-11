@@ -3451,7 +3451,7 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Aksha dṛkkarma</strong><span>'+round(g.drikkarma.akshaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Ayana dṛkkarma</strong><span>'+round(g.drikkarma.ayanaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Total dṛkkarma</strong><span>'+round(g.drikkarma.totalCorrection,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Final lagnāntara (current method)</strong><span>'+round(g.lagnaInterval,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Final lagnāntara K (current method)</strong><span>'+round(g.K,6)+'°</span></div>';
       if (gs) {
         html += '<div class="metric"><strong>Sequential: longitude after Ayana</strong><span>'+round(gs.drikkarma.ayanaAppliedLongitude,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: RA of intermediate ecliptic point</strong><span>'+round(gs.drikkarma.akshaPointRA,6)+'°</span></div>';
