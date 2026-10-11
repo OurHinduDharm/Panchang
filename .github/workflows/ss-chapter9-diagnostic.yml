@@ -1,6 +1,13 @@
 name: SS Chapter 9 Diagnostic Tests
 
 on:
+  push:
+    branches:
+      - "research/ss-ch9-diagnostic"
+    paths:
+      - "test-astronomy.html"
+      - "ss_chapter9_test.js"
+      - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
     paths:
       - "test-astronomy.html"
