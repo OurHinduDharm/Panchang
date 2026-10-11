@@ -8,6 +8,7 @@ on:
       - "test-astronomy.html"
       - "ss_chapter9_test.js"
       - "ss_chapter7_drikkarma.js"
+      - "ss_chapter3_lagnantara.js"
       - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
@@ -40,6 +41,7 @@ jobs:
         run: |
           node --experimental-default-type=module --check ss_chapter9_test.js
           node --experimental-default-type=module --check ss_chapter7_drikkarma.js
+          node --experimental-default-type=module --check ss_chapter3_lagnantara.js
 
       - name: Run arithmetic and threshold-selection tests
         run: |
@@ -65,6 +67,18 @@ jobs:
           if (!result.allPassed) process.exit(1);
           NODE
 
+      - name: Run Chapter III sign-rising interpolation tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter3LagnantaraTests } from './ss_chapter3_lagnantara.js';
+          const result = runChapter3LagnantaraTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter III tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
       - name: Check HTML structure and diagnostic wiring
         run: |
           node --input-type=module <<'NODE'
@@ -78,6 +92,7 @@ jobs:
             ['daily brackets never skip invalid/ambiguous dates', html.includes('b.date.getTime() - a.date.getTime() !== 86400000')],
             ['source-based threshold selector is used', html.includes('return chapter9Kalansha({ planet, horizonEvent, motionClass });')],
             ['Chapter VII helper imported and wired', html.includes('calculateChapter7SequentialDrikkarma, runChapter7DrikkarmaTests') && html.includes('runChapter7DrikkarmaTests()') && html.includes('from "./ss_chapter7_drikkarma.js"')],
+            ['Chapter III sign-rising interpolation helper imported', html.includes('chapter9LagnantaraAsus') && html.includes('from "./ss_chapter3_lagnantara.js"')],
             ['Chapter VII helper is used by sequential candidate', html.includes('return calculateChapter7SequentialDrikkarma({')],
             ['arithmetic test button exists', html.includes('id="runChapter9ArithmeticBtn"')],
             ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
