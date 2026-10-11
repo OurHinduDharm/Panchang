@@ -62,12 +62,15 @@ try {
     }))
   );
   const chapter7 = await page.locator("#chapter7DrikkarmaTestOutput").innerText();
+  const chapter3 = await page.locator("#chapter3LagnantaraTestOutput").innerText();
   const output = await page.locator("#lagnantaraOutput").innerText();
   console.log("Chapter VII result:", chapter7);
+  console.log("Chapter III result:", chapter3);
   for (const row of rows) console.log("ASTA/Udaya reference:", row.replace(/\s+/g, " ").trim());
   for (const item of estimates) console.log("IX.10–11 estimate audit:", JSON.stringify(item));
 
   if (!chapter7.includes("7/7")) throw new Error("Chapter VII formula tests did not pass in browser.");
+  if (!chapter3.includes("5/5")) throw new Error("Chapter III rising-asus tests did not pass in browser.");
   if (rows.length !== 4) throw new Error("Expected four reference rows.");
   const invalidEstimates = estimates.filter(item =>
     item.estimateDays === "" || item.bracketErrorDays === "" ||
@@ -99,6 +102,7 @@ try {
   console.log("PASS — research page loaded in Chromium");
   console.log("PASS — all four Chapter IX reference branches matched their expected event classes");
   console.log("PASS — Chapter VII formula tests rendered in browser");
+  console.log("PASS — Chapter III sign-rising interpolation tests rendered in browser");
   console.log("PASS — all four signed IX.10–11 estimates are finite and within 0.75 day of the daily-bracket interpolation");
   console.log("PASS — current/sequential lagnāntara tables rendered without browser errors");
 } catch (error) {
