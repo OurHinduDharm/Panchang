@@ -2178,7 +2178,7 @@ function getSiderealEclipticLongitude(body, date) {
 }
 
 function obliqueAscensionFromSiderealLongitude(lambdaDeg, config = TKS_CONFIG) {
-  const eps = 23.4367 * Math.PI / 180;
+  const eps = 24 * Math.PI / 180;
   const phi = config.latitude * Math.PI / 180;
 
   /*
@@ -2352,16 +2352,33 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
 
   const correctedLongitude = normalize360(longitude + akshaDeg + ayanaDeg);
   const sunLongitude = normalize360(swSun[0] - 24.217);
-  const sunEventLongitude = direction === "west"
+  const rawExactSunEventLongitude = direction === "west"
     ? normalize360(sunLongitude + 180) : sunLongitude;
-  const planetEventLongitude = direction === "west"
-    ? normalize360(correctedLongitude + 180) : correctedLongitude;
-  const rawPlanetEventLongitude = direction === "west"
+  const rawExactPlanetEventLongitude = direction === "west"
     ? normalize360(longitude + 180) : longitude;
-  const rawSunOA = obliqueAscensionFromSiderealLongitude(sunEventLongitude, config);
-  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawPlanetEventLongitude, config);
-  const sunOA = rawSunOA;
-  const planetOA = obliqueAscensionFromSiderealLongitude(planetEventLongitude, config);
+  const exactSunEventLongitude = rawExactSunEventLongitude;
+  const exactPlanetEventLongitude = direction === "west"
+    ? normalize360(correctedLongitude + 180) : correctedLongitude;
+  const rawSunOA = obliqueAscensionFromSiderealLongitude(rawExactSunEventLongitude, config);
+  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawExactPlanetEventLongitude, config);
+  const sunOA = obliqueAscensionFromSiderealLongitude(exactSunEventLongitude, config);
+  const planetOA = obliqueAscensionFromSiderealLongitude(exactPlanetEventLongitude, config);
+  const rawClassical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: sunLongitude,
+    planetSiderealLongitudeDeg: longitude,
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  });
+  const classical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: sunLongitude,
+    planetSiderealLongitudeDeg: correctedLongitude,
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  });
 
   return {
     sunLongitude: swSun[0],
@@ -2369,10 +2386,12 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
     planetLatitude: latitude,
     ra,
     dec,
-    rawK: Math.abs(signedLongitudeDelta(rawPlanetOA, rawSunOA)),
+    rawK: rawClassical.K,
+    rawKExact: Math.abs(signedLongitudeDelta(rawPlanetOA, rawSunOA)),
     akshaDeg,
     ayanaDeg,
-    K: Math.abs(signedLongitudeDelta(planetOA, sunOA))
+    K: classical.K,
+    exactK: Math.abs(signedLongitudeDelta(planetOA, sunOA))
   };
 }
 
@@ -2425,18 +2444,19 @@ async function runJupiterAstaComponentSweep() {
 
     html += '<div class="table-wrap"><table><thead><tr>' +
       '<th>Location</th><th>Local sunset date</th><th>Sunset (IST)</th>' +
-      '<th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Final K</th>' +
-      '<th>Swiss K−AE K</th><th>Final K−11°</th><th>Same-date location ΔK</th>' +
+      '<th>Raw K (III.43–46)</th><th>Aksha</th><th>Ayana</th><th>Final K (III.43–46)</th>' +
+      '<th>Swiss−AE K (III.43–46)</th><th>Swiss−AE exact-OA K</th><th>Final K−11°</th><th>Same-date location ΔK</th>' +
       '</tr></thead><tbody>';
     for (const row of rows) {
       html += '<tr class="' + (row.day === "2027-08-20" ? "reference-row" : "") + '">';
       if (row.error) {
         html += '<td>' + row.location.label + '</td><td>' + row.day +
-          '</td><td colspan="8">' + row.error + '</td></tr>';
+          '</td><td colspan="9">' + row.error + '</td></tr>';
         continue;
       }
       const d = row.current.drikkarma;
       const swissDelta = row.swiss.K - row.current.K;
+      const swissExactDelta = row.swiss.exactK - row.current.exactK;
       html += '<td>' + row.location.label + '</td>' +
         '<td>' + row.day + '</td>' +
         '<td>' + formatLocalFromUTCDate(row.eventTime) + '</td>' +
@@ -2445,6 +2465,7 @@ async function runJupiterAstaComponentSweep() {
         '<td>' + round(d.ayanaDeg, 6) + '°</td>' +
         '<td>' + round(row.current.K, 6) + '°</td>' +
         '<td>' + (swissDelta >= 0 ? '+' : '') + round(swissDelta, 6) + '°</td>' +
+        '<td>' + (swissExactDelta >= 0 ? '+' : '') + round(swissExactDelta, 6) + '°</td>' +
         '<td>' + (row.current.K-11 >= 0 ? '+' : '') + round(row.current.K-11, 6) + '°</td>' +
         '<td>' + (Number.isFinite(row.locationDelta) ? (row.locationDelta >= 0 ? '+' : '') + round(row.locationDelta, 6) + '°' : 'unavailable') + '</td>' +
         '</tr>';
@@ -2766,7 +2787,7 @@ function getDrikkarmaCorrectionSequential(body, date, direction, config = TKS_CO
     observerLatitudeDeg: config.latitude,
     localSiderealAngleDeg,
     ayanamshaDeg: 24.217,
-    obliquityDeg: 23.4367,
+    obliquityDeg: 24,
     planetDeclinationDeg: state.declination,
     planetRightAscensionDeg: state.rightAscension
   });
@@ -2853,7 +2874,7 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
     direction,
     observerLatitudeDeg: config.latitude,
     ayanamshaDeg: 24.217,
-    obliquityDeg: 23.4367
+    obliquityDeg: 24
   });
   const classical = chapter9LagnantaraAsus({
     sunSiderealLongitudeDeg: rawSunSiderealLongitude,
@@ -2861,7 +2882,7 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
     direction,
     observerLatitudeDeg: config.latitude,
     ayanamshaDeg: 24.217,
-    obliquityDeg: 23.4367
+    obliquityDeg: 24
   });
 
   const rawK = rawClassical.K;
@@ -3031,7 +3052,7 @@ function getSignRisingAsus(siderealLongitudeDeg, config = TKS_CONFIG) {
     siderealLongitudeDeg,
     observerLatitudeDeg: config.latitude,
     ayanamshaDeg: 24.217,
-    obliquityDeg: 23.4367
+    obliquityDeg: 24
   }).signRisingAsus;
 }
 
