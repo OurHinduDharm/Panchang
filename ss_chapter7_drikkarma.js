@@ -17,17 +17,23 @@ function signedAngleDelta(a, b) {
   return ((a - b + 540) % 360) - 180;
 }
 
-function eclipticEquatorial(longitudeDeg, obliquityDeg) {
+function eclipticEquatorial(longitudeDeg, obliquityDeg, latitudeDeg = 0) {
   const lambda = normalize360(longitudeDeg) * Math.PI / 180;
+  const beta = latitudeDeg * Math.PI / 180;
   const epsilon = obliquityDeg * Math.PI / 180;
-  const sinDec = Math.sin(epsilon) * Math.sin(lambda);
-  const declinationDeg = Math.asin(Math.max(-1, Math.min(1, sinDec))) * 180 / Math.PI;
+
+  const x = Math.cos(beta) * Math.cos(lambda);
+  const y = Math.cos(beta) * Math.sin(lambda) * Math.cos(epsilon) -
+    Math.sin(beta) * Math.sin(epsilon);
+  const z = Math.cos(beta) * Math.sin(lambda) * Math.sin(epsilon) +
+    Math.sin(beta) * Math.cos(epsilon);
+
   const rightAscensionDeg = normalize360(
-    Math.atan2(
-      Math.sin(lambda) * Math.cos(epsilon),
-      Math.cos(lambda)
-    ) * 180 / Math.PI
+    Math.atan2(y, x) * 180 / Math.PI
   );
+  const declinationDeg = Math.asin(
+    Math.max(-1, Math.min(1, z))
+  ) * 180 / Math.PI;
   return { rightAscensionDeg, declinationDeg };
 }
 
@@ -41,7 +47,11 @@ function eclipticEquatorial(longitudeDeg, obliquityDeg) {
  *
  * Aksha: signed planetary latitude × tan(observer latitude) ×
  * (planetary time from meridian / planetary half-day) (VII.8–9).
- * Hour angle / rising hour-angle is the corresponding sidereal-time ratio.
+ * Crucially, VII.8 says the time from meridian and half-day are those of
+ * the planet's own place. They are derived from the uncorrected planetary
+ * longitude/latitude; the Ayana-corrected ecliptic point is the intermediate
+ * longitude to which the Aksha correction is then applied, not a replacement
+ * RA/declination for calculating the time ratio.
  */
 export function calculateChapter7SequentialDrikkarma({
   siderealLongitudeDeg,
@@ -73,19 +83,19 @@ export function calculateChapter7SequentialDrikkarma({
     Math.abs(planetLatitudeDeg * 60) * Math.abs(ayanaDeclinationDeg);
   const ayanaDeg = ayanaSign * ayanaArcSeconds / 3600;
 
-  // VII.10 correction first; use this intermediate ecliptic point for Aksha.
+  // VII.10 first gives the intermediate ecliptic longitude on the planet's
+  // hour circle. VII.8's time-from-meridian and half-day still belong to the
+  // planet's original place, so derive its RA/declination with the same
+  // classical obliquity and its signed ecliptic latitude.
   const ayanaAppliedLongitudeDeg = normalize360(siderealLongitudeDeg + ayanaDeg);
-  const intermediateTropicalLongitudeDeg =
-    normalize360(ayanaAppliedLongitudeDeg + ayanamshaDeg);
-  const intermediate = eclipticEquatorial(
-    intermediateTropicalLongitudeDeg, obliquityDeg
+  const planetEquatorial = eclipticEquatorial(
+    tropicalLongitudeDeg, obliquityDeg, planetLatitudeDeg
   );
-
   const hourAngleDeg = signedAngleDelta(
-    localSiderealAngleDeg, intermediate.rightAscensionDeg
+    localSiderealAngleDeg, planetEquatorial.rightAscensionDeg
   );
   const phi = observerLatitudeDeg * Math.PI / 180;
-  const dec = intermediate.declinationDeg * Math.PI / 180;
+  const dec = planetEquatorial.declinationDeg * Math.PI / 180;
   const halfDayCos = -Math.tan(phi) * Math.tan(dec);
   if (halfDayCos < -1 || halfDayCos > 1) {
     return null;
@@ -108,17 +118,18 @@ export function calculateChapter7SequentialDrikkarma({
     ayanaDeclinationDeg,
     ayanaDeg,
     ayanaAppliedLongitude: ayanaAppliedLongitudeDeg,
-    akshaPointRA: intermediate.rightAscensionDeg,
-    akshaPointDeclination: intermediate.declinationDeg,
+    planetRAForAksha: planetEquatorial.rightAscensionDeg,
+    planetDeclinationForHalfDay: planetEquatorial.declinationDeg,
     hourAngleDeg,
     halfDayAngleDeg,
     akshaTimeRatio,
     akshaDeg,
     totalCorrection,
     latitude: planetLatitudeDeg,
-    rightAscension: planetRightAscensionDeg,
-    declination: ayanaDeclinationDeg,
-    planetDeclination: planetDeclinationDeg,
+    rightAscension: planetEquatorial.rightAscensionDeg,
+    declination: planetEquatorial.declinationDeg,
+    ephemerisRightAscension: planetRightAscensionDeg,
+    ephemerisDeclination: planetDeclinationDeg,
     correctedLongitude: normalize360(siderealLongitudeDeg + totalCorrection)
   };
 }
