@@ -223,6 +223,7 @@
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
+    <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
   </div>
@@ -420,6 +421,17 @@
     <p>This diagnostic tests the traditional threshold rule using modern astronomical positions. The external reference date is not used as the calculated answer.</p><div class="status warn"><strong>Important:</strong> 8°/10°/11° are classical Sūrya-siddhānta approximations. Diagnostic only; not the final local Asta/Udaya algorithm.</div>
     <div class="status info">Venus: 10° direct, 8° retrograde. Jupiter: 11°. Ecliptic-longitude and true 3-D angular separation are both tested.</div>
     <div id="classicalOutput"><div class="status info">Not run yet.</div></div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- EXACT-TIME REFERENCE AUDIT -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>Exact-Time Asta/Udaya Boundary Audit — Pithoragarh</h2>
+    <p>This test calculates sub-day crossings of the selected angular-threshold model, then compares them with the supplied Drik local timestamps. A precise root of a chosen threshold is not automatically the same event as Drik visibility-based Asta/Udaya.</p>
+    <div class="status warn"><strong>Interpretation:</strong> A result marked as a time match only compares timestamps. A mismatch may mean the event definitions differ; do not tune the threshold merely to force a match.</div>
+    <div id="exactBoundaryAuditOutput"><div class="status info">Not run yet.</div></div>
   </section>
 
   <!-- ========================================================= -->
@@ -3293,15 +3305,33 @@ function runDrikBoundaryAudit() {
     <p class="small">“Δ from C” is calculated separation minus the classical angular threshold (Venus 8° retrograde / 10° direct; Jupiter 11°). Negative values mean the calculated separation is below C. The threshold rule is only a classical comparison and is not assumed to be Drik Panchang’s event criterion.</p>`;
 }
 
+function classicalResidual(geometry, useTrue) {
+  return useTrue ? geometry.trueResidual : geometry.eclipticResidual;
+}
+
+function isValidClassicalRoot(body, planet, root, useTrue) {
+  if (!root || !Number.isFinite(root.getTime())) return false;
+  const geometry = getClassicalGeometry(body, root, planet);
+  const residual = classicalResidual(geometry, useTrue);
+
+  /*
+   * Venus' classical threshold changes with motion state (10° direct,
+   * 8° retrograde). That can create a sign jump at station without the
+   * angular separation ever equalling either threshold. Reject such
+   * discontinuities instead of reporting the station as an exact root.
+   */
+  return Number.isFinite(residual) && Math.abs(residual) <= 0.001;
+}
+
 function bisectClassicalRoot(body, planet, lo, hi, useTrue) {
   let a = lo, b = hi;
   const value = d => {
     const g = getClassicalGeometry(body, d, planet);
-    return useTrue ? g.trueResidual : g.eclipticResidual;
+    return classicalResidual(g, useTrue);
   };
   let fa = value(a), fb = value(b);
   if (!Number.isFinite(fa) || !Number.isFinite(fb) || fa === 0 || fb === 0 || fa * fb > 0) return null;
-  for (let i = 0; i < 36; i++) {
+  for (let i = 0; i < 48; i++) {
     const mid = new Date((a.getTime() + b.getTime()) / 2);
     const fm = value(mid);
     if (!Number.isFinite(fm)) return null;
@@ -3309,7 +3339,8 @@ function bisectClassicalRoot(body, planet, lo, hi, useTrue) {
     if (fa * fm <= 0) { b = mid; fb = fm; }
     else { a = mid; fa = fm; }
   }
-  return new Date((a.getTime() + b.getTime()) / 2);
+  const root = new Date((a.getTime() + b.getTime()) / 2);
+  return isValidClassicalRoot(body, planet, root, useTrue) ? root : null;
 }
 
 function findClassicalCrossing(ref, useTrue) {
@@ -3327,7 +3358,7 @@ function findClassicalCrossing(ref, useTrue) {
     const p = samples[i - 1], q = samples[i];
     if (p.residual === 0 || p.residual * q.residual <= 0) {
       const root = p.residual === 0 ? p.date : bisectClassicalRoot(body, ref.planet, p.date, q.date, useTrue);
-      if (!root) continue;
+      if (!root || !isValidClassicalRoot(body, ref.planet, root, useTrue)) continue;
       const g = getClassicalGeometry(body, root, ref.planet);
       const before = getClassicalGeometry(body, new Date(root.getTime() - 3600000), ref.planet);
       const after = getClassicalGeometry(body, new Date(root.getTime() + 3600000), ref.planet);
@@ -3386,7 +3417,8 @@ function findAllClassicalCrossings(ref, useTrue) {
     const root = p.residual === 0
       ? p.date
       : bisectClassicalRoot(body, ref.planet, p.date, q.date, useTrue);
-    if (!root || candidates.some(c => Math.abs(c.root - root) < 60000)) continue;
+    if (!root || !isValidClassicalRoot(body, ref.planet, root, useTrue) ||
+        candidates.some(c => Math.abs(c.root - root) < 60000)) continue;
 
     const g = getClassicalGeometry(body, root, ref.planet);
     const before = getClassicalGeometry(body, new Date(root.getTime() - 3600000), ref.planet);
@@ -3754,6 +3786,53 @@ async function runReferenceWindowScan() {
 }
 
 
+
+/* =============================================================
+   EXACT-TIME BOUNDARY AUDIT
+   ============================================================= */
+const EXACT_TIME_BOUNDARY_REFERENCES = [
+  { planet:"Venus", event:"Asta", label:"Drik Asta begins", localTime:"2026-10-12T18:05:00" },
+  { planet:"Venus", event:"Udaya", label:"Drik Asta ends", localTime:"2026-10-29T05:49:00" },
+  { planet:"Jupiter", event:"Asta", label:"Drik Asta begins", localTime:"2027-08-16T19:24:00" },
+  { planet:"Jupiter", event:"Udaya", label:"Drik Asta ends", localTime:"2027-09-13T05:09:00" }
+];
+
+function runExactTimeBoundaryAudit() {
+  const output = document.getElementById("exactBoundaryAuditOutput");
+  const rows = [];
+
+  for (const ref of EXACT_TIME_BOUNDARY_REFERENCES) {
+    const published = new Date(ref.localTime + "+05:30");
+    const searchRef = { planet:ref.planet, event:ref.event, date:ref.localTime.slice(0,10) };
+    const ecliptic = findClassicalCrossing(searchRef, false);
+    const true3d = findClassicalCrossing(searchRef, true);
+
+    const resultCell = (result, label, residualField) => {
+      if (!result) return "<td>" + label + "<br>कोई सत्यापित सीमा-संक्रमण नहीं मिला</td>";
+      const deltaMinutes = (result.root.getTime() - published.getTime()) / 60000;
+      const deltaLabel = (deltaMinutes >= 0 ? "+" : "") + Math.round(deltaMinutes) + " min";
+      const residual = result.g[residualField];
+      return "<td>" + label + "<br><strong>" + formatLocalFromUTCDate(result.root) +
+        " IST</strong><br>सीमा: " + round(result.g.threshold,4) + "°" +
+        "<br>ग्रह-गति: " + result.g.motionType +
+        "<br>सीमा से शेष अंतर: " + round(residual,6) + "°" +
+        "<br>संदर्भ से समय-अंतर: " + deltaLabel +
+        "<br>दिशा: " + (result.directionMatches ? "अपेक्षित" : "विपरीत") + "</td>";
+    };
+
+    rows.push("<tr><td>" + ref.planet + "</td><td>" + ref.label +
+      "</td><td>" + ref.localTime.replace("T"," ") + " IST</td>" +
+      resultCell(ecliptic, "Ecliptic-longitude सीमा", "eclipticResidual") +
+      resultCell(true3d, "True 3-D सीमा", "trueResidual") + "</tr>");
+  }
+
+  output.innerHTML = '<div class="table-wrap"><table><thead><tr>' +
+    '<th>ग्रह</th><th>संदर्भ घटना</th><th>प्रकाशित स्थानीय समय</th>' +
+    '<th>गणितीय सीमा-संक्रमण (ecliptic)</th><th>गणितीय सीमा-संक्रमण (3-D)</th>' +
+    '</tr></thead><tbody>' + rows.join("") + '</tbody></table></div>' +
+    '<p class="small">संदर्भ समय Drik Panchang के Pithoragarh परिणामों से दिए गए परीक्षण-इनपुट हैं। यह ऑडिट उन्हें गणना का उत्तर नहीं मानता।</p>';
+}
+
 /* =============================================================
    RUN ALL
    ============================================================= */
@@ -3925,6 +4004,18 @@ document
     "click",
     runClassicalAstaUdayaTest
   );
+
+document
+  .getElementById("runExactBoundaryAuditBtn")
+  .addEventListener("click", () => {
+    try {
+      runExactTimeBoundaryAudit();
+      setStatus("Exact-time boundary audit completed. Compare the two definitions; do not treat threshold crossings as visibility proof.", "info");
+    } catch (error) {
+      console.error("EXACT-TIME BOUNDARY AUDIT ERROR:", error);
+      setStatus(error?.message || String(error), "error");
+    }
+  });
 
 document
   .getElementById("runLocalHorizonBtn")
