@@ -573,7 +573,7 @@ const TKS_CONFIG = {
   offsetMinutes: 330
 };
 
-// Source-specific Dehradun references; these are distinct from SHASTRIYA_REFERENCES (TKS test dates).
+// Source-specific Dehradun Drik references. These are distinct from the unverified Chapter IX comparison-date fixtures below.
 const REFERENCES = [
   { planet:"Venus", event:"Asta", date:"2026-10-19", sampleTime:"2026-10-19T12:00:00Z", elongation:7.76, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Venus", event:"Udaya", date:"2026-10-30", sampleTime:"2026-10-30T00:30:00Z", elongation:9.70, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
@@ -2131,6 +2131,9 @@ async function runVisibilityThresholdAnalysis() {
    SHASTRIYA LAGNANTARA-ASU DIAGNOSTIC
    ============================================================= */
 
+// Working comparison fixtures only: their source output, model variant, observer metadata,
+ // event instant convention, and meaning of the date have not been independently verified.
+ // Do not treat these as gold-standard expected dates until that provenance is captured.
 const SHASTRIYA_REFERENCES = [
   { planet:"Venus", event:"Asta", expectedHorizonEvent:"west-setting", date:"2026-10-12" },
   { planet:"Venus", event:"Udaya", expectedHorizonEvent:"east-rising", date:"2026-11-01" },
