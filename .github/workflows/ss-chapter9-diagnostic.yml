@@ -8,6 +8,7 @@ on:
       - "test-astronomy.html"
       - "ss_chapter9_test.js"
       - "ss_chapter7_drikkarma.js"
+      - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
     paths:
@@ -97,6 +98,12 @@ jobs:
           const failed = checks.filter(([, passed]) => !passed);
           if (failed.length) process.exit(1);
           NODE
+
+      - name: Run headless Chromium research-page test
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+          node ss_chapter9_browser_test.mjs
 
       - name: Confirm production Panchang files are unchanged
         run: |
