@@ -3222,6 +3222,58 @@ function findLagnantaraCrossing(ref, method = "current") {
     noCrossing: true
   };
 }
+function findEclipticAngularThresholdCrossing(ref) {
+  // Modern apparent ecliptic-longitude separation is intentionally kept
+  // separate from the classical Chapter IX lagnāntara K calculation.
+  const center = new Date(ref.date + "T12:00:00Z");
+  const samples = [];
+  for (let d = -15; d <= 15; d++) {
+    const date = new Date(center.getTime() + d * 86400000);
+    const eventInfo = getClassifiedSunEventForDate(ref.planet, date);
+    if (!eventInfo || eventInfo.ambiguous) continue;
+
+    const planetState = getPlanetSiderealState(BODY_NAMES[ref.planet], eventInfo.eventTime);
+    const sunState = getPlanetSiderealState(Astronomy.Body.Sun, eventInfo.eventTime);
+    if (!planetState || !sunState) continue;
+
+    const separationDeg = Math.abs(signedLongitudeDelta(
+      planetState.tropicalLongitude, sunState.tropicalLongitude
+    ));
+    const C = shastriyaC(ref.planet, eventInfo.horizonEvent, eventInfo.motionClass);
+    if (!Number.isFinite(separationDeg) || !Number.isFinite(C)) continue;
+
+    samples.push({
+      date,
+      eventTime: eventInfo.eventTime,
+      horizonEvent: eventInfo.horizonEvent,
+      separationDeg,
+      C,
+      residual: separationDeg - C
+    });
+  }
+
+  const brackets = [];
+  for (let i = 1; i < samples.length; i++) {
+    const a = samples[i - 1];
+    const b = samples[i];
+    if (b.date.getTime() - a.date.getTime() !== 86400000) continue;
+    if (a.residual === 0 || a.residual * b.residual < 0) {
+      const isAsta = a.residual > 0 && b.residual < 0;
+      const isUdaya = a.residual < 0 && b.residual > 0;
+      brackets.push({
+        before: a,
+        after: b,
+        transition: isAsta ? "Asta" : isUdaya ? "Udaya" : "Exact",
+        matchesRequestedEvent:
+          (ref.event === "Asta" && isAsta) ||
+          (ref.event === "Udaya" && isUdaya)
+      });
+    }
+  }
+
+  return { brackets, method: "apparent ecliptic-longitude separation Δλ vs C" };
+}
+
 function shastriyaC(planet, horizonEvent, motionClass) {
   /*
    * Delegate threshold selection to the isolated, unit-tested helper.
@@ -3248,7 +3300,7 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K (III.43–46)</th><th>Current K</th><th>Sequential K</th><th>Sequential exact-OA K</th><th>Ecliptic Δλ</th><th>3-D elongation</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Estimate vs daily bracket (days)</th><th>Reference date (comparison only)</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K (III.43–46)</th><th>Current K</th><th>Sequential K</th><th>Sequential exact-OA K</th><th>Ecliptic Δλ</th><th>3-D elongation</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Estimate vs daily bracket (days)</th><th>Reference date (comparison only)</th><th>Classical K bracket</th><th>Sequential K bracket</th><th>Ecliptic Δλ bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -3268,6 +3320,7 @@ async function runLagnantaraDiagnostic() {
       : 'Ambiguous/unavailable';
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
+    const angularCrossing = findEclipticAngularThresholdCrossing(ref);
     const requestedSequentialBracket = sequentialCrossing?.brackets?.find(
       bracket => bracket.matchesRequestedEvent
     );
@@ -3352,10 +3405,25 @@ async function runLagnantaraDiagnostic() {
     } else {
       html += '<td>No valid daily samples in ±15 days</td>';
     }
+    if (angularCrossing?.brackets?.length) {
+      html += '<td>';
+      angularCrossing.brackets.forEach((bracket, index) => {
+        if (index) html += '<hr>';
+        html += bracket.transition +
+          (bracket.matchesRequestedEvent ? ' ✓ requested event' : ' — other transition') +
+          '<br>' + formatLocalFromUTCDate(bracket.before.eventTime) +
+          ' (Δλ−C=' + round(bracket.before.residual,4) + '°)<br>→ ' +
+          formatLocalFromUTCDate(bracket.after.eventTime) +
+          ' (Δλ−C=' + round(bracket.after.residual,4) + '°)';
+      });
+      html += '</td>';
+    } else {
+      html += '<td>No crossing in ±15 days</td>';
+    }
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="16"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="19"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
