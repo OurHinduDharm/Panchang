@@ -536,7 +536,7 @@ import * as Astronomy
 import SwissEph
   from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
 
-import { chapter9Kalansha, runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
+import { chapter9Kalansha, classifyChapter9HorizonEvent, runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
 import { calculateChapter7SequentialDrikkarma, runChapter7DrikkarmaTests } from "./ss_chapter7_drikkarma.js";
 
 
@@ -2130,10 +2130,10 @@ async function runVisibilityThresholdAnalysis() {
    ============================================================= */
 
 const SHASTRIYA_REFERENCES = [
-  { planet:"Venus", event:"Asta", horizonEvent:"west-setting", date:"2026-10-12", direction:"west" },
-  { planet:"Venus", event:"Udaya", horizonEvent:"east-rising", date:"2026-11-01", direction:"east" },
-  { planet:"Jupiter", event:"Asta", date:"2027-08-20", direction:"west" },
-  { planet:"Jupiter", event:"Udaya", date:"2027-09-13", direction:"east" }
+  { planet:"Venus", event:"Asta", expectedHorizonEvent:"west-setting", date:"2026-10-12" },
+  { planet:"Venus", event:"Udaya", expectedHorizonEvent:"east-rising", date:"2026-11-01" },
+  { planet:"Jupiter", event:"Asta", expectedHorizonEvent:"west-setting", date:"2027-08-20" },
+  { planet:"Jupiter", event:"Udaya", expectedHorizonEvent:"east-rising", date:"2027-09-13" }
 ];
 
 /*
@@ -2938,14 +2938,112 @@ function getSunEventTimeForLagnantara(date, direction, config = TKS_CONFIG) {
   return localDate === expectedDate ? result.date : null;
 }
 
+const CHAPTER9_EVENT_CACHE = new Map();
+
+function getClassifiedSunEventForDate(planet, date) {
+  const dateKey = date.toISOString().slice(0, 10);
+  const cacheKey = planet + "|" + dateKey;
+  if (CHAPTER9_EVENT_CACHE.has(cacheKey)) return CHAPTER9_EVENT_CACHE.get(cacheKey);
+
+  const sunrise = getSunEventTimeForLagnantara(date, "east");
+  const sunset = getSunEventTimeForLagnantara(date, "west");
+  if (!sunrise || !sunset) {
+    const missing = { ambiguous: true, reason: "Sunrise or sunset unavailable for this civil date." };
+    CHAPTER9_EVENT_CACHE.set(cacheKey, missing);
+    return missing;
+  }
+
+  function classifyAt(eventTime) {
+    const planetState = getPlanetSiderealState(BODY_NAMES[planet], eventTime);
+    const sunState = getPlanetSiderealState(Astronomy.Body.Sun, eventTime);
+    const before = getPlanetSiderealState(
+      BODY_NAMES[planet], new Date(eventTime.getTime() - 12 * 3600000)
+    );
+    const after = getPlanetSiderealState(
+      BODY_NAMES[planet], new Date(eventTime.getTime() + 12 * 3600000)
+    );
+    if (!planetState || !sunState || !before || !after) return null;
+
+    const dailyMotionDegPerDay =
+      signedLongitudeDelta(after.longitude, before.longitude);
+    const horizonEvent = classifyChapter9HorizonEvent({
+      planet,
+      planetLongitudeDeg: planetState.longitude,
+      sunLongitudeDeg: sunState.longitude,
+      dailyMotionDegPerDay
+    });
+    if (!horizonEvent) return null;
+
+    return { horizonEvent, dailyMotionDegPerDay };
+  }
+
+  const atSunrise = classifyAt(sunrise);
+  const atSunset = classifyAt(sunset);
+  if (!atSunrise || !atSunset ||
+      atSunrise.horizonEvent !== atSunset.horizonEvent) {
+    const ambiguous = {
+      ambiguous: true,
+      reason: "IX.2–3 event branch is ambiguous between sunrise and sunset.",
+      sunrise,
+      sunset,
+      atSunrise,
+      atSunset
+    };
+    CHAPTER9_EVENT_CACHE.set(cacheKey, ambiguous);
+    return ambiguous;
+  }
+
+  const horizonEvent = atSunrise.horizonEvent;
+  const direction = horizonEvent.startsWith("west-") ? "west" : "east";
+  const eventTime = direction === "west" ? sunset : sunrise;
+  const dailyMotionDegPerDay = direction === "west"
+    ? atSunset.dailyMotionDegPerDay
+    : atSunrise.dailyMotionDegPerDay;
+  const motionClass = dailyMotionDegPerDay < -1e-6
+    ? "retrograde"
+    : dailyMotionDegPerDay > 1e-6
+      ? "direct-fast"
+      : null;
+
+  const result = {
+    ambiguous: false,
+    horizonEvent,
+    direction,
+    eventTime,
+    sunrise,
+    sunset,
+    dailyMotionDegPerDay,
+    motionClass,
+    atSunrise,
+    atSunset
+  };
+  CHAPTER9_EVENT_CACHE.set(cacheKey, result);
+  return result;
+}
+
 function getLagnantaraResidualForDate(ref, date, method = "current") {
-  const eventTime = getSunEventTimeForLagnantara(date, ref.direction);
-  if (!eventTime) return null;
-  const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method);
+  const eventInfo = getClassifiedSunEventForDate(ref.planet, date);
+  if (!eventInfo || eventInfo.ambiguous) return null;
+
+  const eventTime = eventInfo.eventTime;
+  const g = getLagnantaraDiagnostic(
+    BODY_NAMES[ref.planet], eventTime, eventInfo.direction, method
+  );
   if (!g) return null;
-  const C = shastriyaC(ref.planet, ref.horizonEvent, ref.motionClass);
+
+  const C = shastriyaC(
+    ref.planet, eventInfo.horizonEvent, eventInfo.motionClass
+  );
   if (!Number.isFinite(C)) return null;
-  return { eventTime, geometry:g, residual:g.K - C };
+
+  return {
+    eventTime,
+    direction: eventInfo.direction,
+    eventInfo,
+    geometry: g,
+    C,
+    residual: g.K - C
+  };
 }
 
 function findLagnantaraCrossing(ref, method = "current") {
@@ -2975,6 +3073,9 @@ function findLagnantaraCrossing(ref, method = "current") {
     const a = samples[i-1];
     const b = samples[i];
 
+    // Never call a bracket "adjacent daily events" if an ambiguous or
+    // invalid date was skipped between these two valid samples.
+    if (b.date.getTime() - a.date.getTime() !== 86400000) continue;
     if (a.residual === 0 || a.residual * b.residual < 0) {
       brackets.push({
         before: a,
@@ -3044,20 +3145,28 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
-    const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
-    const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
-    const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
-    const C = shastriyaC(ref.planet, ref.horizonEvent, ref.motionClass);
+    const referenceDate = new Date(ref.date+"T12:00:00Z");
+    const sampleResult = getLagnantaraResidualForDate(ref, referenceDate, "current");
+    const sequentialResult = getLagnantaraResidualForDate(ref, referenceDate, "sequential");
+    const sample = sampleResult?.eventTime || null;
+    const g = sampleResult?.geometry || null;
+    const gs = sequentialResult?.geometry || null;
+    const C = sampleResult?.C ?? NaN;
+    const branchLabel = sampleResult
+      ? sampleResult.eventInfo.horizonEvent +
+        (sampleResult.eventInfo.horizonEvent === ref.expectedHorizonEvent ? ' ✓ fixture' : ' ⚠ differs from fixture')
+      : 'Ambiguous/unavailable';
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
 
     html += '<tr class="reference-row">';
     html += '<td>'+ref.planet+'</td>';
     html += '<td>'+ref.event+'</td>';
+    html += '<td>'+branchLabel+'</td>';
     html += '<td>'+(sample ? formatLocalFromUTCDate(sample) : "—")+'</td>';
     html += '<td>'+(g ? round(g.rawK,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? round(g.K,4)+"°" : "—")+'</td>';
@@ -3110,7 +3219,7 @@ async function runLagnantaraDiagnostic() {
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="12"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="13"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
