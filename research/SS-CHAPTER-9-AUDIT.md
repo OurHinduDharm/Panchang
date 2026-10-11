@@ -29,8 +29,8 @@ These references support the textual reading below; they do **not** independentl
 | IX.7 | Venus: west-setting and east-rising use 8°; east-setting and west-rising use 10°. | Select the limit from the classified horizon event, not merely from direct/retrograde motion or the label Asta/Udaya. | Added isolated selector and four branch tests; event classification remains open. |
 | IX.8 | Mercury: 12° for the retrograde case and 14° for the swift-motion case described in the verse. | Require a validated motion/event classifier before selecting a Mercury branch. | Threshold table tested; no automatic Mercury classification implemented. |
 | IX.9 | Above the prescribed limit the body is visible; below it, invisible, within the treatise's idealized rule. | Do not equate this classical rule with modern naked-eye visibility under haze, terrain, extinction, or twilight conditions. | Interpretation documented; no modern visibility claim made. |
-| IX.10 | Difference between current and target kalāṃśa, divided by relative daily motion; retrograde motion uses the sum of motion magnitudes. | Ensure both the current/target measure and the daily motions are in the same corrected time measure. Do not feed raw Sun–planet elongation in place of lagnāntara. | Arithmetic tests pass; upstream conversion remains unvalidated. |
-| IX.11 | Supplies an additional rising-time conversion for the time-motion calculation. | Independently derive the precise conversion before implementing a complete date/time estimate. | Not implemented by the isolated arithmetic helper. |
+| IX.10 | Difference between current and target kalāṃśa, divided by relative daily motion; retrograde motion uses the sum of motion magnitudes. | The diagnostic keeps signed lagnāntara and signed daily motion so past/future is not lost. | Implemented as a candidate; tested against daily brackets below. |
+| IX.11 | Convert each body's daily longitude motion to time-motion using its sign's rising-asus, dividing the product by 1800. | The research page calculates sign rising-asus from the oblique-ascension span of the same event-frame sign and computes signed estimated days. For western events it uses the longitudes shifted by six signs, as IX.5 requires. | Implemented as a tested candidate; the event-frame detail matters and is covered by the latest browser run. |
 
 ## Code audit findings (research branch)
 
@@ -51,6 +51,28 @@ The dṛkkarma candidate must still be checked against the Chapter VII construct
 4. **Coordinate frame:** the fixed 24.217° ayanāṃśa is a stated research assumption. In the current helper it is restored before the oblique-ascension calculation; this is not an independent validation of ayanāṃśa.
 5. **Daily event bracket:** the current scan evaluates one local sunrise or sunset per civil date. A sign change brackets adjacent daily samples; it is not an exact continuous-time root and must not be reported as a precise event instant.
 6. **Independent ephemeris:** comparing Astronomy Engine and Swiss Ephemeris at the same UTC instant checks input-state consistency, not the classical formula itself.
+
+
+
+## Four-case calculation results from headless Chromium
+
+Location used for this comparison: TKS reference point 29.5830° N, 80.2090° E; elevation assumed 0 m because the reference did not specify elevation. Times are local IST. “Estimate” is signed days from the reference-date Sun event: positive = future, negative = past. The bracket is the daily sequential (K-C) sign change; the error is the absolute difference between the IX.10–11 estimate and a linear interpolation of that bracket.
+
+| Case | Classified event | Sequential K at reference date | C | IX.10–11 estimate (days) | Daily sequential bracket | Estimate/bracket difference |
+|---|---|---:|---:|---:|---|---:|
+| Venus Asta, target 12 Oct 2026 | west-setting | 8.4127° | 8° | +0.4221 | 12 Oct 17:42:20 → 13 Oct 17:41:13 | 0.0204 d |
+| Venus Udaya, target 1 Nov 2026 | east-rising | 13.8062° | 8° | −3.3104 | 28 Oct 06:19:17 → 29 Oct 06:20:00 | 0.2672 d |
+| Jupiter Asta, target 20 Aug 2027 | west-setting | 6.5587° | 11° | −8.2404 | 12 Aug 18:53:03 → 13 Aug 18:52:08 | 0.6067 d |
+| Jupiter Udaya, target 13 Sep 2027 | east-rising | 11.1504° | 11° | −0.1719 | 12 Sep 05:52:00 → 13 Sep 05:52:31 | 0.0030 d |
+
+All four IX.10–11 estimates are within 0.75 day of the linearly interpolated daily bracket in the current test. This is an **internal consistency check**, not an independent proof: both paths share the same ephemeris, event classification, and dṛkkarma candidate, and the daily bracket itself is only a once-per-sunrise/sunset scan.
+
+### Discrepancies that remain open
+
+- Venus Asta and Jupiter Udaya align closely with the supplied reference date under the daily-event convention.
+- The diagnostic's current classical threshold crossing for Venus Udaya is around 28–29 October, while the supplied reference fixture is 1 November.
+- The diagnostic's current classical threshold crossing for Jupiter Asta is around 12–13 August, while the supplied reference fixture is 20 August.
+- These differences must not be “corrected” by shifting thresholds or dates to fit a reference. Next determine whether the reference uses the same event definition, longitude frame, and classical procedure, and independently audit the Chapter VII correction and Chapter III rising-asus derivation.
 
 ## What the latest automated tests establish
 
@@ -96,8 +118,9 @@ These are **internal arithmetic/invariant tests**, not observational validation.
 The latest successful workflow run after integrating the IX.2–3 classifier is:
 https://github.com/OurHinduDharm/Panchang/actions/runs/38182695977
 
-- 26/26 Chapter IX arithmetic, threshold-selection, and event-classification tests passed.
+- 32/32 Chapter IX arithmetic, threshold-selection, event-classification, and IX.10–11 conversion tests passed.
 - 7/7 Chapter VII formula-component and invariant tests passed.
 - HTML module syntax, helper wiring, duplicate-ID checks, and production isolation passed.
+- Headless Chromium loaded the research page, calculated all four cases, and passed the event-branch and IX.10–11 bracket-consistency checks.
 
-No live browser run has been performed. Therefore the dynamic classifier and four event-date brackets have not yet been observed in the browser, and this does not validate the full classical calculation.
+A headless Chromium run has been performed in CI. A separate manual run on the user's device has not been performed. The browser result does not validate the full classical calculation or resolve the two reference-date discrepancies.
