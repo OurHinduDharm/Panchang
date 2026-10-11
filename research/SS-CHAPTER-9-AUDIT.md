@@ -41,7 +41,7 @@ This distinction matters because TKS's public pages describe two separate output
 - A classical Sūrya-siddhānta Ch. 9 layer using `K = lagnāntara-asu ÷ 60` and the prescribed (K > C) rule.
 - A modern apparent ecliptic-of-date elongation rule comparing Sun–planet separation with the prescribed angular limit.
 
-TKS explicitly says these are different models and that the angular-orb result is not physical heliacal visibility. The current research page therefore now displays **ecliptic longitude separation**, **true 3-D elongation**, and **classical lagnāntara K** in separate columns. They must not be treated as interchangeable. The current browser checks verify that all three outputs calculate and render; the next review must compare like-for-like methods using the same location, ephemeris, apparent/geometric convention, and local event time.
+TKS explicitly says these are different models and that the angular-orb result is not physical heliacal visibility. The current research page therefore now displays **ecliptic longitude separation**, **true 3-D elongation**, and **Chapter IX lagnāntara K candidate** in separate columns. They must not be treated as interchangeable. The current browser checks verify that all three outputs calculate and render; the next review must compare like-for-like methods using the same location, ephemeris, apparent/geometric convention, and local event time.
 
 Sources: https://tksephemeris.com/tks-home and https://tksephemeris.com/tks-udaya-asta.
 
@@ -85,8 +85,8 @@ All four IX.10–11 estimates are within 0.75 day of the linear interpolation of
 ### Discrepancies that remain open
 
 - Venus Asta and Jupiter Udaya align closely with the supplied reference date under the daily-event convention.
-- The diagnostic's current classical threshold crossing for Venus Udaya is around 28–29 October, while the supplied reference fixture is 1 November.
-- The diagnostic's current classical threshold crossing for Jupiter Asta is around 12–13 August, while the supplied reference fixture is 20 August.
+- The diagnostic's current K-candidate threshold crossing for Venus Udaya is around 28–29 October, while the supplied reference fixture is 1 November.
+- The diagnostic's current K-candidate threshold crossing for Jupiter Asta is around 12–13 August, while the supplied reference fixture is 20 August.
 - These differences must not be “corrected” by shifting thresholds or dates to fit a reference. Next determine whether the reference uses the same event definition, longitude frame, and classical procedure, and independently audit the Chapter VII correction and Chapter III rising-asus derivation.
 
 ## What the latest automated tests establish
@@ -144,7 +144,7 @@ A headless Chromium run has been performed in CI. A separate manual run on the u
 
 At the Pithoragarh validation coordinates (29.5830° N, 80.2090° E; elevation assumed 0 m because the external reference did not specify it), the current diagnostic produces these **model-specific daily brackets**:
 
-| Event | Classical lagnāntara (K=C) bracket | Apparent ecliptic-longitude (Deltalambda=C) bracket | Interpretation |
+| Event | Current K candidate (K=C) bracket | Apparent ecliptic-longitude (Deltalambda=C) bracket | Interpretation |
 |---|---|---|---|
 | Venus Asta | 11–12 Oct 2026 | 18–19 Oct 2026 | 7-day separation between model outputs |
 | Venus Udaya | 28–29 Oct 2026 | 29–30 Oct 2026 | about 1 day |
@@ -153,7 +153,7 @@ At the Pithoragarh validation coordinates (29.5830° N, 80.2090° E; elevation a
 
 These are calculated brackets from the current research implementation, not adjudicated correct dates. The browser test confirms that the page calculates and renders them without JavaScript errors; it does not prove the formulas are classically correct. The model separation is consistent with the fact that TKS publicly describes its classical (K)-based layer and apparent ecliptic-angle layer as distinct models, but that fact alone does not validate either of these calculated brackets.
 
-**Highest-priority next audit:** re-run all four cases with the corrected Chapter VII helper and inspect the actual Akṣa/Āyana components. Venus Asta has a large geocentric latitude (about −7.57° in the current ephemeris state), so Akṣa is a major term. Confirm its sign and time-from-meridian ratio against VII.8–9 before interpreting the seven-day difference between the classical K and apparent-angle brackets.
+**Highest-priority next audit:** resolve the coordinate-frame relationship used for Akṣa hour angle, then normalize the reference source/model and observer metadata. Venus Asta has a large geocentric latitude (about −7.57° in the current ephemeris state), so Akṣa is a major term; its sign and time-from-meridian ratio must be checked against VII.8–9. Until the frame issue and benchmark provenance are settled, the seven-day difference between the current K candidate and the apparent-angle candidate is only a diagnostic observation, not a verdict on either method.
 
 ## Latest diagnostic extension — angular separation side by side
 
