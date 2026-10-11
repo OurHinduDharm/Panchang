@@ -86,7 +86,10 @@ try {
         !detail.includes("Aksha dṛkkarma") ||
         !detail.includes("Ayana dṛkkarma") ||
         !detail.includes("Total dṛkkarma") ||
-        !detail.includes("Sequential: Aksha dṛkkarma")
+        !detail.includes("Sequential: Aksha dṛkkarma") ||
+        !detail.includes("Sequential: planet RA used for Aksha") ||
+        !detail.includes("Sequential: planet declination used for half-day") ||
+        detail.includes("RA of intermediate ecliptic point")
       )) {
     throw new Error("One or more event cases are missing the dṛkkarma component audit.");
   }
@@ -136,6 +139,7 @@ try {
   console.log("PASS — all four ecliptic-longitude and true-elongation diagnostics are finite and displayed separately from classical K");
   console.log("PASS — all four apparent ecliptic-angle threshold scans rendered separately from the classical K brackets");
   console.log("PASS — all four cases expose Aksha, Ayana, total, and sequential correction components");
+  console.log("PASS — Aksha uses the planet's own RA/declination, not the intermediate Ayana-corrected point");
   console.log("PASS — all four signed IX.10–11 estimates are finite and within 0.75 day of the daily-bracket interpolation");
   console.log("PASS — current/sequential lagnāntara tables rendered without browser errors");
 } catch (error) {
