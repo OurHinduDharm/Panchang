@@ -102,6 +102,9 @@ jobs:
             ['arithmetic test button exists', html.includes('id="runChapter9ArithmeticBtn"')],
             ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
             ['legacy Venus limitation disclosed', html.includes('not the event-direction rule of Sūrya-siddhānta IX.7')],
+            ['unverified fixtures and coordinate-frame blocker disclosed in the UI', html.includes('The four comparison dates are unverified fixtures') && html.includes('coordinate-frame question remains open')],
+            ['K bracket labelled as a current candidate, not a canonical result', html.includes('Current K bracket') && !html.includes('Classical K bracket')],
+            ['Mercury swift-motion limitation disclosed', html.includes('Mercury is excluded from these four reference cases')],
             ['threshold test no longer labelled a classical implementation', !html.includes('8. Classical Asta / Udaya Threshold Test')]
           ];
           const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
