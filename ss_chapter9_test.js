@@ -121,6 +121,73 @@ export function classifyChapter9HorizonEvent({
   return delta < 0 ? "east-setting" : "west-rising";
 }
 
+/**
+ * Chapter IX.11 conversion. Daily longitude motion is supplied in
+ * arcminutes/day; the rising equivalent of that planet's sign is supplied
+ * in prāṇas/asus. The result is time-motion in prāṇas per day.
+ */
+export function chapter9TimeMotionFromArcMotion({
+  dailyMotionArcminPerDay,
+  signRisingAsus
+}) {
+  if (!Number.isFinite(dailyMotionArcminPerDay) ||
+      !Number.isFinite(signRisingAsus) ||
+      signRisingAsus <= 0) {
+    throw new TypeError("Daily motion must be finite and sign rising-asus must be positive.");
+  }
+  return dailyMotionArcminPerDay * signRisingAsus / 1800;
+}
+
+/**
+ * Signed IX.10–11 time estimate. current/target K are time-degrees;
+ * multiplying their difference by 60 gives prāṇas. The signed derivative
+ * of |planet OA - Sun OA| determines past (- days) vs future (+ days).
+ */
+export function estimateChapter9TimeCorrectionFromArcMotions({
+  currentKalanshaDeg,
+  targetKalanshaDeg,
+  signedLagnantaraDeg,
+  sunDailyMotionArcminPerDay,
+  planetDailyMotionArcminPerDay,
+  sunSignRisingAsus,
+  planetSignRisingAsus
+}) {
+  const values = [
+    currentKalanshaDeg, targetKalanshaDeg, signedLagnantaraDeg,
+    sunDailyMotionArcminPerDay, planetDailyMotionArcminPerDay
+  ];
+  if (!values.every(Number.isFinite) || Math.abs(signedLagnantaraDeg) < 1e-10) {
+    throw new TypeError("Finite K/motion values and a non-zero signed lagnāntara are required.");
+  }
+
+  const sunTimeMotionPranasPerDay = chapter9TimeMotionFromArcMotion({
+    dailyMotionArcminPerDay: sunDailyMotionArcminPerDay,
+    signRisingAsus: sunSignRisingAsus
+  });
+  const planetTimeMotionPranasPerDay = chapter9TimeMotionFromArcMotion({
+    dailyMotionArcminPerDay: planetDailyMotionArcminPerDay,
+    signRisingAsus: planetSignRisingAsus
+  });
+  const signedKalanshaRatePranasPerDay =
+    Math.sign(signedLagnantaraDeg) *
+    (planetTimeMotionPranasPerDay - sunTimeMotionPranasPerDay);
+
+  if (Math.abs(signedKalanshaRatePranasPerDay) < 1e-10) {
+    throw new RangeError("Relative time-motion is effectively zero; date estimate is undefined.");
+  }
+
+  const differencePranas =
+    (targetKalanshaDeg - currentKalanshaDeg) * 60;
+  return {
+    differencePranas,
+    sunTimeMotionPranasPerDay,
+    planetTimeMotionPranasPerDay,
+    signedKalanshaRatePranasPerDay,
+    estimatedDays: differencePranas / signedKalanshaRatePranasPerDay,
+    scope: "IX.10–11 estimate after sign rising-asus are independently supplied"
+  };
+}
+
 export function runChapter9ArithmeticTests() {
   const tests = [];
   const close = (actual, expected, tolerance = 1e-9) =>
@@ -223,6 +290,83 @@ export function runChapter9ArithmeticTests() {
       passed: actual === item.expected
     });
   }
+
+  const motionEquator = chapter9TimeMotionFromArcMotion({
+    dailyMotionArcminPerDay: 59,
+    signRisingAsus: 1800
+  });
+  tests.push({
+    name: "IX.11 at the equator preserves arcminutes/day numerically as prāṇas/day",
+    passed: close(motionEquator, 59)
+  });
+
+  const motionUnequalSign = chapter9TimeMotionFromArcMotion({
+    dailyMotionArcminPerDay: 60,
+    signRisingAsus: 1500
+  });
+  tests.push({
+    name: "IX.11 applies the sign-specific rising-asus ratio",
+    passed: close(motionUnequalSign, 50)
+  });
+
+  const future = estimateChapter9TimeCorrectionFromArcMotions({
+    currentKalanshaDeg: 9,
+    targetKalanshaDeg: 8,
+    signedLagnantaraDeg: -1,
+    sunDailyMotionArcminPerDay: 59,
+    planetDailyMotionArcminPerDay: 60,
+    sunSignRisingAsus: 1800,
+    planetSignRisingAsus: 1800
+  });
+  tests.push({
+    name: "IX.10–11 signed estimate returns future when K is decreasing toward target",
+    passed: close(future.signedKalanshaRatePranasPerDay, -1) &&
+      close(future.estimatedDays, 60)
+  });
+
+  const past = estimateChapter9TimeCorrectionFromArcMotions({
+    currentKalanshaDeg: 9,
+    targetKalanshaDeg: 8,
+    signedLagnantaraDeg: 1,
+    sunDailyMotionArcminPerDay: 59,
+    planetDailyMotionArcminPerDay: 60,
+    sunSignRisingAsus: 1800,
+    planetSignRisingAsus: 1800
+  });
+  tests.push({
+    name: "IX.10–11 signed estimate returns past when K is increasing away from target",
+    passed: close(past.signedKalanshaRatePranasPerDay, 1) &&
+      close(past.estimatedDays, -60)
+  });
+
+  const retrogradeRate = estimateChapter9TimeCorrectionFromArcMotions({
+    currentKalanshaDeg: 7,
+    targetKalanshaDeg: 8,
+    signedLagnantaraDeg: 1,
+    sunDailyMotionArcminPerDay: 59,
+    planetDailyMotionArcminPerDay: -30,
+    sunSignRisingAsus: 1800,
+    planetSignRisingAsus: 1800
+  });
+  tests.push({
+    name: "IX.11 signed retrograde motion combines into the relative rate",
+    passed: close(retrogradeRate.signedKalanshaRatePranasPerDay, -89) &&
+      close(retrogradeRate.estimatedDays, -60 / 89)
+  });
+
+  let invalidAsusRejected = false;
+  try {
+    chapter9TimeMotionFromArcMotion({
+      dailyMotionArcminPerDay: 60,
+      signRisingAsus: 0
+    });
+  } catch (error) {
+    invalidAsusRejected = error instanceof TypeError;
+  }
+  tests.push({
+    name: "IX.11 rejects missing/zero sign rising-asus instead of fabricating a time rate",
+    passed: invalidAsusRejected
+  });
 
   return {
     tests,
