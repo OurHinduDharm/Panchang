@@ -1,0 +1,76 @@
+name: SS Chapter 9 Diagnostic Tests
+
+on:
+  pull_request:
+    paths:
+      - "test-astronomy.html"
+      - "ss_chapter9_test.js"
+      - ".github/workflows/ss-chapter9-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check helper syntax
+        run: node --experimental-default-type=module --check ss_chapter9_test.js
+
+      - name: Run arithmetic tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter9ArithmeticTests } from './ss_chapter9_test.js';
+          const result = runChapter9ArithmeticTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Check HTML structure and diagnostic wiring
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { spawnSync } from 'node:child_process';
+          const html = fs.readFileSync('test-astronomy.html', 'utf8');
+          const checks = [
+            ['arithmetic helper imported', html.includes('from "./ss_chapter9_test.js"')],
+            ['arithmetic test button exists', html.includes('id="runChapter9ArithmeticBtn"')],
+            ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
+            ['legacy Venus limitation disclosed', html.includes('not the event-direction rule of Sūrya-siddhānta IX.7')],
+            ['threshold test no longer labelled a classical implementation', !html.includes('8. Classical Asta / Udaya Threshold Test')]
+          ];
+          const ids = [...html.matchAll(/\\bid="([^"]+)"/g)].map(m => m[1]);
+          const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
+          checks.push(['no duplicate HTML IDs', duplicates.length === 0]);
+          const moduleScript = [...html.matchAll(/<script type="module">([\\s\\S]*?)<\\/script>/gi)][0]?.[1];
+          if (!moduleScript) {
+            checks.push(['module script exists', false]);
+          } else {
+            fs.writeFileSync('/tmp/test-astronomy-module.mjs', moduleScript);
+            const syntax = spawnSync(process.execPath, ['--check', '/tmp/test-astronomy-module.mjs'], { encoding: 'utf8' });
+            checks.push(['main module script syntax', syntax.status === 0]);
+            if (syntax.status !== 0) console.error(syntax.stderr);
+          }
+          for (const [name, passed] of checks) console.log(`${passed ? 'PASS' : 'FAIL'} — ${name}`);
+          const failed = checks.filter(([, passed]) => !passed);
+          if (failed.length) process.exit(1);
+          NODE
+
+      - name: Confirm production Panchang files are unchanged
+        run: |
+          git fetch origin main --depth=1
+          git diff --exit-code origin/main -- app.js extra-panchang.js
