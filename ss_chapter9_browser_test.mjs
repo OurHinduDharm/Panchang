@@ -53,13 +53,34 @@ try {
   );
 
   const rows = await page.locator("#lagnantaraOutput tr.reference-row").allTextContents();
+  const estimates = await page.locator("#lagnantaraOutput tr.reference-row").evaluateAll(elements =>
+    elements.map(row => ({
+      planet: row.cells[0]?.textContent || "?",
+      event: row.cells[1]?.textContent || "?",
+      estimateDays: row.dataset.timeEstimateDays,
+      bracketErrorDays: row.dataset.estimateBracketErrorDays
+    }))
+  );
   const chapter7 = await page.locator("#chapter7DrikkarmaTestOutput").innerText();
   const output = await page.locator("#lagnantaraOutput").innerText();
   console.log("Chapter VII result:", chapter7);
   for (const row of rows) console.log("ASTA/Udaya reference:", row.replace(/\s+/g, " ").trim());
+  for (const item of estimates) console.log("IX.10–11 estimate audit:", JSON.stringify(item));
 
   if (!chapter7.includes("7/7")) throw new Error("Chapter VII formula tests did not pass in browser.");
   if (rows.length !== 4) throw new Error("Expected four reference rows.");
+  const invalidEstimates = estimates.filter(item =>
+    item.estimateDays === "" || item.bracketErrorDays === "" ||
+    !Number.isFinite(Number(item.estimateDays)) ||
+    !Number.isFinite(Number(item.bracketErrorDays))
+  );
+  if (invalidEstimates.length) {
+    throw new Error("Missing/non-finite IX.10–11 estimate or bracket comparison: " + JSON.stringify(invalidEstimates));
+  }
+  const largeEstimateErrors = estimates.filter(item => Number(item.bracketErrorDays) > 0.75);
+  if (largeEstimateErrors.length) {
+    throw new Error("IX.10–11 estimates differ from linearly interpolated daily brackets by more than 0.75 day: " + JSON.stringify(largeEstimateErrors));
+  }
   const branchMismatches = rows.filter(row =>
     row.includes("Ambiguous/unavailable") || row.includes("⚠ differs from fixture")
   );
@@ -78,6 +99,7 @@ try {
   console.log("PASS — research page loaded in Chromium");
   console.log("PASS — all four Chapter IX reference branches matched their expected event classes");
   console.log("PASS — Chapter VII formula tests rendered in browser");
+  console.log("PASS — all four signed IX.10–11 estimates are finite and within 0.75 day of the daily-bracket interpolation");
   console.log("PASS — current/sequential lagnāntara tables rendered without browser errors");
 } catch (error) {
   console.error("FAIL — browser diagnostic:", error?.stack || error);
