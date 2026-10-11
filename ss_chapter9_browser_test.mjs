@@ -56,7 +56,7 @@ try {
   const chapter7 = await page.locator("#chapter7DrikkarmaTestOutput").innerText();
   const output = await page.locator("#lagnantaraOutput").innerText();
   console.log("Chapter VII result:", chapter7);
-  for (const row of rows) console.log("ASTA/Udaya reference:", row.replace(/\\s+/g, " ").trim());
+  for (const row of rows) console.log("ASTA/Udaya reference:", row.replace(/\s+/g, " ").trim());
 
   if (!chapter7.includes("7/7")) throw new Error("Chapter VII formula tests did not pass in browser.");
   if (rows.length !== 4) throw new Error("Expected four reference rows.");
