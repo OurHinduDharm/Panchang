@@ -89,7 +89,13 @@ All four IX.10–11 estimates are within 0.75 day of the linear interpolation of
 
 ## What the latest automated tests establish
 
-At the latest completed full browser run before the current two additional Chapter VII invariants, GitHub Actions passed 32/32 Chapter IX tests, 7/7 Chapter VII tests, and 5/5 Chapter III tests. That run also loaded the research page in headless Chromium and checked all four event branches, correction components, estimates, rendered tables, and console errors. A new run is required after the latest added tests; those results are not yet claimed here.
+Latest full CI/browser run: https://github.com/OurHinduDharm/Panchang/actions/runs/38185159195
+
+- 32/32 Chapter IX arithmetic/classifier/time-conversion tests passed.
+- 9/9 Chapter VII formula and invariant tests passed, including the explicit test that Akṣa uses the original planet RA/declination rather than the Āyana-corrected intermediate point, and the observer-hemisphere sign test.
+- 5/5 Chapter III rising-asus tests passed.
+- Headless Chromium loaded the research page, rendered all four cases and correction components, and reported no page/console errors.
+- Production isolation passed; `app.js` and `extra-panchang.js` remain unchanged.
 
 These checks do **not** establish that the complete classical algorithm is correct. The browser run is headless CI validation, not a manual test on the user's phone.
 
@@ -163,12 +169,12 @@ The updated headless Chromium run completed successfully after the correction. A
 
 ## Latest successful browser check after the Akṣa-input correction
 
-Previously successful full workflow: https://github.com/OurHinduDharm/Panchang/actions/runs/38184164804
+Latest full workflow after the two added Chapter VII invariants: https://github.com/OurHinduDharm/Panchang/actions/runs/38185159195
 
 - 32/32 Chapter IX arithmetic/classifier/time-conversion tests passed.
-- 7/7 Chapter VII formula and invariant tests passed.
+- 9/9 Chapter VII formula and invariant tests passed.
 - 5/5 Chapter III rising-asus tests passed.
 - Headless Chromium rendered all four reference cases, all three separate angular/K outputs, and all Akṣa/Āyana components without browser errors.
-- Production isolation passed; `app.js` and `extra-panchang.js` remained unchanged.
+- Production isolation passed; `app.js` and `extra-panchang.js` remain unchanged.
 
-The current branch adds two more Chapter VII checks (original-point RA/declination use and hemisphere sign reversal). Their updated result is pending the next CI run.
+The additional checks improve regression coverage; they do not replace an independent implementation or source-verified numerical benchmark.
