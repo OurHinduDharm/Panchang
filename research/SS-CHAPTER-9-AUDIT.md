@@ -32,6 +32,18 @@ These references support the textual reading below; they do **not** independentl
 | IX.10 | Difference between current and target kalāṃśa, divided by relative daily motion; retrograde motion uses the sum of motion magnitudes. | The diagnostic keeps signed lagnāntara and signed daily motion so past/future is not lost. | Implemented as a candidate; tested against daily brackets below. |
 | IX.11 | Convert each body's daily longitude motion to time-motion using its sign's rising-asus, dividing the product by 1800. | The research page calculates sign rising-asus from the oblique-ascension span of the same event-frame sign and computes signed estimated days. For western events it uses the longitudes shifted by six signs, as IX.5 requires. | Implemented as a tested candidate; the event-frame detail matters and is covered by the latest browser run. |
 
+## Keep the three event definitions separate
+
+The reference dates currently listed in `SHASTRIYA_REFERENCES` are **working comparison fixtures**, not a verified same-location gold standard. Their original source, coordinates, event definition, and civil-date convention still need to be traced before the differences can be interpreted.
+
+This distinction matters because TKS's public pages describe two separate outputs:
+- A classical Sūrya-siddhānta Ch. 9 layer using `K = lagnāntara-asu ÷ 60` and the prescribed (K > C) rule.
+- A modern apparent ecliptic-of-date elongation rule comparing Sun–planet separation with the prescribed angular limit.
+
+TKS explicitly says these are different models and that the angular-orb result is not physical heliacal visibility. The current research page therefore now displays **ecliptic longitude separation**, **true 3-D elongation**, and **classical lagnāntara K** in separate columns. They must not be treated as interchangeable. The current browser checks verify that all three outputs calculate and render; the next review must compare like-for-like methods using the same location, ephemeris, apparent/geometric convention, and local event time.
+
+Sources: https://tksephemeris.com/tks-home and https://tksephemeris.com/tks-udaya-asta.
+
 ## Code audit findings (research branch)
 
 1. **Correction order:** the older `getDrikkarmaCorrection()` calculates Akṣa from the uncorrected planet RA/declination and then adds Āyana. This is retained only as a comparison baseline. The sequential candidate now calls the isolated `ss_chapter7_drikkarma.js` helper: apply Āyana first, recompute the intermediate ecliptic point's RA/declination, then derive Akṣa from that point. Burgess's explanatory note describes this same intermediate-point sequence. This is the better-supported candidate, but it still requires full numerical validation.
@@ -121,6 +133,13 @@ https://github.com/OurHinduDharm/Panchang/actions/runs/38182695977
 - 32/32 Chapter IX arithmetic, threshold-selection, event-classification, and IX.10–11 conversion tests passed.
 - 7/7 Chapter VII formula-component and invariant tests passed.
 - HTML module syntax, helper wiring, duplicate-ID checks, and production isolation passed.
-- Headless Chromium loaded the research page, calculated all four cases, and passed the event-branch and IX.10–11 bracket-consistency checks.
+- Headless Chromium loaded the research page, calculated all four cases, and passed the event-branch and IX.10–11 bracket-consistency checks. Those bracket checks compare two calculations that share inputs and are **not** independent proof of the event dates.
 
 A headless Chromium run has been performed in CI. A separate manual run on the user's device has not been performed. The browser result does not validate the full classical calculation or resolve the two reference-date discrepancies.
+
+
+## Latest diagnostic extension — angular separation side by side
+
+The research table now prints both the ecliptic-longitude separation `Δλ` and the spherical 3-D angular separation alongside the Chapter IX classical `K). This is deliberately a comparison panel, not a replacement of the classical method with a modern angular threshold.
+
+**Important outstanding issue:** the current four reference dates are not yet a provenance-verified benchmark set. Do not describe the Venus Udaya or Jupiter Asta offsets as a proven error in Sūrya-siddhānta until the reference source, observer location, event-time convention, ephemeris, and model are matched. The Jupiter Asta discrepancy is large enough to require investigation, not enough by itself to identify the faulty component.
