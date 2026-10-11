@@ -84,6 +84,43 @@ export function chapter9Kalansha({ planet, horizonEvent, motionClass }) {
   return NaN;
 }
 
+/**
+ * Chapter IX.2–3 event classification candidate.
+ *
+ * dailyMotionDegPerDay must be a signed longitude rate in the same
+ * ecliptic frame as the supplied longitudes. Positive = direct/eastward;
+ * negative = retrograde. This classifies the treatise's four heliacal
+ * geometries, not whether a body is actually visible to the naked eye.
+ */
+export function classifyChapter9HorizonEvent({
+  planet,
+  planetLongitudeDeg,
+  sunLongitudeDeg,
+  dailyMotionDegPerDay
+}) {
+  if (!Number.isFinite(planetLongitudeDeg) || !Number.isFinite(sunLongitudeDeg)) {
+    return null;
+  }
+
+  const delta = ((planetLongitudeDeg - sunLongitudeDeg + 540) % 360) - 180;
+  if (Math.abs(delta) < 1e-7) return null;
+
+  if (planet === "Jupiter" || planet === "Mars" || planet === "Saturn") {
+    return delta > 0 ? "west-setting" : "east-rising";
+  }
+
+  if (planet !== "Venus" && planet !== "Mercury") return null;
+  if (!Number.isFinite(dailyMotionDegPerDay) || Math.abs(dailyMotionDegPerDay) < 1e-6) {
+    return null;
+  }
+
+  if (dailyMotionDegPerDay < 0) {
+    return delta > 0 ? "west-setting" : "east-rising";
+  }
+
+  return delta < 0 ? "east-setting" : "west-rising";
+}
+
 export function runChapter9ArithmeticTests() {
   const tests = [];
   const close = (actual, expected, tolerance = 1e-9) =>
@@ -162,6 +199,28 @@ export function runChapter9ArithmeticTests() {
     tests.push({
       name: item.name,
       passed: Number.isNaN(item.expected) ? Number.isNaN(actual) : actual === item.expected
+    });
+  }
+
+  const eventCases = [
+    { name: "Jupiter eastward of Sun maps to west-setting", args: { planet: "Jupiter", planetLongitudeDeg: 101, sunLongitudeDeg: 100 }, expected: "west-setting" },
+    { name: "Jupiter westward of Sun maps to east-rising", args: { planet: "Jupiter", planetLongitudeDeg: 99, sunLongitudeDeg: 100 }, expected: "east-rising" },
+    { name: "Longitude wrap is treated as a signed short separation", args: { planet: "Jupiter", planetLongitudeDeg: 359.5, sunLongitudeDeg: 0.5 }, expected: "east-rising" },
+    { name: "Retrograde Venus follows IX.2 west-setting branch", args: { planet: "Venus", planetLongitudeDeg: 101, sunLongitudeDeg: 100, dailyMotionDegPerDay: -0.5 }, expected: "west-setting" },
+    { name: "Retrograde Venus follows IX.2 east-rising branch", args: { planet: "Venus", planetLongitudeDeg: 99, sunLongitudeDeg: 100, dailyMotionDegPerDay: -0.5 }, expected: "east-rising" },
+    { name: "Direct Venus follows IX.3 east-setting branch", args: { planet: "Venus", planetLongitudeDeg: 99, sunLongitudeDeg: 100, dailyMotionDegPerDay: 1 }, expected: "east-setting" },
+    { name: "Direct Venus follows IX.3 west-rising branch", args: { planet: "Venus", planetLongitudeDeg: 101, sunLongitudeDeg: 100, dailyMotionDegPerDay: 1 }, expected: "west-rising" },
+    { name: "Retrograde Mercury follows IX.2 west-setting branch", args: { planet: "Mercury", planetLongitudeDeg: 101, sunLongitudeDeg: 100, dailyMotionDegPerDay: -0.5 }, expected: "west-setting" },
+    { name: "Direct Mercury follows IX.3 east-setting branch", args: { planet: "Mercury", planetLongitudeDeg: 99, sunLongitudeDeg: 100, dailyMotionDegPerDay: 1 }, expected: "east-setting" },
+    { name: "Exact conjunction is not assigned an arbitrary horizon branch", args: { planet: "Venus", planetLongitudeDeg: 100, sunLongitudeDeg: 100, dailyMotionDegPerDay: -0.5 }, expected: null },
+    { name: "Mercury/Venus stationary motion is not guessed", args: { planet: "Venus", planetLongitudeDeg: 101, sunLongitudeDeg: 100, dailyMotionDegPerDay: 0 }, expected: null },
+    { name: "Unsupported planet is not assigned a branch", args: { planet: "Moon", planetLongitudeDeg: 101, sunLongitudeDeg: 100, dailyMotionDegPerDay: 13 }, expected: null }
+  ];
+  for (const item of eventCases) {
+    const actual = classifyChapter9HorizonEvent(item.args);
+    tests.push({
+      name: item.name,
+      passed: actual === item.expected
     });
   }
 
