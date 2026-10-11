@@ -155,15 +155,15 @@ export function runChapter7DrikkarmaTests() {
   tests.push({
     name: "Cross-language numeric fixture: planet RA/declination for Aksha",
     passed: close(sample.ayanaAppliedLongitude, 100.26443414796505) &&
-      close(sample.akshaPointRA, 126.93586520272719) &&
-      close(sample.akshaPointDeclination, 19.5893801566642)
+      close(sample.planetRAForAksha, 126.97536542166314) &&
+      close(sample.planetDeclinationForHalfDay, 20.817606965695532)
   });
   tests.push({
     name: "Cross-language numeric fixture: Aksha and corrected longitude",
-    passed: close(sample.hourAngleDeg, 73.0641347972728) &&
-      close(sample.halfDayAngleDeg, 101.65543429026734) &&
-      close(sample.akshaDeg, 0.4896250078271271) &&
-      close(sample.correctedLongitude, 100.75405915579218)
+    passed: close(sample.hourAngleDeg, 73.02463457833687) &&
+      close(sample.halfDayAngleDeg, 102.4650232173461) &&
+      close(sample.akshaDeg, 0.4854938080385521) &&
+      close(sample.correctedLongitude, 100.7499279560036)
   });
 
   const equator = calculateChapter7SequentialDrikkarma({
