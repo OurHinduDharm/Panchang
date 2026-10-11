@@ -3305,15 +3305,33 @@ function runDrikBoundaryAudit() {
     <p class="small">“Δ from C” is calculated separation minus the classical angular threshold (Venus 8° retrograde / 10° direct; Jupiter 11°). Negative values mean the calculated separation is below C. The threshold rule is only a classical comparison and is not assumed to be Drik Panchang’s event criterion.</p>`;
 }
 
+function classicalResidual(geometry, useTrue) {
+  return useTrue ? geometry.trueResidual : geometry.eclipticResidual;
+}
+
+function isValidClassicalRoot(body, planet, root, useTrue) {
+  if (!root || !Number.isFinite(root.getTime())) return false;
+  const geometry = getClassicalGeometry(body, root, planet);
+  const residual = classicalResidual(geometry, useTrue);
+
+  /*
+   * Venus' classical threshold changes with motion state (10° direct,
+   * 8° retrograde). That can create a sign jump at station without the
+   * angular separation ever equalling either threshold. Reject such
+   * discontinuities instead of reporting the station as an exact root.
+   */
+  return Number.isFinite(residual) && Math.abs(residual) <= 0.001;
+}
+
 function bisectClassicalRoot(body, planet, lo, hi, useTrue) {
   let a = lo, b = hi;
   const value = d => {
     const g = getClassicalGeometry(body, d, planet);
-    return useTrue ? g.trueResidual : g.eclipticResidual;
+    return classicalResidual(g, useTrue);
   };
   let fa = value(a), fb = value(b);
   if (!Number.isFinite(fa) || !Number.isFinite(fb) || fa === 0 || fb === 0 || fa * fb > 0) return null;
-  for (let i = 0; i < 36; i++) {
+  for (let i = 0; i < 48; i++) {
     const mid = new Date((a.getTime() + b.getTime()) / 2);
     const fm = value(mid);
     if (!Number.isFinite(fm)) return null;
@@ -3321,7 +3339,8 @@ function bisectClassicalRoot(body, planet, lo, hi, useTrue) {
     if (fa * fm <= 0) { b = mid; fb = fm; }
     else { a = mid; fa = fm; }
   }
-  return new Date((a.getTime() + b.getTime()) / 2);
+  const root = new Date((a.getTime() + b.getTime()) / 2);
+  return isValidClassicalRoot(body, planet, root, useTrue) ? root : null;
 }
 
 function findClassicalCrossing(ref, useTrue) {
@@ -3339,7 +3358,7 @@ function findClassicalCrossing(ref, useTrue) {
     const p = samples[i - 1], q = samples[i];
     if (p.residual === 0 || p.residual * q.residual <= 0) {
       const root = p.residual === 0 ? p.date : bisectClassicalRoot(body, ref.planet, p.date, q.date, useTrue);
-      if (!root) continue;
+      if (!root || !isValidClassicalRoot(body, ref.planet, root, useTrue)) continue;
       const g = getClassicalGeometry(body, root, ref.planet);
       const before = getClassicalGeometry(body, new Date(root.getTime() - 3600000), ref.planet);
       const after = getClassicalGeometry(body, new Date(root.getTime() + 3600000), ref.planet);
@@ -3398,7 +3417,8 @@ function findAllClassicalCrossings(ref, useTrue) {
     const root = p.residual === 0
       ? p.date
       : bisectClassicalRoot(body, ref.planet, p.date, q.date, useTrue);
-    if (!root || candidates.some(c => Math.abs(c.root - root) < 60000)) continue;
+    if (!root || !isValidClassicalRoot(body, ref.planet, root, useTrue) ||
+        candidates.some(c => Math.abs(c.root - root) < 60000)) continue;
 
     const g = getClassicalGeometry(body, root, ref.planet);
     const before = getClassicalGeometry(body, new Date(root.getTime() - 3600000), ref.planet);
