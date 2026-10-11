@@ -6,49 +6,51 @@
  * prescribed kalāṃśa, local sunrise/sunset, or a final Asta/Udaya event.
  *
  * Inputs must already be independently derived and expressed consistently:
- * - currentKalanshaDeg: current corrected angular/time measure
- * - targetKalanshaDeg: required measure for the selected event branch
- * - sunDailyMotionDegPerDay: signed daily motion in deg/day
- * - planetDailyMotionDegPerDay: signed daily motion in the same frame
+ * - currentKalanshaTimeUnits: current corrected kalāṃśa/time measure
+ * - targetKalanshaTimeUnits: required measure for the selected event branch
+ * - sunDailyMotionTimeUnitsPerDay: signed daily motion already converted to
+ *   the same time measure per day using the IX.11 rising-time conversion
+ * - planetDailyMotionTimeUnitsPerDay: signed daily motion converted the same way
  *
  * Signed motion is intentional: when a planet is retrograde, its signed
  * motion naturally makes the relative rate behave like a sum of magnitudes.
+ * IX.11's conversion must be done upstream; this helper does not implement it.
  * Do not pass raw Sun–planet elongation here as a substitute for lagnāntara.
  */
 export function estimateChapter9TimeCorrection({
-  currentKalanshaDeg,
-  targetKalanshaDeg,
-  sunDailyMotionDegPerDay,
-  planetDailyMotionDegPerDay
+  currentKalanshaTimeUnits,
+  targetKalanshaTimeUnits,
+  sunDailyMotionTimeUnitsPerDay,
+  planetDailyMotionTimeUnitsPerDay
 }) {
   const values = [
-    currentKalanshaDeg,
-    targetKalanshaDeg,
-    sunDailyMotionDegPerDay,
-    planetDailyMotionDegPerDay
+    currentKalanshaTimeUnits,
+    targetKalanshaTimeUnits,
+    sunDailyMotionTimeUnitsPerDay,
+    planetDailyMotionTimeUnitsPerDay
   ];
   if (!values.every(Number.isFinite)) {
     throw new TypeError("All four inputs must be finite numbers.");
   }
 
-  const angularDifferenceDeg = Math.abs(
-    targetKalanshaDeg - currentKalanshaDeg
+  const kalanshaDifferenceTimeUnits = Math.abs(
+    targetKalanshaTimeUnits - currentKalanshaTimeUnits
   );
-  const relativeMotionDegPerDay = Math.abs(
-    planetDailyMotionDegPerDay - sunDailyMotionDegPerDay
+  const relativeMotionTimeUnitsPerDay = Math.abs(
+    planetDailyMotionTimeUnitsPerDay - sunDailyMotionTimeUnitsPerDay
   );
 
-  if (relativeMotionDegPerDay < 1e-12) {
+  if (relativeMotionTimeUnitsPerDay < 1e-12) {
     throw new RangeError(
       "Relative daily motion is effectively zero; time correction is undefined."
     );
   }
 
   return {
-    angularDifferenceDeg,
-    relativeMotionDegPerDay,
-    estimatedDays: angularDifferenceDeg / relativeMotionDegPerDay,
-    scope: "IX.10 relative-motion arithmetic only"
+    kalanshaDifferenceTimeUnits,
+    relativeMotionTimeUnitsPerDay,
+    estimatedDays: kalanshaDifferenceTimeUnits / relativeMotionTimeUnitsPerDay,
+    scope: "IX.10 relative-motion arithmetic after IX.11 conversion"
   };
 }
 
@@ -59,36 +61,36 @@ export function runChapter9ArithmeticTests() {
 
   // Direct motion: |1.200 - 0.983| = 0.217 deg/day.
   const direct = estimateChapter9TimeCorrection({
-    currentKalanshaDeg: 9,
-    targetKalanshaDeg: 8,
-    sunDailyMotionDegPerDay: 0.983,
-    planetDailyMotionDegPerDay: 1.2
+    currentKalanshaTimeUnits: 9,
+    targetKalanshaTimeUnits: 8,
+    sunDailyMotionTimeUnitsPerDay: 0.983,
+    planetDailyMotionTimeUnitsPerDay: 1.2
   });
   tests.push({
-    name: "Direct relative motion uses the signed-motion difference",
-    passed: close(direct.relativeMotionDegPerDay, 0.217) &&
+    name: "Direct relative motion uses the signed-motion difference after IX.11 conversion",
+    passed: close(direct.relativeMotionTimeUnitsPerDay, 0.217) &&
       close(direct.estimatedDays, 1 / 0.217)
   });
 
   // Retrograde motion: planet speed is negative, so relative speed is
   // |(-0.500) - 0.983| = 1.483 deg/day (sum of magnitudes).
   const retrograde = estimateChapter9TimeCorrection({
-    currentKalanshaDeg: 7,
-    targetKalanshaDeg: 8,
-    sunDailyMotionDegPerDay: 0.983,
-    planetDailyMotionDegPerDay: -0.5
+    currentKalanshaTimeUnits: 7,
+    targetKalanshaTimeUnits: 8,
+    sunDailyMotionTimeUnitsPerDay: 0.983,
+    planetDailyMotionTimeUnitsPerDay: -0.5
   });
   tests.push({
-    name: "Retrograde relative motion naturally becomes the sum of magnitudes",
-    passed: close(retrograde.relativeMotionDegPerDay, 1.483) &&
+    name: "Retrograde relative motion naturally becomes the sum of magnitudes after IX.11 conversion",
+    passed: close(retrograde.relativeMotionTimeUnitsPerDay, 1.483) &&
       close(retrograde.estimatedDays, 1 / 1.483)
   });
 
   const exact = estimateChapter9TimeCorrection({
-    currentKalanshaDeg: 8,
-    targetKalanshaDeg: 8,
-    sunDailyMotionDegPerDay: 0.983,
-    planetDailyMotionDegPerDay: 1.2
+    currentKalanshaTimeUnits: 8,
+    targetKalanshaTimeUnits: 8,
+    sunDailyMotionTimeUnitsPerDay: 0.983,
+    planetDailyMotionTimeUnitsPerDay: 1.2
   });
   tests.push({
     name: "Already at target gives zero estimated days",
@@ -98,10 +100,10 @@ export function runChapter9ArithmeticTests() {
   let zeroRelativeMotionRejected = false;
   try {
     estimateChapter9TimeCorrection({
-      currentKalanshaDeg: 7,
-      targetKalanshaDeg: 8,
-      sunDailyMotionDegPerDay: 1,
-      planetDailyMotionDegPerDay: 1
+      currentKalanshaTimeUnits: 7,
+      targetKalanshaTimeUnits: 8,
+      sunDailyMotionTimeUnitsPerDay: 1,
+      planetDailyMotionTimeUnitsPerDay: 1
     });
   } catch (error) {
     zeroRelativeMotionRejected = error instanceof RangeError;
