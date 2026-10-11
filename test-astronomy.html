@@ -2229,9 +2229,9 @@ function runCoordinateFrameSensitivityAudit() {
   if (!out) return;
 
   let html = '<div class="table-wrap"><table><thead><tr>' +
-    '<th>Planet / event</th><th>UTC instant</th>' +
+    '<th>Planet / event</th><th>IX.2–3 branch</th><th>UTC instant</th>' +
     '<th>True obliquity of date</th><th>Fixed obliquity</th>' +
-    '<th>K using fixed ε</th><th>K using date ε</th><th>ΔK</th>' +
+    '<th>Exact OA K, fixed ε</th><th>Exact OA K, date ε</th><th>Chapter III interpolated K</th><th>ΔK (date−fixed)</th>' +
     '<th>Geocentric RA / Dec</th><th>Topocentric RA / Dec</th>' +
     '</tr></thead><tbody>';
 
@@ -2242,7 +2242,7 @@ function runCoordinateFrameSensitivityAudit() {
     const eventTime = eventInfo && !eventInfo.ambiguous ? eventInfo.eventTime : null;
     if (!eventTime) {
       html += '<tr><td>' + ref.planet + ' ' + ref.event +
-        '</td><td colspan="8">IX.2–3 event branch ambiguous or no valid local Sun event.</td></tr>';
+        '</td><td colspan="10">IX.2–3 event branch ambiguous or no valid local Sun event.</td></tr>';
       continue;
     }
 
@@ -2253,7 +2253,7 @@ function runCoordinateFrameSensitivityAudit() {
     const sunState = getPlanetSiderealState(Astronomy.Body.Sun, eventTime);
     if (!g || !planetState || !sunState) {
       html += '<tr><td>' + ref.planet + ' ' + ref.event +
-        '</td><td colspan="8">Planetary state unavailable.</td></tr>';
+        '</td><td colspan="10">Planetary state unavailable.</td></tr>';
       continue;
     }
 
@@ -2265,17 +2265,22 @@ function runCoordinateFrameSensitivityAudit() {
     const sunOAdate = obliqueAscensionWithObliquity(g.sunLon, epsilonDate);
     const planetOAdate = obliqueAscensionWithObliquity(g.planetLon, epsilonDate);
     const kDate = Math.abs(signedLongitudeDelta(planetOAdate, sunOAdate));
-    const kFixed = g.K;
+    const sunOAFixed = obliqueAscensionWithObliquity(g.sunLon, 23.4367);
+    const planetOAFixed = obliqueAscensionWithObliquity(g.planetLon, 23.4367);
+    const kFixed = Math.abs(signedLongitudeDelta(planetOAFixed, sunOAFixed));
+    const kChapter3 = g.K;
     const topo = Astronomy.Equator(
       BODY_NAMES[ref.planet], eventTime, tksObserver, true, true
     );
 
     html += '<tr><td>' + ref.planet + ' ' + ref.event + '</td>' +
+      '<td>' + eventInfo.horizonEvent + '</td>' +
       '<td>' + formatDateUTC(eventTime) + '</td>' +
       '<td>' + round(epsilonDate, 8) + '°</td>' +
       '<td>23.43670000°</td>' +
       '<td>' + round(kFixed, 6) + '°</td>' +
       '<td>' + round(kDate, 6) + '°</td>' +
+      '<td>' + round(kChapter3, 6) + '°</td>' +
       '<td>' + ((kDate-kFixed)>=0?'+':'') + round(kDate-kFixed, 6) + '°</td>' +
       '<td>RA ' + round(planetState.rightAscension, 6) + '° / Dec ' +
         round(planetState.declination, 6) + '°</td>' +
@@ -2284,7 +2289,7 @@ function runCoordinateFrameSensitivityAudit() {
   }
 
   html += '</tbody></table></div>' +
-    '<div class="status warn">Interpretation: ΔK isolates only the sensitivity to obliquity in the OA conversion while keeping the current event time and corrected longitudes fixed. The 24.217° offset is restored before OA, so this test does not independently validate an ayanāṃśa choice. It also does not validate the classical correction order or the ephemeris against TKS.</div>';
+    '<div class="status warn">Interpretation: ΔK compares two exact-oblique-ascension calculations at fixed and date obliquity. Chapter III interpolated K is shown separately because the source prescribes sign rising-asus and within-sign interpolation. The 24.217° offset remains a stated benchmark, not an independently validated ayanāṃśa.</div>';
   out.innerHTML = html;
 }
 
