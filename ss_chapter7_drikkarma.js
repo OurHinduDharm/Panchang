@@ -49,7 +49,7 @@ export function calculateChapter7SequentialDrikkarma({
   observerLatitudeDeg,
   localSiderealAngleDeg,
   ayanamshaDeg = 24.217,
-  obliquityDeg = 23.4367,
+  obliquityDeg = 24,
   planetDeclinationDeg = NaN,
   planetRightAscensionDeg = NaN
 }) {
@@ -132,27 +132,27 @@ export function runChapter7DrikkarmaTests() {
     observerLatitudeDeg: 29.583,
     localSiderealAngleDeg: 200,
     ayanamshaDeg: 24.217,
-    obliquityDeg: 23.4367
+    obliquityDeg: 24
   };
   const sample = calculateChapter7SequentialDrikkarma(base);
 
   tests.push({
     name: "Cross-language numeric fixture: Ayana correction",
-    passed: close(sample.ayanaDeclinationDeg, -12.923988030780762) &&
-      close(sample.ayanaDeg, 0.25847976061561523)
+    passed: close(sample.ayanaDeclinationDeg, -13.221707398252294) &&
+      close(sample.ayanaDeg, 0.2644341479650459)
   });
   tests.push({
     name: "Cross-language numeric fixture: intermediate RA/declination",
-    passed: close(sample.ayanaAppliedLongitude, 100.25847976061562) &&
-      close(sample.akshaPointRA, 126.81094148374767) &&
-      close(sample.akshaPointDeclination, 19.140196458364823)
+    passed: close(sample.ayanaAppliedLongitude, 100.26443414796505) &&
+      close(sample.akshaPointRA, 126.93586520272719) &&
+      close(sample.akshaPointDeclination, 19.5893801566642)
   });
   tests.push({
     name: "Cross-language numeric fixture: Aksha and corrected longitude",
-    passed: close(sample.hourAngleDeg, 73.18905851625232) &&
-      close(sample.halfDayAngleDeg, 101.36305842597778) &&
-      close(sample.akshaDeg, 0.4918768693537018) &&
-      close(sample.correctedLongitude, 100.75035662996932)
+    passed: close(sample.hourAngleDeg, 73.0641347972728) &&
+      close(sample.halfDayAngleDeg, 101.65543429026734) &&
+      close(sample.akshaDeg, 0.4896250078271271) &&
+      close(sample.correctedLongitude, 100.75405915579218)
   });
 
   const equator = calculateChapter7SequentialDrikkarma({
