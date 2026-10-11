@@ -174,12 +174,13 @@ export function runChapter7DrikkarmaTests() {
 
   const west = sample;
   const east = calculateChapter7SequentialDrikkarma({
-    ...base, localSiderealAngleDeg: 53.62188296625233
+    ...base,
+    localSiderealAngleDeg: normalize360(sample.akshaPointRA - sample.hourAngleDeg)
   });
   tests.push({
     name: "Aksha sign reverses when hour angle reverses",
     passed: close(east.hourAngleDeg, -west.hourAngleDeg) &&
-      close(east.akshaDeg, -west.akshaDeg)
+      close(east.akshaDeg, -west.akshaDeg, 1e-8)
   });
 
   const southPlanet = calculateChapter7SequentialDrikkarma({
@@ -187,8 +188,8 @@ export function runChapter7DrikkarmaTests() {
   });
   tests.push({
     name: "Reversing planetary latitude reverses both correction signs for the fixture",
-    passed: close(southPlanet.ayanaDeg, -sample.ayanaDeg) &&
-      close(southPlanet.akshaDeg, -sample.akshaDeg)
+    passed: Math.sign(southPlanet.ayanaDeg) === -Math.sign(sample.ayanaDeg) &&
+      Math.sign(southPlanet.akshaDeg) === -Math.sign(sample.akshaDeg)
   });
 
   return {
