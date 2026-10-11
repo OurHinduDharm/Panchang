@@ -80,6 +80,6 @@ These checks do **not** establish that the complete classical algorithm is corre
 
 The research branch now contains `ss_chapter7_drikkarma.js`, an isolated implementation of the sequential VII.8–10 candidate. The research page's sequential diagnostic delegates to this helper; the earlier calculation remains visible as a comparison baseline.
 
-The helper includes a numeric fixture for the intermediate longitude, right ascension, declination, hour angle, half-day angle, both correction terms, and final corrected longitude. It also tests that Akṣa vanishes at the equator, both latitude-dependent corrections vanish for zero planetary latitude, the Akṣa sign reverses with hour-angle sign, and reversing planetary latitude reverses the fixture's correction signs.
+The helper includes a cross-language numeric fixture (same equations independently evaluated in Python) for the intermediate longitude, right ascension, declination, hour angle, half-day angle, both correction terms, and final corrected longitude. It also tests that Akṣa vanishes at the equator, both latitude-dependent corrections vanish for zero planetary latitude, the Akṣa sign reverses with hour-angle sign, and reversing planetary latitude reverses the fixture's correction signs.
 
 These are **internal arithmetic/invariant tests**, not observational validation. They do not make the four Asta/Udaya results authoritative. The next gate remains comparison against an independently implemented Chapter VII derivation and then the four same-location event cases.
