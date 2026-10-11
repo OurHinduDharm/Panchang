@@ -3173,7 +3173,7 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(gs ? round(gs.K,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
-    html += '<td>'+round(C,2)+'°</td>';
+    html += '<td>'+(Number.isFinite(C) ? round(C,2)+'°' : '—')+'</td>';
     html += '<td>'+ref.date+'</td>';
     if (crossing && crossing.brackets && crossing.brackets.length) {
       html += '<td>';
