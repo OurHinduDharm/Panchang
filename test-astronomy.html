@@ -222,7 +222,8 @@
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
-    <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
+    <button id="runClassicalBtn">Angular Threshold Diagnostic</button>
+    <button id="runChapter9ArithmeticBtn">SS IX.10 Arithmetic Test</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
@@ -417,9 +418,8 @@
   <!-- ========================================================= -->
 
   <section>
-    <h2>8. Classical Asta / Udaya Threshold Test</h2>
-    <p>This diagnostic tests the traditional threshold rule using modern astronomical positions. The external reference date is not used as the calculated answer.</p><div class="status warn"><strong>Important:</strong> 8°/10°/11° are classical Sūrya-siddhānta approximations. Diagnostic only; not the final local Asta/Udaya algorithm.</div>
-    <div class="status info">Venus: 10° direct, 8° retrograde. Jupiter: 11°. Ecliptic-longitude and true 3-D angular separation are both tested.</div>
+    <h2>8. Angular Threshold Diagnostic</h2>
+    <p>This is a mathematical threshold-crossing diagnostic using modern astronomical positions. It is not a complete Sūrya-siddhānta implementation, a local visibility algorithm, or a final Asta/Udaya answer.</p><div class="status warn"><strong>Important limitation:</strong> The existing Venus branch currently selects 10°/8° from direct/retrograde motion. Sūrya-siddhānta IX.7 instead distinguishes west-setting/east-rising (8°) from east-setting/west-rising (10°). Therefore this legacy branch is not source-faithful and its Venus results must be treated as exploratory only. Jupiter 11° is also only an angular comparison. Ecliptic-longitude and true 3-D separation are alternative diagnostics, not interchangeable definitions.</div>
     <div id="classicalOutput"><div class="status info">Not run yet.</div></div>
   </section>
 
@@ -439,8 +439,8 @@
   <!-- ========================================================= -->
 
   <section>
-    <h2>9. Local Horizon at Classical Threshold</h2>
-    <p>This diagnostic evaluates local altitude and azimuth at each calculated classical threshold crossing. It does not claim naked-eye visibility or replace heliacal visibility calculations.</p>
+    <h2>9. Local Horizon at Angular Threshold</h2>
+    <p>This diagnostic evaluates local altitude and azimuth at each calculated angular-threshold crossing. It does not claim naked-eye visibility or replace heliacal visibility calculations.</p>
     <div class="status warn"><strong>Interpretation:</strong> Altitude above 0° means geometrically above the ideal horizon only. Atmospheric extinction, terrain, haze, and twilight can still prevent visibility.</div>
     <div id="localHorizonOutput"><div class="status info">Not run yet.</div></div>
   </section>
@@ -462,6 +462,17 @@
     <p class="small">This table samples actual local sunset and compares Astronomy Engine against the page’s separately loaded Swiss Ephemeris at the identical UTC instant. It also exposes each correction term. This is an ephemeris cross-check, not a formula change.</p>
     <div id="jupiterAstaSweepOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this sweep.</div></div>
   </section>
+  <!-- ========================================================= -->
+  <!-- ISOLATED SŪRYA-SIDDHĀNTA IX.10 ARITHMETIC TEST -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>Isolated Sūrya-siddhānta IX.10 — Relative-Motion Arithmetic</h2>
+    <p>This unit test checks only the arithmetic step of dividing the difference between the current and target kalāṃśa by relative daily motion. It deliberately does not calculate drik-karma, lagnāntara, the event-specific threshold, or a final Asta/Udaya time.</p>
+    <div class="status warn"><strong>Input contract:</strong> current and target values must already be independently derived in the same corrected measure; daily motions must be signed and expressed in the same frame. Raw Sun–planet elongation is not a valid substitute for lagnāntara.</div>
+    <div id="chapter9ArithmeticOutput"><div class="status info">Not run yet.</div></div>
+  </section>
+
   <!-- ========================================================= -->
   <!-- 9. DIAGNOSTIC NOTES -->
   <!-- ========================================================= -->
@@ -523,6 +534,8 @@ import * as Astronomy
 
 import SwissEph
   from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
+
+import { runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
 
 
 /* =============================================================
@@ -4004,6 +4017,31 @@ document
     "click",
     runClassicalAstaUdayaTest
   );
+
+document
+  .getElementById("runChapter9ArithmeticBtn")
+  .addEventListener("click", () => {
+    const output = document.getElementById("chapter9ArithmeticOutput");
+    try {
+      const result = runChapter9ArithmeticTests();
+      const rows = result.tests.map(test =>
+        '<tr><td>' + test.name + '</td><td>' +
+        (test.passed ? 'PASS' : 'FAIL') + '</td></tr>'
+      ).join("");
+      output.innerHTML =
+        '<div class="status ' + (result.allPassed ? 'ok' : 'error') + '">' +
+        result.passed + '/' + result.total + ' arithmetic tests passed. ' +
+        result.note + '</div>' +
+        '<div class="table-wrap"><table><thead><tr><th>Test</th><th>Result</th></tr></thead><tbody>' +
+        rows + '</tbody></table></div>';
+      setStatus(result.allPassed
+        ? "Sūrya-siddhānta IX.10 arithmetic unit tests passed; this does not validate the full classical method."
+        : "One or more IX.10 arithmetic unit tests failed.", result.allPassed ? "ok" : "error");
+    } catch (error) {
+      output.innerHTML = '<div class="status error">' + String(error.message || error) + '</div>';
+      setStatus(String(error.message || error), "error");
+    }
+  });
 
 document
   .getElementById("runExactBoundaryAuditBtn")
