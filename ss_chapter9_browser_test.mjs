@@ -57,6 +57,8 @@ try {
     elements.map(row => ({
       planet: row.cells[0]?.textContent || "?",
       event: row.cells[1]?.textContent || "?",
+      eclipticLongitudeSeparation: row.cells[8]?.textContent || "",
+      trueElongation: row.cells[9]?.textContent || "",
       estimateDays: row.dataset.timeEstimateDays,
       bracketErrorDays: row.dataset.estimateBracketErrorDays
     }))
@@ -72,6 +74,15 @@ try {
   if (!chapter7.includes("7/7")) throw new Error("Chapter VII formula tests did not pass in browser.");
   if (!chapter3.includes("5/5")) throw new Error("Chapter III rising-asus tests did not pass in browser.");
   if (rows.length !== 4) throw new Error("Expected four reference rows.");
+  const invalidGeometry = estimates.filter(item =>
+    !item.eclipticLongitudeSeparation.includes("°") ||
+    !item.trueElongation.includes("°") ||
+    !Number.isFinite(Number(item.eclipticLongitudeSeparation.replace("°", ""))) ||
+    !Number.isFinite(Number(item.trueElongation.replace("°", "")))
+  );
+  if (invalidGeometry.length) {
+    throw new Error("Missing/non-finite independent angular-separation diagnostics: " + JSON.stringify(invalidGeometry));
+  }
   const invalidEstimates = estimates.filter(item =>
     item.estimateDays === "" || item.bracketErrorDays === "" ||
     !Number.isFinite(Number(item.estimateDays)) ||
@@ -103,6 +114,7 @@ try {
   console.log("PASS — all four Chapter IX reference branches matched their expected event classes");
   console.log("PASS — Chapter VII formula tests rendered in browser");
   console.log("PASS — Chapter III sign-rising interpolation tests rendered in browser");
+  console.log("PASS — all four ecliptic-longitude and true-elongation diagnostics are finite and displayed separately from classical K");
   console.log("PASS — all four signed IX.10–11 estimates are finite and within 0.75 day of the daily-bracket interpolation");
   console.log("PASS — current/sequential lagnāntara tables rendered without browser errors");
 } catch (error) {
