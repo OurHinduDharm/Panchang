@@ -2845,6 +2845,21 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
   const rawSunSiderealLongitude = sunState.longitude;
   const rawPlanetSiderealLongitude = planetState.longitude;
 
+  // Keep the modern apparent ecliptic-separation diagnostic separate from
+  // the classical lagnāntara K. They are not interchangeable quantities.
+  const eclipticLongitudeSeparationDeg = Math.abs(
+    signedLongitudeDelta(planetState.tropicalLongitude, sunState.tropicalLongitude)
+  );
+  const lonDeltaRad = signedLongitudeDelta(
+    planetState.tropicalLongitude, sunState.tropicalLongitude
+  ) * Math.PI / 180;
+  const planetLatRad = planetState.latitude * Math.PI / 180;
+  const sunLatRad = sunState.latitude * Math.PI / 180;
+  const trueElongationDeg = Math.acos(clampUnit(
+    Math.sin(planetLatRad) * Math.sin(sunLatRad) +
+    Math.cos(planetLatRad) * Math.cos(sunLatRad) * Math.cos(lonDeltaRad)
+  )) * 180 / Math.PI;
+
   const rawSunLon =
     direction === "west"
       ? normalize360(rawSunSiderealLongitude + 180)
@@ -2900,6 +2915,8 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
     rawPlanetLon: planetState.longitude,
     planetTropicalLongitude: planetState.tropicalLongitude,
     planetLatitude: planetState.latitude,
+    eclipticLongitudeSeparationDeg,
+    trueElongationDeg,
     planetRightAscension: planetState.rightAscension,
     planetGeocentricDeclination: planetState.declination,
     rawSunOA,
@@ -3231,7 +3248,7 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K (III.43–46)</th><th>Current K</th><th>Sequential K</th><th>Sequential exact-OA K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Estimate vs daily bracket (days)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K (III.43–46)</th><th>Current K</th><th>Sequential K</th><th>Sequential exact-OA K</th><th>Ecliptic Δλ</th><th>3-D elongation</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Estimate vs daily bracket (days)</th><th>Reference date (comparison only)</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -3282,6 +3299,8 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(g ? round(g.K,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? round(gs.K,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? round(gs.exactK,4)+"°" : "—")+'</td>';
+    html += '<td>'+(g ? round(g.eclipticLongitudeSeparationDeg,4)+"°" : "—")+'</td>';
+    html += '<td>'+(g ? round(g.trueElongationDeg,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+(Number.isFinite(C) ? round(C,2)+'°' : '—')+'</td>';
