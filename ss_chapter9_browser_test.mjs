@@ -53,6 +53,9 @@ try {
   );
 
   const rows = await page.locator("#lagnantaraOutput tr.reference-row").allTextContents();
+  const correctionDetails = await page.locator("#lagnantaraOutput tr.reference-row").evaluateAll(elements =>
+    elements.map(row => row.nextElementSibling?.textContent || "")
+  );
   const estimates = await page.locator("#lagnantaraOutput tr.reference-row").evaluateAll(elements =>
     elements.map(row => ({
       planet: row.cells[0]?.textContent || "?",
@@ -70,11 +73,23 @@ try {
   console.log("Chapter VII result:", chapter7);
   console.log("Chapter III result:", chapter3);
   for (const row of rows) console.log("ASTA/Udaya reference:", row.replace(/\s+/g, " ").trim());
+  for (const [index, detail] of correctionDetails.entries()) {
+    console.log("Dṛkkarma component audit:", index + " " + detail.replace(/\s+/g, " ").trim());
+  }
   for (const item of estimates) console.log("IX.10–11 estimate audit:", JSON.stringify(item));
 
   if (!chapter7.includes("7/7")) throw new Error("Chapter VII formula tests did not pass in browser.");
   if (!chapter3.includes("5/5")) throw new Error("Chapter III rising-asus tests did not pass in browser.");
   if (rows.length !== 4) throw new Error("Expected four reference rows.");
+  if (correctionDetails.length !== 4 ||
+      correctionDetails.some(detail =>
+        !detail.includes("Aksha dṛkkarma") ||
+        !detail.includes("Ayana dṛkkarma") ||
+        !detail.includes("Total dṛkkarma") ||
+        !detail.includes("Sequential: Aksha dṛkkarma")
+      )) {
+    throw new Error("One or more event cases are missing the dṛkkarma component audit.");
+  }
   const invalidGeometry = estimates.filter(item =>
     !item.eclipticLongitudeSeparation.includes("°") ||
     !item.trueElongation.includes("°") ||
@@ -120,6 +135,7 @@ try {
   console.log("PASS — Chapter III sign-rising interpolation tests rendered in browser");
   console.log("PASS — all four ecliptic-longitude and true-elongation diagnostics are finite and displayed separately from classical K");
   console.log("PASS — all four apparent ecliptic-angle threshold scans rendered separately from the classical K brackets");
+  console.log("PASS — all four cases expose Aksha, Ayana, total, and sequential correction components");
   console.log("PASS — all four signed IX.10–11 estimates are finite and within 0.75 day of the daily-bracket interpolation");
   console.log("PASS — current/sequential lagnāntara tables rendered without browser errors");
 } catch (error) {
