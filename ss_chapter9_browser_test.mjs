@@ -66,8 +66,12 @@ try {
   if (branchMismatches.length) {
     throw new Error("IX.2–3 branch classification did not match every expected reference: " + branchMismatches.join(" || "));
   }
-  if (!output.includes("Current daily bracket") || !output.includes("Sequential daily bracket")) {
-    throw new Error("Daily crossing table did not render fully.");
+  if (!output.includes("Current daily bracket") || !output.includes("Sequential daily bracket") ||
+      !output.includes("IX.10–11 sequential estimate (days)")) {
+    throw new Error("Daily crossing / IX.10–11 estimate table did not render fully.");
+  }
+  if (rows.some(row => row.includes("NaN"))) {
+    throw new Error("A reference row contains a NaN calculation.");
   }
   if (errors.length) throw new Error("Browser reported errors: " + errors.join(" || "));
 
