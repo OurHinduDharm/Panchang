@@ -538,6 +538,7 @@ import SwissEph
 
 import { chapter9Kalansha, classifyChapter9HorizonEvent, estimateChapter9TimeCorrectionFromArcMotions, runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
 import { calculateChapter7SequentialDrikkarma, runChapter7DrikkarmaTests } from "./ss_chapter7_drikkarma.js";
+import { chapter3RisingAsusAtSiderealLongitude, chapter9LagnantaraAsus } from "./ss_chapter3_lagnantara.js";
 
 
 /* =============================================================
@@ -2813,62 +2814,53 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
   const planetOA =
     obliqueAscensionFromSiderealLongitude(planetLon, config);
 
+  const rawSunSiderealLongitude = sunState.longitude;
+  const rawPlanetSiderealLongitude = planetState.longitude;
+
   const rawSunLon =
     direction === "west"
-      ? normalize360(
-          getSiderealEclipticLongitude(
-            Astronomy.Body.Sun,
-            date
-          ) + 180
-        )
-      : getSiderealEclipticLongitude(
-          Astronomy.Body.Sun,
-          date
-        );
-
+      ? normalize360(rawSunSiderealLongitude + 180)
+      : rawSunSiderealLongitude;
   const rawPlanetLon =
     direction === "west"
-      ? normalize360(
-          planetState.longitude + 180
-        )
-      : planetState.longitude;
+      ? normalize360(rawPlanetSiderealLongitude + 180)
+      : rawPlanetSiderealLongitude;
 
-  const rawSunOA =
-    obliqueAscensionFromSiderealLongitude(
-      rawSunLon,
-      config
-    );
+  const rawSunOA = obliqueAscensionFromSiderealLongitude(rawSunLon, config);
+  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawPlanetLon, config);
+  const rawExactLagnaInterval = Math.abs(
+    signedLongitudeDelta(rawPlanetOA, rawSunOA)
+  );
+  const exactLagnaInterval = Math.abs(
+    signedLongitudeDelta(planetOA, sunOA)
+  );
 
-  const rawPlanetOA =
-    obliqueAscensionFromSiderealLongitude(
-      rawPlanetLon,
-      config
-    );
+  /*
+   * Classical III.43–46 + IX.5: use sign rising-asus and linear interpolation
+   * within the tropical sign, after converting the sidereal longitude to the
+   * ecliptic-of-date frame. Keep exact OA as a separate comparison.
+   */
+  const rawClassical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: rawSunSiderealLongitude,
+    planetSiderealLongitudeDeg: rawPlanetSiderealLongitude,
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 23.4367
+  });
+  const classical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: rawSunSiderealLongitude,
+    planetSiderealLongitudeDeg: drikkarma.correctedLongitude,
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 23.4367
+  });
 
-  const rawLagnaInterval =
-    Math.abs(
-      signedLongitudeDelta(
-        rawPlanetOA,
-        rawSunOA
-      )
-    );
-
-  const rawK =
-    rawLagnaInterval;
-
-  const lagnaInterval =
-    Math.abs(
-      signedLongitudeDelta(
-        planetOA,
-        sunOA
-      )
-    );
-
-  const lagnantaraAsu =
-    lagnaInterval * 60;
-
-  const K =
-    lagnantaraAsu / 60;
+  const rawK = rawClassical.K;
+  const K = classical.K;
+  const lagnantaraAsu = classical.lagnantaraAsu;
+  const signedLagnantaraAsu = classical.signedLagnantaraAsu;
 
   return {
     sunLon,
@@ -2886,11 +2878,17 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
     rawPlanetOA,
     sunOA,
     planetOA,
-    rawLagnaInterval,
-    lagnaInterval,
+    rawLagnaInterval: rawClassical.lagnantaraAsu / 60,
+    exactLagnaInterval,
+    rawExactLagnaInterval,
+    exactK: exactLagnaInterval,
+    rawKExact: rawExactLagnaInterval,
     lagnantaraAsu,
+    signedLagnantaraAsu,
     K,
-    rawK: rawK,
+    rawK,
+    rawClassical,
+    classical,
     drikkarma
   };
 }
@@ -3022,14 +3020,12 @@ function getClassifiedSunEventForDate(planet, date) {
 }
 
 function getSignRisingAsus(siderealLongitudeDeg, config = TKS_CONFIG) {
-  const signStart = Math.floor(normalize360(siderealLongitudeDeg) / 30) * 30;
-  const oaStart = obliqueAscensionFromSiderealLongitude(signStart, config);
-  const oaEnd = obliqueAscensionFromSiderealLongitude(signStart + 30, config);
-  const risingArcDeg = normalize360(oaEnd - oaStart);
-  if (!Number.isFinite(risingArcDeg) || risingArcDeg <= 0 || risingArcDeg >= 180) {
-    return NaN;
-  }
-  return risingArcDeg * 60; // 60 prāṇas per time-degree
+  return chapter3RisingAsusAtSiderealLongitude({
+    siderealLongitudeDeg,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 23.4367
+  }).signRisingAsus;
 }
 
 function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg, config = TKS_CONFIG) {
@@ -3060,8 +3056,7 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
    */
   const planetSignRisingAsus = getSignRisingAsus(geometry.planetLon, config);
   const sunSignRisingAsus = getSignRisingAsus(geometry.sunLon, config);
-  const signedLagnantaraDeg =
-    signedLongitudeDelta(geometry.planetOA, geometry.sunOA);
+  const signedLagnantaraDeg = geometry.signedLagnantaraAsu / 60;
 
   try {
     return estimateChapter9TimeCorrectionFromArcMotions({
@@ -3202,7 +3197,7 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Estimate vs daily bracket (days)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K (III.43–46)</th><th>Current K</th><th>Sequential K</th><th>Sequential exact-OA K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Estimate vs daily bracket (days)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -3252,6 +3247,7 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(g ? round(g.rawK,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? round(g.K,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? round(gs.K,4)+"°" : "—")+'</td>';
+    html += '<td>'+(gs ? round(gs.exactK,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+(Number.isFinite(C) ? round(C,2)+'°' : '—')+'</td>';
@@ -3306,7 +3302,7 @@ async function runLagnantaraDiagnostic() {
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="15"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="16"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
