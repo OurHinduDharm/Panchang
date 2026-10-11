@@ -73,7 +73,7 @@ jobs:
           const html = fs.readFileSync('test-astronomy.html', 'utf8');
           const checks = [
             ['Chapter 9 threshold, classifier, and IX.10–11 helper imported', html.includes('chapter9Kalansha, classifyChapter9HorizonEvent, estimateChapter9TimeCorrectionFromArcMotions, runChapter9ArithmeticTests') && html.includes('from "./ss_chapter9_test.js"')],
-            ['IX.10–11 signed estimate rendered beside daily brackets', html.includes('getChapter9TimeEstimate') && html.includes('IX.10–11 sequential estimate (days)')],
+            ['IX.10–11 signed estimate and bracket comparison rendered', html.includes('getChapter9TimeEstimate') && html.includes('IX.10–11 sequential estimate (days)') && html.includes('Estimate vs daily bracket (days)') && html.includes('data-estimate-bracket-error-days')],
             ['IX.2–3 classifier controls event-time selection', html.includes('getClassifiedSunEventForDate') && html.includes('classifyChapter9HorizonEvent({') && html.includes('const direction = horizonEvent.startsWith("west-") ? "west" : "east";')],
             ['daily brackets never skip invalid/ambiguous dates', html.includes('b.date.getTime() - a.date.getTime() !== 86400000')],
             ['source-based threshold selector is used', html.includes('return chapter9Kalansha({ planet, horizonEvent, motionClass });')],
