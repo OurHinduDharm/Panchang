@@ -164,4 +164,17 @@ The research table now prints both the ecliptic-longitude separation `Δλ` and 
 
 The browser's component audit exposed the reason to revisit the initial sequential candidate: it used the intermediate Āyana-corrected ecliptic point's RA/declination to compute the Akṣa time ratio. The wording of VII.8 specifies the planet's own time from meridian and its own half-day. The helper now uses the planet's original longitude and signed ecliptic latitude (converted with the stated 24° obliquity) for those quantities, while the Āyana-corrected longitude remains the intermediate longitude to which Akṣa is applied.
 
-The previous browser numbers for the sequential K brackets are therefore superseded by the next successful run. The apparent ecliptic-angle brackets remain a separate comparison model and are not changed by this helper-only correction.
+The updated headless Chromium run completed successfully after this correction. Sequential K values changed only slightly relative to the legacy values, and the four daily K brackets remained 11–12 Oct 2026 (Venus Asta), 28–29 Oct 2026 (Venus Udaya), 12–13 Aug 2027 (Jupiter Asta), and 12–13 Sep 2027 (Jupiter Udaya). The apparent ecliptic-angle brackets remain a separate comparison model and are not changed by this helper-only correction.
+
+
+## Latest successful browser check after the Akṣa-input correction
+
+Workflow: https://github.com/OurHinduDharm/Panchang/actions/runs/38184015152
+
+- 32/32 Chapter IX arithmetic/classifier/time-conversion tests passed.
+- 7/7 Chapter VII formula and invariant tests passed, including the updated independent numeric fixture for the planet's own RA/declination.
+- 5/5 Chapter III rising-asus tests passed.
+- Headless Chromium rendered all four reference cases, all three separate angular/K outputs, and all Akṣa/Āyana components without browser errors.
+- Production isolation passed; `app.js` and `extra-panchang.js` remain unchanged.
+
+The next test run also adds a regression assertion that the browser diagnostic uses the planet's own RA/declination for the Akṣa time ratio and does not regress to the intermediate-point RA. That run is pending.
