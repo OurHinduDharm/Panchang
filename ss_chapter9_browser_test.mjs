@@ -59,6 +59,7 @@ try {
       event: row.cells[1]?.textContent || "?",
       eclipticLongitudeSeparation: row.cells[8]?.textContent || "",
       trueElongation: row.cells[9]?.textContent || "",
+      angularBracket: row.cells[18]?.textContent || "",
       estimateDays: row.dataset.timeEstimateDays,
       bracketErrorDays: row.dataset.estimateBracketErrorDays
     }))
@@ -78,7 +79,9 @@ try {
     !item.eclipticLongitudeSeparation.includes("°") ||
     !item.trueElongation.includes("°") ||
     !Number.isFinite(Number(item.eclipticLongitudeSeparation.replace("°", ""))) ||
-    !Number.isFinite(Number(item.trueElongation.replace("°", "")))
+    !Number.isFinite(Number(item.trueElongation.replace("°", ""))) ||
+    !item.angularBracket ||
+    (!item.angularBracket.includes("Δλ−C=") && !item.angularBracket.includes("No crossing"))
   );
   if (invalidGeometry.length) {
     throw new Error("Missing/non-finite independent angular-separation diagnostics: " + JSON.stringify(invalidGeometry));
@@ -101,7 +104,8 @@ try {
   if (branchMismatches.length) {
     throw new Error("IX.2–3 branch classification did not match every expected reference: " + branchMismatches.join(" || "));
   }
-  if (!output.includes("Current daily bracket") || !output.includes("Sequential daily bracket") ||
+  if (!output.includes("Classical K bracket") || !output.includes("Sequential K bracket") ||
+      !output.includes("Ecliptic Δλ bracket") ||
       !output.includes("IX.10–11 sequential estimate (days)")) {
     throw new Error("Daily crossing / IX.10–11 estimate table did not render fully.");
   }
@@ -115,6 +119,7 @@ try {
   console.log("PASS — Chapter VII formula tests rendered in browser");
   console.log("PASS — Chapter III sign-rising interpolation tests rendered in browser");
   console.log("PASS — all four ecliptic-longitude and true-elongation diagnostics are finite and displayed separately from classical K");
+  console.log("PASS — all four apparent ecliptic-angle threshold scans rendered separately from the classical K brackets");
   console.log("PASS — all four signed IX.10–11 estimates are finite and within 0.75 day of the daily-bracket interpolation");
   console.log("PASS — current/sequential lagnāntara tables rendered without browser errors");
 } catch (error) {
