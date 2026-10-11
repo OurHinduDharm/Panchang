@@ -138,6 +138,21 @@ https://github.com/OurHinduDharm/Panchang/actions/runs/38182695977
 A headless Chromium run has been performed in CI. A separate manual run on the user's device has not been performed. The browser result does not validate the full classical calculation or resolve the two reference-date discrepancies.
 
 
+## Same-location comparison from headless Chromium
+
+At the Pithoragarh validation coordinates (29.5830° N, 80.2090° E; elevation assumed 0 m because the external reference did not specify it), the current diagnostic produces these **model-specific daily brackets**:
+
+| Event | Classical lagnāntara (K=C) bracket | Apparent ecliptic-longitude (Deltalambda=C) bracket | Interpretation |
+|---|---|---|---|
+| Venus Asta | 11–12 Oct 2026 | 18–19 Oct 2026 | 7-day separation between model outputs |
+| Venus Udaya | 28–29 Oct 2026 | 29–30 Oct 2026 | about 1 day |
+| Jupiter Asta | 12–13 Aug 2027 | 16–17 Aug 2027 | about 4 days |
+| Jupiter Udaya | 12–13 Sep 2027 | 14–15 Sep 2027 | about 2 days |
+
+These are calculated brackets from the current research implementation, not adjudicated correct dates. The browser test confirms that the page calculates and renders them without JavaScript errors; it does not prove the formulas are classically correct. The model separation is consistent with the fact that TKS publicly describes its classical (K)-based layer and apparent ecliptic-angle layer as distinct models, but that fact alone does not validate either of these calculated brackets.
+
+**Highest-priority next audit:** inspect the actual Akṣa and Āyana correction components for all four cases, especially Venus Asta. The corrected (K) and the uncorrected (K) differ materially in that case. Confirm the formula, signs, time-from-meridian ratio, event frame, and correction order against the source before interpreting the seven-day model difference.
+
 ## Latest diagnostic extension — angular separation side by side
 
 The research table now prints both the ecliptic-longitude separation `Δλ` and the spherical 3-D angular separation alongside the Chapter IX classical `K). This is deliberately a comparison panel, not a replacement of the classical method with a modern angular threshold.
