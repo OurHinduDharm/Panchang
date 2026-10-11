@@ -414,7 +414,7 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- 8. CLASSICAL ASTA / UDAYA -->
+  <!-- 8. ANGULAR THRESHOLD DIAGNOSTIC -->
   <!-- ========================================================= -->
 
   <section>
@@ -435,7 +435,7 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- 9. LOCAL HORIZON AT CLASSICAL THRESHOLD -->
+  <!-- 9. LOCAL HORIZON AT ANGULAR THRESHOLD -->
   <!-- ========================================================= -->
 
   <section>
@@ -3311,11 +3311,11 @@ function runDrikBoundaryAudit() {
   output.innerHTML = `<div class="status info">Observer: Pithoragarh (${CONFIG.latitude}°, ${CONFIG.longitude}°), elevation ${CONFIG.elevation} m. Published local event times are inputs; every angle and altitude below is calculated independently for that instant.</div>
     <div class="table-wrap"><table><thead><tr>
       <th>Planet</th><th>Published boundary</th><th>Local time</th><th>Motion</th>
-      <th>Ecliptic separation</th><th>True 3-D elongation</th><th>Classical C</th>
+      <th>Ecliptic separation</th><th>True 3-D elongation</th><th>Selected threshold (legacy)</th>
       <th>Ecliptic Δ from C</th><th>3-D Δ from C</th><th>Sun altitude</th>
       <th>Planet altitude</th><th>Azimuth difference</th>
     </tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="small">“Δ from C” is calculated separation minus the classical angular threshold (Venus 8° retrograde / 10° direct; Jupiter 11°). Negative values mean the calculated separation is below C. The threshold rule is only a classical comparison and is not assumed to be Drik Panchang’s event criterion.</p>`;
+    <p class="small">“Δ from threshold” is calculated separation minus the selected legacy threshold. Venus is currently assigned 8°/10° by motion state in this diagnostic, which is not the event-direction rule of Sūrya-siddhānta IX.7. Treat all values here as exploratory comparisons, not a validated classical or Drik event criterion.</p>`;
 }
 
 function classicalResidual(geometry, useTrue) {
@@ -3398,8 +3398,8 @@ function classicalCard(ref, label, result, field) {
 }
 
 async function runClassicalAstaUdayaTest() {
-  classicalOutput.innerHTML = "<div class=\"status info\">Calculating classical threshold crossings...</div>";
-  let html = "<div class=\"status info\">Traditional threshold diagnostic: Venus 10°/8°, Jupiter 11°.</div>";
+  classicalOutput.innerHTML = "<div class=\"status info\">Calculating angular threshold crossings...</div>";
+  let html = "<div class=\"status info\">Legacy angular-threshold hypothesis: Venus 10°/8° by motion state; Jupiter 11°. Not a complete classical implementation.</div>";
   for (const ref of REFERENCES) {
     const e = findClassicalCrossing(ref, false);
     const t = findClassicalCrossing(ref, true);
@@ -3409,7 +3409,7 @@ async function runClassicalAstaUdayaTest() {
     html += "</div></div>";
   }
   classicalOutput.innerHTML = html;
-  setStatus("Classical Asta/Udaya threshold test completed.","ok");
+  setStatus("Angular threshold diagnostic completed; Venus branch remains a legacy hypothesis.","ok");
 }
 
 function findAllClassicalCrossings(ref, useTrue) {
