@@ -3483,8 +3483,8 @@ async function runLagnantaraDiagnostic() {
   html += '<div class="card"><h3>What this test proves</h3><ul>';
   html += '<li>The event is evaluated at the actual local sunrise/sunset rather than an arbitrary 05:30/18:00 sample.</li>';
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
-  html += '<li>The table compares the legacy correction against a source-faithful Chapter VII candidate: Ayana determines the intermediate longitude, while Aksha uses the planet\'s own meridian time and half-day from its original place.</li>';
-  html += '<li>The sequential experiment is diagnostic only; it does not yet establish a complete classical ephemeris or prove that every modern-coordinate substitution matches the original procedure.</li>';
+  html += '<li>The table compares two explicit Chapter VII candidates. The baseline uses the planet original RA/declination for Aksha; the sequential candidate applies Ayana first and then recomputes the geometry for Aksha. Burgess VII.11 describes a two-stage construction, so neither candidate is declared canonical until its event-time interpretation and coordinate frame are reconciled.</li>';
+  html += '<li>The sequential candidate better reflects the two-stage geometry in Burgess VII.11, but remains diagnostic until Ranganatha commentary, Chapter IX sunrise/sunset anchoring, and a consistent classical coordinate frame are reconciled.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
   html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
