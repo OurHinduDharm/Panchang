@@ -124,3 +124,22 @@ Subtracting that reference elapsed-day count from the published creation-era cou
 This is an **anchored continuation**, not yet an independent derivation of the huge epoch offset from all Chapter I.45–51 constants. There is also a time-scale question to resolve: the published ledger says “apparent noon,” while the helper's reference JD is nominal local-mean noon at the prime meridian. The conversion from arbitrary UTC/user-local timestamps to the text's meridian time must be fixed and tested explicitly. Therefore, do not use this helper as a production Panchāṅga calculation or claim that the full ahargana derivation is closed.
 
 Next, reconstruct the same epoch offset independently from the Chapter I.45–51 constants and their precise commentary arithmetic, compare it with `714,402,296,627.0`, resolve apparent/mean-time semantics, and only then promote the date bridge from provisional to validated.
+
+
+## Direct Chapter I.45–51 arithmetic helper added — external fraction still unresolved
+
+A second helper, `ss_chapter1_ahargana_calendar.js`, now implements the commentary's actual arithmetic from traditional calendar fields rather than merely advancing a calibrated epoch:
+
+1. Start with the 1,953,720,000 solar years elapsed from creation to the end of Kṛta.
+2. Add the elapsed solar years since the end of Kṛta.
+3. Convert the resulting years to months and add elapsed months from Caitra-śukla.
+4. Calculate intercalary months with `1,593,336 / 51,840,000`, allowing the commentary's explicit ±1 correction where the quotient and actual adhika month disagree.
+5. Add elapsed tithis, then subtract the integer omitted-tithi quotient using `25,082,252 / 1,603,000,080`.
+
+The helper uses `BigInt` for the large integer products so JavaScript floating-point rounding cannot silently alter the quotient. It takes traditional calendar fields as inputs; it does not pretend to convert a Gregorian date into those fields.
+
+### Important unresolved point
+
+A synthetic input set with 2,165,127 elapsed years since the end of Kṛta, 5 elapsed months from Caitra-śukla, and 26.5 elapsed tithis yields `714,404,169,483.5`. This verifies the arithmetic at the published reference scale, **but 26.5 is currently a test fixture, not an independently established fractional-tithi value for 2026-10-08**. The external ledger only publishes the date's month/tithi label and a rounded planetary place; it does not expose enough precision to prove the exact fraction and day-boundary convention from that display alone.
+
+So the direct formula is now executable and its integer arithmetic is testable, but the civil-date-to-traditional-fields conversion and exact fractional-tithi/day-boundary comparison remain open. The provisional Julian-day anchor is retained only as a separate diagnostic; it must not be treated as proof of the Chapter I derivation.
