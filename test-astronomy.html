@@ -228,6 +228,7 @@
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
+    <button id="runElevationHorizonBtn">Elevation / Horizon Sensitivity</button>
   </div>
 
   <div id="status" class="status">
@@ -458,6 +459,9 @@
     <div id="chapter3LagnantaraTestOutput"><div class="status info">Chapter III sign-rising-asus tests run with the lagnāntara diagnostic.</div></div>
     <p><strong>Chapter IX C reference:</strong> Jupiter 11°, Saturn 15°, Mars 17°; Venus 8° for west-setting/east-rising and 10° for east-setting/west-rising. Mercury's 12°/14° depends on its motion class; Mercury is excluded from these four reference cases until the “swift-moving” branch is independently validated. Chapter 9, verses 6–9; see the cited Sanskrit and translation sources.</p>
     <div id="lagnantaraOutput"><div class="status info">Not run yet.</div></div>
+    <h3>Elevation and horizon sensitivity — diagnostic only</h3>
+    <p class="small">Date: 12 October 2026. The TKS times below are supplied comparison values, not calculated outputs. This audit keeps elevation above sea level separate from observer height above local ground. SearchRiseSet includes the Sun's apparent upper limb and typical refraction; SearchAltitude at −0.833° is a separate geometric-center comparison and is not equivalent to SearchRiseSet. The 100 m above-ground row is hypothetical sensitivity only, not the Pithoragarh observer height or a claim about TKS's formula.</p>
+    <div id="elevationHorizonOutput"><div class="status info">Run “Elevation / Horizon Sensitivity” to calculate sunrise and sunset comparisons.</div></div>
     <h3>Coordinate-frame sensitivity audit (diagnostic only)</h3>
     <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant. Important: the 24.217° value is subtracted to create the helper’s sidereal-longitude representation and then added back before oblique ascension is calculated. With that same offset used consistently, it cancels; this is not an independent test of ayanāṃśa choice.</p>
     <div id="frameAuditOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this audit.</div></div>
@@ -2621,6 +2625,114 @@ function getSunriseSunsetSameDate(date) {
   };
 }
 
+function runElevationHorizonSensitivityAudit() {
+  const out = document.getElementById("elevationHorizonOutput");
+  if (!out) return;
+  out.innerHTML = '<div class="status info">Calculating same-date sunrise/sunset under separate elevation and horizon assumptions…</div>';
+
+  const midnight = new Date(Date.UTC(2026, 9, 12, 0, 0, 0));
+  const noon = new Date(Date.UTC(2026, 9, 12, 12, 0, 0));
+  const scenarios = [
+    {
+      id: "tks-0m",
+      label: "Existing TKS diagnostic coordinates; elevation 0 m",
+      latitude: 29.5830, longitude: 80.2090, elevation: 0, metersAboveGround: 0,
+      note: "baseline only"
+    },
+    {
+      id: "tks-1563m",
+      label: "Same coordinates; elevation 1563 m above sea level",
+      latitude: 29.5830, longitude: 80.2090, elevation: 1563, metersAboveGround: 0,
+      note: "isolates elevation input"
+    },
+    {
+      id: "precise-1563m",
+      label: "Supplied coordinates 29.5835° N, 80.2095° E; elevation 1563 m",
+      latitude: 29.5835, longitude: 80.2095, elevation: 1563, metersAboveGround: 0,
+      note: "user-supplied comparison location"
+    },
+    {
+      id: "hypothetical-100m",
+      label: "Same supplied location; observer hypothetically 100 m above local ground",
+      latitude: 29.5835, longitude: 80.2095, elevation: 1563, metersAboveGround: 100,
+      note: "illustration only; not actual observer height"
+    }
+  ];
+
+  const formatTime = value => {
+    if (!value || !(value.date instanceof Date) || Number.isNaN(value.date.getTime())) return "—";
+    return value.date.toLocaleTimeString("en-IN", {
+      timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit",
+      second: "2-digit", hour12: false
+    });
+  };
+  const formatDelta = (value, baseline) => {
+    if (!value || !baseline || !(value.date instanceof Date) || !(baseline.date instanceof Date)) return "—";
+    const minutes = (value.date.getTime() - baseline.date.getTime()) / 60000;
+    return (minutes >= 0 ? "+" : "") + minutes.toFixed(2) + " min";
+  };
+
+  const rows = scenarios.map(scenario => {
+    const observer = new Astronomy.Observer(
+      scenario.latitude, scenario.longitude, scenario.elevation
+    );
+    const sunrise = Astronomy.SearchRiseSet(
+      Astronomy.Body.Sun, observer, +1, midnight, 1, scenario.metersAboveGround
+    );
+    const sunset = Astronomy.SearchRiseSet(
+      Astronomy.Body.Sun, observer, -1, noon, 1, scenario.metersAboveGround
+    );
+    return { ...scenario, sunrise, sunset, method: "SearchRiseSet: apparent upper limb + typical refraction" };
+  });
+
+  const preciseObserver = new Astronomy.Observer(29.5835, 80.2095, 1563);
+  const fixedAltitudeSunrise = Astronomy.SearchAltitude(
+    Astronomy.Body.Sun, preciseObserver, +1, midnight, 1, -0.833
+  );
+  const fixedAltitudeSunset = Astronomy.SearchAltitude(
+    Astronomy.Body.Sun, preciseObserver, -1, noon, 1, -0.833
+  );
+  const fixedAltitudeRow = {
+    id: "fixed-minus-0833",
+    label: "Supplied coordinates; geometric Sun-center altitude −0.833°",
+    latitude: 29.5835, longitude: 80.2095, elevation: 1563, metersAboveGround: 0,
+    sunrise: fixedAltitudeSunrise, sunset: fixedAltitudeSunset,
+    method: "SearchAltitude at −0.833°; no refraction correction in this method",
+    note: "fixed-altitude comparison"
+  };
+
+  if (rows.some(row => !row.sunrise || !row.sunset || !row.sunrise.date || !row.sunset.date) ||
+      !fixedAltitudeSunrise || !fixedAltitudeSunset) {
+    out.innerHTML = '<div class="status error">At least one rise/set search returned no event. No missing value has been replaced with a guessed time.</div>';
+    return { rows, fixedAltitudeRow, allValid: false };
+  }
+
+  const baseline = rows[0];
+  let html = '<div class="status info"><strong>Supplied TKS comparison times (12 Oct 2026):</strong> ' +
+    '“दृश्य — ऊँचाई + वक्रीभवन”: sunrise 06:08:40, sunset 17:47:21; ' +
+    '“गणित — मानक −0.833°”: sunrise 06:08:40, sunset 17:42:21. ' +
+    'These are shown as reported inputs, not assumed to be reproduced by this library.</div>';
+  html += '<div class="table-wrap"><table><thead><tr>' +
+    '<th>Scenario / method</th><th>Elevation ASL</th><th>Above local ground</th>' +
+    '<th>Sunrise (IST)</th><th>Δ sunrise vs baseline</th>' +
+    '<th>Sunset (IST)</th><th>Δ sunset vs baseline</th><th>Meaning</th></tr></thead><tbody>';
+  for (const row of rows) {
+    html += '<tr><td>' + row.label + '</td><td>' + row.elevation + ' m</td>' +
+      '<td>' + row.metersAboveGround + ' m</td>' +
+      '<td>' + formatTime(row.sunrise) + '</td><td>' + formatDelta(row.sunrise, baseline.sunrise) + '</td>' +
+      '<td>' + formatTime(row.sunset) + '</td><td>' + formatDelta(row.sunset, baseline.sunset) + '</td>' +
+      '<td>' + row.note + '</td></tr>';
+  }
+  html += '<tr><td>' + fixedAltitudeRow.label + '</td><td>1563 m</td><td>0 m</td>' +
+    '<td>' + formatTime(fixedAltitudeRow.sunrise) + '</td><td>' + formatDelta(fixedAltitudeRow.sunrise, baseline.sunrise) + '</td>' +
+    '<td>' + formatTime(fixedAltitudeRow.sunset) + '</td><td>' + formatDelta(fixedAltitudeRow.sunset, baseline.sunset) + '</td>' +
+    '<td>fixed-altitude comparison; not equivalent to SearchRiseSet</td></tr>';
+  html += '</tbody></table></div>' +
+    '<div class="status warn"><strong>Interpretation limits:</strong> The 1563 m value is height above sea level, not height above the observer’s local ground. The hypothetical 100 m row demonstrates the separate horizon-dip input only. Neither model includes the actual mountain/terrain skyline. A five-minute TKS sunset difference is not explained unless one of these controlled comparisons reproduces it; no causal conclusion is drawn from the labels alone.</div>';
+  out.innerHTML = html;
+  return { rows, fixedAltitudeRow, allValid: true };
+}
+
 function getDrikkarmaCorrection(body, date, direction, config = TKS_CONFIG) {
   const state = getPlanetSiderealState(body, date);
 
@@ -4337,6 +4449,10 @@ document
     "click",
     runLagnantaraDiagnostic
   );
+
+document
+  .getElementById("runElevationHorizonBtn")
+  .addEventListener("click", runElevationHorizonSensitivityAudit);
 
 
 /* =============================================================
