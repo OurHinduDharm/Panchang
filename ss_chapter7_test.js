@@ -1,0 +1,112 @@
+/**
+ * Source-derived arithmetic/sign tests for Sūrya-siddhānta VII.8–10.
+ *
+ * These tests check the implementation's arithmetic against the operations
+ * described by Burgess, using synthetic inputs. They do NOT establish the
+ * historical coordinate frame, validate modern ephemeris inputs, or certify
+ * any heliacal event date.
+ */
+import { calculateChapter7SequentialDrikkarma } from "./ss_chapter7_drikkarma.js";
+
+const normalize360 = (x) => ((x % 360) + 360) % 360;
+const close = (a, b, tol = 1e-9) =>
+  Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) <= tol;
+
+/** Independent vector rotation: ecliptic coordinates to equatorial coordinates. */
+function referenceEquatorial(longitudeDeg, latitudeDeg, obliquityDeg) {
+  const l = longitudeDeg * Math.PI / 180;
+  const b = latitudeDeg * Math.PI / 180;
+  const e = obliquityDeg * Math.PI / 180;
+  const x = Math.cos(b) * Math.cos(l);
+  const y = Math.cos(b) * Math.sin(l) * Math.cos(e) -
+    Math.sin(b) * Math.sin(e);
+  const z = Math.cos(b) * Math.sin(l) * Math.sin(e) +
+    Math.sin(b) * Math.cos(e);
+  return {
+    ra: normalize360(Math.atan2(y, x) * 180 / Math.PI),
+    dec: Math.asin(Math.max(-1, Math.min(1, z))) * 180 / Math.PI
+  };
+}
+
+function runOne({ longitude = 50, latitude, hourAngle, observerLatitude = 29.583 }) {
+  const ayanamsha = 24.217;
+  const obliquity = 24;
+  const tropicalLongitude = normalize360(longitude + ayanamsha);
+  const eq = referenceEquatorial(tropicalLongitude, latitude, obliquity);
+  return calculateChapter7SequentialDrikkarma({
+    siderealLongitudeDeg: longitude,
+    planetLatitudeDeg: latitude,
+    observerLatitudeDeg: observerLatitude,
+    localSiderealAngleDeg: normalize360(eq.ra + hourAngle),
+    ayanamshaDeg: ayanamsha,
+    obliquityDeg: obliquity,
+    localSiderealObliquityDeg: obliquity
+  });
+}
+
+export function runChapter7SourceDerivedTests() {
+  const tests = [];
+  const check = (name, passed, details = "") => tests.push({ name, passed, details });
+
+  // VII.8: S = 12 tan(phi), if that is the chosen equinoctial-shadow convention.
+  // Thus |A| in degrees = |b| in degrees × tan(phi) × |N/H|.
+  for (const latitude of [2, -2]) {
+    for (const hourAngle of [-30, 30]) {
+      const result = runOne({ latitude, hourAngle });
+      const east = hourAngle < 0;
+      const northLatitude = latitude > 0;
+      const sign = northLatitude
+        ? (east ? -1 : 1)
+        : (east ? 1 : -1);
+      const expectedAkshaDeg = sign * Math.abs(latitude) *
+        Math.tan(29.583 * Math.PI / 180) *
+        Math.abs(result.hourAngleDeg / result.halfDayAngleDeg);
+      check(
+        `VII.8–9 Akṣa sign/magnitude: latitude ${latitude > 0 ? "north" : "south"}, ${east ? "east" : "west"} of meridian`,
+        close(result.akshaDeg, expectedAkshaDeg, 1e-10),
+        `actual=${result.akshaDeg}; reference=${expectedAkshaDeg}`
+      );
+    }
+  }
+
+  // VII.10: b in arcminutes × |declination| in degrees = arcseconds.
+  // Same north/south name subtracts; unlike names adds.
+  for (const longitude of [0, 180]) {
+    for (const latitude of [2, -2]) {
+      const ayanamsha = 24.217;
+      const tropicalLongitude = normalize360(longitude + ayanamsha);
+      const eq = referenceEquatorial(tropicalLongitude + 90, 0, 24);
+      const result = calculateChapter7SequentialDrikkarma({
+        siderealLongitudeDeg: longitude,
+        planetLatitudeDeg: latitude,
+        observerLatitudeDeg: 29.583,
+        localSiderealAngleDeg: eq.ra,
+        ayanamshaDeg: ayanamsha,
+        obliquityDeg: 24,
+        localSiderealObliquityDeg: 24
+      });
+      const sameName = (latitude > 0 && result.ayanaDeclinationDeg > 0) ||
+        (latitude < 0 && result.ayanaDeclinationDeg < 0);
+      const sign = sameName ? -1 : 1;
+      const expectedAyanaDeg = sign *
+        (Math.abs(latitude * 60) * Math.abs(result.ayanaDeclinationDeg)) / 3600;
+      check(
+        `VII.10 Āyana sign/unit: longitude ${longitude}°, latitude ${latitude > 0 ? "north" : "south"}`,
+        close(result.ayanaDeg, expectedAyanaDeg, 1e-12),
+        `actual=${result.ayanaDeg}; reference=${expectedAyanaDeg}`
+      );
+    }
+  }
+
+  // VII.8–9: meridian passage means N = 0, hence Akṣa correction is zero.
+  const atMeridian = runOne({ latitude: 2, hourAngle: 0 });
+  check(
+    "VII.8–9 Akṣa correction is zero at meridian passage",
+    close(atMeridian.hourAngleDeg, 0, 1e-10) &&
+      close(atMeridian.akshaDeg, 0, 1e-12),
+    `hourAngle=${atMeridian.hourAngleDeg}; aksha=${atMeridian.akshaDeg}`
+  );
+
+  const passed = tests.filter((t) => t.passed).length;
+  return { passed, total: tests.length, allPassed: passed === tests.length, tests };
+}
