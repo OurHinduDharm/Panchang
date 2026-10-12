@@ -3167,16 +3167,30 @@ function toAyanaForm(v){
   const s = String(v || "").trim();
 
   if(!s || s === "—") return "";
-  if(/दक्षिणायन/.test(s)) return "दक्षिणायने";
-  if(/उत्तरायण/.test(s)) return "उत्तरायणे";
+  if(/दक्षिणायन/.test(s)) return "सूर्ये दक्षिणायने";
+  if(/उत्तरायण/.test(s)) return "सूर्ये उत्तरायणे";
   return s.replace(/अयने\s*$/, "").replace(/अयन\s*$/, "").trim() + "े";
 }
 
 function toRituForm(v){
   const s = String(v || "").trim();
   if(!s || s === "—") return "";
-  const base = s.replace(/ऋतौ\s*$/, "").replace(/ऋतु\s*$/, "").trim();
-  return base ? base + "ऋतौ" : "";
+
+  const base = s
+    .replace(/ऋतौ\s*$/, "")
+    .replace(/ऋतु\s*$/, "")
+    .trim();
+
+  const forms = {
+    "वसन्त": "वसन्तर्तौ",
+    "ग्रीष्म": "ग्रीष्मर्तौ",
+    "वर्षा": "वर्षार्तौ",
+    "शरद": "शरदृतौ",
+    "हेमन्त": "हेमन्तर्तौ",
+    "शिशिर": "शिशिरर्तौ"
+  };
+
+  return forms[base] || (base ? base + "ऋतौ" : "");
 }
 
 function toMasaForm(v){
@@ -3253,7 +3267,7 @@ function toKaranaForm(v){
 
 function toVaraForm(v){
   const map = {
-    "रविवार":"रविवासरे", "सोमवार":"सोमवासरे", "मंगलवार":"भौमवासरे",
+    "रविवार":"भानुवासरे", "सोमवार":"चन्द्रवासरे", "मंगलवार":"भौमवासरे",
     "बुधवार":"बुधवासरे", "गुरुवार":"गुरुवासरे", "शुक्रवार":"भृगुवासरे",
     "शनिवार":"शनिवासरे"
   };
@@ -3405,18 +3419,20 @@ function getCurrentKaalPrahar(
       now.getTime() -
       sunrise.getTime();
 
-    if(fromSunrise < 2 * oneFifth){
-
+    /*
+     * पञ्चधा दिन-विभाग:
+     * प्रातः, सङ्गव, मध्याह्न, अपराह्ण, सायाह्न।
+     * प्रत्येक भाग स्थानीय सूर्योदय-सूर्यास्त के दिनमान से निकलेगा।
+     */
+    if(fromSunrise < oneFifth){
       kaal = "प्रातः";
-
-    }else if(
-      fromSunrise < 4 * oneFifth
-    ){
-
+    }else if(fromSunrise < 2 * oneFifth){
+      kaal = "सङ्गव";
+    }else if(fromSunrise < 3 * oneFifth){
       kaal = "मध्याह्न";
-
+    }else if(fromSunrise < 4 * oneFifth){
+      kaal = "अपराह्ण";
     }else{
-
       kaal = "सायं";
     }
 
@@ -3472,132 +3488,75 @@ function getAutoSandhyaType(
     return "pratah";
   }
 
-  const sunrise =
-    new Date(p.sunrise);
-
-  const sunset =
-    new Date(p.sunset);
-
-  const now =
-    referenceNow;
-
-  /*
-   * वास्तविक रात्रिमान:
-   * sunset → next sunrise.
-   *
-   * चार Night Prahar से कुल रात्रि अवधि
-   * निकालकर 15 रात्रि-मुहूर्त प्राप्त होते हैं।
-   */
-  let nightMuhurtaMs = null;
+  const sunrise = new Date(p.sunrise);
+  const sunset = new Date(p.sunset);
+  const now = referenceNow;
 
   if(
-    praharData &&
-    Array.isArray(praharData.nightPrahar)
-  ){
-    const night =
-      praharData.nightPrahar;
-
-    if(
-      night.length === 4 &&
-      night[0]?.start &&
-      night[3]?.end
-    ){
-      const nightMs =
-        new Date(night[3].end).getTime() -
-        new Date(night[0].start).getTime();
-
-      if(nightMs > 0){
-        nightMuhurtaMs =
-          nightMs / 15;
-      }
-    }
-  }
-
-  /*
-   * सूर्यास्त के बाद पहला रात्रि-मुहूर्त
-   * सायं संध्या है।
-   */
-  if(now >= sunset){
-
-    if(
-      nightMuhurtaMs &&
-      now.getTime() <
-        sunset.getTime() + nightMuhurtaMs
-    ){
-      return "sayam";
-    }
-
-    return "turiya";
-  }
-
-  /*
-   * सूर्योदय से पहले अंतिम रात्रि-मुहूर्त
-   * प्रातः संध्या है।
-   *
-   * उससे पहले के समय को स्वतः तुरीय
-   * नहीं माना जाएगा।
-   */
-  if(now < sunrise){
-
-    if(
-      nightMuhurtaMs &&
-      now.getTime() >=
-        sunrise.getTime() - nightMuhurtaMs
-    ){
-      return "pratah";
-    }
-
-    /*
-     * Brahma Muhurta के बाद pre-sunrise समय
-     * morning context है; केवल उससे पहले तुरीय।
-     */
-    const brahmaStart =
-      p?.brahmaMuhurta?.start
-        ? new Date(p.brahmaMuhurta.start)
-        : null;
-
-    if(
-      brahmaStart &&
-      !Number.isNaN(brahmaStart.getTime()) &&
-      now >= brahmaStart
-    ){
-      return "pratah";
-    }
-
-    return "turiya";
-  }
-
-  /*
-   * सामान्य दिन-काल का व्यापक वर्गीकरण:
-   * पहले दो पंचधा-भाग → प्रातः,
-   * अगले दो भाग → मध्याह्न (अपराह्न सहित),
-   * अंतिम भाग → सायं।
-   * वास्तविक संध्या-सीमाएँ ऊपर sunrise/sunset से अलग तय होती हैं।
-   */
-  const dayMs =
-    sunset.getTime() -
-    sunrise.getTime();
-
-  const oneFifth =
-    dayMs / 5;
-
-  const fromSunrise =
-    now.getTime() -
-    sunrise.getTime();
-
-  if(
-    fromSunrise < 2 * oneFifth
+    Number.isNaN(sunrise.getTime()) ||
+    Number.isNaN(sunset.getTime()) ||
+    sunset <= sunrise
   ){
     return "pratah";
   }
 
+  /*
+   * Auto संध्या का चयन वास्तविक संध्या-अवधियों से हो,
+   * केवल दिन के पाँच भागों से नहीं।
+   */
+  let nightMuhurtaMs = null;
+  const night = praharData?.nightPrahar;
+
   if(
-    fromSunrise < 4 * oneFifth
+    Array.isArray(night) &&
+    night.length === 4 &&
+    night[0]?.start &&
+    night[3]?.end
+  ){
+    const nightMs =
+      new Date(night[3].end).getTime() -
+      new Date(night[0].start).getTime();
+
+    if(Number.isFinite(nightMs) && nightMs > 0){
+      nightMuhurtaMs = nightMs / 15;
+    }
+  }
+
+  /* सूर्यास्त से पहला रात्रि-मुहूर्त: सायं संध्या। */
+  if(now >= sunset){
+    return (
+      nightMuhurtaMs &&
+      now.getTime() < sunset.getTime() + nightMuhurtaMs
+    ) ? "sayam" : "turiya";
+  }
+
+  /* सूर्योदय से पहले अंतिम रात्रि-मुहूर्त: प्रातः संध्या। */
+  if(now < sunrise){
+    return (
+      nightMuhurtaMs &&
+      now.getTime() >= sunrise.getTime() - nightMuhurtaMs
+    ) ? "pratah" : "turiya";
+  }
+
+  /*
+   * मध्याह्न संध्या: स्थानीय दिनमान के मध्य पर केंद्रित
+   * एक दिन-मुहूर्त (दिनमान / 15) की अवधि।
+   * शेष दिन में Auto कोई दूसरी संध्या गलत ढंग से नहीं चुनेगा।
+   */
+  const dayMs = sunset.getTime() - sunrise.getTime();
+  const dayMuhurtaMs = dayMs / 15;
+  const dayMidpointMs = sunrise.getTime() + dayMs / 2;
+  const madhyahnaStart = dayMidpointMs - dayMuhurtaMs / 2;
+  const madhyahnaEnd = dayMidpointMs + dayMuhurtaMs / 2;
+
+  if(
+    now.getTime() >= madhyahnaStart &&
+    now.getTime() < madhyahnaEnd
   ){
     return "madhyahna";
   }
 
-  return "sayam";
+  return "turiya";
 }
 /* =========================================================
    KARMA PHRASE (WITHOUT final verb & without अहं)
@@ -3649,7 +3608,7 @@ function getKarmaPhrase(){
                   st.tarpanaTypeCustom || ""
                 ).trim() || "तर्पणं"
               )
-            : "तिलाञ्जलि-तर्पणम्";
+            : "तिलाञ्जलि-तर्पणं";
 
       return `मम समस्तपितॄणाम् अक्षयतृप्त्यर्थं ${act}`;
     }
@@ -3815,11 +3774,16 @@ const useNightPraharAsKaal = !!(
   kaalPrahar.praharName
 );
 
-const kaalForm = useNightPraharAsKaal
+const kaalForm = (
+  useNightPraharAsKaal ||
+  sankalpState.type === "sandhya"
+)
   ? ""
   : ({
       "प्रातः": "प्रातःकाले",
+      "सङ्गव": "सङ्गवकाले",
       "मध्याह्न": "मध्याह्नकाले",
+      "अपराह्ण": "अपराह्णे",
       "सायं": "सायंकाले",
       "रात्रि": "रात्रिकाले"
     }[kaalPrahar.kaal] || "");
@@ -3845,7 +3809,9 @@ const praharForm = kaalPrahar.praharName
   if(samvatForm) parts.push(samvatForm);
   if(ayanaForm) parts.push(ayanaForm);
   if(rituForm) parts.push(rituForm);
-  if(masaForm) parts.push(masaForm);
+  if(masaForm) {
+    parts.push("मासानामुत्तमे महामाङ्गल्ये " + masaForm);
+  }
   if(pakshaForm) parts.push(pakshaForm);
   if(tithiForm) parts.push(tithiForm);
   if(varaForm) parts.push(varaForm);
@@ -3856,6 +3822,7 @@ if(suryaSthitiForm) parts.push(suryaSthitiForm);
 if(chandraSthitiForm) parts.push(chandraSthitiForm);
   if(kaalForm) parts.push(kaalForm);
   if(praharForm) parts.push(praharForm);
+  if(tithiForm) parts.push("एवं गुणविशिष्टायां पुण्यतिथौ");
 
   const useAvagraha = ["दासो", "गुप्तो"];
 const ahamWord = useAvagraha.includes(sankalpState.varna)
@@ -5769,7 +5736,7 @@ bhadraPartsHtml += `
 
       <div class="card full">
         <div class="label">
-          🕉️ संकल्प
+          🕉️ संकल्प जनरेटर
         </div>
 
         <div id="sankalpControls" class="sankalp-controls"></div>
