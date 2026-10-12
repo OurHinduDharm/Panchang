@@ -110,6 +110,11 @@ test("Sankalp keeps the four requested kaal labels and appends night Prahar with
   assert.match(source, /const kaalForm = \({[\s\S]*?"रात्रि": "रात्रिकाले"/);
   assert.doesNotMatch(source, /useNightPraharAsKaal/);
   assert.doesNotMatch(source, /sankalpState\.type === "sandhya"\s*\)\s*\? ""/);
+  assert.ok(
+    source.indexOf("if(kaalForm) parts.push(kaalForm);") <
+      source.indexOf("if(praharForm) parts.push(praharForm);"),
+    "the Kaal word must precede the optional Prahar label"
+  );
 });
 
 test("Sankalp month and tithi qualifiers use the requested classical wording", () => {
