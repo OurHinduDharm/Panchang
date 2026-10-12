@@ -63,3 +63,12 @@ A subsequent direct check of the online Sanskrit transcription of Ranganātha’
 This narrows the unresolved work: the **Gūḍhārtha-prakāśaka** reading is no longer merely an inference from translations. The remaining research is to derive the civil-date ahargaṇa and epoch/day-count conventions reproducibly, implement and boundary-test the commentary’s phase/reversal rules in an isolated research helper, and cross-check Sudhākara Dvivedī’s separate commentary. See the more detailed derivation in [SS-CHAPTER-3-REMAINDER-AND-DIRECTION-DERIVATION.md](SS-CHAPTER-3-REMAINDER-AND-DIRECTION-DERIVATION.md).
 
 No production code is changed, and this still does not validate any Jupiter/Venus event date.
+
+
+## Addendum — Chapter I ahargana work now has a direct arithmetic helper
+
+The research branch now includes `ss_chapter1_ahargana_calendar.js`, which follows the Gūḍhārtha-prakāśaka's I.45–51 sequence using the source constants: 1,953,720,000 solar years to the end of Kṛta; 1,593,336 intercalary months per 51,840,000 solar months; 1,603,000,080 lunar tithis and 25,082,252 omitted tithes per yuga. It uses exact integer arithmetic for the large quotient operations.
+
+The helper requires a traditional elapsed-year/month/tithi input and an explicit -1/0/+1 intercalary-month correction. It does not yet map Gregorian date/time to those traditional fields. The published Vidhyamitra value for 2026-10-08 remains an external comparison point, but its exact fractional-tithi and day-boundary convention are not fully exposed in the public display. The current numeric fixture is therefore labelled synthetic and is **not** presented as an independently validated civil-date reproduction.
+
+The separate `ss_chapter1_ahargana_anchor.js` remains only a provisional reference-anchored continuation. Neither helper is connected to production code.
