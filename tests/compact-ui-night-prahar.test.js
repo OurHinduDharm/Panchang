@@ -122,6 +122,11 @@ test("Sankalp month and tithi qualifiers use the requested classical wording", (
   assert.doesNotMatch(source, /मासानामुत्तमे महामाङ्गल्ये/);
   assert.match(source, /एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ/);
   assert.doesNotMatch(source, /एवं गुणविशिष्टायां पुण्यतिथौ/);
+  assert.ok(
+    source.indexOf('if(tithiForm) parts.push(tithiForm);') <
+      source.indexOf('if(tithiForm) parts.push("एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ");'),
+    "the actual tithi must be stated before its auspicious-tithi qualifier"
+  );
 });
 
 test("night Prahar toggle is enabled only when a current active night segment exists", () => {
