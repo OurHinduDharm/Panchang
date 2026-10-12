@@ -5692,6 +5692,137 @@ bhadraPartsHtml += `
       </div>
 
  <div class="card full">
+        <div class="label">
+          🔴 भद्रा (विष्टि करण) — ${bhadraStatus}
+        </div>
+        ${bhadraPartsHtml}
+      </div>
+
+      <div class="card full">
+        ${ghatiHtml}
+      </div>
+
+      <div class="card full">
+        <div class="label">
+          🕉️ संकल्प
+        </div>
+
+        <div id="sankalpControls" class="sankalp-controls"></div>
+
+        <div class="sankalp-box">
+          <div class="sankalp-text" id="sankalpText"></div>
+
+          <button class="sankalp-copy" type="button" onclick="copySankalp()">
+            📋 संकल्प कॉपी करें
+          </button>
+
+          <div class="sankalp-note">
+            यह संकल्प चयनित प्रकार के अनुसार स्वतः निर्मित है। गोत्र, नाम, वर्ण आदि भरने पर वे संकल्प में सम्मिलित हो जाते हैं। (विशेष: जिनका यज्ञोपवीत संस्कार नहीं हुआ हो, वे 'ॐ' की जगह 'औं' का उच्चारण करें।) अपनी परंपरा व गुरु-निर्देशानुसार संकल्प वाक्य में परिवर्तन किया जा सकता है।
+          </div>
+        </div>
+      </div>
+      
+       ${renderCollapsibleTimePeriods(
+        p.choghadiya?.day,
+        "🕐 दिन के चौघड़िया",
+        referenceNow,
+        item => {
+          const names = {
+            Shubh:"🟢शुभ",
+            Rog:"🔴रोग",
+            Udveg:"🔴उद्वेग",
+            Chal:"🟢चल",
+            Labh:"🟢लाभ",
+            Amrit:"🟢अमृत",
+            Kaal:"🔴काल"
+          };
+
+          return names[item.name] ||
+            item.name ||
+            "—";
+        },
+      )}
+      ${renderCollapsibleTimePeriods(
+  p.gowri?.day,
+  "🌞 दिन का गौरी काल",
+  referenceNow,
+  getGowriDisplay
+)}
+      ${renderCollapsibleTimePeriods(
+        p.choghadiya?.night,
+        "🌙 रात्रि के चौघड़िया",
+        referenceNow,
+        item => {
+          const names = {
+            Shubh:"🟢शुभ",
+            Rog:"🔴रोग",
+            Udveg:"🔴उद्वेग",
+            Chal:"🟢चल",
+            Labh:"🟢लाभ",
+            Amrit:"🟢अमृत",
+            Kaal:"🔴काल"
+          };
+
+          return names[item.name] ||
+            item.name ||
+            "—";
+        },
+        currentNightChoghadiya
+      )}
+      ${renderCollapsibleTimePeriods(
+  p.gowri?.night,
+  "🌙 रात्रि का गौरी काल",
+  referenceNow,
+  getGowriDisplay,
+  currentNightGowri
+)}
+      <div class="card full">
+  <div class="label">🌄 विशेष मुहूर्त</div>
+  <div class="special-muhurta-grid">
+    <div class="special-muhurta-item">
+      <div class="label">🌅 ब्रह्म मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(p.brahmaMuhurta?.start, p.brahmaMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌄 प्रातः संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.pratahSandhya?.start, specialKaal?.pratahSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🕛 मध्याह्न संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.madhyahnaSandhya?.start, specialKaal?.madhyahnaSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">☀️ विजय मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.vijayaMuhurta?.start, specialKaal?.vijayaMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌇 गोधूलि मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.godhuliMuhurta?.start, specialKaal?.godhuliMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌆 सायं संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.sayahnaSandhya?.start, specialKaal?.sayahnaSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌙 निशीथ काल</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.nishitaKaal?.start, specialKaal?.nishitaKaal?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">⚠️ दुर्मुहूर्त</div>
+      <div class="time-row"><span>${getDurMuhurtaText(p, isWednesday, nextSunrise)}</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card full">
+        <div class="label">
+          🌙 रात्रि के प्रहर
+        </div>
+        ${praharHtml}
+      </div>
+
+      
+<div class="card full">
   <div class="label">
     🧭 यात्रा शूल विचार
   </div>
@@ -5958,136 +6089,6 @@ bhadraPartsHtml += `
 </div>
 
       <div class="card full">
-        <div class="label">
-          🌙 रात्रि के प्रहर
-        </div>
-        ${praharHtml}
-      </div>
-
-      <div class="card full">
-        <div class="label">
-          🔴 भद्रा (विष्टि करण) — ${bhadraStatus}
-        </div>
-        ${bhadraPartsHtml}
-      </div>
-
-      <div class="card full">
-        ${ghatiHtml}
-      </div>
-
-      <div class="card full">
-        <div class="label">
-          🕉️ संकल्प
-        </div>
-
-        <div id="sankalpControls" class="sankalp-controls"></div>
-
-        <div class="sankalp-box">
-          <div class="sankalp-text" id="sankalpText"></div>
-
-          <button class="sankalp-copy" type="button" onclick="copySankalp()">
-            📋 संकल्प कॉपी करें
-          </button>
-
-          <div class="sankalp-note">
-            यह संकल्प चयनित प्रकार के अनुसार स्वतः निर्मित है। गोत्र, नाम, वर्ण आदि भरने पर वे संकल्प में सम्मिलित हो जाते हैं। (विशेष: जिनका यज्ञोपवीत संस्कार नहीं हुआ हो, वे 'ॐ' की जगह 'औं' का उच्चारण करें।) अपनी परंपरा व गुरु-निर्देशानुसार संकल्प वाक्य में परिवर्तन किया जा सकता है।
-          </div>
-        </div>
-      </div>
-      
-       ${renderCollapsibleTimePeriods(
-        p.choghadiya?.day,
-        "🕐 दिन के चौघड़िया",
-        referenceNow,
-        item => {
-          const names = {
-            Shubh:"🟢शुभ",
-            Rog:"🔴रोग",
-            Udveg:"🔴उद्वेग",
-            Chal:"🟢चल",
-            Labh:"🟢लाभ",
-            Amrit:"🟢अमृत",
-            Kaal:"🔴काल"
-          };
-
-          return names[item.name] ||
-            item.name ||
-            "—";
-        },
-      )}
-      ${renderCollapsibleTimePeriods(
-  p.gowri?.day,
-  "🌞 दिन का गौरी काल",
-  referenceNow,
-  getGowriDisplay
-)}
-      ${renderCollapsibleTimePeriods(
-        p.choghadiya?.night,
-        "🌙 रात्रि के चौघड़िया",
-        referenceNow,
-        item => {
-          const names = {
-            Shubh:"🟢शुभ",
-            Rog:"🔴रोग",
-            Udveg:"🔴उद्वेग",
-            Chal:"🟢चल",
-            Labh:"🟢लाभ",
-            Amrit:"🟢अमृत",
-            Kaal:"🔴काल"
-          };
-
-          return names[item.name] ||
-            item.name ||
-            "—";
-        },
-        currentNightChoghadiya
-      )}
-      ${renderCollapsibleTimePeriods(
-  p.gowri?.night,
-  "🌙 रात्रि का गौरी काल",
-  referenceNow,
-  getGowriDisplay,
-  currentNightGowri
-)}
-      <div class="card full">
-  <div class="label">🌄 विशेष मुहूर्त</div>
-  <div class="special-muhurta-grid">
-    <div class="special-muhurta-item">
-      <div class="label">🌅 ब्रह्म मुहूर्त</div>
-      <div class="time-row"><span>${formatTimeRange(p.brahmaMuhurta?.start, p.brahmaMuhurta?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🌄 प्रातः संध्या</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.pratahSandhya?.start, specialKaal?.pratahSandhya?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🕛 मध्याह्न संध्या</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.madhyahnaSandhya?.start, specialKaal?.madhyahnaSandhya?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">☀️ विजय मुहूर्त</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.vijayaMuhurta?.start, specialKaal?.vijayaMuhurta?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🌇 गोधूलि मुहूर्त</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.godhuliMuhurta?.start, specialKaal?.godhuliMuhurta?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🌆 सायं संध्या</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.sayahnaSandhya?.start, specialKaal?.sayahnaSandhya?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🌙 निशीथ काल</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.nishitaKaal?.start, specialKaal?.nishitaKaal?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">⚠️ दुर्मुहूर्त</div>
-      <div class="time-row"><span>${getDurMuhurtaText(p, isWednesday, nextSunrise)}</span></div>
-    </div>
-  </div>
-</div>
-
-<div class="card full">
   <div class="label">
     📍 स्थान
   </div>
