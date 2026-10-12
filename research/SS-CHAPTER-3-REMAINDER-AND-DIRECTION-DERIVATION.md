@@ -95,3 +95,17 @@ The result rounds to **22.9122°**, matching Vidhyamitra’s displayed value. Th
 **What this validates:** the elapsed-day × 600 / yuga-day remainder, quadrant-reduced bhuja, and 3/10 scaling are consistent with this independently published example to the displayed precision.
 
 **What it does not validate:** our own derivation of the ahargana for an arbitrary civil date, the correctness of every calendar/time-zone conversion needed to get that ahargana, or the separate Chapter VII dṛkkarma coordinate-frame transformation. The fixture is a strong cross-check, not a license to skip those gates.
+
+
+## Ahargana gate: Chapter I.48–51 must be respected
+
+The Gūḍhārtha-prakāśaka commentary for I.48–51 confirms that the creation-era day count is built from the elapsed years after the creation baseline, converted into months, plus elapsed lunar months; the procedure then adds the intercalary-month correction, converts months to days, adds elapsed tithis, and subtracts the omitted-tithi correction to obtain the savana-day count at midnight on Lanka’s meridian. This is not the same operation as multiplying all elapsed cosmic years by a modern mean year length.
+
+For OurHinduDharm, the ahargana input to the III.9 diagnostic must therefore be obtained by one of two documented paths:
+
+1. Implement and test the Chapter I.45–51 count, including the relevant source-defined month/tithi corrections; or
+2. Use a separately established reference ahargana and advance it by a verified integer/fractional savana-day difference, with the epoch and time-of-day convention documented and independently checked.
+
+Do not derive a creation-era ahargana by `(Gregorian JD − guessed epoch) × 365.2422` and call it source-faithful. Chapter I.56 allows mean planetary calculations from a chosen epoch, but that does not automatically authorize shifting the III.9 libration phase without preserving the source epoch’s phase.
+
+The relevant commentary is visible in the same Gūḍhārtha-prakāśaka transcription around web lines 538–550: https://vishvasa.github.io/jyotiSham/observation/history/hindu/sUrya-siddhAntaH_saTIkaH/. Burgess’s translation of I.48–51 also explains the intercalary-month and omitted-lunar-day corrections: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf.
