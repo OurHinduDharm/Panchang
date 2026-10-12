@@ -107,6 +107,28 @@ export function runChapter7SourceDerivedTests() {
     `hourAngle=${atMeridian.hourAngleDeg}; aksha=${atMeridian.akshaDeg}`
   );
 
+
+  // Chapter II.28 specifies a maximum-declination sine of 1397 on radius 3438.
+  // The candidate currently uses exact trig with epsilon=24°, which is a
+  // documented approximation rather than the literal II.28 sine constant.
+  const roundedObliquityCase = calculateChapter7SequentialDrikkarma({
+    siderealLongitudeDeg: normalize360(-24.217),
+    planetLatitudeDeg: 1,
+    observerLatitudeDeg: 29.583,
+    localSiderealAngleDeg: 0,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24,
+    localSiderealObliquityDeg: 24
+  });
+  const chapter2MaximumDeclinationDeg =
+    Math.asin(1397 / 3438) * 180 / Math.PI;
+  check(
+    "Chapter II.28 approximation is explicitly distinguishable from exact 24° geometry",
+    close(roundedObliquityCase.ayanaDeclinationDeg, 24, 1e-10) &&
+      Math.abs(roundedObliquityCase.ayanaDeclinationDeg - chapter2MaximumDeclinationDeg) > 0.02,
+    `candidate=\${roundedObliquityCase.ayanaDeclinationDeg}; II.28 asin(1397/3438)=\${chapter2MaximumDeclinationDeg}`
+  );
+
   const passed = tests.filter((t) => t.passed).length;
   return { passed, total: tests.length, allPassed: passed === tests.length, tests };
 }
