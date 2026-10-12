@@ -2765,6 +2765,11 @@ function getDrikkarmaCorrection(body, date, direction, config = TKS_CONFIG) {
  * planet's own RA/declination, rather than the intermediate point's RA.
  * This remains a research candidate until independently validated.
  */
+function trueObliquityOfDateDeg(date) {
+  const rot = Astronomy.Rotation_ECT_EQD(date).rot;
+  return Math.atan2(Math.abs(rot[2][1]), rot[1][1]) * 180 / Math.PI;
+}
+
 function getDrikkarmaCorrectionSequential(body, date, direction, config = TKS_CONFIG) {
   /*
    * The sequential candidate is delegated to the isolated, unit-tested
@@ -2785,11 +2790,13 @@ function getDrikkarmaCorrectionSequential(body, date, direction, config = TKS_CO
   const localSiderealAngleDeg = normalize360(
     Astronomy.SiderealTime(date) * 15 + config.longitude
   );
+  const localSiderealObliquityDeg = trueObliquityOfDateDeg(date);
   return calculateChapter7SequentialDrikkarma({
     siderealLongitudeDeg: state.longitude,
     planetLatitudeDeg: state.latitude,
     observerLatitudeDeg: config.latitude,
     localSiderealAngleDeg,
+    localSiderealObliquityDeg,
     ayanamshaDeg: 24.217,
     obliquityDeg: 24,
     planetDeclinationDeg: state.declination,
@@ -3458,6 +3465,9 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Final lagnāntara K (current method)</strong><span>'+round(g.K,6)+'°</span></div>';
       if (gs) {
         html += '<div class="metric"><strong>Sequential: longitude after Ayana</strong><span>'+round(gs.drikkarma.ayanaAppliedLongitude,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: source-frame local sidereal angle</strong><span>'+round(gs.drikkarma.sourceLocalSiderealAngleDeg,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: 24°-frame meridian angle</strong><span>'+round(gs.drikkarma.calculationFrameSiderealAngleDeg,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: frame correction</strong><span>'+round(gs.drikkarma.localSiderealFrameCorrectionDeg,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: planet RA used for Aksha</strong><span>'+round(gs.drikkarma.planetRAForAksha,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: planet declination used for half-day</strong><span>'+round(gs.drikkarma.planetDeclinationForHalfDay,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: Aksha dṛkkarma</strong><span>'+round(gs.drikkarma.akshaDeg,6)+'°</span></div>';
