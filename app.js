@@ -3488,127 +3488,75 @@ function getAutoSandhyaType(
     return "pratah";
   }
 
-  const sunrise =
-    new Date(p.sunrise);
-
-  const sunset =
-    new Date(p.sunset);
-
-  const now =
-    referenceNow;
-
-  /*
-   * वास्तविक रात्रिमान:
-   * sunset → next sunrise.
-   *
-   * चार Night Prahar से कुल रात्रि अवधि
-   * निकालकर 15 रात्रि-मुहूर्त प्राप्त होते हैं।
-   */
-  let nightMuhurtaMs = null;
+  const sunrise = new Date(p.sunrise);
+  const sunset = new Date(p.sunset);
+  const now = referenceNow;
 
   if(
-    praharData &&
-    Array.isArray(praharData.nightPrahar)
-  ){
-    const night =
-      praharData.nightPrahar;
-
-    if(
-      night.length === 4 &&
-      night[0]?.start &&
-      night[3]?.end
-    ){
-      const nightMs =
-        new Date(night[3].end).getTime() -
-        new Date(night[0].start).getTime();
-
-      if(nightMs > 0){
-        nightMuhurtaMs =
-          nightMs / 15;
-      }
-    }
-  }
-
-  /*
-   * सूर्यास्त के बाद पहला रात्रि-मुहूर्त
-   * सायं संध्या है।
-   */
-  if(now >= sunset){
-
-    if(
-      nightMuhurtaMs &&
-      now.getTime() <
-        sunset.getTime() + nightMuhurtaMs
-    ){
-      return "sayam";
-    }
-
-    return "turiya";
-  }
-
-  /*
-   * सूर्योदय से पहले अंतिम रात्रि-मुहूर्त
-   * प्रातः संध्या है।
-   *
-   * उससे पहले के समय को स्वतः तुरीय
-   * नहीं माना जाएगा।
-   */
-  if(now < sunrise){
-
-    if(
-      nightMuhurtaMs &&
-      now.getTime() >=
-        sunrise.getTime() - nightMuhurtaMs
-    ){
-      return "pratah";
-    }
-
-    /*
-     * Brahma Muhurta के बाद pre-sunrise समय
-     * morning context है; केवल उससे पहले तुरीय।
-     */
-    const brahmaStart =
-      p?.brahmaMuhurta?.start
-        ? new Date(p.brahmaMuhurta.start)
-        : null;
-
-    if(
-      brahmaStart &&
-      !Number.isNaN(brahmaStart.getTime()) &&
-      now >= brahmaStart
-    ){
-      return "pratah";
-    }
-
-    return "turiya";
-  }
-
-  /*
-   * सूर्योदय से सूर्यास्त तक Auto में केवल दिन-संध्या
-   * नहीं, बल्कि प्रातः/मध्याह्न का व्यापक वर्गीकरण है।
-   * पंचधा दिन-विभाजन का अंतिम भाग सामान्य संकल्प में
-   * "सायंकाले" दे सकता है, लेकिन उससे सायं-संध्या
-   * अपने-आप शुरू नहीं होती। सायं-संध्या का Auto चयन
-   * ऊपर सूर्यास्त के बाद पहले रात्रि-मुहूर्त में होता है।
-   */
-  const dayMs =
-    sunset.getTime() -
-    sunrise.getTime();
-
-  const oneFifth =
-    dayMs / 5;
-
-  const fromSunrise =
-    now.getTime() -
-    sunrise.getTime();
-
-  if(
-    fromSunrise < 2 * oneFifth
+    Number.isNaN(sunrise.getTime()) ||
+    Number.isNaN(sunset.getTime()) ||
+    sunset <= sunrise
   ){
     return "pratah";
   }
 
-  return "madhyahna";
+  /*
+   * Auto संध्या का चयन वास्तविक संध्या-अवधियों से हो,
+   * केवल दिन के पाँच भागों से नहीं।
+   */
+  let nightMuhurtaMs = null;
+  const night = praharData?.nightPrahar;
+
+  if(
+    Array.isArray(night) &&
+    night.length === 4 &&
+    night[0]?.start &&
+    night[3]?.end
+  ){
+    const nightMs =
+      new Date(night[3].end).getTime() -
+      new Date(night[0].start).getTime();
+
+    if(Number.isFinite(nightMs) && nightMs > 0){
+      nightMuhurtaMs = nightMs / 15;
+    }
+  }
+
+  /* सूर्यास्त से पहला रात्रि-मुहूर्त: सायं संध्या। */
+  if(now >= sunset){
+    return (
+      nightMuhurtaMs &&
+      now.getTime() < sunset.getTime() + nightMuhurtaMs
+    ) ? "sayam" : "turiya";
+  }
+
+  /* सूर्योदय से पहले अंतिम रात्रि-मुहूर्त: प्रातः संध्या। */
+  if(now < sunrise){
+    return (
+      nightMuhurtaMs &&
+      now.getTime() >= sunrise.getTime() - nightMuhurtaMs
+    ) ? "pratah" : "turiya";
+  }
+
+  /*
+   * मध्याह्न संध्या: स्थानीय दिनमान के मध्य पर केंद्रित
+   * एक दिन-मुहूर्त (दिनमान / 15) की अवधि।
+   * शेष दिन में Auto कोई दूसरी संध्या गलत ढंग से नहीं चुनेगा।
+   */
+  const dayMs = sunset.getTime() - sunrise.getTime();
+  const dayMuhurtaMs = dayMs / 15;
+  const dayMidpointMs = sunrise.getTime() + dayMs / 2;
+  const madhyahnaStart = dayMidpointMs - dayMuhurtaMs / 2;
+  const madhyahnaEnd = dayMidpointMs + dayMuhurtaMs / 2;
+
+  if(
+    now.getTime() >= madhyahnaStart &&
+    now.getTime() < madhyahnaEnd
+  ){
+    return "madhyahna";
+  }
+
+  return "turiya";
 }
 /* =========================================================
    KARMA PHRASE (WITHOUT final verb & without अहं)
