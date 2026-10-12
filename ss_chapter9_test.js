@@ -278,6 +278,45 @@ export function runChapter9ArithmeticTests() {
     });
   }
 
+  // Cross-check the event classifier and threshold selector together. For
+  // Venus, retrograde motion must reach one of the IX.7 8° event branches;
+  // direct motion reaches one of the 10° branches. Do not choose C from the
+  // generic "Asta/Combust" label or from a 3-D viewer's angular threshold.
+  const venusBranchFixtures = [
+    {
+      name: "Retrograde Venus east of Sun resolves to west-setting and C=8°",
+      args: { planet: "Venus", planetLongitudeDeg: 101, sunLongitudeDeg: 100, dailyMotionDegPerDay: -0.5 },
+      expectedEvent: "west-setting",
+      expectedLimit: 8
+    },
+    {
+      name: "Retrograde Venus west of Sun resolves to east-rising and C=8°",
+      args: { planet: "Venus", planetLongitudeDeg: 99, sunLongitudeDeg: 100, dailyMotionDegPerDay: -0.5 },
+      expectedEvent: "east-rising",
+      expectedLimit: 8
+    },
+    {
+      name: "Direct Venus west of Sun resolves to east-setting and C=10°",
+      args: { planet: "Venus", planetLongitudeDeg: 99, sunLongitudeDeg: 100, dailyMotionDegPerDay: 1 },
+      expectedEvent: "east-setting",
+      expectedLimit: 10
+    },
+    {
+      name: "Direct Venus east of Sun resolves to west-rising and C=10°",
+      args: { planet: "Venus", planetLongitudeDeg: 101, sunLongitudeDeg: 100, dailyMotionDegPerDay: 1 },
+      expectedEvent: "west-rising",
+      expectedLimit: 10
+    }
+  ];
+  for (const fixture of venusBranchFixtures) {
+    const event = classifyChapter9HorizonEvent(fixture.args);
+    const limit = chapter9Kalansha({ planet: "Venus", horizonEvent: event });
+    tests.push({
+      name: fixture.name,
+      passed: event === fixture.expectedEvent && limit === fixture.expectedLimit
+    });
+  }
+
   const eventCases = [
     { name: "Jupiter eastward of Sun maps to west-setting", args: { planet: "Jupiter", planetLongitudeDeg: 101, sunLongitudeDeg: 100 }, expected: "west-setting" },
     { name: "Jupiter westward of Sun maps to east-rising", args: { planet: "Jupiter", planetLongitudeDeg: 99, sunLongitudeDeg: 100 }, expected: "east-rising" },
