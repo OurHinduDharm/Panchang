@@ -118,7 +118,7 @@ test("Sankalp keeps the four requested kaal labels and appends night Prahar with
 });
 
 test("Sankalp month and tithi qualifiers use the requested classical wording", () => {
-  assert.match(source, /parts\.push\("मासानामुत्तमे " \+ masaForm\)/);
+  assert.match(source, /parts\.push\("मासानामुत्तमे मासे " \+ masaForm\)/);
   assert.doesNotMatch(source, /मासानामुत्तमे महामाङ्गल्ये/);
   assert.match(source, /एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ/);
   assert.doesNotMatch(source, /एवं गुणविशिष्टायां पुण्यतिथौ/);
