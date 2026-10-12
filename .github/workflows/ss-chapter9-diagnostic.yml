@@ -196,6 +196,12 @@ jobs:
           if (failed.length) process.exit(1);
           NODE
 
+      - name: Run isolated classical-frame transform tests
+        run: |
+          node --experimental-default-type=module --check ss_classical_frame.js
+          node --experimental-default-type=module --check ss_classical_frame_test.js
+          node --experimental-default-type=module ss_classical_frame_test.js
+
       - name: Run headless Chromium research-page test
         run: |
           npm install --no-save playwright@1.56.1
