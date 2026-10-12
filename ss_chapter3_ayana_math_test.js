@@ -138,6 +138,19 @@ export function runChapter3AyanaGeometryTests() {
       quarter.ayanaMagnitudeDeg >= 0 && quarter.ayanaMagnitudeDeg <= 27
   });
 
+  // Cross-check against Vidhyamitra's displayed 2026-10-08 Ujjayinī
+  // result: ahargana 714,404,169,483.5; ayana 22.9122°.
+  const vidhyamitraFixture = chapter3AyanaCycleStateFromAhargana({
+    ahargana: 714404169483.5,
+    yugaDays: 1577917828
+  });
+  tests.push({
+    name: "Independent Vidhyamitra III.9–10 fixture reproduces the published 22.9122° ayana to display precision",
+    passed: close(vidhyamitraFixture.ayanaMagnitudeDeg, 22.9122, 0.00005) &&
+      vidhyamitraFixture.circleMotion === "eastward" &&
+      vidhyamitraFixture.magnitudeTrend === "increasing"
+  });
+
   const halfDay = chapter3AyanaCycleStateFromAhargana({ ahargana: 1.5, yugaDays: 2400 });
   tests.push({
     name: "Fractional ahargana carries sub-day time through the cycle calculation",
