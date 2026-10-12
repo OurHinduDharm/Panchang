@@ -158,7 +158,7 @@ test("Sankalp Sanskrit forms use the selected consistent wording", () => {
 
 test("Auto Sandhya follows actual intervals instead of broad daytime labels", () => {
   const start = source.indexOf("function getAutoSandhyaType(");
-  const end = source.indexOf("KARMA PHRASE (WITHOUT final verb", start);
+  const end = source.indexOf("\\n/* =========================================================", start);
   assert.notEqual(start, -1);
   assert.notEqual(end, -1);
 
