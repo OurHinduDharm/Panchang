@@ -60,6 +60,20 @@ A second independent implementation describes its daily output as calculated fro
 - **TKS Udaya-asta page:** https://tksephemeris.com/tks-udaya-asta — explicitly separates its Shāstrīya lagnāntara-asu model from geometric arcus-visionis and Schaefer physical-visibility models. This confirms that the research page should preserve separate result columns and labels.
 - These source descriptions clarify what the comparison values mean; they do **not** yet explain the numerical date differences in our four fixtures. No discrepancy cause is declared until both calculations are reproduced with the same observer, time convention, ephemeris/coordinate convention, and event definition.
 
+## Elevation / horizon sensitivity audit (12 October 2026)
+
+A research-only panel was added to test-astronomy.html; it does not change the Chapter IX event algorithm or production files. It compares:
+
+1. The existing TKS diagnostic coordinates at 0 m elevation (baseline).
+2. The same coordinates with the supplied 1563 m above-sea-level elevation.
+3. The more precise supplied coordinates (29.5835° N, 80.2095° E) with 1563 m elevation.
+4. A deliberately hypothetical observer 100 m above local ground, using Astronomy Engine's separate `metersAboveGround` argument only to illustrate horizon dip.
+5. A separate `SearchAltitude` calculation at geometric solar-center altitude −0.833°.
+
+Astronomy Engine documents `Observer` elevation as height above sea level, and `metersAboveGround` as a separate parameter for a raised observer; the latter affects the horizon dip. `SearchRiseSet` models the Sun's upper limb and typical refraction, while its `SearchAltitude` documentation explicitly warns that it is not intended to calculate sunrise/sunset because it does not combine the same upper-limb and refraction handling. Sources: https://github.com/cosinekitty/astronomy/blob/master/source/js/README.md and https://github.com/cosinekitty/astronomy/releases/tag/v2.1.17.
+
+The TKS values supplied for comparison are sunrise 06:08:40 and sunset 17:47:21 for “दृश्य — ऊँचाई + वक्रीभवन”, versus sunrise 06:08:40 and sunset 17:42:21 for “गणित — मानक −0.833°”. The panel records these as external inputs and does not assert that the library should reproduce them. The hypothetical 100 m above-ground row is not an assumption about the actual Pithoragarh observer. Real mountain skyline/terrain obstruction is not modelled. The exact TKS interpretation of “ऊँचाई + वक्रीभवन” remains unresolved; no formula is fitted to the five-minute sunset difference.
+
 ## Decision gate before calling the method validated
 
 1. **Resolve coordinate-frame convention.** Derive and document whether the classical 24° construction is a changed ecliptic-to-equatorial transform in a fixed equatorial frame or a changed equator frame; do not mix apparent sidereal time and coordinates from different frames. Verify the derivation with an independent vector construction and an authoritative numerical example.
