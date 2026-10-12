@@ -227,3 +227,45 @@ test("Sankalp kaal covers every daylight division and sunrise/sunset boundaries"
     assert.equal(getKaal(time), expected, "unexpected kaal at " + time);
   }
 });
+
+
+test("Auto Sandhya transitions exactly at each calculated interval boundary", () => {
+  const start = source.indexOf("function getAutoSandhyaType(");
+  const end = source.indexOf("\n/* =========================================================", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+  const sandbox = {
+    dateInput: { value: "2026-10-12" },
+    todayString: () => "2026-10-12"
+  };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+  const p = {
+    sunrise: "2026-10-12T06:09:00+05:30",
+    sunset: "2026-10-12T17:41:00+05:30"
+  };
+  const praharData = {
+    nightPrahar: [
+      { start: "2026-10-12T17:41:00+05:30" },
+      {}, {},
+      { end: "2026-10-13T06:09:00+05:30" }
+    ]
+  };
+  const getType = time => sandbox.getAutoSandhyaType(p, praharData, new Date(time));
+  const cases = [
+    ["2026-10-12T05:19:07+05:30", "turiya"],
+    ["2026-10-12T05:19:08+05:30", "pratah"],
+    ["2026-10-12T06:08:59+05:30", "pratah"],
+    ["2026-10-12T06:09:00+05:30", "turiya"],
+    ["2026-10-12T11:31:55+05:30", "turiya"],
+    ["2026-10-12T11:31:56+05:30", "madhyahna"],
+    ["2026-10-12T12:18:03+05:30", "madhyahna"],
+    ["2026-10-12T12:18:04+05:30", "turiya"],
+    ["2026-10-12T17:40:59+05:30", "turiya"],
+    ["2026-10-12T17:41:00+05:30", "sayam"],
+    ["2026-10-12T18:30:51+05:30", "sayam"],
+    ["2026-10-12T18:30:52+05:30", "turiya"]
+  ];
+  for (const [time, expected] of cases) {
+    assert.equal(getType(time), expected, "unexpected Sandhya transition at " + time);
+  }
+});
