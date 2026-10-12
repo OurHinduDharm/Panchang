@@ -68,6 +68,50 @@ test("active night Prahar can accompany Pratahkaal after Brahma Muhurta starts",
   assert.equal(result.praharName, "चतुर्थ");
 });
 
+test("Sankalp keeps the four requested kaal labels and appends night Prahar without replacing Ratrikale", () => {
+  const start = source.indexOf("function getCurrentKaalPrahar(");
+  const end = source.indexOf("/* =========================================================\\n   SANKALP TYPE — AUTO SANDHYA", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+
+  const sandbox = { sankalpState: { includeNightPrahar: true } };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+
+  const p = {
+    sunrise: "2026-10-12T06:00:00+05:30",
+    sunset: "2026-10-12T18:00:00+05:30",
+    brahmaMuhurta: { start: "2026-10-12T04:00:00+05:30" }
+  };
+  const nightPrahar = [
+    { isActive: true }, { isActive: false },
+    { isActive: false }, { isActive: false }
+  ];
+  const get = (time) => sandbox.getCurrentKaalPrahar(
+    p, { nightPrahar }, new Date(time)
+  );
+
+  assert.equal(get("2026-10-12T03:00:00+05:30").kaal, "रात्रि");
+  assert.equal(get("2026-10-12T05:00:00+05:30").kaal, "प्रातः");
+  assert.equal(get("2026-10-12T09:00:00+05:30").kaal, "प्रातः");
+  assert.equal(get("2026-10-12T11:00:00+05:30").kaal, "मध्याह्न");
+  assert.equal(get("2026-10-12T15:00:00+05:30").kaal, "सायं");
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(get("2026-10-12T19:00:00+05:30"))),
+    { kaal: "रात्रि", praharName: "प्रथम" }
+  );
+
+  assert.match(source, /const kaalForm = \\({[\\s\\S]*?"रात्रि": "रात्रिकाले"/);
+  assert.doesNotMatch(source, /useNightPraharAsKaal/);
+  assert.doesNotMatch(source, /sankalpState\\.type === "sandhya"\\s*\\)\\s*\\? ""/);
+});
+
+test("Sankalp month and tithi qualifiers use the requested classical wording", () => {
+  assert.match(source, /parts\\.push\\("मासानामुत्तमे " \\+ masaForm\\)/);
+  assert.doesNotMatch(source, /मासानामुत्तमे महामाङ्गल्ये/);
+  assert.match(source, /एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ/);
+  assert.doesNotMatch(source, /एवं गुणविशिष्टायां पुण्यतिथौ/);
+});
+
 test("night Prahar toggle is enabled only when a current active night segment exists", () => {
   assert.match(source, /currentSankalpContext\.praharData\.nightPrahar\.some\(pr => pr\.isActive\)/);
   assert.match(source, /sankalpState\.includeNightPrahar\s*=\s*e\.target\.checked/);
