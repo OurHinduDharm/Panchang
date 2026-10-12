@@ -360,3 +360,16 @@ Fresh source review confirms the following distinctions:
 Sources: [Burgess, Chapter VII, verses 7–12 and commentary](https://www.swaveda.com/texts/surya-siddhanta/7/); [Vidhyamitra, Chapter IX, verses 2–11](https://www.vidhyamitra.com/surya-siddhanta/9); [Siva.sh, Chapter IX.5 Sanskrit and translation](https://www.siva.sh/surya-siddhanta/9/5).
 
 **Implementation decision:** keep the original-place Aksha-time ratio as the explicit baseline because VII.8 refers to the planet's own meridian-distance and half-day; keep the sequentially applied longitude and the competing candidate separately labelled. Do not silently change the RA/declination inputs merely because the two-stage prose sounds sequential. The remaining adjudication is the exact geometric meaning of the intermediate point and how the commentary carries it into IX.4's event anchor. No production integration.
+
+
+## Latest reproducibility check — 2026-10-12
+
+The workflow triggered for the current research head and completed successfully: [run 38240603479](https://github.com/OurHinduDharm/Panchang/actions/runs/38240603479), commit `7afac2b81ae22c66bca2d05e99d35a42135b1b46`. All 14 substantive steps passed, including helper syntax, Chapter I/III/VII/IX tests, HTML wiring, headless Chromium, and the final production-isolation guard for `app.js` and `extra-panchang.js`. The PR remains open and Draft. This is a reproducibility/integrity pass, not proof that the current candidate event dates are canonical.
+
+### Source reading clarification
+
+The accessible Chapter IX verse outline explicitly separates (a) horizon/event direction (IX.2–3), (b) apparent positions at sunrise/sunset plus the planet's dṛkkarma and lagnāntara (IX.4–5), (c) planet-specific visibility limits (IX.6–9), and (d) time since/until the event from motion (IX.10–11). Chapter VII.8–12 separately defines the apparent-longitude dṛkkarman, including the latitude/meridian-distance/half-day correction and the further declination-based correction. This separation is now a firm architectural constraint: event-direction classification, classical apparent longitude, visibility threshold, and time interpolation must remain individually inspectable.
+
+Sources: [Vidhyamitra, Chapter IX](https://www.vidhyamitra.com/surya-siddhanta/9); [Burgess, Chapter VII](https://www.swaveda.com/texts/surya-siddhanta/7/); [Hall edition with Ranganātha's commentary, Chapter IX scan](https://www.e-rara.ch/zut/content/pagetext/25255183).
+
+Next work remains the non-negotiable time/frame gate: do not start an iteration or tune constants until the prime-meridian midnight and fractional ahargana argument, plus the classical-versus-modern coordinate frame, are independently reconciled.
