@@ -121,6 +121,23 @@ export function runChapter1TraditionalAharganaTests() {
       reference.omittedTithis === 11356019363
   });
 
+  // Independent historical benchmark reported by Sri Jagannāth Center:
+  // 2 May 1827, Vaiśākha Śukla Ṣaṣṭhī, sṛṣṭyādi ahargana 714,404,096,641.
+  // The exact match uses tithi-day label 6 as input, not a zero-based
+  // elapsed-tithi fraction of 5. This validates integer arithmetic and
+  // exposes an unresolved input/time convention; it does not validate the
+  // fractional tithi for the modern apparent-noon reference.
+  const historical1827 = chapter1AharganaFromTraditionalDate({
+    elapsedSolarYearsSinceKritaEnd: 2164928,
+    elapsedMonthsFromCaitraShukla: 1,
+    elapsedTithisInCurrentMonth: 6,
+    intercalaryMonthAdjustment: 0
+  });
+  tests.push({
+    name: "Independent 1827 Vaiśākha Śukla Ṣaṣṭhī Ahargana benchmark reproduces 714404096641",
+    passed: close(historical1827.ahargana, 714404096641)
+  });
+
   tests.push({
     name: "Reference uses the source's 1,577,917,828 savana days and 1,603,000,080 lunar tithis per yuga",
     passed: SS_CHAPTER1_AHARGANA_CONSTANTS.savanaDaysPerYuga === 1577917828n &&
