@@ -54,3 +54,12 @@ The current `ss_chapter7_drikkarma.js` candidate likewise uses `ayanamshaDeg = 2
 ## Decision
 
 **No production change.** The strongest available cross-translation evidence favours “reduced bhuja/arc × 3/10” as the next model to investigate, while the phase/direction and exact commentary interpretation remain open. The present event-date research must continue to carry the Chapter III coordinate-frame blocker.
+
+
+## Addendum — direct commentary check completed after this note
+
+A subsequent direct check of the online Sanskrit transcription of Ranganātha’s **Gūḍhārtha-prakāśaka** found the commentary for III.9–12 at https://vishvasa.github.io/jyotiSham/observation/history/hindu/sUrya-siddhAntaH_saTIkaH/ (web lines 1255–1281). The commentary explicitly explains the 600-cycle count, the to-and-fro motion, the ahargaṇa × 600 / yuga-day calculation, the removal of complete revolutions, the bhuja × 3/10 rule, the six-sign/three-sign phase reversals, and the III.11 shadow-based observational check.
+
+This narrows the unresolved work: the **Gūḍhārtha-prakāśaka** reading is no longer merely an inference from translations. The remaining research is to derive the civil-date ahargaṇa and epoch/day-count conventions reproducibly, implement and boundary-test the commentary’s phase/reversal rules in an isolated research helper, and cross-check Sudhākara Dvivedī’s separate commentary. See the more detailed derivation in [SS-CHAPTER-3-REMAINDER-AND-DIRECTION-DERIVATION.md](SS-CHAPTER-3-REMAINDER-AND-DIRECTION-DERIVATION.md).
+
+No production code is changed, and this still does not validate any Jupiter/Venus event date.
