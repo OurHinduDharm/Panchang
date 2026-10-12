@@ -40,20 +40,31 @@ The translations add a separate direction/phase instruction after the III.9–10
 
 This is important: the text’s translated operational direction rule refers to an observational comparison at the equinoctial/solstitial points. Burgess interprets III.9–12 as a 7,200-year libration between 27° limits, but that is his explanatory model of the passage; it should not be silently treated as the only possible implementation of the Sanskrit direction rule. The magnitude computation and the signed correction must remain separate until a direct commentary-level analysis reconciles these descriptions.
 
-## Source hierarchy and remaining ambiguity
+## Direct commentary audit: Gūḍhārtha-prakāśaka
 
-TextGrid/GRETIL identifies the source editions as Hall’s 1854 edition with the Gūḍhārtha-prakāśaka commentary, the 1987 Kāśī edition, and Sudhākara Dvivedī’s 1987 commentary edition. Its public transcription presents the Sanskrit text but not the full commentary at III.9–12. Therefore, this review resolves the technical meaning of `bhuja` through II.30 and the published translation notes, but it does **not** claim that the direct commentary audit is complete. Source: https://www.textgridrep.org/browse/49kc2.0
+A direct online transcription of the Sanskrit text with Ranganātha’s Gūḍhārtha-prakāśaka commentary is now available and has been checked at the relevant passage: https://vishvasa.github.io/jyotiSham/observation/history/hindu/sUrya-siddhAntaH_saTIkaH/ (commentary around printed pages 112–115; web lines 1255–1281).
+
+The commentary materially strengthens the reading above:
+
+- At III.9 it explicitly interprets the 30-times-20 count as 600, and explains that the bhacakra does not make a normal complete revolution in one direction. It moves westward by a number of degrees, reverses to its original position, then moves eastward by the same amount, and reverses again; that full to-and-fro sequence is the “distinctive revolution” (web lines 1263–1264).
+- At III.10 it explicitly says to multiply the ahargaṇa by 600, divide by the yuga’s terrestrial solar sāyana days, discard completed revolutions, form the bhuja from the remaining rāśi/degree amount, and then multiply that bhuja by 3/10 (web lines 1266–1267).
+- Its further derivation describes the direction/reversal by whether the residual position lies within or outside the six-sign and three-sign divisions, and explains the 90° : 27° proportion (web line 1273). Thus the phase/direction is not an arbitrary sign to be tuned against a modern ayanāṃśa.
+- At III.11 it then gives the observational check: compare the computed Sun with the Sun derived from the shadow; the longitude difference identifies the direction and amount of the circle’s displacement (web lines 1278–1281).
+
+This is a significant advance over the earlier translation-only review. The Gūḍhārtha-prakāśaka reading supports a deterministic cycle-phase model from the elapsed-day count, with III.11’s shadow comparison serving as an observational check of the inferred displacement. It is no longer accurate to say that the direction logic is wholly unavailable. However, this does **not** finish a runnable modern implementation: the exact epoch/ahargaṇa for the selected civil date, the day-count conversion, and the text’s full computational conventions still need to be derived and tested. Sudhākara Dvivedī’s separate commentary has not yet been independently cross-checked.
+
+TextGrid/GRETIL identifies Hall’s 1854 edition with the Gūḍhārtha-prakāśaka, the 1987 Kāśī edition, and Sudhākara Dvivedī’s 1987 commentary edition as the source editions. Source: https://www.textgridrep.org/browse/49kc2.0
 
 ## Implementation gate
 
 Before writing a Chapter III ayana function, separately specify and test:
 
-1. The exact epoch and elapsed-day count used for III.9.
-2. The yuga-day denominator and the conversion from the residual revolution to phase angle.
-3. The II.30 quadrant reduction that produces bhuja.
-4. The III.10 magnitude in arc units, with no sine substitution.
-5. The III.11–12 east/west sign selection and how the stated observation comparison can be represented reproducibly.
-6. Whether the implementation is reproducing Burgess’s libration interpretation, a commentary-led reading, or a distinct documented reconstruction.
+1. Derive the selected date’s ahargaṇa from the Siddhānta’s own epoch/day-count rules, without tuning a modern ayanāṃśa.
+2. Verify the yuga-day denominator and conversion from the residual revolution to rāśi/degrees.
+3. Encode the Gūḍhārtha-prakāśaka’s six-sign/three-sign phase and reversal logic explicitly, then test its boundaries.
+4. Apply the II.30 bhuja reduction and III.10 3/10 scale in arc units, with no sine substitution.
+5. Use the III.11 shadow-derived solar longitude as an independent direction/amount check when a valid observation-equivalent calculation is available.
+6. Cross-check the same passage against Sudhākara Dvivedī’s separate commentary before calling the interpretation fully cross-commentarial.
 
 Until these decisions are justified, do not replace `ayanamshaDeg = 24.217` in the Chapter VII diagnostic with this candidate. That value remains a modern comparison bridge only. Chapter VII Āyana dṛkkarma is also a separate correction and must not be confused with Chapter III’s ayana model.
 
