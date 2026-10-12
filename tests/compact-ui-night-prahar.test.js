@@ -90,11 +90,18 @@ test("Sankalp keeps the four requested kaal labels and appends night Prahar with
     p, { nightPrahar }, new Date(time)
   );
 
-  assert.equal(get("2026-10-12T03:00:00+05:30").kaal, "रात्रि");
+  assert.equal(get("2026-10-12T03:59:59+05:30").kaal, "रात्रि");
+  assert.equal(get("2026-10-12T04:00:00+05:30").kaal, "प्रातः");
   assert.equal(get("2026-10-12T05:00:00+05:30").kaal, "प्रातः");
+  assert.equal(get("2026-10-12T06:00:00+05:30").kaal, "प्रातः"); // sunrise
   assert.equal(get("2026-10-12T09:00:00+05:30").kaal, "प्रातः");
+  assert.equal(get("2026-10-12T10:47:59+05:30").kaal, "प्रातः"); // before 2/5 boundary
+  assert.equal(get("2026-10-12T10:48:00+05:30").kaal, "मध्याह्न"); // 2/5 boundary
   assert.equal(get("2026-10-12T11:00:00+05:30").kaal, "मध्याह्न");
+  assert.equal(get("2026-10-12T13:11:59+05:30").kaal, "मध्याह्न"); // before 3/5 boundary
+  assert.equal(get("2026-10-12T13:12:00+05:30").kaal, "सायं"); // 3/5 boundary
   assert.equal(get("2026-10-12T15:00:00+05:30").kaal, "सायं");
+  assert.equal(get("2026-10-12T18:00:00+05:30").kaal, "रात्रि"); // sunset
   assert.deepEqual(
     JSON.parse(JSON.stringify(get("2026-10-12T19:00:00+05:30"))),
     { kaal: "रात्रि", praharName: "प्रथम" }
