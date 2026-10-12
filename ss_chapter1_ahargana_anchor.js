@@ -23,6 +23,29 @@ export const SS_CHAPTER1_AHARGANA_ANCHOR = Object.freeze({
   status: "research anchor; not yet an independent reconstruction of Chapter I.45–51"
 });
 
+/**
+ * Convert a standard UTC Julian Day to the Julian-day coordinate expressed
+ * in local mean solar time at the Sūrya-siddhānta prime meridian.
+ *
+ * East longitude is positive. Local mean time = UT + longitude / 360 days.
+ * This is only the time-coordinate conversion; it does not validate the
+ * ahargana epoch anchor or turn apparent solar noon into mean solar noon.
+ */
+export function chapter1PrimeMeridianMeanJDFromUtcJD(
+  utcJD,
+  primeMeridianLongitudeDegEast
+) {
+  if (!Number.isFinite(utcJD)) {
+    throw new TypeError("utcJD must be a finite standard Julian Day in UT.");
+  }
+  if (!Number.isFinite(primeMeridianLongitudeDegEast) ||
+      primeMeridianLongitudeDegEast < -180 ||
+      primeMeridianLongitudeDegEast > 180) {
+    throw new TypeError("primeMeridianLongitudeDegEast must be in [-180, 180].");
+  }
+  return utcJD + primeMeridianLongitudeDegEast / 360;
+}
+
 export function chapter1AharganaFromPrimeMeridianJD(localMeanJD) {
   if (!Number.isFinite(localMeanJD)) {
     throw new TypeError("localMeanJD must be a finite Julian Day in prime-meridian local-mean time.");
@@ -83,6 +106,30 @@ export function runChapter1AharganaAnchorTests() {
   const close = (actual, expected, tolerance = 1e-8) =>
     Number.isFinite(actual) && Math.abs(actual - expected) <= tolerance;
   const a = SS_CHAPTER1_AHARGANA_ANCHOR;
+
+  const utcAtUjjainMeanNoon = 2461322 - 75.768 / 360;
+  const convertedUjjainNoon = chapter1PrimeMeridianMeanJDFromUtcJD(
+    utcAtUjjainMeanNoon,
+    75.768
+  );
+  tests.push({
+    name: "UTC JD converts to prime-meridian local-mean JD using east longitude / 360 days",
+    passed: close(convertedUjjainNoon, 2461322, 1e-10) &&
+      close(chapter1PrimeMeridianMeanJDFromUtcJD(2461322, 0), 2461322, 1e-10) &&
+      close(chapter1PrimeMeridianMeanJDFromUtcJD(2461322, 15), 2461322.0416666667, 1e-9) &&
+      close(chapter1PrimeMeridianMeanJDFromUtcJD(2461322, -15), 2461321.9583333333, 1e-9)
+  });
+
+  let rejectedInvalidLongitude = false;
+  try {
+    chapter1PrimeMeridianMeanJDFromUtcJD(2461322, 181);
+  } catch (error) {
+    rejectedInvalidLongitude = error instanceof TypeError;
+  }
+  tests.push({
+    name: "Invalid prime-meridian longitude is rejected",
+    passed: rejectedInvalidLongitude
+  });
 
   const epoch = chapter1AharganaFromPrimeMeridianJD(a.kaliEpochJulianDayAtPrimeMeridianMidnight);
   tests.push({
