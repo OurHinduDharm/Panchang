@@ -3853,13 +3853,11 @@ const praharForm = kaalPrahar.praharName
   if(ayanaForm) parts.push(ayanaForm);
   if(rituForm) parts.push(rituForm);
   if(masaForm) {
-    parts.push("मासानां उत्तमे मासे");
-    parts.push(masaForm);
+    parts.push("मासानां उत्तमे मासे " + masaForm);
   }
   if(pakshaForm) parts.push(pakshaForm);
   if(tithiForm) {
-    parts.push("गुणविशेषणविशिष्टायां शुभपुण्य तिथौ");
-    parts.push(tithiForm);
+    parts.push("गुणविशेषणविशिष्टायां शुभपुण्य तिथौ " + tithiForm);
   }
   if(varaForm) parts.push(varaForm);
   if(nakshatraForm) parts.push(nakshatraForm);
