@@ -48,7 +48,7 @@ The commentary materially strengthens the reading above:
 
 - At III.9 it explicitly interprets the 30-times-20 count as 600, and explains that the bhacakra does not make a normal complete revolution in one direction. It moves westward by a number of degrees, reverses to its original position, then moves eastward by the same amount, and reverses again; that full to-and-fro sequence is the “distinctive revolution” (web lines 1263–1264).
 - At III.10 it explicitly says to multiply the ahargaṇa by 600, divide by the yuga’s terrestrial solar sāyana days, discard completed revolutions, form the bhuja from the remaining rāśi/degree amount, and then multiply that bhuja by 3/10 (web lines 1266–1267).
-- Its further derivation describes the direction/reversal by whether the residual position lies within or outside the six-sign and three-sign divisions, and explains the 90° : 27° proportion (web line 1273). Thus the phase/direction is not an arbitrary sign to be tuned against a modern ayanāṃśa.
+- Its further derivation describes the direction/reversal by whether the residual position lies within or outside the six-sign and three-sign divisions, and explains the 90° : 27° proportion (web line 1273). This yields the following cycle-phase interpretation for a normalized 0°–360° residual phase: 0°–90° = westward, magnitude increasing; 90°–180° = westward, magnitude decreasing back to the reference; 180°–270° = eastward, magnitude increasing; 270°–360° = eastward, magnitude decreasing back to the reference. The magnitude in each segment is still 3/10 of its II.30 bhuja. Thus the phase/direction is not an arbitrary sign to be tuned against a modern ayanāṃśa.
 - At III.11 it then gives the observational check: compare the computed Sun with the Sun derived from the shadow; the longitude difference identifies the direction and amount of the circle’s displacement (web lines 1278–1281).
 
 This is a significant advance over the earlier translation-only review. The Gūḍhārtha-prakāśaka reading supports a deterministic cycle-phase model from the elapsed-day count, with III.11’s shadow comparison serving as an observational check of the inferred displacement. It is no longer accurate to say that the direction logic is wholly unavailable. However, this does **not** finish a runnable modern implementation: the exact epoch/ahargaṇa for the selected civil date, the day-count conversion, and the text’s full computational conventions still need to be derived and tested. Sudhākara Dvivedī’s separate commentary has not yet been independently cross-checked.
@@ -69,3 +69,10 @@ Before writing a Chapter III ayana function, separately specify and test:
 Until these decisions are justified, do not replace `ayanamshaDeg = 24.217` in the Chapter VII diagnostic with this candidate. That value remains a modern comparison bridge only. Chapter VII Āyana dṛkkarma is also a separate correction and must not be confused with Chapter III’s ayana model.
 
 **Decision: research only; no production patch, no merge, and no claim that the Jupiter/Venus event dates are validated.**
+
+
+## Isolated executable diagnostic added
+
+`ss_chapter3_ayana_math_test.js` now tests the II.30 quadrant reduction and III.10 3/10 scale, and exposes a separate cycle-state diagnostic that accepts an already-derived `ahargana` plus `yugaDays`. It reports the completed-revolution count, residual phase, bhuja, ayana magnitude, circle-motion direction, and whether the magnitude is increasing or decreasing. Synthetic quarter-cycle fixtures test the segment boundaries.
+
+This deliberately does **not** invent the epoch or calculate ahargana for a modern civil date, and it does not turn circle-motion direction into a signed planetary-longitude correction. Those are separate derivation gates. CI checks this diagnostic; passing the tests proves only that the documented arithmetic is implemented consistently, not that the selected modern-date epoch is correct.
