@@ -39,6 +39,32 @@ function eclipticEquatorial(longitudeDeg, obliquityDeg, latitudeDeg = 0) {
 }
 
 /**
+ * Express the local meridian's equatorial angle in a calculation frame whose
+ * obliquity differs from the source frame. The physical meridian plane is
+ * unchanged; its intersection with the target equator is recomputed rather
+ * than treating modern apparent sidereal time as if it belonged to the
+ * classical fixed-obliquity frame.
+ *
+ * Derived from the meridian-plane/equator intersection with a shared
+ * equinox axis: tan(theta_target) = tan(theta_source) * sec(delta epsilon).
+ * atan2 form preserves quadrant and behaves safely near 90°/270°.
+ */
+export function convertLocalSiderealAngleObliquityFrame({
+  localSiderealAngleDeg,
+  sourceObliquityDeg,
+  targetObliquityDeg
+}) {
+  if (![localSiderealAngleDeg, sourceObliquityDeg, targetObliquityDeg].every(Number.isFinite)) {
+    throw new TypeError("Local sidereal angle and both obliquities must be finite.");
+  }
+  const theta = localSiderealAngleDeg * Math.PI / 180;
+  const deltaEpsilon = (sourceObliquityDeg - targetObliquityDeg) * Math.PI / 180;
+  return normalize360(
+    Math.atan2(Math.sin(theta), Math.cos(theta) * Math.cos(deltaEpsilon)) * 180 / Math.PI
+  );
+}
+
+/**
  * Compute the sequential correction candidate from already-calculated
  * geocentric planetary state and local sidereal angle.
  *
@@ -61,12 +87,14 @@ export function calculateChapter7SequentialDrikkarma({
   localSiderealAngleDeg,
   ayanamshaDeg = 24.217,
   obliquityDeg = 24,
+  localSiderealObliquityDeg = obliquityDeg,
   planetDeclinationDeg = NaN,
   planetRightAscensionDeg = NaN
 }) {
   const inputs = [
     siderealLongitudeDeg, planetLatitudeDeg, observerLatitudeDeg,
-    localSiderealAngleDeg, ayanamshaDeg, obliquityDeg
+    localSiderealAngleDeg, ayanamshaDeg, obliquityDeg,
+    localSiderealObliquityDeg
   ];
   if (!inputs.every(Number.isFinite) || Math.abs(observerLatitudeDeg) >= 90) {
     throw new TypeError("Finite coordinates are required; observer latitude must be between -90° and +90°.");
@@ -92,8 +120,13 @@ export function calculateChapter7SequentialDrikkarma({
   const planetEquatorial = eclipticEquatorial(
     tropicalLongitudeDeg, obliquityDeg, planetLatitudeDeg
   );
+  const calculationFrameSiderealAngleDeg = convertLocalSiderealAngleObliquityFrame({
+    localSiderealAngleDeg,
+    sourceObliquityDeg: localSiderealObliquityDeg,
+    targetObliquityDeg: obliquityDeg
+  });
   const hourAngleDeg = signedAngleDelta(
-    localSiderealAngleDeg, planetEquatorial.rightAscensionDeg
+    calculationFrameSiderealAngleDeg, planetEquatorial.rightAscensionDeg
   );
   const phi = observerLatitudeDeg * Math.PI / 180;
   const dec = planetEquatorial.declinationDeg * Math.PI / 180;
@@ -121,6 +154,11 @@ export function calculateChapter7SequentialDrikkarma({
     ayanaAppliedLongitude: ayanaAppliedLongitudeDeg,
     planetRAForAksha: planetEquatorial.rightAscensionDeg,
     planetDeclinationForHalfDay: planetEquatorial.declinationDeg,
+    sourceLocalSiderealAngleDeg: normalize360(localSiderealAngleDeg),
+    calculationFrameSiderealAngleDeg,
+    localSiderealFrameCorrectionDeg: signedAngleDelta(
+      calculationFrameSiderealAngleDeg, normalize360(localSiderealAngleDeg)
+    ),
     hourAngleDeg,
     halfDayAngleDeg,
     akshaTimeRatio,
@@ -165,6 +203,39 @@ export function runChapter7DrikkarmaTests() {
       close(sample.halfDayAngleDeg, 102.4650232173461) &&
       close(sample.akshaDeg, 0.4854938080385521) &&
       close(sample.correctedLongitude, 100.7499279560036)
+  });
+
+  const sameFrameAngle = convertLocalSiderealAngleObliquityFrame({
+    localSiderealAngleDeg: 123.4,
+    sourceObliquityDeg: 24,
+    targetObliquityDeg: 24
+  });
+  tests.push({
+    name: "Coordinate-frame conversion is identity when obliquities match",
+    passed: close(sameFrameAngle, 123.4, 1e-12)
+  });
+
+  const changedFrameAngle = convertLocalSiderealAngleObliquityFrame({
+    localSiderealAngleDeg: 45,
+    sourceObliquityDeg: 23.4367,
+    targetObliquityDeg: 24
+  });
+  tests.push({
+    name: "Modern sidereal angle is transformed into the fixed-24° calculation frame",
+    passed: Number.isFinite(changedFrameAngle) &&
+      Math.abs(changedFrameAngle - 45) > 1e-5 &&
+      Math.abs(changedFrameAngle - 45) < 0.1
+  });
+
+  const wrappedFrameAngle = convertLocalSiderealAngleObliquityFrame({
+    localSiderealAngleDeg: 359.9,
+    sourceObliquityDeg: 23.4367,
+    targetObliquityDeg: 24
+  });
+  tests.push({
+    name: "Coordinate-frame conversion preserves angle wraparound",
+    passed: wrappedFrameAngle >= 0 && wrappedFrameAngle < 360 &&
+      Math.abs(signedAngleDelta(wrappedFrameAngle, 359.9)) < 0.1
   });
 
   const equator = calculateChapter7SequentialDrikkarma({
