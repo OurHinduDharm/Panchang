@@ -15,6 +15,20 @@
 
 const DEG = Math.PI / 180;
 
+/**
+ * Chapter II.28's sine-table convention: greatest-declination sine 1397
+ * on radius 3438. This returns asin(1397/3438), not an exact modern
+ * obliquity and not the rounded 24° used in some textual constructions.
+ */
+export function chapter2SineTableObliquityDeg({ radius = 3438, maxDeclinationSine = 1397 } = {}) {
+  if (!Number.isFinite(radius) || radius <= 0 ||
+      !Number.isFinite(maxDeclinationSine) ||
+      maxDeclinationSine < 0 || maxDeclinationSine > radius) {
+    throw new RangeError("Sine-table radius must be positive and the maximum-declination sine must be in [0, radius].");
+  }
+  return Math.asin(maxDeclinationSine / radius) / DEG;
+}
+
 function validateVector(vector) {
   if (!Array.isArray(vector) || vector.length !== 3 ||
       !vector.every(Number.isFinite)) {
@@ -235,6 +249,24 @@ export function runClassicalFrameTransformTests() {
       targetEcliptic.longitudeDeg, 123.4 - args.ayanamshaDeg
     )) < 1e-9 &&
       close(targetEcliptic.latitudeDeg, -2.7, 1e-9)
+  });
+
+  const tableObliquityDeg = chapter2SineTableObliquityDeg();
+  tests.push({
+    name: "Chapter II.28 sine-table obliquity is derived from 1397/3438 and is not silently rounded to 24°",
+    passed: close(tableObliquityDeg, 23.9751819, 1e-6) &&
+      Math.abs(tableObliquityDeg - 24) > 0.02
+  });
+
+  let rejectedInvalidSineTable = false;
+  try {
+    chapter2SineTableObliquityDeg({ radius: 3438, maxDeclinationSine: 3439 });
+  } catch (error) {
+    rejectedInvalidSineTable = error instanceof RangeError;
+  }
+  tests.push({
+    name: "Invalid Chapter II.28 sine-table values are rejected",
+    passed: rejectedInvalidSineTable
   });
 
   const identityArgs = {
