@@ -316,3 +316,33 @@ The successful browser output is useful because it makes the disagreement explic
 These are **outputs of candidate algorithms, not validated Sūrya-siddhānta event times**. The user-supplied Drik Pithoragarh boundaries are a separate comparator, not a proof of the classical method. The apparent-angular scan lands near the supplied Jupiter Asta boundary but does not thereby become the Chapter IX algorithm; conversely, the K candidate's earlier Jupiter Asta bracket is not validated merely because the other events look closer. No threshold, frame, or correction should be tuned just to force a match.
 
 The run confirms that the browser page renders and that the numerical checks pass; it does **not** close the central scientific question. The present code still has a modern-to-24° frame assumption and an incompletely reconstructed Chapter I time/ahargana bridge. The next research gate remains: establish the classical coordinate/time conventions and independently derive the required input longitudes and dṛkkarma in that same frame, then rerun the event brackets against independently sourced examples. Keep the modern ecliptic-angle model, current K candidate, and any physical visibility model labelled separately. Production files remain out of scope until that gate is met.
+
+
+## Follow-up after completed browser run — 2026-10-12
+
+The formerly pending run [38239221212](https://github.com/OurHinduDharm/Panchang/actions/runs/38239221212) has now completed successfully. All workflow steps passed, including headless Chromium and the final `git diff --exit-code origin/main...HEAD -- app.js extra-panchang.js` guard. This establishes research-code/test integrity only; it does not certify event dates.
+
+### Newly surfaced source-order question: VII.11 versus the current/sequential candidates
+
+The browser's intermediate geometry output records both implementations at the same four sample events. The current and sequential K values are numerically close in these samples, but they are not identical:
+
+| Sample | Current K | Sequential K | Difference (sequential − current) |
+|---|---:|---:|---:|
+| Venus Asta | 7.900165° | 7.883540° | −0.016625° |
+| Venus Udaya | 13.841943° | 13.842884° | +0.000941° |
+| Jupiter Asta | 6.510164° | 6.509353° | −0.000811° |
+| Jupiter Udaya | 11.170096° | 11.170043° | −0.000053° |
+
+The present browser assertion that the current method uses the planet's original RA/declination is a software invariant, not proof that this is the only correct reading of VII.11. Burgess's explanatory note to VII.11 describes the two-stage geometric construction: Āyana correction first gives the point on the hour circle; Akṣa correction then gives the point on the circle of position. That points toward the sequential candidate geometrically. However, the exact Sanskrit commentary's interpretation of the Akṣa quantities at the *event instant* must be reconciled with IX.4's sunrise/sunset instruction before declaring the sequential candidate canonical. Keep both outputs visible in research until this is resolved; do not select a variant just because the numerical date moves closer to a comparator.
+
+### Ahargana time-boundary gate remains open
+
+The Chapter I.45–51 helper reproduces the reported 1827 integer benchmark and passes its arithmetic tests. The 2026 source-ledger scale fixture still uses a synthetic 26.5 elapsed-tithi input; the same ledger's rounded Sun/Moon longitudes imply about 27.589 elapsed tithes at its stated apparent-noon sample, which does not reproduce the displayed Ahargana. Burgess describes the Chapter I result as the remainder at Lanka midnight. Therefore, the modern apparent-noon ledger value cannot be used as an exact midnight anchor without reconstructing the source's day boundary and fractional-tithi convention. The anchor helper remains provisional; do not convert arbitrary civil event times to ahargana from it as though independently validated.
+
+### Updated next gate
+
+1. Preserve the green browser run as a reproducible baseline.
+2. Resolve the exact VII.11/Ranganātha event-time construction and record why the current or sequential candidate is textually preferred.
+3. Reconstruct a consistent classical time argument: Lanka/prime-meridian midnight, local longitude/time correction, and the Chapter I fractional tithi convention.
+4. Only then choose the event-time dṛkkarma variant, implement IX.10–11 iteration, and compare independent date/location references.
+5. Production remains isolated. The green CI result is not a merge signal.
