@@ -197,3 +197,26 @@ Latest full workflow after independent 3-D validation of the local-meridian fram
 - Production isolation passed; `app.js` and `extra-panchang.js` remain unchanged.
 
 The additional checks improve regression coverage; they do not replace an independent implementation or source-verified numerical benchmark.
+
+
+## Independent source/provenance audit — 2026-10-12
+
+### Chapter VII reference check
+
+The primary-source cross-check confirms that Chapter VII is titled “Planetary Conjunctions,” but verses VII.7–11 specifically contain the dṛkkarma construction: VII.8–9 give the Akṣa correction, VII.10 gives the Āyana correction, and VII.11 states that this operation is used for planetary setting/rising. Therefore the helper's VII.8–10 verse reference is appropriate; the chapter title alone must not be used to dismiss it. Cross-check: [Burgess translation, Chapter VII](https://www.swaveda.com/texts/surya-siddhanta/7/) and [Sanskrit/translation, verses VII.7–11](https://www.vidhyamitra.com/surya-siddhanta/7).
+
+### Benchmark provenance is not interchangeable
+
+The diagnostic contains distinct reference groups that must remain separate:
+
+- `REFERENCES`: Tantrakulam/Drik comparison samples labelled Dehradun, with sample instants and elongations.
+- `DRIK_PITHORAGARH_BOUNDARIES`: local boundary timestamps for Pithoragarh, transcribed separately.
+- `SHASTRIYA_REFERENCES`: working Chapter IX comparison fixtures used for the K-candidate table; these are explicitly not yet provenance-verified.
+
+The public [TKS Udaya–Asta page](https://tksephemeris.com/tks-udaya-asta) describes its classical layer as K = lagnāntara-asu ÷ 60 using TKS apparent longitudes, and presents the Ptolemaic arcus-visionis and Schaefer visibility model as separate methods. The public [Drik Panchang Delhi Venus page](https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?lang=en) reports a Venus asta interval beginning 12 October 2026 at 18:19 and ending 28 October at 30:00+ in Delhi local time. This is useful as a source-specific sanity check, **not** a Pithoragarh timestamp and **not** a verified gold standard for the classical K algorithm.
+
+Consequently, the prior four-case K fixtures must not be described as matching or contradicting a source until each row records (1) exact URL and retrieval date, (2) location and elevation, (3) local event instant and civil-date convention, (4) source engine and coordinate convention, and (5) whether the value is classical K, apparent ecliptic elongation, or physical heliacal visibility.
+
+### Next action
+
+Before altering any formula, recover the exact provenance of the four K fixtures and build a same-location/same-time comparison ledger. Then independently recompute VII.8–10 from the source proportions and compare each intermediate term—not just the final date. Production files remain untouched; no merge is authorized by this audit.
