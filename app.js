@@ -3167,16 +3167,30 @@ function toAyanaForm(v){
   const s = String(v || "").trim();
 
   if(!s || s === "—") return "";
-  if(/दक्षिणायन/.test(s)) return "दक्षिणायने";
-  if(/उत्तरायण/.test(s)) return "उत्तरायणे";
+  if(/दक्षिणायन/.test(s)) return "सूर्ये दक्षिणायने";
+  if(/उत्तरायण/.test(s)) return "सूर्ये उत्तरायणे";
   return s.replace(/अयने\s*$/, "").replace(/अयन\s*$/, "").trim() + "े";
 }
 
 function toRituForm(v){
   const s = String(v || "").trim();
   if(!s || s === "—") return "";
-  const base = s.replace(/ऋतौ\s*$/, "").replace(/ऋतु\s*$/, "").trim();
-  return base ? base + "ऋतौ" : "";
+
+  const base = s
+    .replace(/ऋतौ\s*$/, "")
+    .replace(/ऋतु\s*$/, "")
+    .trim();
+
+  const forms = {
+    "वसन्त": "वसन्तर्तौ",
+    "ग्रीष्म": "ग्रीष्मर्तौ",
+    "वर्षा": "वर्षार्तौ",
+    "शरद": "शरदृतौ",
+    "हेमन्त": "हेमन्तर्तौ",
+    "शिशिर": "शिशिरर्तौ"
+  };
+
+  return forms[base] || (base ? base + "ऋतौ" : "");
 }
 
 function toMasaForm(v){
@@ -3253,7 +3267,7 @@ function toKaranaForm(v){
 
 function toVaraForm(v){
   const map = {
-    "रविवार":"रविवासरे", "सोमवार":"सोमवासरे", "मंगलवार":"भौमवासरे",
+    "रविवार":"भानुवासरे", "सोमवार":"चन्द्रवासरे", "मंगलवार":"भौमवासरे",
     "बुधवार":"बुधवासरे", "गुरुवार":"गुरुवासरे", "शुक्रवार":"भृगुवासरे",
     "शनिवार":"शनिवासरे"
   };
@@ -5774,7 +5788,7 @@ bhadraPartsHtml += `
 
       <div class="card full">
         <div class="label">
-          🕉️ संकल्प
+          🕉️ संकल्प जनरेटर
         </div>
 
         <div id="sankalpControls" class="sankalp-controls"></div>
