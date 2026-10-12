@@ -411,3 +411,16 @@ The UTC-to-prime-meridian time-coordinate conversion is now implemented and unit
 A closer code-path review narrows the coordinate-frame blocker further. The current helper `convertLocalSiderealAngleObliquityFrame()` changes the local meridian's equatorial intersection for a changed obliquity, and its six-angle 3-D intersection regression is useful. However, the event pipeline also converts tropical ecliptic longitude to a sidereal longitude using the fixed `24.217°` comparator. The helper does **not** include that ecliptic-origin/equinox rotation in the meridian transform, and the current `24.217°` value is not the Chapter III ayana model. Thus its successful geometry test proves the obliquity-only construction, not the full modern-EQD → classical Chapter III/VII frame transformation.
 
 **Decision:** do not describe the coordinate gate as solved. The next implementation should be an isolated 3-D transform candidate with explicitly ordered rotations (modern EQD → modern ECT → classical ecliptic origin/ayana → classical equatorial frame), inverse transform, norm/orthogonality/round-trip tests, and a separate derivation of how local meridian/hour angle enters that frame. It must not be wired into event-date calculation until the meridian geometry is independently derived. The Chapter I ledger also remains a comparison point rather than an epoch proof: the source's “Lanka midnight” and the ledger's “apparent noon at Ujjayinī” are different time arguments.
+
+
+## Isolated full planetary-vector transform candidate — 12 October 2026
+
+Added `ss_classical_frame.js` and `ss_classical_frame_test.js` on the research branch. The transform makes the assumed order explicit:
+
+1. Modern true equatorial-of-date (EQD) → modern true ecliptic-of-date (ECT).
+2. Rotate the ecliptic origin by the selected Chapter III ayana value (tropical longitude → classical sidereal longitude).
+3. Rotate into the explicitly selected classical equatorial frame.
+
+The inverse is implemented separately. CI run [38248445775](https://github.com/OurHinduDharm/Panchang/actions/runs/38248445775) passed **7/7** isolated transform tests: inverse round-trip, norm preservation, orthonormal basis, longitude-minus-ayana with latitude preservation, identity case, and invalid-input rejection. The same run passed the existing ahargana/Chapter III/VII/IX checks, headless Chromium, and production-isolation guard.
+
+**Scope boundary:** this is now a tested planetary-vector transform candidate, not a solved Chapter IX coordinate frame. It does not construct the local meridian or prove how local sidereal time/hour angle should be generated in the classical model. The helper is not wired into the event-date engine; the obliquity-only local-meridian candidate remains separate. The next unresolved part is the local meridian/hour-angle construction in the same classical frame, with a source-derived time argument. No production files changed and the PR remains Draft.
