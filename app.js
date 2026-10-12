@@ -2527,6 +2527,85 @@ function getGhatiPal(
 /* =========================================================
    NAME FUNCTIONS
    ========================================================= */
+/*
+ * Sankalp के लिए वर्तमान तिथि-अंग चुनें।
+ * लाइब्रेरी के scalar Panchang fields सूर्योदय-आधारित हैं;
+ * exact time के लिए interval arrays का उपयोग करें।
+ * सूर्योदय से पहले आज के लिए पिछले दिन की intervals लागू होती हैं।
+ */
+function getActiveSankalpElements(p, previousPanchang, referenceNow, isPreSunriseToday){
+  if(!(referenceNow instanceof Date) || !Number.isFinite(referenceNow.getTime())){
+    return null;
+  }
+
+  const source = isPreSunriseToday && previousPanchang
+    ? previousPanchang
+    : p;
+
+  if(!source) return null;
+
+  const instant = referenceNow.getTime();
+
+  const findActive = key => {
+    const items = source[key];
+    if(!Array.isArray(items)) return null;
+
+    return items.find(item => {
+      if(!item || item.startTime == null || item.endTime == null) return false;
+
+      const start = item.startTime instanceof Date
+        ? item.startTime.getTime()
+        : new Date(item.startTime).getTime();
+
+      const end = item.endTime instanceof Date
+        ? item.endTime.getTime()
+        : new Date(item.endTime).getTime();
+
+      return Number.isFinite(start) &&
+        Number.isFinite(end) &&
+        start <= instant &&
+        instant < end;
+    }) || null;
+  };
+
+  const activeTithi = findActive("tithis");
+  const activeNakshatra = findActive("nakshatras");
+  const activeYoga = findActive("yogas");
+  const activeKarana = findActive("karanas");
+
+  const tithiIndex = Number.isInteger(activeTithi?.index) &&
+    activeTithi.index >= 0 &&
+    activeTithi.index < 30
+      ? activeTithi.index
+      : null;
+
+  return {
+    tithi: activeTithi
+      ? getTithiName(activeTithi.index)
+      : getTithiName(source.tithi),
+
+    paksha: tithiIndex !== null
+      ? (tithiIndex < 15 ? pakshaHindi.Shukla : pakshaHindi.Krishna)
+      : getSimpleHindi(source.paksha, pakshaHindi),
+
+    nakshatra: activeNakshatra
+      ? getNakshatraName(activeNakshatra.index)
+      : getNakshatraName(source.nakshatra),
+
+    yoga: activeYoga
+      ? getYogaName(activeYoga.index)
+      : getYogaName(source.yoga),
+
+    karana: activeKarana
+      ? (karanaHindi[activeKarana.name] || activeKarana.name || "")
+      : (
+          Array.isArray(source.karanas) && source.karanas.length
+            ? (karanaHindi[source.karanas[0].name] || source.karanas[0].name || "")
+            : ""
+        )
+  };
+}
+
 function getTithiName(value){
   if(
     typeof value === "object" &&
@@ -4809,6 +4888,13 @@ const ghatiPal = getGhatiPal(
     referenceNow < new Date(p.sunrise)
   );
 
+  const sankalpElements = getActiveSankalpElements(
+    p,
+    previousPanchang,
+    referenceNow,
+    isPreSunriseToday
+  );
+
   const currentNightChoghadiya =
     isPreSunriseToday ? (previousPanchang?.choghadiya?.night || []) : (p.choghadiya?.night || []);
 
@@ -4839,12 +4925,12 @@ const ghatiPal = getGhatiPal(
     ayana: ayana,
     ritu: ritu,
     masa: masa,
-    paksha: paksha,
-    tithi: tithi,
+    paksha: sankalpElements?.paksha || paksha,
+    tithi: sankalpElements?.tithi || tithi,
     vara: vara,
-    nakshatra: nakshatra,
-    yoga: yoga,
-    karana: primaryKarana,
+    nakshatra: sankalpElements?.nakshatra || nakshatra,
+    yoga: sankalpElements?.yoga || yoga,
+    karana: sankalpElements?.karana || primaryKarana,
     location: selectedLocation,
     panchang: p,
     praharData: prahar,
