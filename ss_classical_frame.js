@@ -52,6 +52,59 @@ function transformArguments(args) {
   return args;
 }
 
+function cross(a, b) {
+  return [
+    a[1] * b[2] - a[2] * b[1],
+    a[2] * b[0] - a[0] * b[2],
+    a[0] * b[1] - a[1] * b[0]
+  ];
+}
+
+function normalize360(angleDeg) {
+  return ((angleDeg % 360) + 360) % 360;
+}
+
+/**
+ * Candidate: map the modern local-meridian plane into the classical frame.
+ *
+ * The modern meridian plane is defined by the modern equatorial pole and the
+ * point on the modern equator whose RA is localSiderealAngleDeg. Transform
+ * that plane into the target coordinates, then intersect it with the target
+ * equator to obtain the classical-frame meridian RA.
+ *
+ * This explicitly assumes that the same geometric meridian plane is carried
+ * through the frame transformation. Whether that assumption is the correct
+ * Chapter VII/IX time construction is still a source/model question; this
+ * function is not yet used by the event-date engine.
+ */
+export function modernLocalSiderealAngleToClassicalFrame({
+  localSiderealAngleDeg,
+  sourceObliquityDeg,
+  ayanamshaDeg,
+  classicalObliquityDeg
+}) {
+  const args = { sourceObliquityDeg, ayanamshaDeg, classicalObliquityDeg };
+  transformArguments(args);
+  if (!Number.isFinite(localSiderealAngleDeg)) {
+    throw new TypeError("localSiderealAngleDeg must be finite.");
+  }
+
+  const theta = localSiderealAngleDeg * DEG;
+  const modernPole = [0, 0, 1];
+  const modernMeridianPoint = [Math.cos(theta), Math.sin(theta), 0];
+  const modernMeridianNormal = cross(modernPole, modernMeridianPoint);
+  const classicalMeridianNormal =
+    modernEquatorialToClassicalEquatorial(modernMeridianNormal, args);
+  const classicalPole = [0, 0, 1];
+  const intersection = cross(classicalMeridianNormal, classicalPole);
+  const intersectionNorm = Math.hypot(intersection[0], intersection[1]);
+
+  if (!(intersectionNorm > 1e-12)) {
+    throw new RangeError("The transformed meridian does not define a stable target-equator intersection.");
+  }
+  return normalize360(Math.atan2(intersection[1], intersection[0]) / DEG);
+}
+
 /** Modern EQD vector -> classical equatorial vector, with all angles explicit. */
 export function modernEquatorialToClassicalEquatorial(vector, args) {
   validateVector(vector);
@@ -194,6 +247,59 @@ export function runClassicalFrameTransformTests() {
     passed: vectors.every(v => vectorClose(
       modernEquatorialToClassicalEquatorial(v, identityArgs), v
     ))
+  });
+
+  const meridianAngles = [0, 45, 90, 123.4, 200, 359.9];
+  tests.push({
+    name: "Local-meridian candidate is identity when source and target frames are identical",
+    passed: meridianAngles.every(theta => close(
+      modernLocalSiderealAngleToClassicalFrame({
+        localSiderealAngleDeg: theta,
+        ...identityArgs
+      }),
+      theta,
+      1e-9
+    ))
+  });
+
+  // Independent geometric construction: transform the source pole and a
+  // point on the source meridian separately, form their plane, then intersect
+  // that plane with the target equator. This avoids reusing the candidate's
+  // transformed-normal calculation.
+  const independentMeridianAngle = (thetaDeg, frameArgs) => {
+    const theta = thetaDeg * DEG;
+    const sourcePole = modernEquatorialToClassicalEquatorial([0, 0, 1], frameArgs);
+    const sourcePoint = modernEquatorialToClassicalEquatorial(
+      [Math.cos(theta), Math.sin(theta), 0], frameArgs
+    );
+    const planeNormal = cross(sourcePole, sourcePoint);
+    const intersection = cross(planeNormal, [0, 0, 1]);
+    return normalize360(Math.atan2(intersection[1], intersection[0]) / DEG);
+  };
+  tests.push({
+    name: "Local-meridian candidate matches independent transformed-pole/plane intersection at six angles",
+    passed: meridianAngles.every(theta => close(
+      modernLocalSiderealAngleToClassicalFrame({
+        localSiderealAngleDeg: theta,
+        ...args
+      }),
+      independentMeridianAngle(theta, args),
+      1e-9
+    ))
+  });
+
+  const withAyanamsha = modernLocalSiderealAngleToClassicalFrame({
+    localSiderealAngleDeg: 45,
+    ...args
+  });
+  const withoutAyanamsha = modernLocalSiderealAngleToClassicalFrame({
+    localSiderealAngleDeg: 45,
+    ...args,
+    ayanamshaDeg: 0
+  });
+  tests.push({
+    name: "Full meridian candidate includes the ecliptic-origin rotation, not only obliquity change",
+    passed: Math.abs(angleDelta(withAyanamsha, withoutAyanamsha)) > 1e-4
   });
 
   let rejectedBadVector = false;
