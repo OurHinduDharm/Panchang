@@ -140,6 +140,12 @@ The helper uses `BigInt` for the large integer products so JavaScript floating-p
 
 ### Important unresolved point
 
-A synthetic input set with 2,165,127 elapsed years since the end of Kṛta, 5 elapsed months from Caitra-śukla, and 26.5 elapsed tithis yields `714,404,169,483.5`. This verifies the arithmetic at the published reference scale, **but 26.5 is currently a test fixture, not an independently established fractional-tithi value for 2026-10-08**. The external ledger only publishes the date's month/tithi label and a rounded planetary place; it does not expose enough precision to prove the exact fraction and day-boundary convention from that display alone.
+A synthetic input set with 2,165,127 elapsed years since the end of Kṛta, 5 elapsed months from Caitra-śukla, and 26.5 elapsed tithis yields `714,404,169,483.5`. This verifies arithmetic at the published reference scale, **but 26.5 is a test fixture, not an independently established fractional-tithi value for 2026-10-08**.
 
-So the direct formula is now executable and its integer arithmetic is testable, but the civil-date-to-traditional-fields conversion and exact fractional-tithi/day-boundary comparison remain open. The provisional Julian-day anchor is retained only as a separate diagnostic; it must not be treated as proof of the Chapter I derivation.
+### Newly exposed one-day ambiguity
+
+The Vidhyamitra ledger's 2026-10-08 display says “apparent noon at Ujjayinī,” gives Ahargana `714,404,169,483.5`, and labels the tithi Kṛṣṇa Trayodaśī: https://www.vidhyamitra.com/surya-siddhanta. If the elapsed tithi input is read conventionally as approximately 27.x tithis from the start of the 30-tithi lunar month, a diagnostic input of 27.5 (holding the other synthetic fields fixed) yields `714,404,169,484.5`—one day above the published Ahargana. The 26.5 fixture matches the reference number but would ordinarily describe the preceding tithi ordinal, not prove the displayed Trayodaśī input.
+
+This does **not** yet establish which part is wrong. The published display does not expose all intermediate calendar inputs or its exact tithi-fraction/day-boundary handling. Possible differences in the month-count convention, tithi ordinal, fractional-day convention, or the reference's displayed Ahargana must be resolved from the source implementation or an independently worked example. The helper now has a regression diagnostic recording this one-day offset; it deliberately does not silently choose one convention.
+
+So the direct formula remains executable and its integer arithmetic is testable, but civil-date-to-traditional-fields conversion, the one-day ordinal ambiguity, the time-scale/day-boundary convention, and the ±1 adhika-month decision remain open. The provisional Julian-day anchor is retained only as a separate diagnostic; it must not be treated as proof of the Chapter I derivation.
