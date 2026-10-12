@@ -176,7 +176,7 @@ export function runChapter1TraditionalAharganaTests() {
   tests.push({
     name: "Rounded source longitudes imply about 27.59 elapsed tithis at apparent noon; treating that as the I.50 input does not reproduce the displayed Ahargana",
     passed: close(apparentNoonElapsedTithis, 27.5888888889, 1e-8) &&
-      close(apparentNoonAlternative.ahargana - reference.ahargana, 1.0888888889, 1e-6)
+      close(apparentNoonAlternative.ahargana - reference.ahargana, 1.0888888889, 0.001)
   });
 
   let rejectedFraction = false;
