@@ -107,3 +107,19 @@ Consequences for the research code:
 - A modern sidereal longitude plus a contemporary ayanāṃśa can be used as a clearly labelled *bridge for diagnostic comparison*, but it must not be labelled a historically validated Sūrya-siddhānta coordinate frame.
 
 This source review strengthens the existing frame blocker; it does not select a unique transformation. Burgess's historical interpretation is a primary translation/commentary witness, not proof that every modern reconstruction must adopt it without considering the Sanskrit and commentarial tradition.
+
+
+## Chapter II.28: 24° is a rounded description, not the exact sine constant
+
+Chapter II.28 gives the sine of greatest declination as 1397 with radius 3438. The corresponding modern inverse-sine angle is:
+
+`asin(1397 / 3438) = 23.9751819037°`
+
+Source: https://www.siva.sh/surya-siddhanta/2/28 and Burgess's discussion at https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf.
+
+This means two possible implementations must be distinguished:
+
+1. **Rounded fixed-obliquity geometry:** use exactly `24°` in modern trigonometric rotations. This is convenient, but is an approximation to the textual sine constant.
+2. **Text-faithful declination arithmetic:** use the stated sine ratio `1397/3438` and the Siddhānta's sine/arc procedures (including their interpolation and rounding rules) wherever the classical calculation calls for them.
+
+The current research candidate uses `obliquityDeg = 24` in exact modern trigonometric functions. That is a declared approximation, not a verbatim reproduction of the numerical procedure in II.28. We should not silently mix it with claims of minute-level shāstrīya precision. A future comparison should log both variants as separate experiments, with no parameter tuning to match a desired event date.
