@@ -98,7 +98,7 @@ jobs:
             ['Chapter III sign-rising interpolation helper and browser tests imported', html.includes('chapter9LagnantaraAsus') && html.includes('runChapter3LagnantaraTests()') && html.includes('from "./ss_chapter3_lagnantara.js"')],
             ['Primary K uses Chapter III sign interpolation and retains exact-OA comparison', html.includes('const classical = chapter9LagnantaraAsus') && html.includes('exactK: exactLagnaInterval')],
             ['Chapter VII helper is used by sequential candidate', html.includes('return calculateChapter7SequentialDrikkarma({')],
-            ['source apparent sidereal angle is transformed into the 24° calculation frame', html.includes('localSiderealObliquityDeg: trueObliquityOfDateDeg(date)') && html.includes('Sequential: frame correction')],
+            ['source apparent sidereal angle is transformed into the 24° calculation frame', html.includes('const localSiderealObliquityDeg = trueObliquityOfDateDeg(date)') && html.includes('    localSiderealObliquityDeg,') && html.includes('Sequential: frame correction')],
             ['Aksha display uses planet-specific meridian inputs', html.includes('planetRAForAksha') && html.includes('planetDeclinationForHalfDay') && !html.includes('akshaPointRA')],
             ['arithmetic test button exists', html.includes('id="runChapter9ArithmeticBtn"')],
             ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
