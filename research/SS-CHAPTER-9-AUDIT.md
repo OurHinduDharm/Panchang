@@ -272,3 +272,29 @@ The code pins Astronomy Engine 2.1.19. Its documentation says `GeoVector` suppli
 This confirms the concrete mismatch to solve: the code currently takes ECT spherical angles and reinterprets them as if they belonged to an ecliptic with fixed 24° obliquity, while the local angle begins in the true-equator/true-equinox-of-date frame. A scalar obliquity-angle adjustment cannot establish a fully consistent transformation for both the planetary vector and the observer's meridian. The target classical frame must first be defined as a full orientation convention; otherwise multiple plausible rotations can produce internally consistent but historically different answers.
 
 **Implementation decision:** do not patch the transform yet. The API facts are now sourced, but the target classical epoch/equinox/ayanāṃśa relationship is still not sufficiently specified by the current fixture set. Next step is to derive that convention from the chosen Sūrya-siddhānta interpretation and source references, then implement the 3-D rotation and run independent vector tests. This is a deliberate stop against guessing, not a production delay hidden behind passing tests.
+
+
+## New source check — Ranganātha's commentary on IX.4–5 (12 October 2026)
+
+A direct reading of Ranganātha's **Gūḍhārtha-prakāśaka** commentary changes the precision checklist for the Chapter IX diagnostic. The commentary is available in the Sanskrit transcription at https://vishvasa.github.io/jyotiSham/observation/history/hindu/prakIrNam/ranganAthaH/sUryasiddhAntaH/ around source lines 2090–2100 (the rendered source's line references are not stable, so the verse text is also linked directly).
+
+### What the commentary makes explicit
+
+1. **IX.4's event-time anchor:** for a western setting/rising calculation, compute the Sun and planet at sunset; for an eastern rising/setting calculation, compute them at sunrise. Ranganātha then explicitly says to apply both Āyana and Akṣa dṛkkarma to the planet. This confirms the correction order but does not settle the modern-to-classical coordinate-frame mismatch documented above.
+2. **IX.5's six-sign shift:** for the western-event calculation, both the corrected planet and the Sun are shifted by six signs before the lagnāntara interval is obtained. For eastern events, the sunrise pair is used without that western shift.
+3. **Event-time refinement:** the commentary explains that sunrise-anchored positions are first advanced using the elapsed daytime to estimate an eastern event; sunset-anchored positions use the remaining daytime to estimate a western event. It then describes advancing the positions to the estimated instant and recomputing the interval. Repeating this refinement yields a closer result than a single calculation made only at sunrise/sunset. It cautions that a single-pass time estimate is coarser.
+
+### Impact on the current research implementation
+
+The current page computes a Chapter IX K/lagnāntara candidate at the selected sunrise/sunset anchor and reports an IX.10–11 time estimate against a daily bracket. It does **not yet implement Ranganātha's full event-time iteration loop** that advances both bodies and recomputes the corrected lagnāntara at the estimated instant. Therefore:
+
+- A single-pass estimate must remain labelled a first estimate, not a final shāstrīya event instant.
+- The difference between the single-pass estimate and the independently sampled daily bracket is a diagnostic residual, not evidence by itself that the threshold or source rule is wrong.
+- Iteration should be implemented only after the coordinate-frame gate is resolved; otherwise it would refine a potentially inconsistent input geometry and create false precision.
+- A future test should assert convergence and report each iteration (anchor time, corrected Sun/planet positions, event-frame lagnāntara/K, IX.10–11 motion estimate, and time update). It must also stop explicitly if the sequence fails to converge or crosses into a different event branch.
+
+### Source distinction
+
+The Sanskrit verse and commentary are the textual evidence for the event anchor, dṛkkarma order, six-sign shift, and iterative refinement. The current JavaScript's regression tests only show that its present formulas execute consistently; they do not show that the complete iterative Chapter IX algorithm has been implemented. See also the independently organized verse outline at https://www.vidhyamitra.com/surya-siddhanta/9, which lists IX.4–5 as the apparent-place/lagnāntara stage and IX.10–11 as the time-estimation stage.
+
+**Decision:** add event-time iteration to the research backlog, but do not implement it before the full source/target coordinate frame is defined. No production code change and no PR merge.
