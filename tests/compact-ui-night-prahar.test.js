@@ -120,3 +120,76 @@ test("classical-yoga card renders Anandadi, Dwipushkar, Tripushkar, and remainin
   assert.match(extra, /details\.yogas/);
   assert.match(extra, /function createClassicalYogaCard\(details\)/);
 });
+
+
+test("Sankalp Sanskrit forms use the selected consistent wording", () => {
+  const helperStart = source.indexOf("function toAyanaForm(v){");
+  const helperEnd = source.indexOf("function toMasaForm(v){", helperStart);
+  assert.notEqual(helperStart, -1);
+  assert.notEqual(helperEnd, -1);
+
+  const sandbox = {};
+  vm.runInNewContext(source.slice(helperStart, helperEnd), sandbox);
+
+  assert.equal(sandbox.toAyanaForm("दक्षिणायन"), "सूर्ये दक्षिणायने");
+  assert.equal(sandbox.toAyanaForm("उत्तरायण"), "सूर्ये उत्तरायणे");
+  assert.equal(sandbox.toRituForm("शरद ऋतु"), "शरदृतौ");
+  assert.equal(sandbox.toRituForm("शरद"), "शरदृतौ");
+  assert.equal(sandbox.toRituForm("वसन्त"), "वसन्तर्तौ");
+  assert.equal(sandbox.toRituForm("ग्रीष्म"), "ग्रीष्मर्तौ");
+  assert.equal(sandbox.toRituForm("वर्षा"), "वर्षार्तौ");
+  assert.equal(sandbox.toRituForm("हेमन्त"), "हेमन्तर्तौ");
+  assert.equal(sandbox.toRituForm("शिशिर"), "शिशिरर्तौ");
+
+  const varaStart = source.indexOf("function toVaraForm(v){");
+  const varaEnd = source.indexOf("\\nfunction ", varaStart + 1);
+  assert.notEqual(varaStart, -1);
+  assert.notEqual(varaEnd, -1);
+  vm.runInNewContext(source.slice(varaStart, varaEnd), sandbox);
+
+  assert.equal(sandbox.toVaraForm("रविवार"), "भानुवासरे");
+  assert.equal(sandbox.toVaraForm("सोमवार"), "चन्द्रवासरे");
+  assert.equal(sandbox.toVaraForm("मंगलवार"), "भौमवासरे");
+  assert.equal(sandbox.toVaraForm("बुधवार"), "बुधवासरे");
+  assert.equal(sandbox.toVaraForm("गुरुवार"), "गुरुवासरे");
+  assert.equal(sandbox.toVaraForm("शुक्रवार"), "भृगुवासरे");
+  assert.equal(sandbox.toVaraForm("शनिवार"), "शनिवासरे");
+});
+
+test("Auto Sandhya follows actual intervals instead of broad daytime labels", () => {
+  const start = source.indexOf("function getAutoSandhyaType(");
+  const end = source.indexOf("/* =========================================================\\n   KARMA PHRASE", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+
+  const sandbox = {
+    dateInput: { value: "2026-10-12" },
+    todayString: () => "2026-10-12"
+  };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+
+  const p = {
+    sunrise: "2026-10-12T06:09:00+05:30",
+    sunset: "2026-10-12T17:41:00+05:30",
+    brahmaMuhurta: { start: "2026-10-12T04:30:00+05:30" }
+  };
+  const praharData = {
+    nightPrahar: [
+      { start: "2026-10-12T17:41:00+05:30" },
+      {},
+      {},
+      { end: "2026-10-13T06:09:00+05:30" }
+    ]
+  };
+  const getType = time => sandbox.getAutoSandhyaType(
+    p, praharData, new Date(time)
+  );
+
+  assert.equal(getType("2026-10-12T04:50:00+05:30"), "turiya");
+  assert.equal(getType("2026-10-12T05:30:00+05:30"), "pratah");
+  assert.equal(getType("2026-10-12T11:55:00+05:30"), "madhyahna");
+  assert.equal(getType("2026-10-12T16:20:00+05:30"), "turiya");
+  assert.equal(getType("2026-10-12T17:40:00+05:30"), "turiya");
+  assert.equal(getType("2026-10-12T17:41:00+05:30"), "sayam");
+  assert.equal(getType("2026-10-12T18:32:00+05:30"), "turiya");
+});
