@@ -546,8 +546,8 @@ function createPlanetCard(
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
     <p class="planet-rise-set-note">
-      शास्त्रीय कोणीय सीमाओं (बुध 14°, शुक्र 10°, मंगल 17°, गुरु 11°, शनि 15°) पर आधारित प्रारंभिक अनुमान।
-      तिथियाँ दिन-स्तर पर हैं; ये स्थानीय दृश्यता या Drik के प्रकाशित समय नहीं हैं।
+      ग्रहों के शास्त्रीय उदय-अस्त की गणना का सत्यापन जारी है।
+      सत्यापन पूरा होने तक अनुमानित तिथियाँ प्रकाशित नहीं की जा रही हैं।
     </p>
 
     <div class="planet-rise-set-grid">
@@ -562,7 +562,7 @@ function createPlanetCard(
           </strong>
 
           ${
-            planet.asta
+            !planet.verificationPending && planet.asta
               ? `
                 <span>
                   अस्त (अनुमान) — ${planet.asta}
@@ -577,7 +577,7 @@ function createPlanetCard(
           }
 
           ${
-            planet.udaya
+            !planet.verificationPending && planet.udaya
               ? `
                 <span>
                   उदय (अनुमान) — ${planet.udaya}
@@ -592,11 +592,10 @@ function createPlanetCard(
           }
 
           ${
-            !planet.asta &&
-            !planet.udaya
+            planet.verificationPending || (!planet.asta && !planet.udaya)
               ? `
                 <span>
-                  गणना उपलब्ध नहीं
+                  ${planet.verificationPending ? 'शास्त्रीय गणना सत्यापनाधीन' : 'गणना उपलब्ध नहीं'}
                 </span>
               `
               : ""
