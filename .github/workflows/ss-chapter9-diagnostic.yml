@@ -12,6 +12,7 @@ on:
       - "ss_chapter3_lagnantara.js"
       - "ss_chapter3_ayana_math_test.js"
       - "ss_chapter1_ahargana_anchor.js"
+      - "ss_chapter1_ahargana_calendar.js"
       - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
@@ -50,6 +51,7 @@ jobs:
           node --experimental-default-type=module --check ss_chapter3_lagnantara.js
           node --experimental-default-type=module --check ss_chapter3_ayana_math_test.js
           node --experimental-default-type=module --check ss_chapter1_ahargana_anchor.js
+          node --experimental-default-type=module --check ss_chapter1_ahargana_calendar.js
 
       - name: Run arithmetic and threshold-selection tests
         run: |
@@ -122,6 +124,20 @@ jobs:
             console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
           }
           console.log(`${result.passed}/${result.total} source-anchored ahargana tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter I.45–51 traditional-calendar ahargana arithmetic tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1TraditionalAharganaTests } from './ss_chapter1_ahargana_calendar.js';
+          const result = runChapter1TraditionalAharganaTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter I traditional-ahargana tests passed`);
+          console.log(JSON.stringify(result.reference));
           console.log(result.note);
           if (!result.allPassed) process.exit(1);
           NODE
