@@ -3405,18 +3405,20 @@ function getCurrentKaalPrahar(
       now.getTime() -
       sunrise.getTime();
 
-    if(fromSunrise < 2 * oneFifth){
-
+    /*
+     * पञ्चधा दिन-विभाग:
+     * प्रातः, सङ्गव, मध्याह्न, अपराह्ण, सायाह्न।
+     * प्रत्येक भाग स्थानीय सूर्योदय-सूर्यास्त के दिनमान से निकलेगा।
+     */
+    if(fromSunrise < oneFifth){
       kaal = "प्रातः";
-
-    }else if(
-      fromSunrise < 4 * oneFifth
-    ){
-
+    }else if(fromSunrise < 2 * oneFifth){
+      kaal = "सङ्गव";
+    }else if(fromSunrise < 3 * oneFifth){
       kaal = "मध्याह्न";
-
+    }else if(fromSunrise < 4 * oneFifth){
+      kaal = "अपराह्ण";
     }else{
-
       kaal = "सायं";
     }
 
@@ -3815,11 +3817,16 @@ const useNightPraharAsKaal = !!(
   kaalPrahar.praharName
 );
 
-const kaalForm = useNightPraharAsKaal
+const kaalForm = (
+  useNightPraharAsKaal ||
+  sankalpState.type === "sandhya"
+)
   ? ""
   : ({
       "प्रातः": "प्रातःकाले",
+      "सङ्गव": "सङ्गवकाले",
       "मध्याह्न": "मध्याह्नकाले",
+      "अपराह्ण": "अपराह्णे",
       "सायं": "सायंकाले",
       "रात्रि": "रात्रिकाले"
     }[kaalPrahar.kaal] || "");
@@ -3845,9 +3852,15 @@ const praharForm = kaalPrahar.praharName
   if(samvatForm) parts.push(samvatForm);
   if(ayanaForm) parts.push(ayanaForm);
   if(rituForm) parts.push(rituForm);
-  if(masaForm) parts.push(masaForm);
+  if(masaForm) {
+    parts.push("मासानां उत्तमे मासे");
+    parts.push(masaForm);
+  }
   if(pakshaForm) parts.push(pakshaForm);
-  if(tithiForm) parts.push(tithiForm);
+  if(tithiForm) {
+    parts.push("गुणविशेषणविशिष्टायां शुभपुण्य तिथौ");
+    parts.push(tithiForm);
+  }
   if(varaForm) parts.push(varaForm);
   if(nakshatraForm) parts.push(nakshatraForm);
   if(yogaForm) parts.push(yogaForm);
