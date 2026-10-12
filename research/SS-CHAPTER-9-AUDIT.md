@@ -470,3 +470,36 @@ A research-only helper and tests now explicitly check the ordinal intervals for 
 The rounded longitudes previously transcribed for the Vidhyamitra ledger imply approximately `27.5889` elapsed tithis at apparent noon. That remains a rough comparator only: the exact source timestamp, longitude precision, time standard, and conversion from the displayed “apparent noon at Ujjayinī” to the Chapter I result at Laṅkā midnight have not been independently reconstructed. The 1827 benchmark validates the integer quotient arithmetic and its inclusive tithi-day convention, but it does not validate the 2026 fractional-time mapping.
 
 **Current result:** one concrete input-label defect is now guarded by tests; the Ahargaṇa epoch/time boundary is still **not certified**. No adjustment has been made to force the output to match the external ledger.
+
+
+## External benchmark snapshot supplied by project owner — 12 October 2026
+
+Observer reported by TKS: Pithoragarh, 29.58° N (the displayed data does not state elevation or an explicit timezone; the timestamps below are transcribed as displayed and should be confirmed as IST before sub-hour comparison).
+
+### TKS Shāstrīya · Sūrya-siddhānta IX layer
+
+| Body | Reported state at capture | TKS classical event times | Current research K-candidate bracket | Initial interpretation |
+|---|---|---|---|---|
+| Venus | Asta | Asta began 12 Oct 2026 10:20:13; next Udaya 31 Oct 2026 12:06:13; next Asta 12 Jul 2027 05:29:31 | Asta 11 Oct 17:43 → 12 Oct 17:42; Udaya 28 Oct 06:19 → 29 Oct 06:20 | Asta civil date is broadly consistent, but the exact event-time meaning is not yet matched; Udaya differs by roughly two civil days. |
+| Jupiter | Udaya | Udaya began 11 Aug 2026 03:40:54; next Asta 20 Aug 2027 00:48:16; next Udaya 12 Sep 2027 23:14:18 | Asta 12 Aug 18:53 → 13 Aug 18:52; Udaya 12 Sep 05:52 → 13 Sep 05:52 | The 2027 Asta date differs by about 7–8 days. The Udaya civil date is near the bracket, but the clock time cannot be compared until TKS's IX.10–11 event-time convention is reproduced. |
+| Agastya | Udaya | Asta 17 May 2027; Udaya 23 Aug 2027; TKS labels the method Sūrya-siddhānta IX.17, nakṣatra rising/setting | Not calculated in the current four-case planetary test set | Keep as a separate fixed-star/nakṣatra test case; do not apply planetary IX.6–8 thresholds to Agastya. |
+
+### TKS “scientific (photometric)” output — separate model
+
+| Body | Reported photometric events |
+|---|---|
+| Venus | Asta 12 Oct 2026 18:02:15; Udaya 28 Oct 2026 05:58:44; Asta 22 Jul 2027 05:07:06 |
+| Jupiter | Asta 16 Aug 2027 19:19:41; Udaya 12 Sep 2027 05:16:25; Asta 16 Sep 2028 18:40:42 |
+| Agastya | Asta 12 Apr 2027; Udaya 19 Sep 2027 |
+
+These are an owner-supplied snapshot, not independently fetched or verified in this audit. The two TKS sections must remain distinct: the Shāstrīya K/C result is not the same calculation as the photometric visibility result. In particular, do not treat the photometric date as proof of the Chapter IX K crossing, and do not call a longitude-threshold crossing “photometric.”
+
+### What this comparison tells us (and does not tell us)
+
+1. The Venus Asta civil date from the current K candidate and the TKS Shāstrīya date are close, but the reported TKS time (10:20) is not the daily sunset sample used by the current bracket. It is not a precise agreement until the time coordinate and IX.10–11 interpolation are reconstructed.
+2. Venus Udaya remains an unresolved multi-day discrepancy: the current K bracket is 28–29 October, while the TKS Shāstrīya output reports 31 October. This must be investigated from intermediate values, not fixed by shifting an ayanāṃśa or threshold.
+3. Jupiter Asta is the strongest current classical discrepancy: the current K bracket is 12–13 August 2027 versus TKS 20 August 2027. The frame/meridian and event-time interpretation gates remain open, so no cause is assigned yet.
+4. TKS photometric Venus Udaya (28 October 05:58) and Jupiter Asta (16 August 19:19) are useful modern visibility comparators, but they are not equivalent to a Chapter IX threshold calculation. The research page's apparent ecliptic-longitude threshold and 3-D elongation columns are also not photometric visibility models.
+5. Agastya is a new scope item. Its IX.17 nakṣatra rising/setting method needs a separate source-based implementation and validation fixture; it should not be forced through the planetary K/C pipeline.
+
+**Next comparison step:** capture TKS's exact page output and its observer/time settings, then log our Sun/planet state, chosen sunrise/sunset anchor, both dṛkkarma components, K, C, signed relative daily motion, and IX.10–11 estimated days at the same anchor. Do this for Venus Udaya and Jupiter Asta first. No parameter tuning, no production changes, and no merge based on this snapshot alone.
