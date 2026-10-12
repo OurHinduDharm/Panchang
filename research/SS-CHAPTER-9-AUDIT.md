@@ -424,3 +424,12 @@ Added `ss_classical_frame.js` and `ss_classical_frame_test.js` on the research b
 The inverse is implemented separately. CI run [38248445775](https://github.com/OurHinduDharm/Panchang/actions/runs/38248445775) passed **7/7** isolated transform tests: inverse round-trip, norm preservation, orthonormal basis, longitude-minus-ayana with latitude preservation, identity case, and invalid-input rejection. The same run passed the existing ahargana/Chapter III/VII/IX checks, headless Chromium, and production-isolation guard.
 
 **Scope boundary:** this is now a tested planetary-vector transform candidate, not a solved Chapter IX coordinate frame. It does not construct the local meridian or prove how local sidereal time/hour angle should be generated in the classical model. The helper is not wired into the event-date engine; the obliquity-only local-meridian candidate remains separate. The next unresolved part is the local meridian/hour-angle construction in the same classical frame, with a source-derived time argument. No production files changed and the PR remains Draft.
+
+
+## Ahargana date alignment and local-meridian candidate — 12 October 2026
+
+A fresh read of the live Vidhyamitra ledger shows **11 October 2026**, apparent noon at Ujjayinī, with Ahargana **7,14,40,41,69,486.5** and ayanāṃśa 22.9123°. The research anchor's archived 8 October reference is 714404169483.5; the three-day difference is consistent with the ledger's one-day-per-day progression, not a three-day epoch error. This does **not** resolve the fractional-tithi question: the rounded Sun/Moon longitudes at apparent noon imply a tithi fraction different from the synthetic 26.5 input, and the ledger's apparent-noon value is not the Chapter I.48–51 Lanka-midnight result. Keep those as separate issues.
+
+Source: [Vidhyamitra Sūrya Siddhānta live ledger](https://www.vidhyamitra.com/surya-siddhanta).
+
+The local-meridian candidate in `ss_classical_frame.js` now explicitly transforms the meridian plane and intersects it with the classical target equator. The isolated frame-test step passed with the new identity, six-angle independent plane-intersection, and ayana/ecliptic-origin cases. This makes the geometry reproducible; the assumption that this is the source-faithful Chapter VII/IX time construction remains open. It is not connected to the event engine.
