@@ -47,6 +47,23 @@ Sources: https://tksephemeris.com/tks-home and https://tksephemeris.com/tks-uday
 
 A second independent implementation describes its daily output as calculated from the Sūrya Siddhānta's own rules, at Ujjayinī, using no bīja correction. That is a different benchmark from applying Chapter VII/IX corrections to modern ephemeris positions at Pithoragarh. The two should not be compared as if they were the same calculation pipeline. See https://vidhyamitra.com/surya-siddhanta/9 and the chapter overview at https://vidhyamitra.com/surya-siddhanta.
 
+## Latest checkpoint — 12 October 2026
+
+- The isolated Chapter IX event-classification tests now explicitly cover superior-planet branches for Jupiter, Mars, and Saturn, plus both directions for retrograde/direct Mercury.
+- GitHub Actions run: https://github.com/OurHinduDharm/Panchang/actions/runs/38208959013 — **success**. This includes Node formula tests, Chapter VII tests, Chapter III tests, the research page in headless Chromium, and the production-file identity check.
+- This is an automated/headless browser pass only. It is not a test on the user's Android device and does not validate the date fixtures as astronomical ground truth.
+- Production isolation verified by blob identity against `main`: `app.js` and `extra-panchang.js` are unchanged. The research branch has not been merged.
+
+## Decision gate before calling the method validated
+
+1. **Resolve coordinate-frame convention.** Derive and document whether the classical 24° construction is a changed ecliptic-to-equatorial transform in a fixed equatorial frame or a changed equator frame; do not mix apparent sidereal time and coordinates from different frames. Verify the derivation with an independent vector construction and an authoritative numerical example.
+2. **Recover each fixture's provenance.** For every Venus/Jupiter reference, record exact source URL, source publication/update date, observer coordinates/elevation, timezone, the event's local date/time meaning, and whether it is classical, apparent-angular, or physical visibility.
+3. **Compare like with like.** Recompute each event using the same observer and instant with an independently sourced ephemeris; report intermediate Sun/planet coordinates, dṛkkarma components, signed lagnāntara, selected IX.6–8 limit, and the resulting crossing bracket. Never tune a formula to force a date match.
+4. **Expand coverage to all five planets.** Keep each planet's source-specific rule and event branch explicit. Unknown or stationary cases must be reported as unresolved rather than assigned a guessed limit.
+5. **Human review and device check.** Once the preceding checks are reproducible, ask the project owner to inspect the research page on Android. Only after that review should a minimal production integration be proposed.
+
+**Decisive stage definition:** the method is ready for a production proposal only when the coordinate-frame blocker is resolved, each claimed benchmark has traceable provenance, independent same-condition recomputation agrees within a declared tolerance, and all event branches have passing regression tests. A green CI run alone is not this decision.
+
 ## Code audit findings (research branch)
 
 1. **Correction order and Akṣa inputs:** Burgess's note says Āyana-corrected longitude gives the ecliptic point on the six-o'clock line, then Akṣa correction gives the point on the horizon. Verse VII.8 specifies the planet's own meridian-time and half-day quantities. The helper therefore applies Āyana to the intermediate longitude but calculates Akṣa's hour angle and half-day from the original planet's longitude and signed ecliptic latitude, using the stated 24° obliquity. This is a source-supported interpretation that now has a direct regression test; it still needs independent numerical validation.
