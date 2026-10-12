@@ -102,11 +102,20 @@ export function classifyChapter9HorizonEvent({
     return null;
   }
 
-  const delta = ((planetLongitudeDeg - sunLongitudeDeg + 540) % 360) - 180;
-  if (Math.abs(delta) < 1e-7) return null;
+  const planetLongitude = ((planetLongitudeDeg % 360) + 360) % 360;
+  const sunLongitude = ((sunLongitudeDeg % 360) + 360) % 360;
+  const longitudeDifference = planetLongitude - sunLongitude;
+  if (Math.abs(longitudeDifference) < 1e-7) return null;
+
+  /*
+   * IX.2–3 says abhyadhika / ūna relative to the Sun: greater or less
+   * zodiacal longitude. Do not replace that ordering with the shortest
+   * signed circular separation; it reverses the branch across 0° Aries.
+   */
+  const planetLongitudeGreater = longitudeDifference > 0;
 
   if (planet === "Jupiter" || planet === "Mars" || planet === "Saturn") {
-    return delta > 0 ? "west-setting" : "east-rising";
+    return planetLongitudeGreater ? "west-setting" : "east-rising";
   }
 
   if (planet !== "Venus" && planet !== "Mercury") return null;
@@ -115,10 +124,10 @@ export function classifyChapter9HorizonEvent({
   }
 
   if (dailyMotionDegPerDay < 0) {
-    return delta > 0 ? "west-setting" : "east-rising";
+    return planetLongitudeGreater ? "west-setting" : "east-rising";
   }
 
-  return delta < 0 ? "east-setting" : "west-rising";
+  return planetLongitudeGreater ? "west-rising" : "east-setting";
 }
 
 /**
@@ -276,7 +285,10 @@ export function runChapter9ArithmeticTests() {
     { name: "Mars uses the superior-planet east-rising branch", args: { planet: "Mars", planetLongitudeDeg: 99, sunLongitudeDeg: 100 }, expected: "east-rising" },
     { name: "Saturn uses the superior-planet west-setting branch", args: { planet: "Saturn", planetLongitudeDeg: 101, sunLongitudeDeg: 100 }, expected: "west-setting" },
     { name: "Saturn uses the superior-planet east-rising branch", args: { planet: "Saturn", planetLongitudeDeg: 99, sunLongitudeDeg: 100 }, expected: "east-rising" },
-    { name: "Longitude wrap is treated as a signed short separation", args: { planet: "Jupiter", planetLongitudeDeg: 359.5, sunLongitudeDeg: 0.5 }, expected: "east-rising" },
+    { name: "Superior planet at 359.5° is greater than Sun at 0.5° across zodiac wrap", args: { planet: "Jupiter", planetLongitudeDeg: 359.5, sunLongitudeDeg: 0.5 }, expected: "west-setting" },
+    { name: "Superior planet at 0.5° is less than Sun at 359.5° across zodiac wrap", args: { planet: "Jupiter", planetLongitudeDeg: 0.5, sunLongitudeDeg: 359.5 }, expected: "east-rising" },
+    { name: "Direct Venus uses zodiac ordering across 0° Aries", args: { planet: "Venus", planetLongitudeDeg: 359.5, sunLongitudeDeg: 0.5, dailyMotionDegPerDay: 1 }, expected: "west-rising" },
+    { name: "Retrograde Venus uses zodiac ordering across 0° Aries", args: { planet: "Venus", planetLongitudeDeg: 359.5, sunLongitudeDeg: 0.5, dailyMotionDegPerDay: -0.5 }, expected: "west-setting" },
     { name: "Retrograde Venus follows IX.2 west-setting branch", args: { planet: "Venus", planetLongitudeDeg: 101, sunLongitudeDeg: 100, dailyMotionDegPerDay: -0.5 }, expected: "west-setting" },
     { name: "Retrograde Venus follows IX.2 east-rising branch", args: { planet: "Venus", planetLongitudeDeg: 99, sunLongitudeDeg: 100, dailyMotionDegPerDay: -0.5 }, expected: "east-rising" },
     { name: "Direct Venus follows IX.3 east-setting branch", args: { planet: "Venus", planetLongitudeDeg: 99, sunLongitudeDeg: 100, dailyMotionDegPerDay: 1 }, expected: "east-setting" },
