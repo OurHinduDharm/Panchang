@@ -37,6 +37,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -195,5 +196,5 @@ jobs:
 
       - name: Confirm production Panchang files are unchanged
         run: |
-          git fetch origin main --depth=1
-          git diff --exit-code origin/main -- app.js extra-panchang.js
+          git fetch origin main
+          git diff --exit-code origin/main...HEAD -- app.js extra-panchang.js
