@@ -358,6 +358,50 @@ export function runClassicalFrameTransformTests() {
     passed: rejectedBadAngle
   });
 
+  // Deterministic property-style sweep over multiple explicit frame choices.
+  // These are numerical invariants only; the angle sets are not claims about
+  // the historically correct Chapter III frame.
+  const frameSweep = [
+    { sourceObliquityDeg: 23.4, ayanamshaDeg: 0, classicalObliquityDeg: 23.4 },
+    { sourceObliquityDeg: 23.4367, ayanamshaDeg: 22.9123, classicalObliquityDeg: 23.9751819 },
+    { sourceObliquityDeg: 23.4367, ayanamshaDeg: 24.217, classicalObliquityDeg: 24 },
+    { sourceObliquityDeg: 23.7, ayanamshaDeg: 27, classicalObliquityDeg: 23.9751819 }
+  ];
+  const sweepVectors = Array.from({ length: 256 }, (_, i) => {
+    const a = (i + 1) * 0.6180339887498948;
+    const z = 2 * (((i * 73) % 257) / 256) - 1;
+    const radius = Math.sqrt(1 - z * z);
+    return [radius * Math.cos(a), radius * Math.sin(a), z];
+  });
+  tests.push({
+    name: "Deterministic 1,024-case frame sweep preserves norm and inverse round-trip across four explicit angle sets",
+    passed: frameSweep.every(frameArgs => sweepVectors.every(v => {
+      const transformed = modernEquatorialToClassicalEquatorial(v, frameArgs);
+      const roundTrip = classicalEquatorialToModernEquatorial(transformed, frameArgs);
+      return close(norm(transformed), norm(v), 2e-10) &&
+        vectorClose(roundTrip, v, 2e-10);
+    }))
+  });
+
+  tests.push({
+    name: "Transformed meridian plane contains transformed sample points across six angles and five declinations",
+    passed: meridianAngles.every(thetaDeg => {
+      const theta = thetaDeg * DEG;
+      const sourceNormal = cross([0, 0, 1], [Math.cos(theta), Math.sin(theta), 0]);
+      const targetNormal = modernEquatorialToClassicalEquatorial(sourceNormal, args);
+      return [-80, -45, 0, 37, 89].every(decDeg => {
+        const dec = decDeg * DEG;
+        const sourcePoint = [
+          Math.cos(dec) * Math.cos(theta),
+          Math.cos(dec) * Math.sin(theta),
+          Math.sin(dec)
+        ];
+        const targetPoint = modernEquatorialToClassicalEquatorial(sourcePoint, args);
+        return Math.abs(dot(targetNormal, targetPoint)) < 2e-10;
+      });
+    })
+  });
+
   return {
     tests,
     passed: tests.filter(test => test.passed).length,
