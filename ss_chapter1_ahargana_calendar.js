@@ -22,6 +22,29 @@ export const SS_CHAPTER1_AHARGANA_CONSTANTS = Object.freeze({
   savanaDaysPerYuga: 1577917828n
 });
 
+/**
+ * Return the elapsed-tithi interval for a named paksha tithi, counted from
+ * Śukla Pratipadā at the beginning of the lunar month.
+ *
+ * Example: Kṛṣṇa Trayodaśī begins after 27 complete tithis, so its elapsed
+ * tithi coordinate is in [27, 28). This identifies the ordinal interval only;
+ * it does not infer the fractional position at a particular instant.
+ */
+export function chapter1ElapsedTithiRangeFromPakshaTithi(paksha, tithiOrdinal) {
+  if (paksha !== "shukla" && paksha !== "krishna") {
+    throw new TypeError('paksha must be "shukla" or "krishna".');
+  }
+  if (!Number.isInteger(tithiOrdinal) || tithiOrdinal < 1 || tithiOrdinal > 15) {
+    throw new TypeError("tithiOrdinal must be an integer from 1 to 15.");
+  }
+  const startElapsedTithis =
+    (paksha === "shukla" ? 0 : 15) + tithiOrdinal - 1;
+  return {
+    startElapsedTithis,
+    endElapsedTithis: startElapsedTithis + 1
+  };
+}
+
 export function chapter1AharganaFromTraditionalDate({
   elapsedSolarYearsSinceKritaEnd,
   elapsedMonthsFromCaitraShukla,
@@ -196,6 +219,39 @@ export function runChapter1TraditionalAharganaTests() {
       close(apparentNoonAlternative.ahargana - reference.ahargana, 1.0888888889, 0.001)
   });
 
+  const tithiOrdinalChecks = [
+    ["Śukla Pratipadā maps to elapsed interval [0, 1)", "shukla", 1, 0, 1],
+    ["Śukla Pūrṇimā maps to elapsed interval [14, 15)", "shukla", 15, 14, 15],
+    ["Kṛṣṇa Pratipadā maps to elapsed interval [15, 16)", "krishna", 1, 15, 16],
+    ["Kṛṣṇa Trayodaśī maps to elapsed interval [27, 28)", "krishna", 13, 27, 28]
+  ];
+  for (const [name, paksha, ordinal, expectedStart, expectedEnd] of tithiOrdinalChecks) {
+    const interval = chapter1ElapsedTithiRangeFromPakshaTithi(paksha, ordinal);
+    tests.push({
+      name,
+      passed: interval.startElapsedTithis === expectedStart &&
+        interval.endElapsedTithis === expectedEnd
+    });
+  }
+
+  const trayodashiRange = chapter1ElapsedTithiRangeFromPakshaTithi("krishna", 13);
+  tests.push({
+    name: "The synthetic 26.5 elapsed-tithi input is outside the ordinal range for 8 Oct 2026 Kṛṣṇa Trayodaśī",
+    passed: 26.5 < trayodashiRange.startElapsedTithis ||
+      26.5 >= trayodashiRange.endElapsedTithis
+  });
+
+  let rejectedBadPaksha = false;
+  try {
+    chapter1ElapsedTithiRangeFromPakshaTithi("bright", 13);
+  } catch (error) {
+    rejectedBadPaksha = error instanceof TypeError;
+  }
+  tests.push({
+    name: "Unknown paksha label is rejected by the ordinal interval helper",
+    passed: rejectedBadPaksha
+  });
+
   let rejectedFraction = false;
   try {
     chapter1AharganaFromTraditionalDate({
@@ -225,6 +281,6 @@ export function runChapter1TraditionalAharganaTests() {
       elapsedTithis: apparentNoonElapsedTithis,
       ahargana: apparentNoonAlternative.ahargana
     },
-    note: "The algorithm follows Chapter I.45–51 arithmetic, but the 26.5-tithi fixture is synthetic. Rounded source longitudes imply about 27.59 elapsed tithis at apparent noon; treating that as the I.50 input gives an Ahargana about 1.089 days above the displayed reference. Since I.50 specifies Lanka midnight, this is a time-boundary/input mismatch to resolve, not proof that either value is correct. Civil-date conversion and the ±1 adhika-month decision also remain open."
+    note: "The arithmetic fixture at 26.5 elapsed tithis is synthetic and is outside the ordinal interval for the independently identified 8 Oct 2026 Kṛṣṇa Trayodaśī date. Rounded source longitudes imply about 27.59 elapsed tithis at apparent noon; treating that as the I.50 input gives an Ahargana about 1.089 days above the displayed reference. Since I.50 specifies Lanka midnight, this is a time-boundary/input mismatch to resolve, not proof that either value is correct. Civil-date conversion and the ±1 adhika-month decision also remain open."
   };
 }
