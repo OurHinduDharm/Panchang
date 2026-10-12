@@ -22,7 +22,11 @@ on:
       - "ss_chapter9_test.js"
       - "ss_chapter7_drikkarma.js"
       - "ss_chapter3_lagnantara.js"
+      - "ss_chapter3_ayana_math_test.js"
+      - "ss_chapter1_ahargana_anchor.js"
+      - "ss_chapter1_ahargana_calendar.js"
       - "ss_chapter9_browser_test.mjs"
+      - "research/SS-CHAPTER-9-AUDIT.md"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   workflow_dispatch:
 
