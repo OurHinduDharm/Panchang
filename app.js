@@ -3762,12 +3762,24 @@ const chandraSthitiForm =
     ctx.referenceNow
   );
 
-const kaalForm = {
-  "प्रातः": "प्रातःकाले",
-  "मध्याह्न": "मध्याह्नकाले",
-  "सायं": "सायंकाले",
-  "रात्रि": "रात्रिकाले"
-}[kaalPrahar.kaal] || "";
+/*
+ * यदि रात्रि-प्रहर विकल्प चुना है और अभी वास्तविक रात्रि-प्रहर सक्रिय है,
+ * तो "रात्रिकाले" के साथ प्रहर जोड़ने के बजाय प्रहर उसी का स्थान लेगा।
+ * दिन में प्रातः/मध्याह्न/सायं का काल यथावत रहेगा।
+ */
+const useNightPraharAsKaal = !!(
+  kaalPrahar.kaal === "रात्रि" &&
+  kaalPrahar.praharName
+);
+
+const kaalForm = useNightPraharAsKaal
+  ? ""
+  : ({
+      "प्रातः": "प्रातःकाले",
+      "मध्याह्न": "मध्याह्नकाले",
+      "सायं": "सायंकाले",
+      "रात्रि": "रात्रिकाले"
+    }[kaalPrahar.kaal] || "");
 
 const praharForm = kaalPrahar.praharName
   ? (kaalPrahar.praharName + " प्रहरे")
