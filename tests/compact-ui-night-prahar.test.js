@@ -193,3 +193,37 @@ test("Auto Sandhya follows actual intervals instead of broad daytime labels", ()
   assert.equal(getType("2026-10-12T17:41:00+05:30"), "sayam");
   assert.equal(getType("2026-10-12T18:32:00+05:30"), "turiya");
 });
+
+
+test("Sankalp kaal covers every daylight division and sunrise/sunset boundaries", () => {
+  const start = source.indexOf("function getCurrentKaalPrahar(");
+  const end = source.indexOf("\n/* =========================================================\n   SANKALP TYPE — AUTO SANDHYA", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+  const sandbox = { sankalpState: { includeNightPrahar: false } };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+  const p = {
+    sunrise: "2026-10-12T06:09:00+05:30",
+    sunset: "2026-10-12T17:41:00+05:30",
+    brahmaMuhurta: { start: "2026-10-12T04:30:00+05:30" }
+  };
+  const getKaal = time => sandbox.getCurrentKaalPrahar(p, null, new Date(time)).kaal;
+  const cases = [
+    ["2026-10-12T04:29:59+05:30", "रात्रि"],
+    ["2026-10-12T04:30:00+05:30", "प्रातः"],
+    ["2026-10-12T08:27:23+05:30", "प्रातः"],
+    ["2026-10-12T08:27:24+05:30", "सङ्गव"],
+    ["2026-10-12T10:45:47+05:30", "सङ्गव"],
+    ["2026-10-12T10:45:48+05:30", "मध्याह्न"],
+    ["2026-10-12T13:04:11+05:30", "मध्याह्न"],
+    ["2026-10-12T13:04:12+05:30", "अपराह्ण"],
+    ["2026-10-12T15:22:35+05:30", "अपराह्ण"],
+    ["2026-10-12T15:22:36+05:30", "सायं"],
+    ["2026-10-12T17:40:59+05:30", "सायं"],
+    ["2026-10-12T17:41:00+05:30", "रात्रि"],
+    ["2026-10-12T23:59:59+05:30", "रात्रि"]
+  ];
+  for (const [time, expected] of cases) {
+    assert.equal(getKaal(time), expected, "unexpected kaal at " + time);
+  }
+});
