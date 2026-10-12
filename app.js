@@ -3424,15 +3424,13 @@ function getCurrentKaalPrahar(
      * प्रातः, सङ्गव, मध्याह्न, अपराह्ण, सायाह्न।
      * प्रत्येक भाग स्थानीय सूर्योदय-सूर्यास्त के दिनमान से निकलेगा।
      */
-    if(fromSunrise < oneFifth){
+    if(fromSunrise < 2 * oneFifth){
+      /* प्रातः + सङ्गव को संकल्प में एक व्यापक प्रातःकाल रखें। */
       kaal = "प्रातः";
-    }else if(fromSunrise < 2 * oneFifth){
-      kaal = "सङ्गव";
     }else if(fromSunrise < 3 * oneFifth){
       kaal = "मध्याह्न";
-    }else if(fromSunrise < 4 * oneFifth){
-      kaal = "अपराह्ण";
     }else{
+      /* अपराह्ण + सायाह्न को संकल्प में व्यापक सायंकाल रखें। */
       kaal = "सायं";
     }
 
@@ -3765,28 +3763,16 @@ const chandraSthitiForm =
   );
 
 /*
- * यदि रात्रि-प्रहर विकल्प चुना है और अभी वास्तविक रात्रि-प्रहर सक्रिय है,
- * तो "रात्रिकाले" के साथ प्रहर जोड़ने के बजाय प्रहर उसी का स्थान लेगा।
- * दिन में प्रातः/मध्याह्न/सायं का काल यथावत रहेगा।
+ * संकल्प का काल-शब्द स्वतंत्र रहेगा। रात्रि-प्रहर केवल अतिरिक्त विवरण है;
+ * इसलिए रात्रि में "रात्रिकाले, प्रथमप्रहरे" दोनों आएँगे।
+ * संध्या-संकल्प में भी चुने हुए वर्तमान काल का उल्लेख बना रहेगा।
  */
-const useNightPraharAsKaal = !!(
-  kaalPrahar.kaal === "रात्रि" &&
-  kaalPrahar.praharName
-);
-
-const kaalForm = (
-  useNightPraharAsKaal ||
-  sankalpState.type === "sandhya"
-)
-  ? ""
-  : ({
-      "प्रातः": "प्रातःकाले",
-      "सङ्गव": "सङ्गवकाले",
-      "मध्याह्न": "मध्याह्नकाले",
-      "अपराह्ण": "अपराह्णे",
-      "सायं": "सायंकाले",
-      "रात्रि": "रात्रिकाले"
-    }[kaalPrahar.kaal] || "");
+const kaalForm = ({
+  "प्रातः": "प्रातःकाले",
+  "मध्याह्न": "मध्याह्नकाले",
+  "सायं": "सायंकाले",
+  "रात्रि": "रात्रिकाले"
+}[kaalPrahar.kaal] || "");
 
 const praharForm = kaalPrahar.praharName
   ? (kaalPrahar.praharName + " प्रहरे")
@@ -3810,7 +3796,8 @@ const praharForm = kaalPrahar.praharName
   if(ayanaForm) parts.push(ayanaForm);
   if(rituForm) parts.push(rituForm);
   if(masaForm) {
-    parts.push("मासानामुत्तमे महामाङ्गल्ये " + masaForm);
+    /* प्रचलित संकल्प-वाक्य: "मासानामुत्तमे आश्विनमासे"। */
+    parts.push("मासानामुत्तमे " + masaForm);
   }
   if(pakshaForm) parts.push(pakshaForm);
   if(tithiForm) parts.push(tithiForm);
@@ -3822,7 +3809,7 @@ if(suryaSthitiForm) parts.push(suryaSthitiForm);
 if(chandraSthitiForm) parts.push(chandraSthitiForm);
   if(kaalForm) parts.push(kaalForm);
   if(praharForm) parts.push(praharForm);
-  if(tithiForm) parts.push("एवं गुणविशिष्टायां पुण्यतिथौ");
+  if(tithiForm) parts.push("एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ");
 
   const useAvagraha = ["दासो", "गुप्तो"];
 const ahamWord = useAvagraha.includes(sankalpState.varna)
