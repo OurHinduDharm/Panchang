@@ -2738,7 +2738,8 @@ function getPlanetaryRashiHindi(position, fallback){
     }
 
     const rawName = position.rashiName ??
-      (rashiValue && typeof rashiValue === "object" ? rashiValue.name : "");
+      (typeof rashiValue === "string" ? rashiValue :
+        (rashiValue && typeof rashiValue === "object" ? rashiValue.name : ""));
     const name = String(rawName || "").trim().toLowerCase();
     const names = {
       aries:0, mesha:0, मेष:0,
@@ -3166,8 +3167,8 @@ function toAyanaForm(v){
   const s = String(v || "").trim();
 
   if(!s || s === "—") return "";
-  if(/दक्षिणायन/.test(s)) return "सूर्य दक्षिणायने";
-  if(/उत्तरायण/.test(s)) return "सूर्य उत्तरायणे";
+  if(/दक्षिणायन/.test(s)) return "दक्षिणायने";
+  if(/उत्तरायण/.test(s)) return "उत्तरायणे";
   return s.replace(/अयने\s*$/, "").replace(/अयन\s*$/, "").trim() + "े";
 }
 
@@ -3175,14 +3176,14 @@ function toRituForm(v){
   const s = String(v || "").trim();
   if(!s || s === "—") return "";
   const base = s.replace(/ऋतौ\s*$/, "").replace(/ऋतु\s*$/, "").trim();
-  return base ? base + " ऋतौ" : "";
+  return base ? base + "ऋतौ" : "";
 }
 
 function toMasaForm(v){
   const s = String(v || "").trim();
   if(!s || s === "—") return "";
   const base = s.replace(/मासे\s*$/, "").replace(/मास\s*$/, "").trim();
-  return base ? base + " मासे" : "";
+  return base ? base + "मासे" : "";
 }
 
 function toPakshaForm(v){
@@ -3193,8 +3194,8 @@ function toPakshaForm(v){
 }
 
 const tithiSanskritMap = {
-  "प्रथमा": "प्रतिपदि तिथौ",
-  "प्रतिपदा": "प्रतिपदि तिथौ",
+  "प्रथमा": "प्रतिपद्यां तिथौ",
+  "प्रतिपदा": "प्रतिपद्यां तिथौ",
   "द्वितीया": "द्वितीयायां तिथौ",
   "तृतीया": "तृतीयायां तिथौ",
   "चतुर्थी": "चतुर्थ्यां तिथौ",
@@ -3665,7 +3666,7 @@ function getKarmaPhrase(){
           : st.rudraPath;
 
       if(st.rudraMode === "sakam"){
-        return `ममात्मनः सर्वारिष्टनिरसनपूर्वकं सर्वपापक्षयार्थं मनसेप्सितफलप्राप्तिपूर्वकं श्रुतिस्मृतिपुराणोक्तफलप्राप्त्यर्थं दीर्घायुरारोग्यैश्वर्यादिवृद्ध्यर्थं लिङ्गोपरि यथोपचारैः श्रीसाम्बसदाशिवपूजनपूर्वकं ${dravya}धारया ${path} रुद्राभिषेककर्म`;
+        return `ममात्मनः सर्वारिष्टनिरसनपूर्वकं सर्वपापक्षयार्थं मनसेप्सितफलप्राप्तिपूर्वकं श्रुतिस्मृतिपुराणोक्तफलप्राप्त्यर्थं दीर्घायुरारोग्यैश्वर्यादिवृद्ध्यर्थं लिङ्गोपरि यथोपचारैः श्रीसाम्बसदाशिवपूजनपूर्वकं ${dravya}धारया ${path} रुद्राभिषेकं`;
       }
 
       return `श्रीसाम्बसदाशिवप्रीत्यर्थं लिङ्गोपरि यथोपचारैः श्रीसाम्बसदाशिवपूजनपूर्वकं ${dravya}धारया ${path} रुद्राभिषेकं`;
@@ -3697,10 +3698,10 @@ function getKarmaPhrase(){
         return `मम कायिकवाचिकमानसिकपापनिवारणार्थं, ${dev}प्रीत्यर्थं ${vratName}व्रतं`;
       }
       else if(st.vratMode === "upavas"){
-        return `मम सर्वपापक्षयार्थं, ${dev} प्रीत्यर्थं ${vratName} उपवासं`;
+        return `मम सर्वपापक्षयार्थं, ${dev}प्रीत्यर्थं ${vratName}उपवासं`;
       }
       else if(st.vratMode === "nirjal"){
-        return `${dev} प्रीत्यर्थं ${vratName} निर्जल व्रतं`;
+        return `${dev}प्रीत्यर्थं ${vratName}निर्जलव्रतं`;
       }
 
       return "मम सकलदुरितक्षयपूर्वकं नित्यकल्याणलाभाय श्रीपरमेश्वरप्रीत्यर्थं यथाशक्ति पूजन-जपादिकं";
