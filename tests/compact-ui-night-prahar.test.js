@@ -269,3 +269,39 @@ test("Auto Sandhya transitions exactly at each calculated interval boundary", ()
     assert.equal(getType(time), expected, "unexpected Sandhya transition at " + time);
   }
 });
+
+
+test("Sandhya and Tarpana phrases read naturally before the final verb", () => {
+  const start = source.indexOf("function getKarmaPhrase()");
+  const end = source.indexOf("\n/* =========================================================", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+  const sandbox = { sankalpState: {} };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+
+  const expected = {
+    pratah: "ममोपात्तसमस्तदुरितक्षयद्वारा श्रीगायत्रीप्रीत्यर्थं प्रातःसंध्योपासनं",
+    madhyahna: "ममोपात्तसमस्तदुरितक्षयद्वारा श्रीगायत्रीप्रीत्यर्थं मध्याह्नसंध्योपासनं",
+    sayam: "ममोपात्तसमस्तदुरितक्षयद्वारा श्रीगायत्रीप्रीत्यर्थं सायंसंध्योपासनं",
+    turiya: "ममोपात्तसमस्तदुरितक्षयद्वारा श्रीगायत्रीप्रीत्यर्थं तुरीयसंध्योपासनं"
+  };
+  for (const [sandhyaType, phrase] of Object.entries(expected)) {
+    sandbox.sankalpState = {
+      type: "sandhya",
+      sandhyaDevta: "श्रीगायत्री",
+      sandhyaType
+    };
+    assert.equal(sandbox.getKarmaPhrase(), phrase);
+  }
+
+  sandbox.sankalpState = { type: "tarpana", tarpanaType: "tilanjali" };
+  assert.equal(
+    sandbox.getKarmaPhrase(),
+    "मम समस्तपितॄणाम् अक्षयतृप्त्यर्थं तिलाञ्जलि-तर्पणं"
+  );
+  sandbox.sankalpState = { type: "tarpana", tarpanaType: "ekaparvan" };
+  assert.equal(
+    sandbox.getKarmaPhrase(),
+    "मम समस्तपितॄणाम् अक्षयतृप्त्यर्थं एकपार्वण-श्राद्धं"
+  );
+});
