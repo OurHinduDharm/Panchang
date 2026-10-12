@@ -243,3 +243,23 @@ Consequently, the prior four-case K fixtures must not be described as matching o
 ### Next action
 
 Before altering any formula, recover the exact provenance of the four K fixtures and build a same-location/same-time comparison ledger. Then independently recompute VII.8–10 from the source proportions and compare each intermediate term—not just the final date. Production files remain untouched; no merge is authorized by this audit.
+
+
+## Coordinate-frame audit update — 12 October 2026
+
+### A further unresolved frame mismatch was identified
+
+The local-sidereal-angle conversion added earlier is geometrically self-consistent for intersecting one physical meridian plane with two equatorial planes that share the same equinox axis. Its six-angle vector test validates that narrow identity. It does **not** establish that the planetary coordinates supplied to the calculation belong to either of those planes.
+
+The research page obtains longitude and latitude from Astronomy Engine's geocentric **ecliptic-of-date** vector. It then subtracts/adds a fixed ayanāṃśa to label the longitude sidereal/tropical, but the sequential helper recomputes the planet's RA/declination by interpreting those same longitude/latitude numbers in a **fixed 24° obliquity** ecliptic. When the source ecliptic plane and the target fixed-obliquity ecliptic are not the same plane, reusing the angles unchanged is not a valid 3-D coordinate transformation. In particular, ecliptic latitude can affect the resulting longitude and declination; this cannot be repaired solely by transforming local sidereal angle.
+
+Therefore the previous frame correction is only a partial consistency fix. The full input vector must be rotated from its documented source frame into the explicitly defined calculation frame before extracting target-frame ecliptic longitude/latitude or RA/declination. The equinox convention (mean versus true/apparent), precession/nutation treatment, and the relation between the selected ayanāṃśa and the source ecliptic must be specified together. Until this is derived, the current K values and event brackets remain exploratory and must not be used to validate or reject the classical method.
+
+### Required next check before changing the implementation
+
+1. Document Astronomy Engine's exact output frame for GeoVector and Ecliptic, and the time/equinox frame returned by SiderealTime.
+2. Define the intended classical frame as explicit axes, not just the scalar value “24°”: identify its equinox axis, ecliptic pole, epoch, and how the sidereal longitude/ayanāṃśa is related to it.
+3. Construct an independent 3-D rotation from the source frame to that target frame. Verify it with round-trip vector tests and special cases (zero latitude, nonzero latitude, equinox/solstice directions, and dates on both sides of the epoch).
+4. Only then recompute the Chapter VII terms and the four event cases. Keep the old values as a labelled baseline so the change is measurable; do not tune a threshold to match a published date.
+
+**Decision status:** the coordinate-frame gate is still open. Existing CI establishes arithmetic invariants and page wiring, not frame correctness or source-faithful event dates. Production files remain unchanged and no merge is authorized.
