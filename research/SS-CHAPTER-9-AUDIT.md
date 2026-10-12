@@ -433,3 +433,17 @@ A fresh read of the live Vidhyamitra ledger shows **11 October 2026**, apparent 
 Source: [Vidhyamitra Sūrya Siddhānta live ledger](https://www.vidhyamitra.com/surya-siddhanta).
 
 The local-meridian candidate in `ss_classical_frame.js` now explicitly transforms the meridian plane and intersects it with the classical target equator. The isolated frame-test step passed with the new identity, six-angle independent plane-intersection, and ayana/ecliptic-origin cases. This makes the geometry reproducible; the assumption that this is the source-faithful Chapter VII/IX time construction remains open. It is not connected to the event engine.
+
+
+## Chapter II.28 sine-table obliquity regression — 12 October 2026
+
+The isolated frame helper now derives the text's tabular greatest-declination angle from the stated sine and radius instead of silently treating the ratio as exactly 24°:
+
+- Chapter II.28 inputs: maximum-declination sine = 1397; sine-table radius = 3438.
+- Exact inverse-sine diagnostic: asin(1397 / 3438) = approximately **23.9751819°**.
+- Rounded traditional construction: **24°** remains a distinct approximation and is not overwritten or retroactively treated as the exact inverse-sine result.
+- Added regression checks for the derived value, explicit separation from 24°, and rejection of an invalid sine-table ratio.
+
+Sources: [Sūrya Siddhānta II.28, Sanskrit and computation](https://www.siva.sh/surya-siddhanta/2/28); [Vidhyamitra, Chapter II.28](https://vidhyamitra.com/surya-siddhanta/2).
+
+**Scope:** this isolates the textual sine-table constant and its mathematical consequence. It does not prove which obliquity convention should drive every Chapter VII/IX step, and it does not resolve the local-meridian/time argument. The new tests must pass in CI before this addition is marked verified. The full coordinate transform remains research-only and is not connected to event-date calculation.
