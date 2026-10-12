@@ -93,3 +93,17 @@ These tests can establish implementation consistency and catch sign/unit bugs. T
 ## Decision
 
 **No production patch and no PR merge.** The next useful code artifact is a source-aware unit/sign test once the remaining definitions above are explicitly decided. Do not add a second copy of the same candidate formula and treat a passing duplicate as independent validation.
+
+
+## Chapter III frame blocker: do not equate classical ayana with a modern ayanāṃśa
+
+Chapter III.9–12 must be considered before choosing a target frame for a Chapter VII implementation. Burgess reads III.9–10 as a to-and-fro motion (libration) of the circle of asterisms/equinox relative to a fixed stellar reference, with the amount computed from elapsed days. He explicitly interprets the model as a libration with limits of 27° in either direction from ζ Piscium and a 7,200-year libration period. This historical reading is not the same model as simply subtracting a present-day Lahiri/Chitrapaksha ayanāṃśa from modern tropical longitude. Source: https://www.swaveda.com/texts/surya-siddhanta/3/ (III.9–12 and Burgess's note).
+
+Consequences for the research code:
+
+- The current candidate's `ayanamshaDeg = 24.217` is a configurable modern offset used to reconstruct a tropical longitude from an input labelled sidereal. It is **not yet justified as the Sūrya-siddhānta's own epoch-dependent ayana value**.
+- The Chapter VII term `ayana dṛkkarma` in VII.10 is a separate local apparent-longitude correction derived from planetary latitude and a declination. It must not be conflated with the Chapter III precession/stellar-reference model just because both use the word `ayana`.
+- Before claiming a fully classical frame, define the source ephemeris coordinates, epoch/equinox, fixed stellar reference, the Chapter III ayana model or a justified alternative, the 24° obliquity convention, and how local sidereal time is represented in that same frame.
+- A modern sidereal longitude plus a contemporary ayanāṃśa can be used as a clearly labelled *bridge for diagnostic comparison*, but it must not be labelled a historically validated Sūrya-siddhānta coordinate frame.
+
+This source review strengthens the existing frame blocker; it does not select a unique transformation. Burgess's historical interpretation is a primary translation/commentary witness, not proof that every modern reconstruction must adopt it without considering the Sanskrit and commentarial tradition.
