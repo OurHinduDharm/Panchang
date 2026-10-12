@@ -158,6 +158,27 @@ export function runChapter1TraditionalAharganaTests() {
       close(ordinalAlternative.ahargana - reference.ahargana, 1)
   });
 
+  // Rounded true longitudes published for the same apparent-noon reference:
+  // Sun Kanyā 20°10′, Moon Siṃha 21°14′. This derives a rough elongation and
+  // tithi fraction at apparent noon, but is NOT silently used as the I.50
+  // midnight input because the source's time boundary still needs resolution.
+  const sunLongitudeDeg = 150 + 20 + 10 / 60;
+  const moonLongitudeDeg = 120 + 21 + 14 / 60;
+  const apparentNoonElongationDeg =
+    ((moonLongitudeDeg - sunLongitudeDeg) % 360 + 360) % 360;
+  const apparentNoonElapsedTithis = apparentNoonElongationDeg / 12;
+  const apparentNoonAlternative = chapter1AharganaFromTraditionalDate({
+    elapsedSolarYearsSinceKritaEnd: 2165127,
+    elapsedMonthsFromCaitraShukla: 5,
+    elapsedTithisInCurrentMonth: apparentNoonElapsedTithis,
+    intercalaryMonthAdjustment: 0
+  });
+  tests.push({
+    name: "Rounded source longitudes imply about 27.59 elapsed tithis at apparent noon; treating that as the I.50 input does not reproduce the displayed Ahargana",
+    passed: close(apparentNoonElapsedTithis, 27.5888888889, 1e-8) &&
+      close(apparentNoonAlternative.ahargana - reference.ahargana, 1.0888888889, 1e-6)
+  });
+
   let rejectedFraction = false;
   try {
     chapter1AharganaFromTraditionalDate({
@@ -180,6 +201,13 @@ export function runChapter1TraditionalAharganaTests() {
     allPassed: tests.every(test => test.passed),
     reference,
     ordinalAlternative,
-    note: "The algorithm follows Chapter I.45–51 arithmetic, but the 26.5-tithi fixture is synthetic. The 2026-10-08 source ledger labels Kṛṣṇa Trayodaśī; a 27.5 elapsed-tithi alternative shifts the result by one day, so the exact month/tithi ordinal and day-boundary convention remain unresolved. Civil-date conversion and the ±1 adhika-month decision also remain open."
+    apparentNoonAlternative: {
+      sunLongitudeDeg,
+      moonLongitudeDeg,
+      elongationDeg: apparentNoonElongationDeg,
+      elapsedTithis: apparentNoonElapsedTithis,
+      ahargana: apparentNoonAlternative.ahargana
+    },
+    note: "The algorithm follows Chapter I.45–51 arithmetic, but the 26.5-tithi fixture is synthetic. Rounded source longitudes imply about 27.59 elapsed tithis at apparent noon; treating that as the I.50 input gives an Ahargana about 1.089 days above the displayed reference. Since I.50 specifies Lanka midnight, this is a time-boundary/input mismatch to resolve, not proof that either value is correct. Civil-date conversion and the ±1 adhika-month decision also remain open."
   };
 }
