@@ -3608,7 +3608,7 @@ function getKarmaPhrase(){
                   st.tarpanaTypeCustom || ""
                 ).trim() || "तर्पणं"
               )
-            : "तिलाञ्जलि-तर्पणम्";
+            : "तिलाञ्जलि-तर्पणं";
 
       return `मम समस्तपितॄणाम् अक्षयतृप्त्यर्थं ${act}`;
     }
