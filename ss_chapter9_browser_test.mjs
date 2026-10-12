@@ -78,7 +78,9 @@ try {
   }
   for (const item of estimates) console.log("IX.10–11 estimate audit:", JSON.stringify(item));
 
-  if (!chapter7.includes("9/9")) throw new Error("Chapter VII formula tests did not pass in browser.");
+  if (!/Chapter VII formula checks: \d+\/\d+ passed\./.test(chapter7) || chapter7.includes("✗")) {
+    throw new Error("Chapter VII formula tests did not pass in browser.");
+  }
   if (!chapter3.includes("5/5")) throw new Error("Chapter III rising-asus tests did not pass in browser.");
   if (rows.length !== 4) throw new Error("Expected four reference rows.");
   if (correctionDetails.length !== 4 ||
@@ -89,6 +91,7 @@ try {
         !detail.includes("Sequential: Aksha dṛkkarma") ||
         !detail.includes("Sequential: planet RA used for Aksha") ||
         !detail.includes("Sequential: planet declination used for half-day") ||
+        !detail.includes("Sequential: frame correction") ||
         detail.includes("RA of intermediate ecliptic point")
       )) {
     throw new Error("One or more event cases are missing the dṛkkarma component audit.");
@@ -138,7 +141,7 @@ try {
 
   console.log("PASS — research page loaded in Chromium");
   console.log("PASS — all four Chapter IX reference branches matched their expected event classes");
-  console.log("PASS — Chapter VII formula and hemisphere/input invariants rendered in browser");
+  console.log("PASS — Chapter VII formula, coordinate-frame, and hemisphere/input invariants rendered in browser");
   console.log("PASS — Chapter III sign-rising interpolation tests rendered in browser");
   console.log("PASS — all four ecliptic-longitude and true-elongation diagnostics are finite and displayed separately from classical K");
   console.log("PASS — all four apparent ecliptic-angle threshold scans rendered separately from the classical K brackets");
