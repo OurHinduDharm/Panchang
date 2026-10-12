@@ -263,3 +263,12 @@ Therefore the previous frame correction is only a partial consistency fix. The f
 4. Only then recompute the Chapter VII terms and the four event cases. Keep the old values as a labelled baseline so the change is measurable; do not tune a threshold to match a published date.
 
 **Decision status:** the coordinate-frame gate is still open. Existing CI establishes arithmetic invariants and page wiring, not frame correctness or source-faithful event dates. Production files remain unchanged and no merge is authorized.
+
+
+### API-frame facts verified against the pinned Astronomy Engine documentation
+
+The code pins Astronomy Engine 2.1.19. Its documentation says `GeoVector` supplies a geocentric vector in J2000 equatorial coordinates (EQJ); `Ecliptic` converts that vector to true ecliptic of date (ECT); and `SiderealTime` returns Greenwich **apparent** sidereal time (GAST), referenced to the true equinox of date. The implementation adds east longitude to GAST to obtain local apparent sidereal angle. These are modern, date-dependent frames. Source: [Astronomy Engine 2.1.19 API documentation](https://app.unpkg.com/astronomy-engine%402.1.2/files/README.md) and [package documentation](https://www.npmjs.com/package/astronomy-engine?activeTab=versions).
+
+This confirms the concrete mismatch to solve: the code currently takes ECT spherical angles and reinterprets them as if they belonged to an ecliptic with fixed 24° obliquity, while the local angle begins in the true-equator/true-equinox-of-date frame. A scalar obliquity-angle adjustment cannot establish a fully consistent transformation for both the planetary vector and the observer's meridian. The target classical frame must first be defined as a full orientation convention; otherwise multiple plausible rotations can produce internally consistent but historically different answers.
+
+**Implementation decision:** do not patch the transform yet. The API facts are now sourced, but the target classical epoch/equinox/ayanāṃśa relationship is still not sufficiently specified by the current fixture set. Next step is to derive that convention from the chosen Sūrya-siddhānta interpretation and source references, then implement the 3-D rotation and run independent vector tests. This is a deliberate stop against guessing, not a production delay hidden behind passing tests.
