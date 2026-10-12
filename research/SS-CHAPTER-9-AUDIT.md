@@ -404,3 +404,10 @@ A fixed `24.217°` offset is only a comparator, not the Chapter III ayana model.
 ### Gate decision
 
 The UTC-to-prime-meridian time-coordinate conversion is now implemented and unit-tested; the ahargana epoch/fractional-tithi convention remains open. The coordinate-frame inventory and target textual lineage are now explicit; the actual full frame transform remains open. These are bounded next tasks, not permission to ship. No production patch and no merge.
+
+
+## Follow-up frame review — 12 October 2026
+
+A closer code-path review narrows the coordinate-frame blocker further. The current helper `convertLocalSiderealAngleObliquityFrame()` changes the local meridian's equatorial intersection for a changed obliquity, and its six-angle 3-D intersection regression is useful. However, the event pipeline also converts tropical ecliptic longitude to a sidereal longitude using the fixed `24.217°` comparator. The helper does **not** include that ecliptic-origin/equinox rotation in the meridian transform, and the current `24.217°` value is not the Chapter III ayana model. Thus its successful geometry test proves the obliquity-only construction, not the full modern-EQD → classical Chapter III/VII frame transformation.
+
+**Decision:** do not describe the coordinate gate as solved. The next implementation should be an isolated 3-D transform candidate with explicitly ordered rotations (modern EQD → modern ECT → classical ecliptic origin/ayana → classical equatorial frame), inverse transform, norm/orthogonality/round-trip tests, and a separate derivation of how local meridian/hour angle enters that frame. It must not be wired into event-date calculation until the meridian geometry is independently derived. The Chapter I ledger also remains a comparison point rather than an epoch proof: the source's “Lanka midnight” and the ledger's “apparent noon at Ujjayinī” are different time arguments.
