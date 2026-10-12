@@ -76,3 +76,22 @@ Until these decisions are justified, do not replace `ayanamshaDeg = 24.217` in t
 `ss_chapter3_ayana_math_test.js` now tests the II.30 quadrant reduction and III.10 3/10 scale, and exposes a separate cycle-state diagnostic that accepts an already-derived `ahargana` plus `yugaDays`. It reports the completed-revolution count, residual phase, bhuja, ayana magnitude, circle-motion direction, and whether the magnitude is increasing or decreasing. Synthetic quarter-cycle fixtures test the segment boundaries.
 
 This deliberately does **not** invent the epoch or calculate ahargana for a modern civil date, and it does not turn circle-motion direction into a signed planetary-longitude correction. Those are separate derivation gates. CI checks this diagnostic; passing the tests proves only that the documented arithmetic is implemented consistently, not that the selected modern-date epoch is correct.
+
+
+## Independent numerical cross-check against a published Siddhānta calculation
+
+Vidhyamitra’s public Sūrya-siddhānta page gives, for **2026-10-08 at apparent noon in Ujjayinī**, `ahargana = 714,404,169,483.5` and `ayanaṃśa = 22.9122°` (the page says it uses Burgess’s text without bīja and the Sūrya-siddhānta’s own rules): https://www.vidhyamitra.com/surya-siddhanta
+
+Using that published ahargana and the Chapter I yuga-day count `1,577,917,828`, the cycle calculation gives:
+
+- completed revolutions: `271650`
+- residual phase: `256.3739358422°`
+- II.30 bhuja: `76.3739358422°`
+- III.10 ayana magnitude: `22.9121807527°`
+- cycle direction: eastward; magnitude increasing
+
+The result rounds to **22.9122°**, matching Vidhyamitra’s displayed value. The diagnostic test now preserves this as an external arithmetic fixture. Sources for the displayed ahargana/ayana are https://www.vidhyamitra.com/surya-siddhanta and its chapter III ledger at https://www.vidhyamitra.com/surya-siddhanta/3; the yuga-day count is stated in the Sūrya-siddhānta text (I.37), available at https://www.textgridrep.org/browse/49kc2.0.
+
+**What this validates:** the elapsed-day × 600 / yuga-day remainder, quadrant-reduced bhuja, and 3/10 scaling are consistent with this independently published example to the displayed precision.
+
+**What it does not validate:** our own derivation of the ahargana for an arbitrary civil date, the correctness of every calendar/time-zone conversion needed to get that ahargana, or the separate Chapter VII dṛkkarma coordinate-frame transformation. The fixture is a strong cross-check, not a license to skip those gates.
