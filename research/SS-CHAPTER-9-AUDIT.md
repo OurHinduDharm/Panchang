@@ -45,6 +45,8 @@ TKS explicitly says these are different models and that the angular-orb result i
 
 Sources: https://tksephemeris.com/tks-home and https://tksephemeris.com/tks-udaya-asta.
 
+A second independent implementation describes its daily output as calculated from the Sūrya Siddhānta's own rules, at Ujjayinī, using no bīja correction. That is a different benchmark from applying Chapter VII/IX corrections to modern ephemeris positions at Pithoragarh. The two should not be compared as if they were the same calculation pipeline. See https://vidhyamitra.com/surya-siddhanta/9 and the chapter overview at https://vidhyamitra.com/surya-siddhanta.
+
 ## Code audit findings (research branch)
 
 1. **Correction order and Akṣa inputs:** Burgess's note says Āyana-corrected longitude gives the ecliptic point on the six-o'clock line, then Akṣa correction gives the point on the horizon. Verse VII.8 specifies the planet's own meridian-time and half-day quantities. The helper therefore applies Āyana to the intermediate longitude but calculates Akṣa's hour angle and half-day from the original planet's longitude and signed ecliptic latitude, using the stated 24° obliquity. This is a source-supported interpretation that now has a direct regression test; it still needs independent numerical validation.
@@ -70,7 +72,7 @@ This transformation is a **coordinate-geometry consistency correction**, not a n
 
 The atan2 form preserves the quadrant. Three isolated tests check identity when the obliquities match, a finite small correction when they differ, and wraparound near 360°. The browser diagnostic now displays the source sidereal angle, transformed 24°-frame angle, and applied correction. This should reduce the internal coordinate mismatch; it is not expected by itself to explain a multi-day discrepancy.
 
-The next CI run must show the revised four-case values. Even if all tests pass, the Chapter VII interpretation and the external reference-date provenance remain open; no production merge follows from this correction alone.
+Headless Chromium after this correction showed the following source-to-24° meridian-angle adjustments at the four reference Sun events: Venus Asta −0.000663°, Venus Udaya −0.001377°, Jupiter Asta +0.000971°, and Jupiter Udaya +0.000578°. The resulting sequential K values were 7.883540°, 13.842884°, 6.509353°, and 11.170043°, respectively. The changes are tiny and **do not explain** the roughly seven-day Jupiter-Asta or late-October Venus-Udaya discrepancies. They remove one small frame inconsistency, not the central uncertainty. A stricter numeric regression test now checks the transformation against a fixed expected value.
 
 2. **Akṣa-dṛkkarma (VII.8–9):** the text says to multiply planetary latitude by equinoctial shadow, divide by 12, then multiply by the time in ghaṭikās from the planet's meridian passage and divide by the planet's half-day length. Since equinoctial shadow / 12 corresponds to tan(observer latitude), the helper's hour-angle / half-day-angle ratio is the proposed conversion of that time ratio. The isolated tests now check its sign and zero invariants, but not independent event-date accuracy.
 3. **Āyana-dṛkkarma:** verify the prescribed longitude shifted by three signs, the declination calculation, the units of planetary latitude and declination, and the same-name/different-name sign rule.
