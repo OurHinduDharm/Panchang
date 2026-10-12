@@ -3698,10 +3698,10 @@ function getKarmaPhrase(){
         return `मम कायिकवाचिकमानसिकपापनिवारणार्थं, ${dev}प्रीत्यर्थं ${vratName}व्रतं`;
       }
       else if(st.vratMode === "upavas"){
-        return `मम सर्वपापक्षयार्थं, ${dev}प्रीत्यर्थं ${vratName}उपवासं`;
+        return `मम सर्वपापक्षयार्थं, ${dev}प्रीत्यर्थं ${vratName}-उपवासं`;
       }
       else if(st.vratMode === "nirjal"){
-        return `${dev}प्रीत्यर्थं ${vratName}निर्जलव्रतं`;
+        return `${dev}प्रीत्यर्थं ${vratName}-निर्जलव्रतं`;
       }
 
       return "मम सकलदुरितक्षयपूर्वकं नित्यकल्याणलाभाय श्रीपरमेश्वरप्रीत्यर्थं यथाशक्ति पूजन-जपादिकं";
