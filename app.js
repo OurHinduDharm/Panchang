@@ -2527,6 +2527,85 @@ function getGhatiPal(
 /* =========================================================
    NAME FUNCTIONS
    ========================================================= */
+/*
+ * Sankalp के लिए वर्तमान तिथि-अंग चुनें।
+ * लाइब्रेरी के scalar Panchang fields सूर्योदय-आधारित हैं;
+ * exact time के लिए interval arrays का उपयोग करें।
+ * सूर्योदय से पहले आज के लिए पिछले दिन की intervals लागू होती हैं।
+ */
+function getActiveSankalpElements(p, previousPanchang, referenceNow, isPreSunriseToday){
+  if(!(referenceNow instanceof Date) || !Number.isFinite(referenceNow.getTime())){
+    return null;
+  }
+
+  const source = isPreSunriseToday && previousPanchang
+    ? previousPanchang
+    : p;
+
+  if(!source) return null;
+
+  const instant = referenceNow.getTime();
+
+  const findActive = key => {
+    const items = source[key];
+    if(!Array.isArray(items)) return null;
+
+    return items.find(item => {
+      if(!item || item.startTime == null || item.endTime == null) return false;
+
+      const start = item.startTime instanceof Date
+        ? item.startTime.getTime()
+        : new Date(item.startTime).getTime();
+
+      const end = item.endTime instanceof Date
+        ? item.endTime.getTime()
+        : new Date(item.endTime).getTime();
+
+      return Number.isFinite(start) &&
+        Number.isFinite(end) &&
+        start <= instant &&
+        instant < end;
+    }) || null;
+  };
+
+  const activeTithi = findActive("tithis");
+  const activeNakshatra = findActive("nakshatras");
+  const activeYoga = findActive("yogas");
+  const activeKarana = findActive("karanas");
+
+  const tithiIndex = Number.isInteger(activeTithi?.index) &&
+    activeTithi.index >= 0 &&
+    activeTithi.index < 30
+      ? activeTithi.index
+      : null;
+
+  return {
+    tithi: activeTithi
+      ? getTithiName(activeTithi.index)
+      : getTithiName(source.tithi),
+
+    paksha: tithiIndex !== null
+      ? (tithiIndex < 15 ? pakshaHindi.Shukla : pakshaHindi.Krishna)
+      : getSimpleHindi(source.paksha, pakshaHindi),
+
+    nakshatra: activeNakshatra
+      ? getNakshatraName(activeNakshatra.index)
+      : getNakshatraName(source.nakshatra),
+
+    yoga: activeYoga
+      ? getYogaName(activeYoga.index)
+      : getYogaName(source.yoga),
+
+    karana: activeKarana
+      ? (karanaHindi[activeKarana.name] || activeKarana.name || "")
+      : (
+          source.karana != null
+            ? getSimpleHindi(source.karana, karanaHindi)
+            : ""
+        )
+  };
+}
+
 function getTithiName(value){
   if(
     typeof value === "object" &&
@@ -2629,7 +2708,7 @@ function getSimpleHindi(value,map){
 
 /* --- NEW: RASHI HELPER (safe for library object or number) --- */
 function getRashiHindi(rashi){
-  if(!rashi) return "—";
+  if(rashi == null || rashi === "") return "—";
   if(typeof rashi === "number"){
     return rashiHindi[rashi] || "—";
   }
@@ -2641,6 +2720,48 @@ function getRashiHindi(rashi){
     return rashi.name || "—";
   }
   return rashiHindi[rashi] || String(rashi) || "—";
+}
+
+/* Live planetaryPositions में राशि का नाम अंग्रेज़ी में भी मिल सकता है। */
+function getPlanetaryRashiHindi(position, fallback){
+  if(position){
+    const rashiValue = position.rashi;
+    const index =
+      typeof rashiValue === "number"
+        ? rashiValue
+        : rashiValue && typeof rashiValue === "object"
+          ? (rashiValue.index ?? rashiValue.number ?? rashiValue.value)
+          : (position.rashiIndex ?? position.rashiNumber);
+
+    if(Number.isInteger(index) && index >= 0 && index < 12){
+      return rashiHindi[index];
+    }
+
+    const rawName = position.rashiName ??
+      (typeof rashiValue === "string" ? rashiValue :
+        (rashiValue && typeof rashiValue === "object" ? rashiValue.name : ""));
+    const name = String(rawName || "").trim().toLowerCase();
+    const names = {
+      aries:0, mesha:0, मेष:0,
+      taurus:1, vrishabha:1, वृषभ:1,
+      gemini:2, mithuna:2, मिथुन:2,
+      cancer:3, karka:3, कर्क:3,
+      leo:4, simha:4, सिंह:4,
+      virgo:5, kanya:5, कन्या:5,
+      libra:6, tula:6, तुला:6,
+      scorpio:7, vrishchika:7, वृश्चिक:7,
+      sagittarius:8, dhanu:8, धनु:8,
+      capricorn:9, makara:9, मकर:9,
+      aquarius:10, kumbha:10, कुम्भ:10, कुंभ:10,
+      pisces:11, meena:11, मीन:11
+    };
+
+    if(Object.prototype.hasOwnProperty.call(names, name)){
+      return rashiHindi[names[name]];
+    }
+  }
+
+  return getRashiHindi(fallback);
 }
 
 /* --- NEW: MASA HELPER (handles object, isAdhika, case-insensitive fallback) --- */
@@ -3046,8 +3167,8 @@ function toAyanaForm(v){
   const s = String(v || "").trim();
 
   if(!s || s === "—") return "";
-  if(/दक्षिणायन/.test(s)) return "सूर्य दक्षिणायने";
-  if(/उत्तरायण/.test(s)) return "सूर्य उत्तरायणे";
+  if(/दक्षिणायन/.test(s)) return "दक्षिणायने";
+  if(/उत्तरायण/.test(s)) return "उत्तरायणे";
   return s.replace(/अयने\s*$/, "").replace(/अयन\s*$/, "").trim() + "े";
 }
 
@@ -3055,14 +3176,14 @@ function toRituForm(v){
   const s = String(v || "").trim();
   if(!s || s === "—") return "";
   const base = s.replace(/ऋतौ\s*$/, "").replace(/ऋतु\s*$/, "").trim();
-  return base ? base + " ऋतौ" : "";
+  return base ? base + "ऋतौ" : "";
 }
 
 function toMasaForm(v){
   const s = String(v || "").trim();
   if(!s || s === "—") return "";
   const base = s.replace(/मासे\s*$/, "").replace(/मास\s*$/, "").trim();
-  return base ? base + " मासे" : "";
+  return base ? base + "मासे" : "";
 }
 
 function toPakshaForm(v){
@@ -3073,26 +3194,26 @@ function toPakshaForm(v){
 }
 
 const tithiSanskritMap = {
-  "प्रथमा": "प्रतिपदि तिथौ",
-  "प्रतिपदा": "प्रतिपदि तिथौ",
-  "द्वितीया": "द्वितीयायाम् तिथौ",
-  "तृतीया": "तृतीयायाम् तिथौ",
-  "चतुर्थी": "चतुर्थ्याम् तिथौ",
-  "पञ्चमी": "पञ्चम्याम् तिथौ",
-  "पंचमी": "पञ्चम्याम् तिथौ",
-  "षष्ठी": "षष्ठ्याम् तिथौ",
-  "सप्तमी": "सप्तम्याम् तिथौ",
-  "अष्टमी": "अष्टम्याम् तिथौ",
-  "नवमी": "नवम्याम् तिथौ",
-  "दशमी": "दशम्याम् तिथौ",
-  "एकादशी": "एकादश्याम् तिथौ",
-  "द्वादशी": "द्वादश्याम् तिथौ",
-  "त्रयोदशी": "त्रयोदश्याम् तिथौ",
-  "चतुर्दशी": "चतुर्दश्याम् तिथौ",
-  "पूर्णिमा": "पूर्णिमायाम् तिथौ",
-  "पौर्णमासी": "पौर्णमास्याम् तिथौ",
-  "अमावस्या": "अमावास्यायाम् तिथौ",
-  "अमावास्या": "अमावास्यायाम् तिथौ"
+  "प्रथमा": "प्रतिपद्यां तिथौ",
+  "प्रतिपदा": "प्रतिपद्यां तिथौ",
+  "द्वितीया": "द्वितीयायां तिथौ",
+  "तृतीया": "तृतीयायां तिथौ",
+  "चतुर्थी": "चतुर्थ्यां तिथौ",
+  "पञ्चमी": "पञ्चम्यां तिथौ",
+  "पंचमी": "पञ्चम्यां तिथौ",
+  "षष्ठी": "षष्ठ्यां तिथौ",
+  "सप्तमी": "सप्तम्यां तिथौ",
+  "अष्टमी": "अष्टम्यां तिथौ",
+  "नवमी": "नवम्यां तिथौ",
+  "दशमी": "दशम्यां तिथौ",
+  "एकादशी": "एकादश्यां तिथौ",
+  "द्वादशी": "द्वादश्यां तिथौ",
+  "त्रयोदशी": "त्रयोदश्यां तिथौ",
+  "चतुर्दशी": "चतुर्दश्यां तिथौ",
+  "पूर्णिमा": "पूर्णिमायां तिथौ",
+  "पौर्णमासी": "पौर्णमास्यां तिथौ",
+  "अमावस्या": "अमावास्यायां तिथौ",
+  "अमावास्या": "अमावास्यायां तिथौ"
 };
 
 function toTithiForm(v){
@@ -3133,7 +3254,7 @@ function toKaranaForm(v){
 function toVaraForm(v){
   const map = {
     "रविवार":"रविवासरे", "सोमवार":"सोमवासरे", "मंगलवार":"भौमवासरे",
-    "बुधवार":"बुधवासरे", "गुरुवार":"गुरुवासरे", "शुक्रवार":" भृगुवासरे",
+    "बुधवार":"बुधवासरे", "गुरुवार":"गुरुवासरे", "शुक्रवार":"भृगुवासरे",
     "शनिवार":"शनिवासरे"
   };
 
@@ -3242,19 +3363,13 @@ function getCurrentKaalPrahar(
   let praharName = "";
 
   /*
-   * ---------------------------------------------------------
-   * दिन का काल
+   * दिन के सामान्य संकल्प-काल:
+   * दिनमान को पाँच पारंपरिक भागों में देखकर,
+   * पहले दो भाग प्रातः, मध्य के दो भाग मध्याह्न,
+   * और अंतिम भाग सायं के रूप में दिखाते हैं।
    *
-   * Classical Panchadha:
-   * प्रातः → संगव → मध्याह्न → अपराह्न → सायाह्न
-   *
-   * Sankalp में इन्हें चार broad कालों में map किया जाता है:
-   *
-   * प्रातः + संगव      → प्रातः
-   * मध्याह्न            → मध्याह्न
-   * अपराह्न + सायाह्न → सायं
-   *
-   * ---------------------------------------------------------
+   * यह संकल्प का व्यापक काल-लेबल है; मुहूर्त या
+   * संध्या-वंदन की सटीक सीमा का विकल्प नहीं।
    */
 
   if(now < sunrise){
@@ -3295,7 +3410,7 @@ function getCurrentKaalPrahar(
       kaal = "प्रातः";
 
     }else if(
-      fromSunrise < 3 * oneFifth
+      fromSunrise < 4 * oneFifth
     ){
 
       kaal = "मध्याह्न";
@@ -3453,10 +3568,11 @@ function getAutoSandhyaType(
   }
 
   /*
-   * दिन के broad Panchadha काल:
-   * प्रातः + संगव → प्रातः
-   * मध्याह्न → मध्याह्न
-   * अपराह्न + सायाह्न → सायं
+   * सामान्य दिन-काल का व्यापक वर्गीकरण:
+   * पहले दो पंचधा-भाग → प्रातः,
+   * अगले दो भाग → मध्याह्न (अपराह्न सहित),
+   * अंतिम भाग → सायं।
+   * वास्तविक संध्या-सीमाएँ ऊपर sunrise/sunset से अलग तय होती हैं।
    */
   const dayMs =
     sunset.getTime() -
@@ -3476,7 +3592,7 @@ function getAutoSandhyaType(
   }
 
   if(
-    fromSunrise < 3 * oneFifth
+    fromSunrise < 4 * oneFifth
   ){
     return "madhyahna";
   }
@@ -3502,7 +3618,7 @@ function getKarmaPhrase(){
 
       const time = timeMap[st.sandhyaType] || "प्रातः";
 
-      return `ममोपात्त-समस्त-दुरितक्षयद्वारा ${dev} प्रीत्यर्थं ${time}-संध्योपासनं`;
+      return `ममोपात्तसमस्तदुरितक्षयद्वारा ${dev}प्रीत्यर्थं ${time}संध्योपासनं`;
     }
 
     case "daan": {
@@ -3516,7 +3632,11 @@ function getKarmaPhrase(){
           ? (String(st.daanItemCustom || "").trim() || "अन्न")
           : st.daanItem;
 
-      return `मम पूर्वजन्मतथैतज्जन्मकृत-पापक्षयार्थं, ${st.daanKamna}, ${dev} प्रीत्यर्थं, यथाशक्ति ${item} दानं`;
+      const itemPhrase = st.daanItem === "अन्य"
+        ? (item + " दानं")
+        : (item + "दानं");
+
+      return `मम ${st.daanKamna}, ${dev}प्रीत्यर्थं, यथाशक्ति ${itemPhrase}`;
     }
 
         case "tarpana": {
@@ -3527,11 +3647,11 @@ function getKarmaPhrase(){
             ? (
                 String(
                   st.tarpanaTypeCustom || ""
-                ).trim() || "तर्पणं / श्राद्धं"
+                ).trim() || "तर्पणं"
               )
             : "तिलाञ्जलि-तर्पणम्";
 
-      return `मम समस्तपितॄणां अक्षयतृप्तिनिमित्तकं, ${act}`;
+      return `मम समस्तपितॄणाम् अक्षयतृप्त्यर्थं ${act}`;
     }
 
     case "rudrabhishek": {
@@ -3546,7 +3666,7 @@ function getKarmaPhrase(){
           : st.rudraPath;
 
       if(st.rudraMode === "sakam"){
-        return `ममात्मनः सर्वारिष्टनिरसनपूर्वकं सर्वपापक्षयार्थं मनसेप्सितफलप्राप्तिपूर्वकं श्रुतिस्मृतिपुराणोक्तफलप्राप्त्यर्थं दीर्घायुरारोग्यैश्वर्यादिवृद्ध्यर्थं लिङ्गोपरि यथोपचारैः श्रीसाम्बसदाशिवपूजनपूर्वकं ${dravya}धारया ${path} रुद्राभिषेककर्म`;
+        return `ममात्मनः सर्वारिष्टनिरसनपूर्वकं सर्वपापक्षयार्थं मनसेप्सितफलप्राप्तिपूर्वकं श्रुतिस्मृतिपुराणोक्तफलप्राप्त्यर्थं दीर्घायुरारोग्यैश्वर्यादिवृद्ध्यर्थं लिङ्गोपरि यथोपचारैः श्रीसाम्बसदाशिवपूजनपूर्वकं ${dravya}धारया ${path} रुद्राभिषेकं`;
       }
 
       return `श्रीसाम्बसदाशिवप्रीत्यर्थं लिङ्गोपरि यथोपचारैः श्रीसाम्बसदाशिवपूजनपूर्वकं ${dravya}धारया ${path} रुद्राभिषेकं`;
@@ -3554,16 +3674,16 @@ function getKarmaPhrase(){
 
     case "satyanarayan": {
       if(st.satyaMode === "sakam"){
-        return `श्रीसत्यनारायण-विष्णुप्रीति द्वारा ममात्मनः सर्वारिष्टनिरसनपूर्वकं मनोवांछितफलप्राप्त्यर्थं सकुटुम्बस्य सुखशान्तिसमृद्धिप्राप्तये श्रीसत्यनारायण-व्रतकथा-पठनं/श्रवणं पूजनं च`;
+        return `श्रीसत्यनारायणविष्णुप्रीत्यर्थं ममात्मनः सर्वारिष्टनिरसनपूर्वकं मनोवाञ्छितफलप्राप्त्यर्थं सकुटुम्बस्य सुखशान्तिसमृद्धिप्राप्तये श्रीसत्यनारायणव्रतकथापठनश्रवणं पूजनं च`;
       }
 
-      return `श्रीविष्णुप्रीत्यर्थे श्रीसत्यनारायणव्रतकथाश्रवणं पूजनं च`;
+      return `श्रीविष्णुप्रीत्यर्थं श्रीसत्यनारायणव्रतकथाश्रवणं पूजनं च`;
     }
 
     case "puja": {
       const dev = String(st.pujaDevta || "").trim() || "श्रीपरमेश्वर";
 
-      return `मम ${st.pujaKamna} ${dev} पूजनं`;
+      return `मम ${st.pujaKamna} ${dev}पूजनं`;
     }
 
     case "vrat": {
@@ -3575,13 +3695,13 @@ function getKarmaPhrase(){
       const dev = String(st.vratDevta || "").trim() || "श्रीपरमेश्वर";
 
       if(st.vratMode === "vrat"){
-        return `मम कायिक-वाचिक-मानसिक-पापनिवारणार्थं, ${dev} प्रीत्यर्थं ${vratName} व्रत`;
+        return `मम कायिकवाचिकमानसिकपापनिवारणार्थं, ${dev}प्रीत्यर्थं ${vratName}व्रतं`;
       }
       else if(st.vratMode === "upavas"){
-        return `मम सर्वपापक्षयार्थं, ${dev} प्रीत्यर्थं ${vratName} उपवासं`;
+        return `मम सर्वपापक्षयार्थं, ${dev}प्रीत्यर्थं ${vratName}-उपवासं`;
       }
       else if(st.vratMode === "nirjal"){
-        return `${dev} प्रीत्यर्थं ${vratName} निर्जल व्रतं`;
+        return `${dev}प्रीत्यर्थं ${vratName}-निर्जलव्रतं`;
       }
 
       return "मम सकलदुरितक्षयपूर्वकं नित्यकल्याणलाभाय श्रीपरमेश्वरप्रीत्यर्थं यथाशक्ति पूजन-जपादिकं";
@@ -3657,22 +3777,24 @@ function buildSankalpText(){
   const yogaForm = toYogaForm(ctx.yoga);
   const karanaForm = toKaranaForm(ctx.karana);
  
-const sunRashiForm = getRashiHindi(
+const sunRashiForm = getPlanetaryRashiHindi(
+  ctx.referenceNow ? ctx.planetaryPositions?.sun : null,
   ctx.panchang?.sunRashi
 );
 
-const moonRashiForm = getRashiHindi(
+const moonRashiForm = getPlanetaryRashiHindi(
+  ctx.referenceNow ? ctx.planetaryPositions?.moon : null,
   ctx.panchang?.moonRashi
 );
 
 const suryaSthitiForm =
   sunRashiForm && sunRashiForm !== "—"
-    ? `${sunRashiForm} राशि स्थिते अर्के`
+    ? `${sunRashiForm}राशिस्थिते सूर्ये`
     : "";
 
 const chandraSthitiForm =
   moonRashiForm && moonRashiForm !== "—"
-    ? `${moonRashiForm} राशि स्थिते चन्द्रे`
+    ? `${moonRashiForm}राशिस्थिते चन्द्रे`
     : "";
 
   const locationForm = formatSankalpLocation(ctx.location);
@@ -3683,12 +3805,24 @@ const chandraSthitiForm =
     ctx.referenceNow
   );
 
-const kaalForm = {
-  "प्रातः": "प्रातःकाले",
-  "मध्याह्न": "मध्याह्नकाले",
-  "सायं": "सायंकाले",
-  "रात्रि": "रात्रिकाले"
-}[kaalPrahar.kaal] || "";
+/*
+ * यदि रात्रि-प्रहर विकल्प चुना है और अभी वास्तविक रात्रि-प्रहर सक्रिय है,
+ * तो "रात्रिकाले" के साथ प्रहर जोड़ने के बजाय प्रहर उसी का स्थान लेगा।
+ * दिन में प्रातः/मध्याह्न/सायं का काल यथावत रहेगा।
+ */
+const useNightPraharAsKaal = !!(
+  kaalPrahar.kaal === "रात्रि" &&
+  kaalPrahar.praharName
+);
+
+const kaalForm = useNightPraharAsKaal
+  ? ""
+  : ({
+      "प्रातः": "प्रातःकाले",
+      "मध्याह्न": "मध्याह्नकाले",
+      "सायं": "सायंकाले",
+      "रात्रि": "रात्रिकाले"
+    }[kaalPrahar.kaal] || "");
 
 const praharForm = kaalPrahar.praharName
   ? (kaalPrahar.praharName + " प्रहरे")
@@ -4551,6 +4685,20 @@ function calculatePanchang(){
     )
       ? new Date()
       : null;
+
+    // आज के संकल्प में सूर्य-चन्द्र की राशि वास्तविक संकल्प-समय पर लें।
+    let sankalpRashiPanchang = p;
+    if(referenceNow){
+      try{
+        sankalpRashiPanchang = getPanchangam(
+          referenceNow,
+          observer,
+          { timezoneOffset:330 }
+        );
+      }catch(e){
+        console.warn("Sankalp-time Rashi calculation failed:", e);
+      }
+    }
 let nextSunrise = null;
 let nextMoonset = null;
 
@@ -4809,6 +4957,13 @@ const ghatiPal = getGhatiPal(
     referenceNow < new Date(p.sunrise)
   );
 
+  const sankalpElements = getActiveSankalpElements(
+    p,
+    previousPanchang,
+    referenceNow,
+    isPreSunriseToday
+  );
+
   const currentNightChoghadiya =
     isPreSunriseToday ? (previousPanchang?.choghadiya?.night || []) : (p.choghadiya?.night || []);
 
@@ -4839,14 +4994,15 @@ const ghatiPal = getGhatiPal(
     ayana: ayana,
     ritu: ritu,
     masa: masa,
-    paksha: paksha,
-    tithi: tithi,
+    paksha: sankalpElements?.paksha || paksha,
+    tithi: sankalpElements?.tithi || tithi,
     vara: vara,
-    nakshatra: nakshatra,
-    yoga: yoga,
-    karana: primaryKarana,
+    nakshatra: sankalpElements?.nakshatra || nakshatra,
+    yoga: sankalpElements?.yoga || yoga,
+    karana: sankalpElements?.karana || primaryKarana,
     location: selectedLocation,
     panchang: p,
+    planetaryPositions: sankalpRashiPanchang?.planetaryPositions || null,
     praharData: prahar,
     referenceNow: referenceNow
   };
@@ -5037,10 +5193,6 @@ const praharNames = [
 
 praharHtml += `
   <div class="prahar-group">
-    <div class="prahar-group-title">
-      🌙 रात्रि के प्रहर
-    </div>
-
     <div class="prahar-grid">
 `;
 
@@ -5603,6 +5755,137 @@ bhadraPartsHtml += `
       </div>
 
  <div class="card full">
+        <div class="label">
+          🔴 भद्रा (विष्टि करण) — ${bhadraStatus}
+        </div>
+        ${bhadraPartsHtml}
+      </div>
+
+      <div class="card full">
+        ${ghatiHtml}
+      </div>
+
+      <div class="card full">
+        <div class="label">
+          🕉️ संकल्प
+        </div>
+
+        <div id="sankalpControls" class="sankalp-controls"></div>
+
+        <div class="sankalp-box">
+          <div class="sankalp-text" id="sankalpText"></div>
+
+          <button class="sankalp-copy" type="button" onclick="copySankalp()">
+            📋 संकल्प कॉपी करें
+          </button>
+
+          <div class="sankalp-note">
+            यह संकल्प चयनित प्रकार के अनुसार स्वतः निर्मित है। गोत्र, नाम, वर्ण आदि भरने पर वे संकल्प में सम्मिलित हो जाते हैं। (विशेष: जिनका यज्ञोपवीत संस्कार नहीं हुआ हो, वे 'ॐ' की जगह 'औं' का उच्चारण करें।) अपनी परंपरा व गुरु-निर्देशानुसार संकल्प वाक्य में परिवर्तन किया जा सकता है।
+          </div>
+        </div>
+      </div>
+      
+       ${renderCollapsibleTimePeriods(
+        p.choghadiya?.day,
+        "🕐 दिन के चौघड़िया",
+        referenceNow,
+        item => {
+          const names = {
+            Shubh:"🟢शुभ",
+            Rog:"🔴रोग",
+            Udveg:"🔴उद्वेग",
+            Chal:"🟢चल",
+            Labh:"🟢लाभ",
+            Amrit:"🟢अमृत",
+            Kaal:"🔴काल"
+          };
+
+          return names[item.name] ||
+            item.name ||
+            "—";
+        },
+      )}
+      ${renderCollapsibleTimePeriods(
+  p.gowri?.day,
+  "🌞 दिन का गौरी काल",
+  referenceNow,
+  getGowriDisplay
+)}
+      ${renderCollapsibleTimePeriods(
+        p.choghadiya?.night,
+        "🌙 रात्रि के चौघड़िया",
+        referenceNow,
+        item => {
+          const names = {
+            Shubh:"🟢शुभ",
+            Rog:"🔴रोग",
+            Udveg:"🔴उद्वेग",
+            Chal:"🟢चल",
+            Labh:"🟢लाभ",
+            Amrit:"🟢अमृत",
+            Kaal:"🔴काल"
+          };
+
+          return names[item.name] ||
+            item.name ||
+            "—";
+        },
+        currentNightChoghadiya
+      )}
+      ${renderCollapsibleTimePeriods(
+  p.gowri?.night,
+  "🌙 रात्रि का गौरी काल",
+  referenceNow,
+  getGowriDisplay,
+  currentNightGowri
+)}
+      <div class="card full">
+  <div class="label">🌄 विशेष मुहूर्त</div>
+  <div class="special-muhurta-grid">
+    <div class="special-muhurta-item">
+      <div class="label">🌅 ब्रह्म मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(p.brahmaMuhurta?.start, p.brahmaMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌄 प्रातः संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.pratahSandhya?.start, specialKaal?.pratahSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🕛 मध्याह्न संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.madhyahnaSandhya?.start, specialKaal?.madhyahnaSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">☀️ विजय मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.vijayaMuhurta?.start, specialKaal?.vijayaMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌇 गोधूलि मुहूर्त</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.godhuliMuhurta?.start, specialKaal?.godhuliMuhurta?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌆 सायं संध्या</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.sayahnaSandhya?.start, specialKaal?.sayahnaSandhya?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">🌙 निशीथ काल</div>
+      <div class="time-row"><span>${formatTimeRange(specialKaal?.nishitaKaal?.start, specialKaal?.nishitaKaal?.end)}</span></div>
+    </div>
+    <div class="special-muhurta-item">
+      <div class="label">⚠️ दुर्मुहूर्त</div>
+      <div class="time-row"><span>${getDurMuhurtaText(p, isWednesday, nextSunrise)}</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card full">
+        <div class="label">
+          🌙 रात्रि के प्रहर
+        </div>
+        ${praharHtml}
+      </div>
+
+      
+<div class="card full">
   <div class="label">
     🧭 यात्रा शूल विचार
   </div>
@@ -5869,136 +6152,6 @@ bhadraPartsHtml += `
 </div>
 
       <div class="card full">
-        <div class="label">
-          ⏳ चयनित तिथि के प्रहर
-        </div>
-        ${praharHtml}
-      </div>
-
-      <div class="card full">
-        <div class="label">
-          🔴 भद्रा (विष्टि करण) — ${bhadraStatus}
-        </div>
-        ${bhadraPartsHtml}
-      </div>
-
-      <div class="card full">
-        ${ghatiHtml}
-      </div>
-
-      <div class="card full">
-        <div class="label">
-          🕉️ संकल्प
-        </div>
-
-        <div id="sankalpControls" class="sankalp-controls"></div>
-
-        <div class="sankalp-box">
-          <div class="sankalp-text" id="sankalpText"></div>
-
-          <button class="sankalp-copy" type="button" onclick="copySankalp()">
-            📋 संकल्प कॉपी करें
-          </button>
-
-          <div class="sankalp-note">
-            यह संकल्प चयनित प्रकार के अनुसार स्वतः निर्मित है। गोत्र, नाम, वर्ण आदि भरने पर वे संकल्प में सम्मिलित हो जाते हैं। (विशेष: जिनका यज्ञोपवीत संस्कार नहीं हुआ हो, वे 'ॐ' की जगह 'औं' का उच्चारण करें।) अपनी परंपरा व गुरु-निर्देशानुसार संकल्प वाक्य में परिवर्तन किया जा सकता है।
-          </div>
-        </div>
-      </div>
-      
-       ${renderCollapsibleTimePeriods(
-        p.choghadiya?.day,
-        "🕐 दिन के चौघड़िया",
-        referenceNow,
-        item => {
-          const names = {
-            Shubh:"🟢शुभ",
-            Rog:"🔴रोग",
-            Udveg:"🔴उद्वेग",
-            Chal:"🟢चल",
-            Labh:"🟢लाभ",
-            Amrit:"🟢अमृत",
-            Kaal:"🔴काल"
-          };
-
-          return names[item.name] ||
-            item.name ||
-            "—";
-        },
-      )}
-      ${renderCollapsibleTimePeriods(
-  p.gowri?.day,
-  "🌞 दिन का गौरी काल",
-  referenceNow,
-  getGowriDisplay
-)}
-      ${renderCollapsibleTimePeriods(
-        p.choghadiya?.night,
-        "🌙 रात्रि के चौघड़िया",
-        referenceNow,
-        item => {
-          const names = {
-            Shubh:"🟢शुभ",
-            Rog:"🔴रोग",
-            Udveg:"🔴उद्वेग",
-            Chal:"🟢चल",
-            Labh:"🟢लाभ",
-            Amrit:"🟢अमृत",
-            Kaal:"🔴काल"
-          };
-
-          return names[item.name] ||
-            item.name ||
-            "—";
-        },
-        currentNightChoghadiya
-      )}
-      ${renderCollapsibleTimePeriods(
-  p.gowri?.night,
-  "🌙 रात्रि का गौरी काल",
-  referenceNow,
-  getGowriDisplay,
-  currentNightGowri
-)}
-      <div class="card full">
-  <div class="label">🌄 विशेष मुहूर्त</div>
-  <div class="special-muhurta-grid">
-    <div class="special-muhurta-item">
-      <div class="label">🌅 ब्रह्म मुहूर्त</div>
-      <div class="time-row"><span>${formatTimeRange(p.brahmaMuhurta?.start, p.brahmaMuhurta?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🌄 प्रातः संध्या</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.pratahSandhya?.start, specialKaal?.pratahSandhya?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🕛 मध्याह्न संध्या</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.madhyahnaSandhya?.start, specialKaal?.madhyahnaSandhya?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">☀️ विजय मुहूर्त</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.vijayaMuhurta?.start, specialKaal?.vijayaMuhurta?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🌇 गोधूलि मुहूर्त</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.godhuliMuhurta?.start, specialKaal?.godhuliMuhurta?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🌆 सायं संध्या</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.sayahnaSandhya?.start, specialKaal?.sayahnaSandhya?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">🌙 निशीथ काल</div>
-      <div class="time-row"><span>${formatTimeRange(specialKaal?.nishitaKaal?.start, specialKaal?.nishitaKaal?.end)}</span></div>
-    </div>
-    <div class="special-muhurta-item">
-      <div class="label">⚠️ दुर्मुहूर्त</div>
-      <div class="time-row"><span>${getDurMuhurtaText(p, isWednesday, nextSunrise)}</span></div>
-    </div>
-  </div>
-</div>
-
-<div class="card full">
   <div class="label">
     📍 स्थान
   </div>
