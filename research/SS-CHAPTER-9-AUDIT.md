@@ -298,3 +298,21 @@ The current page computes a Chapter IX K/lagnāntara candidate at the selected s
 The Sanskrit verse and commentary are the textual evidence for the event anchor, dṛkkarma order, six-sign shift, and iterative refinement. The current JavaScript's regression tests only show that its present formulas execute consistently; they do not show that the complete iterative Chapter IX algorithm has been implemented. See also the independently organized verse outline at https://www.vidhyamitra.com/surya-siddhanta/9, which lists IX.4–5 as the apparent-place/lagnāntara stage and IX.10–11 as the time-estimation stage.
 
 **Decision:** add event-time iteration to the research backlog, but do not implement it before the full source/target coordinate frame is defined. No production code change and no PR merge.
+
+
+## Browser-run findings — 2026-10-12 (diagnostic only)
+
+A successful headless Chromium run (GitHub Actions run [38238396950](https://github.com/OurHinduDharm/Panchang/actions/runs/38238396950)) exercised the current/sequential Chapter IX candidates, separate modern angular-threshold scans, and the Chapter III/VII browser checks. The run also confirmed that `app.js` and `extra-panchang.js` were unchanged. A later run, [38239221212](https://github.com/OurHinduDharm/Panchang/actions/runs/38239221212), was still in progress at its Chromium step when last checked; do not call that later run green until its final conclusion is available.
+
+The successful browser output is useful because it makes the disagreement explicit. For the Pithoragarh research configuration (29.5828° N, 80.2182° E, 1650 m), the then-current diagnostic reported these daily crossing brackets:
+
+| Event | Current Chapter IX K candidate | Separate apparent ecliptic-longitude threshold scan |
+|---|---|---|
+| Venus Asta | 11 Oct 2026 17:43 IST → 12 Oct 2026 17:42 IST | 18 Oct 2026 17:35 IST → 19 Oct 2026 17:34 IST |
+| Venus Udaya | 28 Oct 2026 06:19 IST → 29 Oct 2026 06:20 IST | 29 Oct 2026 06:20 IST → 30 Oct 2026 06:20 IST |
+| Jupiter Asta | 12 Aug 2027 18:53 IST → 13 Aug 2027 18:52 IST | 16 Aug 2027 18:49 IST → 17 Aug 2027 18:48 IST |
+| Jupiter Udaya | 12 Sep 2027 05:52 IST → 13 Sep 2027 05:52 IST | 14 Sep 2027 05:53 IST → 15 Sep 2027 05:53 IST |
+
+These are **outputs of candidate algorithms, not validated Sūrya-siddhānta event times**. The user-supplied Drik Pithoragarh boundaries are a separate comparator, not a proof of the classical method. The apparent-angular scan lands near the supplied Jupiter Asta boundary but does not thereby become the Chapter IX algorithm; conversely, the K candidate's earlier Jupiter Asta bracket is not validated merely because the other events look closer. No threshold, frame, or correction should be tuned just to force a match.
+
+The run confirms that the browser page renders and that the numerical checks pass; it does **not** close the central scientific question. The present code still has a modern-to-24° frame assumption and an incompletely reconstructed Chapter I time/ahargana bridge. The next research gate remains: establish the classical coordinate/time conventions and independently derive the required input longitudes and dṛkkarma in that same frame, then rerun the event brackets against independently sourced examples. Keep the modern ecliptic-angle model, current K candidate, and any physical visibility model labelled separately. Production files remain out of scope until that gate is met.
