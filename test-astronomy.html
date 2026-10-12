@@ -4095,7 +4095,7 @@ function runExactTimeBoundaryAudit() {
       const deltaLabel = (deltaMinutes >= 0 ? "+" : "") + Math.round(deltaMinutes) + " min";
       const residual = result.g[residualField];
       return "<td>" + label + "<br><strong>" + formatLocalFromUTCDate(result.root) +
-        " IST</strong><br>सीमा: " + round(result.g.threshold,4) + "°" +
+        " IST</strong><br>पुरानी कोणीय परिकल्पना की सीमा (SS IX.7 नहीं): " + round(result.g.threshold,4) + "°" +
         "<br>ग्रह-गति: " + result.g.motionType +
         "<br>सीमा से शेष अंतर: " + round(residual,6) + "°" +
         "<br>संदर्भ से समय-अंतर: " + deltaLabel +
@@ -4112,7 +4112,7 @@ function runExactTimeBoundaryAudit() {
     '<th>ग्रह</th><th>संदर्भ घटना</th><th>प्रकाशित स्थानीय समय</th>' +
     '<th>गणितीय सीमा-संक्रमण (ecliptic)</th><th>गणितीय सीमा-संक्रमण (3-D)</th>' +
     '</tr></thead><tbody>' + rows.join("") + '</tbody></table></div>' +
-    '<p class="small">संदर्भ समय Drik Panchang के Pithoragarh परिणामों से दिए गए परीक्षण-इनपुट हैं। यह ऑडिट उन्हें गणना का उत्तर नहीं मानता।</p>';
+    '<p class="small">संदर्भ समय Drik Panchang के Pithoragarh परिणामों से दिए गए परीक्षण-इनपुट हैं। यह ऑडिट उन्हें गणना का उत्तर नहीं मानता। यहाँ दिखाई गई सीमा पुराने motion-based angular diagnostic से आती है; इसे सूर्यसिद्धान्त IX.7 की घटना-दिशा आधारित C सीमा से न मिलाएँ।</p>';
 }
 
 /* =============================================================
