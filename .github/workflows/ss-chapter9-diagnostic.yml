@@ -8,6 +8,7 @@ on:
       - "test-astronomy.html"
       - "ss_chapter9_test.js"
       - "ss_chapter7_drikkarma.js"
+      - "ss_chapter7_test.js"
       - "ss_chapter3_lagnantara.js"
       - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
@@ -42,6 +43,7 @@ jobs:
         run: |
           node --experimental-default-type=module --check ss_chapter9_test.js
           node --experimental-default-type=module --check ss_chapter7_drikkarma.js
+          node --experimental-default-type=module --check ss_chapter7_test.js
           node --experimental-default-type=module --check ss_chapter3_lagnantara.js
 
       - name: Run arithmetic and threshold-selection tests
@@ -65,6 +67,19 @@ jobs:
             console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
           }
           console.log(`${result.passed}/${result.total} Chapter VII tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-derived Chapter VII arithmetic and sign tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter7SourceDerivedTests } from './ss_chapter7_test.js';
+          const result = runChapter7SourceDerivedTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.details) console.log(`  ${test.details}`);
+          }
+          console.log(`${result.passed}/${result.total} source-derived Chapter VII tests passed`);
           if (!result.allPassed) process.exit(1);
           NODE
 
