@@ -2708,7 +2708,7 @@ function getSimpleHindi(value,map){
 
 /* --- NEW: RASHI HELPER (safe for library object or number) --- */
 function getRashiHindi(rashi){
-  if(!rashi) return "—";
+  if(rashi == null || rashi === "") return "—";
   if(typeof rashi === "number"){
     return rashiHindi[rashi] || "—";
   }
@@ -2720,6 +2720,47 @@ function getRashiHindi(rashi){
     return rashi.name || "—";
   }
   return rashiHindi[rashi] || String(rashi) || "—";
+}
+
+/* Live planetaryPositions में राशि का नाम अंग्रेज़ी में भी मिल सकता है। */
+function getPlanetaryRashiHindi(position, fallback){
+  if(position){
+    const rashiValue = position.rashi;
+    const index =
+      typeof rashiValue === "number"
+        ? rashiValue
+        : rashiValue && typeof rashiValue === "object"
+          ? (rashiValue.index ?? rashiValue.number ?? rashiValue.value)
+          : (position.rashiIndex ?? position.rashiNumber);
+
+    if(Number.isInteger(index) && index >= 0 && index < 12){
+      return rashiHindi[index];
+    }
+
+    const rawName = position.rashiName ??
+      (rashiValue && typeof rashiValue === "object" ? rashiValue.name : "");
+    const name = String(rawName || "").trim().toLowerCase();
+    const names = {
+      aries:0, mesha:0, मेष:0,
+      taurus:1, vrishabha:1, वृषभ:1,
+      gemini:2, mithuna:2, मिथुन:2,
+      cancer:3, karka:3, कर्क:3,
+      leo:4, simha:4, सिंह:4,
+      virgo:5, kanya:5, कन्या:5,
+      libra:6, tula:6, तुला:6,
+      scorpio:7, vrishchika:7, वृश्चिक:7,
+      sagittarius:8, dhanu:8, धनु:8,
+      capricorn:9, makara:9, मकर:9,
+      aquarius:10, kumbha:10, कुम्भ:10, कुंभ:10,
+      pisces:11, meena:11, मीन:11
+    };
+
+    if(Object.prototype.hasOwnProperty.call(names, name)){
+      return rashiHindi[names[name]];
+    }
+  }
+
+  return getRashiHindi(fallback);
 }
 
 /* --- NEW: MASA HELPER (handles object, isAdhika, case-insensitive fallback) --- */
@@ -3154,24 +3195,24 @@ function toPakshaForm(v){
 const tithiSanskritMap = {
   "प्रथमा": "प्रतिपदि तिथौ",
   "प्रतिपदा": "प्रतिपदि तिथौ",
-  "द्वितीया": "द्वितीयायाम् तिथौ",
-  "तृतीया": "तृतीयायाम् तिथौ",
-  "चतुर्थी": "चतुर्थ्याम् तिथौ",
-  "पञ्चमी": "पञ्चम्याम् तिथौ",
-  "पंचमी": "पञ्चम्याम् तिथौ",
-  "षष्ठी": "षष्ठ्याम् तिथौ",
-  "सप्तमी": "सप्तम्याम् तिथौ",
-  "अष्टमी": "अष्टम्याम् तिथौ",
-  "नवमी": "नवम्याम् तिथौ",
-  "दशमी": "दशम्याम् तिथौ",
-  "एकादशी": "एकादश्याम् तिथौ",
-  "द्वादशी": "द्वादश्याम् तिथौ",
-  "त्रयोदशी": "त्रयोदश्याम् तिथौ",
-  "चतुर्दशी": "चतुर्दश्याम् तिथौ",
-  "पूर्णिमा": "पूर्णिमायाम् तिथौ",
-  "पौर्णमासी": "पौर्णमास्याम् तिथौ",
-  "अमावस्या": "अमावास्यायाम् तिथौ",
-  "अमावास्या": "अमावास्यायाम् तिथौ"
+  "द्वितीया": "द्वितीयायां तिथौ",
+  "तृतीया": "तृतीयायां तिथौ",
+  "चतुर्थी": "चतुर्थ्यां तिथौ",
+  "पञ्चमी": "पञ्चम्यां तिथौ",
+  "पंचमी": "पञ्चम्यां तिथौ",
+  "षष्ठी": "षष्ठ्यां तिथौ",
+  "सप्तमी": "सप्तम्यां तिथौ",
+  "अष्टमी": "अष्टम्यां तिथौ",
+  "नवमी": "नवम्यां तिथौ",
+  "दशमी": "दशम्यां तिथौ",
+  "एकादशी": "एकादश्यां तिथौ",
+  "द्वादशी": "द्वादश्यां तिथौ",
+  "त्रयोदशी": "त्रयोदश्यां तिथौ",
+  "चतुर्दशी": "चतुर्दश्यां तिथौ",
+  "पूर्णिमा": "पूर्णिमायां तिथौ",
+  "पौर्णमासी": "पौर्णमास्यां तिथौ",
+  "अमावस्या": "अमावास्यायां तिथौ",
+  "अमावास्या": "अमावास्यायां तिथौ"
 };
 
 function toTithiForm(v){
@@ -3212,7 +3253,7 @@ function toKaranaForm(v){
 function toVaraForm(v){
   const map = {
     "रविवार":"रविवासरे", "सोमवार":"सोमवासरे", "मंगलवार":"भौमवासरे",
-    "बुधवार":"बुधवासरे", "गुरुवार":"गुरुवासरे", "शुक्रवार":" भृगुवासरे",
+    "बुधवार":"बुधवासरे", "गुरुवार":"गुरुवासरे", "शुक्रवार":"भृगुवासरे",
     "शनिवार":"शनिवासरे"
   };
 
@@ -3576,7 +3617,7 @@ function getKarmaPhrase(){
 
       const time = timeMap[st.sandhyaType] || "प्रातः";
 
-      return `ममोपात्त-समस्त-दुरितक्षयद्वारा ${dev} प्रीत्यर्थं ${time}-संध्योपासनं`;
+      return `ममोपात्तसमस्तदुरितक्षयद्वारा ${dev}प्रीत्यर्थं ${time}संध्योपासनं`;
     }
 
     case "daan": {
@@ -3590,7 +3631,11 @@ function getKarmaPhrase(){
           ? (String(st.daanItemCustom || "").trim() || "अन्न")
           : st.daanItem;
 
-      return `मम पूर्वजन्मतथैतज्जन्मकृत-पापक्षयार्थं, ${st.daanKamna}, ${dev} प्रीत्यर्थं, यथाशक्ति ${item} दानं`;
+      const itemPhrase = st.daanItem === "अन्य"
+        ? (item + " दानं")
+        : (item + "दानं");
+
+      return `मम ${st.daanKamna}, ${dev}प्रीत्यर्थं, यथाशक्ति ${itemPhrase}`;
     }
 
         case "tarpana": {
@@ -3605,7 +3650,7 @@ function getKarmaPhrase(){
               )
             : "तिलाञ्जलि-तर्पणम्";
 
-      return `मम समस्तपितॄणां अक्षयतृप्तिनिमित्तकं, ${act}`;
+      return `मम समस्तपितॄणाम् अक्षयतृप्त्यर्थं ${act}`;
     }
 
     case "rudrabhishek": {
@@ -3628,16 +3673,16 @@ function getKarmaPhrase(){
 
     case "satyanarayan": {
       if(st.satyaMode === "sakam"){
-        return `श्रीसत्यनारायण-विष्णुप्रीति द्वारा ममात्मनः सर्वारिष्टनिरसनपूर्वकं मनोवांछितफलप्राप्त्यर्थं सकुटुम्बस्य सुखशान्तिसमृद्धिप्राप्तये श्रीसत्यनारायण-व्रतकथा-पठनं/श्रवणं पूजनं च`;
+        return `श्रीसत्यनारायणविष्णुप्रीत्यर्थं ममात्मनः सर्वारिष्टनिरसनपूर्वकं मनोवाञ्छितफलप्राप्त्यर्थं सकुटुम्बस्य सुखशान्तिसमृद्धिप्राप्तये श्रीसत्यनारायणव्रतकथापठनं/श्रवणं पूजनं च`;
       }
 
-      return `श्रीविष्णुप्रीत्यर्थे श्रीसत्यनारायणव्रतकथाश्रवणं पूजनं च`;
+      return `श्रीविष्णुप्रीत्यर्थं श्रीसत्यनारायणव्रतकथाश्रवणं पूजनं च`;
     }
 
     case "puja": {
       const dev = String(st.pujaDevta || "").trim() || "श्रीपरमेश्वर";
 
-      return `मम ${st.pujaKamna} ${dev} पूजनं`;
+      return `मम ${st.pujaKamna} ${dev}पूजनं`;
     }
 
     case "vrat": {
@@ -3649,7 +3694,7 @@ function getKarmaPhrase(){
       const dev = String(st.vratDevta || "").trim() || "श्रीपरमेश्वर";
 
       if(st.vratMode === "vrat"){
-        return `मम कायिक-वाचिक-मानसिक-पापनिवारणार्थं, ${dev} प्रीत्यर्थं ${vratName} व्रत`;
+        return `मम कायिकवाचिकमानसिकपापनिवारणार्थं, ${dev}प्रीत्यर्थं ${vratName}व्रतं`;
       }
       else if(st.vratMode === "upavas"){
         return `मम सर्वपापक्षयार्थं, ${dev} प्रीत्यर्थं ${vratName} उपवासं`;
@@ -3731,22 +3776,24 @@ function buildSankalpText(){
   const yogaForm = toYogaForm(ctx.yoga);
   const karanaForm = toKaranaForm(ctx.karana);
  
-const sunRashiForm = getRashiHindi(
+const sunRashiForm = getPlanetaryRashiHindi(
+  ctx.referenceNow ? ctx.planetaryPositions?.sun : null,
   ctx.panchang?.sunRashi
 );
 
-const moonRashiForm = getRashiHindi(
+const moonRashiForm = getPlanetaryRashiHindi(
+  ctx.referenceNow ? ctx.planetaryPositions?.moon : null,
   ctx.panchang?.moonRashi
 );
 
 const suryaSthitiForm =
   sunRashiForm && sunRashiForm !== "—"
-    ? `${sunRashiForm} राशि स्थिते अर्के`
+    ? `${sunRashiForm}राशिस्थिते सूर्ये`
     : "";
 
 const chandraSthitiForm =
   moonRashiForm && moonRashiForm !== "—"
-    ? `${moonRashiForm} राशि स्थिते चन्द्रे`
+    ? `${moonRashiForm}राशिस्थिते चन्द्रे`
     : "";
 
   const locationForm = formatSankalpLocation(ctx.location);
@@ -4637,6 +4684,20 @@ function calculatePanchang(){
     )
       ? new Date()
       : null;
+
+    // आज के संकल्प में सूर्य-चन्द्र की राशि वास्तविक संकल्प-समय पर लें।
+    let sankalpRashiPanchang = p;
+    if(referenceNow){
+      try{
+        sankalpRashiPanchang = getPanchangam(
+          referenceNow,
+          observer,
+          { timezoneOffset:330 }
+        );
+      }catch(e){
+        console.warn("Sankalp-time Rashi calculation failed:", e);
+      }
+    }
 let nextSunrise = null;
 let nextMoonset = null;
 
@@ -4940,6 +5001,7 @@ const ghatiPal = getGhatiPal(
     karana: sankalpElements?.karana || primaryKarana,
     location: selectedLocation,
     panchang: p,
+    planetaryPositions: sankalpRashiPanchang?.planetaryPositions || null,
     praharData: prahar,
     referenceNow: referenceNow
   };
