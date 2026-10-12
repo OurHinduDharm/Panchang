@@ -124,7 +124,7 @@ test("classical-yoga card renders Anandadi, Dwipushkar, Tripushkar, and remainin
 
 test("Sankalp Sanskrit forms use the selected consistent wording", () => {
   const helperStart = source.indexOf("function toAyanaForm(v){");
-  const helperEnd = source.indexOf("function toMasaForm(v){", helperStart);
+  const helperEnd = source.indexOf("function toPakshaForm(v){", helperStart);
   assert.notEqual(helperStart, -1);
   assert.notEqual(helperEnd, -1);
 
@@ -142,7 +142,7 @@ test("Sankalp Sanskrit forms use the selected consistent wording", () => {
   assert.equal(sandbox.toRituForm("शिशिर"), "शिशिरर्तौ");
 
   const varaStart = source.indexOf("function toVaraForm(v){");
-  const varaEnd = source.indexOf("\\nfunction ", varaStart + 1);
+  const varaEnd = source.indexOf("function toSamvatForm(", varaStart + 1);
   assert.notEqual(varaStart, -1);
   assert.notEqual(varaEnd, -1);
   vm.runInNewContext(source.slice(varaStart, varaEnd), sandbox);
@@ -158,7 +158,7 @@ test("Sankalp Sanskrit forms use the selected consistent wording", () => {
 
 test("Auto Sandhya follows actual intervals instead of broad daytime labels", () => {
   const start = source.indexOf("function getAutoSandhyaType(");
-  const end = source.indexOf("/* =========================================================\\n   KARMA PHRASE", start);
+  const end = source.indexOf("KARMA PHRASE (WITHOUT final verb", start);
   assert.notEqual(start, -1);
   assert.notEqual(end, -1);
 
