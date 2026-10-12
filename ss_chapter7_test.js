@@ -126,7 +126,7 @@ export function runChapter7SourceDerivedTests() {
     "Chapter II.28 approximation is explicitly distinguishable from exact 24° geometry",
     close(roundedObliquityCase.ayanaDeclinationDeg, 24, 1e-10) &&
       Math.abs(roundedObliquityCase.ayanaDeclinationDeg - chapter2MaximumDeclinationDeg) > 0.02,
-    `candidate=\${roundedObliquityCase.ayanaDeclinationDeg}; II.28 asin(1397/3438)=\${chapter2MaximumDeclinationDeg}`
+    `candidate=${roundedObliquityCase.ayanaDeclinationDeg}; II.28 asin(1397/3438)=${chapter2MaximumDeclinationDeg}`
   );
 
   const passed = tests.filter((t) => t.passed).length;
