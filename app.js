@@ -3796,8 +3796,8 @@ const praharForm = kaalPrahar.praharName
   if(ayanaForm) parts.push(ayanaForm);
   if(rituForm) parts.push(rituForm);
   if(masaForm) {
-    /* प्रचलित संकल्प-वाक्य: "मासानामुत्तमे आश्विनमासे"। */
-    parts.push("मासानामुत्तमे " + masaForm);
+    /* संकल्प में वांछित विस्तृत रूप: "मासानामुत्तमे मासे आश्विनमासे"। */
+    parts.push("मासानामुत्तमे मासे " + masaForm);
   }
   if(pakshaForm) parts.push(pakshaForm);
   if(tithiForm) parts.push(tithiForm);
