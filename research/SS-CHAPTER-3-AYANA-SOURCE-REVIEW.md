@@ -21,7 +21,7 @@ The available translations do not phrase III.10 identically:
 2. **Sastri's English translation (1861), reproduced by Wikisource and Siva.sh:** after removing completed revolutions, find the *bhuja* of the remainder (explained there as signs/degrees etc.); multiply that *bhuja* by 3 and divide by 10 to obtain the ayana degrees. The translator's footnote gives the scale as 27° : 90°. Sources: https://en.wikisource.org/wiki/Page%3AEnglish_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri%2C_1861.djvu/39 and https://www.siva.sh/surya-siddhanta/3/10.
 3. **Karma Sakha's modern transcription/annotation:** explicitly reads the input as the *bhuja* in degrees, so a 90° maximum gives 27° after multiplication by 3/10. Source: https://karmasakha.com/texts/surya-siddhanta.
 
-These sources support treating “the remainder's bhuja/arc” as the stronger working reading for a future diagnostic. They do **not** yet justify declaring every interpretive question closed: the exact Sanskrit grammatical referent, the relevant commentary's explanation, and the direction/phase logic across III.9–12 still need a direct commentary-level audit. In particular, Burgess's “part which determines the sine” should not be silently rephrased as “take the modern sine ratio and multiply by 0.3”; that is not what Sastri's explicit *bhuja* rendering says.
+At the time this note was first drafted, the cross-translations favoured “the remainder's bhuja/arc” but the direct commentary audit was still outstanding. The later direct reading of Ranganātha's Gūḍhārtha-prakāśaka, documented in the addendum below and in [SS-CHAPTER-3-REMAINDER-AND-DIRECTION-DERIVATION.md](SS-CHAPTER-3-REMAINDER-AND-DIRECTION-DERIVATION.md), now explicitly supports forming bhuja from the residual rāśi/degree amount, reducing it according to the cycle's phase/reversal, and multiplying that arc by 3/10. This still must not be rewritten as “take the modern sine ratio and multiply by 0.3.”
 
 ## Working numerical interpretation
 
@@ -45,15 +45,15 @@ The current `ss_chapter7_drikkarma.js` candidate likewise uses `ayanamshaDeg = 2
 
 ## Required next checks
 
-1. Read III.9–12 in at least one named Sanskrit commentary directly, preferably the Gūḍhārtha-prakāśaka and/or Sudhākara Dvivedī edition listed by TextGrid.
-2. Derive the elapsed-day remainder from the text's stated revolution count and yuga-day denominator, with a transparent epoch choice and modular/quadrant reduction.
-3. Compare the `bhuja × 3/10` interpretation to Burgess's translation, documenting why the two descriptions may or may not be mathematically equivalent in context.
-4. Derive the sign/direction selection in III.11–12 from the text, not by tuning against a contemporary ayanāṃśa.
-5. Only then make a separate Chapter III model and test it against independently sourced historical/astronomical examples. Keep the current fixed-offset bridge as a separately labelled baseline.
+1. **Completed for Gūḍhārtha-prakāśaka:** direct commentary read for III.9–12; cross-check Sudhākara Dvivedī's separate commentary remains open.
+2. Derive the civil-date ahargana from the text's Chapter I.45–51 day-count method, with the epoch and fractional-day convention documented.
+3. Keep the III.9 residual-cycle arithmetic and the II.30 quadrant-reduced bhuja as separately testable operations; preserve the published Vidhyamitra 2026-10-08 value as an external numerical fixture.
+4. Test the cycle's six-sign/three-sign direction and reversal boundaries, then use III.11's shadow-derived solar longitude as an independent observational check where the required calculation is available.
+5. Only then connect the Chapter III result to a complete coordinate-frame model for Chapter VII and Chapter IX. Keep the current fixed-offset bridge as a separately labelled baseline.
 
 ## Decision
 
-**No production change.** The strongest available cross-translation evidence favours “reduced bhuja/arc × 3/10” as the next model to investigate, while the phase/direction and exact commentary interpretation remain open. The present event-date research must continue to carry the Chapter III coordinate-frame blocker.
+**No production change.** The direct Gūḍhārtha-prakāśaka reading and an external numerical fixture now support the reduced-bhuja × 3/10 cycle model. Civil-date ahargana derivation, cross-check against Sudhākara Dvivedī, and integration with the Chapter VII coordinate frame remain open. The present event-date research must continue to carry the coordinate-frame blocker.
 
 
 ## Addendum — direct commentary check completed after this note
