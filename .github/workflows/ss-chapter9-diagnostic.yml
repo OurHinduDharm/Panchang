@@ -13,6 +13,8 @@ on:
       - "ss_chapter3_ayana_math_test.js"
       - "ss_chapter1_ahargana_anchor.js"
       - "ss_chapter1_ahargana_calendar.js"
+      - "ss_classical_frame.js"
+      - "ss_classical_frame_test.js"
       - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
@@ -27,6 +29,8 @@ on:
       - "ss_chapter1_ahargana_calendar.js"
       - "ss_chapter9_browser_test.mjs"
       - "research/SS-CHAPTER-9-AUDIT.md"
+      - "ss_classical_frame.js"
+      - "ss_classical_frame_test.js"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   workflow_dispatch:
 
