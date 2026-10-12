@@ -346,3 +346,17 @@ The Chapter I.45–51 helper reproduces the reported 1827 integer benchmark and 
 3. Reconstruct a consistent classical time argument: Lanka/prime-meridian midnight, local longitude/time correction, and the Chapter I fractional tithi convention.
 4. Only then choose the event-time dṛkkarma variant, implement IX.10–11 iteration, and compare independent date/location references.
 5. Production remains isolated. The green CI result is not a merge signal.
+
+
+## Source cross-check — VII.8–11 and IX.4–11 (2026-10-12)
+
+Fresh source review confirms the following distinctions:
+
+- Burgess's Chapter VII.8 translation says to multiply latitude by the equinoctial shadow, divide by 12, multiply by meridian-distance in nāḍīs, then divide by the corresponding ball-day. VII.9 gives the hemisphere/latitude sign reversals. In the implementation, using (S/12=\tan(\phi)) is a derived geometric substitution only when the chosen equinoctial-shadow convention is explicitly (S=12\tan(\phi)); it should not be mistaken for the literal verse's notation.
+- VII.10 specifies the declination of the planetary position increased by three signs, then multiplies by latitude in minutes and gives seconds with a same-name/unlike-name sign rule. The exact treatment of latitude when constructing that 90°-shifted point remains an interpretation choice to check against Ranganātha, not a licence to mix equatorial and ecliptic frames.
+- Burgess's explanatory note to VII.12 describes the complete dṛkkarman as referring a planet with given latitude to an apparent longitude on the ecliptic via a secondary to the prime vertical. It says the procedure has two separate processes. This supports keeping the two corrections separately auditable, but does not by itself decide every computational input in the Chapter IX event-time setting.
+- IX.4–5 in the Sanskrit and the independent verse outline explicitly anchor western calculations to the Sun's setting and eastern calculations to the Sun's rising, apply the planet's dṛkkarma, then derive lagnāntara-prāṇa/kālāṃśa; western calculations add six signs to both bodies. IX.6–9 then apply the planet-specific limits, and IX.10–11 estimate elapsed/remaining days from daily motions and lagnāntara. A daily angular threshold is therefore a useful comparator, not a replacement for this sequence.
+
+Sources: [Burgess, Chapter VII, verses 7–12 and commentary](https://www.swaveda.com/texts/surya-siddhanta/7/); [Vidhyamitra, Chapter IX, verses 2–11](https://www.vidhyamitra.com/surya-siddhanta/9); [Siva.sh, Chapter IX.5 Sanskrit and translation](https://www.siva.sh/surya-siddhanta/9/5).
+
+**Implementation decision:** keep the original-place Aksha-time ratio as the explicit baseline because VII.8 refers to the planet's own meridian-distance and half-day; keep the sequentially applied longitude and the competing candidate separately labelled. Do not silently change the RA/declination inputs merely because the two-stage prose sounds sequential. The remaining adjudication is the exact geometric meaning of the intermediate point and how the commentary carries it into IX.4's event anchor. No production integration.
