@@ -3853,12 +3853,10 @@ const praharForm = kaalPrahar.praharName
   if(ayanaForm) parts.push(ayanaForm);
   if(rituForm) parts.push(rituForm);
   if(masaForm) {
-    parts.push("मासानां उत्तमे मासे " + masaForm);
+    parts.push("मासानामुत्तमे महामाङ्गल्ये " + masaForm);
   }
   if(pakshaForm) parts.push(pakshaForm);
-  if(tithiForm) {
-    parts.push("गुणविशेषणविशिष्टायां शुभपुण्य तिथौ " + tithiForm);
-  }
+  if(tithiForm) parts.push(tithiForm);
   if(varaForm) parts.push(varaForm);
   if(nakshatraForm) parts.push(nakshatraForm);
   if(yogaForm) parts.push(yogaForm);
@@ -3867,6 +3865,7 @@ if(suryaSthitiForm) parts.push(suryaSthitiForm);
 if(chandraSthitiForm) parts.push(chandraSthitiForm);
   if(kaalForm) parts.push(kaalForm);
   if(praharForm) parts.push(praharForm);
+  if(tithiForm) parts.push("एवं गुणविशिष्टायां पुण्यतिथौ");
 
   const useAvagraha = ["दासो", "गुप्तो"];
 const ahamWord = useAvagraha.includes(sankalpState.varna)
