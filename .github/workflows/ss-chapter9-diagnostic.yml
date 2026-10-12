@@ -15,6 +15,7 @@ on:
   pull_request:
     paths:
       - "test-astronomy.html"
+      - "ss_chapter7_test.js"
       - "ss_chapter9_test.js"
       - "ss_chapter7_drikkarma.js"
       - "ss_chapter3_lagnantara.js"
