@@ -547,3 +547,32 @@ Sources:
 - Sūrya-siddhānta IX.6–10, including IX.7 event-direction wording: https://www.siva.sh/surya-siddhanta/9/6-10
 - TKS Udaya-asta method/limits (Beta): https://tksephemeris.com/tks-udaya-asta
 - TKS API distinction between ephemeris state, planetary events, and heliacal outputs: https://tksephemeris.com/tks-api
+
+## TKS comparison dataset supplied by the project owner (12 October 2026)
+
+TKS is explicitly marked Beta/under development by its own Udaya–Asta page. Treat its output as a comparison dataset and a source of candidate event dates, not as proof of the classical algorithm.
+
+### Location and Sun/Moon outputs
+
+Coordinates supplied in the TKS form: latitude 29.5830° N, longitude 80.2090° E, local time zone UTC+05:30.
+
+| Mode | Elevation | Sunrise | Meridian | Transit | Sunset | Moonrise | Moonset |
+|---|---:|---|---|---|---|---|---|
+| दृश्य — ऊँचाई + वक्रीभवन | 0 m | 06:08:40 | 11:55:31 | 11:55:43 | 17:42:21 | 07:36 | 18:26 |
+| गणित — मानक −0.833° | 0 m | 06:08:40 | 11:55:31 | 11:55:43 | 17:42:21 | 07:36 | 18:26 |
+| दृश्य — ऊँचाई + वक्रीभवन | 1563 m | 06:03:40 | 11:55:30 | 11:55:43 | 17:47:21 | 07:30 | 18:31 |
+| गणित — मानक −0.833° | 1563 m | 06:08:40 | 11:55:31 | 11:55:43 | 17:42:21 | 07:36 | 18:26 |
+
+Interpretation: the elevation-sensitive mode changes sunrise/sunset and moonrise/moonset, while the standard −0.833° outputs are unchanged. This is evidence about TKS mode behavior only; it does not validate the horizon/refraction model or show that local mountain skyline obstruction is modelled.
+
+### Classical planetary outputs copied from TKS
+
+- Venus: K = 7.698°, detailed panel C = 8°, state Asta; listed next Udaya 1 November 2026 on the detailed page. An earlier captured output listed 31 October 2026 12:06:07 local; preserve both as separate captures until page state, time basis, and version are reconciled.
+- Jupiter: K = 58.015°, C = 11°, state Udaya; Asta 20 August 2027, next Udaya 12/13 September 2027 depending on the page/date/time-zone display.
+- Agastya/Canopus: C = 13°; classical Asta 17 May 2027, Udaya 23 August 2027; method identified as Sūrya-siddhānta IX.17 / nakshatra rise/set. Do not run it through the generic planet K/C path without source justification.
+- One supplied TKS event list shows Venus retrograde station 3 October 2026 12:46 local and Mercury retrograde station 24 October 2026 12:43 local.
+- TKS 3-D Venus view at 2026-10-12 06:30 UTC reports 19.4° 3-D separation and C=10° under “Combust · Śāstrīya”, while the detailed classical panel reports 17.6° ecliptic-longitude separation and K=7.698°, C=8°. Keep these fields distinct; the 3-D explanation says “within the limit” although 19.4° is not within 10°.
+
+### Comparison protocol
+
+For every comparison, record exact UTC/local instant, source page/version, location, elevation, apparent/geometric frame, tropical/sidereal frame, longitude, latitude, signed daily motion, dṛkkarma inputs/outputs, event branch, K, C, and event time. Do not tune a formula to fit a single TKS date. First reproduce each intermediate quantity independently, then compare the event result. Keep all work research-only until source interpretation and independent tests agree.
