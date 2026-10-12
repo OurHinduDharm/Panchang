@@ -4796,7 +4796,8 @@ displayPanchang(
   previousSunrise,
   referenceNow,
   nextMoonset,
-  previousPanchang
+  previousPanchang,
+  sankalpRashiPanchang
 );
 
 
@@ -4823,7 +4824,8 @@ function displayPanchang(
   previousSunrise,
   referenceNow,
   nextMoonset,
-  previousPanchang
+  previousPanchang,
+  sankalpRashiPanchang
 ){
   const date = new Date(
     dateInput.value + "T12:00:00"
