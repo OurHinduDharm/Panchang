@@ -141,6 +141,23 @@ export function runChapter1TraditionalAharganaTests() {
       adjusted.ahargana > reference.ahargana
   });
 
+  // The source ledger for 2026-10-08 labels the tithi Kṛṣṇa Trayodaśī.
+  // A conventional ordinal reading suggests about 27.x elapsed tithis from
+  // Caitra-śukla's month start, not 26.5. This diagnostic intentionally records
+  // the one-day mismatch rather than treating the synthetic matching fixture
+  // as proof that the source's exact tithi fraction has been reconstructed.
+  const ordinalAlternative = chapter1AharganaFromTraditionalDate({
+    elapsedSolarYearsSinceKritaEnd: 2165127,
+    elapsedMonthsFromCaitraShukla: 5,
+    elapsedTithisInCurrentMonth: 27.5,
+    intercalaryMonthAdjustment: 0
+  });
+  tests.push({
+    name: "27.5 elapsed-tithi alternative exposes a one-day offset from the published reference; input convention remains unresolved",
+    passed: close(ordinalAlternative.ahargana, 714404169484.5) &&
+      close(ordinalAlternative.ahargana - reference.ahargana, 1)
+  });
+
   let rejectedFraction = false;
   try {
     chapter1AharganaFromTraditionalDate({
@@ -162,6 +179,7 @@ export function runChapter1TraditionalAharganaTests() {
     total: tests.length,
     allPassed: tests.every(test => test.passed),
     reference,
-    note: "The algorithm follows Chapter I.45–51 arithmetic. The fractional-tithi input in the synthetic fixture is not independently verified against the external ledger; civil-date conversion, day-boundary convention, and ±1 adhika-month decision remain open."
+    ordinalAlternative,
+    note: "The algorithm follows Chapter I.45–51 arithmetic, but the 26.5-tithi fixture is synthetic. The 2026-10-08 source ledger labels Kṛṣṇa Trayodaśī; a 27.5 elapsed-tithi alternative shifts the result by one day, so the exact month/tithi ordinal and day-boundary convention remain unresolved. Civil-date conversion and the ±1 adhika-month decision also remain open."
   };
 }
