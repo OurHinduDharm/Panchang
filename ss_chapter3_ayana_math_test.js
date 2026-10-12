@@ -31,19 +31,25 @@ export function chapter3AyanaMagnitudeFromCycleAngle(angleDeg) {
  * correction to add to a planet.
  */
 export function chapter3AyanaCycleStateFromAhargana({ ahargana, yugaDays }) {
-  if (!Number.isSafeInteger(ahargana) || ahargana < 0 ||
+  if (!Number.isFinite(ahargana) || ahargana < 0 ||
       !Number.isSafeInteger(yugaDays) || yugaDays <= 0) {
-    throw new TypeError("ahargana and yugaDays must be non-negative/positive safe integers.");
+    throw new TypeError("ahargana must be a finite non-negative day count and yugaDays a positive safe integer.");
   }
 
-  // Multiplication remains within the safe-integer range for normal Siddhānta
-  // day counts; integer modulo avoids losing the small fractional-cycle part.
-  const scaledDays = ahargana * 600;
-  if (!Number.isSafeInteger(scaledDays)) {
-    throw new RangeError("600 × ahargana exceeds the safe-integer range.");
+  // Preserve exact integer-day modulo for the very large creation-era count,
+  // then carry the fractional day (if supplied) through the same ratio.
+  const wholeDays = Math.floor(ahargana);
+  const fractionalDay = ahargana - wholeDays;
+  const scaledWholeDays = wholeDays * 600;
+  if (!Number.isSafeInteger(scaledWholeDays)) {
+    throw new RangeError("600 × whole-day ahargana exceeds the safe-integer range.");
   }
-  const completedRevolutions = Math.floor(scaledDays / yugaDays);
-  const remainderDays = scaledDays % yugaDays;
+  let completedRevolutions = Math.floor(scaledWholeDays / yugaDays);
+  let remainderDays = (scaledWholeDays % yugaDays) + fractionalDay * 600;
+  if (remainderDays >= yugaDays) {
+    completedRevolutions += 1;
+    remainderDays -= yugaDays;
+  }
   const cycleFraction = remainderDays / yugaDays;
   const phaseDeg = cycleFraction * 360;
   const bhujaDeg = chapter3BhujaMagnitudeFromCycleAngle(phaseDeg);
@@ -130,6 +136,13 @@ export function runChapter3AyanaGeometryTests() {
     passed: close(quarter.phaseDeg, samePhaseNextCycle.phaseDeg) &&
       close(quarter.ayanaMagnitudeDeg, samePhaseNextCycle.ayanaMagnitudeDeg) &&
       quarter.ayanaMagnitudeDeg >= 0 && quarter.ayanaMagnitudeDeg <= 27
+  });
+
+  const halfDay = chapter3AyanaCycleStateFromAhargana({ ahargana: 1.5, yugaDays: 2400 });
+  tests.push({
+    name: "Fractional ahargana carries sub-day time through the cycle calculation",
+    passed: close(halfDay.phaseDeg, 135) && close(halfDay.ayanaMagnitudeDeg, 13.5) &&
+      halfDay.circleMotion === "westward" && halfDay.magnitudeTrend === "decreasing"
   });
 
   let rejectedNaN = false;
