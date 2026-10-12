@@ -225,6 +225,47 @@ export function runChapter7DrikkarmaTests() {
     passed: close(changedFrameAngle, 45.00138453479633, 1e-10)
   });
 
+  // Independent 3-D geometry check: construct the physical meridian plane
+  // from the source pole and its equatorial intersection, intersect it with
+  // the target equator, then recover the target-frame RA. This does not reuse
+  // the tan/sec identity used by convertLocalSiderealAngleObliquityFrame.
+  const vectorCross = (a, b) => [
+    a[1] * b[2] - a[2] * b[1],
+    a[2] * b[0] - a[0] * b[2],
+    a[0] * b[1] - a[1] * b[0]
+  ];
+  const meridianIntersectionRA = (thetaDeg, sourceEpsilonDeg, targetEpsilonDeg) => {
+    const theta = thetaDeg * Math.PI / 180;
+    const sourceEpsilon = sourceEpsilonDeg * Math.PI / 180;
+    const targetEpsilon = targetEpsilonDeg * Math.PI / 180;
+    const sourcePole = [0, -Math.sin(sourceEpsilon), Math.cos(sourceEpsilon)];
+    const sourceEquatorPoint = [
+      Math.cos(theta),
+      Math.sin(theta) * Math.cos(sourceEpsilon),
+      Math.sin(theta) * Math.sin(sourceEpsilon)
+    ];
+    const meridianPlaneNormal = vectorCross(sourcePole, sourceEquatorPoint);
+    const targetPole = [0, -Math.sin(targetEpsilon), Math.cos(targetEpsilon)];
+    const intersection = vectorCross(meridianPlaneNormal, targetPole);
+    const targetEquatorialY =
+      intersection[1] * Math.cos(targetEpsilon) +
+      intersection[2] * Math.sin(targetEpsilon);
+    return normalize360(Math.atan2(targetEquatorialY, intersection[0]) * 180 / Math.PI);
+  };
+  const frameGeometryCases = [0, 45, 90, 123.4, 200, 359.9].map(theta => {
+    const expected = meridianIntersectionRA(theta, 23.4367, 24);
+    const actual = convertLocalSiderealAngleObliquityFrame({
+      localSiderealAngleDeg: theta,
+      sourceObliquityDeg: 23.4367,
+      targetObliquityDeg: 24
+    });
+    return close(actual, expected, 1e-9);
+  });
+  tests.push({
+    name: "Frame conversion matches an independent 3-D meridian-plane/equator intersection at six angles",
+    passed: frameGeometryCases.every(Boolean)
+  });
+
   const wrappedFrameAngle = convertLocalSiderealAngleObliquityFrame({
     localSiderealAngleDeg: 359.9,
     sourceObliquityDeg: 23.4367,
