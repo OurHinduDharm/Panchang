@@ -23,7 +23,7 @@ These references support the textual reading below; they do **not** independentl
 
 | Verse | Textual requirement | Implementation / audit requirement | Status |
 |---|---|---|---|
-| IX.2–3 | Determine the relevant horizon and whether the planetary event is rising or setting from Sun-relative longitude and motion. Superior planets (Jupiter, Mars, Saturn) use west-setting when ahead of the Sun and east-rising when behind; retrograde Venus/Mercury follow this rule; direct/swift Venus/Mercury use the reverse pair. | The research branch classifies event geometry from signed circular longitude difference and signed daily motion. It evaluates the branch at both local sunrise and sunset; if they disagree or either is ambiguous, that date is rejected rather than guessed. | **Implemented as a tested candidate**; the four fixture classifications pass headless Chromium, but the fixture dates are not yet a source-verified gold standard. |
+| IX.2–3 | Determine the relevant horizon and whether the planetary event is rising or setting from Sun-relative longitude and motion. Superior planets (Jupiter, Mars, Saturn) use west-setting when ahead of the Sun and east-rising when behind; retrograde Venus/Mercury follow this rule; direct/swift Venus/Mercury use the reverse pair. | The initial implementation used shortest signed circular separation, which incorrectly reverses the greater/less zodiacal-longitude branch when the pair straddles 0° Aries. The research helper now compares normalized zodiacal longitudes directly, while using signed daily motion for the inferior-planet branch. It evaluates at both local sunrise and sunset; disagreement or ambiguity rejects the date. | **Corrected in research code; awaiting the latest CI run and live event-output review.** The four fixture dates remain unverified gold standards. |
 | IX.4 | For a western event, use Sun/planet positions at sunset; for an eastern event, use positions at sunrise. Then apply dṛkkarma to the planet. | Confirm the exact civil-date sunrise/sunset selection, geocentric coordinate frame, and correction order. | Partially implemented in the research page; not independently validated. |
 | IX.5 | Find the interval between the two lagnas in prāṇas; for the western calculation add six signs to both longitudes. Divide the prāṇa interval by 60 to obtain kalāṃśa (time degrees). | The current diagnostic converts an oblique-ascension interval in degrees to prāṇas as `interval × 60`, then divides by 60. This is arithmetically equivalent to the interval in degrees, **provided** the oblique ascensions and their branch are correctly derived. Chapter III.50 describes ascensional equivalents in prāṇas; this equivalence alone does not validate the OA or dṛkkarma formulas. | Arithmetic identity clear; geometric inputs still open. |
 | IX.6 | Jupiter 11°, Saturn 15°, Mars 17°. | Use these limits without substituting a modern elongation threshold. | Added isolated unit tests. |
@@ -49,7 +49,7 @@ A second independent implementation describes its daily output as calculated fro
 
 ## Latest checkpoint — 12 October 2026
 
-- The isolated Chapter IX event-classification tests now explicitly cover superior-planet branches for Jupiter, Mars, and Saturn, plus both directions for retrograde/direct Mercury.
+- The isolated Chapter IX event-classification tests cover superior-planet branches for Jupiter, Mars, and Saturn, plus both directions for retrograde/direct Mercury. A later review found the wraparound fixture had encoded the wrong premise: IX.2–3's *abhyadhika/ūna* compares zodiacal longitude ordering, not the shortest signed separation. The test and classifier have now been corrected for both sides of 0° Aries.
 - GitHub Actions run: https://github.com/OurHinduDharm/Panchang/actions/runs/38208959013 — **success**. This includes Node formula tests, Chapter VII tests, Chapter III tests, the research page in headless Chromium, and the production-file identity check.
 - This is an automated/headless browser pass only. It is not a test on the user's Android device and does not validate the date fixtures as astronomical ground truth.
 - Production isolation verified by blob identity against `main`: `app.js` and `extra-panchang.js` are unchanged. The research branch has not been merged.
@@ -153,7 +153,7 @@ These checks do **not** establish that the complete classical algorithm is corre
 
 The research page now calls `classifyChapter9HorizonEvent()` for each date in the ±15-day scan. It derives signed daily longitude motion from geocentric states at ±12 hours around the Sun event, classifies at both sunrise and sunset, and accepts the date only if both classifications agree. It then chooses sunrise for east-side events and sunset for west-side events, and selects the corresponding Chapter IX threshold dynamically. The daily crossing detector now refuses to form a bracket if invalid/ambiguous dates create a gap; it will not silently call a multi-day gap “adjacent daily events”.
 
-This is grounded in the source's explicit IX.2–3 contrast and is covered by twelve added tests for superior-planet branches, direct/retrograde Venus and Mercury, longitude wraparound, exact conjunction, stationary motion, and unsupported bodies. It remains a candidate until the actual calculated classifications and four date brackets are inspected in a live run.
+This is grounded in the source's explicit IX.2–3 contrast and is covered by tests for superior-planet branches, direct/retrograde Venus and Mercury, wraparound across 0° Aries, exact conjunction, stationary motion, and unsupported bodies. The wraparound regression was corrected on 12 October 2026: a planet at 359.5° is zodiacally greater than the Sun at 0.5°, even though the shortest circular separation is negative. CI and a live rerun must confirm the revised behavior before relying on the event brackets.
 
 ## New Chapter VII formula tests
 
@@ -503,3 +503,11 @@ These are an owner-supplied snapshot, not independently fetched or verified in t
 5. Agastya is a new scope item. Its IX.17 nakṣatra rising/setting method needs a separate source-based implementation and validation fixture; it should not be forced through the planetary K/C pipeline.
 
 **Next comparison step:** capture TKS's exact page output and its observer/time settings, then log our Sun/planet state, chosen sunrise/sunset anchor, both dṛkkarma components, K, C, signed relative daily motion, and IX.10–11 estimated days at the same anchor. Do this for Venus Udaya and Jupiter Asta first. No parameter tuning, no production changes, and no merge based on this snapshot alone.
+
+
+## 12 October 2026 addendum — zodiac wraparound in IX.2–3
+
+A review of the actual classifier found that it computed the shortest signed circular difference
+`((planetLongitude - sunLongitude + 540) % 360) - 180` and used its sign to decide whether a planet was *abhyadhika* (greater) or *ūna* (less) than the Sun. That is not equivalent to comparing the two zodiacal longitudes when they straddle 0° Aries. For example, 359.5° is greater than 0.5° in zodiacal longitude ordering, while the shortest signed separation is −1°; the prior code therefore selected the opposite IX.2–3 branch in that case.
+
+The research helper now normalizes both longitudes to [0°, 360°) and compares their ordering directly. Tests now cover both sides of the zodiac wrap for Jupiter, plus direct and retrograde Venus. This is a source-interpretation correction, not a benchmark-fitting change. The revised commit must pass the complete workflow, and the four live event cases must be rerun to confirm their branch labels and event anchors. No production file was changed.
