@@ -5130,10 +5130,6 @@ const praharNames = [
 
 praharHtml += `
   <div class="prahar-group">
-    <div class="prahar-group-title">
-      🌙 रात्रि के प्रहर
-    </div>
-
     <div class="prahar-grid">
 `;
 
@@ -5963,7 +5959,7 @@ bhadraPartsHtml += `
 
       <div class="card full">
         <div class="label">
-          ⏳ चयनित तिथि के प्रहर
+          🌙 रात्रि के प्रहर
         </div>
         ${praharHtml}
       </div>
