@@ -109,3 +109,18 @@ For OurHinduDharm, the ahargana input to the III.9 diagnostic must therefore be 
 Do not derive a creation-era ahargana by `(Gregorian JD − guessed epoch) × 365.2422` and call it source-faithful. Chapter I.56 allows mean planetary calculations from a chosen epoch, but that does not automatically authorize shifting the III.9 libration phase without preserving the source epoch’s phase.
 
 The relevant commentary is visible in the same Gūḍhārtha-prakāśaka transcription around web lines 538–550: https://vishvasa.github.io/jyotiSham/observation/history/hindu/sUrya-siddhAntaH_saTIkaH/. Burgess’s translation of I.48–51 also explains the intercalary-month and omitted-lunar-day corrections: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf.
+
+
+## New milestone: a reproducible, explicitly provisional ahargana bridge
+
+The direct Gūḍhārtha-prakāśaka commentary for I.45–51 has now been read at https://vishvasa.github.io/jyotiSham/observation/history/hindu/sUrya-siddhAntaH_saTIkaH/ (web lines 520–560). It specifies the sequence: derive elapsed solar years to the end of Kṛta; add years elapsed after that; convert years to months; add elapsed months from Caitra-śukla; estimate and correct intercalary months; convert to days and add elapsed tithis; then subtract the omitted-tithi correction to obtain the sāvana-day count at midnight on the Lanka/prime meridian. The commentary also warns that the intercalary-month quotient may need a ±1 adjustment when the obvious quotient misses the intercalary month that actually applies.
+
+An independent published reference is available on Vidhyamitra's Sūrya-siddhānta ledger: for 2026-10-08, “apparent noon at Ujjayinī,” it displays creation-era days `714,404,169,483.5` and days since the Kali age began `1,872,856`, with Chapter III ayana `22.9122°`: https://www.vidhyamitra.com/surya-siddhanta. The epoch convention described by Vidhyamitra is 18 February 3102 BCE in the Julian calendar. The Julian-calendar day difference from that date to 2026-10-08 is `1,872,856` whole days; at nominal meridian noon it is `1,872,856.5` days.
+
+Subtracting that reference elapsed-day count from the published creation-era count yields a **provisional anchored offset** of `714,402,296,627.0` sāvana days at the Kali-epoch midnight. A research-only helper, `ss_chapter1_ahargana_anchor.js`, now uses this offset to advance by elapsed days and then computes the Chapter III residual cycle. It reproduces the published reference value and ayana to four decimals, and tests the one-day increment.
+
+### Critical limitation
+
+This is an **anchored continuation**, not yet an independent derivation of the huge epoch offset from all Chapter I.45–51 constants. There is also a time-scale question to resolve: the published ledger says “apparent noon,” while the helper's reference JD is nominal local-mean noon at the prime meridian. The conversion from arbitrary UTC/user-local timestamps to the text's meridian time must be fixed and tested explicitly. Therefore, do not use this helper as a production Panchāṅga calculation or claim that the full ahargana derivation is closed.
+
+Next, reconstruct the same epoch offset independently from the Chapter I.45–51 constants and their precise commentary arithmetic, compare it with `714,402,296,627.0`, resolve apparent/mean-time semantics, and only then promote the date bridge from provisional to validated.
