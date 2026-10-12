@@ -60,6 +60,18 @@ The dṛkkarma candidate must still be checked against the Chapter VII construct
 
 1. **Critical coordinate-frame question — unresolved:** the sequential helper computes planetary RA/declination from tropical longitude using a fixed 24° obliquity, but its local sidereal angle comes from the modern apparent sidereal-time function. Unless those angles are transformed to the same equator/equinox frame, subtracting them for the hour angle may mix coordinate frames. The legacy candidate uses modern EQD RA with modern apparent sidereal time consistently, but combines that with a fixed 24° construction for Āyana correction. Neither candidate should be declared fully source-faithful until this frame relationship is derived and tested. This is a blocker for interpreting the final event dates.
 
+### Coordinate-frame correction now under test
+
+The previous Chapter VII candidate compared a planet's RA computed with a fixed 24° obliquity against local apparent sidereal time measured in the modern true-equator-of-date frame. Those are not exactly the same equatorial frame. The helper now transforms the local meridian angle into the 24° calculation frame before deriving the planet's hour angle.
+
+This transformation is a **coordinate-geometry consistency correction**, not a new Sūrya-siddhānta verse or proof that 24° is the correct value for every date. If θ is the source-frame local sidereal angle and Δε = ε_source − ε_target, the meridian-plane/equator intersection gives:
+
+θ_target = atan2(sin θ, cos θ × cos Δε)
+
+The atan2 form preserves the quadrant. Three isolated tests check identity when the obliquities match, a finite small correction when they differ, and wraparound near 360°. The browser diagnostic now displays the source sidereal angle, transformed 24°-frame angle, and applied correction. This should reduce the internal coordinate mismatch; it is not expected by itself to explain a multi-day discrepancy.
+
+The next CI run must show the revised four-case values. Even if all tests pass, the Chapter VII interpretation and the external reference-date provenance remain open; no production merge follows from this correction alone.
+
 2. **Akṣa-dṛkkarma (VII.8–9):** the text says to multiply planetary latitude by equinoctial shadow, divide by 12, then multiply by the time in ghaṭikās from the planet's meridian passage and divide by the planet's half-day length. Since equinoctial shadow / 12 corresponds to tan(observer latitude), the helper's hour-angle / half-day-angle ratio is the proposed conversion of that time ratio. The isolated tests now check its sign and zero invariants, but not independent event-date accuracy.
 3. **Āyana-dṛkkarma:** verify the prescribed longitude shifted by three signs, the declination calculation, the units of planetary latitude and declination, and the same-name/different-name sign rule.
 4. **Correction order:** Burgess's explanatory note says the Āyana correction first gives the ecliptic point on the six-o'clock line; applying Akṣa correction to that corrected point then gives the horizon point. This supports the *sequential* order as the source-faithful candidate. The current combined-from-raw-position variant is not equivalent by definition; the sequential code still needs independent numerical checks against the source proportions and sign rules. Do not choose a method merely because its output is closer to a reference date.
