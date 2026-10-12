@@ -52,6 +52,21 @@ try {
     { timeout: 90000 }
   );
 
+  await page.locator("#runElevationHorizonBtn").click();
+  await page.waitForFunction(
+    () => document.querySelectorAll("#elevationHorizonOutput tbody tr").length === 5,
+    null,
+    { timeout: 30000 }
+  );
+  const horizonRows = await page.locator("#elevationHorizonOutput tbody tr").allTextContents();
+  console.log("Elevation/horizon sensitivity:", horizonRows.map(row => row.replace(/\s+/g, " ").trim()));
+  if (horizonRows.length !== 5 ||
+      horizonRows.some(row => !row.includes("m")) ||
+      !horizonRows[1].includes("1563 m") ||
+      !horizonRows[3].includes("100 m")) {
+    throw new Error("Elevation/horizon audit did not render all five labeled scenarios.");
+  }
+
   const rows = await page.locator("#lagnantaraOutput tr.reference-row").allTextContents();
   const correctionDetails = await page.locator("#lagnantaraOutput tr.reference-row").evaluateAll(elements =>
     elements.map(row => row.nextElementSibling?.textContent || "")
