@@ -447,3 +447,16 @@ The isolated frame helper now derives the text's tabular greatest-declination an
 Sources: [Sūrya Siddhānta II.28, Sanskrit and computation](https://www.siva.sh/surya-siddhanta/2/28); [Vidhyamitra, Chapter II.28](https://vidhyamitra.com/surya-siddhanta/2).
 
 **Scope:** this isolates the textual sine-table constant and its mathematical consequence. It does not prove which obliquity convention should drive every Chapter VII/IX step, and it does not resolve the local-meridian/time argument. The new tests must pass in CI before this addition is marked verified. The full coordinate transform remains research-only and is not connected to event-date calculation.
+
+
+## Latest numerical-invariant expansion — 12 October 2026
+
+The isolated full-vector transform test suite now includes a deterministic property-style sweep over 256 vectors and four explicit angle sets (1,024 transform/inverse cases), plus a meridian-plane membership test across six meridian angles and five declinations. These tests verify algebraic consistency, not the historically correct ayana or obliquity. GitHub Actions run [38254937143](https://github.com/OurHinduDharm/Panchang/actions/runs/38254937143) passed, including the headless Chromium page test and the production-file identity guard.
+
+### Ahargaṇa source boundary reinforced
+
+The independent Sri Jagannāth Center explanation of I.48–51 explicitly says to add the **elapsed lunar-day/tithi count** for the current month, subtract the quotient of omitted tithis, and interpret the result as the civil-day count at **Laṅkā midnight**. Its 2 May 1827 Vaiśākha Śukla Ṣaṣṭhī example gives 714,404,096,641 and is reproduced by the integer arithmetic fixture. This is useful validation of the arithmetic and its inclusive tithi-day convention, but it does not justify feeding a fractional instantaneous tithi into the classical midnight formula or equating that result with Vidhyamitra's “apparent noon at Ujjayinī” ledger.
+
+Sources: [Sri Jagannāth Center, Ahargaṇa Calculations](https://srijagannath.org/jyoti%E1%B9%A3a/aharga%E1%B9%87a-calculations/); [Sastri translation, I.48–51](https://en.wikisource.org/wiki/Page:English_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/18).
+
+**Current gate status:** the time-coordinate conversion and its unit tests are complete; the source-derived epoch/time-of-day mapping is not. The planetary-vector transform is algebraically tested; the source-faithful local-meridian/hour-angle construction is not. The Chapter IX candidate event dates therefore remain research diagnostics, not certified classical outputs. No production files changed; PR #22 remains Draft and unmerged.
