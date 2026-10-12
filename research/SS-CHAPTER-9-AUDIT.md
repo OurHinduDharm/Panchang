@@ -373,3 +373,34 @@ The accessible Chapter IX verse outline explicitly separates (a) horizon/event d
 Sources: [Vidhyamitra, Chapter IX](https://www.vidhyamitra.com/surya-siddhanta/9); [Burgess, Chapter VII](https://www.swaveda.com/texts/surya-siddhanta/7/); [Hall edition with Ranganātha's commentary, Chapter IX scan](https://www.e-rara.ch/zut/content/pagetext/25255183).
 
 Next work remains the non-negotiable time/frame gate: do not start an iteration or tune constants until the prime-meridian midnight and fractional ahargana argument, plus the classical-versus-modern coordinate frame, are independently reconciled.
+
+
+## Two remaining gates — narrowed to testable contracts (2026-10-12)
+
+### Gate A — time coordinate versus ahargana epoch
+
+The time-coordinate conversion is now explicit in `ss_chapter1_ahargana_anchor.js`:
+
+`JD_{prime mean}=JD_{UT}+\lambda_{prime}/360`
+
+where east longitude is positive and both quantities are day-valued Julian coordinates. The new tests cover zero longitude, ±15° (±1 hour), Ujjayinī longitude 75.768° E, and invalid longitude. This only converts the time coordinate; it does **not** prove the epoch anchor or the current-month fractional-tithi convention.
+
+The source's wording is unambiguous that I.48–51 produces the elapsed day count to the present midnight at Laṅkā. Burgess/Sastri's explanatory text also distinguishes the elapsed lunar-day input from the final midnight result. Vidhyamitra's independently published daily ledger labels its snapshot “apparent noon at Ujjayinī” and reports a fractional ahargana, so it must not be treated as a direct midnight gold standard without reconstructing the exact fractional-tithi and time-of-day convention. Keep the 26.5-tithi fixture explicitly synthetic; do not silently recalibrate the epoch to it.
+
+Sources: [Sastri translation, I.48–51](https://en.wikisource.org/wiki/Page:English_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/18); [Vidhyamitra's dated ledger](https://www.vidhyamitra.com/surya-siddhanta).
+
+### Gate B — coordinate frame
+
+Freeze the textual lineage for this diagnostic as the vulgate text with Ranganātha's Gūḍhārtha-prakāśa, cross-checked against Burgess's translation. The implementation must keep these coordinate products separate until an explicit rotation connects them:
+
+1. Modern geocentric vector in J2000 equatorial axes (ephemeris input).
+2. Modern true ecliptic-of-date longitude/latitude (ECT).
+3. Modern true equatorial-of-date RA/declination (EQD), used only with matching apparent sidereal time.
+4. The classical diagnostic ecliptic longitude after the Chapter III.9–12 ayana model and the Chapter VII apparent-longitude corrections.
+5. The classical hour-angle/declination frame used by the lagnāntara geometry, with the local meridian transformed into that same frame.
+
+A fixed `24.217°` offset is only a comparator, not the Chapter III ayana model. A fixed `24°` obliquity and modern true RA/declination are not a single frame by themselves. The next frame test must construct and expose the full rotation matrix and its inverse, prove round-trip vector preservation and matching local-meridian/hour-angle geometry, and compare the Chapter II.28 sine-table convention (radius 3438, max-declination sine 1397) separately from exact trigonometry. Until that test exists, neither current nor sequential K candidate is certified as canonical.
+
+### Gate decision
+
+The UTC-to-prime-meridian time-coordinate conversion is now implemented and unit-tested; the ahargana epoch/fractional-tithi convention remains open. The coordinate-frame inventory and target textual lineage are now explicit; the actual full frame transform remains open. These are bounded next tasks, not permission to ship. No production patch and no merge.
