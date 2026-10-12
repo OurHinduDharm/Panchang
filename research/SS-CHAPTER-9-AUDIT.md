@@ -460,3 +460,13 @@ The independent Sri Jagannāth Center explanation of I.48–51 explicitly says t
 Sources: [Sri Jagannāth Center, Ahargaṇa Calculations](https://srijagannath.org/jyoti%E1%B9%A3a/aharga%E1%B9%87a-calculations/); [Sastri translation, I.48–51](https://en.wikisource.org/wiki/Page:English_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/18).
 
 **Current gate status:** the time-coordinate conversion and its unit tests are complete; the source-derived epoch/time-of-day mapping is not. The planetary-vector transform is algebraically tested; the source-faithful local-meridian/hour-angle construction is not. The Chapter IX candidate event dates therefore remain research diagnostics, not certified classical outputs. No production files changed; PR #22 remains Draft and unmerged.
+
+## Continuation — 12 October 2026: Ahargaṇa tithi-ordinal check
+
+The date label for 8 October 2026 is independently reported as Āśvina Kṛṣṇa Trayodaśī by current Panchāṅga references (for example, [Drik Panchang](https://www.drikpanchang.com/panchang/day-panchang.html?date=08%2F10%2F2026&time-format=24hour) and [Vedicmatters](https://vedicmatters.com/tithi/2026-10-08)). If the input coordinate is elapsed tithis from Śukla Pratipadā at the start of the lunar month, Kṛṣṇa Trayodaśī occupies the interval **[27, 28)**. The existing `26.5` reference fixture is therefore not a valid ordinal coordinate for that date label; it remains a deliberately synthetic arithmetic fixture and must not be cited as a reconstructed historical input.
+
+A research-only helper and tests now explicitly check the ordinal intervals for Śukla Pratipadā, Śukla Pūrṇimā, Kṛṣṇa Pratipadā, and Kṛṣṇa Trayodaśī, and assert that `26.5` is outside the Trayodaśī interval. This resolves the **ordinal** ambiguity, not the fractional tithi at the source's exact timestamp.
+
+The rounded longitudes previously transcribed for the Vidhyamitra ledger imply approximately `27.5889` elapsed tithis at apparent noon. That remains a rough comparator only: the exact source timestamp, longitude precision, time standard, and conversion from the displayed “apparent noon at Ujjayinī” to the Chapter I result at Laṅkā midnight have not been independently reconstructed. The 1827 benchmark validates the integer quotient arithmetic and its inclusive tithi-day convention, but it does not validate the 2026 fractional-time mapping.
+
+**Current result:** one concrete input-label defect is now guarded by tests; the Ahargaṇa epoch/time boundary is still **not certified**. No adjustment has been made to force the output to match the external ledger.
