@@ -525,3 +525,25 @@ A review of the actual classifier found that it computed the shortest signed cir
 `((planetLongitude - sunLongitude + 540) % 360) - 180` and used its sign to decide whether a planet was *abhyadhika* (greater) or *ūna* (less) than the Sun. That is not equivalent to comparing the two zodiacal longitudes when they straddle 0° Aries. For example, 359.5° is greater than 0.5° in zodiacal longitude ordering, while the shortest signed separation is −1°; the prior code therefore selected the opposite IX.2–3 branch in that case.
 
 The research helper now normalizes both longitudes to [0°, 360°) and compares their ordering directly. Tests now cover both sides of the zodiac wrap for Jupiter, plus direct and retrograde Venus. This is a source-interpretation correction, not a benchmark-fitting change. The revised commit must pass the complete workflow, and the four live event cases must be rerun to confirm their branch labels and event anchors. No production file was changed.
+
+## Owner-supplied TKS Venus cross-panel discrepancy — 12 October 2026
+
+The owner supplied two TKS views for Venus at the same nominal date:
+
+- 3-D event view: **2026-10-12 06:30 UTC** (12:00:00 IST), heading “Combust · Śāstrīya”; reported Sun–Venus separation **19.4°**, stated limit **10°**, and explanatory text says the planet is asta when it is *within* that limit.
+- Udaya-asta detailed shāstrīya panel: Venus is **Asta**, **K = 7.698°**, **C = 8°**, ecliptic-longitude separation **17.6°**. The same supplied TKS observations list Venus’s retrograde station at 2026-10-03 12:46 local time, so Venus should be retrograde on 12 October if the time bases are consistent.
+- The Udaya-asta page explicitly lists Venus limits **8° / 10°** and says the branch changes with retrograde/direct state. The Sanskrit source for Sūrya-siddhānta IX.7, however, describes the limits in terms of the event direction: west-setting/east-rising at 8°, east-setting/west-rising at 10°. IX.8 gives Mercury's 12°/14° distinction according to the described motion.
+- The 3-D view's own angular explanation is internally inconsistent: **19.4° is not within a 10° limit**, yet the text uses that angle/limit explanation under a “Combust” heading. This does not by itself prove its separate classical K calculation is wrong; it does show that the 3-D explanatory label/logic must not be used as validation of the detailed Chapter IX method.
+- The two reported angular quantities, **19.4° true 3-D elongation** and **17.6° ecliptic-longitude separation**, are different geometrical measures and must remain separately labelled. Neither is the same as the Chapter IX lagnāntara-derived **K = 7.698°**.
+
+### Research decision
+
+1. Treat the detailed shāstrīya panel (K, C, event date) as the more relevant TKS comparator for Chapter IX, but not as independently verified truth.
+2. Record the 3-D panel as a separate cross-panel inconsistency. Do not “fix” our classifier to match its C=10° label.
+3. Recheck the exact event-direction classification (east/west setting/rising), apparent longitude ordering, signed daily motion, and the event timestamp at the same instant. The event-specific IX.7 threshold is the source-faithful branch to test; the legacy angular diagnostic's motion-only threshold remains exploratory.
+4. Keep all changes research-only. No production files changed.
+
+Sources:
+- Sūrya-siddhānta IX.6–10, including IX.7 event-direction wording: https://www.siva.sh/surya-siddhanta/9/6-10
+- TKS Udaya-asta method/limits (Beta): https://tksephemeris.com/tks-udaya-asta
+- TKS API distinction between ephemeris state, planetary events, and heliacal outputs: https://tksephemeris.com/tks-api
