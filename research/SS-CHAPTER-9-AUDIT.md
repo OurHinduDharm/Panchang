@@ -54,6 +54,12 @@ A second independent implementation describes its daily output as calculated fro
 - This is an automated/headless browser pass only. It is not a test on the user's Android device and does not validate the date fixtures as astronomical ground truth.
 - Production isolation verified by blob identity against `main`: `app.js` and `extra-panchang.js` are unchanged. The research branch has not been merged.
 
+## Verified benchmark-source distinction (12 October 2026)
+
+- **Drik Panchang Venus Asta page:** https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?lang=en — the Delhi page lists 12 October 2026 at 18:19 as the start and 28 October 2026 at 30:00+ as the end. Its own note says its timings use modern algorithms and are observer-location based; it separately describes the Sūrya-siddhānta angular-separation rule as approximate. Therefore these times are useful as a modern location-dependent comparison, but they are not by themselves proof of the classical lagnāntara result.
+- **TKS Udaya-asta page:** https://tksephemeris.com/tks-udaya-asta — explicitly separates its Shāstrīya lagnāntara-asu model from geometric arcus-visionis and Schaefer physical-visibility models. This confirms that the research page should preserve separate result columns and labels.
+- These source descriptions clarify what the comparison values mean; they do **not** yet explain the numerical date differences in our four fixtures. No discrepancy cause is declared until both calculations are reproduced with the same observer, time convention, ephemeris/coordinate convention, and event definition.
+
 ## Decision gate before calling the method validated
 
 1. **Resolve coordinate-frame convention.** Derive and document whether the classical 24° construction is a changed ecliptic-to-equatorial transform in a fixed equatorial frame or a changed equator frame; do not mix apparent sidereal time and coordinates from different frames. Verify the derivation with an independent vector construction and an authoritative numerical example.
