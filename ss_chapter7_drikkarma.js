@@ -221,10 +221,8 @@ export function runChapter7DrikkarmaTests() {
     targetObliquityDeg: 24
   });
   tests.push({
-    name: "Modern sidereal angle is transformed into the fixed-24° calculation frame",
-    passed: Number.isFinite(changedFrameAngle) &&
-      Math.abs(changedFrameAngle - 45) > 1e-5 &&
-      Math.abs(changedFrameAngle - 45) < 0.1
+    name: "Independent numeric fixture for modern-to-24° meridian-frame conversion",
+    passed: close(changedFrameAngle, 45.00138453479633, 1e-10)
   });
 
   const wrappedFrameAngle = convertLocalSiderealAngleObliquityFrame({
