@@ -2600,7 +2600,7 @@ function getActiveSankalpElements(p, previousPanchang, referenceNow, isPreSunris
       ? (karanaHindi[activeKarana.name] || activeKarana.name || "")
       : (
           source.karana != null
-            ? (karanaHindi[source.karana] || String(source.karana))
+            ? getSimpleHindi(source.karana, karanaHindi)
             : ""
         )
   };
