@@ -70,7 +70,7 @@ test("active night Prahar can accompany Pratahkaal after Brahma Muhurta starts",
 
 test("Sankalp keeps the four requested kaal labels and appends night Prahar without replacing Ratrikale", () => {
   const start = source.indexOf("function getCurrentKaalPrahar(");
-  const end = source.indexOf("/* =========================================================\\n   SANKALP TYPE — AUTO SANDHYA", start);
+  const end = source.indexOf("/* =========================================================\n   SANKALP TYPE — AUTO SANDHYA", start);
   assert.notEqual(start, -1);
   assert.notEqual(end, -1);
 
@@ -100,13 +100,13 @@ test("Sankalp keeps the four requested kaal labels and appends night Prahar with
     { kaal: "रात्रि", praharName: "प्रथम" }
   );
 
-  assert.match(source, /const kaalForm = \\({[\\s\\S]*?"रात्रि": "रात्रिकाले"/);
+  assert.match(source, /const kaalForm = \({[\s\S]*?"रात्रि": "रात्रिकाले"/);
   assert.doesNotMatch(source, /useNightPraharAsKaal/);
-  assert.doesNotMatch(source, /sankalpState\\.type === "sandhya"\\s*\\)\\s*\\? ""/);
+  assert.doesNotMatch(source, /sankalpState\.type === "sandhya"\s*\)\s*\? ""/);
 });
 
 test("Sankalp month and tithi qualifiers use the requested classical wording", () => {
-  assert.match(source, /parts\\.push\\("मासानामुत्तमे " \\+ masaForm\\)/);
+  assert.match(source, /parts\.push\("मासानामुत्तमे " \+ masaForm\)/);
   assert.doesNotMatch(source, /मासानामुत्तमे महामाङ्गल्ये/);
   assert.match(source, /एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ/);
   assert.doesNotMatch(source, /एवं गुणविशिष्टायां पुण्यतिथौ/);
