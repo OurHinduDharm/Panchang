@@ -99,10 +99,12 @@ export function runChapter1TraditionalAharganaTests() {
   const close = (actual, expected, tolerance = 1e-7) =>
     Number.isFinite(actual) && Math.abs(actual - expected) <= tolerance;
 
-  // Vidhyamitra's 2026-10-08 ledger: Kali year 5127, Bhādrapada Kṛṣṇa
-  // Trayodaśī. The source-ledger's noon value is 714404169483.5.
-  // 2,160,000 years elapse between the end of Kṛta and the start of Kali;
-  // 5 completed Kali years-thousands context + current elapsed years = 5127.
+  // Synthetic arithmetic fixture using the source-ledger's scale. The 26.5
+  // elapsed-tithi fraction is deliberately a test input, NOT yet an independently
+  // verified reconstruction of the source page's exact fractional tithi/time.
+  // The external ledger labels the date Bhādrapada Kṛṣṇa Trayodaśī and reports
+  // 714404169483.5 at "apparent noon"; the exact input tithi fraction and the
+  // midnight/noon convention still need a separate audit.
   const reference = chapter1AharganaFromTraditionalDate({
     elapsedSolarYearsSinceKritaEnd: 2165127,
     elapsedMonthsFromCaitraShukla: 5,
@@ -111,7 +113,7 @@ export function runChapter1TraditionalAharganaTests() {
   });
 
   tests.push({
-    name: "Chapter I.45–51 arithmetic reproduces Vidhyamitra's 2026-10-08 ahargana reference",
+    name: "Synthetic Chapter I.45–51 fixture verifies large-number quotient arithmetic to the expected reference-scale value",
     passed: close(reference.ahargana, 714404169483.5) &&
       reference.elapsedSolarMonths === 23470621529 &&
       reference.rawIntercalaryMonths === 721384765 &&
@@ -160,6 +162,6 @@ export function runChapter1TraditionalAharganaTests() {
     total: tests.length,
     allPassed: tests.every(test => test.passed),
     reference,
-    note: "Arithmetic is source-derived, but the traditional calendar fields and ±1 adhika-month decision must be independently validated for each civil date."
+    note: "The algorithm follows Chapter I.45–51 arithmetic. The fractional-tithi input in the synthetic fixture is not independently verified against the external ledger; civil-date conversion, day-boundary convention, and ±1 adhika-month decision remain open."
   };
 }
