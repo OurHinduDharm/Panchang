@@ -159,7 +159,7 @@ test("Anandadi yogas show auspiciousness colors and use Lumbaka spelling", () =>
   assert.match(classical, /category:OHN_ANANDADI_AUSPICIOUS\.has\(name\) \? "शुभ" : "अशुभ"/);
 });
 
-test("Godhuli uses the season-specific solar altitude and one fixed 48-minute window", () => {
+test("Godhuli applies only the three seasonal solar states stated in Muhurta Chintamani 6.101", () => {
   const start = source.indexOf("function getGodhuliMuhurta(");
   const end = source.indexOf("function getSpecialKaalDetails(", start);
   assert.notEqual(start, -1);
@@ -203,15 +203,19 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   // The library output can lack p.ritu; then season must be derived from Sun rashi.
   sandbox.getGodhuliMuhurta({ sunRashi: { index: 7 } }, sunset, location, deps);
   assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "Hemanta from Sun rashi");
-  sandbox.getGodhuliMuhurta({ sunRashi: { index: 9 } }, sunset, location, deps);
-  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "Shishira from Sun rashi");
+  const priorSearch = sandbox.lastSearch;
+  const shishiraFallback = sandbox.getGodhuliMuhurta({ sunRashi: { index: 9 } }, sunset, location, deps);
+  assert.equal(sandbox.lastSearch, priorSearch, "Shishira must not trigger an unsupported altitude search");
+  assert.equal(minutes(shishiraFallback.start, sunset), 12, "Shishira preserves the existing fallback window");
+  const vasantaFallback = sandbox.getGodhuliMuhurta({ ritu: "वसंत" }, sunset, location, deps);
+  assert.equal(minutes(vasantaFallback.start, sunset), 12, "Vasanta preserves the existing fallback window");
   sandbox.getGodhuliMuhurta({ sunRashi: { index: 3 } }, sunset, location, deps);
   assert.ok(Math.abs(sandbox.lastSearch.altitude - (-16 / 60)) < 1e-9, "Varsha from Sun rashi");
   sandbox.getGodhuliMuhurta({ ritu: "Hemanta" }, sunset, location, deps);
   assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "English ritu alias");
 
   sandbox.SearchAltitude = () => null;
-  const fallback = sandbox.getGodhuliMuhurta({ ritu: "शरद" }, sunset, location, { ...deps, SearchAltitude: sandbox.SearchAltitude });
+  const fallback = sandbox.getGodhuliMuhurta({ ritu: "हेमंत" }, sunset, location, { ...deps, SearchAltitude: sandbox.SearchAltitude });
   assert.equal(minutes(fallback.start, sunset), 12);
   assert.equal(minutes(sunset, fallback.end), 12);
 
@@ -241,10 +245,10 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   // sunset times that could accidentally test the wrong solar event.
   const seasonalCases = [
     {
-      date: "2027-03-25",
-      ritu: "वसंत",
+      date: "2026-12-05",
+      ritu: "हेमंत",
       location: { lat: 30.1265, lon: 80.4817, elevation: 0 },
-      expectedAltitude: 0
+      expectedAltitude: 16 / 60
     },
     {
       date: "2027-05-25",
@@ -253,28 +257,10 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
       expectedAltitude: 0
     },
     {
-      date: "2026-12-05",
-      ritu: "हेमंत",
-      location: { lat: 30.1265, lon: 80.4817, elevation: 0 },
-      expectedAltitude: 16 / 60
-    },
-    {
-      date: "2027-01-25",
-      ritu: "शिशिर",
-      location: { lat: 28.6139, lon: 77.2090, elevation: 0 },
-      expectedAltitude: 16 / 60
-    },
-    {
       date: "2027-07-25",
       ritu: "वर्षा",
       location: { lat: 13.0827, lon: 80.2707, elevation: 0 },
       expectedAltitude: -16 / 60
-    },
-    {
-      date: "2026-09-25",
-      ritu: "शरद",
-      location: { lat: 13.0827, lon: 80.2707, elevation: 0 },
-      expectedAltitude: 0
     }
   ];
 
