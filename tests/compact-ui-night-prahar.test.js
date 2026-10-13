@@ -264,6 +264,21 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
       0
     );
     assert.ok(sunsetEvent?.date, `Astronomy Engine should find sunset for ${item.date}`);
+    const rawAltitudeEvent = SearchAltitude(
+      Body.Sun,
+      observer,
+      -1,
+      new Date(sunsetEvent.date.getTime() - 4 * 60 * 60 * 1000),
+      0.5,
+      item.expectedAltitude
+    );
+    assert.ok(rawAltitudeEvent?.date, `Astronomy Engine should find the ${item.ritu} solar-altitude crossing`);
+    const rawMinutesBeforeSunset =
+      (sunsetEvent.date.getTime() - rawAltitudeEvent.date.getTime()) / 60000;
+    assert.ok(
+      rawMinutesBeforeSunset >= 0 && rawMinutesBeforeSunset <= 90,
+      `Raw ${item.ritu} crossing on ${item.date} was ${rawAltitudeEvent.date.toISOString()}, sunset was ${sunsetEvent.date.toISOString()}, delta ${rawMinutesBeforeSunset} minutes`
+    );
 
     const seasonalWindow = sandbox.getGodhuliMuhurta(
       { ritu: item.ritu },
@@ -274,7 +289,7 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
     assert.equal(
       minutes(seasonalWindow.start, seasonalWindow.end),
       48,
-      `Expected a 48-minute ${item.ritu} Godhuli window on ${item.date}`
+      `Expected a 48-minute ${item.ritu} Godhuli window on ${item.date}; start=${seasonalWindow.start.toISOString()}, sunset=${sunsetEvent.date.toISOString()}`
     );
     const minutesBeforeSunset = minutes(seasonalWindow.start, sunsetEvent.date);
     assert.ok(
