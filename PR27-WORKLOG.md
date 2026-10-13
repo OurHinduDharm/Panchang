@@ -23,16 +23,17 @@ Changed files at current PR head:
 - `PR27-WORKLOG.md`: this validation log.
 
 Seasonal target altitudes:
-- Hemanta/Shishira: +16 arcminutes.
-- Vasanta/Grishma/Sharad: 0 degrees.
-- Varsha: −16 arcminutes.
+- Hemanta: +16 arcminutes (whole solar disc visible, interpreted geometrically).
+- Grishma / hot season: 0 degrees (solar center on the geometric horizon; half-set convention).
+- Varsha: −16 arcminutes (solar center below the geometric horizon; fully-set convention).
+- Vasanta, Sharad, and Shishira: retain the existing ±12-minute fallback until a reliable source establishes their thresholds. Muhurta Chintamani 6.101 does not explicitly assign them a separate state.
 
-Season is taken from `p.ritu` when recognized, otherwise inferred from the existing Sun-rashi-to-season mapping.
+Season is taken from `p.ritu` when recognized, otherwise inferred from the existing Sun-rashi-to-season mapping. The 48-minute duration remains a declared project convention supported by a general secondary source, not a duration prescribed by verse 6.101.
 
 ## Review findings and open checks
 
 1. **Shared-script loading cost:** the user supplied the Blogger script tags for `app.js` and `extra-panchang.js`, both loaded as separate `type="module"` scripts from jsDelivr. Because `app.js` imports Astronomy Engine statically, that dependency must load before `app.js` executes. The snippet alone does not establish whether these tags appear only on the Panchang page or in a site-wide Blogger template. If confined to the Panchang page, this is not a site-wide load penalty. Do not introduce an unreliable asynchronous race or change the Panchang UI merely to optimize this.
-2. **Live result validation:** verify the displayed Godhuli start/end for the selected location and date, including a date from each of the six seasons. Compare against a trustworthy reference where available and document differences rather than treating one source as universal.
+2. **Live result validation:** verify the displayed Godhuli start/end for the selected location and date, including each of the three explicitly mapped seasons and a fallback season. Compare against a trustworthy reference where available and document differences rather than treating one source as universal.
 3. **Time-zone behavior:** the event returned by Astronomy Engine is an absolute Date; confirm display formatting follows the project's existing local-time policy. A broader fixed-IST audit is out of scope unless a direct regression is found.
 4. **CI:** current HEAD `34d3764de0420f1bc66360ef416e81150568e6ff` has a successful `Classical yoga interval tests` run (run #137), including syntax checks, card-order regression tests, compact UI/night Prahar tests, and interval/real Astronomy Engine comparisons across six seasonal dates. CodeQL PR run #654 also completed successfully.
 5. **Reference limits:** the available TKS sample supports a 48-minute interval for that sample only. Independent TKS comparison across multiple seasons remains unverified.
@@ -51,3 +52,6 @@ Current CI is green. The user supplied the Blogger script tags for `app.js` and 
 - 2026-10-13: User provided the Blogger script inclusion: `app.js` and `extra-panchang.js` are separate `type="module"` scripts served from jsDelivr. This narrows the load-path question but does not prove whether the tags are page-only or site-wide. The latest work-log-only commit `3cb4e6521fa218c407d692c96c13153d9bbbc1be` passed CI run #138: https://github.com/OurHinduDharm/Panchang/actions/runs/38366940732. No calculation code changed.
 
 - 2026-10-13: User supplied the actual Blogger Panchang page HTML. It loads `app.js` and `extra-panchang.js` only in the page's `EXISTING PANCHANG SCRIPTS` section, both via jsDelivr `<script type="module">`. In the supplied snippet, these scripts are not shown in the Blogger-wide template or site-wide mini-widget. Therefore the new top-level Astronomy Engine import is confirmed to affect this Panchang page's module graph, but there is no evidence from this snippet that it adds load cost to other pages. Do not change to dynamic import solely for this concern; that would require making the Godhuli calculation/render path async and risks UI regressions. The actual live rendered Godhuli start/end still needs a browser screenshot or console output from the user to validate display values.
+
+
+- 2026-10-13: Research review narrowed the seasonal altitude calculation to the three states explicitly described in Muhurta Chintamani 6.101: Hemanta (+16′), the hot season/Grishma (0°), and Varsha (−16′). The earlier extension of Hemanta's threshold to Shishira and of the hot-season threshold to Vasanta/Sharad was an analogy, not directly established by this verse. Updated implementation and tests to preserve the prior ±12-minute window in Vasanta, Sharad, and Shishira until a reliable source supports additional thresholds. Kept the 48-minute duration as a project convention, not a claim made by the verse. CI must validate the updated head; live Blogger output remains to be checked before merge.
