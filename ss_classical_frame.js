@@ -119,6 +119,61 @@ export function modernLocalSiderealAngleToClassicalFrame({
   return normalize360(Math.atan2(intersection[1], intersection[0]) / DEG);
 }
 
+/**
+ * Convert geocentric EQD right ascension/declination to a unit vector.
+ * Input angles must describe the same EQD frame used as sourceObliquityDeg.
+ */
+export function equatorialVectorFromRaDec({ rightAscensionDeg, declinationDeg }) {
+  if (![rightAscensionDeg, declinationDeg].every(Number.isFinite) ||
+      Math.abs(declinationDeg) > 90) {
+    throw new TypeError("Finite right ascension and declination are required; declination must be within ±90°.");
+  }
+  const ra = rightAscensionDeg * DEG;
+  const dec = declinationDeg * DEG;
+  return [
+    Math.cos(dec) * Math.cos(ra),
+    Math.cos(dec) * Math.sin(ra),
+    Math.sin(dec)
+  ];
+}
+
+/**
+ * Convert an EQD vector into the explicitly selected classical frame and
+ * return both target ecliptic coordinates and target equatorial coordinates.
+ * This reports geometry only; it intentionally does not calculate Chapter VII
+ * correction terms or event dates because the classical local-time convention
+ * and the correct historical frame parameters remain unverified.
+ */
+export function inspectModernStateInClassicalFrame({
+  rightAscensionDeg,
+  declinationDeg,
+  sourceObliquityDeg,
+  ayanamshaDeg,
+  classicalObliquityDeg
+}) {
+  const args = { sourceObliquityDeg, ayanamshaDeg, classicalObliquityDeg };
+  const sourceVector = equatorialVectorFromRaDec({
+    rightAscensionDeg, declinationDeg
+  });
+  const targetVector = modernEquatorialToClassicalEquatorial(sourceVector, args);
+  const targetNorm = Math.hypot(...targetVector);
+  if (!(targetNorm > 0)) throw new RangeError("Transformed vector has zero length.");
+  const targetRA = normalize360(Math.atan2(targetVector[1], targetVector[0]) / DEG);
+  const targetDec = Math.asin(Math.max(-1, Math.min(1, targetVector[2] / targetNorm))) / DEG;
+  const ecliptic = eclipticCoordinatesFromEquatorialVector(
+    targetVector, classicalObliquityDeg
+  );
+  return {
+    sourceVector,
+    targetVector,
+    targetRightAscensionDeg: targetRA,
+    targetDeclinationDeg: targetDec,
+    targetLongitudeDeg: ecliptic.longitudeDeg,
+    targetLatitudeDeg: ecliptic.latitudeDeg,
+    norm: targetNorm
+  };
+}
+
 /** Modern EQD vector -> classical equatorial vector, with all angles explicit. */
 export function modernEquatorialToClassicalEquatorial(vector, args) {
   validateVector(vector);
@@ -232,6 +287,21 @@ export function runClassicalFrameTransformTests() {
       close(dot(transformedBasis[0], transformedBasis[2]), 0) &&
       close(dot(transformedBasis[1], transformedBasis[2]), 0) &&
       transformedBasis.every(v => close(norm(v), 1))
+  });
+
+  const stateRoundTrip = inspectModernStateInClassicalFrame({
+    rightAscensionDeg: 214.3,
+    declinationDeg: -12.7,
+    sourceObliquityDeg: args.sourceObliquityDeg,
+    ayanamshaDeg: args.ayanamshaDeg,
+    classicalObliquityDeg: args.classicalObliquityDeg
+  });
+  tests.push({
+    name: "EQD RA/declination reconstructs a unit vector and yields finite classical-frame coordinates",
+    passed: close(stateRoundTrip.norm, 1, 1e-12) &&
+      [stateRoundTrip.targetRightAscensionDeg, stateRoundTrip.targetDeclinationDeg,
+       stateRoundTrip.targetLongitudeDeg, stateRoundTrip.targetLatitudeDeg].every(Number.isFinite) &&
+      close(Math.hypot(...stateRoundTrip.sourceVector), 1, 1e-12)
   });
 
   const sourceEcliptic = equatorialVectorFromEcliptic({
