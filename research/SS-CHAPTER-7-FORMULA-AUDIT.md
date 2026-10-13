@@ -186,3 +186,16 @@ The commentary's *upapatti* describes the planet's latitude as the hypotenuse in
 - **Why not call it fully closed yet:** this conclusion is a geometric reading of Raṅganātha's prose and diagram-like construction, not an explicit modern-coordinate instruction “set latitude = 0.” The Sudhākara Dvivedī *Sudhāvarṣiṇī* scan located earlier has OCR too corrupted to provide independent confirmation; its page image still needs direct inspection.
 - **Action:** retain the current zero-latitude candidate as the leading interpretation, but keep the retained-latitude variant in tests as a diagnostic counterfactual until the scanned *upapatti* is visually checked. Do not present the two branches as equally supported after this commentary geometry pass.
 - No production arithmetic changed. No tuning to TKS and no event-date certification follows from this interpretation alone.
+
+
+## Half-day / nata ratio: independent horizon-geometry checkpoint (13 October 2026)
+
+The VII.8–9 candidate represents the planet's time from meridian and its own half-day in the same angular-time units. With the local hour angle (H) and the horizon hour angle (H_0), the ratio of their corresponding time measures is (H/H_0): both convert by the same constant (15° per hour, or 4 minutes of time per degree). The half-day boundary is the rising/setting solution of
+
+`sin(altitude) = sin(φ) sin(δ) + cos(φ) cos(δ) cos(H) = 0`
+
+so `cos(H₀) = −tan(φ) tan(δ)`. This is a spherical-horizon identity, not a new textual rule. It supplies a geometry check for the candidate's half-day angle, while the source's exact definition and sign convention for nata/unnata remain subject to the Chapter VII commentary.
+
+A new regression test evaluates the horizon-altitude equation independently at the computed boundary and just to either side, across observer latitudes north/equator/south and several declinations. This validates the geometric half-day boundary used by the time ratio; it does **not** prove that the entire modern-coordinate-to-classical-frame bridge is source-faithful or validate any Chapter IX event date.
+
+**Remaining distinction:** Chapter III sign-rising-asus interpolation is a separate Chapter IX lagnāntara calculation. Do not substitute that sign-table interpolation for the planet's local meridian-distance/half-day ratio in Chapter VII dṛkkarma merely because both use time/asus quantities.
