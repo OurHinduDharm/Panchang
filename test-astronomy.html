@@ -3478,7 +3478,7 @@ async function runSameInstantTksSnapshotAudit() {
     '<div class="status warn">Interpretation: Swiss Ephemeris is an independent apparent-position input check using the same candidate geometry, not a TKS reproduction. If Swiss−AE K is small, the large TKS gap is unlikely to be caused by the modern ephemeris source alone; continue auditing coordinate frames and dṛkkarma construction. TKS K remains a supplied comparison value.</div>';
 }
 
-function runLagnantaraDiagnostic() {
+async function runLagnantaraDiagnostic() {
   lagnantaraOutput.innerHTML = '<div class="status info">Calculating TKS-coordinate sunrise/sunset lagnāntara geometry...</div>';
   const ch7 = runChapter7DrikkarmaTests();
   document.getElementById("chapter7DrikkarmaTestOutput").innerHTML =
@@ -3706,7 +3706,7 @@ function runLagnantaraDiagnostic() {
   lagnantaraOutput.innerHTML = html;
   runCoordinateFrameSensitivityAudit();
   runJupiterAstaComponentSweep();
-  runSameInstantTksSnapshotAudit();
+  await runSameInstantTksSnapshotAudit();
   setStatus("Lagnāntara diagnostic completed; same-instant TKS snapshot, coordinate-frame audit, and independent Swiss comparison populated.", "ok");
 }
 /* =============================================================
