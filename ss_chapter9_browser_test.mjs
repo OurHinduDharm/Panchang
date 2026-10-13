@@ -52,6 +52,12 @@ try {
     { timeout: 90000 }
   );
 
+  await page.waitForFunction(
+    () => document.querySelector("#sameInstantTksAuditOutput")?.innerText.includes("2026-10-12 12:00:00 IST"),
+    null,
+    { timeout: 90000 }
+  );
+
   const sameInstantAudit = await page.locator("#sameInstantTksAuditOutput").innerText();
   console.log("Same-instant TKS Venus snapshot audit:", sameInstantAudit.replace(/\\s+/g, " ").trim());
   if (!sameInstantAudit.includes("2026-10-12 12:00:00 IST") ||
