@@ -225,6 +225,7 @@
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
     <button id="runClassicalBtn">Angular Threshold Diagnostic</button>
     <button id="runFrameCompareBtn">3-D Coordinate Frame Comparison</button>
+    <button id="fetchRawTksBtn">Fetch Raw TKS Sun/Venus JSON</button>
     <button id="runChapter9ArithmeticBtn">SS IX.10–11 Time-Estimate Tests</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
@@ -235,6 +236,13 @@
   <div id="status" class="status">
     Ready.
   </div>
+
+  <section id="rawTksSection">
+    <h2>Raw TKS Ephemeris Capture — Same Instant</h2>
+    <p>Research-only external reference request. Requests Sun and Venus separately for 12 October 2026, 12:00 local civil time, Pithoragarh (29.5830° N, 80.2090° E). The documented endpoint parameters do not list a timezone field; the exact request URL is shown below so time interpretation can be audited. This does not run during automated tests and does not affect production.</p>
+    <div id="rawTksStatus" class="status info">Not requested yet. Press “Fetch Raw TKS Sun/Venus JSON”.</div>
+    <pre id="rawTksOutput" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:560px;overflow:auto;padding:12px;background:#fff;border:1px solid #d7dce2;border-radius:8px;">Raw responses will appear here, including HTTP, JSON, or CORS errors.</pre>
+  </section>
 
   <!-- ========================================================= -->
   <!-- 1. CONFIGURATION -->
@@ -4640,8 +4648,69 @@ document
 
 renderReferences();
 
+/* =============================================================
+   OPTIONAL RAW TKS API CAPTURE (manual only; never part of CI)
+   ============================================================= */
+
+const rawTksButton = document.getElementById("fetchRawTksBtn");
+const rawTksStatus = document.getElementById("rawTksStatus");
+const rawTksOutput = document.getElementById("rawTksOutput");
+
+rawTksButton.addEventListener("click", async () => {
+  rawTksButton.disabled = true;
+  rawTksStatus.className = "status info";
+  rawTksStatus.textContent = "Requesting raw Sun and Venus ephemeris JSON from TKS…";
+  const base = "https://tksephemeris.com/v1/tks/ephemeris";
+  const common = {
+    date: "2026-10-12",
+    time: "12:00",
+    place: "Pithoragarh",
+    lat: "29.5830",
+    lon: "80.2090"
+  };
+  const captures = [];
+  try {
+    for (const body of ["sun", "venus"]) {
+      const params = new URLSearchParams({ ...common, body });
+      const url = base + "?" + params.toString();
+      const record = { body, request_url: url, requested_parameters: { ...common, body } };
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: { "Accept": "application/json" },
+          cache: "no-store"
+        });
+        record.http_status = response.status;
+        record.http_ok = response.ok;
+        record.response_text = await response.text();
+        try { record.response_json = JSON.parse(record.response_text); }
+        catch { record.response_json_parse_error = "Response body was not valid JSON."; }
+      } catch (error) {
+        record.fetch_error = String(error && error.message ? error.message : error);
+        record.note = "A browser fetch error can indicate CORS, network failure, or endpoint unavailability; it does not prove the endpoint itself is down.";
+      }
+      captures.push(record);
+      rawTksOutput.textContent = JSON.stringify({
+        capture: "TKS raw ephemeris; no coordinate conversion or correction applied",
+        requested_local_instant: "2026-10-12 12:00",
+        place: "Pithoragarh",
+        coordinates: { latitude_deg: 29.5830, longitude_deg: 80.2090 },
+        timezone_parameter: "Not sent: not listed in the documented /v1/tks/ephemeris parameters",
+        bodies: captures
+      }, null, 2);
+    }
+    const failures = captures.filter(x => !x.http_ok);
+    rawTksStatus.className = failures.length ? "status warn" : "status ok";
+    rawTksStatus.textContent = failures.length
+      ? "Capture completed with one or more HTTP/fetch errors. Inspect each exact request and response below; do not treat an error as astronomical data."
+      : "Both responses received. Preserve the JSON and request URLs as raw evidence before comparing coordinates.";
+  } finally {
+    rawTksButton.disabled = false;
+  }
+});
+
 setStatus(
-  "Ready. Click Run All Tests.",
+  "Ready. Click Run All Tests. Raw TKS capture is optional and manual only.",
   "info"
 );
 window.__SS_CH9_DIAGNOSTIC_READY__ = true;
