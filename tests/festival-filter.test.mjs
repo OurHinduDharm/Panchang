@@ -5,6 +5,8 @@ import { isHinduFestival } from "../festival-filter.js";
 test("allows common Hindu vrata and parva names", () => {
   assert.equal(isHinduFestival({ name: "Diwali" }), true);
   assert.equal(isHinduFestival({ name: "Chaitra Navratri" }), true);
+  assert.equal(isHinduFestival({ name: "Navaratri Chaturthi" }), true);
+  assert.equal(isHinduFestival({ name: "Vinayaka Chaturthi" }), true);
   assert.equal(isHinduFestival({ name: "Nirjala Ekadashi" }), true);
   assert.equal(isHinduFestival({ name: "Makar Sankranti" }), true);
 });
