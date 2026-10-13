@@ -120,3 +120,11 @@ The Markdown notes are the continuity record, but they are not a substitute for 
 - Latest run verifies implementation consistency, **not** the historical choice of shifted latitude or the absolute Asta/Udaya dates. PR #22 remains Draft/unmerged and production files remain unchanged.
 - TKS public API documentation describes a shared ephemeris endpoint with date/time/location/body inputs and apparent ecliptic-of-date, latitude, RA/Dec and sidereal outputs, but direct retrieval of the endpoint's JSON was not available through this session's web retrieval. Do not invent the missing raw values.
 - **Next single research gate:** cross-check VII.10 against Sudhākara Dvivedī's separate commentary/edition and decide whether the shifted +90° point retains planetary latitude. Then expose both variants in the research diagnostics only if the textual evidence remains ambiguous. Keep the Chapter III Ahargaṇa/frame bridge and same-instant TKS K comparison as separate unresolved gates.
+
+
+### Source follow-up — Sudhākara VII.10 scan found, decisive geometry still unverified — 13 Oct 2026
+
+- Located the 1911 digitized Sanskrit edition attributed to Mahāmahopādhyāya Sudhākara Dvivedī: https://archive.org/details/in.ernet.dli.2015.485518 . Its OCR text locates VII.10 and the *Sudhāvarṣiṇī* gloss around printed pp. 195–196: https://archive.org/stream/in.ernet.dli.2015.485518/2015.485518.The-Surya_djvu.txt .
+- The OCR is visibly corrupted in the mathematical commentary and the *upapatti* (geometric proof). It is not sufficient to decide whether the +90° intermediate point carries the planet's ecliptic latitude. Do not report this source check as a resolution.
+- Recorded the source and limitation in `research/SS-CHAPTER-7-FORMULA-AUDIT.md` (commit `2063f7d370d988203279a3c6db642ce58f955bad`).
+- Next: inspect the actual scanned page image for printed pp. 195–196 or obtain a clean transcription, especially the geometric proof below VII.10. Until then, retain both sensitivity variants and keep all changes research-only.
