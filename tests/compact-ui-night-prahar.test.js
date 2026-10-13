@@ -217,7 +217,7 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
     realSunset.getTime() - actualEvent.date.getTime() <= 90 * 60000,
     `Astronomical crossing was ${actualEvent.date.toISOString()} for sunset ${realSunset.toISOString()}`
   );
-  const real = realSandbox.getGodhuliMuhurta({ ritu: "शरद" }, realSunset, location);
+  const real = realSandbox.getGodhuliMuhurta({ ritu: "शरद" }, realSunset, location, { SearchAltitude, Body, Observer });
   assert.ok(real.start < realSunset, "Godhuli should begin before apparent sunset for the 0° solar-center crossing");
   assert.ok(realSunset.getTime() - real.start.getTime() <= 90 * 60000);
   assert.equal(minutes(real.start, real.end), 48);
