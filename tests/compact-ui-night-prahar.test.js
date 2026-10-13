@@ -166,6 +166,9 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   assert.notEqual(end, -1);
 
   const sandbox = {
+    // Share the host Date constructor with the real Astronomy Engine import.
+    // Otherwise vm's cross-realm Date can be rejected by the library.
+    Date,
     SearchAltitude: (_body, _observer, direction, searchStart, limitDays, altitude) => {
       sandbox.lastSearch = { direction, searchStart, limitDays, altitude };
       return { date: new Date("2026-10-12T12:00:00.000Z") };
