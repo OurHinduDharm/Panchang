@@ -151,3 +151,22 @@ That 1.126446° declination difference changes the VII.10 correction magnitude b
 4. Continue to keep this local VII.10 issue separate from the larger unresolved Chapter III historical-frame / Ahargaṇa bridge and the missing same-instant TKS intermediate values.
 
 **Decision remains research-only.** No production files changed, and this finding does not certify the Venus/Jupiter event dates.
+
+
+## Sudhākara Dvivedī edition located; OCR evidence checked (13 Oct 2026)
+
+A digitized 1911 Sanskrit edition attributed to Mahāmahopādhyāya Sudhākara Dvivedī is available through Internet Archive:
+https://archive.org/details/in.ernet.dli.2015.485518
+OCR text: https://archive.org/stream/in.ernet.dli.2015.485518/2015.485518.The-Surya_djvu.txt
+
+The OCR around printed pp. 195–196 includes VII.10 and the *Sudhāvarṣiṇī* gloss. The OCR is visibly corrupted in several technical words and in the geometric proof, so it is useful as a locator and preliminary witness, **not as a reliable basis for silently deciding the latitude convention**. The readable gloss appears to restate the multiplication of latitude minutes by the shifted planet's declination and mentions the relative directions of declination and latitude. The proof below it is too garbled in the text layer to securely establish whether the intermediate point carries the planet's ecliptic latitude.
+
+The GRETIL/Textgrid transcription explicitly lists the 1987 edition with Sudhākara Dvivedī's commentary among its source witnesses, but the web-rendered transcription presents the base Sanskrit verse rather than a readable transcription of that commentary:
+https://www.textgridrep.org/browse/49kc2.0
+Thus, it is incorrect to claim that the commentary question is resolved merely because that edition is listed in the source bibliography.
+
+### Decision after this source pass
+
+- **No formula decision yet.** The newly located scan/OCR confirms a concrete next source to inspect, but OCR quality is inadequate for the decisive geometry.
+- Next, inspect the page image for printed pp. 195–196 (especially the *upapatti* after VII.10) or obtain a clean scan/transcription; compare the geometric construction with Raṅganātha's 1859 commentary.
+- Until that visual reading is made, retain both zero-latitude and retained-latitude calculations as sensitivity variants. No production change, no TKS fitting, and no claim of validated event dates.
