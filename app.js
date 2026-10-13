@@ -3500,10 +3500,10 @@ function getAutoSandhyaType(
   }
 
   /*
-   * ऑटो-चयन केवल पहचानी गई संध्या-अवधि में होगा।
-   * अन्य समय में तुरीय संध्या या कोई दूसरी संध्या
-   * अपने-आप न चुनें; उपयोगकर्ता चार रेडियो विकल्पों
-   * में से स्वयं चयन कर सकता है।
+   * पहले वास्तविक सूर्य-आधारित संध्या-विंडो जाँचें।
+   * उनके बाहर भी आज के वर्तमान समय के अनुसार एक
+   * उपयुक्त रेडियो विकल्प चुना जाएगा; तुरीय को दिन
+   * के समय का सामान्य fallback नहीं बनाया जाएगा।
    */
   let nightMuhurtaMs = null;
   const night = praharData?.nightPrahar;
@@ -3523,41 +3523,66 @@ function getAutoSandhyaType(
     }
   }
 
-  /* सूर्यास्त के बाद पहले रात्रि-मुहूर्त में सायं संध्या। */
-  if(now >= sunset){
-    if(!nightMuhurtaMs) return null;
-    return now.getTime() < sunset.getTime() + nightMuhurtaMs
-      ? "sayam"
-      : null;
+  const nowMs = now.getTime();
+  const sunriseMs = sunrise.getTime();
+  const sunsetMs = sunset.getTime();
+
+  /* रात में: सूर्योदय से ठीक पहले प्रातः, सूर्यास्त के ठीक बाद सायं; बाकी रात तुरीय। */
+  if(nowMs < sunriseMs){
+    return (
+      nightMuhurtaMs &&
+      nowMs >= sunriseMs - nightMuhurtaMs
+    ) ? "pratah" : "turiya";
   }
 
-  /* सूर्योदय से पहले अंतिम रात्रि-मुहूर्त में प्रातः संध्या। */
-  if(now < sunrise){
-    if(!nightMuhurtaMs) return null;
-    return now.getTime() >= sunrise.getTime() - nightMuhurtaMs
-      ? "pratah"
-      : null;
+  if(nowMs >= sunsetMs){
+    return (
+      nightMuhurtaMs &&
+      nowMs < sunsetMs + nightMuhurtaMs
+    ) ? "sayam" : "turiya";
   }
 
-  /*
-   * मध्याह्न संध्या के लिए फिलहाल वही मौजूदा सीमित
-   * ऑटो-विंडो रखी गई है; इसे अभिजित् से स्वतंत्र करने
-   * के लिए अलग शास्त्रीय समय-सीमा शोध के बिना नहीं गढ़ें।
-   */
-  const dayMs = sunset.getTime() - sunrise.getTime();
+  const dayMs = sunsetMs - sunriseMs;
   const dayMuhurtaMs = dayMs / 15;
-  const dayMidpointMs = sunrise.getTime() + dayMs / 2;
+  const dayMidpointMs = sunriseMs + dayMs / 2;
   const madhyahnaStart = dayMidpointMs - dayMuhurtaMs / 2;
   const madhyahnaEnd = dayMidpointMs + dayMuhurtaMs / 2;
 
-  if(
-    now.getTime() >= madhyahnaStart &&
-    now.getTime() < madhyahnaEnd
-  ){
+  /* मध्याह्न की पहचानी गई विंडो को प्राथमिकता दें। */
+  if(nowMs >= madhyahnaStart && nowMs < madhyahnaEnd){
     return "madhyahna";
   }
 
-  return null;
+  /*
+   * दिन की बाकी अवधि में सबसे निकट पहचानी गई संध्या-विंडो
+   * के आधार पर विकल्प चुनें। इससे दोपहर/देर-दोपहर में
+   * गलती से तुरीय नहीं चुनेगा। यह UI fallback है, किसी
+   * सार्वभौमिक शास्त्रीय मुहूर्त-सीमा का दावा नहीं।
+   */
+  const windows = [
+    { type: "pratah", start: sunriseMs - (nightMuhurtaMs || 0), end: sunriseMs },
+    { type: "madhyahna", start: madhyahnaStart, end: madhyahnaEnd },
+    { type: "sayam", start: sunsetMs, end: sunsetMs + (nightMuhurtaMs || 0) }
+  ];
+
+  let nearest = windows[0];
+  let nearestDistance = Infinity;
+
+  for(const window of windows){
+    const distance =
+      nowMs < window.start
+        ? window.start - nowMs
+        : nowMs >= window.end
+          ? nowMs - window.end
+          : 0;
+
+    if(distance < nearestDistance){
+      nearest = window;
+      nearestDistance = distance;
+    }
+  }
+
+  return nearest.type;
 }
 /* =========================================================
    KARMA PHRASE (WITHOUT final verb & without अहं)
