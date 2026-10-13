@@ -203,6 +203,29 @@ export function runChapter3MeridianFrameTests() {
       Number.isFinite(differingFrame.sourceShapedLongitudeDeg) &&
       differingFrame.status.includes("comparison only")
   });
+  const wrapEast = compareChapter3MeridianCandidates({
+    localSiderealAngleDeg: 1,
+    sunRightAscensionDeg: 359,
+    sunDeclinationDeg: 0,
+    sourceObliquityDeg: 23.4367,
+    ayanamshaDeg: 0,
+    classicalObliquityDeg: 23.4367
+  });
+  const wrapWest = compareChapter3MeridianCandidates({
+    localSiderealAngleDeg: 359,
+    sunRightAscensionDeg: 1,
+    sunDeclinationDeg: 0,
+    sourceObliquityDeg: 23.4367,
+    ayanamshaDeg: 0,
+    classicalObliquityDeg: 23.4367
+  });
+  tests.push({
+    name: "Signed hour-angle/nata stays continuous across 0° wrap in both directions",
+    passed: Math.abs(wrapEast.modernSignedNataDeg - 2) < 1e-9 &&
+      Math.abs(wrapWest.modernSignedNataDeg + 2) < 1e-9 &&
+      Math.abs(wrapEast.nataGhati - (1 / 3)) < 1e-9 &&
+      Math.abs(wrapWest.nataGhati + (1 / 3)) < 1e-9
+  });
   const sweep = runChapter3MeridianResidualSweep();
   const rotated = sweep.results.find(r => r.name === "rotated-frame");
   const control = sweep.results.find(r => r.name === "zero-rotation-control");
