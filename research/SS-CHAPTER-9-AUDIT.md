@@ -772,3 +772,11 @@ This user-supplied page output is a useful displayed result, **not** the missing
 ### Next controlled action
 
 Obtain the unedited Sun and Venus JSON responses from the TKS ephemeris endpoint at **2026-10-12 12:00 IST / 06:30 UTC**, lat **29.5830**, lon **80.2090**, timezone **+5.5**, each body separately. Preserve the request parameters. Reproduce the local K from stored intermediates first; then compare one convention at a time. No threshold tuning, no inferred intermediate values, and no production changes.
+
+## Execution checkpoint — 13 October 2026
+
+- Latest workflow after adding the civil-instant adapter: [run #343](https://github.com/OurHinduDharm/Panchang/actions/runs/38391518627) — **success**.
+- The research-only `ss_civil_date_epoch_adapter.js` now has its own CI step. All 7 adapter checks passed, including explicit timezone/meridian validation, local-mean-solar midnight arithmetic, and invoking the Chapter I.45–51 helper only when traditional calendar fields are separately supplied.
+- Full workflow completed successfully, including headless Chromium and the production isolation check. `app.js` and `extra-panchang.js` remain unchanged from `main`.
+- This closes the **adapter test-wiring** task only. It does not reconstruct a Gregorian date into traditional Ahargana, establish the historical Lanka meridian/epoch convention, or validate Asta/Udaya dates.
+- **Immediate next task:** resolve the source and target 3-D coordinate frames for the Chapter VII calculation, as specified in the “Coordinate-frame audit update” above. Do not reopen already-passing arithmetic tests unless a new change breaks them. Then trace the four comparison fixtures' provenance and compare intermediate correction terms. Production integration remains blocked until these two gates are resolved.
