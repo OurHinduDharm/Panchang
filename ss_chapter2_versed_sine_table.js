@@ -35,6 +35,27 @@ function finite(value, name) {
  * Invert a table versed-sine value to arcminutes.
  * Interpolation is linear between the two adjacent source table entries.
  */
+/**
+ * Chapter I.11–12 time scale: one prāṇa/asu corresponds to one arcminute
+ * of revolution; 6 prāṇas = 1 vināḍī and 360 prāṇas = 1 nāḍī.
+ * This converts an already recovered great-circle arc, not a modern clock
+ * hour angle and not a shadow length.
+ */
+export function chapter1ArcMinutesToNataTimeUnits(arcMinutes) {
+  finite(arcMinutes, "arcMinutes");
+  if (arcMinutes < 0 || arcMinutes > 21600) {
+    throw new RangeError("arcMinutes must be in [0, 21600] for one full revolution.");
+  }
+  return {
+    arcMinutes,
+    nataAsuCandidate: arcMinutes,
+    nataVinadiCandidate: arcMinutes / 6,
+    nataNadiCandidate: arcMinutes / 360,
+    provenance: "Chapter I.11–12 time-unit conversion candidate",
+    limitation: "Requires the Chapter III.39 recovered great-circle arc and separately established east/west sign."
+  };
+}
+
 export function chapter2ArcMinutesFromVersedSine(versedSine) {
   finite(versedSine, "versedSine");
   const table = SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES;
@@ -48,7 +69,8 @@ export function chapter2ArcMinutesFromVersedSine(versedSine) {
       upperTableIndex: 24,
       interpolationFraction: 1,
       provenance: "Chapter II tabular versed-sine interpolation candidate",
-      limitation: "Arc only; no asu/nāḍī conversion or east/west sign inferred."
+      timeUnits: chapter1ArcMinutesToNataTimeUnits(5400),
+      limitation: "Arc/time-unit magnitude only; east/west sign is not inferred."
     };
   }
 
@@ -64,7 +86,8 @@ export function chapter2ArcMinutesFromVersedSine(versedSine) {
     upperTableIndex: upper,
     interpolationFraction: fraction,
     provenance: "Chapter II tabular versed-sine interpolation candidate",
-    limitation: "Arc only; no asu/nāḍī conversion or east/west sign inferred."
+    timeUnits: chapter1ArcMinutesToNataTimeUnits((lower + fraction) * SURYA_SIDDHANTA_SINE_STEP_ARCMIN),
+    limitation: "Arc/time-unit magnitude only; east/west sign is not inferred."
   };
 }
 
@@ -88,7 +111,9 @@ export function runChapter2VersedSineTableTests() {
   check("every exact table entry maps to its 225-arcminute grid point", () =>
     table.every((value, index) => {
       const result = chapter2ArcMinutesFromVersedSine(value);
-      return Math.abs(result.arcMinutes - index * 225) < 1e-9;
+      return Math.abs(result.arcMinutes - index * 225) < 1e-9 &&
+        Math.abs(result.timeUnits.nataAsuCandidate - index * 225) < 1e-9 &&
+        Math.abs(result.timeUnits.nataNadiCandidate - index * 225 / 360) < 1e-9;
     }));
 
   check("midpoint interpolation stays midway between adjacent table arcs", () => {
@@ -107,10 +132,15 @@ export function runChapter2VersedSineTableTests() {
     }
   });
 
-  check("lookup returns arc only and does not fabricate a signed nata", () => {
+  check("arc-minute to asu/nāḍī conversion follows Chapter I.11–12", () => {
     const result = chapter2ArcMinutesFromVersedSine(table[8]);
-    return !("nataAsu" in result) && !("signedNata" in result) &&
-      result.limitation.includes("east/west sign");
+    return Math.abs(result.timeUnits.nataAsuCandidate - result.arcMinutes) < 1e-9 &&
+      Math.abs(result.timeUnits.nataNadiCandidate - result.arcMinutes / 360) < 1e-9;
+  });
+
+  check("lookup does not fabricate an east/west sign", () => {
+    const result = chapter2ArcMinutesFromVersedSine(table[8]);
+    return !("signedNata" in result) && result.limitation.includes("east/west sign");
   });
 
   return {
