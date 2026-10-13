@@ -189,13 +189,23 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   assert.ok(Math.abs(sandbox.lastSearch.altitude - (-16 / 60)) < 1e-9);
   assert.equal(minutes(varsha.start, varsha.end), 48);
 
+  // The library output can lack p.ritu; then season must be derived from Sun rashi.
+  sandbox.getGodhuliMuhurta({ sunRashi: { index: 7 } }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "Hemanta from Sun rashi");
+  sandbox.getGodhuliMuhurta({ sunRashi: { index: 9 } }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "Shishira from Sun rashi");
+  sandbox.getGodhuliMuhurta({ sunRashi: { index: 3 } }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (-16 / 60)) < 1e-9, "Varsha from Sun rashi");
+  sandbox.getGodhuliMuhurta({ ritu: "Hemanta" }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "English ritu alias");
+
   sandbox.SearchAltitude = () => null;
   const fallback = sandbox.getGodhuliMuhurta({ ritu: "शरद" }, sunset, location, { ...deps, SearchAltitude: sandbox.SearchAltitude });
   assert.equal(minutes(fallback.start, sunset), 12);
   assert.equal(minutes(sunset, fallback.end), 12);
 
   // Integration check against the actual Astronomy Engine dependency, not only a mock.
-  const realSunset = new Date("2026-10-12T12:10:00.000Z"); // 17:40 IST
+  const realSunset = new Date("2026-10-12T12:12:00.000Z"); // 17:42 IST; published city-level sunset for Pithoragarh
   const realObserver = new Observer(location.lat, location.lon, location.elevation);
   const actualEvent = SearchAltitude(
     Body.Sun,
@@ -208,7 +218,7 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   assert.ok(actualEvent?.date, "Astronomy Engine should return the evening 0-degree solar-center crossing");
   assert.ok(
     realSunset.getTime() - actualEvent.date.getTime() >= 0 &&
-    realSunset.getTime() - actualEvent.date.getTime() <= 90 * 60000,
+    realSunset.getTime() - actualEvent.date.getTime() <= 10 * 60000,
     `Astronomical crossing was ${actualEvent.date.toISOString()} for sunset ${realSunset.toISOString()}`
   );
   const realGodhuliEnd = new Date(actualEvent.date.getTime() + 48 * 60000);
