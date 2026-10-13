@@ -182,10 +182,10 @@ export function runChapter1TraditionalAharganaTests() {
   });
 
   // The source ledger for 2026-10-08 labels the tithi Kṛṣṇa Trayodaśī.
-  // A conventional ordinal reading suggests about 27.x elapsed tithis from
-  // Caitra-śukla's month start, not 26.5. This diagnostic intentionally records
-  // the one-day mismatch rather than treating the synthetic matching fixture
-  // as proof that the source's exact tithi fraction has been reconstructed.
+  // The conventional ordinal interval is [27, 28) elapsed tithis from the
+  // lunar month's Śukla Pratipadā. Comparing 27.5 with the synthetic 26.5
+  // fixture demonstrates arithmetic sensitivity only, NOT a proven discrepancy
+  // with the external ledger: 26.5 is not a verified input for this date.
   const ordinalAlternative = chapter1AharganaFromTraditionalDate({
     elapsedSolarYearsSinceKritaEnd: 2165127,
     elapsedMonthsFromCaitraShukla: 5,
@@ -193,7 +193,7 @@ export function runChapter1TraditionalAharganaTests() {
     intercalaryMonthAdjustment: 0
   });
   tests.push({
-    name: "27.5 elapsed-tithi alternative exposes a one-day offset from the published reference; input convention remains unresolved",
+    name: "Counterfactual 27.5 input is one day above the synthetic 26.5 fixture; this does not establish a mismatch with the external ledger",
     passed: close(ordinalAlternative.ahargana, 714404169484.5) &&
       close(ordinalAlternative.ahargana - reference.ahargana, 1)
   });
@@ -281,6 +281,6 @@ export function runChapter1TraditionalAharganaTests() {
       elapsedTithis: apparentNoonElapsedTithis,
       ahargana: apparentNoonAlternative.ahargana
     },
-    note: "The arithmetic fixture at 26.5 elapsed tithis is synthetic and is outside the ordinal interval for the independently identified 8 Oct 2026 Kṛṣṇa Trayodaśī date. Rounded source longitudes imply about 27.59 elapsed tithis at apparent noon; treating that as the I.50 input gives an Ahargana about 1.089 days above the displayed reference. Since I.50 specifies Lanka midnight, this is a time-boundary/input mismatch to resolve, not proof that either value is correct. Civil-date conversion and the ±1 adhika-month decision also remain open."
+    note: "The arithmetic fixture at 26.5 elapsed tithis is synthetic and is outside the ordinal interval for the independently identified 8 Oct 2026 Kṛṣṇa Trayodaśī date. The 27.5 alternative is a counterfactual input one day above that synthetic fixture, not a verified one-day discrepancy with the external ledger. Rounded source longitudes imply about 27.59 elapsed tithis at apparent noon; treating that as the I.50 input gives an Ahargana about 1.089 days above the displayed reference. Since I.50 specifies Lanka midnight, this is an unresolved time-boundary/input comparison, not proof that either value is correct. Civil-date conversion and the ±1 adhika-month decision also remain open."
   };
 }
