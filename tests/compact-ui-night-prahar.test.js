@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 import test from "node:test";
+import { Body, Observer, SearchAltitude } from "astronomy-engine";
 
 const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
 
@@ -192,6 +193,19 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   const fallback = sandbox.getGodhuliMuhurta({ ritu: "शरद" }, sunset, location, { ...deps, SearchAltitude: sandbox.SearchAltitude });
   assert.equal(minutes(fallback.start, sunset), 12);
   assert.equal(minutes(sunset, fallback.end), 12);
+
+  // Integration check against the actual Astronomy Engine dependency, not only a mock.
+  const realSandbox = {
+    SearchAltitude,
+    AstroBody: Body,
+    AstroObserver: Observer
+  };
+  vm.runInNewContext(source.slice(start, end), realSandbox);
+  const realSunset = new Date("2026-10-12T12:10:00.000Z"); // 17:40 IST
+  const real = realSandbox.getGodhuliMuhurta({ ritu: "शरद" }, realSunset, location);
+  assert.ok(real.start < realSunset, "Godhuli should begin before apparent sunset for the 0° solar-center crossing");
+  assert.ok(realSunset.getTime() - real.start.getTime() <= 90 * 60000);
+  assert.equal(minutes(real.start, real.end), 48);
 });
 
 test("displayed Sandhya windows use fixed 48-minute Muhurtas around sunrise, midday, and sunset", () => {
