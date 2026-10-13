@@ -1,3 +1,5 @@
+import { chapter2SineFromArcMinutes, chapter2VersedSineFromArcMinutes, SURYA_SIDDHANTA_RADIUS } from "./ss_chapter2_versed_sine_table.js";
+
 /**
  * Research-only transcription of the algebraic chain described in
  * Sūrya-siddhānta III.35–39 (Burgess translation).
@@ -160,6 +162,54 @@ export function chapter3DayMeasureInputsFromTableValues({
   };
 }
 
+
+/**
+ * Full table-input candidate: derive signed latitude/declination sine values,
+ * day-radius, cara-sine, and antya using the Chapter II table adapter.
+ * Angles are supplied as signed arcminutes (not decimal degrees).
+ */
+export function chapter3DayMeasureInputsFromAngles({
+  latitudeArcMinutes,
+  declinationArcMinutes,
+  radius = SURYA_SIDDHANTA_RADIUS
+}) {
+  finite(latitudeArcMinutes, "latitudeArcMinutes");
+  finite(declinationArcMinutes, "declinationArcMinutes");
+  positive(radius, "radius");
+  if (radius !== SURYA_SIDDHANTA_RADIUS) {
+    throw new RangeError("This table adapter is fixed to the Chapter II radius 3438.");
+  }
+  if (Math.abs(latitudeArcMinutes) > 5400 || Math.abs(declinationArcMinutes) > 5400) {
+    throw new RangeError("Latitude and declination magnitudes must be within the first quadrant.");
+  }
+  const absLatitude = Math.abs(latitudeArcMinutes);
+  const absDeclination = Math.abs(declinationArcMinutes);
+  const latitudeSign = Math.sign(latitudeArcMinutes);
+  const declinationSign = Math.sign(declinationArcMinutes);
+  const sineLatitude = chapter2SineFromArcMinutes(absLatitude).sine * latitudeSign;
+  const sineColatitude = chapter2SineFromArcMinutes(5400 - absLatitude).sine;
+  const sineDeclination = chapter2SineFromArcMinutes(absDeclination).sine * declinationSign;
+  const versedSineDeclination = chapter2VersedSineFromArcMinutes(absDeclination).versedSine;
+  const result = chapter3DayMeasureInputsFromTableValues({
+    radius,
+    sineLatitude,
+    sineColatitude,
+    sineDeclination,
+    versedSineDeclination
+  });
+  return {
+    ...result,
+    latitudeArcMinutes,
+    declinationArcMinutes,
+    sineLatitude,
+    sineColatitude,
+    sineDeclination,
+    versedSineDeclination,
+    provenance: "Chapter II tabular interpolation + II.60–61 + III.34 formula candidate",
+    limitation: "No civil-instant/epoch mapping, observed altitude, or east/west nata sign is inferred."
+  };
+}
+
 function close(a, b, tolerance = 1e-9) {
   return Math.abs(a - b) <= tolerance;
 }
@@ -174,6 +224,28 @@ export function runChapter3NataTableArithmeticTests() {
     }
   };
 
+
+
+  check("angle inputs flow through Chapter II tables into day-radius and antya", () => {
+    const out = chapter3DayMeasureInputsFromAngles({
+      latitudeArcMinutes: 1800,
+      declinationArcMinutes: 600
+    });
+    return close(out.sineLatitude, 1719) &&
+      out.dayRadius > 0 && out.antya > 3438 &&
+      out.provenance.includes("tabular interpolation");
+  });
+
+  check("signed declination controls cara correction through the table path", () => {
+    const north = chapter3DayMeasureInputsFromAngles({
+      latitudeArcMinutes: 1800, declinationArcMinutes: 600
+    });
+    const south = chapter3DayMeasureInputsFromAngles({
+      latitudeArcMinutes: 1800, declinationArcMinutes: -600
+    });
+    return north.antya > 3438 && south.antya < 3438 &&
+      close(north.dayRadius, south.dayRadius);
+  });
 
   check("II.60–61 and III.34 build day-radius and antya from synthetic table values", () => {
     const out = chapter3DayMeasureInputsFromTableValues({
