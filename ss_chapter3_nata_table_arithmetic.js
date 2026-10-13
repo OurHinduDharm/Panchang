@@ -159,6 +159,18 @@ export function runChapter3NataTableArithmeticTests() {
     }
   });
 
+  check("forward chain rejects sine-table quantities above radius", () => {
+    try {
+      chapter3ForwardAltitudeSineFromTableValues({
+        radius: 3438, sineColatitude: 3500, dayRadius: 2500,
+        antya: 2800, versedSineNata: 400
+      });
+      return false;
+    } catch (error) {
+      return error instanceof RangeError;
+    }
+  });
+
   check("inverse chain rejects altitude sine above radius", () => {
     try {
       chapter3InverseVersedSineFromTableValues({
