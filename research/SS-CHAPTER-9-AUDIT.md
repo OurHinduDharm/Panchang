@@ -811,3 +811,13 @@ Obtain the unedited Sun and Venus JSON responses from the TKS ephemeris endpoint
 - VII.7 sets up day/night measure, planetary latitude (vikṣepa), and natonnata (hour-angle/meridian relation) before the corrections. VII.8–9 gives the signed first correction and direction/hemisphere rules. VII.10 gives a second correction involving planetary latitude and the declination of the point three signs away. VII.11 explicitly says these corrections are used for conjunctions and planetary rising/setting.
 - This confirms that the two correction components and their sign rules are text-grounded. It does **not**, by itself, specify that modern EQD coordinates should be converted by subtracting a fixed 24.217° ayanāṃśa and then rotating to a 24° equator, nor does it fully settle epoch/equinox/local-sidereal conventions. Therefore the new 3-D transformation remains a candidate input-preparation model, not a proven historical reconstruction.
 - Source-gate status: **in progress**. Next, map each variable used in the implementation to the Sanskrit instruction and both translation/commentary witnesses; explicitly separate (a) classical computational frame, (b) modern apparent coordinates, and (c) the observational visibility threshold. Do not infer a source convention from a matching event date.
+
+
+### Raw TKS capture tooling checkpoint — 2026-10-13
+
+- Added an **optional, manual-only** capture panel to `test-astronomy.html` (commit `b79fae6e06fd24484945d618fcc13a1575389cf5`). It issues separate GET requests to `/v1/tks/ephemeris` for `body=sun` and `body=venus`, using date `2026-10-12`, time `12:00`, place `Pithoragarh`, latitude `29.5830`, longitude `80.2090`.
+- The panel preserves each exact request URL, requested parameters, HTTP status, response text, parsed JSON where possible, and browser fetch/CORS errors. It does not transform or normalize the returned data.
+- The endpoint's published parameter list does not include a timezone field. The panel therefore does not silently add one; its output flags this limitation for review. Do not label the returned time as UTC or as correctly interpreted local time until the endpoint behavior is confirmed.
+- This external request is deliberately **not** part of the automated test suite; CI must not depend on TKS availability or CORS. Production files remain untouched.
+- The API documentation lists `date,time,place,lat,lon,body` for this endpoint: https://tksephemeris.com/tks-api
+- Workflow for the capture-tool commit was queued when checked; report pass/fail only after its completed result is inspected. Raw JSON has **not yet been captured** at this checkpoint.
