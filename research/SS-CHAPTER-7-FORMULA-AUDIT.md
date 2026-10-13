@@ -170,3 +170,19 @@ Thus, it is incorrect to claim that the commentary question is resolved merely b
 - **No formula decision yet.** The newly located scan/OCR confirms a concrete next source to inspect, but OCR quality is inadequate for the decisive geometry.
 - Next, inspect the page image for printed pp. 195–196 (especially the *upapatti* after VII.10) or obtain a clean scan/transcription; compare the geometric construction with Raṅganātha's 1859 commentary.
 - Until that visual reading is made, retain both zero-latitude and retained-latitude calculations as sensitivity variants. No production change, no TKS fitting, and no claim of validated event dates.
+
+
+## Geometry cross-check of Raṅganātha's VII.10 *upapatti* — 13 Oct 2026
+
+Direct source passage: the online 1859 edition, Chapter VII, lines corresponding to printed page 215:
+https://vishvasa.github.io/jyotiSham/observation/history/hindu/prakIrNam/ranganAthaH/sUryasiddhAntaH/
+Relevant passage begins at web line 1860 and continues through 1863.
+
+The commentary's *upapatti* describes the planet's latitude as the hypotenuse in a polar/declination geometry and identifies the relevant corrected place as the point where a pole-oriented circle through the planetary body meets the ecliptic near the planet's ecliptic mark. It then explains how the ecliptic-longitude correction is derived from the resulting geometry. This is more consistent with treating “the planet with three signs added” as an **ecliptic longitude point** (+90° longitude, zero ecliptic latitude for that intermediate point), rather than moving the actual off-ecliptic planetary position by 90° while carrying its latitude unchanged.
+
+### Interpretation status — narrowed, not mathematically absolute
+
+- **Best source-supported reading at this checkpoint:** compute declination at the ecliptic point whose longitude is the planet's longitude + 90°; set the intermediate point's ecliptic latitude to zero. The actual planet's signed latitude remains the multiplier/sign input for the correction.
+- **Why not call it fully closed yet:** this conclusion is a geometric reading of Raṅganātha's prose and diagram-like construction, not an explicit modern-coordinate instruction “set latitude = 0.” The Sudhākara Dvivedī *Sudhāvarṣiṇī* scan located earlier has OCR too corrupted to provide independent confirmation; its page image still needs direct inspection.
+- **Action:** retain the current zero-latitude candidate as the leading interpretation, but keep the retained-latitude variant in tests as a diagnostic counterfactual until the scanned *upapatti* is visually checked. Do not present the two branches as equally supported after this commentary geometry pass.
+- No production arithmetic changed. No tuning to TKS and no event-date certification follows from this interpretation alone.
