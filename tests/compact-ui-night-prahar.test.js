@@ -207,6 +207,26 @@ test("Godhuli applies only the three seasonal solar states stated in Muhurta Chi
   const shishiraFallback = sandbox.getGodhuliMuhurta({ sunRashi: { index: 9 } }, sunset, location, deps);
   assert.equal(sandbox.lastSearch, priorSearch, "Shishira must not trigger an unsupported altitude search");
   assert.equal(minutes(shishiraFallback.start, sunset), 12, "Shishira preserves the existing fallback window");
+
+  // The displayed season is derived from Sun rashi; conflicting library
+  // season data must not silently change the Godhuli rule.
+  const libraSharad = sandbox.getGodhuliMuhurta(
+    { ritu: "हेमंत", sunRashi: { index: 6 } },
+    sunset,
+    location,
+    deps
+  );
+  assert.equal(sandbox.lastSearch, priorSearch, "Libra/Sharad must override conflicting library Hemanta");
+  assert.equal(minutes(libraSharad.start, sunset), 12, "Displayed Sharad uses the existing 24-minute fallback");
+
+  const scorpioHemanta = sandbox.getGodhuliMuhurta(
+    { ritu: "शरद", sunRashi: { index: 7 } },
+    sunset,
+    location,
+    deps
+  );
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "Scorpio/Hemanta overrides conflicting library Sharad");
+  assert.equal(minutes(scorpioHemanta.start, scorpioHemanta.end), 48);
   const vasantaFallback = sandbox.getGodhuliMuhurta({ ritu: "वसंत" }, sunset, location, deps);
   assert.equal(minutes(vasantaFallback.start, sunset), 12, "Vasanta preserves the existing fallback window");
   sandbox.getGodhuliMuhurta({ sunRashi: { index: 3 } }, sunset, location, deps);
