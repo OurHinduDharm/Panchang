@@ -232,3 +232,21 @@ Tests cover the epoch anchor, 0.387 revolution per yuga, one complete kalpa, fra
 Sources: Sūrya-siddhānta I.20 and I.41 in Burgess's translation: https://www.swaveda.com/texts/surya-siddhanta/1/ ; historical report of 77°07′48″ in Sewell, *Indian Chronography*: https://www.scribd.com/document/797839191/Jyotish-1912-R-Sewel-Indian-Chronography-Panchanga
 
 **Next gate:** verify the 77°07′48″ epoch value against the scan/table and confirm its longitude origin/frame. Only then should the Chapter II solar manda-kendra and epicycle/equation be built on top of the mean-longitude and mean-mandocca candidates. Production `app.js` and `extra-panchang.js` remain untouched.
+
+
+## Thirteenth prototype checkpoint — Chapter II solar manda equation
+
+Added `ss_chapter2_solar_manda.js`, a research-only implementation candidate for the Sun's first/manda correction using Chapter II.34, II.38–39 and II.45:
+
+- Sun's manda epicycle varies between 14° at even-quadrant ends and 13°40′ at odd-quadrant ends (II.34).
+- The 20′ difference is interpolated with the Chapter II tabular sine and radius 3438 (II.38).
+- The corrected epicycle times the base sine, divided by 360, produces the sine quantity whose arc is the manda equation (II.39); the arc is recovered through the Chapter II sine table rather than modern `asin()`.
+- The equation is added for planet-to-apsis kendra in the first half-orbit and subtracted in the second half-orbit (II.45).
+
+The helper requires explicit mean longitude and mean mandocca longitude in the same frame. This is intentional: the existing epoch bridge, solar mean-longitude origin, and the historical 77°07′48″ mandocca anchor have not yet been reconciled to a single proven coordinate frame. Therefore the output is labelled a candidate and is not yet suitable for real-date Udaya/Asta claims.
+
+CI syntax-checks and runs quadrant, epicycle, sign, wraparound, plausible-bound, and invalid-input tests. This is an arithmetic gate, not independent astronomical validation.
+
+Source: Burgess translation, Sūrya-siddhānta Chapter II, verses 34, 38–39, 45: https://www.swaveda.com/texts/surya-siddhanta/2/
+
+**Remaining bounded gates before this can be evaluated against actual dates:** (1) verify the epoch/coordinate-frame anchors; (2) test the resulting true solar longitude against an independent reference at a small set of dates; (3) only then connect it to the already isolated Chapter III declination/day-measure path and assess sunrise geometry. Production `app.js` and `extra-panchang.js` remain unchanged.
