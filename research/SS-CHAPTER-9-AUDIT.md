@@ -789,3 +789,18 @@ Obtain the unedited Sun and Venus JSON responses from the TKS ephemeris endpoint
 - Do not call the new module a solved historical frame. It encodes an explicit candidate transform (modern equator/ecliptic of date, an ayanāṃśa rotation, and selected classical obliquity); the source-supported relationship among the classical equinox, the sidereal origin, the epoch, and local time still needs adjudication.
 - **Next action:** add a research-only side-by-side diagnostic that runs the current pipeline and the full-vector candidate from the same EQD vectors and same UTC instants, displaying the transformed longitude/latitude, transformed local meridian, each Chapter VII correction term, and final K. First validate vector reconstruction against the page's source RA/declination and ECT coordinates; keep candidate results clearly labelled and do not replace the baseline. Then compare with the captured TKS values without fitting the model. Keep `app.js` and `extra-panchang.js` unchanged.
 
+## Execution checkpoint — 13 October 2026, after 3-D frame panel browser test
+
+- The research-only EQD → candidate-classical-frame comparison panel and its automated browser assertion are now committed. Commits: [panel/helpers](https://github.com/OurHinduDharm/Panchang/commit/b38ac7e09bc6c2a73c2b9daa4ddead931d74fbe3), [browser assertion](https://github.com/OurHinduDharm/Panchang/commit/b34ca1f9874f15d096d4890309ad4ceda2a01970).
+- Latest workflows [#350](https://github.com/OurHinduDharm/Panchang/actions/runs/38397044874) and [#351](https://github.com/OurHinduDharm/Panchang/actions/runs/38397053493) — **success**. The isolated frame tests, browser page test, new two-body comparison panel, and production-file identity check all passed.
+- At the fixed test instant (2026-10-12 12:00 IST), the browser rendered finite candidate values for Sun and Venus. EQD↔ECT reconstruction residuals displayed as 0.000000° (rounding) and -0.000000° for the two tested bodies. This validates the numerical reconstruction path for this instant only; it does **not** validate the historical classical frame, source conventions, Chapter VII correction inputs, K, or event dates.
+- `app.js` and `extra-panchang.js` remain unchanged. No production integration is authorized by these results.
+
+### Next work package (do not skip gates)
+
+1. **Coordinate-frame source gate:** trace the exact frame/epoch/ayanāṃśa/local-sidereal conventions asserted by the relevant Sūrya-siddhānta chapters and commentaries. Record which transformations are text-supported, which are modern comparison assumptions, and what remains undecided. Do not choose a frame merely because it agrees better with TKS.
+2. **Same-instant input gate:** capture the unedited TKS Sun and Venus ephemeris JSON for 2026-10-12 12:00 IST / 06:30 UTC at 29.5830° N, 80.2090° E, timezone +05:30, preserving exact endpoint and parameters. Compare raw coordinates before applying any Chapter VII correction.
+3. **Correction audit gate:** once frames and raw coordinates are like-for-like, compare Akṣa dṛkkarma, Āyana dṛkkarma, sequential frame conversion, and final K as separate terms. Preserve any unexplained residual; do not fit a threshold or date.
+4. Only after all three gates pass should a production-integration proposal be considered. Until then, production files stay unchanged.
+
+**Progress count:** 3 gates remain before a production-integration proposal; each gate can reveal additional source or validation work. The broader Udaya/Asta research is not yet complete.
