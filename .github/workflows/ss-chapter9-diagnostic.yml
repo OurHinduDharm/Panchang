@@ -159,7 +159,7 @@ jobs:
           const html = fs.readFileSync('test-astronomy.html', 'utf8');
           const checks = [
             ['Chapter 9 threshold, classifier, and IX.10–11 helper imported', html.includes('chapter9Kalansha, classifyChapter9HorizonEvent, estimateChapter9TimeCorrectionFromArcMotions, runChapter9ArithmeticTests') && html.includes('from "./ss_chapter9_test.js"')],
-            ['IX.10–11 signed estimate and bracket comparison rendered', html.includes('getChapter9TimeEstimate') && html.includes('IX.10–11 sequential estimate (days)') && html.includes('Estimate vs daily bracket (days)') && html.includes('data-estimate-bracket-error-days')],
+            ['IX.10–11 signed estimate and bracket comparison rendered', html.includes('getChapter9TimeEstimate') && html.includes('IX.10–11 sequential estimate (days)') && html.includes('Long-range estimate vs daily bracket (days)') && html.includes('Short-horizon estimate error (days)') && html.includes('data-estimate-bracket-error-days') && html.includes('data-short-horizon-error-days')],
             ['modern angular separation is shown separately from classical K', html.includes('eclipticLongitudeSeparationDeg') && html.includes('trueElongationDeg') && html.includes('Ecliptic Δλ') && html.includes('3-D elongation')],
             ['separate apparent-angle threshold scan is rendered', html.includes('findEclipticAngularThresholdCrossing') && html.includes('Ecliptic Δλ bracket') && html.includes('Δλ−C=')],
             ['IX.2–3 classifier controls event-time selection', html.includes('getClassifiedSunEventForDate') && html.includes('classifyChapter9HorizonEvent({') && html.includes('const direction = horizonEvent.startsWith("west-") ? "west" : "east";')],
