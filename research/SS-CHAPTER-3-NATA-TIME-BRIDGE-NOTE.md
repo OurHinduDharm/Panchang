@@ -200,3 +200,15 @@ Remaining critical chain:
 Added a source-table inverse sine operation to `ss_chapter2_versed_sine_table.js`, using adjacent table entries and interpolation rather than modern `asin()`. Then connected the supplied solar ecliptic longitude through the Chapter II maximum-declination sine (1397), inverse sine table, signed declination angle, observer latitude, II.60–61 day-radius/cara calculation, and III.34 `antya` value in `chapter3DayMeasureInputsFromSolarLongitude`.
 
 Regression tests cover all exact inverse-sine table nodes, midpoint interpolation, out-of-range rejection, and the connected chain at an equinox and both solstices. This now gives a reproducible calculation from a **supplied** solar longitude to the day-measure input. It still does not derive the longitude from a date/ahargana, certify the Chapter III ayana frame, or calculate the final observed rising/setting event. CI is being rerun for these latest changes.
+## Tenth prototype checkpoint — preserve sub-day phase precision
+
+A numerical precision defect was found in the research-only date-to-ayana bridge. The previous path added a fractional day to an ahargaṇa near 714 billion as a JavaScript Number, then extracted the fractional part again. At that magnitude, IEEE-754 spacing is roughly 0.000122 day (about 10.5 seconds), so the phase could be quantized before the 600-revolutions/yuga-day calculation.
+
+The research helper now:
+- computes elapsed whole days and the fractional day directly from the local-mean JD boundary;
+- adds whole elapsed days to the epoch ahargaṇa using BigInt;
+- takes the 600-revolution remainder with exact integer modulo;
+- adds the small fractional-day contribution only after that modulo;
+- exposes the exact whole-ahargaṇa integer as a decimal string, while retaining the numeric ahargaṇa field only for compatibility/diagnostics.
+
+A synthetic fractional-JD regression test checks that the sub-day fraction survives the large creation-era anchor. This fixes the arithmetic precision path only; it does not validate the historical epoch offset, Lanka meridian convention, civil-date mapping, or source consistency of the resulting ayana. The helper remains research-only. Production app.js and extra-panchang.js remain untouched.
