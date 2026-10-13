@@ -178,3 +178,18 @@ Sources cross-checked:
 
 
 The new matrix test in `ss_chapter3_nata_table_arithmetic.js` covers all four sign combinations of observer latitude and solar declination. It confirms the implementation's expected product-sign behavior in every quadrant. This is a regression test for the chosen formula, not independent proof that every source convention has been interpreted correctly.
+
+
+## Eighth prototype checkpoint — solar declination sine from ecliptic longitude
+
+Added `chapter3SolarDeclinationSineFromLongitudeArcMinutes` to `ss_chapter3_nata_table_arithmetic.js`. It implements the source-table relationship using the Chapter II maximum-declination sine 1397 (II.28), the Chapter II sine table, and the Chapter III.18–19 quadrant/sign treatment. The helper returns a signed table-scaled declination sine, not an angle.
+
+Regression fixtures cover zero declination at the equinox longitudes, ±1397 at the solstitial longitudes, north/south signs, and full-circle normalization. This is the next link from a future source-derived solar longitude into the nata day-measure chain, but it does **not** derive solar longitude from ahargana, solve the Chapter III ayana/coordinate-frame question, or certify real-date event times.
+
+Remaining critical chain:
+1. source-consistent ahargana and fractional day;
+2. source-consistent solar mean/true longitude and ayana frame;
+3. longitude → signed declination sine (now prototyped);
+4. latitude/declination → day-radius and antya;
+5. measured/independently calculated altitude → inverse versed-sine → arc/time magnitude;
+6. independent east/west sign and same-instant event comparison.
