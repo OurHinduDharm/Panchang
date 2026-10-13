@@ -804,3 +804,10 @@ Obtain the unedited Sun and Venus JSON responses from the TKS ephemeris endpoint
 4. Only after all three gates pass should a production-integration proposal be considered. Until then, production files stay unchanged.
 
 **Progress count:** 3 gates remain before a production-integration proposal; each gate can reveal additional source or validation work. The broader Udaya/Asta research is not yet complete.
+
+### Source-gate note — Chapter VII verses checked against the TextGrid edition
+
+- Primary text locator: [TextGrid Sūryasiddhānta edition](https://www.textgridrep.org/browse/49kc2.0), which identifies its witnesses as Hall's *Gūḍhārthaprakāśikā* edition (1854), Kāśī Sanskrit Granthamālā (1987), and Sudhākara Dvivedī's edition/commentary (1987). The displayed Sanskrit at VII.7–11 is available in the chapter sequence on that page.
+- VII.7 sets up day/night measure, planetary latitude (vikṣepa), and natonnata (hour-angle/meridian relation) before the corrections. VII.8–9 gives the signed first correction and direction/hemisphere rules. VII.10 gives a second correction involving planetary latitude and the declination of the point three signs away. VII.11 explicitly says these corrections are used for conjunctions and planetary rising/setting.
+- This confirms that the two correction components and their sign rules are text-grounded. It does **not**, by itself, specify that modern EQD coordinates should be converted by subtracting a fixed 24.217° ayanāṃśa and then rotating to a 24° equator, nor does it fully settle epoch/equinox/local-sidereal conventions. Therefore the new 3-D transformation remains a candidate input-preparation model, not a proven historical reconstruction.
+- Source-gate status: **in progress**. Next, map each variable used in the implementation to the Sanskrit instruction and both translation/commentary witnesses; explicitly separate (a) classical computational frame, (b) modern apparent coordinates, and (c) the observational visibility threshold. Do not infer a source convention from a matching event date.
