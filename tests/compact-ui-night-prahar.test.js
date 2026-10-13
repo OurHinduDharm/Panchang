@@ -158,6 +158,41 @@ test("Anandadi yogas show auspiciousness colors and use Lumbaka spelling", () =>
   assert.match(classical, /category:OHN_ANANDADI_AUSPICIOUS\.has\(name\) \? "शुभ" : "अशुभ"/);
 });
 
+test("Godhuli uses the season-specific solar altitude and one fixed 48-minute window", () => {
+  const start = source.indexOf("function getGodhuliMuhurta(");
+  const end = source.indexOf("function getSpecialKaalDetails(", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+
+  const sandbox = {
+    SearchAltitude: (_body, _observer, direction, searchStart, limitDays, altitude) => {
+      sandbox.lastSearch = { direction, searchStart, limitDays, altitude };
+      return { date: new Date("2026-10-12T12:00:00.000Z") };
+    },
+    Body: { Sun: "Sun" },
+    Observer: class { constructor(lat, lon, elevation){ this.lat=lat; this.lon=lon; this.elevation=elevation; } }
+  };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+
+  const sunset = new Date("2026-10-12T12:09:00.000Z");
+  const location = { lat: 30.1265, lon: 80.4817, elevation: 0 };
+  const minutes = (a, b) => (new Date(b).getTime() - new Date(a).getTime()) / 60000;
+
+  const hemanta = sandbox.getGodhuliMuhurta({ ritu: "हेमन्त" }, sunset, location);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9);
+  assert.equal(sandbox.lastSearch.direction, -1);
+  assert.equal(minutes(hemanta.start, hemanta.end), 48);
+
+  const varsha = sandbox.getGodhuliMuhurta({ ritu: "वर्षा" }, sunset, location);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (-16 / 60)) < 1e-9);
+  assert.equal(minutes(varsha.start, varsha.end), 48);
+
+  sandbox.SearchAltitude = () => null;
+  const fallback = sandbox.getGodhuliMuhurta({ ritu: "शरद" }, sunset, location);
+  assert.equal(minutes(fallback.start, sunset), 12);
+  assert.equal(minutes(sunset, fallback.end), 12);
+});
+
 test("displayed Sandhya windows use fixed 48-minute Muhurtas around sunrise, midday, and sunset", () => {
   const start = source.indexOf("function getSpecialKaalDetails(");
   const end = source.indexOf("function getPraharDetails(", start);
