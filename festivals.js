@@ -46,7 +46,6 @@ const HINDU_FESTIVAL_TERMS = [
   /hanuman|हनुमान/i,
   /hanuman jayanti|हनुमान जयंती/i,
   /shani jayanti|शनि जयंती/i,
-  /krishna paksha|कृष्ण पक्ष/i,
   /diwali|deepavali|dīpāvalī|दीपावली|दिवाली/i,
   /holi|होली/i,
   /akshaya tritiya|अक्षय तृतीया/i,
@@ -96,7 +95,7 @@ const HINDU_FESTIVAL_TERMS = [
   /hariyali teej|हरियाली तीज/i,
   /hartalika teej|हरतालिका तीज/i,
   /teej|तीज/i,
-  /aadi|आदि अमावस्या|आषाढ़ी/i,
+  /adi amavasya|आदि अमावस्या/i,
   /vishwakarma puja|विश्वकर्मा पूजा/i,
   /balarama jayanti|बलराम जयंती/i,
   /skanda sashti|स्कन्द षष्ठी|स्कंद षष्ठी/i,
@@ -178,7 +177,7 @@ function renderFestivalCard(dateString, festivals, errorMessage = "") {
 
   const heading = document.createElement("div");
   heading.className = "label";
-  heading.textContent = "🪔 आज के हिंदू व्रत-पर्व";
+  heading.textContent = "🪔 इस तिथि के हिंदू व्रत-पर्व";
   card.appendChild(heading);
 
   const dateLine = document.createElement("div");
@@ -196,7 +195,7 @@ function renderFestivalCard(dateString, festivals, errorMessage = "") {
   } else if (!festivals.length) {
     const message = document.createElement("div");
     message.style.cssText = "font-size:13px;color:#666;";
-    message.textContent = "इस तिथि के लिए सूची में कोई सत्यापित हिंदू पर्व नहीं मिला।";
+    message.textContent = "लाइब्रेरी की सूची में इस तिथि से मेल खाता हिंदू व्रत-पर्व नहीं मिला।";
     card.appendChild(message);
   } else {
     const list = document.createElement("ul");
@@ -211,7 +210,7 @@ function renderFestivalCard(dateString, festivals, errorMessage = "") {
 
   const note = document.createElement("div");
   note.style.cssText = "margin-top:8px;font-size:11px;color:#777;line-height:1.5;";
-  note.textContent = "पर्वों की सूची लाइब्रेरी के डेटा से तैयार होती है; पूजा-मुहूर्त और व्रत-पारण का समय अलग से सत्यापित किया जाना चाहिए।";
+  note.textContent = "सूची लाइब्रेरी के पर्व-डेटा पर आधारित है। स्थानीय परंपरा, व्रत-निर्णय, पूजा-मुहूर्त और पारण का समय अलग से जाँचें।";
   card.appendChild(note);
 
   grid.appendChild(card);
