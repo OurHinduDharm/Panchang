@@ -34,8 +34,8 @@ function normalizeDegrees(value) {
 /** Return sine magnitude from the source table after quadrant reduction. */
 function sineMagnitudeForDegrees(degrees) {
   const normalized = normalizeDegrees(degrees);
-  const quadrantPosition = normalized % 90;
-  const reducedArcMinutes = Math.min(quadrantPosition, 90 - quadrantPosition) * 60;
+  const halfCyclePosition = normalized % 180;
+  const reducedArcMinutes = Math.min(halfCyclePosition, 180 - halfCyclePosition) * 60;
   return chapter2SineFromArcMinutes(reducedArcMinutes).sine;
 }
 
