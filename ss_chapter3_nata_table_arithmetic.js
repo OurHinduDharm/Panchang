@@ -332,6 +332,23 @@ export function runChapter3NataTableArithmeticTests() {
       close(north.dayRadius, south.dayRadius);
   });
 
+  check("latitude × declination sign matrix reverses cara in opposite hemispheres", () => {
+    const cases = [
+      { latitude: 1800, declination: 600, sign: 1 },
+      { latitude: 1800, declination: -600, sign: -1 },
+      { latitude: -1800, declination: 600, sign: -1 },
+      { latitude: -1800, declination: -600, sign: 1 }
+    ];
+    return cases.every(({ latitude, declination, sign }) => {
+      const out = chapter3DayMeasureInputsFromAngles({
+        latitudeArcMinutes: latitude,
+        declinationArcMinutes: declination
+      });
+      return Math.sign(out.caraSine) === sign &&
+        Math.sign(out.antya - SURYA_SIDDHANTA_RADIUS) === sign;
+    });
+  });
+
   check("II.60–61 and III.34 build day-radius and antya from synthetic table values", () => {
     const out = chapter3DayMeasureInputsFromTableValues({
       radius: 3438, sineLatitude: 1000, sineColatitude: 3290,
