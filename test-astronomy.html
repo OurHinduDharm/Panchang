@@ -465,6 +465,9 @@
     <h3>Coordinate-frame sensitivity audit (diagnostic only)</h3>
     <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant. Important: the 24.217° value is subtracted to create the helper’s sidereal-longitude representation and then added back before oblique ascension is calculated. With that same offset used consistently, it cancels; this is not an independent test of ayanāṃśa choice.</p>
     <div id="frameAuditOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this audit.</div></div>
+    <h3>Same-instant TKS Venus snapshot audit — 12 October 2026, 12:00 IST</h3>
+    <p class="small">A like-for-like time check against the owner-supplied TKS detailed-panel snapshot (K = 7.698°, C = 8°; ecliptic separation = 17.6°; 3-D separation = 19.4°). The calculation below uses the same UTC instant (06:30 UTC), the supplied TKS coordinates/elevation, and keeps the two dṛkkarma candidates separate. This is a diagnostic comparison, not a claim that TKS is ground truth.</p>
+    <div id="sameInstantTksAuditOutput"><div class="status info">Run “Sūrya-siddhānta Lagnāntara” to calculate the same-instant comparison.</div></div>
     <h3>Jupiter Asta component sweep — 12, 13 and 20 August 2027</h3>
     <p class="small">This table samples actual local sunset and compares Astronomy Engine against the page’s separately loaded Swiss Ephemeris at the identical UTC instant. It also exposes each correction term. This is an ephemeris cross-check, not a formula change.</p>
     <div id="jupiterAstaSweepOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this sweep.</div></div>
@@ -3407,7 +3410,56 @@ function shastriyaC(planet, horizonEvent, motionClass) {
   return chapter9Kalansha({ planet, horizonEvent, motionClass });
 }
 
-async function runLagnantaraDiagnostic() {
+async function runSameInstantTksSnapshotAudit() {
+  const output = document.getElementById("sameInstantTksAuditOutput");
+  const instant = new Date("2026-10-12T06:30:00Z"); // 12:00 IST
+  const planetState = getPlanetSiderealState(BODY_NAMES.Venus, instant);
+  const sunState = getPlanetSiderealState(Astronomy.Body.Sun, instant);
+  if (!planetState || !sunState) {
+    output.innerHTML = '<div class="status error">Same-instant comparison failed: planetary state unavailable.</div>';
+    return;
+  }
+
+  const motion = getPlanetMotion(BODY_NAMES.Venus, instant);
+  const event = classifyChapter9HorizonEvent({
+    planet: "Venus",
+    planetLongitudeDeg: planetState.longitude,
+    sunLongitudeDeg: sunState.longitude,
+    dailyMotionDegPerDay: motion
+  });
+  if (!event) {
+    output.innerHTML = '<div class="status error">Same-instant comparison failed: event branch is ambiguous.</div>';
+    return;
+  }
+  const direction = event === "west-setting" || event === "west-rising" ? "west" : "east";
+  const current = getLagnantaraDiagnostic(BODY_NAMES.Venus, instant, direction, "current", TKS_CONFIG);
+  const sequential = getLagnantaraDiagnostic(BODY_NAMES.Venus, instant, direction, "sequential", TKS_CONFIG);
+  if (!current || !sequential || !Number.isFinite(current.K) || !Number.isFinite(sequential.K)) {
+    output.innerHTML = '<div class="status error">Same-instant comparison failed: one or both K candidates are unavailable.</div>';
+    return;
+  }
+
+  const targetK = 7.698;
+  const targetC = 8;
+  const fmt = value => Number.isFinite(value) ? round(value, 6) + "°" : "—";
+  const delta = value => fmt(value - targetK);
+  output.innerHTML = '<div class="status info"><strong>Calculated at one identical instant:</strong> 2026-10-12 12:00:00 IST / 06:30:00 UTC; TKS comparison coordinates 29.5830° N, 80.2090° E, 0 m.</div>' +
+    '<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Our current candidate</th><th>Our sequential candidate</th><th>Owner-supplied TKS snapshot</th></tr></thead><tbody>' +
+    '<tr><td>IX.2–3 event branch</td><td colspan="2">' + event + ' (' + (motion < 0 ? 'retrograde' : 'direct') + ')</td><td>Venus Asta panel</td></tr>' +
+    '<tr><td>Classical K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698°</td></tr>' +
+    '<tr><td>Our K minus TKS K</td><td>' + delta(current.K) + '</td><td>' + delta(sequential.K) + '</td><td>—</td></tr>' +
+    '<tr><td>Selected classical limit C</td><td colspan="2">' + fmt(chapter9Kalansha({planet:"Venus", horizonEvent:event, motionClass:motion < 0 ? "retrograde" : "direct-fast"})) + '</td><td>8°</td></tr>' +
+    '<tr><td>Ecliptic-longitude separation</td><td>' + fmt(current.eclipticLongitudeSeparationDeg) + '</td><td>' + fmt(sequential.eclipticLongitudeSeparationDeg) + '</td><td>17.6°</td></tr>' +
+    '<tr><td>True 3-D elongation</td><td>' + fmt(current.trueElongationDeg) + '</td><td>' + fmt(sequential.trueElongationDeg) + '</td><td>19.4°</td></tr>' +
+    '<tr><td>Raw K before dṛkkarma</td><td>' + fmt(current.rawK) + '</td><td>' + fmt(sequential.rawK) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Āyana dṛkkarma</td><td>' + fmt(current.drikkarma.ayanaDeg) + '</td><td>' + fmt(sequential.drikkarma.ayanaDeg) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Akṣa dṛkkarma</td><td>' + fmt(current.drikkarma.akshaDeg) + '</td><td>' + fmt(sequential.drikkarma.akshaDeg) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Corrected planet longitude</td><td>' + fmt(current.drikkarma.correctedLongitude) + '</td><td>' + fmt(sequential.drikkarma.correctedLongitude) + '</td><td>Not supplied</td></tr>' +
+    '</tbody></table></div>' +
+    '<div class="status warn">Interpretation: this removes the known time-of-day mismatch between the TKS K snapshot and our previous sunset sample. A remaining difference is still not assigned to a cause until the coordinate frame, dṛkkarma construction, and TKS calculation conventions are matched.</div>';
+}
+
+function runLagnantaraDiagnostic() {
   lagnantaraOutput.innerHTML = '<div class="status info">Calculating TKS-coordinate sunrise/sunset lagnāntara geometry...</div>';
   const ch7 = runChapter7DrikkarmaTests();
   document.getElementById("chapter7DrikkarmaTestOutput").innerHTML =
@@ -3607,7 +3659,8 @@ async function runLagnantaraDiagnostic() {
   lagnantaraOutput.innerHTML = html;
   runCoordinateFrameSensitivityAudit();
   runJupiterAstaComponentSweep();
-  setStatus("Lagnāntara diagnostic completed; coordinate-frame audit populated and independent Swiss comparison started.", "ok");
+  runSameInstantTksSnapshotAudit();
+  setStatus("Lagnāntara diagnostic completed; same-instant TKS snapshot, coordinate-frame audit, and independent Swiss comparison populated.", "ok");
 }
 /* =============================================================
    CLASSICAL ASTA / UDAYA DIAGNOSTIC
