@@ -17,6 +17,9 @@ on:
       - "ss_chapter1_epoch_bridge.js"
       - "ss_classical_frame.js"
       - "ss_classical_frame_test.js"
+      - "ss_chapter3_nata_geometry.js"
+      - "ss_chapter3_nata_table_arithmetic.js"
+      - "research/SS-CHAPTER-3-NATA-TIME-BRIDGE-NOTE.md"
       - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
@@ -34,6 +37,9 @@ on:
       - "research/SS-CHAPTER-9-AUDIT.md"
       - "ss_classical_frame.js"
       - "ss_classical_frame_test.js"
+      - "ss_chapter3_nata_geometry.js"
+      - "ss_chapter3_nata_table_arithmetic.js"
+      - "research/SS-CHAPTER-3-NATA-TIME-BRIDGE-NOTE.md"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   workflow_dispatch:
 
@@ -232,6 +238,8 @@ jobs:
       - name: Run isolated classical-frame transform tests
         run: |
           node --experimental-default-type=module --check ss_classical_frame.js
+          node --experimental-default-type=module --check ss_chapter3_nata_geometry.js
+          node --experimental-default-type=module --check ss_chapter3_nata_table_arithmetic.js
           node --experimental-default-type=module --check ss_classical_frame_test.js
           node --experimental-default-type=module ss_classical_frame_test.js
 
