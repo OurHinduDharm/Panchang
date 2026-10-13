@@ -6,10 +6,10 @@
  * subtract the sine values in reverse order from R = 3438.
  *
  * Inverse lookup uses linear interpolation across the 225-arcminute table
- * intervals as a documented candidate for II.30–32. It returns the arc in
- * arcminutes only. Conversion from that arc to classical asu/nāḍī and the
- * precise interpretation of the III.39 output still require a separate
- * source/unit audit; no signed east/west nata is inferred here.
+ * intervals as a documented candidate for II.30–32. The returned arc-minute
+ * value is also converted to asu/vināḍī/nāḍī using the Chapter I.11–12 scale.
+ * This is a candidate table path, not a complete III.39 result; no signed
+ * east/west nata is inferred here.
  */
 
 export const SURYA_SIDDHANTA_RADIUS = 3438;
@@ -150,6 +150,6 @@ export function runChapter2VersedSineTableTests() {
     allPassed: tests.every(test => test.passed),
     tableSines: SURYA_SIDDHANTA_CHAPTER2_SINES,
     tableVersedSines: table,
-    note: "This validates the encoded table and interpolation only; it does not certify III.39 time-unit conversion or a signed classical nata."
+    note: "This validates the encoded table, interpolation, and unit arithmetic only; it does not certify the III.35–39 source inputs or a signed classical nata."
   };
 }
