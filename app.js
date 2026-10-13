@@ -2008,8 +2008,14 @@ const sankalpState = {
 
 /* =========================================================
    GODHULI — seasonal solar-altitude convention
-   Muhurta Chintamani 6.101 describes three seasonal solar-disc
-   states. The window lasts one fixed Muhurta (48 minutes).
+   Muhurta Chintamani 6.101 describes seasonal solar-disc states:
+   Hemanta (whole disc visible), hot season (half-set), and rains
+   (fully set). The 48-minute window is the TKS-style fixed-Muhurta
+   convention used by this project; verse 6.101 itself describes the
+   seasonal instant, not the duration. Other Panchang traditions use
+   shorter windows, so this is a declared convention, not a universal
+   claim. SearchAltitude uses the Sun's geometric center without
+   atmospheric refraction, as documented by Astronomy Engine.
    ========================================================= */
 function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
   const fallback = () => ({
@@ -2046,9 +2052,10 @@ function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
     rituBySunRashiIndex[p?.sunRashi?.index] ||
     "";
 
-  // Approximate solar-disc radius: 16 arcminutes.
-  // Hemanta/Shishira: whole disc visible; Varsha: disc fully set;
-  // other ritus: half-set, following the threefold convention.
+  // Approximate solar semidiameter: 16 arcminutes.
+  // TKS-style mapping: Hemanta/Shishira +16', Varsha -16', and the
+  // remaining seasons 0°. This is geometric solar-center altitude;
+  // SearchAltitude intentionally does not apply atmospheric refraction.
   let targetAltitude = 0;
   if(ritu === "हेमन्त" || ritu === "हेमंत" || ritu === "शिशिर"){
     targetAltitude = 16 / 60;
