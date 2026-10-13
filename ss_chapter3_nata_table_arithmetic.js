@@ -1,4 +1,4 @@
-import { chapter2SineFromArcMinutes, chapter2VersedSineFromArcMinutes, SURYA_SIDDHANTA_RADIUS } from "./ss_chapter2_versed_sine_table.js";
+import { chapter2SineFromArcMinutes, chapter2VersedSineFromArcMinutes, chapter2ArcMinutesFromVersedSine, SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES, SURYA_SIDDHANTA_RADIUS } from "./ss_chapter2_versed_sine_table.js";
 
 /**
  * Research-only transcription of the algebraic chain described in
@@ -225,6 +225,34 @@ export function runChapter3NataTableArithmeticTests() {
   };
 
 
+
+
+  check("integrated table-driven III.35–39 chain round-trips a synthetic nata arc", () => {
+    const day = chapter3DayMeasureInputsFromAngles({
+      latitudeArcMinutes: 1800,
+      declinationArcMinutes: 600
+    });
+    const expectedArcMinutes = 1800;
+    const targetVersedSine = SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES[8];
+    const forward = chapter3ForwardAltitudeSineFromTableValues({
+      radius: SURYA_SIDDHANTA_RADIUS,
+      sineColatitude: day.sineColatitude,
+      dayRadius: day.dayRadius,
+      antya: day.antya,
+      versedSineNata: targetVersedSine
+    });
+    const inverse = chapter3InverseVersedSineFromTableValues({
+      radius: SURYA_SIDDHANTA_RADIUS,
+      sineColatitude: day.sineColatitude,
+      dayRadius: day.dayRadius,
+      antya: day.antya,
+      sineAltitude: forward.sineAltitude
+    });
+    const recovered = chapter2ArcMinutesFromVersedSine(inverse.versedSineNata);
+    return close(recovered.arcMinutes, expectedArcMinutes, 1e-7) &&
+      close(recovered.timeUnits.nataAsuCandidate, expectedArcMinutes, 1e-7) &&
+      close(recovered.timeUnits.nataNadiCandidate, 5, 1e-7);
+  });
 
   check("angle inputs flow through Chapter II tables into day-radius and antya", () => {
     const out = chapter3DayMeasureInputsFromAngles({
