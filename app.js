@@ -1,4 +1,9 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+import {
+  Body as AstroBody,
+  Observer as AstroObserver,
+  SearchAltitude
+} from "https://esm.sh/astronomy-engine@2.1.19";
 
 let selectedLocation = null;
 let currentSankalpContext = null;
@@ -2002,6 +2007,85 @@ const sankalpState = {
 }
 
 /* =========================================================
+   GODHULI — seasonal solar-altitude convention
+   Muhurta Chintamani 6.101 describes three seasonal solar-disc
+   states. The window lasts one fixed Muhurta (48 minutes).
+   ========================================================= */
+function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
+  const fallback = () => ({
+    start:new Date(sunset.getTime() - 12 * 60 * 1000),
+    end:new Date(sunset.getTime() + 12 * 60 * 1000)
+  });
+
+  const ritu = String(p?.ritu || "")
+    .trim()
+    .replace(/ऋतु\s*$/, "")
+    .replace(/ऋतौ\s*$/, "")
+    .trim();
+
+  // Approximate solar-disc radius: 16 arcminutes.
+  // Hemanta/Shishira: whole disc visible; Varsha: disc fully set;
+  // other ritus: half-set, following the threefold convention.
+  let targetAltitude = 0;
+  if(ritu === "हेमन्त" || ritu === "हेमंत" || ritu === "शिशिर"){
+    targetAltitude = 16 / 60;
+  }else if(ritu === "वर्षा"){
+    targetAltitude = -16 / 60;
+  }
+
+  const latitude = Number(location?.lat ?? location?.latitude);
+  const longitude = Number(location?.lon ?? location?.longitude);
+  const elevation = Number(location?.elevation ?? 0);
+
+  if(
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude) ||
+    !Number.isFinite(elevation)
+  ){
+    return fallback();
+  }
+
+  try{
+    const searchAltitude = dependencies.SearchAltitude || SearchAltitude;
+    const body = dependencies.Body || AstroBody;
+    const ObserverClass = dependencies.Observer || AstroObserver;
+    const observer = new ObserverClass(latitude, longitude, elevation);
+
+    // Start well before sunset so SearchAltitude finds this evening's
+    // descending crossing, not a following day's event.
+    const searchStart = new Date(sunset.getTime() - 4 * 60 * 60 * 1000);
+    const event = searchAltitude(
+      body.Sun,
+      observer,
+      -1,
+      searchStart,
+      0.5,
+      targetAltitude
+    );
+    const start = event?.date ? new Date(event.date) : null;
+    const delta = start ? sunset.getTime() - start.getTime() : NaN;
+
+    // A missing or implausibly distant event should not break the whole card.
+    if(
+      !start ||
+      Number.isNaN(start.getTime()) ||
+      delta < 0 ||
+      delta > 90 * 60 * 1000
+    ){
+      return fallback();
+    }
+
+    return {
+      start,
+      end:new Date(start.getTime() + 48 * 60 * 1000)
+    };
+  }catch(e){
+    console.warn("Seasonal Godhuli calculation failed; using fallback window:", e);
+    return fallback();
+  }
+}
+
+/* =========================================================
    SPECIAL KAAL / MUHURTA
    ========================================================= */
 function getSpecialKaalDetails(
@@ -2094,17 +2178,15 @@ function getSpecialKaalDetails(
   };
 
   /*
-   * गोधूलि मुहूर्त
-   * सूर्यास्त से 12 मिनट पूर्व → 12 मिनट बाद
+   * गोधूलि मुहूर्त — ऋतु के अनुसार सूर्य-बिम्ब की स्थिति से आरम्भ;
+   * इसके बाद एक निश्चित 48-मिनट मुहूर्त। Astronomical event उपलब्ध न
+   * हो तो पुराने ±12 मिनट वाले window पर सुरक्षित fallback रहेगा।
    */
-  const godhuliMuhurta = {
-    start:new Date(
-      sunset.getTime() - 12 * 60 * 1000
-    ),
-    end:new Date(
-      sunset.getTime() + 12 * 60 * 1000
-    )
-  };
+  const godhuliMuhurta = getGodhuliMuhurta(
+    p,
+    sunset,
+    selectedLocation
+  );
 
   /*
    * सायं संध्या — सूर्यास्त से 2 मुहूर्त पहले से
