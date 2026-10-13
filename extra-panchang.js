@@ -2,6 +2,7 @@
 // and CDN consumers do not need a separate script tag.
 import "./classical-yogas.js";
 import "./festivals.js";
+import { calculateNivasa } from "./nivas.js";
 
 import {
   Elongation,
@@ -997,8 +998,11 @@ function createNivasCard(tithiIndex, selectedDate) {
   card.className = "card full";
   card.id = "nivasCard";
 
-  const index = Number(tithiIndex);
-  if (!Number.isInteger(index) || index < 0 || index > 29) {
+  // Use the selected Indian calendar date, independent of device timezone.
+  const weekdayIndex = new Date(`${selectedDate}T00:00:00Z`).getUTCDay();
+  const result = calculateNivasa(Number(tithiIndex), weekdayIndex);
+
+  if (!result) {
     card.innerHTML = `
       <div class="label">🔥 अग्निवास एवं 🔱 शिववास</div>
       <div class="value">गणना उपलब्ध नहीं।</div>
@@ -1006,38 +1010,15 @@ function createNivasCard(tithiIndex, selectedDate) {
     return card;
   }
 
-  const tithi = index + 1;
-  // Use the selected Indian calendar date, independent of device timezone.
-  const weekday = new Date(`${selectedDate}T00:00:00Z`).getUTCDay() + 1;
-  const agniRemainder = (tithi + weekday + 1) % 4;
-  const shivaRemainder = (tithi * 2 + 5) % 7;
-
-  const agni = ({
-    0: { name: "पृथ्वी", note: "हवन के लिए अनुकूल मानी जाती है", good: true },
-    1: { name: "आकाश", note: "हवन के लिए प्रतिकूल मानी जाती है", good: false },
-    2: { name: "पाताल", note: "हवन के लिए प्रतिकूल मानी जाती है", good: false },
-    3: { name: "पृथ्वी", note: "हवन के लिए अनुकूल मानी जाती है", good: true }
-  })[agniRemainder];
-
-  const shiva = ({
-    0: { name: "श्मशान", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false },
-    1: { name: "कैलाश", note: "रुद्राभिषेक के लिए अनुकूल", good: true },
-    2: { name: "गौरी-सन्निधि", note: "रुद्राभिषेक के लिए अनुकूल", good: true },
-    3: { name: "नन्दी पर", note: "रुद्राभिषेक के लिए अनुकूल", good: true },
-    4: { name: "सभा", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false },
-    5: { name: "भोजन", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false },
-    6: { name: "क्रीड़ा", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false }
-  })[shivaRemainder];
-
   card.innerHTML = `
     <div class="label">🔥 अग्निवास एवं 🔱 शिववास</div>
     <div class="time-row">
       <b>अग्निवास</b>
-      <span>${agni.name} — ${agni.note}</span>
+      <span>${result.agni.name} — ${result.agni.note}</span>
     </div>
     <div class="time-row">
       <b>शिववास</b>
-      <span>${shiva.name} — ${shiva.note}</span>
+      <span>${result.shiva.name} — ${result.shiva.note}</span>
     </div>
     <div style="margin-top:8px;font-size:11px;color:#777;line-height:1.5">
       गणना सूर्योदय की तिथि से है। परंपरागत पद्धतियों में फल-विवरण भिन्न हो सकते हैं; इसे अकेले मुहूर्त-निर्णय का आधार न मानें।
