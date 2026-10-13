@@ -212,3 +212,10 @@ The research helper now:
 - exposes the exact whole-ahargaṇa integer as a decimal string, while retaining the numeric ahargaṇa field only for compatibility/diagnostics.
 
 A synthetic fractional-JD regression test checks that the sub-day fraction survives the large creation-era anchor. This fixes the arithmetic precision path only; it does not validate the historical epoch offset, Lanka meridian convention, civil-date mapping, or source consistency of the resulting ayana. The helper remains research-only. Production app.js and extra-panchang.js remain untouched.
+## Eleventh prototype checkpoint — source-ratio mean solar longitude
+
+A separate research helper now computes the mean Sun's cyclic longitude from an already-supplied ahargaṇa. The source constants give 51,840,000 solar months per yuga; dividing by 12 months per solar revolution yields 4,320,000 solar revolutions. The helper computes the fractional cycle from that ratio, using exact integer modulo for the whole-day part and carrying fractional day separately.
+
+Regression checks cover zero longitude at zero ahargaṇa, full-yuga cycle closure, half-yuga phase, half-day incremental motion, normalization, and invalid input. CI now runs these tests.
+
+Strict boundary: this helper does not derive ahargaṇa from a civil date and does not apply Chapter II's solar manda equation. It returns mean longitude only. Next gate is a source-derived Sun mandocca/anomaly/manda-phala chain, followed by an independent reference comparison; only then can a candidate true solar longitude be connected to the Chapter III day-measure/rise-set geometry.
