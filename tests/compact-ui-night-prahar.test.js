@@ -325,7 +325,7 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   }
 });
 
-test("displayed Sandhya windows use fixed 48-minute Muhurtas around sunrise, midday, and sunset", () => {
+test("displayed Sandhya windows retain the existing day/night-relative Muhurta divisions", () => {
   const start = source.indexOf("function getGodhuliMuhurta(");
   const end = source.indexOf("function getPraharDetails(", start);
   assert.notEqual(start, -1);
@@ -345,20 +345,19 @@ test("displayed Sandhya windows use fixed 48-minute Muhurtas around sunrise, mid
   };
   const nextSunrise = "2026-10-13T06:08:00+05:30";
   const result = sandbox.getSpecialKaalDetails(p, nextSunrise);
-  const minutes = (a, b) => (new Date(b).getTime() - new Date(a).getTime()) / 60000;
+  const ms = value => new Date(value).getTime();
+  const nightMuhurtaMs = ms(nextSunrise) - ms(p.sunset);
+  const dayMuhurtaMs = ms(p.sunset) - ms(p.sunrise);
+  const midpoint = (ms(p.sunrise) + ms(p.sunset)) / 2;
 
-  assert.equal(minutes(result.pratahSandhya.start, p.sunrise), 48);
-  assert.equal(minutes(p.sunrise, result.pratahSandhya.end), 96);
+  assert.equal(ms(p.sunrise) - ms(result.pratahSandhya.start), nightMuhurtaMs / 15);
+  assert.equal(ms(result.pratahSandhya.end), ms(p.sunrise));
 
-  const midpoint = (new Date(p.sunrise).getTime() + new Date(p.sunset).getTime()) / 2;
-  assert.equal(new Date(result.madhyahnaSandhya.start).getTime(), midpoint - 48 * 60000);
-  assert.equal(new Date(result.madhyahnaSandhya.end).getTime(), midpoint + 48 * 60000);
+  assert.equal(ms(result.madhyahnaSandhya.start), midpoint - dayMuhurtaMs / 30);
+  assert.equal(ms(result.madhyahnaSandhya.end), midpoint + dayMuhurtaMs / 30);
 
-  assert.equal(minutes(result.sayahnaSandhya.start, p.sunset), 96);
-  assert.equal(minutes(p.sunset, result.sayahnaSandhya.end), 48);
-
-  // A fixed 48-minute unit must not stretch or shrink with seasonal day/night length.
-  assert.equal(minutes(result.madhyahnaSandhya.start, result.madhyahnaSandhya.end), 96);
+  assert.equal(ms(result.sayahnaSandhya.start), ms(p.sunset));
+  assert.equal(ms(result.sayahnaSandhya.end) - ms(p.sunset), nightMuhurtaMs / 15);
 });
 
 test("Ritu and Ayana cards are adjacent in the compact grid", () => {
