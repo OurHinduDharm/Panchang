@@ -1096,7 +1096,7 @@ const sankalpState = {
   type: "sandhya",
 
   /* Sandhya */
-  sandhyaType: "pratah",
+  sandhyaType: "",
   sandhyaManualOverride: false,
   sandhyaDevta: "श्रीगायत्री",
   sandhyaDevtaCustom: "",
@@ -3483,7 +3483,7 @@ function getAutoSandhyaType(
     !p ||
     !referenceNow
   ){
-    return "pratah";
+    return null;
   }
 
   const sunrise = new Date(p.sunrise);
@@ -3493,14 +3493,17 @@ function getAutoSandhyaType(
   if(
     Number.isNaN(sunrise.getTime()) ||
     Number.isNaN(sunset.getTime()) ||
-    sunset <= sunrise
+    sunset <= sunrise ||
+    Number.isNaN(now.getTime())
   ){
-    return "pratah";
+    return null;
   }
 
   /*
-   * Auto संध्या का चयन वास्तविक संध्या-अवधियों से हो,
-   * केवल दिन के पाँच भागों से नहीं।
+   * ऑटो-चयन केवल पहचानी गई संध्या-अवधि में होगा।
+   * अन्य समय में तुरीय संध्या या कोई दूसरी संध्या
+   * अपने-आप न चुनें; उपयोगकर्ता चार रेडियो विकल्पों
+   * में से स्वयं चयन कर सकता है।
    */
   let nightMuhurtaMs = null;
   const night = praharData?.nightPrahar;
@@ -3520,26 +3523,26 @@ function getAutoSandhyaType(
     }
   }
 
-  /* सूर्यास्त से पहला रात्रि-मुहूर्त: सायं संध्या। */
+  /* सूर्यास्त के बाद पहले रात्रि-मुहूर्त में सायं संध्या। */
   if(now >= sunset){
-    return (
-      nightMuhurtaMs &&
-      now.getTime() < sunset.getTime() + nightMuhurtaMs
-    ) ? "sayam" : "turiya";
+    if(!nightMuhurtaMs) return null;
+    return now.getTime() < sunset.getTime() + nightMuhurtaMs
+      ? "sayam"
+      : null;
   }
 
-  /* सूर्योदय से पहले अंतिम रात्रि-मुहूर्त: प्रातः संध्या। */
+  /* सूर्योदय से पहले अंतिम रात्रि-मुहूर्त में प्रातः संध्या। */
   if(now < sunrise){
-    return (
-      nightMuhurtaMs &&
-      now.getTime() >= sunrise.getTime() - nightMuhurtaMs
-    ) ? "pratah" : "turiya";
+    if(!nightMuhurtaMs) return null;
+    return now.getTime() >= sunrise.getTime() - nightMuhurtaMs
+      ? "pratah"
+      : null;
   }
 
   /*
-   * मध्याह्न संध्या: स्थानीय दिनमान के मध्य पर केंद्रित
-   * एक दिन-मुहूर्त (दिनमान / 15) की अवधि।
-   * शेष दिन में Auto कोई दूसरी संध्या गलत ढंग से नहीं चुनेगा।
+   * मध्याह्न संध्या के लिए फिलहाल वही मौजूदा सीमित
+   * ऑटो-विंडो रखी गई है; इसे अभिजित् से स्वतंत्र करने
+   * के लिए अलग शास्त्रीय समय-सीमा शोध के बिना नहीं गढ़ें।
    */
   const dayMs = sunset.getTime() - sunrise.getTime();
   const dayMuhurtaMs = dayMs / 15;
@@ -3554,7 +3557,7 @@ function getAutoSandhyaType(
     return "madhyahna";
   }
 
-  return "turiya";
+  return null;
 }
 /* =========================================================
    KARMA PHRASE (WITHOUT final verb & without अहं)
@@ -3722,6 +3725,13 @@ function buildSankalpText(){
   }
 
   const ctx = currentSankalpContext;
+
+  if(
+    sankalpState.type === "sandhya" &&
+    !["pratah", "madhyahna", "sayam", "turiya"].includes(sankalpState.sandhyaType)
+  ){
+    return "कृपया संकल्प बनाने के लिए संध्या का समय रेडियो बटन से चुनें।";
+  }
 
   const samvatForm = toSamvatForm(ctx.samvatParts);
   const ayanaForm = toAyanaForm(ctx.ayana);
