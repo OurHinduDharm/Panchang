@@ -202,6 +202,21 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   };
   vm.runInNewContext(source.slice(start, end), realSandbox);
   const realSunset = new Date("2026-10-12T12:10:00.000Z"); // 17:40 IST
+  const realObserver = new Observer(location.lat, location.lon, location.elevation);
+  const actualEvent = SearchAltitude(
+    Body.Sun,
+    realObserver,
+    -1,
+    new Date(realSunset.getTime() - 4 * 60 * 60 * 1000),
+    0.5,
+    0
+  );
+  assert.ok(actualEvent?.date, "Astronomy Engine should return the evening 0-degree solar-center crossing");
+  assert.ok(
+    realSunset.getTime() - actualEvent.date.getTime() >= 0 &&
+    realSunset.getTime() - actualEvent.date.getTime() <= 90 * 60000,
+    `Astronomical crossing was ${actualEvent.date.toISOString()} for sunset ${realSunset.toISOString()}`
+  );
   const real = realSandbox.getGodhuliMuhurta({ ritu: "शरद" }, realSunset, location);
   assert.ok(real.start < realSunset, "Godhuli should begin before apparent sunset for the 0° solar-center crossing");
   assert.ok(realSunset.getTime() - real.start.getTime() <= 90 * 60000);
