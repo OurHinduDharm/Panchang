@@ -158,9 +158,35 @@ test("Anandadi yogas show auspiciousness colors and use Lumbaka spelling", () =>
   assert.match(classical, /category:OHN_ANANDADI_AUSPICIOUS\.has\(name\) \? "शुभ" : "अशुभ"/);
 });
 
-test("Madhyahna Sandhya is calculated around local solar midday", () => {
-  assert.match(source, /const dayMidpointMs = sunrise\.getTime\(\) \+ dayMs \/ 2;/);
-  assert.match(source, /const madhyahnaSandhya = \{/);
+test("displayed Sandhya windows use fixed 48-minute Muhurtas around sunrise, midday, and sunset", () => {
+  const start = source.indexOf("function getSpecialKaalDetails(");
+  const end = source.indexOf("\\nfunction getPraharDetails(", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+
+  const sandbox = {};
+  vm.runInNewContext(source.slice(start, end), sandbox);
+
+  const p = {
+    sunrise: "2026-10-12T06:07:00+05:30",
+    sunset: "2026-10-12T17:40:00+05:30"
+  };
+  const nextSunrise = "2026-10-13T06:08:00+05:30";
+  const result = sandbox.getSpecialKaalDetails(p, nextSunrise);
+  const minutes = (a, b) => (new Date(b).getTime() - new Date(a).getTime()) / 60000;
+
+  assert.equal(minutes(result.pratahSandhya.start, p.sunrise), 48);
+  assert.equal(minutes(p.sunrise, result.pratahSandhya.end), 96);
+
+  const midpoint = (new Date(p.sunrise).getTime() + new Date(p.sunset).getTime()) / 2;
+  assert.equal(new Date(result.madhyahnaSandhya.start).getTime(), midpoint - 48 * 60000);
+  assert.equal(new Date(result.madhyahnaSandhya.end).getTime(), midpoint + 48 * 60000);
+
+  assert.equal(minutes(result.sayahnaSandhya.start, p.sunset), 96);
+  assert.equal(minutes(p.sunset, result.sayahnaSandhya.end), 48);
+
+  // A fixed 48-minute unit must not stretch or shrink with seasonal day/night length.
+  assert.equal(minutes(result.madhyahnaSandhya.start, result.madhyahnaSandhya.end), 96);
 });
 
 test("Ritu and Ayana cards are adjacent in the compact grid", () => {
