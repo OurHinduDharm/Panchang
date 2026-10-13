@@ -615,3 +615,21 @@ Next:
 3. Audit each Chapter VII dṛkkarma intermediate in a common coordinate frame and verify whether the chapter's longitude correction is being applied to the same point/frame in both implementations.
 4. Keep event-specific C and IX.2–3 branch selection separate from the geometry audit. Do not tune C or dṛkkarma to force a match.
 5. Keep all work on `research/ss-ch9-diagnostic`; production `app.js` and `extra-panchang.js` remain unchanged.
+
+
+## IX.10–11 short-horizon check — 13 October 2026
+
+The corrected browser workflow passed at commit `6ce1f659465eb05b34163fb898b661489416dd76` (run https://github.com/OurHinduDharm/Panchang/actions/runs/38344580018). The browser test now reports the IX.10–11 estimate error using the two daily samples immediately adjacent to the sequential K=C bracket, separately from the estimate made at the distant reference fixture.
+
+| Case | Short-horizon estimate error | Long-range fixture estimate error | Interpretation |
+|---|---:|---:|---|
+| Venus Asta | 0.003827 day (~5.5 min) | 0.0040 day | Near-boundary estimate agrees closely with the interpolated daily bracket. |
+| Venus Udaya | 0.003093 day (~4.5 min) | 0.294861 day (~7.08 h) | Near-boundary estimate is close; long-range linear projection is not reliable over the full multi-day interval. |
+| Jupiter Asta | 0.000834 day (~1.2 min) | 0.038012 day (~54.7 min) | Near-boundary estimate is close; the distant projection has noticeable accumulated error. |
+| Jupiter Udaya | 0.001436 day (~2.1 min) | 0.0014 day | Both estimates are close in this fixture. |
+
+These are **internal consistency checks**, not independent proof of the Sanskrit interpretation or of the absolute event dates: the bracket and estimate share the same ephemeris, dṛkkarma candidate, rising-asus implementation, and threshold. The result supports keeping IX.10–11 as a local estimate and not using a multi-day linear extrapolation as a final event time. Do not change the method or relax tolerances based on these numbers alone.
+
+### Next research action
+
+Investigate the unresolved same-instant TKS K gap using a controlled input audit. At a single timestamp, collect the same Sun/planet apparent ecliptic longitude and latitude, apparent RA/declination, ayanāṃśa, local sidereal angle, signed daily motion, observer, and event branch for both pipelines. First reproduce our own K from our recorded intermediates; then vary one input convention at a time. If TKS does not publish intermediate inputs, document the gap as unidentifiable from public output rather than reverse-engineering by arbitrary tuning. Keep all changes on the research branch and preserve production isolation.
