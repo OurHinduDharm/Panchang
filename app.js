@@ -2048,8 +2048,11 @@ function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
     "hemanta": "हेमंत", "hemant": "हेमंत", "हेमन्त": "हेमंत", "हेमंत": "हेमंत",
     "shishira": "शिशिर", "shishir": "शिशिर", "शिशिर": "शिशिर"
   };
-  const ritu = rituAliases[rawRitu] ||
-    rituBySunRashiIndex[p?.sunRashi?.index] ||
+  // Keep Godhuli aligned with the season shown by the UI,
+  // which is derived from the Sun rashi. A conflicting library p.ritu
+  // must not silently select a different seasonal threshold.
+  const ritu = rituBySunRashiIndex[p?.sunRashi?.index] ||
+    rituAliases[rawRitu] ||
     "";
 
   // Approximate solar semidiameter: 16 arcminutes.
