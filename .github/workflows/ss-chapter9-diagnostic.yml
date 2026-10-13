@@ -13,6 +13,7 @@ on:
       - "ss_chapter3_ayana_math_test.js"
       - "ss_chapter1_ahargana_anchor.js"
       - "ss_chapter1_ahargana_calendar.js"
+      - "ss_chapter1_mean_solar_longitude.js"
       - "ss_civil_date_epoch_adapter.js"
       - "ss_chapter1_epoch_bridge.js"
       - "ss_classical_frame.js"
@@ -72,6 +73,7 @@ jobs:
           node --experimental-default-type=module --check ss_chapter3_ayana_math_test.js
           node --experimental-default-type=module --check ss_chapter1_ahargana_anchor.js
           node --experimental-default-type=module --check ss_chapter1_ahargana_calendar.js
+          node --experimental-default-type=module --check ss_chapter1_mean_solar_longitude.js
           node --experimental-default-type=module --check ss_civil_date_epoch_adapter.js
           node --experimental-default-type=module --check ss_chapter1_epoch_bridge.js
 
@@ -160,6 +162,17 @@ jobs:
           }
           console.log(`${result.passed}/${result.total} Chapter I traditional-ahargana tests passed`);
           console.log(JSON.stringify(result.reference));
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-ratio mean solar longitude tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1MeanSolarLongitudeTests } from './ss_chapter1_mean_solar_longitude.js';
+          const result = runChapter1MeanSolarLongitudeTests();
+          for (const test of result.tests) console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          console.log(`${result.passed}/${result.total} mean solar longitude tests passed`);
           console.log(result.note);
           if (!result.allPassed) process.exit(1);
           NODE
