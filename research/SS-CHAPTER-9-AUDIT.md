@@ -661,3 +661,18 @@ Also capture the TKS Udaya-Asta output's K, selected C, branch/event type, and i
 5. The public documentation lists the required ephemeris fields but does not by itself supply the actual same-instant payload or establish that the Udaya-Asta page exposes its intermediate lagnāntara values. Until those payloads are captured, no numerical attribution of the ~4.3° gap is justified.
 
 This protocol is research-only. Do not change the production calculation, thresholds, or event dates based on a hybrid comparison.
+
+
+## Browser verification — 13 October 2026, 09:45 IST
+
+The asynchronous same-instant TKS/Swiss diagnostic now waits for its completed output, and the Chromium test waits for the timestamped comparison before asserting it. The Swiss Venus helper also now consistently reads the requested planet state rather than a stale Jupiter variable.
+
+- Research branch commit: `45931843387a64f8f2131c095c3ce47bfb23130c` (Swiss Venus state variable fix), followed by browser-test synchronization commit `e3b35d287cb05f7a3dc8ca39924570a111b5c6a3`.
+- Successful Chromium workflow: [38345380797](https://github.com/OurHinduDharm/Panchang/actions/runs/38345380797); latest paired workflow also succeeded: [38345385407](https://github.com/OurHinduDharm/Panchang/actions/runs/38345385407).
+- At 2026-10-12 06:30 UTC, the browser rendered Swiss Ephemeris Venus K = **12.006133°** and Swiss−Astronomy Engine K = **+0.004678°** using the same candidate geometry.
+- Our sign-table K remains about **12.001454°**, versus the owner-supplied TKS K = **7.698°**; the gap is about **4.303°**. The small Swiss-vs-Astronomy-Engine difference makes the modern ephemeris input source alone an unlikely explanation for this large gap, but it does not establish which classical dṛkkarma/frame convention is correct.
+- Chromium assertions passed for the research page, all four Chapter IX event branches, Chapter VII formula/frame invariants, Chapter III interpolation, finite separated elongation diagnostics, correction-component visibility, IX.10–11 estimates, and both K candidate tables.
+
+### Next controlled step
+
+Do not tune the method to fit TKS K. Obtain the actual TKS Sun and Venus ephemeris JSON for the same instant and observer, then record tropical apparent longitude/latitude, apparent RA/declination, ayanāṃśa, nirayana longitude, and signed motion. The public API docs list these fields but do not themselves provide the required captured payload. First replay the local calculation from stored inputs; then run one-variable-at-a-time hybrid sensitivity checks. If the required payload cannot be obtained, keep the K gap explicitly unresolved. Production files remain untouched.
