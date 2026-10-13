@@ -45,6 +45,29 @@ try {
     { timeout: 90000 }
   );
 
+  // Exercise the new 3-D frame panel in the real browser, not just static HTML wiring.
+  await page.locator("#runFrameCompareBtn").click();
+  await page.waitForFunction(
+    () => document.querySelectorAll("#frameCompareOutput tbody tr").length === 2,
+    null,
+    { timeout: 30000 }
+  );
+  const frameRows = await page.locator("#frameCompareOutput tbody tr").evaluateAll(rows =>
+    rows.map(row => ({
+      body: row.cells[0]?.textContent || "?",
+      values: [...row.cells].slice(1).map(cell => cell.textContent || "")
+    }))
+  );
+  console.log("3-D frame comparison:", JSON.stringify(frameRows));
+  if (frameRows.length !== 2 || frameRows.some(row =>
+      row.values.length !== 8 ||
+      row.values.some(value => !Number.isFinite(Number(value.replace("°", "")))) ||
+      Math.abs(Number(row.values[6].replace("°", ""))) > 0.00001 ||
+      Math.abs(Number(row.values[7].replace("°", ""))) > 0.00001
+  )) {
+    throw new Error("3-D frame panel failed finite-value or EQD↔ECT reconstruction-residual checks.");
+  }
+
   await page.locator("#runLagnantaraBtn").click();
   await page.waitForFunction(
     () => document.querySelectorAll("#lagnantaraOutput tr.reference-row").length === 4,
