@@ -172,6 +172,9 @@ Sources cross-checked:
 - [x] Table interpolation rule corroborated against a second translation.
 - [x] The code's sign model documented as a latitude × declination interaction, not declination-only.
 - [ ] Verify the alternate table's discrepant number-words against scanned source images.
-- [ ] Add a quadrant/sign matrix with north/south observer latitude × north/south solar declination.
+- [x] Add a quadrant/sign matrix test for north/south observer latitude × north/south solar declination (this verifies the implemented sign behavior only; it does not independently certify the historical convention).
 - [ ] Obtain a source-consistent solar longitude/declination for a selected instant and compare the inverse result with independent reference data.
 - [ ] Only after these gates pass, consider integrating into the public Panchang engine.
+
+
+The new matrix test in `ss_chapter3_nata_table_arithmetic.js` covers all four sign combinations of observer latitude and solar declination. It confirms the implementation's expected product-sign behavior in every quadrant. This is a regression test for the chosen formula, not independent proof that every source convention has been interpreted correctly.
