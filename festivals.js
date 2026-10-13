@@ -240,6 +240,20 @@ function initHinduFestivals() {
     updateHinduFestivals();
   });
 
+  // The main Panchang renderer can replace #result when date/location changes.
+  // Restore the festival card after that render without observing our own card
+  // insertion as a new render request.
+  const resultRoot = document.getElementById("result");
+  if (resultRoot && typeof MutationObserver !== "undefined") {
+    const observer = new MutationObserver(() => {
+      if (!document.getElementById("ohdHinduFestivalsCard")) {
+        lastRenderKey = "";
+        updateHinduFestivals();
+      }
+    });
+    observer.observe(resultRoot, { childList: true, subtree: true });
+  }
+
   updateHinduFestivals();
 }
 
