@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 import test from "node:test";
-import { Body, Observer, SearchAltitude } from "astronomy-engine";
+import { Body, Observer, SearchAltitude, SearchRiseSet } from "astronomy-engine";
 
 const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
 
@@ -224,6 +224,64 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   const realGodhuliEnd = new Date(actualEvent.date.getTime() + 48 * 60000);
   assert.ok(actualEvent.date < realSunset, "The 0° solar-center crossing should precede apparent sunset");
   assert.equal(minutes(actualEvent.date, realGodhuliEnd), 48);
+
+  // Exercise real seasonal crossings at different dates and latitudes.
+  // SearchRiseSet supplies each location/date's sunset, avoiding hard-coded
+  // sunset times that could accidentally test the wrong solar event.
+  const seasonalCases = [
+    {
+      date: "2026-12-05",
+      ritu: "हेमंत",
+      location: { lat: 30.1265, lon: 80.4817, elevation: 0 },
+      expectedAltitude: 16 / 60
+    },
+    {
+      date: "2027-01-25",
+      ritu: "शिशिर",
+      location: { lat: 28.6139, lon: 77.2090, elevation: 0 },
+      expectedAltitude: 16 / 60
+    },
+    {
+      date: "2027-07-25",
+      ritu: "वर्षा",
+      location: { lat: 13.0827, lon: 80.2707, elevation: 0 },
+      expectedAltitude: -16 / 60
+    }
+  ];
+
+  for (const item of seasonalCases) {
+    const observer = new Observer(
+      item.location.lat,
+      item.location.lon,
+      item.location.elevation
+    );
+    const sunsetEvent = SearchRiseSet(
+      Body.Sun,
+      observer,
+      -1,
+      new Date(item.date + "T00:00:00.000Z"),
+      1,
+      0
+    );
+    assert.ok(sunsetEvent?.date, `Astronomy Engine should find sunset for ${item.date}`);
+
+    const seasonalWindow = sandbox.getGodhuliMuhurta(
+      { ritu: item.ritu },
+      sunsetEvent.date,
+      item.location,
+      { SearchAltitude, Body, Observer }
+    );
+    assert.equal(
+      minutes(seasonalWindow.start, seasonalWindow.end),
+      48,
+      `Expected a 48-minute ${item.ritu} Godhuli window on ${item.date}`
+    );
+    const minutesBeforeSunset = minutes(seasonalWindow.start, sunsetEvent.date);
+    assert.ok(
+      minutesBeforeSunset >= 0 && minutesBeforeSunset <= 15,
+      `Unexpected seasonal altitude crossing for ${item.ritu} on ${item.date}: ${minutesBeforeSunset} minutes before sunset`
+    );
+  }
 });
 
 test("displayed Sandhya windows use fixed 48-minute Muhurtas around sunrise, midday, and sunset", () => {
