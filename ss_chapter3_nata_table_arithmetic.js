@@ -25,6 +25,37 @@ function nonNegative(value, name) {
   if (value < 0) throw new RangeError(name + " must be >= 0.");
 }
 
+
+/**
+ * Chapter III.8 shadow/hypotenuse construction feeding the III.37–39
+ * converse path. Gnomon and shadow length must use the same units.
+ * This returns the table-scaled sine of altitude; it does not infer
+ * the east/west nata sign from the shadow length alone.
+ */
+export function chapter3AltitudeSineFromGnomonShadow({
+  gnomon,
+  shadowLength,
+  radius = SURYA_SIDDHANTA_RADIUS
+}) {
+  positive(gnomon, "gnomon");
+  finite(shadowLength, "shadowLength");
+  positive(radius, "radius");
+  if (shadowLength < 0) throw new RangeError("shadowLength must be >= 0.");
+  if (radius !== SURYA_SIDDHANTA_RADIUS) {
+    throw new RangeError("This source-table path is fixed to the Chapter II radius 3438.");
+  }
+  const hypotenuse = Math.hypot(gnomon, shadowLength);
+  const sineAltitude = radius * gnomon / hypotenuse;
+  return {
+    gnomon,
+    shadowLength,
+    hypotenuse,
+    sineAltitude,
+    provenance: "Chapter III.8 shadow-triangle formula candidate",
+    limitation: "Shadow length gives altitude magnitude only; latitude/declination and east/west sign are separate inputs."
+  };
+}
+
 /**
  * Algebraic transcription of III.35–36 using explicit table-scaled inputs:
  * cheda = (antya - versedSineNata) * dayRadius / R
@@ -226,6 +257,32 @@ export function runChapter3NataTableArithmeticTests() {
 
 
 
+
+
+  check("III.8 gnomon-shadow triangle returns hypotenuse and altitude sine", () => {
+    const out = chapter3AltitudeSineFromGnomonShadow({
+      gnomon: 12,
+      shadowLength: 9
+    });
+    return close(out.hypotenuse, 15) &&
+      close(out.sineAltitude, SURYA_SIDDHANTA_RADIUS * 12 / 15) &&
+      out.limitation.includes("east/west sign");
+  });
+
+  check("III.8 shadow helper rejects zero gnomon and negative shadow", () => {
+    try {
+      chapter3AltitudeSineFromGnomonShadow({ gnomon: 0, shadowLength: 9 });
+      return false;
+    } catch (error) {
+      if (!(error instanceof RangeError)) return false;
+    }
+    try {
+      chapter3AltitudeSineFromGnomonShadow({ gnomon: 12, shadowLength: -1 });
+      return false;
+    } catch (error) {
+      return error instanceof RangeError;
+    }
+  });
 
   check("integrated table-driven III.35–39 chain round-trips a synthetic nata arc", () => {
     const day = chapter3DayMeasureInputsFromAngles({
