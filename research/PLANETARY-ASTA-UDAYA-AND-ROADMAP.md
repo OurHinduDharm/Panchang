@@ -55,3 +55,25 @@ Panchang → Kundli → Kundli Matching → शास्त्रीय ज्�
 ## अभी का निर्णय
 
 पहले ग्रह उदय-अस्त के लिए गणना-स्रोत और UI का अनुबंध तय करें, फिर परीक्षण पास होने पर उत्पादन में सीमित patch करें। इस चरण में केवल संदर्भ डेटा के कारण किसी परिणाम को शास्त्रीय प्रमाणित घोषित नहीं करना है।
+
+## Continuity checkpoint — 13 October 2026
+
+This section records the active state for the next chat/session. Keep this file updated when a meaningful decision, test result, or next action changes.
+
+### Current repository work
+
+- **Asta/Udaya research:** PR [#22](https://github.com/OurHinduDharm/Panchang/pull/22) remains research-only and unmerged. Its latest recorded Chapter IX diagnostic workflow passed, but the calculated event dates are not yet certified as classical ground truth. The ~4.3° same-instant Venus K difference against the user-provided TKS output remains unresolved; do not tune formulas to match it.
+- **Panchang improvement in parallel:** PR [#27](https://github.com/OurHinduDharm/Panchang/pull/27) proposes seasonal Godhuli calculation while preserving existing Sandhya windows. It is a separate review item, not part of the Asta/Udaya patch. Review its latest CI and diff before any merge; do not infer that the PR is merged.
+- **Production safety:** `app.js` and `extra-panchang.js` must remain unchanged until their respective work is validated and intentionally integrated.
+
+### Immediate next actions
+
+1. Review the current PR #27 diff and latest CI state; verify seasonal Godhuli thresholds, the 48-minute interval, fallback behavior, and that Sandhya timings remain unchanged. Keep it separate from planetary work.
+2. For Asta/Udaya, capture the actual TKS Sun and Venus ephemeris JSON at **2026-10-12 12:00 IST (06:30 UTC)**, observer **29.5830° N, 80.2090° E**, timezone **UTC+05:30**. Preserve the unedited responses and request parameters. If the live endpoint does not expose them, document that limitation rather than inventing data.
+3. Replay the local K from saved intermediates, then compare one input convention at a time. If the TKS payload is unavailable, keep the K discrepancy unresolved and move forward with independently testable Chapter IX fixtures; do not let this one comparison block all Panchang progress.
+4. Once the method and regression tests are defensible, design and test the compact Hindi planet card on the research branch. Keep Shāstrīya Asta/Udaya, apparent rise/set, and heliacal visibility clearly separate. Only then prepare a minimal production patch.
+5. Continue closing high-impact Panchang reliability issues before beginning Kundli.
+
+### Working rule
+
+The Markdown notes are the continuity record, but they are not a substitute for checking the live branch, PR state, and latest CI on each new session. At each meaningful checkpoint, record: date, changed files/branch, commit or workflow link, test outcome, unresolved risks, and the single next action.
