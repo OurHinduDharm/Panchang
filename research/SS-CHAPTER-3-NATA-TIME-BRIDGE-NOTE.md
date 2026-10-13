@@ -79,3 +79,18 @@ Tests cover the meridian-altitude identity, a synthetic forward/inverse grid, sy
 - Civil instant → classical time/epoch/meridian bridge: **OPEN**.
 - Reproducible raw same-instant comparison: **OPEN**.
 - Independent final Udaya/Asta correction and event-time validation: **OPEN**.
+
+
+## Second prototype checkpoint — source-transcription arithmetic, not yet a full table engine
+
+After re-reading Burgess's descriptions of III.35–39, a useful intermediate can be isolated without inventing the historical sine table. The algebraic chain is transcribed as follows, with every quantity kept on the same table radius/scale:
+
+- Forward, III.35–36: `cheda = (antya − versedSine(nata)) × dayRadius / R`; then `sineAltitude = cheda × sineColatitude / R`.
+- Converse, III.38–39: `cheda = sineAltitude × R / sineColatitude`; then `unnataSine = cheda × R / dayRadius`; then `versedSine(nata) = antya − unnataSine`.
+- Only after that last step does the source describe converting the remainder to an arc through the versed-sine table. East/west direction must be supplied independently from the observation/time context.
+
+Implemented in `ss_chapter3_nata_table_arithmetic.js`. It deliberately accepts the source-table values as explicit inputs, and the inverse stops at the required versed-sine value. It does not invent table values, call modern `asin/acos` as a substitute for the historical lookup, or manufacture a signed nata.
+
+The synthetic round-trip tests prove only that the transcribed algebra reverses itself. They do **not** establish that the meanings/scales of `antya`, `dayRadius`, and the table's versed-sine entries have been mapped correctly for a particular historical table. That is now the next source gate: identify the exact table/radius and interpolation convention in the chosen edition, then build a separately tested table adapter.
+
+The CI workflow now explicitly includes both nata research modules in its syntax/test scope. Production files remain outside the change set.
