@@ -32,7 +32,7 @@ For a specified latitude \`φ\`, solar declination \`δ\`, altitude \`h\`, and h
 
 can be inverted to estimate \`|H|\`; the sign (east/west) must come from a separately known morning/afternoon or shadow-direction condition. This is useful as a control for the Chapter III.37–39 geometry, but it is not itself proof that every historical step, table, unit, or sign convention has been implemented.
 
-Likewise, \`H / 15°\` converts an angle to hours, and \`H / 6° × 2.5\` converts hours to ghaṭīs (one hour = 2.5 ghaṭīs). The source's nāḍī/prāṇa conventions and the precise definition of the angle being converted must still be observed. Do not mix degrees, arcminutes, prāṇas, nāḍīs, or ghaṭīs without an explicit conversion at each step.
+Likewise, \`H / 15°\` converts a signed angle in degrees to hours, and multiplying that hour value by 2.5 converts it to ghaṭīs. Equivalently, the magnitude is \`|H| / 6°\` ghaṭīs because one ghaṭī is 24 minutes and one hour-angle degree corresponds to four minutes of time. The source's nāḍī/prāṇa conventions and the precise definition of the angle being converted must still be observed. Do not mix degrees, arcminutes, prāṇas, nāḍīs, or ghaṭīs without an explicit conversion at each step.
 
 ## Recommended next implementation sequence
 
