@@ -94,3 +94,16 @@ Added `ss_chapter3_meridian_frame.js`, with:
 The isolated tests are now wired into `ss_classical_frame_test.js`; workflow #371 passed, including the research-page browser check and the production-file identity check: https://github.com/OurHinduDharm/Panchang/actions/runs/38400900980
 
 **Interpretation:** passing means the comparison implementation behaves as specified. It does not prove modern Sun hour angle is the historical classical *nata*, and it does not select a winning frame. The next review must inspect the actual residual values across multiple Sun states and times, and separately establish the nata/time-epoch input. Production remains unchanged.
+
+
+### First residual sweep (synthetic geometry; not event validation)
+
+A 40-case grid was evaluated with the same mathematical constructions: solar ecliptic longitudes 0°–315° in 45° steps and modern Sun hour angles −90°, −45°, 0°, +45°, +90°. The Sun state was generated from the source obliquity 23.4367°. Residual is the signed angular difference (Chapter III.49-shaped meridian RA minus transformed-meridian-plane RA).
+
+| Frame choice | Mean absolute residual | Maximum absolute residual |
+|---|---:|---:|
+| Source obliquity 23.4367°, ayanamsha 24.217°, classical obliquity 24° | 2.01949° | 4.38549° |
+| Same ayanamsha, classical obliquity from II.28 ratio (23.975182°) | 2.01714° | 4.37802° |
+| Control: zero ecliptic-origin rotation, classical obliquity 24° | 0.06177° | 0.12464° |
+
+This grid is synthetic and deliberately holds the modern Sun hour angle unchanged when carrying it into the transformed Sun frame. It does **not** represent an ephemeris-date validation or establish that this carry-over is historically valid. Its useful finding is narrower: the large residual in the full candidate is associated mainly with the ecliptic-origin/ayanamsha rotation assumption, not the 24° versus II.28 obliquity difference. This is evidence to investigate the frame/time bridge, not a reason to tune the rotation or accept the control frame.
