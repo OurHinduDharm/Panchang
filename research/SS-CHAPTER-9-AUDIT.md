@@ -848,3 +848,12 @@ This matrix distinguishes what the cited text actually supplies from the modern 
 4. Keep `24.217°` and all modern frame conversions labeled as assumptions until an independent epoch/ayanāṃśa derivation is documented.
 
 **Source-gate status remains in progress.** No raw TKS JSON has yet been captured. The optional manual capture UI exists on the research branch, but the automated suite intentionally does not call the external API.
+
+
+## Checkpoint — 13 October 2026: source/sign and horizon geometry tests
+
+- The eight-case VII.8–9 Akṣa sign truth table passed in the diagnostic workflow: observer hemisphere × planetary latitude sign × east/west hour-angle direction.
+- Added an independent horizon-altitude geometry check for the planet's half-day angle. The test evaluates `sin(altitude) = sin(φ)sin(δ) + cos(φ)cos(δ)cos(H)` at the calculated rising/setting boundary and just to either side across multiple latitudes and declinations. It passed in the Chapter VII formula-test step.
+- Workflow #361: https://github.com/OurHinduDharm/Panchang/actions/runs/38400207055 — **success**, including all arithmetic/source tests, headless Chromium research-page test, and production-file identity check.
+- Research changes: `ss_chapter7_drikkarma.js` and `research/SS-CHAPTER-7-FORMULA-AUDIT.md`. No production file changed.
+- This establishes the consistency of the tested sign and horizon geometry only. It does **not** settle the classical coordinate-frame/epoch blocker, prove the modern-to-classical input bridge, recover raw same-instant TKS JSON, or validate the event-date fixtures.
