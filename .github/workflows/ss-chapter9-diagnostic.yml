@@ -35,6 +35,7 @@ on:
       - "ss_chapter3_ayana_math_test.js"
       - "ss_chapter1_ahargana_anchor.js"
       - "ss_chapter1_ahargana_calendar.js"
+      - "ss_chapter1_mean_solar_longitude.js"
       - "ss_chapter9_browser_test.mjs"
       - "research/SS-CHAPTER-9-AUDIT.md"
       - "ss_classical_frame.js"
