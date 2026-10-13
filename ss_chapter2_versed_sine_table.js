@@ -93,6 +93,41 @@ export function chapter1ArcMinutesToNataTimeUnits(arcMinutes) {
   };
 }
 
+/**
+ * Invert the Chapter II sine table by locating the enclosing tabular values
+ * and interpolating their arc positions. This avoids substituting modern
+ * asin() for the source-table operation.
+ */
+export function chapter2ArcMinutesFromSine(sine) {
+  finite(sine, "sine");
+  const table = SURYA_SIDDHANTA_CHAPTER2_SINES;
+  if (sine < table[0] || sine > table[table.length - 1]) {
+    throw new RangeError("sine is outside the Chapter II table range [0, radius].");
+  }
+  if (sine === table[table.length - 1]) {
+    return {
+      arcMinutes: 5400,
+      lowerTableIndex: 23,
+      upperTableIndex: 24,
+      interpolationFraction: 1,
+      provenance: "Chapter II tabular sine inversion candidate"
+    };
+  }
+  let upper = 1;
+  while (upper < table.length && table[upper] < sine) upper++;
+  const lower = upper - 1;
+  const difference = table[upper] - table[lower];
+  if (!(difference > 0)) throw new RangeError("Adjacent sine-table entries are not increasing.");
+  const fraction = (sine - table[lower]) / difference;
+  return {
+    arcMinutes: (lower + fraction) * SURYA_SIDDHANTA_SINE_STEP_ARCMIN,
+    lowerTableIndex: lower,
+    upperTableIndex: upper,
+    interpolationFraction: fraction,
+    provenance: "Chapter II tabular sine inversion candidate"
+  };
+}
+
 export function chapter2ArcMinutesFromVersedSine(versedSine) {
   finite(versedSine, "versedSine");
   const table = SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES;
@@ -147,6 +182,20 @@ export function runChapter2VersedSineTableTests() {
   check("versed-sine interpolation reproduces all tabular nodes", () =>
     table.every((value, index) =>
       Math.abs(chapter2VersedSineFromArcMinutes(index * 225).versedSine - value) < 1e-9));
+
+  check("inverse sine table maps exact sine nodes back to 225-arcminute arcs", () =>
+    SURYA_SIDDHANTA_CHAPTER2_SINES.every((value, index) =>
+      Math.abs(chapter2ArcMinutesFromSine(value).arcMinutes - index * 225) < 1e-9));
+
+  check("inverse sine table midpoint interpolation is monotonic and rejects out-of-range values", () => {
+    const i = 8;
+    const mid = (SURYA_SIDDHANTA_CHAPTER2_SINES[i] + SURYA_SIDDHANTA_CHAPTER2_SINES[i + 1]) / 2;
+    const got = chapter2ArcMinutesFromSine(mid);
+    let rejected = false;
+    try { chapter2ArcMinutesFromSine(SURYA_SIDDHANTA_RADIUS + 1); }
+    catch (error) { rejected = error instanceof RangeError; }
+    return Math.abs(got.arcMinutes - (i + 0.5) * 225) < 1e-9 && rejected;
+  });
 
   check("sine interpolation rejects arcs outside the first quadrant", () => {
     try {
