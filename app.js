@@ -2053,9 +2053,11 @@ function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
     "";
 
   // Approximate solar semidiameter: 16 arcminutes.
-  // TKS-style mapping: Hemanta/Shishira +16', Varsha -16', and the
-  // remaining seasons 0°. This is geometric solar-center altitude;
-  // SearchAltitude intentionally does not apply atmospheric refraction.
+  // Working seasonal interpretation of Muhurta Chintamani 6.101:
+  // whole disc visible (+16'), half-set (0°), fully set (-16').
+  // The supplied TKS example supports a 48-minute window for that sample;
+  // independent TKS comparisons across seasons are not yet available.
+  // SearchAltitude uses geometric solar-center altitude without refraction.
   let targetAltitude = 0;
   if(ritu === "हेमन्त" || ritu === "हेमंत" || ritu === "शिशिर"){
     targetAltitude = 16 / 60;
@@ -2167,31 +2169,28 @@ function getSpecialKaalDetails(
     nightMs / 15;
 
   /*
-   * संध्या की प्रदर्शित अवधि — एक प्रचलित मुहूर्त-आधारित परंपरा:
-   * प्रातः: सूर्योदय से 1 मुहूर्त पहले से 2 मुहूर्त बाद तक।
-   * मध्याह्न: स्थानीय दिनमान के मध्य से 1 मुहूर्त पहले/बाद तक।
-   * 1 मुहूर्त = 48 elapsed minutes (fixed duration).
-   * अलग परंपराओं में संध्या-सीमाएँ भिन्न हो सकती हैं।
+   * प्रातः संध्या — परियोजना की पहले से प्रयुक्त दिन/रात्रि-मुहूर्त
+   * पद्धति सुरक्षित रखें: सूर्योदय से पहले अंतिम रात्रि-मुहूर्त।
+   * संध्या की परंपरागत सीमाएँ ग्रंथों/परंपराओं में भिन्न हैं;
+   * समान संदर्भ-पद्धति की पुष्टि के बिना fixed 48-minute नियम न थोपें।
    */
-  const sandhyaMuhurtaMs = 48 * 60 * 1000;
   const pratahSandhya = {
     start:new Date(
-      sunrise.getTime() - sandhyaMuhurtaMs
+      sunrise.getTime() - nightMuhurtaMs
     ),
     end:new Date(
-      sunrise.getTime() + sandhyaMuhurtaMs * 2
+      sunrise.getTime()
     )
   };
 
   /*
-   * मध्याह्न संध्या — सूर्योदय-सूर्यास्त के मध्य पर केंद्रित।
-   * इसे दिन के 1/15 भाग से नहीं, निश्चित एक मुहूर्त (48 मिनट)
-   * दोनों ओर लेकर निकाला जाता है।
+   * मध्याह्न संध्या — स्थानीय दिनमान के मध्य पर केंद्रित एक दिन-मुहूर्त।
+   * दिन-मुहूर्त = स्थानीय दिनमान / 15; अवधि ऋतु के अनुसार बदलती है।
    */
   const dayMidpointMs = sunrise.getTime() + dayMs / 2;
   const madhyahnaSandhya = {
-    start:new Date(dayMidpointMs - sandhyaMuhurtaMs),
-    end:new Date(dayMidpointMs + sandhyaMuhurtaMs)
+    start:new Date(dayMidpointMs - dayMuhurtaMs / 2),
+    end:new Date(dayMidpointMs + dayMuhurtaMs / 2)
   };
 
   /*
@@ -2219,15 +2218,15 @@ function getSpecialKaalDetails(
   );
 
   /*
-   * सायं संध्या — सूर्यास्त से 2 मुहूर्त पहले से
-   * 1 मुहूर्त बाद तक (निश्चित 48-मिनट मुहूर्त)।
+   * सायं संध्या — परियोजना की पहले से प्रयुक्त पद्धति:
+   * सूर्यास्त से अगले एक रात्रि-मुहूर्त तक।
    */
   const sayahnaSandhya = {
     start:new Date(
-      sunset.getTime() - sandhyaMuhurtaMs * 2
+      sunset.getTime()
     ),
     end:new Date(
-      sunset.getTime() + sandhyaMuhurtaMs
+      sunset.getTime() + nightMuhurtaMs
     )
   };
 
