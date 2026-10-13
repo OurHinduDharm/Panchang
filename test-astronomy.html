@@ -1139,21 +1139,28 @@ function runHorizonGeometry() {
    ============================================================= */
 
 let swiss = null;
+let swissInitPromise = null;
 
 async function initSwiss() {
-
+  // Multiple research panels can request Swiss Ephemeris in parallel.
+  // Share the in-flight initialization promise instead of returning a
+  // not-yet-initialized instance to a concurrent caller.
+  if (swissInitPromise) return swissInitPromise;
   if (swiss) return swiss;
 
-  setStatus(
-    "Loading Swiss Ephemeris...",
-    "info"
-  );
-
+  setStatus("Loading Swiss Ephemeris...", "info");
   swiss = new SwissEph();
-
-  await swiss.initSwissEph();
-
-  return swiss;
+  swissInitPromise = (async () => {
+    try {
+      await swiss.initSwissEph();
+      return swiss;
+    } catch (error) {
+      swiss = null;
+      swissInitPromise = null;
+      throw error;
+    }
+  })();
+  return swissInitPromise;
 }
 
 
