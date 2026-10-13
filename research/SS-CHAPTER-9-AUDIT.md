@@ -633,3 +633,31 @@ These are **internal consistency checks**, not independent proof of the Sanskrit
 ### Next research action
 
 Investigate the unresolved same-instant TKS K gap using a controlled input audit. At a single timestamp, collect the same Sun/planet apparent ecliptic longitude and latitude, apparent RA/declination, ayanāṃśa, local sidereal angle, signed daily motion, observer, and event branch for both pipelines. First reproduce our own K from our recorded intermediates; then vary one input convention at a time. If TKS does not publish intermediate inputs, document the gap as unidentifiable from public output rather than reverse-engineering by arbitrary tuning. Keep all changes on the research branch and preserve production isolation.
+
+
+## TKS same-instant input capture protocol — 13 October 2026
+
+TKS's published API reference identifies `GET /v1/tks/ephemeris` with `date`, `time`, `lat`, `lon`, `tz`, and `body` parameters, and says its response includes apparent right ascension/declination, ecliptic longitude/latitude, ayanāṃśa, and nirayana longitude. Source: https://tksephemeris.com/tks-api. The Udaya-Asta page states that its shāstrīya K is calculated on TKS apparent longitudes and classical rising-time geometry; it is explicitly Beta / under development. Source: https://tksephemeris.com/tks-udaya-asta.
+
+### Fixed comparison instant
+
+Use **12 October 2026, 12:00 local time, UTC+05:30** (06:30 UTC), observer **29.5835° N, 80.2095° E**, and request the Sun and Venus separately for that exact instant. Do not compare the previous 06:30 local event snapshots against this noon snapshot; same date is not same instant.
+
+Capture for both bodies:
+- apparent tropical ecliptic longitude and latitude;
+- apparent geocentric right ascension and declination;
+- sidereal/ayanāṃśa value and nirayana longitude;
+- signed daily longitude motion, if exposed;
+- time scale / epoch label and any apparent-vs-geometric flag.
+
+Also capture the TKS Udaya-Asta output's K, selected C, branch/event type, and its own intermediate values if exposed. Keep the reported K as an output only; never feed it into our calculation.
+
+### Reproduction sequence
+
+1. Recompute our K from the current stored snapshot and assert it reproduces the recorded value before changing anything.
+2. Replace only Sun/Venus apparent ecliptic inputs with TKS inputs while retaining our current dṛkkarma/rising-asus implementation. Label this a hybrid sensitivity test, not a valid final model.
+3. Replace the ayanāṃśa/frame convention alone, then test apparent vs geometric positions alone, then the Chapter VII correction inputs/order alone. Record ΔK for each isolated change.
+4. Only call a cause identified if one convention change explains the discrepancy and remains consistent across a second independent timestamp. Otherwise retain “unresolved / mixed pipelines.”
+5. The public documentation lists the required ephemeris fields but does not by itself supply the actual same-instant payload or establish that the Udaya-Asta page exposes its intermediate lagnāntara values. Until those payloads are captured, no numerical attribution of the ~4.3° gap is justified.
+
+This protocol is research-only. Do not change the production calculation, thresholds, or event dates based on a hybrid comparison.
