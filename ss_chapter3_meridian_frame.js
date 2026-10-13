@@ -111,6 +111,50 @@ export function compareChapter3MeridianCandidates({
   };
 }
 
+
+/**
+ * Reproducible synthetic sweep for the frame/nata carry-over diagnostic.
+ * This is intentionally not ephemeris data or event-date validation.
+ */
+export function runChapter3MeridianResidualSweep() {
+  const sourceObliquityDeg = 23.4367;
+  const longitudes = Array.from({ length: 8 }, (_, i) => i * 45);
+  const hourAngles = [-90, -45, 0, 45, 90];
+  const configs = [
+    { name: "rotated-frame", ayanamshaDeg: 24.217, classicalObliquityDeg: 24 },
+    { name: "zero-rotation-control", ayanamshaDeg: 0, classicalObliquityDeg: 24 }
+  ];
+  const results = configs.map(config => {
+    const residuals = [];
+    for (const longitudeDeg of longitudes) {
+      const lambda = longitudeDeg * DEG;
+      const eps = sourceObliquityDeg * DEG;
+      const ra = rightAscensionFromEclipticLongitude(longitudeDeg, sourceObliquityDeg);
+      const dec = Math.asin(Math.sin(lambda) * Math.sin(eps)) / DEG;
+      for (const hourAngleDeg of hourAngles) {
+        const result = compareChapter3MeridianCandidates({
+          localSiderealAngleDeg: norm360(ra + hourAngleDeg),
+          sunRightAscensionDeg: ra,
+          sunDeclinationDeg: dec,
+          sourceObliquityDeg,
+          ...config
+        });
+        residuals.push(result.absoluteResidualDeg);
+      }
+    }
+    return {
+      name: config.name,
+      cases: residuals.length,
+      meanAbsoluteResidualDeg: residuals.reduce((sum, value) => sum + value, 0) / residuals.length,
+      maxAbsoluteResidualDeg: Math.max(...residuals)
+    };
+  });
+  return {
+    results,
+    note: "Synthetic geometry only: the modern Sun hour angle is carried unchanged into the transformed Sun frame. This does not validate the historical nata/time bridge or any ephemeris date."
+  };
+}
+
 export function runChapter3MeridianFrameTests() {
   const tests = [];
   const close = (a, b, tol = 1e-9) => Number.isFinite(a) && Math.abs(a - b) <= tol;
@@ -159,11 +203,21 @@ export function runChapter3MeridianFrameTests() {
       Number.isFinite(differingFrame.sourceShapedLongitudeDeg) &&
       differingFrame.status.includes("comparison only")
   });
+  const sweep = runChapter3MeridianResidualSweep();
+  const rotated = sweep.results.find(r => r.name === "rotated-frame");
+  const control = sweep.results.find(r => r.name === "zero-rotation-control");
+  tests.push({
+    name: "40-case synthetic sweep is reproducible and exposes larger residual under the rotated-frame carry-over assumption",
+    passed: rotated?.cases === 40 && control?.cases === 40 &&
+      Number.isFinite(rotated.meanAbsoluteResidualDeg) &&
+      Number.isFinite(control.meanAbsoluteResidualDeg) &&
+      rotated.meanAbsoluteResidualDeg > control.meanAbsoluteResidualDeg * 10
+  });
   return {
     tests,
     passed: tests.filter(t => t.passed).length,
     total: tests.length,
     allPassed: tests.every(t => t.passed),
-    note: "The tests validate the comparison arithmetic. They do not establish that modern hour angle is the classical nata, nor certify the historical frame."
+    note: "The tests validate comparison arithmetic and reproduce a synthetic residual sweep. They do not establish that modern hour angle is the classical nata, nor certify the historical frame."
   };
 }
