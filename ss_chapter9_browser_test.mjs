@@ -52,6 +52,15 @@ try {
     { timeout: 90000 }
   );
 
+  const sameInstantAudit = await page.locator("#sameInstantTksAuditOutput").innerText();
+  console.log("Same-instant TKS Venus snapshot audit:", sameInstantAudit.replace(/\\s+/g, " ").trim());
+  if (!sameInstantAudit.includes("2026-10-12 12:00:00 IST") ||
+      !sameInstantAudit.includes("Our K minus TKS K") ||
+      !sameInstantAudit.includes("7.698°") ||
+      sameInstantAudit.includes("comparison failed")) {
+    throw new Error("Same-instant TKS Venus comparison did not render its timestamp and K comparison.");
+  }
+
   await page.locator("#runElevationHorizonBtn").click();
   await page.waitForFunction(
     () => document.querySelectorAll("#elevationHorizonOutput tbody tr").length === 5,
