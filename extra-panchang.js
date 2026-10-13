@@ -1021,6 +1021,7 @@ function getPanchangCardOrder(card) {
   const id = card.id || "";
   const content = (card.textContent || "").replace(/\s+/g, " ").trim();
 
+  if (id === "ohdHinduFestivalsCard") return 2.5;
   if (id === "classicalYogasCard") return 3;
   if (id === "planetRiseSetCard") return 11;
   if (id === "horaCard") return 8;
