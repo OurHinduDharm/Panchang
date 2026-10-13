@@ -66,7 +66,7 @@ A research-only panel was added to test-astronomy.html; it does not change the C
 
 1. The existing TKS diagnostic coordinates at 0 m elevation (baseline).
 2. The same coordinates with the supplied 1563 m above-sea-level elevation.
-3. The more precise supplied coordinates (29.5835° N, 80.2095° E) with 1563 m elevation.
+3. The more precise supplied coordinates (29.5830° N, 80.2090° E) with 1563 m elevation.
 4. A deliberately hypothetical observer 100 m above local ground, using Astronomy Engine's separate `metersAboveGround` argument only to illustrate horizon dip.
 5. A separate `SearchAltitude` calculation at geometric solar-center altitude −0.833°.
 
@@ -641,7 +641,7 @@ TKS's published API reference identifies `GET /v1/tks/ephemeris` with `date`, `t
 
 ### Fixed comparison instant
 
-Use **12 October 2026, 12:00 local time, UTC+05:30** (06:30 UTC), observer **29.5835° N, 80.2095° E**, and request the Sun and Venus separately for that exact instant. Do not compare the previous 06:30 local event snapshots against this noon snapshot; same date is not same instant.
+Use **12 October 2026, 12:00 local time, UTC+05:30** (06:30 UTC), observer **29.5830° N, 80.2090° E**, and request the Sun and Venus separately for that exact instant. Do not compare the previous 06:30 local event snapshots against this noon snapshot; same date is not same instant.
 
 Capture for both bodies:
 - apparent tropical ecliptic longitude and latitude;
@@ -676,3 +676,17 @@ The asynchronous same-instant TKS/Swiss diagnostic now waits for its completed o
 ### Next controlled step
 
 Do not tune the method to fit TKS K. Obtain the actual TKS Sun and Venus ephemeris JSON for the same instant and observer, then record tropical apparent longitude/latitude, apparent RA/declination, ayanāṃśa, nirayana longitude, and signed motion. The public API docs list these fields but do not themselves provide the required captured payload. First replay the local calculation from stored inputs; then run one-variable-at-a-time hybrid sensitivity checks. If the required payload cannot be obtained, keep the K gap explicitly unresolved. Production files remain untouched.
+
+
+## Browser verification — latest assertion run, 13 October 2026
+
+The latest research-branch commit `239388dec8ee2e468bfb7c334e0f60e1458c7362` passed the full `SS Chapter 9 Diagnostic Tests` workflow, including the explicit assertion that the independent Swiss Venus K result is numeric and the Swiss-minus-Astronomy-Engine delta is rendered. The paired run also passed.
+
+- [Latest workflow run](https://github.com/OurHinduDharm/Panchang/actions/runs/38345685877) — success.
+- [Paired workflow run](https://github.com/OurHinduDharm/Panchang/actions/runs/38345681664) — success.
+- The workflow explicitly confirmed production Panchang files are unchanged.
+- Coordinate convention in this audit now matches the browser diagnostic: **29.5830° N, 80.2090° E, 0 m** for the comparison snapshot. This is a research comparison point, not a production default.
+
+### Immediate next gate
+
+The numerical K discrepancy is still not attributable. The API documentation confirms the fields and endpoint, but this research environment cannot retrieve a live TKS endpoint payload directly. Do not fabricate a snapshot or treat page descriptions as data. Next, capture the Sun and Venus JSON through the live API reference's “Run example” controls for **2026-10-12 12:00 IST / 06:30 UTC**, at the coordinates above. Save the unedited responses and request metadata before calculating any hybrid deltas. If the live UI does not expose/copy the JSON, record that access limitation and keep the cause explicitly unresolved. No threshold tuning or production changes.
