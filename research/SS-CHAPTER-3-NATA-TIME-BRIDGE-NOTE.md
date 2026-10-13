@@ -219,3 +219,16 @@ A separate research helper now computes the mean Sun's cyclic longitude from an 
 Regression checks cover zero longitude at zero ahargaṇa, full-yuga cycle closure, half-yuga phase, half-day incremental motion, normalization, and invalid input. CI now runs these tests.
 
 Strict boundary: this helper does not derive ahargaṇa from a civil date and does not apply Chapter II's solar manda equation. It returns mean longitude only. Next gate is a source-derived Sun mandocca/anomaly/manda-phala chain, followed by an independent reference comparison; only then can a candidate true solar longitude be connected to the Chapter III day-measure/rise-set geometry.
+
+
+## Twelfth prototype checkpoint — source-ratio mean solar mandocca
+
+Added `ss_chapter1_mean_solar_mandocca.js` as a research-only pure function. Chapter I.41 gives 387 eastward revolutions of the Sun's mandocca per kalpa; I.20 defines a kalpa as 1000 yugas. The candidate mean motion is therefore `387 / (1000 × 1,577,917,828)` revolutions per savana day.
+
+The epoch longitude is represented as 77°07′48″, reported for Kali year 1 current in R. Sewell's *Indian Chronography* while discussing the Sūrya-siddhānta/Burgess value. This is a useful explicit candidate, **not yet a directly verified transcription from the original table image**. The helper's input is elapsed savana days since the Kali epoch; it intentionally does not infer elapsed days from the existing ahargana bridge, whose epoch/time convention remains a separate open gate.
+
+Tests cover the epoch anchor, 0.387 revolution per yuga, one complete kalpa, fractional-day motion, negative elapsed days, normalization, and invalid input. CI now syntax-checks and runs this helper. Passing arithmetic tests will not certify the anchor's coordinate frame, nor do they produce true solar longitude or Udaya/Asta dates.
+
+Sources: Sūrya-siddhānta I.20 and I.41 in Burgess's translation: https://www.swaveda.com/texts/surya-siddhanta/1/ ; historical report of 77°07′48″ in Sewell, *Indian Chronography*: https://www.scribd.com/document/797839191/Jyotish-1912-R-Sewel-Indian-Chronography-Panchanga
+
+**Next gate:** verify the 77°07′48″ epoch value against the scan/table and confirm its longitude origin/frame. Only then should the Chapter II solar manda-kendra and epicycle/equation be built on top of the mean-longitude and mean-mandocca candidates. Production `app.js` and `extra-panchang.js` remain untouched.
