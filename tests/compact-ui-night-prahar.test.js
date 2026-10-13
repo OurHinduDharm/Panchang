@@ -143,7 +143,7 @@ test("Sankalp month and tithi qualifiers use the requested classical wording", (
   }
   assert.ok(qualifierIndex < identityIndex, "the qualifier must precede the Yajamana identity");
   assert.equal(
-    (source.match(/if\\(tithiForm\\) parts\\.push\\(tithiForm\\);/g) || []).length,
+    (source.match(/if\(tithiForm\) parts\.push\(tithiForm\);/g) || []).length,
     1,
     "the actual tithi must be emitted exactly once"
   );
