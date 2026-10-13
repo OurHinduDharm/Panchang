@@ -128,3 +128,12 @@ The Markdown notes are the continuity record, but they are not a substitute for 
 - The OCR is visibly corrupted in the mathematical commentary and the *upapatti* (geometric proof). It is not sufficient to decide whether the +90° intermediate point carries the planet's ecliptic latitude. Do not report this source check as a resolution.
 - Recorded the source and limitation in `research/SS-CHAPTER-7-FORMULA-AUDIT.md` (commit `2063f7d370d988203279a3c6db642ce58f955bad`).
 - Next: inspect the actual scanned page image for printed pp. 195–196 or obtain a clean transcription, especially the geometric proof below VII.10. Until then, retain both sensitivity variants and keep all changes research-only.
+
+
+### Chapter VII.10 geometry pass — leading interpretation identified, 13 Oct 2026
+
+Raṅganātha's commentary *upapatti* was inspected directly in the web transcription (Chapter VII, around lines 1860–1863): https://vishvasa.github.io/jyotiSham/observation/history/hindu/prakIrNam/ranganAthaH/sUryasiddhAntaH/ . Its construction describes the planetary latitude and the ecliptic mark/projection geometry, supporting the reading that “planet + three signs” is an ecliptic-longitude point at +90° (zero latitude at the intermediate point), while the actual planet's latitude is the multiplier/sign input. This is now the leading source-based interpretation, rather than two equally supported alternatives.
+
+The independent Sudhākara Dvivedī scan remains an open corroboration task because OCR of the geometric proof is damaged; visual inspection of the relevant page is still needed before calling the interpretation fully closed. The retained-latitude branch stays only as a counterfactual sensitivity test. No production change or event-date certification.
+
+Audit detail and source-to-code rationale: `research/SS-CHAPTER-7-FORMULA-AUDIT.md`, commit `c8888a5a6926fd89ddee8e9502c91913dc1030b2`.
