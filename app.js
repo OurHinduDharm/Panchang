@@ -2097,13 +2097,15 @@ function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
     const start = event?.date ? new Date(event.date) : null;
     const delta = start ? sunset.getTime() - start.getTime() : NaN;
 
-    // A missing or implausibly distant event should not break the whole card.
-    // In Varsha, the -16' solar-center crossing can validly occur AFTER
-    // apparent sunset, so validate distance in either direction.
+    // A missing, post-sunset, or implausibly distant event should not
+    // break the whole card. SearchRiseSet sunset includes the visible solar
+    // limb and typical refraction, so the geometric -16' center crossing
+    // should still precede that apparent sunset.
     if(
       !start ||
       Number.isNaN(start.getTime()) ||
-      Math.abs(delta) > 90 * 60 * 1000
+      delta < 0 ||
+      delta > 90 * 60 * 1000
     ){
       return fallback();
     }
