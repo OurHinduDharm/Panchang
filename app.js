@@ -2053,16 +2053,27 @@ function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
     "";
 
   // Approximate solar semidiameter: 16 arcminutes.
-  // Working seasonal interpretation of Muhurta Chintamani 6.101:
-  // whole disc visible (+16'), half-set (0°), fully set (-16').
-  // The supplied TKS example supports a 48-minute window for that sample;
-  // independent TKS comparisons across seasons are not yet available.
-  // SearchAltitude uses geometric solar-center altitude without refraction.
-  let targetAltitude = 0;
-  if(ritu === "हेमन्त" || ritu === "हेमंत" || ritu === "शिशिर"){
+  // Apply only the three seasonal states explicitly named in Muhurta
+  // Chintamani 6.101: Hemanta = whole disc visible, hot season (Grishma)
+  // = half-set, and rains (Varsha) = fully set. The verse does not assign
+  // thresholds to Vasanta, Sharad, or Shishira; preserve the prior ±12-minute
+  // window for those seasons rather than extrapolating an unverified rule.
+  // The 48-minute duration is this project's declared convention, not a
+  // duration specified by 6.101. SearchAltitude uses geometric center,
+  // without atmospheric refraction.
+  let targetAltitude = null;
+  if(ritu === "हेमन्त" || ritu === "हेमंत"){
     targetAltitude = 16 / 60;
+  }else if(ritu === "ग्रीष्म"){
+    targetAltitude = 0;
   }else if(ritu === "वर्षा"){
     targetAltitude = -16 / 60;
+  }
+
+  // Keep the established window for seasons not explicitly assigned a
+  // solar-disc state by this verse; do not infer a threshold by analogy.
+  if(targetAltitude === null){
+    return fallback();
   }
 
   const latitude = Number(location?.lat ?? location?.latitude);
