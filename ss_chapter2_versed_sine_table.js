@@ -35,6 +35,43 @@ function finite(value, name) {
  * Invert a table versed-sine value to arcminutes.
  * Interpolation is linear between the two adjacent source table entries.
  */
+
+/** Chapter II sine-table interpolation candidate for a first-quadrant arc. */
+export function chapter2SineFromArcMinutes(arcMinutes) {
+  finite(arcMinutes, "arcMinutes");
+  if (arcMinutes < 0 || arcMinutes > 5400) {
+    throw new RangeError("arcMinutes must be in [0, 5400] for a first-quadrant sine.");
+  }
+  if (arcMinutes === 5400) {
+    return { sine: SURYA_SIDDHANTA_RADIUS, lowerTableIndex: 23, upperTableIndex: 24, interpolationFraction: 1 };
+  }
+  const tablePosition = arcMinutes / SURYA_SIDDHANTA_SINE_STEP_ARCMIN;
+  const lower = Math.floor(tablePosition);
+  const upper = lower + 1;
+  const fraction = tablePosition - lower;
+  const sine = SURYA_SIDDHANTA_CHAPTER2_SINES[lower] +
+    fraction * (SURYA_SIDDHANTA_CHAPTER2_SINES[upper] - SURYA_SIDDHANTA_CHAPTER2_SINES[lower]);
+  return { sine, lowerTableIndex: lower, upperTableIndex: upper, interpolationFraction: fraction };
+}
+
+/** Chapter II versed-sine table interpolation candidate for a first-quadrant arc. */
+export function chapter2VersedSineFromArcMinutes(arcMinutes) {
+  finite(arcMinutes, "arcMinutes");
+  if (arcMinutes < 0 || arcMinutes > 5400) {
+    throw new RangeError("arcMinutes must be in [0, 5400] for a first-quadrant versed sine.");
+  }
+  if (arcMinutes === 5400) {
+    return { versedSine: SURYA_SIDDHANTA_RADIUS, lowerTableIndex: 23, upperTableIndex: 24, interpolationFraction: 1 };
+  }
+  const tablePosition = arcMinutes / SURYA_SIDDHANTA_SINE_STEP_ARCMIN;
+  const lower = Math.floor(tablePosition);
+  const upper = lower + 1;
+  const fraction = tablePosition - lower;
+  const versedSine = SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES[lower] +
+    fraction * (SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES[upper] - SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES[lower]);
+  return { versedSine, lowerTableIndex: lower, upperTableIndex: upper, interpolationFraction: fraction };
+}
+
 /**
  * Chapter I.11–12 time scale: one prāṇa/asu corresponds to one arcminute
  * of revolution; 6 prāṇas = 1 vināḍī and 360 prāṇas = 1 nāḍī.
@@ -101,6 +138,24 @@ export function runChapter2VersedSineTableTests() {
     }
   };
   const table = SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES;
+
+
+  check("sine-table interpolation reproduces all tabular nodes", () =>
+    SURYA_SIDDHANTA_CHAPTER2_SINES.every((value, index) =>
+      Math.abs(chapter2SineFromArcMinutes(index * 225).sine - value) < 1e-9));
+
+  check("versed-sine interpolation reproduces all tabular nodes", () =>
+    table.every((value, index) =>
+      Math.abs(chapter2VersedSineFromArcMinutes(index * 225).versedSine - value) < 1e-9));
+
+  check("sine interpolation rejects arcs outside the first quadrant", () => {
+    try {
+      chapter2SineFromArcMinutes(5400.01);
+      return false;
+    } catch (error) {
+      return error instanceof RangeError;
+    }
+  });
 
   check("derived versed-sine table begins at zero and ends at radius", () =>
     table[0] === 0 && table[24] === SURYA_SIDDHANTA_RADIUS);
