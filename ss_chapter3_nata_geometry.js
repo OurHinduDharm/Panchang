@@ -90,8 +90,15 @@ export function hourAngleMagnitudeFromAltitude({ latitudeDeg, declinationDeg, al
   }
 
   const boundedCosHourAngle = Math.max(-1, Math.min(1, cosHourAngle));
+  // acos is ill-conditioned near ±1: tiny floating-point error can turn an
+  // exact meridian (H = 0) into a spurious ~10^-6 degree angle. Snap only
+  // values already within the explicit numerical tolerance of the endpoints.
+  const hourAngleMagnitudeDeg =
+    1 - boundedCosHourAngle <= GEOMETRY_TOLERANCE ? 0 :
+    boundedCosHourAngle + 1 <= GEOMETRY_TOLERANCE ? 180 :
+    Math.acos(boundedCosHourAngle) * RAD;
   return {
-    hourAngleMagnitudeDeg: Math.acos(boundedCosHourAngle) * RAD,
+    hourAngleMagnitudeDeg,
     cosHourAngle,
     provenance: "geometry-only",
     method: "inverse modern spherical altitude identity",
