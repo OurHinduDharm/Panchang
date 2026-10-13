@@ -120,3 +120,27 @@ The isolated Node test step passed on this commit; the full workflow's headless 
 Burgess's translation of III.49 explicitly describes the Sun's east/west `nata` in nāḍīs and the corresponding Lanka rising-asus calculation, followed by subtraction/addition to the Sun's longitude to obtain the meridian ecliptic point. The Sanskrit text is also available at https://vidhyamitra.com/surya-siddhanta/3 and Burgess's translation at https://www.swaveda.com/texts/surya-siddhanta/3/.
 
 This supports a source-shaped meridian construction, but it does **not** validate carrying a modern hour-angle scalar unchanged into a transformed Sun frame. The next calculation must make explicit how the chosen classical solar model supplies the signed local `nata` for the same instant, and how the Sun's longitude and the Lanka rising-asus table belong to one consistent frame. Until that bridge is justified, the rotated-frame residual is a diagnostic warning, not a correction factor to tune away.
+
+## Latest verification checkpoint — signed nata wraparound (13 October 2026)
+
+Commit `772eab6e9e1ca7c4115a97026b4880086203a04a` adds regression cases for signed hour angle crossing 0° in both directions: LST 1° with solar RA 359° must yield +2° (+⅓ ghati), while LST 359° with solar RA 1° must yield −2° (−⅓ ghati). This guards against a 358°/−358° wraparound error in the provisional modern-derived nata input.
+
+Workflow #38402157939 completed successfully: arithmetic/source tests, Chapter III frame tests, headless Chromium research-page test, and production-file identity check all passed. https://github.com/OurHinduDharm/Panchang/actions/runs/38402157939
+
+**What this proves:** the signed-angle normalization and existing research-page/test wiring behave as coded. **What it does not prove:** that modern local sidereal angle minus modern solar RA is the classical nata, or that any selected ayanamsha/frame is historically correct. No production file was changed.
+
+## Next gate — derive the time bridge; do not tune the residual
+
+The source descriptions of III.37–39 treat *nata* as a solar hour-angle quantity and describe deriving it through shadow/altitude geometry; III.49 then uses east/west nata with Lanka's rising-asus equivalents to obtain the meridian point. See Burgess's translation and the Sanskrit text: https://www.swaveda.com/texts/surya-siddhanta/3/ and https://vidhyamitra.com/surya-siddhanta/3
+
+The next implementation must therefore answer, with a declared textual convention, how a civil instant becomes the relevant classical local-time/nata input **without silently importing modern LST−RA as the answer**. Keep these as separate candidate paths until evidence resolves them:
+1. reconstruct the classical day/time boundary from an explicit epoch/day-number convention;
+2. compute the selected classical Sun state at that instant;
+3. derive local time-from-noon / signed nata under that same model and meridian convention;
+4. use the matching Lanka rising-asus table and classical obliquity consistently in III.49;
+5. compare against the transformed modern meridian plane as a diagnostic only.
+
+The optional raw TKS capture remains uncollected as reproducible same-instant evidence. If used, preserve the request and raw response first and establish the endpoint's time convention before comparing coordinates. Neither that capture nor a date-only match can substitute for the independent source/time bridge.
+
+**Gate status:** arithmetic and browser checks PASS; historical time/frame bridge OPEN; raw same-time comparison OPEN; independent final Udaya/Asta correction validation OPEN. Production `app.js` and `extra-panchang.js` remain untouched.
+
