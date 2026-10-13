@@ -66,6 +66,10 @@ try {
       sameInstantAudit.includes("comparison failed")) {
     throw new Error("Same-instant TKS Venus comparison did not render its timestamp and K comparison.");
   }
+  if (!/Swiss Ephemeris K \(same geometry\)[\s\S]*?\d+\.\d+°[\s\S]*?Swiss−AE:\s*[+-]?\d+\.\d+°/.test(sameInstantAudit) ||
+      sameInstantAudit.includes("Swiss Ephemeris K (same geometry)\nUnavailable")) {
+    throw new Error("Independent Swiss Venus K did not render a finite value and Swiss−AE delta.");
+  }
 
   await page.locator("#runElevationHorizonBtn").click();
   await page.waitForFunction(
