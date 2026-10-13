@@ -1318,7 +1318,12 @@ if(
       classicalYogaDetails
     );
 
-  const nivasCard = createNivasCard(pHora.tithi, selectedDate);
+  // Nivasa is determined from the tithi prevailing at local sunrise,
+  // not from the selected date's midnight input instant.
+  const sunrisePanchang = pHora.sunrise
+    ? getPanchangam(new Date(pHora.sunrise), horaObserver, { timezoneOffset: 330 })
+    : null;
+  const nivasCard = createNivasCard(sunrisePanchang?.tithi, selectedDate);
 
 
   /*
