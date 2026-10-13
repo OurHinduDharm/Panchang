@@ -42,4 +42,5 @@ Inspect the actual shared-script loading path and current CI status first. Then 
 
 ## Change log
 
-- 2026-10-13: Created this work log to carry forward the scope, safety boundaries, review findings, and next steps across chats. No production code changed by this work-log entry.
+- 2026-10-13: Created this work log to carry forward the scope, safety boundaries, review findings, and next steps across chats.
+- 2026-10-13: Fixed a boundary-condition bug: the validation previously rejected every crossing after sunset, which could force Varsha (−16′) into the fallback. It now accepts an event within 90 minutes on either side of sunset. Added a regression test where the Varsha crossing occurs six minutes after sunset. CI for the updated head is pending; live preview and shared-script loading impact are still open.
