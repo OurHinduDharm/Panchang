@@ -217,7 +217,7 @@ test("Sankalp Sanskrit forms use the selected consistent wording", () => {
   assert.equal(sandbox.toVaraForm("शनिवार"), "शनिवासरे");
 });
 
-test("Auto Sandhya selects only recognized intervals and leaves other times for manual choice", () => {
+test("Auto Sandhya always selects the nearest relevant radio for today's current time", () => {
   const start = source.indexOf("function getAutoSandhyaType(");
   const end = source.indexOf("\n/* =========================================================", start);
   assert.notEqual(start, -1);
@@ -246,13 +246,17 @@ test("Auto Sandhya selects only recognized intervals and leaves other times for 
     p, praharData, new Date(time)
   );
 
-  assert.equal(getType("2026-10-12T04:50:00+05:30"), null);
+  assert.equal(getType("2026-10-12T04:50:00+05:30"), "turiya");
   assert.equal(getType("2026-10-12T05:30:00+05:30"), "pratah");
+  assert.equal(getType("2026-10-12T06:09:00+05:30"), "pratah");
+  assert.equal(getType("2026-10-12T10:00:00+05:30"), "madhyahna");
   assert.equal(getType("2026-10-12T11:55:00+05:30"), "madhyahna");
-  assert.equal(getType("2026-10-12T16:20:00+05:30"), null);
-  assert.equal(getType("2026-10-12T17:40:00+05:30"), null);
+  assert.equal(getType("2026-10-12T14:39:00+05:30"), "madhyahna");
+  assert.equal(getType("2026-10-12T16:20:00+05:30"), "sayam");
+  assert.equal(getType("2026-10-12T17:40:00+05:30"), "sayam");
   assert.equal(getType("2026-10-12T17:41:00+05:30"), "sayam");
-  assert.equal(getType("2026-10-12T18:32:00+05:30"), null);
+  assert.equal(getType("2026-10-12T18:32:00+05:30"), "sayam");
+  assert.equal(getType("2026-10-12T22:00:00+05:30"), "turiya");
 
   // Unknown dates, unavailable Panchang data, and malformed solar times
   // must not silently force a Sandhya type.
