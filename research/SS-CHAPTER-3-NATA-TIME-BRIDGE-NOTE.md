@@ -110,3 +110,14 @@ This table adapter is now separate from the III.35–39 arithmetic. The combined
 The new table tests check the 25-entry derived table, strict monotonicity, exact table-node round trips, interpolation midpoints, range rejection, and that no signed nata is fabricated. They are table/algorithm tests, not evidence of event-date accuracy. CI now syntax-checks and runs the geometry, source-transcription arithmetic, and table modules together.
 
 Sources: Burgess, Chapter II verses 17–22 and 30–32; Chapter III verses 35–39: https://www.swaveda.com/texts/surya-siddhanta/2/ and https://www.swaveda.com/texts/surya-siddhanta/3/.
+
+
+### Time-unit audit correction
+
+Chapter I.11–12 gives 6 prāṇas per vināḍī and 60 vināḍīs per nāḍī; Burgess's note explicitly explains that a respiration/asu is the same part of the day as an arcminute is of a full revolution. Therefore, for a recovered great-circle arc expressed in arcminutes, the unit conversion candidate is:
+
+- `asu/prāṇa = arcminutes`
+- `vināḍī = arcminutes / 6`
+- `nāḍī = arcminutes / 360`
+
+This is distinct from the modern angle-to-clock conversion `degrees / 15 = hours`, though both agree dimensionally when comparing one full revolution to a full day. The table adapter now returns these candidate magnitudes. It still does not assign east/west sign or supply the source-specific `antya`, day-radius, and altitude-sine inputs.
