@@ -2098,11 +2098,12 @@ function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
     const delta = start ? sunset.getTime() - start.getTime() : NaN;
 
     // A missing or implausibly distant event should not break the whole card.
+    // In Varsha, the -16' solar-center crossing can validly occur AFTER
+    // apparent sunset, so validate distance in either direction.
     if(
       !start ||
       Number.isNaN(start.getTime()) ||
-      delta < 0 ||
-      delta > 90 * 60 * 1000
+      Math.abs(delta) > 90 * 60 * 1000
     ){
       return fallback();
     }
