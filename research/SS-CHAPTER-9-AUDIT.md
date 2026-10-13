@@ -821,3 +821,30 @@ Obtain the unedited Sun and Venus JSON responses from the TKS ephemeris endpoint
 - This external request is deliberately **not** part of the automated test suite; CI must not depend on TKS availability or CORS. Production files remain untouched.
 - The API documentation lists `date,time,place,lat,lon,body` for this endpoint: https://tksephemeris.com/tks-api
 - Workflow for the capture-tool commit was queued when checked; report pass/fail only after its completed result is inspected. Raw JSON has **not yet been captured** at this checkpoint.
+
+
+### Variable-to-source traceability matrix — 2026-10-13
+
+This matrix distinguishes what the cited text actually supplies from the modern input-preparation assumptions currently present in the research implementation. It is a research decision record, not approval of the current formula.
+
+| Implementation item | Textual anchor | What is supported | What remains an assumption / next decision |
+|---|---|---|---|
+| Two correction terms and sequential use | VII.8–11; Burgess translation and note | Akṣa and Āyana are distinct; apply Āyana to obtain the hour-circle/ecliptic point, then Akṣa to obtain the horizon point; the method is used for rising/setting. | The exact mapping from modern apparent ephemeris fields into the text's computational quantities is not established by the verses alone. |
+| Akṣa sign rules | VII.8–9 | Direction relative to meridian and north/south planetary latitude determine add/subtract. | Must ensure the implementation's sign convention matches the text's eastern/western hour-angle convention in all quadrants; verify with a verse-derived truth table, not just a numeric fixture. |
+| Akṣa time ratio | VII.7–8 | Use the planet's own day/night measure and natonnata relation; the denominator is its half-day measure. | Current implementation uses RA hour angle and analytic half-day angle in a chosen equatorial frame. Need demonstrate this is a faithful computational equivalent of the source's prescribed asu/shadow geometry. |
+| Āyana correction magnitude and sign | VII.10 | Add three signs to the planet's place, obtain declination, multiply declination degrees by planet-latitude arcminutes to obtain arcseconds; same-name/different-name determines sign. | The current code computes declination of a zero-latitude point at longitude +90° after restoring a modern fixed ayanāṃśa. The interpretation of latitude at the shifted point and the frame used for the declination remain unadjudicated. |
+| Sidereal longitude → tropical longitude | Current research adapter; no direct VII.7–10 instruction establishes the numeric offset | The correction formula requires a consistently defined longitude and declination input. | The current `ayanamshaDeg = 24.217` is a modern comparison parameter, not a value established by VII.7–10. Replace with a source/epoch-appropriate derivation or keep as an explicitly labeled sensitivity variable. |
+| Classical obliquity | II.28 sine-table rule; III and VII geometry | The source has its own sine-table parameters; II.28's maximum declination sine 1397 on radius 3438 implies `asin(1397/3438)`, approximately 23.97518°. | `obliquityDeg = 24` is a rounded construction currently used by the candidate. It must not be silently described as the exact II.28 value. Run both interpretations as separate candidates until commentary and computational context settle it. |
+| Local sidereal angle / meridian frame | III.49 and Chapter VII's natonnata setup are relevant; exact bridge not yet established | The meridian and time-from-meridian geometry matter to the calculation. | Transforming modern local sidereal angle into a fixed-obliquity classical frame by preserving a modern geometric meridian plane is a mathematically testable assumption, not yet source-proven. |
+| Modern EQD/ECT vector transforms | Research-only vector mathematics | The tested rotations reconstruct the modern coordinate vector with negligible residual. | Reconstruction residual only validates algebra. It does not validate the chosen historical equinox, epoch, ayanāṃśa, obliquity, or meridian interpretation. |
+| Chapter III sign rising-asus interpolation | III.43–48; especially III.46–48 | Source uses sign-wise rising-asus and interpolation of degrees within a sign. | Current sign endpoints are derived analytically from a selected tropical/equatorial frame. Need compare against the source's own rising-asus table and interpolation procedure before treating this as source-faithful. |
+| Chapter IX event visibility threshold | IX.6–8 and subsequent event rule | The text gives planet-specific east/west rising/setting conditions and angular thresholds. | A threshold is not interchangeable with a modern visibility model; local horizon, refraction, elevation, and apparent solar/planetary coordinates must remain distinct from the classical rule. |
+
+#### Gate-1 next action
+
+1. Create a verse-derived sign truth table for VII.8–9 and test all combinations of east/west and north/south latitude.
+2. Compare the analytic half-day/hour-angle ratio against the Chapter III/related asu geometry used by the source, at several longitudes and latitudes.
+3. Run a paired sensitivity report for (a) exact II.28 sine-table obliquity and (b) rounded 24°, with the same unmodified state vector. Do not choose whichever happens to match a reference event.
+4. Keep `24.217°` and all modern frame conversions labeled as assumptions until an independent epoch/ayanāṃśa derivation is documented.
+
+**Source-gate status remains in progress.** No raw TKS JSON has yet been captured. The optional manual capture UI exists on the research branch, but the automated suite intentionally does not call the external API.
