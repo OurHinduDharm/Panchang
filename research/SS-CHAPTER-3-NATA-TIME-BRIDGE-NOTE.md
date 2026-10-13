@@ -134,3 +134,10 @@ The source chain can be advanced one step without assigning any modern timestamp
 Added `chapter3DayMeasureInputsFromTableValues` to `ss_chapter3_nata_table_arithmetic.js` to implement this chain from explicitly supplied, table-scaled inputs. A key correction from this audit: **`antya` is a day-measure quantity and can exceed `R`; it must not be incorrectly constrained to the sine-table interval [0, R].** The helper and tests now permit `antya` within [0, 2R] while keeping actual sine/versed-sine values within the radius.
 
 Still open: validate the exact sign convention against the chosen Sanskrit edition/commentary; produce latitude and declination values through a source-consistent table/interpolation adapter; and establish how a target instant is mapped into this classical state. The tests currently use synthetic inputs and do not claim date-specific correctness.
+
+
+## Fifth prototype checkpoint — connect the Chapter II table to the day-measure inputs
+
+Added forward table interpolation helpers for both jya and utkramajyā in `ss_chapter2_versed_sine_table.js`. The Chapter III module now has `chapter3DayMeasureInputsFromAngles`, which accepts signed latitude and declination in arcminutes, interpolates the Chapter II table, and derives the day-radius/cara/antya inputs using the formula candidate above.
+
+This moves the code from arbitrary synthetic table values to a reproducible table-driven path for a specified latitude and declination. It is still not a date/time engine: declination must come from a source-consistent solar-longitude/ayana calculation, and the observed altitude or shadow input is not yet connected. The table interpolation retains fractional values and is labelled a candidate; exact historical rounding/truncation conventions need to be confirmed before treating it as a canonical transcription.
