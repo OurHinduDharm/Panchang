@@ -245,6 +245,53 @@ function close(a, b, tolerance = 1e-9) {
   return Math.abs(a - b) <= tolerance;
 }
 
+/**
+ * Source-table candidate for the Sun's signed declination sine from ecliptic
+ * longitude, using the maximum-declination sine 1397 (SS II.28) and the
+ * Chapter II sine table. Longitude is measured from 0° Aries in arcminutes.
+ * This returns a sine-scaled quantity, not a declination angle or civil-time
+ * position; it does not calculate longitude from ahargana.
+ */
+export function chapter3SolarDeclinationSineFromLongitudeArcMinutes(longitudeArcMinutes) {
+  finite(longitudeArcMinutes, "longitudeArcMinutes");
+  const fullCircle = 21600;
+  const quadrant = 5400;
+  const longitude = ((longitudeArcMinutes % fullCircle) + fullCircle) % fullCircle;
+
+  let bhujaArcMinutes;
+  let declinationSign;
+  if (longitude <= quadrant) {
+    bhujaArcMinutes = longitude;
+    declinationSign = 1;
+  } else if (longitude <= 2 * quadrant) {
+    bhujaArcMinutes = 2 * quadrant - longitude;
+    declinationSign = 1;
+  } else if (longitude <= 3 * quadrant) {
+    bhujaArcMinutes = longitude - 2 * quadrant;
+    declinationSign = -1;
+  } else {
+    bhujaArcMinutes = fullCircle - longitude;
+    declinationSign = -1;
+  }
+
+  const longitudeSine = chapter2SineFromArcMinutes(bhujaArcMinutes).sine;
+  const maxDeclinationSine = 1397; // SS II.28
+  const declinationSine = declinationSign * longitudeSine * maxDeclinationSine /
+    SURYA_SIDDHANTA_RADIUS;
+
+  return {
+    normalizedLongitudeArcMinutes: longitude,
+    bhujaArcMinutes,
+    declinationSign: declinationSine === 0 ? 0 : declinationSign,
+    longitudeSine,
+    maxDeclinationSine,
+    declinationSine,
+    provenance: "SS II.28 + III.18–19 with Chapter II sine-table interpolation",
+    limitation: "Does not derive solar longitude from ahargana or return declination arcminutes."
+  };
+}
+
+
 export function runChapter3NataTableArithmeticTests() {
   const tests = [];
   const check = (name, fn) => {
@@ -258,6 +305,25 @@ export function runChapter3NataTableArithmeticTests() {
 
 
 
+
+  check("II.28/III.18 solar declination sine has zero at equinoxes and signed extrema at solstices", () => {
+    const march = chapter3SolarDeclinationSineFromLongitudeArcMinutes(0);
+    const june = chapter3SolarDeclinationSineFromLongitudeArcMinutes(5400);
+    const september = chapter3SolarDeclinationSineFromLongitudeArcMinutes(10800);
+    const december = chapter3SolarDeclinationSineFromLongitudeArcMinutes(16200);
+    return close(march.declinationSine, 0) &&
+      close(june.declinationSine, 1397) &&
+      close(september.declinationSine, 0) &&
+      close(december.declinationSine, -1397);
+  });
+
+  check("III.18 solar declination sign is north in first half and south in second half", () => {
+    const north = chapter3SolarDeclinationSineFromLongitudeArcMinutes(3000);
+    const south = chapter3SolarDeclinationSineFromLongitudeArcMinutes(12000);
+    const wrap = chapter3SolarDeclinationSineFromLongitudeArcMinutes(21600 + 3000);
+    return north.declinationSine > 0 && south.declinationSine < 0 &&
+      close(wrap.declinationSine, north.declinationSine);
+  });
 
   check("III.8 gnomon-shadow triangle returns hypotenuse and altitude sine", () => {
     const out = chapter3AltitudeSineFromGnomonShadow({
