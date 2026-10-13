@@ -2017,11 +2017,34 @@ function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
     end:new Date(sunset.getTime() + 12 * 60 * 1000)
   });
 
-  const ritu = String(p?.ritu || "")
+  // The Panchang library may not return a direct ritu field. The UI
+  // already derives the six seasons from the Sun's rashi, so use the same
+  // mapping as a fallback instead of silently treating every missing ritu
+  // as the 0-degree (half-set) case.
+  const rituBySunRashiIndex = {
+    11: "वसंत", 0: "वसंत",
+    1: "ग्रीष्म", 2: "ग्रीष्म",
+    3: "वर्षा", 4: "वर्षा",
+    5: "शरद", 6: "शरद",
+    7: "हेमंत", 8: "हेमंत",
+    9: "शिशिर", 10: "शिशिर"
+  };
+  const rawRitu = String(p?.ritu || "")
     .trim()
-    .replace(/ऋतु\s*$/, "")
-    .replace(/ऋतौ\s*$/, "")
-    .trim();
+    .replace(/(?:ऋतु|ऋतौ|ritu)\s*$/i, "")
+    .trim()
+    .toLowerCase();
+  const rituAliases = {
+    "vasanta": "वसंत", "vasant": "वसंत", "वसन्त": "वसंत", "वसंत": "वसंत",
+    "grishma": "ग्रीष्म", "ग्रीष्म": "ग्रीष्म",
+    "varsha": "वर्षा", "वर्षा": "वर्षा",
+    "sharad": "शरद", "शरद": "शरद",
+    "hemanta": "हेमंत", "hemant": "हेमंत", "हेमन्त": "हेमंत", "हेमंत": "हेमंत",
+    "shishira": "शिशिर", "shishir": "शिशिर", "शिशिर": "शिशिर"
+  };
+  const ritu = rituAliases[rawRitu] ||
+    rituBySunRashiIndex[p?.sunRashi?.index] ||
+    "";
 
   // Approximate solar-disc radius: 16 arcminutes.
   // Hemanta/Shishira: whole disc visible; Varsha: disc fully set;
