@@ -1,4 +1,4 @@
-import { chapter2SineFromArcMinutes, chapter2VersedSineFromArcMinutes, chapter2ArcMinutesFromVersedSine, SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES, SURYA_SIDDHANTA_RADIUS } from "./ss_chapter2_versed_sine_table.js";
+import { chapter2SineFromArcMinutes, chapter2VersedSineFromArcMinutes, chapter2ArcMinutesFromSine, chapter2ArcMinutesFromVersedSine, SURYA_SIDDHANTA_CHAPTER2_VERSED_SINES, SURYA_SIDDHANTA_RADIUS } from "./ss_chapter2_versed_sine_table.js";
 
 /**
  * Research-only transcription of the algebraic chain described in
@@ -241,6 +241,40 @@ export function chapter3DayMeasureInputsFromAngles({
   };
 }
 
+/**
+ * Connect a supplied ecliptic longitude to the Chapter II/III day-measure
+ * inputs through the source sine table. The longitude's epoch/frame must
+ * already be established by the caller; this helper does not calculate it.
+ */
+export function chapter3DayMeasureInputsFromSolarLongitude({
+  latitudeArcMinutes,
+  solarLongitudeArcMinutes
+}) {
+  finite(latitudeArcMinutes, "latitudeArcMinutes");
+  finite(solarLongitudeArcMinutes, "solarLongitudeArcMinutes");
+  if (Math.abs(latitudeArcMinutes) > 5400) {
+    throw new RangeError("Latitude magnitude must be within 90 degrees.");
+  }
+  const solar = chapter3SolarDeclinationSineFromLongitudeArcMinutes(solarLongitudeArcMinutes);
+  const maxDeclinationSine = solar.maxDeclinationSine;
+  const declinationSineMagnitude = Math.abs(solar.declinationSine);
+  const declinationArcMinutes = chapter2ArcMinutesFromSine(declinationSineMagnitude).arcMinutes *
+    Math.sign(solar.declinationSine);
+  const dayMeasure = chapter3DayMeasureInputsFromAngles({
+    latitudeArcMinutes,
+    declinationArcMinutes
+  });
+  return {
+    ...dayMeasure,
+    solarLongitudeArcMinutes: solar.normalizedLongitudeArcMinutes,
+    solarDeclinationSine: solar.declinationSine,
+    solarDeclinationArcMinutes: declinationArcMinutes,
+    maxDeclinationSine,
+    provenance: "SS II.28 + Chapter II sine table + III.18–19 + II.60–61 + III.34 candidate chain",
+    limitation: "Solar longitude is an input only; no ahargana-to-longitude or coordinate-frame transformation is performed."
+  };
+}
+
 function close(a, b, tolerance = 1e-9) {
   return Math.abs(a - b) <= tolerance;
 }
@@ -323,6 +357,24 @@ export function runChapter3NataTableArithmeticTests() {
     const wrap = chapter3SolarDeclinationSineFromLongitudeArcMinutes(21600 + 3000);
     return north.declinationSine > 0 && south.declinationSine < 0 &&
       close(wrap.declinationSine, north.declinationSine);
+  });
+
+  check("solar longitude feeds the complete declination-to-antya table chain at equinox and solstice", () => {
+    const equinox = chapter3DayMeasureInputsFromSolarLongitude({
+      latitudeArcMinutes: 1800, solarLongitudeArcMinutes: 0
+    });
+    const juneSolstice = chapter3DayMeasureInputsFromSolarLongitude({
+      latitudeArcMinutes: 1800, solarLongitudeArcMinutes: 5400
+    });
+    const decemberSolstice = chapter3DayMeasureInputsFromSolarLongitude({
+      latitudeArcMinutes: 1800, solarLongitudeArcMinutes: 16200
+    });
+    return close(equinox.solarDeclinationArcMinutes, 0) &&
+      close(equinox.antya, SURYA_SIDDHANTA_RADIUS) &&
+      juneSolstice.solarDeclinationArcMinutes > 0 &&
+      juneSolstice.antya > SURYA_SIDDHANTA_RADIUS &&
+      decemberSolstice.solarDeclinationArcMinutes < 0 &&
+      decemberSolstice.antya < SURYA_SIDDHANTA_RADIUS;
   });
 
   check("III.8 gnomon-shadow triangle returns hypotenuse and altitude sine", () => {
