@@ -4,6 +4,10 @@ on:
     branches: [main]
   push:
     branches: [feature/hindu-festivals-card]
+
+permissions:
+  contents: read
+
 jobs:
   syntax-and-nivasa-tests:
     runs-on: ubuntu-latest
