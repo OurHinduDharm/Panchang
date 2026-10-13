@@ -255,7 +255,7 @@ test("Auto Sandhya always selects the nearest relevant radio for today's current
   assert.equal(getType("2026-10-12T16:20:00+05:30"), "sayam");
   assert.equal(getType("2026-10-12T17:40:00+05:30"), "sayam");
   assert.equal(getType("2026-10-12T17:41:00+05:30"), "sayam");
-  assert.equal(getType("2026-10-12T18:32:00+05:30"), "sayam");
+  assert.equal(getType("2026-10-12T18:32:00+05:30"), "turiya");
   assert.equal(getType("2026-10-12T22:00:00+05:30"), "turiya");
 
   // Unknown dates, unavailable Panchang data, and malformed solar times
@@ -329,18 +329,18 @@ test("Auto Sandhya transitions exactly at each calculated interval boundary", ()
   };
   const getType = time => sandbox.getAutoSandhyaType(p, praharData, new Date(time));
   const cases = [
-    ["2026-10-12T05:19:07+05:30", null],
+    ["2026-10-12T05:19:07+05:30", "turiya"],
     ["2026-10-12T05:19:08+05:30", "pratah"],
     ["2026-10-12T06:08:59+05:30", "pratah"],
-    ["2026-10-12T06:09:00+05:30", null],
-    ["2026-10-12T11:31:55+05:30", null],
+    ["2026-10-12T06:09:00+05:30", "pratah"],
+    ["2026-10-12T11:31:55+05:30", "madhyahna"],
     ["2026-10-12T11:31:56+05:30", "madhyahna"],
     ["2026-10-12T12:18:03+05:30", "madhyahna"],
-    ["2026-10-12T12:18:04+05:30", null],
-    ["2026-10-12T17:40:59+05:30", null],
+    ["2026-10-12T12:18:04+05:30", "madhyahna"],
+    ["2026-10-12T17:40:59+05:30", "sayam"],
     ["2026-10-12T17:41:00+05:30", "sayam"],
     ["2026-10-12T18:30:51+05:30", "sayam"],
-    ["2026-10-12T18:30:52+05:30", null]
+    ["2026-10-12T18:30:52+05:30", "turiya"]
   ];
   for (const [time, expected] of cases) {
     assert.equal(getType(time), expected, "unexpected Sandhya transition at " + time);
