@@ -64,3 +64,20 @@ Vidhyamitra's public chapter outline groups VII.7–11 into separate named opera
 ## Decision
 
 No production patch, no PR merge, no tuning parameters to match the reference event date. A successful arithmetic test is evidence only for the tested arithmetic. A classical event date is not validated until the coordinate frame, event geometry, and complete Chapter IX chain have independently documented inputs and intermediate values.
+
+
+## New frame-gate refinement — Chapter III.49 is the source-based meridian construction
+
+A direct cross-check of Burgess's Chapter III.49 translation and the Sanskrit outline clarifies the next experiment: the text does not prescribe transforming a modern local sidereal-time scalar directly. It constructs the meridian ecliptic point from the Sun's longitude and the Sun's east/west *nata* (time from noon), using Lanka's rising-asus/right-ascension equivalents. Chapter III.50 then uses the rising-asus equivalents of the two ecliptic points to derive elapsed time. Sources: https://www.swaveda.com/texts/surya-siddhanta/3/ and https://vidhyamitra.com/surya-siddhanta/3
+
+Therefore, the current `modernLocalSiderealAngleToClassicalFrame()` remains only one geometric candidate. Its norm, inverse, and plane-intersection tests establish rotation algebra—not the historical meridian construction. It must not be promoted to the canonical frame merely because its internal tests pass.
+
+### Next diagnostic to implement
+
+1. At a fixed instant, preserve the modern ephemeris state and record the Sun's longitude and signed local meridian-distance/time-from-noon input explicitly.
+2. Construct the candidate meridian point through the Chapter III.49 method, using the documented Lanka rising-asus/right-ascension convention and the selected classical obliquity/sine table.
+3. Independently calculate the candidate meridian through the transformed modern meridian plane.
+4. Report their angular residual over multiple times, longitudes, and dates; do not force either result to match the other.
+5. If the inputs to the Chapter III.49 path require a modern hour angle, label that dependency explicitly. It is not a wholly classical time reconstruction until the source's time/epoch bridge supplies it.
+
+This narrows the frame blocker to a testable comparison between two constructions, but does not resolve the historical interpretation by itself. Keep the production files unchanged and leave the event-date fixtures uncertified.
