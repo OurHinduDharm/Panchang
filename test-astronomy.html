@@ -3446,8 +3446,10 @@ async function runSameInstantTksSnapshotAudit() {
   output.innerHTML = '<div class="status info"><strong>Calculated at one identical instant:</strong> 2026-10-12 12:00:00 IST / 06:30:00 UTC; TKS comparison coordinates 29.5830° N, 80.2090° E, 0 m.</div>' +
     '<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Our current candidate</th><th>Our sequential candidate</th><th>Owner-supplied TKS snapshot</th></tr></thead><tbody>' +
     '<tr><td>IX.2–3 event branch</td><td colspan="2">' + event + ' (' + (motion < 0 ? 'retrograde' : 'direct') + ')</td><td>Venus Asta panel</td></tr>' +
-    '<tr><td>Classical K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698°</td></tr>' +
-    '<tr><td>Our K minus TKS K</td><td>' + delta(current.K) + '</td><td>' + delta(sequential.K) + '</td><td>—</td></tr>' +
+    '<tr><td>Chapter III sign-table K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698° (TKS label: K)</td></tr>' +
+    '<tr><td>Exact analytical oblique-ascension K</td><td>' + fmt(current.exactK) + '</td><td>' + fmt(sequential.exactK) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Sign-table K minus exact OA K</td><td>' + fmt(current.K - current.exactK) + '</td><td>' + fmt(sequential.K - sequential.exactK) + '</td><td>—</td></tr>' +
+    '<tr><td>Our sign-table K minus TKS K</td><td>' + delta(current.K) + '</td><td>' + delta(sequential.K) + '</td><td>—</td></tr>' +
     '<tr><td>Selected classical limit C</td><td colspan="2">' + fmt(chapter9Kalansha({planet:"Venus", horizonEvent:event, motionClass:motion < 0 ? "retrograde" : "direct-fast"})) + '</td><td>8°</td></tr>' +
     '<tr><td>Ecliptic-longitude separation</td><td>' + fmt(current.eclipticLongitudeSeparationDeg) + '</td><td>' + fmt(sequential.eclipticLongitudeSeparationDeg) + '</td><td>17.6°</td></tr>' +
     '<tr><td>True 3-D elongation</td><td>' + fmt(current.trueElongationDeg) + '</td><td>' + fmt(sequential.trueElongationDeg) + '</td><td>19.4°</td></tr>' +
