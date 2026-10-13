@@ -42,7 +42,7 @@ export function runChapter1MeanSolarLongitudeTests() {
   const c = SS_MEAN_SOLAR_LONGITUDE_CONSTANTS;
   tests.push({ name: "Zero ahargana maps to zero mean solar longitude", passed: close(chapter1MeanSolarLongitudeFromAhargana(0).meanLongitudeDeg, 0) });
   tests.push({ name: "One complete yuga returns to the same mean solar longitude", passed: close(chapter1MeanSolarLongitudeFromAhargana(c.savanaDaysPerYuga).meanLongitudeDeg, 0) });
-  tests.push({ name: "Half-yuga day count gives half-cycle mean longitude", passed: close(chapter1MeanSolarLongitudeFromAhargana(c.savanaDaysPerYuga / 2).meanLongitudeDeg, 180) });
+  tests.push({ name: "Half a source-defined solar revolution gives half-cycle mean longitude", passed: close(chapter1MeanSolarLongitudeFromAhargana(c.savanaDaysPerYuga / (2 * c.solarRevolutionsPerYuga)).meanLongitudeDeg, 180, 1e-8) });
   const fractional = chapter1MeanSolarLongitudeFromAhargana(714404169483.5);
   const whole = chapter1MeanSolarLongitudeFromAhargana(714404169483);
   const expectedAdvance = 0.5 * c.solarRevolutionsPerYuga / c.savanaDaysPerYuga * 360;
