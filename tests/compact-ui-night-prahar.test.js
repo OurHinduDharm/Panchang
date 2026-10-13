@@ -171,7 +171,14 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
     Date,
     SearchAltitude: (_body, _observer, direction, searchStart, limitDays, altitude) => {
       sandbox.lastSearch = { direction, searchStart, limitDays, altitude };
-      return { date: new Date("2026-10-12T12:00:00.000Z") };
+      // The Varsha -16' crossing is intentionally after the sample sunset.
+      return {
+        date: new Date(
+          altitude < 0
+            ? "2026-10-12T12:15:00.000Z"
+            : "2026-10-12T12:00:00.000Z"
+        )
+      };
     },
     Body: { Sun: "Sun" },
     Observer: class { constructor(lat, lon, elevation){ this.lat=lat; this.lon=lon; this.elevation=elevation; } }
@@ -190,6 +197,7 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
 
   const varsha = sandbox.getGodhuliMuhurta({ ritu: "वर्षा" }, sunset, location, deps);
   assert.ok(Math.abs(sandbox.lastSearch.altitude - (-16 / 60)) < 1e-9);
+  assert.equal(minutes(sunset, varsha.start), 6, "a valid Varsha crossing after sunset must not fall back");
   assert.equal(minutes(varsha.start, varsha.end), 48);
 
   // The library output can lack p.ritu; then season must be derived from Sun rashi.
