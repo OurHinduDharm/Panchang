@@ -121,3 +121,16 @@ Chapter I.11–12 gives 6 prāṇas per vināḍī and 60 vināḍīs per nāḍ
 - `nāḍī = arcminutes / 360`
 
 This is distinct from the modern angle-to-clock conversion `degrees / 15 = hours`, though both agree dimensionally when comparing one full revolution to a full day. The table adapter now returns these candidate magnitudes. It still does not assign east/west sign or supply the source-specific `antya`, day-radius, and altitude-sine inputs.
+
+
+## Fourth prototype checkpoint — deriving the day-radius and antya inputs
+
+The source chain can be advanced one step without assigning any modern timestamp:
+
+- Chapter II.60: `dayRadius = R − versedSine(declination)`.
+- Chapter II.61: the earth-sine is `sine(declination) × tan(latitude)`; multiplying by `R / dayRadius` gives the sine of the ascensional difference (`caraSine`).
+- Chapter III.34: `antya = R + caraSine`, with the sign carried by the signed latitude/declination convention.
+
+Added `chapter3DayMeasureInputsFromTableValues` to `ss_chapter3_nata_table_arithmetic.js` to implement this chain from explicitly supplied, table-scaled inputs. A key correction from this audit: **`antya` is a day-measure quantity and can exceed `R`; it must not be incorrectly constrained to the sine-table interval [0, R].** The helper and tests now permit `antya` within [0, 2R] while keeping actual sine/versed-sine values within the radius.
+
+Still open: validate the exact sign convention against the chosen Sanskrit edition/commentary; produce latitude and declination values through a source-consistent table/interpolation adapter; and establish how a target instant is mapped into this classical state. The tests currently use synthetic inputs and do not claim date-specific correctness.
