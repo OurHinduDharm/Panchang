@@ -67,11 +67,13 @@ The prototype exposes four deliberately separate operations:
 
 Tests cover the meridian-altitude identity, a synthetic forward/inverse grid, symmetric morning/evening altitudes, horizon/zenith boundaries, impossible and degenerate geometry, sign provenance, and unit conversion.
 
+**Numerical audit:** the first integrated CI run caught an inverse-trigonometry endpoint precision issue at exact meridian passage (floating-point `cos(H)` just below 1 yielded a tiny false non-zero angle). The inverse now snaps only values within the explicit numerical tolerance of ±1 to the exact 0°/180° endpoints; the synthetic grid was independently rechecked against this fix, and a fresh CI result is pending.
+
 **Interpretation limit:** passing these tests establishes internal consistency of the modern spherical geometry control only. It does not establish that the classical text uses the identical mathematical construction, nor does it solve the civil-instant → classical epoch/day-count/meridian bridge. No production file was changed.
 
 ## Updated gates
 
-- Isolated modern spherical altitude forward/inverse control and unit conversions: **implemented; CI verification pending**.
+- Isolated modern spherical altitude forward/inverse control and unit conversions: **implemented; endpoint precision fix committed; integrated CI recheck pending**.
 - Signed angle wraparound and isolated comparison arithmetic: **PASS**.
 - Chapter III.37–39 source-specific shadow/sine-table and time-unit reconstruction: **OPEN**.
 - Civil instant → classical time/epoch/meridian bridge: **OPEN**.
