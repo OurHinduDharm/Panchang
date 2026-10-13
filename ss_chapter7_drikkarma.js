@@ -343,6 +343,43 @@ export function runChapter7DrikkarmaTests() {
       Math.sign(southPlanet.akshaDeg) === -Math.sign(sample.akshaDeg)
   });
 
+  // Verse-derived VII.8–9 sign truth table. East of meridian means negative
+  // hour angle; west means positive. For this isolated sign audit, use a
+  // moderate |H| safely inside the planet's half-day in both hemispheres.
+  const akshaSignCases = [];
+  for (const observerLatitudeDeg of [29.583, -29.583]) {
+    for (const planetLatitudeDeg of [1.2, -1.2]) {
+      const probe = calculateChapter7SequentialDrikkarma({
+        ...base, observerLatitudeDeg, planetLatitudeDeg,
+        localSiderealAngleDeg: 0
+      });
+      for (const hourAngleDeg of [-20, 20]) {
+        const result = calculateChapter7SequentialDrikkarma({
+          ...base,
+          observerLatitudeDeg,
+          planetLatitudeDeg,
+          localSiderealAngleDeg: normalize360(
+            probe.planetRAForAksha + hourAngleDeg
+          )
+        });
+        const expectedSign = Math.sign(
+          planetLatitudeDeg *
+          Math.tan(observerLatitudeDeg * Math.PI / 180) *
+          hourAngleDeg
+        );
+        akshaSignCases.push(
+          Number.isFinite(result.akshaDeg) &&
+          Math.sign(result.akshaDeg) === expectedSign &&
+          Math.abs(result.hourAngleDeg - hourAngleDeg) < 1e-8
+        );
+      }
+    }
+  }
+  tests.push({
+    name: "VII.8–9 Aksha add/subtract sign truth table: east/west × north/south planet latitude × observer hemisphere (8 cases)",
+    passed: akshaSignCases.length === 8 && akshaSignCases.every(Boolean)
+  });
+
   return {
     tests,
     passed: tests.filter(test => test.passed).length,
