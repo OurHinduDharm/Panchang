@@ -13,6 +13,7 @@ on:
       - "ss_chapter3_ayana_math_test.js"
       - "ss_chapter1_ahargana_anchor.js"
       - "ss_chapter1_ahargana_calendar.js"
+      - "ss_chapter1_epoch_bridge.js"
       - "ss_classical_frame.js"
       - "ss_classical_frame_test.js"
       - "ss_chapter9_browser_test.mjs"
@@ -61,6 +62,7 @@ jobs:
           node --experimental-default-type=module --check ss_chapter3_ayana_math_test.js
           node --experimental-default-type=module --check ss_chapter1_ahargana_anchor.js
           node --experimental-default-type=module --check ss_chapter1_ahargana_calendar.js
+          node --experimental-default-type=module --check ss_chapter1_epoch_bridge.js
 
       - name: Run arithmetic and threshold-selection tests
         run: |
@@ -147,6 +149,19 @@ jobs:
           }
           console.log(`${result.passed}/${result.total} Chapter I traditional-ahargana tests passed`);
           console.log(JSON.stringify(result.reference));
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run isolated Chapter I civil-day epoch bridge tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1EpochBridgeTests } from './ss_chapter1_epoch_bridge.js';
+          const result = runChapter1EpochBridgeTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} epoch-bridge tests passed`);
           console.log(result.note);
           if (!result.allPassed) process.exit(1);
           NODE
