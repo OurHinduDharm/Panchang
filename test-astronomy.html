@@ -224,6 +224,7 @@
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
     <button id="runClassicalBtn">Angular Threshold Diagnostic</button>
+    <button id="runFrameCompareBtn">3-D Coordinate Frame Comparison</button>
     <button id="runChapter9ArithmeticBtn">SS IX.10–11 Time-Estimate Tests</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
@@ -423,6 +424,11 @@
     <h2>8. Angular Threshold Diagnostic</h2>
     <p>This is a mathematical threshold-crossing diagnostic using modern astronomical positions. It is not a complete Sūrya-siddhānta implementation, a local visibility algorithm, or a final Asta/Udaya answer.</p><div class="status warn"><strong>Important limitation:</strong> The existing Venus branch currently selects 10°/8° from direct/retrograde motion. Sūrya-siddhānta IX.7 instead distinguishes west-setting/east-rising (8°) from east-setting/west-rising (10°). Therefore this legacy branch is not source-faithful and its Venus results must be treated as exploratory only. Jupiter 11° is also only an angular comparison. Ecliptic-longitude and true 3-D separation are alternative diagnostics, not interchangeable definitions.</div>
     <div id="classicalOutput"><div class="status info">Not run yet.</div></div>
+    <section class="card">
+      <h3>Modern EQD → candidate classical frame (research only)</h3>
+      <p class="small">Fixed comparison instant: 12 Oct 2026, 12:00 IST. This checks coordinate conversion only; it does not certify the classical epoch/equinox or calculate final Asta/Udaya dates.</p>
+      <div id="frameCompareOutput"><div class="status info">Not run yet.</div></div>
+    </section>
   </section>
 
   <!-- ========================================================= -->
@@ -548,6 +554,7 @@ import SwissEph
 import { chapter9Kalansha, classifyChapter9HorizonEvent, estimateChapter9TimeCorrectionFromArcMotions, runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
 import { calculateChapter7SequentialDrikkarma, runChapter7DrikkarmaTests } from "./ss_chapter7_drikkarma.js";
 import { chapter3RisingAsusAtSiderealLongitude, chapter9LagnantaraAsus, runChapter3LagnantaraTests } from "./ss_chapter3_lagnantara.js";
+import { inspectModernStateInClassicalFrame, eclipticCoordinatesFromEquatorialVector, modernLocalSiderealAngleToClassicalFrame } from "./ss_classical_frame.js";
 
 
 /* =============================================================
@@ -3878,6 +3885,64 @@ function classicalCard(ref, label, result, field) {
     "<br>Difference from reference date: " + (diff >= 0 ? "+" : "") + round(diff,4) + " days</span></div>";
 }
 
+function runFrameCompareDiagnostic() {
+  const out = document.getElementById("frameCompareOutput");
+  const date = new Date("2026-10-12T06:30:00Z");
+  const sourceObliquityDeg = trueObliquityOfDateDeg(date);
+  const siderealSourceAngleDeg = normalize360(
+    Astronomy.SiderealTime(date) * 15 + CONFIG.longitude
+  );
+  const siderealTargetAngleDeg = modernLocalSiderealAngleToClassicalFrame({
+    localSiderealAngleDeg: siderealSourceAngleDeg,
+    sourceObliquityDeg,
+    ayanamshaDeg: 24.217,
+    classicalObliquityDeg: 24
+  });
+  const rows = [];
+  for (const [label, body] of [
+    ["Sun", Astronomy.Body.Sun],
+    ["Venus", Astronomy.Body.Venus]
+  ]) {
+    const state = getPlanetSiderealState(body, date);
+    if (!state) {
+      rows.push("<tr><td>" + label + "</td><td colspan='8'>स्थिति उपलब्ध नहीं</td></tr>");
+      continue;
+    }
+    const transformed = inspectModernStateInClassicalFrame({
+      rightAscensionDeg: state.rightAscension,
+      declinationDeg: state.declination,
+      sourceObliquityDeg,
+      ayanamshaDeg: 24.217,
+      classicalObliquityDeg: 24
+    });
+    const sourceVector = transformed.sourceVector;
+    const reconstructedECT = eclipticCoordinatesFromEquatorialVector(
+      sourceVector, sourceObliquityDeg
+    );
+    const lonDelta = ((reconstructedECT.longitudeDeg - state.tropicalLongitude + 540) % 360) - 180;
+    const latDelta = reconstructedECT.latitudeDeg - state.latitude;
+    rows.push("<tr><td>" + label + "</td>" +
+      "<td>" + state.tropicalLongitude.toFixed(6) + "°</td>" +
+      "<td>" + state.latitude.toFixed(6) + "°</td>" +
+      "<td>" + state.rightAscension.toFixed(6) + "°</td>" +
+      "<td>" + state.declination.toFixed(6) + "°</td>" +
+      "<td>" + transformed.targetLongitudeDeg.toFixed(6) + "°</td>" +
+      "<td>" + transformed.targetLatitudeDeg.toFixed(6) + "°</td>" +
+      "<td>" + lonDelta.toFixed(6) + "°</td>" +
+      "<td>" + latDelta.toFixed(6) + "°</td></tr>");
+  }
+  out.innerHTML = "<div class='status info'>Source local meridian angle: " +
+    siderealSourceAngleDeg.toFixed(6) + "°; candidate transformed meridian angle: " +
+    siderealTargetAngleDeg.toFixed(6) + "°. Source true obliquity: " +
+    sourceObliquityDeg.toFixed(6) + "°; target obliquity: 24°; assumed ayanāṃśa: 24.217°.</div>" +
+    "<div class='table-wrap'><table><thead><tr>" +
+    "<th>Body</th><th>ECT longitude</th><th>ECT latitude</th><th>EQD RA</th><th>EQD declination</th>" +
+    "<th>Candidate classical longitude</th><th>Candidate latitude</th>" +
+    "<th>Reconstruction Δlongitude</th><th>Reconstruction Δlatitude</th>" +
+    "</tr></thead><tbody>" + rows.join("") + "</tbody></table></div>" +
+    "<div class='status warn'>Interpretation: near-zero reconstruction deltas validate only the numerical EQD↔ECT reconstruction for this instant. The candidate classical coordinates and transformed meridian depend on explicitly chosen frame parameters; they are not yet source-validated Chapter VII inputs. No K or event date is inferred here.</div>";
+}
+
 async function runClassicalAstaUdayaTest() {
   classicalOutput.innerHTML = "<div class=\"status info\">Calculating angular threshold crossings...</div>";
   let html = "<div class=\"status info\">Legacy angular-threshold hypothesis: Venus 10°/8° by motion state; Jupiter 11°. Not a complete classical implementation.</div>";
@@ -4498,6 +4563,20 @@ document
     "click",
     runClassicalAstaUdayaTest
   );
+
+document
+  .getElementById("runFrameCompareBtn")
+  .addEventListener("click", () => {
+    try {
+      runFrameCompareDiagnostic();
+      setStatus("3-D coordinate-frame comparison completed. Geometry only; not a validated event date.", "info");
+    } catch (error) {
+      console.error("FRAME COMPARISON ERROR:", error);
+      document.getElementById("frameCompareOutput").innerHTML =
+        "<div class='status error'>" + String(error?.message || error) + "</div>";
+      setStatus("3-D coordinate-frame comparison failed.", "error");
+    }
+  });
 
 document
   .getElementById("runChapter9ArithmeticBtn")
