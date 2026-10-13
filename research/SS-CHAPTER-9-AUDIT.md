@@ -576,3 +576,13 @@ Interpretation: the elevation-sensitive mode changes sunrise/sunset and moonrise
 ### Comparison protocol
 
 For every comparison, record exact UTC/local instant, source page/version, location, elevation, apparent/geometric frame, tropical/sidereal frame, longitude, latitude, signed daily motion, dṛkkarma inputs/outputs, event branch, K, C, and event time. Do not tune a formula to fit a single TKS date. First reproduce each intermediate quantity independently, then compare the event result. Keep all work research-only until source interpretation and independent tests agree.
+
+
+## Checkpoint — 13 October 2026: K discrepancy and IX.10 estimate review
+
+- Latest browser workflow: https://github.com/OurHinduDharm/Panchang/actions/runs/38343454502 — passed. The test assertion was updated to match the explicit “Our sign-table K minus TKS K” label. This is a test-harness fix, not a formula change.
+- Same-instant comparison at 2026-10-12 06:30 UTC: sign-table K = 12.001454°; exact analytical oblique-ascension K = 12.015292°; TKS-supplied K = 7.698°. Our two K constructions differ by only 0.013837°, so that numerical-method choice does not explain the 4.303454° gap to the supplied TKS K. The gap remains unexplained.
+- TKS's public Udaya-asta page explicitly describes its primary method as the classical lagnāntara-asu test on **TKS apparent longitudes**, with K = lagnāntara-asu ÷ 60 and visible iff K > C. Our diagnostic currently uses Astronomy Engine positions plus a stated fixed 24.217° ayanāṃśa assumption. This is not yet a like-for-like input pipeline. Source: https://tksephemeris.com/tks-udaya-asta.
+- The Venus Udaya IX.10–11 estimate is −3.3335 days from the 1 Nov fixture, while the sequential daily K−C crossing is 28–29 Oct; linear interpolation and estimate differ by 0.2949 day (~7.1 h). Because this is a roughly 3.33-day extrapolation and the comparison bracket samples only one sunrise/sunset per civil day, this warning alone does not prove the formula is wrong. It must be checked with short-horizon anchor dates (0–1 day from a bracket) and with the actual event branch held consistent.
+- Do not change thresholds or tune the dṛkkarma formula to force a date match. Next audit: reproduce the TKS apparent-longitude input pipeline if its intermediate values can be obtained; otherwise compare only the shared classical method while explicitly marking ephemeris/input differences. Add short-horizon IX.10–11 residual checks before interpreting the long-range estimate error.
+- Production isolation remains mandatory: no changes to `app.js` or `extra-panchang.js`; no merge based on CI success alone.
