@@ -19,6 +19,7 @@ on:
       - "ss_classical_frame_test.js"
       - "ss_chapter3_nata_geometry.js"
       - "ss_chapter3_nata_table_arithmetic.js"
+      - "ss_chapter2_versed_sine_table.js"
       - "research/SS-CHAPTER-3-NATA-TIME-BRIDGE-NOTE.md"
       - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
@@ -39,6 +40,7 @@ on:
       - "ss_classical_frame_test.js"
       - "ss_chapter3_nata_geometry.js"
       - "ss_chapter3_nata_table_arithmetic.js"
+      - "ss_chapter2_versed_sine_table.js"
       - "research/SS-CHAPTER-3-NATA-TIME-BRIDGE-NOTE.md"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   workflow_dispatch:
@@ -240,6 +242,7 @@ jobs:
           node --experimental-default-type=module --check ss_classical_frame.js
           node --experimental-default-type=module --check ss_chapter3_nata_geometry.js
           node --experimental-default-type=module --check ss_chapter3_nata_table_arithmetic.js
+          node --experimental-default-type=module --check ss_chapter2_versed_sine_table.js
           node --experimental-default-type=module --check ss_classical_frame_test.js
           node --experimental-default-type=module ss_classical_frame_test.js
 
