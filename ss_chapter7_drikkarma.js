@@ -380,6 +380,29 @@ export function runChapter7DrikkarmaTests() {
     passed: akshaSignCases.length === 8 && akshaSignCases.every(Boolean)
   });
 
+  // Paired sensitivity: II.28's tabulated sine ratio versus rounded 24°.
+  // This isolates the obliquity input by keeping the local sidereal angle
+  // expressed in the same chosen frame in each run. It is not a claim that
+  // modern local sidereal time has already been transformed to either frame.
+  const exactII28ObliquityDeg =
+    Math.asin(1397 / 3438) * 180 / Math.PI;
+  const rounded24 = calculateChapter7SequentialDrikkarma({
+    ...base, obliquityDeg: 24, localSiderealObliquityDeg: 24
+  });
+  const exactII28 = calculateChapter7SequentialDrikkarma({
+    ...base,
+    obliquityDeg: exactII28ObliquityDeg,
+    localSiderealObliquityDeg: exactII28ObliquityDeg
+  });
+  const dAyana = exactII28.ayanaDeg - rounded24.ayanaDeg;
+  const dAksha = exactII28.akshaDeg - rounded24.akshaDeg;
+  tests.push({
+    name: `II.28 obliquity sensitivity (23.975182° vs 24°): ΔĀyana=${dAyana.toFixed(8)}°, ΔAkṣa=${dAksha.toFixed(8)}°`,
+    passed: Number.isFinite(exactII28ObliquityDeg) &&
+      Number.isFinite(dAyana) && Number.isFinite(dAksha) &&
+      Math.abs(exactII28ObliquityDeg - 24) < 0.03
+  });
+
   // Independent horizon-geometry audit of the planet's half-day angle.
   // At rising/setting, sin(altitude) = sin(phi)sin(delta) +
   // cos(phi)cos(delta)cos(H) = 0. This checks the boundary from the
