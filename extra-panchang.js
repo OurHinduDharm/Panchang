@@ -987,6 +987,66 @@ ${currentText}
 }
 
 /* =========================================
+   Agnivasa & Shivavasa
+   Daily convention: tithi at local sunrise.
+   Tithi index from the library is 0–29; formulas use 1–30.
+   ========================================= */
+
+function createNivasCard(tithiIndex, selectedDate) {
+  const card = document.createElement("section");
+  card.className = "card full";
+  card.id = "nivasCard";
+
+  const index = Number(tithiIndex);
+  if (!Number.isInteger(index) || index < 0 || index > 29) {
+    card.innerHTML = `
+      <div class="label">🔥 अग्निवास एवं 🔱 शिववास</div>
+      <div class="value">गणना उपलब्ध नहीं।</div>
+    `;
+    return card;
+  }
+
+  const tithi = index + 1;
+  // Use the selected Indian calendar date, independent of device timezone.
+  const weekday = new Date(`${selectedDate}T00:00:00Z`).getUTCDay() + 1;
+  const agniRemainder = (tithi + weekday + 1) % 4;
+  const shivaRemainder = (tithi * 2 + 5) % 7;
+
+  const agni = ({
+    0: { name: "पृथ्वी", note: "हवन के लिए अनुकूल मानी जाती है", good: true },
+    1: { name: "आकाश", note: "हवन के लिए प्रतिकूल मानी जाती है", good: false },
+    2: { name: "पाताल", note: "हवन के लिए प्रतिकूल मानी जाती है", good: false },
+    3: { name: "पृथ्वी", note: "हवन के लिए अनुकूल मानी जाती है", good: true }
+  })[agniRemainder];
+
+  const shiva = ({
+    0: { name: "श्मशान", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false },
+    1: { name: "कैलाश", note: "रुद्राभिषेक के लिए अनुकूल", good: true },
+    2: { name: "गौरी-सन्निधि", note: "रुद्राभिषेक के लिए अनुकूल", good: true },
+    3: { name: "नन्दी पर", note: "रुद्राभिषेक के लिए अनुकूल", good: true },
+    4: { name: "सभा", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false },
+    5: { name: "भोजन", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false },
+    6: { name: "क्रीड़ा", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false }
+  })[shivaRemainder];
+
+  card.innerHTML = `
+    <div class="label">🔥 अग्निवास एवं 🔱 शिववास</div>
+    <div class="time-row">
+      <b>अग्निवास</b>
+      <span>${agni.name} — ${agni.note}</span>
+    </div>
+    <div class="time-row">
+      <b>शिववास</b>
+      <span>${shiva.name} — ${shiva.note}</span>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:#777;line-height:1.5">
+      गणना सूर्योदय की तिथि से है। परंपरागत पद्धतियों में फल-विवरण भिन्न हो सकते हैं; इसे अकेले मुहूर्त-निर्णय का आधार न मानें।
+    </div>
+  `;
+  return card;
+}
+
+/* =========================================
    Card placement
    ========================================= */
 
@@ -1022,6 +1082,7 @@ function getPanchangCardOrder(card) {
   const content = (card.textContent || "").replace(/\s+/g, " ").trim();
 
   if (id === "ohdHinduFestivalsCard") return 2.5;
+  if (id === "nivasCard") return 2.8;
   if (id === "classicalYogasCard") return 3;
   if (id === "planetRiseSetCard") return 11;
   if (id === "horaCard") return 8;
@@ -1257,6 +1318,8 @@ if(
       classicalYogaDetails
     );
 
+  const nivasCard = createNivasCard(pHora.tithi, selectedDate);
+
 
   /*
    * =========================================================
@@ -1303,6 +1366,9 @@ if(
     oldPlanetCard.remove();
   }
 
+  const oldNivasCard = document.getElementById("nivasCard");
+  if (oldNivasCard) oldNivasCard.remove();
+
   const oldClassicalYogaCard =
     document.getElementById(
       "classicalYogasCard"
@@ -1330,6 +1396,8 @@ if(
   placeClassicalYogaCard(
     classicalYogaCard
   );
+
+  placeHoraCard(nivasCard);
 
   normalizePanchangCardOrder();
 
