@@ -77,3 +77,9 @@ This section records the active state for the next chat/session. Keep this file 
 ### Working rule
 
 The Markdown notes are the continuity record, but they are not a substitute for checking the live branch, PR state, and latest CI on each new session. At each meaningful checkpoint, record: date, changed files/branch, commit or workflow link, test outcome, unresolved risks, and the single next action.
+
+### Repository check after this checkpoint — 13 October 2026
+
+- PR #27 is confirmed **open + draft**, based on `main`, with 2 files changed (`app.js`, `tests/compact-ui-night-prahar.test.js`); it is not merged.
+- The latest workflow query for its head commit `d0e124019fec00da0d2d569023387a83df613d89` returned a successful **Classical yoga interval tests** run ([38345884987](https://github.com/OurHinduDharm/Panchang/actions/runs/38345884987)). The combined commit status had no status entries, so this alone does **not** establish that the full expected test suite passed on the current head. Keep PR #27 draft until the full relevant CI is confirmed.
+- PR #22 is also open + draft. Its latest recorded diagnostic run is a research validation, not a production sign-off.
