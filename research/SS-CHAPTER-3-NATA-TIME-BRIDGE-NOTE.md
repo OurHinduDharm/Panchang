@@ -144,3 +144,10 @@ This moves the code from arbitrary synthetic table values to a reproducible tabl
 
 
 An integrated synthetic round-trip test now runs the complete table-driven candidate path: latitude/declination angles → Chapter II sine interpolation → II.60–61/III.34 day-measure inputs → III.35–36 forward altitude sine → III.38–39 inverse versed-sine → Chapter II versed-sine arc lookup → Chapter I time-unit magnitudes. The fixture deliberately starts from a synthetic known nata arc; it checks arithmetic reversibility, not real-date or observed-event accuracy.
+
+
+## Sixth prototype checkpoint — observed-shadow input
+
+Added `chapter3AltitudeSineFromGnomonShadow` in `ss_chapter3_nata_table_arithmetic.js`, using the right-triangle construction in III.8 to derive hypotenuse and table-scaled altitude sine from a measured gnomon height and shadow length. This can feed the converse III.38–39 arithmetic when the remaining day-radius, antya, and sine-of-colatitude inputs are supplied.
+
+The shadow length alone cannot establish the east/west sign of nata; the observation must also retain shadow direction relative to the meridian and the source's directional convention. This helper therefore never invents the sign.
