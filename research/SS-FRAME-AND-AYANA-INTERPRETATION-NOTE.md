@@ -81,3 +81,16 @@ Therefore, the current `modernLocalSiderealAngleToClassicalFrame()` remains only
 5. If the inputs to the Chapter III.49 path require a modern hour angle, label that dependency explicitly. It is not a wholly classical time reconstruction until the source's time/epoch bridge supplies it.
 
 This narrows the frame blocker to a testable comparison between two constructions, but does not resolve the historical interpretation by itself. Keep the production files unchanged and leave the event-date fixtures uncertified.
+
+
+## Implemented diagnostic — Chapter III.49 meridian candidate comparison (13 October 2026)
+
+Added `ss_chapter3_meridian_frame.js`, with:
+- ecliptic longitude ↔ right-ascension conversion under an explicit obliquity;
+- the Chapter III.49-shaped candidate: signed nata in ghatis shifts right ascension by 6° per ghati, then maps the meridian point back to ecliptic longitude;
+- a side-by-side comparison against the transformed modern meridian-plane candidate, using the modern Sun hour angle as an explicitly labelled provisional nata input;
+- tests for inverse conversion, the 6°/ghati unit conversion, identical-frame agreement, and finite residual reporting under a changed frame.
+
+The isolated tests are now wired into `ss_classical_frame_test.js`; workflow #371 passed, including the research-page browser check and the production-file identity check: https://github.com/OurHinduDharm/Panchang/actions/runs/38400900980
+
+**Interpretation:** passing means the comparison implementation behaves as specified. It does not prove modern Sun hour angle is the historical classical *nata*, and it does not select a winning frame. The next review must inspect the actual residual values across multiple Sun states and times, and separately establish the nata/time-epoch input. Production remains unchanged.
