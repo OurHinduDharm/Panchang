@@ -55,27 +55,33 @@ export function chapter1AharganaFromPrimeMeridianJD(localMeanJD) {
 }
 
 export function chapter3AyanaFromPrimeMeridianJD(localMeanJD) {
-  const ahargana = chapter1AharganaFromPrimeMeridianJD(localMeanJD);
-  const yugaDays = SS_CHAPTER1_AHARGANA_ANCHOR.yugaSavanaDays;
-  const revolutions = SS_CHAPTER1_AHARGANA_ANCHOR.revolutionsPerYuga;
-
-  // Work on whole and fractional days separately so the large creation-era
-  // count does not erase the sub-day fraction.
-  const wholeDays = Math.floor(ahargana);
-  const fractionalDay = ahargana - wholeDays;
-  const scaledWholeDays = wholeDays * revolutions;
-  if (!Number.isSafeInteger(scaledWholeDays)) {
-    throw new RangeError("Scaled whole-day ahargana exceeds JavaScript's safe-integer range.");
+  if (!Number.isFinite(localMeanJD)) {
+    throw new TypeError("localMeanJD must be a finite Julian Day in prime-meridian local-mean time.");
   }
 
-  let completedRevolutions = Math.floor(scaledWholeDays / yugaDays);
-  let remainderDays = (scaledWholeDays % yugaDays) + fractionalDay * revolutions;
-  if (remainderDays >= yugaDays) {
-    completedRevolutions += 1;
-    remainderDays -= yugaDays;
+  const anchor = SS_CHAPTER1_AHARGANA_ANCHOR;
+  const elapsedMeanDays = localMeanJD - anchor.kaliEpochJulianDayAtPrimeMeridianMidnight;
+  const wholeElapsedDays = Math.floor(elapsedMeanDays);
+  const fractionalDay = elapsedMeanDays - wholeElapsedDays;
+  const wholeAhargana = BigInt(anchor.aharganaAtKaliEpochMidnight) + BigInt(wholeElapsedDays);
+  const yugaDays = BigInt(anchor.yugaSavanaDays);
+  const revolutions = BigInt(anchor.revolutionsPerYuga);
+
+  // Keep the creation-era integer day count exact with BigInt. Crucially, do
+  // not add the sub-day fraction to the ~714-billion ahargana Number first:
+  // IEEE-754 spacing at that magnitude is about 0.000122 day (~10.5 s), which
+  // would quantize the phase before the ayana calculation even starts.
+  const scaledWholeDays = wholeAhargana * revolutions;
+  let remainderInteger = scaledWholeDays % yugaDays;
+  if (remainderInteger < 0n) remainderInteger += yugaDays;
+  let completedRevolutions = (scaledWholeDays - remainderInteger) / yugaDays;
+  let remainderDays = Number(remainderInteger) + fractionalDay * anchor.revolutionsPerYuga;
+  if (remainderDays >= anchor.yugaSavanaDays) {
+    completedRevolutions += 1n;
+    remainderDays -= anchor.yugaSavanaDays;
   }
 
-  const cycleFraction = remainderDays / yugaDays;
+  const cycleFraction = remainderDays / anchor.yugaSavanaDays;
   const phaseDeg = cycleFraction * 360;
   const angle = ((phaseDeg % 360) + 360) % 360;
   let bhujaDeg;
@@ -86,8 +92,11 @@ export function chapter3AyanaFromPrimeMeridianJD(localMeanJD) {
 
   return {
     localMeanJD,
-    ahargana,
-    completedRevolutions,
+    elapsedMeanDays,
+    ahargana: Number(wholeAhargana) + fractionalDay,
+    wholeAhargana: wholeAhargana.toString(),
+    fractionalDay,
+    completedRevolutions: completedRevolutions.toString(),
     remainderDays,
     cycleFraction,
     phaseDeg,
@@ -97,7 +106,7 @@ export function chapter3AyanaFromPrimeMeridianJD(localMeanJD) {
     magnitudeTrend: phaseDeg < 90 || (phaseDeg >= 180 && phaseDeg < 270)
       ? "increasing"
       : "decreasing",
-    status: "research-only, source-anchored candidate; epoch offset and time convention still require independent Chapter I verification"
+    status: "research-only, source-anchored candidate; phase preserves sub-day precision with exact integer-day modulo, but epoch offset and time convention still require independent Chapter I verification"
   };
 }
 
@@ -164,6 +173,21 @@ export function runChapter1AharganaAnchorTests() {
       360 * a.revolutionsPerYuga / a.yugaSavanaDays,
       1e-8
     )
+  });
+  const fractionalProbeJD = a.referenceJulianDayAtPrimeMeridianMeanNoon + 0.1234567;
+  const fractionalProbe = chapter3AyanaFromPrimeMeridianJD(fractionalProbeJD);
+  const elapsedProbe = fractionalProbeJD - a.kaliEpochJulianDayAtPrimeMeridianMidnight;
+  const probeWholeDays = Math.floor(elapsedProbe);
+  const probeFraction = elapsedProbe - probeWholeDays;
+  const probeWholeAhargana = BigInt(a.aharganaAtKaliEpochMidnight) + BigInt(probeWholeDays);
+  let probeRemainder = Number(((probeWholeAhargana * BigInt(a.revolutionsPerYuga)) % BigInt(a.yugaSavanaDays) + BigInt(a.yugaSavanaDays)) % BigInt(a.yugaSavanaDays));
+  probeRemainder += probeFraction * a.revolutionsPerYuga;
+  if (probeRemainder >= a.yugaSavanaDays) probeRemainder -= a.yugaSavanaDays;
+  tests.push({
+    name: "Sub-day ayana phase preserves the fractional JD independently of the huge creation-era ahargana Number",
+    passed: close(fractionalProbe.fractionalDay, probeFraction, 1e-10) &&
+      close(fractionalProbe.remainderDays, probeRemainder, 1e-8) &&
+      fractionalProbe.wholeAhargana === probeWholeAhargana.toString()
   });
 
   let rejectedNaN = false;
