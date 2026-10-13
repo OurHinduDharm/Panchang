@@ -1,4 +1,9 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+import {
+  Body as AstroBody,
+  Observer as AstroObserver,
+  SearchAltitude
+} from "https://esm.sh/astronomy-engine@2.1.19";
 
 let selectedLocation = null;
 let currentSankalpContext = null;
@@ -2012,6 +2017,134 @@ const sankalpState = {
 }
 
 /* =========================================================
+   GODHULI — seasonal solar-altitude convention
+   Muhurta Chintamani 6.101 describes seasonal solar-disc states:
+   Hemanta (whole disc visible), hot season (half-set), and rains
+   (fully set). The 48-minute window is the TKS-style fixed-Muhurta
+   convention used by this project; verse 6.101 itself describes the
+   seasonal instant, not the duration. Other Panchang traditions use
+   shorter windows, so this is a declared convention, not a universal
+   claim. SearchAltitude uses the Sun's geometric center without
+   atmospheric refraction, as documented by Astronomy Engine.
+   ========================================================= */
+function getGodhuliMuhurta(p, sunset, location, dependencies = {}){
+  const fallback = () => ({
+    start:new Date(sunset.getTime() - 12 * 60 * 1000),
+    end:new Date(sunset.getTime() + 12 * 60 * 1000)
+  });
+
+  // The Panchang library may not return a direct ritu field. The UI
+  // already derives the six seasons from the Sun's rashi, so use the same
+  // mapping as a fallback instead of silently treating every missing ritu
+  // as the 0-degree (half-set) case.
+  const rituBySunRashiIndex = {
+    11: "वसंत", 0: "वसंत",
+    1: "ग्रीष्म", 2: "ग्रीष्म",
+    3: "वर्षा", 4: "वर्षा",
+    5: "शरद", 6: "शरद",
+    7: "हेमंत", 8: "हेमंत",
+    9: "शिशिर", 10: "शिशिर"
+  };
+  const rawRitu = String(p?.ritu || "")
+    .trim()
+    .replace(/(?:ऋतु|ऋतौ|ritu)\s*$/i, "")
+    .trim()
+    .toLowerCase();
+  const rituAliases = {
+    "vasanta": "वसंत", "vasant": "वसंत", "वसन्त": "वसंत", "वसंत": "वसंत",
+    "grishma": "ग्रीष्म", "ग्रीष्म": "ग्रीष्म",
+    "varsha": "वर्षा", "वर्षा": "वर्षा",
+    "sharad": "शरद", "शरद": "शरद",
+    "hemanta": "हेमंत", "hemant": "हेमंत", "हेमन्त": "हेमंत", "हेमंत": "हेमंत",
+    "shishira": "शिशिर", "shishir": "शिशिर", "शिशिर": "शिशिर"
+  };
+  // Keep Godhuli aligned with the season shown by the UI,
+  // which is derived from the Sun rashi. A conflicting library p.ritu
+  // must not silently select a different seasonal threshold.
+  const ritu = rituBySunRashiIndex[p?.sunRashi?.index] ||
+    rituAliases[rawRitu] ||
+    "";
+
+  // Approximate solar semidiameter: 16 arcminutes.
+  // Apply only the three seasonal states explicitly named in Muhurta
+  // Chintamani 6.101: Hemanta = whole disc visible, hot season (Grishma)
+  // = half-set, and rains (Varsha) = fully set. The verse does not assign
+  // thresholds to Vasanta, Sharad, or Shishira; preserve the prior ±12-minute
+  // window for those seasons rather than extrapolating an unverified rule.
+  // The 48-minute duration is this project's declared convention, not a
+  // duration specified by 6.101. SearchAltitude uses geometric center,
+  // without atmospheric refraction.
+  let targetAltitude = null;
+  if(ritu === "हेमन्त" || ritu === "हेमंत"){
+    targetAltitude = 16 / 60;
+  }else if(ritu === "ग्रीष्म"){
+    targetAltitude = 0;
+  }else if(ritu === "वर्षा"){
+    targetAltitude = -16 / 60;
+  }
+
+  // Keep the established window for seasons not explicitly assigned a
+  // solar-disc state by this verse; do not infer a threshold by analogy.
+  if(targetAltitude === null){
+    return fallback();
+  }
+
+  const latitude = Number(location?.lat ?? location?.latitude);
+  const longitude = Number(location?.lon ?? location?.longitude);
+  const elevation = Number(location?.elevation ?? 0);
+
+  if(
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude) ||
+    !Number.isFinite(elevation)
+  ){
+    return fallback();
+  }
+
+  try{
+    const searchAltitude = dependencies.SearchAltitude || SearchAltitude;
+    const body = dependencies.Body || AstroBody;
+    const ObserverClass = dependencies.Observer || AstroObserver;
+    const observer = new ObserverClass(latitude, longitude, elevation);
+
+    // Start well before sunset so SearchAltitude finds this evening's
+    // descending crossing, not a following day's event.
+    const searchStart = new Date(sunset.getTime() - 4 * 60 * 60 * 1000);
+    const event = searchAltitude(
+      body.Sun,
+      observer,
+      -1,
+      searchStart,
+      0.5,
+      targetAltitude
+    );
+    const start = event?.date ? new Date(event.date) : null;
+    const delta = start ? sunset.getTime() - start.getTime() : NaN;
+
+    // A missing, post-sunset, or implausibly distant event should not
+    // break the whole card. SearchRiseSet sunset includes the visible solar
+    // limb and typical refraction, so the geometric -16' center crossing
+    // should still precede that apparent sunset.
+    if(
+      !start ||
+      Number.isNaN(start.getTime()) ||
+      delta < 0 ||
+      delta > 90 * 60 * 1000
+    ){
+      return fallback();
+    }
+
+    return {
+      start,
+      end:new Date(start.getTime() + 48 * 60 * 1000)
+    };
+  }catch(e){
+    console.warn("Seasonal Godhuli calculation failed; using fallback window:", e);
+    return fallback();
+  }
+}
+
+/* =========================================================
    SPECIAL KAAL / MUHURTA
    ========================================================= */
 function getSpecialKaalDetails(
@@ -2063,9 +2196,10 @@ function getSpecialKaalDetails(
     nightMs / 15;
 
   /*
-   * प्रातः संध्या
-   * रात्रि के अंतिम 1/15 भाग से सूर्योदय तक।
-   * अवधि वास्तविक रात्रिमान से निकलेगी।
+   * प्रातः संध्या — परियोजना की पहले से प्रयुक्त दिन/रात्रि-मुहूर्त
+   * पद्धति सुरक्षित रखें: सूर्योदय से पहले अंतिम रात्रि-मुहूर्त।
+   * संध्या की परंपरागत सीमाएँ ग्रंथों/परंपराओं में भिन्न हैं;
+   * समान संदर्भ-पद्धति की पुष्टि के बिना fixed 48-minute नियम न थोपें।
    */
   const pratahSandhya = {
     start:new Date(
@@ -2077,9 +2211,8 @@ function getSpecialKaalDetails(
   };
 
   /*
-   * मध्याह्न संध्या — स्थानीय दिनमान के मध्य पर केंद्रित।
-   * अवधि एक दिन-मुहूर्त (दिनमान / 15); इसकी सीमा सूर्योदय-सूर्यास्त से निकलेगी।
-   * परंपरागत विधि/सीमा में मतभेद हो सकते हैं।
+   * मध्याह्न संध्या — स्थानीय दिनमान के मध्य पर केंद्रित एक दिन-मुहूर्त।
+   * दिन-मुहूर्त = स्थानीय दिनमान / 15; अवधि ऋतु के अनुसार बदलती है।
    */
   const dayMidpointMs = sunrise.getTime() + dayMs / 2;
   const madhyahnaSandhya = {
@@ -2101,22 +2234,19 @@ function getSpecialKaalDetails(
   };
 
   /*
-   * गोधूलि मुहूर्त
-   * सूर्यास्त से 12 मिनट पूर्व → 12 मिनट बाद
+   * गोधूलि मुहूर्त — ऋतु के अनुसार सूर्य-बिम्ब की स्थिति से आरम्भ;
+   * इसके बाद एक निश्चित 48-मिनट मुहूर्त। Astronomical event उपलब्ध न
+   * हो तो पुराने ±12 मिनट वाले window पर सुरक्षित fallback रहेगा।
    */
-  const godhuliMuhurta = {
-    start:new Date(
-      sunset.getTime() - 12 * 60 * 1000
-    ),
-    end:new Date(
-      sunset.getTime() + 12 * 60 * 1000
-    )
-  };
+  const godhuliMuhurta = getGodhuliMuhurta(
+    p,
+    sunset,
+    selectedLocation
+  );
 
   /*
-   * सायं संध्या
-   * सूर्यास्त से अगले 1 रात्रि-मुहूर्त तक।
-   * अवधि वास्तविक रात्रिमान से निकलेगी।
+   * सायं संध्या — परियोजना की पहले से प्रयुक्त पद्धति:
+   * सूर्यास्त से अगले एक रात्रि-मुहूर्त तक।
    */
   const sayahnaSandhya = {
     start:new Date(

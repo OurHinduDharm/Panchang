@@ -1,0 +1,65 @@
+# PR #27 — Godhuli / Sandhya Work Log
+
+Repository: `OurHinduDharm/Panchang`
+PR: https://github.com/OurHinduDharm/Panchang/pull/27
+Branch: `fix/sandhya-muhurta-windows`
+Last reviewed head: `e040b3c3788565f5d87f9aa341b1387e76c5c399`
+Status: **Draft — do not merge until validation is complete**
+
+## Goal and safety boundaries
+
+- Calculate the seasonal Godhuli start from the local Sun's geometric-center altitude crossing.
+- Preserve the project's declared 48-minute Godhuli window convention, while clearly stating that Muhurta Chintamani 6.101 describes seasonal solar-disc state and does not itself prescribe 48 minutes.
+- Preserve the old ±12-minute window as a safe fallback if the event cannot be calculated.
+- Do not change existing Pratah, Madhyahna, or Sayam Sandhya timing rules in this PR.
+- Do not change Sankalp, sunrise/sunset, or unrelated Panchang calculations.
+- Do not merge until tests and real selected-location/date preview have been checked.
+
+## Current implementation
+
+Changed files at current PR head:
+- `app.js`: imports `astronomy-engine@2.1.19` at module top level and calls `SearchAltitude` from `getGodhuliMuhurta`.
+- `tests/compact-ui-night-prahar.test.js`: seasonal threshold, fallback, interval, and real Astronomy Engine crossing checks.
+- `PR27-WORKLOG.md`: this validation log.
+
+Seasonal target altitudes:
+- Hemanta: +16 arcminutes (whole solar disc visible, interpreted geometrically).
+- Grishma / hot season: 0 degrees (solar center on the geometric horizon; half-set convention).
+- Varsha: −16 arcminutes (solar center below the geometric horizon; fully-set convention).
+- Vasanta, Sharad, and Shishira: retain the existing ±12-minute fallback until a reliable source establishes their thresholds. Muhurta Chintamani 6.101 does not explicitly assign them a separate state.
+
+Season is taken from `p.ritu` when recognized, otherwise inferred from the existing Sun-rashi-to-season mapping. The 48-minute duration remains a declared project convention supported by a general secondary source, not a duration prescribed by verse 6.101.
+
+## Review findings and open checks
+
+1. **Shared-script loading cost:** the user supplied the Blogger script tags for `app.js` and `extra-panchang.js`, both loaded as separate `type="module"` scripts from jsDelivr. Because `app.js` imports Astronomy Engine statically, that dependency must load before `app.js` executes. The snippet alone does not establish whether these tags appear only on the Panchang page or in a site-wide Blogger template. If confined to the Panchang page, this is not a site-wide load penalty. Do not introduce an unreliable asynchronous race or change the Panchang UI merely to optimize this.
+2. **Live result validation:** verify the displayed Godhuli start/end for the selected location and date, including each of the three explicitly mapped seasons and a fallback season. Compare against a trustworthy reference where available and document differences rather than treating one source as universal.
+3. **Time-zone behavior:** the event returned by Astronomy Engine is an absolute Date; confirm display formatting follows the project's existing local-time policy. A broader fixed-IST audit is out of scope unless a direct regression is found.
+4. **CI:** current HEAD `34d3764de0420f1bc66360ef416e81150568e6ff` has a successful `Classical yoga interval tests` run (run #137), including syntax checks, card-order regression tests, compact UI/night Prahar tests, and interval/real Astronomy Engine comparisons across six seasonal dates. CodeQL PR run #654 also completed successfully.
+5. **Reference limits:** the available TKS sample supports a 48-minute interval for that sample only. Independent TKS comparison across multiple seasons remains unverified.
+
+## Next action
+
+Current CI is green. The user supplied the Blogger script tags for `app.js` and `extra-panchang.js`; they confirm both are module scripts, but not whether the tags are page-only or site-wide. Automated live-page fetch was blocked by Google's anti-bot redirect, so the actual placement and visible Godhuli output are not yet verified. Next: establish whether this snippet is only on the Panchang page and inspect the rendered start/end there; keep this PR Draft.
+
+## Change log
+
+- 2026-10-13: Created this work log to carry forward the scope, safety boundaries, review findings, and next steps across chats.
+- 2026-10-13: Investigated the Varsha (−16′) sunset-boundary concern. After checking the Astronomy Engine documentation, the original non-negative-before-sunset check was retained: `SearchRiseSet` defines sunset by the Sun's top limb disappearing and includes typical atmospheric refraction, while `SearchAltitude` uses the geometric center without refraction. Therefore a geometric-center crossing at −16′ should precede apparent sunset under this convention. The regression test now models that expected ordering instead of accepting a post-sunset event. The earlier temporary guard change was corrected before final validation. CI for head `801f05c5b12090436550026f040e9e421d2e4bea` completed successfully: syntax checks, Panchang card-order tests, compact UI/night Prahar tests, and interval/real-Panchang comparison tests all passed. Live preview remains open. The Astronomy Engine import is a static top-level import in `app.js`, so the module graph waits for it before executing the app; repository `index.html` loads `app.js` as a module. The actual Blogger template placement still needs checking to determine whether this affects only the full Panchang page or more pages.
+
+- 2026-10-13: Checked the current PR head `34d3764de0420f1bc66360ef416e81150568e6ff`. The full interval regression workflow completed successfully (run #137); its seasonal test exercises real Astronomy Engine crossings for Vasanta, Grishma, Hemanta, Shishira, Varsha, and Sharad at multiple dates/locations, as well as the fixed 48-minute interval and fallback behavior. CodeQL PR run #654 also succeeded. Attempted to fetch the live Blogger Panchang page for template/load-path verification, but the request was redirected to Google's anti-bot page; this is not evidence that the live page itself is broken. No code change is justified until the actual Blogger inclusion and visible results can be inspected.
+
+- 2026-10-13: User provided the Blogger script inclusion: `app.js` and `extra-panchang.js` are separate `type="module"` scripts served from jsDelivr. This narrows the load-path question but does not prove whether the tags are page-only or site-wide. The latest work-log-only commit `3cb4e6521fa218c407d692c96c13153d9bbbc1be` passed CI run #138: https://github.com/OurHinduDharm/Panchang/actions/runs/38366940732. No calculation code changed.
+
+- 2026-10-13: User supplied the actual Blogger Panchang page HTML. It loads `app.js` and `extra-panchang.js` only in the page's `EXISTING PANCHANG SCRIPTS` section, both via jsDelivr `<script type="module">`. In the supplied snippet, these scripts are not shown in the Blogger-wide template or site-wide mini-widget. Therefore the new top-level Astronomy Engine import is confirmed to affect this Panchang page's module graph, but there is no evidence from this snippet that it adds load cost to other pages. Do not change to dynamic import solely for this concern; that would require making the Godhuli calculation/render path async and risks UI regressions. The actual live rendered Godhuli start/end still needs a browser screenshot or console output from the user to validate display values.
+
+
+- 2026-10-13: Research review narrowed the seasonal altitude calculation to the three states explicitly described in Muhurta Chintamani 6.101: Hemanta (+16′), the hot season/Grishma (0°), and Varsha (−16′). The earlier extension of Hemanta's threshold to Shishira and of the hot-season threshold to Vasanta/Sharad was an analogy, not directly established by this verse. Updated implementation and tests to preserve the prior ±12-minute window in Vasanta, Sharad, and Shishira until a reliable source supports additional thresholds. Kept the 48-minute duration as a project convention, not a claim made by the verse. CI must validate the updated head; live Blogger output remains to be checked before merge.
+
+- 2026-10-13: Updated head `e040b3c3788565f5d87f9aa341b1387e76c5c399` passed the `Classical yoga interval tests` workflow, run #143 (`interval-regression` job successful): syntax check, Panchang card-order regressions, compact UI/night Prahar regressions, and interval/real Panchang comparison tests all completed successfully. PR metadata now reports mergeable=true. The PR remains Draft because the live Blogger-rendered Godhuli values still need a real browser/console check and multi-season TKS comparisons are not available.
+
+
+- 2026-10-13: Investigated the separate Madhyahna Sandhya / Abhijit overlap reported from the live Panchang. In `getSpecialKaalDetails`, Madhyahna Sandhya is currently set to the daylight midpoint ± half of one fifteenth of daylight. That is mathematically the same interval used by the usual Abhijit calculation, so the equality is caused by the implementation formula, not by a coincidental result. Research found the Mitakshara commentary on Yajnavalkya Smriti 1.24–25 explicitly discusses and rejects simply identifying Madhyahna Sandhya with the Abhijit interval; it explains madhyahna in terms of the middle of the day. Independent ritual guides likewise describe Madhyahnika as noon-time practice, but the reviewed public sources do not establish one universally binding fixed-duration interval for all traditions. Therefore do not replace the current formula with another invented interval or change the Godhuli-only scope of this PR. Keep PR #27 Draft and unmerged. Follow-up action: separate the display of the local Madhyahna instant/period from the Abhijit interval only after choosing and documenting a source-specific tradition/rule; add regression tests proving the two labels are not falsely coupled and ensure no other Muhurta changes. Reference: https://www.wisdomlib.org/hinduism/book/yajnavalkya-smriti-with-mitakshara-and-viramitrodaya/d/doc1875988.html ; https://www.ibiblio.org/sripedia/ebooks/sandhya/contents.html.
+
+
+- 2026-10-13: Fast follow-up code audit confirmed the same unsupported interval is duplicated in two places: (1) the Special Muhurta card prints `madhyahnaSandhya.start/end` as an exact range, and (2) the Sankalp generator's auto Sandhya selection uses the same midpoint ± half-day-muhurta interval to auto-select `madhyahna`. Thus this is not just a visual label issue; changing only the card would leave Sankalp auto-selection coupled to Abhijit. Primary reference opened and reviewed: Yajnavalkya Smriti 1.24–25 with Mitakshara commentary (https://www.wisdomlib.org/hinduism/book/yajnavalkya-smriti-with-mitakshara-and-viramitrodaya/d/doc1875988.html). The commentary explicitly argues against identifying Madhyahna Sandhya with the Abhijit interval and explains madhyahna by divisions of the day; it also states there is no authority for imposing the same two-period twilight rule at midday. A separate Rigvediya Sandhya Vandana guide describes Madhyahnika as performed during noon time (https://sanskritdocuments.org/doc_veda/rgsandhya.html), but neither source establishes a universally binding fixed start/end interval suitable for an exact clock-time range. Safe next step: do not invent a new duration. Treat the current exact interval and auto-window as unverified; before changing code, decide a documented UI policy (e.g. display local midday as a reference time with a clear note that the ritual interval varies by tradition, and do not auto-select a bounded Madhyahna Sandhya window without a chosen tradition-specific rule). Keep PR #27 Draft and do not merge. No calculation code changed in this audit.

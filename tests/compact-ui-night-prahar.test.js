@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 import test from "node:test";
+import { Body, Observer, SearchAltitude, SearchRiseSet } from "astronomy-engine";
 
 const source = readFileSync(new URL("../app.js", import.meta.url), "utf8");
 
@@ -178,9 +179,219 @@ test("Anandadi yogas show auspiciousness colors and use Lumbaka spelling", () =>
   assert.match(classical, /category:OHN_ANANDADI_AUSPICIOUS\.has\(name\) \? "शुभ" : "अशुभ"/);
 });
 
-test("Madhyahna Sandhya is calculated around local solar midday", () => {
-  assert.match(source, /const dayMidpointMs = sunrise\.getTime\(\) \+ dayMs \/ 2;/);
-  assert.match(source, /const madhyahnaSandhya = \{/);
+test("Godhuli applies only the three seasonal solar states stated in Muhurta Chintamani 6.101", () => {
+  const start = source.indexOf("function getGodhuliMuhurta(");
+  const end = source.indexOf("function getSpecialKaalDetails(", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+
+  const sandbox = {
+    // Share the host Date constructor with the real Astronomy Engine import.
+    // Otherwise vm's cross-realm Date can be rejected by the library.
+    Date,
+    SearchAltitude: (_body, _observer, direction, searchStart, limitDays, altitude) => {
+      sandbox.lastSearch = { direction, searchStart, limitDays, altitude };
+      // The Varsha -16' geometric-center crossing is before apparent sunset.
+      return {
+        date: new Date(
+          altitude < 0
+            ? "2026-10-12T12:03:00.000Z"
+            : "2026-10-12T12:00:00.000Z"
+        )
+      };
+    },
+    Body: { Sun: "Sun" },
+    Observer: class { constructor(lat, lon, elevation){ this.lat=lat; this.lon=lon; this.elevation=elevation; } }
+  };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+
+  const sunset = new Date("2026-10-12T12:09:00.000Z");
+  const location = { lat: 30.1265, lon: 80.4817, elevation: 0 };
+  const minutes = (a, b) => (new Date(b).getTime() - new Date(a).getTime()) / 60000;
+
+  const deps = { SearchAltitude: sandbox.SearchAltitude, Body: sandbox.Body, Observer: sandbox.Observer };
+  const hemanta = sandbox.getGodhuliMuhurta({ ritu: "हेमन्त" }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9);
+  assert.equal(sandbox.lastSearch.direction, -1);
+  assert.equal(minutes(hemanta.start, hemanta.end), 48);
+
+  const varsha = sandbox.getGodhuliMuhurta({ ritu: "वर्षा" }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (-16 / 60)) < 1e-9);
+  assert.equal(minutes(varsha.start, sunset), 6, "the geometric -16' crossing should precede apparent sunset");
+  assert.equal(minutes(varsha.start, varsha.end), 48);
+
+  // The library output can lack p.ritu; then season must be derived from Sun rashi.
+  sandbox.getGodhuliMuhurta({ sunRashi: { index: 7 } }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "Hemanta from Sun rashi");
+  const priorSearch = sandbox.lastSearch;
+  const shishiraFallback = sandbox.getGodhuliMuhurta({ sunRashi: { index: 9 } }, sunset, location, deps);
+  assert.equal(sandbox.lastSearch, priorSearch, "Shishira must not trigger an unsupported altitude search");
+  assert.equal(minutes(shishiraFallback.start, sunset), 12, "Shishira preserves the existing fallback window");
+
+  // The displayed season is derived from Sun rashi; conflicting library
+  // season data must not silently change the Godhuli rule.
+  const libraSharad = sandbox.getGodhuliMuhurta(
+    { ritu: "हेमंत", sunRashi: { index: 6 } },
+    sunset,
+    location,
+    deps
+  );
+  assert.equal(sandbox.lastSearch, priorSearch, "Libra/Sharad must override conflicting library Hemanta");
+  assert.equal(minutes(libraSharad.start, sunset), 12, "Displayed Sharad uses the existing 24-minute fallback");
+
+  const scorpioHemanta = sandbox.getGodhuliMuhurta(
+    { ritu: "शरद", sunRashi: { index: 7 } },
+    sunset,
+    location,
+    deps
+  );
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "Scorpio/Hemanta overrides conflicting library Sharad");
+  assert.equal(minutes(scorpioHemanta.start, scorpioHemanta.end), 48);
+  const vasantaFallback = sandbox.getGodhuliMuhurta({ ritu: "वसंत" }, sunset, location, deps);
+  assert.equal(minutes(vasantaFallback.start, sunset), 12, "Vasanta preserves the existing fallback window");
+  sandbox.getGodhuliMuhurta({ sunRashi: { index: 3 } }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (-16 / 60)) < 1e-9, "Varsha from Sun rashi");
+  sandbox.getGodhuliMuhurta({ ritu: "Hemanta" }, sunset, location, deps);
+  assert.ok(Math.abs(sandbox.lastSearch.altitude - (16 / 60)) < 1e-9, "English ritu alias");
+
+  sandbox.SearchAltitude = () => null;
+  const fallback = sandbox.getGodhuliMuhurta({ ritu: "हेमंत" }, sunset, location, { ...deps, SearchAltitude: sandbox.SearchAltitude });
+  assert.equal(minutes(fallback.start, sunset), 12);
+  assert.equal(minutes(sunset, fallback.end), 12);
+
+  // Integration check against the actual Astronomy Engine dependency, not only a mock.
+  const realSunset = new Date("2026-10-12T12:12:00.000Z"); // 17:42 IST; published city-level sunset for Pithoragarh
+  const realObserver = new Observer(location.lat, location.lon, location.elevation);
+  const actualEvent = SearchAltitude(
+    Body.Sun,
+    realObserver,
+    -1,
+    new Date(realSunset.getTime() - 4 * 60 * 60 * 1000),
+    0.5,
+    0
+  );
+  assert.ok(actualEvent?.date, "Astronomy Engine should return the evening 0-degree solar-center crossing");
+  assert.ok(
+    realSunset.getTime() - actualEvent.date.getTime() >= 0 &&
+    realSunset.getTime() - actualEvent.date.getTime() <= 10 * 60000,
+    `Astronomical crossing was ${actualEvent.date.toISOString()} for sunset ${realSunset.toISOString()}`
+  );
+  const realGodhuliEnd = new Date(actualEvent.date.getTime() + 48 * 60000);
+  assert.ok(actualEvent.date < realSunset, "The 0° solar-center crossing should precede apparent sunset");
+  assert.equal(minutes(actualEvent.date, realGodhuliEnd), 48);
+
+  // Exercise real seasonal crossings at different dates and latitudes.
+  // SearchRiseSet supplies each location/date's sunset, avoiding hard-coded
+  // sunset times that could accidentally test the wrong solar event.
+  const seasonalCases = [
+    {
+      date: "2026-12-05",
+      ritu: "हेमंत",
+      location: { lat: 30.1265, lon: 80.4817, elevation: 0 },
+      expectedAltitude: 16 / 60
+    },
+    {
+      date: "2027-05-25",
+      ritu: "ग्रीष्म",
+      location: { lat: 28.6139, lon: 77.2090, elevation: 0 },
+      expectedAltitude: 0
+    },
+    {
+      date: "2027-07-25",
+      ritu: "वर्षा",
+      location: { lat: 13.0827, lon: 80.2707, elevation: 0 },
+      expectedAltitude: -16 / 60
+    }
+  ];
+
+  for (const item of seasonalCases) {
+    const observer = new Observer(
+      item.location.lat,
+      item.location.lon,
+      item.location.elevation
+    );
+    const sunsetEvent = SearchRiseSet(
+      Body.Sun,
+      observer,
+      -1,
+      new Date(item.date + "T00:00:00.000Z"),
+      1,
+      0
+    );
+    assert.ok(sunsetEvent?.date, `Astronomy Engine should find sunset for ${item.date}`);
+    const rawAltitudeEvent = SearchAltitude(
+      Body.Sun,
+      observer,
+      -1,
+      new Date(sunsetEvent.date.getTime() - 4 * 60 * 60 * 1000),
+      0.5,
+      item.expectedAltitude
+    );
+    assert.ok(rawAltitudeEvent?.date, `Astronomy Engine should find the ${item.ritu} solar-altitude crossing`);
+    const rawMinutesBeforeSunset =
+      (sunsetEvent.date.getTime() - rawAltitudeEvent.date.getTime()) / 60000;
+    assert.ok(
+      rawMinutesBeforeSunset >= 0 && rawMinutesBeforeSunset <= 90,
+      `Raw ${item.ritu} crossing on ${item.date} was ${rawAltitudeEvent.date.toISOString()}, sunset was ${sunsetEvent.date.toISOString()}, delta ${rawMinutesBeforeSunset} minutes`
+    );
+
+    const seasonalWindow = sandbox.getGodhuliMuhurta(
+      { ritu: item.ritu },
+      sunsetEvent.date,
+      item.location,
+      { SearchAltitude, Body, Observer }
+    );
+    assert.equal(
+      seasonalWindow.start.getTime(),
+      rawAltitudeEvent.date.getTime(),
+      `Godhuli should start at the exact ${item.expectedAltitude}-degree solar-center crossing for ${item.ritu} on ${item.date}`
+    );
+    assert.equal(
+      minutes(seasonalWindow.start, seasonalWindow.end),
+      48,
+      `Expected a 48-minute ${item.ritu} Godhuli window on ${item.date}; start=${seasonalWindow.start.toISOString()}, sunset=${sunsetEvent.date.toISOString()}`
+    );
+    const minutesBeforeSunset = minutes(seasonalWindow.start, sunsetEvent.date);
+    assert.ok(
+      minutesBeforeSunset >= 0 && minutesBeforeSunset <= 15,
+      `Unexpected seasonal altitude crossing for ${item.ritu} on ${item.date}: ${minutesBeforeSunset} minutes before sunset`
+    );
+  }
+});
+
+test("displayed Sandhya windows retain the existing day/night-relative Muhurta divisions", () => {
+  const start = source.indexOf("function getGodhuliMuhurta(");
+  const end = source.indexOf("function getPraharDetails(", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+
+  const sandbox = {
+    SearchAltitude: () => ({ date: new Date("2026-10-12T12:00:00.000Z") }),
+    AstroBody: { Sun: "Sun" },
+    AstroObserver: class { constructor(lat, lon, elevation){ this.lat=lat; this.lon=lon; this.elevation=elevation; } },
+    selectedLocation: { lat: 30.1265, lon: 80.4817, elevation: 0 }
+  };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+
+  const p = {
+    sunrise: "2026-10-12T06:07:00+05:30",
+    sunset: "2026-10-12T17:40:00+05:30"
+  };
+  const nextSunrise = "2026-10-13T06:08:00+05:30";
+  const result = sandbox.getSpecialKaalDetails(p, nextSunrise);
+  const ms = value => new Date(value).getTime();
+  const nightMuhurtaMs = ms(nextSunrise) - ms(p.sunset);
+  const dayMuhurtaMs = ms(p.sunset) - ms(p.sunrise);
+  const midpoint = (ms(p.sunrise) + ms(p.sunset)) / 2;
+
+  assert.equal(ms(p.sunrise) - ms(result.pratahSandhya.start), nightMuhurtaMs / 15);
+  assert.equal(ms(result.pratahSandhya.end), ms(p.sunrise));
+
+  assert.equal(ms(result.madhyahnaSandhya.start), midpoint - dayMuhurtaMs / 30);
+  assert.equal(ms(result.madhyahnaSandhya.end), midpoint + dayMuhurtaMs / 30);
+
+  assert.equal(ms(result.sayahnaSandhya.start), ms(p.sunset));
+  assert.equal(ms(result.sayahnaSandhya.end) - ms(p.sunset), nightMuhurtaMs / 15);
 });
 
 test("Ritu and Ayana cards are adjacent in the compact grid", () => {
