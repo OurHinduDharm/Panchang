@@ -2304,7 +2304,7 @@ function runCoordinateFrameSensitivityAudit() {
   out.innerHTML = html;
 }
 
-function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_CONFIG) {
+function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_CONFIG, planetBody = swe.SE_JUPITER) {
   /*
    * Independent state-input path:
    * Swiss Ephemeris supplies apparent geocentric ecliptic longitude/latitude
@@ -2325,17 +2325,17 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
   const eclFlags = swe.SEFLG_SWIEPH;
   const eqFlags = swe.SEFLG_SWIEPH | 2048; // SEFLG_EQUATORIAL
   const swSun = swe.calc_ut(jd, swe.SE_SUN, eclFlags);
-  const swJupiter = swe.calc_ut(jd, swe.SE_JUPITER, eclFlags);
-  const swJupiterEq = swe.calc_ut(jd, swe.SE_JUPITER, eqFlags);
+  const swPlanet = swe.calc_ut(jd, planetBody, eclFlags);
+  const swPlanetEq = swe.calc_ut(jd, planetBody, eqFlags);
 
-  if (![swSun, swJupiter, swJupiterEq].every(v =>
+  if (![swSun, swPlanet, swPlanetEq].every(v =>
     v && Number.isFinite(v[0]) && Number.isFinite(v[1])
   )) return null;
 
-  const longitude = normalize360(swJupiter[0] - 24.217);
-  const latitude = swJupiter[1];
-  const ra = normalize360(swJupiterEq[0]);
-  const dec = swJupiterEq[1];
+  const longitude = normalize360(swPlanet[0] - 24.217);
+  const latitude = swPlanet[1];
+  const ra = normalize360(swPlanetEq[0]);
+  const dec = swPlanetEq[1];
   const phi = config.latitude * Math.PI / 180;
   let hourAngleDeg = normalize360(
     Astronomy.SiderealTime(eventTime) * 15 +
@@ -3439,6 +3439,15 @@ async function runSameInstantTksSnapshotAudit() {
     return;
   }
 
+  let swiss = null;
+  let swissError = "";
+  try {
+    const swe = await initSwiss();
+    swiss = calculateSwissStateLagnantara(swe, instant, direction, TKS_CONFIG, swe.SE_VENUS);
+  } catch (error) {
+    swissError = String(error?.message || error);
+  }
+
   const targetK = 7.698;
   const targetC = 8;
   const fmt = value => Number.isFinite(value) ? round(value, 6) + "°" : "—";
@@ -3447,6 +3456,7 @@ async function runSameInstantTksSnapshotAudit() {
     '<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Our current candidate</th><th>Our sequential candidate</th><th>Owner-supplied TKS snapshot</th></tr></thead><tbody>' +
     '<tr><td>IX.2–3 event branch</td><td colspan="2">' + event + ' (' + (motion < 0 ? 'retrograde' : 'direct') + ')</td><td>Venus Asta panel</td></tr>' +
     '<tr><td>Chapter III sign-table K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698° (TKS label: K)</td></tr>' +
+    '<tr><td>Swiss Ephemeris K (same geometry)</td><td colspan="2">' + (swiss ? fmt(swiss.K) : 'Unavailable') + '</td><td>' + (swiss ? 'Swiss−AE: ' + fmt(swiss.K - current.K) : swissError || 'Not available') + '</td></tr>' +
     '<tr><td>Exact analytical oblique-ascension K</td><td>' + fmt(current.exactK) + '</td><td>' + fmt(sequential.exactK) + '</td><td>Not supplied</td></tr>' +
     '<tr><td>Sign-table K minus exact OA K</td><td>' + fmt(current.K - current.exactK) + '</td><td>' + fmt(sequential.K - sequential.exactK) + '</td><td>—</td></tr>' +
     '<tr><td>Our sign-table K minus TKS K</td><td>' + delta(current.K) + '</td><td>' + delta(sequential.K) + '</td><td>—</td></tr>' +
@@ -3458,7 +3468,7 @@ async function runSameInstantTksSnapshotAudit() {
     '<tr><td>Akṣa dṛkkarma</td><td>' + fmt(current.drikkarma.akshaDeg) + '</td><td>' + fmt(sequential.drikkarma.akshaDeg) + '</td><td>Not supplied</td></tr>' +
     '<tr><td>Corrected planet longitude</td><td>' + fmt(current.drikkarma.correctedLongitude) + '</td><td>' + fmt(sequential.drikkarma.correctedLongitude) + '</td><td>Not supplied</td></tr>' +
     '</tbody></table></div>' +
-    '<div class="status warn">Interpretation: this removes the known time-of-day mismatch between the TKS K snapshot and our previous sunset sample. A remaining difference is still not assigned to a cause until the coordinate frame, dṛkkarma construction, and TKS calculation conventions are matched.</div>';
+    '<div class="status warn">Interpretation: Swiss Ephemeris is an independent apparent-position input check using the same candidate geometry, not a TKS reproduction. If Swiss−AE K is small, the large TKS gap is unlikely to be caused by the modern ephemeris source alone; continue auditing coordinate frames and dṛkkarma construction. TKS K remains a supplied comparison value.</div>';
 }
 
 function runLagnantaraDiagnostic() {
