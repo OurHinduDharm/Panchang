@@ -123,3 +123,31 @@ This means two possible implementations must be distinguished:
 2. **Text-faithful declination arithmetic:** use the stated sine ratio `1397/3438` and the Siddhānta's sine/arc procedures (including their interpolation and rounding rules) wherever the classical calculation calls for them.
 
 The current research candidate uses `obliquityDeg = 24` in exact modern trigonometric functions. That is a declared approximation, not a verbatim reproduction of the numerical procedure in II.28. We should not silently mix it with claims of minute-level shāstrīya precision. A future comparison should log both variants as separate experiments, with no parameter tuning to match a desired event date.
+
+## Direct Gūḍhārtha-prakāśaka reading of VII.10 — source wording narrowed; latitude input still open (13 Oct 2026)
+
+A direct reading of Raṅganātha's commentary in the 1859 Hall/Bāpū Deva Śāstrī edition was checked at the online transcription, printed page 215 / web lines 2315–2321:
+https://vishvasa.github.io/jyotiSham/observation/history/hindu/sUrya-siddhAntaH_saTIkaH/
+
+The commentary states:
+
+- Verse gloss: `विक्षेपकलाः पूर्वसाधिता राशित्रययुतग्रहोत्पन्नक्रान्त्यंशैर्गुणिता विकला भवन्ति`
+- Plain meaning: the previously calculated planetary-latitude minutes are multiplied by the degrees of declination arising from the planet with three signs added; the result is in arcseconds.
+- It then explains the geometric construction for the ayana correction and separately discusses the sign rule. This directly supports the source-to-code operation “longitude/place + 90° → declination → multiply by latitude arcminutes,” rather than using the planet's unshifted declination.
+
+**Specific unresolved input convention:** the commentary's phrase “rāśi-traya-yuta-graha” identifies the shifted planetary place, but the passage does not, by itself, settle in modern ecliptic-coordinate terms whether the planet's signed ecliptic latitude is carried into the declination calculation after the +90° longitude shift. The current helper computes declination at `tropicalLongitudeDeg + 90°` with latitude set to zero. This is therefore an explicit *zero-latitude shifted-point assumption*, not yet a fully adjudicated interpretation.
+
+For scale, with the existing synthetic fixture (tropical longitude 124.217°, ecliptic latitude +1.2°, fixed obliquity 24°), the declination at shifted longitude 214.217° is:
+- zero-latitude shifted point: −13.221707°;
+- shifted point retaining +1.2° latitude: −12.095261°.
+
+That 1.126446° declination difference changes the VII.10 correction magnitude by about 0.02253° for a 1.2° planetary latitude. This is a sensitivity illustration only, not a claim that either convention is the correct historical calculation.
+
+### Consequence / next gate
+
+1. Preserve the current candidate output, but label the zero-latitude convention explicitly in the research UI and audit.
+2. Cross-check the same VII.10 construction in Sudhākara Dvivedī's separate commentary / edition, and inspect the geometry described by Raṅganātha to decide whether the shifted point retains the planet's latitude.
+3. If the source evidence remains genuinely ambiguous, retain both variants as side-by-side diagnostics; do not silently change the formula or tune either variant to match TKS.
+4. Continue to keep this local VII.10 issue separate from the larger unresolved Chapter III historical-frame / Ahargaṇa bridge and the missing same-instant TKS intermediate values.
+
+**Decision remains research-only.** No production files changed, and this finding does not certify the Venus/Jupiter event dates.
