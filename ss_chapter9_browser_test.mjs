@@ -86,9 +86,10 @@ try {
       event: row.cells[1]?.textContent || "?",
       eclipticLongitudeSeparation: row.cells[8]?.textContent || "",
       trueElongation: row.cells[9]?.textContent || "",
-      angularBracket: row.cells[18]?.textContent || "",
+      angularBracket: row.cells[19]?.textContent || "",
       estimateDays: row.dataset.timeEstimateDays,
-      bracketErrorDays: row.dataset.estimateBracketErrorDays
+      bracketErrorDays: row.dataset.estimateBracketErrorDays,
+      shortHorizonErrorDays: row.dataset.shortHorizonErrorDays
     }))
   );
   const chapter7 = await page.locator("#chapter7DrikkarmaTestOutput").innerText();
@@ -133,15 +134,21 @@ try {
   }
   const invalidEstimates = estimates.filter(item =>
     item.estimateDays === "" || item.bracketErrorDays === "" ||
+    item.shortHorizonErrorDays === "" ||
     !Number.isFinite(Number(item.estimateDays)) ||
-    !Number.isFinite(Number(item.bracketErrorDays))
+    !Number.isFinite(Number(item.bracketErrorDays)) ||
+    !Number.isFinite(Number(item.shortHorizonErrorDays))
   );
   if (invalidEstimates.length) {
-    throw new Error("Missing/non-finite IX.10–11 estimate or bracket comparison: " + JSON.stringify(invalidEstimates));
+    throw new Error("Missing/non-finite IX.10–11 long-range or short-horizon estimate comparison: " + JSON.stringify(invalidEstimates));
   }
   const notableEstimateErrors = estimates.filter(item => Number(item.bracketErrorDays) > 0.25);
   if (notableEstimateErrors.length) {
-    console.warn("REVIEW — IX.10–11 local-motion estimate differs from the daily-bracket interpolation by more than 0.25 day: " + JSON.stringify(notableEstimateErrors));
+    console.warn("REVIEW — long-range IX.10–11 estimate differs from daily-bracket interpolation by more than 0.25 day; see the separate short-horizon check: " + JSON.stringify(notableEstimateErrors));
+  }
+  const notableShortHorizonErrors = estimates.filter(item => Number(item.shortHorizonErrorDays) > 0.5);
+  if (notableShortHorizonErrors.length) {
+    console.warn("REVIEW — short-horizon IX.10–11 estimate differs from daily-bracket interpolation by more than 0.5 day: " + JSON.stringify(notableShortHorizonErrors));
   }
   const largeEstimateErrors = estimates.filter(item => Number(item.bracketErrorDays) > 0.75);
   if (largeEstimateErrors.length) {
