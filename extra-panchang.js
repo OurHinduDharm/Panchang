@@ -1537,7 +1537,7 @@ function createClassicalYogaCard(details) {
       sections.push(`<section class="classical-yoga-section"><div class="label">🌼 आनन्दादि योग</div>${renderRows(anandadiItems)}</section>`);
     }
     if (otherItems.length) {
-      sections.push(`<details class="classical-yoga-details"><summary>अन्य शास्त्रीय योग (शुभ-अशुभ)</summary>${renderRows(otherItems)}</details>`);
+      sections.push(`<details class="classical-yoga-details"><summary><span class="classical-yoga-toggle-arrow" aria-hidden="true">▼</span><span>अन्य शास्त्रीय योग (शुभ-अशुभ)</span></summary>${renderRows(otherItems)}</details>`);
     }
   }
 

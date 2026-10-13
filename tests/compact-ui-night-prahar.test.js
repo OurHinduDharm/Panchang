@@ -402,3 +402,19 @@ test("Sandhya and Tarpana phrases read naturally before the final verb", () => {
     "मम समस्तपितॄणाम् अक्षयतृप्त्यर्थं एकपार्वण-श्राद्धं"
   );
 });
+
+test("sun and moon rise/set times stay in a compact two-column card", () => {
+  assert.match(source, /<div class="card full sun-moon-time-card">/);
+  assert.match(source, /<div class="sun-moon-time-grid">/);
+  for (const label of ["🌅 सूर्योदय", "🌇 सूर्यास्त", "🌙 चंद्रोदय", "🌙 चंद्रास्त"]) {
+    assert.ok(source.includes(label), "missing solar/lunar time: " + label);
+  }
+  assert.match(source, /\.sun-moon-time-grid \{ display:grid !important; grid-template-columns:repeat\(2,minmax\(0,1fr\)\) !important;/);
+});
+
+test("classical yoga disclosure has a visible custom arrow and link-like styling", () => {
+  const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  assert.match(extra, /<summary><span class="classical-yoga-toggle-arrow" aria-hidden="true">▼<\/span><span>अन्य शास्त्रीय योग \(शुभ-अशुभ\)<\/span><\/summary>/);
+  assert.match(source, /#classicalYogasCard \.classical-yoga-details > summary \{[^}]*color:#1769aa !important;[^}]*text-decoration:underline !important;/);
+  assert.match(source, /\.classical-yoga-details\[open\] > summary \.classical-yoga-toggle-arrow/);
+});
