@@ -160,7 +160,7 @@ test("Anandadi yogas show auspiciousness colors and use Lumbaka spelling", () =>
 
 test("displayed Sandhya windows use fixed 48-minute Muhurtas around sunrise, midday, and sunset", () => {
   const start = source.indexOf("function getSpecialKaalDetails(");
-  const end = source.indexOf("\\nfunction getPraharDetails(", start);
+  const end = source.indexOf("function getPraharDetails(", start);
   assert.notEqual(start, -1);
   assert.notEqual(end, -1);
 
