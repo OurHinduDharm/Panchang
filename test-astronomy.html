@@ -2359,7 +2359,7 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
     latitude * Math.tan(phi) *
     (hourAngleDeg / halfDayAngleDeg);
 
-  const ayanaLongitude = normalize360(swJupiter[0] + 90);
+  const ayanaLongitude = normalize360(swPlanet[0] + 90);
   const eps = 24 * Math.PI / 180;
   const ayanaDeclination = Math.asin(clampUnit(
     Math.sin(eps) * Math.sin(ayanaLongitude * Math.PI / 180)
@@ -2400,7 +2400,7 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
 
   return {
     sunLongitude: swSun[0],
-    planetLongitude: swJupiter[0],
+    planetLongitude: swPlanet[0],
     planetLatitude: latitude,
     ra,
     dec,
