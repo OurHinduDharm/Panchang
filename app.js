@@ -2053,28 +2053,31 @@ function getSpecialKaalDetails(
     nightMs / 15;
 
   /*
-   * प्रातः संध्या
-   * रात्रि के अंतिम 1/15 भाग से सूर्योदय तक।
-   * अवधि वास्तविक रात्रिमान से निकलेगी।
+   * संध्या की प्रदर्शित अवधि — एक प्रचलित मुहूर्त-आधारित परंपरा:
+   * प्रातः: सूर्योदय से 1 मुहूर्त पहले से 2 मुहूर्त बाद तक।
+   * मध्याह्न: स्थानीय दिनमान के मध्य से 1 मुहूर्त पहले/बाद तक।
+   * 1 मुहूर्त = 48 elapsed minutes (fixed duration).
+   * अलग परंपराओं में संध्या-सीमाएँ भिन्न हो सकती हैं।
    */
+  const sandhyaMuhurtaMs = 48 * 60 * 1000;
   const pratahSandhya = {
     start:new Date(
-      sunrise.getTime() - nightMuhurtaMs
+      sunrise.getTime() - sandhyaMuhurtaMs
     ),
     end:new Date(
-      sunrise.getTime()
+      sunrise.getTime() + sandhyaMuhurtaMs * 2
     )
   };
 
   /*
-   * मध्याह्न संध्या — स्थानीय दिनमान के मध्य पर केंद्रित।
-   * अवधि एक दिन-मुहूर्त (दिनमान / 15); इसकी सीमा सूर्योदय-सूर्यास्त से निकलेगी।
-   * परंपरागत विधि/सीमा में मतभेद हो सकते हैं।
+   * मध्याह्न संध्या — सूर्योदय-सूर्यास्त के मध्य पर केंद्रित।
+   * इसे दिन के 1/15 भाग से नहीं, निश्चित एक मुहूर्त (48 मिनट)
+   * दोनों ओर लेकर निकाला जाता है।
    */
   const dayMidpointMs = sunrise.getTime() + dayMs / 2;
   const madhyahnaSandhya = {
-    start:new Date(dayMidpointMs - dayMuhurtaMs / 2),
-    end:new Date(dayMidpointMs + dayMuhurtaMs / 2)
+    start:new Date(dayMidpointMs - sandhyaMuhurtaMs),
+    end:new Date(dayMidpointMs + sandhyaMuhurtaMs)
   };
 
   /*
@@ -2104,16 +2107,15 @@ function getSpecialKaalDetails(
   };
 
   /*
-   * सायं संध्या
-   * सूर्यास्त से अगले 1 रात्रि-मुहूर्त तक।
-   * अवधि वास्तविक रात्रिमान से निकलेगी।
+   * सायं संध्या — सूर्यास्त से 2 मुहूर्त पहले से
+   * 1 मुहूर्त बाद तक (निश्चित 48-मिनट मुहूर्त)।
    */
   const sayahnaSandhya = {
     start:new Date(
-      sunset.getTime()
+      sunset.getTime() - sandhyaMuhurtaMs * 2
     ),
     end:new Date(
-      sunset.getTime() + nightMuhurtaMs
+      sunset.getTime() + sandhyaMuhurtaMs
     )
   };
 
