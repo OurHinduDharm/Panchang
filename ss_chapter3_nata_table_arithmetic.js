@@ -42,6 +42,11 @@ export function chapter3ForwardAltitudeSineFromTableValues({
   positive(dayRadius, "dayRadius");
   finite(antya, "antya");
   finite(versedSineNata, "versedSineNata");
+  if (sineColatitude > radius || dayRadius > radius ||
+      antya < 0 || antya > radius ||
+      versedSineNata < 0 || versedSineNata > radius) {
+    throw new RangeError("All sine/versed-sine table quantities must lie within the supplied radius.");
+  }
 
   const dayMeasureRemainder = antya - versedSineNata;
   if (dayMeasureRemainder < 0) {
@@ -83,6 +88,9 @@ export function chapter3InverseVersedSineFromTableValues({
   positive(dayRadius, "dayRadius");
   finite(antya, "antya");
   nonNegative(sineAltitude, "sineAltitude");
+  if (sineColatitude > radius || dayRadius > radius || antya < 0 || antya > radius) {
+    throw new RangeError("All sine-table quantities must lie within the supplied radius.");
+  }
   if (sineAltitude > radius) {
     throw new RangeError("sineAltitude cannot exceed the supplied table radius.");
   }
