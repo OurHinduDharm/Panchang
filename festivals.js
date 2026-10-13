@@ -1,4 +1,5 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+import { festivalName, isHinduFestival } from "./festival-filter.js";
 
 /*
  * OurHinduDharm — Hindu festival card
@@ -19,7 +20,6 @@ const DEFAULT_LOCATION = {
 };
 
 
-import { festivalName, isHinduFestival } from "./festival-filter.js";
 
 function getSelectedDate() {
   return document.getElementById("dateInput")?.value || null;
