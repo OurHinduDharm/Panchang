@@ -43,9 +43,9 @@ export function chapter3ForwardAltitudeSineFromTableValues({
   finite(antya, "antya");
   finite(versedSineNata, "versedSineNata");
   if (sineColatitude > radius || dayRadius > radius ||
-      antya < 0 || antya > radius ||
+      antya < 0 || antya > 2 * radius ||
       versedSineNata < 0 || versedSineNata > radius) {
-    throw new RangeError("All sine/versed-sine table quantities must lie within the supplied radius.");
+    throw new RangeError("Sine values must lie within the radius; antya must lie within [0, 2R].");
   }
 
   const dayMeasureRemainder = antya - versedSineNata;
@@ -88,8 +88,8 @@ export function chapter3InverseVersedSineFromTableValues({
   positive(dayRadius, "dayRadius");
   finite(antya, "antya");
   nonNegative(sineAltitude, "sineAltitude");
-  if (sineColatitude > radius || dayRadius > radius || antya < 0 || antya > radius) {
-    throw new RangeError("All sine-table quantities must lie within the supplied radius.");
+  if (sineColatitude > radius || dayRadius > radius || antya < 0 || antya > 2 * radius) {
+    throw new RangeError("Sine values must lie within the radius; antya must lie within [0, 2R].");
   }
   if (sineAltitude > radius) {
     throw new RangeError("sineAltitude cannot exceed the supplied table radius.");
@@ -98,8 +98,8 @@ export function chapter3InverseVersedSineFromTableValues({
   const cheda = sineAltitude * radius / sineColatitude;
   const unnataSine = cheda * radius / dayRadius;
   const versedSineNata = antya - unnataSine;
-  if (versedSineNata < -1e-9) {
-    throw new RangeError("Inverse chain produced a negative versed-sine value; supplied table inputs are inconsistent.");
+  if (versedSineNata < -1e-9 || versedSineNata > radius + 1e-9) {
+    throw new RangeError("Inverse chain produced a versed-sine value outside [0, radius]; supplied table inputs are inconsistent.");
   }
   return {
     cheda,
@@ -109,6 +109,54 @@ export function chapter3InverseVersedSineFromTableValues({
     sourceAnchor: "Sūrya-siddhānta III.38–39",
     nextRequiredStep: "Invert the source's versed-sine table to an arc; obtain east/west sign independently.",
     limitation: "Does not calculate a signed nata or implement the historical sine tables."
+  };
+}
+
+
+/**
+ * Reconstruct source inputs for III.35–39 using II.60–61 and III.34.
+ * Latitude and declination sine inputs are signed; co-latitude sine and
+ * declination versed-sine are non-negative magnitudes.
+ */
+export function chapter3DayMeasureInputsFromTableValues({
+  radius,
+  sineLatitude,
+  sineColatitude,
+  sineDeclination,
+  versedSineDeclination
+}) {
+  positive(radius, "radius");
+  finite(sineLatitude, "sineLatitude");
+  positive(sineColatitude, "sineColatitude");
+  finite(sineDeclination, "sineDeclination");
+  finite(versedSineDeclination, "versedSineDeclination");
+
+  if (Math.abs(sineLatitude) > radius || sineColatitude > radius ||
+      Math.abs(sineDeclination) > radius ||
+      versedSineDeclination < 0 || versedSineDeclination > radius) {
+    throw new RangeError("Latitude/declination sine quantities must lie within the supplied radius.");
+  }
+  if (sineColatitude < 1e-9) {
+    throw new RangeError("Co-latitude sine is too close to zero for the cara construction.");
+  }
+
+  const dayRadius = radius - versedSineDeclination; // SS II.60
+  if (!(dayRadius > 0)) {
+    throw new RangeError("Day-radius is non-positive for the supplied declination table value.");
+  }
+  const earthSine = sineDeclination * sineLatitude / sineColatitude; // SS II.61, equinoctial shadow = 12 tan(latitude)
+  const caraSine = earthSine * radius / dayRadius; // SS II.61
+  if (Math.abs(caraSine) > radius + 1e-9) {
+    throw new RangeError("Cara sine lies outside the table radius; geometry or input signs are inconsistent.");
+  }
+  const antya = radius + caraSine; // SS III.34, signed by latitude/declination convention
+  return {
+    dayRadius,
+    earthSine,
+    caraSine,
+    antya,
+    provenance: "Chapter II.60–61 and Chapter III.34 formula candidate",
+    limitation: "Requires validated signed table values and edition-specific sign confirmation."
   };
 }
 
@@ -125,6 +173,40 @@ export function runChapter3NataTableArithmeticTests() {
       tests.push({ name, passed: false, error: error.message });
     }
   };
+
+
+  check("II.60–61 and III.34 build day-radius and antya from synthetic table values", () => {
+    const out = chapter3DayMeasureInputsFromTableValues({
+      radius: 3438, sineLatitude: 1000, sineColatitude: 3290,
+      sineDeclination: 500, versedSineDeclination: 37
+    });
+    const expectedDayRadius = 3438 - 37;
+    const expectedCaraSine = (500 * 1000 / 3290) * 3438 / expectedDayRadius;
+    return close(out.dayRadius, expectedDayRadius) &&
+      close(out.caraSine, expectedCaraSine) &&
+      close(out.antya, 3438 + expectedCaraSine);
+  });
+
+  check("southern declination reverses cara/antya correction sign", () => {
+    const north = chapter3DayMeasureInputsFromTableValues({
+      radius: 3438, sineLatitude: 1000, sineColatitude: 3290,
+      sineDeclination: 500, versedSineDeclination: 37
+    });
+    const south = chapter3DayMeasureInputsFromTableValues({
+      radius: 3438, sineLatitude: 1000, sineColatitude: 3290,
+      sineDeclination: -500, versedSineDeclination: 37
+    });
+    return north.antya > 3438 && south.antya < 3438 &&
+      close(north.caraSine, -south.caraSine);
+  });
+
+  check("antya may exceed radius because it is a day-measure quantity", () => {
+    const out = chapter3ForwardAltitudeSineFromTableValues({
+      radius: 3438, sineColatitude: 3000, dayRadius: 2500,
+      antya: 3500, versedSineNata: 400
+    });
+    return out.sineAltitude > 0;
+  });
 
   check("III.35–36 forward and III.38–39 inverse arithmetic round-trip", () => {
     const input = {
