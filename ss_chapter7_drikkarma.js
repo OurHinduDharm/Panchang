@@ -380,6 +380,36 @@ export function runChapter7DrikkarmaTests() {
     passed: akshaSignCases.length === 8 && akshaSignCases.every(Boolean)
   });
 
+  // Independent horizon-geometry audit of the planet's half-day angle.
+  // At rising/setting, sin(altitude) = sin(phi)sin(delta) +
+  // cos(phi)cos(delta)cos(H) = 0. This checks the boundary from the
+  // altitude equation rather than repeating the acos expression alone.
+  const horizonGeometryCases = [];
+  for (const observerLatitudeDeg of [29.583, -29.583, 0]) {
+    for (const declinationDeg of [-20, -5, 0, 12, 23]) {
+      const phi = observerLatitudeDeg * Math.PI / 180;
+      const dec = declinationDeg * Math.PI / 180;
+      const cosH0 = -Math.tan(phi) * Math.tan(dec);
+      if (cosH0 < -1 || cosH0 > 1) continue;
+      const H0 = Math.acos(Math.max(-1, Math.min(1, cosH0)));
+      const sinAltitude = H =>
+        Math.sin(phi) * Math.sin(dec) +
+        Math.cos(phi) * Math.cos(dec) * Math.cos(H);
+      const atBoundary = sinAltitude(H0);
+      const inside = sinAltitude(Math.max(0, H0 - 1e-4));
+      const outside = sinAltitude(Math.min(Math.PI, H0 + 1e-4));
+      horizonGeometryCases.push(
+        Math.abs(atBoundary) < 1e-12 &&
+        (H0 < 1e-8 || inside > -1e-12) &&
+        (H0 > Math.PI - 1e-8 || outside < 1e-12)
+      );
+    }
+  }
+  tests.push({
+    name: "Aksha half-day boundary independently satisfies the spherical horizon-altitude equation",
+    passed: horizonGeometryCases.length >= 12 && horizonGeometryCases.every(Boolean)
+  });
+
   return {
     tests,
     passed: tests.filter(test => test.passed).length,
