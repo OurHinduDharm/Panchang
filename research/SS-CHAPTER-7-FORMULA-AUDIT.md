@@ -199,3 +199,14 @@ so `cos(H₀) = −tan(φ) tan(δ)`. This is a spherical-horizon identity, not a
 A new regression test evaluates the horizon-altitude equation independently at the computed boundary and just to either side, across observer latitudes north/equator/south and several declinations. This validates the geometric half-day boundary used by the time ratio; it does **not** prove that the entire modern-coordinate-to-classical-frame bridge is source-faithful or validate any Chapter IX event date.
 
 **Remaining distinction:** Chapter III sign-rising-asus interpolation is a separate Chapter IX lagnāntara calculation. Do not substitute that sign-table interpolation for the planet's local meridian-distance/half-day ratio in Chapter VII dṛkkarma merely because both use time/asus quantities.
+
+
+## Paired obliquity sensitivity — II.28 sine ratio vs rounded 24° (13 October 2026)
+
+The isolated Chapter VII test now evaluates both:
+- rounded fixed obliquity: `24°`;
+- inverse-sine angle implied by II.28's tabulated ratio: `asin(1397/3438) = 23.9751819037°`.
+
+For the existing transparent numeric fixture (sidereal longitude 100°, planetary latitude +1.2°, observer latitude +29.583°, local angle 200°), while keeping the local angle expressed in each chosen calculation frame, the rounded-24° run gives Āyana = 0.26443415° and Akṣa = 0.48549381°. The II.28-angle run gives Āyana = 0.26417220° and Akṣa = 0.48559404°. Thus the isolated deltas are ΔĀyana = −0.00026195° and ΔAkṣa = +0.00010023°.
+
+This is a paired **input-sensitivity experiment**, not a decision that the inverse-sine angle may replace the text's traditional sine-table/interpolation procedure. It holds the frame handling internally consistent in both runs and therefore does not settle the modern-to-classical coordinate-frame blocker. The small correction changes do not explain the multi-day benchmark discrepancies; no formula was fitted to event dates.
