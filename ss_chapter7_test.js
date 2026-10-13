@@ -129,6 +129,50 @@ export function runChapter7SourceDerivedTests() {
     `candidate=${roundedObliquityCase.ayanaDeclinationDeg}; II.28 asin(1397/3438)=${chapter2MaximumDeclinationDeg}`
   );
 
+  // Direct Gūḍhārtha-prakāśaka VII.10 wording: declination arising from
+  // the planet with three signs added. The candidate currently sets the
+  // shifted point's ecliptic latitude to zero. Compare that with the alternative
+  // that retains the planet's signed latitude, without asserting which is the
+  // final historical convention; the commentary wording needs a cross-commentary
+  // and geometry decision before that choice can be promoted.
+  {
+    const siderealLongitudeDeg = 100;
+    const planetLatitudeDeg = 1.2;
+    const ayanamshaDeg = 24.217;
+    const obliquityDeg = 24;
+    const tropicalLongitudeDeg = normalize360(siderealLongitudeDeg + ayanamshaDeg);
+    const shiftedLongitudeDeg = normalize360(tropicalLongitudeDeg + 90);
+    const zeroLatitudeDeclination = referenceEquatorial(
+      shiftedLongitudeDeg, 0, obliquityDeg
+    ).dec;
+    const retainedLatitudeDeclination = referenceEquatorial(
+      shiftedLongitudeDeg, planetLatitudeDeg, obliquityDeg
+    ).dec;
+    const candidate = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg,
+      planetLatitudeDeg,
+      observerLatitudeDeg: 29.583,
+      localSiderealAngleDeg: 0,
+      ayanamshaDeg,
+      obliquityDeg,
+      localSiderealObliquityDeg: obliquityDeg
+    });
+    const retainedSign = (planetLatitudeDeg > 0 && retainedLatitudeDeclination > 0) ||
+      (planetLatitudeDeg < 0 && retainedLatitudeDeclination < 0) ? -1 : 1;
+    const retainedLatitudeAyanaDeg = retainedSign *
+      (Math.abs(planetLatitudeDeg * 60) * Math.abs(retainedLatitudeDeclination)) / 3600;
+    check(
+      "VII.10 shifted-place latitude convention is exposed as an unresolved sensitivity diagnostic",
+      close(candidate.ayanaDeclinationDeg, zeroLatitudeDeclination, 1e-10) &&
+        close(candidate.ayanaDeg,
+          Math.sign(candidate.ayanaDeg) *
+          (Math.abs(planetLatitudeDeg * 60) * Math.abs(zeroLatitudeDeclination)) / 3600,
+          1e-10) &&
+        Math.abs(candidate.ayanaDeg - retainedLatitudeAyanaDeg) > 0.02,
+      `zero-latitude candidate: dec=${zeroLatitudeDeclination}°, correction=${candidate.ayanaDeg}°; retained-latitude alternative: dec=${retainedLatitudeDeclination}°, correction=${retainedLatitudeAyanaDeg}°; difference=${Math.abs(candidate.ayanaDeg - retainedLatitudeAyanaDeg)}°. This test records sensitivity only; it does not choose the source convention.`
+    );
+  }
+
   const passed = tests.filter((t) => t.passed).length;
   return { passed, total: tests.length, allPassed: passed === tests.length, tests };
 }
