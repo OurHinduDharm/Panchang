@@ -31,3 +31,12 @@ for (const test of nataTableArithmeticResult.tests) {
 }
 console.log(nataTableArithmeticResult.passed + '/' + nataTableArithmeticResult.total + ' Chapter III source-transcription arithmetic tests passed');
 if (!nataTableArithmeticResult.allPassed) process.exitCode = 1;
+
+import { runChapter2VersedSineTableTests } from './ss_chapter2_versed_sine_table.js';
+const chapter2VersedSineResult = runChapter2VersedSineTableTests();
+for (const test of chapter2VersedSineResult.tests) {
+  console.log((test.passed ? 'PASS' : 'FAIL') + ' — ' + test.name);
+  if (test.error) console.log('  ' + test.error);
+}
+console.log(chapter2VersedSineResult.passed + '/' + chapter2VersedSineResult.total + ' Chapter II versed-sine table tests passed');
+if (!chapter2VersedSineResult.allPassed) process.exitCode = 1;
