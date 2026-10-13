@@ -101,6 +101,13 @@ export function calculateChapter7SequentialDrikkarma({
   }
 
   const tropicalLongitudeDeg = normalize360(siderealLongitudeDeg + ayanamshaDeg);
+
+  // VII.10 / Gūḍhārtha-prakāśaka says to use the declination arising from
+  // the planet with three signs added. This candidate evaluates the shifted
+  // longitude with ecliptic latitude = 0. The commentary's wording has not
+  // yet been conclusively mapped to whether the planet's signed latitude is
+  // retained at the shifted point; see the source audit. Do not treat this
+  // zero-latitude choice as a fully adjudicated classical convention.
   const ayanaPoint = eclipticEquatorial(tropicalLongitudeDeg + 90, obliquityDeg);
   const ayanaDeclinationDeg = ayanaPoint.declinationDeg;
 
