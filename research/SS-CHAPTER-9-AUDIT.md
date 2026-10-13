@@ -690,3 +690,63 @@ The latest research-branch commit `239388dec8ee2e468bfb7c334e0f60e1458c7362` pas
 ### Immediate next gate
 
 The numerical K discrepancy is still not attributable. The API documentation confirms the fields and endpoint, but this research environment cannot retrieve a live TKS endpoint payload directly. Do not fabricate a snapshot or treat page descriptions as data. Next, capture the Sun and Venus JSON through the live API reference's “Run example” controls for **2026-10-12 12:00 IST / 06:30 UTC**, at the coordinates above. Save the unedited responses and request metadata before calculating any hybrid deltas. If the live UI does not expose/copy the JSON, record that access limitation and keep the cause explicitly unresolved. No threshold tuning or production changes.
+
+
+## User-supplied TKS Engine A heliacal response — 13 October 2026
+
+Endpoint: `GET /v1/tks/heliacal?body=2&year=2026&month=10&day=12&days=420`. Description supplied with the response: first/last visibility transitions from the traditional elongation-orb (aṣṭāṃśa), using apparent ecliptic-of-date longitudes.
+
+Unedited response:
+
+```json
+[
+  {
+    "date": "2026-10-19",
+    "date_utc": "2026-10-19",
+    "et": 845726399.998377,
+    "planet_ecliptic_lon_deg": 213.23958607564057,
+    "separation_deg": 6.622213782735912,
+    "state": "asta",
+    "sun_ecliptic_lon_deg": 206.61737229290466
+  },
+  {
+    "date": "2026-10-29",
+    "date_utc": "2026-10-29",
+    "et": 846590399.998377,
+    "planet_ecliptic_lon_deg": 207.29343760554787,
+    "separation_deg": 9.283845532592409,
+    "state": "udaya",
+    "sun_ecliptic_lon_deg": 216.57728313814027
+  },
+  {
+    "date": "2027-07-06",
+    "date_utc": "2027-07-06",
+    "et": 868190399.998377,
+    "planet_ecliptic_lon_deg": 94.79580908859752,
+    "separation_deg": 9.900716346994415,
+    "state": "asta",
+    "sun_ecliptic_lon_deg": 104.69652543559194
+  },
+  {
+    "date": "2027-09-17",
+    "date_utc": "2027-09-17",
+    "et": 874497599.998377,
+    "planet_ecliptic_lon_deg": 184.94362912167753,
+    "separation_deg": 10.073999787277927,
+    "state": "udaya",
+    "sun_ecliptic_lon_deg": 174.8696293343996
+  }
+]
+```
+
+### What this does and does not establish
+
+- This is a genuine user-supplied TKS Engine A heliacal response, with Sun/Venus apparent ecliptic-of-date longitudes and elongation at four reported dates.
+- The reported separations are consistent with the absolute differences of the two listed longitudes (within rounding).
+- It is **not** the requested 12 October 2026 12:00 IST same-instant ephemeris snapshot, and it does not return K, the selected classical threshold C, RA/declination, latitude, ayanāṃśa, or the underlying Chapter VII dṛkkarma inputs. It therefore cannot yet explain the same-instant ~4.303° K gap.
+- Important audit question: the reported state dates have separations 6.622°, 9.284°, 9.901°, and 10.074°, which are not all exactly on a single 8°/10° boundary. Do not call these exact threshold instants without confirming the endpoint's sampling, event-date convention, and branch-specific orb. Ask the TKS endpoint/UI for an event definition or finer time scan before using these as exact event-time validation.
+- Keep this endpoint as a separate **heliacal elongation cross-check**. Do not substitute its date/state output for the classical lagnāntara K calculation.
+
+### Next required capture
+
+Use the API reference's live ephemeris endpoint for the same fixed instant **2026-10-12 12:00 IST / 06:30 UTC**, observer **29.5830° N, 80.2090° E**, requesting the Sun and Venus separately. Capture the unedited response and exact request URL/parameters. Then independently compare apparent ecliptic-of-date longitude/latitude, RA/declination, and any available motion/time-scale fields. Until that is captured, the K discrepancy remains unresolved; do not tune thresholds or production calculations.
