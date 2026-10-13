@@ -3,7 +3,7 @@
 Repository: `OurHinduDharm/Panchang`
 PR: https://github.com/OurHinduDharm/Panchang/pull/27
 Branch: `fix/sandhya-muhurta-windows`
-Last reviewed head: `3cb4e6521fa218c407d692c96c13153d9bbbc1be`
+Last reviewed head: `e040b3c3788565f5d87f9aa341b1387e76c5c399`
 Status: **Draft — do not merge until validation is complete**
 
 ## Goal and safety boundaries
@@ -55,3 +55,5 @@ Current CI is green. The user supplied the Blogger script tags for `app.js` and 
 
 
 - 2026-10-13: Research review narrowed the seasonal altitude calculation to the three states explicitly described in Muhurta Chintamani 6.101: Hemanta (+16′), the hot season/Grishma (0°), and Varsha (−16′). The earlier extension of Hemanta's threshold to Shishira and of the hot-season threshold to Vasanta/Sharad was an analogy, not directly established by this verse. Updated implementation and tests to preserve the prior ±12-minute window in Vasanta, Sharad, and Shishira until a reliable source supports additional thresholds. Kept the 48-minute duration as a project convention, not a claim made by the verse. CI must validate the updated head; live Blogger output remains to be checked before merge.
+
+- 2026-10-13: Updated head `e040b3c3788565f5d87f9aa341b1387e76c5c399` passed the `Classical yoga interval tests` workflow, run #143 (`interval-regression` job successful): syntax check, Panchang card-order regressions, compact UI/night Prahar regressions, and interval/real Panchang comparison tests all completed successfully. PR metadata now reports mergeable=true. The PR remains Draft because the live Blogger-rendered Godhuli values still need a real browser/console check and multi-season TKS comparisons are not available.
