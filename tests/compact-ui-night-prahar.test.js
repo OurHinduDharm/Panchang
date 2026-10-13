@@ -233,6 +233,18 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
   // sunset times that could accidentally test the wrong solar event.
   const seasonalCases = [
     {
+      date: "2027-03-25",
+      ritu: "वसंत",
+      location: { lat: 30.1265, lon: 80.4817, elevation: 0 },
+      expectedAltitude: 0
+    },
+    {
+      date: "2027-05-25",
+      ritu: "ग्रीष्म",
+      location: { lat: 28.6139, lon: 77.2090, elevation: 0 },
+      expectedAltitude: 0
+    },
+    {
       date: "2026-12-05",
       ritu: "हेमंत",
       location: { lat: 30.1265, lon: 80.4817, elevation: 0 },
@@ -249,6 +261,12 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
       ritu: "वर्षा",
       location: { lat: 13.0827, lon: 80.2707, elevation: 0 },
       expectedAltitude: -16 / 60
+    },
+    {
+      date: "2026-09-25",
+      ritu: "शरद",
+      location: { lat: 13.0827, lon: 80.2707, elevation: 0 },
+      expectedAltitude: 0
     }
   ];
 
@@ -288,6 +306,11 @@ test("Godhuli uses the season-specific solar altitude and one fixed 48-minute wi
       sunsetEvent.date,
       item.location,
       { SearchAltitude, Body, Observer }
+    );
+    assert.equal(
+      seasonalWindow.start.getTime(),
+      rawAltitudeEvent.date.getTime(),
+      `Godhuli should start at the exact ${item.expectedAltitude}-degree solar-center crossing for ${item.ritu} on ${item.date}`
     );
     assert.equal(
       minutes(seasonalWindow.start, seasonalWindow.end),
