@@ -33,16 +33,13 @@ export function chapter1MeanSolarMandoccaFromElapsedDays(elapsedDaysSinceKaliEpo
   const fractionalDay = elapsedDaysSinceKaliEpoch - wholeDays;
   const c = SS_MEAN_SOLAR_MANDOCCA_CONSTANTS;
   const kalpaDays = BigInt(c.savanaDaysPerYuga) * BigInt(c.yugasPerKalpa);
-  const degreesNumeratorPerDay = BigInt(c.mandoccaRevolutionsPerKalpa) * 360n;
   const denominator = kalpaDays;
-  let wholeDayNumerator = BigInt(wholeDays) * degreesNumeratorPerDay;
+  let wholeDayNumerator = BigInt(wholeDays) * BigInt(c.mandoccaRevolutionsPerKalpa);
   wholeDayNumerator %= denominator;
   if (wholeDayNumerator < 0n) wholeDayNumerator += denominator;
 
   let motionNumeratorDeg = Number(wholeDayNumerator) / Number(denominator) * 360;
-  motionNumeratorDeg += fractionalDay *
-    c.mandoccaRevolutionsPerKalpa * 360 /
-    (c.yugasPerKalpa * c.savanaDaysPerYuga);
+  motionNumeratorDeg += fractionalDay * c.mandoccaRevolutionsPerKalpa * 360 / Number(denominator);
   motionNumeratorDeg = ((motionNumeratorDeg % 360) + 360) % 360;
 
   const meanMandoccaLongitudeDeg =
