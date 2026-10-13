@@ -94,3 +94,19 @@ Implemented in `ss_chapter3_nata_table_arithmetic.js`. It deliberately accepts t
 The synthetic round-trip tests prove only that the transcribed algebra reverses itself. They do **not** establish that the meanings/scales of `antya`, `dayRadius`, and the table's versed-sine entries have been mapped correctly for a particular historical table. That is now the next source gate: identify the exact table/radius and interpolation convention in the chosen edition, then build a separately tested table adapter.
 
 The CI workflow now explicitly includes both nata research modules in its syntax/test scope. Production files remain outside the change set.
+
+
+## Third prototype checkpoint — Chapter II versed-sine lookup
+
+Added `ss_chapter2_versed_sine_table.js` to encode the Chapter II sine entries (radius 3438; 24 intervals of 225 arcminutes) and derive the versed-sine table using the II.22 reverse-subtraction instruction. The inverse lookup returns an arc in arcminutes using piecewise-linear interpolation between adjacent table entries, following the interpolation approach described around II.30–32 in Burgess's translation.
+
+This table adapter is now separate from the III.35–39 arithmetic. The combined research path is therefore:
+
+1. Supply explicit, source-scaled `antya`, day-radius, sine-of-colatitude, and altitude-sine quantities.
+2. Use the III.38–39 algebra to recover a candidate versed-sine value for `nata`.
+3. Invert that value against the Chapter II versed-sine table to obtain an arc candidate.
+4. Still unresolved: demonstrate the exact III.39 arc-to-asu/nāḍī conversion, the correct source-specific inputs for `antya` and day-radius at a given place/date, and the independent east/west sign source.
+
+The new table tests check the 25-entry derived table, strict monotonicity, exact table-node round trips, interpolation midpoints, range rejection, and that no signed nata is fabricated. They are table/algorithm tests, not evidence of event-date accuracy. CI now syntax-checks and runs the geometry, source-transcription arithmetic, and table modules together.
+
+Sources: Burgess, Chapter II verses 17–22 and 30–32; Chapter III verses 35–39: https://www.swaveda.com/texts/surya-siddhanta/2/ and https://www.swaveda.com/texts/surya-siddhanta/3/.
