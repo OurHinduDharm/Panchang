@@ -750,3 +750,25 @@ Unedited response:
 ### Next required capture
 
 Use the API reference's live ephemeris endpoint for the same fixed instant **2026-10-12 12:00 IST / 06:30 UTC**, observer **29.5830° N, 80.2090° E**, requesting the Sun and Venus separately. Capture the unedited response and exact request URL/parameters. Then independently compare apparent ecliptic-of-date longitude/latitude, RA/declination, and any available motion/time-scale fields. Until that is captured, the K discrepancy remains unresolved; do not tune thresholds or production calculations.
+
+
+## User-supplied TKS classical Pañcāṅga snapshot — 12 October 2026, 12:00 IST
+
+The user supplied the separate TKS “Ephemeris · पारम्परिक पञ्चाङ्ग” output for Pithoragarh, 29.5830° N, 80.2090° E, altitude 1560 m, UTC+05:30, with the Sun-visibility basis set to “dṛśya — height + refraction”.
+
+### Values relevant to the Chapter IX audit
+
+- Venus: shāstrīya status **asta**; **K = 7.698°**, **C = 8°**, displayed Sun separation **17.6°**; displayed asta start **12 October 2026 10:20:24**, next udaya **31 October 2026 12:06:07**, next asta **12 July 2027 05:29:26**.
+- Jupiter: shāstrīya status **udaya**; **K = 58.015°**, **C = 11°**, displayed Sun separation **57.2°**; next asta **20 August 2027 00:48:11**, next udaya **12 September 2027 23:14:23**.
+- The same page separately reports photometric visibility events. Keep those separate from the shāstrīya K/C event calculation.
+- Sunrise/sunset are shown under both sea-level and dṛśya-at-1560-m modes. This is useful for verifying the chosen solar-day/visibility basis, but does not by itself explain the K discrepancy.
+
+### Cross-page consistency warning
+
+The user's separate Jeevant Panchāṅga display at the stated date/time showed Lahiri nirayana Sun longitude **177.4601°** and Venus longitude **191.5902°**, a simple longitude difference of **14.1301°**. That is not numerically the same as the other TKS page's displayed “Sun se 17.6°”. This comparison is not yet proven like-for-like: the values may represent different instants, different angular definitions (ecliptic-longitude difference versus spherical separation), or different page/source settings. Do not treat the two figures as contradictory until their timestamp and definitions are verified.
+
+This user-supplied page output is a useful displayed result, **not** the missing raw TKS ephemeris Sun and Venus JSON for the fixed comparison instant. It does not expose the apparent tropical longitude/latitude, RA/declination, ayanāṃśa, signed motion, or the Chapter VII intermediate inputs needed to identify the ~4.3° K gap. The gap remains unresolved.
+
+### Next controlled action
+
+Obtain the unedited Sun and Venus JSON responses from the TKS ephemeris endpoint at **2026-10-12 12:00 IST / 06:30 UTC**, lat **29.5830**, lon **80.2090**, timezone **+5.5**, each body separately. Preserve the request parameters. Reproduce the local K from stored intermediates first; then compare one convention at a time. No threshold tuning, no inferred intermediate values, and no production changes.
