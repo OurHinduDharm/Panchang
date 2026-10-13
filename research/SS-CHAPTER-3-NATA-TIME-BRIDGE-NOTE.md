@@ -151,3 +151,27 @@ An integrated synthetic round-trip test now runs the complete table-driven candi
 Added `chapter3AltitudeSineFromGnomonShadow` in `ss_chapter3_nata_table_arithmetic.js`, using the right-triangle construction in III.8 to derive hypotenuse and table-scaled altitude sine from a measured gnomon height and shadow length. This can feed the converse III.38–39 arithmetic when the remaining day-radius, antya, and sine-of-colatitude inputs are supplied.
 
 The shadow length alone cannot establish the east/west sign of nata; the observation must also retain shadow direction relative to the meridian and the source's directional convention. This helper therefore never invents the sign.
+
+
+## Seventh research checkpoint — source-table and sign-convention audit
+
+A cross-source audit found a transcription hazard: the machine-readable Vidhyamitra Chapter II page currently displays some sine-table entries differently from the Burgess table used by this prototype (for example, values around the 3rd, 19th, and final entries). The independent Burgess translation and the standard table used in the existing module agree on the 25-value sequence implemented in `ss_chapter2_versed_sine_table.js`; the alternate page's discrepant values must not be silently mixed into the calculation. Before treating any table as canonical, verify the Sanskrit number-words in a page image or a second reliable edition, not only a searchable transcription.
+
+The Chapter II interpolation rule itself is independently corroborated in the Burgess/Sastri translation: divide the arc in minutes by 225, take the past and next tabular sines, interpolate by their difference, and apply the same procedure to versed-sines (II.31–32); inverse lookup uses the next-lower table value and its difference (II.33). This supports the current linear interpolation as the stated rule, while leaving historical integer rounding policy open.
+
+The sign audit also clarifies what the current code actually assumes: `caraSine` is signed through the product of signed latitude-sine and signed declination-sine; `antya = R + caraSine`. Thus, for a northern observer, north declination produces an `antya` above R and south declination below R; reversing the observer latitude reverses the correction. This is geometrically coherent with the product in II.61, but the module remains labelled a candidate until the Sanskrit commentary's directional convention and all latitude/declination quadrants are verified together. Do not simplify this to “declination sign alone” for both hemispheres.
+
+Sources cross-checked:
+- Burgess translation, Chapter II.17–22 and II.31–33: https://www.swaveda.com/texts/surya-siddhanta/2/
+- Burgess translation, Chapter II.60–62 and Chapter III.34–39: https://www.swaveda.com/texts/surya-siddhanta/3/
+- Sastri translation, interpolation rules II.31–33: https://en.wikisource.org/wiki/Page:English_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/27
+- Alternate searchable Sanskrit transcription for comparison (not used to overwrite the established table): https://www.vidhyamitra.com/surya-siddhanta/2
+
+### Gate status after this audit
+
+- [x] Table interpolation rule corroborated against a second translation.
+- [x] The code's sign model documented as a latitude × declination interaction, not declination-only.
+- [ ] Verify the alternate table's discrepant number-words against scanned source images.
+- [ ] Add a quadrant/sign matrix with north/south observer latitude × north/south solar declination.
+- [ ] Obtain a source-consistent solar longitude/declination for a selected instant and compare the inverse result with independent reference data.
+- [ ] Only after these gates pass, consider integrating into the public Panchang engine.
