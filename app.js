@@ -82,6 +82,16 @@ compactPanchangStyles.textContent = `
 #classicalYogasCard .classical-yoga-dot.is-neutral { color:#888; }
 #classicalYogasCard .classical-yoga-section + .classical-yoga-section, #classicalYogasCard .classical-yoga-details { margin-top:10px; }
 #classicalYogasCard .classical-yoga-section > .label { line-height:1.4; }
+#classicalYogasCard .classical-yoga-details > summary { display:flex !important; align-items:center; gap:7px; cursor:pointer; color:#1769aa !important; text-decoration:underline !important; text-underline-offset:3px; font-weight:600; list-style:none !important; }
+#classicalYogasCard .classical-yoga-details > summary::marker { content:""; }
+#classicalYogasCard .classical-yoga-details > summary::-webkit-details-marker { display:none !important; }
+#classicalYogasCard .classical-yoga-toggle-arrow { display:inline-block; flex:0 0 auto; color:#1769aa !important; text-decoration:none !important; transition:transform .18s ease; }
+#classicalYogasCard .classical-yoga-details[open] > summary .classical-yoga-toggle-arrow { transform:rotate(180deg); }
+.sun-moon-time-grid { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:6px 10px; }
+.sun-moon-time-item { display:flex; align-items:center; justify-content:space-between; gap:5px; min-width:0; padding:6px 7px; border:1px solid rgba(128,128,128,.18); border-radius:7px; background:rgba(128,128,128,.035); font-size:12px; line-height:1.4; }
+.sun-moon-time-item > span { min-width:0; }
+.sun-moon-time-item > b { flex:0 0 auto; white-space:nowrap; font-size:12px; }
+@media (max-width:360px) { .sun-moon-time-grid { gap:5px; } .sun-moon-time-item { padding:5px 4px; gap:3px; font-size:11px; } .sun-moon-time-item > b { font-size:11px; } }
 .special-muhurta-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
 .special-muhurta-item { min-width:0; padding:8px; border:1px solid rgba(128,128,128,.22); border-radius:8px; background:rgba(128,128,128,.04); }
 .special-muhurta-item .label { line-height:1.35; margin-bottom:5px; }
@@ -5646,27 +5656,25 @@ bhadraPartsHtml += `
         </div>
       </div>
 
-<div class="card">
-  <div class="label">
-    🌅 सूर्योदय — ${formatTime(p.sunrise)}
-  </div>
-</div>
-
-<div class="card">
-  <div class="label">
-    🌇 सूर्यास्त — ${formatTime(p.sunset)}
-  </div>
-</div>
-
-<div class="card">
-  <div class="label">
-    🌙 चंद्रोदय — ${formatTime(p.moonrise)}
-  </div>
-</div>
-
-<div class="card">
-  <div class="label">
-🌙 चंद्रास्त — ${formatTime(p.moonset || nextMoonset)}
+<div class="card full sun-moon-time-card">
+  <div class="label">🌅 सूर्य व 🌙 चंद्र समय</div>
+  <div class="sun-moon-time-grid">
+    <div class="sun-moon-time-item">
+      <span>🌅 सूर्योदय</span>
+      <b>${formatTime(p.sunrise)}</b>
+    </div>
+    <div class="sun-moon-time-item">
+      <span>🌇 सूर्यास्त</span>
+      <b>${formatTime(p.sunset)}</b>
+    </div>
+    <div class="sun-moon-time-item">
+      <span>🌙 चंद्रोदय</span>
+      <b>${formatTime(p.moonrise)}</b>
+    </div>
+    <div class="sun-moon-time-item">
+      <span>🌙 चंद्रास्त</span>
+      <b>${formatTime(p.moonset || nextMoonset)}</b>
+    </div>
   </div>
 </div>
 
