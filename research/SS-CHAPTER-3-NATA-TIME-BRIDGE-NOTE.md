@@ -52,3 +52,28 @@ Likewise, \`H / 15°\` converts a signed angle in degrees to hours, and multiply
 - Independent final Udaya/Asta correction and event-time validation: **OPEN**.
 
 **Decision:** start with the small isolated prototype, not production integration. Do not tune formulas to match reference dates. The TKS capture remains optional research evidence and is not required to establish the source equations. Remove TKS-facing text only after our own method and display have been independently validated.
+
+
+## Prototype checkpoint — isolated geometry control
+
+Added `ss_chapter3_nata_geometry.js` as a research-only module and wired its tests into `ss_classical_frame_test.js`.
+
+The prototype exposes four deliberately separate operations:
+
+- `solarAltitudeFromHourAngle`: forward modern spherical altitude identity.
+- `hourAngleMagnitudeFromAltitude`: inverse geometry, returning only `|H|`; impossible geometry and degenerate polar cases are rejected.
+- `signedHourAngleFromMagnitude`: applies east/west only when the caller explicitly supplies the direction.
+- `nataTimeEquivalentFromHourAngle`: converts a signed angle to hours and ghaṭīs, while explicitly labelling the result as a modern geometry/time equivalent, not a source-derived classical nata.
+
+Tests cover the meridian-altitude identity, a synthetic forward/inverse grid, symmetric morning/evening altitudes, horizon/zenith boundaries, impossible and degenerate geometry, sign provenance, and unit conversion.
+
+**Interpretation limit:** passing these tests establishes internal consistency of the modern spherical geometry control only. It does not establish that the classical text uses the identical mathematical construction, nor does it solve the civil-instant → classical epoch/day-count/meridian bridge. No production file was changed.
+
+## Updated gates
+
+- Isolated modern spherical altitude forward/inverse control and unit conversions: **implemented; CI verification pending**.
+- Signed angle wraparound and isolated comparison arithmetic: **PASS**.
+- Chapter III.37–39 source-specific shadow/sine-table and time-unit reconstruction: **OPEN**.
+- Civil instant → classical time/epoch/meridian bridge: **OPEN**.
+- Reproducible raw same-instant comparison: **OPEN**.
+- Independent final Udaya/Asta correction and event-time validation: **OPEN**.
