@@ -21,6 +21,33 @@ const DEFAULT_LOCATION = {
 
 import { festivalName, isHinduFestival } from "./festival-filter.js";
 
+function getSelectedDate() {
+  return document.getElementById("dateInput")?.value || null;
+}
+
+function getObserver() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("ohdPanchangLocation") || "null");
+    const latitude = Number(saved?.lat);
+    const longitude = Number(saved?.lon);
+    const elevation = Number(saved?.elevation) || 0;
+
+    if (Number.isFinite(latitude) && latitude >= -90 && latitude <= 90 &&
+        Number.isFinite(longitude) && longitude >= -180 && longitude <= 180) {
+      return new Observer(latitude, longitude, elevation);
+    }
+  } catch (error) {
+    console.warn("Festival card: saved location could not be read.", error);
+  }
+
+  return new Observer(
+    DEFAULT_LOCATION.latitude,
+    DEFAULT_LOCATION.longitude,
+    DEFAULT_LOCATION.elevation
+  );
+}
+
+
 function formatHindiDate(dateString) {
   const date = new Date(dateString + "T12:00:00+05:30");
   if (Number.isNaN(date.getTime())) return dateString;
