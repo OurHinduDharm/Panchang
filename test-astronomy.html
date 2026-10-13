@@ -3478,7 +3478,7 @@ function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K (III.43–46)</th><th>Current K</th><th>Sequential K</th><th>Sequential exact-OA K</th><th>Ecliptic Δλ</th><th>3-D elongation</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Estimate vs daily bracket (days)</th><th>Reference date (comparison only)</th><th>Current K bracket</th><th>Sequential K bracket</th><th>Ecliptic Δλ bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K (III.43–46)</th><th>Current K</th><th>Sequential K</th><th>Sequential exact-OA K</th><th>Ecliptic Δλ</th><th>3-D elongation</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Long-range estimate vs daily bracket (days)</th><th>Short-horizon estimate error (days)</th><th>Reference date (comparison only)</th><th>Current K bracket</th><th>Sequential K bracket</th><th>Ecliptic Δλ bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -3503,25 +3503,50 @@ function runLagnantaraDiagnostic() {
       bracket => bracket.matchesRequestedEvent
     );
     let estimateBracketErrorDays = NaN;
-    if (sample && timeEstimate && Number.isFinite(timeEstimate.estimatedDays) &&
-        requestedSequentialBracket) {
+    let shortHorizonEstimateErrorDays = NaN;
+    let interpolatedCrossingTime = NaN;
+    if (requestedSequentialBracket) {
       const bracket = requestedSequentialBracket;
       const totalChange = Math.abs(bracket.beforeResidual) + Math.abs(bracket.afterResidual);
       if (totalChange > 0) {
         const fraction = Math.abs(bracket.beforeResidual) / totalChange;
-        const interpolatedTime = bracket.before.eventTime.getTime() +
+        interpolatedCrossingTime = bracket.before.eventTime.getTime() +
           fraction * (bracket.after.eventTime.getTime() - bracket.before.eventTime.getTime());
-        const estimatedTime = sample.getTime() +
-          timeEstimate.estimatedDays * 86400000;
-        estimateBracketErrorDays =
-          Math.abs(estimatedTime - interpolatedTime) / 86400000;
+        if (sample && timeEstimate && Number.isFinite(timeEstimate.estimatedDays)) {
+          const estimatedTime = sample.getTime() +
+            timeEstimate.estimatedDays * 86400000;
+          estimateBracketErrorDays =
+            Math.abs(estimatedTime - interpolatedCrossingTime) / 86400000;
+        }
+
+        // Check IX.10–11 from the two daily samples immediately adjacent
+        // to the requested K=C crossing. Keep this separate from the
+        // potentially multi-day extrapolation from the fixture date.
+        const sameClassicalBranch =
+          bracket.before.eventInfo.horizonEvent === ref.expectedHorizonEvent &&
+          bracket.after.eventInfo.horizonEvent === ref.expectedHorizonEvent &&
+          Math.abs(bracket.before.C - bracket.after.C) < 1e-9;
+        if (sameClassicalBranch) {
+          const localErrors = [bracket.before, bracket.after].map(anchor => {
+            const estimate = getChapter9TimeEstimate(
+              ref.planet, anchor.eventTime, anchor.geometry, anchor.C
+            );
+            if (!estimate || !Number.isFinite(estimate.estimatedDays)) return NaN;
+            const predictedTime = anchor.eventTime.getTime() +
+              estimate.estimatedDays * 86400000;
+            return Math.abs(predictedTime - interpolatedCrossingTime) / 86400000;
+          }).filter(Number.isFinite);
+          if (localErrors.length) shortHorizonEstimateErrorDays = Math.min(...localErrors);
+        }
       }
     }
 
     html += '<tr class="reference-row" data-time-estimate-days="' +
       (timeEstimate && Number.isFinite(timeEstimate.estimatedDays) ? timeEstimate.estimatedDays : '') +
       '" data-estimate-bracket-error-days="' +
-      (Number.isFinite(estimateBracketErrorDays) ? estimateBracketErrorDays : '') + '">';
+      (Number.isFinite(estimateBracketErrorDays) ? estimateBracketErrorDays : '') +
+      '" data-short-horizon-error-days="' +
+      (Number.isFinite(shortHorizonEstimateErrorDays) ? shortHorizonEstimateErrorDays : '') + '">';
     html += '<td>'+ref.planet+'</td>';
     html += '<td>'+ref.event+'</td>';
     html += '<td>'+branchLabel+'</td>';
@@ -3540,6 +3565,9 @@ function runLagnantaraDiagnostic() {
       : (timeEstimate?.error || '—'))+'</td>';
     html += '<td>'+(Number.isFinite(estimateBracketErrorDays)
       ? round(estimateBracketErrorDays,3)
+      : '—')+'</td>';
+    html += '<td>'+(Number.isFinite(shortHorizonEstimateErrorDays)
+      ? round(shortHorizonEstimateErrorDays,3)
       : '—')+'</td>';
     html += '<td>'+ref.date+'</td>';
     if (crossing && crossing.brackets && crossing.brackets.length) {
