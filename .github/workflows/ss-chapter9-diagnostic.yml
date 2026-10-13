@@ -15,6 +15,7 @@ on:
       - "ss_chapter1_ahargana_calendar.js"
       - "ss_chapter1_mean_solar_longitude.js"
       - "ss_chapter1_mean_solar_mandocca.js"
+      - "ss_chapter2_solar_manda.js"
       - "ss_civil_date_epoch_adapter.js"
       - "ss_chapter1_epoch_bridge.js"
       - "ss_classical_frame.js"
@@ -77,6 +78,7 @@ jobs:
           node --experimental-default-type=module --check ss_chapter1_ahargana_calendar.js
           node --experimental-default-type=module --check ss_chapter1_mean_solar_longitude.js
           node --experimental-default-type=module --check ss_chapter1_mean_solar_mandocca.js
+          node --experimental-default-type=module --check ss_chapter2_solar_manda.js
           node --experimental-default-type=module --check ss_civil_date_epoch_adapter.js
           node --experimental-default-type=module --check ss_chapter1_epoch_bridge.js
 
@@ -187,6 +189,17 @@ jobs:
           const result = runChapter1MeanSolarMandoccaTests();
           for (const test of result.tests) console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
           console.log(`${result.passed}/${result.total} mean solar mandocca tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter II solar manda equation tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter2SolarMandaTests } from './ss_chapter2_solar_manda.js';
+          const result = runChapter2SolarMandaTests();
+          for (const test of result.tests) console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          console.log(`${result.passed}/${result.total} solar manda tests passed`);
           console.log(result.note);
           if (!result.allPassed) process.exit(1);
           NODE
