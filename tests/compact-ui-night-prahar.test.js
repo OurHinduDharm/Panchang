@@ -122,10 +122,30 @@ test("Sankalp month and tithi qualifiers use the requested classical wording", (
   assert.doesNotMatch(source, /मासानामुत्तमे महामाङ्गल्ये/);
   assert.match(source, /एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ/);
   assert.doesNotMatch(source, /एवं गुणविशिष्टायां पुण्यतिथौ/);
-  assert.ok(
-    source.indexOf('if(tithiForm) parts.push(tithiForm);') <
-      source.indexOf('if(tithiForm) parts.push("एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ");'),
-    "the actual tithi must be stated before its auspicious-tithi qualifier"
+  const tithiIndex = source.indexOf('if(tithiForm) parts.push(tithiForm);');
+  const qualifierIndex = source.indexOf('if(tithiForm) parts.push("एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ");');
+  const identityIndex = source.indexOf("parts.push(identity);");
+  assert.ok(tithiIndex < qualifierIndex, "the actual tithi must be stated before its auspicious-tithi qualifier");
+  for (const descriptor of [
+    'if(varaForm) parts.push(varaForm);',
+    'if(nakshatraForm) parts.push(nakshatraForm);',
+    'if(yogaForm) parts.push(yogaForm);',
+    'if(karanaForm) parts.push(karanaForm);',
+    'if(suryaSthitiForm) parts.push(suryaSthitiForm);',
+    'if(chandraSthitiForm) parts.push(chandraSthitiForm);',
+    'if(kaalForm) parts.push(kaalForm);',
+    'if(praharForm) parts.push(praharForm);'
+  ]) {
+    assert.ok(
+      source.indexOf(descriptor) < qualifierIndex,
+      descriptor + " must precede the closing auspicious-tithi phrase"
+    );
+  }
+  assert.ok(qualifierIndex < identityIndex, "the qualifier must precede the Yajamana identity");
+  assert.equal(
+    (source.match(/if\\(tithiForm\\) parts\\.push\\(tithiForm\\);/g) || []).length,
+    1,
+    "the actual tithi must be emitted exactly once"
   );
 });
 
