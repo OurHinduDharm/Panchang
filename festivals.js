@@ -13,10 +13,11 @@ import { festivalName, isHinduFestival } from "./festival-filter.js";
  * a trusted Hindu festival list and add regression tests.
  */
 
+// Keep this fallback identical to app.js's default Pithoragarh location.
 const DEFAULT_LOCATION = {
-  latitude: 30.1265,
-  longitude: 80.4817,
-  elevation: 0
+  latitude: 29.5828,
+  longitude: 80.2182,
+  elevation: 1650
 };
 
 
