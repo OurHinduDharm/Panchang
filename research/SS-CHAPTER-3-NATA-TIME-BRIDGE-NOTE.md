@@ -193,3 +193,10 @@ Remaining critical chain:
 4. latitude/declination → day-radius and antya;
 5. measured/independently calculated altitude → inverse versed-sine → arc/time magnitude;
 6. independent east/west sign and same-instant event comparison.
+
+
+## Ninth prototype checkpoint — connected longitude-to-day-measure chain
+
+Added a source-table inverse sine operation to `ss_chapter2_versed_sine_table.js`, using adjacent table entries and interpolation rather than modern `asin()`. Then connected the supplied solar ecliptic longitude through the Chapter II maximum-declination sine (1397), inverse sine table, signed declination angle, observer latitude, II.60–61 day-radius/cara calculation, and III.34 `antya` value in `chapter3DayMeasureInputsFromSolarLongitude`.
+
+Regression tests cover all exact inverse-sine table nodes, midpoint interpolation, out-of-range rejection, and the connected chain at an equinox and both solstices. This now gives a reproducible calculation from a **supplied** solar longitude to the day-measure input. It still does not derive the longitude from a date/ahargana, certify the Chapter III ayana frame, or calculate the final observed rising/setting event. CI is being rerun for these latest changes.
