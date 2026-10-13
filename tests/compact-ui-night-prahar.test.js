@@ -122,10 +122,30 @@ test("Sankalp month and tithi qualifiers use the requested classical wording", (
   assert.doesNotMatch(source, /मासानामुत्तमे महामाङ्गल्ये/);
   assert.match(source, /एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ/);
   assert.doesNotMatch(source, /एवं गुणविशिष्टायां पुण्यतिथौ/);
-  assert.ok(
-    source.indexOf('if(tithiForm) parts.push(tithiForm);') <
-      source.indexOf('if(tithiForm) parts.push("एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ");'),
-    "the actual tithi must be stated before its auspicious-tithi qualifier"
+  const tithiIndex = source.indexOf('if(tithiForm) parts.push(tithiForm);');
+  const qualifierIndex = source.indexOf('if(tithiForm) parts.push("एवं गुणविशेषणविशिष्टायां शुभपुण्यतिथौ");');
+  const identityIndex = source.indexOf("parts.push(identity);");
+  assert.ok(tithiIndex < qualifierIndex, "the actual tithi must be stated before its auspicious-tithi qualifier");
+  for (const descriptor of [
+    'if(varaForm) parts.push(varaForm);',
+    'if(nakshatraForm) parts.push(nakshatraForm);',
+    'if(yogaForm) parts.push(yogaForm);',
+    'if(karanaForm) parts.push(karanaForm);',
+    'if(suryaSthitiForm) parts.push(suryaSthitiForm);',
+    'if(chandraSthitiForm) parts.push(chandraSthitiForm);',
+    'if(kaalForm) parts.push(kaalForm);',
+    'if(praharForm) parts.push(praharForm);'
+  ]) {
+    assert.ok(
+      source.indexOf(descriptor) < qualifierIndex,
+      descriptor + " must precede the closing auspicious-tithi phrase"
+    );
+  }
+  assert.ok(qualifierIndex < identityIndex, "the qualifier must precede the Yajamana identity");
+  assert.equal(
+    (source.match(/if\(tithiForm\) parts\.push\(tithiForm\);/g) || []).length,
+    1,
+    "the actual tithi must be emitted exactly once"
   );
 });
 
@@ -217,7 +237,7 @@ test("Sankalp Sanskrit forms use the selected consistent wording", () => {
   assert.equal(sandbox.toVaraForm("शनिवार"), "शनिवासरे");
 });
 
-test("Auto Sandhya follows actual intervals instead of broad daytime labels", () => {
+test("Auto Sandhya always selects the nearest relevant radio for today's current time", () => {
   const start = source.indexOf("function getAutoSandhyaType(");
   const end = source.indexOf("\n/* =========================================================", start);
   assert.notEqual(start, -1);
@@ -248,11 +268,27 @@ test("Auto Sandhya follows actual intervals instead of broad daytime labels", ()
 
   assert.equal(getType("2026-10-12T04:50:00+05:30"), "turiya");
   assert.equal(getType("2026-10-12T05:30:00+05:30"), "pratah");
+  assert.equal(getType("2026-10-12T06:09:00+05:30"), "pratah");
+  assert.equal(getType("2026-10-12T10:00:00+05:30"), "madhyahna");
   assert.equal(getType("2026-10-12T11:55:00+05:30"), "madhyahna");
-  assert.equal(getType("2026-10-12T16:20:00+05:30"), "turiya");
-  assert.equal(getType("2026-10-12T17:40:00+05:30"), "turiya");
+  assert.equal(getType("2026-10-12T14:39:00+05:30"), "madhyahna");
+  assert.equal(getType("2026-10-12T16:20:00+05:30"), "sayam");
+  assert.equal(getType("2026-10-12T17:40:00+05:30"), "sayam");
   assert.equal(getType("2026-10-12T17:41:00+05:30"), "sayam");
   assert.equal(getType("2026-10-12T18:32:00+05:30"), "turiya");
+  assert.equal(getType("2026-10-12T22:00:00+05:30"), "turiya");
+
+  // Unknown dates, unavailable Panchang data, and malformed solar times
+  // must not silently force a Sandhya type.
+  assert.equal(
+    sandbox.getAutoSandhyaType(null, null, new Date("2026-10-12T12:00:00+05:30")),
+    null
+  );
+  sandbox.dateInput.value = "2026-10-11";
+  assert.equal(
+    sandbox.getAutoSandhyaType(p, praharData, new Date("2026-10-12T12:00:00+05:30")),
+    null
+  );
 });
 
 
@@ -316,12 +352,12 @@ test("Auto Sandhya transitions exactly at each calculated interval boundary", ()
     ["2026-10-12T05:19:07+05:30", "turiya"],
     ["2026-10-12T05:19:08+05:30", "pratah"],
     ["2026-10-12T06:08:59+05:30", "pratah"],
-    ["2026-10-12T06:09:00+05:30", "turiya"],
-    ["2026-10-12T11:31:55+05:30", "turiya"],
+    ["2026-10-12T06:09:00+05:30", "pratah"],
+    ["2026-10-12T11:31:55+05:30", "madhyahna"],
     ["2026-10-12T11:31:56+05:30", "madhyahna"],
     ["2026-10-12T12:18:03+05:30", "madhyahna"],
-    ["2026-10-12T12:18:04+05:30", "turiya"],
-    ["2026-10-12T17:40:59+05:30", "turiya"],
+    ["2026-10-12T12:18:04+05:30", "madhyahna"],
+    ["2026-10-12T17:40:59+05:30", "sayam"],
     ["2026-10-12T17:41:00+05:30", "sayam"],
     ["2026-10-12T18:30:51+05:30", "sayam"],
     ["2026-10-12T18:30:52+05:30", "turiya"]

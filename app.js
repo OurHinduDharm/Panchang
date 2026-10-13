@@ -1096,7 +1096,7 @@ const sankalpState = {
   type: "sandhya",
 
   /* Sandhya */
-  sandhyaType: "pratah",
+  sandhyaType: "",
   sandhyaManualOverride: false,
   sandhyaDevta: "श्रीगायत्री",
   sandhyaDevtaCustom: "",
@@ -3483,7 +3483,7 @@ function getAutoSandhyaType(
     !p ||
     !referenceNow
   ){
-    return "pratah";
+    return null;
   }
 
   const sunrise = new Date(p.sunrise);
@@ -3493,14 +3493,17 @@ function getAutoSandhyaType(
   if(
     Number.isNaN(sunrise.getTime()) ||
     Number.isNaN(sunset.getTime()) ||
-    sunset <= sunrise
+    sunset <= sunrise ||
+    Number.isNaN(now.getTime())
   ){
-    return "pratah";
+    return null;
   }
 
   /*
-   * Auto संध्या का चयन वास्तविक संध्या-अवधियों से हो,
-   * केवल दिन के पाँच भागों से नहीं।
+   * पहले वास्तविक सूर्य-आधारित संध्या-विंडो जाँचें।
+   * उनके बाहर भी आज के वर्तमान समय के अनुसार एक
+   * उपयुक्त रेडियो विकल्प चुना जाएगा; तुरीय को दिन
+   * के समय का सामान्य fallback नहीं बनाया जाएगा।
    */
   let nightMuhurtaMs = null;
   const night = praharData?.nightPrahar;
@@ -3520,41 +3523,66 @@ function getAutoSandhyaType(
     }
   }
 
-  /* सूर्यास्त से पहला रात्रि-मुहूर्त: सायं संध्या। */
-  if(now >= sunset){
-    return (
-      nightMuhurtaMs &&
-      now.getTime() < sunset.getTime() + nightMuhurtaMs
-    ) ? "sayam" : "turiya";
-  }
+  const nowMs = now.getTime();
+  const sunriseMs = sunrise.getTime();
+  const sunsetMs = sunset.getTime();
 
-  /* सूर्योदय से पहले अंतिम रात्रि-मुहूर्त: प्रातः संध्या। */
-  if(now < sunrise){
+  /* रात में: सूर्योदय से ठीक पहले प्रातः, सूर्यास्त के ठीक बाद सायं; बाकी रात तुरीय। */
+  if(nowMs < sunriseMs){
     return (
       nightMuhurtaMs &&
-      now.getTime() >= sunrise.getTime() - nightMuhurtaMs
+      nowMs >= sunriseMs - nightMuhurtaMs
     ) ? "pratah" : "turiya";
   }
 
-  /*
-   * मध्याह्न संध्या: स्थानीय दिनमान के मध्य पर केंद्रित
-   * एक दिन-मुहूर्त (दिनमान / 15) की अवधि।
-   * शेष दिन में Auto कोई दूसरी संध्या गलत ढंग से नहीं चुनेगा।
-   */
-  const dayMs = sunset.getTime() - sunrise.getTime();
+  if(nowMs >= sunsetMs){
+    return (
+      nightMuhurtaMs &&
+      nowMs < sunsetMs + nightMuhurtaMs
+    ) ? "sayam" : "turiya";
+  }
+
+  const dayMs = sunsetMs - sunriseMs;
   const dayMuhurtaMs = dayMs / 15;
-  const dayMidpointMs = sunrise.getTime() + dayMs / 2;
+  const dayMidpointMs = sunriseMs + dayMs / 2;
   const madhyahnaStart = dayMidpointMs - dayMuhurtaMs / 2;
   const madhyahnaEnd = dayMidpointMs + dayMuhurtaMs / 2;
 
-  if(
-    now.getTime() >= madhyahnaStart &&
-    now.getTime() < madhyahnaEnd
-  ){
+  /* मध्याह्न की पहचानी गई विंडो को प्राथमिकता दें। */
+  if(nowMs >= madhyahnaStart && nowMs < madhyahnaEnd){
     return "madhyahna";
   }
 
-  return "turiya";
+  /*
+   * दिन की बाकी अवधि में सबसे निकट पहचानी गई संध्या-विंडो
+   * के आधार पर विकल्प चुनें। इससे दोपहर/देर-दोपहर में
+   * गलती से तुरीय नहीं चुनेगा। यह UI fallback है, किसी
+   * सार्वभौमिक शास्त्रीय मुहूर्त-सीमा का दावा नहीं।
+   */
+  const windows = [
+    { type: "pratah", start: sunriseMs - (nightMuhurtaMs || 0), end: sunriseMs },
+    { type: "madhyahna", start: madhyahnaStart, end: madhyahnaEnd },
+    { type: "sayam", start: sunsetMs, end: sunsetMs + (nightMuhurtaMs || 0) }
+  ];
+
+  let nearest = windows[0];
+  let nearestDistance = Infinity;
+
+  for(const window of windows){
+    const distance =
+      nowMs < window.start
+        ? window.start - nowMs
+        : nowMs >= window.end
+          ? nowMs - window.end
+          : 0;
+
+    if(distance < nearestDistance){
+      nearest = window;
+      nearestDistance = distance;
+    }
+  }
+
+  return nearest.type;
 }
 /* =========================================================
    KARMA PHRASE (WITHOUT final verb & without अहं)
@@ -3722,6 +3750,13 @@ function buildSankalpText(){
   }
 
   const ctx = currentSankalpContext;
+
+  if(
+    sankalpState.type === "sandhya" &&
+    !["pratah", "madhyahna", "sayam", "turiya"].includes(sankalpState.sandhyaType)
+  ){
+    return "कृपया संकल्प बनाने के लिए संध्या का समय रेडियो बटन से चुनें।";
+  }
 
   const samvatForm = toSamvatForm(ctx.samvatParts);
   const ayanaForm = toAyanaForm(ctx.ayana);
