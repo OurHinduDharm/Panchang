@@ -586,3 +586,32 @@ For every comparison, record exact UTC/local instant, source page/version, locat
 - The Venus Udaya IX.10–11 estimate is −3.3335 days from the 1 Nov fixture, while the sequential daily K−C crossing is 28–29 Oct; linear interpolation and estimate differ by 0.2949 day (~7.1 h). Because this is a roughly 3.33-day extrapolation and the comparison bracket samples only one sunrise/sunset per civil day, this warning alone does not prove the formula is wrong. It must be checked with short-horizon anchor dates (0–1 day from a bracket) and with the actual event branch held consistent.
 - Do not change thresholds or tune the dṛkkarma formula to force a date match. Next audit: reproduce the TKS apparent-longitude input pipeline if its intermediate values can be obtained; otherwise compare only the shared classical method while explicitly marking ephemeris/input differences. Add short-horizon IX.10–11 residual checks before interpreting the long-range estimate error.
 - Production isolation remains mandatory: no changes to `app.js` or `extra-panchang.js`; no merge based on CI success alone.
+
+
+## Checkpoint — 13 October 2026: short-horizon IX.10–11 check
+
+The updated diagnostic workflow passed on commit `6ce1f659465eb05b34163fb898b661489416dd76` (run [38344580018](https://github.com/OurHinduDharm/Panchang/actions/runs/38344580018)). This validates the browser wiring and arithmetic fixtures, not the entire classical algorithm.
+
+The new short-horizon residual is the smaller absolute error from the two daily samples immediately adjacent to the sequential K=C crossing, using the same event branch and C:
+
+| Case | Long-range estimate error | Short-horizon estimate error |
+|---|---:|---:|
+| Venus Asta | 0.003827 day (~5.5 min) | 0.003827 day (~5.5 min) |
+| Venus Udaya | 0.294861 day (~7.08 h) | 0.003093 day (~4.5 min) |
+| Jupiter Asta | 0.038012 day (~54.7 min) | 0.000834 day (~1.2 min) |
+| Jupiter Udaya | 0.001436 day (~2.1 min) | 0.001436 day (~2.1 min) |
+
+Interpretation: the short-horizon estimates are all within about 5.5 minutes of the daily K=C interpolation for these four fixtures. This is encouraging evidence that the local IX.10–11 rate estimate is internally consistent near the crossing. The Venus Udaya long-range error remains large because it extrapolates about 3.33 days; it must not be described as a confirmed formula defect. The daily bracket itself has only one sample per local day, so these figures are a coarse internal comparison, not exact event-time validation.
+
+### Next research action: isolate the K gap by inputs, not by tuning
+
+At 2026-10-12 06:30 UTC, our sign-table K is 12.001454° and TKS-supplied K is 7.698°, while the ecliptic-longitude separations are 17.947299° and 17.6° respectively. The longitude-separation difference (~0.347°) is far smaller than the K difference (~4.303°); this suggests the main unresolved gap is in the lagnāntara/dṛkkarma construction or its coordinate/time conventions, not simply the raw elongation.
+
+TKS publicly describes its pipeline as DE reference states → apparent-place reduction (light-time, aberration, deflection, precession/nutation) → ecliptic-of-date → its dynamic TKS ayanāṃśa, and says the shāstrīya Udaya–Asta K is computed from TKS apparent longitudes with classical rising-time geometry. Our current diagnostic uses Astronomy Engine positions and an assumed fixed 24.217° ayanāṃśa. These are not yet like-for-like inputs. The TKS public documentation also marks Udaya–Asta Beta/under development, so it remains a comparison target, not independent proof.
+
+Next:
+1. Capture TKS and our Sun/Venus apparent tropical longitude, apparent ecliptic latitude, apparent RA/declination, sidereal offset, signed daily motion, and local sidereal angle at the exact same UTC instant.
+2. Recompute our K using TKS-provided apparent inputs if the public endpoint exposes them; separately recompute using our own inputs. Do not substitute the reported K as an input.
+3. Audit each Chapter VII dṛkkarma intermediate in a common coordinate frame and verify whether the chapter's longitude correction is being applied to the same point/frame in both implementations.
+4. Keep event-specific C and IX.2–3 branch selection separate from the geometry audit. Do not tune C or dṛkkarma to force a match.
+5. Keep all work on `research/ss-ch9-diagnostic`; production `app.js` and `extra-panchang.js` remain unchanged.
