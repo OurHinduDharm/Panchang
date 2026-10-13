@@ -107,3 +107,16 @@ A 40-case grid was evaluated with the same mathematical constructions: solar ecl
 | Control: zero ecliptic-origin rotation, classical obliquity 24° | 0.06177° | 0.12464° |
 
 This grid is synthetic and deliberately holds the modern Sun hour angle unchanged when carrying it into the transformed Sun frame. It does **not** represent an ephemeris-date validation or establish that this carry-over is historically valid. Its useful finding is narrower: the large residual in the full candidate is associated mainly with the ecliptic-origin/ayanamsha rotation assumption, not the 24° versus II.28 obliquity difference. This is evidence to investigate the frame/time bridge, not a reason to tune the rotation or accept the control frame.
+
+
+## Reproducibility follow-up — synthetic sweep now runs in the test suite
+
+Commit `90e4c3df0e881da8ca84972af32f92d1bcafc9cc` adds `runChapter3MeridianResidualSweep()` to `ss_chapter3_meridian_frame.js`. It generates the same 8 solar ecliptic longitudes × 5 signed modern hour angles (40 cases) and reports mean/max absolute residuals for the rotated-frame candidate and the zero-rotation control. The regression test checks that both configurations produce all 40 finite cases and that the rotated-frame mean residual is more than ten times the control's mean residual. This is a reproducibility guard, not a rule that the control frame is historically correct.
+
+The isolated Node test step passed on this commit; the full workflow's headless Chromium and production-file identity steps were still running at the time this note was prepared. Workflow: https://github.com/OurHinduDharm/Panchang/actions/runs/38401627087
+
+## Source constraint on the next time-bridge step
+
+Burgess's translation of III.49 explicitly describes the Sun's east/west `nata` in nāḍīs and the corresponding Lanka rising-asus calculation, followed by subtraction/addition to the Sun's longitude to obtain the meridian ecliptic point. The Sanskrit text is also available at https://vidhyamitra.com/surya-siddhanta/3 and Burgess's translation at https://www.swaveda.com/texts/surya-siddhanta/3/.
+
+This supports a source-shaped meridian construction, but it does **not** validate carrying a modern hour-angle scalar unchanged into a transformed Sun frame. The next calculation must make explicit how the chosen classical solar model supplies the signed local `nata` for the same instant, and how the Sun's longitude and the Lanka rising-asus table belong to one consistent frame. Until that bridge is justified, the rotated-frame residual is a diagnostic warning, not a correction factor to tune away.
