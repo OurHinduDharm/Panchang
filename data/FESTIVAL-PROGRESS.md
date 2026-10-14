@@ -496,3 +496,11 @@ Added named Dharmasindhu page/leaf metadata for the Smarta vs Vaishnava Ekadashi
 Next gate: visually verify the cited print pages, finalize authority-specific decision matrices, create interval-based synthetic tests, and compare selected outcomes against an independent almanac before proposing runtime changes. No changes to `data/festivals.json`, executable rules, legacy dates, or Blogger output.
 
 Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-source-audit-draft.md).
+
+
+### Interval-based synthetic regression specification added (2026-10-14)
+- Added a non-executable test matrix to `data/references/transliteral-vrat-source-audit-draft.md` for Ekadashi, Sankashti Chaturthi, monthly vs annual Shivaratri, and Pradosha.
+- The fixtures explicitly model tithi intervals against sunrise/Arunodaya, local moonrise, Nishitha, and Pradosha; cover one-day/two-day/no-overlap and exact-boundary cases; and require profile/authority-specific expected outcomes. Synthetic cases are not live dates.
+- Added a blocking unit distinction: two ghatis = 48 minutes, while three muhurtas = 144 minutes (using 24 minutes per ghati and 48 minutes per muhurta). A source passage that differs in units must be resolved before coding.
+- Kept unresolved disagreements visible rather than choosing a universal tie-break. Next: verify actual printed page images/editions and compare at least one real worked case per selected profile against an independent named almanac.
+- Documentation only. `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, and PR merge status remain unchanged; Draft PR #33 is not merged.
