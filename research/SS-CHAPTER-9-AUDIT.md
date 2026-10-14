@@ -857,3 +857,18 @@ This matrix distinguishes what the cited text actually supplies from the modern 
 - Workflow #361: https://github.com/OurHinduDharm/Panchang/actions/runs/38400207055 — **success**, including all arithmetic/source tests, headless Chromium research-page test, and production-file identity check.
 - Research changes: `ss_chapter7_drikkarma.js` and `research/SS-CHAPTER-7-FORMULA-AUDIT.md`. No production file changed.
 - This establishes the consistency of the tested sign and horizon geometry only. It does **not** settle the classical coordinate-frame/epoch blocker, prove the modern-to-classical input bridge, recover raw same-instant TKS JSON, or validate the event-date fixtures.
+
+
+## Frame-sensitivity diagnostic review — 14 October 2026
+
+The PR-preview run of **Chapter VII — same-instant frame sensitivity** was reviewed at the fixed instant 2026-10-12 12:00 IST and Pithoragarh validation coordinates.
+
+- The scalar baseline and the full-vector **obliquity-only** candidate agree to the displayed precision for Sun and Venus: same calculation-frame LST, RA, declination, hour angle, half-day angle, Āyana/Akṣa corrections, and corrected longitude. This is a useful cross-path numerical consistency check for converting the same modern state between ecliptic/equatorial coordinates while changing obliquity. It is not an independent validation of the historical source convention, because both paths share the same selected longitude/latitude inputs and the same candidate equations.
+- With the assumed equinox rotation included, the candidate meridian angle differs by −22.375172°. This must not be described as simply “the ayanāṃśa difference”: it is the result of the complete chosen frame transform, including the target equator/meridian-plane intersection. The 24.217° ayanāṃśa and 24° obliquity remain assumptions, not source-derived settings.
+- Venus’s total correction changes from −1.663625° to −2.311891°, and corrected longitude from 191.020409° to 190.372143° (−0.648266°). Sun’s corrected longitude is nearly unchanged at the shown precision. The body-dependent response is expected from the changed RA/declination/hour-angle geometry, but does not identify which candidate is historically correct.
+- Therefore this run **does not resolve** the classical frame/epoch blocker and does not validate any Chapter IX K value or Asta/Udaya event date.
+- GitHub Actions workflow #480 for commit `e4490baf83cb76d5239a9c56e17dcb8057befc87` completed successfully, including the headless Chromium research-page test and the check that production `app.js` and `extra-panchang.js` remain unchanged: https://github.com/OurHinduDharm/Panchang/actions/runs/38579546867.
+
+### Next discriminating experiment
+
+Run the same fixed-instant inputs under two explicit obliquity candidates—(a) the rounded 24° construction and (b) the Chapter II.28 sine-table value `asin(1397/3438) ≈ 23.9751819°`—while holding the ephemeris state and equinox convention constant. Report each candidate’s LST conversion and separate Āyana/Akṣa terms. This isolates sensitivity to the textual sine-table value; it still cannot choose the historical convention without a source-derived epoch/meridian bridge or an authoritative worked numerical example. Do not tune either candidate to TKS/Drik dates.
