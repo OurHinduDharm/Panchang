@@ -148,3 +148,13 @@ The following process improvements are accepted for the research workflow; they 
 - Do not select a fallback such as water/Tulasi Parana for a conflict unless a source explicitly supports it for that case.
 
 No executable Ekadashi rule is approved by this workflow note. Draft PR #33 remains unmerged; production Blogger code remains unchanged.
+
+
+## Historical Ekadashi test-case queue added (2026-10-14)
+
+- Added `data/references/ekadashi-historical-test-cases.md`.
+- Recorded candidate cross-checks for Kolkata Parivartini Ekadashi (September 2022), plus Gaudiya-calendar examples of Vyanjuli, Trisprisha and Paksha-varddhini Mahadvadashi in 2023.
+- These are explicitly **candidate cases**, not verified expected outputs or shastric proof. Location-specific tithi transitions, sunrise/Arunodaya, primary citations and tradition scope must be reviewed before converting them to automated tests.
+- Research cross-checks: https://www.onlinejyotish.com/ekadashi-days.php?loc=kolkata&m=9&y=2022 and https://vaishnavacalendar.org/delhi/538/en/
+- Next: inspect the original Sanskrit passages in Nirnaya Sindhu/Dharma Sindhu for the normal case and Parana sequence; then select one historical case and reconstruct its tithi/sunrise timeline before writing an expected-result test.
+
