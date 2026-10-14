@@ -315,3 +315,12 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Important limitation: these page numbers are visible OCR page labels, not yet independently verified against page images; edition metadata is also not yet verified. The ledger explicitly preserves that limitation.
 - Updated `data/references/vrat-parichay-priority-rule-spec-draft.md` to link the ledger and carry forward the unresolved conflicts.
 - No changes to `festivals.json`, executable date logic, article links, eclipse logic, or live Blogger output.
+
+
+## Follow-up body-text verification (2026-10-14)
+
+- Extended the source-evidence ledger with body passages for Adhika Masa/Purushottama Masa (`part-029.txt`, printed pp. 230–233; `part-030.txt`, p. 234) and Vaikuntha Chaturdashi (`part-022.txt`, p. 174).
+- Adhika Masa: the book states the month has no solar saṅkrānti (and a kṣaya month has two), but its quoted average interval is historical/source prose, not an algorithm. Multiple separate vrata/archana practices exist; keep them distinct from the computed intercalary month.
+- Vaikuntha Chaturdashi: body passage attributes it to Sanatkumara Samhita and describes Kartika Shukla Arunodaya-vyapini Chaturdashi, Manikarnika bathing at Brahma Muhurta, and worship of Vishveshvari/Vishveshvara. Check the legacy article and edition before deciding whether a general or Kashi-specific display is appropriate.
+- Important correction: the printed p. 189 “Shivachaturdashi Vrat” passage in `part-024.txt` is a Margashirsha Shukla Trayodashi/Chaturdashi practice, not evidence for monthly Masik Shivaratri. Monthly Masik Shivaratri remains unverified.
+- Updated the priority rule queue accordingly. OCR page labels remain unverified against page images; no runtime data or date logic changed.
