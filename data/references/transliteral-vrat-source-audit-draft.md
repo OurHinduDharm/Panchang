@@ -193,3 +193,33 @@ I parsed the current `data/festivals.json` on this branch and checked candidate 
 | Monthly Kalashtami | `festival-049` and `festival-074` both titled `मासिक कालाष्टमी` | Existing duplicate-looking records should be reviewed separately before adding more entries. |
 
 This pass intentionally does not create or delete records. Before adding candidates, compare the exact source page, month/paksha index, aliases, sourceText and any regional distinction manually.
+
+
+### Wikisource Sanskrit-text research layer (2026-10-14)
+
+Wikisource is added as a parallel primary-text discovery layer. Its pages can expose Sanskrit passages, chapter headings and quoted authorities that help us trace a vrata rule beyond a modern index. A Wikisource transcription is still not automatically a critically verified edition: inspect its edition metadata, scan/page image where available, OCR/transcription status, and cited chapter/verse before treating a reading as settled.
+
+| Topic | Wikisource text lead | What it may support | Caution / next action |
+|---|---|---|---|
+| Sankashti Chaturthi | [आङ्गिरसस्मृतिः](https://sa.wikisource.org/wiki/आङ्गिरसस्मृतिः) | Search result includes a section titled चतुर्थीनिर्णय and the statement that Sankashti Chaturthi is taken as Chandrodaya-vyapini, with a Skanda Purana citation following. | Open the whole section, verify context and edition/scan; compare with the TransLiteral explanation and calendar calculation. |
+| Ekadashi rules | [वीरमित्रोदयः—समयप्रकाशः](https://sa.wikisource.org/wiki/वीरमित्रोदयः_-_समयप्रकाशः) | Contains a passage on Ekadashi kshaya, Dashami association, Dvadashi fast/parana and cited Padma Purana verses. | This is a dharma-nibandha compilation, not a universal single rule; compare Smarta/Vaishnava context and surrounding passages. |
+| Ekadashi / Vaishnava vrata | [परमपुरुषसंहिता, अध्याय 10](https://sa.wikisource.org/wiki/परमपुरुषसंहिता/अध्यायः_१०) | Chapter heading explicitly describes Ekadashi-vrata glory and decision; visible passage discusses Dashami/Ekadashi/Dvadashi. | Check the full chapter and text quality; do not apply one sampradaya's procedure to all users without labeling. |
+| Ekadashi tithi conjunctions | [श्रीवैखानसगृह्यसूत्रम्, भाग 1, scan page 471](https://sa.wikisource.org/wiki/पृष्ठम्:श्रीवैखानसगृह्यसूत्रम्-भागः_१.pdf/४७१) and [scan page 483](https://sa.wikisource.org/wiki/पृष्ठम्:श्रीवैखानसगृह्यसूत्रम्-भागः_१.pdf/४८३) | Page transcription quotes rules involving Ekadashi/Dvadashi/Trayodashi and Purvaviddha tithis, including cited Skanda/Vayu material. | Page is marked unproofread; use the PDF scan to check OCR, and preserve source-specific context. |
+| Monthly Chaturdashi / Ashtami observances | [स्कन्दपुराणम्, अम्बिकाखण्ड 8.12](https://sa.wikisource.org/wiki/स्कन्दपुराणम्/खण्डः_८_(अम्बिकाखण्डः)/१२) and [chapter 8.3](https://sa.wikisource.org/wiki/स्कन्दपुराणम्/खण्डः_८_(अम्बिकाखण्डः)/०३) | Passages discuss observance/fasting on Chaturdashi and Ashtami in both pakshas. | Broad vrata-mahatmya does not by itself define modern festival date-selection; locate exact vrata context and edition. |
+| Kartika vrata families | [Skanda Purana, Kartika-mahatmya chapter 33](https://sa.wikisource.org/wiki/स्कन्दपुराणम्/खण्डः_२_(वैष्णवखण्डः)/कार्तिकमासमाहात्म्यम्/अध्यायः_३३) | Page's note lists cross-references about Prabodhini Ekadashi, Bhishma Panchaka, Panchratra and Ashunya Shayana in multiple texts. | Treat the note as a bibliographic lead; verify each cited original passage, not just the note. |
+| Narada Samhita | [नारदसंहिता](https://sa.wikisource.org/wiki/नारदसंहिता) | Contains tithi/weekday combinations and other calendrical rules. | Do not assume every yoga/inauspicious combination is a vrata date rule; classify its purpose first. |
+
+#### Source hierarchy to apply in this project
+
+1. **Rule-selection / vrata-day decision:** Dharma-nibandha chapters such as Dharmasindhu, Nirnayasindhu, Viramitrodaya and other decision texts, with the specific community/profile identified.
+2. **Observance narrative / named vrata / ritual:** Relevant Purana, Smriti, Grihya or Agama passage where a traceable chapter/verse exists.
+3. **Secondary discovery layer:** TransLiteral, modern vrata books and indexes. Use these to find names and citations, then trace the source when possible.
+4. **Calendar computation:** Independently validate tithi/nakshatra/weekday and local sunrise, sunset or moonrise using the project's astronomy engine and known examples. A shloka about the vrata's merit does not alone establish the date algorithm.
+
+#### Working protocol for every new claim
+
+- Save the direct source URL, work name, section/chapter/verse or scan page, edition details, and whether the text is proofread.
+- Quote only the minimum needed for comparison; write our own concise paraphrase and attribution.
+- Record conflicting authorities side by side; do not silently merge them into one “universal” rule.
+- Separate (a) observance exists, (b) which tithi it belongs to, (c) how the date is selected, and (d) local puja/parana timing.
+- If Wikisource is unproofread or the scan is unavailable, label the claim provisional and do not use it as the sole basis for automatic date generation.
