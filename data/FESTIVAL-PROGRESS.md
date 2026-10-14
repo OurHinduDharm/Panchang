@@ -266,3 +266,13 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Added `data/references/festival-rule-mapping-inventory.md` (commit `ac5ccc70053e35e36f514337a04476b9189f09b1`), a first-pass rule-family triage for all 122 legacy records. Classifications are candidates only, not approved rules.
 - No `festivals.json` record, legacy date, schema version, runtime module, or Blogger page was changed. PR #33 remains draft.
 - Next: review and implement the shared eclipse data API with tests; in parallel, source-review simple tithi festivals and record their exact recurring predicates. Keep Ekadashi, multi-stage festivals, and tradition-specific cases behind their existing research gates.
+
+
+## Vrat-Parichay missing-observance audit started (2026-10-14)
+
+- Added `data/references/vrat-parichay-gap-audit-draft.md` (commit `6eb44408fb96de2b1f5fd28c91cf4ab9b05b8da6`).
+- Used the existing Gita Press *Vrat-Parichay* OCR reader/chunks in the repository; no need to upload the text again. The chunk index reports 50 readable parts from the original OCR source.
+- First pass reviews contents entries in `part-001.txt` and `part-002.txt`, covering monthly observances from Chaitra through Kartik and listing possible gaps, alias checks, printed page references, and next actions.
+- This is intentionally a candidate queue, not a final list: the book contains recurring vrata rules, puja stages, regional practices, and specialised vows. Some items already exist in the 122 records or belong in the separate Ekadashi/monthly-observance catalog.
+- Explicit guardrail: do not change legacy dates or add candidates to runtime merely because a name appears in the contents. Confirm aliases, inspect the relevant body text, record the page/source and timing predicate, and test the rule first.
+- Next: expand the book contents audit into the remaining months/appendices, then compare aliases against both normalized names and original source titles/descriptions. Keep confirmed gaps separate from already-covered observances and unresolved tradition-specific items.
