@@ -1,6 +1,6 @@
 # Dharma Sindhu: Parana and eight Mahadvadashi rules — owner-supplied Hindi passage
 
-Status: source-aligned research note; not runtime authority by itself. Added from the project owner's supplied Hindi translation excerpt. No production rules or dates changed.
+Status: source-aligned research note; relevant Sanskrit and Hindi commentary visually checked against uploaded Khemraj images (printed pp. 31–33), with Rajvaidya Hindi cross-check on pp. 32–33. Not runtime authority by itself. No production rules or dates changed.
 
 ## Passage anchors
 
@@ -55,6 +55,6 @@ The passage says these are observed by those seeking sin-removal and merit/auspi
 - Missing, malformed, or uncertain intervals or source predicates must return unresolved rather than a guessed observance date.
 - Keep this note separate from runtime JS, `data/festivals.json`, legacy festival dates, and Blogger output until the project owner explicitly approves implementation.
 
-## Next verification gate
+## Updated verification gate after image review
 
-Use the matching printed Sanskrit page in either Hindi edition to verify: the phrase around Dvādaśī occurring after madhyāhna; “दिनवृद्धि”; the exact Trispr̥śā compound; and the syntax of pāraṇa after the tithi/nakshatra conjunction. Page numbers can differ between editions; align by section heading and Sanskrit incipit.
+The uploaded Khemraj images visually confirm the main Sanskrit wording, the “बहवः / केचित्” alternatives, the eight Mahādvādaśī names/pairings, and the phrase “दिनवृद्धि”. The remaining work is interpretive rather than simply obtaining a scan: establish the anchor for “प्रातर्मुहूर्तत्रय”, define the contextual scope of the Trayodaśī fallback, consult the referenced Bhādrapada Śravaṇa-Dvādaśī section, and settle the syntax of “उभयान्तेऽन्यतरान्ते च” without guessing. See [the detailed image-collation note](dharmasindhu-image-collation-2026-10-14.md). Page numbers differ between editions; align by heading and Sanskrit incipit.
