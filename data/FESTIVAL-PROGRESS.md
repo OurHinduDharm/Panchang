@@ -166,3 +166,14 @@ No executable Ekadashi rule is approved by this workflow note. Draft PR #33 rema
 - It is explicitly a condensed English translation. It distinguishes Arunodaya and Suryodaya Dashami-vedha, mentions 57/60-ghati counts and says Parana should precede Dvadashi tithi-end, but does not provide enough original-language context to freeze exact thresholds or exceptions.
 - Its Mahadvadashi name/transliteration renderings differ from other online sources. This is recorded as a source-review issue, not declared an error.
 - Updated `ekadashi-source-comparison.md` and `ekadashi-decision-log.md`. No religious rule promoted to verified; no code changed.
+
+
+## Nirnaya Sindhu source audit (2026-10-14)
+
+- Added `data/references/ekadashi-primary-source-audit-2026-10-14.md` with an audit of the TransLiteral Nirnayasindhu pages on Vedha, Ekadashi vrata and the eight Mahadvadashis.
+- Key distinction: Nirnayasindhu explicitly treats Arunodaya-vedha and Suryodaya-vedha as separate categories. The cited passage describes Arunodaya as four ghatis before sunrise, but also discusses other textual formulations and harmonisation; therefore the definition must be a sourced policy, not a hidden universal constant.
+- Important Parana nuance: the Mahadvadashi commentary records different views on passing Hari-vasara, morning Parana when Dvadashi is long, and Aparahna Parana; short-Dvadashi and crisis cases are separately discussed. No single formula/fallback should be hard-coded yet.
+- The eight Mahadvadashi descriptions imply separate triggers (tithi-growth patterns or nakshatra conjunctions); names alone are insufficient for detection.
+- Updated the decision log with SOURCE-02/03, PARANA-01, MAHA-01 and NORMAL-01. These are source-audit decisions, not verified observance rules.
+- Sources: https://www.transliteral.org/pages/z130515050414/view ; https://www.transliteral.org/pages/z130515050924/view ; https://www.transliteral.org/pages/z130515051434/view ; https://vedicpupil.in/library/books/nirnayasindhu/chapter-1
+- Next: compare the exact Sanskrit from a reliable printed scan/edition for Nirnayasindhu Pariccheda 1, Ekadashi Nirnaya and Arunodaya-vedha, then reconstruct one historical local-time timeline. No executable rule has been added.
