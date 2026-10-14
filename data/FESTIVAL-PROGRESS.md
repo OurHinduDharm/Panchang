@@ -252,3 +252,17 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Explicitly flagged `festival-009` (title mentions 18 October but normalized start is 2026-10-17), `festival-054` (eclipse placeholder 1970-01-01), `festival-117` (Ganesh Jayanti title vs Ganesh Chaturthi-linked description and long endDate), and the 2025 date block for source review.
 - This is a mapping queue only. No event was split, no date corrected, and no source rule certified.
 - Next: verify candidate rows against the original descriptions/articles, preserve every embedded URL, and record each decision as alias / linked observances / unresolved before changing the data model.
+
+
+## User clarifications and next-step inventory (2026-10-14)
+
+- Recorded the user's clarification in `data/references/festival-user-clarifications-2026-10-14.md` (commit `3e35434aeebfcd500d988baebd38495a8179668c`):
+  - `festival-009`: Ashwin Shukla Saptami spans 17–18 October in the paper Panchang/reference; the 18 October title note is intentional. Model the tithi interval separately from observance-date selection.
+  - `festival-054`: 1970-01-01 was a manual-update placeholder. The desired direction is to use the existing `eclipse-panchang.js` module's India-relevant event results, not static dates or a second calculator.
+  - `festival-117`: the user uses Bhadrapada Shukla Chaturthi as Ganesh Chaturthi/Ganesh Jayanti; do not split it merely because the title and linked article use different names.
+  - Old 2025 dates are stale manually maintained display values; replace them with reviewed recurring rules rather than shifting the year by hand.
+- Updated `data/references/legacy-observance-mapping-queue.md` to reflect these clarifications (commit `c323efda0a371e2c980abcfe8f9f1c7b0514c940`).
+- Inspected `eclipse-panchang.js`: the documented public API is currently `window.initEclipsePanchang(year?)`, which initializes the UI. It does not yet expose a documented normalized event-data API for the festival widget. See `data/references/eclipse-festival-display-integration-draft.md` (commit `07013b2b6536a041afef39bb4d142608e0f7f9c9`). The safe next implementation is to extract/reuse the existing discovery logic behind a tested read-only data API, not scrape its HTML or duplicate the astronomy.
+- Added `data/references/festival-rule-mapping-inventory.md` (commit `ac5ccc70053e35e36f514337a04476b9189f09b1`), a first-pass rule-family triage for all 122 legacy records. Classifications are candidates only, not approved rules.
+- No `festivals.json` record, legacy date, schema version, runtime module, or Blogger page was changed. PR #33 remains draft.
+- Next: review and implement the shared eclipse data API with tests; in parallel, source-review simple tithi festivals and record their exact recurring predicates. Keep Ekadashi, multi-stage festivals, and tradition-specific cases behind their existing research gates.
