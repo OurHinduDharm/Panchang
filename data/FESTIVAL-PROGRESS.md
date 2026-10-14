@@ -408,3 +408,11 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Added targeted evidence links for the TransLiteral Magha-snana page and Nirnayasindhu Shivaratri decision chapter. The latter records disagreement between authorities about Pradosha- and Nishitha-vyapini selection, so a generic “monthly Krishna Chaturdashi” predicate is insufficient.
 - Defined a safe implementation gate: source/edition evidence, alias matching against 122 legacy records, explicit date-selection predicate and tie-breaks, worked local-time example + regression test, preservation of legacy text/links, and explicit approval before runtime/live changes.
 - This is documentation-only. `data/festivals.json`, its 122 legacy records, dates, runtime code, and Blogger output remain unchanged; PR #33 remains Draft/unmerged.
+
+
+### Legacy JSON candidate cross-check (2026-10-14)
+- Parsed `data/festivals.json` (122 records) and performed a title/description substring triage for the prioritized TransLiteral candidates.
+- No direct candidate-name hit found for Sankashti Chaturthi, Sheetala, Santan Ashtami, Varuni Yoga, Rukmini Ashtami, Skanda Shashthi, Ashunya Shayana, Mangala Gauri, Nirjala Ekadashi, Purushottama Maas or Magha-snana. These remain candidate gaps, not approved additions; generic/alias entries still need manual review.
+- Masik Shivaratri has only an annual Mahashivaratri title match; Pradosha appears only as incidental description substrings; existing named Ekadashi records do not constitute a complete monthly decision profile.
+- Vata Savitri only substring-matches an incidental mention inside the Shani Jayanti description, not a dedicated record. Two records (`festival-049`, `festival-074`) are both titled मासिक कालाष्टमी and require a separate duplicate review.
+- Updated the TransLiteral audit with the cross-check table. No data or runtime changes were made; 122 legacy records and their source text remain untouched, and PR #33 remains Draft/unmerged.
