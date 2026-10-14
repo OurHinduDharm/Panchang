@@ -513,3 +513,10 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Added an evidence-status table and explicit closure steps: inspect scans, transcribe surrounding context, keep authority-specific branches, and only then validate real dates against a named independent almanac.
 - New standalone test matrix remains at `data/references/vrata-decision-test-matrix.md`.
 - Documentation only; no edits to `data/festivals.json`, runtime JS, legacy dates, Blogger output, or PR merge state.
+
+
+### Owner-supplied Dharmasindhu 1907 p. 17 locator recorded (2026-10-14)
+- Added `data/references/dharmasindhu-p17-parana-research.md` with the owner-confirmed Internet Archive page-17 link, a cautious outline of the supplied OCR passage, separate research topics, and synthetic test cases for pāraṇa, Śravaṇa-Dvādaśī, Viṣṇu-śṛṅkhala, and Mahādvādaśī.
+- The scan image could not be independently loaded in this session; the note explicitly does not claim visual collation. OCR readings and detailed expected outcomes remain provisional until the printed page and surrounding context are checked.
+- The 1907 witness is kept separate from the previously recorded 1888 Nirṇaya Sāgara edition locator.
+- Documentation only. No `data/festivals.json`, runtime JS, legacy dates, Blogger output, or PR merge state changed. Draft PR #33 remains unmerged.
