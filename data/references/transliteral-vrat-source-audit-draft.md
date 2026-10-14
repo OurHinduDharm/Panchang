@@ -127,3 +127,43 @@ This is a research shortlist, not permission to add records or change runtime ru
 - Preserve the source wording and link; do not copy large passages into OurHinduDharm. The site states CC BY-NC-SA 4.0; any reuse of text requires attribution and compliance with the non-commercial/share-alike terms. Prefer concise paraphrase plus citation link.
 - The monthly indexes include duplicate titles (for example Holamahotsava, Panchratra, Akshaya Tritiya, Nimb Saptami, Narasimha Jayanti, Shiva Chaturthi and Rishi Panchami). Keep duplicates in the source inventory but normalize them for the comparison.
 - No new festival records, executable date predicates, legacy date changes, or live Blogger changes are authorized by this audit. `data/festivals.json` remains unchanged.
+
+
+### Next-stage review queue: source claims versus implementation readiness (2026-10-14)
+
+This section prioritizes work after the 24 monthly indexes were inventoried. “Candidate” means investigate, not approved for publication or automatic date calculation.
+
+| Priority | Candidate / family | Source lead | What must be checked before implementation |
+|---|---|---|---|
+| P0 | Monthly Ekadashi profiles | [Dharmasindhu Ekadashi decision](https://www.transliteral.org/pages/z80422042052/view), [Smarta decision](https://www.transliteral.org/pages/z80421042257/view), [Vaishnava decision](https://www.transliteral.org/pages/z80422042154/view) | Separate Smarta and Vaishnava profiles; establish tithi-at-sunrise/parana rules and exception handling from a specific edition; test location-local examples. |
+| P0 | Pradosha | [General vrata rules](https://www.transliteral.org/pages/z71212015438/view) and month/paksha lists | Keep the sunset-relative puja window separate from the rule choosing the vrata date when Trayodashi spans two days; verify weekday-specific names/observances separately. |
+| P0 | Monthly Sankashti Chaturthi | Chaitra Krishna index and child page; source lead labels account Bhavishya Purana | Verify Chandrodaya-vyapini rule, local moonrise, and any exceptional cases; do not derive dates from a static Gregorian date. |
+| P0 | Monthly Masik Shivaratri vs Maha Shivaratri | [Nirnayasindhu Shivaratri decision chapter](https://www.transliteral.org/pages/z130621065953/view); monthly lists | Distinguish the monthly Krishna Chaturdashi observance from the annual Maha Shivaratri decision; compare the authority-specific night/pradosha/nishitha rules rather than assuming one generic predicate. |
+| P1 | Vata Savitri | Vrat-Parichay edition notes and TransLiteral source page | Keep Purnima and Amavasya traditions separate; establish regional/lineage applicability and date rule before adding either profile. |
+| P1 | Sheetala Ashtami / Sheetala Saptami | Chaitra Krishna and Shravan Krishna indexes; source pages label different traditions | Do not collapse Ashtami and Saptami traditions. Verify region, month, paksha, and authority before matching an existing record. |
+| P1 | Santan Ashtami | Chaitra Krishna index; source page labels Vishnudharmottara | Check exact tithi/month and whether a current record is an alias or genuinely different vrata. |
+| P1 | Varuni Yoga | Chaitra Krishna index; source lead names Vachaspati-nibandha / Tristhalisetu | Treat as a rare calendar conjunction (tithi + nakshatra + weekday variants), not a fixed-date annual festival; verify definitions and year/location test cases. |
+| P1 | Rukmini Ashtami | [Pausha keyword index](https://www.transliteral.org/keywords/pausha/word) and monthly child pages | Confirm the source's month/paksha and whether it is the same observance as any existing Krishna/Rukmini-related entry. |
+| P1 | Skanda Shashthi | Monthly indexes and dedicated child pages | Never equate with Skandamata; determine which regional observance and tithi rule the source describes. |
+| P2 | Ashunya Shayana | Vrat-Parichay source notes and Shravan Krishna index | Verify full start/end interval and pūrvaviddhā/paraviddhā tie-break from page images/edition; likely a multi-month observance, not a one-day event. |
+| P2 | Mangala Gauri, Nirjala Ekadashi, Adhimas/Purushottama Maas | Vrat-Parichay and general TransLiteral indexes | Verify edition and full procedural/date-selection details; separate a vrata rule, a month-long observance, and a named festival record. |
+
+#### Additional evidence / caution discovered in targeted search
+
+- The TransLiteral keyword indexes surface **Pausha Krishna Rukmini Ashtami** and a **Magha Krishna bath observance**; the latter's page gives multiple possible spans for Magha-snana (Pausha Shukla Ekadashi to Magha Shukla Ekadashi, Purnima-to-Purnima, or the Sun's transit through Capricorn). This is a multi-day practice, not a single date. Source lead: [Magha-snana](https://www.transliteral.org/pages/z20101014608/view).
+- The TransLiteral **Nirnayasindhu Shivaratri decision chapter** itself preserves disagreement between authorities over Pradosha-vyapini and Nishitha-vyapini selection, and discusses how to decide when the tithi spans more than one night. This is strong evidence against implementing “Masik Shivaratri = any Krishna Chaturdashi” as a complete date-selection algorithm. Source lead: [Shivaratri decision](https://www.transliteral.org/pages/z130621065953/view).
+- Monthly index pages are discovery aids. Their child pages may cite a Purana or nibandha in the text while the footer still says “References: N/A”. Record the cited authority as a *claim made by the page*, not as an independently verified primary-text citation.
+- Some monthly lists contain ritual subsections (e.g. विधिपूजा, पात्रदान, आरंभ) alongside observances. Do not automatically turn every heading into a standalone festival card; first determine whether it is a separate vrata, a procedure, a daana item, or an introductory heading.
+- The TransLiteral site is a secondary discovery/reference layer for this project. Keep source URLs and concise paraphrases; do not copy long passages into the repository. Verify licensing before reuse of text.
+
+#### Safe implementation gate
+
+A candidate may move from research to executable data only after all applicable items are satisfied:
+1. The exact source passage and edition/page (or a clear note that only a secondary web transcription is available) are recorded.
+2. The observance is normalized against all 122 legacy records and the Vrat-Parichay alias audit.
+3. The tithi/nakshatra/weekday/sunset/moonrise predicate is explicit, including precedence and tie-break cases.
+4. At least one worked date/location example and regression test are recorded.
+5. Existing source text/article links are preserved; no legacy date is silently shifted.
+6. A separate explicit approval is obtained before changing runtime behavior or live Blogger output.
+
+No candidate in this queue is approved for automatic scheduling by this note.
