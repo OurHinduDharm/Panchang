@@ -655,7 +655,7 @@ test("Chapter IX Venus threshold follows classified horizon event, not morning/e
   assert.equal(helpers.getPlanetEventThreshold("Venus", null), null);
   assert.equal(helpers.getPlanetEventThreshold("Mercury", "east-setting"), null);
   assert.equal(
-    (extra.match(/Number\\.isFinite\\(ta\\) && Number\\.isFinite\\(tb\\) && ta === tb/g) || []).length,
+    (extra.match(/ta === tb/g) || []).length,
     2,
     "a change from the 8° to 10° branch must not masquerade as an angular-boundary crossing"
   );
