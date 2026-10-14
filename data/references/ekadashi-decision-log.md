@@ -58,3 +58,10 @@
 ## अभी का निष्कर्ष
 
 इस समय कोई भी एकादशी-दिन-निर्णय या पारण नियम इस पंजिका के कारण `VERIFIED RULE` नहीं माना गया है। पहले प्रमाण और प्रयोज्यता तय होगी; उसके बाद ही नियम-मैट्रिक्स, टेस्ट और कोड में बढ़ेंगे। लाइव Blogger में कोई बदलाव नहीं।
+
+
+### SM-ED-VRIDDHI-BOTH-01 — evidence refinement (2026-10-14)
+
+The Acharane source registry labels this as a **two-sunrise Ekadashi** case and glosses “both increase” as Ekadashi and Dvadashi both being present after sunrise. It gives scan locators for Dharmasindhu (1888), p. 17, leaf n39, and Nirnayasindhu (1901), p. 30, leaf n57; both reproduce the same verse. See https://acharane.com/sources/ entries `ds-p17-ekadashi-vriddhi` and `ns-p30-ekadashi-vriddhi`.
+
+**Interpretation boundary:** A possible test predicate is Ekadashi at one relevant sunrise and Dvadashi at the next, but the exact semantics of “वर्धते” still need the surrounding paragraph checked. This does not authorize a generic duplicate-tithi rule or any Vaishnava result. Status remains **SOURCE-SUPPORTED / IMPLEMENTATION-PENDING**, not VERIFIED RULE.
