@@ -83,3 +83,12 @@ For this audit, retain the already documented coordinates **30.1265° N, 80.4817
 
 The API contract is now documented, but this research session has not executed the pinned library in a Node/browser runtime and has not obtained a complete same-place independent interval set. The candidate dates therefore remain **research-only**, not pass/fail fixtures. The network-restricted local shell could not retrieve the npm package, and no successful GitHub Actions run is available in the current record. No runtime files or festival dates were changed.
 
+
+
+### Strict coordinate-matching rule — clarified 2026-10-15
+
+The user's validation requirement is correct: a comparison source is suitable for an exact-time pass/fail fixture only when its calculation uses the **same observer coordinates** as the project calculation (latitude, longitude, and elevation where supported), the same timezone, and compatible calculation conventions. Matching only the city name, state, or country is not sufficient evidence of coordinate equality.
+
+For every external comparison, record the source's actual location settings and coordinates when available. If a site accepts custom coordinates, enter the project's exact point (30.1265° N, 80.4817° E, elevation 0 m). If it only provides a preset city or its underlying coordinates cannot be established, label the result as contextual evidence only—not an exact-time validation fixture. Do not treat a nearby town, a generic India time, or another Pithoragarh coordinate set as equivalent. If exact coordinate matching is unavailable, use the project's reproducible pinned-library output for the chosen point and seek a source that permits a like-for-like comparison; retain the mismatch explicitly rather than relaxing the rule.
+
+This rule applies to both previously listed candidates. Their existing public-source timings remain observations only until coordinate/location equivalence and convention equivalence are documented. No dates should be marked as passing based solely on the current mixed-location comparison.
