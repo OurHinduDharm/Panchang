@@ -158,3 +158,11 @@ No executable Ekadashi rule is approved by this workflow note. Draft PR #33 rema
 - Research cross-checks: https://www.onlinejyotish.com/ekadashi-days.php?loc=kolkata&m=9&y=2022 and https://vaishnavacalendar.org/delhi/538/en/
 - Next: inspect the original Sanskrit passages in Nirnaya Sindhu/Dharma Sindhu for the normal case and Parana sequence; then select one historical case and reconstruct its tithi/sunrise timeline before writing an expected-result test.
 
+
+
+## Dharma Sindhu translation audit note (2026-10-14)
+
+- Reviewed the online Chapter 5 summary at https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5.
+- It is explicitly a condensed English translation. It distinguishes Arunodaya and Suryodaya Dashami-vedha, mentions 57/60-ghati counts and says Parana should precede Dvadashi tithi-end, but does not provide enough original-language context to freeze exact thresholds or exceptions.
+- Its Mahadvadashi name/transliteration renderings differ from other online sources. This is recorded as a source-review issue, not declared an error.
+- Updated `ekadashi-source-comparison.md` and `ekadashi-decision-log.md`. No religious rule promoted to verified; no code changed.
