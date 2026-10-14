@@ -64,6 +64,13 @@ Reference documentation:
 - https://www.npmjs.com/package/%40ishubhamx/panchangam-js
 - https://app.unpkg.com/%40ishubhamx/panchangam-js%403.0.0/files/README.md
 
+
+### Location decision — keep the vrata audit's chosen point fixed
+
+The repository's `test-astronomy.html` uses a different standard Pithoragarh point (29.5828° N, 80.2182° E, 1650 m) and a separate TKS comparison point (29.5830° N, 80.2090° E, 0 m). These belong to that astronomy validation page and are not interchangeable with this vrata audit's selected point.
+
+For this audit, retain the already documented coordinates **30.1265° N, 80.4817° E, elevation 0 m**, with `timezoneOffset: 330`, as requested. Do not silently copy coordinates from `test-astronomy.html`; location-specific tithi/nakṣatra boundaries and sunrise can shift with the observer. This is a fixed test location for reproducibility, not a claim that the two coordinate sets are identical.
+
 ### Required calculation procedure
 
 1. Use the exact pinned import `@ishubhamx/panchangam-js@3.0.0`, observer latitude 30.1265, longitude 80.4817, elevation 0 m, and `timezoneOffset: 330`.
