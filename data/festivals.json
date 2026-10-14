@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "dataStatus": "template-awaiting-source-migration",
+  "notes": [
+    "This file is a scaffold only; it does not contain the Blogger festival dataset yet.",
+    "Do not use this empty list as the live festival source.",
+    "Migrate the existing Blogger festivalData entries here without changing their Hindi text, URLs, descriptions, or existing date values."
+  ],
+  "festivals": []
+}
