@@ -8,7 +8,7 @@ Status: **Evidence extraction and cross-check only — not approved for runtime 
 
 This ledger records what can be read in the repository's OCR chunks, distinguishes the book's own statements from secondary online cross-checks, and flags conflicts rather than silently choosing a rule. The accessible OCR was generated from `data/vrat-parichay.txt` and split into `data/vrat-parichay-chunks/part-001.txt` … `part-050.txt`. Chunk offsets are not printed page numbers. The printed page labels below are the page labels visible in the OCR itself.
 
-**Still missing:** a verified title/copyright/edition page and visual inspection of the corresponding printed page images. Thus page numbers below are transcribed OCR page labels, not independently image-verified pagination. OCR spelling is not treated as a diplomatic transcription.
+**Still missing:** identification of the exact edition used for this OCR and visual inspection of the corresponding printed page images. Public catalogue listings disagree on extent/edition: one listing describes a 2006 edition with 381 pages and ISBN 81-293-0160-1; another lists a 38th edition with 415 pages; a further listing describes a 474-page copy. This confirms we must not identify the user's OCR edition from the title alone. See https://www.pustak.org/index.php/books/bookdetails/1173, https://bharatiyavidya.com/product/vrat-parichay/ and https://vikasbookdepo.com/products/gita-press-vrat-parichay-book-code-610 . Thus page numbers below are transcribed OCR page labels, not independently image-verified pagination. OCR spelling is not treated as a diplomatic transcription.
 
 ## Evidence ledger
 
@@ -120,4 +120,6 @@ The OCR says that on Kartika Shukla Chaturdashi prevailing at Arunodaya, the pra
 - Pradosha rule discussion (secondary): https://panchangtime.com/methodology/pradosh-vrat
 - Vata Savitri regional forms (secondary): https://sanatana.ekatantra.com/rituals/vat-savitri-vrata
 - Ashunya Shayana parallel (secondary transcription): https://vedapath.app/hi/matsya-purana/the-asunyasayana-vrata-worship-of-visnu-for-marital-harmony
+- Vaikuntha Chaturdashi, Skanda Purana chapter 35 translation with Manikarnika and lotus-worship narrative: https://www.wisdomlib.org/hinduism/book/the-skanda-purana/d/doc371677.html
+- Edition/extent cross-checks for *Vrat-Parichay*: https://www.pustak.org/index.php/books/bookdetails/1173 ; https://bharatiyavidya.com/product/vrat-parichay/ ; https://vikasbookdepo.com/products/gita-press-vrat-parichay-book-code-610
 
