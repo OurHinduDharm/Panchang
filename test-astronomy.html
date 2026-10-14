@@ -436,6 +436,10 @@
       <h3>Modern EQD → candidate classical frame (research only)</h3>
       <p class="small">Fixed comparison instant: 12 Oct 2026, 12:00 IST. This checks coordinate conversion only; it does not certify the classical epoch/equinox or calculate final Asta/Udaya dates.</p>
       <div id="frameCompareOutput"><div class="status info">Not run yet.</div></div>
+      <h3>Chapter VII — same-instant frame sensitivity (research only)</h3>
+      <p class="small">Compares the current scalar LST conversion against the full-vector meridian candidate using the same Sun/Venus EQD vectors at the same instant. This is an intermediate-term comparison, not proof that either frame is historically correct.</p>
+      <div class="controls"><button type="button" onclick="runChapter7FrameSensitivityDiagnostic()">Run Chapter VII frame comparison</button></div>
+      <div id="chapter7FrameSensitivityOutput"><div class="status info">Not run yet.</div></div>
     </section>
   </section>
 
@@ -3891,6 +3895,87 @@ function classicalCard(ref, label, result, field) {
     " (" + round(result.g.motion,6) + "°/h)<br>Direction: " +
     (result.directionMatches ? "✓ expected" : "⚠ opposite") +
     "<br>Difference from reference date: " + (diff >= 0 ? "+" : "") + round(diff,4) + " days</span></div>";
+}
+
+function runChapter7FrameSensitivityDiagnostic() {
+  const out = document.getElementById("chapter7FrameSensitivityOutput");
+  const date = new Date("2026-10-12T06:30:00Z");
+  const sourceObliquityDeg = trueObliquityOfDateDeg(date);
+  const sourceLST = normalize360(Astronomy.SiderealTime(date) * 15 + CONFIG.longitude);
+  const rows = [];
+
+  for (const [label, body] of [
+    ["Sun", Astronomy.Body.Sun],
+    ["Venus", Astronomy.Body.Venus]
+  ]) {
+    const state = getPlanetSiderealState(body, date);
+    if (!state) {
+      rows.push("<tr><td>" + label + "</td><td colspan='15'>State unavailable</td></tr>");
+      continue;
+    }
+
+    // Baseline: exactly the current sequential helper path and its obliquity-only LST conversion.
+    const baseline = getDrikkarmaCorrectionSequential(body, date, "east", CONFIG);
+
+    // Candidate: transform the same EQD state vector and the same physical meridian plane
+    // through the full explicitly parameterized 3-D candidate frame.
+    const transformed = inspectModernStateInClassicalFrame({
+      rightAscensionDeg: state.rightAscension,
+      declinationDeg: state.declination,
+      sourceObliquityDeg,
+      ayanamshaDeg: 24.217,
+      classicalObliquityDeg: 24
+    });
+    const candidateLST = modernLocalSiderealAngleToClassicalFrame({
+      localSiderealAngleDeg: sourceLST,
+      sourceObliquityDeg,
+      ayanamshaDeg: 24.217,
+      classicalObliquityDeg: 24
+    });
+    const candidate = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: transformed.targetLongitudeDeg,
+      planetLatitudeDeg: transformed.targetLatitudeDeg,
+      observerLatitudeDeg: CONFIG.latitude,
+      localSiderealAngleDeg: candidateLST,
+      localSiderealObliquityDeg: 24,
+      ayanamshaDeg: 0,
+      obliquityDeg: 24,
+      planetDeclinationDeg: transformed.targetDeclinationDeg,
+      planetRightAscensionDeg: transformed.targetRightAscensionDeg
+    });
+
+    const fmt = v => Number.isFinite(v) ? v.toFixed(6) + "°" : "n/a";
+    const fields = [
+      ["Source LST", sourceLST],
+      ["Baseline LST in calc frame", baseline?.calculationFrameSiderealAngleDeg],
+      ["Full-vector candidate LST", candidateLST],
+      ["Baseline planet RA", baseline?.planetRAForAksha],
+      ["Candidate planet RA", candidate?.planetRAForAksha],
+      ["Baseline planet declination", baseline?.planetDeclinationForHalfDay],
+      ["Candidate planet declination", candidate?.planetDeclinationForHalfDay],
+      ["Baseline hour angle", baseline?.hourAngleDeg],
+      ["Candidate hour angle", candidate?.hourAngleDeg],
+      ["Baseline half-day angle", baseline?.halfDayAngleDeg],
+      ["Candidate half-day angle", candidate?.halfDayAngleDeg],
+      ["Baseline Āyana", baseline?.ayanaDeg],
+      ["Candidate Āyana", candidate?.ayanaDeg],
+      ["Baseline Akṣa", baseline?.akshaDeg],
+      ["Candidate Akṣa", candidate?.akshaDeg],
+      ["Baseline total correction", baseline?.totalCorrection],
+      ["Candidate total correction", candidate?.totalCorrection],
+      ["Baseline corrected longitude", baseline?.correctedLongitude],
+      ["Candidate corrected longitude", candidate?.correctedLongitude]
+    ];
+    for (const [name, value] of fields) {
+      rows.push("<tr><td>" + label + "</td><td>" + name + "</td><td>" + fmt(value) + "</td></tr>");
+    }
+  }
+
+  out.innerHTML =
+    "<div class='status info'>Instant: 2026-10-12 12:00 IST. Location is the page's current CONFIG. Same modern geocentric EQD states are reused for both candidates. Ayanāṃśa 24.217° and classical obliquity 24° are comparison assumptions.</div>" +
+    "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Intermediate</th><th>Value</th></tr></thead><tbody>" +
+    rows.join("") + "</tbody></table></div>" +
+    "<div class='status warn'>Interpretation: differences show sensitivity to the input-frame construction only. Neither candidate is selected as the classical answer; this panel does not certify Chapter IX K or event dates.</div>";
 }
 
 function runFrameCompareDiagnostic() {
