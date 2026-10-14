@@ -487,3 +487,12 @@ No changes to `data/festivals.json`, executable rules, legacy dates, or Blogger 
 Found a parallel digital transcription of Viramitrodaya-Samayaprakasha at [Vishvasa](https://vishvasa.github.io/kalpAntaram/dharmaH/nibandhaH/vIra-mitrodayaH/samaya-prakAshaH/) for comparison with Wikisource. It is a second transcription, not yet proven to represent an independent edition. Bibliographic leads for Dharmasindhu (1888 Nirnaya-Sagara listing) and Nirnayasindhu (1930 Chowkhamba catalogue record and manuscript catalogue) are recorded in the audit document; relevant printed pages still need visual verification.
 
 The audit now distinguishes a parallel transcription from an independent textual witness. No executable rules or festival records were changed.
+
+
+## Second-pass source comparison — 2026-10-14
+
+Added named Dharmasindhu page/leaf metadata for the Smarta vs Vaishnava Ekadashi distinction (pp. 13–14 / leaves 33–34, cited by Shastra Panchangam as page-image checked), plus a comparison of Nirnayasindhu's competing Shivaratri opinions with external rule summaries. The notes explicitly distinguish corroborating explanations from independent primary-text witnesses and keep Maha Shivaratri separate from monthly Shivaratri.
+
+Next gate: visually verify the cited print pages, finalize authority-specific decision matrices, create interval-based synthetic tests, and compare selected outcomes against an independent almanac before proposing runtime changes. No changes to `data/festivals.json`, executable rules, legacy dates, or Blogger output.
+
+Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-source-audit-draft.md).
