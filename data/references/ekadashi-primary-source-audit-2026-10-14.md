@@ -140,3 +140,38 @@ A cautious operational reading to test is: over the two relevant consecutive loc
 - No real historical date is promoted to a passing regression test yet; a worked timeline needs independently checked tithi transitions and local sunrise times.
 
 Next: obtain/inspect the surrounding page context for both editions; then choose a real two-sunrise example, reconstruct local sunrise/tithi state from the project astronomy library, and compare only the Smarta outcome for this narrow rule.
+
+
+## 9. Major lead: Dharmasindhu has separate Smarta and Vaishnava decision sections
+
+Further research found the full topic pages in the TransLiteral Dharmasindhu transcription:
+
+- **Smarta Vrat-dina-nirnaya:** https://www.transliteral.org/pages/z80422042257/view
+- **Vaishnava Vrat-dina-nirnaya:** https://www.transliteral.org/pages/z80422042154/view
+- **Ekadashi tithi discussion:** https://www.transliteral.org/pages/z80422042052/view
+
+These are Marathi transcription/commentary pages for Dharmasindhu, attributed to Kāśīnāthaśāstrī Upādhyāya (composed 1790–91). They are much more useful than the condensed English chapter because they present the cases separately, but they are still online transcriptions/translation, not a critical edition audit of the printed Sanskrit. Treat the following as **strong research leads / provisional case table**, not as executable rules.
+
+### Vaishnava section: explicit statements in the transcription
+
+- It explicitly distinguishes Arunodaya Dashami-vedha from sunrise Dashami-vedha.
+- It defines Arunodaya as four ghatis before sunrise.
+- The transcription says the Vaishnava Arunodaya test uses Dashami reaching beyond 56 ghatis, and the Smarta sunrise-vedha test uses Dashami reaching beyond 60 ghatis. The precise counting origin and relation to the local tithi start still require verification against the Sanskrit/printed layout; do not turn these numbers into independent universal thresholds.
+- It defines “adhikya” in its examples as the tithi being present after sunrise on the next day.
+- In its four “shuddha” subtype examples, it gives distinct outcomes: Ekadashi-only growth, Dvadashi-only growth, both growth, and neither growth do not all resolve identically. The two-growth example says both Smarta and Vaishnava observe on the second day; the neither-growth example says both observe the first day.
+- It says if there is uncertainty/dispute over vedha, the fast should be taken on Dvadashi in the described context.
+
+### Smarta section: important nuance
+
+The Smarta section has a separate eight-example table and records differing views (Madhava vs Hemadri and other positions) for some cases. It includes special distinctions for a household Smarta, yati, moksha-seeker, widow, and Vaishnava in some examples. Therefore “Smarta” is itself not necessarily a single unconditional rule for every practitioner and every exception.
+
+### What this changes in our research
+
+1. We now have a **case taxonomy** to compare against our draft matrix instead of treating all “tithi growth” as one generic event.
+2. The scan-backed verse SM-ED-VRIDDHI-BOTH-01 is consistent with the transcription's both-growth outcome: later day for Smartas. The exact formal trigger still needs the printed paragraph/table and sunrise-state reconstruction.
+3. The transcription itself shows why 56/60-ghati figures cannot be mixed indiscriminately: one is tied to Vaishnava Arunodaya-vedha and another to Smarta sunrise-vedha, and the table has separate tithi-growth types.
+4. The user's initial product profile can remain Smarta / Vaishnava, but the research schema must preserve sub-case, practitioner qualification, source opinion, and conflict status instead of flattening all rows.
+
+### Next audit task
+
+Transcribe the eight numbered examples into a structured comparison table with the exact tithi durations as printed, but retain the transcription's own wording and mark all expected outcomes provisional until checked against the printed Sanskrit page. Then use one worked local-time example to validate how the duration-based descriptions map to actual tithi boundaries and consecutive sunrises.
