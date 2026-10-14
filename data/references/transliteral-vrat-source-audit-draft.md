@@ -33,3 +33,14 @@ Branch: `data/festival-json-foundation`
 - TransLiteral pages are web transcriptions/translation pages; their presence does not prove a particular printed edition or page-image match.
 - OCR/transcription can contain omissions or errors. Verify key Sanskrit and page/edition details independently before declaring a rule authoritative.
 - This is research documentation only. No runtime code, `data/festivals.json`, legacy dates, or Blogger output changed.
+
+
+## Monthly vrata index inspected (2026-10-14)
+
+User highlighted the monthly index: https://www.transliteral.org/pages/i090114020125/view . It links all 12 lunar-month categories, each split into Krishna-paksha and Shukla-paksha sub-indexes:
+- Chaitra: https://www.transliteral.org/pages/i090116003019/view
+- Vaishakha: https://www.transliteral.org/pages/i090116222121/view
+- Jyeshtha: https://www.transliteral.org/pages/i090117062330/view
+- Ashadha, Shravan, Bhadrapada, Ashwin, Kartik, Margashirsha, Pausha, Magha, Phalguna are linked from the monthly index.
+
+Important limitation: the month pages themselves mostly function as navigation indexes; the actual vrata names/rules are likely one level deeper under Krishna-paksha and Shukla-paksha. Therefore audit should continue by opening those two sub-indexes for every month, collecting individual observance pages, and matching them against `festivals.json` and Vrat-Parichay. Do not treat the index as a complete list until both paksha sub-indexes and relevant child pages have been checked. The index page shows last updated January 22, 2014, so it may be incomplete or dated.
