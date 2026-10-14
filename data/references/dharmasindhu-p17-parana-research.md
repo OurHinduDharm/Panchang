@@ -3,14 +3,14 @@
 **Project:** OurHinduDharm Panchang  
 **Research date:** 2026-10-14  
 **Branch:** `data/festival-json-foundation`  
-**Status:** Source locator confirmed by project owner; visual collation still pending.
+**Status:** Source locator confirmed; relevant Khemraj images (printed pp. 31–33) and Rajvaidya images (printed pp. 32–33) were visually inspected on 2026-10-14. Some rule semantics remain unresolved.
 
 ## Primary scan supplied by project owner
 
 Kāśīnātha Upādhyāya, *Dharmasindhu*, 1907 Sanskrit edition, Khemraj Shrikrishnadas, Bombay, printed p. 17.
 
 - [Internet Archive BookReader, page 17](https://archive.org/details/kict-dharmasindhu-by-kashinath-upadhyay-sanskrit-dharma/page/%28%E0%A5%A7%E0%A5%AD%29/mode/1up)
-- The owner supplied a direct BookReader page-image endpoint in the conversation. It could not be independently loaded in this session, so this note does **not** claim visual collation of the scan.
+- Repository images are now available under `data/references/`. See [Dharmasindhu image collation (2026-10-14)](dharmasindhu-image-collation-2026-10-14.md) for inspected files, working transcriptions, and remaining interpretation questions.
 
 ## Clauses in the owner-supplied transcription
 
@@ -51,10 +51,10 @@ These are synthetic fixtures, not real festival dates. Expected outcomes remain 
 
 ## Next research gate
 
-1. Obtain independent visual access to the supplied scan and collate the whole printed page, not just a single line.
-2. Transcribe the relevant Sanskrit clauses with uncertain characters marked.
-3. Check the cited Hari-vāsara, muhūrta, and kalā definitions in the surrounding text and parallel source passages.
-4. Update `data/references/vrata-decision-test-matrix.md` only after these readings are settled.
+1. The uploaded pages have been visually inspected; consult [the image-collation note](dharmasindhu-image-collation-2026-10-14.md) for the current working reading.
+2. Still check the precise anchor for the three morning muhūrtas and the context of the Trayodaśī fallback.
+3. Resolve the grammar/scope of the conjunction-end pāraṇa sentence and the operational meaning of `दिनवृद्धि`.
+4. Check the cross-referenced Bhādrapada Śravaṇa-Dvādaśī / Viṣṇu-śṛṅkhala section.
 5. Compare selected real dates against a named independent almanac before proposing any runtime change.
 
 **Safety boundary:** documentation-only research. No changes to `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, or PR merge state.
