@@ -535,3 +535,8 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Added blocked-input requirements for Unmīlanī, Vañjulī, Trispr̥śā, and Pakṣavardhinī rather than guessing at OCR-corrupt definitions. Missing definitions/events must produce an explicit unresolved result.
 - Added test-engine contract: validate interval order, treat exact endpoint contact as no overlap, and keep nakṣatra conjunction, Mahādvādaśī classification, vrata-day selection, and pāraṇa timing separate.
 - Documentation/test-specification only. No changes to `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, or PR #33 merge state.
+
+### Mahādvādaśī comparative cross-check (2026-10-14)
+- Added `data/references/mahadvadashi-comparative-crosscheck.md` with verse-level and secondary cross-check links for Unmīlanī, Vañjulī, Trispr̥śā, and Pakṣavardhinī.
+- Logged provisional rule hypotheses without treating online summaries as proof of the 1907 Dharmasindhu scan. Hari-vāsara's exact anchor and the contextual meaning of “kalā” remain unresolved.
+- No runtime rules, `data/festivals.json`, legacy dates, Blogger output, or PR merge state changed.
