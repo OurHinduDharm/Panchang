@@ -285,3 +285,9 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - No changes made to `festivals.json`, existing dates, linked article URLs, eclipse calculations or live Blogger output. PR remains draft.
 - Next: inspect body text for the highest-priority candidates (especially Vata Savitri, Nirjala Ekadashi, monthly Sankashti/Pradosh/Masik Shivaratri, Adhimas, and ambiguous ritual aliases), record exact printed page + OCR chunk, and only then propose rule definitions/tests.
 
+
+## Priority body-text checks added (2026-10-14)
+
+- Read OCR body excerpts in `part-006.txt`, `part-007.txt`, `part-010.txt`–`part-017.txt` and selected later monthly sections to verify that priority candidates are recurring/duration-based rules, not just contents titles.
+- Added evidence notes to `data/references/vrat-parichay-alias-match-draft.md`: Sankashti Chaturthi is described with a monthly Krishna Chaturthi + moonrise condition; Pradosh is described on both paksha Trayodashis; Vata Savitri notes different source traditions (Purnima vs Amavasya); Nirjala Ekadashi is Jyeshtha Shukla Ekadashi; Ashunya Shayan spans Shravan Krishna Dwitiya to Margashirsha Krishna Dwitiya; Mangala Gauri includes a multi-year sankalpa.
+- These are OCR-based spot checks, not complete page-image verification or a final shastric ruling. No executable rules or runtime records have been added. Next: transcribe the complete relevant passages with verified printed pages and define rule profiles/tests.
