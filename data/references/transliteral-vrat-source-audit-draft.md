@@ -342,3 +342,90 @@ One ghati is conventionally 24 minutes and one muhurta 48 minutes. Therefore thr
 ### Decision
 
 No changes to `data/festivals.json`, executable date rules, legacy festival dates, or Blogger output are authorized by this audit. The next safe step is to build case matrices for Ekadashi, Sankashti and Shivaratri from a chosen edition, then test date-boundary cases separately from textual interpretation.
+
+
+## Decision matrices — first source-backed pass (2026-10-14)
+
+These matrices separate the **textual rule** from the **calendar input**. They are research aids, not executable specifications. They intentionally preserve unresolved differences rather than choosing an undocumented default.
+
+### A. Ekadashi — profile and tithi-duration matrix
+
+**Sources inspected**
+- [Dharmasindhu, Vaishnava vrata-day decision, TransLiteral](https://www.transliteral.org/pages/z80422042154/view), especially the translation around lines 86–90.
+- [Viramitrodaya-Samayaprakasha, Wikisource](https://sa.wikisource.org/wiki/वीरमित्रोदयः_-_समयप्रकाशः), visible decision around the Wikisource lines 2286–2390 and exceptional cases around 2462–2536.
+
+| Situation to model | What the consulted text supports | What remains unresolved / required inputs |
+|---|---|---|
+| Observer/profile | Dharmasindhu distinguishes Vaishnava and Smarta observers and notes family tradition as a relevant classification criterion. | Do not infer the user's sampradaya from geography or one generic site setting. If the site has no profile, display the source's profile and disclose the chosen default rather than hiding it. |
+| Dashami touches Arunodaya | Viramitrodaya's Vaishnava section treats Arunodaya-veddha as a Vaishnava-specific test in its stated interpretation; Dharmasindhu says Arunodaya is four ghatikas before sunrise. | Edition/interpretive differences exist: Viramitrodaya also records another view that the vedha tests may apply more broadly. Do not flatten this debate into a universal rule. |
+| Dashami touches sunrise | Viramitrodaya discusses sunrise-vedha for Smarta observers and contrasts it with the Vaishnava Arunodaya test. | Need exact tithi start/end, local sunrise and the selected authority/profile. |
+| Ekadashi extends past the following sunrise / Dvadashi has unusual duration | Dharmasindhu's examples distinguish cases where Ekadashi or Dvadashi extends beyond sunrise, and outcomes can differ for Smarta and Vaishnava observers. Viramitrodaya enumerates multiple combinations of Ekadashi and Dvadashi being short/equal/long. | A simple “tithi at sunrise” boolean is insufficient. Build a case matrix with precise interval arithmetic, including tithi-kshaya and Dvadashi-vriddhi. |
+| Ekadashi disappears and Dvadashi is the observance day | Viramitrodaya cites a Dvadashi fast for the case where Ekadashi is lapsed, while other exceptional cases distinguish householders with children, ascetics and other groups. | Must not generalize one exceptional passage without recording its named authority and target group. |
+| Parana / Hari-vasara | The texts treat parana as a separate question; the Vaishnava source lists Dvadashi and Hari-vasara-related constraints. | Separate specification needed for Dvadashi end, local sunrise, Hari-vasara and the adopted profile. A fasting-date decision alone cannot compute parana. |
+
+**Candidate test fixtures (synthetic boundary cases, not real festival dates):**
+1. Dashami ends before the profile's relevant vedha window; Ekadashi spans local sunrise; Dvadashi begins later — ordinary candidate.
+2. Dashami remains for a small interval at Arunodaya but ends before sunrise — compare Vaishnava and Smarta profiles separately.
+3. Dashami ends before Arunodaya, but Ekadashi ends before the next sunrise — test the relevant duration classification.
+4. Ekadashi remains after the second sunrise / Dvadashi begins late — exercise “Ekadashi-adhika” style case.
+5. Ekadashi is not present on a sunrise candidate day and Dvadashi is present instead — explicit kshaya/fallback case, with householder/ascetic assumptions stated.
+6. Dvadashi is shortened or ends before the expected parana interval — parana must be tested independently of the fast-date decision.
+
+No fixture should be converted to production dates until the selected printed edition's rule matrix is transcribed and checked by at least one independent calendar example.
+
+### B. Sankashti Chaturthi — moonrise matrix
+
+**Sources inspected**
+- [Viramitrodaya-Samayaprakasha, Wikisource](https://sa.wikisource.org/wiki/वीरमित्रोदयः_-_समयप्रकाशः), Chaturthi decision ending with “सङ्कष्टचतुर्थी तु चन्द्रोदयव्यापिनी ग्राह्या”.
+- [Vachaspatiyam, Wikisource](https://sa.wikisource.org/wiki/वाचस्पत्यम्/तान), page text around lines 2281–2287, which quotes differing opinions for the two-day overlap case.
+
+| Local moonrise situation | Source-backed observation | Research disposition |
+|---|---|---|
+| One civil day has Chaturthi at local moonrise; the adjacent day does not | Chandrodaya-vyapini is the stated core rule in the consulted Viramitrodaya passage. | Strong candidate rule, but verify the exact source edition and event interval semantics before coding. |
+| Both adjacent days have Chaturthi at moonrise | Vachaspatiyam's quoted decision records one opinion preferring the earlier day (Matri-yoga rationale) and another preferring the later day based on the other cited timing conditions. | Genuine tie-break disagreement. Require an explicit chosen authority/profile; do not silently choose. |
+| Neither day has the simple Chandrodaya overlap | The same passage gives a later-day position in its summarized case. | Needs exact interpretation and independent source check before fallback implementation. |
+| Moonrise is close to tithi start/end | The rule depends on the local moonrise instant and tithi interval, not merely the tithi name at midnight or sunrise. | Test interval boundaries, timezone, moonrise calculation and missing/polar moonrise conditions. |
+| Other Chaturthi observances (e.g. Vinayaka, Gauri) | The same discussion explicitly warns that rules stated for one special Ganesh observance do not automatically govern Sankashti; the text distinguishes Chaturthi observance types. | Separate observance IDs and predicates. Never reuse the Sankashti rule as a universal “Chaturthi rule”. |
+
+**Candidate test fixtures (synthetic):**
+- Chaturthi interval contains moonrise on day 1 only.
+- Chaturthi interval contains moonrise on day 2 only.
+- Chaturthi interval contains both moonrises.
+- Chaturthi interval contains neither moonrise.
+- Moonrise occurs within a small configurable tolerance of tithi start/end.
+- Moonrise event unavailable or invalid: return “needs manual review”, not a guessed date.
+
+### C. Shivaratri — Maha vs monthly decision matrix
+
+**Source inspected**
+- [Nirnayasindhu, Shivaratri decision, TransLiteral](https://www.transliteral.org/pages/z130621065953/view), visible Sanskrit and translation around lines 122–130; monthly observance discussion around lines 150–152.
+
+| Situation | What the consulted Nirnayasindhu transcription says | Research disposition |
+|---|---|---|
+| Maha Shivaratri, one date has both Pradosha and Nishitha overlap | The passage presents both Pradosha-vyapini and Nishitha-vyapini opinions, and cites several authorities. | Cannot label one criterion universally supreme from the summary alone; record the adopted authority and edition. |
+| Nishitha overlap on both adjacent dates | The passage discusses this case and cites a view preferring the earlier date in the stated configuration. | Keep as a separate branch in the decision matrix, not a blanket rule for all cases. |
+| Pradosha overlap on both adjacent dates | The source discusses the role of Nishitha overlap in resolving the case. | Needs transcription of the exact Sanskrit conditions and independent edition check. |
+| One date has only Nishitha overlap, the other only Pradosha overlap | The source describes this one-each case and its tie-break discussion. | Do not reduce it to “always Nishitha” without documenting which cited authority is being followed. |
+| Monthly Krishna Chaturdashi outside the Maha observance | The source has a separate discussion of “प्रतिमासशिवरात्रिव्रत” and says the decision for non-Magha monthly Shivaratri differs from the special Maha-Shivaratri decision; it discusses the four night watches and combined Pradosha/Nishitha overlap. | Monthly Shivaratri needs its own profile and rule. A Maha-Shivaratri predicate must not be copied automatically. |
+| Purnimanta vs Amanta month label | The same passage names Phalguna Krishna Chaturdashi under Purnimanta and Magha Krishna Chaturdashi under Amanta reckoning. | Keep observance date and month-label convention as separate data fields. |
+
+**Candidate test fixtures (synthetic):**
+1. Pradosha and Nishitha both overlap on the first date only.
+2. Both overlap on the second date only.
+3. Nishitha overlaps on both dates.
+4. Pradosha overlaps on both dates.
+5. First date has Nishitha only; second has Pradosha only.
+6. Neither date has the required overlap.
+7. Run each fixture separately under Maha and monthly profiles; don't reuse a tie-break without source support.
+
+### Evidence and implementation gate
+
+Before executable rules are proposed, each matrix must have:
+1. A named printed edition or scan with page/section identifiers.
+2. A normalized Sanskrit transcription checked against the page image where OCR is involved.
+3. The authority being followed for each disputed case.
+4. Unit tests using synthetic tithi/sunrise/moonrise intervals.
+5. At least one independent almanac comparison for each profile.
+6. A user-facing fallback for unresolved/contradictory cases.
+
+This pass is based on accessible TransLiteral/Wikisource transcriptions. It improves the question set and makes the disagreements explicit, but is not yet a critical-edition-based implementation specification.
