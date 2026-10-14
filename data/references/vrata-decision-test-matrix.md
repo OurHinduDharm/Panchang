@@ -268,3 +268,22 @@ These cases record the additional passage supplied by the project owner. They ar
 5. Keep the eight Mahādvādaśī names/pairings and the additional observance/capacity notes as separate outputs.
 
 **No production authorization:** all cases above remain documentation-only. No festival date, data/festivals.json, runtime JavaScript, Blogger output, or PR merge state is changed by this test specification.
+
+## H. Cross-checked Śravaṇa-Dvādaśī / Viṣṇu-śṛṅkhala variants (2026-10-14)
+
+Source note: `dharmasindhu-shravana-dvadashi-crosscheck.md`; online Dharmasindhu and Nirṇayasindhu discussions are cross-checks, not authority to collapse differing views.
+
+| ID | Synthetic condition | Expected test behaviour | Status |
+|---|---|---|---|
+| VSH-01 | Śravaṇa joins both Ekādaśī and Dvādaśī across the candidate-day boundary | Qualify under the strict three-way-conjunction profile only | Profile-dependent |
+| VSH-02 | Śravaṇa joins Dvādaśī, and Dvādaśī touches Ekādaśī, but Śravaṇa does not itself join Ekādaśī | Qualify only under the alternate reading that accepts Dvādaśī-Śravaṇa contact with Ekādaśī; do not inherit the strict profile result | Profile-dependent |
+| VSH-03 | Required conjunction occurs only at night / after midnight / in the first prahara | Evaluate the chosen authority's night-time profile; never assume all night intervals count identically | Profile-dependent |
+| VSH-04 | Required conjunction endpoint is missing | Unresolved; no inferred yoga |
+| PAR-SHR-01 | Both Dvādaśī and Śravaṇa intervals end | Main view allows pāraṇa after both endpoints; verify the selected observance context | Provisional |
+| PAR-SHR-02 | Śravaṇa ends first while Dvādaśī continues | Do not apply “either endpoint” generically; apply only a sourced Śravaṇa-Dvādaśī profile that permits this case | Disputed scope |
+| PAR-SHR-03 | Dvādaśī ends first while Śravaṇa continues | Separate the rule that moves pāraṇa to Trayodaśī from the authority dispute over whether it applies to Śravaṇa-Dvādaśī or Vijayā-Ekādaśī | Disputed scope |
+| PAR-SHR-04 | Bhādrapada Śukla Śravaṇa-Dvādaśī and middle 20 ghaṭikās of Śravaṇa are available | Test the Bhādrapada-specific middle-segment restriction only under its own profile; do not apply it to all months | Provisional |
+| PAR-SHR-05 | Non-Bhādrapada Śravaṇa-Dvādaśī | Do not inherit the Bhādrapada middle-20-ghaṭikā restriction by default | Required |
+| PAR-SHR-06 | Avoiding middle segment would force Dvādaśī to be crossed | Evaluate the cited fallback/exception under the selected authority; otherwise unresolved | Disputed scope |
+
+**New exit criterion:** before implementing Śravaṇa-Dvādaśī, select and document the authority/profile for (a) Viṣṇu-śṛṅkhala definition, (b) night-time conjunction, (c) both-endpoints vs one-endpoint pāraṇa, and (d) Bhādrapada-only middle-segment restriction. Do not let an alternate profile silently overwrite the owner-supplied Dharmasindhu reading.
