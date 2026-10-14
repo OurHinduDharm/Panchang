@@ -115,3 +115,28 @@ This is stronger than a modern calendar summary: both entries report direct read
 - **Still required:** Confirm the operational meaning of “both increase” against the surrounding paragraphs and source definitions; create a local-time worked example with the two relevant sunrises; compare the Vaishnava passage independently. Do not infer that Vaishnava must choose the opposite date, nor generalise this verse to other growth cases.
 
 This one narrow case can be elevated for a test after its astronomical timeline and precise trigger are reviewed; it does **not** verify the general Ekadashi algorithm.
+
+
+## 8. Follow-up: what “both increase” means in the scan registry
+
+The Acharane Classical Sources Registry entry is more specific than the earlier generic wording: it classifies this as a **two-sunrise Ekadashi** case and glosses “both increase” as both Ekadashi and Dvadashi being current after sunrise. It reports direct reading from these two scans:
+
+- Dharmasindhu, Kāśīnātha Upādhyāya, Nirṇaya Sāgara Press, Bombay (1888), p. 17, leaf n39, band 6.
+- Nirṇayasindhu, Kamalākara Bhaṭṭa, Nirṇaya Sāgara Press, Bombay (1901), p. 30, leaf n57, bands 2–4; the entry says it cites Mādhava.
+- Public registry: https://acharane.com/sources/ (records `ds-p17-ekadashi-vriddhi` and `ns-p30-ekadashi-vriddhi`).
+
+The verse says:
+
+> एकादशीद्वादशी चेत्युभयं वर्धते यदा ।
+> तदा पूर्वदिनं त्याज्यं स्मार्तैर्ग्राह्यं परं दिनम् ॥
+
+A cautious operational reading to test is: over the two relevant consecutive local sunrises, Ekadashi is present at the earlier sunrise and Dvadashi is present at the later sunrise, so the tithis span two sunrise observations; for this named Smarta case, select the later day. However, the exact formal meaning of “वर्धते” must still be checked against the surrounding printed paragraph before turning this into a code predicate. Do not use this as a generic rule for every tithi present at two sunrises, and do not infer a Vaishnava outcome.
+
+### Current evidence classification
+
+- The Sanskrit verse and printed edition locators are scan-backed as reported by the registry.
+- The tradition scope (“स्मार्तैः”) is explicit in the verse.
+- The registry's two-sunrise explanation is a useful operational gloss, not a substitute for reviewing the surrounding page.
+- No real historical date is promoted to a passing regression test yet; a worked timeline needs independently checked tithi transitions and local sunrise times.
+
+Next: obtain/inspect the surrounding page context for both editions; then choose a real two-sunrise example, reconstruct local sunrise/tithi state from the project astronomy library, and compare only the Smarta outcome for this narrow rule.
