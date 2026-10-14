@@ -90,3 +90,11 @@ No executable rules have been approved; page-image and edition verification rema
 
 
 Additional body-text finding: the source passage for Vaikuntha Chaturdashi and the Adhika Masa body text have now been inspected; see the evidence ledger. The printed p. 189 Shivachaturdashi passage is specifically a Margashirsha Shukla observance, so it does not establish a monthly Masik Shivaratri rule.
+
+
+## New primary-source leads (2026-10-14)
+
+- Sankashti: an independently page-image-based online reference identifies *Dharmasindhu*, pariccheda 2, “atha saṅkaṭacaturthīnirṇayaḥ”, p. 56 / leaf 76 and confirms moonrise-vyapini Chaturthi. A secondary methodology page documents first qualifying moonrise for two-night overlap and sunrise fallback if no moonrise occurs. Treat these as candidate tie-break behavior; direct verification of the cited *Dharmasindhu* scan and comparison to the user's edition remain required before implementation. Links and caveats are in the source evidence ledger.
+- Pradosha: the Skanda Purana parallel's three-ghati statement is a bath-before-sunset instruction, not a definition of the post-sunset Pradoṣa window. Keep those fields separate in any future rule schema.
+- Ashunya Shayana: the Shravan Krishna Dwitiya form is corroborated in public Bhavishya and Matsya Purana renderings; the *Vrat-Parichay* multi-month series remains a separate unresolved profile until exact passages/editions are matched.
+- Edition comparison lead: CiNii records a 1969 fourth edition of *Vrat-Parichay*. Do not assume it matches the user's OCR source.
