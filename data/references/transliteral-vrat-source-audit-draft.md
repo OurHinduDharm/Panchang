@@ -550,3 +550,49 @@ Sources consulted for this pass:
 - [Masik Shivaratri secondary rule page](https://shastrapanchangam.com/en/masik-shivaratri/) and [another secondary methodology summary](https://panchangtime.com/methodology/shivaratri) — compare only; not independent primary witnesses.
 
 **Safety boundary:** this is a non-executable test specification. No changes to `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, or PR merge state are made by this section.
+
+
+## Follow-up verification pass — 14 October 2026
+
+### Stronger printed-edition lead: Dharmasindhu (Nirṇaya Sāgara Press, 1888)
+
+A newly located classical-source registry reports a specific passage transcribed from a scan of the 1888 Nirṇaya Sāgara Press edition of Kāśīnātha Upādhyāya's *Dharmasindhu*: printed p. 17, leaf n39, band 6. It gives:
+
+> एकादशीद्वादशी चेत्युभयं वर्धते यदा ।
+> तदा पूर्वदिनं त्याज्यं स्मार्तैर्ग्राह्यं परं दिनम् ॥ १ ॥
+
+The registry describes this as the case where both Ekadashi and Dvadashi are extended, and records that the prior day is to be left aside and the later day taken by Smartas. This is a much more concrete bibliographic locator than an unsourced web summary, but this project has not independently inspected the cited scan image yet. Therefore it is an **edition/page lead for independent verification**, not yet a final transcription approval.
+
+- Registry entry: https://acharane.com/sources/ds-p17-ekadashi-vriddhi
+- Registry directory: https://acharane.com/sources/
+- Separate Dharmasindhu online transcription for comparison: https://www.transliteral.org/pages/z80422042052/view
+- Secondary Ekadashi overview citing pp. 13–14 / leaves 33–34 for the Smarta/Vaishnava distinction: https://shastrapanchangam.com/en/ekadashi/
+
+**Interpretive caution:** the quoted verse is one named duration configuration. Do not generalize it to every Ekadashi/Dvadashi arrangement or use it as a replacement for the full Ekadashi decision section.
+
+### Shivaratri: the source text itself records disagreement
+
+The online Nirṇayasindhu transcription explicitly opens by saying some authorities accept Pradosha-vyapini Chaturdashi while others accept Nishitha-vyapini. It then gives named opinions and discusses two-night cases, including a Hemadri opinion favouring the earlier night when both nights have Nishitha coverage. This confirms that the decision matrix must preserve authority-specific branches rather than invent a universal priority.
+
+- Nirṇayasindhu, “Śivarātri-nirṇaya” transcription: https://www.transliteral.org/pages/z130621065953/view
+- Corroborating secondary discussion quoting Nirṇayasindhu page 233 and noting differing definitions of Pradosha: https://en.bharatdiscovery.org/india/शिव_चौदस
+
+The TransLiteral page is a digital transcription/translation presentation, not the inspected print scan. The exact printed edition, page numbering and passage should still be verified before converting these statements into executable rules.
+
+### Evidence status after this pass
+
+| Question | Current status | What would close it |
+|---|---|---|
+| Does a specific Dharmasindhu print-edition locator exist for the both-tithis-extended Ekadashi case? | A registry reports p. 17 / leaf n39 in the 1888 Nirṇaya Sāgara Press edition; not independently checked by this project | Open the scan, inspect the whole page and neighbouring context, transcribe the passage, and record the scan URL/page image |
+| Are Smarta and Vaishnava Ekadashi profiles interchangeable? | No; the sources distinguish sunrise-vedha and Arunodaya-vedha, with further duration cases | Verify exact print pages and enumerate each duration configuration separately |
+| Does Nirṇayasindhu present one uncontested Shivaratri rule? | No; the online transcription explicitly records differing Pradosha/Nishitha views and multi-night cases | Verify the relevant print edition and document each named authority's case |
+| Are Pradosha durations settled for coding? | Not yet; secondary sources quote different ghati-based definitions | Establish the exact cited source and unit/context for each selected profile before coding |
+
+### Next research actions
+
+1. Independently inspect the 1888 Dharmasindhu scan at printed p. 17 and confirm the quoted Ekadashi/Dvadashi verse and surrounding rule.
+2. Locate a scan/edition of Nirṇayasindhu for the Shivaratri decision and compare the page image with the transcription.
+3. Turn only scan-verified passages into source-specific expected outcomes in `vrata-decision-test-matrix.md`; retain unresolved branches where the text leaves competing views.
+4. Only after that, test actual dates for a named location and year against a named independent almanac.
+
+**No production change:** this follow-up is documentation only. It does not modify `data/festivals.json`, runtime JavaScript, legacy festival dates, Blogger output, or PR merge state.
