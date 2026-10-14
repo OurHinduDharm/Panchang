@@ -365,3 +365,10 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Text-level checks: Vata Savitri passage explicitly records both Purnima and Amavasya traditions and says Amavasya is common in the author's region; Ashunya Shayana passage specifies Shravan Krishna Dwitiya through Margashirsha Krishna Dwitiya, pūrvaviddhā selection, and a paraviddhā tie-break if both/neither days are pūrvaviddhā. Archive OCR TOC also locates priority topics, but OCR page digits require image checking.
 - Updated `data/references/vrat-parichay-edition-comparison-status-draft.md`. Next: compare priority passages against page images and the user's OCR chunks, and separately inspect the second IA item for edition differences.
 - No runtime code, `data/festivals.json`, legacy dates, or Blogger output changed. PR #33 remains Draft/unmerged.
+
+
+### Clear 1956 Vrat-Parichay scan lead supplied by user (2026-10-14)
+- User supplied https://archive.org/details/fkvt_vrat-parichay-by-pandit-hanuman-sharma-hindi-hindu-rituals-1956-gorakhpur-gita-press and describes it as a clean, clear copy. The Archive.org page could not be opened by the current web reader (`DisabledError`), so its file list, imprint page, OCR, and scans are not yet independently verified.
+- Treat 1956 as a metadata/title claim pending inspection of the actual imprint. Do not conflate this candidate with the संवत् २०७०, चौबीसवाँ पुनर्मुद्रण copy at `https://archive.org/details/vrata-parichaya`.
+- Added the lead and verification checklist to `data/references/vrat-parichay-edition-comparison-status-draft.md`. Priority next step: inspect metadata/file identifiers and title/imprint page, then map printed pages to scan indices and compare key vrata passages.
+- No runtime code, `data/festivals.json`, legacy dates, or Blogger output changed. PR #33 remains Draft/unmerged.
