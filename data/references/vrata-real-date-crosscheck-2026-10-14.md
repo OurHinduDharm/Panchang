@@ -92,3 +92,20 @@ The user's validation requirement is correct: a comparison source is suitable fo
 For every external comparison, record the source's actual location settings and coordinates when available. If a site accepts custom coordinates, enter the project's exact point (30.1265° N, 80.4817° E, elevation 0 m). If it only provides a preset city or its underlying coordinates cannot be established, label the result as contextual evidence only—not an exact-time validation fixture. Do not treat a nearby town, a generic India time, or another Pithoragarh coordinate set as equivalent. If exact coordinate matching is unavailable, use the project's reproducible pinned-library output for the chosen point and seek a source that permits a like-for-like comparison; retain the mismatch explicitly rather than relaxing the rule.
 
 This rule applies to both previously listed candidates. Their existing public-source timings remain observations only until coordinate/location equivalence and convention equivalence are documented. No dates should be marked as passing based solely on the current mixed-location comparison.
+
+
+### External calculators that expose custom coordinates — reviewed 2026-10-15
+
+Two candidate sources expose manual latitude/longitude and timezone controls, and their published pages describe interval/range output:
+
+1. **Astroica Tithi calculator** — https://www.astroica.com/vedic-astrology/tithi-calculator.php. Its page advertises a date range, manual coordinates, timezone and ayanāṃśa options, and lists tithi start/end times. It is a candidate for the tithi interval side only; the exact selected settings and output for this audit have not yet been submitted or captured.
+2. **Astroica Nakshatra calculator** — https://www.astroica.com/vedic-astrology/nakshatra-calculator.php. Its page advertises date-range calculation, manual coordinates, timezone and ayanāṃśa options, and lists nakṣatra start/end times. It is a candidate for the nakṣatra interval side only; the exact selected settings and output for this audit have not yet been submitted or captured.
+
+The pages currently show example output for Ujjain, so those displayed times are **not** evidence for the selected audit coordinates. Before treating either result as an independent comparison, enter latitude 30.1265° N, longitude 80.4817° E, timezone Asia/Kolkata / UTC+05:30, and record the ayanāṃśa selected by the source. Then compare the source's selected ayanāṃśa and calculation conventions with the project's pinned library. If the source does not expose a compatible setting or does not return the required intervals, mark that dimension unverified rather than calling it a match.
+
+Web documentation reviewed:
+- Tithi custom-location and range controls: https://www.astroica.com/vedic-astrology/tithi-calculator.php
+- Nakṣatra custom-location and range controls: https://www.astroica.com/vedic-astrology/nakshatra-calculator.php
+- Alternative daily Panchang forms also expose latitude/longitude fields, but a daily snapshot is not sufficient by itself to validate exact transition intervals: https://www.onlinejyotish.com/ojmob/panchanga.php and https://www.astrobookonline.com/panchang/today-panchang
+
+**Status:** Candidate calculators identified; exact-coordinate results not yet run/captured, so no real-date fixture is certified by this addition.
