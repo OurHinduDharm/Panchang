@@ -278,3 +278,22 @@ The Wikisource URL/title आङ्गिरसस्मृतिः currently se
 ### Data and implementation decision
 
 This research supports the existing plan to store named Ekadashi observances separately from the **date-decision profile**. It does not yet justify choosing a single default for the whole site, generating new dates, or changing any legacy record. Before implementation, build a compact decision matrix from a checked edition of Dharmasindhu and Viramitrodaya, test it against trusted almanac examples, and document any remaining lineage-specific disagreements. TransLiteral is a valuable discovery and comparison layer, but its translated/transcribed text should not be treated as a critical edition.
+
+
+## Shivaratri decision cross-check — 2026-10-14
+
+### Source inspected
+- [Nirnayasindhu — शिवरात्रिनिर्णय, TransLiteral](https://www.transliteral.org/pages/z130621065953/view), especially the visible Sanskrit passage and its Marathi translation around lines 122–126.
+- [Nirnayasindhu 1.22, VedicPupil transcription](https://vedicpupil.in/library/books/nirnayasindhu/chapter-1/verse-22), used only as an accessible cross-check for the broader point that observance and parana can interact with tithi timing.
+
+### What the Nirnayasindhu transcription actually says
+The displayed Shivaratri decision passage explicitly records **more than one cited opinion**: some authorities use Pradosha-vyapini Chaturdashi, while others use Nishitha-vyapini (midnight) Chaturdashi. It then discusses additional conditions around the night, including the Chaturdashi's relation to the preceding Trayodashi and the Nishitha interval. The translation also identifies the month naming distinction between Phalguna Krishna Chaturdashi in a Purnimanta reckoning and Magha Krishna Chaturdashi in an Amanta reckoning.
+
+### Project implications
+- Do not reduce this source to “always use Pradosha” or “always use Nishitha” without choosing and documenting the adopted authority/profile.
+- Monthly Shivaratri and Maha Shivaratri must remain separate observance profiles until their respective date-selection rules are independently established. A common Chaturdashi label does not prove identical tie-break rules.
+- The source is a transcription/translation on TransLiteral; before coding a tie-break rule, verify the exact Sanskrit against a checked print edition or scan and preserve the cited authorities separately.
+- The existing legacy record for Maha Shivaratri is not evidence that a complete monthly Shivaratri recurrence already exists. Keep the candidate for Masik Shivaratri open; do not duplicate or rename a legacy entry without reviewing its intended scope.
+
+### Evidence status
+The conflict between Pradosha and Nishitha is explicitly visible in the source transcription, so the existence of differing cited positions is supported. The preferred project rule is **not decided**. No date predicate, festival record or live output changed.
