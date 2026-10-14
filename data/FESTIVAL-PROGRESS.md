@@ -128,3 +128,23 @@ The user confirmed separate Smarta and Vaishnava Ekadashi decision profiles. If 
 - No rules have been marked verified; no live Blogger code changed; draft PR #33 remains unmerged.
 
 - Added source-evidence notes to `data/references/ekadashi-rule-matrix-draft.md`: Hari-bhakti-vilasa 12.334-337 and Narada Purana Chapter 121 verse 98 converge on a Vaishnava Arunodaya-Dashami case, but translation inconsistency means it remains promising, not verified. Trisprisha is documented as a distinct three-tithi sequence requiring a special-case detector.
+
+
+## Ekadashi research workflow decisions (2026-10-14)
+
+The following process improvements are accepted for the research workflow; they do **not** certify any religious rule:
+
+- Mark Sanskrit/translation disagreements explicitly as `UNVERIFIED / TRANSLATION CONFLICT`; keep the rule in draft until the passage, edition and context are checked.
+- Expand the rule matrix with prerequisites, tithi/sunrise/Arunodaya state, tradition scope, decision, Parana consequence, source locator, confidence/status and worked test case.
+- Maintain a decision log separating accepted project/UI decisions from accepted scriptural rules. A UI decision can be accepted while the underlying religious rule remains unverified.
+- Build a historical test set only from dates whose location, tradition/calendar convention and published observance are recorded. Use historical calendars as cross-checks, not as proof of a rule by themselves.
+- Use AI for padaccheda/anvaya drafts, translation comparison and candidate test cases; verify all outputs against the actual Sanskrit passage and a reliable edition.
+
+### Important limits on Gemini's suggestions
+
+- Do not hard-code 45/55/57/60 ghati thresholds until the original passage, counting reference point and tradition scope are verified.
+- Hari Vasara's first-quarter rule, Dvadashi end, and post-sunrise Parana are research constraints to source-check by tradition and exception. Do not yet assume they are three universal hard constraints with one generic fallback.
+- Do not add Smarta householder/yati or Nimbarka/Gaudiya/ISKCON as fully implemented profiles just because the matrix has a tradition column. First collect the relevant rules and examples. The initial user-confirmed UI profiles remain Smarta and Vaishnava; the Vaishnava profile must not silently mean ISKCON.
+- Do not select a fallback such as water/Tulasi Parana for a conflict unless a source explicitly supports it for that case.
+
+No executable Ekadashi rule is approved by this workflow note. Draft PR #33 remains unmerged; production Blogger code remains unchanged.
