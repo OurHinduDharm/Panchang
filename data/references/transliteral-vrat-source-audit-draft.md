@@ -44,3 +44,45 @@ User highlighted the monthly index: https://www.transliteral.org/pages/i09011402
 - Ashadha, Shravan, Bhadrapada, Ashwin, Kartik, Margashirsha, Pausha, Magha, Phalguna are linked from the monthly index.
 
 Important limitation: the month pages themselves mostly function as navigation indexes; the actual vrata names/rules are likely one level deeper under Krishna-paksha and Shukla-paksha. Therefore audit should continue by opening those two sub-indexes for every month, collecting individual observance pages, and matching them against `festivals.json` and Vrat-Parichay. Do not treat the index as a complete list until both paksha sub-indexes and relevant child pages have been checked. The index page shows last updated January 22, 2014, so it may be incomplete or dated.
+
+
+## Complete monthly paksha index register (checked 2026-10-14)
+
+The following are the 24 month/paksha index URLs. They are navigation/source-discovery pages; an entry in a list is not by itself proof of a festival's modern observance date or a usable date-selection rule.
+
+| Lunar month | Krishna paksha index | Shukla paksha index |
+|---|---|---|
+| Chaitra | https://www.transliteral.org/pages/i090116003426/view | https://www.transliteral.org/pages/i090116010103/view |
+| Vaishakha | https://www.transliteral.org/pages/i090116222356/view | https://www.transliteral.org/pages/i090116224059/view |
+| Jyeshtha | https://www.transliteral.org/pages/i090117062605/view | https://www.transliteral.org/pages/i090118033705/view |
+| Ashadha | https://www.transliteral.org/pages/i090120214632/view | https://www.transliteral.org/pages/i090120215259/view |
+| Shravan | https://www.transliteral.org/pages/i090120221224/view | https://www.transliteral.org/pages/i090121013810/view |
+| Bhadrapada | https://www.transliteral.org/pages/i090121033801/view | https://www.transliteral.org/pages/i090121040257/view |
+| Ashwin | https://www.transliteral.org/pages/i090121222201/view | https://www.transliteral.org/pages/i090121222905/view |
+| Kartik | https://www.transliteral.org/pages/i090121234712/view | https://www.transliteral.org/pages/i090122002342/view |
+| Margashirsha | https://www.transliteral.org/pages/i090122034921/view | https://www.transliteral.org/pages/i090122040402/view |
+| Pausha | https://www.transliteral.org/pages/i020101012608/view | https://www.transliteral.org/pages/i020101013209/view |
+| Magha | https://www.transliteral.org/pages/i020101014607/view | https://www.transliteral.org/pages/i020101015847/view |
+| Phalguna | https://www.transliteral.org/pages/i020101051909/view | https://www.transliteral.org/pages/i020101054305/view |
+
+Parent monthly index: https://www.transliteral.org/pages/i090114020125/view
+
+### First-pass observations from paksha indexes
+
+These are names surfaced in index headings, not yet a final list of missing festivals. Normalize spelling/aliases and compare against the 122 existing data/festivals.json records before proposing additions.
+
+- **Chaitra Krishna:** Gauri-vrata, Holamahotsava (listed twice), Sankashti Chaturthi, Sheetala Ashtami, Santan Ashtami, Krishna Ekadashi, Varuni Yoga, Kedar Darshan, Chaitri Amavasya, Vahli-vrata, Pitri-vrata.
+- **Chaitra Shukla:** Samvatsara, Samvatsara-pujan, Tilaka-vrata, Arogya-vrata, Vidya-vrata, Navaratri, Panchratra (listed twice), Balendu-vrata, Netra-vrata, Dolanotsava, Gauri Tritiya, Ishvara-Gauri, Gauri-visarjan, Shri-vrata, Lakshmi-vrata, Kumara-vrata, Modana-vrata, Nama Saptami, Surya-vrata, Ashoka-kalika-prashana, Rama Navami, Shukla Ekadashi, Madana Dvadashi, Madana Puja, Pradosha-vrata, Chaitri Purnima, Tithisha-pujan, Hanumat-vrata.
+- **Margashirsha Krishna:** Dhanya-vrata, Anagha-vrata, Bhairava Jayanti, Kalashtami, Krishna Ekadashi-vrata, Gauri-tapa-vrata.
+- **Margashirsha Shukla:** Shukla Ekadashi, Vyanjana Dvadashi, Dvadashaditya-vrata, Janardana Puja, Ananga Trayodashi, Yama-darshana, Pishachamochana Yatra, Shiva Chaturdashi-vrata, Krichchhra Chaturthi, Vara Chaturthi, Nag Panchami, Shri Panchami, Tritaya Saptami, Mitra Saptami, Bhadra Saptami, Nikshubhar-ka-chatushtya, Nandini, Padartha Dashami, Dharma-traya-vrata, Dasha-aditya-vrata. Note: the rendered child list includes some entries labelled as Magha under the Margashirsha heading; treat this as a site/index anomaly to investigate, not a reliable month assignment.
+- **Pausha Krishna:** Sankashti Chaturthi, Rukmini Ashtami, Krishna Ekadashi, Surupa Dvadashi.
+- **Pausha Shukla:** Arogya-vrata, Ubhaya Saptami, Shukla Ekadashi, Sujanma Dvadashi, Ghrita-dana, Virupaksha-pujan, Ishana-vrata.
+- **Magha Krishna:** Magha-snan, Vakratunda Chaturthi, Krishna Ekadashi, Maghi Amavasya, Vidhi-puja, Ardhodaya, Patra-dana.
+- **Magha Shukla:** Kunda Chaturthi, Dhundhi-puja, Shanti Chaturthi, Angaraka Chaturthi, Ganesha-vrata, Sukha Chaturthi, Shri Panchami/Vasant Panchami, Mandara Shashthi, Daridryahara Shashthi, Bhanu Saptami, Putra Saptami, Sapta Saptami, Bhishma Ashtami, Tila Dvadashi, Dinatraya-vrata, Maghi Purnima, Mahamaghi.
+
+### Audit cautions and next pass
+
+- Paksha lists can contain repeated names, cross-linked entries, old/rare observances, and possible month-label inconsistencies. Preserve the original title and URL while recording a normalized candidate name.
+- The site gives many child pages a generic description in the index; open the individual child page before extracting a tithi, procedure, or timing rule.
+- Continue extracting the remaining 16 paksha indexes' headings, then compare the complete name inventory to data/festivals.json and the Vrat-Parichay source audit. Classify each as existing/alias, potentially missing, recurring rule-family, duplicate/index anomaly, or needs primary-source verification.
+- No runtime code, data/festivals.json, legacy dates, or Blogger output changed.
