@@ -504,3 +504,12 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Added a blocking unit distinction: two ghatis = 48 minutes, while three muhurtas = 144 minutes (using 24 minutes per ghati and 48 minutes per muhurta). A source passage that differs in units must be resolved before coding.
 - Kept unresolved disagreements visible rather than choosing a universal tie-break. Next: verify actual printed page images/editions and compare at least one real worked case per selected profile against an independent named almanac.
 - Documentation only. `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, and PR merge status remain unchanged; Draft PR #33 is not merged.
+
+
+### Printed-edition evidence leads recorded (2026-10-14)
+- Added a follow-up verification section to `data/references/transliteral-vrat-source-audit-draft.md`.
+- Recorded a concrete but still independently unverified locator for the Dharmasindhu both-tithis-extended Ekadashi verse: the Acharane source registry reports the 1888 Nirṇaya Sāgara Press edition, printed p. 17 / leaf n39. The verse is treated as a lead until this project inspects the scan and surrounding context.
+- Reconfirmed from the Nirṇayasindhu online transcription that the Shivaratri discussion preserves differing Pradosha-vyapini and Nishitha-vyapini views and multi-night cases. This is evidence against coding one universal rule, not a substitute for checking a printed edition.
+- Added an evidence-status table and explicit closure steps: inspect scans, transcribe surrounding context, keep authority-specific branches, and only then validate real dates against a named independent almanac.
+- New standalone test matrix remains at `data/references/vrata-decision-test-matrix.md`.
+- Documentation only; no edits to `data/festivals.json`, runtime JS, legacy dates, Blogger output, or PR merge state.
