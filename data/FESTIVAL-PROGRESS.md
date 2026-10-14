@@ -300,3 +300,18 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Captured important rule distinctions from OCR: Sankashti sections contain different two-day tie-break wording; Pradosh depends on local evening timing, not just Trayodashi; Vata Savitri explicitly records Amavasya and Purnima traditions; Ashunya Shayan is a multi-month observance; Mangala Gauri is described with a five-year sankalpa.
 - Added minimum regression-test scenarios and a required source/rule record shape. No executable rules, runtime data, old dates, article links, eclipse logic or Blogger output were changed.
 - Next gate: verify the complete passages against the printed page images/edition and reconcile conflicting authority statements before writing code. Coordinate Ekadashi items with the separate Smarta/Vaishnava rule track.
+
+
+## Source evidence ledger added (2026-10-14)
+
+- Added `data/references/vrat-parichay-source-evidence-draft.md` with source-by-source notes, visible printed-page labels, OCR chunk references, unresolved conflicts, and secondary cross-check links.
+- Sankashti: recurring moonrise predicate is clear, but the source OCR gives inconsistent two-day/no-day tie-breaks across pp. 44, 79, 108 and 118. No universal tie-break selected.
+- Pradosh: the source gives both two-ghati and three-ghati post-sunset definitions under different authorities (printed p. 54); ordinary Pradosh is kept separate from weekday-specific kāmya vows.
+- Vata Savitri: the source explicitly distinguishes Jyeshtha Purnima and Amavasya traditions (pp. 92–93); keep profiles separate.
+- Nirjala: Jyeshtha Shukla Ekadashi identified (p. 97); date/parana remain with the separate Ekadashi decision engine.
+- Ashunya Shayan: OCR describes a recurring series from Shravan Krishna Dwitiya through Margashirsha Krishna Dwitiya, with closure on Margashirsha Krishna Tritiya (pp. 106–107); endpoint and tithi-selection wording still need scan verification.
+- Mangala Gauri: the source describes every Shravan Tuesday for five years after marriage (pp. 115–116); this is a life-stage practice profile, not a universal festival for every user.
+- Adhimas/Purushottama Maas, Masik Shivaratri and Vaikuntha Chaturdashi remain contents-only/body-text research items.
+- Important limitation: these page numbers are visible OCR page labels, not yet independently verified against page images; edition metadata is also not yet verified. The ledger explicitly preserves that limitation.
+- Updated `data/references/vrat-parichay-priority-rule-spec-draft.md` to link the ledger and carry forward the unresolved conflicts.
+- No changes to `festivals.json`, executable date logic, article links, eclipse logic, or live Blogger output.
