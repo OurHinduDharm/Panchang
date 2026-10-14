@@ -432,3 +432,10 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Ashunya Shayana Dvitiya's Chandrodaya lead also appears on that mismatched page and remains provisional.
 - Updated data/references/transliteral-vrat-source-audit-draft.md with a source-by-source evidence matrix, quality caveats, implementation decisions, and next verification steps.
 - No changes to data/festivals.json, executable rules, live Blogger output, or PR merge status. PR #33 remains Draft/unmerged.
+
+
+### Ekadashi profile cross-check (2026-10-14)
+- Read the TransLiteral Dharmasindhu Vaishnava decision page. It distinguishes Arunodaya (four ghatikas before sunrise) from sunrise and describes several tithi-duration cases where Smarta and Vaishnava outcomes differ.
+- Cross-checked the structure against the Wikisource Viramitrodaya-Samayaprakasha Ekadashi section and the OCR-like Paramapurusha Samhita chapter 10. These are distinct witnesses; do not combine them into one universal algorithm without a selected tradition and edition-level review.
+- Research conclusion: model date-selection profile separately from the named Ekadashi observance. Parana requires its own sourced specification (Dvadashi duration, sunrise, Hari-vasara and profile-specific window). No runtime implementation or legacy date was changed.
+- Audit detail is in data/references/transliteral-vrat-source-audit-draft.md under “Ekadashi cross-check — Dharmasindhu tradition profiles”.
