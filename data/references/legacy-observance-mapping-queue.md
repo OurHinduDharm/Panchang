@@ -33,21 +33,21 @@ Status: first-pass candidate list generated from `data/festivals.json` on 2026-1
 
 | Legacy IDs | Group candidate | Important distinction |
 |---|---|---|
-| festival-001 to festival-012 | Pitru Paksha and Sharadiya Navratri / Vijayadashami | The archive contains period rows and day-specific rows; Navratri 2026 has a suspicious title/date combination around festival-009 and shared Ashtami/Navami date. Verify calendar first. |
+| festival-001 to festival-012 | Pitru Paksha and Sharadiya Navratri / Vijayadashami | The archive contains period rows and day-specific rows; Navratri 2026 includes a user-clarified Saptami tithi spanning 17–18 October; retain both civil-date coverage and model the observance decision separately. Also review the shared Ashtami/Navami date. |
 | festival-025 | Tulsi Vivah period | Legacy start/end range may represent a date window, not an exact wedding muhurat. |
 | festival-034, festival-036 | Shakambhari Navratri / Shakambhari Jayanti | Determine which stages are actually represented; don't infer all daily stages from a duration alone. |
 | festival-040 and relevant festival-060 to festival-072 | Magha Gupt Navratri / Chaitra Navratri | Keep start, daily tithi/deity, Ashtami, Navami, Parana, and Kalash immersion distinct. Some stages may coincide; calculate rather than assume. |
 | festival-059 to festival-072 | Chaitra Navratri, Ram Navami and immersion | Smarta and Vaishnava Ram Navami rows already have different legacy dates; preserve separate tradition scope until independently validated. |
 | festival-088 and festival-090 to festival-100 | Ashadha Gupt Navratri | Day labels can repeat on the same civil date when tithis overlap; don't force one stage per day. |
 | festival-101 | Harishayani Ekadashi / Chaturmas start | A multi-day endDate should not be used as Chaturmas duration or Ekadashi stage without evidence. |
-| festival-003 to festival-011 | Sharadiya Navratri stages | Many rows carry the same endDate; likely legacy display-period metadata, not a stage end time. Review the title “एवं १८ अक्टूबर को” in festival-009 against source before any date change. |
+| festival-003 to festival-011 | Sharadiya Navratri stages | Many rows carry the same endDate; likely legacy display-period metadata, not a stage end time. Per user clarification, “एवं १८ अक्टूबर को” is intentional because Ashwin Shukla Saptami spans 17 and 18 October in the paper Panchang/reference. Do not treat it as a typo; model tithi interval separately from the chosen observance date. |
 
 ## Priority C — placeholders / suspicious dates before any recurrence logic
 
-- `festival-054`: Solar eclipse uses `1970-01-01`, explicitly a placeholder. Use the existing eclipse module for astronomical events; independently handle local visibility and ritual guidance.
+- `festival-054`: `1970-01-01` is a legacy manual-update placeholder, not an event date. User wants this display connected to existing `eclipse-panchang.js` India public-eclipse results so it appears when the module reports an applicable event. Inspect the module API before integration; do not duplicate eclipse calculations.
 - `festival-019` through `festival-035`: several dates remain in 2025, although adjacent records use 2026. Verify intended target year and rule; do not bulk-shift dates.
-- `festival-117`: title says Ganesh Jayanti, but description links to Ganesh Chaturthi and the legacy end date extends to 2026-09-25. Verify intended observance and meaning of endDate.
-- `festival-009`: title embeds “18 October” while normalized start is 2026-10-17. Treat as a source conflict to resolve, not a typographical fix by guess.
+- `festival-117`: User clarified that Bhadrapada Shukla Chaturthi is referred to here as Ganesh Chaturthi and Ganesh Jayanti; do not split or flag this naming as an error. Map to the recurring tithi rule and preserve the original article. Independently verify the appropriate Madhyahna-vyapini rule and review the legacy endDate.
+- `festival-009`: title embeds “18 October” while normalized start is 2026-10-17. Per user clarification, Saptami spans 17–18 October; retain this fact and model tithi interval separately from observance-date selection.
 
 ## Link preservation audit
 
@@ -59,7 +59,12 @@ A normalized `sourceUrl` field currently stores one extracted URL, while some le
 
 ## Next review order
 
-1. Resolve the high-priority date/source conflicts in festival-009, festival-054, festival-117, and the 2025-date block.
+1. Treat festival-009, festival-054, and festival-117 per the user's clarifications; focus remaining review on source-dependent exceptions and the stale legacy date block.
 2. Inspect source articles for the candidate combined records above and mark each as `same-observance-alias`, `linked-observances`, or `unresolved`.
 3. Create mapping records with `legacyId`, `candidateObservanceIds`, `decisionStatus`, and `evidence`; only then design the actual data migration.
 4. Validate that all 122 legacy IDs and source text remain recoverable after any future migration.
+
+
+## User clarifications (2026-10-14)
+
+See [`festival-user-clarifications-2026-10-14.md`](festival-user-clarifications-2026-10-14.md). Legacy 2025 dates are stale manual display values and should eventually be replaced by recurring rule-based calculation, not bulk-shifted. Eclipse placeholder should be replaced by a connection to the existing eclipse module's India event results. These are implementation requirements; no runtime changes have yet been made.
