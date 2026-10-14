@@ -560,3 +560,10 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Narrowed the tithi/nakṣatra pāraṇa ambiguity: main view is after both endpoints; a secondary view permits one endpoint, but the source discussion explicitly warns against an unqualified “pāraṇa at Śravaṇa end while Dvādaśī continues” rule.
 - Identified the middle-20-ghaṭikā Śravaṇa avoidance as a Bhādrapada-specific discussion, with fallback and scope disputes that must not be generalized to all monthly Śravaṇa-Dvādaśīs.
 - Added VSH/PAR-SHR provisional test cases to the matrix. All changes remain documentation-only; no production dates/runtime/Blogger output changed, and PR #33 remains unmerged.
+
+### Implementation policy and website presentation plan (2026-10-14)
+- Added `data/references/vrata-implementation-readiness.md` with four readiness classes: ready for testing, explicit source/profile only, informational only, and hold pending evidence.
+- Defined the implementation boundary: astronomical intervals, vrata classification, observance tradition/capacity, and pāraṇa window must remain separate concerns.
+- Defined the intended website presentation: decision/result, plain-Hindi reasoning, shastric source, named मतभेद where relevant, and an honest limitation note when a reliable calculation is not possible.
+- The project goal is to implement every rule that can be supported and tested, while presenting unresolved rules as source-backed information rather than inventing a result.
+- Documentation only; runtime, festival data, Blogger output, and PR #33 merge state remain unchanged.
