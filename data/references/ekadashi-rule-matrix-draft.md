@@ -75,3 +75,19 @@ These notes improve traceability but do not promote any row to verified-rule.
 | SM-ED-VRIDDHI-BOTH-01 | Acharane's scan-backed registry describes a two-sunrise Ekadashi case where both Ekadashi and Dvadashi are “increased/current after sunrise.” Candidate operational reconstruction: Ekadashi at one relevant sunrise, Dvadashi at the next. | Reject the earlier day; accept the later day. | Explicitly Smarta; do not infer a Vaishnava result. | SOURCE-SUPPORTED / IMPLEMENTATION-PENDING. Verify the precise meaning of `वर्धते` in surrounding printed context and build a local-time worked example before coding. |
 
 Printed edition locators and matching Sanskrit verse are recorded in `ekadashi-primary-source-audit-2026-10-14.md`. The candidate trigger is intentionally not yet an executable predicate.
+
+
+## Dharmasindhu subtype taxonomy — research-only update (2026-10-14)
+
+The Dharmasindhu transcription provides separate Smarta and Vaishnava sections:
+- Smarta Vrat-dina-nirnaya: https://www.transliteral.org/pages/z80422042257/view
+- Vaishnava Vrat-dina-nirnaya: https://www.transliteral.org/pages/z80422042154/view
+
+The Vaishnava table distinguishes:
+1. Ekadashi-only adhikya,
+2. both Ekadashi and Dvadashi adhikya,
+3. Dvadashi-only adhikya,
+4. neither tithi adhikya,
+and gives different day-selection outcomes by case. It also separately defines Arunodaya-vedha and sunrise-vedha. The Smarta table contains eight cases and notes differing views for some cases.
+
+**Do not translate this summary directly into code.** First transcribe the exact eight Smarta examples and four Vaishnava subtypes, preserve their printed tithi-duration notation, identify the counting origin, and check the Sanskrit/printed edition. The 56-ghati and 60-ghati figures belong to different stated contexts in the transcription; they are not interchangeable universal thresholds.
