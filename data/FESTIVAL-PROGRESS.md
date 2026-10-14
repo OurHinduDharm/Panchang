@@ -522,3 +522,9 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Documentation only. No `data/festivals.json`, runtime JS, legacy dates, Blogger output, or PR merge state changed. Draft PR #33 remains unmerged.
 
 - Expanded `data/references/vrata-decision-test-matrix.md` with provisional PAR-01–PAR-08 and MDV-01 fixtures based on the owner-supplied p. 17 transcription. The cases explicitly preserve attributed disagreement and mark source collation pending; they are not executable rules.
+
+
+- Decoded the owner-supplied Dharmasindhu 1907 p. 17 clauses into a working rule-design section in `data/references/dharmasindhu-p17-parana-research.md`: Hari-vāsara pāraṇa, Trayodaśī fallback, the two midday opinions, Śravaṇa-Dvādaśī, Viṣṇu-śṛṅkhala, and the eight Mahādvādaśī identities.
+- Added concrete synthetic boundary fixtures to `data/references/vrata-decision-test-matrix.md`: Hari-vāsara just-before/at/after tests; separate majority and alternate midday profiles; Śravaṇa overlap cases; and eight separately named Mahādvādaśī tests.
+- Kept the Dharmasindhu p. 17 name-pairings explicit (Jayā–Puṣya, Vijayā–Śravaṇa, Jayantī–Punarvasu, Pāpanāśinī–Rohiṇī) instead of silently importing alternate pairings from other Vaishnava calendars. Online references are cross-checks only, not substitutes for the owner's supplied primary passage.
+- Research/test-specification only. No changes to `data/festivals.json`, runtime JavaScript, live Blogger output, or merge state; PR #33 remains unmerged.
