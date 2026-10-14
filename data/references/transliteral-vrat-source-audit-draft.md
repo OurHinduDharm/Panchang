@@ -447,3 +447,33 @@ Bibliographic leads for print editions:
 ### Source-quality rule
 
 A digital transcription can corroborate the reading of another transcription, but it does not establish edition independence unless the underlying edition/manuscript is identified. Until then, mark it as “parallel transcription” rather than “independent witness”. The case matrices above remain provisional; no runtime changes follow from these bibliographic leads.
+
+
+## Second-pass source comparison and next implementation gate — 2026-10-14
+
+### Ekadashi: better edition metadata found, but rule scope still matters
+
+A recent independent explainer, [Shastra Panchangam — Why Ekadashi Falls on Two Different Days](https://shastrapanchangam.com/en/ekadashi/), identifies its source as Dharmasindhu, Kāśīnātha Upādhyāya, pariccheda 1, “athaikādaśīvratadinanirṇayaḥ” and “atha smārtanirṇayaḥ”, pp. 13–14 / leaves 33–34, read from page images, with Swamikannu Pillai's *Indian Chronology* also named. This is a better traceable bibliographic lead than an unattributed quotation, and it independently explains why the Smarta sunrise test and Vaishnava Arunodaya test can select different dates.
+
+The TransLiteral concise Dharmasindhu page also explicitly states that Arunodaya-vedha and sunrise-vedha are two distinct tests and that they correspond respectively to Vaishnava and Smarta decisions; it gives duration-based exceptions, including cases where Ekadashi/Dvadashi have adhika duration. See [Dharmasindhu — concise vrata-day decision](https://www.transliteral.org/pages/z80422042403/view) and [Smarta decision](https://www.transliteral.org/pages/z80422042257/view).
+
+**Revised evidence status:** the profile distinction is strongly corroborated by two accessible presentations and named page/leaf metadata. The exact production algorithm remains unapproved until the cited page images are visually checked and the exceptional-case table is transcribed faithfully. “Independent explainer” is not automatically an independent primary witness.
+
+### Shivaratri: external date-rule summaries do not erase the source's debate
+
+- The [Nirnayasindhu Shivaratri decision, TransLiteral](https://www.transliteral.org/pages/z130621065953/view) explicitly records both Pradosha-vyapini and Nishitha-vyapini opinions, and discusses multi-day overlap cases.
+- [SanskritDocuments — festival rules](https://sanskritdocuments.org/incoming/ajit/panchanga/festival_rules.html) summarizes several Maha-Shivaratri tie-break cases and explicitly notes disagreement between Hemadri and Madhava's Nirnayasindhu in a two-night Nishitha-overlap case.
+- [Shastra Panchangam — monthly Shivaratri](https://shastrapanchangam.com/en/masik-shivaratri/) describes a Dharmasindhu page-image-based Nishitha rule for monthly Shivaratri, while the Nirnayasindhu text preserves a broader discussion of authorities and special cases.
+
+These summaries are useful for test-case discovery, not a substitute for choosing which authority OurHinduDharm will follow. Maha and monthly Shivaratri should remain distinct profiles, with the chosen authority recorded per rule.
+
+### Rules for the next implementation proposal
+
+1. Do not introduce a universal rule when the selected source names multiple authorities or exceptions.
+2. Store the **observance profile**, **source authority**, and **decision rationale** separately from computed tithi intervals.
+3. Build tests using exact event instants: tithi start/end, local sunrise, Arunodaya, sunset/Pradosha, Nishitha and local moonrise as applicable.
+4. Include expected “manual review / unresolved by selected profile” outcomes for cases not covered by the source matrix; do not silently guess a date.
+5. Keep calendar calculations (astronomy) and dharma-nibandha decision logic as separate test layers.
+6. Only after page-image verification and independent almanac comparison should the team propose a runtime rule or new festival record.
+
+No production date, JSON record, or live Panchang behavior is changed by this source-comparison pass.
