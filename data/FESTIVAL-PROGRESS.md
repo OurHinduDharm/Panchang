@@ -276,3 +276,12 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - This is intentionally a candidate queue, not a final list: the book contains recurring vrata rules, puja stages, regional practices, and specialised vows. Some items already exist in the 122 records or belong in the separate Ekadashi/monthly-observance catalog.
 - Explicit guardrail: do not change legacy dates or add candidates to runtime merely because a name appears in the contents. Confirm aliases, inspect the relevant body text, record the page/source and timing predicate, and test the rule first.
 - Next: expand the book contents audit into the remaining months/appendices, then compare aliases against both normalized names and original source titles/descriptions. Keep confirmed gaps separate from already-covered observances and unresolved tradition-specific items.
+
+## Vrat-Parichay audit expanded and alias mapping started (2026-10-14)
+
+- Expanded `data/references/vrat-parichay-gap-audit-draft.md` beyond the initial Chaitra–Kartik pass to cover Margashirsha, Pausha, Magha, Phalguna and the contents-listed appendices (Adhimas, Sankranti, Ayana/Paksha, weekday/Panchanga-factor, miscellaneous and prayashchitta vows). Sampled the separate disease/affliction-vow contents in OCR chunk `part-003.txt` and explicitly kept those outside the main festival feed.
+- Added `data/references/vrat-parichay-alias-match-draft.md`, a manual first-pass mapping to the current 122 `festivals.json` IDs. It separates strong name matches, related-but-not-equivalent items, recurring-rule-family gaps, and likely specialist-vrata exclusions.
+- Important distinctions recorded: one named Ekadashi does not implement all Ekadashis; Maha Shivaratri does not cover Masik Shivaratri; Skandamata does not prove Skanda Shashthi coverage; related Ganga/Yama/Vyasa observances must not be merged without reading their source passages.
+- No changes made to `festivals.json`, existing dates, linked article URLs, eclipse calculations or live Blogger output. PR remains draft.
+- Next: inspect body text for the highest-priority candidates (especially Vata Savitri, Nirjala Ekadashi, monthly Sankashti/Pradosh/Masik Shivaratri, Adhimas, and ambiguous ritual aliases), record exact printed page + OCR chunk, and only then propose rule definitions/tests.
+
