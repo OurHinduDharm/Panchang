@@ -439,8 +439,8 @@
       <div id="frameCompareOutput"><div class="status info">Not run yet.</div></div>
       <h3>Chapter VII — same-instant frame sensitivity (research only)</h3>
       <p class="small">Compares the current scalar LST conversion against the full-vector meridian candidate using the same Sun/Venus EQD vectors at the same instant. This is an intermediate-term comparison, not proof that either frame is historically correct.</p>
-      <div class="controls"><button type="button" onclick="runChapter7FrameSensitivityDiagnostic()">Run Chapter VII frame comparison</button>
-      <button type="button" onclick="runChapter7ObliquitySensitivityDiagnostic()">Compare 24° vs Chapter II.28 obliquity</button></div>
+      <div class="controls"><button type="button" id="runChapter7FrameSensitivityInlineBtn">Run Chapter VII frame comparison</button>
+      <button type="button" id="runChapter7ObliquitySensitivityBtn">Compare 24° vs Chapter II.28 obliquity</button></div>
       <div id="chapter7FrameSensitivityOutput"><div class="status info">Not run yet.</div></div>
       <div id="chapter7ObliquitySensitivityOutput"><div class="status info">Not run yet.</div></div>
     </section>
@@ -4786,6 +4786,34 @@ document
       document.getElementById("chapter7FrameSensitivityOutput").innerHTML =
         "<div class='status error'>" + String(error?.message || error) + "</div>";
       setStatus("Chapter VII frame comparison failed.", "error");
+    }
+  });
+
+document
+  .getElementById("runChapter7FrameSensitivityInlineBtn")
+  .addEventListener("click", () => {
+    try {
+      runChapter7FrameSensitivityDiagnostic();
+      setStatus("Chapter VII frame sensitivity comparison completed. Candidate geometry only; not a validated event date.", "info");
+    } catch (error) {
+      console.error("CHAPTER VII FRAME SENSITIVITY ERROR:", error);
+      document.getElementById("chapter7FrameSensitivityOutput").innerHTML =
+        "<div class='status error'>" + String(error?.message || error) + "</div>";
+      setStatus("Chapter VII frame comparison failed.", "error");
+    }
+  });
+
+document
+  .getElementById("runChapter7ObliquitySensitivityBtn")
+  .addEventListener("click", () => {
+    try {
+      runChapter7ObliquitySensitivityDiagnostic();
+      setStatus("Chapter VII obliquity sensitivity comparison completed. Obliquity parameter only; not a validated historical frame or event date.", "info");
+    } catch (error) {
+      console.error("CHAPTER VII OBLIQUITY SENSITIVITY ERROR:", error);
+      document.getElementById("chapter7ObliquitySensitivityOutput").innerHTML =
+        "<div class='status error'>" + String(error?.message || error) + "</div>";
+      setStatus("Chapter VII obliquity comparison failed.", "error");
     }
   });
 
