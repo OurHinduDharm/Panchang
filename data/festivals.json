@@ -1,0 +1,2619 @@
+{
+  "schemaVersion": 1,
+  "dataStatus": "legacy-migrated-with-provisional-rules",
+  "notes": [
+    "Migrated from the Blogger festivalData array in data/festivalData-source.txt.",
+    "All 122 legacy entries are retained; original title, description/HTML links, date, endDate, statusText and hidePeriod are preserved in sourceText.",
+    "Dates are copied as-is and are not verified or recalculated. date.type is manual until each festival's shastric/astronomical rule is reviewed.",
+    "Do not connect this file to the live Blogger widget until validation and date-rule migration are complete.",
+    "The source file also contains widget/rendering code and Chaturmas-related content outside the festivalData array; that content has not been migrated into this festival list.",
+    "Added preliminary date-rule fields from festival names and a limited review of linked OurHinduDharm articles. All entries remain needs-review; these are research hints, not certified dates.",
+    "sourceUrl is the first article link found in the original description HTML. No original title/description/links/date values were changed."
+  ],
+  "festivals": [
+    {
+      "id": "festival-001",
+      "name": "आश्विन कृष्ण प्रतिपदा (पितृपक्ष प्रारंभ)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-27",
+        "end": "2026-10-10",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण प्रतिपदा",
+        "month": "आश्विन/भाद्रपद",
+        "rule": "पितृपक्ष आरम्भ; पूर्णिमांत/अमांत मास-नाम और स्थानीय श्राद्ध-निर्णय सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html\" target=\"_blank\">प्रतिपदा का श्राद्ध, श्राद्ध प्रारंभ, महालय , पितृपक्ष प्रारंभ</a> - पितृपक्ष 10 अक्टूबर (सर्वपितृ अमावस्या) तक रहेगा।",
+      "statusText": "पितृपक्ष चल रहा है",
+      "sourceText": {
+        "date": "2026-09-27",
+        "endDate": "2026-10-10",
+        "statusText": "पितृपक्ष चल रहा है",
+        "title": "आश्विन कृष्ण प्रतिपदा (पितृपक्ष प्रारंभ)",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html\" target=\"_blank\">प्रतिपदा का श्राद्ध, श्राद्ध प्रारंभ, महालय , पितृपक्ष प्रारंभ</a> - पितृपक्ष 10 अक्टूबर (सर्वपितृ अमावस्या) तक रहेगा।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-002",
+      "name": "पितृ विसर्जन अमावास्या",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-10",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण अमावस्या",
+        "month": "आश्विन",
+        "rule": "सर्वपितृ अमावस्या; श्राद्ध/तर्पण के लिए अमावस्या-व्याप्ति और कुतुप/रौहिण मुहूर्त जैसे स्थानीय नियम जाँचें।"
+      },
+      "description": "पितृपक्ष पर <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\">पितृ तर्पण विधि</a> एवं <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\">पितृ विसर्जन विधि</a>",
+      "sourceText": {
+        "date": "2026-10-10",
+        "title": "पितृ विसर्जन अमावास्या",
+        "description": "पितृपक्ष पर <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\">पितृ तर्पण विधि</a> एवं <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\">पितृ विसर्जन विधि</a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-003",
+      "name": "शारदीय नवरात्र प्रारम्भ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-11",
+        "end": "2026-10-20",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "आश्विन शुक्ल प्रतिपदा",
+        "month": "आश्विन",
+        "rule": "प्रतिपदा से नवमी तक नवरात्र; स्थापना के लिए प्रतिपदा और प्रातःकाल/अभिजित आदि नियम अलग से जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\">शारदीय नवरात्र प्रारम्भ</a> (आश्विन शुक्ल प्रतिपदा) <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">घटस्थापना (संपूर्ण विधि)</a>कलश स्थापना मुहूर्त - 06:19 ए एम से 10:12 ए एम तक। अभिजित मुहूर्त - दिन - 11:32 am से 12:18 pm तक | जहाँ तक संभव हो चित्रा नक्षत्र व वैधृति योग टालकर ही कलश स्थापित करें, टालना असंभव हो तो अभिजित मुहूर्त पर करें। घटस्थापन और पूजा के लिए विशेष शुभ समय अपने शहर के अनुसार - <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\">हमारे पंचांग पृष्ठ में जाकर देखें</a> <br/>*<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a>",
+      "statusText": "नवरात्रि चल रही है",
+      "sourceText": {
+        "date": "2026-10-11",
+        "endDate": "2026-10-20",
+        "statusText": "नवरात्रि चल रही है",
+        "title": "शारदीय नवरात्र प्रारम्भ",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\">शारदीय नवरात्र प्रारम्भ</a> (आश्विन शुक्ल प्रतिपदा) <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">घटस्थापना (संपूर्ण विधि)</a>कलश स्थापना मुहूर्त - 06:19 ए एम से 10:12 ए एम तक। अभिजित मुहूर्त - दिन - 11:32 am से 12:18 pm तक | जहाँ तक संभव हो चित्रा नक्षत्र व वैधृति योग टालकर ही कलश स्थापित करें, टालना असंभव हो तो अभिजित मुहूर्त पर करें। घटस्थापन और पूजा के लिए विशेष शुभ समय अपने शहर के अनुसार - <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\">हमारे पंचांग पृष्ठ में जाकर देखें</a> <br/>*<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-004",
+      "name": "शारदीय नवरात्र द्वितीया - ब्रह्मचारिणी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-12",
+        "end": "2026-10-20",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">द्वितीयं ब्रह्मचारिणी</a>",
+      "hidePeriod": true,
+      "sourceText": {
+        "date": "2026-10-12",
+        "endDate": "2026-10-20",
+        "hidePeriod": true,
+        "title": "शारदीय नवरात्र द्वितीया - ब्रह्मचारिणी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">द्वितीयं ब्रह्मचारिणी</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-005",
+      "name": "शारदीय नवरात्र तृतीया - चन्द्रघंटा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-13",
+        "end": "2026-10-20",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">तृतीयं चन्द्रघंटेति</a> (२४ व २५ सितम्बर)",
+      "hidePeriod": true,
+      "sourceText": {
+        "date": "2026-10-13",
+        "endDate": "2026-10-20",
+        "hidePeriod": true,
+        "title": "शारदीय नवरात्र तृतीया - चन्द्रघंटा",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">तृतीयं चन्द्रघंटेति</a> (२४ व २५ सितम्बर)"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-006",
+      "name": "शारदीय नवरात्र चतुर्थी - कूष्माण्डा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-14",
+        "end": "2026-10-20",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">कूष्माण्डेति चतुर्थकम्</a>",
+      "hidePeriod": true,
+      "sourceText": {
+        "date": "2026-10-14",
+        "endDate": "2026-10-20",
+        "hidePeriod": true,
+        "title": "शारदीय नवरात्र चतुर्थी - कूष्माण्डा",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">कूष्माण्डेति चतुर्थकम्</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-007",
+      "name": "शारदीय नवरात्र पंचमी - स्कन्दमाता",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-15",
+        "end": "2026-10-20",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">पंचमं स्कन्दमातेति</a>",
+      "hidePeriod": true,
+      "sourceText": {
+        "date": "2026-10-15",
+        "endDate": "2026-10-20",
+        "hidePeriod": true,
+        "title": "शारदीय नवरात्र पंचमी - स्कन्दमाता",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">पंचमं स्कन्दमातेति</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-008",
+      "name": "शारदीय नवरात्र षष्ठी - कात्यायनी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-16",
+        "end": "2026-10-20",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च। अकाल बोधन, बिल्व निमंत्रण षष्ठी।",
+      "hidePeriod": true,
+      "sourceText": {
+        "date": "2026-10-16",
+        "endDate": "2026-10-20",
+        "hidePeriod": true,
+        "title": "शारदीय नवरात्र षष्ठी - कात्यायनी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च। अकाल बोधन, बिल्व निमंत्रण षष्ठी।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-009",
+      "name": "एवं १८ अक्टूबर को = शारदीय नवरात्र सप्तमी - कालरात्रि",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-17",
+        "end": "2026-10-20",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a> <br/> १७ अक्टूबर को  मूल नक्षत्र है जो सरस्वती देवी के आवाहन हेतु प्रशस्त है...मूल नक्षत्र में सरस्वती जी का आवाहन करें <br/> १८ अक्टूबर को पूर्वाषाढ़ा नक्षत्र में सरस्वती जी का पूजन करें।",
+      "hidePeriod": true,
+      "sourceText": {
+        "date": "2026-10-17",
+        "endDate": "2026-10-20",
+        "hidePeriod": true,
+        "title": "एवं १८ अक्टूबर को = शारदीय नवरात्र सप्तमी - कालरात्रि",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a> <br/> १७ अक्टूबर को  मूल नक्षत्र है जो सरस्वती देवी के आवाहन हेतु प्रशस्त है...मूल नक्षत्र में सरस्वती जी का आवाहन करें <br/> १८ अक्टूबर को पूर्वाषाढ़ा नक्षत्र में सरस्वती जी का पूजन करें।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-010",
+      "name": "शारदीय नवरात्र महाष्टमी - महागौरी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-19",
+        "end": "2026-10-20",
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "महाष्टमी/दुर्गाष्टमी; तिथि-व्याप्ति और कन्या पूजन/हवन के स्थानीय नियम जाँचें।",
+        "tithi": "आश्विन शुक्ल अष्टमी",
+        "month": "आश्विन"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a><br/>  <br/>  उत्तराषाढ़ा नक्षत्र में सरस्वती देवी के निमित्त बलिदान।<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">भद्रकाली जयन्ती</a>* सन्धि पूजा प्रारम्भ १०:२७ ए एम पर, सन्धि पूजा समाप्त ११:१५ ए एम पर। सन्धिपूजा मुहूर्त के अंतर्गत भगवती काली की उपासना करे। इस दिन व नवमी को कन्या पूजन का विशेष महत्व है।)",
+      "hidePeriod": true,
+      "sourceText": {
+        "date": "2026-10-19",
+        "endDate": "2026-10-20",
+        "hidePeriod": true,
+        "title": "शारदीय नवरात्र महाष्टमी - महागौरी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a><br/>  <br/>  उत्तराषाढ़ा नक्षत्र में सरस्वती देवी के निमित्त बलिदान।<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">भद्रकाली जयन्ती</a>* सन्धि पूजा प्रारम्भ १०:२७ ए एम पर, सन्धि पूजा समाप्त ११:१५ ए एम पर। सन्धिपूजा मुहूर्त के अंतर्गत भगवती काली की उपासना करे। इस दिन व नवमी को कन्या पूजन का विशेष महत्व है।)"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-011",
+      "name": "शारदीय नवरात्र महानवमी - सिद्धिदात्री",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-19",
+        "end": "2026-10-20",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। <br/>  श्रवण नक्षत्र में सरस्वती विसर्जन।<br/> नवरात्रि हवन।<a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> ⭐नवरात्र पारण(प्रसाद खाकर व्रत खोलना) - उत्तम तो यह है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः ही व्रत खोलें।",
+      "hidePeriod": true,
+      "sourceText": {
+        "date": "2026-10-19",
+        "endDate": "2026-10-20",
+        "hidePeriod": true,
+        "title": "शारदीय नवरात्र महानवमी - सिद्धिदात्री",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। <br/>  श्रवण नक्षत्र में सरस्वती विसर्जन।<br/> नवरात्रि हवन।<a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> ⭐नवरात्र पारण(प्रसाद खाकर व्रत खोलना) - उत्तम तो यह है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः ही व्रत खोलें।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-012",
+      "name": "दशहरा / विजयादशमी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-20",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल दशमी",
+        "month": "आश्विन",
+        "rule": "विजयादशमी का सामान्य नियम आश्विन शुक्ल दशमी; अपराह्ण/श्रवण नक्षत्र आदि क्षेत्रीय-शास्त्रीय निर्णय जाँचें।"
+      },
+      "description": "दुर्गा देवी के निमित्त बलिदान आदि करे। <br/> <b>विजयादशमी </b>- शमी पूजा, शस्त्र पूजन, अपराजिता पूजा, नीलकंठ पक्षी का दर्शन शुभ। शस्त्र आदि का पूजन। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\">कलश आदि का विसर्जन।</a>",
+      "sourceText": {
+        "date": "2026-10-20",
+        "title": "दशहरा / विजयादशमी",
+        "description": "दुर्गा देवी के निमित्त बलिदान आदि करे। <br/> <b>विजयादशमी </b>- शमी पूजा, शस्त्र पूजन, अपराजिता पूजा, नीलकंठ पक्षी का दर्शन शुभ। शस्त्र आदि का पूजन। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\">कलश आदि का विसर्जन।</a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-013",
+      "name": "कोजागरी पूर्णिमा / शरद पूर्णिमा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-26",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "आश्विन शुक्ल पूर्णिमा",
+        "month": "आश्विन",
+        "rule": "पूर्णिमा-आधारित; रात्रि में चन्द्रदर्शन/कोजागरी नियम परंपरा अनुसार जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\">कोजागरी पूर्णिमा</a>, <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">लक्ष्मी - कुबेर पूजन</a> , शरद पूर्णिमा। खीर छत पर रखें। कोजागर पूजा, वाल्मीकि जयंती, मीराबाई जयंती। श्री कार्तिकेय जयन्ती।",
+      "sourceText": {
+        "date": "2026-10-26",
+        "title": "कोजागरी पूर्णिमा / शरद पूर्णिमा",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\">कोजागरी पूर्णिमा</a>, <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">लक्ष्मी - कुबेर पूजन</a> , शरद पूर्णिमा। खीर छत पर रखें। कोजागर पूजा, वाल्मीकि जयंती, मीराबाई जयंती। श्री कार्तिकेय जयन्ती।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-014",
+      "name": "कार्तिक मास प्रारंभ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-27",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "अमांत बनाम पूर्णिमांत मास-पद्धति के अनुसार मास-आरम्भ अलग हो सकता है; site convention तय करें।",
+        "tithi": "आश्विन पूर्णिमा/अमावस्या के बाद मास-सीमा",
+        "month": "कार्तिक"
+      },
+      "description": "कार्तिक मास प्रारंभ - मान्यता है कि केवल कार्तिक मास में चातुर्मास के नियमों का आचरण करने से भी चातुर्मास्य व्रत का उत्तम फल प्राप्त होता है। कार्तिक मास में की गई पूजाएं, मन्त्रात्मक, स्तोत्रात्मक साधनाएं उत्तम फल देती हैं।",
+      "sourceText": {
+        "date": "2026-10-27",
+        "title": "कार्तिक मास प्रारंभ",
+        "description": "कार्तिक मास प्रारंभ - मान्यता है कि केवल कार्तिक मास में चातुर्मास के नियमों का आचरण करने से भी चातुर्मास्य व्रत का उत्तम फल प्राप्त होता है। कार्तिक मास में की गई पूजाएं, मन्त्रात्मक, स्तोत्रात्मक साधनाएं उत्तम फल देती हैं।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-015",
+      "name": "करवाचौथ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-10-29",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कार्तिक कृष्ण चतुर्थी",
+        "month": "कार्तिक",
+        "rule": "कृष्ण चतुर्थी; चन्द्रोदय-व्याप्ति/पूजा नियम जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\">करवाचौथ</a>",
+      "sourceText": {
+        "date": "2026-10-29",
+        "title": "करवाचौथ",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\">करवाचौथ</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-016",
+      "name": "रमा (रम्भा) एकादशी व्रत",
+      "date": {
+        "type": "tithi",
+        "start": "2026-11-05",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण एकादशी",
+        "month": "कार्तिक",
+        "rule": "एकादशी-व्रत निर्णय: हरिवासर, दशमी-वेध और स्थानीय सूर्योदय के नियम जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\">'रमा' (रम्भा) एकादशी व्रत</a>",
+      "sourceText": {
+        "date": "2026-11-05",
+        "title": "रमा (रम्भा) एकादशी व्रत",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\">'रमा' (रम्भा) एकादशी व्रत</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-017",
+      "name": "गोवत्स द्वादशी व्रत",
+      "date": {
+        "type": "tithi",
+        "start": "2026-11-05",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण द्वादशी",
+        "month": "कार्तिक",
+        "rule": "द्वादशी-आधारित; परंपरा और क्षेत्रीय कैलेंडर से सत्यापन शेष।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html\" target=\"_blank\">गोवत्स द्वादशी व्रत</a>[प्रदोष काल (सायंकाल) व्यापिनी द्वादशी में]",
+      "sourceText": {
+        "date": "2026-11-05",
+        "title": "गोवत्स द्वादशी व्रत",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html\" target=\"_blank\">गोवत्स द्वादशी व्रत</a>[प्रदोष काल (सायंकाल) व्यापिनी द्वादशी में]"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-018",
+      "name": "धनतेरस / धन्वन्तरि जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-11-06",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण त्रयोदशी",
+        "month": "कार्तिक",
+        "rule": "त्रयोदशी; प्रदोषकाल/स्थानीय पूजा-निर्णय जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\">धनतेरस</a>,<a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\">श्रीधन्वन्तरि जयन्ती</a> यमराज के लिए दीपदान प्रारम्भ, गोत्रिरात्र व्रत प्रारम्भ।🪔 विशेष पूजा मुहूर्त= शाम 5.58 - 7.43PM",
+      "sourceText": {
+        "date": "2026-11-06",
+        "title": "धनतेरस / धन्वन्तरि जयंती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\">धनतेरस</a>,<a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\">श्रीधन्वन्तरि जयन्ती</a> यमराज के लिए दीपदान प्रारम्भ, गोत्रिरात्र व्रत प्रारम्भ।🪔 विशेष पूजा मुहूर्त= शाम 5.58 - 7.43PM"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-019",
+      "name": "श्री हनुमान जयन्ती (2025)",
+      "date": {
+        "type": "tithi",
+        "start": "2025-10-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "हनुमान जयंती की तिथि क्षेत्र/परंपरा के अनुसार बदलती है; संबंधित लेख और स्थानीय परंपरा से पुष्टि आवश्यक।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\"> श्री हनुमान जयन्ती</a> आज हनुमान चालीसा के ११ या २१ या ५१ या १०८ पाठ अवश्य करें। विशेष रूप से आज <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html?m=1\" target=\"_blank\"> श्रीहनुमान जी की स्तोत्रात्मक उपासना</a> करना न भूलेंI आज शाम देवालयों में जाकर दीपदान करे(दीपक जलाये) उसके बाद घर में दीपदान करें। कामेश्वरी जयन्ती।",
+      "sourceText": {
+        "date": "2025-10-19",
+        "title": "श्री हनुमान जयन्ती (2025)",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\"> श्री हनुमान जयन्ती</a> आज हनुमान चालीसा के ११ या २१ या ५१ या १०८ पाठ अवश्य करें। विशेष रूप से आज <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html?m=1\" target=\"_blank\"> श्रीहनुमान जी की स्तोत्रात्मक उपासना</a> करना न भूलेंI आज शाम देवालयों में जाकर दीपदान करे(दीपक जलाये) उसके बाद घर में दीपदान करें। कामेश्वरी जयन्ती।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-020",
+      "name": "नरक चतुर्दशी / काली चौदस",
+      "date": {
+        "type": "tithi",
+        "start": "2025-10-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण चतुर्दशी",
+        "month": "कार्तिक",
+        "rule": "चतुर्दशी; अरुणोदय/चन्द्रोदय/प्रदोष से जुड़े क्षेत्रीय नियम जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\">नरक चतुर्दशी</a>, काली चौदस🪔 इस दिन प्रातः काल लौकी सिर से घुमाकर व सरसों का तेल शरीर में लगाकर स्नान करें।",
+      "sourceText": {
+        "date": "2025-10-19",
+        "title": "नरक चतुर्दशी / काली चौदस",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\">नरक चतुर्दशी</a>, काली चौदस🪔 इस दिन प्रातः काल लौकी सिर से घुमाकर व सरसों का तेल शरीर में लगाकर स्नान करें।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-021",
+      "name": "दीपावली / महालक्ष्मी पूजन",
+      "date": {
+        "type": "tithi",
+        "start": "2025-10-20",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण अमावस्या",
+        "month": "कार्तिक",
+        "rule": "अमावस्या; लक्ष्मीपूजन के लिए प्रदोष/निशीथकाल और स्थानीय अमावस्या-व्याप्ति जाँचें।"
+      },
+      "description": "<b><a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\">दीपावली</a></b>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html\" target=\"_blank\">श्री महालक्ष्मी पूजन विधि</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html\" target=\"_blank\">कमला महाविद्या जयंती</a>, <br/><a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">श्री लक्ष्मी स्तोत्राणि</a> <br/> <a href=\"https://www.drikpanchang.com/panchang/day-panchang.html?lang=hi\" target=\"_blank\">आज का पंचांग</a>, 🪔दीपावली मुहूर्तः<a href=\"https://www.drikpanchang.com/festivals/lakshmipuja/festivals-lakshmipuja-timings.html?year=2025\" target=\"_blank\">महालक्ष्मी पूजा का मुहूर्त</a><br/> 🪔⭐ इसी अर्धरात्रि को श्री काली जी का भी पूजन करे। ... <br/> प्रदोष काल- 06:34 PM से 08:06 PM तक<br/> वृषभ काल- 06:54 PM से 08:49 PM तक<br/> निशीथकाल - अर्धरात्रि 11:29 से 12:19 तक<br/> सिंह लग्न मुहूर्त देर रात 1.25 से 3.43 तक। ...",
+      "sourceText": {
+        "date": "2025-10-20",
+        "title": "दीपावली / महालक्ष्मी पूजन",
+        "description": "<b><a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\">दीपावली</a></b>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html\" target=\"_blank\">श्री महालक्ष्मी पूजन विधि</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html\" target=\"_blank\">कमला महाविद्या जयंती</a>, <br/><a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">श्री लक्ष्मी स्तोत्राणि</a> <br/> <a href=\"https://www.drikpanchang.com/panchang/day-panchang.html?lang=hi\" target=\"_blank\">आज का पंचांग</a>, 🪔दीपावली मुहूर्तः<a href=\"https://www.drikpanchang.com/festivals/lakshmipuja/festivals-lakshmipuja-timings.html?year=2025\" target=\"_blank\">महालक्ष्मी पूजा का मुहूर्त</a><br/> 🪔⭐ इसी अर्धरात्रि को श्री काली जी का भी पूजन करे। ... <br/> प्रदोष काल- 06:34 PM से 08:06 PM तक<br/> वृषभ काल- 06:54 PM से 08:49 PM तक<br/> निशीथकाल - अर्धरात्रि 11:29 से 12:19 तक<br/> सिंह लग्न मुहूर्त देर रात 1.25 से 3.43 तक। ..."
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-022",
+      "name": "अन्नकूट / गोवर्धन पूजा",
+      "date": {
+        "type": "tithi",
+        "start": "2025-10-22",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल प्रतिपदा",
+        "month": "कार्तिक",
+        "rule": "दीपावली के बाद कार्तिक शुक्ल प्रतिपदा; गोवर्धन पूजा का स्थानीय निर्णय जाँचें।"
+      },
+      "description": "अन्नकूट, गोवर्धन पूजा।",
+      "sourceText": {
+        "date": "2025-10-22",
+        "title": "अन्नकूट / गोवर्धन पूजा",
+        "description": "अन्नकूट, गोवर्धन पूजा।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-023",
+      "name": "भ्रातृ द्वितीया / यम द्वितीया",
+      "date": {
+        "type": "tithi",
+        "start": "2025-10-23",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल द्वितीया",
+        "month": "कार्तिक",
+        "rule": "कार्तिक शुक्ल द्वितीया; अपराह्ण-व्याप्ति के नियम जाँचें।"
+      },
+      "description": "भ्रातृ द्वितीया, यम द्वितीया",
+      "sourceText": {
+        "date": "2025-10-23",
+        "title": "भ्रातृ द्वितीया / यम द्वितीया",
+        "description": "भ्रातृ द्वितीया, यम द्वितीया"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-024",
+      "name": "देवोत्थापनी एकादशी एवं चातुर्मास समाप्त",
+      "date": {
+        "type": "tithi",
+        "start": "2025-11-01",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल एकादशी",
+        "month": "कार्तिक",
+        "rule": "एकादशी-व्रत निर्णय और चातुर्मास-समापन परंपरा जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html\" target=\"_blank\">देवोत्थापनी एकादशी</a> चातुर्मास समाप्त...",
+      "sourceText": {
+        "date": "2025-11-01",
+        "title": "देवोत्थापनी एकादशी एवं चातुर्मास समाप्त",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html\" target=\"_blank\">देवोत्थापनी एकादशी</a> चातुर्मास समाप्त..."
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-025",
+      "name": "तुलसी विवाह विधान प्रारंभ",
+      "date": {
+        "type": "tithi",
+        "start": "2025-11-02",
+        "end": "2025-11-05",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "प्रायः कार्तिक शुक्ल द्वादशी से पूर्णिमा के बीच",
+        "month": "कार्तिक",
+        "rule": "तुलसी विवाह की तिथि परंपरा/क्षेत्र के अनुसार भिन्न हो सकती है; एक निश्चित दिन न मानें।"
+      },
+      "description": "कार्तिक शुक्ल द्वादशी (२ नवंबर) से कार्तिक पूर्णिमा(5 नवंबर) तक <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\">तुलसी विवाह विधान</a> कराएं।",
+      "sourceText": {
+        "date": "2025-11-02",
+        "endDate": "2025-11-05",
+        "title": "तुलसी विवाह विधान प्रारंभ",
+        "description": "कार्तिक शुक्ल द्वादशी (२ नवंबर) से कार्तिक पूर्णिमा(5 नवंबर) तक <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\">तुलसी विवाह विधान</a> कराएं।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-026",
+      "name": "देव दीपावली एवं आकाशदीप दान",
+      "date": {
+        "type": "tithi",
+        "start": "2025-11-05",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण अमावस्या",
+        "month": "कार्तिक",
+        "rule": "अमावस्या; लक्ष्मीपूजन के लिए प्रदोष/निशीथकाल और स्थानीय अमावस्या-व्याप्ति जाँचें।"
+      },
+      "description": "देव दीपावली- 5 नवंबर 🪔तक <a href=\"https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html\" target=\"_blank\"> आकाशदीप दान करें।</a>",
+      "sourceText": {
+        "date": "2025-11-05",
+        "title": "देव दीपावली एवं आकाशदीप दान",
+        "description": "देव दीपावली- 5 नवंबर 🪔तक <a href=\"https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html\" target=\"_blank\"> आकाशदीप दान करें।</a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-027",
+      "name": "श्री महाकाल भैरव जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2025-11-12",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण अष्टमी",
+        "month": "मार्गशीर्ष",
+        "rule": "कालभैरवाष्टमी; परंपरा अनुसार मास/तिथि सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\">श्री महाकाल भैरव जयन्ती</a> महाभैरवाष्टमी, कालाष्टमी, <a href=\"https://ourhindudharm.blogspot.com/2014/11/About-Lord-Bhairava-And-Kalbhairavashtak-Stotra.html\" target=\"_blank\">पढें श्री भैरव महिमा</a>",
+      "sourceText": {
+        "date": "2025-11-12",
+        "title": "श्री महाकाल भैरव जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\">श्री महाकाल भैरव जयन्ती</a> महाभैरवाष्टमी, कालाष्टमी, <a href=\"https://ourhindudharm.blogspot.com/2014/11/About-Lord-Bhairava-And-Kalbhairavashtak-Stotra.html\" target=\"_blank\">पढें श्री भैरव महिमा</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-028",
+      "name": "हेमन्त ऋतु प्रारंभ",
+      "date": {
+        "type": "astronomical",
+        "start": "2025-11-21",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "ऋतु-आरम्भ की परिभाषा (सौर राशि-आधारित या मौसम/पंचांग परंपरा) पहले तय करनी होगी; अभी तारीख स्वचालित न करें।"
+      },
+      "description": "हेमन्त ऋतु प्रारंभ",
+      "sourceText": {
+        "date": "2025-11-21",
+        "title": "हेमन्त ऋतु प्रारंभ",
+        "description": "हेमन्त ऋतु प्रारंभ"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-029",
+      "name": "श्रीमद्भगवद्गीता जयंती / मोक्षदा एकादशी",
+      "date": {
+        "type": "tithi",
+        "start": "2025-12-01",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल एकादशी",
+        "month": "मार्गशीर्ष",
+        "rule": "एकादशी-व्रत निर्णय; गीता जयंती मार्गशीर्ष शुक्ल एकादशी से संबद्ध।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\">श्रीमद्भगवद्गीता जयंती</a>, मोक्षदा एकादशी",
+      "sourceText": {
+        "date": "2025-12-01",
+        "title": "श्रीमद्भगवद्गीता जयंती / मोक्षदा एकादशी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\">श्रीमद्भगवद्गीता जयंती</a>, मोक्षदा एकादशी"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-030",
+      "name": "श्री दत्तात्रेय जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2025-12-04",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल पूर्णिमा",
+        "month": "मार्गशीर्ष",
+        "rule": "मार्गशीर्ष शुक्ल पूर्णिमा; स्थानीय पंचांग से सत्यापन शेष।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html\" target=\"_blank\"> श्री दत्तात्रेय जयंती</a>",
+      "sourceText": {
+        "date": "2025-12-04",
+        "title": "श्री दत्तात्रेय जयंती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html\" target=\"_blank\"> श्री दत्तात्रेय जयंती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-031",
+      "name": "श्री त्रिपुरभैरवी महाविद्या जयंती, श्रीविद्या जयंती, अन्नपूर्णा जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2025-12-04",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "एक संयुक्त प्रविष्टि में अनेक पर्व हैं; मूल लेखों से अलग-अलग नियम और तिथियाँ सत्यापित करें।",
+        "tithi": "मार्गशीर्ष पूर्णिमा (प्रारंभिक संकेत)",
+        "month": "मार्गशीर्ष"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>,<a href=\"http://ourhindudharm.blogspot.com/2015/02/About-Goddess-Lalita-Or-Shodashi-Mahavidya-On-TripurSundariJayanti-LalithaPanchratn-Stotram.html\" target=\"_blank\">श्रीविद्या जयंती</a>, अन्नपूर्णा जयन्ती",
+      "sourceText": {
+        "date": "2025-12-04",
+        "title": "श्री त्रिपुरभैरवी महाविद्या जयंती, श्रीविद्या जयंती, अन्नपूर्णा जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>,<a href=\"http://ourhindudharm.blogspot.com/2015/02/About-Goddess-Lalita-Or-Shodashi-Mahavidya-On-TripurSundariJayanti-LalithaPanchratn-Stotram.html\" target=\"_blank\">श्रीविद्या जयंती</a>, अन्नपूर्णा जयन्ती"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-032",
+      "name": "पौष मास प्रारम्भ",
+      "date": {
+        "type": "tithi",
+        "start": "2025-12-05",
+        "end": "2026-01-03",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "चंद्र मास का आरम्भ अमांत/पूर्णिमांत पद्धति और संबंधित अमावस्या/पूर्णिमा सीमा पर निर्भर; परंपरा स्पष्ट करनी होगी।"
+      },
+      "description": "५ दिसम्बर २०२५ से ३ जनवरी २०२६ तक पौष मास--- <a href=\"https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html\" target=\"_blank\"> - जानें पौष मास का महत्व!</a>",
+      "sourceText": {
+        "date": "2025-12-05",
+        "endDate": "2026-01-03",
+        "title": "पौष मास प्रारम्भ",
+        "description": "५ दिसम्बर २०२५ से ३ जनवरी २०२६ तक पौष मास--- <a href=\"https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html\" target=\"_blank\"> - जानें पौष मास का महत्व!</a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-033",
+      "name": "धनु संक्रांति",
+      "date": {
+        "type": "solar",
+        "start": "2025-12-16",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "सूर्य के राशि-प्रवेश के सटीक क्षण से निर्धारित; स्थानीय दिन/पुण्यकाल नियम अलग से लागू करें।"
+      },
+      "description": "धनु संक्रांति",
+      "sourceText": {
+        "date": "2025-12-16",
+        "title": "धनु संक्रांति",
+        "description": "धनु संक्रांति"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-034",
+      "name": "श्री शाकंभरी नवरात्र प्रारम्भ",
+      "date": {
+        "type": "tithi",
+        "start": "2025-12-28",
+        "end": "2026-01-03",
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "शाकंभरी नवरात्र की अवधि और प्रारंभिक तिथि परंपरा/लेख से सत्यापित करनी है।",
+        "tithi": "पौष शुक्ल अष्टमी से पूर्णिमा तक (परंपरा जाँचें)",
+        "month": "पौष"
+      },
+      "description": "२८ दिसम्बर २०२५ से 3 जनवरी २०२६ तक - श्री शाकंभरी नवरात्र, <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\">इस अवसर पर श्री शाकम्भरी साधना करें </a>",
+      "sourceText": {
+        "date": "2025-12-28",
+        "endDate": "2026-01-03",
+        "title": "श्री शाकंभरी नवरात्र प्रारम्भ",
+        "description": "२८ दिसम्बर २०२५ से 3 जनवरी २०२६ तक - श्री शाकंभरी नवरात्र, <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\">इस अवसर पर श्री शाकम्भरी साधना करें </a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-035",
+      "name": "श्री तैलंग स्वामी जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2025-12-30",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "तैलंग स्वामी जयंती की तिथि मूल लेख से निकालकर प्रमाणित करना है; अभी अनुमान न लगाएँ।",
+        "tithi": null,
+        "month": null
+      },
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2014/01/About-Tailang-SwamiJi-On-His-Jayanti.html\" target=\"_blank\">श्री तैलंग स्वामी</a> का 412वां जन्मदिवस। पौष शुक्ल ११। इनका समाधि दिवस भी इसी तिथि को है।",
+      "sourceText": {
+        "date": "2025-12-30",
+        "title": "श्री तैलंग स्वामी जयंती",
+        "description": "<a href=\"https://ourhindudharm.blogspot.com/2014/01/About-Tailang-SwamiJi-On-His-Jayanti.html\" target=\"_blank\">श्री तैलंग स्वामी</a> का 412वां जन्मदिवस। पौष शुक्ल ११। इनका समाधि दिवस भी इसी तिथि को है।"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2014/01/About-Tailang-SwamiJi-On-His-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-036",
+      "name": "श्री शाकंभरी माता जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-01-03",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "पौष शुक्ल पूर्णिमा",
+        "month": "पौष",
+        "rule": "शाकंभरी जयंती की तिथि परंपरा के अनुसार जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\">श्री शाकम्भरी</a> माता की जयंती।",
+      "sourceText": {
+        "date": "2026-01-03",
+        "title": "श्री शाकंभरी माता जयंती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\">श्री शाकम्भरी</a> माता की जयंती।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-037",
+      "name": "माघ मास प्रारम्भ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-01-04",
+        "end": "2026-02-01",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "चंद्र मास का आरम्भ अमांत/पूर्णिमांत पद्धति और संबंधित अमावस्या/पूर्णिमा सीमा पर निर्भर; परंपरा स्पष्ट करनी होगी।"
+      },
+      "description": "४ जनवरी से १ फरवरी २०२६ तक माघ मास- <a href=\"https://ourhindudharm.blogspot.com/2014/01/About-Bathing-On-Maagh-The-Hindu-Month.html?m=1\" target=\"_blank\">माघ मास माहात्म्य</a>",
+      "sourceText": {
+        "date": "2026-01-04",
+        "endDate": "2026-02-01",
+        "title": "माघ मास प्रारम्भ",
+        "description": "४ जनवरी से १ फरवरी २०२६ तक माघ मास- <a href=\"https://ourhindudharm.blogspot.com/2014/01/About-Bathing-On-Maagh-The-Hindu-Month.html?m=1\" target=\"_blank\">माघ मास माहात्म्य</a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2014/01/About-Bathing-On-Maagh-The-Hindu-Month.html?m=1",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-038",
+      "name": "मकर संक्रान्ति / सूर्य उत्तरायण प्रारम्भ",
+      "date": {
+        "type": "solar",
+        "start": "2026-01-14",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "सूर्य का मकर राशि में प्रवेश",
+        "month": "सौर",
+        "rule": "संक्रांति का सटीक क्षण और स्थानीय पुण्यकाल; अयन-आरम्भ की परंपरा अलग से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\"> मकर संक्रान्ति</a> , सूर्य उत्तरायण प्रारम्भ।",
+      "sourceText": {
+        "date": "2026-01-14",
+        "title": "मकर संक्रान्ति / सूर्य उत्तरायण प्रारम्भ",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\"> मकर संक्रान्ति</a> , सूर्य उत्तरायण प्रारम्भ।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-039",
+      "name": "शिशिर ऋतु प्रारंभ",
+      "date": {
+        "type": "astronomical",
+        "start": "2026-01-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "ऋतु-आरम्भ की परिभाषा (सौर राशि-आधारित या मौसम/पंचांग परंपरा) पहले तय करनी होगी; अभी तारीख स्वचालित न करें।"
+      },
+      "description": "शिशिर ऋतु प्रारंभ",
+      "sourceText": {
+        "date": "2026-01-19",
+        "title": "शिशिर ऋतु प्रारंभ",
+        "description": "शिशिर ऋतु प्रारंभ"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-040",
+      "name": "माघ गुप्त नवरात्र प्रारम्भ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-01-19",
+        "end": "2026-01-27",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "आषाढ़/माघ शुक्ल प्रतिपदा",
+        "month": "माघ/आषाढ़",
+        "rule": "गुप्त नवरात्र शुक्ल प्रतिपदा से आरम्भ; महीने के अनुसार अलग पहचान आवश्यक।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html\" target=\"_blank\">माघ गुप्त नवरात्र :</a> १९ जनवरी - प्रतिपदा , २० जनवरी - द्वितीया , <br />२१ जनवरी - तृतीया, २२ जनवरी - चतुर्थी, <br />२३ जनवरी - पंचमी ,  २४ जनवरी - षष्ठी, २५ जनवरी - सप्तमी, <br /> २६ जनवरी - अष्टमी को रात्रि८:५३ से ९:४३PM- संधिपूजा मुहूर्त;<br /> २७ जनवरी - नवमी।",
+      "sourceText": {
+        "date": "2026-01-19",
+        "endDate": "2026-01-27",
+        "title": "माघ गुप्त नवरात्र प्रारम्भ",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html\" target=\"_blank\">माघ गुप्त नवरात्र :</a> १९ जनवरी - प्रतिपदा , २० जनवरी - द्वितीया , <br />२१ जनवरी - तृतीया, २२ जनवरी - चतुर्थी, <br />२३ जनवरी - पंचमी ,  २४ जनवरी - षष्ठी, २५ जनवरी - सप्तमी, <br /> २६ जनवरी - अष्टमी को रात्रि८:५३ से ९:४३PM- संधिपूजा मुहूर्त;<br /> २७ जनवरी - नवमी।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-041",
+      "name": "तिल कुंड चतुर्थी / वरद चतुर्थी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-01-22",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "चतुर्थी-आधारित; इस पर्व के पक्ष/मास और चन्द्रोदय नियम लेख/पंचांग से सत्यापित करें।",
+        "tithi": "चतुर्थी (पक्ष/मास सत्यापन शेष)",
+        "month": null
+      },
+      "description": "तिल कुंड चतुर्थी, वरद चतुर्थी। मन्त्रमहार्णवे- यजेच्छुक्लचतुर्थ्यां तु गणेशं भाद्रमाघयोः - भाद्र शुक्ल४ की ही भाँति माघ शुक्ल चतुर्थी के दिन भी गणेश जी की विशेष पूजा करनी चाहिए और उनके स्तोत्र मन्त्र आदि पाठ करें। तिल के मोदक अर्पित करें।",
+      "sourceText": {
+        "date": "2026-01-22",
+        "title": "तिल कुंड चतुर्थी / वरद चतुर्थी",
+        "description": "तिल कुंड चतुर्थी, वरद चतुर्थी। मन्त्रमहार्णवे- यजेच्छुक्लचतुर्थ्यां तु गणेशं भाद्रमाघयोः - भाद्र शुक्ल४ की ही भाँति माघ शुक्ल चतुर्थी के दिन भी गणेश जी की विशेष पूजा करनी चाहिए और उनके स्तोत्र मन्त्र आदि पाठ करें। तिल के मोदक अर्पित करें।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-042",
+      "name": "वसन्त पंचमी / सरस्वती पूजन",
+      "date": {
+        "type": "tithi",
+        "start": "2026-01-23",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "माघ शुक्ल पंचमी",
+        "month": "माघ",
+        "rule": "माघ शुक्ल पंचमी; स्थानीय पंचांग से पुष्टि करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\"> वसन्त पंचमी, श्री पंचमी, सरस्वती पूजन। देवी वागीश्वरी शारदा मां की जयन्ती। </a>",
+      "sourceText": {
+        "date": "2026-01-23",
+        "title": "वसन्त पंचमी / सरस्वती पूजन",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\"> वसन्त पंचमी, श्री पंचमी, सरस्वती पूजन। देवी वागीश्वरी शारदा मां की जयन्ती। </a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-043",
+      "name": "नर्मदा जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-01-25",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "नर्मदा जयंती सामान्यतः माघ शुक्ल सप्तमी; स्थानीय परंपरा से पुष्टि करें।",
+        "tithi": "माघ शुक्ल सप्तमी",
+        "month": "माघ"
+      },
+      "description": "नर्मदा (नदी) जयंती",
+      "sourceText": {
+        "date": "2026-01-25",
+        "title": "नर्मदा जयंती",
+        "description": "नर्मदा (नदी) जयंती"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-044",
+      "name": "भीष्माष्टमी एवं भीष्म तर्पण",
+      "date": {
+        "type": "tithi",
+        "start": "2026-01-26",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "माघ शुक्ल अष्टमी",
+        "month": "माघ",
+        "rule": "माघ शुक्ल अष्टमी; तर्पण के समय/स्थानीय विधि सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html\" target=\"_blank\"> भीष्माष्टमी, भीष्म तर्पण।</a>",
+      "sourceText": {
+        "date": "2026-01-26",
+        "title": "भीष्माष्टमी एवं भीष्म तर्पण",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html\" target=\"_blank\"> भीष्माष्टमी, भीष्म तर्पण।</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-045",
+      "name": "श्री ललिता त्रिपुरसुंदरी जी जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-02-01",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "माघ शुक्ल पूर्णिमा (संभावित परंपरा)",
+        "month": "माघ",
+        "rule": "तिथि-परंपरा को मूल लेख/सम्प्रदाय से पुष्टि करना आवश्यक है।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/02/About-Goddess-Lalita-Or-Shodashi-Mahavidya-On-TripurSundariJayanti-LalithaPanchratn-Stotram.html\" target=\"_blank\">श्री ललिता त्रिपुरसुंदरी जी (महाविद्या षोडशी) की जयंती</a> -<a href=\"http://ourhindudharm.blogspot.com/2015/02/The-StoryOf-Goddess-TripurSundari-On-ShriLalitaJayanti.html\" target=\"_blank\"> भगवती ललिता के प्रादुर्भाव की कथा</a>",
+      "sourceText": {
+        "date": "2026-02-01",
+        "title": "श्री ललिता त्रिपुरसुंदरी जी जयंती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/02/About-Goddess-Lalita-Or-Shodashi-Mahavidya-On-TripurSundariJayanti-LalithaPanchratn-Stotram.html\" target=\"_blank\">श्री ललिता त्रिपुरसुंदरी जी (महाविद्या षोडशी) की जयंती</a> -<a href=\"http://ourhindudharm.blogspot.com/2015/02/The-StoryOf-Goddess-TripurSundari-On-ShriLalitaJayanti.html\" target=\"_blank\"> भगवती ललिता के प्रादुर्भाव की कथा</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2015/02/About-Goddess-Lalita-Or-Shodashi-Mahavidya-On-TripurSundariJayanti-LalithaPanchratn-Stotram.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-046",
+      "name": "रथ सप्तमी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-02-04",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "माघ शुक्ल सप्तमी",
+        "month": "माघ",
+        "rule": "माघ शुक्ल सप्तमी; सूर्योदय-स्नान/अरुणोदय नियम जाँचें।"
+      },
+      "description": "रथ सप्तमी - इस तिथि पर भगवान सूर्य रथ पर पहले-पहल आरूढ़ हुए थे। इस तिथि को दिया गया दान व किया गया यज्ञ सब अक्षय - फलप्रद हो जाता है। लाल पुष्प व गंधाक्षत-तिल युक्त सूर्यार्घ्य अवश्य दें। इस दिन सूर्याराधन करने से दरिद्रता नष्ट होती है व भगवान सूर्य प्रसन्न होते हैं।",
+      "sourceText": {
+        "date": "2026-02-04",
+        "title": "रथ सप्तमी",
+        "description": "रथ सप्तमी - इस तिथि पर भगवान सूर्य रथ पर पहले-पहल आरूढ़ हुए थे। इस तिथि को दिया गया दान व किया गया यज्ञ सब अक्षय - फलप्रद हो जाता है। लाल पुष्प व गंधाक्षत-तिल युक्त सूर्यार्घ्य अवश्य दें। इस दिन सूर्याराधन करने से दरिद्रता नष्ट होती है व भगवान सूर्य प्रसन्न होते हैं।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-047",
+      "name": "यशोदा जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-02-07",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "यशोदा जयंती सामान्यतः फाल्गुन कृष्ण षष्ठी; पंचांग से पुष्टि करें।",
+        "tithi": "फाल्गुन कृष्ण षष्ठी",
+        "month": "फाल्गुन"
+      },
+      "description": "फाल्गुन कृष्ण षष्ठी - यशोदा जयन्ती",
+      "sourceText": {
+        "date": "2026-02-07",
+        "title": "यशोदा जयन्ती",
+        "description": "फाल्गुन कृष्ण षष्ठी - यशोदा जयन्ती"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-048",
+      "name": "शबरी जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-02-08",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "शबरी जयंती की तिथि परंपरा/लेख से पुष्टि करनी है।",
+        "tithi": null,
+        "month": "फाल्गुन"
+      },
+      "description": "फाल्गुन कृष्ण सप्तमी - शबरी जयंती",
+      "sourceText": {
+        "date": "2026-02-08",
+        "title": "शबरी जयंती",
+        "description": "फाल्गुन कृष्ण सप्तमी - शबरी जयंती"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-049",
+      "name": "मासिक कालाष्टमी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-02-09",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण अष्टमी",
+        "month": "मासिक",
+        "rule": "मासिक कालाष्टमी सामान्यतः प्रत्येक मास कृष्ण अष्टमी; मास-विशिष्ट तारीख अलग से गणना करें।"
+      },
+      "description": "मासिक कालाष्टमी",
+      "sourceText": {
+        "date": "2026-02-09",
+        "title": "मासिक कालाष्टमी",
+        "description": "मासिक कालाष्टमी"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-050",
+      "name": "श्री महाशिवरात्रि व्रत",
+      "date": {
+        "type": "tithi",
+        "start": "2026-02-15",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "फाल्गुन कृष्ण चतुर्दशी",
+        "month": "फाल्गुन",
+        "rule": "लेख में महाशिवरात्रि को फाल्गुन कृष्ण चतुर्दशी बताया गया है; निशीथकाल-व्याप्ति मुख्य निर्णय है।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html\" target=\"_blank\"> श्रीमहाशिवरात्रि व्रत </a>,<a href=\"http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\">शिवरात्रि का रहस्य</a>।<a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\">शिवरात्रि में रात्रि जागरण पूर्वक चारों प्रहर की शास्त्रोक्त विधान से पूजा करने की विधि</a>",
+      "sourceText": {
+        "date": "2026-02-15",
+        "title": "श्री महाशिवरात्रि व्रत",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html\" target=\"_blank\"> श्रीमहाशिवरात्रि व्रत </a>,<a href=\"http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\">शिवरात्रि का रहस्य</a>।<a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\">शिवरात्रि में रात्रि जागरण पूर्वक चारों प्रहर की शास्त्रोक्त विधान से पूजा करने की विधि</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-051",
+      "name": "आमलकी एकादशी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-02-27",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल एकादशी",
+        "month": "फाल्गुन",
+        "rule": "एकादशी-व्रत निर्णय; हरिवासर/दशमी-वेध जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html\" target=\"_blank\">आमलकी एकादशी</a>",
+      "sourceText": {
+        "date": "2026-02-27",
+        "title": "आमलकी एकादशी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html\" target=\"_blank\">आमलकी एकादशी</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-052",
+      "name": "होलिका-दहन",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-02",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "फाल्गुन पूर्णिमा के प्रदोष में भद्रा-रहित समय",
+        "month": "फाल्गुन",
+        "rule": "पूर्णिमा-व्याप्ति, प्रदोष और भद्रा-मुख/पुच्छ नियम से निर्णय; सिर्फ तारीख से नहीं।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\">होलिका-दहन, होली</a> तीन मार्च को ग्रहण होने से 2 मार्च को ही भद्रा के मुख का त्याग कर सांयकाल 6:30 IST से 20:14 पीएम तक होलिका दहन किया जाना उचित है।",
+      "sourceText": {
+        "date": "2026-03-02",
+        "title": "होलिका-दहन",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\">होलिका-दहन, होली</a> तीन मार्च को ग्रहण होने से 2 मार्च को ही भद्रा के मुख का त्याग कर सांयकाल 6:30 IST से 20:14 पीएम तक होलिका दहन किया जाना उचित है।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-053",
+      "name": "चंद्रग्रहण",
+      "date": {
+        "type": "astronomical",
+        "start": "2026-03-03",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "ग्रहण की तारीख/समय खगोलीय गणना और दृश्यता-स्थान से निकालें; किसी स्थिर वार्षिक तिथि का उपयोग न करें।"
+      },
+      "description": "<b> मंगलवार 3 मार्च 2026 को चंद्रग्रहण है</b> 🌝सायंकाल को - .. ग्रहण। सायं ६.१३ से ६.४६ बजे के मध्य ग्रहण है। सूतक काल सुबह .. से प्रारंभ होगा इससे पहले ही अपने जल में तुलसी डाल दें। ग्रहण सूतक में देवपूजा नहीं करनी, देवमूर्तियों को स्पर्श नहीं करना है। <a href=\"https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=03/03/2026&lang=hi&theme=classic\" target=\"_blank\"> इस लिंक पर जाकर अपने शहर के अनुसार ग्रहण का समय देखें।</a> इस चंद्रग्रहण पर <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\"> ग्रहणकालीन पुरश्चरण कर सकते हैं।</a> <br/> चंद्रोदय होते ही \"स्थानीय ग्रहण की अवधि\" के अंतर्गत ही पुरश्चरण करें। उपरोक्त लिंक द्वारा अपने स्थान अनुसार समय को जाँच लें। आपकी साधना सफल हो, इस हेतु शुभकामनायें! <br/> यह ग्रहण कुंभ राशि में लग रहा है। मेष वृषभ कर्क सिंह कन्या मकर कुम्भ राशियों के लिये प्रतिकूल बताया जा रहा है। हमने <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\"> चन्द्रग्रहण पीड़ाहर स्तोत्र </a> दिया है उसे पढें।",
+      "sourceText": {
+        "date": "2026-03-03",
+        "title": "चंद्रग्रहण",
+        "description": "<b> मंगलवार 3 मार्च 2026 को चंद्रग्रहण है</b> 🌝सायंकाल को - .. ग्रहण। सायं ६.१३ से ६.४६ बजे के मध्य ग्रहण है। सूतक काल सुबह .. से प्रारंभ होगा इससे पहले ही अपने जल में तुलसी डाल दें। ग्रहण सूतक में देवपूजा नहीं करनी, देवमूर्तियों को स्पर्श नहीं करना है। <a href=\"https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=03/03/2026&lang=hi&theme=classic\" target=\"_blank\"> इस लिंक पर जाकर अपने शहर के अनुसार ग्रहण का समय देखें।</a> इस चंद्रग्रहण पर <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\"> ग्रहणकालीन पुरश्चरण कर सकते हैं।</a> <br/> चंद्रोदय होते ही \"स्थानीय ग्रहण की अवधि\" के अंतर्गत ही पुरश्चरण करें। उपरोक्त लिंक द्वारा अपने स्थान अनुसार समय को जाँच लें। आपकी साधना सफल हो, इस हेतु शुभकामनायें! <br/> यह ग्रहण कुंभ राशि में लग रहा है। मेष वृषभ कर्क सिंह कन्या मकर कुम्भ राशियों के लिये प्रतिकूल बताया जा रहा है। हमने <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\"> चन्द्रग्रहण पीड़ाहर स्तोत्र </a> दिया है उसे पढें।"
+      },
+      "sourceUrl": "https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=03/03/2026&lang=hi&theme=classic",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-054",
+      "name": "सूर्य ग्रहण (तिथि परिवर्तनशील / प्लेसहोल्डर)",
+      "date": {
+        "type": "astronomical",
+        "start": "1970-01-01",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "ग्रहण की तारीख/समय खगोलीय गणना और दृश्यता-स्थान से निकालें; किसी स्थिर वार्षिक तिथि का उपयोग न करें।"
+      },
+      "description": "सूर्य ग्रहण - इस वर्ष (2026) के टेक्स्ट में इसका उल्लेख नहीं है, परंतु डेटा संरचना बनाए रखने व लिंक सहेजने हेतु इसे रखा गया है। वास्तविक तिथि के लिए पंचांग देखें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\">ग्रहण स्तोत्र एवं पूजन विधि</a>",
+      "sourceText": {
+        "date": "1970-01-01",
+        "title": "सूर्य ग्रहण (तिथि परिवर्तनशील / प्लेसहोल्डर)",
+        "description": "सूर्य ग्रहण - इस वर्ष (2026) के टेक्स्ट में इसका उल्लेख नहीं है, परंतु डेटा संरचना बनाए रखने व लिंक सहेजने हेतु इसे रखा गया है। वास्तविक तिथि के लिए पंचांग देखें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\">ग्रहण स्तोत्र एवं पूजन विधि</a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-055",
+      "name": "धुलण्डी (रंगवाली होली)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-03",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "फाल्गुन पूर्णिमा के अगले दिन",
+        "month": "फाल्गुन",
+        "rule": "होलिका दहन के बाद रंगोत्सव; क्षेत्रीय परंपरा के अनुसार।"
+      },
+      "description": "धुलण्डी, रंगवाली होली (<a href=\"http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html\" target=\"_blank\">जानें होली का रहस्य</a>) 4 मार्च को वसंतोत्सव रहेगा इस दिन भी होली खेल सकते हैं।",
+      "sourceText": {
+        "date": "2026-03-03",
+        "title": "धुलण्डी (रंगवाली होली)",
+        "description": "धुलण्डी, रंगवाली होली (<a href=\"http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html\" target=\"_blank\">जानें होली का रहस्य</a>) 4 मार्च को वसंतोत्सव रहेगा इस दिन भी होली खेल सकते हैं।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-056",
+      "name": "श्री महालक्ष्मी जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-03",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "नाम/तारीख से अनुमानित नियम; लेख और स्थानीय परंपरा से पुष्टि आवश्यक।",
+        "tithi": "फाल्गुन पूर्णिमा (प्रारंभिक संकेत)",
+        "month": "फाल्गुन"
+      },
+      "description": "मान्यता है फाल्गुन पूर्णिमा को श्री महालक्ष्मी समुद्र मंथन से उद्भूत हुई थीं - प्रमुखता से दक्षिणी भारत में श्री लक्ष्मी जी की जयंती - इस अवसर पर <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\">श्री महालक्ष्मी जी की उपासना करें </a>",
+      "sourceText": {
+        "date": "2026-03-03",
+        "title": "श्री महालक्ष्मी जयंती",
+        "description": "मान्यता है फाल्गुन पूर्णिमा को श्री महालक्ष्मी समुद्र मंथन से उद्भूत हुई थीं - प्रमुखता से दक्षिणी भारत में श्री लक्ष्मी जी की जयंती - इस अवसर पर <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\">श्री महालक्ष्मी जी की उपासना करें </a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-057",
+      "name": "वसन्त ऋतु प्रारंभ",
+      "date": {
+        "type": "astronomical",
+        "start": "2026-03-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "ऋतु-आरम्भ की परिभाषा (सौर राशि-आधारित या मौसम/पंचांग परंपरा) पहले तय करनी होगी; अभी तारीख स्वचालित न करें।"
+      },
+      "description": "वसन्त ऋतु प्रारंभ",
+      "sourceText": {
+        "date": "2026-03-19",
+        "title": "वसन्त ऋतु प्रारंभ",
+        "description": "वसन्त ऋतु प्रारंभ"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-058",
+      "name": "हिंदू नवसंवत्सर २०८३ (रौद्र)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "चैत्र शुक्ल प्रतिपदा",
+        "month": "चैत्र",
+        "rule": "हिंदू नववर्ष का सामान्य नियम चैत्र शुक्ल प्रतिपदा; अमांत/पूर्णिमांत परंपरा और संवत्सर नाम अलग से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Hindu-Navsamvatsar.html\" target=\"_blank\"> \"रौद्र\" नामक हिंदू नवसंवत्सर २०८३ मंगलमय हो!</a> वसन्त ऋतु प्रारंभ",
+      "sourceText": {
+        "date": "2026-03-19",
+        "title": "हिंदू नवसंवत्सर २०८३ (रौद्र)",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Hindu-Navsamvatsar.html\" target=\"_blank\"> \"रौद्र\" नामक हिंदू नवसंवत्सर २०८३ मंगलमय हो!</a> वसन्त ऋतु प्रारंभ"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Hindu-Navsamvatsar.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-059",
+      "name": "चैत्र (वासन्तीय) नवरात्र प्रारम्भ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-19",
+        "end": "2026-03-27",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "चैत्र शुक्ल प्रतिपदा",
+        "month": "चैत्र",
+        "rule": "चैत्र शुक्ल प्रतिपदा से नवरात्र; घटस्थापना के विशेष नियम अलग से जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-The-Significance-of-Vasanti-Or-Chaitra-Navratri.html\" target=\"_blank\">चैत्र या वासन्तीय नवरात्रों का प्रारम्भ</a>,<br/><a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">कलश स्थापना विधि</a>, <a href=\"https://www.drikpanchang.com/navratri/chaitra-navratri-ghatasthapana.html?year=2026\" target=\"_blank\">कलशस्थापन का मुहूर्त इस लिंक पर जाकर शहर का नाम डालकर देख लें।</a> <br/> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\">वासंतीय नवरात्र-प्रथम दिन शैलपुत्री जी का पूजन</a>",
+      "sourceText": {
+        "date": "2026-03-19",
+        "endDate": "2026-03-27",
+        "title": "चैत्र (वासन्तीय) नवरात्र प्रारम्भ",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-The-Significance-of-Vasanti-Or-Chaitra-Navratri.html\" target=\"_blank\">चैत्र या वासन्तीय नवरात्रों का प्रारम्भ</a>,<br/><a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">कलश स्थापना विधि</a>, <a href=\"https://www.drikpanchang.com/navratri/chaitra-navratri-ghatasthapana.html?year=2026\" target=\"_blank\">कलशस्थापन का मुहूर्त इस लिंक पर जाकर शहर का नाम डालकर देख लें।</a> <br/> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\">वासंतीय नवरात्र-प्रथम दिन शैलपुत्री जी का पूजन</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2015/03/About-The-Significance-of-Vasanti-Or-Chaitra-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-060",
+      "name": "नवरात्रि द्वितीय - ब्रह्मचारिणी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-20",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">नवरात्रि के दूसरे दिन ब्रह्मचारिणी जी का आराधन</a>",
+      "sourceText": {
+        "date": "2026-03-20",
+        "title": "नवरात्रि द्वितीय - ब्रह्मचारिणी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">नवरात्रि के दूसरे दिन ब्रह्मचारिणी जी का आराधन</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-061",
+      "name": "श्री मत्स्य-अवतार जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-21",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "मत्स्य जयंती सामान्यतः चैत्र शुक्ल तृतीया; स्थानीय पंचांग से पुष्टि करें।",
+        "tithi": "चैत्र शुक्ल तृतीया",
+        "month": "चैत्र"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\">श्री मत्स्य-अवतार जयन्ती</a>",
+      "sourceText": {
+        "date": "2026-03-21",
+        "title": "श्री मत्स्य-अवतार जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\">श्री मत्स्य-अवतार जयन्ती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-062",
+      "name": "नवरात्रि तृतीय - चन्द्रघंटा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-21",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">नवरात्रि के तृतीय दिवस चन्द्रघंटा माँ की आराधना</a>",
+      "sourceText": {
+        "date": "2026-03-21",
+        "title": "नवरात्रि तृतीय - चन्द्रघंटा",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">नवरात्रि के तृतीय दिवस चन्द्रघंटा माँ की आराधना</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-063",
+      "name": "नवरात्रि चतुर्थ - कूष्माण्डा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-22",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">नवरात्रि का चतुर्थ दिन - कूष्माण्डा जी का पूजन</a>",
+      "sourceText": {
+        "date": "2026-03-22",
+        "title": "नवरात्रि चतुर्थ - कूष्माण्डा",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">नवरात्रि का चतुर्थ दिन - कूष्माण्डा जी का पूजन</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-064",
+      "name": "नवरात्रि पंचम - स्कन्दमाता",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-23",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">नवरात्र के पंचम दिन स्कन्दमाता जी का पूजन</a>",
+      "sourceText": {
+        "date": "2026-03-23",
+        "title": "नवरात्रि पंचम - स्कन्दमाता",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">नवरात्र के पंचम दिन स्कन्दमाता जी का पूजन</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-065",
+      "name": "नवरात्रि षष्ठ - कात्यायनी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-24",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">नवरात्र के छठे दिन कात्यायनी माँ की पूजा</a>",
+      "sourceText": {
+        "date": "2026-03-24",
+        "title": "नवरात्रि षष्ठ - कात्यायनी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">नवरात्र के छठे दिन कात्यायनी माँ की पूजा</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-066",
+      "name": "नवरात्रि सप्तम - कालरात्रि (महासप्तमी)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-25",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">नवरात्र के सप्तम दिन कालरात्रि पूजन</a> महासप्तमी",
+      "sourceText": {
+        "date": "2026-03-25",
+        "title": "नवरात्रि सप्तम - कालरात्रि (महासप्तमी)",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">नवरात्र के सप्तम दिन कालरात्रि पूजन</a> महासप्तमी"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-067",
+      "name": "नवरात्रि अष्टमी - महागौरी एवं अन्नपूर्णा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-26",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">नवरात्रि में अष्टमी को महागौरी जी की आराधना</a>, अन्नपूर्णा माँ की पूजा। (चैत्र नवरात्रि अष्टमी - इस दिन कन्या पूजन करें।)",
+      "sourceText": {
+        "date": "2026-03-26",
+        "title": "नवरात्रि अष्टमी - महागौरी एवं अन्नपूर्णा",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">नवरात्रि में अष्टमी को महागौरी जी की आराधना</a>, अन्नपूर्णा माँ की पूजा। (चैत्र नवरात्रि अष्टमी - इस दिन कन्या पूजन करें।)"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-068",
+      "name": "श्रीरामनवमी (स्मार्त)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-26",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "चैत्र शुक्ल नवमी",
+        "month": "चैत्र",
+        "rule": "रामनवमी में मध्याह्न-व्याप्ति महत्वपूर्ण; स्मार्त/वैष्णव नियम अलग हो सकते हैं।"
+      },
+      "description": "दो दिन नवमी तिथि व्याप्त होने से इस बार २६ मार्च को स्मार्तों (जनसाधारण) की श्रीरामनवमी",
+      "sourceText": {
+        "date": "2026-03-26",
+        "title": "श्रीरामनवमी (स्मार्त)",
+        "description": "दो दिन नवमी तिथि व्याप्त होने से इस बार २६ मार्च को स्मार्तों (जनसाधारण) की श्रीरामनवमी"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-069",
+      "name": "श्रीरामनवमी (वैष्णव सम्प्रदाय)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-27",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "चैत्र शुक्ल नवमी",
+        "month": "चैत्र",
+        "rule": "रामनवमी में मध्याह्न-व्याप्ति महत्वपूर्ण; स्मार्त/वैष्णव नियम अलग हो सकते हैं।"
+      },
+      "description": "२७ मार्च को वैष्णव सम्प्रदाय (वैष्णव दीक्षा प्राप्त) के अनुसार श्रीरामनवमी। <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html\" target=\"_blank\">भगवान श्री राम जयंती अर्थात् श्रीराम नवमी पर संक्षिप्त पूजा विधि</a>",
+      "sourceText": {
+        "date": "2026-03-27",
+        "title": "श्रीरामनवमी (वैष्णव सम्प्रदाय)",
+        "description": "२७ मार्च को वैष्णव सम्प्रदाय (वैष्णव दीक्षा प्राप्त) के अनुसार श्रीरामनवमी। <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html\" target=\"_blank\">भगवान श्री राम जयंती अर्थात् श्रीराम नवमी पर संक्षिप्त पूजा विधि</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-070",
+      "name": "नवरात्रि नवमी - सिद्धिदात्री एवं तारा महाविद्या जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-27",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवरात्र के नवम दिन सिद्धिदात्री जी की आराधना</a>, <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html\" target=\"_blank\">तारा महाविद्या जयंती</a> (चैत्र नवरात्रि नवमी - इस दिन भी कन्या पूजन करें।)",
+      "sourceText": {
+        "date": "2026-03-27",
+        "title": "नवरात्रि नवमी - सिद्धिदात्री एवं तारा महाविद्या जयंती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवरात्र के नवम दिन सिद्धिदात्री जी की आराधना</a>, <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html\" target=\"_blank\">तारा महाविद्या जयंती</a> (चैत्र नवरात्रि नवमी - इस दिन भी कन्या पूजन करें।)"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-071",
+      "name": "चैत्र नवरात्र पारण",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-27",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "पारण की तारीख केवल नवरात्र के अंतिम दिन से नहीं; नवमी/दशमी व्याप्ति और व्रती की परंपरा जाँचें।",
+        "tithi": "नवमी/दशमी, व्रत-परंपरा अनुसार",
+        "month": "चैत्र"
+      },
+      "description": "वासन्ती नवरात्रपारणा: जो पूरे नौ दिन उपवास रखते हैं वे नवमी (27 मार्च) की रात्रि को व्रत खोलें।",
+      "sourceText": {
+        "date": "2026-03-27",
+        "title": "चैत्र नवरात्र पारण",
+        "description": "वासन्ती नवरात्रपारणा: जो पूरे नौ दिन उपवास रखते हैं वे नवमी (27 मार्च) की रात्रि को व्रत खोलें।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-072",
+      "name": "कलश विसर्जन",
+      "date": {
+        "type": "tithi",
+        "start": "2026-03-28",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "कलश विसर्जन के लिए स्थानीय पूजा परंपरा और दशमी/नवमी नियम जाँचें।",
+        "tithi": "नवरात्र समापन-दिन; परंपरा अनुसार",
+        "month": "चैत्र/आषाढ़"
+      },
+      "description": "कलश आदि का विसर्जन दशमी तिथि की प्रातः (28 मार्च को) करना चाहिए",
+      "sourceText": {
+        "date": "2026-03-28",
+        "title": "कलश विसर्जन",
+        "description": "कलश आदि का विसर्जन दशमी तिथि की प्रातः (28 मार्च को) करना चाहिए"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-073",
+      "name": "श्री हनुमान जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-04-02",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "हनुमान जयंती की तिथि क्षेत्र/परंपरा के अनुसार बदलती है; संबंधित लेख और स्थानीय परंपरा से पुष्टि आवश्यक।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\">श्रीहनुमान जयन्ती</a> l <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\">श्री हनुमान जी की स्तोत्रात्मक साधना</a>",
+      "sourceText": {
+        "date": "2026-04-02",
+        "title": "श्री हनुमान जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\">श्रीहनुमान जयन्ती</a> l <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\">श्री हनुमान जी की स्तोत्रात्मक साधना</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-074",
+      "name": "मासिक कालाष्टमी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-04-10",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण अष्टमी",
+        "month": "मासिक",
+        "rule": "मासिक कालाष्टमी सामान्यतः प्रत्येक मास कृष्ण अष्टमी; मास-विशिष्ट तारीख अलग से गणना करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\"> मासिक कालाष्टमी</a>",
+      "sourceText": {
+        "date": "2026-04-10",
+        "title": "मासिक कालाष्टमी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\"> मासिक कालाष्टमी</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-075",
+      "name": "श्री परशुराम अवतार जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-04-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "वैशाख शुक्ल तृतीया",
+        "month": "वैशाख",
+        "rule": "परशुराम जयंती प्रायः वैशाख शुक्ल तृतीया से संबद्ध; तृतीया-व्याप्ति सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\">श्री परशुराम अवतार जयन्ती</a>",
+      "sourceText": {
+        "date": "2026-04-19",
+        "title": "श्री परशुराम अवतार जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\">श्री परशुराम अवतार जयन्ती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-076",
+      "name": "अक्षय तृतीया",
+      "date": {
+        "type": "tithi",
+        "start": "2026-04-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "वैशाख शुक्ल तृतीया",
+        "month": "वैशाख",
+        "rule": "तृतीया-व्याप्ति/रोहिणी योग जैसे विशेष नियम अलग से जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\">अक्षय तृतीया</a>",
+      "sourceText": {
+        "date": "2026-04-19",
+        "title": "अक्षय तृतीया",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\">अक्षय तृतीया</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-077",
+      "name": "श्री मातंगी महाविद्या जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-04-20",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "मातंगी जयंती की तिथि संबंधित लेख से निकालकर सत्यापित करनी है।",
+        "tithi": null,
+        "month": null
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Godess-Matangi-ON-Maatangi-Jayanti.html\" target=\"_blank\">श्री मातंगी महाविद्या जयन्ती</a>",
+      "sourceText": {
+        "date": "2026-04-20",
+        "title": "श्री मातंगी महाविद्या जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Godess-Matangi-ON-Maatangi-Jayanti.html\" target=\"_blank\">श्री मातंगी महाविद्या जयन्ती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Godess-Matangi-ON-Maatangi-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-078",
+      "name": "श्री रामानुज, सूरदास, आदि शंकराचार्य जयन्ती",
+      "date": {
+        "type": "manual",
+        "start": "2026-04-21",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "एक प्रविष्टि में अनेक आचार्यों की जयंती संयुक्त है; प्रत्येक की परंपरा/तिथि अलग सत्यापित करके अलग रिकॉर्ड बनाना बेहतर होगा।",
+        "tithi": null,
+        "month": null
+      },
+      "description": "२१ अप्रैल - श्री रामानुज जयन्ती , श्री सूरदास जयन्ती, श्री आदि शंकराचार्य जयन्ती",
+      "sourceText": {
+        "date": "2026-04-21",
+        "title": "श्री रामानुज, सूरदास, आदि शंकराचार्य जयन्ती",
+        "description": "२१ अप्रैल - श्री रामानुज जयन्ती , श्री सूरदास जयन्ती, श्री आदि शंकराचार्य जयन्ती"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-079",
+      "name": "श्री बगलामुखी महाविद्या जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-04-24",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "बगलामुखी जयंती सामान्यतः वैशाख शुक्ल अष्टमी; लेख/पंचांग से पुष्टि करें।",
+        "tithi": "वैशाख शुक्ल अष्टमी",
+        "month": "वैशाख"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html\" target=\"_blank\"> श्री बगलामुखी महाविद्या जयन्ती</a>",
+      "sourceText": {
+        "date": "2026-04-24",
+        "title": "श्री बगलामुखी महाविद्या जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html\" target=\"_blank\"> श्री बगलामुखी महाविद्या जयन्ती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-080",
+      "name": "भगवती सीता जी जयन्ती (जानकी नवमी)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-04-25",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "वैशाख शुक्ल नवमी",
+        "month": "वैशाख",
+        "rule": "जानकी नवमी वैशाख शुक्ल नवमी; नवमी-व्याप्ति सत्यापित करें।"
+      },
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\"> भगवती सीता जी की जयन्ती | श्री जानकी नवमी | श्री सीता नवमी</a>",
+      "sourceText": {
+        "date": "2026-04-25",
+        "title": "भगवती सीता जी जयन्ती (जानकी नवमी)",
+        "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\"> भगवती सीता जी की जयन्ती | श्री जानकी नवमी | श्री सीता नवमी</a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-081",
+      "name": "श्री नृसिंह अवतार जयन्ती, श्री छिन्नमस्ता महाविद्या जयन्ती, श्री शरभ अवतार जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-04-30",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "वैशाख शुक्ल चतुर्दशी",
+        "month": "वैशाख",
+        "rule": "नृसिंह जयंती में प्रदोष/सायंकाल और चतुर्दशी-व्याप्ति जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html\" target=\"_blank\">श्री नृसिंह अवतार जयन्ती, श्री नृसिंहचतुर्दशी व्रत</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Chhinnamastika-On-ChhinnamastaJayanti.html\" target=\"_blank\">श्री छिन्नमस्ता महाविद्या जयन्ती</a>, श्री शरभ अवतार जयंती। भगवत्प्रेरणा से यह blog 2013 में इसी दिन वैशाख शुक्ल चतुर्दशी को बना था।",
+      "sourceText": {
+        "date": "2026-04-30",
+        "title": "श्री नृसिंह अवतार जयन्ती, श्री छिन्नमस्ता महाविद्या जयन्ती, श्री शरभ अवतार जयंती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html\" target=\"_blank\">श्री नृसिंह अवतार जयन्ती, श्री नृसिंहचतुर्दशी व्रत</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Chhinnamastika-On-ChhinnamastaJayanti.html\" target=\"_blank\">श्री छिन्नमस्ता महाविद्या जयन्ती</a>, श्री शरभ अवतार जयंती। भगवत्प्रेरणा से यह blog 2013 में इसी दिन वैशाख शुक्ल चतुर्दशी को बना था।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-082",
+      "name": "श्री कूर्म अवतार जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-05-01",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "वैशाख शुक्ल पूर्णिमा",
+        "month": "वैशाख",
+        "rule": "कूर्म जयंती सामान्यतः वैशाख शुक्ल पूर्णिमा; परंपरा सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\">श्री कूर्म अवतार जयन्ती</a>",
+      "sourceText": {
+        "date": "2026-05-01",
+        "title": "श्री कूर्म अवतार जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\">श्री कूर्म अवतार जयन्ती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-083",
+      "name": "देवर्षि नारद जी की जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-05-02",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "वैशाख कृष्ण प्रतिपदा",
+        "month": "वैशाख",
+        "rule": "नारद जयंती सामान्यतः वैशाख कृष्ण प्रतिपदा; क्षेत्रीय पंचांग से पुष्टि करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Muni-Naradji-on-Devarshi-Narad-Jayanti.html\" target=\"_blank\">देवर्षि नारद जी की जयन्ती</a>",
+      "sourceText": {
+        "date": "2026-05-02",
+        "title": "देवर्षि नारद जी की जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Muni-Naradji-on-Devarshi-Narad-Jayanti.html\" target=\"_blank\">देवर्षि नारद जी की जयन्ती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/05/About-Muni-Naradji-on-Devarshi-Narad-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-084",
+      "name": "श्री शनि जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-05-16",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "ज्येष्ठ अमावस्या",
+        "month": "ज्येष्ठ",
+        "rule": "ज्येष्ठ अमावस्या; स्थानीय पंचांग और परंपरा सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html\" target=\"_blank\"> श्री शनि जयन्ती (ज्येष्ठ अमावास्या)</a> पर <a href=\"https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html\" target=\"_blank\">शनि देव के निमित्त पूजन, स्तोत्र पाठ </a> मंत्र जप, हवन-दान करें <br/> वट सावित्री व्रत",
+      "sourceText": {
+        "date": "2026-05-16",
+        "title": "श्री शनि जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html\" target=\"_blank\"> श्री शनि जयन्ती (ज्येष्ठ अमावास्या)</a> पर <a href=\"https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html\" target=\"_blank\">शनि देव के निमित्त पूजन, स्तोत्र पाठ </a> मंत्र जप, हवन-दान करें <br/> वट सावित्री व्रत"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-085",
+      "name": "गंगा दशहरा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-05-25",
+        "end": "2026-05-25",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल दशमी",
+        "month": "आश्विन",
+        "rule": "विजयादशमी का सामान्य नियम आश्विन शुक्ल दशमी; अपराह्ण/श्रवण नक्षत्र आदि क्षेत्रीय-शास्त्रीय निर्णय जाँचें।"
+      },
+      "description": "ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>। <a href=\"http://ourhindudharm.blogspot.com/2013/06/about-Godess-Ganga-on-ganga-dussehra.html\" target=\"_blank\"> 25 मई - ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>।</a>  <br/> १७ मई से २५ मई तक - पापकर्म साधना की प्रगति में बाधक होते हैं। ज्येष्ठ शुक्ल प्रतिपदा से दस दिन तक गंगा जी की उपासना करें - पहले दिन एक बार पाठ, दूसरे दिन दो बार पाठ ऐसे करके नित्य एक-एक पाठ की वृद्धि करते हुए क्रम से इन दस दिनों में पापशामक \"गंगा दशहरा स्तोत्र\" पढ़े।",
+      "sourceText": {
+        "date": "2026-05-25",
+        "endDate": "2026-05-25",
+        "title": "गंगा दशहरा",
+        "description": "ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>। <a href=\"http://ourhindudharm.blogspot.com/2013/06/about-Godess-Ganga-on-ganga-dussehra.html\" target=\"_blank\"> 25 मई - ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>।</a>  <br/> १७ मई से २५ मई तक - पापकर्म साधना की प्रगति में बाधक होते हैं। ज्येष्ठ शुक्ल प्रतिपदा से दस दिन तक गंगा जी की उपासना करें - पहले दिन एक बार पाठ, दूसरे दिन दो बार पाठ ऐसे करके नित्य एक-एक पाठ की वृद्धि करते हुए क्रम से इन दस दिनों में पापशामक \"गंगा दशहरा स्तोत्र\" पढ़े।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/06/about-Godess-Ganga-on-ganga-dussehra.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-086",
+      "name": "श्री धूमावती महाविद्या जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-06-22",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "ज्येष्ठ शुक्ल अष्टमी",
+        "month": "ज्येष्ठ",
+        "rule": "धूमावती जयंती सामान्यतः ज्येष्ठ शुक्ल अष्टमी; परंपरा सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/about-godess-dhoomawati-on-dhoomavati-mahavidya-jayanti.html\" target=\"_blank\"> श्री धूमावती महाविद्या जयन्ती</a>, <a href=\"https://ourhindudharm.blogspot.com/2021/06/Dhoomavati-ashtottara-shatnaam-pooja-sadhana-on-Dhumavati-Mahavidya-Jayanti.html\" target=\"_blank\"> श्री धूमावती महाविद्या की शतार्चन उपासना विधि</a>",
+      "sourceText": {
+        "date": "2026-06-22",
+        "title": "श्री धूमावती महाविद्या जयन्ती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/about-godess-dhoomawati-on-dhoomavati-mahavidya-jayanti.html\" target=\"_blank\"> श्री धूमावती महाविद्या जयन्ती</a>, <a href=\"https://ourhindudharm.blogspot.com/2021/06/Dhoomavati-ashtottara-shatnaam-pooja-sadhana-on-Dhumavati-Mahavidya-Jayanti.html\" target=\"_blank\"> श्री धूमावती महाविद्या की शतार्चन उपासना विधि</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/06/about-godess-dhoomawati-on-dhoomavati-mahavidya-jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-087",
+      "name": "वेदमाता गायत्री जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-06-25",
+        "end": "2026-06-26",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "ज्येष्ठ शुक्ल एकादशी (कुछ परंपराओं में)",
+        "month": "ज्येष्ठ",
+        "rule": "गायत्री जयंती की तिथि परंपरा के अनुसार भिन्न हो सकती है; लेख/सम्प्रदाय से पुष्टि करें।"
+      },
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\">वेदमाता गायत्री जयन्ती</a>(ज्येष्ठ शुक्ल एकादशी) - साधना करने व स्तोत्र पाठ आदि अनुष्ठानों का विशिष्ट समय अम्बुबाची योग २२ से २५ जून। यह प्रारंभ होगा २२ जून (शुक्ल अष्टमी) को रात ९.१० बजे से। तथा इसकी निवृत्ति होगी = २६ जून को सुबह ९.३३ बजे तक।",
+      "sourceText": {
+        "date": "2026-06-25",
+        "endDate": "2026-06-26",
+        "title": "वेदमाता गायत्री जयन्ती",
+        "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\">वेदमाता गायत्री जयन्ती</a>(ज्येष्ठ शुक्ल एकादशी) - साधना करने व स्तोत्र पाठ आदि अनुष्ठानों का विशिष्ट समय अम्बुबाची योग २२ से २५ जून। यह प्रारंभ होगा २२ जून (शुक्ल अष्टमी) को रात ९.१० बजे से। तथा इसकी निवृत्ति होगी = २६ जून को सुबह ९.३३ बजे तक।"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-088",
+      "name": "आषाढ़ गुप्त नवरात्र प्रारम्भ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-15",
+        "end": "2026-07-23",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "आषाढ़/माघ शुक्ल प्रतिपदा",
+        "month": "माघ/आषाढ़",
+        "rule": "गुप्त नवरात्र शुक्ल प्रतिपदा से आरम्भ; महीने के अनुसार अलग पहचान आवश्यक।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html\" target=\"_blank\">आषाढ़ के गुप्त नवरात्र प्रारम्भ</a> - इस अवसर पर 9 दिन व्रत भी रख सकते हैं तथा अधिकाधिक अनुष्ठान, साधना, पूजा, स्तोत्र पाठ, दान आदि करें। मुख्य नवरात्र की भांति धूमधाम से न करे, इसे गुप्त ही रखा जाता है।<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a> <br/> <a href=\"https://ourhindudharm.blogspot.com/2015/03/About-Durga-Pooja-Vidhi-Vidhan.html\" target=\"_blank\"> श्रीदुर्गा पूजाविधि</a>",
+      "sourceText": {
+        "date": "2026-07-15",
+        "endDate": "2026-07-23",
+        "title": "आषाढ़ गुप्त नवरात्र प्रारम्भ",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html\" target=\"_blank\">आषाढ़ के गुप्त नवरात्र प्रारम्भ</a> - इस अवसर पर 9 दिन व्रत भी रख सकते हैं तथा अधिकाधिक अनुष्ठान, साधना, पूजा, स्तोत्र पाठ, दान आदि करें। मुख्य नवरात्र की भांति धूमधाम से न करे, इसे गुप्त ही रखा जाता है।<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a> <br/> <a href=\"https://ourhindudharm.blogspot.com/2015/03/About-Durga-Pooja-Vidhi-Vidhan.html\" target=\"_blank\"> श्रीदुर्गा पूजाविधि</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-089",
+      "name": "कर्क संक्रान्ति",
+      "date": {
+        "type": "solar",
+        "start": "2026-07-16",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "सूर्य के कर्क राशि में प्रवेश का सटीक क्षण; स्थानीय पुण्यकाल नियम जाँचें।",
+        "tithi": "सूर्य का कर्क राशि में प्रवेश",
+        "month": "सौर"
+      },
+      "description": "कर्क संक्रान्ति - सूर्य का कर्क राशि में प्रवेश- संकल्प में प्रयोजनीय वर्षा ऋतु प्रारम्भ, संकल्प में प्रयोजनीय सूर्य उत्तरायण समाप्त",
+      "sourceText": {
+        "date": "2026-07-16",
+        "title": "कर्क संक्रान्ति",
+        "description": "कर्क संक्रान्ति - सूर्य का कर्क राशि में प्रवेश- संकल्प में प्रयोजनीय वर्षा ऋतु प्रारम्भ, संकल्प में प्रयोजनीय सूर्य उत्तरायण समाप्त"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-090",
+      "name": "गुप्त नवरात्र द्वितीया - ब्रह्मचारिणी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-16",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">द्वितीयं ब्रह्मचारिणी</a>",
+      "sourceText": {
+        "date": "2026-07-16",
+        "title": "गुप्त नवरात्र द्वितीया - ब्रह्मचारिणी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">द्वितीयं ब्रह्मचारिणी</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-091",
+      "name": "श्रीजगन्नाथ रथ यात्रा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-16",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "जगन्नाथ रथयात्रा सामान्यतः आषाढ़ शुक्ल द्वितीया; पुरी परंपरा/पंचांग से पुष्टि करें।",
+        "tithi": "आषाढ़ शुक्ल द्वितीया",
+        "month": "आषाढ़"
+      },
+      "description": "श्रीजगन्नाथ रथ यात्रा - १६ जुलाई",
+      "sourceText": {
+        "date": "2026-07-16",
+        "title": "श्रीजगन्नाथ रथ यात्रा",
+        "description": "श्रीजगन्नाथ रथ यात्रा - १६ जुलाई"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-092",
+      "name": "सूर्य दक्षिणायन आरंभ",
+      "date": {
+        "type": "solar",
+        "start": "2026-07-17",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "सूर्य के संक्रमण/क्रांतिगत चक्र से जुड़ा नियम; संक्रांति और अयनांश/परंपरा के साथ सत्यापित करें।"
+      },
+      "description": "सूर्य दक्षिणायन आरंभ, दैत्यों की मध्य रात्रि व देवताओं का मध्याह्न",
+      "sourceText": {
+        "date": "2026-07-17",
+        "title": "सूर्य दक्षिणायन आरंभ",
+        "description": "सूर्य दक्षिणायन आरंभ, दैत्यों की मध्य रात्रि व देवताओं का मध्याह्न"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-093",
+      "name": "गुप्त नवरात्र तृतीया - चन्द्रघंटा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-17",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">तृतीयं चन्द्रघंटेति</a>",
+      "sourceText": {
+        "date": "2026-07-17",
+        "title": "गुप्त नवरात्र तृतीया - चन्द्रघंटा",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">तृतीयं चन्द्रघंटेति</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-094",
+      "name": "गुप्त नवरात्र चतुर्थी - कूष्माण्डा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-17",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">कूष्माण्डेति चतुर्थकम्</a>",
+      "sourceText": {
+        "date": "2026-07-17",
+        "title": "गुप्त नवरात्र चतुर्थी - कूष्माण्डा",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">कूष्माण्डेति चतुर्थकम्</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-095",
+      "name": "गुप्त नवरात्र पंचमी - स्कन्दमाता",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-18",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">पंचमं स्कन्दमातेति</a>",
+      "sourceText": {
+        "date": "2026-07-18",
+        "title": "गुप्त नवरात्र पंचमी - स्कन्दमाता",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">पंचमं स्कन्दमातेति</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-096",
+      "name": "गुप्त नवरात्र षष्ठी - कात्यायनी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च।",
+      "sourceText": {
+        "date": "2026-07-19",
+        "title": "गुप्त नवरात्र षष्ठी - कात्यायनी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-097",
+      "name": "गुप्त नवरात्र सप्तमी - कालरात्रि",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-20",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a>",
+      "sourceText": {
+        "date": "2026-07-20",
+        "title": "गुप्त नवरात्र सप्तमी - कालरात्रि",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-098",
+      "name": "गुप्त नवरात्र अष्टमी - महागौरी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-21",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a>",
+      "sourceText": {
+        "date": "2026-07-21",
+        "title": "गुप्त नवरात्र अष्टमी - महागौरी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-099",
+      "name": "गुप्त नवरात्र नवमी - सिद्धिदात्री",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-22",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "नवमी",
+        "month": null,
+        "rule": "नवमी-आधारित; पर्व-विशिष्ट काल-व्याप्ति और परंपरा जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। दुर्गा देवी के निमित्त (नारियल आदि का )बलिदान, हवन..",
+      "sourceText": {
+        "date": "2026-07-22",
+        "title": "गुप्त नवरात्र नवमी - सिद्धिदात्री",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। दुर्गा देवी के निमित्त (नारियल आदि का )बलिदान, हवन.."
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-100",
+      "name": "गुप्त नवरात्र पारण एवं कलश विसर्जन",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-23",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "कलश विसर्जन के लिए स्थानीय पूजा परंपरा और दशमी/नवमी नियम जाँचें।",
+        "tithi": "नवरात्र समापन-दिन; परंपरा अनुसार",
+        "month": "चैत्र/आषाढ़"
+      },
+      "description": "२३ जुलाई- नवमी युक्त दशमी, गुप्त नवरात्र पारण (जो 9 दिन उपवास लें उन्हें इस दिन सुबह प्रसाद खाकर व्रत खोलना है), कलश आदि का विसर्जन।",
+      "sourceText": {
+        "date": "2026-07-23",
+        "title": "गुप्त नवरात्र पारण एवं कलश विसर्जन",
+        "description": "२३ जुलाई- नवमी युक्त दशमी, गुप्त नवरात्र पारण (जो 9 दिन उपवास लें उन्हें इस दिन सुबह प्रसाद खाकर व्रत खोलना है), कलश आदि का विसर्जन।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-101",
+      "name": "हरिशयनी एकादशी एवं चातुर्मास प्रारंभ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-25",
+        "end": "2026-07-30",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "आषाढ़ शुक्ल एकादशी",
+        "month": "आषाढ़",
+        "rule": "एकादशी-व्रत निर्णय; चातुर्मास-आरम्भ परंपरा जाँचें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html\" target=\"_blank\"> हरिशयनी एकादशी, चार महीने का महाव्रत चातुर्मास प्रारंभ</a> - नियम चातुर्मास की महिमा लिंक में लिख दिये हैं *जो चातुर्मास व्रत करने के इच्छुक हैं पर जिन्होंने चातुर्मास का संकल्प अभी तक नहीं लिया है आषाढ़पूर्णिमा - २९ जुलाई तक अवश्य संकल्प ले लें...*",
+      "sourceText": {
+        "date": "2026-07-25",
+        "endDate": "2026-07-30",
+        "title": "हरिशयनी एकादशी एवं चातुर्मास प्रारंभ",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html\" target=\"_blank\"> हरिशयनी एकादशी, चार महीने का महाव्रत चातुर्मास प्रारंभ</a> - नियम चातुर्मास की महिमा लिंक में लिख दिये हैं *जो चातुर्मास व्रत करने के इच्छुक हैं पर जिन्होंने चातुर्मास का संकल्प अभी तक नहीं लिया है आषाढ़पूर्णिमा - २९ जुलाई तक अवश्य संकल्प ले लें...*"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-102",
+      "name": "गुरु पूर्णिमा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-29",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "आषाढ़ शुक्ल पूर्णिमा",
+        "month": "आषाढ़",
+        "rule": "पूर्णिमा-आधारित; व्यास पूजा के स्थानीय नियम जाँचें।"
+      },
+      "description": "गुरु पूर्णिमा",
+      "sourceText": {
+        "date": "2026-07-29",
+        "title": "गुरु पूर्णिमा",
+        "description": "गुरु पूर्णिमा"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-103",
+      "name": "श्रावण मास प्रारम्भ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-07-30",
+        "end": "2026-08-28",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": null,
+        "month": null,
+        "rule": "चंद्र मास का आरम्भ अमांत/पूर्णिमांत पद्धति और संबंधित अमावस्या/पूर्णिमा सीमा पर निर्भर; परंपरा स्पष्ट करनी होगी।"
+      },
+      "description": "पवित्र श्रावण मास - ३० जुलाई से २८ अगस्त तक।",
+      "sourceText": {
+        "date": "2026-07-30",
+        "endDate": "2026-08-28",
+        "title": "श्रावण मास प्रारम्भ",
+        "description": "पवित्र श्रावण मास - ३० जुलाई से २८ अगस्त तक।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-104",
+      "name": "श्रावण सोमवार (प्रथम)",
+      "date": {
+        "type": "manual",
+        "start": "2026-08-03",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "यह तिथि नहीं बल्कि श्रावण मास में सोमवार का नियम है; स्थानीय मास-गणना/क्षेत्रीय परंपरा से तारीख निकालें।",
+        "tithi": "सोमवार + श्रावण मास",
+        "month": "श्रावण"
+      },
+      "description": "श्रावण सोमवार - ३ अगस्त, १० अगस्त, १७ अगस्त, २४ अगस्त। इस अवसर पर शिवजी के निमित्त यथा-सामर्थ्य व्रत, पूजा, अभिषेक, बिल्वार्चन, अनुष्ठान, स्तोत्र-पाठ आदि करें।",
+      "sourceText": {
+        "date": "2026-08-03",
+        "title": "श्रावण सोमवार (प्रथम)",
+        "description": "श्रावण सोमवार - ३ अगस्त, १० अगस्त, १७ अगस्त, २४ अगस्त। इस अवसर पर शिवजी के निमित्त यथा-सामर्थ्य व्रत, पूजा, अभिषेक, बिल्वार्चन, अनुष्ठान, स्तोत्र-पाठ आदि करें।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-105",
+      "name": "नाग पंचमी व्रत",
+      "date": {
+        "type": "tithi",
+        "start": "2026-08-17",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "श्रावण शुक्ल पंचमी",
+        "month": "श्रावण",
+        "rule": "श्रावण शुक्ल पंचमी; क्षेत्रीय कैलेंडर से पुष्टि करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\">नाग पंचमी व्रत</a>, <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\"> नागों की स्तोत्रात्मक उपासना</a>",
+      "sourceText": {
+        "date": "2026-08-17",
+        "title": "नाग पंचमी व्रत",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\">नाग पंचमी व्रत</a>, <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\"> नागों की स्तोत्रात्मक उपासना</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-106",
+      "name": "श्री कल्कि अवतार जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-08-18",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "कल्कि जयंती का मास/तिथि मूल लेख और विश्वसनीय पंचांग से निकालना है।",
+        "tithi": null,
+        "month": null
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\">श्री कल्कि अवतार जयंती</a>",
+      "sourceText": {
+        "date": "2026-08-18",
+        "title": "श्री कल्कि अवतार जयंती",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\">श्री कल्कि अवतार जयंती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-107",
+      "name": "श्री हयग्रीव भगवान जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-08-27",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "हयग्रीव जयंती की तिथि परंपरा के अनुसार भिन्न हो सकती है; अपने लेख से पुष्टि करें।",
+        "tithi": "श्रावण शुक्ल पूर्णिमा (कुछ परंपराएँ)",
+        "month": "श्रावण"
+      },
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\"> श्री हयग्रीव भगवान की जयन्ती (सायंकाल में)</a>",
+      "sourceText": {
+        "date": "2026-08-27",
+        "title": "श्री हयग्रीव भगवान जयन्ती",
+        "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\"> श्री हयग्रीव भगवान की जयन्ती (सायंकाल में)</a>"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-108",
+      "name": "रक्षा बंधन, संस्कृत दिवस, लव कुश जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-08-28",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "रक्षाबंधन श्रावण पूर्णिमा; भद्रा-मुक्त अपराह्ण/प्रदोष निर्णय तथा जुड़े अन्य उत्सव अलग सत्यापित करें।",
+        "tithi": "श्रावण पूर्णिमा",
+        "month": "श्रावण"
+      },
+      "description": "श्रावण पूर्णिमा - रक्षा बंधन, संस्कृत दिवस एवं लव कुश जयंती - ( शास्त्रों के अनुसार भद्राकाल में राखी(रक्षा पोटलिका/ कलावा धागा) नहीं बांधी जाती...) <br/> शुक्रवार, अगस्त 28, 2026 को रक्षा बन्धन अनुष्ठान का शुभ समय - 05:57 ए एम से ९:४८ ए एम<br/> भद्रा सूर्योदय से पहले ही समाप्त हो गयी।<br/> अपने शहर के अनुसार रक्षा बंधन मुहूर्त इस लिंक पर जाकर देखें- <a href=\"https://www.drikpanchang.com/festivals/raksha-bandhan/raksha-bandhan-date-time.html?year=2026\" target=\"_blank\"> रक्षा बंधन का मुहूर्त समय</a>",
+      "sourceText": {
+        "date": "2026-08-28",
+        "title": "रक्षा बंधन, संस्कृत दिवस, लव कुश जयंती",
+        "description": "श्रावण पूर्णिमा - रक्षा बंधन, संस्कृत दिवस एवं लव कुश जयंती - ( शास्त्रों के अनुसार भद्राकाल में राखी(रक्षा पोटलिका/ कलावा धागा) नहीं बांधी जाती...) <br/> शुक्रवार, अगस्त 28, 2026 को रक्षा बन्धन अनुष्ठान का शुभ समय - 05:57 ए एम से ९:४८ ए एम<br/> भद्रा सूर्योदय से पहले ही समाप्त हो गयी।<br/> अपने शहर के अनुसार रक्षा बंधन मुहूर्त इस लिंक पर जाकर देखें- <a href=\"https://www.drikpanchang.com/festivals/raksha-bandhan/raksha-bandhan-date-time.html?year=2026\" target=\"_blank\"> रक्षा बंधन का मुहूर्त समय</a>"
+      },
+      "sourceUrl": "https://www.drikpanchang.com/festivals/raksha-bandhan/raksha-bandhan-date-time.html?year=2026",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-109",
+      "name": "श्रावणी उपाकर्म (ऋग्वेदी एवं यजुर्वेदी)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-08-28",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "उपाकर्म का दिन ऋग्वेदी/यजुर्वेदी/सामवेदी परंपरा के अनुसार अलग हो सकता है।",
+        "tithi": "श्रावण पूर्णिमा (वेदशाखा-विशिष्ट)",
+        "month": "श्रावण"
+      },
+      "description": "श्रावणी उपाकर्म — २८ अगस्त २०२६ को ऋग्वेदियों का उपाकर्म, २८ अगस्त को ही यजुर्वेदियों का उपाकर्म भी। यह कर्म भद्रा में भी हो जाता है।",
+      "sourceText": {
+        "date": "2026-08-28",
+        "title": "श्रावणी उपाकर्म (ऋग्वेदी एवं यजुर्वेदी)",
+        "description": "श्रावणी उपाकर्म — २८ अगस्त २०२६ को ऋग्वेदियों का उपाकर्म, २८ अगस्त को ही यजुर्वेदियों का उपाकर्म भी। यह कर्म भद्रा में भी हो जाता है।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-110",
+      "name": "श्री गायत्री जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-08-28",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "ज्येष्ठ शुक्ल एकादशी (कुछ परंपराओं में)",
+        "month": "ज्येष्ठ",
+        "rule": "गायत्री जयंती की तिथि परंपरा के अनुसार भिन्न हो सकती है; लेख/सम्प्रदाय से पुष्टि करें।"
+      },
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\"> श्री गायत्री जयन्ती</a>, यज्ञोपवीत धारियों द्वारा जप - १० माला",
+      "sourceText": {
+        "date": "2026-08-28",
+        "title": "श्री गायत्री जयन्ती",
+        "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\"> श्री गायत्री जयन्ती</a>, यज्ञोपवीत धारियों द्वारा जप - १० माला"
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-111",
+      "name": "विन्ध्यवासिनी देवी जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-08-30",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "विन्ध्यवासिनी जयंती की तिथि मूल लेख/स्थानीय परंपरा से निकालना है।",
+        "tithi": null,
+        "month": null
+      },
+      "description": "विन्ध्यवासिनी देवी जयन्ती (भाद्रपद कृष्ण द्वितीया)",
+      "sourceText": {
+        "date": "2026-08-30",
+        "title": "विन्ध्यवासिनी देवी जयन्ती",
+        "description": "विन्ध्यवासिनी देवी जयन्ती (भाद्रपद कृष्ण द्वितीया)"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-112",
+      "name": "हलषष्ठी, श्री बलराम जयंती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-02",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "हलषष्ठी/बलराम जयंती सामान्यतः भाद्रपद कृष्ण षष्ठी; स्थानीय परंपरा से पुष्टि करें।",
+        "tithi": "भाद्रपद कृष्ण षष्ठी",
+        "month": "भाद्रपद"
+      },
+      "description": "",
+      "sourceText": {
+        "date": "2026-09-02",
+        "title": "हलषष्ठी, श्री बलराम जयंती",
+        "description": ""
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-113",
+      "name": "श्रीकृष्ण जयंती / श्री कृष्ण जन्माष्टमी, श्री आद्याकाली जयन्ती",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-04",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "भाद्रपद कृष्ण अष्टमी",
+        "month": "भाद्रपद",
+        "rule": "जन्माष्टमी में अष्टमी और रोहिणी/निशीथकाल, तथा स्मार्त/वैष्णव भेद जाँचें।"
+      },
+      "description": "⭐<b> ४ सितम्बर -</b><a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\">श्रीकृष्ण जयंती, श्री कृष्ण जन्मोत्सव-पूजन-जागरण, दशाफल व्रत एवं श्री कृष्ण जन्माष्टमी व्रत</a> (स्मार्त जनसाधारण का), <br/>⭐<b> ४ सितम्बर को ही - </b> श्री कृष्ण जन्माष्टमी व्रत (वैष्णवों- विष्णुमंत्र से दीक्षितों का)<br/>अर्द्धरात्रि में, <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">श्री आद्याकाली (महाकाली महाविद्या) जयन्ती</a> , कालाष्टमी।",
+      "sourceText": {
+        "date": "2026-09-04",
+        "title": "श्रीकृष्ण जयंती / श्री कृष्ण जन्माष्टमी, श्री आद्याकाली जयन्ती",
+        "description": "⭐<b> ४ सितम्बर -</b><a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\">श्रीकृष्ण जयंती, श्री कृष्ण जन्मोत्सव-पूजन-जागरण, दशाफल व्रत एवं श्री कृष्ण जन्माष्टमी व्रत</a> (स्मार्त जनसाधारण का), <br/>⭐<b> ४ सितम्बर को ही - </b> श्री कृष्ण जन्माष्टमी व्रत (वैष्णवों- विष्णुमंत्र से दीक्षितों का)<br/>अर्द्धरात्रि में, <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">श्री आद्याकाली (महाकाली महाविद्या) जयन्ती</a> , कालाष्टमी।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-114",
+      "name": "कुशोत्पाटनी अमावास्या",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-10",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "कृष्ण अमावस्या",
+        "month": null,
+        "rule": "अमावस्या-आधारित; श्राद्ध/स्नान/दान आदि में स्थानीय काल-व्याप्ति नियम अलग हो सकते हैं।"
+      },
+      "description": "आज कुश को \"ॐ हुं फट्\" मंत्र से उखाड़ा जाता है, इस दिन उखाड़े गये कुशों को सुरक्षित पवित्र स्थान में रख देने से वर्ष भर उन कुशों को पूजा-पाठ के लिये, पवित्री, तर्पण आदि के काम में ले सकते हैं।",
+      "sourceText": {
+        "date": "2026-09-10",
+        "title": "कुशोत्पाटनी अमावास्या",
+        "description": "आज कुश को \"ॐ हुं फट्\" मंत्र से उखाड़ा जाता है, इस दिन उखाड़े गये कुशों को सुरक्षित पवित्र स्थान में रख देने से वर्ष भर उन कुशों को पूजा-पाठ के लिये, पवित्री, तर्पण आदि के काम में ले सकते हैं।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-115",
+      "name": "सामवेदियों का उपाकर्म",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-13",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "सामवेदी उपाकर्म प्रायः भाद्रपद पूर्णिमा; मौजूदा 2026 तारीख असामान्य दिखती है, विशेष रूप से सत्यापित करें।",
+        "tithi": "भाद्रपद पूर्णिमा (वेदशाखा-विशिष्ट)",
+        "month": "भाद्रपद"
+      },
+      "description": "सामवेदियों का उपाकर्म १३ सितंबर २०२६ को होगा।",
+      "sourceText": {
+        "date": "2026-09-13",
+        "title": "सामवेदियों का उपाकर्म",
+        "description": "सामवेदियों का उपाकर्म १३ सितंबर २०२६ को होगा।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-116",
+      "name": " श्री वाराहावतार प्राकट्य ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-14",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "भाद्रपद शुक्ल तृतीया/द्वादशी परंपरा जाँचें",
+        "month": "भाद्रपद",
+        "rule": "वाराह जयंती के लिए अपने लेख में दी गई तिथि-परंपरा को पढ़कर अंतिम नियम निर्धारित करना है।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\">विष्णुजी के अवतार भगवान वाराह की जयन्ती</a>, ⭐ हरतालिका तीज",
+      "sourceText": {
+        "date": "2026-09-14",
+        "title": " श्री वाराहावतार प्राकट्य ",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\">विष्णुजी के अवतार भगवान वाराह की जयन्ती</a>, ⭐ हरतालिका तीज"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-117",
+      "name": "श्री गणेश जी की जयंती ",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-14",
+        "end": "2026-09-25",
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "तारीख गणेश चतुर्थी के आसपास है, पर शीर्षक 'जयंती' है; इसे लेख/परंपरा से स्पष्ट करना होगा।",
+        "tithi": "भाद्रपद शुक्ल चतुर्थी (शीर्षक सत्यापन आवश्यक)",
+        "month": "भाद्रपद"
+      },
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत, </a> पत्थर चौथ - भाद्रपद शुक्ल चतुर्थी के दिन चन्द्रमा का दर्शन न करें यदि भूल से हो जाए तो स्यमन्तक मणि का अपकीर्तिनाशक आख्यान पढ़ना चाहिए...",
+      "sourceText": {
+        "date": "2026-09-14",
+        "endDate": "2026-09-25",
+        "title": "श्री गणेश जी की जयंती ",
+        "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत, </a> पत्थर चौथ - भाद्रपद शुक्ल चतुर्थी के दिन चन्द्रमा का दर्शन न करें यदि भूल से हो जाए तो स्यमन्तक मणि का अपकीर्तिनाशक आख्यान पढ़ना चाहिए..."
+      },
+      "sourceUrl": "https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-118",
+      "name": "ऋषि पंचमी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-16",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "भाद्रपद शुक्ल पंचमी",
+        "month": "भाद्रपद",
+        "rule": "भाद्रपद शुक्ल पंचमी; स्थानीय पंचांग से सत्यापन शेष।"
+      },
+      "description": "",
+      "sourceText": {
+        "date": "2026-09-16",
+        "title": "ऋषि पंचमी",
+        "description": ""
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-119",
+      "name": "श्री राधाष्टमी",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-19",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "भाद्रपद शुक्ल अष्टमी",
+        "month": "भाद्रपद",
+        "rule": "भाद्रपद शुक्ल अष्टमी; स्थानीय तिथि-व्याप्ति सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>, महर्षि दधीचि जयंती।",
+      "sourceText": {
+        "date": "2026-09-19",
+        "title": "श्री राधाष्टमी",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>, महर्षि दधीचि जयंती।"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-120",
+      "name": "श्री वामनावतार एवं श्री भुवनेश्वरी महाविद्या का प्राकट्य",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-23",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "भाद्रपद शुक्ल द्वादशी",
+        "month": "भाद्रपद",
+        "rule": "वामन जयंती भाद्रपद शुक्ल द्वादशी; मध्याह्न-व्याप्ति सत्यापित करें।"
+      },
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\"> भाद्रपद  शुक्ल द्वादशी, भगवान वामन की जयंती</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Goddess-Bhuvaneshvari-On-BhuwaneshwariMahavidyaJayanti.html\" target=\"_blank\">श्री भुवनेश्वरी महाविद्या जयन्ती</a>",
+      "sourceText": {
+        "date": "2026-09-23",
+        "title": "श्री वामनावतार एवं श्री भुवनेश्वरी महाविद्या का प्राकट्य",
+        "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\"> भाद्रपद  शुक्ल द्वादशी, भगवान वामन की जयंती</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Goddess-Bhuvaneshvari-On-BhuwaneshwariMahavidyaJayanti.html\" target=\"_blank\">श्री भुवनेश्वरी महाविद्या जयन्ती</a>"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html",
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-121",
+      "name": "श्रीगणेश विसर्जन",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-25",
+        "end": null,
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "rule": "विसर्जन का दिन स्थानीय परंपरा और अनंत चतुर्दशी के नियम से सत्यापित करें।",
+        "tithi": "भाद्रपद शुक्ल चतुर्दशी / अनंत चतुर्दशी",
+        "month": "भाद्रपद"
+      },
+      "description": "अनंत चतुर्दशी",
+      "sourceText": {
+        "date": "2026-09-25",
+        "title": "श्रीगणेश विसर्जन",
+        "description": "अनंत चतुर्दशी"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-122",
+      "name": "भाद्रपद शुक्ल पूर्णिमा",
+      "date": {
+        "type": "tithi",
+        "start": "2026-09-26",
+        "end": null,
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "tithi": "शुक्ल पूर्णिमा",
+        "month": null,
+        "rule": "पूर्णिमा-आधारित; यदि नाम में चंद्र मास नहीं है तो मास अलग से निर्धारित करें।"
+      },
+      "description": "पूर्णिमा का श्राद्ध।",
+      "sourceText": {
+        "date": "2026-09-26",
+        "title": "भाद्रपद शुक्ल पूर्णिमा",
+        "description": "पूर्णिमा का श्राद्ध।"
+      },
+      "sourceUrl": null,
+      "verificationStatus": "needs-review"
+    }
+  ]
+}
