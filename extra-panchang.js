@@ -504,10 +504,12 @@ function getPlanetEvent(planet, selectedDate) {
     return {
       name: planet.name,
       asta: asta ? formatEventDate(asta.date) : null,
-      astaDegree: asta ? `${asta.threshold}° सीमा` : null,
+      astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
       udaya: udaya ? formatEventDate(udaya.date) : null,
-      udayaDegree: udaya ? `${udaya.threshold}° सीमा` : null,
-      verificationPending: true
+      udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
+      // Show the available day-level estimate, but do not present it as a
+      // certified Sūrya-siddhānta result or an exact local visibility time.
+      verificationPending: false
     };
   } catch (error) {
     console.warn("Planetary angular-boundary estimate failed:", planet.body, error);
@@ -546,8 +548,9 @@ function createPlanetCard(
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
     <p class="planet-rise-set-note">
-      ग्रहों के शास्त्रीय उदय-अस्त की गणना का सत्यापन जारी है।
-      सत्यापन पूरा होने तक अनुमानित तिथियाँ प्रकाशित नहीं की जा रही हैं।
+      ये स्थानीय दोपहर के ग्रह-सूर्य कोण पर आधारित प्रारंभिक, दिन-स्तरीय अनुमान हैं।
+      इन्हें अभी अंतिम सूर्यसिद्धान्तीय फल या वास्तविक दृश्यता का निश्चित समय न मानें;
+      शास्त्रीय अध्याय 9 के नियमों से सत्यापन जारी है।
     </p>
 
     <div class="planet-rise-set-grid">
