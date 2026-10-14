@@ -188,3 +188,22 @@ Reported location: 30.2, 80.8; timezone: Asia/Kolkata.
 - The September sequence is useful for examining the Ekadashi/Dwadashi decision: the copied Astroica result places Ekadashi end at 21:43 IST on 22 September, Dwadashi end at 22:51 IST on 23 September, and Shravana end at 09:09 IST on 23 September.
 - Preserve the exact displayed minutes. The values are rounded to minutes by the source, so any comparison must use an explicit tolerance and must not silently claim second-level agreement.
 - Next, run the pinned project library diagnostic and compare its returned transitions to these intervals. Record discrepancies before deciding whether they arise from source conventions, time rounding, or implementation. Do not change production code or create a correctness fixture from this source alone.
+
+
+## Independent public-source comparison added on 2026-10-15
+
+### September 2026: Astroica cross-checked against Prokerala and Drik Panchang
+
+- **Prokerala, 22 September 2026 (Ujjain; page identifies Lahiri ayanāṃśa):** Ekadashi 21 Sep 20:01–22 Sep 21:43 IST; Dwadashi 22 Sep 21:43–23 Sep 22:50 IST; Uttara Ashadha ends 22 Sep 07:06; Shravana runs 22 Sep 07:06–23 Sep 09:09. This matches the user's Astroica transcription except Astroica reports Dwadashi end at 22:51, a one-minute difference likely attributable to displayed rounding or calculation details. Source: https://www.prokerala.com/astrology/panchang/2026-september-22.html
+- **Drik Panchang, 23 September 2026:** a result for Anta, Rajasthan reports Dwadashi until 22:50 and Shravana until 09:09 IST. Source: https://www.drikpanchang.com/panchang/day-panchang.html?date=23%2F09%2F2026&time-format=12hour
+- **Drik Panchang, 22 September 2026 (Gurgaon):** Ekadashi until 21:43 and Uttara Ashadha until 07:06. Source: https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=1270642
+- **Hindu Blog** gives materially different values (Ekadashi until 19:48, Dwadashi until 21:13 next day, Shravana until 08:47). Source: https://www.hindu-blog.com/2026/09/september-22-2026-tithi-panchang-hindu.html This disagreement is now recorded as a source discrepancy; do not average the times or pick a winner without checking calculation conventions.
+
+### August 2026: independent Ekadashi confirmation
+
+- **Prokerala Ekadashi calendar** reports Shukla Paksha Ekadashi (Sravana Putrada Ekadashi) from 23 August 2026 02:00 to 24 August 2026 04:19 IST, matching the user's Astroica interval to the displayed minute. Source: https://www.prokerala.com/astrology/tithi/ekadashi-2026.html
+- Prokerala's August calendar also places Moola on 23 August and the transition to Purva Ashadha later that day, broadly consistent with the supplied Astroica sequence; use the exact intervals in the user's transcription for minute-level comparisons.
+
+### Interim finding and limits
+
+The independent sources strongly corroborate the Astroica September Ekadashi start/end, Uttara Ashadha end, and Shravana end; the Dwadashi end differs by one displayed minute (22:50 vs 22:51). The August Ekadashi interval also matches Prokerala exactly at minute precision. These are external cross-checks, not yet a comparison against the pinned @ishubhamx/panchangam-js@3.0.0 diagnostic: GitHub Actions currently returned no workflow runs for the latest workflow commit, so no generated JSON output is available to inspect. Keep the diagnostic-only status and do not make production changes based solely on these references.
