@@ -439,3 +439,10 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Cross-checked the structure against the Wikisource Viramitrodaya-Samayaprakasha Ekadashi section and the OCR-like Paramapurusha Samhita chapter 10. These are distinct witnesses; do not combine them into one universal algorithm without a selected tradition and edition-level review.
 - Research conclusion: model date-selection profile separately from the named Ekadashi observance. Parana requires its own sourced specification (Dvadashi duration, sunrise, Hari-vasara and profile-specific window). No runtime implementation or legacy date was changed.
 - Audit detail is in data/references/transliteral-vrat-source-audit-draft.md under “Ekadashi cross-check — Dharmasindhu tradition profiles”.
+
+
+### Shivaratri timing-source cross-check (2026-10-14)
+- Inspected the TransLiteral Nirnayasindhu Shivaratri decision passage. It explicitly records both Pradosha-vyapini and Nishitha-vyapini Chaturdashi positions and then discusses further night/tithi conditions.
+- The source translation distinguishes Phalguna Krishna Chaturdashi in Purnimanta naming from Magha Krishna Chaturdashi in Amanta naming. This is a month-labeling distinction, not by itself a separate observance.
+- Decision: do not choose one universal timing rule without recording the authority/profile; keep Maha Shivaratri and Masik Shivaratri as separate research candidates. No legacy record or runtime behavior changed.
+- Full notes appended to data/references/transliteral-vrat-source-audit-draft.md.
