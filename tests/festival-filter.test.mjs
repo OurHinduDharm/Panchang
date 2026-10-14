@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isHinduFestival } from "../festival-filter.js";
+import { isHinduFestival, deduplicateHinduFestivals } from "../festival-filter.js";
 
 test("allows common Hindu vrata and parva names", () => {
   assert.equal(isHinduFestival({ name: "Diwali" }), true);
@@ -18,6 +18,18 @@ test("rejects generic tithi labels without a specific festival name", () => {
   assert.equal(isHinduFestival({ name: "Panchami (Day 5)" }), false);
   assert.equal(isHinduFestival({ name: "Shashthi (Day 6)" }), false);
   assert.equal(isHinduFestival({ name: "Saptami (Day 7)" }), false);
+});
+
+test("collapses duplicate labels for the same Durga Ashtami observance", () => {
+  const result = deduplicateHinduFestivals([
+    { name: "Durga Ashtami (Maha Ashtami)" },
+    { name: "Durga Ashtami (Day 8)" },
+    { name: "Diwali" }
+  ]);
+  assert.deepEqual(result.map(item => item.name), [
+    "Durga Ashtami (Maha Ashtami)",
+    "Diwali"
+  ]);
 });
 
 test("rejects non-Hindu and civic events", () => {
