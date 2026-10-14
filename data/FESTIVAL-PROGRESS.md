@@ -357,3 +357,11 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - CiNii metadata still identifies a 1969 fourth-edition Gita Press PDF at TUFS, but the current web retrieval route hit access/rate-limit errors and no verified direct PDF URL or page images were obtained.
 - Updated `data/references/vrat-parichay-edition-comparison-status-draft.md` with provenance cautions and a four-point comparison gate: title/imprint, printed-page-to-image mapping, distinctive passage identity, and page-image transcription.
 - No changes to runtime code, `data/festivals.json`, legacy dates, or Blogger output. Keep PR #33 Draft/unmerged. Executable vrata-date rules remain blocked pending source/page verification.
+
+
+### User-provided Internet Archive copies — source breakthrough (2026-10-14)
+- User pointed out `https://archive.org/details/610-vrat-parichay` and `https://archive.org/details/vrata-parichaya`. The latter opens and exposes PDF download plus full OCR transcript: https://archive.org/stream/vrata-parichaya/Vrata%20Parichaya_djvu.txt . The former returned DisabledError in this web-reader pass and needs separate inspection.
+- Archive OCR front matter identifies this accessible copy as संवत् २०७०, चौबीसवाँ पुनर्मुद्रण, पं० हनूमान शर्मा, गीताप्रेस गोरखपुर. Do not call it the 1969 fourth edition; editions are distinct.
+- Text-level checks: Vata Savitri passage explicitly records both Purnima and Amavasya traditions and says Amavasya is common in the author's region; Ashunya Shayana passage specifies Shravan Krishna Dwitiya through Margashirsha Krishna Dwitiya, pūrvaviddhā selection, and a paraviddhā tie-break if both/neither days are pūrvaviddhā. Archive OCR TOC also locates priority topics, but OCR page digits require image checking.
+- Updated `data/references/vrat-parichay-edition-comparison-status-draft.md`. Next: compare priority passages against page images and the user's OCR chunks, and separately inspect the second IA item for edition differences.
+- No runtime code, `data/festivals.json`, legacy dates, or Blogger output changed. PR #33 remains Draft/unmerged.
