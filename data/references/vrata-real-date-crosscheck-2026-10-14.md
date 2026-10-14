@@ -127,3 +127,64 @@ The next comparison run must capture the external calculator's actual submitted 
 **Evidence to record for each result:** calculator URL; selected coordinates and timezone shown in output; ayanāṃśa/convention; each tithi/nakṣatra name and its displayed start/end time; screenshot or saved text; capture date. Normalize displayed IST times to ISO UTC only after retaining the original display strings.
 
 **Important limitation:** this session identified the forms and their fields through published page content but did not submit the interactive forms or capture custom-coordinate results. It also has no successful GitHub Actions run to inspect yet. Therefore this protocol is ready, but the external comparison and actual library diagnostic remain unexecuted; do not claim a match or create a passing real-date fixture yet. If the form cannot be submitted through the available environment, the next required input is a result capture from the same-coordinate calculator—not a new book or dataset from the user.
+
+
+## Astroica manual-location results supplied on 2026-10-15
+
+The user copied the following displayed results from Astroica's Tithi and Nakshatra calculators. These are transcribed as supplied; original IST display strings are retained. The calculator output reports **30.2° N, 80.8° E**, timezone **Asia/Kolkata**, and “Manual location”. The input UI allows only two decimal places.
+
+### Coordinate precision note
+
+The project's chosen audit observer is 30.1265° N, 80.4817° E, elevation 0 m, timezone offset +330 minutes. Astroica's rounded point (30.2, 80.8) is roughly 32 km from that observer, so this is **not an exact coordinate match**. For geocentric tithi/nakshatra transitions, geographic coordinates ordinarily affect the local time-zone conversion rather than the celestial longitude crossing itself; nevertheless, keep the reported coordinates as provenance and do not label this an exact same-coordinate validation. Elevation and selected ayanāṃśa/convention were not reported in the copied output.
+
+### Astroica Tithi — 22–26 August 2026
+
+| Tithi | Start (IST) | End (IST) |
+|---|---|---|
+| Shukla Dashami | Fri, 21 Aug 2026, 11:36 PM | Sun, 23 Aug 2026, 02:00 AM |
+| Shukla Ekadashi | Sun, 23 Aug 2026, 02:00 AM | Mon, 24 Aug 2026, 04:19 AM |
+| Shukla Dwadashi | Mon, 24 Aug 2026, 04:19 AM | Tue, 25 Aug 2026, 06:21 AM |
+| Shukla Trayodashi | Tue, 25 Aug 2026, 06:21 AM | Wed, 26 Aug 2026, 07:59 AM |
+
+Reported location: 30.2, 80.8; timezone: Asia/Kolkata.
+
+### Astroica Tithi — 21–24 September 2026
+
+| Tithi | Start (IST) | End (IST) |
+|---|---|---|
+| Shukla Dashami | Sun, 20 Sep 2026, 05:52 PM | Mon, 21 Sep 2026, 08:01 PM |
+| Shukla Ekadashi | Mon, 21 Sep 2026, 08:01 PM | Tue, 22 Sep 2026, 09:43 PM |
+| Shukla Dwadashi | Tue, 22 Sep 2026, 09:43 PM | Wed, 23 Sep 2026, 10:51 PM |
+| Shukla Trayodashi | Wed, 23 Sep 2026, 10:51 PM | Thu, 24 Sep 2026, 11:18 PM |
+
+Reported location: 30.2, 80.8; timezone: Asia/Kolkata.
+
+### Astroica Nakshatra — 22–26 August 2026
+
+| Nakshatra | Start (IST) | End (IST) |
+|---|---|---|
+| Jyeshta | Fri, 21 Aug 2026, 11:52 AM | Sat, 22 Aug 2026, 02:49 PM |
+| Moola | Sat, 22 Aug 2026, 02:49 PM | Sun, 23 Aug 2026, 05:44 PM |
+| Purva Ashadha | Sun, 23 Aug 2026, 05:44 PM | Mon, 24 Aug 2026, 08:28 PM |
+| Uttara Ashadha | Mon, 24 Aug 2026, 08:28 PM | Tue, 25 Aug 2026, 10:51 PM |
+| Shravana | Tue, 25 Aug 2026, 10:51 PM | Thu, 27 Aug 2026, 12:47 AM |
+
+Reported location: 30.2, 80.8; timezone: Asia/Kolkata.
+
+### Astroica Nakshatra — 21–24 September 2026
+
+| Nakshatra | Start (IST) | End (IST) |
+|---|---|---|
+| Purva Ashadha | Sun, 20 Sep 2026, 01:42 AM | Mon, 21 Sep 2026, 04:34 AM |
+| Uttara Ashadha | Mon, 21 Sep 2026, 04:34 AM | Tue, 22 Sep 2026, 07:06 AM |
+| Shravana | Tue, 22 Sep 2026, 07:06 AM | Wed, 23 Sep 2026, 09:09 AM |
+| Dhanishta | Wed, 23 Sep 2026, 09:09 AM | Thu, 24 Sep 2026, 10:35 AM |
+
+Reported location: 30.2, 80.8; timezone: Asia/Kolkata.
+
+### How this evidence may be used
+
+- Treat these values as an external reference transcription, not a project test pass.
+- The September sequence is useful for examining the Ekadashi/Dwadashi decision: the copied Astroica result places Ekadashi end at 21:43 IST on 22 September, Dwadashi end at 22:51 IST on 23 September, and Shravana end at 09:09 IST on 23 September.
+- Preserve the exact displayed minutes. The values are rounded to minutes by the source, so any comparison must use an explicit tolerance and must not silently claim second-level agreement.
+- Next, run the pinned project library diagnostic and compare its returned transitions to these intervals. Record discrepancies before deciding whether they arise from source conventions, time rounding, or implementation. Do not change production code or create a correctness fixture from this source alone.
