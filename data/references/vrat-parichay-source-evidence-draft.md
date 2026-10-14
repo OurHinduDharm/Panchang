@@ -80,21 +80,30 @@ The text attributes the vrata to Vratraja and Bhavishya Purana. It describes a m
 
 ### VR-07 — Adhika Masa / Purushottama Masa
 
-**Current evidence:** `part-002.txt`, contents pages only, lists “अधिमास” (printed p. 230), “अधिमासव्रत” (p. 232), “अधिमासव्रत २” (p. 232), “पुरुषोत्तममासव्रत” (p. 233), “मलमासव्रत” (p. 233), and “अधिमासीयार्चनव्रत” (p. 233).
+**Primary working source:** `part-029.txt`, printed pp. 230–233; continuation in `part-030.txt`, printed p. 234.
 
-**Decision:** contents prove these are distinct headings, not their detailed rules. Read body passages and define the astronomical/intercalary-month predicate from a verified calendar source before implementation. Never hard-code Gregorian spacing or assume every heading is a separate public festival card.
+- The section “अधिमास (श्रुति-स्मृति-पुराणादि)” defines an Adhika Masa as a lunar month without a solar saṅkrānti and a kṣaya month as one containing two saṅkrāntis (printed p. 230–231). It quotes “असंक्रान्तिमासोऽधिमासः … द्विसंक्रान्तिमासः क्षयाख्यः…” attributed to Jyotiḥśāstra.
+- The same section says the interval “32 months, 16 days and 4 ghaṭīs” and gives historical descriptions. Treat that as a source statement, **not** as a safe modern computation formula.
+- The book lists distinct practices: “अधिमासव्रत २” (Hemadri; p. 233), “पुरुषोत्तममासव्रत” and “मलमासव्रत” (p. 233), and “अधिमासीयार्चनव्रत” (Pūjā-Pankaja-Bhāskara; p. 234). The first is described with one-meal/night-meal/fasting alternatives and worship/donation; the later archana section gives a specific flower-offering and arghya procedure.
+- The text also states that desire-driven kāmya rites are generally restricted in Adhika Masa while necessary duties and non-desire-driven works can continue; the exact scope should be read with its cited authorities and full passage.
 
-### VR-08 — Masik Shivaratri / Shivachaturdashi
+**Decision:** body text is now inspected, but it supports a **family of distinct vows/practices**, not one generic annual festival rule. The calendar engine must determine the intercalary lunar month from verified solar-ingress/lunar-month logic; never hard-code Gregorian spacing or use the OCR's average interval as the algorithm. Keep the generic “Adhika Masa exists” event separate from each vrata/archana practice.
 
-**Current evidence:** `part-002.txt` contents include “शिवचतुर्दशीव्रत” at printed p. 189 and list monthly Krishna Chaturthi/Ekadashi/Pradosha patterns elsewhere. The current legacy record for Maha Shivaratri does not establish that the monthly vow is covered.
+### VR-08 — Shivachaturdashi; Masik Shivaratri still unverified
 
-**Decision:** likely a distinct recurring family, but its full passage and tithi/time predicate have not yet been extracted in this evidence pass. Do not implement or alias it to Maha Shivaratri yet.
+**Primary working source:** `part-024.txt`, printed pp. 189–190, under “शिवचतुर्दशीव्रत (मत्स्यपुराण)”.
+
+This passage describes a specific Margashirsha Shukla Trayodashi one-meal observance followed by fasting and Shiva worship on Chaturdashi. It is **not evidence by itself** for a monthly Krishna Chaturdashi / Masik Shivaratri rule. The contents heading “शिवचतुर्दशीव्रत” must not be relabelled as Masik Shivaratri merely because both names include Shiva and Chaturdashi.
+
+**Decision:** keep the monthly Masik Shivaratri family unverified until its own source passage and rule are located. Do not alias this Margashirsha Shukla observance to Maha Shivaratri or a monthly rule without evidence.
 
 ### VR-09 — Vaikuntha Chaturdashi
 
-**Current evidence:** `part-002.txt` contents list “वैकुण्ठचतुर्दशी” at printed p. 174. Body passage not yet extracted in this evidence pass.
+**Primary working source:** `part-022.txt`, printed p. 174; heading attributes it to “सनत्कुमारसंहिता”.
 
-**Decision:** a possible distinct observance, not automatically Dev Deepawali or Mokshada Ekadashi. Extract the full passage and compare with the legacy linked article before making an alias or new record.
+The OCR says that on Kartika Shukla Chaturdashi prevailing at Arunodaya, the practitioner should bathe at Manikarnika during Brahma Muhurta and worship Vishveshvari and Vishveshvara. The passage uses “हेमलम्ब संवत्सर” in its wording; do not mistake this specific calendrical phrasing for a recurring Gregorian year value.
+
+**Decision:** this is a distinct observance with a clearly Varanasi/Manikarnika-specific ritual detail in this source. It is not automatically Dev Deepawali or Mokshada Ekadashi. Compare the linked legacy article and verify the exact source/edition before deciding whether to display it as a general festival, a Kashi-specific observance, or a profile-specific card.
 
 ## Cross-cutting implementation requirements
 
