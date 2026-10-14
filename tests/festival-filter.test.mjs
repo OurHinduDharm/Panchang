@@ -9,6 +9,15 @@ test("allows common Hindu vrata and parva names", () => {
   assert.equal(isHinduFestival({ name: "Vinayaka Chaturthi" }), true);
   assert.equal(isHinduFestival({ name: "Nirjala Ekadashi" }), true);
   assert.equal(isHinduFestival({ name: "Makar Sankranti" }), true);
+  assert.equal(isHinduFestival({ name: "Upang Lalita Vrat" }), true);
+  assert.equal(isHinduFestival({ name: "Upanga Lalita Vrat" }), true);
+});
+
+test("rejects generic tithi labels without a specific festival name", () => {
+  assert.equal(isHinduFestival({ name: "Chaturthi (Day 4)" }), false);
+  assert.equal(isHinduFestival({ name: "Panchami (Day 5)" }), false);
+  assert.equal(isHinduFestival({ name: "Shashthi (Day 6)" }), false);
+  assert.equal(isHinduFestival({ name: "Saptami (Day 7)" }), false);
 });
 
 test("rejects non-Hindu and civic events", () => {
