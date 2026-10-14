@@ -211,3 +211,24 @@ No executable Ekadashi rule is approved by this workflow note. Draft PR #33 rema
 - Important quality finding: the Smarta page's case 7 appears internally contradictory in its Marathi transcription (first “Shuddha”/everyone Ekadashi, then apparently “Viddha”/Vaishnava Dvadashi). It is explicitly blocked pending printed-page verification.
 - Several rows also preserve Madhava/Hemadri differences and practitioner-specific distinctions. These must become explicit policy/source fields, not be flattened.
 - No executable rule added. Next: compare the source table against a printed scan/edition and establish the ghati counting origin before creating any automated test.
+
+
+### Historical and future Panchang cross-check policy (2026-10-14)
+
+The user approved using both past and future Panchang decisions as cross-check data for the Smarta and Vaishnava Ekadashi profiles. This is a validation requirement, not permission to copy published dates blindly or treat a calendar as scriptural proof.
+
+For each test case, record:
+- Gregorian date(s), location, latitude/longitude if known, timezone and the published Panchang/calendar name or URL.
+- Tradition/profile explicitly stated by the source (Smarta, Vaishnava, or a named lineage); never infer lineage from a generic “Vaishnava” label.
+- Published fasting date, Parana date and start/end time if available, Mahadvadashi label if any, and the source's stated reason when available.
+- Independently computed local tithi start/end, local sunrise for each relevant date, Arunodaya window under the candidate source policy, and tithi state at each boundary.
+- Our engine's result, published result, match/mismatch, and a brief diagnosis. Do not adjust the rule merely to force a match; first check location, timezone, calendar convention, lineage, source transcription and astronomy.
+- Evidence/status: candidate, reconstructed, cross-checked, or source-verified. A date from a modern calendar is a comparison datum, not by itself proof of the shastric rule.
+
+Test-set balance:
+1. Past dates: start with the existing candidate examples (Kolkata Parivartini Ekadashi, September 2022; Gaudiya Mahadvadashi examples from 2023), and only promote them after reconstructing local tithi/sunrise data and confirming the tradition label.
+2. Future dates: calculate the next available Ekadashi cycles for the chosen reference location, compare against at least one clearly identified published Panchang for each profile, and preserve disagreements for review instead of silently choosing one.
+3. Edge cases: normal single-day observance, Dashami-vedha/Arunodaya, Ekadashi and Dvadashi spanning two sunrises, kshaya/vriddhi, each Mahadvadashi subtype, long/short Dvadashi Parana and date rollover.
+4. Avoid circular validation: published calendars are external expected-output candidates; independently recompute the astronomy and separately verify the rule text. Where possible, compare more than one independent calendar, while recording when calendars may share the same source.
+
+Implementation gate: no rule becomes executable solely because it matches a published date. Require a source passage with scope, a defined predicate, one worked local-time example, and regression tests. Keep the test corpus and source ledger in the draft branch; do not change live Blogger output before review and explicit approval.
