@@ -637,7 +637,7 @@ test("Chapter IX Venus threshold follows classified horizon event, not morning/e
   const threshold = extra.match(/function getPlanetEventThreshold\(body, horizonEvent\) \{[\s\S]*?\n\}/)?.[0];
   assert.ok(normalize && classify && threshold, "Chapter IX helpers must exist for focused regression tests");
   const helpers = vm.runInNewContext(
-    `${normalize}\n${classify}\n${threshold}\n({ classifyChapter9HorizonEvent, getPlanetEventThreshold })`
+    `${normalize}\n${classify}\n${threshold}\n;({ classifyChapter9HorizonEvent, getPlanetEventThreshold })`
   );
   const cases = [
     { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: -0.5, event: "west-setting", limit: 8 },
