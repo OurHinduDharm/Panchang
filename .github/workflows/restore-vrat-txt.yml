@@ -13,12 +13,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Decompress source and clean up workflow
         run: |
+          set -e
           mkdir -p data
           gzip -dc "610 Vrat Parichay_hocr_searchtext.txt.gz" > "data/vrat-parichay.txt"
           rm -f "610 Vrat Parichay_hocr_searchtext.txt"
           rm -f ".github/workflows/restore-vrat-txt.yml"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/vrat-parichay.txt "610 Vrat Parichay_hocr_searchtext.txt" .github/workflows/restore-vrat-txt.yml
+          git add -A
           git commit -m "Restore Vrat Parichay OCR text in data folder"
           git push
