@@ -1,7 +1,3 @@
-Blogspot widget code
-
-festival data
-
 <!-- Eruda conditional load -->
 <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
 <script>
@@ -104,7 +100,17 @@ festival data
   font-weight: 700;
   line-height: 1.3;
 }
-
+#dynamicFestivalList .festival-weekday {
+  display: block;
+  margin-top: 4px;
+  padding: 2px 0;
+  border-radius: 4px;
+  background: #e1f3e5;
+  color: #237344;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.4;
+}
 #dynamicFestivalList .festival-content {
   flex: 1 1 0;
   min-width: 0;
@@ -448,6 +454,20 @@ html += '<article class="' + cardClass + '">';
 html += '<div class="festival-date">';
 html += '<span class="festival-day">' + startDay + '</span>';
 html += '<span class="festival-month">' + startMonth + '</span>';
+
+var weekdaysHindi = [
+  'रविवार',
+  'सोमवार',
+  'मंगलवार',
+  'बुधवार',
+  'गुरुवार',
+  'शुक्रवार',
+  'शनिवार'
+];
+
+var weekday = weekdaysHindi[startDate.getDay()];
+
+html += '<span class="festival-weekday">' + weekday + '</span>';
 html += '</div>';
 
 html += '<div class="festival-content">';
