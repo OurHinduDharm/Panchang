@@ -242,3 +242,13 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - It explicitly prevents interpreting legacy `endDate` as a ritual stage/time without evidence.
 - No schema version was changed and no existing festival records were rewritten. This is a design document pending review, not a new runtime contract.
 - Next: use the proposal to build a legacy-ID-to-observance mapping report for combined titles and multi-stage groups; leave ambiguous mappings marked for review. Then validate source-link preservation and date-field invariants before changing the schema.
+
+
+## Legacy-to-observance mapping queue added (2026-10-14)
+
+- Added `data/references/legacy-observance-mapping-queue.md` (commit `55c5539dbc135156e26622f9a0dd786334b715ee`).
+- Reviewed all 122 normalized record names and dates for combined titles, multi-stage festival groups, suspicious legacy dates, and potential source-link loss.
+- Recorded candidate—not final—interpretations for Diwali/Lakshmi Puja, Devotthani Ekadashi/Chaturmas, Gita Jayanti/Mokshada Ekadashi, multi-Jayanti rows, tradition-specific Janmashtami/Ram Navami, Navratri stages, and other combined records.
+- Explicitly flagged `festival-009` (title mentions 18 October but normalized start is 2026-10-17), `festival-054` (eclipse placeholder 1970-01-01), `festival-117` (Ganesh Jayanti title vs Ganesh Chaturthi-linked description and long endDate), and the 2025 date block for source review.
+- This is a mapping queue only. No event was split, no date corrected, and no source rule certified.
+- Next: verify candidate rows against the original descriptions/articles, preserve every embedded URL, and record each decision as alias / linked observances / unresolved before changing the data model.
