@@ -546,3 +546,10 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Added separate observational/capacity fixtures for the supplied note about two Ekādaśī fasts; these are not mixed into astronomical Mahādvādaśī classification.
 - All new cases are explicitly provisional or blocked pending collation of the printed Sanskrit and context. No Sanskrit ambiguity was converted into a runtime predicate.
 - Documentation/test-specification only. No changes to `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, or PR #33 merge state.
+
+### Dharmasindhu image review completed — working collation (2026-10-14)
+- Opened and visually inspected the reference images committed under `data/references/`: Khemraj Sanskrit/Hindi commentary printed pp. 31–33, Rajvaidya Hindi printed pp. 26–28 and 32–33.
+- Created `data/references/dharmasindhu-image-collation-2026-10-14.md` with image links and working visual readings.
+- Visually confirmed the “बहवः / केचित्” pāraṇa alternatives; the Śravaṇa-Dvādaśī paragraph and its cross-reference; the eight Mahādvādaśī names/pairings; “तिथित्रयस्पर्शात् त्रिस्पर्शा”; and “दिनवृद्धि”.
+- The image check advances evidence status, not every interpretation: muhūrta anchor, Trayodaśī fallback scope, Viṣṇu-śṛṅkhala cross-reference, operational “दिनवृद्धि”, and conjunction-end pāraṇa grammar remain open.
+- Updated the p. 17 research note, Hindi-passage note, and test matrix to remove the outdated claim that the images were unavailable. Runtime JavaScript, `data/festivals.json`, legacy dates, Blogger output, and PR #33 merge state remain unchanged.
