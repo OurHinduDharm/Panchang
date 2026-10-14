@@ -1,0 +1,64 @@
+# Festival Data — Progress & Continuation Notes
+
+Last updated: 2026-10-14
+
+## Project / safety
+- Repo: `OurHinduDharm/Panchang`
+- Work branch: `data/festival-json-foundation`
+- Draft PR #33: https://github.com/OurHinduDharm/Panchang/pull/33
+- Keep PR as **Draft** while auditing. Do not merge or change live Blogger without explicit user approval.
+- User works mostly on Android; give clear copy/paste steps and keep progress notes here so a new chat can resume.
+
+## Current files and status
+- `data/festivalData-source.txt`: archive of original Blogger festival widget / original `festivalData` source.
+- `data/festivals.json`: 122 migrated records. Original titles/descriptions (including HTML links), legacy dates, endDate, statusText and hidePeriod preserved in `sourceText`.
+- `data/festival-schema.json`: draft schema.
+- `data/README.md`: migration notes (may be stale; update after audit).
+- `data/FESTIVAL-PROGRESS.md`: this handover note.
+- 90/122 records had an article URL; 32 did not.
+- Legacy dates are copied, **not yet verified/recalculated**. All records are `needs-review`.
+- Provisional date-rule hints exist, but are not authoritative. Counts noted earlier: 111 tithi, 5 astronomical, 4 solar, 2 manual; audit these classifications.
+- Investigate suspicious eclipse date `1970-01-01`; do not treat it as a real eclipse date.
+- Chaturmas code exists outside the original festivalData array and still needs separate migration/review.
+
+## User requirements
+1. Organize festival data around Hindu month, paksha, tithi and special observance rules, not hard-coded old Gregorian dates alone.
+2. Account for festivals with multiple dates/stages and cases where observance can fall on different tithis or days.
+3. Ekadashi needs a proper catalog: regular Ekadashis by lunar month and paksha, names, vrat/observance notes, and Adhik Maas cases such as Padmini and Parama. Verify names/rules from reliable granthas and document regional/sampradaya differences rather than assuming one universal rule.
+4. If a verified article URL exists, display a link; otherwise show the description. Preserve source content; do not invent shastric claims. If both are absent, add a concise description only after research and mark its source/status.
+5. Eclipse records should use existing `eclipse-panchang.js` rather than hard-coded eclipse dates.
+6. Add a future festival-Muhurat system grounded in primary texts and documented decision rules.
+
+## Existing eclipse module
+- Main: https://github.com/OurHinduDharm/Panchang/blob/main/eclipse-panchang.js
+- API: `window.initEclipsePanchang(year?)`; no auto-init.
+- Uses shared `window.__ohdPanchangam`, `getGrahana()`, `findTithiTransitions()`; fetches full Panchang only on actual eclipse dates.
+- Range 2026–2050; location key `ohdPanchangLocation`; TZ offset 330.
+- Do not add duplicate astronomy/date scanning. Keep astronomical event, local visibility and ritual/sutak decision as distinct concepts.
+
+## Festival Muhurat plan
+- Aim: compute location-aware festival Muhurats from Panchang/astronomy plus explicit rules researched from granthas—not copy random websites' dates blindly.
+- Treat every Muhurat rule as a documented rule record: festival/observance, source grantha, chapter/verse/page if available, original quotation or faithful note, interpretation, required tithi/nakshatra/yoga/weekday/solar or sunrise/sunset condition, time-window formula, location/timezone assumptions, priority/conflict resolution, tradition/region scope, examples/tests, review status.
+- Keep **rule research** separate from **calculation code** and from **display text**.
+- Support multiple stages/slots for a festival (e.g. festival day, puja period, Nishita/Kaal, Pradosh, Ghatasthapana, Ashtami/Navami, start/end) rather than one date field.
+- Muhurat output should show local start/end time, date rollover if relevant, location used, concise explanation, and source/rule citation. If the rule is not yet verified or rules conflict, say so; do not falsely label it definitive.
+- Research primary sources first: relevant Muhurat granthas and applicable Dharma-nibandha/paddhati material; compare with reliable traditional calendars and websites only as cross-checks. Record edition/translation because verses and interpretations may vary.
+- Do not mix this project with the separate Surya Siddhanta graha-rise/asta research already underway in another chat; coordinate interfaces only when needed.
+
+## Suggested execution order
+1. Audit all 122 records and create a review list: missing links/descriptions, suspicious dates, duplicates/combined titles, date-rule classification, eclipse entries, multi-stage festivals.
+2. Design schema for `observances[]` / stages, optional `sourceUrl`, fallback `description`, date-rule metadata and Muhurat rules without breaking original content.
+3. Build and validate the Ekadashi catalog; explicitly account for Adhik Maas and documented tradition differences.
+4. Validate eclipse records against `eclipse-panchang.js`; separate event date, local visibility and ritual guidance.
+5. Research and implement festival-specific Muhurat rules in small batches with source notes and test cases.
+6. Add missing festivals only after checking the existing archive and avoiding duplicates.
+7. Test calculations for multiple locations and edge cases (tithi spans two civil days, tithi skipped/duplicated, sunrise/sunset boundaries, midnight/Nishita, month adhika/kshaya, timezone/date rollover).
+8. Update Blogger display only after review, preview tests, and user's explicit approval.
+
+## Known research example / existing article
+- OurHinduDharm Sharadiya Navratri article: https://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html
+- Mahashivratri article: https://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html
+- Deepawali article: https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html (previous retrieval had anti-bot issue).
+
+## Next concrete task
+Start with an audit of `data/festivals.json` and `data/festivalData-source.txt`; publish a concise issue list in this folder. Do not present provisional rules as verified. Keep all edits on the draft branch until user reviews.
