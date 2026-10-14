@@ -520,3 +520,5 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - The scan image could not be independently loaded in this session; the note explicitly does not claim visual collation. OCR readings and detailed expected outcomes remain provisional until the printed page and surrounding context are checked.
 - The 1907 witness is kept separate from the previously recorded 1888 Nirṇaya Sāgara edition locator.
 - Documentation only. No `data/festivals.json`, runtime JS, legacy dates, Blogger output, or PR merge state changed. Draft PR #33 remains unmerged.
+
+- Expanded `data/references/vrata-decision-test-matrix.md` with provisional PAR-01–PAR-08 and MDV-01 fixtures based on the owner-supplied p. 17 transcription. The cases explicitly preserve attributed disagreement and mark source collation pending; they are not executable rules.
