@@ -3,7 +3,10 @@
 import "./classical-yogas.js";
 
 import {
+  Body,
+  Ecliptic,
   Elongation,
+  GeoVector,
   Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
@@ -411,16 +414,39 @@ const PLANET_ASTA_THRESHOLDS = {
   Saturn: 15
 };
 
-function getPlanetEventThreshold(body, visibility, eventType) {
+const ASTRONOMY_BODIES = {
+  Sun: Body.Sun,
+  Mercury: Body.Mercury,
+  Venus: Body.Venus,
+  Mars: Body.Mars,
+  Jupiter: Body.Jupiter,
+  Saturn: Body.Saturn
+};
+
+function normalizeLongitude(degrees) {
+  return ((degrees % 360) + 360) % 360;
+}
+
+function signedLongitudeDifference(to, from) {
+  return ((to - from + 540) % 360) - 180;
+}
+
+function getApparentEclipticLongitude(body, date) {
+  const vector = GeoVector(ASTRONOMY_BODIES[body], date, true);
+  return normalizeLongitude(Ecliptic(vector).elon);
+}
+
+function getPlanetEventThreshold(body, horizonEvent) {
   if (body === "Venus") {
-    // IX.7: west-setting/east-rising = 8°;
-    // east-setting/west-rising = 10°.
-    if (eventType === "asta") return visibility === "morning" ? 10 : 8;
-    return visibility === "morning" ? 8 : 10;
+    // IX.7: choose C from the classified horizon event, not morning/evening.
+    if (horizonEvent === "west-setting" || horizonEvent === "east-rising") return 8;
+    if (horizonEvent === "east-setting" || horizonEvent === "west-rising") return 10;
+    return null;
   }
 
-  // Mercury IX.8 depends on the retrograde/swift-motion branch.
-  // Do not guess that branch in this preliminary display.
+  // Mercury IX.8 needs the textual "swift-moving" classification, not
+  // merely direct motion. Keep it withheld until that branch is implemented.
+  if (body === "Mercury") return null;
   return PLANET_ASTA_THRESHOLDS[body] ?? null;
 }
 
@@ -432,15 +458,53 @@ function getPlanetDailyData(body, dateString) {
     return planetDailyCache.get(cacheKey);
   }
 
-  const result = Elongation(body, getLocalNoon(dateString));
+  const date = getLocalNoon(dateString);
+  const result = Elongation(body, date);
+  const before = new Date(date.getTime() - 12 * 60 * 60 * 1000);
+  const after = new Date(date.getTime() + 12 * 60 * 60 * 1000);
+  const planetLongitude = getApparentEclipticLongitude(body, date);
+  const sunLongitude = getApparentEclipticLongitude("Sun", date);
+  const planetMotion = signedLongitudeDifference(
+    getApparentEclipticLongitude(body, after),
+    getApparentEclipticLongitude(body, before)
+  );
   const data = {
     date: dateString,
     eclipticSeparation: Number(result.ecliptic_separation),
-    visibility: result.visibility
+    visibility: result.visibility,
+    horizonEvent: classifyChapter9HorizonEvent({
+      body,
+      planetLongitude,
+      sunLongitude,
+      planetMotion
+    })
   };
 
   planetDailyCache.set(cacheKey, data);
   return data;
+}
+
+function classifyChapter9HorizonEvent({
+  body,
+  planetLongitude,
+  sunLongitude,
+  planetMotion
+}) {
+  if (!Number.isFinite(planetLongitude) || !Number.isFinite(sunLongitude)) return null;
+  const difference = normalizeLongitude(planetLongitude) - normalizeLongitude(sunLongitude);
+  if (Math.abs(difference) < 1e-7) return null;
+
+  const longitudeGreater = difference > 0;
+  if (body === "Jupiter" || body === "Mars" || body === "Saturn") {
+    return longitudeGreater ? "west-setting" : "east-rising";
+  }
+
+  if (body !== "Venus" && body !== "Mercury") return null;
+  if (!Number.isFinite(planetMotion) || Math.abs(planetMotion) < 1e-6) return null;
+  if (planetMotion < 0) {
+    return longitudeGreater ? "west-setting" : "east-rising";
+  }
+  return longitudeGreater ? "west-rising" : "east-setting";
 }
 
 function findNearestAngularBoundary(body, selectedDate, eventType) {
@@ -448,7 +512,7 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
   if (!Number.isFinite(selected.eclipticSeparation)) return null;
 
   const thresholdFor = data =>
-    getPlanetEventThreshold(body, data.visibility, eventType);
+    getPlanetEventThreshold(body, data.horizonEvent);
 
   // बुध की IX.8 शाखा अभी निश्चित नहीं है; अनुमान न दिखाएँ।
   if (!Number.isFinite(thresholdFor(selected))) return null;
@@ -488,6 +552,7 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
         degree: pastB.eclipticSeparation,
         threshold: thresholdFor(pastB),
         visibility: pastB.visibility,
+        horizonEvent: pastB.horizonEvent,
         direction: "past"
       };
     }
@@ -498,6 +563,7 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
         degree: futureB.eclipticSeparation,
         threshold: thresholdFor(futureB),
         visibility: futureB.visibility,
+        horizonEvent: futureB.horizonEvent,
         direction: "future"
       };
     }
