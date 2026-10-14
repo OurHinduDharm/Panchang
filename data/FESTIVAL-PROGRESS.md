@@ -528,3 +528,10 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Added concrete synthetic boundary fixtures to `data/references/vrata-decision-test-matrix.md`: Hari-vāsara just-before/at/after tests; separate majority and alternate midday profiles; Śravaṇa overlap cases; and eight separately named Mahādvādaśī tests.
 - Kept the Dharmasindhu p. 17 name-pairings explicit (Jayā–Puṣya, Vijayā–Śravaṇa, Jayantī–Punarvasu, Pāpanāśinī–Rohiṇī) instead of silently importing alternate pairings from other Vaishnava calendars. Online references are cross-checks only, not substitutes for the owner's supplied primary passage.
 - Research/test-specification only. No changes to `data/festivals.json`, runtime JavaScript, live Blogger output, or merge state; PR #33 remains unmerged.
+
+### Dharmasindhu p. 17 follow-up — synthetic interval fixtures (2026-10-14)
+- Added concrete, invented continuous-timeline fixtures for the four nakṣatra-linked Mahādvādaśī pairings exactly as transcribed by the project owner: Jayā–Puṣya, Vijayā–Śravaṇa, Jayantī–Punarvasu, Pāpanāśinī–Rohiṇī.
+- Fixtures cover overlap, no-overlap, and exact endpoint contact under half-open interval semantics. They test only the conjunction predicate, not the complete vrata-day decision.
+- Added blocked-input requirements for Unmīlanī, Vañjulī, Trispr̥śā, and Pakṣavardhinī rather than guessing at OCR-corrupt definitions. Missing definitions/events must produce an explicit unresolved result.
+- Added test-engine contract: validate interval order, treat exact endpoint contact as no overlap, and keep nakṣatra conjunction, Mahādvādaśī classification, vrata-day selection, and pāraṇa timing separate.
+- Documentation/test-specification only. No changes to `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, or PR #33 merge state.
