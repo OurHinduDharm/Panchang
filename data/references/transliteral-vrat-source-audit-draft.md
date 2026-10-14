@@ -297,3 +297,48 @@ The displayed Shivaratri decision passage explicitly records **more than one cit
 
 ### Evidence status
 The conflict between Pradosha and Nishitha is explicitly visible in the source transcription, so the existence of differing cited positions is supported. The preferred project rule is **not decided**. No date predicate, festival record or live output changed.
+
+
+## Independent review of Gemini's proposed rules — 2026-10-14
+
+This section records source-checkable corrections to the external Gemini summary. It is an audit note, not an approval to change runtime data or date rules.
+
+### 1. Ekadashi: reject the one-rule summary
+
+The TransLiteral Dharmasindhu page titled **व्रतदिननिर्णय (वैष्णवांचा)** explicitly distinguishes Vaishnava and Smarta observers, says family tradition is relevant to classification, and distinguishes Arunodaya-vedha from sunrise-vedha. It defines Arunodaya as four ghatikas before sunrise and gives different case outcomes when Ekadashi/Dvadashi tithis have different durations. The short claim “Dashami-viddha Ekadashi is rejected for both in the same way” is therefore too broad as an implementation rule.
+
+Sources:
+- [Dharmasindhu — Vaishnava vrata-day decision, TransLiteral](https://www.transliteral.org/pages/z80422042154/view)
+- [Dharmasindhu — concise vrata-day decision, TransLiteral](https://www.transliteral.org/pages/z80422042403/view)
+- [Viramitrodaya — Samayaprakasha, Wikisource](https://sa.wikisource.org/wiki/वीरमित्रोदयः_-_समयप्रकाशः)
+
+**Status:** profile-specific rule matrix required; no automatic exclusion rule approved.
+
+### 2. Sankashti Chaturthi: Chandrodaya rule confirmed, tie-break is not universal
+
+The Wikisource page currently titled [आङ्गिरसस्मृतिः](https://sa.wikisource.org/wiki/आङ्गिरसस्मृतिः) opens at lines 85–86 with “अथ वीरमित्रोदयस्य समयप्रकाशः”; its body is plainly Viramitrodaya-Samayaprakasha text, not an independently verified Angirasa Smriti witness. At lines 875–876 it states “सङ्कष्टचतुर्थी तु चन्द्रोदयव्यापिनी ग्राह्या” and closes the Chaturthi decision section. The same passage discusses observance-specific differences for Vinayaka, Gauri, and other Chaturthi observances, so rules must not be transferred indiscriminately between them.
+
+An independently accessible Sanskrit lexicon entry, [Vाचस्पत्यम्/तान on Wikisource](https://sa.wikisource.org/wiki/वाचस्पत्यम्/तान), reproduces a decision passage at lines 2282–2287: Sankashti should be Chandrodaya-vyapini, but where it is so on both days one opinion chooses the earlier day due to Matri-yoga, while another gives reasons for the later day; if the relevant overlap is absent on both days, it reports a later-day position. This is evidence of a tie-break disagreement, not a single universal predicate.
+
+**Status:** Chandrodaya-vyapini is a strong rule lead; two-day and no-day cases need a selected authority/profile and tests. Do not implement Gemini's categorical “if Moonrise is Tritiya, never observe that day” shortcut.
+
+### 3. Shivaratri: source explicitly preserves competing opinions and exceptional cases
+
+The [Nirnayasindhu Shivaratri decision on TransLiteral](https://www.transliteral.org/pages/z130621065953/view) names both Pradosha-vyapini and Nishitha-vyapini positions, then discusses cases where the relevant overlap occurs on one or both adjacent days. Its own synthesis differentiates cases such as both days having Nishitha overlap, both days having Pradosha overlap, and each day having only one of the overlaps. Therefore “Nishitha is always the sole overriding rule” is not a safe summary of the complete passage.
+
+**Status:** keep the existing decision unresolved until a checked edition and chosen authority/profile are recorded. Keep Masik Shivaratri separate from Maha Shivaratri.
+
+### 4. Units: Pradosha duration claims need precise wording
+
+One ghati is conventionally 24 minutes and one muhurta 48 minutes. Therefore three ghatis are 72 minutes, while three muhurtas are 144 minutes. Gemini's table says “three ghatis / 1 hour 12 minutes”, but the later analysis says “three muhurtas”; those are not equivalent. Do not encode either duration until the adopted source's exact term and the project's intended definition of Pradosha are established.
+
+### 5. Regional observance and broad claims
+
+- Vata Savitri Amavasya and Vata Purnima should be represented as tradition-specific variants only after their sources and intended regions are documented; do not force a single date rule.
+- The blanket statement that all Kamya vratas, festivals and consecrations are prohibited in Adhika Masa is too broad to encode without a specific source, scope and exception review.
+- Varuni Yoga's exact combination of tithi, nakshatra and weekday must be sourced from a named edition before generating dates.
+- A quoted Sanskrit verse without edition/page/chapter and a verifiable passage must remain an unverified quotation, not a source citation.
+
+### Decision
+
+No changes to `data/festivals.json`, executable date rules, legacy festival dates, or Blogger output are authorized by this audit. The next safe step is to build case matrices for Ekadashi, Sankashti and Shivaratri from a chosen edition, then test date-boundary cases separately from textual interpretation.
