@@ -87,3 +87,14 @@ A programmatic first-pass scan of the migrated JSON found:
 - Dharma Sindhu, Tithi Vrata Nirnayas (condensed English presentation): https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
 - Narada Purana, Chapter 29, tithi and Ekadashi observance decisions: https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1501993.html
 - These are initial research leads, not proof that one rule applies to every sampradaya or region. Before coding, capture edition/translation, exact locator, original text where available, interpretation, tradition scope and test cases. Cross-check translations and do not derive a definitive rule from a search snippet alone.
+
+
+## Ekadashi research — continuation update (2026-10-14)
+
+- Created `data/references/ekadashi-review-ledger.md` on `data/festival-json-foundation`.
+- Ran an initial keyword scan over all 50 `vrat-parichay-chunks/part-*.txt` files. The ledger now links the most relevant found chunks and records initial OCR evidence.
+- The book's part 007 explicitly reports multiple views on Shuddha/Viddha Ekadashi, Dashami-vedha, Kshaya Ekadashi and Vaishnava vedha thresholds. Treat these as source leads, not as a single universally applicable rule. Verify the cited grantha and historical ghati notation before converting to modern time thresholds.
+- Several regular Ekadashi descriptions are located in parts 010–028. The scan is preliminary and may miss OCR-corrupted spellings or indirect references.
+- External comparison leads are recorded in the ledger: Dharma Sindhu chapter 3 and 5, Narada Purana, and a modern methodology page. These are research leads, not accepted rules.
+- Next: inspect the full Ekadashi rule section in parts 007–008, transcribe its rule categories faithfully, resolve source citations and tradition scope, then create a separate explicit decision table for Smarta/Vaishnava day selection and Parana. Do not implement dates until that table is reviewed.
+- No production Blogger changes. Draft PR #33 remains unmerged.
