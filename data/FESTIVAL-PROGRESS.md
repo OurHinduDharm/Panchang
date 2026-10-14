@@ -372,3 +372,10 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Treat 1956 as a metadata/title claim pending inspection of the actual imprint. Do not conflate this candidate with the संवत् २०७०, चौबीसवाँ पुनर्मुद्रण copy at `https://archive.org/details/vrata-parichaya`.
 - Added the lead and verification checklist to `data/references/vrat-parichay-edition-comparison-status-draft.md`. Priority next step: inspect metadata/file identifiers and title/imprint page, then map printed pages to scan indices and compare key vrata passages.
 - No runtime code, `data/festivals.json`, legacy dates, or Blogger output changed. PR #33 remains Draft/unmerged.
+
+
+### TransLiteral source added (2026-10-14)
+- User supplied https://www.transliteral.org/pages/i071211194552/view. Inspected the index and opened linked pages: `व्रत परिचय तथा नियम`, `मासिक व्रत परिचय`, `धर्मशास्त्रानुसार विशेष बातें`, plus Dharmasindhu's Smarta and Vaishnava vrata-day decision pages, Ekadashi decision, Purnima/Amavasya decision, and concise vrata-day decision.
+- The index is a discovery map, not a single primary source. The general rules page includes vrata classifications and a general two-ghati-after-sunset Pradosha statement; keep this distinct from specific vrata-date selection rules.
+- Added `data/references/transliteral-vrat-source-audit-draft.md` with links, initial observations, and source-verification workflow. Preserve Smarta/Vaishnava separation; do not equate general Vaishnava with ISKCON/GCAL.
+- Research notes only; no runtime code, `data/festivals.json`, legacy dates, or Blogger output changed. PR #33 remains Draft/unmerged.
