@@ -232,3 +232,13 @@ Test-set balance:
 4. Avoid circular validation: published calendars are external expected-output candidates; independently recompute the astronomy and separately verify the rule text. Where possible, compare more than one independent calendar, while recording when calendars may share the same source.
 
 Implementation gate: no rule becomes executable solely because it matches a published date. Require a source passage with scope, a defined predicate, one worked local-time example, and regression tests. Keep the test corpus and source ledger in the draft branch; do not change live Blogger output before review and explicit approval.
+
+
+## Festival stage-model design proposal added (2026-10-14)
+
+- Added `data/references/festival-stage-model-draft.md` (commit `5c1d92357746f2dc452e1ac1480b71da3cbe85bd`).
+- The proposal separates festival groups, individual observances, independently timed stages, reviewed date/time rules, and source records.
+- It flags a data-loss risk: some descriptions contain multiple article links, while the normalized record currently exposes only one `sourceUrl`. Original HTML/sourceText must remain intact and multiple links should be represented without dropping any.
+- It explicitly prevents interpreting legacy `endDate` as a ritual stage/time without evidence.
+- No schema version was changed and no existing festival records were rewritten. This is a design document pending review, not a new runtime contract.
+- Next: use the proposal to build a legacy-ID-to-observance mapping report for combined titles and multi-stage groups; leave ambiguous mappings marked for review. Then validate source-link preservation and date-field invariants before changing the schema.
