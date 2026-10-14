@@ -177,3 +177,13 @@ No executable Ekadashi rule is approved by this workflow note. Draft PR #33 rema
 - Updated the decision log with SOURCE-02/03, PARANA-01, MAHA-01 and NORMAL-01. These are source-audit decisions, not verified observance rules.
 - Sources: https://www.transliteral.org/pages/z130515050414/view ; https://www.transliteral.org/pages/z130515050924/view ; https://www.transliteral.org/pages/z130515051434/view ; https://vedicpupil.in/library/books/nirnayasindhu/chapter-1
 - Next: compare the exact Sanskrit from a reliable printed scan/edition for Nirnayasindhu Pariccheda 1, Ekadashi Nirnaya and Arunodaya-vedha, then reconstruct one historical local-time timeline. No executable rule has been added.
+
+
+## Scan-backed Smarta double-growth rule located (2026-10-14)
+
+- Found a source-registry record reporting direct reading from printed scans of both Dharmasindhu (1888, p. 17, leaf n39) and Nirnayasindhu (1901, p. 30, leaf n57), with the same verse:
+  `एकादशी द्वादशी चेत्युभयं वर्धते यदा । तदा पूर्वदिनं त्याज्यं स्मार्तैर्ग्राह्यं परं दिनम् ॥`
+- Narrow meaning: when both Ekadashi and Dvadashi “increase” in the passage's precise sense, the **Smarta** decision rejects the earlier day and takes the later day. Do not infer a Vaishnava result from this verse.
+- Recorded as `SM-ED-VRIDDHI-BOTH-01`, status `SOURCE-SUPPORTED / IMPLEMENTATION-PENDING`: the trigger semantics still need context review, plus a local-time worked example before regression testing.
+- Updated the source audit, decision log and rule matrix. This is the first narrow case with matching scan-backed Sanskrit references; the overall engine and normal case remain unverified.
+- Registry locator: https://acharane.com/sources/ (entries `ds-p17-ekadashi-vriddhi` and `ns-p30-ekadashi-vriddhi`).
