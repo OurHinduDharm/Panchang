@@ -203,3 +203,11 @@ No executable Ekadashi rule is approved by this workflow note. Draft PR #33 rema
 - The transcription contains a concrete case taxonomy: the Vaishnava section distinguishes Ekadashi-only growth, Dvadashi-only growth, both growth and neither growth; the Smarta section gives eight examples and records disagreement among authorities in some cases.
 - It also distinguishes Vaishnava Arunodaya-vedha (four ghatis before sunrise; a 56-ghati phrase in the transcription) from Smarta sunrise-vedha (a 60-ghati phrase). These figures are context-specific leads, not approved universal thresholds.
 - Research documents updated. Next: transcribe every numbered case faithfully, inspect the printed Sanskrit/edition and counting origin, then create a worked local-time test. No executable Ekadashi rules added; PR #33 remains unmerged and Blogger production unchanged.
+
+
+### Dharmasindhu case digest added (2026-10-14)
+
+- Added `data/references/ekadashi-dharmasindhu-case-transcription.md`, a structured research digest of four Vaishnava subtype examples and eight Smarta examples from the TransLiteral Dharmasindhu pages.
+- Important quality finding: the Smarta page's case 7 appears internally contradictory in its Marathi transcription (first “Shuddha”/everyone Ekadashi, then apparently “Viddha”/Vaishnava Dvadashi). It is explicitly blocked pending printed-page verification.
+- Several rows also preserve Madhava/Hemadri differences and practitioner-specific distinctions. These must become explicit policy/source fields, not be flattened.
+- No executable rule added. Next: compare the source table against a printed scan/edition and establish the ghati counting origin before creating any automated test.
