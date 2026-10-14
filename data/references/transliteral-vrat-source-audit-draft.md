@@ -246,3 +246,35 @@ The Wikisource URL/title आङ्गिरसस्मृतिः currently se
 2. Inspect the relevant Dharmasindhu Smarta and Vaishnava decision texts side by side, then create a case matrix for Ekadashi: ordinary, Dashami-viddha, tithi-kshaya, Dvadashi-vriddhi, and tradition/profile.
 3. For Sankashti, cross-check the moonrise rule in an independently attributed Dharma-nibandha or vrata source and test local moonrise boundaries.
 4. Keep all findings in this research layer; do not edit data/festivals.json, executable rules, or Blogger output during source audit.
+
+
+## Ekadashi cross-check — Dharmasindhu tradition profiles (2026-10-14)
+
+### Directly inspected secondary transcription / translation
+
+- [Dharmasindhu — व्रतदिननिर्णय (वैष्णवांचा), TransLiteral](https://www.transliteral.org/pages/z80422042154/view), visible text around lines 86–90.
+- [Dharmasindhu — संक्षेपाने व्रतदिननिर्णय, TransLiteral](https://www.transliteral.org/pages/z80422042403/view), contents confirms separate Smarta, Vaishnava, Ekadashi and Dvadashi decision sections.
+- [Viramitrodaya — Samayaprakasha, Wikisource](https://sa.wikisource.org/wiki/वीरमित्रोदयः_-_समयप्रकाशः), visible Ekadashi decision around lines 1972 onward and detailed cases around 2391 onward.
+- [Paramapurusha Samhita, chapter 10, Wikisource](https://sa.wikisource.org/wiki/परमपुरुषसंहिता/अध्यायः_१०), chapter's own Ekadashi decision around verses labelled 46–58.
+
+### What the comparison establishes (not yet an implementation specification)
+
+1. **Tradition/profile is a required input.** Dharmasindhu explicitly distinguishes Vaishnava and Smarta vrata observers and discusses family tradition as relevant to classification. Therefore the project must not silently assume one profile for every visitor.
+2. **Arunodaya and sunrise are distinct tests.** The TransLiteral Dharmasindhu Vaishnava text defines arunodaya as four ghatikas before sunrise and says even a brief Dashami presence in that interval matters for the Vaishnava vedha test. Its description separately identifies sunrise vedha for Smarta reckoning.
+3. **Tithi length across multiple days changes the decision.** The same passage describes cases involving Ekadashi continuing after the next sunrise, Dvadashi ending before sunrise, both tithis extended, or neither extended. It assigns different outcomes by profile in some cases; this cannot be reduced to “if Dashami touches sunrise, always shift” or a single sunrise-only test.
+4. **The primary-text witnesses are not identical rulebooks.** Viramitrodaya has its own long-form discussion and debate, including differences for householders/ascetics in some configurations. Paramapurusha Samhita gives another tradition-specific prescription and should be compared rather than merged silently.
+5. **Parana needs its own rule pass.** A decision about which civil date to fast on does not by itself determine the parana window. Dvadashi tithi end, sunrise and Hari-vasara rules need separately sourced and tested handling.
+
+### Provisional decision table for research, not executable logic
+
+| Calendar situation | Research status |
+|---|---|
+| Ordinary Ekadashi with no relevant Dashami vedha and unambiguous tithi duration | Likely straightforward, but define exact profile and event-window semantics before coding. |
+| Dashami present during arunodaya | Dharmasindhu's Vaishnava section treats this as vedha; do not generalize this test to Smarta profile. |
+| Ekadashi spans a second sunrise / Dvadashi has unusual duration | Source describes profile-specific outcomes; must model tithi start/end plus each local sunrise, not only the tithi name at one sunrise. |
+| Ekadashi kshaya or no clean candidate day | Needs explicit exceptional-case logic and cross-check with a selected edition; no fallback guessed. |
+| Parana | Separate specification required: relevant Dvadashi span, local sunrise, Hari-vasara and the tradition's prescribed window. |
+
+### Data and implementation decision
+
+This research supports the existing plan to store named Ekadashi observances separately from the **date-decision profile**. It does not yet justify choosing a single default for the whole site, generating new dates, or changing any legacy record. Before implementation, build a compact decision matrix from a checked edition of Dharmasindhu and Viramitrodaya, test it against trusted almanac examples, and document any remaining lineage-specific disagreements. TransLiteral is a valuable discovery and comparison layer, but its translated/transcribed text should not be treated as a critical edition.
