@@ -84,3 +84,22 @@ This draft maps obvious/likely relationships to the current `data/festivals.json
 - Compared fields: `name` and `sourceText.title` from all 122 records in `data/festivals.json`; description/article semantics have not all been manually read.
 - Printed-page references and OCR spellings are provisional until checked against the relevant body passage/page image.
 - Public bibliographic listing identifies *Vrat-Parichay* by Hanuman Sharma as a Gita Press publication, but this file uses the repository's OCR as the working contents source: [bibliographic listing](https://www.pustak.org/index.php/books/bookdetails/1173).
+
+## D. Body-text spot checks completed (OCR chunks)
+
+These checks go beyond the contents list, but are still OCR-text checks rather than verified page-image transcription.
+
+| Candidate | OCR evidence location | What the body text says at a glance | Implication for our model |
+|---|---|---|---|
+| Sankashti Chaturthi | `part-006.txt` and `part-010.txt` | The text describes it as a Krishna Chaturthi vrata observed each month and selects the Chaturthi that remains at moonrise; if the moonrise-tithi occurs on two days, it gives a decision note. | **Confirmed rule-family candidate**, not a one-off annual event. Preserve the moonrise predicate and test the two-day edge case against the full passage before coding. |
+| Pradosh Vrat | `part-007.txt`, `part-010.txt`, and `part-011.txt` | The text describes observance on Trayodashi in both Krishna and Shukla paksha each month; the passage mentions evening/night worship context. | **Confirmed recurring-rule candidate**. Need exact Pradosh-kala and tithi overlap criteria from full source, not just “Trayodashi = Pradosh”. |
+| Vata Savitri Vrat | `part-012.txt` | The passage explicitly notes differing authorities: Jyeshtha Shukla Purnima according to Skanda/Bhavishyottara and Amavasya according to Nirnayamrita and similar authorities; it says Amavasya is commonly followed in the country described by the book. | **Do not encode one universal date rule**. Store tradition/source-specific decision profiles if this is implemented; verify exact edition/page and current regional scope. |
+| Nirjala Ekadashi | `part-013.txt` | The text identifies Jyeshtha Shukla Ekadashi as Nirjala and gives vrata/parana-related guidance. | **High-priority named Ekadashi candidate**. Add to the separate Ekadashi source/rule review, not as a fixed date. Keep Smarta/Vaishnava profiles distinct. |
+| Ashunya Shayan Vrat | `part-014.txt` | The text describes a multi-month observance from Shravan Krishna Dwitiya through Margashirsha Krishna Dwitiya and gives a tithi-selection instruction (Purvaviddha, with a stated fallback). | **Duration-based observance**, not merely a single annual festival card. Model the range and annual start/end decisions separately if it is ever exposed. |
+| Mangala Gauri Vrat | `part-015.txt` | The text includes a sankalpa for a five-year observance and ritual instructions; the contents place it in the Shravan observance section. | **Likely recurring weekday/month plus multi-year sankalpa**, not a generic one-day annual title. Verify the complete rule and regional practice before calendar display. |
+| Ekadashi examples | `part-011.txt`, `part-012.txt`, `part-013.txt`, `part-016.txt`, `part-017.txt`, `part-019.txt`, `part-020.txt` | The text gives different named Ekadashis by month/paksha (e.g., Apara, Nirjala, Aja, Padma, Papankusha, Rama). | Confirms why one or two legacy named records cannot stand in for the entire recurring Ekadashi family. Full rule decisions remain in the separate Ekadashi track. |
+
+### Implementation gate after these checks
+
+No executable date rule should be added from these excerpts alone. For each rule, the next source note must capture the complete relevant passage, source authority/edition, printed page verified against the scan, calendar profile, time/kala predicate, conflict handling, and at least one worked local-time example plus regression test.
+
