@@ -869,6 +869,15 @@ The PR-preview run of **Chapter VII — same-instant frame sensitivity** was rev
 - Therefore this run **does not resolve** the classical frame/epoch blocker and does not validate any Chapter IX K value or Asta/Udaya event date.
 - GitHub Actions workflow #480 for commit `e4490baf83cb76d5239a9c56e17dcb8057befc87` completed successfully, including the headless Chromium research-page test and the check that production `app.js` and `extra-panchang.js` remain unchanged: https://github.com/OurHinduDharm/Panchang/actions/runs/38579546867.
 
-### Next discriminating experiment
+### Obliquity sensitivity result — 14 October 2026
 
-Run the same fixed-instant inputs under two explicit obliquity candidates—(a) the rounded 24° construction and (b) the Chapter II.28 sine-table value `asin(1397/3438) ≈ 23.9751819°`—while holding the ephemeris state and equinox convention constant. Report each candidate’s LST conversion and separate Āyana/Akṣa terms. This isolates sensitivity to the textual sine-table value; it still cannot choose the historical convention without a source-derived epoch/meridian bridge or an authoritative worked numerical example. Do not tune either candidate to TKS/Drik dates.
+The paired fixed-instant test was run in the PR preview at 2026-10-12 12:00 IST, holding the same modern geocentric state and 24.217° comparison ayanāṃśa constant while changing only the obliquity parameter from 24° to the Chapter II.28 sine-table candidate `asin(1397/3438) ≈ 23.9751819°`.
+
+- Sun corrected longitude is unchanged to the displayed precision. The calculation-frame LST differs by approximately −0.000072° between candidates.
+- Venus Āyana correction changes by +0.002420°; Akṣa correction by +0.000378°; total correction and corrected longitude each change by +0.002798° (about 10.1 arcseconds).
+- This establishes the numerical sensitivity of this implementation to the two obliquity inputs. The small difference does not determine which convention is historically intended. The test keeps modern RA/declination/state fixed and changes only the obliquity parameter in the Chapter VII correction calculation; it is not a complete re-derivation of all state coordinates in two self-consistent historical frames.
+- The II.28 value is derived from the text's sine-table ratio, but whether that value is the exact obliquity intended for this Chapter VII construction still requires contextual/source review. Neither candidate is selected as authoritative.
+- This result does not validate a Chapter IX K value or any Asta/Udaya event date. The frame/epoch, source-faithful civil-time bridge, and independent raw same-instant TKS intermediate comparison remain unresolved.
+- GitHub Actions workflow #487 for commit `53f158581f1d110f09423b7186b790fe62228c81` completed successfully, including the headless Chromium research-page test and production-file identity check: https://github.com/OurHinduDharm/Panchang/actions/runs/38595093465.
+
+**Next research gate:** establish a source-derived epoch/meridian/time bridge and, where possible, compare a worked classical example or captured raw same-instant intermediate outputs. Do not select either obliquity by tuning to TKS/Drik event dates.
