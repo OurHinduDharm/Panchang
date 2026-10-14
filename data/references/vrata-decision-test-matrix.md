@@ -113,3 +113,24 @@ Sources:
 - [ ] Populate each synthetic case with precise timestamps and a reasoned expected output.
 - [ ] Compare selected real-world examples with at least one independent almanac for the same location/year.
 - [ ] Review proposed implementation and data migration separately before production-facing changes.
+
+
+## F. Dharmasindhu p. 17 — pāraṇa and Mahādvādaśī follow-up fixtures (provisional)
+
+These cases are based on the project owner's OCR transcription of the 1907 Dharmasindhu p. 17. The Archive.org scan locator is recorded in `dharmasindhu-p17-parana-research.md`, but the image could not be independently visually collated in this session. Therefore, these are test scenarios to guide source review; precise expected outputs remain provisional.
+
+| ID | Synthetic condition | Expected test behaviour | Status |
+|---|---|---|---|
+| PAR-01 | Dvādaśī is extended and the candidate pāraṇa time falls inside Hari-vāsara | Block/shift pāraṇa only according to the verified source definition of Hari-vāsara; show the reason | Pending source collation |
+| PAR-02 | No part (not even one kalā) of Dvādaśī is available in the relevant following-day case | Evaluate the transcribed Trayodaśī-pāraṇa clause after confirming its context | Pending source collation |
+| PAR-03 | Dvādaśī remains present through midday | Preserve the text's attributed majority view and alternative view as separate profiles/options; do not silently select one | Pending source collation |
+| PAR-04 | Several other ritual timings conflict with morning pāraṇa | Evaluate the alternative attributed to “केचित्” only within its sourced scope | Pending source collation |
+| PAR-05 | Śravaṇa nakṣatra is joined with Dvādaśī | Apply a separate Śravaṇa-Dvādaśī profile after verifying the full conditions | Pending source collation |
+| PAR-06 | The stated Viṣṇu-śṛṅkhala condition occurs | Evaluate the special Ekādaśī-fast / Dvādaśī-pāraṇa clause only after its yoga definition is verified | Pending source collation |
+| MDV-01 | Each named Mahādvādaśī tithi/nakṣatra combination is present | Test each of the eight combinations separately; do not implement a single broad Mahādvādaśī boolean | Pending source collation |
+| PAR-07 | Pāraṇa interval begins/ends exactly at a tithi or Hari-vāsara boundary | Test immediately before, exactly at, and immediately after; boundary inclusivity must be documented | Required |
+| PAR-08 | Required local event or tithi endpoint is unavailable | Return unresolved with a reason; do not invent a pāraṇa clock time | Required |
+
+**Unit/transcription gate:** the terms “kalā”, “muhūrta-traya”, “Hari-vāsara”, and “Viṣṇu-śṛṅkhala” must be checked in context before conversion into durations or Boolean conditions. The supplied OCR is not a final critical transcription.
+
+**No implementation authorization:** these fixtures do not change `data/festivals.json`, runtime JavaScript, legacy festival dates, Blogger output, or PR merge state.
