@@ -340,3 +340,6 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Ashunya Shayana: cross-checked public Hindi Bhavishya Purana chapter “Phala-Dvitiya (Ashunyashayana Vrat)” and Matsya Purana chapter 71; both identify the Shravan Krishna Dwitiya form. The full multi-month series in *Vrat-Parichay* is not independently confirmed by those passages and remains a potentially distinct textual prescription pending edition/source comparison.
 - Bibliography: located a CiNii record for a 1969 fourth edition of *Vrat-Parichay* published by Gita Press: https://cir.nii.ac.jp/crid/2120307889746109824 . It is a candidate for comparison only; the user's OCR edition has not been identified.
 - Updated `vrat-parichay-source-evidence-draft.md`. Runtime code, `festivals.json`, article URLs, and live Blogger output remain untouched.
+
+
+- Additional Pradosha cross-check: Drik Panchang's 2026 methodology says date selection is Trayodashi overlapping local post-sunset Pradosh Kaal and notes city-based differences: https://www.drikpanchang.com/vrats/pradoshdates.html . This corroborates a current calendar convention only; it does not settle the textual two-ghati/three-ghati ritual-duration difference. Updated the evidence ledger to keep date predicate, puja window, and ghati definition separate.
