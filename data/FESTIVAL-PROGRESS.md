@@ -324,3 +324,10 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Vaikuntha Chaturdashi: body passage attributes it to Sanatkumara Samhita and describes Kartika Shukla Arunodaya-vyapini Chaturdashi, Manikarnika bathing at Brahma Muhurta, and worship of Vishveshvari/Vishveshvara. Check the legacy article and edition before deciding whether a general or Kashi-specific display is appropriate.
 - Important correction: the printed p. 189 “Shivachaturdashi Vrat” passage in `part-024.txt` is a Margashirsha Shukla Trayodashi/Chaturdashi practice, not evidence for monthly Masik Shivaratri. Monthly Masik Shivaratri remains unverified.
 - Updated the priority rule queue accordingly. OCR page labels remain unverified against page images; no runtime data or date logic changed.
+
+
+## Edition identity and external source cross-check (2026-10-14)
+
+- External catalogue research confirms *Vrat-Parichay* listings vary by edition/extent: one lists a 2006, 381-page edition (ISBN 81-293-0160-1), another lists a 38th edition at 415 pages, and another lists a 474-page copy. The OCR's exact edition therefore remains unidentified; do not treat printed page labels as verified until the title/edition page and page images are checked. Sources: https://www.pustak.org/index.php/books/bookdetails/1173 ; https://bharatiyavidya.com/product/vrat-parichay/ ; https://vikasbookdepo.com/products/gita-press-vrat-parichay-book-code-610
+- Added the edition uncertainty and source link list to `vrat-parichay-source-evidence-draft.md`.
+- Vaikuntha Chaturdashi's Manikarnika/lotus-worship theme also has a separate Skanda Purana chapter 35 translation cross-check: https://www.wisdomlib.org/hinduism/book/the-skanda-purana/d/doc371677.html . This is corroborative context, not a substitute for matching the exact passage and edition cited in the OCR.
