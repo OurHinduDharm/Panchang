@@ -881,3 +881,17 @@ The paired fixed-instant test was run in the PR preview at 2026-10-12 12:00 IST,
 - GitHub Actions workflow #487 for commit `53f158581f1d110f09423b7186b790fe62228c81` completed successfully, including the headless Chromium research-page test and production-file identity check: https://github.com/OurHinduDharm/Panchang/actions/runs/38595093465.
 
 **Next research gate:** establish a source-derived epoch/meridian/time bridge and, where possible, compare a worked classical example or captured raw same-instant intermediate outputs. Do not select either obliquity by tuning to TKS/Drik event dates.
+
+
+## Checkpoint — 14 October 2026: separate fixed-LST frame sensitivity
+
+- Added a fourth row to the Chapter VII frame-comparison diagnostic: the same vector-derived planetary coordinates are evaluated with the numerical local sidereal angle held fixed, alongside the transformed-meridian candidate. This separates (i) changing the planet's ecliptic/equatorial geometry from (ii) changing the local-meridian angle through a frame transform.
+- Commit `456ef265ede30b600ed56b373e5eb571d668e59b`; workflow #489 completed successfully, including arithmetic/formula tests, HTML wiring, headless Chromium research-page test, and production-file identity check: https://github.com/OurHinduDharm/Panchang/actions/runs/38597733357.
+- This commit adds the diagnostic path only. It does not supply a historical verdict, and the numerical output for the new fixed-LST row has not yet been captured in the audit. The existing transformed-meridian hypothesis remains unproven.
+
+## Source boundary — civil time, Lanka midnight, and local nata
+
+- I.50–51 defines the civil-day count to midnight on Lanka's meridian; I.66 discusses longitude difference as a time difference in nāḍīs, and I.67 advances/recedes mean planetary place from the midnight anchor using the elapsed nāḍīs.
+- III.49 constructs madhya-lagna from the Sun and signed east/west nata using Lanka-rising asus. This is a source-shaped local-meridian method, but it requires the nata and Sun longitude to be expressed in a consistent classical frame.
+- Therefore the current `ss_chapter1_epoch_bridge.js` (UTC Julian Day → local-mean JD using a configurable longitude, with a modern Ujjayinī longitude as default) is only a civil-time adapter. Its epoch anchor and default longitude are not yet a full reconstruction of the text's epoch, longitude correction, and local nata procedure.
+- Next gate: document the exact chain from the selected civil instant to (a) elapsed nāḍīs from the chosen Lanka-midnight reference and (b) a source-consistent signed nata, while keeping any modern UTC/longitude conversion explicitly labeled as an input adapter. Then compare the Chapter III.49-shaped meridian result against the transformed-meridian-plane candidate over several dates and longitudes. Do not feed either candidate into Chapter IX event dates until the bridge and frame are independently adjudicated.
