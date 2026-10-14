@@ -5,14 +5,14 @@
 ## 1. Images inspected
 
 ### Rajvaidya Ravidutta Shastry Hindi edition
-- [Image 0049 — printed page 26](Dharma%20Sindhu%20-%20Rajvaidya%20Ravidutta%20Shastry_0049.jpg)
-- [Image 0050 — printed page 26 continuation / Ekadashi decision material](Dharma%20Sindhu%20-%20Rajvaidya%20Ravidutta%20Shastry_0050.jpg)
+- [Image 0049 — printed page 25](Dharma%20Sindhu%20-%20Rajvaidya%20Ravidutta%20Shastry_0049.jpg)
+- [Image 0050 — printed page 26 / Ekadashi decision material](Dharma%20Sindhu%20-%20Rajvaidya%20Ravidutta%20Shastry_0050.jpg)
 - [Image 0051 — printed page 27](Dharma%20Sindhu%20-%20Rajvaidya%20Ravidutta%20Shastry_0051.jpg)
 - [Image 0052 — printed page 28](Dharma%20Sindhu%20-%20Rajvaidya%20Ravidutta%20Shastry_0052.jpg)
 - [Image 0056 — printed page 32](Dharma%20Sindhu%20-%20Rajvaidya%20Ravidutta%20Shastry_0056.jpg)
 - [Image 0057 — printed page 33](Dharma%20Sindhu%20-%20Rajvaidya%20Ravidutta%20Shastry_0057.jpg)
 
-The Rajvaidya pages 26–28 contain Ekadashi profile/decision material; pages 32–33 show the Hindi explanation of Mahādvādaśī and the associated observance notes.
+The Rajvaidya pages 25–28 contain Ekadashi profile/decision material; pages 32–33 show the Hindi explanation of Mahādvādaśī and the associated observance notes.
 
 ### Khemraj Sanskrit with Hindi bhāṣāṭīkā
 - [Image 0054 — printed page 31](Dharma%20Sindhu%20of%20Kashinath%20Upadhyay%20with%20Bhasha%20Tika%20by%20Mihir%20Chandra%20-%20Khemraj_0054.jpg)
