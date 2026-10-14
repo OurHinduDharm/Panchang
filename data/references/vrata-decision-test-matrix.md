@@ -200,3 +200,43 @@ For MDV-05–08, test overlap start, overlap end, exact-boundary contact, and no
 - Store the reason and rule ID with every result so the UI can explain why a date/time was chosen.
 - Treat an unknown condition as unresolved, not false and not a guessed default.
 - These fixtures remain research-only until the exact text is confirmed; no live festival date or runtime code is changed by this section.
+
+### G6. Concrete synthetic interval fixtures — nakṣatra-linked Mahādvādaśī
+
+All timestamps below are **minutes on an invented continuous local timeline**. They are deliberately not civil dates and must never be used as festival data. Intervals use half-open semantics `[start,end)`. These fixtures test only the mechanical conjunction predicate, not whether the full vrata-day selection qualifies under Dharmasindhu.
+
+Use Dvādaśī interval `[1000,1300)`. For each row, substitute the named nakṣatra interval and test overlap with Dvādaśī:
+
+| ID | Working name/pairing from supplied p. 17 | Nakṣatra interval | Expected conjunction predicate |
+|---|---|---:|---|
+| MDV-05A | Jayā — Puṣya | [900,1100) | true; overlap [1000,1100) |
+| MDV-05B | Jayā — Puṣya | [1300,1400) | false; starts exactly when Dvādaśī ends |
+| MDV-05C | Jayā — Puṣya | [1100,1200) | true; wholly inside Dvādaśī |
+| MDV-06A | Vijayā — Śravaṇa | [1200,1400) | true; overlap [1200,1300) |
+| MDV-06B | Vijayā — Śravaṇa | [800,1000) | false; ends exactly when Dvādaśī starts |
+| MDV-07A | Jayantī — Punarvasu | [950,1050) | true; overlap [1000,1050) |
+| MDV-07B | Jayantī — Punarvasu | [1300,1350) | false; no overlap |
+| MDV-08A | Pāpanāśinī — Rohiṇī | [1250,1350) | true; overlap [1250,1300) |
+| MDV-08B | Pāpanāśinī — Rohiṇī | [700,999) | false; no overlap |
+
+**Interpretation limit:** a true overlap is only a candidate signal. It does not by itself establish the proper fasting date, sunrise condition, or complete Mahādvādaśī qualification. Those still require the source's full rule and the relevant sunrise/tithi intervals.
+
+### G7. Synthetic fixtures for the four tithi/day-based Mahādvādaśīs
+
+Do not invent predicates from uncertain OCR. The following are intentionally *blocked* tests, specifying the data that must be present before expected results can be assigned:
+
+| ID | Working name | Inputs required before a pass/fail oracle can be written |
+|---|---|---|
+| MDV-01 | Unmīlanī | Exact Sanskrit condition; Ekādaśī/Dvādaśī start/end; sunrise on both candidate dates |
+| MDV-02 | Vañjulī | Exact meaning and scope of “śuddhādhikā”; Dvādaśī interval; relevant sunrises |
+| MDV-03 | Trispr̥śā | Exact compound and tithi sequence; tithi intervals; both sunrise instants |
+| MDV-04 | Pakṣavardhinī | Exact definition of “दिनवृद्धि”; Amāvāsyā/Pūrṇimā interval; relevant sunrises |
+
+Expected behaviour for all four while a required definition is missing: `unresolved` with the missing source/input named. “Unresolved” is a valid and tested outcome, not a failure to guess.
+
+### G8. Test-engine contract
+
+- Compute interval overlap as `max(startA,startB) < min(endA,endB)`; equality alone is **not** overlap under `[start,end)`.
+- Validate all timestamps are finite and ordered; missing, malformed, or reversed intervals return `unresolved`, not `false`.
+- Keep `nakṣatra conjunction`, `Mahādvādaśī classification`, `vrata-day selection`, and `pāraṇa window` as separate results.
+- Attach source profile `dharmasindhu-1907-p17-working`, rule ID, location/timezone, and a human-readable reason to every final decision.
