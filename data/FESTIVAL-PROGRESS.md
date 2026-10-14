@@ -553,3 +553,10 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Visually confirmed the “बहवः / केचित्” pāraṇa alternatives; the Śravaṇa-Dvādaśī paragraph and its cross-reference; the eight Mahādvādaśī names/pairings; “तिथित्रयस्पर्शात् त्रिस्पर्शा”; and “दिनवृद्धि”.
 - The image check advances evidence status, not every interpretation: muhūrta anchor, Trayodaśī fallback scope, Viṣṇu-śṛṅkhala cross-reference, operational “दिनवृद्धि”, and conjunction-end pāraṇa grammar remain open.
 - Updated the p. 17 research note, Hindi-passage note, and test matrix to remove the outdated claim that the images were unavailable. Runtime JavaScript, `data/festivals.json`, legacy dates, Blogger output, and PR #33 merge state remain unchanged.
+
+### Śravaṇa-Dvādaśī cross-check — authority variants documented (2026-10-14)
+- Added `data/references/dharmasindhu-shravana-dvadashi-crosscheck.md` with the TransLiteral Dharmasindhu Śravaṇa-Dvādaśī and pāraṇa discussions plus Nirṇayasindhu cross-checks.
+- Identified that Viṣṇu-śṛṅkhala has competing definitions (strict three-way conjunction versus a reading allowing Śravaṇa-yukta Dvādaśī to touch Ekādaśī), and that night-time conjunction criteria also differ by authority.
+- Narrowed the tithi/nakṣatra pāraṇa ambiguity: main view is after both endpoints; a secondary view permits one endpoint, but the source discussion explicitly warns against an unqualified “pāraṇa at Śravaṇa end while Dvādaśī continues” rule.
+- Identified the middle-20-ghaṭikā Śravaṇa avoidance as a Bhādrapada-specific discussion, with fallback and scope disputes that must not be generalized to all monthly Śravaṇa-Dvādaśīs.
+- Added VSH/PAR-SHR provisional test cases to the matrix. All changes remain documentation-only; no production dates/runtime/Blogger output changed, and PR #33 remains unmerged.
