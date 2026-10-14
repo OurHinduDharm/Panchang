@@ -3903,7 +3903,12 @@ function runChapter7FrameSensitivityDiagnostic() {
   const date = new Date("2026-10-12T06:30:00Z");
   const sourceObliquityDeg = trueObliquityOfDateDeg(date);
   const sourceLST = normalize360(Astronomy.SiderealTime(date) * 15 + CONFIG.longitude);
+  const ayanamshaDeg = 24.217;
+  const classicalObliquityDeg = 24;
   const rows = [];
+
+  const fmt = v => Number.isFinite(v) ? v.toFixed(6) + "°" : "n/a";
+  const signedDelta = (a, b) => ((a - b + 540) % 360) - 180;
 
   for (const [label, body] of [
     ["Sun", Astronomy.Body.Sun],
@@ -3911,72 +3916,103 @@ function runChapter7FrameSensitivityDiagnostic() {
   ]) {
     const state = getPlanetSiderealState(body, date);
     if (!state) {
-      rows.push("<tr><td>" + label + "</td><td colspan='15'>State unavailable</td></tr>");
+      rows.push("<tr><td>" + label + "</td><td colspan='4'>State unavailable</td></tr>");
       continue;
     }
 
-    // Baseline: exactly the current sequential helper path and its obliquity-only LST conversion.
+    // Baseline path: scalar obliquity-only conversion.
     const baseline = getDrikkarmaCorrectionSequential(body, date, "east", CONFIG);
 
-    // Candidate: transform the same EQD state vector and the same physical meridian plane
-    // through the full explicitly parameterized 3-D candidate frame.
-    const transformed = inspectModernStateInClassicalFrame({
+    // Candidate A: full-vector transform with NO equinox/ayanamsha rotation.
+    // This isolates the obliquity-frame change and should be compared directly
+    // with the scalar baseline before drawing conclusions about ayanamsha.
+    const obliquityOnlyState = inspectModernStateInClassicalFrame({
       rightAscensionDeg: state.rightAscension,
       declinationDeg: state.declination,
       sourceObliquityDeg,
-      ayanamshaDeg: 24.217,
-      classicalObliquityDeg: 24
+      ayanamshaDeg: 0,
+      classicalObliquityDeg
     });
-    const candidateLST = modernLocalSiderealAngleToClassicalFrame({
+    const obliquityOnlyLST = modernLocalSiderealAngleToClassicalFrame({
       localSiderealAngleDeg: sourceLST,
       sourceObliquityDeg,
-      ayanamshaDeg: 24.217,
-      classicalObliquityDeg: 24
-    });
-    const candidate = calculateChapter7SequentialDrikkarma({
-      siderealLongitudeDeg: transformed.targetLongitudeDeg,
-      planetLatitudeDeg: transformed.targetLatitudeDeg,
-      observerLatitudeDeg: CONFIG.latitude,
-      localSiderealAngleDeg: candidateLST,
-      localSiderealObliquityDeg: 24,
       ayanamshaDeg: 0,
-      obliquityDeg: 24,
-      planetDeclinationDeg: transformed.targetDeclinationDeg,
-      planetRightAscensionDeg: transformed.targetRightAscensionDeg
+      classicalObliquityDeg
+    });
+    const obliquityOnly = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: signedDelta(obliquityOnlyState.targetLongitudeDeg, ayanamshaDeg),
+      planetLatitudeDeg: obliquityOnlyState.targetLatitudeDeg,
+      observerLatitudeDeg: CONFIG.latitude,
+      localSiderealAngleDeg: obliquityOnlyLST,
+      localSiderealObliquityDeg: classicalObliquityDeg,
+      ayanamshaDeg,
+      obliquityDeg: classicalObliquityDeg,
+      planetDeclinationDeg: obliquityOnlyState.targetDeclinationDeg,
+      planetRightAscensionDeg: obliquityOnlyState.targetRightAscensionDeg
     });
 
-    const fmt = v => Number.isFinite(v) ? v.toFixed(6) + "°" : "n/a";
-    const fields = [
-      ["Source LST", sourceLST],
-      ["Baseline LST in calc frame", baseline?.calculationFrameSiderealAngleDeg],
-      ["Full-vector candidate LST", candidateLST],
-      ["Baseline planet RA", baseline?.planetRAForAksha],
-      ["Candidate planet RA", candidate?.planetRAForAksha],
-      ["Baseline planet declination", baseline?.planetDeclinationForHalfDay],
-      ["Candidate planet declination", candidate?.planetDeclinationForHalfDay],
-      ["Baseline hour angle", baseline?.hourAngleDeg],
-      ["Candidate hour angle", candidate?.hourAngleDeg],
-      ["Baseline half-day angle", baseline?.halfDayAngleDeg],
-      ["Candidate half-day angle", candidate?.halfDayAngleDeg],
-      ["Baseline Āyana", baseline?.ayanaDeg],
-      ["Candidate Āyana", candidate?.ayanaDeg],
-      ["Baseline Akṣa", baseline?.akshaDeg],
-      ["Candidate Akṣa", candidate?.akshaDeg],
-      ["Baseline total correction", baseline?.totalCorrection],
-      ["Candidate total correction", candidate?.totalCorrection],
-      ["Baseline corrected longitude", baseline?.correctedLongitude],
-      ["Candidate corrected longitude", candidate?.correctedLongitude]
+    // Candidate B: full vector transform including the assumed equinox rotation.
+    // Its LST necessarily uses that rotated frame too; this is a separate
+    // convention, not a clean test of obliquity alone.
+    const rotatedState = inspectModernStateInClassicalFrame({
+      rightAscensionDeg: state.rightAscension,
+      declinationDeg: state.declination,
+      sourceObliquityDeg,
+      ayanamshaDeg,
+      classicalObliquityDeg
+    });
+    const rotatedLST = modernLocalSiderealAngleToClassicalFrame({
+      localSiderealAngleDeg: sourceLST,
+      sourceObliquityDeg,
+      ayanamshaDeg,
+      classicalObliquityDeg
+    });
+    const rotated = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: rotatedState.targetLongitudeDeg,
+      planetLatitudeDeg: rotatedState.targetLatitudeDeg,
+      observerLatitudeDeg: CONFIG.latitude,
+      localSiderealAngleDeg: rotatedLST,
+      localSiderealObliquityDeg: classicalObliquityDeg,
+      ayanamshaDeg: 0,
+      obliquityDeg: classicalObliquityDeg,
+      planetDeclinationDeg: rotatedState.targetDeclinationDeg,
+      planetRightAscensionDeg: rotatedState.targetRightAscensionDeg
+    });
+
+    const cases = [
+      ["Scalar baseline", baseline],
+      ["Vector: obliquity only", obliquityOnly],
+      ["Vector: obliquity + equinox rotation", rotated]
     ];
-    for (const [name, value] of fields) {
-      rows.push("<tr><td>" + label + "</td><td>" + name + "</td><td>" + fmt(value) + "</td></tr>");
+    for (const [caseLabel, result] of cases) {
+      const fields = [
+        ["Calculation-frame LST", result?.calculationFrameSiderealAngleDeg],
+        ["Planet RA", result?.planetRAForAksha],
+        ["Planet declination", result?.planetDeclinationForHalfDay],
+        ["Hour angle", result?.hourAngleDeg],
+        ["Half-day angle", result?.halfDayAngleDeg],
+        ["Āyana correction", result?.ayanaDeg],
+        ["Akṣa correction", result?.akshaDeg],
+        ["Total correction", result?.totalCorrection],
+        ["Corrected longitude", result?.correctedLongitude]
+      ];
+      for (const [name, value] of fields) {
+        rows.push("<tr><td>" + label + "</td><td>" + caseLabel + "</td><td>" + name + "</td><td>" + fmt(value) + "</td><td>—</td></tr>");
+      }
     }
+    rows.push("<tr><td>" + label + "</td><td>Frame deltas</td><td>Vector obliquity-only LST − scalar LST</td><td>" +
+      fmt(signedDelta(obliquityOnly?.calculationFrameSiderealAngleDeg ?? NaN, baseline?.calculationFrameSiderealAngleDeg ?? NaN)) +
+      "</td><td>Should be near zero if both frame conversions are consistent</td></tr>");
+    rows.push("<tr><td>" + label + "</td><td>Frame deltas</td><td>Equinox-rotated LST − obliquity-only LST</td><td>" +
+      fmt(signedDelta(rotated?.calculationFrameSiderealAngleDeg ?? NaN, obliquityOnly?.calculationFrameSiderealAngleDeg ?? NaN)) +
+      "</td><td>Includes the assumed equinox/ayanamsha rotation</td></tr>");
   }
 
   out.innerHTML =
-    "<div class='status info'>Instant: 2026-10-12 12:00 IST. Location is the page's current CONFIG. Same modern geocentric EQD states are reused for both candidates. Ayanāṃśa 24.217° and classical obliquity 24° are comparison assumptions.</div>" +
-    "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Intermediate</th><th>Value</th></tr></thead><tbody>" +
+    "<div class='status info'>Instant: 2026-10-12 12:00 IST. Fixed CONFIG: Pithoragarh validation point. First compare scalar baseline against vector obliquity-only; only then inspect the separate equinox-rotated candidate. Assumptions: ayanāṃśa 24.217°, classical obliquity 24°.</div>" +
+    "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Calculation path</th><th>Intermediate</th><th>Value</th><th>Notes</th></tr></thead><tbody>" +
     rows.join("") + "</tbody></table></div>" +
-    "<div class='status warn'>Interpretation: differences show sensitivity to the input-frame construction only. Neither candidate is selected as the classical answer; this panel does not certify Chapter IX K or event dates.</div>";
+    "<div class='status warn'>Interpretation: this is a consistency diagnostic, not a historical-frame verdict. A large difference between the scalar baseline and vector obliquity-only path indicates a formula/implementation inconsistency to investigate. A difference appearing only after equinox rotation is a separate frame-convention effect. No Chapter IX K or event date is certified.</div>";
 }
 
 function runFrameCompareDiagnostic() {
