@@ -261,3 +261,13 @@ Source: Burgess translation, Sūrya-siddhānta Chapter II, verses 34, 38–39, 4
 - **Next bounded action:** verify the original Burgess table/edition and its epoch/frame convention. If the scan does not establish the anchor clearly, keep the anchor explicitly unresolved and move to the independent same-instant comparison without claiming classical certification.
 
 Source checks: Burgess Chapter I, especially verses 1.41–1.56: https://www.swaveda.com/texts/surya-siddhanta/1/ ; Sewell, *Indian Chronography*, Table XXXVII and note on the Sun's apsis: https://en.wikisource.org/wiki/Page:Sewell_Indian_chronography.pdf/174.
+
+### Source-table inspection result — 2026-10-14
+
+The accessible Burgess Chapter I transcription confirms that verses I.41–44 are accompanied by a table of apsis/node revolutions and positions for the commencement of the Iron Age and for 1850; I.54 explicitly points back to that table. However, the accessible web transcription does not expose the Sun's Kali-epoch row in a way that lets this audit independently read and verify the exact `77°07′48″` value.
+
+Sewell's *Indian Chronography*, p. 15, explicitly attributes `77°07′48″` at K.Y. 1 current to the authors of Burgess's edition, and says the same authority calculated `77°16′` over 4,200 years later. Its Table XXXVII separately lists apsis values for several Siddhāntas, so values must not be transferred between the original Sūrya-siddhānta, the later Sūrya-siddhānta with bīja, and other schools without preserving the row and epoch.
+
+**Gate result:** the candidate value has a traceable secondary citation, but direct primary-table verification remains **OPEN**. Do not alter the numeric anchor on this evidence alone; do not claim it is fully source-verified. The next meaningful comparison should keep this anchor labelled as provisional and test whether the full chain can be independently cross-checked.
+
+Primary text transcription: https://www.swaveda.com/texts/surya-siddhanta/1/ (I.41–44 table note and I.54 reference). Secondary report: https://en.wikisource.org/wiki/Page:Sewell_Indian_chronography.pdf/174 and https://www.scribd.com/document/797839191/Jyotish-1912-R-Sewel-Indian-Chronography-Panchanga (p. 15 footnote).
