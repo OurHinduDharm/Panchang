@@ -350,3 +350,10 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Attempted to open the linked TUFS repository record and likely PDF/Handle endpoints. The web reader showed JavaScript/anti-bot verification for CiNii and HTTP 429 for the TUFS record; no PDF URL or page images were verified in this pass. This is a retrieval-route limitation, not proof that the file is unavailable publicly.
 - Added `data/references/vrat-parichay-edition-comparison-status-draft.md` with the bibliographic metadata, exact access obstacle, safe browser-based retrieval route, and pages/sections to compare if the file is obtained.
 - The 1969 edition remains a comparison candidate only; the user's OCR edition is still unidentified. No claims of page-image verification were added, and no executable rules, `festivals.json`, runtime code, or Blogger output were changed.
+
+
+### Vrat-Parichay edition search — additional discovery leads (2026-10-14)
+- Broader search surfaced secondary hosting pages titled *Vrat Parichay* on Scribd (viewer reports 203 pages) and a Dokumen.pub listing. These are leads only; neither has been identified as the user's OCR edition or as the 1969 fourth edition. No text from them was used to settle a rule.
+- CiNii metadata still identifies a 1969 fourth-edition Gita Press PDF at TUFS, but the current web retrieval route hit access/rate-limit errors and no verified direct PDF URL or page images were obtained.
+- Updated `data/references/vrat-parichay-edition-comparison-status-draft.md` with provenance cautions and a four-point comparison gate: title/imprint, printed-page-to-image mapping, distinctive passage identity, and page-image transcription.
+- No changes to runtime code, `data/festivals.json`, legacy dates, or Blogger output. Keep PR #33 Draft/unmerged. Executable vrata-date rules remain blocked pending source/page verification.
