@@ -632,12 +632,13 @@ test("classical yoga disclosure has a visible custom arrow and link-like styling
 
 test("Chapter IX Venus threshold follows classified horizon event, not morning/evening", () => {
   const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const thresholds = extra.match(/const PLANET_ASTA_THRESHOLDS = \{[\s\S]*?\n\};/)?.[0];
   const normalize = extra.match(/function normalizeLongitude\(degrees\) \{[\s\S]*?\n\}/)?.[0];
   const classify = extra.match(/function classifyChapter9HorizonEvent\(\{[\s\S]*?(?=\nfunction findNearestAngularBoundary)/)?.[0];
   const threshold = extra.match(/function getPlanetEventThreshold\(body, horizonEvent\) \{[\s\S]*?\n\}/)?.[0];
-  assert.ok(normalize && classify && threshold, "Chapter IX helpers must exist for focused regression tests");
+  assert.ok(thresholds && normalize && classify && threshold, "Chapter IX helpers and limits must exist for focused regression tests");
   const helpers = vm.runInNewContext(
-    `${normalize}\n${classify}\n${threshold}\n;({ classifyChapter9HorizonEvent, getPlanetEventThreshold })`
+    `${thresholds}\n${normalize}\n${classify}\n${threshold}\n;({ classifyChapter9HorizonEvent, getPlanetEventThreshold })`
   );
   const cases = [
     { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: -0.5, event: "west-setting", limit: 8 },
