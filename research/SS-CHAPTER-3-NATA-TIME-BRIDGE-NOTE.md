@@ -250,3 +250,14 @@ CI syntax-checks and runs quadrant, epicycle, sign, wraparound, plausible-bound,
 Source: Burgess translation, Sūrya-siddhānta Chapter II, verses 34, 38–39, 45: https://www.swaveda.com/texts/surya-siddhanta/2/
 
 **Remaining bounded gates before this can be evaluated against actual dates:** (1) verify the epoch/coordinate-frame anchors; (2) test the resulting true solar longitude against an independent reference at a small set of dates; (3) only then connect it to the already isolated Chapter III declination/day-measure path and assess sunrise geometry. Production `app.js` and `extra-panchang.js` remain unchanged.
+
+## Bounded validation checkpoint — solar mandocca epoch
+
+**Checked:** 2026-10-14. **Latest research CI:** PASS at `114a89fc3879ed8e7fd9f8eb35a157e4bf348ec5`; see https://github.com/OurHinduDharm/Panchang/actions/runs/38482824042.
+
+- Burgess's Chapter I.41–44 discussion supplies the apsis revolution framework and a table of apsis positions for 1850; it does not, in the accessible transcription alone, independently establish the `77°07′48″` Kali-year-1 anchor used by the prototype.
+- Sewell explicitly reports `77°07′48″` as the value stated by Burgess's Sūrya-siddhānta authors, and separately notes a later value `77°16′`. This is useful secondary evidence, not a substitute for checking the original table/edition and its epoch convention.
+- Therefore `ss_chapter1_mean_solar_mandocca.js` remains a **candidate**, not a certified epoch input. Arithmetic tests passing proves the ratios and normalization only; it does not prove the anchor, civil-time bridge, true solar longitude, or Udaya/Asta event times.
+- **Next bounded action:** verify the original Burgess table/edition and its epoch/frame convention. If the scan does not establish the anchor clearly, keep the anchor explicitly unresolved and move to the independent same-instant comparison without claiming classical certification.
+
+Source checks: Burgess Chapter I, especially verses 1.41–1.56: https://www.swaveda.com/texts/surya-siddhanta/1/ ; Sewell, *Indian Chronography*, Table XXXVII and note on the Sun's apsis: https://en.wikisource.org/wiki/Page:Sewell_Indian_chronography.pdf/174.
