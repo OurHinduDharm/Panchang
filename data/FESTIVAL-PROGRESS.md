@@ -195,3 +195,11 @@ No executable Ekadashi rule is approved by this workflow note. Draft PR #33 rema
 - The source names the Smarta scope and says to reject the earlier day in favour of the later day when both tithis “increase.”
 - The possible sunrise-state predicate is still provisional: surrounding paragraph context must define “वर्धते” precisely. No Vaishnava outcome inferred; no executable rule or regression test added.
 - Next research action: inspect surrounding printed text, then reconstruct a real local-time two-sunrise example using independently checked tithi transitions and sunrise times.
+
+
+### Dharmasindhu Ekadashi profile taxonomy located (2026-10-14)
+
+- Located separate TransLiteral topic pages for Dharmasindhu's Smarta and Vaishnava Vrat-dina-nirnaya and the Ekadashi tithi discussion.
+- The transcription contains a concrete case taxonomy: the Vaishnava section distinguishes Ekadashi-only growth, Dvadashi-only growth, both growth and neither growth; the Smarta section gives eight examples and records disagreement among authorities in some cases.
+- It also distinguishes Vaishnava Arunodaya-vedha (four ghatis before sunrise; a 56-ghati phrase in the transcription) from Smarta sunrise-vedha (a 60-ghati phrase). These figures are context-specific leads, not approved universal thresholds.
+- Research documents updated. Next: transcribe every numbered case faithfully, inspect the printed Sanskrit/edition and counting origin, then create a worked local-time test. No executable Ekadashi rules added; PR #33 remains unmerged and Blogger production unchanged.
