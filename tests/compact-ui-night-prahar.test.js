@@ -633,7 +633,7 @@ test("classical yoga disclosure has a visible custom arrow and link-like styling
 test("Chapter IX Venus threshold follows classified horizon event, not morning/evening", () => {
   const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const normalize = extra.match(/function normalizeLongitude\(degrees\) \{[\s\S]*?\n\}/)?.[0];
-  const classify = extra.match(/function classifyChapter9HorizonEvent\(\{[\s\S]*?\n\}/)?.[0];
+  const classify = extra.match(/function classifyChapter9HorizonEvent\(\{[\s\S]*?(?=\nfunction findNearestAngularBoundary)/)?.[0];
   const threshold = extra.match(/function getPlanetEventThreshold\(body, horizonEvent\) \{[\s\S]*?\n\}/)?.[0];
   assert.ok(normalize && classify && threshold, "Chapter IX helpers must exist for focused regression tests");
   const helpers = vm.runInNewContext(
