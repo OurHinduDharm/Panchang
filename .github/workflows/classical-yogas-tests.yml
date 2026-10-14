@@ -61,5 +61,12 @@ jobs:
         run: node --test tests/vrata-intervals.test.js
       - name: Emit fixed-coordinate vrata date diagnostics (not a correctness fixture)
         run: node --test tests/vrata-real-date-diagnostic.test.js
+      - name: Upload fixed-coordinate vrata diagnostic JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vrata-real-date-diagnostic
+          path: artifacts/vrata-real-date-diagnostic.json
+          if-no-files-found: warn
       - name: Run interval and real Panchang comparison tests
         run: node --test tests/classical-yogas-intervals.test.js tests/classical-yogas-real-panchang-comparison.test.js tests/classical-yogas-drik-reference.test.js
