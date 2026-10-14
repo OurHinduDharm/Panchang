@@ -532,14 +532,14 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
     const crossedDown = (a, b) => {
       const ta = thresholdFor(a);
       const tb = thresholdFor(b);
-      return Number.isFinite(ta) && Number.isFinite(tb) &&
+      return Number.isFinite(ta) && Number.isFinite(tb) && ta === tb &&
         a.eclipticSeparation > ta && b.eclipticSeparation <= tb;
     };
 
     const crossedUp = (a, b) => {
       const ta = thresholdFor(a);
       const tb = thresholdFor(b);
-      return Number.isFinite(ta) && Number.isFinite(tb) &&
+      return Number.isFinite(ta) && Number.isFinite(tb) && ta === tb &&
         a.eclipticSeparation <= ta && b.eclipticSeparation > tb;
     };
 
