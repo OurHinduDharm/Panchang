@@ -1,7 +1,7 @@
 /*
  * Conservative Hindu vrata/parva name allowlist.
- * Unknown names are hidden until reviewed; this is safer than rendering
- * all library categories as Hindu festivals without auditing their metadata.
+ * Unknown names are hidden until reviewed rather than treating every event
+ * returned by the underlying calendar as a Hindu festival.
  */
 const HINDU_FESTIVAL_TERMS = [
   /ekadashi|ekādaśī|एकादशी/i,
@@ -84,7 +84,8 @@ const HINDU_FESTIVAL_TERMS = [
   /vishwakarma puja|विश्वकर्मा पूजा/i,
   /balarama jayanti|बलराम जयंती/i,
   /skanda sashti|स्कन्द षष्ठी|स्कंद षष्ठी/i,
-  /lalita jayanti|ललिता जयंती/i
+  /lalita jayanti|ललिता जयंती/i,
+  /upang lalita|upāṅga lalitā|उपांग ललिता|उपाङ्ग ललिता/i
 ];
 const NON_HINDU_OR_CIVIC_TERMS =
   /eid|ramadan|ramzan|christmas|good friday|easter|buddha|guru nanak|vaisakhi|baisakhi|gandhi jayanti|independence day|republic day|constitution day|labour day|labor day|national holiday|government holiday|ईद|क्रिसमस|गांधी जयंती|स्वतंत्रता दिवस|गणतंत्र दिवस/i;
