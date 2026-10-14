@@ -160,3 +160,19 @@
 ### D. GPT/AI का उपयोग कैसे किया जाएगा
 
 AI/GPT से संस्कृत/OCR पंक्ति का प्रारम्भिक अनुवाद, विरोधाभासी अंश ढूँढ़ना, स्रोतों के बीच अंतर-सूची बनाना और test cases प्रस्तावित कराना उपयोगी है। लेकिन AI का उत्तर स्वयं शास्त्रीय प्रमाण नहीं है। किसी नियम को `verified-rule` बनाने के लिए मूल/विश्वसनीय संस्करण, सटीक संदर्भ, परंपरा-दायरा और worked example का मानवीय सत्यापन आवश्यक रहेगा। जहाँ AI की व्याख्या स्रोत-पाठ से न मिले, वहाँ स्रोत-पाठ को प्राथमिकता देकर मतभेद दर्ज किया जाएगा।
+
+
+## E. Dharma Sindhu online condensed translation — preliminary findings (2026-10-14)
+
+Source: [Dharma Sindhu, Chapter 5: Tithi Vrata Nirnayas](https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5), a **condensed English translation**, not a critical Sanskrit edition.
+
+Relevant displayed lines/sections:
+- The page explicitly says Ekadashi decision has Smarta and Vaishnava methods and distinguishes Arunodaya Dashami-vedha from Suryodaya Dashami-vedha.
+- It reports a 57-ghati and 60-ghati distinction, but the condensed English wording does not clearly expose the exact Sanskrit syntax, reference point, or how the count is applied.
+- It describes four combinations involving Adhika/Anadhika Ekadashi and Dvadashi; the meaning of “capsules” and “Adhikata Suryodaya” needs the source text, not inference from this English summary.
+- It states that Dvadashi Parana should occur before the Tithi closes.
+- It lists eight Mahadvadashis but renders some names/definitions differently from other available sources (for example, “Tridarshi” and “Vaangjuli” in this translation; other sources use Trisprisha/Vanjuli). These may be transliteration/translation issues or source differences.
+
+### Research decision
+
+Status: **UNVERIFIED / TRANSLATION-SCOPE LIMITATION**. This source is useful as a locator and as a list of questions for the Sanskrit review, but not enough to freeze a 57/60-ghati threshold or Parana conflict fallback in code. Do not treat the condensed translation as a substitute for the original Sanskrit passage and edition details.
