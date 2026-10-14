@@ -3953,7 +3953,23 @@ function runChapter7FrameSensitivityDiagnostic() {
       planetRightAscensionDeg: obliquityOnlyState.targetRightAscensionDeg
     });
 
-    // Candidate B: full vector transform including the assumed equinox rotation.
+    // Candidate B: hold the numerical local sidereal angle fixed while changing
+    // only the ecliptic-to-equatorial obliquity used for the planet. This is
+    // the clean sensitivity requested by the source audit; it is not itself
+    // a claim that modern LST is historically the correct classical angle.
+    const fixedLST = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: signedDelta(obliquityOnlyState.targetLongitudeDeg, ayanamshaDeg),
+      planetLatitudeDeg: obliquityOnlyState.targetLatitudeDeg,
+      observerLatitudeDeg: CONFIG.latitude,
+      localSiderealAngleDeg: sourceLST,
+      localSiderealObliquityDeg: classicalObliquityDeg,
+      ayanamshaDeg,
+      obliquityDeg: classicalObliquityDeg,
+      planetDeclinationDeg: obliquityOnlyState.targetDeclinationDeg,
+      planetRightAscensionDeg: obliquityOnlyState.targetRightAscensionDeg
+    });
+
+    // Candidate C: full vector transform including the assumed equinox rotation.
     // Its LST necessarily uses that rotated frame too; this is a separate
     // convention, not a clean test of obliquity alone.
     const rotatedState = inspectModernStateInClassicalFrame({
@@ -3983,7 +3999,8 @@ function runChapter7FrameSensitivityDiagnostic() {
 
     const cases = [
       ["Scalar baseline", baseline],
-      ["Vector: obliquity only", obliquityOnly],
+      ["Vector: obliquity + transformed LST", obliquityOnly],
+      ["Vector: obliquity only, LST held fixed", fixedLST],
       ["Vector: obliquity + equinox rotation", rotated]
     ];
     for (const [caseLabel, result] of cases) {
@@ -4005,16 +4022,19 @@ function runChapter7FrameSensitivityDiagnostic() {
     rows.push("<tr><td>" + label + "</td><td>Frame deltas</td><td>Vector obliquity-only LST − scalar LST</td><td>" +
       fmt(signedDelta(obliquityOnly?.calculationFrameSiderealAngleDeg ?? NaN, baseline?.calculationFrameSiderealAngleDeg ?? NaN)) +
       "</td><td>Should be near zero if both frame conversions are consistent</td></tr>");
+    rows.push("<tr><td>" + label + "</td><td>Frame deltas</td><td>Fixed-LST path − transformed-LST path</td><td>" +
+      fmt(signedDelta(fixedLST?.calculationFrameSiderealAngleDeg ?? NaN, obliquityOnly?.calculationFrameSiderealAngleDeg ?? NaN)) +
+      "</td><td>Isolates the effect of transforming the local meridian angle</td></tr>");
     rows.push("<tr><td>" + label + "</td><td>Frame deltas</td><td>Equinox-rotated LST − obliquity-only LST</td><td>" +
       fmt(signedDelta(rotated?.calculationFrameSiderealAngleDeg ?? NaN, obliquityOnly?.calculationFrameSiderealAngleDeg ?? NaN)) +
       "</td><td>Includes the assumed equinox/ayanamsha rotation</td></tr>");
   }
 
   out.innerHTML =
-    "<div class='status info'>Instant: 2026-10-12 12:00 IST. Fixed CONFIG: Pithoragarh validation point. First compare scalar baseline against vector obliquity-only; only then inspect the separate equinox-rotated candidate. Assumptions: ayanāṃśa 24.217°, classical obliquity 24°.</div>" +
+    "<div class='status info'>Instant: 2026-10-12 12:00 IST. Fixed CONFIG: Pithoragarh validation point. Compare scalar baseline, transformed-meridian candidate, the same vector with numerical LST held fixed, and the separate equinox-rotated candidate. Assumptions: ayanāṃśa 24.217°, classical obliquity 24°.</div>" +
     "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Calculation path</th><th>Intermediate</th><th>Value</th><th>Notes</th></tr></thead><tbody>" +
     rows.join("") + "</tbody></table></div>" +
-    "<div class='status warn'>Interpretation: this is a consistency diagnostic, not a historical-frame verdict. A large difference between the scalar baseline and vector obliquity-only path indicates a formula/implementation inconsistency to investigate. A difference appearing only after equinox rotation is a separate frame-convention effect. No Chapter IX K or event date is certified.</div>";
+    "<div class='status warn'>Interpretation: this is a frame-sensitivity diagnostic, not a historical-frame verdict. The fixed-LST row isolates changing ecliptic obliquity without transforming the local meridian angle; the transformed-LST row applies the separate geometric hypothesis. Neither local-time convention is source-certified. A difference appearing only after equinox rotation is another independent frame assumption. No Chapter IX K or event date is certified.</div>";
 }
 
 function runChapter7ObliquitySensitivityDiagnostic() {
