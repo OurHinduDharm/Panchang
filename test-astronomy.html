@@ -225,6 +225,7 @@
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
     <button id="runClassicalBtn">Angular Threshold Diagnostic</button>
     <button id="runFrameCompareBtn">3-D Coordinate Frame Comparison</button>
+    <button id="runChapter7FrameSensitivityBtn">Chapter VII Frame Comparison</button>
     <button id="fetchRawTksBtn">Fetch Raw TKS Sun/Venus JSON</button>
     <button id="runChapter9ArithmeticBtn">SS IX.10–11 Time-Estimate Tests</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
@@ -4656,6 +4657,20 @@ document
     "click",
     runClassicalAstaUdayaTest
   );
+
+document
+  .getElementById("runChapter7FrameSensitivityBtn")
+  .addEventListener("click", () => {
+    try {
+      runChapter7FrameSensitivityDiagnostic();
+      setStatus("Chapter VII frame sensitivity comparison completed. Candidate geometry only; not a validated event date.", "info");
+    } catch (error) {
+      console.error("CHAPTER VII FRAME SENSITIVITY ERROR:", error);
+      document.getElementById("chapter7FrameSensitivityOutput").innerHTML =
+        "<div class='status error'>" + String(error?.message || error) + "</div>";
+      setStatus("Chapter VII frame comparison failed.", "error");
+    }
+  });
 
 document
   .getElementById("runFrameCompareBtn")
