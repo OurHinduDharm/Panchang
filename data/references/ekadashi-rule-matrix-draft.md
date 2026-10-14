@@ -42,3 +42,27 @@
 - explanation: उपयोगकर्ता को दिखाने योग्य संक्षिप्त कारण
 
 **सुरक्षा नियम:** जब तक नियम को मूल स्रोत, परंपरा-दायरे और worked example से सत्यापित न कर लें, उसे verified-rule न बनाएं।
+
+
+## Source-backed evidence notes added after the first matrix draft
+
+These notes improve traceability but do not promote any row to verified-rule.
+
+### Evidence E1 — Vaishnava Arunodaya-Dashami case
+
+- Hari-bhakti-vilasa, Vilasa 12, verses/numbering 12.334–337 as displayed in the online edition: https://www.anantasatsang.org/scripture/radha-bhakti/hari-bhakti-vilasa/vilasa-12
+- Narada Purana, Uttara-bhaga, Chapter 121, verse 98 in the online translation: https://vedicpeople.com/puranas/maha-puranas/narada-purana/read/as-is-translation/chapter-121
+- The displayed texts both connect Dashami remaining at Arunodaya with avoiding the affected Ekadashi and observing the following pure Dvadashi in the described case.
+- Confidence: **promising but not verified**. The Hari-bhakti-vilasa page has a contradictory English translation at 12.336–337, and the Narada Purana wording needs checking against a reliable printed Sanskrit edition. Do not code from English alone.
+
+### Evidence E2 — Trisprisha is a special tithi sequence, not a generic “second Ekadashi day”
+
+- Narada Purana, Chapter 121, verse 96 and its footnote/translation describe Trisprisha using the sequence where Ekadashi ends before sunrise, Dvadashi occupies the day, and Trayodashi occurs later.
+- Vrat-Parichay OCR, part 007, printed page marker around p. 50, gives a similar three-tithi sequence.
+- This supports a dedicated special-case detector, but exact astronomical boundary wording and observance outcome still need source-text review.
+
+### Evidence E3 — Source-family and tradition scope must be explicit
+
+- Hari-bhakti-vilasa is useful evidence for its Vaishnava framework; it should not automatically define the Smarta profile.
+- Narada Purana is a Purana source, but modern English translation/notes are not interchangeable with the Sanskrit text or its commentarial interpretation.
+- Current decision engine must retain source family, edition, verse/section, translation note, and tradition scope for each rule.
