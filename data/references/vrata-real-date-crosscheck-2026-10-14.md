@@ -55,3 +55,24 @@ The owner's visually reviewed Khemraj edition and the existing collation/cross-c
 5. Keep all disputed parāṇa interpretations as separately named profiles; never infer parāṇa from interval overlap alone.
 
 No `app.js`, `data/festivals.json`, legacy dates, or Blogger output was changed.
+
+## Reproducibility detail — pinned library API reviewed on 2026-10-15
+
+The published README for `@ishubhamx/panchangam-js@3.0.0` documents that scalar tithi/nakṣatra fields refer to the element at the civil day's sunrise, while the `tithis` and `nakshatras` arrays contain interval objects with `index`, `name`, `startTime`, and `endTime`. Those arrays cover the current sunrise to the following sunrise, normally one to three intervals. Therefore, a real-date test must **not** treat the scalar fields or only one date's sunrise summary as the full interval record.
+
+Reference documentation:
+- https://www.npmjs.com/package/%40ishubhamx/panchangam-js
+- https://app.unpkg.com/%40ishubhamx/panchangam-js%403.0.0/files/README.md
+
+### Required calculation procedure
+
+1. Use the exact pinned import `@ishubhamx/panchangam-js@3.0.0`, observer latitude 30.1265, longitude 80.4817, elevation 0 m, and `timezoneOffset: 330`.
+2. Query civil dates spanning at least the day before the first candidate boundary through the day after the last boundary. Collect `tithis` and `nakshatras` entries from each query and deduplicate by exact start/end timestamps; this guards against sunrise-window truncation at the edges.
+3. Serialize each boundary as an ISO UTC timestamp and an IST display time (UTC+05:30), preserving the raw ISO values for exact comparisons. Record the query date and the library version.
+4. Compare only with a named independent almanac for the same place/date and equivalent convention. Do not mix city-specific times or turn a discrepancy into a passing fixture without explanation.
+5. Once independently checked, add a separate real-date test fixture. Keep the existing interval mathematics tests labelled as helper-contract tests; they do not validate astronomical calculations, tithi/nakṣatra selection, or shastric vrata decisions.
+
+### Current execution status
+
+The API contract is now documented, but this research session has not executed the pinned library in a Node/browser runtime and has not obtained a complete same-place independent interval set. The candidate dates therefore remain **research-only**, not pass/fail fixtures. The network-restricted local shell could not retrieve the npm package, and no successful GitHub Actions run is available in the current record. No runtime files or festival dates were changed.
+
