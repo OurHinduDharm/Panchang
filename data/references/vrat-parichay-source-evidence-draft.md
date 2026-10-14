@@ -123,3 +123,30 @@ The OCR says that on Kartika Shukla Chaturdashi prevailing at Arunodaya, the pra
 - Vaikuntha Chaturdashi, Skanda Purana chapter 35 translation with Manikarnika and lotus-worship narrative: https://www.wisdomlib.org/hinduism/book/the-skanda-purana/d/doc371677.html
 - Edition/extent cross-checks for *Vrat-Parichay*: https://www.pustak.org/index.php/books/bookdetails/1173 ; https://bharatiyavidya.com/product/vrat-parichay/ ; https://vikasbookdepo.com/products/gita-press-vrat-parichay-book-code-610
 
+
+
+## Follow-up source comparison (2026-10-14)
+
+### Sankashti: independent page-image-based Dharmasindhu reference
+
+A separate source page explicitly identifies *Dharmasindhu*, pariccheda 2, “atha saṅkaṭacaturthīnirṇayaḥ”, p. 56 / leaf 76, and says the rule uses the Chaturthi present at local moonrise. The page says its reading was made from the page image: https://shastrapanchangam.com/en/sankashti/ . This independently strengthens the **moonrise predicate**. A separate methodology page says that when Chaturthi spans two moonrises, the first qualifying moonrise is taken, and when it reaches no moonrise, the sunrise day is used: https://panchangtime.com/methodology/sankashti-chaturthi . The latter is a secondary site's explanation, not itself a substitute for the primary printed passage. It is consistent with one of the tie-break variants in *Vrat-Parichay*, but it does not erase the book's other quoted wording. Keep first-night and no-moonrise handling as a candidate profile pending direct reading of the cited *Dharmasindhu* scan and exact edition comparison.
+
+### Pradosha: primary-text parallel and scope caution
+
+The online English translation of *Skanda Purana*, Brahmottara-khaṇḍa, Brahma-khaṇḍa, chapter 7, verses 2 and 71, says to observe the thirteenth tithi on either lunar fortnight and to worship Shiva at Pradoṣa: https://www.wisdomlib.org/hinduism/book/the-skanda-purana/d/doc423670.html . Verse 2 also gives a bath three ghaṭīs before sunset, which is a **pre-sunset ritual instruction**, not the same thing as defining the post-sunset Pradoṣa duration. Therefore it cannot be used to decide between the *Vrat-Parichay* passage's two-ghaṭi and three-ghaṭi post-sunset readings. Keep these as separate concepts and preserve source attribution.
+
+### Ashunya Shayana: distinct textual forms, not necessarily one universal multi-month series
+
+A publicly readable Hindi rendering of *Bhavishya Mahapurana*, chapter titled “फल-द्वितीया (अशून्यशयन व्रत)”, explicitly describes Ashunya Shayana on Shravan Krishna Dwitiya: https://vedicpeople.com/puranas/maha-puranas/bhavishya-purana/read/hindi/simple-translation/chapter-013 . A separate Matsya Purana chapter 71 transcription also describes the vrata on Shravan Krishna Dwitiya: https://vedapath.app/hi/matsya-purana/the-asunyasayana-vrata-worship-of-visnu-for-marital-harmony . These cross-checks confirm the named observance and its Shravan Krishna Dwitiya association, but they do **not** independently confirm the full multi-month repetition/closure described in the *Vrat-Parichay* OCR. Treat the one-day Purana form and the book's multi-month series as potentially distinct textual prescriptions until the complete passages, edition, and source attributions are matched.
+
+### Bibliographic lead for a primary-edition comparison
+
+CiNii Research records a 1969 fourth edition of *Vrat-Parichay*, published by Gita Press, in Hindi with Sanskrit quotations: https://cir.nii.ac.jp/crid/2120307889746109824 . This is a useful candidate for edition comparison, but it is **not yet established** that the user's OCR was made from that edition. Do not silently transfer its pagination or reading to the user's copy.
+
+### Updated research status
+
+- **Strengthened:** Sankashti's local moonrise anchor.
+- **Not settled:** Sankashti double-moonrise/no-moonrise tie-break until the actual cited *Dharmasindhu* page is read directly; the *Vrat-Parichay* OCR variants remain recorded.
+- **Clarified:** a Skanda Purana pre-sunset bath instruction does not settle post-sunset Pradoṣa duration.
+- **Clarified:** the Shravan Krishna Dwitiya Ashunya Shayana form is corroborated in two other online Purana renderings; the book's multi-month series still needs exact-source comparison.
+- **No executable date rule approved.**
