@@ -91,3 +91,27 @@ This is a **test input definition**, not yet the verified religious rule that ch
 2. Compare the exact clauses with Dharma Sindhu Chapter 5 and note edition/page/variant.
 3. Build a worked local-time timeline for one candidate historical date; do not assign expected result until the chosen profile's source rule is settled.
 4. Only then convert each reviewed condition to a regression test and executable rule.
+
+
+## 7. Further source check: printed Sanskrit scans for a specific growth case
+
+A separate source registry gives a more precise printed-edition locator for the special case where **both Ekadashi and Dvadashi increase**:
+
+> एकादशी द्वादशी चेत्युभयं वर्धते यदा ।
+> तदा पूर्वदिनं त्याज्यं स्मार्तैर्ग्राह्यं परं दिनम् ॥
+
+- Dharmasindhu, Kāśīnātha Upādhyāya, Nirṇaya Sāgara Press, Bombay, 1888, p. 17, leaf n39, band 6.
+- Nirnayasindhu, Kamalākara Bhaṭṭa, Nirṇaya Sāgara Press, Bombay, 1901, p. 30, leaf n57, bands 2–4.
+- Registry record: https://acharane.com/sources/ (entry `ds-p17-ekadashi-vriddhi` and `ns-p30-ekadashi-vriddhi`).
+
+This is stronger than a modern calendar summary: both entries report direct reading from printed scans and give the same Sanskrit verse. The verse's scope is explicit: **Smārtas**; when both Ekadashi and Dvadashi increase, the earlier day is to be rejected and the later day accepted.
+
+### Provisional rule record
+
+- **Rule ID:** `SM-ED-VRIDDHI-BOTH-01`
+- **Trigger:** Ekadashi and Dvadashi both increase in the exact sense used by the cited passage.
+- **Outcome in source:** Smarta profile selects the later day, not the earlier day.
+- **Status:** `SOURCE-SUPPORTED / IMPLEMENTATION-PENDING`.
+- **Still required:** Confirm the operational meaning of “both increase” against the surrounding paragraphs and source definitions; create a local-time worked example with the two relevant sunrises; compare the Vaishnava passage independently. Do not infer that Vaishnava must choose the opposite date, nor generalise this verse to other growth cases.
+
+This one narrow case can be elevated for a test after its astronomical timeline and precise trigger are reviewed; it does **not** verify the general Ekadashi algorithm.
