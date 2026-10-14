@@ -223,3 +223,26 @@ Wikisource is added as a parallel primary-text discovery layer. Its pages can ex
 - Record conflicting authorities side by side; do not silently merge them into one “universal” rule.
 - Separate (a) observance exists, (b) which tithi it belongs to, (c) how the date is selected, and (d) local puja/parana timing.
 - If Wikisource is unproofread or the scan is unavailable, label the claim provisional and do not use it as the sole basis for automatic date generation.
+
+
+## Primary-text verification log — 2026-10-14 (pass 1)
+
+This pass records what the currently accessible page text actually supports. It deliberately distinguishes a useful lead from a source that is safe to use as an implementation authority.
+
+| Topic / candidate | Source actually inspected | What the visible text supports | Quality / conflict note | Project decision |
+|---|---|---|---|---|
+| Sankashti Chaturthi | [Wikisource page labelled आङ्गिरसस्मृतिः](https://sa.wikisource.org/wiki/आङ्गिरसस्मृतिः), especially page text around lines 875–876 | The visible passage says “सङ्कष्टचतुर्थी तु चन्द्रोदयव्यापिनी ग्राह्या” and explains the Chandrodaya basis. | **Critical metadata mismatch:** the same page begins its body with “अथ वीरमित्रोदयस्य समयप्रकाशः”, and its opening verses are clearly Viramitrodaya-Samayaprakasha material. Therefore the page title alone does not establish this as an Angirasa Smriti quotation. Treat the passage as a Viramitrodaya/Samayaprakasha lead until the edition and underlying citation are checked. | Candidate rule only: Sankashti needs local moonrise/tithi intersection logic; do not implement from this page alone. |
+| Ekadashi — Vaishnava decision | [Viramitrodaya, Samayaprakasha](https://sa.wikisource.org/wiki/वीरमित्रोदयः_-_समयप्रकाशः), lines around 1972 onward and 2371 onward | The text explicitly transitions from a Vaishnava Ekadashi decision section to “अथ स्मार्तान् प्रति”; it discusses Dashami association, the following Dvadashi, tithi loss/growth, and cases where householders and ascetics may differ. | This is not a single simple “Ekadashi always on X day” rule. The text itself preserves distinctions among Vaishnava/Smarta and other cases. Page text may contain typographical/OCR issues; verify a printed edition before encoding edge cases. | Keep separate profiles (at minimum Smarta and Vaishnava) and a reviewed decision table. No generic automatic rule approved yet. |
+| Ekadashi — Pancharatra/Agama source | [Paramapurusha Samhita, chapter 10](https://sa.wikisource.org/wiki/परमपुरुषसंहिता/अध्यायः_१०), verses marked 46–58 in page text | Chapter labels itself as Ekadashi vrata glory/decision and includes its own conditions involving Dashami, Ekadashi, Dvadashi and Trayodashi; it also contains ritual instructions and exceptions for people unable to fast. | The visible text is OCR-like and has spelling/spacing corruption. Its prescriptions are an additional tradition-specific witness, not automatically interchangeable with Dharma-nibandha Smarta or Vaishnava rules. The chapter's internal decision should be checked against a page scan/edition. | Add as a comparative source only; do not let it silently override the project's chosen profile. |
+| Ashunya Shayana Dvitiya | Same Wikisource page labelled आङ्गिरसस्मृतिः, lines around 748–754 | Visible passage links the vrata to the four dark fortnights beginning with Shravan and says Chandrodaya-vyapini is relevant because of the Chandra arghya; it quotes a vrata passage. | Same page-title/body mismatch noted above, so source attribution is uncertain even though the visible rule is clear. | Retain as a lead; require a clean source attribution and cross-check against TransLiteral before considering a record. |
+| General tithi-decision methodology | Viramitrodaya-Samayaprakasha, the sequence of named sections and the Smarta/Vaishnava split | The text is organized by tithi-specific decisions and then applies detailed conditions, not one uniform tithi rule to every observance. | A general methodological observation, not a standalone date predicate. | Every candidate needs an observance-specific decision source and a separately tested calendar calculation. |
+
+### Source integrity issue to resolve before citation
+
+The Wikisource URL/title आङ्गिरसस्मृतिः currently serves body text that opens with the title “अथ वीरमित्रोदयस्य समयप्रकाशः”. Its Chaturthi passage is useful for discovering the Chandrodaya-vyapini rule, but it must **not** be cited as a verified Angirasa Smriti passage until the page's provenance and edition are resolved. Prefer the explicitly titled Viramitrodaya-Samayaprakasha page for provisional attribution, and record any underlying Purana/Smriti citation only after checking the referenced source.
+
+### Next verification steps
+1. Resolve the Angirasa-labelled page/body mismatch against the Wikisource page history and an edition scan.
+2. Inspect the relevant Dharmasindhu Smarta and Vaishnava decision texts side by side, then create a case matrix for Ekadashi: ordinary, Dashami-viddha, tithi-kshaya, Dvadashi-vriddhi, and tradition/profile.
+3. For Sankashti, cross-check the moonrise rule in an independently attributed Dharma-nibandha or vrata source and test local moonrise boundaries.
+4. Keep all findings in this research layer; do not edit data/festivals.json, executable rules, or Blogger output during source audit.
