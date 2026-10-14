@@ -176,3 +176,16 @@ Relevant displayed lines/sections:
 ### Research decision
 
 Status: **UNVERIFIED / TRANSLATION-SCOPE LIMITATION**. This source is useful as a locator and as a list of questions for the Sanskrit review, but not enough to freeze a 57/60-ghati threshold or Parana conflict fallback in code. Do not treat the condensed translation as a substitute for the original Sanskrit passage and edition details.
+
+
+## New lead: Dharmasindhu's separate Smarta/Vaishnava decision tables (2026-10-14)
+
+Full online transcription pages located:
+
+- Smarta: https://www.transliteral.org/pages/z80422042257/view
+- Vaishnava: https://www.transliteral.org/pages/z80422042154/view
+- Ekadashi tithi discussion: https://www.transliteral.org/pages/z80422042052/view
+
+These pages present separate numbered cases rather than a single universal rule. The Vaishnava page distinguishes Arunodaya-vedha from sunrise-vedha, defines Arunodaya as four ghatis before sunrise, and states that “adhikya” in its examples means the tithi continues after sunrise on the next day. It lists different outcomes for Ekadashi-only growth, Dvadashi-only growth, both growth, and neither growth. The Smarta page gives eight examples and preserves disagreement among authorities for some categories, plus practitioner-specific distinctions.
+
+This is an important improvement to the research map, but not yet an implementation specification: the pages are Marathi transcriptions/commentary and do not by themselves settle the printed Sanskrit reading, counting origin for ghati values, exact predicates, or which Smarta sub-opinion our product should adopt. The two-growth outcome aligns with the scan-backed verse in the primary-source audit. Keep 56/60-ghati rules scoped to their named vedha and tradition context; do not combine them into one threshold.
