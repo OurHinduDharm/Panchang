@@ -343,3 +343,10 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 
 
 - Additional Pradosha cross-check: Drik Panchang's 2026 methodology says date selection is Trayodashi overlapping local post-sunset Pradosh Kaal and notes city-based differences: https://www.drikpanchang.com/vrats/pradoshdates.html . This corroborates a current calendar convention only; it does not settle the textual two-ghati/three-ghati ritual-duration difference. Updated the evidence ledger to keep date predicate, puja window, and ghati definition separate.
+
+
+## Vrat-Parichay edition comparison access check — 2026-10-14
+- Located a CiNii bibliographic record for a candidate 1969 fourth edition of *Vrat-Parichay*, published by Gita Press and described as Hindi with Sanskrit quotations: https://cir.nii.ac.jp/crid/2120307889746109824 .
+- Attempted to open the linked TUFS repository record and likely PDF/Handle endpoints. The web reader showed JavaScript/anti-bot verification for CiNii and HTTP 429 for the TUFS record; no PDF URL or page images were verified in this pass. This is a retrieval-route limitation, not proof that the file is unavailable publicly.
+- Added `data/references/vrat-parichay-edition-comparison-status-draft.md` with the bibliographic metadata, exact access obstacle, safe browser-based retrieval route, and pages/sections to compare if the file is obtained.
+- The 1969 edition remains a comparison candidate only; the user's OCR edition is still unidentified. No claims of page-image verification were added, and no executable rules, `festivals.json`, runtime code, or Blogger output were changed.
