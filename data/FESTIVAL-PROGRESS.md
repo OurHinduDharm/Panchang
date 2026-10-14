@@ -98,3 +98,5 @@ A programmatic first-pass scan of the migrated JSON found:
 - External comparison leads are recorded in the ledger: Dharma Sindhu chapter 3 and 5, Narada Purana, and a modern methodology page. These are research leads, not accepted rules.
 - Next: inspect the full Ekadashi rule section in parts 007–008, transcribe its rule categories faithfully, resolve source citations and tradition scope, then create a separate explicit decision table for Smarta/Vaishnava day selection and Parana. Do not implement dates until that table is reviewed.
 - No production Blogger changes. Draft PR #33 remains unmerged.
+
+- Added `data/references/ekadashi-decision-rules-draft.md`: layered engine design (astronomical tithi boundaries, sunrise mapping, tradition policy, exceptional Mahadwadashi cases, Parana, UI) and unresolved research questions. It explicitly marks all rules as not approved for coding.
