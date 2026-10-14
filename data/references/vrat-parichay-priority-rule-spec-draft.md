@@ -73,3 +73,17 @@ Each approved observance should have a source-backed rule note with these fields
 ## 4. Current implementation decision
 
 **Do not implement these as date rules yet.** The OCR gives enough evidence to prioritize research, but not enough to certify a shastric decision algorithm. First verify printed pages and full passages; then write rule fixtures and tests in a separate branch. Keep the 122 legacy `festivals.json` records, existing article URLs and live Blogger output unchanged until the review is approved.
+
+
+## Evidence-ledger update (2026-10-14)
+
+The detailed source findings and cross-check links are now recorded in [`vrat-parichay-source-evidence-draft.md`](vrat-parichay-source-evidence-draft.md). Important refinements:
+
+- **Sankashti:** monthly Krishna Chaturthi + moonrise is supported, but the book's cited passages disagree on the two-day/no-day tie-break (first day; Tritiya-joined/mātṛ-viddhā; or pūrvaviddhā). Keep the tie-break unresolved and authority-specific. A Mudgala Purana quotation found online gives moonrise as primary and Pradoṣa as fallback when moonrise Caturthi is absent; this is a research lead, not a universal resolution.
+- **Pradosh:** the book itself preserves both a two-ghaṭi and three-ghaṭi post-sunset definition under different authorities. Keep the time window configurable by sourced profile; separate desire-specific weekday vows from ordinary Pradosh.
+- **Vata Savitri:** retain distinct Purnima and Amavasya profiles.
+- **Nirjala:** identify Jyeshtha Shukla Ekadashi, but delegate observance date and parana to the separate Ekadashi engine.
+- **Ashunya Shayan:** model a series from Shravan Krishna Dwitiya through Margashirsha Krishna Dwitiya, with closure on the following Tritiya, pending page-image verification.
+- **Adhimas, Masik Shivaratri, Vaikuntha Chaturdashi:** contents-only leads remain blocked pending full body passages.
+
+No executable rules have been approved; page-image and edition verification remains a hard gate.
