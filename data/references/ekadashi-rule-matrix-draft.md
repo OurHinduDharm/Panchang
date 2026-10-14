@@ -66,3 +66,12 @@ These notes improve traceability but do not promote any row to verified-rule.
 - Hari-bhakti-vilasa is useful evidence for its Vaishnava framework; it should not automatically define the Smarta profile.
 - Narada Purana is a Purana source, but modern English translation/notes are not interchangeable with the Sanskrit text or its commentarial interpretation.
 - Current decision engine must retain source family, edition, verse/section, translation note, and tradition scope for each rule.
+
+
+## Evidence refinement — Smarta two-sunrise / double-growth case (2026-10-14)
+
+| Rule ID | Candidate trigger | Source outcome | Scope | Status / blocker |
+|---|---|---|---|---|
+| SM-ED-VRIDDHI-BOTH-01 | Acharane's scan-backed registry describes a two-sunrise Ekadashi case where both Ekadashi and Dvadashi are “increased/current after sunrise.” Candidate operational reconstruction: Ekadashi at one relevant sunrise, Dvadashi at the next. | Reject the earlier day; accept the later day. | Explicitly Smarta; do not infer a Vaishnava result. | SOURCE-SUPPORTED / IMPLEMENTATION-PENDING. Verify the precise meaning of `वर्धते` in surrounding printed context and build a local-time worked example before coding. |
+
+Printed edition locators and matching Sanskrit verse are recorded in `ekadashi-primary-source-audit-2026-10-14.md`. The candidate trigger is intentionally not yet an executable predicate.
