@@ -150,3 +150,8 @@ CiNii Research records a 1969 fourth edition of *Vrat-Parichay*, published by Gi
 - **Clarified:** a Skanda Purana pre-sunset bath instruction does not settle post-sunset Pradoṣa duration.
 - **Clarified:** the Shravan Krishna Dwitiya Ashunya Shayana form is corroborated in two other online Purana renderings; the book's multi-month series still needs exact-source comparison.
 - **No executable date rule approved.**
+
+
+### Pradosha: current date-selection practice cross-check
+
+Drik Panchang's methodology for 2026 states that Pradosha is considered when Trayodashi overlaps the post-sunset Pradosh Kaal, and explicitly notes location-based differences: https://www.drikpanchang.com/vrats/pradoshdates.html . This supports the **modern calendar-selection convention** of local post-sunset overlap, but it is not evidence that every textual authority defines Pradosha's ritual duration identically. Keep (a) date-selection predicate, (b) puja window, and (c) textual ghati definition as separate fields.
