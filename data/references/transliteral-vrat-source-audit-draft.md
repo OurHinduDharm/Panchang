@@ -429,3 +429,21 @@ Before executable rules are proposed, each matrix must have:
 6. A user-facing fallback for unresolved/contradictory cases.
 
 This pass is based on accessible TransLiteral/Wikisource transcriptions. It improves the question set and makes the disagreements explicit, but is not yet a critical-edition-based implementation specification.
+
+
+## Independent transcription / edition leads — follow-up (2026-10-14)
+
+A further search found an additional Sanskrit transcription of Viramitrodaya-Samayaprakasha maintained at Vishvasa:
+- [Vishvasa — Viramitrodaya, Samayaprakasha](https://vishvasa.github.io/kalpAntaram/dharmaH/nibandhaH/vIra-mitrodayaH/samaya-prakAshaH/)
+
+This is useful as a **second digital transcription** for line-by-line comparison with Wikisource, especially the Ekadashi discussion around the printed folio markers {म्व्-स्_६७} and {म्व्-स्_६८}. It is not by itself proof of a different manuscript or edition; the edition/source metadata must be established before calling it an independent textual witness.
+
+Bibliographic leads for print editions:
+- [Dharmasindhu, Google Books/Play listing](https://play.google.com/store/books/details/Kasinatha_Up%C4%81dhy%C4%81ya_son_of_Ananta_Upadhyaya_Dharma?id=5aPdZ3OSRpQC) identifies a January 1888 Nirnaya-Sagara Press edition (374 pages). This is a bibliographic lead; its specific Ekadashi pages have not yet been visually checked.
+- [Nirnayasindhu, Deccan College catalogue record](https://virasat.dcpune.ac.in/jspui/handle/123456789/35643?etal=0&frontend=frontend&order=desc&query=%5Bquery%3D&rpp=20&searchWord=&sort_by=dc.date.accessioned_dt&start=3480%5D) identifies a 1930 Chowkhamba Sanskrit Series Office edition with commentary, but access is marked subscription-based.
+- [Nirnayasindhu, Sanskrit Books listing](https://www.sanskritbooks.com/blog/nirnaya-sindhu-of-jwala-prasad-mishra/) lists a multi-volume Jwala Prasad Mishra edition; use as a scan-finding lead, not a verified text citation.
+- [IGNCA Vedanga-Kalpa catalogue PDF](https://ignca.gov.in/PDF_data/Vedanga-Kalpa%28Dharma-Shastra%29-Vol-II-Part-XII.pdf) catalogs several Nirnayasindhu manuscript holdings. This is catalogue evidence, not the text itself.
+
+### Source-quality rule
+
+A digital transcription can corroborate the reading of another transcription, but it does not establish edition independence unless the underlying edition/manuscript is identified. Until then, mark it as “parallel transcription” rather than “independent witness”. The case matrices above remain provisional; no runtime changes follow from these bibliographic leads.
