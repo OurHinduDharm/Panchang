@@ -116,3 +116,13 @@ The user confirmed separate Smarta and Vaishnava Ekadashi decision profiles. If 
 - No code rules promoted to `verified-rule`; no production Blogger changes. Draft PR #33 remains unmerged.
 
 - Added `data/references/ekadashi-rule-matrix-draft.md`: a preliminary case matrix for normal tithi, Arunodaya-vedha, Suryodaya-vedha, Ekadashi/Dwadashi vriddhi, kshaya, Mahadwadashi and Parana. Every row remains research-only until source-reviewed; it is not executable logic.
+
+
+### Additional Ekadashi research (2026-10-14)
+
+- Extended `data/references/ekadashi-source-comparison.md` with Hari-bhakti-vilasa, Vilasa 12 (sections 12.325-338) and Narada Purana Uttara-bhaga 37.5 / Chapter 121.
+- Hari-bhakti-vilasa provides Sanskrit citations for Arunodaya and Dashami-vedha in a Vaishnava framework. Its displayed English translations of 12.336 and 12.337 appear contradictory, so the Sanskrit and another edition must be checked before interpreting or coding the rule.
+- Narada Purana Chapter 121 gives descriptions of Trisprisha and Unmilini; the wording needs comparison with a reliable printed Sanskrit edition before conversion to code conditions.
+- A list discrepancy is recorded: Vrat-Parichay OCR lists Papanashini, one Narada Purana translation lists Aparajita, and some modern ISKCON-specific calendars list Papanashini. Do not flatten this into one list before source review.
+- GPT/AI can help translate, identify contradictions, and propose test cases, but its output is not scriptural evidence by itself. Each rule needs a reliable source passage, defined tradition scope, and a reviewed worked example before being marked verified.
+- No rules have been marked verified; no live Blogger code changed; draft PR #33 remains unmerged.
