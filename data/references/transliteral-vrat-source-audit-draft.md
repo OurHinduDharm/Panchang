@@ -167,3 +167,29 @@ A candidate may move from research to executable data only after all applicable 
 6. A separate explicit approval is obtained before changing runtime behavior or live Blogger output.
 
 No candidate in this queue is approved for automatic scheduling by this note.
+
+
+### Machine-assisted title/description cross-check against the 122-record JSON (2026-10-14)
+
+I parsed the current `data/festivals.json` on this branch and checked candidate strings against both record names and legacy descriptions. This is a *triage check only*: a substring hit can be incidental, and a no-hit can still be an alias.
+
+| Candidate string | Result in current 122 records | Triage conclusion |
+|---|---|---|
+| Sankashti Chaturthi / संकष्ट | No direct string hit | Strong candidate for a recurring rule/record; inspect any generic Chaturthi aliases manually. |
+| Masik Shivaratri / मासिक शिवरात्रि | Only `festival-050 श्री महाशिवरात्रि व्रत` hits “शिवरात्रि” | Annual Mahashivaratri is not evidence that monthly Shivaratri is covered. |
+| Sheetala / शीतला | No direct string hit | Candidate; check whether any generic Ashtami entry is actually the same observance. |
+| Santan Ashtami / संतानाष्टमी | No direct string hit | Candidate. |
+| Varuni Yoga / वारुणी | No direct string hit | Candidate for conjunction rule, not fixed-date record. |
+| Rukmini Ashtami / रुक्मिणी | No direct string hit | Candidate; source index shows Pausha Krishna Rukmini Ashtami. |
+| Skanda Shashthi / स्कन्द षष्ठी | No direct string hit | Candidate; do not equate with Skandamata. |
+| Ashunya Shayana / अशून्यशयन | No direct string hit | Candidate for a multi-month observance/rule. |
+| Mangala Gauri / मंगला गौरी | No direct string hit | Candidate; verify month/weekday and regional tradition. |
+| Nirjala Ekadashi / निर्जला | No direct string hit | Candidate; verify whether any broad Ekadashi entry is merely informational. |
+| Adhimas/Purushottama Maas | No direct string hit | Month-level observance; likely requires a distinct month-state rule rather than one fixed festival date. |
+| Magha-snana / माघस्नान | No direct string hit | Candidate for a date-range/seasonal practice; do not model as a single day without source support. |
+| Vata Savitri / वट सावित्री | One incidental hit in `festival-084 श्री शनि जयन्ती` description | Not covered based on the title match; inspect source text and regional tradition separately. |
+| Monthly Pradosha / प्रदोष | Substring hits in `festival-017` and `festival-021` descriptions, not standalone Pradosha record titles | No evidence of a complete recurring Pradosha rule. |
+| Monthly Ekadashi | Named entries include `festival-016`, `festival-024`, `festival-029`, `festival-051`, `festival-101`; other hits are incidental mentions | Some named dates exist, but no complete reusable monthly decision profile. |
+| Monthly Kalashtami | `festival-049` and `festival-074` both titled `मासिक कालाष्टमी` | Existing duplicate-looking records should be reviewed separately before adding more entries. |
+
+This pass intentionally does not create or delete records. Before adding candidates, compare the exact source page, month/paksha index, aliases, sourceText and any regional distinction manually.
