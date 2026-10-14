@@ -105,3 +105,12 @@ A programmatic first-pass scan of the migrated JSON found:
 ## Smarta and Vaishnava requirement (2026-10-14)
 
 The user confirmed separate Smarta and Vaishnava Ekadashi decision profiles. If both profiles select the same local date, show one date/card labelled for both traditions. If their selected dates differ, show separate labelled observances on the respective dates. Use shared local astronomical inputs but apply each tradition's reviewed decision rules separately. Dashami-vedha/Arunodaya, Kshaya/Vriddhi, Mahadwadashi/Trisprisha and Parana still require source-verified rule sequences. This is a confirmed product requirement, not approval of unverified shastric rules or production code. See `data/references/ekadashi-decision-rules-draft.md`, section 6. Draft PR #33 remains unmerged; Blogger production is unchanged.
+
+
+### Ekadashi source-comparison research (2026-10-14)
+
+- Added `data/references/ekadashi-source-comparison.md` with a claim-by-claim comparison of the OCR book section (part 007, pp. 49–52), an online Nirnaya Sindhu Sanskrit/Marathi transcription, Dharma Sindhu condensed English pages, Narada Purana translations, and a modern methodology page used only as a cross-check.
+- Important finding: the sources do not justify a simplistic universal rule such as “Smarta always fasts on the sunrise Ekadashi” and “Vaishnava always fasts the next day.” Nirnaya Sindhu's online transcription includes separate Arunodaya-vedha and Suryodaya-vedha handling, growth/overlap cases, and even householder vs yati/widow distinctions in some situations.
+- The OCR book mentions 45/55-ghati views; the condensed Dharma Sindhu English translation has an ambiguous 57/60-ghati phrase. These figures must not be merged into a single threshold until the original printed/source passage and its reference point are verified.
+- The Narada Purana online commentary and translated passage should be kept at different evidence levels (editorial note vs translated text). Mahadwadashi name lists also vary across texts/translations (the OCR has Papanashini; one Narada Purana translation list includes Aparajita), so names and triggers require individual verification.
+- No code rules promoted to `verified-rule`; no production Blogger changes. Draft PR #33 remains unmerged.
