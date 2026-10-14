@@ -126,3 +126,5 @@ The user confirmed separate Smarta and Vaishnava Ekadashi decision profiles. If 
 - A list discrepancy is recorded: Vrat-Parichay OCR lists Papanashini, one Narada Purana translation lists Aparajita, and some modern ISKCON-specific calendars list Papanashini. Do not flatten this into one list before source review.
 - GPT/AI can help translate, identify contradictions, and propose test cases, but its output is not scriptural evidence by itself. Each rule needs a reliable source passage, defined tradition scope, and a reviewed worked example before being marked verified.
 - No rules have been marked verified; no live Blogger code changed; draft PR #33 remains unmerged.
+
+- Added source-evidence notes to `data/references/ekadashi-rule-matrix-draft.md`: Hari-bhakti-vilasa 12.334-337 and Narada Purana Chapter 121 verse 98 converge on a Vaishnava Arunodaya-Dashami case, but translation inconsistency means it remains promising, not verified. Trisprisha is documented as a distinct three-tithi sequence requiring a special-case detector.
