@@ -134,3 +134,69 @@ These cases are based on the project owner's OCR transcription of the 1907 Dharm
 **Unit/transcription gate:** the terms “kalā”, “muhūrta-traya”, “Hari-vāsara”, and “Viṣṇu-śṛṅkhala” must be checked in context before conversion into durations or Boolean conditions. The supplied OCR is not a final critical transcription.
 
 **No implementation authorization:** these fixtures do not change `data/festivals.json`, runtime JavaScript, legacy festival dates, Blogger output, or PR merge state.
+
+
+## G. Executable-shape fixtures from Dharmasindhu p. 17
+
+These fixtures make the rule behaviour concrete while keeping uncertain Sanskrit definitions configurable. Times below are **synthetic UTC-like minutes on one continuous local timeline**, not real dates or calendar recommendations. Use a half-open interval `[start, end)` for tithi/nakshatra presence.
+
+### G1. Hari-vāsara pāraṇa boundary
+
+Assume, only for this test, Dvādaśī is `[1000, 1600)`. If Hari-vāsara is confirmed as the first quarter of the Dvādaśī interval, its end is minute `1150`.
+
+| Test | Candidate pāraṇa instant | Expected result under the first-quarter profile |
+|---|---:|---|
+| HV-01 | 1149 | Block: still within Hari-vāsara |
+| HV-02 | 1150 | Allow by interval convention `[start, end)`, subject to source confirmation of endpoint convention |
+| HV-03 | 1151 | Do not block on Hari-vāsara alone |
+| HV-04 | Dvādaśī end is missing | Unresolved; do not estimate Hari-vāsara end |
+| HV-05 | Dvādaśī duration changes but a fixed clock-time Hari-vāsara is supplied | Fail: Hari-vāsara must derive from the selected source rule and actual tithi interval, not a hard-coded clock time |
+
+**Important:** the 25% calculation is an explicit test profile based on the commonly published “first quarter” explanation; the exact rule definition and its anchor must be confirmed against the supplied Dharmasindhu passage before this becomes production logic.
+
+### G2. Midday pāraṇa — preserve both readings
+
+Use local sunrise `S`, midday boundary `M`, and the source-defined morning-muhūrta window `W`. Do not assume `W` until its anchor is confirmed.
+
+| Test | Condition | Expected result |
+|---|---|---|
+| MID-01 | Dvādaśī is present at `M`; candidate time lies within verified `W) | Majority-view profile (“बहवः”) may accept it |
+| MID-02 | Dvādaśī is present at `M`; candidate time is after `M) | Majority-view profile rejects it |
+| MID-03 | Same inputs, alternate “केचित्” profile | Evaluate the stated afternoon preference separately |
+| MID-04 | No profile/tradition selected | Return both opinions or “profile required”; do not silently choose |
+| MID-05 | `S`, `M`, or required ritual window unavailable | Unresolved |
+
+### G3. Śravaṇa-Dvādaśī and Viṣṇu-śṛṅkhala
+
+| Test | Synthetic condition | Expected result |
+|---|---|---|
+| SHR-01 | Dvādaśī and Śravaṇa intervals overlap | Identify Śravaṇa-Dvādaśī candidate; then evaluate the observance rule separately |
+| SHR-02 | Śravaṇa ends before Dvādaśī | Evaluate the transcribed instruction to pāraṇa while Dvādaśī is still joined with Śravaṇa, after exact wording is confirmed |
+| SHR-03 | Viṣṇu-śṛṅkhala flag absent or not calculated | Do not activate the special clause |
+| SHR-04 | Viṣṇu-śṛṅkhala condition is confirmed; Śravaṇa does not remain on Dvādaśī | Evaluate the special Ekādaśī fast / Dvādaśī pāraṇa clause as a distinct rule |
+| SHR-05 | Only one of the required nakṣatra/tithi event endpoints is available | Unresolved; do not infer the overlap |
+
+### G4. Eight Mahādvādaśī identities are separate tests
+
+Use the exact labels and pairings in the supplied Dharmasindhu transcription as the initial source profile. Do not import alternate name-pairings from a different Vaishnava calendar profile.
+
+| ID | Dharmasindhu p. 17 working label | Condition to verify from full passage |
+|---|---|---|
+| MDV-01 | Unmīlanī | Exact Ekādaśī/Dvādaśī duration condition; OCR wording needs confirmation |
+| MDV-02 | Vañjulī | Pure/extended Dvādaśī condition; exact meaning of “śuddhādhikā” needs context |
+| MDV-03 | Trispr̥śā | Three-tithi contact across the specified ahorātra/sunrise boundaries; exact compound needs confirmation |
+| MDV-04 | Pakṣavardhinī | Amāvāsyā or Pūrṇimā with the stated day-increase condition |
+| MDV-05 | Jayā | Puṣya nakṣatra joined with Dvādaśī |
+| MDV-06 | Vijayā | Śravaṇa nakṣatra joined with Dvādaśī |
+| MDV-07 | Jayantī | Punarvasu nakṣatra joined with Dvādaśī |
+| MDV-08 | Pāpanāśinī | Rohiṇī nakṣatra joined with Dvādaśī |
+
+For MDV-05–08, test overlap start, overlap end, exact-boundary contact, and no-overlap. For MDV-01–04, do not mark a case passing until the relevant Sanskrit condition is transcribed clearly enough to express as an unambiguous predicate.
+
+### G5. Implementation gate
+
+- Keep the rule profiles source-specific: `dharmasindhu-1907-p17-working` must not silently inherit a different profile's name-pairings or time rules.
+- Keep three outputs separate: fasting-day selection, observance type (including Mahādvādaśī), and pāraṇa window.
+- Store the reason and rule ID with every result so the UI can explain why a date/time was chosen.
+- Treat an unknown condition as unresolved, not false and not a guessed default.
+- These fixtures remain research-only until the exact text is confirmed; no live festival date or runtime code is changed by this section.
