@@ -629,3 +629,28 @@ test("classical yoga disclosure has a visible custom arrow and link-like styling
   assert.match(source, /#classicalYogasCard \.classical-yoga-details > summary \{[^}]*color:#1769aa !important;[^}]*text-decoration:underline !important;/);
   assert.match(source, /\.classical-yoga-details\[open\] > summary \.classical-yoga-toggle-arrow/);
 });
+
+test("Chapter IX Venus threshold follows classified horizon event, not morning/evening", () => {
+  const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const normalize = extra.match(/function normalizeLongitude\(degrees\) \{[\s\S]*?\n\}/)?.[0];
+  const classify = extra.match(/function classifyChapter9HorizonEvent\(\{[\s\S]*?\n\}/)?.[0];
+  const threshold = extra.match(/function getPlanetEventThreshold\(body, horizonEvent\) \{[\s\S]*?\n\}/)?.[0];
+  assert.ok(normalize && classify && threshold, "Chapter IX helpers must exist for focused regression tests");
+  const helpers = vm.runInNewContext(
+    `${normalize}\n${classify}\n${threshold}\n({ classifyChapter9HorizonEvent, getPlanetEventThreshold })`
+  );
+  const cases = [
+    { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: -0.5, event: "west-setting", limit: 8 },
+    { body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: -0.5, event: "east-rising", limit: 8 },
+    { body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: 1, event: "east-setting", limit: 10 },
+    { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: 1, event: "west-rising", limit: 10 },
+    { body: "Jupiter", planetLongitude: 1, sunLongitude: 359, planetMotion: 0.08, event: "east-rising", limit: 11 }
+  ];
+  for (const item of cases) {
+    const event = helpers.classifyChapter9HorizonEvent(item);
+    assert.equal(event, item.event);
+    assert.equal(helpers.getPlanetEventThreshold(item.body, event), item.limit);
+  }
+  assert.equal(helpers.getPlanetEventThreshold("Venus", null), null);
+  assert.equal(helpers.getPlanetEventThreshold("Mercury", "east-setting"), null);
+});
