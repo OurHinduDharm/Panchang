@@ -187,3 +187,11 @@ No executable Ekadashi rule is approved by this workflow note. Draft PR #33 rema
 - Recorded as `SM-ED-VRIDDHI-BOTH-01`, status `SOURCE-SUPPORTED / IMPLEMENTATION-PENDING`: the trigger semantics still need context review, plus a local-time worked example before regression testing.
 - Updated the source audit, decision log and rule matrix. This is the first narrow case with matching scan-backed Sanskrit references; the overall engine and normal case remain unverified.
 - Registry locator: https://acharane.com/sources/ (entries `ds-p17-ekadashi-vriddhi` and `ns-p30-ekadashi-vriddhi`).
+
+
+### Ekadashi source follow-up — Smarta two-sunrise case (2026-10-14)
+
+- Refined `SM-ED-VRIDDHI-BOTH-01` using the source registry's explicit classification as a two-sunrise Ekadashi case. Matching scan-backed Sanskrit is reported for Dharmasindhu (1888, p. 17) and Nirnayasindhu (1901, p. 30).
+- The source names the Smarta scope and says to reject the earlier day in favour of the later day when both tithis “increase.”
+- The possible sunrise-state predicate is still provisional: surrounding paragraph context must define “वर्धते” precisely. No Vaishnava outcome inferred; no executable rule or regression test added.
+- Next research action: inspect surrounding printed text, then reconstruct a real local-time two-sunrise example using independently checked tithi transitions and sunrise times.
