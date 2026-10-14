@@ -1,10 +1,10 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
-import { festivalName, isHinduFestival } from "./festival-filter.js";
+import { festivalName, isHinduFestival, deduplicateHinduFestivals } from "./festival-filter.js";
 
 /*
  * OurHinduDharm — Hindu festival card.
- * Only reviewed Hindu vrata/parva terminology is shown; the list is kept
- * concise and duplicate aliases for the same named festival are collapsed.
+ * Only reviewed Hindu vrata/parva terminology is shown; duplicate aliases
+ * for the same named festival are collapsed.
  */
 
 // Keep this fallback identical to app.js's default Pithoragarh location.
@@ -53,20 +53,6 @@ function formatHindiDate(dateString) {
 
 function getResultsGrid() {
   return document.querySelector("#result > .grid, #result .grid");
-}
-
-function deduplicateFestivals(festivals) {
-  const seen = new Set();
-  return festivals.filter(item => {
-    const name = festivalName(item);
-    const normalized = name.toLocaleLowerCase().replace(/[()]/g, " ").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-
-    // Different library labels can refer to the same Maha Ashtami observance.
-    const key = /durga ashtami|दुर्गाष्टमी/i.test(name) ? "durga-ashtami" : normalized;
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
 }
 
 function renderFestivalCard(dateString, festivals, errorMessage = "") {
@@ -136,15 +122,14 @@ function updateHinduFestivals() {
     const date = new Date(dateString + "T12:00:00+05:30");
     const panchang = getPanchangam(date, location, { timezoneOffset: 330 });
     const allFestivals = Array.isArray(panchang?.festivals) ? panchang.festivals : [];
-    const filtered = deduplicateFestivals(allFestivals.filter(isHinduFestival));
+    const filtered = deduplicateHinduFestivals(allFestivals.filter(isHinduFestival));
     renderFestivalCard(dateString, filtered);
     lastRenderKey = renderKey;
 
-    // Diagnostic counts help audit the conservative allowlist during preview.
     console.info("OHD festivals audit", {
       date: dateString,
-      totalFromLibrary: allFestivals.length,
-      displayedHinduCandidates: filtered.map(festivalName),
+      totalEvents: allFestivals.length,
+      displayedHinduFestivals: filtered.map(festivalName),
       filteredOut: allFestivals.filter(item => !isHinduFestival(item)).map(festivalName)
     });
   } catch (error) {
