@@ -117,7 +117,7 @@ Sources:
 
 ## F. Dharmasindhu p. 17 — pāraṇa and Mahādvādaśī follow-up fixtures (provisional)
 
-These cases are based on the project owner's OCR transcription of the 1907 Dharmasindhu p. 17. The Archive.org scan locator is recorded in `dharmasindhu-p17-parana-research.md`, but the image could not be independently visually collated in this session. Therefore, these are test scenarios to guide source review; precise expected outputs remain provisional.
+These cases began from the project owner's transcription. The uploaded Khemraj images (printed pp. 31–33) and Rajvaidya images (printed pp. 32–33) were visually inspected on 2026-10-14; see `dharmasindhu-image-collation-2026-10-14.md`. Some exact readings are now visually supported, but rule semantics and expected algorithmic outcomes remain provisional.
 
 | ID | Synthetic condition | Expected test behaviour | Status |
 |---|---|---|---|
@@ -131,7 +131,7 @@ These cases are based on the project owner's OCR transcription of the 1907 Dharm
 | PAR-07 | Pāraṇa interval begins/ends exactly at a tithi or Hari-vāsara boundary | Test immediately before, exactly at, and immediately after; boundary inclusivity must be documented | Required |
 | PAR-08 | Required local event or tithi endpoint is unavailable | Return unresolved with a reason; do not invent a pāraṇa clock time | Required |
 
-**Unit/transcription gate:** the terms “kalā”, “muhūrta-traya”, “Hari-vāsara”, and “Viṣṇu-śṛṅkhala” must be checked in context before conversion into durations or Boolean conditions. The supplied OCR is not a final critical transcription.
+**Unit/interpretation gate:** the main wording is now visually checked in uploaded images, but “kalā”, the anchor for “muhūrta-traya”, “Hari-vāsara”, and the referenced “Viṣṇu-śṛṅkhala” definition must be interpreted in context before conversion into durations or Boolean conditions. See `dharmasindhu-image-collation-2026-10-14.md`; this is a working collation, not a critical edition.
 
 **No implementation authorization:** these fixtures do not change `data/festivals.json`, runtime JavaScript, legacy festival dates, Blogger output, or PR merge state.
 
