@@ -480,3 +480,10 @@ Sources:
 - [Nirnayasindhu Shivaratri decision](https://www.transliteral.org/pages/z130621065953/view)
 
 No changes to `data/festivals.json`, executable rules, legacy dates, or Blogger output. Draft PR #33 remains unmerged.
+
+
+### Additional source-quality pass — 2026-10-14
+
+Found a parallel digital transcription of Viramitrodaya-Samayaprakasha at [Vishvasa](https://vishvasa.github.io/kalpAntaram/dharmaH/nibandhaH/vIra-mitrodayaH/samaya-prakAshaH/) for comparison with Wikisource. It is a second transcription, not yet proven to represent an independent edition. Bibliographic leads for Dharmasindhu (1888 Nirnaya-Sagara listing) and Nirnayasindhu (1930 Chowkhamba catalogue record and manuscript catalogue) are recorded in the audit document; relevant printed pages still need visual verification.
+
+The audit now distinguishes a parallel transcription from an independent textual witness. No executable rules or festival records were changed.
