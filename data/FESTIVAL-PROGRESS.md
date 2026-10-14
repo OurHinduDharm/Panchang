@@ -446,3 +446,19 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - The source translation distinguishes Phalguna Krishna Chaturdashi in Purnimanta naming from Magha Krishna Chaturdashi in Amanta naming. This is a month-labeling distinction, not by itself a separate observance.
 - Decision: do not choose one universal timing rule without recording the authority/profile; keep Maha Shivaratri and Masik Shivaratri as separate research candidates. No legacy record or runtime behavior changed.
 - Full notes appended to data/references/transliteral-vrat-source-audit-draft.md.
+
+
+## External Gemini summary — source audit, 2026-10-14
+
+An external Gemini response was checked against accessible source transcriptions and the existing research file. It is being treated as a list of hypotheses, not as authority or a date-rule specification.
+
+- **Ekadashi:** Dharmasindhu distinguishes Vaishnava Arunodaya-vedha from Smarta sunrise-vedha and discusses multiple tithi-duration cases. Do not implement one shared “Dashami-veddha means reject” rule.
+- **Sankashti Chaturthi:** Viramitrodaya-Samayaprakasha supports Chandrodaya-vyapini as the core rule, but a second Wikisource transcription records differing tie-break opinions when both adjacent days have moonrise overlap. No universal tie-break adopted.
+- **Shivaratri:** Nirnayasindhu records both Pradosha-vyapini and Nishitha-vyapini opinions and discusses multi-day overlap cases. No unconditional Nishitha-only rule adopted.
+- **Pradosha units:** three ghatis = 72 minutes; three muhurtas = 144 minutes. Gemini's answer used both phrases, so no duration rule should be coded until the exact source term is fixed.
+- **Vata Savitri, Adhika Masa, Varuni Yoga and other regional/rare observances:** remain candidates requiring source-specific verification.
+- **Source-integrity warning:** the Wikisource page titled आङ्गिरसस्मृतिः opens with “अथ वीरमित्रोदयस्य समयप्रकाशः”; its Chaturthi passage must be attributed provisionally to the visible Viramitrodaya-Samayaprakasha body, not treated as a verified Angirasa Smriti quotation.
+
+Detailed notes and links: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-source-audit-draft.md).
+
+**No changes** were made to `data/festivals.json`, runtime logic, legacy dates, or Blogger output. Draft PR #33 remains an audit-only branch.
