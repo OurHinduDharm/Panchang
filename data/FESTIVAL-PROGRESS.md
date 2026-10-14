@@ -80,3 +80,10 @@ A programmatic first-pass scan of the migrated JSON found:
 2. Inspect all Ekadashi entries and design a separate canonical list of the 24 regular observances plus Adhik Maas cases, with regional/sampradaya variants noted rather than flattened.
 3. Audit the eclipse records against `eclipse-panchang.js` and current astronomical output; keep visibility and ritual/sutak policy separate.
 4. Design a reusable Muhurat rule catalog and event-stage schema before changing the Blogger UI.
+
+
+## Initial Muhurat / tithi-decision research references (not yet accepted as engine rules)
+- Nirnaya Sindhu, Tithi Nirnaya: https://www.transliteral.org/pages/z130511025312/view
+- Dharma Sindhu, Tithi Vrata Nirnayas (condensed English presentation): https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
+- Narada Purana, Chapter 29, tithi and Ekadashi observance decisions: https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1501993.html
+- These are initial research leads, not proof that one rule applies to every sampradaya or region. Before coding, capture edition/translation, exact locator, original text where available, interpretation, tradition scope and test cases. Cross-check translations and do not derive a definitive rule from a search snippet alone.
