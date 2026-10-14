@@ -404,13 +404,25 @@ function addDays(
    या Drik के प्रकाशित समय की पुनर्रचना नहीं है।
    ========================================= */
 
+// Chapter IX limits that do not require an event-branch choice.
 const PLANET_ASTA_THRESHOLDS = {
-  Mercury: 14,
-  Venus: 10,
   Mars: 17,
   Jupiter: 11,
   Saturn: 15
 };
+
+function getPlanetEventThreshold(body, visibility, eventType) {
+  if (body === "Venus") {
+    // IX.7: west-setting/east-rising = 8°;
+    // east-setting/west-rising = 10°.
+    if (eventType === "asta") return visibility === "morning" ? 10 : 8;
+    return visibility === "morning" ? 8 : 10;
+  }
+
+  // Mercury IX.8 depends on the retrograde/swift-motion branch.
+  // Do not guess that branch in this preliminary display.
+  return PLANET_ASTA_THRESHOLDS[body] ?? null;
+}
 
 const planetDailyCache = new Map();
 
@@ -423,16 +435,23 @@ function getPlanetDailyData(body, dateString) {
   const result = Elongation(body, getLocalNoon(dateString));
   const data = {
     date: dateString,
-    eclipticSeparation: Number(result.ecliptic_separation)
+    eclipticSeparation: Number(result.ecliptic_separation),
+    visibility: result.visibility
   };
 
   planetDailyCache.set(cacheKey, data);
   return data;
 }
 
-function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
+function findNearestAngularBoundary(body, selectedDate, eventType) {
   const selected = getPlanetDailyData(body, selectedDate);
   if (!Number.isFinite(selected.eclipticSeparation)) return null;
+
+  const thresholdFor = data =>
+    getPlanetEventThreshold(body, data.visibility, eventType);
+
+  // बुध की IX.8 शाखा अभी निश्चित नहीं है; अनुमान न दिखाएँ।
+  if (!Number.isFinite(thresholdFor(selected))) return null;
 
   // दिन-स्तर पर अधिकतम 400 दिन आगे/पीछे खोजें।
   for (let offset = 1; offset <= 400; offset++) {
@@ -446,13 +465,19 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
     const futureA = getPlanetDailyData(body, futurePrevDate);
     const futureB = getPlanetDailyData(body, futureDate);
 
-    const crossedDown = (a, b) =>
-      a.eclipticSeparation > threshold &&
-      b.eclipticSeparation <= threshold;
+    const crossedDown = (a, b) => {
+      const ta = thresholdFor(a);
+      const tb = thresholdFor(b);
+      return Number.isFinite(ta) && Number.isFinite(tb) &&
+        a.eclipticSeparation > ta && b.eclipticSeparation <= tb;
+    };
 
-    const crossedUp = (a, b) =>
-      a.eclipticSeparation <= threshold &&
-      b.eclipticSeparation > threshold;
+    const crossedUp = (a, b) => {
+      const ta = thresholdFor(a);
+      const tb = thresholdFor(b);
+      return Number.isFinite(ta) && Number.isFinite(tb) &&
+        a.eclipticSeparation <= ta && b.eclipticSeparation > tb;
+    };
 
     const matches = eventType === "asta" ? crossedDown : crossedUp;
 
@@ -461,7 +486,8 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
       return {
         date: pastB.date,
         degree: pastB.eclipticSeparation,
-        threshold,
+        threshold: thresholdFor(pastB),
+        visibility: pastB.visibility,
         direction: "past"
       };
     }
@@ -470,7 +496,8 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
       return {
         date: futureB.date,
         degree: futureB.eclipticSeparation,
-        threshold,
+        threshold: thresholdFor(futureB),
+        visibility: futureB.visibility,
         direction: "future"
       };
     }
@@ -480,26 +507,25 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
 }
 
 function getPlanetEvent(planet, selectedDate) {
-  const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
-
-  if (!Number.isFinite(threshold)) {
-    return {
-      name: planet.name,
-      asta: null,
-      astaDegree: null,
-      udaya: null,
-      udayaDegree: null,
-      verificationPending: true
-    };
-  }
-
   try {
     const asta = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "asta"
+      planet.body, selectedDate, "asta"
     );
     const udaya = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "udaya"
+      planet.body, selectedDate, "udaya"
     );
+
+    // यदि किसी ग्रह के लिए शास्त्रीय शाखा तय नहीं है, तो झूठी तिथि न दिखाएँ।
+    if (!asta || !udaya) {
+      return {
+        name: planet.name,
+        asta: asta ? formatEventDate(asta.date) : null,
+        astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
+        udaya: udaya ? formatEventDate(udaya.date) : null,
+        udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
+        verificationPending: true
+      };
+    }
 
     return {
       name: planet.name,
