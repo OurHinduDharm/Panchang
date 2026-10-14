@@ -3,6 +3,8 @@
 // same-coordinate reference values must be recorded before asserting exact times.
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
 
 const LOCATION = Object.freeze({
@@ -59,10 +61,20 @@ test("diagnostic: emit pinned-library tithi/nakshatra intervals for fixed audit 
   );
   assert.ok(intervals.some(item => item.kind === "tithi"), "no tithi intervals returned");
   assert.ok(intervals.some(item => item.kind === "nakshatra"), "no nakshatra intervals returned");
-  console.log("VRATA_REAL_DATE_DIAGNOSTIC " + JSON.stringify({
+  const report = {
+    status: "diagnostic-only-not-independent-validation",
     library: "@ishubhamx/panchangam-js@3.0.0",
     location: LOCATION,
     datesQueried: DATES,
+    generatedAtUTC: new Date().toISOString(),
     intervals
-  }));
+  };
+  const outputDir = path.join(process.cwd(), "artifacts");
+  fs.mkdirSync(outputDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(outputDir, "vrata-real-date-diagnostic.json"),
+    JSON.stringify(report, null, 2) + "\n",
+    "utf8"
+  );
+  console.log("VRATA_REAL_DATE_DIAGNOSTIC " + JSON.stringify(report));
 });
