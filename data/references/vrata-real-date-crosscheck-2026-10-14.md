@@ -109,3 +109,21 @@ Web documentation reviewed:
 - Alternative daily Panchang forms also expose latitude/longitude fields, but a daily snapshot is not sufficient by itself to validate exact transition intervals: https://www.onlinejyotish.com/ojmob/panchanga.php and https://www.astrobookonline.com/panchang/today-panchang
 
 **Status:** Candidate calculators identified; exact-coordinate results not yet run/captured, so no real-date fixture is certified by this addition.
+
+
+### Next-step execution protocol — 2026-10-15
+
+The next comparison run must capture the external calculator's actual submitted result, not its default example. The public Astroica pages expose custom coordinate inputs but the currently indexed/default results are for Ujjain; those default values must never be copied into this audit.
+
+**Enter these inputs in BOTH calculators:**
+- Location mode: Advanced options / Custom Location / enter coordinates manually.
+- Latitude: 30 degrees, 7 minutes, 35.4 seconds North (decimal 30.1265° N).
+- Longitude: 80 degrees, 28 minutes, 54.1 seconds East (decimal 80.4817° E).
+- Time zone: Asia/Kolkata, UTC+05:30.
+- Elevation: 0 m where an elevation field is offered; if the calculator does not accept elevation, record that limitation.
+- Ayanāṃśa: record the exact selected label. Do not assume it matches the project's setting just because the place and timezone match.
+- Date range: 2026-08-22 through 2026-08-26, then 2026-09-21 through 2026-09-24. Keep the two windows separate for clear evidence.
+
+**Evidence to record for each result:** calculator URL; selected coordinates and timezone shown in output; ayanāṃśa/convention; each tithi/nakṣatra name and its displayed start/end time; screenshot or saved text; capture date. Normalize displayed IST times to ISO UTC only after retaining the original display strings.
+
+**Important limitation:** this session identified the forms and their fields through published page content but did not submit the interactive forms or capture custom-coordinate results. It also has no successful GitHub Actions run to inspect yet. Therefore this protocol is ready, but the external comparison and actual library diagnostic remain unexecuted; do not claim a match or create a passing real-date fixture yet. If the form cannot be submitted through the available environment, the next required input is a result capture from the same-coordinate calculator—not a new book or dataset from the user.
