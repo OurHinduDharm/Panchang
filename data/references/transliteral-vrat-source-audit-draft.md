@@ -477,3 +477,76 @@ These summaries are useful for test-case discovery, not a substitute for choosin
 6. Only after page-image verification and independent almanac comparison should the team propose a runtime rule or new festival record.
 
 No production date, JSON record, or live Panchang behavior is changed by this source-comparison pass.
+
+
+## Interval-based synthetic regression fixtures — research specification (2026-10-14)
+
+Purpose: make the source disagreements testable before any production date rule is proposed. These fixtures are **synthetic**, use abstract local-time intervals, and are not real festival dates. All intervals are half-open `[start, end)`; times are in the observance location's local civil time. A fixture's expected result may intentionally be “unresolved until authority/profile is selected.” The test harness must not silently choose a preferred authority.
+
+### Common fixture fields
+
+Each future test case should record:
+
+- `case_id`, observance family, named observance, and explicit decision profile/authority (e.g. Dharmasindhu-Smartā, Dharmasindhu-Vaiṣṇava, Nirṇayasindhu opinion A/B).
+- Local date, timezone identifier/offset, latitude/longitude, sunrise, sunset, and only the relevant event times (Arunodaya, moonrise, Nishitha/Ardharatri, Pradosha interval).
+- Start/end instant for each relevant tithi, with an explicit statement whether a boundary is inclusive; normalize astronomical instants before evaluating intervals.
+- Expected selected civil date/night, expected rejection/deferral, expected parana window if specified, and a short reason citing the exact source section/page/verse and edition status.
+- A test must fail if required event data are missing; do not substitute a fixed clock time, a different city's moonrise, or a generic sunrise rule.
+
+### Ekadashi: profile-separated fixtures
+
+| ID | Synthetic condition | Expected test assertion | Status |
+|---|---|---|---|
+| EKA-S-01 | Dashami ends before sunrise; Ekadashi spans sunrise | Evaluate the Smarta profile from the selected edition; retain the sunrise predicate in the trace. | Needs print-text confirmation |
+| EKA-V-01 | Dashami is still present at Arunodaya but ends before sunrise; Ekadashi spans sunrise | Evaluate the Vaishnava Arunodaya-vedha profile separately from Smarta; do not collapse the two results. | Core distinction supported by consulted transcriptions; exception matrix still needs confirmation |
+| EKA-02 | Ekadashi ends before the following sunrise and Dvadashi is short | Do not infer parana solely from the selected Ekadashi date; run the separate profile-specific parana decision. | Needs source/edition rule |
+| EKA-03 | Dvadashi spans sunrise and the first quarter/Hari-vasara boundary is within Dvadashi | Parana result must identify sunrise, Dvadashi end, and Hari-vasara boundary; no hardcoded generic window. | Needs primary-text confirmation |
+| EKA-04 | Tithi duration falls exactly on a source-defined boundary | Assert the edition's exact boundary convention; if not established, return unresolved rather than guess. | Open |
+| EKA-05 | Ekadashi tithi is lost/short or duration configuration matches a special Dharmasindhu case | Dispatch to the documented exception branch; a single boolean “Dashami-veddha” rule must fail this test. | Open; transcribed cases require page verification |
+
+### Sankashti Chaturthi: local moonrise fixtures
+
+| ID | Synthetic condition | Expected test assertion | Status |
+|---|---|---|---|
+| SAN-01 | Krishna Chaturthi overlaps local moonrise on exactly one candidate day | Select the qualifying day under the explicitly chosen authority/profile. | Core Chandrodaya-vyāpinī lead; source attribution verification pending |
+| SAN-02 | Chaturthi overlaps moonrise on both adjacent days | Do not use an undocumented universal tie-break; return separate authority-specific outcomes or unresolved. | Required because consulted transcriptions report differing opinions |
+| SAN-03 | Chaturthi overlaps neither candidate moonrise | Enter the source-defined exceptional branch only if verified; otherwise unresolved. | Open |
+| SAN-04 | Tithi begins or ends exactly at moonrise | Exercise exact-boundary convention and timestamp precision; no epsilon-based silent shift. | Open |
+| SAN-05 | Local moonrise unavailable or astronomical calculation fails | Mark calculation unavailable; never substitute another city or a fixed time. | Engineering invariant |
+
+### Shivaratri: do not conflate monthly and annual profiles
+
+| ID | Synthetic condition | Expected test assertion | Status |
+|---|---|---|---|
+| SHI-M-01 | Krishna Chaturdashi overlaps Nishitha on only one night | Evaluate the selected monthly-Shivaratri authority's rule; preserve the full Nishitha interval and overlap duration in the trace. | Rule profile needs primary-page confirmation |
+| SHI-M-02 | Chaturdashi overlaps Nishitha on both consecutive nights | Compare authority-specific tie-breaks; never assume “later night” or “greater overlap” is universal. | Open; secondary summaries disagree/oversimplify |
+| SHI-M-03 | Chaturdashi overlaps Pradosha but not Nishitha | Do not automatically accept/reject without recording which Nirṇayasindhu/Dharmasindhu opinion the profile follows. | Competing opinions explicitly noted in consulted Nirṇayasindhu transcription |
+| SHI-M-04 | Chaturdashi overlaps neither candidate Nishitha interval | Apply only a verified source-defined fallback; otherwise unresolved. | Open |
+| SHI-M-05 | Purnimanta and Amanta naming labels refer to the same lunation | Preserve naming convention metadata; do not create duplicate astronomical events just because month labels differ. | Naming distinction supported by consulted source |
+| SHI-A-01 | Annual Maha Shivaratri case has two Nishitha overlaps | Must run the annual Maha-Shivaratri profile, not reuse the monthly profile by default. | Profile separation required; exact tie-break needs source/page verification |
+
+### Pradosha: window and date-selection are separate outputs
+
+| ID | Synthetic condition | Expected test assertion | Status |
+|---|---|---|---|
+| PRA-01 | Trayodashi overlaps the configured Pradosha interval on one evening | Report the source-defined evening selection and that evening's weekday. | Needs primary-edition confirmation |
+| PRA-02 | Trayodashi overlaps both evenings | Use only a documented source-specific tie-break; do not derive it from the general puja-window definition. | Open |
+| PRA-03 | The source says “two ghatis” versus “three muhurtas” | Preserve the literal source unit and its cited definition; never normalize them as equivalent. Two ghatis = 48 minutes; three muhurtas = 144 minutes under the standard 1 ghati = 24 minutes, 1 muhurta = 48 minutes conversion. | Unit mismatch is a blocking issue until source passage is fixed |
+| PRA-04 | Sunset-relative interval crosses a civil-date boundary in an unusual location/date | Keep astronomical/local-date calculations explicit; do not let a generic date-only comparison truncate the interval. | Engineering invariant |
+
+### Validation gate before any executable change
+
+1. Replace every “needs verification/open” label only after recording the actual edition, scan/page/leaf, exact passage and context; do not treat a modern explainer's rule summary as a primary witness.
+2. Independently check the interval calculations and at least one real worked case per selected profile against a named almanac for the same location and tradition. Record disagreements instead of tuning code to force a match.
+3. Make test output explain *why* a date was selected, which profile was used, which event interval qualified, and which exception branch applied.
+4. Test boundaries immediately before, exactly at, and immediately after every relevant tithi/event endpoint; include missing-event and invalid-timezone cases.
+5. Keep candidate discovery, rule evidence, profile selection, and public display policy separate. No festival JSON or runtime rule should be inferred directly from this synthetic matrix.
+
+Sources consulted for this pass:
+- [Dharmasindhu Ekadashi explainer with page/leaf metadata](https://shastrapanchangam.com/en/ekadashi/) — secondary explanation citing pp. 13–14 / leaves 33–34 as page-image checked; verify independently before treating as final.
+- [Dharmasindhu Vaishnava decision transcription](https://www.transliteral.org/pages/z80422042154/view) and [Smarta decision transcription](https://www.transliteral.org/pages/z80422042257/view).
+- [Nirṇayasindhu Shivaratri decision transcription](https://www.transliteral.org/pages/z130621065953/view).
+- [SanskritDocuments festival-rule summary](https://sanskritdocuments.org/incoming/ajit/panchanga/festival_rules.html) — useful comparison only; its own summary records disagreement over annual Maha Shivaratri double-Nishitha cases.
+- [Masik Shivaratri secondary rule page](https://shastrapanchangam.com/en/masik-shivaratri/) and [another secondary methodology summary](https://panchangtime.com/methodology/shivaratri) — compare only; not independent primary witnesses.
+
+**Safety boundary:** this is a non-executable test specification. No changes to `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, or PR merge state are made by this section.
