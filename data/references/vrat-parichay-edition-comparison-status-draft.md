@@ -60,3 +60,23 @@ Before declaring OCR page-image verified, obtain a readable copy and record:
 4. For each sampled rule, a page image plus a literal transcription of the relevant line(s), with uncertain OCR characters flagged.
 
 Until then, use the user's existing OCR chunks as **text-only evidence** and keep all executable date rules blocked. No live code or festivals.json records changed in this update.
+
+
+## Major source breakthrough: Internet Archive item identified (2026-10-14)
+
+User supplied two Internet Archive records. The item `https://archive.org/details/vrata-parichaya` is accessible and exposes both a PDF download entry and a full-text OCR transcript:
+- Item page: https://archive.org/details/vrata-parichaya
+- Full-text OCR: https://archive.org/stream/vrata-parichaya/Vrata%20Parichaya_djvu.txt
+- PDF link surfaced by the item page: https://archive.org/download/vrata-parichaya/Vrata%20Parichaya.pdf
+- OCR item metadata: 300 PPI, Hindi Tesseract OCR, item size 169.9M.
+
+The accessible OCR front matter identifies the printed book as **संवत् २०७०, चौबीसवाँ पुनर्मुद्रण**, by पं० हनूमान शर्मा, published/printed by गीताप्रेस, गोरखपुर. Therefore this is a concrete, inspectable edition candidate and a much stronger match for comparing text than the inaccessible TUFS lead. It is not the 1969 fourth edition; do not conflate these editions. The user's OCR edition still needs identity comparison, but the public transcript makes targeted textual comparison possible immediately.
+
+First direct textual confirmations from the Internet Archive transcript:
+- Contents places Sankashti and Pradosh repeatedly under monthly Krishna/Shukla sections; visible OCR TOC page labels include Sankashti at printed p. 43 for Chaitra, Pradosh p. 53, Vata Savitri p. 91, Nirjala Ekadashi p. 96, Ashunya Shayana p. 106, Mangala Gauri p. 115. OCR digits in the contents can be corrupted; check body context and page images before treating all page numbers as exact.
+- Vata Savitri body text explicitly distinguishes Jyeshtha Shukla Purnima (Skanda/Bhavishyottara) from Amavasya (Nirnayamrita etc.) and says Amavasya is commonly followed in the author's region.
+- Ashunya Shayana body text explicitly describes Shravan Krishna Dwitiya through Margashirsha Krishna Dwitiya, selects pūrvaviddhā tithi, and gives a tie-break: if both days are pūrvaviddhā or neither is, choose paraviddhā. This is stronger text evidence than before, though page image should still be checked for OCR accuracy.
+
+The second user-provided item `https://archive.org/details/610-vrat-parichay` could not be retrieved by the web reader in this pass (DisabledError). It should be checked separately for edition/imprint differences. The Archive.org OCR is useful for text-level cross-checks now; for image verification use the item's Bookreader/PDF/page-image links and record printed page versus scan index.
+
+No runtime code or festivals.json changed. Keep PR #33 Draft/unmerged. Continue by checking the Archive transcript's priority passages and, where possible, page images; retain edition-specific attribution and do not yet implement date rules.
