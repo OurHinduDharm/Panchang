@@ -291,3 +291,12 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Read OCR body excerpts in `part-006.txt`, `part-007.txt`, `part-010.txt`–`part-017.txt` and selected later monthly sections to verify that priority candidates are recurring/duration-based rules, not just contents titles.
 - Added evidence notes to `data/references/vrat-parichay-alias-match-draft.md`: Sankashti Chaturthi is described with a monthly Krishna Chaturthi + moonrise condition; Pradosh is described on both paksha Trayodashis; Vata Savitri notes different source traditions (Purnima vs Amavasya); Nirjala Ekadashi is Jyeshtha Shukla Ekadashi; Ashunya Shayan spans Shravan Krishna Dwitiya to Margashirsha Krishna Dwitiya; Mangala Gauri includes a multi-year sankalpa.
 - These are OCR-based spot checks, not complete page-image verification or a final shastric ruling. No executable rules or runtime records have been added. Next: transcribe the complete relevant passages with verified printed pages and define rule profiles/tests.
+
+
+
+## Priority rule-spec queue drafted (2026-10-14)
+
+- Added `data/references/vrat-parichay-priority-rule-spec-draft.md` for Sankashti Chaturthi, Pradosh, Vata Savitri, Nirjala Ekadashi, Ashunya Shayan, Mangala Gauri, Adhimas, Masik Shivaratri and Vaikuntha Chaturdashi.
+- Captured important rule distinctions from OCR: Sankashti sections contain different two-day tie-break wording; Pradosh depends on local evening timing, not just Trayodashi; Vata Savitri explicitly records Amavasya and Purnima traditions; Ashunya Shayan is a multi-month observance; Mangala Gauri is described with a five-year sankalpa.
+- Added minimum regression-test scenarios and a required source/rule record shape. No executable rules, runtime data, old dates, article links, eclipse logic or Blogger output were changed.
+- Next gate: verify the complete passages against the printed page images/edition and reconcile conflicting authority statements before writing code. Coordinate Ekadashi items with the separate Smarta/Vaishnava rule track.
