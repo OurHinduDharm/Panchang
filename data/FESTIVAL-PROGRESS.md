@@ -423,3 +423,12 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Added a source hierarchy separating vrata-day decision texts, observance/narrative texts, secondary discovery indexes, and independent astronomy/calendar computation.
 - Important limitation: Wikisource pages may be unproofread or OCR-derived; every claim needs work/chapter/verse or scan-page metadata and a contextual check. A Purana's vrata-mahatmya passage does not alone define the calendar date-selection algorithm.
 - No runtime rules or festival records were changed. The 122-record `data/festivals.json` remains unchanged; PR #33 remains Draft/unmerged.
+
+
+### Primary-text verification pass 1 (2026-10-14)
+- Inspected the accessible Wikisource text for Viramitrodaya-Samayaprakasha and Paramapurusha Samhita chapter 10. Viramitrodaya explicitly separates Vaishnava and Smarta Ekadashi decisions and treats edge cases; this supports keeping distinct tradition profiles rather than one universal predicate.
+- Paramapurusha Samhita chapter 10 provides an additional Pancharatra/Agama witness for Ekadashi rules, but the accessible text has OCR/typographical corruption. Logged as comparative evidence only, not a runtime authority.
+- Found a source-integrity issue: the Wikisource page titled आङ्गिरसस्मृतिः begins its body with “अथ वीरमित्रोदयस्य समयप्रकाशः”. The Chaturthi passage on that page mentions Chandrodaya-vyapini Sankashti, but attribution to Angirasa Smriti is not verified. The audit now explicitly flags this mismatch; no claim should cite it as Angirasa without resolving provenance.
+- Ashunya Shayana Dvitiya's Chandrodaya lead also appears on that mismatched page and remains provisional.
+- Updated data/references/transliteral-vrat-source-audit-draft.md with a source-by-source evidence matrix, quality caveats, implementation decisions, and next verification steps.
+- No changes to data/festivals.json, executable rules, live Blogger output, or PR merge status. PR #33 remains Draft/unmerged.
