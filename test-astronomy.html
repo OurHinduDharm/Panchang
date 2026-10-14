@@ -439,8 +439,10 @@
       <div id="frameCompareOutput"><div class="status info">Not run yet.</div></div>
       <h3>Chapter VII — same-instant frame sensitivity (research only)</h3>
       <p class="small">Compares the current scalar LST conversion against the full-vector meridian candidate using the same Sun/Venus EQD vectors at the same instant. This is an intermediate-term comparison, not proof that either frame is historically correct.</p>
-      <div class="controls"><button type="button" onclick="runChapter7FrameSensitivityDiagnostic()">Run Chapter VII frame comparison</button></div>
+      <div class="controls"><button type="button" onclick="runChapter7FrameSensitivityDiagnostic()">Run Chapter VII frame comparison</button>
+      <button type="button" onclick="runChapter7ObliquitySensitivityDiagnostic()">Compare 24° vs Chapter II.28 obliquity</button></div>
       <div id="chapter7FrameSensitivityOutput"><div class="status info">Not run yet.</div></div>
+      <div id="chapter7ObliquitySensitivityOutput"><div class="status info">Not run yet.</div></div>
     </section>
   </section>
 
@@ -4013,6 +4015,85 @@ function runChapter7FrameSensitivityDiagnostic() {
     "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Calculation path</th><th>Intermediate</th><th>Value</th><th>Notes</th></tr></thead><tbody>" +
     rows.join("") + "</tbody></table></div>" +
     "<div class='status warn'>Interpretation: this is a consistency diagnostic, not a historical-frame verdict. A large difference between the scalar baseline and vector obliquity-only path indicates a formula/implementation inconsistency to investigate. A difference appearing only after equinox rotation is a separate frame-convention effect. No Chapter IX K or event date is certified.</div>";
+}
+
+function runChapter7ObliquitySensitivityDiagnostic() {
+  const out = document.getElementById("chapter7ObliquitySensitivityOutput");
+  const date = new Date("2026-10-12T06:30:00Z");
+  const sourceObliquityDeg = trueObliquityOfDateDeg(date);
+  const sourceLST = normalize360(Astronomy.SiderealTime(date) * 15 + CONFIG.longitude);
+  const ayanamshaDeg = 24.217;
+  const candidates = [
+    { label: "Rounded classical construction", obliquityDeg: 24 },
+    {
+      label: "Chapter II.28 sine-table value",
+      obliquityDeg: chapter2SineTableObliquityDeg()
+    }
+  ];
+  const rows = [];
+  const fmt = v => Number.isFinite(v) ? v.toFixed(6) + "°" : "n/a";
+  const delta = (a, b) => ((a - b + 540) % 360) - 180;
+
+  for (const [bodyName, body] of [
+    ["Sun", Astronomy.Body.Sun],
+    ["Venus", Astronomy.Body.Venus]
+  ]) {
+    const state = getPlanetSiderealState(body, date);
+    if (!state) {
+      rows.push("<tr><td>" + bodyName + "</td><td colspan='4'>State unavailable</td></tr>");
+      continue;
+    }
+    const results = candidates.map(candidate => {
+      const result = calculateChapter7SequentialDrikkarma({
+        siderealLongitudeDeg: state.longitude,
+        planetLatitudeDeg: state.latitude,
+        observerLatitudeDeg: CONFIG.latitude,
+        localSiderealAngleDeg: sourceLST,
+        localSiderealObliquityDeg: sourceObliquityDeg,
+        ayanamshaDeg,
+        obliquityDeg: candidate.obliquityDeg,
+        planetDeclinationDeg: state.declination,
+        planetRightAscensionDeg: state.rightAscension
+      });
+      return { ...candidate, result };
+    });
+    for (const item of results) {
+      const r = item.result;
+      for (const [name, value] of [
+        ["Calculation-frame LST", r?.calculationFrameSiderealAngleDeg],
+        ["Planet RA", r?.planetRAForAksha],
+        ["Planet declination", r?.planetDeclinationForHalfDay],
+        ["Hour angle", r?.hourAngleDeg],
+        ["Half-day angle", r?.halfDayAngleDeg],
+        ["Āyana correction", r?.ayanaDeg],
+        ["Akṣa correction", r?.akshaDeg],
+        ["Total correction", r?.totalCorrection],
+        ["Corrected longitude", r?.correctedLongitude]
+      ]) {
+        rows.push("<tr><td>" + bodyName + "</td><td>" + item.label + " (" +
+          item.obliquityDeg.toFixed(7) + "°)</td><td>" + name + "</td><td>" +
+          fmt(value) + "</td></tr>");
+      }
+    }
+    const a = results[0].result;
+    const b = results[1].result;
+    for (const [name, av, bv] of [
+      ["Δ calculation-frame LST", a?.calculationFrameSiderealAngleDeg, b?.calculationFrameSiderealAngleDeg],
+      ["Δ Āyana correction", a?.ayanaDeg, b?.ayanaDeg],
+      ["Δ Akṣa correction", a?.akshaDeg, b?.akshaDeg],
+      ["Δ total correction", a?.totalCorrection, b?.totalCorrection],
+      ["Δ corrected longitude", a?.correctedLongitude, b?.correctedLongitude]
+    ]) {
+      rows.push("<tr><td>" + bodyName + "</td><td>Difference (sine-table − 24°)</td><td>" +
+        name + "</td><td>" + fmt(name.includes("longitude") ? delta(bv, av) : bv - av) + "</td></tr>");
+    }
+  }
+
+  out.innerHTML =
+    "<div class='status info'>Fixed instant: 2026-10-12 12:00 IST. Same modern geocentric state and 24.217° comparison ayanāṃśa for both candidates. Only the classical obliquity is changed: 24° versus asin(1397/3438) ≈ 23.9751819°.</div>" +
+    "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Candidate</th><th>Intermediate</th><th>Value</th></tr></thead><tbody>" +
+    rows.join("") + "</tbody></table></div>" +
+    "<div class='status warn'>Sensitivity only: this tests the numerical effect of the two obliquity assumptions. Chapter II.28's sine-table value is text-derived, but whether it is the exact obliquity intended for this Chapter VII construction still requires contextual/source review. This does not certify a Chapter IX K or event date.</div>";
 }
 
 function runFrameCompareDiagnostic() {
