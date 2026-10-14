@@ -114,3 +114,5 @@ The user confirmed separate Smarta and Vaishnava Ekadashi decision profiles. If 
 - The OCR book mentions 45/55-ghati views; the condensed Dharma Sindhu English translation has an ambiguous 57/60-ghati phrase. These figures must not be merged into a single threshold until the original printed/source passage and its reference point are verified.
 - The Narada Purana online commentary and translated passage should be kept at different evidence levels (editorial note vs translated text). Mahadwadashi name lists also vary across texts/translations (the OCR has Papanashini; one Narada Purana translation list includes Aparajita), so names and triggers require individual verification.
 - No code rules promoted to `verified-rule`; no production Blogger changes. Draft PR #33 remains unmerged.
+
+- Added `data/references/ekadashi-rule-matrix-draft.md`: a preliminary case matrix for normal tithi, Arunodaya-vedha, Suryodaya-vedha, Ekadashi/Dwadashi vriddhi, kshaya, Mahadwadashi and Parana. Every row remains research-only until source-reviewed; it is not executable logic.
