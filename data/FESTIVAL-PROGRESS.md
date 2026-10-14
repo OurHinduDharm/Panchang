@@ -462,3 +462,21 @@ An external Gemini response was checked against accessible source transcriptions
 Detailed notes and links: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-source-audit-draft.md).
 
 **No changes** were made to `data/festivals.json`, runtime logic, legacy dates, or Blogger output. Draft PR #33 remains an audit-only branch.
+
+
+## Decision-matrix work completed — 2026-10-14
+
+Added a first source-backed, non-executable case matrix to the audit file for:
+- Ekadashi: Smarta/Vaishnava profile, Arunodaya vs sunrise vedha, duration classes, tithi-kshaya, and separately sourced parana.
+- Sankashti Chaturthi: one-day, both-day, neither-day, and moonrise/tithi boundary cases; the two-day tie-break disagreement is preserved.
+- Maha Shivaratri vs monthly Shivaratri: Pradosha/Nishitha combinations, two-day overlap cases, and month-label conventions.
+
+The matrices use consulted TransLiteral/Wikisource transcriptions and are explicitly marked as research aids pending print-edition/page-image verification. Synthetic test fixtures are listed; they are not production dates.
+
+Sources:
+- [Dharmasindhu Vaishnava vrata-day decision](https://www.transliteral.org/pages/z80422042154/view)
+- [Viramitrodaya-Samayaprakasha](https://sa.wikisource.org/wiki/वीरमित्रोदयः_-_समयप्रकाशः)
+- [Vachaspatiyam entry on Chaturthi decisions](https://sa.wikisource.org/wiki/वाचस्पत्यम्/तान)
+- [Nirnayasindhu Shivaratri decision](https://www.transliteral.org/pages/z130621065953/view)
+
+No changes to `data/festivals.json`, executable rules, legacy dates, or Blogger output. Draft PR #33 remains unmerged.
