@@ -62,3 +62,21 @@ Last updated: 2026-10-14
 
 ## Next concrete task
 Start with an audit of `data/festivals.json` and `data/festivalData-source.txt`; publish a concise issue list in this folder. Do not present provisional rules as verified. Keep all edits on the draft branch until user reviews.
+
+
+## Audit snapshot (2026-10-14)
+A programmatic first-pass scan of the migrated JSON found:
+- 122 records total; 32 have neither an extracted article URL nor an HTML link in the description; 2 descriptions are empty.
+- Only 6 records mention Ekadashi (including mixed festivals); this is not a complete Ekadashi catalog.
+- 4 records match eclipse-related text, but one is a Navratri entry mentioning another event; the real eclipse records need careful review.
+- 22 records preserve an original `endDate`; these include observance periods, but the old field should not be interpreted automatically as a multi-stage ritual schedule.
+- 18 records have dates in 2025 or the placeholder `1970-01-01`; these are priority review items, not automatic corrections.
+- Some entries clearly combine distinct observances (e.g. Dattatreya Jayanti and Tripura Bhairavi/Sri Vidya/Annapurna Jayanti; Diwali/Lakshmi Puja; Mokshada Ekadashi/Gita Jayanti). Decide whether to represent as linked observances or separate records while preserving source text.
+- Existing Navratri records demonstrate why a single date field is insufficient: start, each day/deity, Ashtami, Navami, Havan, Sandhi Puja, Parana and Kalash immersion may require separate rule-based stages. Legacy times in descriptions are not automatically valid for every city/year.
+- The first pass is a triage scan only; no dates or ritual rules have been certified by this scan.
+
+## Immediate next steps after this scan
+1. Create a review ledger by record ID: priority, issue, evidence/source, required action, status.
+2. Inspect all Ekadashi entries and design a separate canonical list of the 24 regular observances plus Adhik Maas cases, with regional/sampradaya variants noted rather than flattened.
+3. Audit the eclipse records against `eclipse-panchang.js` and current astronomical output; keep visibility and ritual/sutak policy separate.
+4. Design a reusable Muhurat rule catalog and event-stage schema before changing the Blogger UI.
