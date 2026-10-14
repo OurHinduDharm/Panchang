@@ -379,3 +379,9 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - The index is a discovery map, not a single primary source. The general rules page includes vrata classifications and a general two-ghati-after-sunset Pradosha statement; keep this distinct from specific vrata-date selection rules.
 - Added `data/references/transliteral-vrat-source-audit-draft.md` with links, initial observations, and source-verification workflow. Preserve Smarta/Vaishnava separation; do not equate general Vaishnava with ISKCON/GCAL.
 - Research notes only; no runtime code, `data/festivals.json`, legacy dates, or Blogger output changed. PR #33 remains Draft/unmerged.
+
+
+### Monthly vrata index follow-up (2026-10-14)
+- Reopened the user's TransLiteral monthly index https://www.transliteral.org/pages/i090114020125/view. It links all 12 lunar months, with separate Krishna-paksha and Shukla-paksha sub-indexes for each month. Opened Chaitra, Vaishakha, Jyeshtha, Shravan and Kartik month index pages; these are mainly navigation indexes leading to the paksha sub-indexes rather than the full vrat rules themselves.
+- The index last-updated date is January 22, 2014, so do not assume completeness. Continue down both paksha branches for each month and inspect individual observance pages, then compare against `festivals.json` and Vrat-Parichay.
+- Updated `data/references/transliteral-vrat-source-audit-draft.md`. No runtime code or festival data changed; PR #33 remains Draft/unmerged.
