@@ -540,3 +540,9 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Added `data/references/mahadvadashi-comparative-crosscheck.md` with verse-level and secondary cross-check links for Unmīlanī, Vañjulī, Trispr̥śā, and Pakṣavardhinī.
 - Logged provisional rule hypotheses without treating online summaries as proof of the 1907 Dharmasindhu scan. Hari-vāsara's exact anchor and the contextual meaning of “kalā” remain unresolved.
 - No runtime rules, `data/festivals.json`, legacy dates, Blogger output, or PR merge state changed.
+
+### Owner-supplied parana / Mahadvadashi passage — follow-up test cases (2026-10-14)
+- Expanded `data/references/vrata-decision-test-matrix.md` with G9 cases for the Trayodashi fallback, separate “बहवः / केचित्” midday pāraṇa views, Śravaṇa minimum-conjunction duration, the distinct sunrise-to-sunset nakṣatra condition, and unresolved tithi/nakṣatra conjunction-end syntax.
+- Added separate observational/capacity fixtures for the supplied note about two Ekādaśī fasts; these are not mixed into astronomical Mahādvādaśī classification.
+- All new cases are explicitly provisional or blocked pending collation of the printed Sanskrit and context. No Sanskrit ambiguity was converted into a runtime predicate.
+- Documentation/test-specification only. No changes to `data/festivals.json`, runtime JavaScript, legacy dates, Blogger output, or PR #33 merge state.
