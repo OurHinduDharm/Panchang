@@ -240,3 +240,31 @@ Expected behaviour for all four while a required definition is missing: `unresol
 - Validate all timestamps are finite and ordered; missing, malformed, or reversed intervals return `unresolved`, not `false`.
 - Keep `nakṣatra conjunction`, `Mahādvādaśī classification`, `vrata-day selection`, and `pāraṇa window` as separate results.
 - Attach source profile `dharmasindhu-1907-p17-working`, rule ID, location/timezone, and a human-readable reason to every final decision.
+
+### G9. Owner-supplied Hindi passage — additional blocked/provisional cases
+
+These cases record the additional passage supplied by the project owner. They are **research fixtures only**: the translation is captured, but the relevant printed Sanskrit syntax and the full contextual scope have not yet been visually collated. Do not convert these into runtime rules yet.
+
+| ID | Synthetic condition | Expected test behaviour | Status |
+|---|---|---|---|
+| PAR-09 | No Dvādaśī kalā is available in the relevant following-day context | Candidate rule says pāraṇa on Trayodaśī; keep result unresolved until the antecedent/context and exact Sanskrit are verified | Blocked: context |
+| PAR-10A | Dvādaśī is present after Madhyāhna; candidate pāraṇa is within the first three morning muhūrtas | Evaluate under the attributed “bahavaḥ” view only; the exact anchor for the three muhūrtas must be sourced | Provisional |
+| PAR-10B | Same tithi configuration; candidate pāraṇa is after Madhyāhna | Reject under the “bahavaḥ” view; do not treat this as a universal rule | Provisional |
+| PAR-10C | Same configuration, alternate “kecit” view | Preserve the afternoon preference as a separate view/profile, not as a silent override of “bahavaḥ” | Provisional |
+| SHR-06 | Dvādaśī and Śravaṇa overlap for only one muhūrta | Translation suggests that even a muhūrta of conjunction may count; verify exact wording and scope before marking the observance qualified | Blocked: Sanskrit collation |
+| SHR-07 | Dvādaśī and Puṣya (or another nakṣatra in the stated group) overlap for less than sunrise-to-sunset | Do not automatically apply the Śravaṇa one-muhūrta criterion; evaluate the separately translated sunrise-to-sunset condition only after confirming its exact scope | Blocked: Sanskrit collation |
+| SHR-08 | Tithi/nakṣatra conjunction ends, with both endpoints available | Keep pāraṇa timing unresolved until the Sanskrit syntax establishes whether it means after the conjunction ends, after either component ends, or another condition | Blocked: syntax |
+| SHR-09 | One tithi or nakṣatra endpoint is missing | Return unresolved; do not infer the conjunction end or a pāraṇa time | Required |
+| MDV-09 | Two Ekādaśī fasts fall on the same day | Preserve the source's stated tantra-method note as an observance/capacity rule; do not mix it into astronomical Mahādvādaśī classification | Blocked: exact method |
+| MDV-10 | Two fasts fall on separate days and the observer is capable of both | Keep the stated “capable person performs both” rule separate from tithi classification; verify the full source context | Blocked: scope |
+| MDV-11 | The observer began both observances but cannot complete both | Preserve the translated Dvādaśī-fast merit statement as a source-specific ritual/capacity note; do not generalize it into a date-selection algorithm | Blocked: scope |
+
+#### G9.1 Required Sanskrit checks before these tests can pass
+
+1. Verify the exact reading and context of “कलामात्राया अपि द्वादश्या अभावे त्रयोदश्यां पारणम्”.
+2. Verify the anchor and meaning of “प्रातर्मुहूर्तत्रयमध्य एव पारणं न मध्यादूर्ध्वम्” and retain the separate “बहवः / केचित्” opinions.
+3. Verify the complete Sanskrit sentence governing Śravaṇa conjunction and the minimum duration.
+4. Verify the sentence translated as pāraṇa after the end of the tithi-nakṣatra conjunction; do not choose a grammatical interpretation from the translation alone.
+5. Keep the eight Mahādvādaśī names/pairings and the additional observance/capacity notes as separate outputs.
+
+**No production authorization:** all cases above remain documentation-only. No festival date, data/festivals.json, runtime JavaScript, Blogger output, or PR merge state is changed by this test specification.
