@@ -416,3 +416,10 @@ Implementation gate: no rule becomes executable solely because it matches a publ
 - Masik Shivaratri has only an annual Mahashivaratri title match; Pradosha appears only as incidental description substrings; existing named Ekadashi records do not constitute a complete monthly decision profile.
 - Vata Savitri only substring-matches an incidental mention inside the Shani Jayanti description, not a dedicated record. Two records (`festival-049`, `festival-074`) are both titled मासिक कालाष्टमी and require a separate duplicate review.
 - Updated the TransLiteral audit with the cross-check table. No data or runtime changes were made; 122 legacy records and their source text remain untouched, and PR #33 remains Draft/unmerged.
+
+
+### Added Wikisource Sanskrit-text layer (2026-10-14)
+- User requested using additional Sanskrit texts available on Wikisource. Added a structured source-lead table to the TransLiteral audit for Angirasa Smriti (Chaturthi decision / Chandrodaya-vyapini Sankashti), Viramitrodaya-Samayaprakasha (Ekadashi kshaya and vrata decision), Paramapurusha Samhita chapter 10, Vaikhanasa Grihya Sutra scan pages, Skanda Purana Ambikakhanda chapters, Skanda Purana Kartika-mahatmya cross-reference note, and Narada Samhita.
+- Added a source hierarchy separating vrata-day decision texts, observance/narrative texts, secondary discovery indexes, and independent astronomy/calendar computation.
+- Important limitation: Wikisource pages may be unproofread or OCR-derived; every claim needs work/chapter/verse or scan-page metadata and a contextual check. A Purana's vrata-mahatmya passage does not alone define the calendar date-selection algorithm.
+- No runtime rules or festival records were changed. The 122-record `data/festivals.json` remains unchanged; PR #33 remains Draft/unmerged.
