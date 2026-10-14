@@ -69,3 +69,12 @@ Related files:
 - [Parana and Mahādvādaśī research note](dharmasindhu-parana-mahadvadashi-hindi-passage.md)
 - [Hindi-edition cross-check](dharmasindhu-ekadashi-hindi-editions-crosscheck.md)
 - [Vrata decision test matrix](vrata-decision-test-matrix.md)
+
+## Update after repository image review (2026-10-14)
+
+Relevant scans are now present in `data/references/` and have been visually inspected:
+- Khemraj Sanskrit + Hindi commentary, printed pp. 31–33: images `Dharma Sindhu of Kashinath Upadhyay with Bhasha Tika by Mihir Chandra - Khemraj_0054.jpg` through `_0056.jpg`.
+- Rajvaidya Hindi edition, printed pp. 32–33 for the Mahādvādaśī section: images `Dharma Sindhu - Rajvaidya Ravidutta Shastry_0056.jpg` and `_0057.jpg`.
+- Rajvaidya images `_0049.jpg` through `_0052.jpg` were also inspected for the Ekādaśī decision context.
+
+See [Dharmasindhu image collation](dharmasindhu-image-collation-2026-10-14.md) for the working visual transcription. The main Sanskrit names/pairings and parana alternatives are now visually supported. Remaining unresolved items are interpretation: the anchor for “प्रातर्मुहूर्तत्रय”, scope of the Trayodaśī fallback, the later Bhādrapada Viṣṇu-śṛṅkhala cross-reference, “दिनवृद्धि” as an executable predicate, and the grammar of “उभयान्तेऽन्यतरान्ते च”. Do not code those unresolved meanings by guesswork.
