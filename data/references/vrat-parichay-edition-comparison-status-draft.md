@@ -80,3 +80,13 @@ First direct textual confirmations from the Internet Archive transcript:
 The second user-provided item `https://archive.org/details/610-vrat-parichay` could not be retrieved by the web reader in this pass (DisabledError). It should be checked separately for edition/imprint differences. The Archive.org OCR is useful for text-level cross-checks now; for image verification use the item's Bookreader/PDF/page-image links and record printed page versus scan index.
 
 No runtime code or festivals.json changed. Keep PR #33 Draft/unmerged. Continue by checking the Archive transcript's priority passages and, where possible, page images; retain edition-specific attribution and do not yet implement date rules.
+
+
+## User supplied a clearer 1956 Archive.org copy (2026-10-14)
+
+User identified this additional, potentially cleaner scan:
+- https://archive.org/details/fkvt_vrat-parichay-by-pandit-hanuman-sharma-hindi-hindu-rituals-1956-gorakhpur-gita-press
+
+The item title identifies it as *Vrat-Parichay*, by Pandit Hanuman Sharma, Hindi, Hindu rituals, 1956, Gorakhpur, Gita Press. The web reader returned `DisabledError` when opening this item, so the metadata, PDF file identifier, OCR transcript, and page images have **not yet been independently inspected** in this pass. Treat 1956 as the title/metadata claim from the user-provided item URL, pending reading the item page/imprint. Do not assume it is the same edition as the संवत् २०७०, चौबीसवाँ पुनर्मुद्रण item at `https://archive.org/details/vrata-parichaya`.
+
+This is now the priority candidate for page-image verification because the user describes it as a clean, clear copy. Next inspect its item metadata and files (PDF, DjVu/XML OCR, page images), confirm the title/imprint page, then map printed page numbers to scan indices and compare priority passages. No executable rule should be finalized from a title alone.
