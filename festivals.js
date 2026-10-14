@@ -2,15 +2,9 @@ import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js
 import { festivalName, isHinduFestival } from "./festival-filter.js";
 
 /*
- * OurHinduDharm — Hindu festival card
- *
- * Intentionally conservative: the library's festival category metadata is
- * not assumed to prove that an event is Hindu. Events are displayed only
- * when their names match known Hindu vrata/parva terminology. This avoids
- * showing national days and festivals of other religions by default.
- *
- * Before broadening this catalogue, audit actual p.festivals output against
- * a trusted Hindu festival list and add regression tests.
+ * OurHinduDharm — Hindu festival card.
+ * Only reviewed Hindu vrata/parva terminology is shown; the list is kept
+ * concise and duplicate aliases for the same named festival are collapsed.
  */
 
 // Keep this fallback identical to app.js's default Pithoragarh location.
@@ -19,8 +13,6 @@ const DEFAULT_LOCATION = {
   longitude: 80.2182,
   elevation: 1650
 };
-
-
 
 function getSelectedDate() {
   return document.getElementById("dateInput")?.value || null;
@@ -48,7 +40,6 @@ function getObserver() {
   );
 }
 
-
 function formatHindiDate(dateString) {
   const date = new Date(dateString + "T12:00:00+05:30");
   if (Number.isNaN(date.getTime())) return dateString;
@@ -62,6 +53,20 @@ function formatHindiDate(dateString) {
 
 function getResultsGrid() {
   return document.querySelector("#result > .grid, #result .grid");
+}
+
+function deduplicateFestivals(festivals) {
+  const seen = new Set();
+  return festivals.filter(item => {
+    const name = festivalName(item);
+    const normalized = name.toLocaleLowerCase().replace(/[()]/g, " ").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+
+    // Different library labels can refer to the same Maha Ashtami observance.
+    const key = /durga ashtami|दुर्गाष्टमी/i.test(name) ? "durga-ashtami" : normalized;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function renderFestivalCard(dateString, festivals, errorMessage = "") {
@@ -95,7 +100,7 @@ function renderFestivalCard(dateString, festivals, errorMessage = "") {
   } else if (!festivals.length) {
     const message = document.createElement("div");
     message.style.cssText = "font-size:13px;color:#666;";
-    message.textContent = "लाइब्रेरी की सूची में इस तिथि से मेल खाता हिंदू व्रत-पर्व नहीं मिला।";
+    message.textContent = "इस तिथि के लिए कोई व्रत-पर्व सूचीबद्ध नहीं है।";
     card.appendChild(message);
   } else {
     const list = document.createElement("ul");
@@ -110,7 +115,7 @@ function renderFestivalCard(dateString, festivals, errorMessage = "") {
 
   const note = document.createElement("div");
   note.style.cssText = "margin-top:8px;font-size:11px;color:#777;line-height:1.5;";
-  note.textContent = "सूची लाइब्रेरी के पर्व-डेटा पर आधारित है। स्थानीय परंपरा, व्रत-निर्णय, पूजा-मुहूर्त और पारण का समय अलग से जाँचें।";
+  note.textContent = "व्रत-निर्णय, पूजा-मुहूर्त और पारण का समय स्थानीय परंपरा के अनुसार अलग हो सकता है।";
   card.appendChild(note);
 
   grid.appendChild(card);
@@ -131,7 +136,7 @@ function updateHinduFestivals() {
     const date = new Date(dateString + "T12:00:00+05:30");
     const panchang = getPanchangam(date, location, { timezoneOffset: 330 });
     const allFestivals = Array.isArray(panchang?.festivals) ? panchang.festivals : [];
-    const filtered = allFestivals.filter(isHinduFestival);
+    const filtered = deduplicateFestivals(allFestivals.filter(isHinduFestival));
     renderFestivalCard(dateString, filtered);
     lastRenderKey = renderKey;
 
@@ -165,9 +170,7 @@ function initHinduFestivals() {
     updateHinduFestivals();
   });
 
-  // The main Panchang renderer can replace #result when date/location changes.
-  // Restore the festival card after that render without observing our own card
-  // insertion as a new render request.
+  // Restore the festival card if the main Panchang renderer replaces #result.
   const resultRoot = document.getElementById("result");
   if (resultRoot && typeof MutationObserver !== "undefined") {
     const observer = new MutationObserver(() => {
