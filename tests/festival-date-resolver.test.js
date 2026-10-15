@@ -110,6 +110,38 @@ test("source-only records never become display cards", () => {
   assert.deepEqual(result.displayDates, []);
 });
 
+test("monthly Kalashtami resolves every supplied Krishna Ashtami regardless of month label", () => {
+  const monthly = catalog.festivals.find((item) => item.id === "festival-kalashtami-recurring");
+  const result = resolver.resolveFestivalDate(monthly, {
+    year: 2027,
+    panchangDays: [
+      { date: "2027-01-05", month: "Pausha", paksha: "Krishna", tithi: "Ashtami" },
+      { date: "2027-02-04", month: "Magha (Purnimanta)", paksha: "कृष्ण पक्ष", tithi: "कृष्ण अष्टमी" },
+      { date: "2027-02-05", month: "Magha", paksha: "शुक्ल", tithi: "अष्टमी" },
+      { date: "2026-12-29", month: "Pausha", paksha: "कृष्ण", tithi: "अष्टमी" }
+    ]
+  });
+  assert.equal(result.status, "matched");
+  assert.deepEqual(result.displayDates.map((item) => item.date), ["2027-01-05", "2027-02-04"]);
+  assert.equal(result.method, "recurring-panchang-tithi");
+});
+
+test("annual Kalabhairava Ashtami resolves only Margashirsha Krishna Ashtami, separately from monthly observances", () => {
+  const annual = catalog.festivals.find((item) => item.id === "festival-027");
+  const result = resolver.resolveFestivalDate(annual, {
+    year: 2027,
+    panchangDays: [
+      { date: "2027-01-05", month: "Pausha", paksha: "कृष्ण", tithi: "अष्टमी" },
+      { date: "2027-11-20", month: "मार्गशीर्ष", paksha: "कृष्ण पक्ष", tithi: "कृष्ण अष्टमी" },
+      { date: "2027-11-21", month: "मार्गशीर्ष", paksha: "शुक्ल पक्ष", tithi: "अष्टमी" },
+      { date: "2026-11-30", month: "मार्गशीर्ष", paksha: "कृष्ण", tithi: "अष्टमी" }
+    ]
+  });
+  assert.equal(result.status, "matched");
+  assert.deepEqual(result.displayDates.map((item) => item.date), ["2027-11-20"]);
+  assert.equal(result.displayDates[0].method, "panchang-tithi-match");
+});
+
 test("stored Gregorian candidates from a different year are not reused as recurring dates", () => {
   const papankusha = catalog.festivals.find((item) => item.id === "festival-128");
   const result = resolver.resolveFestivalDate(papankusha, { year: 2027 });
