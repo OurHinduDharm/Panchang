@@ -11,7 +11,7 @@ test("adapter normalizes library tithi, paksha, and lunar month values to Hindi"
   assert.equal(adapter.monthHindi("Kartika"), "कार्तिक");
 });
 
-test("adapter calculates local sunrise and night-midpoint candidate data with an injected Panchang engine", async () => {
+test("adapter calculates local sunrise, Pradosh, and Madhyahna data with an injected Panchang engine", async () => {
   const calls = [];
   function FakeObserver(latitude, longitude, elevation) {
     this.latitude = latitude; this.longitude = longitude; this.elevation = elevation;
@@ -35,7 +35,38 @@ test("adapter calculates local sunrise and night-midpoint candidate data with an
   assert.ok(result.candidateDates.length > 0);
   assert.ok(result.sunriseDays.length > 0);
   assert.ok(result.nightMidpointDays.length > 0);
+  assert.ok(Array.isArray(result.monthlyDecisionDays));
+  assert.ok(Array.isArray(result.annualDecisionDays));
   assert.ok(calls.every(call => call.options.timezoneOffset === 330));
   assert.equal(result.latitude, 30.1265);
-  assert.match(result.note, /not a certified Nishita/);
+  assert.match(result.note, /Pradosh/);
+  assert.match(result.note, /Madhyahna/);
+});
+
+
+test("monthly Kalashtami prefers a Krishna Ashtami that overlaps Pradosh", () => {
+  const days = [
+    { date: "2027-01-28", sunrise: true, pradosh: false, madhyahna: true },
+    { date: "2027-01-29", sunrise: true, pradosh: true, madhyahna: true }
+  ];
+  assert.equal(adapter.selectMonthlyDateForEvent(days).date, "2027-01-29");
+});
+
+test("annual Bhairava Ashtami applies the distinct Dharmasindhu tie-breaks", () => {
+  assert.equal(adapter.selectAnnualBhairavaDate([
+    { date: "2027-11-20", pradosh: true, madhyahna: false },
+    { date: "2027-11-21", pradosh: true, madhyahna: false }
+  ]).date, "2027-11-21");
+  assert.equal(adapter.selectAnnualBhairavaDate([
+    { date: "2027-11-20", pradosh: true, madhyahna: true },
+    { date: "2027-11-21", pradosh: true, madhyahna: true }
+  ]).date, "2027-11-20");
+  assert.equal(adapter.selectAnnualBhairavaDate([
+    { date: "2027-11-20", pradosh: true, madhyahna: false },
+    { date: "2027-11-21", pradosh: false, madhyahna: true }
+  ]).date, "2027-11-20");
+  assert.equal(adapter.selectAnnualBhairavaDate([
+    { date: "2027-11-20", pradosh: false, madhyahna: false },
+    { date: "2027-11-21", pradosh: false, madhyahna: true }
+  ]).date, "2027-11-21");
 });
