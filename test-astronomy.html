@@ -3473,6 +3473,50 @@ async function runSameInstantTksSnapshotAudit() {
     return;
   }
 
+  // Isolated hypothesis test: carry the local meridian through the complete
+  // modern-to-classical 3-D frame transform (including the equinox rotation),
+  // instead of changing only the obliquity. This is a diagnostic candidate,
+  // not a chosen historical convention and not a production algorithm.
+  let fullFrameMeridian = null;
+  let fullFrameError = "";
+  try {
+    const state = getPlanetSiderealState(BODY_NAMES.Venus, instant);
+    const modernLST = normalize360(Astronomy.SiderealTime(instant) * 15 + TKS_CONFIG.longitude);
+    const modernObliquity = trueObliquityOfDateDeg(instant);
+    const classicalLST = modernLocalSiderealAngleToClassicalFrame({
+      localSiderealAngleDeg: modernLST,
+      sourceObliquityDeg: modernObliquity,
+      ayanamshaDeg: 24.217,
+      classicalObliquityDeg: 24
+    });
+    const corrected = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: state.longitude,
+      planetLatitudeDeg: state.latitude,
+      observerLatitudeDeg: TKS_CONFIG.latitude,
+      localSiderealAngleDeg: classicalLST,
+      localSiderealObliquityDeg: 24,
+      ayanamshaDeg: 24.217,
+      obliquityDeg: 24,
+      planetDeclinationDeg: state.declination,
+      planetRightAscensionDeg: state.rightAscension
+    });
+    if (corrected) {
+      fullFrameMeridian = chapter9LagnantaraAsus({
+        sunSiderealLongitudeDeg: sunState.longitude,
+        planetSiderealLongitudeDeg: corrected.correctedLongitude,
+        direction,
+        observerLatitudeDeg: TKS_CONFIG.latitude,
+        ayanamshaDeg: 24.217,
+        obliquityDeg: 24
+      });
+      fullFrameMeridian.drikkarma = corrected;
+      fullFrameMeridian.classicalLST = classicalLST;
+      fullFrameMeridian.modernLST = modernLST;
+    }
+  } catch (error) {
+    fullFrameError = String(error?.message || error);
+  }
+
   let swiss = null;
   let swissError = "";
   try {
@@ -3490,6 +3534,8 @@ async function runSameInstantTksSnapshotAudit() {
     '<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Our current candidate</th><th>Our sequential candidate</th><th>Owner-supplied TKS snapshot</th></tr></thead><tbody>' +
     '<tr><td>IX.2–3 event branch</td><td colspan="2">' + event + ' (' + (motion < 0 ? 'retrograde' : 'direct') + ')</td><td>Venus Asta panel</td></tr>' +
     '<tr><td>Chapter III sign-table K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698° (TKS label: K)</td></tr>' +
+    '<tr><td>Full 3-D meridian-frame candidate K</td><td colspan="2">' + (fullFrameMeridian ? fmt(fullFrameMeridian.K) + ' (Δ vs sequential ' + fmt(fullFrameMeridian.K - sequential.K) + ')' : 'Unavailable') + '</td><td>' + (fullFrameMeridian ? 'Gap vs TKS: ' + fmt(fullFrameMeridian.K - targetK) : fullFrameError || 'Not available') + '</td></tr>' +
+    '<tr><td>Full-frame local sidereal angle</td><td colspan="2">' + (fullFrameMeridian ? fmt(fullFrameMeridian.classicalLST) : '—') + '</td><td>Modern LST: ' + (fullFrameMeridian ? fmt(fullFrameMeridian.modernLST) : '—') + '</td></tr>' +
     '<tr><td>Swiss Ephemeris K (same geometry)</td><td colspan="2">' + (swiss ? fmt(swiss.K) : 'Unavailable') + '</td><td>' + (swiss ? 'Swiss−AE: ' + fmt(swiss.K - current.K) : swissError || 'Not available') + '</td></tr>' +
     '<tr><td>Exact analytical oblique-ascension K</td><td>' + fmt(current.exactK) + '</td><td>' + fmt(sequential.exactK) + '</td><td>Not supplied</td></tr>' +
     '<tr><td>Sign-table K minus exact OA K</td><td>' + fmt(current.K - current.exactK) + '</td><td>' + fmt(sequential.K - sequential.exactK) + '</td><td>—</td></tr>' +
