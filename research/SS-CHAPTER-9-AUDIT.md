@@ -951,3 +951,10 @@ The full-frame transform changes the local sidereal angle from 198.562661° to 1
 Workflow #518 passed on commit `078a4e608a12697aed00da5a8a7ebff2ba8b1fc1`: the headless Chromium test rendered the added row, the current/sequential tables rendered without browser errors, and the production-isolation diff check passed. Run: https://github.com/OurHinduDharm/Panchang/actions/runs/38688458608.
 
 **Next controlled step:** request the public TKS ephemeris endpoint for the Sun and Venus at exactly 2026-10-12 06:30 UTC, same coordinates, and capture the raw apparent longitude/latitude, RA/declination, ayanāṃśa, and time/frame labels. Recompute K from those inputs without changing the reported K output. If the endpoint does not expose the needed state or the TKS intermediate K components, record the remaining gap as underdetermined rather than tune the formula.
+
+
+## Same-instant TKS raw-state capture — diagnostic usability update (15 October 2026)
+
+The manual capture in `test-astronomy.html` now preserves the complete HTTP response text and parsed JSON while also listing candidate fields that are actually present in that JSON (time scales/JD, kernel or ephemeris identifiers, state vectors, RA/declination, ecliptic coordinates, ayanāṃśa, nirayana/sidereal longitude, and frame/epoch metadata). The field extractor is a display aid only: it does not infer missing fields, transform coordinates, or compute K from the reported TKS K. An empty extracted list is not evidence that the endpoint lacks a field unless the raw response itself is also inspected.
+
+The request still sends `date=2026-10-12`, `time=12:00`, place and coordinates, but no timezone parameter. Thus the requested civil-time interpretation is not yet proven to be the same instant as 06:30 UTC; the exact URL and raw response must be retained, and the endpoint's documented time convention must be established before calculating a like-for-like K. Browser CORS/network errors remain distinct from an HTTP response. This remains research-only; production files are not changed.
