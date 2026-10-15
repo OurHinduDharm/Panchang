@@ -43,7 +43,7 @@ function firstIntervalByIndex(items, index) {
 }
 
 function validCalculationInput({ date, latitude, longitude }) {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(date)) ||
+  if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(String(date)) ||
       !Number.isFinite(Number(latitude)) ||
       !Number.isFinite(Number(longitude))) return false;
   const parsed = new Date(String(date) + "T00:00:00Z");
@@ -61,7 +61,7 @@ function createFestivalMuhurtaEngine({ getPanchangam, Observer, rules }) {
   }
 
   function calculateGhatasthapana({ date, latitude, longitude, elevation = 0, timezoneOffset = 330 }) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date)) ||
+  if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(String(date)) ||
         !Number.isFinite(Number(latitude)) ||
         !Number.isFinite(Number(longitude))) {
       return { status: "calculation-unavailable", reason: "invalid-input", window: null, warnings: ["तारीख और स्थान के निर्देशांक उपलब्ध नहीं हैं"] };
