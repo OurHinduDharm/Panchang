@@ -4,7 +4,10 @@
   "title": "OurHinduDharm Festival Data",
   "description": "Draft structure for migrating the existing Blogger festivalData. This schema does not decide or certify festival dates.",
   "type": "object",
-  "required": ["schemaVersion", "festivals"],
+  "required": [
+    "schemaVersion",
+    "festivals"
+  ],
   "properties": {
     "schemaVersion": {
       "type": "integer",
@@ -15,32 +18,58 @@
     },
     "notes": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "festivals": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "name", "date"],
+        "required": [
+          "id",
+          "name",
+          "date"
+        ],
         "properties": {
           "id": {
             "type": "string",
             "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
           },
-          "name": { "type": "string", "minLength": 1 },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
           "alternateNames": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
-          "category": { "type": ["string", "null"] },
-          "description": { "type": ["string", "null"] },
+          "category": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "articleUrl": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uri"
           },
           "date": {
             "type": "object",
-            "required": ["type"],
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "enum": [
@@ -53,26 +82,71 @@
                 ]
               },
               "start": {
-                "type": ["string", "null"],
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date"
               },
               "end": {
-                "type": ["string", "null"],
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date"
               },
-              "rule": { "type": ["string", "null"] },
-              "tithi": { "type": ["string", "null"] },
-              "paksha": { "type": ["string", "null"] },
-              "month": { "type": ["string", "null"] },
-              "calculationNotes": { "type": ["string", "null"] }
+              "rule": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "tithi": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "paksha": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "month": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "calculationNotes": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             },
             "additionalProperties": true
           },
           "duration": {
-            "type": ["object", "null"],
+            "type": [
+              "object",
+              "null"
+            ],
             "properties": {
-              "days": { "type": ["integer", "null"], "minimum": 1 },
-              "description": { "type": ["string", "null"] }
+              "days": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "description": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             },
             "additionalProperties": true
           },
@@ -81,26 +155,118 @@
             "items": {
               "type": "object",
               "properties": {
-                "name": { "type": "string" },
-                "start": { "type": ["string", "null"] },
-                "end": { "type": ["string", "null"] },
-                "notes": { "type": ["string", "null"] }
+                "name": {
+                  "type": "string"
+                },
+                "start": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "end": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "notes": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
               },
               "additionalProperties": true
             }
           },
-          "tradition": { "type": ["string", "null"] },
-          "statusText": { "type": ["string", "null"] },
+          "tradition": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "statusText": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "verificationStatus": {
-            "enum": ["unreviewed", "needs-review", "verified"]
+            "enum": [
+              "unreviewed",
+              "needs-review",
+              "verified"
+            ]
           },
           "sourceText": {
-            "type": ["object", "null"],
+            "type": [
+              "object",
+              "null"
+            ],
             "description": "Optional verbatim legacy fields retained during migration."
           }
         },
         "additionalProperties": true
       }
+    },
+    "navratriSadhana": {
+      "type": "object",
+      "required": [
+        "title",
+        "description",
+        "activePeriodIds",
+        "days"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "activePeriodIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "days": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "required": [
+              "day",
+              "tithi",
+              "name"
+            ],
+            "properties": {
+              "day": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              },
+              "tithi": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "uri"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false
