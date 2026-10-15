@@ -223,3 +223,59 @@ test("Navratri sadhana list is hidden outside all four configured Navratri perio
     else global.document = previousDocument;
   }
 });
+
+
+test("Pitri Paksha links stay together from Pratipada through Pitri Visarjani Amavasya", () => {
+  const fake = makeFakeDom();
+  const previousDocument = global.document;
+  global.document = fake.document;
+  try {
+    const sample = {
+      pitriPakshaArticles: {
+        title: "पितृपक्ष के लिए उपयोगी लेख",
+        description: "प्रतिपदा से अमावस्या तक।",
+        activePeriodIds: ["pitri-start", "pitri-end"],
+        articles: [
+          { title: "महालय श्राद्धों का महत्व", url: "https://example.org/mahalaya" },
+          { title: "तर्पण विधि", url: "https://example.org/tarpan" }
+        ]
+      },
+      festivals: [
+        { id: "pitri-start", name: "पितृपक्ष प्रारंभ", date: { start: "2026-09-27", end: "2026-10-10" } },
+        { id: "pitri-end", name: "पितृ विसर्जनी अमावस्या", date: { start: "2026-10-10" } }
+      ]
+    };
+    for (const day of [27, 30]) {
+      const container = new fake.FakeNode("div");
+      widget.render(sample, new Date(2026, 8, day, 12), container);
+      const section = fake.findAll(container, node => node.className === "pitri-paksha-articles");
+      assert.equal(section.length, 1, "Pitri Paksha section should show on September " + day);
+      const links = fake.findAll(section[0], node => node.tagName === "A");
+      assert.equal(links.length, 2);
+      assert.ok(links.some(a => a.textContent === "महालय श्राद्धों का महत्व"));
+      assert.ok(links.some(a => a.textContent === "तर्पण विधि"));
+      assert.ok(links.every(a => a.rel === "noopener noreferrer"));
+    }
+    const amavasyaContainer = new fake.FakeNode("div");
+    widget.render(sample, new Date(2026, 9, 10, 12), amavasyaContainer);
+    assert.equal(fake.findAll(amavasyaContainer, node => node.className === "pitri-paksha-articles").length, 1,
+      "the section must include Pitri Visarjani Amavasya itself");
+    const afterContainer = new fake.FakeNode("div");
+    widget.render(sample, new Date(2026, 9, 11, 12), afterContainer);
+    assert.equal(fake.findAll(afterContainer, node => node.className === "pitri-paksha-articles").length, 0,
+      "the section must hide after the configured end date");
+  } finally {
+    if (previousDocument === undefined) delete global.document;
+    else global.document = previousDocument;
+  }
+});
+
+test("Pitri Paksha article configuration uses the existing verified OurHinduDharm article URLs", () => {
+  assert.deepEqual(data.pitriPakshaArticles.articles.map(item => item.title), [
+    "महालय श्राद्धों का महत्व", "तर्पण विधि"
+  ]);
+  assert.equal(data.pitriPakshaArticles.articles[0].url,
+    "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html");
+  assert.equal(data.pitriPakshaArticles.articles[1].url,
+    "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html");
+});
