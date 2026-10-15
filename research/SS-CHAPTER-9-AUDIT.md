@@ -1118,7 +1118,7 @@ The next required run is to execute the helper tests, then feed it real geocentr
 
 ## Live ephemeris input fixture added — 16 October 2026
 
-The project owner supplied the live TKS API capture for the Sun (body code 10) and Venus (body code 2) at 2026-10-12 06:30 IST, 29.5830° N, 80.2090° E. The response returned HTTP 200 and `success: true` for both requests, with `selected_body` matching each requested code. Returned JD(UTC/UT1) is 2461325.541666667, agreeing with the expected 2461325.5416667 to far better than the one-second tolerance.
+The project owner supplied the live TKS API capture for the Sun (body code 10) and Venus (body code 2) at 2026-10-12 06:30 IST, 29.5830° N, 80.2090° E. The response returned HTTP 200 and `success: true` for both requests, with `selected_body` matching each requested code. Returned JD(UTC/UT1) is 2461325.541666667, differing from the expected 2461325.5416667 by about 0.0029 seconds, well inside the one-second tolerance.
 
 A compact selected-field fixture is now stored at `research/fixtures/tks-raw-ephemeris-2026-10-12-0630-ist.json`; the detailed field table and consistency checks are in `research/GANESH-MARTAND-COMPARISON-LEDGER.md`.
 
