@@ -74,6 +74,20 @@ jobs:
           node --experimental-default-type=module --check ss_civil_date_epoch_adapter.js
           node --experimental-default-type=module --check ss_chapter1_epoch_bridge.js
 
+      - name: Run civil-date / Lanka-midnight adapter tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runCivilDateEpochAdapterTests } from './ss_civil_date_epoch_adapter.js';
+          const result = runCivilDateEpochAdapterTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.error) console.log(`  ${test.error}`);
+          }
+          console.log(`${result.passed}/${result.total} civil-date / Lanka-midnight adapter tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
       - name: Run arithmetic and threshold-selection tests
         run: |
           node --experimental-default-type=module --input-type=module <<'NODE'
