@@ -71,3 +71,30 @@ The scalar baseline and the full-vector **obliquity-only** path agree to the dis
 ## Consequence / next step
 
 Do not choose the equinox-rotated candidate solely because it is a geometrically coherent 3-D transform. Trace the text's definition of the reference ecliptic/equinox and the meridian/time angle used in Akṣa-dṛkkarma. Compare the actual Sanskrit, Burgess translation, and Ranganātha commentary; if these sources do not specify the required reference frame, document the ambiguity instead of inventing a historical rule. Keep the current event-date and K outputs research-only until that adjudication is complete.
+
+## IX.10–11 estimate discrepancy — trace from the latest passing browser run
+
+The latest diagnostic workflow for commit `2cf143de4ec751ef7b7ecb6f05a5b4c6a5f5a4ea` completed successfully: [run 38801259335](https://github.com/OurHinduDharm/Panchang/actions/runs/38801259335). This confirms that the checks ran; it does **not** make the event model a validated production method.
+
+The rendered audit exposes a useful distinction between a one-step estimate and a short-horizon check:
+
+| Fixture | One-step IX.10–11 estimate | Error vs daily K-bracket interpolation | Short-horizon estimate error |
+|---|---:|---:|---:|
+| Venus Asta | −0.118150 day | 0.003827 day (~5.5 min) | 0.003827 day |
+| Venus Udaya | −3.333501 days | 0.294861 day (~7.08 h) | 0.003093 day (~4.5 min) |
+| Jupiter Asta | −7.140224 days | 0.038012 day (~54.7 min) | 0.000834 day (~1.2 min) |
+| Jupiter Udaya | −0.194860 day | 0.001436 day (~2.1 min) | 0.001436 day |
+
+The Venus Udaya row is the warning case. The reference sample is around 1 November 2026; its one-step estimate projects backward by 3.3335 days, while the independently bracketed K crossing is around 29 October 2026, 06:20 IST. A fresh estimate made close to the crossing is within about 4.5 minutes. Therefore the current evidence points to **linear extrapolation over a multi-day interval**, not an arithmetic sign failure, as the immediate issue. It does not yet prove the exact source of the whole discrepancy.
+
+Implementation trace: `getChapter9TimeEstimate()` takes the event-frame K and signed lagnāntara, estimates each body's signed longitude motion across a 24-hour interval, converts those motions through sign-specific rising-asus, and calls `estimateChapter9TimeCorrectionFromArcMotions()`. The UI then compares that one-step estimate with a daily K-crossing bracket and separately calculates a short-horizon estimate. The isolated helper tests prove the arithmetic and signs only; they do not prove that a single long-range extrapolation lands on the event.
+
+### Decision
+
+- Do **not** accept the single long-range estimate as the final event time.
+- Treat IX.10–11 as a correction to be reapplied after recalculating the Sun, planet, dṛkkarma, lagnāntara and sign-specific rising-asus at the new candidate instant. Iterate until the time correction is small, and compare the converged result with an independent bracket.
+- Keep the bracket as a validation method, not as a substitute for the classical calculation.
+- Keep the current frame choice unresolved until its coordinate convention is source-adjudicated. The IX.10–11 iteration must not hide or silently compensate for that independent frame issue.
+
+No production files were changed by this investigation.
+
