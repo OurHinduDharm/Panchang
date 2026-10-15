@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "status": "reference-only-location-sensitive-not-runtime",
+  "category": "Dwadasha Siddhividya Jayanti",
+  "source": {
+    "title": "Drik Panchang — 2026 Dwadasha Siddhividya Jayanti",
+    "url": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhividya-jayanti-dates.html?year=2026",
+    "retrievedListingLocation": "Koath, Bihar, India",
+    "notes": [
+      "Drik Panchang lists twelve Siddhividya Jayantis: Saraswati, Kubjika, Siddhilakshmi, Chandika, Batuka Bhairavi, Parvati, Dakshinamurti, Gayatri, Vindhyavasini, Aparajita, Bala and Annapurna.",
+      "Dates and lunar tithis are transcribed from the retrieved Drik Panchang 2026 listing for Koath, Bihar; they are not independently recalculated for Pithoragarh.",
+      "Some dates can vary by location/sunrise convention; the same Drik listing shows Annapurna Jayanti on 24 December 2026, while other location results can show 23 December. Verify for the site's chosen location and compare with the owner's Ganesh Martand Panchang before runtime use.",
+      "This Dwadasha Siddhividya list is distinct from the separate Dashamahavidya list and must not be merged into it."
+    ]
+  },
+  "observances": [
+    {
+      "name": "Shri Saraswati Jayanti",
+      "lunarDateAsListedByDrik": "Magha Shukla Panchami",
+      "gregorianDate": "2026-01-23"
+    },
+    {
+      "name": "Shri Kubjika Jayanti",
+      "lunarDateAsListedByDrik": "Vaishakha Krishna Trayodashi",
+      "gregorianDate": "2026-04-15"
+    },
+    {
+      "name": "Shri Siddhilakshmi Jayanti",
+      "lunarDateAsListedByDrik": "Vaishakha Shukla Ekadashi",
+      "gregorianDate": "2026-04-27"
+    },
+    {
+      "name": "Shri Chandika Jayanti",
+      "lunarDateAsListedByDrik": "Vaishakha Shukla Purnima",
+      "gregorianDate": "2026-05-01"
+    },
+    {
+      "name": "Shri Batuka Bhairavi Jayanti",
+      "lunarDateAsListedByDrik": "Jyeshtha Shukla Purnima",
+      "gregorianDate": "2026-06-29"
+    },
+    {
+      "name": "Shri Parvati Jayanti",
+      "lunarDateAsListedByDrik": "Ashadha Shukla Ashtami",
+      "gregorianDate": "2026-07-21"
+    },
+    {
+      "name": "Shri Dakshinamurti Jayanti",
+      "lunarDateAsListedByDrik": "Ashadha Shukla Purnima",
+      "gregorianDate": "2026-07-29"
+    },
+    {
+      "name": "Shri Gayatri Jayanti",
+      "lunarDateAsListedByDrik": "Shravana Shukla Purnima",
+      "gregorianDate": "2026-08-28"
+    },
+    {
+      "name": "Shri Vindhyavasini Jayanti",
+      "lunarDateAsListedByDrik": "Bhadrapada Krishna Ashtami",
+      "gregorianDate": "2026-09-04"
+    },
+    {
+      "name": "Shri Aparajita Jayanti",
+      "lunarDateAsListedByDrik": "Ashwina Shukla Dashami",
+      "gregorianDate": "2026-10-20"
+    },
+    {
+      "name": "Shri Bala Jayanti",
+      "lunarDateAsListedByDrik": "Margashirsha Krishna Chaturdashi",
+      "gregorianDate": "2026-12-07"
+    },
+    {
+      "name": "Shri Annapurna Jayanti",
+      "lunarDateAsListedByDrik": "Margashirsha Shukla Purnima",
+      "gregorianDate": "2026-12-24"
+    }
+  ],
+  "validation": [
+    "Dates are transcribed from the cited Drik Panchang 2026 listing, not independently recalculated.",
+    "Do not treat this as a transcription from Lal Bahadur Shastri Panchang; it is a separate source dataset.",
+    "Before runtime use, verify each observance for Pithoragarh and compare with the project's primary Ganesh Martand Panchang.",
+    "Keep this category distinct from Dashamahavidya Jayanti data. The same deity names may have other Jayanti traditions; preserve the source's category and tithi rather than merging by name alone."
+  ]
+}
