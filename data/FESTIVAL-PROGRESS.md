@@ -658,3 +658,11 @@ See data/references/festival-discrepancy-audit-2026-10-15.md for the detailed di
 - This is a year-specific, owner-reference-checked date. It must not be generalized as a recurring rule for every year.
 - The matching entry in `festival-overrides.json` remains reference-only until the override resolver is built. The current draft festival record itself has been corrected, so the draft calendar data reflects this owner decision.
 - Basic integrity check after adding the override foundation: `festivals.json` parses with 127 records; override JSON parses with 7 records; no duplicate festival IDs, duplicate override IDs, malformed ISO date strings, or mapped IDs missing from the festival catalog were found. This is a lightweight structural check, not the full CI/browser regression suite.
+
+
+### Review queue plan — 2026-10-15
+
+- Added `data/FESTIVAL-REVIEW-GUIDE.md` to explain exactly which records should be reviewed, status meanings, and a first manual snapshot of high-priority dates through 14 November 2026.
+- Queue criteria: unverified/provisional status; unverified tithi/ritual-time rule; known source or record mismatch; computed-vs-stored date difference; and unresolved entries within the next 30 days.
+- The list is explicitly a **manual snapshot**, not a live dashboard. Next work: implement a small tested queue generator from `festivals.json` + `festival-overrides.json` and the calculated local Panchang; only after that can we surface it in UI or notifications.
+- Owner-reported 22 Oct Papankusha Ekadashi, 23 Oct Pradosha and 26 Oct Ashwini Purnima are noted for record mapping; avoid duplicate cards until catalog search confirms no existing matching record.
