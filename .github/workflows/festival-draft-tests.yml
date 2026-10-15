@@ -31,6 +31,7 @@ on:
       - 'ambubachi-calculation.js'
       - 'tests/festival-*.test.js'
       - 'tests/ambubachi-calculation.test.js'
+      - 'tests/ekadashi-*.test.js'
       - 'tests/vrata-*.test.js'
       - 'tests/shravana-dvadashi-*.test.js'
       - '.github/workflows/festival-draft-tests.yml'
