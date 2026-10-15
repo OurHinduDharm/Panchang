@@ -906,3 +906,17 @@ The paired fixed-instant test was run in the PR preview at 2026-10-12 12:00 IST,
 - Production `app.js` and `extra-panchang.js` remain unchanged. PR #22 remains Draft/unmerged. No Asta/Udaya date is certified by this checkpoint.
 
 **Next gate:** audit the Chapter II table interpolation and the worked example line-by-line against the source edition, then compare all three table-derived Washington cara endpoints with the independent trigonometric control and preserve the signed numerical differences. Only after this local-geometry gate should the research path be connected to the still-open ahargana/epoch/frame bridge.
+
+## Checkpoint — 15 October 2026: table-versus-trigonometric cara values
+
+- The Chapter II table-derived path and the trigonometric control now expose the same three Washington worked-example endpoints side by side. Signed difference is defined as **table-derived minus trigonometric control**:
+  - Solar longitude 30°: table 578.407419 asu; trig 578.898440 asu; difference **−0.491021 asu**.
+  - Solar longitude 60°: table 1060.719250 asu; trig 1060.759644 asu; difference **−0.040394 asu**.
+  - Solar longitude 90°: table 1263.419852 asu; trig 1263.264279 asu; difference **+0.155572 asu**.
+- The table path reproduces the Burgess worked-example targets 578/1061/1263 within the existing 3-asu tolerance. Pithoragarh (29.5828° N) table-derived cara endpoints are 405.766436, 739.814193, and 877.573113 asu. The twelve rising periods total 21,600 asu.
+- Workflow #514 for commit `5732ff85668c4a887f666e9e5aa95818b98ae78b` completed successfully, including the six table-derived tests, browser diagnostics, and the production-file identity check: https://github.com/OurHinduDharm/Panchang/actions/runs/38687706047.
+- A preceding run #504 failed because the workflow's JSON diagnostic contained a literal `\\n` token. The workflow syntax was corrected; the subsequent run passed. A separate result-wiring issue was then fixed so `washingtonCrossCheck` is actually returned and printed, rather than silently omitted from JSON.
+- **Interpretation:** the small table-vs-trig differences show numerical agreement for these three endpoints only; they do not validate the historical interpolation convention, source-frame meridian, ahargaṇa epoch bridge, or Chapter IX Asta/Udaya dates.
+- PR #22 remains Draft/unmerged; production `app.js` and `extra-panchang.js` remain unchanged.
+
+**Next gate:** use the source-faithful time/epoch bridge to generate a same-instant classical Sun/planet state, then audit Chapter VII dṛkkarma and Chapter IX event classification against raw same-instant intermediate values. Keep the current Chapter IX K brackets separate from apparent ecliptic-angle crossings; do not certify the event dates until the epoch/frame choice is independently justified.
