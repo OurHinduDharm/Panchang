@@ -16,18 +16,18 @@
 </head>
 <body>
 <main>
-  <p class="warning"><strong>केवल शोध/जाँच पृष्ठ:</strong> यह लाइव वेबसाइट नहीं है। मासिक कालाष्टमी के लिए स्थानीय सूर्योदय की तिथि दिखाई जाएगी। वार्षिक कालभैरवाष्टमी के लिए रात के मध्य-बिंदु को केवल diagnostic proxy माना गया है—यह निशीथ मुहूर्त या व्रत-निर्णय का प्रमाणित विकल्प नहीं है। परिणामों को गणेशमार्तण्ड पंचांग से मिलाए बिना लागू न करें।</p>
+  <p class="warning"><strong>परीक्षण पृष्ठ:</strong> यह लाइव वेबसाइट नहीं है। मासिक कालाष्टमी के लिए प्रदोष में कृष्ण अष्टमी की व्याप्ति और वार्षिक कालभैरवाष्टमी के लिए मध्यान्ह/प्रदोष-व्याप्ति के अलग निर्णय-नियम जाँचे जा रहे हैं।</p>
   <h1>कालाष्टमी — पंचांग इंजन परीक्षण</h1>
   <p class="muted">स्थान: पिथौरागढ़ (30.1265° N, 80.4817° E) · समय क्षेत्र: IST (UTC+05:30)</p>
   <div class="controls"><label for="year">वर्ष</label><input id="year" type="number" min="1900" max="2200" value="2027"><button id="run" type="button">गणना करें</button></div>
   <p id="status" class="status" aria-live="polite">गणना के लिए बटन दबाएँ। पहली गणना में कुछ समय लग सकता है।</p>
-  <section class="group"><h2>मासिक कालाष्टमी — सूर्योदय तिथि</h2><div id="monthly"></div></section>
-  <section class="group"><h2>वार्षिक कालभैरवाष्टमी — रात-मध्य diagnostic</h2><div id="annual"></div></section>
+  <section class="group"><h2>मासिक कालाष्टमी — प्रदोष-व्यापिनी कृष्ण अष्टमी</h2><div id="monthly"></div></section>
+  <section class="group"><h2>वार्षिक कालभैरवाष्टमी — मध्यान्ह/प्रदोष निर्णय</h2><div id="annual"></div></section>
 </main>
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $ = (id) => document.getElementById(id);
-const DRAFT_ASSET_VERSION = "6d693ed4b08973754ba84925e96c5511943480dd";
+const DRAFT_ASSET_VERSION = "014aed10d5939dbc4145b98000c9029c6070a7c8";
 function loadClassicScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -40,7 +40,7 @@ function loadClassicScript(src) {
 let draftScriptsPromise;
 function ensureDraftScripts() {
   if (!draftScriptsPromise) {
-    const base = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@6d693ed4b08973754ba84925e96c5511943480dd/";
+    const base = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@014aed10d5939dbc4145b98000c9029c6070a7c8/";
     draftScriptsPromise = (async () => {
       await loadClassicScript(base + "festival-date-resolver.js?v=" + DRAFT_ASSET_VERSION);
       await loadClassicScript(base + "kalashtami-panchang-adapter.js?v=" + DRAFT_ASSET_VERSION);
@@ -81,11 +81,11 @@ async function run() {
     const data = await dataResponse.json();
     const monthly = data.festivals.find(item => item.id === "festival-kalashtami-recurring");
     const annual = data.festivals.find(item => item.id === "festival-027");
-    const monthlyResult = window.OHDFestivalDateResolver.resolveFestivalDate(monthly,{year,panchangDays:generated.sunriseDays});
-    const annualResult = window.OHDFestivalDateResolver.resolveFestivalDate(annual,{year,panchangDays:generated.nightMidpointDays});
-    showList($("monthly"),monthlyResult.displayDates,"सूर्योदय पर कृष्ण अष्टमी का diagnostic match");
-    showList($("annual"),annualResult.displayDates,"रात के मध्य-बिंदु पर अष्टमी का diagnostic match; अंतिम व्रत-तिथि नहीं");
-    $("status").textContent = "पूरा हुआ। "+generated.candidateDates.length+" संभावित तारीख़ों की जाँच की गई। यह शोध-पूर्वावलोकन है, प्रमाणित पंचांग निर्णय नहीं।";
+    const monthlyResult = window.OHDFestivalDateResolver.resolveFestivalDate(monthly,{year,panchangDays:generated.monthlyDecisionDays});
+    const annualResult = window.OHDFestivalDateResolver.resolveFestivalDate(annual,{year,panchangDays:generated.annualDecisionDays});
+    showList($("monthly"),monthlyResult.displayDates,"प्रदोष-काल में कृष्ण अष्टमी की व्याप्ति");
+    showList($("annual"),annualResult.displayDates,"धर्मसिंधु के अष्टमी-निर्णय में वर्णित मध्यान्ह/प्रदोष व्याप्ति");
+    $("status").textContent = "गणना पूरी हुई। "+generated.candidateDates.length+" संभावित तारीख़ों पर सूर्योदय, मध्यान्ह और प्रदोष की तिथि-व्याप्ति जाँची गई।";
   } catch(error) {
     $("status").className = "status error";
     $("status").textContent = "गणना पूरी नहीं हुई: "+(error && error.message ? error.message : String(error));
