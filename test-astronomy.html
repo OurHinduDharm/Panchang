@@ -4972,6 +4972,33 @@ const rawTksButton = document.getElementById("fetchRawTksBtn");
 const rawTksStatus = document.getElementById("rawTksStatus");
 const rawTksOutput = document.getElementById("rawTksOutput");
 
+// Extract only fields explicitly present in the returned JSON. Keep the
+// complete response_text/response_json untouched as the primary evidence.
+function summarizeRawTksFields(value) {
+  const wanted = /time.?scale|julian|j2000|kernel|ephemeris|state.?vector|position|velocity|right.?ascension|declination|ecliptic|longitude|latitude|ayanamsha|ayanamsa|nirayana|sidereal|tropical|apparent|geometric|epoch|frame|equinox|utc|tt|ut1/i;
+  const found = [];
+  const seen = new Set();
+  function walk(node, path, depth) {
+    if (depth > 7 || node == null) return;
+    if (Array.isArray(node)) {
+      node.slice(0, 12).forEach((item, index) => walk(item, path + "[" + index + "]", depth + 1));
+      return;
+    }
+    if (typeof node !== "object") return;
+    for (const [key, child] of Object.entries(node)) {
+      const childPath = path ? path + "." + key : key;
+      if (wanted.test(key) && (child === null || typeof child !== "object")) {
+        const entry = { path: childPath, value: child };
+        const signature = JSON.stringify(entry);
+        if (!seen.has(signature)) { seen.add(signature); found.push(entry); }
+      }
+      if (child && typeof child === "object") walk(child, childPath, depth + 1);
+    }
+  }
+  walk(value, "", 0);
+  return found;
+}
+
 rawTksButton.addEventListener("click", async () => {
   rawTksButton.disabled = true;
   rawTksStatus.className = "status info";
@@ -4999,7 +5026,7 @@ rawTksButton.addEventListener("click", async () => {
         record.http_status = response.status;
         record.http_ok = response.ok;
         record.response_text = await response.text();
-        try { record.response_json = JSON.parse(record.response_text); }
+        try { record.response_json = JSON.parse(record.response_text); record.extracted_candidate_fields = summarizeRawTksFields(record.response_json); }
         catch { record.response_json_parse_error = "Response body was not valid JSON."; }
       } catch (error) {
         record.fetch_error = String(error && error.message ? error.message : error);
