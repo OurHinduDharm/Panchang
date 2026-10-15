@@ -58,3 +58,16 @@ test("Govardhan Puja date conflict stays explicitly unresolved", () => {
   assert.match(govardhan.date.calculationNotes, /स्थानीय प्रतिपदा-व्याप्ति की पुष्टि शेष/);
   assert.match(govardhan.date.rule, /स्थानीय परंपरा से निर्णय करें/);
 });
+
+test("festival muhurta plans are dynamic and old Ghatasthapana clock times are not displayed", () => {
+  assert.equal(byId["festival-003"].muhurtaPlan.type, "ghatasthapana");
+  assert.match(byId["festival-003"].description, /स्थानीय सूर्योदय/);
+  assert.doesNotMatch(byId["festival-003"].description, /06:19 ए एम से 10:12 ए एम/);
+  assert.equal(byId["festival-013"].muhurtaPlan.type, "sharad-purnima-kheer-moonlight");
+  assert.equal(byId["festival-016"].muhurtaPlan.type, "ekadashi-parana");
+  assert.equal(byId["festival-018"].muhurtaPlan.type, "dhanteras-puja");
+  assert.equal(byId["festival-021"].muhurtaPlan.type, "diwali-lakshmi-puja");
+  for (const id of ["festival-003", "festival-013", "festival-016", "festival-018", "festival-021"]) {
+    assert.equal(byId[id].muhurtaPlan.status, "needs-calculation", id);
+  }
+});
