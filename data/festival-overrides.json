@@ -58,7 +58,7 @@
     {
       "id": "gm-2026-papankusha-ekadashi",
       "year": 2026,
-      "festivalId": null,
+      "festivalId": "festival-128",
       "festivalName": "पापांकुशा एकादशी",
       "displayDate": "2026-10-22",
       "decision": "reference-date-to-add-or-map",
@@ -67,13 +67,13 @@
         "title": "गणेशमार्तण्ड पंचांग",
         "page": null
       },
-      "status": "reference-recorded-pending-record-mapping",
+      "status": "reference-recorded-pending-renderer",
       "note": "User reports this date. Map to an existing record or create a proper recurring tithi rule after inspecting the catalog."
     },
     {
       "id": "gm-2026-pradosha",
       "year": 2026,
-      "festivalId": null,
+      "festivalId": "festival-129",
       "festivalName": "प्रदोष व्रत",
       "displayDate": "2026-10-23",
       "decision": "reference-date-to-add-or-map",
@@ -82,7 +82,7 @@
         "title": "गणेशमार्तण्ड पंचांग",
         "page": null
       },
-      "status": "reference-recorded-pending-record-mapping",
+      "status": "reference-recorded-pending-renderer",
       "note": "User reports this date. Confirm whether this is the relevant Kartik/solar-month Pradosha record before mapping."
     },
     {
@@ -103,7 +103,7 @@
     {
       "id": "gm-2026-ashwini-purnima",
       "year": 2026,
-      "festivalId": null,
+      "festivalId": "festival-130",
       "festivalName": "आश्विनी पौर्णमासी",
       "displayDate": "2026-10-26",
       "decision": "reference-date-to-add-or-map",
@@ -112,7 +112,7 @@
         "title": "गणेशमार्तण्ड पंचांग",
         "page": null
       },
-      "status": "reference-recorded-pending-record-mapping",
+      "status": "reference-recorded-pending-renderer",
       "note": "User reports Ashwini Purnima on 26 October 2026. Do not merge with the Kojaagari/Sharad Purnima entry without confirming the intended distinction."
     }
   ]
