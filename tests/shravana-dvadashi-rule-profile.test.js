@@ -89,6 +89,16 @@ test("RULE-04: yoga branch requires explicit prior-tantra two-fast status", () =
   });
 });
 
+test("RULE-05: a yoga result without the prior-tantra condition stays unresolved", () => {
+  assert.deepEqual(ruleProfile({
+    month: "Bhadrapada", paksha: "Shukla", isShravanaDvadashi: true,
+    vishnuShrinkhalaYoga: true, priorTantraTwoFast: false
+  }), {
+    status: "unresolved",
+    reason: "yoga-present-but-prior-tantra-two-fast-condition-not-met"
+  });
+});
+
 test("RULE-05: yoga plus prior-tantra profile requires comparing remaining durations; no time is invented", () => {
   const result = ruleProfile({
     month: "Bhadrapada", paksha: "Shukla", isShravanaDvadashi: true,
@@ -99,7 +109,7 @@ test("RULE-05: yoga plus prior-tantra profile requires comparing remaining durat
   assert.equal(result.doNotComputeExactTimeYet, true);
 });
 
-test("RULE-06: middle-20-ghatika exclusion is not generalized to Magha/Falguna Krishna", () => {
+test("RULE-07: middle-20-ghatika exclusion is not generalized to Magha/Falguna Krishna", () => {
   for (const month of ["Magha", "Phalguna"]) {
     const result = ruleProfile({
       month, paksha: "Krishna", isShravanaDvadashi: true,
@@ -109,7 +119,7 @@ test("RULE-06: middle-20-ghatika exclusion is not generalized to Magha/Falguna K
   }
 });
 
-test("RULE-07: non-Shravana-Dvadashi observance is not processed by this special rule", () => {
+test("RULE-08: non-Shravana-Dvadashi observance is not processed by this special rule", () => {
   assert.deepEqual(ruleProfile({
     month: "Bhadrapada", paksha: "Shukla", isShravanaDvadashi: false,
     vishnuShrinkhalaYoga: false
