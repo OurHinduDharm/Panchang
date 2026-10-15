@@ -29,27 +29,13 @@ on:
       - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
+    # Run the research suite for every relevant source/note change. Keep the
+    # filter broad enough that a new diagnostic module cannot silently bypass CI.
     paths:
-      - "test-astronomy.html"
-      - "ss_chapter3_table_rising_asus.js"
-      - "ss_chapter1_epoch_bridge.js"
-      - "ss_chapter7_test.js"
-      - "ss_chapter9_test.js"
-      - "ss_chapter7_drikkarma.js"
-      - "ss_chapter3_lagnantara.js"
-      - "ss_chapter3_source_rising_asus.js"
-      - "ss_chapter3_ayana_math_test.js"
-      - "ss_chapter1_ahargana_anchor.js"
-      - "ss_chapter1_ahargana_calendar.js"
-      - "ss_chapter1_mean_solar_longitude.js"
-      - "ss_chapter9_browser_test.mjs"
-      - "research/SS-CHAPTER-9-AUDIT.md"
-      - "ss_classical_frame.js"
-      - "ss_classical_frame_test.js"
-      - "ss_chapter3_nata_geometry.js"
-      - "ss_chapter3_nata_table_arithmetic.js"
-      - "ss_chapter2_versed_sine_table.js"
-      - "research/SS-CHAPTER-3-NATA-TIME-BRIDGE-NOTE.md"
+      - "**.js"
+      - "**.mjs"
+      - "**.html"
+      - "**.md"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   workflow_dispatch:
 
