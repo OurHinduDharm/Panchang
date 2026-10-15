@@ -29,16 +29,17 @@ test("emit fixed-location festival tithi interval diagnostics (review required)"
       `No tithi interval array returned for ${date}`);
     return {
       queryDateIST: date,
+      snapshotKeys: Object.keys(p),
       sunrise: asIso(p.sunrise),
       sunset: asIso(p.sunset),
       moonrise: asIso(p.moonrise),
       moonset: asIso(p.moonset),
       tithiObjectKeys: Object.keys(p.tithis[0] || {}),
-      tithis: p.tithis.map((item) => ({
-        ...item,
-        startTime: asIso(item.startTime),
-        endTime: asIso(item.endTime)
-      }))
+      nakshatraObjectKeys: Object.keys((p.nakshatras || [])[0] || {}),
+      yogaObjectKeys: Object.keys((p.yogas || [])[0] || {}),
+      tithis: (p.tithis || []).map((item) => ({ ...item, startTime: asIso(item.startTime), endTime: asIso(item.endTime) })),
+      nakshatras: (p.nakshatras || []).map((item) => ({ ...item, startTime: asIso(item.startTime), endTime: asIso(item.endTime) })),
+      yogas: (p.yogas || []).map((item) => ({ ...item, startTime: asIso(item.startTime), endTime: asIso(item.endTime) }))
     };
   });
 
