@@ -140,6 +140,15 @@ test("annual Kalabhairava Ashtami resolves only Margashirsha Krishna Ashtami, se
   assert.equal(result.status, "matched");
   assert.deepEqual(result.displayDates.map((item) => item.date), ["2027-11-20"]);
   assert.equal(result.displayDates[0].method, "panchang-tithi-match");
+
+  const amantaResult = resolver.resolveFestivalDate(annual, {
+    year: 2027,
+    panchangDays: [
+      { date: "2027-11-20", month: "कार्तिक", paksha: "कृष्ण पक्ष", tithi: "अष्टमी" }
+    ]
+  });
+  assert.equal(amantaResult.status, "matched");
+  assert.deepEqual(amantaResult.displayDates.map((item) => item.date), ["2027-11-20"]);
 });
 
 test("stored Gregorian candidates from a different year are not reused as recurring dates", () => {
