@@ -250,3 +250,17 @@ A useful next cross-check is available in the digital Sanskrit/English text of *
 Sources: [Hari-bhakti-vilāsa, Vilāsa 13](https://www.anantasatsang.org/scripture/radha-bhakti/hari-bhakti-vilasa/vilasa-13) and [Vilāsa 12](https://www.anantasatsang.org/scripture/radha-bhakti/hari-bhakti-vilasa/vilasa-12).
 
 **Research outcome:** the source family provides candidate distinctions—Ekādaśī increases vs. Dvādaśī increases—but it also preserves differing formulations for Vañjulī. Do not convert these into a single universal interval predicate or silently add a 60/64-daṇḍa threshold to the Dharmasindhu profile. Keep both catalogue entries research-only until the cited source chain, exact Sanskrit reading, interval anchor, and tradition scope are reconciled. No vrata date or pāraṇa result is inferred.
+
+
+## Project implementation scope — working decision (2026-10-16)
+
+The goal is not to force every vrat onto one Gregorian date across all calendars. A vrat's observance date can move when the relevant tithi does not meet the required local time-window, and Smarta/Vaishnava or other tradition-specific rules can select different days even from the same tithi intervals.
+
+For this project:
+1. Calculate the astronomical inputs for the selected city (tithi start/end, sunrise, and where needed arunodaya, madhyahna, pradosha, nishita, or moonrise).
+2. Apply a named, sourced observance rule/profile; do not treat a one-day difference by itself as a bug.
+3. Compare external calendars to understand a discrepancy, not to overwrite Ganesh Martand or a source-backed rule automatically.
+4. Investigate location differences only when a concrete case suggests they affect the chosen day or timing; no need to demand a separate city page for every annual observance.
+5. Keep uncertain fast-day selection and pāraṇa rules research-only until the source wording and test case are adequate.
+
+This is a project workflow decision, not a new shastric rule. No fast date or pāraṇa has been changed by this note.
