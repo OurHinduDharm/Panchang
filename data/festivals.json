@@ -3169,6 +3169,72 @@
         "आवर्ती नियम का डेटा रिकॉर्ड जोड़ा गया; renderer में recurring matching लागू होने की पुष्टि अभी बाकी है।",
         "पुराने festival-049 और festival-074 रिकॉर्ड ऐतिहासिक तारीख़ों के साथ स्रोत-आर्काइव हेतु बने रहेंगे; वे पूरे वर्ष की सूची का विकल्प नहीं हैं."
       ]
+    },
+    {
+      "id": "festival-purnima-vrat-recurring",
+      "name": "पूर्णिमा व्रत",
+      "alternateNames": [
+        "मासिक पूर्णिमा व्रत",
+        "Purnima Vrat"
+      ],
+      "category": "व्रत",
+      "description": "प्रत्येक चन्द्रमास की शुक्ल पूर्णिमा पर पूर्णिमा-व्रत का अवसर। स्थानीय पंचांग के अनुसार पूर्णिमा तिथि का दिन निर्धारित होगा; व्रत-नियम और क्षेत्रीय भेद अलग से देखे जाएँ।",
+      "date": {
+        "type": "tithi",
+        "start": null,
+        "end": null,
+        "month": null,
+        "paksha": "शुक्ल पक्ष",
+        "tithi": "पूर्णिमा",
+        "calendarRule": "monthly-shukla-purnima",
+        "renderMode": "panchang-tithi",
+        "rule": "हर मास की शुक्ल पूर्णिमा; स्थानीय पंचांग में पूर्णिमा-तिथि वाले दिन से निकालें, कोई Gregorian तारीख स्थायी न रखें।",
+        "calculationNotes": "Recurring rule is implemented in the draft resolver only. Day-level vrat decision for edge cases and regional practice still requires verification."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Recurring observance record added at owner request on 2026-10-16.",
+        "Do not use a fixed Gregorian date; match local Panchang days and audit tithi spanning/skipping cases."
+      ]
+    },
+    {
+      "id": "festival-holashtak-recurring",
+      "name": "होलाष्टक",
+      "alternateNames": [
+        "Holashtak"
+      ],
+      "category": "पर्व-अवधि",
+      "description": "होलाष्टक की अवधि फाल्गुन शुक्ल अष्टमी से पूर्णिमा तक स्थानीय पंचांग में दिखाएँ। अवधि और क्षेत्रीय मान्यता का अंतिम निर्णय संदर्भ-पंचांग से जाँचना शेष है।",
+      "date": {
+        "type": "tithi-window",
+        "start": null,
+        "end": null,
+        "month": "फाल्गुन",
+        "paksha": "शुक्ल पक्ष",
+        "tithi": "अष्टमी से पूर्णिमा",
+        "renderMode": "panchang-tithi-window",
+        "calendarRule": "annual-falguna-shukla-ashtami-through-purnima",
+        "rule": "प्रारंभिक अवधि-नियम: फाल्गुन शुक्ल अष्टमी से पूर्णिमा तक, दोनों सीमाएँ सम्मिलित। स्थानीय मास-नाम/क्षेत्रीय निर्णय सत्यापित करें।",
+        "tithiWindow": {
+          "from": {
+            "month": "फाल्गुन",
+            "paksha": "शुक्ल पक्ष",
+            "tithi": "अष्टमी"
+          },
+          "through": {
+            "month": "फाल्गुन",
+            "paksha": "शुक्ल पक्ष",
+            "tithi": "पूर्णिमा"
+          },
+          "inclusive": true
+        },
+        "calculationNotes": "Draft rule only; verify against Ganesh Martand Panchang and document any regional/observance variation before production."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added at owner request on 2026-10-16 as a recurring tithi interval, not a hard-coded date.",
+        "Display the full period only when both tithi boundaries are present in local Panchang input."
+      ]
     }
   ],
   "navratriSadhana": {
