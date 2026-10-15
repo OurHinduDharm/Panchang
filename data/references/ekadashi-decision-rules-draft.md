@@ -83,3 +83,16 @@ OCR में पुस्तक कहती है कि:
 - `verified-rule` के बिना निर्णय-कारण को “शास्त्र-सम्मत अंतिम निर्णय” न कहें; शोधाधीन/असहमति वाले मामलों में status और स्रोत-संदर्भ रखें।
 
 यह सेक्शन UI/product requirement को दर्ज करता है, न कि अभी अप्रमाणित धार्मिक नियमों को प्रमाणित करता है।
+
+
+## Source comparison update — 2026-10-15
+
+### Dharma Sindhu online condensed English translation: useful lead, not a final rule
+
+The online condensed translation's Ekadashi section explicitly distinguishes Vaishnava and Smarta methods and discusses Arunodaya/Dashami-vedha. It states a 57-ghati and 60-ghati distinction before Arunodaya (see the Ekadashi discussion around lines 24–26): https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5 . The same page says Parana should be completed before Dvadashi ends and lists eight Mahadvadashi types, with Jaya–Pushya, Vijaya–Shravana, Jayanti–Punarvasu and Papanaashani–Rohini (around lines 34–38).
+
+However, the *Vrat-Parichay* OCR part 007 describes several competing community-specific views, including 45/55-ghati categories. These cannot be treated as a direct one-to-one match for the condensed English translation's 57/60 statements. The English page is a condensed translation, not a critical edition, and ghati reference points/terminology need verification against the selected printed Dharmasindhu edition and Nirnayasindhu before coding. In particular, do not infer a modern-minute threshold from these statements without confirming exactly what interval the ghatis measure.
+
+### Safe design conclusion
+
+The engine should store a named, source-cited decision profile rather than a single global vedha constant. The profile must specify the original wording, source edition/page, the reference point (sunrise vs arunodaya), the tradition scope, and how the rule interacts with actual tithi intervals. Until that review is complete, `45`, `55`, `57` and `60` ghati values remain research evidence only and must not drive public dates.
