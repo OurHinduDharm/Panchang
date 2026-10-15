@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "status": "source-input-unverified-not-runtime",
+  "source": {
+    "title": "Lal Bahadur Shastri Panchang",
+    "providedBy": "project owner",
+    "sourceYear": 2026,
+    "notes": [
+      "Dates below are transcribed from the project owner's supplied excerpt.",
+      "They are source-reported dates, not independently recalculated or approved for production.",
+      "The source edition, geographic location, sunrise convention, and observance tradition should be recorded when available.",
+      "Do not silently change a date to match another calendar; record and compare differences."
+    ]
+  },
+  "dashavataraJayantis": [
+    {
+      "name": "Shri Matsya Jayanti",
+      "lunarDateAsPrinted": "Chaitra Shukla Tritiya",
+      "gregorianDate": "2026-03-21"
+    },
+    {
+      "name": "Shri Rama Jayanti",
+      "lunarDateAsPrinted": "Chaitra Shukla Navami",
+      "gregorianDate": "2026-03-26"
+    },
+    {
+      "name": "Shri Parashurama Jayanti",
+      "lunarDateAsPrinted": "Vaishakha Shukla Tritiya",
+      "gregorianDate": "2026-04-19"
+    },
+    {
+      "name": "Shri Narasimha Jayanti",
+      "lunarDateAsPrinted": "Vaishakha Shukla Chaturdashi",
+      "gregorianDate": "2026-04-30"
+    },
+    {
+      "name": "Shri Buddha Jayanti",
+      "lunarDateAsPrinted": "Vaishakha Shukla Purnima",
+      "gregorianDate": "2026-05-01",
+      "sourceLayoutNote": "The supplied excerpt marks this and the following entry with ditto marks."
+    },
+    {
+      "name": "Shri Kurma Jayanti",
+      "lunarDateAsPrinted": "Vaishakha Shukla Purnima",
+      "gregorianDate": "2026-05-01",
+      "sourceLayoutNote": "The supplied excerpt marks this entry with ditto marks."
+    },
+    {
+      "name": "Shri Kalki Jayanti",
+      "lunarDateAsPrinted": "Shravana Shukla Shashthi",
+      "gregorianDate": "2026-08-17"
+    },
+    {
+      "name": "Shri Krishna Jayanti",
+      "lunarDateAsPrinted": "Bhadrapada Krishna Ashtami",
+      "gregorianDate": "2026-09-04"
+    },
+    {
+      "name": "Shri Varaha Jayanti",
+      "lunarDateAsPrinted": "Bhadrapada Shukla Tritiya",
+      "gregorianDate": "2026-09-13"
+    },
+    {
+      "name": "Shri Vamana Jayanti",
+      "lunarDateAsPrinted": "Bhadrapada Shukla Dvadashi",
+      "gregorianDate": "2026-09-23"
+    }
+  ],
+  "dashaMahavidyaJayantis": [
+    {
+      "name": "Shri Tara",
+      "lunarDateAsPrinted": "Chaitra Shukla Navami",
+      "gregorianDate": "2026-03-26"
+    },
+    {
+      "name": "Shri Matangi",
+      "lunarDateAsPrinted": "Vaishakha Shukla Tritiya",
+      "gregorianDate": "2026-04-19"
+    },
+    {
+      "name": "Shri Bagalamukhi",
+      "lunarDateAsPrinted": "Vaishakha Shukla Ashtami",
+      "gregorianDate": "2026-04-24"
+    },
+    {
+      "name": "Shri Chhinnamastika",
+      "lunarDateAsPrinted": "Vaishakha Shukla Chaturdashi",
+      "gregorianDate": "2026-04-30"
+    },
+    {
+      "name": "Shri Dhumavati",
+      "lunarDateAsPrinted": "Jyeshtha Shukla (tithi number not supplied)",
+      "gregorianDate": "2026-06-22",
+      "needsSourcePageCheck": true
+    },
+    {
+      "name": "Shri Kali",
+      "lunarDateAsPrinted": "Bhadrapada Krishna Ashtami",
+      "gregorianDate": "2026-09-04"
+    },
+    {
+      "name": "Shri Bhuvaneshwari",
+      "lunarDateAsPrinted": "Bhadrapada Shukla Dvadashi",
+      "gregorianDate": "2026-09-23"
+    },
+    {
+      "name": "Shri Kamala",
+      "lunarDateAsPrinted": "Kartika Krishna Amavasya",
+      "gregorianDate": "2026-11-08"
+    },
+    {
+      "name": "Shri Tripura Bhairavi",
+      "lunarDateAsPrinted": "Margashirsha Shukla Purnima",
+      "gregorianDate": "2026-12-23"
+    },
+    {
+      "name": "Shri Lalita",
+      "lunarDateAsPrinted": "Magha Shukla Purnima",
+      "gregorianDate": "2027-02-20"
+    }
+  ],
+  "validationNotes": [
+    "The owner supplied no year explicitly for dates after September, but the sequence places them in the 2026-2027 cycle; this is preserved as Gregorian dates without asserting a specific Panchang edition.",
+    "Shri Dhumavati entry only says Jyeshtha Shukla; the tithi number is absent in the supplied text. Do not infer it.",
+    "Some avatar Jayantis overlap on the same Gregorian date and lunar tithi. Preserve them as distinct observances.",
+    "This file is a reference transcription only. It must not drive live festival output until checked against the physical Panchang and the site's chosen location/tradition."
+  ]
+}
