@@ -4,7 +4,7 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 
 ## Files
 
-- `festivals.json` — data destination; currently an explicitly marked empty scaffold.
+- `festivals.json` — 122 migrated legacy festival records with provisional 2026 date candidates and structured related-article links for selected major festivals.
 - `festival-schema.json` — draft shape for the migrated records.
 
 ## Migration rules
@@ -18,4 +18,4 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 
 ## Current status
 
-**Template only.** The original Blogger festival dataset has not yet been migrated because its complete source code is needed to preserve all content exactly. No production Panchang files are changed by this scaffold.
+**Draft migration in progress.** All 122 legacy entries are retained in `festivals.json`; `sourceText` preserves legacy names, descriptions, dates, end dates and status text for audit. Date candidates and rules are not certified: entries remain `needs-review` until local tithi/astronomical calculations and observance conventions are documented. The JSON-backed widget is isolated on the draft branch and must not be connected to live Blogger until review, tests and explicit approval.
