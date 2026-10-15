@@ -806,3 +806,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Local Node execution of `tests/ekadashi-mahadvadashi-fixtures.test.js`: **4 passed, 0 failed**. This was a local isolated run using the fixture and test contents; it is not a GitHub Actions result. The latest commits have no Actions run/status exposed by the connected GitHub checks, so CI is not claimed as passed.
 - Updated research note commit: `1f217cdf30f6a756256f7b5f9fa5132762343dfb`. Test-strengthening commit: `b17118aa8e139110e89c3082e31d9d49f97e88ed`.
 - No production runtime, festival dates, Blogger output, or merge state changed.
+
+
+## Pakṣavardhinī source cross-check — 2026-10-16 (continued)
+
+- Checked the actual Padma Purāṇa Uttara-khaṇḍa 36.2 Sanskrit verse and a Hindi Gītā Press-attributed transcription, rather than relying only on the earlier secondary summary. The verse describes Amāvasyā/Pūrṇimā lasting a complete 60 daṇḍas and extending into Pratipadā. References and the Sanskrit text are recorded in `data/references/ekadashi-source-comparison.md`.
+- Compared that wording with the scan-backed Khemraj Dharmasindhu line `दर्शस्य पौर्णमास्या वा यदा दिनवृद्धिस्तदा पक्षवर्धिनी संज्ञा`. The Padma Purāṇa wording is more specific; the Government of India Calendar Reform Committee's two-successive-sunrise summary is another formulation. Their equivalence and intended profile scope are not established.
+- Result: improved source evidence, but `dinavr̥ddhi` remains unresolved as an executable predicate. Do not replace it with a generic day-increase flag, a sunrise-repeat boolean, or a universal 60-daṇḍa threshold. The synthetic Pakṣavardhinī fixture must remain unresolved; no real fast date or pāraṇa is selected.
+- Updated source comparison: `data/references/ekadashi-source-comparison.md`, commit `cce1880930ad701fd330f76c8e626e5de4efca2b`.
+- No production runtime, festival dates, Blogger output, or PR merge state changed. CI has not been claimed for this documentation-only commit.
