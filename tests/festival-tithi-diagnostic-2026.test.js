@@ -31,9 +31,11 @@ test("emit fixed-location festival tithi interval diagnostics (review required)"
       queryDateIST: date,
       sunrise: asIso(p.sunrise),
       sunset: asIso(p.sunset),
+      moonrise: asIso(p.moonrise),
+      moonset: asIso(p.moonset),
+      tithiObjectKeys: Object.keys(p.tithis[0] || {}),
       tithis: p.tithis.map((item) => ({
-        index: item.index,
-        name: item.name,
+        ...item,
         startTime: asIso(item.startTime),
         endTime: asIso(item.endTime)
       }))
