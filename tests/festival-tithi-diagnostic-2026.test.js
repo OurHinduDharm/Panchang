@@ -9,7 +9,7 @@ const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
 // provides the sunrise-to-next-sunrise interval for that civil date.
 const observer = new Observer(30.1265, 80.4817, 0);
 const dates = [
-  "2026-10-18", "2026-10-19", "2026-10-20", "2026-10-21",
+  "2026-10-10", "2026-10-11", "2026-10-18", "2026-10-19", "2026-10-20", "2026-10-21",
   "2026-10-24", "2026-10-25", "2026-10-26",
   "2026-11-05", "2026-11-06", "2026-11-07", "2026-11-08",
   "2026-11-09", "2026-11-10", "2026-11-11", "2026-11-12"
@@ -34,6 +34,7 @@ test("emit fixed-location festival tithi interval diagnostics (review required)"
       sunset: asIso(p.sunset),
       moonrise: asIso(p.moonrise),
       moonset: asIso(p.moonset),
+      abhijitMuhurta: p.abhijitMuhurta ?? null,
       tithiObjectKeys: Object.keys(p.tithis[0] || {}),
       nakshatraObjectKeys: Object.keys((p.nakshatras || [])[0] || {}),
       yogaObjectKeys: Object.keys((p.yogas || [])[0] || {}),
