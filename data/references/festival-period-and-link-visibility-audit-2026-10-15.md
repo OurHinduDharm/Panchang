@@ -109,3 +109,10 @@ OurHinduDharm will list exactly these two observances and will not generalize th
 References checked: Sanatan Sanstha states that some Panchangs give Kartik Krishna Chaturdashi while others give Chaitra Purnima (https://www.sanatan.org/hindi/a/57.html); Akhand Jyoti also mentions both Chaitra Purnima and Narak Chaturdashi (https://www.awgp.org/en/literature/akhandjyoti/1999/November/v2.37).
 
 Implementation note: the generic rule “तिथि क्षेत्र/परंपरा के अनुसार बदलती है” has been removed from both records and replaced with the two explicit site-approved rules. Historical `sourceText` and imported date strings remain unchanged. `festival-019` still contains a 2025 date and must not be treated as a verified current-year date; `festival-073` also remains `needs-review` until its local tithi boundary is independently checked. This is a policy correction, not a claim that the old date strings have been recalculated.
+
+
+## Ganesh Chaturthi + Ganesh Jayanti display policy — owner clarification (2026-10-15)
+
+The owner has clarified that **Ganesh Chaturthi and Ganesh Jayanti must appear together on the same day in OurHinduDharm Panchang**, not as two separate observances. The record is now labelled **“श्री गणेश चतुर्थी / गणेश जयंती”** and its tithi is explicitly **भाद्रपद शुक्ल चतुर्थी**. A regression test asserts that there is exactly one Ganesh entry for these two names.
+
+The existing `festival-117` start/end values (14–25 September 2026) are preserved as a separate festival/display window, not treated as the tithi duration. The historical `sourceText` is unchanged. This supersedes the earlier recommendation to ask whether the title should be renamed: the owner has now approved the combined label and same-day display policy.
