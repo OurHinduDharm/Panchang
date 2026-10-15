@@ -76,7 +76,30 @@ test("DUR-03: equal end times remain unresolved rather than guessed", () => {
   });
 });
 
-test("DUR-04: an interval already ended at the comparison instant is unresolved", () => {
+test("DUR-04: near-simultaneous ends are compared by exact timestamps, not rounded minutes", () => {
+  const result = compareRemainingDurations({
+    comparisonAt: "2026-09-23T00:00:00+05:30",
+    dvadashiEnd: "2026-09-23T09:09:30+05:30",
+    shravanaEnd: "2026-09-23T09:09:00+05:30"
+  });
+  assert.equal(result.status, "rule-profile");
+  assert.equal(result.branch, "dvadashi-remains-longer");
+  assert.equal(result.paranaBoundary, "shravana-end-while-dvadashi-remains");
+  assert.equal(result.exactClockTime, null);
+});
+
+test("DUR-05: Dvadashi already ended at the comparison instant remains unresolved", () => {
+  assert.deepEqual(compareRemainingDurations({
+    comparisonAt: "2026-09-23T09:09:00+05:30",
+    dvadashiEnd: "2026-09-23T09:09:00+05:30",
+    shravanaEnd: "2026-09-23T10:00:00+05:30"
+  }), {
+    status: "unresolved",
+    reason: "both-intervals-must-still-be-active"
+  });
+});
+
+test("DUR-06: an interval already ended at the comparison instant is unresolved", () => {
   assert.deepEqual(compareRemainingDurations({
     comparisonAt: "2026-09-23T09:09:00+05:30",
     dvadashiEnd: "2026-09-23T22:50:00+05:30",
@@ -87,7 +110,7 @@ test("DUR-04: an interval already ended at the comparison instant is unresolved"
   });
 });
 
-test("DUR-05: missing or invalid timestamps are unresolved", () => {
+test("DUR-07: missing or invalid timestamps are unresolved", () => {
   assert.deepEqual(compareRemainingDurations({
     comparisonAt: "not-a-date",
     dvadashiEnd: "2026-09-23T22:50:00+05:30",
