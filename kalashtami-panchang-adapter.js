@@ -2,11 +2,11 @@
 
 /*
  * Draft-only adapter from @ishubhamx/panchangam-js to festival resolver day records.
- * Monthly Kalashtami candidates use tithi at local sunrise.
- * Annual Bhairava Jayanti uses a night-midpoint diagnostic proxy, NOT a certified
- * Nishita-muhurta/vrata decision. Keep this adapter out of live rendering until
- * the proxy is replaced/approved and end-to-end dates are checked against the
- * Ganesh Martand Panchang.
+ * Draft-only Kalashtami/Bhairava date-decision engine.
+ * Monthly Kalashtami follows the Vratraj rule as implemented by Drik Panchang:
+ * prefer Krishna Ashtami that prevails for at least one ghati (24 minutes)
+ * after Pradosh begins; otherwise choose the date with the greater Ashtami
+ * overlap during night. Annual Bhairava Jayanti follows Dharmasindhu Ashtami Nirnaya.
  */
 (function (root) {
   const TITHI_HINDI = [
@@ -104,10 +104,13 @@
   }
   function selectMonthlyDateForEvent(days) {
     const sorted = (days || []).slice().sort((a,b) => a.date.localeCompare(b.date));
-    return sorted.find(day => day.pradosh) ||
-      sorted.find(day => day.sunrise) ||
-      sorted.find(day => day.madhyahna) ||
-      sorted[0] || null;
+    if (!sorted.length) return null;
+    const qualified = sorted.filter(day => day.pradoshMinutes >= 24 || day.pradosh === true);
+    const pool = qualified.length ? qualified : sorted;
+    return pool.slice().sort((a,b) =>
+      (Number(b.nightMinutes) || 0) - (Number(a.nightMinutes) || 0) ||
+      a.date.localeCompare(b.date)
+    )[0];
   }
   function selectAnnualBhairavaDate(days) {
     const sorted = (days || []).slice().sort((a,b) => a.date.localeCompare(b.date));
@@ -163,7 +166,7 @@
     const sunriseDays = [];
     const nightMidpointDays = [];
     const eventGroups = new Map();
-    function register(dateString, p, kind) {
+    function register(dateString, p, kind, minutes) {
       if (!isKrishnaAshtami(p)) return;
       const start = validInstant(p.tithiStartTime);
       const end = validInstant(p.tithiEndTime);
@@ -178,28 +181,34 @@
         tithi: "अष्टमी",
         sunrise: false,
         madhyahna: false,
-        pradosh: false
+        pradosh: false,
+        pradoshMinutes: 0,
+        nightMinutes: 0
       };
       existing[kind] = true;
+      if (kind === "pradosh") existing.pradoshMinutes += Number(minutes) || 0;
+      if (kind === "night") existing.nightMinutes += Number(minutes) || 0;
+      existing.pradosh = existing.pradoshMinutes >= 24;
       days.set(dateString, existing);
     }
     function probeWindow(dateString, start, end, kind, stepMinutes) {
       if (!start || !end || end <= start) return;
-      const step = stepMinutes * 60 * 1000;
+      const step = Math.max(1, stepMinutes || 1) * 60 * 1000;
       const endMs = end.getTime();
-      let time = start.getTime();
-      let guard = 0;
-      while (time <= endMs && guard++ < 100) {
-        const p = options.getPanchangam(new Date(time), observer, { timezoneOffset });
-        register(dateString, p, kind);
-        const boundary = validInstant(p && p.tithiEndTime);
-        if (boundary && boundary.getTime() > time + 1000) {
-          time = boundary.getTime() + 1000;
-        } else {
-          time += step;
+      for (let time = start.getTime(); time < endMs; time += step) {
+        const nextTime = Math.min(time + step, endMs);
+        const p = options.getPanchangam(new Date(time + Math.min(1000, (nextTime-time)/2)), observer, { timezoneOffset });
+        if (!isKrishnaAshtami(p)) continue;
+        const tithiStart = validInstant(p && p.tithiStartTime);
+        const tithiEnd = validInstant(p && p.tithiEndTime);
+        let minutes = (nextTime-time)/60000;
+        if (tithiStart && tithiEnd && tithiEnd > tithiStart) {
+          const overlapStart = Math.max(time, tithiStart.getTime());
+          const overlapEnd = Math.min(nextTime, tithiEnd.getTime());
+          minutes = Math.max(0, (overlapEnd-overlapStart)/60000);
         }
+        if (minutes > 0) register(dateString, p, kind, minutes);
       }
-      register(dateString, options.getPanchangam(new Date(endMs), observer, { timezoneOffset }), kind);
     }
     for (const dateString of Array.from(candidateDates).sort()) {
       const entry = base.get(dateString);
@@ -218,17 +227,18 @@
         probeWindow(dateString, madhyahnaStart, madhyahnaEnd, "madhyahna", 5);
       }
       if (entry.sunset) {
-        const pradoshEnd = new Date(entry.sunset.getTime() + 144 * 60 * 1000);
-        probeWindow(dateString, entry.sunset, pradoshEnd, "pradosh", 5);
+        const pradoshEnd = new Date(entry.sunset.getTime() + 72 * 60 * 1000);
+        probeWindow(dateString, entry.sunset, pradoshEnd, "pradosh", 1);
       }
       const next = new Date(dateString + "T00:00:00Z");
       next.setUTCDate(next.getUTCDate()+1);
       const nextString = next.toISOString().slice(0,10);
       const nextEntry = base.get(nextString);
       if (entry.sunset && nextEntry && nextEntry.sunrise) {
+        probeWindow(dateString, entry.sunset, nextEntry.sunrise, "night", 1);
         const midpoint = new Date((entry.sunset.getTime()+nextEntry.sunrise.getTime())/2);
         const nightP = options.getPanchangam(midpoint, observer, { timezoneOffset });
-        if (nightP) nightMidpointDays.push(record(dateString, nightP, "night-midpoint-diagnostic"));
+        if (nightP) nightMidpointDays.push(record(dateString, nightP, "night-midpoint-reference"));
       }
     }
     const monthlyDecisionDays = [];
@@ -239,7 +249,8 @@
       const annual = selectAnnualBhairavaDate(days);
       if (monthly) monthlyDecisionDays.push({
         date: monthly.date, month: monthly.month, paksha: monthly.paksha, tithi: monthly.tithi,
-        sourceMethod: "krishna-ashtami-pradosh-vyapti"
+        sourceMethod: monthly.pradoshMinutes >= 24 ? "vratraj-one-ghati-after-pradosh" : "greater-night-ashtami-vyapti",
+        pradoshMinutes: Math.round(monthly.pradoshMinutes || 0), nightMinutes: Math.round(monthly.nightMinutes || 0)
       });
       if (annual) annualDecisionDays.push({
         date: annual.date, month: annual.month, paksha: annual.paksha, tithi: annual.tithi,
@@ -252,7 +263,7 @@
       year, latitude, longitude, elevation,
       sunriseDays, nightMidpointDays, monthlyDecisionDays, annualDecisionDays,
       candidateDates: Array.from(candidateDates).sort(),
-      note: "Monthly Kalashtami is selected by Krishna Ashtami during Pradosh; annual Bhairava Ashtami uses the separate Madhyahna/Pradosh decision rules."
+      note: "Monthly Kalashtami: prefer Krishna Ashtami lasting at least one ghati after Pradosh begins; otherwise choose the date with greater night-time Ashtami overlap. Annual Bhairava Ashtami follows the separate Dharmasindhu Madhyahna/Pradosh decision rules."
     };
   }
   const api = { buildKalashtamiDays, tithiHindi, pakshaHindi, monthHindi, tithiIndex, isKrishnaAshtami, selectMonthlyDateForEvent, selectAnnualBhairavaDate };
