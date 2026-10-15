@@ -189,6 +189,26 @@
     display: none;
   }
 
+  .report-copy-row {
+    display: flex;
+    justify-content: flex-end;
+    margin: 8px 0 4px;
+  }
+
+  .report-copy-btn {
+    border: 1px solid #8a98a8;
+    background: #f8fafc;
+    color: #17202a;
+    border-radius: 7px;
+    padding: 7px 11px;
+    font-weight: 600;
+  }
+
+  .report-copy-btn:focus-visible {
+    outline: 2px solid #245b8a;
+    outline-offset: 2px;
+  }
+
   details {
     margin: 10px 0;
   }
@@ -5051,6 +5071,66 @@ rawTksButton.addEventListener("click", async () => {
     rawTksButton.disabled = false;
   }
 });
+
+/* =============================================================
+   COPY EACH REPORT — research page only
+   ============================================================= */
+async function copyReportText(target, button) {
+  const textToCopy = target.innerText || target.textContent || "";
+  if (!textToCopy.trim()) {
+    const old = button.textContent;
+    button.textContent = "No report data yet";
+    setTimeout(() => { button.textContent = old; }, 1800);
+    return;
+  }
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(textToCopy);
+    } else {
+      const temporary = document.createElement("textarea");
+      temporary.value = textToCopy;
+      temporary.setAttribute("readonly", "");
+      temporary.style.position = "fixed";
+      temporary.style.left = "-9999px";
+      document.body.appendChild(temporary);
+      temporary.select();
+      const copied = document.execCommand("copy");
+      temporary.remove();
+      if (!copied) throw new Error("Browser did not permit clipboard copy");
+    }
+    const old = button.textContent;
+    button.textContent = "Copied ✓";
+    button.setAttribute("aria-live", "polite");
+    setTimeout(() => { button.textContent = old; }, 1800);
+  } catch (error) {
+    const old = button.textContent;
+    button.textContent = "Copy blocked — select report text";
+    button.title = String(error && error.message ? error.message : error);
+    setTimeout(() => { button.textContent = old; }, 2600);
+  }
+}
+
+function installReportCopyButtons() {
+  const targets = Array.from(document.querySelectorAll("[id]")).filter(el =>
+    /Output$/.test(el.id) || el.id === "rawTksOutput"
+  );
+  for (const target of targets) {
+    if (target.dataset.copyReportInstalled === "true") continue;
+    target.dataset.copyReportInstalled = "true";
+    const row = document.createElement("div");
+    row.className = "report-copy-row";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "report-copy-btn";
+    button.textContent = "📋 Copy Report";
+    button.setAttribute("aria-label", "Copy report: " + target.id);
+    button.addEventListener("click", () => copyReportText(target, button));
+    row.appendChild(button);
+    target.parentNode.insertBefore(row, target);
+  }
+}
+
+installReportCopyButtons();
 
 setStatus(
   "Ready. Click Run All Tests. Raw TKS capture is optional and manual only.",
