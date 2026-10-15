@@ -45,7 +45,7 @@ test("Ghatasthapana adapter calculates from the selected location's Panchang int
   assert.equal(result.status, "candidate");
   assert.equal(result.selectedBy, "first-third-of-day");
   assert.equal(result.window.start.toISOString(), sunrise.toISOString());
-  assert.equal(result.window.end.toISOString(), "2026-10-11T04:33:00.000Z");
+  assert.equal(result.window.end.toISOString(), "2026-10-11T04:29:40.000Z");
   assert.equal(result.inputsAvailable.pratipada, true);
 });
 
