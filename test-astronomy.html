@@ -5072,12 +5072,26 @@ rawTksButton.addEventListener("click", async () => {
     const sameBodyPayload = captures.length === 2 &&
       captures[0].response_json && captures[1].response_json &&
       JSON.stringify(captures[0].response_json) === JSON.stringify(captures[1].response_json);
-    rawTksStatus.className = failures.length || sameBodyPayload ? "status warn" : "status ok";
+    const expectedJD = 2461325.5416667;
+    const jdToleranceDays = 1 / 86400; // one second
+    const jdChecks = captures.map(record => {
+      const jd = Number(record.response_json?.time?.jd_utc);
+      record.returned_jd_utc = Number.isFinite(jd) ? jd : null;
+      record.jd_matches_requested_instant = Number.isFinite(jd)
+        ? Math.abs(jd - expectedJD) <= jdToleranceDays
+        : false;
+      return record.jd_matches_requested_instant;
+    });
+    const instantUnverified = jdChecks.length !== 2 || !jdChecks.every(Boolean);
+    const bodyUnverified = sameBodyPayload;
+    rawTksStatus.className = failures.length || bodyUnverified || instantUnverified ? "status warn" : "status ok";
     rawTksStatus.textContent = failures.length
       ? "Capture completed with one or more HTTP/fetch errors. Inspect each exact request and response below; do not treat an error as astronomical data."
-      : sameBodyPayload
-        ? "Warning: Sun and Venus requests returned identical JSON. Treat the Venus state as unverified until the endpoint's body selection is resolved."
-        : "Both responses received. Check returned JD against 2461325.5416667 and confirm the Venus payload actually describes Venus before comparing K.";
+      : bodyUnverified
+        ? "Warning: Sun and Venus requests returned identical JSON. Treat Venus as unverified until body selection is resolved."
+        : instantUnverified
+          ? "Warning: the returned JD is missing or differs from 2461325.5416667 by more than one second. These responses are not yet a verified same-instant comparison; inspect raw time fields before comparing K."
+          : "Both responses report the requested instant within one second and have different payloads. Still verify that the Venus payload truly describes Venus and that the relevant frame/coordinates match before comparing K.";
   } finally {
     rawTksButton.disabled = false;
   }
