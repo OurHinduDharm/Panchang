@@ -9,7 +9,8 @@
     "The source file also contains widget/rendering code and Chaturmas-related content outside the festivalData array; that content has not been migrated into this festival list.",
     "Added preliminary date-rule fields from festival names and a limited review of linked OurHinduDharm articles. All entries remain needs-review; these are research hints, not certified dates.",
     "sourceUrl is the first article link found in the original description HTML. No original title/description/links/date values were changed.",
-    "Draft audit update 2026-10-15: festival-009 title/date wording clarified; festival-010 to festival-013 and festival-020 to festival-023 have provisional 2026 observance-date candidates from public calendar cross-checks. These remain needs-review; no production/Blogger integration is authorized by this data file alone. sourceText retains original legacy dates and descriptions for traceability."
+    "Draft audit update 2026-10-15: festival-009 title/date wording clarified; festival-010 to festival-013 and festival-020 to festival-023 have provisional 2026 observance-date candidates from public calendar cross-checks. These remain needs-review; no production/Blogger integration is authorized by this data file alone. sourceText retains original legacy dates and descriptions for traceability.",
+    "2026-10-15: Added structured relatedArticles links for Shardiya Navratri, Sharad Purnima, Rama Ekadashi, Dhanteras, Naraka Chaturdashi and Diwali so a future JSON-driven renderer can show internal articles explicitly. Govardhan Puja and Bhai Dooj have no verified article URLs in the current legacy source; do not invent links."
   ],
   "festivals": [
     {
@@ -95,7 +96,25 @@
         "ruleProfile": "classical-ghatasthapana-first-third-of-day; abhijit-fallback",
         "displayLabel": "घटस्थापना मुहूर्त",
         "status": "needs-calculation"
-      }
+      },
+      "relatedArticles": [
+        {
+          "title": "शारदीय नवरात्र की जानकारी",
+          "url": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html"
+        },
+        {
+          "title": "घटस्थापना की संपूर्ण विधि",
+          "url": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html"
+        },
+        {
+          "title": "आज का पंचांग",
+          "url": "https://ourhindudharm.blogspot.com/p/panchang-today.html"
+        },
+        {
+          "title": "माँ शैलपुत्री की पूजा",
+          "url": "http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html"
+        }
+      ]
     },
     {
       "id": "festival-004",
@@ -345,7 +364,17 @@
         ],
         "status": "needs-calculation",
         "foodSafetyNote": "खीर को ढककर रखें और लंबे समय तक असुरक्षित तापमान पर न छोड़ें।"
-      }
+      },
+      "relatedArticles": [
+        {
+          "title": "कोजागरी / शरद पूर्णिमा व्रत",
+          "url": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html"
+        },
+        {
+          "title": "लक्ष्मी-कुबेर पूजन",
+          "url": "https://ourhindudharm.blogspot.com/p/lakshmi.html"
+        }
+      ]
     },
     {
       "id": "festival-014",
@@ -421,7 +450,13 @@
         "displayLabel": "रमा एकादशी पारण मुहूर्त",
         "ruleProfile": "tradition-specific-smarta-vaishnava",
         "status": "needs-calculation"
-      }
+      },
+      "relatedArticles": [
+        {
+          "title": "रमा एकादशी व्रत",
+          "url": "http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html"
+        }
+      ]
     },
     {
       "id": "festival-017",
@@ -480,7 +515,17 @@
           "optional-shopping-window"
         ],
         "status": "needs-calculation"
-      }
+      },
+      "relatedArticles": [
+        {
+          "title": "धनतेरस और धन्वन्तरि जयंती",
+          "url": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html"
+        },
+        {
+          "title": "धनतेरस पर श्रीधन्वन्तरि उपासना",
+          "url": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html"
+        }
+      ]
     },
     {
       "id": "festival-019",
@@ -522,7 +567,13 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\">नरक चतुर्दशी</a>, काली चौदस🪔 इस दिन प्रातः काल लौकी सिर से घुमाकर व सरसों का तेल शरीर में लगाकर स्नान करें।"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "relatedArticles": [
+        {
+          "title": "नरक चतुर्दशी",
+          "url": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html"
+        }
+      ]
     },
     {
       "id": "festival-021",
@@ -560,7 +611,29 @@
           "nishita-kali-puja"
         ],
         "status": "needs-calculation"
-      }
+      },
+      "relatedArticles": [
+        {
+          "title": "दीपावली",
+          "url": "http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html"
+        },
+        {
+          "title": "श्री महालक्ष्मी पूजन विधि",
+          "url": "http://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html"
+        },
+        {
+          "title": "कमला महाविद्या",
+          "url": "http://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html"
+        },
+        {
+          "title": "श्री लक्ष्मी स्तोत्राणि",
+          "url": "https://ourhindudharm.blogspot.com/p/lakshmi.html"
+        },
+        {
+          "title": "आज का पंचांग",
+          "url": "https://ourhindudharm.blogspot.com/p/panchang-today.html"
+        }
+      ]
     },
     {
       "id": "festival-022",
