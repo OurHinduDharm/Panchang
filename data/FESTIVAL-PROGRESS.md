@@ -912,3 +912,5 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Configured the annual `festival-027` Kalabhairava Ashtami/Jayanti record for Panchang-tithi matching on Margashirsha Krishna Ashtami; its 2025 Gregorian date remains historical provenance, not a future recurrence date.
 - Added automated test cases for multiple monthly Krishna Ashtamis across different month labels and for the separate annual Margashirsha observance.
 - Important limitation: this is resolver/data/test support only. The draft upcoming-festival card renderer is **not yet wired** to a real local Panchang-day provider, and this work has not changed Blogger/live output. Do not merge or deploy until a provider adapter and end-to-end preview tests are added.
+
+- Follow-up: added `alternateMonths: ["कार्तिक"]` to the annual Bhairava record and documented it in the schema. The resolver now accepts this equivalent Amanta label as well as the project's Purnimanta `मार्गशीर्ष` label; a regression test covers both. This is label compatibility, not a claim that all calendar providers use the same month convention.
