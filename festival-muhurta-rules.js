@@ -107,7 +107,7 @@ function selectPujaWindows({ tithi, pradosh, vrishabha, nishita, tradition }) {
   return { status: any ? "candidate" : "calculation-unavailable", ...result };
 }
 
-module.exports = {
+const OHDFestivalMuhurtaRules = {
   interval,
   intersectIntervals,
   ghatasthapanaCandidates,
@@ -115,3 +115,10 @@ module.exports = {
   paranaWindow,
   selectPujaWindows
 };
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = OHDFestivalMuhurtaRules;
+}
+if (typeof globalThis !== "undefined") {
+  globalThis.OHDFestivalMuhurtaRules = OHDFestivalMuhurtaRules;
+}
