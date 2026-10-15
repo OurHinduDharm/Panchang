@@ -65,7 +65,7 @@ jobs:
           const overrideIds = overrides.overrides.map((item) => item.id);
           if (new Set(overrideIds).size !== overrideIds.length) throw new Error('duplicate override IDs');
           for (const item of overrides.overrides) {
-            if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(item.displayDate)) {
+    if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(item.displayDate)) {
               throw new Error('invalid override date format: ' + item.id);
             }
             if (item.festivalId && !ids.includes(item.festivalId)) {
