@@ -27,23 +27,28 @@
         "tithi": "अष्टमी",
         "recurrence": "monthly"
       },
-      "dateDecision": "Select the local civil date on which Krishna Ashtami is present during the Pradosh interval. If more than one date in the same Ashtami interval qualifies, prefer the earlier date for this monthly observance. If neither Pradosh interval qualifies, fall back to the earliest date with Krishna Ashtami at local sunrise. Pradosh is operationally defined here as local sunset through 144 minutes after sunset; the engine follows tithi end boundaries when exposed by the library and uses five-minute steps only as a fallback.",
+      "dateDecision": "Follow the Vratraj-based rule stated by Drik Panchang for Masik Kalashtami: select the date on which Krishna Ashtami prevails for at least one ghati (24 minutes) after Pradosh begins. Operationally test the first 72 minutes after local sunset and require at least 24 minutes of Krishna Ashtami overlap. If no date qualifies, select the date with the greater Krishna Ashtami overlap during the local night (sunset to next sunrise); break a tie by the earlier date.",
       "timeSlots": [
         {
-          "name": "प्रदोषकाल",
+          "name": "प्रदोषारम्भ के बाद एक घटी",
           "startRule": "local sunset",
-          "endRule": "local sunset + 144 minutes; intersect with Krishna Ashtami"
+          "endRule": "local sunset + 72 minutes; require at least 24 minutes of Krishna Ashtami overlap"
+        },
+        {
+          "name": "रात्रि-व्याप्ति fallback",
+          "startRule": "local sunset",
+          "endRule": "next local sunrise; compare total Krishna Ashtami overlap"
         }
       ],
-      "calculationStatus": "draft-rule-implemented-needs-regression-and-source-check",
-      "primaryReference": "Dharmasindhu, Ashtami Nirnaya",
+      "calculationStatus": "rule-implemented-awaiting-automated-regression",
+      "primaryReference": "Vratraj Kalashtami rule as explicitly described by Drik Panchang; Dharmasindhu Ashtami Nirnaya for general Ashtami principles",
       "sourceUrls": [
-        "https://www.transliteral.org/pages/z80422041657/view",
-        "https://panchangtime.com/methodology/kalashtami"
+        "https://www.drikpanchang.com/vrats/masik-kalashtami-dates.html?year=2027",
+        "https://www.transliteral.org/pages/z80422041657/view"
       ],
       "referenceChecks": [
-        "Confirm the monthly night/Pradosh rule wording against the relevant printed Dharmasindhu passage and Ganesh Martand Panchang edge cases.",
-        "Test skipped, short, and two-Pradosh Ashtami intervals before production."
+        "Validate Pithoragarh monthly dates against the printed Ganesh Martand Panchang and compare Drik Panchang as a secondary reference.",
+        "The 72-minute Pradosh window is the implementation's operational window; confirm against the chosen Panchang convention if the printed reference defines a different local Pradosh boundary."
       ]
     },
     {
