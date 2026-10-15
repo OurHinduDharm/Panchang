@@ -985,3 +985,15 @@ The earlier capture code incorrectly sent `time=01:00` without `tz`, and used st
 - The broad pull-request path filter now covers all JavaScript, module, HTML, Markdown, and workflow changes; the filter audit passed CI on commit `67de95468804ac769315c8a3f13d2951d4589432`: https://github.com/OurHinduDharm/Panchang/actions/runs/38718611814.
 - The corrected capture code passed the complete research workflow on commit `198665de2cacdcb58d97710c3b68df7c7a838c12`, run #533 / ID `38718788365`: https://github.com/OurHinduDharm/Panchang/actions/runs/38718788365. Syntax, arithmetic/source tests, HTML wiring, headless Chromium, and production-file identity all passed. **No live response has been captured in this audit session**; do not report the raw comparison complete until the manual button is run in a browser and its exact JSON is inspected.
 - This request fix is separate from the remaining classical-model blockers: source-faithful Ahargaṇa/epoch/meridian mapping, Chapter VII coordinate-frame interpretation, exact K definition, and date/event provenance. It does not certify any Udaya/Asta date. Production files remain untouched.
+
+
+## Independent published-date cross-check — TKS vs Drik Panchang (15 October 2026)
+
+A first source-ledger comparison is recorded in `research/observations/2026-10-15-tks-vs-drik-classical-date-crosscheck.md`.
+
+- Venus: TKS Shāstrīya Asta start and Drik Panchang's modern Asta start both fall on 12 October 2026 in the supplied records; TKS next Udaya is 1 November, while Drik's published Asta end is 29 October 05:51. This is a partial match, not an exact match.
+- Jupiter: TKS shows Asta on 20 August 2027 and Udaya on 13 September; Drik's Bhatkal page shows Asta starting 19 August 2027 19:23 and ending at 29:43+ on 12 September, i.e. 13 September 05:43. This is broadly aligned by civil date at the end, but not an exact start-time match.
+- Drik explicitly says its published event dates are calculated with modern algorithms, while describing Sūrya-siddhānta's approximate angular limits separately. Therefore this is a valuable external date-level cross-check, not validation of TKS's Chapter IX K calculation or our classical reconstruction.
+- Preserve both sources as separate fixtures; never tune the classical calculation to the date label alone. Next compare exact event definitions and same-instant coordinates, then expand to further Panchāṅgas only when provenance and method can be documented.
+
+No production code was changed. PR #22 remains Draft/unmerged.
