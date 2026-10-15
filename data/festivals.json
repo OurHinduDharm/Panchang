@@ -543,10 +543,10 @@
         "type": "tithi",
         "start": "2025-10-19",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": null,
-        "month": null,
-        "rule": "हनुमान जयंती की तिथि क्षेत्र/परंपरा के अनुसार बदलती है; संबंधित लेख और स्थानीय परंपरा से पुष्टि आवश्यक।"
+        "calculationNotes": "Legacy Blogger record dated 2025-10-19 is preserved as historical source data. The observance rule is now explicitly limited to Kartik Krishna Chaturdashi (Purnimanta); current-year date still requires calculation and validation.",
+        "tithi": "कृष्ण चतुर्दशी",
+        "month": "कार्तिक (पूर्णिमान्त)",
+        "rule": "OurHinduDharm में हनुमान जन्मोत्सव की स्वीकृत दूसरी तिथि: कार्तिक कृष्ण चतुर्दशी, अर्थात् नरक चतुर्दशी। यह 2025 का पुराना रिकॉर्ड है; वर्तमान वर्ष की तारीख स्थानीय पंचांग-गणना से सत्यापित किए बिना न बदलें/प्रकाशित न करें।"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\"> श्री हनुमान जयन्ती</a> आज हनुमान चालीसा के ११ या २१ या ५१ या १०८ पाठ अवश्य करें। विशेष रूप से आज <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html?m=1\" target=\"_blank\"> श्रीहनुमान जी की स्तोत्रात्मक उपासना</a> करना न भूलेंI आज शाम देवालयों में जाकर दीपदान करे(दीपक जलाये) उसके बाद घर में दीपदान करें। कामेश्वरी जयन्ती।",
       "sourceText": {
@@ -1738,10 +1738,10 @@
         "type": "tithi",
         "start": "2026-04-02",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": null,
-        "month": null,
-        "rule": "हनुमान जयंती की तिथि क्षेत्र/परंपरा के अनुसार बदलती है; संबंधित लेख और स्थानीय परंपरा से पुष्टि आवश्यक।"
+        "calculationNotes": "Legacy Blogger date 2026-04-02 is preserved pending independent local tithi-boundary validation. The observance rule is explicitly Chaitra Shukla Purnima.",
+        "tithi": "शुक्ल पूर्णिमा",
+        "month": "चैत्र",
+        "rule": "OurHinduDharm में हनुमान जन्मोत्सव की स्वीकृत पहली तिथि: चैत्र शुक्ल पूर्णिमा। वर्तमान वर्ष की तारीख स्थानीय पंचांग-गणना से सत्यापित की जाए।"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\">श्रीहनुमान जयन्ती</a> l <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\">श्री हनुमान जी की स्तोत्रात्मक साधना</a>",
       "sourceText": {
