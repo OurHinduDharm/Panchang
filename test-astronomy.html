@@ -260,7 +260,14 @@
 
   <section id="rawTksSection">
     <h2>Raw TKS Ephemeris Capture — Same Instant</h2>
-    <p>Research-only external reference request. Requests Sun (body=10) and Venus (body=2) separately for 12 October 2026, 06:30 IST (tz=5.5), Pithoragarh (29.5830° N, 80.2090° E). The response is checked for the expected UTC Julian Day and returned body code; inspect the exact URL and raw JSON before interpreting K. This does not run during automated tests and does not affect production.</p>
+    <p>Research-only external reference request. Requests Sun (body=10) and Venus (body=2) at the same editable local civil instant, Pithoragarh (29.5830° N, 80.2090° E), tz=5.5. Use the event-specific local time: sunset for a western event; sunrise for an eastern event. The response is checked against the selected instant's UTC Julian Day and returned body code. This does not run during automated tests and does not affect production.</p>
+    <div class="card">
+      <label for="rawTksDate">Local date</label>
+      <input id="rawTksDate" type="date" value="2026-10-12">
+      <label for="rawTksTime" style="margin-left:10px">Local time (IST)</label>
+      <input id="rawTksTime" type="time" value="06:30">
+      <p class="small">Example: use 17:40 for a sunset-side Venus Asta check; use the calculated local sunrise time for an eastern event. The entered time is sent unchanged as local time with tz=5.5.</p>
+    </div>
     <div id="rawTksStatus" class="status info">Not requested yet. Press “Fetch Raw TKS Sun/Venus JSON”.</div>
     <pre id="rawTksOutput" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:560px;overflow:auto;padding:12px;background:#fff;border:1px solid #d7dce2;border-radius:8px;">Raw responses will appear here, including HTTP, JSON, or CORS errors.</pre>
   </section>
@@ -5050,18 +5057,38 @@ function summarizeRawTksFields(value) {
   return found;
 }
 
+function expectedJulianDateUtcFromLocal(dateText, timeText, offsetHoursEastUtc) {
+  const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateText || "");
+  const timeMatch = /^(\d{2}):(\d{2})$/.exec(timeText || "");
+  if (!dateMatch || !timeMatch || !Number.isFinite(offsetHoursEastUtc)) {
+    throw new TypeError("A valid local date, local time, and UTC offset are required.");
+  }
+  const [, year, month, day] = dateMatch.map(Number);
+  const [, hour, minute] = timeMatch.map(Number);
+  const utcMilliseconds = Date.UTC(year, month - 1, day, hour, minute) -
+    offsetHoursEastUtc * 60 * 60 * 1000;
+  return utcMilliseconds / 86400000 + 2440587.5;
+}
+
 rawTksButton.addEventListener("click", async () => {
   rawTksButton.disabled = true;
   rawTksStatus.className = "status info";
-  rawTksStatus.textContent = "Requesting Sun and Venus for 12 Oct 2026, 06:30 IST (tz=5.5)…";
+  const selectedDate = document.getElementById("rawTksDate").value;
+  const selectedTime = document.getElementById("rawTksTime").value;
+  if (!selectedDate || !selectedTime) {
+    rawTksStatus.className = "status warn";
+    rawTksStatus.textContent = "Select both a local date and local time before requesting.";
+    return;
+  }
+  rawTksStatus.textContent = "Requesting Sun and Venus for " + selectedDate + " " + selectedTime + " IST (tz=5.5)…";
   const base = "https://tksephemeris.com/v1/tks/ephemeris";
   // TKS API docs define time as local time in tz hours east of UTC.
   // Body codes are numeric: 10 = Sun, 2 = Venus. The previous string labels
   // ("sun"/"venus") could leave the endpoint on its default body, explaining
   // the identical payloads; the old request also omitted tz.
   const common = {
-    date: "2026-10-12",
-    time: "06:30",
+    date: selectedDate,
+    time: selectedTime,
     tz: "5.5",
     place: "Pithoragarh",
     lat: "29.5830",
@@ -5110,11 +5137,14 @@ rawTksButton.addEventListener("click", async () => {
         record.note = "A browser fetch error can indicate CORS, network failure, or endpoint unavailability; it does not prove the endpoint itself is down.";
       }
       captures.push(record);
+      const selectedDate = document.getElementById("rawTksDate").value;
+      const selectedTime = document.getElementById("rawTksTime").value;
+      const expectedJD = expectedJulianDateUtcFromLocal(selectedDate, selectedTime, 5.5);
       rawTksOutput.textContent = JSON.stringify({
         capture: "TKS raw ephemeris; no coordinate conversion or correction applied",
-        requested_local_instant: "2026-10-12 06:30 IST",
-        request_time_sent: "06:30 local time with tz=5.5 (UTC+05:30)",
-        expected_jd_utc: 2461325.5416667,
+        requested_local_instant: selectedDate + " " + selectedTime + " IST",
+        request_time_sent: selectedTime + " local time with tz=5.5 (UTC+05:30)",
+        expected_jd_utc: expectedJD,
         jd_tolerance_seconds: 1,
         body_codes: { sun: 10, venus: 2 },
         place: "Pithoragarh",
@@ -5130,7 +5160,9 @@ rawTksButton.addEventListener("click", async () => {
     const bodySelectionMismatch = captures.some(record => record.body_code_matches_request === false);
     const bodySelectionUnverified = captures.length !== 2 ||
       !captures.every(record => record.body_code_matches_request === true);
-    const expectedJD = 2461325.5416667;
+    const selectedDate = document.getElementById("rawTksDate").value;
+    const selectedTime = document.getElementById("rawTksTime").value;
+    const expectedJD = expectedJulianDateUtcFromLocal(selectedDate, selectedTime, 5.5);
     const jdToleranceDays = 1 / 86400; // one second
     const jdChecks = captures.map(record => {
       const jd = Number(record.response_json?.time?.jd_utc);
@@ -5153,7 +5185,7 @@ rawTksButton.addEventListener("click", async () => {
             ? "Warning: the response does not expose a recognized body-identity field. The numeric request is recorded, but returned-body identity remains unverified."
             : instantUnverified
               ? "Warning: the returned JD is missing or differs from 2461325.5416667 by more than one second. These are not yet a verified same-instant comparison."
-              : "Both responses explicitly confirm success, requested body identity and the requested instant within one second. Inspect raw coordinates/frame fields before comparing K.";
+              : "Both responses explicitly confirm success, requested body identity and the selected instant within one second. Inspect raw coordinates/frame fields before comparing K.";
   } finally {
     rawTksButton.disabled = false;
   }
