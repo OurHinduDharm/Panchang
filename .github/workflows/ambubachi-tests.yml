@@ -1,0 +1,30 @@
+name: Ambubachi Calculation Tests
+
+on:
+  push:
+    branches:
+      - data/festival-json-foundation
+    paths:
+      - 'ambubachi-calculation.js'
+      - 'tests/ambubachi-calculation.test.js'
+      - 'data/festivals.json'
+      - '.github/workflows/ambubachi-tests.yml'
+  pull_request:
+    paths:
+      - 'ambubachi-calculation.js'
+      - 'tests/ambubachi-calculation.test.js'
+      - 'data/festivals.json'
+      - '.github/workflows/ambubachi-tests.yml'
+
+jobs:
+  ambubachi-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run Ambubachi calculation tests
+        run: node tests/ambubachi-calculation.test.js
+      - name: Validate festival JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('data/festivals.json', 'utf8')); console.log('festivals.json is valid JSON')"
