@@ -30,6 +30,10 @@ on:
       - "festival-muhurta-widget.js"
       - "festival-json-widget.js"
       - "data/festivalData-source.txt"
+      - "festival-preview.html"
+      - "data/README.md"
+      - "data/references/sharad-navaratri-2026-date-audit.md"
+      - "data/references/festival-priority-audit-2026-10-15.md"
       - "tests/festival-json-widget.test.js"
       - "tests/festival-muhurta-widget.test.js"
       - "tests/festival-muhurta-engine.test.js"
@@ -60,6 +64,10 @@ on:
       - "festival-json-widget.js"
       - "tests/festival-json-widget.test.js"
       - "data/festivalData-source.txt"
+      - "festival-preview.html"
+      - "data/README.md"
+      - "data/references/sharad-navaratri-2026-date-audit.md"
+      - "data/references/festival-priority-audit-2026-10-15.md"
       - "tests/festival-muhurta-widget.test.js"
   workflow_dispatch:
 
