@@ -116,3 +116,19 @@ Implementation note: the generic rule “तिथि क्षेत्र/प�
 The owner has clarified that **Ganesh Chaturthi and Ganesh Jayanti must appear together on the same day in OurHinduDharm Panchang**, not as two separate observances. The record is now labelled **“श्री गणेश चतुर्थी / गणेश जयंती”** and its tithi is explicitly **भाद्रपद शुक्ल चतुर्थी**. A regression test asserts that there is exactly one Ganesh entry for these two names.
 
 The existing `festival-117` start/end values (14–25 September 2026) are preserved as a separate festival/display window, not treated as the tithi duration. The historical `sourceText` is unchanged. This supersedes the earlier recommendation to ask whether the title should be renamed: the owner has now approved the combined label and same-day display policy.
+
+
+## Ganesh Utsav: Panchang-driven tithi interval — owner clarification (2026-10-15)
+
+The owner clarified that the festival is a **ten-tithi-day observance**, from **Bhadrapada Shukla Chaturthi through Anant Chaturdashi, inclusive**. Ganesh Chaturthi and Ganesh Jayanti are shown together on the first day; **Anant Chaturdashi is the visarjan day**.
+
+The recurring rule is now encoded in `festival-117.date`:
+- `type: "event-duration"`
+- `month: "भाद्रपद"`, `paksha: "शुक्ल पक्ष"`
+- `startTithi: "शुक्ल चतुर्थी"`
+- `endTithi: "शुक्ल चतुर्दशी (अनंत चतुर्दशी)"`
+- `durationDays: 10`
+- `renderMode: "panchang-tithi-range"`
+- Gregorian `start` and `end` are null; old imported dates remain in `sourceText` for provenance only.
+
+**Implementation caveat:** the current draft `festival-json-widget.js` selects upcoming events by Gregorian `date.start/date.end`; it does not yet calculate or match the current local tithi. Therefore this data correction defines the correct recurrence rule, but the widget must still be upgraded to consume the Panchang result and render the event on each matching tithi before this feature is considered implemented or merged. Do not restore the old static dates as a workaround.
