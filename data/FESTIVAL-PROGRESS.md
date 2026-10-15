@@ -933,3 +933,11 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - These are calculation/display contracts, not calculated times. Dhanteras/Deepawali/Holika Dahan muhurats and Sankranti Punyakaal remain research-required. Ingress instant must be separate from Punyakaal; no guessed universal offset or fabricated clock time.
 - Added resolver regression tests for monthly Purnima and the Holashtak interval. CI has not yet been confirmed successful; check Actions before relying on tests.
 - No main-branch merge and no live Blogger change.
+
+
+## Sankranti coverage follow-up — 2026-10-16
+- Added the missing recurring astronomical definitions so the draft catalog now contains all 12 sidereal Sankranti ingress boundaries: 0°, 30°, …, 330°. Existing Dhanu, Makara, and Karka records were upgraded from legacy-date-only hints to solar-event rules; nine other Sankrantis were added without hard-coded Gregorian dates.
+- Added a regression test asserting exactly twelve named Sankranti ingress records, distinct 30-degree boundaries, and resolver behavior with supplied solar-event instants.
+- The rule metadata links the Punyakaal profile to all twelve records. **This does not yet calculate Punyakaal**: the local solar-event provider must supply exact ingress instants, and each Punyakaal decision still needs a verified shastric formula and local sunrise/sunset conditions.
+- Added `data/muhurta-rules.json` to the JSON parsing check and its files to the workflow path filters.
+- Total festival/observance records in the draft catalog: 142. All additions remain draft/needs-review; no live Blogger change.
