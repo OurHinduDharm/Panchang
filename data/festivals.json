@@ -2667,13 +2667,13 @@
     },
     {
       "id": "festival-117",
-      "name": "श्री गणेश जी की जयंती ",
+      "name": "श्री गणेश चतुर्थी / गणेश जयंती",
       "date": {
         "type": "tithi",
         "start": "2026-09-14",
         "end": "2026-09-25",
-        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
-        "rule": "तारीख गणेश चतुर्थी के आसपास है, पर शीर्षक 'जयंती' है; इसे लेख/परंपरा से स्पष्ट करना होगा।",
+        "calculationNotes": "Owner-confirmed display policy: show Ganesh Chaturthi and Ganesh Jayanti together on the same observance date. Keep the existing festival-period window separate from the single-day observance label; do not create a second date entry for Ganesh Jayanti.",
+        "rule": "OurHinduDharm में गणेश चतुर्थी और गणेश जयंती एक ही दिन दिखाई जाएँगी। यह प्रविष्टि भाद्रपद शुक्ल चतुर्थी की है; गणेशोत्सव/विसर्जन की अवधि अलग से 14–25 सितम्बर 2026 तक रह सकती है।",
         "tithi": "भाद्रपद शुक्ल चतुर्थी (शीर्षक सत्यापन आवश्यक)",
         "month": "भाद्रपद"
       },
