@@ -30,12 +30,13 @@ test("MDV-CAT-03: the four supplied nakshatra pairings stay distinct", () => {
     .filter(item => item.nakshatra)
     .map(item => [item.id, item.nakshatra])
     .sort((a, b) => a[0].localeCompare(b[0]));
-  assert.deepEqual(pairings, [
-    ["jayanti", "Punarvasu"],
+  const expected = [
     ["jaya", "Pushya"],
-    ["papanashini", "Rohini"],
-    ["vijaya", "Shravana"]
-  ]);
+    ["vijaya", "Shravana"],
+    ["jayanti", "Punarvasu"],
+    ["papanashini", "Rohini"]
+  ].sort((a, b) => a[0].localeCompare(b[0]));
+  assert.deepEqual(pairings, expected);
 });
 
 test("MDV-CAT-04: each category records source text and unresolved implementation status", () => {
