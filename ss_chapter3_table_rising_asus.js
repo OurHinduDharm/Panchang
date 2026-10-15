@@ -13,7 +13,7 @@
 
 import { chapter2ArcMinutesFromSine } from "./ss_chapter2_versed_sine_table.js";
 import { chapter3DayMeasureInputsFromSolarLongitude } from "./ss_chapter3_nata_table_arithmetic.js";
-import { chapter3RisingAsusFromCaraEndpoints } from "./ss_chapter3_source_rising_asus.js";
+import { chapter3RisingAsusFromCaraEndpoints, chapter3CaraEndpointsTrigControl } from "./ss_chapter3_source_rising_asus.js";
 
 function finite(value, name) {
   if (!Number.isFinite(value)) throw new TypeError(name + " must be finite.");
@@ -71,7 +71,18 @@ export function runChapter3TableRisingAsusTests() {
   };
   const close = (a, b, tolerance = 1e-9) => Math.abs(a - b) <= tolerance;
 
-  const washington = chapter3RisingAsusFromChapter2Tables({ latitudeDeg: 38 + 54 / 60 });
+  const washingtonLatitudeDeg = 38 + 54 / 60;
+  const washington = chapter3RisingAsusFromChapter2Tables({ latitudeDeg: washingtonLatitudeDeg });
+  const washingtonTrig = chapter3CaraEndpointsTrigControl({ latitudeDeg: washingtonLatitudeDeg });
+  const washingtonCrossCheck = washington.caraEndpoints.map((point, i) => ({
+    longitudeDeg: point.solarLongitudeDeg,
+    tableCaraArcMinutes: point.caraArcMinutes,
+    trigCaraArcMinutes: washingtonTrig.caraEndpoints[i],
+    tableMinusTrigArcMinutes: point.caraArcMinutes - washingtonTrig.caraEndpoints[i],
+    tableLowerIndex: point.caraArc.lowerTableIndex,
+    tableUpperIndex: point.caraArc.upperTableIndex,
+    interpolationFraction: point.caraArc.interpolationFraction
+  }));
   check("Washington table path derives finite cara endpoints from Chapter II tables", () =>
     washington.caraEndpoints.length === 3 &&
     washington.caraEndpoints.every(point =>
@@ -80,6 +91,15 @@ export function runChapter3TableRisingAsusTests() {
   check("Washington table-derived cara endpoints stay within 3 asu of Burgess's 578/1061/1263 example", () =>
     washington.caraEndpoints.every((point, i) =>
       Math.abs(point.caraArcMinutes - [578, 1061, 1263][i]) < 3));
+
+  check("Washington table-versus-trigonometric comparison returns finite signed differences for all three endpoints", () =>
+    washingtonCrossCheck.length === 3 &&
+    washingtonCrossCheck.every(point =>
+      Number.isFinite(point.tableMinusTrigArcMinutes) &&
+      point.tableLowerIndex >= 0 &&
+      point.tableUpperIndex > point.tableLowerIndex &&
+      point.interpolationFraction >= 0 &&
+      point.interpolationFraction <= 1));
 
   check("table path yields twelve finite rising periods totaling 21600 asu", () =>
     washington.risingAsus.length === 12 &&
