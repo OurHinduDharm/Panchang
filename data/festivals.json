@@ -2028,17 +2028,20 @@
     },
     {
       "id": "festival-087",
-      "name": "वेदमाता गायत्री जयन्ती",
+      "name": "वेदमाता गायत्री जयंती",
       "date": {
         "type": "tithi",
-        "start": "2026-06-25",
-        "end": "2026-06-26",
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": "ज्येष्ठ शुक्ल एकादशी (कुछ परंपराओं में)",
-        "month": "ज्येष्ठ",
-        "rule": "गायत्री जयंती की तिथि परंपरा के अनुसार भिन्न हो सकती है; लेख/सम्प्रदाय से पुष्टि करें।"
+        "start": null,
+        "end": null,
+        "month": "श्रावण",
+        "paksha": "शुक्ल पक्ष",
+        "tithi": "पूर्णिमा",
+        "rule": "OurHinduDharm के स्वीकृत नियम के अनुसार गायत्री जयंती केवल श्रावण शुक्ल पूर्णिमा पर दिखाएँ। ज्येष्ठ शुक्ल एकादशी वाले वैकल्पिक मत को इस साइट की पर्व-प्रविष्टि में न दिखाएँ।",
+        "calculationNotes": "स्थानीय पंचांग में श्रावण पूर्णिमा की वास्तविक तिथि निकाली जाए; पुरानी Gregorian तारीखें केवल स्रोत-अभिलेख हैं।",
+        "renderMode": "panchang-tithi",
+        "calendarRule": "स्थानीय पंचांग में श्रावण शुक्ल पूर्णिमा जिस दिन लागू हो, उसी दिन गायत्री जयंती दिखाएँ।"
       },
-      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\">वेदमाता गायत्री जयन्ती</a>(ज्येष्ठ शुक्ल एकादशी) - साधना करने व स्तोत्र पाठ आदि अनुष्ठानों का विशिष्ट समय अम्बुबाची योग २२ से २५ जून। यह प्रारंभ होगा २२ जून (शुक्ल अष्टमी) को रात ९.१० बजे से। तथा इसकी निवृत्ति होगी = २६ जून को सुबह ९.३३ बजे तक।",
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वेदमाता गायत्री जयंती</a> — श्रावण पूर्णिमा के दिन।",
       "sourceText": {
         "date": "2026-06-25",
         "endDate": "2026-06-26",
@@ -2046,7 +2049,11 @@
         "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\">वेदमाता गायत्री जयन्ती</a>(ज्येष्ठ शुक्ल एकादशी) - साधना करने व स्तोत्र पाठ आदि अनुष्ठानों का विशिष्ट समय अम्बुबाची योग २२ से २५ जून। यह प्रारंभ होगा २२ जून (शुक्ल अष्टमी) को रात ९.१० बजे से। तथा इसकी निवृत्ति होगी = २६ जून को सुबह ९.३३ बजे तक।"
       },
       "sourceUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner-confirmed site policy (2026-10-15): display Gayatri Jayanti on Shravan Purnima only; do not show the Jyeshtha Shukla Ekadashi alternative on this site.",
+        "Legacy description mixed Gayatri Jayanti with Ambubachi dates. Ambubachi is now a separate record; keep original wording only in sourceText for provenance."
+      ]
     },
     {
       "id": "festival-088",
@@ -2797,6 +2804,52 @@
       },
       "sourceUrl": null,
       "verificationStatus": "needs-review"
+    },
+    {
+      "id": "festival-123",
+      "name": "अम्बुबाची योग (प्रवृत्ति–निवृत्ति)",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "आषाढ़ / असमिया आषाढ़",
+        "rule": "प्रवृत्ति का खगोलीय संकेत: निरयण सूर्य का आर्द्रा नक्षत्र के प्रथम पाद में प्रवेश। आर्द्रा का आरम्भ मिथुन 6°40′ (निरयण) पर है। प्रवृत्ति-क्षण की गणना सूर्य के निरयण देशांतर को इस सीमा पर पार करते समय से करें। निवृत्ति/मंदिर पुनः खुलने का समय अलग धार्मिक/मंदिर-निर्धारित चरण है; उसे केवल 72 घंटे जोड़कर न निकालें।",
+        "calculationNotes": "प्रस्तावित गणना: Swiss Ephemeris से चुने हुए अयनांश (पहले Lahiri/Chitrapaksha) के साथ निरयण सूर्य-देशांतर निकालें; हर वर्ष वह सटीक क्षण खोजें जब देशांतर 66°40′ (66.6666667°) पार करे। उस क्षण को प्रवृत्ति मानें। कामाख्या मंदिर की आधिकारिक निवृत्ति/पुनःखोलने की घोषणा उपलब्ध होने पर उसे प्राथमिकता दें।",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (initial implementation; validate against local panjika)",
+          "targetLongitudeDegrees": 66.6666666667,
+          "sign": "Mithuna",
+          "nakshatra": "Ardra",
+          "pada": 1,
+          "event": "ingress"
+        },
+        "endRule": {
+          "type": "temple-ritual-schedule",
+          "description": "परंपरागत रूप से तीन दिन मंदिर बंद रहने के बाद चौथे दिन स्नान/शुद्धि एवं नित्यपूजा के पश्चात दर्शन खुलते हैं। यह नागरिक-तिथि आधारित अनुमानित कार्यक्रम है; आधिकारिक कामाख्या मंदिर की वार्षिक घोषणा ही अंतिम निवृत्ति/दर्शन समय तय करेगी।",
+          "closedDaysAfterPravrittiDate": 3,
+          "reopeningDayOffset": 4
+        },
+        "calendarRule": "प्रवृत्ति की तिथि/समय सूर्य के निरयण देशांतर के 66°40′ पार करने से निकालें। निवृत्ति और दर्शन-प्रारंभ को खगोलीय प्रवेश से स्वतः समान समय-अंतर पर न रखें; आधिकारिक मंदिर सूचना से सत्यापित करें।"
+      },
+      "description": "अम्बुबाची योग में देवी कामाख्या की वार्षिक ऋतु-परंपरा का स्मरण किया जाता है। प्रवृत्ति सूर्य के आर्द्रा नक्षत्र के प्रथम पाद में प्रवेश से संबंधित है। निवृत्ति तथा मंदिर-दर्शन पुनः आरम्भ होने का समय कामाख्या मंदिर की आधिकारिक सूचना से सत्यापित करें।",
+      "sourceUrl": "https://www.maakamakhya.org/festival",
+      "sourceText": {
+        "date": "2026-06-25",
+        "endDate": "2026-06-26",
+        "title": "वेदमाता गायत्री जयन्ती",
+        "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\">वेदमाता गायत्री जयन्ती</a>(ज्येष्ठ शुक्ल एकादशी) - साधना करने व स्तोत्र पाठ आदि अनुष्ठानों का विशिष्ट समय अम्बुबाची योग २२ से २५ जून। यह प्रारंभ होगा २२ जून (शुक्ल अष्टमी) को रात ९.१० बजे से। तथा इसकी निवृत्ति होगी = २६ जून को सुबह ९.३३ बजे तक।",
+        "note": "Imported legacy description contained Ambubachi 2026 times; retained here as provenance only, not as the annual calculation rule."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Official Kamakhya Devalaya notice for 2026 gives Pravritti as 22 June 2026 at 9:26 PM and says the temple doors close 23–25 June and reopen on 26 June morning after ritual bath and daily puja.",
+        "Independent traditional description links Ambubachi Pravritti to Sun entering the first pada of Ardra; translate this to sidereal solar longitude 66°40′ in Mithuna and verify against the selected ayanamsha/panjika.",
+        "Do not present the temple reopening as an exact astronomical Nivritti instant unless a reliable traditional rule/source for that exact instant is identified.",
+        "2026 values are validation references only, not hard-coded recurring dates."
+      ]
     }
   ],
   "navratriSadhana": {
