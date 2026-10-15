@@ -120,3 +120,27 @@ OurHinduDharm पंचांग में पहले प्रमुख व�
 2. स्मार्त, वैष्णव और अन्य संप्रदायों के निर्णयों को एक ही default में न मिलाकर कैसे विकल्प बनाया जाए?
 3. द्वादशी-पारण, हरिवासर, त्रिस्पृशा और अन्य महाद्वादशी स्थितियों के लिए स्रोत-सम्मत decision table कैसे बने?
 4. अधिकमास की पद्मिनी/परमा के लिए इस पुस्तक में प्रत्यक्ष अंश मिला है या अलग स्रोत से दर्ज करना होगा?
+
+
+## 2026 calendar cross-check — 15 October 2026
+
+This is a comparison snapshot, not an override of the printed Ganesh Martand Panchang.
+
+| Observance | Ganesh Martand / owner reference | Independent calendar cross-check | Decision |
+|---|---|---|---|
+| पापांकुशा एकादशी | 22 Oct 2026 | Drik Panchang and other 2026 lists also show 22 Oct for the general/ISKCON profile | Keep 22 Oct as the owner-confirmed date; recurring rule still needs review |
+| रमा एकादशी | 5 Nov 2026 | Drik Panchang, Shubhdin and IndianPanchang list 5 Nov; tithi is shown ending on the morning of 5 Nov | Date is cross-corroborated; do not copy another city's parana times |
+| देवोत्थान/प्रबोधिनी एकादशी | Not yet owner-confirmed in this audit | Some calendars list 20 Nov for Smarta/general observance and 21 Nov for a Gauna/Vaishnava observance | Do not flatten this to one universal date; compare with Ganesh Martand and document profile |
+| मोक्षदा / गीता जयंती | Needs owner-reference review | Multiple calendars list 20 Dec 2026; local parana is 21 Dec | Keep provisional until Ganesh Martand and local tithi intervals are checked |
+
+Sources for comparison only:
+- Drik Panchang 2026 ISKCON list (location-specific): https://www.drikpanchang.com/iskcon/iskcon-ekadashi-list.html
+- Shubhdin Rama Ekadashi dates/parana: https://shubhdinpanchang.com/en/ekadashi/rama-ekadashi/
+- IndianPanchang Ekadashi list: https://indianpanchang.com/vrats/ekadashi
+- 2026 ISKCON calendar PDF (IST / Vaishnava profile): https://guptvrindavandham.org/media/uploads/2026/05/pdf/guptvrindavandham_ekadashi_list_english.pdf
+
+### Safe conclusion from the comparison
+- The 5 November 2026 Rama Ekadashi date has strong cross-calendar agreement and also matches the user's printed Ganesh Martand date.
+- Parana times differ by city and profile; never hard-code a time copied from Bedi, Delhi or another location into Pithoragarh's dynamic Panchang.
+- The 20/21 November Devutthana split is exactly why Smarta and Vaishnava observance must be separate decisions layered over shared local tithi/sunrise data.
+- These web calendars do not replace Dharmasindhu/Nirnayasindhu source review and do not prove a universal shastric rule.
