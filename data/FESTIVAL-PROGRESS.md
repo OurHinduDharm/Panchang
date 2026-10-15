@@ -752,5 +752,5 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
   - the first four Mahādvādaśī definitions are not invented from incomplete OCR;
   - the conjunction-ending clause remains research-only, not a clock-time rule.
 - Added `tests/ekadashi-*.test.js` to the draft CI trigger paths and test command.
-- CI run for commit `71de45b916b29f577c0b892d1fa79b36d8c3e470` was observed starting at https://github.com/OurHinduDharm/Panchang/actions/runs/38780844190; its final result still needs to be checked before calling this change verified.
+- CI run for commit `71de45b916b29f577c0b892d1fa79b36d8c3e470` completed successfully: https://github.com/OurHinduDharm/Panchang/actions/runs/38780844190. The job confirms the configured test command ran successfully; it does not certify unresolved source interpretation.
 - This is a research guardrail only. It does not calculate Ekadashi dates or pāraṇa times and does not touch production code or Blogger.
