@@ -8,6 +8,7 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 - `festival-schema.json` — draft shape for the migrated records.
 - `festival-overrides.json` — year-specific, reference-only exception records. Current entries do not affect rendering because `policy.autoApply` is `false` and the renderer has not been wired to this file.
 - `festival-overrides.schema.json` — schema for override records and their evidence/status.
+- `festival-date-resolver.js` — pure draft resolver for local-Panchang tithi matches, inclusive tithi windows, ephemeris-supplied solar events, source-only suppression, and strictly approved overrides. It is not wired to the Blogger renderer.
 
 ## Migration rules
 
@@ -53,3 +54,11 @@ The current override entries are **reference-only**. They do not change festival
 - `festival-130` Ashwini Purnima (26 Oct 2026) is recorded separately as requested, but remains `needs-review` because its calendrical distinction from Sharad/Kojaagari Purnima needs clarification.
 - `festival-011` Mahanavami displays only on 19 Oct 2026. The legacy `sourceText.endDate` of 20 Oct is preserved for provenance, not used as a second display day.
 - The schema now accepts the catalog's actual workflow statuses (`owner-reference-checked` and `superseded`) in addition to `needs-review`.
+
+
+## Resolver and automated checks
+
+- `tests/festival-date-resolver.test.js` covers tithi normalization, multiple observance traditions, inclusive tithi windows, solar ingress/egress boundaries, year scoping, and override approval gates.
+- `.github/workflows/festival-draft-tests.yml` runs the catalog, widget, muhurta, and resolver regression tests on the draft branch and pull requests.
+- The resolver deliberately consumes externally calculated Panchang days and solar-event instants. It does not independently calculate astronomy, choose a vrata date for Ekadashi/Pradosha, or replace a temple reopening notice with an astronomical boundary.
+- The resolver remains a tested foundation only. The review HTML form/dashboard and live Blogger integration are deferred until the festival engine and seasonal data pass review.
