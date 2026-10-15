@@ -189,7 +189,7 @@
       const endMs = end.getTime();
       let time = start.getTime();
       let guard = 0;
-      while (time <= endMs && guard++ < 12) {
+      while (time <= endMs && guard++ < 100) {
         const p = options.getPanchangam(new Date(time), observer, { timezoneOffset });
         register(dateString, p, kind);
         const boundary = validInstant(p && p.tithiEndTime);
