@@ -1101,3 +1101,16 @@ For each case record both candidate declinations, both Ayana corrections, the re
 Chapter IX.10–11 date validation must be a separate table: current K, target K, signed lagnāntara, Sun time-motion, planet time-motion, signed K-rate, estimated days, and the independently computed event bracket. Include at least one direct and one retrograde case. The already existing arithmetic tests exercise idealized values, but no real date should be called validated until the intermediate quantities can be inspected and the estimated time lies within a separately searched bracket.
 
 This matrix is the next work item. No event dates have been changed, no reference row has been silently substituted, and no production file has been touched.
+
+
+## Diagnostic implementation added — 15 October 2026
+
+Added `ss_chapter7_ayana_variants.js` on the research branch. It computes the two VII.10 interpretations from the *same* inputs and returns, for each, the shifted-point declination, Ayana correction, and corrected sidereal longitude:
+- `zeroLatitudeBaseline`: shifted longitude with ecliptic latitude set to zero;
+- `retainedLatitudeCandidate`: shifted longitude with the planet's signed latitude retained.
+
+It also exports `runChapter7AyanaVariantTests()` with basic invariants for zero latitude, northern/southern latitude, and equivalent longitudes around 0°/360°. These are arithmetic/normalization tests only. The function has been committed, but execution in Node/browser has **not yet been confirmed in this session**, and no actual ephemeris-state comparison has been performed. Do not describe these tests as passing until run.
+
+New file: https://github.com/OurHinduDharm/Panchang/blob/research/ss-ch9-diagnostic/ss_chapter7_ayana_variants.js
+
+The next required run is to execute the helper tests, then feed it real geocentric ecliptic longitude and signed latitude for Mercury/Venus at the selected local sunrise/sunset. The source must state epoch, coordinate frame, and whether longitude/latitude are apparent or geometric. Only after those intermediate results are logged should the full sequential Aksha step and Chapter IX event-time solver be compared. Production remains untouched.
