@@ -2067,9 +2067,9 @@
       "sourceUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
       "verificationStatus": "needs-review",
       "reviewNotes": [
-        "Owner-confirmed site policy (2026-10-15): display Gayatri Jayanti on Shravan Purnima only; do not show the Jyeshtha Shukla Ekadashi alternative on this site.",
-        "Legacy description mixed Gayatri Jayanti with Ambubachi dates. Ambubachi is now a separate record; keep original wording only in sourceText for provenance.",
-        "दोनों प्रचलित जयंती-तिथियाँ दिखानी हैं: ज्येष्ठ शुक्ल एकादशी और श्रावण शुक्ल पूर्णिमा।"
+        "Owner-confirmed site policy (2026-10-15): display Gayatri Jayanti on both Jyeshtha Shukla Ekadashi and Shravan Shukla Purnima, because both are accepted observance traditions.",
+        "Legacy description mixed Gayatri Jayanti with Ambubachi dates. Ambubachi is tracked separately in festival-123; preserve the old mixed description only in sourceText for provenance.",
+        "festival-110 is another legacy Gayatri Jayanti record and appears to duplicate this consolidated record; its date/tithi metadata needs review before rendering."
       ]
     },
     {
@@ -2831,12 +2831,12 @@
         "end": null,
         "month": "आषाढ़ / असमिया आषाढ़",
         "rule": "प्रवृत्ति: निरयण सूर्य का मिथुन 6°40′ (आर्द्रा प्रथम पाद का आरम्भ) पार करना। निवृत्ति: निरयण सूर्य का मिथुन 10°00′ (आर्द्रा प्रथम पाद का अन्त) पार करना। दोनों क्षण एक ही चुने हुए Drik ephemeris और अयनांश से अलग-अलग गणना किए जाएँ।",
-        "calculationNotes": "प्रस्तावित Drik गणना: Swiss Ephemeris के geocentric apparent solar longitude से चुना हुआ अयनांश घटाकर निरयण देशांतर निकालें। 66°40′ पार करने का क्षण प्रवृत्ति और 70°00′ पार करने का क्षण निवृत्ति है। दोनों सीमाओं को एक ही ephemeris/ayanamsha से independently bracket और bisect करें। यह मंदिर खुलने का समय नहीं, सूर्य के आर्द्रा प्रथम पाद में प्रवेश से बाहर निकलने तक का खगोलीय अंतराल है। पारंपरिक mean-motion पंचांगों से अंतर सम्भव है; 2025/2026 cross-check और live ephemeris integration अभी बाकी हैं.",
+        "calculationNotes": "Drik-style calculation convention: use the geocentric apparent solar longitude from one ephemeris and one Lahiri/Chitrapaksha ayanamsha. Pravritti is the independently solved 66°40′ sidereal crossing; Nivritti is the independently solved 70°00′ crossing. A local Swiss Ephemeris audit closely matches published Vishuddha Siddhanta values for 2025 and 2026 (about 10 minutes difference at Pravritti and within about a minute at Nivritti). Panchangam-JS browser-provider output and production-renderer integration remain pending.",
         "renderMode": "solar-event",
         "solarEvent": {
           "body": "Sun",
           "longitudeSystem": "sidereal",
-          "ayanamsha": "Lahiri/Chitrapaksha (initial implementation; validate against local panjika)",
+          "ayanamsha": "Lahiri/Chitrapaksha (Drik-style audit; browser provider pending)",
           "targetLongitudeDegrees": 66.6666666667,
           "sign": "Mithuna",
           "nakshatra": "Ardra",
@@ -2857,20 +2857,21 @@
         "calendarRule": "प्रवृत्ति और निवृत्ति दोनों को सूर्य के निरयण देशांतर की सीमा-गणना से निकालें: 66°40′ और 70°00′ मिथुन। मंदिर का दर्शन-समय इस गणना का हिस्सा नहीं है."
       },
       "description": "अम्बुबाची योग की प्रवृत्ति और निवृत्ति सूर्य के आर्द्रा नक्षत्र के प्रथम पाद में प्रवेश और उससे निर्गमन की खगोलीय सीमाओं से गणना किए जाएँगे। प्रवृत्ति: मिथुन 6°40′ निरयण; निवृत्ति: मिथुन 10°00′ निरयण.",
-      "sourceUrl": "https://www.anandabazar.com/horoscope/time-and-fixture-of-ambubachi-dgtl/cid/1287858",
+      "sourceUrl": "https://www.anandabazar.com/app/horoscope/date-and-time-of-ambubachi-2026-dgtl/cid/1694076",
       "sourceText": {
         "date": "2026-06-25",
         "endDate": "2026-06-26",
         "title": "वेदमाता गायत्री जयन्ती",
         "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\">वेदमाता गायत्री जयन्ती</a>(ज्येष्ठ शुक्ल एकादशी) - साधना करने व स्तोत्र पाठ आदि अनुष्ठानों का विशिष्ट समय अम्बुबाची योग २२ से २५ जून। यह प्रारंभ होगा २२ जून (शुक्ल अष्टमी) को रात ९.१० बजे से। तथा इसकी निवृत्ति होगी = २६ जून को सुबह ९.३३ बजे तक।",
-        "note": "Imported legacy description contained Ambubachi 2026 times; retained here as provenance only, not as the annual calculation rule."
+        "note": "Extracted from a legacy Gayatri Jayanti entry whose description mixed the Gayatri article with Ambubachi 2026 times; preserved for provenance, not as the annual rule."
       },
       "verificationStatus": "needs-review",
       "reviewNotes": [
-        "Traditional published descriptions define the Ambubachi interval by the Sun's stay in Ardra's first pada, Mithuna 6°40′–10°00′ sidereal longitude; use these as the two calculation boundaries.",
-        "The implementation must calculate both crossings independently with one ephemeris and one ayanamsha; do not infer Nivritti by adding 72 hours or by using temple reopening.",
-        "Compare calculated 2025 and 2026 times with Visuddha Siddhanta and Gupta Press; differences may reflect distinct astronomical conventions and must be documented rather than patched.t unless a reliable traditional rule/source for that exact instant is identified.",
-        "2026 values are validation references only, not hard-coded recurring dates."
+        "Published description explicitly defines the Ambubachi interval as the Sun's stay in Ardra's first pada: Mithuna 6°40′–10°00′ sidereal longitude.",
+        "Independent Swiss Ephemeris/Lahiri calculation: 2025 Pravritti 22 Jun 06:20 IST and Nivritti 25 Jun 18:09:23 IST; published Vishuddha Siddhanta values are about 06:10 and 18:10.",
+        "Independent Swiss Ephemeris/Lahiri calculation: 2026 Pravritti 22 Jun 12:26:05 IST and Nivritti 26 Jun 00:18:03 IST; published Vishuddha Siddhanta values are 12:16 and midnight 12:18 (interpreted as the rollover into 26 June).",
+        "Published Gupta Press timings differ from this Drik/Lahiri calculation; preserve them as a separate traditional reference rather than forcing a match. Verify the 2025 Gupta Press values against the original printed panjika before stronger conclusions.",
+        "The browser diagnostic ambubachi-validation.html must confirm Panchangam-JS solar-longitude semantics and output before this rule is wired into the production renderer. No live Blogger change has been made."
       ]
     }
   ],
