@@ -278,3 +278,13 @@ test("Pitri Paksha article configuration uses the existing verified OurHinduDhar
   assert.equal(data.pitriPakshaArticles.articles[1].url,
     "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html");
 });
+
+test("Chaturmas sankalpa display window remains intentionally July 25–30 per owner clarification", () => {
+  const item = data.festivals.find((festival) => festival.id === "festival-101");
+  assert.ok(item, "Harishayani Ekadashi / Chaturmas record must exist");
+  assert.equal(item.date.start, "2026-07-25");
+  assert.equal(item.date.end, "2026-07-30");
+  assert.ok(item.date.calculationNotes.includes("through 2026-07-30"));
+  assert.ok(item.reviewNotes.some((note) => note.includes("could not take the sankalpa on Ekadashi")));
+  assert.ok(item.reviewNotes.some((note) => note.includes("29 जुलाई")));
+});
