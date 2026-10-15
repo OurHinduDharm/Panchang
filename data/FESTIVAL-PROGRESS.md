@@ -786,3 +786,13 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Added `tests/ekadashi-mahadvadashi-catalog.test.js` to guard the eight unique identifiers, the four pairings, source text presence, research-only status, and no-default handling.
 - CI run `38803191588` passed after correcting a test's locale-dependent ordering assumption. The preceding run `38803043493` exposed that test-order issue; it was fixed rather than ignored.
 - This is source cataloguing and automated guardrails only. The exact operational triggers for Unmīlanī, Vañjulī, Trispr̥śā and Pakṣavardhinī remain unresolved; the nakshatra conjunction requirements also need full-context review. No runtime code, public festival dates, Blogger output, or PR merge changed.
+
+
+## Mahadvadashi synthetic fixtures — 2026-10-16
+
+- Added `data/ekadashi-mahadvadashi-fixtures.json` with two explicitly non-runtime fixtures.
+- Trisprsha fixture uses invented interval timestamps to check the shape of the source wording: Ekadashi at the first sunrise, short Dvadashi, Trayodashi at the second sunrise, and all three tithis touching the intervening ahoratra. It does **not** assert a real calendar case or select a vrata/parana.
+- Pakshavardhini fixture deliberately keeps the result unresolved even when a generic day-increase flag is true, because the source-defined meaning/anchor of `दिनवृद्धि` has not been established.
+- Added `tests/ekadashi-mahadvadashi-fixtures.test.js` to check interval boundaries and preserve these non-default guardrails. The workflow path filter already includes `tests/ekadashi-*.test.js`.
+- Source basis: `data/references/dharmasindhu-image-collation-2026-10-14.md`, Khemraj witness, printed p. 32 / scan image 0055.
+- These are structural regression tests, not proof of shastric correctness. No runtime, festival date, Blogger output, or merge state changed.
