@@ -73,3 +73,27 @@ Scope: first-pass scan of 123 structured records plus cross-checks of high-impac
 3. Consolidate Gayatri Jayanti rendering around festival-087 and prevent festival-110 from duplicating it.
 4. Review Diwali/Kali Chaudas/Narak Chaturdashi and Tulsi Vivah as multi-stage/region-sensitive observances.
 5. Continue the remaining 123-record audit, keeping sourceText unchanged and logging every correction with evidence.
+
+
+## Owner clarifications and applied data updates — 2026-10-15
+
+The owner clarified several records that initially looked like discrepancies. These are now encoded as explicit observance policies in data/festivals.json on the draft branch; they are **not yet production-renderer integration**.
+
+- **Tulsi Vivah (festival-025):** 2–5 Nov 2025 represented Kartik Shukla Dwadashi through Purnima, inclusive. Dwadashi is the main day; if missed, any day through Purnima is acceptable under the site's policy. Converted the record to a tithi-window with no fixed Gregorian date.
+- **Solar eclipse (festival-054) and lunar eclipse (festival-127):** removed the active 1970 placeholder; added a separate lunar-eclipse record. Both are designed to point to the local eclipse Panchang for event date, visibility, contact/release times and applicable Sutak. The exact public Blogger URL still needs to be supplied/verified before making a clickable link.
+- **Narak Chaturdashi (festival-020) and Kali Chaudas (festival-124):** split into separate observances following Drik Panchang's distinct rules. Drik lists Kali Chaudas on 7 Nov 2026 because Chaturdashi prevails at Nishita, and Narak Chaturdashi/Abhyang Snan on 8 Nov because Chaturdashi prevails before sunrise then. This distinction is explicitly described on Drik's pages: https://www.drikpanchang.com/diwali/kali-chaudas/kali-chaudas-date-time.html?year=2026 and https://www.drikpanchang.com/festivals/abhyangsnan/festivals-abhyangsnan-timings.html?geoname-id=1263364. City-specific timing still matters.
+- **Sharadiya Navratri Ashtami/Navami:** owner's Ganesh Martand paper Panchang comparison is acknowledged. The branch retains the selected Drik/IMD-style 2026 date policy for now; Bengali Durga Puja timing must remain a separately labeled regional observance rather than be silently overwritten.
+- **Gayatri Jayanti (festival-087):** show both Jyeshtha Shukla Ekadashi and Shravan Shukla Purnima. Old duplicate festival-110 is marked source-only/superseded by festival-087.
+- **Dhulandi (festival-055):** set 2026 date to 4 March; Holika Dahan was 3 March. Record notes retain the historical disagreement and require tithi/reference cross-check rather than treating old manual date as authoritative.
+- **Hanuman Jayanti (festival-019):** keep Kartik Krishna Chaturdashi/Narak Chaturdashi as the site's second observance; remove the fixed 2025 date from active rule. Added separate **Kameshwari Jayanti (festival-126)** on Diwali/Kartik Krishna Amavasya.
+- **Ganesh observances (festival-117):** Bhadrapada Shukla Chaturthi remains primary; Magha Shukla Chaturthi is a separate alternate Ganesh Jayanti observance.
+- **Adyakali Jayanti:** existing Janmashtami record festival-113 now explicitly ties it to Krishna Janmashtami night/Nishita.
+- **Bhadrakali Jayanti (festival-125):** added provisionally on Jyeshtha Krishna Ekadashi from a secondary online reference. This remains needs-review; do not label it universally established until confirmed against a stronger panjika/primary source.
+
+### Remaining implementation/verification blockers
+
+1. Verify the exact public OurHinduDharm Eclipse Panchang URL and wire it into both eclipse cards.
+2. Confirm the renderer understands panchang-tithi-window, source-only, eclipse-panchang-link, alternateObservances, and relatedFestivalId; these are data-level policies until integration is implemented and tested.
+3. Run ambubachi-validation.html in a browser to confirm Panchangam-JS solar-longitude semantics before connecting Ambubachi to production.
+4. Validate the 2026 Navratri dates and Bengali regional ritual calendar against the intended city/observance profile; do not treat regional differences as automatic errors.
+5. Recheck Drik's 2026 Kali Chaudas/Narak Chaturdashi times for the chosen user location when implementing the live date resolver.
