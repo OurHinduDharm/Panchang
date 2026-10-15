@@ -1,0 +1,53 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const data = require("../data/festivals.json");
+
+const byId = Object.fromEntries(data.festivals.map((item) => [item.id, item]));
+
+test("festival data retains all migrated legacy entries", () => {
+  assert.equal(data.festivals.length, 122);
+  assert.equal(new Set(data.festivals.map((item) => item.id)).size, 122);
+});
+
+test("Navaratri 2026 draft dates are explicit and internally consistent", () => {
+  assert.equal(byId["festival-003"].date.start, "2026-10-11");
+  assert.equal(byId["festival-009"].date.start, "2026-10-17");
+  assert.equal(byId["festival-009"].name, "शारदीय नवरात्र सप्तमी - कालरात्रि");
+  assert.equal(byId["festival-010"].date.start, "2026-10-19");
+  assert.equal(byId["festival-011"].date.start, "2026-10-20");
+  assert.equal(byId["festival-012"].date.start, "2026-10-20");
+});
+
+test("Navaratri source description is not mistaken for current muhurta", () => {
+  assert.match(byId["festival-010"].description, /स्थानीय तिथि-सन्धि/);
+  assert.match(byId["festival-010"].sourceText.description, /सन्धि पूजा प्रारम्भ १०:२७/);
+});
+
+test("Sharad Purnima and Karwa Chauth retain provisional 2026 observance dates", () => {
+  assert.equal(byId["festival-013"].date.start, "2026-10-25");
+  assert.equal(byId["festival-015"].date.start, "2026-10-29");
+});
+
+test("Diwali sequence uses 2026 dates and allows Naraka Chaturdashi/Diwali overlap", () => {
+  assert.equal(byId["festival-018"].date.start, "2026-11-06");
+  assert.equal(byId["festival-020"].date.start, "2026-11-08");
+  assert.equal(byId["festival-021"].date.start, "2026-11-08");
+  assert.equal(byId["festival-022"].date.start, "2026-11-10");
+  assert.equal(byId["festival-023"].date.start, "2026-11-11");
+});
+
+test("legacy Dhanteras and Diwali clock times are not presented as 2026 muhurta", () => {
+  assert.match(byId["festival-018"].description, /स्थानीय पंचांग की गणना से सत्यापित/);
+  assert.match(byId["festival-021"].description, /2026 की स्थानीय गणना से निर्धारित/);
+  assert.match(byId["festival-018"].sourceText.description, /शाम 5.58 - 7.43PM/);
+});
+
+test("date candidates remain unverified until local rule validation is complete", () => {
+  for (const id of [
+    "festival-009", "festival-010", "festival-011", "festival-012",
+    "festival-013", "festival-018", "festival-020", "festival-021",
+    "festival-022", "festival-023"
+  ]) {
+    assert.equal(byId[id].verificationStatus, "needs-review", id);
+  }
+});
