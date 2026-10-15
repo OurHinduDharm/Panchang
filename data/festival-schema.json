@@ -155,6 +155,7 @@
                 "enum": [
                   "panchang-tithi",
                   "panchang-tithi-range",
+                  "solar-event",
                   "fixed-date",
                   "manual",
                   null
@@ -167,6 +168,53 @@
                   "null"
                 ],
                 "description": "Human-readable recurring-calendar rule. Does not certify the calculation."
+              },
+              "solarEvent": {
+                "type": "object",
+                "description": "Astronomical event trigger used to calculate a recurring festival start.",
+                "properties": {
+                  "body": {
+                    "type": "string"
+                  },
+                  "longitudeSystem": {
+                    "type": "string",
+                    "enum": [
+                      "sidereal",
+                      "tropical"
+                    ]
+                  },
+                  "ayanamsha": {
+                    "type": "string"
+                  },
+                  "targetLongitudeDegrees": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 360
+                  },
+                  "sign": {
+                    "type": "string"
+                  },
+                  "nakshatra": {
+                    "type": "string"
+                  },
+                  "pada": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4
+                  },
+                  "event": {
+                    "type": "string",
+                    "enum": [
+                      "ingress"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              },
+              "endRule": {
+                "type": "object",
+                "description": "Separate rule for the ritual/temple end of an observance; not automatically a fixed-hour offset from its astronomical start.",
+                "additionalProperties": true
               }
             },
             "additionalProperties": true
