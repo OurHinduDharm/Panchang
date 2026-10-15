@@ -158,3 +158,43 @@ test("stored Gregorian candidates from a different year are not reused as recurr
   assert.deepEqual(result.displayDates, []);
   assert.match(result.reason, /different year/);
 });
+
+
+test("recurring Purnima Vrat resolves every supplied Shukla Purnima without a fixed month or Gregorian date", () => {
+  const purnima = catalog.festivals.find((item) => item.id === "festival-purnima-vrat-recurring");
+  const result = resolver.resolveFestivalDate(purnima, {
+    year: 2027,
+    panchangDays: [
+      { date: "2027-01-22", month: "पौष", paksha: "शुक्ल पक्ष", tithi: "पूर्णिमा" },
+      { date: "2027-02-20", month: "माघ (पूर्णिमान्त)", paksha: "शुक्ल पक्ष", tithi: "पूर्णिमा" },
+      { date: "2027-02-21", month: "माघ", paksha: "कृष्ण पक्ष", tithi: "पूर्णिमा" },
+      { date: "2026-12-23", month: "पौष", paksha: "शुक्ल पक्ष", tithi: "पूर्णिमा" }
+    ]
+  });
+  assert.equal(result.status, "matched");
+  assert.deepEqual(result.displayDates.map((item) => item.date), ["2027-01-22", "2027-02-20"]);
+  assert.equal(result.method, "recurring-panchang-tithi");
+});
+
+test("Holashtak resolves an inclusive Falgun Shukla Ashtami-to-Purnima period", () => {
+  const holashtak = catalog.festivals.find((item) => item.id === "festival-holashtak-recurring");
+  const result = resolver.resolveFestivalDate(holashtak, {
+    year: 2027,
+    panchangDays: [
+      { date: "2027-03-10", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "सप्तमी" },
+      { date: "2027-03-11", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "अष्टमी" },
+      { date: "2027-03-12", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "नवमी" },
+      { date: "2027-03-13", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "दशमी" },
+      { date: "2027-03-14", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "एकादशी" },
+      { date: "2027-03-15", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "द्वादशी" },
+      { date: "2027-03-16", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "त्रयोदशी" },
+      { date: "2027-03-17", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "चतुर्दशी" },
+      { date: "2027-03-18", month: "फाल्गुन", paksha: "शुक्ल पक्ष", tithi: "पूर्णिमा" }
+    ]
+  });
+  assert.equal(result.status, "matched");
+  assert.deepEqual(result.displayDates.map((item) => item.date), [
+    "2027-03-11", "2027-03-12", "2027-03-13", "2027-03-14",
+    "2027-03-15", "2027-03-16", "2027-03-17", "2027-03-18"
+  ]);
+});
