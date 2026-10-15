@@ -1,46 +1,130 @@
 {
   "fixture_status": "captured live API response supplied by project owner; research-only; not an independent validation of the TKS engine",
   "captured_at_local": "2026-10-12T06:30:00+05:30",
-  "place": {"name":"Pithoragarh","latitude_deg":29.583,"longitude_deg":80.209,"elevation_m":null},
-  "request": {"date":"2026-10-12","time":"06:30","tz_hours_east_utc":5.5,"body_codes":{"sun":10,"venus":2}},
+  "place": {
+    "name": "Pithoragarh",
+    "latitude_deg": 29.583,
+    "longitude_deg": 80.209,
+    "elevation_m": null
+  },
+  "request": {
+    "date": "2026-10-12",
+    "time": "06:30",
+    "tz_hours_east_utc": 5.5,
+    "body_codes": {
+      "sun": 10,
+      "venus": 2
+    }
+  },
   "http_status": 200,
   "api_success": true,
-  "body_identity": {"sun":{"field":"selected_body","value":10,"matches_request":true},"venus":{"field":"selected_body","value":2,"matches_request":true}},
-  "time": {"jd_utc":2461325.541666667,"jd_ut1":2461325.541666667,"jd_tt":2461325.5424679113,"delta_t_s":69.22750293464667},
-  "ayanamsa_deg": {"lahiri":24.23364251036206,"chitra":24.217344242334974,"suryasiddhanta":26.240113387742138,"suryasiddhanta_linear":22.912335347300495},
+  "body_identity": {
+    "sun": {
+      "field": "selected_body",
+      "value": 10,
+      "matches_request": true
+    },
+    "venus": {
+      "field": "selected_body",
+      "value": 2,
+      "matches_request": true
+    }
+  },
+  "time": {
+    "jd_utc": 2461325.541666667,
+    "jd_ut1": 2461325.541666667,
+    "jd_tt": 2461325.5424679113,
+    "delta_t_s": 69.22750293464667
+  },
+  "ayanamsa_deg": {
+    "lahiri": 24.23364251036206,
+    "chitra": 24.217344242334974,
+    "suryasiddhanta": 26.240113387742138,
+    "suryasiddhanta_linear": 22.912335347300495
+  },
   "sun": {
-    "ecliptic_lon_deg":198.7274304508398,
-    "ecliptic_lat_deg":-0.00011528246745300676,
-    "ra_deg":196.92742092729569,
-    "ra_of_date_deg":197.27789996885028,
-    "dec_deg":-7.193201635488021,
-    "dec_of_date_deg":-7.337192193218494,
-    "nirayana_lahiri_deg":174.49378794047772,
-    "distance_km":149330744.60927758
+    "ecliptic_lon_deg": 198.7274304508398,
+    "ecliptic_lat_deg": -0.00011528246745300676,
+    "ra_deg": 196.92742092729569,
+    "ra_of_date_deg": 197.27789996885028,
+    "dec_deg": -7.193201635488021,
+    "dec_of_date_deg": -7.337192193218494,
+    "nirayana_lahiri_deg": 174.49378794047772,
+    "distance_km": 149330744.60927758
   },
   "venus": {
-    "ecliptic_lon_deg":216.98619958276416,
-    "ecliptic_lat_deg":-7.575739581387226,
-    "ra_deg":211.62274687342594,
-    "ra_of_date_deg":211.9973637542581,
-    "dec_deg":-20.85923211484858,
-    "dec_of_date_deg":-20.987859079393438,
-    "nirayana_lahiri_deg":192.7525570724021,
-    "distance_km":44393908.32654846,
-    "apparent_magnitude":-4.347897335498621,
-    "illumination":0.05705679859993956
+    "ecliptic_lon_deg": 216.98619958276416,
+    "ecliptic_lat_deg": -7.575739581387226,
+    "ra_deg": 211.62274687342594,
+    "ra_of_date_deg": 211.9973637542581,
+    "dec_deg": -20.85923211484858,
+    "dec_of_date_deg": -20.987859079393438,
+    "nirayana_lahiri_deg": 192.7525570724021,
+    "distance_km": 44393908.32654846,
+    "apparent_magnitude": -4.347897335498621,
+    "illumination": 0.05705679859993956
   },
-  "sun_day": {"rise_h_local":6.144195,"set_h_local":17.705795},
+  "sun_day": {
+    "rise_h_local": 6.144195,
+    "set_h_local": 17.705795
+  },
   "derived_checks": {
     "jd_utc_error_seconds_vs_expected": -0.0028512,
-    "sun_venus_ecliptic_longitude_difference_deg":18.25876913192436,
-    "sun_lahiri_longitude_check_deg":174.49378794047774,
-    "venus_lahiri_longitude_check_deg":192.7525570724021
+    "sun_venus_ecliptic_longitude_difference_deg": 18.25876913192436,
+    "sun_lahiri_longitude_check_deg": 174.49378794047774,
+    "venus_lahiri_longitude_check_deg": 192.7525570724021
   },
   "limitations": [
     "The source output was copied from a live API response by the project owner; this fixture preserves selected fields rather than the entire response body.",
     "The observation instant is not itself a planetary rising/setting event.",
     "Coordinate frame semantics for ra_deg versus ra_of_date_deg and dec_deg versus dec_of_date_deg still require API/source clarification before mixing these values.",
     "No Sūrya-siddhānta dṛkkarma, lagnāntara, or event-time result is asserted by this fixture."
-  ]
+  ],
+  "chapter7_ayana_variant_diagnostic": {
+    "input_source": "TKS apparent ecliptic longitude/latitude at 2026-10-12 06:30 IST",
+    "longitude_deg_apparent": 216.98619958276416,
+    "signed_planet_latitude_deg": -7.575739581387226,
+    "method": "Apply the existing VII.10 candidate arithmetic to the same tropical longitude reconstructed from each selected sidereal longitude plus its own ayanamsha. This is a diagnostic variant, not a selected event calculation.",
+    "variants": [
+      {
+        "ayanamsha_name": "Lahiri",
+        "ayanamsha_deg": 24.23364251036206,
+        "corresponding_sidereal_longitude_deg": 192.7525570724021,
+        "classical_obliquity_deg": 24,
+        "zero_latitude_shifted_declination_deg": -18.959109239,
+        "zero_latitude_ayana_correction_deg": -2.393821238,
+        "retained_signed_latitude_shifted_declination_deg": -26.263258793,
+        "retained_signed_latitude_ayana_correction_deg": -3.316060153,
+        "retained_minus_zero_correction_arcmin": -55.334335
+      },
+      {
+        "ayanamsha_name": "Suryasiddhanta",
+        "ayanamsha_deg": 26.240113387742138,
+        "corresponding_sidereal_longitude_deg": 190.74608619502203,
+        "classical_obliquity_deg": 24,
+        "zero_latitude_shifted_declination_deg": -18.959109239,
+        "zero_latitude_ayana_correction_deg": -2.393821238,
+        "retained_signed_latitude_shifted_declination_deg": -26.263258793,
+        "retained_signed_latitude_ayana_correction_deg": -3.316060153,
+        "retained_minus_zero_correction_arcmin": -55.334335
+      },
+      {
+        "ayanamsha_name": "Suryasiddhanta sine-table obliquity variant",
+        "ayanamsha_deg": 26.240113387742138,
+        "corresponding_sidereal_longitude_deg": 190.74608619502203,
+        "classical_obliquity_deg": 23.975181904,
+        "zero_latitude_shifted_declination_deg": -18.939959347,
+        "zero_latitude_ayana_correction_deg": -2.391403328,
+        "retained_signed_latitude_shifted_declination_deg": -26.244722859,
+        "retained_signed_latitude_ayana_correction_deg": -3.313719763,
+        "retained_minus_zero_correction_arcmin": -55.338986
+      }
+    ],
+    "interpretation": [
+      "At this Venus state, retaining signed ecliptic latitude changes the VII.10 Ayana correction by about 55.3 arcminutes versus the zero-latitude baseline.",
+      "The result is much larger than the previously tested small-latitude illustrative case, so this actual planetary state is a high-value discriminator for the unresolved textual interpretation.",
+      "This instant is not the required sunset for the western Venus Asta event. Do not use this correction as the final event correction or date.",
+      "The comparison varies only the shifted-point latitude interpretation. It does not validate the modern-to-classical local-meridian construction or the complete Chapter VII/IX chain."
+    ]
+  }
 }
