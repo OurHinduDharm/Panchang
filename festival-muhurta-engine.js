@@ -8,6 +8,7 @@
 "use strict";
 
 function asValidDate(value) {
+  if (value == null || value === "") return null;
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   return Number.isFinite(date.getTime()) ? date : null;
 }
