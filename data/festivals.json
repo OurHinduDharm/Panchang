@@ -11,7 +11,8 @@
     "sourceUrl is the first article link found in the original description HTML. No original title/description/links/date values were changed.",
     "Draft audit update 2026-10-15: festival-009 title/date wording clarified; festival-010 to festival-013 and festival-020 to festival-023 have provisional 2026 observance-date candidates from public calendar cross-checks. These remain needs-review; no production/Blogger integration is authorized by this data file alone. sourceText retains original legacy dates and descriptions for traceability.",
     "2026-10-15: Added structured relatedArticles for major autumn festivals. Where an OurHinduDharm article URL is verified, the title links to it; for Govardhan Puja and Bhai Dooj, plain-text article-topic placeholders are stored without a URL and can be linked after the articles are written. Do not invent links.",
-    "2026-10-15 widget audit: parent Navaratri end date is retained only on festival-003; individual daily observance records no longer inherit 20 October as their display end. festival-009 preserves the user's clarified 18 October title and provisional 17–18 October civil-date span; exact tithi instants/observance rule remain unverified."
+    "2026-10-15 widget audit: parent Navaratri end date is retained only on festival-003; individual daily observance records no longer inherit 20 October as their display end. festival-009 preserves the user's clarified 18 October title and provisional 17–18 October civil-date span; exact tithi instants/observance rule remain unverified.",
+    "2026-10-15 local diagnostic follow-up: festival-014 Kartik month-start candidate is 2026-10-26 under the project's Purnimanta convention because the pinned-library Pithoragarh interval shows Ashwin Purnima ending and Krishna Pratipada beginning on 26 October; sourceText retains the legacy 27 October date, and the rule remains needs-review."
   ],
   "festivals": [
     {
@@ -382,11 +383,11 @@
       "name": "कार्तिक मास प्रारंभ",
       "date": {
         "type": "tithi",
-        "start": "2026-10-27",
+        "start": "2026-10-26",
         "end": null,
-        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
-        "rule": "अमांत बनाम पूर्णिमांत मास-पद्धति के अनुसार मास-आरम्भ अलग हो सकता है; site convention तय करें।",
-        "tithi": "आश्विन पूर्णिमा/अमावस्या के बाद मास-सीमा",
+        "calculationNotes": "पुराना sourceText.date 2026-10-27 सुरक्षित है। पिथौरागढ़ के pinned-library diagnostic में पूर्णिमा 26 अक्टूबर लगभग 09:41 IST तक और कृष्ण प्रतिपदा लगभग 09:42 IST से दिखती है; इसलिए पूर्णिमांत convention के अंतर्गत 26 अक्टूबर provisional candidate है, verified नहीं।",
+        "rule": "प्रोजेक्ट की पूर्णिमांत मास-पद्धति में आश्विन पूर्णिमा के बाद कृष्ण प्रतिपदा से कार्तिक मास आरम्भ माना जाता है; पिथौरागढ़ के pinned-library diagnostic में प्रतिपदा 26 अक्टूबर को लगभग 09:42 IST से शुरू होती दिखती है। अंतिम नियम/गणना-सत्यापन शेष।",
+        "tithi": "कार्तिक कृष्ण प्रतिपदा",
         "month": "कार्तिक"
       },
       "description": "कार्तिक मास प्रारंभ - मान्यता है कि केवल कार्तिक मास में चातुर्मास के नियमों का आचरण करने से भी चातुर्मास्य व्रत का उत्तम फल प्राप्त होता है। कार्तिक मास में की गई पूजाएं, मन्त्रात्मक, स्तोत्रात्मक साधनाएं उत्तम फल देती हैं।",
