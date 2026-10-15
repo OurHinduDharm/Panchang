@@ -948,3 +948,15 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Root cause class: the preview assumed its external adapter global existed and did not wait for/check script loading before calling it. Reworked the page to load the resolver and adapter sequentially, wait for load completion, verify both globals, and report a clear script-load error rather than a misleading undefined-property exception.
 - Pinned the preview's resolver/adapter assets to an immutable jsDelivr URL at draft commit `6d693ed4b08973754ba84925e96c5511943480dd`; added a cache-busting version to the JSON fetch.
 - The fix is committed in `kalashtami-preview.html` at `efe49852bc62d531af9af842f7a26dce8f62ffcc`. A browser end-to-end run is not available from this workflow status yet, so treat the fix as code-updated but not browser-verified until the preview is reloaded and tested.
+
+
+## 2026-10-16 — Kalashtami vrata-date decision rules
+
+- The preview's previous sunrise-only monthly rule and night-midpoint annual proxy were not adequate for vrata-date selection. Replaced the display inputs with date candidates selected by actual Krishna Ashtami overlap during local Pradosh and the separate annual Madhyahna/Pradosh decision.
+- Primary text checked: Dharmasindhu, “Ashtami Nirnaya” (TransLiteral transcription): https://www.transliteral.org/pages/z80422041657/view. It says the annual Margashirsha Krishna Ashtami / Bhairava Jayanti has a Madhyahna-vyapti rule, notes the Kaustubha Pradosh-vyapti view, and gives different tie-breaks when one or both days cover those periods.
+- Monthly implementation uses Krishna Ashtami overlap in the local Pradosh interval (sunset to 144 minutes after sunset); when multiple dates within one Ashtami interval qualify, it selects the earlier date. If no Pradosh date qualifies, it falls back to the earliest local-sunrise Krishna Ashtami date.
+- Annual implementation applies separate tie-breaks: first-date-only Pradosh vs second-date-only Madhyahna selects the first; both Madhyahna selects the first; one Madhyahna selects that date; otherwise both Pradosh selects the second; one Pradosh selects that date; final fallback is the earliest sunrise-Ashtami date.
+- Added pure selector tests for the monthly Pradosh preference and annual tie-breaks. The adapter probes the periods in five-minute increments; this is an engineering implementation of interval presence, not a claim that five-minute sampling is mathematically exact. Before production, confirm the interval definitions and edge cases against the printed Ganesh Martand Panchang and the relevant primary passage.
+- Preview wording no longer calls the annual output a night-midpoint diagnostic or says every date is “not final.” The preview still identifies itself as a test page, not the live site.
+- Updated kalashtami-panchang-adapter.js, kalashtami-preview.html, tests/kalashtami-panchang-adapter.test.js, and data/muhurta-rules.json. CI status endpoint has not exposed a run yet; tests are added but not reported as passed.
+- No production runtime, main branch, Blogger output, or merge state changed.
