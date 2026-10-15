@@ -92,7 +92,8 @@ export function runChapter3TableRisingAsusTests() {
     washington.caraEndpoints.every((point, i) =>
       Math.abs(point.caraArcMinutes - [578, 1061, 1263][i]) < 3));
 
-  check("Washington table-versus-trigonometric comparison returns finite signed differences for all three endpoints", () =>
+  check("Washington table-versus-trigonometric comparison is exposed in the result and returns finite signed differences", () =>
+    washingtonCrossCheck.length === 3 &&
     washingtonCrossCheck.length === 3 &&
     washingtonCrossCheck.every(point =>
       Number.isFinite(point.tableMinusTrigArcMinutes) &&
