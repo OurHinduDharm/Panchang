@@ -38,7 +38,7 @@ Status: review plan; preview-only until approved and tested.
 ## Open questions / do not auto-correct
 - Chaturmas legacy description says 29 July while the user confirmed the intended display window through Purnima, 30 July. Confirm the wording/source and then align the description if appropriate; do not change the rule silently.
 - Records with multi-day spans may represent article visibility, a month, a festival sequence, a combined title, or an unverified legacy date. Review each record's intent before changing it.
-- `festival-117` (Ganesh-related title with a long span), `festival-087` (Gayatri Jayanti/associated period), and older Tulsi Vivah, Pausha, Shakambhari and Shravana records require source-level review before date or display changes.
+- `festival-117` display intent is now owner-confirmed: Ganesh Chaturthi/Jayanti together on Bhadrapada Shukla Chaturthi, followed by a ten-tithi-day Ganesh Utsav period ending on Anant Chaturdashi (visarjan). Its Panchang-driven renderer is still pending; do not fall back to the old static Gregorian dates. `festival-087` (Gayatri Jayanti/associated period) and older Tulsi Vivah, Pausha, Shakambhari and Shravana records still require source-level review before date or display changes.
 
 ## Completion criteria before merge
 - Automated tests pass on the latest PR head.
