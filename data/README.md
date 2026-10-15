@@ -4,8 +4,10 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 
 ## Files
 
-- `festivals.json` — 122 migrated legacy festival records with provisional 2026 date candidates and structured related-article links for selected major festivals.
+- `festivals.json` — 127 migrated/added festival records with provisional date candidates and structured related-article links for selected major festivals.
 - `festival-schema.json` — draft shape for the migrated records.
+- `festival-overrides.json` — year-specific, reference-only exception records. Current entries do not affect rendering because `policy.autoApply` is `false` and the renderer has not been wired to this file.
+- `festival-overrides.schema.json` — schema for override records and their evidence/status.
 
 ## Migration rules
 
@@ -35,3 +37,10 @@ While either configured Pitri Paksha boundary record is active, the widget shows
 See [the period and article-visibility audit](references/festival-period-and-link-visibility-audit-2026-10-15.md) for the organized review list of multi-day records, possible date/text discrepancies, candidate month-long article cards, and release guardrails.
 
 **Owner-confirmed Chaturmas display decision:** `festival-101` intentionally spans 2026-07-25 through 2026-07-30 inclusive. The Harishayani Ekadashi article offers the sankalpa on July 25; the card remains available through Purnima for users who missed that day. This is an editorial visibility window, not the full four-month duration of Chaturmas. The archived description's “29 July” wording is retained and flagged for separate copy/date review. A regression test protects the configured span.
+
+
+## Festival override policy (new, draft only)
+
+The printed **Ganesh Martand Panchang** is the owner's primary comparison reference. Drik Panchang is a secondary cross-check when it agrees; a disagreement must not be automatically resolved in Drik's favor. When the owner finds a mismatch, record the festival ID, year, printed date, source/page if available, reason, and review status in `festival-overrides.json`. Keep the calculated date visible in the audit trail.
+
+The current override entries are **reference-only**. They do not change festival display until a resolver is implemented, schema/data validation and regression tests pass, and an entry's status is explicitly changed to `approved-for-application`. Unmapped records must be resolved against the catalog before creating new display cards, to prevent duplicates. Keep PR #33 Draft and do not merge or change live Blogger without explicit approval.
