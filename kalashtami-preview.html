@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>कालाष्टमी गणना — Draft Preview | OurHinduDharm</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:12px;background:#f6f2eb;color:#342719;font:15px/1.55 Arial,"Noto Sans Devanagari",sans-serif}
+    main{max-width:760px;margin:auto;background:#fff;padding:16px;border:1px solid #e4d7c5;border-radius:12px}
+    h1{font-size:22px;line-height:1.35;margin:0 0 8px}.warning{background:#fff4d8;border:1px solid #ead19b;border-radius:8px;padding:10px;font-size:13px}
+    .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:14px 0}.controls input,.controls button{font:inherit;padding:9px;border:1px solid #cfc2b0;border-radius:7px}.controls button{background:#7c4218;color:white;border:0}
+    .status{margin:10px 0;color:#66513d;font-size:13px}.group{margin-top:18px}.group h2{font-size:17px;margin:0 0 8px}.item{padding:9px;margin:6px 0;border:1px solid #eadfce;border-radius:8px;background:#fffaf3}.muted{color:#6b6257;font-size:12px}.error{color:#a12d20}
+    @media(max-width:400px){main{padding:11px}h1{font-size:19px}}
+  </style>
+</head>
+<body>
+<main>
+  <p class="warning"><strong>केवल शोध/जाँच पृष्ठ:</strong> यह लाइव वेबसाइट नहीं है। मासिक कालाष्टमी के लिए स्थानीय सूर्योदय की तिथि दिखाई जाएगी। वार्षिक कालभैरवाष्टमी के लिए रात के मध्य-बिंदु को केवल diagnostic proxy माना गया है—यह निशीथ मुहूर्त या व्रत-निर्णय का प्रमाणित विकल्प नहीं है। परिणामों को गणेशमार्तण्ड पंचांग से मिलाए बिना लागू न करें।</p>
+  <h1>कालाष्टमी — पंचांग इंजन परीक्षण</h1>
+  <p class="muted">स्थान: पिथौरागढ़ (30.1265° N, 80.4817° E) · समय क्षेत्र: IST (UTC+05:30)</p>
+  <div class="controls"><label for="year">वर्ष</label><input id="year" type="number" min="1900" max="2200" value="2027"><button id="run" type="button">गणना करें</button></div>
+  <p id="status" class="status" aria-live="polite">गणना के लिए बटन दबाएँ। पहली गणना में कुछ समय लग सकता है।</p>
+  <section class="group"><h2>मासिक कालाष्टमी — सूर्योदय तिथि</h2><div id="monthly"></div></section>
+  <section class="group"><h2>वार्षिक कालभैरवाष्टमी — रात-मध्य diagnostic</h2><div id="annual"></div></section>
+</main>
+<script src="https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/festival-date-resolver.js"></script>
+<script src="https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/kalashtami-panchang-adapter.js"></script>
+<script type="module">
+import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+const $ = (id) => document.getElementById(id);
+const MONTHS = ["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
+function showList(target, dates, label) {
+  target.replaceChildren();
+  if (!dates.length) { target.textContent = "इस वर्ष के दिए गए diagnostic data में कोई मिलान नहीं मिला।"; return; }
+  dates.forEach((item) => {
+    const card = document.createElement("div"); card.className = "item";
+    const date = new Date(item.date + "T12:00:00+05:30");
+    const strong = document.createElement("strong");
+    strong.textContent = date.getDate() + " " + MONTHS[date.getMonth()] + " " + date.getFullYear();
+    const detail = document.createElement("div"); detail.textContent = [item.month,item.paksha,item.tithi].filter(Boolean).join(" · ");
+    const method = document.createElement("div"); method.className = "muted"; method.textContent = label;
+    card.append(strong, detail, method); target.appendChild(card);
+  });
+}
+async function run() {
+  const year = Number($("year").value);
+  $("status").className = "status"; $("status").textContent = "स्थानीय पंचांग डेटा बनाया जा रहा है…";
+  $("run").disabled = true;
+  $("monthly").textContent = ""; $("annual").textContent = "";
+  try {
+    const generated = await window.OHDFestivalPanchangAdapter.buildKalashtamiDays({
+      year, latitude:30.1265, longitude:80.4817, elevation:0,
+      timezoneOffset:330, getPanchangam, Observer
+    });
+    const dataResponse = await fetch("https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/festivals.json",{cache:"no-cache"});
+    if (!dataResponse.ok) throw new Error("Festival JSON load failed: "+dataResponse.status);
+    const data = await dataResponse.json();
+    const monthly = data.festivals.find(item => item.id === "festival-kalashtami-recurring");
+    const annual = data.festivals.find(item => item.id === "festival-027");
+    const monthlyResult = window.OHDFestivalDateResolver.resolveFestivalDate(monthly,{year,panchangDays:generated.sunriseDays});
+    const annualResult = window.OHDFestivalDateResolver.resolveFestivalDate(annual,{year,panchangDays:generated.nightMidpointDays});
+    showList($("monthly"),monthlyResult.displayDates,"सूर्योदय पर कृष्ण अष्टमी का diagnostic match");
+    showList($("annual"),annualResult.displayDates,"रात के मध्य-बिंदु पर अष्टमी का diagnostic match; अंतिम व्रत-तिथि नहीं");
+    $("status").textContent = "पूरा हुआ। "+generated.candidateDates.length+" संभावित तारीख़ों की जाँच की गई। यह शोध-पूर्वावलोकन है, प्रमाणित पंचांग निर्णय नहीं।";
+  } catch(error) {
+    $("status").className = "status error";
+    $("status").textContent = "गणना पूरी नहीं हुई: "+(error && error.message ? error.message : String(error));
+  } finally { $("run").disabled = false; }
+}
+$("run").addEventListener("click",run);
+</script>
+</body>
+</html>
