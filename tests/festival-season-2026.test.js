@@ -162,7 +162,8 @@ test("Ganesh Chaturthi and Ganesh Jayanti share one tithi-only start-day notice"
   assert.equal(visarjan.date.end, null);
   assert.equal(visarjan.description, "इस दिन गणेश विसर्जन है।");
   assert.equal(visarjan.sourceText.date, "2026-09-25", "preserve legacy date only as provenance");
- 
+});
+
 test("Gayatri Jayanti is shown only on Shravan Purnima and Ambubachi has a separate solar-event rule", () => {
   const gayatri = byId["festival-087"];
   assert.ok(gayatri, "Gayatri Jayanti record must exist");
@@ -196,6 +197,4 @@ test("Gayatri Jayanti is shown only on Shravan Purnima and Ambubachi has a separ
   assert.match(ambubachi.date.calculationNotes, /66°40′/);
   assert.match(ambubachi.date.calendarRule, /आधिकारिक मंदिर सूचना/);
   assert.equal(ambubachi.sourceText.date, "2026-06-25", "preserve imported text dates only as provenance");
-});
-
 });
