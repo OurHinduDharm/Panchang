@@ -324,8 +324,12 @@
             "enum": [
               "unreviewed",
               "needs-review",
-              "verified"
-            ]
+              "verified",
+              "owner-reference-checked",
+              "source-conflict",
+              "superseded"
+            ],
+            "description": "Verification workflow state. owner-reference-checked means the owner supplied/checked a primary printed Panchang date; it does not certify every tithi boundary or ritual muhurta. superseded records are retained for provenance but should not be rendered as active observances."
           },
           "sourceText": {
             "type": [
