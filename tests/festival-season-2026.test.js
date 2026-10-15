@@ -128,3 +128,18 @@ test("Hanuman Jayanti is limited to the two OurHinduDharm observances", () => {
   assert.equal(kartik.sourceText.date, "2025-10-19", "preserve the historical source date");
   assert.equal(chaitra.sourceText.date, "2026-04-02", "preserve the imported source date");
 });
+
+
+test("Ganesh Chaturthi and Ganesh Jayanti share one observance entry", () => {
+  const ganeshEntries = data.festivals.filter((item) => /गणेश चतुर्थी|गणेश जयंती|गणेश जी की जयंती/.test(item.name || ""));
+  const ganesh = byId["festival-117"];
+  assert.ok(ganesh, "shared Ganesh observance entry must exist");
+  assert.equal(ganesh.name, "श्री गणेश चतुर्थी / गणेश जयंती");
+  assert.equal(ganesh.date.tithi, "भाद्रपद शुक्ल चतुर्थी");
+  assert.equal(ganesh.date.month, "भाद्रपद");
+  assert.match(ganesh.date.rule, /गणेश चतुर्थी और गणेश जयंती एक ही दिन दिखाई जाएँगी/);
+  assert.equal(ganeshEntries.length, 1, "do not create separate entries for the two names");
+  assert.equal(ganesh.sourceText.title, "श्री गणेश जी की जयंती ", "preserve legacy source text");
+  assert.equal(ganesh.date.start, "2026-09-14");
+  assert.equal(ganesh.date.end, "2026-09-25", "preserve the festival display window separately from tithi label");
+});
