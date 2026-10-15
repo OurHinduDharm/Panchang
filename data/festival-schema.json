@@ -205,6 +205,16 @@
               "null"
             ],
             "description": "Optional verbatim legacy fields retained during migration."
+          },
+          "reviewNotes": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Owner-confirmed editorial or display-intent notes. These do not certify the date calculation.",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "additionalProperties": true
