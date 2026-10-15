@@ -48,7 +48,7 @@ test("major festival records keep structured OurHinduDharm related-article links
   for (const [id, titles] of Object.entries(required)) {
     const links = byId[id].relatedArticles || [];
     for (const title of titles) {
-      assert.ok(links.some((link) => link.title === title && /^https?:\\/\\//.test(link.url)), id + ": " + title);
+      assert.ok(links.some((link) => link.title === title && (link.url.startsWith("https://") || link.url.startsWith("http://"))), id + ": " + title);
     }
     assert.ok(links.every((link) => link.url.includes("ourhindudharm.blogspot.com")), id + ": expected owned blog links");
   }
