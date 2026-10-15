@@ -27,7 +27,7 @@
         "tithi": "अष्टमी",
         "recurrence": "monthly"
       },
-      "dateDecision": "Select the local civil date on which Krishna Ashtami is present during the Pradosh interval. If more than one date in the same Ashtami interval qualifies, prefer the earlier date for this monthly observance. If neither Pradosh interval qualifies, fall back to the earliest date with Krishna Ashtami at local sunrise. Pradosh is operationally sampled from local sunset through 144 minutes after sunset.",
+      "dateDecision": "Select the local civil date on which Krishna Ashtami is present during the Pradosh interval. If more than one date in the same Ashtami interval qualifies, prefer the earlier date for this monthly observance. If neither Pradosh interval qualifies, fall back to the earliest date with Krishna Ashtami at local sunrise. Pradosh is operationally defined here as local sunset through 144 minutes after sunset; the engine follows tithi end boundaries when exposed by the library and uses five-minute steps only as a fallback.",
       "timeSlots": [
         {
           "name": "प्रदोषकाल",
