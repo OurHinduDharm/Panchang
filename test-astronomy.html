@@ -513,9 +513,13 @@
     <h3>Coordinate-frame sensitivity audit (diagnostic only)</h3>
     <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant. Important: the 24.217° value is subtracted to create the helper’s sidereal-longitude representation and then added back before oblique ascension is calculated. With that same offset used consistently, it cancels; this is not an independent test of ayanāṃśa choice.</p>
     <div id="frameAuditOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this audit.</div></div>
-    <h3>TKS Venus snapshot provenance audit — timestamp/frame unverified</h3>
-    <p class="small">The supplied TKS values (K = 7.698°, C = 8°; ecliptic separation = 17.6°; 3-D separation = 19.4°) do not yet have a verified timestamp and coordinate-frame record matching this calculation. The table below compares our own candidate variants only and preserves the TKS figures as references; it must not be read as a same-instant residual or as evidence that either method is correct.</p>
-    <div id="sameInstantTksAuditOutput"><div class="status info">Run “Sūrya-siddhānta Lagnāntara” to inspect our candidate geometry. TKS values remain reference-only until timestamp, coordinates, elevation, and method options are matched.</div></div>
+    <h3>Venus snapshot comparison — editable instant; TKS provenance pending</h3>
+    <p class="small">The supplied TKS values (K = 7.698°, C = 8°; ecliptic separation = 17.6°; 3-D separation = 19.4°) were discussed with a 12 October 2026 17:42 IST request, but the raw K/C panel output and full method/coordinate metadata are not yet preserved together as a fixture. Set the candidate instant below to the exact TKS request time. TKS remains reference-only until the capture is confirmed; no TKS residual is calculated.</p>
+    <div class="controls">
+      <label for="tksCandidateDate">Candidate date (IST)</label><input id="tksCandidateDate" type="date" value="2026-10-12">
+      <label for="tksCandidateTime">Candidate time (IST)</label><input id="tksCandidateTime" type="time" value="17:42">
+    </div>
+    <div id="sameInstantTksAuditOutput"><div class="status info">Default candidate instant: 12 October 2026, 17:42 IST. Click “Run Sūrya-siddhānta Lagnāntara” below to calculate. TKS values remain reference-only.</div></div>
     <h3>Jupiter Asta component sweep — 12, 13 and 20 August 2027</h3>
     <p class="small">This table samples actual local sunset and compares Astronomy Engine against the page’s separately loaded Swiss Ephemeris at the identical UTC instant. It also exposes each correction term. This is an ephemeris cross-check, not a formula change.</p>
     <div id="jupiterAstaSweepOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this sweep.</div></div>
@@ -3473,11 +3477,25 @@ function shastriyaC(planet, horizonEvent, motionClass) {
 
 async function runSameInstantTksSnapshotAudit() {
   const output = document.getElementById("sameInstantTksAuditOutput");
-  const instant = new Date("2026-10-12T06:30:00Z"); // 12:00 IST
+  const dateInput = document.getElementById("tksCandidateDate");
+  const timeInput = document.getElementById("tksCandidateTime");
+  const dateValue = dateInput?.value;
+  const timeValue = timeInput?.value;
+  if (!dateValue || !timeValue) {
+    output.innerHTML = '<div class="status error">Select both a date and an IST time before calculating.</div>';
+    return;
+  }
+  const instant = new Date(dateValue + "T" + timeValue + ":00+05:30");
+  if (!Number.isFinite(instant.getTime())) {
+    output.innerHTML = '<div class="status error">The selected local date/time is invalid.</div>';
+    return;
+  }
+  const localLabel = dateValue + " " + timeValue + " IST";
+  const utcLabel = instant.toISOString().slice(0, 19).replace("T", " ") + " UTC";
   const planetState = getPlanetSiderealState(BODY_NAMES.Venus, instant);
   const sunState = getPlanetSiderealState(Astronomy.Body.Sun, instant);
   if (!planetState || !sunState) {
-    output.innerHTML = '<div class="status error">Same-instant comparison failed: planetary state unavailable.</div>';
+    output.innerHTML = '<div class="status error">Selected-instant calculation failed: planetary state unavailable.</div>';
     return;
   }
 
@@ -3489,14 +3507,14 @@ async function runSameInstantTksSnapshotAudit() {
     dailyMotionDegPerDay: motion
   });
   if (!event) {
-    output.innerHTML = '<div class="status error">Same-instant comparison failed: event branch is ambiguous.</div>';
+    output.innerHTML = '<div class="status error">Selected-instant calculation failed: event branch is ambiguous.</div>';
     return;
   }
   const direction = event === "west-setting" || event === "west-rising" ? "west" : "east";
   const current = getLagnantaraDiagnostic(BODY_NAMES.Venus, instant, direction, "current", TKS_CONFIG);
   const sequential = getLagnantaraDiagnostic(BODY_NAMES.Venus, instant, direction, "sequential", TKS_CONFIG);
   if (!current || !sequential || !Number.isFinite(current.K) || !Number.isFinite(sequential.K)) {
-    output.innerHTML = '<div class="status error">Same-instant comparison failed: one or both K candidates are unavailable.</div>';
+    output.innerHTML = '<div class="status error">Selected-instant calculation failed: one or both K candidates are unavailable.</div>';
     return;
   }
 
@@ -3565,7 +3583,7 @@ async function runSameInstantTksSnapshotAudit() {
   const targetK = 7.698;
   const targetC = 8;
   const fmt = value => Number.isFinite(value) ? round(value, 6) + "°" : "—";
-  output.innerHTML = '<div class="status info"><strong>Our candidates calculated at:</strong> 2026-10-12 12:00:00 IST / 06:30:00 UTC; coordinates 29.5830° N, 80.2090° E, 0 m. Supplied TKS figures are reference-only: matching timestamp and coordinate-frame provenance are not yet verified.</div>' +
+  output.innerHTML = '<div class="status info"><strong>Our candidates calculated at:</strong> ' + localLabel + ' / ' + utcLabel + '; coordinates 29.5830° N, 80.2090° E, 0 m. Supplied TKS figures are reference-only: matching timestamp and coordinate-frame provenance are not yet verified.</div>' +
     '<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Our current candidate</th><th>Our sequential candidate</th><th>TKS reference (instant/frame unverified)</th></tr></thead><tbody>' +
     '<tr><td>IX.2–3 event branch</td><td colspan="2">' + event + ' (' + (motion < 0 ? 'retrograde' : 'direct') + ')</td><td>Venus Asta panel</td></tr>' +
     '<tr><td>Chapter III sign-table K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698° (reference only; instant unverified)</td></tr>' +
