@@ -4,7 +4,7 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 
 ## Files
 
-- `festivals.json` — 127 migrated/added festival records with provisional date candidates and structured related-article links for selected major festivals.
+- `festivals.json` — 130 legacy-migrated/added festival records with provisional date candidates and structured related-article links for selected major festivals.
 - `festival-schema.json` — draft shape for the migrated records.
 - `festival-overrides.json` — year-specific, reference-only exception records. Current entries do not affect rendering because `policy.autoApply` is `false` and the renderer has not been wired to this file.
 - `festival-overrides.schema.json` — schema for override records and their evidence/status.
@@ -44,3 +44,12 @@ See [the period and article-visibility audit](references/festival-period-and-lin
 The printed **Ganesh Martand Panchang** is the owner's primary comparison reference. Drik Panchang is a secondary cross-check when it agrees; a disagreement must not be automatically resolved in Drik's favor. When the owner finds a mismatch, record the festival ID, year, printed date, source/page if available, reason, and review status in `festival-overrides.json`. Keep the calculated date visible in the audit trail.
 
 The current override entries are **reference-only**. They do not change festival display until a resolver is implemented, schema/data validation and regression tests pass, and an entry's status is explicitly changed to `approved-for-application`. Unmapped records must be resolved against the catalog before creating new display cards, to prevent duplicates. Keep PR #33 Draft and do not merge or change live Blogger without explicit approval.
+
+
+## 2026-10-15 reference-record update
+
+- The catalog now contains 130 records: the 122 original legacy IDs are retained, with additional explicit records added during this draft series.
+- `festival-128` Papankusha Ekadashi (22 Oct 2026) and `festival-129` Pradosha (23 Oct 2026) carry owner-reported Ganesh Martand dates, but use `renderMode: manual` until tradition-aware Ekadashi/Pradosha date logic is ready.
+- `festival-130` Ashwini Purnima (26 Oct 2026) is recorded separately as requested, but remains `needs-review` because its calendrical distinction from Sharad/Kojaagari Purnima needs clarification.
+- `festival-011` Mahanavami displays only on 19 Oct 2026. The legacy `sourceText.endDate` of 20 Oct is preserved for provenance, not used as a second display day.
+- The schema now accepts the catalog's actual workflow statuses (`owner-reference-checked` and `superseded`) in addition to `needs-review`.
