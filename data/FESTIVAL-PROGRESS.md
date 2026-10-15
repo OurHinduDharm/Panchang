@@ -620,3 +620,22 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 
 - Latest CI run `38694077421` passed after the Ambubachi/Gayatri metadata cleanup; synthetic calculation tests and JSON parsing both succeeded.
 - First-pass audit of the 123 festival records created `data/references/festival-discrepancy-audit-2026-10-15.md`. It identifies the confirmed Dhulandi 2026 date mismatch, a duplicate/conflicting Gayatri Jayanti record, the 1970 eclipse placeholder, Navratri Ashtami/Navami regional/date conflicts, Sharad Purnima date-span ambiguity, combined Kali Chaudas/Narak Chaturdashi, stale Hanuman Jayanti/Tulsi Vivah entries, and a possible Ganesh Jayanti conflation. These other records have not been silently altered; source evidence and correction order are documented for the next audit pass.
+
+
+## Owner decisions applied — 2026-10-15
+
+See data/references/festival-discrepancy-audit-2026-10-15.md for the detailed discrepancy audit and source links.
+
+- Updated data/festivals.json with the owner's clarified policies: Tulsi Vivah Dwadashi–Purnima inclusive tithi window; separate Narak Chaturdashi and Kali Chaudas; both Gayatri Jayanti dates; both Ganesh observances; Hanuman Jayanti on Kartik Krishna Chaturdashi; separate Kameshwari Jayanti on Diwali; Adyakali Jayanti on Krishna Janmashtami night; and a provisional Bhadrakali Jayanti tithi record.
+- Removed active 1970-01-01 solar-eclipse placeholder and added a separate lunar-eclipse card. **Still required:** verify the public Blogger Eclipse Panchang URL before adding clickable links; both cards must route users to the live local eclipse calculator for event times, visibility and applicable Sutak.
+- Dhulandi 2026 active date corrected to 4 March; 3 March is Holika Dahan. Retain disagreement/provenance notes.
+- Gayatri duplicate festival-110 is marked source-only/superseded by festival-087; renderer must honor that flag to avoid duplicate display.
+- The structured JSON now contains 127 records. This is a data-branch update only; it has not been merged, and it has not changed the live Blogger site.
+
+### Validation still required
+
+- Run JSON parse/CI after these latest changes.
+- Test renderer handling for panchang-tithi-window, source-only, eclipse-panchang-link, alternateObservances, and relatedFestivalId.
+- Run ambubachi-validation.html in a browser and confirm the project library's sidereal Sun longitude before production integration.
+- Confirm Bhadrakali Jayanti against a stronger panjika or primary source before treating Jyeshtha Krishna Ekadashi as definitive.
+- Validate the chosen 2026 Navratri profile and city-specific Kali Chaudas/Narak Chaturdashi timing before release.
