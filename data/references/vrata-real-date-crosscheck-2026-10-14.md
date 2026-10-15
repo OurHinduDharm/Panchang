@@ -278,3 +278,53 @@ For 22 September 2026, city-specific Delhi pages report:
 Mumbai and Delhi results show the same general pattern, with most public-source differences confined to about one minute for these transitions. This strengthens the city-level cross-check, but because source pages do not all disclose precise coordinates and calculation conventions, it is not yet an exact-coordinate fixture.
 
 Stage 1 city-level source gathering now includes Mumbai and Delhi. Next technical task remains obtaining and capturing the pinned project library's actual output for the same dates. Stage 2 (Pithoragarh) follows only after Stage 1 comparison is complete.
+
+
+## Pinned-library diagnostic captured — 2026-10-15
+
+GitHub Actions run 38673693621 successfully completed the diagnostic emission and artifact upload for commit `fd8109c20c8972c2b750863514d031f0b91f5820`. The overall workflow is marked failed because the pre-existing compact UI/night Prahar regression step failed; the diagnostic step itself and its upload step both succeeded. Artifact: `vrata-real-date-diagnostic.json` (artifact ID 11945635143).
+
+The pinned `@ishubhamx/panchangam-js@3.0.0` scalar sunrise-element fields provide the following complete transition boundaries (library UTC timestamps converted to IST below). These are compared with the user's Astroica transcription (30.2° N, 80.8° E; Asia/Kolkata); that point is approximate and not identical to the audit point (30.1265° N, 80.4817° E).
+
+### August candidate — scalar transition fields
+
+| Event | Library output (IST) | Astroica transcription (IST) | Difference at displayed-minute precision |
+|---|---|---|---|
+| Shukla Dashami starts | 21 Aug 23:36:34 | 21 Aug 23:36 | about 34 s |
+| Dashami ends / Ekadashi starts | 23 Aug 02:00:43 | 23 Aug 02:00 | about 43 s |
+| Ekadashi ends / Dwadashi starts | 24 Aug 04:19:04 | 24 Aug 04:19 | about 4 s |
+| Dwadashi ends / Trayodashi starts | 25 Aug 06:21:13 | 25 Aug 06:21 | about 13 s |
+| Trayodashi ends | 26 Aug 07:59:29 | 26 Aug 07:59 | about 29 s |
+
+### August nakshatra transitions
+
+| Event | Library output (IST) | Astroica transcription (IST) |
+|---|---|---|
+| Jyeshtha ends / Moola starts | 22 Aug 14:49:01 | 22 Aug 14:49 |
+| Moola ends / Purva Ashadha starts | 23 Aug 17:44:27 | 23 Aug 17:44 |
+| Purva Ashadha ends / Uttara Ashadha starts | 24 Aug 20:28:02 | 24 Aug 20:28 |
+| Uttara Ashadha ends / Shravana starts | 25 Aug 22:51:05 | 25 Aug 22:51 |
+| Shravana ends | 27 Aug 00:47:50 | 27 Aug 00:47 |
+
+### September candidate — scalar transition fields
+
+| Event | Library output (IST) | Astroica transcription (IST) | Public-source context |
+|---|---|---|---|
+| Dashami ends / Ekadashi starts | 21 Sep 20:01:13 | 21 Sep 20:01 | Prokerala reports 20:01 |
+| Ekadashi ends / Dwadashi starts | 22 Sep 21:43:37 | 22 Sep 21:43 | Prokerala/Drik generally 21:43–21:44 |
+| Dwadashi ends / Trayodashi starts | 23 Sep 22:50:50 | 23 Sep 22:51 | Prokerala/Drik generally 22:50; Astroica 22:51 |
+| Uttara Ashadha ends / Shravana starts | 22 Sep 07:06:36 | 22 Sep 07:06 | Public sources generally 07:06–07:08 |
+| Shravana ends / Dhanishtha starts | 23 Sep 09:08:56 | 23 Sep 09:09 | Public sources generally 09:08–09:09 |
+| Dhanishtha ends | 24 Sep 10:34:58 | 24 Sep 10:35 | Matches displayed minute |
+
+### Interpretation and limitations
+
+1. The scalar fields reproduce the supplied transition sequence to within the displayed-minute rounding for these selected dates. This is a strong positive cross-check, not a proof of the library's correctness for all dates, all tithis/nakshatras, or every observer.
+2. Astroica's custom coordinate UI is limited to two decimal places, and the copied result does not record elevation or selected ayanāṃśa. Therefore, it is not an exact same-coordinate / fully convention-matched fixture. Keep it as contextual comparison evidence.
+3. Do not treat the `tithis`/`nakshatras` daily arrays as a single continuous astronomical interval source without inspecting their semantics: the API describes them as sunrise-to-next-sunrise segments and some entries are clipped at sunrise. For the full sunrise element, the diagnostic records the scalar `tithiStartTime`, `tithiEndTime`, `nakshatraStartTime`, and `nakshatraEndTime` fields separately.
+4. The diagnostic also emitted Mumbai and Delhi representative-coordinate interval sets. They are useful for city-level checks but the array segmentation means these should not be promoted to exact astronomical transition fixtures without normalizing/deduplicating across adjacent sunrise queries and comparing the scalar boundaries or another well-defined continuous interval source.
+5. The workflow overall remains failed because the compact UI/night Prahar regression test failed; do not describe the complete test suite as passing. The diagnostic emission and artifact upload did succeed.
+
+### Next step
+
+Before any vrata/parāṇa runtime change, inspect and resolve the unrelated compact UI/night Prahar test failure on its own terms, then define a dedicated test that consumes continuous, deduplicated transition boundaries and checks a named vrata decision profile against the documented Dharmasindhu rule. Preserve the Bhādrapada-specific 20-ghaṭikā caveat; do not apply it to every Śravaṇa-Dvādaśī. No production `app.js`, festival JSON, legacy dates, or Blogger output was changed by this diagnostic.
