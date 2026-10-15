@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "status": "research-only-not-runtime",
+  "source": {
+    "title": "Dharma Sindhu",
+    "evidenceFile": "data/references/dharmasindhu-image-collation-2026-10-14.md",
+    "witness": "Khemraj Sanskrit with Hindi commentary, printed pages 32-33 (scan images 0055-0056)",
+    "caution": "Working visual transcription, not a critical edition; operational triggers and observance decisions remain unverified."
+  },
+  "policy": {
+    "purpose": "Keep the eight named Mahadvadashi categories distinct while source review and tests are developed.",
+    "notFor": "Do not select fasting dates, calculate parana, or infer a category from tithi/nakshatra names alone.",
+    "intervalConvention": "Use location-specific half-open astronomical intervals [start,end) only after a separate validated calculation layer supplies them.",
+    "unresolvedHandling": "If any required source-defined condition or astronomical interval is missing, return unresolved; do not choose a default."
+  },
+  "types": [
+    {
+      "id": "unmilani",
+      "nameSanskrit": "उन्मीलनी",
+      "transliteration": "Unmīlanī",
+      "sourceDefinition": "शुद्धाधिकैकादशीयुक्ता द्वादशी",
+      "workingMeaning": "Dvadashi joined with shuddha/extended Ekadashi; exact technical meaning requires contextual review.",
+      "requiredEvidence": [
+        "ekadashiInterval",
+        "dvadashiInterval",
+        "localSunriseSequence"
+      ],
+      "nakshatra": null,
+      "status": "source-attested-trigger-not-operationalized"
+    },
+    {
+      "id": "vanjuli",
+      "nameSanskrit": "वञ्जुली",
+      "transliteration": "Vañjulī",
+      "sourceDefinition": "द्वादश्येव शुद्धाधिका वर्धते सा वञ्जुली",
+      "workingMeaning": "A shuddha/extended Dvadashi that itself increases; exact duration and sunrise trigger require contextual review.",
+      "requiredEvidence": [
+        "dvadashiInterval",
+        "localSunriseSequence"
+      ],
+      "nakshatra": null,
+      "status": "source-attested-trigger-not-operationalized"
+    },
+    {
+      "id": "trisprsha",
+      "nameSanskrit": "त्रिस्पर्शा",
+      "transliteration": "Trispr̥śā",
+      "sourceDefinition": "सूर्योदये एकादशी ततः क्षयगामिनी द्वादशी द्वितीयसूर्योदये त्रयोदशी एवमहोरात्रे तिथित्रयस्पर्शात्",
+      "workingMeaning": "The stated sequence involves Ekadashi at one sunrise, a kshaya/short Dvadashi, and Trayodashi at the second sunrise; exact predicate needs a worked source-based example.",
+      "requiredEvidence": [
+        "ekadashiInterval",
+        "dvadashiInterval",
+        "trayodashiInterval",
+        "twoLocalSunrises"
+      ],
+      "nakshatra": null,
+      "status": "source-attested-trigger-not-operationalized"
+    },
+    {
+      "id": "pakshavardhini",
+      "nameSanskrit": "पक्षवर्धिनी",
+      "transliteration": "Pakṣavardhinī",
+      "sourceDefinition": "दर्शस्य पौर्णमास्या वा यदा दिनवृद्धिस्तदा पक्षवर्धिनी संज्ञा",
+      "workingMeaning": "Day-increase condition on Amavasya or Purnima; meaning of dinavriddhi must be resolved before formal predicate.",
+      "requiredEvidence": [
+        "amavasyaOrPurnimaIdentity",
+        "sourceDefinedDayIncreaseCondition"
+      ],
+      "nakshatra": null,
+      "status": "source-attested-trigger-unresolved"
+    },
+    {
+      "id": "jaya",
+      "nameSanskrit": "जया",
+      "transliteration": "Jayā",
+      "sourceDefinition": "पुष्यर्क्षयुता जया",
+      "workingMeaning": "Dvadashi associated with Pushya under the source's conjunction requirements.",
+      "requiredEvidence": [
+        "dvadashiInterval",
+        "pushyaNakshatraInterval",
+        "sourceDefinedConjunctionCondition"
+      ],
+      "nakshatra": "Pushya",
+      "status": "pairing-attested-conjunction-condition-needs-scope"
+    },
+    {
+      "id": "vijaya",
+      "nameSanskrit": "विजया",
+      "transliteration": "Vijayā",
+      "sourceDefinition": "श्रवणयुता विजया",
+      "workingMeaning": "Dvadashi associated with Shravana under the source's conjunction requirements.",
+      "requiredEvidence": [
+        "dvadashiInterval",
+        "shravanaNakshatraInterval",
+        "sourceDefinedConjunctionCondition"
+      ],
+      "nakshatra": "Shravana",
+      "status": "pairing-attested-conjunction-condition-needs-scope"
+    },
+    {
+      "id": "jayanti",
+      "nameSanskrit": "जयन्ती",
+      "transliteration": "Jayantī",
+      "sourceDefinition": "पुनर्वसयुता जयन्ती",
+      "workingMeaning": "Dvadashi associated with Punarvasu under the source's conjunction requirements.",
+      "requiredEvidence": [
+        "dvadashiInterval",
+        "punarvasuNakshatraInterval",
+        "sourceDefinedConjunctionCondition"
+      ],
+      "nakshatra": "Punarvasu",
+      "status": "pairing-attested-conjunction-condition-needs-scope"
+    },
+    {
+      "id": "papanashini",
+      "nameSanskrit": "पापनाशिनी",
+      "transliteration": "Pāpanāśinī",
+      "sourceDefinition": "रोहिणीयुता पापनाशिनी",
+      "workingMeaning": "Dvadashi associated with Rohini under the source's conjunction requirements.",
+      "requiredEvidence": [
+        "dvadashiInterval",
+        "rohiniNakshatraInterval",
+        "sourceDefinedConjunctionCondition"
+      ],
+      "nakshatra": "Rohini",
+      "status": "pairing-attested-conjunction-condition-needs-scope"
+    }
+  ],
+  "sharedSourceNote": "The source states that these are observed by those seeking sin-destruction/liberation and adds that Shravana-yukta Dvadashi is nitya like Ekadashi. Do not infer from this note alone a complete fasting-date or parana algorithm."
+}
