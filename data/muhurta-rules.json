@@ -16,6 +16,76 @@
   },
   "rules": [
     {
+      "id": "monthly-kalashtami-pradosh-vyapti",
+      "observanceIds": [
+        "festival-kalashtami-recurring"
+      ],
+      "title": "मासिक कालाष्टमी व्रत-तिथि",
+      "trigger": {
+        "type": "panchang-tithi",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "recurrence": "monthly"
+      },
+      "dateDecision": "Select the local civil date on which Krishna Ashtami is present during the Pradosh interval. If more than one date in the same Ashtami interval qualifies, prefer the earlier date for this monthly observance. If neither Pradosh interval qualifies, fall back to the earliest date with Krishna Ashtami at local sunrise. Pradosh is operationally sampled from local sunset through 144 minutes after sunset.",
+      "timeSlots": [
+        {
+          "name": "प्रदोषकाल",
+          "startRule": "local sunset",
+          "endRule": "local sunset + 144 minutes; intersect with Krishna Ashtami"
+        }
+      ],
+      "calculationStatus": "draft-rule-implemented-needs-regression-and-source-check",
+      "primaryReference": "Dharmasindhu, Ashtami Nirnaya",
+      "sourceUrls": [
+        "https://www.transliteral.org/pages/z80422041657/view",
+        "https://panchangtime.com/methodology/kalashtami"
+      ],
+      "referenceChecks": [
+        "Confirm the monthly night/Pradosh rule wording against the relevant printed Dharmasindhu passage and Ganesh Martand Panchang edge cases.",
+        "Test skipped, short, and two-Pradosh Ashtami intervals before production."
+      ]
+    },
+    {
+      "id": "annual-kalabhairava-ashtami-dharmasindhu",
+      "observanceIds": [
+        "festival-027"
+      ],
+      "title": "वार्षिक कालभैरवाष्टमी / भैरवजयन्ती",
+      "trigger": {
+        "type": "panchang-tithi",
+        "month": "मार्गशीर्ष",
+        "alternateMonths": [
+          "कार्तिक"
+        ],
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "recurrence": "annual"
+      },
+      "dateDecision": "Apply the distinct Dharmasindhu Ashtami Nirnaya: if the first date has only Pradosh-vyapti and the second has Madhyahna-vyapti without Pradosh, choose the first; if Madhyahna-vyapti occurs on both dates choose the first; if it occurs on only one date choose that date; otherwise if Pradosh-vyapti occurs on both dates choose the second; if only one date has Pradosh-vyapti choose it; fallback to the earliest date with Krishna Ashtami at local sunrise.",
+      "timeSlots": [
+        {
+          "name": "मध्यान्ह-व्याप्ति",
+          "startRule": "local daylight interval from 2/5 to 3/5 of sunrise-to-sunset duration",
+          "endRule": "local daylight interval from 2/5 to 3/5 of sunrise-to-sunset duration"
+        },
+        {
+          "name": "प्रदोष-व्याप्ति",
+          "startRule": "local sunset",
+          "endRule": "local sunset + 144 minutes"
+        }
+      ],
+      "calculationStatus": "draft-rule-implemented-needs-regression-and-source-check",
+      "primaryReference": "Dharmasindhu, Ashtami Nirnaya; Kaustubha Pradosh-vyapti alternative quoted in the same passage",
+      "sourceUrls": [
+        "https://www.transliteral.org/pages/z80422041657/view"
+      ],
+      "referenceChecks": [
+        "Verify the precise Madhyahna and Pradosh interval definitions against the printed source/paddhati.",
+        "Test years where both dates satisfy both periods, one period only, or neither period."
+      ]
+    },
+    {
       "id": "purnima-vrat-monthly",
       "observanceIds": [
         "festival-purnima-vrat-recurring"
