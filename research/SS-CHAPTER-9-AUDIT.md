@@ -1147,3 +1147,18 @@ This is a materially useful discriminator: it uses a real Venus state rather tha
 The research-only raw TKS capture panel now has editable local date/time fields. It computes the expected UTC Julian Day from the chosen local instant and `tz=5.5`, then checks the Sun and Venus response timestamps against that selected instant. This permits capturing the actual event-side state (sunset for western events, sunrise for eastern events) without editing source code. Default remains 12 October 2026 at 06:30 IST for reproducibility.
 
 **Next calculation:** capture Sun and Venus at the local sunset for 12 October 2026, then run both latitude variants at that same event time; capture at the local sunrise for the 28/29 October Venus eastern-rise candidate and repeat separately. Do not mix the two event branches or alter production code.
+
+
+## Focused code audit checkpoint — 16 October 2026
+
+A source-level inspection of `test-astronomy.html`, `ss_chapter3_lagnantara.js`, `ss_chapter7_drikkarma.js`, and `ss_classical_frame.js` found two constraints that must be made explicit before interpreting the Venus K comparison:
+
+1. **The exact-oblique-ascension comparator is not the Chapter III classical calculation.** `obliqueAscensionFromSiderealLongitude()` uses fixed obliquity 23.4367°. The source-inspired Chapter III sign-rising-asus interpolation used by `chapter9LagnantaraAsus()` defaults to 24° and interpolates within each tropical sign. These are intentionally different calculations. Therefore the “exact OA K” column is a geometry comparator, not an independent validation of the classical K. A fair frame comparison must also calculate exact OA at the same explicitly chosen classical obliquity, while keeping sign-table/interpolated K as its own result.
+
+2. **The current Chapter IX crossing is daily-event resolution, not a continuous timestamp root.** `findLagnantaraCrossing()` evaluates K−C at one event per civil date (sunset for western / sunrise for eastern), then linearly interpolates between the two event timestamps. This gives a diagnostic estimate between adjacent daily samples; it does not prove that K−C was solved at that exact instant. The IX.10–11 estimate must be reported separately and checked against the adjacent-day bracket, as the existing panel attempts to do.
+
+3. **The production gate remains closed.** These are code-structure findings, not a new numerical Venus result. No browser run was performed in this checkpoint, no fixture has been promoted to ground truth, and `app.js` / `extra-panchang.js` remain out of scope.
+
+### Next executable research step
+
+Add a same-instant Venus comparison with three separately labelled values: (a) Chapter III sign-table/interpolated K at the explicitly selected 24° construction, (b) exact OA K at 24° using the same corrected longitudes, and (c) exact OA K at 23.4367° as a modern-obliquity comparator. Record the event branch, raw/corrected planet longitude, Sun longitude, both OA values, K, C, and K−C. Then run the existing headless CI/browser suite and compare the result with the owner-supplied TKS snapshot at 12 October 2026 12:00 IST (K=7.698°, C=8°) without treating that snapshot as automatic ground truth. Only after the frame delta and correction inputs are explained should the event-time bracket be advanced toward a publishable result.
