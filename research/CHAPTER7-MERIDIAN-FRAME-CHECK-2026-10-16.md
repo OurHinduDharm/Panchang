@@ -98,3 +98,22 @@ Implementation trace: `getChapter9TimeEstimate()` takes the event-frame K and si
 
 No production files were changed by this investigation.
 
+## Source check: what the verses do establish — and what they do not
+
+I checked the Sanskrit sequence against the verse-by-verse text and the Burgess translation.
+
+- **IX.4–5:** the prescribed input is the planet's dṛkkarma-corrected place at the relevant Sun event: sunset for a western event and sunrise for an eastern event. The lagna-interval is then converted into time using the appropriate rising-time measure. This supports evaluating each candidate against the matching local sunrise/sunset, not substituting a modern angular-separation threshold for the Chapter IX construction. See [Chapter IX, verses 4–5](https://vidhyamitra.com/surya-siddhanta/9).
+- **IX.6–9:** the text's thresholds are direction-dependent. Venus uses 8° for western setting/eastern rising and 10° for eastern setting/western rising; the other planetary limits are also explicitly listed. The classifier must select the branch before choosing the threshold. See [IX.6–9](https://acharane.com/sources/surya-siddhanta-9-6-8/).
+- **IX.10–11:** the text gives a days-to/from-event estimate from the time-angle difference and daily motions, with the motions converted using the relevant rising-asus. The one-step result is an estimate, not an independent proof that the target date has been reached. See [IX.10–11](https://vidhyamitra.com/surya-siddhanta/9).
+- **VII.7–11:** the verses specify meridian-distance/nata, the planet's own nata and half-day for Akṣa-dṛkkarma, and the declination derived from the graha increased by three signs for Ayana-dṛkkarma. The verse text does **not** directly prescribe a modern apparent sidereal-time API, nor does it explicitly say to apply a modern-to-classical vector rotation to local sidereal time. See [VII.7–11](https://vidhyamitra.com/surya-siddhanta/7) and the source text with notes in [Karma Sakha's Sūrya Siddhānta edition](https://karmasakha.com/texts/surya-siddhanta).
+
+### Consequence for frame adjudication
+
+This source pass narrows the question but does not settle it. The classical procedure defines the meridian distance through the text's lagna/nata construction; it does not give an explicit modern coordinate-frame conversion. Therefore neither the obliquity-only angle formula nor the full vector-transformed meridian can be declared historically correct merely because it is mathematically consistent.
+
+The next defensible test is to derive the Chapter III lagna/nata independently in the classical frame and compare it with both modern-frame candidates at the same local event. If the textual inputs do not uniquely determine a conversion, the report must retain the ambiguity rather than select the candidate that happens to agree better with a reference Panchang.
+
+### Event-estimate guardrail
+
+The long-range IX.10–11 discrepancy must be addressed without changing what IX.4 prescribes. The candidate iteration has to re-evaluate the relevant sunrise/sunset event geometry and sign-specific rising-asus at each candidate **date**, while separately recording the daily bracket and its interpolation. A naïve loop that repeatedly evaluates the same day's sunrise/sunset after moving only a fraction of a day would simply reuse the same K and is not a valid iteration. No production change is justified until the candidate-date update and convergence criteria are explicitly defined and tested.
+
