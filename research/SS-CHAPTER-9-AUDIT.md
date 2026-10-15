@@ -1080,3 +1080,24 @@ Source: https://vishvasa.github.io/jyotiSham/observation/history/hindu/prakIrNam
 ### Related Chapter IX implication
 
 Raṅganātha's Chapter IX.10 gloss explicitly says the difference between the current and target kalāṃśa is divided by the difference of the Sun/planet motions, while for a retrograde planet the divisor is their **sum**. The code's signed-motion approach is algebraically compatible only if the direction of time (past/future) is retained separately and the rates are expressed in the same rising-time coordinate. It must not collapse to an absolute relative rate before deciding whether the event is past or future. The diagnostic's signed derivative should therefore be tested against both direct and retrograde synthetic cases, plus the actual bracket, before the date solver is accepted.
+
+
+## Next validation matrix (do not skip to a date fit)
+
+The VII.10 candidate comparison must be run on identical input states and report, for each state:
+
+| Input case | Required condition | What must be checked |
+|---|---|---|
+| A | Planet latitude north; shifted-point declination north | same-name sign rule |
+| B | Planet latitude north; shifted-point declination south | different-name sign rule |
+| C | Planet latitude south; shifted-point declination north | different-name sign rule |
+| D | Planet latitude south; shifted-point declination south | same-name sign rule |
+| E | Shifted-point declination close to 0° | no sign instability; correction magnitude tends to zero |
+| F | Longitude crosses 0°/360° after +90° shift | normalized longitude and continuous declination |
+| G | Same date/event at two nearby epochs | correction should vary continuously unless the underlying sign branch genuinely changes |
+
+For each case record both candidate declinations, both Ayana corrections, the resulting corrected longitude, then the Aksha correction and final dṛkkarma. The comparison must also retain the source's event-specific local time (sunset for western events, sunrise for eastern events). A single final event time is not enough to adjudicate the intermediate geometry.
+
+Chapter IX.10–11 date validation must be a separate table: current K, target K, signed lagnāntara, Sun time-motion, planet time-motion, signed K-rate, estimated days, and the independently computed event bracket. Include at least one direct and one retrograde case. The already existing arithmetic tests exercise idealized values, but no real date should be called validated until the intermediate quantities can be inspected and the estimated time lies within a separately searched bracket.
+
+This matrix is the next work item. No event dates have been changed, no reference row has been silently substituted, and no production file has been touched.
