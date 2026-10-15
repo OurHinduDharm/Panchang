@@ -58,7 +58,7 @@ test("major festival records keep structured OurHinduDharm related-article links
     for (const title of titles) {
       assert.ok(links.some((link) => link.title === title && (link.url.startsWith("https://") || link.url.startsWith("http://"))), id + ": " + title);
     }
-    assert.ok(links.every((link) => link.url.includes("ourhindudharm.blogspot.com")), id + ": expected owned blog links");
+    assert.ok(links.every((link) => new URL(link.url).hostname === "ourhindudharm.blogspot.com"), id + ": expected exact owned blog host");
   }
   assert.deepEqual(byId["festival-022"].relatedArticles, [{ title: "अन्नकूट / गोवर्धन पूजा — परिचय एवं पूजा-विधि" }]);
   assert.deepEqual(byId["festival-023"].relatedArticles, [{ title: "भ्रातृ द्वितीया / भाई दूज — व्रत एवं पूजा-विधि" }]);
