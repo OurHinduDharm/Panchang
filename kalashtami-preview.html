@@ -16,7 +16,7 @@
 </head>
 <body>
 <main>
-  <p class="warning"><strong>परीक्षण पृष्ठ:</strong> यह लाइव वेबसाइट नहीं है। मासिक कालाष्टमी के लिए प्रदोष में कृष्ण अष्टमी की व्याप्ति और वार्षिक कालभैरवाष्टमी के लिए मध्यान्ह/प्रदोष-व्याप्ति के अलग निर्णय-नियम जाँचे जा रहे हैं।</p>
+  <p class="warning"><strong>परीक्षण पृष्ठ:</strong> यह लाइव वेबसाइट नहीं है। मासिक कालाष्टमी में व्रतराज-आधारित एक घटी प्रदोष-व्याप्ति नियम और वार्षिक कालभैरवाष्टमी में धर्मसिंधु का मध्यान्ह/प्रदोष निर्णय लागू है।</p>
   <h1>कालाष्टमी — पंचांग इंजन परीक्षण</h1>
   <p class="muted">स्थान: पिथौरागढ़ (30.1265° N, 80.4817° E) · समय क्षेत्र: IST (UTC+05:30)</p>
   <div class="controls"><label for="year">वर्ष</label><input id="year" type="number" min="1900" max="2200" value="2027"><button id="run" type="button">गणना करें</button></div>
@@ -27,7 +27,7 @@
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $ = (id) => document.getElementById(id);
-const DRAFT_ASSET_VERSION = "9fdc33ca48960bc23ed16f9ed47f0d03621e4015";
+const DRAFT_ASSET_VERSION = "cb615eeee428409545873b5e97f6cebe14881138";
 function loadClassicScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -40,7 +40,7 @@ function loadClassicScript(src) {
 let draftScriptsPromise;
 function ensureDraftScripts() {
   if (!draftScriptsPromise) {
-    const base = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@9fdc33ca48960bc23ed16f9ed47f0d03621e4015/";
+    const base = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@cb615eeee428409545873b5e97f6cebe14881138/";
     draftScriptsPromise = (async () => {
       await loadClassicScript(base + "festival-date-resolver.js?v=" + DRAFT_ASSET_VERSION);
       await loadClassicScript(base + "kalashtami-panchang-adapter.js?v=" + DRAFT_ASSET_VERSION);
@@ -83,7 +83,7 @@ async function run() {
     const annual = data.festivals.find(item => item.id === "festival-027");
     const monthlyResult = window.OHDFestivalDateResolver.resolveFestivalDate(monthly,{year,panchangDays:generated.monthlyDecisionDays});
     const annualResult = window.OHDFestivalDateResolver.resolveFestivalDate(annual,{year,panchangDays:generated.annualDecisionDays});
-    showList($("monthly"),monthlyResult.displayDates,"प्रदोष-काल में कृष्ण अष्टमी की व्याप्ति");
+    showList($("monthly"),monthlyResult.displayDates,"प्रदोषारम्भ के बाद कम-से-कम एक घटी कृष्ण अष्टमी; अन्यथा रात्रि-व्याप्ति");
     showList($("annual"),annualResult.displayDates,"धर्मसिंधु के अष्टमी-निर्णय में वर्णित मध्यान्ह/प्रदोष व्याप्ति");
     $("status").textContent = "गणना पूरी हुई। "+generated.candidateDates.length+" संभावित तारीख़ों पर सूर्योदय, मध्यान्ह और प्रदोष की तिथि-व्याप्ति जाँची गई।";
   } catch(error) {
