@@ -47,3 +47,25 @@ TKS labels the Shāstrīya verdict as the Chapter 9 K>C layer and separates it f
 ## Research-data policy
 
 Use this note as a source ledger for the next diagnostic. Do not change `app.js` or `extra-panchang.js`, do not merge PR #22, and do not publish a date as certified until the source-faithful Chapter 9 reconstruction and same-instant tests are independently validated.
+
+
+## Additional published Panchāṅga / Jyotiṣa cross-checks
+
+These are date-level reports, not independent ephemeris-grade measurements; editorial articles may repeat a common almanac/calendar source, so they should not be counted as fully independent astronomical engines.
+
+- **Times Now Navbharat:** reports Venus Asta on 12 October 2026 and Udaya on 29 October 2026: https://www.timesnowhindi.com/spirituality/shukra-asta-2026-12-october-to-29-october-shubh-karya-vivah-griha-pravesh-rules-article-156328193
+- **AstroSage Hindi:** identifies Venus Udaya in Libra on 29 October 2026: https://hindi.astrosage.com/gochar/shukra-tula-uday.asp
+- **Jyotish Sansar:** reports 12 October 2026 18:19 to 29 October 2026 06:00: https://www.jyotishsansar.com/
+- **NakshtraTak:** its 2026 Muhurat calendar treats 12–28 October as Venus Asta and 29–31 October as post-rise infancy (bālyatva): https://nakshtratak.com/muhurat/vivah/2026
+
+### Stronger practical date consensus for Venus
+
+Across these published Indian Jyotiṣa calendars, Venus Asta begins on **12 October 2026** and the return-to-Udaya boundary is generally placed on **29 October 2026** (some secondary sources describe it as 30 October, likely because of time/observance conventions). The supplied TKS Shāstrīya table's **1 November 2026** next-Udaya date is therefore a notable outlier by roughly 2–3 days. That is the key date discrepancy to investigate next, not a reason to force our formula to 29 October.
+
+Possible causes to test separately:
+1. TKS's Chapter IX event-selection or threshold-crossing implementation;
+2. the displayed date versus the exact crossing instant and local civil/Pañcāṅga-day convention;
+3. a difference between TKS's K/C verdict and the modern/observational date used by other calendars;
+4. a stale or different TKS page state/configuration.
+
+For Jupiter, the current source set only supports a broad alignment of the end boundary around 13 September 2027 and a start around 19–20 August. Add more sources before calling this a consensus. Do not infer that the other sites use the TKS Shāstrīya method.
