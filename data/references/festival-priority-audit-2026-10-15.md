@@ -2,7 +2,7 @@
 
 **Branch:** `data/festival-json-foundation`  
 **Purpose:** Prioritize useful festival work so a single disputed rule does not block the wider Panchang project.  
-**Status:** Planning/audit note only. No festival dates or live output changed.
+**Status:** Draft data updated; no live Blogger output changed. Candidate dates remain `needs-review` until local tithi/rule verification.
 
 ## Snapshot of the current migration
 
@@ -77,3 +77,14 @@ Create a compact, source-backed review table for Priority A with one row per fes
 5. decision/status.
 
 Start with Navaratri/Ashtami/Navami/Vijayadashami; continue to Sharad Purnima and the Diwali sequence without waiting for Śravaṇa-Dvādaśī to be fully settled.
+
+
+## Draft changes now made
+
+- Updated the provisional observance dates for festival-009 to festival-013 and festival-020 to festival-023 in `data/festivals.json`.
+- Corrected festival-009's displayed title to remove the misleading “18 October” prefix; original legacy title and description remain in `sourceText` for traceability.
+- Moved Navami's provisional observance date to 20 October while documenting the 19 October regional alternative instead of pretending all calendars agree.
+- Set the current candidate dates for Naraka Chaturdashi and Diwali both to 8 November, Govardhan Puja to 10 November, and Bhai Dooj to 11 November.
+- Replaced legacy Dhanteras, Sandhi Puja, and Diwali clock-time strings in the draft display descriptions with warnings that 2026 timings must be recalculated. Original source text is retained.
+- Added `tests/festival-season-2026.test.js` and wired it into the GitHub Actions workflow.
+- These are still **draft candidates**, not a claim that every local observance is fully verified. The test suite checks data consistency and stale-muhurta guardrails; it does not itself calculate tithis.
