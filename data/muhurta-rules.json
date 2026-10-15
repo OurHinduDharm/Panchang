@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "status": "research-draft-not-for-production",
+  "notes": [
+    "This catalog defines what the site should calculate/display; it does not certify any year's date or time.",
+    "Primary practical reference for OurHinduDharm is the owner's Ganesh Martand Panchang. Record edition/year/page and the rule it applies when the owner checks a hard copy.",
+    "Use local sunrise, sunset, tithi transitions, Bhadra intervals and solar ingress instants from the same location/timezone calculation provider. Never copy a prior year's clock time.",
+    "Keep calculated astronomical intervals, ritual decision rules, and editorial display text separate."
+  ],
+  "displayContract": {
+    "location": "Use selected Panchang location; show city and IST offset.",
+    "date": "Show the local civil date selected by the rule; support midnight rollover.",
+    "time": "Show local start–end times and the interval label (Pradosh, Nishita, Punyakaal, etc.) only when the rule and required input are verified.",
+    "explanation": "Add a concise 'निर्णय का आधार' note; distinguish calculated candidates from a reference-Panchang-approved observance.",
+    "fallback": "If inputs or rule are missing/conflicting, show 'मुहूर्त की गणना/सत्यापन शेष'; never invent a time."
+  },
+  "rules": [
+    {
+      "id": "purnima-vrat-monthly",
+      "observanceIds": [
+        "festival-purnima-vrat-recurring"
+      ],
+      "title": "मासिक पूर्णिमा व्रत",
+      "trigger": {
+        "type": "panchang-tithi",
+        "paksha": "शुक्ल",
+        "tithi": "पूर्णिमा",
+        "recurrence": "monthly"
+      },
+      "dateDecision": "Use the local Panchang's vrat/observance day after testing tithi at sunrise and any applicable tradition-specific rule; do not choose solely from a civil date.",
+      "timeSlots": [],
+      "calculationStatus": "resolver-rule-added-edge-case-policy-needs-review",
+      "referenceChecks": [
+        "Ganesh Martand Panchang: compare monthly Purnima vrat dates across a full year",
+        "Document any full-day, sunrise, or regional rule used for edge cases"
+      ]
+    },
+    {
+      "id": "dhanteras-dhanvantari-puja",
+      "observanceIds": [
+        "festival-018"
+      ],
+      "title": "धनतेरस / धन्वन्तरि पूजन मुहूर्त",
+      "trigger": {
+        "type": "panchang-tithi",
+        "month": "कार्तिक",
+        "paksha": "कृष्ण",
+        "tithi": "त्रयोदशी"
+      },
+      "timeSlots": [
+        {
+          "name": "प्रदोषकाल / धनतेरस पूजन",
+          "startRule": "verified local Pradosh interval intersected with applicable Trayodashi",
+          "endRule": "verified rule-specific end boundary"
+        }
+      ],
+      "calculationStatus": "research-required",
+      "requiredInputs": [
+        "local sunset",
+        "Trayodashi start/end instants",
+        "verified Pradosh and observance decision rule"
+      ],
+      "referenceChecks": [
+        "Ganesh Martand Panchang: date and printed puja-muhurat interval",
+        "Primary Dharma-nibandha/Muhurta source and edition"
+      ]
+    },
+    {
+      "id": "deepawali-lakshmi-puja",
+      "observanceIds": [
+        "festival-021"
+      ],
+      "title": "दीपावली / महालक्ष्मी पूजन मुहूर्त",
+      "trigger": {
+        "type": "panchang-tithi",
+        "month": "कार्तिक",
+        "paksha": "कृष्ण",
+        "tithi": "अमावस्या"
+      },
+      "timeSlots": [
+        {
+          "name": "प्रदोषकाल लक्ष्मीपूजन",
+          "startRule": "derive from local sunset and the verified tradition-specific Pradosh rule",
+          "endRule": "verified interval boundary"
+        },
+        {
+          "name": "निशीथकाल (यदि लागू)",
+          "startRule": "derive from local night interval using the verified Nishita rule",
+          "endRule": "verified interval boundary"
+        }
+      ],
+      "calculationStatus": "research-required",
+      "requiredInputs": [
+        "local sunset and next sunrise/night duration",
+        "Amavasya start/end instants",
+        "verified tradition-specific Lakshmi-puja decision rule"
+      ],
+      "referenceChecks": [
+        "Ganesh Martand Panchang: chosen date and exact printed Lakshmi-puja slot",
+        "Compare alternate dates where Amavasya spans Pradosh/Nishita; record why one is selected"
+      ]
+    },
+    {
+      "id": "holashtak-period",
+      "observanceIds": [
+        "festival-holashtak-recurring"
+      ],
+      "title": "होलाष्टक अवधि",
+      "trigger": {
+        "type": "panchang-tithi-window",
+        "month": "फाल्गुन",
+        "paksha": "शुक्ल",
+        "from": "अष्टमी",
+        "through": "पूर्णिमा",
+        "inclusive": true
+      },
+      "timeSlots": [],
+      "calculationStatus": "provisional-tithi-window",
+      "requiredInputs": [
+        "local Panchang day list spanning both boundary tithis"
+      ],
+      "referenceChecks": [
+        "Ganesh Martand Panchang: first and last day",
+        "Check local/traditional differences before production"
+      ]
+    },
+    {
+      "id": "holika-dahan-muhurat",
+      "observanceIds": [
+        "festival-052"
+      ],
+      "title": "होलिका-दहन मुहूर्त",
+      "trigger": {
+        "type": "panchang-tithi",
+        "month": "फाल्गुन",
+        "paksha": "शुक्ल",
+        "tithi": "पूर्णिमा"
+      },
+      "timeSlots": [
+        {
+          "name": "भद्रा-रहित होलिका-दहन",
+          "startRule": "select the permitted local interval after applying the verified Purnima/Pradosh and Bhadra rule",
+          "endRule": "permitted interval end after Bhadra considerations"
+        }
+      ],
+      "calculationStatus": "research-required",
+      "requiredInputs": [
+        "local sunset and Pradosh interval",
+        "Purnima start/end instants",
+        "Bhadra start/end and any verified mukha/puccha rule"
+      ],
+      "safetyRules": [
+        "Do not infer the muhurat from the festival date alone.",
+        "If the applicable rule does not permit the usual interval, show the documented alternative rule and source; never silently choose a time."
+      ],
+      "referenceChecks": [
+        "Ganesh Martand Panchang: exact Holika Dahan interval and Bhadra note",
+        "Primary source/paddhati supporting the selected Bhadra decision"
+      ]
+    },
+    {
+      "id": "all-twelve-sankranti-punyakaal",
+      "observanceIds": [
+        "festival-033",
+        "festival-038",
+        "festival-089",
+        "festival-092"
+      ],
+      "title": "सभी 12 संक्रान्तियाँ और पुण्यकाल",
+      "trigger": {
+        "type": "sidereal-solar-ingress",
+        "body": "Sun",
+        "longitudeSystem": "sidereal",
+        "signBoundaryDegrees": [
+          0,
+          30,
+          60,
+          90,
+          120,
+          150,
+          180,
+          210,
+          240,
+          270,
+          300,
+          330
+        ]
+      },
+      "timeSlots": [
+        {
+          "name": "संक्रान्ति क्षण",
+          "startRule": "astronomically solve the exact sidereal ingress instant"
+        },
+        {
+          "name": "पुण्यकाल",
+          "startRule": "derive from ingress instant using the separately verified Sankranti-specific shastric rule; apply local sunrise/sunset/day-boundary conditions where prescribed",
+          "endRule": "same verified rule's calculated end boundary"
+        }
+      ],
+      "calculationStatus": "astronomical-ingress-provider-and-shastric-punyakaal-policy-required",
+      "requiredInputs": [
+        "exact sidereal solar ingress instant from one consistent ephemeris/ayanamsha",
+        "local sunrise and sunset",
+        "the relevant Sankranti's verified punya-kaal formula and restrictions"
+      ],
+      "safetyRules": [
+        "Do not apply one guessed fixed offset to every Sankranti.",
+        "Keep ingress time separate from Punyakaal start/end.",
+        "Makar Sankranti and other special cases may have distinct rules; document each exception.",
+        "If ingress is outside the applicable day/period, use only a verified textual rule to determine the next valid interval."
+      ],
+      "referenceChecks": [
+        "Ganesh Martand Panchang: all 12 dates and printed Punyakaal",
+        "Primary Muhurta/Dharma-nibandha sources for general rule and named exceptions"
+      ]
+    }
+  ]
+}
