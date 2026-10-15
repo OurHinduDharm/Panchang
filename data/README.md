@@ -9,6 +9,7 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 - `festival-overrides.json` — year-specific, reference-only exception records. Current entries do not affect rendering because `policy.autoApply` is `false` and the renderer has not been wired to this file.
 - `festival-overrides.schema.json` — schema for override records and their evidence/status.
 - `festival-date-resolver.js` — pure draft resolver for local-Panchang tithi matches, inclusive tithi windows, ephemeris-supplied solar events, source-only suppression, and strictly approved overrides. It is not wired to the Blogger renderer.
+- `festival-muhurta-rules.js` / `festival-muhurta-engine.js` — interval rules and injected-Panchang adapters for Ghatasthapana, Sharad Purnima moonlight-kheer timing, tradition-rule-constrained Ekadashi parana, and supplied local puja windows. Candidate times are not final muhurta until the required source/profile is validated.
 
 ## Migration rules
 
@@ -21,7 +22,7 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 
 ## Current status
 
-**Draft migration in progress.** All 122 legacy entries are retained in `festivals.json`; `sourceText` preserves legacy names, descriptions, dates, end dates and status text for audit. Date candidates and rules are not certified: entries remain `needs-review` until local tithi/astronomical calculations and observance conventions are documented. The JSON-backed widget is isolated on the draft branch and must not be connected to live Blogger until review, tests and explicit approval.
+**Draft migration in progress.** The 122 legacy IDs remain in `festivals.json`; `sourceText` preserves legacy names, descriptions, dates, end dates and status text for audit. Records now use explicit review states (`needs-review`, `owner-reference-checked`, `superseded`) as appropriate. Owner-checked dates do not certify every tithi boundary or muhurta. The JSON-backed widget and new resolver remain isolated on the draft branch and must not be connected to live Blogger until data/rules are reviewed, tests pass, and the owner explicitly approves.
 
 
 ## Navratri sadhana links (draft rule)
@@ -62,3 +63,9 @@ The current override entries are **reference-only**. They do not change festival
 - `.github/workflows/festival-draft-tests.yml` runs the catalog, widget, muhurta, and resolver regression tests on the draft branch and pull requests.
 - The resolver deliberately consumes externally calculated Panchang days and solar-event instants. It does not independently calculate astronomy, choose a vrata date for Ekadashi/Pradosha, or replace a temple reopening notice with an astronomical boundary.
 - The resolver remains a tested foundation only. The review HTML form/dashboard and live Blogger integration are deferred until the festival engine and seasonal data pass review.
+
+
+## Muhrta adapter coverage
+
+- The injected adapter has regression tests for local moonrise/Purnima intersection, Dvadashi parana constrained by a supplied tradition rule, and puja-window intersections using caller-supplied local intervals.
+- It deliberately does not guess a universal Pradosha duration, synthesize a Parana rule, or treat a solar boundary as a temple reopening time. If required inputs are missing, it returns an unavailable/review status instead of inventing a time.
