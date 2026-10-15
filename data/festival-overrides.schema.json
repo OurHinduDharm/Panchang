@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OurHinduDharm Festival Overrides",
+  "description": "Year-specific, evidence-backed exceptions to calculated festival dates. This data must not affect output unless an explicitly tested resolver is enabled.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "purpose",
+    "policy",
+    "overrides"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1,
+      "type": "integer"
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "primaryReference",
+        "secondaryReference",
+        "conflictHandling",
+        "autoApply",
+        "preserveComputedDate",
+        "requireReasonAndSource"
+      ],
+      "properties": {
+        "primaryReference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "secondaryReference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conflictHandling": {
+          "type": "string",
+          "minLength": 1
+        },
+        "autoApply": {
+          "type": "boolean"
+        },
+        "preserveComputedDate": {
+          "type": "boolean"
+        },
+        "requireReasonAndSource": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "overrides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "year",
+          "festivalId",
+          "festivalName",
+          "displayDate",
+          "decision",
+          "source",
+          "status",
+          "note"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2200
+          },
+          "festivalId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "festivalName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "displayDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "decision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "required": [
+              "type",
+              "title",
+              "page"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "page": {
+                "type": [
+                  "integer",
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": true
+          },
+          "status": {
+            "enum": [
+              "reference-recorded-pending-renderer",
+              "reference-recorded-pending-record-mapping",
+              "needs-review",
+              "approved-for-application",
+              "rejected"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
