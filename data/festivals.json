@@ -17,7 +17,8 @@
     "Pitri Paksha article visibility rule: show the Mahalaya Shraddha importance and Tarpan Vidhi links from the start of the configured Pitri Paksha period through Pitri Visarjani Amavasya inclusive. This only controls article visibility; the period records and dates require annual review and do not certify shraddha observance/muhurta.",
     "Owner-approved festival policy updates on 2026-10-15: Tulsi Vivah tithi window; split Kali Chaudas from Narak Chaturdashi per Drik; both Gayatri Jayanti dates; Hanuman Jayanti vs Kameshwari Jayanti; both Ganesh observances; Adyakali on Janmashtami night; add Bhadrakali Jayanti; eclipse cards must link to live local eclipse Panchang and never use placeholder dates.",
     "Eclipse Panchang URL verified from owner: https://ourhindudharm.blogspot.com/p/grahan-panchang.html; both solar and lunar eclipse cards link to it.",
-    "Owner decision 2026-10-15: primary Sharadiya Navratri display follows Drik Panchang's general/North Indian rules, not Bengal-specific Durga Puja rules. Mahavidya Jayanti records still need a dedicated record-by-record audit; they must not be described as all fixed yet."
+    "Owner decision 2026-10-15: primary Sharadiya Navratri display follows Drik Panchang's general/North Indian rules, not Bengal-specific Durga Puja rules. Mahavidya Jayanti records still need a dedicated record-by-record audit; they must not be described as all fixed yet.",
+    "2026-10-16: Added an explicit recurring monthly Kalashtami rule record and clarified the separate annual Kalabhairava Ashtami/Jayanti record. Existing dated monthly legacy entries are preserved for provenance. The recurrence record is research data only; the current renderer's support for recurrence must be tested before live use."
   ],
   "festivals": [
     {
@@ -811,7 +812,8 @@
         "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
         "tithi": "कृष्ण अष्टमी",
         "month": "मार्गशीर्ष",
-        "rule": "कालभैरवाष्टमी; परंपरा अनुसार मास/तिथि सत्यापित करें।"
+        "rule": "वार्षिक कालभैरवाष्टमी/भैरव जयन्ती: मार्गशीर्ष (पारम्परिक अमान्त-पद्धति में कार्तिक) कृष्ण अष्टमी। इसे प्रत्येक मास की कालाष्टमी से अलग वार्षिक उत्सव के रूप में रखें; तिथि-व्याप्ति के आधार पर वास्तविक वर्ष की तारीख़ निकालें।",
+        "calendarRule": "annual-margashirsha-krishna-ashtami"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\">श्री महाकाल भैरव जयन्ती</a> महाभैरवाष्टमी, कालाष्टमी, <a href=\"https://ourhindudharm.blogspot.com/2014/11/About-Lord-Bhairava-And-Kalbhairavashtak-Stotra.html\" target=\"_blank\">पढें श्री भैरव महिमा</a>",
       "sourceText": {
@@ -820,7 +822,16 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\">श्री महाकाल भैरव जयन्ती</a> महाभैरवाष्टमी, कालाष्टमी, <a href=\"https://ourhindudharm.blogspot.com/2014/11/About-Lord-Bhairava-And-Kalbhairavashtak-Stotra.html\" target=\"_blank\">पढें श्री भैरव महिमा</a>"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "alternateNames": [
+        "कालभैरवाष्टमी",
+        "महाभैरवाष्टमी",
+        "भैरव जयन्ती"
+      ],
+      "category": "vrat",
+      "reviewNotes": [
+        "पुरानी Gregorian तारीख़ 2025-11-12 स्रोत-आर्काइव की तारीख़ है; इसे भविष्य के वर्षों के लिए स्थिर तारीख़ न मानें।"
+      ]
     },
     {
       "id": "festival-028",
@@ -3125,6 +3136,33 @@
       "verificationStatus": "needs-review",
       "reviewNotes": [
         "2026-10-15: उपयोगकर्ता ने 26 अक्टूबर 2026 की अलग अश्विनी पूर्णिमा प्रविष्टि बताई। कोजागरी/शरद पूर्णिमा के साथ संभावित संबंध या तिथि-विस्तार स्पष्ट करने के लिए समीक्षा आवश्यक."
+      ]
+    },
+    {
+      "id": "festival-kalashtami-recurring",
+      "name": "मासिक कालाष्टमी",
+      "alternateNames": [
+        "मासिक कालभैरवाष्टमी",
+        "कालाष्टमी व्रत"
+      ],
+      "category": "vrat",
+      "description": "प्रत्येक चान्द्रमास के कृष्ण पक्ष की अष्टमी को कालभैरव जी का मासिक व्रत।",
+      "date": {
+        "type": "tithi",
+        "start": null,
+        "end": null,
+        "tithi": "कृष्ण अष्टमी",
+        "paksha": "कृष्ण",
+        "month": "प्रत्येक चान्द्रमास",
+        "rule": "यह आवर्ती नियम है, कोई एक Gregorian तारीख नहीं। हर चान्द्रमास की कृष्ण अष्टमी को स्थानीय पंचांग की तिथि-व्याप्ति और व्रत-निर्णय के अनुसार दिखाएँ। मार्गशीर्ष कृष्ण अष्टमी का वार्षिक कालभैरवाष्टमी/भैरव जयन्ती उत्सव अलग रिकॉर्ड है।",
+        "renderMode": "panchang-tithi",
+        "calendarRule": "monthly-krishna-ashtami"
+      },
+      "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "आवर्ती नियम का डेटा रिकॉर्ड जोड़ा गया; renderer में recurring matching लागू होने की पुष्टि अभी बाकी है।",
+        "पुराने festival-049 और festival-074 रिकॉर्ड ऐतिहासिक तारीख़ों के साथ स्रोत-आर्काइव हेतु बने रहेंगे; वे पूरे वर्ष की सूची का विकल्प नहीं हैं."
       ]
     }
   ],
