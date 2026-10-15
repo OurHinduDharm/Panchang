@@ -213,7 +213,7 @@
               },
               "endRule": {
                 "type": "object",
-                "description": "Separate rule for the ritual/temple end of an observance; not automatically a fixed-hour offset from its astronomical start.",
+                "description": "Separate end rule for an observance; may be astronomical (for example, a second solar-longitude boundary) or ritual/temple-based. Do not assume it is a fixed-hour offset from the start.",
                 "additionalProperties": true
               },
               "alternateObservances": {
