@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>आगामी त्योहार — Draft Preview | OurHinduDharm</title>
+  <style>
+    :root{color-scheme:light;--ink:#382719;--muted:#796653;--paper:#fffaf2;--line:#f0dfc6;--accent:#d97706}
+    *{box-sizing:border-box}
+    body{margin:0;padding:14px;background:#f7f1e8;color:var(--ink);font-family:Arial,"Noto Sans Devanagari",sans-serif;line-height:1.55}
+    main{max-width:760px;margin:0 auto;padding:16px;background:#fff;border:1px solid #eadbc8;border-radius:14px}
+    .draft{margin:0 0 16px;padding:10px 12px;background:#fff4d6;border:1px solid #eed39a;border-radius:9px;font-size:13px}
+    h1{margin:0;font-size:22px;line-height:1.3}
+    .sub{margin:4px 0 14px;color:var(--muted);font-size:13px}
+    #dynamicFestivalList{width:100%;text-align:left}
+    #dynamicFestivalList .festival-card{display:flex;align-items:flex-start;gap:9px;margin:8px 0;padding:9px 8px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:9px;line-height:1.5}
+    #dynamicFestivalList .festival-date{flex:0 0 49px;min-width:0;padding:6px 2px;text-align:center;background:#fff0d9;border:1px solid #f4d3a1;border-radius:7px;color:#9a4b08}
+    #dynamicFestivalList .festival-day{display:block;font-size:20px;font-weight:800;line-height:1.15}
+    #dynamicFestivalList .festival-month{display:block;margin-top:3px;font-size:10px;font-weight:700;line-height:1.3}
+    #dynamicFestivalList .festival-content{flex:1 1 0;min-width:0;overflow-wrap:anywhere}
+    #dynamicFestivalList .festival-title{color:#4b2e16;font-size:15px;font-weight:750;line-height:1.45}
+    #dynamicFestivalList .festival-description{margin-top:3px;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+    #dynamicFestivalList .festival-description a{color:#873c9c;text-decoration:none;font-weight:600}
+    #dynamicFestivalList .festival-description a:hover{text-decoration:underline}
+    #dynamicFestivalList .festival-status{display:inline-block;max-width:100%;margin:0 0 3px;padding:2px 7px;border-radius:20px;background:#fce8c7;color:#92400e;font-size:11px;font-weight:750;line-height:1.4}
+    #dynamicFestivalList .festival-period{display:block;margin-top:2px;color:var(--muted);font-size:12px;line-height:1.35}
+    @media(max-width:380px){body{padding:8px}main{padding:12px}#dynamicFestivalList .festival-card{gap:7px;padding:8px 6px}#dynamicFestivalList .festival-date{flex-basis:45px}#dynamicFestivalList .festival-day{font-size:18px}#dynamicFestivalList .festival-title{font-size:14px}#dynamicFestivalList .festival-description{font-size:12px}}
+  </style>
+</head>
+<body>
+  <main>
+    <p class="draft"><strong>Draft Preview:</strong> यह केवल आगामी त्योहार सूची का परीक्षण है। इससे लाइव Blogger या मुख्य पंचांग में कोई बदलाव नहीं होता। तारीखें अभी समीक्षााधीन हो सकती हैं।</p>
+    <h1>🪔 आगामी त्योहार</h1>
+    <p class="sub">सनातन पर्व • व्रत • उत्सव · अगले 14 कैलेंडर दिन</p>
+    <div id="dynamicFestivalList" aria-live="polite"><p>त्योहारों का डेटा लोड हो रहा है…</p></div>
+  </main>
+  <script defer src="https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/festival-json-widget.js"></script>
+</body>
+</html>
