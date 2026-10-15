@@ -78,7 +78,8 @@
                   "solar",
                   "astronomical",
                   "event-duration",
-                  "manual"
+                  "manual",
+                  "tithi-window"
                 ]
               },
               "start": {
@@ -158,9 +159,12 @@
                   "solar-event",
                   "fixed-date",
                   "manual",
-                  null
+                  null,
+                  "panchang-tithi-window",
+                  "eclipse-panchang-link",
+                  "source-only"
                 ],
-                "description": "Renderer instruction; panchang-tithi matches one locally calculated Panchang tithi; panchang-tithi-range matches a local tithi interval. Neither may use static Gregorian dates."
+                "description": "Renderer instruction. panchang-tithi and panchang-tithi-range match local Panchang data; panchang-tithi-window matches an inclusive tithi range; solar-event requires a validated ephemeris; eclipse-panchang-link routes to the live local eclipse tool; source-only records are retained for provenance and must not render."
               },
               "calendarRule": {
                 "type": [
