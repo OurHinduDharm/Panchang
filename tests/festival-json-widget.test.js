@@ -286,7 +286,7 @@ test("Chaturmas sankalpa display window remains intentionally July 25–30 per o
   assert.equal(item.date.end, "2026-07-30");
   assert.ok(item.date.calculationNotes.includes("through 2026-07-30"));
   assert.ok(item.reviewNotes.some((note) => note.includes("could not take the sankalpa on Ekadashi")));
-  assert.ok(item.reviewNotes.some((note) => note.includes("29 जुलाई")));
+  assert.ok(item.reviewNotes.some((note) => note.includes("२९ जुलाई")));
 });
 
 
