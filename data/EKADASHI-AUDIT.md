@@ -61,3 +61,17 @@ Adhika-Masa candidates to verify separately: **Padmini Ekadashi** and **Parama E
 ## Release gate
 
 Do not mark Ekadashi coverage complete and do not connect this draft to the live Blogger widget until the recurring catalog, rule sources, 2026 comparison and automated tests have been reviewed.
+
+
+## 2026 cross-check — 15 October
+
+- Papankusha Ekadashi: 22 October 2026 matches the owner's Ganesh Martand reference and independent calendar listings. The recurring observance rule remains unfinished.
+- Rama Ekadashi: 5 November 2026 matches the owner's reference and is listed by Drik Panchang, Shubhdin and IndianPanchang. Date is cross-corroborated; parana must be calculated for the selected location and tradition.
+- Devutthana/Prabodhini: some calendars show 20 November and others 21 November for a Gauna/Vaishnava observance. Do not flatten this into a universal date; compare with Ganesh Martand and preserve separate profiles.
+- Mokshada/Gita Jayanti: 20 December appears in multiple 2026 calendar listings, but owner-reference and local parana tests remain open.
+
+Secondary comparison links: https://www.drikpanchang.com/iskcon/iskcon-ekadashi-list.html ; https://shubhdinpanchang.com/en/ekadashi/rama-ekadashi/ ; https://indianpanchang.com/vrats/ekadashi ; https://guptvrindavandham.org/media/uploads/2026/05/pdf/guptvrindavandham_ekadashi_list_english.pdf . These are cross-checks, not substitutes for source-text review.
+
+The Vrat-Parichay OCR in data/vrat-parichay-chunks/part-007.txt (printed pages about 49–51) explicitly records different community-specific views on Ekadashi vedha, including 45/55-ghati categories. These must not be converted into one universal minute threshold without tracing the cited authority and context. The same passage describes special Mahadvadashi forms and Trisprisha.
+
+Release gate remains unchanged: source-linked Smarta and Vaishnava decision rules, local tithi/sunrise tests, parana/Harivasara tests and Ganesh Martand comparison must be complete before live integration.
