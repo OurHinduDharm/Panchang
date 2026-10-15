@@ -174,7 +174,7 @@ test("Ganesh Chaturthi and Ganesh Jayanti share one tithi-only start-day notice"
 test("Gayatri Jayanti retains both configured tithi observances and Ambubachi has a separate solar-event rule", () => {
   const gayatri = byId["festival-087"];
   assert.ok(gayatri, "Gayatri Jayanti record must exist");
-  assert.equal(gayatri.name, "वेदमाता गायत्री जयंती");
+  assert.equal(gayatri.name, "गायत्री जयंती — ज्येष्ठ शुक्ल एकादशी और श्रावण शुक्ल पूर्णिमा");
   assert.equal(gayatri.date.type, "tithi");
   assert.equal(gayatri.date.month, "श्रावण");
   assert.equal(gayatri.date.paksha, "शुक्ल पक्ष");
