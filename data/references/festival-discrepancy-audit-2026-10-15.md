@@ -97,3 +97,10 @@ The owner clarified several records that initially looked like discrepancies. Th
 3. Run ambubachi-validation.html in a browser to confirm Panchangam-JS solar-longitude semantics before connecting Ambubachi to production.
 4. Validate the 2026 Navratri dates and Bengali regional ritual calendar against the intended city/observance profile; do not treat regional differences as automatic errors.
 5. Recheck Drik's 2026 Kali Chaudas/Narak Chaturdashi times for the chosen user location when implementing the live date resolver.
+
+
+## Additional owner decisions — 2026-10-15
+
+- **Eclipse Panchang URL supplied by owner:** https://ourhindudharm.blogspot.com/p/grahan-panchang.html. Added this exact link to both solar and lunar eclipse records. The live page remains the user-facing place for local visibility, eclipse contacts/releases and applicable Sutak; the festival cards do not invent a fixed Sutak duration.
+- **Navratri regional policy:** owner explicitly rejected applying Bengal's regional Durga Puja rules to the site's primary Sharadiya Navratri dates. Use Drik Panchang and comparable North Indian/general reference calendars for the main Ashtami/Navami observances; Bengali ritual dates, if ever added, must be separately labeled and must not override the primary date.
+- **Mahavidya Jayanti dates:** do not assume the full set has been validated just because individual entries exist. Run a focused audit of each Mahavidya's Jayanti/tithi, source and duplicate names before claiming they are all corrected.
