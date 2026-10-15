@@ -1,85 +1,42 @@
-name: Festival draft regression tests
+name: Festival Draft Regression Tests
 
 on:
   push:
     branches:
       - data/festival-json-foundation
     paths:
-      - "data/festivals.json"
-      - "data/festival-schema.json"
-      - "data/festival-overrides.json"
-      - "data/festival-overrides.schema.json"
-      - "festival-json-widget.js"
-      - "festival-muhurta-*.js"
-      - "ambubachi-calculation.js"
-      - "tests/festival-*.test.js"
-      - "tests/ambubachi-calculation.test.js"
-      - ".github/workflows/festival-draft-tests.yml"
+      - 'data/festivals.json'
+      - 'data/festival-schema.json'
+      - 'data/festival-overrides.json'
+      - 'data/festival-overrides.schema.json'
+      - 'festival-json-widget.js'
+      - 'festival-muhurta-*.js'
+      - 'ambubachi-calculation.js'
+      - 'tests/festival-*.test.js'
+      - 'tests/ambubachi-calculation.test.js'
+      - '.github/workflows/festival-draft-tests.yml'
   pull_request:
     paths:
-      - "data/festivals.json"
-      - "data/festival-schema.json"
-      - "data/festival-overrides.json"
-      - "data/festival-overrides.schema.json"
-      - "festival-json-widget.js"
-      - "festival-muhurta-*.js"
-      - "ambubachi-calculation.js"
-      - "tests/festival-*.test.js"
-      - "tests/ambubachi-calculation.test.js"
-      - ".github/workflows/festival-draft-tests.yml"
-  workflow_dispatch:
-
-permissions:
-  contents: read
+      - 'data/festivals.json'
+      - 'data/festival-schema.json'
+      - 'data/festival-overrides.json'
+      - 'data/festival-overrides.schema.json'
+      - 'festival-json-widget.js'
+      - 'festival-muhurta-*.js'
+      - 'ambubachi-calculation.js'
+      - 'tests/festival-*.test.js'
+      - 'tests/ambubachi-calculation.test.js'
+      - '.github/workflows/festival-draft-tests.yml'
 
 jobs:
   festival-regressions:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out draft branch
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - name: Validate JSON and catalog invariants
-        run: |
-          node <<'NODE'
-          const fs = require('node:fs');
-          const data = JSON.parse(fs.readFileSync('data/festivals.json', 'utf8'));
-          const schema = JSON.parse(fs.readFileSync('data/festival-schema.json', 'utf8'));
-          const overrides = JSON.parse(fs.readFileSync('data/festival-overrides.json', 'utf8'));
-          JSON.parse(fs.readFileSync('data/festival-overrides.schema.json', 'utf8'));
-          if (!Array.isArray(data.festivals)) throw new Error('festivals must be an array');
-          const ids = data.festivals.map((item) => item.id);
-          if (new Set(ids).size !== ids.length) throw new Error('duplicate festival IDs');
-          const allowedStatuses = schema.properties.festivals.items.properties.verificationStatus.enum;
-          for (const item of data.festivals) {
-            if (!item.id || !item.name || !item.date || !item.date.type) {
-              throw new Error('missing required fields: ' + JSON.stringify(item));
-            }
-            if (item.verificationStatus && !allowedStatuses.includes(item.verificationStatus)) {
-              throw new Error('schema does not allow verificationStatus ' + item.verificationStatus + ' for ' + item.id);
-            }
-          }
-          const overrideIds = overrides.overrides.map((item) => item.id);
-          if (new Set(overrideIds).size !== overrideIds.length) throw new Error('duplicate override IDs');
-          for (const item of overrides.overrides) {
-    if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(item.displayDate)) {
-              throw new Error('invalid override date format: ' + item.id);
-            }
-            if (item.festivalId && !ids.includes(item.festivalId)) {
-              throw new Error('override references missing festival: ' + item.id + ' -> ' + item.festivalId);
-            }
-          }
-          console.log('Validated', ids.length, 'festival records and', overrideIds.length, 'reference overrides.');
-          NODE
+          node-version: '20'
+      - name: Validate JSON files
+        run: node -e "JSON.parse(require('fs').readFileSync('data/festivals.json', 'utf8')); JSON.parse(require('fs').readFileSync('data/festival-schema.json', 'utf8')); JSON.parse(require('fs').readFileSync('data/festival-overrides.json', 'utf8')); JSON.parse(require('fs').readFileSync('data/festival-overrides.schema.json', 'utf8')); console.log('Festival JSON files parse successfully')"
       - name: Run festival and muhurta regression tests
-        run: >
-          node --test
-          tests/festival-json-widget.test.js
-          tests/festival-season-2026.test.js
-          tests/festival-muhurta-engine.test.js
-          tests/festival-muhurta-rules.test.js
-          tests/festival-muhurta-widget.test.js
-          tests/ambubachi-calculation.test.js
+        run: node --test tests/festival-catalog-guardrails.test.js tests/festival-json-widget.test.js tests/festival-season-2026.test.js tests/festival-muhurta-engine.test.js tests/festival-muhurta-rules.test.js tests/festival-muhurta-widget.test.js tests/ambubachi-calculation.test.js
