@@ -237,7 +237,7 @@ try {
   console.log("PASS — all four apparent ecliptic-angle threshold scans rendered separately from the classical K brackets");
   console.log("PASS — all four cases expose Aksha, Ayana, total, and sequential correction components");
   console.log("PASS — baseline and sequential Aksha coordinate assumptions are exposed separately for source audit");
-  console.log("PASS — all four signed IX.10–11 estimates are finite and within 0.75 day of the daily-bracket interpolation");
+  console.log("PASS — all four signed IX.10–11 estimates are finite; discrepancies above 0.25 day are flagged REVIEW. This is a numerical-wiring check, not publication-accuracy validation.");
   console.log("PASS — current/sequential lagnāntara tables rendered without browser errors");
 } catch (error) {
   console.error("FAIL — browser diagnostic:", error?.stack || error);
