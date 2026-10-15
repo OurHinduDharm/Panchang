@@ -187,7 +187,7 @@ The project owner supplied the full browser capture for both documented API body
 
 - Both requests returned HTTP 200 and `success: true`.
 - The returned top-level `selected_body` is 10 for the Sun request and 2 for Venus; each matches the requested code.
-- Returned `jd_utc` and `jd_ut1` are 2461325.541666667. Against expected JD 2461325.5416667, the difference is about 0.00003 seconds, well inside the one-second acceptance window.
+- Returned `jd_utc` and `jd_ut1` are 2461325.541666667. Against expected JD 2461325.5416667, the difference is about 0.0029 seconds, well inside the one-second acceptance window.
 - The request time is 06:30 IST = 01:00 UTC. The response's `jd_tt` differs from `jd_utc` by about 69.23 seconds, consistent with its returned `delta_t_s` field to rounding.
 
 ### State values captured (not corrected)
