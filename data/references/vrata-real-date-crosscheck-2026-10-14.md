@@ -328,3 +328,20 @@ The pinned `@ishubhamx/panchangam-js@3.0.0` scalar sunrise-element fields provid
 ### Next step
 
 Before any vrata/parāṇa runtime change, inspect and resolve the unrelated compact UI/night Prahar test failure on its own terms, then define a dedicated test that consumes continuous, deduplicated transition boundaries and checks a named vrata decision profile against the documented Dharmasindhu rule. Preserve the Bhādrapada-specific 20-ghaṭikā caveat; do not apply it to every Śravaṇa-Dvādaśī. No production `app.js`, festival JSON, legacy dates, or Blogger output was changed by this diagnostic.
+
+
+## Shravana-Dvadashi parana rule: source nuance preserved — 2026-10-15
+
+A closer re-reading of the cited Dharmasindhu page shows that the short summary “parana after both Dvadashi and Shravana end” is not a complete executable rule. The source text (TransLiteral page headed “पारणेचा निर्णय”, lines 162–165) gives conditional branches:
+
+- Main view: parana after the end of both Dvadashi and Shravana; a secondary view permits parana at the end of either one.
+- If Vishnu-shrinkhala yoga is absent, the page says to perform parana on Trayodashi after both have ended.
+- If Vishnu-shrinkhala yoga is present and the observer has undertaken the two-fast observance by the prior-tantra method, the decision depends on which remains longer on the parana day:
+  - If Dvadashi lasts longer than Shravana, parana at Shravana's end while Dvadashi remains.
+  - If Shravana lasts longer than Dvadashi, parana within Dvadashi, because crossing Dvadashi's end is objectionable for Ekadashi parana.
+- The text says the middle 20 ghaṭikās of Shravana may be avoided if feasible. If avoiding that middle would force Dvadashi to be crossed, it describes alternate timing (including Sangava up to six ghaṭikās or the seventh muhūrta) rather than violating Dvadashi.
+- The middle-20-ghaṭikā avoidance is specific to Bhādrapada Śravaṇa-Dvādaśī; the text explicitly says not to generalize it to Māgha/Fālguna Krishna-paksha Śravaṇa-Dvādaśī.
+
+Source: https://www.transliteral.org/pages/z80503221630/view (Dharmasindhu, “पारणेचा निर्णय”; displayed Marathi translation). This is a useful searchable transcription, but the final implementation should be checked against the user's reviewed Khemraj edition / source-page image and the Sanskrit passage before treating wording as a final shastric rule.
+
+**Implementation consequence:** do not write a generic “wait until both end” algorithm or apply the 20-ghaṭikā exclusion to every Śravaṇa-Dvādaśī. A future decision helper must accept explicit observance/profile inputs (including whether Vishnu-shrinkhala yoga and the prior-tantra two-fast condition apply), compare Dvādaśī and Śravaṇa end times, preserve Dvādaśī as a hard boundary where the source says so, and label unresolved textual variants instead of guessing. The 2026 September candidate is not yet proof that this special observance/profile applies; establish the vrata identity and yoga conditions first.
