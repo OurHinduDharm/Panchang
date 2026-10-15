@@ -32,6 +32,7 @@ on:
       - "tests/vrata-intervals.test.js"
       - "tests/vrata-real-date-diagnostic.test.js"
       - "tests/shravana-dvadashi-rule-profile.test.js"
+      - "tests/shravana-dvadashi-duration-branch.test.js"
       - "tests/classical-yogas-real-panchang-comparison.test.js"
       - "tests/panchang-card-order.test.js"
       - "tests/compact-ui-night-prahar.test.js"
