@@ -5007,14 +5007,19 @@ function identifyTksBody(data) {
     ["body", typeof data?.body === "string" ? data.body : null]
   ];
   for (const [path, value] of candidates) {
-    const numeric = typeof value === "number" || (typeof value === "string" && /^\\d+$/.test(value.trim()))
+    const numeric = typeof value === "number" || (typeof value === "string" && /^\d+$/.test(value.trim()))
       ? Number(value)
       : NaN;
-    if (numeric === 10 || numeric === 2) return { code: numeric, path, evidence: value };
+    if (Number.isInteger(numeric) && numeric >= 0) return { code: numeric, path, evidence: value };
     if (typeof value === "string") {
       const normalized = value.trim().toLowerCase();
       if (normalized === "sun" || normalized === "sol") return { code: 10, path, evidence: value };
       if (normalized === "venus" || normalized === "shukra") return { code: 2, path, evidence: value };
+      if (normalized === "moon" || normalized === "luna" || normalized === "chandra") return { code: 301, path, evidence: value };
+      if (normalized === "mercury" || normalized === "budha") return { code: 1, path, evidence: value };
+      if (normalized === "mars" || normalized === "mangala") return { code: 4, path, evidence: value };
+      if (normalized === "jupiter" || normalized === "guru") return { code: 5, path, evidence: value };
+      if (normalized === "saturn" || normalized === "shani") return { code: 6, path, evidence: value };
     }
   }
   return { code: null, path: null, evidence: null };
