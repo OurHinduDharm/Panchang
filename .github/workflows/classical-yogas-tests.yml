@@ -25,6 +25,8 @@ on:
       - "data/festivals.json"
       - "tests/festival-season-2026.test.js"
       - "tests/festival-tithi-diagnostic-2026.test.js"
+      - "festival-muhurta-rules.js"
+      - "tests/festival-muhurta-rules.test.js"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
@@ -66,6 +68,8 @@ jobs:
           node --check classical-yogas.js
       - name: Run 2026 festival-season data guardrails
         run: node --test tests/festival-season-2026.test.js
+      - name: Run reusable festival muhurta rule tests
+        run: node --test tests/festival-muhurta-rules.test.js
       - name: Calculate Pithoragarh festival tithi interval diagnostics
         if: always()
         run: node --test tests/festival-tithi-diagnostic-2026.test.js
