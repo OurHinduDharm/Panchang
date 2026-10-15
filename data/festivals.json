@@ -13,7 +13,8 @@
     "2026-10-15: Added structured relatedArticles for major autumn festivals. Where an OurHinduDharm article URL is verified, the title links to it; for Govardhan Puja and Bhai Dooj, plain-text article-topic placeholders are stored without a URL and can be linked after the articles are written. Do not invent links.",
     "2026-10-15 widget audit: parent Navaratri end date is retained only on festival-003; individual daily observance records no longer inherit 20 October as their display end. festival-009 preserves the user's clarified 18 October title and provisional 17–18 October civil-date span; exact tithi instants/observance rule remain unverified.",
     "2026-10-15 local diagnostic follow-up: festival-014 Kartik month-start candidate is 2026-10-26 under the project's Purnimanta convention because the pinned-library Pithoragarh interval shows Ashwin Purnima ending and Krishna Pratipada beginning on 26 October; sourceText retains the legacy 27 October date, and the rule remains needs-review.",
-    "Navratri sadhana display rule: while any of the four principal Navratri period records (Ashwin, Chaitra, Magha Gupt, Ashadha Gupt) is active, show the complete day 1–9 article list together, so a missed day remains accessible; day 10 Dashami immersion link is included separately. This display rule does not assert a universal observance date and does not alter the main Panchang today's-festival logic."
+    "Navratri sadhana display rule: while any of the four principal Navratri period records (Ashwin, Chaitra, Magha Gupt, Ashadha Gupt) is active, show the complete day 1–9 article list together, so a missed day remains accessible; day 10 Dashami immersion link is included separately. This display rule does not assert a universal observance date and does not alter the main Panchang today's-festival logic.",
+    "Pitri Paksha article visibility rule: show the Mahalaya Shraddha importance and Tarpan Vidhi links from the start of the configured Pitri Paksha period through Pitri Visarjani Amavasya inclusive. This only controls article visibility; the period records and dates require annual review and do not certify shraddha observance/muhurta."
   ],
   "festivals": [
     {
@@ -2851,6 +2852,24 @@
         "tithi": "दशमी",
         "name": "कलश आदि का विसर्जन",
         "url": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html"
+      }
+    ]
+  },
+  "pitriPakshaArticles": {
+    "title": "पितृपक्ष के लिए उपयोगी लेख",
+    "description": "प्रतिपदा से पितृ विसर्जनी अमावस्या तक पितृपक्ष के किसी भी दिन इन लेखों को खोल सकते हैं।",
+    "activePeriodIds": [
+      "festival-001",
+      "festival-002"
+    ],
+    "articles": [
+      {
+        "title": "महालय श्राद्धों का महत्व",
+        "url": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html"
+      },
+      {
+        "title": "तर्पण विधि",
+        "url": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html"
       }
     ]
   }
