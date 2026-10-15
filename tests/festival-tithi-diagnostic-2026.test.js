@@ -3,6 +3,9 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
+const { createFestivalMuhurtaEngine } = require("../festival-muhurta-engine.js");
+const rules = require("../festival-muhurta-rules.js");
+const muhurtaEngine = createFestivalMuhurtaEngine({ getPanchangam, Observer, rules });
 
 // Fixed project reference location: Pithoragarh, Uttarakhand.
 // Noon IST is used as the query instant; the library's tithis array
@@ -40,7 +43,19 @@ test("emit fixed-location festival tithi interval diagnostics (review required)"
       yogaObjectKeys: Object.keys((p.yogas || [])[0] || {}),
       tithis: (p.tithis || []).map((item) => ({ ...item, startTime: asIso(item.startTime), endTime: asIso(item.endTime) })),
       nakshatras: (p.nakshatras || []).map((item) => ({ ...item, startTime: asIso(item.startTime), endTime: asIso(item.endTime) })),
-      yogas: (p.yogas || []).map((item) => ({ ...item, startTime: asIso(item.startTime), endTime: asIso(item.endTime) }))
+      yogas: (p.yogas || []).map((item) => ({ ...item, startTime: asIso(item.startTime), endTime: asIso(item.endTime) })),
+      ghatasthapanaDiagnostic: date === "2026-10-11" ? (() => {
+        const result = muhurtaEngine.calculateGhatasthapana({
+          date, latitude: 30.1265, longitude: 80.4817, elevation: 0, timezoneOffset: 330
+        });
+        return {
+          status: result.status,
+          selectedBy: result.selectedBy || null,
+          window: result.window ? { startUTC: asIso(result.window.start), endUTC: asIso(result.window.end) } : null,
+          warnings: result.warnings || [],
+          inputsAvailable: result.inputsAvailable || null
+        };
+      })() : null
     };
   });
 
