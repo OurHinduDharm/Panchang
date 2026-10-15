@@ -104,3 +104,10 @@ Chapter IX 9.4–5 expressly makes dṛkkarma and lagnāntara part of the proced
 2. Seek a 2026–27 printed table from another traditional panchanga or Sanskrit university; the 2025–26 LBS National Sanskrit University panchanga is a useful lead but not a substitute for same-year data.
 3. Keep Drik Panchang and physical heliacal-visibility calculations in separate columns.
 4. Continue independent Sūrya-siddhānta VII/IX auditing without changing production files.
+
+### D. New lead found: SLBS National Sanskrit University Panchang 2026–27
+
+The university's official Panchang index explicitly lists “Panchang 2026–27 (Samvad-2083)” alongside 2025–26 and earlier editions:
+https://www.slbsrsv.ac.in/taxonomy/term/2445
+
+The page's exposed link currently resolves to a cover thumbnail, not the actual searchable PDF or page images. Therefore this is a promising same-year alternate source, but its Asta/Udaya table has **not yet been inspected or transcribed**. Next retrieval step is to open the edition's flipbook/full-page images or locate its PDF asset; do not infer table values from the cover/index alone.
