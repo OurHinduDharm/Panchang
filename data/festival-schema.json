@@ -130,14 +130,14 @@
                   "string",
                   "null"
                 ],
-                "description": "Start tithi for a recurring tithi-driven observance or event-duration range."
+                "description": "Optional start tithi for a recurring tithi-driven interval."
               },
               "endTithi": {
                 "type": [
                   "string",
                   "null"
                 ],
-                "description": "Inclusive end tithi for a recurring tithi-driven event-duration range."
+                "description": "Optional inclusive end tithi for a recurring tithi-driven interval."
               },
               "durationDays": {
                 "type": [
@@ -145,7 +145,7 @@
                   "null"
                 ],
                 "minimum": 1,
-                "description": "Expected number of tithi-days, inclusive; informational and must not replace Panchang calculation."
+                "description": "Optional informational duration only; do not show it unless explicitly requested or use it instead of Panchang calculation."
               },
               "renderMode": {
                 "type": [
@@ -153,12 +153,13 @@
                   "null"
                 ],
                 "enum": [
+                  "panchang-tithi",
                   "panchang-tithi-range",
                   "fixed-date",
                   "manual",
                   null
                 ],
-                "description": "Renderer instruction; panchang-tithi-range must use calculated local Panchang data, not static Gregorian dates."
+                "description": "Renderer instruction; panchang-tithi matches one locally calculated Panchang tithi; panchang-tithi-range matches a local tithi interval. Neither may use static Gregorian dates."
               },
               "calendarRule": {
                 "type": [
