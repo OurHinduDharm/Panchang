@@ -115,10 +115,10 @@ test("monthly Kalashtami resolves every supplied Krishna Ashtami regardless of m
   const result = resolver.resolveFestivalDate(monthly, {
     year: 2027,
     panchangDays: [
-      { date: "2027-01-05", month: "Pausha", paksha: "Krishna", tithi: "Ashtami" },
-      { date: "2027-02-04", month: "Magha (Purnimanta)", paksha: "कृष्ण पक्ष", tithi: "कृष्ण अष्टमी" },
-      { date: "2027-02-05", month: "Magha", paksha: "शुक्ल", tithi: "अष्टमी" },
-      { date: "2026-12-29", month: "Pausha", paksha: "कृष्ण", tithi: "अष्टमी" }
+      { date: "2027-01-05", month: "पौष", paksha: "कृष्ण पक्ष", tithi: "अष्टमी" },
+      { date: "2027-02-04", month: "माघ (पूर्णिमान्त)", paksha: "कृष्ण पक्ष", tithi: "कृष्ण अष्टमी" },
+      { date: "2027-02-05", month: "माघ", paksha: "शुक्ल पक्ष", tithi: "अष्टमी" },
+      { date: "2026-12-29", month: "पौष", paksha: "कृष्ण पक्ष", tithi: "अष्टमी" }
     ]
   });
   assert.equal(result.status, "matched");
