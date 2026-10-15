@@ -5022,11 +5022,15 @@ function summarizeRawTksFields(value) {
 rawTksButton.addEventListener("click", async () => {
   rawTksButton.disabled = true;
   rawTksStatus.className = "status info";
-  rawTksStatus.textContent = "Requesting raw Sun and Venus ephemeris JSON from TKS…";
+  rawTksStatus.textContent = "Requesting Sun and Venus at the UTC instant corresponding to 12 Oct 2026, 06:30 IST…";
   const base = "https://tksephemeris.com/v1/tks/ephemeris";
+  // The endpoint's documented parameters do not include a timezone field.
+  // A previous response for time=12:00 returned JD 2461326.0 (= 12:00 UTC),
+  // so this controlled request uses 01:00 as the UTC-equivalent of 06:30 IST.
+  // This is a testable interpretation, not yet a documented guarantee.
   const common = {
     date: "2026-10-12",
-    time: "12:00",
+    time: "01:00",
     place: "Pithoragarh",
     lat: "29.5830",
     lon: "80.2090"
@@ -5055,7 +5059,9 @@ rawTksButton.addEventListener("click", async () => {
       captures.push(record);
       rawTksOutput.textContent = JSON.stringify({
         capture: "TKS raw ephemeris; no coordinate conversion or correction applied",
-        requested_local_instant: "2026-10-12 12:00",
+        requested_local_instant: "2026-10-12 06:30 IST",
+        request_time_sent: "2026-10-12 01:00; interpreted as UTC based on prior response JD, still to be independently confirmed",
+        expected_jd_utc_if_UTC_interpretation: 2461325.5416667,
         place: "Pithoragarh",
         coordinates: { latitude_deg: 29.5830, longitude_deg: 80.2090 },
         timezone_parameter: "Not sent: not listed in the documented /v1/tks/ephemeris parameters",
@@ -5063,10 +5069,15 @@ rawTksButton.addEventListener("click", async () => {
       }, null, 2);
     }
     const failures = captures.filter(x => !x.http_ok);
-    rawTksStatus.className = failures.length ? "status warn" : "status ok";
+    const sameBodyPayload = captures.length === 2 &&
+      captures[0].response_json && captures[1].response_json &&
+      JSON.stringify(captures[0].response_json) === JSON.stringify(captures[1].response_json);
+    rawTksStatus.className = failures.length || sameBodyPayload ? "status warn" : "status ok";
     rawTksStatus.textContent = failures.length
       ? "Capture completed with one or more HTTP/fetch errors. Inspect each exact request and response below; do not treat an error as astronomical data."
-      : "Both responses received. Preserve the JSON and request URLs as raw evidence before comparing coordinates.";
+      : sameBodyPayload
+        ? "Warning: Sun and Venus requests returned identical JSON. Treat the Venus state as unverified until the endpoint's body selection is resolved."
+        : "Both responses received. Check returned JD against 2461325.5416667 and confirm the Venus payload actually describes Venus before comparing K.";
   } finally {
     rawTksButton.disabled = false;
   }
