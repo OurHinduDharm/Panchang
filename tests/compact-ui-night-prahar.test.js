@@ -654,10 +654,10 @@ test("Chapter IX Venus threshold follows classified horizon event, not morning/e
   }
   assert.equal(helpers.getPlanetEventThreshold("Venus", null), null);
   assert.equal(helpers.getPlanetEventThreshold("Mercury", "east-setting"), null);
-  const crossing = extra.match(/function crossesAngularBoundary\\(a, b, eventType, thresholdFor\\) \\{[\\s\\S]*?\\n\\}/)?.[0];
+  const crossing = extra.match(/function crossesAngularBoundary\(a, b, eventType, thresholdFor\) \{[\s\S]*?\n\}/)?.[0];
   assert.ok(crossing, "angular-boundary crossing must be independently testable");
   const crosses = vm.runInNewContext(
-    `${crossing}\\n;crossesAngularBoundary`
+    `${crossing}\n;crossesAngularBoundary`
   );
   const before = { eclipticSeparation: 9 };
   const after = { eclipticSeparation: 9.5 };
