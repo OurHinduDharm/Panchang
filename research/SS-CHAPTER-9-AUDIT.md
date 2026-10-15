@@ -1196,3 +1196,14 @@ The same Chromium run reported the following long-range IX.10–11 estimate diff
 For Venus Udaya, the separate short-horizon comparison was 0.00309 day (about 4.5 minutes), showing that the long-range estimate is particularly unsuitable for that case. The existing browser suite previously treated any discrepancy under 0.75 day as a pass. Its log wording has now been corrected to state that finite values and visible REVIEW warnings are wiring checks, not publication-accuracy validation. Long-range IX.10–11 estimates must not be used as displayed event times until the residual is solved and independently checked at event-time resolution.
 
 **Decision:** retain the research-only status. The immediate blocker is now more specific: explain the approximately 4.30° same-instant K discrepancy (including what the supplied TKS “K” represents), and separately solve/refine event-time residuals. Do not unblock production visibility merely because Chromium CI is green.
+
+
+## Correction to the same-instant TKS comparison — 16 October 2026
+
+A provenance re-check found that the previous section's roughly 4.30° K difference must **not** be treated as an established same-instant discrepancy. The browser panel calculated our candidate at 12 October 2026 12:00 IST, but the supplied TKS figures (K = 7.698°, ecliptic separation = 17.6°, true elongation = 19.4°) do not currently have a verified matching timestamp and coordinate-frame provenance in the fixture/ledger. The raw ephemeris fixture currently committed is for 06:30 IST, while another owner-supplied capture discussed in the project was requested at 17:42 IST. Those instants cannot be interchanged.
+
+The research panel has therefore been corrected: TKS figures remain reference-only, same-instant K deltas are no longer presented, and the panel explicitly says not to interpret them as a measured model error. The earlier numerical difference table above is retained as the output that prompted this provenance check, but its claimed comparison interpretation is superseded by this correction.
+
+### Next required comparison
+
+Capture/identify the TKS **K and C output at exactly 12 October 2026 12:00 IST** with the same location and the exact method options selected, or calculate our candidate at the exact TKS instant for which K = 7.698° was recorded. Preserve the raw request timestamp, timezone, coordinates, elevation, event-side selection, and method labels together. Only a matched fixture can support a valid K residual comparison.
