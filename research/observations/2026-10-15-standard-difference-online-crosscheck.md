@@ -138,3 +138,44 @@ The saved TKS 900-day capture shows Mercury currently Udaya and next Asta on **2
 - Saturn's 24 March 2027 setting date is also listed by the IMD table; time and exact event semantics still need normalization.
 
 These are valuable date-level cross-checks. They are not yet a same-location, same-event, exact-time validation.
+
+
+## 7. Important normalization correction — comparison-city Standard Difference
+
+The earlier first-pass note compared some corrected Ganesh Martand local-mean times directly with Drik's displayed IST clock times. That is **not a like-for-like clock comparison**. Normalize time convention before interpreting minute differences.
+
+### Deoranian (Drik's displayed Venus result)
+
+Drik labels its times as local time for Deoranian, India, and the page states that its modern combustion timings are location-based. The reported town coordinates are approximately `28.6264° N, 79.4811° E` (coordinate source: https://everything.explained.today/Deoranian/).
+
+```
+Standard Difference = (82.5° − 79.4811°) × 240 s/degree
+                    = 724.536 s
+                    = 00:12:04.536 ≈ 00:12:05
+```
+
+If converting a displayed IST clock time to Deoranian local mean time, subtract approximately `00:12:05`. If converting local mean time back to IST, add it. For example:
+- Drik Venus Asta start: 12 Oct 2026 18:10 IST → about 17:57:55 LMT (Deoranian).
+- Drik Venus Asta end: 29 Oct 2026 05:51 IST → about 05:38:55 LMT (Deoranian).
+
+Ganesh Martand's Pithoragarh-adjusted values (17:30:50 and 06:16:50) are local-mean-time working values under the currently assumed convention. Comparing those with Deoranian LMT gives about 27 min 05 sec earlier for the Asta start, and about 37 min 55 sec later for the end boundary. These remain cross-location differences; longitude normalization alone cannot remove latitude/horizon and location-specific event differences. Prefer querying Drik at Pithoragarh coordinates for a true same-location check.
+
+### IMD Rashtriya Panchanga
+
+The IMD heliacal table explicitly labels its time columns **I.S.T.** and says the events are calculated for the “Central Station of India”. Therefore, do not subtract a guessed central-station Standard Difference from the published IST clock time. To express an IMD event time in Pithoragarh local mean time for a clock-frame comparison, subtract the target Pithoragarh correction `00:09:10`; however, the event's calculated observing location remains IMD's central station, so it is still not a same-location event prediction.
+
+A key example from the official table:
+- IMD Mercury “rises in the west”: 23 May 2026, 05:24 IST.
+- Ganesh Martand Mercury “पश्चिम उदय”: 23 May 2026, printed 05:19; target LMT after correction = 05:09:50.
+- Convert IMD clock value to the Pithoragarh LMT frame only for a time-frame comparison: 05:24 − 00:09:10 = 05:14:50. The residual is about **5 minutes**. This is a promising close result, but the IMD event is computed for its central station, not Pithoragarh, and the exact visibility/event definition still needs confirmation.
+
+By contrast, several IMD entries differ by hours from the Ganesh values. Do **not** summarize all these events as “time matches” just because the Gregorian date labels look similar. For example, IMD Mercury “sets in the east” on 29 Apr is 06:53 IST, while Ganesh Martand “बुध पूर्व अस्त” is printed 18:43. This is an approximately half-day difference and demands event-direction/definition and source-transcription review; a 9–12 minute Standard Difference cannot explain it.
+
+### Current rule for all comparisons
+
+1. Keep the source's original printed time and its stated clock convention.
+2. Compute Standard Difference from the exact longitude only if conversion to local mean time is required.
+3. Record the comparison location's coordinates and its own Standard Difference.
+4. Convert both timestamps into a common time frame (IST/UTC) before calculating an elapsed-time difference; separately compare the local observer/horizon event calculation.
+5. Treat matching calendar dates alone as date-level corroboration, not exact-time agreement.
+6. Do not use the IMD central-station table as a same-location reference unless its coordinates and the location dependence are explicitly handled.
