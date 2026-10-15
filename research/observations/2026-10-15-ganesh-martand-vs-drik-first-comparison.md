@@ -1,7 +1,7 @@
 # First comparison: Ganesh Martand 2026–27 vs Drik published Asta/Udaya dates
 
 **Date recorded:** 2026-10-15  
-**Purpose:** Compare the project owner's transcribed Ganesh Martand traditional reference with published Drik Panchang dates without conflating event definitions.
+**Purpose:** First-pass comparison, now amended by the Standard Difference correction. For the current working correction and online cross-check, see [2026-10-15-standard-difference-online-crosscheck.md](2026-10-15-standard-difference-online-crosscheck.md).
 
 ## Primary traditional reference
 
@@ -54,3 +54,8 @@ Sources:
 4. Keep TKS Shāstrīya results, Drik's modern location-specific combustion results, independent Chapter IX reconstruction, and scientific heliacal visibility in separate columns.
 5. Use the repeated Mercury events as additional fixtures to test the event labels, sequence, time convention, and date attribution.
 6. No production files or calculations were changed by this comparison.
+
+
+## Amendment — Standard Difference applied (2026-10-15)
+
+The clock-time comparisons above were recorded before the location-specific Standard Difference was established. They must **not** be treated as final time differences. The working target coordinates are `29.5830°N, 80.2090°E`; the longitude-based correction is `−00:09:10`, to be subtracted from the printed Ganesh Martand times. The corrected Venus values are 12 Oct 2026 `17:30:50` and 29 Oct 2026 `06:16:50`; Jupiter values are 15 Jul `18:59:50` and 10 Aug `05:30:50`. These now compare to Drik's cited Deoranian/Manmad/Alibag results only as cross-location comparisons, not same-location exact-time validation. The Jupiter 15 July vs 17 July date discrepancy remains unresolved. See the new cross-check note for IMD's official Rashtriya Panchanga date-level corroboration and caveats.
