@@ -28,8 +28,11 @@ test("Navaratri source description is not mistaken for current muhurta", () => {
   assert.match(byId["festival-010"].sourceText.description, /सन्धि पूजा प्रारम्भ १०:२७/);
 });
 
-test("Sharad Purnima and Karwa Chauth retain provisional 2026 observance dates", () => {
+test("Sharad Purnima, Purnimanta Kartik start and Karwa Chauth retain provisional dates", () => {
   assert.equal(byId["festival-013"].date.start, "2026-10-25");
+  assert.equal(byId["festival-014"].date.start, "2026-10-26");
+  assert.match(byId["festival-014"].date.rule, /पूर्णिमांत मास-पद्धति/);
+  assert.equal(byId["festival-014"].sourceText.date, "2026-10-27");
   assert.equal(byId["festival-015"].date.start, "2026-10-29");
 });
 
