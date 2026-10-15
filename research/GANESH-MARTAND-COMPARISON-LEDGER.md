@@ -72,3 +72,35 @@ These are outputs of the current candidate implementation, not adjudicated corre
 4. Independently check the Chapter VII.8–10 Akṣa/Āyana correction signs and intermediate values.
 5. Add Venus (October 2026) and Jupiter cases only after the anchor-case protocol is reproducible.
 6. Do not merge this research branch or alter production files until the full chain and manual browser output are reviewed.
+
+## Additional independent source leads (checked 2026-10-15)
+
+### A. Lal Bahadur Shastri National Sanskrit University Panchanga, Vikrama Samvat 2082 (2025–26)
+
+Published PDF: https://www.slbsrsv.ac.in/sites/default/files/Panchang_2025-26.pdf
+
+The indexed PDF has a dedicated section on page 56 titled “ग्रहों के वक्रत्व-मार्गत्व एवं उदयास्त (भा. स्टैं.टा.)”. It prints dated planetary rising/setting entries and explicitly labels the times as “भारतीय स्टैंडर्ड टाइम” (standard time). Examples in the indexed text include Mercury setting on 1 March 2026 at 14:49 and rising on 14 March 2026 at 14:41; Jupiter setting 11 June 2025 at 19:14 and rising 6 July 2025 at 29:30; Venus setting 13 December 2025 at 29:15 and rising 31 January 2026 at 17:57. Preserve values above as transcription from the search-indexed PDF; inspect the page image before treating ambiguous dates/notations as verified.
+
+Use: a useful second printed panchanga source for checking publication conventions and table structure. It is **not yet a same-event benchmark** for the Ganesh Martand 2026–27 entries, because it covers a different annual span and its local calculation/station details still need to be confirmed. Search did not locate a verified 2026–27 edition yet.
+
+### B. Drik Panchang event pages
+
+Example source: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?lang=hi&year=2027
+
+Use only as a separate modern/Drik-Ganita comparison. Do not treat it as a source for the complete Sūrya-siddhānta VII/IX method, and do not compare times until event definition, location, elevation, and clock convention match.
+
+### C. Sūrya-siddhānta text and method references
+
+- Chapter IX Sanskrit/verse-by-verse computational reference: https://vidhyamitra.com/surya-siddhanta/9
+- Chapter IX Sanskrit with English translation: https://www.siva.sh/surya-siddhanta/9
+- Chapter VII dṛkkarma translation: https://www.swaveda.com/texts/surya-siddhanta/7/
+- Sanskrit edition with Ranganātha commentary, Calcutta 1859, digitized: https://www.e-rara.ch/zut/content/pagetext/25254718
+
+Chapter IX 9.4–5 expressly makes dṛkkarma and lagnāntara part of the procedure; verses 9.6–9 specify the planet-dependent kalāṃśa visibility limits. Therefore a table based only on an elongation threshold or a modern physical-visibility model is a comparison column, not a substitute for the classical computation.
+
+## Updated source strategy
+
+1. Keep Ganesh Martand as the primary traditional benchmark.
+2. Seek a 2026–27 printed table from another traditional panchanga or Sanskrit university; the 2025–26 LBS National Sanskrit University panchanga is a useful lead but not a substitute for same-year data.
+3. Keep Drik Panchang and physical heliacal-visibility calculations in separate columns.
+4. Continue independent Sūrya-siddhānta VII/IX auditing without changing production files.
