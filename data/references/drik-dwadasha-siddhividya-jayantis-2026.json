@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "partial-india-city-cross-checks-pithoragarh-validation-pending",
+  "status": "working-dates-accepted-indian-listing",
   "category": "Dwadasha Siddhividya Jayanti",
   "source": {
     "title": "Drik Panchang — 2026 Dwadasha Siddhividya Jayanti",
@@ -128,7 +128,8 @@
     "A second retrieval of the same Drik year-list rendered for Washington, D.C. shows Gayatri Jayanti on 27 August (rather than the Koath listing's 28 August), Vindhyavasini on 3 September (rather than 4 September), and Annapurna on 23 December (rather than 24 December). This demonstrates that the Koath dates must not be treated as universal.",
     "A Pithoragarh-specific Siddhividya listing could not be reliably retrieved in this check. Do not replace dates with the Washington dates either; keep all twelve entries provisional until a location-specific listing or a reproducible local tithi/sunrise calculation is available.",
     "Four entries now have explicitly recorded independent Drik listings for Indian cities: Saraswati (Chennai), Siddhilakshmi (Sandila), Batuka Bhairavi (Kanpur), and Vindhyavasini (Ghaziabad and Tirupati). These corroborate those dates across Indian locations but are not direct Pithoragarh results.",
-    "For the other eight observances, this pass did not obtain an independently retrievable Indian-city event page; their original Koath listing remains the only recorded date source. Do not upgrade them to locally verified."
+    "For the other eight observances, this pass did not obtain an independently retrievable Indian-city event page; their original Koath listing remains the only recorded date source. Do not upgrade them to locally verified.",
+    "Project decision (2026-10-16): use the Indian Drik Panchang listing as the working date set for the project; do not require a separate Pithoragarh web page for every Jayanti. Only investigate a location-specific difference if a concrete contradiction appears against the printed Ganesh Martand Panchang or the site's own tithi calculation. This is a research dataset and has not been connected to production runtime."
   ],
   "locationComparison": {
     "sourcePageLocation": "Washington, D.C., United States",
