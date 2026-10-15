@@ -1385,7 +1385,7 @@
         "renderMode": "eclipse-panchang-link",
         "eventKind": "solar-eclipse",
         "sutakPolicy": "केवल संबंधित ग्रहण, स्थानीय दृश्यता और लागू शास्त्रीय नियम के अनुसार; कोई स्थिर अवधि/तारीख हार्ड-कोड न करें.",
-        "calculationNotes": "पुराना 1970-01-01 केवल placeholder था; अब सक्रिय तारीख के रूप में हटाया गया। ग्रहण समय/दृश्यता का स्रोत eclipse-panchang.js है। ग्रहण-पंचांग का सटीक Blogger URL अभी जोड़ना है।",
+        "calculationNotes": "पुराना 1970-01-01 केवल placeholder था; अब सक्रिय तारीख के रूप में हटाया गया। ग्रहण-समय/स्थानीय दृश्यता का स्रोत eclipse-panchang.js है और सत्यापित स्थानीय ग्रहण-पंचांग लिंक panchangUrl में रखा गया है।",
         "panchangUrl": "https://ourhindudharm.blogspot.com/p/grahan-panchang.html"
       },
       "description": "सूर्य ग्रहण की तिथि, आपके स्थान पर दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि जानने के लिए <a href=\"https://ourhindudharm.blogspot.com/p/grahan-panchang.html\" target=\"_blank\" rel=\"noopener noreferrer\">OurHinduDharm ग्रहण पंचांग</a> देखें।",
@@ -1397,7 +1397,6 @@
       "sourceUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
       "verificationStatus": "needs-review",
       "reviewNotes": [
-        "Owner decision 2026-10-15: this was manually updated in the past; remove the 1970 placeholder and direct users to the live eclipse Panchang for current event times, local visibility, and applicable Sutak. Exact public Blogger URL is still needed before a clickable link can be wired.",
         "Owner supplied exact live Eclipse Panchang URL on 2026-10-15: https://ourhindudharm.blogspot.com/p/grahan-panchang.html. Use this link for local event times, visibility, contact/release and applicable Sutak."
       ],
       "panchangUrl": "https://ourhindudharm.blogspot.com/p/grahan-panchang.html"
@@ -3030,7 +3029,7 @@
         "renderMode": "eclipse-panchang-link",
         "eventKind": "lunar-eclipse",
         "sutakPolicy": "केवल संबंधित ग्रहण, स्थानीय दृश्यता और लागू शास्त्रीय नियम के अनुसार; कोई स्थिर अवधि/तारीख हार्ड-कोड न करें.",
-        "calculationNotes": "ग्रहण-घटना/स्थानीय दृश्यता eclipse-panchang.js और साझा Panchangam API से निकालें। लाइव Blogger ग्रहण-पंचांग का सटीक URL जोड़ना शेष है।",
+        "calculationNotes": "ग्रहण-घटना/स्थानीय दृश्यता eclipse-panchang.js और साझा Panchangam API से निकालें; उपयोगकर्ता द्वारा दिया गया सत्यापित स्थानीय ग्रहण-पंचांग लिंक panchangUrl में रखा गया है।",
         "panchangUrl": "https://ourhindudharm.blogspot.com/p/grahan-panchang.html"
       },
       "description": "चंद्र ग्रहण की तिथि, आपके स्थान पर दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि जानने के लिए <a href=\"https://ourhindudharm.blogspot.com/p/grahan-panchang.html\" target=\"_blank\" rel=\"noopener noreferrer\">OurHinduDharm ग्रहण पंचांग</a> देखें।",
