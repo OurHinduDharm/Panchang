@@ -216,7 +216,9 @@
       card.appendChild(body);
       fragment.appendChild(card);
     });
-    if (upcoming.length && targetContainer) {
+    if (targetContainer) {
+      // Replace even when the active-period section and upcoming list are empty,
+      // so a previously visible period-only section cannot remain stale past its end.
       targetContainer.replaceChildren(fragment);
       targetContainer.setAttribute("data-source", "festivals-json");
       targetContainer.setAttribute("data-window-days", String(DAYS_AHEAD));
