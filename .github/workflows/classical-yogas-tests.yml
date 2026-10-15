@@ -24,6 +24,7 @@ on:
       - "data/references/vrata-real-date-crosscheck-2026-10-14.md"
       - "data/festivals.json"
       - "tests/festival-season-2026.test.js"
+      - "tests/festival-tithi-diagnostic-2026.test.js"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
@@ -65,6 +66,16 @@ jobs:
           node --check classical-yogas.js
       - name: Run 2026 festival-season data guardrails
         run: node --test tests/festival-season-2026.test.js
+      - name: Calculate Pithoragarh festival tithi interval diagnostics
+        if: always()
+        run: node --test tests/festival-tithi-diagnostic-2026.test.js
+      - name: Upload festival tithi diagnostic JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: festival-tithi-diagnostic-2026
+          path: artifacts/festival-tithi-diagnostic-2026.json
+          if-no-files-found: warn
       - name: Run Panchang card-order regression tests
         run: node --test tests/panchang-card-order.test.js
       - name: Run compact UI and night Prahar regression tests
