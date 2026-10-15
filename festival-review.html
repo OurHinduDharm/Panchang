@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Festival Review Draft | OurHinduDharm</title>
+<style>
+:root{color-scheme:light;--ink:#30251c;--muted:#746658;--paper:#fffaf3;--line:#e7d8c4;--accent:#985b16}
+*{box-sizing:border-box}body{margin:0;padding:14px;background:#f5efe6;color:var(--ink);font:15px/1.5 Arial,"Noto Sans Devanagari",sans-serif}
+main{max-width:760px;margin:auto;background:#fff;padding:18px;border:1px solid var(--line);border-radius:14px}
+h1{font-size:22px;margin:0 0 5px}.muted{color:var(--muted);font-size:13px}
+.warning{padding:10px 12px;background:#fff2d7;border:1px solid #e8cf98;border-radius:9px;font-size:13px;margin:12px 0}
+label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{width:100%;padding:10px;border:1px solid #cfc2b2;border-radius:8px;background:#fff;font:inherit;color:inherit}
+textarea{min-height:72px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:8px;padding:10px 13px;background:var(--accent);color:#fff;font-weight:700;font:inherit;cursor:pointer;margin:12px 8px 0 0}
+button.secondary{background:#eee5d9;color:#30251c}button:disabled{opacity:.5}
+#output{min-height:220px;font:13px/1.45 ui-monospace,monospace;white-space:pre;overflow:auto}
+.hidden{display:none}.small{font-size:12px;color:var(--muted)}@media(max-width:480px){main{padding:13px}.grid{grid-template-columns:1fr}h1{font-size:20px}}
+</style>
+</head>
+<body><main>
+<p class="muted">OurHinduDharm · आंतरिक समीक्षा सहायक · Draft only</p>
+<h1>त्योहार की तारीख़ समीक्षा</h1>
+<p class="muted">गणेश मार्तण्ड पंचांग से मिलान करके प्रस्तावित रिकॉर्ड बनाएँ। यह पेज अपने-आप GitHub या लाइव साइट में बदलाव नहीं करता।</p>
+<div class="warning"><strong>सावधानी:</strong> यह पेज सार्वजनिक रूप से उपलब्ध हो सकता है। कोई पासवर्ड, token या निजी जानकारी न डालें। “noindex” गोपनीयता की गारंटी नहीं है।</div>
+<div id="loadState" class="muted">त्योहारों की सूची लोड हो रही है…</div>
+<form id="reviewForm" class="hidden">
+<label for="festival">त्योहार</label><select id="festival" required></select>
+<div class="grid">
+<div><label for="year">वर्ष</label><input id="year" type="number" min="1900" max="2200" value="2026" required></div>
+<div><label for="date">गणेश मार्तण्ड की तारीख़</label><input id="date" type="date" required></div>
+</div>
+<label for="page">पंचांग का पृष्ठ (यदि उपलब्ध हो)</label><input id="page" type="text" placeholder="जैसे 42; नहीं पता तो खाली छोड़ें">
+<label for="decision">निर्णय / बदलाव</label><select id="decision" required>
+<option value="show-on-reference-date">गणेश मार्तण्ड की तारीख़ दिखाएँ</option>
+<option value="reference-date-to-add-or-map">रिकॉर्ड जोड़ना/सही रिकॉर्ड से जोड़ना है</option>
+<option value="keep-computed-date-flag-conflict">गणना की तारीख़ रखें, विरोध दर्ज करें</option>
+</select>
+<label for="note">छोटा कारण / टिप्पणी</label><textarea id="note" required placeholder="जैसे: गणेश मार्तण्ड में यही तारीख़ दी है।"></textarea>
+<label for="status">समीक्षा स्थिति</label><select id="status">
+<option value="reference-recorded-pending-renderer">स्रोत दर्ज — लागू करने का कोड अभी तैयार नहीं</option>
+<option value="needs-review">अभी और जाँच चाहिए</option>
+<option value="approved-for-application">जाँच पूरी — लागू करने की अनुमति</option>
+<option value="rejected">अस्वीकृत</option>
+</select>
+<button type="submit">JSON कोड बनाएँ</button>
+</form>
+<section id="result" class="hidden">
+<label for="output">तैयार रिकॉर्ड</label><textarea id="output" readonly></textarea>
+<p id="editHint" class="small"></p>
+<button type="button" id="copyBtn">कोड कॉपी करें</button><button type="button" class="secondary" id="resetBtn">नया रिकॉर्ड</button>
+</section>
+</main>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+let festivals=[], overrides=[];
+const safeText=s=>String(s??"");
+function slug(s){return safeText(s).normalize("NFKD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,55)||"festival";}
+async function load(){
+try{
+const [f,o]=await Promise.all([fetch("data/festivals.json",{cache:"no-store"}),fetch("data/festival-overrides.json",{cache:"no-store"})]);
+if(!f.ok||!o.ok)throw new Error("फाइलें लोड नहीं हुईं। पेज को GitHub Pages या स्थानीय HTTP server से खोलें।");
+const fd=await f.json(),od=await o.json();
+festivals=(fd.festivals||[]).filter(x=>x&&x.id&&x.name).sort((a,b)=>a.name.localeCompare(b.name,"hi"));
+overrides=od.overrides||[];
+if(!festivals.length)throw new Error("फेस्टिवल सूची खाली है।");
+$("festival").innerHTML=festivals.map(x=>'<option value="'+x.id.replace(/"/g,"&quot;")+'">'+x.name.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")+' · '+x.id+'</option>').join("");
+$("loadState").textContent=festivals.length+" त्योहार लोड हुए। तारीख़ और स्रोत जाँचकर भरें।";
+$("reviewForm").classList.remove("hidden");
+}catch(e){$("loadState").textContent=e.message+" यह फाइल सीधे GitHub preview में चल न पाए तो GitHub Pages/स्थानीय server पर जाँचें।";}
+}
+$("reviewForm").addEventListener("submit",e=>{
+e.preventDefault();
+const festival=festivals.find(x=>x.id===$("festival").value);
+const year=Number($("year").value),date=$("date").value;
+if(!festival||!/^\d{4}-\d{2}-\d{2}$/.test(date)||Number(date.slice(0,4))!==year){alert("वर्ष और तारीख़ का मिलान करें।");return;}
+const pageRaw=$("page").value.trim();
+const record={
+id:"gm-"+year+"-"+slug(festival.id.replace(/^festival-/,""))+"-"+slug(festival.name).slice(0,28),
+year,festivalId:festival.id,festivalName:festival.name,displayDate:date,
+decision:$("decision").value,
+source:{type:"owner-reported-hard-copy",title:"गणेश मार्तण्ड पंचांग",page:pageRaw?(Number.isInteger(Number(pageRaw))?Number(pageRaw):pageRaw):null},
+status:$("status").value,note:$("note").value.trim()
+};
+if(!record.note){alert("कारण / टिप्पणी लिखें।");return;}
+const existing=overrides.find(x=>x.year===year&&x.festivalId===festival.id);
+$("output").value=JSON.stringify(record,null,2);
+$("editHint").textContent=existing
+?"संक्षिप्त निर्देश: data/festival-overrides.json में मौजूदा रिकॉर्ड (ID: "+existing.id+") बदलें; बाकी फाइल जस की तस रखें।"
+:"संक्षिप्त निर्देश: data/festival-overrides.json के overrides array में यह रिकॉर्ड जोड़ें; बाकी फाइल जस की तस रखें।";
+$("result").classList.remove("hidden");
+});
+$("copyBtn").addEventListener("click",async()=>{
+try{await navigator.clipboard.writeText($("output").value);$("copyBtn").textContent="कॉपी हो गया";}
+catch(e){$("output").focus();$("output").select();$("copyBtn").textContent="कोड चुन लिया है — Copy करें";}
+});
+$("resetBtn").addEventListener("click",()=>{$("result").classList.add("hidden");$("copyBtn").textContent="कोड कॉपी करें";});
+load();
+})();
+</script></body></html>
