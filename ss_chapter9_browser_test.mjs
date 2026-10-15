@@ -155,6 +155,13 @@ try {
   const chapter7 = await page.locator("#chapter7DrikkarmaTestOutput").innerText();
   const chapter3 = await page.locator("#chapter3LagnantaraTestOutput").innerText();
   const output = await page.locator("#lagnantaraOutput").innerText();
+  const venusSnapshotAudit = await page.locator("#sameInstantTksAuditOutput").innerText();
+  if (!venusSnapshotAudit.includes("2026-10-12 17:42 IST") ||
+      !venusSnapshotAudit.includes("12:12:00 UTC") ||
+      !venusSnapshotAudit.includes("reference-only")) {
+    throw new Error("Editable Venus candidate instant did not render the expected IST/UTC labels or TKS provenance warning: " + venusSnapshotAudit);
+  }
+  console.log("Selected-instant Venus audit:", venusSnapshotAudit.replace(/\\s+/g, " ").slice(0, 500));
   console.log("Chapter VII result:", chapter7);
   console.log("Chapter III result:", chapter3);
   for (const row of rows) console.log("ASTA/Udaya reference:", row.replace(/\s+/g, " ").trim());
