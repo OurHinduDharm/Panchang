@@ -264,3 +264,17 @@ Only after Stage 1, repeat the same comparison for Pithoragarh / the project's c
 
 ### Safety against false conclusions
 Major-city web calendars often display city names without exposing exact coordinates or calculation conventions. Such results are independent contextual checks, not exact-coordinate astronomy fixtures. A source can be promoted to a correctness fixture only when its relevant inputs and conventions are adequately matched and the pinned library's actual output has been captured. No production code changes based on source-to-source comparison alone.
+
+
+### Delhi cross-check added — 2026-10-15
+
+The validation sequence is explicitly major cities first, then Pithoragarh.
+
+For 22 September 2026, city-specific Delhi pages report:
+- **Panchang Calendar, Delhi:** Ekadashi until 21:44; Dwadashi until 22:51 on 23 September; Uttara Ashadha until 07:06; Shravana until 09:08 on 23 September. https://panchangcalendar.com/en/panchang/delhi/2026/09/22/
+- **Daily Astro, Delhi:** Ekadashi until 21:44; Dwadashi until 22:51; Uttara Ashadha until 07:07; Shravana until 09:09. https://daily-astro.com/panchang/delhi-dl-in/2026-sep-22
+- **Sanatan Bhumi, New Delhi:** Ekadashi until 21:43; Dwadashi until 22:50 on 23 September; Uttara Ashadha until 07:07; Shravana until 09:09. https://www.sanatanbhumi.org/en/panchang/2026-09-22/
+
+Mumbai and Delhi results show the same general pattern, with most public-source differences confined to about one minute for these transitions. This strengthens the city-level cross-check, but because source pages do not all disclose precise coordinates and calculation conventions, it is not yet an exact-coordinate fixture.
+
+Stage 1 city-level source gathering now includes Mumbai and Delhi. Next technical task remains obtaining and capturing the pinned project library's actual output for the same dates. Stage 2 (Pithoragarh) follows only after Stage 1 comparison is complete.
