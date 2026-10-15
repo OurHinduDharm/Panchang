@@ -760,7 +760,7 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 
 - Added `tests/ekadashi-harivasara-profile.test.js` with a **scoped, test-only** first-quarter interval profile. It requires an explicit profile, treats missing/reversed inputs as unresolved, and uses a half-open interval boundary. It does not recommend a real clock time and must not be generalized to every Ekadashi.
 - Draft CI was triggered by the new `tests/ekadashi-*.test.js` path and passed: https://github.com/OurHinduDharm/Panchang/actions/runs/38781095669
-- Important verification limit: the workflow's test command currently explicitly lists `ekadashi-source-clause-guardrails.test.js` but does not yet invoke the new `ekadashi-harivasara-profile.test.js`. Therefore the passing CI run is **not** evidence that the new Hari-vāsara test file itself ran. Wire the file into the command and rerun before marking it verified.
+- Historical note, superseded by the CI correction below: the first run after adding the Hari-vāsara test did not include that file. The later glob-based workflow run `38788007657` passed with all `tests/ekadashi-*.test.js` files included.
 - The workflow's `pull_request.paths` filter was also corrected to include `tests/ekadashi-*.test.js`, so Ekadashi test changes can trigger PR checks.
 - No production runtime, festival dates, or Blogger output changed. PR #33 remains draft.
 
@@ -769,12 +769,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Fixed `.github/workflows/festival-draft-tests.yml` so the test command runs `tests/ekadashi-*.test.js`, including `tests/ekadashi-harivasara-profile.test.js` instead of only the source-clause guardrail file.
 - The workflow path filters already watch `tests/ekadashi-*.test.js`; the command now matches that scope.
 - This is still test-only research code. The Hari-vasara profile is explicitly scoped to the cited Dvadashi-bhuyastva passage and does not select a universal Parana rule or emit a clock time.
-- Next validation: confirm the workflow run triggered by this commit, then add Arunodaya-versus-sunrise boundary fixtures only after checking the existing vrata interval contracts and the source passage. No production date calculation or Blogger output is changed.
+- Validation follow-up completed: later CI runs `38790801551` and `38791297863` passed the Dashami input-contract and profile-routing tests. The interval contract has since gained just-before/start/just-before-end/exact-end boundary cases; its latest commit must be confirmed in CI. No production date calculation or Blogger output is changed.
 
 ## Dashami-vedha profile routing tests (2026-10-16)
 
-- Added `tests/ekadashi-dashami-vedha-input-contract.test.js`: five synthetic checks keep Arunodaya and sunrise observations distinct, enforce half-open tithi intervals, and return unresolved for invalid inputs.
+- Added `tests/ekadashi-dashami-vedha-input-contract.test.js`: nine synthetic checks keep Arunodaya and sunrise observations distinct, exercise half-open tithi boundaries, and return unresolved for invalid inputs.
 - Added `tests/ekadashi-vedha-profile-routing.test.js`: five synthetic checks require an explicit Smarta or Vaishnava profile and inspect the profile-specific timestamp separately.
 - These are input/routing tests only. They do not decide the fasting date, do not encode 45/55-ghati thresholds, and do not replace verification against the selected printed Dharma Sindhu edition.
-- GitHub Actions passed for the Dashami input-contract commit. The new profile-routing file should trigger the same workflow; verify its own run before claiming that file's tests passed.
+- GitHub Actions run `38790801551` passed the Dashami input-contract suite, and run `38791297863` passed the separate Smarta/Vaishnava profile-routing suite. After the boundary expansion, verify the new commit's own run before marking the expanded suite green.
 - Production code, published dates, Blogger output and PR merge status remain unchanged.
