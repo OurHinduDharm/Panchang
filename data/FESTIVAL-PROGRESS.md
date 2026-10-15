@@ -867,3 +867,15 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - The Siddhividyā dataset now records these explicit cross-location discrepancies and has status `cross-location-discrepancies-found-pithoragarh-validation-pending`. Neither Koath nor Washington dates are promoted as Pithoragarh dates.
 - A reliable Pithoragarh-specific Siddhividyā listing could not be retrieved in this pass. Do not guess the dates or use them in runtime. Next validation needs either the location-specific Drik event listing or a reproducible calculation of each observance's tithi/sunrise rule, then comparison against Ganesh Martand.
 - No runtime code, published festival dates, Blogger output or merge state changed.
+
+
+## Indian-city corroboration for Siddhividyā Jayantīs — 2026-10-16
+
+- Continued checking Drik's individual event pages for Indian cities rather than comparing with overseas locations.
+- Independently found the same dates in these Indian-city listings:
+  - Saraswati — 23 January 2026, Chennai: https://www.drikpanchang.com/hindu-goddesses/siddhividya/saraswati/goddess-saraswati-jayanti-date.html?time-format=24plushour
+  - Siddhilakshmi — 27 April 2026, Sandila (Uttar Pradesh): https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhilakshmi/goddess-siddhilakshmi-jayanti-date.html?time-format=12hour&year=2026
+  - Batuka Bhairavi — 29 June 2026, Kanpur: https://www.drikpanchang.com/hindu-goddesses/siddhividya/batuka-bhairavi/goddess-batuka-bhairavi-jayanti-date.html?time-format=24plushour&year=2026
+  - Vindhyavasini — 4 September 2026, both Ghaziabad and Tirupati: https://www.drikpanchang.com/hindu-goddesses/siddhividya/vindhyavasini/goddess-vindhyavasini-jayanti-date.html?time-format=24plushour ; https://www.drikpanchang.com/hindu-goddesses/siddhividya/vindhyavasini/goddess-vindhyavasini-jayanti-date.html?lang=en
+- These checks corroborate those four dates across Indian locations, but none is a direct Pithoragarh result. The other eight entries still have only the original Koath list recorded as date evidence. Dataset status remains `partial-india-city-cross-checks-pithoragarh-validation-pending`.
+- Next step is to try individual Pithoragarh pages and then compare local tithi intervals against Ganesh Martand. No date is being promoted to runtime from this research alone; no production code or Blogger output changed.
