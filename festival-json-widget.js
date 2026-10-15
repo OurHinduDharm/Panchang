@@ -76,10 +76,40 @@
             a.rel = "noopener noreferrer";
             list.appendChild(a);
           } else {
+            // Intentionally plain text until the article is written and its URL is verified.
             list.appendChild(document.createTextNode((entry && entry.title) || ""));
           }
         });
         body.appendChild(list);
+      } else if (typeof item.description === "string" && item.description) {
+        // Preserve existing legacy descriptions and links without injecting raw HTML.
+        var parsed = new DOMParser().parseFromString(item.description, "text/html");
+        var descriptionBox = make("div", "festival-description");
+        function copySafeNode(node, parent) {
+          if (node.nodeType === 3) {
+            parent.appendChild(document.createTextNode(node.nodeValue || ""));
+            return;
+          }
+          if (node.nodeType !== 1) return;
+          if (node.tagName === "A") {
+            var href = safeHttpUrl(node.getAttribute("href"));
+            if (href) {
+              var link = make("a", "", node.textContent || "संबंधित लेख");
+              link.href = href;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              parent.appendChild(link);
+              return;
+            }
+          }
+          Array.prototype.forEach.call(node.childNodes || [], function (child) {
+            copySafeNode(child, parent);
+          });
+        }
+        Array.prototype.forEach.call(parsed.body.childNodes, function (node) {
+          copySafeNode(node, descriptionBox);
+        });
+        body.appendChild(descriptionBox);
       }
       card.appendChild(body);
       fragment.appendChild(card);
