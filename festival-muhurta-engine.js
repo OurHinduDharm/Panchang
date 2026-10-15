@@ -51,6 +51,10 @@ function validCalculationInput({ date, latitude, longitude }) {
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
 }
 
+function validTimezoneOffset(value) {
+  return Number.isFinite(Number(value)) && Number(value) >= -840 && Number(value) <= 840;
+}
+
 function queryLocalNoon(date, timezoneOffset) {
   const [year, month, day] = date.split("-").map(Number);
   return new Date(Date.UTC(year, month - 1, day, 12, 0, 0) - Number(timezoneOffset) * 60000);
@@ -124,7 +128,7 @@ function createFestivalMuhurtaEngine({ getPanchangam, Observer, rules }) {
   function calculateSharadPurnimaKheer({
     date, latitude, longitude, elevation = 0, timezoneOffset = 330, purnimaIndex = 14
   }) {
-    if (!validCalculationInput({ date, latitude, longitude })) {
+    if (!validCalculationInput({ date, latitude, longitude }) || !validTimezoneOffset(timezoneOffset)) {
       return { status: "calculation-unavailable", reason: "invalid-input", window: null, warnings: ["तारीख और स्थान के निर्देशांक उपलब्ध नहीं हैं"] };
     }
     const observer = new Observer(Number(latitude), Number(longitude), Number(elevation) || 0);
@@ -161,7 +165,7 @@ function createFestivalMuhurtaEngine({ getPanchangam, Observer, rules }) {
     date, latitude, longitude, elevation = 0, timezoneOffset = 330,
     dvadashiIndex, paranaRule = null
   }) {
-    if (!validCalculationInput({ date, latitude, longitude }) ||
+    if (!validCalculationInput({ date, latitude, longitude }) || !validTimezoneOffset(timezoneOffset) ||
         !Number.isInteger(Number(dvadashiIndex)) || Number(dvadashiIndex) < 0 || Number(dvadashiIndex) > 29) {
       return { status: "calculation-unavailable", reason: "invalid-input", window: null, warnings: ["तारीख, स्थान या द्वादशी तिथि-सूचकांक मान्य नहीं"] };
     }
@@ -188,7 +192,7 @@ function createFestivalMuhurtaEngine({ getPanchangam, Observer, rules }) {
     date, latitude, longitude, elevation = 0, timezoneOffset = 330,
     tithiIndex, intervals = {}, tradition = "unspecified"
   }) {
-    if (!validCalculationInput({ date, latitude, longitude }) ||
+    if (!validCalculationInput({ date, latitude, longitude }) || !validTimezoneOffset(timezoneOffset) ||
         !Number.isInteger(Number(tithiIndex)) || Number(tithiIndex) < 0 || Number(tithiIndex) > 29) {
       return { status: "calculation-unavailable", reason: "invalid-input", pradosh: null, vrishabha: null, nishita: null, warnings: ["तारीख, स्थान या तिथि-सूचकांक मान्य नहीं"] };
     }
