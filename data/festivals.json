@@ -12,7 +12,8 @@
     "Draft audit update 2026-10-15: festival-009 title/date wording clarified; festival-010 to festival-013 and festival-020 to festival-023 have provisional 2026 observance-date candidates from public calendar cross-checks. These remain needs-review; no production/Blogger integration is authorized by this data file alone. sourceText retains original legacy dates and descriptions for traceability.",
     "2026-10-15: Added structured relatedArticles for major autumn festivals. Where an OurHinduDharm article URL is verified, the title links to it; for Govardhan Puja and Bhai Dooj, plain-text article-topic placeholders are stored without a URL and can be linked after the articles are written. Do not invent links.",
     "2026-10-15 widget audit: parent Navaratri end date is retained only on festival-003; individual daily observance records no longer inherit 20 October as their display end. festival-009 preserves the user's clarified 18 October title and provisional 17–18 October civil-date span; exact tithi instants/observance rule remain unverified.",
-    "2026-10-15 local diagnostic follow-up: festival-014 Kartik month-start candidate is 2026-10-26 under the project's Purnimanta convention because the pinned-library Pithoragarh interval shows Ashwin Purnima ending and Krishna Pratipada beginning on 26 October; sourceText retains the legacy 27 October date, and the rule remains needs-review."
+    "2026-10-15 local diagnostic follow-up: festival-014 Kartik month-start candidate is 2026-10-26 under the project's Purnimanta convention because the pinned-library Pithoragarh interval shows Ashwin Purnima ending and Krishna Pratipada beginning on 26 October; sourceText retains the legacy 27 October date, and the rule remains needs-review.",
+    "Navratri sadhana display rule: while any of the four principal Navratri period records (Ashwin, Chaitra, Magha Gupt, Ashadha Gupt) is active, show the complete day 1–9 article list together, so a missed day remains accessible; day 10 Dashami immersion link is included separately. This display rule does not assert a universal observance date and does not alter the main Panchang today's-festival logic."
   ],
   "festivals": [
     {
@@ -2780,5 +2781,77 @@
       "sourceUrl": null,
       "verificationStatus": "needs-review"
     }
-  ]
+  ],
+  "navratriSadhana": {
+    "title": "नवरात्रि साधना — प्रतिपदा से नवमी तक",
+    "description": "यदि किसी दिन की साधना छूट गई हो, तो उस दिन का संबंधित लेख यहाँ से खोल सकते हैं।",
+    "activePeriodIds": [
+      "festival-003",
+      "festival-059",
+      "festival-040",
+      "festival-088"
+    ],
+    "days": [
+      {
+        "day": 1,
+        "tithi": "प्रतिपदा",
+        "name": "माँ शैलपुत्री की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html"
+      },
+      {
+        "day": 2,
+        "tithi": "द्वितीया",
+        "name": "माँ ब्रह्मचारिणी की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html"
+      },
+      {
+        "day": 3,
+        "tithi": "तृतीया",
+        "name": "माँ चन्द्रघंटा की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html"
+      },
+      {
+        "day": 4,
+        "tithi": "चतुर्थी",
+        "name": "माँ कूष्माण्डा की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html"
+      },
+      {
+        "day": 5,
+        "tithi": "पंचमी",
+        "name": "माँ स्कन्दमाता की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html"
+      },
+      {
+        "day": 6,
+        "tithi": "षष्ठी",
+        "name": "माँ कात्यायनी की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html"
+      },
+      {
+        "day": 7,
+        "tithi": "सप्तमी",
+        "name": "माँ कालरात्रि की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html"
+      },
+      {
+        "day": 8,
+        "tithi": "अष्टमी",
+        "name": "माँ महागौरी की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html"
+      },
+      {
+        "day": 9,
+        "tithi": "नवमी",
+        "name": "माँ सिद्धिदात्री की पूजा",
+        "url": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html"
+      },
+      {
+        "day": 10,
+        "tithi": "दशमी",
+        "name": "कलश आदि का विसर्जन",
+        "url": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html"
+      }
+    ]
+  }
 }
