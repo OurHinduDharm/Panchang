@@ -3,8 +3,7 @@
  */
 (function () {
   "use strict";
-  var container = document.getElementById("dynamicFestivalList");
-  if (!container || typeof fetch !== "function") return;
+  var container = typeof document !== "undefined" ? document.getElementById("dynamicFestivalList") : null;
 
   var DATA_URL = "https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/festivals.json";
   var DAYS_AHEAD = 14;
@@ -18,7 +17,7 @@
   function validDate(value) {
     if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
     var d = new Date(value + "T00:00:00");
-    return isNaN(d.getTime()) ? null : d;
+    return isNaN(d.getTime()) || localDateString(d) !== value ? null : d;
   }
   function safeHttpUrl(value) {
     try {
@@ -32,21 +31,28 @@
     if (text != null) el.textContent = String(text);
     return el;
   }
-  function render(data, now) {
+  function selectUpcoming(data, now) {
     if (!data || !Array.isArray(data.festivals)) throw new Error("Invalid festival data");
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var todayKey = localDateString(today);
-    var upcoming = data.festivals.filter(function (item) {
+    return data.festivals.filter(function (item) {
       var start = validDate(item && item.date && item.date.start);
       var end = validDate(item && item.date && item.date.end) || start;
       if (!start || !end || end < start) return false;
       var startDiff = Math.floor((start.getTime() - today.getTime()) / DAY_MS);
       var ongoing = today >= start && today <= end;
-      return ongoing || (startDiff >= 0 && startDiff <= DAYS_AHEAD);
+      // Exactly 14 calendar dates: today (day 0) through day 13.
+      return ongoing || (startDiff >= 0 && startDiff < DAYS_AHEAD);
     }).sort(function (a, b) {
       return a.date.start.localeCompare(b.date.start) ||
         String(a.name || "").localeCompare(String(b.name || ""), "hi");
     });
+  }
+
+  function render(data, now) {
+    if (!data || !Array.isArray(data.festivals)) throw new Error("Invalid festival data");
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var todayKey = localDateString(today);
+    var upcoming = selectUpcoming(data, today);
 
     var fragment = document.createDocumentFragment();
     upcoming.forEach(function (item) {
@@ -122,6 +128,17 @@
     return { count: upcoming.length, today: todayKey };
   }
 
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+      render: render,
+      selectUpcoming: selectUpcoming,
+      safeHttpUrl: safeHttpUrl,
+      validDate: validDate
+    };
+  }
+
+  if (!container || typeof fetch !== "function") return;
+
   fetch(DATA_URL, { cache: "no-cache" })
     .then(function (response) {
       if (!response.ok) throw new Error("Festival JSON request failed: " + response.status);
@@ -132,8 +149,4 @@
       // Keep the existing legacy-rendered list visible if JSON loading fails.
       if (window.console && console.warn) console.warn("OurHinduDharm festival JSON fallback:", error);
     });
-
-  if (typeof module !== "undefined" && module.exports) {
-    module.exports = { render: render, safeHttpUrl: safeHttpUrl, validDate: validDate };
-  }
 })();
