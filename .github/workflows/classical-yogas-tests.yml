@@ -27,6 +27,7 @@ on:
       - "classical-yogas.js"
       - "tests/classical-yogas-intervals.test.js"
       - "tests/vrata-intervals.test.js"
+      - "tests/vrata-real-date-diagnostic.test.js"
       - "tests/classical-yogas-real-panchang-comparison.test.js"
       - "tests/panchang-card-order.test.js"
       - "tests/compact-ui-night-prahar.test.js"
