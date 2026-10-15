@@ -220,7 +220,7 @@ function getAmbubachiRitualWindow(pravrittiLocalDate) {
   };
 }
 
-module.exports = {
+const AmbubachiCalculation = {
   AMBUBACHI_TARGET_LONGITUDE_DEGREES,
   AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES,
   findSiderealSolarIngress,
@@ -229,3 +229,10 @@ module.exports = {
   findAmbubachiSolarWindowAsync,
   getAmbubachiRitualWindow
 };
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = AmbubachiCalculation;
+}
+if (typeof window !== "undefined") {
+  window.OHDAmbubachiCalculation = AmbubachiCalculation;
+}
