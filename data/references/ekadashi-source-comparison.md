@@ -236,3 +236,17 @@ The verse's central condition is rendered by the Hindi Gītā Press-attributed t
 - These may be compatible descriptions of an exceptional tithi spanning the civil/ritual day boundary, but the source wording does not justify replacing `दिनवृद्धि` with a generic sunrise-repeat boolean. Conversely, the 60-daṇḍa condition must not be imported into the Dharmasindhu profile as a universal threshold without confirming the intended textual relationship and tradition scope.
 
 **Research outcome:** the Padma Purāṇa lead is now textually corroborated by a Sanskrit verse and a Hindi transcription. This improves source confidence but does **not** resolve whether Dharmasindhu's `दिनवृद्धि` is intended as exactly the Padma Purāṇa condition, the successive-sunrise condition, or a related tradition-specific formulation. Keep Pakṣavardhinī operational status unresolved and the synthetic fixture unresolved; no real date or fast-day consequence is inferred.
+
+
+### Unmīlanī and Vañjulī: a Vaiṣṇava source exposes variant rule formulations — 2026-10-16
+
+A useful next cross-check is available in the digital Sanskrit/English text of *Hari-bhakti-vilāsa*, Vilāsa 13. It should be treated as a Vaiṣṇava source, not automatically substituted for the Khemraj Dharmasindhu witness or for all traditions.
+
+- **HBV 13.267, Unmīlanī:** `एकादशी तु सम्पूर्णा वर्धते पुनर् एव सा । द्वादशी च न वर्धत कथितोन्मीलनीनि सा` — the displayed English explanation adds a specific four-daṇḍa-before-sunrise / sixty-four-daṇḍa duration formulation and says Dvādaśī does not increase.
+- **HBV 13.268, Vañjulī:** `द्वादश्य् एव विवर्धेत न चैवैकादशी यदा । वञ्जुली तु ...` — the accompanying explanation describes Dvādaśī increasing while Ekādaśī does not; its translation again introduces a sixty-daṇḍa duration and overlap with the following day.
+- **HBV 13.356**, however, quotes a Padma Purāṇa passage: `सम्पूर्णैकादशी यत्र द्वादशी च यदा भवेत् । त्रयोदश्याꣳ मुहूर्तार्धꣳ वञ्जुली सा हरिप्रिया` and the displayed translation associates Vañjulī with a half-muhūrta of Trayodaśī. That is not the same compact trigger as the preceding 13.268 explanation. The online edition also contains OCR/transliteration imperfections, so the exact wording and attribution need witness-level review.
+- **HBV 12.391–392** confirms the four tithi-shaped names (Unmīlanī, Vañjulī, Trispr̥śā, Pakṣavardhinī) are distinguished from four nakṣatra-associated names, but does not itself resolve the detailed astronomical predicates.
+
+Sources: [Hari-bhakti-vilāsa, Vilāsa 13](https://www.anantasatsang.org/scripture/radha-bhakti/hari-bhakti-vilasa/vilasa-13) and [Vilāsa 12](https://www.anantasatsang.org/scripture/radha-bhakti/hari-bhakti-vilasa/vilasa-12).
+
+**Research outcome:** the source family provides candidate distinctions—Ekādaśī increases vs. Dvādaśī increases—but it also preserves differing formulations for Vañjulī. Do not convert these into a single universal interval predicate or silently add a 60/64-daṇḍa threshold to the Dharmasindhu profile. Keep both catalogue entries research-only until the cited source chain, exact Sanskrit reading, interval anchor, and tradition scope are reconciled. No vrata date or pāraṇa result is inferred.
