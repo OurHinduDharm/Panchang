@@ -577,3 +577,12 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - The ledger separates current Navratri and Pitri Paksha link rules from possible future long-duration article cards (Shravan, Paush, Magha, Tulsi Vivah and Shakambhari Navratri).
 - Priority follow-ups include the Ganesh Chaturthi/Jayanti title vs 12-day span (`festival-117`), Gayatri Jayanti vs Ambubachi interval (`festival-087`), and stale 2025 spans (`festival-025`, `festival-032`, `festival-034`).
 - No production/Blogger changes. PR #33 remains Draft; date and observance records remain provisional until separately verified.
+
+
+## Festival triage and link-config regression coverage — 2026-10-15
+- Added `data/references/festival-record-triage-2026-10-15.md`: a compact inventory of all 122 migrated records with stored dates, rule type, URL availability and first-pass review flags.
+- First-pass counts: 32 records without a usable article URL, 2 empty descriptions, 14 records with a 2025/placeholder date, and 14 multi-day spans needing interpretation. These are triage counts, not claims that every flagged date is wrong.
+- High-priority cases remain `festival-054` (1970 placeholder eclipse), `festival-117` (Ganesh title/description/long span), `festival-087` (Gayatri Jayanti vs Ambubachi interval), and `festival-101` (keep owner-confirmed July 25–30 display window; review public copy mismatch separately).
+- Added regression tests to `tests/festival-json-widget.test.js` for the actual configured Navratri day links and active-period IDs, plus the actual Pitri Paksha article configuration and period IDs.
+- Latest commits via the GitHub contents API have no workflow runs or combined status checks reported yet. Do **not** claim tests/CI passed; verify or run tests before merge. Local clone/test execution was unavailable in the current environment because GitHub could not be resolved from the container.
+- PR #33 remains open and Draft. No production/Blogger integration changed.
