@@ -769,12 +769,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Fixed `.github/workflows/festival-draft-tests.yml` so the test command runs `tests/ekadashi-*.test.js`, including `tests/ekadashi-harivasara-profile.test.js` instead of only the source-clause guardrail file.
 - The workflow path filters already watch `tests/ekadashi-*.test.js`; the command now matches that scope.
 - This is still test-only research code. The Hari-vasara profile is explicitly scoped to the cited Dvadashi-bhuyastva passage and does not select a universal Parana rule or emit a clock time.
-- Validation follow-up completed: later CI runs `38790801551` and `38791297863` passed the Dashami input-contract and profile-routing tests. The interval contract has since gained just-before/start/just-before-end/exact-end boundary cases; its latest commit must be confirmed in CI. No production date calculation or Blogger output is changed.
+- Validation follow-up completed: CI run `38801740178` passed the expanded Dashami input-contract suite after adding just-before-start, exact-start, just-before-end, and exact-end cases. Separate profile-routing tests passed in run `38791297863`. No production date calculation or Blogger output is changed.
 
 ## Dashami-vedha profile routing tests (2026-10-16)
 
-- Added `tests/ekadashi-dashami-vedha-input-contract.test.js`: nine synthetic checks keep Arunodaya and sunrise observations distinct, exercise half-open tithi boundaries, and return unresolved for invalid inputs.
+- Added `tests/ekadashi-dashami-vedha-input-contract.test.js`: nine synthetic checks keep Arunodaya and sunrise observations distinct, exercise half-open tithi boundaries, and return unresolved for invalid inputs. CI run `38801740178` passed.
 - Added `tests/ekadashi-vedha-profile-routing.test.js`: five synthetic checks require an explicit Smarta or Vaishnava profile and inspect the profile-specific timestamp separately.
 - These are input/routing tests only. They do not decide the fasting date, do not encode 45/55-ghati thresholds, and do not replace verification against the selected printed Dharma Sindhu edition.
-- GitHub Actions run `38790801551` passed the Dashami input-contract suite, and run `38791297863` passed the separate Smarta/Vaishnava profile-routing suite. After the boundary expansion, verify the new commit's own run before marking the expanded suite green.
+- GitHub Actions run `38801740178` passed the expanded Dashami input-contract suite, and run `38791297863` passed the separate Smarta/Vaishnava profile-routing suite.
 - Production code, published dates, Blogger output and PR merge status remain unchanged.
