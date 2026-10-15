@@ -941,3 +941,10 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - The rule metadata links the Punyakaal profile to all twelve records. **This does not yet calculate Punyakaal**: the local solar-event provider must supply exact ingress instants, and each Punyakaal decision still needs a verified shastric formula and local sunrise/sunset conditions.
 - Added `data/muhurta-rules.json` to the JSON parsing check and its files to the workflow path filters.
 - Total festival/observance records in the draft catalog: 142. All additions remain draft/needs-review; no live Blogger change.
+
+
+## Kalashtami preview runtime-load fix — 2026-10-16
+- User reported preview error: `Cannot read properties of undefined (reading 'buildKalashtamiDays')`.
+- Root cause class: the preview assumed its external adapter global existed and did not wait for/check script loading before calling it. Reworked the page to load the resolver and adapter sequentially, wait for load completion, verify both globals, and report a clear script-load error rather than a misleading undefined-property exception.
+- Pinned the preview's resolver/adapter assets to an immutable jsDelivr URL at draft commit `6d693ed4b08973754ba84925e96c5511943480dd`; added a cache-busting version to the JSON fetch.
+- The fix is committed in `kalashtami-preview.html` at `efe49852bc62d531af9af842f7a26dce8f62ffcc`. A browser end-to-end run is not available from this workflow status yet, so treat the fix as code-updated but not browser-verified until the preview is reloaded and tested.
