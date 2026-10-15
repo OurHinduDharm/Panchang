@@ -722,3 +722,20 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Added `data/references/ekadashi-source-to-test-plan.md` (commit `9043b8f8ea76d5fa58c8df2aaf93afd99ef318f5`) mapping the source clauses to stable test IDs. It separates Hari-vasara, Trayodashi fallback, the `बहवः` and `केचित्` parana views, Śravaṇa-Dvādaśī, Viṣṇu-śṛṅkhala and all eight Mahādvādaśīs. Unresolved Sanskrit interpretation remains explicitly blocked; no guessed rule was added.
 - Next work is to add only mathematical interval-helper tests and align the source IDs across the existing test matrix. Then formalize the clearly sourced clauses as named rule profiles, while keeping ambiguous anchors/wording unresolved.
 - No runtime JavaScript, `data/festivals.json`, Blogger output, or PR merge state changed. PR #33 remains Draft.
+
+
+## Ekadashi / vrata next-step work — 2026-10-15
+
+- Added the Dharmasindhu p. 17 source-to-test plan at `data/references/ekadashi-source-to-test-plan.md`. It distinguishes clear source clauses from unresolved Sanskrit scope and keeps the attributed `बहवः` and `केचित्` pāraṇa opinions separate.
+- Updated `.github/workflows/festival-draft-tests.yml` so the draft CI now runs the already-existing test-only interval helper, Śravaṇa-Dvādaśī duration branch, and Śravaṇa-Dvādaśī rule-profile tests. Their paths also trigger CI. Previously, these vrata tests were not included in the Festival Draft workflow.
+- Corrected a duplicate test label in `tests/shravana-dvadashi-rule-profile.test.js` (RULE-05 → RULE-06 for the sixth case); no calculation behavior changed.
+- CI run for commit `679994ed923cb61aa2d7d3e7f0572eb3d930db16` succeeded: https://github.com/OurHinduDharm/Panchang/actions/runs/38718735296
+- The successful run confirms the configured automated tests execute and pass. It does **not** prove that every Sanskrit rule is fully interpreted or that any vrata/parana result is ready for public use.
+
+### Next work queue
+
+1. Align source-backed PAR/SHR/VSHR/MDV IDs between `ekadashi-source-to-test-plan.md`, `vrata-decision-test-matrix.md`, and the test names; retain INT-01–INT-10 as math-only tests.
+2. Add tests only for unambiguous source-derived predicates (e.g. interval validation/conjunction mechanics); keep unresolved Sanskrit semantics as explicit blocked cases, not guessed expected clock times.
+3. Record each named rule profile's exact source clause and scope before coding a date selector or parana-time engine.
+4. After rule-profile tests, build a source-backed 2026 comparison table against the owner's Ganesh Martand Panchang. Keep Smartā/Vaiṣṇava differences visible and do not choose unresolved dates by majority website.
+5. Keep all work on this draft branch; no public runtime/Blogger edits and no merge until owner approval.
