@@ -2672,9 +2672,9 @@
         "type": "tithi",
         "start": "2026-09-14",
         "end": "2026-09-25",
-        "calculationNotes": "Owner-confirmed display policy: show Ganesh Chaturthi and Ganesh Jayanti together on the same observance date. Keep the existing festival-period window separate from the single-day observance label; do not create a second date entry for Ganesh Jayanti.",
-        "rule": "OurHinduDharm में गणेश चतुर्थी और गणेश जयंती एक ही दिन दिखाई जाएँगी। यह प्रविष्टि भाद्रपद शुक्ल चतुर्थी की है; गणेशोत्सव/विसर्जन की अवधि अलग से 14–25 सितम्बर 2026 तक रह सकती है।",
-        "tithi": "भाद्रपद शुक्ल चतुर्थी (शीर्षक सत्यापन आवश्यक)",
+        "calculationNotes": "Owner-confirmed display policy: show Ganesh Chaturthi and Ganesh Jayanti together on the same observance date. Keep the festival/visarjan display window separate from the single-day observance label; do not create a second date entry for Ganesh Jayanti.",
+        "rule": "OurHinduDharm में गणेश चतुर्थी और गणेश जयंती एक ही दिन दिखाई जाएँगी—भाद्रपद शुक्ल चतुर्थी पर। गणेशोत्सव/विसर्जन की अवधि (यदि प्रदर्शित हो) इस एक-दिवसीय पर्व-तिथि से अलग अवधारणा है।",
+        "tithi": "भाद्रपद शुक्ल चतुर्थी",
         "month": "भाद्रपद"
       },
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत, </a> पत्थर चौथ - भाद्रपद शुक्ल चतुर्थी के दिन चन्द्रमा का दर्शन न करें यदि भूल से हो जाए तो स्यमन्तक मणि का अपकीर्तिनाशक आख्यान पढ़ना चाहिए...",
