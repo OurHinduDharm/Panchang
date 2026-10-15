@@ -110,10 +110,11 @@ try {
   const sameInstantAudit = await page.locator("#sameInstantTksAuditOutput").innerText();
   console.log("Same-instant TKS Venus snapshot audit:", sameInstantAudit.replace(/\\s+/g, " ").trim());
   if (!sameInstantAudit.includes("2026-10-12 12:00:00 IST") ||
-      !sameInstantAudit.includes("Our sign-table K minus TKS K") ||
+      !sameInstantAudit.includes("Sign-table K vs TKS reference") ||
+      !sameInstantAudit.includes("instant/frame unverified") ||
       !sameInstantAudit.includes("7.698°") ||
       sameInstantAudit.includes("comparison failed")) {
-    throw new Error("Same-instant TKS Venus comparison did not render its timestamp and K comparison.");
+    throw new Error("Venus reference audit did not render its timestamp and provenance-pending TKS K label.");
   }
   if (!/Swiss Ephemeris K \(same geometry\)[\s\S]*?\d+\.\d+°[\s\S]*?Swiss−AE:\s*[+-]?\d+\.\d+°/.test(sameInstantAudit) ||
       sameInstantAudit.includes("Swiss Ephemeris K (same geometry)\nUnavailable")) {
