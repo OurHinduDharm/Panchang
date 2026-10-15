@@ -74,8 +74,8 @@ test("solar-event observance requires independently supplied ingress and egress 
   ];
   const result = resolver.resolveFestivalDate(ambubachi, { year: 2026, solarEvents: events });
   assert.equal(result.status, "matched");
-  assert.equal(result.start, "2026-06-22");
-  assert.equal(result.end, "2026-06-26");
+  assert.equal(result.displayDates[0].date, "2026-06-22");
+  assert.equal(result.displayDates[1].date, "2026-06-26");
   assert.equal(result.displayDates.length, 2);
   assert.match(result.reason || result.note, /temple's public reopening time/);
   const missingEnd = resolver.resolveFestivalDate(ambubachi, { year: 2026, solarEvents: events.slice(0, 1) });
