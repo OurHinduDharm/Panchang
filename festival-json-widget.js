@@ -65,9 +65,26 @@
       card.appendChild(dateBox);
 
       var body = make("div", "festival-content");
+      var startDate = validDate(item.date.start);
+      var endDate = validDate(item.date.end) || startDate;
+      var isToday = !!startDate && localDateString(startDate) === todayKey;
+      var isWithinDisplayPeriod = !!startDate && !!endDate && today >= startDate && today <= endDate;
+      var status = "";
+      if (isWithinDisplayPeriod && item.sourceText && item.sourceText.statusText) {
+        status = item.sourceText.statusText;
+      } else if (isToday) {
+        status = "आज का पर्व";
+      } else if (startDate && startDate > today) {
+        var daysLeft = Math.floor((startDate.getTime() - today.getTime()) / DAY_MS);
+        status = daysLeft === 1 ? "कल" : daysLeft + " दिन शेष";
+      }
+      if (status) body.appendChild(make("div", "festival-status", status));
       body.appendChild(make("div", "festival-title", item.name || "त्योहार"));
-      if (item.sourceText && item.sourceText.statusText) {
-        body.appendChild(make("div", "festival-status", item.sourceText.statusText));
+      if (item.date.end && item.date.end !== item.date.start &&
+          !(item.sourceText && item.sourceText.hidePeriod) && startDate && endDate) {
+        body.appendChild(make("div", "festival-period",
+          "अवधि: " + startDate.toLocaleDateString("hi-IN", { day: "numeric", month: "long" }) +
+          " - " + endDate.toLocaleDateString("hi-IN", { day: "numeric", month: "long" })));
       }
       var links = Array.isArray(item.relatedArticles) ? item.relatedArticles : [];
       if (links.length) {
