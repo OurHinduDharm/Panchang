@@ -887,3 +887,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Only reopen a date if a concrete discrepancy appears against the printed Ganesh Martand Panchang or the site's own local tithi calculation.
 - Source listing: https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhividya-jayanti-dates.html?year=2026
 - The data remains research-only; it has not been wired into the production Panchang or Blogger output.
+
+
+## Vrat-date handling scope — 2026-10-16
+
+- Working decision: a one-day difference in a vrat calendar is not automatically a defect; tithi-vyapti and the observance's time-window (sunrise, arunodaya, madhyahna, pradosha, nishita, moonrise, etc.) can move the selected day, and Smarta/Vaishnava profiles can differ.
+- The implementation workflow will prioritize local astronomical intervals plus a sourced observance rule. External calendars are cross-checks, not automatic overrides of Ganesh Martand or a verified source rule.
+- Do not spend effort obtaining a separate city page for every observance; investigate location only when it plausibly changes the selected date/timing or resolves a concrete discrepancy.
+- Ekadashi/Mahadvadashi and pāraṇa remain high-caution areas because the scanned *Vrat Parichay*, Dharmasindhu, Nirnayasindhu and Hari-bhakti-vilasa material contain tradition-specific branches and unresolved textual/translation issues. No universal shortcut or unverified ghati threshold should be coded.
+- This records project scope only; no vrat date, pāraṇa, production runtime, Blogger output or merge state changed.
