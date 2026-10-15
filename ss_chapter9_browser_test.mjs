@@ -68,6 +68,32 @@ try {
     throw new Error("3-D frame panel failed finite-value or EQD↔ECT reconstruction-residual checks.");
   }
 
+  // Exercise Chapter VII frame sensitivity at the actual Venus sunset-side sample (17:42 IST).
+  await page.locator("#runChapter7FrameSensitivityInlineBtn").click();
+  await page.waitForFunction(
+    () => document.querySelectorAll("#chapter7FrameSensitivityOutput tbody tr").length >= 70,
+    null,
+    { timeout: 30000 }
+  );
+  const chapter7FrameRows = await page.locator("#chapter7FrameSensitivityOutput tbody tr").evaluateAll(rows =>
+    rows.map(row => ({
+      body: row.cells[0]?.textContent || "?",
+      path: row.cells[1]?.textContent || "?",
+      field: row.cells[2]?.textContent || "?",
+      value: row.cells[3]?.textContent || ""
+    }))
+  );
+  const chapter7FrameSummary = await page.locator("#chapter7FrameSensitivityOutput").innerText();
+  console.log("Chapter VII 17:42 IST frame sensitivity:", JSON.stringify(chapter7FrameRows));
+  if (chapter7FrameRows.length < 70 ||
+      !chapter7FrameSummary.includes("2026-10-12 17:42 IST") ||
+      chapter7FrameRows.some(row =>
+        row.value !== "—" &&
+        !Number.isFinite(Number(row.value.replace("°", "")))
+      )) {
+    throw new Error("Chapter VII sunset-side frame sensitivity did not render finite intermediate values.");
+  }
+
   await page.locator("#runLagnantaraBtn").click();
   await page.waitForFunction(
     () => document.querySelectorAll("#lagnantaraOutput tr.reference-row").length === 4,
