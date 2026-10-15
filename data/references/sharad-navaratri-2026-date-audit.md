@@ -67,3 +67,10 @@ The draft data now uses these candidate observance dates:
 - भ्रातृ द्वितीया — 11 November
 
 These are candidate dates cross-checked against the cited public calendars, not a substitute for local tithi calculation. The data records remain `needs-review`; the old source descriptions are retained for audit, while known stale clock times have been removed from the draft display descriptions. A new regression test file checks the candidate dates, retained source text, and verification status.
+
+
+## User clarification and widget display-range audit (2026-10-15)
+
+The user clarified that the legacy title's **18 October** note for festival-009 is intentional: Ashwin Shukla Saptami is described in the user's paper Panchang/references as spanning the civil dates 17–18 October. Do not remove that note as a typo. The displayed title has been restored to preserve it. The current record stores a provisional civil-date span through 18 October, but **does not yet store exact tithi start/end instants**; the 17 October observance date remains a candidate pending local calculation and the selected observance rule.
+
+The widget audit also found that the legacy parent-period end date (20 October) had been copied to each individual Navaratri-day record. The draft now retains 11–20 October only on the parent Navaratri record, clears inherited display ends for individual daily records, and gives festival-009 its separate provisional 17–18 October civil-date span. This is a display/data-model correction, not certification of the observance dates.
