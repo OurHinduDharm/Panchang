@@ -105,3 +105,36 @@ A Drik Mercury page is available at https://www.drikpanchang.com/planet/asta/bud
 - IMD / Positional Astronomy Centre, Rashtriya Panchanga heliacal table: https://packolkata.imd.gov.in/panchang/en/helical
 - Drik Panchang, Venus Asta/Udaya 2026 (Deoranian): https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2026
 - Drik Panchang, Mercury Asta/Udaya 2026: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html
+
+
+## 6. Existing TKS capture and independent Chapter IX candidate — event-level comparison
+
+These are previously captured research values, not freshly queried live values. They are included to guide the next controlled test.
+
+### Venus
+
+| Source/method | Asta-side event | Udaya-side event | Meaning |
+|---|---|---|---|
+| Ganesh Martand, adjusted target time | 12 Oct 2026, 17:30:50 (पूर्व अस्त) | 29 Oct 2026, 06:16:50 (पश्चिम उदय) | Traditional reference after current Standard Difference correction |
+| TKS 900-day Shāstrīya table | Asta begins 12 Oct 2026, 10:20:24 | Next Udaya shown as 1 Nov 2026 | User-supplied capture; exact page-state settings need revalidation |
+| Drik, Deoranian | 12 Oct 2026, 18:10 | Asta ends 29 Oct 2026, 05:51 | Modern location-based combustion boundaries |
+| IMD Rashtriya Panchanga heliacal table | West setting listed 13 Oct 2026, 24:18 | East rising listed 28 Oct 2026, 07:36 | Official heliacal table; do not equate automatically with Chapter IX K boundary |
+| Independent Chapter IX diagnostic (current research candidate) | K-boundary candidate 11–12 Oct | K-boundary candidate 28–29 Oct | Candidate bracket only, not certified |
+
+**Finding:** Asta is on 12 October in Ganesh Martand, TKS, and Drik, but the captured TKS time is about 7 h 10 min earlier than the adjusted Ganesh time. The Ganesh/Drik Udaya-side date is 29 October, while the captured TKS next-Udaya date is 1 November. The independent Chapter IX candidate currently brackets the event around 28–29 October and therefore agrees better with Ganesh/Drik on the Udaya date, but its event-time reconstruction is not yet certified. Do not change the formula to force agreement; inspect the exact event selection, K time-motion estimate, source date attribution, and TKS page settings.
+
+### Mercury
+
+The saved TKS 900-day capture shows Mercury currently Udaya and next Asta on **27 October 2026**, followed by Udaya on **15 November 2026**. Ganesh Martand's corrected values include western setting on **27 October 2026, 17:15:50** and eastern rising on **10 November 2026, 06:26:50**.
+
+- The **27 October Asta date agrees** at date level.
+- The Udaya date differs by about **five calendar days**.
+- Before calling this a calculation error, confirm whether TKS's generic Udaya boundary is the same event as the printed “पूर्व उदय” / “पश्चिम उदय” branch selected by Chapter IX, and compare the source's event-direction mapping.
+
+### Jupiter, Mars, Saturn
+
+- Ganesh Martand and the IMD heliacal table share the listed dates for Mars rise (17 April 2026), Saturn rise (17 April 2026), Jupiter setting (15 July 2026), and Jupiter rising (10 August 2026).
+- Drik's modern Jupiter 2026 pages place setting around 17 July and end/Udaya around 10–11 August, so the setting date is about two days later than Ganesh Martand and the end boundary is near the same window.
+- Saturn's 24 March 2027 setting date is also listed by the IMD table; time and exact event semantics still need normalization.
+
+These are valuable date-level cross-checks. They are not yet a same-location, same-event, exact-time validation.
