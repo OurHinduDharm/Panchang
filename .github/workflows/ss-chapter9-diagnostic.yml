@@ -11,6 +11,7 @@ on:
       - "ss_chapter7_test.js"
       - "ss_chapter3_lagnantara.js"
       - "ss_chapter3_source_rising_asus.js"
+      - "ss_chapter3_table_rising_asus.js"
       - "ss_chapter3_ayana_math_test.js"
       - "ss_chapter1_ahargana_anchor.js"
       - "ss_chapter1_ahargana_calendar.js"
@@ -76,6 +77,7 @@ jobs:
           node --experimental-default-type=module --check ss_chapter7_test.js
           node --experimental-default-type=module --check ss_chapter3_lagnantara.js
           node --experimental-default-type=module --check ss_chapter3_source_rising_asus.js
+          node --experimental-default-type=module --check ss_chapter3_table_rising_asus.js
           node --experimental-default-type=module --check ss_chapter3_ayana_math_test.js
           node --experimental-default-type=module --check ss_chapter1_ahargana_anchor.js
           node --experimental-default-type=module --check ss_chapter1_ahargana_calendar.js
@@ -143,6 +145,24 @@ jobs:
             console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
           }
           console.log(`${result.passed}/${result.total} source-sequence Chapter III tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter II table-derived rising-asus tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter3TableRisingAsusTests } from './ss_chapter3_table_rising_asus.js';
+          const result = runChapter3TableRisingAsusTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.error) console.log(`  ${test.error}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter II table-derived rising-asus tests passed`);
+          console.log(JSON.stringify({
+            WashingtonCaraEndpoints: result.washington.caraEndpoints.map(p => p.caraArcMinutes),
+            PithoragarhCaraEndpoints: result.pithoragarh.caraEndpoints.map(p => p.caraArcMinutes),
+            PithoragarhRisingAsus: result.pithoragarh.risingAsus
+          }));
           if (!result.allPassed) process.exit(1);
           NODE
 
