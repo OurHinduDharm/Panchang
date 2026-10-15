@@ -52,8 +52,14 @@ test("major festival records keep structured OurHinduDharm related-article links
     }
     assert.ok(links.every((link) => link.url.includes("ourhindudharm.blogspot.com")), id + ": expected owned blog links");
   }
-  assert.deepEqual(byId["festival-022"].relatedArticles || [], []);
-  assert.deepEqual(byId["festival-023"].relatedArticles || [], []);
+  assert.deepEqual(byId["festival-022"].relatedArticles, [{ title: "अन्नकूट / गोवर्धन पूजा — परिचय एवं पूजा-विधि" }]);
+  assert.deepEqual(byId["festival-023"].relatedArticles, [{ title: "भ्रातृ द्वितीया / भाई दूज — व्रत एवं पूजा-विधि" }]);
+  for (const id of ["festival-022", "festival-023"]) {
+    for (const article of byId[id].relatedArticles) {
+      assert.equal(Object.hasOwn(article, "url"), false, id + ": do not invent an article URL");
+      assert.ok(article.title.length > 0, id + ": keep the plain-text article topic");
+    }
+  }
 });
 
 test("legacy Dhanteras and Diwali clock times are not presented as 2026 muhurta", () => {
