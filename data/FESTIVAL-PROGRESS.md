@@ -602,3 +602,12 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Gayatri Jayanti: show both Jyeshtha Shukla Ekadashi and Shravan Shukla Purnima, because the goal is to provide a worship opportunity for both established traditions.
 - Files updated on this branch: `data/festivals.json`, `data/festival-schema.json`, and `tests/festival-season-2026.test.js`. The two dates are represented as local-Panchang `alternateObservances`; no fixed Gregorian dates are used for their recurrence.
 - Review still required before PR #33 is ready: implement tithi-aware matching for `alternateObservances`, implement `solar-event` matching for Ambubachi, connect the solar calculation to a real ephemeris, run regression tests, and check actual widget output. PR remains Draft; no merge or live Blogger change.
+
+
+## Ambubachi calculation decision (2026-10-15)
+- User explicitly does not want temple reopening notices to determine astronomical Nivritti.
+- Working Drik-style definition: Pravritti is the Sun's sidereal longitude crossing Mithuna 6°40′ (66.6666667°, start of Ardra pada 1); Nivritti is its crossing Mithuna 10°00′ (70°, end of Ardra pada 1).
+- Added `AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES` and `findAmbubachiSolarWindow()` in `ambubachi-calculation.js`; both boundaries are searched independently using the same caller-provided ephemeris/ayanamsha.
+- Added synthetic tests for both boundaries in `tests/ambubachi-calculation.test.js`. These tests have **not yet been run**.
+- Updated festival-123 draft data to describe Nivritti as a solar-longitude boundary, not a temple ritual schedule. Data remains draft and is not integrated into the live Blogger widget.
+- Still required before calling this validated: wire a real Swiss Ephemeris sidereal-longitude callback; run tests; compare 2025 and 2026 outputs against published Visuddha Siddhanta and Gupta Press times; document the selected convention and discrepancies. Do not infer Nivritti by adding 72 hours or by substituting a temple reopening time.
