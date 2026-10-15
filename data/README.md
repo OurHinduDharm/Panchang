@@ -24,3 +24,8 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 ## Navratri sadhana links (draft rule)
 
 When any one of the four principal Navratri period records is active — Ashwin, Chaitra, Magha Gupt or Ashadha Gupt — the JSON widget renders a separate sadhana section with the complete Pratipada-to-Navami article links together, plus a separately labeled Dashami immersion link. This intentionally keeps earlier-day sadhana articles available when someone falls one or two days behind. The rule only controls link visibility; it does not prescribe a catch-up ritual, decide observance dates, or modify the Panchang page's independent "today's festival" logic. The dates in the four period records must be maintained/verified for each year before the display rule can activate reliably.
+
+
+## Pitri Paksha article links (draft rule)
+
+While either configured Pitri Paksha boundary record is active, the widget shows the two shared reference links together: **महालय श्राद्धों का महत्व** and **तर्पण विधि**. The active range includes Pratipada through Pitri Visarjani Amavasya, inclusive. Existing article URLs from the archived Blogger source are reused; no new URLs are invented. The rule only controls visibility and does not determine individual shraddha dates or ritual timings. The start/end records must be verified and maintained each year.
