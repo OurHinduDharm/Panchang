@@ -155,3 +155,17 @@ These small residuals on Mercury/Jupiter/Venus-rise cases make the SLBS table a 
 ### Correction to previous source-status note
 
 The official index listing alone did not expose the table, but the user has now directly transcribed it. The table is available as user-provided evidence; no image-level verification is claimed. Do not state that the 2026–27 table remains unavailable.
+
+## TKS raw-state request audit — 16 October 2026
+
+The published TKS developer documentation was rechecked before using its ephemeris as an input to the Chapter VII/IX audit:
+
+- `/v1/tks/ephemeris` requires a numeric `body` code; documented values are Sun = 10 and Venus = 2.
+- `date` and `time` are local civil time in the zone represented by `tz`, in hours east of UTC. Thus 12 October 2026 at 06:30 IST must be sent as `date=2026-10-12`, `time=06:30`, `tz=5.5`; the equivalent UTC instant is 01:00 UTC.
+- The expected Julian Date at that instant is approximately JD(UT) 2461325.5416667. The existing research-page tolerance is one second.
+- The documentation says successful responses have `success: true`, describes the returned state under `body`, and says Julian-day fields are in UT. It does **not** document a top-level `selected_body` field in the published endpoint description. The current raw-capture helper checks `response_json.selected_body`; if the live payload omits that field, the helper will conservatively report the body selection as unverified even when the request parameter was correct. Inspect the captured JSON before changing the validator; do not infer an incorrect planet solely from that warning.
+- The request's numeric body code and timezone are now explicit in the research-page request. The capture still needs to be run against the live response and checked for: HTTP success, `success: true`, distinct Sun/Venus state payloads, the requested UT JD, and explicit returned-body identity if the API supplies it.
+
+Source: https://tksephemeris.com/tks-api (Ephemeris endpoint and “Dates & time zones” / “Reading the answers” documentation).
+
+**Status:** request parameters and expected time are independently checked against the published API contract; live response/body identity remains unverified. No ephemeris values are inferred from the request URL. This does not validate TKS as the final classical method and does not authorize production changes.
