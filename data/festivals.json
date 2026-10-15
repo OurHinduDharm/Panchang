@@ -2036,12 +2036,28 @@
         "month": "श्रावण",
         "paksha": "शुक्ल पक्ष",
         "tithi": "पूर्णिमा",
-        "rule": "OurHinduDharm के स्वीकृत नियम के अनुसार गायत्री जयंती केवल श्रावण शुक्ल पूर्णिमा पर दिखाएँ। ज्येष्ठ शुक्ल एकादशी वाले वैकल्पिक मत को इस साइट की पर्व-प्रविष्टि में न दिखाएँ।",
+        "rule": "OurHinduDharm में गायत्री जयंती दोनों प्रचलित तिथियों पर दिखाएँ: ज्येष्ठ शुक्ल एकादशी तथा श्रावण शुक्ल पूर्णिमा। उपयोगकर्ता का उद्देश्य दोनों मान्य परंपराओं में जयंती-पूजन का अवसर देना है।",
         "calculationNotes": "स्थानीय पंचांग में श्रावण पूर्णिमा की वास्तविक तिथि निकाली जाए; पुरानी Gregorian तारीखें केवल स्रोत-अभिलेख हैं।",
         "renderMode": "panchang-tithi",
-        "calendarRule": "स्थानीय पंचांग में श्रावण शुक्ल पूर्णिमा जिस दिन लागू हो, उसी दिन गायत्री जयंती दिखाएँ।"
+        "calendarRule": "स्थानीय पंचांग में ज्येष्ठ शुक्ल एकादशी और श्रावण शुक्ल पूर्णिमा—दोनों तिथियाँ जिस दिन लागू हों, उस दिन गायत्री जयंती दिखाएँ।",
+        "alternateObservances": [
+          {
+            "month": "ज्येष्ठ",
+            "paksha": "शुक्ल पक्ष",
+            "tithi": "एकादशी",
+            "renderMode": "panchang-tithi",
+            "rule": "गायत्री जयंती का एक प्रचलित मत; स्थानीय पंचांग के अनुसार तिथि मिलाएँ।"
+          },
+          {
+            "month": "श्रावण",
+            "paksha": "शुक्ल पक्ष",
+            "tithi": "पूर्णिमा",
+            "renderMode": "panchang-tithi",
+            "rule": "गायत्री जयंती का दूसरा प्रचलित मत; स्थानीय पंचांग के अनुसार तिथि मिलाएँ।"
+          }
+        ]
       },
-      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वेदमाता गायत्री जयंती</a> — श्रावण पूर्णिमा के दिन।",
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वेदमाता गायत्री जयंती</a> — ज्येष्ठ शुक्ल एकादशी तथा श्रावण शुक्ल पूर्णिमा, दोनों प्रचलित तिथियों पर पूजा का अवसर।",
       "sourceText": {
         "date": "2026-06-25",
         "endDate": "2026-06-26",
@@ -2052,7 +2068,8 @@
       "verificationStatus": "needs-review",
       "reviewNotes": [
         "Owner-confirmed site policy (2026-10-15): display Gayatri Jayanti on Shravan Purnima only; do not show the Jyeshtha Shukla Ekadashi alternative on this site.",
-        "Legacy description mixed Gayatri Jayanti with Ambubachi dates. Ambubachi is now a separate record; keep original wording only in sourceText for provenance."
+        "Legacy description mixed Gayatri Jayanti with Ambubachi dates. Ambubachi is now a separate record; keep original wording only in sourceText for provenance.",
+        "दोनों प्रचलित जयंती-तिथियाँ दिखानी हैं: ज्येष्ठ शुक्ल एकादशी और श्रावण शुक्ल पूर्णिमा।"
       ]
     },
     {
