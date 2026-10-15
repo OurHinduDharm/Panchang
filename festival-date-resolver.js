@@ -179,7 +179,12 @@ function baseResolution(festival, panchangDays, solarEvents, year) {
   }
   if (date.renderMode === "panchang-tithi" || date.renderMode === "panchang-tithi-range") {
     const specs = [];
-    if (date.month && date.paksha && date.tithi) specs.push({ month: date.month, paksha: date.paksha, tithi: date.tithi, rule: date.rule || null });
+    if (date.month && date.paksha && date.tithi) {
+      specs.push({ month: date.month, paksha: date.paksha, tithi: date.tithi, rule: date.rule || null });
+      (Array.isArray(date.alternateMonths) ? date.alternateMonths : []).forEach((month) => {
+        if (typeof month === "string" && month.trim()) specs.push({ month, paksha: date.paksha, tithi: date.tithi, rule: date.rule || null });
+      });
+    }
     (Array.isArray(date.alternateObservances) ? date.alternateObservances : []).forEach((spec) => {
       if (spec && spec.renderMode === "panchang-tithi" && spec.month && spec.paksha && spec.tithi) specs.push(spec);
     });
