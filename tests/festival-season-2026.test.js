@@ -36,6 +36,26 @@ test("Diwali sequence uses 2026 dates and allows Naraka Chaturdashi/Diwali overl
   assert.equal(byId["festival-023"].date.start, "2026-11-11");
 });
 
+test("major festival records keep structured OurHinduDharm related-article links", () => {
+  const required = {
+    "festival-003": ["शारदीय नवरात्र की जानकारी", "घटस्थापना की संपूर्ण विधि"],
+    "festival-013": ["कोजागरी / शरद पूर्णिमा व्रत"],
+    "festival-016": ["रमा एकादशी व्रत"],
+    "festival-018": ["धनतेरस और धन्वन्तरि जयंती"],
+    "festival-020": ["नरक चतुर्दशी"],
+    "festival-021": ["दीपावली", "श्री महालक्ष्मी पूजन विधि"]
+  };
+  for (const [id, titles] of Object.entries(required)) {
+    const links = byId[id].relatedArticles || [];
+    for (const title of titles) {
+      assert.ok(links.some((link) => link.title === title && /^https?:\\/\\//.test(link.url)), id + ": " + title);
+    }
+    assert.ok(links.every((link) => link.url.includes("ourhindudharm.blogspot.com")), id + ": expected owned blog links");
+  }
+  assert.deepEqual(byId["festival-022"].relatedArticles || [], []);
+  assert.deepEqual(byId["festival-023"].relatedArticles || [], []);
+});
+
 test("legacy Dhanteras and Diwali clock times are not presented as 2026 muhurta", () => {
   assert.match(byId["festival-018"].description, /स्थानीय पंचांग की गणना से सत्यापित/);
   assert.match(byId["festival-021"].description, /2026 की स्थानीय गणना से निर्धारित/);
