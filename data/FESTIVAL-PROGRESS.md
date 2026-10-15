@@ -858,3 +858,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - A general Drik Panchang page is available for Pithoragarh, but search did not surface a reliable location-specific Dvādaśa Siddhividyā list. Do not infer local dates merely from the Koath listing or from the general tithi calendar; individual observance rules can also differ.
 - Next safe step: retain the source transcription as reference-only, then validate date/tithi pairings against the Pithoragarh Panchang and the project's primary Ganesh Martand Panchang before designing any runtime event records. Keep Dvādaśa Siddhividyā separate from Daśa-Mahāvidyā and from common Jayantī namesakes unless a source explicitly equates them.
 - No production runtime, festival output, Blogger page or merge state changed.
+
+
+## Siddhividyā location comparison — 2026-10-16
+
+- Re-opened Drik Panchang's 2026 Dvādaśa Siddhividyā list. One retrieval rendered for Washington, D.C.; compared with the previously captured Koath, Bihar listing, it differs by one day for at least Gayatri (27 vs 28 August), Vindhyavasini (3 vs 4 September), and Annapurna (23 vs 24 December).
+- Drik's own general Panchang page explains that Hindu dates depend on local sunrise and a calendar for one city is not automatically valid for another: https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
+- The Siddhividyā dataset now records these explicit cross-location discrepancies and has status `cross-location-discrepancies-found-pithoragarh-validation-pending`. Neither Koath nor Washington dates are promoted as Pithoragarh dates.
+- A reliable Pithoragarh-specific Siddhividyā listing could not be retrieved in this pass. Do not guess the dates or use them in runtime. Next validation needs either the location-specific Drik event listing or a reproducible calculation of each observance's tithi/sunrise rule, then comparison against Ganesh Martand.
+- No runtime code, published festival dates, Blogger output or merge state changed.
