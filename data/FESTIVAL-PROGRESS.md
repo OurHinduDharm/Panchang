@@ -567,3 +567,13 @@ Details: [transliteral-vrat-source-audit-draft.md](references/transliteral-vrat-
 - Defined the intended website presentation: decision/result, plain-Hindi reasoning, shastric source, named मतभेद where relevant, and an honest limitation note when a reliable calculation is not possible.
 - The project goal is to implement every rule that can be supported and tested, while presenting unresolved rules as source-backed information rather than inventing a result.
 - Documentation only; runtime, festival data, Blogger output, and PR #33 merge state remain unchanged.
+
+## Festival period / article visibility audit — 2026-10-15
+
+- Added `data/references/festival-period-and-link-visibility-audit-2026-10-15.md` as the focused ledger for intentional display windows, observance periods, date-calculation review and legacy copy.
+- Owner clarified that `festival-101` (Harishayani Ekadashi / Chaturmas) must remain visible from 2026-07-25 through 2026-07-30 inclusive: July 25 is Ekadashi and the article provides the sankalpa; Purnima is the fallback opportunity for users who missed Ekadashi. This is not the duration of the full Chaturmas vrata.
+- Recorded this intent on `festival-101` without overwriting its archived `sourceText`; added a regression test to protect the date span and rationale.
+- Flagged, but did not silently fix, the legacy article-description mismatch (“आषाढ़पूर्णिमा - २९ जुलाई तक” vs owner-confirmed display end July 30).
+- The ledger separates current Navratri and Pitri Paksha link rules from possible future long-duration article cards (Shravan, Paush, Magha, Tulsi Vivah and Shakambhari Navratri).
+- Priority follow-ups include the Ganesh Chaturthi/Jayanti title vs 12-day span (`festival-117`), Gayatri Jayanti vs Ambubachi interval (`festival-087`), and stale 2025 spans (`festival-025`, `festival-032`, `festival-034`).
+- No production/Blogger changes. PR #33 remains Draft; date and observance records remain provisional until separately verified.
