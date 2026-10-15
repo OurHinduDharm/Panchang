@@ -823,3 +823,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - The same source's Vilāsa 13.356 quotes a Padma Purāṇa passage that associates Vañjulī with a half-muhūrta of Trayodaśī. This is not obviously the same trigger as the 13.268 formulation; exact Sanskrit reading, attribution and interval anchor need further review. Vilāsa 12.391–392 separately confirms the broad split between four tithi-shaped Mahādvādaśīs and four nakṣatra-associated ones.
 - Added the comparison and explicit variant warning to `data/references/ekadashi-source-comparison.md` (commit `cc7b20ea8a0ab4481da54bce94b839c286f31ff6`).
 - Outcome: do not add a universal 60/64-daṇḍa threshold or merge these Vaiṣṇava formulations into the scanned Dharmasindhu profile. Unmīlanī and Vañjulī remain research-only; no fast date, pāraṇa, production code or Blogger output changed. CI has not been claimed for this documentation-only commit.
+
+
+## Lal Bahadur Shastri Panchang Jayanti date inputs — 2026-10-16
+
+- Transcribed the owner's supplied list of ten Dashāvatāra Jayantīs and ten Daśa-Mahāvidyā Jayantīs into `data/references/lal-bahadur-shastri-panchang-jayanti-dates-2026.json`.
+- Attribution is recorded as the project owner's excerpt from Lal Bahadur Shastri Panchang. These are source inputs, not independently calculated/verified dates and not production festival rules.
+- Preserved the supplied Gregorian dates and expanded common lunar-month/tithi abbreviations cautiously. Shri Dhumavati's entry only says Jyeshtha Shukla without a tithi number; it is explicitly flagged for source-page confirmation instead of guessing.
+- Preserved Buddha and Kurma Jayanti as separate observances on the same supplied date; also preserved other same-date overlaps between avatar and Mahāvidyā entries.
+- Before runtime use, verify the Panchang edition/year, location and observance convention, and compare any conflicts against the owner's primary Ganesh Martand Panchang. No runtime code, published dates, Blogger output or PR merge status changed.
