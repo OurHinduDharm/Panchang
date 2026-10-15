@@ -213,7 +213,8 @@ function resolveFestivalDate(festival, options) {
       computedDates,
       displayDates: computedDates,
       overrideApplied: false,
-      reason: base.reason || null
+      reason: base.reason || null,
+      note: base.note || null
     };
   }
   return {
@@ -225,7 +226,8 @@ function resolveFestivalDate(festival, options) {
     displayDates: [{ date: override.displayDate, method: "approved-reference-override", overrideId: override.id, source: override.source.title, note: override.note }],
     overrideApplied: true,
     overrideId: override.id,
-    reason: base.reason || null
+    reason: base.reason || null,
+    note: base.note || null
   };
 }
 
