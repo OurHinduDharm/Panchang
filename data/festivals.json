@@ -2844,15 +2844,20 @@
           "event": "ingress"
         },
         "endRule": {
-          "type": "temple-ritual-schedule",
-          "description": "परंपरागत रूप से तीन दिन मंदिर बंद रहने के बाद चौथे दिन स्नान/शुद्धि एवं नित्यपूजा के पश्चात दर्शन खुलते हैं। यह नागरिक-तिथि आधारित अनुमानित कार्यक्रम है; आधिकारिक कामाख्या मंदिर की वार्षिक घोषणा ही अंतिम निवृत्ति/दर्शन समय तय करेगी।",
-          "closedDaysAfterPravrittiDate": 3,
-          "reopeningDayOffset": 4
+          "type": "solar-longitude-boundary",
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "targetLongitudeDegrees": 70,
+          "sign": "Mithuna",
+          "nakshatra": "Ardra",
+          "pada": 1,
+          "event": "egress",
+          "description": "निवृत्ति का खगोलीय क्षण: सूर्य का आर्द्रा प्रथम पाद से निकलकर मिथुन 10°00′ निरयण देशांतर पार करना। मंदिर खुलने के समय से स्वतंत्र।"
         },
         "calendarRule": "प्रवृत्ति की तिथि/समय सूर्य के निरयण देशांतर के 66°40′ पार करने से निकालें। निवृत्ति और दर्शन-प्रारंभ को खगोलीय प्रवेश से स्वतः समान समय-अंतर पर न रखें; आधिकारिक मंदिर सूचना से सत्यापित करें।"
       },
       "description": "अम्बुबाची योग में देवी कामाख्या की वार्षिक ऋतु-परंपरा का स्मरण किया जाता है। प्रवृत्ति सूर्य के आर्द्रा नक्षत्र के प्रथम पाद में प्रवेश से संबंधित है। निवृत्ति तथा मंदिर-दर्शन पुनः आरम्भ होने का समय कामाख्या मंदिर की आधिकारिक सूचना से सत्यापित करें।",
-      "sourceUrl": "https://www.maakamakhya.org/festival",
+      "sourceUrl": "https://www.anandabazar.com/horoscope/time-and-fixture-of-ambubachi-dgtl/cid/1287858",
       "sourceText": {
         "date": "2026-06-25",
         "endDate": "2026-06-26",
@@ -2862,9 +2867,9 @@
       },
       "verificationStatus": "needs-review",
       "reviewNotes": [
-        "Official Kamakhya Devalaya notice for 2026 gives Pravritti as 22 June 2026 at 9:26 PM and says the temple doors close 23–25 June and reopen on 26 June morning after ritual bath and daily puja.",
-        "Independent traditional description links Ambubachi Pravritti to Sun entering the first pada of Ardra; translate this to sidereal solar longitude 66°40′ in Mithuna and verify against the selected ayanamsha/panjika.",
-        "Do not present the temple reopening as an exact astronomical Nivritti instant unless a reliable traditional rule/source for that exact instant is identified.",
+        "Traditional published descriptions define the Ambubachi interval by the Sun's stay in Ardra's first pada, Mithuna 6°40′–10°00′ sidereal longitude; use these as the two calculation boundaries.",
+        "The implementation must calculate both crossings independently with one ephemeris and one ayanamsha; do not infer Nivritti by adding 72 hours or by using temple reopening.",
+        "Compare calculated 2025 and 2026 times with Visuddha Siddhanta and Gupta Press; differences may reflect distinct astronomical conventions and must be documented rather than patched.t unless a reliable traditional rule/source for that exact instant is identified.",
         "2026 values are validation references only, not hard-coded recurring dates."
       ]
     }
