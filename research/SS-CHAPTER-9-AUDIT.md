@@ -920,3 +920,16 @@ The paired fixed-instant test was run in the PR preview at 2026-10-12 12:00 IST,
 - PR #22 remains Draft/unmerged; production `app.js` and `extra-panchang.js` remain unchanged.
 
 **Next gate:** use the source-faithful time/epoch bridge to generate a same-instant classical Sun/planet state, then audit Chapter VII dṛkkarma and Chapter IX event classification against raw same-instant intermediate values. Keep the current Chapter IX K brackets separate from apparent ecliptic-angle crossings; do not certify the event dates until the epoch/frame choice is independently justified.
+
+## Same-instant Venus K discrepancy — 15 October 2026
+
+The headless browser audit re-ran the owner-supplied TKS snapshot at the identical instant **12 October 2026, 12:00 IST (06:30 UTC)** and comparison coordinates **29.5830° N, 80.2090° E, 0 m**:
+
+- Our current Chapter III sign-table K: **12.001454°**; sequential candidate: **11.994638°**.
+- Independent Swiss Ephemeris position input with the same candidate geometry: **12.006133°**; exact analytical oblique-ascension control: **12.015292°**.
+- Owner-supplied TKS K: **7.698°**. Our current-minus-TKS gap is **+4.303454°** (sequential gap +4.296638°).
+- The small sign-table-vs-analytical difference (about 0.014°) and Swiss-vs-current difference (about 0.0047°) indicate that the large gap is not explained by the modern ephemeris input alone. The comparison still lacks TKS's raw intermediate quantities, so it does **not** prove which classical frame, dṛkkarma sequence, or K definition differs.
+- This gap is large enough that the current 11–12 October Venus Asta K bracket must remain a **research candidate**, not a date to publish as verified. The separate apparent ecliptic-angle crossing remains 18–19 October; these are distinct event definitions and must not be merged.
+- Workflow #514 passed, including the same-instant audit, table-derived Chapter III tests, headless browser checks, and the production-file identity check.
+
+**Next action:** acquire/record TKS's same-instant raw Sun/planet longitude, RA/declination, hour angle/half-day angle, Akṣa and Āyana components, and the exact meaning of its displayed K. Compare each stage to the current and sequential source-shaped paths before changing any formula or choosing an event date. No parameter tuning to force a match.
