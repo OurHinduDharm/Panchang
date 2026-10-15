@@ -15,6 +15,7 @@ on:
       - 'ambubachi-calculation.js'
       - 'tests/festival-*.test.js'
       - 'tests/ambubachi-calculation.test.js'
+      - 'tests/ekadashi-*.test.js'
       - 'tests/vrata-*.test.js'
       - 'tests/shravana-dvadashi-*.test.js'
       - '.github/workflows/festival-draft-tests.yml'
@@ -45,4 +46,4 @@ jobs:
       - name: Validate JSON files
         run: node -e "JSON.parse(require('fs').readFileSync('data/festivals.json', 'utf8')); JSON.parse(require('fs').readFileSync('data/festival-schema.json', 'utf8')); JSON.parse(require('fs').readFileSync('data/festival-overrides.json', 'utf8')); JSON.parse(require('fs').readFileSync('data/festival-overrides.schema.json', 'utf8')); console.log('Festival JSON files parse successfully')"
       - name: Run festival, muhurta, and vrata regression tests
-        run: node --test tests/festival-catalog-guardrails.test.js tests/festival-date-resolver.test.js tests/festival-json-widget.test.js tests/festival-season-2026.test.js tests/festival-muhurta-engine.test.js tests/festival-muhurta-rules.test.js tests/festival-muhurta-widget.test.js tests/ambubachi-calculation.test.js tests/vrata-intervals.test.js tests/shravana-dvadashi-duration-branch.test.js tests/shravana-dvadashi-rule-profile.test.js
+        run: node --test tests/festival-catalog-guardrails.test.js tests/festival-date-resolver.test.js tests/festival-json-widget.test.js tests/festival-season-2026.test.js tests/festival-muhurta-engine.test.js tests/festival-muhurta-rules.test.js tests/festival-muhurta-widget.test.js tests/ambubachi-calculation.test.js tests/ekadashi-source-clause-guardrails.test.js tests/vrata-intervals.test.js tests/shravana-dvadashi-duration-branch.test.js tests/shravana-dvadashi-rule-profile.test.js
