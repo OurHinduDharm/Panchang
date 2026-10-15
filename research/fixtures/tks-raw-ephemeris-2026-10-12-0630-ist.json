@@ -32,7 +32,7 @@
   },
   "sun_day": {"rise_h_local":6.144195,"set_h_local":17.705795},
   "derived_checks": {
-    "jd_utc_error_seconds_vs_expected": 0.0000288,
+    "jd_utc_error_seconds_vs_expected": -0.0028512,
     "sun_venus_ecliptic_longitude_difference_deg":18.25876913192436,
     "sun_lahiri_longitude_check_deg":174.49378794047774,
     "venus_lahiri_longitude_check_deg":192.7525570724021
