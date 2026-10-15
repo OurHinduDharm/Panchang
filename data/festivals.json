@@ -69,7 +69,7 @@
         "month": "आश्विन",
         "rule": "प्रतिपदा से नवमी तक नवरात्र; स्थापना के लिए प्रतिपदा और प्रातःकाल/अभिजित आदि नियम अलग से जाँचें।"
       },
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\">शारदीय नवरात्र प्रारम्भ</a> (आश्विन शुक्ल प्रतिपदा) <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">घटस्थापना (संपूर्ण विधि)</a>कलश स्थापना मुहूर्त - 06:19 ए एम से 10:12 ए एम तक। अभिजित मुहूर्त - दिन - 11:32 am से 12:18 pm तक | जहाँ तक संभव हो चित्रा नक्षत्र व वैधृति योग टालकर ही कलश स्थापित करें, टालना असंभव हो तो अभिजित मुहूर्त पर करें। घटस्थापन और पूजा के लिए विशेष शुभ समय अपने शहर के अनुसार - <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\">हमारे पंचांग पृष्ठ में जाकर देखें</a> <br/>*<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a>",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\">शारदीय नवरात्र प्रारम्भ</a> (आश्विन शुक्ल प्रतिपदा) <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">घटस्थापना (संपूर्ण विधि)</a>कलश स्थापना मुहूर्त: चयनित शहर के स्थानीय सूर्योदय, प्रतिपदा-व्याप्ति और नियमों से गणना करके दिखाएँ। अभिजित मुहूर्त वैकल्पिक है; चित्रा नक्षत्र/वैधृति योग के बारे में परंपरा-आधारित चेतावनी दिखाएँ। घटस्थापन और पूजा के लिए विशेष शुभ समय अपने शहर के अनुसार - <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\">हमारे पंचांग पृष्ठ में जाकर देखें</a> <br/>*<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a>",
       "statusText": "नवरात्रि चल रही है",
       "sourceText": {
         "date": "2026-10-11",
@@ -79,7 +79,23 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\">शारदीय नवरात्र प्रारम्भ</a> (आश्विन शुक्ल प्रतिपदा) <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">घटस्थापना (संपूर्ण विधि)</a>कलश स्थापना मुहूर्त - 06:19 ए एम से 10:12 ए एम तक। अभिजित मुहूर्त - दिन - 11:32 am से 12:18 pm तक | जहाँ तक संभव हो चित्रा नक्षत्र व वैधृति योग टालकर ही कलश स्थापित करें, टालना असंभव हो तो अभिजित मुहूर्त पर करें। घटस्थापन और पूजा के लिए विशेष शुभ समय अपने शहर के अनुसार - <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\">हमारे पंचांग पृष्ठ में जाकर देखें</a> <br/>*<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a>"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "muhurtaPlan": {
+        "type": "ghatasthapana",
+        "calculation": "local-dynamic",
+        "requiredInputs": [
+          "sunrise",
+          "sunset",
+          "pratipadaStart",
+          "pratipadaEnd",
+          "abhijitWindow",
+          "chitraInterval",
+          "vaidhritiInterval"
+        ],
+        "ruleProfile": "classical-ghatasthapana-first-third-of-day; abhijit-fallback",
+        "displayLabel": "घटस्थापना मुहूर्त",
+        "status": "needs-calculation"
+      }
     },
     {
       "id": "festival-004",
@@ -313,7 +329,23 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\">कोजागरी पूर्णिमा</a>, <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">लक्ष्मी - कुबेर पूजन</a> , शरद पूर्णिमा। खीर छत पर रखें। कोजागर पूजा, वाल्मीकि जयंती, मीराबाई जयंती। श्री कार्तिकेय जयन्ती।"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "muhurtaPlan": {
+        "type": "sharad-purnima-kheer-moonlight",
+        "calculation": "local-dynamic",
+        "requiredInputs": [
+          "moonrise",
+          "moonsetOrNightEnd",
+          "purnimaStart",
+          "purnimaEnd"
+        ],
+        "displayLabel": "चाँदनी में खीर रखने का समय",
+        "additionalWindows": [
+          "kojagara-puja-nishita"
+        ],
+        "status": "needs-calculation",
+        "foodSafetyNote": "खीर को ढककर रखें और लंबे समय तक असुरक्षित तापमान पर न छोड़ें।"
+      }
     },
     {
       "id": "festival-014",
@@ -376,7 +408,20 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\">'रमा' (रम्भा) एकादशी व्रत</a>"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "muhurtaPlan": {
+        "type": "ekadashi-parana",
+        "calculation": "local-dynamic",
+        "requiredInputs": [
+          "sunrise",
+          "dvadashiStart",
+          "dvadashiEnd",
+          "paranaRule"
+        ],
+        "displayLabel": "रमा एकादशी पारण मुहूर्त",
+        "ruleProfile": "tradition-specific-smarta-vaishnava",
+        "status": "needs-calculation"
+      }
     },
     {
       "id": "festival-017",
@@ -418,7 +463,24 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\">धनतेरस</a>,<a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\">श्रीधन्वन्तरि जयन्ती</a> यमराज के लिए दीपदान प्रारम्भ, गोत्रिरात्र व्रत प्रारम्भ।🪔 विशेष पूजा मुहूर्त= शाम 5.58 - 7.43PM"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "muhurtaPlan": {
+        "type": "dhanteras-puja",
+        "calculation": "local-dynamic",
+        "requiredInputs": [
+          "trayodashiStart",
+          "trayodashiEnd",
+          "sunset",
+          "pradoshWindow",
+          "vrishabhaLagna"
+        ],
+        "displayLabel": "धनतेरस पूजा मुहूर्त",
+        "additionalWindows": [
+          "yama-deepdan",
+          "optional-shopping-window"
+        ],
+        "status": "needs-calculation"
+      }
     },
     {
       "id": "festival-019",
@@ -481,7 +543,24 @@
         "description": "<b><a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\">दीपावली</a></b>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html\" target=\"_blank\">श्री महालक्ष्मी पूजन विधि</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html\" target=\"_blank\">कमला महाविद्या जयंती</a>, <br/><a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">श्री लक्ष्मी स्तोत्राणि</a> <br/> <a href=\"https://www.drikpanchang.com/panchang/day-panchang.html?lang=hi\" target=\"_blank\">आज का पंचांग</a>, 🪔दीपावली मुहूर्तः<a href=\"https://www.drikpanchang.com/festivals/lakshmipuja/festivals-lakshmipuja-timings.html?year=2025\" target=\"_blank\">महालक्ष्मी पूजा का मुहूर्त</a><br/> 🪔⭐ इसी अर्धरात्रि को श्री काली जी का भी पूजन करे। ... <br/> प्रदोष काल- 06:34 PM से 08:06 PM तक<br/> वृषभ काल- 06:54 PM से 08:49 PM तक<br/> निशीथकाल - अर्धरात्रि 11:29 से 12:19 तक<br/> सिंह लग्न मुहूर्त देर रात 1.25 से 3.43 तक। ..."
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "muhurtaPlan": {
+        "type": "diwali-lakshmi-puja",
+        "calculation": "local-dynamic",
+        "requiredInputs": [
+          "amavasyaStart",
+          "amavasyaEnd",
+          "sunset",
+          "pradoshWindow",
+          "vrishabhaLagna",
+          "nishitaWindow"
+        ],
+        "displayLabel": "महालक्ष्मी पूजा मुहूर्त",
+        "additionalWindows": [
+          "nishita-kali-puja"
+        ],
+        "status": "needs-calculation"
+      }
     },
     {
       "id": "festival-022",
