@@ -19,6 +19,7 @@ on:
       - "tests/panchang-card-order.test.js"
       - "tests/compact-ui-night-prahar.test.js"
       - ".github/workflows/classical-yogas-tests.yml"
+      - "data/references/vrata-real-date-crosscheck-2026-10-14.md"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
