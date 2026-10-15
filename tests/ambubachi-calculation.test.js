@@ -84,3 +84,27 @@ test("provisional ritual window keeps three closure dates and a fourth-day reope
 test("ritual window rejects invalid calendar dates", () => {
   assert.throws(() => getAmbubachiRitualWindow("2026-02-30"), /valid calendar date/);
 });
+
+
+(async () => {
+  const startMs = Date.UTC(2026, 5, 20, 0, 0, 0);
+  const longitudeAt = async (date) =>
+    (64 + (date.getTime() - startMs) / 86400000) % 360;
+  const result = await findAmbubachiSolarWindowAsync({
+    start: new Date(startMs),
+    end: new Date(Date.UTC(2026, 5, 30)),
+    longitudeAt,
+    stepHours: 6,
+    toleranceMs: 1000
+  });
+  assert.ok(result && result.pravritti instanceof Date && result.nivritti instanceof Date);
+  assert.ok(result.nivritti > result.pravritti);
+  const expectedPravritti = startMs + (AMBUBACHI_TARGET_LONGITUDE_DEGREES - 64) * 86400000;
+  const expectedNivritti = startMs + (AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES - 64) * 86400000;
+  assert.ok(Math.abs(result.pravritti.getTime() - expectedPravritti) <= 1500);
+  assert.ok(Math.abs(result.nivritti.getTime() - expectedNivritti) <= 1500);
+  process.stdout.write("✓ async ephemeris adapter calculates both Ambubachi boundaries\\n");
+})().catch(error => {
+  process.stderr.write(String(error.stack || error) + "\\n");
+  process.exitCode = 1;
+});
