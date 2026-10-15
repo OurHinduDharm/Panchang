@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "reference-only-location-sensitive-not-runtime",
+  "status": "cross-location-discrepancies-found-pithoragarh-validation-pending",
   "category": "Dwadasha Siddhividya Jayanti",
   "source": {
     "title": "Drik Panchang — 2026 Dwadasha Siddhividya Jayanti",
@@ -79,6 +79,30 @@
     "Dates are transcribed from the cited Drik Panchang 2026 listing, not independently recalculated.",
     "Do not treat this as a transcription from Lal Bahadur Shastri Panchang; it is a separate source dataset.",
     "Before runtime use, verify each observance for Pithoragarh and compare with the project's primary Ganesh Martand Panchang.",
-    "Keep this category distinct from Dashamahavidya Jayanti data. The same deity names may have other Jayanti traditions; preserve the source's category and tithi rather than merging by name alone."
-  ]
+    "Keep this category distinct from Dashamahavidya Jayanti data. The same deity names may have other Jayanti traditions; preserve the source's category and tithi rather than merging by name alone.",
+    "A second retrieval of the same Drik year-list rendered for Washington, D.C. shows Gayatri Jayanti on 27 August (rather than the Koath listing's 28 August), Vindhyavasini on 3 September (rather than 4 September), and Annapurna on 23 December (rather than 24 December). This demonstrates that the Koath dates must not be treated as universal.",
+    "A Pithoragarh-specific Siddhividya listing could not be reliably retrieved in this check. Do not replace dates with the Washington dates either; keep all twelve entries provisional until a location-specific listing or a reproducible local tithi/sunrise calculation is available."
+  ],
+  "locationComparison": {
+    "sourcePageLocation": "Washington, D.C., United States",
+    "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhividya-jayanti-dates.html?year=2026",
+    "observedDifferencesAgainstOriginalKoathListing": [
+      {
+        "name": "Shri Gayatri Jayanti",
+        "koathDate": "2026-08-28",
+        "washingtonDate": "2026-08-27"
+      },
+      {
+        "name": "Shri Vindhyavasini Jayanti",
+        "koathDate": "2026-09-04",
+        "washingtonDate": "2026-09-03"
+      },
+      {
+        "name": "Shri Annapurna Jayanti",
+        "koathDate": "2026-12-24",
+        "washingtonDate": "2026-12-23"
+      }
+    ],
+    "interpretation": "Observed one-day differences reinforce location/sunrise sensitivity; neither listing alone establishes the correct Pithoragarh date."
+  }
 }
