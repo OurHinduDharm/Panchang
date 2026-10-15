@@ -53,6 +53,18 @@ This is a snapshot of the current draft data, not a claim that every date is wro
 
 Owner-reported dates still to map to a catalog record: Papankusha Ekadashi — 22 Oct; Pradosha — 23 Oct; Ashwini Purnima — 26 Oct. Check for existing records before adding new cards.
 
+## Draft review helper
+
+A first draft-only form is available at `festival-review.html`. It loads the festival catalog and current overrides, then creates one JSON record; it does not write to GitHub or affect the live site.
+
+Short workflow:
+1. Open the page through a working preview/server.
+2. Select festival, enter the Ganesh Martand date and brief reason; add the page number if known.
+3. Copy the generated record.
+4. In `data/festival-overrides.json`, replace the matching record or append it to `overrides`; commit the change.
+
+Privacy note: `noindex` is not access control. The HTML and branch source may be visible because the repository is public. Never enter secrets or private personal details. Keep this page off the production Blogger page.
+
 ## Eventual automation
 
 A queue generator should read the festival catalog, override records and calculated local Panchang. It should sort source conflicts first, then unverified festivals within 30 days, then later records. Each item should show festival, year/date, reason, source/status and GitHub record link. The owner checks flagged items against the hard copy; only explicitly approved exceptions are applied.
