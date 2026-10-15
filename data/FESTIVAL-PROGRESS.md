@@ -879,3 +879,11 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
   - Vindhyavasini — 4 September 2026, both Ghaziabad and Tirupati: https://www.drikpanchang.com/hindu-goddesses/siddhividya/vindhyavasini/goddess-vindhyavasini-jayanti-date.html?time-format=24plushour ; https://www.drikpanchang.com/hindu-goddesses/siddhividya/vindhyavasini/goddess-vindhyavasini-jayanti-date.html?lang=en
 - These checks corroborate those four dates across Indian locations, but none is a direct Pithoragarh result. The other eight entries still have only the original Koath list recorded as date evidence. Dataset status remains `partial-india-city-cross-checks-pithoragarh-validation-pending`.
 - Next step is to try individual Pithoragarh pages and then compare local tithi intervals against Ganesh Martand. No date is being promoted to runtime from this research alone; no production code or Blogger output changed.
+
+
+## Siddhividyā Jayantī working-date decision — 2026-10-16
+
+- Decision: use the Indian Drik Panchang listing as the working date set for the 12 Siddhividya Jayantis; do not spend time finding a separate Pithoragarh page for every entry.
+- Only reopen a date if a concrete discrepancy appears against the printed Ganesh Martand Panchang or the site's own local tithi calculation.
+- Source listing: https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhividya-jayanti-dates.html?year=2026
+- The data remains research-only; it has not been wired into the production Panchang or Blogger output.
