@@ -1051,3 +1051,10 @@ A searchable Sanskrit transcription of Raṅganātha's *Gūḍhārthaprakāśa* 
 
 Source for the Sanskrit commentary: https://vishvasa.github.io/jyotiSham/observation/history/hindu/prakIrNam/ranganAthaH/sUryasiddhAnta/
 Independent textual cross-check: Burgess's VII.10 translation says “declination of the position of the planet increased by three signs”; his explanatory note on VII.11 describes the two-stage Ayana-then-Aksha procedure. The most productive next step is a visual check of the relevant printed commentary page, then a research-only comparison of both candidate calculations against the same event inputs. No production changes.
+
+
+## Follow-up reading of Raṅganātha's geometric explanation
+
+The full VII.10 commentary is now visible in the searchable Sanskrit edition (lines 1860–1863). It goes beyond the short formula gloss: it describes the relation between the *satribhagraha*'s declination/hemisphere and the planet's own signed latitude, and derives the sign of the correction from that geometry. This is evidence in favour of treating “planet + three signs” as a shifted *planetary place*, not automatically as a zero-latitude point on the ecliptic. Accordingly, retaining the original signed ecliptic latitude at longitude +90° is now the stronger working interpretation.
+
+Caution: the commentary's geometric explanation is dense and its terms need to be mapped precisely to the coordinate state used by the modern ephemeris. Before promoting the retained-latitude interpretation, calculate both variants side by side for the same real planetary state and verify the sign cases against the commentary's north/south and east/west geometry. The present implementation's zero-latitude version remains the existing baseline only for reproducibility; it is not the preferred final interpretation. Production files remain untouched.
