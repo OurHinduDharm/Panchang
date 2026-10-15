@@ -960,3 +960,10 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Preview wording no longer calls the annual output a night-midpoint diagnostic or says every date is “not final.” The preview still identifies itself as a test page, not the live site.
 - Updated kalashtami-panchang-adapter.js, kalashtami-preview.html, tests/kalashtami-panchang-adapter.test.js, and data/muhurta-rules.json. CI status endpoint has not exposed a run yet; tests are added but not reported as passed.
 - No production runtime, main branch, Blogger output, or merge state changed.
+## 2026-10-16 — Exact monthly Kalashtami rule
+
+- Replaced the oversimplified “any Pradosh overlap” monthly selector with the explicit Vratraj rule stated on Drik Panchang's Masik Kalashtami page: Krishna Ashtami should prevail for at least one ghati (24 minutes) after Pradosh begins; otherwise choose the date with greater Krishna Ashtami overlap during the night. Source: https://www.drikpanchang.com/vrats/masik-kalashtami-dates.html?year=2027
+- Implementation tests the first 72 minutes after local sunset as the operational Pradosh window and requires at least 24 minutes of Krishna Ashtami overlap. If no date qualifies, it compares overlap from sunset to next sunrise; ties choose the earlier date.
+- Annual Bhairava Jayanti continues to use the separate Dharmasindhu Ashtami Nirnaya Madhyahna/Pradosh tie-breaks, with Madhyahna prioritized as the primary/common rule and the Kaustubha Pradosh rule retained in the stated exceptions. Source: https://www.transliteral.org/pages/z80422041657/view
+- Added unit tests for the one-ghati threshold and night-overlap fallback. CI has not yet reported a run; do not mark the tests passed until a run is available.
+- Draft-only change. No merge, main branch, Blogger template, or live Panchang output changed.
