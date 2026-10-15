@@ -26,6 +26,8 @@ on:
       - "tests/festival-season-2026.test.js"
       - "tests/festival-tithi-diagnostic-2026.test.js"
       - "festival-muhurta-rules.js"
+      - "festival-muhurta-engine.js"
+      - "tests/festival-muhurta-engine.test.js"
       - "tests/festival-muhurta-rules.test.js"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -66,10 +68,14 @@ jobs:
           node --input-type=module --check < app.js
           node --input-type=module --check < extra-panchang.js
           node --check classical-yogas.js
+          node --check festival-muhurta-rules.js
+          node --check festival-muhurta-engine.js
       - name: Run 2026 festival-season data guardrails
         run: node --test tests/festival-season-2026.test.js
       - name: Run reusable festival muhurta rule tests
         run: node --test tests/festival-muhurta-rules.test.js
+      - name: Run location-aware Ghatasthapana engine tests
+        run: node --test tests/festival-muhurta-engine.test.js
       - name: Calculate Pithoragarh festival tithi interval diagnostics
         if: always()
         run: node --test tests/festival-tithi-diagnostic-2026.test.js
