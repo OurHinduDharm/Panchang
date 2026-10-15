@@ -5161,8 +5161,6 @@ rawTksButton.addEventListener("click", async () => {
     const bodySelectionMismatch = captures.some(record => record.body_code_matches_request === false);
     const bodySelectionUnverified = captures.length !== 2 ||
       !captures.every(record => record.body_code_matches_request === true);
-    const selectedDate = document.getElementById("rawTksDate").value;
-    const selectedTime = document.getElementById("rawTksTime").value;
     const expectedJD = expectedJulianDateUtcFromLocal(selectedDate, selectedTime, 5.5);
     const jdToleranceDays = 1 / 86400; // one second
     const jdChecks = captures.map(record => {
