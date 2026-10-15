@@ -169,3 +169,11 @@ The published TKS developer documentation was rechecked before using its ephemer
 Source: https://tksephemeris.com/tks-api (Ephemeris endpoint and “Dates & time zones” / “Reading the answers” documentation).
 
 **Status:** request parameters and expected time are independently checked against the published API contract; live response/body identity remains unverified. No ephemeris values are inferred from the request URL. This does not validate TKS as the final classical method and does not authorize production changes.
+
+### Raw-capture validator refinement (16 October 2026)
+
+Research-only `test-astronomy.html` was updated in two commits:
+- `c25599f7029e5a07363d99f4ac7a6c7140bba722`: require the API's documented `success: true` signal and make missing body identity distinct from an explicit wrong-body response.
+- `c3703784c4d5ae0933c7d0ffcf041d4d8eb3676c`: recognize several possible explicit body-identity fields (including the documented `body` object/name variants) and retain the exact field/value used as evidence. Numeric codes other than Sun=10 or Venus=2 now count as an explicit mismatch instead of being silently treated as “not found”.
+
+This is a diagnostic improvement, not a new astronomical result. The live capture still needs to be run in a browser; no TKS position values or Chapter IX event dates were inferred from the API documentation. Production files remain untouched.
