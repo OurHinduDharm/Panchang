@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ambubachi Solar Boundary Audit — OurHinduDharm</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:0 auto;padding:16px;line-height:1.55;color:#17202a}
+h1{font-size:1.45rem} .note,.result{border:1px solid #d8dee4;border-radius:8px;padding:12px;margin:12px 0}
+button{padding:10px 14px;margin:5px 5px 5px 0;border:1px solid #9aa4af;border-radius:7px;background:#fff;font-size:15px}
+table{border-collapse:collapse;width:100%;margin:10px 0}td,th{border:1px solid #d8dee4;padding:8px;text-align:left}
+small{color:#586069}.ok{color:#146c2e}.warn{color:#8a5a00}.error{color:#b42318}
+</style>
+</head>
+<body>
+<h1>अम्बुबाची प्रवृत्ति–निवृत्ति: खगोलीय सीमा-परीक्षण</h1>
+<p>यह केवल ड्राफ्ट गणना-परीक्षण है। यह मंदिर के खुलने के समय का उपयोग नहीं करता। सूर्य के निरयण देशांतर की दो सीमाएँ अलग-अलग खोजी जाती हैं।</p>
+<div class="note">
+<strong>प्रवृत्ति:</strong> मिथुन 6°40′ = 66°40′ (आर्द्रा प्रथम पाद का आरम्भ)<br>
+<strong>निवृत्ति:</strong> मिथुन 10°00′ = 70°00′ (आर्द्रा प्रथम पाद का अन्त)<br>
+<strong>स्रोत इंजन:</strong> OurHinduDharm Panchang में प्रयुक्त Panchangam-JS का solar longitude; Pithoragarh observer केवल library interface के लिए है। यह पृष्ठ जाँचता है कि library का longitude field इस उपयोग के लिए उपयुक्त है या नहीं।
+</div>
+<div>
+<button id="run2025">2025 की गणना</button>
+<button id="run2026">2026 की गणना</button>
+<button id="runBoth">दोनों वर्ष</button>
+</div>
+<div id="status" class="result">गणना चलाने के लिए वर्ष चुनें।</div>
+<div id="output"></div>
+<p class="note"><strong>प्रकाशित तुलना-संदर्भ:</strong><br>
+2025 विशुद्ध सिद्धान्त: प्रवृत्ति 22 जून लगभग 06:10 IST; निवृत्ति 25 जून 18:10 IST।<br>
+2026 विशुद्ध सिद्धान्त: प्रवृत्ति 22 जून लगभग 12:16 IST; निवृत्ति 25/26 जून मध्यरात्रि लगभग 00:18 IST (बंगाली समय-लेखन में दिन-सीमा स्पष्ट करनी होगी)।<br>
+गुप्त प्रेस के प्रकाशित समय अलग हैं; इसलिए इस परीक्षण में उन्हें दूसरे परम्परागत गणना-परिणाम के रूप में दर्ज किया जाएगा, न कि त्रुटि मानकर जबरन मिलाया जाएगा।
+</p>
+<script src="./ambubachi-calculation.js"></script>
+<script type="module">
+import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+
+const observer = new Observer(29.5828, 80.2182, 1650);
+const cache = new Map();
+const status = document.getElementById("status");
+const output = document.getElementById("output");
+const fmt = d => new Intl.DateTimeFormat("en-IN", {
+  timeZone:"Asia/Kolkata", year:"numeric", month:"short", day:"2-digit",
+  hour:"2-digit", minute:"2-digit", second:"2-digit", hour12:true
+}).format(d) + " IST";
+
+async function solarLongitude(date) {
+  const key = date.getTime();
+  if (cache.has(key)) return cache.get(key);
+  const promise = (async () => {
+    const p = await getPanchangam(date, observer);
+    const sun = p?.planetaryPositions?.sun;
+    const value = Number(sun?.longitude);
+    if (!Number.isFinite(value)) {
+      throw new Error("Panchangam-JS में planetaryPositions.sun.longitude उपलब्ध नहीं है। लौटे हुए डेटा का आकार जाँचें।");
+    }
+    return ((value % 360) + 360) % 360;
+  })();
+  cache.set(key, promise);
+  return promise;
+}
+
+async function runYear(year) {
+  status.className = "result";
+  status.textContent = year + " की गणना चल रही है… इसमें कुछ समय लग सकता है।";
+  const start = new Date(Date.UTC(year, 5, 20, 0, 0, 0));
+  const end = new Date(Date.UTC(year, 5, 29, 0, 0, 0));
+  try {
+    const result = await window.OHDAmbubachiCalculation.findAmbubachiSolarWindowAsync({
+      start, end, longitudeAt: solarLongitude, stepHours:24, toleranceMs:1000
+    });
+    if (!result) throw new Error("दिए गए interval में दोनों सीमाएँ नहीं मिलीं।");
+    const durationHours = (result.nivritti - result.pravritti) / 3600000;
+    const row = `<div class="result"><h2>${year}</h2><table>
+      <tr><th>घटना</th><th>IST समय</th><th>लक्ष्य देशांतर</th></tr>
+      <tr><td>प्रवृत्ति</td><td>${fmt(result.pravritti)}</td><td>66°40′</td></tr>
+      <tr><td>निवृत्ति</td><td>${fmt(result.nivritti)}</td><td>70°00′</td></tr>
+      </table><p>अवधि: ${durationHours.toFixed(3)} घंटे (${(durationHours/24).toFixed(3)} दिन)</p>
+      <small>विधि: ${result.method}; bisection tolerance ≤ 1 सेकंड। इस परिणाम को प्रकाशित करने से पहले 2025/2026 के पंचांग-संदर्भों से मिलान करें।</small></div>`;
+    output.innerHTML = row + output.innerHTML;
+    status.className = "result ok";
+    status.textContent = year + " गणना पूरी हुई। प्रयुक्त unique ephemeris timestamps: " + cache.size;
+  } catch (e) {
+    status.className = "result error";
+    status.textContent = year + " गणना विफल: " + (e?.message || String(e));
+  }
+}
+document.getElementById("run2025").addEventListener("click", () => runYear(2025));
+document.getElementById("run2026").addEventListener("click", () => runYear(2026));
+document.getElementById("runBoth").addEventListener("click", async () => { await runYear(2025); await runYear(2026); });
+</script>
+</body>
+</html>
