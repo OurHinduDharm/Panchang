@@ -15,6 +15,7 @@ on:
       - "tests/vrata-intervals.test.js"
       - "tests/vrata-real-date-diagnostic.test.js"
       - "tests/shravana-dvadashi-rule-profile.test.js"
+      - "tests/shravana-dvadashi-duration-branch.test.js"
       - "tests/classical-yogas-real-panchang-comparison.test.js"
       - "tests/classical-yogas-drik-reference.test.js"
       - "tests/panchang-card-order.test.js"
@@ -66,6 +67,9 @@ jobs:
       - name: Run guarded Shravana-Dvadashi rule-profile tests
         if: always()
         run: node --test tests/shravana-dvadashi-rule-profile.test.js
+      - name: Run conditional Shravana-Dvadashi duration-branch tests
+        if: always()
+        run: node --test tests/shravana-dvadashi-duration-branch.test.js
       - name: Emit fixed-coordinate vrata date diagnostics (not a correctness fixture)
         if: always()
         run: node --test tests/vrata-real-date-diagnostic.test.js
