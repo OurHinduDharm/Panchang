@@ -16,7 +16,8 @@
     "Navratri sadhana display rule: while any of the four principal Navratri period records (Ashwin, Chaitra, Magha Gupt, Ashadha Gupt) is active, show the complete day 1–9 article list together, so a missed day remains accessible; day 10 Dashami immersion link is included separately. This display rule does not assert a universal observance date and does not alter the main Panchang today's-festival logic.",
     "Pitri Paksha article visibility rule: show the Mahalaya Shraddha importance and Tarpan Vidhi links from the start of the configured Pitri Paksha period through Pitri Visarjani Amavasya inclusive. This only controls article visibility; the period records and dates require annual review and do not certify shraddha observance/muhurta.",
     "Owner-approved festival policy updates on 2026-10-15: Tulsi Vivah tithi window; split Kali Chaudas from Narak Chaturdashi per Drik; both Gayatri Jayanti dates; Hanuman Jayanti vs Kameshwari Jayanti; both Ganesh observances; Adyakali on Janmashtami night; add Bhadrakali Jayanti; eclipse cards must link to live local eclipse Panchang and never use placeholder dates.",
-    "Eclipse Panchang URL verified from owner: https://ourhindudharm.blogspot.com/p/grahan-panchang.html; both solar and lunar eclipse cards link to it."
+    "Eclipse Panchang URL verified from owner: https://ourhindudharm.blogspot.com/p/grahan-panchang.html; both solar and lunar eclipse cards link to it.",
+    "Owner decision 2026-10-15: primary Sharadiya Navratri display follows Drik Panchang's general/North Indian rules, not Bengal-specific Durga Puja rules. Mahavidya Jayanti records still need a dedicated record-by-record audit; they must not be described as all fixed yet."
   ],
   "festivals": [
     {
@@ -264,7 +265,10 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a> <br/> १७ अक्टूबर को  मूल नक्षत्र है जो सरस्वती देवी के आवाहन हेतु प्रशस्त है...मूल नक्षत्र में सरस्वती जी का आवाहन करें <br/> १८ अक्टूबर को पूर्वाषाढ़ा नक्षत्र में सरस्वती जी का पूजन करें।"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: use Drik Panchang's general/North Indian Navratri observance rules for the main site; do not apply Bengal-specific Para-Viddha/Durga Puja dates. If a Bengal-specific observance is ever needed, it must be a separately labeled record. Verify the chosen site's date against Drik's Navratri calendar and dedicated Ashtami/Navami pages before release."
+      ]
     },
     {
       "id": "festival-010",
@@ -288,7 +292,10 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a><br/>  <br/>  उत्तराषाढ़ा नक्षत्र में सरस्वती देवी के निमित्त बलिदान।<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">भद्रकाली जयन्ती</a>* सन्धि पूजा प्रारम्भ १०:२७ ए एम पर, सन्धि पूजा समाप्त ११:१५ ए एम पर। सन्धिपूजा मुहूर्त के अंतर्गत भगवती काली की उपासना करे। इस दिन व नवमी को कन्या पूजन का विशेष महत्व है।)"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: use Drik Panchang's general/North Indian Navratri observance rules for the main site; do not apply Bengal-specific Para-Viddha/Durga Puja dates. If a Bengal-specific observance is ever needed, it must be a separately labeled record. Verify the chosen site's date against Drik's Navratri calendar and dedicated Ashtami/Navami pages before release."
+      ]
     },
     {
       "id": "festival-011",
@@ -312,7 +319,10 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। <br/>  श्रवण नक्षत्र में सरस्वती विसर्जन।<br/> नवरात्रि हवन।<a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> ⭐नवरात्र पारण(प्रसाद खाकर व्रत खोलना) - उत्तम तो यह है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः ही व्रत खोलें।"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: use Drik Panchang's general/North Indian Navratri observance rules for the main site; do not apply Bengal-specific Para-Viddha/Durga Puja dates. If a Bengal-specific observance is ever needed, it must be a separately labeled record. Verify the chosen site's date against Drik's Navratri calendar and dedicated Ashtami/Navami pages before release."
+      ]
     },
     {
       "id": "festival-012",
@@ -333,7 +343,10 @@
         "description": "दुर्गा देवी के निमित्त बलिदान आदि करे। <br/> <b>विजयादशमी </b>- शमी पूजा, शस्त्र पूजन, अपराजिता पूजा, नीलकंठ पक्षी का दर्शन शुभ। शस्त्र आदि का पूजन। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\">कलश आदि का विसर्जन।</a>"
       },
       "sourceUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: use Drik Panchang's general/North Indian Navratri observance rules for the main site; do not apply Bengal-specific Para-Viddha/Durga Puja dates. If a Bengal-specific observance is ever needed, it must be a separately labeled record. Verify the chosen site's date against Drik's Navratri calendar and dedicated Ashtami/Navami pages before release."
+      ]
     },
     {
       "id": "festival-013",
