@@ -650,3 +650,11 @@ See data/references/festival-discrepancy-audit-2026-10-15.md for the detailed di
 - Important next implementation step: define and test the override resolver. It must match a stable festival ID + year, validate ISO dates, retain the computed result for audit, expose the chosen source/reason, and never apply `reference-recorded-pending-*` records automatically. After mapping and test coverage, only then change status to approved/applicable.
 - User will compare the published dates against their hard-copy Ganesh Martand Panchang and report any discrepancies. Keep the PR Draft and do not merge or modify live Blogger without explicit approval.
 - Eclipse Panchang URL supplied and confirmed by user: https://ourhindudharm.blogspot.com/p/grahan-panchang.html. The older note above saying URL verification remains required is superseded by this confirmation; browser rendering/routing still needs testing.
+
+
+### First hard-copy reconciliation — Navratri 2026
+
+- Applied the owner's explicit Ganesh Martand date to `festival-011`: Mahanavami / Durga Navami is now 2026-10-19, matching the owner's printed Panchang alongside Mahashtami on 19 October; Vijayadashami remains 20 October.
+- This is a year-specific, owner-reference-checked date. It must not be generalized as a recurring rule for every year.
+- The matching entry in `festival-overrides.json` remains reference-only until the override resolver is built. The current draft festival record itself has been corrected, so the draft calendar data reflects this owner decision.
+- Basic integrity check after adding the override foundation: `festivals.json` parses with 127 records; override JSON parses with 7 records; no duplicate festival IDs, duplicate override IDs, malformed ISO date strings, or mapped IDs missing from the festival catalog were found. This is a lightweight structural check, not the full CI/browser regression suite.
