@@ -100,3 +100,14 @@ Start with Navaratri/Ashtami/Navami/Vijayadashami; continue to Sharad Purnima an
 - Replaced legacy Dhanteras, Sandhi Puja, and Diwali clock-time strings in the draft display descriptions with warnings that 2026 timings must be recalculated. Original source text is retained.
 - Added `tests/festival-season-2026.test.js` and wired it into the GitHub Actions workflow.
 - These are still **draft candidates**, not a claim that every local observance is fully verified. The test suite checks data consistency and stale-muhurta guardrails; it does not itself calculate tithis.
+
+
+## Muhurta feature implementation update
+
+- Added `festival-muhurta-rules.js`, a browser-global/CommonJS-compatible helper for intersecting local astronomical intervals and generating candidate windows for Ghatasthapana, Sharad Purnima moonlight/kheer, Ekadashi parana, and Pradosh/Vrishabha/Nishita puja windows.
+- Added `tests/festival-muhurta-rules.test.js` covering first-third-of-day Ghatasthapana, Abhijit fallback, missing inputs, moonlight/tithi overlap, tradition-constrained parana, and puja-window intersections.
+- Added structured `muhurtaPlan` metadata to festival records 003, 013, 016, 018, and 021.
+- Removed the manually copied Delhi Ghatasthapana clock ranges from the current displayed draft description. The source text remains preserved as provenance.
+- Added guardrails that keep these plans marked `needs-calculation`. The helper combines supplied intervals; it does **not** calculate sunrise, moonrise, tithi, lagna, or muhurta astronomy itself.
+- **Not live yet:** no Blogger renderer currently consumes these `muhurtaPlan` fields, and no city-specific computed times have been certified. The next integration task is to connect the helper to the actual Blogger festival display and supply verified intervals from the Panchang calculation engine. Until then, the draft must not claim these times are calculated or verified.
+- GitHub Actions result is still unavailable from the connected status/run queries; test success is not asserted.
