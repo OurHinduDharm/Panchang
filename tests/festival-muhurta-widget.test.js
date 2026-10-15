@@ -4,6 +4,12 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 
 const source = fs.readFileSync(require.resolve("../festival-muhurta-widget.js"), "utf8");
+const bloggerSource = fs.readFileSync(require.resolve("../data/festivalData-source.txt"), "utf8");
+
+test("Blogger source snapshot loads the festival muhurta widget after rendering cards", () => {
+  assert.match(bloggerSource, /id="dynamicFestivalList"/);
+  assert.match(bloggerSource, /raw\.githubusercontent\.com\/OurHinduDharm\/Panchang\/data\/festival-json-foundation\/festival-muhurta-widget\.js/);
+});
 
 function runWidget(savedLocation) {
   const panelChildren = [];
