@@ -161,10 +161,18 @@
     {
       "id": "all-twelve-sankranti-punyakaal",
       "observanceIds": [
+        "festival-sankranti-mesha",
+        "festival-sankranti-vrishabha",
+        "festival-sankranti-mithuna",
+        "festival-089",
+        "festival-sankranti-simha",
+        "festival-sankranti-kanya",
+        "festival-sankranti-tula",
+        "festival-sankranti-vrishchika",
         "festival-033",
         "festival-038",
-        "festival-089",
-        "festival-092"
+        "festival-sankranti-kumbha",
+        "festival-sankranti-meena"
       ],
       "title": "सभी 12 संक्रान्तियाँ और पुण्यकाल",
       "trigger": {
