@@ -29,3 +29,9 @@ When any one of the four principal Navratri period records is active — Ashwin,
 ## Pitri Paksha article links (draft rule)
 
 While either configured Pitri Paksha boundary record is active, the widget shows the two shared reference links together: **महालय श्राद्धों का महत्व** and **तर्पण विधि**. The active range includes Pratipada through Pitri Visarjani Amavasya, inclusive. Existing article URLs from the archived Blogger source are reused; no new URLs are invented. The rule only controls visibility and does not determine individual shraddha dates or ritual timings. The start/end records must be verified and maintained each year.
+
+## Festival period review ledger
+
+See [the period and article-visibility audit](references/festival-period-and-link-visibility-audit-2026-10-15.md) for the organized review list of multi-day records, possible date/text discrepancies, candidate month-long article cards, and release guardrails.
+
+**Owner-confirmed Chaturmas display decision:** `festival-101` intentionally spans 2026-07-25 through 2026-07-30 inclusive. The Harishayani Ekadashi article offers the sankalpa on July 25; the card remains available through Purnima for users who missed that day. This is an editorial visibility window, not the full four-month duration of Chaturmas. The archived description's “29 July” wording is retained and flagged for separate copy/date review. A regression test protects the configured span.
