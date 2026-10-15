@@ -639,3 +639,14 @@ See data/references/festival-discrepancy-audit-2026-10-15.md for the detailed di
 - Run ambubachi-validation.html in a browser and confirm the project library's sidereal Sun longitude before production integration.
 - Confirm Bhadrakali Jayanti against a stronger panjika or primary source before treating Jyeshtha Krishna Ekadashi as definitive.
 - Validate the chosen 2026 Navratri profile and city-specific Kali Chaudas/Narak Chaturdashi timing before release.
+
+
+## Festival override foundation — 2026-10-15
+
+- Added `data/festival-overrides.json` as a **reference-only foundation** for year-specific, user-verified exceptions. It is deliberately marked `autoApply: false`: the current renderer does not yet read it, so these entries do not change the live site or computed output.
+- Governing policy: Ganesh Martand printed Panchang is the user's primary reference; Drik Panchang is a secondary cross-check when it agrees. A disagreement is not automatically resolved in Drik's favor. Preserve the computed date, record the reference date/reason, and apply an exception only after the data model and renderer are tested.
+- Recorded the user's reported 2026 Ganesh Martand dates: Mahashtami 19 Oct; Durga Navami 19 Oct; Vijayadashami 20 Oct; Papankusha Ekadashi 22 Oct; Pradosha 23 Oct; Kojagari/Sharad Purnima 25 Oct; Ashwini Purnima 26 Oct.
+- Existing IDs were mapped where clear (festival-010, festival-011, festival-012, festival-013). Papankusha Ekadashi, Pradosha, and Ashwini Purnima remain unmapped in the override file until the catalog is audited; do not create duplicate live cards blindly.
+- Important next implementation step: define and test the override resolver. It must match a stable festival ID + year, validate ISO dates, retain the computed result for audit, expose the chosen source/reason, and never apply `reference-recorded-pending-*` records automatically. After mapping and test coverage, only then change status to approved/applicable.
+- User will compare the published dates against their hard-copy Ganesh Martand Panchang and report any discrepancies. Keep the PR Draft and do not merge or modify live Blogger without explicit approval.
+- Eclipse Panchang URL supplied and confirmed by user: https://ourhindudharm.blogspot.com/p/grahan-panchang.html. The older note above saying URL verification remains required is superseded by this confirmation; browser rendering/routing still needs testing.
