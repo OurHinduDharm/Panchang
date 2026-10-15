@@ -59,12 +59,14 @@ function createFestivalMuhurtaEngine({ getPanchangam, Observer, rules }) {
     const chitra = firstOverlappingIndex(p.nakshatras, 13, daylight);
     const vaidhriti = firstOverlappingIndex(p.yogas, 26, daylight);
 
-    // Abhijit is the eighth of fifteen daytime muhurtas; it is a fallback only.
+    // Prefer the pinned Panchang library's Abhijit interval; calculate the
+    // eighth of fifteen daytime muhurtas only as a guarded fallback.
     const daylightMs = sunset.getTime() - sunrise.getTime();
-    const abhijit = {
+    const calculatedAbhijit = {
       start: new Date(sunrise.getTime() + daylightMs * 7 / 15),
       end: new Date(sunrise.getTime() + daylightMs * 8 / 15)
     };
+    const abhijit = asInterval(p?.abhijitMuhurta) || calculatedAbhijit;
 
     const result = rules.ghatasthapanaCandidates({
       sunrise, sunset, pratipada, abhijit, chitra, vaidhriti
