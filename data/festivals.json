@@ -15,7 +15,8 @@
     "2026-10-15 local diagnostic follow-up: festival-014 Kartik month-start candidate is 2026-10-26 under the project's Purnimanta convention because the pinned-library Pithoragarh interval shows Ashwin Purnima ending and Krishna Pratipada beginning on 26 October; sourceText retains the legacy 27 October date, and the rule remains needs-review.",
     "Navratri sadhana display rule: while any of the four principal Navratri period records (Ashwin, Chaitra, Magha Gupt, Ashadha Gupt) is active, show the complete day 1–9 article list together, so a missed day remains accessible; day 10 Dashami immersion link is included separately. This display rule does not assert a universal observance date and does not alter the main Panchang today's-festival logic.",
     "Pitri Paksha article visibility rule: show the Mahalaya Shraddha importance and Tarpan Vidhi links from the start of the configured Pitri Paksha period through Pitri Visarjani Amavasya inclusive. This only controls article visibility; the period records and dates require annual review and do not certify shraddha observance/muhurta.",
-    "Owner-approved festival policy updates on 2026-10-15: Tulsi Vivah tithi window; split Kali Chaudas from Narak Chaturdashi per Drik; both Gayatri Jayanti dates; Hanuman Jayanti vs Kameshwari Jayanti; both Ganesh observances; Adyakali on Janmashtami night; add Bhadrakali Jayanti; eclipse cards must link to live local eclipse Panchang and never use placeholder dates."
+    "Owner-approved festival policy updates on 2026-10-15: Tulsi Vivah tithi window; split Kali Chaudas from Narak Chaturdashi per Drik; both Gayatri Jayanti dates; Hanuman Jayanti vs Kameshwari Jayanti; both Ganesh observances; Adyakali on Janmashtami night; add Bhadrakali Jayanti; eclipse cards must link to live local eclipse Panchang and never use placeholder dates.",
+    "Eclipse Panchang URL verified from owner: https://ourhindudharm.blogspot.com/p/grahan-panchang.html; both solar and lunar eclipse cards link to it."
   ],
   "festivals": [
     {
@@ -1371,9 +1372,10 @@
         "renderMode": "eclipse-panchang-link",
         "eventKind": "solar-eclipse",
         "sutakPolicy": "केवल संबंधित ग्रहण, स्थानीय दृश्यता और लागू शास्त्रीय नियम के अनुसार; कोई स्थिर अवधि/तारीख हार्ड-कोड न करें.",
-        "calculationNotes": "पुराना 1970-01-01 केवल placeholder था; अब सक्रिय तारीख के रूप में हटाया गया। ग्रहण समय/दृश्यता का स्रोत eclipse-panchang.js है। ग्रहण-पंचांग का सटीक Blogger URL अभी जोड़ना है।"
+        "calculationNotes": "पुराना 1970-01-01 केवल placeholder था; अब सक्रिय तारीख के रूप में हटाया गया। ग्रहण समय/दृश्यता का स्रोत eclipse-panchang.js है। ग्रहण-पंचांग का सटीक Blogger URL अभी जोड़ना है।",
+        "panchangUrl": "https://ourhindudharm.blogspot.com/p/grahan-panchang.html"
       },
-      "description": "सूर्य ग्रहण की तिथि, आपके स्थान पर दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि जानने के लिए <b>OurHinduDharm ग्रहण पंचांग</b> देखें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\">ग्रहण स्तोत्र एवं पूजन विधि</a>",
+      "description": "सूर्य ग्रहण की तिथि, आपके स्थान पर दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि जानने के लिए <a href=\"https://ourhindudharm.blogspot.com/p/grahan-panchang.html\" target=\"_blank\" rel=\"noopener noreferrer\">OurHinduDharm ग्रहण पंचांग</a> देखें।",
       "sourceText": {
         "date": "1970-01-01",
         "title": "सूर्य ग्रहण (तिथि परिवर्तनशील / प्लेसहोल्डर)",
@@ -1382,8 +1384,10 @@
       "sourceUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
       "verificationStatus": "needs-review",
       "reviewNotes": [
-        "Owner decision 2026-10-15: this was manually updated in the past; remove the 1970 placeholder and direct users to the live eclipse Panchang for current event times, local visibility, and applicable Sutak. Exact public Blogger URL is still needed before a clickable link can be wired."
-      ]
+        "Owner decision 2026-10-15: this was manually updated in the past; remove the 1970 placeholder and direct users to the live eclipse Panchang for current event times, local visibility, and applicable Sutak. Exact public Blogger URL is still needed before a clickable link can be wired.",
+        "Owner supplied exact live Eclipse Panchang URL on 2026-10-15: https://ourhindudharm.blogspot.com/p/grahan-panchang.html. Use this link for local event times, visibility, contact/release and applicable Sutak."
+      ],
+      "panchangUrl": "https://ourhindudharm.blogspot.com/p/grahan-panchang.html"
     },
     {
       "id": "festival-055",
@@ -3013,13 +3017,16 @@
         "renderMode": "eclipse-panchang-link",
         "eventKind": "lunar-eclipse",
         "sutakPolicy": "केवल संबंधित ग्रहण, स्थानीय दृश्यता और लागू शास्त्रीय नियम के अनुसार; कोई स्थिर अवधि/तारीख हार्ड-कोड न करें.",
-        "calculationNotes": "ग्रहण-घटना/स्थानीय दृश्यता eclipse-panchang.js और साझा Panchangam API से निकालें। लाइव Blogger ग्रहण-पंचांग का सटीक URL जोड़ना शेष है।"
+        "calculationNotes": "ग्रहण-घटना/स्थानीय दृश्यता eclipse-panchang.js और साझा Panchangam API से निकालें। लाइव Blogger ग्रहण-पंचांग का सटीक URL जोड़ना शेष है।",
+        "panchangUrl": "https://ourhindudharm.blogspot.com/p/grahan-panchang.html"
       },
-      "description": "चंद्र ग्रहण की तिथि, आपके स्थान पर दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि जानने के लिए <b>OurHinduDharm ग्रहण पंचांग</b> देखें।",
+      "description": "चंद्र ग्रहण की तिथि, आपके स्थान पर दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि जानने के लिए <a href=\"https://ourhindudharm.blogspot.com/p/grahan-panchang.html\" target=\"_blank\" rel=\"noopener noreferrer\">OurHinduDharm ग्रहण पंचांग</a> देखें।",
       "verificationStatus": "needs-review",
       "reviewNotes": [
-        "Owner decision 2026-10-15: create a separate lunar-eclipse card that links to the live eclipse Panchang; remove static placeholder dates and show applicable Sutak only when supported by the location/event rules."
-      ]
+        "Owner decision 2026-10-15: create a separate lunar-eclipse card that links to the live eclipse Panchang; remove static placeholder dates and show applicable Sutak only when supported by the location/event rules.",
+        "Owner supplied exact live Eclipse Panchang URL on 2026-10-15: https://ourhindudharm.blogspot.com/p/grahan-panchang.html. Use this link for local event times, visibility, contact/release and applicable Sutak."
+      ],
+      "panchangUrl": "https://ourhindudharm.blogspot.com/p/grahan-panchang.html"
     }
   ],
   "navratriSadhana": {
