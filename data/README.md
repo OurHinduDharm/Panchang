@@ -19,3 +19,8 @@ This folder is the isolated starting point for moving the existing OurHinduDharm
 ## Current status
 
 **Draft migration in progress.** All 122 legacy entries are retained in `festivals.json`; `sourceText` preserves legacy names, descriptions, dates, end dates and status text for audit. Date candidates and rules are not certified: entries remain `needs-review` until local tithi/astronomical calculations and observance conventions are documented. The JSON-backed widget is isolated on the draft branch and must not be connected to live Blogger until review, tests and explicit approval.
+
+
+## Navratri sadhana links (draft rule)
+
+When any one of the four principal Navratri period records is active — Ashwin, Chaitra, Magha Gupt or Ashadha Gupt — the JSON widget renders a separate sadhana section with the complete Pratipada-to-Navami article links together, plus a separately labeled Dashami immersion link. This intentionally keeps earlier-day sadhana articles available when someone falls one or two days behind. The rule only controls link visibility; it does not prescribe a catch-up ritual, decide observance dates, or modify the Panchang page's independent "today's festival" logic. The dates in the four period records must be maintained/verified for each year before the display rule can activate reliably.
