@@ -345,3 +345,23 @@ A closer re-reading of the cited Dharmasindhu page shows that the short summary 
 Source: https://www.transliteral.org/pages/z80503221630/view (Dharmasindhu, “पारणेचा निर्णय”; displayed Marathi translation). This is a useful searchable transcription, but the final implementation should be checked against the user's reviewed Khemraj edition / source-page image and the Sanskrit passage before treating wording as a final shastric rule.
 
 **Implementation consequence:** do not write a generic “wait until both end” algorithm or apply the 20-ghaṭikā exclusion to every Śravaṇa-Dvādaśī. A future decision helper must accept explicit observance/profile inputs (including whether Vishnu-shrinkhala yoga and the prior-tantra two-fast condition apply), compare Dvādaśī and Śravaṇa end times, preserve Dvādaśī as a hard boundary where the source says so, and label unresolved textual variants instead of guessing. The 2026 September candidate is not yet proof that this special observance/profile applies; establish the vrata identity and yoga conditions first.
+
+
+## Rule-profile guardrails added — 2026-10-15
+
+The separate Dharmasindhu pages were reviewed together, rather than treating the vrata-selection page and the parana-decision page as interchangeable:
+
+- **Vrata identity / Vishnu-shṛṅkhalā conditions:** https://www.transliteral.org/pages/z80503221524/view, “श्रवणद्वादशीव्रत”, especially the displayed Marathi translation around lines 162–169. It describes the Bhādrapada Śukla Dvādaśī–Śravaṇa conjunction, the special Vishnu-shṛṅkhalā case, and observance choices when two consecutive fasts are involved.
+- **Pāraṇa branch:** https://www.transliteral.org/pages/z80503221630/view, “पारणेचा निर्णय”, especially the displayed Marathi translation around lines 164–167. It gives the principal view (after both Dvādaśī and Śravaṇa end), a secondary one-end view, the conditional prior-tantra two-fast branch when Vishnu-shṛṅkhalā applies, and the special middle-20-ghaṭikā discussion.
+
+### Guardrails now covered by a test-only contract file
+
+Added `tests/shravana-dvadashi-rule-profile.test.js` and a workflow step that runs it with `if: always()`, so this isolated guardrail test still executes even if an earlier unrelated regression step fails. The tests verify that:
+- unknown observance identity or unknown Vishnu-shṛṅkhalā status returns “unresolved”, not a guessed answer;
+- the principal and secondary views are kept distinct when Vishnu-shṛṅkhalā is absent;
+- the conditional yoga branch requires an explicit prior-tantra two-fast condition and a duration comparison;
+- if that required condition is not established, the result remains unresolved;
+- the middle-20-ghaṭikā exclusion is not applied to Māgha/Fālguna Krishna-pakṣa Śravaṇa-Dvādaśī; and
+- a non-Śravaṇa-Dvādaśī observance is not processed by this special rule.
+
+These are **rule-selection guardrail tests only**, not a final pāraṇa-time algorithm and not a claim that the 2026 candidate meets the special observance conditions. They do not import or change `app.js`, festival data, or Blogger output. The original Khemraj edition / reviewed source images should still be checked before converting the transcription into user-facing shastric advice or runtime logic.
