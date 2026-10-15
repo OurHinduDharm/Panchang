@@ -303,11 +303,11 @@
       "date": {
         "type": "tithi",
         "start": "2026-10-19",
-        "end": "2026-10-20",
-        "calculationNotes": "Owner-checked against the printed Ganesh Martand Panchang: 19 October 2026 is listed for Durga Navami/Mahanavami alongside Mahashtami. This project follows Ganesh Martand as primary reference; do not replace with a conflicting Drik calendar date without review. Exact tithi boundary and ritual-specific muhurta calculations remain separate.",
+        "end": null,
+        "calculationNotes": "Owner-checked against the printed Ganesh Martand Panchang: 19 October 2026 is listed for Durga Navami/Mahanavami alongside Mahashtami. The displayed observance date is 19 October only; the legacy source endDate of 20 October is preserved under sourceText for provenance, not as an extra display day. Exact tithi boundary and ritual-specific muhurta calculations remain separate.",
         "tithi": "आश्विन शुक्ल नवमी",
         "month": "आश्विन",
-        "rule": "OurHinduDharm 2026 display date follows the owner's Ganesh Martand hard-copy reference: Mahashtami and Durga Navami are both shown on 19 October; Vijayadashami is shown on 20 October. This is a year-specific verified reference date, not a universal rule for all years."
+        "rule": "OurHinduDharm 2026 display date follows the owner's Ganesh Martand hard-copy reference: Mahashtami and Durga Navami are both shown on 19 October; Vijayadashami is shown on 20 October. This is a year-specific reference date, not a universal rule for all years."
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। <br/>  श्रवण नक्षत्र में सरस्वती विसर्जन।<br/> नवरात्रि हवन।<a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> ⭐नवरात्र पारण(प्रसाद खाकर व्रत खोलना) - उत्तम तो यह है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः ही व्रत खोलें।",
       "hidePeriod": true,
