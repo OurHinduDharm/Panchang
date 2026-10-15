@@ -36,7 +36,8 @@
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     return data.festivals.filter(function (item) {
       var start = validDate(item && item.date && item.date.start);
-      var end = validDate(item && item.date && item.date.end) || start;
+      var rawEnd = item && item.date && item.date.end;
+      var end = rawEnd == null || rawEnd === "" ? start : validDate(rawEnd);
       if (!start || !end || end < start) return false;
       var startDiff = Math.floor((start.getTime() - today.getTime()) / DAY_MS);
       var ongoing = today >= start && today <= end;
