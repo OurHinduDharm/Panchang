@@ -50,11 +50,18 @@ function normalize(items, sourceDate, kind) {
 
 test("diagnostic: emit pinned-library tithi/nakshatra intervals for fixed audit coordinates", () => {
   const byKey = new Map();
+  const sunriseElements = [];
   for (const date of DATES) {
     const p = getPanchangam(atISTNoon(date), observer, {
       timezoneOffset: LOCATION.timezoneOffset
     });
     assert.ok(p && typeof p === "object", date + ": no Panchang result");
+    sunriseElements.push({
+      date,
+      sunriseUTC: asTime(p.sunrise),
+      tithi: { index: p.tithi ?? null, name: p.tithiName ?? null, startUTC: asTime(p.tithiStartTime), endUTC: asTime(p.tithiEndTime) },
+      nakshatra: { index: p.nakshatra ?? null, name: p.nakshatraName ?? null, startUTC: asTime(p.nakshatraStartTime), endUTC: asTime(p.nakshatraEndTime) }
+    });
     for (const item of [
       ...normalize(p.tithis, date, "tithi"),
       ...normalize(p.nakshatras, date, "nakshatra")
@@ -109,6 +116,8 @@ test("diagnostic: emit pinned-library tithi/nakshatra intervals for fixed audit 
     stage1MajorCityLocations: CITY_LOCATIONS,
     stage1MajorCityDiagnostics: cityDiagnostics,
     datesQueried: DATES,
+    sunriseElements,
+    intervalSemantics: "tithis/nakshatras arrays are daily sunrise-to-next-sunrise segments; their first segment can be clipped at sunrise. sunriseElements records scalar sunrise-element transition fields separately.",
     externalReferences: {
       note: "Source values are rounded to minutes and Astroica location is 30.2, 80.8; these are comparison references, not correctness assertions.",
       astroica: [
