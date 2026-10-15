@@ -5,8 +5,8 @@ const data = require("../data/festivals.json");
 const byId = Object.fromEntries(data.festivals.map((item) => [item.id, item]));
 
 test("festival catalog retains the 122 legacy IDs plus explicitly added records", () => {
-  assert.equal(data.festivals.length, 127);
-  assert.equal(new Set(data.festivals.map((item) => item.id)).size, 127);
+  assert.equal(data.festivals.length, 130);
+  assert.equal(new Set(data.festivals.map((item) => item.id)).size, 130);
   for (let n = 1; n <= 122; n++) {
     const id = `festival-${String(n).padStart(3, "0")}`;
     assert.ok(byId[id], `legacy record ${id} must remain in the catalog`);
@@ -209,4 +209,23 @@ test("Gayatri Jayanti retains both configured tithi observances and Ambubachi ha
   assert.match(ambubachi.date.calculationNotes, /66°40′/);
   assert.match(ambubachi.date.calendarRule, /आधिकारिक मंदिर सूचना/);
   assert.equal(ambubachi.sourceText.date, "2026-06-25", "preserve imported text dates only as provenance");
+});
+
+
+test("Ganesh Martand October references are mapped without pretending recurring rules are implemented", () => {
+  const papankusha = byId["festival-128"];
+  const pradosha = byId["festival-129"];
+  const ashwini = byId["festival-130"];
+  assert.equal(papankusha.date.start, "2026-10-22");
+  assert.equal(papankusha.date.renderMode, "manual", "Ekadashi vrata date must await tradition-aware decision logic");
+  assert.equal(papankusha.verificationStatus, "owner-reference-checked");
+  assert.equal(pradosha.date.start, "2026-10-23");
+  assert.equal(pradosha.date.renderMode, "manual", "Pradosha requires local sunset/tithi overlap");
+  assert.equal(pradosha.verificationStatus, "owner-reference-checked");
+  assert.equal(ashwini.date.start, "2026-10-26");
+  assert.equal(ashwini.verificationStatus, "needs-review", "keep the distinct Ashwini Purnima label under review");
+  for (const item of [papankusha, pradosha, ashwini]) {
+    assert.ok(item.relatedArticles.every((link) => !link.url), "do not invent article URLs");
+    assert.ok(item.reviewNotes.length, "keep source/decision notes");
+  }
 });
