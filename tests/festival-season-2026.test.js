@@ -130,24 +130,36 @@ test("Hanuman Jayanti is limited to the two OurHinduDharm observances", () => {
 });
 
 
-test("Ganesh Chaturthi and Ganesh Jayanti share one observance entry", () => {
+test("Ganesh Chaturthi and Ganesh Jayanti share one tithi-only start-day notice", () => {
   const ganeshEntries = data.festivals.filter((item) => /गणेश चतुर्थी|गणेश जयंती|गणेश जी की जयंती/.test(item.name || ""));
   const ganesh = byId["festival-117"];
   assert.ok(ganesh, "shared Ganesh observance entry must exist");
-  assert.equal(ganesh.name, "श्री गणेश चतुर्थी / गणेश जयंती");
-  assert.equal(ganesh.date.type, "event-duration");
+  assert.equal(ganesh.name, "श्री गणेश चतुर्थी / गणेश जयंती / गणेशोत्सव प्रारंभ");
+  assert.equal(ganesh.date.type, "tithi");
   assert.equal(ganesh.date.month, "भाद्रपद");
   assert.equal(ganesh.date.paksha, "शुक्ल पक्ष");
-  assert.equal(ganesh.date.startTithi, "शुक्ल चतुर्थी");
-  assert.equal(ganesh.date.endTithi, "शुक्ल चतुर्दशी (अनंत चतुर्दशी)");
-  assert.equal(ganesh.date.durationDays, 10);
-  assert.equal(ganesh.date.renderMode, "panchang-tithi-range");
-  assert.match(ganesh.date.calendarRule, /स्थानीय पंचांग/);
-  assert.match(ganesh.date.calculationNotes, /Anant Chaturdashi is the visarjan day/);
+  assert.equal(ganesh.date.tithi, "शुक्ल चतुर्थी");
+  assert.equal(ganesh.date.renderMode, "panchang-tithi");
+  assert.match(ganesh.date.calendarRule, /दिन-संख्या और बीच की तिथियाँ न दिखाएँ/);
+  assert.match(ganesh.description, /चन्द्रदर्शन का निषेध/);
+  assert.match(ganesh.description, /भूलवश चन्द्रदर्शन हो जाए/);
+  assert.match(ganesh.description, /अपकीर्तिनाशक आख्यान पढ़ें/);
+  assert.match(ganesh.description, /https:\/\/ourhindudharm\.blogspot\.com\/2015\/09\/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel\.html/);
   assert.equal(ganeshEntries.length, 1, "do not create separate entries for the two names");
-  assert.equal(ganesh.sourceText.title, "श्री गणेश जी की जयंती ", "preserve legacy source text");
   assert.equal(ganesh.date.start, null, "do not use a fixed Gregorian start date for recurring tithi display");
   assert.equal(ganesh.date.end, null, "do not use a fixed Gregorian end date for recurring tithi display");
   assert.equal(ganesh.sourceText.date, "2026-09-14", "preserve the legacy date only as provenance");
   assert.equal(ganesh.sourceText.endDate, "2026-09-25", "preserve the legacy end date only as provenance");
+
+  const visarjan = byId["festival-121"];
+  assert.ok(visarjan, "Anant Chaturdashi visarjan entry must exist");
+  assert.equal(visarjan.date.type, "tithi");
+  assert.equal(visarjan.date.month, "भाद्रपद");
+  assert.equal(visarjan.date.paksha, "शुक्ल पक्ष");
+  assert.equal(visarjan.date.tithi, "शुक्ल चतुर्दशी / अनंत चतुर्दशी");
+  assert.equal(visarjan.date.renderMode, "panchang-tithi");
+  assert.equal(visarjan.date.start, null, "visarjan must not rely on a fixed Gregorian date");
+  assert.equal(visarjan.date.end, null);
+  assert.equal(visarjan.description, "इस दिन गणेश विसर्जन है।");
+  assert.equal(visarjan.sourceText.date, "2026-09-25", "preserve legacy date only as provenance");
 });
