@@ -32,7 +32,7 @@ function compareRemainingDurations({ comparisonAt, dvadashiEnd, shravanaEnd }) {
     return {
       status: "rule-profile",
       branch: "shravana-remains-longer",
-      paranaBoundary: "within-dvadashi;-do-not-cross-dvadashi-end",
+      paranaBoundary: "within-dvadashi;do-not-cross-dvadashi-end",
       exactClockTime: null
     };
   }
