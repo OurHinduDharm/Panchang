@@ -796,3 +796,13 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Added `tests/ekadashi-mahadvadashi-fixtures.test.js` to check interval boundaries and preserve these non-default guardrails. The workflow path filter already includes `tests/ekadashi-*.test.js`.
 - Source basis: `data/references/dharmasindhu-image-collation-2026-10-14.md`, Khemraj witness, printed p. 32 / scan image 0055.
 - These are structural regression tests, not proof of shastric correctness. No runtime, festival date, Blogger output, or merge state changed.
+
+
+## Mahadvadashi source comparison update — 2026-10-16
+
+- Added a source-comparison section to `data/references/ekadashi-source-comparison.md`.
+- Trispr̥śā: the scanned Dharmasindhu wording and a separate Marathi Dharmasindhu transcription agree on the structural sequence: Ekādaśī at the first sunrise, Dvādaśī ending before the second sunrise, and Trayodaśī at the second sunrise. The new fixture test now explicitly checks Dvādaśī starts after the first sunrise and ends before the second. This is only a geometry/interval test, not a fast-date or pāraṇa rule.
+- Pakṣavardhinī: the scanned phrase `दर्शस्य पौर्णमास्या वा यदा दिनवृद्धिस्तदा` is visually confirmed. Secondary leads describe (a) Amāvāsyā/Pūrṇimā present at two successive sunrises and (b) a 60-daṇḍa tithi extending into Pratipadā. These are recorded as research leads, not silently equated or promoted to a production predicate.
+- Local Node execution of `tests/ekadashi-mahadvadashi-fixtures.test.js`: **4 passed, 0 failed**. This was a local isolated run using the fixture and test contents; it is not a GitHub Actions result. The latest commits have no Actions run/status exposed by the connected GitHub checks, so CI is not claimed as passed.
+- Updated research note commit: `1f217cdf30f6a756256f7b5f9fa5132762343dfb`. Test-strengthening commit: `b17118aa8e139110e89c3082e31d9d49f97e88ed`.
+- No production runtime, festival dates, Blogger output, or merge state changed.
