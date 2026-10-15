@@ -124,9 +124,10 @@ test("Hanuman Jayanti is limited to the two OurHinduDharm observances", () => {
   assert.equal(chaitra.date.month, "चैत्र");
   assert.match(chaitra.date.rule, /स्वीकृत पहली तिथि: चैत्र शुक्ल पूर्णिमा/);
 
-  assert.equal(kartik.date.tithi, "कृष्ण चतुर्दशी");
+  assert.equal(kartik.date.tithi, "चतुर्दशी");
+  assert.equal(kartik.date.paksha, "कृष्ण पक्ष");
   assert.equal(kartik.date.month, "कार्तिक (पूर्णिमान्त)");
-  assert.match(kartik.date.rule, /स्वीकृत दूसरी तिथि: कार्तिक कृष्ण चतुर्दशी, अर्थात् नरक चतुर्दशी/);
+  assert.match(kartik.date.rule, /कार्तिक कृष्ण चतुर्दशी\/नरक चतुर्दशी/);
 
   for (const item of [chaitra, kartik]) {
     assert.doesNotMatch(item.date.rule, /क्षेत्र\/परंपरा के अनुसार बदलती है/);
@@ -141,13 +142,14 @@ test("Ganesh Chaturthi and Ganesh Jayanti share one tithi-only start-day notice"
   const ganeshEntries = data.festivals.filter((item) => /गणेश चतुर्थी|गणेश जयंती|गणेश जी की जयंती/.test(item.name || ""));
   const ganesh = byId["festival-117"];
   assert.ok(ganesh, "shared Ganesh observance entry must exist");
-  assert.equal(ganesh.name, "श्री गणेश चतुर्थी / गणेश जयंती / गणेशोत्सव प्रारंभ");
+  assert.equal(ganesh.name, "श्री गणेश चतुर्थी (मुख्य) / माघ गणेश जयंती (वैकल्पिक परंपरा)");
   assert.equal(ganesh.date.type, "tithi");
   assert.equal(ganesh.date.month, "भाद्रपद");
   assert.equal(ganesh.date.paksha, "शुक्ल पक्ष");
   assert.equal(ganesh.date.tithi, "शुक्ल चतुर्थी");
   assert.equal(ganesh.date.renderMode, "panchang-tithi");
-  assert.match(ganesh.date.calendarRule, /दिन-संख्या और बीच की तिथियाँ न दिखाएँ/);
+  assert.match(ganesh.date.calendarRule, /माघ शुक्ल चतुर्थी/);
+  assert.match(ganesh.date.calendarRule, /दोनों तिथियों को अलग-अलग दिन प्रदर्शित करें/);
   assert.match(ganesh.description, /चन्द्रदर्शन का निषेध/);
   assert.match(ganesh.description, /भूलवश चन्द्रदर्शन हो जाए/);
   assert.match(ganesh.description, /अपकीर्तिनाशक आख्यान पढ़ें/);
@@ -203,11 +205,12 @@ test("Gayatri Jayanti retains both configured tithi observances and Ambubachi ha
   assert.equal(ambubachi.date.solarEvent.pada, 1);
   assert.equal(ambubachi.date.start, null, "do not hard-code a Gregorian start date");
   assert.equal(ambubachi.date.end, null, "do not hard-code a Gregorian end date");
-  assert.equal(ambubachi.date.endRule.type, "temple-ritual-schedule");
-  assert.equal(ambubachi.date.endRule.closedDaysAfterPravrittiDate, 3);
-  assert.equal(ambubachi.date.endRule.reopeningDayOffset, 4);
+  assert.equal(ambubachi.date.endRule.type, "solar-longitude-boundary");
+  assert.equal(ambubachi.date.endRule.targetLongitudeDegrees, 70);
+  assert.equal(ambubachi.date.endRule.event, "egress");
+  assert.match(ambubachi.date.endRule.description, /मंदिर खुलने के समय से स्वतंत्र/);
   assert.match(ambubachi.date.calculationNotes, /66°40′/);
-  assert.match(ambubachi.date.calendarRule, /आधिकारिक मंदिर सूचना/);
+  assert.match(ambubachi.date.calendarRule, /मंदिर का दर्शन-समय इस गणना का हिस्सा नहीं/);
   assert.equal(ambubachi.sourceText.date, "2026-06-25", "preserve imported text dates only as provenance");
 });
 
