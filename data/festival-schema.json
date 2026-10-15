@@ -256,6 +256,16 @@
                   },
                   "additionalProperties": true
                 }
+              },
+              "alternateMonths": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "string"
+                },
+                "description": "Optional equivalent lunar-month labels for a rule whose month name varies by Amanta/Purnimanta convention."
               }
             },
             "additionalProperties": true
