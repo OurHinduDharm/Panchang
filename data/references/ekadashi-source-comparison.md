@@ -189,3 +189,28 @@ Full online transcription pages located:
 These pages present separate numbered cases rather than a single universal rule. The Vaishnava page distinguishes Arunodaya-vedha from sunrise-vedha, defines Arunodaya as four ghatis before sunrise, and states that “adhikya” in its examples means the tithi continues after sunrise on the next day. It lists different outcomes for Ekadashi-only growth, Dvadashi-only growth, both growth, and neither growth. The Smarta page gives eight examples and preserves disagreement among authorities for some categories, plus practitioner-specific distinctions.
 
 This is an important improvement to the research map, but not yet an implementation specification: the pages are Marathi transcriptions/commentary and do not by themselves settle the printed Sanskrit reading, counting origin for ghati values, exact predicates, or which Smarta sub-opinion our product should adopt. The two-growth outcome aligns with the scan-backed verse in the primary-source audit. Keep 56/60-ghati rules scoped to their named vedha and tradition context; do not combine them into one threshold.
+
+
+## Mahādvādaśī cross-check: Trispr̥śā and Pakṣavardhinī — 2026-10-16
+
+This is a source-comparison note, not a runtime specification.
+
+### Trispr̥śā: the source-shaped interval predicate is clearer
+
+The Khemraj Dharmasindhu scan collation in `dharmasindhu-image-collation-2026-10-14.md` (printed p. 32, image 0055) gives the sequence: Ekādaśī at sunrise, then a kṣaya-going Dvādaśī, and Trayodaśī at the second sunrise, with three tithis touching one ahorātra.
+
+A separate Marathi Dharmasindhu transcription says the same structural sequence and names the three-tithi contact: https://www.transliteral.org/pages/z80422042832/view (section “द्वादशीनिर्णय”, translated summary, lines 87–102 in the retrieved page). A modern Drik Panchang explanation likewise describes Ekādaśī at sunrise, Dvādaśī ending before the next sunrise, and Trayodaśī at the next sunrise: https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi.
+
+**Safe test-level conclusion:** a synthetic fixture may verify (a) Ekādaśī contains the first local sunrise, (b) Dvādaśī starts after that sunrise and ends before the next sunrise, (c) Trayodaśī contains the next sunrise, and (d) all three tithis intersect the sunrise-to-sunrise interval. This tests the shape of the definition only; it must not itself decide Smārta/Vaiṣṇava fast day, fasting capacity, or pāraṇa. The Trispr̥śā definition in the scanned witness is clearer than the consequence/routing policy.
+
+### Pakṣavardhinī: “dinavr̥ddhi” has a plausible lead, but still needs scope review
+
+The scanned Dharmasindhu line reads `दर्शस्य पौर्णमास्या वा यदा दिनवृद्धिस्तदा पक्षवर्धिनी संज्ञा`. The Marathi Dharmasindhu transcription translates this as Pakṣavardhinī when Darśa (Amāvāsyā) or Pūrṇimā has “vr̥ddhi”: https://www.transliteral.org/pages/z80422042832/view.
+
+Two secondary leads provide a more operational description:
+- The *Report of the Calendar Reform Committee* (Government of India / CSIR) says the preceding Dvādaśī is called Pakṣavardhinī when the 15th or 30th tithi is current at sunrise on two successive days: https://dspace.gipe.ac.in/xmlui/bitstream/handle/10973/39692/GIPE-043972.pdf.
+- A web transcription attributed to *Padma Purāṇa, Uttarakhaṇḍa, Pakṣavardhinī* describes Amāvāsyā or Pūrṇimā lasting a full 60 daṇḍas and extending into the following Pratipadā: https://www.mahapuran.com/pakshavardhini-ekadashi-mahadwadashi-2/ (the page attributes its passage to the Gītā Press concise Padma Purāṇa, pp. 639–642).
+
+These formulations may describe closely related geometry, but they are not word-for-word identical. “Dinavr̥ddhi” must not be replaced silently with a generic day-length increase, a boolean from another module, or a 60-daṇḍa threshold without establishing the intended source/profile and the relevant tithi interval. The Padma Purāṇa lead also needs checking against the actual printed passage and context before implementation.
+
+**Current status:** source term visually confirmed; operational predicate **unresolved**. Keep the fixture result unresolved even when a generic day-increase flag is true. Next research step is to compare the actual cited Padma Purāṇa passage with the chosen Dharmasindhu witness and determine whether the definitions are equivalent or tradition-specific. No date-selection rule is approved by this note.
