@@ -162,4 +162,40 @@ test("Ganesh Chaturthi and Ganesh Jayanti share one tithi-only start-day notice"
   assert.equal(visarjan.date.end, null);
   assert.equal(visarjan.description, "इस दिन गणेश विसर्जन है।");
   assert.equal(visarjan.sourceText.date, "2026-09-25", "preserve legacy date only as provenance");
+ 
+test("Gayatri Jayanti is shown only on Shravan Purnima and Ambubachi has a separate solar-event rule", () => {
+  const gayatri = byId["festival-087"];
+  assert.ok(gayatri, "Gayatri Jayanti record must exist");
+  assert.equal(gayatri.name, "वेदमाता गायत्री जयंती");
+  assert.equal(gayatri.date.type, "tithi");
+  assert.equal(gayatri.date.month, "श्रावण");
+  assert.equal(gayatri.date.paksha, "शुक्ल पक्ष");
+  assert.equal(gayatri.date.tithi, "पूर्णिमा");
+  assert.equal(gayatri.date.renderMode, "panchang-tithi");
+  assert.equal(gayatri.date.start, null);
+  assert.equal(gayatri.date.end, null);
+  assert.match(gayatri.date.rule, /केवल श्रावण शुक्ल पूर्णिमा/);
+  assert.match(gayatri.description, /श्रावण पूर्णिमा/);
+  assert.equal(gayatri.sourceText.date, "2026-06-25", "preserve the imported legacy date only as provenance");
+
+  const ambubachi = byId["festival-123"];
+  assert.ok(ambubachi, "Ambubachi must be a separate record");
+  assert.equal(ambubachi.date.type, "solar");
+  assert.equal(ambubachi.date.renderMode, "solar-event");
+  assert.equal(ambubachi.date.solarEvent.body, "Sun");
+  assert.equal(ambubachi.date.solarEvent.longitudeSystem, "sidereal");
+  assert.equal(ambubachi.date.solarEvent.targetLongitudeDegrees, 66.6666666667);
+  assert.equal(ambubachi.date.solarEvent.sign, "Mithuna");
+  assert.equal(ambubachi.date.solarEvent.nakshatra, "Ardra");
+  assert.equal(ambubachi.date.solarEvent.pada, 1);
+  assert.equal(ambubachi.date.start, null, "do not hard-code a Gregorian start date");
+  assert.equal(ambubachi.date.end, null, "do not hard-code a Gregorian end date");
+  assert.equal(ambubachi.date.endRule.type, "temple-ritual-schedule");
+  assert.equal(ambubachi.date.endRule.closedDaysAfterPravrittiDate, 3);
+  assert.equal(ambubachi.date.endRule.reopeningDayOffset, 4);
+  assert.match(ambubachi.date.calculationNotes, /66°40′/);
+  assert.match(ambubachi.date.calendarRule, /आधिकारिक मंदिर सूचना/);
+  assert.equal(ambubachi.sourceText.date, "2026-06-25", "preserve imported text dates only as provenance");
+});
+
 });
