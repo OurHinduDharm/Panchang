@@ -365,3 +365,12 @@ Added `tests/shravana-dvadashi-rule-profile.test.js` and a workflow step that ru
 - a non-Śravaṇa-Dvādaśī observance is not processed by this special rule.
 
 These are **rule-selection guardrail tests only**, not a final pāraṇa-time algorithm and not a claim that the 2026 candidate meets the special observance conditions. They do not import or change `app.js`, festival data, or Blogger output. The original Khemraj edition / reviewed source images should still be checked before converting the transcription into user-facing shastric advice or runtime logic.
+
+
+## CI follow-up — all workflow steps green on 2026-10-15
+
+After the rule-profile tests were added, the compact UI regression suite exposed a stale assertion: it expected the older plain-text `अन्य शास्त्रीय योग (शुभ-अशुभ)` label, while the current UI deliberately wraps “शुभ” and “अशुभ” in colored spans. Updated only the test assertion to accept the existing colored markup; no UI/runtime code was changed for this fix.
+
+GitHub Actions run https://github.com/OurHinduDharm/Panchang/actions/runs/38675784741 completed successfully. Confirmed successful steps include JavaScript syntax checks, Panchang card-order tests, compact UI/night Prahar regression tests, isolated vrata interval contract tests, guarded Śravaṇa-Dvādaśī rule-profile tests, diagnostic JSON generation and upload, and the classical-yoga interval/real-Panchang comparison tests.
+
+This is a passing CI run for the branch at that commit; it does not mean a production pāraṇa algorithm has been implemented. Production `app.js`, festival JSON, legacy dates, and Blogger output remain unchanged.
