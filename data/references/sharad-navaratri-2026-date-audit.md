@@ -2,7 +2,7 @@
 
 **Date reviewed:** 2026-10-15  
 **Branch:** `data/festival-json-foundation`  
-**Status:** Discrepancy report only; no dates were changed.
+**Status:** Draft data updated; final local rule verification remains open.
 
 ## Why this is first priority
 
@@ -50,3 +50,20 @@ These are useful comparison sources, but they do not by themselves settle the sh
 - **Needs explicit local calculation and rule review:** festival-009, festival-010, festival-011, festival-012.
 - **Not approved:** copying old puja/muhurta clock times from the description into 2026, or marking these entries verified solely because a calendar website displays a date.
 - **Next:** finish this compact Navaratri review, then move to Sharad Purnima/Kojagari and the Diwali sequence. Śravaṇa-Dvādaśī research remains separate and must not block this work.
+
+
+## Draft data update (2026-10-15)
+
+The draft data now uses these candidate observance dates:
+
+- कालरात्रि / सप्तमी — 17 October
+- महाष्टमी — 19 October
+- महानवमी — 20 October (with 19 October noted as a regional alternative requiring explicit convention)
+- विजयादशमी — 20 October
+- कोजागरी / शरद पूर्णिमा — 25 October
+- धनतेरस — 6 November
+- नरक चतुर्दशी and दीपावली — 8 November
+- गोवर्धन पूजा — 10 November
+- भ्रातृ द्वितीया — 11 November
+
+These are candidate dates cross-checked against the cited public calendars, not a substitute for local tithi calculation. The data records remain `needs-review`; the old source descriptions are retained for audit, while known stale clock times have been removed from the draft display descriptions. A new regression test file checks the candidate dates, retained source text, and verification status.
