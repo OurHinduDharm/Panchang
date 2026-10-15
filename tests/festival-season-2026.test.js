@@ -4,9 +4,14 @@ const data = require("../data/festivals.json");
 
 const byId = Object.fromEntries(data.festivals.map((item) => [item.id, item]));
 
-test("festival data retains all migrated legacy entries", () => {
-  assert.equal(data.festivals.length, 122);
-  assert.equal(new Set(data.festivals.map((item) => item.id)).size, 122);
+test("festival catalog retains the 122 legacy IDs plus explicitly added records", () => {
+  assert.equal(data.festivals.length, 127);
+  assert.equal(new Set(data.festivals.map((item) => item.id)).size, 127);
+  for (let n = 1; n <= 122; n++) {
+    const id = `festival-${String(n).padStart(3, "0")}`;
+    assert.ok(byId[id], `legacy record ${id} must remain in the catalog`);
+    assert.ok(byId[id].sourceText, `${id} must retain source provenance`);
+  }
 });
 
 test("Navaratri 2026 draft dates are explicit and internally consistent", () => {
@@ -15,11 +20,13 @@ test("Navaratri 2026 draft dates are explicit and internally consistent", () => 
   assert.equal(byId["festival-009"].name, "एवं १८ अक्टूबर को = शारदीय नवरात्र सप्तमी - कालरात्रि");
   assert.equal(byId["festival-009"].date.end, "2026-10-18");
   assert.match(byId["festival-009"].date.calculationNotes, /सटीक तिथि-समाप्ति समय नहीं/);
-  for (const id of ["festival-004", "festival-005", "festival-006", "festival-007", "festival-008", "festival-010"]) {
+  for (const id of ["festival-004", "festival-005", "festival-006", "festival-007", "festival-008", "festival-010", "festival-011"]) {
     assert.equal(byId[id].date.end, null, id + ": daily observance must not inherit the full Navaratri period");
   }
   assert.equal(byId["festival-010"].date.start, "2026-10-19");
-  assert.equal(byId["festival-011"].date.start, "2026-10-20");
+  assert.equal(byId["festival-011"].date.start, "2026-10-19");
+  assert.equal(byId["festival-011"].date.end, null, "Navami should display only on the owner-confirmed 19 October date");
+  assert.equal(byId["festival-011"].sourceText.endDate, "2026-10-20", "retain the old source span for audit only");
   assert.equal(byId["festival-012"].date.start, "2026-10-20");
 });
 
@@ -82,7 +89,7 @@ test("date candidates remain unverified until local rule validation is complete"
     "festival-013", "festival-018", "festival-020", "festival-021",
     "festival-022", "festival-023"
   ]) {
-    assert.equal(byId[id].verificationStatus, "needs-review", id);
+    assert.equal(byId[id].verificationStatus, id === "festival-011" ? "owner-reference-checked" : "needs-review", id);
   }
 });
 
@@ -164,7 +171,7 @@ test("Ganesh Chaturthi and Ganesh Jayanti share one tithi-only start-day notice"
   assert.equal(visarjan.sourceText.date, "2026-09-25", "preserve legacy date only as provenance");
 });
 
-test("Gayatri Jayanti is shown only on Shravan Purnima and Ambubachi has a separate solar-event rule", () => {
+test("Gayatri Jayanti retains both configured tithi observances and Ambubachi has a separate solar-event rule", () => {
   const gayatri = byId["festival-087"];
   assert.ok(gayatri, "Gayatri Jayanti record must exist");
   assert.equal(gayatri.name, "वेदमाता गायत्री जयंती");
