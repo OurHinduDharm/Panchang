@@ -62,6 +62,43 @@
     return active ? config : null;
   }
 
+  function activePitriPakshaArticles(data, now) {
+    var config = data && data.pitriPakshaArticles;
+    if (!config || !Array.isArray(config.activePeriodIds) || !Array.isArray(config.articles)) return null;
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var active = config.activePeriodIds.some(function (id) {
+      var period = data.festivals.find(function (item) { return item && item.id === id; });
+      var start = validDate(period && period.date && period.date.start);
+      var end = validDate(period && period.date && period.date.end) || start;
+      return !!start && !!end && today >= start && today <= end;
+    });
+    return active ? config : null;
+  }
+
+  function appendPitriPakshaArticles(fragment, config) {
+    if (!config || !Array.isArray(config.articles)) return;
+    var section = make("section", "pitri-paksha-articles");
+    section.appendChild(make("div", "pitri-paksha-articles-title", config.title || "पितृपक्ष के लिए उपयोगी लेख"));
+    if (config.description) section.appendChild(make("div", "pitri-paksha-articles-note", config.description));
+    var list = make("ul", "pitri-paksha-articles-list");
+    config.articles.forEach(function (item) {
+      var li = make("li", "pitri-paksha-articles-item");
+      var url = safeHttpUrl(item && item.url);
+      if (url) {
+        var a = make("a", "", item.title || "संबंधित लेख");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        li.appendChild(a);
+      } else {
+        li.appendChild(document.createTextNode((item && item.title) || ""));
+      }
+      list.appendChild(li);
+    });
+    section.appendChild(list);
+    fragment.appendChild(section);
+  }
+
   function appendNavratriSadhana(fragment, config) {
     if (!config || !Array.isArray(config.days)) return;
     var section = make("section", "navratri-sadhana");
@@ -96,6 +133,7 @@
 
     var fragment = document.createDocumentFragment();
     appendNavratriSadhana(fragment, activeNavratriSadhana(data, today));
+    appendPitriPakshaArticles(fragment, activePitriPakshaArticles(data, today));
     upcoming.forEach(function (item) {
       var card = make("article", "festival-card");
       var dateBox = make("div", "festival-date");
@@ -192,7 +230,8 @@
       selectUpcoming: selectUpcoming,
       safeHttpUrl: safeHttpUrl,
       validDate: validDate,
-      activeNavratriSadhana: activeNavratriSadhana
+      activeNavratriSadhana: activeNavratriSadhana,
+      activePitriPakshaArticles: activePitriPakshaArticles
     };
   }
 
