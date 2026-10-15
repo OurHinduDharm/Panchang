@@ -159,7 +159,7 @@ jobs:
           }
           console.log(`${result.passed}/${result.total} Chapter II table-derived rising-asus tests passed`);
           console.log(JSON.stringify({
-            WashingtonCaraEndpoints: result.washington.caraEndpoints.map(p => p.caraArcMinutes),
+            WashingtonCaraEndpoints: result.washington.caraEndpoints.map(p => p.caraArcMinutes),\n            WashingtonTableVsTrig: result.washingtonCrossCheck,
             PithoragarhCaraEndpoints: result.pithoragarh.caraEndpoints.map(p => p.caraArcMinutes),
             PithoragarhRisingAsus: result.pithoragarh.risingAsus
           }));
