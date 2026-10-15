@@ -99,7 +99,7 @@ test("RULE-05: a yoga result without the prior-tantra condition stays unresolved
   });
 });
 
-test("RULE-05: yoga plus prior-tantra profile requires comparing remaining durations; no time is invented", () => {
+test("RULE-06: yoga plus prior-tantra profile requires comparing remaining durations; no time is invented", () => {
   const result = ruleProfile({
     month: "Bhadrapada", paksha: "Shukla", isShravanaDvadashi: true,
     vishnuShrinkhalaYoga: true, priorTantraTwoFast: true
