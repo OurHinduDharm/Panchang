@@ -198,3 +198,35 @@ test("Holashtak resolves an inclusive Falgun Shukla Ashtami-to-Purnima period", 
     "2027-03-15", "2027-03-16", "2027-03-17", "2027-03-18"
   ]);
 });
+
+
+test("all twelve Sankranti records define distinct recurring sidereal solar-ingress boundaries", () => {
+  const sankrantis = catalog.festivals.filter((item) =>
+    item.date && item.date.renderMode === "solar-event" &&
+    item.date.solarEvent && item.date.solarEvent.body === "Sun" &&
+    item.date.solarEvent.longitudeSystem === "sidereal" &&
+    item.date.solarEvent.event === "ingress"
+  );
+  assert.equal(sankrantis.length, 12);
+  assert.deepEqual(
+    sankrantis.map((item) => item.date.solarEvent.targetLongitudeDegrees).sort((a, b) => a - b),
+    [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]
+  );
+  for (const item of sankrantis) {
+    const spec = item.date.solarEvent;
+    const result = resolver.resolveFestivalDate(item, {
+      year: 2027,
+      solarEvents: [{
+        body: spec.body,
+        longitudeSystem: spec.longitudeSystem,
+        event: spec.event,
+        targetLongitudeDegrees: spec.targetLongitudeDegrees,
+        instant: "2027-04-14T09:00:00+05:30",
+        localDate: "2027-04-14"
+      }]
+    });
+    assert.equal(result.status, "matched", item.id);
+    assert.equal(result.displayDates[0].date, "2027-04-14", item.id);
+    assert.equal(result.displayDates[0].instant, "2027-04-14T09:00:00+05:30", item.id);
+  }
+});
