@@ -923,3 +923,13 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Still not connected to `festival-json-widget.js`, Blogger, or production Panchang UI. Run browser preview and automated tests before treating output as valid. No production deployment/merge.
 
 - Follow-up validation setup: the adapter test is now included in the existing Festival Draft Regression Tests workflow, and both push/PR path filters watch the adapter, preview page, and adapter test. Corrected regex escaping in the adapter's string normalization. GitHub's available status endpoint has not yet exposed a completed test run, so the tests must still be treated as pending until Actions confirms success.
+
+
+## Owner-requested Vrat / Muhurat batch — 2026-10-16
+- Added `festival-purnima-vrat-recurring`: monthly Shukla Purnima Vrat, with no fixed Gregorian date.
+- Generalized draft resolver recurrence support from only Krishna Ashtami to configured monthly paksha/tithi rules; added a regression test that Purnima resolves across different lunar month labels and ignores another year's sample.
+- Added `festival-holashtak-recurring`: provisional Falgun Shukla Ashtami-through-Purnima inclusive period, requiring both tithi boundaries. The rule remains `needs-review` until checked against Ganesh Martand and regional practice.
+- Added `data/muhurta-rules.json` and `data/FESTIVAL-MUHURAT-DISPLAY-PLAN.md` for Dhanteras puja, Deepawali/Lakshmi puja, Holashtak, Holika Dahan, and all 12 Sankrantis with Punyakaal.
+- These are calculation/display contracts, not calculated times. Dhanteras/Deepawali/Holika Dahan muhurats and Sankranti Punyakaal remain research-required. Ingress instant must be separate from Punyakaal; no guessed universal offset or fabricated clock time.
+- Added resolver regression tests for monthly Purnima and the Holashtak interval. CI has not yet been confirmed successful; check Actions before relying on tests.
+- No main-branch merge and no live Blogger change.
