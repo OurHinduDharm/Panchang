@@ -96,3 +96,10 @@ However, the *Vrat-Parichay* OCR part 007 describes several competing community-
 ### Safe design conclusion
 
 The engine should store a named, source-cited decision profile rather than a single global vedha constant. The profile must specify the original wording, source edition/page, the reference point (sunrise vs arunodaya), the tradition scope, and how the rule interacts with actual tithi intervals. Until that review is complete, `45`, `55`, `57` and `60` ghati values remain research evidence only and must not drive public dates.
+
+
+### General tithi-vedha passage is not the Ekadashi-specific decision by itself
+
+The online condensed Dharma Sindhu chapter 3 says that the general Dashami-vedha for Ekadashi is fifteen ghatis (see https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=3, around lines 44–47). Chapter 5 separately discusses Ekadashi-specific Smarta/Vaishnava methods and mentions 57/60 ghatis before Arunodaya. These statements use different contexts and reference points in the translation; they must not be combined as if they were one arithmetic threshold. The source edition, exact Sanskrit wording and intended reference interval must be reconciled first.
+
+Research table update: record chapter 3's general fifteen-ghati vedha and chapter 5's Ekadashi-specific statements as separate claims. Neither is yet an approved executable rule.
