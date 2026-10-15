@@ -763,3 +763,10 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Important verification limit: the workflow's test command currently explicitly lists `ekadashi-source-clause-guardrails.test.js` but does not yet invoke the new `ekadashi-harivasara-profile.test.js`. Therefore the passing CI run is **not** evidence that the new Hari-vāsara test file itself ran. Wire the file into the command and rerun before marking it verified.
 - The workflow's `pull_request.paths` filter was also corrected to include `tests/ekadashi-*.test.js`, so Ekadashi test changes can trigger PR checks.
 - No production runtime, festival dates, or Blogger output changed. PR #33 remains draft.
+
+## Ekadashi CI correction (2026-10-16)
+
+- Fixed `.github/workflows/festival-draft-tests.yml` so the test command runs `tests/ekadashi-*.test.js`, including `tests/ekadashi-harivasara-profile.test.js` instead of only the source-clause guardrail file.
+- The workflow path filters already watch `tests/ekadashi-*.test.js`; the command now matches that scope.
+- This is still test-only research code. The Hari-vasara profile is explicitly scoped to the cited Dvadashi-bhuyastva passage and does not select a universal Parana rule or emit a clock time.
+- Next validation: confirm the workflow run triggered by this commit, then add Arunodaya-versus-sunrise boundary fixtures only after checking the existing vrata interval contracts and the source passage. No production date calculation or Blogger output is changed.
