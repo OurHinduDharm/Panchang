@@ -6,6 +6,11 @@ const vm = require("node:vm");
 const source = fs.readFileSync(require.resolve("../festival-muhurta-widget.js"), "utf8");
 const bloggerSource = fs.readFileSync(require.resolve("../data/festivalData-source.txt"), "utf8");
 
+test("Blogger source snapshot limits upcoming festivals to a rolling 14-day horizon", () => {
+  assert.match(bloggerSource, /var DAYS_AHEAD = 14;/);
+  assert.match(bloggerSource, /var isWithinDisplayPeriod =\s*today\.getTime\(\) >= startDate\.getTime\(\) &&\s*today\.getTime\(\) <= lastVisibleDate\.getTime\(\);/);
+});
+
 test("Blogger source snapshot loads the festival muhurta widget after rendering cards", () => {
   assert.match(bloggerSource, /id="dynamicFestivalList"/);
   assert.match(bloggerSource, /raw\.githubusercontent\.com\/OurHinduDharm\/Panchang\/data\/festival-json-foundation\/festival-muhurta-widget\.js/);
