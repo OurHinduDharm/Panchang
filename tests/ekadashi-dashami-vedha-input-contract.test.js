@@ -87,3 +87,20 @@ test("DV-IN-05: reversed or malformed tithi interval stays unresolved", () => {
     reason: "invalid-or-missing-time-input"
   });
 });
+
+
+test("DV-IN-06: observation immediately before tithi start is absent", () => {
+  assert.deepEqual(tithiAt({ start: 100, end: 200 }, 99), { status: "absent" });
+});
+
+test("DV-IN-07: exact tithi start is present", () => {
+  assert.deepEqual(tithiAt({ start: 100, end: 200 }, 100), { status: "present" });
+});
+
+test("DV-IN-08: observation immediately before tithi end is present", () => {
+  assert.deepEqual(tithiAt({ start: 100, end: 200 }, 199), { status: "present" });
+});
+
+test("DV-IN-09: exact tithi end is absent (half-open interval)", () => {
+  assert.deepEqual(tithiAt({ start: 100, end: 200 }, 200), { status: "absent" });
+});
