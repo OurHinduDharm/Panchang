@@ -97,3 +97,15 @@ The initial “suspicious long span” flag is refined after a date/concept cros
 - Drik Panchang's overview distinguishes Bhadrapada Ganesh Chaturthi from Magha-month Ganesh Jayanti traditions: https://www.drikpanchang.com/festivals/ganesh-chaturthi/info/ganesha-chaturthi.html
 
 **Interpretation for our data:** the stored 14–25 September span is plausibly an intentional festival/display window rather than a bad date range, especially because `festival-121` already marks visarjan on 25 September. The unresolved issue is the title: `festival-117` says “श्री गणेश जी की जयंती” while its description links to “श्री गणेश चतुर्थी व्रत”. Do not change the title or span automatically; ask the owner before changing the visible wording. Keep the original `sourceText` untouched.
+
+
+## Hanuman Jayanti date policy — owner clarification (2026-10-15)
+
+OurHinduDharm will list exactly these two observances and will not generalize the website rule to arbitrary regional dates:
+
+1. **चैत्र शुक्ल पूर्णिमा** — first accepted Hanuman Janmotsav observance (`festival-073`).
+2. **कार्तिक कृष्ण चतुर्दशी — नरक चतुर्दशी** (Purnimanta month naming) — second accepted observance (`festival-019`).
+
+References checked: Sanatan Sanstha states that some Panchangs give Kartik Krishna Chaturdashi while others give Chaitra Purnima (https://www.sanatan.org/hindi/a/57.html); Akhand Jyoti also mentions both Chaitra Purnima and Narak Chaturdashi (https://www.awgp.org/en/literature/akhandjyoti/1999/November/v2.37).
+
+Implementation note: the generic rule “तिथि क्षेत्र/परंपरा के अनुसार बदलती है” has been removed from both records and replaced with the two explicit site-approved rules. Historical `sourceText` and imported date strings remain unchanged. `festival-019` still contains a 2025 date and must not be treated as a verified current-year date; `festival-073` also remains `needs-review` until its local tithi boundary is independently checked. This is a policy correction, not a claim that the old date strings have been recalculated.
