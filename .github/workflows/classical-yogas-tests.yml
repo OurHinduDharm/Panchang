@@ -29,6 +29,7 @@ on:
       - "festival-muhurta-engine.js"
       - "festival-muhurta-widget.js"
       - "festival-json-widget.js"
+      - "data/festivalData-source.txt"
       - "tests/festival-json-widget.test.js"
       - "tests/festival-muhurta-widget.test.js"
       - "tests/festival-muhurta-engine.test.js"
@@ -56,6 +57,9 @@ on:
       - "tests/festival-muhurta-rules.test.js"
       - "tests/festival-muhurta-engine.test.js"
       - "festival-muhurta-widget.js"
+      - "festival-json-widget.js"
+      - "tests/festival-json-widget.test.js"
+      - "data/festivalData-source.txt"
       - "tests/festival-muhurta-widget.test.js"
   workflow_dispatch:
 
