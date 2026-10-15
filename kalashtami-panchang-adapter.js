@@ -35,13 +35,13 @@
   function tithiIndex(value) {
     if (value && typeof value === "object") value = value.index ?? value.number ?? value.value ?? value.name;
     if (typeof value === "number" && Number.isInteger(value)) return value;
-    if (typeof value === "string" && /^\\d+$/.test(value.trim())) return Number(value);
+    if (typeof value === "string" && /^\d+$/.test(value.trim())) return Number(value);
     return -1;
   }
   function tithiHindi(value) {
     const index = tithiIndex(value);
     if (index >= 0 && index < TITHI_HINDI.length) return TITHI_HINDI[index];
-    const raw = String(fieldValue(value) || "").toLowerCase().replace(/[\\s_-]+/g, "");
+    const raw = String(fieldValue(value) || "").toLowerCase().replace(/[\s_-]+/g, "");
     return ENGLISH_TITHI[raw] || String(fieldValue(value) || "");
   }
   function pakshaHindi(value, index) {
