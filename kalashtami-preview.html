@@ -24,11 +24,33 @@
   <section class="group"><h2>मासिक कालाष्टमी — सूर्योदय तिथि</h2><div id="monthly"></div></section>
   <section class="group"><h2>वार्षिक कालभैरवाष्टमी — रात-मध्य diagnostic</h2><div id="annual"></div></section>
 </main>
-<script src="https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/festival-date-resolver.js"></script>
-<script src="https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/kalashtami-panchang-adapter.js"></script>
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $ = (id) => document.getElementById(id);
+const DRAFT_ASSET_VERSION = "a33962441a544f4884ba5a0daa3fecdc394d499f";
+function loadClassicScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("ड्राफ्ट स्क्रिप्ट लोड नहीं हुई: " + src.split("?")[0]));
+    document.head.appendChild(script);
+  });
+}
+let draftScriptsPromise;
+function ensureDraftScripts() {
+  if (!draftScriptsPromise) {
+    const base = "https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/";
+    draftScriptsPromise = (async () => {
+      await loadClassicScript(base + "festival-date-resolver.js?v=" + DRAFT_ASSET_VERSION);
+      await loadClassicScript(base + "kalashtami-panchang-adapter.js?v=" + DRAFT_ASSET_VERSION);
+      if (!window.OHDFestivalDateResolver || !window.OHDFestivalPanchangAdapter) {
+        throw new Error("ड्राफ्ट स्क्रिप्ट लोड हुई, लेकिन आवश्यक गणना मॉड्यूल उपलब्ध नहीं है। पेज को refresh करके दोबारा कोशिश करें।");
+      }
+    })();
+  }
+  return draftScriptsPromise;
+}
 const MONTHS = ["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
 function showList(target, dates, label) {
   target.replaceChildren();
@@ -49,11 +71,12 @@ async function run() {
   $("run").disabled = true;
   $("monthly").textContent = ""; $("annual").textContent = "";
   try {
+    await ensureDraftScripts();
     const generated = await window.OHDFestivalPanchangAdapter.buildKalashtamiDays({
       year, latitude:30.1265, longitude:80.4817, elevation:0,
       timezoneOffset:330, getPanchangam, Observer
     });
-    const dataResponse = await fetch("https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/festivals.json",{cache:"no-cache"});
+    const dataResponse = await fetch("https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/festivals.json?v="+DRAFT_ASSET_VERSION,{cache:"no-cache"});
     if (!dataResponse.ok) throw new Error("Festival JSON load failed: "+dataResponse.status);
     const data = await dataResponse.json();
     const monthly = data.festivals.find(item => item.id === "festival-kalashtami-recurring");
