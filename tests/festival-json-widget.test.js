@@ -164,3 +164,9 @@ test("article-topic placeholders render as plain text, never as empty or fake li
     else global.document = previousDocument;
   }
 });
+
+test("PR preview helper offers the isolated festival widget page when present", () => {
+  const helper = fs.readFileSync(require.resolve("../test-pr.html"), "utf8");
+  assert.match(helper, /festival-preview\.html/);
+  assert.match(helper, /त्योहार Widget Preview खोलें/);
+});
