@@ -51,3 +51,10 @@ test("date candidates remain unverified until local rule validation is complete"
     assert.equal(byId[id].verificationStatus, "needs-review", id);
   }
 });
+
+test("Govardhan Puja date conflict stays explicitly unresolved", () => {
+  const govardhan = byId["festival-022"];
+  assert.equal(govardhan.verificationStatus, "needs-review");
+  assert.match(govardhan.date.calculationNotes, /स्थानीय प्रतिपदा-व्याप्ति की पुष्टि शेष/);
+  assert.match(govardhan.date.rule, /स्थानीय परंपरा से निर्णय करें/);
+});
