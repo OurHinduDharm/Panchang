@@ -81,3 +81,100 @@ test("Ghatasthapana adapter validates required date and coordinates", () => {
   assert.equal(result.status, "calculation-unavailable");
   assert.equal(result.window, null);
 });
+
+
+test("Sharad Purnima adapter intersects local moonlight with the actual Purnima interval", () => {
+  let observedLocation;
+  let observedQuery;
+  const panchang = {
+    sunrise: new Date("2026-10-25T00:30:00.000Z"),
+    moonrise: new Date("2026-10-25T11:35:00.000Z"),
+    moonset: new Date("2026-10-25T23:50:00.000Z"),
+    tithis: [
+      { index: 14, startTime: "2026-10-25T06:25:00.000Z", endTime: "2026-10-26T04:10:00.000Z" }
+    ]
+  };
+  const engine = createFestivalMuhurtaEngine({
+    Observer: class {
+      constructor(latitude, longitude, elevation) { observedLocation = { latitude, longitude, elevation }; }
+    },
+    getPanchangam(instant, observer, options) {
+      observedQuery = { instant, options };
+      return panchang;
+    },
+    rules
+  });
+  const result = engine.calculateSharadPurnimaKheer({
+    date: "2026-10-25", latitude: 30.1265, longitude: 80.4817, elevation: 0
+  });
+  assert.deepEqual(observedLocation, { latitude: 30.1265, longitude: 80.4817, elevation: 0 });
+  assert.equal(observedQuery.instant.toISOString(), "2026-10-25T06:30:00.000Z");
+  assert.equal(observedQuery.options.timezoneOffset, 330);
+  assert.equal(result.status, "candidate");
+  assert.equal(result.window.start.toISOString(), panchang.moonrise.toISOString());
+  assert.equal(result.window.end.toISOString(), panchang.moonset.toISOString());
+  assert.deepEqual(result.warnings, []);
+});
+
+test("Sharad Purnima adapter does not invent a window when moonrise or Purnima is missing", () => {
+  const engine = createFestivalMuhurtaEngine({
+    Observer: class {},
+    getPanchangam: () => ({ moonrise: null, moonset: null, tithis: [] }),
+    rules
+  });
+  const result = engine.calculateSharadPurnimaKheer({
+    date: "2026-10-25", latitude: 30.1265, longitude: 80.4817
+  });
+  assert.equal(result.status, "calculation-unavailable");
+  assert.equal(result.window, null);
+  assert.ok(result.warnings.some((warning) => warning.includes("चंद्रोदय")));
+  assert.ok(result.warnings.some((warning) => warning.includes("पूर्णिमा")));
+});
+
+test("Ekadashi parana uses the supplied Dvadashi index and requires a tradition rule for a final result", () => {
+  const panchang = {
+    sunrise: new Date("2026-11-06T00:50:00.000Z"),
+    tithis: [{ index: 26, startTime: "2026-11-06T00:50:00.000Z", endTime: "2026-11-06T06:00:00.000Z" }]
+  };
+  const engine = createFestivalMuhurtaEngine({
+    Observer: class {},
+    getPanchangam: () => panchang,
+    rules
+  });
+  const unresolvedRule = engine.calculateEkadashiParana({
+    date: "2026-11-06", latitude: 30.1265, longitude: 80.4817, dvadashiIndex: 26
+  });
+  assert.equal(unresolvedRule.status, "needs-rule-review");
+  assert.ok(unresolvedRule.warnings.some((warning) => warning.includes("परंपरा-विशिष्ट")));
+
+  const approvedWindow = engine.calculateEkadashiParana({
+    date: "2026-11-06", latitude: 30.1265, longitude: 80.4817, dvadashiIndex: 26,
+    paranaRule: { start: "2026-11-06T01:00:00.000Z", end: "2026-11-06T04:30:00.000Z" }
+  });
+  assert.equal(approvedWindow.status, "candidate");
+  assert.equal(approvedWindow.window.start.toISOString(), "2026-11-06T01:00:00.000Z");
+  assert.equal(approvedWindow.window.end.toISOString(), "2026-11-06T04:30:00.000Z");
+});
+
+test("Puja window adapter only intersects supplied local windows and warns on missing components", () => {
+  const engine = createFestivalMuhurtaEngine({
+    Observer: class {},
+    getPanchangam: () => ({
+      tithis: [{ index: 28, startTime: "2026-11-08T11:00:00.000Z", endTime: "2026-11-09T12:00:00.000Z" }]
+    }),
+    rules
+  });
+  const result = engine.calculatePujaWindows({
+    date: "2026-11-08", latitude: 30.1265, longitude: 80.4817, tithiIndex: 28,
+    intervals: {
+      pradosh: { start: "2026-11-08T12:00:00.000Z", end: "2026-11-08T14:00:00.000Z" },
+      vrishabha: { start: "2026-11-08T12:30:00.000Z", end: "2026-11-08T13:45:00.000Z" }
+    },
+    tradition: "local"
+  });
+  assert.equal(result.status, "candidate");
+  assert.equal(result.pradosh.start.toISOString(), "2026-11-08T12:00:00.000Z");
+  assert.equal(result.vrishabha.end.toISOString(), "2026-11-08T13:45:00.000Z");
+  assert.equal(result.nishita, null);
+  assert.ok(result.warnings.some((warning) => warning.includes("निशीथकाल")));
+});
