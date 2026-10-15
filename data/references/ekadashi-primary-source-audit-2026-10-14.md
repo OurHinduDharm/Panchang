@@ -175,3 +175,10 @@ The Smarta section has a separate eight-example table and records differing view
 ### Next audit task
 
 Transcribe the eight numbered examples into a structured comparison table with the exact tithi durations as printed, but retain the transcription's own wording and mark all expected outcomes provisional until checked against the printed Sanskrit page. Then use one worked local-time example to validate how the duration-based descriptions map to actual tithi boundaries and consecutive sunrises.
+
+
+## Owner clarification — primary source policy (2026-10-15)
+
+The project owner has already supplied the relevant Dharmasindhu and Nirnayasindhu page text, including Dharmasindhu's Ekadashi/parana passage and Nirnayasindhu's Ekadashi-vedha material. Treat those supplied book passages as the project's primary evidence. Do not keep asking for publication-year comparisons or delay the rule extraction merely because editions were printed in different years. Where the owner-provided text is clear, proceed to formalize it. Where a specific Sanskrit reading, compound, antecedent or cross-reference is genuinely ambiguous, point to that exact clause and request only its scan/photo if needed. Existing page images in `data/references/` should be reused; do not ask the owner to upload them again.
+
+This changes the workflow, not the source content: source-backed rules still need explicit scope and tests before production integration. A rule can be documented as text-supported while its executable interpretation remains unresolved; that distinction must be preserved rather than repeatedly reopening edition identity.
