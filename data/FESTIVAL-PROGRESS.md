@@ -778,3 +778,11 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - These are input/routing tests only. They do not decide the fasting date, do not encode 45/55-ghati thresholds, and do not replace verification against the selected printed Dharma Sindhu edition.
 - GitHub Actions run `38801740178` passed the expanded Dashami input-contract suite, and run `38791297863` passed the separate Smarta/Vaishnava profile-routing suite.
 - Production code, published dates, Blogger output and PR merge status remain unchanged.
+
+## Mahadvadashi research catalogue and guardrails — 2026-10-16
+
+- Added `data/ekadashi-mahadvadashi-research.json`, a research-only catalogue preserving all eight Dharma Sindhu names and the four supplied nakshatra pairings: Jaya–Pushya, Vijaya–Shravana, Jayanti–Punarvasu, and Papanashini–Rohini.
+- Each entry records its Sanskrit source line, cautious working meaning, required astronomical/source inputs, and an explicit unresolved/not-operationalized status. The catalogue must not be used to select a vrata date or Parana time.
+- Added `tests/ekadashi-mahadvadashi-catalog.test.js` to guard the eight unique identifiers, the four pairings, source text presence, research-only status, and no-default handling.
+- CI run `38803191588` passed after correcting a test's locale-dependent ordering assumption. The preceding run `38803043493` exposed that test-order issue; it was fixed rather than ignored.
+- This is source cataloguing and automated guardrails only. The exact operational triggers for Unmīlanī, Vañjulī, Trispr̥śā and Pakṣavardhinī remain unresolved; the nakshatra conjunction requirements also need full-context review. No runtime code, public festival dates, Blogger output, or PR merge changed.
