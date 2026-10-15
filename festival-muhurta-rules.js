@@ -1,0 +1,117 @@
+/**
+ * Festival muhurta rule helpers.
+ *
+ * These functions do not calculate astronomy. They combine already-calculated,
+ * timezone-aware local intervals from the Panchang engine. Callers must never
+ * pass a copied time from another city or an unverified interval.
+ */
+"use strict";
+
+function validDate(value) {
+  const date = value instanceof Date ? new Date(value) : new Date(value);
+  return Number.isFinite(date.getTime()) ? date : null;
+}
+
+function interval(start, end) {
+  const s = validDate(start);
+  const e = validDate(end);
+  if (!s || !e || e <= s) return null;
+  return { start: s, end: e };
+}
+
+function intersectIntervals(...values) {
+  const parts = values.map((v) => interval(v?.start, v?.end));
+  if (parts.some((v) => !v)) return null;
+  const start = new Date(Math.max(...parts.map((v) => v.start.getTime())));
+  const end = new Date(Math.min(...parts.map((v) => v.end.getTime())));
+  return end > start ? { start, end } : null;
+}
+
+function daytimeWindow(sunrise, sunset) {
+  return interval(sunrise, sunset);
+}
+
+function ghatasthapanaCandidates({
+  sunrise, sunset, pratipada, abhijit, chitra, vaidhriti
+}) {
+  const day = daytimeWindow(sunrise, sunset);
+  const tithi = interval(pratipada?.start, pratipada?.end);
+  if (!day || !tithi) {
+    return { status: "calculation-unavailable", primary: null, fallback: null, warnings: ["स्थानीय सूर्योदय/सूर्यास्त या प्रतिपदा तिथि-सीमा उपलब्ध नहीं"] };
+  }
+
+  const sunriseDate = day.start;
+  const firstThirdEnd = new Date(
+    sunriseDate.getTime() + (day.end.getTime() - day.start.getTime()) / 3
+  );
+  const firstThird = { start: sunriseDate, end: firstThirdEnd };
+  const primary = intersectIntervals(day, tithi, firstThird);
+  const fallback = abhijit
+    ? intersectIntervals(day, tithi, interval(abhijit.start, abhijit.end))
+    : null;
+  const warnings = [];
+  if (chitra && intersectIntervals(primary || fallback || day, interval(chitra.start, chitra.end))) {
+    warnings.push("चन्द्र नक्षत्र चित्रा का संयोग है; चयनित परंपरा के नियम के अनुसार समीक्षा करें");
+  }
+  if (vaidhriti && intersectIntervals(primary || fallback || day, interval(vaidhriti.start, vaidhriti.end))) {
+    warnings.push("वैधृति योग का संयोग है; चयनित परंपरा के नियम के अनुसार समीक्षा करें");
+  }
+  if (!primary && !fallback) warnings.push("दिए गए नियमों में उपयुक्त समय नहीं मिला; मुहूर्त स्वयं न गढ़ें");
+  return {
+    status: primary ? "candidate" : fallback ? "fallback-candidate" : "no-candidate",
+    primary,
+    fallback,
+    firstThird,
+    warnings
+  };
+}
+
+function moonlightKheerWindow({ moonrise, moonset, purnima, nightEnd }) {
+  const lunarNight = interval(moonrise, moonset || nightEnd);
+  const fullMoon = interval(purnima?.start, purnima?.end);
+  const window = lunarNight && fullMoon ? intersectIntervals(lunarNight, fullMoon) : null;
+  return {
+    status: window ? "candidate" : "calculation-unavailable",
+    window,
+    label: "चाँदनी में खीर रखने का समय",
+    note: "स्थानीय चंद्रोदय और पूर्णिमा-व्याप्ति के आधार पर; यह अलग सार्वभौमिक मुहूर्त नहीं है।"
+  };
+}
+
+function paranaWindow({ dvadashi, sunrise, paranaRule }) {
+  const tithi = interval(dvadashi?.start, dvadashi?.end);
+  const rule = paranaRule ? interval(paranaRule.start, paranaRule.end) : null;
+  const dayStart = validDate(sunrise);
+  if (!tithi || !dayStart) {
+    return { status: "calculation-unavailable", window: null };
+  }
+  const afterSunrise = { start: dayStart, end: tithi.end };
+  const window = rule
+    ? intersectIntervals(tithi, afterSunrise, rule)
+    : intersectIntervals(tithi, afterSunrise);
+  return {
+    status: window ? (rule ? "candidate" : "needs-rule-review") : "no-candidate",
+    window,
+    note: rule ? "दिए गए परंपरा-विशिष्ट पारण नियम से सीमित" : "पारण नियम/परंपरा की पुष्टि आवश्यक"
+  };
+}
+
+function selectPujaWindows({ tithi, pradosh, vrishabha, nishita, tradition }) {
+  const result = {
+    pradosh: tithi && pradosh ? intersectIntervals(tithi, pradosh) : null,
+    vrishabha: tithi && vrishabha ? intersectIntervals(tithi, vrishabha) : null,
+    nishita: tithi && nishita ? intersectIntervals(tithi, nishita) : null,
+    tradition: tradition || "unspecified"
+  };
+  const any = result.pradosh || result.vrishabha || result.nishita;
+  return { status: any ? "candidate" : "calculation-unavailable", ...result };
+}
+
+module.exports = {
+  interval,
+  intersectIntervals,
+  ghatasthapanaCandidates,
+  moonlightKheerWindow,
+  paranaWindow,
+  selectPujaWindows
+};
