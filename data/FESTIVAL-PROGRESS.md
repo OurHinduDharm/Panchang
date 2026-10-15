@@ -832,3 +832,11 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Preserved the supplied Gregorian dates and expanded common lunar-month/tithi abbreviations cautiously. Shri Dhumavati's entry only says Jyeshtha Shukla without a tithi number; it is explicitly flagged for source-page confirmation instead of guessing.
 - Preserved Buddha and Kurma Jayanti as separate observances on the same supplied date; also preserved other same-date overlaps between avatar and Mahāvidyā entries.
 - Before runtime use, verify the Panchang edition/year, location and observance convention, and compare any conflicts against the owner's primary Ganesh Martand Panchang. No runtime code, published dates, Blogger output or PR merge status changed.
+
+
+## Dhumāvatī Jayantī missing tithi digit cross-check — 2026-10-16
+
+- The owner suspected the missing digit in the Lal Bahadur Shastri Panchang excerpt was 8 (Aṣṭamī).
+- Cross-check: Drik Panchang's 2026 Dhumavati Jayanti page explicitly gives 22 June 2026 and Jyeshtha Shukla Ashtami, including tithi start/end; its Jyeshtha 2026 festival list independently repeats the same date/tithi. Other calendar listings corroborate the same pairing.
+- Updated `data/references/lal-bahadur-shastri-panchang-jayanti-dates-2026.json` to record `Jyeshtha Shukla Ashtami`, with a cross-check status and links/description of the evidence. The original Lal Bahadur Shastri printed page is still needed to verify its precise edition/location convention; this is strong corroboration, not a claim to have seen the missing printed digit.
+- No live festival output or production runtime changed. The entry remains reference data pending wider validation.
