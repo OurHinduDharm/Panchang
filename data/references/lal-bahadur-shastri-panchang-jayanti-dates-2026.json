@@ -13,40 +13,193 @@
     ]
   },
   "dashavataraJayantis": [
-    {"name":"Shri Matsya Jayanti","lunarDateAsPrinted":"Chaitra Shukla Tritiya","gregorianDate":"2026-03-21"},
-    {"name":"Shri Rama Jayanti","lunarDateAsPrinted":"Chaitra Shukla Navami","gregorianDate":"2026-03-26"},
-    {"name":"Shri Parashurama Jayanti","lunarDateAsPrinted":"Vaishakha Shukla Tritiya","gregorianDate":"2026-04-19"},
-    {"name":"Shri Narasimha Jayanti","lunarDateAsPrinted":"Vaishakha Shukla Chaturdashi","gregorianDate":"2026-04-30"},
-    {"name":"Shri Buddha Jayanti","lunarDateAsPrinted":"Vaishakha Shukla Purnima","gregorianDate":"2026-05-01","sourceLayoutNote":"The supplied excerpt marks this and the following entry with ditto marks."},
-    {"name":"Shri Kurma Jayanti","lunarDateAsPrinted":"Vaishakha Shukla Purnima","gregorianDate":"2026-05-01","sourceLayoutNote":"The supplied excerpt marks this entry with ditto marks."},
-    {"name":"Shri Kalki Jayanti","lunarDateAsPrinted":"Shravana Shukla Shashthi","gregorianDate":"2026-08-17"},
-    {"name":"Shri Krishna Jayanti","lunarDateAsPrinted":"Bhadrapada Krishna Ashtami","gregorianDate":"2026-09-04"},
-    {"name":"Shri Varaha Jayanti","lunarDateAsPrinted":"Bhadrapada Shukla Tritiya","gregorianDate":"2026-09-13"},
-    {"name":"Shri Vamana Jayanti","lunarDateAsPrinted":"Bhadrapada Shukla Dvadashi","gregorianDate":"2026-09-23"}
+    {
+      "name": "Shri Matsya Jayanti",
+      "lunarDateAsPrinted": "Chaitra Shukla Tritiya",
+      "gregorianDate": "2026-03-21"
+    },
+    {
+      "name": "Shri Rama Jayanti",
+      "lunarDateAsPrinted": "Chaitra Shukla Navami",
+      "gregorianDate": "2026-03-26"
+    },
+    {
+      "name": "Shri Parashurama Jayanti",
+      "lunarDateAsPrinted": "Vaishakha Shukla Tritiya",
+      "gregorianDate": "2026-04-19"
+    },
+    {
+      "name": "Shri Narasimha Jayanti",
+      "lunarDateAsPrinted": "Vaishakha Shukla Chaturdashi",
+      "gregorianDate": "2026-04-30"
+    },
+    {
+      "name": "Shri Buddha Jayanti",
+      "lunarDateAsPrinted": "Vaishakha Shukla Purnima",
+      "gregorianDate": "2026-05-01",
+      "sourceLayoutNote": "The supplied excerpt marks this and the following entry with ditto marks."
+    },
+    {
+      "name": "Shri Kurma Jayanti",
+      "lunarDateAsPrinted": "Vaishakha Shukla Purnima",
+      "gregorianDate": "2026-05-01",
+      "sourceLayoutNote": "The supplied excerpt marks this entry with ditto marks."
+    },
+    {
+      "name": "Shri Kalki Jayanti",
+      "lunarDateAsPrinted": "Shravana Shukla Shashthi",
+      "gregorianDate": "2026-08-17"
+    },
+    {
+      "name": "Shri Krishna Jayanti",
+      "lunarDateAsPrinted": "Bhadrapada Krishna Ashtami",
+      "gregorianDate": "2026-09-04"
+    },
+    {
+      "name": "Shri Varaha Jayanti",
+      "lunarDateAsPrinted": "Bhadrapada Shukla Tritiya",
+      "gregorianDate": "2026-09-13"
+    },
+    {
+      "name": "Shri Vamana Jayanti",
+      "lunarDateAsPrinted": "Bhadrapada Shukla Dvadashi",
+      "gregorianDate": "2026-09-23"
+    }
   ],
   "dashaMahavidyaJayantis": [
-    {"name":"Shri Tara","lunarDateAsPrinted":"Chaitra Shukla Navami","gregorianDate":"2026-03-26"},
-    {"name":"Shri Matangi","lunarDateAsPrinted":"Vaishakha Shukla Tritiya","gregorianDate":"2026-04-19"},
-    {"name":"Shri Bagalamukhi","lunarDateAsPrinted":"Vaishakha Shukla Ashtami","gregorianDate":"2026-04-24"},
-    {"name":"Shri Chhinnamastika","lunarDateAsPrinted":"Vaishakha Shukla Chaturdashi","gregorianDate":"2026-04-30"},
     {
-      "name":"Shri Dhumavati",
-      "lunarDateAsPrinted":"Jyeshtha Shukla Ashtami",
-      "gregorianDate":"2026-06-22",
-      "tithiStatus":"cross-checked-with-independent-2026-panchang-sources",
-      "sourcePageStillNeededForOriginalPrintVerification":true,
-      "crossCheckNote":"Drik Panchang's 2026 Dhumavati Jayanti page and its Jyeshtha festival list identify 22 June 2026 as Jyeshtha Shukla Ashtami. This corroborates the missing tithi digit, but does not prove the exact Lal Bahadur Shastri Panchang edition or location convention."
+      "name": "Shri Tara",
+      "lunarDateAsPrinted": "Chaitra Shukla Navami",
+      "gregorianDate": "2026-03-26"
     },
-    {"name":"Shri Kali","lunarDateAsPrinted":"Bhadrapada Krishna Ashtami","gregorianDate":"2026-09-04"},
-    {"name":"Shri Bhuvaneshwari","lunarDateAsPrinted":"Bhadrapada Shukla Dvadashi","gregorianDate":"2026-09-23"},
-    {"name":"Shri Kamala","lunarDateAsPrinted":"Kartika Krishna Amavasya","gregorianDate":"2026-11-08"},
-    {"name":"Shri Tripura Bhairavi","lunarDateAsPrinted":"Margashirsha Shukla Purnima","gregorianDate":"2026-12-23"},
-    {"name":"Shri Lalita","lunarDateAsPrinted":"Magha Shukla Purnima","gregorianDate":"2027-02-20"}
+    {
+      "name": "Shri Matangi",
+      "lunarDateAsPrinted": "Vaishakha Shukla Tritiya",
+      "gregorianDate": "2026-04-19"
+    },
+    {
+      "name": "Shri Bagalamukhi",
+      "lunarDateAsPrinted": "Vaishakha Shukla Ashtami",
+      "gregorianDate": "2026-04-24"
+    },
+    {
+      "name": "Shri Chhinnamastika",
+      "lunarDateAsPrinted": "Vaishakha Shukla Chaturdashi",
+      "gregorianDate": "2026-04-30"
+    },
+    {
+      "name": "Shri Dhumavati",
+      "lunarDateAsPrinted": "Jyeshtha Shukla Ashtami",
+      "gregorianDate": "2026-06-22",
+      "tithiStatus": "cross-checked-with-independent-2026-panchang-sources",
+      "sourcePageStillNeededForOriginalPrintVerification": true,
+      "crossCheckNote": "Drik Panchang's 2026 Dhumavati Jayanti page and its Jyeshtha festival list identify 22 June 2026 as Jyeshtha Shukla Ashtami. This corroborates the missing tithi digit, but does not prove the exact Lal Bahadur Shastri Panchang edition or location convention."
+    },
+    {
+      "name": "Shri Kali",
+      "lunarDateAsPrinted": "Bhadrapada Krishna Ashtami",
+      "gregorianDate": "2026-09-04"
+    },
+    {
+      "name": "Shri Bhuvaneshwari",
+      "lunarDateAsPrinted": "Bhadrapada Shukla Dvadashi",
+      "gregorianDate": "2026-09-23"
+    },
+    {
+      "name": "Shri Kamala",
+      "lunarDateAsPrinted": "Kartika Krishna Amavasya",
+      "gregorianDate": "2026-11-08"
+    },
+    {
+      "name": "Shri Tripura Bhairavi",
+      "lunarDateAsPrinted": "Margashirsha Shukla Purnima",
+      "gregorianDate": "2026-12-23"
+    },
+    {
+      "name": "Shri Lalita",
+      "lunarDateAsPrinted": "Magha Shukla Purnima",
+      "gregorianDate": "2027-02-20"
+    }
   ],
   "validationNotes": [
     "The owner supplied no year explicitly for dates after September, but the sequence places them in the 2026-2027 cycle; this is preserved as Gregorian dates without asserting a specific Panchang edition.",
     "Shri Dhumavati's missing tithi number is independently corroborated as Shukla Ashtami for 22 June 2026; verify against the original printed page when practical.",
     "Some avatar Jayantis overlap on the same Gregorian date and lunar tithi. Preserve them as distinct observances.",
-    "This file is a reference transcription only. It must not drive live festival output until checked against the physical Panchang and the site's chosen location/tradition."
-  ]
+    "This file is a reference transcription only. It must not drive live festival output until checked against the physical Panchang and the site's chosen location/tradition.",
+    "Added Drik Panchang's separate Dwadasha Siddhividya Jayanti list as location-labelled reference data only. It is not evidence that these dates were printed in the Lal Bahadur Shastri Panchang excerpt and must not drive live output before location-specific and Ganesh Martand cross-check."
+  ],
+  "dwadashaSiddhividyaJayantis": [
+    {
+      "name": "Shri Saraswati Jayanti",
+      "lunarDateAsListedByDrik": "Magha Shukla Panchami",
+      "gregorianDate": "2026-01-23"
+    },
+    {
+      "name": "Shri Kubjika Jayanti",
+      "lunarDateAsListedByDrik": "Vaishakha Krishna Trayodashi",
+      "gregorianDate": "2026-04-15"
+    },
+    {
+      "name": "Shri Siddhilakshmi Jayanti",
+      "lunarDateAsListedByDrik": "Vaishakha Shukla Ekadashi",
+      "gregorianDate": "2026-04-27"
+    },
+    {
+      "name": "Shri Chandika Jayanti",
+      "lunarDateAsListedByDrik": "Vaishakha Shukla Purnima",
+      "gregorianDate": "2026-05-01"
+    },
+    {
+      "name": "Shri Batuka Bhairavi Jayanti",
+      "lunarDateAsListedByDrik": "Jyeshtha Shukla Purnima",
+      "gregorianDate": "2026-06-29"
+    },
+    {
+      "name": "Shri Parvati Jayanti",
+      "lunarDateAsListedByDrik": "Ashadha Shukla Ashtami",
+      "gregorianDate": "2026-07-21"
+    },
+    {
+      "name": "Shri Dakshinamurti Jayanti",
+      "lunarDateAsListedByDrik": "Ashadha Shukla Purnima",
+      "gregorianDate": "2026-07-29"
+    },
+    {
+      "name": "Shri Gayatri Jayanti",
+      "lunarDateAsListedByDrik": "Shravana Shukla Purnima",
+      "gregorianDate": "2026-08-28"
+    },
+    {
+      "name": "Shri Vindhyavasini Jayanti",
+      "lunarDateAsListedByDrik": "Bhadrapada Krishna Ashtami",
+      "gregorianDate": "2026-09-04"
+    },
+    {
+      "name": "Shri Aparajita Jayanti",
+      "lunarDateAsListedByDrik": "Ashwina Shukla Dashami",
+      "gregorianDate": "2026-10-20"
+    },
+    {
+      "name": "Shri Bala Jayanti",
+      "lunarDateAsListedByDrik": "Margashirsha Krishna Chaturdashi",
+      "gregorianDate": "2026-12-07"
+    },
+    {
+      "name": "Shri Annapurna Jayanti",
+      "lunarDateAsListedByDrik": "Margashirsha Shukla Purnima",
+      "gregorianDate": "2026-12-24"
+    }
+  ],
+  "dwadashaSiddhividyaSource": {
+    "title": "Drik Panchang — 2026 Dwadasha Siddhividya Jayanti",
+    "url": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhividya-jayanti-dates.html?year=2026",
+    "locationShownInRetrievedListing": "Koath, Bihar, India",
+    "status": "reference-only-location-sensitive-not-runtime",
+    "notes": [
+      "Drik Panchang lists twelve Siddhividya Jayantis: Saraswati, Kubjika, Siddhilakshmi, Chandika, Batuka Bhairavi, Parvati, Dakshinamurti, Gayatri, Vindhyavasini, Aparajita, Bala and Annapurna.",
+      "Dates and lunar tithis are transcribed from the retrieved Drik Panchang 2026 listing for Koath, Bihar; they are not independently recalculated for Pithoragarh.",
+      "Some dates can vary by location/sunrise convention; the same Drik listing shows Annapurna Jayanti on 24 December 2026, while other location results can show 23 December. Verify for the site's chosen location and compare with the owner's Ganesh Martand Panchang before runtime use.",
+      "This Dwadasha Siddhividya list is distinct from the separate Dashamahavidya list and must not be merged into it."
+    ]
+  }
 }
