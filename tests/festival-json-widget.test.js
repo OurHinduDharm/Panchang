@@ -170,3 +170,56 @@ test("PR preview helper offers the isolated festival widget page when present", 
   assert.match(helper, /festival-preview\.html/);
   assert.match(helper, /त्योहार Widget Preview खोलें/);
 });
+
+test("all nine Navratri sadhana links and Dashami remain visible throughout an active main/Gupt Navratri", () => {
+  const fake = makeFakeDom();
+  const previousDocument = global.document;
+  global.document = fake.document;
+  try {
+    const data = {
+      navratriSadhana: {
+        title: "नवरात्रि साधना — प्रतिपदा से नवमी तक",
+        description: "छूटी हुई साधना का लेख भी खोलें।",
+        activePeriodIds: ["ashwin", "chaitra", "magha-gupt", "ashadha-gupt"],
+        days: Array.from({ length: 9 }, (_, i) => ({
+          day: i + 1, tithi: ["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी"][i],
+          name: "साधना " + (i + 1), url: "https://example.org/day-" + (i + 1)
+        })).concat([{ day: 10, tithi: "दशमी", name: "कलश आदि का विसर्जन", url: "https://example.org/dashami" }]),
+      },
+      festivals: [
+        { id: "ashwin", name: "शारदीय नवरात्र", date: { start: "2026-10-11", end: "2026-10-20" } },
+        { id: "chaitra", date: { start: "2026-03-19", end: "2026-03-27" } },
+        { id: "magha-gupt", date: { start: "2026-01-19", end: "2026-01-27" } },
+        { id: "ashadha-gupt", date: { start: "2026-07-15", end: "2026-07-23" } }
+      ]
+    };
+    widget.render(data, new Date(2026, 9, 18, 12), fake.container);
+    const section = fake.findAll(fake.container, node => node.className === "navratri-sadhana");
+    assert.equal(section.length, 1);
+    const links = fake.findAll(section[0], node => node.tagName === "A");
+    assert.equal(links.length, 10);
+    assert.ok(links.some(a => a.textContent.includes("प्रतिपदा")));
+    assert.ok(links.some(a => a.textContent.includes("नवमी")));
+    assert.ok(links.some(a => a.textContent.includes("दशमी")));
+    assert.equal(links[0].rel, "noopener noreferrer");
+  } finally {
+    if (previousDocument === undefined) delete global.document;
+    else global.document = previousDocument;
+  }
+});
+
+test("Navratri sadhana list is hidden outside all four configured Navratri periods", () => {
+  const fake = makeFakeDom();
+  const previousDocument = global.document;
+  global.document = fake.document;
+  try {
+    widget.render({
+      navratriSadhana: { title: "नवरात्रि साधना", activePeriodIds: ["ashwin"], days: [{ day: 1, tithi: "प्रतिपदा", name: "शैलपुत्री", url: "https://example.org" }] },
+      festivals: [{ id: "ashwin", date: { start: "2026-10-11", end: "2026-10-20" } }]
+    }, new Date(2026, 9, 21, 12), fake.container);
+    assert.equal(fake.findAll(fake.container, node => node.className === "navratri-sadhana").length, 0);
+  } finally {
+    if (previousDocument === undefined) delete global.document;
+    else global.document = previousDocument;
+  }
+});
