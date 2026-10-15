@@ -62,8 +62,8 @@ test("related links are restricted to HTTP(S) and missing URLs render as text", 
   assert.match(source, /festival-period/);
 });
 
-test("Govardhan and Bhai Dooj article titles have no fabricated URLs", () => {
-  for (const id of ["festival-022", "festival-023"]) {
+test("Kartik month, Govardhan and Bhai Dooj article titles have no fabricated URLs", () => {
+  for (const id of ["festival-014", "festival-022", "festival-023"]) {
     const item = data.festivals.find((entry) => entry.id === id);
     assert.ok(item.relatedArticles.some((entry) => entry.title && !entry.url));
   }
