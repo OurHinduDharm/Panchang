@@ -105,3 +105,26 @@ test("festival muhurta plans are dynamic and old Ghatasthapana clock times are n
     assert.equal(byId[id].muhurtaPlan.status, "needs-calculation", id);
   }
 });
+
+
+test("Hanuman Jayanti is limited to the two OurHinduDharm observances", () => {
+  const chaitra = byId["festival-073"];
+  const kartik = byId["festival-019"];
+  assert.ok(chaitra, "Chaitra Purnima record must exist");
+  assert.ok(kartik, "Kartik Krishna Chaturdashi record must exist");
+
+  assert.equal(chaitra.date.tithi, "शुक्ल पूर्णिमा");
+  assert.equal(chaitra.date.month, "चैत्र");
+  assert.match(chaitra.date.rule, /स्वीकृत पहली तिथि: चैत्र शुक्ल पूर्णिमा/);
+
+  assert.equal(kartik.date.tithi, "कृष्ण चतुर्दशी");
+  assert.equal(kartik.date.month, "कार्तिक (पूर्णिमान्त)");
+  assert.match(kartik.date.rule, /स्वीकृत दूसरी तिथि: कार्तिक कृष्ण चतुर्दशी, अर्थात् नरक चतुर्दशी/);
+
+  for (const item of [chaitra, kartik]) {
+    assert.doesNotMatch(item.date.rule, /क्षेत्र\/परंपरा के अनुसार बदलती है/);
+    assert.equal(item.verificationStatus, "needs-review", "preserve date-validation status");
+  }
+  assert.equal(kartik.sourceText.date, "2025-10-19", "preserve the historical source date");
+  assert.equal(chaitra.sourceText.date, "2026-04-02", "preserve the imported source date");
+});
