@@ -23,6 +23,7 @@ on:
       - 'data/festival-overrides.json'
       - 'data/festival-overrides.schema.json'
       - 'festival-json-widget.js'
+      - 'festival-date-resolver.js'
       - 'festival-muhurta-*.js'
       - 'ambubachi-calculation.js'
       - 'tests/festival-*.test.js'
