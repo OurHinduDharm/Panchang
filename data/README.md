@@ -65,7 +65,7 @@ The current override entries are **reference-only**. They do not change festival
 - The resolver remains a tested foundation only. The review HTML form/dashboard and live Blogger integration are deferred until the festival engine and seasonal data pass review.
 
 
-## Muhrta adapter coverage
+## Muhurta adapter coverage
 
 - The injected adapter has regression tests for local moonrise/Purnima intersection, Dvadashi parana constrained by a supplied tradition rule, and puja-window intersections using caller-supplied local intervals.
 - It deliberately does not guess a universal Pradosha duration, synthesize a Parana rule, or treat a solar boundary as a temple reopening time. If required inputs are missing, it returns an unavailable/review status instead of inventing a time.
