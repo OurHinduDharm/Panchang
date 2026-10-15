@@ -95,6 +95,7 @@ test("year-specific override is ignored unless global policy and record are both
   approvedData.policy.autoApply = true;
   const approved = approvedData.overrides.find((item) => item.id === pending.id);
   approved.status = "approved-for-application";
+  approved.decision = "show-on-reference-date";
   const applied = resolver.resolveFestivalDate(papankusha, { year: 2026, overridesData: approvedData });
   assert.equal(applied.overrideApplied, true);
   assert.equal(applied.displayDates[0].date, approved.displayDate);
