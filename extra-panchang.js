@@ -507,6 +507,20 @@ function classifyChapter9HorizonEvent({
   return longitudeGreater ? "west-rising" : "east-setting";
 }
 
+function crossesAngularBoundary(a, b, eventType, thresholdFor) {
+  const ta = thresholdFor(a);
+  const tb = thresholdFor(b);
+  if (!Number.isFinite(ta) || !Number.isFinite(tb) || ta !== tb) return false;
+
+  if (eventType === "asta") {
+    return a.eclipticSeparation > ta && b.eclipticSeparation <= tb;
+  }
+  if (eventType === "udaya") {
+    return a.eclipticSeparation <= ta && b.eclipticSeparation > tb;
+  }
+  return false;
+}
+
 function findNearestAngularBoundary(body, selectedDate, eventType) {
   const selected = getPlanetDailyData(body, selectedDate);
   if (!Number.isFinite(selected.eclipticSeparation)) return null;
@@ -529,21 +543,8 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
     const futureA = getPlanetDailyData(body, futurePrevDate);
     const futureB = getPlanetDailyData(body, futureDate);
 
-    const crossedDown = (a, b) => {
-      const ta = thresholdFor(a);
-      const tb = thresholdFor(b);
-      return Number.isFinite(ta) && Number.isFinite(tb) && ta === tb &&
-        a.eclipticSeparation > ta && b.eclipticSeparation <= tb;
-    };
-
-    const crossedUp = (a, b) => {
-      const ta = thresholdFor(a);
-      const tb = thresholdFor(b);
-      return Number.isFinite(ta) && Number.isFinite(tb) && ta === tb &&
-        a.eclipticSeparation <= ta && b.eclipticSeparation > tb;
-    };
-
-    const matches = eventType === "asta" ? crossedDown : crossedUp;
+    const matches = (a, b) =>
+      crossesAngularBoundary(a, b, eventType, thresholdFor);
 
     // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
     if (matches(pastA, pastB)) {
