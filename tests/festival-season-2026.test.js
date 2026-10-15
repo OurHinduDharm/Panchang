@@ -175,8 +175,13 @@ test("Gayatri Jayanti is shown only on Shravan Purnima and Ambubachi has a separ
   assert.equal(gayatri.date.renderMode, "panchang-tithi");
   assert.equal(gayatri.date.start, null);
   assert.equal(gayatri.date.end, null);
-  assert.match(gayatri.date.rule, /केवल श्रावण शुक्ल पूर्णिमा/);
-  assert.match(gayatri.description, /श्रावण पूर्णिमा/);
+  assert.deepEqual(gayatri.date.alternateObservances.map(({ month, paksha, tithi, renderMode }) => ({ month, paksha, tithi, renderMode })), [
+    { month: "ज्येष्ठ", paksha: "शुक्ल पक्ष", tithi: "एकादशी", renderMode: "panchang-tithi" },
+    { month: "श्रावण", paksha: "शुक्ल पक्ष", tithi: "पूर्णिमा", renderMode: "panchang-tithi" }
+  ]);
+  assert.match(gayatri.date.rule, /दोनों प्रचलित तिथियों/);
+  assert.match(gayatri.description, /ज्येष्ठ शुक्ल एकादशी/);
+  assert.match(gayatri.description, /श्रावण शुक्ल पूर्णिमा/);
   assert.equal(gayatri.sourceText.date, "2026-06-25", "preserve the imported legacy date only as provenance");
 
   const ambubachi = byId["festival-123"];
