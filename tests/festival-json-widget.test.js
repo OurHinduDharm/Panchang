@@ -56,6 +56,9 @@ test("related links are restricted to HTTP(S) and missing URLs render as text", 
   assert.match(source, /Keep the existing legacy-rendered list visible if JSON loading fails/);
   assert.match(source, /new DOMParser\(\)\.parseFromString/);
   assert.match(source, /Preserve existing legacy descriptions and links without injecting raw HTML/);
+  assert.match(source, /आज का पर्व/);
+  assert.match(source, /दिन शेष/);
+  assert.match(source, /festival-period/);
 });
 
 test("Govardhan and Bhai Dooj article titles have no fabricated URLs", () => {
