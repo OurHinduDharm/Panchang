@@ -914,3 +914,10 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Important limitation: this is resolver/data/test support only. The draft upcoming-festival card renderer is **not yet wired** to a real local Panchang-day provider, and this work has not changed Blogger/live output. Do not merge or deploy until a provider adapter and end-to-end preview tests are added.
 
 - Follow-up: added `alternateMonths: ["कार्तिक"]` to the annual Bhairava record and documented it in the schema. The resolver now accepts this equivalent Amanta label as well as the project's Purnimanta `मार्गशीर्ष` label; a regression test covers both. This is label compatibility, not a claim that all calendar providers use the same month convention.
+
+
+## 2026-10-16 — Panchang-engine adapter preview (draft only)
+- Added `kalashtami-panchang-adapter.js`, which consumes the same `@ishubhamx/panchangam-js@3.0.0` API and IST offset used by the main app, for Pithoragarh coordinates. It generates daily local-noon samples, narrows to dates near Ashtami, then checks tithi at calculated local sunrise for monthly Kalashtami candidates.
+- For the annual Bhairava observance, the isolated preview also checks tithi at the calculated sunset-to-next-sunrise midpoint. This is explicitly a diagnostic proxy, **not** a certified Nishita-muhurta interval or final vrata decision; a proper night observance rule and hard-copy cross-check remain necessary.
+- Added `kalashtami-preview.html` to display the two outputs separately, and adapter unit tests with an injected fake engine.
+- Still not connected to `festival-json-widget.js`, Blogger, or production Panchang UI. Run browser preview and automated tests before treating output as valid. No production deployment/merge.
