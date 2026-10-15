@@ -12,7 +12,12 @@ test("festival data retains all migrated legacy entries", () => {
 test("Navaratri 2026 draft dates are explicit and internally consistent", () => {
   assert.equal(byId["festival-003"].date.start, "2026-10-11");
   assert.equal(byId["festival-009"].date.start, "2026-10-17");
-  assert.equal(byId["festival-009"].name, "शारदीय नवरात्र सप्तमी - कालरात्रि");
+  assert.equal(byId["festival-009"].name, "एवं १८ अक्टूबर को = शारदीय नवरात्र सप्तमी - कालरात्रि");
+  assert.equal(byId["festival-009"].date.end, "2026-10-18");
+  assert.match(byId["festival-009"].date.calculationNotes, /सटीक तिथि-समाप्ति समय नहीं/);
+  for (const id of ["festival-004", "festival-005", "festival-006", "festival-007", "festival-008", "festival-010"]) {
+    assert.equal(byId[id].date.end, null, id + ": daily observance must not inherit the full Navaratri period");
+  }
   assert.equal(byId["festival-010"].date.start, "2026-10-19");
   assert.equal(byId["festival-011"].date.start, "2026-10-20");
   assert.equal(byId["festival-012"].date.start, "2026-10-20");
