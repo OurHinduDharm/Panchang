@@ -2428,6 +2428,11 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
     dec,
     rawK: rawClassical.K,
     rawKExact: Math.abs(signedLongitudeDelta(rawPlanetOA, rawSunOA)),
+    // IX.11 consumes the same event-frame longitudes (including the western
+    // six-sign shift) used by the sign-table K calculation. Keep these aliases
+    // explicit; the time-estimate helper must not receive undefined values.
+    sunLon: classical.sunFrameLongitude,
+    planetLon: classical.planetFrameLongitude,
     akshaDeg,
     ayanaDeg,
     K: classical.K,
