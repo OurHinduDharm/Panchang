@@ -287,3 +287,28 @@ Source note: `dharmasindhu-shravana-dvadashi-crosscheck.md`; online Dharmasindhu
 | PAR-SHR-06 | Avoiding middle segment would force Dvādaśī to be crossed | Evaluate the cited fallback/exception under the selected authority; otherwise unresolved | Disputed scope |
 
 **New exit criterion:** before implementing Śravaṇa-Dvādaśī, select and document the authority/profile for (a) Viṣṇu-śṛṅkhala definition, (b) night-time conjunction, (c) both-endpoints vs one-endpoint pāraṇa, and (d) Bhādrapada-only middle-segment restriction. Do not let an alternate profile silently overwrite the owner-supplied Dharmasindhu reading.
+
+
+## I. Stable test-ID policy (2026-10-15)
+
+The source-to-test ledger in [`ekadashi-source-to-test-plan.md`](./ekadashi-source-to-test-plan.md) is the canonical namespace for Dharmasindhu p. 17 clauses. Use these stable IDs when referring to a source rule across documents, tests, commits, or future issue reports:
+
+- `PAR-HV-01`: Hari-vāsara boundary/profile.
+- `PAR-TR-01`: Trayodaśī fallback clause; antecedent/context must be established first.
+- `PAR-MID-BAHU-01` and `PAR-MID-KECHIT-01`: two distinct midday pāraṇa opinions; never collapse them.
+- `SHR-01`, `VSHR-01`, `VSHR-02`: Śravaṇa-Dvādaśī and Viṣṇu-śṛṅkhala source clauses.
+- `MDV-01`, `MDV-NAK-01`: Mahādvādaśī identity list and the four source-specified nakṣatra pairings.
+- `PAR-CONJ-01`: unresolved conjunction-ending syntax.
+
+The short labels in older sections (for example, `PAR-01`, `SHR-01`, and `MDV-01`) were created as section-local scenario labels and can collide across sections. They are **not globally unique identifiers**. When migrating a scenario into executable tests, give it a unique suffix or map it to the canonical source ID above; do not rename a source rule merely because a legacy scenario used the same short label.
+
+The `INT-01`–`INT-10` identifiers are a separate namespace reserved for mathematical interval-helper behavior. They do not certify any vrata-selection or pāraṇa interpretation.
+
+### Current automation boundary
+
+The draft CI now runs:
+- `tests/vrata-intervals.test.js` — interval math and invalid-input behavior only.
+- `tests/shravana-dvadashi-duration-branch.test.js` — duration-comparison branch contract only; it deliberately does not emit an exact clock time.
+- `tests/shravana-dvadashi-rule-profile.test.js` — profile guardrails only; missing prerequisites remain unresolved.
+
+These are test-only helpers. None is wired into the visitor-facing Panchang or Blogger runtime. Passing tests proves the implemented contract behaves as asserted; it does not prove the source interpretation or a real-world observance date.
