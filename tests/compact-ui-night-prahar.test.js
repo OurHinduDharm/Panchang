@@ -654,9 +654,33 @@ test("Chapter IX Venus threshold follows classified horizon event, not morning/e
   }
   assert.equal(helpers.getPlanetEventThreshold("Venus", null), null);
   assert.equal(helpers.getPlanetEventThreshold("Mercury", "east-setting"), null);
+  const crossing = extra.match(/function crossesAngularBoundary\\(a, b, eventType, thresholdFor\\) \\{[\\s\\S]*?\\n\\}/)?.[0];
+  assert.ok(crossing, "angular-boundary crossing must be independently testable");
+  const crosses = vm.runInNewContext(
+    `${crossing}\\n;crossesAngularBoundary`
+  );
+  const before = { eclipticSeparation: 9 };
+  const after = { eclipticSeparation: 9.5 };
+  const switchedThreshold = item => item === before ? 8 : 10;
   assert.equal(
-    (extra.match(/ta === tb/g) || []).length,
-    2,
-    "a change from the 8° to 10° branch must not masquerade as an angular-boundary crossing"
+    crosses(before, after, "asta", switchedThreshold),
+    false,
+    "switching Venus from 8° to 10° must not fabricate an Asta crossing"
+  );
+  assert.equal(
+    crosses(before, after, "udaya", switchedThreshold),
+    false,
+    "switching Venus from 8° to 10° must not fabricate an Udaya crossing"
+  );
+  const fixedThreshold = () => 8;
+  assert.equal(
+    crosses({ eclipticSeparation: 9 }, { eclipticSeparation: 7.9 }, "asta", fixedThreshold),
+    true,
+    "a real downward crossing of one fixed threshold must be retained"
+  );
+  assert.equal(
+    crosses({ eclipticSeparation: 7.9 }, { eclipticSeparation: 8.1 }, "udaya", fixedThreshold),
+    true,
+    "a real upward crossing of one fixed threshold must be retained"
   );
 });
