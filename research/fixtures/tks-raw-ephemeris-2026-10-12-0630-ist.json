@@ -1,0 +1,46 @@
+{
+  "fixture_status": "captured live API response supplied by project owner; research-only; not an independent validation of the TKS engine",
+  "captured_at_local": "2026-10-12T06:30:00+05:30",
+  "place": {"name":"Pithoragarh","latitude_deg":29.583,"longitude_deg":80.209,"elevation_m":null},
+  "request": {"date":"2026-10-12","time":"06:30","tz_hours_east_utc":5.5,"body_codes":{"sun":10,"venus":2}},
+  "http_status": 200,
+  "api_success": true,
+  "body_identity": {"sun":{"field":"selected_body","value":10,"matches_request":true},"venus":{"field":"selected_body","value":2,"matches_request":true}},
+  "time": {"jd_utc":2461325.541666667,"jd_ut1":2461325.541666667,"jd_tt":2461325.5424679113,"delta_t_s":69.22750293464667},
+  "ayanamsa_deg": {"lahiri":24.23364251036206,"chitra":24.217344242334974,"suryasiddhanta":26.240113387742138,"suryasiddhanta_linear":22.912335347300495},
+  "sun": {
+    "ecliptic_lon_deg":198.7274304508398,
+    "ecliptic_lat_deg":-0.00011528246745300676,
+    "ra_deg":196.92742092729569,
+    "ra_of_date_deg":197.27789996885028,
+    "dec_deg":-7.193201635488021,
+    "dec_of_date_deg":-7.337192193218494,
+    "nirayana_lahiri_deg":174.49378794047772,
+    "distance_km":149330744.60927758
+  },
+  "venus": {
+    "ecliptic_lon_deg":216.98619958276416,
+    "ecliptic_lat_deg":-7.575739581387226,
+    "ra_deg":211.62274687342594,
+    "ra_of_date_deg":211.9973637542581,
+    "dec_deg":-20.85923211484858,
+    "dec_of_date_deg":-20.987859079393438,
+    "nirayana_lahiri_deg":192.7525570724021,
+    "distance_km":44393908.32654846,
+    "apparent_magnitude":-4.347897335498621,
+    "illumination":0.05705679859993956
+  },
+  "sun_day": {"rise_h_local":6.144195,"set_h_local":17.705795},
+  "derived_checks": {
+    "jd_utc_error_seconds_vs_expected": 0.0000288,
+    "sun_venus_ecliptic_longitude_difference_deg":18.25876913192436,
+    "sun_lahiri_longitude_check_deg":174.49378794047774,
+    "venus_lahiri_longitude_check_deg":192.7525570724021
+  },
+  "limitations": [
+    "The source output was copied from a live API response by the project owner; this fixture preserves selected fields rather than the entire response body.",
+    "The observation instant is not itself a planetary rising/setting event.",
+    "Coordinate frame semantics for ra_deg versus ra_of_date_deg and dec_deg versus dec_of_date_deg still require API/source clarification before mixing these values.",
+    "No Sūrya-siddhānta dṛkkarma, lagnāntara, or event-time result is asserted by this fixture."
+  ]
+}
