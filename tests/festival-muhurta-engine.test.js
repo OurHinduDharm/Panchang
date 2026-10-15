@@ -64,7 +64,7 @@ test("Ghatasthapana adapter refuses to invent a window when local Pratipada is a
   const result = engine.calculateGhatasthapana({
     date: "2026-10-11", latitude: 30.1265, longitude: 80.4817
   });
-  assert.equal(result.status, "no-candidate");
+  assert.equal(result.status, "calculation-unavailable");
   assert.equal(result.window, null);
   assert.ok(result.warnings.some((warning) => warning.includes("प्रतिपदा")));
 });
