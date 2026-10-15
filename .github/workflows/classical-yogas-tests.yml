@@ -62,6 +62,7 @@ jobs:
       - name: Run isolated vrata interval contract tests
         run: node --test tests/vrata-intervals.test.js
       - name: Emit fixed-coordinate vrata date diagnostics (not a correctness fixture)
+        if: always()
         run: node --test tests/vrata-real-date-diagnostic.test.js
       - name: Upload fixed-coordinate vrata diagnostic JSON
         if: always()
