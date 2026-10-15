@@ -896,3 +896,11 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Do not spend effort obtaining a separate city page for every observance; investigate location only when it plausibly changes the selected date/timing or resolves a concrete discrepancy.
 - Ekadashi/Mahadvadashi and pāraṇa remain high-caution areas because the scanned *Vrat Parichay*, Dharmasindhu, Nirnayasindhu and Hari-bhakti-vilasa material contain tradition-specific branches and unresolved textual/translation issues. No universal shortcut or unverified ghati threshold should be coded.
 - This records project scope only; no vrat date, pāraṇa, production runtime, Blogger output or merge state changed.
+
+
+## Kāṣṭāṣṭamī / Kālabhairava Aṣṭamī additions — 2026-10-16
+
+- The existing migrated archive already had two dated legacy records named “मासिक कालाष्टमी” (February and April 2026) and one annual “श्री महाकाल भैरव जयन्ती” record. Those two monthly dates are not a complete recurring observance catalogue.
+- Added festival-kalashtami-recurring to data/festivals.json as a rule-based record for Krishna Ashtami in every lunar month. It intentionally has no hard-coded Gregorian date; the local Panchang must determine each month's observance date.
+- Clarified the existing annual festival-027 as the distinct annual Kālabhairava Aṣṭamī / Bhairava Jayantī, associated with Mārgaśīrṣa Krishna Aṣṭamī (with amānta month-name variation noted). The legacy 2025 date remains provenance only, not a reusable annual date.
+- Kept the older dated records unchanged for traceability. No production runtime or Blogger output changed. The draft renderer's ability to match the new recurrence record still needs a test before integration.
