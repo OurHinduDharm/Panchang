@@ -1114,3 +1114,14 @@ It also exports `runChapter7AyanaVariantTests()` with basic invariants for zero 
 New file: https://github.com/OurHinduDharm/Panchang/blob/research/ss-ch9-diagnostic/ss_chapter7_ayana_variants.js
 
 The next required run is to execute the helper tests, then feed it real geocentric ecliptic longitude and signed latitude for Mercury/Venus at the selected local sunrise/sunset. The source must state epoch, coordinate frame, and whether longitude/latitude are apparent or geometric. Only after those intermediate results are logged should the full sequential Aksha step and Chapter IX event-time solver be compared. Production remains untouched.
+
+
+## Live ephemeris input fixture added — 16 October 2026
+
+The project owner supplied the live TKS API capture for the Sun (body code 10) and Venus (body code 2) at 2026-10-12 06:30 IST, 29.5830° N, 80.2090° E. The response returned HTTP 200 and `success: true` for both requests, with `selected_body` matching each requested code. Returned JD(UTC/UT1) is 2461325.541666667, agreeing with the expected 2461325.5416667 to far better than the one-second tolerance.
+
+A compact selected-field fixture is now stored at `research/fixtures/tks-raw-ephemeris-2026-10-12-0630-ist.json`; the detailed field table and consistency checks are in `research/GANESH-MARTAND-COMPARISON-LEDGER.md`.
+
+This closes the earlier **live-response capture** gap for one Sun/Venus state sample. It does not close the coordinate-frame blocker: the API payload distinguishes `ra_deg`/`dec_deg` from `ra_of_date_deg`/`dec_of_date_deg`, and those semantics must be established before hour-angle calculation. The instant is not itself a selected sunrise/sunset event. The sample's apparent ecliptic longitudes differ by 18.2587691319°, while Venus latitude is −7.5757395814°. Subtracting the returned Lahiri ayanāṃśa from each apparent ecliptic longitude reproduces the reported Lahiri nirayana longitude to rounding; this is an internal payload-consistency check only.
+
+**Research decision:** use this fixture to anchor later same-frame geometry tests, but do not claim independent ephemeris validation, final Chapter VII/IX correctness, or a final Asta/Udaya date from it. Production `app.js` and `extra-panchang.js` remain out of scope.
