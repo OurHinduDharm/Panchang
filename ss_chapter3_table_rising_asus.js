@@ -126,6 +126,7 @@ export function runChapter3TableRisingAsusTests() {
     passed: tests.filter(test => test.passed).length,
     allPassed: tests.every(test => test.passed),
     washington,
+    washingtonCrossCheck,
     pithoragarh,
     note: "These checks validate the table-interpolation candidate against a published example; they do not certify the epoch/frame or Chapter IX event dates."
   };
