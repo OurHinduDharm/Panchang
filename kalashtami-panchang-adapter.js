@@ -112,11 +112,11 @@
     if (!sorted.length) return null;
     if (sorted.length > 1) {
       const first = sorted[0], second = sorted[1];
-      if (first.pradosh && second.pradosh) return second;
-      if (first.madhyahna && second.madhyahna) return first;
       if (first.pradosh && !first.madhyahna && second.madhyahna && !second.pradosh) return first;
+      if (first.madhyahna && second.madhyahna) return first;
       if (first.madhyahna && !second.madhyahna) return first;
       if (second.madhyahna && !first.madhyahna) return second;
+      if (first.pradosh && second.pradosh) return second;
       if (first.pradosh && !second.pradosh) return first;
       if (second.pradosh && !first.pradosh) return second;
       if (first.sunrise) return first;
