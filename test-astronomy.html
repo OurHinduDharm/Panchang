@@ -5022,25 +5022,32 @@ function summarizeRawTksFields(value) {
 rawTksButton.addEventListener("click", async () => {
   rawTksButton.disabled = true;
   rawTksStatus.className = "status info";
-  rawTksStatus.textContent = "Requesting Sun and Venus at the UTC instant corresponding to 12 Oct 2026, 06:30 IST…";
+  rawTksStatus.textContent = "Requesting Sun and Venus for 12 Oct 2026, 06:30 IST (tz=5.5)…";
   const base = "https://tksephemeris.com/v1/tks/ephemeris";
-  // The endpoint's documented parameters do not include a timezone field.
-  // A previous response for time=12:00 returned JD 2461326.0 (= 12:00 UTC),
-  // so this controlled request uses 01:00 as the UTC-equivalent of 06:30 IST.
-  // This is a testable interpretation, not yet a documented guarantee.
+  // TKS API docs define time as local time in tz hours east of UTC.
+  // Body codes are numeric: 10 = Sun, 2 = Venus. The previous string labels
+  // ("sun"/"venus") could leave the endpoint on its default body, explaining
+  // the identical payloads; the old request also omitted tz.
   const common = {
     date: "2026-10-12",
-    time: "01:00",
+    time: "06:30",
+    tz: "5.5",
     place: "Pithoragarh",
     lat: "29.5830",
     lon: "80.2090"
   };
+  const bodyRequests = [{ label: "sun", code: 10 }, { label: "venus", code: 2 }];
   const captures = [];
   try {
-    for (const body of ["sun", "venus"]) {
-      const params = new URLSearchParams({ ...common, body });
+    for (const requestedBody of bodyRequests) {
+      const params = new URLSearchParams({ ...common, body: String(requestedBody.code) });
       const url = base + "?" + params.toString();
-      const record = { body, request_url: url, requested_parameters: { ...common, body } };
+      const record = {
+        body: requestedBody.label,
+        requested_body_code: requestedBody.code,
+        request_url: url,
+        requested_parameters: { ...common, body: requestedBody.code }
+      };
       try {
         const response = await fetch(url, {
           method: "GET",
@@ -5050,8 +5057,17 @@ rawTksButton.addEventListener("click", async () => {
         record.http_status = response.status;
         record.http_ok = response.ok;
         record.response_text = await response.text();
-        try { record.response_json = JSON.parse(record.response_text); record.extracted_candidate_fields = summarizeRawTksFields(record.response_json); }
-        catch { record.response_json_parse_error = "Response body was not valid JSON."; }
+        try {
+          record.response_json = JSON.parse(record.response_text);
+          record.extracted_candidate_fields = summarizeRawTksFields(record.response_json);
+          const returnedBodyCode = Number(record.response_json?.selected_body);
+          record.returned_body_code = Number.isFinite(returnedBodyCode) ? returnedBodyCode : null;
+          record.body_code_matches_request = Number.isFinite(returnedBodyCode)
+            ? returnedBodyCode === requestedBody.code
+            : false;
+        } catch {
+          record.response_json_parse_error = "Response body was not valid JSON.";
+        }
       } catch (error) {
         record.fetch_error = String(error && error.message ? error.message : error);
         record.note = "A browser fetch error can indicate CORS, network failure, or endpoint unavailability; it does not prove the endpoint itself is down.";
@@ -5060,11 +5076,13 @@ rawTksButton.addEventListener("click", async () => {
       rawTksOutput.textContent = JSON.stringify({
         capture: "TKS raw ephemeris; no coordinate conversion or correction applied",
         requested_local_instant: "2026-10-12 06:30 IST",
-        request_time_sent: "2026-10-12 01:00; interpreted as UTC based on prior response JD, still to be independently confirmed",
-        expected_jd_utc_if_UTC_interpretation: 2461325.5416667,
+        request_time_sent: "06:30 local time with tz=5.5 (UTC+05:30)",
+        expected_jd_utc: 2461325.5416667,
+        jd_tolerance_seconds: 1,
+        body_codes: { sun: 10, venus: 2 },
         place: "Pithoragarh",
         coordinates: { latitude_deg: 29.5830, longitude_deg: 80.2090 },
-        timezone_parameter: "Not sent: not listed in the documented /v1/tks/ephemeris parameters",
+        timezone_parameter: "tz=5.5; documented as hours east of UTC",
         bodies: captures
       }, null, 2);
     }
@@ -5083,15 +5101,19 @@ rawTksButton.addEventListener("click", async () => {
       return record.jd_matches_requested_instant;
     });
     const instantUnverified = jdChecks.length !== 2 || !jdChecks.every(Boolean);
-    const bodyUnverified = sameBodyPayload;
+    const bodySelectionUnverified = captures.length !== 2 ||
+      !captures.every(record => record.body_code_matches_request === true);
+    const bodyUnverified = sameBodyPayload || bodySelectionUnverified;
     rawTksStatus.className = failures.length || bodyUnverified || instantUnverified ? "status warn" : "status ok";
     rawTksStatus.textContent = failures.length
       ? "Capture completed with one or more HTTP/fetch errors. Inspect each exact request and response below; do not treat an error as astronomical data."
-      : bodyUnverified
-        ? "Warning: Sun and Venus requests returned identical JSON. Treat Venus as unverified until body selection is resolved."
-        : instantUnverified
-          ? "Warning: the returned JD is missing or differs from 2461325.5416667 by more than one second. These responses are not yet a verified same-instant comparison; inspect raw time fields before comparing K."
-          : "Both responses report the requested instant within one second and have different payloads. Still verify that the Venus payload truly describes Venus and that the relevant frame/coordinates match before comparing K.";
+      : sameBodyPayload
+        ? "Warning: Sun and Venus responses are identical. Do not compare K until the raw payload and body selection are resolved."
+        : bodySelectionUnverified
+          ? "Warning: at least one response does not confirm the requested numeric body code (Sun=10, Venus=2). Treat that body's state as unverified."
+          : instantUnverified
+            ? "Warning: the returned JD is missing or differs from 2461325.5416667 by more than one second. These are not yet a verified same-instant comparison."
+            : "Both responses confirm the requested body codes and requested instant within one second. Inspect raw coordinates/frame fields before comparing K.";
   } finally {
     rawTksButton.disabled = false;
   }
