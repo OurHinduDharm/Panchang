@@ -15,7 +15,6 @@ on:
       - "tests/vrata-intervals.test.js"
       - "tests/vrata-real-date-diagnostic.test.js"
       - "tests/shravana-dvadashi-rule-profile.test.js"
-      - "tests/shravana-dvadashi-rule-profile.test.js"
       - "tests/classical-yogas-real-panchang-comparison.test.js"
       - "tests/classical-yogas-drik-reference.test.js"
       - "tests/panchang-card-order.test.js"
