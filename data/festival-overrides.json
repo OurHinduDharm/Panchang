@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Verified, year-specific exceptions to computed festival dates. This file is a proposal/data foundation; it has no effect until the festival renderer explicitly reads and validates it.",
+  "policy": {
+    "primaryReference": "Ganesh Martand printed Panchang (user's hard-copy reference)",
+    "secondaryReference": "Drik Panchang when it agrees with the primary reference",
+    "conflictHandling": "Do not auto-accept a conflicting Drik date. Flag the disagreement and ask for/record a primary-reference decision.",
+    "autoApply": false,
+    "preserveComputedDate": true,
+    "requireReasonAndSource": true
+  },
+  "overrides": [
+    {
+      "id": "gm-2026-mahashtami",
+      "year": 2026,
+      "festivalId": "festival-010",
+      "festivalName": "महाष्टमी",
+      "displayDate": "2026-10-19",
+      "decision": "show-on-reference-date",
+      "source": {
+        "type": "owner-reported-hard-copy",
+        "title": "गणेशमार्तण्ड पंचांग",
+        "page": null
+      },
+      "status": "reference-recorded-pending-renderer",
+      "note": "User reports that Ganesh Martand lists Mahashtami on 19 October 2026. Do not treat this record as live until the override renderer is implemented and tests pass."
+    },
+    {
+      "id": "gm-2026-durga-navami",
+      "year": 2026,
+      "festivalId": "festival-011",
+      "festivalName": "दुर्गा नवमी / महानवमी",
+      "displayDate": "2026-10-19",
+      "decision": "show-on-reference-date",
+      "source": {
+        "type": "owner-reported-hard-copy",
+        "title": "गणेशमार्तण्ड पंचांग",
+        "page": null
+      },
+      "status": "reference-recorded-pending-renderer",
+      "note": "User reports that Ganesh Martand lists Durga Navami on 19 October 2026. This is an explicit exception to the currently stored 20 October draft date."
+    },
+    {
+      "id": "gm-2026-vijayadashami",
+      "year": 2026,
+      "festivalId": "festival-012",
+      "festivalName": "विजयादशमी",
+      "displayDate": "2026-10-20",
+      "decision": "show-on-reference-date",
+      "source": {
+        "type": "owner-reported-hard-copy",
+        "title": "गणेशमार्तण्ड पंचांग",
+        "page": null
+      },
+      "status": "reference-recorded-pending-renderer",
+      "note": "User reports that Ganesh Martand lists Vijayadashami on 20 October 2026."
+    },
+    {
+      "id": "gm-2026-papankusha-ekadashi",
+      "year": 2026,
+      "festivalId": null,
+      "festivalName": "पापांकुशा एकादशी",
+      "displayDate": "2026-10-22",
+      "decision": "reference-date-to-add-or-map",
+      "source": {
+        "type": "owner-reported-hard-copy",
+        "title": "गणेशमार्तण्ड पंचांग",
+        "page": null
+      },
+      "status": "reference-recorded-pending-record-mapping",
+      "note": "User reports this date. Map to an existing record or create a proper recurring tithi rule after inspecting the catalog."
+    },
+    {
+      "id": "gm-2026-pradosha",
+      "year": 2026,
+      "festivalId": null,
+      "festivalName": "प्रदोष व्रत",
+      "displayDate": "2026-10-23",
+      "decision": "reference-date-to-add-or-map",
+      "source": {
+        "type": "owner-reported-hard-copy",
+        "title": "गणेशमार्तण्ड पंचांग",
+        "page": null
+      },
+      "status": "reference-recorded-pending-record-mapping",
+      "note": "User reports this date. Confirm whether this is the relevant Kartik/solar-month Pradosha record before mapping."
+    },
+    {
+      "id": "gm-2026-kojaagari-sharad-purnima",
+      "year": 2026,
+      "festivalId": "festival-013",
+      "festivalName": "कोजागर पूर्णिमा / शरद पूर्णिमा",
+      "displayDate": "2026-10-25",
+      "decision": "show-on-reference-date",
+      "source": {
+        "type": "owner-reported-hard-copy",
+        "title": "गणेशमार्तण्ड पंचांग",
+        "page": null
+      },
+      "status": "reference-recorded-pending-renderer",
+      "note": "User reports both observances on 25 October 2026. The existing draft date already matches; retain the separate Ashwini Purnima report for 26 October below."
+    },
+    {
+      "id": "gm-2026-ashwini-purnima",
+      "year": 2026,
+      "festivalId": null,
+      "festivalName": "आश्विनी पौर्णमासी",
+      "displayDate": "2026-10-26",
+      "decision": "reference-date-to-add-or-map",
+      "source": {
+        "type": "owner-reported-hard-copy",
+        "title": "गणेशमार्तण्ड पंचांग",
+        "page": null
+      },
+      "status": "reference-recorded-pending-record-mapping",
+      "note": "User reports Ashwini Purnima on 26 October 2026. Do not merge with the Kojaagari/Sharad Purnima entry without confirming the intended distinction."
+    }
+  ]
+}
