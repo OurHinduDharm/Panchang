@@ -1020,3 +1020,26 @@ This checkpoint records findings from a direct review of the research-only imple
 ### Next research action
 
 Resolve the Ayana shifted-point interpretation against the Sanskrit text and Ranganātha's Gūḍhārtha-prakāśa commentary, then derive the local meridian construction independently. Only after documenting the intermediate quantities should the candidate be compared against the 23 May 2026 Mercury anchor and the Ganesh Martand / SLBS entries. Keep `app.js` and `extra-panchang.js` untouched.
+
+
+## Primary-text cross-check — 15 October 2026
+
+### Source anchors rechecked
+
+- The GRETIL/TextGrid Sanskrit e-text identifies its source editions as Hall's 1854 edition of the Sūryasiddhānta with Raṅganātha's Gūḍhārthaprakāśa, the 1987 Kāśī edition, and Sudhākara Dvivedī's 1987 edition. This makes it a useful text witness, but the web-rendered e-text does not expose the full commentary prose alongside every verse.
+- VII.8–9 (TextGrid lines 564–567) defines the Aksha correction using the planet's own natonnata/time-from-meridian and half-day quantities, then applies direction/latitude-dependent add-subtract rules.
+- VII.10 (lines 568–570) explicitly says to add three signs to the planet's place, derive declination from that sum, multiply the planet's latitude in arcminutes by that declination in degrees, and add/subtract according to same-name versus different-name latitude/declination. The verse itself does **not** explicitly state in its wording whether the planet's signed ecliptic latitude is to be retained while evaluating the shifted point. Burgess's English translation likewise says to add three signs and find declination from the sum, without spelling out a latitude-at-shifted-point convention.
+- Burgess's explanatory note says dṛkkarma is sequential: ayana-corrected place gives the ecliptic point on the six-o'clock line; the subsequent aksha correction gives the horizon point. This supports the two-stage structure, not every modern coordinate-frame choice in the present code.
+- IX.4–5 (TextGrid lines 636–638) specifies planet/Sun places at sunset for western events and sunrise for eastern events, then lagnāntara. IX.10–11 (lines 647–648) separately estimates elapsed/to-come time from the angular difference and relative motion, with the rising-time (asu) conversion. These are distinct stages and should be exposed as intermediate audit values.
+
+### Revised decision on the Ayana shifted-point question
+
+The source evidence confirms the formula's *structure* but does not settle the signed-latitude handling at longitude +90°. Therefore the current `eclipticEquatorial(tropicalLongitudeDeg + 90, obliquityDeg)` call with default latitude 0 remains a documented candidate, not an accepted final rule. Next compare the exact Sanskrit commentary at VII.10 in a page image / searchable print, including whether the commentator explicitly treats the shifted point as a point on the ecliptic. Do not silently change the formula based only on modern geometric intuition.
+
+### Chapter III / IX frame warning
+
+The current lagnāntara helper restores the modern ayanāṃśa to get tropical longitude, calculates sign rising-asus from tropical sign boundaries, and uses 24° obliquity by default. Its numerical tests validate interpolation arithmetic (including the equatorial sign-table anchors), but they do not prove that modern tropical frame, chosen ayanāṃśa, fixed obliquity, and modern local-meridian angle are jointly the correct historical frame for the Sūryasiddhānta procedure. Keep each as an explicit assumption in the diagnostic output until independently derived from the source's time/coordinate model.
+
+### Validation guardrail
+
+A successful fixture/unit test means the implementation matches its own stated equations. It is not a match to a published Panchanga unless the event branch, place, time basis, ephemeris/frame, and printed-date convention also match. The Ganesh Martand, SLBS, and National Panchanga observations remain separate evidence rows; no event date is to be overwritten to make a test pass.
