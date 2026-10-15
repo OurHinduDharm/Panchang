@@ -45,8 +45,8 @@ function firstIntervalByIndex(items, index) {
 
 function validCalculationInput({ date, latitude, longitude }) {
   if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(String(date)) ||
-      !Number.isFinite(Number(latitude)) ||
-      !Number.isFinite(Number(longitude))) return false;
+      !Number.isFinite(Number(latitude)) || Number(latitude) < -90 || Number(latitude) > 90 ||
+      !Number.isFinite(Number(longitude)) || Number(longitude) < -180 || Number(longitude) > 180) return false;
   const parsed = new Date(String(date) + "T00:00:00Z");
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
 }
