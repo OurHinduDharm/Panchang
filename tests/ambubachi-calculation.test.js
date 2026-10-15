@@ -6,6 +6,7 @@ const {
   AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES,
   findSiderealSolarIngress,
   findAmbubachiSolarWindow,
+  findAmbubachiSolarWindowAsync,
   getAmbubachiRitualWindow
 } = require("../ambubachi-calculation");
 
