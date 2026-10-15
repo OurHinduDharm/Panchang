@@ -713,3 +713,12 @@ See data/references/festival-discrepancy-audit-2026-10-15.md for the detailed di
 Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, Arunodaya and Harivasara/parana; then create a source-linked decision table and tests before any visitor-facing integration.
 
 - Further source review: Dharma Sindhu's condensed English chapter 3 gives a general 15-ghati Dashami-vedha statement, while chapter 5 separately discusses Ekadashi-specific Smarta/Vaishnava methods and 57/60-ghati references before Arunodaya. These are recorded as separate claims in `data/references/ekadashi-decision-rules-draft.md`; they must not be merged into one threshold without checking the original edition and reference point.
+
+
+## Owner-source workflow correction and next-step plan — 2026-10-15
+
+- The project owner clarified that Dharmasindhu and Nirnayasindhu text/pages were already supplied; publication-year comparison is not the work objective. Use the owner-provided source text as the primary basis and request a scan only for a specific unresolved reading/context.
+- Verified that the draft branch already contains the owner-supplied Dharmasindhu p. 17 transcription, relevant Rajvaidya and Khemraj page images, image collation, parana/Mahadvadashi research, Nirnayasindhu source audit, rule matrix and interval contract. Do not ask the owner to re-upload material already present.
+- Added `data/references/ekadashi-source-to-test-plan.md` (commit `9043b8f8ea76d5fa58c8df2aaf93afd99ef318f5`) mapping the source clauses to stable test IDs. It separates Hari-vasara, Trayodashi fallback, the `बहवः` and `केचित्` parana views, Śravaṇa-Dvādaśī, Viṣṇu-śṛṅkhala and all eight Mahādvādaśīs. Unresolved Sanskrit interpretation remains explicitly blocked; no guessed rule was added.
+- Next work is to add only mathematical interval-helper tests and align the source IDs across the existing test matrix. Then formalize the clearly sourced clauses as named rule profiles, while keeping ambiguous anchors/wording unresolved.
+- No runtime JavaScript, `data/festivals.json`, Blogger output, or PR merge state changed. PR #33 remains Draft.
