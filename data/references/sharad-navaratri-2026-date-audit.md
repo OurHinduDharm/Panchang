@@ -74,3 +74,26 @@ These are candidate dates cross-checked against the cited public calendars, not 
 The user clarified that the legacy title's **18 October** note for festival-009 is intentional: Ashwin Shukla Saptami is described in the user's paper Panchang/references as spanning the civil dates 17–18 October. Do not remove that note as a typo. The displayed title has been restored to preserve it. The current record stores a provisional civil-date span through 18 October, but **does not yet store exact tithi start/end instants**; the 17 October observance date remains a candidate pending local calculation and the selected observance rule.
 
 The widget audit also found that the legacy parent-period end date (20 October) had been copied to each individual Navaratri-day record. The draft now retains 11–20 October only on the parent Navaratri record, clears inherited display ends for individual daily records, and gives festival-009 its separate provisional 17–18 October civil-date span. This is a display/data-model correction, not certification of the observance dates.
+
+
+## Local pinned-library diagnostic — Pithoragarh (2026-10-15)
+
+The GitHub diagnostic test now queries the project reference coordinates (30.1265, 80.4817; timezone offset +330 minutes) for 17–21 October and 25–26 October. This is **calculation evidence for review**, not a final observance verdict.
+
+| Local civil date | Tithi pattern in the diagnostic | What it tells us |
+|---|---|---|
+| 17 Oct | Saptami at sunrise | Supports retaining the 17 October part of the user's 17–18 October Saptami span. |
+| 18 Oct | Saptami at sunrise; Ashtami begins around 08:29 IST | Saptami is present at two consecutive sunrises; the title's 18 October note must not be deleted. |
+| 19 Oct | Ashtami at sunrise; Navami begins around 10:53 IST | Supports 19 October as an Ashtami observance candidate. |
+| 20 Oct | Navami at sunrise; Dashami begins around 12:52 IST | Navami is present at sunrise; Dashami is present later in the day, so Vijayadashami requires the chosen Aparahna/observance rule. |
+| 21 Oct | Dashami at sunrise | A sunrise-based Dashami label can differ from a Vijayadashami decision based on Dashami during Aparahna. |
+| 25–26 Oct | Purnima at sunrise on both dates; Krishna Pratipada begins around 09:42 IST on 26 Oct | Supports the 25 October full-moon-night candidate and a 26 October Kartik-month-start candidate under the project's Purnimanta convention. |
+
+**Timing caveat:** the diagnostic library output contains a one-minute separation between adjacent tithi intervals. Do not copy these boundary times into public puja-muhurat text until that library convention is independently understood and checked. The test output is sunrise/day-interval evidence; it does not, by itself, settle the observance rule.
+
+### Current disposition after the local check
+
+- Keep festival-009's title note for 18 October and its provisional 17–18 October civil-date span. The main observance decision remains unresolved.
+- Keep Ashtami (19 Oct), Navami (20 Oct), and Vijayadashami (20 Oct) as provisional candidates; their different selection rules must be documented rather than conflated.
+- The Kartik month-start record now uses 26 October as a **Purnimanta candidate**, while its original 27 October date remains preserved in `sourceText`.
+- All these records remain `needs-review`; no local time is certified as a puja muhurat.
