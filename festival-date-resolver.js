@@ -140,7 +140,7 @@ function resolveSolarEvent(festival, solarEvents) {
   };
 }
 
-function baseResolution(festival, panchangDays, solarEvents) {
+function baseResolution(festival, panchangDays, solarEvents, year) {
   const date = festival.date || {};
   if (date.renderMode === "source-only") {
     return { status: "suppressed", method: "source-only", dates: [], reason: "record is retained for provenance only" };
@@ -148,7 +148,7 @@ function baseResolution(festival, panchangDays, solarEvents) {
   if (date.renderMode === "solar-event" || date.type === "solar") {
     return resolveSolarEvent(festival, solarEvents);
   }
-  if (date.renderMode === "panchang-tithi-window" || date.type === "tithi-window") {
+  if (date.renderMode === "panchang-tithi-window" || date.renderMode === "panchang-tithi-range" || date.type === "tithi-window") {
     return resolveTithiWindow(festival, panchangDays);
   }
   if (date.renderMode === "panchang-tithi" || date.renderMode === "panchang-tithi-range") {
@@ -167,6 +167,9 @@ function baseResolution(festival, panchangDays, solarEvents) {
     return { status: matches.length ? "matched" : "unresolved", method: "panchang-tithi", dates: matches, reason: matches.length ? null : "no supplied local Panchang day matches the configured tithi observance" };
   }
   if (isIsoDate(date.start)) {
+    if (Number.isInteger(year) && String(date.start).slice(0, 4) !== String(year)) {
+      return { status: "unresolved", method: "stored-date-candidate", dates: [], reason: "stored date belongs to a different year; recurring calculation is not implemented here" };
+    }
     return {
       status: "candidate",
       method: date.renderMode === "manual" || date.type === "manual" ? "manual-reference-date" : "stored-date-candidate",
@@ -184,7 +187,8 @@ function approvedOverrideFor(festival, overrides, year, policy) {
     item.status === "approved-for-application" &&
     item.decision === "show-on-reference-date" &&
     isIsoDate(item.displayDate) &&
-    item.source && typeof item.source.title === "string" && item.source.title.trim() &&
+    item.source && typeof item.source.type === "string" && item.source.type.trim() &&
+    typeof item.source.title === "string" && item.source.title.trim() &&
     typeof item.note === "string" && item.note.trim()
   ) || null;
 }
@@ -193,9 +197,11 @@ function resolveFestivalDate(festival, options) {
   options = options || {};
   const panchangDays = Array.isArray(options.panchangDays) ? options.panchangDays : [];
   const solarEvents = Array.isArray(options.solarEvents) ? options.solarEvents : [];
-  const base = baseResolution(festival, panchangDays, solarEvents);
-  const overridesData = options.overridesData || {};
   const year = Number(options.year);
+  const yearDays = Number.isInteger(year) ? panchangDays.filter((day) => String(dateOfDay(day) || "").slice(0, 4) === String(year)) : panchangDays;
+  const yearEvents = Number.isInteger(year) ? solarEvents.filter((event) => String(event.localDate || "").slice(0, 4) === String(year)) : solarEvents;
+  const base = baseResolution(festival, yearDays, yearEvents, year);
+  const overridesData = options.overridesData || {};
   const override = approvedOverrideFor(festival, overridesData.overrides, year, overridesData.policy);
   const computedDates = base.dates.map((item) => ({ ...item }));
   if (!override) {
