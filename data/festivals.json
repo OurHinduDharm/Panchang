@@ -951,10 +951,20 @@
         "type": "solar",
         "start": "2025-12-16",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष। Draft rule metadata added 2026-10-16; ingress provider and Punyakaal rule still need validation.",
         "tithi": null,
         "month": null,
-        "rule": "सूर्य के राशि-प्रवेश के सटीक क्षण से निर्धारित; स्थानीय दिन/पुण्यकाल नियम अलग से लागू करें।"
+        "rule": "सूर्य के राशि-प्रवेश के सटीक क्षण से निर्धारित; स्थानीय दिन/पुण्यकाल नियम अलग से लागू करें।",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 240,
+          "sign": "Dhanu",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Dhanu राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।"
       },
       "description": "धनु संक्रांति",
       "sourceText": {
@@ -1058,10 +1068,20 @@
         "type": "solar",
         "start": "2026-01-14",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष। Draft rule metadata added 2026-10-16; ingress provider and Punyakaal rule still need validation.",
         "tithi": "सूर्य का मकर राशि में प्रवेश",
         "month": "सौर",
-        "rule": "संक्रांति का सटीक क्षण और स्थानीय पुण्यकाल; अयन-आरम्भ की परंपरा अलग से सत्यापित करें।"
+        "rule": "संक्रांति का सटीक क्षण और स्थानीय पुण्यकाल; अयन-आरम्भ की परंपरा अलग से सत्यापित करें।",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 270,
+          "sign": "Makara",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Makara राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\"> मकर संक्रान्ति</a> , सूर्य उत्तरायण प्रारम्भ।",
       "sourceText": {
@@ -2170,10 +2190,20 @@
         "type": "solar",
         "start": "2026-07-16",
         "end": null,
-        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
+        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है। Draft rule metadata added 2026-10-16; ingress provider and Punyakaal rule still need validation.",
         "rule": "सूर्य के कर्क राशि में प्रवेश का सटीक क्षण; स्थानीय पुण्यकाल नियम जाँचें।",
         "tithi": "सूर्य का कर्क राशि में प्रवेश",
-        "month": "सौर"
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 90,
+          "sign": "Karka",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Karka राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।"
       },
       "description": "कर्क संक्रान्ति - सूर्य का कर्क राशि में प्रवेश- संकल्प में प्रयोजनीय वर्षा ऋतु प्रारम्भ, संकल्प में प्रयोजनीय सूर्य उत्तरायण समाप्त",
       "sourceText": {
@@ -3234,6 +3264,267 @@
       "reviewNotes": [
         "Added at owner request on 2026-10-16 as a recurring tithi interval, not a hard-coded date.",
         "Display the full period only when both tithi boundaries are present in local Panchang input."
+      ]
+    },
+    {
+      "id": "festival-sankranti-mesha",
+      "name": "मेष संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण मेष राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 0,
+          "sign": "Mesha",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Mesha राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
+      ]
+    },
+    {
+      "id": "festival-sankranti-vrishabha",
+      "name": "वृषभ संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण वृषभ राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 30,
+          "sign": "Vrishabha",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Vrishabha राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
+      ]
+    },
+    {
+      "id": "festival-sankranti-mithuna",
+      "name": "मिथुन संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण मिथुन राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 60,
+          "sign": "Mithuna",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Mithuna राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
+      ]
+    },
+    {
+      "id": "festival-sankranti-simha",
+      "name": "सिंह संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण सिंह राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 120,
+          "sign": "Simha",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Simha राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
+      ]
+    },
+    {
+      "id": "festival-sankranti-kanya",
+      "name": "कन्या संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण कन्या राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 150,
+          "sign": "Kanya",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Kanya राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
+      ]
+    },
+    {
+      "id": "festival-sankranti-tula",
+      "name": "तुला संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण तुला राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 180,
+          "sign": "Tula",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Tula राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
+      ]
+    },
+    {
+      "id": "festival-sankranti-vrishchika",
+      "name": "वृश्चिक संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण वृश्चिक राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 210,
+          "sign": "Vrishchika",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Vrishchika राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
+      ]
+    },
+    {
+      "id": "festival-sankranti-kumbha",
+      "name": "कुम्भ संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण कुम्भ राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 300,
+          "sign": "Kumbha",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Kumbha राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
+      ]
+    },
+    {
+      "id": "festival-sankranti-meena",
+      "name": "मीन संक्रान्ति",
+      "category": "संक्रान्ति",
+      "description": "सूर्य के निरयण मीन राशि में प्रवेश की संक्रान्ति। प्रवेश का सटीक स्थानीय समय और पुण्यकाल अलग-अलग गणना किए जाएँगे।",
+      "date": {
+        "type": "solar",
+        "start": null,
+        "end": null,
+        "month": "सौर",
+        "renderMode": "solar-event",
+        "solarEvent": {
+          "body": "Sun",
+          "longitudeSystem": "sidereal",
+          "ayanamsha": "Lahiri/Chitrapaksha (provider verification pending)",
+          "targetLongitudeDegrees": 330,
+          "sign": "Meena",
+          "event": "ingress"
+        },
+        "calendarRule": "निरयण सूर्य का Meena राशि में प्रवेश; सटीक क्षण और अलग पुण्यकाल-नियम की गणना करें।",
+        "rule": "सूर्य-संक्रान्ति का सटीक क्षण पुण्यकाल के समान नहीं है; पुण्यकाल केवल सत्यापित शास्त्रीय नियम से निकालें।",
+        "calculationNotes": "Added as a recurring astronomical event definition, not a precomputed date. Verify ephemeris/ayanamsha and Punyakaal rule before display."
+      },
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Added 2026-10-16 to complete the twelve ingress definitions in draft data.",
+        "No fixed Gregorian date or Punyakaal clock time is stored; requires local solar-event provider and a verified rule."
       ]
     }
   ],
