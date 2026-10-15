@@ -1216,3 +1216,16 @@ Commit: `010ea151f26d72a9ed56d7aa9fce7656b4ebb3e4`
 CI: [run 38813645600](https://github.com/OurHinduDharm/Panchang/actions/runs/38813645600) completed successfully. This confirms the research page wiring and existing test suite after the copy change; it is not a new validation of the event-time model.
 
 Next gate remains unchanged: obtain a TKS K/C snapshot with exact request timestamp, timezone, coordinates, elevation, and method options, or identify the exact timestamp for the existing snapshot. Then capture Sun/Venus at the correct local sunset for Venus Asta and sunrise for Venus Udaya; compare all Chapter VII correction components in one documented frame. Only after the daily-event bracket and IX.10–11 estimate agree within a predeclared tolerance should any event time be considered for production display.
+
+## Editable event-time candidate comparison — 16 October 2026
+
+The Venus K audit no longer hardcodes the unrelated noon sample. The research page now defaults to the previously discussed candidate snapshot request at 12 October 2026 17:42 IST and accepts an editable IST date/time. It computes the equivalent UTC instant from the explicit +05:30 offset and prints both local and UTC timestamps with the calculated candidate K values. The supplied TKS K/C/angle values remain reference-only; the page does not calculate a TKS residual or claim the capture is matched.
+
+A Chromium assertion was added to verify the default time renders as 2026-10-12 17:42 IST / 12:12:00 UTC and that the TKS provenance warning remains visible. This tests timestamp wiring only; it does not validate the historical geometry or Asta/Udaya result.
+
+Research commits:
+- Editable instant control: `548f10ec80da64a972829c61bdc42dd0cb364423`
+- Status copy: `3855f809368e4b65db38135d29a0ac223551bf68`
+- Browser timestamp assertion: `0a44997f986bfa18e5582bf4979649eeb3fd9bef`
+
+Production `app.js` and `extra-panchang.js` remain untouched. Await the new Chromium run before considering the timestamp control verified. Next, preserve the raw TKS K/C panel capture and its exact method/location settings alongside the timestamp; then compare our candidate geometry at that exact instant and separately capture the actual event-side sunset/sunrise states.
