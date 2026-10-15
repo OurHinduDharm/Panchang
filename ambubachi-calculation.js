@@ -114,6 +114,82 @@ function findAmbubachiSolarWindow(options) {
 }
 
 /**
+ * Async counterpart for ephemeris providers such as Panchangam-JS.
+ * longitudeAt(date) may return either a number or a Promise<number>.
+ */
+async function findSiderealSolarIngressAsync(options) {
+  if (!options || typeof options.longitudeAt !== "function") {
+    throw new TypeError("longitudeAt(date) callback is required");
+  }
+  const startMs = options.start instanceof Date ? options.start.getTime() : Number(options.start);
+  const endMs = options.end instanceof Date ? options.end.getTime() : Number(options.end);
+  const target = normalizeLongitude(
+    options.targetLongitudeDegrees == null
+      ? AMBUBACHI_TARGET_LONGITUDE_DEGREES
+      : options.targetLongitudeDegrees
+  );
+  const stepMs = (options.stepHours == null ? 6 : options.stepHours) * 60 * 60 * 1000;
+  const toleranceMs = options.toleranceMs == null ? 1000 : options.toleranceMs;
+  if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) {
+    throw new RangeError("start and end must define a valid increasing time interval");
+  }
+  if (!(stepMs > 0) || !(toleranceMs > 0)) {
+    throw new RangeError("stepHours and toleranceMs must be positive");
+  }
+
+  let loMs = startMs;
+  let loUnwrapped = normalizeLongitude(await options.longitudeAt(new Date(loMs)));
+  let targetUnwrapped = target + 360 * Math.ceil((loUnwrapped - target) / 360);
+  if (targetUnwrapped <= loUnwrapped + 1e-10) targetUnwrapped += 360;
+
+  while (loMs < endMs) {
+    const hiMs = Math.min(endMs, loMs + stepMs);
+    const hiNormalized = normalizeLongitude(await options.longitudeAt(new Date(hiMs)));
+    const hiUnwrapped = unwrapNear(hiNormalized, loUnwrapped + 1);
+    if (hiUnwrapped >= targetUnwrapped) {
+      let left = loMs;
+      let right = hiMs;
+      while (right - left > toleranceMs) {
+        const mid = Math.floor((left + right) / 2);
+        const midNormalized = normalizeLongitude(await options.longitudeAt(new Date(mid)));
+        const midUnwrapped = unwrapNear(midNormalized, (loUnwrapped + hiUnwrapped) / 2);
+        if (midUnwrapped >= targetUnwrapped) right = mid;
+        else left = mid;
+      }
+      return new Date(right);
+    }
+    loMs = hiMs;
+    loUnwrapped = hiUnwrapped;
+    targetUnwrapped = target + 360 * Math.ceil((loUnwrapped - target) / 360);
+    if (targetUnwrapped <= loUnwrapped + 1e-10) targetUnwrapped += 360;
+  }
+  return null;
+}
+
+async function findAmbubachiSolarWindowAsync(options) {
+  if (!options || typeof options.longitudeAt !== "function") {
+    throw new TypeError("longitudeAt(date) callback is required");
+  }
+  const common = {
+    start: options.start,
+    end: options.end,
+    longitudeAt: options.longitudeAt,
+    stepHours: options.stepHours,
+    toleranceMs: options.toleranceMs
+  };
+  const pravritti = await findSiderealSolarIngressAsync({
+    ...common,
+    targetLongitudeDegrees: AMBUBACHI_TARGET_LONGITUDE_DEGREES
+  });
+  const nivritti = await findSiderealSolarIngressAsync({
+    ...common,
+    targetLongitudeDegrees: AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES
+  });
+  if (!pravritti || !nivritti || nivritti <= pravritti) return null;
+  return { pravritti, nivritti, method: "sidereal-solar-longitude-ardra-pada-1" };
+}
+
+/**
  * Return the provisional local-date calendar window after Pravritti.
  * This is not an astronomical Nivritti calculation and must not override
  * the official Kamakhya Devalaya reopening notice.
@@ -149,5 +225,7 @@ module.exports = {
   AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES,
   findSiderealSolarIngress,
   findAmbubachiSolarWindow,
+  findSiderealSolarIngressAsync,
+  findAmbubachiSolarWindowAsync,
   getAmbubachiRitualWindow
 };
