@@ -39,6 +39,8 @@ on:
       - "tests/panchang-card-order.test.js"
       - "tests/compact-ui-night-prahar.test.js"
       - ".github/workflows/classical-yogas-tests.yml"
+      - "data/festivals.json"
+      - "tests/festival-season-2026.test.js"
   workflow_dispatch:
 
 permissions:
