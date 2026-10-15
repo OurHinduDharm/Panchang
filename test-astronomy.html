@@ -260,7 +260,7 @@
 
   <section id="rawTksSection">
     <h2>Raw TKS Ephemeris Capture — Same Instant</h2>
-    <p>Research-only external reference request. Requests Sun and Venus separately for 12 October 2026, 12:00 local civil time, Pithoragarh (29.5830° N, 80.2090° E). The documented endpoint parameters do not list a timezone field; the exact request URL is shown below so time interpretation can be audited. This does not run during automated tests and does not affect production.</p>
+    <p>Research-only external reference request. Requests Sun (body=10) and Venus (body=2) separately for 12 October 2026, 06:30 IST (tz=5.5), Pithoragarh (29.5830° N, 80.2090° E). The response is checked for the expected UTC Julian Day and returned body code; inspect the exact URL and raw JSON before interpreting K. This does not run during automated tests and does not affect production.</p>
     <div id="rawTksStatus" class="status info">Not requested yet. Press “Fetch Raw TKS Sun/Venus JSON”.</div>
     <pre id="rawTksOutput" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:560px;overflow:auto;padding:12px;background:#fff;border:1px solid #d7dce2;border-radius:8px;">Raw responses will appear here, including HTTP, JSON, or CORS errors.</pre>
   </section>
