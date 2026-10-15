@@ -8,7 +8,8 @@
     "Do not connect this file to the live Blogger widget until validation and date-rule migration are complete.",
     "The source file also contains widget/rendering code and Chaturmas-related content outside the festivalData array; that content has not been migrated into this festival list.",
     "Added preliminary date-rule fields from festival names and a limited review of linked OurHinduDharm articles. All entries remain needs-review; these are research hints, not certified dates.",
-    "sourceUrl is the first article link found in the original description HTML. No original title/description/links/date values were changed."
+    "sourceUrl is the first article link found in the original description HTML. No original title/description/links/date values were changed.",
+    "Draft audit update 2026-10-15: festival-009 title/date wording clarified; festival-010 to festival-013 and festival-020 to festival-023 have provisional 2026 observance-date candidates from public calendar cross-checks. These remain needs-review; no production/Blogger integration is authorized by this data file alone. sourceText retains original legacy dates and descriptions for traceability."
   ],
   "festivals": [
     {
@@ -202,15 +203,15 @@
     },
     {
       "id": "festival-009",
-      "name": "एवं १८ अक्टूबर को = शारदीय नवरात्र सप्तमी - कालरात्रि",
+      "name": "शारदीय नवरात्र सप्तमी - कालरात्रि",
       "date": {
         "type": "tithi",
         "start": "2026-10-17",
         "end": "2026-10-20",
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": null,
-        "month": null,
-        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+        "calculationNotes": "2026-10-17 को सप्तमी/कालरात्रि के लिए सार्वजनिक पंचांग तुलना से मेल; मूल शीर्षक की तारीख-संबंधी उलझन हटाई गई, पर स्रोत विवरण सुरक्षित है। स्थानीय गणना/परंपरा की अंतिम पुष्टि शेष।",
+        "tithi": "आश्विन शुक्ल सप्तमी",
+        "month": "आश्विन",
+        "rule": "आश्विन शुक्ल सप्तमी; कालरात्रि पूजा के लिए सप्तमी-व्याप्ति/स्थानीय सूर्योदय नियम जाँचें। मूल लेख में 17 और 18 अक्टूबर के सरस्वती-पूजन निर्देश भी हैं; इन्हें कालरात्रि की तिथि से अलग रखें।"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a> <br/> १७ अक्टूबर को  मूल नक्षत्र है जो सरस्वती देवी के आवाहन हेतु प्रशस्त है...मूल नक्षत्र में सरस्वती जी का आवाहन करें <br/> १८ अक्टूबर को पूर्वाषाढ़ा नक्षत्र में सरस्वती जी का पूजन करें।",
       "hidePeriod": true,
@@ -231,8 +232,8 @@
         "type": "tithi",
         "start": "2026-10-19",
         "end": "2026-10-20",
-        "calculationNotes": "प्रारंभिक शोध-नोट; अंतिम शास्त्रीय/स्थानीय पंचांग सत्यापन शेष। पुरानी तारीख जस की तस रखी गई है।",
-        "rule": "महाष्टमी/दुर्गाष्टमी; तिथि-व्याप्ति और कन्या पूजन/हवन के स्थानीय नियम जाँचें।",
+        "calculationNotes": "2026-10-19 महाष्टमी/दुर्गाष्टमी के लिए कई पंचांग संदर्भ सहमत हैं। sourceText में पुराने सन्धिपूजा clock times हैं; उन्हें 2026 का मुहूर्त न मानें। स्थानीय तिथि-व्याप्ति और सन्धि-काल की गणना शेष।",
+        "rule": "महाष्टमी/दुर्गाष्टमी; सन्धिपूजा तिथि-सन्धि के वास्तविक समय से निकलेगी, legacy clock times से नहीं।",
         "tithi": "आश्विन शुक्ल अष्टमी",
         "month": "आश्विन"
       },
@@ -253,12 +254,12 @@
       "name": "शारदीय नवरात्र महानवमी - सिद्धिदात्री",
       "date": {
         "type": "tithi",
-        "start": "2026-10-19",
+        "start": "2026-10-20",
         "end": "2026-10-20",
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": null,
-        "month": null,
-        "rule": "नवरात्र के क्रमांकित दिन की तिथि; मूल कैलेंडर तारीख को तिथि-आरम्भ/समाप्ति और स्थानीय व्रत-निर्णय से सत्यापित करें।"
+        "calculationNotes": "Navaratri day-count/sunrise convention के अनुसार सार्वजनिक Drik और IMD Rashtriya Panchanga संदर्भों में नवमी हवन/पारण 20 अक्टूबर पर है; कुछ क्षेत्रीय परंपराएँ 19 अक्टूबर भी मान सकती हैं। स्थानीय तिथि-व्याप्ति और observance profile स्पष्ट करना शेष।",
+        "tithi": "आश्विन शुक्ल नवमी",
+        "month": "आश्विन",
+        "rule": "नवमी हवन/पारण; तिथि-व्याप्ति, सूर्योदय और क्षेत्रीय व्रत-परंपरा से निर्णय करें; 19 अक्टूबर की वैकल्पिक परंपरा को बिना प्रमाण हटाएँ नहीं।"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। <br/>  श्रवण नक्षत्र में सरस्वती विसर्जन।<br/> नवरात्रि हवन।<a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> ⭐नवरात्र पारण(प्रसाद खाकर व्रत खोलना) - उत्तम तो यह है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः ही व्रत खोलें।",
       "hidePeriod": true,
@@ -279,10 +280,10 @@
         "type": "tithi",
         "start": "2026-10-20",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": "शुक्ल दशमी",
+        "calculationNotes": "2026-10-20 विजयादशमी के लिए Drik Panchang तथा IMD Rashtriya Panchanga के सामान्य/राष्ट्रीय संदर्भ सहमत हैं; क्षेत्रीय Durga Puja immersion 21 अक्टूबर तक अलग हो सकता है। अपराह्ण-व्याप्ति और श्रवण नक्षत्र नियम की स्थानीय पुष्टि शेष।",
+        "tithi": "आश्विन शुक्ल दशमी",
         "month": "आश्विन",
-        "rule": "विजयादशमी का सामान्य नियम आश्विन शुक्ल दशमी; अपराह्ण/श्रवण नक्षत्र आदि क्षेत्रीय-शास्त्रीय निर्णय जाँचें।"
+        "rule": "विजयादशमी; दशमी-व्याप्ति, अपराह्णकाल और श्रवण नक्षत्र के शास्त्रीय/क्षेत्रीय नियम जाँचें।"
       },
       "description": "दुर्गा देवी के निमित्त बलिदान आदि करे। <br/> <b>विजयादशमी </b>- शमी पूजा, शस्त्र पूजन, अपराजिता पूजा, नीलकंठ पक्षी का दर्शन शुभ। शस्त्र आदि का पूजन। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\">कलश आदि का विसर्जन।</a>",
       "sourceText": {
@@ -298,12 +299,12 @@
       "name": "कोजागरी पूर्णिमा / शरद पूर्णिमा",
       "date": {
         "type": "tithi",
-        "start": "2026-10-26",
+        "start": "2026-10-25",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "calculationNotes": "2026 के सार्वजनिक कैलेंडर में कोजागरी/शरद पूर्णिमा की रात्रि 25 अक्टूबर दी गई है; पुरानी 26 अक्टूबर तारीख को observance date मानने से पहले पूर्णिमा-व्याप्ति और स्थानीय चन्द्र-संबंधी नियम जाँचें।",
         "tithi": "आश्विन शुक्ल पूर्णिमा",
         "month": "आश्विन",
-        "rule": "पूर्णिमा-आधारित; रात्रि में चन्द्रदर्शन/कोजागरी नियम परंपरा अनुसार जाँचें।"
+        "rule": "कोजागरी/शरद पूर्णिमा; रात्रि-व्याप्ति और चन्द्रदर्शन/कोजागरी नियम के अनुसार तिथि निर्धारित करें।"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\">कोजागरी पूर्णिमा</a>, <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">लक्ष्मी - कुबेर पूजन</a> , शरद पूर्णिमा। खीर छत पर रखें। कोजागर पूजा, वाल्मीकि जयंती, मीराबाई जयंती। श्री कार्तिकेय जयन्ती।",
       "sourceText": {
@@ -445,12 +446,12 @@
       "name": "नरक चतुर्दशी / काली चौदस",
       "date": {
         "type": "tithi",
-        "start": "2025-10-19",
+        "start": "2026-11-08",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": "कृष्ण चतुर्दशी",
+        "calculationNotes": "2026 के IMD Rashtriya Panchanga और अन्य कैलेंडर संदर्भ नरक चतुर्दशी को 8 नवम्बर बताते हैं। उसी civil date पर दीपावली भी है; यह तिथि-व्याप्ति/सूर्योदय-आधारित overlap है, typo नहीं। अरुणोदय स्नान की स्थानीय गणना शेष।",
+        "tithi": "कार्तिक कृष्ण चतुर्दशी",
         "month": "कार्तिक",
-        "rule": "चतुर्दशी; अरुणोदय/चन्द्रोदय/प्रदोष से जुड़े क्षेत्रीय नियम जाँचें।"
+        "rule": "नरक चतुर्दशी; अरुणोदय/प्रातः स्नान और चतुर्दशी-व्याप्ति के नियम से निर्णय करें; दीपावली के साथ एक तारीख पर आना संभव है।"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\">नरक चतुर्दशी</a>, काली चौदस🪔 इस दिन प्रातः काल लौकी सिर से घुमाकर व सरसों का तेल शरीर में लगाकर स्नान करें।",
       "sourceText": {
@@ -466,12 +467,12 @@
       "name": "दीपावली / महालक्ष्मी पूजन",
       "date": {
         "type": "tithi",
-        "start": "2025-10-20",
+        "start": "2026-11-08",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": "कृष्ण अमावस्या",
+        "calculationNotes": "2026 के सार्वजनिक कैलेंडर अमावस्या-आधारित लक्ष्मीपूजन को 8 नवम्बर बताते हैं। पुरानी 2025 पूजा-घड़ियाँ sourceText में सुरक्षित हैं पर 2026 में लागू नहीं होंगी; स्थानीय प्रदोष/निशीथ गणना शेष।",
+        "tithi": "कार्तिक कृष्ण अमावस्या",
         "month": "कार्तिक",
-        "rule": "अमावस्या; लक्ष्मीपूजन के लिए प्रदोष/निशीथकाल और स्थानीय अमावस्या-व्याप्ति जाँचें।"
+        "rule": "दीपावली/महालक्ष्मी पूजन; स्थानीय अमावस्या-व्याप्ति, प्रदोषकाल और परंपरा अनुसार निशीथकाल से मुहूर्त निकालें।"
       },
       "description": "<b><a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\">दीपावली</a></b>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html\" target=\"_blank\">श्री महालक्ष्मी पूजन विधि</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html\" target=\"_blank\">कमला महाविद्या जयंती</a>, <br/><a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">श्री लक्ष्मी स्तोत्राणि</a> <br/> <a href=\"https://www.drikpanchang.com/panchang/day-panchang.html?lang=hi\" target=\"_blank\">आज का पंचांग</a>, 🪔दीपावली मुहूर्तः<a href=\"https://www.drikpanchang.com/festivals/lakshmipuja/festivals-lakshmipuja-timings.html?year=2025\" target=\"_blank\">महालक्ष्मी पूजा का मुहूर्त</a><br/> 🪔⭐ इसी अर्धरात्रि को श्री काली जी का भी पूजन करे। ... <br/> प्रदोष काल- 06:34 PM से 08:06 PM तक<br/> वृषभ काल- 06:54 PM से 08:49 PM तक<br/> निशीथकाल - अर्धरात्रि 11:29 से 12:19 तक<br/> सिंह लग्न मुहूर्त देर रात 1.25 से 3.43 तक। ...",
       "sourceText": {
@@ -487,12 +488,12 @@
       "name": "अन्नकूट / गोवर्धन पूजा",
       "date": {
         "type": "tithi",
-        "start": "2025-10-22",
+        "start": "2026-11-10",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": "शुक्ल प्रतिपदा",
+        "calculationNotes": "2026 के सार्वजनिक कैलेंडर संदर्भ कार्तिक शुक्ल प्रतिपदा-आधारित गोवर्धन/अन्नकूट को 10 नवम्बर बताते हैं; स्थानीय प्रतिपदा-व्याप्ति की पुष्टि शेष।",
+        "tithi": "कार्तिक शुक्ल प्रतिपदा",
         "month": "कार्तिक",
-        "rule": "दीपावली के बाद कार्तिक शुक्ल प्रतिपदा; गोवर्धन पूजा का स्थानीय निर्णय जाँचें।"
+        "rule": "गोवर्धन पूजा/अन्नकूट; प्रतिपदा-व्याप्ति और स्थानीय परंपरा से निर्णय करें; 2025 की तारीख को आगे न खिसकाएँ।"
       },
       "description": "अन्नकूट, गोवर्धन पूजा।",
       "sourceText": {
@@ -508,12 +509,12 @@
       "name": "भ्रातृ द्वितीया / यम द्वितीया",
       "date": {
         "type": "tithi",
-        "start": "2025-10-23",
+        "start": "2026-11-11",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": "शुक्ल द्वितीया",
+        "calculationNotes": "2026 के सार्वजनिक कैलेंडर संदर्भ कार्तिक शुक्ल द्वितीया-आधारित भ्रातृ द्वितीया को 11 नवम्बर बताते हैं; अपराह्ण-व्याप्ति की स्थानीय पुष्टि शेष।",
+        "tithi": "कार्तिक शुक्ल द्वितीया",
         "month": "कार्तिक",
-        "rule": "कार्तिक शुक्ल द्वितीया; अपराह्ण-व्याप्ति के नियम जाँचें।"
+        "rule": "भ्रातृ द्वितीया/यम द्वितीया; द्वितीया-व्याप्ति और अपराह्ण पूजा-नियम के अनुसार निर्णय करें।"
       },
       "description": "भ्रातृ द्वितीया, यम द्वितीया",
       "sourceText": {
