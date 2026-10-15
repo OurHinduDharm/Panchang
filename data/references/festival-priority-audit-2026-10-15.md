@@ -94,7 +94,7 @@ Start with Navaratri/Ashtami/Navami/Vijayadashami; continue to Sharad Purnima an
 ## Draft changes now made
 
 - Updated the provisional observance dates for festival-009 to festival-013 and festival-020 to festival-023 in `data/festivals.json`.
-- Corrected festival-009's displayed title to remove the misleading “18 October” prefix; original legacy title and description remain in `sourceText` for traceability.
+- User clarification supersedes the earlier title edit: the “18 October” note in festival-009 is intentional because the tithi spans 17–18 October in the user's paper Panchang/references. The display title has been restored to preserve that note; exact tithi instants and observance decision remain unverified.
 - Moved Navami's provisional observance date to 20 October while documenting the 19 October regional alternative instead of pretending all calendars agree.
 - Set the current candidate dates for Naraka Chaturdashi and Diwali both to 8 November, Govardhan Puja to 10 November, and Bhai Dooj to 11 November.
 - Replaced legacy Dhanteras, Sandhi Puja, and Diwali clock-time strings in the draft display descriptions with warnings that 2026 timings must be recalculated. Original source text is retained.
@@ -111,3 +111,12 @@ Start with Navaratri/Ashtami/Navami/Vijayadashami; continue to Sharad Purnima an
 - Added guardrails that keep these plans marked `needs-calculation`. The helper combines supplied intervals; it does **not** calculate sunrise, moonrise, tithi, lagna, or muhurta astronomy itself.
 - **Not live yet:** no Blogger renderer currently consumes these `muhurtaPlan` fields, and no city-specific computed times have been certified. The next integration task is to connect the helper to the actual Blogger festival display and supply verified intervals from the Panchang calculation engine. Until then, the draft must not claim these times are calculated or verified.
 - GitHub Actions result is still unavailable from the connected status/run queries; test success is not asserted.
+
+
+## Widget audit follow-up (2026-10-15)
+
+- Renderer now uses a strict 14-calendar-date window (today through day 13), not today plus 14 additional days.
+- Invalid rollover dates such as 31 February are rejected rather than normalized by JavaScript.
+- Navaratri's parent event keeps its full period, while individual daily observance records no longer inherit the parent end date. Festival-009 preserves the intentional 18 October title note and has a provisional 17–18 October civil-date span; exact tithi instants remain pending.
+- JSON rendering now preserves legacy-style status labels (today/tomorrow/days remaining/ongoing status) and duration labels where the source did not hide the period.
+- The renderer has behavioral tests for the 14-day boundary, ongoing events, expired daily events, invalid dates, safe URL schemes, and title-only placeholders. Check the latest GitHub Actions result before treating these changes as validated.
