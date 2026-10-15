@@ -1125,3 +1125,25 @@ A compact selected-field fixture is now stored at `research/fixtures/tks-raw-eph
 This closes the earlier **live-response capture** gap for one Sun/Venus state sample. It does not close the coordinate-frame blocker: the API payload distinguishes `ra_deg`/`dec_deg` from `ra_of_date_deg`/`dec_of_date_deg`, and those semantics must be established before hour-angle calculation. The instant is not itself a selected sunrise/sunset event. The sample's apparent ecliptic longitudes differ by 18.2587691319°, while Venus latitude is −7.5757395814°. Subtracting the returned Lahiri ayanāṃśa from each apparent ecliptic longitude reproduces the reported Lahiri nirayana longitude to rounding; this is an internal payload-consistency check only.
 
 **Research decision:** use this fixture to anchor later same-frame geometry tests, but do not claim independent ephemeris validation, final Chapter VII/IX correctness, or a final Asta/Udaya date from it. Production `app.js` and `extra-panchang.js` remain out of scope.
+
+
+## Real Venus state discriminates the VII.10 latitude variants — 16 October 2026
+
+Using the captured TKS state at 2026-10-12 06:30 IST (apparent ecliptic longitude 216.9861995828°, signed ecliptic latitude −7.5757395814°), the existing VII.10 variant arithmetic was evaluated at the same tropical longitude under the zero-latitude baseline and retained-signed-latitude candidate. Results are preserved in `research/fixtures/tks-raw-ephemeris-2026-10-12-0630-ist.json`.
+
+At classical obliquity 24°:
+
+| Quantity | Zero-latitude baseline | Retain signed Venus latitude |
+|---|---:|---:|
+| Declination at longitude + 90° | −18.959109° | −26.263259° |
+| Āyana correction | −2.393821° | −3.316060° |
+
+The candidate corrections differ by approximately **−55.33 arcminutes**. Repeating with the Chapter II sine-table obliquity `asin(1397/3438) ≈ 23.975182°` gives a difference of approximately −55.34 arcminutes. The small change across these two obliquities suggests this particular discrepancy is driven mainly by the retained Venus latitude, not by choosing 24° versus the sine-table value.
+
+This is a materially useful discriminator: it uses a real Venus state rather than the earlier illustrative 1.25° latitude. It is still **not a final event result**: the sample is at 06:30, not the sunset selected by Chapter IX for a western Venus Asta event, and the historical meaning of the shifted-point latitude must still be adjudicated from the Sanskrit/commentary geometry. The calculation also does not resolve the classical local-meridian construction or prove either variant correct.
+
+### Event-time capture tool improved
+
+The research-only raw TKS capture panel now has editable local date/time fields. It computes the expected UTC Julian Day from the chosen local instant and `tz=5.5`, then checks the Sun and Venus response timestamps against that selected instant. This permits capturing the actual event-side state (sunset for western events, sunrise for eastern events) without editing source code. Default remains 12 October 2026 at 06:30 IST for reproducibility.
+
+**Next calculation:** capture Sun and Venus at the local sunset for 12 October 2026, then run both latitude variants at that same event time; capture at the local sunrise for the 28/29 October Venus eastern-rise candidate and repeat separately. Do not mix the two event branches or alter production code.
