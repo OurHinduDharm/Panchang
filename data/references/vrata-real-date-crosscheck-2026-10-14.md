@@ -207,3 +207,38 @@ Reported location: 30.2, 80.8; timezone: Asia/Kolkata.
 ### Interim finding and limits
 
 The independent sources strongly corroborate the Astroica September Ekadashi start/end, Uttara Ashadha end, and Shravana end; the Dwadashi end differs by one displayed minute (22:50 vs 22:51). The August Ekadashi interval also matches Prokerala exactly at minute precision. These are external cross-checks, not yet a comparison against the pinned @ishubhamx/panchangam-js@3.0.0 diagnostic: GitHub Actions currently returned no workflow runs for the latest workflow commit, so no generated JSON output is available to inspect. Keep the diagnostic-only status and do not make production changes based solely on these references.
+
+
+## Mumbai city cross-check — 2026-10-15
+
+The user suggested using a major city because public Panchang data is easier to find. Mumbai results are now collected from several city-specific pages. These are useful independent references, but Mumbai's coordinates differ from the audit's chosen manual coordinates (30.2, 80.8), so they are a separate location cross-check rather than an exact-location fixture.
+
+### 22 September 2026 — Mumbai
+
+| Transition | Astroica manual location (30.2, 80.8) | Mumbai public pages |
+|---|---:|---|
+| Ekadashi ends | 21:43 IST | 21:43 on VedPanchang, VedicSpace, DevPanchang and LordShiva; 21:44 on Daily Astro / AstroLeaf |
+| Uttara Ashadha ends | 07:06 IST | 07:06 on VedPanchang / LordShiva; 07:07–07:08 on several other pages |
+| Shravana ends | 09:09 IST | 09:08 on Panchang Calendar / LordShiva; 09:09 on Daily Astro |
+| Dwadashi ends | 23 Sep 22:51 IST | 23 Sep 22:50 on LordShiva; 22:51 on Daily Astro / AstroLeaf |
+
+Sources:
+- Daily Astro, Mumbai: https://daily-astro.com/panchang/mumbai-mh-in/2026-sep-22
+- VedPanchang, Mumbai: https://vedpanchang.com/hi/panchang/mumbai/2026-09-22
+- AstroLeaf, Mumbai: https://astroleaf.in/panchang/mumbai-maharashtra-india/2026-09-22/
+- VedicSpace, Mumbai: https://vedicspace.com/panchang/mumbai/2026-09-22/
+- Dev Panchang, Mumbai: https://devpanchang.in/en/panchang/mumbai/2026-09-22
+- Panchang Calendar, Mumbai: https://panchangcalendar.com/panchang/mumbai/2026/09/22/
+- LordShiva, Mumbai: https://www.lordshiva.co.in/panchang/2026-09-22/mumbai
+
+### 23 August 2026 — Mumbai
+
+Panchang Calendar's Mumbai page reports Ekadashi until 04:19 on 24 August, Dwadashi until 06:21 on 25 August, Moola until 17:43 on 23 August, and Purva Ashadha until 20:27 on 24 August. These align with the Astroica transcription to within one minute for the two nakshatra transitions (Astroica: 17:44 and 20:28) and exactly to the displayed minute for the tithi transitions.
+Source: https://panchangcalendar.com/hi/panchang/mumbai/2026/08/23/
+
+### Interim assessment
+
+- Multiple Mumbai pages corroborate the September Ekadashi end at 21:43/21:44 and the Shravana end at 09:08/09:09. This is a consistent one-minute display spread, not evidence of a large astronomical error.
+- The supplied Astroica manual location's Dwadashi end at 22:51 is supported by some Mumbai pages; other pages show 22:50.
+- Minute-level differences should be retained as source-reported values, not averaged. For a strict fixture, compare calculations using the same exact coordinates, timezone, ayanamsa and calculation convention.
+- These public city pages do not yet replace running the pinned project library diagnostic. No production code change or correctness assertion is justified from these pages alone.
