@@ -3980,7 +3980,8 @@ function classicalCard(ref, label, result, field) {
 
 function runChapter7FrameSensitivityDiagnostic() {
   const out = document.getElementById("chapter7FrameSensitivityOutput");
-  const date = new Date("2026-10-12T06:30:00Z");
+  // Match the observed Venus sunset-side sample: 2026-10-12 17:42 IST = 12:12 UTC.
+  const date = new Date("2026-10-12T12:12:00Z");
   const sourceObliquityDeg = trueObliquityOfDateDeg(date);
   const sourceLST = normalize360(Astronomy.SiderealTime(date) * 15 + CONFIG.longitude);
   const ayanamshaDeg = 24.217;
@@ -4109,7 +4110,7 @@ function runChapter7FrameSensitivityDiagnostic() {
   }
 
   out.innerHTML =
-    "<div class='status info'>Instant: 2026-10-12 12:00 IST. Fixed CONFIG: Pithoragarh validation point. Compare scalar baseline, transformed-meridian candidate, the same vector with numerical LST held fixed, and the separate equinox-rotated candidate. Assumptions: ayanāṃśa 24.217°, classical obliquity 24°.</div>" +
+    "<div class='status info'>Instant: 2026-10-12 17:42 IST (12:12 UTC), matching the Venus sunset-side sample. Fixed CONFIG: Pithoragarh validation point. Compare scalar baseline, transformed-meridian candidate, the same vector with numerical LST held fixed, and the separate equinox-rotated candidate. Assumptions: ayanāṃśa 24.217°, classical obliquity 24°.</div>" +
     "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Calculation path</th><th>Intermediate</th><th>Value</th><th>Notes</th></tr></thead><tbody>" +
     rows.join("") + "</tbody></table></div>" +
     "<div class='status warn'>Interpretation: this is a frame-sensitivity diagnostic, not a historical-frame verdict. The fixed-LST row isolates changing ecliptic obliquity without transforming the local meridian angle; the transformed-LST row applies the separate geometric hypothesis. Neither local-time convention is source-certified. A difference appearing only after equinox rotation is another independent frame assumption. No Chapter IX K or event date is certified.</div>";
