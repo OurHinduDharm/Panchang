@@ -214,3 +214,25 @@ Two secondary leads provide a more operational description:
 These formulations may describe closely related geometry, but they are not word-for-word identical. “Dinavr̥ddhi” must not be replaced silently with a generic day-length increase, a boolean from another module, or a 60-daṇḍa threshold without establishing the intended source/profile and the relevant tithi interval. The Padma Purāṇa lead also needs checking against the actual printed passage and context before implementation.
 
 **Current status:** source term visually confirmed; operational predicate **unresolved**. Keep the fixture result unresolved even when a generic day-increase flag is true. Next research step is to compare the actual cited Padma Purāṇa passage with the chosen Dharmasindhu witness and determine whether the definitions are equivalent or tradition-specific. No date-selection rule is approved by this note.
+
+
+### Pakṣavardhinī follow-up: Padma Purāṇa text checked against Dharmasindhu — 2026-10-16
+
+The actual verse and a Hindi rendering are now available for direct comparison, rather than relying only on a secondary summary.
+
+**Padma Purāṇa, Uttarakhaṇḍa 36.2** (chapter/verse numbering on the cited digital witnesses):
+
+> अमा वा यदि वा पूर्णा संपूर्णा जायते तदा ।
+> भूत्वा वै नाडिकाषष्ठिर्जायते प्रतिपद्दिने ।
+> अश्वमेधायुतैस्तुल्या सा भवेत्पक्षवर्द्धिनी ॥
+
+The verse's central condition is rendered by the Hindi Gītā Press-attributed transcription as: Amāvasyā or Pūrṇimā remains uninterrupted for sixty daṇḍas (nāḍikās) and a portion continues into the next day's Pratipadā. See [BharatKosha, Padma Purana Hindi text, page 656](https://bharatkosha.org/hi/granth/padma-puran-gita-press/656) and the Sanskrit/English chapter-aligned witnesses at [Eternal Raga, Uttara-khaṇḍa 36](https://eternalraga.com/en/scriptures/puranas/padma-purana/6/36) and [Vishvasa, chapter 36](https://vishvasa.github.io/purANam_vaiShNavam/padma-purANam/deshpANDe/6/036/). These are digital witnesses/transcriptions, not a claim that every edition's chapter numbering is identical.
+
+**Comparison with the scanned Khemraj Dharmasindhu witness** (printed p. 32, image 0055; see `data/references/dharmasindhu-image-collation-2026-10-14.md`):
+
+- Dharmasindhu's compact definition is `दर्शस्य पौर्णमास्या वा यदा दिनवृद्धिस्तदा पक्षवर्धिनी संज्ञा` — “when there is dinavr̥ddhi for Darśa/Amāvasyā or Pūrṇimā.”
+- Padma Purāṇa gives a more specific shape: the Amāvasyā/Pūrṇimā tithi lasts a full 60 daṇḍas and also extends into Pratipadā.
+- The Government of India Calendar Reform Committee report's summary—15th/30th tithi present at sunrise on two successive days—is a sunrise-based paraphrase. It is not identical wording to the full-60-daṇḍa condition, and the relationship between those formulations should not be assumed without checking the report's context and underlying rule.
+- These may be compatible descriptions of an exceptional tithi spanning the civil/ritual day boundary, but the source wording does not justify replacing `दिनवृद्धि` with a generic sunrise-repeat boolean. Conversely, the 60-daṇḍa condition must not be imported into the Dharmasindhu profile as a universal threshold without confirming the intended textual relationship and tradition scope.
+
+**Research outcome:** the Padma Purāṇa lead is now textually corroborated by a Sanskrit verse and a Hindi transcription. This improves source confidence but does **not** resolve whether Dharmasindhu's `दिनवृद्धि` is intended as exactly the Padma Purāṇa condition, the successive-sunrise condition, or a related tradition-specific formulation. Keep Pakṣavardhinī operational status unresolved and the synthetic fixture unresolved; no real date or fast-day consequence is inferred.
