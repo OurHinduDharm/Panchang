@@ -44,3 +44,30 @@ Do not use the current Akṣa correction or its resulting Chapter IX K/event bra
 ## Production isolation
 
 No changes were made to `app.js` or `extra-panchang.js`. This note does not authorize merging PR #22 or draft PR #35.
+
+
+## Actual Venus sunset-side browser run — 12 Oct 2026, 17:42 IST
+
+The research browser test now explicitly runs `runChapter7FrameSensitivityDiagnostic()` at the event-specific instant and prints its intermediate values. CI run for commit `9a4380705040225c89cea519812a93789382fee` passed; see the [workflow run](https://github.com/OurHinduDharm/Panchang/actions/runs/38801076514).
+
+For Venus, the diagnostic reports:
+
+| Quantity | Scalar baseline | Vector: obliquity + transformed LST | Vector: obliquity only, LST fixed | Vector: obliquity + equinox rotation |
+|---|---:|---:|---:|---:|
+| Calculation-frame LST | 284.305290° | 284.305290° | 284.305949° | 262.173773° |
+| Planet RA | 211.645790° | 211.645790° | 211.645790° | 188.463647° |
+| Planet declination | −21.221581° | −21.221581° | −21.221581° | −12.023447° |
+| Hour angle | 72.659500° | 72.659500° | 72.660159° | 73.710126° |
+| Half-day angle | 77.265394° | 77.265394° | 77.265394° | 83.055527° |
+| Āyana correction | −2.397790° | −2.397790° | −2.397790° | −2.950993° |
+| Akṣa correction | −4.041617° | −4.041617° | −4.041653° | −3.814225° |
+| Total correction | −6.439407° | −6.439407° | −6.439443° | −6.765218° |
+| Corrected longitude | 186.160246° | 186.160246° | 186.160209° | 185.834434° |
+
+The equinox-rotated meridian angle is **−22.131516°** from the obliquity-only angle. However, in this particular diagnostic the corrected Venus longitude differs by about **−0.325812°**, not 22°. The large angle delta is principally the change in frame angle; it must not be misreported as a 22° error in the final corrected longitude or K.
+
+The scalar baseline and the full-vector **obliquity-only** path agree to the displayed precision. Holding the numerical LST fixed changes the frame angle by only **0.000660°** and the total Venus correction by about **−0.000036°**. This shows that the earlier ~22° discrepancy is tied to the additional ecliptic-origin/equinox rotation assumption, not to the small obliquity-only conversion. It still does not decide which convention the classical text prescribes.
+
+## Consequence / next step
+
+Do not choose the equinox-rotated candidate solely because it is a geometrically coherent 3-D transform. Trace the text's definition of the reference ecliptic/equinox and the meridian/time angle used in Akṣa-dṛkkarma. Compare the actual Sanskrit, Burgess translation, and Ranganātha commentary; if these sources do not specify the required reference frame, document the ambiguity instead of inventing a historical rule. Keep the current event-date and K outputs research-only until that adjudication is complete.
