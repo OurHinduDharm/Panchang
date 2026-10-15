@@ -137,3 +137,14 @@ Raṅganātha's commentary *upapatti* was inspected directly in the web transcri
 The independent Sudhākara Dvivedī scan remains an open corroboration task because OCR of the geometric proof is damaged; visual inspection of the relevant page is still needed before calling the interpretation fully closed. The retained-latitude branch stays only as a counterfactual sensitivity test. No production change or event-date certification.
 
 Audit detail and source-to-code rationale: `research/SS-CHAPTER-7-FORMULA-AUDIT.md`, commit `c8888a5a6926fd89ddee8e9502c91913dc1030b2`.
+
+
+### Continuity checkpoint — Ganesh Martand Standard Difference and online cross-check — 15 October 2026
+
+- **Research-only; PR #22 remains open/draft/unmerged.** No production code changes.
+- Owner clarified that Ganesh Martand Udaya/Asta `घं.मि.` entries are standard times and need the location-specific Standard Difference applied. The source location table is reported as latitude `29.35`, longitude `80.13`, Standard Difference `−00:09:08`; working interpretation is `29°35′ N, 80°13′ E` (verify visually against source image).
+- Target research coordinates `29.5830°N, 80.2090°E`: longitude-based correction relative to IST meridian `82°30′ E` is `(82.5 − 80.2090) × 240 = 549.84 s ≈ 00:09:10`. Subtract `00:09:10` from the printed standard time for the first-pass target-local table. Preserve printed and adjusted values separately.
+- Created `research/observations/2026-10-15-standard-difference-online-crosscheck.md`; updated the Ganesh reference ledger, first Drik comparison, and Mercury cycle cross-check to mark prior unadjusted comparisons as preliminary.
+- Online date-level check: IMD / Positional Astronomy Centre Rashtriya Panchanga heliacal table agrees on dates for Mars rise (17 Apr 2026), Saturn rise (17 Apr 2026), Jupiter set (15 Jul 2026), Jupiter rise (10 Aug 2026), and several Mercury events. Venus dates are adjacent (IMD 13 Oct set / 28 Oct rise vs Ganesh 12 Oct / 29 Oct); Mercury eastern rise differs by one day in Feb 2027. These are not exact-time validations because IMD's table is heliacal and its time notation/event convention still needs decoding.
+- Drik Deoranian Venus dates (12 Oct and 29 Oct 2026) match Ganesh's printed event dates; after correction the target times are `17:30:50` and `06:16:50`, compared to Deoranian `18:10` and `05:51`. This is cross-location date-level corroboration, not same-location exact agreement.
+- **Next action:** visually verify `data/standard difference.jpg` and `data/ganesh martand panchang udaya asta.jpg`; establish the exact event mapping for पूर्व/पश्चिम अस्त/उदय; then run same-location comparisons and compare each event against the independent Chapter IX K diagnostic. Do not tune the formula to match a printed date and do not edit `app.js` or `extra-panchang.js` yet.
