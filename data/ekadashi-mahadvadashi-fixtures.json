@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "status": "synthetic-research-fixtures-not-runtime",
+  "source": {
+    "title": "Dharma Sindhu",
+    "evidenceFile": "data/references/dharmasindhu-image-collation-2026-10-14.md",
+    "witness": "Khemraj Sanskrit with Hindi commentary, printed p. 32, scan image 0055",
+    "caution": "These timestamps are invented for structural tests. They are not a real date, Panchang output, or a validated ritual decision."
+  },
+  "intervalConvention": "[start,end), Unix-like seconds in a synthetic local timeline",
+  "fixtures": [
+    {
+      "id": "MDV-TRISPRSHA-SYN-01",
+      "category": "trisprsha",
+      "purpose": "Exercise the source-described shape: Ekadashi at the first sunrise, a short Dvadashi, and Trayodashi at the second sunrise, with all three tithis touching the intervening ahoratra.",
+      "sunrises": [
+        { "id": "first", "at": 1000 },
+        { "id": "second", "at": 86500 }
+      ],
+      "tithis": [
+        { "name": "Ekadashi", "start": 900, "end": 1500 },
+        { "name": "Dvadashi", "start": 1500, "end": 1800 },
+        { "name": "Trayodashi", "start": 1800, "end": 87000 }
+      ],
+      "structuralExpectations": {
+        "firstSunriseTithi": "Ekadashi",
+        "secondSunriseTithi": "Trayodashi",
+        "tithisTouchingInterveningAhoratra": ["Ekadashi", "Dvadashi", "Trayodashi"],
+        "dvadashiIsShortRelativeToAhoratra": true
+      },
+      "decision": "not-evaluated",
+      "whyNotEvaluated": "This fixture checks interval structure only. The exact source-defined Trisprsha predicate and vrata/parana consequence have not been operationalized."
+    },
+    {
+      "id": "MDV-PAKSHAVARDHINI-UNRESOLVED-01",
+      "category": "pakshavardhini",
+      "purpose": "Guard against treating a generic day-length/day-increase flag as the source-defined dinavriddhi rule.",
+      "lunarTithiIdentity": "Amavasya",
+      "genericDayIncreaseObserved": true,
+      "sourceDefinedDinavriddhiPredicate": null,
+      "decision": "unresolved",
+      "whyNotEvaluated": "The source says दर्शस्य पौर्णमास्या वा यदा दिनवृद्धिस्तदा पक्षवर्धिनी, but the operational meaning and comparison anchor for दिनवृद्धि remain unresolved."
+    }
+  ]
+}
