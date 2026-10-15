@@ -904,3 +904,11 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Added festival-kalashtami-recurring to data/festivals.json as a rule-based record for Krishna Ashtami in every lunar month. It intentionally has no hard-coded Gregorian date; the local Panchang must determine each month's observance date.
 - Clarified the existing annual festival-027 as the distinct annual Kālabhairava Aṣṭamī / Bhairava Jayantī, associated with Mārgaśīrṣa Krishna Aṣṭamī (with amānta month-name variation noted). The legacy 2025 date remains provenance only, not a reusable annual date.
 - Kept the older dated records unchanged for traceability. No production runtime or Blogger output changed. The draft renderer's ability to match the new recurrence record still needs a test before integration.
+
+
+## 2026-10-16 — Kalashtami recurrence resolver (draft only)
+- Inspected `festival-date-resolver.js` and `festival-json-widget.js`: the JSON card renderer currently selects only records with concrete Gregorian `date.start`; it does **not** calculate recurring tithis by itself. The resolver was therefore the safe first place to add/test recurrence matching.
+- Added a resolver path for `monthly-krishna-ashtami`: it matches every supplied local Panchang day whose paksha is Krishna and tithi is Ashtami, without assuming one universal lunar-month label. This avoids Amanta/Purnimanta month-name differences for the monthly observance.
+- Configured the annual `festival-027` Kalabhairava Ashtami/Jayanti record for Panchang-tithi matching on Margashirsha Krishna Ashtami; its 2025 Gregorian date remains historical provenance, not a future recurrence date.
+- Added automated test cases for multiple monthly Krishna Ashtamis across different month labels and for the separate annual Margashirsha observance.
+- Important limitation: this is resolver/data/test support only. The draft upcoming-festival card renderer is **not yet wired** to a real local Panchang-day provider, and this work has not changed Blogger/live output. Do not merge or deploy until a provider adapter and end-to-end preview tests are added.
