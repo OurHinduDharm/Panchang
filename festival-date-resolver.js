@@ -142,14 +142,19 @@ function resolveSolarEvent(festival, solarEvents) {
 
 function baseResolution(festival, panchangDays, solarEvents, year) {
   const date = festival.date || {};
-  // Recurring monthly rules deliberately ignore the month label: month names can
-  // differ between Amanta/Purnimanta conventions, while Krishna Ashtami recurs.
-  if (date.calendarRule === "monthly-krishna-ashtami") {
+  // Monthly recurrence ignores the month label because Amanta/Purnimanta
+  // conventions can name the same lunar fortnight differently.
+  if (typeof date.calendarRule === "string" && date.calendarRule.startsWith("monthly-")) {
+    const expectedPaksha = date.paksha || (date.calendarRule === "monthly-krishna-ashtami" ? "कृष्ण" : "");
+    const expectedTithi = date.tithi || (date.calendarRule === "monthly-krishna-ashtami" ? "अष्टमी" : "");
+    if (!expectedPaksha || !expectedTithi) {
+      return { status: "unresolved", method: "recurring-panchang-tithi", dates: [], reason: "monthly rule requires explicit paksha and tithi" };
+    }
     const matches = panchangDays.filter((day) => {
       const dayDate = dateOfDay(day);
       if (!isIsoDate(dayDate)) return false;
-      if (normalizePaksha(day.paksha) !== normalizePaksha(date.paksha || "कृष्ण")) return false;
-      const wanted = normalizeTithi(date.tithi || "अष्टमी");
+      if (normalizePaksha(day.paksha) !== normalizePaksha(expectedPaksha)) return false;
+      const wanted = normalizeTithi(expectedTithi);
       const actual = normalizeTithi(day.tithi);
       return wanted.some((value) => actual.includes(value));
     }).map((day) => ({
@@ -165,7 +170,7 @@ function baseResolution(festival, panchangDays, solarEvents, year) {
       status: matches.length ? "matched" : "unresolved",
       method: "recurring-panchang-tithi",
       dates: matches,
-      reason: matches.length ? null : "no supplied local Panchang day matches the recurring Krishna Ashtami rule"
+      reason: matches.length ? null : "no supplied local Panchang day matches the configured monthly paksha/tithi rule"
     };
   }
   if (date.renderMode === "source-only") {
