@@ -49,6 +49,44 @@
     });
   }
 
+  function activeNavratriSadhana(data, now) {
+    var config = data && data.navratriSadhana;
+    if (!config || !Array.isArray(config.activePeriodIds) || !Array.isArray(config.days)) return null;
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var active = config.activePeriodIds.some(function (id) {
+      var period = data.festivals.find(function (item) { return item && item.id === id; });
+      var start = validDate(period && period.date && period.date.start);
+      var end = validDate(period && period.date && period.date.end) || start;
+      return !!start && !!end && today >= start && today <= end;
+    });
+    return active ? config : null;
+  }
+
+  function appendNavratriSadhana(fragment, config) {
+    if (!config || !Array.isArray(config.days)) return;
+    var section = make("section", "navratri-sadhana");
+    section.appendChild(make("div", "navratri-sadhana-title", config.title || "नवरात्रि साधना"));
+    if (config.description) section.appendChild(make("div", "navratri-sadhana-note", config.description));
+    var list = make("ol", "navratri-sadhana-list");
+    config.days.slice().sort(function (a, b) { return a.day - b.day; }).forEach(function (item) {
+      var li = make("li", "navratri-sadhana-item");
+      var label = (item.tithi ? item.tithi + " — " : "") + (item.name || "");
+      var url = safeHttpUrl(item.url);
+      if (url) {
+        var a = make("a", "", label);
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        li.appendChild(a);
+      } else {
+        li.appendChild(document.createTextNode(label));
+      }
+      list.appendChild(li);
+    });
+    section.appendChild(list);
+    fragment.appendChild(section);
+  }
+
   function render(data, now, targetContainer) {
     if (!data || !Array.isArray(data.festivals)) throw new Error("Invalid festival data");
     targetContainer = targetContainer || container;
@@ -57,6 +95,7 @@
     var upcoming = selectUpcoming(data, today);
 
     var fragment = document.createDocumentFragment();
+    appendNavratriSadhana(fragment, activeNavratriSadhana(data, today));
     upcoming.forEach(function (item) {
       var card = make("article", "festival-card");
       var dateBox = make("div", "festival-date");
@@ -152,7 +191,8 @@
       render: render,
       selectUpcoming: selectUpcoming,
       safeHttpUrl: safeHttpUrl,
-      validDate: validDate
+      validDate: validDate,
+      activeNavratriSadhana: activeNavratriSadhana
     };
   }
 
