@@ -26,6 +26,11 @@ test("MDV-FIX-02: Trisprsha-shaped fixture has the stated sunrise sequence", () 
   const secondTithi = fixture.tithis.find(item => at(item, second.at));
   assert.equal(firstTithi.name, fixture.structuralExpectations.firstSunriseTithi);
   assert.equal(secondTithi.name, fixture.structuralExpectations.secondSunriseTithi);
+  const dvadashi = fixture.tithis.find(item => item.name === "Dvadashi");
+  assert.ok(dvadashi, "fixture must contain Dvadashi");
+  assert.ok(first.at < dvadashi.start, "Dvadashi must begin after the first sunrise");
+  assert.ok(dvadashi.end < second.at, "Dvadashi must end before the second sunrise");
+  assert.ok(dvadashi.start < dvadashi.end, "Dvadashi interval must be positive");
   const touching = fixture.tithis
     .filter(item => item.start < second.at && item.end > first.at)
     .map(item => item.name);
