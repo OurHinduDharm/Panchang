@@ -1162,3 +1162,37 @@ A source-level inspection of `test-astronomy.html`, `ss_chapter3_lagnantara.js`,
 ### Next executable research step
 
 Add a same-instant Venus comparison with three separately labelled values: (a) Chapter III sign-table/interpolated K at the explicitly selected 24° construction, (b) exact OA K at 24° using the same corrected longitudes, and (c) exact OA K at 23.4367° as a modern-obliquity comparator. Record the event branch, raw/corrected planet longitude, Sun longitude, both OA values, K, C, and K−C. Then run the existing headless CI/browser suite and compare the result with the owner-supplied TKS snapshot at 12 October 2026 12:00 IST (K=7.698°, C=8°) without treating that snapshot as automatic ground truth. Only after the frame delta and correction inputs are explained should the event-time bracket be advanced toward a publishable result.
+
+
+## Chromium run result and Venus discrepancy — 16 October 2026
+
+The research-page CI run at commit `946ae6c566e84174c0caf594cbc3d8b8b8e08861` completed successfully, including the headless Chromium run and the check that production `app.js` / `extra-panchang.js` are unchanged. This confirms that the research panels load and the tested arithmetic/geometry invariants execute; it does **not** validate final event dates.
+
+### Same-instant Venus K comparison
+
+At 2026-10-12 12:00 IST (06:30 UTC), using the current research configuration and the owner-supplied TKS comparison value:
+
+| Quantity | Current candidate | Sequential candidate | TKS supplied snapshot |
+|---|---:|---:|---:|
+| Chapter III sign-table K | 12.001454° | 11.994638° | 7.698° |
+| Exact OA K at ε = 24° | 11.885789° | 11.879406° | Not supplied |
+| Sign-table K minus exact OA K | −0.013837° | −0.014211° | — |
+| Swiss Ephemeris K using same candidate geometry | 12.006133° | — | — |
+| Swiss minus Astronomy Engine K | +0.004678° | — | — |
+| Full 3-D meridian-frame candidate K | 13.004798° | — | — |
+| Full-frame candidate minus sequential K | +1.010159° | — | — |
+
+The sign-table and exact-OA candidates at ε=24° differ by only about 0.014°, so table interpolation is not the cause of the roughly 4.30° difference between the current K and the supplied TKS K. Swiss Ephemeris and Astronomy Engine agree within about 0.005° when fed the same candidate geometry, so swapping those ephemeris sources alone is not a plausible fix. The full 3-D meridian-frame experiment moves K farther from the supplied TKS value rather than resolving the discrepancy. The supplied TKS K label/definition and its underlying dṛkkarma construction must therefore be reconciled before choosing a branch. This is a discrepancy finding, not proof that TKS or our candidate is correct.
+
+### Event-time estimate quality finding
+
+The same Chromium run reported the following long-range IX.10–11 estimate differences from the adjacent daily-event bracket:
+
+- Venus Asta: 0.00383 day (about 5.5 minutes).
+- Venus Udaya: 0.29486 day (about 7.08 hours).
+- Jupiter Asta: 0.03801 day (about 54.7 minutes).
+- Jupiter Udaya: 0.00144 day (about 2.1 minutes).
+
+For Venus Udaya, the separate short-horizon comparison was 0.00309 day (about 4.5 minutes), showing that the long-range estimate is particularly unsuitable for that case. The existing browser suite previously treated any discrepancy under 0.75 day as a pass. Its log wording has now been corrected to state that finite values and visible REVIEW warnings are wiring checks, not publication-accuracy validation. Long-range IX.10–11 estimates must not be used as displayed event times until the residual is solved and independently checked at event-time resolution.
+
+**Decision:** retain the research-only status. The immediate blocker is now more specific: explain the approximately 4.30° same-instant K discrepancy (including what the supplied TKS “K” represents), and separately solve/refine event-time residuals. Do not unblock production visibility merely because Chromium CI is green.
