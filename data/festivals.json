@@ -2669,13 +2669,18 @@
       "id": "festival-117",
       "name": "श्री गणेश चतुर्थी / गणेश जयंती",
       "date": {
-        "type": "tithi",
-        "start": "2026-09-14",
-        "end": "2026-09-25",
-        "calculationNotes": "Owner-confirmed display policy: show Ganesh Chaturthi and Ganesh Jayanti together on the same observance date. Keep the festival/visarjan display window separate from the single-day observance label; do not create a second date entry for Ganesh Jayanti.",
-        "rule": "OurHinduDharm में गणेश चतुर्थी और गणेश जयंती एक ही दिन दिखाई जाएँगी—भाद्रपद शुक्ल चतुर्थी पर। गणेशोत्सव/विसर्जन की अवधि (यदि प्रदर्शित हो) इस एक-दिवसीय पर्व-तिथि से अलग अवधारणा है।",
-        "tithi": "भाद्रपद शुक्ल चतुर्थी",
-        "month": "भाद्रपद"
+        "type": "event-duration",
+        "start": null,
+        "end": null,
+        "month": "भाद्रपद",
+        "paksha": "शुक्ल पक्ष",
+        "tithi": "चतुर्थी से अनंत चतुर्दशी",
+        "startTithi": "शुक्ल चतुर्थी",
+        "endTithi": "शुक्ल चतुर्दशी (अनंत चतुर्दशी)",
+        "durationDays": 10,
+        "renderMode": "panchang-tithi-range",
+        "calendarRule": "स्थानीय पंचांग में भाद्रपद शुक्ल चतुर्थी से भाद्रपद शुक्ल अनंत चतुर्दशी तक, दोनों तिथियों सहित, प्रत्येक संबंधित तिथि पर गणेशोत्सव दिखाएँ। ग्रेगोरियन तारीखें स्थायी नियम नहीं हैं; उन्हें चुने हुए वर्ष और स्थान की पंचांग-गणना से निकालें।",
+        "calculationNotes": "Owner-confirmed rule: Ganesh Chaturthi and Ganesh Jayanti share the first day (Bhadrapada Shukla Chaturthi). Ganesh Utsav is displayed for the ten tithi-days from Shukla Chaturthi through Anant Chaturdashi, inclusive. Anant Chaturdashi is the visarjan day. Legacy Gregorian dates remain only in sourceText for provenance and must not drive recurring display."
       },
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत, </a> पत्थर चौथ - भाद्रपद शुक्ल चतुर्थी के दिन चन्द्रमा का दर्शन न करें यदि भूल से हो जाए तो स्यमन्तक मणि का अपकीर्तिनाशक आख्यान पढ़ना चाहिए...",
       "sourceText": {
