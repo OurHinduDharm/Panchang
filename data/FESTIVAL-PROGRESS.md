@@ -921,3 +921,5 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - For the annual Bhairava observance, the isolated preview also checks tithi at the calculated sunset-to-next-sunrise midpoint. This is explicitly a diagnostic proxy, **not** a certified Nishita-muhurta interval or final vrata decision; a proper night observance rule and hard-copy cross-check remain necessary.
 - Added `kalashtami-preview.html` to display the two outputs separately, and adapter unit tests with an injected fake engine.
 - Still not connected to `festival-json-widget.js`, Blogger, or production Panchang UI. Run browser preview and automated tests before treating output as valid. No production deployment/merge.
+
+- Follow-up validation setup: the adapter test is now included in the existing Festival Draft Regression Tests workflow, and both push/PR path filters watch the adapter, preview page, and adapter test. Corrected regex escaping in the adapter's string normalization. GitHub's available status endpoint has not yet exposed a completed test run, so the tests must still be treated as pending until Actions confirms success.
