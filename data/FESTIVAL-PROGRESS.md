@@ -840,3 +840,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Cross-check: Drik Panchang's 2026 Dhumavati Jayanti page explicitly gives 22 June 2026 and Jyeshtha Shukla Ashtami, including tithi start/end; its Jyeshtha 2026 festival list independently repeats the same date/tithi. Other calendar listings corroborate the same pairing.
 - Updated `data/references/lal-bahadur-shastri-panchang-jayanti-dates-2026.json` to record `Jyeshtha Shukla Ashtami`, with a cross-check status and links/description of the evidence. The original Lal Bahadur Shastri printed page is still needed to verify its precise edition/location convention; this is strong corroboration, not a claim to have seen the missing printed digit.
 - No live festival output or production runtime changed. The entry remains reference data pending wider validation.
+
+
+## Dvādaśa Siddhividyā Jayantī reference list — 2026-10-16
+
+- Drik Panchang's separate 2026 **Dwadasha Siddhividya Jayanti** listing identifies twelve observances: Saraswati, Kubjika, Siddhilakshmi, Chandika, Batuka Bhairavi, Parvati, Dakshinamurti, Gayatri, Vindhyavasini, Aparajita, Bala and Annapurna.
+- Added all twelve names, Gregorian dates and listed lunar tithis to `data/references/lal-bahadur-shastri-panchang-jayanti-dates-2026.json`, in a separate `dwadashaSiddhividyaJayantis` section with Drik source URL and location metadata.
+- The retrieved list was for Koath, Bihar, not Pithoragarh. Date variation is possible by location; Annapurna Jayanti is shown as 24 December there, while another location result shows 23 December. These dates are explicitly reference-only and must be checked for the site's location and against the owner's primary Ganesh Martand Panchang before runtime use.
+- This is a distinct category from the ten Dashā-Mahāvidyā Jayantīs already recorded. No production runtime, live festival output, Blogger page or merge state changed.
+
