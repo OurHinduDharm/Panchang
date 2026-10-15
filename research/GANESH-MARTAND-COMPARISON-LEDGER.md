@@ -212,3 +212,10 @@ The longitude difference from the returned apparent ecliptic longitudes is 18.25
 4. Next, query the same API at the actual selected local sunrise and sunset instants for the candidate Venus events, then independently recompute Chapter VII correction components with a single, explicitly documented coordinate frame. Keep Chapter IX lagnāntara/K and modern physical heliacal visibility as separate result columns. Do not change production files.
 
 **Status:** live request, body identity, and timestamp checks passed for this capture. Classical method and event-date validation remain open.
+
+
+## Actual Venus state: VII.10 latitude variant discriminator (16 October 2026)
+
+The live TKS sample at 12 October 2026 06:30 IST reports Venus apparent ecliptic longitude 216.9861995828° and signed latitude −7.5757395814°. The compact fixture records the same-state VII.10 candidate arithmetic. With 24° classical obliquity, the zero-latitude shifted-point declination is −18.959109° and gives Ayana correction −2.393821°; retaining Venus latitude gives shifted declination −26.263259° and correction −3.316060°. Difference: about −55.33 arcminutes. Using the sine-table obliquity 23.975182° gives a similar −55.34 arcminute difference.
+
+This does **not** select the winning interpretation: the state is not the Chapter IX western-event sunset, and the text/commentary geometry plus local-meridian construction remain unresolved. The research page's TKS capture control now accepts an editable date and time and validates the returned JD against that exact local instant. Next comparison should use the actual sunset-side state for Venus Asta and, separately, sunrise-side state for Venus Udaya. Production remains untouched.
