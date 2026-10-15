@@ -968,3 +968,20 @@ At the time of this original checkpoint, the request sent `time=12:00` with no t
 - Workflow for the preceding capture-guard commit `01be9b7e0fbf6beb5448c34361acaff82481e5a6`: run #528 succeeded: https://github.com/OurHinduDharm/Panchang/actions/runs/38717693823. The workflow-path coverage change is commit `67de95468804ac769315c8a3f13d2951d4589432`; its fresh CI run must be checked before marking this follow-up checkpoint green.
 - **Still open:** acquire and inspect the actual raw TKS response; confirm the endpoint's time scale and that the Venus request really returns Venus; recover same-instant intermediate values and the exact definition of displayed K; resolve the source-faithful epoch/meridian/time bridge and coordinate-frame convention. No discrepancy is explained by these guardrails alone.
 - **Production isolation remains mandatory:** no edits to `app.js` or `extra-panchang.js`; PR #22 remains Draft/unmerged; do not certify any Asta/Udaya date from these diagnostic candidates.
+
+
+## Critical correction — 15 October 2026: TKS API parameters and body selection
+
+The TKS developer documentation (https://tksephemeris.com/tks-api) explicitly defines `/v1/tks/ephemeris` parameters as:
+- `time`: local 24-hour time in the timezone supplied by `tz`;
+- `tz`: hours east of UTC (India = `5.5`);
+- `body`: numeric code, with Sun = `10` and Venus = `2`.
+
+The earlier capture code incorrectly sent `time=01:00` without `tz`, and used string body labels `sun` / `venus`. This could explain why the two prior requests appeared to return identical Sun payloads; it is a plausible request-parameter bug, not yet a confirmed explanation of the historical response.
+
+**Corrected research request:** `date=2026-10-12`, `time=06:30`, `tz=5.5`, `lat=29.5830`, `lon=80.2090`, with separate numeric `body=10` and `body=2` requests. The expected UTC Julian Day is `2461325.5416667`. The capture records raw responses and warns unless returned JD is within one second and each `selected_body` matches the requested numeric code. It also warns if the two payloads are identical.
+
+- Updated capture commit: `198665de2cacdcb58d97710c3b68df7c7a838c12`.
+- The broad pull-request path filter now covers all JavaScript, module, HTML, Markdown, and workflow changes; the filter audit passed CI on commit `67de95468804ac769315c8a3f13d2951d4589432`: https://github.com/OurHinduDharm/Panchang/actions/runs/38718611814.
+- The corrected capture code has automated checks running, but **no live response has been captured in this audit session**. Do not report the raw comparison as complete until the manual button is run in a browser and its exact JSON is inspected.
+- This request fix is separate from the remaining classical-model blockers: source-faithful Ahargaṇa/epoch/meridian mapping, Chapter VII coordinate-frame interpretation, exact K definition, and date/event provenance. It does not certify any Udaya/Asta date. Production files remain untouched.
