@@ -66,6 +66,24 @@ test("diagnostic: emit pinned-library tithi/nakshatra intervals for fixed audit 
     library: "@ishubhamx/panchangam-js@3.0.0",
     location: LOCATION,
     datesQueried: DATES,
+    externalReferences: {
+      note: "Source values are rounded to minutes and Astroica location is 30.2, 80.8; these are comparison references, not correctness assertions.",
+      astroica: [
+        { kind: "tithi", name: "Shukla Ekadashi", startUTC: "2026-08-22T20:30:00.000Z", endUTC: "2026-08-23T22:49:00.000Z", source: "Astroica transcription supplied by user; 30.2,80.8; Asia/Kolkata" },
+        { kind: "tithi", name: "Shukla Ekadashi", startUTC: "2026-09-21T14:31:00.000Z", endUTC: "2026-09-22T16:13:00.000Z", source: "Astroica transcription supplied by user; 30.2,80.8; Asia/Kolkata" },
+        { kind: "tithi", name: "Shukla Dwadashi", startUTC: "2026-09-22T16:13:00.000Z", endUTC: "2026-09-23T17:21:00.000Z", source: "Astroica transcription supplied by user; 30.2,80.8; Asia/Kolkata" },
+        { kind: "nakshatra", name: "Shravana", startUTC: "2026-09-22T01:36:00.000Z", endUTC: "2026-09-23T03:39:00.000Z", source: "Astroica transcription supplied by user; 30.2,80.8; Asia/Kolkata" }
+      ],
+      prokeralaDrikCrossCheck: {
+        ekadashiEndUTC: "2026-09-22T16:13:00.000Z",
+        dwadashiEndUTC: "2026-09-23T17:20:00.000Z",
+        shravanaEndUTC: "2026-09-23T03:39:00.000Z",
+        sources: [
+          "https://www.prokerala.com/astrology/panchang/2026-september-22.html",
+          "https://www.drikpanchang.com/panchang/day-panchang.html?date=23%2F09%2F2026&time-format=12hour"
+        ]
+      }
+    },
     generatedAtUTC: new Date().toISOString(),
     intervals
   };
