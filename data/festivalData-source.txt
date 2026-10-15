@@ -350,8 +350,8 @@ festival data
     var today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // कितने दिन आगे के त्योहार दिखाने हैं (45, 60, 90 – जो चाहें)
-    var DAYS_AHEAD = 60;
+    // केवल अगले 14 दिनों के पर्व पहले से दिखाएँ; जो बहुदिवसीय पर्व अभी चल रहा है, वह समाप्ति तक दिख सकता है।
+    var DAYS_AHEAD = 14;
 
 // ---------- 3. फ़िल्टर + सॉर्ट ----------
 var upcoming = festivalData.filter(function(item) {
