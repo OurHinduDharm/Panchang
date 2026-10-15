@@ -40,10 +40,8 @@ function ruleProfile(input) {
   }
   if (!priorTantraTwoFast) {
     return {
-      status: "rule-profile",
-      paranaProfile: "principal-view-retained;-special-yoga-branch-not-authorized-by-input",
-      secondaryView: "end-of-either-one-is-a-minor-view",
-      middle20GhatikaRule
+      status: "unresolved",
+      reason: "yoga-present-but-prior-tantra-two-fast-condition-not-met"
     };
   }
   return {
