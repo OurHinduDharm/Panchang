@@ -69,3 +69,36 @@ Possible causes to test separately:
 4. a stale or different TKS page state/configuration.
 
 For Jupiter, the current source set only supports a broad alignment of the end boundary around 13 September 2027 and a start around 19–20 August. Add more sources before calling this a consensus. Do not infer that the other sites use the TKS Shāstrīya method.
+
+
+## Official National Panchang cross-check — 15 October 2026
+
+**Source:** India Meteorological Department / Positional Astronomy Centre, Rashtriya Panchanga, “Heliacal Rising and setting of planets (For the Central Station of India)”: https://packolkata.imd.gov.in/panchang/en/helical
+
+The published table gives Venus setting in the west on **13 October 2026 at 24:18 IST** (normalize to 14 October 00:18 IST if interpreted as civil clock time) and Venus rising in the east on **28 October 2026 at 07:36 IST**. This is an official Indian astronomical almanac reference, and it is important evidence against treating TKS's 1 November display as a settled date. However, it is explicitly a heliacal rise/set table for the Central Station of India, not a direct statement that it implements the same Chapter IX K>C Shāstrīya verdict as TKS. Preserve the source's notation and event definition; do not silently reinterpret the 24:18 entry.
+
+## Cross-source audit policy and provisional synthesis
+
+This audit will include, at minimum:
+1. **Official almanac/reference:** Rashtriya Panchanga (IMD/Positional Astronomy Centre), including its stated station and event type.
+2. **Established online Panchāṅga:** Drik Panchang, with exact city, timezone, date/time, and its explicit note that modern algorithms are used.
+3. **Other published Indian Panchāṅga/Jyotiṣa calendars:** only as secondary evidence, tagged as potentially derivative/repeating a shared calendar source.
+4. **TKS:** retain separate captures, page mode, date, location, threshold/K/C values, and UI state; do not merge the 900-day and separate Panchāṅga snapshots.
+5. **Independent calculation:** once source-faithful Chapter IX event reconstruction is ready, compare exact instants and event boundaries, rather than merely voting among printed dates.
+
+### Current Venus finding
+- TKS 900-day table: next Shāstrīya Udaya **1 Nov 2026**.
+- IMD Rashtriya Panchanga heliacal table: Venus rises in the east **28 Oct 2026, 07:36 IST**, for the Central Station of India.
+- Drik Panchang, Deoranian: Asta ends **29 Oct 2026, 05:51**; its page states that the dates use modern algorithms.
+- Multiple secondary calendars place Udaya around 28–29 October, but they are not all independent calculation engines.
+
+**Provisional practical conclusion:** the online published-date majority and the official IMD heliacal table cluster around **28–29 October 2026**, not 1 November. This is a strong investigation priority and a practical reference cluster, but **not yet a certified Shāstrīya Chapter IX date**. Do not simply replace the classical output with 28/29 October until the event definitions and classical reconstruction are checked. If the user-facing product needs a value before that research gate is cleared, label the method and confidence explicitly rather than presenting the date as certain.
+
+### Data model required for the final audit
+Each source/event record should carry: planet; event (Asta-start/Udaya/end); source name and URL; retrieval date; source category (official/online Panchāṅga/secondary/TKS/independent calculation); event method (classical threshold/modern computed combustion/heliacal visibility/unclear); displayed local date/time exactly as printed; normalized local civil timestamp where unambiguous; location/station and elevation if supplied; timezone; stated angular criterion; motion direction if relevant; screenshot/capture reference; confidence and caveats.
+
+### Guardrails
+- “Maximum agreement” means maximum agreement among **comparable methods**, not a raw majority of all web pages.
+- Do not count multiple articles repeating one calendar as multiple independent votes.
+- Keep civil midnight, 24+ hour notation, sunrise-based Panchāṅga day, and exact crossing instant separate.
+- Do not modify production `app.js` or `extra-panchang.js`; PR #22 remains research-only and Draft.
