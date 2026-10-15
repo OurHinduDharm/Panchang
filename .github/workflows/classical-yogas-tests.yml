@@ -28,6 +28,8 @@ on:
       - "festival-muhurta-rules.js"
       - "festival-muhurta-engine.js"
       - "festival-muhurta-widget.js"
+      - "festival-json-widget.js"
+      - "tests/festival-json-widget.test.js"
       - "tests/festival-muhurta-widget.test.js"
       - "tests/festival-muhurta-engine.test.js"
       - "tests/festival-muhurta-rules.test.js"
@@ -74,6 +76,7 @@ jobs:
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Syntax-check browser JavaScript
         run: |
+          node --check festival-json-widget.js
           node --input-type=module --check < app.js
           node --input-type=module --check < extra-panchang.js
           node --check classical-yogas.js
@@ -82,6 +85,8 @@ jobs:
           node --check festival-muhurta-widget.js
       - name: Run 2026 festival-season data guardrails
         run: node --test tests/festival-season-2026.test.js
+      - name: Run JSON-backed upcoming festival widget tests
+        run: node --test tests/festival-json-widget.test.js
       - name: Run reusable festival muhurta rule tests
         run: node --test tests/festival-muhurta-rules.test.js
       - name: Run location-aware Ghatasthapana engine tests
