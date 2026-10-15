@@ -41,6 +41,7 @@ test("invalid calendar dates and reversed ranges are excluded", () => {
     festivals: [
       { id: "invalid", date: { start: "2026-02-31" } },
       { id: "reversed", date: { start: "2026-10-18", end: "2026-10-17" } },
+      { id: "invalid-end", date: { start: "2026-10-16", end: "2026-02-31" } },
       { id: "valid", name: "सही", date: { start: "2026-10-16" } }
     ]
   };
