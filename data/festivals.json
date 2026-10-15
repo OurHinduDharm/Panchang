@@ -2324,7 +2324,7 @@
         "type": "tithi",
         "start": "2026-07-25",
         "end": "2026-07-30",
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "calculationNotes": "Owner-confirmed display intent (2026-10-15): show the Harishayani Ekadashi/Chaturmas sankalpa opportunity from 2026-07-25 through 2026-07-30, inclusive, so users who missed Ekadashi can still see the option through Purnima. This is a display window, not a claim that the Chaturmas vrata itself lasts only six days. Calendar/tithi dates and the legacy description's '29 July' wording still need separate verification.",
         "tithi": "आषाढ़ शुक्ल एकादशी",
         "month": "आषाढ़",
         "rule": "एकादशी-व्रत निर्णय; चातुर्मास-आरम्भ परंपरा जाँचें।"
@@ -2337,7 +2337,12 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html\" target=\"_blank\"> हरिशयनी एकादशी, चार महीने का महाव्रत चातुर्मास प्रारंभ</a> - नियम चातुर्मास की महिमा लिंक में लिख दिये हैं *जो चातुर्मास व्रत करने के इच्छुक हैं पर जिन्होंने चातुर्मास का संकल्प अभी तक नहीं लिया है आषाढ़पूर्णिमा - २९ जुलाई तक अवश्य संकल्प ले लें...*"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner clarification (2026-10-15): the July 25 start is intentional because Harishayani Ekadashi is on that date and its article gives users a Chaturmas vrata sankalpa.",
+        "The July 30 end is intentional as a user-facing opportunity window through Ashadha Purnima for people who could not take the sankalpa on Ekadashi. Preserve this span unless the owner explicitly changes the decision.",
+        "Legacy description still says 'आषाढ़पूर्णिमा - २९ जुलाई तक'; this conflicts with the owner's clarified July 30 display end and should be reviewed when copy is edited. Keep sourceText unchanged as archive evidence."
+      ]
     },
     {
       "id": "festival-102",
