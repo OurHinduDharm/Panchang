@@ -11,6 +11,7 @@
  * the start of Ardra nakshatra's first pada in Mithuna.
  */
 const AMBUBACHI_TARGET_LONGITUDE_DEGREES = 66 + 40 / 60;
+const AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES = 70;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 function normalizeLongitude(value) {
@@ -81,6 +82,38 @@ function findSiderealSolarIngress(options) {
 }
 
 /**
+ * Calculate the astronomical Ambubachi interval from the Sun's sidereal
+ * longitude: Pravritti at 66°40′ (start of Ardra pada 1), Nivritti at
+ * 70°00′ (end of Ardra pada 1). The same caller-supplied ephemeris and
+ * ayanamsha must be used for both boundaries.
+ *
+ * This is a Drik-style longitude-boundary calculation, not a temple schedule.
+ * It does not claim to reproduce traditional mean-motion Siddhanta panjikas.
+ */
+function findAmbubachiSolarWindow(options) {
+  if (!options || typeof options.longitudeAt !== "function") {
+    throw new TypeError("longitudeAt(date) callback is required");
+  }
+  const common = {
+    start: options.start,
+    end: options.end,
+    longitudeAt: options.longitudeAt,
+    stepHours: options.stepHours,
+    toleranceMs: options.toleranceMs
+  };
+  const pravritti = findSiderealSolarIngress({
+    ...common,
+    targetLongitudeDegrees: AMBUBACHI_TARGET_LONGITUDE_DEGREES
+  });
+  const nivritti = findSiderealSolarIngress({
+    ...common,
+    targetLongitudeDegrees: AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES
+  });
+  if (!pravritti || !nivritti || nivritti <= pravritti) return null;
+  return { pravritti, nivritti, method: "sidereal-solar-longitude-ardra-pada-1" };
+}
+
+/**
  * Return the provisional local-date calendar window after Pravritti.
  * This is not an astronomical Nivritti calculation and must not override
  * the official Kamakhya Devalaya reopening notice.
@@ -113,6 +146,8 @@ function getAmbubachiRitualWindow(pravrittiLocalDate) {
 
 module.exports = {
   AMBUBACHI_TARGET_LONGITUDE_DEGREES,
+  AMBUBACHI_NIVRITTI_LONGITUDE_DEGREES,
   findSiderealSolarIngress,
+  findAmbubachiSolarWindow,
   getAmbubachiRitualWindow
 };
