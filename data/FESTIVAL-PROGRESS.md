@@ -849,3 +849,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - The retrieved list was for Koath, Bihar, not Pithoragarh. Date variation is possible by location; Annapurna Jayanti is shown as 24 December there, while another location result shows 23 December. These dates are explicitly reference-only and must be checked for the site's location and against the owner's primary Ganesh Martand Panchang before runtime use.
 - This is a distinct category from the ten Dashā-Mahāvidyā Jayantīs already recorded. No production runtime, live festival output, Blogger page or merge state changed.
 
+
+
+## Siddhividya source separation and next validation step — 2026-10-16
+
+- Separated the twelve Drik-listed Dvādaśa Siddhividyā Jayantīs from the Lal Bahadur Shastri Panchang transcription. The dedicated file is now `data/references/drik-dwadasha-siddhividya-jayantis-2026.json`; the Lal Bahadur file now contains only its own source-provided Dashāvatāra and Daśa-Mahāvidyā records.
+- Source listing: https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhividya-jayanti-dates.html?year=2026. Retrieved page explicitly identifies its location as Koath, Bihar. The twelve records are therefore not yet location-validated for Pithoragarh.
+- A general Drik Panchang page is available for Pithoragarh, but search did not surface a reliable location-specific Dvādaśa Siddhividyā list. Do not infer local dates merely from the Koath listing or from the general tithi calendar; individual observance rules can also differ.
+- Next safe step: retain the source transcription as reference-only, then validate date/tithi pairings against the Pithoragarh Panchang and the project's primary Ganesh Martand Panchang before designing any runtime event records. Keep Dvādaśa Siddhividyā separate from Daśa-Mahāvidyā and from common Jayantī namesakes unless a source explicitly equates them.
+- No production runtime, festival output, Blogger page or merge state changed.
