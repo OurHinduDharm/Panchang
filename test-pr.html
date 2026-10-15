@@ -111,6 +111,8 @@ code{overflow-wrap:anywhere}
         throw new Error("यह PR उसी सार्वजनिक रिपॉज़िटरी की शाखा से नहीं है; इस Preview टूल से इसे नहीं खोला जा सकता।");
       }
       const previewUrl = "https://raw.githack.com/" + repo + "/" + encodeURIComponent(pr.head.sha) + "/index.html";
+      const festivalPreviewUrl = "https://raw.githack.com/" + repo + "/" + encodeURIComponent(pr.head.sha) + "/festival-preview.html";
+      const hasFestivalPreview = files.some(file => file.filename === "festival-preview.html");
       result.replaceChildren();
       result.appendChild(el("h2", "#" + number + " — " + (pr.title || "बिना शीर्षक")));
       const status = pr.merged ? "Merged" : (pr.draft ? "Draft" : "Review के लिए खुला");
@@ -126,7 +128,8 @@ code{overflow-wrap:anywhere}
       });
       result.appendChild(list);
       const actions = el("div", undefined, "actions");
-      actions.appendChild(link(previewUrl, "Preview खोलें"));
+      actions.appendChild(link(previewUrl, "Panchang Preview खोलें"));
+      if (hasFestivalPreview) actions.appendChild(link(festivalPreviewUrl, "त्योहार Widget Preview खोलें"));
       actions.appendChild(link(pr.html_url, "GitHub पर PR देखें", "button"));
       result.appendChild(actions);
       result.appendChild(el("p", "Preview commit SHA से बनाया गया है, इसलिए यह PR के उसी commit को संदर्भित करता है। अगर पेज/मॉड्यूल लोड न हों, तो Preview host की सीमा हो सकती है।", "muted"));
