@@ -14,7 +14,8 @@
     "2026-10-15 widget audit: parent Navaratri end date is retained only on festival-003; individual daily observance records no longer inherit 20 October as their display end. festival-009 preserves the user's clarified 18 October title and provisional 17–18 October civil-date span; exact tithi instants/observance rule remain unverified.",
     "2026-10-15 local diagnostic follow-up: festival-014 Kartik month-start candidate is 2026-10-26 under the project's Purnimanta convention because the pinned-library Pithoragarh interval shows Ashwin Purnima ending and Krishna Pratipada beginning on 26 October; sourceText retains the legacy 27 October date, and the rule remains needs-review.",
     "Navratri sadhana display rule: while any of the four principal Navratri period records (Ashwin, Chaitra, Magha Gupt, Ashadha Gupt) is active, show the complete day 1–9 article list together, so a missed day remains accessible; day 10 Dashami immersion link is included separately. This display rule does not assert a universal observance date and does not alter the main Panchang today's-festival logic.",
-    "Pitri Paksha article visibility rule: show the Mahalaya Shraddha importance and Tarpan Vidhi links from the start of the configured Pitri Paksha period through Pitri Visarjani Amavasya inclusive. This only controls article visibility; the period records and dates require annual review and do not certify shraddha observance/muhurta."
+    "Pitri Paksha article visibility rule: show the Mahalaya Shraddha importance and Tarpan Vidhi links from the start of the configured Pitri Paksha period through Pitri Visarjani Amavasya inclusive. This only controls article visibility; the period records and dates require annual review and do not certify shraddha observance/muhurta.",
+    "Owner-approved festival policy updates on 2026-10-15: Tulsi Vivah tithi window; split Kali Chaudas from Narak Chaturdashi per Drik; both Gayatri Jayanti dates; Hanuman Jayanti vs Kameshwari Jayanti; both Ganesh observances; Adyakali on Janmashtami night; add Bhadrakali Jayanti; eclipse cards must link to live local eclipse Panchang and never use placeholder dates."
   ],
   "festivals": [
     {
@@ -538,15 +539,17 @@
     },
     {
       "id": "festival-019",
-      "name": "श्री हनुमान जयन्ती (2025)",
+      "name": "श्री हनुमान जयंती (कार्तिक कृष्ण चतुर्दशी)",
       "date": {
         "type": "tithi",
-        "start": "2025-10-19",
+        "start": null,
         "end": null,
-        "calculationNotes": "Legacy Blogger record dated 2025-10-19 is preserved as historical source data. The observance rule is now explicitly limited to Kartik Krishna Chaturdashi (Purnimanta); current-year date still requires calculation and validation.",
-        "tithi": "कृष्ण चतुर्दशी",
         "month": "कार्तिक (पूर्णिमान्त)",
-        "rule": "OurHinduDharm में हनुमान जन्मोत्सव की स्वीकृत दूसरी तिथि: कार्तिक कृष्ण चतुर्दशी, अर्थात् नरक चतुर्दशी। यह 2025 का पुराना रिकॉर्ड है; वर्तमान वर्ष की तारीख स्थानीय पंचांग-गणना से सत्यापित किए बिना न बदलें/प्रकाशित न करें।"
+        "paksha": "कृष्ण पक्ष",
+        "tithi": "चतुर्दशी",
+        "rule": "OurHinduDharm की स्वीकृत परंपरा में हनुमान जयंती की दूसरी तिथि कार्तिक कृष्ण चतुर्दशी/नरक चतुर्दशी है। वर्तमान वर्ष का दिन स्थानीय पंचांग से निकालें।",
+        "renderMode": "panchang-tithi",
+        "calculationNotes": "2025-10-19 पुराना Gregorian source date था; इसे वर्तमान वर्ष के लिए स्थायी तारीख न मानें।"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\"> श्री हनुमान जयन्ती</a> आज हनुमान चालीसा के ११ या २१ या ५१ या १०८ पाठ अवश्य करें। विशेष रूप से आज <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html?m=1\" target=\"_blank\"> श्रीहनुमान जी की स्तोत्रात्मक उपासना</a> करना न भूलेंI आज शाम देवालयों में जाकर दीपदान करे(दीपक जलाये) उसके बाद घर में दीपदान करें। कामेश्वरी जयन्ती।",
       "sourceText": {
@@ -555,21 +558,24 @@
         "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\"> श्री हनुमान जयन्ती</a> आज हनुमान चालीसा के ११ या २१ या ५१ या १०८ पाठ अवश्य करें। विशेष रूप से आज <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html?m=1\" target=\"_blank\"> श्रीहनुमान जी की स्तोत्रात्मक उपासना</a> करना न भूलेंI आज शाम देवालयों में जाकर दीपदान करे(दीपक जलाये) उसके बाद घर में दीपदान करें। कामेश्वरी जयन्ती।"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner clarification 2026-10-15: Hanuman Jayanti is observed here on Narak Chaturdashi; Kameshwari Jayanti is a separate observance on Diwali (Kartik Krishna Amavasya). Do not combine the two names in one event."
+      ]
     },
     {
       "id": "festival-020",
-      "name": "नरक चतुर्दशी / काली चौदस",
+      "name": "नरक चतुर्दशी / अभ्यंग स्नान",
       "date": {
         "type": "tithi",
         "start": "2026-11-08",
         "end": null,
-        "calculationNotes": "2026 के IMD Rashtriya Panchanga और अन्य कैलेंडर संदर्भ नरक चतुर्दशी को 8 नवम्बर बताते हैं। उसी civil date पर दीपावली भी है; यह तिथि-व्याप्ति/सूर्योदय-आधारित overlap है, typo नहीं। अरुणोदय स्नान की स्थानीय गणना शेष।",
         "tithi": "कार्तिक कृष्ण चतुर्दशी",
         "month": "कार्तिक",
-        "rule": "नरक चतुर्दशी; अरुणोदय/प्रातः स्नान और चतुर्दशी-व्याप्ति के नियम से निर्णय करें; दीपावली के साथ एक तारीख पर आना संभव है।"
+        "rule": "नरक चतुर्दशी/अभ्यंग स्नान: चतुर्दशी तिथि में सूर्योदय-पूर्व स्नान के नियम से तारीख तय करें। 2026 में Drik Panchang के अनुसार 8 नवम्बर।",
+        "calculationNotes": "Drik Panchang के अनुसार 2026 में चतुर्दशी 7 नवम्बर 10:47 से 8 नवम्बर 11:27 IST तक है; चतुर्दशी सूर्योदय-पूर्व रहने के कारण नरक चतुर्दशी 8 नवम्बर है। स्थान के अनुसार समय जाँचें।"
       },
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\">नरक चतुर्दशी</a>, काली चौदस🪔 इस दिन प्रातः काल लौकी सिर से घुमाकर व सरसों का तेल शरीर में लगाकर स्नान करें।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\">नरक चतुर्दशी</a> — अरुणोदय/सूर्योदय-पूर्व अभ्यंग स्नान के लिए स्थानीय ग्रह-तिथि समय देखें।",
       "sourceText": {
         "date": "2025-10-19",
         "title": "नरक चतुर्दशी / काली चौदस",
@@ -582,6 +588,9 @@
           "title": "नरक चतुर्दशी",
           "url": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html"
         }
+      ],
+      "reviewNotes": [
+        "Owner decision 2026-10-15: split Kali Chaudas from Narak Chaturdashi where the reference (especially Drik Panchang) assigns separate ritual dates."
       ]
     },
     {
@@ -719,17 +728,32 @@
     },
     {
       "id": "festival-025",
-      "name": "तुलसी विवाह विधान प्रारंभ",
+      "name": "तुलसी विवाह (कार्तिक शुक्ल द्वादशी से पूर्णिमा तक)",
       "date": {
-        "type": "tithi",
-        "start": "2025-11-02",
-        "end": "2025-11-05",
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": "प्रायः कार्तिक शुक्ल द्वादशी से पूर्णिमा के बीच",
+        "type": "tithi-window",
+        "start": null,
+        "end": null,
         "month": "कार्तिक",
-        "rule": "तुलसी विवाह की तिथि परंपरा/क्षेत्र के अनुसार भिन्न हो सकती है; एक निश्चित दिन न मानें।"
+        "paksha": "शुक्ल पक्ष",
+        "tithi": "द्वादशी से पूर्णिमा तक",
+        "rule": "मुख्य दिन कार्तिक शुक्ल द्वादशी है। यदि कोई उस दिन तुलसी विवाह न कर सके, तो OurHinduDharm परंपरा-नीति के अनुसार द्वादशी से पूर्णिमा तक किसी दिन कर सकता है।",
+        "renderMode": "panchang-tithi-window",
+        "tithiWindow": {
+          "from": {
+            "month": "कार्तिक",
+            "paksha": "शुक्ल पक्ष",
+            "tithi": "द्वादशी"
+          },
+          "through": {
+            "month": "कार्तिक",
+            "paksha": "शुक्ल पक्ष",
+            "tithi": "पूर्णिमा"
+          },
+          "inclusive": true
+        },
+        "calculationNotes": "पुराना 2–5 नवम्बर 2025 Gregorian span स्रोत-अभिलेख है, स्थायी तारीख नहीं। वर्तमान वर्ष में स्थानीय पंचांग से द्वादशी और पूर्णिमा के दिन निकाले जाएँ।"
       },
-      "description": "कार्तिक शुक्ल द्वादशी (२ नवंबर) से कार्तिक पूर्णिमा(5 नवंबर) तक <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\">तुलसी विवाह विधान</a> कराएं।",
+      "description": "कार्तिक शुक्ल द्वादशी मुख्य दिन है। यदि उस दिन न कर सकें तो द्वादशी से पूर्णिमा तक किसी भी दिन तुलसी विवाह कर सकते हैं। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\">तुलसी विवाह विधान</a>",
       "sourceText": {
         "date": "2025-11-02",
         "endDate": "2025-11-05",
@@ -737,7 +761,10 @@
         "description": "कार्तिक शुक्ल द्वादशी (२ नवंबर) से कार्तिक पूर्णिमा(5 नवंबर) तक <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\">तुलसी विवाह विधान</a> कराएं।"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner clarification 2026-10-15: the Nov 2–5, 2025 range represented Kartik Shukla Dwadashi through Purnima, allowing devotees who missed Dwadashi to perform Tulsi Vivah on any day through Purnima. Keep this as a tithi-based inclusive window, not a fixed Gregorian range."
+      ]
     },
     {
       "id": "festival-026",
@@ -1333,45 +1360,54 @@
     },
     {
       "id": "festival-054",
-      "name": "सूर्य ग्रहण (तिथि परिवर्तनशील / प्लेसहोल्डर)",
+      "name": "सूर्य ग्रहण — ग्रहण पंचांग",
       "date": {
         "type": "astronomical",
-        "start": "1970-01-01",
+        "start": null,
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
         "tithi": null,
         "month": null,
-        "rule": "ग्रहण की तारीख/समय खगोलीय गणना और दृश्यता-स्थान से निकालें; किसी स्थिर वार्षिक तिथि का उपयोग न करें।"
+        "rule": "कोई स्थायी तारीख नहीं। वास्तविक सूर्यग्रहण, स्थानीय दृश्यता, ग्रहण-स्पर्श/मोक्ष और लागू होने पर सूतक की अवधि ग्रहण पंचांग से दिखाएँ।",
+        "renderMode": "eclipse-panchang-link",
+        "eventKind": "solar-eclipse",
+        "sutakPolicy": "केवल संबंधित ग्रहण, स्थानीय दृश्यता और लागू शास्त्रीय नियम के अनुसार; कोई स्थिर अवधि/तारीख हार्ड-कोड न करें.",
+        "calculationNotes": "पुराना 1970-01-01 केवल placeholder था; अब सक्रिय तारीख के रूप में हटाया गया। ग्रहण समय/दृश्यता का स्रोत eclipse-panchang.js है। ग्रहण-पंचांग का सटीक Blogger URL अभी जोड़ना है।"
       },
-      "description": "सूर्य ग्रहण - इस वर्ष (2026) के टेक्स्ट में इसका उल्लेख नहीं है, परंतु डेटा संरचना बनाए रखने व लिंक सहेजने हेतु इसे रखा गया है। वास्तविक तिथि के लिए पंचांग देखें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\">ग्रहण स्तोत्र एवं पूजन विधि</a>",
+      "description": "सूर्य ग्रहण की तिथि, आपके स्थान पर दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि जानने के लिए <b>OurHinduDharm ग्रहण पंचांग</b> देखें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\">ग्रहण स्तोत्र एवं पूजन विधि</a>",
       "sourceText": {
         "date": "1970-01-01",
         "title": "सूर्य ग्रहण (तिथि परिवर्तनशील / प्लेसहोल्डर)",
         "description": "सूर्य ग्रहण - इस वर्ष (2026) के टेक्स्ट में इसका उल्लेख नहीं है, परंतु डेटा संरचना बनाए रखने व लिंक सहेजने हेतु इसे रखा गया है। वास्तविक तिथि के लिए पंचांग देखें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\">ग्रहण स्तोत्र एवं पूजन विधि</a>"
       },
       "sourceUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: this was manually updated in the past; remove the 1970 placeholder and direct users to the live eclipse Panchang for current event times, local visibility, and applicable Sutak. Exact public Blogger URL is still needed before a clickable link can be wired."
+      ]
     },
     {
       "id": "festival-055",
-      "name": "धुलण्डी (रंगवाली होली)",
+      "name": "धुलण्डी / रंगवाली होली",
       "date": {
         "type": "tithi",
-        "start": "2026-03-03",
+        "start": "2026-03-04",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
         "tithi": "फाल्गुन पूर्णिमा के अगले दिन",
         "month": "फाल्गुन",
-        "rule": "होलिका दहन के बाद रंगोत्सव; क्षेत्रीय परंपरा के अनुसार।"
+        "rule": "होलिका दहन के बाद रंगोत्सव; 2026 के लिए Drik Panchang/संदर्भ कैलेंडर के अनुसार 4 मार्च।",
+        "calculationNotes": "2026 में होलिका दहन 3 मार्च और रंगवाली होली/धुलण्डी 4 मार्च। मतभेद होने पर तिथि-व्याप्ति, स्थानीय परंपरा और विश्वसनीय संदर्भ पंचांग की जाँच करें; पुराना विवरण स्रोत-अभिलेख में सुरक्षित है।"
       },
-      "description": "धुलण्डी, रंगवाली होली (<a href=\"http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html\" target=\"_blank\">जानें होली का रहस्य</a>) 4 मार्च को वसंतोत्सव रहेगा इस दिन भी होली खेल सकते हैं।",
+      "description": "धुलण्डी, रंगवाली होली (<a href=\"http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html\" target=\"_blank\">जानें होली का रहस्य</a>) — 2026 में संदर्भ पंचांग के अनुसार 4 मार्च।",
       "sourceText": {
         "date": "2026-03-03",
         "title": "धुलण्डी (रंगवाली होली)",
         "description": "धुलण्डी, रंगवाली होली (<a href=\"http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html\" target=\"_blank\">जानें होली का रहस्य</a>) 4 मार्च को वसंतोत्सव रहेगा इस दिन भी होली खेल सकते हैं।"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: historical date disagreement was intentional; use shastric rule and the currently selected reference calendar rather than treating the old hand-entered date as authoritative."
+      ]
     },
     {
       "id": "festival-056",
@@ -2028,7 +2064,7 @@
     },
     {
       "id": "festival-087",
-      "name": "वेदमाता गायत्री जयंती",
+      "name": "गायत्री जयंती — ज्येष्ठ शुक्ल एकादशी और श्रावण शुक्ल पूर्णिमा",
       "date": {
         "type": "tithi",
         "start": null,
@@ -2069,7 +2105,8 @@
       "reviewNotes": [
         "Owner-confirmed site policy (2026-10-15): display Gayatri Jayanti on both Jyeshtha Shukla Ekadashi and Shravan Shukla Purnima, because both are accepted observance traditions.",
         "Legacy description mixed Gayatri Jayanti with Ambubachi dates. Ambubachi is tracked separately in festival-123; preserve the old mixed description only in sourceText for provenance.",
-        "festival-110 is another legacy Gayatri Jayanti record and appears to duplicate this consolidated record; its date/tithi metadata needs review before rendering."
+        "festival-110 is another legacy Gayatri Jayanti record and appears to duplicate this consolidated record; its date/tithi metadata needs review before rendering.",
+        "Owner decision 2026-10-15 reaffirmed: show both accepted dates—Jyeshtha Shukla Ekadashi and Shravan Shukla Purnima—so devotees can worship on either tradition's date."
       ]
     },
     {
@@ -2544,15 +2581,18 @@
     },
     {
       "id": "festival-110",
-      "name": "श्री गायत्री जयन्ती",
+      "name": "गायत्री जयंती (पुराना स्रोत रिकॉर्ड — मुख्य रिकॉर्ड festival-087)",
       "date": {
         "type": "tithi",
-        "start": "2026-08-28",
+        "start": null,
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
-        "tithi": "ज्येष्ठ शुक्ल एकादशी (कुछ परंपराओं में)",
         "month": "ज्येष्ठ",
-        "rule": "गायत्री जयंती की तिथि परंपरा के अनुसार भिन्न हो सकती है; लेख/सम्प्रदाय से पुष्टि करें।"
+        "paksha": "शुक्ल पक्ष",
+        "tithi": "एकादशी",
+        "rule": "यह पुराना duplicate source record है। display नहीं करना; दोनों observances के लिए festival-087 उपयोग करें।",
+        "renderMode": "source-only",
+        "supersededBy": "festival-087",
+        "calculationNotes": "Legacy date 2026-08-28 गलत Gregorian mapping थी; original tithi metadata retained for provenance."
       },
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\"> श्री गायत्री जयन्ती</a>, यज्ञोपवीत धारियों द्वारा जप - १० माला",
       "sourceText": {
@@ -2561,7 +2601,12 @@
         "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\"> श्री गायत्री जयन्ती</a>, यज्ञोपवीत धारियों द्वारा जप - १० माला"
       },
       "sourceUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "superseded",
+      "display": false,
+      "supersededBy": "festival-087",
+      "reviewNotes": [
+        "Owner decision: festival-087 is the sole display record for both Gayatri Jayanti traditions; retain this duplicate only for historical source provenance."
+      ]
     },
     {
       "id": "festival-111",
@@ -2607,7 +2652,7 @@
     },
     {
       "id": "festival-113",
-      "name": "श्रीकृष्ण जयंती / श्री कृष्ण जन्माष्टमी, श्री आद्याकाली जयन्ती",
+      "name": "श्रीकृष्ण जन्माष्टमी / श्रीकृष्ण जयंती / आद्याकाली जयंती",
       "date": {
         "type": "tithi",
         "start": "2026-09-04",
@@ -2615,7 +2660,8 @@
         "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
         "tithi": "भाद्रपद कृष्ण अष्टमी",
         "month": "भाद्रपद",
-        "rule": "जन्माष्टमी में अष्टमी और रोहिणी/निशीथकाल, तथा स्मार्त/वैष्णव भेद जाँचें।"
+        "rule": "जन्माष्टमी: भाद्रपद कृष्ण अष्टमी में स्थानीय स्मार्त/वैष्णव नियम, रोहिणी और निशीथकाल जाँचें। आद्याकाली जयंती इसी कृष्ण जन्माष्टमी की रात्रि में मानी जाती है; इसे अलग रात्री-आधारित उल्लेख के रूप में रखें।",
+        "calendarRule": "आद्याकाली जयंती को कृष्ण जन्माष्टमी की रात्रि/निशीथ observance से जोड़ें; इसे अलग अमावस्या या किसी सामान्य काली-जयंती तिथि से न मिलाएँ।"
       },
       "description": "⭐<b> ४ सितम्बर -</b><a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\">श्रीकृष्ण जयंती, श्री कृष्ण जन्मोत्सव-पूजन-जागरण, दशाफल व्रत एवं श्री कृष्ण जन्माष्टमी व्रत</a> (स्मार्त जनसाधारण का), <br/>⭐<b> ४ सितम्बर को ही - </b> श्री कृष्ण जन्माष्टमी व्रत (वैष्णवों- विष्णुमंत्र से दीक्षितों का)<br/>अर्द्धरात्रि में, <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">श्री आद्याकाली (महाकाली महाविद्या) जयन्ती</a> , कालाष्टमी।",
       "sourceText": {
@@ -2624,7 +2670,10 @@
         "description": "⭐<b> ४ सितम्बर -</b><a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\">श्रीकृष्ण जयंती, श्री कृष्ण जन्मोत्सव-पूजन-जागरण, दशाफल व्रत एवं श्री कृष्ण जन्माष्टमी व्रत</a> (स्मार्त जनसाधारण का), <br/>⭐<b> ४ सितम्बर को ही - </b> श्री कृष्ण जन्माष्टमी व्रत (वैष्णवों- विष्णुमंत्र से दीक्षितों का)<br/>अर्द्धरात्रि में, <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">श्री आद्याकाली (महाकाली महाविद्या) जयन्ती</a> , कालाष्टमी।"
       },
       "sourceUrl": "http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner clarification 2026-10-15: Adyakali Jayanti is on the night of Krishna Janmashtami; keep this distinct from Bhadrakali Jayanti."
+      ]
     },
     {
       "id": "festival-114",
@@ -2691,7 +2740,7 @@
     },
     {
       "id": "festival-117",
-      "name": "श्री गणेश चतुर्थी / गणेश जयंती / गणेशोत्सव प्रारंभ",
+      "name": "श्री गणेश चतुर्थी (मुख्य) / माघ गणेश जयंती (वैकल्पिक परंपरा)",
       "date": {
         "type": "tithi",
         "start": null,
@@ -2699,10 +2748,20 @@
         "month": "भाद्रपद",
         "paksha": "शुक्ल पक्ष",
         "tithi": "शुक्ल चतुर्थी",
-        "rule": "भाद्रपद शुक्ल चतुर्थी के दिन गणेश चतुर्थी, गणेश जयंती और गणेशोत्सव प्रारंभ एक ही प्रविष्टि में दिखाएँ।",
+        "rule": "मुख्य observance: भाद्रपद शुक्ल चतुर्थी—गणेश चतुर्थी/गणेशोत्सव प्रारंभ। अलग परंपरा की माघ शुक्ल चतुर्थी पर गणेश जयंती भी दिखाएँ; दोनों को एक ही तारीख न मानें।",
         "calculationNotes": "स्थानीय पंचांग की संबंधित तिथि के आधार पर दिखाएँ। कोई स्थायी Gregorian तारीख न लगाएँ; पुराने स्रोत की तारीखें केवल provenance के लिए sourceText में सुरक्षित हैं।",
         "renderMode": "panchang-tithi",
-        "calendarRule": "स्थानीय पंचांग में भाद्रपद शुक्ल चतुर्थी जिस दिन लागू हो, उसी दिन यह प्रविष्टि दिखाएँ। दिन-संख्या और बीच की तिथियाँ न दिखाएँ।"
+        "calendarRule": "मुख्य: भाद्रपद शुक्ल चतुर्थी। वैकल्पिक अलग observance: माघ शुक्ल चतुर्थी। दोनों तिथियों को अलग-अलग दिन प्रदर्शित करें।",
+        "alternateObservances": [
+          {
+            "month": "माघ",
+            "paksha": "शुक्ल पक्ष",
+            "tithi": "चतुर्थी",
+            "renderMode": "panchang-tithi",
+            "name": "गणेश जयंती (माघ शुक्ल चतुर्थी)",
+            "rule": "माघ शुक्ल चतुर्थी पर मनाई जाने वाली गणेश जयंती की अलग परंपरा; स्थानीय पंचांग के अनुसार तारीख निकालें।"
+          }
+        ]
       },
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत एवं स्यमन्तक मणि का अपकीर्तिनाशक आख्यान</a>। इस दिन गणेश चतुर्थी, गणेश जयंती तथा गणेशोत्सव का प्रारंभ है। शास्त्रानुसार इस दिन चन्द्रदर्शन का निषेध है। भूलवश चन्द्रदर्शन हो जाए तो श्रीकृष्ण-स्यमन्तक मणि से संबंधित अपकीर्तिनाशक आख्यान पढ़ें।",
       "sourceText": {
@@ -2712,7 +2771,10 @@
         "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत, </a> पत्थर चौथ - भाद्रपद शुक्ल चतुर्थी के दिन चन्द्रमा का दर्शन न करें यदि भूल से हो जाए तो स्यमन्तक मणि का अपकीर्तिनाशक आख्यान पढ़ना चाहिए..."
       },
       "sourceUrl": "https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html",
-      "verificationStatus": "needs-review"
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: retain both dates—Bhadrapada Shukla Chaturthi as the primary Ganesh Chaturthi and Magha Shukla Chaturthi as a separate Ganesh Jayanti tradition."
+      ]
     },
     {
       "id": "festival-118",
@@ -2872,6 +2934,91 @@
         "Independent Swiss Ephemeris/Lahiri calculation: 2026 Pravritti 22 Jun 12:26:05 IST and Nivritti 26 Jun 00:18:03 IST; published Vishuddha Siddhanta values are 12:16 and midnight 12:18 (interpreted as the rollover into 26 June).",
         "Published Gupta Press timings differ from this Drik/Lahiri calculation; preserve them as a separate traditional reference rather than forcing a match. Verify the 2025 Gupta Press values against the original printed panjika before stronger conclusions.",
         "The browser diagnostic ambubachi-validation.html must confirm Panchangam-JS solar-longitude semantics and output before this rule is wired into the production renderer. No live Blogger change has been made."
+      ]
+    },
+    {
+      "id": "festival-124",
+      "name": "काली चौदस / काली चतुर्दशी (निशीथ पूजा)",
+      "date": {
+        "type": "tithi",
+        "start": "2026-11-07",
+        "end": null,
+        "month": "कार्तिक",
+        "paksha": "कृष्ण पक्ष",
+        "tithi": "चतुर्दशी",
+        "rule": "काली चौदस की तारीख चतुर्दशी के निशीथ/मध्यरात्रि-व्याप्ति से तय करें। Drik Panchang के 2026 संदर्भ में 7 नवम्बर; इसे नरक चतुर्दशी के सूर्योदय-पूर्व स्नान नियम से अलग रखें।",
+        "renderMode": "panchang-tithi",
+        "ritualWindow": "nishita",
+        "calculationNotes": "Drik Panchang 2026 Kali Chaudas page lists 7 Nov, while Narak Chaturdashi/Abhyang Snan is 8 Nov. Verify city-specific Nishita interval."
+      },
+      "description": "काली चौदस की निशीथ-व्याप्ति आधारित पूजा के लिए स्थानीय तिथि और निशीथकाल देखें। इसे नरक चतुर्दशी/अभ्यंग स्नान से स्वतः एक ही दिन न मानें।",
+      "sourceUrl": "https://www.drikpanchang.com/diwali/kali-chaudas/kali-chaudas-date-time.html?year=2026",
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: split Kali Chaudas and Narak Chaturdashi according to Drik Panchang's distinct ritual rules; use local city timings."
+      ]
+    },
+    {
+      "id": "festival-125",
+      "name": "भद्रकाली जयंती",
+      "date": {
+        "type": "tithi",
+        "start": null,
+        "end": null,
+        "month": "ज्येष्ठ",
+        "paksha": "कृष्ण पक्ष",
+        "tithi": "एकादशी",
+        "rule": "भद्रकाली जयंती को ज्येष्ठ कृष्ण एकादशी के अनुसार रखें; वर्तमान वर्ष की तारीख स्थानीय पंचांग से निकालें। अन्य क्षेत्रीय/ग्रंथीय मत मिलने पर अलग observance note रखें।",
+        "renderMode": "panchang-tithi",
+        "calculationNotes": "Secondary online reference lists Jyeshtha Krishna Ekadashi; primary shastric/panjika confirmation is still required before calling this universally accepted."
+      },
+      "description": "भद्रकाली जयंती — ज्येष्ठ कृष्ण एकादशी। स्थानीय पंचांग से तिथि की पुष्टि करें।",
+      "sourceUrl": "https://www.prokerala.com/astrology/bhadrakali-jayanti-13-may-2026-timings.htm",
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner requested Bhadrakali Jayanti be added by tithi. Current candidate rule is Jyeshtha Krishna Ekadashi based on a secondary 2026 reference; verify against a stronger panjika or primary source before promoting as universal."
+      ]
+    },
+    {
+      "id": "festival-126",
+      "name": "कामेश्वरी जयंती (दीपावली)",
+      "date": {
+        "type": "tithi",
+        "start": null,
+        "end": null,
+        "month": "कार्तिक",
+        "paksha": "कृष्ण पक्ष",
+        "tithi": "अमावस्या",
+        "rule": "OurHinduDharm की परंपरा में कामेश्वरी जयंती दीपावली/कार्तिक कृष्ण अमावस्या के दिन दिखाएँ।",
+        "renderMode": "panchang-tithi",
+        "relatedFestivalId": "festival-021",
+        "calculationNotes": "Gregorian date must follow the current year's local Diwali observance, not the old manually entered date."
+      },
+      "description": "कामेश्वरी जयंती — दीपावली के दिन।",
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner clarification 2026-10-15: Kameshwari Jayanti is on Diwali day and must be a distinct observance from Hanuman Jayanti on Narak Chaturdashi."
+      ]
+    },
+    {
+      "id": "festival-127",
+      "name": "चंद्र ग्रहण — ग्रहण पंचांग",
+      "date": {
+        "type": "astronomical",
+        "start": null,
+        "end": null,
+        "tithi": null,
+        "month": null,
+        "rule": "कोई स्थायी तारीख नहीं। वास्तविक चंद्रग्रहण, स्थानीय दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि ग्रहण पंचांग से दिखाएँ।",
+        "renderMode": "eclipse-panchang-link",
+        "eventKind": "lunar-eclipse",
+        "sutakPolicy": "केवल संबंधित ग्रहण, स्थानीय दृश्यता और लागू शास्त्रीय नियम के अनुसार; कोई स्थिर अवधि/तारीख हार्ड-कोड न करें.",
+        "calculationNotes": "ग्रहण-घटना/स्थानीय दृश्यता eclipse-panchang.js और साझा Panchangam API से निकालें। लाइव Blogger ग्रहण-पंचांग का सटीक URL जोड़ना शेष है।"
+      },
+      "description": "चंद्र ग्रहण की तिथि, आपके स्थान पर दृश्यता, स्पर्श-मोक्ष और जहाँ लागू हो सूतक की अवधि जानने के लिए <b>OurHinduDharm ग्रहण पंचांग</b> देखें।",
+      "verificationStatus": "needs-review",
+      "reviewNotes": [
+        "Owner decision 2026-10-15: create a separate lunar-eclipse card that links to the live eclipse Panchang; remove static placeholder dates and show applicable Sutak only when supported by the location/event rules."
       ]
     }
   ],
