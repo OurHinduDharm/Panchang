@@ -102,19 +102,24 @@ try {
   );
 
   await page.waitForFunction(
-    () => document.querySelector("#sameInstantTksAuditOutput")?.innerText.includes("2026-10-12 12:00:00 IST"),
+    () => {
+      const text = document.querySelector("#sameInstantTksAuditOutput")?.innerText || "";
+      return text.includes("2026-10-12 17:42 IST") &&
+        text.includes("12:12:00 UTC") &&
+        text.includes("reference-only");
+    },
     null,
     { timeout: 90000 }
   );
 
   const sameInstantAudit = await page.locator("#sameInstantTksAuditOutput").innerText();
-  console.log("Same-instant TKS Venus snapshot audit:", sameInstantAudit.replace(/\\s+/g, " ").trim());
-  if (!sameInstantAudit.includes("2026-10-12 12:00:00 IST") ||
-      !sameInstantAudit.includes("Sign-table K vs TKS reference") ||
-      !sameInstantAudit.includes("instant/frame unverified") ||
+  console.log("Selected-instant Venus candidate audit:", sameInstantAudit.replace(/\\s+/g, " ").trim());
+  if (!sameInstantAudit.includes("2026-10-12 17:42 IST") ||
+      !sameInstantAudit.includes("12:12:00 UTC") ||
+      !sameInstantAudit.includes("reference-only") ||
       !sameInstantAudit.includes("7.698°") ||
       sameInstantAudit.includes("comparison failed")) {
-    throw new Error("Venus reference audit did not render its timestamp and provenance-pending TKS K label.");
+    throw new Error("Venus candidate audit did not render the selected IST/UTC instant and provenance-pending TKS reference.");
   }
   if (!/Swiss Ephemeris K \(same geometry\)[\s\S]*?\d+\.\d+°[\s\S]*?Swiss−AE:\s*[+-]?\d+\.\d+°/.test(sameInstantAudit) ||
       sameInstantAudit.includes("Swiss Ephemeris K (same geometry)\nUnavailable")) {
