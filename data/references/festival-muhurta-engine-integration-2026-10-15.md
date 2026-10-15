@@ -23,7 +23,7 @@ Replace copied, city-specific festival clock times with calculations from the Ou
 
 ## Important limitations — not yet production/live
 
-- The adapter tests and the existing regression suite passed on an earlier commit; the newest full regression run is still in progress.
+- The complete GitHub Actions interval-regression workflow passed for code commit `c73ee3629f38779f9f65026a32a16ce2e486727e` (the subsequent change was documentation-only).
 - The real-library diagnostic confirms `p.tithis`, `p.nakshatras`, `p.yogas`, and `p.abhijitMuhurta` provide the expected interval fields. For 11 October 2026 at the project Pithoragarh reference coordinates, the adapter emits a **diagnostic candidate** of approximately 06:07–10:28 IST and warns that both Chitra and Vaidhriti overlap that window. This is not a published/approved muhurta; independent local-time comparison is still required.
 - The adapter is not yet connected to the Blogger festival-card renderer or the live Panchang page. Updating this repository does not by itself update the Blogger template.
 - Do not publish a calculated Ghatasthapana time until the real-library diagnostic is inspected and the result is cross-checked against at least one independent Panchang for the same city/date.
