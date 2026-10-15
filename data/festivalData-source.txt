@@ -514,6 +514,14 @@ html += '</div></article>';
 #chaturmas-card div {
   line-height: 1.4 !important;
 }
+
+    #dynamicFestivalList .navratri-sadhana{margin:10px 0 14px;padding:12px;background:#fff8e8;border:1px solid #e8c98e;border-left:4px solid #b45309;border-radius:10px}
+    #dynamicFestivalList .navratri-sadhana-title{font-size:16px;font-weight:800;color:#6f3210;line-height:1.4}
+    #dynamicFestivalList .navratri-sadhana-note{margin:4px 0 8px;color:#66513b;font-size:12px;line-height:1.5}
+    #dynamicFestivalList .navratri-sadhana-list{margin:0;padding-left:22px}
+    #dynamicFestivalList .navratri-sadhana-item{padding:4px 0;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+    #dynamicFestivalList .navratri-sadhana-item a{color:#7c2d92;text-decoration:none;font-weight:650}
+    #dynamicFestivalList .navratri-sadhana-item a:hover{text-decoration:underline}
 </style>
 <hr color="red" size="10" />
 <div id="chaturmas-card" style="background-color: #fdfbf7; border-left: 4px solid #d97706; padding: 16px; margin: 15px 0; font-family: sans-serif; border-radius: 4px; line-height: 1.6;">
