@@ -1207,3 +1207,12 @@ The research panel has therefore been corrected: TKS figures remain reference-on
 ### Next required comparison
 
 Capture/identify the TKS **K and C output at exactly 12 October 2026 12:00 IST** with the same location and the exact method options selected, or calculate our candidate at the exact TKS instant for which K = 7.698° was recorded. Preserve the raw request timestamp, timezone, coordinates, elevation, event-side selection, and method labels together. Only a matched fixture can support a valid K residual comparison.
+
+## Provenance-label correction — 16 October 2026
+
+The browser page's TKS Venus section heading and introductory text previously implied a same-instant comparison, even though the TKS values K = 7.698°, C = 8°, ecliptic separation = 17.6°, and 3-D separation = 19.4° still lack verified matching timestamp/frame provenance. The heading and copy are corrected to call this a **TKS Venus snapshot provenance audit** and to say explicitly that the TKS values are reference-only. This is a presentation/provenance correction; it does not change the astronomical calculations or assert that either method is correct.
+
+Commit: `010ea151f26d72a9ed56d7aa9fce7656b4ebb3e4`
+CI: [run 38813645600](https://github.com/OurHinduDharm/Panchang/actions/runs/38813645600) completed successfully. This confirms the research page wiring and existing test suite after the copy change; it is not a new validation of the event-time model.
+
+Next gate remains unchanged: obtain a TKS K/C snapshot with exact request timestamp, timezone, coordinates, elevation, and method options, or identify the exact timestamp for the existing snapshot. Then capture Sun/Venus at the correct local sunset for Venus Asta and sunrise for Venus Udaya; compare all Chapter VII correction components in one documented frame. Only after the daily-event bracket and IX.10–11 estimate agree within a predeclared tolerance should any event time be considered for production display.
