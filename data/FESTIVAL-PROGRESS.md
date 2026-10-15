@@ -815,3 +815,11 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Result: improved source evidence, but `dinavr̥ddhi` remains unresolved as an executable predicate. Do not replace it with a generic day-increase flag, a sunrise-repeat boolean, or a universal 60-daṇḍa threshold. The synthetic Pakṣavardhinī fixture must remain unresolved; no real fast date or pāraṇa is selected.
 - Updated source comparison: `data/references/ekadashi-source-comparison.md`, commit `cce1880930ad701fd330f76c8e626e5de4efca2b`.
 - No production runtime, festival dates, Blogger output, or PR merge state changed. CI has not been claimed for this documentation-only commit.
+
+
+## Unmīlanī / Vañjulī source variants — 2026-10-16
+
+- Cross-checked the digital Sanskrit/English *Hari-bhakti-vilāsa* text: Vilāsa 13.267–268 distinguishes an Ekādaśī-increase pattern (Unmīlanī) from a Dvādaśī-increase pattern (Vañjulī), while its displayed explanations introduce 64/60-daṇḍa formulations.
+- The same source's Vilāsa 13.356 quotes a Padma Purāṇa passage that associates Vañjulī with a half-muhūrta of Trayodaśī. This is not obviously the same trigger as the 13.268 formulation; exact Sanskrit reading, attribution and interval anchor need further review. Vilāsa 12.391–392 separately confirms the broad split between four tithi-shaped Mahādvādaśīs and four nakṣatra-associated ones.
+- Added the comparison and explicit variant warning to `data/references/ekadashi-source-comparison.md` (commit `cc7b20ea8a0ab4481da54bce94b839c286f31ff6`).
+- Outcome: do not add a universal 60/64-daṇḍa threshold or merge these Vaiṣṇava formulations into the scanned Dharmasindhu profile. Unmīlanī and Vañjulī remain research-only; no fast date, pāraṇa, production code or Blogger output changed. CI has not been claimed for this documentation-only commit.
