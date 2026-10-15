@@ -288,3 +288,40 @@ test("Chaturmas sankalpa display window remains intentionally July 25–30 per o
   assert.ok(item.reviewNotes.some((note) => note.includes("could not take the sankalpa on Ekadashi")));
   assert.ok(item.reviewNotes.some((note) => note.includes("29 जुलाई")));
 });
+
+
+test("real Navratri configuration has nine daily links plus a separate Dashami link", () => {
+  const config = data.navratriSadhana;
+  assert.ok(config, "Navratri sadhana config should exist");
+  assert.deepEqual(config.days.map(item => item.day).sort((a, b) => a - b), [1,2,3,4,5,6,7,8,9,10]);
+  for (const day of config.days) {
+    assert.ok(day.tithi, "day " + day.day + " needs a tithi label");
+    assert.ok(day.name, "day " + day.day + " needs a display name");
+    assert.match(day.url || "", /^https?:\/\//, "day " + day.day + " needs a real HTTP(S) URL");
+    assert.ok(widget.safeHttpUrl(day.url), "day " + day.day + " URL must pass URL validation");
+  }
+  assert.match(config.days.find(item => item.day === 10).tithi, /दशमी/);
+  for (const id of config.activePeriodIds) {
+    const period = data.festivals.find(item => item.id === id);
+    assert.ok(period, "configured Navratri period must resolve: " + id);
+    assert.ok(widget.validDate(period.date.start), "valid start date for " + id);
+    assert.ok(widget.validDate(period.date.end), "valid end date for " + id);
+    assert.ok(period.date.end >= period.date.start, "non-reversed period for " + id);
+  }
+});
+
+test("real Pitri Paksha configuration points to existing period records and safe article URLs", () => {
+  const config = data.pitriPakshaArticles;
+  assert.ok(config, "Pitri Paksha article config should exist");
+  assert.equal(config.articles.length, 2);
+  for (const id of config.activePeriodIds) {
+    const period = data.festivals.find(item => item.id === id);
+    assert.ok(period, "configured Pitri Paksha period must resolve: " + id);
+    assert.ok(widget.validDate(period.date.start), "valid start date for " + id);
+    assert.ok(widget.validDate(period.date.end || period.date.start), "valid end date for " + id);
+  }
+  for (const article of config.articles) {
+    assert.ok(article.title, "article title must not be empty");
+    assert.ok(widget.safeHttpUrl(article.url), "article URL must be HTTP(S)");
+  }
+});
