@@ -111,3 +111,47 @@ The university's official Panchang index explicitly lists “Panchang 2026–27 
 https://www.slbsrsv.ac.in/taxonomy/term/2445
 
 The page's exposed link currently resolves to a cover thumbnail, not the actual searchable PDF or page images. Therefore this is a promising same-year alternate source, but its Asta/Udaya table has **not yet been inspected or transcribed**. Next retrieval step is to open the edition's flipbook/full-page images or locate its PDF asset; do not infer table values from the cover/index alone.
+
+## User-transcribed SLBS National Sanskrit University Panchang 2026–27 entries
+
+The user has now visited the official university Panchang page and transcribed its “ग्रहों का उदयास्त” table. This supersedes the earlier note that the 2026–27 table was not yet inspected. The values below are user-transcribed from the page; they have not yet been checked against a page image.
+
+| Printed date | Planet | Printed event | Printed time |
+|---|---|---|---|
+| 17.04.2026 | Mars | Rise | 25:52 |
+| 29.04.2026 | Mercury | Set | 06:54 |
+| 22.05.2026 | Mercury | Rise | 29:24 |
+| 02.07.2026 | Mercury | Set | 14:33 |
+| 22.07.2026 | Mercury | Rise | 09:38 |
+| 18.08.2026 | Mercury | Set | 08:45 |
+| 13.09.2026 | Mercury | Rise | 26:52 |
+| 27.10.2026 | Mercury | Set | 06:49 |
+| 09.11.2026 | Mercury | Rise | 24:43 |
+| 13.12.2026 | Mercury | Set | 22:20 |
+| 18.01.2027 | Mercury | Rise | 10:05 |
+| 12.02.2027 | Mercury | Set | 30:48 |
+| 24.02.2027 | Mercury | Rise | 19:37 |
+| 15.07.2026 | Jupiter | Set | 19:21 |
+| 10.08.2026 | Jupiter | Rise | 05:51 |
+| 13.10.2026 | Venus | Set | 17:51 |
+| 28.10.2026 | Venus | Rise | 30:33 |
+| 17.04.2026 | Saturn | Rise | 13:59 |
+| 24.03.2027 | Saturn | Set | 23:55 |
+
+### Time convention — critical
+
+The university's 2025–26 published table is explicitly titled “ग्रहोंके वक्रत्व-मार्गत्व एवं उदयास्त (भा. स्टैं.टा.)”, i.e. Indian Standard Time. Its entries include times above 24:00 (e.g. Mercury rise 08.08.2025 at 24:41; Jupiter rise 06.07.2025 at 29:30), so values above 24:00 are best preserved in the printed extended-hour notation and may be normalized for comparison by carrying the excess hours into the next civil date. This is **not** elapsed time from sunrise. Confirm that the 2026–27 edition uses the same convention by inspecting its full heading/notes; do not silently normalize the printed source.
+
+### Preliminary overlaps with Ganesh Martand (not adjudicated)
+
+- Mercury rise: Ganesh Martand 23 May 2026 05:19; SLBS printed 22 May 29:24, which normalizes arithmetically to 23 May 05:24. Residual = SLBS − GM = +5 min. This is a close cross-panchanga agreement, but the SLBS row does not specify east/west event direction; it is not yet a verified same-definition match.
+- Jupiter set: GM 15 July 2026 19:09; SLBS 15 July 2026 19:21. Residual +12 min.
+- Jupiter rise: GM 10 August 2026 05:40; SLBS 10 August 2026 05:51. Residual +11 min.
+- Venus rise: GM 29 October 2026 06:26; SLBS printed 28 October 30:33, arithmetically 29 October 06:33. Residual +7 min.
+- Venus set: GM 12 October 2026 17:40; SLBS 13 October 2026 17:51. Printed civil date differs by one day and time differs by 11 minutes; do not call this a close match until date convention and event definition are resolved.
+
+These small residuals on Mercury/Jupiter/Venus-rise cases make the SLBS table a promising independent printed benchmark. They do **not** prove which computational model is used. Before comparing remaining Mercury entries, preserve and inspect the original event directions and standard-difference instruction in the Ganesh Martand image, and confirm the SLBS edition's exact heading/time convention.
+
+### Correction to previous source-status note
+
+The official index listing alone did not expose the table, but the user has now directly transcribed it. The table is available as user-provided evidence; no image-level verification is claimed. Do not state that the 2026–27 table remains unavailable.
