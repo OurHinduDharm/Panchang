@@ -55,7 +55,7 @@ The dates below are carried over/provisional values in the draft data. This is a
 | `festival-088` Ashadha Gupt Navratri | 2026-07-15 – 2026-07-23 | Used by the all-days sadhana rule. | Verify yearly dates and preserve links throughout the parent period. |
 | `festival-101` Harishayani Ekadashi / Chaturmas | 2026-07-25 – 2026-07-30 | **Owner-confirmed intentional display window** through Purnima; legacy description has a July 29 wording mismatch. | Keep dates; verify calendar and resolve public-copy wording later. |
 | `festival-103` Shravan month | 2026-07-30 – 2026-08-28 | Long month card; no dedicated article URL is currently extracted, and month convention is not explicit. Its start sharing July 30 with the Chaturmas window is not by itself a conflict. | Confirm month system and article/link target before proposing all-month link display. |
-| `festival-117` Ganesh Chaturthi-related record | 2026-09-14 – 2026-09-25 | The title says “Ganesh Ji ki Jayanti” but description points to Ganesh Chaturthi / Bhadrapada Shukla Chaturthi; 12-day span looks suspicious for a single-day observance. | High priority: inspect legacy intent and correct title/span only after confirmation. Do not interpret as a 12-day festival automatically. |
+| `festival-117` Ganesh Chaturthi-related record | 2026-09-14 – 2026-09-25 | External calendar cross-check supports Ganesh Chaturthi on 14 September and Anant Chaturdashi / main visarjan on 25 September 2026; the span may be an intentional Ganeshotsav display window. The title “Ganesh Ji ki Jayanti” conflicts with the linked article/description for Bhadrapada Ganesh Chaturthi. | Preserve the span pending owner review; likely clarify the public title as a Ganesh Chaturthi/Ganeshotsav period, but do not rename automatically. Distinguish this from Magha Shukla Chaturthi Ganesh Jayanti. |
 
 ## Long-period article visibility: candidates, not yet implemented
 
@@ -86,3 +86,14 @@ Do not add any of these to runtime visibility rules until its intent and dates a
 - Keep editorial intent, calculated tithi intervals, ritual observance decisions and article visibility as separate fields/decisions.
 - If an inconsistency has more than one reasonable explanation, ask the owner rather than guess.
 - Run the relevant automated tests after any change to period configuration or link visibility.
+
+
+## Research update: Ganesh record (`festival-117`) — 2026-10-15
+
+The initial “suspicious long span” flag is refined after a date/concept cross-check:
+
+- Drik Panchang's 2026 calendar lists Ganesh Chaturthi on **14 September 2026** and Ganesh Visarjan on **25 September 2026**: https://www.drikpanchang.com/festivals/ganesh-chaturthi/ganesh-chaturthi-date-time.html?geoname-id=1254241
+- India's official tourism site describes Ganesh Chaturthi as a Bhadrapada Shukla Chaturthi festival that can continue for different community durations and culminate in Anant Chaturdashi visarjan: https://www.incredibleindia.gov.in/en/festivals-and-events/maharashtra/ganesh-chaturthi
+- Drik Panchang's overview distinguishes Bhadrapada Ganesh Chaturthi from Magha-month Ganesh Jayanti traditions: https://www.drikpanchang.com/festivals/ganesh-chaturthi/info/ganesha-chaturthi.html
+
+**Interpretation for our data:** the stored 14–25 September span is plausibly an intentional festival/display window rather than a bad date range, especially because `festival-121` already marks visarjan on 25 September. The unresolved issue is the title: `festival-117` says “श्री गणेश जी की जयंती” while its description links to “श्री गणेश चतुर्थी व्रत”. Do not change the title or span automatically; ask the owner before changing the visible wording. Keep the original `sourceText` untouched.
