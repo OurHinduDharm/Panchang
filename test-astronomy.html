@@ -5078,6 +5078,7 @@ rawTksButton.addEventListener("click", async () => {
   if (!selectedDate || !selectedTime) {
     rawTksStatus.className = "status warn";
     rawTksStatus.textContent = "Select both a local date and local time before requesting.";
+    rawTksButton.disabled = false;
     return;
   }
   rawTksStatus.textContent = "Requesting Sun and Venus for " + selectedDate + " " + selectedTime + " IST (tz=5.5)…";
