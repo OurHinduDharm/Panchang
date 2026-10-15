@@ -479,7 +479,7 @@ html += '</div></article>';
     }
   })();
 </script>
-<script defer src="https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@data/festival-json-foundation/festival-muhurta-widget.js"></script>
+<script defer src="https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/festival-muhurta-widget.js"></script>
 <style>
 #chaturmas-card {
   padding: 10px 12px !important;
