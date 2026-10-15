@@ -4994,6 +4994,32 @@ const rawTksOutput = document.getElementById("rawTksOutput");
 
 // Extract only fields explicitly present in the returned JSON. Keep the
 // complete response_text/response_json untouched as the primary evidence.
+function identifyTksBody(data) {
+  // Prefer explicit response identity fields. The published API docs specify
+  // the request's numeric body parameter but do not guarantee selected_body.
+  const candidates = [
+    ["selected_body", data?.selected_body],
+    ["body_code", data?.body_code],
+    ["body.code", data?.body?.code],
+    ["body.id", data?.body?.id],
+    ["body.body_code", data?.body?.body_code],
+    ["body.name", data?.body?.name],
+    ["body", typeof data?.body === "string" ? data.body : null]
+  ];
+  for (const [path, value] of candidates) {
+    const numeric = typeof value === "number" || (typeof value === "string" && /^\\d+$/.test(value.trim()))
+      ? Number(value)
+      : NaN;
+    if (numeric === 10 || numeric === 2) return { code: numeric, path, evidence: value };
+    if (typeof value === "string") {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === "sun" || normalized === "sol") return { code: 10, path, evidence: value };
+      if (normalized === "venus" || normalized === "shukra") return { code: 2, path, evidence: value };
+    }
+  }
+  return { code: null, path: null, evidence: null };
+}
+
 function summarizeRawTksFields(value) {
   const wanted = /time.?scale|julian|j2000|kernel|ephemeris|state.?vector|position|velocity|right.?ascension|declination|ecliptic|longitude|latitude|ayanamsha|ayanamsa|nirayana|sidereal|tropical|apparent|geometric|epoch|frame|equinox|utc|tt|ut1/i;
   const found = [];
@@ -5059,12 +5085,18 @@ rawTksButton.addEventListener("click", async () => {
         record.response_text = await response.text();
         try {
           record.response_json = JSON.parse(record.response_text);
+          record.api_success = record.response_json?.success === true;
+          if (!record.api_success) {
+            record.api_error = record.response_json?.error || "Response does not explicitly confirm success: true.";
+          }
           record.extracted_candidate_fields = summarizeRawTksFields(record.response_json);
-          const returnedBodyCode = Number(record.response_json?.selected_body);
-          record.returned_body_code = Number.isFinite(returnedBodyCode) ? returnedBodyCode : null;
-          record.body_code_matches_request = Number.isFinite(returnedBodyCode)
-            ? returnedBodyCode === requestedBody.code
-            : false;
+          const bodyIdentity = identifyTksBody(record.response_json);
+          record.returned_body_code = bodyIdentity.code;
+          record.body_identity_field = bodyIdentity.path;
+          record.body_identity_evidence = bodyIdentity.evidence;
+          record.body_code_matches_request = bodyIdentity.code === null
+            ? null
+            : bodyIdentity.code === requestedBody.code;
         } catch {
           record.response_json_parse_error = "Response body was not valid JSON.";
         }
@@ -5086,10 +5118,13 @@ rawTksButton.addEventListener("click", async () => {
         bodies: captures
       }, null, 2);
     }
-    const failures = captures.filter(x => !x.http_ok);
+    const failures = captures.filter(x => !x.http_ok || x.api_success !== true);
     const sameBodyPayload = captures.length === 2 &&
       captures[0].response_json && captures[1].response_json &&
       JSON.stringify(captures[0].response_json) === JSON.stringify(captures[1].response_json);
+    const bodySelectionMismatch = captures.some(record => record.body_code_matches_request === false);
+    const bodySelectionUnverified = captures.length !== 2 ||
+      !captures.every(record => record.body_code_matches_request === true);
     const expectedJD = 2461325.5416667;
     const jdToleranceDays = 1 / 86400; // one second
     const jdChecks = captures.map(record => {
@@ -5101,19 +5136,19 @@ rawTksButton.addEventListener("click", async () => {
       return record.jd_matches_requested_instant;
     });
     const instantUnverified = jdChecks.length !== 2 || !jdChecks.every(Boolean);
-    const bodySelectionUnverified = captures.length !== 2 ||
-      !captures.every(record => record.body_code_matches_request === true);
     const bodyUnverified = sameBodyPayload || bodySelectionUnverified;
     rawTksStatus.className = failures.length || bodyUnverified || instantUnverified ? "status warn" : "status ok";
     rawTksStatus.textContent = failures.length
-      ? "Capture completed with one or more HTTP/fetch errors. Inspect each exact request and response below; do not treat an error as astronomical data."
+      ? "At least one response failed HTTP or did not explicitly return success: true. Inspect each raw response; do not treat an error payload as astronomical data."
       : sameBodyPayload
         ? "Warning: Sun and Venus responses are identical. Do not compare K until the raw payload and body selection are resolved."
-        : bodySelectionUnverified
-          ? "Warning: at least one response does not confirm the requested numeric body code (Sun=10, Venus=2). Treat that body's state as unverified."
-          : instantUnverified
-            ? "Warning: the returned JD is missing or differs from 2461325.5416667 by more than one second. These are not yet a verified same-instant comparison."
-            : "Both responses confirm the requested body codes and requested instant within one second. Inspect raw coordinates/frame fields before comparing K.";
+        : bodySelectionMismatch
+          ? "Warning: the response explicitly identifies a different body from the requested Sun=10 / Venus=2. Do not use this capture."
+          : bodySelectionUnverified
+            ? "Warning: the response does not expose a recognized body-identity field. The numeric request is recorded, but returned-body identity remains unverified."
+            : instantUnverified
+              ? "Warning: the returned JD is missing or differs from 2461325.5416667 by more than one second. These are not yet a verified same-instant comparison."
+              : "Both responses explicitly confirm success, requested body identity and the requested instant within one second. Inspect raw coordinates/frame fields before comparing K.";
   } finally {
     rawTksButton.disabled = false;
   }
