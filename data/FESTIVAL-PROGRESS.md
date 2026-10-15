@@ -690,3 +690,11 @@ See data/references/festival-discrepancy-audit-2026-10-15.md for the detailed di
 - Hardened missing timestamp handling (`null` is unavailable, not Unix epoch), ISO calendar date validation, coordinate ranges, and timezone-offset validation.
 - Added synthetic regression coverage for these methods in `tests/festival-muhurta-engine.test.js`. Festival regression workflow passed at commit `5bbb67bd049bf95e93afadb14343c17c967ec756`: https://github.com/OurHinduDharm/Panchang/actions/runs/38715243242 . The latest documentation-only commits do not alter runtime behavior.
 - These calculation adapters are still not wired to visitor-facing cards. Next core-code task is to validate the pinned Panchang library's actual moonrise/tithi interval outputs in the browser diagnostic and connect only validated inputs to the draft preview. Do not begin the review HTML dashboard until this runtime path and seasonal card output are verified.
+
+
+## Continuation log — 2026-10-15 (app planning / festival audit)
+- App roadmap `APP-ROADMAP.md` added on this draft branch only; it does not alter the live site or publish an app.
+- Catalog currently contains 130 records. The original 122 legacy entries remain preserved; additional records include mapped owner-reported 2026 observances.
+- Synced `data/FESTIVAL-REVIEW-GUIDE.md` with records now mapped: `festival-128` Papankusha Ekadashi (22 Oct), `festival-129` Pradosha (23 Oct), and `festival-130` Ashwini Purnima (26 Oct). Ashwini Purnima is still unresolved pending explanation/source; do not merge it into Sharad Purnima or delete it without evidence.
+- Continue the immediate Navaratri-to-Diwali batch first. Use Ganesh Martand as the owner's primary reference; Drik is a secondary cross-check only when consistent. Keep ritual-time calculations (Sandhi Puja, Ghatasthapana, Sharad Purnima moonlight/kheer, Ekadashi parana, Dhanteras and Diwali puja) distinct from display dates.
+- Keep PR #33 in Draft. No live Blogger/runtime integration and no automatic application of overrides without explicit approval.
