@@ -102,3 +102,26 @@ Each source/event record should carry: planet; event (Asta-start/Udaya/end); sou
 - Do not count multiple articles repeating one calendar as multiple independent votes.
 - Keep civil midnight, 24+ hour notation, sunrise-based Panchāṅga day, and exact crossing instant separate.
 - Do not modify production `app.js` or `extra-panchang.js`; PR #22 remains research-only and Draft.
+
+
+## Expanded Jupiter location-sensitivity audit — 15 October 2026
+
+Additional Drik Panchang 2027 Jupiter Asta pages were checked for multiple Indian locations. They do **not** all show the same local boundary:
+
+| Drik location | Asta starts (local time) | Asta ends (local time) | Source |
+|---|---|---|---|
+| Kulgam, Jammu & Kashmir | 15 Aug 2027, 19:53 | 13 Sep 2027, 05:26 | https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=5835 |
+| Gaya, Bihar | 18 Aug 2027, 18:54 | 13 Sep 2027, 04:54 | https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?lang=hi&year=9096 |
+| Khapa, Maharashtra | 18 Aug 2027, 19:15 | 13 Sep 2027, 05:20 (24+ notation: source displays 12 Sep 29:20+) | https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?lang=hi&year=2027 |
+| Bhatkal, Karnataka | 19 Aug 2027, 19:23 | 13 Sep 2027, 05:43 (source displays 12 Sep 29:43+) | https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2084 |
+| New Delhi, NCR | 17 Aug 2027, 19:32 | 13 Sep 2027, 05:22 | https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2794 |
+
+This wide start-date spread within one publisher is a warning not to take a single city's page as a universal geocentric angular-threshold date. It may reflect location-specific event/visibility conventions, differing stored city settings, or a page/configuration issue; the cause is not established here. End dates converge on **13 September 2027** once 24+ hour notation is normalized. TKS's 20 August Asta start is near the later part of the Drik spread, while its 13 September Udaya date agrees at civil-date level with the normalized Drik end boundary. This remains a cross-source date comparison, not validation of a shared method.
+
+A further relevant calendar reference is Vedic Studies' 13 September 2027 India Panchāṅga page, which says it is based on the printed Sri Uttaradi Matha Surya Siddhanta Panchāṅga (Kannada edition, 2026–27): https://vedicstudies.org/panchanga/2027-09-13. This verifies provenance for the daily Panchāṅga date, **not** the Guru Udaya/Asta boundary itself; do not count it as evidence for the planet event until the underlying printed almanac entry is inspected.
+
+### Updated interim decision rule
+For the present data, report:
+- **Venus:** published modern/heliacal sources cluster around 28–29 Oct 2026; TKS Shāstrīya 1 Nov is an unresolved outlier. The 12 Oct Asta-start civil date is broadly shared, although exact instants differ.
+- **Jupiter:** the ending/Udaya civil date clusters on 13 Sep 2027 after normalization; Asta-start times vary substantially across Drik locations and need a same-location, same-event-definition comparison before any “majority date” is selected.
+- **Production:** no dates should be hard-coded from this tally. The final site record must identify the chosen method and preserve an alternate/reference date when the classical and modern/heliacal methods differ.
