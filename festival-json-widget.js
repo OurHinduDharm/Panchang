@@ -49,8 +49,9 @@
     });
   }
 
-  function render(data, now) {
+  function render(data, now, targetContainer) {
     if (!data || !Array.isArray(data.festivals)) throw new Error("Invalid festival data");
+    targetContainer = targetContainer || container;
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     var todayKey = localDateString(today);
     var upcoming = selectUpcoming(data, today);
@@ -138,10 +139,10 @@
       card.appendChild(body);
       fragment.appendChild(card);
     });
-    if (upcoming.length) {
-      container.replaceChildren(fragment);
-      container.setAttribute("data-source", "festivals-json");
-      container.setAttribute("data-window-days", String(DAYS_AHEAD));
+    if (upcoming.length && targetContainer) {
+      targetContainer.replaceChildren(fragment);
+      targetContainer.setAttribute("data-source", "festivals-json");
+      targetContainer.setAttribute("data-window-days", String(DAYS_AHEAD));
     }
     return { count: upcoming.length, today: todayKey };
   }
