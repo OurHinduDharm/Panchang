@@ -739,3 +739,18 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 3. Record each named rule profile's exact source clause and scope before coding a date selector or parana-time engine.
 4. After rule-profile tests, build a source-backed 2026 comparison table against the owner's Ganesh Martand Panchang. Keep Smartā/Vaiṣṇava differences visible and do not choose unresolved dates by majority website.
 5. Keep all work on this draft branch; no public runtime/Blogger edits and no merge until owner approval.
+
+
+## Ekadashi source-clause guardrails added — 2026-10-15 (continued)
+
+- Added `tests/ekadashi-source-clause-guardrails.test.js` with nine test-only guardrails:
+  - canonical source IDs are unique;
+  - the `बहवः` and `केचित्` midday pāraṇa views remain distinct;
+  - no default opinion is silently selected;
+  - the morning-three-muhūrta anchor remains explicitly unresolved;
+  - the four supplied Mahādvādaśī/nakṣatra pairings are recorded exactly;
+  - the first four Mahādvādaśī definitions are not invented from incomplete OCR;
+  - the conjunction-ending clause remains research-only, not a clock-time rule.
+- Added `tests/ekadashi-*.test.js` to the draft CI trigger paths and test command.
+- CI run for commit `71de45b916b29f577c0b892d1fa79b36d8c3e470` was observed starting at https://github.com/OurHinduDharm/Panchang/actions/runs/38780844190; its final result still needs to be checked before calling this change verified.
+- This is a research guardrail only. It does not calculate Ekadashi dates or pāraṇa times and does not touch production code or Blogger.
