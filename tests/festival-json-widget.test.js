@@ -256,14 +256,13 @@ test("Pitri Paksha links stay together from Pratipada through Pitri Visarjani Am
       assert.ok(links.some(a => a.textContent === "तर्पण विधि"));
       assert.ok(links.every(a => a.rel === "noopener noreferrer"));
     }
-    const amavasyaContainer = new fake.FakeNode("div");
-    widget.render(sample, new Date(2026, 9, 10, 12), amavasyaContainer);
-    assert.equal(fake.findAll(amavasyaContainer, node => node.className === "pitri-paksha-articles").length, 1,
+    const periodContainer = new fake.FakeNode("div");
+    widget.render(sample, new Date(2026, 9, 10, 12), periodContainer);
+    assert.equal(fake.findAll(periodContainer, node => node.className === "pitri-paksha-articles").length, 1,
       "the section must include Pitri Visarjani Amavasya itself");
-    const afterContainer = new fake.FakeNode("div");
-    widget.render(sample, new Date(2026, 9, 11, 12), afterContainer);
-    assert.equal(fake.findAll(afterContainer, node => node.className === "pitri-paksha-articles").length, 0,
-      "the section must hide after the configured end date");
+    widget.render(sample, new Date(2026, 9, 11, 12), periodContainer);
+    assert.equal(fake.findAll(periodContainer, node => node.className === "pitri-paksha-articles").length, 0,
+      "the section must be removed from the same container after the configured end date");
   } finally {
     if (previousDocument === undefined) delete global.document;
     else global.document = previousDocument;
