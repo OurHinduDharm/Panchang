@@ -89,6 +89,43 @@
     }
     return ["सप्तमी","अष्टमी","नवमी"].includes(tithiHindi(p && p.tithi));
   }
+
+  function isKrishnaAshtami(p) {
+    const index = tithiIndex(p && p.tithi);
+    if (index === 22) return true;
+    return tithiHindi(p && p.tithi) === "अष्टमी" &&
+      pakshaHindi(p && p.paksha, index) === "कृष्ण";
+  }
+  function validInstant(value) {
+    const date = asDate(value);
+    return date && !Number.isNaN(date.getTime()) ? date : null;
+  }
+  function selectMonthlyDateForEvent(days) {
+    const sorted = (days || []).slice().sort((a,b) => a.date.localeCompare(b.date));
+    return sorted.find(day => day.pradosh) ||
+      sorted.find(day => day.sunrise) ||
+      sorted.find(day => day.madhyahna) ||
+      sorted[0] || null;
+  }
+  function selectAnnualBhairavaDate(days) {
+    const sorted = (days || []).slice().sort((a,b) => a.date.localeCompare(b.date));
+    if (!sorted.length) return null;
+    if (sorted.length > 1) {
+      const first = sorted[0], second = sorted[1];
+      if (first.pradosh && second.pradosh) return second;
+      if (first.madhyahna && second.madhyahna) return first;
+      if (first.pradosh && !first.madhyahna && second.madhyahna && !second.pradosh) return first;
+      if (first.madhyahna && !second.madhyahna) return first;
+      if (second.madhyahna && !first.madhyahna) return second;
+      if (first.pradosh && !second.pradosh) return first;
+      if (second.pradosh && !first.pradosh) return second;
+      if (first.sunrise) return first;
+      if (second.sunrise) return second;
+      return first;
+    }
+    return sorted[0];
+  }
+
   async function buildKalashtamiDays(options) {
     options = options || {};
     if (typeof options.getPanchangam !== "function" || typeof options.Observer !== "function") {
@@ -123,11 +160,56 @@
     }
     const sunriseDays = [];
     const nightMidpointDays = [];
+    const eventGroups = new Map();
+    function register(dateString, p, kind) {
+      if (!isKrishnaAshtami(p)) return;
+      const start = validInstant(p.tithiStartTime);
+      const end = validInstant(p.tithiEndTime);
+      const eventKey = start ? start.toISOString() : (end ? "end:" + end.toISOString() : "date:" + dateString);
+      if (!eventGroups.has(eventKey)) eventGroups.set(eventKey, new Map());
+      const days = eventGroups.get(eventKey);
+      const entry = base.get(dateString);
+      const existing = days.get(dateString) || {
+        date: dateString,
+        month: monthHindi(p.masa || (entry && entry.noon && entry.noon.masa)),
+        paksha: "कृष्ण",
+        tithi: "अष्टमी",
+        sunrise: false,
+        madhyahna: false,
+        pradosh: false
+      };
+      existing[kind] = true;
+      days.set(dateString, existing);
+    }
+    function probeWindow(dateString, start, end, kind, stepMinutes) {
+      if (!start || !end || end <= start) return;
+      const step = stepMinutes * 60 * 1000;
+      for (let time = start.getTime(); time <= end.getTime(); time += step) {
+        const p = options.getPanchangam(new Date(time), observer, { timezoneOffset });
+        register(dateString, p, kind);
+      }
+      const p = options.getPanchangam(new Date(end.getTime()), observer, { timezoneOffset });
+      register(dateString, p, kind);
+    }
     for (const dateString of Array.from(candidateDates).sort()) {
       const entry = base.get(dateString);
+      if (!entry) continue;
       if (entry.sunrise) {
         const sunriseP = options.getPanchangam(entry.sunrise, observer, { timezoneOffset });
-        if (sunriseP) sunriseDays.push(record(dateString, sunriseP, "local-sunrise-tithi"));
+        if (sunriseP) {
+          sunriseDays.push(record(dateString, sunriseP, "local-sunrise-tithi"));
+          register(dateString, sunriseP, "sunrise");
+        }
+      }
+      if (entry.sunrise && entry.sunset && entry.sunset > entry.sunrise) {
+        const daylight = entry.sunset.getTime() - entry.sunrise.getTime();
+        const madhyahnaStart = new Date(entry.sunrise.getTime() + daylight * 2 / 5);
+        const madhyahnaEnd = new Date(entry.sunrise.getTime() + daylight * 3 / 5);
+        probeWindow(dateString, madhyahnaStart, madhyahnaEnd, "madhyahna", 5);
+      }
+      if (entry.sunset) {
+        const pradoshEnd = new Date(entry.sunset.getTime() + 144 * 60 * 1000);
+        probeWindow(dateString, entry.sunset, pradoshEnd, "pradosh", 5);
       }
       const next = new Date(dateString + "T00:00:00Z");
       next.setUTCDate(next.getUTCDate()+1);
@@ -139,14 +221,31 @@
         if (nightP) nightMidpointDays.push(record(dateString, nightP, "night-midpoint-diagnostic"));
       }
     }
+    const monthlyDecisionDays = [];
+    const annualDecisionDays = [];
+    for (const group of eventGroups.values()) {
+      const days = Array.from(group.values()).sort((a,b) => a.date.localeCompare(b.date));
+      const monthly = selectMonthlyDateForEvent(days);
+      const annual = selectAnnualBhairavaDate(days);
+      if (monthly) monthlyDecisionDays.push({
+        date: monthly.date, month: monthly.month, paksha: monthly.paksha, tithi: monthly.tithi,
+        sourceMethod: "krishna-ashtami-pradosh-vyapti"
+      });
+      if (annual) annualDecisionDays.push({
+        date: annual.date, month: annual.month, paksha: annual.paksha, tithi: annual.tithi,
+        sourceMethod: "dharmasindhu-madhyahna-pradosh-decision"
+      });
+    }
+    monthlyDecisionDays.sort((a,b) => a.date.localeCompare(b.date));
+    annualDecisionDays.sort((a,b) => a.date.localeCompare(b.date));
     return {
       year, latitude, longitude, elevation,
-      sunriseDays, nightMidpointDays,
+      sunriseDays, nightMidpointDays, monthlyDecisionDays, annualDecisionDays,
       candidateDates: Array.from(candidateDates).sort(),
-      note: "Monthly dates use tithi at local sunrise. Annual Bhairava dates use a night-midpoint diagnostic proxy only; this is not a certified Nishita-muhurta or vrata decision."
+      note: "Monthly Kalashtami is selected by Krishna Ashtami during Pradosh; annual Bhairava Ashtami uses the separate Madhyahna/Pradosh decision rules."
     };
   }
-  const api = { buildKalashtamiDays, tithiHindi, pakshaHindi, monthHindi, tithiIndex };
+  const api = { buildKalashtamiDays, tithiHindi, pakshaHindi, monthHindi, tithiIndex, isKrishnaAshtami, selectMonthlyDateForEvent, selectAnnualBhairavaDate };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (root) root.OHDFestivalPanchangAdapter = api;
 })(typeof window !== "undefined" ? window : globalThis);
