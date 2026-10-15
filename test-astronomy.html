@@ -3553,6 +3553,13 @@ async function runSameInstantTksSnapshotAudit() {
     swissError = String(error?.message || error);
   }
 
+  const exactOAAt24 = g => {
+    const sunOA24 = obliqueAscensionWithObliquity(g.sunLon, 24, TKS_CONFIG);
+    const planetOA24 = obliqueAscensionWithObliquity(g.planetLon, 24, TKS_CONFIG);
+    return Math.abs(signedLongitudeDelta(planetOA24, sunOA24));
+  };
+  const exactOA24Current = exactOAAt24(current);
+  const exactOA24Sequential = exactOAAt24(sequential);
   const targetK = 7.698;
   const targetC = 8;
   const fmt = value => Number.isFinite(value) ? round(value, 6) + "°" : "—";
@@ -3565,6 +3572,7 @@ async function runSameInstantTksSnapshotAudit() {
     '<tr><td>Full-frame local sidereal angle</td><td colspan="2">' + (fullFrameMeridian ? fmt(fullFrameMeridian.classicalLST) : '—') + '</td><td>Modern LST: ' + (fullFrameMeridian ? fmt(fullFrameMeridian.modernLST) : '—') + '</td></tr>' +
     '<tr><td>Swiss Ephemeris K (same geometry)</td><td colspan="2">' + (swiss ? fmt(swiss.K) : 'Unavailable') + '</td><td>' + (swiss ? 'Swiss−AE: ' + fmt(swiss.K - current.K) : swissError || 'Not available') + '</td></tr>' +
     '<tr><td>Exact analytical oblique-ascension K</td><td>' + fmt(current.exactK) + '</td><td>' + fmt(sequential.exactK) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Exact OA K at classical ε = 24°</td><td>' + fmt(exactOA24Current) + '</td><td>' + fmt(exactOA24Sequential) + '</td><td>Not supplied</td></tr>' +
     '<tr><td>Sign-table K minus exact OA K</td><td>' + fmt(current.K - current.exactK) + '</td><td>' + fmt(sequential.K - sequential.exactK) + '</td><td>—</td></tr>' +
     '<tr><td>Our sign-table K minus TKS K</td><td>' + delta(current.K) + '</td><td>' + delta(sequential.K) + '</td><td>—</td></tr>' +
     '<tr><td>Selected classical limit C</td><td colspan="2">' + fmt(chapter9Kalansha({planet:"Venus", horizonEvent:event, motionClass:motion < 0 ? "retrograde" : "direct-fast"})) + '</td><td>8°</td></tr>' +
