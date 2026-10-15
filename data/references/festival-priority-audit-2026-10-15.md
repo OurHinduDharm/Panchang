@@ -67,6 +67,18 @@ Do not auto-create production festival entries from OCR alone. Resolve OCR ambig
 
 These sources do not agree on every day label/observance mapping. Their role here is to flag the question for local calculation and rule review, not to declare a final shastric result.
 
+
+## Newly identified conflict — Govardhan Puja (festival-022)
+
+**Do not mark 10 November 2026 as universally verified.** The reviewed comparison sources disagree:
+
+- IMD Rashtriya Panchanga lists Govardhan Puja on **9 November 2026**.
+- Drik Panchang's Delhi calendar and AstroSage's New Delhi calendar list **10 November 2026**; other city calendars can differ.
+- This is an observance-rule question, not a reason to arbitrarily choose the majority date. The project's decision needs the Pithoragarh local tithi interval (Kartika Shukla Pratipada), sunrise/sunset context, and a documented Govardhan/Annakut rule.
+- Until that is calculated and reviewed, keep `festival-022` at `verificationStatus: "needs-review"`; 10 November is only a comparison candidate.
+
+The data-guardrail test now asserts that the record remains unresolved and retains this warning. It does **not** validate the astronomical interval itself.
+
 ## Immediate next action
 
 Create a compact, source-backed review table for Priority A with one row per festival, separating:
