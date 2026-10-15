@@ -65,19 +65,22 @@ export function caraSine(declinationDeg, observerLatitudeDeg, radius = SS_SINE_R
 }
 
 /** Convert the sine to the corresponding arc and then prāṇas (60 per degree). */
-export function arcFromSinePrana(sineValue) {
+export function arcFromSinePrana(sineValue, radius = SS_SINE_RADIUS) {
   finite('sineValue', sineValue);
-  if (Math.abs(sineValue) > 1 + 1e-12) {
-    throw new RangeError(`Sine outside inverse-sine domain: ${sineValue}`);
+  finite('radius', radius);
+  if (radius <= 0) throw new RangeError('Sine-table radius must be positive.');
+  const normalizedSine = sineValue / radius;
+  if (Math.abs(normalizedSine) > 1 + 1e-12) {
+    throw new RangeError(`Sine outside inverse-sine domain after radius normalization: ${normalizedSine}`);
   }
-  const arcDeg = Math.asin(clamp(sineValue, -1, 1)) * 180 / Math.PI;
+  const arcDeg = Math.asin(clamp(normalizedSine, -1, 1)) * 180 / Math.PI;
   return { arcDeg, carakhandaPrana: arcDeg * SS_PRANA_PER_DEGREE };
 }
 
 /** Full continuous-equation diagnostic; declination sign is preserved. */
 export function carakhanda({ declinationDeg, observerLatitudeDeg, radius = SS_SINE_RADIUS }) {
   const intermediate = caraSine(declinationDeg, observerLatitudeDeg, radius);
-  const arc = arcFromSinePrana(intermediate.sineCara);
+  const arc = arcFromSinePrana(intermediate.sineCara, radius);
   return {
     method: 'continuous-trigonometric-equation-diagnostic-not-literal-table',
     inputs: { declinationDeg, observerLatitudeDeg, radius },
@@ -101,6 +104,6 @@ export function runCarakhandaEquationTests() {
   check('north/south latitude gives opposite signed cara', near(north.carakhandaPrana, -south.carakhandaPrana));
   const southDec = carakhanda({ declinationDeg: -20, observerLatitudeDeg: 29.5828 });
   check('north/south declination gives opposite signed cara', near(north.carakhandaPrana, -southDec.carakhandaPrana));
-  check('cara intermediate matches tan(latitude) × tan(declination)', near(north.sineCara, Math.tan(29.5828 * Math.PI / 180) * Math.tan(20 * Math.PI / 180)));
+  check('cara intermediate matches tan(latitude) × tan(declination)', near(north.sineCara / SS_SINE_RADIUS, Math.tan(29.5828 * Math.PI / 180) * Math.tan(20 * Math.PI / 180)));
   return { pass: checks.every(item => item.pass), checks };
 }
