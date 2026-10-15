@@ -754,3 +754,12 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - Added `tests/ekadashi-*.test.js` to the draft CI trigger paths and test command.
 - CI run for commit `71de45b916b29f577c0b892d1fa79b36d8c3e470` completed successfully: https://github.com/OurHinduDharm/Panchang/actions/runs/38780844190. The job confirms the configured test command ran successfully; it does not certify unresolved source interpretation.
 - This is a research guardrail only. It does not calculate Ekadashi dates or pāraṇa times and does not touch production code or Blogger.
+
+
+## Ekadashi work continued — 2026-10-15 (input contract and Hari-vāsara test)
+
+- Added `tests/ekadashi-harivasara-profile.test.js` with a **scoped, test-only** first-quarter interval profile. It requires an explicit profile, treats missing/reversed inputs as unresolved, and uses a half-open interval boundary. It does not recommend a real clock time and must not be generalized to every Ekadashi.
+- Draft CI was triggered by the new `tests/ekadashi-*.test.js` path and passed: https://github.com/OurHinduDharm/Panchang/actions/runs/38781095669
+- Important verification limit: the workflow's test command currently explicitly lists `ekadashi-source-clause-guardrails.test.js` but does not yet invoke the new `ekadashi-harivasara-profile.test.js`. Therefore the passing CI run is **not** evidence that the new Hari-vāsara test file itself ran. Wire the file into the command and rerun before marking it verified.
+- The workflow's `pull_request.paths` filter was also corrected to include `tests/ekadashi-*.test.js`, so Ekadashi test changes can trigger PR checks.
+- No production runtime, festival dates, or Blogger output changed. PR #33 remains draft.
