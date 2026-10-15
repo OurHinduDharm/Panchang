@@ -215,6 +215,43 @@
                 "type": "object",
                 "description": "Separate rule for the ritual/temple end of an observance; not automatically a fixed-hour offset from its astronomical start.",
                 "additionalProperties": true
+              },
+              "alternateObservances": {
+                "type": "array",
+                "description": "Multiple traditional observance dates for a single festival; each date is matched against the local Panchang. Supports different regional or textual traditions without hard-coded Gregorian dates.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "month",
+                    "paksha",
+                    "tithi",
+                    "renderMode"
+                  ],
+                  "properties": {
+                    "month": {
+                      "type": "string"
+                    },
+                    "paksha": {
+                      "type": "string"
+                    },
+                    "tithi": {
+                      "type": "string"
+                    },
+                    "renderMode": {
+                      "type": "string",
+                      "enum": [
+                        "panchang-tithi"
+                      ]
+                    },
+                    "rule": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": true
+                }
               }
             },
             "additionalProperties": true
