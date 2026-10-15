@@ -121,7 +121,7 @@ export function runCarakhandaEquationTests() {
   check('sine radius at 90° equals 3438', near(sineTableValue(90), 3438));
   check('historical sine table has 25 entries including 0° and 90°', SS_SINE_TABLE.length === 25);
   check('historical sine table ends at radius 3438', SS_SINE_TABLE.at(-1) === 3438);
-  check('historical sine table contains the 24° sine 1397 only as a separate source fixture', SS_SINE_TABLE[6] === 1315 && SS_SINE_TABLE[7] === 1520);
+  check('linear interpolation between table nodes gives the 24° sine 1397', Math.round(interpolatedSineTableValue(24)) === 1397);
   check('table interpolation reproduces every tabular node', SS_SINE_TABLE.every((value, i) => near(interpolatedSineTableValue(i * SS_SINE_TABLE_STEP_DEG), value)));
   check('versed sine at 0° is zero', near(versedSine(0), 0));
   check('day radius at 0° equals radius', near(dayRadius(0), 3438));
