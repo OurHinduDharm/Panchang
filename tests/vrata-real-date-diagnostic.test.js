@@ -18,6 +18,13 @@ const observer = new Observer(
   LOCATION.longitude,
   LOCATION.elevation
 );
+
+// Stage 1: major cities first. Coordinates are representative city-center
+// points, not claimed to match any publisher's undisclosed coordinates.
+const CITY_LOCATIONS = Object.freeze([
+  { city: "Mumbai", latitude: 19.0760, longitude: 72.8777, elevation: 0, timezoneOffset: 330 },
+  { city: "Delhi", latitude: 28.6139, longitude: 77.2090, elevation: 0, timezoneOffset: 330 }
+]);
 const DATES = [
   "2026-08-22", "2026-08-23", "2026-08-24", "2026-08-25", "2026-08-26",
   "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24"
@@ -61,10 +68,46 @@ test("diagnostic: emit pinned-library tithi/nakshatra intervals for fixed audit 
   );
   assert.ok(intervals.some(item => item.kind === "tithi"), "no tithi intervals returned");
   assert.ok(intervals.some(item => item.kind === "nakshatra"), "no nakshatra intervals returned");
+  const cityDiagnostics = CITY_LOCATIONS.map(city => {
+    const cityObserver = new Observer(city.latitude, city.longitude, city.elevation);
+    const cityByKey = new Map();
+    for (const date of DATES) {
+      const p = getPanchangam(atISTNoon(date), cityObserver, {
+        timezoneOffset: city.timezoneOffset
+      });
+      assert.ok(p && typeof p === "object", city.city + " " + date + ": no Panchang result");
+      for (const item of [
+        ...normalize(p.tithis, date, "tithi"),
+        ...normalize(p.nakshatras, date, "nakshatra")
+      ]) {
+        const key = [item.kind, item.index, item.startUTC, item.endUTC].join("|");
+        if (!cityByKey.has(key)) cityByKey.set(key, item);
+      }
+    }
+    const cityIntervals = [...cityByKey.values()].sort((a, b) =>
+      a.startUTC.localeCompare(b.startUTC) || a.kind.localeCompare(b.kind)
+    );
+    assert.ok(cityIntervals.some(item => item.kind === "tithi"), city.city + ": no tithi intervals returned");
+    assert.ok(cityIntervals.some(item => item.kind === "nakshatra"), city.city + ": no nakshatra intervals returned");
+    return {
+      city: city.city,
+      location: {
+        latitude: city.latitude,
+        longitude: city.longitude,
+        elevation: city.elevation,
+        timezoneOffset: city.timezoneOffset
+      },
+      note: "Representative city-center coordinates; public web calendar pages may use different coordinates/settings.",
+      intervals: cityIntervals
+    };
+  });
+
   const report = {
     status: "diagnostic-only-not-independent-validation",
     library: "@ishubhamx/panchangam-js@3.0.0",
     location: LOCATION,
+    stage1MajorCityLocations: CITY_LOCATIONS,
+    stage1MajorCityDiagnostics: cityDiagnostics,
     datesQueried: DATES,
     externalReferences: {
       note: "Source values are rounded to minutes and Astroica location is 30.2, 80.8; these are comparison references, not correctness assertions.",
