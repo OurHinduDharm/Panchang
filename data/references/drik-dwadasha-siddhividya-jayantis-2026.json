@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "cross-location-discrepancies-found-pithoragarh-validation-pending",
+  "status": "partial-india-city-cross-checks-pithoragarh-validation-pending",
   "category": "Dwadasha Siddhividya Jayanti",
   "source": {
     "title": "Drik Panchang — 2026 Dwadasha Siddhividya Jayanti",
@@ -17,7 +17,17 @@
     {
       "name": "Shri Saraswati Jayanti",
       "lunarDateAsListedByDrik": "Magha Shukla Panchami",
-      "gregorianDate": "2026-01-23"
+      "gregorianDate": "2026-01-23",
+      "indianCityCrossCheck": {
+        "status": "independently-corroborated-in-Indian-city-listings-pithoragarh-not-directly-checked",
+        "crossChecks": [
+          {
+            "location": "Chennai, Tamil Nadu",
+            "date": "2026-01-23",
+            "url": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/saraswati/goddess-saraswati-jayanti-date.html?time-format=24plushour"
+          }
+        ]
+      }
     },
     {
       "name": "Shri Kubjika Jayanti",
@@ -27,7 +37,17 @@
     {
       "name": "Shri Siddhilakshmi Jayanti",
       "lunarDateAsListedByDrik": "Vaishakha Shukla Ekadashi",
-      "gregorianDate": "2026-04-27"
+      "gregorianDate": "2026-04-27",
+      "indianCityCrossCheck": {
+        "status": "independently-corroborated-in-Indian-city-listings-pithoragarh-not-directly-checked",
+        "crossChecks": [
+          {
+            "location": "Sandila, Uttar Pradesh",
+            "date": "2026-04-27",
+            "url": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhilakshmi/goddess-siddhilakshmi-jayanti-date.html?time-format=12hour&year=2026"
+          }
+        ]
+      }
     },
     {
       "name": "Shri Chandika Jayanti",
@@ -37,7 +57,17 @@
     {
       "name": "Shri Batuka Bhairavi Jayanti",
       "lunarDateAsListedByDrik": "Jyeshtha Shukla Purnima",
-      "gregorianDate": "2026-06-29"
+      "gregorianDate": "2026-06-29",
+      "indianCityCrossCheck": {
+        "status": "independently-corroborated-in-Indian-city-listings-pithoragarh-not-directly-checked",
+        "crossChecks": [
+          {
+            "location": "Kanpur, Uttar Pradesh",
+            "date": "2026-06-29",
+            "url": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/batuka-bhairavi/goddess-batuka-bhairavi-jayanti-date.html?time-format=24plushour&year=2026"
+          }
+        ]
+      }
     },
     {
       "name": "Shri Parvati Jayanti",
@@ -57,7 +87,22 @@
     {
       "name": "Shri Vindhyavasini Jayanti",
       "lunarDateAsListedByDrik": "Bhadrapada Krishna Ashtami",
-      "gregorianDate": "2026-09-04"
+      "gregorianDate": "2026-09-04",
+      "indianCityCrossCheck": {
+        "status": "independently-corroborated-in-multiple-Indian-city-listings-pithoragarh-not-directly-checked",
+        "crossChecks": [
+          {
+            "location": "Ghaziabad, Uttar Pradesh",
+            "date": "2026-09-04",
+            "url": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/vindhyavasini/goddess-vindhyavasini-jayanti-date.html?time-format=24plushour"
+          },
+          {
+            "location": "Tirupati, Andhra Pradesh",
+            "date": "2026-09-04",
+            "url": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/vindhyavasini/goddess-vindhyavasini-jayanti-date.html?lang=en"
+          }
+        ]
+      }
     },
     {
       "name": "Shri Aparajita Jayanti",
@@ -81,7 +126,9 @@
     "Before runtime use, verify each observance for Pithoragarh and compare with the project's primary Ganesh Martand Panchang.",
     "Keep this category distinct from Dashamahavidya Jayanti data. The same deity names may have other Jayanti traditions; preserve the source's category and tithi rather than merging by name alone.",
     "A second retrieval of the same Drik year-list rendered for Washington, D.C. shows Gayatri Jayanti on 27 August (rather than the Koath listing's 28 August), Vindhyavasini on 3 September (rather than 4 September), and Annapurna on 23 December (rather than 24 December). This demonstrates that the Koath dates must not be treated as universal.",
-    "A Pithoragarh-specific Siddhividya listing could not be reliably retrieved in this check. Do not replace dates with the Washington dates either; keep all twelve entries provisional until a location-specific listing or a reproducible local tithi/sunrise calculation is available."
+    "A Pithoragarh-specific Siddhividya listing could not be reliably retrieved in this check. Do not replace dates with the Washington dates either; keep all twelve entries provisional until a location-specific listing or a reproducible local tithi/sunrise calculation is available.",
+    "Four entries now have explicitly recorded independent Drik listings for Indian cities: Saraswati (Chennai), Siddhilakshmi (Sandila), Batuka Bhairavi (Kanpur), and Vindhyavasini (Ghaziabad and Tirupati). These corroborate those dates across Indian locations but are not direct Pithoragarh results.",
+    "For the other eight observances, this pass did not obtain an independently retrievable Indian-city event page; their original Koath listing remains the only recorded date source. Do not upgrade them to locally verified."
   ],
   "locationComparison": {
     "sourcePageLocation": "Washington, D.C., United States",
