@@ -177,3 +177,38 @@ Research-only `test-astronomy.html` was updated in two commits:
 - `c3703784c4d5ae0933c7d0ffcf041d4d8eb3676c`: recognize several possible explicit body-identity fields (including the documented `body` object/name variants) and retain the exact field/value used as evidence. Numeric codes other than Sun=10 or Venus=2 now count as an explicit mismatch instead of being silently treated as “not found”.
 
 This is a diagnostic improvement, not a new astronomical result. The live capture still needs to be run in a browser; no TKS position values or Chapter IX event dates were inferred from the API documentation. Production files remain untouched.
+
+
+## Live TKS raw Sun/Venus capture received — 16 October 2026
+
+The project owner supplied the full browser capture for both documented API body codes at 2026-10-12 06:30 IST, Pithoragarh comparison coordinates 29.5830° N, 80.2090° E (elevation not sent to this endpoint). A compact, reproducible research fixture is stored at `research/fixtures/tks-raw-ephemeris-2026-10-12-0630-ist.json`.
+
+### Request/time/identity checks
+
+- Both requests returned HTTP 200 and `success: true`.
+- The returned top-level `selected_body` is 10 for the Sun request and 2 for Venus; each matches the requested code.
+- Returned `jd_utc` and `jd_ut1` are 2461325.541666667. Against expected JD 2461325.5416667, the difference is about 0.00003 seconds, well inside the one-second acceptance window.
+- The request time is 06:30 IST = 01:00 UTC. The response's `jd_tt` differs from `jd_utc` by about 69.23 seconds, consistent with its returned `delta_t_s` field to rounding.
+
+### State values captured (not corrected)
+
+| Field | Sun | Venus |
+|---|---:|---:|
+| Apparent ecliptic longitude (deg) | 198.7274304508 | 216.9861995828 |
+| Ecliptic latitude (deg) | -0.0001152825 | -7.5757395814 |
+| `ra_deg` (deg) | 196.9274209273 | 211.6227468734 |
+| `ra_of_date_deg` (deg) | 197.2778999689 | 211.9973637543 |
+| `dec_deg` (deg) | -7.1932016355 | -20.8592321148 |
+| `dec_of_date_deg` (deg) | -7.3371921932 | -20.9878590794 |
+| Lahiri nirayana longitude (deg) | 174.4937879405 | 192.7525570724 |
+
+The longitude difference from the returned apparent ecliptic longitudes is 18.2587691319°. Subtracting the returned Lahiri ayanāṃśa (24.2336425104°) from each ecliptic longitude reproduces the corresponding Lahiri nirayana longitude to rounding. This is an internal consistency check on the returned fields, not an independent check of the engine against another ephemeris.
+
+### Interpretation limits and next calculation
+
+1. The capture instant is a **state sample**, not the sunrise/sunset event used by IX.4. It supplies a concrete real-state fixture for later geometry tests, but it cannot by itself determine an Asta/Udaya time.
+2. Keep `ra_deg`/ `dec_deg` distinct from `ra_of_date_deg`/ `dec_of_date_deg` until the API's exact frame definitions are confirmed. Do not combine a value from one pair with the other pair in an hour-angle calculation.
+3. The response reports both Lahiri and Sūrya-siddhānta ayanāṃśa fields, with a note that Sūrya-siddhānta graha longitudes are already nirayana. Do not subtract the Sūrya-siddhānta ayanāṃśa from a longitude that the API already identifies as nirayana.
+4. Next, query the same API at the actual selected local sunrise and sunset instants for the candidate Venus events, then independently recompute Chapter VII correction components with a single, explicitly documented coordinate frame. Keep Chapter IX lagnāntara/K and modern physical heliacal visibility as separate result columns. Do not change production files.
+
+**Status:** live request, body identity, and timestamp checks passed for this capture. Classical method and event-date validation remain open.
