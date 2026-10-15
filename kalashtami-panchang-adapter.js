@@ -83,11 +83,13 @@
   }
   function isNearAshtami(p) {
     const index = tithiIndex(p && p.tithi);
+    const paksha = pakshaHindi(p && p.paksha, index);
+    if (paksha === "शुक्ल") return false;
     if (index >= 0) {
       const n = index % 15;
-      return n === 6 || n === 7 || n === 8;
+      return (paksha === "कृष्ण" || index >= 15) && (n === 6 || n === 7 || n === 8);
     }
-    return ["सप्तमी","अष्टमी","नवमी"].includes(tithiHindi(p && p.tithi));
+    return paksha === "कृष्ण" && ["सप्तमी","अष्टमी","नवमी"].includes(tithiHindi(p && p.tithi));
   }
 
   function isKrishnaAshtami(p) {
@@ -184,12 +186,20 @@
     function probeWindow(dateString, start, end, kind, stepMinutes) {
       if (!start || !end || end <= start) return;
       const step = stepMinutes * 60 * 1000;
-      for (let time = start.getTime(); time <= end.getTime(); time += step) {
+      const endMs = end.getTime();
+      let time = start.getTime();
+      let guard = 0;
+      while (time <= endMs && guard++ < 12) {
         const p = options.getPanchangam(new Date(time), observer, { timezoneOffset });
         register(dateString, p, kind);
+        const boundary = validInstant(p && p.tithiEndTime);
+        if (boundary && boundary.getTime() > time + 1000) {
+          time = boundary.getTime() + 1000;
+        } else {
+          time += step;
+        }
       }
-      const p = options.getPanchangam(new Date(end.getTime()), observer, { timezoneOffset });
-      register(dateString, p, kind);
+      register(dateString, options.getPanchangam(new Date(endMs), observer, { timezoneOffset }), kind);
     }
     for (const dateString of Array.from(candidateDates).sort()) {
       const entry = base.get(dateString);
