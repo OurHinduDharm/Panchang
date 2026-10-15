@@ -37,3 +37,8 @@ The table above deliberately preserves the source's event labels and timestamps 
 - Some events differ by one or more dates, and several listed clock times cannot yet be compared directly because the event direction/phase mapping is not proven.
 - This supports using Ganesh Martand as a valuable traditional benchmark, while demonstrating why the research must keep source method and event identity explicit.
 - Do not use these preliminary comparisons to alter production calculations or declare all Mercury events validated.
+
+
+## Amendment — Standard Difference and source-location caveat (2026-10-15)
+
+The original table above is a first-pass date/window review made before applying the Panchang's location-specific Standard Difference. Its Ganesh times are the unadjusted printed values; do not use the listed time differences as final. For target coordinates `29.5830°N, 80.2090°E`, subtract the working correction `00:09:10`. The complete corrected table and current online comparison are in [2026-10-15-standard-difference-online-crosscheck.md](2026-10-15-standard-difference-online-crosscheck.md). Drik's results shown here use different locations and are not same-location exact-time validation. Keep event direction, date assignment, and method separate until the original source page is visually verified.
