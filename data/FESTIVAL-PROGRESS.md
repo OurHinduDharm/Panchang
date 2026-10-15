@@ -770,3 +770,11 @@ Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, 
 - The workflow path filters already watch `tests/ekadashi-*.test.js`; the command now matches that scope.
 - This is still test-only research code. The Hari-vasara profile is explicitly scoped to the cited Dvadashi-bhuyastva passage and does not select a universal Parana rule or emit a clock time.
 - Next validation: confirm the workflow run triggered by this commit, then add Arunodaya-versus-sunrise boundary fixtures only after checking the existing vrata interval contracts and the source passage. No production date calculation or Blogger output is changed.
+
+## Dashami-vedha profile routing tests (2026-10-16)
+
+- Added `tests/ekadashi-dashami-vedha-input-contract.test.js`: five synthetic checks keep Arunodaya and sunrise observations distinct, enforce half-open tithi intervals, and return unresolved for invalid inputs.
+- Added `tests/ekadashi-vedha-profile-routing.test.js`: five synthetic checks require an explicit Smarta or Vaishnava profile and inspect the profile-specific timestamp separately.
+- These are input/routing tests only. They do not decide the fasting date, do not encode 45/55-ghati thresholds, and do not replace verification against the selected printed Dharma Sindhu edition.
+- GitHub Actions passed for the Dashami input-contract commit. The new profile-routing file should trigger the same workflow; verify its own run before claiming that file's tests passed.
+- Production code, published dates, Blogger output and PR merge status remain unchanged.
