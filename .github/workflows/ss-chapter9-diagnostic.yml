@@ -31,6 +31,7 @@ on:
   pull_request:
     paths:
       - "test-astronomy.html"
+      - "ss_chapter3_table_rising_asus.js"
       - "ss_chapter1_epoch_bridge.js"
       - "ss_chapter7_test.js"
       - "ss_chapter9_test.js"
