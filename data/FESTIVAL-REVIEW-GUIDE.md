@@ -51,7 +51,7 @@ This is a snapshot of the current draft data, not a claim that every date is wro
 | High | festival-022 | अन्नकूट / गोवर्धन पूजा | 10 Nov | Pratipada observance rule |
 | High | festival-023 | भ्रातृ द्वितीया / यम द्वितीया | 11 Nov | Aparahna observance rule |
 
-Owner-reported dates still to map to a catalog record: Papankusha Ekadashi — 22 Oct; Pradosha — 23 Oct; Ashwini Purnima — 26 Oct. Check for existing records before adding new cards.
+Owner-reported dates have now been mapped to catalog records: `festival-128` Papankusha Ekadashi — 22 Oct; `festival-129` Pradosha — 23 Oct; `festival-130` Ashwini Purnima — 26 Oct. These are owner-reference records, not recurring calculation rules. Ashwini Purnima remains `needs-review` until the distinction from Sharad Purnima is supported by a clear printed-source explanation.
 
 ## Draft review helper
 
