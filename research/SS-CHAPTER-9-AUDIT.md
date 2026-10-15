@@ -997,3 +997,26 @@ A first source-ledger comparison is recorded in `research/observations/2026-10-1
 - Preserve both sources as separate fixtures; never tune the classical calculation to the date label alone. Next compare exact event definitions and same-instant coordinates, then expand to further Panchāṅgas only when provenance and method can be documented.
 
 No production code was changed. PR #22 remains Draft/unmerged.
+
+
+## Code-path review checkpoint — 15 October 2026
+
+This checkpoint records findings from a direct review of the research-only implementation. It does not change the algorithm or production files.
+
+### Confirmed source interpretation
+
+- IX.2–3 selects the relevant east/west horizon from the zodiacal ordering of the planet and Sun, with the inferior planets' direct/retrograde branch handled separately. Do not use shortest signed angular separation to decide the branch across 0° Aries.
+- IX.4–5 requires the Sun/planet state at sunset for western events and sunrise for eastern events; dṛkkarma is applied to the planet, and the western computation shifts both event-frame longitudes by six signs before lagnāntara.
+- IX.10–11 estimates the date/time from the difference in the corrected kalāṃśa and relative motion, using the rising-time conversion. The current page's single-pass estimate is not the same as a fully iterated event-time solution described in Ranganātha's commentary. Keep this as a known limitation.
+
+### Open mathematical issues from the implementation audit
+
+1. **Ayana correction's shifted point:** `ss_chapter7_drikkarma.js` currently evaluates the longitude shifted by 90° with ecliptic latitude set to zero. The code itself documents that the commentary's wording has not been conclusively mapped to whether the planet's signed latitude is retained. This is a real unresolved interpretation, not a numerical test failure.
+2. **Local meridian / equator frame:** the Chapter VII helper transforms the modern local sidereal angle into a fixed-obliquity frame with a geometric candidate. Its tests establish internal geometric consistency, but not that this is the historically intended Sūrya-siddhānta time construction. `ss_classical_frame.js` correctly labels this as unresolved.
+3. **Modern state vs classical model:** current longitudes/latitudes come from a modern ephemeris and are converted to a chosen sidereal frame. This is a useful controlled input for isolating correction equations, but is not a fully self-contained traditional Sūrya-siddhānta ephemeris (and must not be described as one).
+4. **Date fixtures are not the Ganesh Martand table:** the four `SHASTRIYA_REFERENCES` in `test-astronomy.html` are explicitly unverified working fixtures. In particular, the Venus Udaya fixture is 1 November 2026, whereas the transcribed Ganesh Martand entry is 29 October 2026 and the SLBS printed extended time normalizes to 29 October 06:33. These must remain separate benchmark rows until event direction, time convention, and source provenance are confirmed. Do not overwrite one with another to make the test pass.
+5. **Tests vs astronomy truth:** the isolated unit tests cover formula arithmetic, signs, wraparound and frame transforms. They do not prove that the ayana construction, local-meridian conversion, or final event date matches the classical source. The successful CI run is a code-integrity result, not an astronomical gold-standard validation.
+
+### Next research action
+
+Resolve the Ayana shifted-point interpretation against the Sanskrit text and Ranganātha's Gūḍhārtha-prakāśa commentary, then derive the local meridian construction independently. Only after documenting the intermediate quantities should the candidate be compared against the 23 May 2026 Mercury anchor and the Ganesh Martand / SLBS entries. Keep `app.js` and `extra-panchang.js` untouched.
