@@ -933,3 +933,21 @@ The headless browser audit re-ran the owner-supplied TKS snapshot at the identic
 - Workflow #514 passed, including the same-instant audit, table-derived Chapter III tests, headless browser checks, and the production-file identity check.
 
 **Next action:** acquire/record TKS's same-instant raw Sun/planet longitude, RA/declination, hour angle/half-day angle, Akṣa and Āyana components, and the exact meaning of its displayed K. Compare each stage to the current and sequential source-shaped paths before changing any formula or choosing an event date. No parameter tuning to force a match.
+
+## Controlled meridian-frame hypothesis test — 15 October 2026
+
+Added a research-page-only candidate that carries the local meridian through `modernLocalSiderealAngleToClassicalFrame` (the full 3-D transform including the equinox rotation), then recomputes the sequential Chapter VII correction and Chapter IX K. It is explicitly a hypothesis test; it does not replace the existing candidate.
+
+At the same instant (12 October 2026, 12:00 IST; 29.5830° N, 80.2090° E, 0 m):
+
+| Candidate | K | Difference from supplied TKS K = 7.698° |
+|---|---:|---:|
+| Existing sign-table candidate | 12.001454° | +4.303454° |
+| Sequential candidate | 11.994638° | +4.296638° |
+| Full 3-D meridian-frame candidate | 13.004798° | +5.306798° |
+
+The full-frame transform changes the local sidereal angle from 198.562661° to 176.188444° and moves K **farther** from the supplied TKS value. Therefore, this particular full-frame-meridian hypothesis does not explain the gap and must not be promoted as the solution. It is still possible that the historical meridian/time convention differs, but the numerical test gives no support to this specific route.
+
+Workflow #518 passed on commit `078a4e608a12697aed00da5a8a7ebff2ba8b1fc1`: the headless Chromium test rendered the added row, the current/sequential tables rendered without browser errors, and the production-isolation diff check passed. Run: https://github.com/OurHinduDharm/Panchang/actions/runs/38688458608.
+
+**Next controlled step:** request the public TKS ephemeris endpoint for the Sun and Venus at exactly 2026-10-12 06:30 UTC, same coordinates, and capture the raw apparent longitude/latitude, RA/declination, ayanāṃśa, and time/frame labels. Recompute K from those inputs without changing the reported K output. If the endpoint does not expose the needed state or the TKS intermediate K components, record the remaining gap as underdetermined rather than tune the formula.
