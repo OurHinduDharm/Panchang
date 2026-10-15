@@ -809,11 +809,13 @@
         "type": "tithi",
         "start": "2025-11-12",
         "end": null,
-        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष।",
+        "calculationNotes": "Legacy Blogger date copied unchanged; astronomical/tithi rule not yet reviewed. प्रारंभिक नियम; लेख/स्थानीय पंचांग से पूर्ण सत्यापन शेष। Annual recurrence now resolves from supplied local Panchang days; the retained 2025 date is provenance only.",
         "tithi": "कृष्ण अष्टमी",
         "month": "मार्गशीर्ष",
         "rule": "वार्षिक कालभैरवाष्टमी/भैरव जयन्ती: मार्गशीर्ष (पारम्परिक अमान्त-पद्धति में कार्तिक) कृष्ण अष्टमी। इसे प्रत्येक मास की कालाष्टमी से अलग वार्षिक उत्सव के रूप में रखें; तिथि-व्याप्ति के आधार पर वास्तविक वर्ष की तारीख़ निकालें।",
-        "calendarRule": "annual-margashirsha-krishna-ashtami"
+        "calendarRule": "annual-margashirsha-krishna-ashtami",
+        "paksha": "कृष्ण",
+        "renderMode": "panchang-tithi"
       },
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\">श्री महाकाल भैरव जयन्ती</a> महाभैरवाष्टमी, कालाष्टमी, <a href=\"https://ourhindudharm.blogspot.com/2014/11/About-Lord-Bhairava-And-Kalbhairavashtak-Stotra.html\" target=\"_blank\">पढें श्री भैरव महिमा</a>",
       "sourceText": {
