@@ -374,3 +374,16 @@ After the rule-profile tests were added, the compact UI regression suite exposed
 GitHub Actions run https://github.com/OurHinduDharm/Panchang/actions/runs/38675784741 completed successfully. Confirmed successful steps include JavaScript syntax checks, Panchang card-order tests, compact UI/night Prahar regression tests, isolated vrata interval contract tests, guarded Śravaṇa-Dvādaśī rule-profile tests, diagnostic JSON generation and upload, and the classical-yoga interval/real-Panchang comparison tests.
 
 This is a passing CI run for the branch at that commit; it does not mean a production pāraṇa algorithm has been implemented. Production `app.js`, festival JSON, legacy dates, and Blogger output remain unchanged.
+
+
+## Conditional duration-branch test added — 2026-10-15
+
+Added `tests/shravana-dvadashi-duration-branch.test.js` as a test-only branch selector for the conditional Dharmasindhu passage. It compares the two end timestamps from the same comparison instant (equivalent to comparing remaining durations) and covers:
+
+- Dvādaśī ends later than Śravaṇa: the rule profile selects the Śravaṇa-end boundary while Dvādaśī remains.
+- Śravaṇa ends later than Dvādaśī: the profile prohibits crossing Dvādaśī's end.
+- Equal end times, already-ended intervals, or invalid timestamps: unresolved rather than guessed.
+
+The helper intentionally emits no exact clock time and is not imported into production code. This is a logic/guardrail test, not a real-date vrata determination. The source interpretation still needs checking against the reviewed Sanskrit/Khemraj edition before runtime use.
+
+Workflow now runs this test independently with `if: always()` and includes the file in both push and pull-request path filters. The new test has been committed, but a CI result for the latest commits has not yet been confirmed. No `app.js`, festival dates, or Blogger output changed.
