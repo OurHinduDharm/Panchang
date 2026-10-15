@@ -27,6 +27,8 @@ on:
       - "tests/festival-tithi-diagnostic-2026.test.js"
       - "festival-muhurta-rules.js"
       - "festival-muhurta-engine.js"
+      - "festival-muhurta-widget.js"
+      - "tests/festival-muhurta-widget.test.js"
       - "tests/festival-muhurta-engine.test.js"
       - "tests/festival-muhurta-rules.test.js"
   pull_request:
@@ -51,6 +53,8 @@ on:
       - "festival-muhurta-engine.js"
       - "tests/festival-muhurta-rules.test.js"
       - "tests/festival-muhurta-engine.test.js"
+      - "festival-muhurta-widget.js"
+      - "tests/festival-muhurta-widget.test.js"
   workflow_dispatch:
 
 permissions:
@@ -75,12 +79,15 @@ jobs:
           node --check classical-yogas.js
           node --check festival-muhurta-rules.js
           node --check festival-muhurta-engine.js
+          node --check festival-muhurta-widget.js
       - name: Run 2026 festival-season data guardrails
         run: node --test tests/festival-season-2026.test.js
       - name: Run reusable festival muhurta rule tests
         run: node --test tests/festival-muhurta-rules.test.js
       - name: Run location-aware Ghatasthapana engine tests
         run: node --test tests/festival-muhurta-engine.test.js
+      - name: Run festival-card location/status widget tests
+        run: node --test tests/festival-muhurta-widget.test.js
       - name: Calculate Pithoragarh festival tithi interval diagnostics
         if: always()
         run: node --test tests/festival-tithi-diagnostic-2026.test.js
