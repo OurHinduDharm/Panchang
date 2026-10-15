@@ -31,6 +31,30 @@ function firstOverlappingIndex(items, index, day) {
   return null;
 }
 
+
+function firstIntervalByIndex(items, index) {
+  if (!Array.isArray(items)) return null;
+  for (const item of items) {
+    if (Number(item?.index) !== Number(index)) continue;
+    const candidate = asInterval(item);
+    if (candidate) return candidate;
+  }
+  return null;
+}
+
+function validCalculationInput({ date, latitude, longitude }) {
+  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(date)) ||
+      !Number.isFinite(Number(latitude)) ||
+      !Number.isFinite(Number(longitude))) return false;
+  const parsed = new Date(String(date) + "T00:00:00Z");
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
+}
+
+function queryLocalNoon(date, timezoneOffset) {
+  const [year, month, day] = date.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day, 12, 0, 0) - Number(timezoneOffset) * 60000);
+}
+
 function createFestivalMuhurtaEngine({ getPanchangam, Observer, rules }) {
   if (typeof getPanchangam !== "function" || typeof Observer !== "function" || !rules) {
     throw new TypeError("getPanchangam, Observer और festival muhurta rules आवश्यक हैं");
@@ -95,7 +119,110 @@ function createFestivalMuhurtaEngine({ getPanchangam, Observer, rules }) {
     };
   }
 
-  return { calculateGhatasthapana };
+
+  function calculateSharadPurnimaKheer({
+    date, latitude, longitude, elevation = 0, timezoneOffset = 330, purnimaIndex = 14
+  }) {
+    if (!validCalculationInput({ date, latitude, longitude })) {
+      return { status: "calculation-unavailable", reason: "invalid-input", window: null, warnings: ["तारीख और स्थान के निर्देशांक उपलब्ध नहीं हैं"] };
+    }
+    const observer = new Observer(Number(latitude), Number(longitude), Number(elevation) || 0);
+    const p = getPanchangam(queryLocalNoon(date, timezoneOffset), observer, { timezoneOffset: Number(timezoneOffset) });
+    const moonrise = asValidDate(p?.moonrise);
+    let moonset = asValidDate(p?.moonset);
+    let nextPanchang = null;
+    if (moonrise && (!moonset || moonset <= moonrise)) {
+      const nextDate = new Date(date + "T12:00:00Z");
+      nextDate.setUTCDate(nextDate.getUTCDate() + 1);
+      const nextKey = nextDate.toISOString().slice(0, 10);
+      nextPanchang = getPanchangam(queryLocalNoon(nextKey, timezoneOffset), observer, { timezoneOffset: Number(timezoneOffset) });
+      const candidate = asValidDate(nextPanchang?.moonset);
+      if (candidate && candidate > moonrise) moonset = candidate;
+    }
+    const purnima = firstIntervalByIndex(p?.tithis, purnimaIndex);
+    const nightEnd = asValidDate(nextPanchang?.sunrise);
+    const result = rules.moonlightKheerWindow({ moonrise, moonset, purnima, nightEnd });
+    return {
+      ...result,
+      date,
+      location: { latitude: Number(latitude), longitude: Number(longitude), elevation: Number(elevation) || 0 },
+      timezoneOffset: Number(timezoneOffset),
+      inputsAvailable: { moonrise: Boolean(moonrise), moonset: Boolean(moonset), purnima: Boolean(purnima) },
+      warnings: [
+        ...(!moonrise ? ["स्थानीय चंद्रोदय उपलब्ध नहीं"] : []),
+        ...(!moonset && !nightEnd ? ["चंद्रास्त/रात्रि-अंत उपलब्ध नहीं; समय प्रकाशित न करें"] : []),
+        ...(!purnima ? ["स्थानीय पूर्णिमा तिथि-अंतराल उपलब्ध नहीं"] : [])
+      ]
+    };
+  }
+
+  function calculateEkadashiParana({
+    date, latitude, longitude, elevation = 0, timezoneOffset = 330,
+    dvadashiIndex, paranaRule = null
+  }) {
+    if (!validCalculationInput({ date, latitude, longitude }) ||
+        !Number.isInteger(Number(dvadashiIndex)) || Number(dvadashiIndex) < 0 || Number(dvadashiIndex) > 29) {
+      return { status: "calculation-unavailable", reason: "invalid-input", window: null, warnings: ["तारीख, स्थान या द्वादशी तिथि-सूचकांक मान्य नहीं"] };
+    }
+    const observer = new Observer(Number(latitude), Number(longitude), Number(elevation) || 0);
+    const p = getPanchangam(queryLocalNoon(date, timezoneOffset), observer, { timezoneOffset: Number(timezoneOffset) });
+    const sunrise = asValidDate(p?.sunrise);
+    const dvadashi = firstIntervalByIndex(p?.tithis, Number(dvadashiIndex));
+    const result = rules.paranaWindow({ sunrise, dvadashi, paranaRule });
+    return {
+      ...result,
+      date,
+      location: { latitude: Number(latitude), longitude: Number(longitude), elevation: Number(elevation) || 0 },
+      timezoneOffset: Number(timezoneOffset),
+      inputsAvailable: { sunrise: Boolean(sunrise), dvadashi: Boolean(dvadashi), traditionRule: Boolean(paranaRule) },
+      warnings: [
+        ...(!sunrise ? ["स्थानीय सूर्योदय उपलब्ध नहीं"] : []),
+        ...(!dvadashi ? ["दिए गए द्वादशी तिथि-सूचकांक का अंतराल नहीं मिला"] : []),
+        ...(!paranaRule ? ["पारण का परंपरा-विशिष्ट नियम नहीं दिया गया; समय अंतिम रूप से प्रकाशित न करें"] : [])
+      ]
+    };
+  }
+
+  function calculatePujaWindows({
+    date, latitude, longitude, elevation = 0, timezoneOffset = 330,
+    tithiIndex, intervals = {}, tradition = "unspecified"
+  }) {
+    if (!validCalculationInput({ date, latitude, longitude }) ||
+        !Number.isInteger(Number(tithiIndex)) || Number(tithiIndex) < 0 || Number(tithiIndex) > 29) {
+      return { status: "calculation-unavailable", reason: "invalid-input", pradosh: null, vrishabha: null, nishita: null, warnings: ["तारीख, स्थान या तिथि-सूचकांक मान्य नहीं"] };
+    }
+    const observer = new Observer(Number(latitude), Number(longitude), Number(elevation) || 0);
+    const p = getPanchangam(queryLocalNoon(date, timezoneOffset), observer, { timezoneOffset: Number(timezoneOffset) });
+    const tithi = firstIntervalByIndex(p?.tithis, Number(tithiIndex));
+    const result = rules.selectPujaWindows({
+      tithi,
+      pradosh: intervals.pradosh || null,
+      vrishabha: intervals.vrishabha || null,
+      nishita: intervals.nishita || null,
+      tradition
+    });
+    return {
+      ...result,
+      date,
+      location: { latitude: Number(latitude), longitude: Number(longitude), elevation: Number(elevation) || 0 },
+      timezoneOffset: Number(timezoneOffset),
+      inputsAvailable: {
+        tithi: Boolean(tithi),
+        pradosh: Boolean(intervals.pradosh),
+        vrishabha: Boolean(intervals.vrishabha),
+        nishita: Boolean(intervals.nishita)
+      },
+      warnings: [
+        ...(!tithi ? ["स्थानीय तिथि-अंतराल उपलब्ध नहीं"] : []),
+        ...(!intervals.pradosh ? ["प्रदोषकाल अलग से सत्यापित कर देना आवश्यक है"] : []),
+        ...(!intervals.vrishabha ? ["वृषभ लग्न-अंतराल उपलब्ध नहीं"] : []),
+        ...(!intervals.nishita ? ["निशीथकाल उपलब्ध नहीं"] : []),
+        "प्रदोष/वृषभ/निशीथ की परंपरा-विशिष्ट गणना caller से आती है; यह adapter कोई समय स्वयं नहीं गढ़ता।"
+      ]
+    };
+  }
+
+  return { calculateGhatasthapana, calculateSharadPurnimaKheer, calculateEkadashiParana, calculatePujaWindows };
 }
 
 const OHDFestivalMuhurtaEngine = { createFestivalMuhurtaEngine };
