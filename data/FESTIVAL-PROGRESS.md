@@ -700,3 +700,14 @@ See data/references/festival-discrepancy-audit-2026-10-15.md for the detailed di
 - Keep PR #33 in Draft. No live Blogger/runtime integration and no automatic application of overrides without explicit approval.
 
 - Added `data/EKADASHI-AUDIT.md`: current known Ekadashi-related records, provisional coverage checklist for the 24 regular Ekadashis plus Padmini/Parama in Adhika Masa, source-verification requirements, and release gate. This confirms Ekadashi coverage is **not yet complete**; the file is a research checklist, not renderer data.
+
+
+## Continuation log — 2026-10-15: Ekadashi
+
+- Added the 2026 calendar cross-check to data/EKADASHI-AUDIT.md. Papankusha (22 Oct) and Rama (5 Nov) agree with the user's Ganesh Martand reference and independent calendar listings.
+- Devutthana/Prabodhini has a 20/21 November split in comparison calendars. Leave it unresolved until the printed reference and the separate Smarta/Vaishnava decision profiles are reconciled.
+- The Vrat-Parichay OCR part 007 describes multiple community-specific vedha views and special Mahadvadashi forms. Its 45/55-ghati figures are not a universal rule and are not approved for code.
+- Do not copy external-city parana times into the site; the time needs local Panchang inputs and a reviewed tradition-specific rule.
+- PR #33 stays Draft. No live Blogger code has been changed.
+
+Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, Arunodaya and Harivasara/parana; then create a source-linked decision table and tests before any visitor-facing integration.
