@@ -408,7 +408,7 @@ test("classical-yoga card renders Anandadi, Dwipushkar, Tripushkar, and remainin
   assert.match(extra, /"द्विपुष्कर योग"/);
   assert.match(extra, /"त्रिपुष्कर योग"/);
   assert.match(extra, /details\.anandadi/);
-  assert.match(extra, /अन्य शास्त्रीय योग \(शुभ-अशुभ\)/);
+  assert.match(extra, /अन्य शास्त्रीय योग \(<span style="color:#188038;">शुभ<\/span>-<span style="color:#d93025;">अशुभ<\/span>\)/);
   assert.match(extra, /details\.yogas/);
   assert.match(extra, /function createClassicalYogaCard\(details\)/);
 });
@@ -625,7 +625,62 @@ test("sun and moon rise/set times stay in a compact two-column card", () => {
 
 test("classical yoga disclosure has a visible custom arrow and link-like styling", () => {
   const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-  assert.match(extra, /<summary><span class="classical-yoga-toggle-arrow" aria-hidden="true">▼<\/span><span>अन्य शास्त्रीय योग \(शुभ-अशुभ\)<\/span><\/summary>/);
+  assert.match(extra, /<summary><span class="classical-yoga-toggle-arrow" aria-hidden="true">▼<\/span><span>अन्य शास्त्रीय योग \(<span style="color:#188038;">शुभ<\/span>-<span style="color:#d93025;">अशुभ<\/span>\)<\/span><\/summary>/);
   assert.match(source, /#classicalYogasCard \.classical-yoga-details > summary \{[^}]*color:#1769aa !important;[^}]*text-decoration:underline !important;/);
   assert.match(source, /\.classical-yoga-details\[open\] > summary \.classical-yoga-toggle-arrow/);
+});
+
+test("Chapter IX Venus threshold follows classified horizon event, not morning/evening", () => {
+  const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const thresholds = extra.match(/const PLANET_ASTA_THRESHOLDS = \{[\s\S]*?\n\};/)?.[0];
+  const normalize = extra.match(/function normalizeLongitude\(degrees\) \{[\s\S]*?\n\}/)?.[0];
+  const classify = extra.match(/function classifyChapter9HorizonEvent\(\{[\s\S]*?(?=\nfunction findNearestAngularBoundary)/)?.[0];
+  const threshold = extra.match(/function getPlanetEventThreshold\(body, horizonEvent\) \{[\s\S]*?\n\}/)?.[0];
+  assert.ok(thresholds && normalize && classify && threshold, "Chapter IX helpers and limits must exist for focused regression tests");
+  const helpers = vm.runInNewContext(
+    `${thresholds}\n${normalize}\n${classify}\n${threshold}\n;({ classifyChapter9HorizonEvent, getPlanetEventThreshold })`
+  );
+  const cases = [
+    { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: -0.5, event: "west-setting", limit: 8 },
+    { body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: -0.5, event: "east-rising", limit: 8 },
+    { body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: 1, event: "east-setting", limit: 10 },
+    { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: 1, event: "west-rising", limit: 10 },
+    { body: "Jupiter", planetLongitude: 1, sunLongitude: 359, planetMotion: 0.08, event: "east-rising", limit: 11 }
+  ];
+  for (const item of cases) {
+    const event = helpers.classifyChapter9HorizonEvent(item);
+    assert.equal(event, item.event);
+    assert.equal(helpers.getPlanetEventThreshold(item.body, event), item.limit);
+  }
+  assert.equal(helpers.getPlanetEventThreshold("Venus", null), null);
+  assert.equal(helpers.getPlanetEventThreshold("Mercury", "east-setting"), null);
+  const crossing = extra.match(/function crossesAngularBoundary\(a, b, eventType, thresholdFor\) \{[\s\S]*?\n\}/)?.[0];
+  assert.ok(crossing, "angular-boundary crossing must be independently testable");
+  const crosses = vm.runInNewContext(
+    `${crossing}\n;crossesAngularBoundary`
+  );
+  const before = { eclipticSeparation: 9 };
+  const after = { eclipticSeparation: 9.5 };
+  const switchedThreshold = item => item === before ? 8 : 10;
+  assert.equal(
+    crosses(before, after, "asta", switchedThreshold),
+    false,
+    "switching Venus from 8° to 10° must not fabricate an Asta crossing"
+  );
+  assert.equal(
+    crosses(before, after, "udaya", switchedThreshold),
+    false,
+    "switching Venus from 8° to 10° must not fabricate an Udaya crossing"
+  );
+  const fixedThreshold = () => 8;
+  assert.equal(
+    crosses({ eclipticSeparation: 9 }, { eclipticSeparation: 7.9 }, "asta", fixedThreshold),
+    true,
+    "a real downward crossing of one fixed threshold must be retained"
+  );
+  assert.equal(
+    crosses({ eclipticSeparation: 7.9 }, { eclipticSeparation: 8.1 }, "udaya", fixedThreshold),
+    true,
+    "a real upward crossing of one fixed threshold must be retained"
+  );
 });

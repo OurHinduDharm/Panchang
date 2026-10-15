@@ -3,7 +3,10 @@
 import "./classical-yogas.js";
 
 import {
+  Body,
+  Ecliptic,
   Elongation,
+  GeoVector,
   Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
@@ -404,13 +407,48 @@ function addDays(
    या Drik के प्रकाशित समय की पुनर्रचना नहीं है।
    ========================================= */
 
+// Chapter IX limits that do not require an event-branch choice.
 const PLANET_ASTA_THRESHOLDS = {
-  Mercury: 14,
-  Venus: 10,
   Mars: 17,
   Jupiter: 11,
   Saturn: 15
 };
+
+const ASTRONOMY_BODIES = {
+  Sun: Body.Sun,
+  Mercury: Body.Mercury,
+  Venus: Body.Venus,
+  Mars: Body.Mars,
+  Jupiter: Body.Jupiter,
+  Saturn: Body.Saturn
+};
+
+function normalizeLongitude(degrees) {
+  return ((degrees % 360) + 360) % 360;
+}
+
+function signedLongitudeDifference(to, from) {
+  return ((to - from + 540) % 360) - 180;
+}
+
+function getApparentEclipticLongitude(body, date) {
+  const vector = GeoVector(ASTRONOMY_BODIES[body], date, true);
+  return normalizeLongitude(Ecliptic(vector).elon);
+}
+
+function getPlanetEventThreshold(body, horizonEvent) {
+  if (body === "Venus") {
+    // IX.7: choose C from the classified horizon event, not morning/evening.
+    if (horizonEvent === "west-setting" || horizonEvent === "east-rising") return 8;
+    if (horizonEvent === "east-setting" || horizonEvent === "west-rising") return 10;
+    return null;
+  }
+
+  // Mercury IX.8 needs the textual "swift-moving" classification, not
+  // merely direct motion. Keep it withheld until that branch is implemented.
+  if (body === "Mercury") return null;
+  return PLANET_ASTA_THRESHOLDS[body] ?? null;
+}
 
 const planetDailyCache = new Map();
 
@@ -420,19 +458,78 @@ function getPlanetDailyData(body, dateString) {
     return planetDailyCache.get(cacheKey);
   }
 
-  const result = Elongation(body, getLocalNoon(dateString));
+  const date = getLocalNoon(dateString);
+  const result = Elongation(body, date);
+  const before = new Date(date.getTime() - 12 * 60 * 60 * 1000);
+  const after = new Date(date.getTime() + 12 * 60 * 60 * 1000);
+  const planetLongitude = getApparentEclipticLongitude(body, date);
+  const sunLongitude = getApparentEclipticLongitude("Sun", date);
+  const planetMotion = signedLongitudeDifference(
+    getApparentEclipticLongitude(body, after),
+    getApparentEclipticLongitude(body, before)
+  );
   const data = {
     date: dateString,
-    eclipticSeparation: Number(result.ecliptic_separation)
+    eclipticSeparation: Number(result.ecliptic_separation),
+    visibility: result.visibility,
+    horizonEvent: classifyChapter9HorizonEvent({
+      body,
+      planetLongitude,
+      sunLongitude,
+      planetMotion
+    })
   };
 
   planetDailyCache.set(cacheKey, data);
   return data;
 }
 
-function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
+function classifyChapter9HorizonEvent({
+  body,
+  planetLongitude,
+  sunLongitude,
+  planetMotion
+}) {
+  if (!Number.isFinite(planetLongitude) || !Number.isFinite(sunLongitude)) return null;
+  const difference = normalizeLongitude(planetLongitude) - normalizeLongitude(sunLongitude);
+  if (Math.abs(difference) < 1e-7) return null;
+
+  const longitudeGreater = difference > 0;
+  if (body === "Jupiter" || body === "Mars" || body === "Saturn") {
+    return longitudeGreater ? "west-setting" : "east-rising";
+  }
+
+  if (body !== "Venus" && body !== "Mercury") return null;
+  if (!Number.isFinite(planetMotion) || Math.abs(planetMotion) < 1e-6) return null;
+  if (planetMotion < 0) {
+    return longitudeGreater ? "west-setting" : "east-rising";
+  }
+  return longitudeGreater ? "west-rising" : "east-setting";
+}
+
+function crossesAngularBoundary(a, b, eventType, thresholdFor) {
+  const ta = thresholdFor(a);
+  const tb = thresholdFor(b);
+  if (!Number.isFinite(ta) || !Number.isFinite(tb) || ta !== tb) return false;
+
+  if (eventType === "asta") {
+    return a.eclipticSeparation > ta && b.eclipticSeparation <= tb;
+  }
+  if (eventType === "udaya") {
+    return a.eclipticSeparation <= ta && b.eclipticSeparation > tb;
+  }
+  return false;
+}
+
+function findNearestAngularBoundary(body, selectedDate, eventType) {
   const selected = getPlanetDailyData(body, selectedDate);
   if (!Number.isFinite(selected.eclipticSeparation)) return null;
+
+  const thresholdFor = data =>
+    getPlanetEventThreshold(body, data.horizonEvent);
+
+  // बुध की IX.8 शाखा अभी निश्चित नहीं है; अनुमान न दिखाएँ।
+  if (!Number.isFinite(thresholdFor(selected))) return null;
 
   // दिन-स्तर पर अधिकतम 400 दिन आगे/पीछे खोजें।
   for (let offset = 1; offset <= 400; offset++) {
@@ -446,22 +543,17 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
     const futureA = getPlanetDailyData(body, futurePrevDate);
     const futureB = getPlanetDailyData(body, futureDate);
 
-    const crossedDown = (a, b) =>
-      a.eclipticSeparation > threshold &&
-      b.eclipticSeparation <= threshold;
-
-    const crossedUp = (a, b) =>
-      a.eclipticSeparation <= threshold &&
-      b.eclipticSeparation > threshold;
-
-    const matches = eventType === "asta" ? crossedDown : crossedUp;
+    const matches = (a, b) =>
+      crossesAngularBoundary(a, b, eventType, thresholdFor);
 
     // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
     if (matches(pastA, pastB)) {
       return {
         date: pastB.date,
         degree: pastB.eclipticSeparation,
-        threshold,
+        threshold: thresholdFor(pastB),
+        visibility: pastB.visibility,
+        horizonEvent: pastB.horizonEvent,
         direction: "past"
       };
     }
@@ -470,7 +562,9 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
       return {
         date: futureB.date,
         degree: futureB.eclipticSeparation,
-        threshold,
+        threshold: thresholdFor(futureB),
+        visibility: futureB.visibility,
+        horizonEvent: futureB.horizonEvent,
         direction: "future"
       };
     }
@@ -480,34 +574,35 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
 }
 
 function getPlanetEvent(planet, selectedDate) {
-  const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
-
-  if (!Number.isFinite(threshold)) {
-    return {
-      name: planet.name,
-      asta: null,
-      astaDegree: null,
-      udaya: null,
-      udayaDegree: null,
-      verificationPending: true
-    };
-  }
-
   try {
     const asta = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "asta"
+      planet.body, selectedDate, "asta"
     );
     const udaya = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "udaya"
+      planet.body, selectedDate, "udaya"
     );
+
+    // यदि किसी ग्रह के लिए शास्त्रीय शाखा तय नहीं है, तो झूठी तिथि न दिखाएँ।
+    if (!asta || !udaya) {
+      return {
+        name: planet.name,
+        asta: asta ? formatEventDate(asta.date) : null,
+        astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
+        udaya: udaya ? formatEventDate(udaya.date) : null,
+        udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
+        verificationPending: true
+      };
+    }
 
     return {
       name: planet.name,
       asta: asta ? formatEventDate(asta.date) : null,
-      astaDegree: asta ? `${asta.threshold}° सीमा` : null,
+      astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
       udaya: udaya ? formatEventDate(udaya.date) : null,
-      udayaDegree: udaya ? `${udaya.threshold}° सीमा` : null,
-      verificationPending: true
+      udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
+      // Show the available day-level estimate, but do not present it as a
+      // certified Sūrya-siddhānta result or an exact local visibility time.
+      verificationPending: false
     };
   } catch (error) {
     console.warn("Planetary angular-boundary estimate failed:", planet.body, error);
@@ -546,8 +641,9 @@ function createPlanetCard(
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
     <p class="planet-rise-set-note">
-      ग्रहों के शास्त्रीय उदय-अस्त की गणना का सत्यापन जारी है।
-      सत्यापन पूरा होने तक अनुमानित तिथियाँ प्रकाशित नहीं की जा रही हैं।
+      ये स्थानीय दोपहर के ग्रह-सूर्य कोण और उस समय वर्गीकृत शास्त्रीय सीमा पर आधारित प्रारंभिक, दिन-स्तरीय अनुमान हैं।
+      वास्तविक घटना के लिए आवश्यक सूर्योदय/सूर्यास्त-आधारित लघ्नान्तर अभी पूर्ण रूप से लागू नहीं है;
+      इन्हें अंतिम सूर्यसिद्धान्तीय फल या वास्तविक दृश्यता का निश्चित समय न मानें।
     </p>
 
     <div class="planet-rise-set-grid">
