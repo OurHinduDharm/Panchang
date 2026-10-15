@@ -142,6 +142,32 @@ function resolveSolarEvent(festival, solarEvents) {
 
 function baseResolution(festival, panchangDays, solarEvents, year) {
   const date = festival.date || {};
+  // Recurring monthly rules deliberately ignore the month label: month names can
+  // differ between Amanta/Purnimanta conventions, while Krishna Ashtami recurs.
+  if (date.calendarRule === "monthly-krishna-ashtami") {
+    const matches = panchangDays.filter((day) => {
+      const dayDate = dateOfDay(day);
+      if (!isIsoDate(dayDate)) return false;
+      if (normalizePaksha(day.paksha) !== normalizePaksha(date.paksha || "कृष्ण")) return false;
+      const wanted = normalizeTithi(date.tithi || "अष्टमी");
+      const actual = normalizeTithi(day.tithi);
+      return wanted.some((value) => actual.includes(value));
+    }).map((day) => ({
+      date: dateOfDay(day),
+      method: "recurring-panchang-tithi",
+      month: day.month || null,
+      paksha: day.paksha || null,
+      tithi: day.tithi || null,
+      rule: date.rule || date.calendarRule
+    }));
+    matches.sort((a, b) => a.date.localeCompare(b.date));
+    return {
+      status: matches.length ? "matched" : "unresolved",
+      method: "recurring-panchang-tithi",
+      dates: matches,
+      reason: matches.length ? null : "no supplied local Panchang day matches the recurring Krishna Ashtami rule"
+    };
+  }
   if (date.renderMode === "source-only") {
     return { status: "suppressed", method: "source-only", dates: [], reason: "record is retained for provenance only" };
   }
