@@ -711,3 +711,5 @@ See data/references/festival-discrepancy-audit-2026-10-15.md for the detailed di
 - PR #33 stays Draft. No live Blogger code has been changed.
 
 Next: trace the original Dharmasindhu/Nirnayasindhu passages for Dashami-vedha, Arunodaya and Harivasara/parana; then create a source-linked decision table and tests before any visitor-facing integration.
+
+- Further source review: Dharma Sindhu's condensed English chapter 3 gives a general 15-ghati Dashami-vedha statement, while chapter 5 separately discusses Ekadashi-specific Smarta/Vaishnava methods and 57/60-ghati references before Arunodaya. These are recorded as separate claims in `data/references/ekadashi-decision-rules-draft.md`; they must not be merged into one threshold without checking the original edition and reference point.
