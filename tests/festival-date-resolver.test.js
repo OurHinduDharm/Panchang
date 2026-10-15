@@ -202,6 +202,7 @@ test("Holashtak resolves an inclusive Falgun Shukla Ashtami-to-Purnima period", 
 
 test("all twelve Sankranti records define distinct recurring sidereal solar-ingress boundaries", () => {
   const sankrantis = catalog.festivals.filter((item) =>
+    /संक्रान्ति|संक्रांति/.test(item.name || "") &&
     item.date && item.date.renderMode === "solar-event" &&
     item.date.solarEvent && item.date.solarEvent.body === "Sun" &&
     item.date.solarEvent.longitudeSystem === "sidereal" &&
