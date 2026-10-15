@@ -46,6 +46,11 @@ on:
       - ".github/workflows/classical-yogas-tests.yml"
       - "data/festivals.json"
       - "tests/festival-season-2026.test.js"
+      - "tests/festival-tithi-diagnostic-2026.test.js"
+      - "festival-muhurta-rules.js"
+      - "festival-muhurta-engine.js"
+      - "tests/festival-muhurta-rules.test.js"
+      - "tests/festival-muhurta-engine.test.js"
   workflow_dispatch:
 
 permissions:
