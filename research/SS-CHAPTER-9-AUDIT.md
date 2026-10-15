@@ -1058,3 +1058,25 @@ Independent textual cross-check: Burgess's VII.10 translation says “declinatio
 The full VII.10 commentary is now visible in the searchable Sanskrit edition (lines 1860–1863). It goes beyond the short formula gloss: it describes the relation between the *satribhagraha*'s declination/hemisphere and the planet's own signed latitude, and derives the sign of the correction from that geometry. This is evidence in favour of treating “planet + three signs” as a shifted *planetary place*, not automatically as a zero-latitude point on the ecliptic. Accordingly, retaining the original signed ecliptic latitude at longitude +90° is now the stronger working interpretation.
 
 Caution: the commentary's geometric explanation is dense and its terms need to be mapped precisely to the coordinate state used by the modern ephemeris. Before promoting the retained-latitude interpretation, calculate both variants side by side for the same real planetary state and verify the sign cases against the commentary's north/south and east/west geometry. The present implementation's zero-latitude version remains the existing baseline only for reproducibility; it is not the preferred final interpretation. Production files remain untouched.
+
+
+## Stronger reading of VII.10 from the complete Raṅganātha gloss — 15 October 2026
+
+The complete Sanskrit commentary on the searchable Vishvasa edition has now been re-read around VII.10, not only the short gloss. It says:
+
+- “विक्षेपकलाः पूर्वसाधिता राशित्रयतुतग्रहोत्पन्नक्रान्त्यंशैर्गुणिता”
+- then explicitly glosses the factors as “सत्रिभग्रहस्य क्रान्ति ग्रहस्य विक्षेपः” (the declination of the *satribha-graha* and the planet's latitude).
+
+The second phrase is the key evidence. It distinguishes the declination of the three-sign-shifted planetary place from the original planet's own latitude, but it does not instruct the reader to set that shifted place's latitude to zero. On balance, this makes **retaining the planet's signed ecliptic latitude while shifting its longitude by +90° the preferred working interpretation** for our diagnostic.
+
+This is stronger than the earlier ambiguous short-gloss reading, but it is still not a complete proof of the modern coordinate implementation: the classical meaning of “satribha-graha” must be mapped to the source's spherical construction, and the direction/sign logic must be tested in all latitude/declination quadrants. Therefore:
+1. keep the zero-latitude candidate as a reproducibility baseline;
+2. add a parallel retained-latitude candidate and expose both intermediate declinations and Ayana corrections;
+3. compare both candidates under identical real planetary-state inputs, especially where the sign of declination changes;
+4. do not pick whichever happens to match a Panchanga date more closely without a textual/geometric explanation.
+
+Source: https://vishvasa.github.io/jyotiSham/observation/history/hindu/prakIrNam/ranganAthaH/sUryasiddhAnta/ (VII.10 commentary, passage beginning “अथ आनयदृक्कर्माह”). The independent TextGrid Sanskrit witness confirms the base verse wording and identifies Hall's edition with the Gūḍhārtha-prakāśaka commentary among its source witnesses: https://www.textgridrep.org/browse/49kc2.0.
+
+### Related Chapter IX implication
+
+Raṅganātha's Chapter IX.10 gloss explicitly says the difference between the current and target kalāṃśa is divided by the difference of the Sun/planet motions, while for a retrograde planet the divisor is their **sum**. The code's signed-motion approach is algebraically compatible only if the direction of time (past/future) is retained separately and the rates are expressed in the same rising-time coordinate. It must not collapse to an absolute relative rate before deciding whether the event is past or future. The diagnostic's signed derivative should therefore be tested against both direct and retrograde synthetic cases, plus the actual bracket, before the date solver is accepted.
