@@ -242,3 +242,25 @@ Source: https://panchangcalendar.com/hi/panchang/mumbai/2026/08/23/
 - The supplied Astroica manual location's Dwadashi end at 22:51 is supported by some Mumbai pages; other pages show 22:50.
 - Minute-level differences should be retained as source-reported values, not averaged. For a strict fixture, compare calculations using the same exact coordinates, timezone, ayanamsa and calculation convention.
 - These public city pages do not yet replace running the pinned project library diagnostic. No production code change or correctness assertion is justified from these pages alone.
+
+
+## Validation order clarified — 2026-10-15
+
+User-approved order: validate the project's tithi/nakshatra calculations against published Panchang data for major cities first, then repeat the process for the user's own city/location. Do not mix the two stages into one fixture.
+
+### Stage 1: Major-city reference set
+Start with Mumbai because several city-specific sources are available. Add at least one other major city (Delhi) using source pages that explicitly identify the city. For each date/transition record:
+- city and source URL;
+- displayed time and timezone;
+- source-reported tithi/nakshatra;
+- ayanamsa or calculation convention when stated;
+- whether coordinates are explicit or only a named city;
+- observed spread across sources.
+
+Use the August 2026 Ekadashi/Dwadashi intervals and September 2026 Ekadashi/Dwadashi/Shravana intervals already transcribed in this report. Keep one-minute source differences as reported; don't average them.
+
+### Stage 2: User's own city/location
+Only after Stage 1, repeat the same comparison for Pithoragarh / the project's chosen observer coordinates. Keep the existing audit coordinates (30.1265 N, 80.4817 E, elevation 0 m, Asia/Kolkata) separate from the mini-widget/test-astronomy coordinates (29.5828 N, 80.2182 E, elevation 1650 m).
+
+### Safety against false conclusions
+Major-city web calendars often display city names without exposing exact coordinates or calculation conventions. Such results are independent contextual checks, not exact-coordinate astronomy fixtures. A source can be promoted to a correctness fixture only when its relevant inputs and conventions are adequately matched and the pinned library's actual output has been captured. No production code changes based on source-to-source comparison alone.
