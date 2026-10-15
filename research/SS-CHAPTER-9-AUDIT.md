@@ -1043,3 +1043,11 @@ The current lagnāntara helper restores the modern ayanāṃśa to get tropical 
 ### Validation guardrail
 
 A successful fixture/unit test means the implementation matches its own stated equations. It is not a match to a published Panchanga unless the event branch, place, time basis, ephemeris/frame, and printed-date convention also match. The Ganesh Martand, SLBS, and National Panchanga observations remain separate evidence rows; no event date is to be overwritten to make a test pass.
+
+
+## New commentary witness found — Raṅganātha on VII.10
+
+A searchable Sanskrit transcription of Raṅganātha's *Gūḍhārthaprakāśa* is now available at Vishvasa's Jyotiṣa text collection. Its VII.10 gloss reads, in part: “विक्षेपकलाः पूर्वसाधिता राशित्रयतुतग्रहोत्पन्नक्रान्त्यंशैर्गुणिता विकला भवन्ति” and explains the same-name/different-name sign rule. This strengthens the interpretation that the multiplier is the declination associated with the planet's place advanced by three signs. However, the searchable sentence still does not unambiguously say whether the signed ecliptic latitude is retained when evaluating that shifted point. Do not claim this ambiguity is resolved yet.
+
+Source for the Sanskrit commentary: https://vishvasa.github.io/jyotiSham/observation/history/hindu/prakIrNam/ranganAthaH/sUryasiddhAnta/
+Independent textual cross-check: Burgess's VII.10 translation says “declination of the position of the planet increased by three signs”; his explanatory note on VII.11 describes the two-stage Ayana-then-Aksha procedure. The most productive next step is a visual check of the relevant printed commentary page, then a research-only comparison of both candidate calculations against the same event inputs. No production changes.
