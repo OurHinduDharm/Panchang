@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 10,
+  "monthName": "अक्टूबर",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-10-02",
+      "dateLabel": "2 अक्टूबर",
+      "title": "शरद पूर्णिमा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-07",
+      "dateLabel": "7 अक्टूबर",
+      "title": "करवा चौथ",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-11",
+      "dateLabel": "11 अक्टूबर",
+      "title": "अहोई अष्टमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-15",
+      "dateLabel": "15 अक्टूबर",
+      "title": "धनतेरस",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-17",
+      "dateLabel": "17 अक्टूबर",
+      "title": "नरक चतुर्दशी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-17",
+      "dateLabel": "17 अक्टूबर",
+      "title": "दीपावली / लक्ष्मी पूजन",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-18",
+      "dateLabel": "18 अक्टूबर",
+      "title": "गोवर्धन पूजा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "भैया दूज",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-23",
+      "dateLabel": "23 अक्टूबर",
+      "title": "छठ पूजा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-10-29",
+      "dateLabel": "29 अक्टूबर",
+      "title": "तुलसी विवाह",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
