@@ -19,6 +19,7 @@ h1{font-size:clamp(22px,5vw,30px);line-height:1.35;margin:0}
 .draft{padding:9px 13px;background:#fff5d9;border-top:1px solid #f0d9a6;color:#76521e;font-size:12px}
 .monthbar{padding:12px;margin-bottom:12px}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.filters{display:grid;grid-template-columns:1.3fr 1fr;gap:9px;margin-top:10px}
 label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
 select,button{font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0}
 .nav{display:flex;gap:8px;margin-top:10px}
@@ -76,6 +77,14 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       <select id="yearSelect"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option></select>
     </label>
   </div>
+  <div class="filters" aria-label="पर्व खोजें">
+    <label>पर्व खोजें
+      <input id="searchInput" type="search" placeholder="जैसे एकादशी, शिवरात्रि…" autocomplete="off" style="font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0;width:100%">
+    </label>
+    <label>श्रेणी
+      <select id="categoryFilter"><option value="">सभी श्रेणियाँ</option></select>
+    </label>
+  </div>
   <div class="nav">
     <button id="prevBtn" type="button">‹ पिछला महीना</button>
     <button id="nextBtn" class="primary" type="button">अगला महीना ›</button>
@@ -100,6 +109,8 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
   var eventsEl=document.getElementById("events");
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
+  var searchInput=document.getElementById("searchInput");
+  var categoryFilter=document.getElementById("categoryFilter");
   var requestToken=0;
   var panchangCache=new Map();
   function getLocalLocation(){
@@ -196,6 +207,23 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
     var parsed=new DOMParser().parseFromString(String(value||""),"text/html");
     Array.from(parsed.body.childNodes).forEach(function(node){appendSafeDescriptionNode(container,node);});
   }
+  function applyFilters(){
+    var query=String(searchInput.value||"").trim().toLocaleLowerCase("hi");
+    var category=categoryFilter.value;
+    var visible=0,total=eventsEl.querySelectorAll(".event").length;
+    eventsEl.querySelectorAll(".event").forEach(function(card){
+      var matchesText=!query||String(card.dataset.search||"").includes(query);
+      var matchesCategory=!category||card.dataset.category===category;
+      card.hidden=!(matchesText&&matchesCategory);
+      if(!card.hidden)visible++;
+    });
+    countEl.textContent=visible===total?total+" प्रविष्टियाँ":visible+" / "+total+" प्रविष्टियाँ";
+    var empty=eventsEl.querySelector(".filter-empty");
+    if(!visible&&total){
+      if(!empty){empty=document.createElement("div");empty.className="empty filter-empty";empty.textContent="इस खोज में कोई पर्व नहीं मिला। दूसरा शब्द या ‘सभी श्रेणियाँ’ चुनें।";eventsEl.appendChild(empty);}
+      empty.hidden=false;
+    }else if(empty){empty.hidden=true;}
+  }
   function render(data,year,month,token){
     eventsEl.replaceChildren();
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
@@ -203,6 +231,12 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
     var list=(data&&Array.isArray(data.events))?data.events.slice():[];
     list.sort(function(a,b){return String(a.date||"").localeCompare(String(b.date||""));});
     countEl.textContent=list.length+" प्रविष्टियाँ";
+    categoryFilter.replaceChildren();
+    var allOption=document.createElement("option");allOption.value="";allOption.textContent="सभी श्रेणियाँ";categoryFilter.appendChild(allOption);
+    Array.from(new Set(list.map(function(item){return String(item.category||"").trim();}).filter(Boolean))).sort().forEach(function(category){
+      var option=document.createElement("option");option.value=category;option.textContent=category;categoryFilter.appendChild(option);
+    });
+    searchInput.value="";categoryFilter.value="";
     if(!list.length){
       var empty=document.createElement("div");empty.className="empty";
       empty.textContent="इस महीने का डेटा अभी उपलब्ध नहीं है। सत्यापित डेटा जोड़ने पर यहाँ व्रत-पर्व दिखाई देंगे।";
@@ -218,6 +252,8 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
       small.textContent=Number.isNaN(dateObj.getTime())?"":["रवि","सोम","मंगल","बुध","गुरु","शुक्र","शनि"][dateObj.getDay()];
       date.appendChild(small);card.appendChild(date);
 
+      card.dataset.search=[item.title,item.description,item.category].join(" ").toLocaleLowerCase("hi");
+      card.dataset.category=String(item.category||"");
       var content=document.createElement("div");content.className="content";
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
@@ -247,11 +283,14 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
       }
       if(links.childNodes.length)content.appendChild(links);
       var status=document.createElement("div");status.className="pill";
-      if(item.reviewStatus==="user-confirmed-hard-copy"){status.classList.add("confirmed");status.textContent="तारीख़ की पुष्टि की गई";}
-      else {status.classList.add("review");status.textContent="समीक्षा बाकी";}
+      if(item.reviewStatus==="user-confirmed-hard-copy"||item.reviewStatus==="approved"){
+        status.classList.add("confirmed");
+        status.textContent=item.reviewStatus==="approved"?"तारीख़ स्वीकृत":"तारीख़ की पुष्टि की गई";
+      }else {status.classList.add("review");status.textContent="समीक्षा बाकी";}
       content.appendChild(status);
       card.appendChild(content);eventsEl.appendChild(card);
     });
+    applyFilters();
   }
   async function loadMonth(){
     var token=++requestToken;
@@ -278,6 +317,8 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
     if(y<2026||y>2028){return;}
     yearSelect.value=String(y);monthSelect.value=String(m).padStart(2,"0");loadMonth();
   }
+  searchInput.addEventListener("input",applyFilters);
+  categoryFilter.addEventListener("change",applyFilters);
   monthSelect.addEventListener("change",loadMonth);
   yearSelect.addEventListener("change",loadMonth);
   document.getElementById("prevBtn").addEventListener("click",function(){shiftMonth(-1);});
