@@ -1,0 +1,82 @@
+<escape>{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/reviewed/kalashtami-review.schema.json",
+  "title": "OurHinduDharm Kalashtami review export",
+  "description": "Research-only export from the annual review page. This schema does not certify the dates.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "reviewExportedAt",
+    "calculationStatus",
+    "location",
+    "year",
+    "engine",
+    "results",
+    "reviews"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "reviewExportedAt": { "type": "string", "format": "date-time" },
+    "calculationStatus": { "const": "research-only-not-approved" },
+    "location": {
+      "type": "object",
+      "required": ["name", "latitude", "longitude", "elevation", "timezone", "timezoneOffset"],
+      "properties": {
+        "name": { "type": "string" },
+        "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+        "longitude": { "type": "number", "minimum": -180, "maximum": 180 },
+        "elevation": { "type": "number" },
+        "timezone": { "type": "string" },
+        "timezoneOffset": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "year": { "type": "integer", "minimum": 1900, "maximum": 2200 },
+    "engine": { "type": "string" },
+    "elapsedSeconds": { "type": ["number", "string"] },
+    "panchangCalls": { "type": "integer", "minimum": 0 },
+    "results": {
+      "type": "object",
+      "required": ["monthly", "annual"],
+      "properties": {
+        "monthly": { "$ref": "#/$defs/resultList" },
+        "annual": { "$ref": "#/$defs/resultList" }
+      },
+      "additionalProperties": false
+    },
+    "reviews": {
+      "type": "object",
+      "description": "Map of review-key to {status,note,updatedAt}. Keep the generated result and review decision separate.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "status": { "enum": ["pending", "approved", "fix"] },
+          "note": { "type": "string", "maxLength": 500 },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "result": {
+      "type": "object",
+      "required": ["date", "month", "paksha", "tithi", "sourceMethod"],
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "month": { "type": "string" },
+        "paksha": { "type": "string" },
+        "tithi": { "type": "string" },
+        "sourceMethod": { "type": "string" },
+        "pradoshMinutes": { "type": "number", "minimum": 0 },
+        "nightMinutes": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "resultList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/result" }
+    }
+  },
+  "additionalProperties": false
+}</escape>
