@@ -159,6 +159,67 @@ export function runCivilDateEpochAdapterTests() {
     }
   });
 
+  check("Same UTC instant is expressed consistently at east, zero, and west meridians", () => {
+    const east = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-13T20:00:00Z", meridianLongitudeEastDeg: 75
+    });
+    const zero = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-13T20:00:00Z", meridianLongitudeEastDeg: 0
+    });
+    const west = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-13T20:00:00Z", meridianLongitudeEastDeg: -75
+    });
+    return east.lankaMidnightDayLabel === "2026-10-14" &&
+      Math.abs(east.fractionalTimeSinceLankaMidnight - 1 / 24) < 1e-12 &&
+      zero.lankaMidnightDayLabel === "2026-10-13" &&
+      Math.abs(zero.fractionalTimeSinceLankaMidnight - 20 / 24) < 1e-12 &&
+      west.lankaMidnightDayLabel === "2026-10-13" &&
+      Math.abs(west.fractionalTimeSinceLankaMidnight - 15 / 24) < 1e-12;
+  });
+
+  check("Day boundary is continuous at one second before, exactly at, and one second after local-mean midnight", () => {
+    const before = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-13T18:59:59Z", meridianLongitudeEastDeg: 75
+    });
+    const at = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-13T19:00:00Z", meridianLongitudeEastDeg: 75
+    });
+    const after = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-13T19:00:01Z", meridianLongitudeEastDeg: 75
+    });
+    return before.lankaMidnightDayLabel === "2026-10-13" &&
+      before.secondsSinceLankaMidnight === 86399 &&
+      at.lankaMidnightDayLabel === "2026-10-14" &&
+      at.secondsSinceLankaMidnight === 0 &&
+      after.lankaMidnightDayLabel === "2026-10-14" &&
+      after.secondsSinceLankaMidnight === 1;
+  });
+
+  check("Leap-day and year-independent calendar rollover follows the local-mean boundary", () => {
+    const before = adaptCivilInstantToLankaMidnight({
+      instant: "2024-02-29T18:59:59Z", meridianLongitudeEastDeg: 75
+    });
+    const at = adaptCivilInstantToLankaMidnight({
+      instant: "2024-02-29T19:00:00Z", meridianLongitudeEastDeg: 75
+    });
+    return before.lankaMidnightDayLabel === "2024-02-29" &&
+      before.secondsSinceLankaMidnight === 86399 &&
+      at.lankaMidnightDayLabel === "2024-03-01" &&
+      at.secondsSinceLankaMidnight === 0;
+  });
+
+  check("Equivalent UTC and explicit-offset timestamps map to the same boundary coordinates", () => {
+    const utc = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-13T20:00:00Z", meridianLongitudeEastDeg: 75
+    });
+    const offset = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-14T01:30:00+05:30", meridianLongitudeEastDeg: 75
+    });
+    return utc.lankaMidnightDayLabel === offset.lankaMidnightDayLabel &&
+      utc.secondsSinceLankaMidnight === offset.secondsSinceLankaMidnight &&
+      utc.fractionalTimeSinceLankaMidnight === offset.fractionalTimeSinceLankaMidnight;
+  });
+
   return {
     tests,
     passed: tests.filter(test => test.passed).length,
