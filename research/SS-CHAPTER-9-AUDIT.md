@@ -1249,3 +1249,19 @@ The research capture form now has a preset for this candidate time, supports `HH
 - New assertion checks the date/time preset, second precision, and Julian Day conversion. CI for this newest commit is pending at the time of this report update.
 
 After CI passes, use the preset to capture both Sun (body 10) and Venus (body 2) at the candidate sunset instant. Preserve the complete raw JSON. The API request must report a matching returned body identity and Julian Day within the existing tolerance. Then make a separate sunrise-side capture for Venus Udaya; do not reuse the sunset instant. If the endpoint rounds the input time or returns an inconsistent JD, retain the raw error as evidence and do not silently normalize it.
+
+
+### Browser verification and separate sunrise preset — 16 October 2026
+
+The first second-precision browser assertion exposed a test harness issue: the pure local-time-to-UTC-Julian-Day helper was scoped inside the page script and not exposed to the headless test. It is now explicitly exposed for deterministic regression testing; this changes no astronomy formula.
+
+- Fix commit: `5d38cd058b0de6552ed86f923f3c37742343e14d`
+- CI run: https://github.com/OurHinduDharm/Panchang/actions/runs/38885130215 — **success**, including headless Chromium and production-file identity verification.
+
+The raw TKS capture form now also has a separate sunrise preset based on the existing fixture's `sun_day.rise_h_local = 6.144195` hours: 06:08:39 IST on 12 October 2026, rounded to the nearest second. Its expected UTC Julian Day is approximately **2461325.526840278**. This is only the endpoint-reported sunrise converted to a candidate civil instant; it is not an independent sunrise solution and must not be described as the final event time.
+
+- Sunrise preset commit: `efd8fec0583c384d04c41d57a68d1f57dcdf7f05`
+- Browser regression commit: `3d14231ad94c9ec19042517b489abb970cc487bf`
+- CI run: https://github.com/OurHinduDharm/Panchang/actions/runs/38885238127 — **success**, including both sunset and sunrise preset/JD assertions and the production-file identity check.
+
+The capture gate is now operationally clearer: use the sunset preset for a Venus Asta-side ephemeris request and the sunrise preset for a separate Venus Udaya-side request. Both requests still use the fixture's coordinates (29.5830° N, 80.2090° E) and the endpoint request does not establish elevation handling. Save the full raw JSON and verify returned body identity and Julian Day before interpreting any angular difference. The separate TKS K/C panel still requires its own timestamp/method provenance. No event date/time is cleared for production display.
