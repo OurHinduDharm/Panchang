@@ -226,7 +226,9 @@ test("all twelve Sankranti records define distinct recurring sidereal solar-ingr
         localDate: "2027-04-14"
       }]
     });
-    assert.equal(result.status, "matched", item.id);
+    // This fixture supplies only the ingress event. Without an independently
+    // supplied egress boundary, the resolver must not imply a full interval.
+    assert.equal(result.status, "matched-start-only", item.id);
     assert.equal(result.displayDates[0].date, "2027-04-14", item.id);
     assert.equal(result.displayDates[0].instant, "2027-04-14T09:00:00+05:30", item.id);
   }
