@@ -1265,3 +1265,19 @@ The raw TKS capture form now also has a separate sunrise preset based on the exi
 - CI run: https://github.com/OurHinduDharm/Panchang/actions/runs/38885238127 — **success**, including both sunset and sunrise preset/JD assertions and the production-file identity check.
 
 The capture gate is now operationally clearer: use the sunset preset for a Venus Asta-side ephemeris request and the sunrise preset for a separate Venus Udaya-side request. Both requests still use the fixture's coordinates (29.5830° N, 80.2090° E) and the endpoint request does not establish elevation handling. Save the full raw JSON and verify returned body identity and Julian Day before interpreting any angular difference. The separate TKS K/C panel still requires its own timestamp/method provenance. No event date/time is cleared for production display.
+
+
+### First live raw TKS ephemeris capture — 16 October 2026
+
+The user supplied a live endpoint capture for 12 October 2026 at **17:42:00 IST** (UTC 12:12:00), coordinates **29.5830° N, 80.2090° E**, timezone parameter `tz=5.5`, with separate requests for Sun (body 10) and Venus (body 2). Both returned HTTP 200, `success=true`, and `selected_body` matched the requested body code. Both responses report `jd_utc = jd_ut1 = 2461326.0083333333`, consistent with 17:42:00 IST; `jd_tt = 2461326.0091345785`.
+
+At this instant, the API reports:
+
+- Sun apparent ecliptic longitude (of date): **199.189229588°**; apparent RA/Dec: **197.358028186° / −7.368711271°**.
+- Venus apparent ecliptic longitude (of date): **216.822376316°**; ecliptic latitude: **−7.571130275°**; apparent RA/Dec: **211.461145799° / −20.799366549°**.
+- Raw longitude difference: **17.633146727°**. This is not the same quantity as 3-D angular elongation, nor the classical Chapter IX lagnāntara-derived K.
+- Both bodies return the same shared `sun_day` fields: sunrise 06.144195 h and sunset 17.705795 h. The reported sunset converts to 17:42:20.862 IST, approximately **21 seconds later** than this capture's requested time.
+
+**Interpretation gate:** this is a successful same-instant Sun/Venus ephemeris capture at minute precision, not yet the exact second-precision event-side capture. The endpoint's `body.ecliptic_lon_deg` / RA/Dec fields are labeled apparent, while `nirayana_deg` is Lahiri sidereal; do not combine these frames without an explicit transformation. The raw endpoint response does not include the separate TKS K/C panel values, and the request does not specify elevation or the selected sunrise/sunset method. Thus this capture does **not** independently verify the historical `K=7.698°`, `C=8°` panel or validate a classical Asta/Udaya time.
+
+Next capture: use the second-precision **17:42:21 IST** sunset preset and confirm its returned JD is approximately `2461326.008576389`; retain this 17:42:00 capture as a separate, valid timestamped sample rather than overwriting it. For Venus Udaya, make a distinct sunrise-side capture using the sunrise preset. Production `app.js` and `extra-panchang.js` remain untouched.
