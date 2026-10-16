@@ -73,3 +73,22 @@ test("Dhanteras and Diwali puja windows are intersections, not stale copied time
   assert.equal(result.vrishabha.end.toISOString(), at(19, 35, "2026-11-08").toISOString());
   assert.equal(result.nishita, null);
 });
+
+
+test("Ekadashi parana default waits until both local sunrise and first quarter of Dvadashi have passed", () => {
+  const dvadashi = { start: at(4, 0, "2026-11-06"), end: at(12, 0, "2026-11-06") };
+  const result = paranaWindow({ sunrise: at(6, 0, "2026-11-06"), dvadashi });
+  assert.equal(result.status, "candidate");
+  assert.equal(result.hariVasaraEnd.toISOString(), at(6, 0, "2026-11-06").toISOString());
+  assert.equal(result.window.start.toISOString(), at(6, 0, "2026-11-06").toISOString());
+  assert.equal(result.window.end.toISOString(), at(12, 0, "2026-11-06").toISOString());
+});
+
+test("Ekadashi parana default waits for Hari-vasara when its first quarter ends after sunrise", () => {
+  const result = paranaWindow({
+    sunrise: at(6, 0, "2026-11-06"),
+    dvadashi: { start: at(5, 0, "2026-11-06"), end: at(13, 0, "2026-11-06") }
+  });
+  assert.equal(result.status, "candidate");
+  assert.equal(result.window.start.toISOString(), at(7, 0, "2026-11-06").toISOString());
+});
