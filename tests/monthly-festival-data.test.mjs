@@ -4,6 +4,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Script } from "node:vm";
+import { spawnSync } from "node:child_process";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const monthNames = [
@@ -64,10 +65,21 @@ test("all 36 monthly festival JSON files exist and follow the expected structure
 });
 
 function assertInlineScriptsParse(html, fileName) {
-  const scripts = Array.from(html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)).map(match => match[1]).filter(source => source.trim());
+  const scripts = Array.from(html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi))
+    .map(match => ({ attributes: match[1], source: match[2] }))
+    .filter(item => item.source.trim());
   assert.ok(scripts.length > 0, fileName + ": expected inline JavaScript");
-  scripts.forEach((source, index) => {
-    assert.doesNotThrow(() => new Script(source, { filename: fileName + " inline script " + (index + 1) }));
+  scripts.forEach((item, index) => {
+    const label = fileName + " inline script " + (index + 1);
+    if (/\btype\s*=\s*["']module["']/i.test(item.attributes)) {
+      const result = spawnSync(process.execPath, ["--input-type=module", "--check"], {
+        input: item.source,
+        encoding: "utf8"
+      });
+      assert.equal(result.status, 0, label + ": " + (result.stderr || "module syntax error"));
+    } else {
+      assert.doesNotThrow(() => new Script(item.source, { filename: label }));
+    }
   });
 }
 
