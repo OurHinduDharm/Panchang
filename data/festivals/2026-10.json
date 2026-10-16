@@ -36,7 +36,8 @@
       "articleLabel": "शारदीय नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
       "secondaryArticleLabel": "घटस्थापना की संपूर्ण विधि",
-      "reviewStatus": "existing-site-data-needs-review"
+      "reviewStatus": "existing-site-data-needs-review",
+      "muhurtaRule": "ghata-sthapana"
     },
     {
       "date": "2026-10-12",
@@ -115,6 +116,15 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
       "articleLabel": "कलश विसर्जन विधि",
       "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-25",
+      "dateLabel": "25 अक्टूबर",
+      "title": "शरद पूर्णिमा / कोजागरी पूर्णिमा",
+      "description": "चंद्रमा की चांदनी में खीर रखने की परंपरा; पर्व-तिथि की समीक्षा आवश्यक।",
+      "category": "पूर्णिमा",
+      "muhurtaRule": "moonlight-until-midnight",
+      "reviewStatus": "needs-review"
     }
   ]
 }
