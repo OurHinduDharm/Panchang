@@ -39,12 +39,13 @@
 <div id="summary" class="summary"></div>
 <h2>मासिक कालाष्टमी</h2><div id="monthly" class="empty">अभी गणना नहीं हुई।</div>
 <h2>वार्षिक कालभैरवाष्टमी</h2><div id="annual" class="empty">अभी गणना नहीं हुई।</div>
+<h2>स्कैन जाँच — अक्टूबर 2026</h2><div id="diagnostics" class="empty">गणना के बाद यहाँ 1–5 अक्टूबर की वास्तविक पंचांग तिथियाँ दिखाई जाएँगी।</div>
 <p class="muted">समीक्षा विकल्प: “जाँच बाकी”, “सही”, “सुधार चाहिए”। नोट और स्थिति इसी डिवाइस/ब्राउज़र में सेव होंगे। एक ही तारीख़ दो बार आए तो उसे छिपाया नहीं जाएगा—डुप्लिकेट को समीक्षा में साफ़ दिखाया जाएगा।</p>
 </main>
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $=id=>document.getElementById(id);
-const ASSET_SHA="4edb81a20bd32ca072812cf9fb0573d0866a9b7f";
+const ASSET_SHA="0d66a0b4b3b301a440c33aac8c57752aceccbd10";
 let generated=null, meta=null, panchangCalls=0, panchangRequests=0, panchangCacheHits=0, elapsedSeconds=null;
 let adapterPromise;
 function ensureAdapter(){
@@ -88,6 +89,14 @@ function renderTable(target,rows,kind,label){
 function showResults(){
  renderTable($("monthly"),generated.monthlyDecisionDays,"monthly","व्रतराज/रात्रि-व्याप्ति");
  renderTable($("annual"),generated.annualDecisionDays,"annual","धर्मसिंधु मध्यान्ह/प्रदोष निर्णय");
+ const diagnosticRows=(generated.scanDiagnostics||[]).filter(x=>x.date>="2026-10-01"&&x.date<="2026-10-05");
+ const diagnosticBox=$("diagnostics");diagnosticBox.replaceChildren();
+ if(diagnosticRows.length){
+  const table=document.createElement("table");table.innerHTML="<thead><tr><th>तारीख़</th><th>हिन्दू मास</th><th>पक्ष</th><th>दोपहर की तिथि</th><th>अष्टमी के पास?</th></tr></thead>";
+  const tbody=document.createElement("tbody");
+  diagnosticRows.forEach(x=>{const tr=document.createElement("tr");[x.date,x.month||"—",x.paksha||"—",x.tithi||"—",x.nearAshtami?"हाँ":"नहीं"].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.append(td)});tbody.append(tr)});
+  table.append(tbody);diagnosticBox.className="tablewrap";diagnosticBox.append(table);
+ } else {diagnosticBox.className="empty";diagnosticBox.textContent="इस रन में 1–5 अक्टूबर की तारीख़ें स्कैन नहीं हुईं। संदर्भ तारीख़ें और चुना वर्ष जाँचें।"}
  const duplicates=[...generated.monthlyDecisionDays,...generated.annualDecisionDays].filter((x,i,a)=>a.findIndex(y=>y.date===x.date) !== i).length;
  $("summary").replaceChildren();
  [["मासिक परिणाम",generated.monthlyDecisionDays.length],["वार्षिक परिणाम",generated.annualDecisionDays.length],["संभावित दिन",generated.candidateDates.length],["इंजन कॉल",panchangCalls],["पंचांग अनुरोध",panchangRequests],["कैश हिट",panchangCacheHits],["समय",elapsedSeconds+" सेकंड"]].forEach(([k,v])=>{const s=document.createElement("span");s.textContent=k+": "+v;$("summary").append(s)});
