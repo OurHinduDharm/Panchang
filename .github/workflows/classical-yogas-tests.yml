@@ -15,6 +15,10 @@ on:
       - "tests/classical-yogas-drik-reference.test.js"
       - "tests/panchang-card-order.test.js"
       - "tests/compact-ui-night-prahar.test.js"
+      - "festival-muhurta.js"
+      - "tests/festival-muhurta.test.js"
+      - "monthly-vrat-parv.html"
+      - "data/festivals/**"
       - ".github/workflows/classical-yogas-tests.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -48,7 +52,10 @@ jobs:
         run: |
           node --input-type=module --check < app.js
           node --input-type=module --check < extra-panchang.js
+          node --input-type=module --check < festival-muhurta.js
           node --check classical-yogas.js
+      - name: Run festival muhurta rule tests
+        run: node --test tests/festival-muhurta.test.js
       - name: Run Panchang card-order regression tests
         run: node --test tests/panchang-card-order.test.js
       - name: Run compact UI and night Prahar regression tests
