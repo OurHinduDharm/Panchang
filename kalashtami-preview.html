@@ -27,7 +27,7 @@
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $ = (id) => document.getElementById(id);
-const DRAFT_ASSET_VERSION = "00cd907ec3ef1bb0469e4d31fbeb9b7cdabe22b1";
+const DRAFT_ASSET_VERSION = "9fe3c59dceb9675dd42b0f8b41663681906a8121";
 function loadClassicScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -40,7 +40,7 @@ function loadClassicScript(src) {
 let draftScriptsPromise;
 function ensureDraftScripts() {
   if (!draftScriptsPromise) {
-    const base = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@00cd907ec3ef1bb0469e4d31fbeb9b7cdabe22b1/";
+    const base = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@9fe3c59dceb9675dd42b0f8b41663681906a8121/";
     draftScriptsPromise = (async () => {
       await loadClassicScript(base + "festival-date-resolver.js?v=" + DRAFT_ASSET_VERSION);
       await loadClassicScript(base + "kalashtami-panchang-adapter.js?v=" + DRAFT_ASSET_VERSION);
