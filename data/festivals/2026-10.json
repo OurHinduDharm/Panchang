@@ -3,8 +3,8 @@
   "year": 2026,
   "month": 10,
   "monthName": "अक्टूबर",
-  "status": "preview-needs-date-review",
-  "locationScope": "पिथौरागढ़; publication dates require approved review",
+  "status": "needs-review",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
       "date": "2026-10-03",
@@ -27,17 +27,27 @@
       "reviewStatus": "existing-site-data-needs-review"
     },
     {
+      "date": "2026-10-10",
+      "dateLabel": "10 अक्टूबर",
+      "title": "पितृ विसर्जन अमावास्या",
+      "description": "पितृपक्ष पर <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\">पितृ तर्पण विधि</a> एवं <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\">पितृ विसर्जन विधि</a>",
+      "category": "अमावस्या",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-10-11",
       "dateLabel": "11 अक्टूबर",
       "title": "शारदीय नवरात्र प्रारम्भ",
-      "description": "आश्विन शुक्ल प्रतिपदा — घटस्थापना और माँ शैलपुत्री की उपासना। मुहूर्त को स्थानीय पंचांग से अलग सत्यापित करना होगा।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\">शारदीय नवरात्र प्रारम्भ</a> (आश्विन शुक्ल प्रतिपदा) <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">घटस्थापना (संपूर्ण विधि)</a>कलश स्थापना मुहूर्त - 06:19 ए एम से 10:12 ए एम तक। अभिजित मुहूर्त - दिन - 11:32 am से 12:18 pm तक | जहाँ तक संभव हो चित्रा नक्षत्र व वैधृति योग टालकर ही कलश स्थापित करें, टालना असंभव हो तो अभिजित मुहूर्त पर करें। घटस्थापन और पूजा के लिए विशेष शुभ समय अपने शहर के अनुसार - <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\">हमारे पंचांग पृष्ठ में जाकर देखें</a> <br/>*<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a>",
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
       "articleLabel": "शारदीय नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
       "secondaryArticleLabel": "घटस्थापना की संपूर्ण विधि",
-      "reviewStatus": "existing-site-data-needs-review",
-      "muhurtaRule": "ghata-sthapana"
+      "reviewStatus": "needs-review",
+      "muhurtaRule": "ghata-sthapana",
+      "endDate": "2026-10-20",
+      "statusText": "नवरात्रि चल रही है"
     },
     {
       "date": "2026-10-12",
@@ -50,6 +60,16 @@
       "reviewStatus": "existing-site-data-needs-review"
     },
     {
+      "date": "2026-10-12",
+      "dateLabel": "12 अक्टूबर",
+      "title": "शारदीय नवरात्र द्वितीया - ब्रह्मचारिणी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">द्वितीयं ब्रह्मचारिणी</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-20",
+      "hidePeriod": "true"
+    },
+    {
       "date": "2026-10-13",
       "dateLabel": "13 अक्टूबर",
       "title": "नवरात्रि तृतीया — माँ चन्द्रघण्टा",
@@ -58,6 +78,16 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
       "articleLabel": "माँ चन्द्रघण्टा",
       "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-13",
+      "dateLabel": "13 अक्टूबर",
+      "title": "शारदीय नवरात्र तृतीया - चन्द्रघंटा",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">तृतीयं चन्द्रघंटेति</a> (२४ व २५ सितम्बर)",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-20",
+      "hidePeriod": "true"
     },
     {
       "date": "2026-10-14",
@@ -70,6 +100,16 @@
       "reviewStatus": "existing-site-data-needs-review"
     },
     {
+      "date": "2026-10-14",
+      "dateLabel": "14 अक्टूबर",
+      "title": "शारदीय नवरात्र चतुर्थी - कूष्माण्डा",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">कूष्माण्डेति चतुर्थकम्</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-20",
+      "hidePeriod": "true"
+    },
+    {
       "date": "2026-10-15",
       "dateLabel": "15 अक्टूबर",
       "title": "नवरात्रि पंचमी — माँ स्कन्दमाता",
@@ -80,6 +120,16 @@
       "reviewStatus": "existing-site-data-needs-review"
     },
     {
+      "date": "2026-10-15",
+      "dateLabel": "15 अक्टूबर",
+      "title": "शारदीय नवरात्र पंचमी - स्कन्दमाता",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">पंचमं स्कन्दमातेति</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-20",
+      "hidePeriod": "true"
+    },
+    {
       "date": "2026-10-16",
       "dateLabel": "16 अक्टूबर",
       "title": "नवरात्रि षष्ठी — माँ कात्यायनी",
@@ -88,6 +138,26 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
       "articleLabel": "माँ कात्यायनी",
       "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-16",
+      "dateLabel": "16 अक्टूबर",
+      "title": "शारदीय नवरात्र षष्ठी - कात्यायनी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च। अकाल बोधन, बिल्व निमंत्रण षष्ठी।",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-20",
+      "hidePeriod": "true"
+    },
+    {
+      "date": "2026-10-17",
+      "dateLabel": "17 अक्टूबर",
+      "title": "एवं १८ अक्टूबर को = शारदीय नवरात्र सप्तमी - कालरात्रि",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a> <br/> १७ अक्टूबर को  मूल नक्षत्र है जो सरस्वती देवी के आवाहन हेतु प्रशस्त है...मूल नक्षत्र में सरस्वती जी का आवाहन करें <br/> १८ अक्टूबर को पूर्वाषाढ़ा नक्षत्र में सरस्वती जी का पूजन करें।",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-20",
+      "hidePeriod": "true"
     },
     {
       "date": "2026-10-17",
@@ -108,6 +178,34 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "शारदीय नवरात्र महानवमी - सिद्धिदात्री",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। <br/>  श्रवण नक्षत्र में सरस्वती विसर्जन।<br/> नवरात्रि हवन।<a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> ⭐नवरात्र पारण(प्रसाद खाकर व्रत खोलना) - उत्तम तो यह है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः ही व्रत खोलें।",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-20",
+      "hidePeriod": "true"
+    },
+    {
+      "date": "2026-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "शारदीय नवरात्र महाष्टमी - महागौरी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a><br/>  <br/>  उत्तराषाढ़ा नक्षत्र में सरस्वती देवी के निमित्त बलिदान।<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">भद्रकाली जयन्ती</a>* सन्धि पूजा प्रारम्भ १०:२७ ए एम पर, सन्धि पूजा समाप्त ११:१५ ए एम पर। सन्धिपूजा मुहूर्त के अंतर्गत भगवती काली की उपासना करे। इस दिन व नवमी को कन्या पूजन का विशेष महत्व है।)",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-20",
+      "hidePeriod": "true"
+    },
+    {
+      "date": "2026-10-20",
+      "dateLabel": "20 अक्टूबर",
+      "title": "दशहरा / विजयादशमी",
+      "description": "दुर्गा देवी के निमित्त बलिदान आदि करे। <br/> <b>विजयादशमी </b>- शमी पूजा, शस्त्र पूजन, अपराजिता पूजा, नीलकंठ पक्षी का दर्शन शुभ। शस्त्र आदि का पूजन। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\">कलश आदि का विसर्जन।</a>",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-10-20",
       "dateLabel": "20 अक्टूबर",
       "title": "विजयादशमी / दशहरा",
@@ -124,6 +222,30 @@
       "description": "चंद्रमा की चांदनी में खीर रखने की परंपरा; पर्व-तिथि की समीक्षा आवश्यक।",
       "category": "पूर्णिमा",
       "muhurtaRule": "moonlight-until-midnight",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-26",
+      "dateLabel": "26 अक्टूबर",
+      "title": "कोजागरी पूर्णिमा / शरद पूर्णिमा",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\">कोजागरी पूर्णिमा</a>, <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">लक्ष्मी - कुबेर पूजन</a> , शरद पूर्णिमा। खीर छत पर रखें। कोजागर पूजा, वाल्मीकि जयंती, मीराबाई जयंती। श्री कार्तिकेय जयन्ती।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-27",
+      "dateLabel": "27 अक्टूबर",
+      "title": "कार्तिक मास प्रारंभ",
+      "description": "कार्तिक मास प्रारंभ - मान्यता है कि केवल कार्तिक मास में चातुर्मास के नियमों का आचरण करने से भी चातुर्मास्य व्रत का उत्तम फल प्राप्त होता है। कार्तिक मास में की गई पूजाएं, मन्त्रात्मक, स्तोत्रात्मक साधनाएं उत्तम फल देती हैं।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-29",
+      "dateLabel": "29 अक्टूबर",
+      "title": "करवाचौथ",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\">करवाचौथ</a>",
+      "category": "व्रत-पर्व",
       "reviewStatus": "needs-review"
     }
   ]
