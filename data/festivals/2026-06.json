@@ -4,7 +4,7 @@
   "month": 6,
   "monthName": "जून",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
       "date": "2026-06-11",
@@ -23,12 +23,29 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-06-22",
+      "dateLabel": "22 जून",
+      "title": "श्री धूमावती महाविद्या जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/about-godess-dhoomawati-on-dhoomavati-mahavidya-jayanti.html\" target=\"_blank\"> श्री धूमावती महाविद्या जयन्ती</a>, <a href=\"https://ourhindudharm.blogspot.com/2021/06/Dhoomavati-ashtottara-shatnaam-pooja-sadhana-on-Dhumavati-Mahavidya-Jayanti.html\" target=\"_blank\"> श्री धूमावती महाविद्या की शतार्चन उपासना विधि</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-06-25",
       "dateLabel": "25 जून",
       "title": "निर्जला एकादशी",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "एकादशी",
       "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-06-25",
+      "dateLabel": "25 जून",
+      "title": "वेदमाता गायत्री जयन्ती",
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\">वेदमाता गायत्री जयन्ती</a>(ज्येष्ठ शुक्ल एकादशी) - साधना करने व स्तोत्र पाठ आदि अनुष्ठानों का विशिष्ट समय अम्बुबाची योग २२ से २५ जून। यह प्रारंभ होगा २२ जून (शुक्ल अष्टमी) को रात ९.१० बजे से। तथा इसकी निवृत्ति होगी = २६ जून को सुबह ९.३३ बजे तक।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-06-26"
     },
     {
       "date": "2026-06-29",
