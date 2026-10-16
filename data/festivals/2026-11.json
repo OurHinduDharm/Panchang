@@ -4,7 +4,7 @@
   "month": 11,
   "monthName": "नवंबर",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
       "date": "2026-11-01",
@@ -12,6 +12,22 @@
       "title": "अहोई अष्टमी",
       "description": "संतान की मंगलकामना से जुड़ा व्रत।",
       "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-05",
+      "dateLabel": "5 नवंबर",
+      "title": "गोवत्स द्वादशी व्रत",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html\" target=\"_blank\">गोवत्स द्वादशी व्रत</a>[प्रदोष काल (सायंकाल) व्यापिनी द्वादशी में]",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-05",
+      "dateLabel": "5 नवंबर",
+      "title": "रमा (रम्भा) एकादशी व्रत",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\">'रमा' (रम्भा) एकादशी व्रत</a>",
+      "category": "एकादशी",
       "reviewStatus": "needs-review"
     },
     {
@@ -31,6 +47,14 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "needs-review",
       "muhurtaRule": "dhanteras-puja"
+    },
+    {
+      "date": "2026-11-06",
+      "dateLabel": "6 नवंबर",
+      "title": "धनतेरस / धन्वन्तरि जयंती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\">धनतेरस</a>,<a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\">श्रीधन्वन्तरि जयन्ती</a> यमराज के लिए दीपदान प्रारम्भ, गोत्रिरात्र व्रत प्रारम्भ।🪔 विशेष पूजा मुहूर्त= शाम 5.58 - 7.43PM",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
     },
     {
       "date": "2026-11-07",
