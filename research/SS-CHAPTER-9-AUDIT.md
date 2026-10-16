@@ -1221,11 +1221,18 @@ Next gate remains unchanged: obtain a TKS K/C snapshot with exact request timest
 
 The Venus K audit no longer hardcodes the unrelated noon sample. The research page now defaults to the previously discussed candidate snapshot request at 12 October 2026 17:42 IST and accepts an editable IST date/time. It computes the equivalent UTC instant from the explicit +05:30 offset and prints both local and UTC timestamps with the calculated candidate K values. The supplied TKS K/C/angle values remain reference-only; the page does not calculate a TKS residual or claim the capture is matched.
 
-A Chromium assertion was added to verify the default time renders as 2026-10-12 17:42 IST / 12:12:00 UTC and that the TKS provenance warning remains visible. This tests timestamp wiring only; it does not validate the historical geometry or Asta/Udaya result.
+A Chromium assertion verifies the selected candidate renders as 2026-10-12 17:42 IST / 12:12:00 UTC and keeps the TKS provenance warning visible. The first run failed because an older assertion still expected 12:00 IST. The assertion was corrected to check the editable selected instant and UTC conversion.
 
-Research commits:
-- Editable instant control: `548f10ec80da64a972829c61bdc42dd0cb364423`
-- Status copy: `3855f809368e4b65db38135d29a0ac223551bf68`
-- Browser timestamp assertion: `0a44997f986bfa18e5582bf4979649eeb3fd9bef`
+- Fix commit: `9af7e4f03252c576528b47537f9e34dd96759028`
+- CI run: https://github.com/OurHinduDharm/Panchang/actions/runs/38815070070 — **success**, including headless Chromium and the production-file identity check.
 
-Production `app.js` and `extra-panchang.js` remain untouched. Await the new Chromium run before considering the timestamp control verified. Next, preserve the raw TKS K/C panel capture and its exact method/location settings alongside the timestamp; then compare our candidate geometry at that exact instant and separately capture the actual event-side sunset/sunrise states.
+This confirms timestamp UI wiring only; it does not validate the historical geometry or Asta/Udaya result. Production `app.js` and `extra-panchang.js` remain untouched.
+
+### Next event-side capture gate
+
+1. For Venus Asta, request the Sun and Venus ephemeris at the documented local sunset instant; for Venus Udaya, make a separate request at the documented local sunrise instant. Do not reuse a single generic clock time for both event types.
+2. Preserve the raw response, requested and returned body codes, request date/time, timezone offset, UTC Julian Day, coordinates, elevation if supported, and the TKS method labels. The existing raw endpoint capture is an ephemeris capture; it is **not** the separate TKS K/C panel output.
+3. Calculate local sunrise/sunset using one explicitly named horizon convention at a time. Do not mix “दृश्य — ऊँचाई + वक्रीभवन” with “गणित — मानक −0.833°”. If the endpoint does not accept elevation or method selection, record that limitation rather than implying it did.
+4. Only after a same-instant, same-frame comparison is established should the K residual be interpreted. Keep the classical K test separate from apparent ecliptic separation and modern heliacal visibility.
+
+No event dates/times are cleared for production display by this CI pass.
