@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 7,
+  "monthName": "जुलाई",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-07-06",
+      "dateLabel": "6 जुलाई",
+      "title": "गुरु पूर्णिमा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-07-24",
+      "dateLabel": "24 जुलाई",
+      "title": "हरियाली तीज",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-07-26",
+      "dateLabel": "26 जुलाई",
+      "title": "नाग पंचमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
