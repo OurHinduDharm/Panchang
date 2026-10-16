@@ -6,6 +6,7 @@ on:
       - main
       - "fix/classical-yogas-extra-panchang"
       - "fix/compact-panchang-ui-night-prahar"
+      - "feature/udaya-asta-display"
     paths:
       - "app.js"
       - "extra-panchang.js"
