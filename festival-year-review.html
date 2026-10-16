@@ -15,7 +15,7 @@
 <h1>वार्षिक पर्व डेटा — गणना और समीक्षा</h1>
 <p class="muted">पहला चरण: एक बटन से चुने हुए वर्ष की कालाष्टमी गणना। स्थान बदला जा सकता है। गणना ब्राउज़र में चलती है; प्रगति, कॉल की संख्या और समय दिखेंगे।</p>
 <div class="controls">
-<label>वर्ष<input id="year" type="number" min="1900" max="2200" value="2027"></label>
+<label>वर्ष<input id="year" type="number" min="1900" max="2200" value="2026"></label>
 <label>स्थान का नाम<input id="city" type="text" value="पिथौरागढ़" maxlength="80"></label>
 <label>अक्षांश<input id="lat" type="number" step="0.0001" value="30.1265"></label>
 <label>देशांतर<input id="lon" type="number" step="0.0001" value="80.4817"></label>
@@ -83,8 +83,8 @@ function showResults(){
 }
 function downloadJSON(){
  if(!generated||!meta)return;
- const exportData={schemaVersion:1,reviewExportedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",location:meta.location,year:meta.year,engine:"@ishubhamx/panchangam-js@3.0.0",elapsedSeconds,panchangCalls,results:{monthly:generated.monthlyDecisionDays,annual:generated.annualDecisionDays},reviews:{}};
- for(const [kind,rows] of [["monthly",generated.monthlyDecisionDays],["annual",generated.annualDecisionDays]])for(const item of rows){const key=reviewKey(kind,item);exportData.reviews[key]=readReview(key)}
+ const exportData={schemaVersion:1,reviewExportedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",location:meta.location,year:meta.year,engine:"@ishubhamx/panchangam-js@3.0.0",elapsedSeconds,panchangCalls,results:{monthly:generated.monthlyDecisionDays,annual:generated.annualDecisionDays},reviewedResults:{monthly:[],annual:[]},reviews:{}};
+ for(const [kind,rows] of [["monthly",generated.monthlyDecisionDays],["annual",generated.annualDecisionDays]])for(const item of rows){const key=reviewKey(kind,item),review=readReview(key);exportData.reviews[key]=review;exportData.reviewedResults[kind].push({...item,review:{status:review.status||"pending",note:review.note||"",updatedAt:review.updatedAt||null}})}
  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ohd-festival-review-"+meta.year+".json";a.click();URL.revokeObjectURL(url);
 }
