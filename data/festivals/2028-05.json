@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 5,
+  "monthName": "मई",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-05-07",
+      "dateLabel": "7 मई",
+      "title": "नृसिंह जयंती",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-05-08",
+      "dateLabel": "8 मई",
+      "title": "बुद्ध पूर्णिमा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-05-24",
+      "dateLabel": "24 मई",
+      "title": "वट सावित्री व्रत",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
