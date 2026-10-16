@@ -360,6 +360,18 @@
     return {
       year, latitude, longitude, elevation,
       sunriseDays, nightMidpointDays, monthlyDecisionDays, annualDecisionDays,
+      // Research diagnostics: expose noon tithi for each scanned day so missing
+      // seeded events can be traced without widening the scan window blindly.
+      scanDiagnostics: orderedScanDates.map(date => {
+        const entry = base.get(date);
+        return {
+          date,
+          month: entry ? monthHindi(entry.noon && entry.noon.masa) : "",
+          paksha: entry ? pakshaHindi(entry.noon && entry.noon.paksha, tithiIndex(entry.noon && entry.noon.tithi)) : "",
+          tithi: entry ? tithiHindi(entry.noon && entry.noon.tithi) : "",
+          nearAshtami: Boolean(entry && isNearAshtami(entry.noon))
+        };
+      }),
       candidateDates: Array.from(candidateDates).sort(),
       note: "Monthly Kalashtami: prefer Krishna Ashtami lasting at least one ghati after Pradosh begins; otherwise choose the date with greater night-time Ashtami overlap. Annual Bhairava Ashtami follows the separate Dharmasindhu Madhyahna/Pradosh decision rules."
     };
