@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 3,
+  "monthName": "मार्च",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-03-11",
+      "dateLabel": "11 मार्च",
+      "title": "होलिका दहन",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-03-11",
+      "dateLabel": "11 मार्च",
+      "title": "होली",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-03-26",
+      "dateLabel": "26 मार्च",
+      "title": "उगादी / गुड़ी पड़वा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-03-26",
+      "dateLabel": "26 मार्च",
+      "title": "चैत्र नवरात्र प्रारंभ",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
