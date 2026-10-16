@@ -4,7 +4,7 @@
   "month": 2,
   "monthName": "फ़रवरी",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
       "date": "2026-02-01",
@@ -12,6 +12,46 @@
       "title": "माघ पूर्णिमा",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-02-01",
+      "dateLabel": "1 फ़रवरी",
+      "title": "श्री ललिता त्रिपुरसुंदरी जी जयंती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/02/About-Goddess-Lalita-Or-Shodashi-Mahavidya-On-TripurSundariJayanti-LalithaPanchratn-Stotram.html\" target=\"_blank\">श्री ललिता त्रिपुरसुंदरी जी (महाविद्या षोडशी) की जयंती</a> -<a href=\"http://ourhindudharm.blogspot.com/2015/02/The-StoryOf-Goddess-TripurSundari-On-ShriLalitaJayanti.html\" target=\"_blank\"> भगवती ललिता के प्रादुर्भाव की कथा</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-02-04",
+      "dateLabel": "4 फ़रवरी",
+      "title": "रथ सप्तमी",
+      "description": "रथ सप्तमी - इस तिथि पर भगवान सूर्य रथ पर पहले-पहल आरूढ़ हुए थे। इस तिथि को दिया गया दान व किया गया यज्ञ सब अक्षय - फलप्रद हो जाता है। लाल पुष्प व गंधाक्षत-तिल युक्त सूर्यार्घ्य अवश्य दें। इस दिन सूर्याराधन करने से दरिद्रता नष्ट होती है व भगवान सूर्य प्रसन्न होते हैं।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-02-07",
+      "dateLabel": "7 फ़रवरी",
+      "title": "यशोदा जयन्ती",
+      "description": "फाल्गुन कृष्ण षष्ठी - यशोदा जयन्ती",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-02-08",
+      "dateLabel": "8 फ़रवरी",
+      "title": "शबरी जयंती",
+      "description": "फाल्गुन कृष्ण सप्तमी - शबरी जयंती",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-02-09",
+      "dateLabel": "9 फ़रवरी",
+      "title": "मासिक कालाष्टमी",
+      "description": "मासिक कालाष्टमी",
+      "category": "व्रत-पर्व",
       "reviewStatus": "needs-review"
     },
     {
@@ -31,10 +71,18 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-02-15",
+      "dateLabel": "15 फ़रवरी",
+      "title": "श्री महाशिवरात्रि व्रत",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html\" target=\"_blank\"> श्रीमहाशिवरात्रि व्रत </a>,<a href=\"http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\">शिवरात्रि का रहस्य</a>।<a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\">शिवरात्रि में रात्रि जागरण पूर्वक चारों प्रहर की शास्त्रोक्त विधान से पूजा करने की विधि</a>",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-02-27",
       "dateLabel": "27 फ़रवरी",
       "title": "आमलकी एकादशी",
-      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html\" target=\"_blank\">आमलकी एकादशी</a>",
       "category": "एकादशी",
       "reviewStatus": "needs-review"
     }
