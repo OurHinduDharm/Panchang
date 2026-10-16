@@ -1,6 +1,13 @@
 name: Precompute Kalashtami Dates
 
 on:
+  push:
+    branches:
+      - data/festival-json-foundation
+    paths:
+      - 'scripts/generate-kalashtami-data.mjs'
+      - 'kalashtami-panchang-adapter.js'
+      - '.github/workflows/kalashtami-precompute.yml'
   workflow_dispatch:
     inputs:
       first_year:
