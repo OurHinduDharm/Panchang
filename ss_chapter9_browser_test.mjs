@@ -61,6 +61,20 @@ try {
     throw new Error("Raw TKS capture form failed second-precision sunset preset or UTC Julian Day conversion.");
   }
 
+  // Verify a distinct sunrise-side preset is available for the eastern Venus Udaya capture.
+  await page.locator("#setFixtureSunriseBtn").click();
+  const rawSunrisePreset = await page.evaluate(() => ({
+    date: document.querySelector("#rawTksDate").value,
+    time: document.querySelector("#rawTksTime").value,
+    jd: window.expectedJulianDateUtcFromLocal("2026-10-12", "06:08:39", 5.5)
+  }));
+  console.log("Raw TKS sunrise-side capture preset:", JSON.stringify(rawSunrisePreset));
+  if (rawSunrisePreset.date !== "2026-10-12" ||
+      rawSunrisePreset.time !== "06:08:39" ||
+      Math.abs(rawSunrisePreset.jd - 2461325.526840278) > 0.00000001) {
+    throw new Error("Raw TKS sunrise capture preset failed second-precision UTC Julian Day conversion.");
+  }
+
   // Exercise the new 3-D frame panel in the real browser, not just static HTML wiring.
   await page.locator("#runFrameCompareBtn").click();
   await page.waitForFunction(
