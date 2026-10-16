@@ -5099,6 +5099,8 @@ function expectedJulianDateUtcFromLocal(dateText, timeText, offsetHoursEastUtc) 
     offsetHoursEastUtc * 60 * 60 * 1000;
   return utcMilliseconds / 86400000 + 2440587.5;
 }
+// Expose the pure conversion helper for deterministic headless-browser regression tests.
+window.expectedJulianDateUtcFromLocal = expectedJulianDateUtcFromLocal;
 
 document.getElementById("setFixtureSunsetBtn").addEventListener("click", () => {
   document.getElementById("rawTksDate").value = "2026-10-12";
