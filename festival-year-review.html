@@ -13,13 +13,26 @@
 <body><main>
 <p class="notice"><strong>समीक्षा पृष्ठ — ड्राफ्ट, लाइव पंचांग नहीं।</strong> यह पृष्ठ अभी कालाष्टमी/कालभैरवाष्टमी वार्षिक गणना का पायलट है। गणना से निकली तारीखें स्वतः प्रमाणित नहीं मानी जाएँगी। इस HTML पेज में लॉगिन नहीं है; GitHub रिपॉज़िटरी सार्वजनिक होने पर URL गोपनीय नहीं है। आपकी समीक्षा टिप्पणियाँ केवल इसी ब्राउज़र के local storage में रहती हैं, जब तक आप JSON डाउनलोड न करें।</p>
 <h1>वार्षिक पर्व डेटा — गणना और समीक्षा</h1>
-<p class="muted">पहला चरण: एक बटन से चुने हुए वर्ष की कालाष्टमी गणना। स्थान बदला जा सकता है। गणना ब्राउज़र में चलती है; प्रगति, कॉल की संख्या और समय दिखेंगे।</p>
+<p class="muted">पहला चरण: संदर्भ पंचांग से संभावित तारीख़ें दें; गणना केवल उन्हीं तारीख़ों के आसपास होगी। संदर्भ तारीख़ें न देने पर ही पूरा वर्ष स्कैन होगा। स्थान बदला जा सकता है; कॉल की संख्या और समय दिखेंगे।</p>
 <div class="controls">
 <label>वर्ष<input id="year" type="number" min="1900" max="2200" value="2026"></label>
 <label>स्थान का नाम<input id="city" type="text" value="पिथौरागढ़" maxlength="80"></label>
 <label>अक्षांश<input id="lat" type="number" step="0.0001" value="30.1265"></label>
 <label>देशांतर<input id="lon" type="number" step="0.0001" value="80.4817"></label>
 <label>ऊँचाई (मीटर)<input id="elev" type="number" step="1" value="0"></label>
+<label style="grid-column:1/-1">संदर्भ पर्व-तारीख़ें (एक पंक्ति में एक तारीख़; YYYY-MM-DD)<textarea id="seedDates" rows="4" spellcheck="false">2026-01-10
+2026-02-09
+2026-03-11
+2026-04-10
+2026-05-09
+2026-06-08
+2026-07-07
+2026-08-05
+2026-09-04
+2026-10-03
+2026-11-01
+2026-12-01
+2026-12-30</textarea><span class="muted">ये Drik Panchang की 2026 प्रकाशित कालाष्टमी तारीख़ें केवल शुरुआती संदर्भ हैं, स्वीकृत परिणाम नहीं। तारीख़ों को चुने वर्ष के अनुसार बदलें। खाली छोड़ने पर पूरा वर्ष स्कैन होगा।</span></label>
 </div>
 <div class="actions"><button id="run" class="action" type="button">पूरे वर्ष की गणना करें</button><button id="export" class="action" type="button" disabled>समीक्षा सहित JSON डाउनलोड करें</button></div>
 <div id="status" class="status" role="status" aria-live="polite">वर्ष और स्थान जाँचें, फिर गणना बटन दबाएँ।</div>
@@ -31,7 +44,7 @@
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $=id=>document.getElementById(id);
-const ASSET_SHA="920d435d70a5d7ba193add6c5ddbabaefcc3cc05";
+const ASSET_SHA="ed5e9bd1f4f651ec3bbe99d84bffcfc0cd7d76a5";
 let generated=null, meta=null, panchangCalls=0, panchangRequests=0, panchangCacheHits=0, elapsedSeconds=null;
 let adapterPromise;
 function ensureAdapter(){
@@ -105,8 +118,10 @@ async function run(){
    if(panchangCache.has(instant)){panchangCacheHits++;return panchangCache.get(instant)}
    const result=getPanchangam(date,...args);panchangCalls++;panchangCache.set(instant,result);return result;
   };
-  generated=await adapter.buildKalashtamiDays({year,latitude:lat,longitude:lon,elevation:elev,timezoneOffset:330,getPanchangam:counted,Observer,onProgress(p){
-   if(p.phase==="year-scan")$("status").textContent="वर्ष के दिन स्कैन हो रहे हैं: "+p.processedDays+"/"+p.totalDays;
+  const seedDates=$("seedDates").value.split(/[\\s,;]+/).map(x=>x.trim()).filter(Boolean);
+  generated=await adapter.buildKalashtamiDays({year,latitude:lat,longitude:lon,elevation:elev,timezoneOffset:330,seedDates,getPanchangam:counted,Observer,onProgress(p){
+   if(p.phase==="reference-window-scan")$("status").textContent="संदर्भ तारीख़ों के आसपास गणना: "+p.processedDays+"/"+p.totalDays+" दिन (पूरा साल स्कैन नहीं हो रहा)";
+   else if(p.phase==="year-scan")$("status").textContent="संदर्भ तारीख़ें नहीं दी गईं; पूरे वर्ष के दिन स्कैन हो रहे हैं: "+p.processedDays+"/"+p.totalDays;
    else if(p.phase==="tithi-windows")$("status").textContent="अष्टमी की व्याप्ति जाँची जा रही है: "+p.processedCandidates+"/"+p.totalCandidates;
   }});
   elapsedSeconds=((performance.now()-start)/1000).toFixed(1);showResults();
