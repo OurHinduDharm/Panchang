@@ -1236,3 +1236,16 @@ This confirms timestamp UI wiring only; it does not validate the historical geom
 4. Only after a same-instant, same-frame comparison is established should the K residual be interpreted. Keep the classical K test separate from apparent ecliptic separation and modern heliacal visibility.
 
 No event dates/times are cleared for production display by this CI pass.
+
+
+## Event-side capture precision — 16 October 2026
+
+The existing raw TKS fixture for 12 October 2026 06:30 IST records the endpoint's own `sun_day.set_h_local = 17.705795` hours. Converting that reported decimal hour gives 17:42:20.862 IST, rounded to **17:42:21 IST** for a second-precision follow-up request. This is a convenient candidate instant derived from the fixture—not an independently verified sunset. The fixture does not establish the endpoint's horizon convention or whether observer elevation is applied.
+
+The research capture form now has a preset for this candidate time, supports `HH:MM:SS`, and computes the expected UTC Julian Day from seconds as well as minutes. At 17:42:21 IST (UTC 12:12:21), the expected JD(UTC) is approximately **2461326.008576389**. The preset only fills the form; it does not make a network request automatically. The separate Venus candidate-K panel remains independent.
+
+- UI/preset commit: `7055e06ff9933d24c8ec0bdb01a9f204d70f1b21`
+- Browser assertion commit: `b6f1a854a93023dc14c118e02df1bfb59c97c84e`
+- New assertion checks the date/time preset, second precision, and Julian Day conversion. CI for this newest commit is pending at the time of this report update.
+
+After CI passes, use the preset to capture both Sun (body 10) and Venus (body 2) at the candidate sunset instant. Preserve the complete raw JSON. The API request must report a matching returned body identity and Julian Day within the existing tolerance. Then make a separate sunrise-side capture for Venus Udaya; do not reuse the sunset instant. If the endpoint rounds the input time or returns an inconsistent JD, retain the raw error as evidence and do not silently normalize it.
