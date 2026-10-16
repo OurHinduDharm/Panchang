@@ -1281,3 +1281,18 @@ At this instant, the API reports:
 **Interpretation gate:** this is a successful same-instant Sun/Venus ephemeris capture at minute precision, not yet the exact second-precision event-side capture. The endpoint's `body.ecliptic_lon_deg` / RA/Dec fields are labeled apparent, while `nirayana_deg` is Lahiri sidereal; do not combine these frames without an explicit transformation. The raw endpoint response does not include the separate TKS K/C panel values, and the request does not specify elevation or the selected sunrise/sunset method. Thus this capture does **not** independently verify the historical `K=7.698°`, `C=8°` panel or validate a classical Asta/Udaya time.
 
 Next capture: use the second-precision **17:42:21 IST** sunset preset and confirm its returned JD is approximately `2461326.008576389`; retain this 17:42:00 capture as a separate, valid timestamped sample rather than overwriting it. For Venus Udaya, make a distinct sunrise-side capture using the sunrise preset. Production `app.js` and `extra-panchang.js` remain untouched.
+
+
+### User-supplied live capture and mobile seconds-entry fix — 16 October 2026
+
+The first user-supplied raw capture was requested at **2026-10-12 17:42 IST** because the mobile time picker did not expose a seconds control. This is expected behavior on some mobile pickers despite `step=1`; it is not a user error. Both Sun (10) and Venus (2) requests returned HTTP 200 and matching `selected_body`, with `jd_utc = 2461326.0083333333`, consistent with 17:42:00 IST.
+
+From the apparent-of-date coordinates in the capture, the Sun–Venus RA/Dec spherical separation is approximately **19.142222°**; the apparent ecliptic longitude/latitude construction gives approximately **19.142271°**, a close independent internal cross-check. The raw ecliptic longitude difference is **17.633147°**, which is a different quantity and must not be mislabeled as true angular separation. This check validates consistency of the supplied apparent coordinates only; it does not validate the classical Chapter IX K or event time. The reported sunset `sun_day.set_h_local=17.705795` converts to 17:42:20.862 IST, about 21 seconds after the minute-precision capture.
+
+The raw TKS capture time control has now been changed from a native `type=time` picker to a mobile-friendly text field with numeric keyboard hint, explicit `HH:MM:SS` placeholder, and accessible help. It accepts either `HH:MM` or `HH:MM:SS` and sends the selected text unchanged. Browser regression coverage now checks the text-field configuration, manual second-entry preservation, sunset and sunrise presets, and UTC Julian Day conversions. This UI change does not alter any astronomical formula or production file.
+
+- Live capture/reporting commit: `10805eb8aacb0328dd23427e181e0b16189f9c34`
+- Mobile seconds-entry UI commits: `d2fd9a93a5fc88806ea4d88c5e744cd3c379098a`, `43ddbe724f745ab56737c37cea1b57435ac8c133`
+- Browser regression commits: `5751880787a267f9e606b69e9899a33429003291`, `2be7f5dc39f194506dba4ceb6e982466f183ca28`
+
+Next: wait for/inspect CI on the latest research-branch commit; then ask for a new raw Sun/Venus capture at 17:42:21 IST using the text field, followed by a separate sunrise-side capture at 06:08:39 IST. Preserve the original 17:42:00 capture as valid evidence. Neither capture alone reproduces the separate TKS K/C panel or proves the endpoint's elevation/horizon convention. `app.js` and `extra-panchang.js` remain untouched; no Asta/Udaya event date/time is approved for production display.
