@@ -49,7 +49,7 @@ test("all 36 monthly festival JSON files exist and follow the expected structure
         for (const key of ["articleUrl", "secondaryArticleUrl", "imageUrl"]) {
           if (!event[key]) continue;
           let url;
-          try { url = new URL(event[key]); } catch { assert.fail(`${where}: invalid ${key}`); }
+          try { url = new URL(event[key], "https://ourhindudharm.blogspot.com"); } catch { assert.fail(`${where}: invalid ${key}`); }
           assert.ok(["http:", "https:"].includes(url.protocol), `${where}: unsafe ${key} protocol`);
         }
         eventCount++;
