@@ -193,6 +193,36 @@
         if (key.slice(0,4) === String(year) && base.has(key)) candidateDates.add(key);
       });
     }
+    // Review fallback: if Krishna Saptami at noon is followed by Krishna
+    // Navami at noon on the next civil date, expose both dates for human review.
+    // This is a review hint only, never a calculated/approved Ashtami decision.
+    const unresolvedCandidates = [];
+    const orderedBaseDates = Array.from(base.keys()).sort();
+    for (let i = 0; i < orderedBaseDates.length - 1; i += 1) {
+      const firstDate = orderedBaseDates[i], secondDate = orderedBaseDates[i + 1];
+      const first = base.get(firstDate), second = base.get(secondDate);
+      const nextDay = new Date(firstDate + "T00:00:00Z");
+      nextDay.setUTCDate(nextDay.getUTCDate() + 1);
+      if (nextDay.toISOString().slice(0,10) !== secondDate || !first || !second) continue;
+      const firstIndex = tithiIndex(first.noon && first.noon.tithi);
+      const secondIndex = tithiIndex(second.noon && second.noon.tithi);
+      const firstPaksha = pakshaHindi(first.noon && first.noon.paksha, firstIndex);
+      const secondPaksha = pakshaHindi(second.noon && second.noon.paksha, secondIndex);
+      const firstPhase = firstIndex >= 0 ? firstIndex % 15 : -1;
+      const secondPhase = secondIndex >= 0 ? secondIndex % 15 : -1;
+      if (firstPaksha !== "कृष्ण" || secondPaksha !== "कृष्ण" || firstPhase !== 6 || secondPhase !== 8) continue;
+      if (Array.from(eventGroups.values()).some(group => group.has(firstDate) || group.has(secondDate))) continue;
+      for (const [date, entry, observedTithi] of [[firstDate, first, "सप्तमी"], [secondDate, second, "नवमी"]]) {
+        unresolvedCandidates.push({
+          date,
+          month: monthHindi(entry.noon && entry.noon.masa),
+          paksha: "कृष्ण",
+          tithi: "अष्टमी संभावित — दोपहर में " + observedTithi,
+          sourceMethod: "समीक्षा संकेत: लगातार दिनों में सप्तमी → नवमी; वास्तविक अष्टमी अवधि की पुष्टि आवश्यक",
+          reviewOnly: true
+        });
+      }
+    }
     const sunriseDays = [];
     const nightMidpointDays = [];
     const eventGroups = new Map();
@@ -359,7 +389,7 @@
     annualDecisionDays.sort((a,b) => a.date.localeCompare(b.date));
     return {
       year, latitude, longitude, elevation,
-      sunriseDays, nightMidpointDays, monthlyDecisionDays, annualDecisionDays,
+      sunriseDays, nightMidpointDays, monthlyDecisionDays, annualDecisionDays, unresolvedCandidates,
       // Research diagnostics: expose noon tithi for each scanned day so missing
       // seeded events can be traced without widening the scan window blindly.
       scanDiagnostics: orderedScanDates.map(date => {
