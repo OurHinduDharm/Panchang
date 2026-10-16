@@ -229,6 +229,10 @@ try {
         !detail.includes("Sequential: planet RA used for Aksha") ||
         !detail.includes("Sequential: planet declination used for half-day") ||
         !detail.includes("Sequential: frame correction") ||
+        !detail.includes("IX.11 Sun time-motion (prāṇa/day)") ||
+        !detail.includes("IX.11 planet time-motion (prāṇa/day)") ||
+        !detail.includes("IX.10 signed K-rate (prāṇa/day)") ||
+        !detail.includes("IX.10 target difference (prāṇa)") ||
         detail.includes("RA of intermediate ecliptic point")
       )) {
     throw new Error("One or more event cases are missing the dṛkkarma component audit.");
