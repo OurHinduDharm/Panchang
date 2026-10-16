@@ -7,6 +7,7 @@ import {
 
 let selectedLocation = null;
 let currentSankalpContext = null;
+let festivalRenderRequest = 0;
 
 /* =========================================================
    YATRA SHULA — UI STYLES
@@ -4944,6 +4945,88 @@ displayPanchang(
 }
 
 /* =========================================================
+   DAILY FESTIVALS — read approved records from the shared monthly JSON.
+   No Panchang calculations run here; missing/unapproved data stays hidden.
+   ========================================================= */
+async function renderDailyFestivalCard(selectedIsoDate){
+  const requestId = ++festivalRenderRequest;
+  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(selectedIsoDate || "")) return;
+
+  const parts = selectedIsoDate.split("-");
+  const monthFile = parts[0] + "-" + parts[1] + ".json";
+  const dataUrl = new URL("./data/festivals/" + monthFile, import.meta.url);
+
+  try{
+    const response = await fetch(dataUrl.href, { cache: "no-cache" });
+    if(!response.ok) return;
+    const data = await response.json();
+
+    if(requestId !== festivalRenderRequest || dateInput.value !== selectedIsoDate) return;
+
+    const events = (Array.isArray(data.events) ? data.events : []).filter(item =>
+      item &&
+      item.date === selectedIsoDate &&
+      (item.reviewStatus === "approved" || item.reviewStatus === "user-confirmed-hard-copy")
+    );
+
+    if(!events.length) return;
+
+    const grid = result.querySelector(".grid");
+    if(!grid) return;
+
+    const card = document.createElement("section");
+    card.className = "card full ohd-daily-festivals";
+    const label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "आज के व्रत-पर्व";
+    card.appendChild(label);
+
+    events.forEach(item => {
+      const row = document.createElement("div");
+      row.style.marginTop = "7px";
+      const title = document.createElement("div");
+      title.style.fontWeight = "700";
+      title.textContent = item.title || "व्रत-पर्व";
+      row.appendChild(title);
+
+      if(item.description){
+        const description = document.createElement("div");
+        description.style.fontSize = "12px";
+        description.style.marginTop = "3px";
+        description.style.color = "#6b6258";
+        description.textContent = item.description;
+        row.appendChild(description);
+      }
+
+      if(item.articleUrl){
+        try{
+          const url = new URL(item.articleUrl);
+          if(url.protocol === "https:" || url.protocol === "http:"){
+            const link = document.createElement("a");
+            link.href = url.href;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = item.articleLabel || "लेख पढ़ें →";
+            link.style.display = "inline-block";
+            link.style.marginTop = "5px";
+            link.style.fontSize = "12px";
+            link.style.fontWeight = "700";
+            link.style.color = "#8c4810";
+            row.appendChild(link);
+          }
+        }catch(e){}
+      }
+      card.appendChild(row);
+    });
+
+    grid.insertAdjacentElement("beforebegin", card);
+  }catch(error){
+    // Festival data is optional: never block the daily Panchang if it is unavailable.
+    console.warn("Festival data unavailable for " + selectedIsoDate, error);
+  }
+}
+
+/* =========================================================
    DISPLAY PANCHANG
    ========================================================= */
 function displayPanchang(
@@ -6294,6 +6377,7 @@ bhadraPartsHtml += `
 
   renderSankalpControls();
   updateSankalpText();
+  renderDailyFestivalCard(dateInput.value);
    window.dispatchEvent(
   new CustomEvent(
     "ohd:panchangUpdated"
