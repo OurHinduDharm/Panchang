@@ -17,6 +17,7 @@ on:
       - "tests/compact-ui-night-prahar.test.js"
       - "festival-muhurta.js"
       - "tests/festival-muhurta.test.js"
+      - "tests/monthly-festival-data.test.mjs"
       - "monthly-vrat-parv.html"
       - "data/festivals/**"
       - ".github/workflows/classical-yogas-tests.yml"
@@ -32,6 +33,7 @@ on:
       - "tests/compact-ui-night-prahar.test.js"
       - "festival-muhurta.js"
       - "tests/festival-muhurta.test.js"
+      - "tests/monthly-festival-data.test.mjs"
       - "monthly-vrat-parv.html"
       - "data/festivals/**"
       - ".github/workflows/classical-yogas-tests.yml"
@@ -58,6 +60,8 @@ jobs:
           node --input-type=module --check < extra-panchang.js
           node --input-type=module --check < festival-muhurta.js
           node --check classical-yogas.js
+      - name: Run monthly festival data and preview guardrail tests
+        run: node --experimental-default-type=module --test tests/monthly-festival-data.test.mjs
       - name: Run festival muhurta rule tests
         run: node --experimental-default-type=module --test tests/festival-muhurta.test.js
       - name: Run Panchang card-order regression tests
