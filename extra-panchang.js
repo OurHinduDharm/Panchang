@@ -398,10 +398,11 @@ function addDays(
 
 
 /* =========================================
-   Planetary elongation — preliminary
-   शास्त्रीय कोणीय सीमा के आधार पर दिन-स्तर
-   की प्रारंभिक घटना-तिथि। यह स्थानीय दृश्यता
-   या Drik के प्रकाशित समय की पुनर्रचना नहीं है।
+   Planetary elongation — preliminary display only
+   आधुनिक apparent angular-separation threshold से
+   दिन-स्तर का अनुमान। यह शास्त्रीय Chapter IX के
+   lagnāntara K/C परिणाम या स्थानीय दृश्यता नहीं है।
+   Thresholds are provisional; do not label as classical.
    ========================================= */
 
 const PLANET_ASTA_THRESHOLDS = {
@@ -504,9 +505,9 @@ function getPlanetEvent(planet, selectedDate) {
     return {
       name: planet.name,
       asta: asta ? formatEventDate(asta.date) : null,
-      astaDegree: asta ? `${asta.threshold}° सीमा` : null,
+      astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
       udaya: udaya ? formatEventDate(udaya.date) : null,
-      udayaDegree: udaya ? `${udaya.threshold}° सीमा` : null,
+      udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
       verificationPending: true
     };
   } catch (error) {
@@ -530,82 +531,37 @@ function getPlanetEvent(planet, selectedDate) {
 function createPlanetCard(
   data
 ) {
-
-  const card =
-    document.createElement(
-      "div"
-    );
-
-  card.className =
-    "card full";
-
-  card.id =
-    "planetRiseSetCard";
+  const card = document.createElement("div");
+  card.className = "card full";
+  card.id = "planetRiseSetCard";
 
   card.innerHTML = `
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
     <p class="planet-rise-set-note">
-      ग्रहों के शास्त्रीय उदय-अस्त की गणना का सत्यापन जारी है।
-      सत्यापन पूरा होने तक अनुमानित तिथियाँ प्रकाशित नहीं की जा रही हैं।
+      नीचे दी गई तिथियाँ आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना हैं।
+      ये सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु (K/C) गणना, पंचांग की प्रमाणित शास्त्रीय तिथि,
+      या स्थानीय आँखों से दृश्यता का दावा नहीं हैं। प्रयुक्त कोणीय सीमाएँ भी सत्यापनाधीन हैं।
     </p>
 
     <div class="planet-rise-set-grid">
-
-      ${data.map(
-        planet => `
-
+      ${data.map(planet => `
         <div class="planet-rise-set-row">
+          <strong>${planet.name}</strong>
 
-          <strong>
-            ${planet.name}
-          </strong>
-
-          ${
-            !planet.verificationPending && planet.asta
-              ? `
-                <span>
-                  अस्त (अनुमान) — ${planet.asta}
-                  ${
-                    planet.astaDegree
-                      ? ` (${planet.astaDegree})`
-                      : ""
-                  }
-                </span>
-              `
-              : ""
+          ${planet.asta
+            ? `<span>कोणीय अनुमानित अस्त — ${planet.asta}${planet.astaDegree ? ` (${planet.astaDegree})` : ""}</span>`
+            : `<span>कोणीय अस्त-अनुमान उपलब्ध नहीं</span>`
           }
 
-          ${
-            !planet.verificationPending && planet.udaya
-              ? `
-                <span>
-                  उदय (अनुमान) — ${planet.udaya}
-                  ${
-                    planet.udayaDegree
-                      ? ` (${planet.udayaDegree})`
-                      : ""
-                  }
-                </span>
-              `
-              : ""
+          ${planet.udaya
+            ? `<span>कोणीय अनुमानित उदय — ${planet.udaya}${planet.udayaDegree ? ` (${planet.udayaDegree})` : ""}</span>`
+            : `<span>कोणीय उदय-अनुमान उपलब्ध नहीं</span>`
           }
 
-          ${
-            planet.verificationPending || (!planet.asta && !planet.udaya)
-              ? `
-                <span>
-                  ${planet.verificationPending ? 'शास्त्रीय गणना सत्यापनाधीन' : 'गणना उपलब्ध नहीं'}
-                </span>
-              `
-              : ""
-          }
-
+          <span>शास्त्रीय K/C गणना — सत्यापनाधीन</span>
         </div>
-
-      `
-      ).join("")}
-
+      `).join("")}
     </div>
   `;
 
