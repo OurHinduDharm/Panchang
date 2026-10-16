@@ -18,10 +18,7 @@
   }
 
   function isPublishable(item) {
-    return item && (
-      item.reviewStatus === "approved" ||
-      item.reviewStatus === "user-confirmed-hard-copy"
-    );
+    return item && item.reviewStatus === "approved";
   }
 
   function safeHttpUrl(value) {
