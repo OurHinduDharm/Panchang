@@ -4958,7 +4958,7 @@ async function renderDailyFestivalCard(selectedIsoDate, panchang = null, nextSun
   const dataUrl = new URL("./data/festivals/" + monthFile, import.meta.url);
 
   try{
-    const response = await fetch(dataUrl.href, { cache: "no-cache" });
+    const response = await fetch(dataUrl.href);
     if(!response.ok) return;
     const data = await response.json();
 
