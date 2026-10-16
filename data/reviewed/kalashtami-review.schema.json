@@ -1,19 +1,10 @@
-<escape>{
+{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/reviewed/kalashtami-review.schema.json",
   "title": "OurHinduDharm Kalashtami review export",
   "description": "Research-only export from the annual review page. This schema does not certify the dates.",
   "type": "object",
-  "required": [
-    "schemaVersion",
-    "reviewExportedAt",
-    "calculationStatus",
-    "location",
-    "year",
-    "engine",
-    "results",
-    "reviews"
-  ],
+  "required": ["schemaVersion", "reviewExportedAt", "calculationStatus", "location", "year", "engine", "results", "reviews"],
   "properties": {
     "schemaVersion": { "const": 1 },
     "reviewExportedAt": { "type": "string", "format": "date-time" },
@@ -46,7 +37,7 @@
     },
     "reviews": {
       "type": "object",
-      "description": "Map of review-key to {status,note,updatedAt}. Keep the generated result and review decision separate.",
+      "description": "Map of review-key to {status,note,updatedAt}. Keep generated results and review decisions separate.",
       "additionalProperties": {
         "type": "object",
         "properties": {
@@ -79,4 +70,4 @@
     }
   },
   "additionalProperties": false
-}</escape>
+}
