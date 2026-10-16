@@ -3777,6 +3777,11 @@ async function runLagnantaraDiagnostic() {
     if (g) {
       html += '<tr><td colspan="19"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
+      const estimateMetric = (value) => Number.isFinite(value) ? round(value,6) : "—";
+      html += '<div class="metric"><strong>IX.11 Sun time-motion (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.sunTimeMotionPranasPerDay)+'</span></div>';
+      html += '<div class="metric"><strong>IX.11 planet time-motion (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.planetTimeMotionPranasPerDay)+'</span></div>';
+      html += '<div class="metric"><strong>IX.10 signed K-rate (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.signedKalanshaRatePranasPerDay)+'</span></div>';
+      html += '<div class="metric"><strong>IX.10 target difference (prāṇa)</strong><span>'+estimateMetric(timeEstimate?.differencePranas)+'</span></div>';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun geocentric RA</strong><span>'+round(g.sunRightAscension,6)+'°</span></div>';
