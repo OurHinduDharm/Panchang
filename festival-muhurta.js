@@ -4,9 +4,6 @@
  * Keep rule decisions isolated here so each festival can receive a reviewed rule.
  */
 
-const MINUTE = 60 * 1000;
-const GHATI = 24 * MINUTE;
-
 function validDate(value) {
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   return Number.isFinite(date.getTime()) ? date : null;
@@ -58,7 +55,7 @@ const rules = {
     return result ? { ...result, status: "calculated" } : null;
   },
 
-  moonlightUntilMidnight(context) {
+  "moonlight-until-midnight"(context) {
     const moonrise = validDate(context.moonrise);
     const date = validDate(context.date);
     if (!moonrise || !date) return null;
