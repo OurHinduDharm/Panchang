@@ -64,7 +64,7 @@ test("all 36 monthly festival JSON files exist and follow the expected structure
 });
 
 function assertInlineScriptsParse(html, fileName) {
-  const scripts = Array.from(html.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/gi)).map(match => match[1]).filter(source => source.trim());
+  const scripts = Array.from(html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)).map(match => match[1]).filter(source => source.trim());
   assert.ok(scripts.length > 0, fileName + ": expected inline JavaScript");
   scripts.forEach((source, index) => {
     assert.doesNotThrow(() => new Script(source, { filename: fileName + " inline script " + (index + 1) }));
