@@ -128,4 +128,6 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
   };
 }
 
-export const FESTIVAL_MUHURTA_RULE_IDS = Object.freeze(Object.keys(rules));
+export function getFestivalMuhurtaRuleIds() {
+  return Object.keys(rules);
+}
