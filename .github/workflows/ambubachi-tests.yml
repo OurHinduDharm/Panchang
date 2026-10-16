@@ -16,6 +16,9 @@ on:
       - 'data/festivals.json'
       - '.github/workflows/ambubachi-tests.yml'
 
+permissions:
+  contents: read
+
 jobs:
   ambubachi-tests:
     runs-on: ubuntu-latest
