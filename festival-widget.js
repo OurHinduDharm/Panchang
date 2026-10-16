@@ -41,7 +41,7 @@
     return node;
   }
 
-  function render(items, today, lastDay) {
+  function render(items, today, endExclusive) {
     mount.replaceChildren();
     mount.classList.add("ohd-festival-widget");
 
@@ -72,7 +72,7 @@
     const visible = items.filter(function (item) {
       if (!isPublishable(item) || !item.date) return false;
       const d = new Date(item.date + "T12:00:00");
-      return !Number.isNaN(d.getTime()) && d >= today && d <= lastDay;
+      return !Number.isNaN(d.getTime()) && d >= today && d < endExclusive;
     }).sort(function (a, b) {
       return a.date.localeCompare(b.date);
     });
@@ -111,10 +111,11 @@
 
   async function load() {
     const today = localMidnight(new Date());
-    const lastDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + DAYS_AHEAD);
+    const endExclusive = new Date(today.getFullYear(), today.getMonth(), today.getDate() + DAYS_AHEAD);
+    const lastVisible = new Date(today.getFullYear(), today.getMonth(), today.getDate() + DAYS_AHEAD - 1);
     const months = [new Date(today.getFullYear(), today.getMonth(), 1)];
-    if (lastDay.getMonth() !== today.getMonth() || lastDay.getFullYear() !== today.getFullYear()) {
-      months.push(new Date(lastDay.getFullYear(), lastDay.getMonth(), 1));
+    if (lastVisible.getMonth() !== today.getMonth() || lastVisible.getFullYear() !== today.getFullYear()) {
+      months.push(new Date(lastVisible.getFullYear(), lastVisible.getMonth(), 1));
     }
 
     mount.textContent = "आगामी पर्व लोड हो रहे हैं…";
@@ -128,7 +129,7 @@
       const items = responses.flatMap(function (data) {
         return Array.isArray(data.events) ? data.events : [];
       });
-      render(items, today, lastDay);
+      render(items, today, endExclusive);
     } catch (_) {
       mount.textContent = "अभी आगामी पर्व लोड नहीं हो पाए।";
     }
