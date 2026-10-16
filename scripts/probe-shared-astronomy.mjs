@@ -29,7 +29,7 @@ const toIso = value => {
 };
 
 const report = {
-  purpose: "Research-only check: are event boundary timestamps shared across locations?",
+  purpose: "Research-only check: do event boundary timestamps agree within 2 seconds across locations?",
   engine: "@ishubhamx/panchangam-js@3.0.0",
   sampleCount: sampleInstants.length,
   locations: locations.map(({name}) => name),
@@ -56,12 +56,21 @@ for (const instant of sampleInstants) {
 
   const fieldChecks = {};
   for (const field of eventFields) {
-    const values = [...new Set(perLocation.map(row => row.fields[field]).filter(value => value !== null))];
+    const values = perLocation.map(row => row.fields[field]).filter(value => value !== null);
     const missingCount = perLocation.filter(row => row.fields[field] === null).length;
+    const milliseconds = values.map(value => Date.parse(value)).filter(Number.isFinite);
+    const maxSpreadSeconds = milliseconds.length
+      ? (Math.max(...milliseconds) - Math.min(...milliseconds)) / 1000
+      : null;
     fieldChecks[field] = {
-      comparable: missingCount === 0,
-      sameAcrossLocations: missingCount === 0 && values.length === 1,
-      distinctValues: values.length,
+      comparable: missingCount === 0 && milliseconds.length === values.length,
+      // The library may use location-dependent topocentric corrections. Treat
+      // boundaries as shareable only if all city results agree within 2 seconds.
+      sameAcrossLocations: missingCount === 0 &&
+        milliseconds.length === values.length &&
+        maxSpreadSeconds <= 2,
+      distinctValues: [...new Set(values)].length,
+      maxSpreadSeconds,
       missingCount
     };
   }
