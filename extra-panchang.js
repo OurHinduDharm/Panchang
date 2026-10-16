@@ -491,7 +491,9 @@ function classifyChapter9HorizonEvent({
   planetMotion
 }) {
   if (!Number.isFinite(planetLongitude) || !Number.isFinite(sunLongitude)) return null;
-  const difference = normalizeLongitude(planetLongitude) - normalizeLongitude(sunLongitude);
+  // Longitudes are circular: use the signed shortest arc so 1° vs 359°
+  // is +2°, not -358°. Raw subtraction misclassifies the zodiac wrap.
+  const difference = signedLongitudeDifference(planetLongitude, sunLongitude);
   if (Math.abs(difference) < 1e-7) return null;
 
   const longitudeGreater = difference > 0;
