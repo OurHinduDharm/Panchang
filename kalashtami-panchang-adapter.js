@@ -146,11 +146,19 @@
     const base = new Map();
     const start = new Date(Date.UTC(year,0,1));
     const end = new Date(Date.UTC(year+1,0,1));
+    // Fast first pass: only noon Panchang per date. Yield to the browser every
+    // 14 days so the page can paint progress and remain responsive on mobiles.
+    const totalDays = Math.round((end-start)/86400000);
+    let processedDays = 0;
     for (let cursor = new Date(start); cursor < end; cursor.setUTCDate(cursor.getUTCDate()+1)) {
       const dateString = cursor.toISOString().slice(0,10);
       const p = options.getPanchangam(dateAtIst(dateString,"12:00:00"), observer, { timezoneOffset });
-      if (!p || !p.sunrise || !p.sunset) continue;
-      base.set(dateString, { noon:p, sunrise:asDate(p.sunrise), sunset:asDate(p.sunset) });
+      if (p && p.sunrise && p.sunset) base.set(dateString, { noon:p, sunrise:asDate(p.sunrise), sunset:asDate(p.sunset) });
+      processedDays += 1;
+      if (processedDays % 14 === 0 || processedDays === totalDays) {
+        if (typeof options.onProgress === "function") options.onProgress({ phase:"year-scan", processedDays, totalDays });
+        await new Promise(resolve => setTimeout(resolve, 0));
+      }
     }
     const candidateDates = new Set();
     for (const [dateString, entry] of base.entries()) {
@@ -210,8 +218,12 @@
         if (minutes > 0) register(dateString, p, kind, minutes);
       }
     }
-    for (const dateString of Array.from(candidateDates).sort()) {
+    const candidatesSorted = Array.from(candidateDates).sort();
+    for (let candidateIndex = 0; candidateIndex < candidatesSorted.length; candidateIndex += 1) {
+      const dateString = candidatesSorted[candidateIndex];
       const entry = base.get(dateString);
+      if (typeof options.onProgress === "function" && candidateIndex % 2 === 0) options.onProgress({ phase:"tithi-windows", processedCandidates:candidateIndex + 1, totalCandidates:candidatesSorted.length });
+      if (candidateIndex % 2 === 1) await new Promise(resolve => setTimeout(resolve, 0));
       if (!entry) continue;
       if (entry.sunrise) {
         const sunriseP = options.getPanchangam(entry.sunrise, observer, { timezoneOffset });
