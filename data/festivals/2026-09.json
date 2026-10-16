@@ -25,6 +25,14 @@
     {
       "date": "2026-09-04",
       "dateLabel": "4 सितंबर",
+      "title": "श्रीकृष्ण जन्माष्टमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-04",
+      "dateLabel": "4 सितंबर",
       "title": "श्रीकृष्ण जयंती / श्री कृष्ण जन्माष्टमी, श्री आद्याकाली जयन्ती",
       "description": "⭐<b> ४ सितम्बर -</b><a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\">श्रीकृष्ण जयंती, श्री कृष्ण जन्मोत्सव-पूजन-जागरण, दशाफल व्रत एवं श्री कृष्ण जन्माष्टमी व्रत</a> (स्मार्त जनसाधारण का), <br/>⭐<b> ४ सितम्बर को ही - </b> श्री कृष्ण जन्माष्टमी व्रत (वैष्णवों- विष्णुमंत्र से दीक्षितों का)<br/>अर्द्धरात्रि में, <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">श्री आद्याकाली (महाकाली महाविद्या) जयन्ती</a> , कालाष्टमी।",
       "category": "जयंती",
@@ -65,11 +73,27 @@
     {
       "date": "2026-09-14",
       "dateLabel": "14 सितंबर",
+      "title": "गणेश चतुर्थी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-14",
+      "dateLabel": "14 सितंबर",
       "title": "श्री गणेश जी की जयंती ",
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत, </a> पत्थर चौथ - भाद्रपद शुक्ल चतुर्थी के दिन चन्द्रमा का दर्शन न करें यदि भूल से हो जाए तो स्यमन्तक मणि का अपकीर्तिनाशक आख्यान पढ़ना चाहिए...",
       "category": "जयंती",
       "reviewStatus": "needs-review",
       "endDate": "2026-09-25"
+    },
+    {
+      "date": "2026-09-14",
+      "dateLabel": "14 सितंबर",
+      "title": "हरतालिका तीज",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
     },
     {
       "date": "2026-09-14",
@@ -93,6 +117,14 @@
       "title": "ऋषि पंचमी",
       "description": "",
       "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-17",
+      "dateLabel": "17 सितंबर",
+      "title": "विश्वकर्मा पूजा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
       "reviewStatus": "needs-review"
     },
     {
@@ -133,6 +165,14 @@
       "title": "श्री वामनावतार एवं श्री भुवनेश्वरी महाविद्या का प्राकट्य",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\"> भाद्रपद  शुक्ल द्वादशी, भगवान वामन की जयंती</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Goddess-Bhuvaneshvari-On-BhuwaneshwariMahavidyaJayanti.html\" target=\"_blank\">श्री भुवनेश्वरी महाविद्या जयन्ती</a>",
       "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-25",
+      "dateLabel": "25 सितंबर",
+      "title": "अनंत चतुर्दशी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
       "reviewStatus": "needs-review"
     },
     {
