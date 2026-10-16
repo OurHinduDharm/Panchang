@@ -91,7 +91,6 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <footer>OurHinduDharm · मासिक व्रत-पर्व सूची</footer>
 </main>
 <script type="module">
-import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTime } from "./festival-muhurta.js";
 (function(){
   "use strict";
@@ -113,22 +112,30 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
     return {name:"पिथौरागढ़",lat:29.58,lon:80.22,elevation:1650};
   }
   function getDatePanchang(dateIso){
-    if(panchangCache.has(dateIso)) return panchangCache.get(dateIso);
-    var promise=Promise.resolve().then(function(){
-      var location=getLocalLocation();
-      var observer=new Observer(location.lat,location.lon,location.elevation);
+    var location=getLocalLocation();
+    var cacheKey=[dateIso,location.lat,location.lon,location.elevation].join("|");
+    if(panchangCache.has(cacheKey)) return panchangCache.get(cacheKey);
+    var promise=Promise.resolve().then(async function(){
+      var panchangLib=await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
+      var observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
       var date=new Date(dateIso+"T12:00:00");
       var nextDate=new Date(date);nextDate.setDate(nextDate.getDate()+1);
-      var p=getPanchangam(date,observer,{timezoneOffset:330});
-      var next=getPanchangam(nextDate,observer,{timezoneOffset:330});
+      var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330});
+      var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330});
       return {p:p,next:next,location:location,date:date};
     });
-    panchangCache.set(dateIso,promise);
+    panchangCache.set(cacheKey,promise);
     return promise;
   }
   async function appendMuhurta(item,dateIso,content,token){
     if(!item.muhurtaRule) return;
     try{
+      var preliminary=getFestivalMuhurta(item,{});
+      if(preliminary&&preliminary.status==="rule-pending"){
+        var pending=document.createElement("div");pending.className="desc";
+        pending.style.marginTop="7px";pending.textContent=preliminary.message||"मुहूर्त-नियम लंबित है।";
+        content.appendChild(pending);return;
+      }
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
@@ -213,7 +220,7 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
     var loading=document.createElement("div");loading.className="empty";loading.textContent="इस महीने की सूची लोड हो रही है…";eventsEl.appendChild(loading);
     var url="data/festivals/"+year+"-"+String(month).padStart(2,"0")+".json";
     try{
-      var response=await fetch(url,{cache:"no-cache"});
+      var response=await fetch(url);
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
