@@ -73,11 +73,27 @@
     {
       "date": "2026-03-19",
       "dateLabel": "19 मार्च",
+      "title": "उगादी / गुड़ी पड़वा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-03-19",
+      "dateLabel": "19 मार्च",
       "title": "चैत्र (वासन्तीय) नवरात्र प्रारम्भ",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-The-Significance-of-Vasanti-Or-Chaitra-Navratri.html\" target=\"_blank\">चैत्र या वासन्तीय नवरात्रों का प्रारम्भ</a>,<br/><a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">कलश स्थापना विधि</a>, <a href=\"https://www.drikpanchang.com/navratri/chaitra-navratri-ghatasthapana.html?year=2026\" target=\"_blank\">कलशस्थापन का मुहूर्त इस लिंक पर जाकर शहर का नाम डालकर देख लें।</a> <br/> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\">वासंतीय नवरात्र-प्रथम दिन शैलपुत्री जी का पूजन</a>",
       "category": "नवरात्रि",
       "reviewStatus": "needs-review",
       "endDate": "2026-03-27"
+    },
+    {
+      "date": "2026-03-19",
+      "dateLabel": "19 मार्च",
+      "title": "चैत्र नवरात्र प्रारंभ",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review"
     },
     {
       "date": "2026-03-19",
