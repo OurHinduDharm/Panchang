@@ -164,7 +164,10 @@
     if (suppliedSeeds.length) {
       for (const seed of suppliedSeeds) {
         const d = new Date(seed + "T00:00:00Z");
-        for (let offset = -2; offset <= 2; offset += 1) {
+        // A one-day margin on either side is enough to inspect adjacent
+        // civil dates when Ashtami crosses midnight; a five-day window
+        // needlessly repeats full Panchang probes for unrelated days.
+        for (let offset = -1; offset <= 1; offset += 1) {
           const candidate = new Date(d);
           candidate.setUTCDate(candidate.getUTCDate() + offset);
           const key = candidate.toISOString().slice(0,10);
