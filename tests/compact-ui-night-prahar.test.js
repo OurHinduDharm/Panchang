@@ -684,3 +684,14 @@ test("Chapter IX Venus threshold follows classified horizon event, not morning/e
     "a real upward crossing of one fixed threshold must be retained"
   );
 });
+
+
+test("Asta/Udaya card shows each available provisional date even if the other event is pending", () => {
+  const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  assert.match(extra, /planet\.asta\s*\?/);
+  assert.match(extra, /planet\.udaya\s*\?/);
+  assert.match(extra, /अस्त \(प्रारंभिक अनुमान\)/);
+  assert.match(extra, /उदय \(प्रारंभिक अनुमान\)/);
+  assert.match(extra, /पूर्ण स्वतंत्र सत्यापन शेष है/);
+  assert.match(extra, /planet\.verificationPending \|\| \(!planet\.asta && !planet\.udaya\)/);
+});
