@@ -149,10 +149,10 @@ test("Ekadashi parana uses the Dvadashi interval, Hari-vasara baseline and optio
 
   const approvedWindow = engine.calculateEkadashiParana({
     date: "2026-11-06", latitude: 30.1265, longitude: 80.4817, dvadashiIndex: 26,
-    paranaRule: { start: "2026-11-06T02:30:00.000Z", end: "2026-11-06T04:30:00.000Z" }
+    paranaRule: { start: "2026-11-06T02:40:00.000Z", end: "2026-11-06T04:30:00.000Z" }
   });
   assert.equal(approvedWindow.status, "candidate");
-  assert.equal(approvedWindow.window.start.toISOString(), "2026-11-06T02:30:00.000Z");
+  assert.equal(approvedWindow.window.start.toISOString(), "2026-11-06T02:40:00.000Z");
   assert.equal(approvedWindow.window.end.toISOString(), "2026-11-06T04:30:00.000Z");
 });
 
