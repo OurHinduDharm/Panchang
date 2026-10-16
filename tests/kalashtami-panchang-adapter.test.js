@@ -25,7 +25,9 @@ test("adapter calculates local sunrise, Pradosh, and Madhyahna data with an inje
     const tithi = isCandidateMonth && (day >= 3 && day <= 5) ? { index: 7 } : { index: 1 };
     const sunrise = new Date(iso.slice(0,10) + "T00:30:00.000Z");
     const sunset = new Date(iso.slice(0,10) + "T12:30:00.000Z");
-    return { tithi, paksha: isCandidateMonth ? "Krishna" : "Shukla", masa: "Magha", sunrise, sunset };
+    const dayStart = new Date(iso.slice(0,10) + "T00:00:00.000Z");
+    const dayEnd = new Date(dayStart.getTime() + 86400000);
+    return { tithi, paksha: isCandidateMonth ? "Krishna" : "Shukla", masa: "Magha", sunrise, sunset, tithiStartTime: dayStart, tithiEndTime: dayEnd };
   }
   const result = await adapter.buildKalashtamiDays({
     year: 2027, latitude: 30.1265, longitude: 80.4817, elevation: 0,
@@ -45,6 +47,8 @@ test("adapter calculates local sunrise, Pradosh, and Madhyahna data with an inje
   assert.equal(new Set(result.monthlyDecisionDays.map(day => day.date)).size, result.monthlyDecisionDays.length);
   assert.equal(new Set(result.annualDecisionDays.map(day => day.date)).size, result.annualDecisionDays.length);
   assert.ok(calls.every(call => call.options.timezoneOffset === 330));
+  // Boundary-aware scanning should avoid hundreds of 15-minute probes.
+  assert.ok(calls.length < 1000, `expected bounded engine calls, got ${calls.length}`);
   assert.equal(result.latitude, 30.1265);
   assert.match(result.note, /Pradosh/);
   assert.match(result.note, /Madhyahna/);
