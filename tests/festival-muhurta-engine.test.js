@@ -131,7 +131,7 @@ test("Sharad Purnima adapter does not invent a window when moonrise or Purnima i
   assert.ok(result.warnings.some((warning) => warning.includes("पूर्णिमा")));
 });
 
-test("Ekadashi parana uses the supplied Dvadashi index and requires a tradition rule for a final result", () => {
+test("Ekadashi parana uses the Dvadashi interval, Hari-vasara baseline and optional tradition rule", () => {
   const panchang = {
     sunrise: new Date("2026-11-06T00:50:00.000Z"),
     tithis: [{ index: 26, startTime: "2026-11-06T00:50:00.000Z", endTime: "2026-11-06T06:00:00.000Z" }]
@@ -144,15 +144,15 @@ test("Ekadashi parana uses the supplied Dvadashi index and requires a tradition 
   const unresolvedRule = engine.calculateEkadashiParana({
     date: "2026-11-06", latitude: 30.1265, longitude: 80.4817, dvadashiIndex: 26
   });
-  assert.equal(unresolvedRule.status, "needs-rule-review");
-  assert.ok(unresolvedRule.warnings.some((warning) => warning.includes("परंपरा-विशिष्ट")));
+  assert.equal(unresolvedRule.status, "candidate");
+  assert.ok(unresolvedRule.warnings.some((warning) => warning.includes("हरिवासर")));
 
   const approvedWindow = engine.calculateEkadashiParana({
     date: "2026-11-06", latitude: 30.1265, longitude: 80.4817, dvadashiIndex: 26,
-    paranaRule: { start: "2026-11-06T01:00:00.000Z", end: "2026-11-06T04:30:00.000Z" }
+    paranaRule: { start: "2026-11-06T02:30:00.000Z", end: "2026-11-06T04:30:00.000Z" }
   });
   assert.equal(approvedWindow.status, "candidate");
-  assert.equal(approvedWindow.window.start.toISOString(), "2026-11-06T01:00:00.000Z");
+  assert.equal(approvedWindow.window.start.toISOString(), "2026-11-06T02:30:00.000Z");
   assert.equal(approvedWindow.window.end.toISOString(), "2026-11-06T04:30:00.000Z");
 });
 
