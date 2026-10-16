@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 4,
+  "monthName": "अप्रैल",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-04-03",
+      "dateLabel": "3 अप्रैल",
+      "title": "राम नवमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-04-09",
+      "dateLabel": "9 अप्रैल",
+      "title": "हनुमान जयंती",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-04-13",
+      "dateLabel": "13 अप्रैल",
+      "title": "विषु",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-04-13",
+      "dateLabel": "13 अप्रैल",
+      "title": "बैसाखी / वैशाखी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-04-13",
+      "dateLabel": "13 अप्रैल",
+      "title": "बिहू",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-04-27",
+      "dateLabel": "27 अप्रैल",
+      "title": "अक्षय तृतीया",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-04-27",
+      "dateLabel": "27 अप्रैल",
+      "title": "परशुराम जयंती",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
