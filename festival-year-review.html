@@ -38,6 +38,7 @@
 <div id="status" class="status" role="status" aria-live="polite">वर्ष और स्थान जाँचें, फिर गणना बटन दबाएँ।</div>
 <div id="summary" class="summary"></div>
 <h2>मासिक कालाष्टमी</h2><div id="monthly" class="empty">अभी गणना नहीं हुई।</div>
+<h2>अष्टमी के संभावित संकेत — समीक्षा हेतु, अंतिम गणना नहीं</h2><p class="muted">यदि दोपहर में कृष्ण सप्तमी के बाद अगले दिन कृष्ण नवमी मिले और वास्तविक अष्टमी अवधि गणना में न मिली हो, तो दोनों तारीख़ें यहाँ समीक्षा के लिए दिखाई जाएँगी। इन्हें स्वतः सही/स्वीकृत न मानें।</p><div id="unresolved" class="empty">अभी गणना नहीं हुई।</div>
 <h2>वार्षिक कालभैरवाष्टमी</h2><div id="annual" class="empty">अभी गणना नहीं हुई।</div>
 <h2>स्कैन जाँच — अक्टूबर 2026</h2><div id="diagnostics" class="empty">गणना के बाद यहाँ 1–5 अक्टूबर की वास्तविक पंचांग तिथियाँ दिखाई जाएँगी।</div>
 <p class="muted">समीक्षा विकल्प: “जाँच बाकी”, “सही”, “सुधार चाहिए”। नोट और स्थिति इसी डिवाइस/ब्राउज़र में सेव होंगे। एक ही तारीख़ दो बार आए तो उसे छिपाया नहीं जाएगा—डुप्लिकेट को समीक्षा में साफ़ दिखाया जाएगा।</p>
@@ -45,7 +46,7 @@
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $=id=>document.getElementById(id);
-const ASSET_SHA="daa4b312460d377d1305a74a8985d9dac95e8549";
+const ASSET_SHA="adc76e133584111808f4f1ff880cab3be590e443";
 let generated=null, meta=null, panchangCalls=0, panchangRequests=0, panchangCacheHits=0, elapsedSeconds=null;
 let adapterPromise;
 function ensureAdapter(){
@@ -88,6 +89,7 @@ function renderTable(target,rows,kind,label){
 }
 function showResults(){
  renderTable($("monthly"),generated.monthlyDecisionDays,"monthly","व्रतराज/रात्रि-व्याप्ति");
+ renderTable($("unresolved"),generated.unresolvedCandidates||[],"unresolved","केवल समीक्षा संकेत — पुष्टि आवश्यक");
  renderTable($("annual"),generated.annualDecisionDays,"annual","धर्मसिंधु मध्यान्ह/प्रदोष निर्णय");
  const diagnosticYear=String(meta.year);
  const diagnosticRows=(generated.scanDiagnostics||[]).filter(x=>x.date>=diagnosticYear+"-10-01"&&x.date<=diagnosticYear+"-10-05");
@@ -106,8 +108,8 @@ function showResults(){
 }
 function downloadJSON(){
  if(!generated||!meta)return;
- const exportData={schemaVersion:1,reviewExportedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",location:meta.location,year:meta.year,engine:"@ishubhamx/panchangam-js@3.0.0",elapsedSeconds,panchangCalls,panchangRequests,panchangCacheHits,results:{monthly:generated.monthlyDecisionDays,annual:generated.annualDecisionDays},reviewedResults:{monthly:[],annual:[]},reviews:{}};
- for(const [kind,rows] of [["monthly",generated.monthlyDecisionDays],["annual",generated.annualDecisionDays]])for(const item of rows){const key=reviewKey(kind,item),review=readReview(key);exportData.reviews[key]=review;exportData.reviewedResults[kind].push({...item,review:{status:review.status||"pending",note:review.note||"",updatedAt:review.updatedAt||null}})}
+ const exportData={schemaVersion:1,reviewExportedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",location:meta.location,year:meta.year,engine:"@ishubhamx/panchangam-js@3.0.0",elapsedSeconds,panchangCalls,panchangRequests,panchangCacheHits,results:{monthly:generated.monthlyDecisionDays,annual:generated.annualDecisionDays,unresolvedCandidates:generated.unresolvedCandidates||[]},reviewedResults:{monthly:[],annual:[],unresolved:[]},reviews:{}};
+ for(const [kind,rows] of [["monthly",generated.monthlyDecisionDays],["annual",generated.annualDecisionDays],["unresolved",generated.unresolvedCandidates||[]]])for(const item of rows){const key=reviewKey(kind,item),review=readReview(key);exportData.reviews[key]=review;exportData.reviewedResults[kind].push({...item,review:{status:review.status||"pending",note:review.note||"",updatedAt:review.updatedAt||null}})}
  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ohd-festival-review-"+meta.year+".json";a.click();URL.revokeObjectURL(url);
 }
