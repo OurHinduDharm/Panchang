@@ -13,8 +13,11 @@ const currentYear = Number(new Intl.DateTimeFormat("en", {
 }).format(new Date()));
 const firstYear = Number(process.env.KALASHTAMI_FIRST_YEAR || currentYear);
 const lastYear = Number(process.env.KALASHTAMI_LAST_YEAR || firstYear + 2);
-if (!Number.isInteger(firstYear) || !Number.isInteger(lastYear) || lastYear < firstYear || lastYear - firstYear > 10) {
-  throw new RangeError("Use a valid year range no wider than 11 years.");
+
+if (!Number.isInteger(firstYear) || !Number.isInteger(lastYear) ||
+    firstYear < 1900 || lastYear > 2200 || lastYear < firstYear ||
+    lastYear - firstYear > 10) {
+  throw new RangeError("Use a valid year range no wider than 11 years (1900–2200).");
 }
 
 const years = [];
@@ -30,25 +33,25 @@ for (let year = firstYear; year <= lastYear; year += 1) {
       }
     }
   });
+
+  // Runtime payload contains only the final decisions needed by the pilot UI.
+  // Candidate-level diagnostics belong in tests/logs, not in the downloaded JSON.
   years.push({
     year: result.year,
-    latitude: result.latitude,
-    longitude: result.longitude,
-    elevation: result.elevation,
     monthlyDecisionDays: result.monthlyDecisionDays,
-    annualDecisionDays: result.annualDecisionDays,
-    candidateDates: result.candidateDates,
-    note: result.note
+    annualDecisionDays: result.annualDecisionDays
   });
 }
+
 const payload = {
-  schemaVersion: 1,
-  generatedAt: new Date().toISOString(),
+  schemaVersion: 2,
+  dataStatus: "pilot-location-specific-needs-calendar-validation",
   location: { name: "Pithoragarh", latitude, longitude, elevation, timezone: "Asia/Kolkata", timezoneOffset },
   calculationEngine: "@ishubhamx/panchangam-js@3.0.0",
-  dataStatus: "precomputed-draft-needs-calendar-validation",
   years
 };
+
 await mkdir("data", { recursive: true });
-await writeFile("data/kalashtami-calculations.json", JSON.stringify(payload, null, 2) + "\n");
-console.log(`Wrote precomputed data for ${years.length} years to data/kalashtami-calculations.json`);
+const output = JSON.stringify(payload) + "\n";
+await writeFile("data/kalashtami-calculations.json", output);
+console.log(`Wrote compact precomputed data: ${Buffer.byteLength(output)} bytes for ${years.length} years.`);
