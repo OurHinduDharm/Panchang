@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "recordStatus": "reviewed-corrections-needs-rule-validation",
+  "year": 2026,
+  "location": {
+    "name": "पिथौरागढ़",
+    "latitude": 30.1265,
+    "longitude": 80.4817,
+    "timezone": "Asia/Kolkata"
+  },
+  "sourceReviewFile": "https://raw.githubusercontent.com/OurHinduDharm/Panchang/refs/heads/main/data/ohd-festival-review-2026.json",
+  "purpose": "Normalized interpretation of the user's hard-copy Ganesh Martand Panchang review. The original exported audit JSON remains unchanged.",
+  "monthlyKalashtami": [
+    {
+      "date": "2026-01-10",
+      "generatedDate": "2026-01-11",
+      "decision": "corrected-from-review-note",
+      "note": "10 january"
+    },
+    {
+      "date": "2026-02-09",
+      "generatedDate": "2026-02-09",
+      "decision": "approved"
+    },
+    {
+      "date": "2026-03-11",
+      "generatedDate": "2026-03-11",
+      "decision": "approved"
+    },
+    {
+      "date": "2026-04-10",
+      "generatedDate": "2026-04-10",
+      "decision": "approved"
+    },
+    {
+      "date": "2026-05-09",
+      "generatedDate": "2026-05-10",
+      "decision": "corrected-from-review-note",
+      "note": "9 may ko"
+    },
+    {
+      "date": "2026-06-08",
+      "generatedDate": "2026-06-08",
+      "decision": "approved"
+    },
+    {
+      "date": "2026-07-07",
+      "generatedDate": "2026-07-08",
+      "decision": "corrected-from-review-note",
+      "note": "7 july"
+    },
+    {
+      "date": "2026-08-05",
+      "generatedDate": "2026-08-06",
+      "decision": "corrected-from-review-note",
+      "note": "5 August"
+    },
+    {
+      "date": "2026-09-04",
+      "generatedDate": "2026-09-04",
+      "decision": "approved"
+    },
+    {
+      "date": "2026-10-03",
+      "generatedDate": null,
+      "decision": "approved-review-candidate",
+      "note": "Oct 3 approved in unresolved-candidate review; Oct 4 canceled. Keep interval-validation flag until calculation is repaired."
+    },
+    {
+      "date": "2026-11-01",
+      "generatedDate": "2026-11-02",
+      "decision": "corrected-from-review-note",
+      "note": "1 november"
+    },
+    {
+      "date": "2026-12-01",
+      "generatedDate": "2026-12-01",
+      "decision": "approved"
+    },
+    {
+      "date": "2026-12-30",
+      "generatedDate": "2026-12-31",
+      "decision": "corrected-from-review-note",
+      "note": "30 december ko"
+    }
+  ],
+  "annualKalabhairavaAshtami": {
+    "generatedDate": "2026-12-01",
+    "reviewStatus": "fix",
+    "reviewerNote": "Wrong. मार्गशीर्ष · कृष्ण · अष्टमी 3 oct ko",
+    "proposedDate": "2026-10-03",
+    "decision": "pending-reconciliation",
+    "reason": "The note proposes 3 October, while the generated annual observance is explicitly Margashirsha Krishna Ashtami and 3 October's review candidate is labeled Ashwin. Do not silently change the annual rule/date until the month-versus-date conflict is reconciled against the hard-copy reference."
+  },
+  "unresolvedCandidateReview": [
+    {
+      "date": "2026-10-03",
+      "decision": "approved-review-candidate",
+      "reviewOnly": true
+    },
+    {
+      "date": "2026-10-04",
+      "decision": "canceled",
+      "note": "Cancel .only 3 oct"
+    }
+  ],
+  "implementationNotes": [
+    "Monthly correction dates reflect the user's notes and the supplied Drik reference-date list; validate against actual calculated tithi windows before production use.",
+    "Published reference-date preference is applied only when that date belongs to an observed Ashtami event group.",
+    "This file is not production runtime data and does not certify unresolved tithi intervals."
+  ]
+}
