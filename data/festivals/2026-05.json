@@ -4,7 +4,7 @@
   "month": 5,
   "monthName": "मई",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
       "date": "2026-05-01",
@@ -12,6 +12,22 @@
       "title": "बुद्ध पूर्णिमा",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-05-01",
+      "dateLabel": "1 मई",
+      "title": "श्री कूर्म अवतार जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\">श्री कूर्म अवतार जयन्ती</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-05-02",
+      "dateLabel": "2 मई",
+      "title": "देवर्षि नारद जी की जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Muni-Naradji-on-Devarshi-Narad-Jayanti.html\" target=\"_blank\">देवर्षि नारद जी की जयन्ती</a>",
+      "category": "जयंती",
       "reviewStatus": "needs-review"
     },
     {
@@ -39,12 +55,21 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-05-16",
+      "dateLabel": "16 मई",
+      "title": "श्री शनि जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html\" target=\"_blank\"> श्री शनि जयन्ती (ज्येष्ठ अमावास्या)</a> पर <a href=\"https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html\" target=\"_blank\">शनि देव के निमित्त पूजन, स्तोत्र पाठ </a> मंत्र जप, हवन-दान करें <br/> वट सावित्री व्रत",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-05-25",
       "dateLabel": "25 मई",
       "title": "गंगा दशहरा",
-      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
-      "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "description": "ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>। <a href=\"http://ourhindudharm.blogspot.com/2013/06/about-Godess-Ganga-on-ganga-dussehra.html\" target=\"_blank\"> 25 मई - ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>।</a>  <br/> १७ मई से २५ मई तक - पापकर्म साधना की प्रगति में बाधक होते हैं। ज्येष्ठ शुक्ल प्रतिपदा से दस दिन तक गंगा जी की उपासना करें - पहले दिन एक बार पाठ, दूसरे दिन दो बार पाठ ऐसे करके नित्य एक-एक पाठ की वृद्धि करते हुए क्रम से इन दस दिनों में पापशामक \"गंगा दशहरा स्तोत्र\" पढ़े।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-05-25"
     },
     {
       "date": "2026-05-27",
