@@ -80,19 +80,30 @@ function moonlightKheerWindow({ moonrise, moonset, purnima, nightEnd }) {
 
 function paranaWindow({ dvadashi, sunrise, paranaRule }) {
   const tithi = interval(dvadashi?.start, dvadashi?.end);
-  const rule = paranaRule ? interval(paranaRule.start, paranaRule.end) : null;
   const dayStart = validDate(sunrise);
   if (!tithi || !dayStart) {
-    return { status: "calculation-unavailable", window: null };
+    return { status: "calculation-unavailable", window: null, note: "द्वादशी-अंतराल या सूर्योदय उपलब्ध नहीं" };
   }
-  const afterSunrise = { start: dayStart, end: tithi.end };
+
+  // Common baseline: avoid Hari-vasara, defined here as the first quarter
+  // of Dvadashi, then begin parana after both that cutoff and local sunrise.
+  // A verified tradition-specific rule may narrow this baseline further.
+  const hariVasaraEnd = new Date(tithi.start.getTime() + (tithi.end.getTime() - tithi.start.getTime()) / 4);
+  const baseline = {
+    start: new Date(Math.max(dayStart.getTime(), hariVasaraEnd.getTime())),
+    end: tithi.end
+  };
+  const rule = paranaRule ? interval(paranaRule.start, paranaRule.end) : null;
   const window = rule
-    ? intersectIntervals(tithi, afterSunrise, rule)
-    : intersectIntervals(tithi, afterSunrise);
+    ? intersectIntervals(tithi, baseline, rule)
+    : interval(baseline.start, baseline.end);
   return {
-    status: window ? (rule ? "candidate" : "needs-rule-review") : "no-candidate",
+    status: window ? "candidate" : "no-candidate",
     window,
-    note: rule ? "दिए गए परंपरा-विशिष्ट पारण नियम से सीमित" : "पारण नियम/परंपरा की पुष्टि आवश्यक"
+    hariVasaraEnd,
+    note: rule
+      ? "सूर्योदय, द्वादशी और दिए गए परंपरा-विशिष्ट पारण नियम का साझा अंतराल"
+      : "सामान्य नियम: स्थानीय सूर्योदय और द्वादशी के साथ हरिवासर (द्वादशी का प्रथम चतुर्थांश) बीतने के बाद"
   };
 }
 
