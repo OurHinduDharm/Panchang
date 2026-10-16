@@ -150,7 +150,7 @@
     // calculate only a small window around those dates. Without seeds, retain
     // the full-year scan as a safe fallback for exploratory years.
     const suppliedSeeds = Array.isArray(options.seedDates)
-      ? options.seedDates.filter(value => /^\\d{4}-\\d{2}-\\d{2}$/.test(String(value)) && String(value).slice(0,4) === String(year))
+      ? options.seedDates.filter(value => /^\d{4}-\d{2}-\d{2}$/.test(String(value)) && String(value).slice(0,4) === String(year))
       : [];
     const scanDates = new Set();
     if (suppliedSeeds.length) {
