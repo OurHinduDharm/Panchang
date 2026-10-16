@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { Script } from "node:vm";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const monthNames = [
@@ -62,6 +63,14 @@ test("all 36 monthly festival JSON files exist and follow the expected structure
   assert.ok(eventCount > 0);
 });
 
+function assertInlineScriptsParse(html, fileName) {
+  const scripts = Array.from(html.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/gi)).map(match => match[1]).filter(source => source.trim());
+  assert.ok(scripts.length > 0, fileName + ": expected inline JavaScript");
+  scripts.forEach((source, index) => {
+    assert.doesNotThrow(() => new Script(source, { filename: fileName + " inline script " + (index + 1) }));
+  });
+}
+
 test("monthly preview stays clearly marked as a non-production draft with working filters", () => {
   const page = readFileSync(resolve(root, "monthly-vrat-parv.html"), "utf8");
   assert.match(page, /name="robots" content="noindex,nofollow"/);
@@ -70,7 +79,10 @@ test("monthly preview stays clearly marked as a non-production draft with workin
   assert.match(page, /id="categoryFilter"/);
   assert.match(page, /function applyFilters\(\)/);
 
+  assertInlineScriptsParse(page, "monthly-vrat-parv.html");
+
   const review = readFileSync(resolve(root, "monthly-festival-review.html"), "utf8");
   assert.match(review, /event-description/);
   assert.match(review, /इस तारीख़ पर/);
+  assertInlineScriptsParse(review, "monthly-festival-review.html");
 });
