@@ -37,7 +37,7 @@ test("all 36 monthly festival JSON files exist and follow the expected structure
 
       data.events.forEach((event, index) => {
         const where = `${relativePath} event #${index + 1}`;
-        assert.match(String(event.date || ""), /^\\d{4}-\\d{2}-\\d{2}$/, `${where}: date format`);
+        assert.match(String(event.date || ""), /^\d{4}-\d{2}-\d{2}$/, `${where}: date format`);
         assert.equal(event.date.slice(0, 7), `${year}-${monthText}`, `${where}: date must belong to its file month`);
         const parsed = new Date(event.date + "T00:00:00Z");
         assert.ok(!Number.isNaN(parsed.getTime()), `${where}: invalid date`);
