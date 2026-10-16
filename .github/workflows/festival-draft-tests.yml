@@ -44,6 +44,9 @@ on:
       - 'tests/shravana-dvadashi-*.test.js'
       - '.github/workflows/festival-draft-tests.yml'
 
+permissions:
+  contents: read
+
 jobs:
   festival-regressions:
     runs-on: ubuntu-latest
