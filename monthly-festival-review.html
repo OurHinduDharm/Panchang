@@ -88,11 +88,9 @@ function render(){
   const date=document.createElement("input");date.type="date";date.value=prior.correctedDate||item.date||"";dateLabel.appendChild(date);fields.appendChild(dateLabel);
   const titleLabel=el("label","wide","पर्व का सही नाम (वैकल्पिक)");
   const titleInput=document.createElement("input");titleInput.value=prior.correctedTitle||item.title||"";titleInput.placeholder="नाम में सुधार हो तो लिखें";titleLabel.appendChild(titleInput);fields.appendChild(titleLabel);
-  const noteLabel=el("label","wide","आंतरिक टिप्पणी (वैकल्पिक)");
-  const note=document.createElement("textarea");note.rows=2;note.value=prior.note||"";note.placeholder="यदि ज़रूरी हो तो समीक्षा टिप्पणी लिखें";noteLabel.appendChild(note);fields.appendChild(noteLabel);
   card.appendChild(fields);
-  const persist=()=>{const all=readSaved();all[key]={status:status.value,correctedDate:date.value,correctedTitle:titleInput.value.trim(),note:note.value.trim(),updatedAt:new Date().toISOString()};saveSaved(all)};
-  [status,date,titleInput,note].forEach(n=>n.addEventListener("change",persist));
+  const persist=()=>{const all=readSaved();all[key]={status:status.value,correctedDate:date.value,correctedTitle:titleInput.value.trim(),updatedAt:new Date().toISOString()};saveSaved(all)};
+  [status,date,titleInput].forEach(n=>n.addEventListener("change",persist));
   status.addEventListener("change",()=>{status.className=status.value==="approved"?"status-approved":status.value==="pending"?"status-review":""});
   status.className=status.value==="approved"?"status-approved":status.value==="pending"?"status-review":"";
   root.appendChild(card);
@@ -110,7 +108,7 @@ function download(){
  const saved=readSaved();
  const events=sourceData.events.map((item,index)=>{
   const key=String(index)+"|"+item.date+"|"+item.title;const r=saved[key]||{status:"pending"};
-  return {...item,review:{status:r.status||"pending",correctedDate:r.correctedDate||item.date,correctedTitle:r.correctedTitle||item.title,note:r.note||"",updatedAt:r.updatedAt||null}};
+  return {...item,review:{status:r.status||"pending",correctedDate:r.correctedDate||item.date,correctedTitle:r.correctedTitle||item.title,updatedAt:r.updatedAt||null}};
  });
  const output={...sourceData,reviewExportedAt:new Date().toISOString(),status:"review-export-not-published",events};
  const blob=new Blob([JSON.stringify(output,null,2)],{type:"application/json"});
