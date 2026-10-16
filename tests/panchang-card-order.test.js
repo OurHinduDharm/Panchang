@@ -122,7 +122,7 @@ test("Planetary Asta/Udaya card labels angular estimates and keeps classical sta
 
   const cardSource = source.slice(start, end);
   assert.ok(cardSource.includes("आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना"));
-  assert.match(cardSource, /सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु \(K\\/C\) गणना/);
+  assert.ok(cardSource.includes("सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु (K/C) गणना"));
   assert.ok(cardSource.includes("कोणीय अनुमानित अस्त"));
   assert.ok(cardSource.includes("कोणीय अनुमानित उदय"));
   assert.ok(cardSource.includes("शास्त्रीय K/C गणना — सत्यापनाधीन"));
