@@ -50,13 +50,17 @@ try {
   const rawCapturePreset = await page.evaluate(() => ({
     date: document.querySelector("#rawTksDate").value,
     time: document.querySelector("#rawTksTime").value,
-    step: document.querySelector("#rawTksTime").step,
+    type: document.querySelector("#rawTksTime").type,
+    inputmode: document.querySelector("#rawTksTime").inputMode,
+    help: document.querySelector("#rawTksTime").getAttribute("aria-describedby"),
     jd: window.expectedJulianDateUtcFromLocal("2026-10-12", "17:42:21", 5.5)
   }));
   console.log("Raw TKS event-side capture preset:", JSON.stringify(rawCapturePreset));
   if (rawCapturePreset.date !== "2026-10-12" ||
       rawCapturePreset.time !== "17:42:21" ||
-      rawCapturePreset.step !== "1" ||
+      rawCapturePreset.type !== "text" ||
+      rawCapturePreset.inputmode !== "numeric" ||
+      rawCapturePreset.help !== "rawTksTimeHelp" ||
       Math.abs(rawCapturePreset.jd - 2461326.008576389) > 0.00000001) {
     throw new Error("Raw TKS capture form failed second-precision sunset preset or UTC Julian Day conversion.");
   }
