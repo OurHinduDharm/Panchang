@@ -47,8 +47,8 @@ test("adapter calculates local sunrise, Pradosh, and Madhyahna data with an inje
   assert.equal(new Set(result.monthlyDecisionDays.map(day => day.date)).size, result.monthlyDecisionDays.length);
   assert.equal(new Set(result.annualDecisionDays.map(day => day.date)).size, result.annualDecisionDays.length);
   assert.ok(calls.every(call => call.options.timezoneOffset === 330));
-  // A supplied reference date should limit the first pass to a five-day window,
-  // rather than scanning all 365/366 days.
+  // A supplied reference date should limit the first pass to that date plus
+  // one adjacent day on either side, rather than a five-day or full-year scan.
   assert.ok(calls.length < 100, `expected reference-window scan to stay below 100 calls, got ${calls.length}`);
   assert.equal(result.latitude, 30.1265);
   assert.match(result.note, /Pradosh/);
