@@ -27,7 +27,7 @@
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $ = (id) => document.getElementById(id);
-const DRAFT_ASSET_VERSION = "cb615eeee428409545873b5e97f6cebe14881138";
+const DRAFT_ASSET_VERSION = "00cd907ec3ef1bb0469e4d31fbeb9b7cdabe22b1";
 function loadClassicScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -40,7 +40,7 @@ function loadClassicScript(src) {
 let draftScriptsPromise;
 function ensureDraftScripts() {
   if (!draftScriptsPromise) {
-    const base = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@cb615eeee428409545873b5e97f6cebe14881138/";
+    const base = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@00cd907ec3ef1bb0469e4d31fbeb9b7cdabe22b1/";
     draftScriptsPromise = (async () => {
       await loadClassicScript(base + "festival-date-resolver.js?v=" + DRAFT_ASSET_VERSION);
       await loadClassicScript(base + "kalashtami-panchang-adapter.js?v=" + DRAFT_ASSET_VERSION);
@@ -77,7 +77,14 @@ async function run() {
     $("status").textContent = "वर्ष की तारीख़ें जाँची जा रही हैं…";
     const generated = await window.OHDFestivalPanchangAdapter.buildKalashtamiDays({
       year, latitude:30.1265, longitude:80.4817, elevation:0,
-      timezoneOffset:330, getPanchangam, Observer
+      timezoneOffset:330, getPanchangam, Observer,
+      onProgress(progress) {
+        if (progress.phase === "year-scan") {
+          $("status").textContent = `वर्ष की तारीख़ें जाँची जा रही हैं… ${progress.processedDays}/${progress.totalDays}`;
+        } else if (progress.phase === "tithi-windows") {
+          $("status").textContent = `अष्टमी की तिथि-व्याप्ति जाँची जा रही है… ${progress.processedCandidates}/${progress.totalCandidates}`;
+        }
+      }
     });
     $("status").textContent = "गणना पूरी; पर्व-नियम मिलाए जा रहे हैं…";
     const dataResponse = await fetch("https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/festivals.json?v="+DRAFT_ASSET_VERSION,{cache:"force-cache"});
