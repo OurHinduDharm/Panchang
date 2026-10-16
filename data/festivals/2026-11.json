@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "month": 11,
+  "monthName": "नवंबर",
+  "status": "needs-review",
+  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "events": [
+    {
+      "date": "2026-11-01",
+      "dateLabel": "1 नवंबर",
+      "title": "अहोई अष्टमी",
+      "description": "संतान की मंगलकामना से जुड़ा व्रत।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-05",
+      "dateLabel": "5 नवंबर",
+      "title": "रमा एकादशी",
+      "description": "कार्तिक कृष्ण पक्ष की एकादशी; पारण का निर्णय अलग से जाँचना है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-06",
+      "dateLabel": "6 नवंबर",
+      "title": "धनतेरस",
+      "description": "धन्वंतरि पूजन और दीपदान; पूजा-मुहूर्त अलग से जाँचना है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-07",
+      "dateLabel": "7 नवंबर",
+      "title": "नरक चतुर्दशी / छोटी दीपावली",
+      "description": "स्नान और दीपदान की परंपराएँ।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-08",
+      "dateLabel": "8 नवंबर",
+      "title": "दीपावली / लक्ष्मी पूजन",
+      "description": "लक्ष्मी-गणेश पूजन; स्थानीय अमावस्या-व्याप्ति और मुहूर्त की पुष्टि आवश्यक।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-10",
+      "dateLabel": "10 नवंबर",
+      "title": "गोवर्धन पूजा / अन्नकूट",
+      "description": "गोवर्धन पूजा और अन्नकूट।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-11",
+      "dateLabel": "11 नवंबर",
+      "title": "भाई दूज",
+      "description": "यम द्वितीया के रूप में भी प्रसिद्ध।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-15",
+      "dateLabel": "15 नवंबर",
+      "title": "छठ पूजा",
+      "description": "संध्या और प्रातः अर्घ्य की तिथियाँ/समय स्थानीय रूप से जाँचें।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-16",
+      "dateLabel": "16 नवंबर",
+      "title": "वृश्चिक संक्रांति",
+      "description": "सूर्य के वृश्चिक राशि में प्रवेश से संबंधित संक्रांति।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-17",
+      "dateLabel": "17 नवंबर",
+      "title": "गोपाष्टमी",
+      "description": "गौ-पूजन से संबंधित पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-18",
+      "dateLabel": "18 नवंबर",
+      "title": "अक्षय नवमी",
+      "description": "कार्तिक शुक्ल नवमी से संबंधित पर्व।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-20",
+      "dateLabel": "20 नवंबर",
+      "title": "देवउठनी एकादशी",
+      "description": "चातुर्मास समापन और तुलसी-विवाह परंपरा से जुड़ी एकादशी; पारण की अलग जाँच आवश्यक।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-21",
+      "dateLabel": "21 नवंबर",
+      "title": "तुलसी विवाह",
+      "description": "तुलसी-शालिग्राम विवाह की परंपरा।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-24",
+      "dateLabel": "24 नवंबर",
+      "title": "कार्तिक पूर्णिमा / देव दीपावली",
+      "description": "कार्तिक स्नान, दीपदान और देव दीपावली।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-27",
+      "dateLabel": "27 नवंबर",
+      "title": "संकष्टी चतुर्थी",
+      "description": "चन्द्रोदय-आधारित व्रत; चन्द्रोदय समय अलग से जाँचना है।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
