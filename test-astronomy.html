@@ -265,8 +265,9 @@
       <label for="rawTksDate">Local date</label>
       <input id="rawTksDate" type="date" value="2026-10-12">
       <label for="rawTksTime" style="margin-left:10px">Local time (IST)</label>
-      <input id="rawTksTime" type="time" value="06:30">
-      <p class="small">Example: use 17:40 for a sunset-side Venus Asta check; use the calculated local sunrise time for an eastern event. The entered time is sent unchanged as local time with tz=5.5.</p>
+      <input id="rawTksTime" type="time" step="1" value="06:30:00">
+      <button id="setFixtureSunsetBtn" type="button">Use fixture sunset 17:42:21</button>
+      <p class="small">The preset uses the existing 12 October 2026 fixture's TKS-reported <code>sun_day.set_h_local = 17.705795</code>, rounded to the nearest second. This is an API-reported sunset time, not an independently verified horizon solution; the endpoint's horizon convention and elevation handling are not established. For an eastern event, use a separately calculated local sunrise. Time supports HH:MM:SS and is sent unchanged with tz=5.5.</p>
     </div>
     <div id="rawTksStatus" class="status info">Not requested yet. Press “Fetch Raw TKS Sun/Venus JSON”.</div>
     <pre id="rawTksOutput" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:560px;overflow:auto;padding:12px;background:#fff;border:1px solid #d7dce2;border-radius:8px;">Raw responses will appear here, including HTTP, JSON, or CORS errors.</pre>
@@ -5087,16 +5088,24 @@ function summarizeRawTksFields(value) {
 
 function expectedJulianDateUtcFromLocal(dateText, timeText, offsetHoursEastUtc) {
   const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateText || "");
-  const timeMatch = /^(\d{2}):(\d{2})$/.exec(timeText || "");
+  const timeMatch = /^(\d{2}):(\d{2})(?::(\d{2}))?$/.exec(timeText || "");
   if (!dateMatch || !timeMatch || !Number.isFinite(offsetHoursEastUtc)) {
     throw new TypeError("A valid local date, local time, and UTC offset are required.");
   }
   const [, year, month, day] = dateMatch.map(Number);
-  const [, hour, minute] = timeMatch.map(Number);
-  const utcMilliseconds = Date.UTC(year, month - 1, day, hour, minute) -
+  const [, hour, minute, secondText] = timeMatch;
+  const second = secondText === undefined ? 0 : Number(secondText);
+  const utcMilliseconds = Date.UTC(year, month - 1, day, Number(hour), Number(minute), second) -
     offsetHoursEastUtc * 60 * 60 * 1000;
   return utcMilliseconds / 86400000 + 2440587.5;
 }
+
+document.getElementById("setFixtureSunsetBtn").addEventListener("click", () => {
+  document.getElementById("rawTksDate").value = "2026-10-12";
+  document.getElementById("rawTksTime").value = "17:42:21";
+  rawTksStatus.className = "status warn";
+  rawTksStatus.textContent = "Loaded the fixture's reported sunset candidate (17:42:21 IST). This is a candidate request time, not proof of the API's horizon convention.";
+});
 
 rawTksButton.addEventListener("click", async () => {
   rawTksButton.disabled = true;
