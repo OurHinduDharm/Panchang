@@ -7,6 +7,14 @@
   "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
+      "date": "2026-10-02",
+      "dateLabel": "2 अक्टूबर",
+      "title": "गांधी जयंती",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-10-03",
       "dateLabel": "3 अक्टूबर",
       "title": "मासिक कालाष्टमी",
@@ -32,6 +40,22 @@
       "title": "पितृ विसर्जन अमावास्या",
       "description": "पितृपक्ष पर <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\">पितृ तर्पण विधि</a> एवं <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\">पितृ विसर्जन विधि</a>",
       "category": "अमावस्या",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-10",
+      "dateLabel": "10 अक्टूबर",
+      "title": "महालया अमावस्या",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "अमावस्या",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-11",
+      "dateLabel": "11 अक्टूबर",
+      "title": "शारदीय नवरात्र प्रारंभ",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "नवरात्रि",
       "reviewStatus": "needs-review"
     },
     {
@@ -132,6 +156,14 @@
     {
       "date": "2026-10-16",
       "dateLabel": "16 अक्टूबर",
+      "title": "दुर्गा पूजा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-16",
+      "dateLabel": "16 अक्टूबर",
       "title": "नवरात्रि षष्ठी — माँ कात्यायनी",
       "description": "नवरात्रि की छठी पूजा।",
       "category": "नवरात्रि",
@@ -167,6 +199,22 @@
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
       "articleLabel": "माँ कालरात्रि",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "महानवमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "महाष्टमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
       "reviewStatus": "needs-review"
     },
     {
@@ -218,6 +266,14 @@
     {
       "date": "2026-10-25",
       "dateLabel": "25 अक्टूबर",
+      "title": "शरद पूर्णिमा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-25",
+      "dateLabel": "25 अक्टूबर",
       "title": "शरद पूर्णिमा / कोजागरी पूर्णिमा",
       "description": "चंद्रमा की चांदनी में खीर रखने की परंपरा; पर्व-तिथि की समीक्षा आवश्यक।",
       "category": "पूर्णिमा",
@@ -238,6 +294,14 @@
       "title": "कार्तिक मास प्रारंभ",
       "description": "कार्तिक मास प्रारंभ - मान्यता है कि केवल कार्तिक मास में चातुर्मास के नियमों का आचरण करने से भी चातुर्मास्य व्रत का उत्तम फल प्राप्त होता है। कार्तिक मास में की गई पूजाएं, मन्त्रात्मक, स्तोत्रात्मक साधनाएं उत्तम फल देती हैं।",
       "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-29",
+      "dateLabel": "29 अक्टूबर",
+      "title": "करवा चौथ",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
       "reviewStatus": "needs-review"
     },
     {
