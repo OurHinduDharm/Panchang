@@ -146,17 +146,39 @@
     const base = new Map();
     const start = new Date(Date.UTC(year,0,1));
     const end = new Date(Date.UTC(year+1,0,1));
-    // Fast first pass: only noon Panchang per date. Yield to the browser every
-    // 14 days so the page can paint progress and remain responsive on mobiles.
-    const totalDays = Math.round((end-start)/86400000);
+    // If reference dates are supplied (e.g. published Drik Panchang vrat dates),
+    // calculate only a small window around those dates. Without seeds, retain
+    // the full-year scan as a safe fallback for exploratory years.
+    const suppliedSeeds = Array.isArray(options.seedDates)
+      ? options.seedDates.filter(value => /^\\d{4}-\\d{2}-\\d{2}$/.test(String(value)) && String(value).slice(0,4) === String(year))
+      : [];
+    const scanDates = new Set();
+    if (suppliedSeeds.length) {
+      for (const seed of suppliedSeeds) {
+        const d = new Date(seed + "T00:00:00Z");
+        for (let offset = -2; offset <= 2; offset += 1) {
+          const candidate = new Date(d);
+          candidate.setUTCDate(candidate.getUTCDate() + offset);
+          const key = candidate.toISOString().slice(0,10);
+          if (key.slice(0,4) === String(year)) scanDates.add(key);
+        }
+      }
+    } else {
+      for (let cursor = new Date(start); cursor < end; cursor.setUTCDate(cursor.getUTCDate()+1)) {
+        scanDates.add(cursor.toISOString().slice(0,10));
+      }
+    }
+    const orderedScanDates = Array.from(scanDates).sort();
     let processedDays = 0;
-    for (let cursor = new Date(start); cursor < end; cursor.setUTCDate(cursor.getUTCDate()+1)) {
-      const dateString = cursor.toISOString().slice(0,10);
+    for (const dateString of orderedScanDates) {
       const p = options.getPanchangam(dateAtIst(dateString,"12:00:00"), observer, { timezoneOffset });
       if (p && p.sunrise && p.sunset) base.set(dateString, { noon:p, sunrise:asDate(p.sunrise), sunset:asDate(p.sunset) });
       processedDays += 1;
-      if (processedDays % 14 === 0 || processedDays === totalDays) {
-        if (typeof options.onProgress === "function") options.onProgress({ phase:"year-scan", processedDays, totalDays });
+      if (processedDays % 14 === 0 || processedDays === orderedScanDates.length) {
+        if (typeof options.onProgress === "function") options.onProgress({
+          phase: suppliedSeeds.length ? "reference-window-scan" : "year-scan",
+          processedDays, totalDays: orderedScanDates.length, seeded: suppliedSeeds.length > 0
+        });
         await new Promise(resolve => setTimeout(resolve, 0));
       }
     }
