@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>वार्षिक पर्व डेटा समीक्षा | OurHinduDharm</title>
+<style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;padding:12px;background:#f5f2ec;color:#30281f;font:15px/1.55 system-ui,Arial,"Noto Sans Devanagari",sans-serif}main{max-width:1050px;margin:auto;background:#fff;padding:16px;border:1px solid #e4dbce;border-radius:12px}h1{font-size:23px;margin:0 0 8px}h2{font-size:18px;margin:22px 0 8px}.notice{padding:11px;border:1px solid #d8c18d;background:#fff7df;border-radius:8px;font-size:13px}.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin:15px 0}.controls label{display:grid;gap:4px;font-size:13px}.controls input,.controls button,select,textarea{font:inherit;padding:9px;border:1px solid #cfc5b8;border-radius:7px;min-width:0}.controls button,.action{background:#71401e;color:#fff;border:0;cursor:pointer}.controls button:disabled{opacity:.55;cursor:wait}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.action{padding:9px 12px;border-radius:7px}.status{padding:9px 0;color:#5d5042}.error{color:#a32620}.muted{font-size:12px;color:#71675c}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #e7dfd5;padding:8px;font-size:13px}th{background:#f7f3ed}td input[type=text]{width:100%;min-width:140px}tr.duplicate{background:#fff2ef}.pill{display:inline-block;padding:2px 6px;border-radius:5px;background:#ffe0da;color:#84281f;font-size:11px}.empty{padding:14px;background:#faf8f4;border-radius:8px}.summary{display:flex;gap:12px;flex-wrap:wrap}.summary span{padding:7px 10px;background:#f5f1ea;border-radius:7px}
+@media(max-width:480px){main{padding:11px}h1{font-size:20px}}
+</style>
+</head>
+<body><main>
+<p class="notice"><strong>समीक्षा पृष्ठ — ड्राफ्ट, लाइव पंचांग नहीं।</strong> यह पृष्ठ अभी कालाष्टमी/कालभैरवाष्टमी वार्षिक गणना का पायलट है। गणना से निकली तारीखें स्वतः प्रमाणित नहीं मानी जाएँगी। इस HTML पेज में लॉगिन नहीं है; GitHub रिपॉज़िटरी सार्वजनिक होने पर URL गोपनीय नहीं है। आपकी समीक्षा टिप्पणियाँ केवल इसी ब्राउज़र के local storage में रहती हैं, जब तक आप JSON डाउनलोड न करें।</p>
+<h1>वार्षिक पर्व डेटा — गणना और समीक्षा</h1>
+<p class="muted">पहला चरण: एक बटन से चुने हुए वर्ष की कालाष्टमी गणना। स्थान बदला जा सकता है। गणना ब्राउज़र में चलती है; प्रगति, कॉल की संख्या और समय दिखेंगे।</p>
+<div class="controls">
+<label>वर्ष<input id="year" type="number" min="1900" max="2200" value="2027"></label>
+<label>स्थान का नाम<input id="city" type="text" value="पिथौरागढ़" maxlength="80"></label>
+<label>अक्षांश<input id="lat" type="number" step="0.0001" value="30.1265"></label>
+<label>देशांतर<input id="lon" type="number" step="0.0001" value="80.4817"></label>
+<label>ऊँचाई (मीटर)<input id="elev" type="number" step="1" value="0"></label>
+</div>
+<div class="actions"><button id="run" class="action" type="button">पूरे वर्ष की गणना करें</button><button id="export" class="action" type="button" disabled>समीक्षा सहित JSON डाउनलोड करें</button></div>
+<div id="status" class="status" role="status" aria-live="polite">वर्ष और स्थान जाँचें, फिर गणना बटन दबाएँ।</div>
+<div id="summary" class="summary"></div>
+<h2>मासिक कालाष्टमी</h2><div id="monthly" class="empty">अभी गणना नहीं हुई।</div>
+<h2>वार्षिक कालभैरवाष्टमी</h2><div id="annual" class="empty">अभी गणना नहीं हुई।</div>
+<p class="muted">समीक्षा विकल्प: “जाँच बाकी”, “सही”, “सुधार चाहिए”। नोट और स्थिति इसी डिवाइस/ब्राउज़र में सेव होंगे। एक ही तारीख़ दो बार आए तो उसे छिपाया नहीं जाएगा—डुप्लिकेट को समीक्षा में साफ़ दिखाया जाएगा।</p>
+</main>
+<script type="module">
+import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+const $=id=>document.getElementById(id);
+const ASSET_SHA="59e3f4ac0dac14c2c6aac900472f7a25cb4fc814";
+let generated=null, meta=null, panchangCalls=0, elapsedSeconds=null;
+let adapterPromise;
+function ensureAdapter(){
+ if(!adapterPromise) adapterPromise=new Promise((resolve,reject)=>{
+  const s=document.createElement("script");
+  s.src="https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@"+ASSET_SHA+"/kalashtami-panchang-adapter.js";
+  s.onload=()=>window.OHDFestivalPanchangAdapter?resolve(window.OHDFestivalPanchangAdapter):reject(new Error("गणना मॉड्यूल उपलब्ध नहीं हुआ"));
+  s.onerror=()=>reject(new Error("गणना मॉड्यूल लोड नहीं हुआ; इंटरनेट कनेक्शन जाँचें"));
+  document.head.appendChild(s);
+ });
+ return adapterPromise;
+}
+function reviewKey(kind,item){return ["ohd-year-review-v1",meta.year,meta.lat,meta.lon,kind,item.date,item.sourceMethod||""].join("|")}
+function readReview(key){try{return JSON.parse(localStorage.getItem(key)||"{}")}catch{return {}}}
+function saveReview(key,field,value){const old=readReview(key);old[field]=value;old.updatedAt=new Date().toISOString();try{localStorage.setItem(key,JSON.stringify(old))}catch(e){$("status").textContent="ब्राउज़र स्टोरेज उपलब्ध नहीं है; समीक्षा JSON डाउनलोड करके सुरक्षित रखें。"}}
+function renderTable(target,rows,kind,label){
+ target.replaceChildren();
+ if(!rows.length){target.className="empty";target.textContent="इस गणना में कोई परिणाम नहीं मिला।";return}
+ const counts={};rows.forEach(x=>counts[x.date]=(counts[x.date]||0)+1);
+ const wrap=document.createElement("div");wrap.className="tablewrap";
+ const table=document.createElement("table");
+ const thead=document.createElement("thead");thead.innerHTML="<tr><th>तारीख़</th><th>हिन्दू मास / पक्ष / तिथि</th><th>गणना विधि</th><th>समीक्षा</th><th>आपकी टिप्पणी</th></tr>";table.append(thead);
+ const tbody=document.createElement("tbody");
+ rows.forEach((item,index)=>{
+  const key=reviewKey(kind,item), saved=readReview(key),tr=document.createElement("tr");
+  if(counts[item.date]>1)tr.className="duplicate";
+  const date=new Date(item.date+"T12:00:00+05:30");
+  const dateText=date.toLocaleDateString("hi-IN",{day:"numeric",month:"short",year:"numeric",timeZone:"Asia/Kolkata"});
+  const tdDate=document.createElement("td");tdDate.textContent=dateText;
+  if(counts[item.date]>1){const badge=document.createElement("div");badge.className="pill";badge.textContent="डुप्लिकेट तारीख़";tdDate.append(badge)}
+  const tdDetail=document.createElement("td");tdDetail.textContent=[item.month,item.paksha,item.tithi].filter(Boolean).join(" · ");
+  const tdMethod=document.createElement("td");tdMethod.textContent=label+(item.sourceMethod?" · "+item.sourceMethod:"")+(Number.isFinite(item.nightMinutes)?" · रात्रि "+item.nightMinutes+" मिनट":"")+(Number.isFinite(item.pradoshMinutes)?" · प्रदोष "+item.pradoshMinutes+" मिनट":"");
+  const tdReview=document.createElement("td");const select=document.createElement("select");select.setAttribute("aria-label",dateText+" समीक्षा स्थिति");
+  [["pending","जाँच बाकी"],["approved","सही"],["fix","सुधार चाहिए"]].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;select.append(o)});
+  select.value=saved.status||"pending";select.addEventListener("change",()=>saveReview(key,"status",select.value));tdReview.append(select);
+  const tdNote=document.createElement("td");const note=document.createElement("input");note.type="text";note.maxLength=500;note.placeholder="पंचांग से मिलान / टिप्पणी";note.value=saved.note||"";note.addEventListener("change",()=>saveReview(key,"note",note.value));tdNote.append(note);
+  tr.append(tdDate,tdDetail,tdMethod,tdReview,tdNote);tbody.append(tr);
+ });
+ table.append(tbody);wrap.append(table);target.className="";target.append(wrap);
+}
+function showResults(){
+ renderTable($("monthly"),generated.monthlyDecisionDays,"monthly","व्रतराज/रात्रि-व्याप्ति");
+ renderTable($("annual"),generated.annualDecisionDays,"annual","धर्मसिंधु मध्यान्ह/प्रदोष निर्णय");
+ const duplicates=[...generated.monthlyDecisionDays,...generated.annualDecisionDays].filter((x,i,a)=>a.findIndex(y=>y.date===x.date) !== i).length;
+ $("summary").replaceChildren();
+ [["मासिक परिणाम",generated.monthlyDecisionDays.length],["वार्षिक परिणाम",generated.annualDecisionDays.length],["संभावित दिन",generated.candidateDates.length],["पंचांग कॉल",panchangCalls],["समय",elapsedSeconds+" सेकंड"]].forEach(([k,v])=>{const s=document.createElement("span");s.textContent=k+": "+v;$("summary").append(s)});
+ if(duplicates)$("status").textContent+=" ध्यान दें: दोहराई गई तारीख़ें समीक्षा में चिह्नित हैं; अभी डेटा को स्वीकृत न मानें।";
+ $("export").disabled=false;
+}
+function downloadJSON(){
+ if(!generated||!meta)return;
+ const exportData={schemaVersion:1,reviewExportedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",location:meta.location,year:meta.year,engine:"@ishubhamx/panchangam-js@3.0.0",elapsedSeconds,panchangCalls,results:{monthly:generated.monthlyDecisionDays,annual:generated.annualDecisionDays},reviews:{}};
+ for(const [kind,rows] of [["monthly",generated.monthlyDecisionDays],["annual",generated.annualDecisionDays]])for(const item of rows){const key=reviewKey(kind,item);exportData.reviews[key]=readReview(key)}
+ const blob=new Blob([JSON.stringify(exportData,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ohd-festival-review-"+meta.year+".json";a.click();URL.revokeObjectURL(url);
+}
+async function run(){
+ const year=Number($("year").value),lat=Number($("lat").value),lon=Number($("lon").value),elev=Number($("elev").value);
+ if(!Number.isInteger(year)||year<1900||year>2200||!Number.isFinite(lat)||lat< -90||lat>90||!Number.isFinite(lon)||lon< -180||lon>180||!Number.isFinite(elev)){ $("status").className="status error";$("status").textContent="वर्ष, अक्षांश, देशांतर और ऊँचाई की जाँच करें।";return}
+ generated=null;meta={year,lat,lon,location:{name:$("city").value.trim()||"चुना गया स्थान",latitude:lat,longitude:lon,elevation:elev,timezone:"Asia/Kolkata",timezoneOffset:330}};
+ $("run").disabled=true;$("export").disabled=true;$("summary").replaceChildren();$("monthly").textContent="गणना चल रही है…";$("annual").textContent="गणना चल रही है…";$("status").className="status";$("status").textContent="पंचांग इंजन लोड किया जा रहा है…";
+ const start=performance.now();panchangCalls=0;
+ try{
+  const adapter=await ensureAdapter();const counted=(...args)=>{panchangCalls++;return getPanchangam(...args)};
+  generated=await adapter.buildKalashtamiDays({year,latitude:lat,longitude:lon,elevation:elev,timezoneOffset:330,getPanchangam:counted,Observer,onProgress(p){
+   if(p.phase==="year-scan")$("status").textContent="वर्ष के दिन स्कैन हो रहे हैं: "+p.processedDays+"/"+p.totalDays;
+   else if(p.phase==="tithi-windows")$("status").textContent="अष्टमी की व्याप्ति जाँची जा रही है: "+p.processedCandidates+"/"+p.totalCandidates;
+  }});
+  elapsedSeconds=((performance.now()-start)/1000).toFixed(1);showResults();
+  $("status").textContent="गणना पूरी हुई। परिणाम केवल समीक्षा हेतु हैं—सत्यापन के बाद ही स्वीकृत करें।";
+ }catch(e){$("status").className="status error";$("status").textContent="गणना पूरी नहीं हुई: "+(e?.message||String(e));}
+ finally{$("run").disabled=false}
+}
+$("run").addEventListener("click",run);$("export").addEventListener("click",downloadJSON);
+</script>
+</body></html>
