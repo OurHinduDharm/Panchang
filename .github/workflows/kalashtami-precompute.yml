@@ -1,0 +1,47 @@
+name: Precompute Kalashtami Dates
+
+on:
+  workflow_dispatch:
+    inputs:
+      first_year:
+        description: First Gregorian year to calculate
+        required: false
+        type: string
+      last_year:
+        description: Last Gregorian year to calculate
+        required: false
+        type: string
+  schedule:
+    - cron: "23 20 1 * *"
+
+permissions:
+  contents: write
+
+jobs:
+  precompute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install pinned Panchang engine
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Generate precomputed dates
+        env:
+          KALASHTAMI_FIRST_YEAR: ${{ inputs.first_year }}
+          KALASHTAMI_LAST_YEAR: ${{ inputs.last_year }}
+        run: node scripts/generate-kalashtami-data.mjs
+      - name: Commit updated static data
+        run: |
+          if git diff --quiet -- data/kalashtami-calculations.json; then
+            echo "Precomputed data is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kalashtami-calculations.json
+          git commit -m "data: refresh precomputed Kalashtami dates"
+          git push
