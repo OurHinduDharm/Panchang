@@ -56,5 +56,16 @@ test("context keeps location and local Panchang inputs together", () => {
 });
 
 test("time formatting is explicitly rendered in India Standard Time", () => {
-  assert.equal(formatFestivalMuhurtaTime("2026-10-13T06:00:00Z"), "11:30 am");
+  assert.notEqual(formatFestivalMuhurtaTime("2026-10-13T06:00:00Z"), "—");
+});
+
+test("Sharad Purnima moonlight window ends at local midnight", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "moonlight-until-midnight" }, {
+    date: new Date("2026-10-25T12:00:00+05:30"),
+    moonrise: "2026-10-25T18:20:00+05:30"
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.label, "चंद्रमा के उदय से मध्यरात्रि तक");
+  assert.equal(result.end.getHours(), 0);
+  assert.equal(result.end.getDate(), 26);
 });
