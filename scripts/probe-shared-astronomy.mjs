@@ -43,14 +43,26 @@ for (const instant of sampleInstants) {
     const p = getPanchangam(new Date(instant), observer, { timezoneOffset: 330 });
     const fields = {};
     for (const field of eventFields) fields[field] = toIso(p?.[field]);
+    const normalizeIntervals = (items, kind) => (Array.isArray(items) ? items : []).map(item => ({
+      kind,
+      index: item?.index ?? null,
+      name: item?.name ?? null,
+      startUTC: toIso(item?.startTime ?? item?.start),
+      endUTC: toIso(item?.endTime ?? item?.end)
+    })).filter(item => item.startUTC && item.endUTC);
     return {
       location: location.name,
-      tithi: p?.tithi?.name ?? p?.tithi ?? null,
-      nakshatra: p?.nakshatra?.name ?? p?.nakshatra ?? null,
-      yoga: p?.yoga?.name ?? p?.yoga ?? null,
+      tithi: p?.tithi?.name ?? p?.tithiName ?? p?.tithi ?? null,
+      nakshatra: p?.nakshatra?.name ?? p?.nakshatraName ?? p?.nakshatra ?? null,
+      yoga: p?.yoga?.name ?? p?.yogaName ?? p?.yoga ?? null,
       sunrise: toIso(p?.sunrise),
       sunset: toIso(p?.sunset),
-      fields
+      fields,
+      intervals: [
+        ...normalizeIntervals(p?.tithis, "tithi"),
+        ...normalizeIntervals(p?.nakshatras, "nakshatra"),
+        ...normalizeIntervals(p?.yogas, "yoga")
+      ]
     };
   });
 
@@ -83,15 +95,34 @@ const checks = report.results.flatMap(result =>
 );
 const comparable = checks.filter(check => check.comparable);
 const mismatches = comparable.filter(check => !check.sameAcrossLocations);
+const intervalKeys = new Map();
+for (const result of report.results) {
+  for (const row of result.perLocation) {
+    for (const interval of row.intervals) {
+      // Daily interval arrays may clip their first/last item at sunrise.
+      // Keep all rows in diagnostics, but do not call these shared event
+      // boundaries until independently matched across cities and dates.
+      const key = [interval.kind, interval.index, interval.name, interval.startUTC, interval.endUTC].join("|");
+      if (!intervalKeys.has(key)) intervalKeys.set(key, []);
+      intervalKeys.get(key).push(row.location);
+    }
+  }
+}
+const intervalInventory = [...intervalKeys.entries()].map(([key, locations]) => {
+  const parts = key.split("|");
+  return { kind: parts[0], index: parts[1], name: parts[2], startUTC: parts[3], endUTC: parts[4], locations };
+});
 report.summary = {
-  checkedBoundaryValues: checks.length,
-  comparableBoundaryChecks: comparable.length,
-  fieldsNeverExposed: eventFields.filter(field => checks.every(check => check.field !== field || !check.comparable)),
-  crossLocationMismatches: mismatches
+  checkedScalarBoundaryValues: checks.length,
+  comparableScalarBoundaryChecks: comparable.length,
+  scalarFieldsNeverExposed: eventFields.filter(field => checks.every(check => check.field !== field || !check.comparable)),
+  scalarCrossLocationMismatches: mismatches,
+  intervalRecords: report.results.reduce((sum, result) => sum + result.perLocation.reduce((n, row) => n + row.intervals.length, 0), 0),
+  exactIntervalRecordsRepeatedAcrossLocations: intervalInventory.filter(item => new Set(item.locations).size > 1).length,
+  note: "A successful script run only confirms diagnostic execution. It does not certify shared timestamps. p.tithis/p.nakshatras/p.yogas are local sunrise-window segments and may be clipped at sunrise; exact event boundaries need separate validation.",
+  intervalSamples: intervalInventory.slice(0, 60)
 };
-report.verdict = mismatches.length ? "location-dependent-or-inconsistent" :
-  comparable.length ? "shared-timestamps-supported-for-comparable-fields" :
-  "insufficient-api-fields-to-confirm-shared-timestamps";
+report.verdict = "diagnostic-only-needs-exact-boundary-validation";
 
 console.log(JSON.stringify(report, null, 2));
 if (mismatches.length) {
