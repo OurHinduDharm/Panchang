@@ -6,6 +6,7 @@ on:
       - data/festival-json-foundation
     paths:
       - 'scripts/generate-kalashtami-data.mjs'
+      - 'scripts/probe-shared-astronomy.mjs'
       - 'kalashtami-panchang-adapter.js'
       - '.github/workflows/kalashtami-precompute.yml'
   workflow_dispatch:
@@ -36,6 +37,8 @@ jobs:
           node-version: "20"
       - name: Install pinned Panchang engine
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Probe shared astronomical event timestamps
+        run: node scripts/probe-shared-astronomy.mjs
       - name: Generate precomputed dates
         env:
           KALASHTAMI_FIRST_YEAR: ${{ inputs.first_year }}
