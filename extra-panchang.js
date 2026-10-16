@@ -642,8 +642,8 @@ function createPlanetCard(
 
     <p class="planet-rise-set-note">
       ये स्थानीय दोपहर के ग्रह-सूर्य कोण और उस समय वर्गीकृत शास्त्रीय सीमा पर आधारित प्रारंभिक, दिन-स्तरीय अनुमान हैं।
-      वास्तविक घटना के लिए आवश्यक सूर्योदय/सूर्यास्त-आधारित लघ्नान्तर अभी पूर्ण रूप से लागू नहीं है;
-      इन्हें अंतिम सूर्यसिद्धान्तीय फल या वास्तविक दृश्यता का निश्चित समय न मानें।
+      सूर्योदय/सूर्यास्त-आधारित लघ्नान्तर तथा समय-संशोधन का पूर्ण स्वतंत्र सत्यापन शेष है;
+      इन्हें अंतिम सूर्यसिद्धान्तीय फल या वास्तविक दृश्यता का निश्चित समय न मानें; अनुपलब्ध तिथि सत्यापनाधीन दिखाई जाएगी।
     </p>
 
     <div class="planet-rise-set-grid">
@@ -658,10 +658,10 @@ function createPlanetCard(
           </strong>
 
           ${
-            !planet.verificationPending && planet.asta
+            planet.asta
               ? `
                 <span>
-                  अस्त (अनुमान) — ${planet.asta}
+                  अस्त (प्रारंभिक अनुमान) — ${planet.asta}
                   ${
                     planet.astaDegree
                       ? ` (${planet.astaDegree})`
@@ -673,10 +673,10 @@ function createPlanetCard(
           }
 
           ${
-            !planet.verificationPending && planet.udaya
+            planet.udaya
               ? `
                 <span>
-                  उदय (अनुमान) — ${planet.udaya}
+                  उदय (प्रारंभिक अनुमान) — ${planet.udaya}
                   ${
                     planet.udayaDegree
                       ? ` (${planet.udayaDegree})`
