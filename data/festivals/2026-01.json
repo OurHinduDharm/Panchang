@@ -4,7 +4,7 @@
   "month": 1,
   "monthName": "जनवरी",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
       "date": "2026-01-03",
@@ -13,6 +13,23 @@
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "पूर्णिमा",
       "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-01-03",
+      "dateLabel": "3 जनवरी",
+      "title": "श्री शाकंभरी माता जयंती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\">श्री शाकम्भरी</a> माता की जयंती।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-01-04",
+      "dateLabel": "4 जनवरी",
+      "title": "माघ मास प्रारम्भ",
+      "description": "४ जनवरी से १ फरवरी २०२६ तक माघ मास- <a href=\"https://ourhindudharm.blogspot.com/2014/01/About-Bathing-On-Maagh-The-Hindu-Month.html?m=1\" target=\"_blank\">माघ मास माहात्म्य</a>",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-02-01"
     },
     {
       "date": "2026-01-06",
@@ -31,11 +48,44 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-01-14",
+      "dateLabel": "14 जनवरी",
+      "title": "मकर संक्रान्ति / सूर्य उत्तरायण प्रारम्भ",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\"> मकर संक्रान्ति</a> , सूर्य उत्तरायण प्रारम्भ।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-01-18",
       "dateLabel": "18 जनवरी",
       "title": "मौनी अमावस्या",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "अमावस्या",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-01-19",
+      "dateLabel": "19 जनवरी",
+      "title": "माघ गुप्त नवरात्र प्रारम्भ",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html\" target=\"_blank\">माघ गुप्त नवरात्र :</a> १९ जनवरी - प्रतिपदा , २० जनवरी - द्वितीया , <br />२१ जनवरी - तृतीया, २२ जनवरी - चतुर्थी, <br />२३ जनवरी - पंचमी ,  २४ जनवरी - षष्ठी, २५ जनवरी - सप्तमी, <br /> २६ जनवरी - अष्टमी को रात्रि८:५३ से ९:४३PM- संधिपूजा मुहूर्त;<br /> २७ जनवरी - नवमी।",
+      "category": "नवरात्रि",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-01-27"
+    },
+    {
+      "date": "2026-01-19",
+      "dateLabel": "19 जनवरी",
+      "title": "शिशिर ऋतु प्रारंभ",
+      "description": "शिशिर ऋतु प्रारंभ",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-01-22",
+      "dateLabel": "22 जनवरी",
+      "title": "तिल कुंड चतुर्थी / वरद चतुर्थी",
+      "description": "तिल कुंड चतुर्थी, वरद चतुर्थी। मन्त्रमहार्णवे- यजेच्छुक्लचतुर्थ्यां तु गणेशं भाद्रमाघयोः - भाद्र शुक्ल४ की ही भाँति माघ शुक्ल चतुर्थी के दिन भी गणेश जी की विशेष पूजा करनी चाहिए और उनके स्तोत्र मन्त्र आदि पाठ करें। तिल के मोदक अर्पित करें।",
+      "category": "व्रत-पर्व",
       "reviewStatus": "needs-review"
     },
     {
@@ -47,10 +97,34 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-01-23",
+      "dateLabel": "23 जनवरी",
+      "title": "वसन्त पंचमी / सरस्वती पूजन",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\"> वसन्त पंचमी, श्री पंचमी, सरस्वती पूजन। देवी वागीश्वरी शारदा मां की जयन्ती। </a>",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-01-25",
+      "dateLabel": "25 जनवरी",
+      "title": "नर्मदा जयंती",
+      "description": "नर्मदा (नदी) जयंती",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-01-25",
       "dateLabel": "25 जनवरी",
       "title": "रथ सप्तमी",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-01-26",
+      "dateLabel": "26 जनवरी",
+      "title": "भीष्माष्टमी एवं भीष्म तर्पण",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html\" target=\"_blank\"> भीष्माष्टमी, भीष्म तर्पण।</a>",
       "category": "व्रत-पर्व",
       "reviewStatus": "needs-review"
     },
