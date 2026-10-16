@@ -4,8 +4,24 @@
   "month": 9,
   "monthName": "सितंबर",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
+    {
+      "date": "2027-09-03",
+      "dateLabel": "3 सितंबर",
+      "title": "हरतालिका तीज",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "ऋषि पंचमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
     {
       "date": "2027-09-04",
       "dateLabel": "4 सितंबर",
@@ -15,11 +31,51 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2027-09-08",
+      "dateLabel": "8 सितंबर",
+      "title": "राधाष्टमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-09-12",
+      "dateLabel": "12 सितंबर",
+      "title": "ओणम",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2027-09-14",
       "dateLabel": "14 सितंबर",
       "title": "अनंत चतुर्दशी",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-09-17",
+      "dateLabel": "17 सितंबर",
+      "title": "विश्वकर्मा पूजा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-09-30",
+      "dateLabel": "30 सितंबर",
+      "title": "महालया अमावस्या",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "अमावस्या",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-09-30",
+      "dateLabel": "30 सितंबर",
+      "title": "शारदीय नवरात्र प्रारंभ",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "नवरात्रि",
       "reviewStatus": "needs-review"
     },
     {
