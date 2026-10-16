@@ -31,7 +31,7 @@
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $=id=>document.getElementById(id);
-const ASSET_SHA="f3b45d5aa16b17324a9ea8954137893a6095e0a0";
+const ASSET_SHA="99e4c1039e06329b0e65a3fbcc1e26290545602a";
 let generated=null, meta=null, panchangCalls=0, elapsedSeconds=null;
 let adapterPromise;
 function ensureAdapter(){
@@ -95,7 +95,15 @@ async function run(){
  $("run").disabled=true;$("export").disabled=true;$("summary").replaceChildren();$("monthly").textContent="गणना चल रही है…";$("annual").textContent="गणना चल रही है…";$("status").className="status";$("status").textContent="पंचांग इंजन लोड किया जा रहा है…";
  const start=performance.now();panchangCalls=0;
  try{
-  const adapter=await ensureAdapter();const counted=(...args)=>{panchangCalls++;return getPanchangam(...args)};
+  const adapter=await ensureAdapter();
+  // Count real engine calls, not repeated requests for the exact same instant.
+  // All calls in one run use the same observer and timezone.
+  const panchangCache=new Map();
+  const counted=(date,...args)=>{
+   const instant=date instanceof Date?date.getTime():new Date(date).getTime();
+   if(panchangCache.has(instant))return panchangCache.get(instant);
+   const result=getPanchangam(date,...args);panchangCalls++;panchangCache.set(instant,result);return result;
+  };
   generated=await adapter.buildKalashtamiDays({year,latitude:lat,longitude:lon,elevation:elev,timezoneOffset:330,getPanchangam:counted,Observer,onProgress(p){
    if(p.phase==="year-scan")$("status").textContent="वर्ष के दिन स्कैन हो रहे हैं: "+p.processedDays+"/"+p.totalDays;
    else if(p.phase==="tithi-windows")$("status").textContent="अष्टमी की व्याप्ति जाँची जा रही है: "+p.processedCandidates+"/"+p.totalCandidates;
