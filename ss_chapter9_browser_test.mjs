@@ -64,6 +64,12 @@ try {
       Math.abs(rawCapturePreset.jd - 2461326.008576389) > 0.00000001) {
     throw new Error("Raw TKS capture form failed second-precision sunset preset or UTC Julian Day conversion.");
   }
+  await page.locator("#rawTksTime").fill("17:42:21");
+  const typedSeconds = await page.locator("#rawTksTime").inputValue();
+  if (typedSeconds !== "17:42:21") {
+    throw new Error("Raw TKS text time field did not preserve manually entered seconds.");
+  }
+  await page.locator("#setFixtureSunsetBtn").click();
 
   // Verify a distinct sunrise-side preset is available for the eastern Venus Udaya capture.
   await page.locator("#setFixtureSunriseBtn").click();
