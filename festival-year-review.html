@@ -31,8 +31,8 @@
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $=id=>document.getElementById(id);
-const ASSET_SHA="99e4c1039e06329b0e65a3fbcc1e26290545602a";
-let generated=null, meta=null, panchangCalls=0, elapsedSeconds=null;
+const ASSET_SHA="920d435d70a5d7ba193add6c5ddbabaefcc3cc05";
+let generated=null, meta=null, panchangCalls=0, panchangRequests=0, panchangCacheHits=0, elapsedSeconds=null;
 let adapterPromise;
 function ensureAdapter(){
  if(!adapterPromise) adapterPromise=new Promise((resolve,reject)=>{
@@ -63,7 +63,7 @@ function renderTable(target,rows,kind,label){
   const tdDate=document.createElement("td");tdDate.textContent=dateText;
   if(counts[item.date]>1){const badge=document.createElement("div");badge.className="pill";badge.textContent="डुप्लिकेट तारीख़";tdDate.append(badge)}
   const tdDetail=document.createElement("td");tdDetail.textContent=[item.month,item.paksha,item.tithi].filter(Boolean).join(" · ");
-  const tdMethod=document.createElement("td");tdMethod.textContent=label+(item.sourceMethod?" · "+item.sourceMethod:"")+(Number.isFinite(item.nightMinutes)?" · रात्रि "+item.nightMinutes+" मिनट":"")+(Number.isFinite(item.pradoshMinutes)?" · प्रदोष "+item.pradoshMinutes+" मिनट":"");
+  const tdMethod=document.createElement("td");tdMethod.textContent=label+(item.sourceMethod?" · "+item.sourceMethod:"")+(Number.isFinite(item.nightMinutes)?" · रात्रि में अष्टमी "+item.nightMinutes+" मिनट":"")+(Number.isFinite(item.pradoshMinutes)?" · प्रदोष-काल में अष्टमी "+item.pradoshMinutes+" मिनट":"");
   const tdReview=document.createElement("td");const select=document.createElement("select");select.setAttribute("aria-label",dateText+" समीक्षा स्थिति");
   [["pending","जाँच बाकी"],["approved","सही"],["fix","सुधार चाहिए"]].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;select.append(o)});
   select.value=saved.status||"pending";select.addEventListener("change",()=>saveReview(key,"status",select.value));tdReview.append(select);
@@ -77,13 +77,13 @@ function showResults(){
  renderTable($("annual"),generated.annualDecisionDays,"annual","धर्मसिंधु मध्यान्ह/प्रदोष निर्णय");
  const duplicates=[...generated.monthlyDecisionDays,...generated.annualDecisionDays].filter((x,i,a)=>a.findIndex(y=>y.date===x.date) !== i).length;
  $("summary").replaceChildren();
- [["मासिक परिणाम",generated.monthlyDecisionDays.length],["वार्षिक परिणाम",generated.annualDecisionDays.length],["संभावित दिन",generated.candidateDates.length],["पंचांग कॉल",panchangCalls],["समय",elapsedSeconds+" सेकंड"]].forEach(([k,v])=>{const s=document.createElement("span");s.textContent=k+": "+v;$("summary").append(s)});
+ [["मासिक परिणाम",generated.monthlyDecisionDays.length],["वार्षिक परिणाम",generated.annualDecisionDays.length],["संभावित दिन",generated.candidateDates.length],["इंजन कॉल",panchangCalls],["पंचांग अनुरोध",panchangRequests],["कैश हिट",panchangCacheHits],["समय",elapsedSeconds+" सेकंड"]].forEach(([k,v])=>{const s=document.createElement("span");s.textContent=k+": "+v;$("summary").append(s)});
  if(duplicates)$("status").textContent+=" ध्यान दें: दोहराई गई तारीख़ें समीक्षा में चिह्नित हैं; अभी डेटा को स्वीकृत न मानें।";
  $("export").disabled=false;
 }
 function downloadJSON(){
  if(!generated||!meta)return;
- const exportData={schemaVersion:1,reviewExportedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",location:meta.location,year:meta.year,engine:"@ishubhamx/panchangam-js@3.0.0",elapsedSeconds,panchangCalls,results:{monthly:generated.monthlyDecisionDays,annual:generated.annualDecisionDays},reviewedResults:{monthly:[],annual:[]},reviews:{}};
+ const exportData={schemaVersion:1,reviewExportedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",location:meta.location,year:meta.year,engine:"@ishubhamx/panchangam-js@3.0.0",elapsedSeconds,panchangCalls,panchangRequests,panchangCacheHits,results:{monthly:generated.monthlyDecisionDays,annual:generated.annualDecisionDays},reviewedResults:{monthly:[],annual:[]},reviews:{}};
  for(const [kind,rows] of [["monthly",generated.monthlyDecisionDays],["annual",generated.annualDecisionDays]])for(const item of rows){const key=reviewKey(kind,item),review=readReview(key);exportData.reviews[key]=review;exportData.reviewedResults[kind].push({...item,review:{status:review.status||"pending",note:review.note||"",updatedAt:review.updatedAt||null}})}
  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ohd-festival-review-"+meta.year+".json";a.click();URL.revokeObjectURL(url);
@@ -93,15 +93,16 @@ async function run(){
  if(!Number.isInteger(year)||year<1900||year>2200||!Number.isFinite(lat)||lat< -90||lat>90||!Number.isFinite(lon)||lon< -180||lon>180||!Number.isFinite(elev)){ $("status").className="status error";$("status").textContent="वर्ष, अक्षांश, देशांतर और ऊँचाई की जाँच करें।";return}
  generated=null;meta={year,lat,lon,location:{name:$("city").value.trim()||"चुना गया स्थान",latitude:lat,longitude:lon,elevation:elev,timezone:"Asia/Kolkata",timezoneOffset:330}};
  $("run").disabled=true;$("export").disabled=true;$("summary").replaceChildren();$("monthly").textContent="गणना चल रही है…";$("annual").textContent="गणना चल रही है…";$("status").className="status";$("status").textContent="पंचांग इंजन लोड किया जा रहा है…";
- const start=performance.now();panchangCalls=0;
+ const start=performance.now();panchangCalls=0;panchangRequests=0;panchangCacheHits=0;
  try{
   const adapter=await ensureAdapter();
   // Count real engine calls, not repeated requests for the exact same instant.
   // All calls in one run use the same observer and timezone.
   const panchangCache=new Map();
   const counted=(date,...args)=>{
+   panchangRequests++;
    const instant=date instanceof Date?date.getTime():new Date(date).getTime();
-   if(panchangCache.has(instant))return panchangCache.get(instant);
+   if(panchangCache.has(instant)){panchangCacheHits++;return panchangCache.get(instant)}
    const result=getPanchangam(date,...args);panchangCalls++;panchangCache.set(instant,result);return result;
   };
   generated=await adapter.buildKalashtamiDays({year,latitude:lat,longitude:lon,elevation:elev,timezoneOffset:330,getPanchangam:counted,Observer,onProgress(p){
