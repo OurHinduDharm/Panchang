@@ -4,7 +4,7 @@
   "month": 8,
   "monthName": "अगस्त",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
       "date": "2027-08-02",
@@ -39,6 +39,22 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2027-08-13",
+      "dateLabel": "13 अगस्त",
+      "title": "वरलक्ष्मी व्रत",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-08-17",
+      "dateLabel": "17 अगस्त",
+      "title": "रक्षा बंधन",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2027-08-17",
       "dateLabel": "17 अगस्त",
       "title": "रक्षाबंधन / श्रावण पूर्णिमा",
@@ -52,6 +68,14 @@
       "title": "कजरी तीज",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-08-24",
+      "dateLabel": "24 अगस्त",
+      "title": "श्रीकृष्ण जन्माष्टमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
       "reviewStatus": "needs-review"
     },
     {
