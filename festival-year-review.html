@@ -44,7 +44,7 @@
 <script type="module">
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $=id=>document.getElementById(id);
-const ASSET_SHA="ed5e9bd1f4f651ec3bbe99d84bffcfc0cd7d76a5";
+const ASSET_SHA="4edb81a20bd32ca072812cf9fb0573d0866a9b7f";
 let generated=null, meta=null, panchangCalls=0, panchangRequests=0, panchangCacheHits=0, elapsedSeconds=null;
 let adapterPromise;
 function ensureAdapter(){
@@ -118,7 +118,7 @@ async function run(){
    if(panchangCache.has(instant)){panchangCacheHits++;return panchangCache.get(instant)}
    const result=getPanchangam(date,...args);panchangCalls++;panchangCache.set(instant,result);return result;
   };
-  const seedDates=$("seedDates").value.split(/[\\s,;]+/).map(x=>x.trim()).filter(Boolean);
+  const seedDates=$("seedDates").value.split(/[\s,;]+/).map(x=>x.trim()).filter(Boolean);
   generated=await adapter.buildKalashtamiDays({year,latitude:lat,longitude:lon,elevation:elev,timezoneOffset:330,seedDates,getPanchangam:counted,Observer,onProgress(p){
    if(p.phase==="reference-window-scan")$("status").textContent="संदर्भ तारीख़ों के आसपास गणना: "+p.processedDays+"/"+p.totalDays+" दिन (पूरा साल स्कैन नहीं हो रहा)";
    else if(p.phase==="year-scan")$("status").textContent="संदर्भ तारीख़ें नहीं दी गईं; पूरे वर्ष के दिन स्कैन हो रहे हैं: "+p.processedDays+"/"+p.totalDays;
