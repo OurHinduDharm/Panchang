@@ -35,6 +35,15 @@
       },
       "additionalProperties": false
     },
+    "reviewedResults": {
+      "type": "object",
+      "required": ["monthly", "annual"],
+      "properties": {
+        "monthly": { "$ref": "#/$defs/reviewedResultList" },
+        "annual": { "$ref": "#/$defs/reviewedResultList" }
+      },
+      "additionalProperties": false
+    },
     "reviews": {
       "type": "object",
       "description": "Map of review-key to {status,note,updatedAt}. Keep generated results and review decisions separate.",
@@ -67,6 +76,30 @@
     "resultList": {
       "type": "array",
       "items": { "$ref": "#/$defs/result" }
+    },
+    "reviewedResultList": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/$defs/result" },
+          {
+            "type": "object",
+            "required": ["review"],
+            "properties": {
+              "review": {
+                "type": "object",
+                "required": ["status", "note", "updatedAt"],
+                "properties": {
+                  "status": { "enum": ["pending", "approved", "fix"] },
+                  "note": { "type": "string", "maxLength": 500 },
+                  "updatedAt": { "type": ["string", "null"], "format": "date-time" }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "additionalProperties": false
