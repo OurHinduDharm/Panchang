@@ -8,6 +8,44 @@ import {
 let selectedLocation = null;
 let currentSankalpContext = null;
 
+/*
+ * Small LRU cache for identical date/location Panchang requests.
+ * Adjacent-date navigation reuses the previous/next day's Panchang record,
+ * avoiding duplicate full astronomical calculations. It is memory-only,
+ * location-keyed, and capped so it cannot grow without bound.
+ */
+const panchangCalculationCache = new Map();
+const PANCHANG_CACHE_LIMIT = 48;
+
+function getPanchangamCached(date, observer, options = {}) {
+  const instant = date instanceof Date ? date.getTime() : new Date(date).getTime();
+  if (!Number.isFinite(instant)) return getPanchangam(date, observer, options);
+
+  const location = selectedLocation || {};
+  const key = [
+    location.lat ?? "",
+    location.lon ?? "",
+    location.elevation ?? 0,
+    options.timezoneOffset ?? 330,
+    instant
+  ].join("|");
+
+  if (panchangCalculationCache.has(key)) {
+    const cached = panchangCalculationCache.get(key);
+    panchangCalculationCache.delete(key);
+    panchangCalculationCache.set(key, cached);
+    return cached;
+  }
+
+  const result = getPanchangam(date, observer, options);
+  panchangCalculationCache.set(key, result);
+  if (panchangCalculationCache.size > PANCHANG_CACHE_LIMIT) {
+    const oldestKey = panchangCalculationCache.keys().next().value;
+    panchangCalculationCache.delete(oldestKey);
+  }
+  return result;
+}
+
 /* =========================================================
    YATRA SHULA — UI STYLES
    ========================================================= */
@@ -4803,7 +4841,7 @@ function calculatePanchang(){
       dateInput.value + "T12:00:00"
     );
 
-    const p = getPanchangam(
+    const p = getPanchangamCached(
       date,
       observer,
       { timezoneOffset:330 }
@@ -4819,7 +4857,7 @@ function calculatePanchang(){
     let sankalpRashiPanchang = p;
     if(referenceNow){
       try{
-        sankalpRashiPanchang = getPanchangam(
+        sankalpRashiPanchang = getPanchangamCached(
           referenceNow,
           observer,
           { timezoneOffset:330 }
@@ -4837,7 +4875,7 @@ try{
         nextDate.getDate() + 1
       );
 
-      const nextPanchang = getPanchangam(
+      const nextPanchang = getPanchangamCached(
         nextDate,
         observer,
         { timezoneOffset:330 }
@@ -4881,7 +4919,7 @@ try{
   );
 
   previousPanchang =
-    getPanchangam(
+    getPanchangamCached(
       previousDate,
       observer,
       { timezoneOffset:330 }
