@@ -1296,3 +1296,6 @@ The raw TKS capture time control has now been changed from a native `type=time` 
 - Browser regression commits: `5751880787a267f9e606b69e9899a33429003291`, `2be7f5dc39f194506dba4ceb6e982466f183ca28`
 
 Next: wait for/inspect CI on the latest research-branch commit; then ask for a new raw Sun/Venus capture at 17:42:21 IST using the text field, followed by a separate sunrise-side capture at 06:08:39 IST. Preserve the original 17:42:00 capture as valid evidence. Neither capture alone reproduces the separate TKS K/C panel or proves the endpoint's elevation/horizon convention. `app.js` and `extra-panchang.js` remain untouched; no Asta/Udaya event date/time is approved for production display.
+
+
+Browser regression CI for the mobile seconds-entry fix passed: https://github.com/OurHinduDharm/Panchang/actions/runs/38886716313 (**success**, run 658; commit `2be7f5dc39f194506dba4ceb6e982466f183ca28`). The test checks manual `17:42:21` entry preservation, the two event-side presets and UTC Julian Day conversions, alongside the existing research diagnostics and production-file identity check. This remains a UI/test success, not astronomical validation.
