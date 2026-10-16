@@ -53,10 +53,10 @@ test("Ekadashi parana requires Dvadashi, sunrise and can be constrained by tradi
   const result = paranaWindow({
     sunrise: at(6, 20, "2026-11-06"),
     dvadashi: { start: at(6, 20, "2026-11-06"), end: at(11, 30, "2026-11-06") },
-    paranaRule: { start: at(6, 26, "2026-11-06"), end: at(10, 4, "2026-11-06") }
+    paranaRule: { start: at(7, 40, "2026-11-06"), end: at(10, 4, "2026-11-06") }
   });
   assert.equal(result.status, "candidate");
-  assert.equal(result.window.start.toISOString(), at(6, 26, "2026-11-06").toISOString());
+  assert.equal(result.window.start.toISOString(), at(7, 40, "2026-11-06").toISOString());
   assert.equal(result.window.end.toISOString(), at(10, 4, "2026-11-06").toISOString());
 });
 
