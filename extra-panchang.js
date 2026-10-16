@@ -491,12 +491,12 @@ function classifyChapter9HorizonEvent({
   planetMotion
 }) {
   if (!Number.isFinite(planetLongitude) || !Number.isFinite(sunLongitude)) return null;
-  // Longitudes are circular: use the signed shortest arc so 1° vs 359°
-  // is +2°, not -358°. Raw subtraction misclassifies the zodiac wrap.
-  const difference = signedLongitudeDifference(planetLongitude, sunLongitude);
+  // Chapter IX.2–3 compares zodiacal longitude ordering (abhyadhika/ūna),
+  // not the shortest signed arc. Across 0° Aries, 1° is less than 359°.
+  const difference = planetLongitude - sunLongitude;
   if (Math.abs(difference) < 1e-7) return null;
 
-  const longitudeGreater = difference > 0;
+  const longitudeGreater = planetLongitude > sunLongitude;
   if (body === "Jupiter" || body === "Mars" || body === "Saturn") {
     return longitudeGreater ? "west-setting" : "east-rising";
   }
