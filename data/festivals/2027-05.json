@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "year": 2027,
+  "month": 5,
+  "monthName": "मई",
+  "status": "needs-review",
+  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "events": [
+    {
+      "date": "2027-05-02",
+      "dateLabel": "2 मई",
+      "title": "वरुथिनी एकादशी",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-05-09",
+      "dateLabel": "9 मई",
+      "title": "अक्षय तृतीया",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-05-10",
+      "dateLabel": "10 मई",
+      "title": "शंकराचार्य जयंती",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-05-17",
+      "dateLabel": "17 मई",
+      "title": "मोहिनी एकादशी",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-05-20",
+      "dateLabel": "20 मई",
+      "title": "बुद्ध पूर्णिमा",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
