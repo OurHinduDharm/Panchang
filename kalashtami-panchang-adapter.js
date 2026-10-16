@@ -102,11 +102,19 @@
     const date = asDate(value);
     return date && !Number.isNaN(date.getTime()) ? date : null;
   }
-  function selectMonthlyDateForEvent(days) {
+  function selectMonthlyDateForEvent(days, preferredDates) {
     const sorted = (days || []).slice().sort((a,b) => a.date.localeCompare(b.date));
     if (!sorted.length) return null;
-    const qualified = sorted.filter(day => day.pradoshMinutes >= 24 || day.pradosh === true);
-    const pool = qualified.length ? qualified : sorted;
+    // When published reference dates (e.g. Drik Panchang) are supplied, prefer
+    // a reference date if it is part of the observed Ashtami event. The tithi
+    // windows remain calculated locally; this only prevents an adjacent date
+    // from winning solely because its sampled overlap is a little larger.
+    const preferred = preferredDates instanceof Set
+      ? sorted.filter(day => preferredDates.has(day.date))
+      : [];
+    const candidates = preferred.length ? preferred : sorted;
+    const qualified = candidates.filter(day => day.pradoshMinutes >= 24 || day.pradosh === true);
+    const pool = qualified.length ? qualified : candidates;
     return pool.slice().sort((a,b) =>
       (Number(b.nightMinutes) || 0) - (Number(a.nightMinutes) || 0) ||
       a.date.localeCompare(b.date)
@@ -339,7 +347,7 @@
     }
     for (const merged of mergedGroups) {
       const days = Array.from(merged.days.values()).sort((a,b) => a.date.localeCompare(b.date));
-      const monthly = selectMonthlyDateForEvent(days);
+      const monthly = selectMonthlyDateForEvent(days, new Set(suppliedSeeds));
       // Annual Kalabhairava Ashtami is the Margashirsha Krishna Ashtami only.
       // Do not apply the annual Dharmasindhu decision independently to every
       // month's Krishna Ashtami event.
