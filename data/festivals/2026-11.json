@@ -20,7 +20,8 @@
       "title": "रमा एकादशी",
       "description": "कार्तिक कृष्ण पक्ष की एकादशी; पारण का निर्णय अलग से जाँचना है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "muhurtaRule": "rama-ekadashi-parana"
     },
     {
       "date": "2026-11-06",
@@ -28,7 +29,8 @@
       "title": "धनतेरस",
       "description": "धन्वंतरि पूजन और दीपदान; पूजा-मुहूर्त अलग से जाँचना है।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "muhurtaRule": "dhanteras-puja"
     },
     {
       "date": "2026-11-07",
@@ -44,7 +46,8 @@
       "title": "दीपावली / लक्ष्मी पूजन",
       "description": "लक्ष्मी-गणेश पूजन; स्थानीय अमावस्या-व्याप्ति और मुहूर्त की पुष्टि आवश्यक।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "muhurtaRule": "diwali-lakshmi-puja"
     },
     {
       "date": "2026-11-10",
