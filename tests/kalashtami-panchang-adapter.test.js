@@ -31,7 +31,7 @@ test("adapter calculates local sunrise, Pradosh, and Madhyahna data with an inje
   }
   const result = await adapter.buildKalashtamiDays({
     year: 2027, latitude: 30.1265, longitude: 80.4817, elevation: 0,
-    getPanchangam: fakeGetPanchangam, Observer: FakeObserver
+    getPanchangam: fakeGetPanchangam, Observer: FakeObserver, seedDates: ["2027-02-04"]
   });
   assert.equal(result.year, 2027);
   assert.ok(result.candidateDates.length > 0);
@@ -47,8 +47,9 @@ test("adapter calculates local sunrise, Pradosh, and Madhyahna data with an inje
   assert.equal(new Set(result.monthlyDecisionDays.map(day => day.date)).size, result.monthlyDecisionDays.length);
   assert.equal(new Set(result.annualDecisionDays.map(day => day.date)).size, result.annualDecisionDays.length);
   assert.ok(calls.every(call => call.options.timezoneOffset === 330));
-  // Boundary-aware scanning should avoid hundreds of 15-minute probes.
-  assert.ok(calls.length < 1000, `expected bounded engine calls, got ${calls.length}`);
+  // A supplied reference date should limit the first pass to a five-day window,
+  // rather than scanning all 365/366 days.
+  assert.ok(calls.length < 100, `expected reference-window scan to stay below 100 calls, got ${calls.length}`);
   assert.equal(result.latitude, 30.1265);
   assert.match(result.note, /Pradosh/);
   assert.match(result.note, /Madhyahna/);
