@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 1,
+  "monthName": "जनवरी",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-01-15",
+      "dateLabel": "15 जनवरी",
+      "title": "मकर संक्रांति",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-01-15",
+      "dateLabel": "15 जनवरी",
+      "title": "पोंगल",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
