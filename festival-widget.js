@@ -119,7 +119,7 @@
     try {
       const responses = await Promise.all(months.map(async function (monthDate) {
         const url = new URL(monthKey(monthDate) + ".json", baseUrl);
-        const response = await fetch(url.href, { cache: "no-cache" });
+        const response = await fetch(url.href);
         if (!response.ok) return { events: [] };
         return response.json();
       }));
