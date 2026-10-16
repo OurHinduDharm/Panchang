@@ -538,28 +538,28 @@ function createPlanetCard(
   card.innerHTML = `
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
-    <p class="planet-rise-set-note">
+    <p class="planet-rise-set-note" style="margin:8px 0 14px;padding:10px 12px;border-left:3px solid #b7791f;background:rgba(183,121,31,.08);font-size:.92em;line-height:1.5">
       नीचे दी गई तिथियाँ आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना हैं।
       ये सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु (K/C) गणना, पंचांग की प्रमाणित शास्त्रीय तिथि,
       या स्थानीय आँखों से दृश्यता का दावा नहीं हैं। प्रयुक्त कोणीय सीमाएँ भी सत्यापनाधीन हैं।
     </p>
 
-    <div class="planet-rise-set-grid">
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
       ${data.map(planet => `
-        <div class="planet-rise-set-row">
-          <strong>${planet.name}</strong>
+        <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
+          <strong style="font-size:1.02em">${planet.name}</strong>
 
           ${planet.asta
-            ? `<span>कोणीय अनुमानित अस्त — ${planet.asta}${planet.astaDegree ? ` (${planet.astaDegree})` : ""}</span>`
-            : `<span>कोणीय अस्त-अनुमान उपलब्ध नहीं</span>`
+            ? `<span style="display:block">कोणीय अनुमानित अस्त — ${planet.asta}${planet.astaDegree ? ` (${planet.astaDegree})` : ""}</span>`
+            : `<span style="display:block">कोणीय अस्त-अनुमान उपलब्ध नहीं</span>`
           }
 
           ${planet.udaya
-            ? `<span>कोणीय अनुमानित उदय — ${planet.udaya}${planet.udayaDegree ? ` (${planet.udayaDegree})` : ""}</span>`
-            : `<span>कोणीय उदय-अनुमान उपलब्ध नहीं</span>`
+            ? `<span style="display:block">कोणीय अनुमानित उदय — ${planet.udaya}${planet.udayaDegree ? ` (${planet.udayaDegree})` : ""}</span>`
+            : `<span style="display:block">कोणीय उदय-अनुमान उपलब्ध नहीं</span>`
           }
 
-          <span>शास्त्रीय K/C गणना — सत्यापनाधीन</span>
+          <span style="display:block;font-size:.9em;color:#8a5a00">शास्त्रीय K/C गणना — सत्यापनाधीन</span>
         </div>
       `).join("")}
     </div>
