@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 2,
+  "monthName": "फ़रवरी",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-02-01",
+      "dateLabel": "1 फ़रवरी",
+      "title": "वसंत पंचमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-02-23",
+      "dateLabel": "23 फ़रवरी",
+      "title": "महाशिवरात्रि",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
