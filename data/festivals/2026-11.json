@@ -74,11 +74,35 @@
       "muhurtaRule": "diwali-lakshmi-puja"
     },
     {
+      "date": "2026-11-08",
+      "dateLabel": "8 नवंबर",
+      "title": "नरक चतुर्दशी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-10",
+      "dateLabel": "10 नवंबर",
+      "title": "गोवर्धन पूजा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-11-10",
       "dateLabel": "10 नवंबर",
       "title": "गोवर्धन पूजा / अन्नकूट",
       "description": "गोवर्धन पूजा और अन्नकूट।",
       "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-10",
+      "dateLabel": "10 नवंबर",
+      "title": "भैया दूज",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
       "reviewStatus": "needs-review"
     },
     {
@@ -146,11 +170,27 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-11-24",
+      "dateLabel": "24 नवंबर",
+      "title": "देव दीपावली",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-11-27",
       "dateLabel": "27 नवंबर",
       "title": "संकष्टी चतुर्थी",
       "description": "चन्द्रोदय-आधारित व्रत; चन्द्रोदय समय अलग से जाँचना है।",
       "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-11-30",
+      "dateLabel": "30 नवंबर",
+      "title": "कालभैरव जयंती",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "जयंती",
       "reviewStatus": "needs-review"
     }
   ]
