@@ -90,7 +90,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <div class="note" id="sourceNote">लेख के लिंक केवल उन्हीं पर्वों पर दिखेंगे जिनके लिए OurHinduDharm पर संबंधित लेख उपलब्ध है। जहाँ चित्र उपयोगी और उपलब्ध होंगे, वहाँ पर्व कार्ड में चित्र भी दिखाया जा सकेगा।</div>
 <footer>OurHinduDharm · मासिक व्रत-पर्व सूची</footer>
 </main>
-<script>
+<script type="module">
+import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTime } from "./festival-muhurta.js";
 (function(){
   "use strict";
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
@@ -100,6 +102,51 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
   var requestToken=0;
+  var panchangCache=new Map();
+  function getLocalLocation(){
+    try{
+      var saved=JSON.parse(localStorage.getItem("ohdPanchangLocation")||"null");
+      if(saved&&Number.isFinite(Number(saved.lat))&&Number.isFinite(Number(saved.lon))){
+        return {name:saved.name||saved.city||"चुना हुआ स्थान",lat:Number(saved.lat),lon:Number(saved.lon),elevation:Number(saved.elevation)||0};
+      }
+    }catch(e){}
+    return {name:"पिथौरागढ़",lat:29.58,lon:80.22,elevation:1650};
+  }
+  function getDatePanchang(dateIso){
+    if(panchangCache.has(dateIso)) return panchangCache.get(dateIso);
+    var promise=Promise.resolve().then(function(){
+      var location=getLocalLocation();
+      var observer=new Observer(location.lat,location.lon,location.elevation);
+      var date=new Date(dateIso+"T12:00:00");
+      var nextDate=new Date(date);nextDate.setDate(nextDate.getDate()+1);
+      var p=getPanchangam(date,observer,{timezoneOffset:330});
+      var next=getPanchangam(nextDate,observer,{timezoneOffset:330});
+      return {p:p,next:next,location:location,date:date};
+    });
+    panchangCache.set(dateIso,promise);
+    return promise;
+  }
+  async function appendMuhurta(item,dateIso,content,token){
+    if(!item.muhurtaRule) return;
+    try{
+      var values=await getDatePanchang(dateIso);
+      if(token!==requestToken||!content.isConnected) return;
+      var context=getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      var result=getFestivalMuhurta(item,context);
+      if(!result) return;
+      var box=document.createElement("div");box.className="desc";
+      box.style.marginTop="7px";box.style.padding="8px 9px";box.style.borderRadius="8px";box.style.background="#fff8e9";
+      var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
+      var detail=document.createElement("div");
+      detail.textContent=result.status==="calculated"&&result.start&&result.end
+        ? formatFestivalMuhurtaTime(result.start)+" – "+formatFestivalMuhurtaTime(result.end)
+        : (result.message||"मुहूर्त उपलब्ध नहीं है।");
+      box.appendChild(detail);
+      if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
+      var loc=document.createElement("div");loc.style.marginTop="3px";loc.style.fontSize="11px";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
+      content.appendChild(box);
+    }catch(error){console.warn("Festival muhurta unavailable:",item.muhurtaRule,error);}
+  }
 
   function safeUrl(value){
     if(!value) return "";
@@ -113,7 +160,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     a.href=href;a.target="_blank";a.rel="noopener noreferrer";a.textContent=label||"लेख पढ़ें";
     return a;
   }
-  function render(data,year,month){
+  function render(data,year,month,token){
     eventsEl.replaceChildren();
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     document.getElementById("pageTitle").textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
@@ -139,6 +186,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.description){var desc=document.createElement("div");desc.className="desc";desc.textContent=item.description;content.appendChild(desc);}
+      appendMuhurta(item,String(item.date||""),content,token);
       if(item.imageUrl){
         var imageUrl=safeUrl(item.imageUrl);
         if(imageUrl){var img=document.createElement("img");img.className="thumb";img.loading="lazy";img.alt=item.imageAlt||item.title||"पर्व का चित्र";img.src=imageUrl;content.appendChild(img);}
@@ -169,10 +217,10 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
-      render(data,year,month);
+      render(data,year,month,token);
     }catch(e){
       if(token!==requestToken)return;
-      render({events:[]},year,month);
+      render({events:[]},year,month,token);
     }
   }
   function shiftMonth(delta){
