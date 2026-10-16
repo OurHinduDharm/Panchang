@@ -1,0 +1,91 @@
+import { getPanchangam, Observer } from "@ishubhamx/panchangam-js";
+
+const locations = [
+  { name: "Pithoragarh", latitude: 30.1265, longitude: 80.4817, elevation: 0 },
+  { name: "Delhi", latitude: 28.6139, longitude: 77.2090, elevation: 216 },
+  { name: "Mumbai", latitude: 19.0760, longitude: 72.8777, elevation: 14 },
+  { name: "Chennai", latitude: 13.0827, longitude: 80.2707, elevation: 6 }
+];
+
+const sampleInstants = [
+  "2026-01-15T06:30:00.000Z",
+  "2026-04-14T06:30:00.000Z",
+  "2026-07-16T06:30:00.000Z",
+  "2026-10-16T06:30:00.000Z",
+  "2026-12-15T06:30:00.000Z"
+];
+
+const eventFields = [
+  "tithiStartTime", "tithiEndTime",
+  "nakshatraStartTime", "nakshatraEndTime",
+  "yogaStartTime", "yogaEndTime",
+  "karanaStartTime", "karanaEndTime"
+];
+
+const toIso = value => {
+  if (value === undefined || value === null || value === "") return null;
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? String(value) : date.toISOString();
+};
+
+const report = {
+  purpose: "Research-only check: are event boundary timestamps shared across locations?",
+  engine: "@ishubhamx/panchangam-js@3.0.0",
+  sampleCount: sampleInstants.length,
+  locations: locations.map(({name}) => name),
+  results: [],
+  verdict: "pending"
+};
+
+for (const instant of sampleInstants) {
+  const perLocation = locations.map(location => {
+    const observer = new Observer(location.latitude, location.longitude, location.elevation);
+    const p = getPanchangam(new Date(instant), observer, { timezoneOffset: 330 });
+    const fields = {};
+    for (const field of eventFields) fields[field] = toIso(p?.[field]);
+    return {
+      location: location.name,
+      tithi: p?.tithi?.name ?? p?.tithi ?? null,
+      nakshatra: p?.nakshatra?.name ?? p?.nakshatra ?? null,
+      yoga: p?.yoga?.name ?? p?.yoga ?? null,
+      sunrise: toIso(p?.sunrise),
+      sunset: toIso(p?.sunset),
+      fields
+    };
+  });
+
+  const fieldChecks = {};
+  for (const field of eventFields) {
+    const values = [...new Set(perLocation.map(row => row.fields[field]).filter(value => value !== null))];
+    const missingCount = perLocation.filter(row => row.fields[field] === null).length;
+    fieldChecks[field] = {
+      comparable: missingCount === 0,
+      sameAcrossLocations: missingCount === 0 && values.length === 1,
+      distinctValues: values.length,
+      missingCount
+    };
+  }
+
+  report.results.push({ instant, fieldChecks, perLocation });
+}
+
+const checks = report.results.flatMap(result =>
+  Object.entries(result.fieldChecks).map(([field, check]) => ({ instant: result.instant, field, ...check }))
+);
+const comparable = checks.filter(check => check.comparable);
+const mismatches = comparable.filter(check => !check.sameAcrossLocations);
+report.summary = {
+  checkedBoundaryValues: checks.length,
+  comparableBoundaryChecks: comparable.length,
+  fieldsNeverExposed: eventFields.filter(field => checks.every(check => check.field !== field || !check.comparable)),
+  crossLocationMismatches: mismatches
+};
+report.verdict = mismatches.length ? "location-dependent-or-inconsistent" :
+  comparable.length ? "shared-timestamps-supported-for-comparable-fields" :
+  "insufficient-api-fields-to-confirm-shared-timestamps";
+
+console.log(JSON.stringify(report, null, 2));
+if (mismatches.length) {
+  console.error("Shared-event assumption failed: one or more event boundary timestamps differ by location.");
+  process.exitCode = 1;
+}
