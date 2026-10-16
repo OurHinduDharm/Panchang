@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "month": 12,
+  "monthName": "दिसंबर",
+  "status": "needs-review",
+  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "events": [
+    {
+      "date": "2026-12-04",
+      "dateLabel": "4 दिसंबर",
+      "title": "उत्पन्ना एकादशी",
+      "description": "मार्गशीर्ष कृष्ण पक्ष की एकादशी; पारण की अलग जाँच आवश्यक।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-06",
+      "dateLabel": "6 दिसंबर",
+      "title": "प्रदोष व्रत",
+      "description": "प्रदोष-काल में तिथि-व्याप्ति जाँचना आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-07",
+      "dateLabel": "7 दिसंबर",
+      "title": "मासिक शिवरात्रि",
+      "description": "निशीथ-काल और चतुर्दशी-व्याप्ति की जाँच आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-08",
+      "dateLabel": "8 दिसंबर",
+      "title": "मार्गशीर्ष अमावस्या",
+      "description": "अमावस्या तथा पितृकर्म संबंधी निर्णय अलग से जाँचना है।",
+      "category": "अमावस्या",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-16",
+      "dateLabel": "16 दिसंबर",
+      "title": "धनु संक्रांति",
+      "description": "सूर्य के धनु राशि में प्रवेश से संबंधित संक्रांति।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-20",
+      "dateLabel": "20 दिसंबर",
+      "title": "मोक्षदा एकादशी / गीता जयंती",
+      "description": "पारण तथा गीता जयंती-निर्णय अलग से जाँचना है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-21",
+      "dateLabel": "21 दिसंबर",
+      "title": "प्रदोष व्रत",
+      "description": "प्रदोष-काल में तिथि-व्याप्ति जाँचना आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-23",
+      "dateLabel": "23 दिसंबर",
+      "title": "मार्गशीर्ष पूर्णिमा",
+      "description": "पूर्णिमा-व्याप्ति और व्रत-निर्णय की पुष्टि आवश्यक।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-26",
+      "dateLabel": "26 दिसंबर",
+      "title": "संकष्टी चतुर्थी",
+      "description": "चन्द्रोदय-आधारित व्रत; चन्द्रोदय समय अलग से जाँचना है।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
