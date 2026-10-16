@@ -30,6 +30,8 @@ on:
       - 'data/festival-schema.json'
       - 'data/festival-overrides.json'
       - 'data/festival-overrides.schema.json'
+      - 'data/muhurta-rules.json'
+      - 'data/FESTIVAL-MUHURAT-DISPLAY-PLAN.md'
       - 'festival-json-widget.js'
       - 'festival-date-resolver.js'
       - 'kalashtami-panchang-adapter.js'
