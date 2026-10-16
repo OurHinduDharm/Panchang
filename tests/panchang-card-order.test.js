@@ -111,3 +111,21 @@ test("Extra Panchang placement helpers target the shared results grid", () => {
     "classicalYogasCard"
   ]);
 });
+
+
+test("Planetary Asta/Udaya card labels angular estimates and keeps classical status separate", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const start = source.indexOf("function createPlanetCard(");
+  const end = source.indexOf("\\nfunction createHoraCard(", start);
+  assert.notEqual(start, -1, "planet card renderer must exist");
+  assert.notEqual(end, -1, "planet card renderer must end before Hora card");
+
+  const cardSource = source.slice(start, end);
+  assert.match(cardSource, /आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना/);
+  assert.match(cardSource, /सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु \(K\\/C\) गणना/);
+  assert.match(cardSource, /कोणीय अनुमानित अस्त/);
+  assert.match(cardSource, /कोणीय अनुमानित उदय/);
+  assert.match(cardSource, /शास्त्रीय K\\/C गणना — सत्यापनाधीन/);
+  assert.doesNotMatch(cardSource, /!planet\\.verificationPending && planet\\.asta/);
+  assert.doesNotMatch(cardSource, /!planet\\.verificationPending && planet\\.udaya/);
+});
