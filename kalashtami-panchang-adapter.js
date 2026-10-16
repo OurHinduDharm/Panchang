@@ -309,7 +309,11 @@
     for (const merged of mergedGroups) {
       const days = Array.from(merged.days.values()).sort((a,b) => a.date.localeCompare(b.date));
       const monthly = selectMonthlyDateForEvent(days);
-      const annual = selectAnnualBhairavaDate(days);
+      // Annual Kalabhairava Ashtami is the Margashirsha Krishna Ashtami only.
+      // Do not apply the annual Dharmasindhu decision independently to every
+      // month's Krishna Ashtami event.
+      const margashirshaDays = days.filter(day => monthHindi(day.month) === "मार्गशीर्ष");
+      const annual = margashirshaDays.length ? selectAnnualBhairavaDate(margashirshaDays) : null;
       if (monthly) monthlyDecisionDays.push({
         date: monthly.date, month: monthly.month, paksha: monthly.paksha, tithi: monthly.tithi,
         sourceMethod: monthly.pradoshMinutes >= 24 ? "vratraj-one-ghati-after-pradosh" : "greater-night-ashtami-vyapti",
