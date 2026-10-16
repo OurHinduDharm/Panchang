@@ -646,8 +646,8 @@ test("Chapter IX Venus threshold follows classified horizon event, not morning/e
     { body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: -0.5, event: "east-rising", limit: 8 },
     { body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: 1, event: "east-setting", limit: 10 },
     { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: 1, event: "west-rising", limit: 10 },
-    { body: "Jupiter", planetLongitude: 1, sunLongitude: 359, planetMotion: 0.08, event: "west-setting", limit: 11 },
-    { body: "Jupiter", planetLongitude: 359, sunLongitude: 1, planetMotion: 0.08, event: "east-rising", limit: 11 }
+    { body: "Jupiter", planetLongitude: 1, sunLongitude: 359, planetMotion: 0.08, event: "east-rising", limit: 11 },
+    { body: "Jupiter", planetLongitude: 359, sunLongitude: 1, planetMotion: 0.08, event: "west-setting", limit: 11 }
   ];
   for (const item of cases) {
     const event = helpers.classifyChapter9HorizonEvent(item);
