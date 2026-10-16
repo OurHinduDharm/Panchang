@@ -4,14 +4,30 @@
   "month": 4,
   "monthName": "अप्रैल",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
+    {
+      "date": "2026-04-02",
+      "dateLabel": "2 अप्रैल",
+      "title": "श्री हनुमान जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\">श्रीहनुमान जयन्ती</a> l <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\">श्री हनुमान जी की स्तोत्रात्मक साधना</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
     {
       "date": "2026-04-02",
       "dateLabel": "2 अप्रैल",
       "title": "हनुमान जयंती / चैत्र पूर्णिमा",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-10",
+      "dateLabel": "10 अप्रैल",
+      "title": "मासिक कालाष्टमी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\"> मासिक कालाष्टमी</a>",
+      "category": "व्रत-पर्व",
       "reviewStatus": "needs-review"
     },
     {
@@ -33,9 +49,41 @@
     {
       "date": "2026-04-19",
       "dateLabel": "19 अप्रैल",
+      "title": "अक्षय तृतीया",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\">अक्षय तृतीया</a>",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-19",
+      "dateLabel": "19 अप्रैल",
       "title": "अक्षय तृतीया / परशुराम जयंती",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-19",
+      "dateLabel": "19 अप्रैल",
+      "title": "श्री परशुराम अवतार जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\">श्री परशुराम अवतार जयन्ती</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-20",
+      "dateLabel": "20 अप्रैल",
+      "title": "श्री मातंगी महाविद्या जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Godess-Matangi-ON-Maatangi-Jayanti.html\" target=\"_blank\">श्री मातंगी महाविद्या जयन्ती</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-21",
+      "dateLabel": "21 अप्रैल",
+      "title": "श्री रामानुज, सूरदास, आदि शंकराचार्य जयन्ती",
+      "description": "२१ अप्रैल - श्री रामानुज जयन्ती , श्री सूरदास जयन्ती, श्री आदि शंकराचार्य जयन्ती",
+      "category": "जयंती",
       "reviewStatus": "needs-review"
     },
     {
@@ -44,6 +92,22 @@
       "title": "गंगा सप्तमी",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-24",
+      "dateLabel": "24 अप्रैल",
+      "title": "श्री बगलामुखी महाविद्या जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html\" target=\"_blank\"> श्री बगलामुखी महाविद्या जयन्ती</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-25",
+      "dateLabel": "25 अप्रैल",
+      "title": "भगवती सीता जी जयन्ती (जानकी नवमी)",
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\"> भगवती सीता जी की जयन्ती | श्री जानकी नवमी | श्री सीता नवमी</a>",
+      "category": "जयंती",
       "reviewStatus": "needs-review"
     },
     {
@@ -67,6 +131,14 @@
       "dateLabel": "30 अप्रैल",
       "title": "नृसिंह जयंती",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-30",
+      "dateLabel": "30 अप्रैल",
+      "title": "श्री नृसिंह अवतार जयन्ती, श्री छिन्नमस्ता महाविद्या जयन्ती, श्री शरभ अवतार जयंती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html\" target=\"_blank\">श्री नृसिंह अवतार जयन्ती, श्री नृसिंहचतुर्दशी व्रत</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Chhinnamastika-On-ChhinnamastaJayanti.html\" target=\"_blank\">श्री छिन्नमस्ता महाविद्या जयन्ती</a>, श्री शरभ अवतार जयंती। भगवत्प्रेरणा से यह blog 2013 में इसी दिन वैशाख शुक्ल चतुर्दशी को बना था।",
       "category": "जयंती",
       "reviewStatus": "needs-review"
     }
