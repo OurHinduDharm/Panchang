@@ -37,6 +37,9 @@ test("adapter calculates local sunrise, Pradosh, and Madhyahna data with an inje
   assert.ok(result.nightMidpointDays.length > 0);
   assert.ok(Array.isArray(result.monthlyDecisionDays));
   assert.ok(Array.isArray(result.annualDecisionDays));
+  // This fixture labels the candidate month Magha, so it must not be emitted
+  // as the annual Margashirsha Kalabhairava Ashtami.
+  assert.equal(result.annualDecisionDays.length, 0);
   // A single Krishna Ashtami occurrence may be sampled under different boundary
   // keys; the final annual output must not emit duplicate civil dates.
   assert.equal(new Set(result.monthlyDecisionDays.map(day => day.date)).size, result.monthlyDecisionDays.length);
