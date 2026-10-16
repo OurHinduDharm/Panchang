@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "month": 2,
+  "monthName": "फ़रवरी",
+  "status": "needs-review",
+  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "events": [
+    {
+      "date": "2026-02-01",
+      "dateLabel": "1 फ़रवरी",
+      "title": "माघ पूर्णिमा",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-02-13",
+      "dateLabel": "13 फ़रवरी",
+      "title": "विजया एकादशी",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-02-15",
+      "dateLabel": "15 फ़रवरी",
+      "title": "महाशिवरात्रि",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-02-27",
+      "dateLabel": "27 फ़रवरी",
+      "title": "आमलकी एकादशी",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
