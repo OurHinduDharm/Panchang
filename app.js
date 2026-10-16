@@ -4950,7 +4950,7 @@ displayPanchang(
    ========================================================= */
 async function renderDailyFestivalCard(selectedIsoDate){
   const requestId = ++festivalRenderRequest;
-  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(selectedIsoDate || "")) return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(selectedIsoDate || "")) return;
 
   const parts = selectedIsoDate.split("-");
   const monthFile = parts[0] + "-" + parts[1] + ".json";
