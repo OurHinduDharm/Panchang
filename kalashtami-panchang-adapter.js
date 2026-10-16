@@ -364,12 +364,21 @@
       // seeded events can be traced without widening the scan window blindly.
       scanDiagnostics: orderedScanDates.map(date => {
         const entry = base.get(date);
+        const noon = entry && entry.noon;
+        const observedGroups = Array.from(eventGroups.values())
+          .map(group => group.get(date))
+          .filter(Boolean);
         return {
           date,
-          month: entry ? monthHindi(entry.noon && entry.noon.masa) : "",
-          paksha: entry ? pakshaHindi(entry.noon && entry.noon.paksha, tithiIndex(entry.noon && entry.noon.tithi)) : "",
-          tithi: entry ? tithiHindi(entry.noon && entry.noon.tithi) : "",
-          nearAshtami: Boolean(entry && isNearAshtami(entry.noon))
+          month: entry ? monthHindi(noon && noon.masa) : "",
+          paksha: entry ? pakshaHindi(noon && noon.paksha, tithiIndex(noon && noon.tithi)) : "",
+          tithi: entry ? tithiHindi(noon && noon.tithi) : "",
+          noonTithiStart: validInstant(noon && noon.tithiStartTime)?.toISOString() || "",
+          noonTithiEnd: validInstant(noon && noon.tithiEndTime)?.toISOString() || "",
+          nearAshtami: Boolean(entry && isNearAshtami(noon)),
+          observedAshtami: observedGroups.length > 0,
+          observedPradoshMinutes: Math.round(observedGroups.reduce((sum, day) => sum + (day.pradoshMinutes || 0), 0)),
+          observedNightMinutes: Math.round(observedGroups.reduce((sum, day) => sum + (day.nightMinutes || 0), 0))
         };
       }),
       candidateDates: Array.from(candidateDates).sort(),
