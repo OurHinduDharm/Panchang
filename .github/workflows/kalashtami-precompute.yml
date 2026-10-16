@@ -43,12 +43,13 @@ jobs:
         run: node scripts/generate-kalashtami-data.mjs
       - name: Commit updated static data
         run: |
-          if git diff --quiet -- data/kalashtami-calculations.json; then
+          if [ -z "$(git status --porcelain -- data/kalashtami-calculations.json)" ]; then
             echo "Precomputed data is unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/kalashtami-calculations.json
+          git diff --cached --check
           git commit -m "data: refresh precomputed Kalashtami dates"
           git push
