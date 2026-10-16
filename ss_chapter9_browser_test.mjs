@@ -45,6 +45,22 @@ try {
     { timeout: 90000 }
   );
 
+  // Verify the raw TKS capture form can represent the fixture-reported sunset to seconds.
+  await page.locator("#setFixtureSunsetBtn").click();
+  const rawCapturePreset = await page.evaluate(() => ({
+    date: document.querySelector("#rawTksDate").value,
+    time: document.querySelector("#rawTksTime").value,
+    step: document.querySelector("#rawTksTime").step,
+    jd: window.expectedJulianDateUtcFromLocal("2026-10-12", "17:42:21", 5.5)
+  }));
+  console.log("Raw TKS event-side capture preset:", JSON.stringify(rawCapturePreset));
+  if (rawCapturePreset.date !== "2026-10-12" ||
+      rawCapturePreset.time !== "17:42:21" ||
+      rawCapturePreset.step !== "1" ||
+      Math.abs(rawCapturePreset.jd - 2461326.008576389) > 0.00000001) {
+    throw new Error("Raw TKS capture form failed second-precision sunset preset or UTC Julian Day conversion.");
+  }
+
   // Exercise the new 3-D frame panel in the real browser, not just static HTML wiring.
   await page.locator("#runFrameCompareBtn").click();
   await page.waitForFunction(
