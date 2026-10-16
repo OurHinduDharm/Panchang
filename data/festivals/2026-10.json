@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "month": 10,
+  "monthName": "अक्टूबर",
+  "status": "preview-needs-date-review",
+  "locationScope": "पिथौरागढ़; publication dates require approved review",
+  "source": "Existing OurHinduDharm festival data plus user-confirmed Kalashtami date",
+  "events": [
+    {
+      "date": "2026-10-03",
+      "dateLabel": "3 अक्टूबर",
+      "title": "मासिक कालाष्टमी",
+      "description": "मासिक कालाष्टमी — उपयोगकर्ता द्वारा गणेश मार्तण्ड पंचांग से पुष्टि की गई तारीख़।",
+      "category": "व्रत",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "reviewStatus": "user-confirmed-hard-copy"
+    },
+    {
+      "date": "2026-10-10",
+      "dateLabel": "10 अक्टूबर",
+      "title": "पितृ विसर्जन अमावस्या",
+      "description": "पितृपक्ष के समापन पर श्राद्ध एवं पितृ-विसर्जन संबंधी जानकारी।",
+      "category": "अमावस्या",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/pitri-visarjan.html",
+      "articleLabel": "पितृ विसर्जन विधि",
+      "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-11",
+      "dateLabel": "11 अक्टूबर",
+      "title": "शारदीय नवरात्र प्रारम्भ",
+      "description": "आश्विन शुक्ल प्रतिपदा — घटस्थापना और माँ शैलपुत्री की उपासना। मुहूर्त को स्थानीय पंचांग से अलग सत्यापित करना होगा।",
+      "category": "नवरात्रि",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
+      "articleLabel": "शारदीय नवरात्र का महत्व",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
+      "secondaryArticleLabel": "घटस्थापना की संपूर्ण विधि",
+      "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-12",
+      "dateLabel": "12 अक्टूबर",
+      "title": "नवरात्रि द्वितीया — माँ ब्रह्मचारिणी",
+      "description": "नवरात्रि की दूसरी पूजा।",
+      "category": "नवरात्रि",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "articleLabel": "माँ ब्रह्मचारिणी",
+      "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-13",
+      "dateLabel": "13 अक्टूबर",
+      "title": "नवरात्रि तृतीया — माँ चन्द्रघण्टा",
+      "description": "नवरात्रि की तीसरी पूजा।",
+      "category": "नवरात्रि",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "articleLabel": "माँ चन्द्रघण्टा",
+      "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-14",
+      "dateLabel": "14 अक्टूबर",
+      "title": "नवरात्रि चतुर्थी — माँ कूष्माण्डा",
+      "description": "नवरात्रि की चौथी पूजा।",
+      "category": "नवरात्रि",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "articleLabel": "माँ कूष्माण्डा",
+      "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-15",
+      "dateLabel": "15 अक्टूबर",
+      "title": "नवरात्रि पंचमी — माँ स्कन्दमाता",
+      "description": "नवरात्रि की पाँचवीं पूजा।",
+      "category": "नवरात्रि",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "articleLabel": "माँ स्कन्दमाता",
+      "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-16",
+      "dateLabel": "16 अक्टूबर",
+      "title": "नवरात्रि षष्ठी — माँ कात्यायनी",
+      "description": "नवरात्रि की छठी पूजा।",
+      "category": "नवरात्रि",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "articleLabel": "माँ कात्यायनी",
+      "reviewStatus": "existing-site-data-needs-review"
+    },
+    {
+      "date": "2026-10-17",
+      "dateLabel": "17–18 अक्टूबर",
+      "title": "नवरात्रि सप्तमी — माँ कालरात्रि",
+      "description": "सप्तमी की तिथि-व्याप्ति 17–18 अक्टूबर बताई गई है; अंतिम व्रत-दिन और पूजा-निर्णय स्थानीय पंचांग से सत्यापित किया जाना बाकी है।",
+      "category": "नवरात्रि",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "articleLabel": "माँ कालरात्रि",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-19",
+      "dateLabel": "19 अक्टूबर",
+      "title": "महाष्टमी / महानवमी — तिथि-निर्णय की समीक्षा",
+      "description": "पुराने स्रोत में दोनों प्रविष्टियाँ 19 अक्टूबर पर हैं। प्रकाशित सूची में दिखाने से पहले तिथि-व्याप्ति और पूजा-दिन की समीक्षा आवश्यक है।",
+      "category": "समीक्षा आवश्यक",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-10-20",
+      "dateLabel": "20 अक्टूबर",
+      "title": "विजयादशमी / दशहरा",
+      "description": "शमी-पूजन, अपराजिता-पूजन और कलश-विसर्जन संबंधी पर्व। तारीख़ अंतिम प्रकाशन से पहले सत्यापित करें।",
+      "category": "प्रमुख पर्व",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "articleLabel": "कलश विसर्जन विधि",
+      "reviewStatus": "existing-site-data-needs-review"
+    }
+  ]
+}
