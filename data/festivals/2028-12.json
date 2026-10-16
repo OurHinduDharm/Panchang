@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 12,
+  "monthName": "दिसंबर",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-12-01",
+      "dateLabel": "1 दिसंबर",
+      "title": "दत्तात्रेय जयंती",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
