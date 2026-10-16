@@ -24,7 +24,7 @@ button{cursor:pointer;font-weight:650}.buttons{display:flex;gap:8px;flex-wrap:wr
 <body><main>
 <header>
   <h1>मासिक व्रत-पर्व — समीक्षा पृष्ठ</h1>
-  <div class="muted">OurHinduDharm · अपने गणेश मार्तण्ड पंचांग से तारीख़ मिलाएँ</div>
+  <div class="muted">OurHinduDharm · तारीख़ और पर्व-निर्णय की समीक्षा करें</div>
   <div class="notice">यह निजी समीक्षा ड्राफ्ट है। यहाँ की समीक्षा अपने-आप GitHub पर सेव नहीं होती। स्वीकृत JSON डाउनलोड करके बाद में रिपॉज़िटरी में जोड़ा जाएगा।</div>
 </header>
 <section class="toolbar">
@@ -46,7 +46,7 @@ button{cursor:pointer;font-weight:650}.buttons{display:flex;gap:8px;flex-wrap:wr
 <section class="help">
   <strong>समीक्षा कैसे करें?</strong>
   <ol>
-    <li>गणेश मार्तण्ड पंचांग में तारीख़ देखें।</li>
+    <li>तारीख़ और पर्व-निर्णय की जाँच करें।</li>
     <li>स्थिति चुनें: <b>जाँच बाकी</b>, <b>सही</b>, <b>तारीख़ सुधारें</b> या <b>सूची से हटाएँ</b>।</li>
     <li>गलत तारीख़ हो तो सही तारीख़ और टिप्पणी लिखें।</li>
     <li>सभी प्रविष्टियाँ देखने के बाद <b>समीक्षा JSON डाउनलोड करें</b> दबाएँ। डाउनलोड की हुई फ़ाइल मुझे/रिपॉज़िटरी में साझा करनी होगी; केवल डाउनलोड करने से लाइव साइट नहीं बदलेगी।</li>
@@ -88,8 +88,8 @@ function render(){
   const date=document.createElement("input");date.type="date";date.value=prior.correctedDate||item.date||"";dateLabel.appendChild(date);fields.appendChild(dateLabel);
   const titleLabel=el("label","wide","पर्व का सही नाम (वैकल्पिक)");
   const titleInput=document.createElement("input");titleInput.value=prior.correctedTitle||item.title||"";titleInput.placeholder="नाम में सुधार हो तो लिखें";titleLabel.appendChild(titleInput);fields.appendChild(titleLabel);
-  const noteLabel=el("label","wide","टिप्पणी / पंचांग में क्या मिला?");
-  const note=document.createElement("textarea");note.rows=2;note.value=prior.note||"";note.placeholder="उदाहरण: गणेश मार्तण्ड पंचांग में 18 अक्टूबर";noteLabel.appendChild(note);fields.appendChild(noteLabel);
+  const noteLabel=el("label","wide","आंतरिक टिप्पणी (वैकल्पिक)");
+  const note=document.createElement("textarea");note.rows=2;note.value=prior.note||"";note.placeholder="यदि ज़रूरी हो तो समीक्षा टिप्पणी लिखें";noteLabel.appendChild(note);fields.appendChild(noteLabel);
   card.appendChild(fields);
   const persist=()=>{const all=readSaved();all[key]={status:status.value,correctedDate:date.value,correctedTitle:titleInput.value.trim(),note:note.value.trim(),updatedAt:new Date().toISOString()};saveSaved(all)};
   [status,date,titleInput,note].forEach(n=>n.addEventListener("change",persist));
