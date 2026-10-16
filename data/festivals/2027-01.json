@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "year": 2027,
+  "month": 1,
+  "monthName": "जनवरी",
+  "status": "needs-review",
+  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "events": [
+    {
+      "date": "2027-01-03",
+      "dateLabel": "3 जनवरी",
+      "title": "सफला एकादशी",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-01-15",
+      "dateLabel": "15 जनवरी",
+      "title": "मकर संक्रांति / पोंगल",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-01-18",
+      "dateLabel": "18 जनवरी",
+      "title": "पौष पुत्रदा एकादशी",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-01-22",
+      "dateLabel": "22 जनवरी",
+      "title": "पौष पूर्णिमा",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-01-25",
+      "dateLabel": "25 जनवरी",
+      "title": "सकट चौथ",
+      "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
