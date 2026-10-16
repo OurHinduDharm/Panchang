@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "year": 2028,
+  "month": 8,
+  "monthName": "अगस्त",
+  "status": "needs-review",
+  "locationScope": "नई दिल्ली, भारत; प्रारंभिक कैलेंडर, स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2028-08-04",
+      "dateLabel": "4 अगस्त",
+      "title": "वरलक्ष्मी व्रत",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-08-05",
+      "dateLabel": "5 अगस्त",
+      "title": "रक्षा बंधन",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-08-08",
+      "dateLabel": "8 अगस्त",
+      "title": "कजरी तीज",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-08-13",
+      "dateLabel": "13 अगस्त",
+      "title": "श्रीकृष्ण जन्माष्टमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-08-22",
+      "dateLabel": "22 अगस्त",
+      "title": "हरतालिका तीज",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-08-23",
+      "dateLabel": "23 अगस्त",
+      "title": "गणेश चतुर्थी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-08-24",
+      "dateLabel": "24 अगस्त",
+      "title": "ऋषि पंचमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2028-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "राधाष्टमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    }
+  ]
+}
