@@ -1,4 +1,5 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTime } from "./festival-muhurta.js";
 import {
   Body as AstroBody,
   Observer as AstroObserver,
@@ -4948,7 +4949,7 @@ displayPanchang(
    DAILY FESTIVALS — read approved records from the shared monthly JSON.
    No Panchang calculations run here; missing/unapproved data stays hidden.
    ========================================================= */
-async function renderDailyFestivalCard(selectedIsoDate){
+async function renderDailyFestivalCard(selectedIsoDate, panchang = null, nextSunrise = null, location = null){
   const requestId = ++festivalRenderRequest;
   if(!/^\d{4}-\d{2}-\d{2}$/.test(selectedIsoDate || "")) return;
 
@@ -4966,7 +4967,7 @@ async function renderDailyFestivalCard(selectedIsoDate){
     const events = (Array.isArray(data.events) ? data.events : []).filter(item =>
       item &&
       item.date === selectedIsoDate &&
-      (item.reviewStatus === "approved" || item.reviewStatus === "user-confirmed-hard-copy")
+      item.reviewStatus === "approved"
     );
 
     if(!events.length) return;
@@ -4996,6 +4997,39 @@ async function renderDailyFestivalCard(selectedIsoDate){
         description.style.color = "#6b6258";
         description.textContent = item.description;
         row.appendChild(description);
+      }
+
+      if(item.muhurtaRule){
+        const nextPanchang = nextSunrise ? { sunrise: nextSunrise } : null;
+        const context = getFestivalMuhurtaContext(panchang, nextPanchang, new Date(selectedIsoDate + "T12:00:00"), location);
+        const result = getFestivalMuhurta(item, context);
+        if(result){
+          const muhurta = document.createElement("div");
+          muhurta.style.fontSize = "12px";
+          muhurta.style.marginTop = "6px";
+          muhurta.style.padding = "7px 9px";
+          muhurta.style.borderRadius = "7px";
+          muhurta.style.background = "rgba(128, 96, 32, 0.07)";
+          const heading = document.createElement("div");
+          heading.style.fontWeight = "700";
+          heading.textContent = result.label || "मुहूर्त";
+          muhurta.appendChild(heading);
+          const detail = document.createElement("div");
+          if(result.status === "calculated" && result.start && result.end){
+            detail.textContent = formatFestivalMuhurtaTime(result.start) + " – " + formatFestivalMuhurtaTime(result.end);
+          }else{
+            detail.textContent = result.message || "मुहूर्त उपलब्ध नहीं है।";
+          }
+          muhurta.appendChild(detail);
+          if(result.note){
+            const note = document.createElement("div");
+            note.style.marginTop = "3px";
+            note.style.color = "#6b6258";
+            note.textContent = result.note;
+            muhurta.appendChild(note);
+          }
+          row.appendChild(muhurta);
+        }
       }
 
       if(item.articleUrl){
@@ -6377,7 +6411,7 @@ bhadraPartsHtml += `
 
   renderSankalpControls();
   updateSankalpText();
-  renderDailyFestivalCard(dateInput.value);
+  renderDailyFestivalCard(dateInput.value, p, nextSunrise, selectedLocation);
    window.dispatchEvent(
   new CustomEvent(
     "ohd:panchangUpdated"
