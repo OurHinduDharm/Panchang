@@ -373,7 +373,7 @@
       const firstPhase = firstIndex >= 0 ? firstIndex % 15 : -1;
       const secondPhase = secondIndex >= 0 ? secondIndex % 15 : -1;
       if (firstPaksha !== "कृष्ण" || secondPaksha !== "कृष्ण" || firstPhase !== 6 || secondPhase !== 8) continue;
-      if (Array.from(eventGroups.values()).some(group => group.has(firstDate) || group.has(secondDate))) continue;
+      if (monthlyDecisionDays.some(day => day.date === firstDate || day.date === secondDate)) continue;
       for (const [date, entry, observedTithi] of [[firstDate, first, "सप्तमी"], [secondDate, second, "नवमी"]]) {
         unresolvedCandidates.push({
           date,
