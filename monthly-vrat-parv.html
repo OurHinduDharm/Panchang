@@ -167,6 +167,35 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
     a.href=href;a.target="_blank";a.rel="noopener noreferrer";a.textContent=label||"लेख पढ़ें";
     return a;
   }
+  // Legacy descriptions may contain article anchors and line breaks.
+  // Render only safe text, HTTP(S) links, and <br>; never inject raw HTML.
+  function appendSafeDescriptionNode(parent,node){
+    if(node.nodeType===Node.TEXT_NODE){
+      parent.appendChild(document.createTextNode(node.nodeValue||""));
+      return;
+    }
+    if(node.nodeType!==Node.ELEMENT_NODE) return;
+    var tag=node.tagName.toLowerCase();
+    if(tag==="br"){
+      parent.appendChild(document.createElement("br"));
+      return;
+    }
+    if(tag==="a"){
+      var href=safeUrl(node.getAttribute("href"));
+      if(href){
+        var link=document.createElement("a");
+        link.href=href;link.target="_blank";link.rel="noopener noreferrer";
+        Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(link,child);});
+        parent.appendChild(link);
+        return;
+      }
+    }
+    Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(parent,child);});
+  }
+  function renderDescription(container,value){
+    var parsed=new DOMParser().parseFromString(String(value||""),"text/html");
+    Array.from(parsed.body.childNodes).forEach(function(node){appendSafeDescriptionNode(container,node);});
+  }
   function render(data,year,month,token){
     eventsEl.replaceChildren();
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
@@ -192,7 +221,7 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
       var content=document.createElement("div");content.className="content";
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
-      if(item.description){var desc=document.createElement("div");desc.className="desc";desc.textContent=item.description;content.appendChild(desc);}
+      if(item.description){var desc=document.createElement("div");desc.className="desc";renderDescription(desc,item.description);content.appendChild(desc);}
       appendMuhurta(item,String(item.date||""),content,token);
       if(item.imageUrl){
         var imageUrl=safeUrl(item.imageUrl);
