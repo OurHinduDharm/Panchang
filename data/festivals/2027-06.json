@@ -4,7 +4,7 @@
   "month": 6,
   "monthName": "जून",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
       "date": "2027-06-01",
@@ -12,6 +12,22 @@
       "title": "अपरा एकादशी",
       "description": "संभावित पर्व-प्रविष्टि; तारीख़ और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-06-04",
+      "dateLabel": "4 जून",
+      "title": "वट सावित्री व्रत",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2027-06-13",
+      "dateLabel": "13 जून",
+      "title": "गंगा दशहरा",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
       "reviewStatus": "needs-review"
     },
     {
