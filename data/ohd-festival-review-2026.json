@@ -1,0 +1,442 @@
+{
+  "schemaVersion": 1,
+  "reviewExportedAt": "2026-10-16T09:58:10.858Z",
+  "calculationStatus": "research-only-not-approved",
+  "location": {
+    "name": "पिथौरागढ़",
+    "latitude": 30.1265,
+    "longitude": 80.4817,
+    "elevation": 0,
+    "timezone": "Asia/Kolkata",
+    "timezoneOffset": 330
+  },
+  "year": 2026,
+  "engine": "@ishubhamx/panchangam-js@3.0.0",
+  "elapsedSeconds": "44.0",
+  "panchangCalls": 2481,
+  "panchangRequests": 3638,
+  "panchangCacheHits": 1157,
+  "results": {
+    "monthly": [
+      {
+        "date": "2026-01-11",
+        "month": "माघ",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 395
+      },
+      {
+        "date": "2026-02-09",
+        "month": "फाल्गुन",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 781
+      },
+      {
+        "date": "2026-03-11",
+        "month": "चैत्र",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 606
+      },
+      {
+        "date": "2026-04-10",
+        "month": "वैशाख",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 284
+      },
+      {
+        "date": "2026-05-10",
+        "month": "ज्येष्ठ",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 310
+      },
+      {
+        "date": "2026-06-08",
+        "month": "ज्येष्ठ",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 496
+      },
+      {
+        "date": "2026-07-08",
+        "month": "आषाढ़",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 290
+      },
+      {
+        "date": "2026-08-06",
+        "month": "श्रावण",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 305
+      },
+      {
+        "date": "2026-09-04",
+        "month": "भाद्रपद",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 347
+      },
+      {
+        "date": "2026-11-02",
+        "month": "कार्तिक",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 400
+      },
+      {
+        "date": "2026-12-01",
+        "month": "मार्गशीर्ष",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 367
+      },
+      {
+        "date": "2026-12-31",
+        "month": "पौष",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 0
+      }
+    ],
+    "annual": [
+      {
+        "date": "2026-12-01",
+        "month": "मार्गशीर्ष",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "dharmasindhu-madhyahna-pradosh-decision"
+      }
+    ],
+    "unresolvedCandidates": [
+      {
+        "date": "2026-10-03",
+        "month": "आश्विन",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी संभावित — दोपहर में सप्तमी",
+        "sourceMethod": "समीक्षा संकेत: लगातार दिनों में सप्तमी → नवमी; वास्तविक अष्टमी अवधि की पुष्टि आवश्यक",
+        "reviewOnly": true
+      },
+      {
+        "date": "2026-10-04",
+        "month": "आश्विन",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी संभावित — दोपहर में नवमी",
+        "sourceMethod": "समीक्षा संकेत: लगातार दिनों में सप्तमी → नवमी; वास्तविक अष्टमी अवधि की पुष्टि आवश्यक",
+        "reviewOnly": true
+      }
+    ]
+  },
+  "reviewedResults": {
+    "monthly": [
+      {
+        "date": "2026-01-11",
+        "month": "माघ",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 395,
+        "review": {
+          "status": "fix",
+          "note": "10 january ",
+          "updatedAt": "2026-10-16T09:53:38.149Z"
+        }
+      },
+      {
+        "date": "2026-02-09",
+        "month": "फाल्गुन",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 781,
+        "review": {
+          "status": "approved",
+          "note": "",
+          "updatedAt": "2026-10-16T09:45:02.950Z"
+        }
+      },
+      {
+        "date": "2026-03-11",
+        "month": "चैत्र",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 606,
+        "review": {
+          "status": "approved",
+          "note": "",
+          "updatedAt": "2026-10-16T09:45:08.830Z"
+        }
+      },
+      {
+        "date": "2026-04-10",
+        "month": "वैशाख",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 284,
+        "review": {
+          "status": "approved",
+          "note": "",
+          "updatedAt": "2026-10-16T09:49:28.721Z"
+        }
+      },
+      {
+        "date": "2026-05-10",
+        "month": "ज्येष्ठ",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 310,
+        "review": {
+          "status": "fix",
+          "note": "9 may ko",
+          "updatedAt": "2026-10-16T09:51:09.395Z"
+        }
+      },
+      {
+        "date": "2026-06-08",
+        "month": "ज्येष्ठ",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 496,
+        "review": {
+          "status": "approved",
+          "note": "",
+          "updatedAt": "2026-10-16T09:51:21.199Z"
+        }
+      },
+      {
+        "date": "2026-07-08",
+        "month": "आषाढ़",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 290,
+        "review": {
+          "status": "fix",
+          "note": "7 july",
+          "updatedAt": "2026-10-16T09:51:45.163Z"
+        }
+      },
+      {
+        "date": "2026-08-06",
+        "month": "श्रावण",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 305,
+        "review": {
+          "status": "fix",
+          "note": "5 August ",
+          "updatedAt": "2026-10-16T09:52:19.712Z"
+        }
+      },
+      {
+        "date": "2026-09-04",
+        "month": "भाद्रपद",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 347,
+        "review": {
+          "status": "approved",
+          "note": "",
+          "updatedAt": "2026-10-16T09:55:48.015Z"
+        }
+      },
+      {
+        "date": "2026-11-02",
+        "month": "कार्तिक",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 400,
+        "review": {
+          "status": "fix",
+          "note": "1 november ",
+          "updatedAt": "2026-10-16T09:55:46.807Z"
+        }
+      },
+      {
+        "date": "2026-12-01",
+        "month": "मार्गशीर्ष",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 367,
+        "review": {
+          "status": "approved",
+          "note": "",
+          "updatedAt": "2026-10-16T09:58:01.284Z"
+        }
+      },
+      {
+        "date": "2026-12-31",
+        "month": "पौष",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "vratraj-one-ghati-after-pradosh",
+        "pradoshMinutes": 72,
+        "nightMinutes": 0,
+        "review": {
+          "status": "fix",
+          "note": "30 december ko",
+          "updatedAt": "2026-10-16T09:56:35.073Z"
+        }
+      }
+    ],
+    "annual": [
+      {
+        "date": "2026-12-01",
+        "month": "मार्गशीर्ष",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी",
+        "sourceMethod": "dharmasindhu-madhyahna-pradosh-decision",
+        "review": {
+          "status": "fix",
+          "note": "Wrong. मार्गशीर्ष · कृष्ण · अष्टमी 3 oct ko",
+          "updatedAt": "2026-10-16T09:57:43.186Z"
+        }
+      }
+    ],
+    "unresolved": [
+      {
+        "date": "2026-10-03",
+        "month": "आश्विन",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी संभावित — दोपहर में सप्तमी",
+        "sourceMethod": "समीक्षा संकेत: लगातार दिनों में सप्तमी → नवमी; वास्तविक अष्टमी अवधि की पुष्टि आवश्यक",
+        "reviewOnly": true,
+        "review": {
+          "status": "approved",
+          "note": "",
+          "updatedAt": "2026-10-16T09:54:27.647Z"
+        }
+      },
+      {
+        "date": "2026-10-04",
+        "month": "आश्विन",
+        "paksha": "कृष्ण",
+        "tithi": "अष्टमी संभावित — दोपहर में नवमी",
+        "sourceMethod": "समीक्षा संकेत: लगातार दिनों में सप्तमी → नवमी; वास्तविक अष्टमी अवधि की पुष्टि आवश्यक",
+        "reviewOnly": true,
+        "review": {
+          "status": "fix",
+          "note": "Cancel .only 3 oct",
+          "updatedAt": "2026-10-16T09:57:51.223Z"
+        }
+      }
+    ]
+  },
+  "reviews": {
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-01-11|vratraj-one-ghati-after-pradosh": {
+      "status": "fix",
+      "updatedAt": "2026-10-16T09:53:38.149Z",
+      "note": "10 january "
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-02-09|vratraj-one-ghati-after-pradosh": {
+      "status": "approved",
+      "updatedAt": "2026-10-16T09:45:02.950Z"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-03-11|vratraj-one-ghati-after-pradosh": {
+      "status": "approved",
+      "updatedAt": "2026-10-16T09:45:08.830Z"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-04-10|vratraj-one-ghati-after-pradosh": {
+      "status": "approved",
+      "updatedAt": "2026-10-16T09:49:28.721Z"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-05-10|vratraj-one-ghati-after-pradosh": {
+      "status": "fix",
+      "updatedAt": "2026-10-16T09:51:09.395Z",
+      "note": "9 may ko"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-06-08|vratraj-one-ghati-after-pradosh": {
+      "status": "approved",
+      "updatedAt": "2026-10-16T09:51:21.199Z"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-07-08|vratraj-one-ghati-after-pradosh": {
+      "status": "fix",
+      "updatedAt": "2026-10-16T09:51:45.163Z",
+      "note": "7 july"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-08-06|vratraj-one-ghati-after-pradosh": {
+      "status": "fix",
+      "updatedAt": "2026-10-16T09:52:19.712Z",
+      "note": "5 August "
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-09-04|vratraj-one-ghati-after-pradosh": {
+      "status": "approved",
+      "updatedAt": "2026-10-16T09:55:48.015Z"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-11-02|vratraj-one-ghati-after-pradosh": {
+      "status": "fix",
+      "updatedAt": "2026-10-16T09:55:46.807Z",
+      "note": "1 november "
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-12-01|vratraj-one-ghati-after-pradosh": {
+      "status": "approved",
+      "updatedAt": "2026-10-16T09:58:01.284Z"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|monthly|2026-12-31|vratraj-one-ghati-after-pradosh": {
+      "status": "fix",
+      "updatedAt": "2026-10-16T09:56:35.073Z",
+      "note": "30 december ko"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|annual|2026-12-01|dharmasindhu-madhyahna-pradosh-decision": {
+      "status": "fix",
+      "updatedAt": "2026-10-16T09:57:43.186Z",
+      "note": "Wrong. मार्गशीर्ष · कृष्ण · अष्टमी 3 oct ko"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|unresolved|2026-10-03|समीक्षा संकेत: लगातार दिनों में सप्तमी → नवमी; वास्तविक अष्टमी अवधि की पुष्टि आवश्यक": {
+      "status": "approved",
+      "updatedAt": "2026-10-16T09:54:27.647Z"
+    },
+    "ohd-year-review-v1|2026|30.1265|80.4817|unresolved|2026-10-04|समीक्षा संकेत: लगातार दिनों में सप्तमी → नवमी; वास्तविक अष्टमी अवधि की पुष्टि आवश्यक": {
+      "note": "Cancel .only 3 oct",
+      "updatedAt": "2026-10-16T09:57:51.223Z",
+      "status": "fix"
+    }
+  }
+}
