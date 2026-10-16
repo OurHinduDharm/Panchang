@@ -20,7 +20,7 @@
   <h1>कालाष्टमी — पंचांग इंजन परीक्षण</h1>
   <p class="muted">स्थान: पिथौरागढ़ (30.1265° N, 80.4817° E) · समय क्षेत्र: IST (UTC+05:30)</p>
   <div class="controls"><label for="year">वर्ष</label><input id="year" type="number" min="1900" max="2200" value="2027"><button id="run" type="button">गणना करें</button></div>
-  <p id="status" class="status" aria-live="polite">गणना के लिए बटन दबाएँ। पहली गणना में कुछ समय लग सकता है।</p>
+  <p id="status" class="status" aria-live="polite">गणना के लिए बटन दबाएँ। परिणाम चरणों में दिखेंगे।</p>
   <section class="group"><h2>मासिक कालाष्टमी — प्रदोष-व्यापिनी कृष्ण अष्टमी</h2><div id="monthly"></div></section>
   <section class="group"><h2>वार्षिक कालभैरवाष्टमी — मध्यान्ह/प्रदोष निर्णय</h2><div id="annual"></div></section>
 </main>
@@ -71,12 +71,16 @@ async function run() {
   $("run").disabled = true;
   $("monthly").textContent = ""; $("annual").textContent = "";
   try {
+    if (!Number.isInteger(year) || year < 1900 || year > 2200) throw new Error("कृपया 1900 से 2200 के बीच का वर्ष चुनें।");
+    $("status").textContent = "पंचांग इंजन तैयार किया जा रहा है…";
     await ensureDraftScripts();
+    $("status").textContent = "वर्ष की तारीख़ें जाँची जा रही हैं…";
     const generated = await window.OHDFestivalPanchangAdapter.buildKalashtamiDays({
       year, latitude:30.1265, longitude:80.4817, elevation:0,
       timezoneOffset:330, getPanchangam, Observer
     });
-    const dataResponse = await fetch("https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/festivals.json?v="+DRAFT_ASSET_VERSION,{cache:"no-cache"});
+    $("status").textContent = "गणना पूरी; पर्व-नियम मिलाए जा रहे हैं…";
+    const dataResponse = await fetch("https://raw.githubusercontent.com/OurHinduDharm/Panchang/data/festival-json-foundation/data/festivals.json?v="+DRAFT_ASSET_VERSION,{cache:"force-cache"});
     if (!dataResponse.ok) throw new Error("Festival JSON load failed: "+dataResponse.status);
     const data = await dataResponse.json();
     const monthly = data.festivals.find(item => item.id === "festival-kalashtami-recurring");
