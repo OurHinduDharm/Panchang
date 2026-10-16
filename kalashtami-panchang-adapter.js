@@ -273,8 +273,41 @@
     }
     const monthlyDecisionDays = [];
     const annualDecisionDays = [];
-    for (const group of eventGroups.values()) {
-      const days = Array.from(group.values()).sort((a,b) => a.date.localeCompare(b.date));
+    // Library boundary timestamps can be absent or inconsistent between samples.
+    // Merge adjacent event groups into one Ashtami occurrence so a single lunar
+    // event is not emitted twice just because some samples lacked boundary data.
+    const rawGroups = Array.from(eventGroups.values())
+      .map(group => Array.from(group.values()).sort((a,b) => a.date.localeCompare(b.date)))
+      .filter(days => days.length)
+      .sort((a,b) => a[0].date.localeCompare(b[0].date));
+    const mergedGroups = [];
+    for (const group of rawGroups) {
+      const firstDate = new Date(group[0].date + "T00:00:00Z").getTime();
+      const current = mergedGroups[mergedGroups.length - 1];
+      const currentEnd = current ? new Date(current.maxDate + "T00:00:00Z").getTime() : -Infinity;
+      if (current && firstDate <= currentEnd + 86400000) {
+        for (const day of group) {
+          const previous = current.days.get(day.date);
+          if (!previous) {
+            current.days.set(day.date, { ...day });
+          } else {
+            previous.sunrise = previous.sunrise || day.sunrise;
+            previous.madhyahna = previous.madhyahna || day.madhyahna;
+            previous.pradosh = previous.pradosh || day.pradosh;
+            // Duplicate samples can describe the same time window. Keep the
+            // maximum observed overlap instead of adding it twice.
+            previous.pradoshMinutes = Math.max(previous.pradoshMinutes || 0, day.pradoshMinutes || 0);
+            previous.nightMinutes = Math.max(previous.nightMinutes || 0, day.nightMinutes || 0);
+          }
+          if (day.date > current.maxDate) current.maxDate = day.date;
+        }
+      } else {
+        const days = new Map(group.map(day => [day.date, { ...day }]));
+        mergedGroups.push({ minDate: group[0].date, maxDate: group[group.length - 1].date, days });
+      }
+    }
+    for (const merged of mergedGroups) {
+      const days = Array.from(merged.days.values()).sort((a,b) => a.date.localeCompare(b.date));
       const monthly = selectMonthlyDateForEvent(days);
       const annual = selectAnnualBhairavaDate(days);
       if (monthly) monthlyDecisionDays.push({
