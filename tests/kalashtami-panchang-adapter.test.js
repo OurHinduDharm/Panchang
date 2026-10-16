@@ -37,6 +37,10 @@ test("adapter calculates local sunrise, Pradosh, and Madhyahna data with an inje
   assert.ok(result.nightMidpointDays.length > 0);
   assert.ok(Array.isArray(result.monthlyDecisionDays));
   assert.ok(Array.isArray(result.annualDecisionDays));
+  // A single Krishna Ashtami occurrence may be sampled under different boundary
+  // keys; the final annual output must not emit duplicate civil dates.
+  assert.equal(new Set(result.monthlyDecisionDays.map(day => day.date)).size, result.monthlyDecisionDays.length);
+  assert.equal(new Set(result.annualDecisionDays.map(day => day.date)).size, result.annualDecisionDays.length);
   assert.ok(calls.every(call => call.options.timezoneOffset === 330));
   assert.equal(result.latitude, 30.1265);
   assert.match(result.note, /Pradosh/);
