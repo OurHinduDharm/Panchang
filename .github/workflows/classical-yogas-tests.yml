@@ -59,7 +59,7 @@ jobs:
           node --input-type=module --check < festival-muhurta.js
           node --check classical-yogas.js
       - name: Run festival muhurta rule tests
-        run: node --test tests/festival-muhurta.test.js
+        run: node --experimental-default-type=module --test tests/festival-muhurta.test.js
       - name: Run Panchang card-order regression tests
         run: node --test tests/panchang-card-order.test.js
       - name: Run compact UI and night Prahar regression tests
