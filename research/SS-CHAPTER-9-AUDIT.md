@@ -47,12 +47,13 @@ Sources: https://tksephemeris.com/tks-home and https://tksephemeris.com/tks-uday
 
 A second independent implementation describes its daily output as calculated from the Sūrya Siddhānta's own rules, at Ujjayinī, using no bīja correction. That is a different benchmark from applying Chapter VII/IX corrections to modern ephemeris positions at Pithoragarh. The two should not be compared as if they were the same calculation pipeline. See https://vidhyamitra.com/surya-siddhanta/9 and the chapter overview at https://vidhyamitra.com/surya-siddhanta.
 
-## Latest checkpoint — 12 October 2026
+## Latest checkpoint — 16 October 2026
 
 - The isolated Chapter IX event-classification tests cover superior-planet branches for Jupiter, Mars, and Saturn, plus both directions for retrograde/direct Mercury. A later review found the wraparound fixture had encoded the wrong premise: IX.2–3's *abhyadhika/ūna* compares zodiacal longitude ordering, not the shortest signed separation. The test and classifier have now been corrected for both sides of 0° Aries.
-- GitHub Actions run: https://github.com/OurHinduDharm/Panchang/actions/runs/38208959013 — **success**. This includes Node formula tests, Chapter VII tests, Chapter III tests, the research page in headless Chromium, and the production-file identity check.
-- This is an automated/headless browser pass only. It is not a test on the user's Android device and does not validate the date fixtures as astronomical ground truth.
-- Production isolation verified by blob identity against `main`: `app.js` and `extra-panchang.js` are unchanged. The research branch has not been merged.
+- GitHub Actions run: https://github.com/OurHinduDharm/Panchang/actions/runs/38208959013 — **success** for the earlier research checkpoint. It is not a test of the later production display-only commits.
+- The earlier automated/headless browser pass is not a test on the user's Android device and does not validate the date fixtures as astronomical ground truth.
+- **Production-state correction:** on 16 October, the main branch received a presentation-only change in `extra-panchang.js` (commit `f8494a0212313abfbf64bf3dc8bce7efacd8e92e`) so the existing preliminary angular-threshold dates are labelled as estimates and the classical K/C status is separately marked “सत्यापनाधीन”. A regression assertion was added in `tests/panchang-card-order.test.js` (commit `fa7443f996c9960dba9fe50891486778b4abef43`). The astronomy formulas and thresholds were not changed by these commits. A combined status query returned no status entries, so the latest display change must not be described as CI-verified yet.
+- Research branch remains separate. Its calculations and diagnostics are not merged into production.
 
 ## Verified benchmark-source distinction (12 October 2026)
 
@@ -1299,3 +1300,14 @@ Next: wait for/inspect CI on the latest research-branch commit; then ask for a n
 
 
 Browser regression CI for the mobile seconds-entry fix passed: https://github.com/OurHinduDharm/Panchang/actions/runs/38886716313 (**success**, run 658; commit `2be7f5dc39f194506dba4ceb6e982466f183ca28`). The test checks manual `17:42:21` entry preservation, the two event-side presets and UTC Julian Day conversions, alongside the existing research diagnostics and production-file identity check. This remains a UI/test success, not astronomical validation.
+
+
+## Paired raw TKS capture — 12 October 2026
+
+The user's two raw endpoint responses are recorded in [`research/TKS-RAW-CAPTURE-2026-10-12.md`](TKS-RAW-CAPTURE-2026-10-12.md). Both Sun/Venus body identities and Julian dates are internally consistent with the requested instants.
+
+- Near sunrise (06:08:39 IST): ecliptic-longitude difference = 18.2785119050°; 3-D apparent separation = 19.7365905601°.
+- Near sunset (17:42:21 IST): ecliptic-longitude difference = 17.6328187675°; 3-D apparent separation = 19.1419206097°.
+- These are ephemeris-state checks, not K/C outputs. They do not validate the classical threshold.
+- Independent text cross-check for IX.6–8: the verse limits are Jupiter 11°, Saturn 15°, Mars 17°; Venus 8° or 10° according to the specified eastern/western event; Mercury 12° or 14° according to the stated motion case. See the Sanskrit and Burgess-edition reference at https://acharane.com/sources/surya-siddhanta-9-6-8/ and the chapter text at https://vidhyamitra.com/surya-siddhanta/9. This confirms the textual thresholds, not the numerical correctness of our event calculation.
+- Production still uses a **modern angular-threshold estimate** with provisional single thresholds for some bodies. That card must remain explicitly preliminary until the branch-specific Chapter IX event classification and independent K/C implementation are validated.
