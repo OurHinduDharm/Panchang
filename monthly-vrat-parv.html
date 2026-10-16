@@ -203,6 +203,19 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
       if(mainLink)links.appendChild(mainLink);
       var secondaryLink=makeLink(item.secondaryArticleUrl,item.secondaryArticleLabel);
       if(secondaryLink)links.appendChild(secondaryLink);
+
+      // ग्रहण की प्रविष्टि पर मौजूदा Blogger ग्रहण-पंचांग का लिंक दें।
+      // मासिक सूची में ग्रहण की भारी गणना दोबारा शुरू नहीं होती।
+      var eclipseText=String(item.title||"")+" "+String(item.category||"");
+      var isEclipseEvent=/ग्रहण|grahan|eclipse/i.test(eclipseText);
+      var eclipsePageUrl="https://ourhindudharm.blogspot.com/p/grahan-panchang.html";
+      var hasEclipsePageLink=[item.articleUrl,item.secondaryArticleUrl].some(function(url){
+        return safeUrl(url).indexOf("ourhindudharm.blogspot.com/p/grahan-panchang.html")===0;
+      });
+      if(isEclipseEvent&&!hasEclipsePageLink){
+        var eclipseLink=makeLink(eclipsePageUrl,"ग्रहण पंचांग में समय और दृश्यता देखें");
+        if(eclipseLink)links.appendChild(eclipseLink);
+      }
       if(links.childNodes.length)content.appendChild(links);
       var status=document.createElement("div");status.className="pill";
       if(item.reviewStatus==="user-confirmed-hard-copy"){status.classList.add("confirmed");status.textContent="तारीख़ की पुष्टि की गई";}
