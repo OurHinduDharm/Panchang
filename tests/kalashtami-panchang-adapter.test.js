@@ -70,6 +70,12 @@ test("monthly Kalashtami prefers a Krishna Ashtami that overlaps Pradosh", () =>
     { date: "2027-02-27", pradoshMinutes: 23, nightMinutes: 250 },
     { date: "2027-02-28", pradoshMinutes: 24, nightMinutes: 120 }
   ]).date, "2027-02-28");
+  // A supplied Drik/reference date should win when it belongs to the same
+  // observed Ashtami event, even if the adjacent date has more night overlap.
+  assert.equal(adapter.selectMonthlyDateForEvent([
+    { date: "2027-02-27", pradoshMinutes: 23, nightMinutes: 250 },
+    { date: "2027-02-28", pradoshMinutes: 24, nightMinutes: 120 }
+  ], new Set(["2027-02-27"])).date, "2027-02-27");
 });
 
 test("annual Bhairava Ashtami applies the distinct Dharmasindhu tie-breaks", () => {
