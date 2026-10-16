@@ -203,34 +203,35 @@
       if (!start || !end || end <= start) return;
       const startMs = start.getTime();
       const endMs = end.getTime();
-      // Tithi lasts roughly a day, so probing every minute is wasteful. Sample
-      // hourly; when the engine exposes tithi boundaries, count the exact
-      // overlap of that tithi with the whole window (once, not once per sample).
-      const step = 60 * 60 * 1000;
+      // Sample every 15 minutes rather than every minute. Tithi boundary times,
+      // when provided by the engine, give exact overlap with the full window.
+      const step = 15 * 60 * 1000;
       const countedIntervals = new Set();
       let fallbackMinutes = 0;
       for (let time = startMs; time < endMs; time += step) {
         const nextTime = Math.min(time + step, endMs);
         const sampleTime = time + Math.min(1000, (nextTime-time)/2);
         const p = options.getPanchangam(new Date(sampleTime), observer, { timezoneOffset });
-        if (!isKrishnaAshtami(p)) continue;
-        const tithiStart = validInstant(p && p.tithiStartTime);
-        const tithiEnd = validInstant(p && p.tithiEndTime);
-        if (tithiStart && tithiEnd && tithiEnd > tithiStart) {
-          const overlapStart = Math.max(startMs, tithiStart.getTime());
-          const overlapEnd = Math.min(endMs, tithiEnd.getTime());
-          const intervalKey = tithiStart.toISOString() + "|" + tithiEnd.toISOString();
-          if (overlapEnd > overlapStart && !countedIntervals.has(intervalKey)) {
-            countedIntervals.add(intervalKey);
-            register(dateString, p, kind, (overlapEnd-overlapStart)/60000);
+        if (isKrishnaAshtami(p)) {
+          const tithiStart = validInstant(p && p.tithiStartTime);
+          const tithiEnd = validInstant(p && p.tithiEndTime);
+          if (tithiStart && tithiEnd && tithiEnd > tithiStart) {
+            const overlapStart = Math.max(startMs, tithiStart.getTime());
+            const overlapEnd = Math.min(endMs, tithiEnd.getTime());
+            const intervalKey = tithiStart.toISOString() + "|" + tithiEnd.toISOString();
+            if (overlapEnd > overlapStart && !countedIntervals.has(intervalKey)) {
+              countedIntervals.add(intervalKey);
+              register(dateString, p, kind, (overlapEnd-overlapStart)/60000);
+            }
+          } else {
+            // Fallback only for engines that omit tithi boundary timestamps.
+            const fallbackStep = 5 * 60 * 1000;
+            for (let probe = time; probe < nextTime; probe += fallbackStep) {
+              const probeEnd = Math.min(probe + fallbackStep, nextTime);
+              const fallbackP = options.getPanchangam(new Date(probe + Math.min(1000, (probeEnd-probe)/2)), observer, { timezoneOffset });
+              if (isKrishnaAshtami(fallbackP)) fallbackMinutes += (probeEnd-probe)/60000;
+            }
           }
-        } else {
-          // Defensive fallback for engines that do not expose tithi boundaries.
-          // Five-minute slices retain useful precision without hundreds of calls.
-          const fallbackStep = Math.max(5, stepMinutes || 5) * 60 * 1000;
-          const fallbackEnd = Math.min(time + fallbackStep, endMs);
-          const fallbackP = options.getPanchangam(new Date(time + Math.min(1000, (fallbackEnd-time)/2)), observer, { timezoneOffset });
-          if (isKrishnaAshtami(fallbackP)) fallbackMinutes += (fallbackEnd-time)/60000;
         }
       }
       if (fallbackMinutes > 0) register(dateString, { tithi: 22, paksha: "कृष्ण", masa: (base.get(dateString) || {}).noon?.masa }, kind, fallbackMinutes);
