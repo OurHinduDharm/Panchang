@@ -39,11 +39,27 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-12-14",
+      "dateLabel": "14 दिसंबर",
+      "title": "विवाह पंचमी",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-12-16",
       "dateLabel": "16 दिसंबर",
       "title": "धनु संक्रांति",
       "description": "सूर्य के धनु राशि में प्रवेश से संबंधित संक्रांति।",
       "category": "संक्रांति",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-20",
+      "dateLabel": "20 दिसंबर",
+      "title": "गीता जयंती",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "जयंती",
       "reviewStatus": "needs-review"
     },
     {
@@ -60,6 +76,14 @@
       "title": "प्रदोष व्रत",
       "description": "प्रदोष-काल में तिथि-व्याप्ति जाँचना आवश्यक।",
       "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-12-23",
+      "dateLabel": "23 दिसंबर",
+      "title": "दत्तात्रेय जयंती",
+      "description": "प्रारंभिक तारीख़; स्थानीय पंचांग से समीक्षा आवश्यक।",
+      "category": "जयंती",
       "reviewStatus": "needs-review"
     },
     {
