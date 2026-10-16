@@ -4,8 +4,16 @@
   "month": 9,
   "monthName": "सितंबर",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़; अंतिम पर्व-तिथि समीक्षा के बाद ही प्रकाशित होगी",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
+    {
+      "date": "2026-09-02",
+      "dateLabel": "2 सितंबर",
+      "title": "हलषष्ठी, श्री बलराम जयंती",
+      "description": "",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
     {
       "date": "2026-09-04",
       "dateLabel": "4 सितंबर",
@@ -15,12 +23,53 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "श्रीकृष्ण जयंती / श्री कृष्ण जन्माष्टमी, श्री आद्याकाली जयन्ती",
+      "description": "⭐<b> ४ सितम्बर -</b><a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\">श्रीकृष्ण जयंती, श्री कृष्ण जन्मोत्सव-पूजन-जागरण, दशाफल व्रत एवं श्री कृष्ण जन्माष्टमी व्रत</a> (स्मार्त जनसाधारण का), <br/>⭐<b> ४ सितम्बर को ही - </b> श्री कृष्ण जन्माष्टमी व्रत (वैष्णवों- विष्णुमंत्र से दीक्षितों का)<br/>अर्द्धरात्रि में, <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">श्री आद्याकाली (महाकाली महाविद्या) जयन्ती</a> , कालाष्टमी।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-09-07",
       "dateLabel": "7 सितंबर",
       "title": "अजा एकादशी",
       "description": "संभावित पर्व-प्रविष्टि; पारण और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "एकादशी",
       "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-10",
+      "dateLabel": "10 सितंबर",
+      "title": "कुशोत्पाटनी अमावास्या",
+      "description": "आज कुश को \"ॐ हुं फट्\" मंत्र से उखाड़ा जाता है, इस दिन उखाड़े गये कुशों को सुरक्षित पवित्र स्थान में रख देने से वर्ष भर उन कुशों को पूजा-पाठ के लिये, पवित्री, तर्पण आदि के काम में ले सकते हैं।",
+      "category": "अमावस्या",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-13",
+      "dateLabel": "13 सितंबर",
+      "title": "सामवेदियों का उपाकर्म",
+      "description": "सामवेदियों का उपाकर्म १३ सितंबर २०२६ को होगा।",
+      "category": "उपाकर्म",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-14",
+      "dateLabel": "14 सितंबर",
+      "title": " श्री वाराहावतार प्राकट्य ",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\">विष्णुजी के अवतार भगवान वाराह की जयन्ती</a>, ⭐ हरतालिका तीज",
+      "category": "जयंती",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-14",
+      "dateLabel": "14 सितंबर",
+      "title": "श्री गणेश जी की जयंती ",
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत, </a> पत्थर चौथ - भाद्रपद शुक्ल चतुर्थी के दिन चन्द्रमा का दर्शन न करें यदि भूल से हो जाए तो स्यमन्तक मणि का अपकीर्तिनाशक आख्यान पढ़ना चाहिए...",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-09-25"
     },
     {
       "date": "2026-09-14",
@@ -36,6 +85,14 @@
       "title": "ऋषि पंचमी",
       "description": "संभावित पर्व-प्रविष्टि; स्थानीय तिथि-निर्णय की समीक्षा आवश्यक।",
       "category": "व्रत",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-16",
+      "dateLabel": "16 सितंबर",
+      "title": "ऋषि पंचमी",
+      "description": "",
+      "category": "व्रत-पर्व",
       "reviewStatus": "needs-review"
     },
     {
@@ -55,11 +112,27 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-09-19",
+      "dateLabel": "19 सितंबर",
+      "title": "श्री राधाष्टमी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>, महर्षि दधीचि जयंती।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-09-22",
       "dateLabel": "22 सितंबर",
       "title": "पार्श्व एकादशी",
       "description": "संभावित पर्व-प्रविष्टि; पारण और स्थानीय व्रत-निर्णय की समीक्षा आवश्यक।",
       "category": "एकादशी",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-23",
+      "dateLabel": "23 सितंबर",
+      "title": "श्री वामनावतार एवं श्री भुवनेश्वरी महाविद्या का प्राकट्य",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\"> भाद्रपद  शुक्ल द्वादशी, भगवान वामन की जयंती</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Goddess-Bhuvaneshvari-On-BhuwaneshwariMahavidyaJayanti.html\" target=\"_blank\">श्री भुवनेश्वरी महाविद्या जयन्ती</a>",
+      "category": "जयंती",
       "reviewStatus": "needs-review"
     },
     {
@@ -71,12 +144,38 @@
       "reviewStatus": "needs-review"
     },
     {
+      "date": "2026-09-25",
+      "dateLabel": "25 सितंबर",
+      "title": "श्रीगणेश विसर्जन",
+      "description": "अनंत चतुर्दशी",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-09-26",
       "dateLabel": "26 सितंबर",
       "title": "भाद्रपद पूर्णिमा",
       "description": "संभावित पर्व-प्रविष्टि; पूर्णिमा-व्याप्ति की समीक्षा आवश्यक।",
       "category": "पूर्णिमा",
       "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-26",
+      "dateLabel": "26 सितंबर",
+      "title": "भाद्रपद शुक्ल पूर्णिमा",
+      "description": "पूर्णिमा का श्राद्ध।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-09-27",
+      "dateLabel": "27 सितंबर",
+      "title": "आश्विन कृष्ण प्रतिपदा (पितृपक्ष प्रारंभ)",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html\" target=\"_blank\">प्रतिपदा का श्राद्ध, श्राद्ध प्रारंभ, महालय , पितृपक्ष प्रारंभ</a> - पितृपक्ष 10 अक्टूबर (सर्वपितृ अमावस्या) तक रहेगा।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "endDate": "2026-10-10",
+      "statusText": "पितृपक्ष चल रहा है"
     },
     {
       "date": "2026-09-27",
