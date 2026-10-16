@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordStatus": "reviewed-corrections-needs-rule-validation",
+  "recordStatus": "reviewer-confirmed-dates-needs-final-engine-validation",
   "year": 2026,
   "location": {
     "name": "पिथौरागढ़",
@@ -63,8 +63,8 @@
     {
       "date": "2026-10-03",
       "generatedDate": null,
-      "decision": "approved-review-candidate",
-      "note": "Oct 3 approved in unresolved-candidate review; Oct 4 canceled. Keep interval-validation flag until calculation is repaired."
+      "decision": "confirmed-by-user-hard-copy-review",
+      "note": "User rechecked Ganesh Martand Panchang: monthly Kalashtami is 3 October 2026; 4 October is canceled. Engine interval detection still needs correction, but the reference date is confirmed."
     },
     {
       "date": "2026-11-01",
@@ -85,12 +85,15 @@
     }
   ],
   "annualKalabhairavaAshtami": {
+    "date": "2026-12-01",
     "generatedDate": "2026-12-01",
-    "reviewStatus": "fix",
-    "reviewerNote": "Wrong. मार्गशीर्ष · कृष्ण · अष्टमी 3 oct ko",
-    "proposedDate": "2026-10-03",
-    "decision": "pending-reconciliation",
-    "reason": "The note proposes 3 October, while the generated annual observance is explicitly Margashirsha Krishna Ashtami and 3 October's review candidate is labeled Ashwin. Do not silently change the annual rule/date until the month-versus-date conflict is reconciled against the hard-copy reference."
+    "masa": "मार्गशीर्ष",
+    "paksha": "कृष्ण",
+    "tithi": "अष्टमी",
+    "reviewStatus": "confirmed-by-user-hard-copy-review",
+    "reviewerNote": "User rechecked: annual Kalabhairava Ashtami is 1 December 2026.",
+    "decision": "confirmed",
+    "reason": "Keep the annual Margashirsha Krishna Ashtami on 1 December 2026. This is separate from the monthly Kalashtami confirmed for 3 October 2026."
   },
   "unresolvedCandidateReview": [
     {
@@ -105,8 +108,10 @@
     }
   ],
   "implementationNotes": [
-    "Monthly correction dates reflect the user's notes and the supplied Drik reference-date list; validate against actual calculated tithi windows before production use.",
-    "Published reference-date preference is applied only when that date belongs to an observed Ashtami event group.",
-    "This file is not production runtime data and does not certify unresolved tithi intervals."
+    "User rechecked the hard-copy Panchang and confirmed monthly Kalashtami for 3 October 2026.",
+    "User rechecked the hard-copy Panchang and confirmed annual Kalabhairava Ashtami for 1 December 2026 (Margashirsha Krishna Ashtami).",
+    "4 October 2026 is canceled as a monthly Kalashtami candidate.",
+    "The monthly engine's tithi-interval detection still needs correction; confirmed reference dates must not be mistaken for a successful engine calculation.",
+    "This review file is not production runtime data; keep PR draft and do not connect to live Panchang until tests pass."
   ]
 }
