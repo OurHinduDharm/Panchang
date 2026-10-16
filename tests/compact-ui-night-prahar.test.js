@@ -634,18 +634,20 @@ test("Chapter IX Venus threshold follows classified horizon event, not morning/e
   const extra = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const thresholds = extra.match(/const PLANET_ASTA_THRESHOLDS = \{[\s\S]*?\n\};/)?.[0];
   const normalize = extra.match(/function normalizeLongitude\(degrees\) \{[\s\S]*?\n\}/)?.[0];
+  const signedDifference = extra.match(/function signedLongitudeDifference\(to, from\) \{[\s\S]*?\n\}/)?.[0];
   const classify = extra.match(/function classifyChapter9HorizonEvent\(\{[\s\S]*?(?=\nfunction findNearestAngularBoundary)/)?.[0];
   const threshold = extra.match(/function getPlanetEventThreshold\(body, horizonEvent\) \{[\s\S]*?\n\}/)?.[0];
-  assert.ok(thresholds && normalize && classify && threshold, "Chapter IX helpers and limits must exist for focused regression tests");
+  assert.ok(thresholds && normalize && signedDifference && classify && threshold, "Chapter IX helpers and limits must exist for focused regression tests");
   const helpers = vm.runInNewContext(
-    `${thresholds}\n${normalize}\n${classify}\n${threshold}\n;({ classifyChapter9HorizonEvent, getPlanetEventThreshold })`
+    `${thresholds}\n${normalize}\n${signedDifference}\n${classify}\n${threshold}\n;({ classifyChapter9HorizonEvent, getPlanetEventThreshold })`
   );
   const cases = [
     { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: -0.5, event: "west-setting", limit: 8 },
     { body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: -0.5, event: "east-rising", limit: 8 },
     { body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: 1, event: "east-setting", limit: 10 },
     { body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: 1, event: "west-rising", limit: 10 },
-    { body: "Jupiter", planetLongitude: 1, sunLongitude: 359, planetMotion: 0.08, event: "east-rising", limit: 11 }
+    { body: "Jupiter", planetLongitude: 1, sunLongitude: 359, planetMotion: 0.08, event: "west-setting", limit: 11 },
+    { body: "Jupiter", planetLongitude: 359, sunLongitude: 1, planetMotion: 0.08, event: "east-rising", limit: 11 }
   ];
   for (const item of cases) {
     const event = helpers.classifyChapter9HorizonEvent(item);
