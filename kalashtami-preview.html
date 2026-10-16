@@ -75,9 +75,15 @@ async function run() {
     $("status").textContent = "पंचांग इंजन तैयार किया जा रहा है…";
     await ensureDraftScripts();
     $("status").textContent = "वर्ष की तारीख़ें जाँची जा रही हैं…";
+    const calculationStartedAt = performance.now();
+    let panchangCalls = 0;
+    const countedGetPanchangam = (...args) => {
+      panchangCalls += 1;
+      return getPanchangam(...args);
+    };
     const generated = await window.OHDFestivalPanchangAdapter.buildKalashtamiDays({
       year, latitude:30.1265, longitude:80.4817, elevation:0,
-      timezoneOffset:330, getPanchangam, Observer,
+      timezoneOffset:330, getPanchangam:countedGetPanchangam, Observer,
       onProgress(progress) {
         if (progress.phase === "year-scan") {
           $("status").textContent = `वर्ष की तारीख़ें जाँची जा रही हैं… ${progress.processedDays}/${progress.totalDays}`;
@@ -96,7 +102,8 @@ async function run() {
     const annualResult = window.OHDFestivalDateResolver.resolveFestivalDate(annual,{year,panchangDays:generated.annualDecisionDays});
     showList($("monthly"),monthlyResult.displayDates,"प्रदोषारम्भ के बाद कम-से-कम एक घटी कृष्ण अष्टमी; अन्यथा रात्रि-व्याप्ति");
     showList($("annual"),annualResult.displayDates,"धर्मसिंधु के अष्टमी-निर्णय में वर्णित मध्यान्ह/प्रदोष व्याप्ति");
-    $("status").textContent = "गणना पूरी हुई। "+generated.candidateDates.length+" संभावित तारीख़ों पर सूर्योदय, मध्यान्ह और प्रदोष की तिथि-व्याप्ति जाँची गई।";
+    const elapsedSeconds = ((performance.now() - calculationStartedAt) / 1000).toFixed(1);
+    $("status").textContent = "गणना पूरी हुई। "+generated.candidateDates.length+" संभावित तारीख़ें जाँची गईं · "+panchangCalls+" पंचांग गणनाएँ · "+elapsedSeconds+" सेकंड।";
   } catch(error) {
     $("status").className = "status error";
     $("status").textContent = "गणना पूरी नहीं हुई: "+(error && error.message ? error.message : String(error));
