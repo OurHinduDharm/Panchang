@@ -108,15 +108,13 @@ test("monthly preview stays clearly marked as a non-production draft with workin
   assertInlineScriptsParse(review, "monthly-festival-review.html");
 });
 
-test("festival images are selected by event type with visible licensing credits", () => {
-  const images = readFileSync(resolve(root, "festival-images.js"), "utf8");
+test("monthly festival preview renders text and links without festival images", () => {
   const page = readFileSync(resolve(root, "monthly-vrat-parv.html"), "utf8");
-  assert.match(images, /export function getFestivalImage/);
-  assert.match(images, /CC BY-SA 4\.0/);
-  assert.ok(images.includes("https://thumb.wikimedia.org/wikipedia/commons/thumb/"));
-  assert.match(images, /commons\.wikimedia\.org\/wiki\/File:/);
-  assert.match(page, /festivalImageModulePromise/);
-  assert.match(page, /image-credit/);
+  assert.doesNotMatch(page, /festivalImageModulePromise|appendFestivalImage|image-credit|className="thumb"/);
+  assert.doesNotMatch(page, /import\(["']\.\/festival-images\.js["']\)/);
+  assert.match(page, /makeLink\(item\.articleUrl,item\.articleLabel\)/);
+  assert.match(page, /makeLink\(item\.secondaryArticleUrl,item\.secondaryArticleLabel\)/);
+  assert.match(page, /renderDescription\(desc,item\.description\)/);
   assert.match(page, /item\.showReviewStatus!==false/);
 });
 
