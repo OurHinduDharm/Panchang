@@ -9,6 +9,7 @@
 
 const RULES = Object.freeze({
   krishna_janmashtami: Object.freeze({ tithi: 23, anchor: "nishita", label: "कृष्ण जन्माष्टमी" }),
+  masik_kalashtami: Object.freeze({ tithi: 23, anchor: "nishita", label: "मासिक कालाष्टमी" }),
   rama_navami: Object.freeze({ tithi: 9, anchor: "madhyahna", label: "राम नवमी" }),
   maha_shivaratri: Object.freeze({ tithi: 29, anchor: "nishita", label: "महाशिवरात्रि" })
 });
