@@ -41,7 +41,7 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी"
+      "hinduTithi": "वैशाख कृष्ण अष्टमी"
     },
     {
       "date": "2026-04-13",
@@ -108,7 +108,8 @@
       "title": "परशुराम जयंती",
       "description": "परशुराम जयंती भगवान विष्णु के परशुराम अवतार के प्राकट्य-स्मरण का पर्व है। विष्णु-पूजन, पाठ, जप और दान की परंपरा है; तिथि-निर्णय स्थानीय पंचांग से जाँचें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "जयंती",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
     },
     {
       "date": "2026-04-19",
@@ -116,7 +117,8 @@
       "title": "श्री परशुराम अवतार जयन्ती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\">श्री परशुराम अवतार जयन्ती</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
     },
     {
       "date": "2026-04-20",
@@ -192,8 +194,7 @@
       "title": "श्री नृसिंह अवतार जयन्ती, श्री छिन्नमस्ता महाविद्या जयन्ती, श्री शरभ अवतार जयंती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html\" target=\"_blank\">श्री नृसिंह अवतार जयन्ती, श्री नृसिंहचतुर्दशी व्रत</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Chhinnamastika-On-ChhinnamastaJayanti.html\" target=\"_blank\">श्री छिन्नमस्ता महाविद्या जयन्ती</a>, श्री शरभ अवतार जयंती। भगवत्प्रेरणा से यह blog 2013 में इसी दिन वैशाख शुक्ल चतुर्दशी को बना था।",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "वैशाख शुक्ल चतुर्दशी"
+      "reviewStatus": "needs-review"
     }
   ]
 }
