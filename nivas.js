@@ -31,6 +31,11 @@ export function normalizeTithiIndex(value) {
     candidate = candidate.index ?? candidate.number ?? candidate.value;
   }
 
+  if (candidate === null || candidate === undefined ||
+      (typeof candidate === "string" && candidate.trim() === "")) {
+    return null;
+  }
+
   const index = Number(candidate);
   return Number.isInteger(index) && index >= 0 && index <= 29 ? index : null;
 }
