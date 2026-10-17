@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { evaluateFestivalDateRule, getFestivalDateRuleIds } from "../festival-date-engine.js";
+import { evaluateFestivalDateRule, getFestivalDateRuleIds } from "../festival-date-engine.mjs";
 
 function day(date, tithi, start, end, anchorName, anchorStart, anchorEnd) {
   return {
