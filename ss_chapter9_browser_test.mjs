@@ -197,6 +197,36 @@ try {
       shortHorizonErrorDays: row.dataset.shortHorizonErrorDays
     }))
   );
+  const dailyAudit = await page.locator("#lagnantaraOutput tr.reference-row").evaluateAll(rows =>
+    rows.map(row => {
+      const detail = row.nextElementSibling;
+      const table = detail?.querySelector("details details table");
+      const headers = [...(table?.querySelectorAll("thead th") || [])].map(th => th.textContent.trim());
+      const sampleRows = [...(table?.querySelectorAll("tbody tr") || [])];
+      return {
+        planet: row.cells[0]?.textContent || "?",
+        event: row.cells[1]?.textContent || "?",
+        sampleCount: sampleRows.length,
+        headers,
+        firstRow: sampleRows[0] ? [...sampleRows[0].cells].map(cell => cell.textContent.trim()) : []
+      };
+    })
+  );
+  console.log("Daily IX.10–11 sample audit:", JSON.stringify(dailyAudit));
+  if (dailyAudit.length !== 4 || dailyAudit.some(item =>
+      item.sampleCount < 20 ||
+      !item.headers.includes("Raw planet longitude (°)") ||
+      !item.headers.includes("Corrected planet longitude (°)") ||
+      !item.headers.includes("Signed lagnāntara (°)") ||
+      !item.headers.includes("K−C (°)") ||
+      !item.headers.includes("Signed K-rate (prāṇa/day)") ||
+      !item.headers.includes("Predicted event") ||
+      !item.headers.includes("Error vs bracket (days)") ||
+      item.firstRow.length !== 15
+  )) {
+    throw new Error("Daily IX.10–11 audit did not expose the expected per-sample geometry, signed rate, prediction, and bracket-error fields.");
+  }
+
   const chapter7 = await page.locator("#chapter7DrikkarmaTestOutput").innerText();
   const chapter3 = await page.locator("#chapter3LagnantaraTestOutput").innerText();
   const output = await page.locator("#lagnantaraOutput").innerText();
