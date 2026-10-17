@@ -223,11 +223,13 @@ try {
       !item.headers.includes("Signed lagnāntara (°)") ||
       !item.headers.includes("K−C (°)") ||
       !item.headers.includes("Signed K-rate IX.10–11 (prāṇa/day)") ||
+      !item.headers.includes("Empirical raw-K rate (prāṇa/day)") ||
       !item.headers.includes("Empirical next-sample ΔK/day (prāṇa/day)") ||
+      !item.headers.includes("Correction contribution to ΔK/day (prāṇa/day)") ||
       !item.headers.includes("IX.10–11 minus empirical rate") ||
       !item.headers.includes("Predicted event") ||
       !item.headers.includes("Error vs bracket (days)") ||
-      item.firstRow.length !== 17 ||
+      item.firstRow.length !== 19 ||
       !item.bracketErrors.some(value => Number.isFinite(Number(value)) && value !== "") ||
       !item.bracketErrors.some(value => value === "—")
   )) {
