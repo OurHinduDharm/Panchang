@@ -1,146 +1,65 @@
 <!doctype html>
 <html lang="hi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>वार्षिक पर्व डेटा समीक्षा | OurHinduDharm</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
+<title>वार्षिक पर्व गणना एवं JSON समीक्षा | OurHinduDharm</title>
 <style>
-:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;padding:12px;background:#f5f2ec;color:#30281f;font:15px/1.55 system-ui,Arial,"Noto Sans Devanagari",sans-serif}main{max-width:1050px;margin:auto;background:#fff;padding:16px;border:1px solid #e4dbce;border-radius:12px}h1{font-size:23px;margin:0 0 8px}h2{font-size:18px;margin:22px 0 8px}.notice{padding:11px;border:1px solid #d8c18d;background:#fff7df;border-radius:8px;font-size:13px}.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin:15px 0}.controls label{display:grid;gap:4px;font-size:13px}.controls input,.controls button,select,textarea{font:inherit;padding:9px;border:1px solid #cfc5b8;border-radius:7px;min-width:0}.controls button,.action{background:#71401e;color:#fff;border:0;cursor:pointer}.controls button:disabled{opacity:.55;cursor:wait}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.action{padding:9px 12px;border-radius:7px}.status{padding:9px 0;color:#5d5042}.error{color:#a32620}.muted{font-size:12px;color:#71675c}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #e7dfd5;padding:8px;font-size:13px}th{background:#f7f3ed}td input[type=text]{width:100%;min-width:140px}tr.duplicate{background:#fff2ef}.pill{display:inline-block;padding:2px 6px;border-radius:5px;background:#ffe0da;color:#84281f;font-size:11px}.empty{padding:14px;background:#faf8f4;border-radius:8px}.summary{display:flex;gap:12px;flex-wrap:wrap}.summary span{padding:7px 10px;background:#f5f1ea;border-radius:7px}
-@media(max-width:480px){main{padding:11px}h1{font-size:20px}}
-</style>
-</head>
-<body><main>
-<p class="notice"><strong>समीक्षा पृष्ठ — ड्राफ्ट, लाइव पंचांग नहीं।</strong> यह पृष्ठ अभी कालाष्टमी/कालभैरवाष्टमी वार्षिक गणना का पायलट है। गणना से निकली तारीखें स्वतः प्रमाणित नहीं मानी जाएँगी। इस HTML पेज में लॉगिन नहीं है; GitHub रिपॉज़िटरी सार्वजनिक होने पर URL गोपनीय नहीं है। आपकी समीक्षा टिप्पणियाँ केवल इसी ब्राउज़र के local storage में रहती हैं, जब तक आप JSON डाउनलोड न करें।</p>
-<h1>वार्षिक पर्व डेटा — गणना और समीक्षा</h1>
-<p class="muted">पहला चरण: संदर्भ पंचांग से संभावित तारीख़ें दें; प्रत्येक तारीख़ और उसके एक दिन पहले/बाद की जाँच होगी, ताकि रात/तिथि की सीमा जाँची जा सके। 5-दिन की विंडो हटाई गई है। संदर्भ तारीख़ें न देने पर ही पूरा वर्ष स्कैन होगा। स्थान बदला जा सकता है; कॉल की संख्या और समय दिखेंगे।</p>
-<div class="controls">
-<label>वर्ष<input id="year" type="number" min="1900" max="2200" value="2026"></label>
-<label>स्थान का नाम<input id="city" type="text" value="पिथौरागढ़" maxlength="80"></label>
-<label>अक्षांश<input id="lat" type="number" step="0.0001" value="30.1265"></label>
-<label>देशांतर<input id="lon" type="number" step="0.0001" value="80.4817"></label>
-<label>ऊँचाई (मीटर)<input id="elev" type="number" step="1" value="0"></label>
-<label style="grid-column:1/-1">संदर्भ पर्व-तारीख़ें (एक पंक्ति में एक तारीख़; YYYY-MM-DD)<textarea id="seedDates" rows="4" spellcheck="false">2026-01-10
-2026-02-09
-2026-03-11
-2026-04-10
-2026-05-09
-2026-06-08
-2026-07-07
-2026-08-05
-2026-09-04
-2026-10-03
-2026-11-01
-2026-12-01
-2026-12-30</textarea><span class="muted">ये संदर्भ तारीख़ें हैं—कुछ प्रकाशित पंचांग से और कुछ आपकी गणेशमार्तण्ड पंचांग-जाँच से। ये स्वतः स्वीकृत परिणाम नहीं हैं। अब हर तारीख़ के लिए केवल उसी दिन और उसके एक दिन पहले/बाद का डेटा जाँचा जाएगा; रात की सीमा जाँचने के लिए पड़ोसी दिन उपयोगी हैं। 5-दिन की विंडो अनावश्यक थी, इसलिए हटाई गई है। तारीख़ें बदल सकते हैं; खाली छोड़ने पर पूरा वर्ष स्कैन होगा।</span></label>
+*{box-sizing:border-box}body{margin:0;padding:12px;background:#f5f2ec;color:#30281f;font:15px/1.55 system-ui,Arial,"Noto Sans Devanagari",sans-serif}main{max-width:1080px;margin:auto;background:#fff;padding:16px;border:1px solid #e4dbce;border-radius:12px}h1{font-size:23px;margin:0 0 8px}h2{font-size:18px;margin:22px 0 8px}.notice{padding:11px;border:1px solid #d8c18d;background:#fff7df;border-radius:8px;font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0}.field{display:grid;gap:4px;font-size:13px}.field input,.field select,.field button,button,textarea{font:inherit;padding:9px;border:1px solid #cfc5b8;border-radius:7px;min-width:0}.action{background:#71401e;color:#fff;border:0;cursor:pointer}.action:disabled{opacity:.55}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.status{padding:9px 0;color:#5d5042}.error{color:#a32620}.muted{font-size:12px;color:#71675c}.summary{display:flex;gap:8px;flex-wrap:wrap}.summary span{padding:7px 10px;background:#f5f1ea;border-radius:7px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:720px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #e7dfd5;padding:8px;font-size:13px}th{background:#f7f3ed}.result-list{max-height:440px;overflow:auto;border:1px solid #e7dfd5;border-radius:8px}.event{padding:10px;border-bottom:1px solid #eee5d9}.event:last-child{border-bottom:0}.event h3{font-size:15px;margin:0 0 4px}.pill{display:inline-block;padding:2px 6px;border-radius:5px;background:#eee5d9;font-size:11px}.event p{margin:4px 0}.hidden{display:none!important}textarea{width:100%;min-height:110px}a{color:#7a451e}@media(max-width:480px){main{padding:11px}h1{font-size:20px}}
+</style></head><body><main>
+<p class="notice"><strong>ड्राफ्ट समीक्षा टूल — लाइव पंचांग नहीं।</strong> यह टूल वर्ष भर के दिन पुस्तकालय से स्कैन करके तिथि/पक्ष/मास/नक्षत्र/योग/करण/वार खोजने और JSON बनाने में मदद करता है। गणना अपने-आप शास्त्रीय निर्णय या पर्व की अंतिम तारीख़ प्रमाणित नहीं करती। अलग-अलग पर्वों के विशेष नियम (जैसे पराना, प्रदोष, निशीथ, उदयव्यापिनी) की अलग जाँच ज़रूरी होगी।</p>
+<h1>वार्षिक पर्व गणना और JSON टूल</h1>
+<p class="muted">समीक्षा के लिए: पहले वर्ष/स्थान चुनें, पूरे वर्ष का पंचांग स्कैन करें, फिर श्रेणी/पर्व या तिथि खोजें। चुनी तारीख़ें केवल संभावित संकेत हैं।</p>
+<h2>1. वर्ष और स्थान</h2>
+<div class="grid">
+<label class="field">वर्ष<input id="year" type="number" min="1900" max="2200" value="2026"></label>
+<label class="field">स्थान का नाम<input id="city" value="पिथौरागढ़"></label>
+<label class="field">अक्षांश<input id="lat" type="number" step="0.0001" value="30.1265"></label>
+<label class="field">देशांतर<input id="lon" type="number" step="0.0001" value="80.4817"></label>
+<label class="field">ऊँचाई (मीटर)<input id="elev" type="number" step="1" value="0"></label>
 </div>
-<div class="actions"><button id="run" class="action" type="button">पूरे वर्ष की गणना करें</button><button id="export" class="action" type="button" disabled>समीक्षा सहित JSON डाउनलोड करें</button></div>
-<div id="status" class="status" role="status" aria-live="polite">वर्ष और स्थान जाँचें, फिर गणना बटन दबाएँ।</div>
-<div id="summary" class="summary"></div>
-<h2>मासिक कालाष्टमी</h2><div id="monthly" class="empty">अभी गणना नहीं हुई।</div>
-<h2>अष्टमी के संभावित संकेत — समीक्षा हेतु, अंतिम गणना नहीं</h2><p class="muted">यदि दोपहर में कृष्ण सप्तमी के बाद अगले दिन कृष्ण नवमी मिले और वास्तविक अष्टमी अवधि गणना में न मिली हो, तो दोनों तारीख़ें यहाँ समीक्षा के लिए दिखाई जाएँगी। इन्हें स्वतः सही/स्वीकृत न मानें।</p><div id="unresolved" class="empty">अभी गणना नहीं हुई।</div>
-<h2>वार्षिक कालभैरवाष्टमी</h2><div id="annual" class="empty">अभी गणना नहीं हुई।</div>
-<h2>स्कैन जाँच — अक्टूबर 2026</h2><div id="diagnostics" class="empty">गणना के बाद यहाँ 1–5 अक्टूबर की वास्तविक पंचांग तिथियाँ दिखाई जाएँगी।</div>
-<p class="muted">समीक्षा विकल्प: “जाँच बाकी”, “सही”, “सुधार चाहिए”। नोट और स्थिति इसी डिवाइस/ब्राउज़र में सेव होंगे। एक ही तारीख़ दो बार आए तो उसे छिपाया नहीं जाएगा—डुप्लिकेट को समीक्षा में साफ़ दिखाया जाएगा।</p>
+<div class="actions"><button id="scan" class="action">पूरे वर्ष का पंचांग स्कैन करें</button><button id="download" class="action" disabled>समीक्षा सहित JSON डाउनलोड करें</button></div>
+<div id="status" class="status" role="status" aria-live="polite">वर्ष और स्थान जाँचें, फिर स्कैन शुरू करें।</div><div id="summary" class="summary"></div>
+<h2>2. पर्व कैटलॉग और श्रेणी</h2>
+<div class="grid">
+<label class="field">श्रेणी<select id="category"><option value="">सभी श्रेणियाँ</option></select></label>
+<label class="field">पर्व खोजें<input id="festivalSearch" type="search" placeholder="नाम, ID, विवरण या लिंक"></label>
+</div>
+<div id="catalog" class="result-list"><div class="event">पर्व सूची लोड हो रही है…</div></div>
+<h2>3. वर्ष की लाइब्रेरी खोज</h2>
+<p class="muted">यह खोज स्कैन किए गए दिनों में तिथि/पक्ष/मास/नक्षत्र/योग/करण/वार खोजती है। इससे संभावित दिन जल्दी मिलेंगे; विशेष पर्व-निर्णय की जगह नहीं लेती।</p>
+<div class="grid">
+<label class="field">किस चीज़ को खोजें<select id="searchField"><option value="all">सभी पंचांग विवरण</option><option value="tithi">तिथि</option><option value="paksha">पक्ष</option><option value="masa">हिन्दू मास</option><option value="nakshatra">नक्षत्र</option><option value="yoga">योग</option><option value="karana">करण</option><option value="vara">वार</option></select></label>
+<label class="field">खोज शब्द<input id="librarySearch" type="search" placeholder="जैसे अष्टमी, एकादशी, रोहिणी"></label>
+</div>
+<div id="matches" class="result-list"><div class="event">पहले वार्षिक स्कैन चलाएँ।</div></div>
+<h2>4. चुने हुए पर्व के लिए संभावित तारीख़ें</h2>
+<div id="selectedInfo" class="empty muted">ऊपर सूची में किसी पर्व पर “इस पर्व के लिए देखें” दबाएँ।</div>
+<div id="candidateTable" class="tablewrap"></div>
+<p class="muted">समीक्षा विकल्प और टिप्पणियाँ इस ब्राउज़र में सेव होती हैं। JSON डाउनलोड करके सुरक्षित रखें। JSON में मूल कैटलॉग रिकॉर्ड, वर्ष के पंचांग स्कैन, संभावित तारीख़ें और समीक्षा शामिल होंगे। यह पेज अपने-आप GitHub या लाइव साइट नहीं बदलता।</p>
 </main>
 <script type="module">
-import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+import {getPanchangam,Observer} from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const $=id=>document.getElementById(id);
-const ASSET_SHA="80e7c4008e606fa44a9b78a41b127f9db0a9d9f6";
-let generated=null, meta=null, panchangCalls=0, panchangRequests=0, panchangCacheHits=0, elapsedSeconds=null;
-let adapterPromise;
-function ensureAdapter(){
- if(!adapterPromise) adapterPromise=new Promise((resolve,reject)=>{
-  const s=document.createElement("script");
-  s.src="https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@"+ASSET_SHA+"/kalashtami-panchang-adapter.js";
-  s.onload=()=>window.OHDFestivalPanchangAdapter?resolve(window.OHDFestivalPanchangAdapter):reject(new Error("गणना मॉड्यूल उपलब्ध नहीं हुआ"));
-  s.onerror=()=>reject(new Error("गणना मॉड्यूल लोड नहीं हुआ; इंटरनेट कनेक्शन जाँचें"));
-  document.head.appendChild(s);
- });
- return adapterPromise;
-}
-function reviewKey(kind,item){return ["ohd-year-review-v1",meta.year,meta.lat,meta.lon,kind,item.date,item.sourceMethod||""].join("|")}
-function readReview(key){try{return JSON.parse(localStorage.getItem(key)||"{}")}catch{return {}}}
-function saveReview(key,field,value){const old=readReview(key);old[field]=value;old.updatedAt=new Date().toISOString();try{localStorage.setItem(key,JSON.stringify(old))}catch(e){$("status").textContent="ब्राउज़र स्टोरेज उपलब्ध नहीं है; समीक्षा JSON डाउनलोड करके सुरक्षित रखें。"}}
-function renderTable(target,rows,kind,label){
- target.replaceChildren();
- if(!rows.length){target.className="empty";target.textContent="इस गणना में कोई परिणाम नहीं मिला।";return}
- const counts={};rows.forEach(x=>counts[x.date]=(counts[x.date]||0)+1);
- const wrap=document.createElement("div");wrap.className="tablewrap";
- const table=document.createElement("table");
- const thead=document.createElement("thead");thead.innerHTML="<tr><th>तारीख़</th><th>हिन्दू मास / पक्ष / तिथि</th><th>गणना विधि</th><th>समीक्षा</th><th>आपकी टिप्पणी</th></tr>";table.append(thead);
- const tbody=document.createElement("tbody");
- rows.forEach((item,index)=>{
-  const key=reviewKey(kind,item), saved=readReview(key),tr=document.createElement("tr");
-  if(counts[item.date]>1)tr.className="duplicate";
-  const date=new Date(item.date+"T12:00:00+05:30");
-  const dateText=date.toLocaleDateString("hi-IN",{day:"numeric",month:"short",year:"numeric",timeZone:"Asia/Kolkata"});
-  const tdDate=document.createElement("td");tdDate.textContent=dateText;
-  if(counts[item.date]>1){const badge=document.createElement("div");badge.className="pill";badge.textContent="डुप्लिकेट तारीख़";tdDate.append(badge)}
-  const tdDetail=document.createElement("td");tdDetail.textContent=[item.month,item.paksha,item.tithi].filter(Boolean).join(" · ");
-  const tdMethod=document.createElement("td");tdMethod.textContent=label+(item.sourceMethod?" · "+item.sourceMethod:"")+(Number.isFinite(item.nightMinutes)?" · रात्रि में अष्टमी "+item.nightMinutes+" मिनट":"")+(Number.isFinite(item.pradoshMinutes)?" · प्रदोष-काल में अष्टमी "+item.pradoshMinutes+" मिनट":"");
-  const tdReview=document.createElement("td");const select=document.createElement("select");select.setAttribute("aria-label",dateText+" समीक्षा स्थिति");
-  [["pending","जाँच बाकी"],["approved","सही"],["fix","सुधार चाहिए"]].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;select.append(o)});
-  select.value=saved.status||"pending";select.addEventListener("change",()=>saveReview(key,"status",select.value));tdReview.append(select);
-  const tdNote=document.createElement("td");const note=document.createElement("input");note.type="text";note.maxLength=500;note.placeholder="पंचांग से मिलान / टिप्पणी";note.value=saved.note||"";note.addEventListener("change",()=>saveReview(key,"note",note.value));tdNote.append(note);
-  tr.append(tdDate,tdDetail,tdMethod,tdReview,tdNote);tbody.append(tr);
- });
- table.append(tbody);wrap.append(table);target.className="";target.append(wrap);
-}
-function showResults(){
- renderTable($("monthly"),generated.monthlyDecisionDays,"monthly","व्रतराज/रात्रि-व्याप्ति");
- renderTable($("unresolved"),generated.unresolvedCandidates||[],"unresolved","केवल समीक्षा संकेत — पुष्टि आवश्यक");
- renderTable($("annual"),generated.annualDecisionDays,"annual","धर्मसिंधु मध्यान्ह/प्रदोष निर्णय");
- const diagnosticYear=String(meta.year);
- const diagnosticRows=(generated.scanDiagnostics||[]).filter(x=>x.date>=diagnosticYear+"-10-01"&&x.date<=diagnosticYear+"-10-05");
- const diagnosticBox=$("diagnostics");diagnosticBox.replaceChildren();
- if(diagnosticRows.length){
-  const table=document.createElement("table");table.innerHTML="<thead><tr><th>तारीख़</th><th>दोपहर की तिथि</th><th>दोपहर की तिथि का आरम्भ (UTC)</th><th>दोपहर की तिथि का अन्त (UTC)</th><th>अष्टमी किसी धार्मिक समय में मिली?</th><th>प्रदोष मिनट</th><th>रात्रि मिनट</th></tr></thead>";
-  const tbody=document.createElement("tbody");
-  diagnosticRows.forEach(x=>{const tr=document.createElement("tr");[x.date,x.tithi||"—",x.noonTithiStart||"—",x.noonTithiEnd||"—",x.observedAshtami?"हाँ":"नहीं",String(x.observedPradoshMinutes||0),String(x.observedNightMinutes||0)].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.append(td)});tbody.append(tr)});
-  table.append(tbody);diagnosticBox.className="tablewrap";diagnosticBox.append(table);
- } else {diagnosticBox.className="empty";diagnosticBox.textContent="इस रन में चुने वर्ष की 1–5 अक्टूबर तारीख़ें स्कैन नहीं हुईं। संदर्भ तारीख़ें और चुना वर्ष जाँचें।"}
- const duplicates=[...generated.monthlyDecisionDays,...generated.annualDecisionDays].filter((x,i,a)=>a.findIndex(y=>y.date===x.date) !== i).length;
- $("summary").replaceChildren();
- [["मासिक परिणाम",generated.monthlyDecisionDays.length],["वार्षिक परिणाम",generated.annualDecisionDays.length],["संभावित दिन",generated.candidateDates.length],["इंजन कॉल",panchangCalls],["पंचांग अनुरोध",panchangRequests],["कैश हिट",panchangCacheHits],["समय",elapsedSeconds+" सेकंड"]].forEach(([k,v])=>{const s=document.createElement("span");s.textContent=k+": "+v;$("summary").append(s)});
- if(duplicates)$("status").textContent+=" ध्यान दें: दोहराई गई तारीख़ें समीक्षा में चिह्नित हैं; अभी डेटा को स्वीकृत न मानें।";
- $("export").disabled=false;
-}
-function downloadJSON(){
- if(!generated||!meta)return;
- const exportData={schemaVersion:1,reviewExportedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",location:meta.location,year:meta.year,engine:"@ishubhamx/panchangam-js@3.0.0",elapsedSeconds,panchangCalls,panchangRequests,panchangCacheHits,results:{monthly:generated.monthlyDecisionDays,annual:generated.annualDecisionDays,unresolvedCandidates:generated.unresolvedCandidates||[]},reviewedResults:{monthly:[],annual:[],unresolved:[]},reviews:{}};
- for(const [kind,rows] of [["monthly",generated.monthlyDecisionDays],["annual",generated.annualDecisionDays],["unresolved",generated.unresolvedCandidates||[]]])for(const item of rows){const key=reviewKey(kind,item),review=readReview(key);exportData.reviews[key]=review;exportData.reviewedResults[kind].push({...item,review:{status:review.status||"pending",note:review.note||"",updatedAt:review.updatedAt||null}})}
- const blob=new Blob([JSON.stringify(exportData,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ohd-festival-review-"+meta.year+".json";a.click();URL.revokeObjectURL(url);
-}
-async function run(){
- const year=Number($("year").value),lat=Number($("lat").value),lon=Number($("lon").value),elev=Number($("elev").value);
- if(!Number.isInteger(year)||year<1900||year>2200||!Number.isFinite(lat)||lat< -90||lat>90||!Number.isFinite(lon)||lon< -180||lon>180||!Number.isFinite(elev)){ $("status").className="status error";$("status").textContent="वर्ष, अक्षांश, देशांतर और ऊँचाई की जाँच करें।";return}
- generated=null;meta={year,lat,lon,location:{name:$("city").value.trim()||"चुना गया स्थान",latitude:lat,longitude:lon,elevation:elev,timezone:"Asia/Kolkata",timezoneOffset:330}};
- $("run").disabled=true;$("export").disabled=true;$("summary").replaceChildren();$("monthly").textContent="गणना चल रही है…";$("annual").textContent="गणना चल रही है…";$("status").className="status";$("status").textContent="पंचांग इंजन लोड किया जा रहा है…";
- const start=performance.now();panchangCalls=0;panchangRequests=0;panchangCacheHits=0;
- try{
-  const adapter=await ensureAdapter();
-  // Count real engine calls, not repeated requests for the exact same instant.
-  // All calls in one run use the same observer and timezone.
-  const panchangCache=new Map();
-  const counted=(date,...args)=>{
-   panchangRequests++;
-   const instant=date instanceof Date?date.getTime():new Date(date).getTime();
-   if(panchangCache.has(instant)){panchangCacheHits++;return panchangCache.get(instant)}
-   const result=getPanchangam(date,...args);panchangCalls++;panchangCache.set(instant,result);return result;
-  };
-  const seedDates=$("seedDates").value.split(/[\s,;]+/).map(x=>x.trim()).filter(Boolean);
-  generated=await adapter.buildKalashtamiDays({year,latitude:lat,longitude:lon,elevation:elev,timezoneOffset:330,seedDates,getPanchangam:counted,Observer,onProgress(p){
-   if(p.phase==="reference-window-scan")$("status").textContent="संदर्भ तारीख़ों के आसपास गणना: "+p.processedDays+"/"+p.totalDays+" दिन (पूरा साल स्कैन नहीं हो रहा)";
-   else if(p.phase==="year-scan")$("status").textContent="संदर्भ तारीख़ें नहीं दी गईं; पूरे वर्ष के दिन स्कैन हो रहे हैं: "+p.processedDays+"/"+p.totalDays;
-   else if(p.phase==="tithi-windows")$("status").textContent="अष्टमी की व्याप्ति जाँची जा रही है: "+p.processedCandidates+"/"+p.totalCandidates;
-  }});
-  elapsedSeconds=((performance.now()-start)/1000).toFixed(1);showResults();
-  $("status").textContent="गणना पूरी हुई। परिणाम केवल समीक्षा हेतु हैं—सत्यापन के बाद ही स्वीकृत करें।";
- }catch(e){$("status").className="status error";$("status").textContent="गणना पूरी नहीं हुई: "+(e?.message||String(e));}
- finally{$("run").disabled=false}
-}
-$("run").addEventListener("click",run);$("export").addEventListener("click",downloadJSON);
-</script>
-</body></html>
+const tithiNames=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पञ्चमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा/अमावस्या"];
+const monthNames=["चैत्र","वैशाख","ज्येष्ठ","आषाढ़","श्रावण","भाद्रपद","आश्विन","कार्तिक","मार्गशीर्ष","पौष","माघ","फाल्गुन"];
+const weekdayNames=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
+let catalog=[],days=[],meta=null,selected=null;
+function textValue(v){if(v==null)return "";if(typeof v==="object")return String(v.name??v.hindi??v.value??v.index??v.number??JSON.stringify(v));return String(v)}
+function normalizeTithi(p){let v=p.tithi;if(v&&typeof v==="object")v=v.index??v.number??v.value;let n=Number(v);if(!Number.isFinite(n))return textValue(p.tithi);let pak= n>=15?"कृष्ण पक्ष":"शुक्ल पक्ष";let ix=((n%15)+15)%15;let nm=tithiNames[ix]||String(v);if(ix===14)nm=pak==="शुक्ल पक्ष"?"पूर्णिमा":"अमावस्या";return nm}
+function extract(p,date){let tv=p.tithi,tn=normalizeTithi(p),pk=textValue(p.paksha);if(!pk)pk=Number(tv?.index??tv)>=15?"कृष्ण पक्ष":"शुक्ल पक्ष";let mv=textValue(p.masa??p.month);let nv=textValue(p.nakshatra),yv=textValue(p.yoga),kv=textValue(p.karana??p.karanas?.[0]);let vals=[tn,pk,mv,nv,yv,kv];return {date,weekday:weekdayNames[new Date(date+"T12:00:00+05:30").getUTCDay()],tithi:tn,paksha:pk,masa:mv,nakshatra:nv,yoga:yv,karana:kv,raw:{tithi:tv,paksha:p.paksha,masa:p.masa,nakshatra:p.nakshatra,yoga:p.yoga,karana:p.karana??p.karanas?.[0]},sunrise:p.sunrise??null,tithiStartTime:p.tithiStartTime??null,tithiEndTime:p.tithiEndTime??null}}
+function categoryOf(f){let s=(f.name+" "+(f.description||"")).toLowerCase();if(/ekadashi|एकादशी|प्रदोष|कालाष्टमी|चतुर्थी|व्रत|उपवास|अष्टमी/.test(s))return "व्रत";if(/amavasya|पूर्णिमा|purnima|अमावस्या|श्राद्ध|तर्पण|पितृ/.test(s))return "तिथि/पितृ";if(/navratri|नवरात्रि|दुर्गा|शिवरात्रि|janmashtami|जन्माष्टमी|रामनवमी|दीपावली|दिवाली|होली|गणेश चतुर्थी|रक्षाबंधन/.test(s))return "प्रमुख पर्व";if(/jayanti|जयंती|प्राकट्य/.test(s))return "जयंती";if(/sankranti|संक्रांति|उत्तरायण|दक्षिणायन/.test(s))return "संक्रांति/सौर";if(/grahan|eclipse|ग्रहण/.test(s))return "ग्रहण";if(/purnima|पूर्णिमा|मास/.test(s))return "मासिक पर्व";return "अन्य पर्व"}
+function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function renderCategories(){let cats=[...new Set(catalog.map(categoryOf))].sort((a,b)=>a.localeCompare(b,"hi"));$("category").innerHTML='<option value="">सभी श्रेणियाँ</option>'+cats.map(c=>'<option>'+esc(c)+'</option>').join("")}
+function renderCatalog(){let q=$("festivalSearch").value.trim().toLowerCase(),cat=$("category").value;let fs=catalog.filter(f=>(!cat||categoryOf(f)===cat)&&(!q||(f.id+" "+f.name+" "+(f.description||"")+" "+(f.sourceUrl||"")).toLowerCase().includes(q)));$("catalog").replaceChildren();if(!fs.length){$("catalog").textContent="कोई पर्व नहीं मिला।";return}fs.forEach(f=>{let d=document.createElement("div");d.className="event";let desc=String(f.description||f.sourceText?.description||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();d.innerHTML='<h3>'+esc(f.name)+' <span class="pill">'+esc(categoryOf(f))+'</span></h3><p class="muted">'+esc(f.id)+' · वर्तमान रिकॉर्ड तारीख़: '+esc(f.date?.start||f.sourceText?.date||"निर्धारित नहीं")+'</p><p>'+esc(desc.slice(0,260))+'</p>'+(f.sourceUrl?'<p><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">मौजूदा लेख लिंक</a></p>':'')+'<button type="button" class="action">इस पर्व के लिए देखें</button>';d.querySelector("button").addEventListener("click",()=>selectFestival(f));$("catalog").append(d)})}
+function reviewKey(day){return "ohd-general-year-review-v1|"+meta.year+"|"+meta.lat+"|"+meta.lon+"|"+day.date}
+function getReview(day){try{return JSON.parse(localStorage.getItem(reviewKey(day))||"{}")}catch{return {}}}
+function saveReview(day,field,value){let r=getReview(day);r[field]=value;r.updatedAt=new Date().toISOString();try{localStorage.setItem(reviewKey(day),JSON.stringify(r))}catch{}}
+function renderMatches(){let q=$("librarySearch").value.trim().toLowerCase(),field=$("searchField").value;let rows=days.filter(d=>!q||((field==="all"?[d.date,d.weekday,d.tithi,d.paksha,d.masa,d.nakshatra,d.yoga,d.karana]:[d[field]]).join(" ").toLowerCase().includes(q)));$("matches").replaceChildren();if(!days.length){$("matches").textContent="पहले वार्षिक स्कैन चलाएँ।";return}if(!rows.length){$("matches").textContent="कोई मिलान नहीं मिला।";return}rows.slice(0,500).forEach(d=>{let el=document.createElement("div");el.className="event";el.innerHTML="<strong>"+esc(d.date)+" · "+esc(d.weekday)+"</strong><p>"+esc([d.masa,d.paksha,d.tithi,d.nakshatra,d.yoga,d.karana].filter(Boolean).join(" · "))+"</p>";$("matches").append(el)});if(rows.length>500){let note=document.createElement("p");note.className="muted";note.textContent="कुल "+rows.length+" मिलान; प्रदर्शन पहले 500 तक सीमित है।";$("matches").append(note)}}
+function selectFestival(f){selected=f;let date=f.date?.start||f.sourceText?.date||"";$("selectedInfo").innerHTML="<strong>"+esc(f.name)+"</strong> · "+esc(f.id)+"<p>श्रेणी: "+esc(categoryOf(f))+" · रिकॉर्ड तारीख़: "+esc(date||"नहीं दी गई")+"</p><p>"+esc(String(f.description||f.sourceText?.description||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,600))+"</p>"+(f.sourceUrl?'<p><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">लेख खोलें</a></p>':"<p>लेख लिंक दर्ज नहीं है।</p>");let q=(f.date?.tithi||f.name||"").toLowerCase();let found=days.filter(d=>[d.tithi,d.paksha,d.masa,d.nakshatra,d.yoga,d.karana].join(" ").toLowerCase().includes(q)||q.split(/[ /-]+/).some(w=>w.length>3&&[d.tithi,d.paksha,d.masa,d.nakshatra,d.yoga,d.karana].join(" ").toLowerCase().includes(w)));if(!found.length)found=days.filter(d=>d.date===date);renderCandidates(found.slice(0,120))}
+function renderCandidates(rows){$("candidateTable").replaceChildren();if(!rows.length){$("candidateTable").textContent="नाम/तिथि से कोई स्वतः संभावित दिन नहीं मिला। नीचे की लाइब्रेरी खोज में तिथि या नक्षत्र लिखें।";return}let table=document.createElement("table");table.innerHTML="<thead><tr><th>तारीख़ / पंचांग</th><th>समीक्षा स्थिति</th><th>टिप्पणी</th></tr></thead>";let tb=document.createElement("tbody");rows.forEach(d=>{let tr=document.createElement("tr"),a=document.createElement("td");a.innerHTML="<strong>"+esc(d.date)+"</strong><br>"+esc([d.masa,d.paksha,d.tithi,d.nakshatra].filter(Boolean).join(" · "));let b=document.createElement("td"),sel=document.createElement("select");[["pending","जाँच बाकी"],["approved","सही"],["fix","सुधार चाहिए"]].forEach(([v,t])=>{let o=document.createElement("option");o.value=v;o.textContent=t;sel.append(o)});let r=getReview(d);sel.value=r.status||"pending";sel.addEventListener("change",()=>saveReview(d,"status",sel.value));b.append(sel);let c=document.createElement("td"),input=document.createElement("input");input.type="text";input.placeholder="स्रोत से मिलान / टिप्पणी";input.value=r.note||"";input.addEventListener("change",()=>saveReview(d,"note",input.value));c.append(input);tr.append(a,b,c);tb.append(tr)});table.append(tb);$("candidateTable").append(table)}
+async function scan(){let year=Number($("year").value),lat=Number($("lat").value),lon=Number($("lon").value),elev=Number($("elev").value);if(!Number.isInteger(year)||year<1900||year>2200||!Number.isFinite(lat)||lat< -90||lat>90||!Number.isFinite(lon)||lon< -180||lon>180||!Number.isFinite(elev)){ $("status").className="status error";$("status").textContent="वर्ष और स्थान की वैध जानकारी भरें।";return}meta={year,lat,lon,elev,city:$("city").value.trim()||"चुना गया स्थान"};days=[];$("scan").disabled=true;$("download").disabled=true;$("status").textContent="पंचांग पुस्तकालय लोड हो रहा है…";let started=performance.now();try{const observer=new Observer(lat,lon,elev);for(let day=0;day<(new Date(Date.UTC(year+1,0,1))-new Date(Date.UTC(year,0,1)))/86400000;day++){let dt=new Date(Date.UTC(year,0,1+day,6,30));let iso=year+"-"+String(dt.getUTCMonth()+1).padStart(2,"0")+"-"+String(dt.getUTCDate()).padStart(2,"0");let p=getPanchangam(dt,observer,{timezoneOffset:330});days.push(extract(p,iso));if(day%15===0){$("status").textContent="वार्षिक स्कैन: "+(day+1)+"/"+(new Date(Date.UTC(year+1,0,1))-new Date(Date.UTC(year,0,1)))/86400000+" दिन";await new Promise(r=>setTimeout(r,0))}}$("summary").innerHTML="<span>वर्ष: "+year+"</span><span>दिन स्कैन: "+days.length+"</span><span>समय: "+((performance.now()-started)/1000).toFixed(1)+" सेकंड</span><span>स्थान: "+esc(meta.city)+"</span>";$("status").textContent="स्कैन पूरा हुआ। खोज और समीक्षा के लिए परिणाम तैयार हैं; इन्हें अंतिम पर्व-निर्णय न मानें।";renderMatches();if(selected)selectFestival(selected);$("download").disabled=false}catch(e){$("status").className="status error";$("status").textContent="स्कैन विफल: "+(e?.message||String(e))}finally{$("scan").disabled=false}}
+function download(){if(!days.length||!meta)return;const reviews={};days.forEach(d=>{let r=getReview(d);if(Object.keys(r).length)reviews[d.date]=r});const output={schemaVersion:1,tool:"ohd-general-annual-festival-review",generatedAt:new Date().toISOString(),calculationStatus:"research-only-not-approved",year:meta.year,location:{name:meta.city,latitude:meta.lat,longitude:meta.lon,elevation:meta.elev,timezone:"Asia/Kolkata",timezoneOffset:330},library:"@ishubhamx/panchangam-js@3.0.0",catalog:catalog.map(f=>({id:f.id,name:f.name,category:categoryOf(f),date:f.date,description:f.description,sourceUrl:f.sourceUrl,verificationStatus:f.verificationStatus})),dailyPanchang:days,reviews};const blob=new Blob([JSON.stringify(output,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ohd-annual-panchang-review-"+meta.year+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+async function loadCatalog(){try{let r=await fetch("data/festivals.json",{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);let d=await r.json();catalog=(d.festivals||[]).filter(f=>f&&f.id&&f.name);renderCategories();renderCatalog()}catch(e){$("catalog").textContent="पर्व सूची लोड नहीं हुई। पेज को GitHub Pages/HTTP सर्वर से खोलें। "+e.message}}
+$("scan").addEventListener("click",scan);$("download").addEventListener("click",download);$("category").addEventListener("change",renderCatalog);$("festivalSearch").addEventListener("input",renderCatalog);$("librarySearch").addEventListener("input",renderMatches);$("searchField").addEventListener("change",renderMatches);loadCatalog();
+</script></body></html>
