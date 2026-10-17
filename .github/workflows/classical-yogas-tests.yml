@@ -35,6 +35,8 @@ on:
       - "tests/compact-ui-night-prahar.test.js"
       - "festival-muhurta.js"
       - "tests/festival-muhurta.test.js"
+      - "festival-images.js"
+      - "tests/festival-images.test.js"
       - "tests/monthly-festival-data.test.mjs"
       - "monthly-vrat-parv.html"
       - "data/festivals/**"
