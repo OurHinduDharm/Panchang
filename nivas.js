@@ -25,6 +25,16 @@ const SHIVA_BY_REMAINDER = [
   { name: "क्रीड़ा", note: "काम्य रुद्राभिषेक में सामान्यतः वर्जित", good: false }
 ];
 
+export function normalizeTithiIndex(value) {
+  let candidate = value;
+  if (candidate && typeof candidate === "object") {
+    candidate = candidate.index ?? candidate.number ?? candidate.value;
+  }
+
+  const index = Number(candidate);
+  return Number.isInteger(index) && index >= 0 && index <= 29 ? index : null;
+}
+
 export function calculateNivasa(tithiIndex, weekdayIndex) {
   if (!Number.isInteger(tithiIndex) || tithiIndex < 0 || tithiIndex > 29 ||
       !Number.isInteger(weekdayIndex) || weekdayIndex < 0 || weekdayIndex > 6) {
