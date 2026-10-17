@@ -384,7 +384,12 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var isEclipseEvent=/ग्रहण|grahan|eclipse/i.test(eclipseText);
       var eclipsePageUrl="https://ourhindudharm.blogspot.com/p/grahan-panchang.html";
       var hasEclipsePageLink=[item.articleUrl,item.secondaryArticleUrl].some(function(url){
-        return safeUrl(url).indexOf("ourhindudharm.blogspot.com/p/grahan-panchang.html")===0;
+        var href=safeUrl(url);
+        if(!href)return false;
+        try{
+          var parsed=new URL(href);
+          return parsed.protocol==="https:"&&parsed.hostname==="ourhindudharm.blogspot.com"&&parsed.pathname==="/p/grahan-panchang.html";
+        }catch(e){return false;}
       });
       if(isEclipseEvent&&!hasEclipsePageLink){
         var eclipseLink=makeLink(eclipsePageUrl,"सूतक, मंत्र-जप एवं पुरश्चरण की जानकारी");
