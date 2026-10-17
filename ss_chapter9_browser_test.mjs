@@ -224,6 +224,8 @@ try {
       !item.headers.includes("K−C (°)") ||
       !item.headers.includes("Signed K-rate IX.10–11 (prāṇa/day)") ||
       !item.headers.includes("Empirical raw-K rate (prāṇa/day)") ||
+      !item.headers.includes("Empirical Akṣa-only K-rate (prāṇa/day)") ||
+      !item.headers.includes("Empirical Āyana-only K-rate (prāṇa/day)") ||
       !item.headers.includes("Δ Akṣa correction (arcmin/day)") ||
       !item.headers.includes("Δ Āyana correction (arcmin/day)") ||
       !item.headers.includes("Empirical next-sample ΔK/day (prāṇa/day)") ||
@@ -231,7 +233,7 @@ try {
       !item.headers.includes("IX.10–11 minus empirical rate") ||
       !item.headers.includes("Predicted event") ||
       !item.headers.includes("Error vs bracket (days)") ||
-      item.firstRow.length !== 21 ||
+      item.firstRow.length !== 23 ||
       !item.bracketErrors.some(value => Number.isFinite(Number(value)) && value !== "") ||
       !item.bracketErrors.some(value => value === "—")
   )) {
