@@ -1,6 +1,8 @@
 // Load the independent classical-yoga engine here so Blogger, GitHub Pages,
 // and CDN consumers do not need a separate script tag.
 import "./classical-yogas.js";
+import "./festivals.js";
+import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 
 import {
   Elongation,
@@ -942,6 +944,49 @@ ${currentText}
 }
 
 /* =========================================
+   Agnivasa & Shivavasa
+   Daily convention: tithi at local sunrise.
+   Tithi index from the library is 0–29; formulas use 1–30.
+   ========================================= */
+
+function createNivasCard(tithiIndex, selectedDate) {
+  const card = document.createElement("section");
+  card.className = "card full";
+  card.id = "nivasCard";
+
+  // Use the selected Indian calendar date, independent of device timezone.
+  const weekdayIndex = new Date(`${selectedDate}T00:00:00Z`).getUTCDay();
+  const normalizedTithiIndex = normalizeTithiIndex(tithiIndex);
+  const result = normalizedTithiIndex === null
+    ? null
+    : calculateNivasa(normalizedTithiIndex, weekdayIndex);
+
+  if (!result) {
+    card.innerHTML = `
+      <div class="label">🔥 अग्निवास एवं 🔱 शिववास</div>
+      <div class="value">गणना उपलब्ध नहीं।</div>
+    `;
+    return card;
+  }
+
+  card.innerHTML = `
+    <div class="label">🔥 अग्निवास एवं 🔱 शिववास</div>
+    <div class="time-row">
+      <b>अग्निवास</b>
+      <span>${result.agni.name} — ${result.agni.note}</span>
+    </div>
+    <div class="time-row">
+      <b>शिववास</b>
+      <span>${result.shiva.name} — ${result.shiva.note}</span>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:#777;line-height:1.5">
+      गणना सूर्योदय की तिथि से है। परंपरागत पद्धतियों में फल-विवरण भिन्न हो सकते हैं; इसे अकेले मुहूर्त-निर्णय का आधार न मानें।
+    </div>
+  `;
+  return card;
+}
+
+/* =========================================
    Card placement
    ========================================= */
 
@@ -976,6 +1021,8 @@ function getPanchangCardOrder(card) {
   const id = card.id || "";
   const content = (card.textContent || "").replace(/\s+/g, " ").trim();
 
+  if (id === "ohdHinduFestivalsCard") return 2.5;
+  if (id === "nivasCard") return 2.8;
   if (id === "classicalYogasCard") return 3;
   if (id === "planetRiseSetCard") return 11;
   if (id === "horaCard") return 8;
@@ -1211,6 +1258,13 @@ if(
       classicalYogaDetails
     );
 
+  // Nivasa is determined from the tithi prevailing at local sunrise,
+  // not from the selected date's midnight input instant.
+  const sunrisePanchang = pHora.sunrise
+    ? getPanchangam(new Date(pHora.sunrise), horaObserver, { timezoneOffset: 330 })
+    : null;
+  const nivasCard = createNivasCard(sunrisePanchang?.tithi, selectedDate);
+
 
   /*
    * =========================================================
@@ -1257,6 +1311,9 @@ if(
     oldPlanetCard.remove();
   }
 
+  const oldNivasCard = document.getElementById("nivasCard");
+  if (oldNivasCard) oldNivasCard.remove();
+
   const oldClassicalYogaCard =
     document.getElementById(
       "classicalYogasCard"
@@ -1284,6 +1341,8 @@ if(
   placeClassicalYogaCard(
     classicalYogaCard
   );
+
+  placeHoraCard(nivasCard);
 
   normalizePanchangCardOrder();
 

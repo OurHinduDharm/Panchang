@@ -1,0 +1,26 @@
+name: Validate Panchang feature
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [feature/hindu-festivals-card]
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-and-nivasa-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: |
+          node --experimental-default-type=module --check extra-panchang.js
+          node --experimental-default-type=module --check festivals.js
+          node --experimental-default-type=module --check nivas.js
+          node --experimental-default-type=module --check festival-filter.js
+      - name: Run Agnivasa/Shivavasa regression tests
+        run: node --experimental-default-type=module --test tests/*.test.mjs

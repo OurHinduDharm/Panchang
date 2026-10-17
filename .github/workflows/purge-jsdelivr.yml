@@ -6,6 +6,10 @@ on:
       - main
     paths:
       - 'app.js'
+      - 'extra-panchang.js'
+      - 'festivals.js'
+      - 'festival-filter.js'
+      - 'nivas.js'
 
 permissions:
   contents: read
@@ -18,3 +22,7 @@ jobs:
       - name: Purge jsDelivr cache
         run: |
           curl -X POST "https://purge.jsdelivr.net/gh/OurHinduDharm/Panchang@main/app.js"
+          curl -X POST "https://purge.jsdelivr.net/gh/OurHinduDharm/Panchang@main/extra-panchang.js"
+          curl -X POST "https://purge.jsdelivr.net/gh/OurHinduDharm/Panchang@main/festivals.js"
+          curl -X POST "https://purge.jsdelivr.net/gh/OurHinduDharm/Panchang@main/festival-filter.js"
+          curl -X POST "https://purge.jsdelivr.net/gh/OurHinduDharm/Panchang@main/nivas.js"
