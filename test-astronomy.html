@@ -3386,6 +3386,7 @@ function findLagnantaraCrossing(ref, method = "current") {
    */
   if (brackets.length) {
     return {
+      samples,
       brackets: brackets.map(bracket => {
         const isAstaTransition =
           bracket.beforeResidual > 0 && bracket.afterResidual < 0;
@@ -3411,6 +3412,7 @@ function findLagnantaraCrossing(ref, method = "current") {
     Math.abs(item.residual) < Math.abs(best.residual) ? item : best
   );
   return {
+    samples,
     closest,
     closestResidual: closest.residual,
     noCrossing: true
@@ -3782,6 +3784,25 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>IX.11 planet time-motion (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.planetTimeMotionPranasPerDay)+'</span></div>';
       html += '<div class="metric"><strong>IX.10 signed K-rate (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.signedKalanshaRatePranasPerDay)+'</span></div>';
       html += '<div class="metric"><strong>IX.10 target difference (prāṇa)</strong><span>'+estimateMetric(timeEstimate?.differencePranas)+'</span></div>';
+      // Expose every valid daily sample so long-range drift can be traced to
+      // the actual geometry and signed local rate, without changing formulas.
+      const dailySamples = sequentialCrossing?.samples || [];
+      if (dailySamples.length) {
+        html += '<details><summary>Daily IX.10–11 sample audit ('+dailySamples.length+' valid samples)</summary>';
+        html += '<p class="small">One actual sunrise/sunset sample per civil date. “Predicted event” uses the local IX.10–11 estimate from that row; error is measured against the linear interpolation between the requested adjacent daily K=C bracket only.</p>';
+        html += '<div class="table-wrap"><table><thead><tr><th>Sample date/time</th><th>Branch</th><th>Raw planet longitude (°)</th><th>Corrected planet longitude (°)</th><th>Sun event-frame longitude (°)</th><th>Signed lagnāntara (°)</th><th>K (°)</th><th>C (°)</th><th>K−C (°)</th><th>Sun time-motion (prāṇa/day)</th><th>Planet time-motion (prāṇa/day)</th><th>Signed K-rate (prāṇa/day)</th><th>Estimated days</th><th>Predicted event</th><th>Error vs bracket (days)</th></tr></thead><tbody>';
+        dailySamples.forEach(item => {
+          const sg = item.geometry;
+          const estimate = getChapter9TimeEstimate(ref.planet,item.eventTime,sg,item.C);
+          const predictedMs = estimate && Number.isFinite(estimate.estimatedDays)
+            ? item.eventTime.getTime()+estimate.estimatedDays*86400000 : NaN;
+          const errorDays = Number.isFinite(predictedMs) && Number.isFinite(interpolatedCrossingTime)
+            ? Math.abs(predictedMs-interpolatedCrossingTime)/86400000 : NaN;
+          const val = (v,d=6) => Number.isFinite(v) ? round(v,d) : '—';
+          html += '<tr><td>'+formatLocalFromUTCDate(item.eventTime)+'</td><td>'+item.eventInfo.horizonEvent+'</td><td>'+val(sg.rawPlanetLon)+'</td><td>'+val(sg.planetLon)+'</td><td>'+val(sg.sunLon)+'</td><td>'+val(sg.signedLagnantaraAsu/60)+'</td><td>'+val(sg.K)+'</td><td>'+val(item.C,2)+'</td><td>'+val(item.residual)+'</td><td>'+val(estimate?.sunTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.planetTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.signedKalanshaRatePranasPerDay)+'</td><td>'+val(estimate?.estimatedDays)+'</td><td>'+(Number.isFinite(predictedMs)?formatLocalFromUTCDate(new Date(predictedMs)):'—')+'</td><td>'+val(errorDays)+'</td></tr>';
+        });
+        html += '</tbody></table></div></details>';
+      }
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun geocentric RA</strong><span>'+round(g.sunRightAscension,6)+'°</span></div>';
