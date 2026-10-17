@@ -15,7 +15,8 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण अष्टमी"
     },
     {
       "date": "2026-10-10",
@@ -27,7 +28,8 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/p/pitri-visarjan.html",
       "articleLabel": "पितृ विसर्जन विधि",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
-      "secondaryArticleLabel": "पितृ तर्पण विधि"
+      "secondaryArticleLabel": "पितृ तर्पण विधि",
+      "hinduTithi": "आश्विन कृष्ण अमावस्या"
     },
     {
       "date": "2026-10-11",
@@ -42,7 +44,8 @@
       "reviewStatus": "approved",
       "muhurtaRule": "ghata-sthapana",
       "endDate": "2026-10-20",
-      "statusText": "नवरात्रि चल रही है"
+      "statusText": "नवरात्रि चल रही है",
+      "hinduTithi": "आश्विन शुक्ल प्रतिपदा"
     },
     {
       "date": "2026-10-12",
@@ -52,7 +55,8 @@
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
       "articleLabel": "माँ ब्रह्मचारिणी",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल द्वितीया"
     },
     {
       "date": "2026-10-13",
@@ -62,7 +66,8 @@
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
       "articleLabel": "माँ चन्द्रघण्टा",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल तृतीया"
     },
     {
       "date": "2026-10-14",
@@ -72,7 +77,8 @@
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
       "articleLabel": "माँ कूष्माण्डा",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल चतुर्थी"
     },
     {
       "date": "2026-10-15",
@@ -82,7 +88,8 @@
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
       "articleLabel": "माँ स्कन्दमाता",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल पंचमी"
     },
     {
       "date": "2026-10-16",
@@ -100,7 +107,8 @@
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
       "articleLabel": "माँ कात्यायनी",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल षष्ठी"
     },
     {
       "date": "2026-10-17",
@@ -111,7 +119,8 @@
       "reviewStatus": "approved",
       "endDate": "2026-10-20",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
-      "articleLabel": "माँ कालरात्रि"
+      "articleLabel": "माँ कालरात्रि",
+      "hinduTithi": "आश्विन शुक्ल सप्तमी"
     },
     {
       "date": "2026-10-19",
@@ -120,7 +129,8 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">महागौरीति चाष्टमम्</a>। उत्तराषाढ़ा नक्षत्र में सरस्वती देवी के निमित्त बलिदान। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भद्रकाली जयन्ती</a>। सन्धि-पूजा का समय अष्टमी-नवमी तिथि-संधि के अनुसार अपने स्थानीय पंचांग से निर्धारित करें। इस दिन और नवमी को कन्या-पूजन का विशेष महत्व है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "endDate": "2026-10-20"
+      "endDate": "2026-10-20",
+      "hinduTithi": "आश्विन शुक्ल अष्टमी"
     },
     {
       "date": "2026-10-19",
@@ -129,7 +139,8 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। श्रवण नक्षत्र में सरस्वती विसर्जन। नवरात्रि हवन। <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>। नवरात्र पारण (प्रसाद खाकर व्रत खोलना) के लिए उत्तम है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः व्रत खोलें।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "endDate": "2026-10-20"
+      "endDate": "2026-10-20",
+      "hinduTithi": "आश्विन शुक्ल नवमी"
     },
     {
       "date": "2026-10-20",
@@ -139,7 +150,8 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
-      "articleLabel": "कलश विसर्जन विधि"
+      "articleLabel": "कलश विसर्जन विधि",
+      "hinduTithi": "आश्विन शुक्ल दशमी"
     },
     {
       "date": "2026-10-26",
@@ -155,7 +167,8 @@
       "muhurtaRules": [
         "nishita",
         "moonlight-until-midnight"
-      ]
+      ],
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
     },
     {
       "date": "2026-10-27",
@@ -163,7 +176,8 @@
       "title": "कार्तिक मास प्रारंभ",
       "description": "कार्तिक मास प्रारंभ - मान्यता है कि केवल कार्तिक मास में चातुर्मास के नियमों का आचरण करने से भी चातुर्मास्य व्रत का उत्तम फल प्राप्त होता है। कार्तिक मास में की गई पूजाएं, मन्त्रात्मक, स्तोत्रात्मक साधनाएं उत्तम फल देती हैं।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक कृष्ण प्रतिपदा"
     },
     {
       "date": "2026-10-29",
@@ -174,7 +188,8 @@
       "reviewStatus": "approved",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
       "articleLabel": "करवा चौथ व्रत-विधि",
-      "muhurtaRule": "moonrise"
+      "muhurtaRule": "moonrise",
+      "hinduTithi": "कार्तिक कृष्ण चतुर्थी"
     }
   ]
 }
