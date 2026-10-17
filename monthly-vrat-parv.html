@@ -44,7 +44,7 @@ h2{font-size:19px;margin:0}
 .date small{font-size:10px;display:block;line-height:1.3}
 .content{min-width:0;flex:1}
 .title{font-weight:750;line-height:1.45;margin:0 0 3px;font-size:16px}
-.hindu-tithi{display:inline-block;font-size:11px;line-height:1.45;color:#71451d;background:#fff5e6;border:1px solid #ecd5b5;border-radius:6px;padding:3px 7px;margin:2px 0 6px}
+.hindu-tithi{display:block;font-size:13px;line-height:1.45;color:#74604a;background:transparent;border:0;border-radius:0;padding:0;margin:0 0 6px}
 .desc{font-size:13px;color:#5f5142;line-height:1.55}
 .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:7px}
 .links a{color:#8c4810;text-decoration:none;font-size:13px;font-weight:650}
@@ -69,7 +69,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       <div class="sub">सनातन पर्व · व्रत · उत्सव</div>
     </div>
   </div>
-  <div class="draft">ड्राफ्ट प्रीव्यू — कुछ तारीख़ें अभी समीक्षा के लिए हैं। यह सूची अभी लाइव पंचांग में प्रकाशित नहीं है।</div>
+  <div class="draft" id="reviewBanner" hidden>समीक्षा मोड — कुछ तारीख़ें अभी स्वीकृत नहीं हैं। यह सूची लाइव प्रकाशन के लिए अंतिम नहीं है।</div>
 </header>
 
 <section class="monthbar" aria-label="महीना चुनें">
@@ -120,6 +120,10 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <script type="module">
 (function(){
   "use strict";
+  // सार्वजनिक दृश्य में केवल स्वीकृत प्रविष्टियाँ; ?review=1 से समीक्षा संकेत दिखते हैं।
+  var reviewMode=new URLSearchParams(window.location.search).get("review")==="1";
+  document.body.classList.toggle("review-mode",reviewMode);
+  document.getElementById("reviewBanner").hidden=!reviewMode;
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
   var monthSelect=document.getElementById("monthSelect");
   var yearSelect=document.getElementById("yearSelect");
@@ -342,6 +346,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     document.getElementById("pageTitle").textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
     var list=(data&&Array.isArray(data.events))?data.events.slice():[];
+    if(!reviewMode){
+      list=list.filter(function(item){return item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy";});
+    }
     list.sort(function(a,b){return String(a.date||"").localeCompare(String(b.date||""));});
     countEl.textContent=list.length+" प्रविष्टियाँ";
     categoryFilter.replaceChildren();
@@ -370,7 +377,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var content=document.createElement("div");content.className="content";
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
-      if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent="हिंदू तिथि: "+item.hinduTithi;content.appendChild(tithi);}
+      if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
       if(item.description){var desc=document.createElement("div");desc.className="desc";renderDescription(desc,item.description);content.appendChild(desc);}
       appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
@@ -397,7 +404,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         if(eclipseLink)links.appendChild(eclipseLink);
       }
       if(links.childNodes.length)content.appendChild(links);
-      if(item.showReviewStatus!==false){
+      if(reviewMode&&item.showReviewStatus!==false){
         var status=document.createElement("div");status.className="pill";
         if(item.reviewStatus==="user-confirmed-hard-copy"||item.reviewStatus==="approved"){
           status.classList.add("confirmed");
