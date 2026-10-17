@@ -141,6 +141,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     console.warn("Festival muhurta module unavailable:",error);return null;
   });
   function getLocalLocation(){
+    // A reload intentionally returns to the default; selected coordinates are never persisted.
     if(selectedLocationInSession){
       return {
         name:selectedLocationInSession.name||selectedLocationInSession.city||"चुना हुआ स्थान",
