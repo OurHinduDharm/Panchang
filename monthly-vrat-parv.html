@@ -28,7 +28,7 @@ h1{font-size:clamp(22px,5vw,30px);line-height:1.35;margin:0}
 .location-suggestions:empty{display:none}
 .location-suggestions button{text-align:left;font-size:12px;cursor:pointer;background:#fff;border-color:#eadcc8}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.filters{display:grid;grid-template-columns:1.3fr 1fr;gap:9px;margin-top:10px}
+.filters{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:9px;margin-top:10px}\n.filters input{font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0;width:100%;appearance:none}\n.filters input:focus,.filters select:focus,.controls select:focus{outline:2px solid #c58b4a;outline-offset:1px}\n.filters label{min-width:0}\n@media(max-width:420px){.filters{grid-template-columns:1fr;gap:7px}}
 label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
 select,button{font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0}
 .nav{display:flex;gap:8px;margin-top:10px}
@@ -95,12 +95,14 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       <select id="yearSelect"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option></select>
     </label>
   </div>
-  <div class="filters" aria-label="पर्व खोजें">
+  <div class="filters" aria-label="व्रत-पर्व खोजें">
     <label>पर्व खोजें
-      <input id="searchInput" type="search" placeholder="जैसे एकादशी, शिवरात्रि…" autocomplete="off" style="font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0;width:100%">
+      <input id="searchInput" type="search" placeholder="नाम या तिथि लिखें…" autocomplete="off" aria-label="पर्व या तिथि खोजें">
     </label>
-    <label>श्रेणी
-      <select id="categoryFilter"><option value="">सभी श्रेणियाँ</option></select>
+    <label>श्रेणी चुनें
+      <select id="categoryFilter" aria-label="पर्व की श्रेणी">
+        <option value="">सभी व्रत-पर्व</option>
+      </select>
     </label>
   </div>
   <div class="nav">
@@ -321,23 +323,42 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       .replace(/&nbsp;|&#160;/gi," ")
       .normalize("NFC")
       .toLocaleLowerCase("hi")
-      .replace(/[\\s\\u200b]+/g," ")
+      .replace(/[\s\u200b\u200c\u200d]+/g," ")
+      .replace(/[।॥,;:()\[\]{}·—–-]+/g," ")
       .trim();
+  }
+  function categoryFor(item){
+    var title=normalizeSearch(item.title||"");
+    var raw=normalizeSearch(item.category||"");
+    if(/एकादशी/.test(title)||raw==="एकादशी") return "एकादशी";
+    if(/प्रदोष/.test(title)||raw==="प्रदोष") return "प्रदोष व्रत";
+    if(/कालाष्टमी|अष्टमी व्रत|अहोई अष्टमी/.test(title)) return "अष्टमी व्रत";
+    if(/चतुर्थी|संकष्टी|विनायक/.test(title)) return "चतुर्थी व्रत";
+    if(/अमावस्या/.test(title)||raw==="अमावस्या") return "अमावस्या";
+    if(/पूर्णिमा/.test(title)||raw==="पूर्णिमा") return "पूर्णिमा";
+    if(/संक्रांति/.test(title)||raw==="संक्रांति") return "संक्रांति";
+    if(/नवरात्र|दुर्गा पूजा/.test(title)||raw==="नवरात्रि") return "नवरात्रि एवं दुर्गा पूजा";
+    if(/जयंती|जन्मोत्सव/.test(title)||raw==="जयंती") return "जयंती";
+    if(/पूजा|दीपावली|दशहरा|विजयादशमी|धनतेरस|भाई दूज|छठ|गोवर्धन|तुलसी विवाह|देव दीपावली|काली चौदस|नरक चतुर्दशी|गोपाष्टमी|कंस वध/.test(title)) return "पर्व एवं त्योहार";
+    if(/व्रत/.test(title)||raw==="व्रत"||raw==="व्रत पर्व"||raw==="व्रत-पर्व") return "अन्य व्रत";
+    return "अन्य पर्व";
   }
   function applyFilters(){
     var query=normalizeSearch(searchInput.value);
     var category=categoryFilter.value;
-    var visible=0,total=eventsEl.querySelectorAll(".event").length;
-    eventsEl.querySelectorAll(".event").forEach(function(card){
-      var matchesText=!query||normalizeSearch(card.dataset.search||"").includes(query);
+    var cards=Array.from(eventsEl.querySelectorAll(".event"));
+    var visible=0,total=cards.length;
+    cards.forEach(function(card){
+      var haystack=normalizeSearch(card.dataset.search||"");
+      var matchesText=!query||haystack.includes(query);
       var matchesCategory=!category||card.dataset.category===category;
       card.hidden=!(matchesText&&matchesCategory);
       if(!card.hidden)visible++;
     });
-    countEl.textContent=visible===total?total+" प्रविष्टियाँ":visible+" / "+total+" प्रविष्टियाँ";
+    countEl.textContent=visible===total?total+" पर्व":visible+" / "+total+" पर्व";
     var empty=eventsEl.querySelector(".filter-empty");
     if(!visible&&total){
-      if(!empty){empty=document.createElement("div");empty.className="empty filter-empty";empty.textContent="इस खोज में कोई पर्व नहीं मिला। दूसरा शब्द या ‘सभी श्रेणियाँ’ चुनें।";eventsEl.appendChild(empty);}
+      if(!empty){empty=document.createElement("div");empty.className="empty filter-empty";empty.textContent="कोई पर्व नहीं मिला। खोज का शब्द बदलें या ‘सभी व्रत-पर्व’ चुनें।";eventsEl.appendChild(empty);}
       empty.hidden=false;
     }else if(empty){empty.hidden=true;}
   }
@@ -352,8 +373,10 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     list.sort(function(a,b){return String(a.date||"").localeCompare(String(b.date||""));});
     countEl.textContent=list.length+" प्रविष्टियाँ";
     categoryFilter.replaceChildren();
-    var allOption=document.createElement("option");allOption.value="";allOption.textContent="सभी श्रेणियाँ";categoryFilter.appendChild(allOption);
-    Array.from(new Set(list.map(function(item){return String(item.category||"").trim();}).filter(Boolean))).sort().forEach(function(category){
+    var allOption=document.createElement("option");allOption.value="";allOption.textContent="सभी व्रत-पर्व";categoryFilter.appendChild(allOption);
+    var categoryOrder=["एकादशी","प्रदोष व्रत","अष्टमी व्रत","चतुर्थी व्रत","अमावस्या","पूर्णिमा","संक्रांति","नवरात्रि एवं दुर्गा पूजा","जयंती","पर्व एवं त्योहार","अन्य व्रत","अन्य पर्व"];
+    var availableCategories=new Set(list.map(categoryFor));
+    categoryOrder.filter(function(category){return availableCategories.has(category);}).forEach(function(category){
       var option=document.createElement("option");option.value=category;option.textContent=category;categoryFilter.appendChild(option);
     });
     searchInput.value="";categoryFilter.value="";
