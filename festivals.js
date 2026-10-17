@@ -99,11 +99,6 @@ function renderFestivalCard(dateString, festivals, errorMessage = "") {
     card.appendChild(list);
   }
 
-  const note = document.createElement("div");
-  note.style.cssText = "margin-top:8px;font-size:11px;color:#777;line-height:1.5;";
-  note.textContent = "व्रत-निर्णय, पूजा-मुहूर्त और पारण का समय स्थानीय परंपरा के अनुसार अलग हो सकता है।";
-  card.appendChild(note);
-
   grid.appendChild(card);
 }
 

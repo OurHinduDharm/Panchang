@@ -979,9 +979,6 @@ function createNivasCard(tithiIndex, selectedDate) {
       <b>शिववास</b>
       <span>${result.shiva.name} — ${result.shiva.note}</span>
     </div>
-    <div style="margin-top:8px;font-size:11px;color:#777;line-height:1.5">
-      गणना सूर्योदय की तिथि से है। परंपरागत पद्धतियों में फल-विवरण भिन्न हो सकते हैं; इसे अकेले मुहूर्त-निर्णय का आधार न मानें।
-    </div>
   `;
   return card;
 }
