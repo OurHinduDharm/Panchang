@@ -3290,7 +3290,7 @@ function getSignRisingAsus(siderealLongitudeDeg, config = TKS_CONFIG) {
   }).signRisingAsus;
 }
 
-function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg, config = TKS_CONFIG) {
+function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg, config = TKS_CONFIG, method = "current") {
   const planetBody = BODY_NAMES[planet];
   const sunBody = Astronomy.Body.Sun;
   const planetState = getPlanetSiderealState(planetBody, eventTime);
@@ -3316,10 +3316,13 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
   // across the same ±12 h window used for raw orbital motion. This tests
   // whether time-varying dṛkkarma explains the raw-vs-corrected K-rate gap;
   // it is not presumed to be the source-prescribed IX.11 input.
-  const correctionBefore = getDrikkarmaCorrection(
+  const correctionFn = method === "sequential"
+    ? getDrikkarmaCorrectionSequential
+    : getDrikkarmaCorrection;
+  const correctionBefore = correctionFn(
     planetBody, before, geometry.drikkarma?.direction || "east", config
   );
-  const correctionAfter = getDrikkarmaCorrection(
+  const correctionAfter = correctionFn(
     planetBody, after, geometry.drikkarma?.direction || "east", config
   );
   const correctedMotionAvailable = correctionBefore && correctionAfter &&
@@ -3703,7 +3706,7 @@ async function runLagnantaraDiagnostic() {
     const gs = sequentialResult?.geometry || null;
     const C = sampleResult?.C ?? NaN;
     const timeEstimate = sample && gs && Number.isFinite(C)
-      ? getChapter9TimeEstimate(ref.planet, sample, gs, C)
+      ? getChapter9TimeEstimate(ref.planet, sample, gs, C, TKS_CONFIG, "sequential")
       : null;
     const branchLabel = sampleResult
       ? sampleResult.eventInfo.horizonEvent +
@@ -3858,7 +3861,7 @@ async function runLagnantaraDiagnostic() {
         html += '<div class="table-wrap"><table><thead><tr><th>Sample date/time</th><th>Branch</th><th>Raw planet longitude (°)</th><th>Corrected planet longitude (°)</th><th>Sun event-frame longitude (°)</th><th>Signed lagnāntara (°)</th><th>K (°)</th><th>C (°)</th><th>K−C (°)</th><th>Sun time-motion (prāṇa/day)</th><th>Planet time-motion (prāṇa/day)</th><th>Signed K-rate IX.10–11 (prāṇa/day)</th><th>Empirical raw-K rate (prāṇa/day)</th><th>Empirical Akṣa-only K-rate (prāṇa/day)</th><th>Empirical Āyana-only K-rate (prāṇa/day)</th><th>Δ Akṣa correction (arcmin/day)</th><th>Δ Āyana correction (arcmin/day)</th><th>Empirical next-sample ΔK/day (prāṇa/day)</th><th>Correction contribution to ΔK/day (prāṇa/day)</th><th>IX.10–11 minus empirical rate</th><th>IX.11 rate using corrected planet motion</th><th>Corrected-motion rate minus empirical K-rate</th><th>Estimated days</th><th>Predicted event</th><th>Error vs bracket (days)</th></tr></thead><tbody>';
         dailySamples.forEach((item, sampleIndex) => {
           const sg = item.geometry;
-          const estimate = getChapter9TimeEstimate(ref.planet,item.eventTime,sg,item.C);
+          const estimate = getChapter9TimeEstimate(ref.planet,item.eventTime,sg,item.C,TKS_CONFIG,"sequential");
           const next = dailySamples[sampleIndex + 1];
           const sameRateBranch = Boolean(
             next &&
