@@ -49,6 +49,7 @@ test("event-specific image overrides the category default", () => {
 
 test("unmapped observances do not receive an unrelated image", () => {
   assert.equal(getFestivalImage({ title: "कार्तिक मास प्रारंभ", category: "व्रत-पर्व" }), null);
+  assert.equal(getFestivalImage({ title: "दशहरा / विजयादशमी", category: "प्रमुख पर्व" }), null);
   assert.equal(getFestivalImage(null), null);
 });
 
