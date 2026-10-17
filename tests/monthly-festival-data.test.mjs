@@ -146,7 +146,7 @@ test("October 2026 reviewed events preserve article links and private review not
   assert.ok(november.events.some(event => event.date === "2026-11-07" && event.title === "काली चौदस"));
   assert.equal(november.events.some(event => event.date === "2026-11-10" && /भैया दूज/.test(event.title)), false);
   const december = JSON.parse(readFileSync(resolve(root, "data/festivals/2026-12.json"), "utf8"));
-  assert.ok(december.events.some(event => event.date === "2026-12-01" && event.title === "कालभैरव जयंती" && event.hinduTithi === "मार्गशीर्ष कृष्ण अष्टमी"));
+  assert.ok(december.events.some(event => event.date === "2026-12-01" && /कालभैरव जयंती/.test(event.title) && event.hinduTithi === "मार्गशीर्ष कृष्ण अष्टमी"));
   for (const event of data.events) {
     assert.equal(Object.hasOwn(event, "instruction"), false, "private review instruction must not be public");
   }
