@@ -106,6 +106,7 @@ test("festival images are selected by event type with visible licensing credits"
   const page = readFileSync(resolve(root, "monthly-vrat-parv.html"), "utf8");
   assert.match(images, /export function getFestivalImage/);
   assert.match(images, /CC BY-SA 4\.0/);
+  assert.ok(images.includes("https://thumb.wikimedia.org/wikipedia/commons/thumb/"));
   assert.match(images, /commons\.wikimedia\.org\/wiki\/File:/);
   assert.match(page, /festivalImageModulePromise/);
   assert.match(page, /image-credit/);
