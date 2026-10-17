@@ -145,14 +145,17 @@
       "date": "2026-10-26",
       "dateLabel": "26 अक्टूबर",
       "title": "कोजागरी पूर्णिमा / शरद पूर्णिमा",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">कोजागरी पूर्णिमा</a> और <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी-कुबेर पूजन</a>। खीर को चंद्रमा की चांदनी में रखने की परंपरा है। स्थानीय चंद्रोदय से मध्यरात्रि तक की अवधि अलग से दिखाई जाएगी; पूजा का विशिष्ट मुहूर्त स्थानीय नियम तय होने पर जोड़ा जाएगा। वाल्मीकि जयंती, मीराबाई जयंती और श्री कार्तिकेय जयन्ती भी इसी प्रविष्टि में उल्लिखित हैं।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">कोजागरी पूर्णिमा</a> और <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी-कुबेर पूजन</a>। कोजागरी लक्ष्मी-पूजा का निशीथ काल और खीर को चंद्रमा की चांदनी में रखने की अवधि चुने हुए स्थान के स्थानीय पंचांग से प्रदर्शित होगी। वाल्मीकि जयंती, मीराबाई जयंती और श्री कार्तिकेय जयन्ती भी इसी प्रविष्टि में उल्लिखित हैं।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html",
       "articleLabel": "कोजागरी पूर्णिमा व्रत",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/lakshmi.html",
       "secondaryArticleLabel": "लक्ष्मी-कुबेर पूजन",
-      "muhurtaRule": "moonlight-until-midnight"
+      "muhurtaRules": [
+        "nishita",
+        "moonlight-until-midnight"
+      ]
     },
     {
       "date": "2026-10-27",
@@ -170,7 +173,8 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
-      "articleLabel": "करवा चौथ व्रत-विधि"
+      "articleLabel": "करवा चौथ व्रत-विधि",
+      "muhurtaRule": "moonrise"
     }
   ]
 }
