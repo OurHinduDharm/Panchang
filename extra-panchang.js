@@ -2,7 +2,7 @@
 // and CDN consumers do not need a separate script tag.
 import "./classical-yogas.js";
 import "./festivals.js";
-import { calculateNivasa } from "./nivas.js";
+import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 
 import {
   Elongation,
@@ -1000,7 +1000,10 @@ function createNivasCard(tithiIndex, selectedDate) {
 
   // Use the selected Indian calendar date, independent of device timezone.
   const weekdayIndex = new Date(`${selectedDate}T00:00:00Z`).getUTCDay();
-  const result = calculateNivasa(Number(tithiIndex), weekdayIndex);
+  const normalizedTithiIndex = normalizeTithiIndex(tithiIndex);
+  const result = normalizedTithiIndex === null
+    ? null
+    : calculateNivasa(normalizedTithiIndex, weekdayIndex);
 
   if (!result) {
     card.innerHTML = `
