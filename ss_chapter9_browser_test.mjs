@@ -232,17 +232,15 @@ try {
       !item.headers.includes("Correction contribution to ΔK/day (prāṇa/day)") ||
       !item.headers.includes("IX.10–11 minus empirical rate") ||
       !item.headers.includes("Corrected planet motion (arcmin/day; diagnostic)") ||
-      !item.headers.includes("Local K at t−30m (°)") ||
-      !item.headers.includes("Local K at t+30m (°)") ||
-      !item.headers.includes("Local signed lagnāntara at t−30m (asu)") ||
-      !item.headers.includes("Local signed lagnāntara at t+30m (asu)") ||
-      !item.headers.includes("Local finite-difference corrected K-rate (prāṇa/day)") ||
-      !item.headers.includes("IX.10–11 minus local K-rate") ||
+      !item.headers.includes("Event-to-event Sun motion (arcmin/day)") ||
+      !item.headers.includes("Event-to-event corrected planet motion (arcmin/day)") ||
+      !item.headers.includes("IX.11 rate using event-to-event motion") ||
+      !item.headers.includes("Event-motion rate minus empirical K-rate") ||
       !item.headers.includes("IX.11 rate using corrected planet motion") ||
       !item.headers.includes("Corrected-motion rate minus empirical K-rate") ||
       !item.headers.includes("Predicted event") ||
       !item.headers.includes("Error vs bracket (days)") ||
-      item.firstRow.length !== 32 ||
+      item.firstRow.length !== 30 ||
       !item.bracketErrors.some(value => Number.isFinite(Number(value)) && value !== "") ||
       !item.bracketErrors.some(value => value === "—")
   )) {
