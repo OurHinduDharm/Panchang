@@ -43,6 +43,7 @@ h2{font-size:19px;margin:0}
 .pill.confirmed{background:#e7f5e9;color:#216638}
 .pill.review{background:#fff0d4;color:#855313}
 .thumb{width:100%;max-height:145px;object-fit:cover;border-radius:8px;margin:8px 0 0}
+.image-credit{font-size:10px;line-height:1.45;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}.image-credit a{color:#8c4810;text-decoration:underline}
 .note{margin-top:13px;padding:12px;font-size:12px;color:var(--muted)}
 .empty{background:#fff;border:1px dashed #d6c5af;border-radius:12px;padding:18px;text-align:center;color:var(--muted)}
 footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
@@ -116,6 +117,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var muhurtaModulePromise=import("./festival-muhurta.js").catch(function(error){
     console.warn("Festival muhurta module unavailable:",error);return null;
   });
+  var festivalImageModulePromise=import("./festival-images.js").catch(function(error){
+    console.warn("Festival image mapping unavailable:",error);return null;
+  });
   function getLocalLocation(){
     try{
       var saved=JSON.parse(localStorage.getItem("ohdPanchangLocation")||"null");
@@ -175,6 +179,39 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     if(!value) return "";
     try { var u=new URL(value,window.location.href); return (u.protocol==="https:"||u.protocol==="http:")?u.href:""; }
     catch(e){ return ""; }
+  }
+  async function appendFestivalImage(item,content,token){
+    try{
+      var imageModule=await festivalImageModulePromise;
+      if(!imageModule||token!==requestToken||!content.isConnected) return;
+      var image=imageModule.getFestivalImage(item);
+      if(!image) return;
+      var imageUrl=safeUrl(image.url);
+      if(!imageUrl) return;
+      var img=document.createElement("img");
+      img.className="thumb";img.loading="lazy";img.decoding="async";
+      img.alt=image.alt||item.title||"व्रत-पर्व का चित्र";img.src=imageUrl;
+      content.appendChild(img);
+      if(image.sourceUrl||image.license){
+        var credit=document.createElement("div");credit.className="image-credit";
+        credit.appendChild(document.createTextNode("चित्र: "+(image.author||"मुक्त-लाइसेंस चित्र")));
+        if(image.sourceUrl){
+          var source=document.createElement("a");source.href=safeUrl(image.sourceUrl);
+          source.target="_blank";source.rel="noopener noreferrer";source.textContent=" स्रोत";
+          if(source.href)credit.appendChild(source);
+        }
+        if(image.license&&image.license.label){
+          credit.appendChild(document.createTextNode(" · "));
+          if(image.license.url){
+            var license=document.createElement("a");license.href=safeUrl(image.license.url);
+            license.target="_blank";license.rel="noopener noreferrer";license.textContent=image.license.label;
+            if(license.href)credit.appendChild(license);
+            else credit.appendChild(document.createTextNode(image.license.label));
+          }else credit.appendChild(document.createTextNode(image.license.label));
+        }
+        content.appendChild(credit);
+      }
+    }catch(error){console.warn("Festival image unavailable:",error);}
   }
   function makeLink(url,label){
     var href=safeUrl(url);
@@ -273,10 +310,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       content.appendChild(title);
       if(item.description){var desc=document.createElement("div");desc.className="desc";renderDescription(desc,item.description);content.appendChild(desc);}
       appendMuhurta(item,String(item.date||""),content,token);
-      if(item.imageUrl){
-        var imageUrl=safeUrl(item.imageUrl);
-        if(imageUrl){var img=document.createElement("img");img.className="thumb";img.loading="lazy";img.alt=item.imageAlt||item.title||"पर्व का चित्र";img.src=imageUrl;content.appendChild(img);}
-      }
+      appendFestivalImage(item,content,token);
       var links=document.createElement("div");links.className="links";
       var mainLink=makeLink(item.articleUrl,item.articleLabel);
       if(mainLink)links.appendChild(mainLink);
