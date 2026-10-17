@@ -18,6 +18,15 @@ h1{font-size:clamp(22px,5vw,30px);line-height:1.35;margin:0}
 .sub{color:#87562b;font-size:13px;margin-top:5px}
 .draft{padding:9px 13px;background:#fff5d9;border-top:1px solid #f0d9a6;color:#76521e;font-size:12px}
 .monthbar{padding:12px;margin-bottom:12px}
+.location-picker{margin-bottom:12px;padding:10px;border:1px solid #ecd9bf;border-radius:10px;background:#fffaf2}
+.location-picker>label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.location-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px}
+.location-search input{font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0;width:100%}
+.location-search button{background:#7d431b;color:#fff;border-color:#7d431b;cursor:pointer;font-size:14px}
+.location-status{font-size:11px;color:var(--muted);margin-top:6px;overflow-wrap:anywhere}
+.location-suggestions{display:grid;gap:5px;margin-top:6px}
+.location-suggestions:empty{display:none}
+.location-suggestions button{text-align:left;font-size:12px;cursor:pointer;background:#fff;border-color:#eadcc8}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .filters{display:grid;grid-template-columns:1.3fr 1fr;gap:9px;margin-top:10px}
 label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
@@ -66,6 +75,15 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 </header>
 
 <section class="monthbar" aria-label="महीना चुनें">
+  <div class="location-picker" aria-label="मुहूर्त के लिए स्थान चुनें">
+    <label for="locationInput">मुहूर्त के लिए स्थान चुनें</label>
+    <div class="location-search">
+      <input id="locationInput" type="search" placeholder="शहर का नाम लिखें, जैसे दिल्ली या पिथौरागढ़" autocomplete="off" aria-describedby="locationStatus">
+      <button id="locationSearchBtn" type="button">खोजें</button>
+    </div>
+    <div id="locationStatus" class="location-status" role="status" aria-live="polite">डिफ़ॉल्ट स्थान: पिथौरागढ़</div>
+    <div id="locationSuggestions" class="location-suggestions" role="listbox" aria-label="स्थान के परिणाम"></div>
+  </div>
   <div class="controls">
     <label>महीना
       <select id="monthSelect">
@@ -112,6 +130,10 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var countEl=document.getElementById("count");
   var searchInput=document.getElementById("searchInput");
   var categoryFilter=document.getElementById("categoryFilter");
+  var locationInput=document.getElementById("locationInput");
+  var locationSearchBtn=document.getElementById("locationSearchBtn");
+  var locationStatus=document.getElementById("locationStatus");
+  var locationSuggestions=document.getElementById("locationSuggestions");
   var requestToken=0;
   var panchangCache=new Map();
   // मुहूर्त मॉड्यूल वैकल्पिक रूप से लोड हो; इसके विफल होने पर खोज/फ़िल्टर बंद न हों।
@@ -125,10 +147,75 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     try{
       var saved=JSON.parse(localStorage.getItem("ohdPanchangLocation")||"null");
       if(saved&&Number.isFinite(Number(saved.lat))&&Number.isFinite(Number(saved.lon))){
-        return {name:saved.name||saved.city||"चुना हुआ स्थान",lat:Number(saved.lat),lon:Number(saved.lon),elevation:Number(saved.elevation)||0};
+        return {
+          name:saved.name||saved.city||"चुना हुआ स्थान",
+          lat:Number(saved.lat),lon:Number(saved.lon),
+          elevation:Number(saved.elevation)||0,
+          state:saved.state||"",city:saved.city||""
+        };
       }
     }catch(e){}
-    return {name:"पिथौरागढ़",lat:29.58,lon:80.22,elevation:1650};
+    return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:1650,state:"उत्तराखंड",city:"पिथौरागढ़"};
+  }
+  function syncLocationUI(){
+    var location=getLocalLocation();
+    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name;
+    if(!locationInput.value) locationInput.value=location.city||location.name||"";
+  }
+  async function searchLocation(){
+    var query=locationInput.value.trim();
+    if(query.length<2){
+      locationStatus.textContent="कृपया शहर या स्थान का नाम लिखें।";
+      locationSuggestions.replaceChildren();
+      return;
+    }
+    locationSearchBtn.disabled=true;
+    locationSearchBtn.textContent="खोज रहे हैं…";
+    locationStatus.textContent="स्थान खोजा जा रहा है…";
+    locationSuggestions.replaceChildren();
+    try{
+      var url="https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5&accept-language=hi&q="+encodeURIComponent(query);
+      var response=await fetch(url,{headers:{"Accept":"application/json"}});
+      if(!response.ok) throw new Error("HTTP_"+response.status);
+      var places=await response.json();
+      if(!places.length){
+        locationStatus.textContent="स्थान नहीं मिला। नाम थोड़ा बदलकर खोजें।";
+        return;
+      }
+      places.forEach(function(place){
+        var button=document.createElement("button");
+        button.type="button";
+        button.setAttribute("role","option");
+        button.textContent=place.display_name||place.name||query;
+        button.addEventListener("click",function(){
+          var address=place.address||{};
+          var selected={
+            name:place.display_name||place.name||query,
+            lat:Number(place.lat),lon:Number(place.lon),elevation:0,
+            state:address.state||address.state_district||address.region||"",
+            city:address.city||address.town||address.village||address.municipality||place.name||query
+          };
+          if(!Number.isFinite(selected.lat)||!Number.isFinite(selected.lon)){
+            locationStatus.textContent="इस परिणाम के निर्देशांक उपलब्ध नहीं हैं। दूसरा परिणाम चुनें।";
+            return;
+          }
+          try{localStorage.setItem("ohdPanchangLocation",JSON.stringify(selected));}catch(e){}
+          panchangCache.clear();
+          locationInput.value=selected.city||selected.name;
+          locationSuggestions.replaceChildren();
+          locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई उपलब्ध न होने पर 0 मीटर मानकर गणना होगी।";
+          loadMonth();
+        });
+        locationSuggestions.appendChild(button);
+      });
+      locationStatus.textContent="नीचे दिए परिणामों में से अपना स्थान चुनें।";
+    }catch(error){
+      console.warn("Location search failed:",error);
+      locationStatus.textContent="स्थान खोजने में समस्या हुई। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
+    }finally{
+      locationSearchBtn.disabled=false;
+      locationSearchBtn.textContent="खोजें";
+    }
   }
   function getDatePanchang(dateIso){
     var location=getLocalLocation();
@@ -381,6 +468,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     if(y<2026||y>2028){return;}
     yearSelect.value=String(y);monthSelect.value=String(m).padStart(2,"0");loadMonth();
   }
+  locationSearchBtn.addEventListener("click",searchLocation);
+  locationInput.addEventListener("keydown",function(event){
+    if(event.key==="Enter"){event.preventDefault();searchLocation();}
+  });
+  syncLocationUI();
   searchInput.addEventListener("input",applyFilters);
   categoryFilter.addEventListener("input",applyFilters);
   categoryFilter.addEventListener("change",applyFilters);
