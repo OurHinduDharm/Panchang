@@ -109,3 +109,24 @@ For the Venus Udaya sample at 30 Oct 2026, 06:20 IST:
 The corrected-motion counterfactual is **farther** from the empirical corrected-K rate (difference −20.885024 prāṇa/day) than the existing raw-motion rate (difference −6.764642 prāṇa/day). Therefore, the simple hypothesis “replace raw planetary motion with the derivative of the corrected longitude” is not supported by this sample and must not be adopted as a fix. The corrected K geometry and the IX.11 motion conversion are not interchangeable by a one-line substitution; the source's intended order and exact definitions of the motions and rising-asus need to be audited before changing the formula.
 
 The new diagnostic passed headless Chromium, and the CI guard confirmed that production `app.js` and `extra-panchang.js` remain unchanged. This is a controlled numerical result for the present model, not proof of a final classical interpretation.
+
+
+## Correction to the derivative interpretation: use the event-time path (17 Oct 2026)
+
+The previous fixed-clock corrected-motion counterfactual is retained as a negative result only. A ±12-hour derivative follows the planet through local hour angle and therefore differentiates the time-varying Akṣa correction at fixed clock-time offsets; it is **not** the same path as comparing successive sunrise samples. A short ±30-minute K derivative was also tested, but it showed the same issue more strongly because the Akṣa correction changes rapidly with hour angle away from the solar event. Those fixed-clock local K-rate values are not appropriate for comparison with the sunrise-to-sunrise K slope and have been removed from the displayed audit.
+
+A new audit now calculates both the Sun's motion and the dṛkkarma-corrected planet's motion **between adjacent actual event samples** (same horizon branch, same C, and same signed-lagnāntara branch), then evaluates the IX.11 conversion using those event-to-event motions. For Venus Udaya, 30 Oct 2026, the values are:
+
+| Quantity | Value |
+|---|---:|
+| Event-to-event Sun motion | +59.947139 arcmin/day |
+| Event-to-event corrected planet motion | −38.641960 arcmin/day |
+| IX.11 rate using event-to-event motions | 115.407269 prāṇa/day |
+| Empirical corrected-K rate from the same adjacent samples | 115.407269 prāṇa/day |
+| Difference at displayed precision | 0.000000 prāṇa/day |
+
+This agreement is a **consistency check, not an independent prediction**: the next event sample is already known and supplies the finite-difference motions. It demonstrates that the corrected-K slope is consistent with the IX.11 conversion when motion is measured along the actual sunrise-event sequence. It does not establish that event-to-event finite differences are the motion inputs intended by the classical text, nor does it remove the need to derive a predictive rate from information available at the current event.
+
+Updated interpretation: the earlier 6.764642 prāṇa/day mismatch was between a corrected-K slope measured along successive sunrise samples and instantaneous raw orbital motion estimated across ±12 hours. Those are different derivatives. Do not attribute the gap solely to the correction term or change IX.11 on that evidence. The next research step is to audit the source/commentary's definition of the daily motions used in IX.10–11, then compare the current-event instantaneous method against an independently documented traditional Panchang/TKS result using identical location, date, and correction mode.
+
+The updated event-to-event audit passed headless Chromium and the production-file guard. PR #22 remains Draft; production files are unchanged.
