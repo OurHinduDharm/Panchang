@@ -100,7 +100,6 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 <footer>OurHinduDharm · मासिक व्रत-पर्व सूची</footer>
 </main>
 <script type="module">
-import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTime } from "./festival-muhurta.js";
 (function(){
   "use strict";
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
@@ -113,6 +112,10 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
   var categoryFilter=document.getElementById("categoryFilter");
   var requestToken=0;
   var panchangCache=new Map();
+  // मुहूर्त मॉड्यूल वैकल्पिक रूप से लोड हो; इसके विफल होने पर खोज/फ़िल्टर बंद न हों।
+  var muhurtaModulePromise=import("./festival-muhurta.js").catch(function(error){
+    console.warn("Festival muhurta module unavailable:",error);return null;
+  });
   function getLocalLocation(){
     try{
       var saved=JSON.parse(localStorage.getItem("ohdPanchangLocation")||"null");
@@ -141,7 +144,9 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
   async function appendMuhurta(item,dateIso,content,token){
     if(!item.muhurtaRule) return;
     try{
-      var preliminary=getFestivalMuhurta(item,{});
+      var muhurtaModule=await muhurtaModulePromise;
+      if(!muhurtaModule) return;
+      var preliminary=muhurtaModule.getFestivalMuhurta(item,{});
       if(preliminary&&preliminary.status==="rule-pending"){
         var pending=document.createElement("div");pending.className="desc";
         pending.style.marginTop="7px";pending.textContent=preliminary.message||"मुहूर्त-नियम लंबित है।";
@@ -149,15 +154,15 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
       }
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
-      var context=getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
-      var result=getFestivalMuhurta(item,context);
+      var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      var result=muhurtaModule.getFestivalMuhurta(item,context);
       if(!result) return;
       var box=document.createElement("div");box.className="desc";
       box.style.marginTop="7px";box.style.padding="8px 9px";box.style.borderRadius="8px";box.style.background="#fff8e9";
       var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
       var detail=document.createElement("div");
       detail.textContent=result.status==="calculated"&&result.start&&result.end
-        ? formatFestivalMuhurtaTime(result.start)+" – "+formatFestivalMuhurtaTime(result.end)
+        ? muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end)
         : (result.message||"मुहूर्त उपलब्ध नहीं है।");
       box.appendChild(detail);
       if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
@@ -207,12 +212,21 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
     var parsed=new DOMParser().parseFromString(String(value||""),"text/html");
     Array.from(parsed.body.childNodes).forEach(function(node){appendSafeDescriptionNode(container,node);});
   }
+  function normalizeSearch(value){
+    return String(value||"")
+      .replace(/<[^>]*>/g," ")
+      .replace(/&nbsp;|&#160;/gi," ")
+      .normalize("NFC")
+      .toLocaleLowerCase("hi")
+      .replace(/[\\s\\u200b]+/g," ")
+      .trim();
+  }
   function applyFilters(){
-    var query=String(searchInput.value||"").trim().toLocaleLowerCase("hi");
+    var query=normalizeSearch(searchInput.value);
     var category=categoryFilter.value;
     var visible=0,total=eventsEl.querySelectorAll(".event").length;
     eventsEl.querySelectorAll(".event").forEach(function(card){
-      var matchesText=!query||String(card.dataset.search||"").includes(query);
+      var matchesText=!query||normalizeSearch(card.dataset.search||"").includes(query);
       var matchesCategory=!category||card.dataset.category===category;
       card.hidden=!(matchesText&&matchesCategory);
       if(!card.hidden)visible++;
@@ -252,7 +266,7 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
       small.textContent=Number.isNaN(dateObj.getTime())?"":["रवि","सोम","मंगल","बुध","गुरु","शुक्र","शनि"][dateObj.getDay()];
       date.appendChild(small);card.appendChild(date);
 
-      card.dataset.search=[item.title,item.description,item.category].join(" ").toLocaleLowerCase("hi");
+      card.dataset.search=[item.title,item.description,item.category].join(" ");
       card.dataset.category=String(item.category||"");
       var content=document.createElement("div");content.className="content";
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
@@ -318,6 +332,7 @@ import { getFestivalMuhurta, getFestivalMuhurtaContext, formatFestivalMuhurtaTim
     yearSelect.value=String(y);monthSelect.value=String(m).padStart(2,"0");loadMonth();
   }
   searchInput.addEventListener("input",applyFilters);
+  categoryFilter.addEventListener("input",applyFilters);
   categoryFilter.addEventListener("change",applyFilters);
   monthSelect.addEventListener("change",loadMonth);
   yearSelect.addEventListener("change",loadMonth);
