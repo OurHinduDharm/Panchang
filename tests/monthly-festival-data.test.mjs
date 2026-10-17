@@ -123,6 +123,12 @@ test("October 2026 reviewed events preserve article links and private review not
   assert.ok(data.events.some(event => event.title === "शारदीय नवरात्र महाष्टमी — माँ महागौरी"));
   assert.ok(data.events.some(event => event.title === "शारदीय नवरात्र महानवमी — माँ सिद्धिदात्री"));
   assert.ok(data.events.some(event => event.title === "कार्तिक कृष्ण चतुर्थी — करकचतुर्थी" && event.articleUrl));
+  const ghata = data.events.find(event => event.title === "शारदीय नवरात्र प्रारम्भ");
+  const kojagari = data.events.find(event => event.title === "कोजागरी पूर्णिमा / शरद पूर्णिमा");
+  const karwa = data.events.find(event => event.title === "कार्तिक कृष्ण चतुर्थी — करकचतुर्थी");
+  assert.equal(ghata.muhurtaRule, "ghata-sthapana");
+  assert.deepEqual(kojagari.muhurtaRules, ["nishita", "moonlight-until-midnight"]);
+  assert.equal(karwa.muhurtaRule, "moonrise");
   for (const event of data.events) {
     assert.equal(Object.hasOwn(event, "instruction"), false, "private review instruction must not be public");
   }
