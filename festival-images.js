@@ -75,7 +75,7 @@ export function getFestivalImage(event) {
   const text = String(event.title || "") + " " + String(event.category || "");
   let key = null;
   if (/करवा.?चौथ|करक.?चतुर्थी/i.test(text)) key = "karvaChauth";
-  else if (/नवरात्र|दुर्गा.?पूजा|दुर्गाष्टमी|महाष्टमी|महानवमी|विजयादशमी|दशहरा/i.test(text)) key = "navratri";
+  else if (/नवरात्र|दुर्गा.?पूजा|दुर्गाष्टमी|महाष्टमी|महानवमी/i.test(text)) key = "navratri";
   else if (/दीपावली|दीवाली|दीपावली|धनतेरस|लक्ष्मी.?पूजा|लक्ष्मी.?कुबेर/i.test(text)) key = "deepawali";
   else if (/शरद.?पूर्णिमा|कोजागरी|पूर्णिमा/i.test(text) || String(event.category || "") === "पूर्णिमा") key = "fullMoon";
   else if (/गणेश|गणपति|संकष्टी|सकट.?चौथ/i.test(text)) key = "ganesha";
