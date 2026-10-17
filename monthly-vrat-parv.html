@@ -28,7 +28,11 @@ h1{font-size:clamp(22px,5vw,30px);line-height:1.35;margin:0}
 .location-suggestions:empty{display:none}
 .location-suggestions button{text-align:left;font-size:12px;cursor:pointer;background:#fff;border-color:#eadcc8}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.filters{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:9px;margin-top:10px}\n.filters input{font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0;width:100%;appearance:none}\n.filters input:focus,.filters select:focus,.controls select:focus{outline:2px solid #c58b4a;outline-offset:1px}\n.filters label{min-width:0}\n@media(max-width:420px){.filters{grid-template-columns:1fr;gap:7px}}
+.filters{display:block;margin-top:10px}
+.filters label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
+.filters input{font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0;width:100%;appearance:none}
+.filters input:focus{outline:2px solid #c58b4a;outline-offset:1px}
+.event[hidden],.filter-empty[hidden]{display:none!important}
 label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
 select,button{font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10px;background:#fff;color:var(--ink);min-width:0}
 .nav{display:flex;gap:8px;margin-top:10px}
@@ -96,13 +100,8 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     </label>
   </div>
   <div class="filters" aria-label="व्रत-पर्व खोजें">
-    <label>पर्व खोजें
-      <input id="searchInput" type="search" placeholder="नाम या तिथि लिखें…" autocomplete="off" aria-label="पर्व या तिथि खोजें">
-    </label>
-    <label>श्रेणी चुनें
-      <select id="categoryFilter" aria-label="पर्व की श्रेणी">
-        <option value="">सभी व्रत-पर्व</option>
-      </select>
+    <label for="searchInput">पर्व खोजें
+      <input id="searchInput" type="search" placeholder="पर्व का नाम या तिथि लिखें…" autocomplete="off" aria-label="पर्व या तिथि खोजें">
     </label>
   </div>
   <div class="nav">
@@ -133,7 +132,6 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
   var searchInput=document.getElementById("searchInput");
-  var categoryFilter=document.getElementById("categoryFilter");
   var locationInput=document.getElementById("locationInput");
   var locationSearchBtn=document.getElementById("locationSearchBtn");
   var locationStatus=document.getElementById("locationStatus");
@@ -345,20 +343,25 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   }
   function applyFilters(){
     var query=normalizeSearch(searchInput.value);
-    var category=categoryFilter.value;
     var cards=Array.from(eventsEl.querySelectorAll(".event"));
-    var visible=0,total=cards.length;
+    var matches=[],others=[];
     cards.forEach(function(card){
       var haystack=normalizeSearch(card.dataset.search||"");
-      var matchesText=!query||haystack.includes(query);
-      var matchesCategory=!category||card.dataset.category===category;
-      card.hidden=!(matchesText&&matchesCategory);
-      if(!card.hidden)visible++;
+      var isMatch=!query||haystack.includes(query);
+      card.hidden=!!query&&!isMatch;
+      (isMatch?matches:others).push(card);
     });
-    countEl.textContent=visible===total?total+" पर्व":visible+" / "+total+" पर्व";
+    // मिलान वाली प्रविष्टि सूची में सबसे ऊपर; बाकी खोज के दौरान छिपी रहती हैं।
+    matches.concat(others).forEach(function(card){eventsEl.appendChild(card);});
+    var visible=matches.length,total=cards.length;
+    countEl.textContent=query?visible+" / "+total+" पर्व":total+" पर्व";
     var empty=eventsEl.querySelector(".filter-empty");
-    if(!visible&&total){
-      if(!empty){empty=document.createElement("div");empty.className="empty filter-empty";empty.textContent="कोई पर्व नहीं मिला। खोज का शब्द बदलें या ‘सभी व्रत-पर्व’ चुनें।";eventsEl.appendChild(empty);}
+    if(query&&!visible&&total){
+      if(!empty){
+        empty=document.createElement("div");empty.className="empty filter-empty";
+        empty.textContent="कोई पर्व नहीं मिला। खोज का शब्द बदलें।";
+        eventsEl.appendChild(empty);
+      }
       empty.hidden=false;
     }else if(empty){empty.hidden=true;}
   }
@@ -372,14 +375,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     }
     list.sort(function(a,b){return String(a.date||"").localeCompare(String(b.date||""));});
     countEl.textContent=list.length+" प्रविष्टियाँ";
-    categoryFilter.replaceChildren();
-    var allOption=document.createElement("option");allOption.value="";allOption.textContent="सभी व्रत-पर्व";categoryFilter.appendChild(allOption);
-    var categoryOrder=["एकादशी","प्रदोष व्रत","अष्टमी व्रत","चतुर्थी व्रत","अमावस्या","पूर्णिमा","संक्रांति","नवरात्रि एवं दुर्गा पूजा","जयंती","पर्व एवं त्योहार","अन्य व्रत","अन्य पर्व"];
-    var availableCategories=new Set(list.map(categoryFor));
-    categoryOrder.filter(function(category){return availableCategories.has(category);}).forEach(function(category){
-      var option=document.createElement("option");option.value=category;option.textContent=category;categoryFilter.appendChild(option);
-    });
-    searchInput.value="";categoryFilter.value="";
+    searchInput.value="";
     if(!list.length){
       var empty=document.createElement("div");empty.className="empty";
       empty.textContent="इस महीने का डेटा अभी उपलब्ध नहीं है। सत्यापित डेटा जोड़ने पर यहाँ व्रत-पर्व दिखाई देंगे।";
@@ -470,8 +466,6 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   });
   syncLocationUI();
   searchInput.addEventListener("input",applyFilters);
-  categoryFilter.addEventListener("input",applyFilters);
-  categoryFilter.addEventListener("change",applyFilters);
   monthSelect.addEventListener("change",loadMonth);
   yearSelect.addEventListener("change",loadMonth);
   document.getElementById("prevBtn").addEventListener("click",function(){shiftMonth(-1);});
