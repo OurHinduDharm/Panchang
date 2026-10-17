@@ -3341,16 +3341,19 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
   // This is a diagnostic finite difference over the same ±12 h interval,
   // not a replacement for the classical IX.10–11 analytic rate.
   const eventDirection = geometry.direction || geometry.drikkarma?.direction || "east";
+  const localBeforeTime = new Date(eventTime.getTime() - 30 * 60000);
+  const localAfterTime = new Date(eventTime.getTime() + 30 * 60000);
   const localBeforeGeometry = getLagnantaraDiagnostic(
-    planetBody, before, eventDirection, method, config
+    planetBody, localBeforeTime, eventDirection, method, config
   );
   const localAfterGeometry = getLagnantaraDiagnostic(
-    planetBody, after, eventDirection, method, config
+    planetBody, localAfterTime, eventDirection, method, config
   );
+  // The endpoints are one hour apart, hence 24 hourly intervals per day.
   const localCorrectedKRatePranasPerDay =
     localBeforeGeometry && localAfterGeometry &&
     Number.isFinite(localBeforeGeometry.K) && Number.isFinite(localAfterGeometry.K)
-      ? signedLongitudeDelta(localAfterGeometry.K, localBeforeGeometry.K) * 60
+      ? signedLongitudeDelta(localAfterGeometry.K, localBeforeGeometry.K) * 60 * 24
       : NaN;
   /*
    * IX.5 shifts both western-event longitudes by six signs before
@@ -3881,7 +3884,7 @@ async function runLagnantaraDiagnostic() {
       if (dailySamples.length) {
         html += '<details><summary>Daily IX.10–11 sample audit ('+dailySamples.length+' valid samples)</summary>';
         html += '<p class="small">One actual sunrise/sunset sample per civil date. “Predicted event” uses the local IX.10–11 estimate from that row. Error is shown only when the row has the same horizon-event branch and the same C threshold as both endpoints of the requested adjacent daily K=C bracket; other rows are not comparable and show —.</p>';
-        html += '<div class="table-wrap"><table><thead><tr><th>Sample date/time</th><th>Branch</th><th>Raw planet longitude (°)</th><th>Corrected planet longitude (°)</th><th>Sun event-frame longitude (°)</th><th>Signed lagnāntara (°)</th><th>K (°)</th><th>C (°)</th><th>K−C (°)</th><th>Sun time-motion (prāṇa/day)</th><th>Planet time-motion (prāṇa/day)</th><th>Corrected planet motion (arcmin/day; diagnostic)</th><th>Signed K-rate IX.10–11 (prāṇa/day)</th><th>Empirical raw-K rate (prāṇa/day)</th><th>Empirical Akṣa-only K-rate (prāṇa/day)</th><th>Empirical Āyana-only K-rate (prāṇa/day)</th><th>Δ Akṣa correction (arcmin/day)</th><th>Δ Āyana correction (arcmin/day)</th><th>Empirical next-sample ΔK/day (prāṇa/day)</th><th>Correction contribution to ΔK/day (prāṇa/day)</th><th>IX.10–11 minus empirical rate</th><th>Local K at t−12h (°)</th><th>Local K at t+12h (°)</th><th>Local signed lagnāntara at t−12h (asu)</th><th>Local signed lagnāntara at t+12h (asu)</th><th>Local finite-difference corrected K-rate (prāṇa/day)</th><th>IX.10–11 minus local K-rate</th><th>IX.11 rate using corrected planet motion</th><th>Corrected-motion rate minus empirical K-rate</th><th>Estimated days</th><th>Predicted event</th><th>Error vs bracket (days)</th></tr></thead><tbody>';
+        html += '<div class="table-wrap"><table><thead><tr><th>Sample date/time</th><th>Branch</th><th>Raw planet longitude (°)</th><th>Corrected planet longitude (°)</th><th>Sun event-frame longitude (°)</th><th>Signed lagnāntara (°)</th><th>K (°)</th><th>C (°)</th><th>K−C (°)</th><th>Sun time-motion (prāṇa/day)</th><th>Planet time-motion (prāṇa/day)</th><th>Corrected planet motion (arcmin/day; diagnostic)</th><th>Signed K-rate IX.10–11 (prāṇa/day)</th><th>Empirical raw-K rate (prāṇa/day)</th><th>Empirical Akṣa-only K-rate (prāṇa/day)</th><th>Empirical Āyana-only K-rate (prāṇa/day)</th><th>Δ Akṣa correction (arcmin/day)</th><th>Δ Āyana correction (arcmin/day)</th><th>Empirical next-sample ΔK/day (prāṇa/day)</th><th>Correction contribution to ΔK/day (prāṇa/day)</th><th>IX.10–11 minus empirical rate</th><th>Local K at t−30m (°)</th><th>Local K at t+30m (°)</th><th>Local signed lagnāntara at t−30m (asu)</th><th>Local signed lagnāntara at t+30m (asu)</th><th>Local finite-difference corrected K-rate (prāṇa/day)</th><th>IX.10–11 minus local K-rate</th><th>IX.11 rate using corrected planet motion</th><th>Corrected-motion rate minus empirical K-rate</th><th>Estimated days</th><th>Predicted event</th><th>Error vs bracket (days)</th></tr></thead><tbody>';
         dailySamples.forEach((item, sampleIndex) => {
           const sg = item.geometry;
           const estimate = getChapter9TimeEstimate(ref.planet,item.eventTime,sg,item.C,TKS_CONFIG,"sequential");
