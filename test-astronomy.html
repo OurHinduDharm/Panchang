@@ -3311,6 +3311,26 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
     signedLongitudeDelta(planetAfter.longitude, planetBefore.longitude) * 60;
   const sunDailyMotionArcminPerDay =
     signedLongitudeDelta(sunAfter.longitude, sunBefore.longitude) * 60;
+
+  // Counterfactual only: differentiate the corrected planet longitude
+  // across the same ±12 h window used for raw orbital motion. This tests
+  // whether time-varying dṛkkarma explains the raw-vs-corrected K-rate gap;
+  // it is not presumed to be the source-prescribed IX.11 input.
+  const correctionBefore = getDrikkarmaCorrection(
+    planetBody, before, geometry.drikkarma?.direction || "east", config
+  );
+  const correctionAfter = getDrikkarmaCorrection(
+    planetBody, after, geometry.drikkarma?.direction || "east", config
+  );
+  const correctedMotionAvailable = correctionBefore && correctionAfter &&
+    Number.isFinite(correctionBefore.correctedLongitude) &&
+    Number.isFinite(correctionAfter.correctedLongitude);
+  const correctedPlanetDailyMotionArcminPerDay = correctedMotionAvailable
+    ? signedLongitudeDelta(
+        correctionAfter.correctedLongitude,
+        correctionBefore.correctedLongitude
+      ) * 60
+    : NaN;
   /*
    * IX.5 shifts both western-event longitudes by six signs before
    * computing lagnāntara. IX.11 must use the rising-asus of those same
@@ -3321,7 +3341,7 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
   const signedLagnantaraDeg = geometry.signedLagnantaraAsu / 60;
 
   try {
-    return estimateChapter9TimeCorrectionFromArcMotions({
+    const rawMotionEstimate = estimateChapter9TimeCorrectionFromArcMotions({
       currentKalanshaDeg: geometry.K,
       targetKalanshaDeg,
       signedLagnantaraDeg,
@@ -3330,6 +3350,28 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
       sunSignRisingAsus,
       planetSignRisingAsus
     });
+    const correctedMotionEstimate = Number.isFinite(correctedPlanetDailyMotionArcminPerDay)
+      ? estimateChapter9TimeCorrectionFromArcMotions({
+          currentKalanshaDeg: geometry.K,
+          targetKalanshaDeg,
+          signedLagnantaraDeg,
+          sunDailyMotionArcminPerDay,
+          planetDailyMotionArcminPerDay: correctedPlanetDailyMotionArcminPerDay,
+          sunSignRisingAsus,
+          planetSignRisingAsus
+        })
+      : null;
+    return {
+      ...rawMotionEstimate,
+      rawPlanetMotionArcminPerDay: planetDailyMotionArcminPerDay,
+      correctedPlanetDailyMotionArcminPerDay,
+      correctedMotionEstimate,
+      correctedMotionRateDeltaPranasPerDay:
+        Number.isFinite(correctedMotionEstimate?.signedKalanshaRatePranasPerDay)
+          ? correctedMotionEstimate.signedKalanshaRatePranasPerDay -
+            rawMotionEstimate.signedKalanshaRatePranasPerDay
+          : NaN
+    };
   } catch (error) {
     return { error: String(error?.message || error) };
   }
@@ -3813,7 +3855,7 @@ async function runLagnantaraDiagnostic() {
       if (dailySamples.length) {
         html += '<details><summary>Daily IX.10–11 sample audit ('+dailySamples.length+' valid samples)</summary>';
         html += '<p class="small">One actual sunrise/sunset sample per civil date. “Predicted event” uses the local IX.10–11 estimate from that row. Error is shown only when the row has the same horizon-event branch and the same C threshold as both endpoints of the requested adjacent daily K=C bracket; other rows are not comparable and show —.</p>';
-        html += '<div class="table-wrap"><table><thead><tr><th>Sample date/time</th><th>Branch</th><th>Raw planet longitude (°)</th><th>Corrected planet longitude (°)</th><th>Sun event-frame longitude (°)</th><th>Signed lagnāntara (°)</th><th>K (°)</th><th>C (°)</th><th>K−C (°)</th><th>Sun time-motion (prāṇa/day)</th><th>Planet time-motion (prāṇa/day)</th><th>Signed K-rate IX.10–11 (prāṇa/day)</th><th>Empirical raw-K rate (prāṇa/day)</th><th>Empirical Akṣa-only K-rate (prāṇa/day)</th><th>Empirical Āyana-only K-rate (prāṇa/day)</th><th>Δ Akṣa correction (arcmin/day)</th><th>Δ Āyana correction (arcmin/day)</th><th>Empirical next-sample ΔK/day (prāṇa/day)</th><th>Correction contribution to ΔK/day (prāṇa/day)</th><th>IX.10–11 minus empirical rate</th><th>Estimated days</th><th>Predicted event</th><th>Error vs bracket (days)</th></tr></thead><tbody>';
+        html += '<div class="table-wrap"><table><thead><tr><th>Sample date/time</th><th>Branch</th><th>Raw planet longitude (°)</th><th>Corrected planet longitude (°)</th><th>Sun event-frame longitude (°)</th><th>Signed lagnāntara (°)</th><th>K (°)</th><th>C (°)</th><th>K−C (°)</th><th>Sun time-motion (prāṇa/day)</th><th>Planet time-motion (prāṇa/day)</th><th>Signed K-rate IX.10–11 (prāṇa/day)</th><th>Empirical raw-K rate (prāṇa/day)</th><th>Empirical Akṣa-only K-rate (prāṇa/day)</th><th>Empirical Āyana-only K-rate (prāṇa/day)</th><th>Δ Akṣa correction (arcmin/day)</th><th>Δ Āyana correction (arcmin/day)</th><th>Empirical next-sample ΔK/day (prāṇa/day)</th><th>Correction contribution to ΔK/day (prāṇa/day)</th><th>IX.10–11 minus empirical rate</th><th>IX.11 rate using corrected planet motion</th><th>Corrected-motion rate minus empirical K-rate</th><th>Estimated days</th><th>Predicted event</th><th>Error vs bracket (days)</th></tr></thead><tbody>';
         dailySamples.forEach((item, sampleIndex) => {
           const sg = item.geometry;
           const estimate = getChapter9TimeEstimate(ref.planet,item.eventTime,sg,item.C);
@@ -3848,6 +3890,9 @@ async function runLagnantaraDiagnostic() {
           const analyticVsEmpiricalRate = Number.isFinite(empiricalKRate) &&
             Number.isFinite(estimate?.signedKalanshaRatePranasPerDay)
             ? estimate.signedKalanshaRatePranasPerDay - empiricalKRate : NaN;
+          const correctedMotionVsEmpiricalRate = Number.isFinite(empiricalKRate) &&
+            Number.isFinite(estimate?.correctedMotionEstimate?.signedKalanshaRatePranasPerDay)
+            ? estimate.correctedMotionEstimate.signedKalanshaRatePranasPerDay - empiricalKRate : NaN;
           const predictedMs = estimate && Number.isFinite(estimate.estimatedDays)
             ? item.eventTime.getTime()+estimate.estimatedDays*86400000 : NaN;
           const comparableToRequestedBracket = Boolean(
@@ -3861,7 +3906,7 @@ async function runLagnantaraDiagnostic() {
             Number.isFinite(predictedMs) && Number.isFinite(interpolatedCrossingTime)
             ? Math.abs(predictedMs-interpolatedCrossingTime)/86400000 : NaN;
           const val = (v,d=6) => Number.isFinite(v) ? round(v,d) : '—';
-          html += '<tr><td>'+formatLocalFromUTCDate(item.eventTime)+'</td><td>'+item.eventInfo.horizonEvent+'</td><td>'+val(sg.rawPlanetLon)+'</td><td>'+val(sg.planetLon)+'</td><td>'+val(sg.sunLon)+'</td><td>'+val(sg.signedLagnantaraAsu/60)+'</td><td>'+val(sg.K)+'</td><td>'+val(item.C,2)+'</td><td>'+val(item.residual)+'</td><td>'+val(estimate?.sunTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.planetTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.signedKalanshaRatePranasPerDay)+'</td><td>'+val(empiricalRawKRate)+'</td><td>'+val(empiricalAkshaOnlyKRate)+'</td><td>'+val(empiricalAyanaOnlyKRate)+'</td><td>'+val(akshaCorrectionRateArcminPerDay)+'</td><td>'+val(ayanaCorrectionRateArcminPerDay)+'</td><td>'+val(empiricalKRate)+'</td><td>'+val(correctionContributionRate)+'</td><td>'+val(analyticVsEmpiricalRate)+'</td><td>'+val(estimate?.estimatedDays)+'</td><td>'+(Number.isFinite(predictedMs)?formatLocalFromUTCDate(new Date(predictedMs)):'—')+'</td><td>'+val(errorDays)+'</td></tr>';
+          html += '<tr><td>'+formatLocalFromUTCDate(item.eventTime)+'</td><td>'+item.eventInfo.horizonEvent+'</td><td>'+val(sg.rawPlanetLon)+'</td><td>'+val(sg.planetLon)+'</td><td>'+val(sg.sunLon)+'</td><td>'+val(sg.signedLagnantaraAsu/60)+'</td><td>'+val(sg.K)+'</td><td>'+val(item.C,2)+'</td><td>'+val(item.residual)+'</td><td>'+val(estimate?.sunTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.planetTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.signedKalanshaRatePranasPerDay)+'</td><td>'+val(empiricalRawKRate)+'</td><td>'+val(empiricalAkshaOnlyKRate)+'</td><td>'+val(empiricalAyanaOnlyKRate)+'</td><td>'+val(akshaCorrectionRateArcminPerDay)+'</td><td>'+val(ayanaCorrectionRateArcminPerDay)+'</td><td>'+val(empiricalKRate)+'</td><td>'+val(correctionContributionRate)+'</td><td>'+val(analyticVsEmpiricalRate)+'</td><td>'+val(estimate?.correctedMotionEstimate?.signedKalanshaRatePranasPerDay)+'</td><td>'+val(correctedMotionVsEmpiricalRate)+'</td><td>'+val(estimate?.estimatedDays)+'</td><td>'+(Number.isFinite(predictedMs)?formatLocalFromUTCDate(new Date(predictedMs)):'—')+'</td><td>'+val(errorDays)+'</td></tr>';
         });
         html += '</tbody></table></div></details>';
       }
