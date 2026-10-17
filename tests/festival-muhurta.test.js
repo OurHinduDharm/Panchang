@@ -123,3 +123,17 @@ test("context carries yoga name and its local end time", () => {
   assert.equal(context.yoga, "Vaidhriti");
   assert.equal(context.yogaEndTime, "2026-10-13T21:00:00+05:30");
 });
+
+test("Ghata Sthapana does not use the project's excluded Wednesday Abhijit fallback", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "ghata-sthapana" }, {
+    date: new Date("2026-10-14T12:00:00+05:30"),
+    sunrise: "2026-10-14T06:00:00+05:30",
+    sunset: "2026-10-14T18:00:00+05:30",
+    tithiEndTime: "2026-10-14T18:00:00+05:30",
+    nakshatra: "Chitra",
+    nakshatraEndTime: "2026-10-14T13:00:00+05:30",
+    yoga: "Vaidhriti",
+    yogaEndTime: "2026-10-14T13:00:00+05:30"
+  });
+  assert.equal(result.status, "not-applicable");
+});
