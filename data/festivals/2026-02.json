@@ -25,22 +25,12 @@
       "hinduTithi": "माघ शुक्ल पूर्णिमा"
     },
     {
-      "date": "2026-02-04",
-      "dateLabel": "4 फ़रवरी",
-      "title": "रथ सप्तमी",
-      "description": "रथ सप्तमी - इस तिथि पर भगवान सूर्य रथ पर पहले-पहल आरूढ़ हुए थे। इस तिथि को दिया गया दान व किया गया यज्ञ सब अक्षय - फलप्रद हो जाता है। लाल पुष्प व गंधाक्षत-तिल युक्त सूर्यार्घ्य अवश्य दें। इस दिन सूर्याराधन करने से दरिद्रता नष्ट होती है व भगवान सूर्य प्रसन्न होते हैं।",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "फाल्गुन शुक्ल सप्तमी"
-    },
-    {
       "date": "2026-02-07",
       "dateLabel": "7 फ़रवरी",
       "title": "यशोदा जयन्ती",
       "description": "फाल्गुन कृष्ण षष्ठी - यशोदा जयन्ती",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "फाल्गुन कृष्ण षष्ठी"
+      "reviewStatus": "needs-review"
     },
     {
       "date": "2026-02-08",
@@ -48,8 +38,7 @@
       "title": "शबरी जयंती",
       "description": "फाल्गुन कृष्ण सप्तमी - शबरी जयंती",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "फाल्गुन कृष्ण सप्तमी"
+      "reviewStatus": "needs-review"
     },
     {
       "date": "2026-02-09",
@@ -61,7 +50,7 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी"
+      "hinduTithi": "फाल्गुन कृष्ण अष्टमी"
     },
     {
       "date": "2026-02-13",
@@ -70,7 +59,7 @@
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "एकादशी",
       "reviewStatus": "needs-review",
-      "hinduTithi": "फाल्गुन शुक्ल एकादशी"
+      "hinduTithi": "फाल्गुन कृष्ण एकादशी"
     },
     {
       "date": "2026-02-15",
