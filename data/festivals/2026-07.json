@@ -12,7 +12,8 @@
       "title": "योगिनी एकादशी",
       "description": "योगिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तिथि और स्थानीय व्रत-निर्णय की पुष्टि बाकी है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण कृष्ण एकादशी"
     },
     {
       "date": "2026-07-15",
@@ -21,7 +22,8 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html\" target=\"_blank\">आषाढ़ के गुप्त नवरात्र प्रारम्भ</a> - इस अवसर पर 9 दिन व्रत भी रख सकते हैं तथा अधिकाधिक अनुष्ठान, साधना, पूजा, स्तोत्र पाठ, दान आदि करें। मुख्य नवरात्र की भांति धूमधाम से न करे, इसे गुप्त ही रखा जाता है।<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a> <br/> <a href=\"https://ourhindudharm.blogspot.com/2015/03/About-Durga-Pooja-Vidhi-Vidhan.html\" target=\"_blank\"> श्रीदुर्गा पूजाविधि</a>",
       "category": "नवरात्रि",
       "reviewStatus": "needs-review",
-      "endDate": "2026-07-23"
+      "endDate": "2026-07-23",
+      "hinduTithi": "श्रावण शुक्ल प्रतिपदा"
     },
     {
       "date": "2026-07-16",
@@ -37,7 +39,8 @@
       "title": "गुप्त नवरात्र द्वितीया - ब्रह्मचारिणी",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">द्वितीयं ब्रह्मचारिणी</a>",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल द्वितीया"
     },
     {
       "date": "2026-07-16",
@@ -45,7 +48,8 @@
       "title": "जगन्नाथ रथयात्रा",
       "description": "जगन्नाथ रथयात्रा में भगवान जगन्नाथ, बलभद्र और सुभद्रा के विग्रहों की रथयात्रा निकाली जाती है। प्रमुख उत्सव पुरी में होता है और अन्य स्थानों पर स्थानीय परंपराएँ प्रचलित हैं। तिथि और स्थानीय व्रत-निर्णय की पुष्टि बाकी है।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल द्वितीया"
     },
     {
       "date": "2026-07-16",
@@ -53,7 +57,8 @@
       "title": "जगन्नाथ रथयात्रा / कर्क संक्रांति",
       "description": "जगन्नाथ रथयात्रा / कर्क संक्रांति सूर्य के राशि-परिवर्तन से जुड़ी है। स्नान, दान और जप की परंपरा है; पुण्यकाल संक्रमण के वास्तविक समय और परंपरागत नियमों से तय करें। तिथि और स्थानीय व्रत-निर्णय की पुष्टि बाकी है।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल द्वितीया"
     },
     {
       "date": "2026-07-16",
@@ -61,7 +66,8 @@
       "title": "श्रीजगन्नाथ रथ यात्रा",
       "description": "श्रीजगन्नाथ रथ यात्रा - १६ जुलाई",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल द्वितीया"
     },
     {
       "date": "2026-07-17",
@@ -69,7 +75,8 @@
       "title": "गुप्त नवरात्र चतुर्थी - कूष्माण्डा",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">कूष्माण्डेति चतुर्थकम्</a>",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल चतुर्थी"
     },
     {
       "date": "2026-07-17",
@@ -77,7 +84,8 @@
       "title": "गुप्त नवरात्र तृतीया - चन्द्रघंटा",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">तृतीयं चन्द्रघंटेति</a>",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल तृतीया"
     },
     {
       "date": "2026-07-17",
@@ -93,7 +101,8 @@
       "title": "गुप्त नवरात्र पंचमी - स्कन्दमाता",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">पंचमं स्कन्दमातेति</a>",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल पंचमी"
     },
     {
       "date": "2026-07-19",
@@ -101,7 +110,8 @@
       "title": "गुप्त नवरात्र षष्ठी - कात्यायनी",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च।",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल षष्ठी"
     },
     {
       "date": "2026-07-20",
@@ -109,7 +119,8 @@
       "title": "गुप्त नवरात्र सप्तमी - कालरात्रि",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a>",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल सप्तमी"
     },
     {
       "date": "2026-07-21",
@@ -117,7 +128,8 @@
       "title": "गुप्त नवरात्र अष्टमी - महागौरी",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a>",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल अष्टमी"
     },
     {
       "date": "2026-07-22",
@@ -125,7 +137,8 @@
       "title": "गुप्त नवरात्र नवमी - सिद्धिदात्री",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। दुर्गा देवी के निमित्त (नारियल आदि का )बलिदान, हवन..",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल नवमी"
     },
     {
       "date": "2026-07-23",
@@ -141,7 +154,8 @@
       "title": "देवशयनी एकादशी",
       "description": "देवशयनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तिथि और स्थानीय व्रत-निर्णय की पुष्टि बाकी है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल एकादशी"
     },
     {
       "date": "2026-07-25",
@@ -150,7 +164,8 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html\" target=\"_blank\"> हरिशयनी एकादशी, चार महीने का महाव्रत चातुर्मास प्रारंभ</a> - नियम चातुर्मास की महिमा लिंक में लिख दिये हैं *जो चातुर्मास व्रत करने के इच्छुक हैं पर जिन्होंने चातुर्मास का संकल्प अभी तक नहीं लिया है आषाढ़पूर्णिमा - २९ जुलाई तक अवश्य संकल्प ले लें...*",
       "category": "एकादशी",
       "reviewStatus": "needs-review",
-      "endDate": "2026-07-30"
+      "endDate": "2026-07-30",
+      "hinduTithi": "श्रावण शुक्ल एकादशी"
     },
     {
       "date": "2026-07-29",
@@ -158,7 +173,8 @@
       "title": "गुरु पूर्णिमा",
       "description": "गुरु पूर्णिमा",
       "category": "पूर्णिमा",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
     },
     {
       "date": "2026-07-30",
