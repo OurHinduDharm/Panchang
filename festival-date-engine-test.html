@@ -59,15 +59,16 @@ button{background:var(--accent);color:#fff;font-weight:700;cursor:pointer;margin
 import { evaluateFestivalDateRule } from "./festival-date-engine.mjs";
 const $=id=>document.getElementById(id);
 function iso(day,hour,minute=0){return day+"T"+String(hour).padStart(2,"0")+":"+String(minute).padStart(2,"0")+":00+05:30";}
+function nextDay(day){const d=new Date(day+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+1);return d.toISOString().slice(0,10);}
 function sample(rule){
   const tithi=rule==="krishna_janmashtami"?23:rule==="rama_navami"?9:29;
   const anchor=rule==="rama_navami"?"madhyahna":"nishita";
   const date=rule==="krishna_janmashtami"?"2026-08-15":rule==="rama_navami"?"2026-03-27":"2026-02-15";
-  const start=anchor==="nishita"?iso(date,23,0):iso(date,11,0);
-  const end=anchor==="nishita"?iso(date,24%24,30):iso(date,13,0);
-  const anchorEnd=anchor==="nishita"?iso(date,23,30):iso(date,13,0);
-  const anchorStart=anchor==="nishita"?iso(date,23,0):iso(date,11,0);
-  return [{date,tithiIntervals:[{tithi,start:iso(date,0),end:iso(date,24%24)}],anchors:{[anchor]:{start:anchorStart,end:anchorEnd}}}];
+  const intervalStart=anchor==="nishita"?iso(date,20):iso(date,8);
+  const intervalEnd=anchor==="nishita"?iso(nextDay(date),3):iso(date,16);
+  const anchorStart=anchor==="nishita"?iso(date,23):iso(date,11);
+  const anchorEnd=anchor==="nishita"?iso(nextDay(date),0):iso(date,13);
+  return [{date,tithiIntervals:[{tithi,start:intervalStart,end:intervalEnd}],anchors:{[anchor]:{start:anchorStart,end:anchorEnd}}}];
 }
 function refreshSample(){ $("data").value=JSON.stringify(sample($("rule").value),null,2); }
 $("rule").addEventListener("change",refreshSample);
