@@ -3789,14 +3789,22 @@ async function runLagnantaraDiagnostic() {
       const dailySamples = sequentialCrossing?.samples || [];
       if (dailySamples.length) {
         html += '<details><summary>Daily IX.10–11 sample audit ('+dailySamples.length+' valid samples)</summary>';
-        html += '<p class="small">One actual sunrise/sunset sample per civil date. “Predicted event” uses the local IX.10–11 estimate from that row; error is measured against the linear interpolation between the requested adjacent daily K=C bracket only.</p>';
+        html += '<p class="small">One actual sunrise/sunset sample per civil date. “Predicted event” uses the local IX.10–11 estimate from that row. Error is shown only when the row has the same horizon-event branch and the same C threshold as both endpoints of the requested adjacent daily K=C bracket; other rows are not comparable and show —.</p>';
         html += '<div class="table-wrap"><table><thead><tr><th>Sample date/time</th><th>Branch</th><th>Raw planet longitude (°)</th><th>Corrected planet longitude (°)</th><th>Sun event-frame longitude (°)</th><th>Signed lagnāntara (°)</th><th>K (°)</th><th>C (°)</th><th>K−C (°)</th><th>Sun time-motion (prāṇa/day)</th><th>Planet time-motion (prāṇa/day)</th><th>Signed K-rate (prāṇa/day)</th><th>Estimated days</th><th>Predicted event</th><th>Error vs bracket (days)</th></tr></thead><tbody>';
         dailySamples.forEach(item => {
           const sg = item.geometry;
           const estimate = getChapter9TimeEstimate(ref.planet,item.eventTime,sg,item.C);
           const predictedMs = estimate && Number.isFinite(estimate.estimatedDays)
             ? item.eventTime.getTime()+estimate.estimatedDays*86400000 : NaN;
-          const errorDays = Number.isFinite(predictedMs) && Number.isFinite(interpolatedCrossingTime)
+          const comparableToRequestedBracket = Boolean(
+            requestedSequentialBracket &&
+            item.eventInfo.horizonEvent === requestedSequentialBracket.before.eventInfo.horizonEvent &&
+            item.eventInfo.horizonEvent === requestedSequentialBracket.after.eventInfo.horizonEvent &&
+            Math.abs(item.C - requestedSequentialBracket.before.C) < 1e-9 &&
+            Math.abs(item.C - requestedSequentialBracket.after.C) < 1e-9
+          );
+          const errorDays = comparableToRequestedBracket &&
+            Number.isFinite(predictedMs) && Number.isFinite(interpolatedCrossingTime)
             ? Math.abs(predictedMs-interpolatedCrossingTime)/86400000 : NaN;
           const val = (v,d=6) => Number.isFinite(v) ? round(v,d) : '—';
           html += '<tr><td>'+formatLocalFromUTCDate(item.eventTime)+'</td><td>'+item.eventInfo.horizonEvent+'</td><td>'+val(sg.rawPlanetLon)+'</td><td>'+val(sg.planetLon)+'</td><td>'+val(sg.sunLon)+'</td><td>'+val(sg.signedLagnantaraAsu/60)+'</td><td>'+val(sg.K)+'</td><td>'+val(item.C,2)+'</td><td>'+val(item.residual)+'</td><td>'+val(estimate?.sunTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.planetTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.signedKalanshaRatePranasPerDay)+'</td><td>'+val(estimate?.estimatedDays)+'</td><td>'+(Number.isFinite(predictedMs)?formatLocalFromUTCDate(new Date(predictedMs)):'—')+'</td><td>'+val(errorDays)+'</td></tr>';
