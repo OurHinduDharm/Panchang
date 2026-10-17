@@ -85,8 +85,8 @@
       "reviewStatus": "needs-review"
     },
     {
-      "date": "2026-08-27",
-      "dateLabel": "27 अगस्त",
+      "date": "2026-08-28",
+      "dateLabel": "28 अगस्त",
       "title": "श्री हयग्रीव भगवान जयन्ती",
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\"> श्री हयग्रीव भगवान की जयन्ती (सायंकाल में)</a>",
       "category": "जयंती",
@@ -163,6 +163,24 @@
       "category": "व्रत",
       "reviewStatus": "needs-review",
       "hinduTithi": "भाद्रपद कृष्ण तृतीया"
+    },
+    {
+      "date": "2026-08-05",
+      "dateLabel": "5 अगस्त",
+      "title": "मासिक कालाष्टमी",
+      "category": "व्रत",
+      "hinduTithi": "श्रावण कृष्ण अष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "showReviewStatus": false
+    },
+    {
+      "date": "2026-08-17",
+      "dateLabel": "17 अगस्त",
+      "title": "सिंह संक्रांति",
+      "category": "संक्रांति",
+      "description": "सूर्य के सिंह राशि में प्रवेश से संबंधित संक्रांति। स्नान, दान और जप की परंपरा है; पुण्यकाल स्थानीय संक्रमण-समय के अनुसार देखें।"
     }
   ]
 }
