@@ -232,10 +232,10 @@ try {
       !item.headers.includes("Correction contribution to ΔK/day (prāṇa/day)") ||
       !item.headers.includes("IX.10–11 minus empirical rate") ||
       !item.headers.includes("Corrected planet motion (arcmin/day; diagnostic)") ||
-      !item.headers.includes("Local K at t−12h (°)") ||
-      !item.headers.includes("Local K at t+12h (°)") ||
-      !item.headers.includes("Local signed lagnāntara at t−12h (asu)") ||
-      !item.headers.includes("Local signed lagnāntara at t+12h (asu)") ||
+      !item.headers.includes("Local K at t−30m (°)") ||
+      !item.headers.includes("Local K at t+30m (°)") ||
+      !item.headers.includes("Local signed lagnāntara at t−30m (asu)") ||
+      !item.headers.includes("Local signed lagnāntara at t+30m (asu)") ||
       !item.headers.includes("Local finite-difference corrected K-rate (prāṇa/day)") ||
       !item.headers.includes("IX.10–11 minus local K-rate") ||
       !item.headers.includes("IX.11 rate using corrected planet motion") ||
