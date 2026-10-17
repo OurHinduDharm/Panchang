@@ -81,4 +81,14 @@ This is the strongest current localization of the Venus discrepancy: at this sam
 
 The component-split browser run also passed. For the same 30 Oct 2026 Venus Udaya sample, the adjacent-sample longitude-correction changes are **Akṣa −10.926263 arcmin/day** and **Āyana +4.375080 arcmin/day**. Akṣa has the larger absolute change and the two terms partly offset. However, these are longitude-correction rates, whereas the +7.551432 value above is a change in the derived K-rate (prāṇa/day); because K is computed through the lagnāntara geometry, the values cannot be equated or simply added. The current evidence points to dṛkkarma variation as the main numerical contributor to the rate gap, but the relative causal contribution of Akṣa versus Āyana to K still needs a controlled counterfactual test.
 
-Validation status: headless Chromium and the production-file guard both passed for the raw/corrected K-rate and split-component instrumentation. This validates the diagnostic wiring and finite rendered outputs, not the complete classical method or publication accuracy.
+A controlled counterfactual K-rate audit is now implemented and passed CI. At the same Venus Udaya 30 Oct sample, the empirical adjacent-sample rates are:
+
+| Geometry used to compute K | Empirical K-rate (prāṇa/day) |
+|---|---:|
+| No dṛkkarma (raw K) | 107.855836 |
+| Akṣa-only correction | 120.450347 |
+| Āyana-only correction | 102.812758 |
+| Both corrections (current corrected K) | 115.407269 |
+| IX.10–11 analytical rate | 108.642626 |
+
+This counterfactual recomputes the lagnāntara K geometry under each isolated correction, rather than assuming the angular correction maps linearly into K. Akṣa-only raises the sampled K-rate substantially relative to raw K, while Āyana-only lowers it; applying both yields a result between those isolated cases. Therefore the dṛkkarma contribution is nonlinear and interacting. These measurements do not justify adding the Akṣa and Āyana rate differences arithmetically, nor do they yet prove a textual change to IX.11. Next compare the derivative predicted by the classical formula against these controlled geometries and inspect whether the source's correction order and inputs imply such a rate term at all.
