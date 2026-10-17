@@ -1,0 +1,30 @@
+name: Festival auto-review gate
+
+on:
+  pull_request:
+    paths:
+      - "scripts/festival-auto-review.mjs"
+      - "tests/festival-auto-review.test.mjs"
+      - "docs/festival-auto-review-workflow.md"
+      - ".github/workflows/festival-auto-review.yml"
+  push:
+    branches:
+      - feature/festival-auto-review-gates
+    paths:
+      - "scripts/festival-auto-review.mjs"
+      - "tests/festival-auto-review.test.mjs"
+      - "docs/festival-auto-review-workflow.md"
+      - ".github/workflows/festival-auto-review.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node --test tests/festival-auto-review.test.mjs
