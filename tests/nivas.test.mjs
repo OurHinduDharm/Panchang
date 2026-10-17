@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { calculateNivasa } from "../nivas.js";
+import { calculateNivasa, normalizeTithiIndex } from "../nivas.js";
 
 // Cross-check values shown by the dated Panchang references gathered during research.
 test("2026-09-22: tithi 11, Tuesday -> Agni Prithvi and Shiva Kreeda", () => {
@@ -39,6 +39,19 @@ test("all 210 tithi-weekday combinations follow the published remainder tables",
       assert.equal(result.shiva.name, shivaNames[shivaRemainder]);
     }
   }
+});
+
+test("normalizes supported library tithi shapes without guessing invalid values", () => {
+  assert.equal(normalizeTithiIndex(0), 0);
+  assert.equal(normalizeTithiIndex(29), 29);
+  assert.equal(normalizeTithiIndex({ index: 10 }), 10);
+  assert.equal(normalizeTithiIndex({ number: 11 }), 11);
+  assert.equal(normalizeTithiIndex({ value: 12 }), 12);
+  assert.equal(normalizeTithiIndex({ index: 10, number: 11 }), 10);
+  assert.equal(normalizeTithiIndex({ name: "शुक्ल एकादशी" }), null);
+  assert.equal(normalizeTithiIndex(-1), null);
+  assert.equal(normalizeTithiIndex(30), null);
+  assert.equal(normalizeTithiIndex(null), null);
 });
 
 test("rejects invalid tithi and weekday inputs", () => {
