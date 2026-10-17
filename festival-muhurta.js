@@ -121,7 +121,15 @@ const rules = {
     }
 
     // If the avoided period leaves no valid window, use Abhijit only when
-    // the complete interval still falls within Pratipada and daylight.
+    // the complete interval still falls within Pratipada and daylight. This
+    // project also suppresses Abhijit on Wednesday.
+    if (localWeekday(context.date) === 3) {
+      return {
+        label: "घटस्थापना मुहूर्त",
+        status: "not-applicable",
+        message: "बुधवार को इस परियोजना के नियम के अनुसार अभिजित विकल्प लागू नहीं है; स्थानीय पंचांग से निर्णय लें।"
+      };
+    }
     const fallback = fractionInterval(sunrise, sunset, 7 / 15, 8 / 15, "घटस्थापना — अभिजित मुहूर्त");
     if (fallback && fallback.start >= sunrise && fallback.end <= sunset && fallback.end <= pratipadaEnd) {
       return {
