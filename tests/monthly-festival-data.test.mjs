@@ -90,6 +90,8 @@ test("monthly preview stays clearly marked as a non-production draft with workin
   assert.match(page, /id="searchInput"/);
   assert.match(page, /id="categoryFilter"/);
   assert.match(page, /function applyFilters\(\)/);
+  assert.match(page, /item\.hinduTithi/);
+  assert.match(page, /item\.muhurtaDate\|\|item\.date/);
 
   assertInlineScriptsParse(page, "monthly-vrat-parv.html");
 
@@ -129,6 +131,22 @@ test("October 2026 reviewed events preserve article links and private review not
   assert.equal(ghata.muhurtaRule, "ghata-sthapana");
   assert.deepEqual(kojagari.muhurtaRules, ["nishita", "moonlight-until-midnight"]);
   assert.equal(karwa.muhurtaRule, "moonrise");
+  assert.equal(ghata.hinduTithi, "आश्विन शुक्ल प्रतिपदा");
+  assert.equal(kojagari.hinduTithi, "आश्विन शुक्ल पूर्णिमा");
+  assert.equal(kojagari.muhurtaDate, "2026-10-25");
+  assert.equal(karwa.hinduTithi, "कार्तिक कृष्ण चतुर्थी");
+  const september = JSON.parse(readFileSync(resolve(root, "data/festivals/2026-09.json"), "utf8"));
+  assert.ok(september.events.some(event => event.date === "2026-09-02" && event.title === "हलषष्ठी (हरछठ)" && event.hinduTithi === "भाद्रपद कृष्ण षष्ठी"));
+  assert.ok(september.events.some(event => event.date === "2026-09-17" && event.title === "श्री बलराम जयंती" && event.hinduTithi === "भाद्रपद शुक्ल षष्ठी"));
+  const february = JSON.parse(readFileSync(resolve(root, "data/festivals/2026-02.json"), "utf8"));
+  assert.equal(february.events.some(event => event.title === "रथ सप्तमी"), false, "duplicate February Ratha Saptami must not remain");
+  const march = JSON.parse(readFileSync(resolve(root, "data/festivals/2026-03.json"), "utf8"));
+  assert.equal(march.events.some(event => event.date === "2026-03-03" && event.title === "होलिका दहन"), false, "unreviewed duplicate Holika Dahan must not remain");
+  const november = JSON.parse(readFileSync(resolve(root, "data/festivals/2026-11.json"), "utf8"));
+  assert.ok(november.events.some(event => event.date === "2026-11-07" && event.title === "काली चौदस"));
+  assert.equal(november.events.some(event => event.date === "2026-11-10" && /भैया दूज/.test(event.title)), false);
+  const december = JSON.parse(readFileSync(resolve(root, "data/festivals/2026-12.json"), "utf8"));
+  assert.ok(december.events.some(event => event.date === "2026-12-01" && event.title === "कालभैरव जयंती" && event.hinduTithi === "मार्गशीर्ष कृष्ण अष्टमी"));
   for (const event of data.events) {
     assert.equal(Object.hasOwn(event, "instruction"), false, "private review instruction must not be public");
   }
