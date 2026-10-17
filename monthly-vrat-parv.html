@@ -134,22 +134,21 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var locationSuggestions=document.getElementById("locationSuggestions");
   var requestToken=0;
   var panchangCache=new Map();
+  // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
+  var selectedLocationInSession=null;
   // मुहूर्त मॉड्यूल वैकल्पिक रूप से लोड हो; इसके विफल होने पर खोज/फ़िल्टर बंद न हों।
   var muhurtaModulePromise=import("./festival-muhurta.js").catch(function(error){
     console.warn("Festival muhurta module unavailable:",error);return null;
   });
   function getLocalLocation(){
-    try{
-      var saved=JSON.parse(localStorage.getItem("ohdPanchangLocation")||"null");
-      if(saved&&Number.isFinite(Number(saved.lat))&&Number.isFinite(Number(saved.lon))){
-        return {
-          name:saved.name||saved.city||"चुना हुआ स्थान",
-          lat:Number(saved.lat),lon:Number(saved.lon),
-          elevation:Number(saved.elevation)||0,
-          state:saved.state||"",city:saved.city||""
-        };
-      }
-    }catch(e){}
+    if(selectedLocationInSession){
+      return {
+        name:selectedLocationInSession.name||selectedLocationInSession.city||"चुना हुआ स्थान",
+        lat:selectedLocationInSession.lat,lon:selectedLocationInSession.lon,
+        elevation:Number(selectedLocationInSession.elevation)||0,
+        state:selectedLocationInSession.state||"",city:selectedLocationInSession.city||""
+      };
+    }
     return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:1650,state:"उत्तराखंड",city:"पिथौरागढ़"};
   }
   function syncLocationUI(){
@@ -194,7 +193,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             locationStatus.textContent="इस परिणाम के निर्देशांक उपलब्ध नहीं हैं। दूसरा परिणाम चुनें।";
             return;
           }
-          try{localStorage.setItem("ohdPanchangLocation",JSON.stringify(selected));}catch(e){}
+          selectedLocationInSession=selected;
           panchangCache.clear();
           locationInput.value=selected.city||selected.name;
           locationSuggestions.replaceChildren();
