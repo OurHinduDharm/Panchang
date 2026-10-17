@@ -100,3 +100,29 @@ test("monthly preview stays clearly marked as a non-production draft with workin
   assert.match(review, /instruction:r\.instruction/);
   assertInlineScriptsParse(review, "monthly-festival-review.html");
 });
+
+test("festival images are selected by event type with visible licensing credits", () => {
+  const images = readFileSync(resolve(root, "festival-images.js"), "utf8");
+  const page = readFileSync(resolve(root, "monthly-vrat-parv.html"), "utf8");
+  assert.match(images, /export function getFestivalImage/);
+  assert.match(images, /CC BY-SA 4\.0/);
+  assert.match(images, /commons\.wikimedia\.org\/wiki\/File:/);
+  assert.match(page, /festivalImageModulePromise/);
+  assert.match(page, /image-credit/);
+  assert.match(page, /item\.showReviewStatus!==false/);
+});
+
+test("October 2026 reviewed events preserve article links and private review notes stay out of public data", () => {
+  const data = JSON.parse(readFileSync(resolve(root, "data/festivals/2026-10.json"), "utf8"));
+  const kalashtami = data.events.find(event => event.title === "मासिक कालाष्टमी");
+  assert.ok(kalashtami);
+  assert.equal(kalashtami.showReviewStatus, false);
+  assert.match(kalashtami.description, /रात्रिव्यापिनी अष्टमी/);
+  assert.ok(kalashtami.articleUrl);
+  assert.ok(data.events.some(event => event.title === "शारदीय नवरात्र महाष्टमी — माँ महागौरी"));
+  assert.ok(data.events.some(event => event.title === "शारदीय नवरात्र महानवमी — माँ सिद्धिदात्री"));
+  assert.ok(data.events.some(event => event.title === "कार्तिक कृष्ण चतुर्थी — करकचतुर्थी" && event.articleUrl));
+  for (const event of data.events) {
+    assert.equal(Object.hasOwn(event, "instruction"), false, "private review instruction must not be public");
+  }
+});
