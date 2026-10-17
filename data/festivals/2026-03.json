@@ -41,15 +41,6 @@
       "reviewStatus": "needs-review"
     },
     {
-      "date": "2026-03-03",
-      "dateLabel": "3 मार्च",
-      "title": "होलिका दहन",
-      "description": "होलिका-दहन प्रह्लाद और भक्ति की विजय से जुड़ी परंपरा है। दहन का निर्णय फाल्गुन पूर्णिमा-व्याप्ति और भद्रा आदि के शास्त्रीय नियम देखकर स्थानीय पंचांग से करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
-      "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
-    },
-    {
       "date": "2026-03-04",
       "dateLabel": "4 मार्च",
       "title": "होली",
@@ -180,7 +171,8 @@
       "title": "नवरात्रि पंचम - स्कन्दमाता",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">नवरात्र के पंचम दिन स्कन्दमाता जी का पूजन</a>",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "चैत्र शुक्ल पंचमी"
     },
     {
       "date": "2026-03-24",
@@ -188,7 +180,8 @@
       "title": "नवरात्रि षष्ठ - कात्यायनी",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">नवरात्र के छठे दिन कात्यायनी माँ की पूजा</a>",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "चैत्र शुक्ल षष्ठी"
     },
     {
       "date": "2026-03-25",
@@ -240,7 +233,8 @@
       "title": "नवरात्रि नवमी - सिद्धिदात्री एवं तारा महाविद्या जयंती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवरात्र के नवम दिन सिद्धिदात्री जी की आराधना</a>, <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html\" target=\"_blank\">तारा महाविद्या जयंती</a> (चैत्र नवरात्रि नवमी - इस दिन भी कन्या पूजन करें।)",
       "category": "जयंती",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "चैत्र शुक्ल नवमी"
     },
     {
       "date": "2026-03-27",
