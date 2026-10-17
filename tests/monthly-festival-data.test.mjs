@@ -65,7 +65,7 @@ test("all 36 monthly festival JSON files exist and follow the expected structure
 });
 
 function assertInlineScriptsParse(html, fileName) {
-  const scripts = Array.from(html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi))
+  const scripts = Array.from(html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi))
     .map(match => ({ attributes: match[1], source: match[2] }))
     .filter(item => item.source.trim());
   assert.ok(scripts.length > 0, fileName + ": expected inline JavaScript");
@@ -92,7 +92,8 @@ test("monthly preview stays clearly marked as a non-production draft with workin
   assert.match(page, /id="locationInput"/);
   assert.match(page, /id="locationSearchBtn"/);
   assert.match(page, /nominatim\.openstreetmap\.org\/search/);
-  assert.match(page, /localStorage\.setItem\("ohdPanchangLocation"/);
+  assert.match(page, /selectedLocationInSession=selected/);
+  assert.doesNotMatch(page, /localStorage\.(?:setItem|getItem)\(["']ohdPanchangLocation/);
   assert.match(page, /panchangCache\.clear\(\)/);
   assert.match(page, /function applyFilters\(\)/);
   assert.match(page, /item\.hinduTithi/);
