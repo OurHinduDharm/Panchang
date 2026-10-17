@@ -15,42 +15,42 @@ const LICENSES = {
 
 const IMAGES = {
   navratri: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Navratri_festival.jpg/400px-Navratri_festival.jpg",
+    url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Navratri_festival.jpg/400px-Navratri_festival.jpg",
     alt: "नवरात्रि में देवी-देवताओं की प्रतिमाएँ",
     author: "Jeevitha Madhaiyan",
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Navratri_festival.jpg",
     license: LICENSES.cc0
   },
   deepawali: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Deepawali_diya.jpg/640px-Deepawali_diya.jpg",
+    url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Deepawali_diya.jpg/640px-Deepawali_diya.jpg",
     alt: "दीपावली का मिट्टी का दीपक",
     author: "Craniax78",
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Deepawali_diya.jpg",
     license: LICENSES.cc0
   },
   fullMoon: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Full_moon_at_night.jpg/500px-Full_moon_at_night.jpg",
+    url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Full_moon_at_night.jpg/500px-Full_moon_at_night.jpg",
     alt: "रात में पूर्ण चंद्रमा",
     author: "Karthika Manikandan",
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Full_moon_at_night.jpg",
     license: LICENSES.cc0
   },
   shiva: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Shiva_lingam_01.jpg/320px-Shiva_lingam_01.jpg",
+    url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Shiva_lingam_01.jpg/320px-Shiva_lingam_01.jpg",
     alt: "पूजा से सुसज्जित शिवलिंग",
     author: "Naveen 1009",
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Shiva_lingam_01.jpg",
     license: LICENSES.cc0
   },
   ganesha: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ganesha%2C_India%2C_Tanjore%2C_Tamil_Nadu%2C_Pallava_dynasty%2C_9th_century%2C_bronze%2C_HAA.JPG/480px-Ganesha%2C_India%2C_Tanjore%2C_Tamil_Nadu%2C_Pallava_dynasty%2C_9th_century%2C_bronze%2C_HAA.JPG",
+    url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Ganesha%2C_India%2C_Tanjore%2C_Tamil_Nadu%2C_Pallava_dynasty%2C_9th_century%2C_bronze%2C_HAA.JPG/480px-Ganesha%2C_India%2C_Tanjore%2C_Tamil_Nadu%2C_Pallava_dynasty%2C_9th_century%2C_bronze%2C_HAA.JPG",
     alt: "भगवान गणेश की कांस्य प्रतिमा",
     author: "Hiart",
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Ganesha,_India,_Tanjore,_Tamil_Nadu,_Pallava_dynasty,_9th_century,_bronze,_HAA.JPG",
     license: LICENSES.cc0
   },
   karvaChauth: {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/KarvaChauthMoon1.jpg/640px-KarvaChauthMoon1.jpg",
+    url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/KarvaChauthMoon1.jpg/640px-KarvaChauthMoon1.jpg",
     alt: "करवा चौथ पर छलनी से चंद्रमा देखती महिलाएँ",
     author: "CSG-Info",
     sourceUrl: "https://commons.wikimedia.org/wiki/File:KarvaChauthMoon1.jpg",
