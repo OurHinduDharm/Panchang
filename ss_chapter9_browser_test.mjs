@@ -208,7 +208,10 @@ try {
         event: row.cells[1]?.textContent || "?",
         sampleCount: sampleRows.length,
         headers,
-        firstRow: sampleRows[0] ? [...sampleRows[0].cells].map(cell => cell.textContent.trim()) : []
+        firstRow: sampleRows[0] ? [...sampleRows[0].cells].map(cell => cell.textContent.trim()) : [],
+        bracketErrors: sampleRows.map(sampleRow =>
+          sampleRow.cells[headers.indexOf("Error vs bracket (days)")]?.textContent.trim() || ""
+        )
       };
     })
   );
@@ -222,9 +225,11 @@ try {
       !item.headers.includes("Signed K-rate (prāṇa/day)") ||
       !item.headers.includes("Predicted event") ||
       !item.headers.includes("Error vs bracket (days)") ||
-      item.firstRow.length !== 15
+      item.firstRow.length !== 15 ||
+      !item.bracketErrors.some(value => Number.isFinite(Number(value)) && value !== "") ||
+      !item.bracketErrors.some(value => value === "—")
   )) {
-    throw new Error("Daily IX.10–11 audit did not expose the expected per-sample geometry, signed rate, prediction, and bracket-error fields.");
+    throw new Error("Daily IX.10–11 audit must expose numeric bracket errors only for matching event branches and em dashes for non-comparable rows.");
   }
 
   const chapter7 = await page.locator("#chapter7DrikkarmaTestOutput").innerText();
