@@ -13,7 +13,7 @@
       "description": "बुद्ध पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत तथा स्नान का निर्णय स्थानीय पूर्णिमा-व्याप्ति और क्षेत्रीय परंपरा से करें। तिथि और स्थानीय व्रत-निर्णय की पुष्टि बाकी है।",
       "category": "पूर्णिमा",
       "reviewStatus": "needs-review",
-      "hinduTithi": "वैशाख शुक्ल पूर्णिमा"
+      "hinduTithi": "ज्येष्ठ अधिक शुक्ल पूर्णिमा"
     },
     {
       "date": "2026-05-01",
@@ -72,7 +72,8 @@
       "title": "श्री शनि जयन्ती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html\" target=\"_blank\"> श्री शनि जयन्ती (ज्येष्ठ अमावास्या)</a> पर <a href=\"https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html\" target=\"_blank\">शनि देव के निमित्त पूजन, स्तोत्र पाठ </a> मंत्र जप, हवन-दान करें <br/> वट सावित्री व्रत",
       "category": "जयंती",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "ज्येष्ठ अधिक कृष्ण अमावस्या"
     },
     {
       "date": "2026-05-25",
@@ -82,7 +83,7 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "needs-review",
       "endDate": "2026-05-25",
-      "hinduTithi": "ज्येष्ठ शुक्ल प्रतिपदा"
+      "hinduTithi": "ज्येष्ठ अधिक शुक्ल दशमी"
     },
     {
       "date": "2026-05-27",
