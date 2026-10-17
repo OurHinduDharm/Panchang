@@ -146,33 +146,45 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     return promise;
   }
   async function appendMuhurta(item,dateIso,content,token){
-    if(!item.muhurtaRule) return;
+    var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
+    if(!ruleIds.length) return;
     try{
       var muhurtaModule=await muhurtaModulePromise;
       if(!muhurtaModule) return;
-      var preliminary=muhurtaModule.getFestivalMuhurta(item,{});
-      if(preliminary&&preliminary.status==="rule-pending"){
-        var pending=document.createElement("div");pending.className="desc";
-        pending.style.marginTop="7px";pending.textContent=preliminary.message||"मुहूर्त-नियम लंबित है।";
-        content.appendChild(pending);return;
-      }
+      var usableRules=[];
+      ruleIds.forEach(function(ruleId){
+        var ruleItem=Object.assign({},item,{muhurtaRule:ruleId});
+        var preliminary=muhurtaModule.getFestivalMuhurta(ruleItem,{});
+        if(preliminary&&preliminary.status==="rule-pending"){
+          var pending=document.createElement("div");pending.className="desc";
+          pending.style.marginTop="7px";pending.textContent=preliminary.message||"मुहूर्त-नियम लंबित है।";
+          content.appendChild(pending);
+        }else usableRules.push(ruleItem);
+      });
+      if(!usableRules.length) return;
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
-      var result=muhurtaModule.getFestivalMuhurta(item,context);
-      if(!result) return;
-      var box=document.createElement("div");box.className="desc";
-      box.style.marginTop="7px";box.style.padding="8px 9px";box.style.borderRadius="8px";box.style.background="#fff8e9";
-      var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
-      var detail=document.createElement("div");
-      detail.textContent=result.status==="calculated"&&result.start&&result.end
-        ? muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end)
-        : (result.message||"मुहूर्त उपलब्ध नहीं है।");
-      box.appendChild(detail);
-      if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
-      var loc=document.createElement("div");loc.style.marginTop="3px";loc.style.fontSize="11px";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
-      content.appendChild(box);
-    }catch(error){console.warn("Festival muhurta unavailable:",item.muhurtaRule,error);}
+      usableRules.forEach(function(ruleItem){
+        var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);
+        if(!result) return;
+        var box=document.createElement("div");box.className="desc";
+        box.style.marginTop="7px";box.style.padding="8px 9px";box.style.borderRadius="8px";box.style.background="#fff8e9";
+        var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
+        var detail=document.createElement("div");
+        if(result.status==="calculated"&&result.time){
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
+        }else if(result.status==="calculated"&&result.start&&result.end){
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
+        }else{
+          detail.textContent=result.message||"मुहूर्त उपलब्ध नहीं है।";
+        }
+        box.appendChild(detail);
+        if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
+        var loc=document.createElement("div");loc.style.marginTop="3px";loc.style.fontSize="11px";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
+        content.appendChild(box);
+      });
+    }catch(error){console.warn("Festival muhurta unavailable:",item.muhurtaRule||item.muhurtaRules,error);}
   }
 
   function safeUrl(value){
