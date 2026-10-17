@@ -69,3 +69,57 @@ test("Sharad Purnima moonlight window ends at local midnight", () => {
   assert.equal(result.end.getHours(), 0);
   assert.equal(result.end.getDate(), 26);
 });
+
+test("Ghata Sthapana avoids Chitra and Vaidhriti within the first third of daylight", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "ghata-sthapana" }, {
+    date: new Date("2026-10-13T12:00:00+05:30"),
+    sunrise: "2026-10-13T06:00:00+05:30",
+    sunset: "2026-10-13T18:00:00+05:30",
+    tithiEndTime: "2026-10-13T18:00:00+05:30",
+    nakshatra: "Chitra",
+    nakshatraEndTime: "2026-10-13T07:00:00+05:30",
+    yoga: "Vaidhriti",
+    yogaEndTime: "2026-10-13T08:00:00+05:30"
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.label, "घटस्थापना मुहूर्त");
+  assert.equal(result.start.toISOString(), "2026-10-13T02:30:00.000Z");
+  assert.equal(result.end.toISOString(), "2026-10-13T04:30:00.000Z");
+});
+
+test("Ghata Sthapana falls back to Abhijit when the preferred morning window is blocked", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "ghata-sthapana" }, {
+    date: new Date("2026-10-13T12:00:00+05:30"),
+    sunrise: "2026-10-13T06:00:00+05:30",
+    sunset: "2026-10-13T18:00:00+05:30",
+    tithiEndTime: "2026-10-13T18:00:00+05:30",
+    nakshatra: "Chitra",
+    nakshatraEndTime: "2026-10-13T13:00:00+05:30",
+    yoga: "Vaidhriti",
+    yogaEndTime: "2026-10-13T13:00:00+05:30"
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.label, "घटस्थापना — अभिजित मुहूर्त");
+  assert.equal(result.start.toISOString(), "2026-10-13T06:06:00.000Z");
+  assert.equal(result.end.toISOString(), "2026-10-13T06:54:00.000Z");
+});
+
+test("moonrise rule exposes the location-specific arghya time as a point time", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "moonrise" }, {
+    moonrise: "2026-10-29T18:42:00+05:30"
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.label, "स्थानीय चंद्रोदय / अर्घ्य का समय");
+  assert.equal(result.time.toISOString(), "2026-10-29T13:12:00.000Z");
+});
+
+test("context carries yoga name and its local end time", () => {
+  const context = getFestivalMuhurtaContext({
+    sunrise: "2026-10-13T06:00:00+05:30",
+    sunset: "2026-10-13T18:00:00+05:30",
+    yoga: "Vaidhriti",
+    yogaEndTime: "2026-10-13T21:00:00+05:30"
+  }, {}, new Date("2026-10-13T12:00:00+05:30"), { name: "Pithoragarh" });
+  assert.equal(context.yoga, "Vaidhriti");
+  assert.equal(context.yogaEndTime, "2026-10-13T21:00:00+05:30");
+});
