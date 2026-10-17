@@ -98,6 +98,8 @@ test("monthly preview stays clearly marked as a non-production draft with workin
   assert.match(page, /function applyFilters\(\)/);
   assert.match(page, /item\.hinduTithi/);
   assert.match(page, /item\.muhurtaDate\|\|item\.date/);
+  assert.match(page, /parsed\.hostname==="ourhindudharm\.blogspot\.com"/);
+  assert.match(page, /parsed\.pathname==="\/p\/grahan-panchang\.html"/);
 
   assertInlineScriptsParse(page, "monthly-vrat-parv.html");
 
