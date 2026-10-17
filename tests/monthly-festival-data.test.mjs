@@ -64,10 +64,44 @@ test("all 36 monthly festival JSON files exist and follow the expected structure
   assert.ok(eventCount > 0);
 });
 
+function extractInlineScripts(html) {
+  const scripts = [];
+  const lower = html.toLowerCase();
+  let cursor = 0;
+
+  while (cursor < html.length) {
+    const start = lower.indexOf("<script", cursor);
+    if (start < 0) break;
+    const afterName = lower[start + 7];
+    if (afterName && afterName !== ">" && !/\\s/.test(afterName)) {
+      cursor = start + 7;
+      continue;
+    }
+
+    const openEnd = html.indexOf(">", start + 7);
+    if (openEnd < 0) break;
+    const closeStart = lower.indexOf("</script", openEnd + 1);
+    if (closeStart < 0) break;
+    const closeAfterName = lower[closeStart + 8];
+    if (closeAfterName && closeAfterName !== ">" && !/\\s/.test(closeAfterName)) {
+      cursor = closeStart + 8;
+      continue;
+    }
+    const closeEnd = html.indexOf(">", closeStart + 8);
+    if (closeEnd < 0) break;
+
+    const source = html.slice(openEnd + 1, closeStart);
+    if (source.trim()) {
+      scripts.push({ attributes: html.slice(start + 7, openEnd), source });
+    }
+    cursor = closeEnd + 1;
+  }
+
+  return scripts;
+}
+
 function assertInlineScriptsParse(html, fileName) {
-  const scripts = Array.from(html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi))
-    .map(match => ({ attributes: match[1], source: match[2] }))
-    .filter(item => item.source.trim());
+  const scripts = extractInlineScripts(html);
   assert.ok(scripts.length > 0, fileName + ": expected inline JavaScript");
   scripts.forEach((item, index) => {
     const label = fileName + " inline script " + (index + 1);
