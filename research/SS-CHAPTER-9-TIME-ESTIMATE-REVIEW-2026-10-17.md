@@ -92,3 +92,20 @@ A controlled counterfactual K-rate audit is now implemented and passed CI. At th
 | IX.10–11 analytical rate | 108.642626 |
 
 This counterfactual recomputes the lagnāntara K geometry under each isolated correction, rather than assuming the angular correction maps linearly into K. Akṣa-only raises the sampled K-rate substantially relative to raw K, while Āyana-only lowers it; applying both yields a result between those isolated cases. Therefore the dṛkkarma contribution is nonlinear and interacting. These measurements do not justify adding the Akṣa and Āyana rate differences arithmetically, nor do they yet prove a textual change to IX.11. Next compare the derivative predicted by the classical formula against these controlled geometries and inspect whether the source's correction order and inputs imply such a rate term at all.
+
+
+## Follow-up: derivative of the corrected planetary longitude (17 Oct 2026)
+
+A further counterfactual differentiates the dṛkkarma-corrected planetary longitude across the same 24-hour window used for the raw longitude motion, then feeds that corrected motion into the existing IX.10–11 rate equation. The method is explicitly selected to match the geometry being audited (sequential dṛkkarma for the current sequential daily-sample table).
+
+For the Venus Udaya sample at 30 Oct 2026, 06:20 IST:
+
+| Rate calculation | Signed K-rate (prāṇa/day) |
+|---|---:|
+| Existing IX.10–11 rate using raw planetary motion | 108.642626 |
+| IX.10–11 counterfactual using differentiated corrected planetary longitude | 94.522245 |
+| Empirical adjacent-sample corrected-K rate | 115.407269 |
+
+The corrected-motion counterfactual is **farther** from the empirical corrected-K rate (difference −20.885024 prāṇa/day) than the existing raw-motion rate (difference −6.764642 prāṇa/day). Therefore, the simple hypothesis “replace raw planetary motion with the derivative of the corrected longitude” is not supported by this sample and must not be adopted as a fix. The corrected K geometry and the IX.11 motion conversion are not interchangeable by a one-line substitution; the source's intended order and exact definitions of the motions and rising-asus need to be audited before changing the formula.
+
+The new diagnostic passed headless Chromium, and the CI guard confirmed that production `app.js` and `extra-panchang.js` remain unchanged. This is a controlled numerical result for the present model, not proof of a final classical interpretation.
