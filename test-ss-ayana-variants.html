@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sūrya-siddhānta VII.10 — Ayana Variant Tests</title>
+<style>
+body{font:16px/1.5 system-ui,sans-serif;max-width:900px;margin:24px auto;padding:0 14px;color:#17202a}
+.card{border:1px solid #ccd3db;border-radius:10px;padding:16px;margin:14px 0}
+label{display:block;margin:10px 0 4px}input{padding:8px;max-width:220px;width:100%}
+button{padding:10px 14px;margin:8px 6px 8px 0;cursor:pointer}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f6f8;padding:12px;border-radius:8px}
+.pass{color:#146c2e}.warn{color:#8a5a00}
+</style>
+</head>
+<body>
+<h1>Sūrya-siddhānta VII.10 — Ayana Variant Diagnostic</h1>
+<p>This is a research-only test page. It compares the zero-latitude baseline with the retained signed-latitude candidate. It does not approve either method for production and does not calculate Asta/Udaya dates.</p>
+<div class="card">
+<h2>Arithmetic and normalization tests</h2>
+<button id="runTests">Run all 4 unit tests</button>
+<div id="tests">Not run yet.</div>
+</div>
+<div class="card">
+<h2>Compare one planetary state</h2>
+<label for="longitude">Sidereal longitude (degrees)</label>
+<input id="longitude" type="number" value="210.0" step="0.000001">
+<label for="latitude">Signed ecliptic latitude (degrees)</label>
+<input id="latitude" type="number" value="-1.25" step="0.000001">
+<label for="ayanamsha">Ayanāṃśa (degrees)</label>
+<input id="ayanamsha" type="number" value="24.217" step="0.001">
+<label for="obliquity">Classical obliquity (degrees)</label>
+<input id="obliquity" type="number" value="24" step="0.001">
+<button id="compare">Compare variants</button>
+<pre id="comparison">Enter a state and compare.</pre>
+</div>
+<div class="card">
+<h2>Interpretation guardrails</h2>
+<ul>
+<li>Passing tests establish only finite arithmetic, zero-latitude agreement, and angle-wrap invariance.</li>
+<li>The retained-latitude interpretation remains a hypothesis until checked against the original geometry and source commentary.</li>
+<li>No real ephemeris event has been calculated on this page; do not treat these sample inputs as a planet observation.</li>
+<li>Production files are not imported or changed by this page.</li>
+</ul>
+</div>
+<script type="module">
+import { compareChapter7AyanaVariants, runChapter7AyanaVariantTests } from "./ss_chapter7_ayana_variants.js";
+const testsNode=document.getElementById("tests");
+document.getElementById("runTests").addEventListener("click",()=>{
+ const result=runChapter7AyanaVariantTests();
+ testsNode.innerHTML="<p class='"+(result.allPassed?"pass":"warn")+"'><strong>"+result.passed+"/"+result.total+" passed</strong></p><pre>"+JSON.stringify(result,null,2)+"</pre>";
+});
+document.getElementById("compare").addEventListener("click",()=>{
+ try{
+  const number=id=>Number(document.getElementById(id).value);
+  const result=compareChapter7AyanaVariants({
+   siderealLongitudeDeg:number("longitude"),
+   planetLatitudeDeg:number("latitude"),
+   ayanamshaDeg:number("ayanamsha"),
+   obliquityDeg:number("obliquity")
+  });
+  document.getElementById("comparison").textContent=JSON.stringify(result,null,2);
+ }catch(error){document.getElementById("comparison").textContent=String(error);}
+});
+</script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Source audit cross-check recorded in research/SS-CHAPTER-9-AUDIT.md; original-place Aksha time ratio remains an explicit baseline, not a production claim. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -188,6 +189,26 @@
     display: none;
   }
 
+  .report-copy-row {
+    display: flex;
+    justify-content: flex-end;
+    margin: 8px 0 4px;
+  }
+
+  .report-copy-btn {
+    border: 1px solid #8a98a8;
+    background: #f8fafc;
+    color: #17202a;
+    border-radius: 7px;
+    padding: 7px 11px;
+    font-weight: 600;
+  }
+
+  .report-copy-btn:focus-visible {
+    outline: 2px solid #245b8a;
+    outline-offset: 2px;
+  }
+
   details {
     margin: 10px 0;
   }
@@ -222,15 +243,36 @@
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
-    <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
+    <button id="runClassicalBtn">Angular Threshold Diagnostic</button>
+    <button id="runFrameCompareBtn">3-D Coordinate Frame Comparison</button>
+    <button id="runChapter7FrameSensitivityBtn">Chapter VII Frame Comparison</button>
+    <button id="fetchRawTksBtn">Fetch Raw TKS Sun/Venus JSON</button>
+    <button id="runChapter9ArithmeticBtn">SS IX.10–11 Time-Estimate Tests</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
+    <button id="runElevationHorizonBtn">Elevation / Horizon Sensitivity</button>
   </div>
 
   <div id="status" class="status">
     Ready.
   </div>
+
+  <section id="rawTksSection">
+    <h2>Raw TKS Ephemeris Capture — Same Instant</h2>
+    <p>Research-only external reference request. Requests Sun (body=10) and Venus (body=2) at the same editable local civil instant, Pithoragarh (29.5830° N, 80.2090° E), tz=5.5. Use the event-specific local time: sunset for a western event; sunrise for an eastern event. The response is checked against the selected instant's UTC Julian Day and returned body code. This does not run during automated tests and does not affect production.</p>
+    <div class="card">
+      <label for="rawTksDate">Local date</label>
+      <input id="rawTksDate" type="date" value="2026-10-12">
+      <label for="rawTksTime" style="margin-left:10px">Local time (IST; HH:MM or HH:MM:SS)</label>
+      <input id="rawTksTime" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="HH:MM:SS" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?" value="06:30:00" aria-describedby="rawTksTimeHelp">
+      <button id="setFixtureSunsetBtn" type="button">Use fixture sunset 17:42:21</button>
+      <button id="setFixtureSunriseBtn" type="button">Use fixture sunrise 06:08:39</button>
+      <p id="rawTksTimeHelp" class="small">The sunset preset uses the fixture's TKS-reported <code>sun_day.set_h_local = 17.705795</code>, rounded to 17:42:21. The sunrise preset uses <code>sun_day.rise_h_local = 6.144195</code>, rounded to 06:08:39. Both are endpoint-reported candidate times, not independently verified horizon solutions; the endpoint's horizon convention and elevation handling are not established. Enter HH:MM or HH:MM:SS directly; this text field works around mobile time pickers that hide the seconds control. The value is sent unchanged with tz=5.5.</p>
+    </div>
+    <div id="rawTksStatus" class="status info">Not requested yet. Press “Fetch Raw TKS Sun/Venus JSON”.</div>
+    <pre id="rawTksOutput" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:560px;overflow:auto;padding:12px;background:#fff;border:1px solid #d7dce2;border-radius:8px;">Raw responses will appear here, including HTTP, JSON, or CORS errors.</pre>
+  </section>
 
   <!-- ========================================================= -->
   <!-- 1. CONFIGURATION -->
@@ -413,14 +455,24 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- 8. CLASSICAL ASTA / UDAYA -->
+  <!-- 8. ANGULAR THRESHOLD DIAGNOSTIC -->
   <!-- ========================================================= -->
 
   <section>
-    <h2>8. Classical Asta / Udaya Threshold Test</h2>
-    <p>This diagnostic tests the traditional threshold rule using modern astronomical positions. The external reference date is not used as the calculated answer.</p><div class="status warn"><strong>Important:</strong> 8°/10°/11° are classical Sūrya-siddhānta approximations. Diagnostic only; not the final local Asta/Udaya algorithm.</div>
-    <div class="status info">Venus: 10° direct, 8° retrograde. Jupiter: 11°. Ecliptic-longitude and true 3-D angular separation are both tested.</div>
+    <h2>8. Angular Threshold Diagnostic</h2>
+    <p>This is a mathematical threshold-crossing diagnostic using modern astronomical positions. It is not a complete Sūrya-siddhānta implementation, a local visibility algorithm, or a final Asta/Udaya answer.</p><div class="status warn"><strong>Important limitation:</strong> The existing Venus branch currently selects 10°/8° from direct/retrograde motion. Sūrya-siddhānta IX.7 instead distinguishes west-setting/east-rising (8°) from east-setting/west-rising (10°). Therefore this legacy branch is not source-faithful and its Venus results must be treated as exploratory only. Jupiter 11° is also only an angular comparison. Ecliptic-longitude and true 3-D separation are alternative diagnostics, not interchangeable definitions.</div>
     <div id="classicalOutput"><div class="status info">Not run yet.</div></div>
+    <section class="card">
+      <h3>Modern EQD → candidate classical frame (research only)</h3>
+      <p class="small">Fixed comparison instant: 12 Oct 2026, 12:00 IST. This checks coordinate conversion only; it does not certify the classical epoch/equinox or calculate final Asta/Udaya dates.</p>
+      <div id="frameCompareOutput"><div class="status info">Not run yet.</div></div>
+      <h3>Chapter VII — same-instant frame sensitivity (research only)</h3>
+      <p class="small">Compares the current scalar LST conversion against the full-vector meridian candidate using the same Sun/Venus EQD vectors at the same instant. This is an intermediate-term comparison, not proof that either frame is historically correct.</p>
+      <div class="controls"><button type="button" id="runChapter7FrameSensitivityInlineBtn">Run Chapter VII frame comparison</button>
+      <button type="button" id="runChapter7ObliquitySensitivityBtn">Compare 24° vs Chapter II.28 obliquity</button></div>
+      <div id="chapter7FrameSensitivityOutput"><div class="status info">Not run yet.</div></div>
+      <div id="chapter7ObliquitySensitivityOutput"><div class="status info">Not run yet.</div></div>
+    </section>
   </section>
 
   <!-- ========================================================= -->
@@ -435,12 +487,12 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- 9. LOCAL HORIZON AT CLASSICAL THRESHOLD -->
+  <!-- 9. LOCAL HORIZON AT ANGULAR THRESHOLD -->
   <!-- ========================================================= -->
 
   <section>
-    <h2>9. Local Horizon at Classical Threshold</h2>
-    <p>This diagnostic evaluates local altitude and azimuth at each calculated classical threshold crossing. It does not claim naked-eye visibility or replace heliacal visibility calculations.</p>
+    <h2>9. Local Horizon at Angular Threshold</h2>
+    <p>This diagnostic evaluates local altitude and azimuth at each calculated angular-threshold crossing. It does not claim naked-eye visibility or replace heliacal visibility calculations.</p>
     <div class="status warn"><strong>Interpretation:</strong> Altitude above 0° means geometrically above the ideal horizon only. Atmospheric extinction, terrain, haze, and twilight can still prevent visibility.</div>
     <div id="localHorizonOutput"><div class="status info">Not run yet.</div></div>
   </section>
@@ -452,16 +504,39 @@
   <section>
     <h2>9. Sūrya-siddhānta Ch.9 — Lagnāntara-asu Diagnostic</h2>
     <p>Independent diagnostic of the classical <strong>lagnāntara-prāṇa</strong> method. This remains separate from the existing elongation and Swiss heliacal tests.</p>
-    <div class="status warn"><strong>Research status:</strong> Validation only. C is selected from Sūrya-siddhānta IX.6–9, not from TKS. The diagnostic uses a stated fixed ayanāṃśa benchmark and computes Aksha dṛkkarma with the planet's own hour-angle/half-day ratio. This is still a research implementation, not production Panchang logic.</div>
-    <p><strong>Classical C reference:</strong> Jupiter 11°, Saturn 15°, Mars 17°; Venus 8° for west-setting/east-rising and 10° for east-setting/west-rising. Mercury's 12°/14° depends on its motion; that rule is intentionally not activated until independently validated. Chapter 9, verses 6–9; see the cited Sanskrit and translation sources.</p>
+    <div class="status warn"><strong>Research status:</strong> Validation only—not production Panchang logic. The current and sequential K calculations are candidates, not independently verified classical results. The four comparison dates are unverified fixtures. Ranganātha's IX.4–5 commentary describes refining the event time by advancing both bodies and recomputing lagnāntara; this page currently reports a single-pass estimate and does not implement that iteration. A coordinate-frame question remains open for the fixed 24° obliquity versus modern sidereal time. The latest IX.10–11 estimate check flags Venus Udaya: about 0.295 day (7.1 hours) from the daily-bracket interpolation. C is selected from Sūrya-siddhānta IX.6–9, not from TKS.</div>
+    <div id="chapter7DrikkarmaTestOutput"><div class="status info">Chapter VII formula tests run with the lagnāntara diagnostic.</div></div>
+    <div id="chapter3LagnantaraTestOutput"><div class="status info">Chapter III sign-rising-asus tests run with the lagnāntara diagnostic.</div></div>
+    <p><strong>Chapter IX C reference:</strong> Jupiter 11°, Saturn 15°, Mars 17°; Venus 8° for west-setting/east-rising and 10° for east-setting/west-rising. Mercury's 12°/14° depends on its motion class; Mercury is excluded from these four reference cases until the “swift-moving” branch is independently validated. Chapter 9, verses 6–9; see the cited Sanskrit and translation sources.</p>
     <div id="lagnantaraOutput"><div class="status info">Not run yet.</div></div>
+    <h3>Elevation and horizon sensitivity — diagnostic only</h3>
+    <p class="small">Date: 12 October 2026. The TKS times below are supplied comparison values, not calculated outputs. This audit keeps elevation above sea level separate from observer height above local ground. SearchRiseSet includes the Sun's apparent upper limb and typical refraction; SearchAltitude at −0.833° is a separate geometric-center comparison and is not equivalent to SearchRiseSet. The 100 m above-ground row is hypothetical sensitivity only, not the Pithoragarh observer height or a claim about TKS's formula.</p>
+    <div id="elevationHorizonOutput"><div class="status info">Run “Elevation / Horizon Sensitivity” to calculate sunrise and sunset comparisons.</div></div>
     <h3>Coordinate-frame sensitivity audit (diagnostic only)</h3>
     <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant. Important: the 24.217° value is subtracted to create the helper’s sidereal-longitude representation and then added back before oblique ascension is calculated. With that same offset used consistently, it cancels; this is not an independent test of ayanāṃśa choice.</p>
     <div id="frameAuditOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this audit.</div></div>
+    <h3>Venus snapshot comparison — editable instant; TKS provenance pending</h3>
+    <p class="small">The supplied TKS values (K = 7.698°, C = 8°; ecliptic separation = 17.6°; 3-D separation = 19.4°) were discussed with a 12 October 2026 17:42 IST request, but the raw K/C panel output and full method/coordinate metadata are not yet preserved together as a fixture. Set the candidate instant below to the exact TKS request time. TKS remains reference-only until the capture is confirmed; no TKS residual is calculated.</p>
+    <div class="controls">
+      <label for="tksCandidateDate">Candidate date (IST)</label><input id="tksCandidateDate" type="date" value="2026-10-12">
+      <label for="tksCandidateTime">Candidate time (IST)</label><input id="tksCandidateTime" type="time" value="17:42">
+    </div>
+    <div id="sameInstantTksAuditOutput"><div class="status info">Default candidate instant: 12 October 2026, 17:42 IST. Click “Run Sūrya-siddhānta Lagnāntara” below to calculate. TKS values remain reference-only.</div></div>
     <h3>Jupiter Asta component sweep — 12, 13 and 20 August 2027</h3>
     <p class="small">This table samples actual local sunset and compares Astronomy Engine against the page’s separately loaded Swiss Ephemeris at the identical UTC instant. It also exposes each correction term. This is an ephemeris cross-check, not a formula change.</p>
     <div id="jupiterAstaSweepOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this sweep.</div></div>
   </section>
+  <!-- ========================================================= -->
+  <!-- ISOLATED SŪRYA-SIDDHĀNTA IX.10 ARITHMETIC TEST -->
+  <!-- ========================================================= -->
+
+  <section>
+    <h2>Isolated Sūrya-siddhānta IX.10 — Relative-Motion Arithmetic</h2>
+    <p>This unit test checks only the arithmetic step of dividing the difference between the current and target kalāṃśa by relative daily motion. It deliberately does not calculate drik-karma, lagnāntara, the event-specific threshold, or a final Asta/Udaya time.</p>
+    <div class="status warn"><strong>Input contract:</strong> current and target values must already be independently derived in the same corrected measure; daily motions must be signed and already converted into the corresponding time measure using the IX.11 rising-time conversion. Raw Sun–planet elongation is not a valid substitute for lagnāntara.</div><p class="small">Text cross-check: <a href="https://www.siva.sh/surya-siddhanta/9" target="_blank" rel="noopener">Sūrya-siddhānta, Chapter 9</a> · <a href="https://www.siva.sh/surya-siddhanta/9/6-10" target="_blank" rel="noopener">Verses 6–10</a> · <a href="https://karmasakha.com/texts/surya-siddhanta" target="_blank" rel="noopener">Burgess translation / verse notes</a>.</p>
+    <div id="chapter9ArithmeticOutput"><div class="status info">Not run yet.</div></div>
+  </section>
+
   <!-- ========================================================= -->
   <!-- 9. DIAGNOSTIC NOTES -->
   <!-- ========================================================= -->
@@ -524,6 +599,11 @@ import * as Astronomy
 import SwissEph
   from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
 
+import { chapter9Kalansha, classifyChapter9HorizonEvent, estimateChapter9TimeCorrectionFromArcMotions, runChapter9ArithmeticTests } from "./ss_chapter9_test.js";
+import { calculateChapter7SequentialDrikkarma, runChapter7DrikkarmaTests } from "./ss_chapter7_drikkarma.js";
+import { chapter3RisingAsusAtSiderealLongitude, chapter9LagnantaraAsus, runChapter3LagnantaraTests } from "./ss_chapter3_lagnantara.js";
+import { inspectModernStateInClassicalFrame, eclipticCoordinatesFromEquatorialVector, modernLocalSiderealAngleToClassicalFrame } from "./ss_classical_frame.js";
+
 
 /* =============================================================
    CONFIGURATION
@@ -556,7 +636,7 @@ const TKS_CONFIG = {
   offsetMinutes: 330
 };
 
-// Source-specific Dehradun references; these are distinct from SHASTRIYA_REFERENCES (TKS test dates).
+// Source-specific Dehradun Drik references. These are distinct from the unverified Chapter IX comparison-date fixtures below.
 const REFERENCES = [
   { planet:"Venus", event:"Asta", date:"2026-10-19", sampleTime:"2026-10-19T12:00:00Z", elongation:7.76, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Venus", event:"Udaya", date:"2026-10-30", sampleTime:"2026-10-30T00:30:00Z", elongation:9.70, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
@@ -1114,21 +1194,28 @@ function runHorizonGeometry() {
    ============================================================= */
 
 let swiss = null;
+let swissInitPromise = null;
 
 async function initSwiss() {
-
+  // Multiple research panels can request Swiss Ephemeris in parallel.
+  // Share the in-flight initialization promise instead of returning a
+  // not-yet-initialized instance to a concurrent caller.
+  if (swissInitPromise) return swissInitPromise;
   if (swiss) return swiss;
 
-  setStatus(
-    "Loading Swiss Ephemeris...",
-    "info"
-  );
-
+  setStatus("Loading Swiss Ephemeris...", "info");
   swiss = new SwissEph();
-
-  await swiss.initSwissEph();
-
-  return swiss;
+  swissInitPromise = (async () => {
+    try {
+      await swiss.initSwissEph();
+      return swiss;
+    } catch (error) {
+      swiss = null;
+      swissInitPromise = null;
+      throw error;
+    }
+  })();
+  return swissInitPromise;
 }
 
 
@@ -2114,11 +2201,14 @@ async function runVisibilityThresholdAnalysis() {
    SHASTRIYA LAGNANTARA-ASU DIAGNOSTIC
    ============================================================= */
 
+// Working comparison fixtures only: their source output, model variant, observer metadata,
+ // event instant convention, and meaning of the date have not been independently verified.
+ // Do not treat these as gold-standard expected dates until that provenance is captured.
 const SHASTRIYA_REFERENCES = [
-  { planet:"Venus", event:"Asta", date:"2026-10-12", direction:"west" },
-  { planet:"Venus", event:"Udaya", date:"2026-11-01", direction:"east" },
-  { planet:"Jupiter", event:"Asta", date:"2027-08-20", direction:"west" },
-  { planet:"Jupiter", event:"Udaya", date:"2027-09-13", direction:"east" }
+  { planet:"Venus", event:"Asta", expectedHorizonEvent:"west-setting", date:"2026-10-12" },
+  { planet:"Venus", event:"Udaya", expectedHorizonEvent:"east-rising", date:"2026-11-01" },
+  { planet:"Jupiter", event:"Asta", expectedHorizonEvent:"west-setting", date:"2027-08-20" },
+  { planet:"Jupiter", event:"Udaya", expectedHorizonEvent:"east-rising", date:"2027-09-13" }
 ];
 
 /*
@@ -2212,30 +2302,31 @@ function runCoordinateFrameSensitivityAudit() {
   if (!out) return;
 
   let html = '<div class="table-wrap"><table><thead><tr>' +
-    '<th>Planet / event</th><th>UTC instant</th>' +
+    '<th>Planet / event</th><th>IX.2–3 branch</th><th>UTC instant</th>' +
     '<th>True obliquity of date</th><th>Fixed obliquity</th>' +
-    '<th>K using fixed ε</th><th>K using date ε</th><th>ΔK</th>' +
+    '<th>Exact OA K, fixed ε</th><th>Exact OA K, date ε</th><th>Chapter III interpolated K</th><th>ΔK (date−fixed)</th>' +
     '<th>Geocentric RA / Dec</th><th>Topocentric RA / Dec</th>' +
     '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
-    const eventTime = getSunEventTimeForLagnantara(
-      new Date(ref.date + "T12:00:00Z"), ref.direction
+    const eventInfo = getClassifiedSunEventForDate(
+      ref.planet, new Date(ref.date + "T12:00:00Z")
     );
+    const eventTime = eventInfo && !eventInfo.ambiguous ? eventInfo.eventTime : null;
     if (!eventTime) {
       html += '<tr><td>' + ref.planet + ' ' + ref.event +
-        '</td><td colspan="8">No valid local Sun event found.</td></tr>';
+        '</td><td colspan="10">IX.2–3 event branch ambiguous or no valid local Sun event.</td></tr>';
       continue;
     }
 
     const g = getLagnantaraDiagnostic(
-      BODY_NAMES[ref.planet], eventTime, ref.direction, "current"
+      BODY_NAMES[ref.planet], eventTime, eventInfo.direction, "current"
     );
     const planetState = getPlanetSiderealState(BODY_NAMES[ref.planet], eventTime);
     const sunState = getPlanetSiderealState(Astronomy.Body.Sun, eventTime);
     if (!g || !planetState || !sunState) {
       html += '<tr><td>' + ref.planet + ' ' + ref.event +
-        '</td><td colspan="8">Planetary state unavailable.</td></tr>';
+        '</td><td colspan="10">Planetary state unavailable.</td></tr>';
       continue;
     }
 
@@ -2247,17 +2338,22 @@ function runCoordinateFrameSensitivityAudit() {
     const sunOAdate = obliqueAscensionWithObliquity(g.sunLon, epsilonDate);
     const planetOAdate = obliqueAscensionWithObliquity(g.planetLon, epsilonDate);
     const kDate = Math.abs(signedLongitudeDelta(planetOAdate, sunOAdate));
-    const kFixed = g.K;
+    const sunOAFixed = obliqueAscensionWithObliquity(g.sunLon, 23.4367);
+    const planetOAFixed = obliqueAscensionWithObliquity(g.planetLon, 23.4367);
+    const kFixed = Math.abs(signedLongitudeDelta(planetOAFixed, sunOAFixed));
+    const kChapter3 = g.K;
     const topo = Astronomy.Equator(
       BODY_NAMES[ref.planet], eventTime, tksObserver, true, true
     );
 
     html += '<tr><td>' + ref.planet + ' ' + ref.event + '</td>' +
+      '<td>' + eventInfo.horizonEvent + '</td>' +
       '<td>' + formatDateUTC(eventTime) + '</td>' +
       '<td>' + round(epsilonDate, 8) + '°</td>' +
       '<td>23.43670000°</td>' +
       '<td>' + round(kFixed, 6) + '°</td>' +
       '<td>' + round(kDate, 6) + '°</td>' +
+      '<td>' + round(kChapter3, 6) + '°</td>' +
       '<td>' + ((kDate-kFixed)>=0?'+':'') + round(kDate-kFixed, 6) + '°</td>' +
       '<td>RA ' + round(planetState.rightAscension, 6) + '° / Dec ' +
         round(planetState.declination, 6) + '°</td>' +
@@ -2266,11 +2362,11 @@ function runCoordinateFrameSensitivityAudit() {
   }
 
   html += '</tbody></table></div>' +
-    '<div class="status warn">Interpretation: ΔK isolates only the sensitivity to obliquity in the OA conversion while keeping the current event time and corrected longitudes fixed. The 24.217° offset is restored before OA, so this test does not independently validate an ayanāṃśa choice. It also does not validate the classical correction order or the ephemeris against TKS.</div>';
+    '<div class="status warn">Interpretation: ΔK compares two exact-oblique-ascension calculations at fixed and date obliquity. Chapter III interpolated K is shown separately because the source prescribes sign rising-asus and within-sign interpolation. The 24.217° offset remains a stated benchmark, not an independently validated ayanāṃśa.</div>';
   out.innerHTML = html;
 }
 
-function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_CONFIG) {
+function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_CONFIG, planetBody = swe.SE_JUPITER) {
   /*
    * Independent state-input path:
    * Swiss Ephemeris supplies apparent geocentric ecliptic longitude/latitude
@@ -2291,17 +2387,17 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
   const eclFlags = swe.SEFLG_SWIEPH;
   const eqFlags = swe.SEFLG_SWIEPH | 2048; // SEFLG_EQUATORIAL
   const swSun = swe.calc_ut(jd, swe.SE_SUN, eclFlags);
-  const swJupiter = swe.calc_ut(jd, swe.SE_JUPITER, eclFlags);
-  const swJupiterEq = swe.calc_ut(jd, swe.SE_JUPITER, eqFlags);
+  const swPlanet = swe.calc_ut(jd, planetBody, eclFlags);
+  const swPlanetEq = swe.calc_ut(jd, planetBody, eqFlags);
 
-  if (![swSun, swJupiter, swJupiterEq].every(v =>
+  if (![swSun, swPlanet, swPlanetEq].every(v =>
     v && Number.isFinite(v[0]) && Number.isFinite(v[1])
   )) return null;
 
-  const longitude = normalize360(swJupiter[0] - 24.217);
-  const latitude = swJupiter[1];
-  const ra = normalize360(swJupiterEq[0]);
-  const dec = swJupiterEq[1];
+  const longitude = normalize360(swPlanet[0] - 24.217);
+  const latitude = swPlanet[1];
+  const ra = normalize360(swPlanetEq[0]);
+  const dec = swPlanetEq[1];
   const phi = config.latitude * Math.PI / 180;
   let hourAngleDeg = normalize360(
     Astronomy.SiderealTime(eventTime) * 15 +
@@ -2318,8 +2414,8 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
     latitude * Math.tan(phi) *
     (hourAngleDeg / halfDayAngleDeg);
 
-  const ayanaLongitude = normalize360(swJupiter[0] + 90);
-  const eps = 23.4367 * Math.PI / 180;
+  const ayanaLongitude = normalize360(swPlanet[0] + 90);
+  const eps = 24 * Math.PI / 180;
   const ayanaDeclination = Math.asin(clampUnit(
     Math.sin(eps) * Math.sin(ayanaLongitude * Math.PI / 180)
   )) * 180 / Math.PI;
@@ -2329,27 +2425,51 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
 
   const correctedLongitude = normalize360(longitude + akshaDeg + ayanaDeg);
   const sunLongitude = normalize360(swSun[0] - 24.217);
-  const sunEventLongitude = direction === "west"
+  const rawExactSunEventLongitude = direction === "west"
     ? normalize360(sunLongitude + 180) : sunLongitude;
-  const planetEventLongitude = direction === "west"
-    ? normalize360(correctedLongitude + 180) : correctedLongitude;
-  const rawPlanetEventLongitude = direction === "west"
+  const rawExactPlanetEventLongitude = direction === "west"
     ? normalize360(longitude + 180) : longitude;
-  const rawSunOA = obliqueAscensionFromSiderealLongitude(sunEventLongitude, config);
-  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawPlanetEventLongitude, config);
-  const sunOA = rawSunOA;
-  const planetOA = obliqueAscensionFromSiderealLongitude(planetEventLongitude, config);
+  const exactSunEventLongitude = rawExactSunEventLongitude;
+  const exactPlanetEventLongitude = direction === "west"
+    ? normalize360(correctedLongitude + 180) : correctedLongitude;
+  const rawSunOA = obliqueAscensionFromSiderealLongitude(rawExactSunEventLongitude, config);
+  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawExactPlanetEventLongitude, config);
+  const sunOA = obliqueAscensionFromSiderealLongitude(exactSunEventLongitude, config);
+  const planetOA = obliqueAscensionFromSiderealLongitude(exactPlanetEventLongitude, config);
+  const rawClassical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: sunLongitude,
+    planetSiderealLongitudeDeg: longitude,
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  });
+  const classical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: sunLongitude,
+    planetSiderealLongitudeDeg: correctedLongitude,
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  });
 
   return {
     sunLongitude: swSun[0],
-    planetLongitude: swJupiter[0],
+    planetLongitude: swPlanet[0],
     planetLatitude: latitude,
     ra,
     dec,
-    rawK: Math.abs(signedLongitudeDelta(rawPlanetOA, rawSunOA)),
+    rawK: rawClassical.K,
+    rawKExact: Math.abs(signedLongitudeDelta(rawPlanetOA, rawSunOA)),
+    // IX.11 consumes the same event-frame longitudes (including the western
+    // six-sign shift) used by the sign-table K calculation. Keep these aliases
+    // explicit; the time-estimate helper must not receive undefined values.
+    sunLon: classical.sunFrameLongitude,
+    planetLon: classical.planetFrameLongitude,
     akshaDeg,
     ayanaDeg,
-    K: Math.abs(signedLongitudeDelta(planetOA, sunOA))
+    K: classical.K,
+    exactK: Math.abs(signedLongitudeDelta(planetOA, sunOA))
   };
 }
 
@@ -2402,18 +2522,19 @@ async function runJupiterAstaComponentSweep() {
 
     html += '<div class="table-wrap"><table><thead><tr>' +
       '<th>Location</th><th>Local sunset date</th><th>Sunset (IST)</th>' +
-      '<th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Final K</th>' +
-      '<th>Swiss K−AE K</th><th>Final K−11°</th><th>Same-date location ΔK</th>' +
+      '<th>Raw K (III.43–46)</th><th>Aksha</th><th>Ayana</th><th>Final K (III.43–46)</th>' +
+      '<th>Swiss−AE K (III.43–46)</th><th>Swiss−AE exact-OA K</th><th>Final K−11°</th><th>Same-date location ΔK</th>' +
       '</tr></thead><tbody>';
     for (const row of rows) {
       html += '<tr class="' + (row.day === "2027-08-20" ? "reference-row" : "") + '">';
       if (row.error) {
         html += '<td>' + row.location.label + '</td><td>' + row.day +
-          '</td><td colspan="8">' + row.error + '</td></tr>';
+          '</td><td colspan="9">' + row.error + '</td></tr>';
         continue;
       }
       const d = row.current.drikkarma;
       const swissDelta = row.swiss.K - row.current.K;
+      const swissExactDelta = row.swiss.exactK - row.current.exactK;
       html += '<td>' + row.location.label + '</td>' +
         '<td>' + row.day + '</td>' +
         '<td>' + formatLocalFromUTCDate(row.eventTime) + '</td>' +
@@ -2422,6 +2543,7 @@ async function runJupiterAstaComponentSweep() {
         '<td>' + round(d.ayanaDeg, 6) + '°</td>' +
         '<td>' + round(row.current.K, 6) + '°</td>' +
         '<td>' + (swissDelta >= 0 ? '+' : '') + round(swissDelta, 6) + '°</td>' +
+        '<td>' + (swissExactDelta >= 0 ? '+' : '') + round(swissExactDelta, 6) + '°</td>' +
         '<td>' + (row.current.K-11 >= 0 ? '+' : '') + round(row.current.K-11, 6) + '°</td>' +
         '<td>' + (Number.isFinite(row.locationDelta) ? (row.locationDelta >= 0 ? '+' : '') + round(row.locationDelta, 6) + '°' : 'unavailable') + '</td>' +
         '</tr>';
@@ -2573,6 +2695,114 @@ function getSunriseSunsetSameDate(date) {
   };
 }
 
+function runElevationHorizonSensitivityAudit() {
+  const out = document.getElementById("elevationHorizonOutput");
+  if (!out) return;
+  out.innerHTML = '<div class="status info">Calculating same-date sunrise/sunset under separate elevation and horizon assumptions…</div>';
+
+  const midnight = new Date(Date.UTC(2026, 9, 12, 0, 0, 0));
+  const noon = new Date(Date.UTC(2026, 9, 12, 12, 0, 0));
+  const scenarios = [
+    {
+      id: "tks-0m",
+      label: "Existing TKS diagnostic coordinates; elevation 0 m",
+      latitude: 29.5830, longitude: 80.2090, elevation: 0, metersAboveGround: 0,
+      note: "baseline only"
+    },
+    {
+      id: "tks-1563m",
+      label: "Same coordinates; elevation 1563 m above sea level",
+      latitude: 29.5830, longitude: 80.2090, elevation: 1563, metersAboveGround: 0,
+      note: "isolates elevation input"
+    },
+    {
+      id: "precise-1563m",
+      label: "Supplied coordinates 29.5835° N, 80.2095° E; elevation 1563 m",
+      latitude: 29.5835, longitude: 80.2095, elevation: 1563, metersAboveGround: 0,
+      note: "user-supplied comparison location"
+    },
+    {
+      id: "hypothetical-100m",
+      label: "Same supplied location; observer hypothetically 100 m above local ground",
+      latitude: 29.5835, longitude: 80.2095, elevation: 1563, metersAboveGround: 100,
+      note: "illustration only; not actual observer height"
+    }
+  ];
+
+  const formatTime = value => {
+    if (!value || !(value.date instanceof Date) || Number.isNaN(value.date.getTime())) return "—";
+    return value.date.toLocaleTimeString("en-IN", {
+      timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit",
+      second: "2-digit", hour12: false
+    });
+  };
+  const formatDelta = (value, baseline) => {
+    if (!value || !baseline || !(value.date instanceof Date) || !(baseline.date instanceof Date)) return "—";
+    const minutes = (value.date.getTime() - baseline.date.getTime()) / 60000;
+    return (minutes >= 0 ? "+" : "") + minutes.toFixed(2) + " min";
+  };
+
+  const rows = scenarios.map(scenario => {
+    const observer = new Astronomy.Observer(
+      scenario.latitude, scenario.longitude, scenario.elevation
+    );
+    const sunrise = Astronomy.SearchRiseSet(
+      Astronomy.Body.Sun, observer, +1, midnight, 1, scenario.metersAboveGround
+    );
+    const sunset = Astronomy.SearchRiseSet(
+      Astronomy.Body.Sun, observer, -1, noon, 1, scenario.metersAboveGround
+    );
+    return { ...scenario, sunrise, sunset, method: "SearchRiseSet: apparent upper limb + typical refraction" };
+  });
+
+  const preciseObserver = new Astronomy.Observer(29.5835, 80.2095, 1563);
+  const fixedAltitudeSunrise = Astronomy.SearchAltitude(
+    Astronomy.Body.Sun, preciseObserver, +1, midnight, 1, -0.833
+  );
+  const fixedAltitudeSunset = Astronomy.SearchAltitude(
+    Astronomy.Body.Sun, preciseObserver, -1, noon, 1, -0.833
+  );
+  const fixedAltitudeRow = {
+    id: "fixed-minus-0833",
+    label: "Supplied coordinates; geometric Sun-center altitude −0.833°",
+    latitude: 29.5835, longitude: 80.2095, elevation: 1563, metersAboveGround: 0,
+    sunrise: fixedAltitudeSunrise, sunset: fixedAltitudeSunset,
+    method: "SearchAltitude at −0.833°; no refraction correction in this method",
+    note: "fixed-altitude comparison"
+  };
+
+  if (rows.some(row => !row.sunrise || !row.sunset || !row.sunrise.date || !row.sunset.date) ||
+      !fixedAltitudeSunrise || !fixedAltitudeSunset) {
+    out.innerHTML = '<div class="status error">At least one rise/set search returned no event. No missing value has been replaced with a guessed time.</div>';
+    return { rows, fixedAltitudeRow, allValid: false };
+  }
+
+  const baseline = rows[0];
+  let html = '<div class="status info"><strong>Supplied TKS comparison times (12 Oct 2026):</strong> ' +
+    '“दृश्य — ऊँचाई + वक्रीभवन”: sunrise 06:08:40, sunset 17:47:21; ' +
+    '“गणित — मानक −0.833°”: sunrise 06:08:40, sunset 17:42:21. ' +
+    'These are shown as reported inputs, not assumed to be reproduced by this library.</div>';
+  html += '<div class="table-wrap"><table><thead><tr>' +
+    '<th>Scenario / method</th><th>Elevation ASL</th><th>Above local ground</th>' +
+    '<th>Sunrise (IST)</th><th>Δ sunrise vs baseline</th>' +
+    '<th>Sunset (IST)</th><th>Δ sunset vs baseline</th><th>Meaning</th></tr></thead><tbody>';
+  for (const row of rows) {
+    html += '<tr><td>' + row.label + '</td><td>' + row.elevation + ' m</td>' +
+      '<td>' + row.metersAboveGround + ' m</td>' +
+      '<td>' + formatTime(row.sunrise) + '</td><td>' + formatDelta(row.sunrise, baseline.sunrise) + '</td>' +
+      '<td>' + formatTime(row.sunset) + '</td><td>' + formatDelta(row.sunset, baseline.sunset) + '</td>' +
+      '<td>' + row.note + '</td></tr>';
+  }
+  html += '<tr><td>' + fixedAltitudeRow.label + '</td><td>1563 m</td><td>0 m</td>' +
+    '<td>' + formatTime(fixedAltitudeRow.sunrise) + '</td><td>' + formatDelta(fixedAltitudeRow.sunrise, baseline.sunrise) + '</td>' +
+    '<td>' + formatTime(fixedAltitudeRow.sunset) + '</td><td>' + formatDelta(fixedAltitudeRow.sunset, baseline.sunset) + '</td>' +
+    '<td>fixed-altitude comparison; not equivalent to SearchRiseSet</td></tr>';
+  html += '</tbody></table></div>' +
+    '<div class="status warn"><strong>Interpretation limits:</strong> The 1563 m value is height above sea level, not height above the observer’s local ground. The hypothetical 100 m row demonstrates the separate horizon-dip input only. Neither model includes the actual mountain/terrain skyline. A five-minute TKS sunset difference is not explained unless one of these controlled comparisons reproduces it; no causal conclusion is drawn from the labels alone.</div>';
+  out.innerHTML = html;
+  return { rows, fixedAltitudeRow, allValid: true };
+}
+
 function getDrikkarmaCorrection(body, date, direction, config = TKS_CONFIG) {
   const state = getPlanetSiderealState(body, date);
 
@@ -2673,7 +2903,7 @@ function getDrikkarmaCorrection(body, date, direction, config = TKS_CONFIG) {
   const declinationLon =
     normalize360(tropicalLon + 90);
 
-  const eps = 23.4367 * Math.PI / 180;
+  const eps = 24 * Math.PI / 180;
   const ayanaDeclination =
     Math.asin(
       clampUnit(
@@ -2713,12 +2943,24 @@ function getDrikkarmaCorrection(body, date, direction, config = TKS_CONFIG) {
 }
 /*
  * Parallel sequential-order experiment for SS VII.8–11.
- * Apply Ayana to the longitude first, then derive the intermediate
- * ecliptic point's equatorial coordinates and apply Aksha to that
- * point. This is intentionally kept separate from the existing
- * calculation until numerical comparisons are reviewed.
+ * Apply Ayana to the longitude first, then apply Aksha correction.
+ * The Chapter VII helper computes the Aksha time ratio from the original
+ * planet's own RA/declination, rather than the intermediate point's RA.
+ * This remains a research candidate until independently validated.
  */
+function trueObliquityOfDateDeg(date) {
+  const rot = Astronomy.Rotation_ECT_EQD(date).rot;
+  return Math.atan2(Math.abs(rot[2][1]), rot[1][1]) * 180 / Math.PI;
+}
+
 function getDrikkarmaCorrectionSequential(body, date, direction, config = TKS_CONFIG) {
+  /*
+   * The sequential candidate is delegated to the isolated, unit-tested
+   * Chapter VII helper. It applies Ayana first; Aksha's meridian-time and
+   * half-day ratio uses the original planet's own RA/declination, while the
+   * correction is applied sequentially to longitude. The legacy calculation
+   * above remains a comparison only; neither result is production logic.
+   */
   const state = getPlanetSiderealState(body, date);
   if (!state ||
       !Number.isFinite(state.longitude) ||
@@ -2728,79 +2970,21 @@ function getDrikkarmaCorrectionSequential(body, date, direction, config = TKS_CO
     return null;
   }
 
-  const phi = config.latitude * Math.PI / 180;
-  const tropicalLon = normalize360(state.longitude + 24.217);
-  const ayanaDeclination =
-    Math.asin(clampUnit(
-      Math.sin(23.4367 * Math.PI / 180) *
-      Math.sin(normalize360(tropicalLon + 90) * Math.PI / 180)
-    )) * 180 / Math.PI;
-
-  const latArcMin = state.latitude * 60;
-  const ayanaSign =
-    Math.sign(state.latitude) === Math.sign(ayanaDeclination) ? -1 : 1;
-  const ayanaDeg =
-    (Math.abs(latArcMin) * Math.abs(ayanaDeclination) / 3600) *
-    ayanaSign;
-
-  // Stage 1: apply Ayana correction before deriving Aksha geometry.
-  const ayanaAppliedLongitude =
-    normalize360(state.longitude + ayanaDeg);
-  const pointTropicalLon =
-    normalize360(ayanaAppliedLongitude + 24.217);
-  const lambda = pointTropicalLon * Math.PI / 180;
-  const eps = 23.4367 * Math.PI / 180;
-
-  const pointDeclination =
-    Math.asin(clampUnit(Math.sin(eps) * Math.sin(lambda))) * 180 / Math.PI;
-  const pointRA =
-    normalize360(Math.atan2(
-      Math.sin(lambda) * Math.cos(eps),
-      Math.cos(lambda)
-    ) * 180 / Math.PI);
-
-  const localSiderealDeg =
-    normalize360(Astronomy.SiderealTime(date) * 15 + config.longitude);
-
-  /*
-   * Experimental sequential variant: after shifting the ecliptic
-   * longitude by Ayana, recompute BOTH RA and declination for that
-   * intermediate ecliptic point. Use the same point consistently in
-   * its hour angle and half-day angle. This is a geometry-consistent
-   * experiment, not yet proof that SS VII prescribes iteration this way.
-   */
-  let hourAngleDeg = normalize360(localSiderealDeg - pointRA);
-  if (hourAngleDeg > 180) hourAngleDeg -= 360;
-
-  const halfDayCos =
-    -Math.tan(phi) * Math.tan(pointDeclination * Math.PI / 180);
-  if (halfDayCos < -1 || halfDayCos > 1) return null;
-
-  const halfDayAngleDeg =
-    Math.acos(clampUnit(halfDayCos)) * 180 / Math.PI;
-  if (!Number.isFinite(halfDayAngleDeg) || halfDayAngleDeg <= 0) return null;
-
-  const akshaTimeRatio = hourAngleDeg / halfDayAngleDeg;
-  const akshaDeg =
-    state.latitude * Math.tan(phi) * akshaTimeRatio;
-
-  const totalCorrection = ayanaDeg + akshaDeg;
-  return {
-    latitude: state.latitude,
-    rightAscension: state.rightAscension,
-    declination: ayanaDeclination,
-    planetDeclination: state.declination,
-    hourAngleDeg,
-    halfDayAngleDeg,
-    akshaTimeRatio,
-    akshaDeg,
-    ayanaDeg,
-    totalCorrection,
-    ayanaAppliedLongitude,
-    akshaPointRA: pointRA,
-    akshaPointDeclination: pointDeclination,
-    correctedLongitude: normalize360(ayanaAppliedLongitude + akshaDeg)
-  };
+  const localSiderealAngleDeg = normalize360(
+    Astronomy.SiderealTime(date) * 15 + config.longitude
+  );
+  const localSiderealObliquityDeg = trueObliquityOfDateDeg(date);
+  return calculateChapter7SequentialDrikkarma({
+    siderealLongitudeDeg: state.longitude,
+    planetLatitudeDeg: state.latitude,
+    observerLatitudeDeg: config.latitude,
+    localSiderealAngleDeg,
+    localSiderealObliquityDeg,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24,
+    planetDeclinationDeg: state.declination,
+    planetRightAscensionDeg: state.rightAscension
+  });
 }
 
 function getLagnantaraDiagnostic(planetBody, date, direction, method = "current", config = TKS_CONFIG) {
@@ -2852,64 +3036,91 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
   const planetOA =
     obliqueAscensionFromSiderealLongitude(planetLon, config);
 
+  const rawSunSiderealLongitude = sunState.longitude;
+  const rawPlanetSiderealLongitude = planetState.longitude;
+
+  // Keep the modern apparent ecliptic-separation diagnostic separate from
+  // the classical lagnāntara K. They are not interchangeable quantities.
+  const eclipticLongitudeSeparationDeg = Math.abs(
+    signedLongitudeDelta(planetState.tropicalLongitude, sunState.tropicalLongitude)
+  );
+  const lonDeltaRad = signedLongitudeDelta(
+    planetState.tropicalLongitude, sunState.tropicalLongitude
+  ) * Math.PI / 180;
+  const planetLatRad = planetState.latitude * Math.PI / 180;
+  const sunLatRad = sunState.latitude * Math.PI / 180;
+  const trueElongationDeg = Math.acos(clampUnit(
+    Math.sin(planetLatRad) * Math.sin(sunLatRad) +
+    Math.cos(planetLatRad) * Math.cos(sunLatRad) * Math.cos(lonDeltaRad)
+  )) * 180 / Math.PI;
+
   const rawSunLon =
     direction === "west"
-      ? normalize360(
-          getSiderealEclipticLongitude(
-            Astronomy.Body.Sun,
-            date
-          ) + 180
-        )
-      : getSiderealEclipticLongitude(
-          Astronomy.Body.Sun,
-          date
-        );
-
+      ? normalize360(rawSunSiderealLongitude + 180)
+      : rawSunSiderealLongitude;
   const rawPlanetLon =
     direction === "west"
-      ? normalize360(
-          planetState.longitude + 180
-        )
-      : planetState.longitude;
+      ? normalize360(rawPlanetSiderealLongitude + 180)
+      : rawPlanetSiderealLongitude;
 
-  const rawSunOA =
-    obliqueAscensionFromSiderealLongitude(
-      rawSunLon,
-      config
-    );
+  const rawSunOA = obliqueAscensionFromSiderealLongitude(rawSunLon, config);
+  const rawPlanetOA = obliqueAscensionFromSiderealLongitude(rawPlanetLon, config);
+  const rawExactLagnaInterval = Math.abs(
+    signedLongitudeDelta(rawPlanetOA, rawSunOA)
+  );
+  const exactLagnaInterval = Math.abs(
+    signedLongitudeDelta(planetOA, sunOA)
+  );
 
-  const rawPlanetOA =
-    obliqueAscensionFromSiderealLongitude(
-      rawPlanetLon,
-      config
-    );
+  /*
+   * Classical III.43–46 + IX.5: use sign rising-asus and linear interpolation
+   * within the tropical sign, after converting the sidereal longitude to the
+   * ecliptic-of-date frame. Keep exact OA as a separate comparison.
+   */
+  const rawClassical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: rawSunSiderealLongitude,
+    planetSiderealLongitudeDeg: rawPlanetSiderealLongitude,
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  });
+  const classical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: rawSunSiderealLongitude,
+    planetSiderealLongitudeDeg: drikkarma.correctedLongitude,
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  });
 
-  const rawLagnaInterval =
-    Math.abs(
-      signedLongitudeDelta(
-        rawPlanetOA,
-        rawSunOA
-      )
-    );
+  const akshaOnlyClassical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: rawSunSiderealLongitude,
+    planetSiderealLongitudeDeg: normalize360(rawPlanetSiderealLongitude + drikkarma.akshaDeg),
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  });
+  const ayanaOnlyClassical = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: rawSunSiderealLongitude,
+    planetSiderealLongitudeDeg: normalize360(rawPlanetSiderealLongitude + drikkarma.ayanaDeg),
+    direction,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  });
 
-  const rawK =
-    rawLagnaInterval;
-
-  const lagnaInterval =
-    Math.abs(
-      signedLongitudeDelta(
-        planetOA,
-        sunOA
-      )
-    );
-
-  const lagnantaraAsu =
-    lagnaInterval * 60;
-
-  const K =
-    lagnantaraAsu / 60;
+  const rawK = rawClassical.K;
+  const akshaOnlyK = akshaOnlyClassical.K;
+  const ayanaOnlyK = ayanaOnlyClassical.K;
+  const K = classical.K;
+  const lagnantaraAsu = classical.lagnantaraAsu;
+  const signedLagnantaraAsu = classical.signedLagnantaraAsu;
 
   return {
+    direction,
+    drikkarmaMethod: method,
     sunLon,
     sunTropicalLongitude: sunState.tropicalLongitude,
     sunSiderealLongitude: sunState.longitude,
@@ -2919,17 +3130,29 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
     rawPlanetLon: planetState.longitude,
     planetTropicalLongitude: planetState.tropicalLongitude,
     planetLatitude: planetState.latitude,
+    eclipticLongitudeSeparationDeg,
+    trueElongationDeg,
     planetRightAscension: planetState.rightAscension,
     planetGeocentricDeclination: planetState.declination,
     rawSunOA,
     rawPlanetOA,
     sunOA,
     planetOA,
-    rawLagnaInterval,
-    lagnaInterval,
+    rawLagnaInterval: rawClassical.lagnantaraAsu / 60,
+    exactLagnaInterval,
+    rawExactLagnaInterval,
+    exactK: exactLagnaInterval,
+    rawKExact: rawExactLagnaInterval,
     lagnantaraAsu,
+    signedLagnantaraAsu,
     K,
-    rawK: rawK,
+    rawK,
+    akshaOnlyK,
+    ayanaOnlyK,
+    rawClassical,
+    akshaOnlyClassical,
+    ayanaOnlyClassical,
+    classical,
     drikkarma
   };
 }
@@ -2977,14 +3200,212 @@ function getSunEventTimeForLagnantara(date, direction, config = TKS_CONFIG) {
   return localDate === expectedDate ? result.date : null;
 }
 
+const CHAPTER9_EVENT_CACHE = new Map();
+
+function getClassifiedSunEventForDate(planet, date) {
+  const dateKey = date.toISOString().slice(0, 10);
+  const cacheKey = planet + "|" + dateKey;
+  if (CHAPTER9_EVENT_CACHE.has(cacheKey)) return CHAPTER9_EVENT_CACHE.get(cacheKey);
+
+  const sunrise = getSunEventTimeForLagnantara(date, "east");
+  const sunset = getSunEventTimeForLagnantara(date, "west");
+  if (!sunrise || !sunset) {
+    const missing = { ambiguous: true, reason: "Sunrise or sunset unavailable for this civil date." };
+    CHAPTER9_EVENT_CACHE.set(cacheKey, missing);
+    return missing;
+  }
+
+  function classifyAt(eventTime) {
+    const planetState = getPlanetSiderealState(BODY_NAMES[planet], eventTime);
+    const sunState = getPlanetSiderealState(Astronomy.Body.Sun, eventTime);
+    const before = getPlanetSiderealState(
+      BODY_NAMES[planet], new Date(eventTime.getTime() - 12 * 3600000)
+    );
+    const after = getPlanetSiderealState(
+      BODY_NAMES[planet], new Date(eventTime.getTime() + 12 * 3600000)
+    );
+    if (!planetState || !sunState || !before || !after) return null;
+
+    const dailyMotionDegPerDay =
+      signedLongitudeDelta(after.longitude, before.longitude);
+    const horizonEvent = classifyChapter9HorizonEvent({
+      planet,
+      planetLongitudeDeg: planetState.longitude,
+      sunLongitudeDeg: sunState.longitude,
+      dailyMotionDegPerDay
+    });
+    if (!horizonEvent) return null;
+
+    return { horizonEvent, dailyMotionDegPerDay };
+  }
+
+  const atSunrise = classifyAt(sunrise);
+  const atSunset = classifyAt(sunset);
+  if (!atSunrise || !atSunset ||
+      atSunrise.horizonEvent !== atSunset.horizonEvent) {
+    const ambiguous = {
+      ambiguous: true,
+      reason: "IX.2–3 event branch is ambiguous between sunrise and sunset.",
+      sunrise,
+      sunset,
+      atSunrise,
+      atSunset
+    };
+    CHAPTER9_EVENT_CACHE.set(cacheKey, ambiguous);
+    return ambiguous;
+  }
+
+  const horizonEvent = atSunrise.horizonEvent;
+  const direction = horizonEvent.startsWith("west-") ? "west" : "east";
+  const eventTime = direction === "west" ? sunset : sunrise;
+  const dailyMotionDegPerDay = direction === "west"
+    ? atSunset.dailyMotionDegPerDay
+    : atSunrise.dailyMotionDegPerDay;
+  const motionClass = dailyMotionDegPerDay < -1e-6
+    ? "retrograde"
+    : dailyMotionDegPerDay > 1e-6
+      ? "direct-fast"
+      : null;
+
+  const result = {
+    ambiguous: false,
+    horizonEvent,
+    direction,
+    eventTime,
+    sunrise,
+    sunset,
+    dailyMotionDegPerDay,
+    motionClass,
+    atSunrise,
+    atSunset
+  };
+  CHAPTER9_EVENT_CACHE.set(cacheKey, result);
+  return result;
+}
+
+function getSignRisingAsus(siderealLongitudeDeg, config = TKS_CONFIG) {
+  return chapter3RisingAsusAtSiderealLongitude({
+    siderealLongitudeDeg,
+    observerLatitudeDeg: config.latitude,
+    ayanamshaDeg: 24.217,
+    obliquityDeg: 24
+  }).signRisingAsus;
+}
+
+function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg, config = TKS_CONFIG, method = "current") {
+  const planetBody = BODY_NAMES[planet];
+  const sunBody = Astronomy.Body.Sun;
+  const planetState = getPlanetSiderealState(planetBody, eventTime);
+  const sunState = getPlanetSiderealState(sunBody, eventTime);
+  const before = new Date(eventTime.getTime() - 12 * 3600000);
+  const after = new Date(eventTime.getTime() + 12 * 3600000);
+  const planetBefore = getPlanetSiderealState(planetBody, before);
+  const planetAfter = getPlanetSiderealState(planetBody, after);
+  const sunBefore = getPlanetSiderealState(sunBody, before);
+  const sunAfter = getPlanetSiderealState(sunBody, after);
+
+  if (!planetState || !sunState || !planetBefore || !planetAfter || !sunBefore || !sunAfter) {
+    return null;
+  }
+
+  // Signed ecliptic motion over a 24-hour interval, converted to arcminutes/day.
+  const planetDailyMotionArcminPerDay =
+    signedLongitudeDelta(planetAfter.longitude, planetBefore.longitude) * 60;
+  const sunDailyMotionArcminPerDay =
+    signedLongitudeDelta(sunAfter.longitude, sunBefore.longitude) * 60;
+
+  // Counterfactual only: differentiate the corrected planet longitude
+  // across the same ±12 h window used for raw orbital motion. This tests
+  // whether time-varying dṛkkarma explains the raw-vs-corrected K-rate gap;
+  // it is not presumed to be the source-prescribed IX.11 input.
+  const correctionFn = method === "sequential"
+    ? getDrikkarmaCorrectionSequential
+    : getDrikkarmaCorrection;
+  const correctionBefore = correctionFn(
+    planetBody, before, geometry.drikkarma?.direction || "east", config
+  );
+  const correctionAfter = correctionFn(
+    planetBody, after, geometry.drikkarma?.direction || "east", config
+  );
+  const correctedMotionAvailable = correctionBefore && correctionAfter &&
+    Number.isFinite(correctionBefore.correctedLongitude) &&
+    Number.isFinite(correctionAfter.correctedLongitude);
+  const correctedPlanetDailyMotionArcminPerDay = correctedMotionAvailable
+    ? signedLongitudeDelta(
+        correctionAfter.correctedLongitude,
+        correctionBefore.correctedLongitude
+      ) * 60
+    : NaN;
+
+  /*
+   * IX.5 shifts both western-event longitudes by six signs before
+   * computing lagnāntara. IX.11 must use the rising-asus of those same
+   * event-frame longitudes, not the unshifted zodiac signs.
+   */
+  const planetSignRisingAsus = getSignRisingAsus(geometry.planetLon, config);
+  const sunSignRisingAsus = getSignRisingAsus(geometry.sunLon, config);
+  const signedLagnantaraDeg = geometry.signedLagnantaraAsu / 60;
+
+  try {
+    const rawMotionEstimate = estimateChapter9TimeCorrectionFromArcMotions({
+      currentKalanshaDeg: geometry.K,
+      targetKalanshaDeg,
+      signedLagnantaraDeg,
+      sunDailyMotionArcminPerDay,
+      planetDailyMotionArcminPerDay,
+      sunSignRisingAsus,
+      planetSignRisingAsus
+    });
+    const correctedMotionEstimate = Number.isFinite(correctedPlanetDailyMotionArcminPerDay)
+      ? estimateChapter9TimeCorrectionFromArcMotions({
+          currentKalanshaDeg: geometry.K,
+          targetKalanshaDeg,
+          signedLagnantaraDeg,
+          sunDailyMotionArcminPerDay,
+          planetDailyMotionArcminPerDay: correctedPlanetDailyMotionArcminPerDay,
+          sunSignRisingAsus,
+          planetSignRisingAsus
+        })
+      : null;
+    return {
+      ...rawMotionEstimate,
+      rawPlanetMotionArcminPerDay: planetDailyMotionArcminPerDay,
+      correctedPlanetDailyMotionArcminPerDay,
+      correctedMotionEstimate,
+      correctedMotionRateDeltaPranasPerDay:
+        Number.isFinite(correctedMotionEstimate?.signedKalanshaRatePranasPerDay)
+          ? correctedMotionEstimate.signedKalanshaRatePranasPerDay -
+            rawMotionEstimate.signedKalanshaRatePranasPerDay
+          : NaN,
+    };
+  } catch (error) {
+    return { error: String(error?.message || error) };
+  }
+}
+
 function getLagnantaraResidualForDate(ref, date, method = "current") {
-  const eventTime = getSunEventTimeForLagnantara(date, ref.direction);
-  if (!eventTime) return null;
-  const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method);
+  const eventInfo = getClassifiedSunEventForDate(ref.planet, date);
+  if (!eventInfo || eventInfo.ambiguous) return null;
+
+  const eventTime = eventInfo.eventTime;
+  const g = getLagnantaraDiagnostic(
+    BODY_NAMES[ref.planet], eventTime, eventInfo.direction, method
+  );
   if (!g) return null;
-  const C = shastriyaC(ref.planet, ref.event);
+
+  const C = shastriyaC(
+    ref.planet, eventInfo.horizonEvent, eventInfo.motionClass
+  );
   if (!Number.isFinite(C)) return null;
-  return { eventTime, geometry:g, residual:g.K - C };
+
+  return {
+    eventTime,
+    direction: eventInfo.direction,
+    eventInfo,
+    geometry: g,
+    C,
+    residual: g.K - C
+  };
 }
 
 function findLagnantaraCrossing(ref, method = "current") {
@@ -3014,6 +3435,9 @@ function findLagnantaraCrossing(ref, method = "current") {
     const a = samples[i-1];
     const b = samples[i];
 
+    // Never call a bracket "adjacent daily events" if an ambiguous or
+    // invalid date was skipped between these two valid samples.
+    if (b.date.getTime() - a.date.getTime() !== 86400000) continue;
     if (a.residual === 0 || a.residual * b.residual < 0) {
       brackets.push({
         before: a,
@@ -3033,6 +3457,7 @@ function findLagnantaraCrossing(ref, method = "current") {
    */
   if (brackets.length) {
     return {
+      samples,
       brackets: brackets.map(bracket => {
         const isAstaTransition =
           bracket.beforeResidual > 0 && bracket.afterResidual < 0;
@@ -3058,59 +3483,311 @@ function findLagnantaraCrossing(ref, method = "current") {
     Math.abs(item.residual) < Math.abs(best.residual) ? item : best
   );
   return {
+    samples,
     closest,
     closestResidual: closest.residual,
     noCrossing: true
   };
 }
-function shastriyaC(planet, event) {
-  // Sūrya-siddhānta IX.6–9, not values inferred from TKS.
-  if (planet === "Jupiter") return 11;
-  if (planet === "Saturn") return 15;
-  if (planet === "Mars") return 17;
+function findEclipticAngularThresholdCrossing(ref) {
+  // Modern apparent ecliptic-longitude separation is intentionally kept
+  // separate from the classical Chapter IX lagnāntara K calculation.
+  const center = new Date(ref.date + "T12:00:00Z");
+  const samples = [];
+  for (let d = -15; d <= 15; d++) {
+    const date = new Date(center.getTime() + d * 86400000);
+    const eventInfo = getClassifiedSunEventForDate(ref.planet, date);
+    if (!eventInfo || eventInfo.ambiguous) continue;
 
-  /*
-   * IX.7 distinguishes the planet's event, not the Sun-event
-   * search direction: west-setting and east-rising are both 8°;
-   * east-setting and west-rising are both 10°.
-   * The present references test Asta and Udaya, so both use 8°.
-   */
-  if (planet === "Venus") {
-    if (event === "Asta" || event === "Udaya") return 8;
-    return NaN;
+    const planetState = getPlanetSiderealState(BODY_NAMES[ref.planet], eventInfo.eventTime);
+    const sunState = getPlanetSiderealState(Astronomy.Body.Sun, eventInfo.eventTime);
+    if (!planetState || !sunState) continue;
+
+    const separationDeg = Math.abs(signedLongitudeDelta(
+      planetState.tropicalLongitude, sunState.tropicalLongitude
+    ));
+    const C = shastriyaC(ref.planet, eventInfo.horizonEvent, eventInfo.motionClass);
+    if (!Number.isFinite(separationDeg) || !Number.isFinite(C)) continue;
+
+    samples.push({
+      date,
+      eventTime: eventInfo.eventTime,
+      horizonEvent: eventInfo.horizonEvent,
+      separationDeg,
+      C,
+      residual: separationDeg - C
+    });
   }
 
-  // IX.8 gives Mercury 12°/14° according to motion; that
-  // requires a separately validated motion-state rule.
-  return NaN;
+  const brackets = [];
+  for (let i = 1; i < samples.length; i++) {
+    const a = samples[i - 1];
+    const b = samples[i];
+    if (b.date.getTime() - a.date.getTime() !== 86400000) continue;
+    if (a.residual === 0 || a.residual * b.residual < 0) {
+      const isAsta = a.residual > 0 && b.residual < 0;
+      const isUdaya = a.residual < 0 && b.residual > 0;
+      brackets.push({
+        before: a,
+        after: b,
+        transition: isAsta ? "Asta" : isUdaya ? "Udaya" : "Exact",
+        matchesRequestedEvent:
+          (ref.event === "Asta" && isAsta) ||
+          (ref.event === "Udaya" && isUdaya)
+      });
+    }
+  }
+
+  return { brackets, method: "apparent ecliptic-longitude separation Δλ vs C" };
+}
+
+function shastriyaC(planet, horizonEvent, motionClass) {
+  /*
+   * Delegate threshold selection to the isolated, unit-tested helper.
+   * The caller must independently classify the horizon geometry; the
+   * generic labels Asta/Udaya alone do not select every Venus branch.
+   */
+  return chapter9Kalansha({ planet, horizonEvent, motionClass });
+}
+
+async function runSameInstantTksSnapshotAudit() {
+  const output = document.getElementById("sameInstantTksAuditOutput");
+  const dateInput = document.getElementById("tksCandidateDate");
+  const timeInput = document.getElementById("tksCandidateTime");
+  const dateValue = dateInput?.value;
+  const timeValue = timeInput?.value;
+  if (!dateValue || !timeValue) {
+    output.innerHTML = '<div class="status error">Select both a date and an IST time before calculating.</div>';
+    return;
+  }
+  const instant = new Date(dateValue + "T" + timeValue + ":00+05:30");
+  if (!Number.isFinite(instant.getTime())) {
+    output.innerHTML = '<div class="status error">The selected local date/time is invalid.</div>';
+    return;
+  }
+  const localLabel = dateValue + " " + timeValue + " IST";
+  const utcLabel = instant.toISOString().slice(0, 19).replace("T", " ") + " UTC";
+  const planetState = getPlanetSiderealState(BODY_NAMES.Venus, instant);
+  const sunState = getPlanetSiderealState(Astronomy.Body.Sun, instant);
+  if (!planetState || !sunState) {
+    output.innerHTML = '<div class="status error">Selected-instant calculation failed: planetary state unavailable.</div>';
+    return;
+  }
+
+  const motion = getPlanetMotion(BODY_NAMES.Venus, instant);
+  const event = classifyChapter9HorizonEvent({
+    planet: "Venus",
+    planetLongitudeDeg: planetState.longitude,
+    sunLongitudeDeg: sunState.longitude,
+    dailyMotionDegPerDay: motion
+  });
+  if (!event) {
+    output.innerHTML = '<div class="status error">Selected-instant calculation failed: event branch is ambiguous.</div>';
+    return;
+  }
+  const direction = event === "west-setting" || event === "west-rising" ? "west" : "east";
+  const current = getLagnantaraDiagnostic(BODY_NAMES.Venus, instant, direction, "current", TKS_CONFIG);
+  const sequential = getLagnantaraDiagnostic(BODY_NAMES.Venus, instant, direction, "sequential", TKS_CONFIG);
+  if (!current || !sequential || !Number.isFinite(current.K) || !Number.isFinite(sequential.K)) {
+    output.innerHTML = '<div class="status error">Selected-instant calculation failed: one or both K candidates are unavailable.</div>';
+    return;
+  }
+
+  // Isolated hypothesis test: carry the local meridian through the complete
+  // modern-to-classical 3-D frame transform (including the equinox rotation),
+  // instead of changing only the obliquity. This is a diagnostic candidate,
+  // not a chosen historical convention and not a production algorithm.
+  let fullFrameMeridian = null;
+  let fullFrameError = "";
+  try {
+    const state = getPlanetSiderealState(BODY_NAMES.Venus, instant);
+    const modernLST = normalize360(Astronomy.SiderealTime(instant) * 15 + TKS_CONFIG.longitude);
+    const modernObliquity = trueObliquityOfDateDeg(instant);
+    const classicalLST = modernLocalSiderealAngleToClassicalFrame({
+      localSiderealAngleDeg: modernLST,
+      sourceObliquityDeg: modernObliquity,
+      ayanamshaDeg: 24.217,
+      classicalObliquityDeg: 24
+    });
+    const corrected = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: state.longitude,
+      planetLatitudeDeg: state.latitude,
+      observerLatitudeDeg: TKS_CONFIG.latitude,
+      localSiderealAngleDeg: classicalLST,
+      localSiderealObliquityDeg: 24,
+      ayanamshaDeg: 24.217,
+      obliquityDeg: 24,
+      planetDeclinationDeg: state.declination,
+      planetRightAscensionDeg: state.rightAscension
+    });
+    if (corrected) {
+      fullFrameMeridian = chapter9LagnantaraAsus({
+        sunSiderealLongitudeDeg: sunState.longitude,
+        planetSiderealLongitudeDeg: corrected.correctedLongitude,
+        direction,
+        observerLatitudeDeg: TKS_CONFIG.latitude,
+        ayanamshaDeg: 24.217,
+        obliquityDeg: 24
+      });
+      fullFrameMeridian.drikkarma = corrected;
+      fullFrameMeridian.classicalLST = classicalLST;
+      fullFrameMeridian.modernLST = modernLST;
+    }
+  } catch (error) {
+    fullFrameError = String(error?.message || error);
+  }
+
+  let swiss = null;
+  let swissError = "";
+  try {
+    const swe = await initSwiss();
+    swiss = calculateSwissStateLagnantara(swe, instant, direction, TKS_CONFIG, swe.SE_VENUS);
+  } catch (error) {
+    swissError = String(error?.message || error);
+  }
+
+  const exactOAAt24 = g => {
+    const sunOA24 = obliqueAscensionWithObliquity(g.sunLon, 24, TKS_CONFIG);
+    const planetOA24 = obliqueAscensionWithObliquity(g.planetLon, 24, TKS_CONFIG);
+    return Math.abs(signedLongitudeDelta(planetOA24, sunOA24));
+  };
+  const exactOA24Current = exactOAAt24(current);
+  const exactOA24Sequential = exactOAAt24(sequential);
+  // These TKS reference values were not captured with a verified matching instant/frame.
+  // Keep them visible as provenance-pending reference only; never compute a same-instant delta.
+  const targetK = 7.698;
+  const targetC = 8;
+  const fmt = value => Number.isFinite(value) ? round(value, 6) + "°" : "—";
+  output.innerHTML = '<div class="status info"><strong>Our candidates calculated at:</strong> ' + localLabel + ' / ' + utcLabel + '; coordinates 29.5830° N, 80.2090° E, 0 m. Supplied TKS figures are reference-only: matching timestamp and coordinate-frame provenance are not yet verified.</div>' +
+    '<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Our current candidate</th><th>Our sequential candidate</th><th>TKS reference (instant/frame unverified)</th></tr></thead><tbody>' +
+    '<tr><td>IX.2–3 event branch</td><td colspan="2">' + event + ' (' + (motion < 0 ? 'retrograde' : 'direct') + ')</td><td>Venus Asta panel</td></tr>' +
+    '<tr><td>Chapter III sign-table K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698° (reference only; instant unverified)</td></tr>' +
+    '<tr><td>Full 3-D meridian-frame candidate K</td><td colspan="2">' + (fullFrameMeridian ? fmt(fullFrameMeridian.K) + ' (Δ vs sequential ' + fmt(fullFrameMeridian.K - sequential.K) + ')' : 'Unavailable') + '</td><td>' + (fullFrameMeridian ? 'Not compared: TKS instant/frame unverified' : fullFrameError || 'Not available') + '</td></tr>' +
+    '<tr><td>Full-frame local sidereal angle</td><td colspan="2">' + (fullFrameMeridian ? fmt(fullFrameMeridian.classicalLST) : '—') + '</td><td>Modern LST: ' + (fullFrameMeridian ? fmt(fullFrameMeridian.modernLST) : '—') + '</td></tr>' +
+    '<tr><td>Swiss Ephemeris K (same geometry)</td><td colspan="2">' + (swiss ? fmt(swiss.K) : 'Unavailable') + '</td><td>' + (swiss ? 'Swiss−AE: ' + fmt(swiss.K - current.K) : swissError || 'Not available') + '</td></tr>' +
+    '<tr><td>Exact analytical oblique-ascension K</td><td>' + fmt(current.exactK) + '</td><td>' + fmt(sequential.exactK) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Exact OA K at classical ε = 24°</td><td>' + fmt(exactOA24Current) + '</td><td>' + fmt(exactOA24Sequential) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Sign-table K minus exact OA K</td><td>' + fmt(current.K - current.exactK) + '</td><td>' + fmt(sequential.K - sequential.exactK) + '</td><td>—</td></tr>' +
+    '<tr><td>Sign-table K vs TKS reference</td><td>Not compared — instant/frame unverified</td><td>Not compared — instant/frame unverified</td><td>Reference only</td></tr>' +
+    '<tr><td>Selected classical limit C</td><td colspan="2">' + fmt(chapter9Kalansha({planet:"Venus", horizonEvent:event, motionClass:motion < 0 ? "retrograde" : "direct-fast"})) + '</td><td>8°</td></tr>' +
+    '<tr><td>Ecliptic-longitude separation</td><td>' + fmt(current.eclipticLongitudeSeparationDeg) + '</td><td>' + fmt(sequential.eclipticLongitudeSeparationDeg) + '</td><td>17.6° (reference only)</td></tr>' +
+    '<tr><td>True 3-D elongation</td><td>' + fmt(current.trueElongationDeg) + '</td><td>' + fmt(sequential.trueElongationDeg) + '</td><td>19.4° (reference only)</td></tr>' +
+    '<tr><td>Raw K before dṛkkarma</td><td>' + fmt(current.rawK) + '</td><td>' + fmt(sequential.rawK) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Āyana dṛkkarma</td><td>' + fmt(current.drikkarma.ayanaDeg) + '</td><td>' + fmt(sequential.drikkarma.ayanaDeg) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Akṣa dṛkkarma</td><td>' + fmt(current.drikkarma.akshaDeg) + '</td><td>' + fmt(sequential.drikkarma.akshaDeg) + '</td><td>Not supplied</td></tr>' +
+    '<tr><td>Corrected planet longitude</td><td>' + fmt(current.drikkarma.correctedLongitude) + '</td><td>' + fmt(sequential.drikkarma.correctedLongitude) + '</td><td>Not supplied</td></tr>' +
+    '</tbody></table></div>' +
+    '<div class="status warn">Interpretation: Swiss Ephemeris is an independent apparent-position input check using the same candidate geometry, not a TKS reproduction. The supplied TKS K/angle values are not a valid same-instant comparison until their timestamp and coordinate frame are confirmed. Do not interpret the displayed values as a measured model error.</div>';
 }
 
 async function runLagnantaraDiagnostic() {
   lagnantaraOutput.innerHTML = '<div class="status info">Calculating TKS-coordinate sunrise/sunset lagnāntara geometry...</div>';
+  const ch7 = runChapter7DrikkarmaTests();
+  document.getElementById("chapter7DrikkarmaTestOutput").innerHTML =
+    '<div class="status ' + (ch7.allPassed ? 'ok' : 'error') + '"><strong>Chapter VII formula checks: ' +
+    ch7.passed + '/' + ch7.total + ' passed.</strong> ' +
+    ch7.tests.map(t => (t.passed ? '✓ ' : '✗ ') + t.name).join(' · ') +
+    '<br><small>' + ch7.note + '</small></div>';
+  const ch3 = runChapter3LagnantaraTests();
+  document.getElementById("chapter3LagnantaraTestOutput").innerHTML =
+    '<div class="status ' + (ch3.allPassed ? 'ok' : 'error') + '"><strong>Chapter III rising-asus checks: ' +
+    ch3.passed + '/' + ch3.total + ' passed.</strong> ' +
+    ch3.tests.map(t => (t.passed ? '✓ ' : '✗ ') + t.name).join(' · ') +
+    '<br><small>' + ch3.note + '</small></div>';
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K (III.43–46)</th><th>Current K</th><th>Sequential K</th><th>Sequential exact-OA K</th><th>Ecliptic Δλ</th><th>3-D elongation</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>IX.10–11 sequential estimate (days)</th><th>Long-range estimate vs daily bracket (days)</th><th>Short-horizon estimate error (days)</th><th>Reference date (comparison only)</th><th>Current K bracket</th><th>Sequential K bracket</th><th>Ecliptic Δλ bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
-    const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
-    const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
-    const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
-    const C = shastriyaC(ref.planet, ref.event);
+    const referenceDate = new Date(ref.date+"T12:00:00Z");
+    const sampleResult = getLagnantaraResidualForDate(ref, referenceDate, "current");
+    const sequentialResult = getLagnantaraResidualForDate(ref, referenceDate, "sequential");
+    const sample = sampleResult?.eventTime || null;
+    const g = sampleResult?.geometry || null;
+    const gs = sequentialResult?.geometry || null;
+    const C = sampleResult?.C ?? NaN;
+    const timeEstimate = sample && gs && Number.isFinite(C)
+      ? getChapter9TimeEstimate(ref.planet, sample, gs, C, TKS_CONFIG, "sequential")
+      : null;
+    const branchLabel = sampleResult
+      ? sampleResult.eventInfo.horizonEvent +
+        (sampleResult.eventInfo.horizonEvent === ref.expectedHorizonEvent ? ' ✓ fixture' : ' ⚠ differs from fixture')
+      : 'Ambiguous/unavailable';
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
+    const angularCrossing = findEclipticAngularThresholdCrossing(ref);
+    const requestedSequentialBracket = sequentialCrossing?.brackets?.find(
+      bracket => bracket.matchesRequestedEvent
+    );
+    let estimateBracketErrorDays = NaN;
+    let shortHorizonEstimateErrorDays = NaN;
+    let interpolatedCrossingTime = NaN;
+    if (requestedSequentialBracket) {
+      const bracket = requestedSequentialBracket;
+      const totalChange = Math.abs(bracket.beforeResidual) + Math.abs(bracket.afterResidual);
+      if (totalChange > 0) {
+        const fraction = Math.abs(bracket.beforeResidual) / totalChange;
+        interpolatedCrossingTime = bracket.before.eventTime.getTime() +
+          fraction * (bracket.after.eventTime.getTime() - bracket.before.eventTime.getTime());
+        if (sample && timeEstimate && Number.isFinite(timeEstimate.estimatedDays)) {
+          const estimatedTime = sample.getTime() +
+            timeEstimate.estimatedDays * 86400000;
+          estimateBracketErrorDays =
+            Math.abs(estimatedTime - interpolatedCrossingTime) / 86400000;
+        }
 
-    html += '<tr class="reference-row">';
+        // Check IX.10–11 from the two daily samples immediately adjacent
+        // to the requested K=C crossing. Keep this separate from the
+        // potentially multi-day extrapolation from the fixture date.
+        const sameClassicalBranch =
+          bracket.before.eventInfo.horizonEvent === ref.expectedHorizonEvent &&
+          bracket.after.eventInfo.horizonEvent === ref.expectedHorizonEvent &&
+          Math.abs(bracket.before.C - bracket.after.C) < 1e-9;
+        if (sameClassicalBranch) {
+          const localErrors = [bracket.before, bracket.after].map(anchor => {
+            const estimate = getChapter9TimeEstimate(
+              ref.planet, anchor.eventTime, anchor.geometry, anchor.C
+            );
+            if (!estimate || !Number.isFinite(estimate.estimatedDays)) return NaN;
+            const predictedTime = anchor.eventTime.getTime() +
+              estimate.estimatedDays * 86400000;
+            return Math.abs(predictedTime - interpolatedCrossingTime) / 86400000;
+          }).filter(Number.isFinite);
+          if (localErrors.length) shortHorizonEstimateErrorDays = Math.min(...localErrors);
+        }
+      }
+    }
+
+    html += '<tr class="reference-row" data-time-estimate-days="' +
+      (timeEstimate && Number.isFinite(timeEstimate.estimatedDays) ? timeEstimate.estimatedDays : '') +
+      '" data-estimate-bracket-error-days="' +
+      (Number.isFinite(estimateBracketErrorDays) ? estimateBracketErrorDays : '') +
+      '" data-short-horizon-error-days="' +
+      (Number.isFinite(shortHorizonEstimateErrorDays) ? shortHorizonEstimateErrorDays : '') + '">';
     html += '<td>'+ref.planet+'</td>';
     html += '<td>'+ref.event+'</td>';
+    html += '<td>'+branchLabel+'</td>';
     html += '<td>'+(sample ? formatLocalFromUTCDate(sample) : "—")+'</td>';
     html += '<td>'+(g ? round(g.rawK,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? round(g.K,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? round(gs.K,4)+"°" : "—")+'</td>';
+    html += '<td>'+(gs ? round(gs.exactK,4)+"°" : "—")+'</td>';
+    html += '<td>'+(g ? round(g.eclipticLongitudeSeparationDeg,4)+"°" : "—")+'</td>';
+    html += '<td>'+(g ? round(g.trueElongationDeg,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? ((g.K-C)>=0?"+":"")+round(g.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
-    html += '<td>'+round(C,2)+'°</td>';
+    html += '<td>'+(Number.isFinite(C) ? round(C,2)+'°' : '—')+'</td>';
+    html += '<td>'+(timeEstimate && Number.isFinite(timeEstimate.estimatedDays)
+      ? (timeEstimate.estimatedDays > 0 ? '+' : '') + round(timeEstimate.estimatedDays,4)
+      : (timeEstimate?.error || '—'))+'</td>';
+    html += '<td>'+(Number.isFinite(estimateBracketErrorDays)
+      ? round(estimateBracketErrorDays,3)
+      : '—')+'</td>';
+    html += '<td>'+(Number.isFinite(shortHorizonEstimateErrorDays)
+      ? round(shortHorizonEstimateErrorDays,3)
+      : '—')+'</td>';
     html += '<td>'+ref.date+'</td>';
     if (crossing && crossing.brackets && crossing.brackets.length) {
       html += '<td>';
@@ -3153,11 +3830,116 @@ async function runLagnantaraDiagnostic() {
     } else {
       html += '<td>No valid daily samples in ±15 days</td>';
     }
+    if (angularCrossing?.brackets?.length) {
+      html += '<td>';
+      angularCrossing.brackets.forEach((bracket, index) => {
+        if (index) html += '<hr>';
+        html += bracket.transition +
+          (bracket.matchesRequestedEvent ? ' ✓ requested event' : ' — other transition') +
+          '<br>' + formatLocalFromUTCDate(bracket.before.eventTime) +
+          ' (Δλ−C=' + round(bracket.before.residual,4) + '°)<br>→ ' +
+          formatLocalFromUTCDate(bracket.after.eventTime) +
+          ' (Δλ−C=' + round(bracket.after.residual,4) + '°)';
+      });
+      html += '</td>';
+    } else {
+      html += '<td>No crossing in ±15 days</td>';
+    }
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="12"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="19"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
+      const estimateMetric = (value) => Number.isFinite(value) ? round(value,6) : "—";
+      html += '<div class="metric"><strong>IX.11 Sun time-motion (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.sunTimeMotionPranasPerDay)+'</span></div>';
+      html += '<div class="metric"><strong>IX.11 planet time-motion (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.planetTimeMotionPranasPerDay)+'</span></div>';
+      html += '<div class="metric"><strong>IX.10 signed K-rate (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.signedKalanshaRatePranasPerDay)+'</span></div>';
+      html += '<div class="metric"><strong>IX.10 target difference (prāṇa)</strong><span>'+estimateMetric(timeEstimate?.differencePranas)+'</span></div>';
+      // Expose every valid daily sample so long-range drift can be traced to
+      // the actual geometry and signed local rate, without changing formulas.
+      const dailySamples = sequentialCrossing?.samples || [];
+      if (dailySamples.length) {
+        html += '<details><summary>Daily IX.10–11 sample audit ('+dailySamples.length+' valid samples)</summary>';
+        html += '<p class="small">One actual sunrise/sunset sample per civil date. “Predicted event” uses the local IX.10–11 estimate from that row. Error is shown only when the row has the same horizon-event branch and the same C threshold as both endpoints of the requested adjacent daily K=C bracket; other rows are not comparable and show —.</p>';
+        html += '<div class="table-wrap"><table><thead><tr><th>Sample date/time</th><th>Branch</th><th>Raw planet longitude (°)</th><th>Corrected planet longitude (°)</th><th>Sun event-frame longitude (°)</th><th>Signed lagnāntara (°)</th><th>K (°)</th><th>C (°)</th><th>K−C (°)</th><th>Sun time-motion (prāṇa/day)</th><th>Planet time-motion (prāṇa/day)</th><th>Corrected planet motion (arcmin/day; diagnostic)</th><th>Signed K-rate IX.10–11 (prāṇa/day)</th><th>Empirical raw-K rate (prāṇa/day)</th><th>Empirical Akṣa-only K-rate (prāṇa/day)</th><th>Empirical Āyana-only K-rate (prāṇa/day)</th><th>Δ Akṣa correction (arcmin/day)</th><th>Δ Āyana correction (arcmin/day)</th><th>Empirical next-sample ΔK/day (prāṇa/day)</th><th>Correction contribution to ΔK/day (prāṇa/day)</th><th>IX.10–11 minus empirical rate</th><th>Event-to-event Sun motion (arcmin/day)</th><th>Event-to-event corrected planet motion (arcmin/day)</th><th>IX.11 rate using event-to-event motion</th><th>Event-motion rate minus empirical K-rate</th><th>IX.11 rate using corrected planet motion</th><th>Corrected-motion rate minus empirical K-rate</th><th>Estimated days</th><th>Predicted event</th><th>Error vs bracket (days)</th></tr></thead><tbody>';
+        dailySamples.forEach((item, sampleIndex) => {
+          const sg = item.geometry;
+          const estimate = getChapter9TimeEstimate(ref.planet,item.eventTime,sg,item.C,TKS_CONFIG,"sequential");
+          const next = dailySamples[sampleIndex + 1];
+          const sameRateBranch = Boolean(
+            next &&
+            next.eventInfo.horizonEvent === item.eventInfo.horizonEvent &&
+            Math.abs(next.C - item.C) < 1e-9 &&
+            Math.sign(next.geometry.signedLagnantaraAsu) === Math.sign(sg.signedLagnantaraAsu)
+          );
+          const elapsedSampleDays = next
+            ? (next.eventTime.getTime() - item.eventTime.getTime()) / 86400000 : NaN;
+          const empiricalRawKRate = sameRateBranch && elapsedSampleDays > 0
+            ? (next.geometry.rawK - sg.rawK) * 60 / elapsedSampleDays : NaN;
+          const empiricalAkshaOnlyKRate = sameRateBranch && elapsedSampleDays > 0
+            ? (next.geometry.akshaOnlyK - sg.akshaOnlyK) * 60 / elapsedSampleDays : NaN;
+          const empiricalAyanaOnlyKRate = sameRateBranch && elapsedSampleDays > 0
+            ? (next.geometry.ayanaOnlyK - sg.ayanaOnlyK) * 60 / elapsedSampleDays : NaN;
+          const akshaCorrectionRateArcminPerDay = sameRateBranch && elapsedSampleDays > 0 &&
+            Number.isFinite(next.geometry.drikkarma?.akshaDeg) &&
+            Number.isFinite(sg.drikkarma?.akshaDeg)
+            ? (next.geometry.drikkarma.akshaDeg - sg.drikkarma.akshaDeg) * 60 / elapsedSampleDays : NaN;
+          const ayanaCorrectionRateArcminPerDay = sameRateBranch && elapsedSampleDays > 0 &&
+            Number.isFinite(next.geometry.drikkarma?.ayanaDeg) &&
+            Number.isFinite(sg.drikkarma?.ayanaDeg)
+            ? (next.geometry.drikkarma.ayanaDeg - sg.drikkarma.ayanaDeg) * 60 / elapsedSampleDays : NaN;
+          const empiricalKRate = sameRateBranch && elapsedSampleDays > 0
+            ? (next.geometry.K - sg.K) * 60 / elapsedSampleDays : NaN;
+          const correctionContributionRate = Number.isFinite(empiricalRawKRate) &&
+            Number.isFinite(empiricalKRate)
+            ? empiricalKRate - empiricalRawKRate : NaN;
+          const analyticVsEmpiricalRate = Number.isFinite(empiricalKRate) &&
+            Number.isFinite(estimate?.signedKalanshaRatePranasPerDay)
+            ? estimate.signedKalanshaRatePranasPerDay - empiricalKRate : NaN;
+          const eventToEventSunMotionArcminPerDay = sameRateBranch
+            ? signedLongitudeDelta(next.geometry.sunLon, sg.sunLon) * 60 / elapsedSampleDays : NaN;
+          const eventToEventPlanetMotionArcminPerDay = sameRateBranch
+            ? signedLongitudeDelta(next.geometry.planetLon, sg.planetLon) * 60 / elapsedSampleDays : NaN;
+          let eventToEventMotionRate = NaN;
+          if (sameRateBranch && Number.isFinite(eventToEventSunMotionArcminPerDay) &&
+              Number.isFinite(eventToEventPlanetMotionArcminPerDay)) {
+            try {
+              eventToEventMotionRate = estimateChapter9TimeCorrectionFromArcMotions({
+                currentKalanshaDeg: sg.K,
+                targetKalanshaDeg: item.C,
+                signedLagnantaraDeg: sg.signedLagnantaraAsu / 60,
+                sunDailyMotionArcminPerDay: eventToEventSunMotionArcminPerDay,
+                planetDailyMotionArcminPerDay: eventToEventPlanetMotionArcminPerDay,
+                sunSignRisingAsus: getSignRisingAsus(sg.sunLon, TKS_CONFIG),
+                planetSignRisingAsus: getSignRisingAsus(sg.planetLon, TKS_CONFIG)
+              }).signedKalanshaRatePranasPerDay;
+            } catch (error) {
+              eventToEventMotionRate = NaN;
+            }
+          }
+          const eventToEventRateVsEmpiricalK = Number.isFinite(empiricalKRate) &&
+            Number.isFinite(eventToEventMotionRate)
+            ? eventToEventMotionRate - empiricalKRate : NaN;
+          const correctedMotionVsEmpiricalRate = Number.isFinite(empiricalKRate) &&
+            Number.isFinite(estimate?.correctedMotionEstimate?.signedKalanshaRatePranasPerDay)
+            ? estimate.correctedMotionEstimate.signedKalanshaRatePranasPerDay - empiricalKRate : NaN;
+          const predictedMs = estimate && Number.isFinite(estimate.estimatedDays)
+            ? item.eventTime.getTime()+estimate.estimatedDays*86400000 : NaN;
+          const comparableToRequestedBracket = Boolean(
+            requestedSequentialBracket &&
+            item.eventInfo.horizonEvent === requestedSequentialBracket.before.eventInfo.horizonEvent &&
+            item.eventInfo.horizonEvent === requestedSequentialBracket.after.eventInfo.horizonEvent &&
+            Math.abs(item.C - requestedSequentialBracket.before.C) < 1e-9 &&
+            Math.abs(item.C - requestedSequentialBracket.after.C) < 1e-9
+          );
+          const errorDays = comparableToRequestedBracket &&
+            Number.isFinite(predictedMs) && Number.isFinite(interpolatedCrossingTime)
+            ? Math.abs(predictedMs-interpolatedCrossingTime)/86400000 : NaN;
+          const val = (v,d=6) => Number.isFinite(v) ? round(v,d) : '—';
+          html += '<tr><td>'+formatLocalFromUTCDate(item.eventTime)+'</td><td>'+item.eventInfo.horizonEvent+'</td><td>'+val(sg.rawPlanetLon)+'</td><td>'+val(sg.planetLon)+'</td><td>'+val(sg.sunLon)+'</td><td>'+val(sg.signedLagnantaraAsu/60)+'</td><td>'+val(sg.K)+'</td><td>'+val(item.C,2)+'</td><td>'+val(item.residual)+'</td><td>'+val(estimate?.sunTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.planetTimeMotionPranasPerDay)+'</td><td>'+val(estimate?.correctedPlanetDailyMotionArcminPerDay)+'</td><td>'+val(estimate?.signedKalanshaRatePranasPerDay)+'</td><td>'+val(empiricalRawKRate)+'</td><td>'+val(empiricalAkshaOnlyKRate)+'</td><td>'+val(empiricalAyanaOnlyKRate)+'</td><td>'+val(akshaCorrectionRateArcminPerDay)+'</td><td>'+val(ayanaCorrectionRateArcminPerDay)+'</td><td>'+val(empiricalKRate)+'</td><td>'+val(correctionContributionRate)+'</td><td>'+val(analyticVsEmpiricalRate)+'</td><td>'+val(eventToEventSunMotionArcminPerDay)+'</td><td>'+val(eventToEventPlanetMotionArcminPerDay)+'</td><td>'+val(eventToEventMotionRate)+'</td><td>'+val(eventToEventRateVsEmpiricalK)+'</td><td>'+val(estimate?.correctedMotionEstimate?.signedKalanshaRatePranasPerDay)+'</td><td>'+val(correctedMotionVsEmpiricalRate)+'</td><td>'+val(estimate?.estimatedDays)+'</td><td>'+(Number.isFinite(predictedMs)?formatLocalFromUTCDate(new Date(predictedMs)):'—')+'</td><td>'+val(errorDays)+'</td></tr>';
+        });
+        html += '</tbody></table></div></details>';
+      }
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun geocentric RA</strong><span>'+round(g.sunRightAscension,6)+'°</span></div>';
@@ -3184,11 +3966,14 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Aksha dṛkkarma</strong><span>'+round(g.drikkarma.akshaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Ayana dṛkkarma</strong><span>'+round(g.drikkarma.ayanaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Total dṛkkarma</strong><span>'+round(g.drikkarma.totalCorrection,6)+'°</span></div>';
-      html += '<div class="metric"><strong>Final lagnāntara (current method)</strong><span>'+round(g.lagnaInterval,6)+'°</span></div>';
+      html += '<div class="metric"><strong>Final lagnāntara K (current method)</strong><span>'+round(g.K,6)+'°</span></div>';
       if (gs) {
         html += '<div class="metric"><strong>Sequential: longitude after Ayana</strong><span>'+round(gs.drikkarma.ayanaAppliedLongitude,6)+'°</span></div>';
-        html += '<div class="metric"><strong>Sequential: RA of intermediate ecliptic point</strong><span>'+round(gs.drikkarma.akshaPointRA,6)+'°</span></div>';
-        html += '<div class="metric"><strong>Sequential: declination of intermediate point</strong><span>'+round(gs.drikkarma.akshaPointDeclination,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: source-frame local sidereal angle</strong><span>'+round(gs.drikkarma.sourceLocalSiderealAngleDeg,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: 24°-frame meridian angle</strong><span>'+round(gs.drikkarma.calculationFrameSiderealAngleDeg,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: frame correction</strong><span>'+round(gs.drikkarma.localSiderealFrameCorrectionDeg,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: planet RA used for Aksha</strong><span>'+round(gs.drikkarma.planetRAForAksha,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Sequential: planet declination used for half-day</strong><span>'+round(gs.drikkarma.planetDeclinationForHalfDay,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: Aksha dṛkkarma</strong><span>'+round(gs.drikkarma.akshaDeg,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: Ayana dṛkkarma</strong><span>'+round(gs.drikkarma.ayanaDeg,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: corrected longitude</strong><span>'+round(gs.drikkarma.correctedLongitude,6)+'°</span></div>';
@@ -3202,8 +3987,8 @@ async function runLagnantaraDiagnostic() {
   html += '<div class="card"><h3>What this test proves</h3><ul>';
   html += '<li>The event is evaluated at the actual local sunrise/sunset rather than an arbitrary 05:30/18:00 sample.</li>';
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
-  html += '<li>The table now compares the original correction calculation against a separate sequential-order experiment: Ayana is applied first, then Aksha is derived from the intermediate ecliptic point.</li>';
-  html += '<li>The sequential experiment is diagnostic only; it does not yet establish a complete classical ephemeris or prove that every modern-coordinate substitution matches the original procedure.</li>';
+  html += '<li>The table compares two explicit Chapter VII candidates. The baseline uses the planet original RA/declination for Aksha; the sequential candidate applies Ayana first and then recomputes the geometry for Aksha. Burgess VII.11 describes a two-stage construction, so neither candidate is declared canonical until its event-time interpretation and coordinate frame are reconciled.</li>';
+  html += '<li>The sequential candidate better reflects the two-stage geometry in Burgess VII.11, but remains diagnostic until Ranganatha commentary, Chapter IX sunrise/sunset anchoring, and a consistent classical coordinate frame are reconciled.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
   html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
@@ -3213,7 +3998,8 @@ async function runLagnantaraDiagnostic() {
   lagnantaraOutput.innerHTML = html;
   runCoordinateFrameSensitivityAudit();
   runJupiterAstaComponentSweep();
-  setStatus("Lagnāntara diagnostic completed; coordinate-frame audit populated and independent Swiss comparison started.", "ok");
+  await runSameInstantTksSnapshotAudit();
+  setStatus("Lagnāntara diagnostic completed; selected-instant Venus candidate, provenance audit, coordinate-frame audit, and independent Swiss comparison populated.", "ok");
 }
 /* =============================================================
    CLASSICAL ASTA / UDAYA DIAGNOSTIC
@@ -3298,11 +4084,11 @@ function runDrikBoundaryAudit() {
   output.innerHTML = `<div class="status info">Observer: Pithoragarh (${CONFIG.latitude}°, ${CONFIG.longitude}°), elevation ${CONFIG.elevation} m. Published local event times are inputs; every angle and altitude below is calculated independently for that instant.</div>
     <div class="table-wrap"><table><thead><tr>
       <th>Planet</th><th>Published boundary</th><th>Local time</th><th>Motion</th>
-      <th>Ecliptic separation</th><th>True 3-D elongation</th><th>Classical C</th>
+      <th>Ecliptic separation</th><th>True 3-D elongation</th><th>Selected threshold (legacy)</th>
       <th>Ecliptic Δ from C</th><th>3-D Δ from C</th><th>Sun altitude</th>
       <th>Planet altitude</th><th>Azimuth difference</th>
     </tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="small">“Δ from C” is calculated separation minus the classical angular threshold (Venus 8° retrograde / 10° direct; Jupiter 11°). Negative values mean the calculated separation is below C. The threshold rule is only a classical comparison and is not assumed to be Drik Panchang’s event criterion.</p>`;
+    <p class="small">“Δ from threshold” is calculated separation minus the selected legacy threshold. Venus is currently assigned 8°/10° by motion state in this diagnostic, which is not the event-direction rule of Sūrya-siddhānta IX.7. Treat all values here as exploratory comparisons, not a validated classical or Drik event criterion.</p>`;
 }
 
 function classicalResidual(geometry, useTrue) {
@@ -3384,9 +4170,284 @@ function classicalCard(ref, label, result, field) {
     "<br>Difference from reference date: " + (diff >= 0 ? "+" : "") + round(diff,4) + " days</span></div>";
 }
 
+function runChapter7FrameSensitivityDiagnostic() {
+  const out = document.getElementById("chapter7FrameSensitivityOutput");
+  // Match the observed Venus sunset-side sample: 2026-10-12 17:42 IST = 12:12 UTC.
+  const date = new Date("2026-10-12T12:12:00Z");
+  const sourceObliquityDeg = trueObliquityOfDateDeg(date);
+  const sourceLST = normalize360(Astronomy.SiderealTime(date) * 15 + CONFIG.longitude);
+  const ayanamshaDeg = 24.217;
+  const classicalObliquityDeg = 24;
+  const rows = [];
+
+  const fmt = v => Number.isFinite(v) ? v.toFixed(6) + "°" : "n/a";
+  const signedDelta = (a, b) => ((a - b + 540) % 360) - 180;
+
+  for (const [label, body] of [
+    ["Sun", Astronomy.Body.Sun],
+    ["Venus", Astronomy.Body.Venus]
+  ]) {
+    const state = getPlanetSiderealState(body, date);
+    if (!state) {
+      rows.push("<tr><td>" + label + "</td><td colspan='4'>State unavailable</td></tr>");
+      continue;
+    }
+
+    // Baseline path: scalar obliquity-only conversion.
+    const baseline = getDrikkarmaCorrectionSequential(body, date, "east", CONFIG);
+
+    // Candidate A: full-vector transform with NO equinox/ayanamsha rotation.
+    // This isolates the obliquity-frame change and should be compared directly
+    // with the scalar baseline before drawing conclusions about ayanamsha.
+    const obliquityOnlyState = inspectModernStateInClassicalFrame({
+      rightAscensionDeg: state.rightAscension,
+      declinationDeg: state.declination,
+      sourceObliquityDeg,
+      ayanamshaDeg: 0,
+      classicalObliquityDeg
+    });
+    const obliquityOnlyLST = modernLocalSiderealAngleToClassicalFrame({
+      localSiderealAngleDeg: sourceLST,
+      sourceObliquityDeg,
+      ayanamshaDeg: 0,
+      classicalObliquityDeg
+    });
+    const obliquityOnly = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: signedDelta(obliquityOnlyState.targetLongitudeDeg, ayanamshaDeg),
+      planetLatitudeDeg: obliquityOnlyState.targetLatitudeDeg,
+      observerLatitudeDeg: CONFIG.latitude,
+      localSiderealAngleDeg: obliquityOnlyLST,
+      localSiderealObliquityDeg: classicalObliquityDeg,
+      ayanamshaDeg,
+      obliquityDeg: classicalObliquityDeg,
+      planetDeclinationDeg: obliquityOnlyState.targetDeclinationDeg,
+      planetRightAscensionDeg: obliquityOnlyState.targetRightAscensionDeg
+    });
+
+    // Candidate B: hold the numerical local sidereal angle fixed while changing
+    // only the ecliptic-to-equatorial obliquity used for the planet. This is
+    // the clean sensitivity requested by the source audit; it is not itself
+    // a claim that modern LST is historically the correct classical angle.
+    const fixedLST = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: signedDelta(obliquityOnlyState.targetLongitudeDeg, ayanamshaDeg),
+      planetLatitudeDeg: obliquityOnlyState.targetLatitudeDeg,
+      observerLatitudeDeg: CONFIG.latitude,
+      localSiderealAngleDeg: sourceLST,
+      localSiderealObliquityDeg: classicalObliquityDeg,
+      ayanamshaDeg,
+      obliquityDeg: classicalObliquityDeg,
+      planetDeclinationDeg: obliquityOnlyState.targetDeclinationDeg,
+      planetRightAscensionDeg: obliquityOnlyState.targetRightAscensionDeg
+    });
+
+    // Candidate C: full vector transform including the assumed equinox rotation.
+    // Its LST necessarily uses that rotated frame too; this is a separate
+    // convention, not a clean test of obliquity alone.
+    const rotatedState = inspectModernStateInClassicalFrame({
+      rightAscensionDeg: state.rightAscension,
+      declinationDeg: state.declination,
+      sourceObliquityDeg,
+      ayanamshaDeg,
+      classicalObliquityDeg
+    });
+    const rotatedLST = modernLocalSiderealAngleToClassicalFrame({
+      localSiderealAngleDeg: sourceLST,
+      sourceObliquityDeg,
+      ayanamshaDeg,
+      classicalObliquityDeg
+    });
+    const rotated = calculateChapter7SequentialDrikkarma({
+      siderealLongitudeDeg: rotatedState.targetLongitudeDeg,
+      planetLatitudeDeg: rotatedState.targetLatitudeDeg,
+      observerLatitudeDeg: CONFIG.latitude,
+      localSiderealAngleDeg: rotatedLST,
+      localSiderealObliquityDeg: classicalObliquityDeg,
+      ayanamshaDeg: 0,
+      obliquityDeg: classicalObliquityDeg,
+      planetDeclinationDeg: rotatedState.targetDeclinationDeg,
+      planetRightAscensionDeg: rotatedState.targetRightAscensionDeg
+    });
+
+    const cases = [
+      ["Scalar baseline", baseline],
+      ["Vector: obliquity + transformed LST", obliquityOnly],
+      ["Vector: obliquity only, LST held fixed", fixedLST],
+      ["Vector: obliquity + equinox rotation", rotated]
+    ];
+    for (const [caseLabel, result] of cases) {
+      const fields = [
+        ["Calculation-frame LST", result?.calculationFrameSiderealAngleDeg],
+        ["Planet RA", result?.planetRAForAksha],
+        ["Planet declination", result?.planetDeclinationForHalfDay],
+        ["Hour angle", result?.hourAngleDeg],
+        ["Half-day angle", result?.halfDayAngleDeg],
+        ["Āyana correction", result?.ayanaDeg],
+        ["Akṣa correction", result?.akshaDeg],
+        ["Total correction", result?.totalCorrection],
+        ["Corrected longitude", result?.correctedLongitude]
+      ];
+      for (const [name, value] of fields) {
+        rows.push("<tr><td>" + label + "</td><td>" + caseLabel + "</td><td>" + name + "</td><td>" + fmt(value) + "</td><td>—</td></tr>");
+      }
+    }
+    rows.push("<tr><td>" + label + "</td><td>Frame deltas</td><td>Vector obliquity-only LST − scalar LST</td><td>" +
+      fmt(signedDelta(obliquityOnly?.calculationFrameSiderealAngleDeg ?? NaN, baseline?.calculationFrameSiderealAngleDeg ?? NaN)) +
+      "</td><td>Should be near zero if both frame conversions are consistent</td></tr>");
+    rows.push("<tr><td>" + label + "</td><td>Frame deltas</td><td>Fixed-LST path − transformed-LST path</td><td>" +
+      fmt(signedDelta(fixedLST?.calculationFrameSiderealAngleDeg ?? NaN, obliquityOnly?.calculationFrameSiderealAngleDeg ?? NaN)) +
+      "</td><td>Isolates the effect of transforming the local meridian angle</td></tr>");
+    rows.push("<tr><td>" + label + "</td><td>Frame deltas</td><td>Equinox-rotated LST − obliquity-only LST</td><td>" +
+      fmt(signedDelta(rotated?.calculationFrameSiderealAngleDeg ?? NaN, obliquityOnly?.calculationFrameSiderealAngleDeg ?? NaN)) +
+      "</td><td>Includes the assumed equinox/ayanamsha rotation</td></tr>");
+  }
+
+  out.innerHTML =
+    "<div class='status info'>Instant: 2026-10-12 17:42 IST (12:12 UTC), matching the Venus sunset-side sample. Fixed CONFIG: Pithoragarh validation point. Compare scalar baseline, transformed-meridian candidate, the same vector with numerical LST held fixed, and the separate equinox-rotated candidate. Assumptions: ayanāṃśa 24.217°, classical obliquity 24°.</div>" +
+    "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Calculation path</th><th>Intermediate</th><th>Value</th><th>Notes</th></tr></thead><tbody>" +
+    rows.join("") + "</tbody></table></div>" +
+    "<div class='status warn'>Interpretation: this is a frame-sensitivity diagnostic, not a historical-frame verdict. The fixed-LST row isolates changing ecliptic obliquity without transforming the local meridian angle; the transformed-LST row applies the separate geometric hypothesis. Neither local-time convention is source-certified. A difference appearing only after equinox rotation is another independent frame assumption. No Chapter IX K or event date is certified.</div>";
+}
+
+function runChapter7ObliquitySensitivityDiagnostic() {
+  const out = document.getElementById("chapter7ObliquitySensitivityOutput");
+  const date = new Date("2026-10-12T06:30:00Z");
+  const sourceObliquityDeg = trueObliquityOfDateDeg(date);
+  const sourceLST = normalize360(Astronomy.SiderealTime(date) * 15 + CONFIG.longitude);
+  const ayanamshaDeg = 24.217;
+  const candidates = [
+    { label: "Rounded classical construction", obliquityDeg: 24 },
+    {
+      label: "Chapter II.28 sine-table value",
+      obliquityDeg: Math.asin(1397 / 3438) * 180 / Math.PI
+    }
+  ];
+  const rows = [];
+  const fmt = v => Number.isFinite(v) ? v.toFixed(6) + "°" : "n/a";
+  const delta = (a, b) => ((a - b + 540) % 360) - 180;
+
+  for (const [bodyName, body] of [
+    ["Sun", Astronomy.Body.Sun],
+    ["Venus", Astronomy.Body.Venus]
+  ]) {
+    const state = getPlanetSiderealState(body, date);
+    if (!state) {
+      rows.push("<tr><td>" + bodyName + "</td><td colspan='4'>State unavailable</td></tr>");
+      continue;
+    }
+    const results = candidates.map(candidate => {
+      const result = calculateChapter7SequentialDrikkarma({
+        siderealLongitudeDeg: state.longitude,
+        planetLatitudeDeg: state.latitude,
+        observerLatitudeDeg: CONFIG.latitude,
+        localSiderealAngleDeg: sourceLST,
+        localSiderealObliquityDeg: sourceObliquityDeg,
+        ayanamshaDeg,
+        obliquityDeg: candidate.obliquityDeg,
+        planetDeclinationDeg: state.declination,
+        planetRightAscensionDeg: state.rightAscension
+      });
+      return { ...candidate, result };
+    });
+    for (const item of results) {
+      const r = item.result;
+      for (const [name, value] of [
+        ["Calculation-frame LST", r?.calculationFrameSiderealAngleDeg],
+        ["Planet RA", r?.planetRAForAksha],
+        ["Planet declination", r?.planetDeclinationForHalfDay],
+        ["Hour angle", r?.hourAngleDeg],
+        ["Half-day angle", r?.halfDayAngleDeg],
+        ["Āyana correction", r?.ayanaDeg],
+        ["Akṣa correction", r?.akshaDeg],
+        ["Total correction", r?.totalCorrection],
+        ["Corrected longitude", r?.correctedLongitude]
+      ]) {
+        rows.push("<tr><td>" + bodyName + "</td><td>" + item.label + " (" +
+          item.obliquityDeg.toFixed(7) + "°)</td><td>" + name + "</td><td>" +
+          fmt(value) + "</td></tr>");
+      }
+    }
+    const a = results[0].result;
+    const b = results[1].result;
+    for (const [name, av, bv] of [
+      ["Δ calculation-frame LST", a?.calculationFrameSiderealAngleDeg, b?.calculationFrameSiderealAngleDeg],
+      ["Δ Āyana correction", a?.ayanaDeg, b?.ayanaDeg],
+      ["Δ Akṣa correction", a?.akshaDeg, b?.akshaDeg],
+      ["Δ total correction", a?.totalCorrection, b?.totalCorrection],
+      ["Δ corrected longitude", a?.correctedLongitude, b?.correctedLongitude]
+    ]) {
+      rows.push("<tr><td>" + bodyName + "</td><td>Difference (sine-table − 24°)</td><td>" +
+        name + "</td><td>" + fmt(name.includes("longitude") ? delta(bv, av) : bv - av) + "</td></tr>");
+    }
+  }
+
+  out.innerHTML =
+    "<div class='status info'>Fixed instant: 2026-10-12 12:00 IST. Same modern geocentric state and 24.217° comparison ayanāṃśa for both candidates. Only the classical obliquity is changed: 24° versus asin(1397/3438) ≈ 23.9751819°.</div>" +
+    "<div class='table-wrap'><table><thead><tr><th>Body</th><th>Candidate</th><th>Intermediate</th><th>Value</th></tr></thead><tbody>" +
+    rows.join("") + "</tbody></table></div>" +
+    "<div class='status warn'>Sensitivity only: this tests the numerical effect of the two obliquity assumptions. Chapter II.28's sine-table value is text-derived, but whether it is the exact obliquity intended for this Chapter VII construction still requires contextual/source review. This does not certify a Chapter IX K or event date.</div>";
+}
+
+function runFrameCompareDiagnostic() {
+  const out = document.getElementById("frameCompareOutput");
+  const date = new Date("2026-10-12T06:30:00Z");
+  const sourceObliquityDeg = trueObliquityOfDateDeg(date);
+  const siderealSourceAngleDeg = normalize360(
+    Astronomy.SiderealTime(date) * 15 + CONFIG.longitude
+  );
+  const siderealTargetAngleDeg = modernLocalSiderealAngleToClassicalFrame({
+    localSiderealAngleDeg: siderealSourceAngleDeg,
+    sourceObliquityDeg,
+    ayanamshaDeg: 24.217,
+    classicalObliquityDeg: 24
+  });
+  const rows = [];
+  for (const [label, body] of [
+    ["Sun", Astronomy.Body.Sun],
+    ["Venus", Astronomy.Body.Venus]
+  ]) {
+    const state = getPlanetSiderealState(body, date);
+    if (!state) {
+      rows.push("<tr><td>" + label + "</td><td colspan='8'>स्थिति उपलब्ध नहीं</td></tr>");
+      continue;
+    }
+    const transformed = inspectModernStateInClassicalFrame({
+      rightAscensionDeg: state.rightAscension,
+      declinationDeg: state.declination,
+      sourceObliquityDeg,
+      ayanamshaDeg: 24.217,
+      classicalObliquityDeg: 24
+    });
+    const sourceVector = transformed.sourceVector;
+    const reconstructedECT = eclipticCoordinatesFromEquatorialVector(
+      sourceVector, sourceObliquityDeg
+    );
+    const lonDelta = ((reconstructedECT.longitudeDeg - state.tropicalLongitude + 540) % 360) - 180;
+    const latDelta = reconstructedECT.latitudeDeg - state.latitude;
+    rows.push("<tr><td>" + label + "</td>" +
+      "<td>" + state.tropicalLongitude.toFixed(6) + "°</td>" +
+      "<td>" + state.latitude.toFixed(6) + "°</td>" +
+      "<td>" + state.rightAscension.toFixed(6) + "°</td>" +
+      "<td>" + state.declination.toFixed(6) + "°</td>" +
+      "<td>" + transformed.targetLongitudeDeg.toFixed(6) + "°</td>" +
+      "<td>" + transformed.targetLatitudeDeg.toFixed(6) + "°</td>" +
+      "<td>" + lonDelta.toFixed(6) + "°</td>" +
+      "<td>" + latDelta.toFixed(6) + "°</td></tr>");
+  }
+  out.innerHTML = "<div class='status info'>Source local meridian angle: " +
+    siderealSourceAngleDeg.toFixed(6) + "°; candidate transformed meridian angle: " +
+    siderealTargetAngleDeg.toFixed(6) + "°. Source true obliquity: " +
+    sourceObliquityDeg.toFixed(6) + "°; target obliquity: 24°; assumed ayanāṃśa: 24.217°.</div>" +
+    "<div class='table-wrap'><table><thead><tr>" +
+    "<th>Body</th><th>ECT longitude</th><th>ECT latitude</th><th>EQD RA</th><th>EQD declination</th>" +
+    "<th>Candidate classical longitude</th><th>Candidate latitude</th>" +
+    "<th>Reconstruction Δlongitude</th><th>Reconstruction Δlatitude</th>" +
+    "</tr></thead><tbody>" + rows.join("") + "</tbody></table></div>" +
+    "<div class='status warn'>Interpretation: near-zero reconstruction deltas validate only the numerical EQD↔ECT reconstruction for this instant. The candidate classical coordinates and transformed meridian depend on explicitly chosen frame parameters; they are not yet source-validated Chapter VII inputs. No K or event date is inferred here.</div>";
+}
+
 async function runClassicalAstaUdayaTest() {
-  classicalOutput.innerHTML = "<div class=\"status info\">Calculating classical threshold crossings...</div>";
-  let html = "<div class=\"status info\">Traditional threshold diagnostic: Venus 10°/8°, Jupiter 11°.</div>";
+  classicalOutput.innerHTML = "<div class=\"status info\">Calculating angular threshold crossings...</div>";
+  let html = "<div class=\"status info\">Legacy angular-threshold hypothesis: Venus 10°/8° by motion state; Jupiter 11°. Not a complete classical implementation.</div>";
   for (const ref of REFERENCES) {
     const e = findClassicalCrossing(ref, false);
     const t = findClassicalCrossing(ref, true);
@@ -3396,7 +4457,7 @@ async function runClassicalAstaUdayaTest() {
     html += "</div></div>";
   }
   classicalOutput.innerHTML = html;
-  setStatus("Classical Asta/Udaya threshold test completed.","ok");
+  setStatus("Angular threshold diagnostic completed; Venus branch remains a legacy hypothesis.","ok");
 }
 
 function findAllClassicalCrossings(ref, useTrue) {
@@ -3813,7 +4874,7 @@ function runExactTimeBoundaryAudit() {
       const deltaLabel = (deltaMinutes >= 0 ? "+" : "") + Math.round(deltaMinutes) + " min";
       const residual = result.g[residualField];
       return "<td>" + label + "<br><strong>" + formatLocalFromUTCDate(result.root) +
-        " IST</strong><br>सीमा: " + round(result.g.threshold,4) + "°" +
+        " IST</strong><br>पुरानी कोणीय परिकल्पना की सीमा (SS IX.7 नहीं): " + round(result.g.threshold,4) + "°" +
         "<br>ग्रह-गति: " + result.g.motionType +
         "<br>सीमा से शेष अंतर: " + round(residual,6) + "°" +
         "<br>संदर्भ से समय-अंतर: " + deltaLabel +
@@ -3830,7 +4891,7 @@ function runExactTimeBoundaryAudit() {
     '<th>ग्रह</th><th>संदर्भ घटना</th><th>प्रकाशित स्थानीय समय</th>' +
     '<th>गणितीय सीमा-संक्रमण (ecliptic)</th><th>गणितीय सीमा-संक्रमण (3-D)</th>' +
     '</tr></thead><tbody>' + rows.join("") + '</tbody></table></div>' +
-    '<p class="small">संदर्भ समय Drik Panchang के Pithoragarh परिणामों से दिए गए परीक्षण-इनपुट हैं। यह ऑडिट उन्हें गणना का उत्तर नहीं मानता।</p>';
+    '<p class="small">संदर्भ समय Drik Panchang के Pithoragarh परिणामों से दिए गए परीक्षण-इनपुट हैं। यह ऑडिट उन्हें गणना का उत्तर नहीं मानता। यहाँ दिखाई गई सीमा पुराने motion-based angular diagnostic से आती है; इसे सूर्यसिद्धान्त IX.7 की घटना-दिशा आधारित C सीमा से न मिलाएँ।</p>';
 }
 
 /* =============================================================
@@ -4006,6 +5067,87 @@ document
   );
 
 document
+  .getElementById("runChapter7FrameSensitivityBtn")
+  .addEventListener("click", () => {
+    try {
+      runChapter7FrameSensitivityDiagnostic();
+      setStatus("Chapter VII frame sensitivity comparison completed. Candidate geometry only; not a validated event date.", "info");
+    } catch (error) {
+      console.error("CHAPTER VII FRAME SENSITIVITY ERROR:", error);
+      document.getElementById("chapter7FrameSensitivityOutput").innerHTML =
+        "<div class='status error'>" + String(error?.message || error) + "</div>";
+      setStatus("Chapter VII frame comparison failed.", "error");
+    }
+  });
+
+document
+  .getElementById("runChapter7FrameSensitivityInlineBtn")
+  .addEventListener("click", () => {
+    try {
+      runChapter7FrameSensitivityDiagnostic();
+      setStatus("Chapter VII frame sensitivity comparison completed. Candidate geometry only; not a validated event date.", "info");
+    } catch (error) {
+      console.error("CHAPTER VII FRAME SENSITIVITY ERROR:", error);
+      document.getElementById("chapter7FrameSensitivityOutput").innerHTML =
+        "<div class='status error'>" + String(error?.message || error) + "</div>";
+      setStatus("Chapter VII frame comparison failed.", "error");
+    }
+  });
+
+document
+  .getElementById("runChapter7ObliquitySensitivityBtn")
+  .addEventListener("click", () => {
+    try {
+      runChapter7ObliquitySensitivityDiagnostic();
+      setStatus("Chapter VII obliquity sensitivity comparison completed. Obliquity parameter only; not a validated historical frame or event date.", "info");
+    } catch (error) {
+      console.error("CHAPTER VII OBLIQUITY SENSITIVITY ERROR:", error);
+      document.getElementById("chapter7ObliquitySensitivityOutput").innerHTML =
+        "<div class='status error'>" + String(error?.message || error) + "</div>";
+      setStatus("Chapter VII obliquity comparison failed.", "error");
+    }
+  });
+
+document
+  .getElementById("runFrameCompareBtn")
+  .addEventListener("click", () => {
+    try {
+      runFrameCompareDiagnostic();
+      setStatus("3-D coordinate-frame comparison completed. Geometry only; not a validated event date.", "info");
+    } catch (error) {
+      console.error("FRAME COMPARISON ERROR:", error);
+      document.getElementById("frameCompareOutput").innerHTML =
+        "<div class='status error'>" + String(error?.message || error) + "</div>";
+      setStatus("3-D coordinate-frame comparison failed.", "error");
+    }
+  });
+
+document
+  .getElementById("runChapter9ArithmeticBtn")
+  .addEventListener("click", () => {
+    const output = document.getElementById("chapter9ArithmeticOutput");
+    try {
+      const result = runChapter9ArithmeticTests();
+      const rows = result.tests.map(test =>
+        '<tr><td>' + test.name + '</td><td>' +
+        (test.passed ? 'PASS' : 'FAIL') + '</td></tr>'
+      ).join("");
+      output.innerHTML =
+        '<div class="status ' + (result.allPassed ? 'ok' : 'error') + '">' +
+        result.passed + '/' + result.total + ' Chapter IX tests passed. ' +
+        result.note + '</div>' +
+        '<div class="table-wrap"><table><thead><tr><th>Test</th><th>Result</th></tr></thead><tbody>' +
+        rows + '</tbody></table></div>';
+      setStatus(result.allPassed
+        ? "Sūrya-siddhānta IX.10 arithmetic unit tests passed; this does not validate the full classical method."
+        : "One or more IX.10 arithmetic unit tests failed.", result.allPassed ? "ok" : "error");
+    } catch (error) {
+      output.innerHTML = '<div class="status error">' + String(error.message || error) + '</div>';
+      setStatus(String(error.message || error), "error");
+    }
+  });
+
+document
   .getElementById("runExactBoundaryAuditBtn")
   .addEventListener("click", () => {
     try {
@@ -4031,6 +5173,10 @@ document
     runLagnantaraDiagnostic
   );
 
+document
+  .getElementById("runElevationHorizonBtn")
+  .addEventListener("click", runElevationHorizonSensitivityAudit);
+
 
 /* =============================================================
    INITIAL
@@ -4038,10 +5184,287 @@ document
 
 renderReferences();
 
+/* =============================================================
+   OPTIONAL RAW TKS API CAPTURE (manual only; never part of CI)
+   ============================================================= */
+
+const rawTksButton = document.getElementById("fetchRawTksBtn");
+const rawTksStatus = document.getElementById("rawTksStatus");
+const rawTksOutput = document.getElementById("rawTksOutput");
+
+// Extract only fields explicitly present in the returned JSON. Keep the
+// complete response_text/response_json untouched as the primary evidence.
+function identifyTksBody(data) {
+  // Prefer explicit response identity fields. The published API docs specify
+  // the request's numeric body parameter but do not guarantee selected_body.
+  const candidates = [
+    ["selected_body", data?.selected_body],
+    ["body_code", data?.body_code],
+    ["body.code", data?.body?.code],
+    ["body.id", data?.body?.id],
+    ["body.body_code", data?.body?.body_code],
+    ["body.name", data?.body?.name],
+    ["body", typeof data?.body === "string" ? data.body : null]
+  ];
+  for (const [path, value] of candidates) {
+    const numeric = typeof value === "number" || (typeof value === "string" && /^\d+$/.test(value.trim()))
+      ? Number(value)
+      : NaN;
+    if (Number.isInteger(numeric) && numeric >= 0) return { code: numeric, path, evidence: value };
+    if (typeof value === "string") {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === "sun" || normalized === "sol") return { code: 10, path, evidence: value };
+      if (normalized === "venus" || normalized === "shukra") return { code: 2, path, evidence: value };
+      if (normalized === "moon" || normalized === "luna" || normalized === "chandra") return { code: 301, path, evidence: value };
+      if (normalized === "mercury" || normalized === "budha") return { code: 1, path, evidence: value };
+      if (normalized === "mars" || normalized === "mangala") return { code: 4, path, evidence: value };
+      if (normalized === "jupiter" || normalized === "guru") return { code: 5, path, evidence: value };
+      if (normalized === "saturn" || normalized === "shani") return { code: 6, path, evidence: value };
+    }
+  }
+  return { code: null, path: null, evidence: null };
+}
+
+function summarizeRawTksFields(value) {
+  const wanted = /time.?scale|julian|j2000|kernel|ephemeris|state.?vector|position|velocity|right.?ascension|declination|ecliptic|longitude|latitude|ayanamsha|ayanamsa|nirayana|sidereal|tropical|apparent|geometric|epoch|frame|equinox|utc|tt|ut1/i;
+  const found = [];
+  const seen = new Set();
+  function walk(node, path, depth) {
+    if (depth > 7 || node == null) return;
+    if (Array.isArray(node)) {
+      node.slice(0, 12).forEach((item, index) => walk(item, path + "[" + index + "]", depth + 1));
+      return;
+    }
+    if (typeof node !== "object") return;
+    for (const [key, child] of Object.entries(node)) {
+      const childPath = path ? path + "." + key : key;
+      if (wanted.test(key) && (child === null || typeof child !== "object")) {
+        const entry = { path: childPath, value: child };
+        const signature = JSON.stringify(entry);
+        if (!seen.has(signature)) { seen.add(signature); found.push(entry); }
+      }
+      if (child && typeof child === "object") walk(child, childPath, depth + 1);
+    }
+  }
+  walk(value, "", 0);
+  return found;
+}
+
+function expectedJulianDateUtcFromLocal(dateText, timeText, offsetHoursEastUtc) {
+  const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateText || "");
+  const timeMatch = /^(\d{2}):(\d{2})(?::(\d{2}))?$/.exec(timeText || "");
+  if (!dateMatch || !timeMatch || !Number.isFinite(offsetHoursEastUtc)) {
+    throw new TypeError("A valid local date, local time, and UTC offset are required.");
+  }
+  const [, year, month, day] = dateMatch.map(Number);
+  const [, hour, minute, secondText] = timeMatch;
+  const second = secondText === undefined ? 0 : Number(secondText);
+  const utcMilliseconds = Date.UTC(year, month - 1, day, Number(hour), Number(minute), second) -
+    offsetHoursEastUtc * 60 * 60 * 1000;
+  return utcMilliseconds / 86400000 + 2440587.5;
+}
+// Expose the pure conversion helper for deterministic headless-browser regression tests.
+window.expectedJulianDateUtcFromLocal = expectedJulianDateUtcFromLocal;
+
+document.getElementById("setFixtureSunsetBtn").addEventListener("click", () => {
+  document.getElementById("rawTksDate").value = "2026-10-12";
+  document.getElementById("rawTksTime").value = "17:42:21";
+  rawTksStatus.className = "status warn";
+  rawTksStatus.textContent = "Loaded the fixture's reported sunset candidate (17:42:21 IST). This is a candidate request time, not proof of the API's horizon convention.";
+});
+
+document.getElementById("setFixtureSunriseBtn").addEventListener("click", () => {
+  document.getElementById("rawTksDate").value = "2026-10-12";
+  document.getElementById("rawTksTime").value = "06:08:39";
+  rawTksStatus.className = "status warn";
+  rawTksStatus.textContent = "Loaded the fixture's reported sunrise candidate (06:08:39 IST). This is a candidate request time, not an independently verified horizon solution.";
+});
+
+rawTksButton.addEventListener("click", async () => {
+  rawTksButton.disabled = true;
+  rawTksStatus.className = "status info";
+  const selectedDate = document.getElementById("rawTksDate").value;
+  const selectedTime = document.getElementById("rawTksTime").value;
+  if (!selectedDate || !selectedTime) {
+    rawTksStatus.className = "status warn";
+    rawTksStatus.textContent = "Select both a local date and local time before requesting.";
+    rawTksButton.disabled = false;
+    return;
+  }
+  rawTksStatus.textContent = "Requesting Sun and Venus for " + selectedDate + " " + selectedTime + " IST (tz=5.5)…";
+  const base = "https://tksephemeris.com/v1/tks/ephemeris";
+  // TKS API docs define time as local time in tz hours east of UTC.
+  // Body codes are numeric: 10 = Sun, 2 = Venus. The previous string labels
+  // ("sun"/"venus") could leave the endpoint on its default body, explaining
+  // the identical payloads; the old request also omitted tz.
+  const common = {
+    date: selectedDate,
+    time: selectedTime,
+    tz: "5.5",
+    place: "Pithoragarh",
+    lat: "29.5830",
+    lon: "80.2090"
+  };
+  const bodyRequests = [{ label: "sun", code: 10 }, { label: "venus", code: 2 }];
+  const captures = [];
+  try {
+    for (const requestedBody of bodyRequests) {
+      const params = new URLSearchParams({ ...common, body: String(requestedBody.code) });
+      const url = base + "?" + params.toString();
+      const record = {
+        body: requestedBody.label,
+        requested_body_code: requestedBody.code,
+        request_url: url,
+        requested_parameters: { ...common, body: requestedBody.code }
+      };
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: { "Accept": "application/json" },
+          cache: "no-store"
+        });
+        record.http_status = response.status;
+        record.http_ok = response.ok;
+        record.response_text = await response.text();
+        try {
+          record.response_json = JSON.parse(record.response_text);
+          record.api_success = record.response_json?.success === true;
+          if (!record.api_success) {
+            record.api_error = record.response_json?.error || "Response does not explicitly confirm success: true.";
+          }
+          record.extracted_candidate_fields = summarizeRawTksFields(record.response_json);
+          const bodyIdentity = identifyTksBody(record.response_json);
+          record.returned_body_code = bodyIdentity.code;
+          record.body_identity_field = bodyIdentity.path;
+          record.body_identity_evidence = bodyIdentity.evidence;
+          record.body_code_matches_request = bodyIdentity.code === null
+            ? null
+            : bodyIdentity.code === requestedBody.code;
+        } catch {
+          record.response_json_parse_error = "Response body was not valid JSON.";
+        }
+      } catch (error) {
+        record.fetch_error = String(error && error.message ? error.message : error);
+        record.note = "A browser fetch error can indicate CORS, network failure, or endpoint unavailability; it does not prove the endpoint itself is down.";
+      }
+      captures.push(record);
+      const selectedDate = document.getElementById("rawTksDate").value;
+      const selectedTime = document.getElementById("rawTksTime").value;
+      const expectedJD = expectedJulianDateUtcFromLocal(selectedDate, selectedTime, 5.5);
+      rawTksOutput.textContent = JSON.stringify({
+        capture: "TKS raw ephemeris; no coordinate conversion or correction applied",
+        requested_local_instant: selectedDate + " " + selectedTime + " IST",
+        request_time_sent: selectedTime + " local time with tz=5.5 (UTC+05:30)",
+        expected_jd_utc: expectedJD,
+        jd_tolerance_seconds: 1,
+        body_codes: { sun: 10, venus: 2 },
+        place: "Pithoragarh",
+        coordinates: { latitude_deg: 29.5830, longitude_deg: 80.2090 },
+        timezone_parameter: "tz=5.5; documented as hours east of UTC",
+        bodies: captures
+      }, null, 2);
+    }
+    const failures = captures.filter(x => !x.http_ok || x.api_success !== true);
+    const sameBodyPayload = captures.length === 2 &&
+      captures[0].response_json && captures[1].response_json &&
+      JSON.stringify(captures[0].response_json) === JSON.stringify(captures[1].response_json);
+    const bodySelectionMismatch = captures.some(record => record.body_code_matches_request === false);
+    const bodySelectionUnverified = captures.length !== 2 ||
+      !captures.every(record => record.body_code_matches_request === true);
+    const expectedJD = expectedJulianDateUtcFromLocal(selectedDate, selectedTime, 5.5);
+    const jdToleranceDays = 1 / 86400; // one second
+    const jdChecks = captures.map(record => {
+      const jd = Number(record.response_json?.time?.jd_utc);
+      record.returned_jd_utc = Number.isFinite(jd) ? jd : null;
+      record.jd_matches_requested_instant = Number.isFinite(jd)
+        ? Math.abs(jd - expectedJD) <= jdToleranceDays
+        : false;
+      return record.jd_matches_requested_instant;
+    });
+    const instantUnverified = jdChecks.length !== 2 || !jdChecks.every(Boolean);
+    const bodyUnverified = sameBodyPayload || bodySelectionUnverified;
+    rawTksStatus.className = failures.length || bodyUnverified || instantUnverified ? "status warn" : "status ok";
+    rawTksStatus.textContent = failures.length
+      ? "At least one response failed HTTP or did not explicitly return success: true. Inspect each raw response; do not treat an error payload as astronomical data."
+      : sameBodyPayload
+        ? "Warning: Sun and Venus responses are identical. Do not compare K until the raw payload and body selection are resolved."
+        : bodySelectionMismatch
+          ? "Warning: the response explicitly identifies a different body from the requested Sun=10 / Venus=2. Do not use this capture."
+          : bodySelectionUnverified
+            ? "Warning: the response does not expose a recognized body-identity field. The numeric request is recorded, but returned-body identity remains unverified."
+            : instantUnverified
+              ? "Warning: the returned JD is missing or differs from 2461325.5416667 by more than one second. These are not yet a verified same-instant comparison."
+              : "Both responses explicitly confirm success, requested body identity and the selected instant within one second. Inspect raw coordinates/frame fields before comparing K.";
+  } finally {
+    rawTksButton.disabled = false;
+  }
+});
+
+/* =============================================================
+   COPY EACH REPORT — research page only
+   ============================================================= */
+async function copyReportText(target, button) {
+  const textToCopy = target.innerText || target.textContent || "";
+  if (!textToCopy.trim()) {
+    const old = button.textContent;
+    button.textContent = "No report data yet";
+    setTimeout(() => { button.textContent = old; }, 1800);
+    return;
+  }
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(textToCopy);
+    } else {
+      const temporary = document.createElement("textarea");
+      temporary.value = textToCopy;
+      temporary.setAttribute("readonly", "");
+      temporary.style.position = "fixed";
+      temporary.style.left = "-9999px";
+      document.body.appendChild(temporary);
+      temporary.select();
+      const copied = document.execCommand("copy");
+      temporary.remove();
+      if (!copied) throw new Error("Browser did not permit clipboard copy");
+    }
+    const old = button.textContent;
+    button.textContent = "Copied ✓";
+    button.setAttribute("aria-live", "polite");
+    setTimeout(() => { button.textContent = old; }, 1800);
+  } catch (error) {
+    const old = button.textContent;
+    button.textContent = "Copy blocked — select report text";
+    button.title = String(error && error.message ? error.message : error);
+    setTimeout(() => { button.textContent = old; }, 2600);
+  }
+}
+
+function installReportCopyButtons() {
+  const targets = Array.from(document.querySelectorAll("[id]")).filter(el =>
+    /Output$/.test(el.id) || el.id === "rawTksOutput"
+  );
+  for (const target of targets) {
+    if (target.dataset.copyReportInstalled === "true") continue;
+    target.dataset.copyReportInstalled = "true";
+    const row = document.createElement("div");
+    row.className = "report-copy-row";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "report-copy-btn";
+    button.textContent = "📋 Copy Report";
+    button.setAttribute("aria-label", "Copy report: " + target.id);
+    button.addEventListener("click", () => copyReportText(target, button));
+    row.appendChild(button);
+    target.parentNode.insertBefore(row, target);
+  }
+}
+
+installReportCopyButtons();
+
 setStatus(
-  "Ready. Click Run All Tests.",
+  "Ready. Click Run All Tests. Raw TKS capture is optional and manual only.",
   "info"
 );
+window.__SS_CH9_DIAGNOSTIC_READY__ = true;
 
 </script>
   <!-- Eruda conditional load -->
