@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>पर्व तारीख़ इंजन — टेस्ट पेज | OurHinduDharm</title>
+<style>
+:root{color-scheme:light;--ink:#342719;--muted:#71665a;--line:#e6d7c3;--paper:#fffaf2;--accent:#81451b}
+*{box-sizing:border-box}body{margin:0;background:#f4efe7;color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Noto Sans Devanagari",sans-serif}
+main{max-width:850px;margin:auto;padding:14px}header,.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px}
+h1{font-size:clamp(22px,5vw,29px);line-height:1.35;margin:0 0 6px}h2{font-size:18px;margin:0 0 9px}.muted{color:var(--muted);font-size:13px}
+.warning{background:#fff1d5;border:1px solid #edcf92;border-radius:10px;padding:11px;margin-top:12px;font-size:13px}
+label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}
+select,input,textarea,button{font:inherit;border:1px solid #d5c5b0;border-radius:9px;padding:10px;width:100%;background:#fff;color:var(--ink)}
+textarea{min-height:240px;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+button{background:var(--accent);color:#fff;font-weight:700;cursor:pointer;margin-top:10px}
+.result{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8f4ed;border-radius:9px;padding:12px;font:13px/1.6 ui-monospace,monospace;min-height:60px}
+.status{font-weight:700}.pill{display:inline-block;background:#eee7dc;border-radius:20px;padding:3px 8px;font-size:12px}
+</style>
+</head>
+<body><main>
+<header>
+<div class="muted">॥ श्री गणेशाय नमः ॥ · OurHinduDharm प्रयोगात्मक सुविधा</div>
+<h1>पर्व तारीख़ इंजन — टेस्ट पेज</h1>
+<div class="muted">यह अलग परीक्षण पेज है। लाइव पंचांग या मासिक व्रत-पर्व पेज में कोई बदलाव नहीं करता।</div>
+<div class="warning"><strong>महत्वपूर्ण:</strong> यह पेज अभी नियम-इंजन को दिए गए परीक्षण डेटा पर जाँचता है। शहर चुनने से वास्तविक खगोलीय गणना नहीं होती; वास्तविक शहर-आधारित तिथि-अंतराल और मुहूर्त का adapter अभी बनना बाकी है। नीचे दिया गया डेटा केवल कृत्रिम उदाहरण है, प्रकाशित पंचांग डेटा नहीं।</div>
+</header>
+<section class="panel">
+<h2>1. परीक्षण चुनें</h2>
+<label for="city">परीक्षण स्थान (अभी केवल लेबल)</label>
+<select id="city"><option>पिथौरागढ़, उत्तराखंड</option><option>दिल्ली, भारत</option><option>मुंबई, भारत</option><option>काठमांडू, नेपाल</option></select>
+<label for="rule">पर्व का नियम</label>
+<select id="rule"><option value="krishna_janmashtami">कृष्ण जन्माष्टमी — निशीथ में अष्टमी</option><option value="rama_navami">राम नवमी — मध्याह्न में नवमी</option><option value="maha_shivaratri">महाशिवरात्रि — निशीथ में चतुर्दशी</option></select>
+<p class="muted">नियम चुनने पर नीचे उसी नियम के अनुरूप कृत्रिम नमूना अपने-आप भरेगा। चाहें तो JSON को संपादित करके अस्पष्टता या त्रुटि के मामले भी जाँचें।</p>
+<label for="fallback">स्थिर तारीख़ (fallback)</label>
+<input id="fallback" type="date" value="2026-08-15">
+<label for="data">टेस्ट डेटा — JSON</label>
+<textarea id="data" spellcheck="false"></textarea>
+<button id="run" type="button">टेस्ट चलाएँ</button>
+</section>
+<section class="panel">
+<h2>2. परिणाम</h2>
+<div id="status" class="status">टेस्ट चलाया नहीं गया।</div>
+<pre id="output" class="result">परिणाम यहाँ दिखेगा।</pre>
+<p id="explain" class="muted">‘candidate’ का अर्थ केवल यह है कि दिए गए नमूना डेटा में एक मैच मिला; यह वास्तविक पर्व-तारीख़ की पुष्टि नहीं है।</p>
+</section>
+<section class="panel">
+<h2>3. असली जाँच के लिए क्या बाकी है?</h2>
+<ul>
+<li>पंचांग लाइब्रेरी से चुने हुए स्थान और तारीख़ के सही स्थानीय तिथि-अंतराल निकालना।</li>
+<li>स्थानीय निशीथ/मध्याह्न काल की शुरुआत और समाप्ति निकालना।</li>
+<li>कम-से-कम तीन भारतीय शहरों में परिणामों को भरोसेमंद पंचांग से मिलाना।</li>
+<li>अस्पष्टता या गणना विफल होने पर पुरानी स्थिर तारीख़ को ही सुरक्षित रखना।</li>
+</ul>
+</section>
+</main>
+<script type="module">
+import { evaluateFestivalDateRule } from "./festival-date-engine.mjs";
+const $=id=>document.getElementById(id);
+function iso(day,hour,minute=0){return day+"T"+String(hour).padStart(2,"0")+":"+String(minute).padStart(2,"0")+":00+05:30";}
+function sample(rule){
+  const tithi=rule==="krishna_janmashtami"?23:rule==="rama_navami"?9:29;
+  const anchor=rule==="rama_navami"?"madhyahna":"nishita";
+  const date=rule==="krishna_janmashtami"?"2026-08-15":rule==="rama_navami"?"2026-03-27":"2026-02-15";
+  const start=anchor==="nishita"?iso(date,23,0):iso(date,11,0);
+  const end=anchor==="nishita"?iso(date,24%24,30):iso(date,13,0);
+  const anchorEnd=anchor==="nishita"?iso(date,23,30):iso(date,13,0);
+  const anchorStart=anchor==="nishita"?iso(date,23,0):iso(date,11,0);
+  return [{date,tithiIntervals:[{tithi,start:iso(date,0),end:iso(date,24%24)}],anchors:{[anchor]:{start:anchorStart,end:anchorEnd}}}];
+}
+function refreshSample(){ $("data").value=JSON.stringify(sample($("rule").value),null,2); }
+$("rule").addEventListener("change",refreshSample);
+$("run").addEventListener("click",()=>{
+ try{
+   const days=JSON.parse($("data").value);
+   const result=evaluateFestivalDateRule($("rule").value,days,{fallbackDate:$("fallback").value||null});
+   $("status").textContent="स्थिति: "+result.status+" · स्थान लेबल: "+$("city").value;
+   $("output").textContent=JSON.stringify(result,null,2);
+   $("explain").textContent=result.status==="candidate"?"एक उम्मीदवार तारीख़ मिली। ध्यान दें: यह कृत्रिम डेटा पर परिणाम है, वास्तविक पंचांग की पुष्टि नहीं।":"एक भरोसेमंद अद्वितीय परिणाम नहीं मिला; fallback तारीख़ सुरक्षित रखी गई है। यह भी केवल दिए गए टेस्ट डेटा का परिणाम है।";
+ }catch(e){$("status").textContent="JSON त्रुटि";$("output").textContent=String(e);$("explain").textContent="JSON का प्रारूप ठीक करें और फिर टेस्ट चलाएँ।";}
+});
+refreshSample();
+</script>
+</body></html>
