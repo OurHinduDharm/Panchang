@@ -7,68 +7,39 @@
   "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
   "events": [
     {
-      "date": "2026-10-02",
-      "dateLabel": "2 अक्टूबर",
-      "title": "गांधी जयंती",
-      "description": "गांधी जयंती भारत में महात्मा गांधी की जयंती के रूप में मनाई जाती है। यह राष्ट्रीय दिवस है, हिंदू व्रत-पर्व नहीं; यदि इस कैलेंडर में रखा जाए तो इसे अलग श्रेणी में दिखाने पर विचार करें। तारीख़/प्रदर्शन की समीक्षा बाकी है।",
-      "category": "जयंती",
-      "reviewStatus": "needs-review"
-    },
-    {
       "date": "2026-10-03",
       "dateLabel": "3 अक्टूबर",
       "title": "मासिक कालाष्टमी",
-      "description": "मासिक कालाष्टमी — तारीख़ स्वीकृत।",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
       "category": "व्रत",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "showReviewStatus": false
     },
     {
       "date": "2026-10-10",
       "dateLabel": "10 अक्टूबर",
       "title": "पितृ विसर्जन अमावस्या",
-      "description": "पितृपक्ष के समापन पर श्राद्ध एवं पितृ-विसर्जन संबंधी जानकारी।",
+      "description": "पितृपक्ष के समापन पर पितरों के निमित्त तर्पण, श्राद्ध और विसर्जन की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a> एवं <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ विसर्जन विधि</a>।",
       "category": "अमावस्या",
+      "reviewStatus": "approved",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/pitri-visarjan.html",
       "articleLabel": "पितृ विसर्जन विधि",
-      "reviewStatus": "existing-site-data-needs-review"
-    },
-    {
-      "date": "2026-10-10",
-      "dateLabel": "10 अक्टूबर",
-      "title": "पितृ विसर्जन अमावास्या",
-      "description": "पितृपक्ष पर <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\">पितृ तर्पण विधि</a> एवं <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\">पितृ विसर्जन विधि</a>",
-      "category": "अमावस्या",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-10",
-      "dateLabel": "10 अक्टूबर",
-      "title": "महालया अमावस्या",
-      "description": "महालया अमावस्या पितृपक्ष के समापन और पितरों के निमित्त तर्पण/श्राद्ध से जुड़ी है। श्राद्ध का निर्णय केवल सामान्य अमावस्या-नाम से नहीं, बल्कि स्थानीय तिथि-व्याप्ति और कर्म के नियमों के अनुसार करें।",
-      "category": "अमावस्या",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-11",
-      "dateLabel": "11 अक्टूबर",
-      "title": "शारदीय नवरात्र प्रारंभ",
-      "description": "शारदीय नवरात्र आश्विन शुक्ल प्रतिपदा से आरम्भ होता है। घटस्थापना के साथ माँ दुर्गा के नौ रूपों की पूजा की जाती है। घटस्थापना का समय स्थानीय सूर्योदय, प्रतिपदा-व्याप्ति तथा आवश्यक हो तो चित्रा नक्षत्र/वैधृति योग के शास्त्रीय नियम देखकर तय करें।",
-      "category": "नवरात्रि",
-      "reviewStatus": "needs-review"
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
     },
     {
       "date": "2026-10-11",
       "dateLabel": "11 अक्टूबर",
       "title": "शारदीय नवरात्र प्रारम्भ",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\">शारदीय नवरात्र प्रारम्भ</a> (आश्विन शुक्ल प्रतिपदा) <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\">घटस्थापना (संपूर्ण विधि)</a>कलश स्थापना मुहूर्त - 06:19 ए एम से 10:12 ए एम तक। अभिजित मुहूर्त - दिन - 11:32 am से 12:18 pm तक | जहाँ तक संभव हो चित्रा नक्षत्र व वैधृति योग टालकर ही कलश स्थापित करें, टालना असंभव हो तो अभिजित मुहूर्त पर करें। घटस्थापन और पूजा के लिए विशेष शुभ समय अपने शहर के अनुसार - <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\">हमारे पंचांग पृष्ठ में जाकर देखें</a> <br/>*<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\"> प्रथमं शैलपुत्री च </a>",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">शारदीय नवरात्र प्रारम्भ</a> (आश्विन शुक्ल प्रतिपदा)। घटस्थापना के साथ प्रतिदिन माँ दुर्गा के नौ रूपों की पूजा की जाती है। <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\" target=\"_blank\" rel=\"noopener noreferrer\">घटस्थापना की संपूर्ण विधि</a>। जहाँ तक संभव हो चित्रा नक्षत्र व वैधृति योग टालकर कलश स्थापित करें; यदि टालना संभव न हो तो परंपरा के अनुसार उपयुक्त मुहूर्त चुनें। घटस्थापन और पूजा के लिए अपने शहर का समय <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\" target=\"_blank\" rel=\"noopener noreferrer\">हमारे पंचांग पृष्ठ</a> पर देखें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">प्रथमं शैलपुत्री च</a>।",
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
       "articleLabel": "शारदीय नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
       "secondaryArticleLabel": "घटस्थापना की संपूर्ण विधि",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "muhurtaRule": "ghata-sthapana",
       "endDate": "2026-10-20",
       "statusText": "नवरात्रि चल रही है"
@@ -76,82 +47,42 @@
     {
       "date": "2026-10-12",
       "dateLabel": "12 अक्टूबर",
-      "title": "नवरात्रि द्वितीया — माँ ब्रह्मचारिणी",
-      "description": "नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। यह तप, संयम और साधना का प्रतीक स्वरूप है। पूजा में पुष्प, दीप, नैवेद्य और दुर्गा-स्मरण अपनी कुल-परंपरा के अनुसार करें।",
+      "title": "शारदीय नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
+      "description": "नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। यह तप, संयम और साधना का प्रतीक स्वरूप है। पूजा में पुष्प, दीप, नैवेद्य और दुर्गा-स्मरण अपनी कुल-परंपरा के अनुसार करें। <strong>द्वितीयं ब्रह्मचारिणी</strong>।",
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
       "articleLabel": "माँ ब्रह्मचारिणी",
-      "reviewStatus": "existing-site-data-needs-review"
-    },
-    {
-      "date": "2026-10-12",
-      "dateLabel": "12 अक्टूबर",
-      "title": "शारदीय नवरात्र द्वितीया - ब्रह्मचारिणी",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">द्वितीयं ब्रह्मचारिणी</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-10-20",
-      "hidePeriod": "true"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-10-13",
       "dateLabel": "13 अक्टूबर",
-      "title": "नवरात्रि तृतीया — माँ चन्द्रघण्टा",
-      "description": "नवरात्रि की तीसरी पूजा।",
+      "title": "शारदीय नवरात्र तृतीया — माँ चन्द्रघण्टा",
+      "description": "नवरात्रि की तीसरी पूजा में माँ चन्द्रघण्टा का स्मरण किया जाता है। <strong>तृतीयं चन्द्रघंटेति</strong>।",
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
       "articleLabel": "माँ चन्द्रघण्टा",
-      "reviewStatus": "existing-site-data-needs-review"
-    },
-    {
-      "date": "2026-10-13",
-      "dateLabel": "13 अक्टूबर",
-      "title": "शारदीय नवरात्र तृतीया - चन्द्रघंटा",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">तृतीयं चन्द्रघंटेति</a> (२४ व २५ सितम्बर)",
-      "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-10-20",
-      "hidePeriod": "true"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-10-14",
       "dateLabel": "14 अक्टूबर",
-      "title": "नवरात्रि चतुर्थी — माँ कूष्माण्डा",
-      "description": "नवरात्रि की चौथी पूजा।",
+      "title": "शारदीय नवरात्र चतुर्थी — माँ कूष्माण्डा",
+      "description": "नवरात्रि की चौथी पूजा में माँ कूष्माण्डा की आराधना की जाती है। <strong>कूष्माण्डेति चतुर्थकम्</strong>।",
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
       "articleLabel": "माँ कूष्माण्डा",
-      "reviewStatus": "existing-site-data-needs-review"
-    },
-    {
-      "date": "2026-10-14",
-      "dateLabel": "14 अक्टूबर",
-      "title": "शारदीय नवरात्र चतुर्थी - कूष्माण्डा",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">कूष्माण्डेति चतुर्थकम्</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-10-20",
-      "hidePeriod": "true"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-10-15",
       "dateLabel": "15 अक्टूबर",
-      "title": "नवरात्रि पंचमी — माँ स्कन्दमाता",
-      "description": "नवरात्रि की पाँचवीं पूजा।",
+      "title": "शारदीय नवरात्र पंचमी — माँ स्कन्दमाता",
+      "description": "नवरात्रि की पाँचवीं पूजा में माँ स्कन्दमाता की आराधना की जाती है। <strong>पंचमं स्कन्दमातेति</strong>।",
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
       "articleLabel": "माँ स्कन्दमाता",
-      "reviewStatus": "existing-site-data-needs-review"
-    },
-    {
-      "date": "2026-10-15",
-      "dateLabel": "15 अक्टूबर",
-      "title": "शारदीय नवरात्र पंचमी - स्कन्दमाता",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">पंचमं स्कन्दमातेति</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-10-20",
-      "hidePeriod": "true"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-10-16",
@@ -164,129 +95,64 @@
     {
       "date": "2026-10-16",
       "dateLabel": "16 अक्टूबर",
-      "title": "नवरात्रि षष्ठी — माँ कात्यायनी",
-      "description": "नवरात्रि की छठी पूजा।",
+      "title": "शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "नवरात्रि की छठी पूजा में माँ कात्यायनी की आराधना की जाती है। <strong>षष्ठं कात्यायनीति च।</strong> अकाल बोधन, बिल्व निमंत्रण षष्ठी।",
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
       "articleLabel": "माँ कात्यायनी",
-      "reviewStatus": "existing-site-data-needs-review"
-    },
-    {
-      "date": "2026-10-16",
-      "dateLabel": "16 अक्टूबर",
-      "title": "शारदीय नवरात्र षष्ठी - कात्यायनी",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च। अकाल बोधन, बिल्व निमंत्रण षष्ठी।",
-      "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-10-20",
-      "hidePeriod": "true"
-    },
-    {
-      "date": "2026-10-17",
-      "dateLabel": "17 अक्टूबर",
-      "title": "एवं १८ अक्टूबर को = शारदीय नवरात्र सप्तमी - कालरात्रि",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a> <br/> १७ अक्टूबर को  मूल नक्षत्र है जो सरस्वती देवी के आवाहन हेतु प्रशस्त है...मूल नक्षत्र में सरस्वती जी का आवाहन करें <br/> १८ अक्टूबर को पूर्वाषाढ़ा नक्षत्र में सरस्वती जी का पूजन करें।",
-      "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-10-20",
-      "hidePeriod": "true"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-10-17",
       "dateLabel": "17–18 अक्टूबर",
-      "title": "नवरात्रि सप्तमी — माँ कालरात्रि",
-      "description": "सप्तमी की तिथि-व्याप्ति 17–18 अक्टूबर बताई गई है; अंतिम व्रत-दिन और पूजा-निर्णय स्थानीय पंचांग से सत्यापित किया जाना बाकी है।",
+      "title": "शारदीय नवरात्र सप्तमी — माँ कालरात्रि",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">सप्तमं कालरात्रि</a>। 17 अक्टूबर को मूल नक्षत्र सरस्वती देवी के आवाहन हेतु प्रशस्त है; मूल नक्षत्र में सरस्वती जी का आवाहन करें। 18 अक्टूबर को पूर्वाषाढ़ा नक्षत्र में सरस्वती जी का पूजन करें।",
       "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "endDate": "2026-10-20",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
-      "articleLabel": "माँ कालरात्रि",
-      "reviewStatus": "needs-review"
+      "articleLabel": "माँ कालरात्रि"
     },
     {
       "date": "2026-10-19",
       "dateLabel": "19 अक्टूबर",
-      "title": "महानवमी",
-      "description": "महानवमी नवरात्रि का नवाँ दिन है। कई परंपराओं में इस दिन दुर्गा-पूजन, हवन और कन्या-पूजन किया जाता है; अनुष्ठान कुलाचार के अनुसार भिन्न हो सकते हैं। यहाँ दर्ज तारीख़ की पुष्टि बाकी है।",
-      "category": "पर्व",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-19",
-      "dateLabel": "19 अक्टूबर",
-      "title": "महाष्टमी",
-      "description": "महाष्टमी नवरात्रि का प्रमुख दिन है। दुर्गा-पूजन, अष्टमी-व्रत और कुछ परंपराओं में संधि-पूजा तथा कन्या-पूजन किया जाता है। अष्टमी की तिथि-व्याप्ति के अनुसार पूजा-दिन की पुष्टि आवश्यक है।",
-      "category": "पर्व",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-19",
-      "dateLabel": "19 अक्टूबर",
-      "title": "महाष्टमी / महानवमी — तिथि-निर्णय की समीक्षा",
-      "description": "पुराने स्रोत में दोनों प्रविष्टियाँ 19 अक्टूबर पर हैं। प्रकाशित सूची में दिखाने से पहले तिथि-व्याप्ति और पूजा-दिन की समीक्षा आवश्यक है।",
-      "category": "समीक्षा आवश्यक",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-19",
-      "dateLabel": "19 अक्टूबर",
-      "title": "शारदीय नवरात्र महानवमी - सिद्धिदात्री",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। <br/>  श्रवण नक्षत्र में सरस्वती विसर्जन।<br/> नवरात्रि हवन।<a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> ⭐नवरात्र पारण(प्रसाद खाकर व्रत खोलना) - उत्तम तो यह है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः ही व्रत खोलें।",
+      "title": "शारदीय नवरात्र महाष्टमी — माँ महागौरी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">महागौरीति चाष्टमम्</a>। उत्तराषाढ़ा नक्षत्र में सरस्वती देवी के निमित्त बलिदान। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भद्रकाली जयन्ती</a>। सन्धि-पूजा का समय अष्टमी-नवमी तिथि-संधि के अनुसार अपने स्थानीय पंचांग से निर्धारित करें। इस दिन और नवमी को कन्या-पूजन का विशेष महत्व है।",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-10-20",
-      "hidePeriod": "true"
+      "reviewStatus": "approved",
+      "endDate": "2026-10-20"
     },
     {
       "date": "2026-10-19",
       "dateLabel": "19 अक्टूबर",
-      "title": "शारदीय नवरात्र महाष्टमी - महागौरी",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a><br/>  <br/>  उत्तराषाढ़ा नक्षत्र में सरस्वती देवी के निमित्त बलिदान।<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\">भद्रकाली जयन्ती</a>* सन्धि पूजा प्रारम्भ १०:२७ ए एम पर, सन्धि पूजा समाप्त ११:१५ ए एम पर। सन्धिपूजा मुहूर्त के अंतर्गत भगवती काली की उपासना करे। इस दिन व नवमी को कन्या पूजन का विशेष महत्व है।)",
+      "title": "शारदीय नवरात्र महानवमी — माँ सिद्धिदात्री",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। श्रवण नक्षत्र में सरस्वती विसर्जन। नवरात्रि हवन। <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>। नवरात्र पारण (प्रसाद खाकर व्रत खोलना) के लिए उत्तम है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः व्रत खोलें।",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-10-20",
-      "hidePeriod": "true"
+      "reviewStatus": "approved",
+      "endDate": "2026-10-20"
     },
     {
       "date": "2026-10-20",
       "dateLabel": "20 अक्टूबर",
       "title": "दशहरा / विजयादशमी",
-      "description": "दुर्गा देवी के निमित्त बलिदान आदि करे। <br/> <b>विजयादशमी </b>- शमी पूजा, शस्त्र पूजन, अपराजिता पूजा, नीलकंठ पक्षी का दर्शन शुभ। शस्त्र आदि का पूजन। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\">कलश आदि का विसर्जन।</a>",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-20",
-      "dateLabel": "20 अक्टूबर",
-      "title": "विजयादशमी / दशहरा",
-      "description": "शमी-पूजन, अपराजिता-पूजन और कलश-विसर्जन संबंधी पर्व। तारीख़ अंतिम प्रकाशन से पहले सत्यापित करें।",
+      "description": "दुर्गा देवी के निमित्त बलिदान आदि की परंपरा है। <strong>विजयादशमी</strong> पर शमी-पूजा, शस्त्र-पूजन, अपराजिता-पूजा और नीलकंठ पक्षी का दर्शन शुभ माना जाता है। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश आदि का विसर्जन</a>।",
       "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
-      "articleLabel": "कलश विसर्जन विधि",
-      "reviewStatus": "existing-site-data-needs-review"
-    },
-    {
-      "date": "2026-10-25",
-      "dateLabel": "25 अक्टूबर",
-      "title": "शरद पूर्णिमा",
-      "description": "शरद पूर्णिमा पर चंद्रमा की पूजा, रात्रि-जागरण और खीर को चाँदनी में रखने की परंपरा है। चंद्रमा के उदय और मध्यरात्रि तक की स्थानीय अवधि देख लें; खीर रखने की परंपरा और सेवन की विधि परिवार/क्षेत्र की मान्यता के अनुसार रखें।",
-      "category": "पूर्णिमा",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-25",
-      "dateLabel": "25 अक्टूबर",
-      "title": "शरद पूर्णिमा / कोजागरी पूर्णिमा",
-      "description": "शरद पूर्णिमा कोजागरी पूर्णिमा के नाम से भी जानी जाती है। कई परिवारों में खीर बनाकर चंद्रमा की रोशनी में रखने और रात्रि-जागरण की परंपरा है; चंद्र-दर्शन/खीर रखने का समय स्थानीय पूर्णिमा-व्याप्ति और परंपरा से तय करें। पर्व की तारीख़ की समीक्षा बाकी है।",
-      "category": "पूर्णिमा",
-      "muhurtaRule": "moonlight-until-midnight",
-      "reviewStatus": "needs-review"
+      "articleLabel": "कलश विसर्जन विधि"
     },
     {
       "date": "2026-10-26",
       "dateLabel": "26 अक्टूबर",
       "title": "कोजागरी पूर्णिमा / शरद पूर्णिमा",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\">कोजागरी पूर्णिमा</a>, <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\">लक्ष्मी - कुबेर पूजन</a> , शरद पूर्णिमा। खीर छत पर रखें। कोजागर पूजा, वाल्मीकि जयंती, मीराबाई जयंती। श्री कार्तिकेय जयन्ती।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">कोजागरी पूर्णिमा</a> और <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी-कुबेर पूजन</a>। खीर को चंद्रमा की चांदनी में रखने की परंपरा है। स्थानीय चंद्रोदय से मध्यरात्रि तक की अवधि अलग से दिखाई जाएगी; पूजा का विशिष्ट मुहूर्त स्थानीय नियम तय होने पर जोड़ा जाएगा। वाल्मीकि जयंती, मीराबाई जयंती और श्री कार्तिकेय जयन्ती भी इसी प्रविष्टि में उल्लिखित हैं।",
       "category": "पूर्णिमा",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html",
+      "articleLabel": "कोजागरी पूर्णिमा व्रत",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/lakshmi.html",
+      "secondaryArticleLabel": "लक्ष्मी-कुबेर पूजन",
+      "muhurtaRule": "moonlight-until-midnight"
     },
     {
       "date": "2026-10-27",
@@ -294,23 +160,17 @@
       "title": "कार्तिक मास प्रारंभ",
       "description": "कार्तिक मास प्रारंभ - मान्यता है कि केवल कार्तिक मास में चातुर्मास के नियमों का आचरण करने से भी चातुर्मास्य व्रत का उत्तम फल प्राप्त होता है। कार्तिक मास में की गई पूजाएं, मन्त्रात्मक, स्तोत्रात्मक साधनाएं उत्तम फल देती हैं।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-10-29",
       "dateLabel": "29 अक्टूबर",
-      "title": "करवा चौथ",
-      "description": "करवा चौथ का व्रत कई उत्तर भारतीय परंपराओं में विवाहित महिलाएँ पति के मंगल और दीर्घायु की कामना से रखती हैं। चंद्र-दर्शन और अर्घ्य का समय नगर के अनुसार बदलता है; व्रत की तारीख़ स्थानीय पंचांग से जाँचनी है।",
-      "category": "पर्व",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-29",
-      "dateLabel": "29 अक्टूबर",
-      "title": "करवाचौथ",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\">करवाचौथ</a>",
+      "title": "कार्तिक कृष्ण चतुर्थी — करकचतुर्थी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\" rel=\"noopener noreferrer\">करवा चौथ व्रत</a> विवाहित महिलाएँ पति के मंगल और दीर्घायु की कामना से रखती हैं। चंद्रमा को अर्घ्य देकर व्रत खोलें। चंद्र-दर्शन और अर्घ्य का स्थानीय समय स्थान के अनुसार बदलता है।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
+      "articleLabel": "करवा चौथ व्रत-विधि"
     }
   ]
 }
