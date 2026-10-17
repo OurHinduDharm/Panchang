@@ -31,7 +31,7 @@ button{background:var(--accent);color:#fff;font-weight:700;cursor:pointer;margin
 <label for="city">परीक्षण स्थान (अभी केवल लेबल)</label>
 <select id="city"><option>पिथौरागढ़, उत्तराखंड</option><option>दिल्ली, भारत</option><option>मुंबई, भारत</option><option>काठमांडू, नेपाल</option></select>
 <label for="rule">पर्व का नियम</label>
-<select id="rule"><option value="krishna_janmashtami">कृष्ण जन्माष्टमी — निशीथ में अष्टमी</option><option value="rama_navami">राम नवमी — मध्याह्न में नवमी</option><option value="maha_shivaratri">महाशिवरात्रि — निशीथ में चतुर्दशी</option></select>
+<select id="rule"><option value="krishna_janmashtami">कृष्ण जन्माष्टमी — निशीथ में अष्टमी</option><option value="rama_navami">राम नवमी — मध्याह्न में नवमी</option><option value="maha_shivaratri">महाशिवरात्रि — निशीथ में चतुर्दशी</option><option value="masik_kalashtami">मासिक कालाष्टमी — निशीथ में कृष्ण अष्टमी</option><option value="ekadashi_smarta">एकादशी — स्मार्त नियम (अभी लंबित)</option><option value="ekadashi_vaishnava">एकादशी — वैष्णव नियम (अभी लंबित)</option></select>
 <p class="muted">नियम चुनने पर नीचे उसी नियम के अनुरूप कृत्रिम नमूना अपने-आप भरेगा। चाहें तो JSON को संपादित करके अस्पष्टता या त्रुटि के मामले भी जाँचें।</p>
 <label for="fallback">स्थिर तारीख़ (fallback)</label>
 <input id="fallback" type="date" value="2026-08-15">
@@ -61,9 +61,10 @@ const $=id=>document.getElementById(id);
 function iso(day,hour,minute=0){return day+"T"+String(hour).padStart(2,"0")+":"+String(minute).padStart(2,"0")+":00+05:30";}
 function nextDay(day){const d=new Date(day+"T12:00:00Z");d.setUTCDate(d.getUTCDate()+1);return d.toISOString().slice(0,10);}
 function sample(rule){
-  const tithi=rule==="krishna_janmashtami"?23:rule==="rama_navami"?9:29;
+  if(rule==="ekadashi_smarta"||rule==="ekadashi_vaishnava") return [];
+  const tithi=rule==="rama_navami"?9:23;
   const anchor=rule==="rama_navami"?"madhyahna":"nishita";
-  const date=rule==="krishna_janmashtami"?"2026-08-15":rule==="rama_navami"?"2026-03-27":"2026-02-15";
+  const date=rule==="krishna_janmashtami"?"2026-08-15":rule==="rama_navami"?"2026-03-27":rule==="masik_kalashtami"?"2026-10-10":"2026-02-15";
   const intervalStart=anchor==="nishita"?iso(date,20):iso(date,8);
   const intervalEnd=anchor==="nishita"?iso(nextDay(date),3):iso(date,16);
   const anchorStart=anchor==="nishita"?iso(date,23):iso(date,11);
@@ -78,7 +79,7 @@ $("run").addEventListener("click",()=>{
    const result=evaluateFestivalDateRule($("rule").value,days,{fallbackDate:$("fallback").value||null});
    $("status").textContent="स्थिति: "+result.status+" · स्थान लेबल: "+$("city").value;
    $("output").textContent=JSON.stringify(result,null,2);
-   $("explain").textContent=result.status==="candidate"?"एक उम्मीदवार तारीख़ मिली। ध्यान दें: यह कृत्रिम डेटा पर परिणाम है, वास्तविक पंचांग की पुष्टि नहीं।":"एक भरोसेमंद अद्वितीय परिणाम नहीं मिला; fallback तारीख़ सुरक्षित रखी गई है। यह भी केवल दिए गए टेस्ट डेटा का परिणाम है।";
+   $("explain").textContent=result.status==="rule-pending"?"यह नियम अभी लागू नहीं है। एकादशी के लिए स्मार्त/वैष्णव भेद, दशमी-वेध और महाद्वादशी जाँच जोड़ना बाकी है।":"एक उम्मीदवार तारीख़ मिलने पर भी यह केवल कृत्रिम डेटा का परिणाम है, वास्तविक पंचांग की पुष्टि नहीं। अस्पष्टता या गणना विफल होने पर fallback तारीख़ सुरक्षित रखी जाती है।";
  }catch(e){$("status").textContent="JSON त्रुटि";$("output").textContent=String(e);$("explain").textContent="JSON का प्रारूप ठीक करें और फिर टेस्ट चलाएँ।";}
 });
 refreshSample();
