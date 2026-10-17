@@ -62,3 +62,23 @@ The residual's local change is now compared with the IX.10–11 predicted rate. 
 - Do not modify `app.js` or production `extra-panchang.js` for this research step.
 - Do not label the preliminary angular-threshold dates as verified classical event dates.
 - Keep the 0°/360° branch question separate from this time-estimate investigation.
+
+
+## Follow-up: raw K versus corrected K rate (17 Oct 2026)
+
+The browser audit was extended to compare the adjacent-sample rate of (K) before dṛkkarma with the rate after dṛkkarma. In the Venus Udaya sequence, the 30 Oct 2026 sunrise sample gives:
+
+| Quantity | Measured value |
+|---|---:|
+| IX.10–11 analytical signed K-rate | 108.642626 prāṇa/day |
+| Empirical raw-K rate, before dṛkkarma | 107.855836 prāṇa/day |
+| Empirical corrected-K rate | 115.407269 prāṇa/day |
+| Corrected minus raw empirical K-rate | +7.551432 prāṇa/day |
+| Analytical minus raw empirical rate | +0.786790 prāṇa/day |
+| Analytical minus corrected empirical rate | −6.764642 prāṇa/day |
+
+This is the strongest current localization of the Venus discrepancy: at this sample, the analytical rate is much closer to the empirical **raw-K** rate than to the corrected-K rate. The day-to-day correction contribution (+7.551432 prāṇa/day in K-space) accounts numerically for most of the observed gap. This supports investigating the time derivative of dṛkkarma, but does not by itself prove that the classical text requires adding such a derivative to IX.11. The measured raw/corrected K difference is nonlinear geometry, so it must not be treated as a direct sum of longitude-correction rates.
+
+A second diagnostic now reports the day-to-day changes in Akṣa and Āyana correction separately (arcminutes/day), alongside the combined correction contribution to K-rate. That newest split-component run is pending CI; no conclusion about which component dominates is recorded until its browser output is checked.
+
+Validation status: the preceding raw-versus-corrected rate instrumentation passed headless Chromium and the production-file guard. The current component-split instrumentation remains research-only and must pass CI before its numbers are accepted.
