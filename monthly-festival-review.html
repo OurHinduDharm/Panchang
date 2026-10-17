@@ -51,7 +51,7 @@ textarea{resize:vertical;min-height:88px;line-height:1.5}
     <li>तारीख़ और पर्व-निर्णय की जाँच करें।</li>
     <li>स्थिति चुनें: <b>जाँच बाकी</b>, <b>सही</b>, <b>तारीख़ सुधारें</b> या <b>सूची से हटाएँ</b>।</li>
     <li>गलत तारीख़ हो तो सही तारीख़ और पर्व का नाम दर्ज करें।</li>
-    <li><b>मेरे निर्देश / लिखने का सुझाव</b> में आप साफ़ लिख सकते हैं कि इस पर्व के कार्ड या विवरण में क्या लिखना है, क्या सुधारना है, या कौन-सी बात जोड़नी/हटानी है। ये निजी समीक्षा-नोट रहेंगे, सार्वजनिक पर्व-विवरण में अपने-आप नहीं जुड़ेंगे।</li>
+    <li><b>मेरे निर्देश / यहाँ क्या लिखना है?</b> में बताइए कि इस पर्व के कार्ड या विवरण में क्या लिखना है, क्या सुधारना है, या कौन-सी बात जोड़नी/हटानी है। ये निजी समीक्षा-नोट रहेंगे; सार्वजनिक पर्व-विवरण में अपने-आप नहीं जुड़ेंगे। लिखते ही नोट इसी ब्राउज़र में सेव होता है।</li>
     <li>सभी प्रविष्टियाँ देखने के बाद <b>समीक्षा JSON डाउनलोड करें</b> दबाएँ। डाउनलोड की हुई फ़ाइल मुझे/रिपॉज़िटरी में साझा करनी होगी; केवल डाउनलोड करने से लाइव साइट नहीं बदलेगी।</li>
   </ol>
   पिछली समीक्षा इसी ब्राउज़र में सुरक्षित रहती है। दूसरे मोबाइल/ब्राउज़र पर यह अपने-आप नहीं आएगी।
@@ -64,7 +64,7 @@ const $=id=>document.getElementById(id);
 let sourceData=null;
 const storageKey=()=> "ohd-month-review-"+$("year").value+"-"+$("month").value;
 function readSaved(){try{return JSON.parse(localStorage.getItem(storageKey())||"{}")}catch(_){return {}}}
-function saveSaved(data){try{localStorage.setItem(storageKey(),JSON.stringify(data));$("summary").textContent="समीक्षा इस ब्राउज़र में सेव हो गई है।"}catch(_){$("summary").textContent="ब्राउज़र में सेव नहीं हो पाया; JSON डाउनलोड करना न भूलें।"}}
+function saveSaved(data){try{localStorage.setItem(storageKey(),JSON.stringify(data))}catch(_){/* JSON export remains available as a manual backup. */}}
 function el(tag,cls,txt){const n=document.createElement(tag);if(cls)n.className=cls;if(txt!=null)n.textContent=txt;return n}
 function render(){
  const root=$("cards");root.replaceChildren();
