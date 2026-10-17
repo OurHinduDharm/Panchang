@@ -96,5 +96,7 @@ test("monthly preview stays clearly marked as a non-production draft with workin
   const review = readFileSync(resolve(root, "monthly-festival-review.html"), "utf8");
   assert.match(review, /event-description/);
   assert.match(review, /इस तारीख़ पर/);
+  assert.match(review, /मेरे निर्देश \/ यहाँ क्या लिखना है/);
+  assert.match(review, /instruction:r\.instruction/);
   assertInlineScriptsParse(review, "monthly-festival-review.html");
 });
