@@ -316,14 +316,14 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       small.textContent=Number.isNaN(dateObj.getTime())?"":["रवि","सोम","मंगल","बुध","गुरु","शुक्र","शनि"][dateObj.getDay()];
       date.appendChild(small);card.appendChild(date);
 
-      card.dataset.search=[item.title,item.description,item.category].join(" ");
+      card.dataset.search=[item.title,item.hinduTithi,item.description,item.category].join(" ");
       card.dataset.category=String(item.category||"");
       var content=document.createElement("div");content.className="content";
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent="हिंदू तिथि: "+item.hinduTithi;content.appendChild(tithi);}
       if(item.description){var desc=document.createElement("div");desc.className="desc";renderDescription(desc,item.description);content.appendChild(desc);}
-      appendMuhurta(item,String(item.date||""),content,token);
+      appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       appendFestivalImage(item,content,token);
       var links=document.createElement("div");links.className="links";
       var mainLink=makeLink(item.articleUrl,item.articleLabel);
