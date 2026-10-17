@@ -231,9 +231,11 @@ try {
       !item.headers.includes("Empirical next-sample ΔK/day (prāṇa/day)") ||
       !item.headers.includes("Correction contribution to ΔK/day (prāṇa/day)") ||
       !item.headers.includes("IX.10–11 minus empirical rate") ||
+      !item.headers.includes("IX.11 rate using corrected planet motion") ||
+      !item.headers.includes("Corrected-motion rate minus empirical K-rate") ||
       !item.headers.includes("Predicted event") ||
       !item.headers.includes("Error vs bracket (days)") ||
-      item.firstRow.length !== 23 ||
+      item.firstRow.length !== 25 ||
       !item.bracketErrors.some(value => Number.isFinite(Number(value)) && value !== "") ||
       !item.bracketErrors.some(value => value === "—")
   )) {
