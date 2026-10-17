@@ -73,7 +73,7 @@ function extractInlineScripts(html) {
     const start = lower.indexOf("<script", cursor);
     if (start < 0) break;
     const afterName = lower[start + 7];
-    if (afterName && afterName !== ">" && !/\\s/.test(afterName)) {
+    if (afterName && afterName !== ">" && !/\s/.test(afterName)) {
       cursor = start + 7;
       continue;
     }
@@ -83,7 +83,7 @@ function extractInlineScripts(html) {
     const closeStart = lower.indexOf("</script", openEnd + 1);
     if (closeStart < 0) break;
     const closeAfterName = lower[closeStart + 8];
-    if (closeAfterName && closeAfterName !== ">" && !/\\s/.test(closeAfterName)) {
+    if (closeAfterName && closeAfterName !== ">" && !/\s/.test(closeAfterName)) {
       cursor = closeStart + 8;
       continue;
     }
