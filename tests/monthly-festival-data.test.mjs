@@ -151,3 +151,42 @@ test("October 2026 reviewed events preserve article links and private review not
     assert.equal(Object.hasOwn(event, "instruction"), false, "private review instruction must not be public");
   }
 });
+
+
+test("2026 lunar tithi labels and all monthly Kalashtami dates are present", () => {
+  const months = Array.from({ length: 12 }, (_, index) => index + 1);
+  const events = months.flatMap(month => {
+    const file = resolve(root, "data", "festivals", `2026-${String(month).padStart(2, "0")}.json`);
+    return JSON.parse(readFileSync(file, "utf8")).events;
+  });
+  const expectedKalashtami = [
+    "2026-01-10", "2026-02-09", "2026-03-11", "2026-04-10",
+    "2026-05-09", "2026-06-08", "2026-07-07", "2026-08-05",
+    "2026-09-04", "2026-10-03", "2026-11-01", "2026-12-01",
+    "2026-12-30"
+  ];
+  for (const date of expectedKalashtami) {
+    const event = events.find(item => item.date === date && /कालाष्टमी/.test(item.title || ""));
+    assert.ok(event, `missing Kalashtami entry for ${date}`);
+    assert.ok(event.hinduTithi, `missing Hindu tithi for Kalashtami on ${date}`);
+    assert.match(event.description || "", /रात्रिव्यापिनी अष्टमी/);
+    assert.ok(event.articleUrl);
+    assert.equal(event.showReviewStatus, false);
+  }
+  const lunarTithiInTitle = /(एकादशी|पूर्णिमा|अमावस्या|अमावास्या|अष्टमी|नवमी|चतुर्थी|पंचमी|षष्ठी|सप्तमी|द्वादशी|त्रयोदशी|चतुर्दशी|प्रतिपदा|तृतीया|द्वितीया)/;
+  for (const event of events) {
+    if (lunarTithiInTitle.test(event.title || "")) {
+      assert.ok(event.hinduTithi, `missing Hindu tithi: ${event.date} ${event.title}`);
+    }
+  }
+  const exactKeys = events.map(event => `${event.date}|${event.title}`);
+  assert.equal(new Set(exactKeys).size, exactKeys.length, "exact date/title duplicates should be consolidated");
+  assert.ok(events.some(event => event.date === "2026-01-14" && event.title === "षट्तिला एकादशी" && event.hinduTithi === "माघ कृष्ण एकादशी"));
+  assert.ok(events.some(event => event.date === "2026-06-24" && event.title === "बटुक भैरव जयंती" && event.hinduTithi === "ज्येष्ठ शुक्ल दशमी"));
+  assert.ok(events.some(event => event.date === "2026-09-17" && event.title === "श्री बलराम जयंती" && event.hinduTithi === "भाद्रपद शुक्ल षष्ठी"));
+  assert.ok(events.some(event => event.date === "2026-10-06" && event.title === "इंदिरा एकादशी"));
+  assert.ok(events.some(event => event.date === "2026-10-22" && event.title === "पापांकुशा एकादशी"));
+  assert.ok(events.some(event => event.date === "2026-11-20" && event.title === "कंस वध"));
+  const page = readFileSync(resolve(root, "monthly-vrat-parv.html"), "utf8");
+  assert.match(page, /dateObj\.getDay\(\)/, "weekday should be derived from the actual date");
+});
