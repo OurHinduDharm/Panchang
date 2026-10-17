@@ -2,11 +2,14 @@
 
 **Status: experimental; not wired into the public monthly page or live Panchang.**
 
-This prototype separates observance-date rules from the existing `festival-muhurta.js` module. It accepts local Panchang intervals as input and evaluates three pilot rules:
+This prototype separates observance-date rules from the existing `festival-muhurta.js` module. It accepts local Panchang intervals as input and evaluates four pilot rules:
 
 - Krishna Janmashtami: Ashtami present at local Nishita.
 - Rama Navami: Navami present at local Madhyahna.
 - Maha Shivaratri: Chaturdashi present at local Nishita.
+- Masik Kalashtami: Krishna Paksha Ashtami present at local Nishita (experimental rule; compare city-wise with reviewed Panchangs).
+
+Ekadashi is listed in the test page but intentionally remains `rule-pending`: Smarta/Vaishnava observance needs dedicated handling for sunrise, Dashami-vedha and Mahadvadashi instead of a simplistic single-anchor rule.
 
 ## Safety behaviour
 
