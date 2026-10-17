@@ -28,7 +28,8 @@
       "title": "हनुमान जयंती / चैत्र पूर्णिमा",
       "description": "पूर्णिमा पर स्नान, दान, जप और चंद्र-दर्शन/पूजन की परंपरा है। व्रत या स्नान का निर्णय स्थानीय पूर्णिमा-व्याप्ति और क्षेत्रीय परंपरा के अनुसार करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा"
     },
     {
       "date": "2026-04-10",
@@ -39,7 +40,8 @@
       "reviewStatus": "needs-review",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी"
     },
     {
       "date": "2026-04-13",
@@ -47,7 +49,8 @@
       "title": "वरुथिनी एकादशी",
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख कृष्ण एकादशी"
     },
     {
       "date": "2026-04-14",
@@ -87,7 +90,8 @@
       "title": "अक्षय तृतीया",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\">अक्षय तृतीया</a>",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
     },
     {
       "date": "2026-04-19",
@@ -95,7 +99,8 @@
       "title": "अक्षय तृतीया / परशुराम जयंती",
       "description": "अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है। कई परंपराओं में भगवान विष्णु/परशुराम की उपासना होती है; पूजा और दान अपनी परंपरा के अनुसार करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
     },
     {
       "date": "2026-04-19",
@@ -135,7 +140,8 @@
       "title": "गंगा सप्तमी",
       "description": "गंगा सप्तमी माँ गंगा के पृथ्वी पर पुनः प्राकट्य/अवतरण से जुड़ी मानी जाती है। गंगा-पूजन, स्नान, अर्घ्य और दान की परंपरा है; अनुष्ठान क्षेत्रानुसार होते हैं। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल सप्तमी"
     },
     {
       "date": "2026-04-24",
@@ -151,7 +157,8 @@
       "title": "भगवती सीता जी जयन्ती (जानकी नवमी)",
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\"> भगवती सीता जी की जयन्ती | श्री जानकी नवमी | श्री सीता नवमी</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल नवमी"
     },
     {
       "date": "2026-04-25",
@@ -159,7 +166,8 @@
       "title": "सीता नवमी",
       "description": "सीता नवमी माता सीता के प्राकट्य-स्मरण का पर्व है। सीता-राम पूजन, रामायण-पाठ और दान की परंपरा है; नवमी-व्याप्ति के अनुसार तिथि की पुष्टि करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल नवमी"
     },
     {
       "date": "2026-04-27",
@@ -167,7 +175,8 @@
       "title": "मोहिनी एकादशी",
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल एकादशी"
     },
     {
       "date": "2026-04-30",
@@ -183,7 +192,8 @@
       "title": "श्री नृसिंह अवतार जयन्ती, श्री छिन्नमस्ता महाविद्या जयन्ती, श्री शरभ अवतार जयंती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html\" target=\"_blank\">श्री नृसिंह अवतार जयन्ती, श्री नृसिंहचतुर्दशी व्रत</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Chhinnamastika-On-ChhinnamastaJayanti.html\" target=\"_blank\">श्री छिन्नमस्ता महाविद्या जयन्ती</a>, श्री शरभ अवतार जयंती। भगवत्प्रेरणा से यह blog 2013 में इसी दिन वैशाख शुक्ल चतुर्दशी को बना था।",
       "category": "जयंती",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल चतुर्दशी"
     }
   ]
 }
