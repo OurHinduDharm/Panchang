@@ -10,9 +10,9 @@ function day(date, tithi, start, end, anchorName, anchorStart, anchorEnd) {
   };
 }
 
-test("pilot rules are limited to the three agreed festivals", () => {
+test("pilot rules include the three initial festivals and Masik Kalashtami", () => {
   assert.deepEqual(getFestivalDateRuleIds().sort(), [
-    "krishna_janmashtami", "maha_shivaratri", "rama_navami"
+    "krishna_janmashtami", "maha_shivaratri", "masik_kalashtami", "rama_navami"
   ]);
 });
 
@@ -34,6 +34,13 @@ test("Rama Navami requires Navami at local Madhyahna, not merely at noon UTC", (
   const result = evaluateFestivalDateRule("rama_navami", days);
   assert.equal(result.status, "candidate");
   assert.equal(result.date, "2027-04-16");
+});
+
+test("Masik Kalashtami checks Krishna Ashtami at local Nishita", () => {
+  const sample = day("2026-10-10", 23, "2026-10-10T20:00:00+05:30", "2026-10-11T03:00:00+05:30", "nishita", "2026-10-10T23:30:00+05:30", "2026-10-11T00:30:00+05:30");
+  const result = evaluateFestivalDateRule("masik_kalashtami", [sample], { fallbackDate: "2026-10-09" });
+  assert.equal(result.status, "candidate");
+  assert.equal(result.date, "2026-10-10");
 });
 
 test("Maha Shivaratri checks Chaturdashi at Nishita", () => {
