@@ -89,6 +89,11 @@ test("monthly preview stays clearly marked as a non-production draft with workin
   assert.match(page, /ड्राफ्ट प्रीव्यू/);
   assert.match(page, /id="searchInput"/);
   assert.match(page, /id="categoryFilter"/);
+  assert.match(page, /id="locationInput"/);
+  assert.match(page, /id="locationSearchBtn"/);
+  assert.match(page, /nominatim\.openstreetmap\.org\/search/);
+  assert.match(page, /localStorage\.setItem\("ohdPanchangLocation"/);
+  assert.match(page, /panchangCache\.clear\(\)/);
   assert.match(page, /function applyFilters\(\)/);
   assert.match(page, /item\.hinduTithi/);
   assert.match(page, /item\.muhurtaDate\|\|item\.date/);
