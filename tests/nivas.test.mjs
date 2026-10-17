@@ -21,6 +21,26 @@ test("2026-10-05: tithi 25, Monday -> Agni Prithvi and Shiva Kreeda", () => {
   assert.equal(result.shivaRemainder, 6);
 });
 
+test("all 210 tithi-weekday combinations follow the published remainder tables", () => {
+  const agniNames = ["पृथ्वी", "आकाश", "पाताल", "पृथ्वी"];
+  const shivaNames = ["श्मशान", "कैलाश", "गौरी-सन्निधि", "नन्दी पर", "सभा", "भोजन", "क्रीड़ा"];
+
+  for (let tithi = 1; tithi <= 30; tithi++) {
+    for (let weekdayIndex = 0; weekdayIndex <= 6; weekdayIndex++) {
+      const result = calculateNivasa(tithi - 1, weekdayIndex);
+      const weekdayNumber = weekdayIndex + 1;
+      const agniRemainder = (tithi + weekdayNumber + 1) % 4;
+      const shivaRemainder = (tithi * 2 + 5) % 7;
+
+      assert.equal(result.tithi, tithi);
+      assert.equal(result.agniRemainder, agniRemainder);
+      assert.equal(result.shivaRemainder, shivaRemainder);
+      assert.equal(result.agni.name, agniNames[agniRemainder]);
+      assert.equal(result.shiva.name, shivaNames[shivaRemainder]);
+    }
+  }
+});
+
 test("rejects invalid tithi and weekday inputs", () => {
   assert.equal(calculateNivasa(-1, 0), null);
   assert.equal(calculateNivasa(30, 0), null);
