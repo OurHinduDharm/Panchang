@@ -86,21 +86,30 @@ const rules = {
     }
 
     let avoidUntil = sunrise;
+    let missingAvoidEnd = false;
     const avoidNotes = [];
     if (isChitra(context.nakshatra)) {
       const end = validDate(context.nakshatraEndTime);
       if (end) avoidUntil = laterDate(avoidUntil, end);
+      else missingAvoidEnd = true;
       avoidNotes.push("चित्रा नक्षत्र से बचने का प्रयास");
     }
     if (isVaidhriti(context.yoga)) {
       const end = validDate(context.yogaEndTime);
       if (end) avoidUntil = laterDate(avoidUntil, end);
+      else missingAvoidEnd = true;
       avoidNotes.push("वैधृति योग से बचने का प्रयास");
     }
 
+    // The preferred window is the first third of daylight, while Pratipada
+    // remains in force. If the avoided yoga/nakshatra consumes that window,
+    // the traditional fallback is Abhijit rather than an afternoon time.
+    const firstThirdEnd = new Date(sunrise.getTime() + (sunset.getTime() - sunrise.getTime()) / 3);
     const preferredStart = laterDate(sunrise, avoidUntil);
-    const preferredEnd = earlierDate(sunset, pratipadaEnd);
-    const preferred = interval(preferredStart, preferredEnd, "घटस्थापना मुहूर्त");
+    const preferredEnd = earlierDate(firstThirdEnd, earlierDate(sunset, pratipadaEnd));
+    const preferred = missingAvoidEnd
+      ? null
+      : interval(preferredStart, preferredEnd, "घटस्थापना मुहूर्त");
     if (preferred) {
       return {
         ...preferred,
