@@ -330,12 +330,14 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         if(eclipseLink)links.appendChild(eclipseLink);
       }
       if(links.childNodes.length)content.appendChild(links);
-      var status=document.createElement("div");status.className="pill";
-      if(item.reviewStatus==="user-confirmed-hard-copy"||item.reviewStatus==="approved"){
-        status.classList.add("confirmed");
-        status.textContent=item.reviewStatus==="approved"?"तारीख़ स्वीकृत":"तारीख़ की पुष्टि की गई";
-      }else {status.classList.add("review");status.textContent="समीक्षा बाकी";}
-      content.appendChild(status);
+      if(item.showReviewStatus!==false){
+        var status=document.createElement("div");status.className="pill";
+        if(item.reviewStatus==="user-confirmed-hard-copy"||item.reviewStatus==="approved"){
+          status.classList.add("confirmed");
+          status.textContent=item.reviewStatus==="approved"?"तारीख़ स्वीकृत":"तारीख़ की पुष्टि की गई";
+        }else {status.classList.add("review");status.textContent="समीक्षा बाकी";}
+        content.appendChild(status);
+      }
       card.appendChild(content);eventsEl.appendChild(card);
     });
     applyFilters();
