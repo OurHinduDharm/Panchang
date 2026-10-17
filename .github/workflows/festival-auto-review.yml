@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - "scripts/festival-auto-review.mjs"
+      - "scripts/build-festival-review-report.mjs"
       - "tests/festival-auto-review.test.mjs"
+      - "tests/festival-review-report.test.mjs"
       - "docs/festival-auto-review-workflow.md"
       - ".github/workflows/festival-auto-review.yml"
   push:
@@ -12,7 +14,9 @@ on:
       - feature/festival-auto-review-gates
     paths:
       - "scripts/festival-auto-review.mjs"
+      - "scripts/build-festival-review-report.mjs"
       - "tests/festival-auto-review.test.mjs"
+      - "tests/festival-review-report.test.mjs"
       - "docs/festival-auto-review-workflow.md"
       - ".github/workflows/festival-auto-review.yml"
 
@@ -27,4 +31,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: node --test tests/festival-auto-review.test.mjs
+      - run: node --test tests/festival-auto-review.test.mjs tests/festival-review-report.test.mjs
