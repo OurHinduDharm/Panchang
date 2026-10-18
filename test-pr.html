@@ -14,7 +14,7 @@ h2{font-size:19px;margin:24px 0 8px}
 p{margin:8px 0}
 .muted{color:var(--muted);font-size:14px}
 label{display:block;font-weight:700;margin:18px 0 6px}
-input{width:100%;padding:13px;border:1px solid #cfc3b5;border-radius:10px;font:inherit}
+input,select{width:100%;padding:13px;border:1px solid #cfc3b5;border-radius:10px;font:inherit;background:#fff}
 button,.button{display:inline-block;border:0;border-radius:10px;background:var(--accent);color:white;padding:12px 16px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;margin-top:10px}
 button:disabled{opacity:.55;cursor:wait}
 .panel{background:var(--paper);border:1px solid var(--line);padding:14px;border-radius:12px;margin-top:14px}
@@ -42,6 +42,8 @@ code{overflow-wrap:anywhere}
   </form>
 
   <section id="result" class="panel hidden" aria-live="polite"></section>
+
+  <p class="muted">अब Preview के लिए केवल <code>index.html</code> तय नहीं है। PR में बदली HTML फ़ाइल या रिपॉज़िटरी का कोई दूसरा परीक्षण-पृष्ठ चुना जा सकता है।</p>
 
   <h2>Preview में क्या जाँचें?</h2>
   <ul>
@@ -92,30 +94,56 @@ code{overflow-wrap:anywhere}
   async function getJson(url) {
     const response = await fetch(url, {headers: {"Accept":"application/vnd.github+json"}});
     if (!response.ok) {
-      if (response.status === 404) throw new Error("PR नहीं मिला। URL/नंबर जाँचें।");
+      if (response.status === 404) throw new Error("PR या आवश्यक फ़ाइल-सूची नहीं मिली। URL/नंबर जाँचें।");
       if (response.status === 403) throw new Error("GitHub API की rate limit या अनुमति की समस्या है। कुछ देर बाद फिर प्रयास करें।");
       throw new Error("GitHub API से जानकारी नहीं मिली (HTTP " + response.status + ")।");
     }
     return response.json();
   }
+  async function getAllChangedFiles(base) {
+    const all = [];
+    for (let page = 1; page <= 10; page++) {
+      const batch = await getJson(base + "/files?per_page=100&page=" + page);
+      all.push(...batch);
+      if (batch.length < 100) break;
+    }
+    return all;
+  }
+  function makePreviewUrl(sha, path) {
+    const safePath = path.split("/").map(encodeURIComponent).join("/");
+    return "https://raw.githack.com/" + repo + "/" + sha + "/" + safePath;
+  }
+
   form.addEventListener("submit", async event => {
     event.preventDefault();
     result.classList.remove("hidden");
-    result.replaceChildren(el("p", "PR की जानकारी लोड हो रही है…", "status"));
+    result.replaceChildren(el("p", "PR और उपलब्ध HTML पेज लोड हो रहे हैं…", "status"));
     button.disabled = true;
     try {
       const number = parsePrNumber(input.value);
       const base = "https://api.github.com/repos/" + repo + "/pulls/" + number;
-      const [pr, files] = await Promise.all([getJson(base), getJson(base + "/files?per_page=100")]);
+      const pr = await getJson(base);
       if (!pr.head || !pr.head.sha || pr.head.repo?.full_name !== repo) {
         throw new Error("यह PR उसी सार्वजनिक रिपॉज़िटरी की शाखा से नहीं है; इस Preview टूल से इसे नहीं खोला जा सकता।");
       }
-      const previewUrl = "https://raw.githack.com/" + repo + "/" + encodeURIComponent(pr.head.sha) + "/index.html";
+
+      const [files, treeData] = await Promise.all([
+        getAllChangedFiles(base),
+        getJson("https://api.github.com/repos/" + repo + "/git/trees/" + pr.head.sha + "?recursive=1")
+      ]);
+      const changedHtml = files
+        .filter(file => file.status !== "removed" && /\.html?$/i.test(file.filename))
+        .map(file => file.filename);
+      const allHtml = (treeData.tree || [])
+        .filter(item => item.type === "blob" && /\.html?$/i.test(item.path))
+        .map(item => item.path);
+      const htmlPaths = [...new Set([...changedHtml, ...allHtml])];
+
       result.replaceChildren();
       result.appendChild(el("h2", "#" + number + " — " + (pr.title || "बिना शीर्षक")));
       const status = pr.merged ? "Merged" : (pr.draft ? "Draft" : "Review के लिए खुला");
-      result.appendChild(el("p", "स्थिति: " + status + " · शाखा: " + pr.head.ref));
-      result.appendChild(el("p", "Commit: " + pr.head.sha));
+      result.appendChild(el("p", "स्थिति: " + status + " · शाखा: " + pr.head.ref, "status"));
+      result.appendChild(el("p", "Preview commit: " + pr.head.sha));
       result.appendChild(el("p", "बदली हुई फ़ाइलें (" + files.length + "):", "status"));
       const list = el("ul");
       files.forEach(file => {
@@ -125,11 +153,49 @@ code{overflow-wrap:anywhere}
         list.appendChild(li);
       });
       result.appendChild(list);
-      const actions = el("div", undefined, "actions");
-      actions.appendChild(link(previewUrl, "Preview खोलें"));
-      actions.appendChild(link(pr.html_url, "GitHub पर PR देखें", "button"));
-      result.appendChild(actions);
-      result.appendChild(el("p", "Preview commit SHA से बनाया गया है, इसलिए यह PR के उसी commit को संदर्भित करता है। अगर पेज/मॉड्यूल लोड न हों, तो Preview host की सीमा हो सकती है।", "muted"));
+
+      if (!htmlPaths.length) {
+        result.appendChild(el("p", "इस commit में कोई HTML पेज नहीं मिला। नीचे दिया गया पेज-पथ उपलब्ध नहीं है; पहले GitHub पर सही परीक्षण-पृष्ठ की पुष्टि करें।", "warning"));
+      } else {
+        const label = el("label", "कौन-सा HTML पेज खोलना है?");
+        label.htmlFor = "previewPageSelect";
+        result.appendChild(label);
+        const select = el("select");
+        select.id = "previewPageSelect";
+        const changedSet = new Set(changedHtml);
+        htmlPaths.sort((a, b) => {
+          const aChanged = changedSet.has(a), bChanged = changedSet.has(b);
+          if (aChanged !== bChanged) return aChanged ? -1 : 1;
+          if (a === "index.html") return 1;
+          if (b === "index.html") return -1;
+          return a.localeCompare(b);
+        });
+        htmlPaths.forEach(path => {
+          const option = el("option", (changedSet.has(path) ? "★ PR में बदला: " : "") + path);
+          option.value = path;
+          select.appendChild(option);
+        });
+        const preferred = changedHtml[0] || (htmlPaths.includes("test-astronomy.html") ? "test-astronomy.html" : (htmlPaths.includes("index.html") ? "index.html" : htmlPaths[0]));
+        select.value = preferred;
+        result.appendChild(select);
+        result.appendChild(el("p", "★ वाले पेज PR में बदले गए हैं। यदि PR केवल JavaScript बदलता है, तो सूची से उससे संबंधित परीक्षण-पृष्ठ चुनें।", "muted"));
+
+        const actions = el("div", undefined, "actions");
+        const preview = link(makePreviewUrl(pr.head.sha, select.value), "चुना हुआ Preview खोलें");
+        const github = link(pr.html_url, "GitHub पर PR देखें", "button");
+        actions.appendChild(preview);
+        actions.appendChild(github);
+        result.appendChild(actions);
+        select.addEventListener("change", () => {
+          preview.href = makePreviewUrl(pr.head.sha, select.value);
+          preview.textContent = "Preview खोलें: " + select.value;
+        });
+        preview.textContent = "Preview खोलें: " + select.value;
+      }
+      result.appendChild(el("p", "Preview PR के सटीक commit SHA से बनता है। पेज खुलना अपने-आप में गणना सही होने या सभी परीक्षण पास होने का प्रमाण नहीं है।", "muted"));
+      if (treeData.truncated) {
+        result.appendChild(el("p", "ध्यान दें: GitHub की फ़ाइल-सूची बड़ी होने के कारण कुछ HTML पेज सूची में छूट सकते हैं।", "muted"));
+      }
     } catch (error) {
       result.replaceChildren(el("p", error.message || "अनपेक्षित त्रुटि हुई।", "status error"));
     } finally {
