@@ -47,3 +47,25 @@ Implement one research-only function that accepts explicit, already frame-matche
 ## Guard
 
 The Chapter IX diagnostic workflow passed on 19 October 2026 (run 39159898526), including the headless browser test and the check that `app.js` and `extra-panchang.js` remain unchanged. This verifies the test harness, not the astronomical interpretation or any published Udaya/Asta time. PR #22 remains Draft and unmerged.
+
+
+## Implementation checkpoint — explicit II.48–51 arithmetic steps
+
+Reviewed the available Sanskrit rendering against Burgess's translation. The relevant source wording includes:
+
+- II.48: `grahabhukteh phalaṃ kāryaṃ grahavan mandakarmaṇi / dorjyāntaraguṇā bhuktis tattvanetroddhṛtā punaḥ`
+- II.49: `svamandaparidhikṣuṇṇā bhagaṇāṃśoddhṛtā kalāḥ / karkyādau tu dhanaṃ tatra makarādāv ṛṇaṃ smṛtam`
+- II.50: `mandasphuṭīkṛtāṃ bhuktiṃ projjhya śīghroccabhuktitaḥ / taccheṣaṃ vivareṇātha hanyāt trijyāntyakarṇayoḥ`
+- II.51: `calakarṇahṛtā bhuktau karṇe trijyādhike dhanam / ṛṇaṃ ūne 'dhike projjhya śeṣaṃ vakragatir bhavet`
+
+Cross-checks: [Vidhyamitra, Chapter II](https://www.vidhyamitra.com/surya-siddhanta/2) (the page was searchable but intermittently unavailable to direct fetch) and [Swaveda/Burgess, Chapter II](https://www.swaveda.com/texts/surya-siddhanta/2/), especially its translation and explanatory notes at 2.49–2.51.
+
+Added research-only `ss_chapter2_daily_motion_correction.js` with two isolated steps:
+1. II.48–49: source sine-difference × motion-from-mandocca ÷ 225, then corrected manda epicycle ÷ 360, with the sign branch from Cancer inclusive to Capricorn exclusive.
+2. II.50–51: (śīghrocca motion − manda-corrected motion) × (variable hypotenuse − supplied radius) ÷ variable hypotenuse; the final signed rate is preserved, including retrograde.
+
+A boundary test was added at exactly 90° (Cancer starts the additive interval) and 270° (Capricorn starts the subtractive interval). The helper reports the radius convention as caller-supplied because Burgess records an alternative interpretation of the radius in II.50–51.
+
+**Important limitation:** this does not yet derive the input sine values, mean/mandocca/śīghrocca rates, epicycles, or hypotenuse from a date-anchored planetary state. It is an intermediate formula adapter, not a complete Chapter II planetary-motion engine. All tests are synthetic sign/arithmetic tests; no date-specific Venus or Jupiter motion is certified.
+
+The helper is now wired into `ss_classical_frame_test.js` and the Chapter IX diagnostic workflow's path/syntax checks. The current CI run must complete before calling these new tests CI-passed. Next step after CI: build one explicit, same-frame source-intermediate ledger for Venus and Jupiter, and keep the source-derived motion, adjacent-sample finite difference, and modern ephemeris derivative in separate columns.
