@@ -41,6 +41,13 @@ test("all 210 tithi-weekday combinations follow the published remainder tables",
   }
 });
 
+test("Agnivasa notes scope the caution to kamya homa", () => {
+  assert.match(calculateNivasa(0, 0).agni.note, /काम्य हवन/);
+  assert.match(calculateNivasa(0, 1).agni.note, /काम्य हवन/);
+  assert.match(calculateNivasa(0, 2).agni.note, /काम्य हवन/);
+  assert.match(calculateNivasa(0, 3).agni.note, /काम्य हवन/);
+});
+
 test("normalizes supported library tithi shapes without guessing invalid values", () => {
   assert.equal(normalizeTithiIndex(0), 0);
   assert.equal(normalizeTithiIndex(29), 29);
