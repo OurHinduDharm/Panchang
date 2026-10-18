@@ -55,9 +55,9 @@ export function chapter2MandaCorrectedDailyMotion({
     sineDifference * meanMotionFromMandoccaArcminPerDay / 225 *
     correctedMandaEpicycleDeg / 360;
 
-  // II.49: add in the second/fourth? source states Kendra from 3 to 9 signs;
-  // outside that interval subtract. Keep this explicit and report the branch.
-  const addEquation = kendra > 90 && kendra < 270;
+  // II.49: Cancer begins at 90° (inclusive); Capricorn begins at 270°
+  // (subtractive). This follows karkyādau dhanaṃ / makarādāv ṛṇam.
+  const addEquation = kendra >= 90 && kendra < 270;
   const signedEquationArcminPerDay =
     (addEquation ? 1 : -1) * rawEquationArcminPerDay;
 
@@ -134,10 +134,13 @@ export function runChapter2DailyMotionCorrectionTests() {
     correctedMandaEpicycleDeg: 14
   };
   const add = chapter2MandaCorrectedDailyMotion({ ...base, mandaKendraDeg: 180 });
+  const atCancer = chapter2MandaCorrectedDailyMotion({ ...base, mandaKendraDeg: 90 });
+  const atCapricorn = chapter2MandaCorrectedDailyMotion({ ...base, mandaKendraDeg: 270 });
   const subtract = chapter2MandaCorrectedDailyMotion({ ...base, mandaKendraDeg: 45 });
   tests.push({
-    name: "II.48–49 adds the manda-motion equation for kendra between 90° and 270°",
-    passed: add.signedEquationArcminPerDay > 0 &&
+    name: "II.48–49 adds the manda-motion equation from Cancer (90°) up to Capricorn (270°)",
+    passed: add.signedEquationArcminPerDay > 0 && atCancer.signedEquationArcminPerDay > 0 &&
+      atCapricorn.signedEquationArcminPerDay < 0 &&
       close(add.mandaCorrectedDailyMotionArcminPerDay, 60 + 300 * 10 / 225 * 14 / 360)
   });
   tests.push({
