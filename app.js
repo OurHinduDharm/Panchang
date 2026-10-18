@@ -117,7 +117,25 @@ function todayString(){
   const d = new Date();
   return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
 }
-dateInput.value = todayString();
+
+// आलेखों के ?date=YYYY-MM-DD लिंक से चुनी गई तारीख खोलें।
+// अमान्य तारीख़ मिलने पर सामान्य रूप से आज की तारीख़ ही रखें।
+function isValidIsoDate(value){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ""))) return false;
+  const d = new Date(value + "T12:00:00");
+  return !Number.isNaN(d.getTime()) &&
+    d.getFullYear() === Number(value.slice(0,4)) &&
+    d.getMonth() + 1 === Number(value.slice(5,7)) &&
+    d.getDate() === Number(value.slice(8,10));
+}
+function syncDateToUrl(){
+  const url = new URL(window.location.href);
+  if(isValidIsoDate(dateInput.value)) url.searchParams.set("date", dateInput.value);
+  else url.searchParams.delete("date");
+  window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+}
+const requestedDate = new URLSearchParams(window.location.search).get("date");
+dateInput.value = isValidIsoDate(requestedDate) ? requestedDate : todayString();
 
 /* HINDI DATA */
 const pakshaHindi = {
@@ -6558,6 +6576,7 @@ dateInput.addEventListener(
   () => {
     sankalpState.sandhyaManualOverride = false;
     sankalpState.includeNightPrahar = false;
+    syncDateToUrl();
     calculatePanchang();
   }
 );
@@ -6566,6 +6585,7 @@ window.today = function(){
 
   dateInput.value =
     todayString();
+  syncDateToUrl();
 
   /*
    * calculatePanchang() के बाद वास्तविक
@@ -6593,6 +6613,7 @@ window.previousDay = function(){
     "-" +
     String(d.getDate())
       .padStart(2,"0");
+  syncDateToUrl();
 
   calculatePanchang();
 };
@@ -6612,6 +6633,7 @@ window.nextDay = function(){
     "-" +
     String(d.getDate())
       .padStart(2,"0");
+  syncDateToUrl();
 
   calculatePanchang();
 };
