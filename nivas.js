@@ -1,18 +1,25 @@
 /*
  * Pure Agnivasa / Shivavasa calculation.
  * tithiIndex is the library's zero-based tithi index (0–29).
- * weekdayIndex follows JavaScript Date#getUTCDay(): Sunday=0 ... Saturday=6.
+ * weekdayIndex is the selected Panchang calendar date's weekday:
+ * Sunday=0 ... Saturday=6. The caller derives this from the date label,
+ * not from the device's current timezone.
  *
  * Conventional formulas:
  * Agnivasa: (tithi number + weekday number + 1) mod 4,
  * where weekday number is Sunday=1 ... Saturday=7.
  * Shivavasa: (tithi number * 2 + 5) mod 7.
+ *
+ * Scope: these formulas calculate the traditional residence only.
+ * They do not decide whether a particular ritual is exempt from considering
+ * the residence. In particular, do not treat a non-Earth Agnivasa as a
+ * universal prohibition for routine or samskara rites.
  */
 const AGNI_BY_REMAINDER = [
-  { name: "पृथ्वी", note: "हवन के लिए अनुकूल मानी जाती है", good: true },
-  { name: "आकाश", note: "हवन के लिए प्रतिकूल मानी जाती है", good: false },
-  { name: "पाताल", note: "हवन के लिए प्रतिकूल मानी जाती है", good: false },
-  { name: "पृथ्वी", note: "हवन के लिए अनुकूल मानी जाती है", good: true }
+  { name: "पृथ्वी", note: "काम्य हवन के लिए अनुकूल मानी जाती है", good: true },
+  { name: "आकाश", note: "काम्य हवन के लिए प्रतिकूल मानी जाती है", good: false },
+  { name: "पाताल", note: "काम्य हवन के लिए प्रतिकूल मानी जाती है", good: false },
+  { name: "पृथ्वी", note: "काम्य हवन के लिए अनुकूल मानी जाती है", good: true }
 ];
 
 const SHIVA_BY_REMAINDER = [
