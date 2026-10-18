@@ -70,3 +70,39 @@ Added research-only module `ss_chapter2_solar_motion_candidate.js`. It applies t
 The module is intentionally fed with explicit samples. It does **not** convert civil dates to ahargaṇa, invent a mandocca epoch, or claim that finite-difference motion is the exact *bhukti* prescribed by Chapter IX. It rejects missing samples and non-increasing sample times, and its wrap test guards against a false 359° jump at 0°.
 
 The four new synthetic tests are wired into `ss_classical_frame_test.js`. The GitHub workflow wrapper returned no PR-triggered run for the latest test-wiring commit, so these tests are **not yet reported as CI-passed**. Next: run the repository's actual workflow, inspect its output, and only then decide whether the underlying Chapter II correction and epoch/frame inputs are good enough to use in the Venus Udaya fixture.
+
+## CI follow-up — 19 October 2026
+
+The diagnostic workflow path filter now explicitly includes both this audit note and
+`ss_chapter2_solar_motion_candidate.js`. Before this fix, edits to those two files
+could fail to trigger the Chapter IX workflow on a branch push.
+
+Verification after the workflow change:
+- Chapter IX diagnostic workflow run **39159898526**: success.
+- Panchang feature validation run **39159898544**: success.
+- The Chapter IX workflow completed its headless Chromium research-page test and
+  the final guard confirming `app.js` and `extra-panchang.js` are unchanged.
+- These results validate the research harness and arithmetic checks, not the
+  source-derived daily motion, epoch/frame anchors, or published event dates.
+
+## Next gate — do not mistake the control for the source algorithm
+
+The current finite-difference helper is deliberately only a control. It corrects
+the Sun's candidate longitude at two supplied samples, then measures a signed
+circular difference. It does not yet produce the complete planetary `bhukti`
+required for a date-specific Chapter IX estimate.
+
+The next implementation step is to establish a matched, source-derived daily-motion
+input with explicit provenance, rather than adding more generic tests:
+1. Freeze the same event instant, event branch, frame, and location for the Venus
+   Udaya and Jupiter comparison fixtures.
+2. Export the current IX.11 terms and the corrected/raw K residual for adjacent
+   valid samples, keeping Akṣa and Āyana contributions separate.
+3. Compare the analytic IX.11 rate with the observed local K slope as a diagnostic;
+   do not silently add the dṛkkarma derivative to the source formula.
+4. Do not call a modern ephemeris derivative the classical `bhukti`. Keep it as a
+   separate control until the Chapter II planetary correction sequence and its
+   epoch/frame are reconstructed.
+
+No production file, threshold, or event date is changed by this checkpoint. PR #22
+remains Draft and unmerged.
