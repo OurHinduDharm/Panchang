@@ -156,3 +156,39 @@ The equality obtained by using the next sunrise sample to derive event-to-event 
 4. Leave the 0°/360° branch issue as a separate adjudication.
 
 Guardrails remain unchanged: PR #22 stays Draft and unmerged; production `app.js` and `extra-panchang.js` stay untouched.
+
+
+## Source-chain reconstruction: IX.4–5 → IX.10–11 (18 Oct 2026)
+
+The primary-text sequence narrows the algorithm more than the isolated IX.10 arithmetic does:
+
+1. **Choose the horizon side first (IX.2–3).** This determines whether the relevant event is eastern or western and whether the planet is on the applicable side of the Sun.
+2. **Take the event-side true places (IX.4).** For a western-horizon heliacal event, use the Sun and planet's places at sunset; for an eastern-horizon event, use their places at sunrise. The verse then calls for the planet's *dṛkkarma* correction, referring back to Chapter VII.
+3. **Compute the time-separation measure (IX.5).** Use the Chapter III lagnāntara construction. For the western-horizon case, add six signs before obtaining the corresponding lagnāntara-asus; divide the prāṇa result by 60 to obtain the time-degrees (*kalāṃśa*).
+4. **Compare with the planet-specific visibility limit (IX.6–9).** The target is the appropriate prescribed time-degree limit, not simply the raw angular separation in ecliptic longitude.
+5. **Estimate past/future time (IX.10–11).** The difference between the current time-degree measure and the target is divided by the relative daily motions after the IX.11 conversion. IX.11 converts each daily angular motion using the rising-asus of the sign occupied by that body and divisor 1800; the retrograde case uses the sum of motions as IX.10 states.
+
+Primary text / verse ledger: https://www.vedaseek.com/books/suryasiddhanta/9 (IX.2–11); Burgess translation and explanatory note on IX.10–11: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf. The verse wording and Burgess's note agree on the distinction between relative daily motion and the conversion of each body's daily motion into time.
+
+### Consequence for the implementation
+
+The event-time algorithm must not collapse these stages into a single longitude-threshold crossing:
+
+- The **event geometry** is based on the selected sunrise/sunset instant and corrected planetary place.
+- The **target** is the Chapter IX visibility limit expressed in the corresponding time-degree measure.
+- The **rate** is the relative daily motion after each body's IX.11 rising-asus conversion, with the retrograde sum rule.
+- A finite difference between today's and tomorrow's corrected K is a useful validation series, but it is not automatically the source-defined daily motion. It may be used to audit prediction error only, never as a substitute input unless the source interpretation independently warrants it.
+
+### Remaining source-critical question
+
+The Sanskrit gives the operation but does not, by itself, fully define the modern implementation detail “daily motion” in a way that settles every candidate: (a) derivative of the Chapter II true longitude, (b) signed day-to-day difference of the source-derived true longitude, or (c) another traditional daily *bhukti* convention. Chapter II's true-place construction, its mean-motion constants and epoch, and the applicable commentary must be reconstructed together before choosing among these. The modern ephemeris derivative must remain a comparison column, not be silently called the classical value.
+
+### Next audit order
+
+1. Reconstruct source-derived true longitudes for two adjacent classical days from the same epoch and frame, applying the Chapter II manda/śīghra corrections before taking a signed daily difference.
+2. Separately compute the instantaneous modern ephemeris derivative at the IX.4 event instant; record it as a comparison only.
+3. Feed both candidate motion sets through the *same* IX.11 rising-asus conversion and compare the predicted time against the same IX.4/5 K-target bracket. No future sample may be used to generate the prediction.
+4. Repeat the matched comparison for Venus Udaya and one Jupiter event; retain Venus as the sensitive case, but do not calibrate the method to either.
+5. Keep the 0°/360° event-branch interpretation separate.
+
+No production code, threshold, or displayed event date was changed by this source-chain note. PR #22 remains Draft and unmerged.
