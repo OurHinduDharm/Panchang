@@ -47,3 +47,13 @@ Do not alter production app.js or extra-panchang.js. Do not relabel preliminary 
 The text gives a route to calculate motion; it does not authorize treating every numerical derivative as interchangeable with that motion. Chapter II.50–52 is particularly important because corrected motion can change sign and become retrograde. The implementation must preserve signed motion and document the exact stage at which each correction enters.
 
 The next coding gate is not another threshold adjustment. It is a small source-model motion adapter with explicit provenance and test fixtures. Until the epoch/day-count bridge is settled, its outputs must remain synthetic or relative tests, not date-specific planetary predictions.
+
+
+## Numerical baseline from the source revolution counts
+
+Using the source solar revolution count 4,320,000 per yuga and 1,577,917,828 savana days per yuga, the mean solar motion is:
+
+- 360 × 4,320,000 ÷ 1,577,917,828 = **0.9856026546°/day**
+- Equivalent: **59.1361593 arcminutes/day**
+
+This is a reproducible Chapter I mean-motion baseline, not the true daily solar motion needed for a date-specific Chapter IX estimate. The next comparison must apply the Chapter II solar manda correction at adjacent, epoch-anchored times and measure how the signed motion differs from this baseline. The result must not be passed off as final Asta/Udaya timing.
