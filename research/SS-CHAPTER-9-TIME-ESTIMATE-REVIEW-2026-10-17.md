@@ -130,3 +130,29 @@ This agreement is a **consistency check, not an independent prediction**: the ne
 Updated interpretation: the earlier 6.764642 prāṇa/day mismatch was between a corrected-K slope measured along successive sunrise samples and instantaneous raw orbital motion estimated across ±12 hours. Those are different derivatives. Do not attribute the gap solely to the correction term or change IX.11 on that evidence. The next research step is to audit the source/commentary's definition of the daily motions used in IX.10–11, then compare the current-event instantaneous method against an independently documented traditional Panchang/TKS result using identical location, date, and correction mode.
 
 The updated event-to-event audit passed headless Chromium and the production-file guard. PR #22 remains Draft; production files are unchanged.
+
+
+## Primary-text check: what IX.10–11 actually specify (18 Oct 2026)
+
+A separate reading of the Sanskrit and its verse-by-verse notes in the Karma Sakha text now gives a firmer constraint on the model:
+
+- IX.10 says to divide the minutes of the difference between the applicable time-degrees and the present Sun–planet separation by the difference between the two daily motions. For a retrograde planet, it specifies the sum of the daily motions.
+- The accompanying note identifies the two *bhuktis* as the Sun's and planet's daily motions: use their difference when both move forward, and their sum when the retrograde planet and Sun close on one another.
+- IX.11 converts each of those daily motions to a motion-in-time using the relevant lagna-difference *asus* and divisor 1800; those converted rates give elapsed and future intervals.
+
+Source text and notes: https://karmasakha.com/texts/surya-siddhanta (Chapter IX, verses 9.10–11; the same page prints the Sanskrit, its translation, and an explanatory note).
+
+### What this resolves — and what it does not
+
+This supports keeping the Sun's and planet's daily-motion inputs explicit and separate, and preserving the retrograde sum-vs-forward difference rule. It does **not**, by itself, settle whether a faithful modern implementation should derive each *bhukti* from a classical mean-motion model, a current true-position derivative, or a finite difference at the relevant daily event. The verse says “daily motions” but the text alone, without adjudicating the preceding computational conventions and commentary, is not enough to choose one of those modern numerical implementations.
+
+The equality obtained by using the next sunrise sample to derive event-to-event motions remains a consistency check only; those future samples cannot be used as inputs to a genuine forward prediction. No formula has been changed on the basis of this reading.
+
+### Next controlled check
+
+1. Trace the *bhukti* supplied to IX.10–11 back to the true-motion construction in Chapter II and the event-frame/dṛkkarma construction in Chapters III and VII.
+2. On one timestamp and one coordinate convention, report separately: raw longitude, corrected event-frame longitude, the two daily-motion candidates, the selected signed branch, lagna-asus, and resulting time interval.
+3. Compare that prediction against the TKS/Gaṇeśa Mārtaṇḍ reference only after matching location, elevation, date/time convention, event branch, and visibility mode. Keep any unmatched comparison labelled non-equivalent.
+4. Leave the 0°/360° branch issue as a separate adjudication.
+
+Guardrails remain unchanged: PR #22 stays Draft and unmerged; production `app.js` and `extra-panchang.js` stay untouched.
