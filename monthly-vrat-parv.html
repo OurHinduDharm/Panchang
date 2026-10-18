@@ -408,7 +408,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       // चुनी हुई पर्व-तारीख़ के लिए मुख्य पंचांग का सीधा लिंक।
       // केवल वैध YYYY-MM-DD तारीख़ पर लिंक बनता है; गणना यहाँ दोबारा नहीं होती।
       var panchangDate=String(item.date||"");
-      if(/^\\d{4}-\\d{2}-\\d{2}$/.test(panchangDate)){
+      if(/^\d{4}-\d{2}-\d{2}$/.test(panchangDate)){
         var panchangDateCheck=new Date(panchangDate+"T12:00:00");
         if(!Number.isNaN(panchangDateCheck.getTime())&&
            panchangDateCheck.getFullYear()===Number(panchangDate.slice(0,4))&&
