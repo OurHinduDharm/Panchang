@@ -57,3 +57,16 @@ Using the source solar revolution count 4,320,000 per yuga and 1,577,917,828 sav
 - Equivalent: **59.1361593 arcminutes/day**
 
 This is a reproducible Chapter I mean-motion baseline, not the true daily solar motion needed for a date-specific Chapter IX estimate. The next comparison must apply the Chapter II solar manda correction at adjacent, epoch-anchored times and measure how the signed motion differs from this baseline. The result must not be passed off as final Asta/Udaya timing.
+
+
+## Implementation checkpoint — adjacent-sample motion control
+
+Added research-only module `ss_chapter2_solar_motion_candidate.js`. It applies the current Chapter II solar-manda candidate at two explicitly supplied samples and calculates:
+- signed mean-longitude finite difference per elapsed day;
+- signed finite difference of the corrected-longitude candidate;
+- the difference between those rates, labelled as the manda candidate's contribution;
+- both endpoint values and the unresolved assumptions.
+
+The module is intentionally fed with explicit samples. It does **not** convert civil dates to ahargaṇa, invent a mandocca epoch, or claim that finite-difference motion is the exact *bhukti* prescribed by Chapter IX. It rejects missing samples and non-increasing sample times, and its wrap test guards against a false 359° jump at 0°.
+
+The four new synthetic tests are wired into `ss_classical_frame_test.js`. The GitHub workflow wrapper returned no PR-triggered run for the latest test-wiring commit, so these tests are **not yet reported as CI-passed**. Next: run the repository's actual workflow, inspect its output, and only then decide whether the underlying Chapter II correction and epoch/frame inputs are good enough to use in the Venus Udaya fixture.
