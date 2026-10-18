@@ -49,3 +49,12 @@ for (const test of solarMotionFiniteDifferenceResult.tests) {
 }
 console.log(solarMotionFiniteDifferenceResult.passed + '/' + solarMotionFiniteDifferenceResult.total + ' Chapter II solar finite-difference motion tests passed');
 if (!solarMotionFiniteDifferenceResult.allPassed) process.exitCode = 1;
+
+import { runChapter2DailyMotionCorrectionTests } from './ss_chapter2_daily_motion_correction.js';
+const chapter2DailyMotionResult = runChapter2DailyMotionCorrectionTests();
+for (const test of chapter2DailyMotionResult.tests) {
+  console.log((test.passed ? 'PASS' : 'FAIL') + ' — ' + test.name);
+  if (test.error) console.log('  ' + test.error);
+}
+console.log(chapter2DailyMotionResult.passed + '/' + chapter2DailyMotionResult.total + ' Chapter II.47–51 daily-motion correction tests passed');
+if (!chapter2DailyMotionResult.allPassed) process.exitCode = 1;
