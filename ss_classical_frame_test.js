@@ -40,3 +40,12 @@ for (const test of chapter2VersedSineResult.tests) {
 }
 console.log(chapter2VersedSineResult.passed + '/' + chapter2VersedSineResult.total + ' Chapter II versed-sine table tests passed');
 if (!chapter2VersedSineResult.allPassed) process.exitCode = 1;
+
+import { runChapter2SolarMotionFiniteDifferenceTests } from './ss_chapter2_solar_motion_candidate.js';
+const solarMotionFiniteDifferenceResult = runChapter2SolarMotionFiniteDifferenceTests();
+for (const test of solarMotionFiniteDifferenceResult.tests) {
+  console.log((test.passed ? 'PASS' : 'FAIL') + ' — ' + test.name);
+  if (test.error) console.log('  ' + test.error);
+}
+console.log(solarMotionFiniteDifferenceResult.passed + '/' + solarMotionFiniteDifferenceResult.total + ' Chapter II solar finite-difference motion tests passed');
+if (!solarMotionFiniteDifferenceResult.allPassed) process.exitCode = 1;
