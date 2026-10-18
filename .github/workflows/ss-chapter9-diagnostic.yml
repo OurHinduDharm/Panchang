@@ -28,6 +28,7 @@ on:
       - "ss_chapter2_versed_sine_table.js"
       - "research/SS-CHAPTER-3-NATA-TIME-BRIDGE-NOTE.md"
       - "research/SS-CHAPTER-9-DAILY-MOTION-SOURCE-AUDIT-2026-10-18.md"
+      - "research/CHAPTER2-47-51-TRUE-DAILY-MOTION-SOURCE-AUDIT-2026-10-19.md"
       - "ss_chapter9_browser_test.mjs"
       - ".github/workflows/ss-chapter9-diagnostic.yml"
   pull_request:
