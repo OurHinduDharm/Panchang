@@ -405,6 +405,24 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var secondaryLink=makeLink(item.secondaryArticleUrl,item.secondaryArticleLabel);
       if(secondaryLink)links.appendChild(secondaryLink);
 
+      // चुनी हुई पर्व-तारीख़ के लिए मुख्य पंचांग का सीधा लिंक।
+      // केवल वैध YYYY-MM-DD तारीख़ पर लिंक बनता है; गणना यहाँ दोबारा नहीं होती।
+      var panchangDate=String(item.date||"");
+      if(/^\\d{4}-\\d{2}-\\d{2}$/.test(panchangDate)){
+        var panchangDateCheck=new Date(panchangDate+"T12:00:00");
+        if(!Number.isNaN(panchangDateCheck.getTime())&&
+           panchangDateCheck.getFullYear()===Number(panchangDate.slice(0,4))&&
+           panchangDateCheck.getMonth()+1===Number(panchangDate.slice(5,7))&&
+           panchangDateCheck.getDate()===Number(panchangDate.slice(8,10))){
+          var panchangLink=document.createElement("a");
+          panchangLink.href="https://ourhindudharm.github.io/Panchang/?date="+panchangDate;
+          panchangLink.target="_blank";
+          panchangLink.rel="noopener noreferrer";
+          panchangLink.textContent="इस दिन का पंचांग देखें";
+          links.appendChild(panchangLink);
+        }
+      }
+
       // ग्रहण की प्रविष्टि पर मौजूदा Blogger ग्रहण-पंचांग का लिंक दें।
       // मासिक सूची में ग्रहण की भारी गणना दोबारा शुरू नहीं होती।
       var eclipseText=String(item.title||"")+" "+String(item.category||"");
