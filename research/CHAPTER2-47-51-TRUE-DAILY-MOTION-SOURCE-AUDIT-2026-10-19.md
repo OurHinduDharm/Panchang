@@ -253,3 +253,19 @@ Therefore, citing I.57 as proof that every mean longitude is zero at the **Kali 
 4. The daily-motion helper remains a supplied-intermediate arithmetic adapter. This correction does not certify Venus/Jupiter positions or Asta/Udaya times.
 
 This is a source-attribution correction, not a production change.
+
+## Epoch bridge cross-check against the independent verse-by-verse ledger — 19 October 2026
+
+A further cross-check against Vidhyamitra's verse-by-verse Sūrya-siddhānta ledger narrows, but does not close, the epoch question. Its Chapter I page reports the 2026-10-11 apparent-noon creation-era count as approximately **714,404,169,486.5** and the elapsed Kali-era count as **1,872,859**; its Chapter I.48–51 section explicitly computes the ahargana, and I.53–54 then derives mean places from that count. See https://vidhyamitra.com/surya-siddhanta/1 and the site's overview https://vidhyamitra.com/surya-siddhanta.
+
+Our research anchor for 2026-10-08 apparent/mean-noon fixture is 714,404,169,483.5; advancing three days gives 714,404,169,486.5. Subtracting our declared Kali-epoch anchor 714,402,296,627 gives 1,872,859.5 elapsed days, whose whole-day count is 1,872,859. This agrees with the independent site's displayed whole-day Kali count and creation-era count at the stated date. This is a useful **arithmetic/epoch-count cross-check**, not proof that our anchor independently reconstructs every I.45–51 step, and not proof that a planetary mean longitude may be initialized to zero at Kali epoch.
+
+### Important distinction retained
+
+The primary text's I.56 permits the mean-place procedure to be reckoned from a chosen epoch; I.57 states the conjunction at the end of Kṛta, not explicitly at Kali epoch. The independent ledger confirms that the site's ahargana chain is internally useful as a date/count cross-check, but its displayed count alone does not expose enough intermediate values to certify the longitude phase convention for every graha. Before adopting the external Python model, compare its per-planet mean-place output and apsis epoch against the independent implementation at the same declared instant and inspect the model's source formula. Do not equate “elapsed days since Kali” with “all mean longitudes start at zero at Kali” without that separate derivation.
+
+### Next numerical test
+
+Use one fixed instant and meridian, first compare (a) creation-era ahargana, (b) elapsed days since the declared Kali epoch, and (c) each planet's Chapter I.53–54 mean longitude as given by the independent implementation. Record the exact epoch offset and revolution count used for each quantity. Only after that comparison passes should the same mean-place ledger feed Chapter II correction and Chapter IX event timing.
+
+**No production files or event outputs were changed.**
