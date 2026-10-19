@@ -234,3 +234,22 @@ These rates can be independently recomputed from the listed revolution counts. T
 Before building Venus/Jupiter event ledgers, settle one source-defined date/epoch example and the exact meaning of its ahargana. Then derive both the creation-era and Kali-epoch forms only if the primary text and source example establish their relationship. Until that is resolved, the existing Chapter II helper can be tested with supplied intermediates but must not be wired to a guessed planet-state generator.
 
 **No production code or event output changed in this audit.**
+
+## Source correction: I.56–57 does not establish a Kali-epoch zero baseline — 19 October 2026
+
+A primary-text cross-check now narrows the epoch issue. The Sanskrit text and Burgess translation at
+https://www.swaveda.com/texts/surya-siddhanta/1/ give:
+
+- **I.56:** *madhyamānayanaṃ kāryaṃ grahāṇām iṣṭato yugāt* — mean places are to be computed from whichever yuga/epoch is chosen.
+- **I.57:** *asmin kṛtayugasyānte sarve madhyagatā grahāḥ ... meṣādau* — at the end of the Kṛta age, the planets by mean motion (with nodes and apsides excepted) are in conjunction at the beginning of Aries.
+
+Therefore, citing I.57 as proof that every mean longitude is zero at the **Kali epoch** is not textually justified: the verse names the end of Kṛta, not the start of Kali. The external implementation's Kali-zero baseline is a model convention that needs its own documented derivation or an explicit epoch transformation; it cannot be attributed to I.57 alone. Burgess's note also discusses the text's claimed epoch and the ambiguity of interpreting *yuga*, so this is not a license to silently choose a modern baseline.
+
+### Corrected decision
+
+1. Keep the external model out of event-time control until its epoch convention is documented.
+2. Build an epoch bridge only from the chosen recension's actual ahargana rules and a declared target epoch; test it independently against a published worked example.
+3. Do not simply subtract a guessed number of days from the creation-era ahargana, and do not use a date match to tune the offset.
+4. The daily-motion helper remains a supplied-intermediate arithmetic adapter. This correction does not certify Venus/Jupiter positions or Asta/Udaya times.
+
+This is a source-attribution correction, not a production change.
