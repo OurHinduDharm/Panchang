@@ -242,22 +242,33 @@ export function runChapter2DailyMotionCorrectionTests() {
     passed: rejectsUnknownReferenceKind
   });
 
-  let rejectsBadRadius = false;
+  let rejectsNonPositiveReference = false;
   try {
     chapter2SighraCorrectedDailyMotion({
       mandaCorrectedDailyMotionArcminPerDay: 20,
       sighroccaDailyMotionArcminPerDay: 80,
-      radius: 0,
-      variableHypotenuse: 100
+      radius: 3438,
+      referenceLength: 0,
+      variableHypotenuse: 4000
     });
-  } catch (error) { rejectsBadRadius = error instanceof RangeError; }
+  } catch (error) { rejectsNonPositiveReference = error instanceof RangeError; }
   tests.push({
-    name: "Non-positive reference length is rejected",
-    passed: rejectsBadRadius
+    name: "Non-positive explicit reference length is rejected",
+    passed: rejectsNonPositiveReference
   });
+
+  let rejectsNonPositiveHypotenuse = false;
+  try {
+    chapter2SighraCorrectedDailyMotion({
+      mandaCorrectedDailyMotionArcminPerDay: 20,
+      sighroccaDailyMotionArcminPerDay: 80,
+      radius: 3438,
+      variableHypotenuse: 0
+    });
+  } catch (error) { rejectsNonPositiveHypotenuse = error instanceof RangeError; }
   tests.push({
-    name: "Non-positive radius is rejected",
-    passed: rejectsBadRadius
+    name: "Non-positive variable hypotenuse is rejected independently",
+    passed: rejectsNonPositiveHypotenuse
   });
 
   return {
