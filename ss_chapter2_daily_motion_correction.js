@@ -92,6 +92,9 @@ export function chapter2SighraCorrectedDailyMotion({
   referenceLengthKind = "trijya",
   variableHypotenuse
 }) {
+  if (referenceLengthKind === "third-hypotenuse" && !Number.isFinite(referenceLength)) {
+    throw new TypeError('The "third-hypotenuse" reading requires an explicit referenceLength; do not pass radius as a substitute.');
+  }
   const reference = referenceLength ?? radius;
   for (const [name, value] of Object.entries({
     mandaCorrectedDailyMotionArcminPerDay,
@@ -220,6 +223,20 @@ export function runChapter2DailyMotionCorrectionTests() {
       variableHypotenuse: 4000
     });
   } catch (error) { rejectsUnknownReferenceKind = error instanceof TypeError; }
+  let rejectsImplicitThirdHypotenuse = false;
+  try {
+    chapter2SighraCorrectedDailyMotion({
+      mandaCorrectedDailyMotionArcminPerDay: 20,
+      sighroccaDailyMotionArcminPerDay: 80,
+      radius: 3438,
+      referenceLengthKind: "third-hypotenuse",
+      variableHypotenuse: 4000
+    });
+  } catch (error) { rejectsImplicitThirdHypotenuse = error instanceof TypeError; }
+  tests.push({
+    name: "Alternative third-hypotenuse reading cannot silently reuse the radius input",
+    passed: rejectsImplicitThirdHypotenuse
+  });
   tests.push({
     name: "Unknown II.50–51 reference-length interpretation is rejected",
     passed: rejectsUnknownReferenceKind
