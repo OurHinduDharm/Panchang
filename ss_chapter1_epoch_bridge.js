@@ -127,6 +127,12 @@ export function runChapter1EpochBridgeTests() {
       close(reference.aharganaFromEpochAnchor, 714404169483.5)
   });
 
+  tests.push({
+    name: "2026-10-08 fixture independently exposes 1,872,856.5 elapsed local-mean days since the declared Kali epoch",
+    passed: close(reference.elapsedMeanDays, 1872856.5) &&
+      close(reference.aharganaFromEpochAnchor - epoch.epochAharganaAnchor, reference.elapsedMeanDays)
+  });
+
   let rejectedInvalidDate = false;
   try {
     chapter1UtcJulianDay("not-a-date");
