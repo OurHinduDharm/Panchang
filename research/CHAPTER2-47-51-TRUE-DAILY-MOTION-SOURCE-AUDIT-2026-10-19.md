@@ -165,3 +165,28 @@ intermediate ledger*, not to change thresholds or production display:
 helper accepts already supplied intermediates and does not yet generate the
 complete planetary state from a verified epoch. Production `app.js` and
 `extra-panchang.js` remain unchanged; PR #22 stays Draft.
+
+## External implementation located — comparison lead, not authority
+
+On 19 October, an independently published Python repository was located:
+https://github.com/kiranojhanp/surya-siddanta
+Relevant files: `surya_siddhanta/celestial/mean_motions.py`,
+`surya_siddhanta/celestial/planets.py`, and
+`surya_siddhanta/core/constants.py`.
+
+It contains a complete candidate chain for mean places and the four successive
+manda/śīghra place corrections, plus planet epicycle constants. This gives us
+a practical independent implementation to inspect rather than inventing every
+missing step from scratch. However, it is **not** the Vidhyamitra JavaScript
+implementation and is not accepted as authoritative: its own comments assume
+all mean places begin at 0° at Kali epoch, and its claimed mapping of the
+four place-correction steps to verses must be checked against the chosen
+Sanskrit recension and the Burgess/Sudhakara readings. Its true-longitude
+function is also not the Chapter II.47–51 daily-motion algorithm.
+
+**Use decision:** do not copy it into production or treat its output as proof.
+Audit the planet/epicycle constants and correction order against the text, then
+use it only as a separately labelled cross-check for a Venus and Jupiter sample.
+The missing gate remains a same-epoch, same-frame numerical ledger that exposes
+each intermediate and separately compares (1) text-derived daily motion,
+(2) a finite difference of the same classical model, and (3) a modern ephemeris.
