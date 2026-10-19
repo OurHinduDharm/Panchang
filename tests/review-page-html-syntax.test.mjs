@@ -12,7 +12,7 @@ test("inline JavaScript in festival pages parses without syntax errors", () => {
   try {
     for (const page of pages) {
       const html = readFileSync(resolve(page), "utf8");
-      const scripts = [...html.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/gi)];
+      const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)];
       assert.ok(scripts.length, page + " should contain an inline script");
       scripts.forEach((match, index) => {
         const path = join(temp, page.replace(/[^a-z0-9]/gi, "_") + "-" + index + ".mjs");
