@@ -190,3 +190,22 @@ use it only as a separately labelled cross-check for a Venus and Jupiter sample.
 The missing gate remains a same-epoch, same-frame numerical ledger that exposes
 each intermediate and separately compares (1) text-derived daily motion,
 (2) a finite difference of the same classical model, and (3) a modern ephemeris.
+
+## External Python model audit — concrete rejection criteria — 19 October 2026
+
+A direct source inspection was completed for `mean_motions.py`, `planets.py`, and `constants.py` in https://github.com/kiranojhanp/surya-siddanta. The implementation is useful as a code-reading lead, but it is not yet a safe numerical control for our event ledger.
+
+### Findings verified in source code
+
+1. **Epoch/frame consistency is not established.** `mean_longitude()` advances mean longitude from an assumed zero-at-Kali-epoch baseline. In the same model, `APOGEE_MARS`, `APOGEE_MERCURY`, `APOGEE_JUPITER`, `APOGEE_VENUS`, and `APOGEE_SATURN` are documented as values “at 499 AD” and are then used as fixed constants in the date calculation. Unless a documented conversion or intended epoch interpretation is supplied, this combines a Kali-epoch mean-place baseline with a later fixed apsis table. We cannot assume this is source-consistent.
+2. **The four-step verse mapping needs rechecking.** `true_longitude_planet()` labels its half-manda, half-śīghra, full-manda, and full-śīghra steps as II.46–49. Our source audit separately identifies II.46 as a solar apparent-time correction and II.47–51 as the true-daily-motion procedure. These may be distinct procedures, so the external code's inline verse labels must not be accepted without comparing the selected recension and commentary.
+3. **Its daily-motion output is not the target algorithm.** The function returns a corrected longitude; it does not calculate the II.47–51 daily-motion ledger with sine-difference, motion-from-mandocca, signed śīghrocca-minus-manda motion, and the variable-hypotenuse factor.
+4. **Some displayed claims are not evidence.** Broad accuracy claims in comments and synthetic unit tests do not validate epoch placement, the fixed apsis longitudes, verse attribution, or event times.
+
+### Decision
+
+Do not import or copy this model, and do not use its computed Venus/Jupiter event dates as a target. It remains useful for identifying the conventional epicycle constants and for comparing code structure once each constant is checked against a source table.
+
+The next meaningful numerical step is not another threshold tweak. It is to locate and transcribe the relevant original table/epoch values, reconcile the “499 AD” apsis values with the chosen ahargana convention, then generate a single Venus and Jupiter intermediate ledger from one internally consistent source model. If those source anchors cannot be established, mark that specific input as unresolved rather than substituting modern or guessed values.
+
+**Scope guard:** this is a research-note update only. No production file, UI label, threshold, or event prediction was changed.
