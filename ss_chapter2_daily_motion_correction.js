@@ -68,7 +68,7 @@ export function chapter2MandaCorrectedDailyMotion({
     mandaCorrectedDailyMotionArcminPerDay:
       meanDailyMotionArcminPerDay + signedEquationArcminPerDay,
     mandaKendraDeg: kendra,
-    quadrantRule: addEquation ? "add: 3 signs < kendra < 9 signs" : "subtract: outside the open 3–9 sign interval",
+    quadrantRule: addEquation ? "add: Cancer begins at 90° inclusive; subtract from Capricorn at 270° inclusive" : "subtract: before Cancer and from Capricorn onward",
     source: "Sūrya-siddhānta II.48–49; Burgess translation",
     status: "research-only intermediate; supplied sine values and epoch/frame are not independently validated"
   });
@@ -153,7 +153,7 @@ export function runChapter2DailyMotionCorrectionTests() {
   const atCapricorn = chapter2MandaCorrectedDailyMotion({ ...base, mandaKendraDeg: 270 });
   const subtract = chapter2MandaCorrectedDailyMotion({ ...base, mandaKendraDeg: 45 });
   tests.push({
-    name: "II.48–49 adds the manda-motion equation from Cancer (90°) up to Capricorn (270°)",
+    name: "II.48–49 adds from Cancer inclusive to before Capricorn; Capricorn itself is subtractive",
     passed: add.signedEquationArcminPerDay > 0 && atCancer.signedEquationArcminPerDay > 0 &&
       atCapricorn.signedEquationArcminPerDay < 0 &&
       close(add.mandaCorrectedDailyMotionArcminPerDay, 60 + 300 * 10 / 225 * 14 / 360)
