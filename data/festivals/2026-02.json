@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "month": 2,
+  "monthName": "फ़रवरी",
+  "status": "needs-review",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2026-02-01",
+      "dateLabel": "1 फ़रवरी",
+      "title": "माघ पूर्णिमा",
+      "description": "पूर्णिमा पर स्नान, दान, जप और चंद्र-दर्शन/पूजन की परंपरा है। व्रत या स्नान का निर्णय स्थानीय पूर्णिमा-व्याप्ति और क्षेत्रीय परंपरा के अनुसार करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "माघ शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-02-01",
+      "dateLabel": "1 फ़रवरी",
+      "title": "श्री ललिता त्रिपुरसुंदरी जी जयंती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/02/About-Goddess-Lalita-Or-Shodashi-Mahavidya-On-TripurSundariJayanti-LalithaPanchratn-Stotram.html\" target=\"_blank\">श्री ललिता त्रिपुरसुंदरी जी (महाविद्या षोडशी) की जयंती</a> -<a href=\"http://ourhindudharm.blogspot.com/2015/02/The-StoryOf-Goddess-TripurSundari-On-ShriLalitaJayanti.html\" target=\"_blank\"> भगवती ललिता के प्रादुर्भाव की कथा</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "माघ शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-02-07",
+      "dateLabel": "7 फ़रवरी",
+      "title": "यशोदा जयन्ती",
+      "description": "फाल्गुन कृष्ण षष्ठी - यशोदा जयन्ती",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "फाल्गुन कृष्ण षष्ठी"
+    },
+    {
+      "date": "2026-02-08",
+      "dateLabel": "8 फ़रवरी",
+      "title": "शबरी जयंती",
+      "description": "फाल्गुन कृष्ण सप्तमी - शबरी जयंती",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "फाल्गुन कृष्ण सप्तमी"
+    },
+    {
+      "date": "2026-02-09",
+      "dateLabel": "9 फ़रवरी",
+      "title": "मासिक कालाष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण अष्टमी"
+    },
+    {
+      "date": "2026-02-13",
+      "dateLabel": "13 फ़रवरी",
+      "title": "विजया एकादशी",
+      "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "फाल्गुन कृष्ण एकादशी"
+    },
+    {
+      "date": "2026-02-15",
+      "dateLabel": "15 फ़रवरी",
+      "title": "महाशिवरात्रि",
+      "description": "महाशिवरात्रि भगवान शिव की उपासना का प्रमुख पर्व है। जलाभिषेक, बिल्वपत्र अर्पण, मंत्र-जप और रात्रि-जागरण की परंपरा है; निशीथ-काल स्थानीय गणना से देखें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी"
+    },
+    {
+      "date": "2026-02-15",
+      "dateLabel": "15 फ़रवरी",
+      "title": "श्री महाशिवरात्रि व्रत",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html\" target=\"_blank\"> श्रीमहाशिवरात्रि व्रत </a>,<a href=\"http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\">शिवरात्रि का रहस्य</a>।<a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\">शिवरात्रि में रात्रि जागरण पूर्वक चारों प्रहर की शास्त्रोक्त विधान से पूजा करने की विधि</a>",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी"
+    },
+    {
+      "date": "2026-02-27",
+      "dateLabel": "27 फ़रवरी",
+      "title": "आमलकी एकादशी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html\" target=\"_blank\">आमलकी एकादशी</a>",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "फाल्गुन शुक्ल एकादशी"
+    }
+  ]
+}
