@@ -69,3 +69,36 @@ A boundary test was added at exactly 90° (Cancer starts the additive interval) 
 **Important limitation:** this does not yet derive the input sine values, mean/mandocca/śīghrocca rates, epicycles, or hypotenuse from a date-anchored planetary state. It is an intermediate formula adapter, not a complete Chapter II planetary-motion engine. All tests are synthetic sign/arithmetic tests; no date-specific Venus or Jupiter motion is certified.
 
 The helper is now wired into `ss_classical_frame_test.js` and the Chapter IX diagnostic workflow's path/syntax checks. The current CI run must complete before calling these new tests CI-passed. Next step after CI: build one explicit, same-frame source-intermediate ledger for Venus and Jupiter, and keep the source-derived motion, adjacent-sample finite difference, and modern ephemeris derivative in separate columns.
+
+
+## Independent classical-model numerical control — Vidhyamitra, 11 October 2026
+
+The Vidhyamitra Sūrya-siddhānta ledger reports its own model at **apparent noon in Ujjayinī**, explicitly using Burgess's text **without bīja**. Its displayed planetary table gives:
+
+| Body | True longitude in the page's notation | Daily motion |
+|---|---|---:|
+| Sun | Kanyā 23°08′ | +59.5′/day |
+| Jupiter | Siṃha 1°19′ | +9.9′/day |
+| Venus | Kanyā 19°26′, retrograde | −38.4′/day |
+| Saturn | Mīna 7°54′, retrograde | −4.6′/day |
+
+Source: https://www.vidhyamitra.com/surya-siddhanta (page snapshot searched 19 October 2026; the page itself labels its computed date 2026-10-11).
+
+The same page says Venus is 3.8 time-degrees from the Sun and assigns an east-rising event as coming in about two days. This is a **useful external classical-model control**, not a target value to tune to: its epoch/frame, apparent-noon instant, Ujjayinī location, no-bīja convention, and event-time approximation are not the same as our Pithoragarh/Gaṇeśa Mārtaṇḍ comparison.
+
+### How to use this control
+
+1. Preserve the signed daily-motion values exactly; do not replace Venus's −38.4′/day with its magnitude.
+2. Once our source-derived inputs are date-anchored, compare our Sun/Venus/Jupiter motion separately against this table only after aligning instant, location/meridian, and the stated no-bīja convention as far as possible.
+3. Do not call the apparent one-day event difference a formula error until the horizon-event branch, Chapter IX.4–5 time geometry, time convention, and frame are normalized.
+4. Do not treat this page as a modern-ephemeris validation or as independent proof of our implementation; it is another implementation of the same textual tradition.
+
+### Formula audit result
+
+Burgess's Chapter II note gives the resulting instantaneous daily-motion structure as
+
+`n_{true}=n_{manda}+(n_{śīghra}-n_{manda})(H-R)/H`
+
+where `H` is the variable (fourth-process) hypotenuse and `R` is the radius. This agrees with the algebra in `chapter2SighraCorrectedDailyMotion`; the open question is not that final algebraic structure, but whether every supplied motion, sine, epicycle and hypotenuse is generated from the correct source sequence and a reconciled epoch/frame. Source: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf and https://www.swaveda.com/texts/surya-siddhanta/2/.
+
+**Decision:** keep this external benchmark as a labelled comparison only. The next implementation step is to construct a date-anchored, intermediate-by-intermediate source ledger; no production dates or labels change on the basis of this reference alone.
