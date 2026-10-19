@@ -118,3 +118,50 @@ The research helper previously accepted a numeric `radius` only, which meant the
 Sources: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf (Burgess's note on II.50) and https://www.swaveda.com/texts/surya-siddhanta/2/ (II.50–51 translation).
 
 **Status guard:** this interface change is research-only. The new tests have been added to the existing Chapter II daily-motion test runner, but the CI run for the latest commit must be observed before marking this specific change CI-passed. Neither reading is selected as the final canonical convention here.
+
+
+## CI verification after signed-wrap hardening — 19 October 2026
+
+Commit `91c58d21cf723edd54a132c799ba3f5afca0ca63`; workflow run
+[39201880155](https://github.com/OurHinduDharm/Panchang/actions/runs/39201880155)
+completed with **success**.
+
+Verified in the run:
+- The finite-difference module's signed wrap tests, including reverse wrap and
+  equivalent inputs outside the canonical 0°–360° range, are included in the
+  research test path.
+- The Chapter II.47–51 supplied-intermediate arithmetic tests and classical-frame
+  tests passed.
+- Headless Chromium loaded the research page; the four event-class branches and
+  the separate angle/K diagnostic rendering passed.
+- The final `git diff --exit-code origin/main...HEAD -- app.js extra-panchang.js`
+  guard passed; production files remain unchanged.
+
+The log still labels the IX.10–11 timing values as a numerical-wiring check.
+For example, its Jupiter Asta sample estimates about -7.14 days against the
+adjacent event bracket. This is a material review flag, not a validated event
+prediction. Do not tune the algorithm to this output or publish it as a classical
+result.
+
+## Decision and next bounded implementation gate
+
+The signed-angle defect is closed as a code-quality issue. The astronomical
+source-model gate remains open. The next work item is to create a *date-anchored
+intermediate ledger*, not to change thresholds or production display:
+
+1. Resolve the Chapter I epoch/ahargana and time convention against a source
+   example, including whether the reference is apparent noon or local-mean time.
+2. Produce explicit same-frame mean longitude, mandocca/śīghrocca longitudes,
+   their daily motions, manda/śīghra sine and hypotenuse inputs for one Venus
+   sample and one Jupiter sample.
+3. Run the II.47–51 helper on those sourced inputs and show every intermediate.
+4. Compare its signed rate separately with adjacent-sample finite difference of
+   the same source model and with the external modern ephemeris; keep the
+   Vidhyamitra no-bīja/Ujjayinī reference as a separate classical-model control.
+5. Only then pass the selected, documented bhukti candidate to the same IX.10–11
+   conversion and inspect the event geometry.
+
+**No date-specific classical bhukti is certified by this CI run.** The present
+helper accepts already supplied intermediates and does not yet generate the
+complete planetary state from a verified epoch. Production `app.js` and
+`extra-panchang.js` remain unchanged; PR #22 stays Draft.
