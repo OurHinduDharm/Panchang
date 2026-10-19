@@ -158,3 +158,31 @@ Audit detail and source-to-code rationale: `research/SS-CHAPTER-7-FORMULA-AUDIT.
 - Important promising near-match: IMD Mercury “rises in the west” 23 May 2026 at 05:24 IST becomes 05:14:50 in the Pithoragarh LMT clock frame; Ganesh Martand “बुध पश्चिम उदय” printed 05:19 → 05:09:50. Residual is about 5 minutes, before accounting for the distinct observing location and visibility/event definition.
 - Important non-match needing investigation: IMD Mercury “sets in the east” 29 April at 06:53 IST vs Ganesh Martand “बुध पूर्व अस्त” 18:43 printed time is ~11h50 apart before any same-frame correction. A 9–12 minute Standard Difference cannot explain this; check event direction/definition and source transcription rather than forcing a match.
 - Corrected general rule: matching Gregorian date labels do not establish matching event times. Preserve original times, exact source location, clock convention, event label, and method; compare same-location outputs wherever possible.
+
+
+## निर्णायक स्थिति-रिपोर्ट — 19 अक्टूबर 2026
+
+### क्या पूरा है
+- शोध शाखा का नवीनतम commit: `75e94ea274f259a3bb60db3c6d15cafccf5f580d`.
+- Chapter IX diagnostic workflow [39201970666](https://github.com/OurHinduDharm/Panchang/actions/runs/39201970666) **success**; pull-request validation [39201974328](https://github.com/OurHinduDharm/Panchang/actions/runs/39201974328) **success**.
+- Signed circular-difference का 0°/360° wrap दोष सुधारा गया।
+- Chapter II.48–51 के अलग-अलग अंकगणितीय चरणों का research helper और synthetic sign tests मौजूद हैं।
+- Chromium research page, event-branch wiring और `app.js`/`extra-panchang.js` unchanged guard पास हैं।
+
+### शास्त्रीय निष्कर्ष—अभी जितना प्रमाणित है
+1. अध्याय II.47–51 में दैनिक गति को मंद और शीघ्र संशोधनों के क्रम से निकालने का स्रोत-आधार है; अंतिम गति को signed रखना आवश्यक है, क्योंकि वक्री गति ऋणात्मक हो सकती है।
+2. अध्याय IX.4–11 की घटना-सीमा केवल सूर्य-ग्रह कोणीय दूरी से तय नहीं हो सकती; लग्नान्तर/उदयासु समय-रूपांतरण और दृक्कर्म के मध्यवर्ती मान अलग रखने होंगे।
+3. अभी के helpers केवल supplied intermediates का हिसाब लगाते हैं। ग्रहों के mean longitude, mandocca, śīghrocca, epicycle, sine और variable hypotenuse को एक प्रमाणित epoch/frame से एक साथ उत्पन्न करने वाला पूर्ण स्रोत-आधारित planetary engine मौजूद नहीं है।
+4. इसलिए शुक्र/गुरु की किसी नागरिक तारीख/समय को अभी **प्रमाणित शास्त्रीय उदय-अस्त** कहना उचित नहीं। वर्तमान CI सफल होना गणना की wiring जाँचता है, खगोलीय सत्यता नहीं।
+5. उपलब्ध संदर्भों—Vidhyamitra का no-bīja उज्जयिनी नमूना, आधुनिक ephemeris और TKS—को एक-दूसरे के स्थान पर नहीं रखा जा सकता; पहले समय, स्थान, अयन/निर्देशांक-फ्रेम और epoch समान करने होंगे।
+
+### अब शोध को सीमित रखने का निर्णय
+अगला चरण पूरे सूर्यसिद्धान्त का पुनर्निर्माण नहीं है। केवल एक साझा तारीख-आधारित शुक्र नमूना और एक गुरु नमूना बनाना है:
+- स्रोत से ग्रह-विशिष्ट mean-motion तथा mean-place/उच्च बिंदु के स्थिरांक और epoch की पुष्टि;
+- हर II.48–51 intermediate का एक ledger;
+- उसी मॉडल की adjacent-day finite difference और आधुनिक ephemeris derivative को अलग तुलना स्तंभों में रखना;
+- फिर IX.10–11/K सीमा के विरुद्ध जाँच।
+
+यदि किसी आवश्यक ग्रह-विशिष्ट स्थिरांक या epoch का विश्वसनीय स्रोत उपलब्ध न हो, उसे स्पष्ट blocker मानकर अनुमान से न भरें। इस सीमित gate के बाद निर्णय लें: न्यूनतम उपयोगी शास्त्रीय मॉडल प्रमाणित हुआ या शास्त्रीय लेबल अभी रोकना है।
+
+**अभी कोई production edit नहीं। PR #22 Draft और unmerged रहे।** इस रिपोर्ट को अगली चैट में निरंतरता के लिए पर्याप्त माना जाए; हर छोटे परीक्षण पर नई लंबी रिपोर्ट न जोड़ें।
