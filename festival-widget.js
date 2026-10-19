@@ -5,7 +5,7 @@
   const mount = document.getElementById("ohd-festival-widget");
   if (!mount) return;
 
-  const DAYS_AHEAD = 15;
+  const DAYS_AHEAD = 20;
   const MONTH_NAMES = ["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
   const baseUrl = new URL("./data/festivals/", import.meta.url);
 
@@ -62,7 +62,7 @@
 
     const head = element("div", "ohd-fw-head");
     head.appendChild(element("h3", "ohd-fw-title", "🪔 आगामी व्रत-पर्व"));
-    head.appendChild(element("div", "ohd-fw-sub", "अगले 15 दिनों के स्वीकृत पर्व"));
+    head.appendChild(element("div", "ohd-fw-sub", "अगले 20 दिनों के स्वीकृत व्रत-पर्व"));
     mount.appendChild(head);
 
     const list = element("div", "ohd-fw-list");
@@ -75,7 +75,7 @@
     });
 
     if (!visible.length) {
-      list.appendChild(element("div", "ohd-fw-empty", "अगले 15 दिनों के लिए कोई स्वीकृत पर्व उपलब्ध नहीं है।"));
+      list.appendChild(element("div", "ohd-fw-empty", "अगले 20 दिनों के लिए कोई स्वीकृत व्रत-पर्व उपलब्ध नहीं है।"));
     } else {
       visible.forEach(function (item) {
         const d = new Date(item.date + "T12:00:00");
@@ -100,8 +100,15 @@
       });
     }
 
-    const more = element("a", "ohd-fw-more", "मासिक व्रत-पर्व सूची देखें →");
-    more.href = new URL("monthly-vrat-parv.html", import.meta.url).href;
+    const more = element("a", "ohd-fw-more", "इस माह के सभी पर्व देखें →");
+    const configuredPage = mount.getAttribute("data-monthly-page-url");
+    try {
+      more.href = configuredPage
+        ? new URL(configuredPage, document.baseURI).href
+        : new URL("monthly-vrat-parv.html", document.baseURI).href;
+    } catch (_) {
+      more.href = new URL("monthly-vrat-parv.html", document.baseURI).href;
+    }
     list.appendChild(more);
     mount.appendChild(list);
   }
