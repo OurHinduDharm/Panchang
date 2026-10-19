@@ -78,31 +78,39 @@ export function chapter2MandaCorrectedDailyMotion({
  * II.50–51: apply the śīghra correction to the supplied manda-corrected motion.
  *
  * Signed remainder = śīghrocca daily motion − manda-corrected planetary motion.
- * The source's (cala-karṇa − radius)/cala-karṇa factor is retained explicitly.
- * A negative result denotes retrograde motion. The chosen radius convention
- * (trijyā or the alternative noted by Burgess) remains the caller's choice.
+ * The source's (cala-karṇa − reference length)/cala-karṇa factor is retained
+ * explicitly. Burgess records two readings of trijyāntyakarṇa: reference to
+ * the radius (trijyā), or the third and fourth hypotenuses. The caller must
+ * select and supply the reference length; this helper does not decide which
+ * reading is authoritative. A negative result denotes retrograde motion.
  */
 export function chapter2SighraCorrectedDailyMotion({
   mandaCorrectedDailyMotionArcminPerDay,
   sighroccaDailyMotionArcminPerDay,
   radius,
+  referenceLength,
+  referenceLengthKind = "trijya",
   variableHypotenuse
 }) {
+  const reference = referenceLength ?? radius;
   for (const [name, value] of Object.entries({
     mandaCorrectedDailyMotionArcminPerDay,
     sighroccaDailyMotionArcminPerDay,
-    radius,
+    referenceLength: reference,
     variableHypotenuse
   })) finite(value, name);
 
-  if (radius <= 0 || variableHypotenuse <= 0) {
-    throw new RangeError("Radius and variable hypotenuse must be positive.");
+  if (reference <= 0 || variableHypotenuse <= 0) {
+    throw new RangeError("Reference length and variable hypotenuse must be positive.");
+  }
+  if (!["trijya", "third-hypotenuse"].includes(referenceLengthKind)) {
+    throw new TypeError('referenceLengthKind must be "trijya" or "third-hypotenuse".');
   }
 
   const sighraMinusMandaArcminPerDay =
     sighroccaDailyMotionArcminPerDay - mandaCorrectedDailyMotionArcminPerDay;
   const hypotenuseFactor =
-    (variableHypotenuse - radius) / variableHypotenuse;
+    (variableHypotenuse - reference) / variableHypotenuse;
   const sighraCorrectionArcminPerDay =
     sighraMinusMandaArcminPerDay * hypotenuseFactor;
   const trueDailyMotionArcminPerDay =
@@ -115,7 +123,11 @@ export function chapter2SighraCorrectedDailyMotion({
     trueDailyMotionArcminPerDay,
     direction: trueDailyMotionArcminPerDay < 0 ? "retrograde" :
       trueDailyMotionArcminPerDay > 0 ? "direct" : "stationary",
-    radiusConvention: "caller-supplied; not selected by this helper",
+    referenceLength: reference,
+    referenceLengthKind,
+    radiusConvention: referenceLengthKind === "trijya"
+      ? "trijya (radius) reading; selected by caller"
+      : "third-hypotenuse reading; selected by caller",
     source: "Sūrya-siddhānta II.50–51; Burgess translation",
     status: "research-only intermediate; input geometry and radius convention are not independently validated"
   });
