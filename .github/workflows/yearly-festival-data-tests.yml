@@ -1,0 +1,29 @@
+name: Yearly Festival Data Migration Tests
+
+on:
+  push:
+    branches:
+      - feat/yearly-festival-data-foundation
+    paths:
+      - 'scripts/merge-festival-months-to-yearly.mjs'
+      - 'tests/merge-festival-months-to-yearly.test.mjs'
+      - '.github/workflows/yearly-festival-data-tests.yml'
+  pull_request:
+    paths:
+      - 'scripts/merge-festival-months-to-yearly.mjs'
+      - 'tests/merge-festival-months-to-yearly.test.mjs'
+      - '.github/workflows/yearly-festival-data-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  yearly-festival-data-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run yearly migration safety tests
+        run: node --test tests/merge-festival-months-to-yearly.test.mjs
