@@ -102,3 +102,19 @@ Burgess's Chapter II note gives the resulting instantaneous daily-motion structu
 where `H` is the variable (fourth-process) hypotenuse and `R` is the radius. This agrees with the algebra in `chapter2SighraCorrectedDailyMotion`; the open question is not that final algebraic structure, but whether every supplied motion, sine, epicycle and hypotenuse is generated from the correct source sequence and a reconciled epoch/frame. Source: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf and https://www.swaveda.com/texts/surya-siddhanta/2/.
 
 **Decision:** keep this external benchmark as a labelled comparison only. The next implementation step is to construct a date-anchored, intermediate-by-intermediate source ledger; no production dates or labels change on the basis of this reference alone.
+
+
+## Clarifying Burgess's two readings of II.50 — 19 October 2026
+
+Burgess's explanatory note does not treat the compound `trijyāntyakarṇa` as unambiguous. The ordinary translation uses **radius and the fourth/variable hypotenuse**; the note records an alternative traditional reading, **third and fourth hypotenuses**. The Sanskrit page at Swaveda prints the radius reading in its translation; the Burgess PDF discusses the alternative.
+
+The research helper previously accepted a numeric `radius` only, which meant the alternative reading could be approximated by passing a different number but would be mislabeled as a radius. That interface is now corrected in `ss_chapter2_daily_motion_correction.js`:
+
+- `referenceLengthKind: "trijya"` — the radius reading, with the reference length supplied explicitly.
+- `referenceLengthKind: "third-hypotenuse"` — the alternative reading, with the third-process hypotenuse supplied explicitly.
+- The result reports the selected reading and reference length. Unknown interpretations and non-positive reference lengths are rejected.
+- Synthetic tests cover the alternative branch and confirm that the two interpretations are not silently conflated.
+
+Sources: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf (Burgess's note on II.50) and https://www.swaveda.com/texts/surya-siddhanta/2/ (II.50–51 translation).
+
+**Status guard:** this interface change is research-only. The new tests have been added to the existing Chapter II daily-motion test runner, but the CI run for the latest commit must be observed before marking this specific change CI-passed. Neither reading is selected as the final canonical convention here.
