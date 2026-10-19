@@ -196,6 +196,35 @@ export function runChapter2DailyMotionCorrectionTests() {
       retrograde.direction === "retrograde"
   });
 
+  const thirdHypotenuseReading = chapter2SighraCorrectedDailyMotion({
+    mandaCorrectedDailyMotionArcminPerDay: 20,
+    sighroccaDailyMotionArcminPerDay: 80,
+    referenceLength: 3600,
+    referenceLengthKind: "third-hypotenuse",
+    variableHypotenuse: 4000
+  });
+  tests.push({
+    name: "II.50–51 can evaluate the alternative third-to-fourth-hypotenuse reading without pretending it is the radius",
+    passed: close(thirdHypotenuseReading.hypotenuseFactor, 0.1) &&
+      close(thirdHypotenuseReading.trueDailyMotionArcminPerDay, 26) &&
+      thirdHypotenuseReading.referenceLengthKind === "third-hypotenuse"
+  });
+
+  let rejectsUnknownReferenceKind = false;
+  try {
+    chapter2SighraCorrectedDailyMotion({
+      mandaCorrectedDailyMotionArcminPerDay: 20,
+      sighroccaDailyMotionArcminPerDay: 80,
+      referenceLength: 3438,
+      referenceLengthKind: "guessed",
+      variableHypotenuse: 4000
+    });
+  } catch (error) { rejectsUnknownReferenceKind = error instanceof TypeError; }
+  tests.push({
+    name: "Unknown II.50–51 reference-length interpretation is rejected",
+    passed: rejectsUnknownReferenceKind
+  });
+
   let rejectsBadRadius = false;
   try {
     chapter2SighraCorrectedDailyMotion({
@@ -205,6 +234,10 @@ export function runChapter2DailyMotionCorrectionTests() {
       variableHypotenuse: 100
     });
   } catch (error) { rejectsBadRadius = error instanceof RangeError; }
+  tests.push({
+    name: "Non-positive reference length is rejected",
+    passed: rejectsBadRadius
+  });
   tests.push({
     name: "Non-positive radius is rejected",
     passed: rejectsBadRadius
