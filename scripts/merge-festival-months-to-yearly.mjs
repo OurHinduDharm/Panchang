@@ -10,7 +10,7 @@
  *   node scripts/merge-festival-months-to-yearly.mjs --year 2026 --out /tmp/2026.json
  */
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { basename, dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
 
 function option(name) {
   const index = process.argv.indexOf(name);
