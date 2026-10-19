@@ -209,3 +209,28 @@ Do not import or copy this model, and do not use its computed Venus/Jupiter even
 The next meaningful numerical step is not another threshold tweak. It is to locate and transcribe the relevant original table/epoch values, reconcile the “499 AD” apsis values with the chosen ahargana convention, then generate a single Venus and Jupiter intermediate ledger from one internally consistent source model. If those source anchors cannot be established, mark that specific input as unresolved rather than substituting modern or guessed values.
 
 **Scope guard:** this is a research-note update only. No production file, UI label, threshold, or event prediction was changed.
+
+## Follow-up: the external model's ahargana origin is incompatible with our current bridge — 19 October 2026
+
+A direct read of the external `mean_motions.py` confirms that its `mean_longitude(body, ahargana)` expects **days elapsed since the Kali epoch** and computes longitude as daily motion × that elapsed count, modulo 360°. Its comments justify setting every mean longitude to 0° at the Kali epoch by citing I.57's statement about the end of the Kṛta age / initial point of Aries. That inference is not established by the code itself and must be checked against the verse's actual epoch reference; the creation-era statement must not silently be shifted to the Kali epoch.
+
+Our current `ss_chapter1_ahargana_anchor.js`, in contrast, exposes a **creation-era ahargana near 714.4 billion** tied to its own epoch anchor. Feeding that number directly into the external function would be a category error: it expects elapsed Kali-epoch days, not our creation-era ahargana. A valid adapter would need an explicitly verified offset and time convention; merely subtracting a large number or choosing a convenient epoch would not establish the correct mean places.
+
+For reproducibility, the external source's stated revolution counts and 1,577,917,828 savana days imply these mean daily rates (arithmetic only, not a verified ephemeris):
+
+| Quantity | Revolutions per yuga | Mean rate |
+|---|---:|---:|
+| Sun | 4,320,000 | 0.9856026546°/day |
+| Venus śīghra | 7,022,376 | 1.6021463952°/day |
+| Jupiter manda | 364,220 | 0.0830963423°/day |
+| Mars manda | 2,296,832 | 0.5240193788°/day |
+| Saturn manda | 146,568 | 0.0334393078°/day |
+| Mercury śīghra | 17,937,060 | 4.0923180443°/day |
+
+These rates can be independently recomputed from the listed revolution counts. They do **not** validate the epoch phase, apsis longitudes, corrected daily motion, or an Asta/Udaya event.
+
+### Next gate (narrowed)
+
+Before building Venus/Jupiter event ledgers, settle one source-defined date/epoch example and the exact meaning of its ahargana. Then derive both the creation-era and Kali-epoch forms only if the primary text and source example establish their relationship. Until that is resolved, the existing Chapter II helper can be tested with supplied intermediates but must not be wired to a guessed planet-state generator.
+
+**No production code or event output changed in this audit.**
