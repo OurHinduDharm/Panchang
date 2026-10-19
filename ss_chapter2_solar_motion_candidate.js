@@ -16,7 +16,12 @@ function finite(value, name) {
 function signedCircularDifferenceDegrees(fromDeg, toDeg) {
   finite(fromDeg, "fromDeg");
   finite(toDeg, "toDeg");
-  return ((toDeg - fromDeg + 540) % 360) - 180;
+  // Normalize both endpoints first: JavaScript remainder is negative for
+  // negative operands, so the shorter-arc formula alone is not fully wrap-safe
+  // when equivalent angles arrive outside [0°, 360°).
+  const from = ((fromDeg % 360) + 360) % 360;
+  const to = ((toDeg % 360) + 360) % 360;
+  return ((to - from + 540) % 360) - 180;
 }
 
 /**
@@ -88,6 +93,26 @@ export function runChapter2SolarMotionFiniteDifferenceTests() {
     passed: wrapped.meanMotionDegPerDay > 0 &&
       wrapped.meanMotionDegPerDay < 2 &&
       Number.isFinite(wrapped.candidateTrueMotionDegPerDay)
+  });
+
+  const reverseWrap = chapter2SolarMotionFiniteDifference({
+    earlier: { elapsedDays: 0, meanLongitudeDeg: 0, meanMandoccaLongitudeDeg: 80 },
+    later: { elapsedDays: 1, meanLongitudeDeg: 359, meanMandoccaLongitudeDeg: 80.1 }
+  });
+  tests.push({
+    name: "Reverse 0° wrap preserves a small negative signed motion",
+    passed: reverseWrap.meanMotionDegPerDay < 0 &&
+      reverseWrap.meanMotionDegPerDay > -2
+  });
+
+  const equivalentAngles = chapter2SolarMotionFiniteDifference({
+    earlier: { elapsedDays: 0, meanLongitudeDeg: 719, meanMandoccaLongitudeDeg: 80 },
+    later: { elapsedDays: 1, meanLongitudeDeg: 720, meanMandoccaLongitudeDeg: 80.1 }
+  });
+  tests.push({
+    name: "Equivalent angles outside [0°, 360°) normalize before differencing",
+    passed: equivalentAngles.meanMotionDegPerDay > 0 &&
+      equivalentAngles.meanMotionDegPerDay < 2
   });
 
   const same = chapter2SolarMotionFiniteDifference({
