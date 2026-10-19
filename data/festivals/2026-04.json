@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "month": 4,
+  "monthName": "अप्रैल",
+  "status": "needs-review",
+  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
+  "events": [
+    {
+      "date": "2026-04-02",
+      "dateLabel": "2 अप्रैल",
+      "title": "श्री हनुमान जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\">श्रीहनुमान जयन्ती</a> l <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\">श्री हनुमान जी की स्तोत्रात्मक साधना</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-04-02",
+      "dateLabel": "2 अप्रैल",
+      "title": "हनुमान जयंती",
+      "description": "हनुमान जयंती पर श्रीहनुमान की पूजा, हनुमान चालीसा/सुंदरकाण्ड पाठ और मंत्र-जप की परंपरा है। उत्सव की तिथि क्षेत्रीय पंचांग और परंपरा के अनुसार अलग हो सकती है। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-04-02",
+      "dateLabel": "2 अप्रैल",
+      "title": "हनुमान जयंती / चैत्र पूर्णिमा",
+      "description": "पूर्णिमा पर स्नान, दान, जप और चंद्र-दर्शन/पूजन की परंपरा है। व्रत या स्नान का निर्णय स्थानीय पूर्णिमा-व्याप्ति और क्षेत्रीय परंपरा के अनुसार करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-04-10",
+      "dateLabel": "10 अप्रैल",
+      "title": "मासिक कालाष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख कृष्ण अष्टमी"
+    },
+    {
+      "date": "2026-04-13",
+      "dateLabel": "13 अप्रैल",
+      "title": "वरुथिनी एकादशी",
+      "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख कृष्ण एकादशी"
+    },
+    {
+      "date": "2026-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "बिहू",
+      "description": "बिहू असम की प्रमुख मौसमी और कृषि-परंपराओं से जुड़ा उत्सव है। इसके अलग-अलग पर्व वर्ष-चक्र और फसल से जुड़े हैं; रीति और उत्सव का स्वरूप क्षेत्रानुसार होता है। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "बैसाखी / वैशाखी",
+      "description": "बैसाखी पंजाब का फसल-पर्व और सिख परंपरा में महत्वपूर्ण दिवस है। फसल-कृतज्ञता, गुरुद्वारा दर्शन और सामुदायिक उत्सव इसकी प्रमुख परंपराएँ हैं। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "मेष संक्रांति / सौर नववर्ष",
+      "description": "यह पर्व सूर्य के राशि-परिवर्तन से जुड़ा है। स्नान, दान और जप की परंपरा है; पुण्यकाल संक्रमण के वास्तविक समय और परंपरागत नियमों से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "विषु",
+      "description": "विषु केरल का सौर नववर्ष-पर्व है। विषुक्कणी दर्शन, दीप, पारिवारिक शुभकामनाएँ और पारंपरिक भोजन इसकी प्रमुख रीति हैं। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-19",
+      "dateLabel": "19 अप्रैल",
+      "title": "अक्षय तृतीया",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\">अक्षय तृतीया</a>",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
+    },
+    {
+      "date": "2026-04-19",
+      "dateLabel": "19 अप्रैल",
+      "title": "अक्षय तृतीया / परशुराम जयंती",
+      "description": "अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है। कई परंपराओं में भगवान विष्णु/परशुराम की उपासना होती है; पूजा और दान अपनी परंपरा के अनुसार करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
+    },
+    {
+      "date": "2026-04-19",
+      "dateLabel": "19 अप्रैल",
+      "title": "परशुराम जयंती",
+      "description": "परशुराम जयंती भगवान विष्णु के परशुराम अवतार के प्राकट्य-स्मरण का पर्व है। विष्णु-पूजन, पाठ, जप और दान की परंपरा है; तिथि-निर्णय स्थानीय पंचांग से जाँचें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
+    },
+    {
+      "date": "2026-04-19",
+      "dateLabel": "19 अप्रैल",
+      "title": "श्री परशुराम अवतार जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\">श्री परशुराम अवतार जयन्ती</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
+    },
+    {
+      "date": "2026-04-20",
+      "dateLabel": "20 अप्रैल",
+      "title": "श्री मातंगी महाविद्या जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Godess-Matangi-ON-Maatangi-Jayanti.html\" target=\"_blank\">श्री मातंगी महाविद्या जयन्ती</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
+    },
+    {
+      "date": "2026-04-21",
+      "dateLabel": "21 अप्रैल",
+      "title": "श्री रामानुज, सूरदास, आदि शंकराचार्य जयन्ती",
+      "description": "२१ अप्रैल - श्री रामानुज जयन्ती , श्री सूरदास जयन्ती, श्री आदि शंकराचार्य जयन्ती",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल पंचमी"
+    },
+    {
+      "date": "2026-04-23",
+      "dateLabel": "23 अप्रैल",
+      "title": "गंगा सप्तमी",
+      "description": "गंगा सप्तमी माँ गंगा के पृथ्वी पर पुनः प्राकट्य/अवतरण से जुड़ी मानी जाती है। गंगा-पूजन, स्नान, अर्घ्य और दान की परंपरा है; अनुष्ठान क्षेत्रानुसार होते हैं। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल सप्तमी"
+    },
+    {
+      "date": "2026-04-24",
+      "dateLabel": "24 अप्रैल",
+      "title": "श्री बगलामुखी महाविद्या जयन्ती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html\" target=\"_blank\"> श्री बगलामुखी महाविद्या जयन्ती</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल अष्टमी"
+    },
+    {
+      "date": "2026-04-25",
+      "dateLabel": "25 अप्रैल",
+      "title": "भगवती सीता जी जयन्ती (जानकी नवमी)",
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\"> भगवती सीता जी की जयन्ती | श्री जानकी नवमी | श्री सीता नवमी</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल नवमी"
+    },
+    {
+      "date": "2026-04-25",
+      "dateLabel": "25 अप्रैल",
+      "title": "सीता नवमी",
+      "description": "सीता नवमी माता सीता के प्राकट्य-स्मरण का पर्व है। सीता-राम पूजन, रामायण-पाठ और दान की परंपरा है; नवमी-व्याप्ति के अनुसार तिथि की पुष्टि करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल नवमी"
+    },
+    {
+      "date": "2026-04-27",
+      "dateLabel": "27 अप्रैल",
+      "title": "मोहिनी एकादशी",
+      "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल एकादशी"
+    },
+    {
+      "date": "2026-04-30",
+      "dateLabel": "30 अप्रैल",
+      "title": "नृसिंह जयंती",
+      "description": "नृसिंह जयंती भगवान विष्णु के नृसिंह अवतार के प्राकट्य का स्मरण है। विष्णु-पूजन, मंत्र-जप और भक्त प्रह्लाद की कथा का पाठ किया जाता है; पूजा-काल स्थानीय तिथि से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल चतुर्दशी"
+    },
+    {
+      "date": "2026-04-30",
+      "dateLabel": "30 अप्रैल",
+      "title": "श्री नृसिंह अवतार जयन्ती, श्री छिन्नमस्ता महाविद्या जयन्ती, श्री शरभ अवतार जयंती",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html\" target=\"_blank\">श्री नृसिंह अवतार जयन्ती, श्री नृसिंहचतुर्दशी व्रत</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Chhinnamastika-On-ChhinnamastaJayanti.html\" target=\"_blank\">श्री छिन्नमस्ता महाविद्या जयन्ती</a>, श्री शरभ अवतार जयंती। भगवत्प्रेरणा से यह blog 2013 में इसी दिन वैशाख शुक्ल चतुर्दशी को बना था।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "वैशाख शुक्ल चतुर्दशी"
+    }
+  ]
+}
