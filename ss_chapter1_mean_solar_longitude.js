@@ -49,6 +49,22 @@ export function runChapter1MeanSolarLongitudeTests() {
   const actualAdvance = (fractional.meanLongitudeDeg - whole.meanLongitudeDeg + 360) % 360;
   tests.push({ name: "Half-day fraction advances longitude by half the source mean daily motion", passed: close(actualAdvance, expectedAdvance, 1e-8) });
   tests.push({ name: "Longitude remains normalized to [0°, 360°)", passed: [0, 1, 714404169483.5, c.savanaDaysPerYuga * 2 + 123.25].every(day => { const x = chapter1MeanSolarLongitudeFromAhargana(day).meanLongitudeDeg; return x >= 0 && x < 360; }) });
+  // Independent numerical control from Vidhyamitra's 2026-10-11 apparent-noon
+  // ledger: Sun mean longitude Kanyā 25°17′. The ahargana itself is not an
+  // independent epoch proof, and apparent noon is not exactly local mean noon.
+  const vidhyamitraReferenceAhargana = 714404169486.5;
+  const vidhyamitraSunMeanDeg = 150 + 25 + 17 / 60;
+  const computedReferenceSun = chapter1MeanSolarLongitudeFromAhargana(
+    vidhyamitraReferenceAhargana
+  );
+  const meanSunDifferenceArcmin = Math.abs(
+    ((computedReferenceSun.meanLongitudeDeg - vidhyamitraSunMeanDeg + 540) % 360) - 180
+  ) * 60;
+  tests.push({
+    name: "2026-10-11 mean Sun is within 1 arcminute of the published Vidhyamitra ledger (rounded value; epoch/time convention not proven)",
+    passed: meanSunDifferenceArcmin <= 1
+  });
+
   let rejected = false;
   try { chapter1MeanSolarLongitudeFromAhargana(-1); } catch (error) { rejected = error instanceof TypeError; }
   tests.push({ name: "Negative ahargana is rejected", passed: rejected });
