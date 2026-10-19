@@ -25,3 +25,10 @@ test("inline JavaScript in festival pages parses without syntax errors", () => {
     rmSync(temp, { recursive: true, force: true });
   }
 });
+
+test("festival review pages avoid unsafe HTML-string sinks", () => {
+  for (const page of ["festival-year-review.html", "festival-review.html"]) {
+    const html = readFileSync(resolve(page), "utf8");
+    assert.doesNotMatch(html, /(?:innerHTML|outerHTML)\\s*=|insertAdjacentHTML\\s*\\(/, page + " should build user/data-derived UI with DOM APIs");
+  }
+});
