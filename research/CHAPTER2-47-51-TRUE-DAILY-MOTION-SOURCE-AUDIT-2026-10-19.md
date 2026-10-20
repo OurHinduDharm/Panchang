@@ -269,3 +269,20 @@ The primary text's I.56 permits the mean-place procedure to be reckoned from a c
 Use one fixed instant and meridian, first compare (a) creation-era ahargana, (b) elapsed days since the declared Kali epoch, and (c) each planet's Chapter I.53–54 mean longitude as given by the independent implementation. Record the exact epoch offset and revolution count used for each quantity. Only after that comparison passes should the same mean-place ledger feed Chapter II correction and Chapter IX event timing.
 
 **No production files or event outputs were changed.**
+
+
+## Numerical rejection of the third-party zero-phase epoch assumption — 20 October 2026
+
+A quick independent arithmetic check was run against the same Vidhyamitra source ledger for 11 October 2026 (apparent noon, Ujjayinī, Burgess/no-bīja convention). Using its source savana-day denominator 1,577,917,828 and the third-party repository's assumption that each mean revolution starts at 0° Aries at Kali epoch, with the anchored ahargana 714,404,169,486.5, gives:
+
+| Quantity | Zero-phase calculation | Vidhyamitra ledger | Circular difference |
+|---|---:|---:|---:|
+| Sun mean longitude | 175.294901° = Kanyā 25°17.69′ | Kanyā 25°17′ | about 0.7′ |
+| Jupiter mean longitude | 107.774142° = Karka 17°46.45′ | Mīna 17°07′ = 347.116667° | about 120.66° |
+| Venus śīghra/fast-epicycle longitude | 355.096593° = Mīna 25°05.80′ | Venus mean/fast-place label Kumbha 6°53′ = 306.883333° | about 48.21° |
+
+This is a useful discriminating result: the solar match alone is not evidence that the same ahargana epoch/phase is valid for planets. The third-party code's blanket zero-phase assumption for every planetary revolution does not reproduce the published Jupiter and Venus entries. Do not import its mean-place outputs or its true-longitude chain into our calculation on that basis.
+
+Interpretation guard: this does **not** establish that the Sūrya-siddhānta or Vidhyamitra ledger is wrong. It establishes that the third-party repository's epoch/initial-phase assumption is incompatible with this multi-body source control, or that its reported inputs are not yet frame/time-normalized. The next task is to derive each planet/śīghrocca initial phase and the relevant mandocca/śīghrocca motion from the chosen text/edition and test them against at least one independent ledger entry before computing Chapter II.47–51 bhukti. No fitted offsets should be introduced merely to force a match.
+
+The Chapter II arithmetic adapter remains useful only after those inputs are supplied. Production files remain unchanged.
