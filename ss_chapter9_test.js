@@ -366,6 +366,29 @@ export function runChapter9ArithmeticTests() {
     passed: close(motionUnequalSign, 50)
   });
 
+  // Commentary control for the worked western-event example. IX.5's six-sign
+  // shift constructs the western rising-equivalent for lagnāntara; the
+  // converse IX.11 conversion uses the ascensional equivalent of the sign
+  // occupied by Sun/planet to convert the time-angle back to ecliptic distance.
+  // Burgess commentary transcription: https://sa.wikisource.org/wiki/पृष्ठम्:Surya_siddhanta_(with_commentary).pdf/३१३
+  const ujjainU = 1554;
+  const ujjainDeltaKPranas = (15.558 - 11) * 60;
+  const ujjainSunRate = chapter9TimeMotionFromArcMotion({
+    dailyMotionArcminPerDay: 58,
+    signRisingAsus: ujjainU
+  });
+  const ujjainJupiterRate = chapter9TimeMotionFromArcMotion({
+    dailyMotionArcminPerDay: 5,
+    signRisingAsus: ujjainU
+  });
+  const ujjainDays = ujjainDeltaKPranas / (ujjainSunRate - ujjainJupiterRate);
+  tests.push({
+    name: "IX.11 worked west-event control uses original occupied-sign U for converse ecliptic conversion (5.976834 days)",
+    passed: close(ujjainSunRate, 50.07333333333333) &&
+      close(ujjainJupiterRate, 4.316666666666667) &&
+      close(ujjainDays, 5.976833976833978, 1e-10)
+  });
+
   const future = estimateChapter9TimeCorrectionFromArcMotions({
     currentKalanshaDeg: 9,
     targetKalanshaDeg: 8,
