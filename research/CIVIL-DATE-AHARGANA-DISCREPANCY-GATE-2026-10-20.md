@@ -10,7 +10,7 @@ The Chapter IX diagnostic workflow passed on branch `research/ss-ch9-diagnostic`
 
 The 8 October 2026 Vidhyamitra reference ledger is labelled Kṛṣṇa Trayodaśī and gives rounded longitudes Sun = Kanyā 20°10′ and Moon = Siṃha 21°14′.
 
-1. The rounded longitudes imply elongation `231°14′ − 170°10′ = 61°04′` after normalizing the Moon–Sun difference, i.e. about `61.0667° / 12° = 27.5889` elapsed tithis from Śukla Pratipadā.
+1. Convert the signs to absolute zodiacal longitude: Sun Kanyā 20°10′ = `170°10′`; Moon Siṃha 21°14′ = `141°14′`. The normalized Moon–Sun elongation is `(141°14′ − 170°10′) mod 360° = 331°04′`, i.e. about `331.0667° / 12° = 27.5889` elapsed tithis from Śukla Pratipadā.
 2. Kṛṣṇa Trayodaśī has ordinal interval `[27, 28)`. The previously used `26.5` synthetic input is outside that interval and must not be used as a date-specific input.
 3. The civil-time bridge's chosen 2026-10-08 local-mean-noon fixture returns ahargana `714404169483.5`. Feeding the rounded-longitude candidate `27.5889` into the current Chapter I arithmetic produces approximately `714404169484.5889`, about `1.0889` days higher.
 4. This is **not yet proof that the source ledger is wrong**. The source labels the instant apparent noon, while the bridge fixture is local-mean noon; the exact meridian, day boundary, tithi fraction convention, and ahargana epoch/counting convention have not been reconciled. Rounded longitudes also limit the tithi-fraction precision.
