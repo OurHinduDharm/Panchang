@@ -372,7 +372,10 @@ export function runChapter9ArithmeticTests() {
   // occupied by Sun/planet to convert the time-angle back to ecliptic distance.
   // Burgess commentary transcription: https://sa.wikisource.org/wiki/पृष्ठम्:Surya_siddhanta_(with_commentary).pdf/३१३
   const ujjainU = 1554;
-  const ujjainDeltaKPranas = (15.558 - 11) * 60;
+  const ujjainLongitudeDifferenceDeg = 13 + 45 / 60 + 18 / 3600;
+  const ujjainLagnantaraAsus = ujjainLongitudeDifferenceDeg * 2036 / 30;
+  const ujjainCurrentK = ujjainLagnantaraAsus / 60;
+  const ujjainDeltaKPranas = (ujjainCurrentK - 11) * 60;
   const ujjainSunRate = chapter9TimeMotionFromArcMotion({
     dailyMotionArcminPerDay: 58,
     signRisingAsus: ujjainU
@@ -383,10 +386,12 @@ export function runChapter9ArithmeticTests() {
   });
   const ujjainDays = ujjainDeltaKPranas / (ujjainSunRate - ujjainJupiterRate);
   tests.push({
-    name: "IX.11 worked west-event control uses original occupied-sign U for converse ecliptic conversion (5.976834 days)",
-    passed: close(ujjainSunRate, 50.07333333333333) &&
+    name: "IX.11 worked west-event control uses original occupied-sign U for converse ecliptic conversion (5.977402 days from unrounded K)",
+    passed: close(ujjainLagnantaraAsus, 933.506) &&
+      close(ujjainCurrentK, 15.558433333333335) &&
+      close(ujjainSunRate, 50.07333333333333) &&
       close(ujjainJupiterRate, 4.316666666666667) &&
-      close(ujjainDays, 5.976833976833978, 1e-10)
+      close(ujjainDays, 5.977402200043712, 1e-10)
   });
 
   const future = estimateChapter9TimeCorrectionFromArcMotions({
