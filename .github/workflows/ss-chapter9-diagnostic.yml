@@ -16,6 +16,7 @@ on:
       - "ss_chapter1_ahargana_anchor.js"
       - "ss_chapter1_ahargana_calendar.js"
       - "ss_chapter1_mean_solar_longitude.js"
+      - "ss_chapter1_mean_planetary_positions.js"
       - "ss_chapter1_mean_solar_mandocca.js"
       - "ss_chapter2_solar_manda.js"
       - "ss_chapter2_solar_motion_candidate.js"
@@ -73,6 +74,7 @@ jobs:
           node --experimental-default-type=module --check ss_chapter1_ahargana_anchor.js
           node --experimental-default-type=module --check ss_chapter1_ahargana_calendar.js
           node --experimental-default-type=module --check ss_chapter1_mean_solar_longitude.js
+          node --experimental-default-type=module --check ss_chapter1_mean_planetary_positions.js
           node --experimental-default-type=module --check ss_chapter1_mean_solar_mandocca.js
           node --experimental-default-type=module --check ss_chapter2_solar_manda.js
           node --experimental-default-type=module --check ss_civil_date_epoch_adapter.js
@@ -219,6 +221,19 @@ jobs:
           const result = runChapter1MeanSolarLongitudeTests();
           for (const test of result.tests) console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
           console.log(`${result.passed}/${result.total} mean solar longitude tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-ratio mean planetary position and śīghrocca tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1MeanPlanetaryPositionTests } from './ss_chapter1_mean_planetary_positions.js';
+          const result = runChapter1MeanPlanetaryPositionTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} mean planetary position tests passed`);
           console.log(result.note);
           if (!result.allPassed) process.exit(1);
           NODE
