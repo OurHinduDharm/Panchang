@@ -104,7 +104,15 @@
     var cacheKey=[dateIso,location.lat,location.lon,location.elevation].join("|");
     if(panchangCache.has(cacheKey)) return panchangCache.get(cacheKey);
     var promise=Promise.resolve().then(async function(){
-      var panchangLib=await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
+      // Blogger के mini-panchang ने लाइब्रेरी पहले से उपलब्ध करा दी हो,
+      // तो उसी API का उपयोग करें; अन्यथा उसी मॉड्यूल को fallback के रूप में import करें।
+      var ready=window.__ohdPanchangam;
+      var panchangLib=(ready&&typeof ready.getPanchangam==="function"&&typeof ready.Observer==="function")
+        ? ready
+        : await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
+      if(typeof panchangLib.Observer!=="function"||typeof panchangLib.getPanchangam!=="function"){
+        throw new Error("Panchang library API unavailable");
+      }
       var observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
       var date=new Date(dateIso+"T12:00:00");
       var nextDate=new Date(date);nextDate.setDate(nextDate.getDate()+1);
