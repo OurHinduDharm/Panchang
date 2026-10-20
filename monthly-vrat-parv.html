@@ -38,6 +38,10 @@ select,button{font:inherit;border:1px solid #d8c9b5;border-radius:9px;padding:10
 .nav{display:flex;gap:8px;margin-top:10px}
 .nav button{flex:1;cursor:pointer;font-size:14px}
 .nav button.primary{background:#7d431b;color:#fff;border-color:#7d431b}
+.current-month-row{display:flex;justify-content:center;margin-top:9px}
+.current-month-row button{cursor:pointer;background:#fffaf2;border-color:#d8b98e;color:#70421f;font-weight:650;padding:8px 16px}
+.current-month-row button:hover{background:#fff0d9}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #dca45f;outline-offset:2px}
 .summary{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:17px 2px 9px}
 h2{font-size:19px;margin:0}
 .count{font-size:12px;color:var(--muted)}
@@ -108,6 +112,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     <button id="prevBtn" type="button">‹ पिछला महीना</button>
     <button id="nextBtn" class="primary" type="button">अगला महीना ›</button>
   </div>
+  <div class="current-month-row">
+    <button id="currentMonthBtn" type="button">वर्तमान महीना</button>
+  </div>
 </section>
 
 <div class="summary">
@@ -128,6 +135,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
   var monthSelect=document.getElementById("monthSelect");
   var yearSelect=document.getElementById("yearSelect");
+  var currentMonthBtn=document.getElementById("currentMonthBtn");
   var eventsEl=document.getElementById("events");
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
@@ -460,7 +468,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     countEl.textContent="लोड हो रहा है…";
     eventsEl.replaceChildren();
     var loading=document.createElement("div");loading.className="empty";loading.textContent="इस महीने की सूची लोड हो रही है…";eventsEl.appendChild(loading);
-    var url="data/festivals/"+year+"-"+String(month).padStart(2,"0")+".json";
+    var url="https://ourhindudharm.github.io/Panchang/data/festivals/"+year+"-"+String(month).padStart(2,"0")+".json";
     try{
       var response=await fetch(url);
       if(!response.ok) throw new Error("not-found");
@@ -488,7 +496,48 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   yearSelect.addEventListener("change",loadMonth);
   document.getElementById("prevBtn").addEventListener("click",function(){shiftMonth(-1);});
   document.getElementById("nextBtn").addEventListener("click",function(){shiftMonth(1);});
+  currentMonthBtn.addEventListener("click",function(){
+    var now=new Date();
+    var year=now.getFullYear();
+    var month=String(now.getMonth()+1).padStart(2,"0");
+    var yearOption=Array.from(yearSelect.options).find(function(option){return Number(option.value)===year;});
+    if(!yearOption){
+      var option=document.createElement("option");
+      option.value=String(year);option.textContent=String(year);
+      yearSelect.appendChild(option);
+    }
+    yearSelect.value=String(year);
+    monthSelect.value=month;
+    loadMonth();
+  });
   monthSelect.value="10";yearSelect.value="2026";loadMonth();
+})();
+
+// Blogger iframe में इस्तेमाल होने पर सामग्री की ऊँचाई parent page को बताएँ।
+(function(){
+  "use strict";
+  function reportHeight(){
+    if(window.parent===window)return;
+    var height=Math.max(
+      document.documentElement.scrollHeight,
+      document.body?document.body.scrollHeight:0
+    );
+    window.parent.postMessage(
+      {type:"ohd-monthly-widget-height",height:height},
+      "https://ourhindudharm.blogspot.com"
+    );
+  }
+  if("ResizeObserver" in window){
+    new ResizeObserver(reportHeight).observe(document.documentElement);
+  }
+  if("MutationObserver" in window){
+    new MutationObserver(reportHeight).observe(document.documentElement,{
+      childList:true,subtree:true,attributes:true,characterData:true
+    });
+  }
+  window.addEventListener("load",reportHeight);
+  window.addEventListener("resize",reportHeight);
+  reportHeight();
 })();
 </script>
 </body>
