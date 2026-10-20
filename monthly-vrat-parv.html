@@ -480,11 +480,25 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       render({events:[]},year,month,token);
     }
   }
+  function ensureYearOption(year){
+    var value=String(year);
+    var existing=Array.from(yearSelect.options).find(function(option){return option.value===value;});
+    if(existing)return existing;
+    var option=document.createElement("option");
+    option.value=value;option.textContent=value;
+    yearSelect.appendChild(option);
+    Array.from(yearSelect.options)
+      .sort(function(a,b){return Number(a.value)-Number(b.value);})
+      .forEach(function(item){yearSelect.appendChild(item);});
+    return option;
+  }
   function shiftMonth(delta){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
-    if(y<2026||y>2028){return;}
-    yearSelect.value=String(y);monthSelect.value=String(m).padStart(2,"0");loadMonth();
+    ensureYearOption(y);
+    yearSelect.value=String(y);
+    monthSelect.value=String(m).padStart(2,"0");
+    loadMonth();
   }
   locationSearchBtn.addEventListener("click",searchLocation);
   locationInput.addEventListener("keydown",function(event){
@@ -499,18 +513,17 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   currentMonthBtn.addEventListener("click",function(){
     var now=new Date();
     var year=now.getFullYear();
-    var month=String(now.getMonth()+1).padStart(2,"0");
-    var yearOption=Array.from(yearSelect.options).find(function(option){return Number(option.value)===year;});
-    if(!yearOption){
-      var option=document.createElement("option");
-      option.value=String(year);option.textContent=String(year);
-      yearSelect.appendChild(option);
-    }
+    ensureYearOption(year);
     yearSelect.value=String(year);
-    monthSelect.value=month;
+    monthSelect.value=String(now.getMonth()+1).padStart(2,"0");
     loadMonth();
   });
-  monthSelect.value="10";yearSelect.value="2026";loadMonth();
+  // पेज हर वर्ष अपने-आप वर्तमान महीने से खुले; पुराने/आने वाले वर्ष भी नेविगेशन में जुड़ सकें।
+  var initialDate=new Date();
+  ensureYearOption(initialDate.getFullYear());
+  yearSelect.value=String(initialDate.getFullYear());
+  monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
+  loadMonth();
 })();
 
 // Blogger iframe में इस्तेमाल होने पर सामग्री की ऊँचाई parent page को बताएँ।
