@@ -1,5 +1,6 @@
 // Load the independent classical-yoga engine here so Blogger, GitHub Pages,
 // and CDN consumers do not need a separate script tag.
+import "./ads-layout-print-safety.js";
 import "./classical-yogas.js";
 import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
