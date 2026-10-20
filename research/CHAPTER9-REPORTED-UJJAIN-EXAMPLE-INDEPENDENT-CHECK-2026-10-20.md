@@ -40,7 +40,7 @@ T=\frac{273.48}{50.073333-4.316667}
  =5.976834\text{ days}
 ]
 
-Rounded to two decimal places, this is **5.98 days**. Thus the submitted arithmetic is internally consistent with the commentary's converse-conversion explanation, provided the provisional (K), corrected longitude, rising-asus table value and daily motions are themselves valid.
+Rounded to two decimal places, this is **5.98 days**. The earlier 5.976834-day value came from rounding (K) to 15.558° too early. Thus the submitted arithmetic is internally consistent with the commentary's converse-conversion explanation, provided the provisional (K), corrected longitude, rising-asus table value and daily motions are themselves valid.
 
 ## What remains unverified
 
