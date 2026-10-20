@@ -12,10 +12,13 @@
     style.id = styleId;
     style.textContent = [
       "#ohd-monthly-festivals, #ohd-monthly-festivals main, #ohd-monthly-festivals .events, #ohd-monthly-festivals .event, #ohd-monthly-festivals .content { box-sizing:border-box; min-width:0; max-width:100%; }",
-      "#ohd-monthly-festivals .event { align-items:flex-start; }",
+      "#ohd-monthly-festivals .event { display:grid !important; grid-template-columns: minmax(54px,68px) minmax(0,1fr) !important; align-items:start; }",
+      "#ohd-monthly-festivals .event > .date { grid-column:1; grid-row:1; width:auto; min-width:0; }",
+      "#ohd-monthly-festivals .event > .content { grid-column:2; grid-row:1; width:100%; min-width:0; }",
+      "#ohd-monthly-festivals .event > :not(.date):not(.content) { min-width:0; max-width:100%; }",
       "#ohd-monthly-festivals .content, #ohd-monthly-festivals .title, #ohd-monthly-festivals .desc, #ohd-monthly-festivals .hindu-tithi, #ohd-monthly-festivals .links { min-width:0; max-width:100%; overflow-wrap:anywhere; }",
       "#ohd-monthly-festivals img, #ohd-monthly-festivals iframe, #ohd-monthly-festivals video { max-width:100%; }",
-      "@media(max-width:420px){#ohd-monthly-festivals main{padding:9px}#ohd-monthly-festivals .event{gap:8px;padding:9px}#ohd-monthly-festivals .date{flex:0 0 54px}}",
+      "@media(max-width:420px){#ohd-monthly-festivals main{padding:9px}#ohd-monthly-festivals .event{grid-template-columns:54px minmax(0,1fr) !important;gap:8px;padding:9px}#ohd-monthly-festivals .date{flex-basis:auto}}",
       "@media print {",
       "  #ohd-monthly-festivals .monthbar, #ohd-monthly-festivals .location-picker, #ohd-monthly-festivals .filters, #ohd-monthly-festivals .nav, #ohd-monthly-festivals .current-month-row, #ohd-monthly-festivals .draft { display:none !important; }",
       "  #ohd-monthly-festivals, #ohd-monthly-festivals main { height:auto !important; overflow:visible !important; background:#fff !important; }",
