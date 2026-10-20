@@ -53,3 +53,17 @@ The public page [Pañcāṅga · 8 October 2026](https://www.vidhyamitra.com/day
 This confirms Kṛṣṇa Trayodaśī for that sunrise snapshot, but it does not validate the earlier rounded apparent-noon values (Sun 170°10′, Moon 141°14′) or the creation-era Ahargaṇa anchor. The two snapshots differ materially in lunar longitude and time reference. The page could not be directly fetched for a full exact-time audit, so these values are a discovery lead, not a frozen fixture.
 
 **New gate:** trace the provenance of the apparent-noon longitude pair and independently pin the exact timestamp and time convention for both records. Compare like with like only. Keep the creation-era Ahargaṇa and Kali-epoch day count in separately labelled fields; do not compare their integer scales without an explicit epoch conversion.
+
+
+## Implementation progress — source-ratio mean planetary layer (20 October 2026)
+
+Added research-only module [ss_chapter1_mean_planetary_positions.js](../ss_chapter1_mean_planetary_positions.js) and wired its syntax/unit tests into the Chapter IX diagnostic workflow. This fills a real gap: the existing Chapter I mean-longitude helper covered the Sun only.
+
+The new layer exposes separate **mean longitude** and **śīghrocca longitude** using the Chapter I revolution counts:
+- Mercury mean place and Venus mean place use the Sun's 4,320,000-revolution count; their śīghrocca counts are 17,937,060 and 7,022,376 per yuga.
+- Mars, Jupiter and Saturn mean counts are 2,296,832, 364,220 and 146,568; their śīghrocca phase follows the Sun's 4,320,000 count.
+- Fractional-day phase is preserved with integer modulo arithmetic, avoiding a floating-point multiplication of the very large creation-era Ahargaṇa.
+
+The new dedicated tests passed in GitHub Actions run [39405398426](https://github.com/OurHinduDharm/Panchang/actions/runs/39405398426); the feature-validation workflow also passed on commit `74f0f8ea81857df4af4adf20c6d254fb35a81c40`. These tests establish the count arithmetic and declared mean-phase convention only. They do **not** validate the planetary apsis anchors, true longitude, true daily motion, or any Asta/Udaya time.
+
+**Next real calculation gate:** source-verify the relevant planetary mandocca/śīghrocca epoch anchors, then run one Venus and one Jupiter case through the complete Chapter II correction chain. Do not substitute the existing Sun-only manda candidate or the modern ephemeris derivative for source-derived planetary motion.
