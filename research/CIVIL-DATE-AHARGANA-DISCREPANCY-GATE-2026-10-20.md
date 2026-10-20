@@ -15,6 +15,14 @@ The 8 October 2026 Vidhyamitra reference ledger is labelled Kṛṣṇa Trayoda�
 3. The civil-time bridge's chosen 2026-10-08 local-mean-noon fixture returns ahargana `714404169483.5`. Feeding the rounded-longitude candidate `27.5889` into the current Chapter I arithmetic produces approximately `714404169484.5889`, about `1.0889` days higher.
 4. This is **not yet proof that the source ledger is wrong**. The source labels the instant apparent noon, while the bridge fixture is local-mean noon; the exact meridian, day boundary, tithi fraction convention, and ahargana epoch/counting convention have not been reconciled. Rounded longitudes also limit the tithi-fraction precision.
 
+## Primary-text clarification — retire the 1.0889-day comparison as a false like-for-like test
+
+The primary translation of Sūrya-siddhānta I.48–51 (Burgess/Sastri text) explicitly describes the result as the elapsed terrestrial-day count **at midnight on the meridian of Laṅkā**. The verse-1.50 commentary likewise defines Ahargaṇa as elapsed civil days at Laṅkā midnight. This is not the same quantity as a continuous research adapter's interpolated value at local-mean noon, nor does an apparent-noon tithi fraction automatically become the tithi input for that midnight count. See [Burgess/Sastri translation, I.48–51](https://en.wikisource.org/wiki/Page%3AEnglish_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri%2C_1861.djvu/18) and [Sri Jagannāth Center's worked Ahargaṇa explanation](https://srijagannath.org/jyoti%E1%B9%A3a/aharga%E1%B9%87a-calculations/).
+
+**Correction to the earlier gate:** the calculated 1.0889-day difference between the apparent-noon longitude-derived tithi fraction and the local-mean-noon interpolated Ahargaṇa is a comparison of unlike time conventions/quantities. It must **not** be treated as an established discrepancy in the source formula or as evidence that either source is wrong. Retain it only as a warning that the fixtures are not aligned; do not spend more work trying to force those two values to match.
+
+The actual unresolved task is narrower and more actionable: construct a source-faithful midnight Ahargaṇa fixture from independently verified traditional date fields, then separately advance the resulting day-count phase to the requested instant using an explicitly stated time coordinate. Keep the research-only continuous-JD adapter labelled as an interpolation/control until that linkage is independently verified.
+
 ## Required resolution before planetary predictions
 
 Do not patch the result by subtracting one day or changing the epoch offset to force a match. Establish one source-defined worked example with all of the following recorded independently:
