@@ -31,3 +31,17 @@ Then freeze that fixture and test adjacent instants on both sides of the source'
 ## Decision
 
 The current modules remain research-only. Do not compute or display a date-specific classical Venus Asta/Udaya time from this bridge yet. Keep the display in “सत्यापनाधीन” state. The next work item is a narrow source-convention reconciliation, not another threshold or UI change.
+
+
+## Additional cross-check: public Vidhyamitra day page (retrieved 20 October 2026)
+
+The public page [Pañcāṅga · 8 October 2026](https://www.vidhyamitra.com/day/2026-10-08) is a **different, explicitly sunrise-based snapshot** and must not be conflated with the earlier apparent-noon ledger values above. Its search-indexed contents report:
+
+- Sun longitude: 169.92° (Kanyā)
+- Moon longitude: 137.81° (Siṃha)
+- elongation: 327.89°, which gives 27.3242 elapsed tithis
+- Ahargaṇa from its declared Kali-epoch convention: 1,872,856.25 days
+
+This confirms Kṛṣṇa Trayodaśī for that sunrise snapshot, but it does not validate the earlier rounded apparent-noon values (Sun 170°10′, Moon 141°14′) or the creation-era Ahargaṇa anchor. The two snapshots differ materially in lunar longitude and time reference. The page could not be directly fetched for a full exact-time audit, so these values are a discovery lead, not a frozen fixture.
+
+**New gate:** trace the provenance of the apparent-noon longitude pair and independently pin the exact timestamp and time convention for both records. Compare like with like only. Keep the creation-era Ahargaṇa and Kali-epoch day count in separately labelled fields; do not compare their integer scales without an explicit epoch conversion.
