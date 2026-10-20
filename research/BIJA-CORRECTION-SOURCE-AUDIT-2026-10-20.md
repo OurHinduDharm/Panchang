@@ -18,7 +18,7 @@ Research-only. Do not modify production `app.js` or `extra-panchang.js`. Do not 
 
 ## Critical reconciliation finding
 
-The Makaranda-related secondary analysis and Burgess's table do not appear to be safe to merge as a single parameter set without checking their definitions. A modern reconstruction of Makaranda's tables reports Mercury-related numbers that differ in sign/quantity from Burgess's corrected revolution table, while Venus/Jupiter/Saturn show near −12/+? relationships dependent on whether the table refers to mean planet, śīghrocca, or revolution correction. This is a source-definition/epoch question, not a licence to choose whichever value matches modern ephemerides.
+The Makaranda-related reconstruction and Burgess's table must not be merged without checking their definitions. A secondary reconstruction reports longitude corrections consistent with revolution-count changes in the pattern Mercury +16, Venus −12, Jupiter −8, Saturn +12 (order stated explicitly here as the reconstructed pattern). Burgess instead prints Mercury −16, Venus −12, Jupiter −8, Saturn +12. The Mercury sign conflict is real in the reported material; it may reflect a transcription/interpretation difference or a different table definition, but that is not yet resolved. The Makaranda reconstruction is a secondary analysis, so the original table and calculation convention must be checked before choosing a sign.
 
 The IMD table also shows why a single fixed angle is inadequate: corrections differ by body and by computational point (mean planet, solar perigee, lunar perigee, Mercury/Venus śīghrocca). Do not confuse bīja correction with ayanāṃśa; the listed ayanāṃśa is separately about 24°13′ on the stated date.
 
