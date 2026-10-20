@@ -2,6 +2,13 @@
 (function(){
   "use strict";
   // सार्वजनिक दृश्य में केवल स्वीकृत प्रविष्टियाँ; ?review=1 से समीक्षा संकेत दिखते हैं।
+  // Blogger page editor may drop or ignore a stylesheet link in the page body.
+  // Ensure the shared stylesheet is attached even when the HTML link is stripped.
+  var cssHref="https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@efd797e1972027ec11a79498a2c575cf61f581ba/monthly-vrat-parv-widget.css";
+  if(!Array.from(document.styleSheets).some(function(sheet){try{return sheet.href===cssHref;}catch(_){return false;}})){
+    var cssLink=document.createElement("link");
+    cssLink.rel="stylesheet";cssLink.href=cssHref;document.head.appendChild(cssLink);
+  }
   var reviewMode=new URLSearchParams(window.location.search).get("review")==="1";
   var widgetRoot=document.getElementById("ohd-monthly-festivals");
   if(!widgetRoot){console.error("OHD monthly festival widget root not found.");return;}
@@ -306,7 +313,7 @@
            panchangDateCheck.getMonth()+1===Number(panchangDate.slice(5,7))&&
            panchangDateCheck.getDate()===Number(panchangDate.slice(8,10))){
           var panchangLink=document.createElement("a");
-          panchangLink.href="https://ourhindudharm.github.io/Panchang/?date="+panchangDate;
+          panchangLink.href="https://ourhindudharm.blogspot.com/p/panchang-today.html?date="+panchangDate;
           panchangLink.target="_blank";
           panchangLink.rel="noopener noreferrer";
           panchangLink.textContent="इस दिन का पंचांग देखें";
