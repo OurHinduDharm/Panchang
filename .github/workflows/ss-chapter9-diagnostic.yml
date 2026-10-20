@@ -294,7 +294,7 @@ jobs:
             ['Aksha display uses planet-specific meridian inputs', html.includes('planetRAForAksha') && html.includes('planetDeclinationForHalfDay') && !html.includes('akshaPointRA')],
             ['arithmetic test button exists', html.includes('id="runChapter9ArithmeticBtn"')],
             ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
-            ['legacy Venus limitation disclosed', html.includes('not the event-direction rule of Sūrya-siddhānta IX.7')],
+            ['Chapter IX event-geometry threshold selection disclosed', html.includes('Chapter IX.2–3 event-geometry candidate') && html.includes('legacy Venus direct/retrograde shortcut')],
             ['unverified fixtures and coordinate-frame blocker disclosed in the UI', html.includes('The four comparison dates are unverified fixtures') && html.includes('coordinate-frame question remains open')],
             ['legacy exact-time boundary is explicitly separated from SS IX.7 C', html.includes('पुरानी कोणीय परिकल्पना की सीमा (SS IX.7 नहीं)') && html.includes('इसे सूर्यसिद्धान्त IX.7 की घटना-दिशा आधारित C सीमा से न मिलाएँ')],
             ['K bracket labelled as a current candidate, not a canonical result', html.includes('Current K bracket') && !html.includes('Classical K bracket')],
