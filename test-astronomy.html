@@ -4036,12 +4036,20 @@ function getClassicalGeometry(body, date, planet) {
   const planetLon = getEclipticLongitude(body, date);
   const eclipticSeparation = Math.abs(signedLongitudeDelta(planetLon, sunLon));
   const trueSeparation = getElongation(body, date);
+  // getPlanetMotion returns degrees/hour; Chapter IX classifier expects degrees/day.
   const motion = getPlanetMotion(body, date);
-  let threshold = NaN;
-  if (planet === "Venus" && Number.isFinite(motion)) threshold = motion >= 0 ? 10 : 8;
-  else if (planet === "Jupiter") threshold = 11;
+  const motionDegPerDay = motion * 24;
+  const horizonEvent = classifyChapter9HorizonEvent({
+    planet, planetLongitudeDeg: planetLon, sunLongitudeDeg: sunLon,
+    dailyMotionDegPerDay: motionDegPerDay
+  });
+  // Select C from the IX.2–3 event branch and IX.6–9 limit table.
+  const threshold = chapter9Kalansha({
+    planet, horizonEvent,
+    motionClass: motionDegPerDay < 0 ? "retrograde" : "direct-fast"
+  });
   return {
-    sunLon, planetLon, eclipticSeparation, trueSeparation, motion,
+    sunLon, planetLon, eclipticSeparation, trueSeparation, motion, motionDegPerDay, horizonEvent,
     motionType: Number.isFinite(motion) ? (motion >= 0 ? "Direct" : "Retrograde") : "Motion unavailable",
     threshold,
     eclipticResidual: eclipticSeparation - threshold,
@@ -4088,7 +4096,7 @@ function runDrikBoundaryAudit() {
       <th>Ecliptic Δ from C</th><th>3-D Δ from C</th><th>Sun altitude</th>
       <th>Planet altitude</th><th>Azimuth difference</th>
     </tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="small">“Δ from threshold” is calculated separation minus the selected legacy threshold. Venus is currently assigned 8°/10° by motion state in this diagnostic, which is not the event-direction rule of Sūrya-siddhānta IX.7. Treat all values here as exploratory comparisons, not a validated classical or Drik event criterion.</p>`;
+    <p class="small">“Δ from threshold” is calculated separation minus C selected from the Chapter IX.2–3 event-geometry candidate and IX.6–9 limit table, replacing the legacy Venus direct/retrograde shortcut. This does not validate the ephemeris, coordinate frame, local visibility, or full IX.10–11 time correction. Research diagnostic only.</p>`;
 }
 
 function classicalResidual(geometry, useTrue) {
