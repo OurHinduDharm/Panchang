@@ -60,3 +60,25 @@ This confirms the ratio and arithmetic for this worked example; it does **not** 
 - **Not yet certified:** which IX.11 rising-asus frame governs the western-event conversion, the complete Chapter IX Udaya/Asta calculation, or any date-specific display.
 
 **Production guard:** no edits to `app.js` or `extra-panchang.js`; PR #22 remains research-only and Draft.
+
+
+## Source-reference correction and 2.12-day diagnostic — 22 October 2026
+
+A closer reading of Burgess's page 260 / the Wikisource scan changes how the earlier commentary evidence must be described.
+
+The explanatory paragraph on the scan says explicitly that the discussed verse is **verse 16**, and that it belongs after verse 11 in the natural order. It describes an *alternative* procedure: convert the visibility/time-degrees back to their ecliptic equivalent using the ascensional equivalent of the sign occupied by Sun and planet, then solve using their ecliptic daily motions. It is not a direct gloss on the IX.11 rising-asus multiplier. Source: https://sa.wikisource.org/wiki/पृष्ठम्:Surya_siddhanta_(with_commentary).pdf/३१३, especially the editorial explanation at lines 85–89; compare Burgess's English translation: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf.
+
+Therefore the earlier statement that this note gives direct textual support to the original-sign IX.11 candidate was too strong. **Withdraw that inference.** The page documents a separate converse/ecliptic-space method; it does not settle whether the sign-rising-asus used for IX.11 time-motion in a western-event calculation is taken before or after IX.5's six-sign transformation.
+
+### What the 2.12-day residual actually tells us
+
+For a western event, the implemented K calculation deliberately adds 180° to both longitudes before obtaining their sign-table rising equivalents, as required by IX.5. The daily K=C bracket and its local finite-difference rate are consequently measured in that shifted event frame. The event-frame IX.11 candidate uses the rising-asus belonging to those same shifted signs; the original-sign candidate uses different sign rising-asus values while trying to predict the crossing of the shifted-frame K. Thus the two-day-scale difference is a **frame-consistency discrepancy**, not by itself evidence that the original-sign interpretation is scripturally false or that the event-frame interpretation is scripturally proven.
+
+The existing Jupiter Asta diagnostic illustrates this: at the sampled event, the original-sign Sun/planet U values are 2127.835521 / 2074.828297 prāṇas, whereas the six-sign-shifted event-frame values are 1460.022510 / 1262.223547. Substituting the former into a rate meant to predict the latter frame's K naturally changes the estimated interval substantially. This explains the mechanism of the 2.12-day difference; it does not independently adjudicate the textual convention.
+
+### Updated decision
+
+1. Do not cite the IX.16 commentary as direct evidence for IX.11's sign frame.
+2. Keep both values visible in research output, but describe original-sign U as a **frame alternative**, not as the commentary-supported choice.
+3. Adjudicate IX.11 from its own Sanskrit syntax and the IX.5–IX.11 sequence, ideally with a worked source calculation. Do not use modern-date fit as the deciding authority.
+4. Keep production files unchanged. The 19 October Venus Asta and 30 October Venus Udaya results remain research comparisons, not certified classical timings.
