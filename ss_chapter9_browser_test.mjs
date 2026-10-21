@@ -285,6 +285,7 @@ try {
         !detail.includes("IX.10 target difference (prāṇa)") ||
         !detail.includes("IX.11 original-sign U (Sun / planet; prāṇa)") ||
         !detail.includes("IX.11 western event-frame U comparison (Sun / planet; prāṇa)") ||
+        !detail.includes("IX.10–11 alternative estimate using original-sign U (days; unadjudicated)") ||
         detail.includes("RA of intermediate ecliptic point")
       )) {
     throw new Error("One or more event cases are missing the dṛkkarma component audit.");
