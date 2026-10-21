@@ -3866,6 +3866,12 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>IX.11 planet time-motion (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.planetTimeMotionPranasPerDay)+'</span></div>';
       html += '<div class="metric"><strong>IX.10 signed K-rate (prāṇa/day)</strong><span>'+estimateMetric(timeEstimate?.signedKalanshaRatePranasPerDay)+'</span></div>';
       html += '<div class="metric"><strong>IX.10 target difference (prāṇa)</strong><span>'+estimateMetric(timeEstimate?.differencePranas)+'</span></div>';
+      html += '<div class="metric"><strong>IX.11 original-sign U (Sun / planet; prāṇa)</strong><span>'+
+        estimateMetric(timeEstimate?.ix11OriginalSignAsus?.sun)+' / '+
+        estimateMetric(timeEstimate?.ix11OriginalSignAsus?.planet)+'</span></div>';
+      html += '<div class="metric"><strong>IX.11 western event-frame U comparison (Sun / planet; prāṇa)</strong><span>'+
+        estimateMetric(timeEstimate?.ix11EventFrameSignAsus?.sun)+' / '+
+        estimateMetric(timeEstimate?.ix11EventFrameSignAsus?.planet)+'</span></div>';
       // Expose every valid daily sample so long-range drift can be traced to
       // the actual geometry and signed local rate, without changing formulas.
       const dailySamples = sequentialCrossing?.samples || [];
