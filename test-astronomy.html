@@ -3338,12 +3338,20 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
     : NaN;
 
   /*
-   * IX.5 shifts both western-event longitudes by six signs before
-   * computing lagnāntara. IX.11 must use the rising-asus of those same
-   * event-frame longitudes, not the unshifted zodiac signs.
+   * IX.5's six-sign shift constructs the western rising-equivalent used
+   * to calculate lagnāntara K. For IX.11's converse conversion of the
+   * time-angle to ecliptic motion, the commentary's ratio refers to the
+   * sign occupied by Sun and planet. Therefore use their unshifted
+   * longitudes here; keep event-frame U as a comparison, not the default.
    */
-  const planetSignRisingAsus = getSignRisingAsus(geometry.planetLon, config);
-  const sunSignRisingAsus = getSignRisingAsus(geometry.sunLon, config);
+  const planetOriginalLongitude = Number.isFinite(geometry.drikkarma?.correctedLongitude)
+    ? geometry.drikkarma.correctedLongitude
+    : geometry.rawPlanetLon;
+  const sunOriginalLongitude = geometry.sunSiderealLongitude;
+  const planetSignRisingAsus = getSignRisingAsus(planetOriginalLongitude, config);
+  const sunSignRisingAsus = getSignRisingAsus(sunOriginalLongitude, config);
+  const planetEventFrameSignRisingAsus = getSignRisingAsus(geometry.planetLon, config);
+  const sunEventFrameSignRisingAsus = getSignRisingAsus(geometry.sunLon, config);
   const signedLagnantaraDeg = geometry.signedLagnantaraAsu / 60;
 
   try {
@@ -3371,6 +3379,9 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
       ...rawMotionEstimate,
       rawPlanetMotionArcminPerDay: planetDailyMotionArcminPerDay,
       correctedPlanetDailyMotionArcminPerDay,
+      ix11SignFrame: "original-occupied-sign",
+      ix11OriginalSignAsus: { sun: sunSignRisingAsus, planet: planetSignRisingAsus },
+      ix11EventFrameSignAsus: { sun: sunEventFrameSignRisingAsus, planet: planetEventFrameSignRisingAsus },
       correctedMotionEstimate,
       correctedMotionRateDeltaPranasPerDay:
         Number.isFinite(correctedMotionEstimate?.signedKalanshaRatePranasPerDay)
