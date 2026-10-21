@@ -3338,18 +3338,19 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
     : NaN;
 
   /*
-   * IX.5's six-sign shift constructs the western rising-equivalent used
-   * to calculate lagnāntara K. For IX.11's converse conversion of the
-   * time-angle to ecliptic motion, the commentary's ratio refers to the
-   * sign occupied by Sun and planet. Therefore use their unshifted
-   * longitudes here; keep event-frame U as a comparison, not the default.
+   * IX.5's six-sign shift constructs the western rising-equivalent for K.
+   * The commentary's IX.11 ratio says "the sign in which the Sun and planet
+   * are situated"; whether that means their original zodiac signs or their
+   * six-sign-shifted event-frame signs needs a worked source example. Keep
+   * both candidates explicit. The existing event-frame candidate remains the
+   * provisional primary only for continuity; neither frame is certified.
    */
   const planetOriginalLongitude = Number.isFinite(geometry.drikkarma?.correctedLongitude)
     ? geometry.drikkarma.correctedLongitude
     : geometry.rawPlanetLon;
   const sunOriginalLongitude = geometry.sunSiderealLongitude;
-  const planetSignRisingAsus = getSignRisingAsus(planetOriginalLongitude, config);
-  const sunSignRisingAsus = getSignRisingAsus(sunOriginalLongitude, config);
+  const planetOriginalSignAsus = getSignRisingAsus(planetOriginalLongitude, config);
+  const sunOriginalSignAsus = getSignRisingAsus(sunOriginalLongitude, config);
   const planetEventFrameSignRisingAsus = getSignRisingAsus(geometry.planetLon, config);
   const sunEventFrameSignRisingAsus = getSignRisingAsus(geometry.sunLon, config);
   const signedLagnantaraDeg = geometry.signedLagnantaraAsu / 60;
@@ -3361,8 +3362,17 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
       signedLagnantaraDeg,
       sunDailyMotionArcminPerDay,
       planetDailyMotionArcminPerDay,
-      sunSignRisingAsus,
-      planetSignRisingAsus
+      sunSignRisingAsus: sunEventFrameSignRisingAsus,
+      planetSignRisingAsus: planetEventFrameSignRisingAsus
+    });
+    const originalSignMotionEstimate = estimateChapter9TimeCorrectionFromArcMotions({
+      currentKalanshaDeg: geometry.K,
+      targetKalanshaDeg,
+      signedLagnantaraDeg,
+      sunDailyMotionArcminPerDay,
+      planetDailyMotionArcminPerDay,
+      sunSignRisingAsus: sunOriginalSignAsus,
+      planetSignRisingAsus: planetOriginalSignAsus
     });
     const correctedMotionEstimate = Number.isFinite(correctedPlanetDailyMotionArcminPerDay)
       ? estimateChapter9TimeCorrectionFromArcMotions({
@@ -3371,18 +3381,31 @@ function getChapter9TimeEstimate(planet, eventTime, geometry, targetKalanshaDeg,
           signedLagnantaraDeg,
           sunDailyMotionArcminPerDay,
           planetDailyMotionArcminPerDay: correctedPlanetDailyMotionArcminPerDay,
-          sunSignRisingAsus,
-          planetSignRisingAsus
+          sunSignRisingAsus: sunEventFrameSignRisingAsus,
+          planetSignRisingAsus: planetEventFrameSignRisingAsus
+        })
+      : null;
+    const correctedOriginalSignMotionEstimate = Number.isFinite(correctedPlanetDailyMotionArcminPerDay)
+      ? estimateChapter9TimeCorrectionFromArcMotions({
+          currentKalanshaDeg: geometry.K,
+          targetKalanshaDeg,
+          signedLagnantaraDeg,
+          sunDailyMotionArcminPerDay,
+          planetDailyMotionArcminPerDay: correctedPlanetDailyMotionArcminPerDay,
+          sunSignRisingAsus: sunOriginalSignAsus,
+          planetSignRisingAsus: planetOriginalSignAsus
         })
       : null;
     return {
       ...rawMotionEstimate,
       rawPlanetMotionArcminPerDay: planetDailyMotionArcminPerDay,
       correctedPlanetDailyMotionArcminPerDay,
-      ix11SignFrame: "original-occupied-sign",
-      ix11OriginalSignAsus: { sun: sunSignRisingAsus, planet: planetSignRisingAsus },
+      ix11SignFrame: "event-frame-provisional-unadjudicated",
+      ix11OriginalSignAsus: { sun: sunOriginalSignAsus, planet: planetOriginalSignAsus },
       ix11EventFrameSignAsus: { sun: sunEventFrameSignRisingAsus, planet: planetEventFrameSignRisingAsus },
+      originalSignMotionEstimate,
       correctedMotionEstimate,
+      correctedOriginalSignMotionEstimate,
       correctedMotionRateDeltaPranasPerDay:
         Number.isFinite(correctedMotionEstimate?.signedKalanshaRatePranasPerDay)
           ? correctedMotionEstimate.signedKalanshaRatePranasPerDay -
