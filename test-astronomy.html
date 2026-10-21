@@ -3895,6 +3895,8 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>IX.11 western event-frame U comparison (Sun / planet; prāṇa)</strong><span>'+
         estimateMetric(timeEstimate?.ix11EventFrameSignAsus?.sun)+' / '+
         estimateMetric(timeEstimate?.ix11EventFrameSignAsus?.planet)+'</span></div>';
+      html += '<div class="metric"><strong>IX.10–11 alternative estimate using original-sign U (days; unadjudicated)</strong><span>'+
+        estimateMetric(timeEstimate?.originalSignMotionEstimate?.estimatedDays)+'</span></div>';
       // Expose every valid daily sample so long-range drift can be traced to
       // the actual geometry and signed local rate, without changing formulas.
       const dailySamples = sequentialCrossing?.samples || [];
