@@ -4,11 +4,9 @@
 
 ## Correction from the commentary
 
-The Burgess translation/commentary reproduced on Wikisource, page 313 of the Sanskrit-with-commentary PDF, explains the converse conversion: degrees of time/visibility are converted to their ecliptic equivalent by the ratio **1800 : the ascensional equivalent of the sign in which the Sun and planet are situated**. Equivalently, the ecliptic-equivalent distance is K × 1800/U, and daily arc motion is converted to time-motion by multiplying it by U/1800.
+The Burgess commentary reproduced on Wikisource, page 313 of the Sanskrit-with-commentary PDF, explains a **separate alternative in IX.16**: convert time/visibility degrees to their ecliptic equivalent by the ratio **1800 : the ascensional equivalent of the sign in which the Sun and planet are situated**. Burgess explicitly says this verse belongs after IX.11 in the natural order; it is not a direct gloss on IX.11's *tallagnāsu*. Source: https://sa.wikisource.org/wiki/पृष्ठम्:Surya_siddhanta_(with_commentary).pdf/३१३ (explanatory text lines 85–89).
 
-Source: https://sa.wikisource.org/wiki/पृष्ठम्:Surya_siddhanta_(with_commentary).pdf/३१३ (see explanatory text lines 85–89).
-
-This passage supports the original-sign reading at the level of the supplied worked example; it does not by itself settle how the sign phrase applies after the western six-sign transformation in a complete date-specific solver. The two interpretations must therefore be carried as separate candidates until a worked source example or additional commentary resolves the frame.
+The supplied Ujjain arithmetic uses original-sign U for IX.11, but that choice is not justified by this IX.16 commentary. Keep original-sign and event-frame calculations as separate candidates until IX.11's own wording and its relationship to the six-sign shift in IX.5 are adjudicated.
 
 ## Recalculation using unrounded inputs
 
