@@ -21,6 +21,7 @@ on:
       - "ss_chapter1_mean_planetary_mandocca.js"
       - "ss_chapter1_planetary_mandocca_epoch_candidates.js"
       - "ss_chapter2_planetary_true_position_candidate.js"
+      - "ss_chapter2_planetary_daily_motion_candidate.js"
       - "ss_chapter2_solar_manda.js"
       - "ss_chapter2_solar_motion_candidate.js"
       - "ss_chapter2_daily_motion_correction.js"
@@ -83,6 +84,7 @@ jobs:
           node --experimental-default-type=module --check ss_chapter1_mean_planetary_mandocca.js
           node --experimental-default-type=module --check ss_chapter1_planetary_mandocca_epoch_candidates.js
           node --experimental-default-type=module --check ss_chapter2_planetary_true_position_candidate.js
+          node --experimental-default-type=module --check ss_chapter2_planetary_daily_motion_candidate.js
           node --experimental-default-type=module --check ss_chapter2_solar_manda.js
           node --experimental-default-type=module --check ss_civil_date_epoch_adapter.js
           node --experimental-default-type=module --check ss_chapter1_epoch_bridge.js
