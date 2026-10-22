@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "year": 2029,
+  "month": 6,
+  "monthName": "जून",
+  "status": "approved",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "events": [
+    {
+      "date": "2029-06-07",
+      "dateLabel": "7 जून",
+      "title": "अपरा एकादशी",
+      "description": "अपरा एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण एकादशी"
+    },
+    {
+      "date": "2029-06-11",
+      "dateLabel": "11 जून",
+      "title": "वट सावित्री व्रत",
+      "description": "वट सावित्री व्रत में वटवृक्ष और सावित्री-सत्यवान की पूजा की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ अमावस्या"
+    },
+    {
+      "date": "2029-06-12",
+      "dateLabel": "12 जून",
+      "title": "शनि जयंती",
+      "description": "शनि जयंती पर शनिदेव की पूजा, दान और सेवा की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ अमावस्या"
+    },
+    {
+      "date": "2029-06-15",
+      "dateLabel": "15 जून",
+      "title": "मिथुन संक्रांति",
+      "description": "मिथुन संक्रांति पर स्नान, दान और सूर्योपासना की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का मिथुन राशि में प्रवेश"
+    },
+    {
+      "date": "2029-06-21",
+      "dateLabel": "21 जून",
+      "title": "गंगा दशहरा",
+      "description": "गंगा दशहरा पर माँ गंगा की पूजा, स्नान, दान और जप का महत्व है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल दशमी"
+    },
+    {
+      "date": "2029-06-22",
+      "dateLabel": "22 जून",
+      "title": "निर्जला एकादशी",
+      "description": "निर्जला एकादशी भगवान विष्णु को समर्पित व्रत है। स्वास्थ्य और सामर्थ्य के अनुसार व्रत करें।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी"
+    },
+    {
+      "date": "2029-06-26",
+      "dateLabel": "26 जून",
+      "title": "ज्येष्ठ पूर्णिमा",
+      "description": "ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और पूजा की परंपरा है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
+    }
+  ]
+}

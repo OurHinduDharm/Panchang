@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "year": 2029,
+  "month": 9,
+  "monthName": "सितंबर",
+  "status": "approved",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "events": [
+    {
+      "date": "2029-09-01",
+      "dateLabel": "1 सितंबर",
+      "title": "श्रीकृष्ण जन्माष्टमी",
+      "description": "श्रीकृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण की पूजा, भजन और रात्रि-जागरण की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण अष्टमी"
+    },
+    {
+      "date": "2029-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "अजा एकादशी",
+      "description": "अजा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण एकादशी"
+    },
+    {
+      "date": "2029-09-11",
+      "dateLabel": "11 सितंबर",
+      "title": "गणेश चतुर्थी",
+      "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजा और भोग अर्पित किया जाता है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल चतुर्थी"
+    },
+    {
+      "date": "2029-09-11",
+      "dateLabel": "11 सितंबर",
+      "title": "हरतालिका तीज",
+      "description": "हरतालिका तीज पर शिव-पार्वती की पूजा और व्रत की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल तृतीया"
+    },
+    {
+      "date": "2029-09-12",
+      "dateLabel": "12 सितंबर",
+      "title": "ऋषि पंचमी",
+      "description": "ऋषि पंचमी पर सप्तऋषियों का पूजन और परंपरानुसार व्रत किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल पंचमी"
+    },
+    {
+      "date": "2029-09-15",
+      "dateLabel": "15 सितंबर",
+      "title": "राधाष्टमी",
+      "description": "राधाष्टमी पर श्रीराधा रानी की पूजा, भजन और स्मरण की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+    },
+    {
+      "date": "2029-09-17",
+      "dateLabel": "17 सितंबर",
+      "title": "कन्या संक्रांति",
+      "description": "कन्या संक्रांति पर स्नान, दान और सूर्योपासना की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का कन्या राशि में प्रवेश"
+    },
+    {
+      "date": "2029-09-18",
+      "dateLabel": "18 सितंबर",
+      "title": "परिवर्तिनी एकादशी",
+      "description": "परिवर्तिनी एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी"
+    },
+    {
+      "date": "2029-09-21",
+      "dateLabel": "21 सितंबर",
+      "title": "अनंत चतुर्दशी / गणेश विसर्जन",
+      "description": "अनंत चतुर्दशी पर अनंत भगवान की पूजा तथा अनेक परंपराओं में गणेश विसर्जन किया जाता है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल चतुर्दशी"
+    },
+    {
+      "date": "2029-09-22",
+      "dateLabel": "22 सितंबर",
+      "title": "भाद्रपद पूर्णिमा",
+      "description": "भाद्रपद पूर्णिमा पर स्नान, दान और पूजा की परंपरा है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2029-09-23",
+      "dateLabel": "23 सितंबर",
+      "title": "पितृपक्ष प्रारम्भ",
+      "description": "पितृपक्ष में पितरों के निमित्त श्राद्ध, तर्पण और दान किए जाते हैं।",
+      "category": "श्राद्ध",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "आश्विन कृष्ण प्रतिपदा"
+    }
+  ]
+}

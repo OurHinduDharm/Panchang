@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "year": 2029,
+  "month": 7,
+  "monthName": "जुलाई",
+  "status": "approved",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "events": [
+    {
+      "date": "2029-07-07",
+      "dateLabel": "7 जुलाई",
+      "title": "योगिनी एकादशी",
+      "description": "योगिनी एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण एकादशी"
+    },
+    {
+      "date": "2029-07-13",
+      "dateLabel": "13 जुलाई",
+      "title": "जगन्नाथ रथयात्रा",
+      "description": "जगन्नाथ रथयात्रा भगवान जगन्नाथ, बलभद्र और सुभद्रा की यात्रा का उत्सव है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल द्वितीया"
+    },
+    {
+      "date": "2029-07-16",
+      "dateLabel": "16 जुलाई",
+      "title": "कर्क संक्रांति",
+      "description": "कर्क संक्रांति पर स्नान, दान और सूर्योपासना की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का कर्क राशि में प्रवेश"
+    },
+    {
+      "date": "2029-07-21",
+      "dateLabel": "21 जुलाई",
+      "title": "देवशयनी एकादशी",
+      "description": "देवशयनी एकादशी पर भगवान विष्णु की पूजा की जाती है और चातुर्मास आरम्भ होने की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल एकादशी"
+    },
+    {
+      "date": "2029-07-25",
+      "dateLabel": "25 जुलाई",
+      "title": "गुरु पूर्णिमा",
+      "description": "गुरु पूर्णिमा पर गुरु-पूजन, कृतज्ञता, स्वाध्याय और दान की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ पूर्णिमा"
+    }
+  ]
+}
