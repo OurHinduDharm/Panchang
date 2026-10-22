@@ -68,6 +68,8 @@ Applying the *candidate* common frame offset calibrated from the Sun's mandocca 
 
 The common residual of about **−2.65°** is now the useful clue. It is much smaller than the raw 20.4° and is consistent across the three bodies, but it is not yet explained. It may reflect the secondary solar mandocca anchor, the exact source-frame transformation, the historical table's time convention, or the Chapter II.46 correction. The mean-Sun row is only a gross diagnostic because it compares mean Sun with true Sun; its solar manda correction is too small to explain a multi-degree residual.
 
+A second source detail needs direct adjudication before selecting a frame constant: Burgess's prose says the origin of the Hindu sphere is **18°58′ east of the vernal equinox on 1 January 1860**. If this literal offset is applied as an alternative diagnostic, the shared residual drops to about **−1.47°** (Sun gross check −1.480°, Venus −1.459°, Jupiter −1.468°). However, this prose phrase must be confirmed to describe the same coordinate transformation as the 1850 mandocca table; do not silently replace the solar-calibrated 17.777006° offset with 18°58′. The diagnostic now reports both alternatives and their 1.18966° difference.
+
 Source: Burgess, *Translation of the Sûrya-Siddhânta*, Chapter II, “True Places and Motions of the Planets, Jan. 1st, 1860, midnight, at Washington”:
 https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf
 The table explicitly distinguishes “from Hindu eq.” from “from true eq.”; the frame transform must be made explicit before claiming agreement.
