@@ -392,7 +392,7 @@ export function runChapter2PlanetaryTruePositionTests() {
       transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg), 114 + 36 / 60),
       literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg), 114 + 36 / 60)
     },
-    status: "UNRESOLVED: the candidate solar-calibrated offset leaves ~2.65° residual; Burgess's prose reports 18°05′08″ for the sphere origin; using that as a distinct offset candidate leaves ~2.34° and must be confirmed as the same frame definition. Audit the original edition, frame definition, and historical time convention before event prediction."
+    status: "EXTERNAL ACCURACY CHECK ONLY: Burgess's 1860 table uses Le Verrier planetary revolution data, Peirce's lunar tables, and Hansen's apsis/node tables; it is not a worked output of the Sūrya-siddhānta algorithm. The ~2.34° residual with the printed 18°05′08″ frame offset is therefore a model-vs-modern-ephemeris residual, not by itself proof of a coding error. Verify frame conversion and compare intermediate equations against an actual classical worked example before event prediction."
   });
   tests.push({
     name: "Chapter II.46 computes a finite, signed bhujantara correction and preserves the pre-correction true place",
@@ -406,7 +406,7 @@ export function runChapter2PlanetaryTruePositionTests() {
   });
 
   tests.push({
-    name: "Burgess 1860 comparison reports raw and frame-transformed residuals without hiding the remaining mismatch",
+    name: "Burgess 1860 external-ephemeris comparison reports raw and transformed residuals without claiming formula validation",
     passed: Number.isFinite(historicalTableCheck.meanSun.calculatedKaliFixedFrameDeg) &&
       Number.isFinite(historicalTableCheck.meanSun.transformedDifferenceDeg) &&
       Number.isFinite(historicalTableCheck.venus.transformedDifferenceDeg) &&
