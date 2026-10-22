@@ -3,7 +3,7 @@
 
   // Load the currently reviewed monthly widget, then add Blogger-safe layout
   // and print rules. Auto ads remain untouched on screen.
-  var widgetUrl = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@bb8ddc12a1219d1d9f9db8e1e932c2759583676b/monthly-vrat-parv-widget.js";
+  var widgetUrl = "https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@3b3feee6fe66bce8267f4970ed7e604a67b9d735/monthly-vrat-parv-widget.js";
   var styleId = "ohd-monthly-widget-print-safety";
 
   function installSearchClearButton() {
