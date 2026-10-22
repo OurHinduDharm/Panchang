@@ -13,7 +13,8 @@
   var widgetRoot=document.getElementById("ohd-monthly-festivals");
   if(!widgetRoot){console.error("OHD monthly festival widget root not found.");return;}
   widgetRoot.classList.toggle("review-mode",reviewMode);
-  document.getElementById("reviewBanner").hidden=!reviewMode;
+  var reviewBanner=document.getElementById("reviewBanner");
+  if(reviewBanner) reviewBanner.hidden=!reviewMode;
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
   var monthSelect=document.getElementById("monthSelect");
   var yearSelect=document.getElementById("yearSelect");
