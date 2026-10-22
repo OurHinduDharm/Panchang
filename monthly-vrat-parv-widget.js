@@ -47,6 +47,7 @@
     locationStatus.insertAdjacentElement("afterend",locationSuggestions);
   }
   var requestToken=0;
+  var activeMonthRequest=null;
   var panchangCache=new Map();
   // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
   var selectedLocationInSession=null;
@@ -381,6 +382,11 @@
   }
   async function loadMonth(){
     var token=++requestToken;
+    // नई navigation पर पुराने अटके हुए request को रद्द करें।
+    if(activeMonthRequest){activeMonthRequest.abort();activeMonthRequest=null;}
+    var controller=new AbortController();
+    activeMonthRequest=controller;
+    var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     countEl.textContent="लोड हो रहा है…";
@@ -388,7 +394,7 @@
     var loading=document.createElement("div");loading.className="empty";loading.textContent="इस महीने की सूची लोड हो रही है…";eventsEl.appendChild(loading);
     var url="https://ourhindudharm.github.io/Panchang/data/festivals/"+year+"-"+String(month).padStart(2,"0")+".json";
     try{
-      var response=await fetch(url);
+      var response=await fetch(url,{signal:controller.signal,cache:"no-cache"});
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
@@ -396,6 +402,12 @@
     }catch(e){
       if(token!==requestToken)return;
       render({events:[]},year,month,token);
+      if(e&&e.name==="AbortError"){
+        countEl.textContent="लोड होने में समय लगा। कृपया फिर से महीना चुनें।";
+      }
+    }finally{
+      clearTimeout(timeoutId);
+      if(token===requestToken)activeMonthRequest=null;
     }
   }
   function ensureYearOption(year){
@@ -412,10 +424,19 @@
   }
   function shiftMonth(delta){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
+    if(!Number.isFinite(y)||!Number.isFinite(m))return;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
+    loadMonth();
+  }
+  function goToCurrentMonth(){
+    var now=new Date();
+    var year=now.getFullYear();
+    ensureYearOption(year);
+    yearSelect.value=String(year);
+    monthSelect.value=String(now.getMonth()+1).padStart(2,"0");
     loadMonth();
   }
   locationSearchBtn.addEventListener("click",searchLocation);
@@ -426,15 +447,14 @@
   searchInput.addEventListener("input",applyFilters);
   monthSelect.addEventListener("change",loadMonth);
   yearSelect.addEventListener("change",loadMonth);
-  document.getElementById("prevBtn").addEventListener("click",function(){shiftMonth(-1);});
-  document.getElementById("nextBtn").addEventListener("click",function(){shiftMonth(1);});
-  if(currentMonthBtn) currentMonthBtn.addEventListener("click",function(){
-    var now=new Date();
-    var year=now.getFullYear();
-    ensureYearOption(year);
-    yearSelect.value=String(year);
-    monthSelect.value=String(now.getMonth()+1).padStart(2,"0");
-    loadMonth();
+  document.getElementById("prevBtn").addEventListener("click",function(event){
+    event.preventDefault();shiftMonth(-1);
+  });
+  document.getElementById("nextBtn").addEventListener("click",function(event){
+    event.preventDefault();shiftMonth(1);
+  });
+  if(currentMonthBtn) currentMonthBtn.addEventListener("click",function(event){
+    event.preventDefault();goToCurrentMonth();
   });
   // पेज हर वर्ष अपने-आप वर्तमान महीने से खुले; पुराने/आने वाले वर्ष भी नेविगेशन में जुड़ सकें।
   var initialDate=new Date();
