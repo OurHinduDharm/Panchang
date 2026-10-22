@@ -36,6 +36,16 @@
       "hinduTithi": "आश्विन शुक्ल अष्टमी"
     },
     {
+      "date": "2029-10-15",
+      "dateLabel": "15 अक्टूबर",
+      "title": "महानवमी",
+      "description": "महानवमी पर माँ दुर्गा की पूजा, हवन और परंपरानुसार कन्या-पूजन किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल नवमी"
+    },
+    {
       "date": "2029-10-16",
       "dateLabel": "16 अक्टूबर",
       "title": "विजयादशमी / दशहरा",
@@ -46,6 +56,36 @@
       "hinduTithi": "आश्विन शुक्ल दशमी"
     },
     {
+      "date": "2029-10-17",
+      "dateLabel": "17 अक्टूबर",
+      "title": "तुला संक्रांति",
+      "description": "तुला संक्रांति पर स्नान, दान और सूर्योपासना की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का तुला राशि में प्रवेश"
+    },
+    {
+      "date": "2029-10-18",
+      "dateLabel": "18 अक्टूबर",
+      "title": "पापांकुशा एकादशी",
+      "description": "पापांकुशा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल एकादशी"
+    },
+    {
+      "date": "2029-10-21",
+      "dateLabel": "21 अक्टूबर",
+      "title": "शरद पूर्णिमा / कोजागरी पूर्णिमा",
+      "description": "शरद पूर्णिमा पर चंद्र-दर्शन, लक्ष्मी-पूजन और परंपरानुसार खीर अर्पण की परंपरा है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
+    },
+    {
       "date": "2029-10-26",
       "dateLabel": "26 अक्टूबर",
       "title": "करवा चौथ",
@@ -54,6 +94,16 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण चतुर्थी"
+    },
+    {
+      "date": "2029-10-30",
+      "dateLabel": "30 अक्टूबर",
+      "title": "अहोई अष्टमी",
+      "description": "अहोई अष्टमी पर संतान की मंगल-कामना से अहोई माता की पूजा और व्रत की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण अष्टमी"
     }
   ]
 }
