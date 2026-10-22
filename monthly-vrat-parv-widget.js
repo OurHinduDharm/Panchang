@@ -285,8 +285,15 @@
       var strong=document.createElement("strong");strong.textContent=item.dateLabel||String(item.date||"").slice(8,10);
       date.appendChild(strong);
       var dateObj=new Date(String(item.date||"")+"T12:00:00");
+      var monthName=document.createElement("span");
+      monthName.className="month-name";
+      monthName.textContent=Number.isNaN(dateObj.getTime())?"":months[dateObj.getMonth()];
+      monthName.style.cssText="display:block;font-size:10px;line-height:1.3;overflow-wrap:normal;word-break:keep-all";
+      date.appendChild(monthName);
       var small=document.createElement("small");
-      small.textContent=Number.isNaN(dateObj.getTime())?"":["रवि","सोम","मंगल","बुध","गुरु","शुक्र","शनि"][dateObj.getDay()];
+      small.className="weekday";
+      small.textContent=Number.isNaN(dateObj.getTime())?"":["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"][dateObj.getDay()];
+      small.style.cssText="font-size:10px;line-height:1.3;overflow-wrap:normal;word-break:keep-all";
       date.appendChild(small);card.appendChild(date);
 
       card.dataset.search=[item.title,item.hinduTithi,item.description,item.category].join(" ");
