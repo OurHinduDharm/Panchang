@@ -441,7 +441,7 @@ export function runChapter2PlanetaryTruePositionTests() {
       Number.isFinite(historicalTableCheck.ahargana) &&
       Math.abs(historicalTableCheck.venus.transformedDifferenceDeg) > 1 &&
       Math.abs(historicalTableCheck.jupiter.transformedDifferenceDeg) > 1 &&
-      historicalTableCheck.status.startsWith("UNRESOLVED")
+      historicalTableCheck.status.startsWith("EXTERNAL ACCURACY CHECK ONLY")
   });
 
   return {
