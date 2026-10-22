@@ -111,7 +111,7 @@ Burgess's explanatory note does not treat the compound `trijyāntyakarṇa` as u
 The research helper previously accepted a numeric `radius` only, which meant the alternative reading could be approximated by passing a different number but would be mislabeled as a radius. That interface is now corrected in `ss_chapter2_daily_motion_correction.js`:
 
 - `referenceLengthKind: "trijya"` — the radius reading, with the reference length supplied explicitly.
-- `referenceLengthKind: "third-hypotenuse"` — the alternative reading, with the third-process hypotenuse supplied explicitly.
+- `referenceLengthKind: "third-hypotenuse"` — the alternative reading, with the cosine of the second equation (the fourth-pass adjusted radius) supplied explicitly.
 - The result reports the selected reading and reference length. Unknown interpretations and non-positive reference lengths are rejected.
 - Synthetic tests cover the alternative branch and confirm that the two interpretations are not silently conflated.
 
@@ -286,3 +286,10 @@ This is a useful discriminating result: the solar match alone is not evidence th
 Interpretation guard: this does **not** establish that the Sūrya-siddhānta or Vidhyamitra ledger is wrong. It establishes that the third-party repository's epoch/initial-phase assumption is incompatible with this multi-body source control, or that its reported inputs are not yet frame/time-normalized. The next task is to derive each planet/śīghrocca initial phase and the relevant mandocca/śīghrocca motion from the chosen text/edition and test them against at least one independent ledger entry before computing Chapter II.47–51 bhukti. No fitted offsets should be introduced merely to force a match.
 
 The Chapter II arithmetic adapter remains useful only after those inputs are supplied. Production files remain unchanged.
+
+
+## Correction to the II.50–51 alternative reading — 22 October 2026
+
+The alternate reading was previously labelled “third and fourth hypotenuses.” That wording was not faithful to Burgess's note. The printed note says that some commentators understand “radius” as **the cosine of the second equation found in the fourth operation**. The helper interface now calls this `referenceLengthKind: "second-equation-cosine"`, and the date-anchored diagnostic evaluates both (a) the standard trijyā/radius reading and (b) this explicitly supplied fourth-pass adjusted-radius candidate. The alternative must not be silently substituted for the standard reading.
+
+Source note: Burgess translation, Chapter II.50–51, scan/text cross-check: https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf and https://upload.wikimedia.org/wikipedia/commons/2/2b/Translation_of_the_S%C3%BBrya-Siddh%C3%A2nta%2C_A_Text-Book_of_Hindu_Astronomy%3B_With_Notes%2C_and_an_Appendix_%28IA_jstor-592174%29.pdf
