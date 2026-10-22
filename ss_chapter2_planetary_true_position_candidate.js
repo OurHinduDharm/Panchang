@@ -21,7 +21,7 @@ import {
   chapter2ArcMinutesFromSine
 } from "./ss_chapter2_versed_sine_table.js";
 import { chapter1MeanPlanetaryPosition } from "./ss_chapter1_mean_planetary_positions.js";
-import { chapter1CandidateMandoccaAtAhargana } from "./ss_chapter1_planetary_mandocca_epoch_candidates.js";
+import { chapter1CandidateMandoccaAtAhargana, chapter1PlanetaryMandoccaEpochCandidates } from "./ss_chapter1_planetary_mandocca_epoch_candidates.js";
 import { chapter1UtcJulianDay, chapter1EpochBridgeFromUtcJD } from "./ss_chapter1_epoch_bridge.js";
 
 export const SS_PLANETARY_EPICYCLE_CONSTANTS = Object.freeze({
@@ -298,36 +298,48 @@ export function runChapter2PlanetaryTruePositionTests() {
     planet: "Sun", ahargana: historicalAhargana
   });
   const sourceSunTrueLongitudeDeg = 278 + 40 / 60;
+  const reconstructedFrame = chapter1PlanetaryMandoccaEpochCandidates();
+  const frameOffsetDeg = reconstructedFrame.inferredCommonFrameOffsetDeg;
+  const toBurgessEquinoxFrame = value => ((value + frameOffsetDeg) % 360 + 360) % 360;
+  const signedDifference = (value, target) => ((value - target + 540) % 360) - 180;
   const historicalTableCheck = Object.freeze({
     instant: "1860-01-01 00:00:00 Washington local mean time",
     utcJD: washingtonUtcJD,
     ahargana: historicalAhargana,
+    candidateFrameOffsetDeg: frameOffsetDeg,
     meanSun: {
-      calculatedHinduFrameDeg: historicalMeanSun.meanLongitudeDeg,
+      calculatedKaliFixedFrameDeg: historicalMeanSun.meanLongitudeDeg,
+      calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalMeanSun.meanLongitudeDeg),
       burgessSunTrueLongitudeDeg: sourceSunTrueLongitudeDeg,
-      differenceToSourceTrueSunDeg: ((historicalMeanSun.meanLongitudeDeg - sourceSunTrueLongitudeDeg + 540) % 360) - 180,
-      note: "Mean position is compared with the true-position table only as a gross phase/epoch diagnostic; the solar manda equation is too small to explain a ~20° gap."
+      rawDifferenceDeg: signedDifference(historicalMeanSun.meanLongitudeDeg, sourceSunTrueLongitudeDeg),
+      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalMeanSun.meanLongitudeDeg), sourceSunTrueLongitudeDeg),
+      note: "The raw comparison is between different frames. The transformed value is only a diagnostic because it compares mean Sun to true Sun; the solar manda equation is small and cannot explain the remaining multi-degree residual."
     },
     venus: {
-      calculatedHinduFrameDeg: historicalVenus.trueLongitudeCandidateDeg,
+      calculatedKaliFixedFrameDeg: historicalVenus.trueLongitudeCandidateDeg,
+      calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalVenus.trueLongitudeCandidateDeg),
       burgessHinduFrameDeg: 305,
-      differenceDeg: ((historicalVenus.trueLongitudeCandidateDeg - 305 + 540) % 360) - 180
+      rawDifferenceDeg: signedDifference(historicalVenus.trueLongitudeCandidateDeg, 305),
+      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalVenus.trueLongitudeCandidateDeg), 305)
     },
     jupiter: {
-      calculatedHinduFrameDeg: historicalJupiter.trueLongitudeCandidateDeg,
+      calculatedKaliFixedFrameDeg: historicalJupiter.trueLongitudeCandidateDeg,
+      calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalJupiter.trueLongitudeCandidateDeg),
       burgessHinduFrameDeg: 114 + 36 / 60,
-      differenceDeg: ((historicalJupiter.trueLongitudeCandidateDeg - (114 + 36 / 60) + 540) % 360) - 180
+      rawDifferenceDeg: signedDifference(historicalJupiter.trueLongitudeCandidateDeg, 114 + 36 / 60),
+      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalJupiter.trueLongitudeCandidateDeg), 114 + 36 / 60)
     },
-    status: "UNRESOLVED: common ~20.4° discrepancy is a phase/epoch or frame-convention failure; do not treat this fixture as validation or fit the model to modern event dates"
+    status: "UNRESOLVED: raw ~20.4° gap is largely a coordinate-frame mismatch; applying the solar-calibrated frame offset leaves a ~2.65° common residual. Verify the source frame/epoch anchor and Chapter II.46 before event prediction."
   });
   tests.push({
-    name: "Burgess 1860 comparison produces finite diagnostics and explicitly detects the shared phase mismatch",
-    passed: Number.isFinite(historicalTableCheck.meanSun.calculatedHinduFrameDeg) &&
-      Number.isFinite(historicalTableCheck.venus.calculatedHinduFrameDeg) &&
-      Number.isFinite(historicalTableCheck.jupiter.calculatedHinduFrameDeg) &&
+    name: "Burgess 1860 comparison reports raw and frame-transformed residuals without hiding the remaining mismatch",
+    passed: Number.isFinite(historicalTableCheck.meanSun.calculatedKaliFixedFrameDeg) &&
+      Number.isFinite(historicalTableCheck.meanSun.transformedDifferenceDeg) &&
+      Number.isFinite(historicalTableCheck.venus.transformedDifferenceDeg) &&
+      Number.isFinite(historicalTableCheck.jupiter.transformedDifferenceDeg) &&
       Number.isFinite(historicalTableCheck.ahargana) &&
-      Math.abs(historicalTableCheck.venus.differenceDeg) > 10 &&
-      Math.abs(historicalTableCheck.jupiter.differenceDeg) > 10 &&
+      Math.abs(historicalTableCheck.venus.transformedDifferenceDeg) > 1 &&
+      Math.abs(historicalTableCheck.jupiter.transformedDifferenceDeg) > 1 &&
       historicalTableCheck.status.startsWith("UNRESOLVED")
   });
 
