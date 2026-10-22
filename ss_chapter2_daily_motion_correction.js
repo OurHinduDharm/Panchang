@@ -79,10 +79,9 @@ export function chapter2MandaCorrectedDailyMotion({
  *
  * Signed remainder = śīghrocca daily motion − manda-corrected planetary motion.
  * The source's (cala-karṇa − reference length)/cala-karṇa factor is retained
- * explicitly. Burgess records two readings of trijyāntyakarṇa: reference to
- * the radius (trijyā), or the third and fourth hypotenuses. The caller must
- * select and supply the reference length; this helper does not decide which
- * reading is authoritative. A negative result denotes retrograde motion.
+ * explicitly. Burgess's note records an alternative reading in which “radius”
+ * means the cosine of the second equation from the fourth operation. The caller
+ * must select trijyā or that second-equation cosine explicitly. A negative result denotes retrograde motion.
  */
 export function chapter2SighraCorrectedDailyMotion({
   mandaCorrectedDailyMotionArcminPerDay,
@@ -92,8 +91,8 @@ export function chapter2SighraCorrectedDailyMotion({
   referenceLengthKind = "trijya",
   variableHypotenuse
 }) {
-  if (referenceLengthKind === "third-hypotenuse" && !Number.isFinite(referenceLength)) {
-    throw new TypeError('The "third-hypotenuse" reading requires an explicit referenceLength; do not pass radius as a substitute.');
+  if (referenceLengthKind === "second-equation-cosine" && !Number.isFinite(referenceLength)) {
+    throw new TypeError('The "second-equation-cosine" reading requires the fourth-pass adjusted radius explicitly; do not pass trijya as a substitute.');
   }
   const reference = referenceLength ?? radius;
   for (const [name, value] of Object.entries({
@@ -106,8 +105,8 @@ export function chapter2SighraCorrectedDailyMotion({
   if (reference <= 0 || variableHypotenuse <= 0) {
     throw new RangeError("Reference length and variable hypotenuse must be positive.");
   }
-  if (!["trijya", "third-hypotenuse"].includes(referenceLengthKind)) {
-    throw new TypeError('referenceLengthKind must be "trijya" or "third-hypotenuse".');
+  if (!["trijya", "second-equation-cosine"].includes(referenceLengthKind)) {
+    throw new TypeError('referenceLengthKind must be "trijya" or "second-equation-cosine".');
   }
 
   const sighraMinusMandaArcminPerDay =
@@ -130,7 +129,7 @@ export function chapter2SighraCorrectedDailyMotion({
     referenceLengthKind,
     radiusConvention: referenceLengthKind === "trijya"
       ? "trijya (radius) reading; selected by caller"
-      : "third-hypotenuse reading; selected by caller",
+      : "Burgess alternative: fourth-pass second-equation cosine as reference length; selected by caller",
     source: "Sūrya-siddhānta II.50–51; Burgess translation",
     status: "research-only intermediate; input geometry and radius convention are not independently validated"
   });
@@ -199,18 +198,18 @@ export function runChapter2DailyMotionCorrectionTests() {
       retrograde.direction === "retrograde"
   });
 
-  const thirdHypotenuseReading = chapter2SighraCorrectedDailyMotion({
+  const secondEquationCosineReading = chapter2SighraCorrectedDailyMotion({
     mandaCorrectedDailyMotionArcminPerDay: 20,
     sighroccaDailyMotionArcminPerDay: 80,
     referenceLength: 3600,
-    referenceLengthKind: "third-hypotenuse",
+    referenceLengthKind: "second-equation-cosine",
     variableHypotenuse: 4000
   });
   tests.push({
-    name: "II.50–51 can evaluate the alternative third-to-fourth-hypotenuse reading without pretending it is the radius",
-    passed: close(thirdHypotenuseReading.hypotenuseFactor, 0.1) &&
-      close(thirdHypotenuseReading.trueDailyMotionArcminPerDay, 26) &&
-      thirdHypotenuseReading.referenceLengthKind === "third-hypotenuse"
+    name: "II.50–51 can evaluate the alternative second-equation-cosine reading without pretending it is the radius",
+    passed: close(secondEquationCosineReading.hypotenuseFactor, 0.1) &&
+      close(secondEquationCosineReading.trueDailyMotionArcminPerDay, 26) &&
+      secondEquationCosineReading.referenceLengthKind === "second-equation-cosine"
   });
 
   let rejectsUnknownReferenceKind = false;
@@ -229,12 +228,12 @@ export function runChapter2DailyMotionCorrectionTests() {
       mandaCorrectedDailyMotionArcminPerDay: 20,
       sighroccaDailyMotionArcminPerDay: 80,
       radius: 3438,
-      referenceLengthKind: "third-hypotenuse",
+      referenceLengthKind: "second-equation-cosine",
       variableHypotenuse: 4000
     });
   } catch (error) { rejectsImplicitThirdHypotenuse = error instanceof TypeError; }
   tests.push({
-    name: "Alternative third-hypotenuse reading cannot silently reuse the radius input",
+    name: "Alternative second-equation-cosine reading requires an explicit reference length input",
     passed: rejectsImplicitThirdHypotenuse
   });
   tests.push({
