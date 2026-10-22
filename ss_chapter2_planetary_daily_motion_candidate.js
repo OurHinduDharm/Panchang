@@ -132,14 +132,24 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
   });
 
   let sighraMotion = null;
+  let sighraMotionSecondEquationCosine = null;
   let trueDailyMotionArcminPerDay = mandaMotion.mandaCorrectedDailyMotionArcminPerDay;
   if (truePosition) {
+    const fourthPass = truePosition.passes.sighra2;
     sighraMotion = chapter2SighraCorrectedDailyMotion({
       mandaCorrectedDailyMotionArcminPerDay: mandaMotion.mandaCorrectedDailyMotionArcminPerDay,
       sighroccaDailyMotionArcminPerDay: mean.sighroccaDailyMotionArcminPerDay,
       radius: 3438,
-      variableHypotenuse: truePosition.passes.sighra2.variableHypotenuse,
+      variableHypotenuse: fourthPass.variableHypotenuse,
       referenceLengthKind: "trijya"
+    });
+    sighraMotionSecondEquationCosine = chapter2SighraCorrectedDailyMotion({
+      mandaCorrectedDailyMotionArcminPerDay: mandaMotion.mandaCorrectedDailyMotionArcminPerDay,
+      sighroccaDailyMotionArcminPerDay: mean.sighroccaDailyMotionArcminPerDay,
+      radius: 3438,
+      referenceLength: fourthPass.adjustedRadius,
+      variableHypotenuse: fourthPass.variableHypotenuse,
+      referenceLengthKind: "second-equation-cosine"
     });
     trueDailyMotionArcminPerDay = sighraMotion.trueDailyMotionArcminPerDay;
   }
@@ -164,13 +174,21 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
     sighroccaLongitudeDeg: mean.sighroccaLongitudeDeg,
     sighroccaDailyMotionArcminPerDay: mean.sighroccaDailyMotionArcminPerDay,
     variableHypotenuse: truePosition?.passes.sighra2.variableHypotenuse ?? null,
+    secondEquationCosineReferenceLength: truePosition?.passes.sighra2.adjustedRadius ?? null,
     sighraMotion,
+    sighraMotionSecondEquationCosine,
     sourceDailyMotionArcminPerDay: trueDailyMotionArcminPerDay,
     sourceMotionDirection: trueDailyMotionArcminPerDay < 0 ? "retrograde" :
       trueDailyMotionArcminPerDay > 0 ? "direct" : "stationary",
+    alternateSourceDailyMotionArcminPerDay:
+      sighraMotionSecondEquationCosine?.trueDailyMotionArcminPerDay ?? null,
     finiteDifferenceArcminPerDay,
     sourceMinusFiniteDifferenceArcminPerDay:
       trueDailyMotionArcminPerDay - finiteDifferenceArcminPerDay,
+    alternateSourceMinusFiniteDifferenceArcminPerDay:
+      Number.isFinite(sighraMotionSecondEquationCosine?.trueDailyMotionArcminPerDay)
+        ? sighraMotionSecondEquationCosine.trueDailyMotionArcminPerDay - finiteDifferenceArcminPerDay
+        : null,
     finiteDifferenceWindowDays: 1,
     finiteDifferenceProvenance: "same source true-longitude candidate evaluated at ahargana ±0.5 day; control only",
     source: "Sūrya-siddhānta II.47–51; Burgess translation",
@@ -197,6 +215,7 @@ export function runChapter2PlanetaryDailyMotionCandidateTests() {
       Number.isFinite(r.sourceDailyMotionArcminPerDay) &&
       Number.isFinite(r.finiteDifferenceArcminPerDay) &&
       Number.isFinite(r.sourceMinusFiniteDifferenceArcminPerDay) &&
+      (r.planet === "Sun" || Number.isFinite(r.alternateSourceDailyMotionArcminPerDay)) &&
       r.sineBracket.gataSine >= 0 &&
       r.sineBracket.gamyaSine <= 3438 &&
       (r.planet === "Sun" || Number.isFinite(r.variableHypotenuse))
