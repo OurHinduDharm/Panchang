@@ -27,7 +27,7 @@ import { SS_CHAPTER1_AHARGANA_ANCHOR } from "./ss_chapter1_ahargana_anchor.js";
 import { chapter1UtcJulianDay, chapter1EpochBridgeFromUtcJD } from "./ss_chapter1_epoch_bridge.js";
 
 export const SS_PLANETARY_EPICYCLE_CONSTANTS = Object.freeze({
-  Sun: Object.freeze({ mandaEven: 840, mandaOdd: 820, sighraEven: null, sighraOdd: null }),
+  Sun: Object.freeze({ mandaEven: 14, mandaOdd: 13 + 40 / 60, sighraEven: null, sighraOdd: null }),
   Mars: Object.freeze({ mandaEven: 75, mandaOdd: 72, sighraEven: 235, sighraOdd: 232 }),
   Mercury: Object.freeze({ mandaEven: 30, mandaOdd: 28, sighraEven: 133, sighraOdd: 132 }),
   Jupiter: Object.freeze({ mandaEven: 33, mandaOdd: 32, sighraEven: 70, sighraOdd: 72 }),
@@ -427,9 +427,12 @@ export function runChapter2PlanetaryTruePositionTests() {
       Number.isFinite(historicalJupiter.bhujantaraCorrectionDeg) &&
       Number.isFinite(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg) &&
       Number.isFinite(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg) &&
-      Math.abs(historicalVenus.bhujantaraCorrectionDeg) < 0.1 &&
-      Math.abs(historicalJupiter.bhujantaraCorrectionDeg) < 0.1 &&
-      Math.abs(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg - historicalVenus.trueLongitudeCandidateDeg) < 0.1
+      Math.abs(historicalVenus.bhujantaraCorrectionDeg) < 0.001 &&
+      Math.abs(historicalJupiter.bhujantaraCorrectionDeg) < 0.001 &&
+      historicalVenus.sunMandaEquation.epicycleDeg >= 13 + 40 / 60 &&
+      historicalVenus.sunMandaEquation.epicycleDeg <= 14 &&
+      historicalVenus.sunMandaEquation.bhujaPhala < 14 &&
+      Math.abs(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg - historicalVenus.trueLongitudeCandidateDeg) < 0.001
   });
 
   tests.push({
