@@ -7,6 +7,36 @@
   "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
   "events": [
     {
+      "date": "2029-11-02",
+      "dateLabel": "2 नवंबर",
+      "title": "रमा एकादशी",
+      "description": "रमा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण एकादशी"
+    },
+    {
+      "date": "2029-11-03",
+      "dateLabel": "3 नवंबर",
+      "title": "गोवत्स द्वादशी",
+      "description": "गोवत्स द्वादशी पर गौ-पूजन और सेवा की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण द्वादशी"
+    },
+    {
+      "date": "2029-11-04",
+      "dateLabel": "4 नवंबर",
+      "title": "काली चौदस / नरक चतुर्दशी पूर्वसंध्या",
+      "description": "काली चौदस पर माँ काली की उपासना और दीपदान की कुछ क्षेत्रों में परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी"
+    },
+    {
       "date": "2029-11-04",
       "dateLabel": "4 नवंबर",
       "title": "धनतेरस",
@@ -25,6 +55,16 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक अमावस्या"
+    },
+    {
+      "date": "2029-11-05",
+      "dateLabel": "5 नवंबर",
+      "title": "नरक चतुर्दशी",
+      "description": "नरक चतुर्दशी पर अभ्यंग-स्नान, दीपदान और भगवान कृष्ण के स्मरण की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी"
     },
     {
       "date": "2029-11-06",
@@ -55,6 +95,26 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल षष्ठी"
+    },
+    {
+      "date": "2029-11-16",
+      "dateLabel": "16 नवंबर",
+      "title": "देवउठनी एकादशी",
+      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागने और चातुर्मास समापन की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल एकादशी"
+    },
+    {
+      "date": "2029-11-17",
+      "dateLabel": "17 नवंबर",
+      "title": "तुलसी विवाह",
+      "description": "तुलसी विवाह में तुलसी माता और भगवान विष्णु/शालिग्राम के विवाहोत्सव की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल द्वादशी"
     },
     {
       "date": "2029-11-21",
