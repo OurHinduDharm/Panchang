@@ -440,6 +440,16 @@ export function runChapter2PlanetaryTruePositionTests() {
   });
 
   tests.push({
+    name: "II.46 uses the Sun's own mean longitude for both Venus and Jupiter",
+    passed: Math.abs(historicalVenus.sunMeanLongitudeDeg - historicalMeanSun.meanLongitudeDeg) < 1e-9 &&
+      Math.abs(historicalJupiter.sunMeanLongitudeDeg - historicalMeanSun.meanLongitudeDeg) < 1e-9 &&
+      Math.abs(historicalVenus.sunMandaEquation.kendraDeg -
+        (((historicalVenus.sunMandoccaLongitudeDeg - historicalMeanSun.meanLongitudeDeg) % 360 + 360) % 360)) < 1e-9 &&
+      Math.abs(historicalJupiter.sunMandaEquation.kendraDeg -
+        (((historicalJupiter.sunMandoccaLongitudeDeg - historicalMeanSun.meanLongitudeDeg) % 360 + 360) % 360)) < 1e-9
+  });
+
+  tests.push({
     name: "Burgess 1860 external-ephemeris comparison reports raw and transformed residuals without claiming formula validation",
     passed: Number.isFinite(historicalTableCheck.meanSun.calculatedKaliFixedFrameDeg) &&
       Number.isFinite(historicalTableCheck.meanSun.transformedDifferenceDeg) &&
