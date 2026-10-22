@@ -193,13 +193,14 @@ export function chapter2PlanetaryTruePositionAtAhargana({ planet, ahargana }) {
   // Sun's first-equation (bhujaphala) time correction. This is distinct from
   // the later local Udayantara/Desantara/Chara corrections.
   const kaliEpochAhargana = Number(SS_CHAPTER1_AHARGANA_ANCHOR.aharganaAtKaliEpochMidnight);
+  const sunMean = chapter1MeanPlanetaryPosition({ planet: "Sun", ahargana });
   const sunMandocca = chapter1MeanPlanetaryMandoccaFromElapsedDays({
     planet: "Sun",
     elapsedDaysSinceKaliEpoch: ahargana - kaliEpochAhargana,
     kaliEpochLongitudeDeg: 77 + 7 / 60 + 48 / 3600
   });
   const sunEquation = chapter2PlanetaryEquation({
-    planetLongitudeDeg: mean.meanLongitudeDeg,
+    planetLongitudeDeg: sunMean.meanLongitudeDeg,
     referenceLongitudeDeg: sunMandocca.meanMandoccaLongitudeDeg,
     planet: "Sun",
     kind: "manda"
@@ -216,8 +217,11 @@ export function chapter2PlanetaryTruePositionAtAhargana({ planet, ahargana }) {
     ahargana,
     meanDailyMotionArcminPerDay: mean.meanDailyMotionArcminPerDay,
     sighroccaDailyMotionArcminPerDay: mean.sighroccaDailyMotionArcminPerDay,
+    sunMeanLongitudeDeg: sunMean.meanLongitudeDeg,
     sunMandoccaLongitudeDeg: sunMandocca.meanMandoccaLongitudeDeg,
     sunMandaEquation: sunEquation,
+    bhujantaraMotionInputArcminPerDay: mean.meanDailyMotionArcminPerDay,
+    bhujantaraMotionInputStatus: "mean daily motion used as a provisional input; Burgess's note says bhukti is the actual daily motion, so the II.47–51 rate must be reconciled before treating II.46 as final",
     bhujantaraCorrectionArcmin,
     bhujantaraCorrectionDeg,
     bhujantaraCorrectedTrueLongitudeDeg,
