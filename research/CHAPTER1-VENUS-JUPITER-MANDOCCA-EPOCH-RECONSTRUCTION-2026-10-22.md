@@ -46,3 +46,26 @@ This is strong internal corroboration that the table conversion and source-rate 
 Added `ss_chapter1_planetary_mandocca_epoch_candidates.js`. It exposes the derivation, candidate epoch longitudes, provenance and explicit research-only status. The test runner includes checks for the table interval, frame calibration, source revolution counts, historical worked-model comparison and rejection of unestablished anchors for other planets.
 
 Do not silently extend this method to Mars/Mercury/Saturn; their table anchors must be established separately. Do not import this module into production yet. The next step is to feed these Venus/Jupiter candidates through the full Chapter II manda/śīghra chain, compare every intermediate against the published worked model, then return to Chapter IX event-time calculations. Keep PR #22 Draft until that test and independent source review pass.
+
+
+## Critical result from the Chapter II 1860 worked-table comparison
+
+The first end-to-end candidate run did **not** validate the true longitudes. Burgess's Chapter II table for 1 January 1860 at Washington gives the Sūrya-siddhānta longitudes from the Hindu equinox as Sun 278°40′, Venus 305°00′, and Jupiter 114°36′. The local-mean-time bridge currently produces ahargana 714404108572.4244 for that instant. At that ahargana:
+
+- source-ratio mean Sun = **258.220296829°**, about **20.446° below** Burgess's *true* solar longitude. This is a gross phase/epoch diagnostic; the Sun's manda equation is far too small to explain a 20° discrepancy.
+- four-pass Venus candidate = 284.574266805°, **20.425733° below** 305°.
+- four-pass Jupiter candidate = 94.165254220°, **20.434746° below** 114°36′.
+
+Because the Sun's mean phase is already wrong by about the same amount, the common Venus/Jupiter error must **not** be treated as proof of a tropical/sidereal frame offset. The leading blocker is now the **mean-longitude epoch / ahargana-to-source-table alignment** (or a precisely documented alternative table time/frame convention). The prior conclusion that the candidate true positions were validated by finite-output tests is withdrawn. The seven Chapter II tests prove equation wiring and finite arithmetic only; they do not certify agreement with the historical table.
+
+Source table and explanatory note: Burgess, *Translation of the Sûrya-Siddhânta*, Chapter II, “True Places and Motions of the Planets, Jan. 1st, 1860, midnight, at Washington”:
+https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf
+The table explicitly distinguishes longitudes “from Hindu eq.” from “from true eq.”; use the Hindu-equator column for a same-frame comparison.
+
+### Correct next step
+
+1. Reconstruct the Chapter I.45–51 ahargana for the exact 1860 comparison date from the traditional calendar arithmetic or a fully sourced worked example; do not assume the simple civil-JD elapsed-day bridge is equivalent until it matches.
+2. Compare the mean Sun against the historical table before testing any planetary equation. Only once this base phase agrees should we audit the Sun's manda correction, the Chapter II.46 time correction, then Venus/Jupiter four-pass intermediates.
+3. Keep all of this research-only. Do not adjust a constant by 20.4° merely to force a match, and do not use modern Asta/Udaya dates as fitting targets.
+
+The earlier 8.2/6.1 arcsecond comparison remains a check of the **mandocca-anchor arithmetic at a separate published historical ahargana**, not a validation of the full true-position model or of the 1860 civil-time bridge.
