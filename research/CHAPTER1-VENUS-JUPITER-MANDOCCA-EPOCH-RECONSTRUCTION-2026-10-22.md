@@ -48,9 +48,9 @@ Added `ss_chapter1_planetary_mandocca_epoch_candidates.js`. It exposes the deriv
 Do not silently extend this method to Mars/Mercury/Saturn; their table anchors must be established separately. Do not import this module into production yet. The next step is to feed these Venus/Jupiter candidates through the full Chapter II manda/śīghra chain, compare every intermediate against the published worked model, then return to Chapter IX event-time calculations. Keep PR #22 Draft until that test and independent source review pass.
 
 
-## Critical result from the Chapter II 1860 worked-table comparison
+## Critical result from the Chapter II 1860 external-ephemeris comparison
 
-The first raw comparison looked like a ~20.4° error, but the columns are not directly in the same coordinate frame. Burgess's Chapter II table explicitly distinguishes longitude from the “Hindu equinox” and from the “true equinox”; our Kali-epoch mean-longitude layer is in its fixed classical zodiac frame. The raw 20.4° difference must therefore not be interpreted as an ahargana failure by itself.
+The first raw comparison looked like a ~20.4° error, but the columns are not directly in the same coordinate frame, and the table is an external ephemeris benchmark rather than a source-calculated Śāstrīya output. Burgess's Chapter II table explicitly distinguishes longitude from the “Hindu equinox” and from the “true equinox”; our Kali-epoch mean-longitude layer is in its fixed classical zodiac frame. Crucially, the paragraph introducing that table says the primary-planet positions come from Le Verrier's sidereal revolution data, the Moon from Peirce's tables, and the apsis/node from Hansen—not from running the Sūrya-siddhānta equations. It is therefore an external modern-ephemeris comparison, not a classical worked-example output. The raw 20.4° difference must therefore not be interpreted as an ahargana failure by itself.
 
 Burgess's 1 January 1860 Washington table gives these Sūrya-siddhānta longitudes from the Hindu equinox: Sun 278°40′, Venus 305°00′, Jupiter 114°36′. The local-mean-time bridge currently produces ahargana 714404108572.4244 for that instant. The model's raw Kali-fixed-frame values were:
 
@@ -66,7 +66,7 @@ Applying the *candidate* common frame offset calibrated from the Sun's mandocca 
 | Venus | 302.351273° | 305.000000° | −2.648727° |
 | Jupiter | 111.942260° | 114.600000° | −2.657740° |
 
-The common residual of about **−2.65°** is still the useful clue before Chapter II.46. The source-based II.46 correction is now implemented in the research module: at the 1860 fixture it changes Venus by **+0.005941°** and Jupiter by **−0.004676°**. After that correction, the candidate-frame residuals are Venus **−2.642786°** and Jupiter **−2.662416°**. Applying the literal 18°05′08″ alternative gives Venus **−2.334237°** and Jupiter **−2.353866°**. The correction is therefore much too small to explain the multi-degree residual; the remaining issue is the frame/epoch/table convention, not the missing II.46 term. The mean-Sun row remains a gross diagnostic because it compares mean Sun with true Sun.
+The common residual of about **−2.65°** is a useful external accuracy diagnostic, but it is not by itself evidence that the Chapter II algorithm is implemented incorrectly. The source-based II.46 correction is now implemented in the research module: at the 1860 fixture it changes Venus by **+0.005941°** and Jupiter by **−0.004676°**. After that correction, the candidate-frame residuals are Venus **−2.642786°** and Jupiter **−2.662416°**. Applying the literal 18°05′08″ alternative gives Venus **−2.334237°** and Jupiter **−2.353866°**. The correction is therefore much too small to explain the multi-degree residual; the remaining issue is the frame/epoch/table convention, not the missing II.46 term. The mean-Sun row remains a gross diagnostic because it compares mean Sun with true Sun.
 
 A second source detail needs direct adjudication before selecting a frame constant: Burgess's prose says the origin of the Hindu sphere is **18°05′08″ east of the vernal equinox on 1 January 1860**. If this literal offset is applied as an alternative diagnostic, the shared residual drops to about **−2.34°** (Sun gross check −2.358°, Venus −2.340°, Jupiter −2.349°). However, this prose phrase must be confirmed to describe the same coordinate transformation as the 1850 mandocca table; do not silently replace the solar-calibrated 17.777006° offset with 18°05′08″. The diagnostic now reports both alternatives and their 0.30855° difference.
 
@@ -100,4 +100,13 @@ For the 1 January 1860 Washington comparison, the correction is +0.005940700° f
 
 Source: Burgess translation, Chapter II.34 (solar epicycle 14° with 20′ reduction at odd quadrants) and II.46:
 https://www.swaveda.com/texts/surya-siddhanta/2/
-The exact historical frame and the 1860 table's time convention remain unresolved. No production file has been changed.
+The exact historical frame and the 1860 table's time convention remain to be cross-checked. Since the table is built from modern ephemeris data, its residual cannot substitute for checking the algorithm against a true classical worked example. No production file has been changed.
+
+
+## Source classification correction — 22 October 2026
+
+The 1860 table should not be called a “Sūrya-siddhānta worked example.” Burgess's introduction explicitly says its primary-planet positions were obtained from Le Verrier's sidereal revolution data, the Moon from Peirce's tables, and lunar apsis/node from Hansen. Those are modern comparison positions transformed into the Hindu-sphere frame. The table is valuable as an **external accuracy benchmark**, but a residual against it does not by itself show that our implementation of the classical equations is wrong.
+
+The correct next validation gate is to compare the intermediate Chapter II equations against an actual classical worked calculation or commentary example, then keep the Burgess/Le Verrier table as a separate external-accuracy check. Do not fit the equations to its residual and do not use modern Asta/Udaya dates as tuning targets.
+
+The printed frame-origin figures also cross-check arithmetically: 18°05′08″ east of the 1860 vernal equinox plus 50°22′29″ west of the 3102 BCE vernal equinox equals the stated 68°27′37″ precession interval. This strongly supports reading the scanned “18°58′” OCR as a misreading, not the intended value.
