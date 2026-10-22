@@ -7,6 +7,26 @@
   "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
   "events": [
     {
+      "date": "2029-05-09",
+      "dateLabel": "9 मई",
+      "title": "वरुथिनी एकादशी",
+      "description": "वरुथिनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख कृष्ण एकादशी"
+    },
+    {
+      "date": "2029-05-15",
+      "dateLabel": "15 मई",
+      "title": "वृषभ संक्रांति",
+      "description": "वृषभ संक्रांति पर स्नान, दान और सूर्योपासना की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का वृषभ राशि में प्रवेश"
+    },
+    {
       "date": "2029-05-16",
       "dateLabel": "16 मई",
       "title": "अक्षय तृतीया",
@@ -17,6 +37,56 @@
       "hinduTithi": "वैशाख शुक्ल तृतीया"
     },
     {
+      "date": "2029-05-16",
+      "dateLabel": "16 मई",
+      "title": "परशुराम जयंती",
+      "description": "परशुराम जयंती भगवान परशुराम के प्राकट्य-स्मरण का पर्व है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल तृतीया"
+    },
+    {
+      "date": "2029-05-20",
+      "dateLabel": "20 मई",
+      "title": "गंगा सप्तमी",
+      "description": "गंगा सप्तमी पर माँ गंगा की पूजा, स्नान, दान और जप की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल सप्तमी"
+    },
+    {
+      "date": "2029-05-22",
+      "dateLabel": "22 मई",
+      "title": "सीता नवमी",
+      "description": "सीता नवमी पर माता सीता के प्राकट्य का स्मरण और पूजा की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल नवमी"
+    },
+    {
+      "date": "2029-05-24",
+      "dateLabel": "24 मई",
+      "title": "मोहिनी एकादशी",
+      "description": "मोहिनी एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल एकादशी"
+    },
+    {
+      "date": "2029-05-26",
+      "dateLabel": "26 मई",
+      "title": "नृसिंह जयंती",
+      "description": "नृसिंह जयंती पर भगवान विष्णु के नृसिंह अवतार की पूजा की जाती है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल चतुर्दशी"
+    },
+    {
       "date": "2029-05-27",
       "dateLabel": "27 मई",
       "title": "बुद्ध पूर्णिमा",
@@ -25,6 +95,16 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख पूर्णिमा"
+    },
+    {
+      "date": "2029-05-28",
+      "dateLabel": "28 मई",
+      "title": "नारद जयंती",
+      "description": "नारद जयंती पर देवर्षि नारद का स्मरण, भजन और भक्ति-साधना की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण प्रतिपदा"
     }
   ]
 }
