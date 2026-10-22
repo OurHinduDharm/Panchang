@@ -58,3 +58,13 @@ for (const test of chapter2DailyMotionResult.tests) {
 }
 console.log(chapter2DailyMotionResult.passed + '/' + chapter2DailyMotionResult.total + ' Chapter II.47–51 daily-motion correction tests passed');
 if (!chapter2DailyMotionResult.allPassed) process.exitCode = 1;
+
+
+import { runChapter1PlanetaryMandoccaTests } from './ss_chapter1_mean_planetary_mandocca.js';
+const planetaryMandoccaResult = runChapter1PlanetaryMandoccaTests();
+for (const test of planetaryMandoccaResult.tests) {
+  console.log((test.passed ? 'PASS' : 'FAIL') + ' — ' + test.name);
+  if (test.error) console.log('  ' + test.error);
+}
+console.log(planetaryMandoccaResult.passed + '/' + planetaryMandoccaResult.total + ' Chapter I.41–43 planetary mandocca tests passed');
+if (!planetaryMandoccaResult.allPassed) process.exitCode = 1;
