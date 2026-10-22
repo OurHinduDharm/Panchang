@@ -27,6 +27,11 @@
   var locationSearchBtn=document.getElementById("locationSearchBtn");
   var locationStatus=document.getElementById("locationStatus");
   var locationSuggestions=document.getElementById("locationSuggestions");
+  if(!locationSuggestions && locationStatus){
+    locationSuggestions=document.createElement("div");
+    locationSuggestions.id="locationSuggestions";
+    locationStatus.insertAdjacentElement("afterend",locationSuggestions);
+  }
   var requestToken=0;
   var panchangCache=new Map();
   // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
@@ -267,7 +272,8 @@
   function render(data,year,month,token){
     eventsEl.replaceChildren();
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
-    document.getElementById("pageTitle").textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
+    var pageTitle=document.getElementById("pageTitle");
+    if(pageTitle) pageTitle.textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
     var list=(data&&Array.isArray(data.events))?data.events.slice():[];
     if(!reviewMode){
       list=list.filter(function(item){return item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy";});
@@ -408,7 +414,7 @@
   yearSelect.addEventListener("change",loadMonth);
   document.getElementById("prevBtn").addEventListener("click",function(){shiftMonth(-1);});
   document.getElementById("nextBtn").addEventListener("click",function(){shiftMonth(1);});
-  currentMonthBtn.addEventListener("click",function(){
+  if(currentMonthBtn) currentMonthBtn.addEventListener("click",function(){
     var now=new Date();
     var year=now.getFullYear();
     ensureYearOption(year);
