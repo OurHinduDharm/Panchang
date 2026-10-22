@@ -300,7 +300,7 @@ export function runChapter2PlanetaryTruePositionTests() {
   const sourceSunTrueLongitudeDeg = 278 + 40 / 60;
   const reconstructedFrame = chapter1PlanetaryMandoccaEpochCandidates();
   const frameOffsetDeg = reconstructedFrame.inferredCommonFrameOffsetDeg;
-  const burgessReportedSphereOffsetDeg = 18 + 58 / 60;
+  const burgessReportedSphereOffsetDeg = 18 + 5 / 60 + 8 / 3600;
   const toBurgessEquinoxFrame = value => ((value + frameOffsetDeg) % 360 + 360) % 360;
   const toLiteralBurgessReportedFrame = value =>
     ((value + burgessReportedSphereOffsetDeg) % 360 + 360) % 360;
@@ -320,7 +320,7 @@ export function runChapter2PlanetaryTruePositionTests() {
       rawDifferenceDeg: signedDifference(historicalMeanSun.meanLongitudeDeg, sourceSunTrueLongitudeDeg),
       transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalMeanSun.meanLongitudeDeg), sourceSunTrueLongitudeDeg),
       literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalMeanSun.meanLongitudeDeg), sourceSunTrueLongitudeDeg),
-      note: "Both transformed values are diagnostics only: the candidate offset is inferred from the secondary solar mandocca anchor, while the 18°58′ prose value must be confirmed to describe the same frame; this row compares mean Sun to true Sun."
+      note: "Both transformed values are diagnostics only: the candidate offset is inferred from the secondary solar mandocca anchor, while the 18°05′08″ prose value must be confirmed to describe the same frame; this row compares mean Sun to true Sun."
     },
     venus: {
       calculatedKaliFixedFrameDeg: historicalVenus.trueLongitudeCandidateDeg,
