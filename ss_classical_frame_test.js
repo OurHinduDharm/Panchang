@@ -86,5 +86,6 @@ for (const test of planetaryTruePositionResult.tests) {
   console.log((test.passed ? 'PASS' : 'FAIL') + ' — ' + test.name);
 }
 console.log(planetaryTruePositionResult.passed + '/' + planetaryTruePositionResult.total + ' planetary true-position candidate tests passed');
+console.log('Published Chapter II worked-example comparison:', JSON.stringify(planetaryTruePositionResult.workedExampleCheck));
 console.log('Burgess 1860 planetary worked-table comparison:', JSON.stringify(planetaryTruePositionResult.historicalTableCheck));
 if (!planetaryTruePositionResult.allPassed) process.exitCode = 1;
