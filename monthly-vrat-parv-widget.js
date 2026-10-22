@@ -289,7 +289,7 @@
     list.forEach(function(item){
       var card=document.createElement("article");card.className="event";
       var date=document.createElement("div");date.className="date";
-      var strong=document.createElement("strong");strong.textContent=item.dateLabel||String(item.date||"").slice(8,10);
+      var strong=document.createElement("strong");strong.textContent=String(item.date||"").slice(8,10)||item.dateLabel||"";
       date.appendChild(strong);
       var dateObj=new Date(String(item.date||"")+"T12:00:00");
       var monthName=document.createElement("span");
