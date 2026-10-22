@@ -300,36 +300,47 @@ export function runChapter2PlanetaryTruePositionTests() {
   const sourceSunTrueLongitudeDeg = 278 + 40 / 60;
   const reconstructedFrame = chapter1PlanetaryMandoccaEpochCandidates();
   const frameOffsetDeg = reconstructedFrame.inferredCommonFrameOffsetDeg;
+  const burgessReportedSphereOffsetDeg = 18 + 58 / 60;
   const toBurgessEquinoxFrame = value => ((value + frameOffsetDeg) % 360 + 360) % 360;
+  const toLiteralBurgessReportedFrame = value =>
+    ((value + burgessReportedSphereOffsetDeg) % 360 + 360) % 360;
   const signedDifference = (value, target) => ((value - target + 540) % 360) - 180;
   const historicalTableCheck = Object.freeze({
     instant: "1860-01-01 00:00:00 Washington local mean time",
     utcJD: washingtonUtcJD,
     ahargana: historicalAhargana,
     candidateFrameOffsetDeg: frameOffsetDeg,
+    burgessReportedSphereOffsetDeg,
+    differenceBetweenFrameCandidatesDeg: burgessReportedSphereOffsetDeg - frameOffsetDeg,
     meanSun: {
       calculatedKaliFixedFrameDeg: historicalMeanSun.meanLongitudeDeg,
       calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalMeanSun.meanLongitudeDeg),
+      calculatedAfterLiteralBurgessOffsetDeg: toLiteralBurgessReportedFrame(historicalMeanSun.meanLongitudeDeg),
       burgessSunTrueLongitudeDeg: sourceSunTrueLongitudeDeg,
       rawDifferenceDeg: signedDifference(historicalMeanSun.meanLongitudeDeg, sourceSunTrueLongitudeDeg),
       transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalMeanSun.meanLongitudeDeg), sourceSunTrueLongitudeDeg),
-      note: "The raw comparison is between different frames. The transformed value is only a diagnostic because it compares mean Sun to true Sun; the solar manda equation is small and cannot explain the remaining multi-degree residual."
+      literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalMeanSun.meanLongitudeDeg), sourceSunTrueLongitudeDeg),
+      note: "Both transformed values are diagnostics only: the candidate offset is inferred from the secondary solar mandocca anchor, while the 18°58′ prose value must be confirmed to describe the same frame; this row compares mean Sun to true Sun."
     },
     venus: {
       calculatedKaliFixedFrameDeg: historicalVenus.trueLongitudeCandidateDeg,
       calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalVenus.trueLongitudeCandidateDeg),
+      calculatedAfterLiteralBurgessOffsetDeg: toLiteralBurgessReportedFrame(historicalVenus.trueLongitudeCandidateDeg),
       burgessHinduFrameDeg: 305,
       rawDifferenceDeg: signedDifference(historicalVenus.trueLongitudeCandidateDeg, 305),
-      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalVenus.trueLongitudeCandidateDeg), 305)
+      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalVenus.trueLongitudeCandidateDeg), 305),
+      literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalVenus.trueLongitudeCandidateDeg), 305)
     },
     jupiter: {
       calculatedKaliFixedFrameDeg: historicalJupiter.trueLongitudeCandidateDeg,
       calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalJupiter.trueLongitudeCandidateDeg),
+      calculatedAfterLiteralBurgessOffsetDeg: toLiteralBurgessReportedFrame(historicalJupiter.trueLongitudeCandidateDeg),
       burgessHinduFrameDeg: 114 + 36 / 60,
       rawDifferenceDeg: signedDifference(historicalJupiter.trueLongitudeCandidateDeg, 114 + 36 / 60),
-      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalJupiter.trueLongitudeCandidateDeg), 114 + 36 / 60)
+      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalJupiter.trueLongitudeCandidateDeg), 114 + 36 / 60),
+      literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalJupiter.trueLongitudeCandidateDeg), 114 + 36 / 60)
     },
-    status: "UNRESOLVED: raw ~20.4° gap is largely a coordinate-frame mismatch; applying the solar-calibrated frame offset leaves a ~2.65° common residual. Verify the source frame/epoch anchor and Chapter II.46 before event prediction."
+    status: "UNRESOLVED: the candidate solar-calibrated offset leaves ~2.65° residual; Burgess's prose reports 18°58′ for the sphere origin, a distinct offset candidate that leaves ~1.47° but must be confirmed as the same frame definition. Audit the original edition and Chapter II.46 before event prediction."
   });
   tests.push({
     name: "Burgess 1860 comparison reports raw and frame-transformed residuals without hiding the remaining mismatch",
