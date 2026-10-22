@@ -19,6 +19,20 @@
   var monthSelect=document.getElementById("monthSelect");
   var yearSelect=document.getElementById("yearSelect");
   var currentMonthBtn=document.getElementById("currentMonthBtn");
+  // पुराने Blogger HTML में बटन न हो तो नेविगेशन के नीचे स्वयं जोड़ें।
+  if(!currentMonthBtn){
+    var monthNav=document.getElementById("nextBtn");
+    if(monthNav&&monthNav.parentElement){
+      var currentMonthRow=document.createElement("div");
+      currentMonthRow.className="current-month-row";
+      currentMonthBtn=document.createElement("button");
+      currentMonthBtn.type="button";
+      currentMonthBtn.id="currentMonthBtn";
+      currentMonthBtn.textContent="वर्तमान महीना";
+      currentMonthRow.appendChild(currentMonthBtn);
+      monthNav.parentElement.insertAdjacentElement("afterend",currentMonthRow);
+    }
+  }
   var eventsEl=document.getElementById("events");
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
