@@ -222,7 +222,7 @@ export function runChapter2DailyMotionCorrectionTests() {
       variableHypotenuse: 4000
     });
   } catch (error) { rejectsUnknownReferenceKind = error instanceof TypeError; }
-  let rejectsImplicitThirdHypotenuse = false;
+  let rejectsImplicitSecondEquationCosine = false;
   try {
     chapter2SighraCorrectedDailyMotion({
       mandaCorrectedDailyMotionArcminPerDay: 20,
@@ -231,10 +231,10 @@ export function runChapter2DailyMotionCorrectionTests() {
       referenceLengthKind: "second-equation-cosine",
       variableHypotenuse: 4000
     });
-  } catch (error) { rejectsImplicitThirdHypotenuse = error instanceof TypeError; }
+  } catch (error) { rejectsImplicitSecondEquationCosine = error instanceof TypeError; }
   tests.push({
     name: "Alternative second-equation-cosine reading requires an explicit reference length input",
-    passed: rejectsImplicitThirdHypotenuse
+    passed: rejectsImplicitSecondEquationCosine
   });
   tests.push({
     name: "Unknown II.50–51 reference-length interpretation is rejected",
