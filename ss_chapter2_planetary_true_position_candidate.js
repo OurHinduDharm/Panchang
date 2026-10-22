@@ -71,6 +71,9 @@ export function chapter2PlanetaryEquation({ planetLongitudeDeg, referenceLongitu
   }
   const constants = SS_PLANETARY_EPICYCLE_CONSTANTS[planet];
   if (!constants) throw new RangeError("Unsupported planet for the Chapter II planetary equation.");
+  if (planet === "Sun" && kind !== "manda") {
+    throw new RangeError("The Sun has a single manda equation; no planetary sighra equation is defined here.");
+  }
 
   const kendraDeg = normalizeDegrees(referenceLongitudeDeg - planetLongitudeDeg);
   const bhujaSine = sineMagnitudeForDegrees(kendraDeg);
@@ -248,6 +251,19 @@ export function runChapter2PlanetaryTruePositionTests() {
   tests.push({
     name: "Zero kendra produces zero equation for manda and sighra",
     passed: close(zeroManda.equationDeg, 0) && close(zeroSighra.equationDeg, 0)
+  });
+
+  let rejectedSolarSighra = false;
+  try {
+    chapter2PlanetaryEquation({
+      planetLongitudeDeg: 10, referenceLongitudeDeg: 80, planet: "Sun", kind: "sighra"
+    });
+  } catch (error) {
+    rejectedSolarSighra = error instanceof RangeError;
+  }
+  tests.push({
+    name: "Sun's single-inequality path rejects a sighra equation",
+    passed: rejectedSolarSighra
   });
 
   const mandaQuadrant = chapter2PlanetaryEquation({
