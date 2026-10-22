@@ -15,6 +15,56 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र कृष्ण प्रतिपदा"
+    },
+    {
+      "date": "2029-03-07",
+      "dateLabel": "7 मार्च",
+      "title": "शीतला अष्टमी / बसोड़ा",
+      "description": "शीतला अष्टमी पर माँ शीतला की पूजा और कई परंपराओं में बासी भोजन का भोग अर्पित किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण अष्टमी"
+    },
+    {
+      "date": "2029-03-10",
+      "dateLabel": "10 मार्च",
+      "title": "पापमोचनी एकादशी",
+      "description": "पापमोचनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण एकादशी"
+    },
+    {
+      "date": "2029-03-14",
+      "dateLabel": "14 मार्च",
+      "title": "मीन संक्रांति",
+      "description": "मीन संक्रांति पर स्नान, दान और सूर्योपासना की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का मीन राशि में प्रवेश"
+    },
+    {
+      "date": "2029-03-26",
+      "dateLabel": "26 मार्च",
+      "title": "पद्मिनी एकादशी",
+      "description": "अधिक मास में आने वाली पद्मिनी एकादशी पर भगवान विष्णु की पूजा, जप और व्रत की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "अधिक चैत्र शुक्ल एकादशी"
+    },
+    {
+      "date": "2029-03-30",
+      "dateLabel": "30 मार्च",
+      "title": "अधिक मास पूर्णिमा",
+      "description": "अधिक मास की पूर्णिमा पर स्नान, दान, जप और भगवान विष्णु की उपासना की परंपरा है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "अधिक चैत्र शुक्ल पूर्णिमा"
     }
   ]
 }
