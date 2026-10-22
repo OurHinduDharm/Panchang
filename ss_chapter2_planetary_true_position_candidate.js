@@ -22,9 +22,12 @@ import {
 } from "./ss_chapter2_versed_sine_table.js";
 import { chapter1MeanPlanetaryPosition } from "./ss_chapter1_mean_planetary_positions.js";
 import { chapter1CandidateMandoccaAtAhargana, chapter1PlanetaryMandoccaEpochCandidates } from "./ss_chapter1_planetary_mandocca_epoch_candidates.js";
+import { chapter1MeanPlanetaryMandoccaFromElapsedDays } from "./ss_chapter1_mean_planetary_mandocca.js";
+import { SS_CHAPTER1_AHARGANA_ANCHOR } from "./ss_chapter1_ahargana_anchor.js";
 import { chapter1UtcJulianDay, chapter1EpochBridgeFromUtcJD } from "./ss_chapter1_epoch_bridge.js";
 
 export const SS_PLANETARY_EPICYCLE_CONSTANTS = Object.freeze({
+  Sun: Object.freeze({ mandaEven: 840, mandaOdd: 820, sighraEven: null, sighraOdd: null }),
   Mars: Object.freeze({ mandaEven: 75, mandaOdd: 72, sighraEven: 235, sighraOdd: 232 }),
   Mercury: Object.freeze({ mandaEven: 30, mandaOdd: 28, sighraEven: 133, sighraOdd: 132 }),
   Jupiter: Object.freeze({ mandaEven: 33, mandaOdd: 32, sighraEven: 70, sighraOdd: 72 }),
@@ -182,13 +185,42 @@ export function chapter2PlanetaryTruePositionAtAhargana({ planet, ahargana }) {
     mandoccaLongitudeDeg: mandocca.meanMandoccaLongitudeDeg,
     sighroccaLongitudeDeg: mean.sighroccaLongitudeDeg
   });
+
+  // II.46: the planet's true place at true midnight at Lanka receives the
+  // Sun's first-equation (bhujaphala) time correction. This is distinct from
+  // the later local Udayantara/Desantara/Chara corrections.
+  const kaliEpochAhargana = Number(SS_CHAPTER1_AHARGANA_ANCHOR.aharganaAtKaliEpochMidnight);
+  const sunMandocca = chapter1MeanPlanetaryMandoccaFromElapsedDays({
+    planet: "Sun",
+    elapsedDaysSinceKaliEpoch: ahargana - kaliEpochAhargana,
+    kaliEpochLongitudeDeg: 77 + 7 / 60 + 48 / 3600
+  });
+  const sunEquation = chapter2PlanetaryEquation({
+    planetLongitudeDeg: mean.meanLongitudeDeg,
+    referenceLongitudeDeg: sunMandocca.meanMandoccaLongitudeDeg,
+    planet: "Sun",
+    kind: "manda"
+  });
+  const bhujantaraCorrectionArcmin =
+    mean.meanDailyMotionArcminPerDay * sunEquation.bhujaPhala / 21600;
+  const bhujantaraCorrectionDeg =
+    sunEquation.positionCorrectionSign * bhujantaraCorrectionArcmin / 60;
+  const bhujantaraCorrectedTrueLongitudeDeg =
+    normalizeDegrees(result.trueLongitudeCandidateDeg + bhujantaraCorrectionDeg);
+
   return Object.freeze({
     ...result,
     ahargana,
     meanDailyMotionArcminPerDay: mean.meanDailyMotionArcminPerDay,
     sighroccaDailyMotionArcminPerDay: mean.sighroccaDailyMotionArcminPerDay,
+    sunMandoccaLongitudeDeg: sunMandocca.meanMandoccaLongitudeDeg,
+    sunMandaEquation: sunEquation,
+    bhujantaraCorrectionArcmin,
+    bhujantaraCorrectionDeg,
+    bhujantaraCorrectedTrueLongitudeDeg,
     mandoccaProvenance: mandocca.candidateProvenance,
-    inputStatus: "mean and sighrocca from source revolution ratios; mandocca from the documented research reconstruction"
+    inputStatus: "mean and sighrocca from source revolution ratios; Venus/Jupiter mandocca from the documented research reconstruction; Sun mandocca uses the explicit secondary 77°07′48″ anchor",
+    bhujantaraStatus: "research implementation of Sūrya-siddhānta II.46; not a local horizon correction"
   });
 }
 
@@ -323,25 +355,40 @@ export function runChapter2PlanetaryTruePositionTests() {
       note: "Both transformed values are diagnostics only: the candidate offset is inferred from the secondary solar mandocca anchor, while the 18°05′08″ prose value must be confirmed to describe the same frame; this row compares mean Sun to true Sun."
     },
     venus: {
-      calculatedKaliFixedFrameDeg: historicalVenus.trueLongitudeCandidateDeg,
-      calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalVenus.trueLongitudeCandidateDeg),
-      calculatedAfterLiteralBurgessOffsetDeg: toLiteralBurgessReportedFrame(historicalVenus.trueLongitudeCandidateDeg),
+      calculatedKaliFixedFrameDeg: historicalVenus.bhujantaraCorrectedTrueLongitudeDeg,
+      uncorrectedFourPassDeg: historicalVenus.trueLongitudeCandidateDeg,
+      bhujantaraCorrectionDeg: historicalVenus.bhujantaraCorrectionDeg,
+      calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg),
+      calculatedAfterLiteralBurgessOffsetDeg: toLiteralBurgessReportedFrame(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg),
       burgessHinduFrameDeg: 305,
-      rawDifferenceDeg: signedDifference(historicalVenus.trueLongitudeCandidateDeg, 305),
-      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalVenus.trueLongitudeCandidateDeg), 305),
-      literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalVenus.trueLongitudeCandidateDeg), 305)
+      rawDifferenceDeg: signedDifference(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg, 305),
+      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg), 305),
+      literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg), 305)
     },
     jupiter: {
-      calculatedKaliFixedFrameDeg: historicalJupiter.trueLongitudeCandidateDeg,
-      calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalJupiter.trueLongitudeCandidateDeg),
-      calculatedAfterLiteralBurgessOffsetDeg: toLiteralBurgessReportedFrame(historicalJupiter.trueLongitudeCandidateDeg),
+      calculatedKaliFixedFrameDeg: historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg,
+      uncorrectedFourPassDeg: historicalJupiter.trueLongitudeCandidateDeg,
+      bhujantaraCorrectionDeg: historicalJupiter.bhujantaraCorrectionDeg,
+      calculatedAfterCandidateFrameTransformDeg: toBurgessEquinoxFrame(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg),
+      calculatedAfterLiteralBurgessOffsetDeg: toLiteralBurgessReportedFrame(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg),
       burgessHinduFrameDeg: 114 + 36 / 60,
-      rawDifferenceDeg: signedDifference(historicalJupiter.trueLongitudeCandidateDeg, 114 + 36 / 60),
-      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalJupiter.trueLongitudeCandidateDeg), 114 + 36 / 60),
-      literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalJupiter.trueLongitudeCandidateDeg), 114 + 36 / 60)
+      rawDifferenceDeg: signedDifference(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg, 114 + 36 / 60),
+      transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg), 114 + 36 / 60),
+      literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg), 114 + 36 / 60)
     },
     status: "UNRESOLVED: the candidate solar-calibrated offset leaves ~2.65° residual; Burgess's prose reports 18°58′ for the sphere origin, a distinct offset candidate that leaves ~1.47° but must be confirmed as the same frame definition. Audit the original edition and Chapter II.46 before event prediction."
   });
+  tests.push({
+    name: "Chapter II.46 computes a finite, signed bhujantara correction and preserves the pre-correction true place",
+    passed: Number.isFinite(historicalVenus.bhujantaraCorrectionDeg) &&
+      Number.isFinite(historicalJupiter.bhujantaraCorrectionDeg) &&
+      Number.isFinite(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg) &&
+      Number.isFinite(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg) &&
+      Math.abs(historicalVenus.bhujantaraCorrectionDeg) < 0.1 &&
+      Math.abs(historicalJupiter.bhujantaraCorrectionDeg) < 0.1 &&
+      Math.abs(historicalVenus.bhujantaraCorrectedTrueLongitudeDeg - historicalVenus.trueLongitudeCandidateDeg) < 0.1
+  });
+
   tests.push({
     name: "Burgess 1860 comparison reports raw and frame-transformed residuals without hiding the remaining mismatch",
     passed: Number.isFinite(historicalTableCheck.meanSun.calculatedKaliFixedFrameDeg) &&
