@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "year": 2029,
+  "month": 11,
+  "monthName": "नवंबर",
+  "status": "approved",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "events": [
+    {
+      "date": "2029-11-04",
+      "dateLabel": "4 नवंबर",
+      "title": "धनतेरस",
+      "description": "धनतेरस पर भगवान धन्वन्तरि की पूजा और दीपदान की परंपरा है। पूजा-मुहूर्त स्थानीय पंचांग से देखें।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण त्रयोदशी"
+    },
+    {
+      "date": "2029-11-05",
+      "dateLabel": "5 नवंबर",
+      "title": "दीपावली / लक्ष्मी-गणेश पूजन",
+      "description": "दीपावली पर दीपदान और लक्ष्मी-गणेश पूजन की परंपरा है। पूजन का मुहूर्त स्थानीय पंचांग से देखें।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक अमावस्या"
+    },
+    {
+      "date": "2029-11-06",
+      "dateLabel": "6 नवंबर",
+      "title": "गोवर्धन पूजा",
+      "description": "गोवर्धन पूजा में भगवान श्रीकृष्ण और गोवर्धन पर्वत के प्रति कृतज्ञता व्यक्त की जाती है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल प्रतिपदा"
+    },
+    {
+      "date": "2029-11-07",
+      "dateLabel": "7 नवंबर",
+      "title": "भैया दूज",
+      "description": "भैया दूज भाई-बहन के स्नेह और मंगलकामना का पर्व है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल द्वितीया"
+    },
+    {
+      "date": "2029-11-11",
+      "dateLabel": "11 नवंबर",
+      "title": "छठ पूजा",
+      "description": "छठ पूजा में सूर्यदेव और छठी मैया की उपासना तथा अर्घ्य की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल षष्ठी"
+    },
+    {
+      "date": "2029-11-21",
+      "dateLabel": "21 नवंबर",
+      "title": "कार्तिक पूर्णिमा",
+      "description": "कार्तिक पूर्णिमा पर स्नान, दीपदान, दान और पूजा की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक पूर्णिमा"
+    },
+    {
+      "date": "2029-11-28",
+      "dateLabel": "28 नवंबर",
+      "title": "कालभैरव जयंती",
+      "description": "कालभैरव जयंती पर भगवान भैरव की पूजा, जप और रात्रि-उपासना की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी"
+    }
+  ]
+}

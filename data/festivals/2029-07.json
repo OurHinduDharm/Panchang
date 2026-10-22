@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "year": 2029,
+  "month": 7,
+  "monthName": "जुलाई",
+  "status": "approved",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "events": [
+    {
+      "date": "2029-07-13",
+      "dateLabel": "13 जुलाई",
+      "title": "जगन्नाथ रथयात्रा",
+      "description": "जगन्नाथ रथयात्रा भगवान जगन्नाथ, बलभद्र और सुभद्रा की यात्रा का उत्सव है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल द्वितीया"
+    },
+    {
+      "date": "2029-07-25",
+      "dateLabel": "25 जुलाई",
+      "title": "गुरु पूर्णिमा",
+      "description": "गुरु पूर्णिमा पर गुरु-पूजन, कृतज्ञता, स्वाध्याय और दान की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ पूर्णिमा"
+    }
+  ]
+}
