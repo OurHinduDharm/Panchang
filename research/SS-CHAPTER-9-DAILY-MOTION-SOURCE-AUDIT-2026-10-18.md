@@ -106,3 +106,14 @@ input with explicit provenance, rather than adding more generic tests:
 
 No production file, threshold, or event date is changed by this checkpoint. PR #22
 remains Draft and unmerged.
+
+
+## Date-anchored Chapter II.47–51 adapter added — 22 October 2026
+
+Added `ss_chapter2_planetary_daily_motion_candidate.js`. For the explicitly supplied ahargaṇa, it now derives source-ratio mean motion, source-rate mandocca motion, the first manda-kendra sine-table bracket, the II.48–49 manda-corrected daily motion, and the II.50–51 śīghra correction. It returns the signed source-rate candidate and a one-day finite-difference of the same source true-place model side by side. It supports Sun, Venus, and Jupiter only; unsupported Mars is rejected until its apsis anchor is reconstructed.
+
+The adapter reports two II.50–51 readings separately: (a) the standard trijyā/radius reading, and (b) Burgess's footnoted alternative that “radius” means the cosine of the second equation in the fourth operation. The alternative is passed as the explicit fourth-pass adjusted radius; it is never silently substituted. This wording corrects the previous report's inaccurate “third/fourth hypotenuse” label.
+
+The date-anchored candidate's four arithmetic/provenance tests pass in the latest diagnostic job's completed unit-test stage. The full workflow is still in its headless Chromium step, so the final browser/production-isolation result for the newest commit is pending. The source-rate/finite-difference comparison remains a diagnostic, not a claim that either rate is the correct classical bhukti. Next gate: inspect the two II.50–51 variants against the same-model finite-difference ledger, then compare the source-derived rates against a published same-instant daily-motion example before wiring them into Chapter IX.10–11. Do not mix source rates with modern longitudes in the final event estimate.
+
+Production `app.js` and `extra-panchang.js` remain unchanged.
