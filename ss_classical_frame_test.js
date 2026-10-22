@@ -68,3 +68,13 @@ for (const test of planetaryMandoccaResult.tests) {
 }
 console.log(planetaryMandoccaResult.passed + '/' + planetaryMandoccaResult.total + ' Chapter I.41–43 planetary mandocca tests passed');
 if (!planetaryMandoccaResult.allPassed) process.exitCode = 1;
+
+
+import { runChapter1PlanetaryMandoccaEpochCandidateTests } from './ss_chapter1_planetary_mandocca_epoch_candidates.js';
+const planetaryMandoccaEpochResult = runChapter1PlanetaryMandoccaEpochCandidateTests();
+for (const test of planetaryMandoccaEpochResult.tests) {
+  console.log((test.passed ? 'PASS' : 'FAIL') + ' — ' + test.name);
+}
+console.log(planetaryMandoccaEpochResult.passed + '/' + planetaryMandoccaEpochResult.total + ' planetary mandocca epoch-candidate tests passed');
+console.log('Research-only candidate epoch longitudes:', JSON.stringify(planetaryMandoccaEpochResult.candidateEpochLongitudesDeg));
+if (!planetaryMandoccaEpochResult.allPassed) process.exitCode = 1;
