@@ -315,6 +315,33 @@ export function runChapter2PlanetaryTruePositionTests() {
     )
   });
 
+  // External worked numerical example at the same ahargana and mean inputs
+  // published by R. Kane Tech. It follows the Chapter II four-pass method;
+  // tolerate 0.05° for differences in sine-table interpolation precision.
+  const workedExampleCheck = Object.freeze({
+    source: "https://rkanetech.com/true-position",
+    ahargana: 714403972030,
+    venus: {
+      calculatedDeg: venus.trueLongitudeCandidateDeg,
+      publishedDeg: 7.29285,
+      signedDifferenceDeg: ((venus.trueLongitudeCandidateDeg - 7.29285 + 540) % 360) - 180
+    },
+    jupiter: {
+      calculatedDeg: jupiter.trueLongitudeCandidateDeg,
+      publishedDeg: 264.43632,
+      signedDifferenceDeg: ((jupiter.trueLongitudeCandidateDeg - 264.43632 + 540) % 360) - 180
+    },
+    status: "independent published worked-example comparison; inputs are held fixed and are not fitted to event dates"
+  });
+  tests.push({
+    name: "Four-pass Venus result agrees within 0.05° with published Chapter II worked example",
+    passed: Math.abs(workedExampleCheck.venus.signedDifferenceDeg) <= 0.05
+  });
+  tests.push({
+    name: "Four-pass Jupiter result agrees within 0.05° with published Chapter II worked example",
+    passed: Math.abs(workedExampleCheck.jupiter.signedDifferenceDeg) <= 0.05
+  });
+
   let rejectedUnsupported = false;
   try {
     chapter2PlanetaryTrueLongitudeCandidate({
@@ -419,6 +446,7 @@ export function runChapter2PlanetaryTruePositionTests() {
 
   return {
     tests,
+    workedExampleCheck,
     historicalTableCheck,
     passed: tests.filter(test => test.passed).length,
     total: tests.length,
