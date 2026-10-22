@@ -36,21 +36,16 @@
     {
       "date": "2026-11-06",
       "dateLabel": "6 नवंबर",
-      "title": "धनतेरस",
-      "description": "धन्वंतरि पूजन और दीपदान; पूजा-मुहूर्त अलग से जाँचना है।",
+      "title": "धनतेरस / धन्वन्तरि जयंती",
+      "description": "धन्वंतरि पूजन और दीपदान; पूजा-मुहूर्त अलग से जाँचना है।<br><br><a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\">धनतेरस</a>,<a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\">श्रीधन्वन्तरि जयन्ती</a> यमराज के लिए दीपदान प्रारम्भ, गोत्रिरात्र व्रत प्रारम्भ।🪔 विशेष पूजा मुहूर्त= शाम 5.58 - 7.43PM",
       "category": "प्रमुख पर्व",
       "reviewStatus": "needs-review",
       "muhurtaRule": "dhanteras-puja",
-      "hinduTithi": "कार्तिक कृष्ण त्रयोदशी"
-    },
-    {
-      "date": "2026-11-06",
-      "dateLabel": "6 नवंबर",
-      "title": "धनतेरस / धन्वन्तरि जयंती",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\">धनतेरस</a>,<a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\">श्रीधन्वन्तरि जयन्ती</a> यमराज के लिए दीपदान प्रारम्भ, गोत्रिरात्र व्रत प्रारम्भ।🪔 विशेष पूजा मुहूर्त= शाम 5.58 - 7.43PM",
-      "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "कार्तिक कृष्ण त्रयोदशी"
+      "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
+      "articleLabel": "धनतेरस",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
+      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती"
     },
     {
       "date": "2026-11-07",
@@ -155,19 +150,10 @@
       "date": "2026-11-24",
       "dateLabel": "24 नवंबर",
       "title": "कार्तिक पूर्णिमा / देव दीपावली",
-      "description": "कार्तिक पूर्णिमा पर स्नान, दान, दीपदान और भगवान विष्णु/शिव की उपासना की परंपरा है। काशी सहित अनेक स्थानों पर देव दीपावली मनाई जाती है। पूर्णिमा-व्याप्ति और दीपदान का समय स्थानीय पंचांग से जाँचना चाहिए।",
+      "description": "कार्तिक पूर्णिमा पर स्नान, दान, दीपदान और भगवान विष्णु/शिव की उपासना की परंपरा है। काशी सहित अनेक स्थानों पर देव दीपावली मनाई जाती है। पूर्णिमा-व्याप्ति और दीपदान का समय स्थानीय पंचांग से जाँचना चाहिए।<br><br>देव दीपावली कार्तिक पूर्णिमा से जुड़ा दीपोत्सव है, विशेषकर वाराणसी में घाटों पर दीपदान प्रसिद्ध है। आयोजन और पूजा का समय स्थानीय पूर्णिमा-व्याप्ति के अनुसार तय किया जाना चाहिए।",
       "category": "पूर्णिमा",
       "reviewStatus": "needs-review",
       "hinduTithi": "कार्तिक शुक्ल पूर्णिमा"
-    },
-    {
-      "date": "2026-11-24",
-      "dateLabel": "24 नवंबर",
-      "title": "देव दीपावली",
-      "description": "देव दीपावली कार्तिक पूर्णिमा से जुड़ा दीपोत्सव है, विशेषकर वाराणसी में घाटों पर दीपदान प्रसिद्ध है। आयोजन और पूजा का समय स्थानीय पूर्णिमा-व्याप्ति के अनुसार तय किया जाना चाहिए।",
-      "category": "पर्व",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "कार्तिक कृष्ण अमावस्या"
     },
     {
       "date": "2026-11-27",
@@ -187,7 +173,8 @@
       "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "reviewStatus": "needs-review"
     },
     {
       "date": "2026-11-21",
@@ -195,7 +182,8 @@
       "title": "गौण देवउठनी एकादशी (वैष्णव)",
       "category": "एकादशी",
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
-      "description": "देवउठनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-निर्णय और पारण अपनी संप्रदाय-परंपरा के अनुसार करें।"
+      "description": "देवउठनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-निर्णय और पारण अपनी संप्रदाय-परंपरा के अनुसार करें।",
+      "reviewStatus": "needs-review"
     },
     {
       "date": "2026-11-20",
@@ -203,7 +191,8 @@
       "title": "कंस वध",
       "category": "पर्व",
       "hinduTithi": "कार्तिक शुक्ल दशमी",
-      "description": "कार्तिक शुक्ल दशमी को श्रीकृष्ण द्वारा कंस-वध की लीला के स्मरण की परंपरा है।"
+      "description": "कार्तिक शुक्ल दशमी को श्रीकृष्ण द्वारा कंस-वध की लीला के स्मरण की परंपरा है।",
+      "reviewStatus": "needs-review"
     }
   ]
 }
