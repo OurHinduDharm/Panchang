@@ -110,3 +110,20 @@ The 1860 table should not be called a “Sūrya-siddhānta worked example.” Bu
 The correct next validation gate is to compare the intermediate Chapter II equations against an actual classical worked calculation or commentary example, then keep the Burgess/Le Verrier table as a separate external-accuracy check. Do not fit the equations to its residual and do not use modern Asta/Udaya dates as tuning targets.
 
 The printed frame-origin figures also cross-check arithmetically: 18°05′08″ east of the 1860 vernal equinox plus 50°22′29″ west of the 3102 BCE vernal equinox equals the stated 68°27′37″ precession interval. This strongly supports reading the scanned “18°58′” OCR as a misreading, not the intended value.
+
+
+## Chapter II four-pass worked-example regression — 22 October 2026
+
+A real numerical regression fixture is now wired into `ss_chapter2_planetary_true_position_candidate.js`, using the published inputs and outputs from R. Kane Tech's Sūrya-siddhānta true-position walkthrough:
+https://rkanetech.com/true-position
+
+At ahargaṇa **714403972030**, the fixture uses the published mean longitude, mandocca, and śīghrocca for Venus and Jupiter without adjusting any input to fit an Asta/Udaya event:
+
+| Body | Our four-pass result | Published result | Difference |
+|---|---:|---:|---:|
+| Venus | 7.292914268° | 7.292850000° | +0.000064268° (about 0.23 arcsec) |
+| Jupiter | 264.422354715° | 264.436320000° | −0.013965285° (about 50.3 arcsec) |
+
+Both are inside the explicitly declared 0.05° tolerance; the source-table interpolation accounts for small numerical differences. The candidate module's full set of **11/11 planetary true-position tests passed** in the current Actions log. The broader browser/production-isolation job is still running, so this is not yet a claim that the complete workflow is finished.
+
+This is the appropriate Chapter II implementation check; the 1860 Burgess/Le Verrier table remains a separate external-accuracy benchmark, not a classical worked example. Chapter II.46 remains separately visible as a small correction (+0.005940700° Venus, −0.004676250° Jupiter in the 1860 fixture). Production `app.js` and `extra-panchang.js` remain unchanged.
