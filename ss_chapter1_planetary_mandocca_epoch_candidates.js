@@ -91,7 +91,7 @@ export function chapter1PlanetaryMandoccaEpochCandidates() {
     tableJulianDay: BURGESS_TABLE_JD,
     solarKaliEpochMandoccaDeg: SOLAR_KALI_EPOCH_MANDOCCA_DEG,
     solarMotionToTableDeg: solarMotionToTable,
-    inferredCommonFrameOffsetDeg,
+    inferredCommonFrameOffsetDeg: inferredFrameOffsetDeg,
     candidates: Object.freeze(candidates),
     status: "research-only; do not use in production without independent edition/frame adjudication"
   });
