@@ -294,10 +294,20 @@ export function runChapter2PlanetaryTruePositionTests() {
   const historicalJupiter = chapter2PlanetaryTruePositionAtAhargana({
     planet: "Jupiter", ahargana: historicalAhargana
   });
+  const historicalMeanSun = chapter1MeanPlanetaryPosition({
+    planet: "Sun", ahargana: historicalAhargana
+  });
+  const sourceSunTrueLongitudeDeg = 278 + 40 / 60;
   const historicalTableCheck = Object.freeze({
     instant: "1860-01-01 00:00:00 Washington local mean time",
     utcJD: washingtonUtcJD,
     ahargana: historicalAhargana,
+    meanSun: {
+      calculatedHinduFrameDeg: historicalMeanSun.meanLongitudeDeg,
+      burgessSunTrueLongitudeDeg: sourceSunTrueLongitudeDeg,
+      differenceToSourceTrueSunDeg: ((historicalMeanSun.meanLongitudeDeg - sourceSunTrueLongitudeDeg + 540) % 360) - 180,
+      note: "Mean position is compared with the true-position table only as a gross phase/epoch diagnostic; the solar manda equation is too small to explain a ~20° gap."
+    },
     venus: {
       calculatedHinduFrameDeg: historicalVenus.trueLongitudeCandidateDeg,
       burgessHinduFrameDeg: 305,
@@ -308,13 +318,17 @@ export function runChapter2PlanetaryTruePositionTests() {
       burgessHinduFrameDeg: 114 + 36 / 60,
       differenceDeg: ((historicalJupiter.trueLongitudeCandidateDeg - (114 + 36 / 60) + 540) % 360) - 180
     },
-    status: "diagnostic comparison only; Chapter II.46 time correction and the exact historical table convention may still affect residuals"
+    status: "UNRESOLVED: common ~20.4° discrepancy is a phase/epoch or frame-convention failure; do not treat this fixture as validation or fit the model to modern event dates"
   });
   tests.push({
-    name: "Burgess 1860 Washington worked-table fixture maps to finite Venus/Jupiter four-pass longitudes",
-    passed: Number.isFinite(historicalTableCheck.venus.calculatedHinduFrameDeg) &&
+    name: "Burgess 1860 comparison produces finite diagnostics and explicitly detects the shared phase mismatch",
+    passed: Number.isFinite(historicalTableCheck.meanSun.calculatedHinduFrameDeg) &&
+      Number.isFinite(historicalTableCheck.venus.calculatedHinduFrameDeg) &&
       Number.isFinite(historicalTableCheck.jupiter.calculatedHinduFrameDeg) &&
-      Number.isFinite(historicalTableCheck.ahargana)
+      Number.isFinite(historicalTableCheck.ahargana) &&
+      Math.abs(historicalTableCheck.venus.differenceDeg) > 10 &&
+      Math.abs(historicalTableCheck.jupiter.differenceDeg) > 10 &&
+      historicalTableCheck.status.startsWith("UNRESOLVED")
   });
 
   return {
