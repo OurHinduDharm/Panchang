@@ -22,6 +22,7 @@ import {
 } from "./ss_chapter2_versed_sine_table.js";
 import { chapter1MeanPlanetaryPosition } from "./ss_chapter1_mean_planetary_positions.js";
 import { chapter1CandidateMandoccaAtAhargana } from "./ss_chapter1_planetary_mandocca_epoch_candidates.js";
+import { chapter1UtcJulianDay, chapter1EpochBridgeFromUtcJD } from "./ss_chapter1_epoch_bridge.js";
 
 export const SS_PLANETARY_EPICYCLE_CONSTANTS = Object.freeze({
   Mars: Object.freeze({ mandaEven: 75, mandaOdd: 72, sighraEven: 235, sighraOdd: 232 }),
@@ -279,8 +280,46 @@ export function runChapter2PlanetaryTruePositionTests() {
     passed: rejectedUnsupported
   });
 
+  // Burgess's comparison table is for 1 Jan 1860 midnight at Washington.
+  // The text gives Washington mean time as 5h 8m 11s west of Greenwich.
+  // Convert that instant to Ujjain local-mean coordinates using the research
+  // bridge; this exposes, rather than hides, any residual frame/time mismatch.
+  const washingtonMidnightUtc = new Date(Date.UTC(1860, 0, 1, 5, 8, 11));
+  const washingtonUtcJD = chapter1UtcJulianDay(washingtonMidnightUtc);
+  const ujjainBridge = chapter1EpochBridgeFromUtcJD(washingtonUtcJD, 75.768);
+  const historicalAhargana = ujjainBridge.aharganaFromEpochAnchor;
+  const historicalVenus = chapter2PlanetaryTruePositionAtAhargana({
+    planet: "Venus", ahargana: historicalAhargana
+  });
+  const historicalJupiter = chapter2PlanetaryTruePositionAtAhargana({
+    planet: "Jupiter", ahargana: historicalAhargana
+  });
+  const historicalTableCheck = Object.freeze({
+    instant: "1860-01-01 00:00:00 Washington local mean time",
+    utcJD: washingtonUtcJD,
+    ahargana: historicalAhargana,
+    venus: {
+      calculatedHinduFrameDeg: historicalVenus.trueLongitudeCandidateDeg,
+      burgessHinduFrameDeg: 305,
+      differenceDeg: ((historicalVenus.trueLongitudeCandidateDeg - 305 + 540) % 360) - 180
+    },
+    jupiter: {
+      calculatedHinduFrameDeg: historicalJupiter.trueLongitudeCandidateDeg,
+      burgessHinduFrameDeg: 114 + 36 / 60,
+      differenceDeg: ((historicalJupiter.trueLongitudeCandidateDeg - (114 + 36 / 60) + 540) % 360) - 180
+    },
+    status: "diagnostic comparison only; Chapter II.46 time correction and the exact historical table convention may still affect residuals"
+  });
+  tests.push({
+    name: "Burgess 1860 Washington worked-table fixture maps to finite Venus/Jupiter four-pass longitudes",
+    passed: Number.isFinite(historicalTableCheck.venus.calculatedHinduFrameDeg) &&
+      Number.isFinite(historicalTableCheck.jupiter.calculatedHinduFrameDeg) &&
+      Number.isFinite(historicalTableCheck.ahargana)
+  });
+
   return {
     tests,
+    historicalTableCheck,
     passed: tests.filter(test => test.passed).length,
     total: tests.length,
     allPassed: tests.every(test => test.passed),
