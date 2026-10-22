@@ -1,7 +1,6 @@
 /*
- * OurHinduDharm — print/layout safety for Blogger pages using Auto ads.
- * Deliberately does not remove, block, or reposition ads on screen.
- * Print-only rules prevent ad containers and floating overlays from entering print output.
+ * OurHinduDharm — print safety for Blogger pages using Auto ads.
+ * All styling is scoped to print; normal screen layout and ad rendering are untouched.
  */
 (function () {
   "use strict";
@@ -24,11 +23,6 @@
     "    position: static !important; transform: none !important;",
     "  }",
     "  button, .no-print, [data-no-print='true'] { display: none !important; }",
-    "}",
-    "@media screen {",
-    "  #ohd-monthly-festivals, #ohd-monthly-festivals * { box-sizing: border-box; }",
-    "  #ohd-monthly-festivals .event, #ohd-monthly-festivals .content { min-width: 0; }",
-    "  #ohd-monthly-festivals .content { overflow-wrap: anywhere; }",
     "}"
   ].join("\n");
   (document.head || document.documentElement).appendChild(style);
