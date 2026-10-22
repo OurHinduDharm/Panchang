@@ -78,3 +78,12 @@ for (const test of planetaryMandoccaEpochResult.tests) {
 console.log(planetaryMandoccaEpochResult.passed + '/' + planetaryMandoccaEpochResult.total + ' planetary mandocca epoch-candidate tests passed');
 console.log('Research-only candidate epoch longitudes:', JSON.stringify(planetaryMandoccaEpochResult.candidateEpochLongitudesDeg));
 if (!planetaryMandoccaEpochResult.allPassed) process.exitCode = 1;
+
+
+import { runChapter2PlanetaryTruePositionTests } from './ss_chapter2_planetary_true_position_candidate.js';
+const planetaryTruePositionResult = runChapter2PlanetaryTruePositionTests();
+for (const test of planetaryTruePositionResult.tests) {
+  console.log((test.passed ? 'PASS' : 'FAIL') + ' — ' + test.name);
+}
+console.log(planetaryTruePositionResult.passed + '/' + planetaryTruePositionResult.total + ' planetary true-position candidate tests passed');
+if (!planetaryTruePositionResult.allPassed) process.exitCode = 1;
