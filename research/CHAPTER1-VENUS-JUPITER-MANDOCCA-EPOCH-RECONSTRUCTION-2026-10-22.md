@@ -96,7 +96,7 @@ The diagnostic has been corrected to use 18 + 5/60 + 8/3600 degrees for this *al
 
 The candidate module now applies the verse II.46 bhujāntara correction using the Sun's first (manda) equation's base-sine result, the planet's source-ratio mean daily motion, and division by 21,600 arcminutes per circle. It keeps both the pre-correction four-pass result and the corrected longitude visible. This is only the correction to true midnight at Laṅkā; it is not a replacement for the later local udayāntara, deśāntara, and cara corrections discussed in Burgess's commentary.
 
-For the 1 January 1860 Washington comparison, the correction is +0.005940700° for Venus and −0.004676250° for Jupiter. The residual changes by only a few thousandths of a degree, so II.46 is not the cause of the approximately 2.65° shared mismatch. The code has an explicit guard preventing the Sun from being passed into the five-planet four-pass equation path; the Sun is only used to calculate its own manda equation for II.46.
+For the 1 January 1860 Washington comparison, the correction is  +0.000099012° for Venus and −0.000077938° for Jupiter. The residual changes by only a few thousandths of a degree, so II.46 is not the cause of the approximately 2.65° shared mismatch. The code has an explicit guard preventing the Sun from being passed into the five-planet four-pass equation path; the Sun is only used to calculate its own manda equation for II.46.
 
 Source: Burgess translation, Chapter II.34 (solar epicycle 14° with 20′ reduction at odd quadrants) and II.46:
 https://www.swaveda.com/texts/surya-siddhanta/2/
@@ -126,4 +126,11 @@ At ahargaṇa **714403972030**, the fixture uses the published mean longitude, m
 
 Both are inside the explicitly declared 0.05° tolerance; the source-table interpolation accounts for small numerical differences. The candidate module's full set of **11/11 planetary true-position tests passed** in the current Actions log. The broader browser/production-isolation job is still running, so this is not yet a claim that the complete workflow is finished.
 
-This is the appropriate Chapter II implementation check; the 1860 Burgess/Le Verrier table remains a separate external-accuracy benchmark, not a classical worked example. Chapter II.46 remains separately visible as a small correction (+0.005940700° Venus, −0.004676250° Jupiter in the 1860 fixture). Production `app.js` and `extra-panchang.js` remain unchanged.
+This is the appropriate Chapter II implementation check; the 1860 Burgess/Le Verrier table remains a separate external-accuracy benchmark, not a classical worked example. Chapter II.46 remains separately visible as a small correction ( +0.000099012° Venus, −0.000077938° Jupiter in the 1860 fixture). Production `app.js` and `extra-panchang.js` remain unchanged.
+
+
+## Chapter II.46 unit correction — 22 October 2026
+
+A further audit caught a unit error in the first implementation of II.46: the generic planetary equation helper expects the Sun's manda epicycle in degrees, just like the other bodies, but the initial Sun constant had been entered as 840/820 (arcminutes) rather than 14°/13°40′. That inflated the solar base-sine result by roughly 60×. The Sun constants are now corrected to 14 and 13°40′, and the II.46 regression test now requires the solar epicycle to remain within the source interval and the resulting correction to be below 0.001° for the 1860 fixture.
+
+The previously reported II.46 corrections (+0.005940700° Venus, −0.004676250° Jupiter) are withdrawn. The corrected expected scale is approximately +0.000099012° Venus and −0.000077938° Jupiter; the updated CI run must confirm the exact output. This correction affects only the research module. No production file changed.
