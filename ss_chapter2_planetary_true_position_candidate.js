@@ -114,7 +114,7 @@ export function chapter2PlanetaryEquation({ planetLongitudeDeg, referenceLongitu
 export function chapter2PlanetaryTrueLongitudeCandidate({
   planet, meanLongitudeDeg, mandoccaLongitudeDeg, sighroccaLongitudeDeg
 }) {
-  if (!SS_PLANETARY_EPICYCLE_CONSTANTS[planet]) {
+  if (!["Mars", "Mercury", "Jupiter", "Venus", "Saturn"].includes(planet)) {
     throw new RangeError("Supported bodies: Mars, Mercury, Jupiter, Venus, Saturn.");
   }
   for (const [name, value] of Object.entries({
@@ -376,7 +376,7 @@ export function runChapter2PlanetaryTruePositionTests() {
       transformedDifferenceDeg: signedDifference(toBurgessEquinoxFrame(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg), 114 + 36 / 60),
       literalBurgessOffsetDifferenceDeg: signedDifference(toLiteralBurgessReportedFrame(historicalJupiter.bhujantaraCorrectedTrueLongitudeDeg), 114 + 36 / 60)
     },
-    status: "UNRESOLVED: the candidate solar-calibrated offset leaves ~2.65° residual; Burgess's prose reports 18°58′ for the sphere origin, a distinct offset candidate that leaves ~1.47° but must be confirmed as the same frame definition. Audit the original edition and Chapter II.46 before event prediction."
+    status: "UNRESOLVED: the candidate solar-calibrated offset leaves ~2.65° residual; Burgess's prose reports 18°05′08″ for the sphere origin; using that as a distinct offset candidate leaves ~2.34° and must be confirmed as the same frame definition. Audit the original edition, frame definition, and historical time convention before event prediction."
   });
   tests.push({
     name: "Chapter II.46 computes a finite, signed bhujantara correction and preserves the pre-correction true place",
