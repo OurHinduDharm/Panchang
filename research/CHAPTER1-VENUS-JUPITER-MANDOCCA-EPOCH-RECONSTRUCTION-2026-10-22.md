@@ -66,7 +66,7 @@ Applying the *candidate* common frame offset calibrated from the Sun's mandocca 
 | Venus | 302.351273° | 305.000000° | −2.648727° |
 | Jupiter | 111.942260° | 114.600000° | −2.657740° |
 
-The common residual of about **−2.65°** is now the useful clue. It is much smaller than the raw 20.4° and is consistent across the three bodies, but it is not yet explained. It may reflect the secondary solar mandocca anchor, the exact source-frame transformation, the historical table's time convention, or the Chapter II.46 correction. The mean-Sun row is only a gross diagnostic because it compares mean Sun with true Sun; its solar manda correction is too small to explain a multi-degree residual.
+The common residual of about **−2.65°** is still the useful clue before Chapter II.46. The source-based II.46 correction is now implemented in the research module: at the 1860 fixture it changes Venus by **+0.005941°** and Jupiter by **−0.004676°**. After that correction, the candidate-frame residuals are Venus **−2.642786°** and Jupiter **−2.662416°**. Applying the literal 18°05′08″ alternative gives Venus **−2.334237°** and Jupiter **−2.353866°**. The correction is therefore much too small to explain the multi-degree residual; the remaining issue is the frame/epoch/table convention, not the missing II.46 term. The mean-Sun row remains a gross diagnostic because it compares mean Sun with true Sun.
 
 A second source detail needs direct adjudication before selecting a frame constant: Burgess's prose says the origin of the Hindu sphere is **18°05′08″ east of the vernal equinox on 1 January 1860**. If this literal offset is applied as an alternative diagnostic, the shared residual drops to about **−2.34°** (Sun gross check −2.358°, Venus −2.340°, Jupiter −2.349°). However, this prose phrase must be confirmed to describe the same coordinate transformation as the 1850 mandocca table; do not silently replace the solar-calibrated 17.777006° offset with 18°05′08″. The diagnostic now reports both alternatives and their 0.30855° difference.
 
@@ -77,7 +77,7 @@ The table explicitly distinguishes “from Hindu eq.” from “from true eq.”
 ### Correct next step
 
 1. Verify the solar mandocca epoch anchor and the frame offset against the original printed table/edition, not only a secondary 77°07′48″ anchor.
-2. Audit the exact table time/meridian convention and implement Chapter II.46 before interpreting the remaining residual.
+2. Chapter II.46 is now implemented as a research-only correction; verify its sign and the historical table's exact time/meridian convention before interpreting the remaining residual.
 3. Require the historical Sun to agree in the same frame first, then verify Venus/Jupiter true-position intermediates. Only then return to Chapter IX event-time calculations.
 4. Keep everything research-only. Do not tune the residual to modern Asta/Udaya dates.
 
@@ -90,3 +90,14 @@ An OCR-style reading of the scanned Burgess introduction was previously misread 
 https://upload.wikimedia.org/wikipedia/commons/2/2b/Translation_of_the_S%C3%BBrya-Siddh%C3%A2nta%2C_A_Text-Book_of_Hindu_Astronomy%3B_With_Notes%2C_and_an_Appendix_%28IA_jstor-592174%29.pdf
 
 The diagnostic has been corrected to use 18 + 5/60 + 8/3600 degrees for this *alternative candidate only*. It differs from the 17.777006020° solar-calibrated candidate by about 0.30855°, not 1.18966°. After applying 18°05′08″, the historical residuals are still about −2.34° for Venus and Jupiter; therefore this correction does not resolve the model. The prior statement that the 18°58′ candidate reduced the residual to −1.47° is withdrawn. The source-frame definition still requires verification, and the production code remains untouched.
+
+
+## Chapter II.46 implementation result — 22 October 2026
+
+The candidate module now applies the verse II.46 bhujāntara correction using the Sun's first (manda) equation's base-sine result, the planet's source-ratio mean daily motion, and division by 21,600 arcminutes per circle. It keeps both the pre-correction four-pass result and the corrected longitude visible. This is only the correction to true midnight at Laṅkā; it is not a replacement for the later local udayāntara, deśāntara, and cara corrections discussed in Burgess's commentary.
+
+For the 1 January 1860 Washington comparison, the correction is +0.005940700° for Venus and −0.004676250° for Jupiter. The residual changes by only a few thousandths of a degree, so II.46 is not the cause of the approximately 2.65° shared mismatch. The code has an explicit guard preventing the Sun from being passed into the five-planet four-pass equation path; the Sun is only used to calculate its own manda equation for II.46.
+
+Source: Burgess translation, Chapter II.34 (solar epicycle 14° with 20′ reduction at odd quadrants) and II.46:
+https://www.swaveda.com/texts/surya-siddhanta/2/
+The exact historical frame and the 1860 table's time convention remain unresolved. No production file has been changed.
