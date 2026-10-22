@@ -18,6 +18,7 @@ on:
       - "ss_chapter1_mean_solar_longitude.js"
       - "ss_chapter1_mean_planetary_positions.js"
       - "ss_chapter1_mean_solar_mandocca.js"
+      - "ss_chapter1_mean_planetary_mandocca.js"
       - "ss_chapter2_solar_manda.js"
       - "ss_chapter2_solar_motion_candidate.js"
       - "ss_chapter2_daily_motion_correction.js"
@@ -76,6 +77,7 @@ jobs:
           node --experimental-default-type=module --check ss_chapter1_mean_solar_longitude.js
           node --experimental-default-type=module --check ss_chapter1_mean_planetary_positions.js
           node --experimental-default-type=module --check ss_chapter1_mean_solar_mandocca.js
+          node --experimental-default-type=module --check ss_chapter1_mean_planetary_mandocca.js
           node --experimental-default-type=module --check ss_chapter2_solar_manda.js
           node --experimental-default-type=module --check ss_civil_date_epoch_adapter.js
           node --experimental-default-type=module --check ss_chapter1_epoch_bridge.js
