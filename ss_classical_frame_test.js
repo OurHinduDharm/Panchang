@@ -89,3 +89,12 @@ console.log(planetaryTruePositionResult.passed + '/' + planetaryTruePositionResu
 console.log('Published Chapter II worked-example comparison:', JSON.stringify(planetaryTruePositionResult.workedExampleCheck));
 console.log('Burgess 1860 planetary worked-table comparison:', JSON.stringify(planetaryTruePositionResult.historicalTableCheck));
 if (!planetaryTruePositionResult.allPassed) process.exitCode = 1;
+
+import { runChapter2PlanetaryDailyMotionCandidateTests } from './ss_chapter2_planetary_daily_motion_candidate.js';
+const planetaryDailyMotionResult = runChapter2PlanetaryDailyMotionCandidateTests();
+for (const test of planetaryDailyMotionResult.tests) {
+  console.log((test.passed ? 'PASS' : 'FAIL') + ' — ' + test.name);
+}
+console.log(planetaryDailyMotionResult.passed + '/' + planetaryDailyMotionResult.total + ' date-anchored Chapter II.47–51 daily-motion candidate tests passed');
+console.log('Chapter II.47–51 source-rate / finite-difference ledger:', JSON.stringify(planetaryDailyMotionResult.diagnosticLedger));
+if (!planetaryDailyMotionResult.allPassed) process.exitCode = 1;
