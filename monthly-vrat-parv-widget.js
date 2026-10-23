@@ -245,7 +245,7 @@
       var dayStart=new Date(dateIso+"T00:00:00"),dayEnd=new Date(dateIso+"T23:59:59.999");
       for(var ri=0;ri<rows.length;ri++){
         var row=rows[ri],a=new Date(row&&row.startTime),b=new Date(row&&row.endTime);
-        if(row&&normalizedPanchangName(row.index,"nakshatra")==="मूल"&&Number.isFinite(a.getTime())&&Number.isFinite(b)&&b>a&&b>dayStart&&a<dayEnd) return {start:a,end:b};
+        if(row&&normalizedPanchangName(row.index,"nakshatra")==="मूल"&&Number.isFinite(a.getTime())&&Number.isFinite(b.getTime())&&b>a&&b>dayStart&&a<dayEnd) return {start:a,end:b};
       }
       return null;
     }
