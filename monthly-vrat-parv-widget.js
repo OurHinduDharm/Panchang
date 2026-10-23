@@ -226,12 +226,13 @@
     var events=Array.isArray(data&&data.events)?data.events:[];
     var startEvent=events.find(function(item){return /शारदीय नवरात्र.*प्रारम्भ|शारदीय नवरात्र.*प्रारंभ/.test(String(item.title||""));});
     // नवरात्रि सितंबर में आरम्भ होकर अक्टूबर में हो तो अक्टूबर सूची पिछले महीने का आरम्भ पढ़े।
-    if(!startEvent&&month===10){
+    if(!startEvent){
       try{
-        var previousMonth=9;
-        var previousResponse=await fetch("https://ourhindudharm.github.io/Panchang/data/festivals/"+year+"-09.json",{cache:"no-cache"});
+        var previousMonth=month===1?12:month-1;
+        var previousYear=month===1?year-1:year;
+        var previousResponse=await fetch("https://ourhindudharm.github.io/Panchang/data/festivals/"+previousYear+"-"+String(previousMonth).padStart(2,"0")+".json",{cache:"no-cache"});
         if(previousResponse.ok){var previousData=await previousResponse.json();startEvent=(previousData.events||[]).find(function(item){return /शारदीय नवरात्र.*प्रारम्भ|शारदीय नवरात्र.*प्रारंभ/.test(String(item.title||""));});}
-      }catch(_){/* मौजूदा माह के डेटा से आगे प्रयास करें */}
+      }catch(_){/* पिछले महीने का डेटा न मिले तो स्थिर प्रविष्टि नहीं गढ़ें */}
     }
     if(!startEvent||!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(startEvent.date||""))) return [];
     var start=new Date(startEvent.date+"T12:00:00");
