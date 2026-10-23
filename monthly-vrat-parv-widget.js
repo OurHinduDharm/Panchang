@@ -239,7 +239,19 @@
     var endIso=/^\\d{4}-\\d{2}-\\d{2}$/.test(String(startEvent.endDate||""))?startEvent.endDate:"";
     var end=endIso?new Date(endIso+"T12:00:00"):new Date(start.getTime()+9*86400000);
     if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<start) return [];
-    var found=[];
+    var found=[],avahanScheduled=false,avahanFallbackScheduled=false;
+    function findMulaInterval(panchang){
+      var rows=Array.isArray(panchang&&panchang.nakshatras)?panchang.nakshatras:[];
+      for(var ri=0;ri<rows.length;ri++){
+        var row=rows[ri],a=new Date(row&&row.startTime),b=new Date(row&&row.endTime);
+        if(row&&normalizedPanchangName(row.index,"nakshatra")==="मूल"&&Number.isFinite(a.getTime())&&Number.isFinite(b.getTime())&&b>a) return {start:a,end:b};
+      }
+      return null;
+    }
+    function clockRange(a,b){
+      var fmt=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true});
+      return fmt.format(a)+"–"+fmt.format(b)+" IST";
+    }
     for(var cursor=new Date(start);cursor<=end;cursor.setDate(cursor.getDate()+1)){
       if(token!==requestToken) return [];
       var iso=cursor.getFullYear()+"-"+String(cursor.getMonth()+1).padStart(2,"0")+"-"+String(cursor.getDate()).padStart(2,"0");
@@ -253,9 +265,27 @@
       // मूल में स्थापना/आवाहन: धर्मसिंधु-पाठ के अनुसार सूर्यास्त से तीन मुहूर्त (144 मिनट) पहले।
       var avahanTime=new Date(sunset.getTime()-144*60000),avahanPanchang;
       try{avahanPanchang=values.at(avahanTime);}catch(_){avahanPanchang=p;}
-      if(panchangNakshatraAt(avahanPanchang)==="मूल"){
+      if(!avahanScheduled&&panchangNakshatraAt(avahanPanchang)==="मूल"){
         var avahanClock=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(avahanTime);
         addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","मूल नक्षत्र में देवी का आवाहन/स्थापन। धर्मसिंधु-पाठ के अनुसार संदर्भ-समय सूर्यास्त से तीन मुहूर्त पूर्व है; गणित समय: "+avahanClock+" IST।","avahana","मूल",locationName);
+        avahanScheduled=true;
+      }else if(!avahanScheduled&&!avahanFallbackScheduled&&findMulaInterval(p)){
+        // धर्मसिंधु-पाठ का विकल्प: नियत समय पर मूल उपलब्ध न हो तो अगले दिन मूल का द्वितीय पाद।
+        var nextCursor=new Date(cursor);nextCursor.setDate(nextCursor.getDate()+1);
+        var nextIso=nextCursor.getFullYear()+"-"+String(nextCursor.getMonth()+1).padStart(2,"0")+"-"+String(nextCursor.getDate()).padStart(2,"0");
+        if(nextCursor<=end&&Number(nextIso.slice(5,7))===month){
+          try{
+            var nextValues=await getDatePanchang(nextIso);
+            var nextMula=findMulaInterval(nextValues.p);
+            if(nextMula){
+              var mulaDuration=nextMula.end.getTime()-nextMula.start.getTime();
+              var padaStart=new Date(nextMula.start.getTime()+mulaDuration/4);
+              var padaEnd=new Date(nextMula.start.getTime()+mulaDuration/2);
+              addSaraswatiEvent(found,nextIso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","नियत समय पर मूल नक्षत्र उपलब्ध न होने के कारण अगले दिन मूल के द्वितीय पाद का विकल्प: "+clockRange(padaStart,padaEnd)+"।","avahana-fallback","मूल का द्वितीय पाद",locationName);
+              avahanFallbackScheduled=true;
+            }
+          }catch(_){/* मूल-द्वितीय-पाद का समय न निकले तो अनुमान न दिखाएँ */}
+        }
       }
       // पूर्वाषाढ़ा और उत्तराषाढ़ा: कर्म-दिवस की मध्याह्न-व्याप्ति जाँचें।
       var noonNakshatra=panchangNakshatraAt(p);
