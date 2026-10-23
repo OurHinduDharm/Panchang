@@ -16,6 +16,18 @@
       "hinduTithi": "कार्तिक कृष्ण अष्टमी"
     },
     {
+      "date": "2026-11-01",
+      "dateLabel": "1 नवंबर",
+      "title": "मासिक कालाष्टमी",
+      "category": "व्रत",
+      "hinduTithi": "कार्तिक कृष्ण अष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "showReviewStatus": false,
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-11-05",
       "dateLabel": "5 नवंबर",
       "title": "गोवत्स द्वादशी व्रत",
@@ -37,10 +49,9 @@
       "date": "2026-11-06",
       "dateLabel": "6 नवंबर",
       "title": "धनतेरस / धन्वन्तरि जयंती",
-      "description": "धन्वंतरि पूजन और दीपदान; पूजा-मुहूर्त अलग से जाँचना है।<br><br><a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\">धनतेरस</a>,<a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\">श्रीधन्वन्तरि जयन्ती</a> यमराज के लिए दीपदान प्रारम्भ, गोत्रिरात्र व्रत प्रारम्भ।🪔 विशेष पूजा मुहूर्त= शाम 5.58 - 7.43PM",
+      "description": "धन्वन्तरि पूजन, दीपदान और खरीदारी की परंपरा। इस सूची में धनतेरस का स्थान-विशिष्ट पूजा-मुहूर्त अभी उपलब्ध नहीं है; अपने नगर के दैनिक पंचांग में स्थानीय समय देखें। <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\" target=\"_blank\" rel=\"noopener noreferrer\">स्थानीय पंचांग खोलें</a>। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a>।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review",
-      "muhurtaRule": "dhanteras-puja",
+      "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
       "articleLabel": "धनतेरस",
@@ -53,17 +64,16 @@
       "title": "काली चौदस",
       "description": "काली चौदस (रूप चौदस) की परंपरा में अभ्यंग-स्नान, दीपदान और यम-दीप का विधान कई क्षेत्रों में प्रचलित है। स्थानीय परंपरा के अनुसार पूजा करें।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण चतुर्दशी"
     },
     {
       "date": "2026-11-08",
       "dateLabel": "8 नवंबर",
       "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर घर की स्वच्छता, दीपदान तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय केवल सामान्य घड़ी-समय से तय न करें; स्थानीय अमावस्या-व्याप्ति और स्वीकृत लक्ष्मी-पूजन मुहूर्त की पुष्टि बाकी है।",
+      "description": "दीपावली पर दीपदान तथा लक्ष्मी-गणेश पूजन की परंपरा है। 2026 की पर्व-तिथि की पुष्टि की गई है; इस सूची में नगर-विशिष्ट लक्ष्मी-पूजन मुहूर्त अभी उपलब्ध नहीं है। सही पूजा-समय के लिए स्थानीय अमावस्या-व्याप्ति और पंचांग देखें। <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\" target=\"_blank\" rel=\"noopener noreferrer\">स्थानीय पंचांग खोलें</a>।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review",
-      "muhurtaRule": "diwali-lakshmi-puja",
+      "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण अमावस्या"
     },
     {
@@ -72,7 +82,7 @@
       "title": "नरक चतुर्दशी",
       "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। कई परंपराओं में प्रातः अभ्यंग-स्नान, दीपदान और यम-दीप की रीति होती है; तिथि और अनुष्ठान क्षेत्रानुसार बदल सकते हैं, इसलिए तारीख़ की पुष्टि बाकी है।",
       "category": "पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण चतुर्दशी"
     },
     {
@@ -81,7 +91,7 @@
       "title": "गोवर्धन पूजा / अन्नकूट",
       "description": "गोवर्धन पूजा में श्रीकृष्ण द्वारा गोवर्धन धारण की लीला का स्मरण किया जाता है। अन्नकूट में विविध व्यंजनों का भोग अर्पित कर गौमाता, गोवर्धन पर्वत और भगवान श्रीकृष्ण के प्रति कृतज्ञता व्यक्त की जाती है।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल प्रतिपदा"
     },
     {
@@ -90,7 +100,7 @@
       "title": "भाई दूज",
       "description": "भाई दूज, जिसे यम द्वितीया भी कहते हैं, भाई-बहन के स्नेह और मंगलकामना का पर्व है। बहनें भाइयों के कल्याण की प्रार्थना करती हैं और तिलक की परंपरा निभाती हैं। तिलक का समय स्थानीय द्वितीया-व्याप्ति और मान्य परंपरा के अनुसार तय करें।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल द्वितीया"
     },
     {
@@ -99,7 +109,7 @@
       "title": "छठ पूजा",
       "description": "छठ पर्व में सूर्यदेव और छठी मैया की उपासना की जाती है। मुख्य अनुष्ठानों में अस्त होते सूर्य को संध्या अर्घ्य और अगले दिन उगते सूर्य को प्रातः अर्घ्य देना शामिल है। दोनों अर्घ्यों का वास्तविक समय स्थान के सूर्यास्त और सूर्योदय के अनुसार निर्धारित करें।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल षष्ठी"
     },
     {
@@ -138,6 +148,15 @@
       "hinduTithi": "कार्तिक शुक्ल एकादशी"
     },
     {
+      "date": "2026-11-20",
+      "dateLabel": "20 नवंबर",
+      "title": "कंस वध",
+      "category": "पर्व",
+      "hinduTithi": "कार्तिक शुक्ल दशमी",
+      "description": "कार्तिक शुक्ल दशमी को श्रीकृष्ण द्वारा कंस-वध की लीला के स्मरण की परंपरा है।",
+      "reviewStatus": "needs-review"
+    },
+    {
       "date": "2026-11-21",
       "dateLabel": "21 नवंबर",
       "title": "तुलसी विवाह",
@@ -145,6 +164,15 @@
       "category": "पर्व",
       "reviewStatus": "needs-review",
       "hinduTithi": "कार्तिक शुक्ल द्वादशी"
+    },
+    {
+      "date": "2026-11-21",
+      "dateLabel": "21 नवंबर",
+      "title": "गौण देवउठनी एकादशी (वैष्णव)",
+      "category": "एकादशी",
+      "hinduTithi": "कार्तिक शुक्ल एकादशी",
+      "description": "देवउठनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-निर्णय और पारण अपनी संप्रदाय-परंपरा के अनुसार करें।",
+      "reviewStatus": "needs-review"
     },
     {
       "date": "2026-11-24",
@@ -163,36 +191,6 @@
       "category": "व्रत",
       "reviewStatus": "needs-review",
       "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्थी"
-    },
-    {
-      "date": "2026-11-01",
-      "dateLabel": "1 नवंबर",
-      "title": "मासिक कालाष्टमी",
-      "category": "व्रत",
-      "hinduTithi": "कार्तिक कृष्ण अष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
-      "showReviewStatus": false,
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-11-21",
-      "dateLabel": "21 नवंबर",
-      "title": "गौण देवउठनी एकादशी (वैष्णव)",
-      "category": "एकादशी",
-      "hinduTithi": "कार्तिक शुक्ल एकादशी",
-      "description": "देवउठनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-निर्णय और पारण अपनी संप्रदाय-परंपरा के अनुसार करें।",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-11-20",
-      "dateLabel": "20 नवंबर",
-      "title": "कंस वध",
-      "category": "पर्व",
-      "hinduTithi": "कार्तिक शुक्ल दशमी",
-      "description": "कार्तिक शुक्ल दशमी को श्रीकृष्ण द्वारा कंस-वध की लीला के स्मरण की परंपरा है।",
-      "reviewStatus": "needs-review"
     }
   ]
 }
