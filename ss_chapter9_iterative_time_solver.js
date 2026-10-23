@@ -50,14 +50,22 @@ export function solveChapter9EventTime({
 
   let day = startDay;
   let firstBranch;
+  let firstLagnantaraSign;
   const trace = [];
 
   for (let iteration = 0; iteration < maxIterations; iteration++) {
     const sample = validateSample(evaluateAt(day));
     const branch = sample.branchKey;
-    if (iteration === 0) firstBranch = branch;
+    const lagnantaraSign = Math.sign(sample.signedLagnantaraDeg);
+    if (iteration === 0) {
+      firstBranch = branch;
+      firstLagnantaraSign = lagnantaraSign;
+    }
     if (branch !== firstBranch) {
       return { converged: false, reason: "event-branch-changed", day, trace };
+    }
+    if (lagnantaraSign !== firstLagnantaraSign) {
+      return { converged: false, reason: "lagnantara-orientation-changed", day, trace };
     }
 
     const residualDeg = sample.currentKalanshaDeg - sample.targetKalanshaDeg;
@@ -125,6 +133,11 @@ export function runChapter9IterationSolverTests() {
     const result = solveChapter9EventTime({ startDay: 0, evaluateAt: sampleAt,
       maxIterations: 2, maxStepDays: 1 });
     return !result.converged && result.reason === "iteration-limit-reached" && result.trace.length === 2;
+  });
+  add("lagnāntara orientation reversal is rejected", () => {
+    const result = solveChapter9EventTime({ startDay: 0,
+      evaluateAt: day => ({ ...sampleAt(day), signedLagnantaraDeg: day > 0 ? -1 : 1 }) });
+    return !result.converged && result.reason === "lagnantara-orientation-changed";
   });
   add("invalid astronomy input is rejected", () => {
     try {
