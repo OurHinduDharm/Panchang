@@ -84,7 +84,7 @@
     locationStatus.textContent="स्थान खोजा जा रहा है…";
     locationSuggestions.replaceChildren();
     try{
-      var url="https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5&accept-language=hi&q="+encodeURIComponent(query);
+      var url="https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5&countrycodes=in&accept-language=hi&q="+encodeURIComponent(query);
       var response=await fetch(url,{headers:{"Accept":"application/json"}});
       if(!response.ok) throw new Error("HTTP_"+response.status);
       var places=await response.json();
@@ -397,7 +397,7 @@
     var item={date:iso,dateLabel:iso.slice(8,10)+" "+months[Number(iso.slice(5,7))-1],category:"नवरात्रि",
       calculationStatus:"tithi-derived",reviewStatus:"needs-review",showReviewStatus:true,
       navratriFamily:family.id,hinduTithi:"शुक्ल "+["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी"][tithiIndex]};
-    var note="तिथि और मास चयनित स्थान के सूर्योदय-पंचांग से लिए गए हैं। स्थानीय धर्मशास्त्रीय निर्णय/क्षय-वृद्धि की स्वतंत्र समीक्षा आवश्यक है।";
+    var note="तिथि और मास चयनित स्थान के सूर्योदय-पंचांग के अनुसार हैं; तिथि-परिवर्तन वाले दिनों में पूजा और व्रत का निर्णय संबंधित परंपरा के नियम से किया जाता है।";
     if(tithiIndex===0){
       item.title=family.label+" प्रारम्भ";
       item.description=family.kind==="वासन्तिक"
@@ -421,7 +421,7 @@
       item.articleLabel=navratriDeities[tithiIndex]+" की पूजा";
       if(tithiIndex===7){
         item.title=family.label+" महाष्टमी — माँ महागौरी";
-        item.description+=" कन्या-पूजन तथा संधिपूजा का समय स्थानीय अष्टमी-नवमी तिथि-संधि के अनुसार निर्धारित करें।";
+        item.description+=" इस दिन अष्टमी-पूजन और कन्या-पूजन अपनी परंपरा के अनुसार करें। संधिपूजा के लिए अष्टमी समाप्ति और नवमी आरम्भ के स्थानीय समय को साथ में देखें।";
       }
       if(tithiIndex===8){
         item.title=family.label+" महानवमी — माँ सिद्धिदात्री";
@@ -435,10 +435,12 @@
         }
       }
     }else if(tithiIndex===9){
-      item.title=family.label+" दशमी — पारण / कलश-विसर्जन";
-      item.description="नवरात्र-व्रत का पारण तथा कलश-विसर्जन तिथि-व्याप्ति और अपनी परंपरा के अनुसार करें। "+note;
+      item.title=family.kind==="शारदीय"?"शारदीय नवरात्र दशमी — विजयादशमी":family.label+" दशमी — साधना-समापन / पारण";
+      item.description=family.kind==="शारदीय"
+        ?"विजयादशमी पर परंपरा के अनुसार अपराजिता-पूजन, शमी-पूजन, सीमोल्लंघन तथा कलश-विसर्जन करें। स्थानीय दशमी-व्याप्ति के अनुसार पूजा का समय देखें। "+note
+        :"गुप्त या वासन्तिक नवरात्र-साधना का समापन और पारण अपनी गुरु, कुल तथा क्षेत्रीय परंपरा के अनुसार करें। "+note;
       item.articleUrl="https://ourhindudharm.blogspot.com/p/kalashvisarjan.html";
-      item.articleLabel="कलश-विसर्जन विधि";
+      item.articleLabel=family.kind==="शारदीय"?"कलश-विसर्जन विधि":"पारण और अनुष्ठान-समापन की जानकारी";
     }else return null;
     item.description+=" चयनित स्थान: "+locationName+"।";
     return item;
