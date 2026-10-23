@@ -341,6 +341,129 @@
     return found;
   }
 
+  // चारों नवरात्रों की प्रविष्टियाँ स्थिर Gregorian तारीख़ों से नहीं,
+  // चयनित स्थान के सूर्योदय-पंचांग में मास और शुक्ल तिथि देखकर बनती हैं।
+  var navratriDeities=["माँ शैलपुत्री","माँ ब्रह्मचारिणी","माँ चन्द्रघण्टा","माँ कूष्माण्डा","माँ स्कन्दमाता","माँ कात्यायनी","माँ कालरात्रि","माँ महागौरी","माँ सिद्धिदात्री"];
+  var navratriLinks=[
+    "http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html",
+    "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+    "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+    "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+    "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+    "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+    "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+    "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+    "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html"
+  ];
+  function normalizedMasaName(value){
+    if(value&&typeof value==="object") value=value.name??value.label??value.value??"";
+    var text=String(value||"").normalize("NFC").toLocaleLowerCase("hi").trim();
+    var aliases={
+      "magha":"माघ","माघ":"माघ",
+      "chaitra":"चैत्र","चैत्र":"चैत्र",
+      "ashadha":"आषाढ़","ashada":"आषाढ़","आषाढ":"आषाढ़","आषाढ़":"आषाढ़",
+      "ashvina":"आश्विन","ashwin":"आश्विन","asvina":"आश्विन","आश्विन":"आश्विन","क्वार":"आश्विन"
+    };
+    return aliases[text]||text;
+  }
+  function shuklaTithiIndex(panchang){
+    var value=panchang&&panchang.tithi;
+    var raw=value&&typeof value==="object"?(value.index??value.number??value.value??value.name):value;
+    if(typeof raw==="number"||/^\d+$/.test(String(raw||""))){
+      var n=Number(raw);
+      return n>=0&&n<=8?n:null;
+    }
+    var paksha=String((panchang&&panchang.paksha)||"").toLocaleLowerCase("hi");
+    if(paksha&&!/shukla|शुक्ल/.test(paksha)) return null;
+    var name=normalizedPanchangName(raw,"tithi");
+    var names=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी"];
+    var index=names.indexOf(name);
+    return index>=0?index:null;
+  }
+  function navratriFamily(masa){
+    if(masa==="माघ") return {id:"magha-gupta",label:"माघ गुप्त नवरात्र",kind:"गुप्त"};
+    if(masa==="चैत्र") return {id:"vasanta",label:"चैत्र / वासन्तिक नवरात्र",kind:"वासन्तिक"};
+    if(masa==="आषाढ़") return {id:"ashadha-gupta",label:"आषाढ़ गुप्त नवरात्र",kind:"गुप्त"};
+    if(masa==="आश्विन") return {id:"sharad",label:"शारदीय नवरात्र",kind:"शारदीय"};
+    return null;
+  }
+  function makeDynamicNavratriEvent(iso,family,tithiIndex,locationName){
+    var item={date:iso,dateLabel:iso.slice(8,10)+" "+months[Number(iso.slice(5,7))-1],category:"नवरात्रि",
+      calculationStatus:"tithi-derived",reviewStatus:"needs-review",showReviewStatus:true,
+      navratriFamily:family.id,hinduTithi:"शुक्ल "+["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी"][tithiIndex]};
+    var note="तिथि और मास चयनित स्थान के सूर्योदय-पंचांग से लिए गए हैं। स्थानीय धर्मशास्त्रीय निर्णय/क्षय-वृद्धि की स्वतंत्र समीक्षा आवश्यक है।";
+    if(tithiIndex===0){
+      item.title=family.label+" प्रारम्भ";
+      item.description=family.kind==="वासन्तिक"
+        ?"चैत्र शुक्ल प्रतिपदा से वासन्तिक नवरात्र तथा नवसंवत्सर का आरम्भ। घटस्थापना का समय स्थानीय तिथि-व्याप्ति के अनुसार देखें। "+note
+        :family.kind==="शारदीय"
+        ?"आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र। घटस्थापना का समय स्थानीय तिथि-व्याप्ति के अनुसार देखें। "+note
+        :"शुक्ल प्रतिपदा से गुप्त नवरात्र-साधना का आरम्भ। अनुष्ठान, घटस्थापना और साधना अपनी गुरु/कुल-परंपरा के अनुसार करें। "+note;
+      item.articleUrl="http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html";
+      item.articleLabel=family.kind==="गुप्त"?"गुप्त नवरात्र का महत्व":"नवरात्र का महत्व";
+      item.secondaryArticleUrl="https://ourhindudharm.blogspot.com/p/kalash-sthapan.html";
+      item.secondaryArticleLabel="घटस्थापना की संपूर्ण विधि";
+      item.muhurtaRule="ghata-sthapana";
+    }else if(tithiIndex>=1&&tithiIndex<=8){
+      item.title=family.label+" "+["","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी"][tithiIndex]+" — "+navratriDeities[tithiIndex];
+      item.description="नवरात्र के इस दिन "+navratriDeities[tithiIndex]+" की आराधना करें। पूजा, पाठ, जप और व्रत अपनी कुल-परंपरा के अनुसार करें। "+note;
+      item.articleUrl=navratriLinks[tithiIndex];
+      item.articleLabel=navratriDeities[tithiIndex]+" की पूजा";
+      if(tithiIndex===7){
+        item.title=family.label+" महाष्टमी — माँ महागौरी";
+        item.description+=" कन्या-पूजन तथा संधिपूजा का समय स्थानीय अष्टमी-नवमी तिथि-संधि के अनुसार निर्धारित करें।";
+      }
+      if(tithiIndex===8){
+        item.title=family.label+" महानवमी — माँ सिद्धिदात्री";
+        item.description+=" नवमी हवन की विधि तथा पारण अपनी परंपरा के अनुसार करें।";
+        item.secondaryArticleUrl="https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html";
+        item.secondaryArticleLabel="नवमी हवन विधि";
+        if(family.kind==="वासन्तिक"){
+          item.description+=" चैत्र नवरात्र की नवमी श्रीरामनवमी भी है; श्रीरामनवमी का पृथक तिथि-निर्णय देखें।";
+          item.secondaryArticleUrl="http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html";
+          item.secondaryArticleLabel="श्रीरामनवमी पूजा-विधि";
+        }
+      }
+    }else if(tithiIndex===9){
+      item.title=family.label+" दशमी — पारण / कलश-विसर्जन";
+      item.description="नवरात्र-व्रत का पारण तथा कलश-विसर्जन तिथि-व्याप्ति और अपनी परंपरा के अनुसार करें। "+note;
+      item.articleUrl="https://ourhindudharm.blogspot.com/p/kalashvisarjan.html";
+      item.articleLabel="कलश-विसर्जन विधि";
+    }else return null;
+    item.description+=" चयनित स्थान: "+locationName+"।";
+    return item;
+  }
+  async function buildDynamicNavratriEvents(year,month,token){
+    var monthToFamilies={1:true,2:true,3:true,4:true,6:true,7:true,9:true,10:true};
+    if(!monthToFamilies[month]) return {events:[],recognized:false};
+    var found=[],recognized=false;
+    var days=new Date(year,month,0).getDate();
+    for(var day=1;day<=days;day++){
+      if(token!==requestToken)return {events:[],recognized:false};
+      var iso=String(year)+"-"+String(month).padStart(2,"0")+"-"+String(day).padStart(2,"0");
+      var values;
+      try{values=await getDatePanchang(iso);}catch(_){continue;}
+      if(token!==requestToken)return {events:[],recognized:false};
+      var p=values.p||{},sunrise=new Date(p.sunrise);
+      if(!Number.isFinite(sunrise.getTime()))continue;
+      var atSunrise;
+      try{atSunrise=values.at(sunrise);}catch(_){continue;}
+      var masa=normalizedMasaName(atSunrise&&atSunrise.masa||p.masa);
+      var family=navratriFamily(masa);
+      if(!family)continue;
+      recognized=true;
+      var tithiIndex=shuklaTithiIndex(atSunrise);
+      if(tithiIndex===null)continue;
+      var item=makeDynamicNavratriEvent(iso,family,tithiIndex,(values.location&&values.location.name)||"चुना हुआ स्थान");
+      if(item)found.push(item);
+    }
+    return {events:found,recognized:recognized};
+  }
+  function isLegacyNavratriDailyEvent(item){
+    var title=String(item&&item.title||"");
+    return /नवरात्र|नवदुर्गा|शैलपुत्री|ब्रह्मचारिणी|चन्द्रघण्टा|चन्द्रघंटा|कूष्माण्डा|स्कन्दमाता|कात्यायनी|कालरात्रि|महागौरी|सिद्धिदात्री|कलश विसर्जन/i.test(title);
+  }
+
   function safeUrl(value){
     if(!value) return "";
     try { var u=new URL(value,window.location.href); return (u.protocol==="https:"||u.protocol==="http:")?u.href:""; }
@@ -439,7 +562,7 @@
     if(pageTitle) pageTitle.textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
     var list=(data&&Array.isArray(data.events))?data.events.slice():[];
     if(!reviewMode){
-      list=list.filter(function(item){return item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy"||item.calculationStatus==="nakshatra-derived";});
+      list=list.filter(function(item){return item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy"||item.calculationStatus==="nakshatra-derived"||item.calculationStatus==="tithi-derived";});
     }
     list.sort(function(a,b){return String(a.date||"").localeCompare(String(b.date||""));});
     countEl.textContent=list.length+" प्रविष्टियाँ";
@@ -563,9 +686,15 @@
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      var dynamicNavratri=await buildDynamicNavratriEvents(year,month,token);
+      if(token!==requestToken)return;
       var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token);
       if(token!==requestToken)return;
-      data.events=(Array.isArray(data.events)?data.events:[]).concat(computedSaraswatiEvents);
+      var storedEvents=Array.isArray(data.events)?data.events:[];
+      // जब मास/तिथि से नवरात्रि सफलतापूर्वक पहचानी जाए, पुराने वर्ष-विशेष
+      // दिनांक/मुहूर्त वाले दैनिक नवरात्र शीर्षकों को गतिशील प्रविष्टियों से बदलें।
+      if(dynamicNavratri.recognized) storedEvents=storedEvents.filter(function(item){return !isLegacyNavratriDailyEvent(item);});
+      data.events=storedEvents.concat(dynamicNavratri.events,computedSaraswatiEvents);
       render(data,year,month,token);
     }catch(e){
       if(token!==requestToken)return;
