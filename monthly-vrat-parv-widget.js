@@ -461,6 +461,11 @@
       var masa=normalizedMasaName(atSunrise&&atSunrise.masa||p.masa);
       var family=navratriFamily(masa);
       if(!family)continue;
+      var rawTithi=atSunrise&&atSunrise.tithi;
+      var rawTithiValue=rawTithi&&typeof rawTithi==="object"?(rawTithi.index??rawTithi.number??rawTithi.value??rawTithi.name):rawTithi;
+      var readableTithi=(typeof rawTithiValue==="number"&&Number.isFinite(rawTithiValue)&&rawTithiValue>=0&&rawTithiValue<=29)||
+        /प्रतिपदा|द्वितीया|तृतीया|चतुर्थी|पंचमी|षष्ठी|सप्तमी|अष्टमी|नवमी|दशमी|pratipada|dvitiya|tritiya|chaturthi|panchami|shashthi|saptami|ashtami|navami|dashami/i.test(String(rawTithiValue||""));
+      if(!readableTithi)continue;
       recognized=true;
       var tithiIndex=shuklaTithiIndex(atSunrise);
       if(tithiIndex===null)continue;
