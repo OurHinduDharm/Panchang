@@ -17,6 +17,9 @@ function validateSample(sample) {
   if (!sample || !required.every(key => Number.isFinite(sample[key]))) {
     throw new TypeError("Each time sample must provide finite K, target, lagnāntara, motions, and rising-asus.");
   }
+  if (typeof sample.branchKey !== "string" || sample.branchKey.trim() === "") {
+    throw new TypeError("Each time sample must identify its explicit horizon-event branch.");
+  }
   return sample;
 }
 
@@ -51,7 +54,7 @@ export function solveChapter9EventTime({
 
   for (let iteration = 0; iteration < maxIterations; iteration++) {
     const sample = validateSample(evaluateAt(day));
-    const branch = sample.branchKey ?? "unspecified";
+    const branch = sample.branchKey;
     if (iteration === 0) firstBranch = branch;
     if (branch !== firstBranch) {
       return { converged: false, reason: "event-branch-changed", day, trace };
@@ -126,6 +129,13 @@ export function runChapter9IterationSolverTests() {
   add("invalid astronomy input is rejected", () => {
     try {
       solveChapter9EventTime({ startDay: 0, evaluateAt: () => ({ ...sampleAt(0), targetKalanshaDeg: NaN }) });
+      return false;
+    } catch { return true; }
+  });
+  add("missing event-branch identity is rejected", () => {
+    try {
+      const { branchKey, ...ambiguous } = sampleAt(0);
+      solveChapter9EventTime({ startDay: 0, evaluateAt: () => ambiguous });
       return false;
     } catch { return true; }
   });
