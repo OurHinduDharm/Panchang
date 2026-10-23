@@ -4002,8 +4002,11 @@ async function runLagnantaraDiagnostic() {
         estimateMetric(timeEstimate?.ix11EventFrameSignAsus?.planet)+'</span></div>';
       html += '<div class="metric"><strong>IX.10–11 alternative estimate using original-sign U (days; unadjudicated)</strong><span>'+
         estimateMetric(timeEstimate?.originalSignMotionEstimate?.estimatedDays)+'</span></div>';
+      // Keep the center geometry in the same sequential dṛkkarma method
+      // as the ±1/±10 minute samples; do not compare mixed methods.
+      const symmetricRateGeometry = gs || g;
       const symmetricRateAudit = getSymmetricChapter9RateDiagnostic(
-        ref.planet, sample, g, C, TKS_CONFIG
+        ref.planet, sample, symmetricRateGeometry, C, TKS_CONFIG
       );
       if (symmetricRateAudit) {
         html += '<div class="metric"><strong>Symmetric ±1 min empirical K-rate (prāṇa/day)</strong><span>'+
