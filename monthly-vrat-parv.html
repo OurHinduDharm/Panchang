@@ -389,6 +389,13 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   }
   function render(data,year,month,token){
     eventsEl.replaceChildren();
+    if(reviewMode&&data&&data.status&&data.status!=="approved"){
+      var dataNotice=document.createElement("div");
+      dataNotice.className="note";
+      dataNotice.style.marginTop="0";
+      dataNotice.textContent="डेटा स्थिति: "+String(data.status)+"। "+String(data.locationScope||"इस महीने की प्रविष्टियों की प्रकाशन-पूर्व समीक्षा आवश्यक है।")+" सार्वजनिक सूची में केवल स्वीकृत प्रविष्टियाँ दिखाई जाती हैं।";
+      eventsEl.appendChild(dataNotice);
+    }
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     document.getElementById("pageTitle").textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
     var list=(data&&Array.isArray(data.events))?data.events.slice():[];
@@ -500,13 +507,6 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
-      if(reviewMode&&data&&data.status&&data.status!=="approved"){
-        var dataNotice=document.createElement("div");
-        dataNotice.className="note";
-        dataNotice.style.marginTop="0";
-        dataNotice.textContent="डेटा स्थिति: "+String(data.status)+"। "+String(data.locationScope||"इस महीने की प्रविष्टियों की प्रकाशन-पूर्व समीक्षा आवश्यक है।")+" सार्वजनिक सूची में केवल स्वीकृत प्रविष्टियाँ दिखाई जाती हैं।";
-        eventsEl.appendChild(dataNotice);
-      }
       render(data,year,month,token);
     }catch(e){
       if(token!==requestToken)return;
