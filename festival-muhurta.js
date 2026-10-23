@@ -76,10 +76,19 @@ const rules = {
   "sandhi-puja"(context) {
     // संधिपूजा: अष्टमी-नवमी के वास्तविक तिथि-संधि क्षण के दोनों ओर 24-24 मिनट।
     const tithi = normalizedName(context.tithi);
+    const rawTithi = rawValue(context.tithi);
+    const tithiIndex = Number(rawTithi);
+    let isAshtami = /अष्टमी|ashtami/i.test(tithi);
+    let isNavami = /नवमी|navami/i.test(tithi);
+    // Library index is zero-based in this project: Shukla/Krishna Ashtami=7/22, Navami=8/23.
+    if (!isAshtami && !isNavami && Number.isFinite(tithiIndex)) {
+      isAshtami = tithiIndex === 7 || tithiIndex === 22;
+      isNavami = tithiIndex === 8 || tithiIndex === 23;
+    }
     let boundary = null;
-    if (/अष्टमी|ashtami/i.test(tithi)) {
+    if (isAshtami) {
       boundary = validDate(context.tithiEndTime);
-    } else if (/नवमी|navami/i.test(tithi)) {
+    } else if (isNavami) {
       boundary = validDate(context.tithiStartTime);
     }
     if (!boundary) {
