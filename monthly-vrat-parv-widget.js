@@ -251,7 +251,13 @@
         var previousYear=month===1?year-1:year;
         var previousResponse=await fetch("https://ourhindudharm.github.io/Panchang/data/festivals/"+previousYear+"-"+String(previousMonth).padStart(2,"0")+".json",{cache:"no-cache"});
         if(previousResponse.ok){var previousData=await previousResponse.json();startEvent=(previousData.events||[]).find(function(item){return /शारदीय नवरात्र.*प्रारम्भ|शारदीय नवरात्र.*प्रारंभ/.test(String(item.title||""));});}
-      }catch(_){/* पिछले महीने का डेटा न मिले तो स्थिर प्रविष्टि नहीं गढ़ें */}
+      }catch(_){/* पिछले महीने का डेटा न मिले तो गतिशील पंचांग से प्रयास करें */}
+      if(!startEvent){
+        try{
+          var priorDynamic=await buildDynamicNavratriEvents(previousYear,previousMonth,token);
+          startEvent=(priorDynamic.events||[]).find(function(item){return item.navratriFamily==="sharad"&&/प्रारम्भ|प्रारंभ/.test(String(item.title||""));})||null;
+        }catch(_){/* पंचांग न मिले तो स्थिर तारीख़ न गढ़ें */}
+      }
     }
     if(!startEvent||!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(startEvent.date||""))) return [];
     var start=new Date(startEvent.date+"T12:00:00");
@@ -692,19 +698,35 @@
       if(token!==requestToken)return;
       var dynamicNavratri=await buildDynamicNavratriEvents(year,month,token);
       if(token!==requestToken)return;
-      var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token);
-      if(token!==requestToken)return;
       var storedEvents=Array.isArray(data.events)?data.events:[];
       // जब मास/तिथि से नवरात्रि सफलतापूर्वक पहचानी जाए, पुराने वर्ष-विशेष
       // दिनांक/मुहूर्त वाले दैनिक नवरात्र शीर्षकों को गतिशील प्रविष्टियों से बदलें।
       if(dynamicNavratri.recognized) storedEvents=storedEvents.filter(function(item){return !isLegacyNavratriDailyEvent(item);});
-      data.events=storedEvents.concat(dynamicNavratri.events,computedSaraswatiEvents);
+      data.events=storedEvents.concat(dynamicNavratri.events);
+      var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token);
+      if(token!==requestToken)return;
+      data.events=data.events.concat(computedSaraswatiEvents);
       render(data,year,month,token);
     }catch(e){
       if(token!==requestToken)return;
-      render({events:[]},year,month,token);
       if(e&&e.name==="AbortError"){
+        render({events:[]},year,month,token);
         countEl.textContent="लोड होने में समय लगा। कृपया फिर से महीना चुनें।";
+      }else{
+        // भविष्य-वर्ष की स्थिर JSON फ़ाइल न होने पर भी नवरात्रि पंचांग से बने।
+        try{
+          var fallbackData={events:[]};
+          var fallbackNavratri=await buildDynamicNavratriEvents(year,month,token);
+          fallbackData.events=fallbackNavratri.events;
+          var fallbackSaraswati=await buildSaraswatiNakshatraEvents(fallbackData,year,month,token);
+          if(token!==requestToken)return;
+          fallbackData.events=fallbackData.events.concat(fallbackSaraswati);
+          render(fallbackData,year,month,token);
+          if(!fallbackData.events.length) countEl.textContent="इस महीने की स्थिर सूची उपलब्ध नहीं है; नवरात्रि की कोई गतिशील प्रविष्टि नहीं मिली।";
+        }catch(fallbackError){
+          render({events:[]},year,month,token);
+          countEl.textContent="स्थिर डेटा उपलब्ध नहीं है और गतिशील पंचांग-गणना भी पूरी नहीं हो सकी।";
+        }
       }
     }finally{
       clearTimeout(timeoutId);
