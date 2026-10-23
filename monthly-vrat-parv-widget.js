@@ -253,9 +253,8 @@
       var avahanTime=new Date(sunset.getTime()-144*60000),avahanPanchang;
       try{avahanPanchang=values.at(avahanTime);}catch(_){avahanPanchang=p;}
       if(panchangNakshatraAt(avahanPanchang)==="मूल"){
-        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","मूल नक्षत्र में देवी का आवाहन/स्थापन; निर्धारित समय सूर्यास्त से तीन मुहूर्त पूर्व है।","avahana","मूल",locationName);
-        found[found.length-1].muhurtaDate=iso;
-        found[found.length-1].muhurtaRule="saraswati-avahan-mula";
+        var avahanClock=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(avahanTime);
+        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","मूल नक्षत्र में देवी का आवाहन/स्थापन। धर्मसिंधु-पाठ के अनुसार संदर्भ-समय सूर्यास्त से तीन मुहूर्त पूर्व है; गणित समय: "+avahanClock+" IST।","avahana","मूल",locationName);
       }
       // पूर्वाषाढ़ा और उत्तराषाढ़ा: कर्म-दिवस की मध्याह्न-व्याप्ति जाँचें।
       var noonNakshatra=panchangNakshatraAt(p);
