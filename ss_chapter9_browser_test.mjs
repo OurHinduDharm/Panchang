@@ -185,6 +185,13 @@ try {
   const correctionDetails = await page.locator("#lagnantaraOutput tr.reference-row").evaluateAll(elements =>
     elements.map(row => row.nextElementSibling?.textContent || "")
   );
+  if (correctionDetails.length !== 4 || correctionDetails.some(detail =>
+      !detail.includes("Symmetric local K-rate ±1 min (prāṇa/day)") ||
+      !detail.includes("Symmetric local K-rate ±10 min (prāṇa/day)") ||
+      !detail.includes("Local-rate convergence (10 min − 1 min)")
+  )) {
+    throw new Error("Symmetric local K-rate diagnostics did not render for all four reference events.");
+  }
   const estimates = await page.locator("#lagnantaraOutput tr.reference-row").evaluateAll(elements =>
     elements.map(row => ({
       planet: row.cells[0]?.textContent || "?",
