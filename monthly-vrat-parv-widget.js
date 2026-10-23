@@ -478,9 +478,7 @@
       if(token!==requestToken)return;
       var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token);
       if(token!==requestToken)return;
-      data.events=(Array.isArray(data.events)?data.events:[]).filter(function(item){
-        return !/सरस्वती.*(?:आवाहन|स्थापन|पूजन|बलिदान|विसर्जन)|(?:आवाहन|स्थापन|पूजन|बलिदान|विसर्जन).*सरस्वती/.test(String(item.title||"") + " " + String(item.description||""));
-      }).concat(computedSaraswatiEvents);
+      data.events=(Array.isArray(data.events)?data.events:[]).concat(computedSaraswatiEvents);
       render(data,year,month,token);
     }catch(e){
       if(token!==requestToken)return;
