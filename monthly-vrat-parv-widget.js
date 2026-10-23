@@ -48,7 +48,10 @@
   }
   var requestToken=0;
   var activeMonthRequest=null;
+  // सीमित cache: महीने बदलते समय मोबाइल में अनावश्यक Panchang objects जमा न हों।
   var panchangCache=new Map();
+  var observerCache=new Map();
+  var MAX_PANCHANG_CACHE_ENTRIES=90;
   // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
   var selectedLocationInSession=null;
   // मुहूर्त मॉड्यूल वैकल्पिक रूप से लोड हो; इसके विफल होने पर खोज/फ़िल्टर बंद न हों।
@@ -111,6 +114,7 @@
           }
           selectedLocationInSession=selected;
           panchangCache.clear();
+          observerCache.clear();
           locationInput.value=selected.city||selected.name;
           locationSuggestions.replaceChildren();
           locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई उपलब्ध न होने पर 0 मीटर मानकर गणना होगी।";
@@ -141,7 +145,12 @@
       if(typeof panchangLib.Observer!=="function"||typeof panchangLib.getPanchangam!=="function"){
         throw new Error("Panchang library API unavailable");
       }
-      var observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
+      var observerKey=[location.lat,location.lon,location.elevation].join("|");
+      var observer=observerCache.get(observerKey);
+      if(!observer){
+        observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
+        observerCache.set(observerKey,observer);
+      }
       // तारीख़ को भारत के नागरिक समय के भीतर एक निश्चित UTC instant से बनाएं।
       // इससे विदेशी time-zone पर चल रहे मोबाइल में भी चुनी हुई भारतीय तारीख़ एक दिन आगे/पीछे नहीं खिसकेगी।
       var date=new Date(dateIso+"T06:30:00.000Z");
@@ -151,6 +160,11 @@
       return {p:p,next:next,location:location,date:date,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:330,calendarType:"purnimanta"});}};
     });
     panchangCache.set(cacheKey,promise);
+    while(panchangCache.size>MAX_PANCHANG_CACHE_ENTRIES){
+      var oldestKey=panchangCache.keys().next().value;
+      if(oldestKey===undefined)break;
+      panchangCache.delete(oldestKey);
+    }
     return promise;
   }
   async function appendMuhurta(item,dateIso,content,token){
