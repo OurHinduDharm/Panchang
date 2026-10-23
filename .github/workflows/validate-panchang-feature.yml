@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [feature/hindu-festivals-card]
+    branches: [feature/hindu-festivals-card, feature/nakshatra-saraswati-puja]
 
 permissions:
   contents: read
@@ -22,5 +22,7 @@ jobs:
           node --experimental-default-type=module --check festivals.js
           node --experimental-default-type=module --check nivas.js
           node --experimental-default-type=module --check festival-filter.js
+          node --experimental-default-type=module --check monthly-vrat-parv-widget.js
+          node --experimental-default-type=module --check festival-muhurta.js
       - name: Run Agnivasa/Shivavasa regression tests
         run: node --experimental-default-type=module --test tests/*.test.mjs

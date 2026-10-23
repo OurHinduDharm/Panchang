@@ -73,6 +73,40 @@ function earlierDate(a, b) {
  * Add a new reviewed rule here; do not store location-specific clock times in JSON.
  */
 const rules = {
+  "sandhi-puja"(context) {
+    // संधिपूजा: अष्टमी-नवमी के वास्तविक तिथि-संधि क्षण के दोनों ओर 24-24 मिनट।
+    const tithi = normalizedName(context.tithi);
+    const rawTithi = rawValue(context.tithi);
+    const tithiIndex = Number(rawTithi);
+    let isAshtami = /अष्टमी|ashtami/i.test(tithi);
+    let isNavami = /नवमी|navami/i.test(tithi);
+    // Library index is zero-based in this project: Shukla/Krishna Ashtami=7/22, Navami=8/23.
+    if (!isAshtami && !isNavami && Number.isFinite(tithiIndex)) {
+      isAshtami = tithiIndex === 7 || tithiIndex === 22;
+      isNavami = tithiIndex === 8 || tithiIndex === 23;
+    }
+    let boundary = null;
+    if (isAshtami) {
+      boundary = validDate(context.tithiEndTime);
+    } else if (isNavami) {
+      boundary = validDate(context.tithiStartTime);
+    }
+    if (!boundary) {
+      return {
+        label: "महाष्टमी संधिपूजा मुहूर्त",
+        status: "unavailable",
+        message: "अष्टमी की समाप्ति / नवमी के आरम्भ का सटीक समय उपलब्ध नहीं है; अनुमानित मुहूर्त नहीं दिखाया गया।"
+      };
+    }
+    const start = new Date(boundary.getTime() - 24 * 60 * 1000);
+    const end = new Date(boundary.getTime() + 24 * 60 * 1000);
+    return {
+      ...interval(start, end, "महाष्टमी संधिपूजा मुहूर्त"),
+      status: "calculated",
+      note: "अष्टमी के अंतिम 24 मिनट और नवमी के प्रथम 24 मिनट। तिथि-संधि का समय चयनित पंचांग-गणना पर निर्भर है।"
+    };
+  },
+
   "ghata-sthapana"(context) {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);
@@ -244,6 +278,7 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
     nextSunrise: nextPanchang && nextPanchang.sunrise,
     nextSunset: nextPanchang && nextPanchang.sunset,
     tithi: panchang && panchang.tithi,
+    tithiStartTime: panchang && panchang.tithiStartTime,
     tithiEndTime: panchang && panchang.tithiEndTime,
     nakshatra: panchang && panchang.nakshatra,
     nakshatraEndTime: panchang && panchang.nakshatraEndTime,
