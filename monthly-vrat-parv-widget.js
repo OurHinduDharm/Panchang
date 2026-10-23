@@ -279,9 +279,9 @@
         }catch(_){/* पंचांग न मिले तो स्थिर तारीख़ न गढ़ें */}
       }
     }
-    if(!startEvent||!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(startEvent.date||""))) return [];
+    if(!startEvent||!/^\d{4}-\d{2}-\d{2}$/.test(String(startEvent.date||""))) return [];
     var start=new Date(startEvent.date+"T12:00:00");
-    var endIso=/^\\d{4}-\\d{2}-\\d{2}$/.test(String(startEvent.endDate||""))?startEvent.endDate:"";
+    var endIso=/^\d{4}-\d{2}-\d{2}$/.test(String(startEvent.endDate||""))?startEvent.endDate:"";
     var end=endIso?new Date(endIso+"T12:00:00"):new Date(start.getTime()+9*86400000);
     if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<start) return [];
     var found=[],avahanScheduled=false,avahanFallbackScheduled=false;
