@@ -1394,3 +1394,20 @@ Primary/independent references:
 **Decision:** treat the event-frame sign-asus as the preferred source-reading hypothesis for western events; retain original-sign-asus only as a diagnostic counterfactual. This resolves the textual reading more strongly, but it is not yet a numerical validation of the full pipeline. The remaining proof is to compare IX.11's predicted local K-rate against a finite-difference derivative where all dṛkkarma, longitude, and sign-asus inputs are recomputed at each sample time. If the sign/frame branch changes, reject that derivative sample rather than silently continuing.
 
 This is still a research-only decision. The chapter III rising-asus table interpolation, dṛkkarma/frame pipeline, and ahargaṇa-to-modern-time bridge remain open blockers; no production files were changed.
+
+
+## Browser comparison checkpoint — 2026-10-23 (dual IX.11 sign-frame diagnostic)
+
+The follow-up commit `5608fb1bddff3b92e2225f0f37a6496e9efafc08` updated the headless-browser assertions for the two additional IX.11 columns. All three workflows completed successfully on that commit:
+
+- [SS Chapter 9 Diagnostic Tests](https://github.com/OurHinduDharm/Panchang/actions/runs/39931059151) — success, including the headless Chromium research-page test and the production-isolation check.
+- [Validate Panchang feature](https://github.com/OurHinduDharm/Panchang/actions/runs/39931059169) — success.
+- [SS Chapter IX Iteration Solver Tests](https://github.com/OurHinduDharm/Panchang/actions/runs/39931059131) — success.
+
+The browser test confirms that all four diagnostic cases render 32 columns and that the event-frame/original-sign comparison is wired correctly. In the western Venus-Asta and Jupiter-Asta sample rows, the event-frame IX.11 rate tracks the observed next-sample K-rate, while the original-sign counterfactual differs materially (about 41.10 and 15.50 prāṇa/day respectively in the logged rows). This is **supporting internal consistency evidence** for the event-frame reading, not an independent proof: the comparison uses successive sunrise/sunset samples one civil day apart, not a small symmetric time-step, and it does not independently validate the underlying K geometry or source epoch.
+
+The east-event rows do not by themselves distinguish the two sign choices in the same way. The Venus-Udaya long-range estimate remains discrepant by about 0.29486 day, although its separate short-horizon estimate is within about 0.00309 day of the daily bracket interpolation. The large long-range discrepancy remains open and must not be explained away by the good local estimate.
+
+**Next numerical test:** compute a true symmetric finite difference at each selected event instant (for example, ±1 minute, then ±10 minutes), fully recomputing planet/Sun positions, dṛkkarma, event-frame longitudes, and selected sign-rising-asus at each instant. Compare that local derivative with IX.10–11's predicted rate and reject samples that cross a sign or event-class boundary. Keep the event-frame interpretation as the preferred western working hypothesis, but do not promote it to production until this convergence test and the source/epoch blockers are addressed.
+
+No production Panchang files were changed.
