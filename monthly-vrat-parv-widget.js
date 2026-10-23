@@ -219,7 +219,7 @@
     events.push({date:iso,dateLabel:iso.slice(8,10)+" "+months[Number(iso.slice(5,7))-1],title:title,
       description:description+" स्थानीय स्थान: "+locationName+"। यह नक्षत्र-आधारित गणना है; परंपरा-विशेष का अंतिम निर्णय स्थानीय धर्मशास्त्रीय नियम से करें।",
       category:"नवरात्रि",calculationStatus:"nakshatra-derived",reviewStatus:"needs-review",showReviewStatus:true,
-      hinduTithi:"स्थानीय पंचांगानुसार",saraswatiRitual:ritual,saraswatiNakshatra:nakshatra});
+      saraswatiRitual:ritual,saraswatiNakshatra:nakshatra});
   }
   async function buildSaraswatiNakshatraEvents(data,year,month,token){
     if(month!==9&&month!==10) return [];
