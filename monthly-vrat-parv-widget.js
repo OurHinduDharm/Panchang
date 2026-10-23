@@ -240,11 +240,12 @@
     var end=endIso?new Date(endIso+"T12:00:00"):new Date(start.getTime()+9*86400000);
     if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<start) return [];
     var found=[],avahanScheduled=false,avahanFallbackScheduled=false;
-    function findMulaInterval(panchang){
+    function findMulaInterval(panchang,dateIso){
       var rows=Array.isArray(panchang&&panchang.nakshatras)?panchang.nakshatras:[];
+      var dayStart=new Date(dateIso+"T00:00:00"),dayEnd=new Date(dateIso+"T23:59:59.999");
       for(var ri=0;ri<rows.length;ri++){
         var row=rows[ri],a=new Date(row&&row.startTime),b=new Date(row&&row.endTime);
-        if(row&&normalizedPanchangName(row.index,"nakshatra")==="मूल"&&Number.isFinite(a.getTime())&&Number.isFinite(b.getTime())&&b>a) return {start:a,end:b};
+        if(row&&normalizedPanchangName(row.index,"nakshatra")==="मूल"&&Number.isFinite(a.getTime())&&Number.isFinite(b)&&b>a&&b>dayStart&&a<dayEnd) return {start:a,end:b};
       }
       return null;
     }
@@ -269,20 +270,24 @@
         var avahanClock=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(avahanTime);
         addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","मूल नक्षत्र में देवी का आवाहन/स्थापन। धर्मसिंधु-पाठ के अनुसार संदर्भ-समय सूर्यास्त से तीन मुहूर्त पूर्व है; गणित समय: "+avahanClock+" IST।","avahana","मूल",locationName);
         avahanScheduled=true;
-      }else if(!avahanScheduled&&!avahanFallbackScheduled&&findMulaInterval(p)){
+      }else if(!avahanScheduled&&!avahanFallbackScheduled&&findMulaInterval(p,iso)){
         // धर्मसिंधु-पाठ का विकल्प: नियत समय पर मूल उपलब्ध न हो तो अगले दिन मूल का द्वितीय पाद।
         var nextCursor=new Date(cursor);nextCursor.setDate(nextCursor.getDate()+1);
         var nextIso=nextCursor.getFullYear()+"-"+String(nextCursor.getMonth()+1).padStart(2,"0")+"-"+String(nextCursor.getDate()).padStart(2,"0");
         if(nextCursor<=end&&Number(nextIso.slice(5,7))===month){
           try{
             var nextValues=await getDatePanchang(nextIso);
-            var nextMula=findMulaInterval(nextValues.p);
+            var nextMula=findMulaInterval(nextValues.p,nextIso);
             if(nextMula){
               var mulaDuration=nextMula.end.getTime()-nextMula.start.getTime();
               var padaStart=new Date(nextMula.start.getTime()+mulaDuration/4);
               var padaEnd=new Date(nextMula.start.getTime()+mulaDuration/2);
-              addSaraswatiEvent(found,nextIso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","नियत समय पर मूल नक्षत्र उपलब्ध न होने के कारण अगले दिन मूल के द्वितीय पाद का विकल्प: "+clockRange(padaStart,padaEnd)+"।","avahana-fallback","मूल का द्वितीय पाद",locationName);
-              avahanFallbackScheduled=true;
+              var nextDayStart=new Date(nextIso+"T00:00:00"),nextDayEnd=new Date(nextIso+"T23:59:59.999");
+              if(padaStart>=nextDayStart&&padaStart<nextDayEnd&&padaEnd>nextDayStart){
+                if(padaEnd>nextDayEnd)padaEnd=nextDayEnd;
+                addSaraswatiEvent(found,nextIso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","नियत समय पर मूल नक्षत्र उपलब्ध न होने के कारण अगले दिन मूल के द्वितीय पाद का विकल्प: "+clockRange(padaStart,padaEnd)+"।","avahana-fallback","मूल का द्वितीय पाद",locationName);
+                avahanFallbackScheduled=true;
+              }
             }
           }catch(_){/* मूल-द्वितीय-पाद का समय न निकले तो अनुमान न दिखाएँ */}
         }
