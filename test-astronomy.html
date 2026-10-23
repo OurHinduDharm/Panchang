@@ -3184,8 +3184,10 @@ function getSymmetricChapter9RateDiagnostic(planet, eventTime, geometry, targetK
       Math.abs(before.K - before.rawK) < 1e6 &&
       Math.abs(after.K - after.rawK) < 1e6;
     const elapsedDays = (2 * deltaMs) / 86400000;
+    // IX.10–11's signed rate is the rate of the positive K magnitude;
+    // compare against the symmetric derivative of K, not signed lagnāntara.
     const empiricalRate = sameOrientation
-      ? ((after.signedLagnantaraAsu - before.signedLagnantaraAsu) / 60) * 60 / elapsedDays
+      ? (after.K - before.K) * 60 / elapsedDays
       : NaN;
     results[minutes] = {
       minutes,
