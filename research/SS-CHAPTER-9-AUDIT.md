@@ -1376,3 +1376,21 @@ For one western event and one eastern event, log side by side at the same instan
 4. the observed finite-difference change in K after a small, symmetric time shift, with all geometry recomputed.
 
 Reject a frame choice if its predicted local derivative has the wrong sign or does not converge toward the finite-difference derivative as the time step is reduced. This is a consistency test, not a substitute for a source worked example. Keep the report's source-faithfulness, ephemeris, and epoch blockers open until both checks agree. Production files remain untouched.
+
+
+## Primary-text cross-check — western six-sign frame and IX.11 — 2026-10-23
+
+A fresh comparison of the Sanskrit, Burgess translation, and a separate verse-indexed edition clarifies the interpretation more than the earlier report did.
+
+- IX.4 says to take the Sun and planet at sunset for a western event, or sunrise for an eastern event, and then apply the planet's dṛkkarma.
+- IX.5 explicitly says that for the western case the two longitudes are each increased by six signs before finding the lagnāntara-asus. Burgess's translation further explains that the result is the interval from the planet's setting to the Sun's setting; for the eastern case it is the planet's rising-to-Sun's-rising interval.
+- IX.10–11 then converts the daily motions to time-motion, using the corresponding lagna's rising-asus and divisor 1800 (60 × 30). Read together, the strongest working interpretation is that the six-sign transformation belongs to the western calculation's lagna frame used by the IX.11 time-motion terms too, rather than being only a cosmetic transformation of K.
+
+Primary/independent references:
+- [Sanskrit text and notes, Chapter IX, verses 4–11](https://karmasakha.com/texts/surya-siddhanta)
+- [Verse-indexed Chapter IX implementation map](https://vidhyamitra.com/surya-siddhanta/9)
+- [Burgess translation, Chapter IX](https://classicalastrologer.com/wp-content/uploads/2018/04/surya_siddhanta_english.pdf)
+
+**Decision:** treat the event-frame sign-asus as the preferred source-reading hypothesis for western events; retain original-sign-asus only as a diagnostic counterfactual. This resolves the textual reading more strongly, but it is not yet a numerical validation of the full pipeline. The remaining proof is to compare IX.11's predicted local K-rate against a finite-difference derivative where all dṛkkarma, longitude, and sign-asus inputs are recomputed at each sample time. If the sign/frame branch changes, reject that derivative sample rather than silently continuing.
+
+This is still a research-only decision. The chapter III rising-asus table interpolation, dṛkkarma/frame pipeline, and ahargaṇa-to-modern-time bridge remain open blockers; no production files were changed.
