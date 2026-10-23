@@ -140,7 +140,7 @@
     mount.classList.add("ohd-festival-widget");
 
     const style = document.createElement("style");
-    style.textContent = \`
+    style.textContent = `
       #ohd-festival-widget{font:inherit;color:#392819;max-width:100%;box-sizing:border-box}
       #ohd-festival-widget *{box-sizing:border-box}
       #ohd-festival-widget .ohd-fw-head{padding:12px 14px;border-radius:12px 12px 0 0;background:linear-gradient(130deg,#fff1d9,#fffaf1);border:1px solid #eadcc8}
@@ -166,7 +166,7 @@
       #ohd-festival-widget .ohd-fw-chaturmas-range{margin-top:3px;font-size:.82em}
       #ohd-festival-widget .ohd-fw-chaturmas-status{margin-top:4px;color:#8c4810;font-size:.82em;font-weight:700}
       @media(max-width:380px){#ohd-festival-widget .ohd-fw-list{padding:6px 8px}#ohd-festival-widget .ohd-fw-item{gap:7px}#ohd-festival-widget .ohd-fw-date{flex-basis:49px}#ohd-festival-widget .ohd-fw-description{font-size:.82em}}
-    \`;
+    `;
     mount.appendChild(style);
 
     const head = element("div", "ohd-fw-head");
