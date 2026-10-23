@@ -723,6 +723,9 @@
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      // पहले उपलब्ध मासिक सूची दिखाएँ; नवरात्रि की गतिशील गणना के दौरान
+      // उपयोगकर्ता को खाली loading screen पर प्रतीक्षा न करनी पड़े।
+      if(Array.isArray(data.events)&&data.events.length) render(data,year,month,token);
       var dynamicNavratri=await buildDynamicNavratriEvents(year,month,token);
       if(token!==requestToken)return;
       var storedEvents=Array.isArray(data.events)?data.events:[];
