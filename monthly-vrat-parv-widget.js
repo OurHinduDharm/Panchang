@@ -214,6 +214,23 @@
     return aliases[text]||text;
   }
   function panchangNakshatraAt(panchang){return normalizedPanchangName(panchang&&panchang.nakshatra,"nakshatra");}
+  function findNakshatraInterval(panchang,name,dayStart,dayEnd){
+    var rows=Array.isArray(panchang&&panchang.nakshatras)?panchang.nakshatras:[];
+    for(var i=0;i<rows.length;i++){
+      var row=rows[i],start=new Date(row&&row.startTime),end=new Date(row&&row.endTime);
+      if(row&&normalizedPanchangName(row.index,"nakshatra")===name&&Number.isFinite(start.getTime())&&Number.isFinite(end.getTime())&&end>start&&end>dayStart&&start<dayEnd){
+        return {start:new Date(Math.max(start.getTime(),dayStart.getTime())),end:new Date(Math.min(end.getTime(),dayEnd.getTime()))};
+      }
+    }
+    return null;
+  }
+  function setSaraswatiMuhurta(item,start,end,label){
+    if(!(start instanceof Date)||!(end instanceof Date)||!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<=start)return;
+    item.muhurtaStart=start.toISOString();
+    item.muhurtaEnd=end.toISOString();
+    item.muhurtaLabel=label;
+  }
+
   function panchangTithiAt(panchang){return normalizedPanchangName(panchang&&panchang.tithi,"tithi");}
   function addSaraswatiEvent(events,iso,title,description,ritual,nakshatra,locationName){
     events.push({date:iso,dateLabel:iso.slice(8,10)+" "+months[Number(iso.slice(5,7))-1],title:title,
@@ -294,13 +311,27 @@
       }
       // पूर्वाषाढ़ा और उत्तराषाढ़ा: कर्म-दिवस की मध्याह्न-व्याप्ति जाँचें।
       var noonNakshatra=panchangNakshatraAt(p);
-      if(noonNakshatra==="पूर्वाषाढ़ा") addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का मुख्य पूजन","पूर्वाषाढ़ा नक्षत्र की मध्याह्न-व्याप्ति में सरस्वती-पूजन।","puja","पूर्वाषाढ़ा",locationName);
-      if(noonNakshatra==="उत्तराषाढ़ा") addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का बलिदान / उत्तरपूजा","उत्तराषाढ़ा नक्षत्र की मध्याह्न-व्याप्ति में बलिदान/उत्तरपूजा; बलि का स्वरूप अपनी अहिंसक या कुल-परंपरा के अनुसार निर्धारित करें।","balidan","उत्तराषाढ़ा",locationName);
-      // विसर्जन के लिए अपराह्न में श्रवण और दशमी दोनों जाँचें; केवल तारीख़ गिनकर निर्णय न लें।
-      var aparahnaTime=new Date(sunrise.getTime()+(sunset.getTime()-sunrise.getTime())*0.7),aparahnaPanchang;
+      var dayStart=sunrise,dayEnd=sunset,dayLength=sunset.getTime()-sunrise.getTime();
+      // मुख्य पूजा और बलिदान के लिए दिनमान के मध्याह्न-खंड में नक्षत्र की वास्तविक व्याप्ति निकालें।
+      var middayStart=new Date(sunrise.getTime()+dayLength*0.4),middayEnd=new Date(sunrise.getTime()+dayLength*0.6);
+      var purvaWindow=findNakshatraInterval(p,"पूर्वाषाढ़ा",middayStart,middayEnd);
+      if(purvaWindow){
+        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का मुख्य पूजन","पूर्वाषाढ़ा नक्षत्र और स्थानीय दिनमान के मध्याह्न-खंड का संयोग।","puja","पूर्वाषाढ़ा",locationName);
+        setSaraswatiMuhurta(found[found.length-1],purvaWindow.start,purvaWindow.end,"पूजन का नक्षत्र-व्याप्ति काल");
+      }
+      var uttaraWindow=findNakshatraInterval(p,"उत्तराषाढ़ा",middayStart,middayEnd);
+      if(uttaraWindow){
+        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का बलिदान / उत्तरपूजा","उत्तराषाढ़ा नक्षत्र और स्थानीय दिनमान के मध्याह्न-खंड का संयोग। बलि का स्वरूप अपनी अहिंसक या कुल-परंपरा के अनुसार निर्धारित करें।","balidan","उत्तराषाढ़ा",locationName);
+        setSaraswatiMuhurta(found[found.length-1],uttaraWindow.start,uttaraWindow.end,"बलिदान/उत्तरपूजा का नक्षत्र-व्याप्ति काल");
+      }
+      // विसर्जन: दिनमान के 3/5 से 4/5 तक अपराह्न-खंड में श्रवण + दशमी का संयोग।
+      var aparahnaStart=new Date(sunrise.getTime()+dayLength*0.6),aparahnaEnd=new Date(sunrise.getTime()+dayLength*0.8);
+      var aparahnaTime=new Date(sunrise.getTime()+dayLength*0.7),aparahnaPanchang;
       try{aparahnaPanchang=values.at(aparahnaTime);}catch(_){aparahnaPanchang=p;}
-      if(panchangNakshatraAt(aparahnaPanchang)==="श्रवण"&&panchangTithiAt(aparahnaPanchang)==="दशमी"){
+      var shravanaWindow=findNakshatraInterval(p,"श्रवण",aparahnaStart,aparahnaEnd);
+      if(shravanaWindow&&panchangTithiAt(aparahnaPanchang)==="दशमी"){
         addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का विसर्जन / उद्वासन","श्रवण नक्षत्र और दशमी की अपराह्न-व्याप्ति मिलने पर विसर्जन/उद्वासन।","visarjana","श्रवण",locationName);
+        setSaraswatiMuhurta(found[found.length-1],shravanaWindow.start,shravanaWindow.end,"विसर्जन का नक्षत्र-व्याप्ति काल");
       }
     }
     return found;
@@ -438,6 +469,17 @@
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
       if(item.description){var desc=document.createElement("div");desc.className="desc";renderDescription(desc,item.description);content.appendChild(desc);}
+      if(item.calculationStatus==="nakshatra-derived"&&item.muhurtaStart&&item.muhurtaEnd){
+        var ritualTimeBox=document.createElement("div");ritualTimeBox.className="desc";ritualTimeBox.style.cssText="margin-top:7px;padding:8px 9px;border-radius:8px;background:#fff8e9";
+        var ritualTimeTitle=document.createElement("strong");ritualTimeTitle.textContent=item.muhurtaLabel||"नक्षत्र-आधारित मुहूर्त";ritualTimeBox.appendChild(ritualTimeTitle);
+        var ritualTimeDetail=document.createElement("div");
+        var timeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true});
+        var ritualStart=new Date(item.muhurtaStart),ritualEnd=new Date(item.muhurtaEnd);
+        ritualTimeDetail.textContent=timeFormatter.format(ritualStart)+" – "+timeFormatter.format(ritualEnd)+" IST";
+        ritualTimeBox.appendChild(ritualTimeDetail);
+        var ritualLocation=document.createElement("div");ritualLocation.style.cssText="margin-top:3px;font-size:11px";ritualLocation.textContent="स्थान: "+String((item.description||"").match(/स्थानीय स्थान: (.*?)।/)||[])[1]||"";
+        ritualTimeBox.appendChild(ritualLocation);content.appendChild(ritualTimeBox);
+      }
       appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
       var mainLink=makeLink(item.articleUrl,item.articleLabel);
