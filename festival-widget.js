@@ -274,20 +274,44 @@
     addMonth(new Date(today.getFullYear(), today.getMonth(), 1));
     addMonth(new Date(lastVisible.getFullYear(), lastVisible.getMonth(), 1));
 
-    // Chaturmas start/end are read from the same approved festival records, not hardcoded dates.
-    const chaturmasYear = today.getMonth() >= 10 ? today.getFullYear() + 1 : today.getFullYear();
-    for (let month = 6; month <= 10; month++) addMonth(new Date(chaturmasYear, month, 1));
+    // Read the current year's Chaturmas dates from shared month JSON, not hardcoded dates.
+    const currentChaturmasYear = today.getFullYear();
+    for (let month = 6; month <= 10; month++) addMonth(new Date(currentChaturmasYear, month, 1));
 
     mount.textContent = "आगामी पर्व लोड हो रहे हैं…";
     try {
-      const responses = await Promise.all(Array.from(monthDates.values()).map(fetchMonth));
-      const allEvents = responses.flatMap(data => data.events || []);
-      const deduped = new Map();
+      let responses = await Promise.all(Array.from(monthDates.values()).map(fetchMonth));
+      let allEvents = responses.flatMap(data => data.events || []);
+      let deduped = new Map();
       allEvents.forEach(item => {
         const key = [item.date || "", item.title || ""].join("|");
         if (!deduped.has(key)) deduped.set(key, item);
       });
-      const items = Array.from(deduped.values());
+      let items = Array.from(deduped.values());
+
+      // Keep this year's card through its actual end date; only then look ahead to next year.
+      const currentEnd = items.find(item => {
+        const d = parseDate(item.date);
+        return d && d.getFullYear() === currentChaturmasYear &&
+          /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "");
+      });
+      let chaturmasYear = currentChaturmasYear;
+      if (!currentEnd || currentEnd.date < todayKey) {
+        chaturmasYear = currentChaturmasYear + 1;
+        const nextYearMonths = [];
+        for (let month = 6; month <= 10; month++) {
+          nextYearMonths.push(fetchMonth(new Date(chaturmasYear, month, 1)));
+        }
+        const nextYearData = await Promise.all(nextYearMonths);
+        allEvents = allEvents.concat(nextYearData.flatMap(data => data.events || []));
+        deduped = new Map();
+        allEvents.forEach(item => {
+          const key = [item.date || "", item.title || ""].join("|");
+          if (!deduped.has(key)) deduped.set(key, item);
+        });
+        items = Array.from(deduped.values());
+      }
+
       const chaturmasEvents = items.filter(item => {
         const d = parseDate(item.date);
         return d && d.getFullYear() === chaturmasYear;
