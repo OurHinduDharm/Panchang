@@ -419,7 +419,19 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
-      if(item.description){var desc=document.createElement("div");desc.className="desc";renderDescription(desc,item.description);content.appendChild(desc);}
+      if(item.description){
+        var desc=document.createElement("div");desc.className="desc";
+        var description=String(item.description);
+        // यदि अलग मुहूर्त-नियम जुड़ा है, तो पुराने विवरण में लिखा स्थिर घड़ी-समय
+        // स्थानीय गणना का विकल्प नहीं बनना चाहिए। नियम का परिणाम नीचे अलग दिखेगा।
+        if(item.muhurtaRule||Array.isArray(item.muhurtaRules)){
+          description=description
+            .replace(/(?:विशेष\s*)?(?:पूजा\s*)?मुहूर्त\s*[=:：-]*\s*शाम?\s*\d{1,2}[.:：]\d{1,2}\s*[-–—to]+\s*\d{1,2}[.:：]\d{1,2}\s*(?:AM|PM|am|pm|पूर्वाह्न|अपराह्न)?/gi,"")
+            .replace(/\s{2,}/g," ")
+            .trim();
+        }
+        renderDescription(desc,description);content.appendChild(desc);
+      }
       appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
       var mainLink=makeLink(item.articleUrl,item.articleLabel);
@@ -488,6 +500,13 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      if(reviewMode&&data&&data.status&&data.status!=="approved"){
+        var dataNotice=document.createElement("div");
+        dataNotice.className="note";
+        dataNotice.style.marginTop="0";
+        dataNotice.textContent="डेटा स्थिति: "+String(data.status)+"। "+String(data.locationScope||"इस महीने की प्रविष्टियों की प्रकाशन-पूर्व समीक्षा आवश्यक है।")+" सार्वजनिक सूची में केवल स्वीकृत प्रविष्टियाँ दिखाई जाती हैं।";
+        eventsEl.appendChild(dataNotice);
+      }
       render(data,year,month,token);
     }catch(e){
       if(token!==requestToken)return;
