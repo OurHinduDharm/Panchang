@@ -137,7 +137,13 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   </div>
 </section>
 <div class="note" id="sourceNote">संबंधित पूजा-विधि और धार्मिक लेखों के लिंक केवल उपलब्ध लेखों के लिए दिखेंगे। पर्व-तिथि, स्थानीय चंद्रोदय और मुहूर्त प्रकाशित या उपयोग करने से पहले चुने हुए नगर तथा अपनी व्रत-परंपरा के अनुसार पुष्टि करें।</div>
-<footer>OurHinduDharm · मासिक व्रत-पर्व सूची</footer>
+<footer>
+  <nav class="footer-month-nav" aria-label="महीने बदलें">
+    <button type="button" id="footerPrevBtn">← पिछला महीना</button>
+    <button type="button" id="footerNextBtn">अगला महीना →</button>
+  </nav>
+  <div>OurHinduDharm · मासिक व्रत-पर्व सूची</div>
+</footer>
 </main>
 <script type="module">
 (function(){
@@ -543,6 +549,8 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   yearSelect.addEventListener("change",loadMonth);
   document.getElementById("prevBtn").addEventListener("click",function(){shiftMonth(-1);});
   document.getElementById("nextBtn").addEventListener("click",function(){shiftMonth(1);});
+  document.getElementById("footerPrevBtn").addEventListener("click",function(){shiftMonth(-1);});
+  document.getElementById("footerNextBtn").addEventListener("click",function(){shiftMonth(1);});
   currentMonthBtn.addEventListener("click",function(){
     var now=new Date();
     var year=now.getFullYear();
