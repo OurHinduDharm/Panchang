@@ -1,0 +1,45 @@
+name: SS Chapter IX Iteration Solver Tests
+
+on:
+  push:
+    branches:
+      - "research/ss-ch9-diagnostic"
+    paths:
+      - "ss_chapter9_iterative_time_solver.js"
+      - ".github/workflows/ss-chapter9-iteration-tests.yml"
+  pull_request:
+    paths:
+      - "ss_chapter9_iterative_time_solver.js"
+      - ".github/workflows/ss-chapter9-iteration-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  iteration-solver-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check solver syntax
+        run: node --experimental-default-type=module --check ss_chapter9_iterative_time_solver.js
+      - name: Run iterative solver unit tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter9IterationSolverTests } from './ss_chapter9_iterative_time_solver.js';
+          const result = runChapter9IterationSolverTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.error) console.log(`  ${test.error}`);
+          }
+          console.log(`${result.passed}/${result.total} iteration-solver tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
