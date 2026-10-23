@@ -142,11 +142,13 @@
         throw new Error("Panchang library API unavailable");
       }
       var observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
-      var date=new Date(dateIso+"T12:00:00");
-      var nextDate=new Date(date);nextDate.setDate(nextDate.getDate()+1);
-      var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330});
-      var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330});
-      return {p:p,next:next,location:location,date:date,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:330});}};
+      // तारीख़ को भारत के नागरिक समय के भीतर एक निश्चित UTC instant से बनाएं।
+      // इससे विदेशी time-zone पर चल रहे मोबाइल में भी चुनी हुई भारतीय तारीख़ एक दिन आगे/पीछे नहीं खिसकेगी।
+      var date=new Date(dateIso+"T06:30:00.000Z");
+      var nextDate=new Date(date);nextDate.setUTCDate(nextDate.getUTCDate()+1);
+      var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330,calendarType:"purnimanta"});
+      var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330,calendarType:"purnimanta"});
+      return {p:p,next:next,location:location,date:date,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:330,calendarType:"purnimanta"});}};
     });
     panchangCache.set(cacheKey,promise);
     return promise;
