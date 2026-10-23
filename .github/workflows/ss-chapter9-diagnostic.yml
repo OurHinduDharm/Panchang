@@ -1,0 +1,379 @@
+name: SS Chapter 9 Diagnostic Tests
+
+on:
+  push:
+    branches:
+      - "research/ss-ch9-diagnostic"
+    paths:
+      - "test-astronomy.html"
+      - "ss_chapter9_test.js"
+      - "ss_chapter9_iterative_time_solver.js"
+      - "ss_chapter7_drikkarma.js"
+      - "ss_chapter7_test.js"
+      - "ss_chapter3_lagnantara.js"
+      - "ss_chapter3_source_rising_asus.js"
+      - "ss_chapter3_table_rising_asus.js"
+      - "ss_chapter3_ayana_math_test.js"
+      - "ss_chapter1_ahargana_anchor.js"
+      - "ss_chapter1_ahargana_calendar.js"
+      - "ss_chapter1_mean_solar_longitude.js"
+      - "ss_chapter1_mean_planetary_positions.js"
+      - "ss_chapter1_mean_solar_mandocca.js"
+      - "ss_chapter1_mean_planetary_mandocca.js"
+      - "ss_chapter1_planetary_mandocca_epoch_candidates.js"
+      - "ss_chapter2_planetary_true_position_candidate.js"
+      - "ss_chapter2_planetary_daily_motion_candidate.js"
+      - "ss_chapter2_solar_manda.js"
+      - "ss_chapter2_solar_motion_candidate.js"
+      - "ss_chapter2_daily_motion_correction.js"
+      - "ss_civil_date_epoch_adapter.js"
+      - "ss_chapter1_epoch_bridge.js"
+      - "ss_classical_frame.js"
+      - "ss_classical_frame_test.js"
+      - "ss_chapter3_nata_geometry.js"
+      - "ss_chapter3_nata_table_arithmetic.js"
+      - "ss_chapter2_versed_sine_table.js"
+      - "research/SS-CHAPTER-3-NATA-TIME-BRIDGE-NOTE.md"
+      - "research/SS-CHAPTER-9-DAILY-MOTION-SOURCE-AUDIT-2026-10-18.md"
+      - "research/CHAPTER2-47-51-TRUE-DAILY-MOTION-SOURCE-AUDIT-2026-10-19.md"
+      - "research/CHAPTER1-VENUS-JUPITER-MANDOCCA-EPOCH-RECONSTRUCTION-2026-10-22.md"
+      - "ss_chapter9_browser_test.mjs"
+      - ".github/workflows/ss-chapter9-diagnostic.yml"
+  pull_request:
+    # Run the research suite for every relevant source/note change. Keep the
+    # filter broad enough that a new diagnostic module cannot silently bypass CI.
+    paths:
+      - "**.js"
+      - "**.mjs"
+      - "**.html"
+      - "**.md"
+      - ".github/workflows/ss-chapter9-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check helper syntax
+        run: |
+          node --experimental-default-type=module --check ss_chapter9_test.js
+          node --experimental-default-type=module --check ss_chapter9_iterative_time_solver.js
+          node --experimental-default-type=module --check ss_chapter7_drikkarma.js
+          node --experimental-default-type=module --check ss_chapter7_test.js
+          node --experimental-default-type=module --check ss_chapter3_lagnantara.js
+          node --experimental-default-type=module --check ss_chapter3_source_rising_asus.js
+          node --experimental-default-type=module --check ss_chapter3_table_rising_asus.js
+          node --experimental-default-type=module --check ss_chapter3_ayana_math_test.js
+          node --experimental-default-type=module --check ss_chapter1_ahargana_anchor.js
+          node --experimental-default-type=module --check ss_chapter1_ahargana_calendar.js
+          node --experimental-default-type=module --check ss_chapter1_mean_solar_longitude.js
+          node --experimental-default-type=module --check ss_chapter1_mean_planetary_positions.js
+          node --experimental-default-type=module --check ss_chapter1_mean_solar_mandocca.js
+          node --experimental-default-type=module --check ss_chapter1_mean_planetary_mandocca.js
+          node --experimental-default-type=module --check ss_chapter1_planetary_mandocca_epoch_candidates.js
+          node --experimental-default-type=module --check ss_chapter2_planetary_true_position_candidate.js
+          node --experimental-default-type=module --check ss_chapter2_planetary_daily_motion_candidate.js
+          node --experimental-default-type=module --check ss_chapter2_solar_manda.js
+          node --experimental-default-type=module --check ss_civil_date_epoch_adapter.js
+          node --experimental-default-type=module --check ss_chapter1_epoch_bridge.js
+
+      - name: Run civil-date / Lanka-midnight adapter tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runCivilDateEpochAdapterTests } from './ss_civil_date_epoch_adapter.js';
+          const result = runCivilDateEpochAdapterTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.error) console.log(`  ${test.error}`);
+          }
+          console.log(`${result.passed}/${result.total} civil-date / Lanka-midnight adapter tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run iterative Chapter IX time-solver tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter9IterationSolverTests } from './ss_chapter9_iterative_time_solver.js';
+          const result = runChapter9IterationSolverTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.error) console.log(`  ${test.error}`);
+          }
+          console.log(`${result.passed}/${result.total} iterative time-solver tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run arithmetic and threshold-selection tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter9ArithmeticTests } from './ss_chapter9_test.js';
+          const result = runChapter9ArithmeticTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter VII dṛkkarma formula checks
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter7DrikkarmaTests } from './ss_chapter7_drikkarma.js';
+          const result = runChapter7DrikkarmaTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter VII tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-derived Chapter VII arithmetic and sign tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter7SourceDerivedTests } from './ss_chapter7_test.js';
+          const result = runChapter7SourceDerivedTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.details) console.log(`  ${test.details}`);
+          }
+          console.log(`${result.passed}/${result.total} source-derived Chapter VII tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter III sign-rising interpolation tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter3LagnantaraTests } from './ss_chapter3_lagnantara.js';
+          const result = runChapter3LagnantaraTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter III tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-sequence Chapter III rising-asus tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter3SourceRisingAsusTests } from './ss_chapter3_source_rising_asus.js';
+          const result = runChapter3SourceRisingAsusTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} source-sequence Chapter III tests passed`);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter II table-derived rising-asus tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter3TableRisingAsusTests } from './ss_chapter3_table_rising_asus.js';
+          const result = runChapter3TableRisingAsusTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.error) console.log(`  ${test.error}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter II table-derived rising-asus tests passed`);
+          console.log(JSON.stringify({
+            WashingtonCaraEndpoints: result.washington.caraEndpoints.map(p => p.caraArcMinutes),
+            WashingtonTableVsTrig: result.washingtonCrossCheck,
+            PithoragarhCaraEndpoints: result.pithoragarh.caraEndpoints.map(p => p.caraArcMinutes),
+            PithoragarhRisingAsus: result.pithoragarh.risingAsus
+          }));
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run isolated Chapter III bhuja/ayana geometry tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter3AyanaGeometryTests } from './ss_chapter3_ayana_math_test.js';
+          const result = runChapter3AyanaGeometryTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter III geometry tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-anchored Chapter I ahargana and Chapter III ayana tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1AharganaAnchorTests } from './ss_chapter1_ahargana_anchor.js';
+          const result = runChapter1AharganaAnchorTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} source-anchored ahargana tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter I.45–51 traditional-calendar ahargana arithmetic tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1TraditionalAharganaTests } from './ss_chapter1_ahargana_calendar.js';
+          const result = runChapter1TraditionalAharganaTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} Chapter I traditional-ahargana tests passed`);
+          console.log(JSON.stringify(result.reference));
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-ratio mean solar longitude tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1MeanSolarLongitudeTests } from './ss_chapter1_mean_solar_longitude.js';
+          const result = runChapter1MeanSolarLongitudeTests();
+          for (const test of result.tests) console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          console.log(`${result.passed}/${result.total} mean solar longitude tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-ratio mean planetary position and śīghrocca tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1MeanPlanetaryPositionTests } from './ss_chapter1_mean_planetary_positions.js';
+          const result = runChapter1MeanPlanetaryPositionTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} mean planetary position tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run source-ratio mean solar mandocca tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1MeanSolarMandoccaTests } from './ss_chapter1_mean_solar_mandocca.js';
+          const result = runChapter1MeanSolarMandoccaTests();
+          for (const test of result.tests) console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          console.log(`${result.passed}/${result.total} mean solar mandocca tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter II solar manda equation tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter2SolarMandaTests } from './ss_chapter2_solar_manda.js';
+          const result = runChapter2SolarMandaTests();
+          for (const test of result.tests) console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          console.log(`${result.passed}/${result.total} solar manda tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run research-only civil-instant and Lanka-midnight adapter tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runCivilDateEpochAdapterTests } from './ss_civil_date_epoch_adapter.js';
+          const result = runCivilDateEpochAdapterTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.error) console.log(`  ${test.error}`);
+          }
+          console.log(`${result.passed}/${result.total} civil-date adapter tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run isolated Chapter I civil-day epoch bridge tests
+        run: |
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter1EpochBridgeTests } from './ss_chapter1_epoch_bridge.js';
+          const result = runChapter1EpochBridgeTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+          }
+          console.log(`${result.passed}/${result.total} epoch-bridge tests passed`);
+          console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Check HTML structure and diagnostic wiring
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { spawnSync } from 'node:child_process';
+          const html = fs.readFileSync('test-astronomy.html', 'utf8');
+          const checks = [
+            ['Chapter 9 threshold, classifier, and IX.10–11 helper imported', html.includes('chapter9Kalansha, classifyChapter9HorizonEvent, estimateChapter9TimeCorrectionFromArcMotions, runChapter9ArithmeticTests') && html.includes('from "./ss_chapter9_test.js"')],
+            ['IX.10–11 signed estimate and bracket comparison rendered', html.includes('getChapter9TimeEstimate') && html.includes('IX.10–11 sequential estimate (days)') && html.includes('Long-range estimate vs daily bracket (days)') && html.includes('Short-horizon estimate error (days)') && html.includes('data-estimate-bracket-error-days') && html.includes('data-short-horizon-error-days')],
+            ['modern angular separation is shown separately from classical K', html.includes('eclipticLongitudeSeparationDeg') && html.includes('trueElongationDeg') && html.includes('Ecliptic Δλ') && html.includes('3-D elongation')],
+            ['separate apparent-angle threshold scan is rendered', html.includes('findEclipticAngularThresholdCrossing') && html.includes('Ecliptic Δλ bracket') && html.includes('Δλ−C=')],
+            ['IX.2–3 classifier controls event-time selection', html.includes('getClassifiedSunEventForDate') && html.includes('classifyChapter9HorizonEvent({') && html.includes('const direction = horizonEvent.startsWith("west-") ? "west" : "east";')],
+            ['daily brackets never skip invalid/ambiguous dates', html.includes('b.date.getTime() - a.date.getTime() !== 86400000')],
+            ['source-based threshold selector is used', html.includes('return chapter9Kalansha({ planet, horizonEvent, motionClass });')],
+            ['Chapter VII helper imported and wired', html.includes('calculateChapter7SequentialDrikkarma, runChapter7DrikkarmaTests') && html.includes('runChapter7DrikkarmaTests()') && html.includes('from "./ss_chapter7_drikkarma.js"')],
+            ['Chapter III sign-rising interpolation helper and browser tests imported', html.includes('chapter9LagnantaraAsus') && html.includes('runChapter3LagnantaraTests()') && html.includes('from "./ss_chapter3_lagnantara.js"')],
+            ['Primary K uses Chapter III sign interpolation and retains exact-OA comparison', html.includes('const classical = chapter9LagnantaraAsus') && html.includes('exactK: exactLagnaInterval')],
+            ['Chapter VII helper is used by sequential candidate', html.includes('return calculateChapter7SequentialDrikkarma({')],
+            ['source apparent sidereal angle is transformed into the 24° calculation frame', html.includes('const localSiderealObliquityDeg = trueObliquityOfDateDeg(date)') && html.includes('    localSiderealObliquityDeg,') && html.includes('Sequential: frame correction')],
+            ['Aksha display uses planet-specific meridian inputs', html.includes('planetRAForAksha') && html.includes('planetDeclinationForHalfDay') && !html.includes('akshaPointRA')],
+            ['arithmetic test button exists', html.includes('id="runChapter9ArithmeticBtn"')],
+            ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
+            ['Chapter IX event-geometry threshold selection disclosed', html.includes('Chapter IX.2–3 event-geometry candidate') && html.includes('legacy Venus direct/retrograde shortcut')],
+            ['unverified fixtures and coordinate-frame blocker disclosed in the UI', html.includes('The four comparison dates are unverified fixtures') && html.includes('coordinate-frame question remains open')],
+            ['legacy exact-time boundary is explicitly separated from SS IX.7 C', html.includes('पुरानी कोणीय परिकल्पना की सीमा (SS IX.7 नहीं)') && html.includes('इसे सूर्यसिद्धान्त IX.7 की घटना-दिशा आधारित C सीमा से न मिलाएँ')],
+            ['K bracket labelled as a current candidate, not a canonical result', html.includes('Current K bracket') && !html.includes('Classical K bracket')],
+            ['Mercury swift-motion limitation disclosed', html.includes('Mercury is excluded from these four reference cases')],
+            ['threshold test no longer labelled a classical implementation', !html.includes('8. Classical Asta / Udaya Threshold Test')]
+          ];
+          const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+          const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
+          checks.push(['no duplicate HTML IDs', duplicates.length === 0]);
+          const moduleScript = [...html.matchAll(/<script type="module">([\s\S]*?)<\/script>/gi)][0]?.[1];
+          if (!moduleScript) {
+            checks.push(['module script exists', false]);
+          } else {
+            fs.writeFileSync('/tmp/test-astronomy-module.mjs', moduleScript);
+            const syntax = spawnSync(process.execPath, ['--check', '/tmp/test-astronomy-module.mjs'], { encoding: 'utf8' });
+            checks.push(['main module script syntax', syntax.status === 0]);
+            if (syntax.status !== 0) console.error(syntax.stderr);
+          }
+          for (const [name, passed] of checks) console.log(`${passed ? 'PASS' : 'FAIL'} — ${name}`);
+          const failed = checks.filter(([, passed]) => !passed);
+          if (failed.length) process.exit(1);
+          NODE
+
+      - name: Run isolated classical-frame transform tests
+        run: |
+          node --experimental-default-type=module --check ss_classical_frame.js
+          node --experimental-default-type=module --check ss_chapter3_nata_geometry.js
+          node --experimental-default-type=module --check ss_chapter3_nata_table_arithmetic.js
+          node --experimental-default-type=module --check ss_chapter2_versed_sine_table.js
+          node --experimental-default-type=module --check ss_classical_frame_test.js
+          node --experimental-default-type=module ss_classical_frame_test.js
+
+      - name: Run headless Chromium research-page test
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+          node ss_chapter9_browser_test.mjs
+
+      - name: Confirm production Panchang files are unchanged
+        run: |
+          git fetch origin main
+          git diff --exit-code origin/main...HEAD -- app.js extra-panchang.js
