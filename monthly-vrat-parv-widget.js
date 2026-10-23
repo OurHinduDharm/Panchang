@@ -478,18 +478,18 @@
       if(token!==requestToken)return {events:[],recognized:false};
       var p=values.p||{},sunrise=new Date(p.sunrise);
       if(!Number.isFinite(sunrise.getTime()))continue;
-      var atSunrise;
-      try{atSunrise=values.at(sunrise);}catch(_){continue;}
-      var masa=normalizedMasaName(atSunrise&&atSunrise.masa||p.masa);
+      // getPanchangam के scalar masa/tithi/paksha sunrise-based हैं;
+      // उसी क्षण पर तीसरी बार पूरा पंचांग निकालने की जरूरत नहीं।
+      var masa=normalizedMasaName(p.masa);
       var family=navratriFamily(masa);
       if(!family)continue;
-      var rawTithi=atSunrise&&atSunrise.tithi;
+      var rawTithi=p.tithi;
       var rawTithiValue=rawTithi&&typeof rawTithi==="object"?(rawTithi.index??rawTithi.number??rawTithi.value??rawTithi.name):rawTithi;
       var readableTithi=(typeof rawTithiValue==="number"&&Number.isFinite(rawTithiValue)&&rawTithiValue>=0&&rawTithiValue<=29)||
         /प्रतिपदा|द्वितीया|तृतीया|चतुर्थी|पंचमी|षष्ठी|सप्तमी|अष्टमी|नवमी|दशमी|pratipada|dvitiya|tritiya|chaturthi|panchami|shashthi|saptami|ashtami|navami|dashami/i.test(String(rawTithiValue||""));
       if(!readableTithi)continue;
       recognized=true;
-      var tithiIndex=shuklaTithiIndex(atSunrise);
+      var tithiIndex=shuklaTithiIndex(p);
       if(tithiIndex===null)continue;
       var item=makeDynamicNavratriEvent(iso,family,tithiIndex,(values.location&&values.location.name)||"चुना हुआ स्थान");
       if(item)found.push(item);
