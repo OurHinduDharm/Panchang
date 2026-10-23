@@ -19,6 +19,15 @@
       "hinduTithi": "आश्विन कृष्ण अष्टमी"
     },
     {
+      "date": "2026-10-06",
+      "dateLabel": "6 अक्टूबर",
+      "title": "इंदिरा एकादशी",
+      "category": "एकादशी",
+      "hinduTithi": "आश्विन कृष्ण एकादशी",
+      "description": "इंदिरा एकादशी पितृपक्ष में आने वाली एकादशी है। भगवान विष्णु की पूजा और पितरों के कल्याण की कामना से व्रत किया जाता है; पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें।",
+      "reviewStatus": "approved"
+    },
+    {
       "date": "2026-10-10",
       "dateLabel": "10 अक्टूबर",
       "title": "पितृ विसर्जन अमावास्या",
@@ -111,7 +120,6 @@
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल षष्ठी"
     },
-
     {
       "date": "2026-10-17",
       "dateLabel": "17–18 अक्टूबर",
@@ -123,6 +131,14 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
       "articleLabel": "माँ कालरात्रि",
       "hinduTithi": "आश्विन शुक्ल सप्तमी"
+    },
+    {
+      "date": "2026-10-17",
+      "dateLabel": "17 अक्टूबर",
+      "title": "तुला संक्रांति",
+      "category": "संक्रांति",
+      "description": "सूर्य के तुला राशि में प्रवेश से संबंधित संक्रांति। स्नान, दान और जप की परंपरा है; पुण्यकाल स्थानीय संक्रमण-समय के अनुसार देखें।",
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-10-19",
@@ -156,10 +172,19 @@
       "hinduTithi": "आश्विन शुक्ल दशमी"
     },
     {
-      "date": "2026-10-26",
-      "dateLabel": "26 अक्टूबर",
+      "date": "2026-10-22",
+      "dateLabel": "22 अक्टूबर",
+      "title": "पापांकुशा एकादशी",
+      "category": "एकादशी",
+      "hinduTithi": "आश्विन शुक्ल एकादशी",
+      "description": "पापांकुशा एकादशी पर भगवान विष्णु की पूजा, व्रत और जप की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें।",
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-10-25",
+      "dateLabel": "25 अक्टूबर",
       "title": "कोजागरी पूर्णिमा / शरद पूर्णिमा",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">कोजागरी पूर्णिमा</a> और <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी-कुबेर पूजन</a>। कोजागरी लक्ष्मी-पूजा का निशीथ काल और खीर को चंद्रमा की चांदनी में रखने की अवधि चुने हुए स्थान के स्थानीय पंचांग से प्रदर्शित होगी। वाल्मीकि जयंती, मीराबाई जयंती और श्री कार्तिकेय जयन्ती भी इसी प्रविष्टि में उल्लिखित हैं।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">कोजागरी पूर्णिमा</a> और <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी-कुबेर पूजन</a>। कोजागरी लक्ष्मी-पूजा का निशीथ काल और खीर को चंद्रमा की चांदनी में रखने की अवधि चुने हुए स्थान के स्थानीय पंचांग से प्रदर्शित होगी।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html",
@@ -170,8 +195,16 @@
         "nishita",
         "moonlight-until-midnight"
       ],
-      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "muhurtaDate": "2026-10-25"
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-10-26",
+      "dateLabel": "26 अक्टूबर",
+      "title": "वाल्मीकि जयंती एवं मीराबाई जयंती",
+      "description": "आश्विन पूर्णिमा से संबंधित जयंती-परंपराएँ। क्षेत्रीय पंचांगों में तिथि-निर्णय के अनुसार आयोजन की पुष्टि करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
     },
     {
       "date": "2026-10-27",
@@ -193,32 +226,6 @@
       "articleLabel": "करवा चौथ व्रत-विधि",
       "muhurtaRule": "moonrise",
       "hinduTithi": "कार्तिक कृष्ण चतुर्थी"
-    },
-    {
-      "date": "2026-10-06",
-      "dateLabel": "6 अक्टूबर",
-      "title": "इंदिरा एकादशी",
-      "category": "एकादशी",
-      "hinduTithi": "आश्विन कृष्ण एकादशी",
-      "description": "इंदिरा एकादशी पितृपक्ष में आने वाली एकादशी है। भगवान विष्णु की पूजा और पितरों के कल्याण की कामना से व्रत किया जाता है; पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें।",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-22",
-      "dateLabel": "22 अक्टूबर",
-      "title": "पापांकुशा एकादशी",
-      "category": "एकादशी",
-      "hinduTithi": "आश्विन शुक्ल एकादशी",
-      "description": "पापांकुशा एकादशी पर भगवान विष्णु की पूजा, व्रत और जप की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें।",
-      "reviewStatus": "needs-review"
-    },
-    {
-      "date": "2026-10-17",
-      "dateLabel": "17 अक्टूबर",
-      "title": "तुला संक्रांति",
-      "category": "संक्रांति",
-      "description": "सूर्य के तुला राशि में प्रवेश से संबंधित संक्रांति। स्नान, दान और जप की परंपरा है; पुण्यकाल स्थानीय संक्रमण-समय के अनुसार देखें।",
-      "reviewStatus": "needs-review"
     }
   ]
 }

@@ -34,6 +34,42 @@
     }
   }
   var eventsEl=document.getElementById("events");
+  // मासिक सूची के नीचे उपयोगी नियम और गणना-सीमाएँ दिखाएँ; Blogger HTML में
+  // अलग से यह खंड न होने पर भी विजेट इसे सुरक्षित DOM APIs से बना देता है।
+  function ensureUsageGuide(){
+    if(!eventsEl||document.getElementById("ohd-monthly-usage-guide"))return;
+    var section=document.createElement("section");
+    section.id="ohd-monthly-usage-guide";section.className="note";
+    var heading=document.createElement("h2");
+    heading.textContent="इस मासिक व्रत-पर्व सूची का सही उपयोग कैसे करें?";
+    heading.style.cssText="font-size:17px;margin:0 0 7px;color:var(--ink)";
+    section.appendChild(heading);
+    var list=document.createElement("ul");list.style.cssText="margin:0;padding-left:20px";
+    [
+      ["पहले अपना नगर चुनें: ","सूर्योदय, सूर्यास्त, चंद्रोदय और पूजा-मुहूर्त स्थान के अनुसार बदल सकते हैं।"],
+      ["तिथि-निर्णय: ","व्रत-पर्व का निर्णय तिथि-व्याप्ति, सूर्योदय/चंद्रोदय और मान्य क्षेत्रीय परंपरा पर निर्भर हो सकता है।"],
+      ["मुहूर्त की सीमा: ","समय तभी दिखेगा जब संबंधित नियम और आवश्यक स्थानीय पंचांग-मान उपलब्ध हों। समय न मिले तो अनुमानित समय न मानें।"],
+      ["विधि और पंचांग: ","पर्व के उपलब्ध लेख और “इस दिन का पंचांग देखें” लिंक से विस्तृत जानकारी खोलें।"]
+    ].forEach(function(pair){
+      var li=document.createElement("li"),strong=document.createElement("strong");
+      strong.textContent=pair[0];li.appendChild(strong);li.appendChild(document.createTextNode(pair[1]));list.appendChild(li);
+    });
+    section.appendChild(list);
+    var note=document.createElement("p");
+    note.style.margin="9px 0 0";
+    note.textContent="स्थान खोज से ऊँचाई उपलब्ध न होने पर गणना में 0 मीटर ऊँचाई मानी जा सकती है। क्षेत्रीय परंपराओं में पर्व-निर्णय अलग हो सकता है; प्रकाशित करने से पहले स्थानीय पंचांग से पुष्टि करें।";
+    section.appendChild(note);
+    var links=document.createElement("div");links.className="links";links.style.marginTop="9px";
+    [
+      ["https://ourhindudharm.github.io/Panchang/","विस्तृत दैनिक पंचांग खोलें"],
+      ["https://ourhindudharm.blogspot.com/","OurHinduDharm के धार्मिक लेख"]
+    ].forEach(function(pair){
+      var link=makeLink(pair[0],pair[1]);if(link)links.appendChild(link);
+    });
+    section.appendChild(links);
+    eventsEl.insertAdjacentElement("afterend",section);
+  }
+  ensureUsageGuide();
   var listTitle=document.getElementById("listTitle");
   var countEl=document.getElementById("count");
   var searchInput=document.getElementById("searchInput");
@@ -594,6 +630,11 @@
   }
   function render(data,year,month,token){
     eventsEl.replaceChildren();
+    if(reviewMode&&data&&data.status&&data.status!=="approved"){
+      var dataNotice=document.createElement("div");dataNotice.className="note";dataNotice.style.marginTop="0";
+      dataNotice.textContent="डेटा स्थिति: "+String(data.status)+"। "+String(data.locationScope||"इस महीने की प्रविष्टियों की प्रकाशन-पूर्व समीक्षा आवश्यक है।")+" सार्वजनिक सूची में केवल स्वीकृत प्रविष्टियाँ दिखाई जाती हैं।";
+      eventsEl.appendChild(dataNotice);
+    }
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     var pageTitle=document.getElementById("pageTitle");
     if(pageTitle) pageTitle.textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
@@ -632,23 +673,17 @@
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
-      if(item.description){var desc=document.createElement("div");desc.className="desc";renderDescription(desc,item.description);content.appendChild(desc);}
-      if(item.calculationStatus==="nakshatra-derived"&&(item.muhurtaInstant||(item.muhurtaStart&&item.muhurtaEnd))){
-        var ritualTimeBox=document.createElement("div");ritualTimeBox.className="desc";ritualTimeBox.style.cssText="margin-top:7px;padding:8px 9px;border-radius:8px;background:#fff8e9";
-        var ritualTimeTitle=document.createElement("strong");ritualTimeTitle.textContent=item.muhurtaLabel||"नक्षत्र-आधारित मुहूर्त";ritualTimeBox.appendChild(ritualTimeTitle);
-        var ritualTimeDetail=document.createElement("div");
-        var timeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true});
-        if(item.muhurtaInstant){
-          ritualTimeDetail.textContent=timeFormatter.format(new Date(item.muhurtaInstant))+" IST";
-        }else{
-          var ritualStart=new Date(item.muhurtaStart),ritualEnd=new Date(item.muhurtaEnd);
-          ritualTimeDetail.textContent=timeFormatter.format(ritualStart)+" – "+timeFormatter.format(ritualEnd)+" IST";
+      if(item.description){
+        var desc=document.createElement("div");desc.className="desc";
+        var description=String(item.description);
+        // नियम-आधारित मुहूर्त होने पर पुराने विवरण का स्थिर घड़ी-समय न दिखाएँ।
+        if(item.muhurtaRule||Array.isArray(item.muhurtaRules)){
+          description=description
+            .replace(/(?:विशेष\s*)?(?:पूजा\s*)?मुहूर्त\s*[=:：-]*\s*शाम?\s*\d{1,2}[.:：]\d{1,2}\s*[-–—to]+\s*\d{1,2}[.:：]\d{1,2}\s*(?:AM|PM|am|pm|पूर्वाह्न|अपराह्न)?/gi,"")
+            .replace(/\s{2,}/g," ")
+            .trim();
         }
-        ritualTimeBox.appendChild(ritualTimeDetail);
-        var ritualLocation=document.createElement("div");ritualLocation.style.cssText="margin-top:3px;font-size:11px";
-        var locationMatch=String(item.description||"").match(/स्थानीय स्थान: (.*?)।/);
-        ritualLocation.textContent=locationMatch?"स्थान: "+locationMatch[1]:"चुने हुए स्थान के अनुसार";
-        ritualTimeBox.appendChild(ritualLocation);content.appendChild(ritualTimeBox);
+        renderDescription(desc,description);content.appendChild(desc);
       }
       appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
@@ -784,6 +819,21 @@
     monthSelect.value=String(m).padStart(2,"0");
     loadMonth();
   }
+  function ensureFooterMonthNav(){
+    var footer=widgetRoot.querySelector("footer");
+    if(!footer||footer.querySelector(".footer-month-nav"))return;
+    var nav=document.createElement("nav");
+    nav.className="footer-month-nav";
+    nav.setAttribute("aria-label","महीने बदलें");
+    var prev=document.createElement("button");
+    prev.type="button";prev.textContent="← पिछला महीना";
+    prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1);});
+    var next=document.createElement("button");
+    next.type="button";next.textContent="अगला महीना →";
+    next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1);});
+    nav.appendChild(prev);nav.appendChild(next);
+    footer.insertBefore(nav,footer.firstChild);
+  }
   function goToCurrentMonth(){
     var now=new Date();
     var year=now.getFullYear();
@@ -796,6 +846,7 @@
   locationInput.addEventListener("keydown",function(event){
     if(event.key==="Enter"){event.preventDefault();searchLocation();}
   });
+  ensureFooterMonthNav();
   syncLocationUI();
   searchInput.addEventListener("input",applyFilters);
   monthSelect.addEventListener("change",loadMonth);
