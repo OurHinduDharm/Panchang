@@ -3156,6 +3156,59 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
     drikkarma
   };
 }
+function getSymmetricChapter9RateDiagnostic(planet, eventTime, geometry, targetKalanshaDeg, config = TKS_CONFIG) {
+  // Research-only local consistency check: recompute the complete current
+  // Chapter IX geometry at symmetric time offsets. This is NOT the Sun's
+  // horizon-event time solver; direction/branch is held fixed deliberately.
+  const planetBody = BODY_NAMES[planet];
+  if (!planetBody || !geometry || !Number.isFinite(geometry.signedLagnantaraAsu)) return null;
+  const centerSign = Math.sign(geometry.signedLagnantaraAsu);
+  const predicted = getChapter9TimeEstimate(
+    planet, eventTime, geometry, targetKalanshaDeg, config, "sequential"
+  );
+  const offsetsMinutes = [1, 10];
+  const results = {};
+  for (const minutes of offsetsMinutes) {
+    const deltaMs = minutes * 60000;
+    const before = getLagnantaraDiagnostic(
+      planetBody, new Date(eventTime.getTime() - deltaMs),
+      geometry.direction, "sequential", config
+    );
+    const after = getLagnantaraDiagnostic(
+      planetBody, new Date(eventTime.getTime() + deltaMs),
+      geometry.direction, "sequential", config
+    );
+    const sameOrientation = before && after &&
+      Math.sign(before.signedLagnantaraAsu) === centerSign &&
+      Math.sign(after.signedLagnantaraAsu) === centerSign &&
+      Math.abs(before.K - before.rawK) < 1e6 &&
+      Math.abs(after.K - after.rawK) < 1e6;
+    const elapsedDays = (2 * deltaMs) / 86400000;
+    const empiricalRate = sameOrientation
+      ? ((after.signedLagnantaraAsu - before.signedLagnantaraAsu) / 60) * 60 / elapsedDays
+      : NaN;
+    results[minutes] = {
+      minutes,
+      beforeK: before?.K,
+      afterK: after?.K,
+      beforeSignedLagnantaraAsu: before?.signedLagnantaraAsu,
+      afterSignedLagnantaraAsu: after?.signedLagnantaraAsu,
+      empiricalSignedRatePranasPerDay: empiricalRate,
+      predictedSignedRatePranasPerDay: predicted?.signedKalanshaRatePranasPerDay,
+      rateDifferencePranasPerDay: Number.isFinite(empiricalRate) &&
+        Number.isFinite(predicted?.signedKalanshaRatePranasPerDay)
+        ? predicted.signedKalanshaRatePranasPerDay - empiricalRate : NaN,
+      sameOrientation
+    };
+  }
+  return {
+    method: "symmetric finite difference of recomputed signed lagnantara",
+    eventBranch: geometry.direction,
+    predictedSignedRatePranasPerDay: predicted?.signedKalanshaRatePranasPerDay,
+    results
+  };
+}
+
 function getSunEventTimeForLagnantara(date, direction, config = TKS_CONFIG) {
   /*
    * SearchRiseSet searches FORWARD from its start instant.
@@ -3897,6 +3950,24 @@ async function runLagnantaraDiagnostic() {
         estimateMetric(timeEstimate?.ix11EventFrameSignAsus?.planet)+'</span></div>';
       html += '<div class="metric"><strong>IX.10–11 alternative estimate using original-sign U (days; unadjudicated)</strong><span>'+
         estimateMetric(timeEstimate?.originalSignMotionEstimate?.estimatedDays)+'</span></div>';
+      const symmetricRateAudit = getSymmetricChapter9RateDiagnostic(
+        ref.planet, sample, g, C, TKS_CONFIG
+      );
+      if (symmetricRateAudit) {
+        html += '<div class="metric"><strong>Symmetric ±1 min empirical K-rate (prāṇa/day)</strong><span>'+
+          estimateMetric(symmetricRateAudit.results[1]?.empiricalSignedRatePranasPerDay)+'</span></div>';
+        html += '<div class="metric"><strong>Symmetric ±1 min IX.11 rate difference (prāṇa/day)</strong><span>'+
+          estimateMetric(symmetricRateAudit.results[1]?.rateDifferencePranasPerDay)+'</span></div>';
+        html += '<div class="metric"><strong>Symmetric ±10 min empirical K-rate (prāṇa/day)</strong><span>'+
+          estimateMetric(symmetricRateAudit.results[10]?.empiricalSignedRatePranasPerDay)+'</span></div>';
+        html += '<div class="metric"><strong>Symmetric ±10 min IX.11 rate difference (prāṇa/day)</strong><span>'+
+          estimateMetric(symmetricRateAudit.results[10]?.rateDifferencePranasPerDay)+'</span></div>';
+        html += '<p class="small">Research diagnostic only: both samples recompute sequential dṛkkarma and lagnāntara with the selected event direction held fixed. Treat a branch/orientation change or non-finite result as unresolved; this does not certify the source epoch or rising-asus table.</p>';
+        console.log("Symmetric IX.10–11 local-rate audit:", JSON.stringify({
+          planet: ref.planet, event: ref.event, eventTime: sample?.toISOString(),
+          audit: symmetricRateAudit
+        }));
+      }
       // Expose every valid daily sample so long-range drift can be traced to
       // the actual geometry and signed local rate, without changing formulas.
       const dailySamples = sequentialCrossing?.samples || [];
