@@ -23,7 +23,7 @@ These references support the textual reading below; they do **not** independentl
 
 | Verse | Textual requirement | Implementation / audit requirement | Status |
 |---|---|---|---|
-| IX.2–3 | Determine the relevant horizon and whether the planetary event is rising or setting from Sun-relative longitude and motion. Superior planets (Jupiter, Mars, Saturn) use west-setting when ahead of the Sun and east-rising when behind; retrograde Venus/Mercury follow this rule; direct/swift Venus/Mercury use the reverse pair. | The initial implementation used shortest signed circular separation, which incorrectly reverses the greater/less zodiacal-longitude branch when the pair straddles 0° Aries. The research helper now compares normalized zodiacal longitudes directly, while using signed daily motion for the inferior-planet branch. It evaluates at both local sunrise and sunset; disagreement or ambiguity rejects the date. | **Corrected in research code; awaiting the latest CI run and live event-output review.** The four fixture dates remain unverified gold standards. |
+| IX.2–3 | Determine the relevant horizon and whether the planetary event is rising or setting from Sun-relative longitude and motion. Superior planets (Jupiter, Mars, Saturn) use west-setting when ahead of the Sun and east-rising when behind; retrograde Venus/Mercury follow this rule; direct/swift Venus/Mercury use the reverse pair. | The initial implementation used shortest signed circular separation, which incorrectly reverses the greater/less zodiacal-longitude branch when the pair straddles 0° Aries. The research helper now compares normalized zodiacal longitudes directly, while using signed daily motion for the inferior-planet branch. It evaluates at both local sunrise and sunset; disagreement or ambiguity rejects the date. | **Corrected in research code; latest CI and browser diagnostics pass, but the four fixture dates remain unverified gold standards.** Passing tests confirm wiring and numerical invariants, not canonical event dates. |
 | IX.4 | For a western event, use Sun/planet positions at sunset; for an eastern event, use positions at sunrise. Then apply dṛkkarma to the planet. | Confirm the exact civil-date sunrise/sunset selection, geocentric coordinate frame, and correction order. | Partially implemented in the research page; not independently validated. |
 | IX.5 | Find the interval between the two lagnas in prāṇas; for the western calculation add six signs to both longitudes. Divide the prāṇa interval by 60 to obtain kalāṃśa (time degrees). | The current diagnostic converts an oblique-ascension interval in degrees to prāṇas as `interval × 60`, then divides by 60. This is arithmetically equivalent to the interval in degrees, **provided** the oblique ascensions and their branch are correctly derived. Chapter III.50 describes ascensional equivalents in prāṇas; this equivalence alone does not validate the OA or dṛkkarma formulas. | Arithmetic identity clear; geometric inputs still open. |
 | IX.6 | Jupiter 11°, Saturn 15°, Mars 17°. | Use these limits without substituting a modern elongation threshold. | Added isolated unit tests. |
@@ -1319,3 +1319,34 @@ The user's two raw endpoint responses are recorded in [`research/TKS-RAW-CAPTURE
 - Independently cross-checked the Chapter I.48–51 epoch interpretation against Burgess's translation and the Sri Jagannāth Center's 2 May 1827 example. Both describe the final civil-day count as the count at midnight on the meridian of Laṅkā; the published example is 714,404,096,641 and includes the date. This supports the integer Ahargaṇa arithmetic convention, not a fractional instant-to-Ahargana conversion. Sources: [Burgess translation, verses I.50–51](https://upload.wikimedia.org/wikipedia/commons/2/2b/Translation_of_the_S%C3%BBrya-Siddh%C3%A2nta%2C_A_Text-Book_of_Hindu_Astronomy%3B_With_Notes%2C_and_an_Appendix_%28IA_jstor-592174%29.pdf?0ZjjIB7T=YSNGIt) and [Sri Jagannāth Center example](https://srijagannath.org/jyoti%E1%B9%A3a/aharga%E1%B9%87a-calculations/).
 - **Next implementation gate remains narrow:** keep (a) integer, Lanka-midnight Ahargaṇa; (b) a modern UTC/local civil-time adapter; and (c) the Chapter VII signed nata/frame conversion as separate stages. Add no correction constant and do not feed either unresolved bridge into Chapter IX event dates until the boundary convention is tested across dates and longitudes.
 - PR #22 remains **Draft and unmerged**. No production file was changed by this checkpoint. The separate presentation-only production commits documented above do not make the research astronomy production-ready.
+
+
+## Latest diagnostic run — 2026-10-23
+
+The latest workflow run on the research branch completed successfully:
+
+- [SS Chapter 9 Diagnostic Tests](https://github.com/OurHinduDharm/Panchang/actions/runs/39926857985): helper syntax, isolated arithmetic, source-derived Chapter III/VII checks, HTML wiring, Chromium research-page test, and the production-file isolation check all passed.
+- [SS Chapter IX Iteration Solver Tests](https://github.com/OurHinduDharm/Panchang/actions/runs/39926857918): the solver's synthetic tests passed, including branch-change rejection and lagnāntara-orientation reversal rejection.
+- The workflow explicitly verified that `app.js` and `extra-panchang.js` remain unchanged from `main`.
+
+### What the event diagnostics currently show
+
+These are the current research implementation's outputs, **not certified Śāstrīya dates**:
+
+| Case | Current daily-event K=C bracket | IX.10–11 local estimate error vs bracket | Assessment |
+|---|---|---:|---|
+| Venus Asta | 18–19 Oct 2026 | ~0.00383 day (~5.5 min) | Local estimate is close; geometry/frame still unverified |
+| Venus Udaya | 29–30 Oct 2026 | ~0.00309 day (~4.5 min) short-horizon; long-range estimate differs by ~0.29486 day (~7.08 h) | Do not use long-range linear estimate without a near-event re-evaluation |
+| Jupiter Asta | 16–17 Aug 2027 | ~0.000834 day (~1.2 min) short-horizon; long-range estimate differs by ~0.03801 day (~54.7 min) | Local estimate is close; geometry/frame still unverified |
+| Jupiter Udaya | 14–15 Sep 2027 | ~0.001436 day (~2.1 min) | Local estimate is close; geometry/frame still unverified |
+
+The browser test labels these as current candidate brackets and checks numerical wiring only. The angular-separation scan is a separate modern comparator and must not be substituted for the Chapter IX lagnāntara K=C condition.
+
+### Remaining blockers before any production patch
+
+1. **Source-faithful Chapter III rising-asus:** current interpolation is checked against selected source values, but the literal Chapter II sine-table/interpolation/rounding path is not yet proven to reproduce the complete classical procedure at the target latitude.
+2. **Dṛkkarma and coordinate frame:** the modern ephemeris state, 24° classical obliquity, ayanāṃśa, meridian frame, and sequential Āyana/Akṣa corrections remain candidate choices, not an independently established single source-faithful pipeline.
+3. **IX.11 sign choice:** original zodiacal signs versus the six-sign-shifted western event frame remains unresolved by a worked primary-source example.
+4. **Epoch and planetary positions:** the Chapter I ahargaṇa-to-modern-date bridge and source-faithful mean/true planetary positions are not yet established as one end-to-end calculation.
+
+**Next decision:** do not keep tuning the iteration helper in isolation. Resolve and document the above inputs, then compare the same event geometry against the primary text, an independent implementation, and a timestamp/frame-matched external reference. Until that comparison exists, no production display should call the candidate result a verified classical Asta/Udaya time.
