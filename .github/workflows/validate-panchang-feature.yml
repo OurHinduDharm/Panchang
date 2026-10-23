@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [feature/hindu-festivals-card]
+    branches: [feature/hindu-festivals-card, feature/nakshatra-saraswati-puja]
 
 permissions:
   contents: read
