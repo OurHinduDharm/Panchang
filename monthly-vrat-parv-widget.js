@@ -158,6 +158,10 @@
       var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330,calendarType:"purnimanta"});
       var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330,calendarType:"purnimanta"});
       return {p:p,next:next,location:location,date:date,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:330,calendarType:"purnimanta"});}};
+    }).catch(function(error){
+      // अस्थायी CDN/API विफलता को cache में स्थायी न रखें; अगली कोशिश दोबारा लोड कर सके।
+      panchangCache.delete(cacheKey);
+      throw error;
     });
     panchangCache.set(cacheKey,promise);
     while(panchangCache.size>MAX_PANCHANG_CACHE_ENTRIES){
