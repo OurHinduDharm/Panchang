@@ -6,7 +6,7 @@
  * and sign-rising-asus in the same event branch. This helper deliberately
  * does not calculate those astronomical inputs and is not production logic.
  */
-import { estimateChapter9TimeCorrectionFromArcMotions } from "../ss_chapter9_test.js";
+import { estimateChapter9TimeCorrectionFromArcMotions } from "./ss_chapter9_test.js";
 
 function validateSample(sample) {
   const required = [
