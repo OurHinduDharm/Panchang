@@ -485,18 +485,26 @@
   }
   function ensureFooterMonthNav(){
     var footer=widgetRoot.querySelector("footer");
-    if(!footer||footer.querySelector(".footer-month-nav"))return;
-    var nav=document.createElement("nav");
-    nav.className="footer-month-nav";
-    nav.setAttribute("aria-label","महीने बदलें");
-    var prev=document.createElement("button");
-    prev.type="button";prev.textContent="← पिछला महीना";
-    prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1);});
-    var next=document.createElement("button");
-    next.type="button";next.textContent="अगला महीना →";
-    next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1);});
-    nav.appendChild(prev);nav.appendChild(next);
-    footer.insertBefore(nav,footer.firstChild);
+    var nav=widgetRoot.querySelector(".footer-month-nav");
+    if(!nav){
+      nav=document.createElement("nav");
+      nav.className="footer-month-nav";
+      nav.setAttribute("aria-label","महीने बदलें");
+      var prev=document.createElement("button");
+      prev.type="button";prev.textContent="← पिछला महीना";
+      prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1);});
+      var next=document.createElement("button");
+      next.type="button";next.textContent="अगला महीना →";
+      next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1);});
+      nav.appendChild(prev);nav.appendChild(next);
+    }
+    // महीने बदलने के बटन उपयोग-निर्देश शीर्षक के ठीक ऊपर रहें, पृष्ठ के सबसे नीचे नहीं।
+    var guide=widgetRoot.querySelector("#ohd-monthly-usage-guide, section.note[aria-labelledby='howToUseTitle']");
+    if(guide&&guide.parentNode){
+      guide.parentNode.insertBefore(nav,guide);
+    }else if(footer){
+      footer.insertBefore(nav,footer.firstChild);
+    }
   }
   function goToCurrentMonth(){
     var now=new Date();
