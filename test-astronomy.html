@@ -3990,6 +3990,10 @@ async function runLagnantaraDiagnostic() {
         (localRate10m.valid ? estimateMetric(localRate10m.signedRatePranasPerDay) : 'REJECT: '+localRate10m.reason)+'</span></div>';
       html += '<div class="metric"><strong>Local-rate convergence (10 min − 1 min)</strong><span>'+
         (localRate1m.valid && localRate10m.valid ? estimateMetric(localRate10m.signedRatePranasPerDay-localRate1m.signedRatePranasPerDay) : 'not comparable')+'</span></div>';
+      html += '<div class="metric"><strong>IX.11 minus symmetric ±1 min rate (prāṇa/day)</strong><span>'+
+        (localRate1m.valid && Number.isFinite(timeEstimate?.signedKalanshaRatePranasPerDay) ? estimateMetric(timeEstimate.signedKalanshaRatePranasPerDay-localRate1m.signedRatePranasPerDay) : 'not comparable')+'</span></div>';
+      html += '<div class="metric"><strong>IX.11 minus symmetric ±10 min rate (prāṇa/day)</strong><span>'+
+        (localRate10m.valid && Number.isFinite(timeEstimate?.signedKalanshaRatePranasPerDay) ? estimateMetric(timeEstimate.signedKalanshaRatePranasPerDay-localRate10m.signedRatePranasPerDay) : 'not comparable')+'</span></div>';
       html += '<div class="metric"><strong>IX.11 original-sign U (Sun / planet; prāṇa)</strong><span>'+
         estimateMetric(timeEstimate?.ix11OriginalSignAsus?.sun)+' / '+
         estimateMetric(timeEstimate?.ix11OriginalSignAsus?.planet)+'</span></div>';
