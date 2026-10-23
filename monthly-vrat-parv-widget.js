@@ -371,12 +371,12 @@
     var raw=value&&typeof value==="object"?(value.index??value.number??value.value??value.name):value;
     if(typeof raw==="number"||/^\d+$/.test(String(raw||""))){
       var n=Number(raw);
-      return n>=0&&n<=8?n:null;
+      return n>=0&&n<=9?n:null;
     }
     var paksha=String((panchang&&panchang.paksha)||"").toLocaleLowerCase("hi");
     if(paksha&&!/shukla|शुक्ल/.test(paksha)) return null;
     var name=normalizedPanchangName(raw,"tithi");
-    var names=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी"];
+    var names=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी"];
     var index=names.indexOf(name);
     return index>=0?index:null;
   }
