@@ -1350,3 +1350,29 @@ The browser test labels these as current candidate brackets and checks numerical
 4. **Epoch and planetary positions:** the Chapter I ahargaṇa-to-modern-date bridge and source-faithful mean/true planetary positions are not yet established as one end-to-end calculation.
 
 **Next decision:** do not keep tuning the iteration helper in isolation. Resolve and document the above inputs, then compare the same event geometry against the primary text, an independent implementation, and a timestamp/frame-matched external reference. Until that comparison exists, no production display should call the candidate result a verified classical Asta/Udaya time.
+
+
+## Source adjudication checkpoint — 2026-10-23 (IX.5 / IX.11)
+
+The latest branch-head CI for commit `ac2c1a44ff1320d2f1d0bf9b52bf33dc437d2887` is now green:
+
+- [Validate Panchang feature](https://github.com/OurHinduDharm/Panchang/actions/runs/39930275943)
+- [SS Chapter IX Iteration Solver Tests](https://github.com/OurHinduDharm/Panchang/actions/runs/39930276068)
+- [SS Chapter 9 Diagnostic Tests](https://github.com/OurHinduDharm/Panchang/actions/runs/39930275940)
+
+### What the primary text does and does not settle
+
+The Sanskrit and translation of IX.5 explicitly instruct the western calculation to add six signs to **both** longitudes before finding the lagnāntara-asus. IX.11 then uses the asus associated with that lagna-difference to convert the two daily motions into time-motions. See [Chapter IX, verses 4–11](https://karmasakha.com/texts/surya-siddhanta#) and the verse-by-verse text at [Sūrya Siddhānta IX](https://www.siva.sh/surya-siddhanta/9).
+
+This supports the six-sign-shifted western event frame as the **working hypothesis** for the western K calculation; it does not, by itself, prove which sign-rising-asus each of the two motion terms must use in the IX.11 rate formula. The current code therefore must not silently promote the event-frame choice to a settled textual fact. A worked numerical example with intermediate lagnāntara-asus and time-motion terms is still required.
+
+### Concrete next test
+
+For one western event and one eastern event, log side by side at the same instant:
+
+1. original and six-sign-shifted Sun/planet longitudes;
+2. the individual sign-rising-asus selected for each motion term;
+3. each IX.11 time-motion term and the resulting signed dK/dt;
+4. the observed finite-difference change in K after a small, symmetric time shift, with all geometry recomputed.
+
+Reject a frame choice if its predicted local derivative has the wrong sign or does not converge toward the finite-difference derivative as the time step is reduced. This is a consistency test, not a substitute for a source worked example. Keep the report's source-faithfulness, ephemeris, and epoch blockers open until both checks agree. Production files remain untouched.
