@@ -188,7 +188,9 @@ try {
   if (correctionDetails.length !== 4 || correctionDetails.some(detail =>
       !detail.includes("Symmetric local K-rate ±1 min (prāṇa/day)") ||
       !detail.includes("Symmetric local K-rate ±10 min (prāṇa/day)") ||
-      !detail.includes("Local-rate convergence (10 min − 1 min)")
+      !detail.includes("Local-rate convergence (10 min − 1 min)") ||
+      !detail.includes("IX.11 minus symmetric ±1 min rate (prāṇa/day)") ||
+      !detail.includes("IX.11 minus symmetric ±10 min rate (prāṇa/day)")
   )) {
     throw new Error("Symmetric local K-rate diagnostics did not render for all four reference events.");
   }
