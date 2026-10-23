@@ -285,7 +285,9 @@
       try{avahanPanchang=values.at(avahanTime);}catch(_){avahanPanchang=p;}
       if(!avahanScheduled&&panchangNakshatraAt(avahanPanchang)==="मूल"){
         var avahanClock=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(avahanTime);
-        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","मूल नक्षत्र में देवी का आवाहन/स्थापन। धर्मसिंधु-पाठ के अनुसार संदर्भ-समय सूर्यास्त से तीन मुहूर्त पूर्व है; गणित समय: "+avahanClock+" IST।","avahana","मूल",locationName);
+        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","मूल नक्षत्र में देवी का आवाहन/स्थापन। धर्मसिंधु-पाठ के अनुसार संदर्भ-समय सूर्यास्त से तीन मुहूर्त पूर्व है।","avahana","मूल",locationName);
+        found[found.length-1].muhurtaInstant=avahanTime.toISOString();
+        found[found.length-1].muhurtaLabel="आवाहन का संदर्भ-समय";
         avahanScheduled=true;
       }else if(!avahanScheduled&&!avahanFallbackScheduled&&findMulaInterval(p,iso)){
         // धर्मसिंधु-पाठ का विकल्प: नियत समय पर मूल उपलब्ध न हो तो अगले दिन मूल का द्वितीय पाद।
@@ -469,15 +471,21 @@
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
       if(item.description){var desc=document.createElement("div");desc.className="desc";renderDescription(desc,item.description);content.appendChild(desc);}
-      if(item.calculationStatus==="nakshatra-derived"&&item.muhurtaStart&&item.muhurtaEnd){
+      if(item.calculationStatus==="nakshatra-derived"&&(item.muhurtaInstant||(item.muhurtaStart&&item.muhurtaEnd))){
         var ritualTimeBox=document.createElement("div");ritualTimeBox.className="desc";ritualTimeBox.style.cssText="margin-top:7px;padding:8px 9px;border-radius:8px;background:#fff8e9";
         var ritualTimeTitle=document.createElement("strong");ritualTimeTitle.textContent=item.muhurtaLabel||"नक्षत्र-आधारित मुहूर्त";ritualTimeBox.appendChild(ritualTimeTitle);
         var ritualTimeDetail=document.createElement("div");
         var timeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true});
-        var ritualStart=new Date(item.muhurtaStart),ritualEnd=new Date(item.muhurtaEnd);
-        ritualTimeDetail.textContent=timeFormatter.format(ritualStart)+" – "+timeFormatter.format(ritualEnd)+" IST";
+        if(item.muhurtaInstant){
+          ritualTimeDetail.textContent=timeFormatter.format(new Date(item.muhurtaInstant))+" IST";
+        }else{
+          var ritualStart=new Date(item.muhurtaStart),ritualEnd=new Date(item.muhurtaEnd);
+          ritualTimeDetail.textContent=timeFormatter.format(ritualStart)+" – "+timeFormatter.format(ritualEnd)+" IST";
+        }
         ritualTimeBox.appendChild(ritualTimeDetail);
-        var ritualLocation=document.createElement("div");ritualLocation.style.cssText="margin-top:3px;font-size:11px";ritualLocation.textContent="स्थान: "+String((item.description||"").match(/स्थानीय स्थान: (.*?)।/)||[])[1]||"";
+        var ritualLocation=document.createElement("div");ritualLocation.style.cssText="margin-top:3px;font-size:11px";
+        var locationMatch=String(item.description||"").match(/स्थानीय स्थान: (.*?)।/);
+        ritualLocation.textContent=locationMatch?"स्थान: "+locationMatch[1]:"चुने हुए स्थान के अनुसार";
         ritualTimeBox.appendChild(ritualLocation);content.appendChild(ritualTimeBox);
       }
       appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
