@@ -399,8 +399,12 @@
         :family.kind==="शारदीय"
         ?"आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र। घटस्थापना का समय स्थानीय तिथि-व्याप्ति के अनुसार देखें। "+note
         :"शुक्ल प्रतिपदा से गुप्त नवरात्र-साधना का आरम्भ। अनुष्ठान, घटस्थापना और साधना अपनी गुरु/कुल-परंपरा के अनुसार करें। "+note;
-      item.articleUrl="http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html";
-      item.articleLabel=family.kind==="गुप्त"?"गुप्त नवरात्र का महत्व":"नवरात्र का महत्व";
+      item.articleUrl=family.kind==="गुप्त"
+        ?"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html"
+        :family.kind==="वासन्तिक"
+        ?"http://ourhindudharm.blogspot.com/2015/03/About-The-Significance-of-Vasanti-Or-Chaitra-Navratri.html"
+        :"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html";
+      item.articleLabel=family.kind==="गुप्त"?"गुप्त नवरात्र का महत्व":family.kind==="वासन्तिक"?"वासन्तिक / चैत्र नवरात्र का महत्व":"शारदीय नवरात्र का महत्व";
       item.secondaryArticleUrl="https://ourhindudharm.blogspot.com/p/kalash-sthapan.html";
       item.secondaryArticleLabel="घटस्थापना की संपूर्ण विधि";
       item.muhurtaRule="ghata-sthapana";
