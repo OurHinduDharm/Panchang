@@ -146,7 +146,7 @@
       var nextDate=new Date(date);nextDate.setDate(nextDate.getDate()+1);
       var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330});
       var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330});
-      return {p:p,next:next,location:location,date:date};
+      return {p:p,next:next,location:location,date:date,at:function(instant){return panchangLib.getPanchangam(instant,observer,{timezoneOffset:330});}};
     });
     panchangCache.set(cacheKey,promise);
     return promise;
@@ -191,6 +191,84 @@
         content.appendChild(box);
       });
     }catch(error){console.warn("Festival muhurta unavailable:",item.muhurtaRule||item.muhurtaRules,error);}
+  }
+
+  // शारदीय नवरात्रि का सरस्वती-रूप: तिथि की स्थिर तारीख़ नहीं,
+  // स्थानीय नक्षत्र-स्थिति और कर्म-विशेष के समय से प्रविष्टि बनाएँ।
+  var saraswatiNakshatraNames=["मूल","पूर्वाषाढ़ा","उत्तराषाढ़ा","श्रवण"];
+  function normalizedPanchangName(value,kind){
+    if(value&&typeof value==="object") value=value.name??value.label??value.index??value.number??value.value??"";
+    if(typeof value==="number"){
+      var names=kind==="nakshatra"?["अश्विनी","भरणी","कृत्तिका","रोहिणी","मृगशीर्ष","आर्द्रा","पुनर्वसु","पुष्य","आश्लेषा","मघा","पूर्वाफाल्गुनी","उत्तराफाल्गुनी","हस्त","चित्रा","स्वाती","विशाखा","अनुराधा","ज्येष्ठा","मूल","पूर्वाषाढ़ा","उत्तराषाढ़ा","श्रवण","धनिष्ठा","शतभिषा","पूर्वाभाद्रपद","उत्तराभाद्रपद","रेवती"]
+        :["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा","प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","अमावस्या"];
+      value=names[value]||names[value-1]||"";
+    }
+    var text=String(value||"").normalize("NFC").toLocaleLowerCase("hi").trim();
+    var aliases={
+      "moola":"मूल","mula":"मूल","मूला":"मूल",
+      "purva ashadha":"पूर्वाषाढ़ा","purvashadha":"पूर्वाषाढ़ा","पूर्वाषाढा":"पूर्वाषाढ़ा",
+      "uttara ashadha":"उत्तराषाढ़ा","uttarashadha":"उत्तराषाढ़ा","उत्तराषाढा":"उत्तराषाढ़ा",
+      "shravana":"श्रवण","sravana":"श्रवण","श्रवणा":"श्रवण",
+      "dashami":"दशमी","dasami":"दशमी"
+    };
+    return aliases[text]||text;
+  }
+  function panchangNakshatraAt(panchang){return normalizedPanchangName(panchang&&panchang.nakshatra,"nakshatra");}
+  function panchangTithiAt(panchang){return normalizedPanchangName(panchang&&panchang.tithi,"tithi");}
+  function addSaraswatiEvent(events,iso,title,description,ritual,nakshatra,locationName){
+    events.push({date:iso,dateLabel:iso.slice(8,10)+" "+months[Number(iso.slice(5,7))-1],title:title,
+      description:description+" स्थानीय स्थान: "+locationName+"। यह नक्षत्र-आधारित गणना है; परंपरा-विशेष का अंतिम निर्णय स्थानीय धर्मशास्त्रीय नियम से करें।",
+      category:"नवरात्रि",calculationStatus:"nakshatra-derived",reviewStatus:"needs-review",showReviewStatus:true,
+      hinduTithi:"स्थानीय पंचांगानुसार",saraswatiRitual:ritual,saraswatiNakshatra:nakshatra});
+  }
+  async function buildSaraswatiNakshatraEvents(data,year,month,token){
+    if(month!==9&&month!==10) return [];
+    var events=Array.isArray(data&&data.events)?data.events:[];
+    var startEvent=events.find(function(item){return /शारदीय नवरात्र.*प्रारम्भ|शारदीय नवरात्र.*प्रारंभ/.test(String(item.title||""));});
+    // नवरात्रि सितंबर में आरम्भ होकर अक्टूबर में हो तो अक्टूबर सूची पिछले महीने का आरम्भ पढ़े।
+    if(!startEvent&&month===10){
+      try{
+        var previousMonth=9;
+        var previousResponse=await fetch("https://ourhindudharm.github.io/Panchang/data/festivals/"+year+"-09.json",{cache:"no-cache"});
+        if(previousResponse.ok){var previousData=await previousResponse.json();startEvent=(previousData.events||[]).find(function(item){return /शारदीय नवरात्र.*प्रारम्भ|शारदीय नवरात्र.*प्रारंभ/.test(String(item.title||""));});}
+      }catch(_){/* मौजूदा माह के डेटा से आगे प्रयास करें */}
+    }
+    if(!startEvent||!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(startEvent.date||""))) return [];
+    var start=new Date(startEvent.date+"T12:00:00");
+    var endIso=/^\\d{4}-\\d{2}-\\d{2}$/.test(String(startEvent.endDate||""))?startEvent.endDate:"";
+    var end=endIso?new Date(endIso+"T12:00:00"):new Date(start.getTime()+9*86400000);
+    if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<start) return [];
+    var found=[];
+    for(var cursor=new Date(start);cursor<=end;cursor.setDate(cursor.getDate()+1)){
+      if(token!==requestToken) return [];
+      var iso=cursor.getFullYear()+"-"+String(cursor.getMonth()+1).padStart(2,"0")+"-"+String(cursor.getDate()).padStart(2,"0");
+      if(Number(iso.slice(5,7))!==month) continue;
+      var values;
+      try{values=await getDatePanchang(iso);}catch(_){continue;}
+      if(token!==requestToken) return [];
+      var p=values.p||{},sunrise=new Date(p.sunrise),sunset=new Date(p.sunset);
+      if(!Number.isFinite(sunrise.getTime())||!Number.isFinite(sunset.getTime())||sunset<=sunrise) continue;
+      var locationName=(values.location&&values.location.name)||"चुना हुआ स्थान";
+      // मूल में स्थापना/आवाहन: धर्मसिंधु-पाठ के अनुसार सूर्यास्त से तीन मुहूर्त (144 मिनट) पहले।
+      var avahanTime=new Date(sunset.getTime()-144*60000),avahanPanchang;
+      try{avahanPanchang=values.at(avahanTime);}catch(_){avahanPanchang=p;}
+      if(panchangNakshatraAt(avahanPanchang)==="मूल"){
+        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","मूल नक्षत्र में देवी का आवाहन/स्थापन; निर्धारित समय सूर्यास्त से तीन मुहूर्त पूर्व है।","avahana","मूल",locationName);
+        found[found.length-1].muhurtaDate=iso;
+        found[found.length-1].muhurtaRule="saraswati-avahan-mula";
+      }
+      // पूर्वाषाढ़ा और उत्तराषाढ़ा: कर्म-दिवस की मध्याह्न-व्याप्ति जाँचें।
+      var noonNakshatra=panchangNakshatraAt(p);
+      if(noonNakshatra==="पूर्वाषाढ़ा") addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का मुख्य पूजन","पूर्वाषाढ़ा नक्षत्र की मध्याह्न-व्याप्ति में सरस्वती-पूजन।","puja","पूर्वाषाढ़ा",locationName);
+      if(noonNakshatra==="उत्तराषाढ़ा") addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का बलिदान / उत्तरपूजा","उत्तराषाढ़ा नक्षत्र की मध्याह्न-व्याप्ति में बलिदान/उत्तरपूजा; बलि का स्वरूप अपनी अहिंसक या कुल-परंपरा के अनुसार निर्धारित करें।","balidan","उत्तराषाढ़ा",locationName);
+      // विसर्जन के लिए अपराह्न में श्रवण और दशमी दोनों जाँचें; केवल तारीख़ गिनकर निर्णय न लें।
+      var aparahnaTime=new Date(sunrise.getTime()+(sunset.getTime()-sunrise.getTime())*0.7),aparahnaPanchang;
+      try{aparahnaPanchang=values.at(aparahnaTime);}catch(_){aparahnaPanchang=p;}
+      if(panchangNakshatraAt(aparahnaPanchang)==="श्रवण"&&panchangTithiAt(aparahnaPanchang)==="दशमी"){
+        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का विसर्जन / उद्वासन","श्रवण नक्षत्र और दशमी की अपराह्न-व्याप्ति मिलने पर विसर्जन/उद्वासन।","visarjana","श्रवण",locationName);
+      }
+    }
+    return found;
   }
 
   function safeUrl(value){
@@ -291,7 +369,7 @@
     if(pageTitle) pageTitle.textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
     var list=(data&&Array.isArray(data.events))?data.events.slice():[];
     if(!reviewMode){
-      list=list.filter(function(item){return item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy";});
+      list=list.filter(function(item){return item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy"||item.calculationStatus==="nakshatra-derived";});
     }
     list.sort(function(a,b){return String(a.date||"").localeCompare(String(b.date||""));});
     countEl.textContent=list.length+" प्रविष्टियाँ";
@@ -398,6 +476,11 @@
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token);
+      if(token!==requestToken)return;
+      data.events=(Array.isArray(data.events)?data.events:[]).filter(function(item){
+        return !/सरस्वती.*(?:आवाहन|स्थापन|पूजन|बलिदान|विसर्जन)|(?:आवाहन|स्थापन|पूजन|बलिदान|विसर्जन).*सरस्वती/.test(String(item.title||"") + " " + String(item.description||""));
+      }).concat(computedSaraswatiEvents);
       render(data,year,month,token);
     }catch(e){
       if(token!==requestToken)return;
