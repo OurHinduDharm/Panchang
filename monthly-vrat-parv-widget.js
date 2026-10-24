@@ -482,6 +482,14 @@
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
     loadMonth();
+    // Footer navigation should return the reader to the newly selected month's heading.
+    var monthHeading=listTitle&&listTitle.closest(".summary")||listTitle;
+    if(monthHeading){
+      window.requestAnimationFrame(function(){
+        var top=monthHeading.getBoundingClientRect().top+window.pageYOffset-12;
+        window.scrollTo({top:Math.max(0,top),behavior:"smooth"});
+      });
+    }
   }
   function ensureFooterMonthNav(){
     var footer=widgetRoot.querySelector("footer");
