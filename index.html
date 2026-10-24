@@ -520,41 +520,44 @@
 }
 .panchang-intro .blog-link a:hover { text-decoration: underline; }
 
-.panchang-intro .site-pages {
-  margin-top: 22px;
+#ohdPanchang .footer-pages {
+  margin-top: 18px;
   padding-top: 16px;
-  border-top: 1px solid #dfcfb2;
+  border-top: 1px solid #ead7bd;
+  text-align: left;
 }
-.panchang-intro .site-pages h3 {
-  margin-top: 0;
+#ohdPanchang .footer-pages h3 {
+  margin: 0 0 10px;
+  color: #6b4f2a;
+  font-size: 15px;
 }
-.panchang-intro .site-page-links {
+#ohdPanchang .site-page-links {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 9px;
-  margin-top: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px;
 }
-.panchang-intro .site-page-link {
+#ohdPanchang .site-page-link {
   display: block;
-  padding: 11px 13px;
-  border: 1px solid #e6d4b7;
+  padding: 10px 12px;
+  border: 1px solid #ead7bd;
   border-radius: 10px;
-  background: #fff;
+  background: #fffaf2;
   color: #79552d;
   text-decoration: none;
   line-height: 1.5;
+  text-align: left;
 }
-.panchang-intro .site-page-link strong {
+#ohdPanchang .site-page-link strong {
   display: block;
   margin-bottom: 3px;
 }
-.panchang-intro .site-page-link span {
+#ohdPanchang .site-page-link span {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: normal;
   color: #6b6258;
 }
-.panchang-intro .site-page-link:hover {
+#ohdPanchang .site-page-link:hover {
   background: #fff3df;
   text-decoration: underline;
 }
@@ -574,32 +577,6 @@
 </ul>
 
 <p>दैनिक पूजा-पाठ, व्रत, त्योहार और धार्मिक अनुष्ठानों हेतु शुभ - अशुभ समय व विशिष्ट मुहूर्त ज्ञान के लिए अत्यंत उपयोगी और सुविधाजनक माध्यम।</p>
-
-<div class="site-pages">
-  <h3>OurHinduDharm के अन्य पेज</h3>
-  <div class="site-page-links">
-    <a class="site-page-link" href="monthly-vrat-parv.html">
-      <strong>🪔 मासिक व्रत-पर्व एवं त्योहार</strong>
-      <span>महीने और वर्ष के अनुसार व्रत-पर्व की सूची देखें।</span>
-    </a>
-    <a class="site-page-link" href="festival-review.html">
-      <strong>📝 पर्व रिकॉर्ड समीक्षा</strong>
-      <span>पर्व विवरण, तारीख़ और लेख लिंक की समीक्षा का टूल।</span>
-    </a>
-    <a class="site-page-link" href="festival-year-review.html">
-      <strong>📅 वार्षिक पर्व गणना एवं JSON</strong>
-      <span>वर्ष भर की गणना और पर्व डेटा की समीक्षा का टूल।</span>
-    </a>
-    <a class="site-page-link" href="test-astronomy.html">
-      <strong>🌌 खगोलीय गणना परीक्षण</strong>
-      <span>पंचांग की खगोलीय गणनाओं की जाँच करें।</span>
-    </a>
-    <a class="site-page-link" href="test-pr.html">
-      <strong>🧪 Pull Request Preview</strong>
-      <span>मर्ज करने से पहले बदली हुई फ़ाइलों का पूर्वावलोकन करें।</span>
-    </a>
-  </div>
-</div>
 
 <div class="blog-link">
   📖 <a href="https://ourhindudharm.blogspot.com/" target="_blank" rel="noopener">OurHinduDharm — हिन्दू धर्म एवं सनातन परंपराओं की जानकारी</a>
@@ -640,6 +617,31 @@
   </div>
   <div class="footer">
     <p>© <span id="current-year"></span> OurHinduDharm</p>
+    <div class="footer-pages">
+      <h3>अन्य पेज एवं उपयोगी टूल</h3>
+      <div class="site-page-links">
+        <a class="site-page-link" href="monthly-vrat-parv.html">
+          <strong>🪔 मासिक व्रत-पर्व एवं त्योहार</strong>
+          <span>महीने और वर्ष के अनुसार व्रत-पर्व की सूची देखें।</span>
+        </a>
+        <a class="site-page-link" href="festival-review.html">
+          <strong>📝 पर्व रिकॉर्ड समीक्षा</strong>
+          <span>पर्व विवरण, तारीख़ और लेख लिंक की समीक्षा का टूल।</span>
+        </a>
+        <a class="site-page-link" href="festival-year-review.html">
+          <strong>📅 वार्षिक पर्व गणना एवं JSON</strong>
+          <span>वर्ष भर की गणना और पर्व डेटा की समीक्षा का टूल।</span>
+        </a>
+        <a class="site-page-link" href="test-astronomy.html">
+          <strong>🌌 खगोलीय गणना परीक्षण</strong>
+          <span>पंचांग की खगोलीय गणनाओं की जाँच करें।</span>
+        </a>
+        <a class="site-page-link" href="test-pr.html">
+          <strong>🧪 Pull Request Preview</strong>
+          <span>मर्ज करने से पहले बदली हुई फ़ाइलों का पूर्वावलोकन करें।</span>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module" src="app.js"></script>
