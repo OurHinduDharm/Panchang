@@ -5,7 +5,7 @@
   const mount = document.getElementById("ohd-festival-widget");
   if (!mount) return;
 
-  const DAYS_AHEAD = 17;
+  const DAYS_AHEAD = 20;
   const MONTH_NAMES = ["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
   const WEEKDAYS = ["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
   const baseUrl = new URL("./data/festivals/", import.meta.url);
@@ -170,8 +170,8 @@
     mount.appendChild(style);
 
     const head = element("div", "ohd-fw-head");
-    head.appendChild(element("h3", "ohd-fw-title", "🪔 आगामी व्रत-पर्व"));
-    head.appendChild(element("div", "ohd-fw-sub", "अगले 17 दिनों के व्रत-पर्व · पर्व-अवधि जारी हो तो वह भी दिखेगी"));
+    head.appendChild(element("h3", "ohd-fw-title", "🪔 आगामी व्रत-पर्व-त्यौहार"));
+    head.appendChild(element("div", "ohd-fw-sub", "सूची ऑटो अपडेट होगी"));
     mount.appendChild(head);
 
     const list = element("div", "ohd-fw-list");
@@ -194,7 +194,7 @@
     if (chaturmas) list.appendChild(chaturmas);
 
     if (!visible.length) {
-      list.appendChild(element("div", "ohd-fw-empty", "अगले 17 दिनों के लिए कोई स्वीकृत व्रत-पर्व उपलब्ध नहीं है।"));
+      list.appendChild(element("div", "ohd-fw-empty", "अगले २० दिनों के लिए कोई स्वीकृत व्रत-पर्व उपलब्ध नहीं है।"));
     } else {
       visible.forEach(function (item) {
         const d = parseDate(item.date);
