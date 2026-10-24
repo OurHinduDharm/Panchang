@@ -276,7 +276,7 @@
 
     // Read the current year's Chaturmas dates from shared month JSON, not hardcoded dates.
     const currentChaturmasYear = today.getFullYear();
-    for (let month = 6; month <= 10; month++) addMonth(new Date(currentChaturmasYear, month, 1));
+    for (let month = 5; month <= 10; month++) addMonth(new Date(currentChaturmasYear, month, 1));
 
     mount.textContent = "आगामी पर्व लोड हो रहे हैं…";
     try {
@@ -299,7 +299,7 @@
       if (!currentEnd || currentEnd.date < todayKey) {
         chaturmasYear = currentChaturmasYear + 1;
         const nextYearMonths = [];
-        for (let month = 6; month <= 10; month++) {
+        for (let month = 5; month <= 10; month++) {
           nextYearMonths.push(fetchMonth(new Date(chaturmasYear, month, 1)));
         }
         const nextYearData = await Promise.all(nextYearMonths);
