@@ -141,7 +141,26 @@
 
     const style = document.createElement("style");
     style.textContent = `
-      #ohd-festival-widget{font:inherit;color:#392819;display:block;width:100%;max-width:100%;min-width:0;clear:both;flex:0 0 100%;box-sizing:border-box}
+      /* Blogger/AdSense: keep the whole post container from shrinking beside a floated ad. */
+      .post-body-container:has(#ohd-festival-widget){
+        display:flow-root!important;
+        width:100%!important;
+        max-width:none!important;
+        min-width:0!important;
+        clear:both!important;
+        box-sizing:border-box!important;
+      }
+      .post-body-container:has(#ohd-festival-widget) #ohd-festival-widget,
+      #ohd-festival-widget{
+        display:block!important;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        clear:both!important;
+        flex:0 0 100%!important;
+        float:none!important;
+        box-sizing:border-box!important;
+      }
       #ohd-festival-widget *{box-sizing:border-box}
       #ohd-festival-widget .ohd-fw-head{padding:12px 14px;border-radius:12px 12px 0 0;background:linear-gradient(130deg,#fff1d9,#fffaf1);border:1px solid #eadcc8}
       #ohd-festival-widget .ohd-fw-title{margin:0;font-size:1.1em;line-height:1.4}
