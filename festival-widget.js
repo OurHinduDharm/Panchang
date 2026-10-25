@@ -167,26 +167,29 @@
       #ohd-festival-widget .ohd-fw-sub{margin-top:3px;font-size:.8em;color:#87562b}
       #ohd-festival-widget .ohd-fw-list{padding:7px 10px;border:1px solid #eadcc8;border-top:0;border-radius:0 0 12px 12px;background:#fff}
       #ohd-festival-widget .ohd-fw-item{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:1px solid #f0e7dc;min-width:0}
-      /* Keep Auto Ads on their own row so festival text never squeezes beside an ad. */
+      /* Keep injected Auto Ads on a separate full-width grid row; preserve date/content columns. */
       #ohd-festival-widget .ohd-fw-item:has(> .google-auto-placed){
-        flex-direction:column!important;
-        align-items:stretch!important;
-      }
-      #ohd-festival-widget .ohd-fw-item:has(> .google-auto-placed) > .ohd-fw-date,
-      #ohd-festival-widget .ohd-fw-item:has(> .google-auto-placed) > .ohd-fw-content{
-        flex:0 0 auto!important;
-        width:100%!important;
-        max-width:100%!important;
-        min-width:0!important;
-        box-sizing:border-box!important;
+        display:grid!important;
+        grid-template-columns:49px minmax(0,1fr)!important;
+        column-gap:7px!important;
+        align-items:start!important;
       }
       #ohd-festival-widget .ohd-fw-item > .google-auto-placed{
-        flex:0 0 auto!important;
-        width:100%!important;
-        max-width:100%!important;
+        grid-column:1 / -1!important;
+        grid-row:1!important;
         min-width:0!important;
+        max-width:100%!important;
         box-sizing:border-box!important;
-        align-self:stretch!important;
+      }
+      #ohd-festival-widget .ohd-fw-item:has(> .google-auto-placed) > .ohd-fw-date{
+        grid-column:1!important;
+        min-width:0!important;
+      }
+      #ohd-festival-widget .ohd-fw-item:has(> .google-auto-placed) > .ohd-fw-content{
+        grid-column:2!important;
+        min-width:0!important;
+        width:auto!important;
+        overflow-wrap:break-word!important;
       }
       #ohd-festival-widget .ohd-fw-item:last-child{border-bottom:0}
       #ohd-festival-widget .ohd-fw-date{flex:0 0 55px;min-width:0;text-align:center;padding:5px 2px;background:#fff2df;border:1px solid #f0d7b2;border-radius:8px;color:#904b11;font-size:.75em;line-height:1.35}
