@@ -264,17 +264,19 @@
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
-      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja";})){
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja"||ruleItem.muhurtaRule==="dhanteras-muhurta";})){
         var sunset=new Date(values.p.sunset);
         var nextSunrise=new Date(values.next.sunrise);
-        var pradoshEnd=new Date(sunset.getTime()+144*60*1000);
         var nightDuration=nextSunrise.getTime()-sunset.getTime();
-        var nishitaStart=new Date(sunset.getTime()+nightDuration*7/15);
-        var nishitaEnd=new Date(sunset.getTime()+nightDuration*8/15);
+        var pradoshEnd=new Date(sunset.getTime()+nightDuration/5);
         context.sthirLagnaWindows=[
-          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd),
-          ...getStiraLagnaWindows(values.panchangLib,values.observer,nishitaStart,nishitaEnd)
+          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd)
         ];
+        if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja";})){
+          var nishitaStart=new Date(sunset.getTime()+nightDuration*7/15);
+          var nishitaEnd=new Date(sunset.getTime()+nightDuration*8/15);
+          context.sthirLagnaWindows.push(...getStiraLagnaWindows(values.panchangLib,values.observer,nishitaStart,nishitaEnd));
+        }
       }
       usableRules.forEach(function(ruleItem){
         var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);
