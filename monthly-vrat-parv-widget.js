@@ -16,6 +16,11 @@
   var reviewBanner=document.getElementById("reviewBanner");
   if(reviewBanner) reviewBanner.hidden=!reviewMode;
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
+  function getIndiaCalendarDate(){
+    var parts=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+    var part=function(type){return (parts.find(function(item){return item.type===type;})||{}).value||"";};
+    return new Date(Number(part("year")),Number(part("month"))-1,Number(part("day")),12,0,0);
+  }
   var monthSelect=document.getElementById("monthSelect");
   var yearSelect=document.getElementById("yearSelect");
   var currentMonthBtn=document.getElementById("currentMonthBtn");
@@ -199,8 +204,8 @@
         throw new Error("Panchang library API unavailable");
       }
       var observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
-      var date=new Date(dateIso+"T12:00:00");
-      var nextDate=new Date(date);nextDate.setDate(nextDate.getDate()+1);
+      var date=new Date(dateIso+"T12:00:00+05:30");
+      var nextDate=new Date(date.getTime()+24*60*60*1000);
       var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330});
       var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330});
       return {p:p,next:next,location:location,date:date,panchangLib:panchangLib,observer:observer};
@@ -463,7 +468,7 @@
       var date=document.createElement("div");date.className="date";
       var strong=document.createElement("strong");strong.textContent=String(item.date||"").slice(8,10)||item.dateLabel||"";
       date.appendChild(strong);
-      var dateObj=new Date(String(item.date||"")+"T12:00:00");
+      var dateObj=new Date(String(item.date||"")+"T12:00:00+05:30");
       var monthName=document.createElement("span");
       monthName.className="month-name";
       monthName.textContent=Number.isNaN(dateObj.getTime())?"":months[dateObj.getMonth()];
@@ -631,7 +636,7 @@
     }
   }
   function goToCurrentMonth(){
-    var now=new Date();
+    var now=getIndiaCalendarDate();
     var year=now.getFullYear();
     ensureYearOption(year);
     yearSelect.value=String(year);
@@ -657,7 +662,7 @@
     event.preventDefault();goToCurrentMonth();
   });
   // पेज हर वर्ष अपने-आप वर्तमान महीने से खुले; पुराने/आने वाले वर्ष भी नेविगेशन में जुड़ सकें।
-  var initialDate=new Date();
+  var initialDate=getIndiaCalendarDate();
   ensureYearOption(initialDate.getFullYear());
   yearSelect.value=String(initialDate.getFullYear());
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
