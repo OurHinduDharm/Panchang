@@ -60,7 +60,7 @@ test("Hari Vasara delays parana when its first quarter continues after sunrise",
   const result = calculate(contextWithTithis({ fast: [dwadashi], parana: [dwadashi] }));
   assert.equal(result.status, "calculated");
   assert.equal(result.start.toISOString(), date("2026-10-22T06:15:00+05:30").toISOString());
-  assert.equal(result.end.toISOString(), dwadashi.end.toISOString());
+  assert.equal(result.end.toISOString(), dwadashi.endTime.toISOString());
 });
 
 test("Dwadashi ended before sunrise uses the explicit sunrise exception", () => {
