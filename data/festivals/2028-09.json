@@ -48,7 +48,8 @@
       "description": "इंदिरा एकादशी पितृपक्ष में आने वाला विष्णु-व्रत है। व्रत-कथा, विष्णु-पूजन और पितरों के कल्याण की कामना की परंपरा है; पारण स्थानीय नियमों से तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-09-16",
@@ -126,7 +127,8 @@
       "description": "पापांकुशा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     }
   ]
 }
