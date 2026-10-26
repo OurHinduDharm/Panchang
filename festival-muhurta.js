@@ -499,10 +499,12 @@ const rules = {
         laterDate(nishita.start, validDate(simhaLagna.start)),
         earlierDate(nishita.end, validDate(simhaLagna.end)),
         "महानिशीथ काल — सिंह स्थिर लग्न",
-        "यह विशेष साधना/तांत्रिक परंपराओं के लिए वैकल्पिक समय है; सामान्य गृहस्थ लक्ष्मी पूजन का प्राथमिक मुहूर्त नहीं।"
+        "महानिशीथ और सिंह स्थिर लग्न की संयुक्त व्याप्ति; यह विशेष साधना के लिए वैकल्पिक समय है।"
       );
+      // Show the complete Mahanishita interval as well as its smaller Simha overlap.
+      // Replacing the full interval with the overlap can hide most of the actual period.
+      windows.push(nishita);
       if (simhaNishita) windows.push(simhaNishita);
-      else windows.push(nishita);
     } else if (nishita) {
       windows.push(nishita);
     }
