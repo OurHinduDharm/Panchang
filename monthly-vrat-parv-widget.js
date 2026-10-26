@@ -105,7 +105,7 @@
   }
   function syncLocationUI(){
     var location=getLocalLocation();
-    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name+" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM";
+    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name;
     if(!locationInput.value) locationInput.value=location.city||location.name||"";
   }
   async function getTerrainElevation(lat,lon){
