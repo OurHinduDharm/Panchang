@@ -373,6 +373,24 @@ const rules = {
         if (overlap) windows.push(overlap);
       }
     }
+    // Trayodashi may continue after the following sunrise. Include the next
+    // morning's favourable Choghadiya only for the remaining Trayodashi interval.
+    const nextSunset = validDate(context.nextSunset);
+    const nextDayDuration = nextSunset && nextSunset.getTime() - nextSunrise.getTime();
+    const nextWeekday = localWeekday(nextSunrise);
+    if (Number.isFinite(nextDayDuration) && nextDayDuration > 0 &&
+        Number.isInteger(nextWeekday) && sequences[nextWeekday]) {
+      for (let i = 0; i < 8; i++) {
+        const kind = sequences[nextWeekday][i];
+        if (!favorable.has(kind)) continue;
+        const start = new Date(nextSunrise.getTime() + nextDayDuration * i / 8);
+        const end = new Date(nextSunrise.getTime() + nextDayDuration * (i + 1) / 8);
+        const overlap = windowWithin(start, end, tithis, names[kind],
+          "अगले दिन के दिनमान पर आधारित शुभ चौघड़िया; त्रयोदशी-व्याप्ति के भीतर।");
+        if (overlap) windows.push(overlap);
+      }
+    }
+
     windows.sort((a, b) => a.start - b.start);
 
     if (!windows.length) {
