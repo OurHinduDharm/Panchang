@@ -119,3 +119,31 @@ test("Diwali does not invent a puja window when Amavasya interval is missing", a
   assert.equal(result.status, "unavailable");
   assert.equal(result.windows, undefined);
 });
+
+
+test("Diwali prioritizes Vrishabha in Pradosh and offers Simha in Nishita when available", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const sunset = date("2026-11-08T17:30:00+05:30");
+  const nextSunrise = date("2026-11-09T06:20:00+05:30");
+  const context = {
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 29,
+      name: "Amavasya",
+      startTime: date("2026-11-08T11:27:00+05:30"),
+      endTime: date("2026-11-09T12:31:00+05:30")
+    }],
+    sthirLagnaWindows: [
+      { name: "Vrishabha", start: date("2026-11-08T18:00:00+05:30"), end: date("2026-11-08T19:00:00+05:30") },
+      { name: "Simha", start: date("2026-11-08T23:00:00+05:30"), end: date("2026-11-09T01:00:00+05:30") }
+    ]
+  };
+  const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, context);
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 3);
+  assert.match(result.windows[0].label, /वृषभ स्थिर लग्न/);
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-08T18:00:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T19:00:00+05:30").toISOString());
+  assert.match(result.windows[2].label, /सिंह स्थिर लग्न/);
+});
