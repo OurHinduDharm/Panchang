@@ -22,7 +22,8 @@
       "description": "देवशयनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें।",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2027-07-17",
@@ -49,7 +50,8 @@
       "description": "कामिका एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें।",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2027-07-30",
@@ -57,7 +59,8 @@
       "title": "कामिका एकादशी (गौण)",
       "description": "कुछ वैष्णव पंचांगों में कामिका एकादशी का गौण व्रत अगले दिन निर्धारित हो सकता है। इसे सभी परंपराओं के लिए सार्वभौमिक तारीख़ न मानें; स्थानीय वैष्णव निर्णय और पारण नियम की पुष्टि बाकी है.",
       "category": "एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "muhurtaRule": "ekadashi-parana"
     }
   ]
 }
