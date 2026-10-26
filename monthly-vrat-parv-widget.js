@@ -149,7 +149,7 @@
           panchangCache.clear();
           locationInput.value=selected.city||selected.name;
           locationSuggestions.replaceChildren();
-          locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई उपलब्ध न होने पर 0 मीटर मानकर गणना होगी।";
+          locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+"।";
           loadMonth();
         });
         locationSuggestions.appendChild(button);
