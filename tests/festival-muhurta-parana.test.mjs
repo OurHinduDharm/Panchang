@@ -154,7 +154,7 @@ test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", 
   const context = {
     date: date("2026-11-06T12:00:00+05:30"),
     sunrise: date("2026-11-06T06:37:00+05:30"),
-    sunset: date("2026-11-06T17:33:00+05:30"),
+    sunset: date("2026-11-06T17:32:00+05:30"),
     nextSunrise: date("2026-11-07T06:37:00+05:30"),
     tithis: [{
       index: 12,
@@ -175,9 +175,9 @@ test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", 
   assert.equal(shopping[1].start.toISOString(), date("2026-11-06T12:05:00+05:30").toISOString());
   assert.equal(shopping[1].end.toISOString(), date("2026-11-06T13:27:00+05:30").toISOString());
   assert.equal(shopping[2].start.toISOString(), date("2026-11-06T16:11:00+05:30").toISOString());
-  assert.equal(shopping[3].start.toISOString(), date("2026-11-06T20:49:00+05:30").toISOString());
-  assert.equal(shopping[3].end.toISOString(), date("2026-11-06T22:27:00+05:30").toISOString());
-  assert.equal(shopping[4].start.toISOString(), date("2026-11-07T00:05:00+05:30").toISOString());
+  assert.equal(shopping[3].start.toISOString(), date("2026-11-06T20:48:00+05:30").toISOString());
+  assert.equal(shopping[3].end.toISOString(), date("2026-11-06T22:26:00+05:30").toISOString());
+  assert.equal(shopping[4].start.toISOString(), date("2026-11-07T00:04:00+05:30").toISOString());
   const puja = result.windows.find(w => /वृषभ स्थिर लग्न/.test(w.label));
   assert.ok(puja);
   assert.equal(puja.start.toISOString(), date("2026-11-06T18:02:00+05:30").toISOString());
