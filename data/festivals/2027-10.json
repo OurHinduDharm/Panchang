@@ -49,7 +49,8 @@
       "description": "पापांकुशा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2027-10-14",
@@ -94,7 +95,8 @@
       "description": "रमा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2027-10-26",
