@@ -39,7 +39,8 @@
       "title": "जया एकादशी (स्मार्त)",
       "description": "जया एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। यह स्मार्त व्रत-दिन का प्रारंभिक उम्मीदवार है; पारण और तिथि स्थानीय निर्णय से सत्यापित करें.",
       "category": "एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-02-07",
@@ -47,7 +48,8 @@
       "title": "जया एकादशी (वैष्णव)",
       "description": "कुछ वैष्णव पंचांगों में जया एकादशी का व्रत अगले दिन हो सकता है। इस प्रविष्टि को वैष्णव परंपरा के लिए ही जाँचें; पारण द्वादशी-व्याप्ति और हरिवासर से तय करें.",
       "category": "एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "needs-review",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-02-10",
@@ -74,7 +76,8 @@
       "description": "विजया एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-02-23",
