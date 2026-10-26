@@ -13,7 +13,8 @@
       "description": "मोहिनी एकादशी पर भगवान विष्णु के मोहिनी स्वरूप का स्मरण और व्रत की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-05-07",
@@ -58,7 +59,8 @@
       "description": "अपरा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-05-24",
