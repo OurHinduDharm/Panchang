@@ -141,7 +141,8 @@
       "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय स्थानीय अमावस्या-व्याप्ति और स्वीकृत मुहूर्त देखकर तय करें।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "diwali-lakshmi-puja"
     },
     {
       "date": "2027-10-30",
