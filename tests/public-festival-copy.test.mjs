@@ -30,6 +30,8 @@ test("city selection obtains terrain elevation instead of hardcoding zero metres
     assert.match(source, /api\.open-meteo\.com\/v1\/elevation/);
     assert.match(source, /selected\.elevation=await getTerrainElevation\(selected\.lat,selected\.lon\)/);
     assert.match(source, /defaultLocationElevation=await getTerrainElevation\(29\.5828,80\.2182\)/);
+    assert.match(source, /dateIso\+"T12:00:00\+05:30"/);
+    assert.match(source, /function getIndiaCalendarDate\(\)/);
     assert.doesNotMatch(source, /lat:Number\(place\.lat\),lon:Number\(place\.lon\),elevation:0/);
     assert.match(source, /startDateKey!==dateIso\|\|endDateKey!==dateIso/);
     assert.match(source, /dateFormatter\.format\(windowItem\.start\)/);
