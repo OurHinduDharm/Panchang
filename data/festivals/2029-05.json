@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख कृष्ण एकादशी"
+      "hinduTithi": "वैशाख कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-05-15",
@@ -74,7 +75,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल एकादशी"
+      "hinduTithi": "वैशाख शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-05-26",
