@@ -34,7 +34,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र कृष्ण एकादशी"
+      "hinduTithi": "चैत्र कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-03-14",
@@ -54,7 +55,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "अधिक चैत्र शुक्ल एकादशी"
+      "hinduTithi": "अधिक चैत्र शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-03-30",
