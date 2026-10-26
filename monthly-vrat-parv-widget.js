@@ -312,7 +312,20 @@
             var row=document.createElement("div");row.style.marginTop="5px";
             var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
             var time=document.createElement("div");
-            time.textContent=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
+            var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
+            var endTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
+            function dateKey(value){
+              var parts=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(value);
+              var part=function(type){return (parts.find(function(item){return item.type===type;})||{}).value||"";};
+              return part("year")+"-"+part("month")+"-"+part("day");
+            }
+            var startDateKey=dateKey(windowItem.start),endDateKey=dateKey(windowItem.end);
+            if(startDateKey!==dateIso||endDateKey!==dateIso){
+              var dateFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short"});
+              time.textContent=dateFormatter.format(windowItem.start)+" "+startTime+" – "+dateFormatter.format(windowItem.end)+" "+endTime;
+            }else{
+              time.textContent=startTime+" – "+endTime;
+            }
             row.appendChild(time);
             if(windowItem.note){var windowNote=document.createElement("div");windowNote.style.fontSize="12px";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
             detail.appendChild(row);
