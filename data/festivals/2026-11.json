@@ -34,7 +34,8 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">रमा (रम्भा) एकादशी व्रत</a> कार्तिक कृष्ण एकादशी को मनाया जाता है। भगवान विष्णु की पूजा, व्रत, नाम-स्मरण और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से तय करें।",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "hinduTithi": "कार्तिक कृष्ण एकादशी"
+      "hinduTithi": "कार्तिक कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2026-11-05",
@@ -67,7 +68,7 @@
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण चतुर्दशी"
     },
-   {
+    {
       "date": "2026-11-08",
       "dateLabel": "8 नवंबर",
       "title": "नरक चतुर्दशी",
@@ -85,7 +86,6 @@
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण अमावस्या"
     },
-  
     {
       "date": "2026-11-10",
       "dateLabel": "10 नवंबर",
@@ -155,7 +155,8 @@
       "description": "देवउठनी या प्रबोधिनी एकादशी को भगवान विष्णु के योगनिद्रा से जागरण का पर्व माना जाता है। चातुर्मास-व्रत के समापन और तुलसी-विवाह की परंपरा इससे जुड़ी है। एकादशी व्रत के पारण का समय द्वादशी-व्याप्ति, हरिवासर और स्थानीय वैष्णव/स्मार्त निर्णय के अनुसार जाँचना चाहिए।",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "hinduTithi": "कार्तिक शुक्ल एकादशी"
+      "hinduTithi": "कार्तिक शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2026-11-21",
@@ -173,7 +174,8 @@
       "category": "एकादशी",
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
       "description": "देवउठनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-निर्णय और पारण अपनी संप्रदाय-परंपरा के अनुसार करें।",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2026-11-24",
