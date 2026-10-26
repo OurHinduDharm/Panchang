@@ -18,3 +18,19 @@ test("Saraswati event date guard accepts ISO dates and rejects escaped-pattern r
     "Saraswati end-date validation must use the same ISO-date pattern"
   );
 });
+
+test("dynamic Navratri recognition requires a valid Shukla tithi before replacing stored entries", () => {
+  const start = source.indexOf("async function buildDynamicNavratriEvents");
+  const end = source.indexOf("function isLegacyNavratriDailyEvent", start);
+  assert.ok(start >= 0 && end > start, "dynamic Navratri generator must remain present");
+  const generator = source.slice(start, end);
+  const tithiCheck = generator.indexOf("var tithiIndex=shuklaTithiIndex(p)");
+  const invalidGuard = generator.indexOf("if(tithiIndex===null)continue;");
+  const recognizedFlag = generator.indexOf("recognized=true;");
+  const eventCreation = generator.indexOf("makeDynamicNavratriEvent(");
+  assert.ok(tithiCheck >= 0, "generator must calculate the Shukla tithi index");
+  assert.ok(invalidGuard > tithiCheck, "invalid/non-Shukla tithis must be skipped");
+  assert.ok(recognizedFlag > invalidGuard, "Krishna paksha alone must not mark Navratri as recognized");
+  assert.ok(eventCreation > recognizedFlag, "only then may a dynamic Navratri event be created");
+});
+
