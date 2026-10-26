@@ -215,7 +215,8 @@ const rules = {
         status: "calculated",
         time: sunrise,
         date: sunrise,
-        note: "द्वादशी तिथि सूर्योदय से पहले समाप्त हो चुकी है। इस अपवाद में पारण सूर्योदय के तुरंत बाद करें; अपनी मान्य परंपरा के पंचांग से पुष्टि करें।"
+        dateLabel: new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric" }).format(sunrise),
+        note: "द्वादशी तिथि सूर्योदय से पहले समाप्त हो चुकी है. इस अपवाद में पारण सूर्योदय के तुरंत बाद करें; अपनी मान्य परंपरा के पंचांग से पुष्टि करें।"
       };
     }
 
@@ -244,6 +245,7 @@ const rules = {
         ...morning,
         status: "calculated",
         date: sunrise,
+        dateLabel: new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric" }).format(sunrise),
         note: "हरिवासर (द्वादशी का प्रथम चौथाई भाग) समाप्त होने के बाद और द्वादशी तिथि के भीतर पारण करें। प्रातःकाल को प्राथमिकता दें; मध्याह्न में पारण न करें।"
       };
     }
