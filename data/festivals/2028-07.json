@@ -1,4 +1,4 @@
-..{
+{
   "schemaVersion": 1,
   "year": 2028,
   "month": 7,
@@ -13,7 +13,8 @@
       "description": "देवशयनी एकादशी पर भगवान विष्णु के योगनिद्रा में जाने का स्मरण किया जाता है; चातुर्मास-व्रत का आरम्भ इससे जुड़ा है। पारण द्वादशी और हरिवासर के नियमों से तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-07-06",
@@ -40,7 +41,8 @@
       "description": "कामिका एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-07-22",
