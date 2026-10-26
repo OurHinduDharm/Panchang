@@ -87,6 +87,8 @@
   var panchangCache=new Map();
   // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
   var selectedLocationInSession=null;
+  var defaultLocationElevation=1650;
+  var defaultElevationFromDem=false;
   // मुहूर्त मॉड्यूल वैकल्पिक रूप से लोड हो; इसके विफल होने पर खोज/फ़िल्टर बंद न हों।
   var muhurtaModulePromise=import("https://ourhindudharm.github.io/Panchang/festival-muhurta.js").catch(function(error){
     console.warn("Festival muhurta module unavailable:",error);return null;
@@ -101,11 +103,11 @@
         state:selectedLocationInSession.state||"",city:selectedLocationInSession.city||""
       };
     }
-    return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:1650,state:"उत्तराखंड",city:"पिथौरागढ़"};
+    return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:defaultLocationElevation,state:"उत्तराखंड",city:"पिथौरागढ़"};
   }
   function syncLocationUI(){
     var location=getLocalLocation();
-    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name;
+    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name+((selectedLocationInSession||defaultElevationFromDem)?" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM":"");
     if(!locationInput.value) locationInput.value=location.city||location.name||"";
   }
   async function getTerrainElevation(lat,lon){
@@ -646,5 +648,14 @@
   ensureYearOption(initialDate.getFullYear());
   yearSelect.value=String(initialDate.getFullYear());
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
-  loadMonth();
+  (async function(){
+    try{
+      defaultLocationElevation=await getTerrainElevation(29.5828,80.2182);
+      defaultElevationFromDem=true;
+    }catch(error){
+      console.warn("Default location elevation unavailable; using configured elevation.",error);
+    }
+    syncLocationUI();
+    loadMonth();
+  })();
 })();
