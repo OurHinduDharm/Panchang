@@ -81,3 +81,41 @@ test("missing tithi intervals never produce an invented parana time", () => {
   assert.equal(result.time, undefined);
   assert.equal(result.start, undefined);
 });
+
+
+test("Diwali returns Pradosh and special Nishita options only during Amavasya", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const sunset = date("2026-11-08T17:30:00+05:30");
+  const nextSunrise = date("2026-11-09T06:20:00+05:30");
+  const context = {
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 29,
+      name: "Amavasya",
+      startTime: date("2026-11-08T11:27:00+05:30"),
+      endTime: date("2026-11-09T12:31:00+05:30")
+    }],
+    sthirLagnaWindows: []
+  };
+  const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, context);
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 2);
+  assert.match(result.windows[0].label, /प्रदोष काल/);
+  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T19:54:00+05:30").toISOString());
+  assert.match(result.windows[1].label, /महानिशीथ/);
+});
+
+test("Diwali does not invent a puja window when Amavasya interval is missing", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const result = getFestivalMuhurta({
+    muhurtaRule: "diwali-lakshmi-puja"
+  }, {
+    sunset: date("2026-11-08T17:30:00+05:30"),
+    nextSunrise: date("2026-11-09T06:20:00+05:30"),
+    tithis: []
+  });
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.windows, undefined);
+});
