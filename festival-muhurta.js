@@ -310,6 +310,86 @@ const rules = {
     };
   },
 
+  "dhanteras-muhurta"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const tithis = collectNamedIntervals(context.tithis, item => {
+      const index = tithiIndex(item);
+      return index === 12 || index === 27 || /trayodashi|त्रयोदशी/.test(normalizedName(item));
+    });
+    if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !tithis.length) {
+      return {
+        label: "धनतेरस — खरीदारी और पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्योदय-सूर्यास्त और त्रयोदशी की वास्तविक समय-सीमा उपलब्ध नहीं है; अनुमानित मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+
+    const windows = [];
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    const weekday = localWeekday(context.date);
+    const sequences = [
+      ["Udveg","Chal","Labh","Amrit","Kaal","Shubh","Rog","Udveg"],
+      ["Amrit","Kaal","Shubh","Rog","Udveg","Chal","Labh","Amrit"],
+      ["Rog","Udveg","Chal","Labh","Amrit","Kaal","Shubh","Rog"],
+      ["Labh","Amrit","Kaal","Shubh","Rog","Udveg","Chal","Labh"],
+      ["Shubh","Rog","Udveg","Chal","Labh","Amrit","Kaal","Shubh"],
+      ["Chal","Labh","Amrit","Kaal","Shubh","Rog","Udveg","Chal"],
+      ["Kaal","Shubh","Rog","Udveg","Chal","Labh","Amrit","Kaal"]
+    ];
+    const names = { Amrit: "अमृत चौघड़िया", Shubh: "शुभ चौघड़िया", Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया" };
+    const favorable = new Set(["Amrit","Shubh","Labh","Chal"]);
+    if (dayDuration > 0 && Number.isInteger(weekday) && sequences[weekday]) {
+      for (let i = 0; i < 8; i++) {
+        const kind = sequences[weekday][i];
+        if (!favorable.has(kind)) continue;
+        const start = new Date(sunrise.getTime() + dayDuration * i / 8);
+        const end = new Date(sunrise.getTime() + dayDuration * (i + 1) / 8);
+        const overlap = windowWithin(start, end, tithis, names[kind], "दिनमान के आठ बराबर भागों पर आधारित स्थानीय चौघड़िया; त्रयोदशी-व्याप्ति के भीतर।");
+        if (overlap) windows.push(overlap);
+      }
+    }
+
+    if (!windows.length) {
+      const purchase = windowWithin(sunrise, sunset, tithis, "खरीदारी — त्रयोदशी-व्याप्ति", "यह समय केवल स्थानीय दिनमान और त्रयोदशी के साझा भाग को दर्शाता है; चौघड़िया उपलब्ध न होने से इसे विशेष चौघड़िया मुहूर्त न मानें।");
+      if (purchase) windows.push(purchase);
+    }
+
+    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const pradosh = windowWithin(sunset, pradoshEnd, tithis, "धनतेरस पूजा — प्रदोष काल", "त्रयोदशी और स्थानीय प्रदोष काल का साझा समय; धन्वन्तरि, लक्ष्मी-कुबेर पूजन और यमदीप की परंपराएँ क्षेत्रानुसार भिन्न हो सकती हैं।");
+    const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
+      /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
+      validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
+    );
+    if (pradosh && fixedLagna) {
+      const fixed = interval(
+        laterDate(pradosh.start, validDate(fixedLagna.start)),
+        earlierDate(pradosh.end, validDate(fixedLagna.end)),
+        "प्राथमिक पूजा विकल्प — वृषभ स्थिर लग्न",
+        "त्रयोदशी, प्रदोष और उपलब्ध वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+      );
+      if (fixed) windows.push(fixed);
+    }
+    if (pradosh) windows.push(pradosh);
+
+    if (!windows.length) {
+      return {
+        label: "धनतेरस — खरीदारी और पूजा मुहूर्त",
+        status: "unavailable",
+        message: "त्रयोदशी के साथ कोई उपयुक्त खरीदारी या प्रदोष-पूजा समय नहीं मिला। स्थानीय पंचांग से पुष्टि करें।"
+      };
+    }
+    return {
+      label: "धनतेरस — खरीदारी और पूजा मुहूर्त",
+      status: "calculated",
+      date: sunrise,
+      dateLabel: formatDateLabel(sunrise),
+      windows,
+      note: "खरीदारी के लिए त्रयोदशी-व्याप्ति में शुभ चौघड़िया विकल्प दिखाए गए हैं। पूजा का समय स्थानीय प्रदोष और त्रयोदशी के साझा भाग से निकाला गया है; वृषभ स्थिर लग्न तभी दिखेगा जब स्थानीय गणना उपलब्ध हो।"
+    };
+  },
+
   "diwali-lakshmi-puja"(context) {
     const sunset = validDate(context.sunset);
     const nextSunrise = validDate(context.nextSunrise);
@@ -323,7 +403,7 @@ const rules = {
     }
 
     const pradoshStart = sunset;
-    const pradoshEnd = new Date(sunset.getTime() + 144 * 60 * 1000);
+    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
     const pradosh = windowWithin(
       pradoshStart, pradoshEnd, tithis,
       "मुख्य लक्ष्मी-गणेश पूजन — प्रदोष काल",
