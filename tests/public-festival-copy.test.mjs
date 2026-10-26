@@ -27,6 +27,7 @@ test("city selection obtains terrain elevation instead of hardcoding zero metres
   for (const source of [widget, html]) {
     assert.match(source, /api\.open-meteo\.com\/v1\/elevation/);
     assert.match(source, /selected\.elevation=await getTerrainElevation\(selected\.lat,selected\.lon\)/);
+    assert.match(source, /defaultLocationElevation=await getTerrainElevation\(29\.5828,80\.2182\)/);
     assert.doesNotMatch(source, /lat:Number\(place\.lat\),lon:Number\(place\.lon\),elevation:0/);
   }
 });
