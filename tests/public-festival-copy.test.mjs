@@ -13,7 +13,7 @@ test("public yearly festival descriptions do not send users to another Panchang 
     const data = JSON.parse(await readFile(new URL(file, directory), "utf8"));
     for (const event of data.events || []) {
       const description = String(event.description || "");
-      if (forbiddenPublicCopy.test(description)) {
+      if (forbiddenPublicCopy.test(description) || /(?:\b(?:पारण|पूजा|तिथि|व्रत) की|(?:इसलिए|क्योंकि|तथा|और))\s*[।.]?$/.test(description) || /\.\./.test(description)) {
         violations.push({ file, date: event.date, title: event.title, description });
       }
     }
