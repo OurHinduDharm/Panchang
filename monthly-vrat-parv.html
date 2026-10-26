@@ -286,10 +286,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         box.style.marginTop="7px";box.style.padding="8px 9px";box.style.borderRadius="8px";box.style.background="#fff8e9";
         var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
         var detail=document.createElement("div");
+        var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
         if(result.status==="calculated"&&result.time){
-          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
+          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
-          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
+          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
         }else{
           detail.textContent=result.message||"मुहूर्त उपलब्ध नहीं है।";
         }
