@@ -61,7 +61,8 @@
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियम देखकर स्थानीय पंचांग से तय करें। तारीख़ और स्थानीय व्रत-निर्णय की पुष्टि अभी बाकी है।",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "hinduTithi": "फाल्गुन कृष्ण एकादशी"
+      "hinduTithi": "फाल्गुन कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2026-02-15",
@@ -88,7 +89,8 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html\" target=\"_blank\">आमलकी एकादशी</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "hinduTithi": "फाल्गुन शुक्ल एकादशी"
+      "hinduTithi": "फाल्गुन शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     }
   ]
 }
