@@ -524,9 +524,11 @@
       var readableTithi=(typeof rawTithiValue==="number"&&Number.isFinite(rawTithiValue)&&rawTithiValue>=0&&rawTithiValue<=29)||
         /प्रतिपदा|द्वितीया|तृतीया|चतुर्थी|पंचमी|षष्ठी|सप्तमी|अष्टमी|नवमी|दशमी|pratipada|dvitiya|tritiya|chaturthi|panchami|shashthi|saptami|ashtami|navami|dashami/i.test(String(rawTithiValue||""));
       if(!readableTithi)continue;
-      recognized=true;
       var tithiIndex=shuklaTithiIndex(p);
+      // केवल वैध शुक्ल प्रतिपदा–दशमी मिलने पर ही पुराने नवरात्र-दिनों को बदलें।
+      // मास में कृष्ण-पक्ष तिथियाँ होना अपने-आप में नवरात्रि की पहचान नहीं है।
       if(tithiIndex===null)continue;
+      recognized=true;
       var item=makeDynamicNavratriEvent(iso,family,tithiIndex,(values.location&&values.location.name)||"चुना हुआ स्थान");
       if(item)found.push(item);
     }
