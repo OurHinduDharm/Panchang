@@ -350,6 +350,23 @@ function formatEventDate(
   ).format(date);
 }
 
+/* समय केवल कोणीय-सीमा पार करने का अनुमान है; यह स्थानीय दृश्यता का समय नहीं है। */
+function formatEventDateTime(instant) {
+  if (!(instant instanceof Date) || !Number.isFinite(instant.getTime())) {
+    return "—";
+  }
+
+  return new Intl.DateTimeFormat("hi-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  }).format(instant);
+}
+
 
 /* =========================================
    Local noon
@@ -434,6 +451,28 @@ function getPlanetDailyData(body, dateString) {
   return data;
 }
 
+function findThresholdCrossingInstant(body, startDateString, endDateString, threshold, eventType) {
+  let low = new Date(`${startDateString}T12:00:00+05:30`).getTime();
+  let high = new Date(`${endDateString}T12:00:00+05:30`).getTime();
+  if (!Number.isFinite(low) || !Number.isFinite(high) || high <= low) return null;
+
+  const isPastThreshold = value =>
+    eventType === "asta" ? value <= threshold : value > threshold;
+
+  // Daily scan locates the crossing; bisection refines it to about one minute.
+  for (let i = 0; i < 18 && high - low > 60_000; i++) {
+    const middle = (low + high) / 2;
+    const result = Elongation(body, new Date(middle));
+    const separation = Number(result.ecliptic_separation);
+    if (!Number.isFinite(separation)) return null;
+
+    if (isPastThreshold(separation)) high = middle;
+    else low = middle;
+  }
+
+  return new Date((low + high) / 2);
+}
+
 function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
   const selected = getPlanetDailyData(body, selectedDate);
   if (!Number.isFinite(selected.eclipticSeparation)) return null;
@@ -462,8 +501,12 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
 
     // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
     if (matches(pastA, pastB)) {
+      const instant = findThresholdCrossingInstant(
+        body, pastA.date, pastB.date, threshold, eventType
+      );
       return {
         date: pastB.date,
+        instant,
         degree: pastB.eclipticSeparation,
         threshold,
         direction: "past"
@@ -471,8 +514,12 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
     }
 
     if (matches(futureA, futureB)) {
+      const instant = findThresholdCrossingInstant(
+        body, futureA.date, futureB.date, threshold, eventType
+      );
       return {
         date: futureB.date,
+        instant,
         degree: futureB.eclipticSeparation,
         threshold,
         direction: "future"
@@ -507,9 +554,9 @@ function getPlanetEvent(planet, selectedDate) {
 
     return {
       name: planet.name,
-      asta: asta ? formatEventDate(asta.date) : null,
+      asta: asta ? formatEventDateTime(asta.instant) : null,
       astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
-      udaya: udaya ? formatEventDate(udaya.date) : null,
+      udaya: udaya ? formatEventDateTime(udaya.instant) : null,
       udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
       verificationPending: true
     };
@@ -543,8 +590,9 @@ function createPlanetCard(
 
     <p class="planet-rise-set-note" style="margin:8px 0 14px;padding:10px 12px;border-left:3px solid #b7791f;background:rgba(183,121,31,.08);font-size:.92em;line-height:1.5">
       नीचे दी गई तिथियाँ आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना हैं।
-      ये सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु (K/C) गणना, पंचांग की प्रमाणित शास्त्रीय तिथि,
-      या स्थानीय आँखों से दृश्यता का दावा नहीं हैं। प्रयुक्त कोणीय सीमाएँ भी सत्यापनाधीन हैं।
+      प्रत्येक सीमा-पार समय को उस दिन-स्तरीय अंतराल के भीतर लगभग एक मिनट तक परिशोधित किया जाता है।
+      यह सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु (K/C) गणना, प्रमाणित शास्त्रीय तिथि,
+      या स्थानीय आँखों से दृश्यता का दावा नहीं है। प्रयुक्त कोणीय सीमाएँ भी सत्यापनाधीन हैं।
     </p>
 
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
