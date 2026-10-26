@@ -169,11 +169,15 @@ test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", 
   const result = getFestivalMuhurta({ muhurtaRule: "dhanteras-muhurta" }, context);
   assert.equal(result.status, "calculated");
   const shopping = result.windows.filter(w => /चौघड़िया/.test(w.label));
-  assert.equal(shopping.length, 3);
+  assert.equal(shopping.length, 7);
   assert.equal(shopping[0].start.toISOString(), date("2026-11-06T10:30:00+05:30").toISOString());
   assert.equal(shopping[0].end.toISOString(), date("2026-11-06T10:43:00+05:30").toISOString());
   assert.equal(shopping[1].start.toISOString(), date("2026-11-06T12:05:00+05:30").toISOString());
   assert.equal(shopping[1].end.toISOString(), date("2026-11-06T13:27:00+05:30").toISOString());
+  assert.equal(shopping[2].start.toISOString(), date("2026-11-06T16:11:00+05:30").toISOString());
+  assert.equal(shopping[3].start.toISOString(), date("2026-11-06T20:49:00+05:30").toISOString());
+  assert.equal(shopping[3].end.toISOString(), date("2026-11-06T22:27:00+05:30").toISOString());
+  assert.equal(shopping[4].start.toISOString(), date("2026-11-07T00:05:00+05:30").toISOString());
   assert.ok(result.windows.some(w => /वृषभ स्थिर लग्न/.test(w.label)));
   assert.ok(result.windows.some(w => /धनतेरस पूजा/.test(w.label)));
   assert.ok(result.windows.every(w => w.end > w.start));
