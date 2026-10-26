@@ -105,8 +105,17 @@
   }
   function syncLocationUI(){
     var location=getLocalLocation();
-    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name;
+    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name+" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM";
     if(!locationInput.value) locationInput.value=location.city||location.name||"";
+  }
+  async function getTerrainElevation(lat,lon){
+    var url="https://api.open-meteo.com/v1/elevation?latitude="+encodeURIComponent(lat)+"&longitude="+encodeURIComponent(lon);
+    var response=await fetch(url,{headers:{"Accept":"application/json"}});
+    if(!response.ok) throw new Error("Elevation_HTTP_"+response.status);
+    var data=await response.json();
+    var elevation=Array.isArray(data.elevation)?Number(data.elevation[0]):NaN;
+    if(!Number.isFinite(elevation)) throw new Error("Elevation data unavailable");
+    return elevation;
   }
   async function searchLocation(){
     var query=locationInput.value.trim();
@@ -133,11 +142,11 @@
         button.type="button";
         button.setAttribute("role","option");
         button.textContent=place.display_name||place.name||query;
-        button.addEventListener("click",function(){
+        button.addEventListener("click",async function(){
           var address=place.address||{};
           var selected={
             name:place.display_name||place.name||query,
-            lat:Number(place.lat),lon:Number(place.lon),elevation:0,
+            lat:Number(place.lat),lon:Number(place.lon),elevation:null,
             state:address.state||address.state_district||address.region||"",
             city:address.city||address.town||address.village||address.municipality||place.name||query
           };
@@ -145,11 +154,21 @@
             locationStatus.textContent="इस परिणाम के निर्देशांक उपलब्ध नहीं हैं। दूसरा परिणाम चुनें।";
             return;
           }
+          button.disabled=true;
+          locationStatus.textContent="चुने गए स्थान की ऊँचाई प्राप्त की जा रही है…";
+          try{
+            selected.elevation=await getTerrainElevation(selected.lat,selected.lon);
+          }catch(error){
+            console.warn("Location elevation unavailable:",error);
+            locationStatus.textContent="इस स्थान की ऊँचाई का डेटा अभी नहीं मिल सका। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
+            button.disabled=false;
+            return;
+          }
           selectedLocationInSession=selected;
           panchangCache.clear();
           locationInput.value=selected.city||selected.name;
           locationSuggestions.replaceChildren();
-          locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+"।";
+          locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM";
           loadMonth();
         });
         locationSuggestions.appendChild(button);
@@ -629,4 +648,3 @@
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
   loadMonth();
 })();
-
