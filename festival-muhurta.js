@@ -351,6 +351,30 @@ const rules = {
       }
     }
 
+    // Night Choghadiya begins at local sunset. Its weekday sequence differs
+    // from the daytime sequence; include only favourable slots overlapping Trayodashi.
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const nightSequences = [
+      ["Shubh","Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh"],
+      ["Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh","Amrit"],
+      ["Chal","Rog","Kaal","Labh","Udveg","Shubh","Amrit","Chal"],
+      ["Labh","Udveg","Shubh","Amrit","Chal","Rog","Kaal","Labh"],
+      ["Shubh","Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh"],
+      ["Rog","Kaal","Labh","Udveg","Shubh","Amrit","Chal","Rog"],
+      ["Kaal","Labh","Udveg","Shubh","Amrit","Chal","Rog","Kaal"]
+    ];
+    if (nightDuration > 0 && Number.isInteger(weekday) && nightSequences[weekday]) {
+      for (let i = 0; i < 8; i++) {
+        const kind = nightSequences[weekday][i];
+        if (!favorable.has(kind)) continue;
+        const start = new Date(sunset.getTime() + nightDuration * i / 8);
+        const end = new Date(sunset.getTime() + nightDuration * (i + 1) / 8);
+        const overlap = windowWithin(start, end, tithis, names[kind], "रात्रिमान के आठ बराबर भागों पर आधारित स्थानीय चौघड़िया; त्रयोदशी-व्याप्ति के भीतर।");
+        if (overlap) windows.push(overlap);
+      }
+    }
+    windows.sort((a, b) => a.start - b.start);
+
     if (!windows.length) {
       const purchase = windowWithin(sunrise, sunset, tithis, "खरीदारी — त्रयोदशी-व्याप्ति", "यह समय केवल स्थानीय दिनमान और त्रयोदशी के साझा भाग को दर्शाता है; चौघड़िया उपलब्ध न होने से इसे विशेष चौघड़िया मुहूर्त न मानें।");
       if (purchase) windows.push(purchase);
