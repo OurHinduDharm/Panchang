@@ -39,7 +39,8 @@
       "description": "उत्पन्ना एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-11-15",
@@ -84,7 +85,8 @@
       "description": "मोक्षदा एकादशी मार्गशीर्ष शुक्ल एकादशी का व्रत है और गीता जयंती से भी जुड़ी है। भगवद्गीता-पाठ, विष्णु-पूजन और दान की परंपरा है.",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     }
   ]
 }
