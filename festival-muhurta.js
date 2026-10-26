@@ -215,7 +215,7 @@ const rules = {
     return {
       label: "घटस्थापना मुहूर्त",
       status: "unavailable",
-      message: "प्रतिपदा-व्याप्ति में उपयुक्त स्थानीय समय नहीं मिला; तिथि और योग का निर्णय पंचांग पृष्ठ में जाकर देखें।"
+      message: "प्रतिपदा-व्याप्ति में उपयुक्त समय उपलब्ध नहीं है; आवश्यक तिथि और योग-अवधि के बिना मुहूर्त अनुमानित नहीं किया जाएगा।"
     };
   },
 
@@ -381,7 +381,7 @@ const rules = {
     }
 
     const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
-    const pradosh = windowWithin(sunset, pradoshEnd, tithis, "धनतेरस पूजा — प्रदोष काल", "त्रयोदशी और स्थानीय प्रदोष काल का साझा समय; धन्वन्तरि, लक्ष्मी-कुबेर पूजन और यमदीप की परंपराएँ क्षेत्रानुसार भिन्न हो सकती हैं।");
+    const pradosh = windowWithin(sunset, pradoshEnd, tithis, "धनतेरस पूजा — प्रदोष काल", "त्रयोदशी-व्याप्ति और प्रदोष काल का साझा समय।");
     const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
       /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
       validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
