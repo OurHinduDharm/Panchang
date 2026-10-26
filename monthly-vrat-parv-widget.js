@@ -182,11 +182,68 @@
       var nextDate=new Date(date);nextDate.setDate(nextDate.getDate()+1);
       var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330});
       var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330});
-      return {p:p,next:next,location:location,date:date};
+      return {p:p,next:next,location:location,date:date,panchangLib:panchangLib,observer:observer};
     });
     panchangCache.set(cacheKey,promise);
     return promise;
   }
+  function getLagnaIndex(p){
+    var value=p&&p.udayaLagna;
+    if(value&&typeof value==="object"){
+      var raw=value.index??value.number??value.value??value.name??value.label;
+      if(raw!==undefined)value=raw;
+    }
+    if(typeof value==="number"&&Number.isFinite(value))return value;
+    var name=String(value??"").normalize("NFC").toLocaleLowerCase("hi");
+    if(/vrishabha|वृषभ|taurus/.test(name))return 1;
+    if(/simha|सिंह|leo/.test(name))return 4;
+    var numeric=Number(value);
+    return Number.isInteger(numeric)?numeric:null;
+  }
+  function getStiraLagnaWindows(lib,observer,startValue,endValue){
+    var start=new Date(startValue),end=new Date(endValue);
+    if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<=start||
+       !lib||typeof lib.getPanchangam!=="function")return [];
+    function signAt(ms){
+      try{return getLagnaIndex(lib.getPanchangam(new Date(ms),observer,{timezoneOffset:330}));}
+      catch(_){return null;}
+    }
+    var step=5*60*1000,points=[];
+    for(var t=start.getTime();t<end.getTime();t+=step)points.push(t);
+    points.push(end.getTime());
+    var signs=points.map(signAt),segments=[],segmentStart=null,segmentSign=null;
+    function boundary(left,right,target){
+      var leftMatches=signAt(left)===target;
+      while(right-left>30000){
+        var mid=Math.floor((left+right)/2);
+        if((signAt(mid)===target)===leftMatches)left=mid;else right=mid;
+      }
+      return right;
+    }
+    for(var i=0;i<points.length;i++){
+      var sign=signs[i];
+      if(i===0){
+        if(sign===1||sign===4){segmentStart=points[i];segmentSign=sign;}
+        continue;
+      }
+      var prev=signs[i-1],prevTime=points[i-1],time=points[i];
+      if(prev===sign)continue;
+      if((prev===1||prev===4)&&segmentStart!==null){
+        var segEnd=boundary(prevTime,time,prev);
+        segments.push({name:prev===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:new Date(segEnd)});
+        segmentStart=null;segmentSign=null;
+      }
+      if(sign===1||sign===4){
+        segmentStart=boundary(prevTime,time,sign);
+        segmentSign=sign;
+      }
+    }
+    if(segmentStart!==null&&(segmentSign===1||segmentSign===4)){
+      segments.push({name:segmentSign===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:end});
+    }
+    return segments;
+  }
+
   async function appendMuhurta(item,dateIso,content,token){
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
     if(!ruleIds.length) return;
@@ -207,6 +264,18 @@
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja";})){
+        var sunset=new Date(values.p.sunset);
+        var nextSunrise=new Date(values.next.sunrise);
+        var pradoshEnd=new Date(sunset.getTime()+144*60*1000);
+        var nightDuration=nextSunrise.getTime()-sunset.getTime();
+        var nishitaStart=new Date(sunset.getTime()+nightDuration*7/15);
+        var nishitaEnd=new Date(sunset.getTime()+nightDuration*8/15);
+        context.sthirLagnaWindows=[
+          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd),
+          ...getStiraLagnaWindows(values.panchangLib,values.observer,nishitaStart,nishitaEnd)
+        ];
+      }
       usableRules.forEach(function(ruleItem){
         var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);
         if(!result) return;
@@ -215,7 +284,17 @@
         var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
         var detail=document.createElement("div");
         var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
-        if(result.status==="calculated"&&result.time){
+        if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
+          result.windows.forEach(function(windowItem){
+            var row=document.createElement("div");row.style.marginTop="5px";
+            var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
+            var time=document.createElement("div");
+            time.textContent=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
+            row.appendChild(time);
+            if(windowItem.note){var windowNote=document.createElement("div");windowNote.style.fontSize="12px";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
+            detail.appendChild(row);
+          });
+        }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
