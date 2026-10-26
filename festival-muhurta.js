@@ -83,6 +83,45 @@ function tithiIndex(value) {
   return null;
 }
 
+function isAmavasya(value) {
+  const name = normalizedName(value);
+  if (/amavasya|अमावस्या/.test(name)) return true;
+  const raw = value && typeof value === "object"
+    ? value.index ?? value.number ?? value.value
+    : value;
+  return Number(raw) === 29;
+}
+
+function collectNamedIntervals(list, predicate) {
+  if (!Array.isArray(list)) return [];
+  return list.flatMap(item => {
+    if (!item || !predicate(item)) return [];
+    const start = validDate(item.startTime ?? item.start);
+    const end = validDate(item.endTime ?? item.end);
+    return start && end && end > start ? [{ start, end, item }] : [];
+  }).sort((a, b) => a.start - b.start);
+}
+
+function intersectIntervals(a, b, label, note) {
+  if (!a || !b) return null;
+  return interval(laterDate(a.start, b.start), earlierDate(a.end, b.end), label, note);
+}
+
+function windowWithin(start, end, intervals, label, note) {
+  for (const candidate of intervals) {
+    const result = intersectIntervals({ start, end }, candidate, label, note);
+    if (result) return result;
+  }
+  return null;
+}
+
+function formatDateLabel(dateValue) {
+  const date = validDate(dateValue);
+  return date ? new Intl.DateTimeFormat("hi-IN", {
+    timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric"
+  }).format(date) : "";
+}
+
 function collectTithiIntervals(...lists) {
   const intervals = [];
   for (const list of lists) {
@@ -268,6 +307,79 @@ const rules = {
       label: "एकादशी पारण काल",
       status: "unavailable",
       message: "हरिवासर, सूर्योदय, मध्याह्न और द्वादशी-समाप्ति को मिलाने पर कोई विश्वसनीय पारण-अवधि नहीं मिली। स्थानीय पंचांग/परंपरा से निर्णय लें।"
+    };
+  },
+
+  "diwali-lakshmi-puja"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const tithis = collectNamedIntervals(context.tithis, item => isAmavasya(item) || isAmavasya(item.name));
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !tithis.length) {
+      return {
+        label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक समय-सीमा उपलब्ध नहीं है।"
+      };
+    }
+
+    const pradoshStart = sunset;
+    const pradoshEnd = new Date(sunset.getTime() + 144 * 60 * 1000);
+    const pradosh = windowWithin(
+      pradoshStart, pradoshEnd, tithis,
+      "मुख्य लक्ष्मी-गणेश पूजन — प्रदोष काल",
+      "कार्तिक अमावस्या और सूर्यास्त के बाद के प्रदोष काल का साझा समय।"
+    );
+
+    const windows = [];
+    const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
+      /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
+      validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
+    );
+    if (fixedLagna && pradosh) {
+      const lagnaWindow = interval(
+        laterDate(pradosh.start, validDate(fixedLagna.start)),
+        earlierDate(pradosh.end, validDate(fixedLagna.end)),
+        "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न",
+        "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+      );
+      if (lagnaWindow) windows.push(lagnaWindow);
+    }
+    if (pradosh) {
+      windows.push({
+        ...pradosh,
+        label: fixedLagna && windows.length
+          ? "प्रदोष काल में वैकल्पिक पूजन"
+          : "लक्ष्मी-गणेश पूजन — प्रदोष काल",
+        note: fixedLagna && windows.length
+          ? "यदि मुख्य वृषभ लग्न का समय सुविधाजनक न हो, तो अमावस्या-व्याप्ति वाले प्रदोष काल में अपनी परंपरा के अनुसार पूजा करें।"
+          : "गृहस्थों के लक्ष्मी-गणेश पूजन के लिए प्रदोष काल प्राथमिक विकल्प है। स्थिर लग्न की पुष्टि अलग से उपलब्ध न होने पर इसे वृषभ लग्न का मुहूर्त न मानें।"
+      });
+    }
+
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const nishitaStart = new Date(sunset.getTime() + nightDuration * 7 / 15);
+    const nishitaEnd = new Date(sunset.getTime() + nightDuration * 8 / 15);
+    const nishita = windowWithin(
+      nishitaStart, nishitaEnd, tithis,
+      "महानिशीथ काल — विशेष परंपराओं के लिए",
+      "यह मध्यरात्रि के निकट का विशेष काल है; सामान्य गृहस्थ लक्ष्मी पूजन के लिए प्रदोष काल को प्राथमिकता दें।"
+    );
+    if (nishita) windows.push(nishita);
+
+    if (!windows.length) {
+      return {
+        label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+        status: "unavailable",
+        message: "चुने हुए स्थान पर प्रदोष/निशीथ काल और अमावस्या की व्याप्ति में कोई साझा समय नहीं मिला। स्थानीय पंचांग से पुष्टि करें।"
+      };
+    }
+    return {
+      label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+      status: "calculated",
+      date: sunset,
+      dateLabel: formatDateLabel(sunset),
+      windows,
+      note: "समय चुने हुए स्थान के सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक व्याप्ति से निकाला गया है। वृषभ स्थिर लग्न तभी दिखेगा जब उसके स्थानीय समय उपलब्ध हों।"
     };
   },
 
