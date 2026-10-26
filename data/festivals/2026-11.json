@@ -4,7 +4,7 @@
   "month": 11,
   "monthName": "नवंबर",
   "status": "approved",
-  "locationScope": "प्रारंभिक डेटा; स्थानीय पंचांग से समीक्षा आवश्यक",
+  "locationScope": "प्रारंभिक डेटा; गणना-समीक्षा आवश्यक",
   "events": [
     {
       "date": "2026-11-01",
