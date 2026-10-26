@@ -364,7 +364,22 @@ const rules = {
       "महानिशीथ काल — विशेष परंपराओं के लिए",
       "यह मध्यरात्रि के निकट का विशेष काल है; सामान्य गृहस्थ लक्ष्मी पूजन के लिए प्रदोष काल को प्राथमिकता दें।"
     );
-    if (nishita) windows.push(nishita);
+    const simhaLagna = (context.sthirLagnaWindows || []).find(w =>
+      /simha|सिंह|leo/i.test(String(w.name || w.rashi || "")) &&
+      validDate(w.end) > nishitaStart && validDate(w.start) < nishitaEnd
+    );
+    if (nishita && simhaLagna) {
+      const simhaNishita = interval(
+        laterDate(nishita.start, validDate(simhaLagna.start)),
+        earlierDate(nishita.end, validDate(simhaLagna.end)),
+        "महानिशीथ काल — सिंह स्थिर लग्न",
+        "यह विशेष साधना/तांत्रिक परंपराओं के लिए वैकल्पिक समय है; सामान्य गृहस्थ लक्ष्मी पूजन का प्राथमिक मुहूर्त नहीं।"
+      );
+      if (simhaNishita) windows.push(simhaNishita);
+      else windows.push(nishita);
+    } else if (nishita) {
+      windows.push(nishita);
+    }
 
     if (!windows.length) {
       return {
