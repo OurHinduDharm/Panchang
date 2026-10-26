@@ -156,6 +156,7 @@ test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", 
     sunrise: date("2026-11-06T06:37:00+05:30"),
     sunset: date("2026-11-06T17:32:00+05:30"),
     nextSunrise: date("2026-11-07T06:37:00+05:30"),
+    nextSunset: date("2026-11-07T17:32:00+05:30"),
     tithis: [{
       index: 12,
       name: "Trayodashi",
@@ -169,7 +170,7 @@ test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", 
   const result = getFestivalMuhurta({ muhurtaRule: "dhanteras-muhurta" }, context);
   assert.equal(result.status, "calculated");
   const shopping = result.windows.filter(w => /चौघड़िया/.test(w.label));
-  assert.equal(shopping.length, 7);
+  assert.equal(shopping.length, 8);
   assert.ok(Math.abs(shopping[0].start.getTime() - date("2026-11-06T10:30:00+05:30").getTime()) < 60_000);
   assert.ok(Math.abs(shopping[0].end.getTime() - date("2026-11-06T10:43:00+05:30").getTime()) < 60_000);
   assert.ok(Math.abs(shopping[1].start.getTime() - date("2026-11-06T12:05:00+05:30").getTime()) < 60_000);
@@ -178,6 +179,8 @@ test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", 
   assert.ok(Math.abs(shopping[3].start.getTime() - date("2026-11-06T20:48:00+05:30").getTime()) < 60_000);
   assert.ok(Math.abs(shopping[3].end.getTime() - date("2026-11-06T22:26:00+05:30").getTime()) < 60_000);
   assert.ok(Math.abs(shopping[4].start.getTime() - date("2026-11-07T00:04:00+05:30").getTime()) < 60_000);
+  assert.ok(Math.abs(shopping[7].start.getTime() - date("2026-11-07T07:59:00+05:30").getTime()) < 60_000);
+  assert.ok(Math.abs(shopping[7].end.getTime() - date("2026-11-07T09:21:00+05:30").getTime()) < 60_000);
   const puja = result.windows.find(w => /वृषभ स्थिर लग्न/.test(w.label));
   assert.ok(puja);
   assert.equal(puja.start.toISOString(), date("2026-11-06T18:02:00+05:30").toISOString());
