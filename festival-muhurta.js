@@ -259,6 +259,7 @@ const rules = {
         ...later,
         status: "calculated",
         date: sunrise,
+        dateLabel: new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric" }).format(sunrise),
         note: "प्रातःकाल का उपयुक्त समय उपलब्ध नहीं रहा। मध्याह्न छोड़कर, द्वादशी समाप्त होने से पहले पारण करें; अपनी परंपरा के पंचांग से पुष्टि करें।"
       };
     }
