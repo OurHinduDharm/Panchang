@@ -141,7 +141,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     <a href="https://ourhindudharm.blogspot.com/" target="_blank" rel="noopener noreferrer">OurHinduDharm के धार्मिक लेख</a>
   </div>
 </section>
-<div class="note" id="sourceNote">संबंधित पूजा-विधि और धार्मिक लेखों के लिंक उपलब्ध होने पर दिखेंगे। पर्व की तिथि, स्थानीय चंद्रोदय और मुहूर्त इस पृष्ठ पर चुने गए नगर के अनुसार दिखाए जाते हैं।</div>
+<div class="note" id="sourceNote">संबंधित पूजा-विधि और धार्मिक लेखों के लिंक उपलब्ध होने पर दिखेंगे। पर्व की तिथि, स्थानीय चंद्रोदय और मुहूर्त इस पृष्ठ पर चुने गए नगर के अनुसार दिखाए जाते हैं। स्थान-ऊँचाई डेटा: Open-Meteo / Copernicus DEM।</div>
 <footer><div>OurHinduDharm · मासिक व्रत-पर्व सूची</div></footer>
 </main>
 <script type="module">
@@ -185,7 +185,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   }
   function syncLocationUI(){
     var location=getLocalLocation();
-    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name+" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM";
+    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name;
     if(!locationInput.value) locationInput.value=location.city||location.name||"";
   }
   async function getTerrainElevation(lat,lon){
