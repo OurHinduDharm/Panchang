@@ -24,7 +24,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद कृष्ण एकादशी"
+      "hinduTithi": "भाद्रपद कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-09-11",
@@ -84,7 +85,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल एकादशी"
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-09-21",
