@@ -13,7 +13,8 @@
       "description": "आमलकी एकादशी पर भगवान विष्णु और आँवले के वृक्ष के पूजन की परंपरा है। व्रत-पारण द्वादशी और हरिवासर के नियमों से तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-03-10",
@@ -58,7 +59,8 @@
       "description": "पापमोचनी एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी और हरिवासर के नियम देखकर तय करें। .",
       "category": "एकादशी",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2028-03-26",
