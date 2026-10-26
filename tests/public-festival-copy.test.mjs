@@ -24,10 +24,14 @@ test("public yearly festival descriptions do not send users to another Panchang 
 test("city selection obtains terrain elevation instead of hardcoding zero metres", async () => {
   const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
   const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
+  const engine = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
+  assert.doesNotMatch(engine, /पंचांग पृष्ठ में जाकर देखें|परंपराएँ क्षेत्रानुसार भिन्न/);
   for (const source of [widget, html]) {
     assert.match(source, /api\.open-meteo\.com\/v1\/elevation/);
     assert.match(source, /selected\.elevation=await getTerrainElevation\(selected\.lat,selected\.lon\)/);
     assert.match(source, /defaultLocationElevation=await getTerrainElevation\(29\.5828,80\.2182\)/);
     assert.doesNotMatch(source, /lat:Number\(place\.lat\),lon:Number\(place\.lon\),elevation:0/);
+    assert.match(source, /startDateKey!==dateIso\|\|endDateKey!==dateIso/);
+    assert.match(source, /dateFormatter\.format\(windowItem\.start\)/);
   }
 });
