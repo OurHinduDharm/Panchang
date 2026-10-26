@@ -68,6 +68,41 @@ function earlierDate(a, b) {
   return a.getTime() <= b.getTime() ? a : b;
 }
 
+function tithiIndex(value) {
+  if (value && typeof value === "object") {
+    const raw = value.index ?? value.number ?? value.value;
+    if (raw !== undefined && raw !== null && raw !== "") {
+      const number = Number(raw);
+      if (Number.isInteger(number)) return number;
+    }
+  }
+  const name = normalizedName(value);
+  if (/dwadashi|द्वादशी/.test(name)) return 11;
+  if (/ekadashi|एकादशी/.test(name)) return 10;
+  if (/trayodashi|त्रयोदशी/.test(name)) return 12;
+  return null;
+}
+
+function collectTithiIntervals(...lists) {
+  const intervals = [];
+  for (const list of lists) {
+    if (!Array.isArray(list)) continue;
+    for (const item of list) {
+      if (!item || typeof item !== "object") continue;
+      const index = tithiIndex(item);
+      const start = validDate(item.startTime ?? item.start);
+      const end = validDate(item.endTime ?? item.end);
+      if (index === null || !start || !end || end <= start) continue;
+      if (index !== 11 && index !== 26) continue; // Shukla/Krishna Dwadashi
+      const key = index + "|" + start.getTime() + "|" + end.getTime();
+      if (!intervals.some(existing => existing.key === key)) {
+        intervals.push({ key, index, start, end });
+      }
+    }
+  }
+  return intervals.sort((a, b) => a.start - b.start);
+}
+
 /*
  * Rule IDs are attached to event records as muhurtaRule.
  * Add a new reviewed rule here; do not store location-specific clock times in JSON.
@@ -142,6 +177,94 @@ const rules = {
       label: "घटस्थापना मुहूर्त",
       status: "unavailable",
       message: "प्रतिपदा-व्याप्ति में उपयुक्त स्थानीय समय नहीं मिला; तिथि और योग का निर्णय पंचांग पृष्ठ में जाकर देखें।"
+    };
+  },
+
+
+  "ekadashi-parana"(context) {
+    const sunrise = validDate(context.nextSunrise);
+    const sunset = validDate(context.nextSunset);
+    const tithis = collectTithiIntervals(context.tithis);
+    if (!sunrise || !sunset || sunset <= sunrise || !tithis.length) {
+      return {
+        label: "एकादशी पारण काल",
+        status: "unavailable",
+        message: "पारण के लिए अगले दिन का स्थानीय सूर्योदय, सूर्यास्त और तिथि-अवधि उपलब्ध नहीं है।"
+      };
+    }
+
+    // The event is dated on the fasting day. The Dwadashi interval can start
+    // on that day and continue across the following sunrise.
+    const dwadashi = tithis.find(item =>
+      item.end > new Date(sunrise.getTime() - 36 * 60 * 60 * 1000) &&
+      item.start < new Date(sunrise.getTime() + 36 * 60 * 60 * 1000)
+    );
+    if (!dwadashi) {
+      return {
+        label: "एकादशी पारण काल",
+        status: "unavailable",
+        message: "द्वादशी की वास्तविक शुरुआत और समाप्ति नहीं मिली; अनुमानित पारण समय नहीं दिखाया जा रहा है।"
+      };
+    }
+
+    // If Dwadashi ended before sunrise, traditional calendars allow parana
+    // soon after sunrise as an exception. Do not fabricate a longer window.
+    if (dwadashi.end <= sunrise) {
+      return {
+        label: "एकादशी पारण",
+        status: "calculated",
+        time: sunrise,
+        date: sunrise,
+        note: "द्वादशी तिथि सूर्योदय से पहले समाप्त हो चुकी है। इस अपवाद में पारण सूर्योदय के तुरंत बाद करें; अपनी मान्य परंपरा के पंचांग से पुष्टि करें।"
+      };
+    }
+
+    const duration = dwadashi.end.getTime() - dwadashi.start.getTime();
+    if (!Number.isFinite(duration) || duration <= 0) {
+      return {
+        label: "एकादशी पारण काल",
+        status: "unavailable",
+        message: "द्वादशी की अवधि विश्वसनीय रूप से निर्धारित नहीं हो सकी।"
+      };
+    }
+
+    // Hari Vasara is the first quarter of Dwadashi. Parana cannot begin
+    // before both local sunrise and the end of that quarter.
+    const hariVasaraEnd = new Date(dwadashi.start.getTime() + duration / 4);
+    const earliest = laterDate(sunrise, hariVasaraEnd);
+    const daylight = sunset.getTime() - sunrise.getTime();
+    const madhyahnaStart = new Date(sunrise.getTime() + daylight * 2 / 5);
+    const madhyahnaEnd = new Date(sunrise.getTime() + daylight * 3 / 5);
+
+    // Prefer a morning window, ending when Madhyahna begins or Dwadashi ends.
+    const morningEnd = earlierDate(dwadashi.end, madhyahnaStart);
+    const morning = interval(earliest, morningEnd, "एकादशी पारण काल");
+    if (morning) {
+      return {
+        ...morning,
+        status: "calculated",
+        date: sunrise,
+        note: "हरिवासर (द्वादशी का प्रथम चौथाई भाग) समाप्त होने के बाद और द्वादशी तिथि के भीतर पारण करें। प्रातःकाल को प्राथमिकता दें; मध्याह्न में पारण न करें।"
+      };
+    }
+
+    // If the valid morning window is already gone, avoid Madhyahna and use
+    // a post-Madhyahna window only when Dwadashi still remains in force.
+    const laterStart = laterDate(earliest, madhyahnaEnd);
+    const later = interval(laterStart, dwadashi.end, "एकादशी पारण काल");
+    if (later) {
+      return {
+        ...later,
+        status: "calculated",
+        date: sunrise,
+        note: "प्रातःकाल का उपयुक्त समय उपलब्ध नहीं रहा। मध्याह्न छोड़कर, द्वादशी समाप्त होने से पहले पारण करें; अपनी परंपरा के पंचांग से पुष्टि करें।"
+      };
+    }
+
+    return {
+      label: "एकादशी पारण काल",
+      status: "unavailable",
+      message: "हरिवासर, सूर्योदय, मध्याह्न और द्वादशी-समाप्ति को मिलाने पर कोई विश्वसनीय पारण-अवधि नहीं मिली। स्थानीय पंचांग/परंपरा से निर्णय लें।"
     };
   },
 
@@ -244,7 +367,17 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
     nextSunrise: nextPanchang && nextPanchang.sunrise,
     nextSunset: nextPanchang && nextPanchang.sunset,
     tithi: panchang && panchang.tithi,
+    tithiStartTime: panchang && panchang.tithiStartTime,
     tithiEndTime: panchang && panchang.tithiEndTime,
+    // Transition arrays cover the fast day and the following parana day.
+    // Keep the full intervals: scalar sunrise tithi fields alone are insufficient.
+    tithis: [
+      ...(panchang && Array.isArray(panchang.tithis) ? panchang.tithis : []),
+      ...(nextPanchang && Array.isArray(nextPanchang.tithis) ? nextPanchang.tithis : [])
+    ],
+    nextTithi: nextPanchang && nextPanchang.tithi,
+    nextTithiStartTime: nextPanchang && nextPanchang.tithiStartTime,
+    nextTithiEndTime: nextPanchang && nextPanchang.tithiEndTime,
     nakshatra: panchang && panchang.nakshatra,
     nakshatraEndTime: panchang && panchang.nakshatraEndTime,
     yoga: panchang && panchang.yoga,
