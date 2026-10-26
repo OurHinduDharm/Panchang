@@ -103,7 +103,7 @@ test("Diwali returns Pradosh and special Nishita options only during Amavasya", 
   assert.equal(result.windows.length, 2);
   assert.match(result.windows[0].label, /प्रदोष काल/);
   assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
-  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T19:54:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T20:04:00+05:30").toISOString());
   assert.match(result.windows[1].label, /महानिशीथ/);
 });
 
@@ -146,4 +146,43 @@ test("Diwali prioritizes Vrishabha in Pradosh and offers Simha in Nishita when a
   assert.equal(result.windows[0].start.toISOString(), date("2026-11-08T18:00:00+05:30").toISOString());
   assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T19:00:00+05:30").toISOString());
   assert.match(result.windows[2].label, /सिंह स्थिर लग्न/);
+});
+
+
+test("Dhanteras shows Trayodashi shopping Choghadiya and Pradosh puja windows", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const context = {
+    date: date("2026-11-06T12:00:00+05:30"),
+    sunrise: date("2026-11-06T06:37:00+05:30"),
+    sunset: date("2026-11-06T17:33:00+05:30"),
+    nextSunrise: date("2026-11-07T06:37:00+05:30"),
+    tithis: [{
+      index: 12,
+      name: "Trayodashi",
+      startTime: date("2026-11-06T10:30:00+05:30"),
+      endTime: date("2026-11-07T10:47:00+05:30")
+    }],
+    sthirLagnaWindows: [
+      { name: "Vrishabha", start: date("2026-11-06T18:02:00+05:30"), end: date("2026-11-06T19:57:00+05:30") }
+    ]
+  };
+  const result = getFestivalMuhurta({ muhurtaRule: "dhanteras-muhurta" }, context);
+  assert.equal(result.status, "calculated");
+  assert.ok(result.windows.some(w => /चौघड़िया/.test(w.label)));
+  assert.ok(result.windows.some(w => /वृषभ स्थिर लग्न/.test(w.label)));
+  assert.ok(result.windows.some(w => /धनतेरस पूजा/.test(w.label)));
+  assert.ok(result.windows.every(w => w.end > w.start));
+});
+
+test("Dhanteras does not invent shopping or puja times without Trayodashi", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const result = getFestivalMuhurta({ muhurtaRule: "dhanteras-muhurta" }, {
+    date: date("2026-11-06T12:00:00+05:30"),
+    sunrise: date("2026-11-06T06:37:00+05:30"),
+    sunset: date("2026-11-06T17:33:00+05:30"),
+    nextSunrise: date("2026-11-07T06:37:00+05:30"),
+    tithis: []
+  });
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.windows, undefined);
 });
