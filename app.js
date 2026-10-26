@@ -3657,12 +3657,6 @@ function getAutoSandhyaType(
     return null;
   }
 
-  /*
-   * पहले वास्तविक सूर्य-आधारित संध्या-विंडो जाँचें।
-   * उनके बाहर भी आज के वर्तमान समय के अनुसार एक
-   * उपयुक्त रेडियो विकल्प चुना जाएगा; तुरीय को दिन
-   * के समय का सामान्य fallback नहीं बनाया जाएगा।
-   */
   let nightMuhurtaMs = null;
   const night = praharData?.nightPrahar;
 
@@ -3685,19 +3679,23 @@ function getAutoSandhyaType(
   const sunriseMs = sunrise.getTime();
   const sunsetMs = sunset.getTime();
 
-  /* रात में: सूर्योदय से ठीक पहले प्रातः, सूर्यास्त के ठीक बाद सायं; बाकी रात तुरीय। */
+  /*
+   * केवल पहचानी गई संध्या-विंडो में स्वतः चयन करें।
+   * किसी भी संध्या-विंडो के बाहर null लौटाएँ ताकि
+   * कोई विकल्प (विशेषकर तुरीय) अपने-आप चयनित न हो।
+   */
   if(nowMs < sunriseMs){
     return (
       nightMuhurtaMs &&
       nowMs >= sunriseMs - nightMuhurtaMs
-    ) ? "pratah" : "turiya";
+    ) ? "pratah" : null;
   }
 
   if(nowMs >= sunsetMs){
     return (
       nightMuhurtaMs &&
       nowMs < sunsetMs + nightMuhurtaMs
-    ) ? "sayam" : "turiya";
+    ) ? "sayam" : null;
   }
 
   const dayMs = sunsetMs - sunriseMs;
@@ -3706,41 +3704,11 @@ function getAutoSandhyaType(
   const madhyahnaStart = dayMidpointMs - dayMuhurtaMs / 2;
   const madhyahnaEnd = dayMidpointMs + dayMuhurtaMs / 2;
 
-  /* मध्याह्न की पहचानी गई विंडो को प्राथमिकता दें। */
   if(nowMs >= madhyahnaStart && nowMs < madhyahnaEnd){
     return "madhyahna";
   }
 
-  /*
-   * दिन की बाकी अवधि में सबसे निकट पहचानी गई संध्या-विंडो
-   * के आधार पर विकल्प चुनें। इससे दोपहर/देर-दोपहर में
-   * गलती से तुरीय नहीं चुनेगा। यह UI fallback है, किसी
-   * सार्वभौमिक शास्त्रीय मुहूर्त-सीमा का दावा नहीं।
-   */
-  const windows = [
-    { type: "pratah", start: sunriseMs - (nightMuhurtaMs || 0), end: sunriseMs },
-    { type: "madhyahna", start: madhyahnaStart, end: madhyahnaEnd },
-    { type: "sayam", start: sunsetMs, end: sunsetMs + (nightMuhurtaMs || 0) }
-  ];
-
-  let nearest = windows[0];
-  let nearestDistance = Infinity;
-
-  for(const window of windows){
-    const distance =
-      nowMs < window.start
-        ? window.start - nowMs
-        : nowMs >= window.end
-          ? nowMs - window.end
-          : 0;
-
-    if(distance < nearestDistance){
-      nearest = window;
-      nearestDistance = distance;
-    }
-  }
-
-  return nearest.type;
+  return null;
 }
 /* =========================================================
    KARMA PHRASE (WITHOUT final verb & without अहं)
@@ -3759,9 +3727,11 @@ function getKarmaPhrase(){
         pratah:"प्रातः", madhyahna:"मध्याह्न", sayam:"सायं", turiya:"तुरीय"
       };
 
-      const time = timeMap[st.sandhyaType] || "प्रातः";
+      const time = timeMap[st.sandhyaType];
 
-      return `ममोपात्तसमस्तदुरितक्षयद्वारा ${dev}प्रीत्यर्थं ${time}संध्योपासनं`;
+      return time
+        ? `ममोपात्तसमस्तदुरितक्षयद्वारा ${dev}प्रीत्यर्थं ${time}संध्योपासनं`
+        : `ममोपात्तसमस्तदुरितक्षयद्वारा ${dev}प्रीत्यर्थं [संध्या का समय चुनें]`;
     }
 
     case "daan": {
