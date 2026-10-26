@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी"
+      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-12-10",
@@ -34,7 +35,8 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी"
+      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-12-16",
@@ -64,7 +66,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "पौष कृष्ण एकादशी"
+      "hinduTithi": "पौष कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     }
   ]
 }
