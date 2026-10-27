@@ -499,7 +499,17 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     });
     applyFilters();
   }
-  async function loadMonth(){
+  async function loadMonth(preserveViewportAnchor){
+    var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
+      ?preserveViewportAnchor.getBoundingClientRect().top:null;
+    function restoreViewportAnchor(){
+      if(anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
+      window.requestAnimationFrame(function(){
+        if(!preserveViewportAnchor.isConnected)return;
+        var delta=preserveViewportAnchor.getBoundingClientRect().top-anchorTop;
+        if(Math.abs(delta)>1)window.scrollBy(0,delta);
+      });
+    }
     var token=++requestToken;
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
@@ -513,9 +523,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var data=await response.json();
       if(token!==requestToken)return;
       render(data,year,month,token);
+      restoreViewportAnchor();
     }catch(e){
       if(token!==requestToken)return;
       render({events:[]},year,month,token);
+      restoreViewportAnchor();
     }
   }
   function ensureYearOption(year){
@@ -530,13 +542,13 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       .forEach(function(item){yearSelect.appendChild(item);});
     return option;
   }
-  function shiftMonth(delta){
+  function shiftMonth(delta,preserveViewportAnchor){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
-    loadMonth();
+    loadMonth(preserveViewportAnchor);
   }
   locationSearchBtn.addEventListener("click",searchLocation);
   locationInput.addEventListener("keydown",function(event){
@@ -548,8 +560,8 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   yearSelect.addEventListener("change",loadMonth);
   document.getElementById("prevBtn").addEventListener("click",function(){shiftMonth(-1);});
   document.getElementById("nextBtn").addEventListener("click",function(){shiftMonth(1);});
-  document.getElementById("footerPrevBtn").addEventListener("click",function(){shiftMonth(-1);});
-  document.getElementById("footerNextBtn").addEventListener("click",function(){shiftMonth(1);});
+  document.getElementById("footerPrevBtn").addEventListener("click",function(event){shiftMonth(-1,event.currentTarget);});
+  document.getElementById("footerNextBtn").addEventListener("click",function(event){shiftMonth(1,event.currentTarget);});
   currentMonthBtn.addEventListener("click",function(){
     var now=new Date();
     var year=now.getFullYear();
