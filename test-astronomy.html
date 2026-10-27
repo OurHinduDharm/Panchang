@@ -644,17 +644,16 @@ const REFERENCES = [
   { planet:"Jupiter", event:"Udaya", date:"2027-09-15", sampleTime:"2027-09-15T00:30:00Z", elongation:11.28, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" }
 ];
 
-// Event boundaries transcribed from the user's pasted Drik Panchang text.
-// The pasted excerpt does not identify the selected city/geoname-id; therefore
-// do NOT assume these source times are for Pithoragarh. The panel below computes
-// geometry at CONFIG's observer and is a same-location comparison only after
-// the source location is independently confirmed. Clock times are treated as IST.
+// Event boundaries transcribed from the user's Drik Panchang page.
+// The user has confirmed Pithoragarh was selected. Times are therefore treated
+// as Pithoragarh/IST user-supplied benchmarks, but have not been independently
+// re-fetched from Drik Panchang. The panel computes geometry at CONFIG's
+// Pithoragarh observer; this is a location-aligned comparison, not yet proof
+// that the source's event definition and calculation method are identical.
 
-const DRIK_PITHORAGARH_BOUNDARIES = [
-  // Times below are transcribed from the user's supplied Drik Panchang page.
-  // The pasted page URL does not expose a geoname-id, so retain the user's
-  // Pithoragarh location context but treat this as a user-supplied benchmark,
-  // not an independently re-fetched/verified Drik record.
+const DRIK_USER_SUPPLIED_BOUNDARIES = [
+  // Pithoragarh confirmed by the user; event times remain transcribed inputs,
+  // not independently re-fetched or independently verified source records.
   { planet: "Jupiter", event: "Asta begins — evening boundary", localTime: "2026-07-15T19:49:00" },
   { planet: "Jupiter", event: "Asta ends — morning boundary", localTime: "2026-08-12T04:49:00" },
   { planet: "Venus", event: "Asta begins — evening boundary", localTime: "2026-10-12T18:05:00" },
@@ -4206,7 +4205,7 @@ function runDrikBoundaryAudit() {
   const fmt = value => Number.isFinite(value) ? round(value, 3) + "°" : "—";
   let rows = "";
 
-  for (const ref of DRIK_PITHORAGARH_BOUNDARIES) {
+  for (const ref of DRIK_USER_SUPPLIED_BOUNDARIES) {
     // The supplied strings are local wall-clock times in Pithoragarh (IST).
     const date = new Date(ref.localTime + "+05:30");
     if (Number.isNaN(date.getTime())) throw new Error("Invalid Drik boundary time: " + ref.localTime);
