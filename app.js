@@ -4794,7 +4794,7 @@ function calculatePanchang(){
     const p = getPanchangam(
       date,
       observer,
-      { timezoneOffset:330 }
+      { timezoneOffset:330, calendarType:"purnimanta" }
     );
 
     const referenceNow = (
@@ -4810,7 +4810,7 @@ function calculatePanchang(){
         sankalpRashiPanchang = getPanchangam(
           referenceNow,
           observer,
-          { timezoneOffset:330 }
+          { timezoneOffset:330, calendarType:"purnimanta" }
         );
       }catch(e){
         console.warn("Sankalp-time Rashi calculation failed:", e);
@@ -4828,7 +4828,7 @@ try{
       const nextPanchang = getPanchangam(
         nextDate,
         observer,
-        { timezoneOffset:330 }
+        { timezoneOffset:330, calendarType:"purnimanta" }
       );
 
       if(
@@ -4872,7 +4872,7 @@ try{
     getPanchangam(
       previousDate,
       observer,
-      { timezoneOffset:330 }
+      { timezoneOffset:330, calendarType:"purnimanta" }
     );
 
   if(
