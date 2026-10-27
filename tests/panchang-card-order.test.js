@@ -129,3 +129,42 @@ test("Planetary Asta/Udaya card labels angular estimates and keeps classical sta
   assert.ok(!cardSource.includes("!planet.verificationPending && planet.asta"));
   assert.ok(!cardSource.includes("!planet.verificationPending && planet.udaya"));
 });
+
+
+test("Hora and classical-yoga disclosure states survive card refreshes", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const start = source.indexOf("function capturePanchangDisclosureState() {");
+  const end = source.indexOf("/* =========================================\\n   Main update", start);
+  assert.notEqual(start, -1, "disclosure-state helpers must exist");
+  assert.notEqual(end, -1, "disclosure-state helpers must end before the main update");
+
+  const makeCard = states => ({
+    details: states.map(open => ({ open: Boolean(open) })),
+    querySelectorAll(selector) {
+      assert.equal(selector, "details");
+      return this.details;
+    }
+  });
+  const cards = new Map([
+    ["horaCard", makeCard([true, false])],
+    ["classicalYogasCard", makeCard([true])]
+  ]);
+  const sandbox = {
+    document: {
+      getElementById(id) {
+        return cards.get(id) || null;
+      }
+    }
+  };
+
+  vm.runInNewContext(source.slice(start, end), sandbox);
+  const state = sandbox.capturePanchangDisclosureState();
+
+  // Simulate the refresh replacing both cards with all details closed.
+  cards.set("horaCard", makeCard([false, false]));
+  cards.set("classicalYogasCard", makeCard([false]));
+  sandbox.restorePanchangDisclosureState(state);
+
+  assert.deepEqual(cards.get("horaCard").details.map(item => item.open), [true, false]);
+  assert.deepEqual(cards.get("classicalYogasCard").details.map(item => item.open), [true]);
+});
