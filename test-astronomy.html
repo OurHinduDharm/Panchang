@@ -644,9 +644,12 @@ const REFERENCES = [
   { planet:"Jupiter", event:"Udaya", date:"2027-09-15", sampleTime:"2027-09-15T00:30:00Z", elongation:11.28, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" }
 ];
 
-// Published event boundaries transcribed by the user from Drik Panchang.
-// Local times are Pithoragarh clock time (Asia/Kolkata, UTC+05:30).
-// Keep these separate from the older Dehradun/Tantrakulam reference set above.
+// Event boundaries transcribed from the user's pasted Drik Panchang text.
+// The pasted excerpt does not identify the selected city/geoname-id; therefore
+// do NOT assume these source times are for Pithoragarh. The panel below computes
+// geometry at CONFIG's observer and is a same-location comparison only after
+// the source location is independently confirmed. Clock times are treated as IST.
+
 const DRIK_PITHORAGARH_BOUNDARIES = [
   // Times below are transcribed from the user's supplied Drik Panchang page.
   // The pasted page URL does not expose a geoname-id, so retain the user's
@@ -4230,7 +4233,7 @@ function runDrikBoundaryAudit() {
     </tr>`;
   }
 
-  output.innerHTML = `<div class="status info">Observer: Pithoragarh (${CONFIG.latitude}°, ${CONFIG.longitude}°), elevation ${CONFIG.elevation} m. Published local event times are inputs; every angle and altitude below is calculated independently for that instant.</div>
+  output.innerHTML = `<div class="status info">Calculation observer: configured Pithoragarh (${CONFIG.latitude}°, ${CONFIG.longitude}°), elevation ${CONFIG.elevation} m. The pasted source excerpt does not identify its selected city, so these are geometry diagnostics at the configured observer—not yet a verified same-location comparison. Times are interpreted as IST.</div>
     <div class="table-wrap"><table><thead><tr>
       <th>Planet</th><th>Published boundary</th><th>Local time</th><th>Motion</th>
       <th>Ecliptic separation</th><th>True 3-D elongation</th><th>Selected threshold (legacy)</th>
