@@ -812,7 +812,7 @@
       .forEach(function(item){yearSelect.appendChild(item);});
     return option;
   }
-  function shiftMonth(delta){
+  function shiftMonth(delta,shouldScrollToHeading){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(!Number.isFinite(y)||!Number.isFinite(m))return;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
@@ -820,13 +820,16 @@
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
     loadMonth();
-    // Footer navigation should return the reader to the newly selected month's heading.
-    var monthHeading=listTitle&&listTitle.closest(".summary")||listTitle;
-    if(monthHeading){
-      window.requestAnimationFrame(function(){
-        var top=monthHeading.getBoundingClientRect().top+window.pageYOffset-12;
-        window.scrollTo({top:Math.max(0,top),behavior:"smooth"});
-      });
+    // Only the top navigation intentionally moves the reader to the month heading.
+    // Footer navigation keeps the reader near the controls they just used.
+    if(shouldScrollToHeading!==false){
+      var monthHeading=listTitle&&listTitle.closest(".summary")||listTitle;
+      if(monthHeading){
+        window.requestAnimationFrame(function(){
+          var top=monthHeading.getBoundingClientRect().top+window.pageYOffset-12;
+          window.scrollTo({top:Math.max(0,top),behavior:"smooth"});
+        });
+      }
     }
   }
   function ensureFooterMonthNav(){
@@ -838,10 +841,10 @@
       nav.setAttribute("aria-label","महीने बदलें");
       var prev=document.createElement("button");
       prev.type="button";prev.textContent="← पिछला महीना";
-      prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1);});
+      prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1,false);});
       var next=document.createElement("button");
       next.type="button";next.textContent="अगला महीना →";
-      next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1);});
+      next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1,false);});
       nav.appendChild(prev);nav.appendChild(next);
     }
     // महीने बदलने के बटन उपयोग-निर्देश शीर्षक के ठीक ऊपर रहें, पृष्ठ के सबसे नीचे नहीं।
