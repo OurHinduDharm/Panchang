@@ -635,3 +635,37 @@ test("classical yoga disclosure has a visible custom arrow and link-like styling
   assert.match(source, /#classicalYogasCard \.classical-yoga-details > summary \{[^}]*color:#1769aa !important;[^}]*text-decoration:underline !important;/);
   assert.match(source, /\.classical-yoga-details\[open\] > summary \.classical-yoga-toggle-arrow/);
 });
+
+
+test("Sandhya status shows the active window and next same-day Sandhya without selecting a Sankalp option", () => {
+  const start = source.indexOf("function getAutoSandhyaType(");
+  const end = source.indexOf("/* =========================================================\\n   KARMA PHRASE", start);
+  assert.notEqual(start, -1);
+  assert.notEqual(end, -1);
+  const sandbox = {
+    dateInput: { value: "2026-10-12" },
+    todayString: () => "2026-10-12"
+  };
+  vm.runInNewContext(source.slice(start, end), sandbox);
+  const p = {
+    sunrise: "2026-10-12T06:00:00+05:30",
+    sunset: "2026-10-12T18:00:00+05:30"
+  };
+  const nightPrahar = [
+    { start: "2026-10-11T18:00:00+05:30" },
+    { start: "2026-10-11T20:00:00+05:30" },
+    { start: "2026-10-11T22:00:00+05:30" },
+    { start: "2026-10-12T02:00:00+05:30", end: "2026-10-12T06:00:00+05:30" }
+  ];
+  const active = sandbox.getSandhyaStatusInfo(p, { nightPrahar }, new Date("2026-10-12T11:55:00+05:30"));
+  assert.equal(active.type, "madhyahna");
+  assert.equal(active.active, true);
+
+  const next = sandbox.getSandhyaStatusInfo(p, { nightPrahar }, new Date("2026-10-12T10:00:00+05:30"));
+  assert.equal(next.type, "madhyahna");
+  assert.equal(next.active, false);
+  assert.equal(next.start.toISOString(), new Date("2026-10-12T11:36:00+05:30").toISOString());
+
+  const unknownDate = sandbox.getSandhyaStatusInfo(p, { nightPrahar }, new Date("2026-10-13T11:55:00+05:30"));
+  assert.equal(unknownDate, null);
+});
