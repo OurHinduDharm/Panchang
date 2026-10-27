@@ -134,7 +134,7 @@ test("Planetary Asta/Udaya card labels angular estimates and keeps classical sta
 test("Hora and classical-yoga disclosure states survive card refreshes", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const start = source.indexOf("function capturePanchangDisclosureState() {");
-  const end = source.indexOf("/* =========================================\\n   Main update", start);
+  const end = source.indexOf("function updatePlanetRiseSet()", start);
   assert.notEqual(start, -1, "disclosure-state helpers must exist");
   assert.notEqual(end, -1, "disclosure-state helpers must end before the main update");
 
