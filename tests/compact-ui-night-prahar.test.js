@@ -639,7 +639,7 @@ test("classical yoga disclosure has a visible custom arrow and link-like styling
 
 test("Sandhya status shows the active window and next same-day Sandhya without selecting a Sankalp option", () => {
   const start = source.indexOf("function getAutoSandhyaType(");
-  const end = source.indexOf("/* =========================================================\\n   KARMA PHRASE", start);
+  const end = source.indexOf("/* =========================================================\n   KARMA PHRASE", start);
   assert.notEqual(start, -1);
   assert.notEqual(end, -1);
   const sandbox = {
