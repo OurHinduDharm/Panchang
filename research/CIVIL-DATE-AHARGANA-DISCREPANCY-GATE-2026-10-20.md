@@ -1,3 +1,16 @@
+## Compact handoff checkpoint — 27 October 2026
+
+**Purpose:** keep the next chat focused; this is a status note in the existing audit, not a new research file.
+
+- PR #22 is still Draft/unmerged; 630 commits, 76 files. Production `app.js` and `extra-panchang.js` remain unchanged. Do not merge the research branch wholesale.
+- Primary-text cross-check: Burgess/Sastri I.48–51 explicitly computes elapsed terrestrial days to **midnight at Laṅkā**; I.67 separately advances mean planetary place from the midnight epoch to a requested time; II.46 describes the distinct bhujāntara correction to true midnight. Source: https://en.wikisource.org/wiki/Page%3AEnglish_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/18 and https://en.wikisource.org/wiki/Page%3AEnglish_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/30
+- Therefore the continuous-JD `ss_chapter1_ahargana_anchor.js` is only a control/interpolation, not the authoritative source-faithful date bridge. The source-derived `ss_chapter1_ahargana_calendar.js` arithmetic accepts traditional date fields, but the conversion from a civil instant into the correct traditional fields and midnight Ahargaṇa is still not independently established.
+- Do **not** reuse the synthetic 26.5 elapsed-tithi input for 8 Oct 2026 Kṛṣṇa Trayodaśī; its ordinal interval is [27, 28). Do not force the apparent-noon longitude pair to equal a midnight Ahargaṇa.
+- Next bounded gate: establish one exact, independently reproducible Chapter I example with named meridian, midnight boundary, traditional year/month/tithi fields, adhika-month decision and source Ahargaṇa; then advance from midnight to the same instant using I.67/II.46 as applicable. Freeze this as a fixture before using the Chapter II planetary-motion candidate.
+- Current astronomical output remains diagnostic only. Venus event-date candidates are not certified; do not publish them or tune constants to modern event dates. First validate the time/epoch bridge, then the Venus source-rate ledger, then Chapter IX event timing. Keep commits limited to real code/source-validation changes.
+
+---
+
 # Civil-date / ahargana bridge — discrepancy gate (20 October 2026)
 
 **Status:** BLOCKER for date-specific Sūrya-siddhānta Asta/Udaya. Research-only. No production files changed.
