@@ -3710,6 +3710,90 @@ function getAutoSandhyaType(
 
   return null;
 }
+
+/* =========================================================
+   SANDHYA STATUS — concise current/next window + shastriya verses
+   ========================================================= */
+function getSandhyaStatusInfo(p = null, praharData = null, referenceNow = null, nextSunriseValue = null){
+  if(!p || !referenceNow || dateInput.value !== todayString()) return null;
+
+  const sunrise = new Date(p.sunrise);
+  const sunset = new Date(p.sunset);
+  const nowMs = referenceNow.getTime();
+  if(!Number.isFinite(sunrise.getTime()) || !Number.isFinite(sunset.getTime()) ||
+     !Number.isFinite(nowMs) || sunset <= sunrise) return null;
+
+  const autoType = getAutoSandhyaType(p, praharData, referenceNow);
+  const labels = { pratah: "प्रातः", madhyahna: "मध्याह्न", sayam: "सायं" };
+  if(autoType && labels[autoType]){
+    return { type: autoType, active: true, start: null, label: labels[autoType] };
+  }
+
+  let nightMuhurtaMs = null;
+  const night = praharData?.nightPrahar;
+  if(Array.isArray(night) && night.length === 4 && night[0]?.start && night[3]?.end){
+    const nightMs = new Date(night[3].end).getTime() - new Date(night[0].start).getTime();
+    if(Number.isFinite(nightMs) && nightMs > 0) nightMuhurtaMs = nightMs / 15;
+  }
+
+  const sunriseMs = sunrise.getTime();
+  const sunsetMs = sunset.getTime();
+  const dayMs = sunsetMs - sunriseMs;
+  const candidates = [
+    ...(nightMuhurtaMs ? [{type:"pratah", start:sunriseMs-nightMuhurtaMs}] : []),
+    {type:"madhyahna", start:sunriseMs + dayMs/2 - dayMs/30},
+    {type:"sayam", start:sunsetMs}
+  ];
+
+  // If the next sunrise is explicitly available, it is safer than guessing tomorrow's sunrise.
+  const nextSunrise = nextSunriseValue ? new Date(nextSunriseValue) : null;
+  if(nightMuhurtaMs && nextSunrise && Number.isFinite(nextSunrise.getTime()) &&
+     nextSunrise.getTime() > sunsetMs){
+    candidates.push({type:"pratah", start:nextSunrise.getTime()-nightMuhurtaMs});
+  }
+
+  const next = candidates
+    .filter(item => item.start > nowMs)
+    .sort((left,right) => left.start-right.start)[0];
+  return next ? {type:next.type, active:false, start:new Date(next.start), label:labels[next.type]} : null;
+}
+
+function getSandhyaStatusHtml(ctx = null){
+  if(!ctx) return "";
+  const info = getSandhyaStatusInfo(ctx.panchang, ctx.praharData, ctx.referenceNow, ctx.nextSunrise);
+  if(!info) return "";
+
+  const time = info.start
+    ? info.start.toLocaleTimeString("hi-IN", {hour:"2-digit", minute:"2-digit", hour12:true})
+    : "";
+  const status = info.active
+    ? `अभी ${info.label} संध्या का समय है।`
+    : `अगली संध्या ${info.label} ${time} बजे से।`;
+
+  const shlokas = `
+    <div style="margin-top:6px;line-height:1.7;">
+      <strong>प्रातः संध्या</strong><br/>
+      उत्तमा तारकोपेता मध्यमाऽ लुप्ततारका।<br/>
+      अधमा सूर्यसहिता प्रातःसन्ध्या त्रिधा मता॥
+      <br/><br/>
+      <strong>सायं संध्या</strong><br/>
+      उत्तमा सूर्यसहिता मध्यमा लुप्ततारका।<br/>
+      अधमा तारकोपेता सायंसन्ध्या त्रिधा मता॥
+    </div>
+    <div style="margin-top:6px;color:#666;font-size:12px;">
+      तारे दिखाई देने की वास्तविक स्थिति उपयोगकर्ता स्वयं देखकर तय करे; यह समय-सूचना मात्र है।
+    </div>`;
+
+  return `
+    <div style="margin-top:8px;padding:7px 9px;border-radius:6px;background:rgba(127,127,127,.08);font-size:13px;line-height:1.5;">
+      <div>${status}</div>
+      <details style="margin-top:4px;">
+        <summary style="cursor:pointer;display:inline-block;">शास्त्रीय श्लोक (उत्तम, मध्यम, अधम)</summary>
+        ${shlokas}
+      </details>
+    </div>`;
+}
+
 /* =========================================================
    KARMA PHRASE (WITHOUT final verb & without अहं)
    ========================================================= */
@@ -4323,6 +4407,7 @@ function renderSankalpTypeInputs(){
           <label><input type="radio" name="sandhyaType" value="sayam" ${st.sandhyaType==="sayam"?"checked":""}/> सायं संध्या</label>
         <label><input type="radio" name="sandhyaType" value="turiya" ${st.sandhyaType==="turiya"?"checked":""}/> तुरीय संध्या</label>
         </div>
+        ${getSandhyaStatusHtml(currentSankalpContext)}
       </div>
       <div class="ti-block">
         <label class="ti-label">देवता</label>
@@ -5121,6 +5206,7 @@ const ghatiPal = getGhatiPal(
     karana: sankalpElements?.karana || primaryKarana,
     location: selectedLocation,
     panchang: p,
+    nextSunrise: nextSunrise,
     planetaryPositions: sankalpRashiPanchang?.planetaryPositions || null,
     praharData: prahar,
     referenceNow: referenceNow
