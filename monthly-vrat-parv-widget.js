@@ -742,7 +742,17 @@
     });
     applyFilters();
   }
-  async function loadMonth(){
+  async function loadMonth(preserveViewportAnchor){
+    var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
+      ?preserveViewportAnchor.getBoundingClientRect().top:null;
+    function restoreViewportAnchor(){
+      if(anchorTop===null||!preserveViewportAnchor||!preserveViewportAnchor.isConnected)return;
+      window.requestAnimationFrame(function(){
+        if(!preserveViewportAnchor.isConnected)return;
+        var delta=preserveViewportAnchor.getBoundingClientRect().top-anchorTop;
+        if(Math.abs(delta)>1)window.scrollBy(0,delta);
+      });
+    }
     var token=++requestToken;
     // नई navigation पर पुराने अटके हुए request को रद्द करें।
     if(activeMonthRequest){activeMonthRequest.abort();activeMonthRequest=null;}
@@ -762,7 +772,7 @@
       if(token!==requestToken)return;
       // पहले उपलब्ध मासिक सूची दिखाएँ; नवरात्रि की गतिशील गणना के दौरान
       // उपयोगकर्ता को खाली loading screen पर प्रतीक्षा न करनी पड़े।
-      if(Array.isArray(data.events)&&data.events.length) render(data,year,month,token);
+      if(Array.isArray(data.events)&&data.events.length){render(data,year,month,token);restoreViewportAnchor();}
       var dynamicNavratri=await buildDynamicNavratriEvents(year,month,token);
       if(token!==requestToken)return;
       var storedEvents=Array.isArray(data.events)?data.events:[];
@@ -774,10 +784,12 @@
       if(token!==requestToken)return;
       data.events=data.events.concat(computedSaraswatiEvents);
       render(data,year,month,token);
+      restoreViewportAnchor();
     }catch(e){
       if(token!==requestToken)return;
       if(e&&e.name==="AbortError"){
         render({events:[]},year,month,token);
+        restoreViewportAnchor();
         countEl.textContent="लोड होने में समय लगा। कृपया फिर से महीना चुनें।";
       }else{
         // भविष्य-वर्ष की स्थिर JSON फ़ाइल न होने पर भी नवरात्रि पंचांग से बने।
@@ -789,9 +801,11 @@
           if(token!==requestToken)return;
           fallbackData.events=fallbackData.events.concat(fallbackSaraswati);
           render(fallbackData,year,month,token);
+          restoreViewportAnchor();
           if(!fallbackData.events.length) countEl.textContent="इस महीने की स्थिर सूची उपलब्ध नहीं है; नवरात्रि की कोई गतिशील प्रविष्टि नहीं मिली।";
         }catch(fallbackError){
           render({events:[]},year,month,token);
+          restoreViewportAnchor();
           countEl.textContent="स्थिर डेटा उपलब्ध नहीं है और गतिशील पंचांग-गणना भी पूरी नहीं हो सकी।";
         }
       }
@@ -812,14 +826,14 @@
       .forEach(function(item){yearSelect.appendChild(item);});
     return option;
   }
-  function shiftMonth(delta,shouldScrollToHeading){
+  function shiftMonth(delta,shouldScrollToHeading,preserveViewportAnchor){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(!Number.isFinite(y)||!Number.isFinite(m))return;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
-    loadMonth();
+    loadMonth(preserveViewportAnchor);
     // Only the top navigation intentionally moves the reader to the month heading.
     // Footer navigation keeps the reader near the controls they just used.
     if(shouldScrollToHeading!==false){
@@ -841,10 +855,10 @@
       nav.setAttribute("aria-label","महीने बदलें");
       var prev=document.createElement("button");
       prev.type="button";prev.textContent="← पिछला महीना";
-      prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1,false);});
+      prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1,false,event.currentTarget);});
       var next=document.createElement("button");
       next.type="button";next.textContent="अगला महीना →";
-      next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1,false);});
+      next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1,false,event.currentTarget);});
       nav.appendChild(prev);nav.appendChild(next);
     }
     // महीने बदलने के बटन उपयोग-निर्देश शीर्षक के ठीक ऊपर रहें, पृष्ठ के सबसे नीचे नहीं।
