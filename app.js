@@ -3764,7 +3764,7 @@ function getSandhyaStatusHtml(ctx = null){
   if(!info) return "";
 
   const time = info.start
-    ? info.start.toLocaleTimeString("hi-IN", {hour:"2-digit", minute:"2-digit", hour12:true})
+    ? info.start.toLocaleTimeString("hi-IN", {hour:"2-digit", minute:"2-digit", hour12:false})
     : "";
   const status = info.active
     ? `अभी ${info.label} संध्या का समय है।`
