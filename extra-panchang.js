@@ -1100,11 +1100,40 @@ function normalizePanchangCardOrder() {
     .forEach(item => grid.appendChild(item.element));
 }
 
+function capturePanchangDisclosureState() {
+  const state = {};
+
+  ["horaCard", "classicalYogasCard"].forEach(id => {
+    const card = document.getElementById(id);
+    if (!card) return;
+
+    state[id] = Array.from(card.querySelectorAll("details"))
+      .map(detail => Boolean(detail.open));
+  });
+
+  return state;
+}
+
+function restorePanchangDisclosureState(state) {
+  Object.keys(state || {}).forEach(id => {
+    const card = document.getElementById(id);
+    if (!card) return;
+
+    const details = card.querySelectorAll("details");
+    (state[id] || []).forEach((wasOpen, index) => {
+      if (details[index]) details[index].open = wasOpen;
+    });
+  });
+}
+
 /* =========================================
    Main update
    ========================================= */
 
 function updatePlanetRiseSet() {
+
+  // Preserve reader-opened sections when the cards are refreshed.
+  const disclosureState = capturePanchangDisclosureState();
 
   const location =
     getLocation();
@@ -1391,6 +1420,7 @@ if(
   placeHoraCard(nivasCard);
 
   normalizePanchangCardOrder();
+  restorePanchangDisclosureState(disclosureState);
 
 }
     
