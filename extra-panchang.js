@@ -1157,6 +1157,8 @@ function restorePanchangDisclosureState(state) {
    ========================================= */
 
 function updatePlanetRiseSet() {
+  const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
+  const __ohdPerfStart = performance.now();
 
   // Preserve reader-opened sections when the cards are refreshed.
   const disclosureState = capturePanchangDisclosureState();
@@ -1404,6 +1406,12 @@ if(
   normalizePanchangCardOrder();
   restorePanchangDisclosureState(disclosureState);
 
+  if (__ohdPerfEnabled) {
+    console.info("[OHD performance] Extra Panchang update", {
+      date: selectedDate,
+      totalMilliseconds: Number((performance.now() - __ohdPerfStart).toFixed(2))
+    });
+  }
 }
     
 function nextSelectedDate(isoDate) {
