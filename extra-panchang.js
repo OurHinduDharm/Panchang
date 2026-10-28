@@ -1157,6 +1157,19 @@ function restorePanchangDisclosureState(state) {
    ========================================= */
 
 function updatePlanetRiseSet() {
+  const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
+  const __ohdPerfStart = performance.now();
+  let __ohdPerfLast = __ohdPerfStart;
+  const __ohdPerfPhases = [];
+  const __ohdPerfMark = label => {
+    if (!__ohdPerfEnabled) return;
+    const now = performance.now();
+    __ohdPerfPhases.push({
+      phase: label,
+      milliseconds: Number((now - __ohdPerfLast).toFixed(2))
+    });
+    __ohdPerfLast = now;
+  };
 
   // Preserve reader-opened sections when the cards are refreshed.
   const disclosureState = capturePanchangDisclosureState();
@@ -1346,6 +1359,7 @@ if(
     createHoraCard(
       horaDetails
     );
+  __ohdPerfMark("hora calculations and card");
 
   const classicalYogaDetails =
     getClassicalYogaDetails(
@@ -1358,6 +1372,7 @@ if(
     createClassicalYogaCard(
       classicalYogaDetails
     );
+  __ohdPerfMark("classical yoga calculation and card");
 
   // Nivasa is determined from the tithi prevailing at local sunrise,
   // not from the selected date's midnight input instant.
@@ -1365,6 +1380,7 @@ if(
     ? getPanchangam(new Date(pHora.sunrise), horaObserver, { timezoneOffset: 330 })
     : null;
   const nivasCard = createNivasCard(sunrisePanchang?.tithi, selectedDate);
+  __ohdPerfMark("Nivasa calculation and card");
 
 
   /*
@@ -1386,6 +1402,7 @@ if(
     createPlanetCard(
       data
     );
+  __ohdPerfMark("planet rise/set calculation and card");
 
 
   /*
@@ -1403,7 +1420,15 @@ if(
 
   normalizePanchangCardOrder();
   restorePanchangDisclosureState(disclosureState);
+  __ohdPerfMark("DOM card replacement and disclosure restore");
 
+  if (__ohdPerfEnabled) {
+    console.info("[OHD performance] Extra Panchang update", {
+      date: selectedDate,
+      totalMilliseconds: Number((performance.now() - __ohdPerfStart).toFixed(2)),
+      phases: __ohdPerfPhases
+    });
+  }
 }
     
 function nextSelectedDate(isoDate) {
