@@ -4855,6 +4855,19 @@ function updateSankalpText(){
    PANCHANG CALCULATE
    ========================================================= */
 function calculatePanchang(){
+  const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
+  const __ohdPerfStart = performance.now();
+  const __ohdPerfCalls = [];
+  const __ohdTimedPanchang = (label, ...args) => {
+    const started = performance.now();
+    const value = getPanchangam(...args);
+    if (__ohdPerfEnabled) __ohdPerfCalls.push({
+      operation: label,
+      milliseconds: Number((performance.now() - started).toFixed(2))
+    });
+    return value;
+  };
+
   if(!selectedLocation){
     result.innerHTML =
       `<div class="loading">पहले अपना शहर चुनें।</div>`;
@@ -4875,7 +4888,7 @@ function calculatePanchang(){
       dateInput.value + "T12:00:00"
     );
 
-    const p = getPanchangam(
+    const p = __ohdTimedPanchang("selected date", 
       date,
       observer,
       { timezoneOffset:330, calendarType:"purnimanta" }
@@ -4891,7 +4904,7 @@ function calculatePanchang(){
     let sankalpRashiPanchang = p;
     if(referenceNow){
       try{
-        sankalpRashiPanchang = getPanchangam(
+        sankalpRashiPanchang = __ohdTimedPanchang("current-time sankalp", 
           referenceNow,
           observer,
           { timezoneOffset:330, calendarType:"purnimanta" }
@@ -4909,7 +4922,7 @@ try{
         nextDate.getDate() + 1
       );
 
-      const nextPanchang = getPanchangam(
+      const nextPanchang = __ohdTimedPanchang("next date", 
         nextDate,
         observer,
         { timezoneOffset:330, calendarType:"purnimanta" }
@@ -4953,7 +4966,7 @@ try{
   );
 
   previousPanchang =
-    getPanchangam(
+    __ohdTimedPanchang("previous date", 
       previousDate,
       observer,
       { timezoneOffset:330, calendarType:"purnimanta" }
@@ -5001,6 +5014,13 @@ displayPanchang(
   sankalpRashiPanchang
 );
 
+    if (__ohdPerfEnabled) {
+      console.info("[OHD performance] Main date calculation", {
+        date: dateInput.value,
+        totalMilliseconds: Number((performance.now() - __ohdPerfStart).toFixed(2)),
+        panchangCalls: __ohdPerfCalls
+      });
+    }
 
   }catch(error){
     console.error(error);
