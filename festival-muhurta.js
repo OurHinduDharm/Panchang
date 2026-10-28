@@ -543,6 +543,17 @@ const rules = {
       windows.push(nishita);
     }
 
+    // Godhuli is a separate twilight interval useful for lighting lamps.
+    // Keep it distinct from the primary Lakshmi-Ganesha puja window.
+    const godhuli = windowWithin(
+      new Date(sunset.getTime() - 24 * 60 * 1000),
+      new Date(sunset.getTime() + 24 * 60 * 1000),
+      tithis,
+      "गोधूलि काल — दीपदान",
+      "सूर्यास्त के आसपास दीपदान का समय; मुख्य लक्ष्मी-गणेश पूजन के लिए प्रदोष काल प्राथमिक विकल्प है।"
+    );
+    if (godhuli) windows.push(godhuli);
+
     if (!windows.length) {
       return {
         label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
