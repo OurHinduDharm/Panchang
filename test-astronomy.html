@@ -3780,7 +3780,7 @@ async function runSameInstantTksSnapshotAudit() {
   const targetK = 7.698;
   const targetC = 8;
   const fmt = value => Number.isFinite(value) ? round(value, 6) + "°" : "—";
-  output.innerHTML = '<div class="status info"><strong>Our candidates calculated at:</strong> ' + localLabel + ' / ' + utcLabel + '; coordinates 29.5830° N, 80.2090° E, 0 m. Supplied TKS figures are reference-only: matching timestamp and coordinate-frame provenance are not yet verified.</div>' +
+  output.innerHTML = '<div class="status info"><strong>Our candidates calculated at:</strong> ' + escapeHtml(localLabel) + ' / ' + escapeHtml(utcLabel) + '; coordinates 29.5830° N, 80.2090° E, 0 m. Supplied TKS figures are reference-only: matching timestamp and coordinate-frame provenance are not yet verified.</div>' +
     '<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Our current candidate</th><th>Our sequential candidate</th><th>TKS reference (instant/frame unverified)</th></tr></thead><tbody>' +
     '<tr><td>IX.2–3 event branch</td><td colspan="2">' + event + ' (' + (motion < 0 ? 'retrograde' : 'direct') + ')</td><td>Venus Asta panel</td></tr>' +
     '<tr><td>Chapter III sign-table K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698° (reference only; instant unverified)</td></tr>' +
