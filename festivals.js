@@ -91,7 +91,7 @@ function renderFestivalCard(dateString, festivals, errorMessage = "") {
     list.style.cssText = "margin:0;padding-left:20px;line-height:1.7;";
     festivals.forEach(item => {
       const row = document.createElement("li");
-      row.textContent = festivalName(item);
+      row.textContent = String(item?.name || item?.title || item?.festival || item?.label || item || "").trim();
       list.appendChild(row);
     });
     card.appendChild(list);
