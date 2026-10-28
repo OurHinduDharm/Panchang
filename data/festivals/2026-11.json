@@ -4,7 +4,7 @@
   "month": 11,
   "monthName": "नवंबर",
   "status": "approved",
-  "locationScope": "प्रारंभिक डेटा; गणना-समीक्षा आवश्यक",
+  "locationScope": "स्थानानुसार तिथि एवं मुहूर्त-गणना",
   "events": [
     {
       "date": "2026-11-01",
