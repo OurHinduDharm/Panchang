@@ -176,3 +176,24 @@ test("Hora and classical-yoga disclosure states survive card refreshes", () => {
   assert.deepEqual(cards.get("horaCard").details.map(item => item.open), [true, false]);
   assert.deepEqual(cards.get("classicalYogasCard").details.map(item => item.open), [true]);
 });
+
+
+test("Planetary Asta/Udaya uses one shared boundary scan per planet", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const scanStart = source.indexOf("function findNearestAngularBoundaries(");
+  const eventStart = source.indexOf("function getPlanetEvent(", scanStart);
+  const cardStart = source.indexOf("/* =========================================", eventStart);
+  assert.notEqual(scanStart, -1, "shared Asta/Udaya boundary scanner must exist");
+  assert.ok(eventStart > scanStart, "planet event builder must follow the shared scanner");
+  assert.ok(cardStart > eventStart, "planet event builder must end before card creation");
+
+  const scanner = source.slice(scanStart, eventStart);
+  const eventBuilder = source.slice(eventStart, cardStart);
+  assert.ok(scanner.includes("crossedDown"), "shared scan must detect Asta crossings");
+  assert.ok(scanner.includes("crossedUp"), "shared scan must detect Udaya crossings");
+  assert.ok(scanner.includes("(!asta || !udaya)"), "scan should stop when both boundaries are found");
+  assert.equal((eventBuilder.match(/findNearestAngularBoundaries\\(/g) || []).length, 1,
+    "both events must be requested from a single scan");
+  assert.ok(!eventBuilder.includes("findNearestAngularBoundary("),
+    "the old separate per-event scan must not remain in the event builder");
+});
