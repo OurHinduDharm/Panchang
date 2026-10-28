@@ -29,8 +29,8 @@ test("city selection obtains terrain elevation instead of hardcoding zero metres
   for (const source of [widget, html]) {
     assert.match(source, /api\.open-meteo\.com\/v1\/elevation/);
     assert.match(source, /selected\.elevation=await getTerrainElevation\(selected\.lat,selected\.lon\)/);
-    assert.match(source, /defaultLocationElevation=await getTerrainElevation\(29\.5828,80\.2182\)/);
-    assert.match(source, /dateIso\+"T12:00:00\+05:30"/);
+    assert.match(source, /var fetchedElevation=await getTerrainElevation\(29\.5828,80\.2182\)/);\n    assert.match(source, /The festival list must not wait for the external elevation service\\.\\s*loadMonth\\(\\);[\\s\\S]{0,150}var fetchedElevation=/);
+    assert.match(source, /dateIso\+"T(?:12:00:00\+05:30|06:30:00\\.000Z)"/);
     assert.match(source, /function getIndiaCalendarDate\(\)/);
     assert.doesNotMatch(source, /lat:Number\(place\.lat\),lon:Number\(place\.lon\),elevation:0/);
     assert.match(source, /startDateKey!==dateIso\|\|endDateKey!==dateIso/);
