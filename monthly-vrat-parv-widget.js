@@ -411,9 +411,9 @@
   }
 
   function panchangTithiAt(panchang){return normalizedPanchangName(panchang&&panchang.tithi,"tithi");}
-  function addSaraswatiEvent(events,iso,title,description,ritual,nakshatra,locationName){
+  function addSaraswatiEvent(events,iso,title,description,ritual,nakshatra){
     events.push({date:iso,dateLabel:iso.slice(8,10)+" "+months[Number(iso.slice(5,7))-1],title:title,
-      description:description+" स्थानीय स्थान: "+locationName+"। यह नक्षत्र-आधारित गणना है; परंपरा-विशेष का अंतिम निर्णय स्थानीय धर्मशास्त्रीय नियम से करें।",
+      description:description,
       category:"नवरात्रि",calculationStatus:"nakshatra-derived",reviewStatus:"needs-review",showReviewStatus:true,
       saraswatiRitual:ritual,saraswatiNakshatra:nakshatra});
   }
@@ -464,15 +464,14 @@
       if(token!==requestToken) return [];
       var p=values.p||{},sunrise=new Date(p.sunrise),sunset=new Date(p.sunset);
       if(!Number.isFinite(sunrise.getTime())||!Number.isFinite(sunset.getTime())||sunset<=sunrise) continue;
-      var locationName=(values.location&&values.location.name)||"चुना हुआ स्थान";
       // मूल में स्थापना/आवाहन: धर्मसिंधु-पाठ के अनुसार सूर्यास्त से तीन मुहूर्त (144 मिनट) पहले।
       var avahanTime=new Date(sunset.getTime()-144*60000),avahanPanchang;
       try{avahanPanchang=values.at(avahanTime);}catch(_){avahanPanchang=p;}
-      if(!avahanScheduled&&panchangNakshatraAt(avahanPanchang)==="मूल"){
+      if(!avahanScheduled&&!avahanFallbackScheduled&&panchangNakshatraAt(avahanPanchang)==="मूल"){
         var avahanClock=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(avahanTime);
-        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","मूल नक्षत्र में देवी का आवाहन/स्थापन। धर्मसिंधु-पाठ के अनुसार संदर्भ-समय सूर्यास्त से तीन मुहूर्त पूर्व है।","avahana","मूल",locationName);
+        addSaraswatiEvent(found,iso,"देवी सरस्वती का आवाहन / स्थापना","मूल नक्षत्र में आवाहन / स्थापना। सूर्यास्त से तीन मुहूर्त पूर्व का समय।","avahana","मूल");
         found[found.length-1].muhurtaInstant=avahanTime.toISOString();
-        found[found.length-1].muhurtaLabel="आवाहन का संदर्भ-समय";
+        found[found.length-1].muhurtaLabel="आवाहन का समय";
         avahanScheduled=true;
       }else if(!avahanScheduled&&!avahanFallbackScheduled&&findMulaInterval(p,iso)){
         // धर्मसिंधु-पाठ का विकल्प: नियत समय पर मूल उपलब्ध न हो तो अगले दिन मूल का द्वितीय पाद।
@@ -489,8 +488,9 @@
               var nextDayStart=new Date(nextIso+"T00:00:00"),nextDayEnd=new Date(nextIso+"T23:59:59.999");
               if(padaStart>=nextDayStart&&padaStart<nextDayEnd&&padaEnd>nextDayStart){
                 if(padaEnd>nextDayEnd)padaEnd=nextDayEnd;
-                addSaraswatiEvent(found,nextIso,"दुर्गा के सरस्वती-रूप का आवाहन / स्थापना","नियत समय पर मूल नक्षत्र उपलब्ध न होने के कारण अगले दिन मूल के द्वितीय पाद का विकल्प: "+clockRange(padaStart,padaEnd)+"।","avahana-fallback","मूल का द्वितीय पाद",locationName);
+                addSaraswatiEvent(found,nextIso,"देवी सरस्वती का आवाहन / स्थापना","मूल नक्षत्र के द्वितीय पाद में विकल्प: "+clockRange(padaStart,padaEnd)+"।","avahana-fallback","मूल का द्वितीय पाद");
                 avahanFallbackScheduled=true;
+                avahanScheduled=true;
               }
             }
           }catch(_){/* मूल-द्वितीय-पाद का समय न निकले तो अनुमान न दिखाएँ */}
@@ -503,12 +503,12 @@
       var middayStart=new Date(sunrise.getTime()+dayLength*0.4),middayEnd=new Date(sunrise.getTime()+dayLength*0.6);
       var purvaWindow=findNakshatraInterval(p,"पूर्वाषाढ़ा",middayStart,middayEnd);
       if(purvaWindow){
-        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का मुख्य पूजन","पूर्वाषाढ़ा नक्षत्र और स्थानीय दिनमान के मध्याह्न-खंड का संयोग।","puja","पूर्वाषाढ़ा",locationName);
+        addSaraswatiEvent(found,iso,"देवी सरस्वती का मुख्य पूजन","पूर्वाषाढ़ा नक्षत्र का मध्याह्न में संयोग।","puja","पूर्वाषाढ़ा");
         setSaraswatiMuhurta(found[found.length-1],purvaWindow.start,purvaWindow.end,"पूजन का नक्षत्र-व्याप्ति काल");
       }
       var uttaraWindow=findNakshatraInterval(p,"उत्तराषाढ़ा",middayStart,middayEnd);
       if(uttaraWindow){
-        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का बलिदान / उत्तरपूजा","उत्तराषाढ़ा नक्षत्र और स्थानीय दिनमान के मध्याह्न-खंड का संयोग। बलि का स्वरूप अपनी अहिंसक या कुल-परंपरा के अनुसार निर्धारित करें।","balidan","उत्तराषाढ़ा",locationName);
+        addSaraswatiEvent(found,iso,"देवी सरस्वती की उत्तरपूजा / बलिदान","उत्तराषाढ़ा नक्षत्र का मध्याह्न में संयोग।","balidan","उत्तराषाढ़ा");
         setSaraswatiMuhurta(found[found.length-1],uttaraWindow.start,uttaraWindow.end,"बलिदान/उत्तरपूजा का नक्षत्र-व्याप्ति काल");
       }
       // विसर्जन: दिनमान के 3/5 से 4/5 तक अपराह्न-खंड में श्रवण + दशमी का संयोग।
@@ -517,7 +517,7 @@
       try{aparahnaPanchang=values.at(aparahnaTime);}catch(_){aparahnaPanchang=p;}
       var shravanaWindow=findNakshatraInterval(p,"श्रवण",aparahnaStart,aparahnaEnd);
       if(shravanaWindow&&panchangTithiAt(aparahnaPanchang)==="दशमी"){
-        addSaraswatiEvent(found,iso,"दुर्गा के सरस्वती-रूप का विसर्जन / उद्वासन","श्रवण नक्षत्र और दशमी की अपराह्न-व्याप्ति मिलने पर विसर्जन/उद्वासन।","visarjana","श्रवण",locationName);
+        addSaraswatiEvent(found,iso,"देवी सरस्वती का विसर्जन / उद्वासन","श्रवण नक्षत्र और दशमी के अपराह्न संयोग में विसर्जन / उद्वासन।","visarjana","श्रवण");
         setSaraswatiMuhurta(found[found.length-1],shravanaWindow.start,shravanaWindow.end,"विसर्जन का नक्षत्र-व्याप्ति काल");
       }
     }
