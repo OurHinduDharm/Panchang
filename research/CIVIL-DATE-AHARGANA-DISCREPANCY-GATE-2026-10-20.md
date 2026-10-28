@@ -1,5 +1,15 @@
 ## Follow-up — 28 October 2026: midnight API distinction
 
+## Follow-up — 28 October 2026: connect midnight Ahargana to instant-time fraction
+
+- The civil-time adapter previously calculated a fractional tithi-based Ahargana and separately calculated the local-mean time fraction. That left the source-defined midnight day count and the requested instant's time coordinate disconnected.
+- Updated `ss_civil_date_epoch_adapter.js` to call the integer-only Chapter I.48–51 midnight API, then expose `aharganaCoordinateAtInstant = midnightAhargana + localMeanDayFraction`. This is explicitly only the time coordinate; it does **not** claim to complete I.67, Chapter II corrections, or true planetary longitude.
+- Added adapter checks for the known 1827 integer Ahargana plus a 0.25-day fraction, and for rejection of fractional tithi input. The legacy input key remains accepted only as an integer for compatibility.
+- Validation: latest workflow run for the prior head passed the complete diagnostic job (including syntax, Chapter I arithmetic, civil-time adapters and headless browser test): https://github.com/OurHinduDharm/Panchang/actions/runs/40677136220 . The new adapter edits must pass a fresh run before being treated as verified.
+- Next: run the diagnostic workflow on this change, then review whether the chosen traditional date fields and adhika-month correction can be established independently for a real modern date. Do not publish event dates or change production code yet.
+
+---
+
 - Primary source commentary on the next page clarifies the sequence: count Chaitra-based months as solar months; add only the **whole** proportional intercalary-month quotient; convert to lunar days using completed tithis; subtract only the **whole** proportional omitted-tithi quotient. The resulting integer is the terrestrial-day count to midnight at Laṅkā. Source: https://en.wikisource.org/wiki/Page:English_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/19
 - Added `chapter1MidnightAharganaFromTraditionalDate()` in `ss_chapter1_ahargana_calendar.js`. It requires an integer count of completed tithis and returns an integer midnight Ahargana. The older fractional-tithi function remains explicitly diagnostic for arbitrary-time/synthetic comparisons; it must not be mistaken for the source's midnight result.
 - Added two inline checks: reproduce the existing independent 1827 integer Ahargana fixture through the new API, and reject fractional tithi input. Commit: `f3ee64fdda28a46caf8c05b478138cf123c607ea`.

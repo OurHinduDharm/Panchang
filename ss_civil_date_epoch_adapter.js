@@ -19,7 +19,7 @@
  * and must be documented by the research fixture. No default meridian is used.
  */
 
-import { chapter1AharganaFromTraditionalDate } from "./ss_chapter1_ahargana_calendar.js";
+import { chapter1MidnightAharganaFromTraditionalDate } from "./ss_chapter1_ahargana_calendar.js";
 
 const DAY_SECONDS = 86400;
 const EXPLICIT_ZONE = /(?:Z|[+-](?:0\d|1\d|2[0-3]):?[0-5]\d)$/i;
@@ -60,11 +60,29 @@ export function adaptCivilInstantToLankaMidnight({
   const fractionalTimeSinceBoundary = secondsSinceMidnight / DAY_SECONDS;
 
   let traditionalAhargana = null;
+  let aharganaCoordinateAtInstant = null;
   if (traditionalDateFields !== null) {
     if (!traditionalDateFields || typeof traditionalDateFields !== "object") {
       throw new TypeError("traditionalDateFields must be an object or null.");
     }
-    traditionalAhargana = chapter1AharganaFromTraditionalDate(traditionalDateFields);
+    // I.48–51 produces the integer Ahargana at Lanka midnight. For backward
+    // compatibility, the older property name is accepted only when it is an
+    // integer; it is interpreted as completed tithis, never as a fractional
+    // tithi position at this civil instant.
+    const completedTithisInCurrentMonth =
+      Object.hasOwn(traditionalDateFields, "completedTithisInCurrentMonth")
+        ? traditionalDateFields.completedTithisInCurrentMonth
+        : traditionalDateFields.elapsedTithisInCurrentMonth;
+    traditionalAhargana = chapter1MidnightAharganaFromTraditionalDate({
+      elapsedSolarYearsSinceKritaEnd: traditionalDateFields.elapsedSolarYearsSinceKritaEnd,
+      elapsedMonthsFromCaitraShukla: traditionalDateFields.elapsedMonthsFromCaitraShukla,
+      completedTithisInCurrentMonth,
+      intercalaryMonthAdjustment: traditionalDateFields.intercalaryMonthAdjustment ?? 0
+    });
+    // This is only the local-mean-day coordinate at the requested instant.
+    // It is not yet the complete Chapter I.67 / Chapter II true-place pipeline.
+    aharganaCoordinateAtInstant =
+      traditionalAhargana.ahargana + fractionalTimeSinceBoundary;
   }
 
   return Object.freeze({
@@ -75,6 +93,7 @@ export function adaptCivilInstantToLankaMidnight({
     secondsSinceLankaMidnight: secondsSinceMidnight,
     fractionalTimeSinceLankaMidnight: fractionalTimeSinceBoundary,
     traditionalAhargana,
+    aharganaCoordinateAtInstant,
     status: traditionalAhargana
       ? "Boundary adapter plus Chapter I.45–51 arithmetic from separately supplied traditional fields; no civil-date-to-traditional-calendar conversion was performed."
       : "Boundary adapter only; traditional date fields and Chapter I.45–51 ahargana were not inferred."
@@ -136,6 +155,40 @@ export function runCivilDateEpochAdapterTests() {
       }
     });
     return out.traditionalAhargana?.ahargana === 714404096641;
+  });
+
+  check("Traditional Ahargana is an integer at Lanka midnight and advances by the local-mean day fraction", () => {
+    const out = adaptCivilInstantToLankaMidnight({
+      instant: "2026-10-13T06:00:00Z",
+      meridianLongitudeEastDeg: 0,
+      traditionalDateFields: {
+        elapsedSolarYearsSinceKritaEnd: 2164928,
+        elapsedMonthsFromCaitraShukla: 1,
+        completedTithisInCurrentMonth: 6,
+        intercalaryMonthAdjustment: 0
+      }
+    });
+    return out.traditionalAhargana?.ahargana === 714404096641 &&
+      Number.isInteger(out.traditionalAhargana.ahargana) &&
+      out.aharganaCoordinateAtInstant === 714404096641.25;
+  });
+
+  check("Fractional tithi is rejected by the civil-instant bridge rather than treated as the instant's time fraction", () => {
+    try {
+      adaptCivilInstantToLankaMidnight({
+        instant: "2026-10-13T06:00:00Z",
+        meridianLongitudeEastDeg: 0,
+        traditionalDateFields: {
+          elapsedSolarYearsSinceKritaEnd: 2164928,
+          elapsedMonthsFromCaitraShukla: 1,
+          elapsedTithisInCurrentMonth: 6.5,
+          intercalaryMonthAdjustment: 0
+        }
+      });
+      return false;
+    } catch (error) {
+      return error instanceof TypeError;
+    }
   });
 
   check("Missing explicit time zone is rejected", () => {
