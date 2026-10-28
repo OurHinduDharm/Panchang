@@ -9,7 +9,11 @@
     var cssLink=document.createElement("link");
     cssLink.rel="stylesheet";cssLink.href=cssHref;document.head.appendChild(cssLink);
   }
-  var reviewMode=new URLSearchParams(window.location.search).get("review")==="1";
+  var pageParams=new URLSearchParams(window.location.search);
+  var focusDate=pageParams.get("focus")||"";
+  var focusTitle=pageParams.get("focusTitle")||"";
+  var focusPending=/^\d{4}-\d{2}-\d{2}$/.test(focusDate);
+  var reviewMode=pageParams.get("review")==="1";
   var widgetRoot=document.getElementById("ohd-monthly-festivals");
   if(!widgetRoot){console.error("OHD monthly festival widget root not found.");return;}
   widgetRoot.classList.toggle("review-mode",reviewMode);
@@ -707,6 +711,23 @@
       .replace(/[।॥,;:()\[\]{}·—–-]+/g," ")
       .trim();
   }
+  function focusFestivalCard(){
+    if(!focusPending)return;
+    var target=Array.from(eventsEl.querySelectorAll(".event")).find(function(card){
+      if(card.dataset.date!==focusDate)return false;
+      return !focusTitle||normalizeSearch(card.dataset.eventTitle)===normalizeSearch(focusTitle);
+    });
+    if(!target)return;
+    focusPending=false;
+    target.style.scrollMarginTop="88px";
+    target.scrollIntoView({behavior:"auto",block:"start"});
+    target.style.outline="3px solid #d97706";
+    target.style.outlineOffset="3px";
+    window.setTimeout(function(){
+      target.style.outline="";
+      target.style.outlineOffset="";
+    },2400);
+  }
   function categoryFor(item){
     var title=normalizeSearch(item.title||"");
     var raw=normalizeSearch(item.category||"");
@@ -771,6 +792,8 @@
     }
     list.forEach(function(item){
       var card=document.createElement("article");card.className="event";
+      card.dataset.date=String(item.date||"");
+      card.dataset.eventTitle=String(item.title||"");
       var date=document.createElement("div");date.className="date";
       var strong=document.createElement("strong");strong.textContent=String(item.date||"").slice(8,10)||item.dateLabel||"";
       date.appendChild(strong);
@@ -902,6 +925,7 @@
       data.events=data.events.concat(computedSaraswatiEvents);
       render(data,year,month,token);
       restoreViewportAnchor();
+      focusFestivalCard();
     }catch(e){
       if(token!==requestToken)return;
       if(e&&e.name==="AbortError"){
@@ -919,6 +943,7 @@
           fallbackData.events=fallbackData.events.concat(fallbackSaraswati);
           render(fallbackData,year,month,token);
           restoreViewportAnchor();
+          focusFestivalCard();
           if(!fallbackData.events.length) countEl.textContent="इस महीने की स्थिर सूची उपलब्ध नहीं है; नवरात्रि की कोई गतिशील प्रविष्टि नहीं मिली।";
         }catch(fallbackError){
           render({events:[]},year,month,token);
@@ -1014,6 +1039,12 @@
   });
   // पेज हर वर्ष अपने-आप वर्तमान महीने से खुले; पुराने/आने वाले वर्ष भी नेविगेशन में जुड़ सकें।
   var initialDate=getIndiaCalendarDate();
+  var requestedYear=Number(pageParams.get("year"));
+  var requestedMonth=Number(pageParams.get("month"));
+  if(focusPending&&requestedYear>=1900&&requestedYear<=2200&&requestedMonth>=1&&requestedMonth<=12&&
+     focusDate.slice(0,4)===String(requestedYear)&&Number(focusDate.slice(5,7))===requestedMonth){
+    initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
+  }
   ensureYearOption(initialDate.getFullYear());
   yearSelect.value=String(initialDate.getFullYear());
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
