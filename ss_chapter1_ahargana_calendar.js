@@ -117,6 +117,40 @@ export function chapter1AharganaFromTraditionalDate({
   };
 }
 
+/**
+ * Source-faithful Chapter I.48–51 midnight Ahargana.
+ *
+ * The Sanskrit procedure yields elapsed terrestrial days to midnight at Lanka.
+ * Therefore the current-month input here is the count of completed tithis
+ * (an integer), not a fractional tithi coordinate at an arbitrary instant.
+ * Civil-instant conversion and choosing the correct traditional date fields
+ * remain the caller's responsibility.
+ */
+export function chapter1MidnightAharganaFromTraditionalDate({
+  elapsedSolarYearsSinceKritaEnd,
+  elapsedMonthsFromCaitraShukla,
+  completedTithisInCurrentMonth,
+  intercalaryMonthAdjustment = 0
+}) {
+  if (!Number.isInteger(completedTithisInCurrentMonth) ||
+      completedTithisInCurrentMonth < 0 || completedTithisInCurrentMonth > 29) {
+    throw new TypeError("completedTithisInCurrentMonth must be an integer from 0 to 29.");
+  }
+  const result = chapter1AharganaFromTraditionalDate({
+    elapsedSolarYearsSinceKritaEnd,
+    elapsedMonthsFromCaitraShukla,
+    elapsedTithisInCurrentMonth: completedTithisInCurrentMonth,
+    intercalaryMonthAdjustment
+  });
+  if (!Number.isInteger(result.ahargana)) {
+    throw new Error("Midnight Ahargana must be an integer number of elapsed terrestrial days.");
+  }
+  return {
+    ...result,
+    status: "Chapter I.48–51 midnight Ahargana from supplied traditional date fields; civil-date conversion and input-calendar validation remain outside this helper"
+  };
+}
+
 export function runChapter1TraditionalAharganaTests() {
   const tests = [];
   const close = (actual, expected, tolerance = 1e-7) =>
@@ -217,6 +251,33 @@ export function runChapter1TraditionalAharganaTests() {
     name: "Rounded source longitudes imply about 27.59 elapsed tithis at apparent noon; treating that as the I.50 input does not reproduce the displayed Ahargana",
     passed: close(apparentNoonElapsedTithis, 27.5888888889, 1e-8) &&
       close(apparentNoonAlternative.ahargana - reference.ahargana, 1.0888888889, 0.001)
+  });
+
+  const midnightResult = chapter1MidnightAharganaFromTraditionalDate({
+    elapsedSolarYearsSinceKritaEnd: 2164928,
+    elapsedMonthsFromCaitraShukla: 1,
+    completedTithisInCurrentMonth: 6,
+    intercalaryMonthAdjustment: 0
+  });
+  tests.push({
+    name: "Source-faithful midnight API returns an integer Ahargana for completed tithis",
+    passed: Number.isInteger(midnightResult.ahargana) &&
+      close(midnightResult.ahargana, 714404096641)
+  });
+
+  let rejectedFractionalMidnightTithi = false;
+  try {
+    chapter1MidnightAharganaFromTraditionalDate({
+      elapsedSolarYearsSinceKritaEnd: 2164928,
+      elapsedMonthsFromCaitraShukla: 1,
+      completedTithisInCurrentMonth: 6.5
+    });
+  } catch (error) {
+    rejectedFractionalMidnightTithi = error instanceof TypeError;
+  }
+  tests.push({
+    name: "Source-faithful midnight API rejects fractional tithi inputs",
+    passed: rejectedFractionalMidnightTithi
   });
 
   const tithiOrdinalChecks = [
