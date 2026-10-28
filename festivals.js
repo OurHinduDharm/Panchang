@@ -121,12 +121,6 @@ function updateHinduFestivals() {
     renderFestivalCard(dateString, filtered);
     lastRenderKey = renderKey;
 
-    console.info("OHD festivals audit", {
-      date: dateString,
-      totalEvents: allFestivals.length,
-      displayedHinduFestivals: filtered.map(festivalName),
-      filteredOut: allFestivals.filter(item => !isHinduFestival(item)).map(festivalName)
-    });
   } catch (error) {
     lastRenderKey = "";
     renderFestivalCard(dateString, [], error?.message || String(error));
