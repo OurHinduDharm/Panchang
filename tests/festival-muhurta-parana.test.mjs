@@ -203,3 +203,14 @@ test("Dhanteras does not invent shopping or puja times without Trayodashi", asyn
   assert.equal(result.status, "unavailable");
   assert.equal(result.windows, undefined);
 });
+
+
+test("2026 Rama Ekadashi is wired to the location-aware parana calculation", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const month = JSON.parse(await readFile(new URL("../data/festivals/2026-11.json", import.meta.url), "utf8"));
+  const rama = month.events.find(event => /रमा.*एकादशी/.test(event.title));
+  assert.ok(rama, "Rama Ekadashi must be present in November 2026");
+  assert.equal(rama.date, "2026-11-05");
+  assert.equal(rama.muhurtaRule, "ekadashi-parana");
+  assert.equal(rama.reviewStatus, "approved");
+});
