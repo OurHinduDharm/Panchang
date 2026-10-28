@@ -4,7 +4,7 @@
   "month": 8,
   "monthName": "अगस्त",
   "status": "approved",
-  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
   "events": [
     {
       "date": "2029-08-06",
@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण कृष्ण एकादशी"
+      "hinduTithi": "श्रावण कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-08-12",
@@ -54,13 +55,14 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल एकादशी"
+      "hinduTithi": "श्रावण शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-08-23",
       "dateLabel": "23 अगस्त",
       "title": "रक्षाबंधन",
-      "description": "रक्षाबंधन भाई-बहन के स्नेह और मंगलकामना का पर्व है। राखी का समय स्थानीय पंचांग से देखें।",
+      "description": "रक्षाबंधन भाई-बहन के स्नेह और मंगलकामना का पर्व है। राखी का समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,

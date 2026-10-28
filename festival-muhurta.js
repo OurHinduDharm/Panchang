@@ -30,7 +30,11 @@ function fractionInterval(startValue, endValue, from, to, label) {
 
 function localWeekday(dateValue) {
   const date = validDate(dateValue);
-  return date ? date.getDay() : null;
+  if (!date) return null;
+  const weekday = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Kolkata", weekday: "short"
+  }).format(date);
+  return ({ Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 })[weekday] ?? null;
 }
 
 function rawValue(value) {
@@ -66,6 +70,80 @@ function earlierDate(a, b) {
   if (!a) return b;
   if (!b) return a;
   return a.getTime() <= b.getTime() ? a : b;
+}
+
+function tithiIndex(value) {
+  if (value && typeof value === "object") {
+    const raw = value.index ?? value.number ?? value.value;
+    if (raw !== undefined && raw !== null && raw !== "") {
+      const number = Number(raw);
+      if (Number.isInteger(number)) return number;
+    }
+  }
+  const name = normalizedName(value);
+  if (/dwadashi|द्वादशी/.test(name)) return 11;
+  if (/ekadashi|एकादशी/.test(name)) return 10;
+  if (/trayodashi|त्रयोदशी/.test(name)) return 12;
+  return null;
+}
+
+function isAmavasya(value) {
+  const name = normalizedName(value);
+  if (/amavasya|अमावस्या/.test(name)) return true;
+  const raw = value && typeof value === "object"
+    ? value.index ?? value.number ?? value.value
+    : value;
+  return Number(raw) === 29;
+}
+
+function collectNamedIntervals(list, predicate) {
+  if (!Array.isArray(list)) return [];
+  return list.flatMap(item => {
+    if (!item || !predicate(item)) return [];
+    const start = validDate(item.startTime ?? item.start);
+    const end = validDate(item.endTime ?? item.end);
+    return start && end && end > start ? [{ start, end, item }] : [];
+  }).sort((a, b) => a.start - b.start);
+}
+
+function intersectIntervals(a, b, label, note) {
+  if (!a || !b) return null;
+  return interval(laterDate(a.start, b.start), earlierDate(a.end, b.end), label, note);
+}
+
+function windowWithin(start, end, intervals, label, note) {
+  for (const candidate of intervals) {
+    const result = intersectIntervals({ start, end }, candidate, label, note);
+    if (result) return result;
+  }
+  return null;
+}
+
+function formatDateLabel(dateValue) {
+  const date = validDate(dateValue);
+  return date ? new Intl.DateTimeFormat("hi-IN", {
+    timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric"
+  }).format(date) : "";
+}
+
+function collectTithiIntervals(...lists) {
+  const intervals = [];
+  for (const list of lists) {
+    if (!Array.isArray(list)) continue;
+    for (const item of list) {
+      if (!item || typeof item !== "object") continue;
+      const index = tithiIndex(item);
+      const start = validDate(item.startTime ?? item.start);
+      const end = validDate(item.endTime ?? item.end);
+      if (index === null || !start || !end || end <= start) continue;
+      if (index !== 11 && index !== 26) continue; // Shukla/Krishna Dwadashi
+      const key = index + "|" + start.getTime() + "|" + end.getTime();
+      if (!intervals.some(existing => existing.key === key)) {
+        intervals.push({ key, index, start, end });
+      }
+    }
+  }
+  return intervals.sort((a, b) => a.start - b.start);
 }
 
 /*
@@ -161,7 +239,7 @@ const rules = {
       return {
         label: "घटस्थापना मुहूर्त",
         status: "not-applicable",
-        message: "बुधवार को इस परियोजना के नियम के अनुसार अभिजित विकल्प लागू नहीं है; स्थानीय पंचांग से निर्णय लें।"
+        message: "बुधवार को इस नियम के अनुसार अभिजित विकल्प लागू नहीं होता।"
       };
     }
     const fallback = fractionInterval(sunrise, sunset, 7 / 15, 8 / 15, "घटस्थापना — अभिजित मुहूर्त");
@@ -175,7 +253,310 @@ const rules = {
     return {
       label: "घटस्थापना मुहूर्त",
       status: "unavailable",
-      message: "प्रतिपदा-व्याप्ति में उपयुक्त स्थानीय समय नहीं मिला; तिथि और योग का निर्णय पंचांग पृष्ठ में जाकर देखें।"
+      message: "प्रतिपदा-व्याप्ति में उपयुक्त समय उपलब्ध नहीं है; आवश्यक तिथि और योग-अवधि के बिना मुहूर्त अनुमानित नहीं किया जाएगा।"
+    };
+  },
+
+
+  "ekadashi-parana"(context) {
+    const sunrise = validDate(context.nextSunrise);
+    const sunset = validDate(context.nextSunset);
+    const tithis = collectTithiIntervals(context.tithis);
+    if (!sunrise || !sunset || sunset <= sunrise || !tithis.length) {
+      return {
+        label: "एकादशी पारण काल",
+        status: "unavailable",
+        message: "पारण के लिए अगले दिन का स्थानीय सूर्योदय, सूर्यास्त और तिथि-अवधि उपलब्ध नहीं है।"
+      };
+    }
+
+    // The event is dated on the fasting day. The Dwadashi interval can start
+    // on that day and continue across the following sunrise.
+    const dwadashi = tithis.find(item =>
+      item.end > new Date(sunrise.getTime() - 36 * 60 * 60 * 1000) &&
+      item.start < new Date(sunrise.getTime() + 36 * 60 * 60 * 1000)
+    );
+    if (!dwadashi) {
+      return {
+        label: "एकादशी पारण काल",
+        status: "unavailable",
+        message: "द्वादशी की वास्तविक शुरुआत और समाप्ति नहीं मिली; अनुमानित पारण समय नहीं दिखाया जा रहा है।"
+      };
+    }
+
+    // If Dwadashi ended before sunrise, traditional calendars allow parana
+    // soon after sunrise as an exception. Do not fabricate a longer window.
+    if (dwadashi.end <= sunrise) {
+      return {
+        label: "एकादशी पारण",
+        status: "calculated",
+        time: sunrise,
+        date: sunrise,
+        dateLabel: new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric" }).format(sunrise),
+        note: "द्वादशी तिथि सूर्योदय से पहले समाप्त हो चुकी है। इस अपवाद में पारण सूर्योदय के तुरंत बाद करें।"
+      };
+    }
+
+    const duration = dwadashi.end.getTime() - dwadashi.start.getTime();
+    if (!Number.isFinite(duration) || duration <= 0) {
+      return {
+        label: "एकादशी पारण काल",
+        status: "unavailable",
+        message: "द्वादशी की अवधि विश्वसनीय रूप से निर्धारित नहीं हो सकी।"
+      };
+    }
+
+    // Hari Vasara is the first quarter of Dwadashi. Parana cannot begin
+    // before both local sunrise and the end of that quarter.
+    const hariVasaraEnd = new Date(dwadashi.start.getTime() + duration / 4);
+    const earliest = laterDate(sunrise, hariVasaraEnd);
+    const daylight = sunset.getTime() - sunrise.getTime();
+    const madhyahnaStart = new Date(sunrise.getTime() + daylight * 2 / 5);
+    const madhyahnaEnd = new Date(sunrise.getTime() + daylight * 3 / 5);
+
+    // Prefer a morning window, ending when Madhyahna begins or Dwadashi ends.
+    const morningEnd = earlierDate(dwadashi.end, madhyahnaStart);
+    const morning = interval(earliest, morningEnd, "एकादशी पारण काल");
+    if (morning) {
+      return {
+        ...morning,
+        status: "calculated",
+        date: sunrise,
+        dateLabel: new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric" }).format(sunrise),
+        note: "हरिवासर (द्वादशी का प्रथम चौथाई भाग) समाप्त होने के बाद और द्वादशी तिथि के भीतर पारण करें। प्रातःकाल को प्राथमिकता दें; मध्याह्न में पारण न करें।"
+      };
+    }
+
+    // If the valid morning window is already gone, avoid Madhyahna and use
+    // a post-Madhyahna window only when Dwadashi still remains in force.
+    const laterStart = laterDate(earliest, madhyahnaEnd);
+    const later = interval(laterStart, dwadashi.end, "एकादशी पारण काल");
+    if (later) {
+      return {
+        ...later,
+        status: "calculated",
+        date: sunrise,
+        dateLabel: new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric" }).format(sunrise),
+        note: "प्रातःकाल का उपयुक्त समय उपलब्ध नहीं रहा। मध्याह्न से बचते हुए द्वादशी समाप्त होने से पहले पारण करें।"
+      };
+    }
+
+    return {
+      label: "एकादशी पारण काल",
+      status: "unavailable",
+      message: "हरिवासर, सूर्योदय, मध्याह्न और द्वादशी-समाप्ति के नियमों से इस गणना में पारण-अवधि निर्धारित नहीं हो सकी।"
+    };
+  },
+
+  "dhanteras-muhurta"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const tithis = collectNamedIntervals(context.tithis, item => {
+      const index = tithiIndex(item);
+      return index === 12 || index === 27 || /trayodashi|त्रयोदशी/.test(normalizedName(item));
+    });
+    if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !tithis.length) {
+      return {
+        label: "धनतेरस — खरीदारी और पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्योदय-सूर्यास्त और त्रयोदशी की वास्तविक समय-सीमा उपलब्ध नहीं है; अनुमानित मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+
+    const windows = [];
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    const weekday = localWeekday(context.date);
+    const sequences = [
+      ["Udveg","Chal","Labh","Amrit","Kaal","Shubh","Rog","Udveg"],
+      ["Amrit","Kaal","Shubh","Rog","Udveg","Chal","Labh","Amrit"],
+      ["Rog","Udveg","Chal","Labh","Amrit","Kaal","Shubh","Rog"],
+      ["Labh","Amrit","Kaal","Shubh","Rog","Udveg","Chal","Labh"],
+      ["Shubh","Rog","Udveg","Chal","Labh","Amrit","Kaal","Shubh"],
+      ["Chal","Labh","Amrit","Kaal","Shubh","Rog","Udveg","Chal"],
+      ["Kaal","Shubh","Rog","Udveg","Chal","Labh","Amrit","Kaal"]
+    ];
+    const names = { Amrit: "अमृत चौघड़िया", Shubh: "शुभ चौघड़िया", Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया" };
+    const favorable = new Set(["Amrit","Shubh","Labh","Chal"]);
+    if (dayDuration > 0 && Number.isInteger(weekday) && sequences[weekday]) {
+      for (let i = 0; i < 8; i++) {
+        const kind = sequences[weekday][i];
+        if (!favorable.has(kind)) continue;
+        const start = new Date(sunrise.getTime() + dayDuration * i / 8);
+        const end = new Date(sunrise.getTime() + dayDuration * (i + 1) / 8);
+        const overlap = windowWithin(start, end, tithis, names[kind], "दिनमान के आठ बराबर भागों पर आधारित स्थानीय चौघड़िया; त्रयोदशी-व्याप्ति के भीतर।");
+        if (overlap) windows.push(overlap);
+      }
+    }
+
+    // Night Choghadiya begins at local sunset. Its weekday sequence differs
+    // from the daytime sequence; include only favourable slots overlapping Trayodashi.
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const nightSequences = [
+      ["Shubh","Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh"],
+      ["Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh","Amrit"],
+      ["Chal","Rog","Kaal","Labh","Udveg","Shubh","Amrit","Chal"],
+      ["Labh","Udveg","Shubh","Amrit","Chal","Rog","Kaal","Labh"],
+      ["Shubh","Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh"],
+      ["Rog","Kaal","Labh","Udveg","Shubh","Amrit","Chal","Rog"],
+      ["Kaal","Labh","Udveg","Shubh","Amrit","Chal","Rog","Kaal"]
+    ];
+    if (nightDuration > 0 && Number.isInteger(weekday) && nightSequences[weekday]) {
+      for (let i = 0; i < 8; i++) {
+        const kind = nightSequences[weekday][i];
+        if (!favorable.has(kind)) continue;
+        const start = new Date(sunset.getTime() + nightDuration * i / 8);
+        const end = new Date(sunset.getTime() + nightDuration * (i + 1) / 8);
+        const overlap = windowWithin(start, end, tithis, names[kind], "रात्रिमान के आठ बराबर भागों पर आधारित स्थानीय चौघड़िया; त्रयोदशी-व्याप्ति के भीतर।");
+        if (overlap) windows.push(overlap);
+      }
+    }
+    // Trayodashi may continue after the following sunrise. Include the next
+    // morning's favourable Choghadiya only for the remaining Trayodashi interval.
+    const nextSunset = validDate(context.nextSunset);
+    const nextDayDuration = nextSunset && nextSunset.getTime() - nextSunrise.getTime();
+    const nextWeekday = localWeekday(nextSunrise);
+    if (Number.isFinite(nextDayDuration) && nextDayDuration > 0 &&
+        Number.isInteger(nextWeekday) && sequences[nextWeekday]) {
+      for (let i = 0; i < 8; i++) {
+        const kind = sequences[nextWeekday][i];
+        if (!favorable.has(kind)) continue;
+        const start = new Date(nextSunrise.getTime() + nextDayDuration * i / 8);
+        const end = new Date(nextSunrise.getTime() + nextDayDuration * (i + 1) / 8);
+        const overlap = windowWithin(start, end, tithis, names[kind],
+          "अगले दिन के दिनमान पर आधारित शुभ चौघड़िया; त्रयोदशी-व्याप्ति के भीतर।");
+        if (overlap) windows.push(overlap);
+      }
+    }
+
+    windows.sort((a, b) => a.start - b.start);
+
+    if (!windows.length) {
+      const purchase = windowWithin(sunrise, sunset, tithis, "खरीदारी — त्रयोदशी-व्याप्ति", "यह समय केवल स्थानीय दिनमान और त्रयोदशी के साझा भाग को दर्शाता है; चौघड़िया उपलब्ध न होने से इसे विशेष चौघड़िया मुहूर्त न मानें।");
+      if (purchase) windows.push(purchase);
+    }
+
+    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const pradosh = windowWithin(sunset, pradoshEnd, tithis, "धनतेरस पूजा — प्रदोष काल", "त्रयोदशी-व्याप्ति और प्रदोष काल का साझा समय।");
+    const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
+      /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
+      validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
+    );
+    if (pradosh && fixedLagna) {
+      const fixed = interval(
+        laterDate(pradosh.start, validDate(fixedLagna.start)),
+        earlierDate(pradosh.end, validDate(fixedLagna.end)),
+        "प्राथमिक पूजा विकल्प — वृषभ स्थिर लग्न",
+        "त्रयोदशी, प्रदोष और उपलब्ध वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+      );
+      if (fixed) windows.push(fixed);
+    }
+    if (pradosh) windows.push(pradosh);
+
+    if (!windows.length) {
+      return {
+        label: "धनतेरस — खरीदारी और पूजा मुहूर्त",
+        status: "unavailable",
+        message: "चुने गए नगर में त्रयोदशी के साथ खरीदारी या प्रदोष-पूजा की कोई साझा समयावधि इस गणना में नहीं मिली।"
+      };
+    }
+    return {
+      label: "धनतेरस — खरीदारी और पूजा मुहूर्त",
+      status: "calculated",
+      date: sunrise,
+      dateLabel: formatDateLabel(sunrise),
+      windows,
+      note: "खरीदारी के लिए त्रयोदशी-व्याप्ति में शुभ चौघड़िया विकल्प दिखाए गए हैं। पूजा का समय स्थानीय प्रदोष और त्रयोदशी के साझा भाग से निकाला गया है; वृषभ स्थिर लग्न तभी दिखेगा जब स्थानीय गणना उपलब्ध हो।"
+    };
+  },
+
+  "diwali-lakshmi-puja"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const tithis = collectNamedIntervals(context.tithis, item => isAmavasya(item) || isAmavasya(item.name));
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !tithis.length) {
+      return {
+        label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक समय-सीमा उपलब्ध नहीं है।"
+      };
+    }
+
+    const pradoshStart = sunset;
+    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const pradosh = windowWithin(
+      pradoshStart, pradoshEnd, tithis,
+      "मुख्य लक्ष्मी-गणेश पूजन — प्रदोष काल",
+      "कार्तिक अमावस्या और सूर्यास्त के बाद के प्रदोष काल का साझा समय।"
+    );
+
+    const windows = [];
+    const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
+      /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
+      validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
+    );
+    if (fixedLagna && pradosh) {
+      const lagnaWindow = interval(
+        laterDate(pradosh.start, validDate(fixedLagna.start)),
+        earlierDate(pradosh.end, validDate(fixedLagna.end)),
+        "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न",
+        "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+      );
+      if (lagnaWindow) windows.push(lagnaWindow);
+    }
+    if (pradosh) {
+      windows.push({
+        ...pradosh,
+        label: fixedLagna && windows.length
+          ? "प्रदोष काल में वैकल्पिक पूजन"
+          : "लक्ष्मी-गणेश पूजन — प्रदोष काल",
+        note: fixedLagna && windows.length
+          ? "वैकल्पिक पूजा समय: अमावस्या-व्याप्ति वाला प्रदोष काल।"
+          : "गृहस्थों के लक्ष्मी-गणेश पूजन के लिए प्रदोष काल प्राथमिक विकल्प है। स्थिर लग्न की पुष्टि अलग से उपलब्ध न होने पर इसे वृषभ लग्न का मुहूर्त न मानें।"
+      });
+    }
+
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const nishitaStart = new Date(sunset.getTime() + nightDuration * 7 / 15);
+    const nishitaEnd = new Date(sunset.getTime() + nightDuration * 8 / 15);
+    const nishita = windowWithin(
+      nishitaStart, nishitaEnd, tithis,
+      "महानिशीथ काल — विशेष परंपराओं के लिए",
+      "यह मध्यरात्रि के निकट का विशेष काल है; सामान्य गृहस्थ लक्ष्मी पूजन के लिए प्रदोष काल को प्राथमिकता दें।"
+    );
+    const simhaLagna = (context.sthirLagnaWindows || []).find(w =>
+      /simha|सिंह|leo/i.test(String(w.name || w.rashi || "")) &&
+      validDate(w.end) > nishitaStart && validDate(w.start) < nishitaEnd
+    );
+    if (nishita && simhaLagna) {
+      const simhaNishita = interval(
+        laterDate(nishita.start, validDate(simhaLagna.start)),
+        earlierDate(nishita.end, validDate(simhaLagna.end)),
+        "महानिशीथ काल — सिंह स्थिर लग्न",
+        "महानिशीथ और सिंह स्थिर लग्न की संयुक्त व्याप्ति; यह विशेष साधना के लिए वैकल्पिक समय है।"
+      );
+      // Show the complete Mahanishita interval as well as its smaller Simha overlap.
+      // Replacing the full interval with the overlap can hide most of the actual period.
+      windows.push(nishita);
+      if (simhaNishita) windows.push(simhaNishita);
+    } else if (nishita) {
+      windows.push(nishita);
+    }
+
+    if (!windows.length) {
+      return {
+        label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+        status: "unavailable",
+        message: "चुने गए नगर में प्रदोष/निशीथ काल और अमावस्या की व्याप्ति के बीच कोई साझा समयावधि इस गणना में नहीं मिली।"
+      };
+    }
+    return {
+      label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+      status: "calculated",
+      date: sunset,
+      dateLabel: formatDateLabel(sunset),
+      windows,
+      note: "समय चुने हुए स्थान के सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक व्याप्ति से निकाला गया है। वृषभ स्थिर लग्न तभी दिखेगा जब उसके स्थानीय समय उपलब्ध हों।"
     };
   },
 
@@ -192,7 +573,7 @@ const rules = {
       label: "स्थानीय चंद्रोदय / अर्घ्य का समय",
       status: "calculated",
       time,
-      note: "चंद्रोदय के बाद अपनी परंपरा के अनुसार अर्घ्य दें।"
+      note: "चंद्रोदय के बाद अर्घ्य दें।"
     };
   },
 
@@ -252,7 +633,7 @@ export function getFestivalMuhurta(event, context) {
     return {
       label: "मुहूर्त",
       status: "unavailable",
-      message: "आवश्यक स्थानीय पंचांग-मान उपलब्ध नहीं हैं।"
+      message: "इस तिथि के मुहूर्त की गणना के लिए आवश्यक खगोलीय समय उपलब्ध नहीं हैं।"
     };
   }
 }
@@ -280,6 +661,15 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
     tithi: panchang && panchang.tithi,
     tithiStartTime: panchang && panchang.tithiStartTime,
     tithiEndTime: panchang && panchang.tithiEndTime,
+    // Transition arrays cover the fast day and the following parana day.
+    // Keep the full intervals: scalar sunrise tithi fields alone are insufficient.
+    tithis: [
+      ...(panchang && Array.isArray(panchang.tithis) ? panchang.tithis : []),
+      ...(nextPanchang && Array.isArray(nextPanchang.tithis) ? nextPanchang.tithis : [])
+    ],
+    nextTithi: nextPanchang && nextPanchang.tithi,
+    nextTithiStartTime: nextPanchang && nextPanchang.tithiStartTime,
+    nextTithiEndTime: nextPanchang && nextPanchang.tithiEndTime,
     nakshatra: panchang && panchang.nakshatra,
     nakshatraEndTime: panchang && panchang.nakshatraEndTime,
     yoga: panchang && panchang.yoga,
