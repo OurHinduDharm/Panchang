@@ -119,11 +119,7 @@ function updateHinduFestivals() {
     renderFestivalCard(dateString, allFestivals);
     lastRenderKey = renderKey;
 
-    console.info("OHD festivals audit", {
-      date: dateString,
-      totalEvents: allFestivals.length,
-      displayedLibraryFestivals: allFestivals.map(item => String(item?.name || item?.title || "").trim())
-    });
+
   } catch (error) {
     lastRenderKey = "";
     renderFestivalCard(dateString, [], error?.message || String(error));
