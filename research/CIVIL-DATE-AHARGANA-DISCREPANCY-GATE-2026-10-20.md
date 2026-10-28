@@ -1,3 +1,13 @@
+## Follow-up — 28 October 2026: midnight API distinction
+
+- Primary source commentary on the next page clarifies the sequence: count Chaitra-based months as solar months; add only the **whole** proportional intercalary-month quotient; convert to lunar days using completed tithis; subtract only the **whole** proportional omitted-tithi quotient. The resulting integer is the terrestrial-day count to midnight at Laṅkā. Source: https://en.wikisource.org/wiki/Page:English_translation_of_the_Surya_Siddhanta_and_the_Siddhanta_Siromani_by_Sastri,_1861.djvu/19
+- Added `chapter1MidnightAharganaFromTraditionalDate()` in `ss_chapter1_ahargana_calendar.js`. It requires an integer count of completed tithis and returns an integer midnight Ahargana. The older fractional-tithi function remains explicitly diagnostic for arbitrary-time/synthetic comparisons; it must not be mistaken for the source's midnight result.
+- Added two inline checks: reproduce the existing independent 1827 integer Ahargana fixture through the new API, and reject fractional tithi input. Commit: `f3ee64fdda28a46caf8c05b478138cf123c607ea`.
+- **Verification caveat:** GitHub reported no pull-request workflow run for this commit at the time of the check, so these added checks are not yet independently confirmed by CI. No production files changed; PR remains Draft.
+- Next step: run the existing Chapter I/III source tests against this exact head and inspect any failure before making another code change. Do not yet connect the date bridge to planetary predictions: the correct civil-date-to-traditional-fields mapping and adhika-month choice remain unresolved.
+
+---
+
 ## Compact handoff checkpoint — 27 October 2026
 
 **Purpose:** keep the next chat focused; this is a status note in the existing audit, not a new research file.
