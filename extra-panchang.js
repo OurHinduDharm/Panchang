@@ -1089,15 +1089,41 @@ function normalizePanchangCardOrder() {
   const grid = getPanchangResultsGrid();
   if (!grid) return;
 
-  const children = [...grid.children];
-  children
+  const current = [...grid.children];
+  const sorted = current
     .map((element, index) => ({
       element,
       index,
       order: getPanchangCardOrder(element)
     }))
     .sort((a, b) => a.order - b.order || a.index - b.index)
-    .forEach(item => grid.appendChild(item.element));
+    .map(item => item.element);
+
+  // Avoid moving every existing card on each refresh. Move only cards that
+  // are actually out of position; repeated appendChild() calls can disturb
+  // browser scroll anchoring on long, disclosure-heavy pages.
+  sorted.forEach((element, index) => {
+    if (grid.children[index] !== element) {
+      grid.insertBefore(element, grid.children[index] || null);
+    }
+  });
+}
+
+function replaceOrPlacePanchangCard(id, newCard) {
+  const oldCard = document.getElementById(id);
+
+  if (!newCard) {
+    if (oldCard) oldCard.remove();
+    return;
+  }
+
+  if (oldCard) {
+    oldCard.replaceWith(newCard);
+    return;
+  }
+
+  const grid = getPanchangResultsGrid();
+  if (grid) grid.appendChild(newCard);
 }
 
 function capturePanchangDisclosureState() {
@@ -1364,60 +1390,16 @@ if(
 
   /*
    * =========================================================
-   * पुराने Extra cards हटाएँ
+   * Cards को उनकी मौजूदा grid position पर replace करें।
+   * इससे refresh के दौरान सभी cards को हटाकर दोबारा जोड़ने
+   * और पूरे grid को अनावश्यक रूप से हिलाने से बचा जाता है।
    * =========================================================
    */
 
-  const oldHoraCard =
-    document.getElementById(
-      "horaCard"
-    );
-
-  if (oldHoraCard) {
-    oldHoraCard.remove();
-  }
-
-  const oldPlanetCard =
-    document.getElementById(
-      "planetRiseSetCard"
-    );
-
-  if (oldPlanetCard) {
-    oldPlanetCard.remove();
-  }
-
-  const oldNivasCard = document.getElementById("nivasCard");
-  if (oldNivasCard) oldNivasCard.remove();
-
-  const oldClassicalYogaCard =
-    document.getElementById(
-      "classicalYogasCard"
-    );
-
-  if (oldClassicalYogaCard) {
-    oldClassicalYogaCard.remove();
-  }
-
-
-  /*
-   * =========================================================
-   * नए cards लगाएँ
-   * =========================================================
-   */
-
-  placePlanetCard(
-    planetCard
-  );
-
-  placeHoraCard(
-    horaCard
-  );
-
-  placeClassicalYogaCard(
-    classicalYogaCard
-  );
-
-  placeHoraCard(nivasCard);
+  replaceOrPlacePanchangCard("planetRiseSetCard", planetCard);
+  replaceOrPlacePanchangCard("horaCard", horaCard);
+  replaceOrPlacePanchangCard("classicalYogasCard", classicalYogaCard);
+  replaceOrPlacePanchangCard("nivasCard", nivasCard);
 
   normalizePanchangCardOrder();
   restorePanchangDisclosureState(disclosureState);
