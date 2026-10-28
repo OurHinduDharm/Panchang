@@ -295,6 +295,22 @@
   }
 
   async function appendMuhurta(item,dateIso,content,token){
+    // नक्षत्र-आधारित सरस्वती अनुष्ठानों का मुहूर्त सीधे पंचांग से निकला है।
+    // इसे नियम-मॉड्यूल वाले पर्वों से स्वतंत्र दिखाएँ।
+    if(item.muhurtaStart&&item.muhurtaEnd){
+      var nakshatraStart=new Date(item.muhurtaStart),nakshatraEnd=new Date(item.muhurtaEnd);
+      if(Number.isFinite(nakshatraStart.getTime())&&Number.isFinite(nakshatraEnd.getTime())&&nakshatraEnd>nakshatraStart){
+        var timeFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true});
+        var startLabel=timeFormatter.format(nakshatraStart),endLabel=timeFormatter.format(nakshatraEnd);
+        var timeBox=document.createElement("div");timeBox.className="desc";
+        timeBox.style.cssText="margin-top:6px;font-size:12px;line-height:1.45";
+        var timeTitle=document.createElement("strong");timeTitle.textContent=item.muhurtaLabel||"मुहूर्त";
+        timeBox.appendChild(timeTitle);
+        var timeText=document.createElement("div");
+        timeText.textContent=startLabel+"–"+endLabel+" IST";
+        timeBox.appendChild(timeText);content.appendChild(timeBox);
+      }
+    }
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
     // महाष्टमी प्रविष्टि पर संधिपूजा का मुहूर्त स्थानीय तिथि-संधि से निकालें।
     if(!ruleIds.length&&/महाष्टमी|महाअष्टमी|दुर्गाष्टमी|दुर्गा अष्टमी|दुर्गा पूजा.*अष्टमी/i.test(String(item.title||""))) ruleIds=["sandhi-puja"];
