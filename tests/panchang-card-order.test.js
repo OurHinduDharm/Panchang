@@ -36,6 +36,14 @@ test("Panchang cards are normalized into the intended stable order", () => {
       if (currentIndex !== -1) this.children.splice(currentIndex, 1);
       this.children.push(card);
       return card;
+    },
+    insertBefore(card, reference) {
+      const currentIndex = this.children.indexOf(card);
+      if (currentIndex !== -1) this.children.splice(currentIndex, 1);
+      const referenceIndex = reference ? this.children.indexOf(reference) : -1;
+      if (referenceIndex === -1) this.children.push(card);
+      else this.children.splice(referenceIndex, 0, card);
+      return card;
     }
   };
 
