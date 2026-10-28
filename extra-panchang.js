@@ -530,6 +530,12 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
   return null;
 }
 
+// A previously calculated pair of nearest boundaries remains valid while
+// the selected local-noon instant stays strictly between those boundaries.
+// This avoids repeating hundreds of ephemeris evaluations when readers move
+// between nearby dates that are still inside the same angular-threshold interval.
+const planetEventBracketCache = new Map();
+
 function getPlanetEvent(planet, selectedDate) {
   const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
 
@@ -544,6 +550,21 @@ function getPlanetEvent(planet, selectedDate) {
     };
   }
 
+  const selectedNoon = new Date(
+    `${selectedDate}T12:00:00+05:30`
+  ).getTime();
+
+  const cachedBrackets = planetEventBracketCache.get(planet.body) || [];
+  const cached = cachedBrackets.find(entry =>
+    Number.isFinite(selectedNoon) &&
+    entry.startMs < selectedNoon &&
+    selectedNoon < entry.endMs
+  );
+
+  if (cached) {
+    return { ...cached.result, name: planet.name };
+  }
+
   try {
     const asta = findNearestAngularBoundary(
       planet.body, selectedDate, threshold, "asta"
@@ -552,7 +573,7 @@ function getPlanetEvent(planet, selectedDate) {
       planet.body, selectedDate, threshold, "udaya"
     );
 
-    return {
+    const result = {
       name: planet.name,
       asta: asta ? formatEventDateTime(asta.instant) : null,
       astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
@@ -560,6 +581,31 @@ function getPlanetEvent(planet, selectedDate) {
       udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
       verificationPending: true
     };
+
+    const astaMs = asta?.instant instanceof Date ? asta.instant.getTime() : NaN;
+    const udayaMs = udaya?.instant instanceof Date ? udaya.instant.getTime() : NaN;
+
+    // Cache only when both independently found boundaries enclose the selected
+    // noon. If either boundary is missing or the pair does not enclose noon,
+    // recompute on the next date rather than risk reusing a stale estimate.
+    if (
+      Number.isFinite(selectedNoon) &&
+      Number.isFinite(astaMs) &&
+      Number.isFinite(udayaMs) &&
+      Math.min(astaMs, udayaMs) < selectedNoon &&
+      selectedNoon < Math.max(astaMs, udayaMs)
+    ) {
+      const entries = planetEventBracketCache.get(planet.body) || [];
+      entries.unshift({
+        startMs: Math.min(astaMs, udayaMs),
+        endMs: Math.max(astaMs, udayaMs),
+        result
+      });
+      // Bound memory use; recent date intervals are most likely to be reused.
+      planetEventBracketCache.set(planet.body, entries.slice(0, 12));
+    }
+
+    return result;
   } catch (error) {
     console.warn("Planetary angular-boundary estimate failed:", planet.body, error);
     return {
@@ -572,7 +618,6 @@ function getPlanetEvent(planet, selectedDate) {
     };
   }
 }
-
 
 /* =========================================
    Card creation
