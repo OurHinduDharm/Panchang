@@ -2,3 +2,10 @@
 @media(min-width:600px){#ohd-monthly-festivals main{padding:22px}#ohd-monthly-festivals .hero{padding:23px}#ohd-monthly-festivals .event{padding:14px}#ohd-monthly-festivals .date{flex-basis:78px}#ohd-monthly-festivals .desc{font-size:14px}}
 
 #ohd-monthly-festivals .footer-month-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 10px}#ohd-monthly-festivals .footer-month-nav button{cursor:pointer;background:#fffaf2;border-color:#d8b98e;color:#70421f;font-weight:650;padding:8px 13px;font-size:13px}#ohd-monthly-festivals .footer-month-nav button:hover{background:#fff0d9}
+
+
+/* AdSense Auto Ads: keep monthly event cards readable when an ad is injected directly into a card. */
+#ohd-monthly-festivals .event:has(> .google-auto-placed){display:grid!important;grid-template-columns:68px minmax(0,1fr)!important;column-gap:12px!important;align-items:start!important}
+#ohd-monthly-festivals .event > .google-auto-placed{grid-column:1 / -1!important;grid-row:1!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+#ohd-monthly-festivals .event:has(> .google-auto-placed) > .date{grid-column:1!important;min-width:0!important}
+#ohd-monthly-festivals .event:has(> .google-auto-placed) > .content{grid-column:2!important;min-width:0!important;width:auto!important;overflow-wrap:anywhere!important}
