@@ -483,15 +483,18 @@
       var p=values.p||{},sunrise=new Date(p.sunrise),sunset=new Date(p.sunset);
       if(!Number.isFinite(sunrise.getTime())||!Number.isFinite(sunset.getTime())||sunset<=sunrise) continue;
       // मूल में स्थापना/आवाहन: धर्मसिंधु-पाठ के अनुसार सूर्यास्त से तीन मुहूर्त (144 मिनट) पहले।
-      var avahanTime=new Date(sunset.getTime()-144*60000),avahanPanchang;
-      try{avahanPanchang=values.at(avahanTime);}catch(_){avahanPanchang=p;}
-      if(!avahanScheduled&&!avahanFallbackScheduled&&panchangNakshatraAt(avahanPanchang)==="मूल"){
+      var avahanTime=new Date(sunset.getTime()-144*60000);
+      var mulaWindow=findMulaInterval(p,iso);
+      var avahanStart=mulaWindow?new Date(Math.max(avahanTime.getTime(),mulaWindow.start.getTime())):null;
+      var avahanEnd=mulaWindow?new Date(Math.min(sunset.getTime(),mulaWindow.end.getTime())):null;
+      // आवाहन-मुहूर्त और मूल नक्षत्र का वास्तविक समय-संयोग जाँचें;
+      // केवल दिन के मुख्य नक्षत्र-लेबल पर निर्भर न रहें।
+      if(!avahanScheduled&&!avahanFallbackScheduled&&avahanStart&&avahanEnd&&avahanEnd>avahanStart){
         addSaraswatiEvent(found,iso,"देवी सरस्वती का आवाहन / स्थापना","मूल नक्षत्र में आवाहन / स्थापना। सूर्यास्त से तीन मुहूर्त पूर्व का समय।","avahana","मूल",values.location&&values.location.name);
-        setSaraswatiMuhurta(found[found.length-1],avahanTime,sunset,"आवाहन का मुहूर्त");
-        found[found.length-1].muhurtaInstant=avahanTime.toISOString();
-        found[found.length-1].muhurtaLabel="आवाहन का समय";
+        setSaraswatiMuhurta(found[found.length-1],avahanStart,avahanEnd,"आवाहन का मुहूर्त");
+        found[found.length-1].muhurtaInstant=avahanStart.toISOString();
         avahanScheduled=true;
-      }else if(!avahanScheduled&&!avahanFallbackScheduled&&findMulaInterval(p,iso)){
+      }else if(!avahanScheduled&&!avahanFallbackScheduled&&mulaWindow){
         // धर्मसिंधु-पाठ का विकल्प: नियत समय पर मूल उपलब्ध न हो तो अगले दिन मूल का द्वितीय पाद।
         var nextCursor=new Date(cursor);nextCursor.setDate(nextCursor.getDate()+1);
         var nextIso=nextCursor.getFullYear()+"-"+String(nextCursor.getMonth()+1).padStart(2,"0")+"-"+String(nextCursor.getDate()).padStart(2,"0");
