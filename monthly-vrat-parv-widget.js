@@ -4,7 +4,7 @@
   // सार्वजनिक दृश्य में केवल स्वीकृत प्रविष्टियाँ; ?review=1 से समीक्षा संकेत दिखते हैं।
   // Blogger page editor may drop or ignore a stylesheet link in the page body.
   // Ensure the shared stylesheet is attached even when the HTML link is stripped.
-  var cssHref="https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@efd797e1972027ec11a79498a2c575cf61f581ba/monthly-vrat-parv-widget.css";
+  var cssHref="https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@a7019e1ab2aaa167f5f3eec3df95d3dc45fa496a/monthly-vrat-parv-widget.css";
   if(!Array.from(document.styleSheets).some(function(sheet){try{return sheet.href===cssHref;}catch(_){return false;}})){
     var cssLink=document.createElement("link");
     cssLink.rel="stylesheet";cssLink.href=cssHref;document.head.appendChild(cssLink);
