@@ -1,10 +1,8 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
-import { festivalName, isHinduFestival, deduplicateHinduFestivals } from "./festival-filter.js";
 
 /*
- * OurHinduDharm — Hindu festival card.
- * Only reviewed Hindu vrata/parva terminology is shown; duplicate aliases
- * for the same named festival are collapsed.
+ * OurHinduDharm — Panchang library festival card.
+ * Display every festival returned by the library without name filtering or deduplication.
  */
 
 // Keep this fallback identical to app.js's default Pithoragarh location.
@@ -93,7 +91,7 @@ function renderFestivalCard(dateString, festivals, errorMessage = "") {
     list.style.cssText = "margin:0;padding-left:20px;line-height:1.7;";
     festivals.forEach(item => {
       const row = document.createElement("li");
-      row.textContent = festivalName(item);
+      row.textContent = String(item?.name || item?.title || item?.festival || item?.label || item || "").trim();
       list.appendChild(row);
     });
     card.appendChild(list);
@@ -117,15 +115,14 @@ function updateHinduFestivals() {
     const date = new Date(dateString + "T12:00:00+05:30");
     const panchang = getPanchangam(date, location, { timezoneOffset: 330 });
     const allFestivals = Array.isArray(panchang?.festivals) ? panchang.festivals : [];
-    const filtered = deduplicateHinduFestivals(allFestivals.filter(isHinduFestival));
-    renderFestivalCard(dateString, filtered);
+    // Display every festival returned by the Panchang library without name/category filtering or deduplication.
+    renderFestivalCard(dateString, allFestivals);
     lastRenderKey = renderKey;
 
     console.info("OHD festivals audit", {
       date: dateString,
       totalEvents: allFestivals.length,
-      displayedHinduFestivals: filtered.map(festivalName),
-      filteredOut: allFestivals.filter(item => !isHinduFestival(item)).map(festivalName)
+      displayedLibraryFestivals: allFestivals.map(item => String(item?.name || item?.title || "").trim())
     });
   } catch (error) {
     lastRenderKey = "";
