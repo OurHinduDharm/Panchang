@@ -666,14 +666,22 @@
   ensureYearOption(initialDate.getFullYear());
   yearSelect.value=String(initialDate.getFullYear());
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
+  syncLocationUI();
+  // The festival list must not wait for the external elevation service.
+  loadMonth();
   (async function(){
     try{
-      defaultLocationElevation=await getTerrainElevation(29.5828,80.2182);
+      var fetchedElevation=await getTerrainElevation(29.5828,80.2182);
+      var elevationChanged=fetchedElevation!==defaultLocationElevation;
+      defaultLocationElevation=fetchedElevation;
       defaultElevationFromDem=true;
+      syncLocationUI();
+      if(elevationChanged){
+        panchangCache.clear();
+        loadMonth();
+      }
     }catch(error){
       console.warn("Default location elevation unavailable; using configured elevation.",error);
     }
-    syncLocationUI();
-    loadMonth();
   })();
 })();
