@@ -4,7 +4,7 @@
   "month": 3,
   "monthName": "मार्च",
   "status": "approved",
-  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
   "events": [
     {
       "date": "2029-03-01",
@@ -34,7 +34,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र कृष्ण एकादशी"
+      "hinduTithi": "चैत्र कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-03-14",
@@ -54,7 +55,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "अधिक चैत्र शुक्ल एकादशी"
+      "hinduTithi": "अधिक चैत्र शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-03-30",

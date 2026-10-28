@@ -4,7 +4,7 @@
   "month": 6,
   "monthName": "जून",
   "status": "approved",
-  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
   "events": [
     {
       "date": "2029-06-07",
@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ कृष्ण एकादशी"
+      "hinduTithi": "ज्येष्ठ कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-06-11",
@@ -64,7 +65,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी"
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-06-26",

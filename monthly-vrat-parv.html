@@ -131,17 +131,17 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   <h2 id="howToUseTitle" style="font-size:17px;margin:0 0 7px;color:var(--ink)">इस मासिक व्रत-पर्व सूची का सही उपयोग कैसे करें?</h2>
   <ul style="margin:0;padding-left:20px">
     <li><strong>पहले अपना नगर चुनें:</strong> चंद्रोदय, सूर्योदय और पूजा-मुहूर्त स्थान के अनुसार बदल सकते हैं। स्थान चुनने के बाद सूची में उपलब्ध स्थानीय समय उसी स्थान के लिए देखें।</li>
-    <li><strong>पर्व की तारीख़ और तिथि में अंतर समझें:</strong> व्रत-पर्व का निर्णय तिथि-व्याप्ति, सूर्योदय/चंद्रोदय और संबंधित परंपरा पर निर्भर हो सकता है। केवल सामान्य कैलेंडर की तारीख़ को अंतिम धार्मिक निर्णय न मानें।</li>
-    <li><strong>समय की सीमा:</strong> मुहूर्त तभी दिखाया जाएगा जब उस पर्व का नियम और आवश्यक स्थानीय पंचांग-मान उपलब्ध हों। समय न मिले तो उसे अनुमान से भरने के बजाय स्थानीय पंचांग से पुष्टि करें।</li>
+    <li><strong>पर्व की तारीख़ और तिथि:</strong> व्रत-पर्व की तिथि और मुहूर्त चुने गए नगर के सूर्योदय, चंद्रोदय तथा तिथि-व्याप्ति के आधार पर निकाले जाते हैं।</li>
+    <li><strong>मुहूर्त की गणना:</strong> उपलब्ध मुहूर्त चुने गए नगर के खगोलीय समय और संबंधित तिथि-व्याप्ति से निकाले जाते हैं।</li>
     <li><strong>विधि और विस्तृत विवरण:</strong> किसी पर्व के कार्ड पर संबंधित लेख उपलब्ध होने पर उसका लिंक मिलेगा। उस दिन की तिथि और पंचांग देखने के लिए कार्ड में <em>इस दिन का पंचांग देखें</em> चुनें।</li>
   </ul>
-  <p style="margin:9px 0 0">गणना में चुने स्थान के निर्देशांक और भारतीय मानक समय (IST) का उपयोग होता है। स्थान खोज से ऊँचाई उपलब्ध न होने पर गणना में 0 मीटर ऊँचाई मानी जा सकती है; ऐसे मामलों में ऊँचाई-संवेदनशील परिणामों को सावधानी से देखें। अलग-अलग क्षेत्रीय परंपराओं में पर्व-निर्णय भिन्न हो सकता है।</p>
+  <p style="margin:9px 0 0">गणना में चुने हुए नगर के निर्देशांक और भारतीय मानक समय (IST) का उपयोग होता है। सूर्योदय, सूर्यास्त, चंद्रोदय और पूजा-मुहूर्त उसी स्थान के अनुसार निकाले जाते हैं।</p>
   <div class="links" style="margin-top:9px">
     <a href="https://ourhindudharm.github.io/Panchang/" target="_blank" rel="noopener noreferrer">विस्तृत दैनिक पंचांग खोलें</a>
     <a href="https://ourhindudharm.blogspot.com/" target="_blank" rel="noopener noreferrer">OurHinduDharm के धार्मिक लेख</a>
   </div>
 </section>
-<div class="note" id="sourceNote">संबंधित पूजा-विधि और धार्मिक लेखों के लिंक केवल उपलब्ध लेखों के लिए दिखेंगे। पर्व-तिथि, स्थानीय चंद्रोदय और मुहूर्त प्रकाशित या उपयोग करने से पहले चुने हुए नगर तथा अपनी व्रत-परंपरा के अनुसार पुष्टि करें।</div>
+<div class="note" id="sourceNote">संबंधित पूजा-विधि और धार्मिक लेखों के लिंक उपलब्ध होने पर दिखेंगे। पर्व की तिथि, स्थानीय चंद्रोदय और मुहूर्त इस पृष्ठ पर चुने गए नगर के अनुसार दिखाए जाते हैं। स्थान-ऊँचाई डेटा: Open-Meteo / Copernicus DEM।</div>
 <footer><div>OurHinduDharm · मासिक व्रत-पर्व सूची</div></footer>
 </main>
 <script type="module">
@@ -152,6 +152,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   document.body.classList.toggle("review-mode",reviewMode);
   document.getElementById("reviewBanner").hidden=!reviewMode;
   var months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
+  function getIndiaCalendarDate(){
+    var parts=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+    var part=function(type){return (parts.find(function(item){return item.type===type;})||{}).value||"";};
+    return new Date(Number(part("year")),Number(part("month"))-1,Number(part("day")),12,0,0);
+  }
   var monthSelect=document.getElementById("monthSelect");
   var yearSelect=document.getElementById("yearSelect");
   var currentMonthBtn=document.getElementById("currentMonthBtn");
@@ -167,6 +172,8 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   var panchangCache=new Map();
   // Keep precise coordinates only in page memory; do not persist geolocation in browser storage.
   var selectedLocationInSession=null;
+  var defaultLocationElevation=1650;
+  var defaultElevationFromDem=false;
   // मुहूर्त मॉड्यूल वैकल्पिक रूप से लोड हो; इसके विफल होने पर खोज/फ़िल्टर बंद न हों।
   var muhurtaModulePromise=import("./festival-muhurta.js").catch(function(error){
     console.warn("Festival muhurta module unavailable:",error);return null;
@@ -181,12 +188,21 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         state:selectedLocationInSession.state||"",city:selectedLocationInSession.city||""
       };
     }
-    return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:1650,state:"उत्तराखंड",city:"पिथौरागढ़"};
+    return {name:"पिथौरागढ़, उत्तराखंड, भारत",lat:29.5828,lon:80.2182,elevation:defaultLocationElevation,state:"उत्तराखंड",city:"पिथौरागढ़"};
   }
   function syncLocationUI(){
     var location=getLocalLocation();
-    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name;
+    locationStatus.textContent="मुहूर्त की गणना का स्थान: "+location.name+((selectedLocationInSession||defaultElevationFromDem)?" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM":"");
     if(!locationInput.value) locationInput.value=location.city||location.name||"";
+  }
+  async function getTerrainElevation(lat,lon){
+    var url="https://api.open-meteo.com/v1/elevation?latitude="+encodeURIComponent(lat)+"&longitude="+encodeURIComponent(lon);
+    var response=await fetch(url,{headers:{"Accept":"application/json"}});
+    if(!response.ok) throw new Error("Elevation_HTTP_"+response.status);
+    var data=await response.json();
+    var elevation=Array.isArray(data.elevation)?Number(data.elevation[0]):NaN;
+    if(!Number.isFinite(elevation)) throw new Error("Elevation data unavailable");
+    return elevation;
   }
   async function searchLocation(){
     var query=locationInput.value.trim();
@@ -213,11 +229,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         button.type="button";
         button.setAttribute("role","option");
         button.textContent=place.display_name||place.name||query;
-        button.addEventListener("click",function(){
+        button.addEventListener("click",async function(){
           var address=place.address||{};
           var selected={
             name:place.display_name||place.name||query,
-            lat:Number(place.lat),lon:Number(place.lon),elevation:0,
+            lat:Number(place.lat),lon:Number(place.lon),elevation:null,
             state:address.state||address.state_district||address.region||"",
             city:address.city||address.town||address.village||address.municipality||place.name||query
           };
@@ -225,11 +241,21 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             locationStatus.textContent="इस परिणाम के निर्देशांक उपलब्ध नहीं हैं। दूसरा परिणाम चुनें।";
             return;
           }
+          button.disabled=true;
+          locationStatus.textContent="चुने गए स्थान की ऊँचाई प्राप्त की जा रही है…";
+          try{
+            selected.elevation=await getTerrainElevation(selected.lat,selected.lon);
+          }catch(error){
+            console.warn("Location elevation unavailable:",error);
+            locationStatus.textContent="इस स्थान की ऊँचाई का डेटा अभी नहीं मिल सका। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
+            button.disabled=false;
+            return;
+          }
           selectedLocationInSession=selected;
           panchangCache.clear();
           locationInput.value=selected.city||selected.name;
           locationSuggestions.replaceChildren();
-          locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई उपलब्ध न होने पर 0 मीटर मानकर गणना होगी।";
+          locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM";
           loadMonth();
         });
         locationSuggestions.appendChild(button);
@@ -250,15 +276,72 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     var promise=Promise.resolve().then(async function(){
       var panchangLib=await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
       var observer=new panchangLib.Observer(location.lat,location.lon,location.elevation);
-      var date=new Date(dateIso+"T12:00:00");
-      var nextDate=new Date(date);nextDate.setDate(nextDate.getDate()+1);
+      var date=new Date(dateIso+"T12:00:00+05:30");
+      var nextDate=new Date(date.getTime()+24*60*60*1000);
       var p=panchangLib.getPanchangam(date,observer,{timezoneOffset:330});
       var next=panchangLib.getPanchangam(nextDate,observer,{timezoneOffset:330});
-      return {p:p,next:next,location:location,date:date};
+      return {p:p,next:next,location:location,date:date,panchangLib:panchangLib,observer:observer};
     });
     panchangCache.set(cacheKey,promise);
     return promise;
   }
+  function getLagnaIndex(p){
+    var value=p&&p.udayaLagna;
+    if(value&&typeof value==="object"){
+      var raw=value.index??value.number??value.value??value.name??value.label;
+      if(raw!==undefined)value=raw;
+    }
+    if(typeof value==="number"&&Number.isFinite(value))return value;
+    var name=String(value??"").normalize("NFC").toLocaleLowerCase("hi");
+    if(/vrishabha|वृषभ|taurus/.test(name))return 1;
+    if(/simha|सिंह|leo/.test(name))return 4;
+    var numeric=Number(value);
+    return Number.isInteger(numeric)?numeric:null;
+  }
+  function getStiraLagnaWindows(lib,observer,startValue,endValue){
+    var start=new Date(startValue),end=new Date(endValue);
+    if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<=start||
+       !lib||typeof lib.getPanchangam!=="function")return [];
+    function signAt(ms){
+      try{return getLagnaIndex(lib.getPanchangam(new Date(ms),observer,{timezoneOffset:330}));}
+      catch(_){return null;}
+    }
+    var step=5*60*1000,points=[];
+    for(var t=start.getTime();t<end.getTime();t+=step)points.push(t);
+    points.push(end.getTime());
+    var signs=points.map(signAt),segments=[],segmentStart=null,segmentSign=null;
+    function boundary(left,right,target){
+      var leftMatches=signAt(left)===target;
+      while(right-left>30000){
+        var mid=Math.floor((left+right)/2);
+        if((signAt(mid)===target)===leftMatches)left=mid;else right=mid;
+      }
+      return right;
+    }
+    for(var i=0;i<points.length;i++){
+      var sign=signs[i];
+      if(i===0){
+        if(sign===1||sign===4){segmentStart=points[i];segmentSign=sign;}
+        continue;
+      }
+      var prev=signs[i-1],prevTime=points[i-1],time=points[i];
+      if(prev===sign)continue;
+      if((prev===1||prev===4)&&segmentStart!==null){
+        var segEnd=boundary(prevTime,time,prev);
+        segments.push({name:prev===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:new Date(segEnd)});
+        segmentStart=null;segmentSign=null;
+      }
+      if(sign===1||sign===4){
+        segmentStart=boundary(prevTime,time,sign);
+        segmentSign=sign;
+      }
+    }
+    if(segmentStart!==null&&(segmentSign===1||segmentSign===4)){
+      segments.push({name:segmentSign===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:end});
+    }
+    return segments;
+  }
+
   async function appendMuhurta(item,dateIso,content,token){
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
     if(!ruleIds.length) return;
@@ -279,6 +362,20 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja"||ruleItem.muhurtaRule==="dhanteras-muhurta";})){
+        var sunset=new Date(values.p.sunset);
+        var nextSunrise=new Date(values.next.sunrise);
+        var nightDuration=nextSunrise.getTime()-sunset.getTime();
+        var pradoshEnd=new Date(sunset.getTime()+nightDuration/5);
+        context.sthirLagnaWindows=[
+          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd)
+        ];
+        if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja";})){
+          var nishitaStart=new Date(sunset.getTime()+nightDuration*7/15);
+          var nishitaEnd=new Date(sunset.getTime()+nightDuration*8/15);
+          context.sthirLagnaWindows.push(...getStiraLagnaWindows(values.panchangLib,values.observer,nishitaStart,nishitaEnd));
+        }
+      }
       usableRules.forEach(function(ruleItem){
         var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);
         if(!result) return;
@@ -286,10 +383,34 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         box.style.marginTop="7px";box.style.padding="8px 9px";box.style.borderRadius="8px";box.style.background="#fff8e9";
         var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
         var detail=document.createElement("div");
-        if(result.status==="calculated"&&result.time){
-          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
+        var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
+        if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
+          result.windows.forEach(function(windowItem){
+            var row=document.createElement("div");row.style.marginTop="5px";
+            var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
+            var time=document.createElement("div");
+            var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
+            var endTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
+            function dateKey(value){
+              var parts=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(value);
+              var part=function(type){return (parts.find(function(item){return item.type===type;})||{}).value||"";};
+              return part("year")+"-"+part("month")+"-"+part("day");
+            }
+            var startDateKey=dateKey(windowItem.start),endDateKey=dateKey(windowItem.end);
+            if(startDateKey!==dateIso||endDateKey!==dateIso){
+              var dateFormatter=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short"});
+              time.textContent=dateFormatter.format(windowItem.start)+" "+startTime+" – "+dateFormatter.format(windowItem.end)+" "+endTime;
+            }else{
+              time.textContent=startTime+" – "+endTime;
+            }
+            row.appendChild(time);
+            if(windowItem.note){var windowNote=document.createElement("div");windowNote.style.fontSize="12px";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
+            detail.appendChild(row);
+          });
+        }else if(result.status==="calculated"&&result.time){
+          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
-          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
+          detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
         }else{
           detail.textContent=result.message||"मुहूर्त उपलब्ध नहीं है।";
         }
@@ -420,7 +541,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var date=document.createElement("div");date.className="date";
       var strong=document.createElement("strong");strong.textContent=item.dateLabel||String(item.date||"").slice(8,10);
       date.appendChild(strong);
-      var dateObj=new Date(String(item.date||"")+"T12:00:00");
+      var dateObj=new Date(String(item.date||"")+"T12:00:00+05:30");
       var small=document.createElement("small");
       small.textContent=Number.isNaN(dateObj.getTime())?"":["रवि","सोम","मंगल","बुध","गुरु","शुक्र","शनि"][dateObj.getDay()];
       date.appendChild(small);card.appendChild(date);
@@ -563,7 +684,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   document.getElementById("footerPrevBtn").addEventListener("click",function(event){shiftMonth(-1,event.currentTarget);});
   document.getElementById("footerNextBtn").addEventListener("click",function(event){shiftMonth(1,event.currentTarget);});
   currentMonthBtn.addEventListener("click",function(){
-    var now=new Date();
+    var now=getIndiaCalendarDate();
     var year=now.getFullYear();
     ensureYearOption(year);
     yearSelect.value=String(year);
@@ -571,11 +692,28 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     loadMonth();
   });
   // पेज हर वर्ष अपने-आप वर्तमान महीने से खुले; पुराने/आने वाले वर्ष भी नेविगेशन में जुड़ सकें।
-  var initialDate=new Date();
+  var initialDate=getIndiaCalendarDate();
   ensureYearOption(initialDate.getFullYear());
   yearSelect.value=String(initialDate.getFullYear());
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
+  syncLocationUI();
+  // The festival list must not wait for the external elevation service.
   loadMonth();
+  (async function(){
+    try{
+      var fetchedElevation=await getTerrainElevation(29.5828,80.2182);
+      var elevationChanged=fetchedElevation!==defaultLocationElevation;
+      defaultLocationElevation=fetchedElevation;
+      defaultElevationFromDem=true;
+      syncLocationUI();
+      if(elevationChanged){
+        panchangCache.clear();
+        loadMonth();
+      }
+    }catch(error){
+      console.warn("Default location elevation unavailable; using configured elevation.",error);
+    }
+  })();
 })();
 
 // Blogger iframe में इस्तेमाल होने पर सामग्री की ऊँचाई parent page को बताएँ।

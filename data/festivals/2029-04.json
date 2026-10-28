@@ -4,7 +4,7 @@
   "month": 4,
   "monthName": "अप्रैल",
   "status": "approved",
-  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
   "events": [
     {
       "date": "2029-04-09",
@@ -14,13 +14,14 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "अधिक चैत्र कृष्ण एकादशी"
+      "hinduTithi": "अधिक चैत्र कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-04-14",
       "dateLabel": "14 अप्रैल",
       "title": "चैत्र नवरात्र प्रारम्भ / गुड़ी पड़वा",
-      "description": "चैत्र शुक्ल प्रतिपदा से नवरात्र और हिंदू नववर्ष की परंपरा आरम्भ होती है। घटस्थापना का मुहूर्त स्थानीय पंचांग से देखें।",
+      "description": "चैत्र शुक्ल प्रतिपदा से नवरात्र और हिंदू नववर्ष की परंपरा आरम्भ होती है। घटस्थापना का मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -50,7 +51,7 @@
       "date": "2029-04-23",
       "dateLabel": "23 अप्रैल",
       "title": "राम नवमी",
-      "description": "राम नवमी भगवान श्रीराम के प्राकट्य का पर्व है। पूजा का स्थानीय समय पंचांग से देखें।",
+      "description": "राम नवमी भगवान श्रीराम के प्राकट्य का पर्व है। पूजा-काल संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -64,7 +65,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल एकादशी"
+      "hinduTithi": "चैत्र शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-04-28",

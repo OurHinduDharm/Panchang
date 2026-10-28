@@ -4,7 +4,7 @@
   "month": 12,
   "monthName": "दिसंबर",
   "status": "approved",
-  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त स्थानीय पंचांग से देखें",
+  "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
   "events": [
     {
       "date": "2029-12-02",
@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी"
+      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-12-10",
@@ -34,7 +35,8 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी"
+      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2029-12-16",
@@ -64,7 +66,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "पौष कृष्ण एकादशी"
+      "hinduTithi": "पौष कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     }
   ]
 }
