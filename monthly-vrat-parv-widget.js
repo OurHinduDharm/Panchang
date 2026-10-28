@@ -468,7 +468,6 @@
       var avahanTime=new Date(sunset.getTime()-144*60000),avahanPanchang;
       try{avahanPanchang=values.at(avahanTime);}catch(_){avahanPanchang=p;}
       if(!avahanScheduled&&!avahanFallbackScheduled&&panchangNakshatraAt(avahanPanchang)==="मूल"){
-        var avahanClock=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hour12:true}).format(avahanTime);
         addSaraswatiEvent(found,iso,"देवी सरस्वती का आवाहन / स्थापना","मूल नक्षत्र में आवाहन / स्थापना। सूर्यास्त से तीन मुहूर्त पूर्व का समय।","avahana","मूल");
         found[found.length-1].muhurtaInstant=avahanTime.toISOString();
         found[found.length-1].muhurtaLabel="आवाहन का समय";
