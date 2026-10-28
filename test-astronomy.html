@@ -584,6 +584,17 @@
 
 <script type="module">
 
+// Render dynamic diagnostic/error text as text, never as executable HTML.
+function escapeHtml(value) {
+  return String(value == null ? "" : value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+
 /* =============================================================
    IMPORTS
    ============================================================= */
@@ -1795,7 +1806,7 @@ async function runHeliacalValidation() {
     heliacalOutput.innerHTML = `
       <div class="status error">
         ❌ Swiss heliacal validation failed:
-        ${error?.message || String(error)}
+        ${escapeHtml(error?.message || String(error))}
       </div>
     `;
 
@@ -2551,7 +2562,7 @@ async function runJupiterAstaComponentSweep() {
       html += '<tr class="' + (row.day === "2027-08-20" ? "reference-row" : "") + '">';
       if (row.error) {
         html += '<td>' + row.location.label + '</td><td>' + row.day +
-          '</td><td colspan="9">' + row.error + '</td></tr>';
+          '</td><td colspan="9">' + escapeHtml(row.error) + '</td></tr>';
         continue;
       }
       const d = row.current.drikkarma;
@@ -2575,7 +2586,7 @@ async function runJupiterAstaComponentSweep() {
     out.innerHTML = html;
   } catch (error) {
     out.innerHTML = '<div class="status error">Location comparison failed: ' +
-      String(error?.message || error) + '. The main lagnāntara table remains available.</div>';
+      escapeHtml(String(error?.message || error)) + '. The main lagnāntara table remains available.</div>';
   }
 }
 function getPlanetSiderealState(body, date) {
@@ -3773,9 +3784,9 @@ async function runSameInstantTksSnapshotAudit() {
     '<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Our current candidate</th><th>Our sequential candidate</th><th>TKS reference (instant/frame unverified)</th></tr></thead><tbody>' +
     '<tr><td>IX.2–3 event branch</td><td colspan="2">' + event + ' (' + (motion < 0 ? 'retrograde' : 'direct') + ')</td><td>Venus Asta panel</td></tr>' +
     '<tr><td>Chapter III sign-table K</td><td>' + fmt(current.K) + '</td><td>' + fmt(sequential.K) + '</td><td>7.698° (reference only; instant unverified)</td></tr>' +
-    '<tr><td>Full 3-D meridian-frame candidate K</td><td colspan="2">' + (fullFrameMeridian ? fmt(fullFrameMeridian.K) + ' (Δ vs sequential ' + fmt(fullFrameMeridian.K - sequential.K) + ')' : 'Unavailable') + '</td><td>' + (fullFrameMeridian ? 'Not compared: TKS instant/frame unverified' : fullFrameError || 'Not available') + '</td></tr>' +
+    '<tr><td>Full 3-D meridian-frame candidate K</td><td colspan="2">' + (fullFrameMeridian ? fmt(fullFrameMeridian.K) + ' (Δ vs sequential ' + fmt(fullFrameMeridian.K - sequential.K) + ')' : 'Unavailable') + '</td><td>' + (fullFrameMeridian ? 'Not compared: TKS instant/frame unverified' : escapeHtml(fullFrameError || 'Not available')) + '</td></tr>' +
     '<tr><td>Full-frame local sidereal angle</td><td colspan="2">' + (fullFrameMeridian ? fmt(fullFrameMeridian.classicalLST) : '—') + '</td><td>Modern LST: ' + (fullFrameMeridian ? fmt(fullFrameMeridian.modernLST) : '—') + '</td></tr>' +
-    '<tr><td>Swiss Ephemeris K (same geometry)</td><td colspan="2">' + (swiss ? fmt(swiss.K) : 'Unavailable') + '</td><td>' + (swiss ? 'Swiss−AE: ' + fmt(swiss.K - current.K) : swissError || 'Not available') + '</td></tr>' +
+    '<tr><td>Swiss Ephemeris K (same geometry)</td><td colspan="2">' + (swiss ? fmt(swiss.K) : 'Unavailable') + '</td><td>' + (swiss ? 'Swiss−AE: ' + fmt(swiss.K - current.K) : escapeHtml(swissError || 'Not available')) + '</td></tr>' +
     '<tr><td>Exact analytical oblique-ascension K</td><td>' + fmt(current.exactK) + '</td><td>' + fmt(sequential.exactK) + '</td><td>Not supplied</td></tr>' +
     '<tr><td>Exact OA K at classical ε = 24°</td><td>' + fmt(exactOA24Current) + '</td><td>' + fmt(exactOA24Sequential) + '</td><td>Not supplied</td></tr>' +
     '<tr><td>Sign-table K minus exact OA K</td><td>' + fmt(current.K - current.exactK) + '</td><td>' + fmt(sequential.K - sequential.exactK) + '</td><td>—</td></tr>' +
@@ -4687,7 +4698,7 @@ async function runLocalHorizonAtThreshold() {
     localHorizonOutput.innerHTML = html;
     setStatus("All local horizon threshold candidates completed.", "ok");
   } catch (error) {
-    localHorizonOutput.innerHTML = "<div class=\"status error\">Diagnostic failed: " + String(error?.message || error) + "</div>";
+    localHorizonOutput.innerHTML = "<div class=\"status error\">Diagnostic failed: " + escapeHtml(String(error?.message || error)) + "</div>";
     setStatus("Local horizon diagnostic failed.", "error");
   }
 }
@@ -5226,7 +5237,7 @@ document
     } catch (error) {
       console.error("CHAPTER VII FRAME SENSITIVITY ERROR:", error);
       document.getElementById("chapter7FrameSensitivityOutput").innerHTML =
-        "<div class='status error'>" + String(error?.message || error) + "</div>";
+        "<div class='status error'>" + escapeHtml(String(error?.message || error)) + "</div>";
       setStatus("Chapter VII frame comparison failed.", "error");
     }
   });
@@ -5240,7 +5251,7 @@ document
     } catch (error) {
       console.error("CHAPTER VII FRAME SENSITIVITY ERROR:", error);
       document.getElementById("chapter7FrameSensitivityOutput").innerHTML =
-        "<div class='status error'>" + String(error?.message || error) + "</div>";
+        "<div class='status error'>" + escapeHtml(String(error?.message || error)) + "</div>";
       setStatus("Chapter VII frame comparison failed.", "error");
     }
   });
@@ -5254,7 +5265,7 @@ document
     } catch (error) {
       console.error("CHAPTER VII OBLIQUITY SENSITIVITY ERROR:", error);
       document.getElementById("chapter7ObliquitySensitivityOutput").innerHTML =
-        "<div class='status error'>" + String(error?.message || error) + "</div>";
+        "<div class='status error'>" + escapeHtml(String(error?.message || error)) + "</div>";
       setStatus("Chapter VII obliquity comparison failed.", "error");
     }
   });
@@ -5268,7 +5279,7 @@ document
     } catch (error) {
       console.error("FRAME COMPARISON ERROR:", error);
       document.getElementById("frameCompareOutput").innerHTML =
-        "<div class='status error'>" + String(error?.message || error) + "</div>";
+        "<div class='status error'>" + escapeHtml(String(error?.message || error)) + "</div>";
       setStatus("3-D coordinate-frame comparison failed.", "error");
     }
   });
@@ -5293,7 +5304,7 @@ document
         ? "Sūrya-siddhānta IX.10 arithmetic unit tests passed; this does not validate the full classical method."
         : "One or more IX.10 arithmetic unit tests failed.", result.allPassed ? "ok" : "error");
     } catch (error) {
-      output.innerHTML = '<div class="status error">' + String(error.message || error) + '</div>';
+      output.innerHTML = '<div class="status error">' + escapeHtml(String(error.message || error)) + '</div>';
       setStatus(String(error.message || error), "error");
     }
   });
