@@ -1,5 +1,4 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
-import { festivalName, isHinduFestival, deduplicateHinduFestivals } from "./festival-filter.js";
 
 /*
  * OurHinduDharm — Hindu festival card.
@@ -117,15 +116,14 @@ function updateHinduFestivals() {
     const date = new Date(dateString + "T12:00:00+05:30");
     const panchang = getPanchangam(date, location, { timezoneOffset: 330 });
     const allFestivals = Array.isArray(panchang?.festivals) ? panchang.festivals : [];
-    const filtered = deduplicateHinduFestivals(allFestivals.filter(isHinduFestival));
-    renderFestivalCard(dateString, filtered);
+    // Display every festival returned by the Panchang library without name/category filtering or deduplication.
+    renderFestivalCard(dateString, allFestivals);
     lastRenderKey = renderKey;
 
     console.info("OHD festivals audit", {
       date: dateString,
       totalEvents: allFestivals.length,
-      displayedHinduFestivals: filtered.map(festivalName),
-      filteredOut: allFestivals.filter(item => !isHinduFestival(item)).map(festivalName)
+      displayedLibraryFestivals: allFestivals.map(item => String(item?.name || item?.title || "").trim())
     });
   } catch (error) {
     lastRenderKey = "";
