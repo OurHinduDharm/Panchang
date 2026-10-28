@@ -1149,6 +1149,3 @@ window.OHDPanchangClassicalYogas = {
   }
 };
 
-console.info(
-  "✓ classical-yogas.js loaded — independent validation mode"
-);
