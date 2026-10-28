@@ -713,20 +713,35 @@
   }
   function focusFestivalCard(){
     if(!focusPending)return;
-    var target=Array.from(eventsEl.querySelectorAll(".event")).find(function(card){
-      if(card.dataset.date!==focusDate)return false;
-      return !focusTitle||normalizeSearch(card.dataset.eventTitle)===normalizeSearch(focusTitle);
+    var cards=Array.from(eventsEl.querySelectorAll(".event"));
+    var sameDate=cards.filter(function(card){return card.dataset.date===focusDate;});
+    if(!sameDate.length)return;
+
+    var wanted=normalizeSearch(focusTitle);
+    var target=wanted?sameDate.find(function(card){
+      return normalizeSearch(card.dataset.eventTitle)===wanted;
+    }):null;
+    // Festival titles can be normalized/expanded by dynamic monthly rules.
+    // If exact matching fails, prefer a title containing the other title, then the date's first card.
+    if(!target&&wanted)target=sameDate.find(function(card){
+      var actual=normalizeSearch(card.dataset.eventTitle);
+      return actual&&(actual.includes(wanted)||wanted.includes(actual));
     });
-    if(!target)return;
+    if(!target)target=sameDate[0];
+
     focusPending=false;
-    target.style.scrollMarginTop="88px";
-    target.scrollIntoView({behavior:"auto",block:"start"});
-    target.style.outline="3px solid #d97706";
-    target.style.outlineOffset="3px";
-    window.setTimeout(function(){
-      target.style.outline="";
-      target.style.outlineOffset="";
-    },2400);
+    target.style.scrollMarginTop="100px";
+    window.requestAnimationFrame(function(){
+      if(!target.isConnected)return;
+      var top=target.getBoundingClientRect().top+window.pageYOffset-100;
+      window.scrollTo({top:Math.max(0,top),behavior:"auto"});
+      target.style.outline="3px solid #d97706";
+      target.style.outlineOffset="3px";
+      window.setTimeout(function(){
+        target.style.outline="";
+        target.style.outlineOffset="";
+      },3000);
+    });
   }
   function categoryFor(item){
     var title=normalizeSearch(item.title||"");
