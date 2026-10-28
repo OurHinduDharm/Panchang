@@ -192,7 +192,7 @@ test("Planetary Asta/Udaya uses one shared boundary scan per planet", () => {
   assert.ok(scanner.includes("crossedDown"), "shared scan must detect Asta crossings");
   assert.ok(scanner.includes("crossedUp"), "shared scan must detect Udaya crossings");
   assert.ok(scanner.includes("(!asta || !udaya)"), "scan should stop when both boundaries are found");
-  assert.equal((eventBuilder.match(/findNearestAngularBoundaries\\(/g) || []).length, 1,
+  assert.equal((eventBuilder.match(/findNearestAngularBoundaries\(/g) || []).length, 1,
     "both events must be requested from a single scan");
   assert.ok(!eventBuilder.includes("findNearestAngularBoundary("),
     "the old separate per-event scan must not remain in the event builder");
