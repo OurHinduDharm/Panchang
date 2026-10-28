@@ -1,9 +1,8 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 
 /*
- * OurHinduDharm — Hindu festival card.
- * Only reviewed Hindu vrata/parva terminology is shown; duplicate aliases
- * for the same named festival are collapsed.
+ * OurHinduDharm — Panchang library festival card.
+ * Display every festival returned by the library without name filtering or deduplication.
  */
 
 // Keep this fallback identical to app.js's default Pithoragarh location.
