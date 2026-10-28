@@ -302,11 +302,7 @@
       ruleIds.forEach(function(ruleId){
         var ruleItem=Object.assign({},item,{muhurtaRule:ruleId});
         var preliminary=muhurtaModule.getFestivalMuhurta(ruleItem,{});
-        if(preliminary&&preliminary.status==="rule-pending"){
-          var pending=document.createElement("div");pending.className="desc";
-          pending.style.marginTop="7px";pending.textContent=preliminary.message||"मुहूर्त-नियम लंबित है।";
-          content.appendChild(pending);
-        }else usableRules.push(ruleItem);
+        if(!(preliminary&&preliminary.status==="rule-pending")) usableRules.push(ruleItem);
       });
       if(!usableRules.length) return;
       var values=await getDatePanchang(dateIso);
@@ -362,7 +358,7 @@
         }else if(result.status==="calculated"&&result.start&&result.end){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
         }else{
-          detail.textContent=result.message||"मुहूर्त उपलब्ध नहीं है।";
+          detail.textContent="इस समय की गणना उपलब्ध नहीं है।";
         }
         box.appendChild(detail);
         if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
