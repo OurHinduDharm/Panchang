@@ -473,12 +473,40 @@ function findThresholdCrossingInstant(body, startDateString, endDateString, thre
   return new Date((low + high) / 2);
 }
 
-function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
+function findNearestAngularBoundaries(body, selectedDate, threshold) {
   const selected = getPlanetDailyData(body, selectedDate);
-  if (!Number.isFinite(selected.eclipticSeparation)) return null;
+  if (!Number.isFinite(selected.eclipticSeparation)) {
+    return { asta: null, udaya: null };
+  }
 
-  // दिन-स्तर पर अधिकतम 400 दिन आगे/पीछे खोजें।
-  for (let offset = 1; offset <= 400; offset++) {
+  let asta = null;
+  let udaya = null;
+
+  const crossedDown = (a, b) =>
+    a.eclipticSeparation > threshold &&
+    b.eclipticSeparation <= threshold;
+
+  const crossedUp = (a, b) =>
+    a.eclipticSeparation <= threshold &&
+    b.eclipticSeparation > threshold;
+
+  const refine = (a, b, eventType, direction) => {
+    const instant = findThresholdCrossingInstant(
+      body, a.date, b.date, threshold, eventType
+    );
+    return {
+      date: b.date,
+      instant,
+      degree: b.eclipticSeparation,
+      threshold,
+      direction
+    };
+  };
+
+  // एक ही दैनिक स्कैन में अस्त और उदय दोनों की निकटतम सीमाएँ खोजें।
+  // हर offset पर पहले पिछली सीमा जाँची जाती है, ताकि पुराने tie-break का
+  // व्यवहार जस का तस रहे। अधिकतम खोज-सीमा 400 दिन है।
+  for (let offset = 1; offset <= 400 && (!asta || !udaya); offset++) {
     const pastDate = addDays(selectedDate, -offset);
     const pastNextDate = addDays(selectedDate, -offset + 1);
     const futurePrevDate = addDays(selectedDate, offset - 1);
@@ -489,45 +517,26 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
     const futureA = getPlanetDailyData(body, futurePrevDate);
     const futureB = getPlanetDailyData(body, futureDate);
 
-    const crossedDown = (a, b) =>
-      a.eclipticSeparation > threshold &&
-      b.eclipticSeparation <= threshold;
-
-    const crossedUp = (a, b) =>
-      a.eclipticSeparation <= threshold &&
-      b.eclipticSeparation > threshold;
-
-    const matches = eventType === "asta" ? crossedDown : crossedUp;
-
-    // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
-    if (matches(pastA, pastB)) {
-      const instant = findThresholdCrossingInstant(
-        body, pastA.date, pastB.date, threshold, eventType
-      );
-      return {
-        date: pastB.date,
-        instant,
-        degree: pastB.eclipticSeparation,
-        threshold,
-        direction: "past"
-      };
+    // अस्त: सीमा के ऊपर से नीचे/बराबर की ओर जाना।
+    if (!asta) {
+      if (crossedDown(pastA, pastB)) {
+        asta = refine(pastA, pastB, "asta", "past");
+      } else if (crossedDown(futureA, futureB)) {
+        asta = refine(futureA, futureB, "asta", "future");
+      }
     }
 
-    if (matches(futureA, futureB)) {
-      const instant = findThresholdCrossingInstant(
-        body, futureA.date, futureB.date, threshold, eventType
-      );
-      return {
-        date: futureB.date,
-        instant,
-        degree: futureB.eclipticSeparation,
-        threshold,
-        direction: "future"
-      };
+    // उदय: सीमा के नीचे/बराबर से ऊपर की ओर जाना।
+    if (!udaya) {
+      if (crossedUp(pastA, pastB)) {
+        udaya = refine(pastA, pastB, "udaya", "past");
+      } else if (crossedUp(futureA, futureB)) {
+        udaya = refine(futureA, futureB, "udaya", "future");
+      }
     }
   }
 
-  return null;
+  return { asta, udaya };
 }
 
 function getPlanetEvent(planet, selectedDate) {
@@ -545,12 +554,11 @@ function getPlanetEvent(planet, selectedDate) {
   }
 
   try {
-    const asta = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "asta"
+    const boundaries = findNearestAngularBoundaries(
+      planet.body, selectedDate, threshold
     );
-    const udaya = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "udaya"
-    );
+    const asta = boundaries.asta;
+    const udaya = boundaries.udaya;
 
     return {
       name: planet.name,
@@ -572,7 +580,6 @@ function getPlanetEvent(planet, selectedDate) {
     };
   }
 }
-
 
 /* =========================================
    Card creation
