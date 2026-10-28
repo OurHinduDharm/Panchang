@@ -272,6 +272,16 @@
           content.appendChild(description);
         }
 
+        // Deep-link to the exact month and festival card; this adds no requests or calculations here.
+        const detailUrl = new URL(monthlyPageUrl);
+        detailUrl.searchParams.set("year", String(d.getFullYear()));
+        detailUrl.searchParams.set("month", String(d.getMonth() + 1));
+        detailUrl.searchParams.set("focus", item.date);
+        if (item.title) detailUrl.searchParams.set("focusTitle", item.title);
+        const detailLink = element("a", "ohd-fw-link", "विवरण और मुहूर्त देखें →");
+        detailLink.href = detailUrl.href;
+        content.appendChild(detailLink);
+
         const articleUrl = safeHttpUrl(item.articleUrl);
         if (articleUrl) {
           const link = element("a", "ohd-fw-link", item.articleLabel || "विस्तार से पढ़ें →");
