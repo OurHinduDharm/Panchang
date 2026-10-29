@@ -601,17 +601,18 @@ function getPlanetEvent(planet, selectedDate) {
 
     const astaMs = asta?.instant instanceof Date ? asta.instant.getTime() : NaN;
     const udayaMs = udaya?.instant instanceof Date ? udaya.instant.getTime() : NaN;
-
-    // Cache only when both independently found boundaries enclose the selected
-    // noon. If either boundary is missing or the pair does not enclose noon,
-    // recompute on the next date rather than risk reusing a stale estimate.
-    if (
+    const bracketContainsNoon =
       Number.isFinite(selectedNoon) &&
       Number.isFinite(astaMs) &&
       Number.isFinite(udayaMs) &&
       Math.min(astaMs, udayaMs) < selectedNoon &&
-      selectedNoon < Math.max(astaMs, udayaMs)
-    ) {
+      selectedNoon < Math.max(astaMs, udayaMs);
+    let cacheSaved = false;
+
+    // Cache only when both independently found boundaries enclose the selected
+    // noon. If either boundary is missing or the pair does not enclose noon,
+    // recompute on the next date rather than risk reusing a stale estimate.
+    if (bracketContainsNoon) {
       const entries = planetEventBracketCache.get(planet.body) || [];
       entries.unshift({
         startMs: Math.min(astaMs, udayaMs),
@@ -620,11 +621,18 @@ function getPlanetEvent(planet, selectedDate) {
       });
       // Bound memory use; recent date intervals are most likely to be reused.
       planetEventBracketCache.set(planet.body, entries.slice(0, 12));
+      cacheSaved = true;
     }
 
     __ohdPlanetLog("miss-complete", {
       astaFound: Boolean(asta),
-      udayaFound: Boolean(udaya)
+      udayaFound: Boolean(udaya),
+      astaDate: asta?.date || null,
+      astaDirection: asta?.direction || null,
+      udayaDate: udaya?.date || null,
+      udayaDirection: udaya?.direction || null,
+      bracketContainsNoon,
+      cacheSaved
     });
     return result;
   } catch (error) {
