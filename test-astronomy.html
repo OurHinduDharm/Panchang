@@ -3304,10 +3304,12 @@ async function runLagnantaraDiagnostic() {
   }
 
   html += '</tbody></table></div>';
-  html += '<div class="card"><h3>What this test proves</h3><ul>';
+  html += '<div class="card"><h3>What this test checks</h3><ul>';
   html += '<li>The event is evaluated at the actual local sunrise/sunset rather than an arbitrary 05:30/18:00 sample.</li>';
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
-  html += '<li>The table now compares the original correction calculation against a separate sequential-order experiment: Ayana is applied first, then Aksha is derived from the intermediate ecliptic point.</li>';
+  html += '<li>The table compares the current correction order with a separate sequential-order experiment: Ayana is applied first, then Aksha is derived from the intermediate ecliptic point.</li>';
+  html += '<li>The IX.10–11 date estimate converts each body’s daily motion using the ascensional equivalent of its sign, then compares the forecast with the independent daily K−C bracket. This remains a research diagnostic until the reference cases agree.</li>';
+  html += '<li>Venus C is selected by the event horizon under IX.7: west-setting/east-rising uses 8°, east-setting/west-rising uses 10°.</li>';
   html += '<li>The sequential experiment is diagnostic only; it does not yet establish a complete classical ephemeris or prove that every modern-coordinate substitution matches the original procedure.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
