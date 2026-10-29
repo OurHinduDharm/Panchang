@@ -56,8 +56,18 @@ export function runChapter2DailyMotionLedger() {
         sourceMotionDirection: result.sourceMotionDirection,
         meanLongitudeDeg: result.meanLongitudeDeg,
         meanMandoccaLongitudeDeg: result.meanMandoccaLongitudeDeg,
+        meanMotionFromMandoccaArcminPerDay: result.meanMotionFromMandoccaArcminPerDay,
         mandaKendraDeg: result.mandaKendraDeg,
         correctedMandaEpicycleDeg: result.correctedMandaEpicycleDeg,
+        mandaEquationArcminPerDay: result.mandaMotion.signedEquationArcminPerDay,
+        mandaCorrectedDailyMotionArcminPerDay:
+          result.mandaMotion.mandaCorrectedDailyMotionArcminPerDay,
+        sighroccaDailyMotionArcminPerDay: result.sighroccaDailyMotionArcminPerDay,
+        sighraMinusMandaArcminPerDay:
+          result.sighraMotion?.sighraMinusMandaArcminPerDay ?? null,
+        hypotenuseFactor: result.sighraMotion?.hypotenuseFactor ?? null,
+        sighraCorrectionArcminPerDay:
+          result.sighraMotion?.sighraCorrectionArcminPerDay ?? null,
         sineBracket: result.sineBracket,
         variableHypotenuse: result.variableHypotenuse,
         radiusConvention: result.sighraMotion?.radiusConvention ?? "Sun: solar-manda path"
@@ -90,6 +100,16 @@ export function runChapter2DailyMotionLedger() {
             result.uncorrectedFiniteDifferenceArcminPerDay,
           sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay:
             result.sourceMinusUncorrectedFiniteDifferenceArcminPerDay,
+          meanMotionFromMandoccaArcminPerDay: result.meanMotionFromMandoccaArcminPerDay,
+          mandaEquationArcminPerDay: result.mandaMotion.signedEquationArcminPerDay,
+          mandaCorrectedDailyMotionArcminPerDay:
+            result.mandaMotion.mandaCorrectedDailyMotionArcminPerDay,
+          sighroccaDailyMotionArcminPerDay: result.sighroccaDailyMotionArcminPerDay,
+          sighraMinusMandaArcminPerDay:
+            result.sighraMotion?.sighraMinusMandaArcminPerDay ?? null,
+          hypotenuseFactor: result.sighraMotion?.hypotenuseFactor ?? null,
+          sighraCorrectionArcminPerDay:
+            result.sighraMotion?.sighraCorrectionArcminPerDay ?? null,
           correctedRelativeDifferencePercent:
             Math.abs(result.finiteDifferenceArcminPerDay) > 1e-12
               ? sourceMinusFiniteDifferenceArcminPerDay /
