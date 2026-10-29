@@ -145,7 +145,10 @@ export function runChapter2DailyMotionLedgerTests() {
       passed: ledger.allRatesFinite &&
         ledger.rows.every(row =>
           Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
-          Number.isFinite(row.sameModelFiniteDifferenceArcminPerDay)
+          Number.isFinite(row.bhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay)
         )
     },
     {
