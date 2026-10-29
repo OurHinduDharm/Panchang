@@ -53,7 +53,7 @@ function meanMandoccaAtAhargana(planet, ahargana) {
   }
   return chapter1CandidateMandoccaAtAhargana({ planet, ahargana });
 }
-function trueLongitudeAtAhargana(planet, ahargana) {
+function trueLongitudeAtAhargana(planet, ahargana, includeBhujantara = true) {
   if (planet === SUN_SUPPORTED) {
     const mean = chapter1MeanPlanetaryPosition({ planet: "Sun", ahargana });
     const mandocca = meanMandoccaAtAhargana("Sun", ahargana);
@@ -62,8 +62,13 @@ function trueLongitudeAtAhargana(planet, ahargana) {
       meanMandoccaLongitudeDeg: mandocca.meanMandoccaLongitudeDeg
     }).trueLongitudeCandidateDeg;
   }
-  return chapter2PlanetaryTruePositionAtAhargana({ planet, ahargana })
-    .bhujantaraCorrectedTrueLongitudeDeg;
+  const result = chapter2PlanetaryTruePositionAtAhargana({ planet, ahargana });
+  // Keep the II.46 bhujāntara-adjusted position separate from the four-pass
+  // II.43–45 true-place candidate. The II.47–51 motion-rate comparison must
+  // expose both paths rather than quietly mixing their correction stages.
+  return includeBhujantara
+    ? result.bhujantaraCorrectedTrueLongitudeDeg
+    : result.trueLongitudeCandidateDeg;
 }
 function sineBracketForKendra(kendraDeg) {
   const halfCycle = normalizeDegrees(kendraDeg) % 180;
@@ -154,10 +159,16 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
     trueDailyMotionArcminPerDay = sighraMotion.trueDailyMotionArcminPerDay;
   }
 
-  const beforeLongitude = trueLongitudeAtAhargana(planet, ahargana - 0.5);
-  const afterLongitude = trueLongitudeAtAhargana(planet, ahargana + 0.5);
+  const beforeLongitude = trueLongitudeAtAhargana(planet, ahargana - 0.5, true);
+  const afterLongitude = trueLongitudeAtAhargana(planet, ahargana + 0.5, true);
   const finiteDifferenceArcminPerDay =
     signedDifferenceDegrees(beforeLongitude, afterLongitude) * 60;
+  const beforeUncorrectedLongitude =
+    trueLongitudeAtAhargana(planet, ahargana - 0.5, false);
+  const afterUncorrectedLongitude =
+    trueLongitudeAtAhargana(planet, ahargana + 0.5, false);
+  const uncorrectedFiniteDifferenceArcminPerDay =
+    signedDifferenceDegrees(beforeUncorrectedLongitude, afterUncorrectedLongitude) * 60;
 
   return Object.freeze({
     planet,
@@ -183,8 +194,13 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
     alternateSourceDailyMotionArcminPerDay:
       sighraMotionSecondEquationCosine?.trueDailyMotionArcminPerDay ?? null,
     finiteDifferenceArcminPerDay,
+    finiteDifferenceProvenance: "same source true-place candidate with II.46 bhujāntara correction evaluated at ahargana ±0.5 day; control only",
+    uncorrectedFiniteDifferenceArcminPerDay,
+    uncorrectedFiniteDifferenceProvenance: "same four-pass true-place candidate before II.46 bhujāntara correction evaluated at ahargana ±0.5 day; control only",
     sourceMinusFiniteDifferenceArcminPerDay:
       trueDailyMotionArcminPerDay - finiteDifferenceArcminPerDay,
+    sourceMinusUncorrectedFiniteDifferenceArcminPerDay:
+      trueDailyMotionArcminPerDay - uncorrectedFiniteDifferenceArcminPerDay,
     alternateSourceMinusFiniteDifferenceArcminPerDay:
       Number.isFinite(sighraMotionSecondEquationCosine?.trueDailyMotionArcminPerDay)
         ? sighraMotionSecondEquationCosine.trueDailyMotionArcminPerDay - finiteDifferenceArcminPerDay
