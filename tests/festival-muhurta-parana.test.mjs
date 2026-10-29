@@ -218,3 +218,43 @@ test("2026 Rama Ekadashi is wired to the location-aware parana calculation", asy
   assert.equal(rama.muhurtaRule, "ekadashi-parana");
   assert.equal(rama.reviewStatus, "approved");
 });
+
+
+test("Karwa Chauth puja window uses one tenth of local night and Krishna Chaturthi overlap", () => {
+  const sunset = date("2026-10-29T17:25:00+05:30");
+  const sunrise = date("2026-10-29T06:20:00+05:30");
+  const nextSunrise = date("2026-10-30T06:20:00+05:30");
+  const moonrise = date("2026-10-29T20:02:00+05:30");
+  const chaturthi = {
+    index: 18,
+    name: "Krishna Chaturthi",
+    startTime: date("2026-10-29T01:06:00+05:30"),
+    endTime: date("2026-10-29T22:09:00+05:30")
+  };
+  const result = getFestivalMuhurta({ muhurtaRule: "karwa-chauth-puja" }, {
+    date: date("2026-10-29T12:00:00+05:30"),
+    sunrise, sunset, nextSunrise, moonrise,
+    tithis: [chaturthi]
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-10-29T18:42:30+05:30").toISOString());
+  assert.equal(result.windows[1].start.toISOString(), sunrise.toISOString());
+  assert.equal(result.windows[1].end.toISOString(), moonrise.toISOString());
+});
+
+test("Karwa Chauth does not show puja muhurta without Krishna Chaturthi overlap", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "karwa-chauth-puja" }, {
+    sunrise: date("2026-10-29T06:20:00+05:30"),
+    sunset: date("2026-10-29T17:25:00+05:30"),
+    nextSunrise: date("2026-10-30T06:20:00+05:30"),
+    moonrise: date("2026-10-29T20:02:00+05:30"),
+    tithis: [{
+      index: 18, name: "Krishna Chaturthi",
+      startTime: date("2026-10-29T01:06:00+05:30"),
+      endTime: date("2026-10-29T17:00:00+05:30")
+    }]
+  });
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.windows, undefined);
+});
