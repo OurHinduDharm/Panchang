@@ -96,6 +96,16 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2027-08-25",
+      "dateLabel": "25 अगस्त",
+      "title": "श्रीकृष्ण जन्माष्टमी (इस्कॉन)",
+      "description": "इस्कॉन सहित कुछ वैष्णव परंपराओं में जन्माष्टमी का दिन स्मार्त परंपरा से अलग हो सकता है। इस वर्ष की तारीख़ और स्थानीय तिथि-व्याप्ति का अंतिम सत्यापन बाकी है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण अष्टमी"
     }
   ]
 }
