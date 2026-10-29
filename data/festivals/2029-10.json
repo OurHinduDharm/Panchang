@@ -12,8 +12,9 @@
       "title": "सर्वपितृ अमावस्या",
       "description": "सर्वपितृ अमावस्या पर पितरों के निमित्त श्राद्ध और तर्पण की परंपरा है।",
       "category": "श्राद्ध",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "आश्विन कृष्ण अमावस्या"
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन कृष्ण अमावस्या",
+      "showReviewStatus": false
     },
     {
       "date": "2029-10-08",
