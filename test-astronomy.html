@@ -3182,8 +3182,13 @@ async function runLagnantaraDiagnostic() {
     const C = shastriyaC(ref.planet, ref.event, ref.direction);
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
+    // Start five days before each reference event to test the IX.10–11
+    // extrapolation locally, then compare it with the independent daily bracket.
+    const formulaSampleDate = new Date(
+      new Date(ref.date + "T12:00:00Z").getTime() - 5 * 86400000
+    );
     const formulaEstimate = estimateLagnantaraEventDate(
-      ref, new Date(ref.date + "T12:00:00Z"), "current"
+      ref, formulaSampleDate, "current"
     );
 
     html += '<tr class="reference-row">';
@@ -3198,9 +3203,10 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+ref.date+'</td>';
     if (formulaEstimate) {
-      html += '<td>' + formatLocalFromUTCDate(formulaEstimate.estimatedDate).split(",")[0] +
+      html += '<td>Sample: ' + formatLocalFromUTCDate(formulaEstimate.eventTime).split(",")[0] +
+        '<br>Estimate: ' + formatLocalFromUTCDate(formulaEstimate.estimatedDate).split(",")[0] +
         '<br>' + (formulaEstimate.daysFromSample >= 0 ? "+" : "") +
-        round(formulaEstimate.daysFromSample, 2) + ' days from sample</td>';
+        round(formulaEstimate.daysFromSample, 2) + ' days</td>';
     } else {
       html += '<td>Not available</td>';
     }
@@ -3277,6 +3283,13 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Ayana dṛkkarma</strong><span>'+round(g.drikkarma.ayanaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Total dṛkkarma</strong><span>'+round(g.drikkarma.totalCorrection,6)+'°</span></div>';
       html += '<div class="metric"><strong>Final lagnāntara (current method)</strong><span>'+round(g.lagnaInterval,6)+'°</span></div>';
+      if (formulaEstimate) {
+        html += '<div class="metric"><strong>IX.10–11 Sun lagnāsu</strong><span>'+round(formulaEstimate.sunLagnasu,4)+' prāṇa</span></div>';
+        html += '<div class="metric"><strong>IX.10–11 planet lagnāsu</strong><span>'+round(formulaEstimate.planetLagnasu,4)+' prāṇa</span></div>';
+        html += '<div class="metric"><strong>IX.10–11 Sun daily motion</strong><span>'+round(formulaEstimate.sunMotion,6)+'°/day</span></div>';
+        html += '<div class="metric"><strong>IX.10–11 planet daily motion</strong><span>'+round(formulaEstimate.planetMotion,6)+'°/day</span></div>';
+        html += '<div class="metric"><strong>IX.10–11 relative kālagati</strong><span>'+round(formulaEstimate.relativeKaalagati,6)+'°/day</span></div>';
+      }
       if (gs) {
         html += '<div class="metric"><strong>Sequential: longitude after Ayana</strong><span>'+round(gs.drikkarma.ayanaAppliedLongitude,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: RA of intermediate ecliptic point</strong><span>'+round(gs.drikkarma.akshaPointRA,6)+'°</span></div>';
