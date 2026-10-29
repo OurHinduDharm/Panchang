@@ -3170,9 +3170,9 @@ function shastriyaC(planet, event, direction) {
 async function runLagnantaraDiagnostic() {
   lagnantaraOutput.innerHTML = '<div class="status info">Calculating TKS-coordinate sunrise/sunset lagnāntara geometry...</div>';
 
-  let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
+  let html = '<div class="status info">TKS comparison uses 29.5830° N, 80.2090° E at 0 m. Additional Pithoragarh columns use the project location 29.5828° N, 80.2182° E at 1650 m. TKS target dates are reference values, not forced answers.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>IX.10–11 estimate</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>TKS Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Pith event time</th><th>Pith K</th><th>Pith K−C</th><th>Pith IX.10–11 estimate</th><th>Pith daily bracket</th><th>TKS IX.10–11 estimate</th><th>TKS daily bracket</th><th>TKS sequential bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -3188,7 +3188,17 @@ async function runLagnantaraDiagnostic() {
       new Date(ref.date + "T12:00:00Z").getTime() - 5 * 86400000
     );
     const formulaEstimate = estimateLagnantaraEventDate(
-      ref, formulaSampleDate, "current"
+      ref, formulaSampleDate, "current", TKS_CONFIG
+    );
+    const pithSample = getSunEventTimeForLagnantara(
+      new Date(ref.date + "T12:00:00Z"), ref.direction, CONFIG
+    );
+    const pithG = pithSample
+      ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], pithSample, ref.direction, "current", CONFIG)
+      : null;
+    const pithCrossing = findLagnantaraCrossing(ref, "current", CONFIG);
+    const pithFormulaEstimate = estimateLagnantaraEventDate(
+      ref, formulaSampleDate, "current", CONFIG
     );
 
     html += '<tr class="reference-row">';
@@ -3202,6 +3212,36 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+ref.date+'</td>';
+    html += '<td>'+(pithSample ? formatLocalFromUTCDate(pithSample) : "—")+'</td>';
+    html += '<td>'+(pithG ? round(pithG.K,4)+"°" : "—")+'</td>';
+    html += '<td>'+(pithG ? ((pithG.K-C)>=0?"+":"")+round(pithG.K-C,4)+"°" : "—")+'</td>';
+    if (pithFormulaEstimate) {
+      html += '<td>Sample: ' + formatLocalFromUTCDate(pithFormulaEstimate.eventTime).split(",")[0] +
+        '<br>Estimate: ' + formatLocalFromUTCDate(pithFormulaEstimate.estimatedDate).split(",")[0] +
+        '<br>' + (pithFormulaEstimate.daysFromSample >= 0 ? "+" : "") +
+        round(pithFormulaEstimate.daysFromSample, 2) + ' days</td>';
+    } else {
+      html += '<td>Not available</td>';
+    }
+    if (pithCrossing && pithCrossing.brackets && pithCrossing.brackets.length) {
+      html += '<td>';
+      pithCrossing.brackets.forEach((bracket, index) => {
+        if (index) html += '<hr>';
+        html += 'Bracket ' + (index + 1) + ' — ' + bracket.transition +
+          (bracket.matchesRequestedEvent ? ' ✓ requested event' : ' — other transition') +
+          '<br>' + formatLocalFromUTCDate(bracket.before.eventTime) +
+          ' (K−C=' + round(bracket.beforeResidual,4) + '°)<br>→ ' +
+          formatLocalFromUTCDate(bracket.after.eventTime) +
+          ' (K−C=' + round(bracket.afterResidual,4) + '°)';
+      });
+      html += '</td>';
+    } else if (pithCrossing && pithCrossing.noCrossing) {
+      html += '<td>No crossing in ±15 days.<br>Closest: ' +
+        formatLocalFromUTCDate(pithCrossing.closest.eventTime) +
+        ' (K−C=' + round(pithCrossing.closestResidual,4) + '°)</td>';
+    } else {
+      html += '<td>No valid Pithoragarh daily samples</td>';
+    }
     if (formulaEstimate) {
       html += '<td>Sample: ' + formatLocalFromUTCDate(formulaEstimate.eventTime).split(",")[0] +
         '<br>Estimate: ' + formatLocalFromUTCDate(formulaEstimate.estimatedDate).split(",")[0] +
@@ -3254,7 +3294,7 @@ async function runLagnantaraDiagnostic() {
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="13"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="18"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
@@ -3283,12 +3323,21 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Ayana dṛkkarma</strong><span>'+round(g.drikkarma.ayanaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Total dṛkkarma</strong><span>'+round(g.drikkarma.totalCorrection,6)+'°</span></div>';
       html += '<div class="metric"><strong>Final lagnāntara (current method)</strong><span>'+round(g.lagnaInterval,6)+'°</span></div>';
+      if (pithG) {
+        html += '<div class="metric"><strong>Pithoragarh corrected planet longitude</strong><span>'+round(pithG.planetLon,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Pithoragarh final lagnāntara K</strong><span>'+round(pithG.K,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Pithoragarh Aksha correction</strong><span>'+round(pithG.drikkarma.akshaDeg,6)+'°</span></div>';
+        html += '<div class="metric"><strong>Pithoragarh Ayana correction</strong><span>'+round(pithG.drikkarma.ayanaDeg,6)+'°</span></div>';
+      }
       if (formulaEstimate) {
-        html += '<div class="metric"><strong>IX.10–11 Sun lagnāsu</strong><span>'+round(formulaEstimate.sunLagnasu,4)+' prāṇa</span></div>';
-        html += '<div class="metric"><strong>IX.10–11 planet lagnāsu</strong><span>'+round(formulaEstimate.planetLagnasu,4)+' prāṇa</span></div>';
-        html += '<div class="metric"><strong>IX.10–11 Sun daily motion</strong><span>'+round(formulaEstimate.sunMotion,6)+'°/day</span></div>';
-        html += '<div class="metric"><strong>IX.10–11 planet daily motion</strong><span>'+round(formulaEstimate.planetMotion,6)+'°/day</span></div>';
-        html += '<div class="metric"><strong>IX.10–11 relative kālagati</strong><span>'+round(formulaEstimate.relativeKaalagati,6)+'°/day</span></div>';
+        html += '<div class="metric"><strong>TKS IX.10–11 Sun lagnāsu</strong><span>'+round(formulaEstimate.sunLagnasu,4)+' prāṇa</span></div>';
+        html += '<div class="metric"><strong>TKS IX.10–11 planet lagnāsu</strong><span>'+round(formulaEstimate.planetLagnasu,4)+' prāṇa</span></div>';
+        html += '<div class="metric"><strong>TKS IX.10–11 Sun daily motion</strong><span>'+round(formulaEstimate.sunMotion,6)+'°/day</span></div>';
+        html += '<div class="metric"><strong>TKS IX.10–11 planet daily motion</strong><span>'+round(formulaEstimate.planetMotion,6)+'°/day</span></div>';
+        html += '<div class="metric"><strong>TKS IX.10–11 relative kālagati</strong><span>'+round(formulaEstimate.relativeKaalagati,6)+'°/day</span></div>';
+        if (pithFormulaEstimate) {
+          html += '<div class="metric"><strong>Pithoragarh IX.10–11 relative kālagati</strong><span>'+round(pithFormulaEstimate.relativeKaalagati,6)+'°/day</span></div>';
+        }
       }
       if (gs) {
         html += '<div class="metric"><strong>Sequential: longitude after Ayana</strong><span>'+round(gs.drikkarma.ayanaAppliedLongitude,6)+'°</span></div>';
