@@ -260,3 +260,104 @@ test("Shared Asta/Udaya scan preserves both nearest threshold-crossing direction
   assert.equal(elongationCalls, callsAfterFirstCalculation,
     "repeated refresh for the same planet/date should reuse the completed event result");
 });
+
+
+test("Shared Asta/Udaya scan matches the legacy nearest-boundary choice", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const start = source.indexOf("const PLANET_ASTA_THRESHOLDS = {");
+  const end = source.indexOf("function createPlanetCard(", start);
+  assert.notEqual(start, -1);
+  assert.ok(end > start);
+
+  const selectedDate = "2026-01-15";
+  const threshold = 10;
+  const phases = [0.17, 0.63, 1.41, 2.72];
+
+  for (const phase of phases) {
+    const sandbox = {
+      Date,
+      Map,
+      Number,
+      String,
+      Math,
+      console,
+      PLANETS: [{ body: "Venus", name: "शुक्र" }],
+      getLocalNoon(date) {
+        return new Date(date + "T12:00:00+05:30");
+      },
+      addDays(date, days) {
+        const value = new Date(date + "T12:00:00+05:30");
+        value.setDate(value.getDate() + days);
+        return value.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+      },
+      Elongation(body, instant) {
+        const offset = (instant.getTime() -
+          new Date(selectedDate + "T12:00:00+05:30").getTime()) / 86400000;
+        return {
+          ecliptic_separation: threshold + 12 * Math.sin((2 * Math.PI * offset / 70) + phase)
+        };
+      },
+      formatEventDateTime(instant) {
+        return instant.toISOString();
+      }
+    };
+
+    vm.runInNewContext(source.slice(start, end), sandbox);
+
+    // Reference implementation of the former two independent searches.
+    function legacyNearestBoundary(body, date, limit, eventType) {
+      const selected = sandbox.getPlanetDailyData(body, date);
+      if (!Number.isFinite(selected.eclipticSeparation)) return null;
+      const crossedDown = (a, b) =>
+        a.eclipticSeparation > limit && b.eclipticSeparation <= limit;
+      const crossedUp = (a, b) =>
+        a.eclipticSeparation <= limit && b.eclipticSeparation > limit;
+      const matches = eventType === "asta" ? crossedDown : crossedUp;
+
+      for (let offset = 1; offset <= 400; offset++) {
+        const pastDate = sandbox.addDays(date, -offset);
+        const pastNextDate = sandbox.addDays(date, -offset + 1);
+        const futurePrevDate = sandbox.addDays(date, offset - 1);
+        const futureDate = sandbox.addDays(date, offset);
+        const pastA = sandbox.getPlanetDailyData(body, pastDate);
+        const pastB = sandbox.getPlanetDailyData(body, pastNextDate);
+        const futureA = sandbox.getPlanetDailyData(body, futurePrevDate);
+        const futureB = sandbox.getPlanetDailyData(body, futureDate);
+
+        if (matches(pastA, pastB)) {
+          return {
+            date: pastB.date,
+            instant: sandbox.findThresholdCrossingInstant(body, pastA.date, pastB.date, limit, eventType),
+            degree: pastB.eclipticSeparation,
+            threshold: limit,
+            direction: "past"
+          };
+        }
+        if (matches(futureA, futureB)) {
+          return {
+            date: futureB.date,
+            instant: sandbox.findThresholdCrossingInstant(body, futureA.date, futureB.date, limit, eventType),
+            degree: futureB.eclipticSeparation,
+            threshold: limit,
+            direction: "future"
+          };
+        }
+      }
+      return null;
+    }
+
+    const shared = sandbox.findNearestAngularBoundaries("Venus", selectedDate, threshold);
+    for (const type of ["asta", "udaya"]) {
+      const legacy = legacyNearestBoundary("Venus", selectedDate, threshold, type);
+      const actual = shared[type];
+      assert.equal(Boolean(actual), Boolean(legacy), phase + ": " + type + " availability must match");
+      if (legacy && actual) {
+        assert.equal(actual.date, legacy.date, phase + ": " + type + " date must match legacy");
+        assert.equal(actual.instant?.getTime(), legacy.instant?.getTime(),
+          phase + ": " + type + " refined instant must match legacy");
+        assert.equal(actual.degree, legacy.degree, phase + ": " + type + " sampled degree must match legacy");
+        assert.equal(actual.direction, legacy.direction, phase + ": " + type + " past/future choice must match legacy");
+      }
+    }
+  }
+});
