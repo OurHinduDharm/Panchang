@@ -106,6 +106,8 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
 
   let mandaKendraDeg;
   let correctedMandaEpicycleDeg;
+  let meanPlaceMandaKendraDeg = null;
+  let meanPlaceCorrectedMandaEpicycleDeg = null;
   let truePosition = null;
   if (planet === SUN_SUPPORTED) {
     const solarPlace = chapter2SolarMandaCorrection({
@@ -115,15 +117,26 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
     mandaKendraDeg = solarPlace.mandaKendraDeg;
     correctedMandaEpicycleDeg = solarPlace.correctedEpicycleDeg;
   } else {
-    const mandaEquation = chapter2PlanetaryEquation({
+    // Preserve the previous mean-place-kendra path as a comparison only.
+    const meanPlaceMandaEquation = chapter2PlanetaryEquation({
       planetLongitudeDeg: mean.meanLongitudeDeg,
       referenceLongitudeDeg: mandocca.meanMandoccaLongitudeDeg,
       planet,
       kind: "manda"
     });
-    mandaKendraDeg = mandaEquation.kendraDeg;
-    correctedMandaEpicycleDeg = mandaEquation.epicycleDeg;
+    meanPlaceMandaKendraDeg = meanPlaceMandaEquation.kendraDeg;
+    meanPlaceCorrectedMandaEpicycleDeg = meanPlaceMandaEquation.epicycleDeg;
+
     truePosition = chapter2PlanetaryTruePositionAtAhargana({ planet, ahargana });
+    /*
+     * Chapter II.48 refers to the sine-difference from the first Kendra.
+     * In the II.43–45 sequence that first manda Kendra follows the initial
+     * half-śīghra correction; it is not the raw mean-place Kendra.
+     * Use that first manda pass for the source candidate and retain the raw
+     * mean-place interpretation as a separately reported comparison.
+     */
+    mandaKendraDeg = truePosition.passes.manda1.kendraDeg;
+    correctedMandaEpicycleDeg = truePosition.passes.manda1.epicycleDeg;
   }
 
   const sineBracket = sineBracketForKendra(mandaKendraDeg);
@@ -135,9 +148,23 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
     correctedMandaEpicycleDeg,
     mandaKendraDeg
   });
+  const meanPlaceSineBracket = Number.isFinite(meanPlaceMandaKendraDeg)
+    ? sineBracketForKendra(meanPlaceMandaKendraDeg)
+    : null;
+  const meanPlaceMandaMotion = meanPlaceSineBracket
+    ? chapter2MandaCorrectedDailyMotion({
+        meanDailyMotionArcminPerDay: mean.meanDailyMotionArcminPerDay,
+        meanMotionFromMandoccaArcminPerDay,
+        gataSine: meanPlaceSineBracket.gataSine,
+        gamyaSine: meanPlaceSineBracket.gamyaSine,
+        correctedMandaEpicycleDeg: meanPlaceCorrectedMandaEpicycleDeg,
+        mandaKendraDeg: meanPlaceMandaKendraDeg
+      })
+    : null;
 
   let sighraMotion = null;
   let sighraMotionSecondEquationCosine = null;
+  let meanPlaceKendraSighraMotion = null;
   let trueDailyMotionArcminPerDay = mandaMotion.mandaCorrectedDailyMotionArcminPerDay;
   if (truePosition) {
     const fourthPass = truePosition.passes.sighra2;
@@ -156,6 +183,16 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
       variableHypotenuse: fourthPass.variableHypotenuse,
       referenceLengthKind: "second-equation-cosine"
     });
+    if (meanPlaceMandaMotion) {
+      meanPlaceKendraSighraMotion = chapter2SighraCorrectedDailyMotion({
+        mandaCorrectedDailyMotionArcminPerDay:
+          meanPlaceMandaMotion.mandaCorrectedDailyMotionArcminPerDay,
+        sighroccaDailyMotionArcminPerDay: mean.sighroccaDailyMotionArcminPerDay,
+        radius: 3438,
+        variableHypotenuse: fourthPass.variableHypotenuse,
+        referenceLengthKind: "trijya"
+      });
+    }
     trueDailyMotionArcminPerDay = sighraMotion.trueDailyMotionArcminPerDay;
   }
 
@@ -182,6 +219,13 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
     correctedMandaEpicycleDeg,
     sineBracket,
     mandaMotion,
+    meanPlaceMandaKendraDeg,
+    meanPlaceCorrectedMandaEpicycleDeg,
+    meanPlaceSineBracket,
+    meanPlaceMandaMotion,
+    meanPlaceKendraSighraMotion,
+    meanPlaceKendraRateCandidateArcminPerDay:
+      meanPlaceKendraSighraMotion?.trueDailyMotionArcminPerDay ?? null,
     sighroccaLongitudeDeg: mean.sighroccaLongitudeDeg,
     sighroccaDailyMotionArcminPerDay: mean.sighroccaDailyMotionArcminPerDay,
     variableHypotenuse: truePosition?.passes.sighra2.variableHypotenuse ?? null,
