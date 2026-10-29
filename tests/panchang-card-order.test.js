@@ -263,7 +263,7 @@ test("Shared Asta/Udaya scan preserves both boundary estimates and interval-cach
       const offset = (instant.getTime() - anchor) / 86400000;
       return {
         ecliptic_separation: offset <= 0
-          ? 10 + offset
+          ? 10.5 + offset
           : 12 - offset
       };
     },
@@ -278,7 +278,7 @@ test("Shared Asta/Udaya scan preserves both boundary estimates and interval-cach
   assert.ok(first.udaya, "Udaya threshold crossing should be found");
   assert.ok(Math.abs(new Date(first.asta).getTime() - (anchor + 2 * 86400000)) < 120000,
     "Asta refinement should remain at the future downward crossing");
-  assert.ok(Math.abs(new Date(first.udaya).getTime() - anchor) < 120000,
+  assert.ok(Math.abs(new Date(first.udaya).getTime() - (anchor - 0.5 * 86400000)) < 120000,
     "Udaya refinement should remain at the nearby upward crossing");
 
   const callsAfterFirst = elongationCalls;
