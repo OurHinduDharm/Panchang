@@ -46,6 +46,17 @@ test("festival event dates are real dates in the month file that contains them",
 });
 
 
+test("Hindi festival descriptions do not end with malformed punctuation", () => {
+  for (const file of files) {
+    const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
+    for (const event of data.events) {
+      const description = String(event.description || "").trim();
+      assert.ok(!/(?:[।。]\.|[.。;；])$/.test(description),
+        `${file}: malformed ending punctuation in ${event.title || event.date}`);
+    }
+  }
+});
+
 test("Ekadashi parana metadata is only attached to Ekadashi records", () => {
   for (const file of files) {
     const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
