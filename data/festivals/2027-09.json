@@ -127,9 +127,10 @@
       "dateLabel": "29 सितंबर",
       "title": "महालया / सर्वपितृ अमावस्या",
       "description": "पितृपक्ष के समापन पर पितरों के निमित्त श्राद्ध और तर्पण की परंपरा है।",
-      "category": "नवरात्रि",
+      "category": "अमावस्या",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण अमावस्या"
     },
     {
       "date": "2027-09-30",
