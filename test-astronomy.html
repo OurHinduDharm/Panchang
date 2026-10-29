@@ -2982,9 +2982,87 @@ function getLagnantaraResidualForDate(ref, date, method = "current") {
   if (!eventTime) return null;
   const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method);
   if (!g) return null;
-  const C = shastriyaC(ref.planet, ref.event);
+  const C = shastriyaC(ref.planet, ref.event, ref.direction);
   if (!Number.isFinite(C)) return null;
   return { eventTime, geometry:g, residual:g.K - C };
+}
+
+/*
+ * Sūrya-siddhānta IX.10–11 independent date estimate.
+ * Convert each body's daily longitude motion into time-motion using
+ * the ascensional equivalent (prāṇas) of its current sidereal sign:
+ * kālagati = bhukti × lagnāsu / 1800.
+ * This remains a diagnostic alongside the daily sign-change bracket;
+ * it is not used by production Panchang code.
+ */
+function getLagnasuForSiderealLongitude(longitude, config = TKS_CONFIG) {
+  if (!Number.isFinite(longitude)) return NaN;
+  const signStart = Math.floor(normalize360(longitude) / 30) * 30;
+  const oaStart = obliqueAscensionFromSiderealLongitude(signStart, config);
+  const oaEnd = obliqueAscensionFromSiderealLongitude(
+    normalize360(signStart + 30), config
+  );
+  const span = signedLongitudeDelta(oaEnd, oaStart);
+  return Number.isFinite(span) && span > 0 ? span * 60 : NaN;
+}
+
+function getDailyMotionForKalagati(body, date) {
+  const before = new Date(date.getTime() - 12 * 60 * 60 * 1000);
+  const after = new Date(date.getTime() + 12 * 60 * 60 * 1000);
+  const beforeLongitude = getEclipticLongitude(body, before);
+  const afterLongitude = getEclipticLongitude(body, after);
+  return signedLongitudeDelta(afterLongitude, beforeLongitude);
+}
+
+function estimateLagnantaraEventDate(ref, date, method = "current", config = TKS_CONFIG) {
+  const sample = getLagnantaraResidualForDate(ref, date, method);
+  if (!sample || !Number.isFinite(sample.residual)) return null;
+
+  const g = sample.geometry;
+  const sunLagnasu = getLagnasuForSiderealLongitude(g.sunLon, config);
+  const planetLagnasu = getLagnasuForSiderealLongitude(g.planetLon, config);
+  const sunMotion = getDailyMotionForKalagati(Astronomy.Body.Sun, sample.eventTime);
+  const planetMotion = getDailyMotionForKalagati(
+    BODY_NAMES[ref.planet], sample.eventTime
+  );
+
+  if (![sunLagnasu, planetLagnasu, sunMotion, planetMotion].every(Number.isFinite)) {
+    return null;
+  }
+
+  const sunKaalagati = sunMotion * sunLagnasu / 1800;
+  const planetKaalagati = planetMotion * planetLagnasu / 1800;
+  const relativeKaalagati = planetMotion < 0
+    ? Math.abs(sunKaalagati) + Math.abs(planetKaalagati)
+    : Math.abs(sunKaalagati - planetKaalagati);
+
+  if (!Number.isFinite(relativeKaalagati) || relativeKaalagati <= 1e-6) {
+    return null;
+  }
+
+  // K−C decreases through Asta (+ to −) and increases through Udaya (− to +).
+  const daysFromSample = sample.residual / relativeKaalagati *
+    (ref.event === "Asta" ? 1 : -1);
+
+  if (!Number.isFinite(daysFromSample) || Math.abs(daysFromSample) > 400) {
+    return null;
+  }
+
+  return {
+    eventTime: sample.eventTime,
+    residual: sample.residual,
+    daysFromSample,
+    estimatedDate: new Date(
+      sample.eventTime.getTime() + daysFromSample * 86400000
+    ),
+    sunKaalagati,
+    planetKaalagati,
+    relativeKaalagati,
+    sunLagnasu,
+    planetLagnasu,
+    sunMotion,
+    planetMotion
+  };
 }
 
 function findLagnantaraCrossing(ref, method = "current") {
@@ -3063,25 +3141,29 @@ function findLagnantaraCrossing(ref, method = "current") {
     noCrossing: true
   };
 }
-function shastriyaC(planet, event) {
+function shastriyaC(planet, event, direction) {
   // Sūrya-siddhānta IX.6–9, not values inferred from TKS.
   if (planet === "Jupiter") return 11;
   if (planet === "Saturn") return 15;
   if (planet === "Mars") return 17;
 
   /*
-   * IX.7 distinguishes the planet's event, not the Sun-event
-   * search direction: west-setting and east-rising are both 8°;
-   * east-setting and west-rising are both 10°.
-   * The present references test Asta and Udaya, so both use 8°.
+   * IX.7 classifies Venus by the planet's horizon event:
+   * western setting / eastern rising = 8°;
+   * eastern setting / western rising = 10°.
+   * "direction" here is the planet's event side, also used to
+   * select sunset (west) or sunrise (east) for the calculation.
    */
   if (planet === "Venus") {
-    if (event === "Asta" || event === "Udaya") return 8;
+    if ((event === "Asta" && direction === "west") ||
+        (event === "Udaya" && direction === "east")) return 8;
+    if ((event === "Asta" && direction === "east") ||
+        (event === "Udaya" && direction === "west")) return 10;
     return NaN;
   }
 
-  // IX.8 gives Mercury 12°/14° according to motion; that
-  // requires a separately validated motion-state rule.
+  // IX.8 gives Mercury 12°/14° according to motion. Leave it
+  // disabled until the retrograde/rapid-motion rule is validated.
   return NaN;
 }
 
@@ -3090,16 +3172,24 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>IX.10–11 estimate</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
     const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
     const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
     const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
-    const C = shastriyaC(ref.planet, ref.event);
+    const C = shastriyaC(ref.planet, ref.event, ref.direction);
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
+    // Start five days before each reference event to test the IX.10–11
+    // extrapolation locally, then compare it with the independent daily bracket.
+    const formulaSampleDate = new Date(
+      new Date(ref.date + "T12:00:00Z").getTime() - 5 * 86400000
+    );
+    const formulaEstimate = estimateLagnantaraEventDate(
+      ref, formulaSampleDate, "current"
+    );
 
     html += '<tr class="reference-row">';
     html += '<td>'+ref.planet+'</td>';
@@ -3112,6 +3202,14 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+ref.date+'</td>';
+    if (formulaEstimate) {
+      html += '<td>Sample: ' + formatLocalFromUTCDate(formulaEstimate.eventTime).split(",")[0] +
+        '<br>Estimate: ' + formatLocalFromUTCDate(formulaEstimate.estimatedDate).split(",")[0] +
+        '<br>' + (formulaEstimate.daysFromSample >= 0 ? "+" : "") +
+        round(formulaEstimate.daysFromSample, 2) + ' days</td>';
+    } else {
+      html += '<td>Not available</td>';
+    }
     if (crossing && crossing.brackets && crossing.brackets.length) {
       html += '<td>';
       crossing.brackets.forEach((bracket, index) => {
@@ -3156,7 +3254,7 @@ async function runLagnantaraDiagnostic() {
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="12"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="13"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
@@ -3185,6 +3283,13 @@ async function runLagnantaraDiagnostic() {
       html += '<div class="metric"><strong>Ayana dṛkkarma</strong><span>'+round(g.drikkarma.ayanaDeg,6)+'°</span></div>';
       html += '<div class="metric"><strong>Total dṛkkarma</strong><span>'+round(g.drikkarma.totalCorrection,6)+'°</span></div>';
       html += '<div class="metric"><strong>Final lagnāntara (current method)</strong><span>'+round(g.lagnaInterval,6)+'°</span></div>';
+      if (formulaEstimate) {
+        html += '<div class="metric"><strong>IX.10–11 Sun lagnāsu</strong><span>'+round(formulaEstimate.sunLagnasu,4)+' prāṇa</span></div>';
+        html += '<div class="metric"><strong>IX.10–11 planet lagnāsu</strong><span>'+round(formulaEstimate.planetLagnasu,4)+' prāṇa</span></div>';
+        html += '<div class="metric"><strong>IX.10–11 Sun daily motion</strong><span>'+round(formulaEstimate.sunMotion,6)+'°/day</span></div>';
+        html += '<div class="metric"><strong>IX.10–11 planet daily motion</strong><span>'+round(formulaEstimate.planetMotion,6)+'°/day</span></div>';
+        html += '<div class="metric"><strong>IX.10–11 relative kālagati</strong><span>'+round(formulaEstimate.relativeKaalagati,6)+'°/day</span></div>';
+      }
       if (gs) {
         html += '<div class="metric"><strong>Sequential: longitude after Ayana</strong><span>'+round(gs.drikkarma.ayanaAppliedLongitude,6)+'°</span></div>';
         html += '<div class="metric"><strong>Sequential: RA of intermediate ecliptic point</strong><span>'+round(gs.drikkarma.akshaPointRA,6)+'°</span></div>';
@@ -3199,10 +3304,12 @@ async function runLagnantaraDiagnostic() {
   }
 
   html += '</tbody></table></div>';
-  html += '<div class="card"><h3>What this test proves</h3><ul>';
+  html += '<div class="card"><h3>What this test checks</h3><ul>';
   html += '<li>The event is evaluated at the actual local sunrise/sunset rather than an arbitrary 05:30/18:00 sample.</li>';
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
-  html += '<li>The table now compares the original correction calculation against a separate sequential-order experiment: Ayana is applied first, then Aksha is derived from the intermediate ecliptic point.</li>';
+  html += '<li>The table compares the current correction order with a separate sequential-order experiment: Ayana is applied first, then Aksha is derived from the intermediate ecliptic point.</li>';
+  html += '<li>The IX.10–11 date estimate converts each body’s daily motion using the ascensional equivalent of its sign, then compares the forecast with the independent daily K−C bracket. This remains a research diagnostic until the reference cases agree.</li>';
+  html += '<li>Venus C is selected by the event horizon under IX.7: west-setting/east-rising uses 8°, east-setting/west-rising uses 10°.</li>';
   html += '<li>The sequential experiment is diagnostic only; it does not yet establish a complete classical ephemeris or prove that every modern-coordinate substitution matches the original procedure.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
