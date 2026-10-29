@@ -2982,7 +2982,7 @@ function getLagnantaraResidualForDate(ref, date, method = "current") {
   if (!eventTime) return null;
   const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method);
   if (!g) return null;
-  const C = shastriyaC(ref.planet, ref.event);
+  const C = shastriyaC(ref.planet, ref.event, ref.direction);
   if (!Number.isFinite(C)) return null;
   return { eventTime, geometry:g, residual:g.K - C };
 }
@@ -3063,25 +3063,29 @@ function findLagnantaraCrossing(ref, method = "current") {
     noCrossing: true
   };
 }
-function shastriyaC(planet, event) {
+function shastriyaC(planet, event, direction) {
   // Sūrya-siddhānta IX.6–9, not values inferred from TKS.
   if (planet === "Jupiter") return 11;
   if (planet === "Saturn") return 15;
   if (planet === "Mars") return 17;
 
   /*
-   * IX.7 distinguishes the planet's event, not the Sun-event
-   * search direction: west-setting and east-rising are both 8°;
-   * east-setting and west-rising are both 10°.
-   * The present references test Asta and Udaya, so both use 8°.
+   * IX.7 specifies Venus's threshold by the planet's horizon event:
+   * west-setting and east-rising = 8°;
+   * east-setting and west-rising = 10°.
+   * direction is the event horizon used by IX.4 to choose sunset
+   * (west) or sunrise (east). Reject inconsistent/unknown pairs.
    */
   if (planet === "Venus") {
-    if (event === "Asta" || event === "Udaya") return 8;
+    if ((event === "Asta" && direction === "west") ||
+        (event === "Udaya" && direction === "east")) return 8;
+    if ((event === "Asta" && direction === "east") ||
+        (event === "Udaya" && direction === "west")) return 10;
     return NaN;
   }
 
-  // IX.8 gives Mercury 12°/14° according to motion; that
-  // requires a separately validated motion-state rule.
+  // IX.8 gives Mercury 12°/14° according to motion; the exact
+  // retrograde/rapid-motion rule remains disabled until validated.
   return NaN;
 }
 
@@ -3097,7 +3101,7 @@ async function runLagnantaraDiagnostic() {
     const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
     const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
     const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
-    const C = shastriyaC(ref.planet, ref.event);
+    const C = shastriyaC(ref.planet, ref.event, ref.direction);
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
 
