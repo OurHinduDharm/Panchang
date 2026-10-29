@@ -114,8 +114,9 @@
       "title": "पितृपक्ष प्रारम्भ",
       "description": "पितृपक्ष में पितरों के निमित्त श्राद्ध, तर्पण और दान किए जाते हैं।",
       "category": "श्राद्ध",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "आश्विन कृष्ण प्रतिपदा"
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन कृष्ण प्रतिपदा",
+      "showReviewStatus": false
     }
   ]
 }
