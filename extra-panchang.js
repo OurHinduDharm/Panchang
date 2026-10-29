@@ -539,6 +539,9 @@ function findNearestAngularBoundaries(body, selectedDate, threshold) {
   return { asta, udaya };
 }
 
+const planetEventCache = new Map();
+const PLANET_EVENT_CACHE_LIMIT = 100;
+
 function getPlanetEvent(planet, selectedDate) {
   const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
 
@@ -553,14 +556,20 @@ function getPlanetEvent(planet, selectedDate) {
     };
   }
 
+  // Angular estimates depend on planet, selected date and threshold—not location.
+  // Reuse completed results on repeated UI refreshes without changing first-run calculations.
+  const cacheKey = `${planet.body}|${selectedDate}|${threshold}`;
+  if (planetEventCache.has(cacheKey)) {
+    return planetEventCache.get(cacheKey);
+  }
+
   try {
     const boundaries = findNearestAngularBoundaries(
       planet.body, selectedDate, threshold
     );
     const asta = boundaries.asta;
     const udaya = boundaries.udaya;
-
-    return {
+    const event = {
       name: planet.name,
       asta: asta ? formatEventDateTime(asta.instant) : null,
       astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
@@ -568,6 +577,12 @@ function getPlanetEvent(planet, selectedDate) {
       udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
       verificationPending: true
     };
+
+    planetEventCache.set(cacheKey, event);
+    if (planetEventCache.size > PLANET_EVENT_CACHE_LIMIT) {
+      planetEventCache.delete(planetEventCache.keys().next().value);
+    }
+    return event;
   } catch (error) {
     console.warn("Planetary angular-boundary estimate failed:", planet.body, error);
     return {
