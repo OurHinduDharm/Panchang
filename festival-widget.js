@@ -231,13 +231,13 @@
       if (aActive && !bActive) return -1;
       if (bActive && !aActive) return 1;
       if (a.date !== b.date) return a.date.localeCompare(b.date);
-      // On the same Gregorian date, preserve the Hindu tithi sequence
-      // (e.g. Ekadashi before Dwadashi) instead of sorting alphabetically.
-      const tithiOrder = ["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा","अमावस्या"];
+      // On the same Gregorian date, follow the declared Hindu tithi sequence.
+      const tithiOrder = ["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","अमावस्या","पूर्णिमा","पूर्णमासी"];
       function rank(item) {
         const tithi = String(item.hinduTithi || "");
+        const paksha = /कृष्ण/.test(tithi) ? 0 : /शुक्ल/.test(tithi) ? 1 : 2;
         const index = tithiOrder.findIndex(function (name) { return tithi.includes(name); });
-        return index < 0 ? 99 : index;
+        return index < 0 ? 999 : paksha * 20 + index;
       }
       const rankDiff = rank(a) - rank(b);
       return rankDiff || String(a.title || "").localeCompare(String(b.title || ""), "hi");
