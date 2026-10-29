@@ -41,6 +41,29 @@ Units are arcminutes/day.
 3. Jupiter's discrepancy is about 0.82′/day (roughly 7.7%) at the central sample. The five-day neighbourhood test keeps the Jupiter mismatch between about 0.46′/day and 0.82′/day (roughly 4.5%–7.7%); this is not a one-date numerical accident.
 4. The same-model finite difference is a control derived from the separate four-pass true-place candidate; it is not automatically the canonical derivative intended by II.47–51. The mismatch could reflect a difference between the source daily-motion construction and the position-correction chain. The exact cause remains open.
 
+## Component-level inspection of the rate mismatch
+
+The latest diagnostic also prints the individual II.47–51 terms. At the same fixture:
+
+| Intermediate | Venus | Jupiter |
+|---|---:|---:|
+| Mean motion relative to mandocca | +59.136152′/day | +4.985768′/day |
+| Signed manda equation | +0.176757′/day | −0.209466′/day |
+| Manda-corrected motion | +59.312916′/day | +4.776315′/day |
+| Śīghrocca motion | +96.128784′/day | +59.136159′/day |
+| Śīghra-minus-manda motion | +36.815868′/day | +54.359845′/day |
+| Variable-hypotenuse factor (H−R)/H | −2.653789 | +0.094335 |
+| Śīghra correction | −97.701538′/day | +5.128021′/day |
+| Final source-rate candidate | −38.388622′/day | +9.904336′/day |
+
+The signs are preserved; Venus's large negative śīghra correction produces the retrograde result. Jupiter's source-rate formula combines a −0.209466′/day manda equation with a +5.128021′/day śīghra correction.
+
+The Chapter II.46 control is not the cause of the mismatch: for Jupiter, the corrected and uncorrected finite differences differ by only about **0.000083′/day**; for Venus, by about **0.000987′/day**. The source-vs-finite-difference gap remains essentially unchanged when II.46 is removed.
+
+## Updated next calculation gate
+
+The next narrow audit is the relationship between the **II.43–45 four-pass true-place candidate** and the **II.47–51 true-daily-motion construction**, particularly the manda inputs and fourth-pass variable hypotenuse for Jupiter. Do not change the source-rate formula simply to force agreement with the finite difference: first verify that the two procedures use equivalent intermediate places and correction order. Keep the II.50 alternative separately reported.
+
 ## Next calculation gate
 
 Do not feed the current source-rate candidate into Chapter IX.10–11 yet. Inspect the source intermediate chain in this order:
