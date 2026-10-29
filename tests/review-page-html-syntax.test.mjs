@@ -27,6 +27,12 @@ test("inline JavaScript in festival pages parses without syntax errors", () => {
   }
 });
 
+test("imported future-year proposals require a valid earlier source year", () => {
+  const html = readFileSync(resolve("festival-year-review.html"), "utf8");
+  assert.match(html, /hasSource&&target>source/,
+    "proposal imports must reject missing source years and non-future target years");
+});
+
 test("festival review pages avoid unsafe HTML-string sinks", () => {
   for (const page of ["festival-year-review.html", "festival-review.html"]) {
     const html = readFileSync(resolve(page), "utf8");
