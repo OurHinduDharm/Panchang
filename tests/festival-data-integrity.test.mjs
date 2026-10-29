@@ -51,7 +51,7 @@ test("Hindi festival descriptions do not end with malformed punctuation", () => 
     const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
     for (const event of data.events) {
       const description = String(event.description || "").trim();
-      assert.ok(!/(?:[।。]\.|[.。;；])$/.test(description),
+      assert.ok(!/(?:[;；][.。]?|[;；]।|[.。]$|[।。]\.)$/.test(description),
         `${file}: malformed ending punctuation in ${event.title || event.date}`);
     }
   }
