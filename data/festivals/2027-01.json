@@ -55,6 +55,16 @@
       "hinduTithi": "पौष शुक्ल एकादशी"
     },
     {
+      "date": "2027-01-22",
+      "dateLabel": "22 जनवरी",
+      "title": "पौष पूर्णिमा",
+      "description": "पौष पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल पूर्णिमा"
+    },
+    {
       "date": "2027-01-25",
       "dateLabel": "25 जनवरी",
       "title": "सकट चौथ",
