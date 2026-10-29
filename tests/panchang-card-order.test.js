@@ -227,3 +227,64 @@ test("Planetary boundary-bracket cache reuses only dates strictly inside a valid
   assert.ok(elongationCalls > callsAfterFirst,
     "a date outside the cached interval must run the normal calculation path");
 });
+
+
+test("Shared Asta/Udaya scan preserves both boundary estimates and interval-cache reuse", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const start = source.indexOf("const PLANET_ASTA_THRESHOLDS = {");
+  const end = source.indexOf("function createPlanetCard(", start);
+  assert.notEqual(start, -1);
+  assert.ok(end > start);
+
+  const eventBuilderStart = source.indexOf("function getPlanetEvent(", start);
+  const eventBuilderEnd = source.indexOf("/* =========================================", eventBuilderStart);
+  const eventBuilder = source.slice(eventBuilderStart, eventBuilderEnd);
+  assert.equal((eventBuilder.match(/findNearestAngularBoundaries\\(/g) || []).length, 1,
+    "event builder must request both boundaries from one shared scan");
+  assert.ok(!eventBuilder.includes("findNearestAngularBoundary("),
+    "the old two-search event builder must not remain");
+
+  const selectedDate = "2026-01-15";
+  const anchor = new Date(selectedDate + "T12:00:00+05:30").getTime();
+  let elongationCalls = 0;
+  const sandbox = {
+    Date, Map, Number, String, Math, console,
+    PLANETS: [{ body: "Venus", name: "शुक्र" }],
+    getLocalNoon(date) {
+      return new Date(date + "T12:00:00+05:30");
+    },
+    addDays(date, days) {
+      const value = new Date(date + "T12:00:00+05:30");
+      value.setUTCDate(value.getUTCDate() + days);
+      return value.toISOString().slice(0, 10);
+    },
+    Elongation(body, instant) {
+      elongationCalls++;
+      const offset = (instant.getTime() - anchor) / 86400000;
+      return {
+        ecliptic_separation: offset <= 0
+          ? 10 + offset
+          : 12 - offset
+      };
+    },
+    formatEventDateTime(instant) {
+      return instant.toISOString();
+    }
+  };
+
+  vm.runInNewContext(source.slice(start, end), sandbox);
+  const first = sandbox.getPlanetEvent({ body: "Venus", name: "शुक्र" }, selectedDate);
+  assert.ok(first.asta, "Asta threshold crossing should be found");
+  assert.ok(first.udaya, "Udaya threshold crossing should be found");
+  assert.ok(Math.abs(new Date(first.asta).getTime() - (anchor + 2 * 86400000)) < 120000,
+    "Asta refinement should remain at the future downward crossing");
+  assert.ok(Math.abs(new Date(first.udaya).getTime() - anchor) < 120000,
+    "Udaya refinement should remain at the nearby upward crossing");
+
+  const callsAfterFirst = elongationCalls;
+  const adjacentDate = sandbox.addDays(selectedDate, 1);
+  const adjacent = sandbox.getPlanetEvent({ body: "Venus", name: "शुक्र" }, adjacentDate);
+  assert.deepEqual(adjacent, first, "the strict interior date should reuse the cached pair");
+  assert.equal(elongationCalls, callsAfterFirst,
+    "the shared scan must preserve the existing interval-cache behavior");
+});
