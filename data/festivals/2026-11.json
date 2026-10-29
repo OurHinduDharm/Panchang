@@ -121,7 +121,8 @@
       "title": "वृश्चिक संक्रांति",
       "description": "सूर्य के वृश्चिक राशि में प्रवेश से संबंधित संक्रांति।",
       "category": "संक्रांति",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "showReviewStatus": false
     },
     {
       "date": "2026-11-17",
