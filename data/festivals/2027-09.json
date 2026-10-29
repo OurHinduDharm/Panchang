@@ -39,7 +39,9 @@
       "title": "बलराम जयंती",
       "description": "बलराम जयंती भगवान बलराम के प्राकट्य-स्मरण का पर्व है।",
       "category": "जयंती",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल षष्ठी"
     },
     {
       "date": "2027-09-08",
@@ -82,9 +84,11 @@
       "date": "2027-09-15",
       "dateLabel": "15 सितंबर",
       "title": "भाद्रपद पूर्णिमा",
-      "description": "भाद्रपद पूर्णिमा पर स्नान, दान और चंद्र-पूजन की परंपरा है। कई पंचांगों में इसके बाद पितृपक्ष का आरम्भ माना जाता है; पूर्णिमा के बाद पितृपक्ष का आरम्भ प्रतिपदा से माना जाता है।",
+      "description": "भाद्रपद पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। इसके बाद कृष्ण प्रतिपदा से पितृपक्ष आरम्भ होता है।",
       "category": "पूर्णिमा",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल पूर्णिमा"
     },
     {
       "date": "2027-09-16",
@@ -92,7 +96,9 @@
       "title": "पितृपक्ष प्रारंभ",
       "description": "पितृपक्ष में पितरों के निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
       "category": "पितृपक्ष",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण प्रतिपदा"
     },
     {
       "date": "2027-09-17",
