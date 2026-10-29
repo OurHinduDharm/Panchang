@@ -65,11 +65,12 @@
     {
       "date": "2027-03-22",
       "dateLabel": "22 मार्च",
-      "title": "होली",
-      "description": "होली रंगों का पर्व है। होलिका-दहन के अगले दिन रंगोत्सव मनाया जाता है।",
+      "title": "होली / फाल्गुन पूर्णिमा",
+      "description": "फाल्गुन पूर्णिमा के अवसर पर होलिका-दहन के अगले दिन होली का रंगोत्सव मनाया जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
     },
     {
       "date": "2027-03-30",
