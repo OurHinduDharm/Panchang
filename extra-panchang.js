@@ -540,7 +540,8 @@ function findNearestAngularBoundaries(body, selectedDate, threshold) {
 const planetEventBracketCache = new Map();
 
 function getPlanetEvent(planet, selectedDate) {
-  const __ohdPlanetPerf = new URLSearchParams(window.location.search).get("perf") === "1";
+  const __ohdPlanetPerf = typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("perf") === "1";
   const __ohdPlanetStart = __ohdPlanetPerf ? performance.now() : 0;
   const __ohdPlanetLog = (cache, extra = {}) => {
     if (!__ohdPlanetPerf) return;
