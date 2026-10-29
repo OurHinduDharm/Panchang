@@ -57,10 +57,12 @@
       "date": "2027-07-30",
       "dateLabel": "30 जुलाई",
       "title": "कामिका एकादशी (गौण)",
-      "description": "कुछ वैष्णव पंचांगों में कामिका एकादशी का गौण व्रत अगले दिन निर्धारित हो सकता है।",
+      "description": "वैष्णव परंपरा में गौण कामिका एकादशी का व्रत 30 जुलाई को रखा जाता है। पारण द्वादशी-व्याप्ति और हरिवासर के नियमों के आधार पर निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
-      "muhurtaRule": "ekadashi-parana"
+      "reviewStatus": "approved",
+      "muhurtaRule": "ekadashi-parana",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण एकादशी"
     }
   ]
 }

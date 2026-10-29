@@ -127,6 +127,17 @@
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false
     },
-    {"date":"2026-12-30","dateLabel":"30 दिसंबर","title":"मासिक कालाष्टमी","category":"व्रत","hinduTithi":"पौष कृष्ण अष्टमी","description":"प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव की पूजा की जाती है। कई परंपराओं में शिवपूजन और रुद्राभिषेक भी किया जाता है। यह रात्रि का व्रत है, इसलिए अष्टमी तिथि का रात में होना महत्वपूर्ण माना जाता है।","articleUrl":"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html","articleLabel":"भैरवाष्टमी की महिमा पढ़ें","showReviewStatus":false,"reviewStatus":"needs-review"}
+    {
+      "date": "2026-12-30",
+      "dateLabel": "30 दिसंबर",
+      "title": "मासिक कालाष्टमी",
+      "category": "व्रत",
+      "hinduTithi": "पौष कृष्ण अष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव की पूजा की जाती है। कई परंपराओं में शिवपूजन और रुद्राभिषेक भी किया जाता है। यह रात्रि का व्रत है, इसलिए अष्टमी तिथि का रात में होना महत्वपूर्ण माना जाता है।",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "showReviewStatus": false,
+      "reviewStatus": "approved"
+    }
   ]
 }

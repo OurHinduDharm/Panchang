@@ -49,7 +49,9 @@
       "title": "यमुना छठ",
       "description": "यमुना छठ पर माँ यमुना के प्राकट्य-स्मरण और पूजन की परंपरा है। स्नान, अर्घ्य और पूजा-विधि क्षेत्रीय रीति के अनुसार होती है।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल षष्ठी"
     },
     {
       "date": "2027-04-14",
