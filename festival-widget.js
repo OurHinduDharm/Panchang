@@ -29,6 +29,17 @@
     return Number.isNaN(date.getTime()) ? null : date;
   }
 
+  // Sort same-day observances by their declared Hindu tithi before using title order.
+  function tithiSortOrder(item) {
+    const tithi = String(item && item.hinduTithi || "");
+    const paksha = /कृष्ण/.test(tithi) ? 0 : /शुक्ल/.test(tithi) ? 1 : 2;
+    const names = ["प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पंचमी", "षष्ठी",
+      "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी",
+      "त्रयोदशी", "चतुर्दशी", "अमावस्या", "पूर्णिमा", "पूर्णमासी"];
+    const index = names.findIndex(name => tithi.includes(name));
+    return index < 0 ? 999 : paksha * 20 + index;
+  }
+
   function isPublishable(item) {
     return item && item.reviewStatus === "approved";
   }
@@ -230,7 +241,11 @@
       const bActive = b.date < todayKey && b.endDate && b.endDate >= todayKey;
       if (aActive && !bActive) return -1;
       if (bActive && !aActive) return 1;
-      return a.date.localeCompare(b.date) || String(a.title || "").localeCompare(String(b.title || ""), "hi");
+      const byDate = a.date.localeCompare(b.date);
+      if (byDate) return byDate;
+      const byTithi = tithiSortOrder(a) - tithiSortOrder(b);
+      if (byTithi) return byTithi;
+      return String(a.title || "").localeCompare(String(b.title || ""), "hi");
     });
 
     const chaturmas = makeChaturmasCard(chaturmasEvents, todayKey);
