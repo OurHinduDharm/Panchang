@@ -239,7 +239,7 @@ test("Shared Asta/Udaya scan preserves both boundary estimates and interval-cach
   const eventBuilderStart = source.indexOf("function getPlanetEvent(", start);
   const eventBuilderEnd = source.indexOf("/* =========================================", eventBuilderStart);
   const eventBuilder = source.slice(eventBuilderStart, eventBuilderEnd);
-  assert.equal((eventBuilder.match(/findNearestAngularBoundaries\\(/g) || []).length, 1,
+  assert.equal((eventBuilder.match(/findNearestAngularBoundaries\(/g) || []).length, 1,
     "event builder must request both boundaries from one shared scan");
   assert.ok(!eventBuilder.includes("findNearestAngularBoundary("),
     "the old two-search event builder must not remain");
