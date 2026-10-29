@@ -53,6 +53,19 @@ function meanMandoccaAtAhargana(planet, ahargana) {
   }
   return chapter1CandidateMandoccaAtAhargana({ planet, ahargana });
 }
+function mandaSphutaLongitudeAtAhargana(planet, ahargana) {
+  if (planet === SUN_SUPPORTED) {
+    const mean = chapter1MeanPlanetaryPosition({ planet: "Sun", ahargana });
+    const mandocca = meanMandoccaAtAhargana("Sun", ahargana);
+    return chapter2SolarMandaCorrection({
+      meanLongitudeDeg: mean.meanLongitudeDeg,
+      meanMandoccaLongitudeDeg: mandocca.meanMandoccaLongitudeDeg
+    }).trueLongitudeCandidateDeg;
+  }
+  const result = chapter2PlanetaryTruePositionAtAhargana({ planet, ahargana });
+  return result.passes.afterFullManda;
+}
+
 function trueLongitudeAtAhargana(planet, ahargana, includeBhujantara = true) {
   if (planet === SUN_SUPPORTED) {
     const mean = chapter1MeanPlanetaryPosition({ planet: "Sun", ahargana });
@@ -206,6 +219,12 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
     trueLongitudeAtAhargana(planet, ahargana + 0.5, false);
   const uncorrectedFiniteDifferenceArcminPerDay =
     signedDifferenceDegrees(beforeUncorrectedLongitude, afterUncorrectedLongitude) * 60;
+  const beforeMandaSphutaLongitude =
+    mandaSphutaLongitudeAtAhargana(planet, ahargana - 0.5);
+  const afterMandaSphutaLongitude =
+    mandaSphutaLongitudeAtAhargana(planet, ahargana + 0.5);
+  const mandaCorrectedFiniteDifferenceArcminPerDay =
+    signedDifferenceDegrees(beforeMandaSphutaLongitude, afterMandaSphutaLongitude) * 60;
 
   return Object.freeze({
     planet,
@@ -241,6 +260,18 @@ export function chapter2PlanetaryDailyMotionAtAhargana({ planet, ahargana }) {
     finiteDifferenceProvenance: "same source true-place candidate with II.46 bhujāntara correction evaluated at ahargana ±0.5 day; control only",
     uncorrectedFiniteDifferenceArcminPerDay,
     uncorrectedFiniteDifferenceProvenance: "same four-pass true-place candidate before II.46 bhujāntara correction evaluated at ahargana ±0.5 day; control only",
+    mandaCorrectedFiniteDifferenceArcminPerDay,
+    mandaCorrectedFiniteDifferenceProvenance: "same source four-pass candidate's afterFullManda intermediate at ahargana ±0.5 day; control only",
+    sourceMinusMandaCorrectedFiniteDifferenceArcminPerDay:
+      mandaMotion.mandaCorrectedDailyMotionArcminPerDay -
+      mandaCorrectedFiniteDifferenceArcminPerDay,
+    observedSighraCorrectionArcminPerDay:
+      uncorrectedFiniteDifferenceArcminPerDay -
+      mandaCorrectedFiniteDifferenceArcminPerDay,
+    formulaMinusObservedSighraCorrectionArcminPerDay:
+      (sighraMotion?.sighraCorrectionArcminPerDay ?? 0) -
+      (uncorrectedFiniteDifferenceArcminPerDay -
+       mandaCorrectedFiniteDifferenceArcminPerDay),
     sourceMinusFiniteDifferenceArcminPerDay:
       trueDailyMotionArcminPerDay - finiteDifferenceArcminPerDay,
     sourceMinusUncorrectedFiniteDifferenceArcminPerDay:
