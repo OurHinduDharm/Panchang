@@ -5030,8 +5030,8 @@ displayPanchang(
         panel.style.cssText = "position:fixed;z-index:2147483647;left:8px;right:8px;bottom:8px;max-height:42vh;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;padding:12px;border:2px solid #555;border-radius:8px;background:#fff;color:#111;font:12px/1.45 monospace;box-shadow:0 2px 16px #0005";
         document.body.appendChild(panel);
       }
-      panel.textContent += (panel.textContent ? "\\n\\n" : "") +
-        "[OHD performance] Main date calculation\\n" + JSON.stringify(report, null, 2);
+      panel.textContent += (panel.textContent ? "\n\n" : "") +
+        "[OHD performance] Main date calculation\n" + JSON.stringify(report, null, 2);
     }
 
   }catch(error){
