@@ -60,6 +60,38 @@ The signs are preserved; Venus's large negative śīghra correction produces the
 
 The Chapter II.46 control is not the cause of the mismatch: for Jupiter, the corrected and uncorrected finite differences differ by only about **0.000083′/day**; for Venus, by about **0.000987′/day**. The source-vs-finite-difference gap remains essentially unchanged when II.46 is removed.
 
+## First-Kendra and rate-component experiment — 29 October 2026
+
+The Chapter II.48 wording in the Sastri/Burgess translation specifies the sine-difference from the **first Kendra**. The source-rate candidate now uses the first manda Kendra from the four-pass sequence (after the initial half-śīghra correction). The previous raw mean-place-Kendra rate is retained as a comparison, not discarded.
+
+| Body | First-Kendra source-rate candidate | Previous mean-place-Kendra candidate | Four-pass true-place finite difference |
+|---|---:|---:|---:|
+| Venus | −38.388596′/day | −38.388622′/day | −38.621269′/day |
+| Jupiter | +9.880796′/day | +9.904336′/day | +10.725420′/day |
+
+The first-Kendra change is negligible for Venus and shifts Jupiter by −0.023539′/day. It does **not** remove the Jupiter rate discrepancy; this is an explicit source-reading candidate, not a claimed numerical fix.
+
+The new component split identifies where the remaining mismatch sits:
+
+| Quantity | Venus | Jupiter |
+|---|---:|---:|
+| Formula manda-corrected rate | +59.312923′/day | +4.750323′/day |
+| Finite-difference rate of the `afterFullManda` position | +59.162670′/day | +4.639984′/day |
+| Manda-rate residual (formula − finite difference) | +0.150253′/day | +0.110340′/day |
+| Formula śīghra correction | −97.701519′/day | +5.130473′/day |
+| Observed śīghra correction from adjacent position differences | −97.783939′/day | +6.085436′/day |
+| Śīghra residual (formula − observed) | +0.082420′/day | −0.954963′/day |
+
+This decomposes the final discrepancy: for Jupiter, the manda-rate residual is about +0.11′/day, while the śīghra correction residual is about −0.955′/day. Thus the largest remaining mismatch is in the relation between the II.50–51 correction and the finite-difference change of the fourth-pass position. Venus has smaller residuals in both stages.
+
+This does **not** prove the finite difference is the canonical daily motion. It shows which stage to inspect next: verify the fourth-pass variable hypotenuse and the way the source defines the relative śīghra-minus-manda motion. Do not alter the equation to force the finite-difference control to match.
+
+Automated verification for head commit `b48c2a6cbb8b33feaac8df80d8d87f0a2f966657` completed successfully:
+- Chapter II daily-motion ledger: 5/5 checks passed.
+- Chapter IX iteration solver tests: success.
+- General Panchang validation: success.
+- Headless Chromium diagnostic and production-file isolation guard: success; `app.js` and `extra-panchang.js` remain unchanged.
+
 ## Updated next calculation gate
 
 The next narrow audit is the relationship between the **II.43–45 four-pass true-place candidate** and the **II.47–51 true-daily-motion construction**, particularly the manda inputs and fourth-pass variable hypotenuse for Jupiter. Do not change the source-rate formula simply to force agreement with the finite difference: first verify that the two procedures use equivalent intermediate places and correction order. Keep the II.50 alternative separately reported.
