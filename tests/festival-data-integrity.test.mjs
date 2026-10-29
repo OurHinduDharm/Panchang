@@ -45,6 +45,18 @@ test("festival event dates are real dates in the month file that contains them",
   }
 });
 
+
+test("Ekadashi parana metadata is only attached to Ekadashi records", () => {
+  for (const file of files) {
+    const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
+    for (const event of data.events) {
+      if (event.muhurtaRule === "ekadashi-parana" || event.category === "एकादशी") {
+        assert.match(event.title, /एकादशी/i, `${file}: Ekadashi metadata on non-Ekadashi event ${event.title}`);
+      }
+    }
+  }
+});
+
 test("monthly festival files do not contain exact duplicate date/title records", () => {
   for (const file of files) {
     const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
