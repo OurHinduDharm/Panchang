@@ -49,9 +49,10 @@
       "dateLabel": "19 जनवरी",
       "title": "टेलंग स्वामी जयंती",
       "description": "टेलंग/त्रैलंग स्वामी जयंती काशी के संत-योगी के स्मरण का अवसर है। भजन, जप और संत-स्मरण की परंपरा है। कई क्षेत्रों में माघ-स्नान का आरम्भ भी इसी अवधि से जुड़ता है।",
-      "category": "पूर्णिमा",
+      "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल एकादशी"
     },
     {
       "date": "2027-01-25",
