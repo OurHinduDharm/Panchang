@@ -60,6 +60,36 @@ export function runChapter2DailyMotionLedger() {
       });
     });
 
+  // Inspect a short neighbourhood to determine whether source-rate versus
+  // same-model finite-difference disagreement is a one-date anomaly or persists.
+  // These are independent evaluations of the same research candidate, not
+  // additional observations or a production event-time solver.
+  const sensitivityOffsetsDays = [-2, -1, 0, 1, 2];
+  const sensitivityRows = sensitivityOffsetsDays.flatMap(offsetDays =>
+    Object.entries(CHAPTER2_MOTION_LEDGER_FIXTURE.referenceRatesArcminPerDay)
+      .map(([planet, referenceRateArcminPerDay]) => {
+        const result = chapter2PlanetaryDailyMotionAtAhargana({
+          planet,
+          ahargana: CHAPTER2_MOTION_LEDGER_FIXTURE.aharganaCandidate + offsetDays
+        });
+        const sourceMinusFiniteDifferenceArcminPerDay =
+          result.sourceDailyMotionArcminPerDay - result.finiteDifferenceArcminPerDay;
+        return Object.freeze({
+          offsetDays,
+          planet,
+          referenceRateArcminPerDay,
+          sourceCandidateRateArcminPerDay: result.sourceDailyMotionArcminPerDay,
+          sameModelFiniteDifferenceArcminPerDay: result.finiteDifferenceArcminPerDay,
+          sourceMinusFiniteDifferenceArcminPerDay,
+          relativeRateDifferencePercent:
+            Math.abs(result.finiteDifferenceArcminPerDay) > 1e-12
+              ? sourceMinusFiniteDifferenceArcminPerDay /
+                result.finiteDifferenceArcminPerDay * 100
+              : null
+        });
+      })
+  );
+
   const allRatesFinite = rows.every(row =>
     Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
     Number.isFinite(row.sameModelFiniteDifferenceArcminPerDay) &&
@@ -67,13 +97,20 @@ export function runChapter2DailyMotionLedger() {
     Number.isFinite(row.sourceMinusReferenceArcminPerDay) &&
     (row.planet === "Sun" ||
       Number.isFinite(row.alternateRadiusCandidateRateArcminPerDay))
+  ) && sensitivityRows.every(row =>
+    Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
+    Number.isFinite(row.sameModelFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.sourceMinusFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.relativeRateDifferencePercent)
   );
 
   return Object.freeze({
     fixture: CHAPTER2_MOTION_LEDGER_FIXTURE,
     rows: Object.freeze(rows),
+    sensitivityOffsetsDays: Object.freeze(sensitivityOffsetsDays),
+    sensitivityRows: Object.freeze(sensitivityRows),
     allRatesFinite,
-    note: "Do not select a motion convention from closeness alone. The source epoch/frame and apparent-noon versus mean-time alignment remain unresolved; reference rates are rounded external controls, not tuning targets."
+    note: "Do not select a motion convention from closeness alone. The source epoch/frame and apparent-noon versus mean-time alignment remain unresolved; reference rates are rounded external controls, not tuning targets. The neighbourhood table tests whether source-rate versus same-model finite-difference mismatch persists across nearby ahargana values."
   });
 }
 
@@ -95,6 +132,16 @@ export function runChapter2DailyMotionLedgerTests() {
     {
       name: "Retrograde Venus reference sign is preserved",
       passed: ledger.rows.find(row => row.planet === "Venus")?.referenceRateArcminPerDay < 0
+    },
+    {
+      name: "Five-day neighbourhood keeps source-rate and finite-difference rates separate",
+      passed: ledger.sensitivityRows.length === 15 &&
+        ledger.sensitivityOffsetsDays.join(",") === "-2,-1,0,1,2" &&
+        ledger.sensitivityRows.every(row =>
+          Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
+          Number.isFinite(row.sameModelFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.relativeRateDifferencePercent)
+        )
     },
     {
       name: "Ledger explicitly marks the epoch/frame alignment as unresolved",
