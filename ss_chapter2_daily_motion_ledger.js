@@ -54,6 +54,14 @@ export function runChapter2DailyMotionLedger() {
           result.uncorrectedFiniteDifferenceArcminPerDay,
         sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay:
           result.sourceMinusUncorrectedFiniteDifferenceArcminPerDay,
+        mandaCorrectedFiniteDifferenceArcminPerDay:
+          result.mandaCorrectedFiniteDifferenceArcminPerDay,
+        sourceMinusMandaCorrectedFiniteDifferenceArcminPerDay:
+          result.sourceMinusMandaCorrectedFiniteDifferenceArcminPerDay,
+        observedSighraCorrectionArcminPerDay:
+          result.observedSighraCorrectionArcminPerDay,
+        formulaMinusObservedSighraCorrectionArcminPerDay:
+          result.formulaMinusObservedSighraCorrectionArcminPerDay,
         sourceMinusReferenceArcminPerDay:
           result.sourceDailyMotionArcminPerDay - referenceRateArcminPerDay,
         alternateMinusReferenceArcminPerDay:
@@ -114,6 +122,14 @@ export function runChapter2DailyMotionLedger() {
             result.uncorrectedFiniteDifferenceArcminPerDay,
           sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay:
             result.sourceMinusUncorrectedFiniteDifferenceArcminPerDay,
+          mandaCorrectedFiniteDifferenceArcminPerDay:
+            result.mandaCorrectedFiniteDifferenceArcminPerDay,
+          sourceMinusMandaCorrectedFiniteDifferenceArcminPerDay:
+            result.sourceMinusMandaCorrectedFiniteDifferenceArcminPerDay,
+          observedSighraCorrectionArcminPerDay:
+            result.observedSighraCorrectionArcminPerDay,
+          formulaMinusObservedSighraCorrectionArcminPerDay:
+            result.formulaMinusObservedSighraCorrectionArcminPerDay,
           meanMotionFromMandoccaArcminPerDay: result.meanMotionFromMandoccaArcminPerDay,
           mandaEquationArcminPerDay: result.mandaMotion.signedEquationArcminPerDay,
           mandaCorrectedDailyMotionArcminPerDay:
@@ -146,6 +162,10 @@ export function runChapter2DailyMotionLedger() {
     Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.mandaCorrectedFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.sourceMinusMandaCorrectedFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.observedSighraCorrectionArcminPerDay) &&
+    Number.isFinite(row.formulaMinusObservedSighraCorrectionArcminPerDay) &&
     Number.isFinite(row.sourceMinusReferenceArcminPerDay) &&
     (row.planet === "Sun" ||
       Number.isFinite(row.alternateRadiusCandidateRateArcminPerDay))
@@ -157,6 +177,10 @@ export function runChapter2DailyMotionLedger() {
     Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.mandaCorrectedFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.sourceMinusMandaCorrectedFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.observedSighraCorrectionArcminPerDay) &&
+    Number.isFinite(row.formulaMinusObservedSighraCorrectionArcminPerDay) &&
     Number.isFinite(row.correctedRelativeDifferencePercent) &&
     Number.isFinite(row.uncorrectedRelativeDifferencePercent)
   );
@@ -194,13 +218,17 @@ export function runChapter2DailyMotionLedgerTests() {
       passed: ledger.rows.find(row => row.planet === "Venus")?.referenceRateArcminPerDay < 0
     },
     {
-      name: "Five-day neighbourhood keeps source-rate and finite-difference rates separate",
+      name: "Five-day neighbourhood keeps source, manda-sphuta, and final-place rates separate",
       passed: ledger.sensitivityRows.length === 15 &&
         ledger.sensitivityOffsetsDays.join(",") === "-2,-1,0,1,2" &&
         ledger.sensitivityRows.every(row =>
           Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
           Number.isFinite(row.bhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
           Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.mandaCorrectedFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.sourceMinusMandaCorrectedFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.observedSighraCorrectionArcminPerDay) &&
+          Number.isFinite(row.formulaMinusObservedSighraCorrectionArcminPerDay) &&
           Number.isFinite(row.correctedRelativeDifferencePercent) &&
           Number.isFinite(row.uncorrectedRelativeDifferencePercent)
         )
