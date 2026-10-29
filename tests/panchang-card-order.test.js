@@ -208,6 +208,7 @@ test("Shared Asta/Udaya scan preserves both nearest threshold-crossing direction
 
   const selectedDate = "2026-01-15";
   const anchor = new Date(selectedDate + "T12:00:00+05:30").getTime();
+  let elongationCalls = 0;
   const sandbox = {
     Date,
     Map,
@@ -225,6 +226,7 @@ test("Shared Asta/Udaya scan preserves both nearest threshold-crossing direction
       return value.toISOString().slice(0, 10);
     },
     Elongation(body, instant) {
+      elongationCalls++;
       const offset = (instant.getTime() - anchor) / 86400000;
       const threshold = 10;
       // Synthetic conjunction-shaped fixture: separation rises before
@@ -251,4 +253,10 @@ test("Shared Asta/Udaya scan preserves both nearest threshold-crossing direction
     "Asta should refine to the future downward threshold crossing");
   assert.ok(Math.abs(new Date(event.udaya).getTime() - anchor) < 120000,
     "Udaya should refine to the past upward threshold crossing");
+
+  const callsAfterFirstCalculation = elongationCalls;
+  const repeatedEvent = sandbox.getPlanetEvent({ body: "Venus", name: "शुक्र" }, selectedDate);
+  assert.deepEqual(repeatedEvent, event);
+  assert.equal(elongationCalls, callsAfterFirstCalculation,
+    "repeated refresh for the same planet/date should reuse the completed event result");
 });
