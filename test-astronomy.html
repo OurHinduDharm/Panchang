@@ -2987,6 +2987,84 @@ function getLagnantaraResidualForDate(ref, date, method = "current") {
   return { eventTime, geometry:g, residual:g.K - C };
 }
 
+/*
+ * Sūrya-siddhānta IX.10–11 independent date estimate.
+ * Convert each body's daily longitude motion into time-motion using
+ * the ascensional equivalent (prāṇas) of its current sidereal sign:
+ * kālagati = bhukti × lagnāsu / 1800.
+ * This remains a diagnostic alongside the daily sign-change bracket;
+ * it is not used by production Panchang code.
+ */
+function getLagnasuForSiderealLongitude(longitude, config = TKS_CONFIG) {
+  if (!Number.isFinite(longitude)) return NaN;
+  const signStart = Math.floor(normalize360(longitude) / 30) * 30;
+  const oaStart = obliqueAscensionFromSiderealLongitude(signStart, config);
+  const oaEnd = obliqueAscensionFromSiderealLongitude(
+    normalize360(signStart + 30), config
+  );
+  const span = signedLongitudeDelta(oaEnd, oaStart);
+  return Number.isFinite(span) && span > 0 ? span * 60 : NaN;
+}
+
+function getDailyMotionForKalagati(body, date) {
+  const before = new Date(date.getTime() - 12 * 60 * 60 * 1000);
+  const after = new Date(date.getTime() + 12 * 60 * 60 * 1000);
+  const beforeLongitude = getEclipticLongitude(body, before);
+  const afterLongitude = getEclipticLongitude(body, after);
+  return signedLongitudeDelta(afterLongitude, beforeLongitude);
+}
+
+function estimateLagnantaraEventDate(ref, date, method = "current", config = TKS_CONFIG) {
+  const sample = getLagnantaraResidualForDate(ref, date, method);
+  if (!sample || !Number.isFinite(sample.residual)) return null;
+
+  const g = sample.geometry;
+  const sunLagnasu = getLagnasuForSiderealLongitude(g.sunLon, config);
+  const planetLagnasu = getLagnasuForSiderealLongitude(g.planetLon, config);
+  const sunMotion = getDailyMotionForKalagati(Astronomy.Body.Sun, sample.eventTime);
+  const planetMotion = getDailyMotionForKalagati(
+    BODY_NAMES[ref.planet], sample.eventTime
+  );
+
+  if (![sunLagnasu, planetLagnasu, sunMotion, planetMotion].every(Number.isFinite)) {
+    return null;
+  }
+
+  const sunKaalagati = sunMotion * sunLagnasu / 1800;
+  const planetKaalagati = planetMotion * planetLagnasu / 1800;
+  const relativeKaalagati = planetMotion < 0
+    ? Math.abs(sunKaalagati) + Math.abs(planetKaalagati)
+    : Math.abs(sunKaalagati - planetKaalagati);
+
+  if (!Number.isFinite(relativeKaalagati) || relativeKaalagati <= 1e-6) {
+    return null;
+  }
+
+  // K−C decreases through Asta (+ to −) and increases through Udaya (− to +).
+  const daysFromSample = sample.residual / relativeKaalagati *
+    (ref.event === "Asta" ? 1 : -1);
+
+  if (!Number.isFinite(daysFromSample) || Math.abs(daysFromSample) > 400) {
+    return null;
+  }
+
+  return {
+    eventTime: sample.eventTime,
+    residual: sample.residual,
+    daysFromSample,
+    estimatedDate: new Date(
+      sample.eventTime.getTime() + daysFromSample * 86400000
+    ),
+    sunKaalagati,
+    planetKaalagati,
+    relativeKaalagati,
+    sunLagnasu,
+    planetLagnasu,
+    sunMotion,
+    planetMotion
+  };
+}
+
 function findLagnantaraCrossing(ref, method = "current") {
   /*
    * K is evaluated at one actual sunrise/sunset per civil date.
@@ -3094,7 +3172,7 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Current K−C</th><th>Sequential K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>IX.10–11 estimate</th><th>Current daily bracket</th><th>Sequential daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -3104,6 +3182,9 @@ async function runLagnantaraDiagnostic() {
     const C = shastriyaC(ref.planet, ref.event, ref.direction);
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
+    const formulaEstimate = estimateLagnantaraEventDate(
+      ref, new Date(ref.date + "T12:00:00Z"), "current"
+    );
 
     html += '<tr class="reference-row">';
     html += '<td>'+ref.planet+'</td>';
@@ -3116,6 +3197,13 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(gs ? ((gs.K-C)>=0?"+":"")+round(gs.K-C,4)+"°" : "—")+'</td>';
     html += '<td>'+round(C,2)+'°</td>';
     html += '<td>'+ref.date+'</td>';
+    if (formulaEstimate) {
+      html += '<td>' + formatLocalFromUTCDate(formulaEstimate.estimatedDate).split(",")[0] +
+        '<br>' + (formulaEstimate.daysFromSample >= 0 ? "+" : "") +
+        round(formulaEstimate.daysFromSample, 2) + ' days from sample</td>';
+    } else {
+      html += '<td>Not available</td>';
+    }
     if (crossing && crossing.brackets && crossing.brackets.length) {
       html += '<td>';
       crossing.brackets.forEach((bracket, index) => {
@@ -3160,7 +3248,7 @@ async function runLagnantaraDiagnostic() {
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="12"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="13"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
