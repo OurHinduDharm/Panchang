@@ -197,3 +197,58 @@ test("Planetary Asta/Udaya uses one shared boundary scan per planet", () => {
   assert.ok(!eventBuilder.includes("findNearestAngularBoundary("),
     "the old separate per-event scan must not remain in the event builder");
 });
+
+
+test("Shared Asta/Udaya scan preserves both nearest threshold-crossing directions", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  const start = source.indexOf("const PLANET_ASTA_THRESHOLDS = {");
+  const end = source.indexOf("/* =========================================\\n   Card creation", start);
+  assert.notEqual(start, -1, "planet threshold table must exist");
+  assert.ok(end > start, "planet calculation helpers must end before card rendering");
+
+  const selectedDate = "2026-01-15";
+  const anchor = new Date(selectedDate + "T12:00:00+05:30").getTime();
+  const sandbox = {
+    Date,
+    Map,
+    Number,
+    String,
+    Math,
+    console,
+    PLANETS: [{ body: "Venus", name: "शुक्र" }],
+    getLocalNoon(date) {
+      return new Date(date + "T12:00:00+05:30");
+    },
+    addDays(date, days) {
+      const value = new Date(date + "T12:00:00+05:30");
+      value.setUTCDate(value.getUTCDate() + days);
+      return value.toISOString().slice(0, 10);
+    },
+    Elongation(body, instant) {
+      const offset = (instant.getTime() - anchor) / 86400000;
+      const threshold = 10;
+      // Synthetic conjunction-shaped fixture: separation rises before
+      // the selected date (Udaya crossing), then falls after it (Asta).
+      return {
+        ecliptic_separation: offset <= 0
+          ? threshold + offset
+          : threshold + 2 - offset
+      };
+    },
+    formatEventDateTime(instant) {
+      return instant.toISOString();
+    }
+  };
+
+  vm.runInNewContext(source.slice(start, end), sandbox);
+  const event = sandbox.getPlanetEvent({ body: "Venus", name: "शुक्र" }, selectedDate);
+
+  assert.equal(event.name, "शुक्र");
+  assert.equal(event.verificationPending, true);
+  assert.ok(event.asta, "Asta crossing should be found");
+  assert.ok(event.udaya, "Udaya crossing should be found");
+  assert.ok(Math.abs(new Date(event.asta).getTime() - (anchor + 2 * 86400000)) < 120000,
+    "Asta should refine to the future downward threshold crossing");
+  assert.ok(Math.abs(new Date(event.udaya).getTime() - anchor) < 120000,
+    "Udaya should refine to the past upward threshold crossing");
+});
