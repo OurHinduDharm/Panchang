@@ -38,6 +38,13 @@ export function runChapter2DailyMotionLedger() {
         planet,
         referenceRateArcminPerDay,
         sourceCandidateRateArcminPerDay: result.sourceDailyMotionArcminPerDay,
+        meanPlaceKendraRateCandidateArcminPerDay:
+          result.meanPlaceKendraRateCandidateArcminPerDay,
+        firstKendraMinusMeanPlaceKendraRateArcminPerDay:
+          Number.isFinite(result.meanPlaceKendraRateCandidateArcminPerDay)
+            ? result.sourceDailyMotionArcminPerDay -
+              result.meanPlaceKendraRateCandidateArcminPerDay
+            : null,
         alternateRadiusCandidateRateArcminPerDay:
           result.alternateSourceDailyMotionArcminPerDay,
         bhujantaraCorrectedFiniteDifferenceArcminPerDay: result.finiteDifferenceArcminPerDay,
@@ -93,6 +100,13 @@ export function runChapter2DailyMotionLedger() {
           planet,
           referenceRateArcminPerDay,
           sourceCandidateRateArcminPerDay: result.sourceDailyMotionArcminPerDay,
+          meanPlaceKendraRateCandidateArcminPerDay:
+            result.meanPlaceKendraRateCandidateArcminPerDay,
+          firstKendraMinusMeanPlaceKendraRateArcminPerDay:
+            Number.isFinite(result.meanPlaceKendraRateCandidateArcminPerDay)
+              ? result.sourceDailyMotionArcminPerDay -
+                result.meanPlaceKendraRateCandidateArcminPerDay
+              : null,
           bhujantaraCorrectedFiniteDifferenceArcminPerDay: result.finiteDifferenceArcminPerDay,
           sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay:
             sourceMinusFiniteDifferenceArcminPerDay,
@@ -126,6 +140,8 @@ export function runChapter2DailyMotionLedger() {
 
   const allRatesFinite = rows.every(row =>
     Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
+    (row.planet === "Sun" ||
+      Number.isFinite(row.meanPlaceKendraRateCandidateArcminPerDay)) &&
     Number.isFinite(row.bhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
@@ -135,6 +151,8 @@ export function runChapter2DailyMotionLedger() {
       Number.isFinite(row.alternateRadiusCandidateRateArcminPerDay))
   ) && sensitivityRows.every(row =>
     Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
+    (row.planet === "Sun" ||
+      Number.isFinite(row.meanPlaceKendraRateCandidateArcminPerDay)) &&
     Number.isFinite(row.bhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
