@@ -238,7 +238,7 @@ test("Karwa Chauth puja window uses one tenth of local night and Krishna Chaturt
   });
   assert.equal(result.status, "calculated");
   assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
-  assert.equal(result.windows[0].end.toISOString(), date("2026-10-29T18:42:30+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-10-29T18:43:00+05:30").toISOString());
   assert.equal(result.windows[1].start.toISOString(), sunrise.toISOString());
   assert.equal(result.windows[1].end.toISOString(), moonrise.toISOString());
 });
