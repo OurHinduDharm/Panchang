@@ -39,7 +39,9 @@
       "title": "पितृपक्ष प्रारंभ",
       "description": "पितृपक्ष में पितरों के निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
       "category": "पितृपक्ष",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण प्रतिपदा"
     },
     {
       "date": "2028-09-15",
@@ -75,7 +77,9 @@
       "title": "महालया अमावस्या",
       "description": "महालया अमावस्या पितृपक्ष के समापन और पितरों के निमित्त तर्पण/श्राद्ध से जुड़ी है।",
       "category": "अमावस्या",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण अमावस्या"
     },
     {
       "date": "2028-09-19",
