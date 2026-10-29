@@ -597,7 +597,7 @@ const rules = {
     const nightDuration = nextSunrise.getTime() - sunset.getTime();
     const pujaWindow = windowWithin(
       sunset,
-      new Date(sunset.getTime() + nightDuration / 10),
+      new Date(sunset.getTime() + Math.round(nightDuration / 10 / 60000) * 60000),
       tithis,
       "करवा चौथ पूजा मुहूर्त",
       "स्थानीय सूर्यास्त से अगले सूर्योदय तक के रात्रिमान का दसवाँ भाग, कृष्ण चतुर्थी-व्याप्ति के भीतर।"
