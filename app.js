@@ -1,4 +1,31 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+
+// Optional mobile debugger. Loads only when explicitly requested with ?debug=1.
+// Keep disabled on normal visits so production users pay no debugger cost.
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("debug") !== "1") return;
+  const loadEruda = () => {
+    if (window.eruda || document.getElementById("ohd-eruda-loader")) return;
+    const script = document.createElement("script");
+    script.id = "ohd-eruda-loader";
+    script.src = "https://cdn.jsdelivr.net/npm/eruda";
+    script.onload = () => {
+      if (window.eruda && !window.__ohdErudaStarted) {
+        window.__ohdErudaStarted = true;
+        window.eruda.init();
+        console.info("[OHD debug] Eruda enabled by ?debug=1");
+      }
+    };
+    script.onerror = () => console.error("[OHD debug] Eruda failed to load");
+    document.head.appendChild(script);
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadEruda, { once: true });
+  } else {
+    loadEruda();
+  }
+})();
 import {
   Body as AstroBody,
   Observer as AstroObserver,
