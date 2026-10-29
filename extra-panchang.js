@@ -540,6 +540,18 @@ function findNearestAngularBoundaries(body, selectedDate, threshold) {
 const planetEventBracketCache = new Map();
 
 function getPlanetEvent(planet, selectedDate) {
+  const __ohdPlanetPerf = new URLSearchParams(window.location.search).get("perf") === "1";
+  const __ohdPlanetStart = __ohdPlanetPerf ? performance.now() : 0;
+  const __ohdPlanetLog = (cache, extra = {}) => {
+    if (!__ohdPlanetPerf) return;
+    console.info("[OHD performance] Planet Asta/Udaya", {
+      body: planet.body,
+      date: selectedDate,
+      cache,
+      milliseconds: Number((performance.now() - __ohdPlanetStart).toFixed(2)),
+      ...extra
+    });
+  };
   const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
 
   if (!Number.isFinite(threshold)) {
@@ -565,9 +577,11 @@ function getPlanetEvent(planet, selectedDate) {
   );
 
   if (cached) {
+    __ohdPlanetLog("hit");
     return { ...cached.result, name: planet.name };
   }
 
+  __ohdPlanetLog("miss");
   try {
     const boundaries = findNearestAngularBoundaries(
       planet.body, selectedDate, threshold
@@ -607,8 +621,13 @@ function getPlanetEvent(planet, selectedDate) {
       planetEventBracketCache.set(planet.body, entries.slice(0, 12));
     }
 
+    __ohdPlanetLog("miss-complete", {
+      astaFound: Boolean(asta),
+      udayaFound: Boolean(udaya)
+    });
     return result;
   } catch (error) {
+    __ohdPlanetLog("error", { message: String(error && error.message || error) });
     console.warn("Planetary angular-boundary estimate failed:", planet.body, error);
     return {
       name: planet.name,
