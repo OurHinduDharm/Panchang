@@ -473,12 +473,36 @@ function findThresholdCrossingInstant(body, startDateString, endDateString, thre
   return new Date((low + high) / 2);
 }
 
-function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
+function findNearestAngularBoundaries(body, selectedDate, threshold) {
   const selected = getPlanetDailyData(body, selectedDate);
-  if (!Number.isFinite(selected.eclipticSeparation)) return null;
+  if (!Number.isFinite(selected.eclipticSeparation)) {
+    return { asta: null, udaya: null };
+  }
 
-  // दिन-स्तर पर अधिकतम 400 दिन आगे/पीछे खोजें।
-  for (let offset = 1; offset <= 400; offset++) {
+  let asta = null;
+  let udaya = null;
+
+  const crossedDown = (a, b) =>
+    a.eclipticSeparation > threshold &&
+    b.eclipticSeparation <= threshold;
+
+  const crossedUp = (a, b) =>
+    a.eclipticSeparation <= threshold &&
+    b.eclipticSeparation > threshold;
+
+  const refine = (a, b, eventType, direction) => ({
+    date: b.date,
+    instant: findThresholdCrossingInstant(
+      body, a.date, b.date, threshold, eventType
+    ),
+    degree: b.eclipticSeparation,
+    threshold,
+    direction
+  });
+
+  // Keep the legacy search order: at each distance, check past before future.
+  // Both boundaries share the same daily scan; thresholds and refinement stay unchanged.
+  for (let offset = 1; offset <= 400 && (!asta || !udaya); offset++) {
     const pastDate = addDays(selectedDate, -offset);
     const pastNextDate = addDays(selectedDate, -offset + 1);
     const futurePrevDate = addDays(selectedDate, offset - 1);
@@ -489,45 +513,24 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
     const futureA = getPlanetDailyData(body, futurePrevDate);
     const futureB = getPlanetDailyData(body, futureDate);
 
-    const crossedDown = (a, b) =>
-      a.eclipticSeparation > threshold &&
-      b.eclipticSeparation <= threshold;
-
-    const crossedUp = (a, b) =>
-      a.eclipticSeparation <= threshold &&
-      b.eclipticSeparation > threshold;
-
-    const matches = eventType === "asta" ? crossedDown : crossedUp;
-
-    // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
-    if (matches(pastA, pastB)) {
-      const instant = findThresholdCrossingInstant(
-        body, pastA.date, pastB.date, threshold, eventType
-      );
-      return {
-        date: pastB.date,
-        instant,
-        degree: pastB.eclipticSeparation,
-        threshold,
-        direction: "past"
-      };
+    if (!asta) {
+      if (crossedDown(pastA, pastB)) {
+        asta = refine(pastA, pastB, "asta", "past");
+      } else if (crossedDown(futureA, futureB)) {
+        asta = refine(futureA, futureB, "asta", "future");
+      }
     }
 
-    if (matches(futureA, futureB)) {
-      const instant = findThresholdCrossingInstant(
-        body, futureA.date, futureB.date, threshold, eventType
-      );
-      return {
-        date: futureB.date,
-        instant,
-        degree: futureB.eclipticSeparation,
-        threshold,
-        direction: "future"
-      };
+    if (!udaya) {
+      if (crossedUp(pastA, pastB)) {
+        udaya = refine(pastA, pastB, "udaya", "past");
+      } else if (crossedUp(futureA, futureB)) {
+        udaya = refine(futureA, futureB, "udaya", "future");
+      }
     }
   }
 
-  return null;
+  return { asta, udaya };
 }
 
 // A previously calculated pair of nearest boundaries remains valid while
@@ -566,12 +569,11 @@ function getPlanetEvent(planet, selectedDate) {
   }
 
   try {
-    const asta = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "asta"
+    const boundaries = findNearestAngularBoundaries(
+      planet.body, selectedDate, threshold
     );
-    const udaya = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "udaya"
-    );
+    const asta = boundaries.asta;
+    const udaya = boundaries.udaya;
 
     const result = {
       name: planet.name,
