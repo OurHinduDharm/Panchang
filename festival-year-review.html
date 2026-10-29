@@ -108,9 +108,10 @@ function addFestivalProposal(){
  const id=$("addSourceFestival").value,source=catalog.find(f=>f.id===id),targetYear=Number($("addTargetYear").value);
  if(!source){alert("पहले पुराने वर्ष का पर्व चुनें।");return}
  if(!Number.isInteger(targetYear)||targetYear<1900||targetYear>2200){alert("आगामी वर्ष सही भरें।");return}
+ const sourceYear=Number(String(source.sourceMonth||"").slice(0,4))||null;
+ if(sourceYear&&targetYear<=sourceYear){alert("लक्ष्य वर्ष पुराने पर्व के वर्ष से आगे होना चाहिए।");return}
  const items=getProposals();
  if(items.some(p=>p.sourceId===source.id&&p.targetYear===targetYear)){alert("यह पर्व इसी लक्ष्य वर्ष के लिए पहले से प्रस्तावित है।");return}
- const sourceYear=Number(String(source.sourceMonth||"").slice(0,4))||null;
  items.push({id:"proposal-"+source.id+"-"+targetYear,sourceId:source.id,sourceYear,targetYear,title:source.name,sourceDate:source.date?.start||"",hinduTithi:source.date?.tithi||source.sourceRecord?.hinduTithi||"",hinduMonth:source.date?.month||"",description:source.description||"",articleUrl:source.sourceUrl||"",muhurtaRule:source.date?.rule||source.sourceRecord?.muhurtaRule||"",targetDate:"",status:"needs-review",createdAt:new Date().toISOString(),note:"पुराने वर्ष से जोड़ा गया प्रस्ताव; लक्ष्य वर्ष की तारीख़/मुहूर्त सत्यापित करना बाकी है।"});
  saveProposals(items);renderProposals();
 }
