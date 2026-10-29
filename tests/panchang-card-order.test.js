@@ -202,7 +202,7 @@ test("Planetary Asta/Udaya uses one shared boundary scan per planet", () => {
 test("Shared Asta/Udaya scan preserves both nearest threshold-crossing directions", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const start = source.indexOf("const PLANET_ASTA_THRESHOLDS = {");
-  const end = source.indexOf("/* =========================================\n   Card creation", start);
+  const end = source.indexOf("function createPlanetCard(", start);
   assert.notEqual(start, -1, "planet threshold table must exist");
   assert.ok(end > start, "planet calculation helpers must end before card rendering");
 
