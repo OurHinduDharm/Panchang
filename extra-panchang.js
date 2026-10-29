@@ -538,6 +538,10 @@ function findNearestAngularBoundaries(body, selectedDate, threshold) {
 // This avoids repeating hundreds of ephemeris evaluations when readers move
 // between nearby dates that are still inside the same angular-threshold interval.
 const planetEventBracketCache = new Map();
+// Exact-date memoization is always safe: it reuses the same calculated
+// boundary pair only for the identical body/date, including dates outside
+// the Asta-to-Udaya interval where bracket reuse is intentionally invalid.
+const planetEventDateCache = new Map();
 
 function getPlanetEvent(planet, selectedDate) {
   const __ohdPlanetPerf = typeof window !== "undefined" &&
@@ -569,6 +573,13 @@ function getPlanetEvent(planet, selectedDate) {
   const selectedNoon = new Date(
     `${selectedDate}T12:00:00+05:30`
   ).getTime();
+
+  const dateResults = planetEventDateCache.get(planet.body);
+  const sameDateResult = dateResults && dateResults.get(selectedDate);
+  if (sameDateResult) {
+    __ohdPlanetLog("date-hit");
+    return { ...sameDateResult, name: planet.name };
+  }
 
   const cachedBrackets = planetEventBracketCache.get(planet.body) || [];
   const cached = cachedBrackets.find(entry =>
@@ -622,6 +633,18 @@ function getPlanetEvent(planet, selectedDate) {
       // Bound memory use; recent date intervals are most likely to be reused.
       planetEventBracketCache.set(planet.body, entries.slice(0, 12));
       cacheSaved = true;
+    }
+
+    // Keep a small per-body exact-date cache. Unlike a cross-date bracket,
+    // this cannot reuse a result for a date with different nearest boundaries.
+    let bodyDateResults = planetEventDateCache.get(planet.body);
+    if (!bodyDateResults) {
+      bodyDateResults = new Map();
+      planetEventDateCache.set(planet.body, bodyDateResults);
+    }
+    bodyDateResults.set(selectedDate, result);
+    while (bodyDateResults.size > 32) {
+      bodyDateResults.delete(bodyDateResults.keys().next().value);
     }
 
     __ohdPlanetLog("miss-complete", {
