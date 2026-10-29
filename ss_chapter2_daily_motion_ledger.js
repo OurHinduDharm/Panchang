@@ -40,9 +40,13 @@ export function runChapter2DailyMotionLedger() {
         sourceCandidateRateArcminPerDay: result.sourceDailyMotionArcminPerDay,
         alternateRadiusCandidateRateArcminPerDay:
           result.alternateSourceDailyMotionArcminPerDay,
-        sameModelFiniteDifferenceArcminPerDay: result.finiteDifferenceArcminPerDay,
-        sourceMinusFiniteDifferenceArcminPerDay:
+        bhujantaraCorrectedFiniteDifferenceArcminPerDay: result.finiteDifferenceArcminPerDay,
+        sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay:
           result.sourceMinusFiniteDifferenceArcminPerDay,
+        uncorrectedTruePlaceFiniteDifferenceArcminPerDay:
+          result.uncorrectedFiniteDifferenceArcminPerDay,
+        sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay:
+          result.sourceMinusUncorrectedFiniteDifferenceArcminPerDay,
         sourceMinusReferenceArcminPerDay:
           result.sourceDailyMotionArcminPerDay - referenceRateArcminPerDay,
         alternateMinusReferenceArcminPerDay:
@@ -79,12 +83,22 @@ export function runChapter2DailyMotionLedger() {
           planet,
           referenceRateArcminPerDay,
           sourceCandidateRateArcminPerDay: result.sourceDailyMotionArcminPerDay,
-          sameModelFiniteDifferenceArcminPerDay: result.finiteDifferenceArcminPerDay,
-          sourceMinusFiniteDifferenceArcminPerDay,
-          relativeRateDifferencePercent:
+          bhujantaraCorrectedFiniteDifferenceArcminPerDay: result.finiteDifferenceArcminPerDay,
+          sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay:
+            sourceMinusFiniteDifferenceArcminPerDay,
+          uncorrectedTruePlaceFiniteDifferenceArcminPerDay:
+            result.uncorrectedFiniteDifferenceArcminPerDay,
+          sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay:
+            result.sourceMinusUncorrectedFiniteDifferenceArcminPerDay,
+          correctedRelativeDifferencePercent:
             Math.abs(result.finiteDifferenceArcminPerDay) > 1e-12
               ? sourceMinusFiniteDifferenceArcminPerDay /
                 result.finiteDifferenceArcminPerDay * 100
+              : null,
+          uncorrectedRelativeDifferencePercent:
+            Math.abs(result.uncorrectedFiniteDifferenceArcminPerDay) > 1e-12
+              ? result.sourceMinusUncorrectedFiniteDifferenceArcminPerDay /
+                result.uncorrectedFiniteDifferenceArcminPerDay * 100
               : null
         });
       })
@@ -92,16 +106,21 @@ export function runChapter2DailyMotionLedger() {
 
   const allRatesFinite = rows.every(row =>
     Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
-    Number.isFinite(row.sameModelFiniteDifferenceArcminPerDay) &&
-    Number.isFinite(row.sourceMinusFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.bhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
     Number.isFinite(row.sourceMinusReferenceArcminPerDay) &&
     (row.planet === "Sun" ||
       Number.isFinite(row.alternateRadiusCandidateRateArcminPerDay))
   ) && sensitivityRows.every(row =>
     Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
-    Number.isFinite(row.sameModelFiniteDifferenceArcminPerDay) &&
-    Number.isFinite(row.sourceMinusFiniteDifferenceArcminPerDay) &&
-    Number.isFinite(row.relativeRateDifferencePercent)
+    Number.isFinite(row.bhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.sourceMinusBhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.sourceMinusUncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
+    Number.isFinite(row.correctedRelativeDifferencePercent) &&
+    Number.isFinite(row.uncorrectedRelativeDifferencePercent)
   );
 
   return Object.freeze({
@@ -122,7 +141,7 @@ export function runChapter2DailyMotionLedgerTests() {
       passed: ledger.rows.map(row => row.planet).join(",") === "Sun,Venus,Jupiter"
     },
     {
-      name: "Source and same-model finite-difference rates remain finite and separately labelled",
+      name: "Source, pre-II.46, and post-II.46 rates remain finite and separately labelled",
       passed: ledger.allRatesFinite &&
         ledger.rows.every(row =>
           Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
@@ -139,8 +158,10 @@ export function runChapter2DailyMotionLedgerTests() {
         ledger.sensitivityOffsetsDays.join(",") === "-2,-1,0,1,2" &&
         ledger.sensitivityRows.every(row =>
           Number.isFinite(row.sourceCandidateRateArcminPerDay) &&
-          Number.isFinite(row.sameModelFiniteDifferenceArcminPerDay) &&
-          Number.isFinite(row.relativeRateDifferencePercent)
+          Number.isFinite(row.bhujantaraCorrectedFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.uncorrectedTruePlaceFiniteDifferenceArcminPerDay) &&
+          Number.isFinite(row.correctedRelativeDifferencePercent) &&
+          Number.isFinite(row.uncorrectedRelativeDifferencePercent)
         )
     },
     {
