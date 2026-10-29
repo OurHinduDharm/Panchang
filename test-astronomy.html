@@ -2977,10 +2977,10 @@ function getSunEventTimeForLagnantara(date, direction, config = TKS_CONFIG) {
   return localDate === expectedDate ? result.date : null;
 }
 
-function getLagnantaraResidualForDate(ref, date, method = "current") {
-  const eventTime = getSunEventTimeForLagnantara(date, ref.direction);
+function getLagnantaraResidualForDate(ref, date, method = "current", config = TKS_CONFIG) {
+  const eventTime = getSunEventTimeForLagnantara(date, ref.direction, config);
   if (!eventTime) return null;
-  const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method);
+  const g = getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method, config);
   if (!g) return null;
   const C = shastriyaC(ref.planet, ref.event, ref.direction);
   if (!Number.isFinite(C)) return null;
@@ -3015,7 +3015,7 @@ function getDailyMotionForKalagati(body, date) {
 }
 
 function estimateLagnantaraEventDate(ref, date, method = "current", config = TKS_CONFIG) {
-  const sample = getLagnantaraResidualForDate(ref, date, method);
+  const sample = getLagnantaraResidualForDate(ref, date, method, config);
   if (!sample || !Number.isFinite(sample.residual)) return null;
 
   const g = sample.geometry;
@@ -3065,7 +3065,7 @@ function estimateLagnantaraEventDate(ref, date, method = "current", config = TKS
   };
 }
 
-function findLagnantaraCrossing(ref, method = "current") {
+function findLagnantaraCrossing(ref, method = "current", config = TKS_CONFIG) {
   /*
    * K is evaluated at one actual sunrise/sunset per civil date.
    * Therefore this is a daily-event sequence, not a continuous
@@ -3081,7 +3081,7 @@ function findLagnantaraCrossing(ref, method = "current") {
 
   for (let d=-15; d<=15; d++) {
     const date = new Date(center.getTime() + d * 86400000);
-    const result = getLagnantaraResidualForDate(ref, date, method);
+    const result = getLagnantaraResidualForDate(ref, date, method, config);
     if (result && Number.isFinite(result.residual)) {
       samples.push({date, ...result});
     }
