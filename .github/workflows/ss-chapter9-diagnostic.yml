@@ -23,6 +23,7 @@ on:
       - "ss_chapter1_planetary_mandocca_epoch_candidates.js"
       - "ss_chapter2_planetary_true_position_candidate.js"
       - "ss_chapter2_planetary_daily_motion_candidate.js"
+      - "ss_chapter2_daily_motion_ledger.js"
       - "ss_chapter2_solar_manda.js"
       - "ss_chapter2_solar_motion_candidate.js"
       - "ss_chapter2_daily_motion_correction.js"
@@ -282,6 +283,21 @@ jobs:
           for (const test of result.tests) console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
           console.log(`${result.passed}/${result.total} solar manda tests passed`);
           console.log(result.note);
+          if (!result.allPassed) process.exit(1);
+          NODE
+
+      - name: Run Chapter II source daily-motion comparison ledger (research-only)
+        run: |
+          node --experimental-default-type=module --check ss_chapter2_daily_motion_ledger.js
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { runChapter2DailyMotionLedgerTests } from './ss_chapter2_daily_motion_ledger.js';
+          const result = runChapter2DailyMotionLedgerTests();
+          for (const test of result.tests) {
+            console.log(`${test.passed ? 'PASS' : 'FAIL'} — ${test.name}`);
+            if (test.error) console.log(`  ${test.error}`);
+          }
+          console.log(`${result.passed}/${result.total} source daily-motion ledger tests passed`);
+          console.log(JSON.stringify(result.ledger, null, 2));
           if (!result.allPassed) process.exit(1);
           NODE
 
