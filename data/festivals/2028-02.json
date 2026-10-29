@@ -28,19 +28,23 @@
       "date": "2028-02-06",
       "dateLabel": "6 फ़रवरी",
       "title": "जया एकादशी (स्मार्त)",
-      "description": "जया एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। यह स्मार्त व्रत-दिन का प्रारंभिक उम्मीदवार है; पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
+      "description": "स्मार्त परंपरा में जया एकादशी का व्रत 6 फरवरी को है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
-      "muhurtaRule": "ekadashi-parana"
+      "reviewStatus": "approved",
+      "muhurtaRule": "ekadashi-parana",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल एकादशी"
     },
     {
       "date": "2028-02-07",
       "dateLabel": "7 फ़रवरी",
       "title": "जया एकादशी (वैष्णव)",
-      "description": "कुछ वैष्णव पंचांगों में जया एकादशी का व्रत अगले दिन हो सकता है। इस प्रविष्टि को वैष्णव परंपरा के लिए ही जाँचें; पारण द्वादशी-व्याप्ति और हरिवासर से तय करें।",
+      "description": "वैष्णव परंपरा में गौण जया एकादशी का व्रत 7 फरवरी को रखा जाता है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
-      "muhurtaRule": "ekadashi-parana"
+      "reviewStatus": "approved",
+      "muhurtaRule": "ekadashi-parana",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल एकादशी"
     },
     {
       "date": "2028-02-10",
