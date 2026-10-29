@@ -57,6 +57,18 @@ test("Hindi festival descriptions do not end with malformed punctuation", () => 
   }
 });
 
+test("every monthly festival record has an explicit review status", () => {
+  for (const file of files) {
+    const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
+    for (const event of data.events) {
+      assert.equal(typeof event.reviewStatus, "string",
+        `${file}: review status missing for ${event.title || event.date}`);
+      assert.ok(event.reviewStatus.trim(),
+        `${file}: empty review status for ${event.title || event.date}`);
+    }
+  }
+});
+
 test("Ekadashi parana metadata is only attached to Ekadashi records", () => {
   for (const file of files) {
     const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
