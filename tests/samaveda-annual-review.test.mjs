@@ -23,7 +23,7 @@ test("annual resolver selects the second day when Hasta covers Aparahna on both 
   ];
   const result = resolveSamavedaAnnualDecision(records);
   assert.equal(result.status,"selected");
-  assert.equal(result.date,"2026-09-12");
+  assert.equal(result.date,"2026-09-13");
   assert.equal(result.calculationStatus,"calculated-needs-review");
   assert.equal(result.reviewStatus,"needs-review");
 });
