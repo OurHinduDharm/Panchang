@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { getPanchangam, Observer } from "@ishubhamx/panchangam-js";
 const require = createRequire(import.meta.url);
-const adapter = require("./fixtures/kalashtami-panchang-adapter.js");
+const adapter = require("../tests/fixtures/kalashtami-panchang-adapter.js");
 
 const SEED_DATES = [
   "2026-01-10", "2026-02-09", "2026-03-11", "2026-04-10",
