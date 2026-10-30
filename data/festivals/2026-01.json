@@ -96,7 +96,8 @@
       "category": "व्रत",
       "hinduTithi": "माघ कृष्ण चतुर्दशी",
       "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "muhurtaRule": "masik-shivaratri-nishita"
     },
     {
       "date": "2026-01-16",
