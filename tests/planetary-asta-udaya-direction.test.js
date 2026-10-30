@@ -4,7 +4,7 @@ import vm from "node:vm";
 import test from "node:test";
 
 const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-const start = source.indexOf("function findNearestAngularBoundary(");
+const start = source.indexOf("function crossesAngularBoundary(");
 const end = source.indexOf("\nconst planetEventBracketCache", start);
 assert.notEqual(start, -1);
 assert.notEqual(end, -1);
