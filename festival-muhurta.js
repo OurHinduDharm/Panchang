@@ -126,6 +126,62 @@ function formatDateLabel(dateValue) {
   }).format(date) : "";
 }
 
+function localDateKey(dateValue) {
+  const date = validDate(dateValue);
+  if (!date) return "";
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(date);
+  const part = type => (parts.find(item => item.type === type) || {}).value || "";
+  return part("year") + "-" + part("month") + "-" + part("day");
+}
+
+/* Dharmasindhu Yama-Dvitiya day selection. */
+export function getBhaiDoojDateDecision(previousDay, currentDay) {
+  const previousSunrise = validDate(previousDay && previousDay.sunrise);
+  const previousSunset = validDate(previousDay && previousDay.sunset);
+  const currentSunrise = validDate(currentDay && currentDay.sunrise);
+  const currentSunset = validDate(currentDay && currentDay.sunset);
+  const tithis = collectNamedIntervals([
+    ...((previousDay && Array.isArray(previousDay.tithis)) ? previousDay.tithis : []),
+    ...((currentDay && Array.isArray(currentDay.tithis)) ? currentDay.tithis : [])
+  ], item => {
+    const raw = item && typeof item === "object"
+      ? item.index ?? item.number ?? item.value
+      : item;
+    return Number(raw) === 1 ||
+      /shukla.*dwitiya|शुक्ल.*द्वितीया/.test(normalizedName(item));
+  });
+  if (!previousSunrise || !previousSunset || !currentSunrise || !currentSunset ||
+      previousSunset <= previousSunrise || currentSunset <= currentSunrise || !tithis.length) {
+    return { status: "unavailable", message: "दोनों दिनों के स्थानीय सूर्योदय-सूर्यास्त और द्वितीया की वास्तविक अवधि उपलब्ध नहीं है; पर्व-दिन का स्वतः निर्णय नहीं किया गया।" };
+  }
+  const previousKey = localDateKey(previousSunrise);
+  const currentKey = localDateKey(currentSunrise);
+  const previousMs = Date.parse(previousKey + "T00:00:00Z");
+  const currentMs = Date.parse(currentKey + "T00:00:00Z");
+  if (!previousKey || !currentKey || currentMs - previousMs !== 86400000) {
+    return { status: "unavailable", message: "दो लगातार स्थानीय दिनों का पंचांग उपलब्ध नहीं है; पर्व-दिन का स्वतः निर्णय नहीं किया गया।" };
+  }
+  const overlapsAparahna = (sunrise, sunset) => {
+    const duration = sunset.getTime() - sunrise.getTime();
+    const start = new Date(sunrise.getTime() + duration * 3 / 5);
+    const end = new Date(sunrise.getTime() + duration * 4 / 5);
+    return tithis.some(tithi => tithi.end > start && tithi.start < end);
+  };
+  const previousOverlap = overlapsAparahna(previousSunrise, previousSunset);
+  const currentOverlap = overlapsAparahna(currentSunrise, currentSunset);
+  const selected = previousOverlap && !currentOverlap ? previousSunrise : currentSunrise;
+  return {
+    status: "calculated",
+    selectedDate: selected,
+    selectedDateKey: localDateKey(selected),
+    previousAparahnaOverlap: previousOverlap,
+    currentAparahnaOverlap: currentOverlap,
+    rule: "dharmasindhu-yama-dvitiya"
+  };
+}
+
 function collectTithiIntervals(...lists) {
   const intervals = [];
   for (const list of lists) {
@@ -574,6 +630,22 @@ const rules = {
   "bhai-dooj-tilak"(context) {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);
+    const decision = context.bhaiDoojDateDecision;
+    const currentDateKey = localDateKey(sunrise);
+    if (!decision || decision.status !== "calculated" || !decision.selectedDateKey) {
+      return {
+        label: "भाई दूज तिलक मुहूर्त",
+        status: "unavailable",
+        message: "धर्मसिंधु के दिन-निर्णय के लिए दोनों दिनों की अपराह्ण-व्याप्ति जाँची नहीं जा सकी; मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+    if (decision.selectedDateKey !== currentDateKey) {
+      return {
+        label: "भाई दूज तिलक मुहूर्त",
+        status: "unavailable",
+        message: "धर्मसिंधु के दिन-निर्णय के अनुसार पर्व की तारीख़ इस प्रविष्टि से मेल नहीं खाती; स्वीकृत पर्व-तिथि की समीक्षा आवश्यक है।"
+      };
+    }
     const tithis = collectNamedIntervals(context.tithis, item => {
       const name = normalizedName(item);
       const raw = item && typeof item === "object"
@@ -616,7 +688,7 @@ const rules = {
       date: sunrise,
       dateLabel: formatDateLabel(sunrise),
       windows: [tilakWindow],
-      note: "अपराह्ण स्थानीय सूर्योदय से सूर्यास्त तक के दिनमान का चौथा पाँचवाँ भाग है। तिलक का समय इसी काल और कार्तिक शुक्ल द्वितीया की वास्तविक व्याप्ति के साझा भाग से निकाला गया है। पर्व की तारीख़ स्वीकृत पर्व-डेटा के अनुसार रखी गई है।"
+      note: "धर्मसिंह के यमद्वितीया दिन-निर्णय में दोनों दिनों की अपराह्ण-व्याप्ति जाँची गई है। तिलक का समय स्थानीय दिनमान के चौथे पाँचवें भाग (अपराह्ण) और कार्तिक शुक्ल द्वितीया की साझा व्याप्ति से निकाला गया है।"
     };
   },
 
