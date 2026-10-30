@@ -161,6 +161,15 @@
       "hinduTithi": "कार्तिक शुक्ल प्रतिपदा"
     },
     {
+      "date": "2026-11-10",
+      "dateLabel": "10 नवंबर",
+      "title": "द्यूत क्रीड़ा",
+      "description": "कार्तिक शुक्ल प्रतिपदा को गोवर्धन पूजा के साथ द्यूत-क्रीड़ा की पारंपरिक स्मृति भी जुड़ी है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल प्रतिपदा"
+    },
+    {
       "date": "2026-11-11",
       "dateLabel": "11 नवंबर",
       "title": "भाई दूज",
@@ -282,7 +291,7 @@
     {
       "date": "2026-11-21",
       "dateLabel": "21 नवंबर",
-      "title": "गौण देवउठनी एकादशी (वैष्णव)",
+      "title": "गौण देवउठनी एकादशी",
       "category": "एकादशी",
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
       "description": "देवउठनी एकादशी की यह तिथि उन वैष्णव परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
@@ -298,6 +307,16 @@
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल द्वादशी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekaadashi.html"
+    },
+    {
+      "date": "2026-11-21",
+      "dateLabel": "21 नवंबर",
+      "title": "वैष्णव देवउठनी एकादशी",
+      "description": "वैष्णव परंपरा में देवउठनी एकादशी का यह विशेष पालन गौण तिथि पर किया जाता है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana"
     },
     {
       "date": "2026-11-22",
