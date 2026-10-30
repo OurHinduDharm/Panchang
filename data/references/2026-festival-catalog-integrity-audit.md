@@ -22,8 +22,8 @@ Scope: the 12 static month files on main, inspected 2026-10-30. This is a data-i
 
 ## Confirmed integrity defects
 
-1. June status contradiction: the month file says approved, while all 17 event records say needs-review. Month-level approval must not be treated as evidence that those dates are approved.
-2. September status contradiction: the month file says approved, but one event remains needs-review.
+1. June status mismatch on main: the month file said approved while all 17 event records said needs-review. This PR aligns the month-level status to needs-review; the underlying dates remain unverified.
+2. September status mismatch on main: the month file said approved while one event remained needs-review. This PR aligns the month-level status to needs-review; the event still requires review.
 3. January duplicate presentation candidate: 23 January has both वसंत पंचमी and वसन्त पंचमी / सरस्वती पूजन. Both are marked approved and refer to the same observance. Consolidate or model as one event with multiple article links only after confirming the canonical description and links.
 4. April duplicate presentation candidates: 2 April has three Hanuman Jayanti entries; 19 April has multiple Parashurama Jayanti/Akshaya Tritiya entries; 25 April has two Sita Navami entries. These are candidate duplicates, not instructions to delete; preserve distinct article links and meaningful regional naming.
 5. July duplicate presentation candidates: 16 July has three Jagannath Ratha Yatra / Sankranti-related titles. Verify whether these are separate observances or duplicate aliases before consolidation.
