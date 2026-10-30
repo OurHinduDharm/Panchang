@@ -58,3 +58,12 @@ This audit does not modify public month JSON, festival dates, descriptions, or B
 A follow-up change adds the complete 25-date Pradosh series to the 2026 monthly files. The selected dates were checked against the site's default Pithoragarh Panchang calculation: each selected date has Trayodashi overlapping the local evening window. The check handles both Shukla and Krishna Trayodashi indices and also asserts that every date appears exactly once as an approved monthly record.
 
 No fixed clock-time muhurta was copied into the JSON. The current runtime does not yet implement a dedicated Pradosh interval rule, so these entries show the observance and tithi but do not promise a calculated Pradosh time. The two previously pending June records were promoted only after the same calculation check. Other unresolved month records remain under review.
+
+
+## Follow-up: 2026 Sankashti coverage
+
+Twelve 2026 dates are now represented as approved Sankashti/Sakat observances. The calculation test checks that Krishna Chaturthi is active at the local moonrise for the default Pithoragarh observer. The test also checks that each approved date has exactly one matching monthly record.
+
+The December case is deliberately not approved. With the current calculation profile, Chaturthi begins shortly after the Dec 26 moonrise and ends before the Dec 27 moonrise; neither candidate date satisfies the moonrise-overlap check. The existing Dec 26 candidate is retained as needs-review, and the December month status is also needs-review. It is not moved to Dec 27 by assumption. A hard-copy rule review is required before publishing a date.
+
+No fixed moonrise time has been copied into the event data.
