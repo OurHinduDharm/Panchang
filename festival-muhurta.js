@@ -916,6 +916,31 @@ const rules = {
   }
 };
 
+// Render a shared muhurta title only once when its window repeats the same wording.
+function normalizedMuhurtaLabelTokens(value) {
+  return String(value || "")
+    .normalize("NFC")
+    .toLocaleLowerCase("hi")
+    .replace(/[।॥,;:()\[\]{}·—–-]+/g, " ")
+    .split(/\\s+/)
+    .filter(Boolean)
+    .sort();
+}
+
+export function areFestivalMuhurtaLabelsEquivalent(first, second) {
+  const a = normalizedMuhurtaLabelTokens(first);
+  const b = normalizedMuhurtaLabelTokens(second);
+  return a.length > 0 && a.length === b.length && a.every((token, index) => token === b[index]);
+}
+
+// Window notes explain each displayed interval. Do not repeat the same
+// calculation again in the result-level summary beneath those windows.
+export function shouldShowFestivalMuhurtaSummaryNote(result) {
+  if (!result || !String(result.note || "").trim()) return false;
+  const windows = Array.isArray(result.windows) ? result.windows : [];
+  return !windows.some(windowItem => windowItem && String(windowItem.note || "").trim());
+}
+
 export function registerFestivalMuhurtaRule(ruleId, calculate) {
   if (typeof ruleId !== "string" || !/^[a-z0-9-]+$/.test(ruleId)) {
     throw new TypeError("Rule ID must use lowercase letters, digits, or hyphens.");
