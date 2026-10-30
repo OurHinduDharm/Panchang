@@ -1264,14 +1264,37 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
     return laterDate(hasta.start, afternoon.start) < earlierDate(hasta.end, afternoon.end);
   }
 
-  function hasDosha(day, fallback = false) {
+  function hasDosha(day) {
     const flags = day.dosha || {};
+    const index = records.indexOf(day);
+    const previous = index > 0 ? records[index - 1] : null;
+    const next = index >= 0 && index + 1 < records.length ? records[index + 1] : null;
+    const beforeMidnight = previous
+      ? new Date((previous.sunset.getTime() + day.sunrise.getTime()) / 2)
+      : null;
+    const afterMidnight = next
+      ? new Date((day.sunset.getTime() + next.sunrise.getTime()) / 2)
+      : null;
+    const eventDates = values => (Array.isArray(values) ? values : values ? [values] : [])
+      .map(value => validDate(value && typeof value === "object"
+        ? value.time ?? value.startTime ?? value.date
+        : value))
+      .filter(Boolean);
+    const occursInDay = values => {
+      if (!beforeMidnight || !afterMidnight) return false;
+      return eventDates(values).some(time =>
+        time >= beforeMidnight && time < afterMidnight
+      );
+    };
     const kalaDosha = Boolean(
       day.grahana || day.eclipse || day.sankranti ||
-      flags.grahana || flags.eclipse || flags.sankranti
+      flags.grahana || flags.eclipse || flags.sankranti ||
+      occursInDay(day.grahanaTimes || day.eclipseTimes || day.grahanaTime || day.eclipseTime) ||
+      occursInDay(day.sankrantiTimes || day.sankrantiTime)
     );
     const firstOnlyDosha = Boolean(options.firstUpakarma &&
-      (day.guruAsta || day.shukraAsta || flags.guruAsta || flags.shukraAsta));
+      (day.guruAsta || day.shukraAsta || flags.guruAsta || flags.shukraAsta ||
+       day.guruInSimha || flags.guruInSimha));
     return kalaDosha || firstOnlyDosha;
   }
 
@@ -1300,6 +1323,10 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
   const shravanaHasta = records.filter(day =>
     isShravana(day) && isShukla(day) && (isHasta(day.nakshatra) || isHasta(day.nextNakshatra) || hastaInterval(day))
   );
+  const isKarkaSun = day => hasName(day.sunRashi ?? day.sunSign, /karka|cancer|कर्क/) ||
+    Number(day.sunRashi ?? day.sunSign) === 3;
+  const shravanaHastaRegular = shravanaHasta.filter(day => !isKarkaSun(day));
+  const shravanaHastaKarka = shravanaHasta.filter(isKarkaSun);
   const bhadrapadaPanchami = records.filter(day => isBhadrapada(day) && isShukla(day) && isPanchami(day));
   const shravanaPanchami = records.filter(day => isShravana(day) && isShukla(day) && isPanchami(day));
   const kanyaHasta = records.filter(day =>
@@ -1315,9 +1342,10 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
     ? [primary, tamilHasta].filter(Boolean)
     : [
         primary,
-        chooseHasta(shravanaHasta, "श्रावण शुक्ल हस्त"),
+        chooseHasta(shravanaHastaRegular, "श्रावण शुक्ल हस्त"),
         ...bhadrapadaPanchami.map(day => ({ day, label: "भाद्रपद शुक्ल पंचमी", note: "सामवेदी उपाकर्म का पंचमी विकल्प।" })),
-        ...shravanaPanchami.map(day => ({ day, label: "श्रावण शुक्ल पंचमी", note: "सामवेदी उपाकर्म का अगला पंचमी विकल्प।" }))
+        ...shravanaPanchami.map(day => ({ day, label: "श्रावण शुक्ल पंचमी", note: "सामवेदी उपाकर्म का अगला पंचमी विकल्प।" })),
+        chooseHasta(shravanaHastaKarka, "श्रावण शुक्ल हस्त — कर्कस्थ सूर्य में अंतिम विकल्प")
       ].filter(Boolean);
 
   for (const candidate of ordered) {
