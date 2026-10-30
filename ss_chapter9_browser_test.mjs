@@ -166,6 +166,40 @@ try {
     throw new Error("Independent Swiss Venus K did not render a finite value and Swiss−AE delta.");
   }
 
+  // Independently inspect the sky geometry at each supplied published local boundary.
+  await page.locator("#runDrikBoundaryBtn").click();
+  await page.waitForFunction(
+    () => document.querySelectorAll("#drikBoundaryOutput tbody tr").length === 4,
+    null,
+    { timeout: 30000 }
+  );
+  const publishedBoundaryGeometry = await page.locator("#drikBoundaryOutput tbody tr").evaluateAll(rows =>
+    rows.map(row => ({
+      planet: row.cells[0]?.textContent.trim() || "?",
+      event: row.cells[1]?.textContent.trim() || "?",
+      localTime: row.cells[2]?.textContent.trim() || "?",
+      motion: row.cells[3]?.textContent.trim() || "?",
+      eclipticSeparation: row.cells[4]?.textContent.trim() || "",
+      trueElongation: row.cells[5]?.textContent.trim() || "",
+      threshold: row.cells[6]?.textContent.trim() || "",
+      sunAltitude: row.cells[9]?.textContent.trim() || "",
+      planetAltitude: row.cells[10]?.textContent.trim() || "",
+      azimuthDifference: row.cells[11]?.textContent.trim() || ""
+    }))
+  );
+  console.log("Published-time sky geometry:", JSON.stringify(publishedBoundaryGeometry));
+  if (publishedBoundaryGeometry.length !== 4 ||
+      publishedBoundaryGeometry.some(row =>
+        !row.localTime.includes("IST") ||
+        !/^[-+]?\\d+(?:\\.\\d+)?°$/.test(row.eclipticSeparation) ||
+        !/^[-+]?\\d+(?:\\.\\d+)?°$/.test(row.trueElongation) ||
+        !/^[-+]?\\d+(?:\\.\\d+)?°$/.test(row.sunAltitude) ||
+        !/^[-+]?\\d+(?:\\.\\d+)?°$/.test(row.planetAltitude)
+      )) {
+    throw new Error("Published-time geometry audit did not produce four complete finite local-sky rows.");
+  }
+  console.log("PASS — published timestamps have independently calculated local-sky geometry");
+
   // Exercise the exact-time Drik boundary audit against both ecliptic and true-3D thresholds.
   // This is a comparison only: a mathematical threshold crossing is not asserted to be a visibility event.
   await page.locator("#runExactBoundaryAuditBtn").click();
