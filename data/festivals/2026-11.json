@@ -312,11 +312,15 @@
       "date": "2026-11-21",
       "dateLabel": "21 नवंबर",
       "title": "वैष्णव देवउठनी एकादशी",
-      "description": "वैष्णव परंपरा में देवउठनी एकादशी का यह विशेष पालन गौण तिथि पर किया जाता है।",
+      "description": "वैष्णव परंपरा में देवउठनी एकादशी का यह विशेष पालन गौण तिथि पर किया जाता है। व्रत और पारण के नियम परंपरा के अनुसार निभाएँ। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत का उद्यापन",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का विधान"
     },
     {
       "date": "2026-11-22",
