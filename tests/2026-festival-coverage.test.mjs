@@ -151,6 +151,13 @@ test("Every legacy OurHinduDharm article link remains attached to the 2026 catal
   assert.deepEqual(missing, []);
 });
 
+test("Monthly footer navigation creates its next-month button before appending it", async () => {
+  const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
+  assert.match(widget, /var nextButton\s*=\s*document\.createElement\("button"\)/);
+  assert.match(widget, /nav\.appendChild\(prev\);\s*nav\.appendChild\(nextButton\)/);
+  assert.doesNotMatch(widget, /nav\.appendChild\(prev\);\s*nav\.appendChild\(next\)/);
+});
+
 test("Festival year selector exposes only years with catalog data", async () => {
   const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
   assert.match(html, /option value="2026"/);
