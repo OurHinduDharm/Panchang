@@ -258,3 +258,50 @@ test("Karwa Chauth does not show puja muhurta without Krishna Chaturthi overlap"
   assert.equal(result.status, "unavailable");
   assert.equal(result.windows, undefined);
 });
+
+
+test("Bhai Dooj tilak muhurta is Aparahna (fourth fifth of daytime) intersected with Shukla Dwitiya", () => {
+  const sunrise = date("2026-11-11T06:40:00+05:30");
+  const sunset = date("2026-11-11T17:29:00+05:30");
+  const dwitiya = {
+    index: 1,
+    name: "Shukla Dwitiya",
+    startTime: date("2026-11-10T14:00:00+05:30"),
+    endTime: date("2026-11-11T15:53:00+05:30")
+  };
+  const result = getFestivalMuhurta({ muhurtaRule: "bhai-dooj-tilak" }, {
+    date: date("2026-11-11T12:00:00+05:30"),
+    sunrise, sunset, tithis: [dwitiya]
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:09:24+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T15:19:12+05:30").toISOString());
+});
+
+test("Bhai Dooj tilak muhurta is clipped when Dwitiya ends during Aparahna", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "bhai-dooj-tilak" }, {
+    sunrise: date("2026-11-11T06:40:00+05:30"),
+    sunset: date("2026-11-11T17:29:00+05:30"),
+    tithis: [{
+      index: 1, name: "Shukla Dwitiya",
+      startTime: date("2026-11-10T14:00:00+05:30"),
+      endTime: date("2026-11-11T14:00:00+05:30")
+    }]
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:09:24+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T14:00:00+05:30").toISOString());
+});
+
+test("Bhai Dooj does not invent a tilak window when Dwitiya does not overlap Aparahna", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "bhai-dooj-tilak" }, {
+    sunrise: date("2026-11-11T06:40:00+05:30"),
+    sunset: date("2026-11-11T17:29:00+05:30"),
+    tithis: [{
+      index: 1, name: "Shukla Dwitiya",
+      startTime: date("2026-11-10T10:00:00+05:30"),
+      endTime: date("2026-11-11T12:00:00+05:30")
+    }]
+  });
+  assert.equal(result.status, "unavailable");
+});
