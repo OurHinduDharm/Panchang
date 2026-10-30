@@ -37,3 +37,10 @@ All times are local New Delhi time as published by Drik Panchang. These are benc
 ## Key correction to the current implementation plan
 
 The previous PR #135 experiment classified Venus events from geocentric apparent longitude and motion, and withheld Mercury. That is not sufficient for Drik compatibility: Drik publishes Mercury events and says its event timings are geolocation-based. The experiment was removed from the production PR; the PR now only fixes the direction of the existing angular-boundary search. Do not merge it as a Drik implementation.
+
+## Pithoragarh reference location
+
+Drik Panchang's Pithoragarh pages resolve the city as Pithoragarh, Uttarakhand, India with geoname ID `1259503`:
+https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
+
+The planet-specific Asta pages did not expose their Pithoragarh-specific event tables through the current retrieval path, so no Pithoragarh Asta/Udaya times are asserted here. The New Delhi table above must not be substituted for Pithoragarh. The next benchmark capture must obtain the planet-specific pages with this same location selected and record the returned event times before numerical comparison.
