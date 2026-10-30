@@ -21,7 +21,7 @@ function makeSearch(separationByOffset) {
       return { date: dateString, eclipticSeparation: separationByOffset[offset] ?? 20 };
     },
     getPlanetEventThreshold() { return 10; },
-    findThresholdCrossingInstant() { return new Date(selectedMs); }
+    Elongation() { return { ecliptic_separation: 5 }; }
   };
   vm.runInNewContext(source.slice(start, end), sandbox);
   return { selectedDate, search: sandbox.findNearestAngularBoundary };
