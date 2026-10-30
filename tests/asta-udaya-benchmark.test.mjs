@@ -111,6 +111,9 @@ test("Swiss heliacal runner is restricted to Pithoragarh benchmark records", () 
   assert.match(html, /startHour >= 16/);
   assert.match(html, /endHour <= 10/);
   assert.match(html, /skipReason/);
+  assert.match(html, /const skippedReferences = \[\]/);
+  assert.match(html, /तुलना नहीं की गई/);
+  assert.match(html, /Skipped incompatible boundaries/);
   assert.match(html, /[Nn]o equivalent Swiss event type is asserted/);
   assert.match(html, /new Set\(eligibleReferences\.map\(ref => ref\.sourceLocation\)\)\.size > 1/);
   assert.match(html, /const observerConfig = ref\.observer/);
