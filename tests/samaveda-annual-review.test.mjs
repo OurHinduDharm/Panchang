@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { resolveSamavedaAnnualDecision } from "../samaveda-annual-review.js";
+import panchangPackage from "@ishubhamx/panchangam-js";
+const {getPanchangam,Observer}=panchangPackage;
 
 const d = value => new Date(value).toISOString();
 function day(date, sunrise, sunset, intervals, extra = {}) {
@@ -51,4 +53,42 @@ test("Tamil Sampradaya is retained as a distinct selectable calculation option",
   const result = resolveSamavedaAnnualDecision([], {sampradaya:"tamil"});
   assert.equal(result.sampradaya,"tamil");
   assert.equal(result.status,"unavailable");
+});
+
+test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–2029", () => {
+  const observer = new Observer(30.1265,80.4817,0);
+  const years = [2026,2027,2028,2029];
+  const monthNames = {Bhadrapada:"भाद्रपद",Shravana:"श्रावण",Ashadha:"आषाढ़"};
+  for (const year of years) {
+    const count = (Date.UTC(year+1,0,1)-Date.UTC(year,0,1))/86400000;
+    const annualDays = [];
+    for (let offset=0; offset<count; offset++) {
+      const date = new Date(Date.UTC(year,0,1+offset,6,30));
+      const iso = year+"-"+String(date.getUTCMonth()+1).padStart(2,"0")+"-"+String(date.getUTCDate()).padStart(2,"0");
+      const p = getPanchangam(date,observer,{timezoneOffset:330});
+      const raw = value => value && typeof value==="object" ? value.name??value.hindi??value.value??value.index??value.number??"" : value??"";
+      const rawMasa = raw(p.masa??p.month);
+      const rawPaksha = String(raw(p.paksha));
+      const tithiIndex = Number(raw(p.tithi));
+      const paksha = /krishna/i.test(rawPaksha) ? "कृष्ण पक्ष" : /shukla/i.test(rawPaksha) ? "शुक्ल पक्ष" : tithiIndex>=15 ? "कृष्ण पक्ष" : "शुक्ल पक्ष";
+      annualDays.push({
+        date:iso,
+        sunrise:p.sunrise ? new Date(p.sunrise).toISOString() : null,
+        sunset:p.sunset ? new Date(p.sunset).toISOString() : null,
+        masa:monthNames[rawMasa]??String(rawMasa),
+        paksha,
+        tithi:String(raw(p.tithi)),
+        nakshatraIntervals:Array.isArray(p.nakshatras)?p.nakshatras:[],
+        sunRashi:p.sunRashi,
+        sankrantiTimes:[]
+      });
+    }
+    const result = resolveSamavedaAnnualDecision(annualDays);
+    assert.equal(result.status,"selected",year+" must resolve from real exact Panchanga intervals");
+    assert.match(result.date,/^\\d{4}-\\d{2}-\\d{2}$/);
+    assert.equal(result.reviewStatus,"needs-review");
+    assert.equal(result.coverage.daysScanned,count);
+    assert.ok(result.coverage.daysWithExactHastaIntervals>0,year+" must include exact Hasta intervals");
+    if(year===2026) assert.equal(result.date,"2026-09-12","2026 must match the already reviewed Pithoragarh observance");
+  }
 });
