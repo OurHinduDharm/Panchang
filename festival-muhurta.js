@@ -895,7 +895,7 @@ const rules = {
         start = nextSunrise;
         end = nextSunset && nextSunset > nextSunrise ? nextSunset : new Date(nextSunrise.getTime() + (sunset.getTime() - sunrise.getTime()));
       } else {
-        start = new Date(Math.max(sunrise.getTime(), sunset.getTime() - dayGhati * 16));
+        start = new Date(Math.max(sunrise.getTime(), sunset.getTime() - dayGhati * 15));
         end = sunset;
       }
     } else {
