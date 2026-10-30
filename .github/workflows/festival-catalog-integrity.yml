@@ -1,0 +1,30 @@
+name: Festival catalog integrity audit
+on:
+  push:
+    branches:
+      - audit/2026-festival-catalog-integrity
+    paths:
+      - 'data/festivals/*.json'
+      - 'scripts/audit-festival-catalog.mjs'
+      - 'tests/festival-catalog-integrity.test.mjs'
+      - '.github/workflows/festival-catalog-integrity.yml'
+  pull_request:
+    paths:
+      - 'data/festivals/*.json'
+      - 'scripts/audit-festival-catalog.mjs'
+      - 'tests/festival-catalog-integrity.test.mjs'
+      - '.github/workflows/festival-catalog-integrity.yml'
+permissions:
+  contents: read
+jobs:
+  catalog-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run integrity unit tests
+        run: node --test tests/festival-catalog-integrity.test.mjs
+      - name: Audit 2026 month catalog
+        run: node scripts/audit-festival-catalog.mjs 2026
