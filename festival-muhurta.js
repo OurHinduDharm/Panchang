@@ -96,6 +96,15 @@ function isAmavasya(value) {
   return Number(raw) === 29;
 }
 
+function isPurnima(value) {
+  const name = normalizedName(value);
+  if (/purnima|पूर्णिमा/.test(name)) return true;
+  const raw = value && typeof value === "object"
+    ? value.index ?? value.number ?? value.value
+    : value;
+  return Number(raw) === 14;
+}
+
 function collectNamedIntervals(list, predicate) {
   if (!Array.isArray(list)) return [];
   return list.flatMap(item => {
@@ -584,7 +593,7 @@ const rules = {
           : "लक्ष्मी-गणेश पूजन — प्रदोष काल",
         note: fixedLagna && windows.length
           ? "वैकल्पिक पूजा समय: अमावस्या-व्याप्ति वाला प्रदोष काल।"
-          : "गृहस्थों के लक्ष्मी-गणेश पूजन के लिए प्रदोष काल प्राथमिक विकल्प है। स्थिर लग्न की पुष्टि अलग से उपलब्ध न होने पर इसे वृषभ लग्न का मुहूर्त न मानें।"
+          : "गृहस्थों के लक्ष्मी-गणेश पूजन के लिए प्रदोष काल मुख्य पूजा-समय है."
       });
     }
 
@@ -853,6 +862,94 @@ const rules = {
     };
   },
 
+  "sankranti-punya-kala"(context) {
+    const moment = validDate(context.sankrantiMoment);
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const nextSunset = validDate(context.nextSunset);
+    if (!moment || !sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset) {
+      return { label: "संक्रांति पुण्यकाल", status: "unavailable", message: "इस संक्रांति का स्थानीय संक्रमण-क्षण और दिनमान उपलब्ध नहीं है; समय नहीं दिखाया जा रहा है।" };
+    }
+    const fortyGhatiMs = 40 * 24 * 60 * 1000;
+    let start;
+    let end;
+    if (moment >= sunset) {
+      start = nextSunrise;
+      end = earlierDate(new Date(moment.getTime() + fortyGhatiMs), nextSunset || new Date(nextSunrise.getTime() + 16 * 60 * 60 * 1000));
+    } else if (moment < sunrise) {
+      start = sunrise;
+      end = earlierDate(new Date(moment.getTime() + fortyGhatiMs), sunset);
+    } else {
+      start = moment;
+      end = earlierDate(new Date(moment.getTime() + fortyGhatiMs), sunset);
+    }
+    const punya = interval(start, end, "स्नान-दान का पुण्यकाल", "सूर्य-संक्रमण के बाद ४० घटी की अवधि स्थानीय दिनमान के अनुसार।");
+    if (!punya) return { label: "संक्रांति पुण्यकाल", status: "unavailable", message: "स्थानीय दिनमान में पुण्यकाल की मान्य अवधि उपलब्ध नहीं हुई।" };
+    return { label: "संक्रांति पुण्यकाल", status: "calculated", date: moment, dateLabel: formatDateLabel(moment), windows: [punya] };
+  },
+
+  "holika-dahan-pradosh"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const purnima = collectNamedIntervals(context.tithis, isPurnima);
+    if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !purnima.length) {
+      return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "स्थानीय दिनमान और पूर्णिमा की वास्तविक व्याप्ति उपलब्ध नहीं है; अनुमानित समय नहीं दिखाया जा रहा है।" };
+    }
+    const purnimaAtSunrise = purnima.some(item => item.start <= sunrise && item.end > sunrise);
+    if (!purnimaAtSunrise) {
+      return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "इस दिन सूर्योदय पर पूर्णिमा की व्याप्ति नहीं मिली; समय स्वतः निर्धारित नहीं किया गया।" };
+    }
+    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const bhadra = collectNamedIntervals(context.karanas, item => /vishti|विष्टि/.test(normalizedName(item)));
+    if (bhadra.some(item => item.end > sunset && item.start < pradoshEnd)) {
+      return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "प्रदोष काल में भद्रा की व्याप्ति है; भद्रा-पुच्छ का पृथक निर्णय आवश्यक है, इसलिए अनुमानित समय नहीं दिखाया जा रहा है।" };
+    }
+    const dahan = interval(sunset, pradoshEnd, "होलिका-दहन — प्रदोष काल", "पूर्णिमा-सूर्योदय और भद्रा-विचार के बाद उपलब्ध प्रदोष अवधि।");
+    if (!dahan) return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "स्थानीय प्रदोष अवधि उपलब्ध नहीं हुई।" };
+    return { label: "होलिका-दहन मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows: [dahan] };
+  },
+
+  "mahashivaratri-four-prahar"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const chaturdashi = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 28 || /krishna.*chaturdashi|कृष्ण.*चतुर्दशी/.test(normalizedName(item));
+    });
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !chaturdashi.length) {
+      return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "स्थानीय रात्रिमान और कृष्ण चतुर्दशी की वास्तविक व्याप्ति उपलब्ध नहीं है; प्रहर-समय नहीं दिखाए जा रहे हैं।" };
+    }
+    const duration = nextSunrise.getTime() - sunset.getTime();
+    const names = ["प्रथम प्रहर", "द्वितीय प्रहर", "तृतीय प्रहर", "चतुर्थ प्रहर"];
+    const windows = [];
+    for (let i = 0; i < 4; i++) {
+      const start = new Date(sunset.getTime() + duration * i / 4);
+      const end = new Date(sunset.getTime() + duration * (i + 1) / 4);
+      const part = windowWithin(start, end, chaturdashi, names[i], "रात्रि को सूर्यास्त से अगले सूर्योदय तक चार समान प्रहरों में बाँटा गया है।");
+      if (part) windows.push(part);
+    }
+    if (windows.length !== 4) return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "चारों प्रहरों में कृष्ण चतुर्दशी की पूरी व्याप्ति नहीं मिली; अधूरे समय नहीं दिखाए जा रहे हैं।" };
+    return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows };
+  },
+
+  "mahashivaratri-nishita"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const chaturdashi = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 28 || /krishna.*chaturdashi|कृष्ण.*चतुर्दशी/.test(normalizedName(item));
+    });
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !chaturdashi.length) {
+      return { label: "महाशिवरात्रि — निशीथ पूजा मुहूर्त", status: "unavailable", message: "स्थानीय रात्रिमान और कृष्ण चतुर्दशी की वास्तविक व्याप्ति उपलब्ध नहीं है; निशीथ समय नहीं दिखाया जा रहा है।" };
+    }
+    const nishita = fractionInterval(sunset, nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
+    const pujaWindow = nishita && windowWithin(nishita.start, nishita.end, chaturdashi, "महाशिवरात्रि — निशीथ पूजा मुहूर्त", "निशीथ काल और कृष्ण चतुर्दशी की संयुक्त व्याप्ति।");
+    if (!pujaWindow) return { label: "महाशिवरात्रि — निशीथ पूजा मुहूर्त", status: "unavailable", message: "निशीथ काल और कृष्ण चतुर्दशी की साझा व्याप्ति नहीं मिली; समय नहीं दिखाया जा रहा है।" };
+    return { label: "महाशिवरात्रि — निशीथ पूजा मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows: [pujaWindow] };
+  },
+
   "masik-shivaratri-nishita"(context) {
     const sunset = validDate(context.sunset);
     const nextSunrise = validDate(context.nextSunrise);
@@ -997,7 +1094,10 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
     nakshatraEndTime: panchang && panchang.nakshatraEndTime,
     yoga: panchang && panchang.yoga,
     yogaEndTime: panchang && panchang.yogaEndTime,
-    karanas: panchang && panchang.karanas,
+    karanas: [
+      ...(panchang && Array.isArray(panchang.karanas) ? panchang.karanas : []),
+      ...(nextPanchang && Array.isArray(nextPanchang.karanas) ? nextPanchang.karanas : [])
+    ],
     location: location || null
   };
 }
