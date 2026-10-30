@@ -114,6 +114,33 @@ test("2026 March Drik Pithoragarh calendar anchors retain exact date and tithi",
   assert.equal(samvatsara.reviewStatus, "approved");
 });
 
+
+test("Jayanti and Vrat-Parv index article links are attached to their 2026 cards", async () => {
+  const march = await month("03");
+  assert.match(find(march, "2026-03-26", /श्रीरामनवमी/).description, /About-Birthday-Of-Lord-Ram-on-Shree-RamNavami/);
+  const august = await month("08");
+  assert.match(find(august, "2026-08-28", /लव-कुश जयंती/).description, /About-RakshaBandhan-SanskritDiwas-LavKushJayanti/);
+  const july = await month("07");
+  assert.match(find(july, "2026-07-25", /देवशयनी/).description, /About-Chaaturmaas/);
+  const november = await month("11");
+  assert.match(find(november, "2026-11-21", /तुलसी विवाह/).description, /About-Tulsi-vivah-On-Prabodhini-Ekaadashi/);
+  const december = await month("12");
+  assert.match(find(december, "2026-12-20", /गीता जयंती/).description, /About-ShimadbhagvatGita/);
+  assert.match(find(december, "2026-12-23", /दत्तात्रेय जयंती/).description, /About-Lord-Dattatreya/);
+  assert.match(find(december, "2026-12-23", /त्रिपुरभैरवी/).description, /About-Goddess-TripurBhairavi/);
+});
+test("2026 Ekadashi cards expose the general vrat and udyapan guides", async () => {
+  const url1 = "About-Ekadashi-Vrat-Vidhan";
+  const url2 = "About-Ekadashi-Vrat-Udyapan-vidhi";
+  for (const m of ["01","02","03","04","05","06","07","08","09","10","11","12"]) {
+    const data = await month(m);
+    for (const event of data.events.filter(item => /एकादशी/.test(item.title || ""))) {
+      assert.match(event.description || "", new RegExp(url1));
+      assert.match(event.description || "", new RegExp(url2));
+    }
+  }
+});
+
 test("Every legacy OurHinduDharm article link remains attached to the 2026 catalog", async () => {
   const legacy = JSON.parse(await readFile(new URL("../data/festivals/legacy-source-preserved.json", import.meta.url), "utf8"));
   const names = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
