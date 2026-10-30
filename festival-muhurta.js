@@ -922,7 +922,7 @@ function normalizedMuhurtaLabelTokens(value) {
     .normalize("NFC")
     .toLocaleLowerCase("hi")
     .replace(/[।॥,;:()\[\]{}·—–-]+/g, " ")
-    .split(/\\s+/)
+    .split(/\s+/)
     .filter(Boolean)
     .sort();
 }
