@@ -1090,7 +1090,9 @@
       nav.setAttribute("aria-label","महीने बदलें");
       var prev=document.createElement("button");
       prev.type="button";prev.textContent="← पिछला महीना";
-      nav.appendChild(prev);nav.appendChild(next);
+      var nextButton=document.createElement("button");
+      nextButton.type="button";nextButton.textContent="अगला महीना →";
+      nav.appendChild(prev);nav.appendChild(nextButton);
     }
     var navButtons=nav.querySelectorAll("button");
     if(navButtons[0]&&!navButtons[0].dataset.ohdNavBound){
