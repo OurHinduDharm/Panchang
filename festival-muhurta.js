@@ -867,23 +867,42 @@ const rules = {
     const sunset = validDate(context.sunset);
     const nextSunrise = validDate(context.nextSunrise);
     const nextSunset = validDate(context.nextSunset);
-    if (!moment || !sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset) {
+    const rashi = Number(context.sankrantiRashiIndex);
+    if (!moment || !sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !Number.isInteger(rashi) || rashi < 0 || rashi > 11) {
       return { label: "संक्रांति पुण्यकाल", status: "unavailable", message: "इस संक्रांति का स्थानीय संक्रमण-क्षण और दिनमान उपलब्ध नहीं है; समय नहीं दिखाया जा रहा है।" };
     }
-    const fortyGhatiMs = 40 * 24 * 60 * 1000;
+    // Drik's Sankranti rules use ghatis measured against the local day.
+    // Mesha/Tula: 10 before + 10 after; Ayan: 40 after;
+    // Vishnupadi: 16 before; Shadashitimukhi: 16 after.
+    const dayGhati = (sunset.getTime() - sunrise.getTime()) / 30;
+    let before = 0;
+    let after = 16;
+    if (rashi === 0 || rashi === 6) {
+      before = 10; after = 10;
+    } else if (rashi === 3 || rashi === 9) {
+      before = 0; after = 40;
+    } else if (rashi === 1 || rashi === 4 || rashi === 7 || rashi === 10) {
+      before = 16; after = 0;
+    }
     let start;
     let end;
-    if (moment >= sunset) {
-      start = nextSunrise;
-      end = earlierDate(new Date(moment.getTime() + fortyGhatiMs), nextSunset || new Date(nextSunrise.getTime() + 16 * 60 * 60 * 1000));
-    } else if (moment < sunrise) {
+    if (moment < sunrise) {
+      // A night-time ingress is observed in the following daylight period.
       start = sunrise;
-      end = earlierDate(new Date(moment.getTime() + fortyGhatiMs), sunset);
+      end = earlierDate(new Date(sunrise.getTime() + dayGhati * (rashi === 3 || rashi === 9 ? 40 : 16)), sunset);
+    } else if (moment >= sunset) {
+      if (rashi === 3 || rashi === 9) {
+        start = nextSunrise;
+        end = nextSunset && nextSunset > nextSunrise ? nextSunset : new Date(nextSunrise.getTime() + (sunset.getTime() - sunrise.getTime()));
+      } else {
+        start = new Date(Math.max(sunrise.getTime(), sunset.getTime() - dayGhati * 16));
+        end = sunset;
+      }
     } else {
-      start = moment;
-      end = earlierDate(new Date(moment.getTime() + fortyGhatiMs), sunset);
+      start = new Date(Math.max(sunrise.getTime(), moment.getTime() - dayGhati * before));
+      end = new Date(Math.min(sunset.getTime(), moment.getTime() + dayGhati * after));
     }
-    const punya = interval(start, end, "स्नान-दान का पुण्यकाल", "सूर्य-संक्रमण के बाद ४० घटी की अवधि स्थानीय दिनमान के अनुसार।");
+    const punya = interval(start, end, "स्नान-दान का पुण्यकाल");
     if (!punya) return { label: "संक्रांति पुण्यकाल", status: "unavailable", message: "स्थानीय दिनमान में पुण्यकाल की मान्य अवधि उपलब्ध नहीं हुई।" };
     return { label: "संक्रांति पुण्यकाल", status: "calculated", date: moment, dateLabel: formatDateLabel(moment), windows: [punya] };
   },
