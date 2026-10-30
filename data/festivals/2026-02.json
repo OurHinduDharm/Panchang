@@ -52,6 +52,15 @@
       "hinduTithi": "फाल्गुन कृष्ण सप्तमी"
     },
     {
+      "date": "2026-02-08",
+      "dateLabel": "8 फरवरी",
+      "title": "भानु सप्तमी",
+      "description": "रविवार को सप्तमी तिथि होने पर सूर्यदेव की उपासना और अर्घ्य का विशेष महत्व है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "hinduTithi": "माघ कृष्ण सप्तमी"
+    },
+    {
       "date": "2026-02-09",
       "dateLabel": "9 फ़रवरी",
       "title": "मासिक कालाष्टमी",
@@ -117,6 +126,15 @@
       "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
       "timingType": "eclipse-visibility"
+    },
+    {
+      "date": "2026-02-18",
+      "dateLabel": "18 फरवरी",
+      "title": "चन्द्र दर्शन",
+      "description": "फाल्गुन शुक्ल प्रतिपदा को अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "फाल्गुन शुक्ल प्रतिपदा"
     },
     {
       "date": "2026-02-21",
