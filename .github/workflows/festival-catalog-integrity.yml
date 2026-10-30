@@ -24,6 +24,8 @@ on:
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - 'tests/2026-festival-coverage.test.mjs'
+      - 'monthly-vrat-parv-widget.js'
+      - 'monthly-vrat-parv.html'
       - '.github/workflows/festival-catalog-integrity.yml'
 permissions:
   contents: read
