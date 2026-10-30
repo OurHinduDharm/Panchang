@@ -421,6 +421,7 @@ test("Vinayaka Chaturthi puja muhurta intersects Shukla Chaturthi during Madhyah
   assert.equal(result.windows[0].end.toISOString(), madhyahnaEnd.toISOString());
   assert.equal(result.note, undefined);
   assert.ok(result.windows[0].note);
+});
 
 test("Vinayaka Chaturthi does not show Madhyahna time without Shukla Chaturthi overlap", () => {
   const context = getFestivalMuhurtaContext(
