@@ -105,3 +105,35 @@ test("Gupta Navratri parana and kalash visarjan are a single approved Dashami ob
   assert.equal(july.status, "approved");
   assert.ok(july.events.every(event => event.reviewStatus === "approved"));
 });
+
+
+test("2026 Mahashivaratri, Holika Dahan and Dhulandi have separate complete cards", () => {
+  const february = JSON.parse(readFileSync(join(folder, "2026-02.json"), "utf8"));
+  const maha = february.events.find(event => event.date === "2026-02-15" && /महाशिवरात्रि/.test(event.title));
+  assert.ok(maha, "Mahashivaratri card should exist");
+  assert.deepEqual(maha.muhurtaRules, ["mahashivaratri-four-prahar", "mahashivaratri-nishita"]);
+
+  const march = JSON.parse(readFileSync(join(folder, "2026-03.json"), "utf8"));
+  const holika = march.events.filter(event => event.date === "2026-03-03" && /होलिका-दहन/.test(event.title));
+  const dhulandi = march.events.filter(event => event.date === "2026-03-04" && /धुलण्डी/.test(event.title));
+  const purnima = march.events.find(event => event.date === "2026-03-03" && event.title === "फाल्गुन पूर्णिमा");
+  assert.equal(holika.length, 1);
+  assert.equal(holika[0].muhurtaRule, "holika-dahan-pradosh");
+  assert.equal(holika[0].reviewStatus, "approved");
+  assert.equal(dhulandi.length, 1);
+  assert.ok(purnima, "Purnima should remain its own separate card");
+  assert.equal(march.status, "approved");
+  assert.ok(march.events.every(event => event.reviewStatus === "approved"));
+});
+
+test("all 2026 Sankranti cards are automatically eligible for punya-kala calculation", () => {
+  const sankrantiTitles = [];
+  for (let month = 1; month <= 12; month++) {
+    const file = "2026-" + String(month).padStart(2, "0") + ".json";
+    const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
+    for (const event of data.events) {
+      if (/संक्रांति|संक्रान्ति|sankranti/i.test(event.title || "")) sankrantiTitles.push(event.title);
+    }
+  }
+  assert.equal(sankrantiTitles.length, 12);
+});
