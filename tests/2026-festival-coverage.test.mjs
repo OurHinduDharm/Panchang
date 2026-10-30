@@ -351,6 +351,10 @@ test("Dashavatara calendar includes Buddha and keeps Balarama as an alternate tr
     assert.ok(event, date + " " + title);
     assert.equal(event.reviewStatus, "approved");
   }
+  const september = await month("09");
+  const varaha = find(september, "2026-09-13", /वराह अवतार जयंती/);
+  assert.match(varaha.hinduTithi || "", /द्वितीया.*तृतीया 07:08/);
+  assert.ok(urls(varaha).some(url => url.includes("About-Lord-Varah-On-ShreeVarahJayanti")));
   const may = await month("05");
   assert.ok(find(may, "2026-05-01", /बुद्ध पूर्णिमा/));
 });
