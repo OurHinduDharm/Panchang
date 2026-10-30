@@ -166,6 +166,36 @@ try {
     throw new Error("Independent Swiss Venus K did not render a finite value and Swiss−AE delta.");
   }
 
+  // Exercise the exact-time Drik boundary audit against both ecliptic and true-3D thresholds.
+  // This is a comparison only: a mathematical threshold crossing is not asserted to be a visibility event.
+  await page.locator("#runExactBoundaryAuditBtn").click();
+  await page.waitForFunction(
+    () => document.querySelectorAll("#exactBoundaryAuditOutput tbody tr").length === 4,
+    null,
+    { timeout: 30000 }
+  );
+  const exactBoundaryRows = await page.locator("#exactBoundaryAuditOutput tbody tr").evaluateAll(rows =>
+    rows.map(row => ({
+      planet: row.cells[0]?.textContent.trim() || "?",
+      label: row.cells[1]?.textContent.trim() || "?",
+      published: row.cells[2]?.textContent.trim() || "?",
+      ecliptic: row.cells[3]?.innerText.replace(/\\s+/g, " ").trim() || "",
+      true3d: row.cells[4]?.innerText.replace(/\\s+/g, " ").trim() || ""
+    }))
+  );
+  console.log("Exact-time Drik boundary audit:", JSON.stringify(exactBoundaryRows));
+  if (exactBoundaryRows.length !== 4 ||
+      exactBoundaryRows.some(row =>
+        !row.published.includes("IST") ||
+        !row.ecliptic.includes("संदर्भ से समय-अंतर") ||
+        !row.true3d.includes("संदर्भ से समय-अंतर") ||
+        !row.ecliptic.includes("सीमा:") ||
+        !row.true3d.includes("सीमा:")
+      )) {
+    throw new Error("Exact-time boundary audit did not render all four published timestamps and both model deltas.");
+  }
+  console.log("PASS — all four published local boundaries compared with ecliptic and true-3D threshold crossings");
+
   await page.locator("#runElevationHorizonBtn").click();
   await page.waitForFunction(
     () => document.querySelectorAll("#elevationHorizonOutput tbody tr").length === 5,
