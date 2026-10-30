@@ -40,6 +40,7 @@ test("diagnose missing tithi metadata against local Pithoragarh tithi intervals 
       madhyahnaTithi:activeAt(intervals,madhyahna),nishitaTithi:activeAt(intervals,nishita),
       moonrise:localTime(moonrise),moonriseTithi:activeAt(intervals,moonrise)});
   }
-  console.log("OHD_MISSING_TITHI_DIAGNOSTIC_2027_2028="+JSON.stringify(rows));
+  for(const row of rows) console.log("OHD_MISSING_TITHI_ROW="+JSON.stringify(row));
+  console.log("OHD_MISSING_TITHI_COUNT="+rows.length);
   assert.ok(rows.length>50,"expected to inspect the known missing tithi metadata records");
 });
