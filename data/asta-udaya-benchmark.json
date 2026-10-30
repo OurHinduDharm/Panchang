@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "title": "OurHinduDharm Asta-Udaya Benchmark Dataset",
+  "policy": {
+    "primaryModernTarget": "Drik Panchang location-specific Tara Asta/Udaya published boundaries",
+    "independentScientificCrossCheck": "Rashtriya Panchang / Positional Astronomy Centre",
+    "classicalCrossCheck": "Surya Siddhanta / Tantrakulam, kept as a separate event model",
+    "comparisonRule": "Never average event times from different definitions, locations, coordinate frames, or visibility models.",
+    "unknownValues": "Keep null or omit; never fill by inference."
+  },
+  "sources": {
+    "drik-pithoragarh-2025-venus": {
+      "name": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025",
+      "sourceType": "published-location-specific-event-times",
+      "location": "Pithoragarh, Uttarakhand, India",
+      "retrievalEvidence": "Search result explicitly identifies Pithoragarh and gives local event times."
+    },
+    "drik-new-delhi-2027-jupiter": {
+      "name": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2027",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "retrievalEvidence": "Published 2027 Guru Tara Asta start and end times; not a Pithoragarh reference."
+    },
+    "rashtriya-2026-27-visibility": {
+      "name": "Rashtriya Panchang — Positional Astronomy Centre, IMD",
+      "url": "https://packolkata.imd.gov.in/panchang/en/visibility",
+      "sourceType": "official-visibility-period-date-only",
+      "location": "Central Station of India (82°30′ E, 23°11′ N)",
+      "retrievalEvidence": "Official 2026–27 planetary visibility table; dates are not exact event timestamps."
+    }
+  },
+  "cases": [
+    {
+      "id": "venus-pithoragarh-2025-march",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "location": {
+        "name": "Pithoragarh, Uttarakhand, India",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata"
+      },
+      "sourceId": "drik-pithoragarh-2025-venus",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-03-20T18:42:00+05:30",
+        "astaEnd": "2025-03-23T05:40:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Use as a location-specific modern benchmark. Do not interpret these times as classical Surya Siddhanta threshold crossings."
+    },
+    {
+      "id": "venus-pithoragarh-2025-december-to-2026-february",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "location": {
+        "name": "Pithoragarh, Uttarakhand, India",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata"
+      },
+      "sourceId": "drik-pithoragarh-2025-venus",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-12-11T06:25:00+05:30",
+        "astaEnd": "2026-02-02T18:15:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "The Asta interval crosses the Gregorian year boundary; retain the full timestamps."
+    },
+    {
+      "id": "jupiter-new-delhi-2027",
+      "planet": "Jupiter",
+      "eventModel": "drik-tara-asta-window",
+      "location": {
+        "name": "New Delhi, NCT, India",
+        "timeZone": "Asia/Kolkata"
+      },
+      "sourceId": "drik-new-delhi-2027-jupiter",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-08-17T19:32:00+05:30",
+        "astaEnd": "2027-09-13T05:22:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Cross-location comparison only. Do not use this as a Pithoragarh result."
+    },
+    {
+      "id": "venus-central-station-2026-visibility-period",
+      "planet": "Venus",
+      "eventModel": "rashtriya-panchang-visibility-period",
+      "location": {
+        "name": "Central Station of India",
+        "latitude": 23.1833333333,
+        "longitude": 82.5,
+        "timeZone": "Asia/Kolkata"
+      },
+      "sourceId": "rashtriya-2026-27-visibility",
+      "precision": "date-only",
+      "boundaries": {
+        "westernEveningVisibilityThrough": "2026-10-12",
+        "easternMorningVisibilityFrom": "2026-10-29"
+      },
+      "status": "official-independent-cross-check",
+      "notes": "These are visibility-period dates, not exact Asta-start/Udaya-end clock times. Keep separate from Drik exact-time cases."
+    }
+  ],
+  "excludedUnverifiedData": [
+    {
+      "id": "old-pithoragarh-2026-venus-transcription",
+      "values": {
+        "astaStart": "2026-10-12T18:05:00+05:30",
+        "astaEnd": "2026-10-29T05:49:00+05:30"
+      },
+      "reason": "Previously transcribed into test-astronomy.html, but no independently retrieved Pithoragarh-specific primary source has yet confirmed these exact clock times."
+    },
+    {
+      "id": "old-pithoragarh-2027-jupiter-transcription",
+      "values": {
+        "astaStart": "2027-08-16T19:24:00+05:30",
+        "astaEnd": "2027-09-13T05:09:00+05:30"
+      },
+      "reason": "Previously transcribed into test-astronomy.html, but no independently retrieved Pithoragarh-specific primary source has yet confirmed these exact clock times."
+    },
+    {
+      "id": "old-tantrakulam-dehradun-elongation-samples",
+      "reason": "These are Dehradun sample instants/elongations, not Pithoragarh event boundaries. They must not be treated as local event-time targets."
+    }
+  ]
+}
