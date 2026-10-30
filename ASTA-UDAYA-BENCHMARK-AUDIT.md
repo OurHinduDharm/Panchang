@@ -14,7 +14,7 @@ They describe related but not identical events. A timestamp comparison is valid 
 
 ## Verified reference points added
 
-- **Drik, Pithoragarh, Venus 2025:** 20 Mar 2025 18:42 to 23 Mar 2025 05:40; and 11 Dec 2025 06:25 to 2 Feb 2026 18:15. These are published local times for Pithoragarh.
+- **Drik, Pithoragarh, Venus 2025:** 20 Mar 2025 18:42 to 23 Mar 2025 05:40; and 11 Dec 2025 06:25 to 2 Feb 2026 18:15. These are published local times for Pithoragarh. The test coordinates stored in the dataset are OurHinduDharm’s chosen validation point; they are not claimed to be Drik’s undisclosed internal geoname coordinates.
 - **Drik, New Delhi, Jupiter 2027:** 17 Aug 2027 19:32 to 13 Sep 2027 05:22. This is a separate city reference, not a Pithoragarh result.
 - **Rashtriya Panchang 2026–27, Venus:** western-evening visibility through 12 Oct 2026 and eastern-morning visibility from 29 Oct 2026 at the Central Station. The source gives dates, not exact clock times; this is an independent date-window check only.
 
@@ -39,7 +39,7 @@ The four old Tantrakulam samples are tagged Dehradun and represent sample elonga
 
 - At least two independently sourced event windows for the same planet and location, where available.
 - Both Asta-start and Asta-end are checked; a single boundary is insufficient.
-- At least one second location demonstrates that the output responds to observer location.
+- At least one second location demonstrates that the output responds to observer location. Do not infer a provider’s hidden coordinates from its city label.
 - No mixing of geocentric and topocentric coordinates in one derived angle.
 - Regression tests pass and the previous production output is not silently re-labelled as Drik-compatible.
 
