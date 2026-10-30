@@ -69,6 +69,7 @@ test("unverified historical transcriptions are explicitly excluded from benchmar
 test("every benchmark case is bound to one explicit source location", () => {
   for (const entry of dataset.cases) {
     assert.equal(typeof entry.sourceLocation, "string", `${entry.id}: sourceLocation is required`);
+    assert.equal(entry.location, undefined, `${entry.id}: ambiguous legacy location field is forbidden`);
     assert.ok(entry.sourceLocation.trim(), `${entry.id}: sourceLocation cannot be blank`);
     assert.ok(
       ["city-label-only", "coordinate-exact"].includes(entry.comparisonLevel),
