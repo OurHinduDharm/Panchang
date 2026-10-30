@@ -974,6 +974,7 @@
     activeMonthRequest=controller;
     var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
+    syncMonthNavigationButtons();
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     countEl.textContent="लोड हो रहा है…";
     eventsEl.replaceChildren();
