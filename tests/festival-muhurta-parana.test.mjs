@@ -561,16 +561,16 @@ test("Samaveda Upakarma uses the overlap of Bhadrapada Hasta and local Aparahna"
   const { getFestivalMuhurta } = await import(engineUrl);
   const result = getFestivalMuhurta({ muhurtaRule: "samaveda-upakarma-aparahna" }, {
     date: date("2026-09-12T12:00:00+05:30"),
-    sunrise: date("2026-09-12T05:53:00+05:30"),
-    sunset: date("2026-09-12T18:17:00+05:30"),
+    sunrise: date("2026-09-12T06:00:00+05:30"),
+    sunset: date("2026-09-12T18:00:00+05:30"),
     nakshatra: "Uttara Phalguni",
     nakshatraEndTime: date("2026-09-12T12:55:00+05:30"),
     nextNakshatra: "Hasta",
     nextNakshatraEndTime: date("2026-09-13T13:07:00+05:30")
   });
   assert.equal(result.status, "calculated");
-  assert.equal(result.start.toISOString(), date("2026-09-12T13:19:24+05:30").toISOString());
-  assert.equal(result.end.toISOString(), date("2026-09-12T15:48:12+05:30").toISOString());
+  assert.equal(result.start.toISOString(), date("2026-09-12T13:12:00+05:30").toISOString());
+  assert.equal(result.end.toISOString(), date("2026-09-12T15:36:00+05:30").toISOString());
   assert.match(result.label, /हस्त नक्षत्र अपराह्ण/);
 });
 
