@@ -6,10 +6,7 @@ import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 
 import {
-  Body,
-  Ecliptic,
   Elongation,
-  GeoVector,
   Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
@@ -428,142 +425,90 @@ function addDays(
    Thresholds are provisional; do not label as classical.
    ========================================= */
 
-// Chapter IX.7–8 event-dependent limits. Mercury remains withheld until
-// its "swift-moving" branch can be established from the source method.
 const PLANET_ASTA_THRESHOLDS = {
+  Mercury: 14,
+  Venus: 10,
   Mars: 17,
   Jupiter: 11,
   Saturn: 15
 };
 
-const ASTRONOMY_BODIES = {
-  Sun: Body.Sun,
-  Mercury: Body.Mercury,
-  Venus: Body.Venus,
-  Mars: Body.Mars,
-  Jupiter: Body.Jupiter,
-  Saturn: Body.Saturn
-};
-
-function normalizeLongitude(degrees) {
-  return ((degrees % 360) + 360) % 360;
-}
-
-function signedLongitudeDifference(to, from) {
-  return ((to - from + 540) % 360) - 180;
-}
-
-function getApparentEclipticLongitude(body, date) {
-  const vector = GeoVector(ASTRONOMY_BODIES[body], date, true);
-  return normalizeLongitude(Ecliptic(vector).elon);
-}
-
-function classifyChapter9HorizonEvent({ body, planetLongitude, sunLongitude, planetMotion }) {
-  if (!Number.isFinite(planetLongitude) || !Number.isFinite(sunLongitude)) return null;
-  const difference = planetLongitude - sunLongitude;
-  if (Math.abs(difference) < 1e-7) return null;
-  const longitudeGreater = planetLongitude > sunLongitude;
-
-  if (body === "Jupiter" || body === "Mars" || body === "Saturn") {
-    return longitudeGreater ? "west-setting" : "east-rising";
-  }
-  if (body !== "Venus" && body !== "Mercury") return null;
-  if (!Number.isFinite(planetMotion) || Math.abs(planetMotion) < 1e-6) return null;
-  if (planetMotion < 0) return longitudeGreater ? "west-setting" : "east-rising";
-  return longitudeGreater ? "west-rising" : "east-setting";
-}
-
-function getPlanetEventThreshold(body, horizonEvent) {
-  if (body === "Venus") {
-    if (horizonEvent === "west-setting" || horizonEvent === "east-rising") return 8;
-    if (horizonEvent === "east-setting" || horizonEvent === "west-rising") return 10;
-    return null;
-  }
-  if (body === "Mercury") return null;
-  return PLANET_ASTA_THRESHOLDS[body] ?? null;
-}
-
 const planetDailyCache = new Map();
 
 function getPlanetDailyData(body, dateString) {
   const cacheKey = body + "|" + dateString;
-  if (planetDailyCache.has(cacheKey)) return planetDailyCache.get(cacheKey);
+  if (planetDailyCache.has(cacheKey)) {
+    return planetDailyCache.get(cacheKey);
+  }
 
-  const date = getLocalNoon(dateString);
-  const result = Elongation(body, date);
-  const before = new Date(date.getTime() - 12 * 60 * 60 * 1000);
-  const after = new Date(date.getTime() + 12 * 60 * 60 * 1000);
-  const planetLongitude = getApparentEclipticLongitude(body, date);
-  const sunLongitude = getApparentEclipticLongitude("Sun", date);
-  const planetMotion = signedLongitudeDifference(
-    getApparentEclipticLongitude(body, after),
-    getApparentEclipticLongitude(body, before)
-  );
+  const result = Elongation(body, getLocalNoon(dateString));
   const data = {
     date: dateString,
-    eclipticSeparation: Number(result.ecliptic_separation),
-    visibility: result.visibility,
-    horizonEvent: classifyChapter9HorizonEvent({
-      body, planetLongitude, sunLongitude, planetMotion
-    })
+    eclipticSeparation: Number(result.ecliptic_separation)
   };
+
   planetDailyCache.set(cacheKey, data);
   return data;
-}
-
-function crossesAngularBoundary(a, b, eventType, thresholdFor) {
-  const ta = thresholdFor(a);
-  const tb = thresholdFor(b);
-  if (!Number.isFinite(ta) || ta !== tb) return false;
-  if (eventType === "asta") return a.eclipticSeparation > ta && b.eclipticSeparation <= ta;
-  if (eventType === "udaya") return a.eclipticSeparation <= ta && b.eclipticSeparation > ta;
-  return false;
 }
 
 function findThresholdCrossingInstant(body, startDateString, endDateString, threshold, eventType) {
   let low = new Date(`${startDateString}T12:00:00+05:30`).getTime();
   let high = new Date(`${endDateString}T12:00:00+05:30`).getTime();
   if (!Number.isFinite(low) || !Number.isFinite(high) || high <= low) return null;
-  const isPastThreshold = value => eventType === "asta" ? value <= threshold : value > threshold;
+
+  const isPastThreshold = value =>
+    eventType === "asta" ? value <= threshold : value > threshold;
+
+  // Daily scan locates the crossing; bisection refines it to about one minute.
   for (let i = 0; i < 18 && high - low > 60_000; i++) {
     const middle = (low + high) / 2;
     const result = Elongation(body, new Date(middle));
     const separation = Number(result.ecliptic_separation);
     if (!Number.isFinite(separation)) return null;
+
     if (isPastThreshold(separation)) high = middle;
     else low = middle;
   }
+
   return new Date((low + high) / 2);
 }
 
-function findNearestAngularBoundary(body, selectedDate, eventType) {
+function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
   const selected = getPlanetDailyData(body, selectedDate);
   if (!Number.isFinite(selected.eclipticSeparation)) return null;
-  const thresholdFor = data => getPlanetEventThreshold(body, data.horizonEvent);
-  const selectedThreshold = thresholdFor(selected);
-  if (!Number.isFinite(selectedThreshold)) return null;
 
-  const selectedAboveThreshold = selected.eclipticSeparation > selectedThreshold;
+  // Search only in the direction that can produce the next relevant event:
+  // outside the threshold, Asta is future and Udaya is past;
+  // inside/on the threshold, Asta is past and Udaya is future.
+  const selectedAboveThreshold = selected.eclipticSeparation > threshold;
   const expectedDirection = eventType === "asta"
     ? (selectedAboveThreshold ? "future" : "past")
     : (selectedAboveThreshold ? "past" : "future");
 
   for (let offset = 1; offset <= 400; offset++) {
-    const pastA = getPlanetDailyData(body, addDays(selectedDate, -offset));
-    const pastB = getPlanetDailyData(body, addDays(selectedDate, -offset + 1));
-    const futureA = getPlanetDailyData(body, addDays(selectedDate, offset - 1));
-    const futureB = getPlanetDailyData(body, addDays(selectedDate, offset));
-    if (expectedDirection === "past" && crossesAngularBoundary(pastA, pastB, eventType, thresholdFor)) {
-      const threshold = thresholdFor(pastA);
-      const instant = findThresholdCrossingInstant(body, pastA.date, pastB.date, threshold, eventType);
-      return { date: pastB.date, instant, degree: pastB.eclipticSeparation, threshold, visibility: pastB.visibility, horizonEvent: pastB.horizonEvent, direction: "past" };
-    }
-    if (expectedDirection === "future" && crossesAngularBoundary(futureA, futureB, eventType, thresholdFor)) {
-      const threshold = thresholdFor(futureA);
-      const instant = findThresholdCrossingInstant(body, futureA.date, futureB.date, threshold, eventType);
-      return { date: futureB.date, instant, degree: futureB.eclipticSeparation, threshold, visibility: futureB.visibility, horizonEvent: futureB.horizonEvent, direction: "future" };
-    }
+    const dateA = addDays(selectedDate, expectedDirection === "past" ? -offset : offset - 1);
+    const dateB = addDays(selectedDate, expectedDirection === "past" ? -offset + 1 : offset);
+    const a = getPlanetDailyData(body, dateA);
+    const b = getPlanetDailyData(body, dateB);
+
+    const crossed = eventType === "asta"
+      ? a.eclipticSeparation > threshold && b.eclipticSeparation <= threshold
+      : a.eclipticSeparation <= threshold && b.eclipticSeparation > threshold;
+
+    if (!crossed) continue;
+
+    const instant = findThresholdCrossingInstant(
+      body, a.date, b.date, threshold, eventType
+    );
+    return {
+      date: b.date,
+      instant,
+      degree: b.eclipticSeparation,
+      threshold,
+      direction: expectedDirection
+    };
   }
+
   return null;
 }
 
@@ -574,6 +519,18 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
 const planetEventBracketCache = new Map();
 
 function getPlanetEvent(planet, selectedDate) {
+  const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
+
+  if (!Number.isFinite(threshold)) {
+    return {
+      name: planet.name,
+      asta: null,
+      astaDegree: null,
+      udaya: null,
+      udayaDegree: null,
+      verificationPending: true
+    };
+  }
 
   const selectedNoon = new Date(
     `${selectedDate}T12:00:00+05:30`
@@ -592,10 +549,10 @@ function getPlanetEvent(planet, selectedDate) {
 
   try {
     const asta = findNearestAngularBoundary(
-      planet.body, selectedDate, "asta"
+      planet.body, selectedDate, threshold, "asta"
     );
     const udaya = findNearestAngularBoundary(
-      planet.body, selectedDate, "udaya"
+      planet.body, selectedDate, threshold, "udaya"
     );
 
     const result = {
