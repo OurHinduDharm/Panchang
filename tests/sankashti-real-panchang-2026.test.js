@@ -2,6 +2,8 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const fs = require("node:fs");
+const path = require("node:path");
 const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
 
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
@@ -43,6 +45,21 @@ test("selected Pithoragarh Sankashti dates have Krishna Chaturthi at moonrise", 
   }
   assert.deepEqual(failures, []);
   assert.equal(EXPECTED_DATES.length, 12);
+});
+
+
+test("all 12 calculation-checked Sankashti dates are present once as approved records", () => {
+  for (const isoDate of EXPECTED_DATES) {
+    const month = isoDate.slice(5, 7);
+    const file = path.join(process.cwd(), "data", "festivals", "2026-" + month + ".json");
+    const data = JSON.parse(fs.readFileSync(file, "utf8"));
+    const matches = (data.events || []).filter(item =>
+      item.date === isoDate && /संकष्टी|सकट|करकचतुर्थी/i.test(String(item.title || ""))
+    );
+    assert.equal(matches.length, 1, isoDate + " must have exactly one Sankashti record");
+    assert.equal(matches[0].reviewStatus, "approved", isoDate + " must be approved");
+    assert.match(matches[0].hinduTithi || "", /कृष्ण चतुर्थी/, isoDate + " must include Krishna Chaturthi");
+  }
 });
 
 test("December candidate stays out of public approval while neither candidate has Chaturthi at moonrise", () => {
