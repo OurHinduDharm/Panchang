@@ -51,3 +51,10 @@ Tests are in tests/festival-catalog-integrity.test.mjs. Warnings are review prom
 ## Safety boundary
 
 This audit does not modify public month JSON, festival dates, descriptions, or Blogger rendering. It does not change Udaya/Asta calculations. Disputed and alias records remain untouched until source/rule verification is complete.
+
+
+## Follow-up: 2026 Pradosh coverage
+
+A follow-up change adds the complete 25-date Pradosh series to the 2026 monthly files. The selected dates were checked against the site's default Pithoragarh Panchang calculation: each selected date has Trayodashi overlapping the local evening window. The check handles both Shukla and Krishna Trayodashi indices and also asserts that every date appears exactly once as an approved monthly record.
+
+No fixed clock-time muhurta was copied into the JSON. The current runtime does not yet implement a dedicated Pradosh interval rule, so these entries show the observance and tithi but do not promise a calculated Pradosh time. The two previously pending June records were promoted only after the same calculation check. Other unresolved month records remain under review.
