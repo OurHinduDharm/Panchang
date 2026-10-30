@@ -32,7 +32,7 @@
       "title": "योगिनी एकादशी",
       "description": "योगिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -44,7 +44,7 @@
       "hinduTithi": "आषाढ़ कृष्ण एकादशी",
       "description": "योगिनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-व्रत और पारण का समय तिथि-व्याप्ति, द्वादशी और हरिवासर के आधार पर निर्धारित होता है।",
       "muhurtaRule": "ekadashi-parana",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-07-12",
@@ -88,7 +88,7 @@
       "title": "कर्क संक्रान्ति",
       "description": "कर्क संक्रान्ति - सूर्य का कर्क राशि में प्रवेश- संकल्प में प्रयोजनीय वर्षा ऋतु प्रारम्भ, संकल्प में प्रयोजनीय सूर्य उत्तरायण समाप्त",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-07-16",
@@ -105,7 +105,7 @@
       "title": "जगन्नाथ रथयात्रा",
       "description": "आषाढ़ शुक्ल द्वितीया पर भगवान जगन्नाथ, बलभद्र और सुभद्रा के विग्रहों की रथयात्रा निकाली जाती है। प्रमुख उत्सव पुरी में होता है और अन्य स्थानों पर भी स्थानीय परंपराएँ प्रचलित हैं।",
       "category": "पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ शुक्ल द्वितीया"
     },
     {
@@ -212,7 +212,7 @@
       "title": "देवशयनी / हरिशयनी एकादशी — चातुर्मास प्रारम्भ",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html\" target=\"_blank\" rel=\"noopener noreferrer\">देवशयनी / हरिशयनी एकादशी</a> पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इसी से चातुर्मास-व्रत का प्रारम्भ माना जाता है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "endDate": "2026-07-30",
       "hinduTithi": "आषाढ़ शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
@@ -231,7 +231,7 @@
       "title": "आषाढ़ पूर्णिमा / गुरु पूर्णिमा",
       "description": "गुरु पूर्णिमा",
       "category": "पूर्णिमा",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा"
     },
     {
