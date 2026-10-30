@@ -71,3 +71,20 @@ Official documentation: https://www.astro.com/swisseph-download/doc/swephprg.2.1
 - Rashtriya Panchang visibility: https://packolkata.imd.gov.in/panchang/en/visibility
 - Rashtriya Panchang preface: https://packolkata.imd.gov.in/panchang/en/preface
 
+
+
+## Strict location-to-location rule (added 2026-10-30)
+
+Every case now has an explicit `sourceLocation`, `sourceObserver`, and `comparisonLevel`.
+
+- `coordinate-exact` is allowed only when the source publishes coordinates and the test observer uses those same coordinates.
+- `city-label-only` means the source gives a city name but does not disclose its exact observer coordinates. Such a case may be discussed only as a same-city reference; it is not an exact coordinate match and must not be used to claim minute-level location equivalence.
+- New Delhi data must never be evaluated using Pithoragarh coordinates. If Delhi coordinates are unavailable, the Delhi calculation remains unavailable.
+- The Rashtriya Panchang Central Station is a separate observer with its own published coordinates. It is never a Pithoragarh result.
+- No averaging, blending, or cross-city substitution is permitted.
+
+### Existing test-page quarantine
+
+The current `test-astronomy.html` contains a Dehradun/Tantrakulam sample set in `REFERENCES`, while its global `CONFIG` is Pithoragarh. Those samples are elongation diagnostics, not local event-time boundaries; the Swiss heliacal routine in that page uses the global Pithoragarh observer. Therefore those Dehradun rows are **not valid local heliacal benchmarks** and must not be presented as such. The separate manually transcribed Pithoragarh 2026/2027 times remain excluded above. Until a location-bound reference adapter is in place, do not use that page's Swiss result table to certify any Drik location match.
+
+The current Swiss test page also supplies fixed sea-level pressure (1013.25 hPa) at the 1650 m project observer. Swiss documentation says all-zero atmospheric inputs invoke altitude-adjusted defaults. This input should be corrected in the dedicated location-bound benchmark runner before any further comparison; existing outputs made with the fixed sea-level pressure are not accepted as final evidence.
