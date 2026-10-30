@@ -766,6 +766,22 @@ const rules = {
     };
   },
 
+  "narak-chaturdashi-abhyanga"(context) {
+    const moonrise = validDate(context.moonrise);
+    const sunrise = validDate(context.sunrise);
+    const chaturdashi = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 28 || /krishna.*chaturdashi|कृष्ण.*चतुर्दशी/.test(normalizedName(item));
+    });
+    if (!moonrise || !sunrise || sunrise <= moonrise || !chaturdashi.length) {
+      return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "unavailable", message: "स्थानीय चंद्रोदय, सूर्योदय और कृष्ण चतुर्दशी की वास्तविक अवधि उपलब्ध नहीं है; समय नहीं दिखाया जा रहा है।" };
+    }
+    const bath = windowWithin(moonrise, sunrise, chaturdashi, "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", "स्थानीय चंद्रोदय से सूर्योदय तक और कृष्ण चतुर्दशी की वास्तविक व्याप्ति का साझा समय।");
+    if (!bath) {
+      return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "unavailable", message: "चंद्रोदय से सूर्योदय के बीच कृष्ण चतुर्दशी की व्याप्ति नहीं मिली; अनुमानित समय नहीं दिखाया जा रहा है।" };
+    }
+    return { ...bath, status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise), windows: [bath], note: "अभ्यंग-स्नान का समय स्थानीय चंद्रोदय और सूर्योदय के बीच कृष्ण चतुर्दशी की वास्तविक व्याप्ति से निकाला गया है।" };
+  },
   moonrise(context) {
     const time = validDate(context.moonrise);
     if (!time) {

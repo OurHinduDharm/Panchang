@@ -328,6 +328,16 @@
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="narak-chaturdashi-abhyanga";})){
+        // Panchang day intervals are clipped at sunrise; include the previous sunrise-day interval
+        // so a pre-dawn Chaturdashi already active at moonrise is not lost.
+        var previousDate=new Date(dateIso+"T12:00:00.000Z");
+        previousDate.setUTCDate(previousDate.getUTCDate()-1);
+        var previousIso=previousDate.toISOString().slice(0,10);
+        var previousValues=await getDatePanchang(previousIso);
+        if(token!==requestToken||!content.isConnected) return;
+        context.tithis=[...(previousValues.p.tithis||[]),...(previousValues.next.tithis||[]),...(context.tithis||[])];
+      }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="bhai-dooj-tilak";})){
         var previousDate=new Date(dateIso+"T12:00:00.000Z");
         previousDate.setUTCDate(previousDate.getUTCDate()-1);
