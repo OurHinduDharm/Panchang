@@ -6,6 +6,7 @@ on:
     paths:
       - 'tests/pradosh-real-panchang-2026.test.js'
       - 'tests/recurring-tithi-scan-2026.test.js'
+      - 'data/festivals/2026-*.json'
       - '.github/workflows/pradosh-panchang-validation.yml'
   pull_request:
     paths:
