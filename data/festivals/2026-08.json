@@ -138,7 +138,7 @@
       "title": "श्री कल्कि अवतार जयंती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\">श्री कल्कि अवतार जयंती</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल षष्ठी"
     },
     {
@@ -196,13 +196,20 @@
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
     },
     {
-      "date": "2026-08-28",
-      "dateLabel": "28 अगस्त",
-      "title": "श्रावणी उपाकर्म (ऋग्वेदी एवं यजुर्वेदी)",
-      "description": "श्रावणी उपाकर्म — २८ अगस्त २०२६ को ऋग्वेदियों का उपाकर्म, २८ अगस्त को ही यजुर्वेदियों का उपाकर्म भी। यह कर्म भद्रा में भी हो जाता है।",
+      "date": "2026-08-26",
+      "dateLabel": "26 अगस्त",
+      "title": "ऋग्वेदी श्रावणी उपाकर्म",
+      "description": "ऋग्वेदी परंपरा का श्रावणी उपाकर्म।",
       "category": "उपाकर्म",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "यजुर्वेदी श्रावणी उपाकर्म",
+      "description": "यजुर्वेदी परंपरा का श्रावणी उपाकर्म।",
+      "category": "उपाकर्म",
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-08-28",
@@ -216,12 +223,12 @@
       "articleLabel": "श्री गायत्री जयंती की महिमा पढ़ें"
     },
     {
-      "date": "2026-08-28",
-      "dateLabel": "28 अगस्त",
+      "date": "2026-08-27",
+      "dateLabel": "27 अगस्त",
       "title": "श्री हयग्रीव भगवान जयन्ती",
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\"> श्री हयग्रीव भगवान की जयन्ती (सायंकाल में)</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
       "articleLabel": "श्री हयग्रीव भगवान की जयंती पढ़ें"
