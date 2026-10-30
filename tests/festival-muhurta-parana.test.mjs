@@ -223,7 +223,7 @@ test("2026 Rama Ekadashi is wired to the location-aware parana calculation", asy
 test("Karwa Chauth puja window uses one tenth of local night and Krishna Chaturthi overlap", () => {
   const sunset = date("2026-10-29T17:25:00+05:30");
   const sunrise = date("2026-10-29T06:20:00+05:30");
-  const nextSunrise = date("2026-10-30T06:20:00+05:30");
+  const nextSunrise = date("2026-10-30T06:21:00+05:30");
   const moonrise = date("2026-10-29T20:02:00+05:30");
   const chaturthi = {
     index: 18,
