@@ -30,8 +30,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run integrity unit tests
-        run: node --test tests/festival-catalog-integrity.test.mjs
+      - name: Run integrity and 2026 coverage tests
+        run: node --test tests/festival-catalog-integrity.test.mjs tests/drik-2026-festival-coverage.test.mjs
       - name: Install pinned Panchang engine for location regression
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Run festival muhurta regression tests
