@@ -3,8 +3,8 @@
   "year": 2026,
   "month": 12,
   "monthName": "दिसंबर",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; गणना-समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-12-01",
