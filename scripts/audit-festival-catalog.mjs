@@ -39,7 +39,10 @@ export function auditMonth(data, expectedYear, expectedMonth) {
     if (!["approved", "needs-review", "source-conflict", "draft", "rejected"].includes(status)) add("error", "UNKNOWN_EVENT_STATUS", label + ": " + status);
     if (TITHI_CATEGORIES.test((event.title || "") + " " + (event.category || "")) && !event.hinduTithi) add("warning", "TITHI_METADATA_MISSING", label);
     if (event.muhurtaRule && !SUPPORTED_MUHURTA_RULES.has(event.muhurtaRule)) add("error", "UNKNOWN_MUHURTA_RULE", label + ": " + event.muhurtaRule);
-    if (/मुहूर्त|समय.*निर्धारित|समय.*निकाल/i.test(event.description || "") && !event.muhurtaRule) add("warning", "TIME_PROMISE_WITHOUT_RULE", label);
+    const description = String(event.description || "");
+    const explicitClockTime = /(?:\\b\\d{1,2}[:.]\\d{2}\\b|\\b\\d{1,2}\\s*(?:ए\\s*एम|पी\\s*एम|AM|PM)\\b|\\d{1,2}\\s*से\\s*\\d{1,2})/i.test(description);
+    const explicitTimeClaim = /(?:मुहूर्त|शुभ समय|पारण का समय|पूजा का समय|पुण्यकाल).{0,45}(?:नीचे दिया|दिया गया|उपलब्ध है|देखें|यहाँ)/i.test(description);
+    if ((explicitClockTime || explicitTimeClaim) && !event.muhurtaRule) add("warning", "TIME_PROMISE_WITHOUT_RULE", label);
     const key = (event.date || "") + "|" + normalizeTitle(event.title);
     if (key !== "|" && exactKeys.has(key)) add("error", "DUPLICATE_DATE_AND_TITLE", label + "; duplicates events[" + exactKeys.get(key) + "]");
     else if (key !== "|") exactKeys.set(key, i);
