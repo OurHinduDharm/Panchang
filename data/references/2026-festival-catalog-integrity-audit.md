@@ -74,3 +74,10 @@ No fixed moonrise time has been copied into the event data.
 The 12 Masik Shivaratri dates are now represented in the monthly catalog. The dates were checked with the local Panchang engine to confirm Krishna Chaturdashi overlaps the Nishita interval at the default Pithoragarh observer. Two duplicate Mahashivaratri entries on February 15 were consolidated while preserving the existing article links.
 
 A dedicated muhurta rule now intersects the local Nishita interval with the actual Krishna Chaturdashi interval. The monthly widget can therefore show a calculated Nishita puja window only when both overlap; missing tithi data or no overlap returns unavailable rather than an estimated time. All 12 event records use this rule.
+
+
+## Follow-up: 2026 Vinayaka Chaturthi coverage
+
+The complete 12-date Vinayaka Chaturthi series is now represented. The local Panchang test confirms Shukla Chaturthi overlaps the Madhyahna interval for all 12 dates at the default Pithoragarh observer. Existing January, June and September records were retained and updated; nine missing records were added.
+
+A dedicated muhurta rule intersects the local Madhyahna interval with the actual Shukla Chaturthi interval. It returns unavailable rather than an estimated time when the tithi or overlap is missing. All 12 event records use this rule.
