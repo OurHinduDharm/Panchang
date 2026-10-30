@@ -83,12 +83,14 @@ test("2026 May separates Vat Savitri and Shani Jayanti cards", async () => {
   assert.match(shani.secondaryArticleUrl || "", /About-Shani-dev-shatarchan/);
   assert.equal(data.events.filter(e => e.date === "2026-05-16" && e.title.includes("वट सावित्री व्रत / शनि जयंती")).length, 0);
 });
-test("2026 Gayatri Jayanti keeps both traditional observance dates", async () => {
+test("2026 Gayatri Jayanti preserves the listed traditional observances", async () => {
   const june = find(await month("06"), "2026-06-25", /वेदमाता गायत्री/);
   const august = find(await month("08"), "2026-08-28", /गायत्री जयन्ती/);
+  const bhadrapada = find(await month("09"), "2026-09-22", /गायत्री जयंती/);
   assert.equal(june.hinduTithi, "ज्येष्ठ शुक्ल एकादशी");
   assert.equal(august.hinduTithi, "श्रावण शुक्ल पूर्णिमा");
-  assert.ok(june.articleUrl && august.articleUrl);
+  assert.equal(bhadrapada.hinduTithi, "भाद्रपद शुक्ल एकादशी");
+  assert.ok(june.articleUrl && august.articleUrl && bhadrapada.articleUrl);
 });
 test("2026 Vindhyavasini Jayanti is retained on Bhadrapada Krishna Ashtami", async () => {
   const august = await month("08");
