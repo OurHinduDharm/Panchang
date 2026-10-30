@@ -30,7 +30,7 @@
       "date": "2026-07-10",
       "dateLabel": "10 जुलाई",
       "title": "योगिनी एकादशी",
-      "description": "योगिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "योगिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ कृष्ण एकादशी",
@@ -42,7 +42,7 @@
       "title": "गौण योगिनी एकादशी (वैष्णव)",
       "category": "एकादशी",
       "hinduTithi": "आषाढ़ कृष्ण एकादशी",
-      "description": "योगिनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-व्रत और पारण का समय तिथि-व्याप्ति, द्वादशी और हरिवासर के आधार पर निर्धारित होता है।",
+      "description": "योगिनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-व्रत और पारण का समय तिथि-व्याप्ति, द्वादशी और हरिवासर के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "muhurtaRule": "ekadashi-parana",
       "reviewStatus": "approved"
     },
@@ -210,12 +210,13 @@
       "date": "2026-07-25",
       "dateLabel": "25 जुलाई",
       "title": "देवशयनी / हरिशयनी एकादशी — चातुर्मास प्रारम्भ",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html\" target=\"_blank\" rel=\"noopener noreferrer\">देवशयनी / हरिशयनी एकादशी</a> पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इसी से चातुर्मास-व्रत का प्रारम्भ माना जाता है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html\" target=\"_blank\" rel=\"noopener noreferrer\">देवशयनी / हरिशयनी एकादशी</a> पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इसी से चातुर्मास-व्रत का प्रारम्भ माना जाता है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html\" target=\"_blank\" rel=\"noopener noreferrer\">चातुर्मास्य व्रत की महिमा</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "endDate": "2026-07-30",
       "hinduTithi": "आषाढ़ शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html"
     },
     {
       "date": "2026-07-26",
