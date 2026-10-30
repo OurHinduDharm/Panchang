@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
 
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
-const TZ = 330;
+const TZ = 330; // Pithoragarh local civil time (IST).
 
 function asDate(value) {
   const d = value instanceof Date ? new Date(value.getTime()) : new Date(value);
