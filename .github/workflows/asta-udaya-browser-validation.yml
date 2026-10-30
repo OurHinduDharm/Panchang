@@ -1,0 +1,42 @@
+name: Asta-Udaya browser validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "test-astronomy.html"
+      - "data/asta-udaya-benchmark.json"
+      - "tests/asta-udaya-browser.test.mjs"
+      - ".github/workflows/asta-udaya-browser-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  swiss-heliacal-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned browser test dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Serve repository files
+        run: |
+          python3 -m http.server 8080 --bind 127.0.0.1 > /tmp/asta-udaya-http.log 2>&1 &
+          echo $! > /tmp/asta-udaya-http.pid
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8080/test-astronomy.html > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/asta-udaya-http.log
+          exit 1
+      - name: Execute real Swiss WASM heliacal calculation in Chromium
+        run: node --test tests/asta-udaya-browser.test.mjs
