@@ -346,8 +346,6 @@ const rules = {
   "samaveda-upakarma-aparahna"(context) {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);
-    const nextNakshatraEnd = validDate(context.nextNakshatraEndTime);
-    const currentNakshatraEnd = validDate(context.nakshatraEndTime);
     const namedHasta = collectNamedIntervals(context.nakshatras, isHasta)[0];
     if (!sunrise || !sunset || sunset <= sunrise) {
       return {
@@ -357,16 +355,8 @@ const rules = {
       };
     }
 
-    let hastaStart = namedHasta && namedHasta.start;
-    let hastaEnd = namedHasta && namedHasta.end;
-    if (!hastaStart && isHasta(context.nakshatra)) {
-      hastaStart = sunrise;
-      hastaEnd = currentNakshatraEnd;
-    } else if (!hastaStart && isHasta(context.nextNakshatra)) {
-      // The next day's sunrise nakshatra began when today's nakshatra ended.
-      hastaStart = currentNakshatraEnd;
-      hastaEnd = nextNakshatraEnd;
-    }
+    const hastaStart = namedHasta && namedHasta.start;
+    const hastaEnd = namedHasta && namedHasta.end;
     if (!hastaStart || !hastaEnd || hastaEnd <= hastaStart) {
       return {
         label: "सामवेदी उपाकर्म — अपराह्ण काल",
