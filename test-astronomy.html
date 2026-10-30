@@ -1275,12 +1275,9 @@ async function calculateSwissHeliacal(ref) {
     Number(refConfig.elevation)
   ];
 
-  const atmosData = [
-    1013.25,
-    15,
-    40,
-    0
-  ];
+  // Neutral baseline: lets Swiss Ephemeris apply its documented
+  // default atmosphere and elevation adjustment when local weather is unknown.
+  const atmosData = [0, 0, 0, 0];
 
   const observerData = [
     36,
@@ -1750,12 +1747,8 @@ async function calculateSwissVisibilityLimit(
     CONFIG.elevation
   ];
 
-  const atmosphere = [
-    1013.25,
-    15,
-    40,
-    0
-  ];
+  // Neutral baseline: do not pin sea-level pressure at high-elevation sites.
+  const atmosphere = [0, 0, 0, 0];
 
   const observer = [
     36,
