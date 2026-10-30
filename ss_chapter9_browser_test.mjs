@@ -191,10 +191,10 @@ try {
   if (publishedBoundaryGeometry.length !== 4 ||
       publishedBoundaryGeometry.some(row =>
         !row.localTime.includes("IST") ||
-        !/^[-+]?\\d+(?:\\.\\d+)?°$/.test(row.eclipticSeparation) ||
-        !/^[-+]?\\d+(?:\\.\\d+)?°$/.test(row.trueElongation) ||
-        !/^[-+]?\\d+(?:\\.\\d+)?°$/.test(row.sunAltitude) ||
-        !/^[-+]?\\d+(?:\\.\\d+)?°$/.test(row.planetAltitude)
+        !/^[-+]?\d+(?:\.\d+)?°$/.test(row.eclipticSeparation) ||
+        !/^[-+]?\d+(?:\.\d+)?°$/.test(row.trueElongation) ||
+        !/^[-+]?\d+(?:\.\d+)?°$/.test(row.sunAltitude) ||
+        !/^[-+]?\d+(?:\.\d+)?°$/.test(row.planetAltitude)
       )) {
     throw new Error("Published-time geometry audit did not produce four complete finite local-sky rows.");
   }
