@@ -1,0 +1,20 @@
+name: Recurring tithi local sunrise scan
+on:
+  pull_request:
+    paths:
+      - 'tests/recurring-tithi-scan-2026.test.js'
+      - '.github/workflows/recurring-tithi-scan.yml'
+permissions:
+  contents: read
+jobs:
+  recurring-tithi-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install pinned Panchang engine
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Scan local sunrise tithi intervals
+        run: node --test tests/recurring-tithi-scan-2026.test.js
