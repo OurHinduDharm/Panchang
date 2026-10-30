@@ -98,7 +98,22 @@ test("2026 Vindhyavasini Jayanti is retained on Bhadrapada Krishna Ashtami", asy
   assert.equal(find(september, "2026-09-04", /विन्ध्यवासिनी/).hinduTithi, "भाद्रपद कृष्ण अष्टमी");
   assert.equal(august.events.filter(e => /विन्ध्यवासिनी/.test(e.title)).length, 0);
 });
-test("Every legacy OurHinduDharm article link remains attached to the 2026 catalog", async () => {
+
+test("2026 March Drik Pithoragarh calendar anchors retain exact date and tithi", async () => {
+  const data = await month("03");
+  const lakshmi = find(data, "2026-03-03", /श्री महालक्ष्मी जयंती/);
+  assert.equal(lakshmi.hinduTithi, "फाल्गुन शुक्ल पूर्णिमा");
+  assert.equal(lakshmi.reviewStatus, "approved");
+  const sankranti = find(data, "2026-03-15", /मीन संक्रांति/);
+  assert.equal(sankranti.reviewStatus, "approved");
+  const ugadi = find(data, "2026-03-19", /उगादी \/ गुड़ी पड़वा/);
+  assert.equal(ugadi.hinduTithi, "चैत्र शुक्ल प्रतिपदा");
+  assert.equal(ugadi.reviewStatus, "approved");
+  const samvatsara = find(data, "2026-03-19", /हिंदू नवसंवत्सर/);
+  assert.equal(samvatsara.hinduTithi, "चैत्र शुक्ल प्रतिपदा");
+  assert.equal(samvatsara.reviewStatus, "approved");
+});
+\ntest("Every legacy OurHinduDharm article link remains attached to the 2026 catalog", async () => {
   const legacy = JSON.parse(await readFile(new URL("../data/festivals/legacy-source-preserved.json", import.meta.url), "utf8"));
   const names = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
   const current = await Promise.all(names.map(month));
