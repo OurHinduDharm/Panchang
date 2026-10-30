@@ -36,12 +36,14 @@
       "id": "venus-pithoragarh-2025-march",
       "planet": "Venus",
       "eventModel": "drik-tara-asta-window",
-      "location": {
-        "name": "Pithoragarh, Uttarakhand, India",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
         "latitude": 29.5828,
         "longitude": 80.2182,
         "elevationMeters": 1650,
-        "timeZone": "Asia/Kolkata"
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
       },
       "sourceId": "drik-pithoragarh-2025-venus",
       "precision": "minute",
@@ -76,9 +78,11 @@
       "id": "jupiter-new-delhi-2027",
       "planet": "Jupiter",
       "eventModel": "drik-tara-asta-window",
-      "location": {
-        "name": "New Delhi, NCT, India",
-        "timeZone": "Asia/Kolkata"
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "Drik published location label only",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "not supplied in source result; coordinates must not be invented"
       },
       "sourceId": "drik-new-delhi-2027-jupiter",
       "precision": "minute",
@@ -93,11 +97,13 @@
       "id": "venus-central-station-2026-visibility-period",
       "planet": "Venus",
       "eventModel": "rashtriya-panchang-visibility-period",
-      "location": {
-        "name": "Central Station of India",
+      "sourceLocation": "Central Station of India",
+      "testObserver": {
+        "name": "Rashtriya Panchang Central Station",
         "latitude": 23.1833333333,
         "longitude": 82.5,
-        "timeZone": "Asia/Kolkata"
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "published in Rashtriya Panchang explanation"
       },
       "sourceId": "rashtriya-2026-27-visibility",
       "precision": "date-only",
