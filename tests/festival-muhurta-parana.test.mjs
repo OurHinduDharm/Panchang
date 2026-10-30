@@ -433,3 +433,23 @@ test("Vinayaka Chaturthi does not show Madhyahna time without Shukla Chaturthi o
   assert.equal(result.status, "unavailable");
   assert.equal(result.windows, undefined);
 });
+
+test("Narak Chaturdashi Abhyanga Snan uses the actual moonrise-to-sunrise Chaturdashi overlap", () => {
+  const moonrise = date("2026-11-08T05:37:00+05:30");
+  const sunrise = date("2026-11-08T06:38:00+05:30");
+  const chaturdashi = { index: 18, name: "Krishna Chaturdashi", startTime: date("2026-11-07T10:48:00+05:30"), endTime: date("2026-11-08T11:28:00+05:30") };
+  const result = getFestivalMuhurta({ muhurtaRule: "narak-chaturdashi-abhyanga" }, { moonrise, sunrise, tithis: [chaturdashi] });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.toISOString(), moonrise.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), sunrise.toISOString());
+});
+
+test("Narak Chaturdashi does not invent Abhyanga time without Chaturdashi overlap", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "narak-chaturdashi-abhyanga" }, {
+    moonrise: date("2026-11-08T05:37:00+05:30"), sunrise: date("2026-11-08T06:38:00+05:30"),
+    tithis: [{ index: 18, name: "Krishna Chaturdashi", startTime: date("2026-11-07T10:48:00+05:30"), endTime: date("2026-11-08T05:30:00+05:30") }]
+  });
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.windows, undefined);
+});
