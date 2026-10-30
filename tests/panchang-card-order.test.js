@@ -194,7 +194,7 @@ test("Planetary boundary-bracket cache reuses only dates strictly inside a valid
     GeoVector(body, instant) { return { body, instant }; },
     Ecliptic(vector) {
       const elapsedDays = (vector.instant.getTime() - anchor) / 86400000;
-      return { elon: vector.body === "Sun" ? 100 : 100 + elapsedDays * 0.1 };
+      return { elon: vector.body === "Sun" ? 100 : 101 + elapsedDays * 0.1 };
     },
     PLANETS: [{ body: "Venus", name: "शुक्र" }],
     getLocalNoon(date) {
