@@ -631,3 +631,46 @@ test("Samaveda Upakarma returns a no-guess result when candidate Panchanga data 
   const result = getSamavedaUpakarmaDateDecision([]);
   assert.equal(result.status, "unavailable");
 });
+
+
+test("Samaveda does not automatically reject an Adhika-masa candidate", async () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const day = {
+    date: date("2026-09-12T12:00:00+05:30"),
+    sunrise: date("2026-09-12T06:00:00+05:30"),
+    sunset: date("2026-09-12T18:00:00+05:30"),
+    month: "भाद्रपद", paksha: "शुक्ल", nakshatra: "हस्त",
+    hastaStartTime: date("2026-09-12T12:55:00+05:30"),
+    hastaEndTime: date("2026-09-13T13:07:00+05:30"),
+    adhikaMasa: true
+  };
+  const result = getSamavedaUpakarmaDateDecision([day]);
+  assert.equal(result.status, "selected");
+  assert.equal(result.date, "2026-09-12");
+});
+
+test("Karka-Sun Shravana Hasta is considered only after other general fallbacks", async () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const primary = {
+    date: date("2026-09-12T12:00:00+05:30"),
+    sunrise: date("2026-09-12T06:00:00+05:30"),
+    sunset: date("2026-09-12T18:00:00+05:30"),
+    month: "भाद्रपद", paksha: "शुक्ल", nakshatra: "हस्त",
+    hastaStartTime: date("2026-09-12T12:55:00+05:30"),
+    hastaEndTime: date("2026-09-13T13:07:00+05:30"),
+    sankranti: true
+  };
+  const karkaFallback = {
+    date: date("2026-08-01T12:00:00+05:30"),
+    sunrise: date("2026-08-01T06:00:00+05:30"),
+    sunset: date("2026-08-01T18:00:00+05:30"),
+    month: "श्रावण", paksha: "शुक्ल", nakshatra: "हस्त",
+    hastaStartTime: date("2026-08-01T05:00:00+05:30"),
+    hastaEndTime: date("2026-08-01T17:00:00+05:30"),
+    sunRashi: "कर्क"
+  };
+  const result = getSamavedaUpakarmaDateDecision([primary, karkaFallback]);
+  assert.equal(result.status, "selected");
+  assert.equal(result.date, "2026-08-01");
+  assert.match(result.label, /कर्कस्थ सूर्य/);
+});
