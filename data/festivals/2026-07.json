@@ -3,8 +3,8 @@
   "year": 2026,
   "month": 7,
   "monthName": "जुलाई",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; पंचांग-आधारित गणना की समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-07-03",
@@ -218,20 +218,13 @@
     {
       "date": "2026-07-23",
       "dateLabel": "23 जुलाई",
-      "title": "गुप्त नवरात्र पारण",
-      "description": "आषाढ़ गुप्त नवरात्रि का पारण नवमी तिथि पूर्ण होने पर दशमी तिथि में किया जाता है। २०२६ में पारण २३ जुलाई को है।",
+      "title": "गुप्त नवरात्र पारण एवं कलश विसर्जन",
+      "description": "आषाढ़ गुप्त नवरात्र की नवमी तिथि पूर्ण होने पर दशमी में साधना का पारण एवं अनुष्ठान-समापन किया जाता है। जिन्होंने घटस्थापना / कलश स्थापना की है, वे सामान्य नवरात्रि की भाँति विधिपूर्वक कलश-विसर्जन करें। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल दशमी"
-    },
-    {
-      "date": "2026-07-23",
-      "dateLabel": "23 जुलाई",
-      "title": "गुप्त नवरात्र कलश विसर्जन",
-      "description": "आषाढ़ गुप्त नवरात्रि के समापन पर कलश-विसर्जन की परंपरा।",
-      "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "आषाढ़ शुक्ल दशमी"
+      "hinduTithi": "आषाढ़ शुक्ल दशमी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "articleLabel": "कलश-विसर्जन विधि"
     },
     {
       "date": "2026-07-25",
