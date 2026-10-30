@@ -143,9 +143,14 @@ test("2026 Pithoragarh Drik annual-calendar anchor observances are present on th
     ["12-23", /दत्तात्रेय जयंती/]
   ];
   const months = await Promise.all(Array.from({ length: 12 }, (_, i) => month(String(i + 1).padStart(2, "0"))));
-  const missing = checks.filter(([md, pattern]) => {
+  const missing = [];
+  const unapproved = [];
+  for (const [md, pattern] of checks) {
     const date = "2026-" + md;
-    return !months[Number(md.slice(0, 2)) - 1].events.some(event => event.date === date && pattern.test(event.title || ""));
-  });
+    const event = months[Number(md.slice(0, 2)) - 1].events.find(item => item.date === date && pattern.test(item.title || ""));
+    if (!event) missing.push({ date, pattern: String(pattern) });
+    else if (event.reviewStatus !== "approved") unapproved.push({ date, title: event.title, reviewStatus: event.reviewStatus });
+  }
   assert.deepEqual(missing, []);
+  assert.deepEqual(unapproved, []);
 });
