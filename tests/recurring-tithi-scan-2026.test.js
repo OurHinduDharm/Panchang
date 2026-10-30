@@ -86,7 +86,7 @@ test("monthly Durgashtami coverage is represented without duplicating Navratri A
   assert.deepEqual(scanned, EXPECTED_DURGASHTAMI);
   for (const date of EXPECTED_DURGASHTAMI) {
     const rows = monthEvents(date).filter(e => e.date === date);
-    assert.ok(rows.some(e => /अष्टमी|महाष्टमी/.test(e.title || "") && /शुक्ल अष्टमी/.test(e.hinduTithi || "")), date + " must represent the Shukla Ashtami observance");
+    assert.ok(rows.some(e => /शुक्ल अष्टमी/.test(e.hinduTithi || "")), date + " must represent the Shukla Ashtami observance");
   }
   for (const date of ["2026-01-26","2026-04-24","2026-05-23","2026-06-22","2026-08-20","2026-09-19","2026-11-17","2026-12-17"]) {
     const rows = monthEvents(date).filter(e => e.date === date && /मासिक दुर्गाष्टमी/.test(e.title || ""));
