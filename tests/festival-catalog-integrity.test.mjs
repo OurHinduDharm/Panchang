@@ -15,9 +15,13 @@ test("flags missing tithi metadata for tithi-based observances", () => {
  const data=base(); delete data.events[0].hinduTithi;
  assert.ok(auditMonth(data,2026,6).some(x=>x.code==="TITHI_METADATA_MISSING"));
 });
-test("flags a time promise without a rule", () => {
- const data=base(); data.events[0].description="पूजा का मुहूर्त निर्धारित किया जाता है।";
+test("flags a hard-coded clock time without a rule", () => {
+ const data=base(); data.events[0].description="पूजा का शुभ समय 05:57 ए एम से 09:48 ए एम है।";
  assert.ok(auditMonth(data,2026,6).some(x=>x.code==="TIME_PROMISE_WITHOUT_RULE"));
+});
+test("does not flag general ritual-rule explanations as false time promises", () => {
+ const data=base(); data.events[0].description="पारण का समय द्वादशी-व्याप्ति और हरिवासर के नियमों से निर्धारित होता है।";
+ assert.ok(!auditMonth(data,2026,6).some(x=>x.code==="TIME_PROMISE_WITHOUT_RULE"));
 });
 test("catches duplicate date and normalized title", () => {
  const data=base(); data.events.push({...data.events[0],title:"एकादशी।"});
