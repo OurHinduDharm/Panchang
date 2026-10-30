@@ -20,6 +20,7 @@ on:
       - 'tests/narak-chaturdashi-real-panchang-2026.test.mjs'
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
+      - 'tests/2026-festival-coverage.test.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
 permissions:
   contents: read
