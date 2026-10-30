@@ -285,7 +285,7 @@ test("Gupta Navratri has all nine Navadurga cards and the corresponding article 
 test("All ten Mahavidya Jayanti observances are represented with their legacy article links", async () => {
   const checks = [
     ["02", "2026-02-01", /ललिता त्रिपुरसुंदरी/, "About-Goddess-Lalita-Or-Shodashi-Mahavidya"],
-    ["03", "2026-03-27", /तारा महाविद्या/, "About-Godess-Tara-On-Tara-Mahavidya-Jayanti"],
+    ["03", "2026-03-26", /महातारा.*तारा महाविद्या/, "About-Godess-Tara-On-Tara-Mahavidya-Jayanti"],
     ["04", "2026-04-20", /मातंगी महाविद्या/, "About-Godess-Matangi"],
     ["04", "2026-04-24", /बगलामुखी महाविद्या/, "About-Goddess-Bagalamukhi"],
     ["04", "2026-04-30", /छिन्नमस्ता महाविद्या/, "About-Goddess-Chhinnamastika"],
