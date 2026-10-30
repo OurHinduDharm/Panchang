@@ -23,14 +23,22 @@ const EXPECTED_PRADOSH_DATES = [
 function dateAtLocalNoon(isoDate) {
   return new Date(isoDate + "T06:30:00.000Z");
 }
+function nextIsoDate(isoDate) {
+  const date = new Date(isoDate + "T00:00:00.000Z");
+  date.setUTCDate(date.getUTCDate() + 1);
+  return date.toISOString().slice(0, 10);
+}
 function asDate(value) {
   const result = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   return Number.isFinite(result.getTime()) ? result : null;
 }
-function trayodashiOverlapsPradosh(panchang) {
+function trayodashiOverlapsPradosh(panchang, nextDayPanchang) {
   const sunset = asDate(panchang && panchang.sunset);
-  if (!sunset) return false;
-  const windowEnd = new Date(sunset.getTime() + 180 * 60000);
+  const nextSunrise = asDate(nextDayPanchang && nextDayPanchang.sunrise);
+  if (!sunset || !nextSunrise || nextSunrise <= sunset) return false;
+  // Three muhurtas are one-fifth of the night.
+  const pradoshDurationMs = (nextSunrise.getTime() - sunset.getTime()) / 5;
+  const windowEnd = new Date(sunset.getTime() + pradoshDurationMs);
   const rows = Array.isArray(panchang.tithis) ? panchang.tithis : [];
   return rows.some(row => {
     if (![12, 27].includes(Number(row && row.index))) return false;
@@ -43,11 +51,10 @@ function trayodashiOverlapsPradosh(panchang) {
 test("all selected 2026 Pradosh dates have Trayodashi during the local evening window", () => {
   const failures = [];
   for (const isoDate of EXPECTED_PRADOSH_DATES) {
-    const panchang = getPanchangam(dateAtLocalNoon(isoDate), LOCATION, {
-      timezoneOffset: 330,
-      calendarType: "purnimanta"
-    });
-    if (!trayodashiOverlapsPradosh(panchang)) {
+    const options = { timezoneOffset: 330, calendarType: "purnimanta" };
+    const panchang = getPanchangam(dateAtLocalNoon(isoDate), LOCATION, options);
+    const nextDayPanchang = getPanchangam(dateAtLocalNoon(nextIsoDate(isoDate)), LOCATION, options);
+    if (!trayodashiOverlapsPradosh(panchang, nextDayPanchang)) {
       failures.push({
         date: isoDate,
         sunset: panchang && panchang.sunset,
