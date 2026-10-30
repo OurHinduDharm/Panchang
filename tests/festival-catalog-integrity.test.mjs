@@ -54,3 +54,9 @@ test("recognizes the implemented Shivaratri and Vinayaka muhurta rules", () => {
     assert.ok(!auditMonth(data, 2026, 6).some(x => x.code === "UNKNOWN_MUHURTA_RULE"));
   }
 });
+
+test("warns when events are not in chronological order", () => {
+ const data=base();
+ data.events.push({date:"2026-06-03",title:"पहले की तिथि",reviewStatus:"approved"});
+ assert.ok(auditMonth(data,2026,6).some(x=>x.code==="EVENTS_NOT_CHRONOLOGICAL"));
+});
