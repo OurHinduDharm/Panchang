@@ -24,6 +24,27 @@ The old test page contains Pithoragarh Venus 2026 (12 Oct 18:05 / 29 Oct 05:49) 
 
 The four old Tantrakulam samples are tagged Dehradun and represent sample elongations, not Pithoragarh event boundaries. They are not valid local-time benchmark targets.
 
+## First candidate model to evaluate: Swiss Ephemeris heliacal visibility
+
+The existing `test-astronomy.html` already contains a Swiss Ephemeris `heliacal_ut()` diagnostic. This is the first modern visibility candidate to benchmark, not an automatic winner and not a Drik algorithm clone.
+
+The official Swiss Ephemeris programming documentation defines:
+- `dgeo`: longitude, latitude, observer/eye elevation in metres.
+- `datm`: pressure, temperature, relative humidity, and atmospheric extinction/meteorological range.
+- `dobs`: observer age and Snellen eyesight ratio; optional optical parameters only apply with the corresponding flag.
+- Event type 1 = morning first / heliacal rising; event type 2 = evening last / heliacal setting.
+
+The documented method models visibility/contrast and meteorological conditions, which is more physically relevant than a fixed Sun–planet angle alone. It still may differ from Drik's proprietary modern algorithm and must be calibrated against same-location references before acceptance.
+
+Important implementation checks:
+- Keep longitude/latitude/elevation order exactly as documented.
+- Use the same observer coordinates and atmosphere for both event search and phenomenon diagnostics.
+- Treat the returned beginning/optimum/end as a visibility window, not three separate Asta/Udaya boundaries.
+- Record the atmospheric and observer assumptions with every result.
+- Do not change production output until the event mapping and location tests pass.
+
+Official documentation: https://www.astro.com/swisseph-download/doc/swephprg.2.10.htm
+
 ## Decision rules for the engine
 
 1. Calculate the Sun and planet from the same ephemeris and coordinate frame.
