@@ -280,3 +280,26 @@ test("Gupta Navratri has all nine Navadurga cards and the corresponding article 
   const kushmanda = find(data, "2026-07-17", /गुप्त नवरात्र चतुर्थी.*कूष्माण्डा/);
   assert.match(kushmanda.hinduTithi || "", /आषाढ़ शुक्ल चतुर्थी/);
 });
+
+
+test("All ten Mahavidya Jayanti observances are represented with their legacy article links", async () => {
+  const checks = [
+    ["02", "2026-02-01", /ललिता त्रिपुरसुंदरी/, "About-Goddess-Lalita-Or-Shodashi-Mahavidya"],
+    ["03", "2026-03-27", /तारा महाविद्या/, "About-Godess-Tara-On-Tara-Mahavidya-Jayanti"],
+    ["04", "2026-04-20", /मातंगी महाविद्या/, "About-Godess-Matangi"],
+    ["04", "2026-04-24", /बगलामुखी महाविद्या/, "About-Goddess-Bagalamukhi"],
+    ["04", "2026-04-30", /छिन्नमस्ता महाविद्या/, "About-Goddess-Chhinnamastika"],
+    ["06", "2026-06-22", /धूमावती महाविद्या/, "about-godess-dhoomawati"],
+    ["09", "2026-09-04", /आद्याकाली.*महाकाली महाविद्या/, "About-Mahavidya-MahaKali"],
+    ["09", "2026-09-23", /भुवनेश्वरी महाविद्या/, "About-Goddess-Bhuvaneshvari"],
+    ["11", "2026-11-08", /कमला महाविद्या जयंती/, "About-Kamla-Mahavidya"],
+    ["12", "2026-12-23", /त्रिपुरभैरवी.*महाविद्या जयंती/, "About-Goddess-TripurBhairavi"]
+  ];
+  for (const [monthNo, date, title, article] of checks) {
+    const data = await month(monthNo);
+    const event = find(data, date, title);
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+    assert.ok(urls(event).some(url => url.includes(article)), article);
+  }
+});
