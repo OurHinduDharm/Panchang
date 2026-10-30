@@ -1613,6 +1613,7 @@ async function runHeliacalValidation() {
     }
 
     const results = [];
+    const skippedReferences = [];
 
     // Never run a local visibility calculation unless the source location
     // and the exact test observer are attached to this reference record.
@@ -1645,7 +1646,15 @@ async function runHeliacalValidation() {
       const eventType = Number(ref.eventType);
 
       if (eventType !== 1 && eventType !== 2) {
-        console.warn("Skipping invalid event type:", ref);
+        const skipped = {
+          planet: ref.planet,
+          event: ref.event,
+          boundaryTime: ref.boundaryTime,
+          sourceLocation: ref.sourceLocation,
+          reason: ref.skipReason || "No semantically equivalent Swiss heliacal event type is established."
+        };
+        skippedReferences.push(skipped);
+        console.warn("Skipping incompatible heliacal boundary; no comparison made:", skipped);
         continue;
       }
 
@@ -1739,6 +1748,7 @@ async function runHeliacalValidation() {
 
     console.log("========== LOCATION-MATCHED SUMMARY ==========");
     console.table(results);
+    console.log("Skipped incompatible boundaries (no comparison made):", skippedReferences);
     console.log("IMPORTANT: Swiss heliacal event vs same-city Drik boundary; source observer coordinates are undisclosed.");
     console.log("========== LOCATION-MATCHED SUMMARY END ==========");
 
@@ -1753,6 +1763,12 @@ async function runHeliacalValidation() {
           <strong>Swiss event mapping</strong>
           <span>1 = Morning First, 2 = Evening Last</span>
         </div>
+        ${skippedReferences.length ? `
+          <div class="status warn">
+            <strong>तुलना नहीं की गई (${skippedReferences.length} सीमाएँ)</strong>
+            ${skippedReferences.map(item => `<p>${item.planet} — ${item.event}<br>स्रोत समय: ${item.boundaryTime}<br>कारण: ${item.reason}</p>`).join("")}
+          </div>
+        ` : ""}
         ${results.map(row => `
           <div class="card">
             <h3>${row.planet} — ${row.event}</h3>
