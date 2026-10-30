@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const engineUrl = "data:text/javascript;base64," + Buffer.from(source).toString("base64");
-const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision } = await import(engineUrl);
+const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent, shouldShowFestivalMuhurtaSummaryNote } = await import(engineUrl);
 
 const date = value => new Date(value);
 const sunrise = date("2026-10-22T06:00:00+05:30");
@@ -452,4 +452,31 @@ test("Narak Chaturdashi does not invent Abhyanga time without Chaturdashi overla
   });
   assert.equal(result.status, "unavailable");
   assert.equal(result.windows, undefined);
+});
+
+test("equivalent overall and window muhurta labels are not repeated", () => {
+  assert.equal(areFestivalMuhurtaLabelsEquivalent(
+    "मासिक शिवरात्रि — निशीथ पूजा मुहूर्त",
+    "मासिक शिवरात्रि निशीथ पूजा मुहूर्त"
+  ), true);
+  assert.equal(areFestivalMuhurtaLabelsEquivalent(
+    "विनायक चतुर्थी — मध्याह्न पूजा मुहूर्त",
+    "विनायक चतुर्थी पूजा मुहूर्त — मध्याह्न"
+  ), true);
+  assert.equal(areFestivalMuhurtaLabelsEquivalent(
+    "करवा चौथ — पूजा और व्रत समय",
+    "करवा चौथ पूजा मुहूर्त"
+  ), false);
+});
+
+test("window-level muhurta reasons suppress a repeated overall explanation", () => {
+  assert.equal(shouldShowFestivalMuhurtaSummaryNote({
+    note: "समय की गणना साझा व्याप्ति से हुई।",
+    windows: [{ note: "स्थानीय काल और तिथि की साझा व्याप्ति।" }]
+  }), false);
+  assert.equal(shouldShowFestivalMuhurtaSummaryNote({
+    note: "पारण सूर्योदय के बाद करें।",
+    windows: [{ label: "पारण काल" }]
+  }), true);
+  assert.equal(shouldShowFestivalMuhurtaSummaryNote({ windows: [{ note: "कारण" }] }), false);
 });
