@@ -241,3 +241,14 @@ test("2026 Pithoragarh Drik annual-calendar anchor observances are present on th
   assert.deepEqual(missing, []);
   assert.deepEqual(unapproved, []);
 });
+
+
+test("Jyeshtha observances distinguish Batuka Bhairava Dashami from Batuka Bhairavi Siddhividya Purnima", async () => {
+  const june = await month("06");
+  const batuka = find(june, "2026-06-24", /बटुक भैरव जयंती/);
+  assert.equal(batuka.reviewStatus, "approved");
+  assert.match(batuka.hinduTithi || "", /ज्येष्ठ शुक्ल दशमी/);
+  const bhairavi = find(june, "2026-06-29", /बटुक भैरवी सिद्धविद्या जयंती/);
+  assert.equal(bhairavi.reviewStatus, "approved");
+  assert.match(bhairavi.hinduTithi || "", /ज्येष्ठ शुक्ल पूर्णिमा/);
+});
