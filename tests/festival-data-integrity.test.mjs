@@ -91,3 +91,17 @@ test("monthly festival files do not contain exact duplicate date/title records",
     }
   }
 });
+
+
+test("Gupta Navratri parana and kalash visarjan are a single approved Dashami observance", () => {
+  const july = JSON.parse(readFileSync(join(folder, "2026-07.json"), "utf8"));
+  const matching = july.events.filter(event => event.date === "2026-07-23" && /गुप्त नवरात्र.*(?:पारण|कलश विसर्जन)/.test(event.title));
+  assert.equal(matching.length, 1);
+  assert.equal(matching[0].title, "गुप्त नवरात्र पारण एवं कलश विसर्जन");
+  assert.equal(matching[0].reviewStatus, "approved");
+  assert.equal(matching[0].hinduTithi, "आषाढ़ शुक्ल दशमी");
+  assert.match(matching[0].description, /कलश-विसर्जन/);
+  assert.equal(matching[0].articleUrl, "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html");
+  assert.equal(july.status, "approved");
+  assert.ok(july.events.every(event => event.reviewStatus === "approved"));
+});
