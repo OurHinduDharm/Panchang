@@ -3,8 +3,8 @@
   "year": 2026,
   "month": 9,
   "monthName": "सितंबर",
-  "status": "needs-review",
-  "locationScope": "approved डेटा; विश्वसनीय पंचांग से समीक्षित",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-09-02",
