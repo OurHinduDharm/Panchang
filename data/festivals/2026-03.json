@@ -21,7 +21,9 @@
       "description": "फाल्गुन शुक्ल पूर्णिमा पर होलिका-दहन की परंपरा है। इसका अनुष्ठान पूर्णिमा-व्याप्ति, भद्रा तथा प्रदोष के शास्त्रीय नियमों के अनुसार किया जाता है।",
       "category": "व्रत-पर्व",
       "reviewStatus": "needs-review",
-      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
+      "articleLabel": "होलिका-दहन का महत्व पढ़ें"
     },
     {
       "date": "2026-03-03",
@@ -31,7 +33,9 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "needs-review",
       "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
-      "timingType": "eclipse-visibility"
+      "timingType": "eclipse-visibility",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें"
     },
     {
       "date": "2026-03-03",
@@ -49,7 +53,9 @@
       "description": "रंगों का पर्व होली, होलिका-दहन के अगले दिन मनाया जाता है। इस दिन रंग और गुलाल से रंगोत्सव मनाने की परंपरा है।",
       "category": "व्रत-पर्व",
       "reviewStatus": "needs-review",
-      "hinduTithi": "चैत्र कृष्ण प्रतिपदा"
+      "hinduTithi": "चैत्र कृष्ण प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html",
+      "articleLabel": "होली का आध्यात्मिक रहस्य पढ़ें"
     },
     {
       "date": "2026-03-06",
@@ -128,11 +134,15 @@
       "date": "2026-03-19",
       "dateLabel": "19 मार्च",
       "title": "चैत्र नवरात्रि प्रारंभ",
-      "description": "चैत्र / वासन्तिक नवरात्रि चैत्र शुक्ल प्रतिपदा से प्रारंभ होती है। इस अवधि में माँ दुर्गा के नवस्वरूपों की उपासना, पाठ, जप और व्रत की परंपरा है। घटस्थापना का मुहूर्त प्रतिपदा तिथि तथा प्रातःकालीन नियमों के अनुसार निर्धारित होता है।",
+      "description": "चैत्र / वासन्तिक नवरात्रि चैत्र शुक्ल प्रतिपदा से प्रारंभ होती है। इस अवधि में माँ दुर्गा के नवस्वरूपों की उपासना, पाठ, जप और व्रत की परंपरा है। घटस्थापना का मुहूर्त प्रतिपदा तिथि तथा प्रातःकालीन नियमों के अनुसार निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री की पूजा-विधि पढ़ें</a>।",
       "category": "नवरात्रि",
       "reviewStatus": "needs-review",
       "endDate": "2026-03-27",
-      "hinduTithi": "चैत्र शुक्ल प्रतिपदा"
+      "hinduTithi": "चैत्र शुक्ल प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/About-The-Significance-of-Vasanti-Or-Chaitra-Navratri.html",
+      "articleLabel": "चैत्र नवरात्र का महत्व पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
+      "secondaryArticleLabel": "कलश स्थापना विधि देखें"
     },
     {
       "date": "2026-03-19",
