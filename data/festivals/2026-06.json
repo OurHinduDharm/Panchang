@@ -3,8 +3,8 @@
   "year": 2026,
   "month": 6,
   "monthName": "जून",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; पंचांग-आधारित गणना की समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-06-03",
