@@ -52,7 +52,7 @@ test("2026 October includes Saraswati Avahan and Saraswati Puja", async () => {
 test("2026 September includes Agastya Arghya and preserves Varaha article", async () => {
   const data = await month("09");
   assert.ok(find(data, "2026-09-07", /अगस्त्य अर्घ्य/));
-  assert.match(find(data, "2026-09-13", /वाराहावतार/).articleUrl || "", /About-Lord-Varah/);
+  assert.match(find(data, "2026-09-13", /वराह अवतार/).articleUrl || "", /About-Lord-Varah/);
 });
 
 test("2026 November preserves the Rama Ekadashi article", async () => {
