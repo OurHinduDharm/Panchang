@@ -571,6 +571,54 @@ const rules = {
     };
   },
 
+  "bhai-dooj-tilak"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const tithis = collectNamedIntervals(context.tithis, item => {
+      const name = normalizedName(item);
+      const raw = item && typeof item === "object"
+        ? item.index ?? item.number ?? item.value
+        : item;
+      // The project's tithi indices are zero-based: Shukla Dvitiya = 1.
+      return Number(raw) === 1 ||
+        /shukla.*dwitiya|शुक्ल.*द्वितीया/.test(name);
+    });
+    if (!sunrise || !sunset || sunset <= sunrise || !tithis.length) {
+      return {
+        label: "भाई दूज तिलक मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्योदय-सूर्यास्त और कार्तिक शुक्ल द्वितीया की वास्तविक समय-सीमा उपलब्ध नहीं है; अनुमानित मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+
+    // Aparahna is the fourth of five equal parts of local daytime.
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    const aparahnaStart = new Date(sunrise.getTime() + dayDuration * 3 / 5);
+    const aparahnaEnd = new Date(sunrise.getTime() + dayDuration * 4 / 5);
+    const tilakWindow = windowWithin(
+      aparahnaStart,
+      aparahnaEnd,
+      tithis,
+      "भाई दूज तिलक मुहूर्त — अपराह्ण",
+      "स्थानीय दिनमान के पाँच बराबर भागों में चौथा भाग (अपराह्ण) और कार्तिक शुक्ल द्वितीया की संयुक्त व्याप्ति।"
+    );
+    if (!tilakWindow) {
+      return {
+        label: "भाई दूज तिलक मुहूर्त",
+        status: "unavailable",
+        message: "चुनी गई तिथि पर अपराह्ण काल और कार्तिक शुक्ल द्वितीया की साझा अवधि नहीं मिली।"
+      };
+    }
+    return {
+      label: "भाई दूज तिलक मुहूर्त",
+      status: "calculated",
+      date: sunrise,
+      dateLabel: formatDateLabel(sunrise),
+      windows: [tilakWindow],
+      note: "अपराह्ण स्थानीय सूर्योदय से सूर्यास्त तक के दिनमान का चौथा पाँचवाँ भाग है। तिलक का समय इसी काल और कार्तिक शुक्ल द्वितीया की वास्तविक व्याप्ति के साझा भाग से निकाला गया है। पर्व की तारीख़ स्वीकृत पर्व-डेटा के अनुसार रखी गई है।"
+    };
+  },
+
   "karwa-chauth-puja"(context) {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);
