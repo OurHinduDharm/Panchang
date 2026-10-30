@@ -169,7 +169,7 @@ try {
   // Independently inspect the sky geometry at each supplied published local boundary.
   await page.locator("#runDrikBoundaryBtn").click();
   await page.waitForFunction(
-    () => document.querySelectorAll("#drikBoundaryOutput tbody tr").length === 4,
+    () => document.querySelectorAll("#drikBoundaryOutput tbody tr").length === 20,
     null,
     { timeout: 30000 }
   );
@@ -188,7 +188,7 @@ try {
     }))
   );
   console.log("Published-time sky geometry:", JSON.stringify(publishedBoundaryGeometry));
-  if (publishedBoundaryGeometry.length !== 4 ||
+  if (publishedBoundaryGeometry.length !== 20 ||
       publishedBoundaryGeometry.some(row =>
         !row.localTime.includes("IST") ||
         !/^[-+]?\d+(?:\.\d+)?°$/.test(row.eclipticSeparation) ||
@@ -198,7 +198,7 @@ try {
       )) {
     throw new Error("Published-time geometry audit did not produce four complete finite local-sky rows.");
   }
-  console.log("PASS — published timestamps have independently calculated local-sky geometry");
+  console.log("PASS — all 20 user-supplied timestamps have independently calculated local-sky geometry");
 
   // Exercise the exact-time Drik boundary audit against both ecliptic and true-3D thresholds.
   // This is a comparison only: a mathematical threshold crossing is not asserted to be a visibility event.
