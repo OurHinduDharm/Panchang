@@ -40,7 +40,7 @@
       "title": "कामिका एकादशी",
       "description": "कामिका एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -94,7 +94,7 @@
       "title": "हरियाली तीज",
       "description": "हरियाली तीज वर्षा ऋतु का पर्व है। कई परंपराओं में महिलाएँ शिव-पार्वती की पूजा, व्रत, झूले और लोकगीतों के माध्यम से उत्सव मनाती हैं।",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल तृतीया"
     },
     {
@@ -112,7 +112,7 @@
       "title": "नाग पंचमी / नाग पंचमी व्रत",
       "description": "नाग पंचमी पर नाग-देवताओं का पूजन और सर्पों के प्रति श्रद्धा व्यक्त करने की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नाग पंचमी व्रत</a> तथा <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नागों की स्तोत्रात्मक उपासना</a>।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पंचमी"
     },
     {
@@ -121,7 +121,7 @@
       "title": "सिंह संक्रांति",
       "category": "संक्रांति",
       "description": "सूर्य के सिंह राशि में प्रवेश से संबंधित संक्रांति। स्नान, दान और जप की परंपरा है; पुण्यकाल सूर्य-संक्रमण के वास्तविक समय के आधार पर निर्धारित होता है।",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-08-18",
@@ -156,7 +156,7 @@
       "title": "श्रावण पुत्रदा एकादशी",
       "description": "श्रावण पुत्रदा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -174,7 +174,7 @@
       "title": "ओणम",
       "description": "ओणम केरल का प्रमुख फसल और सांस्कृतिक उत्सव है, जो राजा महाबली की कथा से भी जुड़ा है। पुष्प-रंगोली, पारंपरिक भोज और सामुदायिक आयोजन इसकी पहचान हैं।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-08-28",
@@ -191,7 +191,7 @@
       "title": "वरलक्ष्मी व्रत",
       "description": "वरलक्ष्मी व्रत में माँ लक्ष्मी की पूजा परिवार के कल्याण और समृद्धि की कामना से की जाती है। यह व्रत विशेष रूप से दक्षिण भारतीय परंपराओं में प्रचलित है।",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
     },
     {
@@ -209,7 +209,7 @@
       "title": "श्री गायत्री जयन्ती",
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\"> श्री गायत्री जयन्ती</a>, यज्ञोपवीत धारियों द्वारा जप - १० माला",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
     },
     {
@@ -257,7 +257,7 @@
       "title": "कजरी तीज",
       "description": "कजरी तीज भाद्रपद कृष्ण तृतीया से जुड़ा लोकपर्व है। कई क्षेत्रों में शिव-पार्वती की पूजा, गीत और व्रत की परंपरा है; रीति-रिवाज क्षेत्रानुसार बदलते हैं।",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद कृष्ण तृतीया"
     },
     {
