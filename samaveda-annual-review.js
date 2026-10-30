@@ -39,17 +39,17 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
   }));
 
   const decision = getSamavedaUpakarmaDateDecision(records, options);
-  const incompleteAstronomy = source.length > 0 && (exactSunTimes < source.length || exactIntervalDays < source.length);
-  const safeDecision = incompleteAstronomy ? {
-    status: "unavailable",
-    message: "वार्षिक पंचांग स्कैन में कुछ दिनों के सूर्योदय-सूर्यास्त या वास्तविक नक्षत्र-अंतराल अनुपलब्ध हैं; अधूरे डेटा से सामवेद उपाकर्म की तारीख़ तय नहीं की गई।"
-  } : decision;
   const exactSunTimes = source.filter(day =>
     day?.sunrise && day?.sunset &&
     Number.isFinite(new Date(day.sunrise).getTime()) &&
     Number.isFinite(new Date(day.sunset).getTime())
   ).length;
   const exactIntervalDays = source.filter(day => Array.isArray(day?.nakshatraIntervals) && day.nakshatraIntervals.length > 0).length;
+  const incompleteAstronomy = source.length > 0 && (exactSunTimes < source.length || exactIntervalDays < source.length);
+  const safeDecision = incompleteAstronomy ? {
+    status: "unavailable",
+    message: "वार्षिक पंचांग स्कैन में कुछ दिनों के सूर्योदय-सूर्यास्त या वास्तविक नक्षत्र-अंतराल अनुपलब्ध हैं; अधूरे डेटा से सामवेद उपाकर्म की तारीख़ तय नहीं की गई।"
+  } : decision;
   const exactHastaDays = source.filter(hasExactHastaInterval).length;
   const sankrantiDays = source.filter(day =>
     Array.isArray(day?.sankrantiTimes) && day.sankrantiTimes.length
