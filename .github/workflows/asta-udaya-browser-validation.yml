@@ -6,7 +6,7 @@ on:
     paths:
       - "test-astronomy.html"
       - "data/asta-udaya-benchmark.json"
-      - "tests/asta-udaya-browser.test.mjs"
+      - "tests/asta-udaya-browser.spec.mjs"
       - ".github/workflows/asta-udaya-browser-validation.yml"
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   swiss-heliacal-browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -39,4 +39,4 @@ jobs:
           cat /tmp/asta-udaya-http.log
           exit 1
       - name: Execute real Swiss WASM heliacal calculation in Chromium
-        run: node --test tests/asta-udaya-browser.test.mjs
+        run: node --test tests/asta-udaya-browser.spec.mjs
