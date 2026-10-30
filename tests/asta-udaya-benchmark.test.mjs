@@ -99,3 +99,23 @@ test("Pithoragarh and New Delhi references cannot be treated as interchangeable"
   assert.ok(pithoragarh.every(entry => entry.testObserver.latitude === 29.5828));
   assert.ok(delhi.every(entry => entry.testObserver.latitude === undefined));
 });
+
+
+test("Swiss heliacal runner is restricted to Pithoragarh benchmark records", () => {
+  const html = readFileSync(resolve(here, "../test-astronomy.html"), "utf8");
+  assert.match(html, /async function loadAstaUdayaLocationReferences\(\)/);
+  assert.match(html, /entry\.sourceLocation === "Pithoragarh, Uttarakhand, India"/);
+  assert.match(html, /entry\.comparisonLevel === "city-label-only"/);
+  assert.match(html, /eventType: 2/);
+  assert.match(html, /eventType: 1/);
+  assert.match(html, /new Set\(eligibleReferences\.map\(ref => ref\.sourceLocation\)\)\.size > 1/);
+  assert.match(html, /const observerConfig = ref\.observer/);
+  assert.doesNotMatch(html, /runVisibilityThresholdAnalysis/);
+});
+
+test("Swiss local geometry uses the same observer attached to each reference", () => {
+  const html = readFileSync(resolve(here, "../test-astronomy.html"), "utf8");
+  assert.match(html, /new Astronomy\.Observer\(\s*Number\(ref\.observer\.latitude\),\s*Number\(ref\.observer\.longitude\),\s*Number\(ref\.observer\.elevation\)\s*\)/);
+  assert.match(html, /getHorizontalAtObserver\(\s*BODY_NAMES\[ref\.planet\],\s*point\.date,\s*pointObserver\s*\)/);
+  assert.match(html, /const atmosData = \[0, 0, 0, 0\]/);
+});
