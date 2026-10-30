@@ -281,7 +281,7 @@ test("Gupta Navratri has all nine Navadurga cards and the corresponding article 
   const kushmanda = find(data, "2026-07-17", /क्षय चतुर्थी.*कूष्माण्डा/);
   assert.equal(chandraghanta.hinduTithi, "आषाढ़ शुक्ल तृतीया");
   assert.equal(kushmanda.hinduTithi, "आषाढ़ शुक्ल तृतीया");
-  assert.match(kushmanda.description || "", /क्षय चतुर्थी/);
+  assert.match(kushmanda.description || "", /क्षय तिथि/);
 });
 
 
