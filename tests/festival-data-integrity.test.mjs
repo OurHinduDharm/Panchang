@@ -137,3 +137,14 @@ test("all 2026 Sankranti cards are automatically eligible for punya-kala calcula
   }
   assert.equal(sankrantiTitles.length, 12);
 });
+
+
+test("all 2026 monthly review metadata matches the fully approved event catalog", () => {
+  for (let month = 1; month <= 12; month++) {
+    const file = "2026-" + String(month).padStart(2, "0") + ".json";
+    const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
+    assert.equal(data.status, "approved", file + ": month status should be approved");
+    assert.equal(data.locationScope, "सत्यापित डेटा", file + ": public review label should be normalized");
+    assert.ok(data.events.every(event => event.reviewStatus === "approved"), file + ": every event should be approved");
+  }
+});
