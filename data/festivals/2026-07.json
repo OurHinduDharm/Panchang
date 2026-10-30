@@ -109,6 +109,14 @@
       "hinduTithi": "आषाढ़ शुक्ल द्वितीया"
     },
     {
+      "date": "2026-07-16",
+      "dateLabel": "16 जुलाई",
+      "title": "सूर्य दक्षिणायन आरंभ",
+      "description": "सूर्य दक्षिणायन आरंभ, दैत्यों की मध्य रात्रि व देवताओं का मध्याह्न",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved"
+    },
+    {
       "date": "2026-07-17",
       "title": "अनिरुद्ध चतुर्थी",
       "category": "व्रत",
@@ -134,14 +142,6 @@
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ शुक्ल तृतीया"
-    },
-    {
-      "date": "2026-07-16",
-      "dateLabel": "16 जुलाई",
-      "title": "सूर्य दक्षिणायन आरंभ",
-      "description": "सूर्य दक्षिणायन आरंभ, दैत्यों की मध्य रात्रि व देवताओं का मध्याह्न",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "approved"
     },
     {
       "date": "2026-07-18",
@@ -185,6 +185,15 @@
       "title": "गुप्त नवरात्र अष्टमी - महागौरी",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a>",
       "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "hinduTithi": "आषाढ़ शुक्ल अष्टमी"
+    },
+    {
+      "date": "2026-07-21",
+      "dateLabel": "21 जुलाई",
+      "title": "श्री पार्वती सिद्धविद्या जयंती",
+      "description": "द्वादश सिद्धविद्याओं की परंपरा में आषाढ़ शुक्ल अष्टमी को श्री पार्वती सिद्धविद्या जयंती मनाई जाती है।",
+      "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ शुक्ल अष्टमी"
     },
@@ -241,6 +250,15 @@
       "title": "आषाढ़ पूर्णिमा / गुरु पूर्णिमा",
       "description": "गुरु पूर्णिमा",
       "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-07-29",
+      "dateLabel": "29 जुलाई",
+      "title": "श्री दक्षिणामूर्ति सिद्धविद्या जयंती",
+      "description": "द्वादश सिद्धविद्याओं की परंपरा में आषाढ़ शुक्ल पूर्णिमा को श्री दक्षिणामूर्ति सिद्धविद्या जयंती मनाई जाती है।",
+      "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा"
     },
