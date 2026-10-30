@@ -64,3 +64,37 @@ test("unverified historical transcriptions are explicitly excluded from benchmar
   assert.ok(excludedIds.has("old-pithoragarh-2027-jupiter-transcription"));
   assert.ok(!dataset.cases.some(entry => excludedIds.has(entry.id)));
 });
+
+
+test("every benchmark case is bound to one explicit source location", () => {
+  for (const entry of dataset.cases) {
+    assert.equal(typeof entry.sourceLocation, "string", `${entry.id}: sourceLocation is required`);
+    assert.ok(entry.sourceLocation.trim(), `${entry.id}: sourceLocation cannot be blank`);
+    assert.ok(
+      ["city-label-only", "coordinate-exact"].includes(entry.comparisonLevel),
+      `${entry.id}: comparisonLevel must be explicit`
+    );
+    assert.ok(entry.sourceObserver, `${entry.id}: sourceObserver provenance is required`);
+    assert.ok(entry.sourceObserver.coordinateStatus, `${entry.id}: source coordinate status is required`);
+    if (entry.comparisonLevel === "coordinate-exact") {
+      assert.equal(typeof entry.sourceObserver.latitude, "number", `${entry.id}: exact latitude required`);
+      assert.equal(typeof entry.sourceObserver.longitude, "number", `${entry.id}: exact longitude required`);
+      assert.equal(entry.testObserver.latitude, entry.sourceObserver.latitude);
+      assert.equal(entry.testObserver.longitude, entry.sourceObserver.longitude);
+    }
+    if (entry.comparisonLevel === "city-label-only") {
+      assert.equal(entry.sourceObserver.coordinates, null, `${entry.id}: undisclosed source coordinates must remain null`);
+    }
+  }
+});
+
+test("Pithoragarh and New Delhi references cannot be treated as interchangeable", () => {
+  const pithoragarh = dataset.cases.filter(entry => entry.sourceLocation === "Pithoragarh, Uttarakhand, India");
+  const delhi = dataset.cases.filter(entry => entry.sourceLocation === "New Delhi, NCT, India");
+  assert.ok(pithoragarh.length >= 1);
+  assert.ok(delhi.length >= 1);
+  assert.ok(pithoragarh.every(entry => entry.comparisonLevel === "city-label-only"));
+  assert.ok(delhi.every(entry => entry.comparisonLevel === "city-label-only"));
+  assert.ok(pithoragarh.every(entry => entry.testObserver.latitude === 29.5828));
+  assert.ok(delhi.every(entry => entry.testObserver.latitude === undefined));
+});
