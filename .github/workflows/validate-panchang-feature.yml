@@ -30,7 +30,7 @@ jobs:
           import fs from 'node:fs';
           import { spawnSync } from 'node:child_process';
           const html = fs.readFileSync('test-astronomy.html', 'utf8');
-          const moduleScript = [...html.matchAll(/<script type="module">([\\s\\S]*?)<\\/script>/gi)][0]?.[1];
+          const moduleScript = [...html.matchAll(/<script type="module">([^]*?)<\/script>/gi)][0]?.[1];
           if (!moduleScript) throw new Error('test-astronomy.html has no module script');
           fs.writeFileSync('/tmp/test-astronomy-module.mjs', moduleScript);
           const syntax = spawnSync(process.execPath, ['--check', '/tmp/test-astronomy-module.mjs'], { encoding: 'utf8' });
