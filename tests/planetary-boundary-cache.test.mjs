@@ -15,6 +15,12 @@ test("Planetary boundary-bracket cache reuses only dates strictly inside a valid
   let elongationCalls = 0;
   const sandbox = {
     Date, Map, Number, String, Math, console,
+    Body: { Sun: "Sun", Mercury: "Mercury", Venus: "Venus", Mars: "Mars", Jupiter: "Jupiter", Saturn: "Saturn" },
+    GeoVector(body, instant) { return { body, instant }; },
+    Ecliptic(vector) {
+      const elapsedDays = (vector.instant.getTime() - anchor) / 86400000;
+      return { elon: vector.body === "Sun" ? 100 : 100 + elapsedDays * 0.1 };
+    },
     PLANETS: [{ body: "Venus", name: "शुक्र" }],
     getLocalNoon(date) {
       return new Date(date + "T12:00:00+05:30");
