@@ -15,8 +15,8 @@
       "reviewStatus": "needs-review"
     },
     {
-      "date": "2026-04-02",
-      "dateLabel": "2 अप्रैल",
+      "date": "2026-04-01",
+      "dateLabel": "1 अप्रैल",
       "title": "श्री हनुमान जयंती / चैत्र पूर्णिमा",
       "description": "चैत्र शुक्ल पूर्णिमा पर श्रीहनुमान जयंती मनाई जाती है। श्रीहनुमान की पूजा, हनुमान चालीसा/सुंदरकाण्ड पाठ, मंत्र-जप तथा पूर्णिमा पर स्नान-दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> और <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>।",
       "category": "प्रमुख पर्व",
@@ -279,7 +279,7 @@
       "title": "श्री बगलामुखी महाविद्या जयन्ती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html\" target=\"_blank\"> श्री बगलामुखी महाविद्या जयन्ती</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल अष्टमी"
     },
     {
@@ -338,20 +338,42 @@
     {
       "date": "2026-04-30",
       "dateLabel": "30 अप्रैल",
-      "title": "नृसिंह जयंती",
-      "description": "नृसिंह जयंती भगवान विष्णु के नृसिंह अवतार के प्राकट्य का स्मरण है। विष्णु-पूजन, मंत्र-जप और भक्त प्रह्लाद की कथा का पाठ किया जाता है; पूजा-काल संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है।",
       "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "वैशाख शुक्ल चतुर्दशी"
+      "hinduTithi": "वैशाख शुक्ल चतुर्दशी",
+      "title": "नृसिंह जयंती / नृसिंह चतुर्दशी व्रत",
+      "description": "वैशाख शुक्ल चतुर्दशी को भगवान विष्णु के नृसिंह अवतार के प्राकट्य का स्मरण किया जाता है। इस दिन भगवान नृसिंह का पूजन, मंत्र-जप तथा भक्त प्रह्लाद की कथा का पाठ किया जाता है।",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html",
+      "articleLabel": "नृसिंह जयंती एवं नृसिंह चतुर्दशी व्रत की महिमा पढ़ें",
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-30",
       "dateLabel": "30 अप्रैल",
-      "title": "श्री नृसिंह अवतार जयन्ती, श्री छिन्नमस्ता महाविद्या जयन्ती, श्री शरभ अवतार जयंती",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html\" target=\"_blank\">श्री नृसिंह अवतार जयन्ती, श्री नृसिंहचतुर्दशी व्रत</a>,<br/><a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Chhinnamastika-On-ChhinnamastaJayanti.html\" target=\"_blank\">श्री छिन्नमस्ता महाविद्या जयन्ती</a>, श्री शरभ अवतार जयंती। भगवत्प्रेरणा से यह blog 2013 में इसी दिन वैशाख शुक्ल चतुर्दशी को बना था।",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "वैशाख शुक्ल चतुर्दशी"
+      "hinduTithi": "वैशाख शुक्ल चतुर्दशी",
+      "title": "श्री छिन्नमस्ता महाविद्या जयंती",
+      "description": "श्री छिन्नमस्ता दस महाविद्याओं में से एक भगवती हैं। उनकी उपासना शक्ति-साधना की विशिष्ट परंपरा से जुड़ी है।",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Goddess-Chhinnamastika-On-ChhinnamastaJayanti.html",
+      "articleLabel": "श्री छिन्नमस्ता महाविद्या की महिमा पढ़ें",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-30",
+      "dateLabel": "30 अप्रैल",
+      "category": "जयंती",
+      "hinduTithi": "वैशाख शुक्ल चतुर्दशी",
+      "title": "श्री शरभ अवतार जयंती",
+      "description": "शरभ भगवान शिव के उग्र एवं शक्तिशाली स्वरूप के रूप में वर्णित हैं। कुछ शैव परंपराओं में शरभ रूप का संबंध नृसिंह अवतार के उग्रत्व को शांत करने की कथा से जोड़ा जाता है। इस अवसर पर शिव-पूजन, मंत्र-जप और स्तोत्र-पाठ किया जाता है।",
+      "reviewStatus": "needs-review"
+    },
+    {
+      "date": "2026-04-30",
+      "dateLabel": "30 अप्रैल",
+      "title": "OurHinduDharm ब्लॉग स्थापना दिवस",
+      "category": "विशेष सूचना",
+      "hinduTithi": "वैशाख शुक्ल चतुर्दशी",
+      "description": "वैशाख शुक्ल चतुर्दशी के दिन, नृसिंह जयंती के पावन अवसर पर वर्ष 2013 में OurHinduDharm ब्लॉग का शुभारंभ हुआ था।",
+      "reviewStatus": "approved"
     }
   ]
 }
