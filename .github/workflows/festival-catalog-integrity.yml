@@ -13,6 +13,8 @@ on:
   pull_request:
     paths:
       - 'data/festivals/*.json'
+      - 'festival-muhurta.js'
+      - 'tests/festival-muhurta-parana.test.mjs'
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
