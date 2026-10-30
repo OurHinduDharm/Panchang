@@ -627,11 +627,6 @@ async function loadAstaUdayaLocationReferences() {
   });
 }
 
-// Quarantined: earlier manually transcribed Pithoragarh times have not
-// been independently confirmed from a retrievable location-specific source.
-// Keep this active dataset empty until exact source evidence is attached.
-const DRIK_PITHORAGARH_BOUNDARIES = [];
-
 const PLANETS = {
   Mercury: "Mercury",
   Venus: "Venus",
@@ -1581,7 +1576,7 @@ async function calculateSwissHeliacal(ref) {
 /* =============================================================
    SECTION 6
    HELIACAL UDAYA / ASTA DIAGNOSTIC
-   Swiss Ephemeris validation — all four reference events
+   Swiss Ephemeris validation — Pithoragarh benchmark cases only
    ============================================================= */
 
 async function runHeliacalValidation() {
