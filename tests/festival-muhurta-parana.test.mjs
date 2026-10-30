@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const engineUrl = "data:text/javascript;base64," + Buffer.from(source).toString("base64");
-const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent, shouldShowFestivalMuhurtaSummaryNote } = await import(engineUrl);
+const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent } = await import(engineUrl);
 
 const date = value => new Date(value);
 const sunrise = date("2026-10-22T06:00:00+05:30");
@@ -241,6 +241,8 @@ test("Karwa Chauth puja window uses one tenth of local night and Krishna Chaturt
   assert.equal(result.windows[0].end.toISOString(), date("2026-10-29T18:43:00+05:30").toISOString());
   assert.equal(result.windows[1].start.toISOString(), sunrise.toISOString());
   assert.equal(result.windows[1].end.toISOString(), moonrise.toISOString());
+  assert.equal(result.note, undefined);
+  assert.ok(result.windows.every(windowItem => windowItem.note));
 });
 
 test("Karwa Chauth does not show puja muhurta without Krishna Chaturthi overlap", () => {
@@ -375,7 +377,8 @@ test("Masik Shivaratri Nishita muhurta intersects Krishna Chaturdashi", () => {
   assert.equal(result.windows.length, 1);
   assert.equal(result.windows[0].start.toISOString(), nishitaStart.toISOString());
   assert.equal(result.windows[0].end.toISOString(), nishitaEnd.toISOString());
-  assert.match(result.note, /कृष्ण चतुर्दशी/);
+  assert.equal(result.note, undefined);
+  assert.match(result.windows[0].note, /कृष्ण चतुर्दशी/);
 });
 
 test("Masik Shivaratri never shows a Nishita time without Chaturdashi overlap", () => {
@@ -416,7 +419,8 @@ test("Vinayaka Chaturthi puja muhurta intersects Shukla Chaturthi during Madhyah
   assert.equal(result.windows.length, 1);
   assert.equal(result.windows[0].start.toISOString(), madhyahnaStart.toISOString());
   assert.equal(result.windows[0].end.toISOString(), madhyahnaEnd.toISOString());
-});
+  assert.equal(result.note, undefined);
+  assert.ok(result.windows[0].note);
 
 test("Vinayaka Chaturthi does not show Madhyahna time without Shukla Chaturthi overlap", () => {
   const context = getFestivalMuhurtaContext(
@@ -443,6 +447,8 @@ test("Narak Chaturdashi Abhyanga Snan uses the actual moonrise-to-sunrise Chatur
   assert.equal(result.windows.length, 1);
   assert.equal(result.windows[0].start.toISOString(), moonrise.toISOString());
   assert.equal(result.windows[0].end.toISOString(), sunrise.toISOString());
+  assert.equal(result.note, undefined);
+  assert.ok(result.windows[0].note);
 });
 
 test("Narak Chaturdashi does not invent Abhyanga time without Chaturdashi overlap", () => {
@@ -467,16 +473,4 @@ test("equivalent overall and window muhurta labels are not repeated", () => {
     "करवा चौथ — पूजा और व्रत समय",
     "करवा चौथ पूजा मुहूर्त"
   ), false);
-});
-
-test("window-level muhurta reasons suppress a repeated overall explanation", () => {
-  assert.equal(shouldShowFestivalMuhurtaSummaryNote({
-    note: "समय की गणना साझा व्याप्ति से हुई।",
-    windows: [{ note: "स्थानीय काल और तिथि की साझा व्याप्ति।" }]
-  }), false);
-  assert.equal(shouldShowFestivalMuhurtaSummaryNote({
-    note: "पारण सूर्योदय के बाद करें।",
-    windows: [{ label: "पारण काल" }]
-  }), true);
-  assert.equal(shouldShowFestivalMuhurtaSummaryNote({ windows: [{ note: "कारण" }] }), false);
 });
