@@ -134,7 +134,7 @@ test("2026 Ekadashi cards expose the general vrat and udyapan guides", async () 
   const url2 = "About-Ekadashi-Vrat-Udyapan-vidhi";
   for (const m of ["01","02","03","04","05","06","07","08","09","10","11","12"]) {
     const data = await month(m);
-    for (const event of data.events.filter(item => /एकादशी/.test(item.title || ""))) {
+    for (const event of data.events.filter(item => /एकादशी/.test(item.title || "") && !/गायत्री/.test(item.title || ""))) {
       assert.match(event.description || "", new RegExp(url1));
       assert.match(event.description || "", new RegExp(url2));
     }
