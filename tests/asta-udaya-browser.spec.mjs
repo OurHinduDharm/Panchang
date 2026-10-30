@@ -43,10 +43,10 @@ test("real browser executes the location-bound Swiss heliacal validation", async
     // Event-side sanity checks only: Evening Last should precede the Asta-start
     // reference, while Morning First should follow the Asta-end reference.
     // This does not assert that Swiss and Drik use equivalent event definitions.
-    const settingBlock = output.match(/Venus — Asta आरम्भ — सायंकाल अंतिम दृश्यता([\\s\\S]*?)(?=Venus — Asta समाप्त|$)/);
-    const risingBlock = output.match(/Venus — Asta समाप्त — प्रातः प्रथम दृश्यता([\\s\\S]*?)(?=Visibility point|$)/);
-    const settingDelta = settingBlock?.[1]?.match(/Swiss minus published boundary: ([+-]?\\d+(?:\\.\\d+)?) minutes/);
-    const risingDelta = risingBlock?.[1]?.match(/Swiss minus published boundary: ([+-]?\\d+(?:\\.\\d+)?) minutes/);
+    const settingBlock = output.match(/Venus — Asta आरम्भ — सायंकाल अंतिम दृश्यता([\s\S]*?)(?=Venus — Asta समाप्त|$)/);
+    const risingBlock = output.match(/Venus — Asta समाप्त — प्रातः प्रथम दृश्यता([\s\S]*?)(?=Visibility point|$)/);
+    const settingDelta = settingBlock?.[1]?.match(/Swiss minus published boundary: ([+-]?\d+(?:\.\d+)?) minutes/);
+    const risingDelta = risingBlock?.[1]?.match(/Swiss minus published boundary: ([+-]?\d+(?:\.\d+)?) minutes/);
     assert.ok(settingDelta, "Evening Last boundary delta must be present");
     assert.ok(risingDelta, "Morning First boundary delta must be present");
     assert.ok(Number(settingDelta[1]) < 0, "Evening Last candidate should be before the published Asta-start");
