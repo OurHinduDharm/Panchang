@@ -1,6 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { resolveSamavedaAnnualDecision } from "../samaveda-annual-review.js";
+import { readFile } from "node:fs/promises";
+const adapterSource = await readFile(new URL("../samaveda-annual-review.js", import.meta.url), "utf8");
+const engineSource = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
+const engineUrl = "data:text/javascript;base64," + Buffer.from(engineSource).toString("base64");
+const adapterUrl = "data:text/javascript;base64," + Buffer.from(
+  adapterSource.replace('"./festival-muhurta.js"', JSON.stringify(engineUrl))
+).toString("base64");
+const { resolveSamavedaAnnualDecision } = await import(adapterUrl);
 import panchangPackage from "@ishubhamx/panchangam-js";
 const {getPanchangam,Observer}=panchangPackage;
 
