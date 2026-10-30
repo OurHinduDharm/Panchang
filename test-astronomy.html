@@ -882,17 +882,7 @@ function observerForConfig(config) {
   if (config === TKS_CONFIG) return tksObserver;
   return new Astronomy.Observer(config.latitude, config.longitude, config.elevation);
 }
-const pithoragarhObserver = new Astronomy.Observer(
-  CONFIG.latitude,
-  CONFIG.longitude,
-  CONFIG.elevation
-);
 
-function observerForConfig(config) {
-  if (config === CONFIG) return pithoragarhObserver;
-  if (config === TKS_CONFIG) return tksObserver;
-  return new Astronomy.Observer(config.latitude, config.longitude, config.elevation);
-}
 
  function getBodyVector(body, date) {
   return Astronomy.GeoVector(body, date, true);
