@@ -39,11 +39,17 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
   }));
 
   const decision = getSamavedaUpakarmaDateDecision(records, options);
+  const incompleteAstronomy = source.length > 0 && (exactSunTimes < source.length || exactIntervalDays < source.length);
+  const safeDecision = incompleteAstronomy ? {
+    status: "unavailable",
+    message: "वार्षिक पंचांग स्कैन में कुछ दिनों के सूर्योदय-सूर्यास्त या वास्तविक नक्षत्र-अंतराल अनुपलब्ध हैं; अधूरे डेटा से सामवेद उपाकर्म की तारीख़ तय नहीं की गई।"
+  } : decision;
   const exactSunTimes = source.filter(day =>
     day?.sunrise && day?.sunset &&
     Number.isFinite(new Date(day.sunrise).getTime()) &&
     Number.isFinite(new Date(day.sunset).getTime())
   ).length;
+  const exactIntervalDays = source.filter(day => Array.isArray(day?.nakshatraIntervals) && day.nakshatraIntervals.length > 0).length;
   const exactHastaDays = source.filter(hasExactHastaInterval).length;
   const sankrantiDays = source.filter(day =>
     Array.isArray(day?.sankrantiTimes) && day.sankrantiTimes.length
@@ -57,19 +63,20 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
   return {
     schemaVersion: 1,
     rule: "samaveda-upakarma-aparahna",
-    calculationStatus: decision.status === "selected" || decision.status === "selected-with-shanti"
+    calculationStatus: safeDecision.status === "selected" || safeDecision.status === "selected-with-shanti"
       ? "calculated-needs-review"
       : "unavailable",
-    status: decision.status,
-    date: decision.date || null,
-    label: decision.label || null,
-    note: decision.note || decision.message || null,
-    requiresShanti: Boolean(decision.requiresShanti),
+    status: safeDecision.status,
+    date: safeDecision.date || null,
+    label: safeDecision.label || null,
+    note: safeDecision.note || safeDecision.message || null,
+    requiresShanti: Boolean(safeDecision.requiresShanti),
     reviewStatus: "needs-review",
     sampradaya: options.sampradaya === "tamil" ? "tamil" : "general",
     coverage: {
       daysScanned: source.length,
       daysWithSunriseAndSunset: exactSunTimes,
+      daysWithExactNakshatraIntervals: exactIntervalDays,
       daysWithExactHastaIntervals: exactHastaDays,
       daysWithSankrantiTimes: sankrantiDays,
       daysWithEclipseData: eclipseDays,
