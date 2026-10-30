@@ -600,14 +600,28 @@ async function loadAstaUdayaLocationReferences() {
       longitude: Number(entry.testObserver.longitude),
       elevation: Number(entry.testObserver.elevationMeters)
     };
+
+    // Swiss event types are not interchangeable:
+    // 2 = evening last visibility; 1 = morning first visibility.
+    // Only compare a published Asta-start at evening with type 2, and an
+    // Asta-end at morning with type 1. Other boundary/time combinations
+    // represent different visibility semantics and must remain un-compared.
+    const startHour = Number(entry.boundaries.astaStart.slice(11, 13));
+    const endHour = Number(entry.boundaries.astaEnd.slice(11, 13));
+    const startCompatible = startHour >= 16;
+    const endCompatible = endHour <= 10;
+
     return [
       {
         id: entry.id + "-asta-start",
         planet: entry.planet,
-        event: "Asta आरम्भ — सायंकाल अंतिम दृश्यता",
+        event: startCompatible
+          ? "Asta आरम्भ — सायंकाल अंतिम दृश्यता"
+          : "Asta आरम्भ — Swiss evening-setting मॉडल से असंगत",
         date: entry.boundaries.astaStart.slice(0, 10),
         boundaryTime: entry.boundaries.astaStart,
-        eventType: 2,
+        eventType: startCompatible ? 2 : null,
+        skipReason: startCompatible ? null : "Asta-start is not an evening boundary; no equivalent Swiss event type is asserted.",
         sourceLocation: entry.sourceLocation,
         comparisonLevel: entry.comparisonLevel,
         observer
@@ -615,10 +629,13 @@ async function loadAstaUdayaLocationReferences() {
       {
         id: entry.id + "-asta-end",
         planet: entry.planet,
-        event: "Asta समाप्त — प्रातः प्रथम दृश्यता",
+        event: endCompatible
+          ? "Asta समाप्त — प्रातः प्रथम दृश्यता"
+          : "Asta समाप्त — Swiss morning-rising मॉडल से असंगत",
         date: entry.boundaries.astaEnd.slice(0, 10),
         boundaryTime: entry.boundaries.astaEnd,
-        eventType: 1,
+        eventType: endCompatible ? 1 : null,
+        skipReason: endCompatible ? null : "Asta-end is not a morning boundary; no equivalent Swiss event type is asserted.",
         sourceLocation: entry.sourceLocation,
         comparisonLevel: entry.comparisonLevel,
         observer
