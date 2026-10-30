@@ -12,7 +12,7 @@
       "title": "पंगुनी उत्तिरम",
       "description": "पंगुनी उत्तिरम तमिल परंपरा का प्रमुख पर्व है। इस अवसर पर भगवान शिव-पार्वती, मुरुगन तथा दिव्य विवाह-उत्सवों का पूजन किया जाता है।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-02",
@@ -38,7 +38,7 @@
       "description": "कृष्ण पक्ष की अष्टमी को मासिक कृष्ण जन्माष्टमी का व्रत और भगवान श्रीकृष्ण का पूजन किया जाता है।",
       "category": "व्रत",
       "hinduTithi": "वैशाख कृष्ण अष्टमी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-10",
@@ -46,7 +46,7 @@
       "title": "मासिक कालाष्टमी",
       "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
@@ -69,7 +69,7 @@
       "description": "वैशाख कृष्ण एकादशी को श्री वल्लभाचार्य महाप्रभु की जयंती मनाई जाती है। इस दिन उनका स्मरण, पुष्टिमार्गीय भक्ति और श्रीकृष्ण-सेवा की परंपरा है।",
       "category": "जयंती",
       "hinduTithi": "वैशाख कृष्ण एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-14",
@@ -85,7 +85,7 @@
       "title": "बैसाखी / वैशाखी",
       "description": "बैसाखी पंजाब का फसल-पर्व और सिख परंपरा में महत्वपूर्ण दिवस है। फसल-कृतज्ञता, गुरुद्वारा दर्शन और सामुदायिक उत्सव इसकी प्रमुख परंपराएँ हैं।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-14",
@@ -96,12 +96,12 @@
       "reviewStatus": "approved"
     },
     {
-      "date": "2026-04-14",
-      "dateLabel": "14 अप्रैल",
+      "date": "2026-04-15",
+      "dateLabel": "15 अप्रैल",
       "title": "विषु",
       "description": "विषु केरल का सौर नववर्ष-पर्व है। विषुक्कणी दर्शन, दीप, पारिवारिक शुभकामनाएँ और पारंपरिक भोजन इसकी प्रमुख रीति हैं।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-14",
@@ -110,7 +110,7 @@
       "description": "वैशाख कृष्ण द्वादशी को कृष्ण वामन द्वादशी का पालन किया जाता है। भगवान विष्णु के वामन स्वरूप का स्मरण और पूजन किया जाता है।",
       "category": "व्रत-पर्व",
       "hinduTithi": "वैशाख कृष्ण द्वादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-14",
@@ -118,7 +118,7 @@
       "title": "पुथांडु / तमिल नववर्ष",
       "description": "पुथांडु तमिल सौर नववर्ष है। इस दिन पारंपरिक नववर्ष-दर्शन, पूजा और पारिवारिक मंगलाचार किए जाते हैं।",
       "category": "क्षेत्रीय पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-15",
@@ -152,7 +152,7 @@
       "title": "विषुक्कणी दर्शन",
       "description": "विषु के अवसर पर प्रातःकाल शुभ वस्तुओं के दर्शन को विषुक्कणी कहा जाता है। केरल की परंपरा में यह नववर्ष-मंगलदर्शन का प्रमुख अंग है।",
       "category": "क्षेत्रीय पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-15",
@@ -160,7 +160,7 @@
       "title": "पोइला बैशाख / बंगाली नववर्ष",
       "description": "पोइला बैशाख बंगाली सौर नववर्ष का प्रथम दिन है। इस अवसर पर नववर्ष-पूजन, शुभारंभ और पारंपरिक उत्सव किए जाते हैं।",
       "category": "क्षेत्रीय पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-17",
@@ -178,7 +178,7 @@
       "description": "वैशाख शुक्ल प्रतिपदा को महर्षि पराशर का स्मरण और पूजन किया जाता है।",
       "category": "जयंती",
       "hinduTithi": "वैशाख शुक्ल प्रतिपदा",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-18",
@@ -187,7 +187,7 @@
       "description": "अमावस्या के बाद शुक्ल पक्ष की प्रतिपदा को चंद्र-दर्शन और चंद्रमा को अर्घ्य देने की परंपरा है।",
       "category": "व्रत-पर्व",
       "hinduTithi": "वैशाख शुक्ल प्रतिपदा",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-19",
@@ -209,7 +209,7 @@
       "description": "वैशाख शुक्ल तृतीया को त्रेता युग के आरम्भ का स्मरण त्रेता युगादि के रूप में किया जाता है।",
       "category": "पर्व",
       "hinduTithi": "वैशाख शुक्ल तृतीया",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-20",
@@ -217,7 +217,7 @@
       "title": "श्री मातंगी महाविद्या जयन्ती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Godess-Matangi-ON-Maatangi-Jayanti.html\" target=\"_blank\">श्री मातंगी महाविद्या जयन्ती</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल तृतीया"
     },
     {
@@ -235,7 +235,7 @@
       "title": "श्री आदि शंकराचार्य एवं सूरदास जयंती",
       "description": "वैशाख शुक्ल पंचमी के अवसर पर श्री आदि शंकराचार्य और भक्त कवि सूरदास जी की जयंती का स्मरण किया जाता है।",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल पंचमी"
     },
     {
@@ -253,7 +253,7 @@
       "title": "श्री रामानुजाचार्य जयंती",
       "description": "श्री रामानुजाचार्य की जयंती पर उनके विशिष्टाद्वैत दर्शन, भक्ति-परंपरा और वैष्णव आचार्य-परंपरा का स्मरण किया जाता है।",
       "category": "जयंती",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-23",
@@ -308,7 +308,7 @@
       "description": "वैशाख शुक्ल एकादशी को श्री सिद्धिलक्ष्मी की उपासना और जयंती का स्मरण किया जाता है।",
       "category": "जयंती",
       "hinduTithi": "वैशाख शुक्ल एकादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-27",
@@ -316,7 +316,7 @@
       "title": "त्रिशूर पूरम",
       "description": "त्रिशूर पूरम केरल का प्रमुख मंदिरोत्सव है, जिसमें देव-प्रतिमाओं की शोभायात्रा, वाद्य-वादन और पारंपरिक उत्सव होते हैं।",
       "category": "क्षेत्रीय पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-28",
@@ -333,7 +333,7 @@
       "description": "वैशाख शुक्ल द्वादशी को भगवान परशुराम का स्मरण और पूजन किया जाता है।",
       "category": "व्रत-पर्व",
       "hinduTithi": "वैशाख शुक्ल द्वादशी",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-30",
