@@ -352,6 +352,8 @@ jobs:
             ['button callback is wired', html.includes('getElementById("runChapter9ArithmeticBtn")')],
             ['Chapter IX event-geometry threshold selection disclosed', html.includes('Chapter IX.2–3 event-geometry candidate') && html.includes('legacy Venus direct/retrograde shortcut')],
             ['unverified fixtures and coordinate-frame blocker disclosed in the UI', html.includes('The four comparison dates are unverified fixtures') && html.includes('coordinate-frame question remains open')],
+            ['Dehradun reference rows select Dehradun observer', html.includes('const DEHRADUN_CONFIG =') && html.includes('function configForReference(ref)') && html.includes('ref?.referenceLocation?.startsWith("Dehradun")') && html.includes('observerForConfig(configForReference(ref))')],
+            ['Swiss heliacal calculations use the selected reference location', html.includes('const refConfig = configForReference(ref);') && html.includes('Number(refConfig.longitude)') && html.includes('Number(refConfig.latitude)')],
             ['legacy exact-time boundary is explicitly separated from SS IX.7 C', html.includes('पुरानी कोणीय परिकल्पना की सीमा (SS IX.7 नहीं)') && html.includes('इसे सूर्यसिद्धान्त IX.7 की घटना-दिशा आधारित C सीमा से न मिलाएँ')],
             ['K bracket labelled as a current candidate, not a canonical result', html.includes('Current K bracket') && !html.includes('Classical K bracket')],
             ['Mercury swift-motion limitation disclosed', html.includes('Mercury is excluded from these four reference cases')],
