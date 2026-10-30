@@ -333,12 +333,18 @@
         previousDate.setUTCDate(previousDate.getUTCDate()-1);
         var previousIso=previousDate.toISOString().slice(0,10);
         var previousValues=await getDatePanchang(previousIso);
+        var nextDate=new Date(dateIso+"T12:00:00.000Z");
+        nextDate.setUTCDate(nextDate.getUTCDate()+1);
+        var nextIso=nextDate.toISOString().slice(0,10);
+        var nextValues=await getDatePanchang(nextIso);
         if(token!==requestToken||!content.isConnected) return;
         context.bhaiDoojDateDecision=muhurtaModule.getBhaiDoojDateDecision(
           {sunrise:previousValues.p.sunrise,sunset:previousValues.p.sunset,
             tithis:[...(previousValues.p.tithis||[]),...(previousValues.next.tithis||[])]},
           {sunrise:values.p.sunrise,sunset:values.p.sunset,
-            tithis:[...(values.p.tithis||[]),...(values.next.tithis||[])]}
+            tithis:[...(values.p.tithis||[]),...(values.next.tithis||[])]},
+          {sunrise:nextValues.p.sunrise,sunset:nextValues.p.sunset,
+            tithis:[...(nextValues.p.tithis||[]),...(nextValues.next.tithis||[])]}
         );
       }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja"||ruleItem.muhurtaRule==="dhanteras-muhurta";})){
