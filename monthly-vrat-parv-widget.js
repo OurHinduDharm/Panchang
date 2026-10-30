@@ -382,7 +382,10 @@
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
             var row=document.createElement("div");row.style.marginTop="5px";
-            var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
+            // यदि विंडो का नाम ऊपर दिए मुख्य मुहूर्त-शीर्षक जैसा ही है, तो उसे दोबारा न दिखाएँ।
+            if(!muhurtaModule.areFestivalMuhurtaLabelsEquivalent(result.label,windowItem.label)){
+              var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
+            }
             var time=document.createElement("div");
             var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
             var endTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
@@ -410,7 +413,10 @@
           detail.textContent=result.message||"इस समय की गणना उपलब्ध नहीं है।";
         }
         box.appendChild(detail);
-        if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
+        // किसी विंडो में कारण दिया है तो वही पर्याप्त है; कुल सारांश में वही गणना फिर न दोहराएँ।
+        if(muhurtaModule.shouldShowFestivalMuhurtaSummaryNote(result)){
+          var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);
+        }
         var loc=document.createElement("div");loc.style.marginTop="3px";loc.style.fontSize="11px";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
         content.appendChild(box);
       });
