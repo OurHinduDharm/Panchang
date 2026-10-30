@@ -19,6 +19,24 @@
       "hinduTithi": "आश्विन कृष्ण अष्टमी"
     },
     {
+      "date": "2026-10-03",
+      "dateLabel": "3 अक्टूबर",
+      "title": "महालक्ष्मी व्रत समापन",
+      "description": "भाद्रपद शुक्ल अष्टमी से आरम्भ महालक्ष्मी व्रत की सोलह दिवसीय उपासना का समापन।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन कृष्ण सप्तमी"
+    },
+    {
+      "date": "2026-10-03",
+      "dateLabel": "3 अक्टूबर",
+      "title": "जीवित्पुत्रिका व्रत (जितिया)",
+      "description": "संतान की दीर्घायु और मंगलकामना के लिए माताएँ जीवित्पुत्रिका व्रत रखती हैं।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+    },
+    {
       "date": "2026-10-06",
       "dateLabel": "6 अक्टूबर",
       "title": "इंदिरा एकादशी",
@@ -86,6 +104,15 @@
       "hinduTithi": "आश्विन शुक्ल द्वितीया"
     },
     {
+      "date": "2026-10-12",
+      "dateLabel": "12 अक्टूबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल द्वितीया"
+    },
+    {
       "date": "2026-10-13",
       "dateLabel": "13 अक्टूबर",
       "title": "शारदीय नवरात्र तृतीया — माँ चन्द्रघण्टा",
@@ -124,6 +151,15 @@
       "category": "नवरात्रि",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
       "articleLabel": "माँ स्कन्दमाता",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल पंचमी"
+    },
+    {
+      "date": "2026-10-15",
+      "dateLabel": "15 अक्टूबर",
+      "title": "उपांग ललिता व्रत",
+      "description": "आश्विन शुक्ल पंचमी को भगवती ललिता की उपासना का विधान है।",
+      "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल पंचमी"
     },
