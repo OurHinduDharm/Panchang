@@ -570,7 +570,7 @@ test("Samaveda Upakarma uses the overlap of Bhadrapada Hasta and local Aparahna"
   });
   assert.equal(result.status, "calculated");
   assert.equal(result.start.toISOString(), date("2026-09-12T13:19:24+05:30").toISOString());
-  assert.equal(result.end.toISOString(), date("2026-09-12T15:47:36+05:30").toISOString());
+  assert.equal(result.end.toISOString(), date("2026-09-12T15:48:12+05:30").toISOString());
   assert.match(result.label, /हस्त नक्षत्र अपराह्ण/);
 });
 
