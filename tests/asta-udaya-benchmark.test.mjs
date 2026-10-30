@@ -44,17 +44,17 @@ test("date-only official visibility data is never represented as an exact clock 
   }
 });
 
-test("Pithoragarh and New Delhi references remain geographically distinct", () => {
-  const pithoragarh = dataset.cases.filter(entry => entry.location.name === "Pithoragarh, Uttarakhand, India");
-  const delhi = dataset.cases.filter(entry => entry.location.name === "New Delhi, NCT, India");
+test("source city labels and our observer coordinates are never conflated", () => {
+  const pithoragarh = dataset.cases.filter(entry => entry.sourceLocation === "Pithoragarh, Uttarakhand, India");
+  const delhi = dataset.cases.filter(entry => entry.sourceLocation === "New Delhi, NCT, India");
   assert.ok(pithoragarh.length >= 1);
   assert.ok(delhi.length >= 1);
   for (const entry of pithoragarh) {
-    assert.equal(entry.location.timeZone, "Asia/Kolkata");
-    assert.equal(entry.location.latitude, 29.5828);
-    assert.equal(entry.location.longitude, 80.2182);
+    assert.equal(entry.testObserver.timeZone, "Asia/Kolkata");
+    assert.equal(entry.testObserver.latitude, 29.5828);
+    assert.equal(entry.testObserver.longitude, 80.2182);
   }
-  assert.notEqual(pithoragarh[0].location.name, delhi[0].location.name);
+  assert.notEqual(pithoragarh[0].sourceLocation, delhi[0].sourceLocation);
 });
 
 test("unverified historical transcriptions are explicitly excluded from benchmark cases", () => {
