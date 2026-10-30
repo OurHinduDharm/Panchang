@@ -81,3 +81,34 @@ A dedicated muhurta rule now intersects the local Nishita interval with the actu
 The complete 12-date Vinayaka Chaturthi series is now represented. The local Panchang test confirms Shukla Chaturthi overlaps the Madhyahna interval for all 12 dates at the default Pithoragarh observer. Existing January, June and September records were retained and updated; nine missing records were added.
 
 A dedicated muhurta rule intersects the local Madhyahna interval with the actual Shukla Chaturthi interval. It returns unavailable rather than an estimated time when the tithi or overlap is missing. All 12 event records use this rule.
+
+
+## Follow-up verification after Pradosh integration (2026-10-30)
+
+The initial 229-record snapshot above predates subsequent repository changes and must not be used as the current total. After PR #125, the live 2026 month files contain 275 records. A fresh read of all 12 files found no exact duplicate normalized date/title pairs.
+
+| Month | Events | Month status | Approved | Needs review |
+|---|---:|---|---:|---:|
+| January | 22 | approved | 22 | 0 |
+| February | 11 | approved | 11 | 0 |
+| March | 37 | needs-review | 6 | 31 |
+| April | 27 | needs-review | 5 | 22 |
+| May | 17 | needs-review | 5 | 12 |
+| June | 17 | needs-review | 5 | 12 |
+| July | 26 | needs-review | 5 | 21 |
+| August | 26 | needs-review | 6 | 20 |
+| September | 29 | needs-review | 28 | 1 |
+| October | 24 | approved | 24 | 0 |
+| November | 24 | approved | 24 | 0 |
+| December | 15 | needs-review | 14 | 1 |
+| **Total** | **275** | | **149** | **126** |
+
+The PR #125 integration adds the 25 Pradosh observances to the 2026 calendar. All 25 dates match the Pithoragarh-specific Drik Panchang 2026 Pradosh calendar, including dates where Trayodashi begins before or after sunrise. Reference: https://www.drikpanchang.com/vrats/pradoshdates.html?geoname-id=1259503
+
+The 25 records are date-checked and carry the corresponding Hindu tithi. Their descriptions explain the observance but intentionally do not claim to provide a computed puja muhurta. Local Pradosh puja windows remain available in the Panchang source and are not hard-coded into this static festival catalog.
+
+A separate follow-up test PR refines the calculation test to use three muhurtas as one-fifth of the local night (sunset to next sunrise), rather than a fixed three-hour cutoff. The test-only refinement does not change festival dates or production display.
+
+## Current review boundary
+
+The month-level statuses remain deliberately conservative. March–September and December still contain 126 event records marked needs-review; approval of the Pradosh entries does not approve unrelated events in those months. Continue reviewing each event independently. The initial candidate duplicate clusters listed above still need editorial reconciliation; no automatic deletion was made.
