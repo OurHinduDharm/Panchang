@@ -3,7 +3,12 @@ import fs from "node:fs";
 import path from "node:path";
 const DATA_DIR = path.join(process.cwd(), "data", "festivals");
 const YEAR = Number(process.argv[2] || 2026);
-const TITHI_CATEGORIES = /एकादशी|पूर्णिमा|अमावस्या|चतुर्थी|प्रदोष|शिवरात्रि|अष्टमी|षष्ठी|नवरात्रि|संक्रांति/i;
+const TITHI_CATEGORIES = /एकादशी|पूर्णिमा|अमावस्या|चतुर्थी|प्रदोष|शिवरात्रि|अष्टमी|षष्ठी|नवरात्रि/i;
+const MUHURTA_SOURCE = fs.readFileSync(path.join(process.cwd(), "festival-muhurta.js"), "utf8");
+const SUPPORTED_MUHURTA_RULES = new Set(
+  [...MUHURTA_SOURCE.matchAll(/^\s{2,8}(?:["\x27]([^"\x27]+)["\x27]|([A-Za-z_$][\w$]*))\s*\(context\)/gm)]
+    .map(match => match[1] || match[2])
+);
 function normalizeTitle(value) {
   return String(value || "").normalize("NFKC").replace(/[।॥.,\/()–—-]/g, " ").replace(/\s+/g, " ").trim().toLocaleLowerCase("hi");
 }
@@ -33,6 +38,7 @@ export function auditMonth(data, expectedYear, expectedMonth) {
     if (event.endDate && (!/^\d{4}-\d{2}-\d{2}$/.test(event.endDate) || event.endDate < event.date)) add("error", "END_DATE_INVALID", label + ": " + event.date + " -> " + event.endDate);
     if (!["approved", "needs-review", "source-conflict", "draft", "rejected"].includes(status)) add("error", "UNKNOWN_EVENT_STATUS", label + ": " + status);
     if (TITHI_CATEGORIES.test((event.title || "") + " " + (event.category || "")) && !event.hinduTithi) add("warning", "TITHI_METADATA_MISSING", label);
+    if (event.muhurtaRule && !SUPPORTED_MUHURTA_RULES.has(event.muhurtaRule)) add("error", "UNKNOWN_MUHURTA_RULE", label + ": " + event.muhurtaRule);
     if (/मुहूर्त|समय.*निर्धारित|समय.*निकाल/i.test(event.description || "") && !event.muhurtaRule) add("warning", "TIME_PROMISE_WITHOUT_RULE", label);
     const key = (event.date || "") + "|" + normalizeTitle(event.title);
     if (key !== "|" && exactKeys.has(key)) add("error", "DUPLICATE_DATE_AND_TITLE", label + "; duplicates events[" + exactKeys.get(key) + "]");

@@ -27,3 +27,26 @@ test("does not fail a consistently under-review month", () => {
  const data=base(); data.status="needs-review"; data.events[0].reviewStatus="needs-review";
  assert.deepEqual(auditMonth(data,2026,6),[]);
 });
+
+
+test("does not require tithi metadata for solar Sankranti observances", () => {
+  const data = base();
+  data.events[0].title = "मकर संक्रांति";
+  data.events[0].category = "संक्रांति";
+  delete data.events[0].hinduTithi;
+  assert.deepEqual(auditMonth(data, 2026, 6), []);
+});
+
+test("flags unknown muhurta rule IDs", () => {
+  const data = base();
+  data.events[0].muhurtaRule = "unknown-rule-id";
+  assert.ok(auditMonth(data, 2026, 6).some(x => x.code === "UNKNOWN_MUHURTA_RULE" && x.severity === "error"));
+});
+
+test("recognizes the implemented Shivaratri and Vinayaka muhurta rules", () => {
+  for (const rule of ["masik-shivaratri-nishita", "vinayaka-chaturthi-madhyahna"]) {
+    const data = base();
+    data.events[0].muhurtaRule = rule;
+    assert.ok(!auditMonth(data, 2026, 6).some(x => x.code === "UNKNOWN_MUHURTA_RULE"));
+  }
+});
