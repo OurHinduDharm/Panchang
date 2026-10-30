@@ -556,13 +556,19 @@ const TKS_CONFIG = {
   offsetMinutes: 330
 };
 
-// Source-specific Dehradun references; these are distinct from SHASTRIYA_REFERENCES (TKS test dates).
-const REFERENCES = [
+// Historical Dehradun elongation samples only. These are NOT event-time targets.
+// Keep them separate from Pithoragarh local visibility benchmarks.
+const ELONGATION_DIAGNOSTIC_REFERENCES = [
   { planet:"Venus", event:"Asta", date:"2026-10-19", sampleTime:"2026-10-19T12:00:00Z", elongation:7.76, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Venus", event:"Udaya", date:"2026-10-30", sampleTime:"2026-10-30T00:30:00Z", elongation:9.70, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Jupiter", event:"Asta", date:"2027-08-17", sampleTime:"2027-08-17T12:00:00Z", elongation:10.49, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Jupiter", event:"Udaya", date:"2027-09-15", sampleTime:"2027-09-15T00:30:00Z", elongation:11.28, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" }
 ];
+
+// Only references with a known single observer belong here.
+// The dataset is the source of truth; this list stays empty until a
+// location-bound adapter loads verified benchmark records.
+const ASTA_UDAYA_LOCATION_REFERENCES = [];
 
 // Quarantined: earlier manually transcribed Pithoragarh times have not
 // been independently confirmed from a retrievable location-specific source.
@@ -1525,7 +1531,7 @@ async function runHeliacalValidation() {
 
   heliacalOutput.innerHTML = `
     <div class="status info">
-      🔭 Running Swiss Ephemeris against all four Udaya/Asta references...
+      🔭 Checking available same-location heliacal references...
     </div>
   `;
 
@@ -1541,7 +1547,7 @@ async function runHeliacalValidation() {
 
     // Never run a local visibility calculation unless the source location
     // and the exact test observer are attached to this reference record.
-    const eligibleReferences = REFERENCES.filter(ref => {
+    const eligibleReferences = ASTA_UDAYA_LOCATION_REFERENCES.filter(ref => {
       const p = ref.observer;
       return p &&
         Number.isFinite(Number(p.latitude)) &&
@@ -1552,10 +1558,9 @@ async function runHeliacalValidation() {
     if (!eligibleReferences.length) {
       heliacalOutput.innerHTML = `
         <div class="status warn">
-          No location-matched event references are available. The current
-          Dehradun/Tantrakulam rows do not publish observer coordinates;
-          Pithoragarh coordinates will not be substituted. No Swiss
-          location-specific result has been calculated.
+          No verified same-location event reference with an explicit observer is available.
+          Dehradun elongation samples are not event-time targets. No other city’s
+          coordinates will be substituted. No local Swiss result has been calculated.
         </div>
       `;
       return;
@@ -1656,17 +1661,17 @@ async function runHeliacalValidation() {
       console.table([row]);
     }
 
-    console.log("========== FOUR-CASE SUMMARY ==========");
+    console.log("========== LOCATION-MATCHED SUMMARY ==========");
     console.table(results);
     console.log("IMPORTANT: Swiss result is a heliacal visibility event, not a simple elongation threshold.");
-    console.log("========== FOUR-CASE SUMMARY END ==========");
+    console.log("========== LOCATION-MATCHED SUMMARY END ==========");
 
     heliacalOutput.innerHTML = `
       <div class="card">
-        <h3>🔭 Swiss Ephemeris — चारों Udaya/Asta परीक्षण</h3>
+        <h3>🔭 Swiss Ephemeris — स्थान-मिलान वाले परीक्षण</h3>
         <div class="metric">
-          <strong>स्थान</strong>
-          <span>${CONFIG.latitude}°, ${CONFIG.longitude}°</span>
+          <strong>प्रत्येक परिणाम का स्थान</strong>
+          <span>उस reference के अपने observer निर्देशांक</span>
         </div>
         <div class="metric">
           <strong>Swiss event mapping</strong>
@@ -1702,14 +1707,14 @@ async function runHeliacalValidation() {
     `;
 
     setStatus(
-      "✅ Swiss heliacal validation completed for all four reference events.",
+      "✅ Swiss heliacal validation completed for eligible location-matched references.",
       "ok"
     );
 
   } catch (error) {
 
     console.error(
-      "HELIACAL FOUR-CASE VALIDATION ERROR:",
+      "LOCATION-MATCHED HELIACAL VALIDATION ERROR:",
       error
     );
 
