@@ -189,8 +189,8 @@ try {
         !row.published.includes("IST") ||
         !row.ecliptic.includes("संदर्भ से समय-अंतर") ||
         !row.true3d.includes("संदर्भ से समय-अंतर") ||
-        !row.ecliptic.includes("सीमा:") ||
-        !row.true3d.includes("सीमा:")
+        !row.ecliptic.includes("सीमा (SS IX.7 नहीं):") ||
+        !row.true3d.includes("सीमा (SS IX.7 नहीं):")
       )) {
     throw new Error("Exact-time boundary audit did not render all four published timestamps and both model deltas.");
   }
