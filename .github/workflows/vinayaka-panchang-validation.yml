@@ -23,4 +23,4 @@ jobs:
       - name: Install pinned Panchang engine
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Validate Madhyahna and Chaturthi
-        run: node --test tests/vinayaka-real-panchang-2026.test.js
+        run: node --test tests/vinayaka-real-panchang-2026.test.js tests/festival-muhurta-parana.test.mjs
