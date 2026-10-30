@@ -565,8 +565,7 @@ test("Samaveda Upakarma uses the overlap of Bhadrapada Hasta and local Aparahna"
     sunset: date("2026-09-12T18:00:00+05:30"),
     nakshatra: "Uttara Phalguni",
     nakshatraEndTime: date("2026-09-12T12:55:00+05:30"),
-    nextNakshatra: "Hasta",
-    nextNakshatraEndTime: date("2026-09-13T13:07:00+05:30")
+    nakshatras: [{ index: 12, startTime: date("2026-09-12T12:55:00+05:30"), endTime: date("2026-09-13T13:07:00+05:30") }]
   });
   assert.equal(result.status, "calculated");
   assert.equal(result.start.toISOString(), date("2026-09-12T13:12:00+05:30").toISOString());
@@ -580,7 +579,7 @@ test("Samaveda Upakarma does not invent a time when Hasta does not overlap Apara
     sunrise: date("2026-09-13T05:53:00+05:30"),
     sunset: date("2026-09-13T18:17:00+05:30"),
     nakshatra: "Hasta",
-    nakshatraEndTime: date("2026-09-13T13:07:00+05:30")
+    nakshatras: [{ index: 12, startTime: date("2026-09-12T12:55:00+05:30"), endTime: date("2026-09-13T13:07:00+05:30") }]
   });
   assert.equal(result.status, "unavailable");
   assert.equal(result.start, undefined);
