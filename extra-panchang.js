@@ -531,7 +531,16 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
     getPlanetEventThreshold(body, data.horizonEvent);
 
   // बुध की IX.8 शाखा अभी निश्चित नहीं है; अनुमान न दिखाएँ।
-  if (!Number.isFinite(thresholdFor(selected))) return null;
+  const selectedThreshold = thresholdFor(selected);
+  if (!Number.isFinite(selectedThreshold)) return null;
+
+  // चुनी हुई तिथि की सीमा के किस ओर ग्रह है, उसी ओर संबंधित घटना खोजें।
+  // इससे पुरानी अस्त-सीमा और पुरानी उदय-सीमा को एक साथ चुनने की त्रुटि रुकती है।
+  const selectedAboveThreshold =
+    selected.eclipticSeparation > selectedThreshold;
+  const expectedDirection = eventType === "asta"
+    ? (selectedAboveThreshold ? "future" : "past")
+    : (selectedAboveThreshold ? "past" : "future");
 
   // दिन-स्तर पर अधिकतम 400 दिन आगे/पीछे खोजें।
   for (let offset = 1; offset <= 400; offset++) {
@@ -548,8 +557,10 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
     const matches = (a, b) =>
       crossesAngularBoundary(a, b, eventType, thresholdFor);
 
-    // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
-    if (matches(pastA, pastB)) {
+    if (
+      expectedDirection === "past" &&
+      matches(pastA, pastB)
+    ) {
       return {
         date: pastB.date,
         degree: pastB.eclipticSeparation,
@@ -560,7 +571,10 @@ function findNearestAngularBoundary(body, selectedDate, eventType) {
       };
     }
 
-    if (matches(futureA, futureB)) {
+    if (
+      expectedDirection === "future" &&
+      matches(futureA, futureB)
+    ) {
       return {
         date: futureB.date,
         degree: futureB.eclipticSeparation,
