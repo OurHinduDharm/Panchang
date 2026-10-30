@@ -1,0 +1,26 @@
+name: Masik Shivaratri real Panchang validation
+on:
+  push:
+    branches:
+      - verify/2026-masik-shivaratri-pithoragarh
+    paths:
+      - 'tests/masik-shivaratri-real-panchang-2026.test.js'
+      - '.github/workflows/masik-shivaratri-panchang-validation.yml'
+  pull_request:
+    paths:
+      - 'tests/masik-shivaratri-real-panchang-2026.test.js'
+      - '.github/workflows/masik-shivaratri-panchang-validation.yml'
+permissions:
+  contents: read
+jobs:
+  shivaratri-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install pinned Panchang engine
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Validate Nishita and Chaturdashi
+        run: node --test tests/masik-shivaratri-real-panchang-2026.test.js
