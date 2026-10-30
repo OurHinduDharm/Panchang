@@ -779,7 +779,8 @@ const rules = {
     if (!bath) {
       return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "unavailable", message: "चंद्रोदय से सूर्योदय के बीच कृष्ण चतुर्दशी की व्याप्ति नहीं मिली; अनुमानित समय नहीं दिखाया जा रहा है।" };
     }
-    return { ...bath, status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise), windows: [bath] };
+    const { note: windowNote, ...bathResult } = bath;
+    return { ...bathResult, status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise), windows: [bath] };
   },
   moonrise(context) {
     const time = validDate(context.moonrise);
