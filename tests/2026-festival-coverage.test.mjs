@@ -277,23 +277,26 @@ test("Gupta Navratri has all nine Navadurga cards and the corresponding article 
   assert.match(start.description, /kalash-sthapan\.html/);
   const navami = find(data, "2026-07-22", /गुप्त नवरात्र नवमी.*सिद्धिदात्री/);
   assert.match(navami.description, /navratrihavanvidhi\.html/);
-  const kushmanda = find(data, "2026-07-17", /गुप्त नवरात्र चतुर्थी.*कूष्माण्डा/);
-  assert.match(kushmanda.hinduTithi || "", /आषाढ़ शुक्ल चतुर्थी/);
+  const chandraghanta = find(data, "2026-07-17", /गुप्त नवरात्र तृतीया.*चन्द्रघंटा/);
+  const kushmanda = find(data, "2026-07-17", /क्षय चतुर्थी.*कूष्माण्डा/);
+  assert.equal(chandraghanta.hinduTithi, "आषाढ़ शुक्ल तृतीया");
+  assert.equal(kushmanda.hinduTithi, "आषाढ़ शुक्ल तृतीया");
+  assert.match(kushmanda.description || "", /क्षय चतुर्थी/);
 });
 
 
 test("All ten Mahavidya Jayanti observances are represented with their legacy article links", async () => {
   const checks = [
-    ["02", "2026-02-01", /ललिता त्रिपुरसुंदरी/, "About-Goddess-Lalita-Or-Shodashi-Mahavidya"],
-    ["03", "2026-03-26", /महातारा.*तारा महाविद्या/, "About-Godess-Tara-On-Tara-Mahavidya-Jayanti"],
+    ["02", "2026-02-01", /षोडशी महाविद्या/, "About-Goddess-Lalita-Or-Shodashi-Mahavidya"],
+    ["03", "2026-03-26", /तारा महाविद्या जयंती/, "About-Godess-Tara-On-Tara-Mahavidya-Jayanti"],
     ["04", "2026-04-20", /मातंगी महाविद्या/, "About-Godess-Matangi"],
     ["04", "2026-04-24", /बगलामुखी महाविद्या/, "About-Goddess-Bagalamukhi"],
     ["04", "2026-04-30", /छिन्नमस्ता महाविद्या/, "About-Goddess-Chhinnamastika"],
     ["06", "2026-06-22", /धूमावती महाविद्या/, "about-godess-dhoomawati"],
-    ["09", "2026-09-04", /आद्याकाली.*महाकाली महाविद्या/, "About-Mahavidya-MahaKali"],
+    ["09", "2026-09-04", /काली \(आद्याकाली\) महाविद्या जयंती/, "About-Mahavidya-MahaKali"],
     ["09", "2026-09-23", /भुवनेश्वरी महाविद्या/, "About-Goddess-Bhuvaneshvari"],
     ["11", "2026-11-08", /कमला महाविद्या जयंती/, "About-Kamla-Mahavidya"],
-    ["12", "2026-12-23", /त्रिपुरभैरवी.*महाविद्या जयंती/, "About-Goddess-TripurBhairavi"]
+    ["12", "2026-12-23", /त्रिपुरभैरवी महाविद्या जयंती/, "About-Goddess-TripurBhairavi"]
   ];
   for (const [monthNo, date, title, article] of checks) {
     const data = await month(monthNo);
@@ -302,4 +305,52 @@ test("All ten Mahavidya Jayanti observances are represented with their legacy ar
     assert.equal(event.reviewStatus, "approved");
     assert.ok(urls(event).some(url => url.includes(article)), article);
   }
+});
+
+
+test("All twelve Siddhividya Jayantis are represented", async () => {
+  const checks = [
+    ["01", "2026-01-23", /सरस्वती सिद्धविद्या जयन्ती/],
+    ["04", "2026-04-15", /कुब्जिका जयंती/],
+    ["04", "2026-04-27", /सिद्धिलक्ष्मी जयंती/],
+    ["05", "2026-05-01", /चण्डिका सिद्धविद्या जयंती/],
+    ["06", "2026-06-29", /बटुक भैरवी सिद्धविद्या जयंती/],
+    ["07", "2026-07-21", /पार्वती सिद्धविद्या जयंती/],
+    ["07", "2026-07-29", /दक्षिणामूर्ति सिद्धविद्या जयंती/],
+    ["08", "2026-08-28", /गायत्री जयन्ती/],
+    ["09", "2026-09-04", /विन्ध्यवासिनी जयंती/],
+    ["10", "2026-10-20", /अपराजिता सिद्धविद्या जयंती/],
+    ["12", "2026-12-07", /बाला सिद्धविद्या जयंती/],
+    ["12", "2026-12-23", /अन्नपूर्णा सिद्धविद्या जयंती/]
+  ];
+  for (const [monthNo, date, title] of checks) {
+    const data = await month(monthNo);
+    const event = find(data, date, title);
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+  }
+});
+
+test("Dashavatara calendar includes Buddha and keeps Balarama as an alternate tradition", async () => {
+  const checks = [
+    ["03", "2026-03-21", /मत्स्य-अवतार/],
+    ["03", "2026-03-26", /श्रीरामनवमी/],
+    ["04", "2026-04-19", /परशुराम जयंती/],
+    ["04", "2026-04-30", /नृसिंह जयंती/],
+    ["05", "2026-05-01", /कूर्म अवतार/],
+    ["08", "2026-08-18", /कल्कि अवतार जयंती/],
+    ["09", "2026-09-04", /कृष्ण जयंती/],
+    ["09", "2026-09-13", /वराह.*जयंती/],
+    ["09", "2026-09-16", /बलराम जयंती/],
+    ["09", "2026-09-23", /वामनावतार/],
+    ["10", "2026-10-20", /बुद्ध अवतार जयंती/]
+  ];
+  for (const [monthNo, date, title] of checks) {
+    const data = await month(monthNo);
+    const event = find(data, date, title);
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+  }
+  const may = await month("05");
+  assert.ok(find(may, "2026-05-01", /बुद्ध पूर्णिमा/));
 });
