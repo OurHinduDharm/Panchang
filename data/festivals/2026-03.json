@@ -18,7 +18,7 @@
       "date": "2026-03-02",
       "dateLabel": "2 मार्च",
       "title": "होलिका-दहन",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\">होलिका-दहन, होली</a> तीन मार्च को ग्रहण होने से 2 मार्च को ही भद्रा के मुख का त्याग कर सांयकाल 6:30 IST से 20:14 पीएम तक होलिका दहन किया जाना उचित है।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\">होलिका-दहन, होली</a> की तिथि और समय पूर्णिमा-व्याप्ति, भद्रा तथा प्रदोषकाल के शास्त्रीय नियमों से निर्धारित होते हैं। वर्ष 2026 के लिए तिथि-निर्णय और मुहूर्त का सत्यापन अभी शेष है।",
       "category": "व्रत-पर्व",
       "reviewStatus": "needs-review",
       "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
@@ -247,6 +247,15 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">नवरात्र के छठे दिन कात्यायनी माँ की पूजा</a>",
       "category": "नवरात्रि",
       "reviewStatus": "needs-review",
+      "hinduTithi": "चैत्र शुक्ल षष्ठी"
+    },
+    {
+      "date": "2026-03-24",
+      "dateLabel": "24 मार्च",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द/कार्तिकेय की उपासना और व्रत किया जाता है। इस तिथि पर शुक्ल षष्ठी स्थानीय सूर्योदय पर विद्यमान है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल षष्ठी"
     },
     {
