@@ -60,3 +60,11 @@ test("warns when events are not in chronological order", () => {
  data.events.push({date:"2026-05-31",title:"पहले की तिथि",reviewStatus:"approved"});
  assert.ok(auditMonth(data,2026,6).some(x=>x.code==="EVENTS_NOT_CHRONOLOGICAL"));
 });
+
+test("accepts complete astronomical eclipse visibility timings without treating them as a puja muhurta", () => {
+  const data = base();
+  data.events[0].title = "चंद्रग्रहण";
+  data.events[0].description = "पिथौरागढ़ में चंद्रोदय 06:08 PM; आंशिक ग्रहण 06:11 PM से 06:47 PM तक दिखाई देगा।";
+  data.events[0].timingType = "eclipse-visibility";
+  assert.ok(!auditMonth(data, 2026, 6).some(x => x.code === "TIME_PROMISE_WITHOUT_RULE"));
+});
