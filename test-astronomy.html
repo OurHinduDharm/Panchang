@@ -366,8 +366,8 @@
     </p>
     <div class="status warn">
       <strong>Event semantics:</strong> 1 = Morning First (प्रातः पहली दृश्यता);
-      2 = Evening Last (सायंकाल अंतिम दृश्यता). The search begins 50 days
-      before the reference date. The returned beginning/optimum/end times
+      2 = Evening Last (सायंकाल अंतिम दृश्यता). The search begins 10 days
+      before the exact published boundary timestamp to avoid selecting the previous visibility cycle. The returned beginning/optimum/end times
       describe the visibility window, not three different Asta/Udaya dates.
     </div>
 
@@ -1290,13 +1290,14 @@ async function calculateSwissHeliacal(ref) {
    * Start sufficiently before the reference date.
    */
 
-  const startDate =
-    addDays(
-      new Date(
-        ref.date + "T00:00:00Z"
-      ),
-      -50
-    );
+  // Start from the exact published boundary timestamp, not midnight on its date.
+  // A short look-back avoids accidentally selecting the previous Venus visibility cycle.
+  // This finds the next Swiss event in the local comparison window; it does not force a match.
+  const boundaryInstant = new Date(ref.boundaryTime || (ref.date + "T00:00:00Z"));
+  if (Number.isNaN(boundaryInstant.getTime())) {
+    throw new Error(`Invalid published boundary timestamp: ${ref.boundaryTime || ref.date}`);
+  }
+  const startDate = addDays(boundaryInstant, -10);
 
   const jdStart =
     unixMsToJulian(
