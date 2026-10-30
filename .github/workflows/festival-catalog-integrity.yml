@@ -11,6 +11,7 @@ on:
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - 'tests/2026-festival-coverage.test.mjs'
+      - 'scripts/diagnose-2026-festival-review.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
   pull_request:
     paths:
@@ -36,6 +37,8 @@ jobs:
         run: node --test tests/festival-catalog-integrity.test.mjs tests/2026-festival-coverage.test.mjs
       - name: Install pinned Panchang engine for location regression
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Diagnose remaining 2026 festival review dates at Pithoragarh
+        run: node scripts/diagnose-2026-festival-review.mjs
       - name: Run festival muhurta regression tests
         run: node --test tests/festival-muhurta-parana.test.mjs tests/narak-chaturdashi-real-panchang-2026.test.mjs
       - name: Audit published month catalogs
