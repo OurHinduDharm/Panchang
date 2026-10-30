@@ -478,3 +478,50 @@ test("equivalent overall and window muhurta labels are not repeated", () => {
     "करवा चौथ पूजा मुहूर्त"
   ), false);
 });
+
+test("Maha Shivaratri exposes all four complete night prahars", () => {
+  const context = {
+    sunset: date("2026-02-15T18:00:00+05:30"),
+    nextSunrise: date("2026-02-16T06:00:00+05:30"),
+    tithis: [{ index: 28, name: "Krishna Chaturdashi", startTime: date("2026-02-15T17:00:00+05:30"), endTime: date("2026-02-16T17:00:00+05:30") }]
+  };
+  const result = getFestivalMuhurta({ muhurtaRule: "mahashivaratri-four-prahar" }, context);
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 4);
+  assert.deepEqual(result.windows.map(w => w.label), ["प्रथम प्रहर", "द्वितीय प्रहर", "तृतीय प्रहर", "चतुर्थ प्रहर"]);
+  assert.equal(result.windows[0].start.toISOString(), date("2026-02-15T18:00:00+05:30").toISOString());
+  assert.equal(result.windows[3].end.toISOString(), date("2026-02-16T06:00:00+05:30").toISOString());
+});
+
+test("Holika Dahan uses local Pradosh when Purnima prevails at sunrise and Bhadra is absent", () => {
+  const sunset = date("2026-03-03T18:00:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "holika-dahan-pradosh" }, {
+    sunrise: date("2026-03-03T06:30:00+05:30"), sunset,
+    nextSunrise: date("2026-03-04T06:00:00+05:30"),
+    tithis: [{ index: 14, name: "Purnima", startTime: date("2026-03-02T17:55:00+05:30"), endTime: date("2026-03-03T17:07:00+05:30") }],
+    karanas: []
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-03-03T20:24:00+05:30").toISOString());
+});
+
+test("Sankranti Punya Kala starts at the transition and is capped at local sunset", () => {
+  const sunrise = date("2026-01-14T07:00:00+05:30");
+  const sunset = date("2026-01-14T17:45:00+05:30");
+  const moment = date("2026-01-14T15:13:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "sankranti-punya-kala" }, {
+    sankrantiMoment: moment, sunrise, sunset,
+    nextSunrise: date("2026-01-15T07:00:00+05:30"),
+    nextSunset: date("2026-01-15T17:45:00+05:30")
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.toISOString(), moment.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), sunset.toISOString());
+});
+
+test("Narak Chaturdashi identical main and window labels are equivalent", () => {
+  assert.equal(areFestivalMuhurtaLabelsEquivalent("नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त"), true);
+});
