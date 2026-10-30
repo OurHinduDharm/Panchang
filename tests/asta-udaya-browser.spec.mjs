@@ -38,7 +38,7 @@ test("real browser executes the location-bound Swiss heliacal validation", async
     );
     assert.match(output, /Pithoragarh, Uttarakhand, India/);
     assert.match(output, /same-city|source coordinates undisclosed/i);
-    assert.match(output, /Swiss minus published boundary: [+-]?\\d+(?:\\.\\d+)? minutes/, "finite event-time difference must be rendered");
+    assert.match(output, /Swiss minus published boundary: [+-]?\d+(?:\.\d+)? minutes/, "finite event-time difference must be rendered");
     assert.doesNotMatch(output, /New Delhi, NCT, India/);
     assert.doesNotMatch(output, /Swiss heliacal validation failed/i);
     assert.deepEqual(pageErrors, [], "browser page must not throw uncaught JavaScript errors");
