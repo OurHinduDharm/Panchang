@@ -677,7 +677,7 @@
   async function buildDynamicNavratriEvents(year,month,token){
     var monthToFamilies={1:true,2:true,3:true,4:true,6:true,7:true,9:true,10:true};
     if(!monthToFamilies[month]) return {events:[],recognized:false};
-    var found=[],recognized=false;
+    var sunriseRows=[],recognized=false;
     var days=new Date(year,month,0).getDate();
     for(var day=1;day<=days;day++){
       if(token!==requestToken)return {events:[],recognized:false};
@@ -687,8 +687,7 @@
       if(token!==requestToken)return {events:[],recognized:false};
       var p=values.p||{},sunrise=new Date(p.sunrise);
       if(!Number.isFinite(sunrise.getTime()))continue;
-      // getPanchangam के scalar masa/tithi/paksha sunrise-based हैं;
-      // उसी क्षण पर तीसरी बार पूरा पंचांग निकालने की जरूरत नहीं।
+      // getPanchangam के scalar masa/tithi/paksha स्थानीय सूर्योदय के आधार पर हैं।
       var masa=normalizedMasaName(p.masa);
       var family=navratriFamily(masa);
       if(!family)continue;
@@ -698,12 +697,36 @@
         /प्रतिपदा|द्वितीया|तृतीया|चतुर्थी|पंचमी|षष्ठी|सप्तमी|अष्टमी|नवमी|दशमी|pratipada|dvitiya|tritiya|chaturthi|panchami|shashthi|saptami|ashtami|navami|dashami/i.test(String(rawTithiValue||""));
       if(!readableTithi)continue;
       var tithiIndex=shuklaTithiIndex(p);
-      // केवल वैध शुक्ल प्रतिपदा–दशमी मिलने पर ही पुराने नवरात्र-दिनों को बदलें।
-      // मास में कृष्ण-पक्ष तिथियाँ होना अपने-आप में नवरात्रि की पहचान नहीं है।
+      // केवल शुक्ल प्रतिपदा से दशमी तक की सूर्योदय-व्यापिनी तिथियाँ लें।
       if(tithiIndex===null)continue;
       recognized=true;
-      var item=makeDynamicNavratriEvent(iso,family,tithiIndex,(values.location&&values.location.name)||"चुना हुआ स्थान");
-      if(item)found.push(item);
+      sunriseRows.push({date:iso,family:family,tithiIndex:tithiIndex,locationName:(values.location&&values.location.name)||"चुना हुआ स्थान"});
+    }
+    // तिथि-वृद्धि में एक ही तिथि दो सूर्योदय पर मिले तो पहला दिन लें।
+    // तिथि-क्षय में अगली सूर्योदय-तिथि दो अंक आगे हो तो छूटी तिथि की देवी
+    // का पूजन उसी पूर्ववर्ती सूर्योदय-तिथि वाले दिन जोड़ें। यह क्रम Drik के
+    // 2026 आषाढ़ गुप्त नवरात्र (17 जुलाई: तृतीया पर चन्द्रघंटा + कूष्माण्डा)
+    // से मिलाया गया है।
+    var tithiNames=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी"];
+    for(var i=0;i<sunriseRows.length;){
+      var row=sunriseRows[i],nextIndex=i+1;
+      while(nextIndex<sunriseRows.length&&sunriseRows[nextIndex].family.id===row.family.id&&sunriseRows[nextIndex].tithiIndex===row.tithiIndex)nextIndex++;
+      var base=makeDynamicNavratriEvent(row.date,row.family,row.tithiIndex,row.locationName);
+      if(base)found.push(base);
+      var nextRow=sunriseRows[nextIndex];
+      if(nextRow&&nextRow.family.id===row.family.id&&nextRow.tithiIndex>row.tithiIndex+1){
+        for(var skipped=row.tithiIndex+1;skipped<nextRow.tithiIndex&&skipped<=8;skipped++){
+          var extra=makeDynamicNavratriEvent(row.date,row.family,skipped,row.locationName);
+          if(!extra)continue;
+          var sunriseName=tithiNames[row.tithiIndex],skippedName=tithiNames[skipped];
+          var deity=navratriDeities[skipped]||"देवी";
+          extra.title=row.family.label+" "+sunriseName+" (क्षय "+skippedName+") — माँ "+deity;
+          extra.hinduTithi=base?base.hinduTithi:"शुक्ल "+sunriseName;
+          extra.description="सूर्योदय-व्यापिनी "+extra.hinduTithi+" के दिन "+skippedName+" तिथि का क्षय होने से माँ "+deity+" का पूजन भी इसी दिन किया जाता है। "+String(extra.description||"");
+          found.push(extra);
+        }
+      }
+      i=nextIndex;
     }
     return {events:found,recognized:recognized};
   }
