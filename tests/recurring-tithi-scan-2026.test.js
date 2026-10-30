@@ -30,7 +30,7 @@ function scanTithiAtSunrise(index) {
         date: date.toISOString().slice(0,10),
         sunrise: sunrise.toISOString(),
         tithiStart: asDate(hit.startTime).toISOString(),
-        tithiEnd: asDate(hit.endTime).toISOString()
+        tithiEnd: asDate(hit.endTime).toISOString(),\n        masa: p.masa, paksha: p.paksha, tithi: p.tithi
       });
     }
   }
