@@ -76,3 +76,9 @@ test("Festival year selector exposes only years with catalog data", async () => 
   assert.match(html, /option value="2029"/);
   assert.doesNotMatch(html, /option value="2025"|option value="2030"/);
 });
+
+test("2026 Purnima titles include the corresponding lunar month names", async () => {
+  assert.ok(find(await month("03"), "2026-03-03", /फाल्गुन पूर्णिमा/));
+  assert.ok(find(await month("05"), "2026-05-01", /वैशाख पूर्णिमा/));
+  assert.ok(find(await month("07"), "2026-07-29", /आषाढ़ पूर्णिमा/));
+});
