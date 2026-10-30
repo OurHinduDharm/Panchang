@@ -1198,6 +1198,156 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
   };
 }
 
+
+/*
+ * Annual Sāmaveda Upākarma date nirṇaya.
+ * Input is a chronological set of daily panchāṅga records already classified
+ * by lunar month/pakṣa. It applies the Aparāhṇa overlap rule and the
+ * Sāmaveda-specific fallback order; it does not infer missing astronomy.
+ */
+export function getSamavedaUpakarmaDateDecision(days, options = {}) {
+  const records = (Array.isArray(days) ? days : [])
+    .map(day => ({
+      ...day,
+      sunrise: validDate(day && day.sunrise),
+      sunset: validDate(day && day.sunset),
+      date: validDate(day && (day.date || day.sunrise))
+    }))
+    .filter(day => day.date && day.sunrise && day.sunset && day.sunset > day.sunrise)
+    .sort((a, b) => a.date - b.date);
+
+  if (!records.length) {
+    return { status: "unavailable", message: "स्थानीय दिनमान और पंचांग-अवधि उपलब्ध नहीं है; उपाकर्म-दिन निर्धारित नहीं किया गया।" };
+  }
+
+  const hasName = (value, pattern) => pattern.test(normalizedName(value));
+  const isBhadrapada = day => hasName(day.month, /bhadrapada|भाद्रपद|प्रौष्ठपद/);
+  const isShravana = day => hasName(day.month, /shravana|श्रावण/);
+  const isKanya = day => hasName(day.month, /kanya|कन्या/);
+  const isShukla = day => hasName(day.paksha, /shukla|शुक्ल/);
+  const isKrishna = day => hasName(day.paksha, /krishna|कृष्ण|वद्य/);
+  const isPanchami = day => hasName(day.tithi, /panchami|पञ्चमी|पंचमी/);
+
+  function hastaInterval(day) {
+    const explicitStart = validDate(day.hastaStartTime);
+    const explicitEnd = validDate(day.hastaEndTime);
+    if (explicitStart && explicitEnd && explicitEnd > explicitStart) {
+      return { start: explicitStart, end: explicitEnd };
+    }
+    const current = day.nakshatra;
+    const next = day.nextNakshatra;
+    if (isHasta(current)) {
+      const end = validDate(day.nakshatraEndTime);
+      return end && end > day.sunrise ? { start: day.sunrise, end } : null;
+    }
+    if (isHasta(next)) {
+      const start = validDate(day.nakshatraEndTime);
+      const end = validDate(day.nextNakshatraEndTime);
+      return start && end && end > start ? { start, end } : null;
+    }
+    return null;
+  }
+
+  function aparahna(day) {
+    const duration = day.sunset.getTime() - day.sunrise.getTime();
+    return {
+      start: new Date(day.sunrise.getTime() + duration * 3 / 5),
+      end: new Date(day.sunrise.getTime() + duration * 4 / 5)
+    };
+  }
+
+  function hasHastaAparahna(day) {
+    const hasta = hastaInterval(day);
+    if (!hasta) return false;
+    const afternoon = aparahna(day);
+    return laterDate(hasta.start, afternoon.start) < earlierDate(hasta.end, afternoon.end);
+  }
+
+  function hasDosha(day, fallback = false) {
+    const flags = day.dosha || {};
+    const kalaDosha = Boolean(
+      day.grahana || day.eclipse || day.sankranti ||
+      flags.grahana || flags.eclipse || flags.sankranti ||
+      flags.adhikaMasa || flags.adhikamasa
+    );
+    const firstOnlyDosha = Boolean(options.firstUpakarma &&
+      (day.guruAsta || day.shukraAsta || flags.guruAsta || flags.shukraAsta));
+    return kalaDosha || firstOnlyDosha;
+  }
+
+  function chooseHasta(candidates, label) {
+    const sorted = candidates.slice().sort((a, b) => a.date - b.date);
+    if (!sorted.length) return null;
+    // The śāstric two-day rule compares the Aparāhṇa overlap of the
+    // same Hasta passage on consecutive days:
+    // both days -> second; only first -> first; only second/neither -> second.
+    for (let i = 0; i < sorted.length - 1; i++) {
+      const first = sorted[i], second = sorted[i + 1];
+      const gap = localDateKey(second.date) === localDateKey(new Date(first.date.getTime() + 86400000));
+      if (!gap) continue;
+      const firstHas = hasHastaAparahna(first);
+      const secondHas = hasHastaAparahna(second);
+      const selected = firstHas && !secondHas ? first : second;
+      return { day: selected, label, note: "दो लगातार दिनों में हस्त नक्षत्र की अपराह्ण-व्याप्ति की शास्त्रीय तुलना से चयन।" };
+    }
+    const only = sorted.find(day => hasHastaAparahna(day)) || sorted[0];
+    return { day: only, label, note: "हस्त नक्षत्र की स्थानीय अपराह्ण-व्याप्ति के आधार पर चयन।" };
+  }
+
+  const bhadrapadaHasta = records.filter(day =>
+    isBhadrapada(day) && isShukla(day) && (isHasta(day.nakshatra) || isHasta(day.nextNakshatra) || hastaInterval(day))
+  );
+  const shravanaHasta = records.filter(day =>
+    isShravana(day) && isShukla(day) && (isHasta(day.nakshatra) || isHasta(day.nextNakshatra) || hastaInterval(day))
+  );
+  const bhadrapadaPanchami = records.filter(day => isBhadrapada(day) && isShukla(day) && isPanchami(day));
+  const shravanaPanchami = records.filter(day => isShravana(day) && isShukla(day) && isPanchami(day));
+  const kanyaHasta = records.filter(day =>
+    isKanya(day) && isKrishna(day) && (isHasta(day.nakshatra) || isHasta(day.nextNakshatra) || hastaInterval(day))
+  );
+
+  const primary = chooseHasta(bhadrapadaHasta, "भाद्रपद शुक्ल हस्त");
+  const ordered = [
+    primary,
+    chooseHasta(shravanaHasta, "श्रावण शुक्ल हस्त"),
+    ...bhadrapadaPanchami.map(day => ({ day, label: "भाद्रपद शुक्ल पंचमी", note: "सामवेदी उपाकर्म का पंचमी विकल्प।" })),
+    ...shravanaPanchami.map(day => ({ day, label: "श्रावण शुक्ल पंचमी", note: "सामवेदी उपाकर्म का अगला पंचमी विकल्प।" }))
+  ].filter(Boolean);
+
+  if (options.sampradaya === "tamil") {
+    const tamilHasta = chooseHasta(kanyaHasta, "कन्या मास कृष्ण हस्त — तमिल परंपरा");
+    if (tamilHasta) ordered.splice(2, 0, tamilHasta);
+  }
+
+  for (const candidate of ordered) {
+    if (!hasDosha(candidate.day, candidate !== primary)) {
+      return {
+        status: "selected",
+        date: localDateKey(candidate.day.date),
+        label: candidate.label,
+        note: candidate.note,
+        requiresShanti: false,
+        sourceDay: candidate.day
+      };
+    }
+  }
+
+  if (primary) {
+    return {
+      status: "selected-with-shanti",
+      date: localDateKey(primary.day.date),
+      label: primary.label,
+      note: "सभी उपलब्ध विकल्पों में काल-दोष मिला; मुख्य भाद्रपद हस्त पर शान्ति-विधान सहित निर्णय।",
+      requiresShanti: true,
+      sourceDay: primary.day
+    };
+  }
+  return {
+    status: "unavailable",
+    message: "भाद्रपद हस्त और शास्त्रीय वैकल्पिक कालों की पर्याप्त पंचांग-अवधि उपलब्ध नहीं है; तिथि अनुमानित नहीं की गई।"
+  };
+}
+
 export function getFestivalMuhurtaRuleIds() {
   return Object.keys(rules);
 }
