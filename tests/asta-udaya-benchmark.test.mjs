@@ -106,8 +106,12 @@ test("Swiss heliacal runner is restricted to Pithoragarh benchmark records", () 
   assert.match(html, /async function loadAstaUdayaLocationReferences\(\)/);
   assert.match(html, /entry\.sourceLocation === "Pithoragarh, Uttarakhand, India"/);
   assert.match(html, /entry\.comparisonLevel === "city-label-only"/);
-  assert.match(html, /eventType: 2/);
-  assert.match(html, /eventType: 1/);
+  assert.match(html, /eventType: startCompatible \? 2 : null/);
+  assert.match(html, /eventType: endCompatible \? 1 : null/);
+  assert.match(html, /startHour >= 16/);
+  assert.match(html, /endHour <= 10/);
+  assert.match(html, /skipReason/);
+  assert.match(html, /no equivalent Swiss event type is asserted/);
   assert.match(html, /new Set\(eligibleReferences\.map\(ref => ref\.sourceLocation\)\)\.size > 1/);
   assert.match(html, /const observerConfig = ref\.observer/);
   assert.doesNotMatch(html, /runVisibilityThresholdAnalysis/);
