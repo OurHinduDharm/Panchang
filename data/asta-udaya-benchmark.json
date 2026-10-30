@@ -65,13 +65,6 @@
       "id": "venus-pithoragarh-2025-december-to-2026-february",
       "planet": "Venus",
       "eventModel": "drik-tara-asta-window",
-      "location": {
-        "name": "Pithoragarh, Uttarakhand, India",
-        "latitude": 29.5828,
-        "longitude": 80.2182,
-        "elevationMeters": 1650,
-        "timeZone": "Asia/Kolkata"
-      },
       "sourceId": "drik-pithoragarh-2025-venus",
       "precision": "minute",
       "boundaries": {
