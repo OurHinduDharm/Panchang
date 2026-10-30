@@ -31,7 +31,7 @@ function trayodashiOverlapsPradosh(panchang) {
   const windowEnd = new Date(sunset.getTime() + 180 * 60000);
   const rows = Array.isArray(panchang.tithis) ? panchang.tithis : [];
   return rows.some(row => {
-    if (Number(row && row.index) !== 12) return false;
+    if (![12, 27].includes(Number(row && row.index))) return false;
     const start = asDate(row.startTime);
     const end = asDate(row.endTime);
     return start && end && end > sunset && start < windowEnd;
