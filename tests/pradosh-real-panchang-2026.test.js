@@ -1,5 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
 
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
@@ -57,4 +59,22 @@ test("all selected 2026 Pradosh dates have Trayodashi during the local evening w
   }
   assert.deepEqual(failures, [], "Selected dates must have Trayodashi overlapping the local evening window");
   assert.equal(EXPECTED_PRADOSH_DATES.length, 25);
+});
+
+
+test("all 25 calculation-checked dates exist once as approved monthly records", () => {
+  const seen = new Map();
+  for (const isoDate of EXPECTED_PRADOSH_DATES) {
+    const month = isoDate.slice(5, 7);
+    const file = path.join(process.cwd(), "data", "festivals", "2026-" + month + ".json");
+    const data = JSON.parse(fs.readFileSync(file, "utf8"));
+    const matches = (data.events || []).filter(item =>
+      item.date === isoDate && /प्रदोष/i.test(String(item.title || ""))
+    );
+    assert.equal(matches.length, 1, isoDate + " must have exactly one Pradosh record");
+    assert.equal(matches[0].reviewStatus, "approved", isoDate + " must be approved");
+    assert.match(matches[0].hinduTithi || "", /त्रयोदशी/, isoDate + " must include its Hindu tithi");
+    seen.set(isoDate, matches[0].title);
+  }
+  assert.equal(seen.size, 25);
 });
