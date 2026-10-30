@@ -69,3 +69,10 @@ test("Every legacy OurHinduDharm article link remains attached to the 2026 catal
   const missing = [...legacyLinks].filter(url => !present.has(url));
   assert.deepEqual(missing, []);
 });
+
+test("Festival year selector exposes only years with catalog data", async () => {
+  const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
+  assert.match(html, /option value="2026"/);
+  assert.match(html, /option value="2029"/);
+  assert.doesNotMatch(html, /option value="2025"|option value="2030"/);
+});
