@@ -704,7 +704,7 @@ const rules = {
       date: sunrise,
       dateLabel: formatDateLabel(sunrise),
       windows: [tilakWindow],
-      note: "धर्मसिंधु के यमद्वितीया दिन-निर्णय में दोनों दिनों की अपराह्ण-व्याप्ति जाँची गई है। तिलक का समय स्थानीय दिनमान के चौथे पाँचवें भाग (अपराह्ण) और कार्तिक शुक्ल द्वितीया की साझा व्याप्ति से निकाला गया है।"
+      note: "धर्मसिंधु के यमद्वितीया दिन-निर्णय में दोनों दिनों की अपराह्ण-व्याप्ति जाँची गई है।"
     };
   },
 
@@ -761,8 +761,7 @@ const rules = {
       status: "calculated",
       date: sunset,
       dateLabel: formatDateLabel(sunset),
-      windows,
-      note: "पूजा-मुहूर्त स्थानीय सूर्यास्त से अगले सूर्योदय तक के रात्रिमान के दसवें भाग और कृष्ण चतुर्थी की वास्तविक व्याप्ति के साझा समय से निकाला गया है। व्रत-समय सूर्योदय से चंद्रोदय तक है।"
+      windows
     };
   },
 
@@ -780,7 +779,7 @@ const rules = {
     if (!bath) {
       return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "unavailable", message: "चंद्रोदय से सूर्योदय के बीच कृष्ण चतुर्दशी की व्याप्ति नहीं मिली; अनुमानित समय नहीं दिखाया जा रहा है।" };
     }
-    return { ...bath, status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise), windows: [bath], note: "अभ्यंग-स्नान का समय स्थानीय चंद्रोदय और सूर्योदय के बीच कृष्ण चतुर्दशी की वास्तविक व्याप्ति से निकाला गया है।" };
+    return { ...bath, status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise), windows: [bath] };
   },
   moonrise(context) {
     const time = validDate(context.moonrise);
@@ -849,8 +848,7 @@ const rules = {
       status: "calculated",
       date: sunrise,
       dateLabel: formatDateLabel(sunrise),
-      windows: [pujaWindow],
-      note: "समय स्थानीय दिनमान के तीसरे पाँचवें भाग (मध्याह्न) और शुक्ल चतुर्थी की वास्तविक व्याप्ति के साझा अंतराल से निकाला गया है।"
+      windows: [pujaWindow]
     };
   },
 
@@ -892,8 +890,7 @@ const rules = {
       status: "calculated",
       date: sunset,
       dateLabel: formatDateLabel(sunset),
-      windows: [pujaWindow],
-      note: "समय स्थानीय रात्रिमान के आठवें मुहूर्त (निशीथ) और कृष्ण चतुर्दशी की वास्तविक व्याप्ति के साझा अंतराल से निकाला गया है।"
+      windows: [pujaWindow]
     };
   },
 
@@ -931,14 +928,6 @@ export function areFestivalMuhurtaLabelsEquivalent(first, second) {
   const a = normalizedMuhurtaLabelTokens(first);
   const b = normalizedMuhurtaLabelTokens(second);
   return a.length > 0 && a.length === b.length && a.every((token, index) => token === b[index]);
-}
-
-// Window notes explain each displayed interval. Do not repeat the same
-// calculation again in the result-level summary beneath those windows.
-export function shouldShowFestivalMuhurtaSummaryNote(result) {
-  if (!result || !String(result.note || "").trim()) return false;
-  const windows = Array.isArray(result.windows) ? result.windows : [];
-  return !windows.some(windowItem => windowItem && String(windowItem.note || "").trim());
 }
 
 export function registerFestivalMuhurtaRule(ruleId, calculate) {
