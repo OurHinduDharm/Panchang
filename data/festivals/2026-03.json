@@ -171,6 +171,15 @@
       "hinduTithi": "चैत्र शुक्ल द्वितीया"
     },
     {
+      "date": "2026-03-20",
+      "dateLabel": "20 मार्च",
+      "title": "चन्द्र दर्शन",
+      "description": "चैत्र शुक्ल द्वितीया को अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "चैत्र शुक्ल द्वितीया"
+    },
+    {
       "date": "2026-03-21",
       "dateLabel": "21 मार्च",
       "title": "गौरी पूजा / गणगौर",
@@ -221,6 +230,15 @@
       "title": "नवरात्रि पंचम - स्कन्दमाता",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">नवरात्र के पंचम दिन स्कन्दमाता जी का पूजन</a>",
       "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "hinduTithi": "चैत्र शुक्ल पंचमी"
+    },
+    {
+      "date": "2026-03-23",
+      "dateLabel": "23 मार्च",
+      "title": "लक्ष्मी पंचमी",
+      "description": "चैत्र शुक्ल पंचमी को माँ लक्ष्मी की पूजा-अर्चना और समृद्धि की प्रार्थना की जाती है।",
+      "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल पंचमी"
     },
