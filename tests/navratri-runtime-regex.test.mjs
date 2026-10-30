@@ -34,3 +34,16 @@ test("dynamic Navratri recognition requires a valid Shukla tithi before replacin
   assert.ok(eventCreation > recognizedFlag, "only then may a dynamic Navratri event be created");
 });
 
+
+
+test("curated 2026 Ashadha Gupta Navratri cards are not replaced by sunrise-only dynamic entries", () => {
+  const start = source.indexOf("var curatedAshadhaGupta2026=");
+  const end = source.indexOf("var dynamicNavratri=", start);
+  assert.ok(start >= 0 && end > start, "curated 2026 Gupta Navratri guard must run before dynamic generation");
+  const guard = source.slice(start, end);
+  assert.match(guard, /year===2026&&month===7/);
+  assert.match(guard, /2026-07-15/);
+  assert.match(guard, /आषाढ़ गुप्त नवरात्र प्रारम्भ/);
+  assert.match(guard, /reviewStatus==="approved"/);
+  assert.match(source.slice(end, end + 180), /curatedAshadhaGupta2026\?\{events:\[\],recognized:false\}:await buildDynamicNavratriEvents/);
+});
