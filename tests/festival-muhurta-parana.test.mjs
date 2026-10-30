@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const engineUrl = "data:text/javascript;base64," + Buffer.from(source).toString("base64");
-const { getFestivalMuhurta, getFestivalMuhurtaContext } = await import(engineUrl);
+const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision } = await import(engineUrl);
 
 const date = value => new Date(value);
 const sunrise = date("2026-10-22T06:00:00+05:30");
@@ -257,4 +257,97 @@ test("Karwa Chauth does not show puja muhurta without Krishna Chaturthi overlap"
   });
   assert.equal(result.status, "unavailable");
   assert.equal(result.windows, undefined);
+});
+
+
+const bhaiDecision = {status:"calculated",selectedDateKey:"2026-11-11",previousAparahnaOverlap:true,currentAparahnaOverlap:true};
+
+test("Bhai Dooj date follows Dharmasindhu when both days have Aparahna Dwitiya overlap", () => {
+  const ps=date("2026-11-10T06:40:30+05:30"), pe=date("2026-11-10T17:29:30+05:30");
+  const cs=date("2026-11-11T06:40:30+05:30"), ce=date("2026-11-11T17:29:30+05:30");
+  const d={index:1,name:"Shukla Dwitiya",startTime:date("2026-11-10T14:00:00+05:30"),endTime:date("2026-11-11T15:53:00+05:30")};
+    const ns=date("2026-11-12T06:40:30+05:30"), ne=date("2026-11-12T17:29:30+05:30");
+  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]},{sunrise:ns,sunset:ne,tithis:[d]});
+  assert.equal(result.previousAparahnaOverlap,true);
+  assert.equal(result.currentAparahnaOverlap,true);
+  assert.equal(result.selectedDateKey,"2026-11-11");
+});
+
+test("Bhai Dooj selects the first day only when only its Aparahna overlaps", () => {
+  const ps=date("2026-11-10T06:40:30+05:30"), pe=date("2026-11-10T17:29:30+05:30");
+  const cs=date("2026-11-11T06:40:30+05:30"), ce=date("2026-11-11T17:29:30+05:30");
+  const d={index:1,name:"Shukla Dwitiya",startTime:date("2026-11-10T14:00:00+05:30"),endTime:date("2026-11-11T12:00:00+05:30")};
+    const ns=date("2026-11-12T06:40:30+05:30"), ne=date("2026-11-12T17:29:30+05:30");
+  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]},{sunrise:ns,sunset:ne,tithis:[d]});
+  assert.equal(result.previousAparahnaOverlap,true);
+  assert.equal(result.currentAparahnaOverlap,false);
+  assert.equal(result.selectedDateKey,"2026-11-10");
+});
+
+test("Bhai Dooj selects the second day when only its Aparahna overlaps", () => {
+  const ps=date("2026-11-10T06:40:30+05:30"), pe=date("2026-11-10T17:29:30+05:30");
+  const cs=date("2026-11-11T06:40:30+05:30"), ce=date("2026-11-11T17:29:30+05:30");
+  const d={index:1,name:"Shukla Dwitiya",startTime:date("2026-11-11T12:00:00+05:30"),endTime:date("2026-11-11T15:53:00+05:30")};
+    const ns=date("2026-11-12T06:40:30+05:30"), ne=date("2026-11-12T17:29:30+05:30");
+  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]},{sunrise:ns,sunset:ne,tithis:[d]});
+  assert.equal(result.previousAparahnaOverlap,false);
+  assert.equal(result.currentAparahnaOverlap,true);
+  assert.equal(result.selectedDateKey,"2026-11-11");
+});
+
+test("Bhai Dooj date decision refuses missing tithi intervals", () => {
+  const result=getBhaiDoojDateDecision(
+    {sunrise:date("2026-11-10T06:40:30+05:30"),sunset:date("2026-11-10T17:29:30+05:30"),tithis:[]},
+    {sunrise:date("2026-11-11T06:40:30+05:30"),sunset:date("2026-11-11T17:29:30+05:30"),tithis:[]},
+    {sunrise:date("2026-11-12T06:40:30+05:30"),sunset:date("2026-11-12T17:29:30+05:30"),tithis:[]}
+  );
+  assert.equal(result.status,"unavailable");
+});
+
+test("Bhai Dooj tilak muhurta is Aparahna (fourth fifth of daytime) intersected with Shukla Dwitiya", () => {
+  const sunrise = date("2026-11-11T06:40:30+05:30");
+  const sunset = date("2026-11-11T17:29:30+05:30");
+  const dwitiya = {
+    index: 1,
+    name: "Shukla Dwitiya",
+    startTime: date("2026-11-10T14:00:00+05:30"),
+    endTime: date("2026-11-11T15:53:00+05:30")
+  };
+  const result = getFestivalMuhurta({ muhurtaRule: "bhai-dooj-tilak" }, {
+    date: date("2026-11-11T12:00:00+05:30"),
+    sunrise, sunset, tithis: [dwitiya], bhaiDoojDateDecision: bhaiDecision
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:10:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T15:20:00+05:30").toISOString());
+});
+
+test("Bhai Dooj tilak muhurta is clipped when Dwitiya ends during Aparahna", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "bhai-dooj-tilak" }, {
+    sunrise: date("2026-11-11T06:40:30+05:30"),
+    sunset: date("2026-11-11T17:29:30+05:30"),
+    tithis: [{
+      index: 1, name: "Shukla Dwitiya",
+      startTime: date("2026-11-10T14:00:00+05:30"),
+      endTime: date("2026-11-11T14:00:00+05:30")
+    }],
+    bhaiDoojDateDecision: bhaiDecision
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:10:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T14:00:00+05:30").toISOString());
+});
+
+test("Bhai Dooj does not invent a tilak window when Dwitiya does not overlap Aparahna", () => {
+  const result = getFestivalMuhurta({ muhurtaRule: "bhai-dooj-tilak" }, {
+    sunrise: date("2026-11-11T06:40:30+05:30"),
+    sunset: date("2026-11-11T17:29:30+05:30"),
+    tithis: [{
+      index: 1, name: "Shukla Dwitiya",
+      startTime: date("2026-11-10T10:00:00+05:30"),
+      endTime: date("2026-11-11T12:00:00+05:30")
+    }],
+    bhaiDoojDateDecision: bhaiDecision
+  });
+  assert.equal(result.status, "unavailable");
 });

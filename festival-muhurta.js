@@ -126,6 +126,78 @@ function formatDateLabel(dateValue) {
   }).format(date) : "";
 }
 
+function localDateKey(dateValue) {
+  const date = validDate(dateValue);
+  if (!date) return "";
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(date);
+  const part = type => (parts.find(item => item.type === type) || {}).value || "";
+  return part("year") + "-" + part("month") + "-" + part("day");
+}
+
+/* Dharmasindhu Yama-Dvitiya day selection. */
+export function getBhaiDoojDateDecision(previousDay, currentDay, nextDay) {
+  const days = [previousDay, currentDay, nextDay].map(day => ({
+    sunrise: validDate(day && day.sunrise),
+    sunset: validDate(day && day.sunset),
+    tithis: day && Array.isArray(day.tithis) ? day.tithis : []
+  }));
+  if (days.some(day => !day.sunrise || !day.sunset || day.sunset <= day.sunrise)) {
+    return { status: "unavailable", message: "तीनों दिनों के स्थानीय सूर्योदय-सूर्यास्त उपलब्ध नहीं हैं; पर्व-दिन का स्वतः निर्णय नहीं किया गया।" };
+  }
+  const keys = days.map(day => localDateKey(day.sunrise));
+  const timestamps = keys.map(key => Date.parse(key + "T00:00:00Z"));
+  if (timestamps.some((value, index) => index > 0 && value - timestamps[index - 1] !== 86400000)) {
+    return { status: "unavailable", message: "लगातार तीन स्थानीय दिनों का पंचांग उपलब्ध नहीं है; पर्व-दिन का स्वतः निर्णय नहीं किया गया।" };
+  }
+  const tithis = collectNamedIntervals(days.flatMap(day => day.tithis), item => {
+    const raw = item && typeof item === "object"
+      ? item.index ?? item.number ?? item.value
+      : item;
+    return Number(raw) === 1 ||
+      /shukla.*dwitiya|शुक्ल.*द्वितीया/.test(normalizedName(item));
+  });
+  if (!tithis.length) {
+    return { status: "unavailable", message: "कार्तिक शुक्ल द्वितीया की वास्तविक अवधि उपलब्ध नहीं है; पर्व-दिन का स्वतः निर्णय नहीं किया गया।" };
+  }
+  const overlapsAparahna = day => {
+    const duration = day.sunset.getTime() - day.sunrise.getTime();
+    const start = new Date(day.sunrise.getTime() + duration * 3 / 5);
+    const end = new Date(day.sunrise.getTime() + duration * 4 / 5);
+    return tithis.some(tithi => tithi.end > start && tithi.start < end);
+  };
+  const overlaps = days.map(overlapsAparahna);
+  let selectedDateKey = "";
+  if (overlaps[0] && overlaps[1] && overlaps[2]) {
+    return { status: "unavailable", message: "द्वितीया तीन लगातार दिनों के अपराह्ण में व्याप्त दिख रही है; सामान्य द्विदिनीय नियम से निर्णय सुरक्षित रूप से नहीं किया जा सकता।" };
+  }
+  if (overlaps[0] && overlaps[1]) selectedDateKey = keys[1];
+  else if (overlaps[1] && overlaps[2]) selectedDateKey = keys[2];
+  else if (overlaps[0]) selectedDateKey = keys[0];
+  else if (overlaps[1]) selectedDateKey = keys[1];
+  else if (overlaps[2]) selectedDateKey = keys[2];
+  else {
+    // Neither compared Aparahna is occupied: the second civil date of the
+    // actual Dwitiya interval is the conservative fallback.
+    const lastMoment = new Date(Math.max(...tithis.map(item => item.end.getTime())) - 1);
+    selectedDateKey = localDateKey(lastMoment);
+    if (!keys.includes(selectedDateKey)) {
+      return { status: "unavailable", message: "अपराह्ण-व्याप्ति नहीं मिली और द्वितीया की समाप्ति इन तीन दिनों के बाहर है; पर्व-दिन निर्धारित नहीं किया गया।" };
+    }
+  }
+  const selectedIndex = keys.indexOf(selectedDateKey);
+  return {
+    status: "calculated",
+    selectedDate: days[selectedIndex].sunrise,
+    selectedDateKey,
+    previousAparahnaOverlap: overlaps[0],
+    currentAparahnaOverlap: overlaps[1],
+    nextAparahnaOverlap: overlaps[2],
+    rule: "dharmasindhu-yama-dvitiya"
+  };
+}
+
 function collectTithiIntervals(...lists) {
   const intervals = [];
   for (const list of lists) {
@@ -568,6 +640,71 @@ const rules = {
       dateLabel: formatDateLabel(sunset),
       windows,
       note: "समय चुने हुए स्थान के सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक व्याप्ति से निकाला गया है। वृषभ स्थिर लग्न तभी दिखेगा जब उसके स्थानीय समय उपलब्ध हों।"
+    };
+  },
+
+  "bhai-dooj-tilak"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const decision = context.bhaiDoojDateDecision;
+    const currentDateKey = localDateKey(sunrise);
+    if (!decision || decision.status !== "calculated" || !decision.selectedDateKey) {
+      return {
+        label: "भाई दूज तिलक मुहूर्त",
+        status: "unavailable",
+        message: "धर्मसिंधु के दिन-निर्णय के लिए दोनों दिनों की अपराह्ण-व्याप्ति जाँची नहीं जा सकी; मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+    if (decision.selectedDateKey !== currentDateKey) {
+      return {
+        label: "भाई दूज तिलक मुहूर्त",
+        status: "unavailable",
+        message: "धर्मसिंधु के दिन-निर्णय के अनुसार पर्व की तारीख़ इस प्रविष्टि से मेल नहीं खाती; स्वीकृत पर्व-तिथि की समीक्षा आवश्यक है।"
+      };
+    }
+    const tithis = collectNamedIntervals(context.tithis, item => {
+      const name = normalizedName(item);
+      const raw = item && typeof item === "object"
+        ? item.index ?? item.number ?? item.value
+        : item;
+      // The project's tithi indices are zero-based: Shukla Dvitiya = 1.
+      return Number(raw) === 1 ||
+        /shukla.*dwitiya|शुक्ल.*द्वितीया/.test(name);
+    });
+    if (!sunrise || !sunset || sunset <= sunrise || !tithis.length) {
+      return {
+        label: "भाई दूज तिलक मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्योदय-सूर्यास्त और कार्तिक शुक्ल द्वितीया की वास्तविक समय-सीमा उपलब्ध नहीं है; अनुमानित मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+
+    // Aparahna is the fourth of five equal parts of local daytime.
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    const roundMinute = value => new Date(Math.round(value / 60000) * 60000);
+    const aparahnaStart = roundMinute(sunrise.getTime() + dayDuration * 3 / 5);
+    const aparahnaEnd = roundMinute(sunrise.getTime() + dayDuration * 4 / 5);
+    const tilakWindow = windowWithin(
+      aparahnaStart,
+      aparahnaEnd,
+      tithis,
+      "भाई दूज तिलक मुहूर्त — अपराह्ण",
+      "स्थानीय दिनमान के पाँच बराबर भागों में चौथा भाग (अपराह्ण) और कार्तिक शुक्ल द्वितीया की संयुक्त व्याप्ति।"
+    );
+    if (!tilakWindow) {
+      return {
+        label: "भाई दूज तिलक मुहूर्त",
+        status: "unavailable",
+        message: "चुनी गई तिथि पर अपराह्ण काल और कार्तिक शुक्ल द्वितीया की साझा अवधि नहीं मिली।"
+      };
+    }
+    return {
+      label: "भाई दूज तिलक मुहूर्त",
+      status: "calculated",
+      date: sunrise,
+      dateLabel: formatDateLabel(sunrise),
+      windows: [tilakWindow],
+      note: "धर्मसिंधु के यमद्वितीया दिन-निर्णय में दोनों दिनों की अपराह्ण-व्याप्ति जाँची गई है। तिलक का समय स्थानीय दिनमान के चौथे पाँचवें भाग (अपराह्ण) और कार्तिक शुक्ल द्वितीया की साझा व्याप्ति से निकाला गया है।"
     };
   },
 
