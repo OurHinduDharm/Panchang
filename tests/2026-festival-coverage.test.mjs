@@ -83,3 +83,20 @@ test("2026 Purnima titles include the corresponding lunar month names", async ()
   assert.ok(find(await month("05"), "2026-05-01", /वैशाख पूर्णिमा/));
   assert.ok(find(await month("07"), "2026-07-29", /आषाढ़ पूर्णिमा/));
 });
+
+test("2026 non-visible eclipses are classified as visibility events, not puja muhurta", async () => {
+  const feb = await month("02");
+  const aug = await month("08");
+  const cases = [
+    [find(feb, "2026-02-17", /वलयाकार सूर्यग्रहण/), "फाल्गुन कृष्ण अमावस्या"],
+    [find(aug, "2026-08-12", /पूर्ण सूर्यग्रहण/), "श्रावण कृष्ण अमावस्या"],
+    [find(aug, "2026-08-28", /आंशिक चंद्रग्रहण/), "श्रावण शुक्ल पूर्णिमा"]
+  ];
+  for (const [event, tithi] of cases) {
+    assert.ok(event);
+    assert.equal(event.timingType, "eclipse-visibility");
+    assert.equal(event.hinduTithi, tithi);
+    assert.equal(event.reviewStatus, "approved");
+    assert.match(event.description, /भारत में.*दिखाई नहीं देता/);
+  }
+});
