@@ -20,7 +20,7 @@
       "title": "फाल्गुन पूर्णिमा / छोटी होली / होलिका-दहन",
       "description": "फाल्गुन शुक्ल पूर्णिमा पर होलिका-दहन की परंपरा है। इसका अनुष्ठान पूर्णिमा-व्याप्ति, भद्रा तथा प्रदोष के शास्त्रीय नियमों के अनुसार किया जाता है।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
       "articleLabel": "होलिका-दहन का महत्व पढ़ें"
@@ -31,7 +31,7 @@
       "title": "चंद्रग्रहण",
       "description": "मंगलवार 3 मार्च 2026 को चंद्रग्रहण होगा। पिथौरागढ़ में चंद्रमा 6:08 PM पर उदित होगा। आंशिक ग्रहण 6:11 PM से 6:47 PM तक दिखाई देगा और उपच्छाया चरण 7:53 PM पर समाप्त होगा। पूर्ण ग्रहण का चरण चंद्रोदय से पहले समाप्त हो जाएगा।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
       "timingType": "eclipse-visibility",
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
@@ -52,7 +52,7 @@
       "title": "होली / धुलण्डी (रंगोत्सव)",
       "description": "रंगों का पर्व होली, होलिका-दहन के अगले दिन मनाया जाता है। इस दिन रंग और गुलाल से रंगोत्सव मनाने की परंपरा है।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र कृष्ण प्रतिपदा",
       "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html",
       "articleLabel": "होली का आध्यात्मिक रहस्य पढ़ें"
@@ -83,7 +83,7 @@
       "title": "शीतला अष्टमी / बसोड़ा",
       "description": "शीतला अष्टमी पर माँ शीतला की पूजा की जाती है। कई क्षेत्रों में एक दिन पहले बना शीतल भोजन अर्पित करने की परंपरा है; स्थानीय रीति और स्वास्थ्य-सुरक्षा का ध्यान रखें।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र कृष्ण अष्टमी"
     },
     {
@@ -92,7 +92,7 @@
       "title": "पापमोचनी एकादशी",
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -136,7 +136,7 @@
       "title": "चैत्र नवरात्रि प्रारंभ",
       "description": "चैत्र / वासन्तिक नवरात्रि चैत्र शुक्ल प्रतिपदा से प्रारंभ होती है। इस अवधि में माँ दुर्गा के नवस्वरूपों की उपासना, पाठ, जप और व्रत की परंपरा है। घटस्थापना का मुहूर्त प्रतिपदा तिथि तथा प्रातःकालीन नियमों के अनुसार निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री की पूजा-विधि पढ़ें</a>।",
       "category": "नवरात्रि",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "endDate": "2026-03-27",
       "hinduTithi": "चैत्र शुक्ल प्रतिपदा",
       "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/About-The-Significance-of-Vasanti-Or-Chaitra-Navratri.html",
@@ -176,7 +176,7 @@
       "title": "गौरी पूजा / गणगौर",
       "description": "चैत्र शुक्ल तृतीया पर गौरी-पूजन और गणगौर का पर्व मनाया जाता है। राजस्थान तथा आसपास के क्षेत्रों में गौरी-शंकर की पूजा और दांपत्य-सौभाग्य की कामना की जाती है। रीति-रिवाज क्षेत्रानुसार भिन्न होते हैं।",
       "category": "पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल तृतीया"
     },
     {
@@ -275,7 +275,7 @@
       "title": "श्रीरामनवमी (स्मार्त)",
       "description": "दो दिन नवमी तिथि व्याप्त होने से इस बार २६ मार्च को स्मार्तों (जनसाधारण) की श्रीरामनवमी",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल नवमी"
     },
     {
@@ -302,7 +302,7 @@
       "title": "श्रीरामनवमी (वैष्णव सम्प्रदाय)",
       "description": "२७ मार्च को वैष्णव सम्प्रदाय (वैष्णव दीक्षा प्राप्त) के अनुसार श्रीरामनवमी। <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html\" target=\"_blank\">भगवान श्री राम जयंती अर्थात् श्रीराम नवमी पर संक्षिप्त पूजा विधि</a>",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल नवमी"
     },
     {
@@ -329,7 +329,7 @@
       "title": "कामदा एकादशी",
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
