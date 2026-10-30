@@ -43,7 +43,7 @@
       "title": "श्री महालक्ष्मी जयंती",
       "description": "मान्यता है फाल्गुन पूर्णिमा को श्री महालक्ष्मी समुद्र मंथन से उद्भूत हुई थीं - प्रमुखता से दक्षिणी भारत में श्री लक्ष्मी जी की जयंती - इस अवसर पर <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\">श्री महालक्ष्मी जी की उपासना करें </a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
     },
     {
@@ -102,7 +102,7 @@
       "title": "मीन संक्रांति",
       "category": "संक्रांति",
       "description": "सूर्य के मीन राशि में प्रवेश से संबंधित संक्रांति। स्नान, दान और जप की परंपरा है; पुण्यकाल सूर्य-संक्रमण के वास्तविक समय के आधार पर निर्धारित होता है।",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-03-16",
@@ -127,7 +127,7 @@
       "title": "उगादी / गुड़ी पड़वा",
       "description": "उगादी और गुड़ी पड़वा चैत्र शुक्ल प्रतिपदा से जुड़ा नववर्ष-पर्व है, जिसे दक्षिण और पश्चिम भारत की अलग-अलग परंपराओं में मनाया जाता है। पूजा और नववर्ष-रीति क्षेत्रानुसार होती है।",
       "category": "पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल प्रतिपदा"
     },
     {
@@ -158,7 +158,7 @@
       "title": "हिंदू नवसंवत्सर २०८३ (रौद्र)",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Hindu-Navsamvatsar.html\" target=\"_blank\"> \"रौद्र\" नामक हिंदू नवसंवत्सर २०८३ मंगलमय हो!</a> वसन्त ऋतु प्रारंभ",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल प्रतिपदा"
     },
     {
