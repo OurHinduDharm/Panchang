@@ -14,13 +14,15 @@ const atLocalNoon = (day) => new Date(Date.UTC(2026, 10, day, 6, 30, 0));
 test("Pithoragarh Narak Chaturdashi Abhyanga Snan is the real Chaturdashi overlap from moonrise to sunrise", () => {
   const date = atLocalNoon(8);
   const nextDate = atLocalNoon(9);
+  const previous = getPanchangam(atLocalNoon(7), LOCATION, { timezoneOffset: TZ, calendarType: "purnimanta" });
   const p = getPanchangam(date, LOCATION, { timezoneOffset: TZ, calendarType: "purnimanta" });
   const next = getPanchangam(nextDate, LOCATION, { timezoneOffset: TZ, calendarType: "purnimanta" });
   assert.ok(p?.moonrise, "Pithoragarh moonrise must be available");
   assert.ok(p?.sunrise, "Pithoragarh sunrise must be available");
   const context = getFestivalMuhurtaContext(p, next, date, { name: "Pithoragarh" });
+  context.tithis = [...(previous.tithis || []), ...(context.tithis || [])];
   const result = getFestivalMuhurta({ muhurtaRule: "narak-chaturdashi-abhyanga" }, context);
-  console.log("OHD_NARAK_TITHIS=" + JSON.stringify([...(p.tithis || []), ...(next.tithis || [])].map(x => ({ index: x.index, name: x.name, startTime: x.startTime, endTime: x.endTime }))));
+  console.log("OHD_NARAK_TITHIS=" + JSON.stringify([...(previous.tithis || []), ...(p.tithis || []), ...(next.tithis || [])].map(x => ({ index: x.index, name: x.name, startTime: x.startTime, endTime: x.endTime }))));
   console.log("OHD_NARAK_CHATURDASHI_PITHORAGARH_2026=" + JSON.stringify({ moonrise: new Date(p.moonrise).toISOString(), sunrise: new Date(p.sunrise).toISOString(), result: result && { status: result.status, start: result.start?.toISOString(), end: result.end?.toISOString() } }));
   assert.equal(result.status, "calculated");
   assert.equal(result.windows.length, 1);
