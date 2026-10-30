@@ -20,6 +20,7 @@ test("Pithoragarh Narak Chaturdashi Abhyanga Snan is the real Chaturdashi overla
   assert.ok(p?.sunrise, "Pithoragarh sunrise must be available");
   const context = getFestivalMuhurtaContext(p, next, date, { name: "Pithoragarh" });
   const result = getFestivalMuhurta({ muhurtaRule: "narak-chaturdashi-abhyanga" }, context);
+  console.log("OHD_NARAK_TITHIS=" + JSON.stringify([...(p.tithis || []), ...(next.tithis || [])].map(x => ({ index: x.index, name: x.name, startTime: x.startTime, endTime: x.endTime }))));
   console.log("OHD_NARAK_CHATURDASHI_PITHORAGARH_2026=" + JSON.stringify({ moonrise: new Date(p.moonrise).toISOString(), sunrise: new Date(p.sunrise).toISOString(), result: result && { status: result.status, start: result.start?.toISOString(), end: result.end?.toISOString() } }));
   assert.equal(result.status, "calculated");
   assert.equal(result.windows.length, 1);
