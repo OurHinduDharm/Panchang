@@ -322,6 +322,9 @@ test("Bhai Dooj tilak muhurta is Aparahna (fourth fifth of daytime) intersected 
   assert.equal(result.status, "calculated");
   assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:10:00+05:30").toISOString());
   assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T15:20:00+05:30").toISOString());
+  assert.match(result.note, /धर्मसिंधु/);
+  assert.doesNotMatch(result.note, /स्थानीय दिनमान/);
+  assert.ok(result.windows[0].note);
 });
 
 test("Bhai Dooj tilak muhurta is clipped when Dwitiya ends during Aparahna", () => {
