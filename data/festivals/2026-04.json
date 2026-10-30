@@ -20,7 +20,7 @@
       "title": "श्री हनुमान जयंती / चैत्र पूर्णिमा",
       "description": "चैत्र शुक्ल पूर्णिमा पर श्रीहनुमान जयंती मनाई जाती है। श्रीहनुमान की पूजा, हनुमान चालीसा/सुंदरकाण्ड पाठ, मंत्र-जप तथा पूर्णिमा पर स्नान-दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> और <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>।",
       "category": "प्रमुख पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल पूर्णिमा"
     },
     {
@@ -58,7 +58,7 @@
       "title": "वरुथिनी एकादशी",
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -93,7 +93,7 @@
       "title": "मेष संक्रांति / सौर नववर्ष",
       "description": "यह पर्व सूर्य के राशि-परिवर्तन से जुड़ा है। स्नान, दान और जप की परंपरा है; पुण्यकाल संक्रमण के वास्तविक समय और परंपरागत नियमों से तय करें।",
       "category": "संक्रांति",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-14",
@@ -200,7 +200,7 @@
       "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
       "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-04-19",
@@ -261,7 +261,7 @@
       "title": "गंगा सप्तमी",
       "description": "गंगा सप्तमी माँ गंगा के पृथ्वी पर पुनः प्राकट्य/अवतरण से जुड़ी मानी जाती है। गंगा-पूजन, स्नान, अर्घ्य और दान की परंपरा है; अनुष्ठान क्षेत्रानुसार होते हैं।",
       "category": "पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल सप्तमी"
     },
     {
@@ -288,7 +288,7 @@
       "title": "सीता नवमी / जानकी नवमी",
       "description": "वैशाख शुक्ल नवमी को माता सीता के प्राकट्य-स्मरण में सीता नवमी मनाई जाती है। सीता-राम पूजन, रामायण-पाठ और दान की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भगवती सीता जी की जयंती एवं पूजन-विधि</a>।",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल नवमी"
     },
     {
@@ -297,7 +297,7 @@
       "title": "मोहिनी एकादशी",
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -341,7 +341,7 @@
       "title": "नृसिंह जयंती",
       "description": "नृसिंह जयंती भगवान विष्णु के नृसिंह अवतार के प्राकट्य का स्मरण है। विष्णु-पूजन, मंत्र-जप और भक्त प्रह्लाद की कथा का पाठ किया जाता है; पूजा-काल संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है।",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल चतुर्दशी"
     },
     {
