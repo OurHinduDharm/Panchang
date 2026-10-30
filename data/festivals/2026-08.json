@@ -7,6 +7,15 @@
   "locationScope": "प्रारंभिक डेटा; पंचांग-आधारित गणना की समीक्षा आवश्यक",
   "events": [
     {
+      "date": "2026-08-01",
+      "dateLabel": "1 अगस्त",
+      "title": "जया पार्वती व्रत समापन",
+      "description": "पाँच दिवसीय जया पार्वती व्रत का समापन इस दिन किया जाता है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण कृष्ण तृतीया"
+    },
+    {
       "date": "2026-08-02",
       "title": "गजानन संकष्टी चतुर्थी",
       "category": "व्रत",
@@ -79,6 +88,15 @@
       "reviewStatus": "approved",
       "hinduTithi": "श्रावण कृष्ण अमावस्या",
       "timingType": "eclipse-visibility"
+    },
+    {
+      "date": "2026-08-14",
+      "dateLabel": "14 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "श्रावण अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल द्वितीया"
     },
     {
       "date": "2026-08-15",
@@ -177,6 +195,33 @@
       "reviewStatus": "approved"
     },
     {
+      "date": "2026-08-26",
+      "dateLabel": "26 अगस्त",
+      "title": "ऋग्वेदी श्रावणी उपाकर्म",
+      "description": "ऋग्वेदी परंपरा का श्रावणी उपाकर्म।",
+      "category": "उपाकर्म",
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "यजुर्वेदी श्रावणी उपाकर्म",
+      "description": "यजुर्वेदी परंपरा का श्रावणी उपाकर्म।",
+      "category": "उपाकर्म",
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "श्री हयग्रीव भगवान जयन्ती",
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\"> श्री हयग्रीव भगवान की जयन्ती (सायंकाल में)</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
+      "articleLabel": "श्री हयग्रीव भगवान की जयंती पढ़ें"
+    },
+    {
       "date": "2026-08-28",
       "dateLabel": "28 अगस्त",
       "title": "संस्कृत दिवस",
@@ -205,22 +250,6 @@
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
     },
     {
-      "date": "2026-08-26",
-      "dateLabel": "26 अगस्त",
-      "title": "ऋग्वेदी श्रावणी उपाकर्म",
-      "description": "ऋग्वेदी परंपरा का श्रावणी उपाकर्म।",
-      "category": "उपाकर्म",
-      "reviewStatus": "approved"
-    },
-    {
-      "date": "2026-08-27",
-      "dateLabel": "27 अगस्त",
-      "title": "यजुर्वेदी श्रावणी उपाकर्म",
-      "description": "यजुर्वेदी परंपरा का श्रावणी उपाकर्म।",
-      "category": "उपाकर्म",
-      "reviewStatus": "approved"
-    },
-    {
       "date": "2026-08-28",
       "dateLabel": "28 अगस्त",
       "title": "श्री गायत्री जयन्ती",
@@ -230,17 +259,6 @@
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
       "articleLabel": "श्री गायत्री जयंती की महिमा पढ़ें"
-    },
-    {
-      "date": "2026-08-27",
-      "dateLabel": "27 अगस्त",
-      "title": "श्री हयग्रीव भगवान जयन्ती",
-      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\"> श्री हयग्रीव भगवान की जयन्ती (सायंकाल में)</a>",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
-      "articleLabel": "श्री हयग्रीव भगवान की जयंती पढ़ें"
     },
     {
       "date": "2026-08-28",
