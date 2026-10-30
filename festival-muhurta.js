@@ -1264,8 +1264,7 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
     const flags = day.dosha || {};
     const kalaDosha = Boolean(
       day.grahana || day.eclipse || day.sankranti ||
-      flags.grahana || flags.eclipse || flags.sankranti ||
-      flags.adhikaMasa || flags.adhikamasa
+      flags.grahana || flags.eclipse || flags.sankranti
     );
     const firstOnlyDosha = Boolean(options.firstUpakarma &&
       (day.guruAsta || day.shukraAsta || flags.guruAsta || flags.shukraAsta));
@@ -1304,17 +1303,18 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
   );
 
   const primary = chooseHasta(bhadrapadaHasta, "भाद्रपद शुक्ल हस्त");
-  const ordered = [
-    primary,
-    chooseHasta(shravanaHasta, "श्रावण शुक्ल हस्त"),
-    ...bhadrapadaPanchami.map(day => ({ day, label: "भाद्रपद शुक्ल पंचमी", note: "सामवेदी उपाकर्म का पंचमी विकल्प।" })),
-    ...shravanaPanchami.map(day => ({ day, label: "श्रावण शुक्ल पंचमी", note: "सामवेदी उपाकर्म का अगला पंचमी विकल्प।" }))
-  ].filter(Boolean);
-
-  if (options.sampradaya === "tamil") {
-    const tamilHasta = chooseHasta(kanyaHasta, "कन्या मास कृष्ण हस्त — तमिल परंपरा");
-    if (tamilHasta) ordered.splice(2, 0, tamilHasta);
-  }
+  const tamilSampradaya = options.sampradaya === "tamil";
+  const tamilHasta = tamilSampradaya
+    ? chooseHasta(kanyaHasta, "कन्या मास कृष्ण हस्त — तमिल परंपरा")
+    : null;
+  const ordered = tamilSampradaya
+    ? [primary, tamilHasta].filter(Boolean)
+    : [
+        primary,
+        chooseHasta(shravanaHasta, "श्रावण शुक्ल हस्त"),
+        ...bhadrapadaPanchami.map(day => ({ day, label: "भाद्रपद शुक्ल पंचमी", note: "सामवेदी उपाकर्म का पंचमी विकल्प।" })),
+        ...shravanaPanchami.map(day => ({ day, label: "श्रावण शुक्ल पंचमी", note: "सामवेदी उपाकर्म का अगला पंचमी विकल्प।" }))
+      ].filter(Boolean);
 
   for (const candidate of ordered) {
     if (!hasDosha(candidate.day, candidate !== primary)) {
