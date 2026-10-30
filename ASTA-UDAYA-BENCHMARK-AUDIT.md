@@ -88,3 +88,14 @@ Every case now has an explicit `sourceLocation`, `sourceObserver`, and `comparis
 The current `test-astronomy.html` contains a Dehradun/Tantrakulam sample set in `REFERENCES`, while its global `CONFIG` is Pithoragarh. Those samples are elongation diagnostics, not local event-time boundaries; the Swiss heliacal routine in that page uses the global Pithoragarh observer. Therefore those Dehradun rows are **not valid local heliacal benchmarks** and must not be presented as such. The separate manually transcribed Pithoragarh 2026/2027 times remain excluded above. Until a location-bound reference adapter is in place, do not use that page's Swiss result table to certify any Drik location match.
 
 The current Swiss test page also supplies fixed sea-level pressure (1013.25 hPa) at the 1650 m project observer. Swiss documentation says all-zero atmospheric inputs invoke altitude-adjusted defaults. This input should be corrected in the dedicated location-bound benchmark runner before any further comparison; existing outputs made with the fixed sea-level pressure are not accepted as final evidence.
+
+
+## Real-browser Swiss run and search-window correction (2026-10-30)
+
+A Chromium run successfully executed the Swiss WASM calculation at the project observer (29.5828° N, 80.2182° E, 1650 m). The first run exposed a diagnostic-window problem: starting 50 days before the published boundary could select the previous Venus visibility cycle.
+
+For the March 2025 Pithoragarh city-label reference, the initial run returned:
+- Evening-last visibility: 18 Mar 2025 18:28 IST versus published 20 Mar 2025 18:42 IST (−2,893.9 minutes).
+- Morning-first visibility: 24 Mar 2025 05:39 IST versus published 23 Mar 2025 05:40 IST (+1,439.1 minutes).
+
+These are real calculated results, but **not a match** and not grounds to tune a threshold. The event model may differ, and the first result also shows why the search window must be anchored near the exact boundary. The test page now starts 10 days before the published timestamp (using its explicit timezone offset), then reports the actual signed time difference. The browser test asserts that a finite difference is rendered; it does not require or fabricate a match. Re-run the browser workflow and review its logged numbers before drawing any accuracy conclusion.
