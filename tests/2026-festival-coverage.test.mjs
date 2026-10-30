@@ -252,3 +252,31 @@ test("Jyeshtha observances distinguish Batuka Bhairava Dashami from Batuka Bhair
   assert.equal(bhairavi.reviewStatus, "approved");
   assert.match(bhairavi.hinduTithi || "", /ज्येष्ठ शुक्ल पूर्णिमा/);
 });
+
+
+test("Gupta Navratri has all nine Navadurga cards and the corresponding article links", async () => {
+  const data = await month("07");
+  const checks = [
+    ["2026-07-15", /गुप्त नवरात्र प्रारम्भ.*शैलपुत्री/, "About-Gupt-Navratris.html"],
+    ["2026-07-16", /गुप्त नवरात्र द्वितीया.*ब्रह्मचारिणी/, "About-Brahmacharini-Ma-On-Navaratri.html"],
+    ["2026-07-17", /गुप्त नवरात्र तृतीया.*चन्द्रघंटा/, "About-ChadraghantaMaa-On-Navaratri.html"],
+    ["2026-07-17", /गुप्त नवरात्र चतुर्थी.*कूष्माण्डा/, "About-KooshmandaMata-On-Navaratri.html"],
+    ["2026-07-18", /गुप्त नवरात्र पंचमी.*स्कन्दमाता/, "About-BhagwatiSkandaMata-On-Navratri.html"],
+    ["2026-07-19", /गुप्त नवरात्र षष्ठी.*कात्यायनी/, "About-GodessKaatyaayani-On-Navratri.html"],
+    ["2026-07-20", /गुप्त नवरात्र सप्तमी.*कालरात्रि/, "About-KalratriMaa-On-Navratri.html"],
+    ["2026-07-21", /गुप्त नवरात्र अष्टमी.*महागौरी/, "About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html"],
+    ["2026-07-22", /गुप्त नवरात्र नवमी.*सिद्धिदात्री/, "About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html"]
+  ];
+  for (const [date, pattern, article] of checks) {
+    const event = find(data, date, pattern);
+    assert.ok(event, date + " " + pattern);
+    assert.ok(String(event.description || "").includes(article), article);
+    assert.equal(event.reviewStatus, "approved");
+  }
+  const start = find(data, "2026-07-15", /गुप्त नवरात्र प्रारम्भ.*शैलपुत्री/);
+  assert.match(start.description, /kalash-sthapan\.html/);
+  const navami = find(data, "2026-07-22", /गुप्त नवरात्र नवमी.*सिद्धिदात्री/);
+  assert.match(navami.description, /navratrihavanvidhi\.html/);
+  const kushmanda = find(data, "2026-07-17", /गुप्त नवरात्र चतुर्थी.*कूष्माण्डा/);
+  assert.match(kushmanda.hinduTithi || "", /आषाढ़ शुक्ल चतुर्थी/);
+});
