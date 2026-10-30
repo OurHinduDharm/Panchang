@@ -266,7 +266,8 @@ test("Bhai Dooj date follows Dharmasindhu when both days have Aparahna Dwitiya o
   const ps=date("2026-11-10T06:40:30+05:30"), pe=date("2026-11-10T17:29:30+05:30");
   const cs=date("2026-11-11T06:40:30+05:30"), ce=date("2026-11-11T17:29:30+05:30");
   const d={index:1,name:"Shukla Dwitiya",startTime:date("2026-11-10T14:00:00+05:30"),endTime:date("2026-11-11T15:53:00+05:30")};
-  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]});
+    const ns=date("2026-11-12T06:40:30+05:30"), ne=date("2026-11-12T17:29:30+05:30");
+  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]},{sunrise:ns,sunset:ne,tithis:[d]});
   assert.equal(result.previousAparahnaOverlap,true);
   assert.equal(result.currentAparahnaOverlap,true);
   assert.equal(result.selectedDateKey,"2026-11-11");
@@ -276,7 +277,8 @@ test("Bhai Dooj selects the first day only when only its Aparahna overlaps", () 
   const ps=date("2026-11-10T06:40:30+05:30"), pe=date("2026-11-10T17:29:30+05:30");
   const cs=date("2026-11-11T06:40:30+05:30"), ce=date("2026-11-11T17:29:30+05:30");
   const d={index:1,name:"Shukla Dwitiya",startTime:date("2026-11-10T14:00:00+05:30"),endTime:date("2026-11-11T12:00:00+05:30")};
-  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]});
+    const ns=date("2026-11-12T06:40:30+05:30"), ne=date("2026-11-12T17:29:30+05:30");
+  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]},{sunrise:ns,sunset:ne,tithis:[d]});
   assert.equal(result.previousAparahnaOverlap,true);
   assert.equal(result.currentAparahnaOverlap,false);
   assert.equal(result.selectedDateKey,"2026-11-10");
@@ -286,7 +288,8 @@ test("Bhai Dooj selects the second day when only its Aparahna overlaps", () => {
   const ps=date("2026-11-10T06:40:30+05:30"), pe=date("2026-11-10T17:29:30+05:30");
   const cs=date("2026-11-11T06:40:30+05:30"), ce=date("2026-11-11T17:29:30+05:30");
   const d={index:1,name:"Shukla Dwitiya",startTime:date("2026-11-11T12:00:00+05:30"),endTime:date("2026-11-11T15:53:00+05:30")};
-  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]});
+    const ns=date("2026-11-12T06:40:30+05:30"), ne=date("2026-11-12T17:29:30+05:30");
+  const result=getBhaiDoojDateDecision({sunrise:ps,sunset:pe,tithis:[d]},{sunrise:cs,sunset:ce,tithis:[d]},{sunrise:ns,sunset:ne,tithis:[d]});
   assert.equal(result.previousAparahnaOverlap,false);
   assert.equal(result.currentAparahnaOverlap,true);
   assert.equal(result.selectedDateKey,"2026-11-11");
@@ -295,7 +298,8 @@ test("Bhai Dooj selects the second day when only its Aparahna overlaps", () => {
 test("Bhai Dooj date decision refuses missing tithi intervals", () => {
   const result=getBhaiDoojDateDecision(
     {sunrise:date("2026-11-10T06:40:30+05:30"),sunset:date("2026-11-10T17:29:30+05:30"),tithis:[]},
-    {sunrise:date("2026-11-11T06:40:30+05:30"),sunset:date("2026-11-11T17:29:30+05:30"),tithis:[]}
+    {sunrise:date("2026-11-11T06:40:30+05:30"),sunset:date("2026-11-11T17:29:30+05:30"),tithis:[]},
+    {sunrise:date("2026-11-12T06:40:30+05:30"),sunset:date("2026-11-12T17:29:30+05:30"),tithis:[]}
   );
   assert.equal(result.status,"unavailable");
 });
