@@ -39,8 +39,8 @@ test("above threshold: Asta future, Udaya past", () => {
 
 test("at or below threshold: Asta past, Udaya future", () => {
   const { selectedDate, search } = makeSearch({ [-1]: 20, [0]: 5, [1]: 20 });
-  const asta = search("Mars", selectedDate, 10, "asta");
-  const udaya = search("Mars", selectedDate, 10, "udaya");
+  const asta = search("Mars", selectedDate, "asta");
+  const udaya = search("Mars", selectedDate, "udaya");
   assert.equal(asta.direction, "past");
   assert.equal(asta.date, "2026-10-29");
   assert.equal(udaya.direction, "future");
