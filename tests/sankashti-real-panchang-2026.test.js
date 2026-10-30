@@ -1,5 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
 
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
@@ -43,13 +45,20 @@ test("selected Pithoragarh Sankashti dates have Krishna Chaturthi at moonrise", 
   assert.equal(EXPECTED_DATES.length, 12);
 });
 
-test("December 2026 date is selected by local moonrise/tithi overlap, not a generic date list", () => {
+test("December candidate stays out of public approval while neither candidate has Chaturthi at moonrise", () => {
   const dec26 = chaturthiAtMoonrise("2026-12-26");
   const dec27 = chaturthiAtMoonrise("2026-12-27");
   console.log("December Sankashti local check:", JSON.stringify({
     dec26: { qualifies:dec26.qualifies, moonrise:dec26.moonrise, tithi:dec26.tithi },
     dec27: { qualifies:dec27.qualifies, moonrise:dec27.moonrise, tithi:dec27.tithi }
   }));
-  assert.notEqual(dec26.qualifies, dec27.qualifies,
-    "Exactly one of Dec 26 or Dec 27 must have Krishna Chaturthi at local moonrise");
+  assert.equal(dec26.qualifies, false);
+  assert.equal(dec27.qualifies, false);
+  const file = path.join(process.cwd(), "data", "festivals", "2026-12.json");
+  const data = JSON.parse(fs.readFileSync(file, "utf8"));
+  const candidate = (data.events || []).filter(item =>
+    item.date === "2026-12-26" && /संकष्टी/i.test(String(item.title || ""))
+  );
+  assert.equal(candidate.length, 1);
+  assert.equal(candidate[0].reviewStatus, "needs-review");
 });
