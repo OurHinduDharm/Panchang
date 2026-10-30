@@ -565,10 +565,67 @@ const REFERENCES = [
   { planet:"Jupiter", event:"Udaya", date:"2027-09-15", sampleTime:"2027-09-15T00:30:00Z", elongation:11.28, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" }
 ];
 
-// Only references with a known single observer belong here.
-// The dataset is the source of truth; this list stays empty until a
-// location-bound adapter loads verified benchmark records.
-const ASTA_UDAYA_LOCATION_REFERENCES = [];
+// Load only the Pithoragarh Drik records and bind every event to the
+// project's Pithoragarh observer. The source's exact internal coordinates
+// are undisclosed, so comparisons remain city-label-only, not coordinate-exact.
+async function loadAstaUdayaLocationReferences() {
+  const response = await fetch("data/asta-udaya-benchmark.json", {
+    cache: "no-store"
+  });
+  if (!response.ok) {
+    throw new Error(`Unable to load Asta/Udaya benchmark dataset: HTTP ${response.status}`);
+  }
+
+  const dataset = await response.json();
+  if (!Array.isArray(dataset.cases)) {
+    throw new Error("Asta/Udaya benchmark dataset has no cases array.");
+  }
+
+  const planetCases = dataset.cases.filter(entry =>
+    entry.eventModel === "drik-tara-asta-window" &&
+    entry.sourceLocation === "Pithoragarh, Uttarakhand, India" &&
+    entry.comparisonLevel === "city-label-only" &&
+    entry.testObserver &&
+    Number.isFinite(Number(entry.testObserver.latitude)) &&
+    Number.isFinite(Number(entry.testObserver.longitude)) &&
+    Number.isFinite(Number(entry.testObserver.elevationMeters)) &&
+    entry.boundaries &&
+    typeof entry.boundaries.astaStart === "string" &&
+    typeof entry.boundaries.astaEnd === "string"
+  );
+
+  return planetCases.flatMap(entry => {
+    const observer = {
+      latitude: Number(entry.testObserver.latitude),
+      longitude: Number(entry.testObserver.longitude),
+      elevation: Number(entry.testObserver.elevationMeters)
+    };
+    return [
+      {
+        id: entry.id + "-asta-start",
+        planet: entry.planet,
+        event: "Asta आरम्भ — सायंकाल अंतिम दृश्यता",
+        date: entry.boundaries.astaStart.slice(0, 10),
+        boundaryTime: entry.boundaries.astaStart,
+        eventType: 2,
+        sourceLocation: entry.sourceLocation,
+        comparisonLevel: entry.comparisonLevel,
+        observer
+      },
+      {
+        id: entry.id + "-asta-end",
+        planet: entry.planet,
+        event: "Asta समाप्त — प्रातः प्रथम दृश्यता",
+        date: entry.boundaries.astaEnd.slice(0, 10),
+        boundaryTime: entry.boundaries.astaEnd,
+        eventType: 1,
+        sourceLocation: entry.sourceLocation,
+        comparisonLevel: entry.comparisonLevel,
+        observer
+      }
+    ];
+  });
+}
 
 // Quarantined: earlier manually transcribed Pithoragarh times have not
 // been independently confirmed from a retrievable location-specific source.
@@ -1547,7 +1604,8 @@ async function runHeliacalValidation() {
 
     // Never run a local visibility calculation unless the source location
     // and the exact test observer are attached to this reference record.
-    const eligibleReferences = ASTA_UDAYA_LOCATION_REFERENCES.filter(ref => {
+    const locationReferences = await loadAstaUdayaLocationReferences();
+    const eligibleReferences = locationReferences.filter(ref => {
       const p = ref.observer;
       return p &&
         Number.isFinite(Number(p.latitude)) &&
@@ -1591,7 +1649,7 @@ async function runHeliacalValidation() {
 
       const result = await calculateSwissHeliacal(ref);
 
-      const referenceDate = new Date(ref.date + "T00:00:00Z");
+      const referenceDate = new Date(ref.boundaryTime);
 
       const eventMs =
         result.eventDate instanceof Date &&
@@ -1599,9 +1657,9 @@ async function runHeliacalValidation() {
           ? result.eventDate.getTime()
           : NaN;
 
-      const deltaDays =
+      const deltaMinutes =
         Number.isFinite(eventMs)
-          ? (eventMs - referenceDate.getTime()) / 86400000
+          ? (eventMs - referenceDate.getTime()) / 60000
           : null;
 
       const visibilityPoints = [
@@ -1642,6 +1700,10 @@ async function runHeliacalValidation() {
         planet: ref.planet,
         event: ref.event,
         referenceDate: ref.date,
+        referenceBoundary: ref.boundaryTime,
+        sourceLocation: ref.sourceLocation,
+        comparisonLevel: ref.comparisonLevel,
+        testObserver: ref.observer,
         eventType,
         eventTypeLabel: result.eventTypeLabel,
         searchStart: result.searchStartDate?.toISOString?.() || null,
@@ -1653,7 +1715,7 @@ async function runHeliacalValidation() {
         swissEnd:
           result.end?.toISOString?.() || null,
         visibilityPoints,
-        deltaDays
+        deltaMinutes
       };
 
       results.push(row);
@@ -1663,15 +1725,15 @@ async function runHeliacalValidation() {
 
     console.log("========== LOCATION-MATCHED SUMMARY ==========");
     console.table(results);
-    console.log("IMPORTANT: Swiss result is a heliacal visibility event, not a simple elongation threshold.");
+    console.log("IMPORTANT: Swiss heliacal event vs same-city Drik boundary; source observer coordinates are undisclosed.");
     console.log("========== LOCATION-MATCHED SUMMARY END ==========");
 
     heliacalOutput.innerHTML = `
       <div class="card">
         <h3>🔭 Swiss Ephemeris — स्थान-मिलान वाले परीक्षण</h3>
         <div class="metric">
-          <strong>प्रत्येक परिणाम का स्थान</strong>
-          <span>उस reference के अपने observer निर्देशांक</span>
+          <strong>स्रोत स्थान</strong>
+          <span>${row.sourceLocation}</span>
         </div>
         <div class="metric">
           <strong>Swiss event mapping</strong>
@@ -1689,8 +1751,11 @@ async function runHeliacalValidation() {
               Beginning of visibility (UTC): ${row.swissStart || "—"}<br>
               Optimum visibility (UTC): ${row.swissOptimum || "—"}<br>
               End of visibility (UTC): ${row.swissEnd || "—"}<br>
-              Reference-date delta: ${row.deltaDays === null ? "—" : (row.deltaDays >= 0 ? "+" : "") + row.deltaDays.toFixed(3) + " days"}<br>
-              <span class="small">Delta is measured from reference-date 00:00 UTC, not from a known reference event instant.</span>
+              Published boundary (source local time): ${row.referenceBoundary}<br>
+              Test observer: ${row.testObserver.latitude}°, ${row.testObserver.longitude}°, ${row.testObserver.elevation} m<br>
+              Location comparison: ${row.comparisonLevel === "city-label-only" ? "same city label; source coordinates undisclosed" : "coordinate-exact"}<br>
+              Swiss minus published boundary: ${row.deltaMinutes === null ? "—" : (row.deltaMinutes >= 0 ? "+" : "") + row.deltaMinutes.toFixed(1) + " minutes"}<br>
+              <span class="small">Swiss heliacal visibility and Drik's published Tara Asta boundary may use different definitions. This is a same-city diagnostic, not proof of coordinate-exact equivalence.</span>
               </span>
             </div>
             <div class="table-wrap">
