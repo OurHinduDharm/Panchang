@@ -1031,7 +1031,9 @@
     }
   }
   function ensureYearOption(year){
-    var value=String(year);
+    var numeric=Number(year);
+    if(!Number.isInteger(numeric)||numeric<2026||numeric>2030)return null;
+    var value=String(numeric);
     var existing=Array.from(yearSelect.options).find(function(option){return option.value===value;});
     if(existing)return existing;
     var option=document.createElement("option");
@@ -1042,13 +1044,29 @@
       .forEach(function(item){yearSelect.appendChild(item);});
     return option;
   }
+  function syncMonthNavigationButtons(){
+    var year=Number(yearSelect.value),month=Number(monthSelect.value);
+    var atStart=year===2026&&month===1,atEnd=year===2030&&month===12;
+    var previous=document.getElementById("prevBtn");
+    var next=document.getElementById("nextBtn");
+    if(previous)previous.disabled=atStart;
+    if(next)next.disabled=atEnd;
+    var footerNav=widgetRoot.querySelector(".footer-month-nav");
+    if(footerNav){
+      var buttons=footerNav.querySelectorAll("button");
+      if(buttons[0])buttons[0].disabled=atStart;
+      if(buttons[1])buttons[1].disabled=atEnd;
+    }
+  }
   function shiftMonth(delta,shouldScrollToHeading,preserveViewportAnchor){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(!Number.isFinite(y)||!Number.isFinite(m))return;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
+    if(y<2026||y>2030){syncMonthNavigationButtons();return;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
+    syncMonthNavigationButtons();
     loadMonth(preserveViewportAnchor);
     // Only the top navigation intentionally moves the reader to the month heading.
     // Footer navigation keeps the reader near the controls they just used.
@@ -1071,11 +1089,16 @@
       nav.setAttribute("aria-label","महीने बदलें");
       var prev=document.createElement("button");
       prev.type="button";prev.textContent="← पिछला महीना";
-      prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1,false,event.currentTarget);});
-      var next=document.createElement("button");
-      next.type="button";next.textContent="अगला महीना →";
-      next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1,false,event.currentTarget);});
       nav.appendChild(prev);nav.appendChild(next);
+    }
+    var navButtons=nav.querySelectorAll("button");
+    if(navButtons[0]&&!navButtons[0].dataset.ohdNavBound){
+      navButtons[0].dataset.ohdNavBound="1";
+      navButtons[0].addEventListener("click",function(event){event.preventDefault();shiftMonth(-1,false,event.currentTarget);});
+    }
+    if(navButtons[1]&&!navButtons[1].dataset.ohdNavBound){
+      navButtons[1].dataset.ohdNavBound="1";
+      navButtons[1].addEventListener("click",function(event){event.preventDefault();shiftMonth(1,false,event.currentTarget);});
     }
     // महीने बदलने के बटन उपयोग-निर्देश शीर्षक के ठीक ऊपर रहें, पृष्ठ के सबसे नीचे नहीं।
     var guide=widgetRoot.querySelector("#ohd-monthly-usage-guide, section.note[aria-labelledby='howToUseTitle']");
@@ -1089,8 +1112,10 @@
     var now=getIndiaCalendarDate();
     var year=now.getFullYear();
     ensureYearOption(year);
+    if(!ensureYearOption(year))return;
     yearSelect.value=String(year);
     monthSelect.value=String(now.getMonth()+1).padStart(2,"0");
+    syncMonthNavigationButtons();
     loadMonth();
   }
   locationSearchBtn.addEventListener("click",searchLocation);
@@ -1119,9 +1144,12 @@
      focusDate.slice(0,4)===String(requestedYear)&&Number(focusDate.slice(5,7))===requestedMonth){
     initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
   }
-  ensureYearOption(initialDate.getFullYear());
-  yearSelect.value=String(initialDate.getFullYear());
+  var initialYear=Math.min(2030,Math.max(2026,initialDate.getFullYear()));
+  if(initialYear!==initialDate.getFullYear())initialDate=new Date(initialYear,initialDate.getMonth(),1,12,0,0);
+  ensureYearOption(initialYear);
+  yearSelect.value=String(initialYear);
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
+  syncMonthNavigationButtons();
   syncLocationUI();
   // The festival list must not wait for the external elevation service.
   loadMonth();
