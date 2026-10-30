@@ -46,7 +46,11 @@ test("curated 2026 Ashadha Gupta Navratri cards are not replaced by sunrise-only
   assert.match(guard, /आषाढ़ गुप्त नवरात्र प्रारम्भ/);
   assert.match(guard, /reviewStatus==="approved"/);
   assert.match(source.slice(start - 500, start), /क्षय चतुर्थी/);
-  assert.match(source.slice(end, end + 180), /curatedAshadhaGupta2026\?\{events:\[\],recognized:false\}:await buildDynamicNavratriEvents/);
+  assert.match(guard, /curatedSharadNavratri2026/);
+  assert.match(guard, /year===2026&&month===10/);
+  assert.match(guard, /2026-10-11/);
+  assert.match(guard, /शारदीय नवरात्र प्रारम्भ/);
+  assert.match(source.slice(end, end + 220), /keepCuratedNavratri2026\?\{events:\[\],recognized:false\}:await buildDynamicNavratriEvents/);
 });
 
 
