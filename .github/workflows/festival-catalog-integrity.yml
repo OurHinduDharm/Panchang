@@ -7,6 +7,7 @@ on:
       - 'data/festivals/*.json'
       - 'festival-muhurta.js'
       - 'tests/festival-muhurta-parana.test.mjs'
+      - 'tests/narak-chaturdashi-real-panchang-2026.test.mjs'
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
@@ -15,6 +16,7 @@ on:
       - 'data/festivals/*.json'
       - 'festival-muhurta.js'
       - 'tests/festival-muhurta-parana.test.mjs'
+      - 'tests/narak-chaturdashi-real-panchang-2026.test.mjs'
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
@@ -30,8 +32,10 @@ jobs:
           node-version: 20
       - name: Run integrity unit tests
         run: node --test tests/festival-catalog-integrity.test.mjs
+      - name: Install pinned Panchang engine for location regression
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Run festival muhurta regression tests
-        run: node --test tests/festival-muhurta-parana.test.mjs
+        run: node --test tests/festival-muhurta-parana.test.mjs tests/narak-chaturdashi-real-panchang-2026.test.mjs
       - name: Audit published month catalogs
         run: |
           for year in 2026 2027 2028 2029; do
