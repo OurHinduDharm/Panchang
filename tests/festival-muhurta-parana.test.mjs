@@ -106,6 +106,7 @@ test("Diwali returns Pradosh and special Nishita options only during Amavasya", 
   assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T20:04:00+05:30").toISOString());
   assert.match(result.windows[1].label, /महानिशीथ/);
   assert.match(result.windows[2].label, /गोधूलि काल.*दीपदान/);
+  assert.equal(result.note, undefined);
   assert.equal(result.windows[2].start.toISOString(), date("2026-11-08T17:06:00+05:30").toISOString());
   assert.equal(result.windows[2].end.toISOString(), date("2026-11-08T17:54:00+05:30").toISOString());
 });
