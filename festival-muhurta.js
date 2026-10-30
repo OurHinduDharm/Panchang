@@ -61,7 +61,11 @@ function isVaidhriti(value) {
 }
 
 function isHasta(value) {
-  return /hasta|हस्त/.test(normalizedName(value));
+  const name = normalizedName(value);
+  const raw = value && typeof value === "object"
+    ? value.index ?? value.number ?? value.value ?? value.name
+    : value;
+  return /hasta|हस्त/.test(name) || Number(raw) === 12;
 }
 
 function laterDate(a, b) {
