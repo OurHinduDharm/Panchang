@@ -48,6 +48,15 @@
       "muhurtaRule": "masik-shivaratri-nishita"
     },
     {
+      "date": "2026-12-07",
+      "dateLabel": "7 दिसंबर",
+      "title": "श्री बाला सिद्धविद्या जयंती",
+      "description": "द्वादश सिद्धविद्याओं की परंपरा में मार्गशीर्ष कृष्ण चतुर्दशी को श्री बाला सिद्धविद्या जयंती मनाई जाती है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी"
+    },
+    {
       "date": "2026-12-08",
       "dateLabel": "8 दिसंबर",
       "title": "मार्गशीर्ष अमावस्या",
@@ -149,6 +158,24 @@
       "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
     },
     {
+      "date": "2026-12-23",
+      "dateLabel": "23 दिसंबर",
+      "title": "श्री त्रिपुरभैरवी महाविद्या जयंती",
+      "description": "मार्गशीर्ष शुक्ल पूर्णिमा पर श्री त्रिपुरभैरवी महाविद्या की उपासना। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-12-23",
+      "dateLabel": "23 दिसंबर",
+      "title": "श्री अन्नपूर्णा सिद्धविद्या जयंती",
+      "description": "द्वादश सिद्धविद्याओं की परंपरा में मार्गशीर्ष शुक्ल पूर्णिमा को श्री अन्नपूर्णा सिद्धविद्या जयंती मनाई जाती है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
+    },
+    {
       "date": "2026-12-26",
       "dateLabel": "26 दिसंबर",
       "title": "संकष्टी चतुर्थी",
@@ -168,15 +195,6 @@
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
       "reviewStatus": "approved"
-    },
-    {
-      "date": "2026-12-23",
-      "dateLabel": "23 दिसंबर",
-      "title": "श्री त्रिपुरभैरवी महाविद्या जयंती",
-      "description": "मार्गशीर्ष शुक्ल पूर्णिमा पर श्री त्रिपुरभैरवी महाविद्या की उपासना। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
     }
   ]
 }
