@@ -477,6 +477,13 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
   const selected = getPlanetDailyData(body, selectedDate);
   if (!Number.isFinite(selected.eclipticSeparation)) return null;
 
+  // चुनी हुई तिथि threshold के किस ओर है, उसी के अनुरूप सीमा खोजें।
+  // इससे चयनित तिथि के बाद की घटना के लिए पुरानी, अप्रासंगिक सीमा नहीं चुनी जाएगी।
+  const selectedAboveThreshold = selected.eclipticSeparation > threshold;
+  const expectedDirection = eventType === "asta"
+    ? (selectedAboveThreshold ? "future" : "past")
+    : (selectedAboveThreshold ? "past" : "future");
+
   // दिन-स्तर पर अधिकतम 400 दिन आगे/पीछे खोजें।
   for (let offset = 1; offset <= 400; offset++) {
     const pastDate = addDays(selectedDate, -offset);
@@ -499,8 +506,10 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
 
     const matches = eventType === "asta" ? crossedDown : crossedUp;
 
-    // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
-    if (matches(pastA, pastB)) {
+    if (
+      expectedDirection === "past" &&
+      matches(pastA, pastB)
+    ) {
       const instant = findThresholdCrossingInstant(
         body, pastA.date, pastB.date, threshold, eventType
       );
@@ -513,7 +522,10 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
       };
     }
 
-    if (matches(futureA, futureB)) {
+    if (
+      expectedDirection === "future" &&
+      matches(futureA, futureB)
+    ) {
       const instant = findThresholdCrossingInstant(
         body, futureA.date, futureB.date, threshold, eventType
       );
