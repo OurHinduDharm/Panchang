@@ -237,10 +237,46 @@
     }
     return promise;
   }
+  function getSankrantiRashiIndex(item){
+    var title=String(item&&item.title||"").normalize("NFC").toLocaleLowerCase("hi");
+    var entries=[["मेष",0],["वृषभ",1],["मिथुन",2],["कर्क",3],["सिंह",4],["कन्या",5],["तुला",6],["वृश्चिक",7],["धनु",8],["मकर",9],["कुम्भ",10],["कुंभ",10],["मीन",11]];
+    for(var i=0;i<entries.length;i++)if(title.includes(entries[i][0])&&/संक्रांति|संक्रान्ति|sankranti/.test(title))return entries[i][1];
+    return null;
+  }
+  function getInstantSunRashiIndex(p){
+    var sun=p&&p.planetaryPositions&&p.planetaryPositions.sun;
+    var raw=sun&&(sun.rashiName??sun.signName??sun.rashi??sun.rashiIndex??sun.sign);
+    if(raw&&typeof raw==="object")raw=raw.index??raw.number??raw.value??raw.name??raw.label;
+    if(typeof raw==="number"&&Number.isInteger(raw)&&raw>=0&&raw<=11)return raw;
+    var name=String(raw??"").normalize("NFC").toLocaleLowerCase("hi");
+    var names=[[/mesha|मेष|aries/,0],[/vrishabha|वृषभ|taurus/,1],[/mithuna|मिथुन|gemini/,2],[/karka|कर्क|cancer/,3],[/simha|सिंह|leo/,4],[/kanya|कन्या|virgo/,5],[/tula|तुला|libra/,6],[/vrishchika|वृश्चिक|scorpio/,7],[/dhanu|धनु|sagittarius/,8],[/makara|मकर|capricorn/,9],[/kumbha|कुम्भ|कुंभ|aquarius/,10],[/meena|मीन|pisces/,11]];
+    for(var i=0;i<names.length;i++)if(names[i][0].test(name))return names[i][1];
+    return null;
+  }
+  function findSankrantiMoment(values,item,dateIso){
+    var target=getSankrantiRashiIndex(item);
+    if(target===null||!values||typeof values.at!=="function")return null;
+    var dayStart=Date.parse(dateIso+"T00:00:00+05:30");
+    if(!Number.isFinite(dayStart))return null;
+    var start=dayStart-36*60*60*1000,end=dayStart+36*60*60*1000,step=30*60*1000;
+    function signAt(ms){try{return getInstantSunRashiIndex(values.at(new Date(ms)));}catch(_){return null;}}
+    var previousTime=start,previousSign=signAt(start);
+    for(var time=start+step;time<=end;time+=step){
+      var sign=signAt(time);
+      if(sign===target&&previousSign!==null&&previousSign!==target){
+        var left=previousTime,right=time;
+        while(right-left>30000){var middle=Math.floor((left+right)/2);if(signAt(middle)===target)right=middle;else left=middle;}
+        return new Date(right);
+      }
+      previousTime=time;previousSign=sign;
+    }
+    return null;
+  }
   function getLagnaIndex(p){
-    var value=p&&p.udayaLagna;
+    var value=p&&(p.udayaLagna??p.lagna??p.ascendant);
     if(value&&typeof value==="object"){
-      var raw=value.index??value.number??value.value??value.name??value.label;
+      var raw=value.index??value.number??value.value??value.rashiIndex??value.rashiName??value.rashi??value.signName??value.name??value.label;
+      if(raw&&typeof raw==="object")raw=raw.index??raw.number??raw.value??raw.name??raw.label;
       if(raw!==undefined)value=raw;
     }
     if(typeof value==="number"&&Number.isFinite(value))return value;
@@ -314,6 +350,7 @@
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
     // महाष्टमी प्रविष्टि पर संधिपूजा का मुहूर्त स्थानीय तिथि-संधि से निकालें।
     if(!ruleIds.length&&/महाष्टमी|महाअष्टमी|दुर्गाष्टमी|दुर्गा अष्टमी|दुर्गा पूजा.*अष्टमी/i.test(String(item.title||""))) ruleIds=["sandhi-puja"];
+    if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title||""))||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
     if(!ruleIds.length) return;
     try{
       var muhurtaModule=await muhurtaModulePromise;
@@ -328,6 +365,9 @@
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="sankranti-punya-kala";})){
+        context.sankrantiMoment=findSankrantiMoment(values,item,dateIso);
+      }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="narak-chaturdashi-abhyanga";})){
         // Panchang day intervals are clipped at sunrise; include the previous sunrise-day interval
         // so a pre-dawn Chaturdashi already active at moonrise is not lost.
