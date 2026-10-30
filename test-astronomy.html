@@ -647,6 +647,23 @@ const TKS_CONFIG = {
   offsetMinutes: 330
 };
 
+// The Tantrakulam comparison rows are explicitly Dehradun references.
+// Keep those diagnostics at their reference site; Pithoragarh remains
+// the separate local validation site for the user-supplied Drik boundaries.
+const DEHRADUN_CONFIG = {
+  latitude: 30.3165,
+  longitude: 78.0322,
+  elevation: 640,
+  timezone: "Asia/Kolkata",
+  offsetMinutes: 330
+};
+
+function configForReference(ref) {
+  return ref?.referenceLocation?.startsWith("Dehradun")
+    ? DEHRADUN_CONFIG
+    : CONFIG;
+}
+
 // Source-specific Dehradun Drik references. These are distinct from the unverified Chapter IX comparison-date fixtures below.
 const REFERENCES = [
   { planet:"Venus", event:"Asta", date:"2026-10-19", sampleTime:"2026-10-19T12:00:00Z", elongation:7.76, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
@@ -865,6 +882,17 @@ function observerForConfig(config) {
   if (config === TKS_CONFIG) return tksObserver;
   return new Astronomy.Observer(config.latitude, config.longitude, config.elevation);
 }
+const pithoragarhObserver = new Astronomy.Observer(
+  CONFIG.latitude,
+  CONFIG.longitude,
+  CONFIG.elevation
+);
+
+function observerForConfig(config) {
+  if (config === CONFIG) return pithoragarhObserver;
+  if (config === TKS_CONFIG) return tksObserver;
+  return new Astronomy.Observer(config.latitude, config.longitude, config.elevation);
+}
 
  function getBodyVector(body, date) {
   return Astronomy.GeoVector(body, date, true);
@@ -910,13 +938,13 @@ const planet =
   return vectorSeparationDegrees(sun, planet);
 }
 
-function getHorizontal(body, date) {
+function getHorizontal(body, date, locationObserver = observer) {
 
   const eq =
     Astronomy.Equator(
       body,
       date,
-      observer,
+      locationObserver,
       true,
       true
     );
@@ -924,7 +952,7 @@ function getHorizontal(body, date) {
   const hor =
     Astronomy.Horizon(
       date,
-      observer,
+      locationObserver,
       eq.ra,
       eq.dec,
       "normal"
@@ -938,10 +966,11 @@ function getHorizontal(body, date) {
   };
 }
 
-function getSunHorizontal(date) {
+function getSunHorizontal(date, locationObserver = observer) {
   return getHorizontal(
     Astronomy.Body.Sun,
-    date
+    date,
+    locationObserver
   );
 }
 
@@ -1160,14 +1189,16 @@ function runHorizonGeometry() {
     const date =
       new Date(ref.sampleTime);
 
+    const refObserver = observerForConfig(configForReference(ref));
     const planet =
       getHorizontal(
         BODY_NAMES[ref.planet],
-        date
+        date,
+        refObserver
       );
 
     const sun =
-      getSunHorizontal(date);
+      getSunHorizontal(date, refObserver);
 
     const elongation =
       getElongation(
@@ -1368,10 +1399,11 @@ async function calculateSwissHeliacal(ref) {
    * into the WASM wrapper.
    */
 
+  const refConfig = configForReference(ref);
   const geoPos = [
-    Number(CONFIG.longitude),
-    Number(CONFIG.latitude),
-    Number(CONFIG.elevation)
+    Number(refConfig.longitude),
+    Number(refConfig.latitude),
+    Number(refConfig.elevation)
   ];
 
   const atmosData = [
@@ -1710,8 +1742,9 @@ async function runHeliacalValidation() {
         if (!(point.date instanceof Date) || Number.isNaN(point.date.getTime())) {
           return { label: point.label, local: null, planetAlt: null, sunAlt: null, planetAz: null, sunAz: null, elongation: null };
         }
-        const planetHorizontal = getHorizontal(BODY_NAMES[ref.planet], point.date);
-        const sunHorizontal = getSunHorizontal(point.date);
+        const refObserver = observerForConfig(configForReference(ref));
+        const planetHorizontal = getHorizontal(BODY_NAMES[ref.planet], point.date, refObserver);
+        const sunHorizontal = getSunHorizontal(point.date, refObserver);
         return {
           label: point.label,
           local: formatLocalFromUTCDate(point.date),
@@ -1842,10 +1875,11 @@ async function calculateSwissVisibilityLimit(
     1
   );
 
+  const refConfig = configForReference(ref);
   const geoPos = [
-    CONFIG.longitude,
-    CONFIG.latitude,
-    CONFIG.elevation
+    refConfig.longitude,
+    refConfig.latitude,
+    refConfig.elevation
   ];
 
   const atmosphere = [
