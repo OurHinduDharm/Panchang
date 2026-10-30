@@ -1291,8 +1291,8 @@ async function calculateSwissHeliacal(ref) {
    */
 
   // Start from the exact published boundary timestamp, not midnight on its date.
-  // A short look-back avoids accidentally selecting the previous Venus visibility cycle.
-  // This finds the next Swiss event in the local comparison window; it does not force a match.
+  // A short look-back bounds the candidate search near the published boundary.
+  // It does not prove event equivalence or force the Swiss result to match.
   const boundaryInstant = new Date(ref.boundaryTime || (ref.date + "T00:00:00Z"));
   if (Number.isNaN(boundaryInstant.getTime())) {
     throw new Error(`Invalid published boundary timestamp: ${ref.boundaryTime || ref.date}`);
