@@ -6,7 +6,7 @@ const YEAR = Number(process.argv[2] || 2026);
 const TITHI_CATEGORIES = /एकादशी|पूर्णिमा|अमावस्या|चतुर्थी|प्रदोष|शिवरात्रि|अष्टमी|षष्ठी|नवरात्रि/i;
 const MUHURTA_SOURCE = fs.readFileSync(path.join(process.cwd(), "festival-muhurta.js"), "utf8");
 const SUPPORTED_MUHURTA_RULES = new Set(
-  [...MUHURTA_SOURCE.matchAll(/^\\s{2,8}(?:["\x27]([^"\x27]+)["\x27]|([A-Za-z_$][\\w$]*))\\s*\\(context\\)/gm)]
+  [...MUHURTA_SOURCE.matchAll(/^\s{2,8}(?:["\x27]([^"\x27]+)["\x27]|([A-Za-z_$][\w$]*))\s*\(context\)/gm)]
     .map(match => match[1] || match[2])
 );
 function normalizeTitle(value) {
