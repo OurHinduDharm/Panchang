@@ -60,6 +60,10 @@ function isVaidhriti(value) {
   return /vaidhriti|वैधृति/.test(name) || numeric === 26 || numeric === 27;
 }
 
+function isHasta(value) {
+  return /hasta|हस्त/.test(normalizedName(value));
+}
+
 function laterDate(a, b) {
   if (!a) return b;
   if (!b) return a;
@@ -338,6 +342,58 @@ const rules = {
     };
   },
 
+
+  "samaveda-upakarma-aparahna"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const nextNakshatraEnd = validDate(context.nextNakshatraEndTime);
+    const currentNakshatraEnd = validDate(context.nakshatraEndTime);
+    if (!sunrise || !sunset || sunset <= sunrise) {
+      return {
+        label: "सामवेदी उपाकर्म — अपराह्ण काल",
+        status: "unavailable",
+        message: "स्थानीय सूर्योदय और सूर्यास्त उपलब्ध नहीं हैं; उपाकर्म-काल की गणना नहीं की गई।"
+      };
+    }
+
+    let hastaStart = null;
+    let hastaEnd = null;
+    if (isHasta(context.nakshatra)) {
+      hastaStart = sunrise;
+      hastaEnd = currentNakshatraEnd;
+    } else if (isHasta(context.nextNakshatra)) {
+      // The next day's sunrise nakshatra began when today's nakshatra ended.
+      hastaStart = currentNakshatraEnd;
+      hastaEnd = nextNakshatraEnd;
+    }
+    if (!hastaStart || !hastaEnd || hastaEnd <= hastaStart) {
+      return {
+        label: "सामवेदी उपाकर्म — अपराह्ण काल",
+        status: "unavailable",
+        message: "हस्त नक्षत्र की आरम्भ और समाप्ति अवधि उपलब्ध नहीं है; अनुमानित समय नहीं दिखाया गया।"
+      };
+    }
+
+    // Sāmaveda Upākarma is an Aparāhṇa rite. Aparāhṇa is the fourth
+    // of five equal divisions of the local daylight interval.
+    const dayDuration = sunset.getTime() - sunrise.getTime();
+    const aparahnaStart = new Date(sunrise.getTime() + dayDuration * 3 / 5);
+    const aparahnaEnd = new Date(sunrise.getTime() + dayDuration * 4 / 5);
+    const window = interval(
+      laterDate(hastaStart, aparahnaStart),
+      earlierDate(hastaEnd, aparahnaEnd),
+      "सामवेदी उपाकर्म — हस्त नक्षत्र अपराह्ण व्याप्ति",
+      "भाद्रपद शुक्ल पक्ष के हस्त नक्षत्र और स्थानीय दिनमान के चौथे भाग (अपराह्ण) की संयुक्त अवधि।"
+    );
+    if (!window) {
+      return {
+        label: "सामवेदी उपाकर्म — अपराह्ण काल",
+        status: "unavailable",
+        message: "इस दिन हस्त नक्षत्र और अपराह्ण काल की संयुक्त व्याप्ति नहीं मिली।"
+      };
+    }
+    return { ...window, status: "calculated" };
+  },
 
   "ekadashi-parana"(context) {
     const sunrise = validDate(context.nextSunrise);
@@ -1130,6 +1186,8 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
     nextTithiEndTime: nextPanchang && nextPanchang.tithiEndTime,
     nakshatra: panchang && panchang.nakshatra,
     nakshatraEndTime: panchang && panchang.nakshatraEndTime,
+    nextNakshatra: nextPanchang && nextPanchang.nakshatra,
+    nextNakshatraEndTime: nextPanchang && nextPanchang.nakshatraEndTime,
     yoga: panchang && panchang.yoga,
     yogaEndTime: panchang && panchang.yogaEndTime,
     karanas: [
