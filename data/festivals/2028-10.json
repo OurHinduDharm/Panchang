@@ -22,7 +22,8 @@
       "description": "करवा चौथ का व्रत कई उत्तर भारतीय परंपराओं में पति के मंगल की कामना से रखा जाता है। चंद्र-दर्शन और अर्घ्य का समय नगर के अनुसार बदलता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "karwa-chauth-puja"
     },
     {
       "date": "2028-10-11",

@@ -571,6 +571,64 @@ const rules = {
     };
   },
 
+  "karwa-chauth-puja"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const moonrise = validDate(context.moonrise);
+    const tithis = collectNamedIntervals(context.tithis, item => {
+      const name = normalizedName(item);
+      const raw = item && typeof item === "object"
+        ? item.index ?? item.number ?? item.value
+        : item;
+      // The project's tithi sequence uses 18 for Krishna Chaturthi.
+      return Number(raw) === 18 ||
+        /krishna.*chaturthi|कृष्ण.*चतुर्थी/.test(name);
+    });
+    if (!sunrise || !sunset || !nextSunrise || nextSunrise <= sunset || !tithis.length) {
+      return {
+        label: "करवा चौथ पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्योदय-सूर्यास्त, अगले सूर्योदय और कृष्ण चतुर्थी की वास्तविक समय-सीमा उपलब्ध नहीं है; अनुमानित मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+
+    // Published 2025/2026 Drik Panchang examples match one-tenth of local night.
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const pujaWindow = windowWithin(
+      sunset,
+      new Date(sunset.getTime() + Math.round(nightDuration / 10 / 60000) * 60000),
+      tithis,
+      "करवा चौथ पूजा मुहूर्त",
+      "स्थानीय सूर्यास्त से अगले सूर्योदय तक के रात्रिमान का दसवाँ भाग, कृष्ण चतुर्थी-व्याप्ति के भीतर।"
+    );
+    if (!pujaWindow) {
+      return {
+        label: "करवा चौथ पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय रात्रि के प्रथम दसवें भाग और कृष्ण चतुर्थी की व्याप्ति में साझा समय नहीं मिला।"
+      };
+    }
+
+    const windows = [pujaWindow];
+    if (moonrise && moonrise > sunrise) {
+      windows.push(interval(
+        sunrise,
+        moonrise,
+        "करवा चौथ व्रत समय",
+        "स्थानीय सूर्योदय से चंद्रोदय तक; चंद्र-दर्शन के बाद व्रत-पारण की परंपरा।"
+      ));
+    }
+    return {
+      label: "करवा चौथ — पूजा और व्रत समय",
+      status: "calculated",
+      date: sunset,
+      dateLabel: formatDateLabel(sunset),
+      windows,
+      note: "पूजा-मुहूर्त स्थानीय सूर्यास्त से अगले सूर्योदय तक के रात्रिमान के दसवें भाग और कृष्ण चतुर्थी की वास्तविक व्याप्ति के साझा समय से निकाला गया है। व्रत-समय सूर्योदय से चंद्रोदय तक है।"
+    };
+  },
+
   moonrise(context) {
     const time = validDate(context.moonrise);
     if (!time) {

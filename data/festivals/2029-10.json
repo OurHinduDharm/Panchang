@@ -95,7 +95,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण चतुर्थी"
+      "hinduTithi": "कार्तिक कृष्ण चतुर्थी",
+      "muhurtaRule": "karwa-chauth-puja"
     },
     {
       "date": "2029-10-30",
