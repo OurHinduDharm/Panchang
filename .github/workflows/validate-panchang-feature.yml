@@ -28,3 +28,5 @@ jobs:
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Run Agnivasa/Shivavasa regression tests
         run: node --experimental-default-type=module --test tests/*.test.mjs
+      - name: Run planetary Asta/Udaya direction regression tests
+        run: node --experimental-default-type=module --test tests/planetary-asta-udaya-direction.test.js
