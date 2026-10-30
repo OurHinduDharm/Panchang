@@ -988,9 +988,17 @@
       // पहले उपलब्ध मासिक सूची दिखाएँ; नवरात्रि की गतिशील गणना के दौरान
       // उपयोगकर्ता को खाली loading screen पर प्रतीक्षा न करनी पड़े।
       if(Array.isArray(data.events)&&data.events.length){render(data,year,month,token);restoreViewportAnchor();}
-      var dynamicNavratri=await buildDynamicNavratriEvents(year,month,token);
-      if(token!==requestToken)return;
       var storedEvents=Array.isArray(data.events)?data.events:[];
+      // 2026 आषाढ़ गुप्त नवरात्र के स्वीकृत कार्ड विशेष तिथि-व्याप्ति पर आधारित हैं:
+      // 17 जुलाई को तृतीया सूर्योदय पर थी और चतुर्थी उसी दिन 06:28 से लगी;
+      // इसलिए चन्द्रघंटा तथा कूष्माण्डा दोनों की पूजा 17 जुलाई को है।
+      // सूर्योदय की एकल तिथि से बने dynamic cards कूष्माण्डा को हटा देते,
+      // अतः इस सत्यापित वर्ष-मास में JSON के नौ देवी-पूजन कार्ड सुरक्षित रखें।
+      var curatedAshadhaGupta2026=year===2026&&month===7&&storedEvents.some(function(item){
+        return item.date==="2026-07-15"&&/आषाढ़ गुप्त नवरात्र प्रारम्भ/.test(String(item.title||""))&&item.reviewStatus==="approved";
+      });
+      var dynamicNavratri=curatedAshadhaGupta2026?{events:[],recognized:false}:await buildDynamicNavratriEvents(year,month,token);
+      if(token!==requestToken)return;
       // जब मास/तिथि से नवरात्रि सफलतापूर्वक पहचानी जाए, पुराने वर्ष-विशेष
       // दिनांक/मुहूर्त वाले दैनिक नवरात्र शीर्षकों को गतिशील प्रविष्टियों से बदलें।
       if(dynamicNavratri.recognized) storedEvents=storedEvents.filter(function(item){return !isLegacyNavratriDailyEvent(item);});
