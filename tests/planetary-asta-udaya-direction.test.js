@@ -45,3 +45,36 @@ test("at or below threshold: Asta past, Udaya future", () => {
   assert.equal(udaya.direction, "future");
   assert.equal(udaya.date, "2026-10-30");
 });
+
+test("Venus event classification selects the corresponding Chapter IX threshold", () => {
+  const helpersStart = source.indexOf("function normalizeLongitude(");
+  const helpersEnd = source.indexOf("const planetDailyCache", helpersStart);
+  assert.ok(helpersStart >= 0 && helpersEnd > helpersStart);
+  const sandbox = {};
+  vm.runInNewContext(source.slice(helpersStart, helpersEnd), sandbox);
+  const cases = [
+    [{ body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: -0.5 }, "west-setting", 8],
+    [{ body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: -0.5 }, "east-rising", 8],
+    [{ body: "Venus", planetLongitude: 99, sunLongitude: 100, planetMotion: 0.5 }, "east-setting", 10],
+    [{ body: "Venus", planetLongitude: 101, sunLongitude: 100, planetMotion: 0.5 }, "west-rising", 10]
+  ];
+  for (const [input, expectedEvent, expectedLimit] of cases) {
+    const event = sandbox.classifyChapter9HorizonEvent(input);
+    assert.equal(event, expectedEvent);
+    assert.equal(sandbox.getPlanetEventThreshold("Venus", event), expectedLimit);
+  }
+  assert.equal(sandbox.getPlanetEventThreshold("Mercury", "east-setting"), null);
+});
+
+test("threshold changes between adjacent daily samples cannot fabricate a crossing", () => {
+  const start = source.indexOf("function crossesAngularBoundary(");
+  const end = source.indexOf("\\nconst planetDailyCache", start);
+  assert.ok(start >= 0 && end > start);
+  const sandbox = {};
+  vm.runInNewContext(source.slice(start, end), sandbox);
+  const a = { eclipticSeparation: 9, limit: 8 };
+  const b = { eclipticSeparation: 9.5, limit: 10 };
+  assert.equal(sandbox.crossesAngularBoundary(a, b, "asta", x => x.limit), false);
+  assert.equal(sandbox.crossesAngularBoundary(a, b, "udaya", x => x.limit), false);
+  assert.equal(sandbox.crossesAngularBoundary({eclipticSeparation:9,limit:8},{eclipticSeparation:7,limit:8},"asta",x=>x.limit), true);
+});
