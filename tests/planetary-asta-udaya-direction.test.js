@@ -68,7 +68,7 @@ test("Venus event classification selects the corresponding Chapter IX threshold"
 
 test("threshold changes between adjacent daily samples cannot fabricate a crossing", () => {
   const start = source.indexOf("function crossesAngularBoundary(");
-  const end = source.indexOf("\\nconst planetDailyCache", start);
+  const end = source.indexOf("\nconst planetDailyCache", start);
   assert.ok(start >= 0 && end > start);
   const sandbox = {};
   vm.runInNewContext(source.slice(start, end), sandbox);
