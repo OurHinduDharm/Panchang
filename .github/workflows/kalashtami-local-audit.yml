@@ -5,12 +5,12 @@ on:
       - review/2026-kalashtami-local-audit
     paths:
       - 'tests/fixtures/kalashtami-panchang-adapter.js'
-      - 'tests/kalashtami-2026-local-audit.test.mjs'
+      - 'review-tests/kalashtami-2026-local-audit.mjs'
       - '.github/workflows/kalashtami-local-audit.yml'
   pull_request:
     paths:
       - 'tests/fixtures/kalashtami-panchang-adapter.js'
-      - 'tests/kalashtami-2026-local-audit.test.mjs'
+      - 'review-tests/kalashtami-2026-local-audit.mjs'
       - '.github/workflows/kalashtami-local-audit.yml'
 permissions:
   contents: read
@@ -25,4 +25,4 @@ jobs:
       - name: Install pinned Panchang engine
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Compare selected Kalashtami dates
-        run: node --test tests/kalashtami-2026-local-audit.test.mjs
+        run: node --test review-tests/kalashtami-2026-local-audit.mjs
