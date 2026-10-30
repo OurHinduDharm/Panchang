@@ -392,3 +392,44 @@ test("Masik Shivaratri never shows a Nishita time without Chaturdashi overlap", 
   assert.equal(result.status, "unavailable");
   assert.equal(result.windows, undefined);
 });
+
+
+test("Vinayaka Chaturthi puja muhurta intersects Shukla Chaturthi during Madhyahna", () => {
+  const sunrise = date("2026-06-18T05:15:00+05:30");
+  const sunset = date("2026-06-18T19:05:00+05:30");
+  const day = sunset.getTime() - sunrise.getTime();
+  const madhyahnaStart = new Date(sunrise.getTime() + day * 2 / 5);
+  const madhyahnaEnd = new Date(sunrise.getTime() + day * 3 / 5);
+  const chaturthi = {
+    index: 3,
+    startTime: new Date(madhyahnaStart.getTime() - 20 * 60000),
+    endTime: new Date(madhyahnaEnd.getTime() + 20 * 60000)
+  };
+  const context = getFestivalMuhurtaContext(
+    { sunrise, sunset, tithis: [chaturthi] },
+    { sunrise: date("2026-06-19T05:15:00+05:30"), tithis: [] },
+    date("2026-06-18T12:00:00+05:30"),
+    { name: "पिथौरागढ़" }
+  );
+  const result = getFestivalMuhurta({ muhurtaRule: "vinayaka-chaturthi-madhyahna" }, context);
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.toISOString(), madhyahnaStart.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), madhyahnaEnd.toISOString());
+});
+
+test("Vinayaka Chaturthi does not show Madhyahna time without Shukla Chaturthi overlap", () => {
+  const context = getFestivalMuhurtaContext(
+    {
+      sunrise: date("2026-06-18T05:15:00+05:30"),
+      sunset: date("2026-06-18T19:05:00+05:30"),
+      tithis: [{ index: 2, startTime: date("2026-06-18T05:00:00+05:30"), endTime: date("2026-06-18T20:00:00+05:30") }]
+    },
+    { sunrise: date("2026-06-19T05:15:00+05:30"), tithis: [] },
+    date("2026-06-18T12:00:00+05:30"),
+    { name: "पिथौरागढ़" }
+  );
+  const result = getFestivalMuhurta({ muhurtaRule: "vinayaka-chaturthi-madhyahna" }, context);
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.windows, undefined);
+});
