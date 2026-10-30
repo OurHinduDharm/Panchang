@@ -3,8 +3,8 @@
   "year": 2026,
   "month": 3,
   "monthName": "मार्च",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; पंचांग-आधारित गणना की समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-03-01",
@@ -13,17 +13,6 @@
       "hinduTithi": "फाल्गुन शुक्ल त्रयोदशी",
       "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
       "reviewStatus": "approved"
-    },
-    {
-      "date": "2026-03-03",
-      "dateLabel": "3 मार्च",
-      "title": "फाल्गुन पूर्णिमा / छोटी होली / होलिका-दहन",
-      "description": "फाल्गुन शुक्ल पूर्णिमा पर होलिका-दहन की परंपरा है। इसका अनुष्ठान पूर्णिमा-व्याप्ति, भद्रा तथा प्रदोष के शास्त्रीय नियमों के अनुसार किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "approved",
-      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
-      "articleLabel": "होलिका-दहन का महत्व पढ़ें"
     },
     {
       "date": "2026-03-03",
@@ -40,6 +29,15 @@
     {
       "date": "2026-03-03",
       "dateLabel": "3 मार्च",
+      "title": "फाल्गुन पूर्णिमा",
+      "description": "फाल्गुन शुक्ल पूर्णिमा पर स्नान, दान, जप और चंद्र-दर्शन की परंपरा है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-03-03",
+      "dateLabel": "3 मार्च",
       "title": "श्री महालक्ष्मी जयंती",
       "description": "मान्यता है फाल्गुन पूर्णिमा को श्री महालक्ष्मी समुद्र मंथन से उद्भूत हुई थीं - प्रमुखता से दक्षिणी भारत में श्री लक्ष्मी जी की जयंती - इस अवसर पर <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\">श्री महालक्ष्मी जी की उपासना करें </a>",
       "category": "जयंती",
@@ -47,9 +45,21 @@
       "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
     },
     {
+      "date": "2026-03-03",
+      "dateLabel": "3 मार्च",
+      "title": "होलिका-दहन",
+      "description": "फाल्गुन शुक्ल पूर्णिमा पर होलिका-पूजन और प्रदोष काल में होलिका-दहन की परंपरा है। भद्रा का विचार करके ही दहन करें। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">होलिका-दहन का महत्व पढ़ें</a>",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "muhurtaRule": "holika-dahan-pradosh",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
+      "articleLabel": "होलिका-दहन का महत्व पढ़ें"
+    },
+    {
       "date": "2026-03-04",
       "dateLabel": "4 मार्च",
-      "title": "होली / धुलण्डी (रंगोत्सव)",
+      "title": "धुलण्डी / रंगवाली होली",
       "description": "रंगों का पर्व होली, होलिका-दहन के अगले दिन मनाया जाता है। इस दिन रंग और गुलाल से रंगोत्सव मनाने की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2015/03/Spiritual-Mystery-Of-Vedic-Somyagya-The-Holi-Festival.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
@@ -156,10 +166,11 @@
     {
       "date": "2026-03-20",
       "dateLabel": "20 मार्च",
-      "title": "वसन्त ऋतु प्रारंभ",
-      "description": "वसन्त ऋतु प्रारंभ",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "approved"
+      "title": "चन्द्र दर्शन",
+      "description": "चैत्र शुक्ल द्वितीया को अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "चैत्र शुक्ल द्वितीया"
     },
     {
       "date": "2026-03-20",
@@ -173,11 +184,10 @@
     {
       "date": "2026-03-20",
       "dateLabel": "20 मार्च",
-      "title": "चन्द्र दर्शन",
-      "description": "चैत्र शुक्ल द्वितीया को अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल द्वितीया"
+      "title": "वसन्त ऋतु प्रारंभ",
+      "description": "वसन्त ऋतु प्रारंभ",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-03-21",
@@ -290,16 +300,6 @@
     {
       "date": "2026-03-26",
       "dateLabel": "26 मार्च",
-      "title": "श्रीरामनवमी (स्मार्त)",
-      "description": "दो दिन नवमी तिथि व्याप्त होने से इस बार २६ मार्च को स्मार्तों (जनसाधारण) की श्रीरामनवमी <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीराम नवमी व्रत</a>",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल नवमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html"
-    },
-    {
-      "date": "2026-03-26",
-      "dateLabel": "26 मार्च",
       "title": "श्री तारा महाविद्या जयंती",
       "description": "चैत्र शुक्ल नवमी पर श्री महातारा की जयंती एवं उपासना। <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री तारा महाविद्या जयंती</a>।",
       "category": "जयंती",
@@ -309,13 +309,14 @@
       "articleLabel": "तारा महाविद्या जयंती"
     },
     {
-      "date": "2026-03-27",
-      "dateLabel": "27 मार्च",
-      "title": "चैत्र नवरात्र पारण",
-      "description": "वासन्तिक नवरात्र का पारण नवमी, श्रीरामनवमी और दशमी की तिथि-व्याप्ति के अनुसार निर्धारित होता है; हर वर्ष के लिए एक स्थिर तारीख़ या घड़ी-समय लागू नहीं होता।",
-      "category": "नवरात्रि",
+      "date": "2026-03-26",
+      "dateLabel": "26 मार्च",
+      "title": "श्रीरामनवमी (स्मार्त)",
+      "description": "दो दिन नवमी तिथि व्याप्त होने से इस बार २६ मार्च को स्मार्तों (जनसाधारण) की श्रीरामनवमी <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीराम नवमी व्रत</a>",
+      "category": "व्रत-पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल दशमी"
+      "hinduTithi": "चैत्र शुक्ल नवमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html"
     },
     {
       "date": "2026-03-27",
@@ -325,6 +326,15 @@
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल नवमी"
+    },
+    {
+      "date": "2026-03-27",
+      "dateLabel": "27 मार्च",
+      "title": "चैत्र नवरात्र पारण",
+      "description": "वासन्तिक नवरात्र का पारण नवमी, श्रीरामनवमी और दशमी की तिथि-व्याप्ति के अनुसार निर्धारित होता है; हर वर्ष के लिए एक स्थिर तारीख़ या घड़ी-समय लागू नहीं होता।",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "hinduTithi": "चैत्र शुक्ल दशमी"
     },
     {
       "date": "2026-03-27",
