@@ -5,7 +5,7 @@ const DATA_DIR = path.join(process.cwd(), "data", "festivals");
 const YEAR = Number(process.argv[2] || 2026);
 const TITHI_CATEGORIES = /एकादशी|पूर्णिमा|अमावस्या|चतुर्थी|प्रदोष|शिवरात्रि|अष्टमी|षष्ठी|नवरात्रि|संक्रांति/i;
 function normalizeTitle(value) {
-  return String(value || "").normalize("NFKC").replace(/[।॥.,/()\\-–—]/g, " ").replace(/\\s+/g, " ").trim().toLocaleLowerCase("hi");
+  return String(value || "").normalize("NFKC").replace(/[।॥.,\/()–—-]/g, " ").replace(/\s+/g, " ").trim().toLocaleLowerCase("hi");
 }
 export function auditMonth(data, expectedYear, expectedMonth) {
   const issues = [], events = Array.isArray(data?.events) ? data.events : [];
@@ -19,7 +19,7 @@ export function auditMonth(data, expectedYear, expectedMonth) {
     const event = events[i] || {}, label = "events[" + i + "] " + (event.title || "(untitled)");
     const status = event.reviewStatus || "missing";
     if (!event.title || !String(event.title).trim()) add("error", "TITLE_MISSING", label);
-    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(event.date || "")) add("error", "DATE_INVALID_FORMAT", label + ": " + event.date);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(event.date || "")) add("error", "DATE_INVALID_FORMAT", label + ": " + event.date);
     else {
       const parsed = new Date(event.date + "T00:00:00Z");
       if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0,10) !== event.date) add("error", "DATE_INVALID_CALENDAR", label + ": " + event.date);
