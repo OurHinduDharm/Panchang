@@ -413,10 +413,7 @@
           detail.textContent=result.message||"इस समय की गणना उपलब्ध नहीं है।";
         }
         box.appendChild(detail);
-        // किसी विंडो में कारण दिया है तो वही पर्याप्त है; कुल सारांश में वही गणना फिर न दोहराएँ।
-        if(muhurtaModule.shouldShowFestivalMuhurtaSummaryNote(result)){
-          var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);
-        }
+        if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
         var loc=document.createElement("div");loc.style.marginTop="3px";loc.style.fontSize="11px";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
         content.appendChild(box);
       });
