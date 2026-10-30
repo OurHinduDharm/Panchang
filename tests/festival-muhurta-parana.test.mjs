@@ -508,18 +508,45 @@ test("Holika Dahan uses local Pradosh when Purnima prevails at sunrise and Bhadr
   assert.equal(result.windows[0].end.toISOString(), date("2026-03-03T20:24:00+05:30").toISOString());
 });
 
-test("Sankranti Punya Kala starts at the transition and is capped at local sunset", () => {
-  const sunrise = date("2026-01-14T07:00:00+05:30");
-  const sunset = date("2026-01-14T17:45:00+05:30");
-  const moment = date("2026-01-14T15:13:00+05:30");
+test("Sankranti Punya Kala follows sign-specific ghatis measured from local day length", () => {
+  const sunrise = date("2026-04-14T06:00:00+05:30");
+  const sunset = date("2026-04-14T18:00:00+05:30");
+  const moment = date("2026-04-14T12:00:00+05:30");
   const result = getFestivalMuhurta({ muhurtaRule: "sankranti-punya-kala" }, {
-    sankrantiMoment: moment, sunrise, sunset,
-    nextSunrise: date("2026-01-15T07:00:00+05:30"),
-    nextSunset: date("2026-01-15T17:45:00+05:30")
+    sankrantiMoment: moment, sankrantiRashiIndex: 0, sunrise, sunset,
+    nextSunrise: date("2026-04-15T06:00:00+05:30"),
+    nextSunset: date("2026-04-15T18:00:00+05:30")
   });
   assert.equal(result.status, "calculated");
-  assert.equal(result.windows.length, 1);
-  assert.equal(result.windows[0].start.toISOString(), moment.toISOString());
+  assert.equal(result.windows[0].start.toISOString(), date("2026-04-14T08:00:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-04-14T16:00:00+05:30").toISOString());
+});
+
+test("Night-time non-Ayana Sankranti moves its punya period to the following daylight", () => {
+  const sunrise = date("2026-02-13T06:00:00+05:30");
+  const sunset = date("2026-02-13T18:00:00+05:30");
+  const moment = date("2026-02-13T04:14:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "sankranti-punya-kala" }, {
+    sankrantiMoment: moment, sankrantiRashiIndex: 10, sunrise, sunset,
+    nextSunrise: date("2026-02-14T06:00:00+05:30"),
+    nextSunset: date("2026-02-14T18:00:00+05:30")
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), sunrise.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-02-13T12:24:00+05:30").toISOString());
+});
+
+test("After-sunset Sankranti uses the daylight interval preceding sunset", () => {
+  const sunrise = date("2026-10-17T06:00:00+05:30");
+  const sunset = date("2026-10-17T18:00:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "sankranti-punya-kala" }, {
+    sankrantiMoment: date("2026-10-17T19:57:00+05:30"),
+    sankrantiRashiIndex: 6, sunrise, sunset,
+    nextSunrise: date("2026-10-18T06:00:00+05:30"),
+    nextSunset: date("2026-10-18T18:00:00+05:30")
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), date("2026-10-17T11:36:00+05:30").toISOString());
   assert.equal(result.windows[0].end.toISOString(), sunset.toISOString());
 });
 
