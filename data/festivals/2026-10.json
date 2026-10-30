@@ -245,11 +245,11 @@
       "date": "2026-10-19",
       "dateLabel": "19 अक्टूबर",
       "title": "शारदीय नवरात्र महानवमी — माँ सिद्धिदात्री",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। नवरात्रि हवन। <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>। नवरात्र पारण (प्रसाद खाकर व्रत खोलना) के लिए उत्तम है कि इस रात्रि फलाहार ग्रहण कर अगले दिन प्रातः व्रत खोलें।",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः।। सूर्योदय पर अष्टमी और दिन में नवमी तिथि की व्याप्ति होने से माँ महागौरी के साथ माँ सिद्धिदात्री का पूजन तथा महानवमी का विधान इसी दिन है। <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "endDate": "2026-10-20",
-      "hinduTithi": "आश्विन शुक्ल नवमी"
+      "hinduTithi": "आश्विन शुक्ल अष्टमी (नवमी व्याप्ति)"
     },
     {
       "date": "2026-10-19",
@@ -298,6 +298,24 @@
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल दशमी"
+    },
+    {
+      "date": "2026-10-20",
+      "dateLabel": "20 अक्टूबर",
+      "title": "शारदीय नवरात्र पारण",
+      "description": "नवरात्र व्रत का पारण नवमी तिथि के समापन और दशमी की व्याप्ति के अनुसार किया जाता है। इस दिन विजयादशमी का पर्व भी मनाया जाता है।",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल नवमी (दशमी अपराह्ण व्याप्ति)"
+    },
+    {
+      "date": "2026-10-20",
+      "dateLabel": "20 अक्टूबर",
+      "title": "दुर्गा विसर्जन",
+      "description": "शारदीय नवरात्र की पूर्णाहुति पर देवी दुर्गा और घटस्थापित कलश का विसर्जन किया जाता है।",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल नवमी (दशमी व्याप्ति)"
     },
     {
       "date": "2026-10-22",
