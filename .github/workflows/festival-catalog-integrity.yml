@@ -11,6 +11,8 @@ on:
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - 'tests/2026-festival-coverage.test.mjs'
+      - 'monthly-vrat-parv-widget.js'
+      - 'monthly-vrat-parv.html'
       - 'scripts/diagnose-2026-festival-review.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
   pull_request:
