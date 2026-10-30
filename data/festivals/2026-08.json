@@ -179,9 +179,18 @@
     {
       "date": "2026-08-28",
       "dateLabel": "28 अगस्त",
-      "title": "संस्कृत दिवस / लव-कुश जयंती",
+      "title": "संस्कृत दिवस",
+      "description": "श्रावण पूर्णिमा के दिन संस्कृत दिवस मनाया जाता है।",
+      "category": "दिवस",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-08-28",
+      "dateLabel": "28 अगस्त",
+      "title": "लव-कुश जयंती",
       "description": "श्रावण पूर्णिमा के अवसर पर संस्कृत दिवस तथा लव-कुश जयंती से जुड़े आयोजन और स्मरण किए जाते हैं। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">लव-कुश जयंती एवं श्रावण पूर्णिमा</a>",
-      "category": "दिवस / जयंती",
+      "category": "जयंती",
       "reviewStatus": "needs-review",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html"
