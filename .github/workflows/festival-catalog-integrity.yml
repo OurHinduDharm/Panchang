@@ -5,6 +5,8 @@ on:
       - audit/2026-festival-catalog-integrity
     paths:
       - 'data/festivals/*.json'
+      - 'festival-muhurta.js'
+      - 'tests/festival-muhurta-parana.test.mjs'
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
@@ -26,6 +28,8 @@ jobs:
           node-version: 20
       - name: Run integrity unit tests
         run: node --test tests/festival-catalog-integrity.test.mjs
+      - name: Run festival muhurta regression tests
+        run: node --test tests/festival-muhurta-parana.test.mjs
       - name: Audit published month catalogs
         run: |
           for year in 2026 2027 2028 2029; do
