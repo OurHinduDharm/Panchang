@@ -47,3 +47,15 @@ test("curated 2026 Ashadha Gupta Navratri cards are not replaced by sunrise-only
   assert.match(guard, /reviewStatus==="approved"/);
   assert.match(source.slice(end, end + 180), /curatedAshadhaGupta2026\?\{events:\[\],recognized:false\}:await buildDynamicNavratriEvents/);
 });
+
+
+test("dynamic Navratri generator handles repeated and skipped sunrise tithis", () => {
+  const start = source.indexOf("var found=[],sunriseRows=[],recognized=false;");
+  const end = source.indexOf("function isLegacyNavratriDailyEvent", start);
+  assert.ok(start >= 0 && end > start);
+  const generator = source.slice(start, end);
+  assert.ok(generator.includes("while(nextIndex<sunriseRows.length"));
+  assert.ok(generator.includes("tithiIndex===row.tithiIndex"));
+  assert.ok(generator.includes("nextRow.tithiIndex>row.tithiIndex+1"));
+  assert.ok(generator.includes("क्षय"));
+});
