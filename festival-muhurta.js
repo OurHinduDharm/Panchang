@@ -886,25 +886,45 @@ const rules = {
     }
     let start;
     let end;
+    let mahaStart;
+    let mahaEnd;
     if (moment < sunrise) {
       // A night-time ingress is observed in the following daylight period.
       start = sunrise;
       end = earlierDate(new Date(sunrise.getTime() + dayGhati * (rashi === 3 || rashi === 9 ? 40 : 16)), sunset);
+      mahaStart = sunrise;
+      mahaEnd = earlierDate(new Date(sunrise.getTime() + dayGhati * 5), sunset);
     } else if (moment >= sunset) {
       if (rashi === 3 || rashi === 9) {
         start = nextSunrise;
         end = nextSunset && nextSunset > nextSunrise ? nextSunset : new Date(nextSunrise.getTime() + (sunset.getTime() - sunrise.getTime()));
+        const nextDayGhati = (end.getTime() - nextSunrise.getTime()) / 30;
+        mahaStart = nextSunrise;
+        mahaEnd = new Date(nextSunrise.getTime() + nextDayGhati * 5);
       } else {
         start = new Date(Math.max(sunrise.getTime(), sunset.getTime() - dayGhati * 15));
         end = sunset;
+        mahaStart = new Date(Math.max(sunrise.getTime(), sunset.getTime() - dayGhati * 5));
+        mahaEnd = sunset;
       }
     } else {
       start = new Date(Math.max(sunrise.getTime(), moment.getTime() - dayGhati * before));
       end = new Date(Math.min(sunset.getTime(), moment.getTime() + dayGhati * after));
+      if (rashi === 0 || rashi === 6) {
+        mahaStart = new Date(Math.max(sunrise.getTime(), moment.getTime() - dayGhati * 5));
+        mahaEnd = new Date(Math.min(sunset.getTime(), moment.getTime() + dayGhati * 5));
+      } else if (before > 0) {
+        mahaStart = new Date(Math.max(sunrise.getTime(), moment.getTime() - dayGhati * 5));
+        mahaEnd = moment;
+      } else {
+        mahaStart = moment;
+        mahaEnd = new Date(Math.min(sunset.getTime(), moment.getTime() + dayGhati * 5));
+      }
     }
     const punya = interval(start, end, "स्नान-दान का पुण्यकाल");
     if (!punya) return { label: "संक्रांति पुण्यकाल", status: "unavailable", message: "स्थानीय दिनमान में पुण्यकाल की मान्य अवधि उपलब्ध नहीं हुई।" };
-    return { label: "संक्रांति पुण्यकाल", status: "calculated", date: moment, dateLabel: formatDateLabel(moment), windows: [punya] };
+    const mahaPunya = interval(mahaStart, mahaEnd, "महापुण्यकाल");
+    return { label: "संक्रांति पुण्यकाल", status: "calculated", date: moment, dateLabel: formatDateLabel(moment), windows: mahaPunya ? [punya, mahaPunya] : [punya] };
   },
 
   "holika-dahan-pradosh"(context) {
