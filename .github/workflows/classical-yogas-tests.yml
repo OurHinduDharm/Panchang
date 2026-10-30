@@ -15,6 +15,7 @@ on:
       - "tests/classical-yogas-real-panchang-comparison.test.js"
       - "tests/classical-yogas-drik-reference.test.js"
       - "tests/panchang-card-order.test.js"
+      - "tests/planetary-asta-udaya-direction.test.js"
       - "tests/compact-ui-night-prahar.test.js"
       - ".github/workflows/classical-yogas-tests.yml"
   pull_request:
