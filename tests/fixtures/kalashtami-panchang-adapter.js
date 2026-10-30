@@ -151,7 +151,7 @@
     const base = new Map();
     const start = new Date(Date.UTC(year,0,1));
     const end = new Date(Date.UTC(year+1,0,1));
-    // If reference dates are supplied (e.g. published Drik Panchang vrat dates),
+    // If reference dates are supplied by the caller,
     // calculate only a small window around those dates. Without seeds, retain
     // the full-year scan as a safe fallback for exploratory years.
     const suppliedSeeds = Array.isArray(options.seedDates)
@@ -349,7 +349,7 @@
       const days = Array.from(merged.days.values()).sort((a,b) => a.date.localeCompare(b.date));
       const monthly = selectMonthlyDateForEvent(days, new Set(suppliedSeeds));
       // Annual Kalabhairava Ashtami is the Margashirsha Krishna Ashtami only.
-      // Do not apply the annual Dharmasindhu decision independently to every
+      // Do not apply the annual decision independently to every
       // month's Krishna Ashtami event.
       const margashirshaDays = days.filter(day => monthHindi(day.month) === "मार्गशीर्ष");
       const annual = margashirshaDays.length ? selectAnnualBhairavaDate(margashirshaDays) : null;
