@@ -99,17 +99,8 @@
     {
       "date": "2026-08-17",
       "dateLabel": "17 अगस्त",
-      "title": "नाग पंचमी",
-      "description": "नाग पंचमी पर नाग-देवता का पूजन और सर्पों के प्रति श्रद्धा व्यक्त की जाती है। पूजा-विधि और निषेध क्षेत्रीय परंपरा के अनुसार भिन्न हो सकते हैं।",
-      "category": "पर्व",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "श्रावण शुक्ल पंचमी"
-    },
-    {
-      "date": "2026-08-17",
-      "dateLabel": "17 अगस्त",
-      "title": "नाग पंचमी व्रत",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\">नाग पंचमी व्रत</a>, <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\"> नागों की स्तोत्रात्मक उपासना</a>",
+      "title": "नाग पंचमी / नाग पंचमी व्रत",
+      "description": "नाग पंचमी पर नाग-देवताओं का पूजन और सर्पों के प्रति श्रद्धा व्यक्त करने की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नाग पंचमी व्रत</a> तथा <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नागों की स्तोत्रात्मक उपासना</a>।",
       "category": "व्रत-पर्व",
       "reviewStatus": "needs-review",
       "hinduTithi": "श्रावण शुक्ल पंचमी"
@@ -178,27 +169,9 @@
     {
       "date": "2026-08-28",
       "dateLabel": "28 अगस्त",
-      "title": "रक्षा बंधन",
-      "description": "रक्षाबंधन में बहनें भाइयों की कलाई पर राखी बाँधकर मंगल की कामना करती हैं। राखी बाँधने का समय राखी बाँधने का समय भद्रा की व्याप्ति से बचकर निर्धारित होता है।",
-      "category": "पर्व",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
-    },
-    {
-      "date": "2026-08-28",
-      "dateLabel": "28 अगस्त",
-      "title": "रक्षा बंधन, संस्कृत दिवस, लव कुश जयंती",
-      "description": "श्रावण पूर्णिमा पर रक्षा-सूत्र बाँधने की परंपरा है। रक्षा-सूत्र बाँधने के लिए भद्रा-रहित समय का विचार किया जाता है।",
-      "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
-    },
-    {
-      "date": "2026-08-28",
-      "dateLabel": "28 अगस्त",
-      "title": "रक्षाबंधन / श्रावण पूर्णिमा",
-      "description": "रक्षाबंधन / श्रावण पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत तथा स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार निर्धारित होता है।",
-      "category": "प्रमुख पर्व",
+      "title": "संस्कृत दिवस / लव-कुश जयंती",
+      "description": "श्रावण पूर्णिमा के अवसर पर संस्कृत दिवस तथा लव-कुश जयंती से जुड़े आयोजन और स्मरण किए जाते हैं।",
+      "category": "दिवस / जयंती",
       "reviewStatus": "needs-review",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
     },
