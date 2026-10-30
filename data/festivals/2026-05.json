@@ -12,7 +12,7 @@
       "title": "वैशाख पूर्णिमा / बुद्ध पूर्णिमा",
       "description": "बुद्ध पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत तथा स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार निर्धारित होता है।",
       "category": "पूर्णिमा",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल पूर्णिमा"
     },
     {
@@ -30,7 +30,7 @@
       "title": "देवर्षि नारद जी की जयन्ती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Muni-Naradji-on-Devarshi-Narad-Jayanti.html\" target=\"_blank\">देवर्षि नारद जी की जयन्ती</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ कृष्ण प्रतिपदा"
     },
     {
@@ -59,7 +59,7 @@
       "title": "अपरा एकादशी",
       "description": "अपरा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -86,7 +86,7 @@
       "title": "वृषभ संक्रांति",
       "description": "वृषभ संक्रांति सूर्य के राशि-परिवर्तन से जुड़ी है। स्नान, दान और जप की परंपरा है; पुण्यकाल सूर्य-संक्रमण के वास्तविक समय और संबंधित नियमों से निर्धारित होता है।",
       "category": "संक्रांति",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-05-16",
@@ -94,7 +94,7 @@
       "title": "वट सावित्री व्रत",
       "description": "वट सावित्री व्रत में सावित्री-सत्यवान की कथा का स्मरण कर वटवृक्ष की पूजा की जाती है। विभिन्न पंचांगों में यह व्रत अमावस्या या पूर्णिमा से संबंधित मिलता है।",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
     },
     {
@@ -112,7 +112,7 @@
       "title": "श्री शनि जयन्ती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html\" target=\"_blank\"> श्री शनि जयन्ती (ज्येष्ठ अमावास्या)</a> पर <a href=\"https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html\" target=\"_blank\">शनि देव के निमित्त पूजन, स्तोत्र पाठ </a> मंत्र जप, हवन-दान करें <br/> वट सावित्री व्रत",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
     },
     {
@@ -148,7 +148,7 @@
       "title": "गंगा दशहरा",
       "description": "ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>। <a href=\"http://ourhindudharm.blogspot.com/2013/06/about-Godess-Ganga-on-ganga-dussehra.html\" target=\"_blank\"> 25 मई - ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>।</a> <br/> १७ मई से २५ मई तक - पापकर्म साधना की प्रगति में बाधक होते हैं। ज्येष्ठ शुक्ल प्रतिपदा से दस दिन तक गंगा जी की उपासना करें - पहले दिन एक बार पाठ, दूसरे दिन दो बार पाठ ऐसे करके नित्य एक-एक पाठ की वृद्धि करते हुए क्रम से इन दस दिनों में पापशामक \"गंगा दशहरा स्तोत्र\" पढ़े।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "endDate": "2026-05-25",
       "hinduTithi": "ज्येष्ठ शुक्ल दशमी"
     },
@@ -158,7 +158,7 @@
       "title": "पद्मिनी एकादशी",
       "description": "पद्मिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ अधिक शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -176,7 +176,7 @@
       "title": "ज्येष्ठ अधिक पूर्णिमा",
       "description": "ज्येष्ठ अधिक पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत तथा स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार निर्धारित होता है।",
       "category": "पूर्णिमा",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ अधिक शुक्ल पूर्णिमा"
     }
   ]
