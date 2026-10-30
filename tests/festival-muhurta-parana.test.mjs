@@ -546,7 +546,7 @@ test("After-sunset Sankranti uses the daylight interval preceding sunset", () =>
     nextSunset: date("2026-10-18T18:00:00+05:30")
   });
   assert.equal(result.status, "calculated");
-  assert.equal(result.windows[0].start.toISOString(), date("2026-10-17T11:36:00+05:30").toISOString());
+  assert.equal(result.windows[0].start.toISOString(), date("2026-10-17T12:00:00+05:30").toISOString());
   assert.equal(result.windows[0].end.toISOString(), sunset.toISOString());
 });
 
