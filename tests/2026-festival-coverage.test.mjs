@@ -260,7 +260,7 @@ test("Gupta Navratri has all nine Navadurga cards and the corresponding article 
     ["2026-07-15", /गुप्त नवरात्र प्रारम्भ.*शैलपुत्री/, "About-Gupt-Navratris.html"],
     ["2026-07-16", /गुप्त नवरात्र द्वितीया.*ब्रह्मचारिणी/, "About-Brahmacharini-Ma-On-Navaratri.html"],
     ["2026-07-17", /गुप्त नवरात्र तृतीया.*चन्द्रघंटा/, "About-ChadraghantaMaa-On-Navaratri.html"],
-    ["2026-07-17", /गुप्त नवरात्र चतुर्थी.*कूष्माण्डा/, "About-KooshmandaMata-On-Navaratri.html"],
+    ["2026-07-17", /क्षय चतुर्थी.*कूष्माण्डा/, "About-KooshmandaMata-On-Navaratri.html"],
     ["2026-07-18", /गुप्त नवरात्र पंचमी.*स्कन्दमाता/, "About-BhagwatiSkandaMata-On-Navratri.html"],
     ["2026-07-19", /गुप्त नवरात्र षष्ठी.*कात्यायनी/, "About-GodessKaatyaayani-On-Navratri.html"],
     ["2026-07-20", /गुप्त नवरात्र सप्तमी.*कालरात्रि/, "About-KalratriMaa-On-Navratri.html"],
