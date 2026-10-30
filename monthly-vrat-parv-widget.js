@@ -1021,7 +1021,15 @@
       var curatedAshadhaGupta2026=year===2026&&month===7&&storedEvents.some(function(item){
         return item.date==="2026-07-15"&&/आषाढ़ गुप्त नवरात्र प्रारम्भ/.test(String(item.title||""))&&item.reviewStatus==="approved";
       });
-      var dynamicNavratri=curatedAshadhaGupta2026?{events:[],recognized:false}:await buildDynamicNavratriEvents(year,month,token);
+      var curatedSharadNavratri2026=year===2026&&month===10&&storedEvents.some(function(item){
+        return item.date==="2026-10-11"&&/शारदीय नवरात्र प्रारम्भ/.test(String(item.title||""))&&item.reviewStatus==="approved";
+      });
+      // 2026 शारदीय नवरात्र में 18 अक्टूबर को सप्तमी सूर्योदय पर दोहराई गई;
+      // 19 अक्टूबर को सूर्योदय पर अष्टमी और दिन में नवमी-व्याप्ति से महाष्टमी
+      // तथा महानवमी दोनों हैं। इन सत्यापित स्थिर कार्डों को sunrise-only
+      // dynamic सूची से बदलना नहीं है।
+      var keepCuratedNavratri2026=curatedAshadhaGupta2026||curatedSharadNavratri2026;
+      var dynamicNavratri=keepCuratedNavratri2026?{events:[],recognized:false}:await buildDynamicNavratriEvents(year,month,token);
       if(token!==requestToken)return;
       // जब मास/तिथि से नवरात्रि सफलतापूर्वक पहचानी जाए, पुराने वर्ष-विशेष
       // दिनांक/मुहूर्त वाले दैनिक नवरात्र शीर्षकों को गतिशील प्रविष्टियों से बदलें।
