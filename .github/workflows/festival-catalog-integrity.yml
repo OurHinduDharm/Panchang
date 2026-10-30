@@ -26,7 +26,7 @@ jobs:
           node-version: 20
       - name: Run integrity unit tests
         run: node --test tests/festival-catalog-integrity.test.mjs
-      - name: Audit 2026 month catalog
+      - name: Audit published month catalogs
         run: |
           for year in 2026 2027 2028 2029; do
             node scripts/audit-festival-catalog.mjs "$year"
