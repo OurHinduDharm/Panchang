@@ -1,4 +1,4 @@
-name: Festival catalog integrity audit
+name: Festival catalog and muhurta integrity audit
 on:
   push:
     branches:
