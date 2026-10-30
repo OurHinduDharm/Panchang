@@ -36,6 +36,8 @@ jobs:
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Run festival muhurta regression tests
         run: node --test tests/festival-muhurta-parana.test.mjs tests/narak-chaturdashi-real-panchang-2026.test.mjs
+      - name: Diagnose missing 2027-2028 tithi metadata
+        run: node --test tests/diagnose-missing-tithi-2027-2028.test.js
       - name: Audit published month catalogs
         run: |
           for year in 2026 2027 2028 2029; do
