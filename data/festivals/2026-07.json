@@ -64,6 +64,15 @@
       "reviewStatus": "approved"
     },
     {
+      "date": "2026-07-14",
+      "dateLabel": "14 जुलाई",
+      "title": "आषाढ़ अमावस्या",
+      "description": "अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। श्राद्ध और तर्पण का समय कर्म के प्रकार तथा संबंधित काल-व्याप्ति से निर्धारित होता है।",
+      "category": "अमावस्या",
+      "reviewStatus": "approved",
+      "hinduTithi": "आषाढ़ कृष्ण अमावस्या"
+    },
+    {
       "date": "2026-07-15",
       "dateLabel": "15 जुलाई",
       "title": "आषाढ़ गुप्त नवरात्र प्रारम्भ",
@@ -168,6 +177,15 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च।",
       "category": "नवरात्रि",
       "reviewStatus": "needs-review",
+      "hinduTithi": "आषाढ़ शुक्ल षष्ठी"
+    },
+    {
+      "date": "2026-07-19",
+      "dateLabel": "19 जुलाई",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द/कार्तिकेय की उपासना और व्रत किया जाता है। इस तिथि पर शुक्ल षष्ठी स्थानीय सूर्योदय पर विद्यमान है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ शुक्ल षष्ठी"
     },
     {
