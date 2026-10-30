@@ -145,14 +145,6 @@
       "secondaryArticleLabel": "कलश स्थापना विधि देखें"
     },
     {
-      "date": "2026-03-20",
-      "dateLabel": "20 मार्च",
-      "title": "वसन्त ऋतु प्रारंभ",
-      "description": "वसन्त ऋतु प्रारंभ",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "approved"
-    },
-    {
       "date": "2026-03-19",
       "dateLabel": "19 मार्च",
       "title": "हिंदू नवसंवत्सर २०८३ (रौद्र)",
@@ -160,6 +152,14 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल प्रतिपदा"
+    },
+    {
+      "date": "2026-03-20",
+      "dateLabel": "20 मार्च",
+      "title": "वसन्त ऋतु प्रारंभ",
+      "description": "वसन्त ऋतु प्रारंभ",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-03-20",
@@ -280,6 +280,17 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html"
     },
     {
+      "date": "2026-03-26",
+      "dateLabel": "26 मार्च",
+      "title": "श्री महातारा (तारा महाविद्या) जयंती",
+      "description": "चैत्र शुक्ल नवमी पर श्री महातारा की जयंती एवं उपासना। <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री तारा महाविद्या जयंती</a>।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "चैत्र शुक्ल नवमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html",
+      "articleLabel": "तारा महाविद्या जयंती"
+    },
+    {
       "date": "2026-03-27",
       "dateLabel": "27 मार्च",
       "title": "चैत्र नवरात्र पारण",
@@ -291,9 +302,9 @@
     {
       "date": "2026-03-27",
       "dateLabel": "27 मार्च",
-      "title": "नवरात्रि नवमी - सिद्धिदात्री एवं तारा महाविद्या जयंती",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\">नवरात्र के नवम दिन सिद्धिदात्री जी की आराधना</a>, <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\">नवमी हवन विधि।</a> <br/> <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html\" target=\"_blank\">तारा महाविद्या जयंती</a> (चैत्र नवरात्रि नवमी - इस दिन भी कन्या पूजन करें।)",
-      "category": "जयंती",
+      "title": "चैत्र नवरात्र नवमी - सिद्धिदात्री पूजन",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवरात्र के नवम दिन माँ सिद्धिदात्री की आराधना</a> तथा <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>।",
+      "category": "नवरात्रि",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल नवमी"
     },
