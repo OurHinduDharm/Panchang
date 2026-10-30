@@ -1033,7 +1033,7 @@
   }
   function ensureYearOption(year){
     var numeric=Number(year);
-    if(!Number.isInteger(numeric)||numeric<2026||numeric>2030)return null;
+    if(!Number.isInteger(numeric)||numeric<2026||numeric>2029)return null;
     var value=String(numeric);
     var existing=Array.from(yearSelect.options).find(function(option){return option.value===value;});
     if(existing)return existing;
@@ -1047,7 +1047,7 @@
   }
   function syncMonthNavigationButtons(){
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
-    var atStart=year===2026&&month===1,atEnd=year===2030&&month===12;
+    var atStart=year===2026&&month===1,atEnd=year===2029&&month===12;
     var previous=document.getElementById("prevBtn");
     var next=document.getElementById("nextBtn");
     if(previous)previous.disabled=atStart;
@@ -1063,7 +1063,7 @@
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(!Number.isFinite(y)||!Number.isFinite(m))return;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
-    if(y<2026||y>2030){syncMonthNavigationButtons();return;}
+    if(y<2026||y>2029){syncMonthNavigationButtons();return;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
@@ -1145,7 +1145,7 @@
      focusDate.slice(0,4)===String(requestedYear)&&Number(focusDate.slice(5,7))===requestedMonth){
     initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
   }
-  var initialYear=Math.min(2030,Math.max(2026,initialDate.getFullYear()));
+  var initialYear=Math.min(2029,Math.max(2026,initialDate.getFullYear()));
   if(initialYear!==initialDate.getFullYear())initialDate=new Date(initialYear,initialDate.getMonth(),1,12,0,0);
   ensureYearOption(initialYear);
   yearSelect.value=String(initialYear);
