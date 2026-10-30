@@ -367,6 +367,7 @@
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="sankranti-punya-kala";})){
         context.sankrantiMoment=findSankrantiMoment(values,item,dateIso);
+        context.sankrantiRashiIndex=getSankrantiRashiIndex(item);
       }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="narak-chaturdashi-abhyanga";})){
         // Panchang day intervals are clipped at sunrise; include the previous sunrise-day interval
