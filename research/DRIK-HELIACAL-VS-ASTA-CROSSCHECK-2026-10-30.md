@@ -57,7 +57,7 @@ The same Swiss model can be close for an ending boundary while being several day
 
 The earlier browser diagnostic supplied `[1013.25, 15, 40, 0]` at every elevation. This pins sea-level pressure even for Pithoragarh at 1650 m, bypassing Swiss Ephemeris' documented default altitude adjustment.
 
-For Pithoragarh Jupiter 2027, changing from fixed sea-level atmosphere to all-zero documented defaults moves the Swiss setting result from 09 Aug 2027 19:57 IST to 11 Aug 2027 19:17 IST (about 1 day 23 hours). The rising result moves only by minutes. For Pithoragarh Venus 2026, the setting result moves from 10 Oct to 11 Oct, while the rising result also shifts by only minutes.
+For Pithoragarh Jupiter 2027, changing from fixed sea-level atmosphere to all-zero documented defaults moves the Swiss setting result from 09 Aug 2027 19:20 IST to 11 Aug 2027 19:17 IST (about 47 hours 57 minutes). The rising result moves by about 24 hours, from 15 Sep 2027 05:15 IST to 14 Sep 2027 05:14 IST. For Pithoragarh Venus 2026, the setting result moves from 10 Oct 2026 17:55 IST to 11 Oct 2026 17:52 IST; the rising result moves from 30 Oct 2026 05:47 IST to 29 Oct 2026 05:54 IST.
 
 This is a real diagnostic-input bug. The all-zero atmospheric array is the correct neutral baseline when local meteorological observations are not supplied; it lets Swiss Ephemeris apply its documented defaults and elevation adjustment. It is not a universal local-weather model.
 
