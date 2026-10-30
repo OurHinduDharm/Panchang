@@ -4,7 +4,7 @@
   "month": 11,
   "monthName": "नवंबर",
   "status": "approved",
-  "locationScope": "स्थानानुसार तिथि एवं मुहूर्त-गणना",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-11-01",
@@ -13,19 +13,37 @@
       "description": "माताएँ संतान की कुशलता और दीर्घायु की कामना से अहोई माता का व्रत करती हैं। पूजा में अहोई माता का चित्र, कथा और तारों को अर्घ्य देने की परंपरा कई क्षेत्रों में प्रचलित है। व्रत-विधि में अहोई माता की कथा और तारों को अर्घ्य देना शामिल है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "hinduTithi": "कार्तिक कृष्ण अष्टमी"
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)"
     },
     {
       "date": "2026-11-01",
       "dateLabel": "1 नवंबर",
       "title": "मासिक कालाष्टमी",
       "category": "व्रत",
-      "hinduTithi": "कार्तिक कृष्ण अष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव की पूजा की जाती है। कई परंपराओं में शिवपूजन और रुद्राभिषेक भी किया जाता है। यह रात्रि का व्रत है, इसलिए अष्टमी तिथि का रात में होना महत्वपूर्ण माना जाता है।",
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव की पूजा की जाती है। कई परंपराओं में शिवपूजन और रुद्राभिषेक भी किया जाता है। यह रात्रि का व्रत है, इसलिए अष्टमी तिथि का रात में होना महत्वपूर्ण माना जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
       "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-11-01",
+      "dateLabel": "1 नवंबर",
+      "title": "भानु सप्तमी",
+      "description": "रविवार और सप्तमी तिथि के संयोग में सूर्यदेव की उपासना तथा अर्घ्य का विधान।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी"
+    },
+    {
+      "date": "2026-11-01",
+      "dateLabel": "1 नवंबर",
+      "title": "राधा कुण्ड स्नान",
+      "description": "कार्तिक कृष्ण अष्टमी के अवसर पर ब्रज के राधा कुण्ड में स्नान और पूजा की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)"
     },
     {
       "date": "2026-11-05",
@@ -40,11 +58,13 @@
       "date": "2026-11-05",
       "dateLabel": "5 नवंबर",
       "title": "रमा एकादशी व्रत",
-      "description": "रमा एकादशी पर भगवान विष्णु की पूजा, नाम-स्मरण, व्रत और दान की परंपरा है। पारण का समय द्वादशी तिथि, हरिवासर की समाप्ति और चयनित स्थान के सूर्योदय को ध्यान में रखकर निर्धारित किया जाता है।",
+      "description": "रमा एकादशी पर भगवान विष्णु की पूजा, नाम-स्मरण, व्रत और दान की परंपरा है। पारण का समय द्वादशी तिथि, हरिवासर की समाप्ति और चयनित स्थान के सूर्योदय को ध्यान में रखकर निर्धारित किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html",
+      "articleLabel": "रमा एकादशी का माहात्म्य पढ़ें"
     },
     {
       "date": "2026-11-06",
@@ -90,23 +110,37 @@
       "date": "2026-11-08",
       "dateLabel": "8 नवंबर",
       "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर माँ लक्ष्मी और भगवान गणेश का पूजन, दीपदान तथा सुख-समृद्धि की प्रार्थना की जाती है। लक्ष्मी-गणेश पूजन का मुहूर्त प्रदोष काल में होता है।",
+      "description": "दीपावली पर माँ लक्ष्मी और भगवान गणेश का पूजन, दीपदान तथा सुख-समृद्धि की प्रार्थना की जाती है। लक्ष्मी-गणेश पूजन का मुहूर्त प्रदोष काल में होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण अमावस्या",
-      "muhurtaRule": "diwali-lakshmi-puja"
+      "muhurtaRule": "diwali-lakshmi-puja",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html"
     },
     {
       "date": "2026-11-08",
       "dateLabel": "8 नवंबर",
       "title": "नरक चतुर्दशी / रूप चौदस",
-      "description": "नरक चतुर्दशी को रूप चौदस भी कहते हैं। इस दिन कृष्ण चतुर्दशी की व्याप्ति में चंद्रोदय के बाद और सूर्योदय से पहले अभ्यंग-स्नान किया जाता है। अपामार्ग (चिचड़ा) को शरीर के चारों ओर घुमाकर पाप-निवारण की प्रार्थना करने का विधान धर्मसिंधु में मिलता है। प्रार्थना: “सीतालोष्ठसमायुक्त सकण्टकदलान्वित। हर पापमपामार्ग भ्राम्यमाणः पुनः पुनः॥”",
+      "description": "नरक चतुर्दशी को रूप चौदस भी कहते हैं। इस दिन कृष्ण चतुर्दशी की व्याप्ति में चंद्रोदय के बाद और सूर्योदय से पहले अभ्यंग-स्नान किया जाता है। अपामार्ग (चिचड़ा) को शरीर के चारों ओर घुमाकर पाप-निवारण की प्रार्थना करने का विधान धर्मसिंधु में मिलता है। प्रार्थना: “सीतालोष्ठसमायुक्त सकण्टकदलान्वित। हर पापमपामार्ग भ्राम्यमाणः पुनः पुनः॥” <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
       "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
       "muhurtaRule": "narak-chaturdashi-abhyanga"
+    },
+    {
+      "date": "2026-11-08",
+      "dateLabel": "8 नवंबर",
+      "title": "श्री कमला महाविद्या जयंती",
+      "description": "दस महाविद्याओं में श्री कमला दसवीं महाविद्या हैं और उन्हें तान्त्रिक लक्ष्मी के रूप में भी पूजा जाता है। दीपावली की अमावस्या पर श्री कमला महाविद्या की उपासना का विशेष महत्व है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री कमला महाविद्या जयंती एवं स्वरूप</a> तथा <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी-कमला महाविद्या की स्तोत्रात्मक उपासना</a> पढ़ें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक कृष्ण अमावस्या",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html",
+      "articleLabel": "कमला महाविद्या जयंती",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "secondaryArticleLabel": "महालक्ष्मी-कमला स्तोत्रात्मक उपासना"
     },
     {
       "date": "2026-11-09",
@@ -127,6 +161,15 @@
       "hinduTithi": "कार्तिक शुक्ल प्रतिपदा"
     },
     {
+      "date": "2026-11-10",
+      "dateLabel": "10 नवंबर",
+      "title": "द्यूत क्रीड़ा",
+      "description": "कार्तिक शुक्ल प्रतिपदा को गोवर्धन पूजा के साथ द्यूत-क्रीड़ा की पारंपरिक स्मृति भी जुड़ी है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल प्रतिपदा"
+    },
+    {
       "date": "2026-11-11",
       "dateLabel": "11 नवंबर",
       "title": "भाई दूज",
@@ -137,6 +180,15 @@
       "muhurtaRule": "bhai-dooj-tilak"
     },
     {
+      "date": "2026-11-11",
+      "dateLabel": "11 नवंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "कार्तिक अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल द्वितीया"
+    },
+    {
       "date": "2026-11-13",
       "title": "लाभ चतुर्थी",
       "category": "व्रत",
@@ -144,6 +196,15 @@
       "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
       "reviewStatus": "approved",
       "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
+      "date": "2026-11-14",
+      "dateLabel": "14 नवंबर",
+      "title": "लाभ पंचमी",
+      "description": "कार्तिक शुक्ल पंचमी को व्यापार, लेखा और शुभारम्भ के लिए लाभ पंचमी का पर्व मनाया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल पंचमी"
     },
     {
       "date": "2026-11-15",
@@ -194,7 +255,7 @@
       "date": "2026-11-18",
       "dateLabel": "18 नवंबर",
       "title": "अक्षय नवमी",
-      "description": "अक्षय नवमी को आँवला नवमी भी कहा जाता है। कार्तिक शुक्ल नवमी पर आँवले के वृक्ष की पूजा, दान और सत्कर्म की परंपरा है। क्षेत्रीय मान्यताओं के अनुसार पूजा-विधि में अंतर हो सकता है।",
+      "description": "अक्षय नवमी को आँवला नवमी भी कहा जाता है। कार्तिक शुक्ल नवमी पर आँवले के वृक्ष की पूजा, दान और सत्कर्म की परंपरा है। इस दिन आँवले के वृक्ष के नीचे भोजन करने और दान देने का विशेष महत्व माना जाता है।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल नवमी"
@@ -212,19 +273,28 @@
       "date": "2026-11-20",
       "dateLabel": "20 नवंबर",
       "title": "देवउठनी एकादशी",
-      "description": "देवउठनी या प्रबोधिनी एकादशी को भगवान विष्णु के योगनिद्रा से जागने का पर्व माना जाता है। चातुर्मास-व्रत के समापन और तुलसी-विवाह की परंपरा इससे जुड़ी है। व्रत खोलने का समय नीचे दिया गया है।",
+      "description": "देवउठनी या प्रबोधिनी एकादशी को भगवान विष्णु के योगनिद्रा से जागने का पर्व माना जाता है। चातुर्मास-व्रत के समापन और तुलसी-विवाह की परंपरा इससे जुड़ी है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
     {
+      "date": "2026-11-20",
+      "dateLabel": "20 नवंबर",
+      "title": "भीष्म पंचक प्रारम्भ",
+      "description": "कार्तिक शुक्ल एकादशी से पूर्णिमा तक भीष्म पंचक व्रत का पालन किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल एकादशी"
+    },
+    {
       "date": "2026-11-21",
       "dateLabel": "21 नवंबर",
-      "title": "गौण देवउठनी एकादशी (वैष्णव)",
+      "title": "गौण देवउठनी एकादशी",
       "category": "एकादशी",
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
-      "description": "देवउठनी एकादशी की यह तिथि उन वैष्णव परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। व्रत खोलने का समय नीचे दिया गया है।",
+      "description": "देवउठनी एकादशी की यह तिथि उन वैष्णव परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "reviewStatus": "approved",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -232,10 +302,25 @@
       "date": "2026-11-21",
       "dateLabel": "21 नवंबर",
       "title": "तुलसी विवाह",
-      "description": "तुलसी-शालिग्राम विवाह की परंपरा।",
+      "description": "तुलसी-शालिग्राम विवाह की परंपरा। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekaadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">प्रबोधिनी एकादशी पर तुलसी विवाह</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "कार्तिक शुक्ल द्वादशी"
+      "hinduTithi": "कार्तिक शुक्ल द्वादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekaadashi.html"
+    },
+    {
+      "date": "2026-11-21",
+      "dateLabel": "21 नवंबर",
+      "title": "वैष्णव देवउठनी एकादशी",
+      "description": "वैष्णव परंपरा में देवउठनी एकादशी का यह विशेष पालन गौण तिथि पर किया जाता है। व्रत और पारण के नियम परंपरा के अनुसार निभाएँ। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत का उद्यापन",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का विधान"
     },
     {
       "date": "2026-11-22",
@@ -244,6 +329,33 @@
       "hinduTithi": "कार्तिक शुक्ल त्रयोदशी",
       "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
       "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-11-22",
+      "dateLabel": "22 नवंबर",
+      "title": "विश्वेश्वर व्रत",
+      "description": "कार्तिक शुक्ल त्रयोदशी पर काशी विश्वनाथ सहित भगवान शिव की उपासना का विधान।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल त्रयोदशी"
+    },
+    {
+      "date": "2026-11-23",
+      "dateLabel": "23 नवंबर",
+      "title": "वैकुण्ठ चतुर्दशी",
+      "description": "कार्तिक शुक्ल चतुर्दशी को भगवान विष्णु और भगवान शिव की संयुक्त उपासना की जाती है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल चतुर्दशी"
+    },
+    {
+      "date": "2026-11-23",
+      "dateLabel": "23 नवंबर",
+      "title": "मणिकर्णिका स्नान (काशी)",
+      "description": "कार्तिक शुक्ल चतुर्दशी पर काशी के मणिकर्णिका घाट में स्नान और दान की परंपरा का विशेष महत्व है।",
+      "category": "तीर्थ-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल चतुर्दशी"
     },
     {
       "date": "2026-11-24",

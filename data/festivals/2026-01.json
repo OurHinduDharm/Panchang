@@ -4,7 +4,7 @@
   "month": 1,
   "monthName": "जनवरी",
   "status": "approved",
-  "locationScope": "प्रारंभिक डेटा; पंचांग-आधारित गणना की समीक्षा आवश्यक",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-01-01",
@@ -57,7 +57,7 @@
       "title": "मासिक कालाष्टमी",
       "category": "व्रत",
       "hinduTithi": "माघ कृष्ण अष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
@@ -85,7 +85,7 @@
       "title": "षट्तिला एकादशी",
       "category": "एकादशी",
       "hinduTithi": "माघ कृष्ण एकादशी",
-      "description": "षट्तिला एकादशी पर भगवान विष्णु की पूजा, तिल से स्नान, तिल-दान और तिल से बने पदार्थों के सेवन/दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें।",
+      "description": "षट्तिला एकादशी पर भगवान विष्णु की पूजा, तिल से स्नान, तिल-दान और तिल से बने पदार्थों के सेवन/दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "muhurtaRule": "ekadashi-parana",
       "reviewStatus": "approved",
       "showReviewStatus": false
@@ -135,6 +135,15 @@
       "reviewStatus": "approved"
     },
     {
+      "date": "2026-01-20",
+      "dateLabel": "20 जनवरी",
+      "title": "चन्द्र दर्शन",
+      "description": "माघ शुक्ल द्वितीया को अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "माघ शुक्ल द्वितीया"
+    },
+    {
       "date": "2026-01-22",
       "dateLabel": "22 जनवरी",
       "title": "गौरी गणेश चतुर्थी / गणेश जयंती",
@@ -147,8 +156,8 @@
     {
       "date": "2026-01-23",
       "dateLabel": "23 जनवरी",
-      "title": "वसंत पंचमी / श्री पंचमी / सरस्वती पूजन",
-      "description": "वसंत पंचमी पर माँ सरस्वती की पूजा, विद्यारम्भ, पुस्तक-पूजन और पीले वस्त्र/भोग की परंपरा है। इसे श्री पंचमी भी कहते हैं। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a>।",
+      "title": "वसंत पंचमी / श्री पंचमी / सरस्वती सिद्धविद्या जयन्ती",
+      "description": "द्वादश सिद्धविद्याओं की परंपरा में इस दिन सरस्वती जयन्ती भी मनाई जाती है। वसंत पंचमी पर माँ सरस्वती की पूजा, विद्यारम्भ, पुस्तक-पूजन और पीले वस्त्र/भोग की परंपरा है। इसे श्री पंचमी भी कहते हैं। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a>।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "माघ शुक्ल पंचमी"
@@ -174,8 +183,8 @@
     {
       "date": "2026-01-25",
       "dateLabel": "25 जनवरी",
-      "title": "रथ सप्तमी",
-      "description": "रथ सप्तमी सूर्यदेव की उपासना से जुड़ी तिथि है। प्रातः स्नान, सूर्य को अर्घ्य, आदित्य-स्मरण और दान की परंपरा है; पूजा-विधि क्षेत्रानुसार भिन्न हो सकती है।",
+      "title": "रथ सप्तमी / भानु सप्तमी",
+      "description": "रथ सप्तमी सूर्यदेव की उपासना से जुड़ी तिथि है। प्रातः स्नान, सूर्य को अर्घ्य, आदित्य-स्मरण और दान की परंपरा है; पूजा-विधि क्षेत्रानुसार भिन्न हो सकती है। इस दिन भानु सप्तमी के रूप में सूर्यदेव की उपासना भी की जाती है।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "माघ शुक्ल सप्तमी"
@@ -202,7 +211,7 @@
       "date": "2026-01-29",
       "dateLabel": "29 जनवरी",
       "title": "जया एकादशी",
-      "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियमों से निर्धारित होता है।",
+      "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "माघ शुक्ल एकादशी",

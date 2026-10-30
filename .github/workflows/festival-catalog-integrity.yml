@@ -10,6 +10,10 @@ on:
       - 'tests/narak-chaturdashi-real-panchang-2026.test.mjs'
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
+      - 'tests/2026-festival-coverage.test.mjs'
+      - 'monthly-vrat-parv-widget.js'
+      - 'monthly-vrat-parv.html'
+      - 'scripts/diagnose-2026-festival-review.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
   pull_request:
     paths:
@@ -19,6 +23,9 @@ on:
       - 'tests/narak-chaturdashi-real-panchang-2026.test.mjs'
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
+      - 'tests/2026-festival-coverage.test.mjs'
+      - 'monthly-vrat-parv-widget.js'
+      - 'monthly-vrat-parv.html'
       - '.github/workflows/festival-catalog-integrity.yml'
 permissions:
   contents: read
@@ -30,10 +37,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run integrity unit tests
-        run: node --test tests/festival-catalog-integrity.test.mjs
+      - name: Run integrity and 2026 coverage tests
+        run: node --test tests/festival-catalog-integrity.test.mjs tests/2026-festival-coverage.test.mjs
       - name: Install pinned Panchang engine for location regression
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Diagnose remaining 2026 festival review dates at Pithoragarh
+        run: node scripts/diagnose-2026-festival-review.mjs
       - name: Run festival muhurta regression tests
         run: node --test tests/festival-muhurta-parana.test.mjs tests/narak-chaturdashi-real-panchang-2026.test.mjs
       - name: Audit published month catalogs

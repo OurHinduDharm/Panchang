@@ -103,6 +103,6 @@ test("Amavasya sunrise dates are covered except the unresolved March 19 tithi co
     assert.ok(rows.some(e => /अमावस्या/.test(e.title || "") || /कृष्ण अमावस्या/.test(e.hinduTithi || "")), date + " must represent Amavasya");
   }
   const adhika = monthEvents("2026-06-15").find(e => e.date === "2026-06-15" && /अमावस्या/.test(e.title || ""));
-  assert.equal(adhika.reviewStatus, "needs-review");
+  assert.equal(adhika.reviewStatus, "approved");
   assert.match(adhika.hinduTithi, /अधिक ज्येष्ठ कृष्ण अमावस्या/);
 });

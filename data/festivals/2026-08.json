@@ -3,9 +3,18 @@
   "year": 2026,
   "month": 8,
   "monthName": "अगस्त",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; पंचांग-आधारित गणना की समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
+    {
+      "date": "2026-08-01",
+      "dateLabel": "1 अगस्त",
+      "title": "जया पार्वती व्रत समापन",
+      "description": "पाँच दिवसीय जया पार्वती व्रत का समापन इस दिन किया जाता है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण कृष्ण तृतीया"
+    },
     {
       "date": "2026-08-02",
       "title": "गजानन संकष्टी चतुर्थी",
@@ -20,7 +29,7 @@
       "title": "श्रावण सोमवार (प्रथम)",
       "description": "श्रावण सोमवार - ३ अगस्त, १० अगस्त, १७ अगस्त, २४ अगस्त। इस अवसर पर शिवजी के निमित्त यथा-सामर्थ्य व्रत, पूजा, अभिषेक, बिल्वार्चन, अनुष्ठान, स्तोत्र-पाठ आदि करें।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-08-05",
@@ -28,19 +37,19 @@
       "title": "मासिक कालाष्टमी",
       "category": "व्रत",
       "hinduTithi": "श्रावण कृष्ण अष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-08-09",
       "dateLabel": "9 अगस्त",
       "title": "कामिका एकादशी",
-      "description": "कामिका एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "कामिका एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -71,12 +80,31 @@
       "hinduTithi": "श्रावण कृष्ण अमावस्या"
     },
     {
+      "date": "2026-08-12",
+      "dateLabel": "12 अगस्त",
+      "title": "पूर्ण सूर्यग्रहण (भारत में अदृश्य)",
+      "description": "ड्रिक पंचांग की 2026 ग्रहण सूची में इस दिन पूर्ण सूर्यग्रहण दिया गया है। भारत में यह ग्रहण दिखाई नहीं देता; अतः पिथौरागढ़ के लिए कोई दृश्यता-अवधि या सूतक समय प्रदर्शित नहीं किया जाता।",
+      "category": "ग्रहण",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण कृष्ण अमावस्या",
+      "timingType": "eclipse-visibility"
+    },
+    {
+      "date": "2026-08-14",
+      "dateLabel": "14 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "श्रावण अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल द्वितीया"
+    },
+    {
       "date": "2026-08-15",
       "dateLabel": "15 अगस्त",
       "title": "स्वतंत्रता दिवस",
-      "description": "स्वतंत्रता दिवस भारत का राष्ट्रीय दिवस है, हिंदू व्रत-पर्व नहीं। यदि इसे सूची में शामिल रखें तो इसे धार्मिक पर्वों से अलग राष्ट्रीय दिवस की श्रेणी में दिखाएँ।",
-      "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "description": "भारत का स्वतंत्रता दिवस। यह राष्ट्रीय दिवस है, धार्मिक व्रत-पर्व नहीं।",
+      "category": "राष्ट्रीय दिवस",
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-08-15",
@@ -84,7 +112,7 @@
       "title": "हरियाली तीज",
       "description": "हरियाली तीज वर्षा ऋतु का पर्व है। कई परंपराओं में महिलाएँ शिव-पार्वती की पूजा, व्रत, झूले और लोकगीतों के माध्यम से उत्सव मनाती हैं।",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल तृतीया"
     },
     {
@@ -102,7 +130,7 @@
       "title": "नाग पंचमी / नाग पंचमी व्रत",
       "description": "नाग पंचमी पर नाग-देवताओं का पूजन और सर्पों के प्रति श्रद्धा व्यक्त करने की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नाग पंचमी व्रत</a> तथा <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नागों की स्तोत्रात्मक उपासना</a>।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पंचमी"
     },
     {
@@ -111,7 +139,7 @@
       "title": "सिंह संक्रांति",
       "category": "संक्रांति",
       "description": "सूर्य के सिंह राशि में प्रवेश से संबंधित संक्रांति। स्नान, दान और जप की परंपरा है; पुण्यकाल सूर्य-संक्रमण के वास्तविक समय के आधार पर निर्धारित होता है।",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-08-18",
@@ -128,7 +156,7 @@
       "title": "श्री कल्कि अवतार जयंती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\">श्री कल्कि अवतार जयंती</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल षष्ठी"
     },
     {
@@ -144,9 +172,9 @@
       "date": "2026-08-23",
       "dateLabel": "23 अगस्त",
       "title": "श्रावण पुत्रदा एकादशी",
-      "description": "श्रावण पुत्रदा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "श्रावण पुत्रदा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -164,16 +192,53 @@
       "title": "ओणम",
       "description": "ओणम केरल का प्रमुख फसल और सांस्कृतिक उत्सव है, जो राजा महाबली की कथा से भी जुड़ा है। पुष्प-रंगोली, पारंपरिक भोज और सामुदायिक आयोजन इसकी पहचान हैं।",
       "category": "पर्व",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-08-26",
+      "dateLabel": "26 अगस्त",
+      "title": "ऋग्वेदी श्रावणी उपाकर्म",
+      "description": "ऋग्वेदी परंपरा का श्रावणी उपाकर्म।",
+      "category": "उपाकर्म",
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "यजुर्वेदी श्रावणी उपाकर्म",
+      "description": "यजुर्वेदी परंपरा का श्रावणी उपाकर्म।",
+      "category": "उपाकर्म",
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "श्री हयग्रीव भगवान जयन्ती",
+      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\"> श्री हयग्रीव भगवान की जयन्ती (सायंकाल में)</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
+      "articleLabel": "श्री हयग्रीव भगवान की जयंती पढ़ें"
     },
     {
       "date": "2026-08-28",
       "dateLabel": "28 अगस्त",
-      "title": "संस्कृत दिवस / लव-कुश जयंती",
-      "description": "श्रावण पूर्णिमा के अवसर पर संस्कृत दिवस तथा लव-कुश जयंती से जुड़े आयोजन और स्मरण किए जाते हैं।",
-      "category": "दिवस / जयंती",
-      "reviewStatus": "needs-review",
+      "title": "संस्कृत दिवस",
+      "description": "श्रावण पूर्णिमा के दिन संस्कृत दिवस मनाया जाता है।",
+      "category": "दिवस",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-08-28",
+      "dateLabel": "28 अगस्त",
+      "title": "लव-कुश जयंती",
+      "description": "श्रावण पूर्णिमा के अवसर पर संस्कृत दिवस तथा लव-कुश जयंती से जुड़े आयोजन और स्मरण किए जाते हैं। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">लव-कुश जयंती एवं श्रावण पूर्णिमा</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html"
     },
     {
       "date": "2026-08-28",
@@ -181,16 +246,7 @@
       "title": "वरलक्ष्मी व्रत",
       "description": "वरलक्ष्मी व्रत में माँ लक्ष्मी की पूजा परिवार के कल्याण और समृद्धि की कामना से की जाती है। यह व्रत विशेष रूप से दक्षिण भारतीय परंपराओं में प्रचलित है।",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
-    },
-    {
-      "date": "2026-08-28",
-      "dateLabel": "28 अगस्त",
-      "title": "श्रावणी उपाकर्म (ऋग्वेदी एवं यजुर्वेदी)",
-      "description": "श्रावणी उपाकर्म — २८ अगस्त २०२६ को ऋग्वेदियों का उपाकर्म, २८ अगस्त को ही यजुर्वेदियों का उपाकर्म भी। यह कर्म भद्रा में भी हो जाता है।",
-      "category": "उपाकर्म",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
     },
     {
@@ -199,26 +255,30 @@
       "title": "श्री गायत्री जयन्ती",
       "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\"> श्री गायत्री जयन्ती</a>, यज्ञोपवीत धारियों द्वारा जप - १० माला",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
+      "articleLabel": "श्री गायत्री जयंती की महिमा पढ़ें"
     },
     {
       "date": "2026-08-28",
       "dateLabel": "28 अगस्त",
-      "title": "श्री हयग्रीव भगवान जयन्ती",
-      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\"> श्री हयग्रीव भगवान की जयन्ती (सायंकाल में)</a>",
-      "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
+      "title": "रक्षाबंधन / श्रावण पूर्णिमा",
+      "description": "श्रावण शुक्ल पूर्णिमा को रक्षाबंधन मनाया जाता है। बहनें भाइयों की कलाई पर रक्षा-सूत्र बाँधकर मंगलकामना करती हैं। राखी बाँधने के समय में भद्रा का विचार किया जाता है; कोई स्थिर घड़ी-समय यहाँ नहीं दिया जा रहा है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a>",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html"
     },
     {
-      "date": "2026-08-30",
-      "dateLabel": "30 अगस्त",
-      "title": "विन्ध्यवासिनी देवी जयन्ती",
-      "description": "विन्ध्यवासिनी देवी जयन्ती (भाद्रपद कृष्ण द्वितीया)",
-      "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "भाद्रपद कृष्ण द्वितीया"
+      "date": "2026-08-28",
+      "dateLabel": "28 अगस्त",
+      "title": "आंशिक चंद्रग्रहण (भारत में अदृश्य)",
+      "description": "ड्रिक पंचांग की 2026 ग्रहण सूची में इस दिन आंशिक चंद्रग्रहण दिया गया है। भारत में यह ग्रहण दिखाई नहीं देता; अतः पिथौरागढ़ के लिए कोई दृश्यता-अवधि या सूतक समय प्रदर्शित नहीं किया जाता।",
+      "category": "ग्रहण",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "timingType": "eclipse-visibility"
     },
     {
       "date": "2026-08-31",
@@ -226,7 +286,7 @@
       "title": "कजरी तीज",
       "description": "कजरी तीज भाद्रपद कृष्ण तृतीया से जुड़ा लोकपर्व है। कई क्षेत्रों में शिव-पार्वती की पूजा, गीत और व्रत की परंपरा है; रीति-रिवाज क्षेत्रानुसार बदलते हैं।",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद कृष्ण तृतीया"
     },
     {

@@ -237,10 +237,46 @@
     }
     return promise;
   }
+  function getSankrantiRashiIndex(item){
+    var title=String(item&&item.title||"").normalize("NFC").toLocaleLowerCase("hi");
+    var entries=[["मेष",0],["वृषभ",1],["मिथुन",2],["कर्क",3],["सिंह",4],["कन्या",5],["तुला",6],["वृश्चिक",7],["धनु",8],["मकर",9],["कुम्भ",10],["कुंभ",10],["मीन",11]];
+    for(var i=0;i<entries.length;i++)if(title.includes(entries[i][0])&&/संक्रांति|संक्रान्ति|sankranti/.test(title))return entries[i][1];
+    return null;
+  }
+  function getInstantSunRashiIndex(p){
+    var sun=p&&p.planetaryPositions&&p.planetaryPositions.sun;
+    var raw=sun&&(sun.rashiName??sun.signName??sun.rashi??sun.rashiIndex??sun.sign);
+    if(raw&&typeof raw==="object")raw=raw.index??raw.number??raw.value??raw.name??raw.label;
+    if(typeof raw==="number"&&Number.isInteger(raw)&&raw>=0&&raw<=11)return raw;
+    var name=String(raw??"").normalize("NFC").toLocaleLowerCase("hi");
+    var names=[[/mesha|मेष|aries/,0],[/vrishabha|वृषभ|taurus/,1],[/mithuna|मिथुन|gemini/,2],[/karka|कर्क|cancer/,3],[/simha|सिंह|leo/,4],[/kanya|कन्या|virgo/,5],[/tula|तुला|libra/,6],[/vrishchika|वृश्चिक|scorpio/,7],[/dhanu|धनु|sagittarius/,8],[/makara|मकर|capricorn/,9],[/kumbha|कुम्भ|कुंभ|aquarius/,10],[/meena|मीन|pisces/,11]];
+    for(var i=0;i<names.length;i++)if(names[i][0].test(name))return names[i][1];
+    return null;
+  }
+  function findSankrantiMoment(values,item,dateIso){
+    var target=getSankrantiRashiIndex(item);
+    if(target===null||!values||typeof values.at!=="function")return null;
+    var dayStart=Date.parse(dateIso+"T00:00:00+05:30");
+    if(!Number.isFinite(dayStart))return null;
+    var start=dayStart-36*60*60*1000,end=dayStart+36*60*60*1000,step=30*60*1000;
+    function signAt(ms){try{return getInstantSunRashiIndex(values.at(new Date(ms)));}catch(_){return null;}}
+    var previousTime=start,previousSign=signAt(start);
+    for(var time=start+step;time<=end;time+=step){
+      var sign=signAt(time);
+      if(sign===target&&previousSign!==null&&previousSign!==target){
+        var left=previousTime,right=time;
+        while(right-left>30000){var middle=Math.floor((left+right)/2);if(signAt(middle)===target)right=middle;else left=middle;}
+        return new Date(right);
+      }
+      previousTime=time;previousSign=sign;
+    }
+    return null;
+  }
   function getLagnaIndex(p){
-    var value=p&&p.udayaLagna;
+    var value=p&&(p.udayaLagna??p.lagna??p.ascendant);
     if(value&&typeof value==="object"){
-      var raw=value.index??value.number??value.value??value.name??value.label;
+      var raw=value.index??value.number??value.value??value.rashiIndex??value.rashiName??value.rashi??value.signName??value.name??value.label;
+      if(raw&&typeof raw==="object")raw=raw.index??raw.number??raw.value??raw.name??raw.label;
       if(raw!==undefined)value=raw;
     }
     if(typeof value==="number"&&Number.isFinite(value))return value;
@@ -314,6 +350,7 @@
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
     // महाष्टमी प्रविष्टि पर संधिपूजा का मुहूर्त स्थानीय तिथि-संधि से निकालें।
     if(!ruleIds.length&&/महाष्टमी|महाअष्टमी|दुर्गाष्टमी|दुर्गा अष्टमी|दुर्गा पूजा.*अष्टमी/i.test(String(item.title||""))) ruleIds=["sandhi-puja"];
+    if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title||""))||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
     if(!ruleIds.length) return;
     try{
       var muhurtaModule=await muhurtaModulePromise;
@@ -328,6 +365,10 @@
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="sankranti-punya-kala";})){
+        context.sankrantiMoment=findSankrantiMoment(values,item,dateIso);
+        context.sankrantiRashiIndex=getSankrantiRashiIndex(item);
+      }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="narak-chaturdashi-abhyanga";})){
         // Panchang day intervals are clipped at sunrise; include the previous sunrise-day interval
         // so a pre-dawn Chaturdashi already active at moonrise is not lost.
@@ -382,7 +423,10 @@
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
             var row=document.createElement("div");row.style.marginTop="5px";
-            var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
+            // यदि विंडो का नाम ऊपर दिए मुख्य मुहूर्त-शीर्षक जैसा ही है, तो उसे दोबारा न दिखाएँ।
+            if(!muhurtaModule.areFestivalMuhurtaLabelsEquivalent(result.label,windowItem.label)){
+              var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
+            }
             var time=document.createElement("div");
             var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
             var endTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
@@ -677,7 +721,7 @@
   async function buildDynamicNavratriEvents(year,month,token){
     var monthToFamilies={1:true,2:true,3:true,4:true,6:true,7:true,9:true,10:true};
     if(!monthToFamilies[month]) return {events:[],recognized:false};
-    var found=[],recognized=false;
+    var found=[],sunriseRows=[],recognized=false;
     var days=new Date(year,month,0).getDate();
     for(var day=1;day<=days;day++){
       if(token!==requestToken)return {events:[],recognized:false};
@@ -687,8 +731,7 @@
       if(token!==requestToken)return {events:[],recognized:false};
       var p=values.p||{},sunrise=new Date(p.sunrise);
       if(!Number.isFinite(sunrise.getTime()))continue;
-      // getPanchangam के scalar masa/tithi/paksha sunrise-based हैं;
-      // उसी क्षण पर तीसरी बार पूरा पंचांग निकालने की जरूरत नहीं।
+      // getPanchangam के scalar masa/tithi/paksha स्थानीय सूर्योदय के आधार पर हैं।
       var masa=normalizedMasaName(p.masa);
       var family=navratriFamily(masa);
       if(!family)continue;
@@ -698,12 +741,36 @@
         /प्रतिपदा|द्वितीया|तृतीया|चतुर्थी|पंचमी|षष्ठी|सप्तमी|अष्टमी|नवमी|दशमी|pratipada|dvitiya|tritiya|chaturthi|panchami|shashthi|saptami|ashtami|navami|dashami/i.test(String(rawTithiValue||""));
       if(!readableTithi)continue;
       var tithiIndex=shuklaTithiIndex(p);
-      // केवल वैध शुक्ल प्रतिपदा–दशमी मिलने पर ही पुराने नवरात्र-दिनों को बदलें।
-      // मास में कृष्ण-पक्ष तिथियाँ होना अपने-आप में नवरात्रि की पहचान नहीं है।
+      // केवल शुक्ल प्रतिपदा से दशमी तक की सूर्योदय-व्यापिनी तिथियाँ लें।
       if(tithiIndex===null)continue;
       recognized=true;
-      var item=makeDynamicNavratriEvent(iso,family,tithiIndex,(values.location&&values.location.name)||"चुना हुआ स्थान");
-      if(item)found.push(item);
+      sunriseRows.push({date:iso,family:family,tithiIndex:tithiIndex,locationName:(values.location&&values.location.name)||"चुना हुआ स्थान"});
+    }
+    // तिथि-वृद्धि में एक ही तिथि दो सूर्योदय पर मिले तो पहला दिन लें।
+    // तिथि-क्षय में अगली सूर्योदय-तिथि दो अंक आगे हो तो छूटी तिथि की देवी
+    // का पूजन उसी पूर्ववर्ती सूर्योदय-तिथि वाले दिन जोड़ें। यह क्रम Drik के
+    // 2026 आषाढ़ गुप्त नवरात्र (17 जुलाई: तृतीया पर चन्द्रघंटा + कूष्माण्डा)
+    // से मिलाया गया है।
+    var tithiNames=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी"];
+    for(var i=0;i<sunriseRows.length;){
+      var row=sunriseRows[i],nextIndex=i+1;
+      while(nextIndex<sunriseRows.length&&sunriseRows[nextIndex].family.id===row.family.id&&sunriseRows[nextIndex].tithiIndex===row.tithiIndex)nextIndex++;
+      var base=makeDynamicNavratriEvent(row.date,row.family,row.tithiIndex,row.locationName);
+      if(base)found.push(base);
+      var nextRow=sunriseRows[nextIndex];
+      if(nextRow&&nextRow.family.id===row.family.id&&nextRow.tithiIndex>row.tithiIndex+1){
+        for(var skipped=row.tithiIndex+1;skipped<nextRow.tithiIndex&&skipped<=8;skipped++){
+          var extra=makeDynamicNavratriEvent(row.date,row.family,skipped,row.locationName);
+          if(!extra)continue;
+          var sunriseName=tithiNames[row.tithiIndex],skippedName=tithiNames[skipped];
+          var deity=navratriDeities[skipped]||"देवी";
+          extra.title=row.family.label+" "+sunriseName+" (क्षय "+skippedName+") — "+deity;
+          extra.hinduTithi=base?base.hinduTithi:"शुक्ल "+sunriseName;
+          extra.description="सूर्योदय-व्यापिनी "+extra.hinduTithi+" के दिन "+skippedName+" तिथि का क्षय होने से "+deity+" का पूजन भी इसी दिन किया जाता है। "+String(extra.description||"");
+          found.push(extra);
+        }
+      }
+      i=nextIndex;
     }
     return {events:found,recognized:recognized};
   }
@@ -974,6 +1041,7 @@
     activeMonthRequest=controller;
     var timeoutId=setTimeout(function(){controller.abort();},15000);
     var year=Number(yearSelect.value),month=Number(monthSelect.value);
+    syncMonthNavigationButtons();
     listTitle.textContent=months[month-1]+" "+year+" के व्रत-पर्व";
     countEl.textContent="लोड हो रहा है…";
     eventsEl.replaceChildren();
@@ -987,9 +1055,26 @@
       // पहले उपलब्ध मासिक सूची दिखाएँ; नवरात्रि की गतिशील गणना के दौरान
       // उपयोगकर्ता को खाली loading screen पर प्रतीक्षा न करनी पड़े।
       if(Array.isArray(data.events)&&data.events.length){render(data,year,month,token);restoreViewportAnchor();}
-      var dynamicNavratri=await buildDynamicNavratriEvents(year,month,token);
-      if(token!==requestToken)return;
       var storedEvents=Array.isArray(data.events)?data.events:[];
+      // 2026 आषाढ़ गुप्त नवरात्र के स्वीकृत कार्ड विशेष तिथि-व्याप्ति पर आधारित हैं:
+      // 17 जुलाई को सूर्योदय-व्यापिनी तृतीया थी; चतुर्थी 06:28 पर शुरू होकर
+      // 18 जुलाई के सूर्योदय से पहले समाप्त हुई (क्षय चतुर्थी)। इसलिए Drik के अनुसार
+      // चन्द्रघंटा तथा कूष्माण्डा दोनों की पूजा 17 जुलाई को है।
+      // सूर्योदय की एकल तिथि से बने dynamic cards कूष्माण्डा को हटा देते,
+      // अतः इस सत्यापित वर्ष-मास में JSON के नौ देवी-पूजन कार्ड सुरक्षित रखें।
+      var curatedAshadhaGupta2026=year===2026&&month===7&&storedEvents.some(function(item){
+        return item.date==="2026-07-15"&&/आषाढ़ गुप्त नवरात्र प्रारम्भ/.test(String(item.title||""))&&item.reviewStatus==="approved";
+      });
+      var curatedSharadNavratri2026=year===2026&&month===10&&storedEvents.some(function(item){
+        return item.date==="2026-10-11"&&/शारदीय नवरात्र प्रारम्भ/.test(String(item.title||""))&&item.reviewStatus==="approved";
+      });
+      // 2026 शारदीय नवरात्र में 18 अक्टूबर को सप्तमी सूर्योदय पर दोहराई गई;
+      // 19 अक्टूबर को सूर्योदय पर अष्टमी और दिन में नवमी-व्याप्ति से महाष्टमी
+      // तथा महानवमी दोनों हैं। इन सत्यापित स्थिर कार्डों को sunrise-only
+      // dynamic सूची से बदलना नहीं है।
+      var keepCuratedNavratri2026=curatedAshadhaGupta2026||curatedSharadNavratri2026;
+      var dynamicNavratri=keepCuratedNavratri2026?{events:[],recognized:false}:await buildDynamicNavratriEvents(year,month,token);
+      if(token!==requestToken)return;
       // जब मास/तिथि से नवरात्रि सफलतापूर्वक पहचानी जाए, पुराने वर्ष-विशेष
       // दिनांक/मुहूर्त वाले दैनिक नवरात्र शीर्षकों को गतिशील प्रविष्टियों से बदलें।
       if(dynamicNavratri.recognized) storedEvents=storedEvents.filter(function(item){return !isLegacyNavratriDailyEvent(item);});
@@ -1031,7 +1116,9 @@
     }
   }
   function ensureYearOption(year){
-    var value=String(year);
+    var numeric=Number(year);
+    if(!Number.isInteger(numeric)||numeric<2026||numeric>2029)return null;
+    var value=String(numeric);
     var existing=Array.from(yearSelect.options).find(function(option){return option.value===value;});
     if(existing)return existing;
     var option=document.createElement("option");
@@ -1042,13 +1129,29 @@
       .forEach(function(item){yearSelect.appendChild(item);});
     return option;
   }
+  function syncMonthNavigationButtons(){
+    var year=Number(yearSelect.value),month=Number(monthSelect.value);
+    var atStart=year===2026&&month===1,atEnd=year===2029&&month===12;
+    var previous=document.getElementById("prevBtn");
+    var next=document.getElementById("nextBtn");
+    if(previous)previous.disabled=atStart;
+    if(next)next.disabled=atEnd;
+    var footerNav=widgetRoot.querySelector(".footer-month-nav");
+    if(footerNav){
+      var buttons=footerNav.querySelectorAll("button");
+      if(buttons[0])buttons[0].disabled=atStart;
+      if(buttons[1])buttons[1].disabled=atEnd;
+    }
+  }
   function shiftMonth(delta,shouldScrollToHeading,preserveViewportAnchor){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(!Number.isFinite(y)||!Number.isFinite(m))return;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
+    if(y<2026||y>2029){syncMonthNavigationButtons();return;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
+    syncMonthNavigationButtons();
     loadMonth(preserveViewportAnchor);
     // Only the top navigation intentionally moves the reader to the month heading.
     // Footer navigation keeps the reader near the controls they just used.
@@ -1071,11 +1174,18 @@
       nav.setAttribute("aria-label","महीने बदलें");
       var prev=document.createElement("button");
       prev.type="button";prev.textContent="← पिछला महीना";
-      prev.addEventListener("click",function(event){event.preventDefault();shiftMonth(-1,false,event.currentTarget);});
-      var next=document.createElement("button");
-      next.type="button";next.textContent="अगला महीना →";
-      next.addEventListener("click",function(event){event.preventDefault();shiftMonth(1,false,event.currentTarget);});
-      nav.appendChild(prev);nav.appendChild(next);
+      var nextButton=document.createElement("button");
+      nextButton.type="button";nextButton.textContent="अगला महीना →";
+      nav.appendChild(prev);nav.appendChild(nextButton);
+    }
+    var navButtons=nav.querySelectorAll("button");
+    if(navButtons[0]&&!navButtons[0].dataset.ohdNavBound){
+      navButtons[0].dataset.ohdNavBound="1";
+      navButtons[0].addEventListener("click",function(event){event.preventDefault();shiftMonth(-1,false,event.currentTarget);});
+    }
+    if(navButtons[1]&&!navButtons[1].dataset.ohdNavBound){
+      navButtons[1].dataset.ohdNavBound="1";
+      navButtons[1].addEventListener("click",function(event){event.preventDefault();shiftMonth(1,false,event.currentTarget);});
     }
     // महीने बदलने के बटन उपयोग-निर्देश शीर्षक के ठीक ऊपर रहें, पृष्ठ के सबसे नीचे नहीं।
     var guide=widgetRoot.querySelector("#ohd-monthly-usage-guide, section.note[aria-labelledby='howToUseTitle']");
@@ -1089,8 +1199,10 @@
     var now=getIndiaCalendarDate();
     var year=now.getFullYear();
     ensureYearOption(year);
+    if(!ensureYearOption(year))return;
     yearSelect.value=String(year);
     monthSelect.value=String(now.getMonth()+1).padStart(2,"0");
+    syncMonthNavigationButtons();
     loadMonth();
   }
   locationSearchBtn.addEventListener("click",searchLocation);
@@ -1119,9 +1231,12 @@
      focusDate.slice(0,4)===String(requestedYear)&&Number(focusDate.slice(5,7))===requestedMonth){
     initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
   }
-  ensureYearOption(initialDate.getFullYear());
-  yearSelect.value=String(initialDate.getFullYear());
+  var initialYear=Math.min(2029,Math.max(2026,initialDate.getFullYear()));
+  if(initialYear!==initialDate.getFullYear())initialDate=new Date(initialYear,initialDate.getMonth(),1,12,0,0);
+  ensureYearOption(initialYear);
+  yearSelect.value=String(initialYear);
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
+  syncMonthNavigationButtons();
   syncLocationUI();
   // The festival list must not wait for the external elevation service.
   loadMonth();

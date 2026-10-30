@@ -3,8 +3,8 @@
   "year": 2026,
   "month": 9,
   "monthName": "सितंबर",
-  "status": "needs-review",
-  "locationScope": "approved डेटा; विश्वसनीय पंचांग से समीक्षित",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-09-02",
@@ -19,7 +19,7 @@
       "date": "2026-09-04",
       "dateLabel": "4 सितंबर",
       "title": "मासिक कालाष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
@@ -30,7 +30,7 @@
     {
       "date": "2026-09-04",
       "dateLabel": "4 सितंबर",
-      "title": "श्री आद्याकाली (महाकाली महाविद्या) जयंती",
+      "title": "श्री काली (आद्याकाली) महाविद्या जयंती",
       "description": "महाकाली महाविद्या को श्री आद्याकाली कहा गया है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री आद्याकाली / महाकाली संबंधी लेख</a>।",
       "category": "जयंती",
       "reviewStatus": "approved",
@@ -55,14 +55,40 @@
       "hinduTithi": "भाद्रपद कृष्ण अष्टमी"
     },
     {
+      "date": "2026-09-05",
+      "dateLabel": "5 सितंबर",
+      "title": "दही हांडी",
+      "description": "श्रीकृष्ण जन्माष्टमी के अगले दिन दही हांडी उत्सव में मटकी फोड़ने की परंपरा निभाई जाती है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद कृष्ण नवमी"
+    },
+    {
       "date": "2026-09-07",
       "dateLabel": "7 सितंबर",
       "title": "अजा एकादशी",
-      "description": "अजा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इसे अन्नदा एकादशी भी कहते हैं। चक्रवर्ती राजा हरिश्चंद्र ने अपना खोया हुआ राज्य, धन और मृत पुत्र इसी एकादशी का व्रत करके पुनः प्राप्त किया था।",
+      "description": "अजा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इसे अन्नदा एकादशी भी कहते हैं। चक्रवर्ती राजा हरिश्चंद्र ने अपना खोया हुआ राज्य, धन और मृत पुत्र इसी एकादशी का व्रत करके पुनः प्राप्त किया था। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
+    },
+    {
+      "date": "2026-09-07",
+      "dateLabel": "7 सितंबर",
+      "title": "अगस्त्य अर्घ्य",
+      "description": "अगस्त्य तारे के दर्शन और अर्घ्य से संबंधित यह पर्व खगोलीय गणना पर आधारित है।",
+      "category": "पर्व",
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-09-07",
+      "dateLabel": "7 सितंबर",
+      "title": "बछ बारस / गोवत्स द्वादशी",
+      "description": "बछ बारस पर गौ और बछड़े का पूजन किया जाता है। इस दिन गौवत्स के प्रति कृतज्ञता और परिवार की मंगलकामना का विधान है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद कृष्ण एकादशी (द्वादशी व्याप्ति)"
     },
     {
       "date": "2026-09-08",
@@ -103,19 +129,31 @@
       "date": "2026-09-12",
       "dateLabel": "12 सितंबर",
       "title": "सामवेदियों का उपाकर्म",
-      "description": "सामवेदी द्विजों द्वारा उपाकर्म प्रतिवर्ष भाद्रपद मास के शुक्ल पक्ष में हस्त नक्षत्र होने पर किया जाता है। जहाँ ऋग्वेदी द्विज श्रवण नक्षत्र में और यजुर्वेदी श्रावण पूर्णिमा को अपना उपाकर्म करते हैं, वहीं सामवेदी परंपरा के द्विज मुख्य रूप से सिंह या कन्या राशि के सूर्य के दौरान (भाद्रपद महीने में) उपाकर्म करते हैं। इस दिन हस्त नक्षत्र विशेषकर दोपहर या पूर्वाह्न के समय प्रभावी हो।",
+      "description": "सामवेदी द्विजों का उपाकर्म भाद्रपद शुक्ल पक्ष के हस्त नक्षत्र में किया जाता है। इसके लिए केवल तिथि नहीं, हस्त नक्षत्र की स्थानीय अपराह्ण-व्याप्ति देखी जाती है। अपराह्ण दिनमान के पाँच बराबर भागों में चौथा भाग है। इस दिन पिथौरागढ़ में हस्त नक्षत्र 12 सितंबर दोपहर 12:55 बजे आरम्भ होकर 13 सितंबर दोपहर 1:07 बजे तक रहा; इसलिए 12 सितंबर को अपराह्ण में हस्त की व्याप्ति मिलती है।",
       "category": "उपाकर्म",
       "reviewStatus": "approved",
-      "hinduTithi": "भाद्रपद मास + हस्त नक्षत्र"
+      "hinduTithi": "भाद्रपद मास + हस्त नक्षत्र",
+      "muhurtaRule": "samaveda-upakarma-aparahna"
     },
     {
       "date": "2026-09-13",
       "dateLabel": "13 सितंबर",
-      "title": " श्री वाराहावतार प्राकट्य ",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\">विष्णुजी के अवतार भगवान वाराह की जयन्ती</a>",
+      "title": "श्री वराह अवतार जयंती / प्राकट्य",
+      "description": "पिथौरागढ़ में 13 सितंबर को सूर्योदय 05:53 पर द्वितीया थी और तृतीया 07:08 AM पर आरम्भ हुई। तृतीया-व्याप्ति के अनुसार इसी दिन भगवान विष्णु के वराह अवतार का प्राकट्य-स्मरण और पूजन किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वाराह अवतार की कथा एवं महिमा पढ़ें</a>।",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "भाद्रपद शुक्ल तृतीया"
+      "hinduTithi": "भाद्रपद शुक्ल द्वितीया (तृतीया 07:08 AM से)",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html",
+      "articleLabel": "वराह अवतार की कथा पढ़ें"
+    },
+    {
+      "date": "2026-09-13",
+      "dateLabel": "13 सितंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल द्वितीया"
     },
     {
       "date": "2026-09-14",
@@ -153,7 +191,7 @@
       "category": "जयंती",
       "hinduTithi": "भाद्रपद शुक्ल षष्ठी",
       "description": "श्री बलराम भगवान की जयंती भाद्रपद शुक्ल षष्ठी को मनाई जाती है। भगवान बलराम का स्मरण - पूजन करें।",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-09-17",
@@ -179,6 +217,24 @@
       "description": "विश्वकर्मा पूजा में भगवान विश्वकर्मा और औज़ारों, वाहनों, उपकरणों तथा कार्यस्थल की पूजा की जाती है।",
       "category": "पर्व",
       "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-09-18",
+      "dateLabel": "18 सितंबर",
+      "title": "ललिता सप्तमी",
+      "description": "भाद्रपद शुक्ल सप्तमी को भगवती ललिता की पूजा-अर्चना की जाती है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल सप्तमी"
+    },
+    {
+      "date": "2026-09-18",
+      "dateLabel": "18 सितंबर",
+      "title": "दूर्वाष्टमी",
+      "description": "भाद्रपद शुक्ल सप्तमी के दिन अष्टमी तिथि की व्याप्ति होने से दूर्वाष्टमी का पूजन इसी दिन किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल सप्तमी (अष्टमी व्याप्ति)"
     },
     {
       "date": "2026-09-19",
@@ -208,10 +264,30 @@
       "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
     },
     {
+      "date": "2026-09-19",
+      "dateLabel": "19 सितंबर",
+      "title": "महालक्ष्मी व्रत प्रारम्भ",
+      "description": "महालक्ष्मी व्रत का आरम्भ भाद्रपद शुक्ल अष्टमी से होता है। व्रत की परंपरा सोलह दिनों तक चलती है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+    },
+    {
+      "date": "2026-09-22",
+      "dateLabel": "22 सितंबर",
+      "title": "वेदमाता गायत्री जयंती (भाद्रपद शुक्ल एकादशी परंपरा)",
+      "description": "भाद्रपद शुक्ल एकादशी के अवसर पर इस परंपरा में वेदमाता गायत्री जयंती का स्मरण किया जाता है। गायत्री मंत्र-जप, संध्या-वंदन, स्तोत्र-पाठ और साधना की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
+      "articleLabel": "वेदमाता गायत्री जयंती की महिमा पढ़ें"
+    },
+    {
       "date": "2026-09-22",
       "dateLabel": "22 सितंबर",
       "title": "पार्श्व / परिवर्तिनी एकादशी",
-      "description": "पार्श्व एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इस दिन भगवान विष्णु योगनिद्रा में अपनी करवट बदलते हैं, इसलिए इसे परिवर्तिनी एकादशी भी कहते हैं। डोल ग्यारस।",
+      "description": "पार्श्व एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इस दिन भगवान विष्णु योगनिद्रा में अपनी करवट बदलते हैं, इसलिए इसे परिवर्तिनी एकादशी भी कहते हैं। डोल ग्यारस। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद शुक्ल एकादशी",
@@ -220,7 +296,7 @@
     {
       "date": "2026-09-23",
       "dateLabel": "23 सितंबर",
-      "title": "श्री भुवनेश्वरी महाविद्या का प्राकट्य",
+      "title": "श्री भुवनेश्वरी महाविद्या जयंती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Goddess-Bhuvaneshvari-On-BhuwaneshwariMahavidyaJayanti.html\" target=\"_blank\">श्री भुवनेश्वरी महाविद्या जयन्ती</a> इस तिथि को मनाई जाती है। आज भगवती भुवनेश्वरी महाविद्या की उपासना अवश्य करें।",
       "category": "जयंती",
       "reviewStatus": "approved",

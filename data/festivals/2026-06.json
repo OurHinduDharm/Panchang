@@ -3,8 +3,8 @@
   "year": 2026,
   "month": 6,
   "monthName": "जून",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; पंचांग-आधारित गणना की समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-06-03",
@@ -16,24 +16,33 @@
       "hinduTithi": "ज्येष्ठ कृष्ण चतुर्थी"
     },
     {
+      "date": "2026-06-07",
+      "dateLabel": "7 जून",
+      "title": "अधिक भानु सप्तमी",
+      "description": "अधिक ज्येष्ठ शुक्ल सप्तमी और रविवार के संयोग में सूर्यदेव की उपासना का विशेष महत्व है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "अधिक ज्येष्ठ शुक्ल सप्तमी"
+    },
+    {
       "date": "2026-06-08",
       "dateLabel": "8 जून",
       "title": "मासिक कालाष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ कृष्ण अष्टमी"
+      "hinduTithi": "अधिक ज्येष्ठ कृष्ण अष्टमी"
     },
     {
       "date": "2026-06-11",
       "dateLabel": "11 जून",
       "title": "परमा एकादशी",
-      "description": "परमा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "परमा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ अधिक कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -62,7 +71,7 @@
       "title": "अधिक ज्येष्ठ अमावस्या",
       "description": "ज्येष्ठ अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। श्राद्ध और तर्पण का समय कर्म के प्रकार तथा संबंधित काल-व्याप्ति से निर्धारित होता है।",
       "category": "अमावस्या",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "अधिक ज्येष्ठ कृष्ण अमावस्या"
     },
     {
@@ -71,7 +80,16 @@
       "title": "मिथुन संक्रांति",
       "description": "मिथुन संक्रांति सूर्य के राशि-परिवर्तन से जुड़ी है। स्नान, दान और जप की परंपरा है; पुण्यकाल सूर्य-संक्रमण के वास्तविक समय और संबंधित नियमों से निर्धारित होता है।",
       "category": "संक्रांति",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-06-16",
+      "dateLabel": "16 जून",
+      "title": "चन्द्र दर्शन",
+      "description": "ज्येष्ठ शुक्ल द्वितीया को अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "ज्येष्ठ शुक्ल द्वितीया"
     },
     {
       "date": "2026-06-18",
@@ -93,6 +111,15 @@
       "hinduTithi": "ज्येष्ठ शुक्ल षष्ठी"
     },
     {
+      "date": "2026-06-21",
+      "dateLabel": "21 जून",
+      "title": "भानु सप्तमी",
+      "description": "रविवार और शुक्ल सप्तमी के संयोग में सूर्यदेव की उपासना तथा अर्घ्य का विधान।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "ज्येष्ठ शुक्ल सप्तमी"
+    },
+    {
       "date": "2026-06-22",
       "dateLabel": "22 जून",
       "title": "मासिक दुर्गाष्टमी",
@@ -104,10 +131,10 @@
     {
       "date": "2026-06-22",
       "dateLabel": "22 जून",
-      "title": "श्री धूमावती महाविद्या जयन्ती",
+      "title": "श्री धूमावती महाविद्या जयंती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/about-godess-dhoomawati-on-dhoomavati-mahavidya-jayanti.html\" target=\"_blank\"> श्री धूमावती महाविद्या जयन्ती</a>, <a href=\"https://ourhindudharm.blogspot.com/2021/06/Dhoomavati-ashtottara-shatnaam-pooja-sadhana-on-Dhumavati-Mahavidya-Jayanti.html\" target=\"_blank\"> श्री धूमावती महाविद्या की शतार्चन उपासना विधि</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ शुक्ल अष्टमी"
     },
     {
@@ -116,16 +143,16 @@
       "title": "बटुक भैरव जयंती",
       "description": "श्री बटुक भैरव जयंती ज्येष्ठ शुक्ल दशमी को मनाई जाती है। भगवान शिव के बाल-भैरव स्वरूप का पूजन, मंत्र-जप और नैवेद्य अर्पण किया जाता है।",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ शुक्ल दशमी"
     },
     {
       "date": "2026-06-25",
       "dateLabel": "25 जून",
       "title": "निर्जला एकादशी",
-      "description": "निर्जला एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "निर्जला एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -133,11 +160,12 @@
       "date": "2026-06-25",
       "dateLabel": "25 जून",
       "title": "वेदमाता गायत्री जयन्ती",
-      "description": "<a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\">वेदमाता गायत्री जयन्ती</a>(ज्येष्ठ शुक्ल एकादशी) - साधना करने व स्तोत्र पाठ आदि अनुष्ठानों का विशिष्ट समय अम्बुबाची योग २२ से २५ जून। यह प्रारंभ होगा २२ जून (शुक्ल अष्टमी) को रात ९.१० बजे से। तथा इसकी निवृत्ति होगी = २६ जून को सुबह ९.३३ बजे तक।",
+      "description": "ज्येष्ठ शुक्ल एकादशी को वेदमाता गायत्री जयंती मनाने की परंपरा भी है। इस दिन गायत्री मंत्र-जप, स्तोत्र-पाठ, संध्या-वंदन और साधना का विशेष महत्त्व माना जाता है। <a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "endDate": "2026-06-26",
-      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी"
+      "reviewStatus": "approved",
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
+      "articleLabel": "वेदमाता गायत्री जयंती की महिमा पढ़ें"
     },
     {
       "date": "2026-06-27",
@@ -151,19 +179,19 @@
     {
       "date": "2026-06-29",
       "dateLabel": "29 जून",
-      "title": "कबीर जयंती",
-      "description": "कबीर जयंती संत कबीर के जीवन, निर्गुण भक्ति और सामाजिक समरसता के संदेश का स्मरण है। साखी-पाठ, सत्संग और भजन की परंपरा है।",
-      "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "title": "वट पूर्णिमा व्रत / ज्येष्ठ पूर्णिमा",
+      "description": "वट पूर्णिमा व्रत / ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत तथा स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार निर्धारित होता है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
     },
     {
       "date": "2026-06-29",
       "dateLabel": "29 जून",
-      "title": "वट पूर्णिमा व्रत / ज्येष्ठ पूर्णिमा",
-      "description": "वट पूर्णिमा व्रत / ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत तथा स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार निर्धारित होता है।",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "title": "बटुक भैरवी सिद्धविद्या जयंती",
+      "description": "द्वादश सिद्धविद्याओं में श्री बटुक भैरवी की जयंती ज्येष्ठ शुक्ल पूर्णिमा को मनाई जाती है। इस अवसर पर देवी की उपासना, मंत्र-जप और पूजन किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
     }
   ]

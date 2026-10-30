@@ -3,16 +3,16 @@
   "year": 2026,
   "month": 5,
   "monthName": "मई",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; पंचांग-आधारित गणना की समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-05-01",
       "dateLabel": "1 मई",
-      "title": "बुद्ध पूर्णिमा",
+      "title": "वैशाख पूर्णिमा / बुद्ध पूर्णिमा",
       "description": "बुद्ध पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत तथा स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार निर्धारित होता है।",
       "category": "पूर्णिमा",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल पूर्णिमा"
     },
     {
@@ -21,7 +21,16 @@
       "title": "श्री कूर्म अवतार जयन्ती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\">श्री कूर्म अवतार जयन्ती</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
+      "hinduTithi": "वैशाख शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-05-01",
+      "dateLabel": "1 मई",
+      "title": "श्री चण्डिका सिद्धविद्या जयंती",
+      "description": "द्वादश सिद्धविद्याओं की परंपरा में वैशाख शुक्ल पूर्णिमा को श्री चण्डिका सिद्धविद्या जयंती मनाई जाती है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल पूर्णिमा"
     },
     {
@@ -30,7 +39,7 @@
       "title": "देवर्षि नारद जी की जयन्ती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Muni-Naradji-on-Devarshi-Narad-Jayanti.html\" target=\"_blank\">देवर्षि नारद जी की जयन्ती</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ कृष्ण प्रतिपदा"
     },
     {
@@ -47,19 +56,19 @@
       "title": "मासिक कालाष्टमी",
       "category": "व्रत",
       "hinduTithi": "ज्येष्ठ कृष्ण अष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-05-13",
       "dateLabel": "13 मई",
       "title": "अपरा एकादशी",
-      "description": "अपरा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "अपरा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -86,34 +95,38 @@
       "title": "वृषभ संक्रांति",
       "description": "वृषभ संक्रांति सूर्य के राशि-परिवर्तन से जुड़ी है। स्नान, दान और जप की परंपरा है; पुण्यकाल सूर्य-संक्रमण के वास्तविक समय और संबंधित नियमों से निर्धारित होता है।",
       "category": "संक्रांति",
-      "reviewStatus": "needs-review"
+      "reviewStatus": "approved"
     },
     {
       "date": "2026-05-16",
       "dateLabel": "16 मई",
       "title": "वट सावित्री व्रत",
-      "description": "वट सावित्री व्रत में सावित्री-सत्यवान की कथा का स्मरण कर वटवृक्ष की पूजा की जाती है। विभिन्न पंचांगों में यह व्रत अमावस्या या पूर्णिमा से संबंधित मिलता है।",
+      "description": "वट सावित्री व्रत में सावित्री-सत्यवान की कथा का श्रवण/पाठ कर वटवृक्ष की पूजा की जाती है। वटवृक्ष को जल अर्पित कर उसकी परिक्रमा और रक्षा-सूत्र बाँधने की परंपरा है। सुहाग की मंगल-कामना के साथ व्रत, पूजन और दान किया जाता है।",
       "category": "व्रत",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
-    },
-    {
-      "date": "2026-05-16",
-      "dateLabel": "16 मई",
-      "title": "वट सावित्री व्रत / शनि जयंती",
-      "description": "वट सावित्री व्रत में सावित्री-सत्यवान की कथा का स्मरण कर वटवृक्ष की पूजा की जाती है। विभिन्न पंचांगों में यह व्रत अमावस्या या पूर्णिमा से संबंधित मिलता है।",
-      "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
     },
     {
       "date": "2026-05-16",
       "dateLabel": "16 मई",
       "title": "श्री शनि जयन्ती",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html\" target=\"_blank\"> श्री शनि जयन्ती (ज्येष्ठ अमावास्या)</a> पर <a href=\"https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html\" target=\"_blank\">शनि देव के निमित्त पूजन, स्तोत्र पाठ </a> मंत्र जप, हवन-दान करें <br/> वट सावित्री व्रत",
+      "description": "ज्येष्ठ कृष्ण अमावस्या को शनिदेव की जयंती मनाई जाती है। इस दिन शनिदेव का पूजन, तिल के तेल का दीपदान, मंत्र-जप, स्तोत्र-पाठ और सामर्थ्य के अनुसार दान किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a> <a href=\"https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a>",
       "category": "जयंती",
-      "reviewStatus": "needs-review",
-      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
+      "reviewStatus": "approved",
+      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html",
+      "articleLabel": "शनि जयंती की महिमा पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html",
+      "secondaryArticleLabel": "शनि देव की पूजन-साधना विधि पढ़ें"
+    },
+    {
+      "date": "2026-05-17",
+      "dateLabel": "17 मई",
+      "title": "अधिक ज्येष्ठ चन्द्र दर्शन",
+      "description": "अधिक ज्येष्ठ अमावस्या के बाद शुक्ल प्रतिपदा को चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "अधिक ज्येष्ठ शुक्ल प्रतिपदा"
     },
     {
       "date": "2026-05-20",
@@ -148,7 +161,7 @@
       "title": "गंगा दशहरा",
       "description": "ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>। <a href=\"http://ourhindudharm.blogspot.com/2013/06/about-Godess-Ganga-on-ganga-dussehra.html\" target=\"_blank\"> 25 मई - ज्येष्ठ शु. दशमी को <b>गंगा दशहरा</b>।</a> <br/> १७ मई से २५ मई तक - पापकर्म साधना की प्रगति में बाधक होते हैं। ज्येष्ठ शुक्ल प्रतिपदा से दस दिन तक गंगा जी की उपासना करें - पहले दिन एक बार पाठ, दूसरे दिन दो बार पाठ ऐसे करके नित्य एक-एक पाठ की वृद्धि करते हुए क्रम से इन दस दिनों में पापशामक \"गंगा दशहरा स्तोत्र\" पढ़े।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "endDate": "2026-05-25",
       "hinduTithi": "ज्येष्ठ शुक्ल दशमी"
     },
@@ -156,9 +169,9 @@
       "date": "2026-05-27",
       "dateLabel": "27 मई",
       "title": "पद्मिनी एकादशी",
-      "description": "पद्मिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "पद्मिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ अधिक शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana"
     },
@@ -176,7 +189,7 @@
       "title": "ज्येष्ठ अधिक पूर्णिमा",
       "description": "ज्येष्ठ अधिक पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत तथा स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार निर्धारित होता है।",
       "category": "पूर्णिमा",
-      "reviewStatus": "needs-review",
+      "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ अधिक शुक्ल पूर्णिमा"
     }
   ]

@@ -34,3 +34,33 @@ test("dynamic Navratri recognition requires a valid Shukla tithi before replacin
   assert.ok(eventCreation > recognizedFlag, "only then may a dynamic Navratri event be created");
 });
 
+
+
+test("curated 2026 Ashadha Gupta Navratri cards are not replaced by sunrise-only dynamic entries", () => {
+  const start = source.indexOf("var curatedAshadhaGupta2026=");
+  const end = source.indexOf("var dynamicNavratri=", start);
+  assert.ok(start >= 0 && end > start, "curated 2026 Gupta Navratri guard must run before dynamic generation");
+  const guard = source.slice(start, end);
+  assert.match(guard, /year===2026&&month===7/);
+  assert.match(guard, /2026-07-15/);
+  assert.match(guard, /आषाढ़ गुप्त नवरात्र प्रारम्भ/);
+  assert.match(guard, /reviewStatus==="approved"/);
+  assert.match(source.slice(start - 500, start), /क्षय चतुर्थी/);
+  assert.match(guard, /curatedSharadNavratri2026/);
+  assert.match(guard, /year===2026&&month===10/);
+  assert.match(guard, /2026-10-11/);
+  assert.match(guard, /शारदीय नवरात्र प्रारम्भ/);
+  assert.match(source.slice(end, end + 220), /keepCuratedNavratri2026\?\{events:\[\],recognized:false\}:await buildDynamicNavratriEvents/);
+});
+
+
+test("dynamic Navratri generator handles repeated and skipped sunrise tithis", () => {
+  const start = source.indexOf("var found=[],sunriseRows=[],recognized=false;");
+  const end = source.indexOf("function isLegacyNavratriDailyEvent", start);
+  assert.ok(start >= 0 && end > start);
+  const generator = source.slice(start, end);
+  assert.ok(generator.includes("while(nextIndex<sunriseRows.length"));
+  assert.ok(generator.includes("tithiIndex===row.tithiIndex"));
+  assert.ok(generator.includes("nextRow.tithiIndex>row.tithiIndex+1"));
+  assert.ok(generator.includes("क्षय"));
+});

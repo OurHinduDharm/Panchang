@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const engineUrl = "data:text/javascript;base64," + Buffer.from(source).toString("base64");
-const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision } = await import(engineUrl);
+const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent } = await import(engineUrl);
 
 const date = value => new Date(value);
 const sunrise = date("2026-10-22T06:00:00+05:30");
@@ -106,6 +106,7 @@ test("Diwali returns Pradosh and special Nishita options only during Amavasya", 
   assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T20:04:00+05:30").toISOString());
   assert.match(result.windows[1].label, /महानिशीथ/);
   assert.match(result.windows[2].label, /गोधूलि काल.*दीपदान/);
+  assert.equal(result.note, undefined);
   assert.equal(result.windows[2].start.toISOString(), date("2026-11-08T17:06:00+05:30").toISOString());
   assert.equal(result.windows[2].end.toISOString(), date("2026-11-08T17:54:00+05:30").toISOString());
 });
@@ -241,6 +242,8 @@ test("Karwa Chauth puja window uses one tenth of local night and Krishna Chaturt
   assert.equal(result.windows[0].end.toISOString(), date("2026-10-29T18:43:00+05:30").toISOString());
   assert.equal(result.windows[1].start.toISOString(), sunrise.toISOString());
   assert.equal(result.windows[1].end.toISOString(), moonrise.toISOString());
+  assert.equal(result.note, undefined);
+  assert.ok(result.windows.every(windowItem => windowItem.note));
 });
 
 test("Karwa Chauth does not show puja muhurta without Krishna Chaturthi overlap", () => {
@@ -320,6 +323,9 @@ test("Bhai Dooj tilak muhurta is Aparahna (fourth fifth of daytime) intersected 
   assert.equal(result.status, "calculated");
   assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:10:00+05:30").toISOString());
   assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T15:20:00+05:30").toISOString());
+  assert.match(result.note, /धर्मसिंधु/);
+  assert.doesNotMatch(result.note, /स्थानीय दिनमान/);
+  assert.ok(result.windows[0].note);
 });
 
 test("Bhai Dooj tilak muhurta is clipped when Dwitiya ends during Aparahna", () => {
@@ -375,7 +381,8 @@ test("Masik Shivaratri Nishita muhurta intersects Krishna Chaturdashi", () => {
   assert.equal(result.windows.length, 1);
   assert.equal(result.windows[0].start.toISOString(), nishitaStart.toISOString());
   assert.equal(result.windows[0].end.toISOString(), nishitaEnd.toISOString());
-  assert.match(result.note, /कृष्ण चतुर्दशी/);
+  assert.equal(result.note, undefined);
+  assert.match(result.windows[0].note, /कृष्ण चतुर्दशी/);
 });
 
 test("Masik Shivaratri never shows a Nishita time without Chaturdashi overlap", () => {
@@ -416,6 +423,8 @@ test("Vinayaka Chaturthi puja muhurta intersects Shukla Chaturthi during Madhyah
   assert.equal(result.windows.length, 1);
   assert.equal(result.windows[0].start.toISOString(), madhyahnaStart.toISOString());
   assert.equal(result.windows[0].end.toISOString(), madhyahnaEnd.toISOString());
+  assert.equal(result.note, undefined);
+  assert.ok(result.windows[0].note);
 });
 
 test("Vinayaka Chaturthi does not show Madhyahna time without Shukla Chaturthi overlap", () => {
@@ -443,6 +452,8 @@ test("Narak Chaturdashi Abhyanga Snan uses the actual moonrise-to-sunrise Chatur
   assert.equal(result.windows.length, 1);
   assert.equal(result.windows[0].start.toISOString(), moonrise.toISOString());
   assert.equal(result.windows[0].end.toISOString(), sunrise.toISOString());
+  assert.equal(result.note, undefined);
+  assert.ok(result.windows[0].note);
 });
 
 test("Narak Chaturdashi does not invent Abhyanga time without Chaturdashi overlap", () => {
@@ -452,4 +463,214 @@ test("Narak Chaturdashi does not invent Abhyanga time without Chaturdashi overla
   });
   assert.equal(result.status, "unavailable");
   assert.equal(result.windows, undefined);
+});
+
+test("equivalent overall and window muhurta labels are not repeated", () => {
+  assert.equal(areFestivalMuhurtaLabelsEquivalent(
+    "मासिक शिवरात्रि — निशीथ पूजा मुहूर्त",
+    "मासिक शिवरात्रि निशीथ पूजा मुहूर्त"
+  ), true);
+  assert.equal(areFestivalMuhurtaLabelsEquivalent(
+    "विनायक चतुर्थी — मध्याह्न पूजा मुहूर्त",
+    "विनायक चतुर्थी पूजा मुहूर्त — मध्याह्न"
+  ), true);
+  assert.equal(areFestivalMuhurtaLabelsEquivalent(
+    "करवा चौथ — पूजा और व्रत समय",
+    "करवा चौथ पूजा मुहूर्त"
+  ), false);
+});
+
+test("Maha Shivaratri exposes all four complete night prahars", () => {
+  const context = {
+    sunset: date("2026-02-15T18:00:00+05:30"),
+    nextSunrise: date("2026-02-16T06:00:00+05:30"),
+    tithis: [{ index: 28, name: "Krishna Chaturdashi", startTime: date("2026-02-15T17:00:00+05:30"), endTime: date("2026-02-16T17:00:00+05:30") }]
+  };
+  const result = getFestivalMuhurta({ muhurtaRule: "mahashivaratri-four-prahar" }, context);
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 4);
+  assert.deepEqual(result.windows.map(w => w.label), ["प्रथम प्रहर", "द्वितीय प्रहर", "तृतीय प्रहर", "चतुर्थ प्रहर"]);
+  assert.equal(result.windows[0].start.toISOString(), date("2026-02-15T18:00:00+05:30").toISOString());
+  assert.equal(result.windows[3].end.toISOString(), date("2026-02-16T06:00:00+05:30").toISOString());
+});
+
+test("Holika Dahan uses local Pradosh when Purnima prevails at sunrise and Bhadra is absent", () => {
+  const sunset = date("2026-03-03T18:00:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "holika-dahan-pradosh" }, {
+    sunrise: date("2026-03-03T06:30:00+05:30"), sunset,
+    nextSunrise: date("2026-03-04T06:00:00+05:30"),
+    tithis: [{ index: 14, name: "Purnima", startTime: date("2026-03-02T17:55:00+05:30"), endTime: date("2026-03-03T17:07:00+05:30") }],
+    karanas: []
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-03-03T20:24:00+05:30").toISOString());
+});
+
+test("Sankranti Punya Kala follows sign-specific ghatis measured from local day length", () => {
+  const sunrise = date("2026-04-14T06:00:00+05:30");
+  const sunset = date("2026-04-14T18:00:00+05:30");
+  const moment = date("2026-04-14T12:00:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "sankranti-punya-kala" }, {
+    sankrantiMoment: moment, sankrantiRashiIndex: 0, sunrise, sunset,
+    nextSunrise: date("2026-04-15T06:00:00+05:30"),
+    nextSunset: date("2026-04-15T18:00:00+05:30")
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), date("2026-04-14T08:00:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-04-14T16:00:00+05:30").toISOString());
+  assert.equal(result.windows[1].start.toISOString(), date("2026-04-14T10:00:00+05:30").toISOString());
+  assert.equal(result.windows[1].end.toISOString(), date("2026-04-14T14:00:00+05:30").toISOString());
+});
+
+test("Night-time non-Ayana Sankranti moves its punya period to the following daylight", () => {
+  const sunrise = date("2026-02-13T06:00:00+05:30");
+  const sunset = date("2026-02-13T18:00:00+05:30");
+  const moment = date("2026-02-13T04:14:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "sankranti-punya-kala" }, {
+    sankrantiMoment: moment, sankrantiRashiIndex: 10, sunrise, sunset,
+    nextSunrise: date("2026-02-14T06:00:00+05:30"),
+    nextSunset: date("2026-02-14T18:00:00+05:30")
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), sunrise.toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-02-13T12:24:00+05:30").toISOString());
+});
+
+test("After-sunset Sankranti uses the daylight interval preceding sunset", () => {
+  const sunrise = date("2026-10-17T06:00:00+05:30");
+  const sunset = date("2026-10-17T18:00:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "sankranti-punya-kala" }, {
+    sankrantiMoment: date("2026-10-17T19:57:00+05:30"),
+    sankrantiRashiIndex: 6, sunrise, sunset,
+    nextSunrise: date("2026-10-18T06:00:00+05:30"),
+    nextSunset: date("2026-10-18T18:00:00+05:30")
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows[0].start.toISOString(), date("2026-10-17T12:00:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), sunset.toISOString());
+});
+
+test("Narak Chaturdashi identical main and window labels are equivalent", () => {
+  assert.equal(areFestivalMuhurtaLabelsEquivalent("नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त"), true);
+});
+
+
+test("Samaveda Upakarma uses the overlap of Bhadrapada Hasta and local Aparahna", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const result = getFestivalMuhurta({ muhurtaRule: "samaveda-upakarma-aparahna" }, {
+    date: date("2026-09-12T12:00:00+05:30"),
+    sunrise: date("2026-09-12T06:00:00+05:30"),
+    sunset: date("2026-09-12T18:00:00+05:30"),
+    nakshatra: "Uttara Phalguni",
+    nakshatraEndTime: date("2026-09-12T12:55:00+05:30"),
+    nakshatras: [{ index: 12, startTime: date("2026-09-12T12:55:00+05:30"), endTime: date("2026-09-13T13:07:00+05:30") }]
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.start.toISOString(), date("2026-09-12T13:12:00+05:30").toISOString());
+  assert.equal(result.end.toISOString(), date("2026-09-12T15:36:00+05:30").toISOString());
+  assert.match(result.label, /हस्त नक्षत्र अपराह्ण/);
+});
+
+test("Samaveda Upakarma does not invent a time when Hasta does not overlap Aparahna", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const result = getFestivalMuhurta({ muhurtaRule: "samaveda-upakarma-aparahna" }, {
+    sunrise: date("2026-09-13T05:53:00+05:30"),
+    sunset: date("2026-09-13T18:17:00+05:30"),
+    nakshatra: "Hasta",
+    nakshatras: [{ index: 12, startTime: date("2026-09-12T12:55:00+05:30"), endTime: date("2026-09-13T13:07:00+05:30") }]
+  });
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.start, undefined);
+});
+
+
+test("Samaveda Upakarma date decision follows the two-day Aparahna overlap rule", async () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const mk = (dateValue, nakshatra, end, nextNakshatra, nextEnd) => ({
+    date: date(dateValue + "T12:00:00+05:30"),
+    sunrise: date(dateValue + "T06:00:00+05:30"),
+    sunset: date(dateValue + "T18:00:00+05:30"),
+    month: "भाद्रपद", paksha: "शुक्ल",
+    nakshatra, nakshatraEndTime: date(end),
+    nextNakshatra, nextNakshatraEndTime: nextEnd ? date(nextEnd) : null
+  });
+  const result = getSamavedaUpakarmaDateDecision([
+    { ...mk("2026-09-11", "उत्तराफाल्गुनी", "2026-09-12T12:55:00+05:30", "उत्तराफाल्गुनी", "2026-09-12T12:55:00+05:30"), hastaStartTime: date("2026-09-12T12:55:00+05:30"), hastaEndTime: date("2026-09-13T13:07:00+05:30") },
+    { ...mk("2026-09-12", "हस्त", "2026-09-13T13:07:00+05:30", "चित्रा", "2026-09-14T14:00:00+05:30"), hastaStartTime: date("2026-09-12T12:55:00+05:30"), hastaEndTime: date("2026-09-13T13:07:00+05:30") }
+  ]);
+  assert.equal(result.status, "selected");
+  assert.equal(result.date, "2026-09-12");
+  assert.equal(result.label, "भाद्रपद शुक्ल हस्त");
+});
+
+test("Samaveda Upakarma falls back from a Sankranti-dosha primary Hasta", async () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const day = (dateValue, month, sankranti = false) => ({
+    date: date(dateValue + "T12:00:00+05:30"),
+    sunrise: date(dateValue + "T06:00:00+05:30"),
+    sunset: date(dateValue + "T18:00:00+05:30"),
+    month, paksha: "शुक्ल", nakshatra: "हस्त",
+    nakshatraEndTime: date(dateValue + "T17:00:00+05:30"),
+    hastaStartTime: date(dateValue + "T05:00:00+05:30"),
+    hastaEndTime: date(dateValue + "T17:00:00+05:30"),
+    sankranti
+  });
+  const result = getSamavedaUpakarmaDateDecision([
+    day("2026-09-12", "भाद्रपद", true),
+    day("2026-08-29", "श्रावण")
+  ]);
+  assert.equal(result.status, "selected");
+  assert.equal(result.date, "2026-08-29");
+  assert.equal(result.label, "श्रावण शुक्ल हस्त");
+});
+
+test("Samaveda Upakarma returns a no-guess result when candidate Panchanga data is absent", async () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const result = getSamavedaUpakarmaDateDecision([]);
+  assert.equal(result.status, "unavailable");
+});
+
+
+test("Samaveda does not automatically reject an Adhika-masa candidate", async () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const day = {
+    date: date("2026-09-12T12:00:00+05:30"),
+    sunrise: date("2026-09-12T06:00:00+05:30"),
+    sunset: date("2026-09-12T18:00:00+05:30"),
+    month: "भाद्रपद", paksha: "शुक्ल", nakshatra: "हस्त",
+    hastaStartTime: date("2026-09-12T12:55:00+05:30"),
+    hastaEndTime: date("2026-09-13T13:07:00+05:30"),
+    adhikaMasa: true
+  };
+  const result = getSamavedaUpakarmaDateDecision([day]);
+  assert.equal(result.status, "selected");
+  assert.equal(result.date, "2026-09-12");
+});
+
+test("Karka-Sun Shravana Hasta is considered only after other general fallbacks", async () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const primary = {
+    date: date("2026-09-12T12:00:00+05:30"),
+    sunrise: date("2026-09-12T06:00:00+05:30"),
+    sunset: date("2026-09-12T18:00:00+05:30"),
+    month: "भाद्रपद", paksha: "शुक्ल", nakshatra: "हस्त",
+    hastaStartTime: date("2026-09-12T12:55:00+05:30"),
+    hastaEndTime: date("2026-09-13T13:07:00+05:30"),
+    sankranti: true
+  };
+  const karkaFallback = {
+    date: date("2026-08-01T12:00:00+05:30"),
+    sunrise: date("2026-08-01T06:00:00+05:30"),
+    sunset: date("2026-08-01T18:00:00+05:30"),
+    month: "श्रावण", paksha: "शुक्ल", nakshatra: "हस्त",
+    hastaStartTime: date("2026-08-01T05:00:00+05:30"),
+    hastaEndTime: date("2026-08-01T17:00:00+05:30"),
+    sunRashi: "कर्क"
+  };
+  const result = getSamavedaUpakarmaDateDecision([primary, karkaFallback]);
+  assert.equal(result.status, "selected");
+  assert.equal(result.date, "2026-08-01");
+  assert.match(result.label, /कर्कस्थ सूर्य/);
 });
