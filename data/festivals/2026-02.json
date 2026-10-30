@@ -106,7 +106,10 @@
       "category": "प्रमुख पर्व एवं व्रत",
       "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी",
-      "muhurtaRule": "masik-shivaratri-nishita"
+      "muhurtaRules": [
+        "mahashivaratri-four-prahar",
+        "mahashivaratri-nishita"
+      ]
     },
     {
       "date": "2026-02-17",
