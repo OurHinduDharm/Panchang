@@ -585,3 +585,48 @@ test("Samaveda Upakarma does not invent a time when Hasta does not overlap Apara
   assert.equal(result.status, "unavailable");
   assert.equal(result.start, undefined);
 });
+
+
+test("Samaveda Upakarma date decision follows the two-day Aparahna overlap rule", () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const mk = (dateValue, nakshatra, end, nextNakshatra, nextEnd) => ({
+    date: date(dateValue + "T12:00:00+05:30"),
+    sunrise: date(dateValue + "T06:00:00+05:30"),
+    sunset: date(dateValue + "T18:00:00+05:30"),
+    month: "भाद्रपद", paksha: "शुक्ल",
+    nakshatra, nakshatraEndTime: date(end),
+    nextNakshatra, nextNakshatraEndTime: nextEnd ? date(nextEnd) : null
+  });
+  const result = getSamavedaUpakarmaDateDecision([
+    mk("2026-09-11", "उत्तराफाल्गुनी", "2026-09-11T12:55:00+05:30", "हस्त", "2026-09-12T12:55:00+05:30"),
+    mk("2026-09-12", "हस्त", "2026-09-12T12:55:00+05:30", "चित्रा", "2026-09-13T13:07:00+05:30")
+  ]);
+  assert.equal(result.status, "selected");
+  assert.equal(result.date, "2026-09-12");
+  assert.equal(result.label, "भाद्रपद शुक्ल हस्त");
+});
+
+test("Samaveda Upakarma falls back from a Sankranti-dosha primary Hasta", () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const day = (dateValue, month, sankranti = false) => ({
+    date: date(dateValue + "T12:00:00+05:30"),
+    sunrise: date(dateValue + "T06:00:00+05:30"),
+    sunset: date(dateValue + "T18:00:00+05:30"),
+    month, paksha: "शुक्ल", nakshatra: "हस्त",
+    nakshatraEndTime: date(dateValue + "T17:00:00+05:30"),
+    sankranti
+  });
+  const result = getSamavedaUpakarmaDateDecision([
+    day("2026-09-12", "भाद्रपद", true),
+    day("2026-08-29", "श्रावण")
+  ]);
+  assert.equal(result.status, "selected");
+  assert.equal(result.date, "2026-08-29");
+  assert.equal(result.label, "श्रावण शुक्ल हस्त");
+});
+
+test("Samaveda Upakarma returns a no-guess result when candidate Panchanga data is absent", async () => {
+  const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
+  const result = getSamavedaUpakarmaDateDecision([]);
+  assert.equal(result.status, "unavailable");
+});
