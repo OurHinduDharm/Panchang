@@ -647,8 +647,7 @@ const rules = {
       status: "calculated",
       date: sunset,
       dateLabel: formatDateLabel(sunset),
-      windows,
-      note: "समय चुने हुए स्थान के सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक व्याप्ति से निकाला गया है। वृषभ स्थिर लग्न तभी दिखेगा जब उसके स्थानीय समय उपलब्ध हों।"
+      windows
     };
   },
 
