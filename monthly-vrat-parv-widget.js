@@ -677,7 +677,7 @@
   async function buildDynamicNavratriEvents(year,month,token){
     var monthToFamilies={1:true,2:true,3:true,4:true,6:true,7:true,9:true,10:true};
     if(!monthToFamilies[month]) return {events:[],recognized:false};
-    var sunriseRows=[],recognized=false;
+    var found=[],sunriseRows=[],recognized=false;
     var days=new Date(year,month,0).getDate();
     for(var day=1;day<=days;day++){
       if(token!==requestToken)return {events:[],recognized:false};
@@ -720,9 +720,9 @@
           if(!extra)continue;
           var sunriseName=tithiNames[row.tithiIndex],skippedName=tithiNames[skipped];
           var deity=navratriDeities[skipped]||"देवी";
-          extra.title=row.family.label+" "+sunriseName+" (क्षय "+skippedName+") — माँ "+deity;
+          extra.title=row.family.label+" "+sunriseName+" (क्षय "+skippedName+") — "+deity;
           extra.hinduTithi=base?base.hinduTithi:"शुक्ल "+sunriseName;
-          extra.description="सूर्योदय-व्यापिनी "+extra.hinduTithi+" के दिन "+skippedName+" तिथि का क्षय होने से माँ "+deity+" का पूजन भी इसी दिन किया जाता है। "+String(extra.description||"");
+          extra.description="सूर्योदय-व्यापिनी "+extra.hinduTithi+" के दिन "+skippedName+" तिथि का क्षय होने से "+deity+" का पूजन भी इसी दिन किया जाता है। "+String(extra.description||"");
           found.push(extra);
         }
       }
