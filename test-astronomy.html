@@ -564,15 +564,10 @@ const REFERENCES = [
   { planet:"Jupiter", event:"Udaya", date:"2027-09-15", sampleTime:"2027-09-15T00:30:00Z", elongation:11.28, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" }
 ];
 
-// Published event boundaries transcribed by the user from Drik Panchang.
-// Local times are Pithoragarh clock time (Asia/Kolkata, UTC+05:30).
-// Keep these separate from the older Dehradun/Tantrakulam reference set above.
-const DRIK_PITHORAGARH_BOUNDARIES = [
-  { planet: "Venus", event: "Asta begins — evening boundary", localTime: "2026-10-12T18:05:00" },
-  { planet: "Venus", event: "Asta ends — morning boundary", localTime: "2026-10-29T05:49:00" },
-  { planet: "Jupiter", event: "Asta begins — evening boundary", localTime: "2027-08-16T19:24:00" },
-  { planet: "Jupiter", event: "Asta ends — morning boundary", localTime: "2027-09-13T05:09:00" }
-];
+// Quarantined: earlier manually transcribed Pithoragarh times have not
+// been independently confirmed from a retrievable location-specific source.
+// Keep this active dataset empty until exact source evidence is attached.
+const DRIK_PITHORAGARH_BOUNDARIES = [];
 
 const PLANETS = {
   Mercury: "Mercury",
@@ -797,26 +792,21 @@ const planet =
   return vectorSeparationDegrees(sun, planet);
 }
 
-function getHorizontal(body, date) {
-
-  const eq =
-    Astronomy.Equator(
-      body,
-      date,
-      observer,
-      true,
-      true
-    );
-
-  const hor =
-    Astronomy.Horizon(
-      date,
-      observer,
-      eq.ra,
-      eq.dec,
-      "normal"
-    );
-
+function getHorizontalAtObserver(body, date, observerAtLocation) {
+  const eq = Astronomy.Equator(
+    body,
+    date,
+    observerAtLocation,
+    true,
+    true
+  );
+  const hor = Astronomy.Horizon(
+    date,
+    observerAtLocation,
+    eq.ra,
+    eq.dec,
+    "normal"
+  );
   return {
     altitude: hor.altitude,
     azimuth: hor.azimuth,
@@ -825,11 +815,12 @@ function getHorizontal(body, date) {
   };
 }
 
+function getHorizontal(body, date) {
+  return getHorizontalAtObserver(body, date, observer);
+}
+
 function getSunHorizontal(date) {
-  return getHorizontal(
-    Astronomy.Body.Sun,
-    date
-  );
+  return getHorizontal(Astronomy.Body.Sun, date);
 }
 
 
@@ -1248,18 +1239,26 @@ async function calculateSwissHeliacal(ref) {
    * into the WASM wrapper.
    */
 
+  const observerConfig = ref.observer;
+  if (
+    !observerConfig ||
+    !Number.isFinite(Number(observerConfig.latitude)) ||
+    !Number.isFinite(Number(observerConfig.longitude)) ||
+    !Number.isFinite(Number(observerConfig.elevation))
+  ) {
+    throw new Error(
+      `No exact test-observer coordinates are attached to this ${ref.referenceLocation || "reference location"} case; refusing to substitute Pithoragarh.`
+    );
+  }
+
   const geoPos = [
-    Number(CONFIG.longitude),
-    Number(CONFIG.latitude),
-    Number(CONFIG.elevation)
+    Number(observerConfig.longitude),
+    Number(observerConfig.latitude),
+    Number(observerConfig.elevation)
   ];
 
-  const atmosData = [
-    1013.25,
-    15,
-    40,
-    0
-  ];
+  // All-zero inputs request Swiss Ephemeris altitude-adjusted defaults.
+  const atmosData = [0, 0, 0, 0];
 
   const observerData = [
     36,
@@ -1544,9 +1543,31 @@ async function runHeliacalValidation() {
 
     const results = [];
 
-    console.log("========== SWISS HELIACAL FOUR-CASE VALIDATION ==========");
+    // Never run a local visibility calculation unless the source location
+    // and the exact test observer are attached to this reference record.
+    const eligibleReferences = REFERENCES.filter(ref => {
+      const p = ref.observer;
+      return p &&
+        Number.isFinite(Number(p.latitude)) &&
+        Number.isFinite(Number(p.longitude)) &&
+        Number.isFinite(Number(p.elevation));
+    });
 
-    for (const ref of REFERENCES) {
+    if (!eligibleReferences.length) {
+      heliacalOutput.innerHTML = `
+        <div class="status warn">
+          No location-matched event references are available. The current
+          Dehradun/Tantrakulam rows do not publish observer coordinates;
+          Pithoragarh coordinates will not be substituted. No Swiss
+          location-specific result has been calculated.
+        </div>
+      `;
+      return;
+    }
+
+    console.log("========== SWISS HELIACAL LOCATION-MATCHED VALIDATION ==========");
+
+    for (const ref of eligibleReferences) {
 
       const eventType = Number(ref.eventType);
 
@@ -1590,8 +1611,21 @@ async function runHeliacalValidation() {
         if (!(point.date instanceof Date) || Number.isNaN(point.date.getTime())) {
           return { label: point.label, local: null, planetAlt: null, sunAlt: null, planetAz: null, sunAz: null, elongation: null };
         }
-        const planetHorizontal = getHorizontal(BODY_NAMES[ref.planet], point.date);
-        const sunHorizontal = getSunHorizontal(point.date);
+        const pointObserver = new Astronomy.Observer(
+          Number(ref.observer.latitude),
+          Number(ref.observer.longitude),
+          Number(ref.observer.elevation)
+        );
+        const planetHorizontal = getHorizontalAtObserver(
+          BODY_NAMES[ref.planet],
+          point.date,
+          pointObserver
+        );
+        const sunHorizontal = getHorizontalAtObserver(
+          Astronomy.Body.Sun,
+          point.date,
+          pointObserver
+        );
         return {
           label: point.label,
           local: formatLocalFromUTCDate(point.date),
