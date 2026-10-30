@@ -83,18 +83,9 @@
     {
       "date": "2026-02-15",
       "dateLabel": "15 फ़रवरी",
-      "title": "महाशिवरात्रि",
-      "description": "महाशिवरात्रि भगवान शिव की उपासना का प्रमुख पर्व है। जलाभिषेक, बिल्वपत्र अर्पण, मंत्र-जप और रात्रि-जागरण की परंपरा है; निशीथ-काल रात्रि के मध्य का विशेष समय है।",
-      "category": "प्रमुख पर्व",
-      "reviewStatus": "approved",
-      "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी"
-    },
-    {
-      "date": "2026-02-15",
-      "dateLabel": "15 फ़रवरी",
-      "title": "श्री महाशिवरात्रि व्रत",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html\" target=\"_blank\"> श्रीमहाशिवरात्रि व्रत </a>,<a href=\"http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\">शिवरात्रि का रहस्य</a>।<a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\">शिवरात्रि में रात्रि जागरण पूर्वक चारों प्रहर की शास्त्रोक्त विधान से पूजा करने की विधि</a>",
-      "category": "व्रत-पर्व",
+      "title": "महाशिवरात्रि / मासिक शिवरात्रि व्रत",
+      "description": "महाशिवरात्रि भगवान शिव की उपासना का प्रमुख पर्व है। जलाभिषेक, बिल्वपत्र अर्पण, मंत्र-जप और रात्रि-जागरण की परंपरा है; निशीथ-काल रात्रि के मध्य का विशेष समय है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html\" target=\"_blank\"> श्रीमहाशिवरात्रि व्रत </a>,<a href=\"http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\">शिवरात्रि का रहस्य</a>।<a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\">शिवरात्रि में रात्रि जागरण पूर्वक चारों प्रहर की शास्त्रोक्त विधान से पूजा करने की विधि</a>",
+      "category": "प्रमुख पर्व एवं व्रत",
       "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी"
     },
