@@ -15,7 +15,7 @@ test("2026 February includes Kumbha Sankranti", async () => {
   assert.ok(find(data, "2026-02-13", /कुम्भ संक्रांति/));
 });
 
-test("2026 March includes Gauri Puja, Yamuna Chhath and Swaminarayan Jayanti", async () => {
+test("2026 March includes Gauri Puja and Yamuna Chhath", async () => {
   const data = await month("03");
   assert.ok(find(data, "2026-03-21", /गौरी पूजा/));
   assert.ok(find(data, "2026-03-24", /यमुना छठ/));
@@ -60,6 +60,42 @@ test("2026 November preserves the Rama Ekadashi article", async () => {
   assert.match(find(data, "2026-11-05", /रमा एकादशी/).articleUrl || "", /About-Rama-Ekadashi/);
 });
 
+test("2026 April confirms Hanuman and Bagalamukhi dates and separates Chaturdashi observances", async () => {
+  const data = await month("04");
+  const hanuman = find(data, "2026-04-02", /हनुमान जयंती/);
+  assert.equal(hanuman.hinduTithi, "चैत्र शुक्ल पूर्णिमा");
+  const bagalamukhi = find(data, "2026-04-24", /बगलामुखी/);
+  assert.equal(bagalamukhi.hinduTithi, "वैशाख शुक्ल अष्टमी");
+  assert.equal(bagalamukhi.reviewStatus, "approved");
+  const narasimha = find(data, "2026-04-30", /नृसिंह जयंती \/ नृसिंह चतुर्दशी व्रत/);
+  assert.match(narasimha.articleUrl, /About-lord-Nrisimha/);
+  assert.ok(find(data, "2026-04-30", /छिन्नमस्ता/).articleUrl);
+  assert.ok(find(data, "2026-04-30", /शरभ अवतार/));
+  assert.ok(find(data, "2026-04-30", /ब्लॉग स्थापना दिवस/));
+  assert.equal(data.events.filter(e => e.date === "2026-04-30" && /नृसिंह/.test(e.title)).length, 1);
+});
+test("2026 May separates Vat Savitri and Shani Jayanti cards", async () => {
+  const data = await month("05");
+  const vat = find(data, "2026-05-16", /वट सावित्री व्रत$/);
+  const shani = find(data, "2026-05-16", /शनि जयन्ती/);
+  assert.ok(vat && /सावित्री-सत्यवान/.test(vat.description));
+  assert.match(shani.articleUrl || "", /About-Shanidev-On-ShanidevJayanti/);
+  assert.match(shani.secondaryArticleUrl || "", /About-Shani-dev-shatarchan/);
+  assert.equal(data.events.filter(e => e.date === "2026-05-16" && e.title.includes("वट सावित्री व्रत / शनि जयंती")).length, 0);
+});
+test("2026 Gayatri Jayanti keeps both traditional observance dates", async () => {
+  const june = find(await month("06"), "2026-06-25", /वेदमाता गायत्री/);
+  const august = find(await month("08"), "2026-08-28", /गायत्री जयन्ती/);
+  assert.equal(june.hinduTithi, "ज्येष्ठ शुक्ल एकादशी");
+  assert.equal(august.hinduTithi, "श्रावण शुक्ल पूर्णिमा");
+  assert.ok(june.articleUrl && august.articleUrl);
+});
+test("2026 Vindhyavasini Jayanti is retained on Bhadrapada Krishna Ashtami", async () => {
+  const august = await month("08");
+  const september = await month("09");
+  assert.equal(find(september, "2026-09-04", /विन्ध्यवासिनी/).hinduTithi, "भाद्रपद कृष्ण अष्टमी");
+  assert.equal(august.events.filter(e => /विन्ध्यवासिनी/.test(e.title)).length, 0);
+});
 test("Every legacy OurHinduDharm article link remains attached to the 2026 catalog", async () => {
   const legacy = JSON.parse(await readFile(new URL("../data/festivals/legacy-source-preserved.json", import.meta.url), "utf8"));
   const names = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
