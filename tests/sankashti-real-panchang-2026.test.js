@@ -2,8 +2,6 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const fs = require("node:fs");
-const path = require("node:path");
 const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
 
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
