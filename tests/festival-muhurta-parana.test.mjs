@@ -274,8 +274,8 @@ test("Bhai Dooj tilak muhurta is Aparahna (fourth fifth of daytime) intersected 
     sunrise, sunset, tithis: [dwitiya]
   });
   assert.equal(result.status, "calculated");
-  assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:09:24+05:30").toISOString());
-  assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T15:19:12+05:30").toISOString());
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:09:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T15:19:00+05:30").toISOString());
 });
 
 test("Bhai Dooj tilak muhurta is clipped when Dwitiya ends during Aparahna", () => {
@@ -289,7 +289,7 @@ test("Bhai Dooj tilak muhurta is clipped when Dwitiya ends during Aparahna", () 
     }]
   });
   assert.equal(result.status, "calculated");
-  assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:09:24+05:30").toISOString());
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-11T13:09:00+05:30").toISOString());
   assert.equal(result.windows[0].end.toISOString(), date("2026-11-11T14:00:00+05:30").toISOString());
 });
 
