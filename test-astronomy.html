@@ -1613,12 +1613,14 @@ async function runHeliacalValidation() {
         Number.isFinite(Number(p.elevation));
     });
 
+    if (new Set(eligibleReferences.map(ref => ref.sourceLocation)).size > 1) {
+      throw new Error("Mixed source locations detected; this run accepts exactly one location.");
+    }
+
     if (!eligibleReferences.length) {
       heliacalOutput.innerHTML = `
         <div class="status warn">
-          No verified same-location event reference with an explicit observer is available.
-          Dehradun elongation samples are not event-time targets. No other city’s
-          coordinates will be substituted. No local Swiss result has been calculated.
+          No eligible Pithoragarh benchmark case with an explicit test observer was found. No other city’s coordinates will be substituted; no local Swiss result has been calculated.
         </div>
       `;
       return;
@@ -1733,7 +1735,7 @@ async function runHeliacalValidation() {
         <h3>🔭 Swiss Ephemeris — स्थान-मिलान वाले परीक्षण</h3>
         <div class="metric">
           <strong>स्रोत स्थान</strong>
-          <span>${row.sourceLocation}</span>
+          <span>${results[0]?.sourceLocation || "—"}</span>
         </div>
         <div class="metric">
           <strong>Swiss event mapping</strong>
