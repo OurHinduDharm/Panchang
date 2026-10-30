@@ -406,3 +406,28 @@ test("2026 preserves the Drik Chandra Darshan dates and additional special obser
     assert.equal(event.reviewStatus, "approved");
   }
 });
+
+
+test("2026 Sharadiya Navratri has all nine forms with the Ashtami-Navami overlap", async () => {
+  const data = await month("10");
+  const checks = [
+    ["2026-10-11", /शारदीय नवरात्र प्रारम्भ/],
+    ["2026-10-12", /द्वितीया.*ब्रह्मचारिणी/],
+    ["2026-10-13", /तृतीया.*चन्द्रघंटा/],
+    ["2026-10-14", /चतुर्थी.*कूष्माण्डा/],
+    ["2026-10-15", /पंचमी.*स्कन्दमाता/],
+    ["2026-10-16", /षष्ठी.*कात्यायनी/],
+    ["2026-10-17", /सप्तमी.*कालरात्रि/],
+    ["2026-10-19", /महाष्टमी.*महागौरी/],
+    ["2026-10-19", /महानवमी.*सिद्धिदात्री/]
+  ];
+  for (const [date, title] of checks) {
+    assert.ok(find(data, date, title), date + " " + title);
+  }
+  const siddhidatri = find(data, "2026-10-19", /महानवमी.*सिद्धिदात्री/);
+  assert.equal(siddhidatri.hinduTithi, "आश्विन शुक्ल अष्टमी (नवमी व्याप्ति)");
+  assert.ok(urls(siddhidatri).some(url => url.includes("About-Goddess-Siddhidaatri")));
+  assert.equal(data.events.some(e => e.date === "2026-10-18" && /कालरात्रि/.test(e.title || "")), false);
+  assert.ok(find(data, "2026-10-20", /शारदीय नवरात्र पारण/));
+  assert.ok(find(data, "2026-10-20", /दुर्गा विसर्जन/));
+});
