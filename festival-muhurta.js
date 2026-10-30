@@ -795,6 +795,49 @@ const rules = {
     return result ? { ...result, status: "calculated" } : null;
   },
 
+  "masik-shivaratri-nishita"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const chaturdashi = collectNamedIntervals(context.tithis, item => {
+      const name = normalizedName(item);
+      const raw = item && typeof item === "object"
+        ? item.index ?? item.number ?? item.value
+        : item;
+      return Number(raw) === 28 ||
+        /krishna.*chaturdashi|कृष्ण.*चतुर्दशी/.test(name);
+    });
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !chaturdashi.length) {
+      return {
+        label: "मासिक शिवरात्रि निशीथ पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्यास्त, अगले सूर्योदय और कृष्ण चतुर्दशी की वास्तविक समय-सीमा उपलब्ध नहीं है; अनुमानित निशीथ मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+    const nishita = fractionInterval(sunset, nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
+    const pujaWindow = nishita && windowWithin(
+      nishita.start,
+      nishita.end,
+      chaturdashi,
+      "मासिक शिवरात्रि निशीथ पूजा मुहूर्त",
+      "स्थानीय सूर्यास्त से अगले सूर्योदय तक के रात्रिमान का आठवाँ मुहूर्त और कृष्ण चतुर्दशी की संयुक्त व्याप्ति।"
+    );
+    if (!pujaWindow) {
+      return {
+        label: "मासिक शिवरात्रि निशीथ पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय निशीथ काल और कृष्ण चतुर्दशी की साझा व्याप्ति नहीं मिली; समय नहीं दिखाया जा रहा है।"
+      };
+    }
+    return {
+      label: "मासिक शिवरात्रि — निशीथ पूजा मुहूर्त",
+      status: "calculated",
+      date: sunset,
+      dateLabel: formatDateLabel(sunset),
+      windows: [pujaWindow],
+      note: "समय स्थानीय रात्रिमान के आठवें मुहूर्त (निशीथ) और कृष्ण चतुर्दशी की वास्तविक व्याप्ति के साझा अंतराल से निकाला गया है।"
+    };
+  },
+
   nishita(context) {
     const result = fractionInterval(context.sunset, context.nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
     return result ? { ...result, status: "calculated" } : null;

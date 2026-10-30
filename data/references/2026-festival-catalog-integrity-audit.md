@@ -67,3 +67,10 @@ Twelve 2026 dates are now represented as approved Sankashti/Sakat observances. T
 The December case is deliberately not approved. With the current calculation profile, Chaturthi begins shortly after the Dec 26 moonrise and ends before the Dec 27 moonrise; neither candidate date satisfies the moonrise-overlap check. The existing Dec 26 candidate is retained as needs-review, and the December month status is also needs-review. It is not moved to Dec 27 by assumption. A hard-copy rule review is required before publishing a date.
 
 No fixed moonrise time has been copied into the event data.
+
+
+## Follow-up: 2026 Masik Shivaratri coverage
+
+The 12 Masik Shivaratri dates are now represented in the monthly catalog. The dates were checked with the local Panchang engine to confirm Krishna Chaturdashi overlaps the Nishita interval at the default Pithoragarh observer. Two duplicate Mahashivaratri entries on February 15 were consolidated while preserving the existing article links.
+
+A dedicated muhurta rule now intersects the local Nishita interval with the actual Krishna Chaturdashi interval. The monthly widget can therefore show a calculated Nishita puja window only when both overlap; missing tithi data or no overlap returns unavailable rather than an estimated time. All 12 event records use this rule.
