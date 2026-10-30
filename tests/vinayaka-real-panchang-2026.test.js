@@ -1,5 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const { getPanchangam, Observer } = require("@ishubhamx/panchangam-js");
 
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
@@ -43,4 +45,19 @@ test("all 12 selected Vinayaka dates have Shukla Chaturthi during local Madhyahn
   }
   assert.deepEqual(failures, []);
   assert.equal(EXPECTED_DATES.length, 12);
+});
+
+
+test("all 12 Madhyahna-verified Vinayaka dates are present once as approved records", () => {
+  for (const isoDate of EXPECTED_DATES) {
+    const month = isoDate.slice(5, 7);
+    const file = path.join(process.cwd(), "data", "festivals", "2026-" + month + ".json");
+    const data = JSON.parse(fs.readFileSync(file, "utf8"));
+    const matches = (data.events || []).filter(item =>
+      item.date === isoDate && item.muhurtaRule === "vinayaka-chaturthi-madhyahna"
+    );
+    assert.equal(matches.length, 1, isoDate + " must have exactly one Vinayaka record");
+    assert.equal(matches[0].reviewStatus, "approved", isoDate + " must be approved");
+    assert.match(matches[0].hinduTithi || "", /शुक्ल चतुर्थी/, isoDate + " must include Shukla Chaturthi");
+  }
 });
