@@ -39,7 +39,7 @@ test("2026 August includes Raksha Bandhan and the Hayagriva article", async () =
   const data = await month("08");
   const rakhi = find(data, "2026-08-28", /रक्षाबंधन/);
   assert.ok(rakhi);
-  assert.ok(find(data, "2026-08-28", /हयग्रीव/).articleUrl);
+  assert.ok(find(data, "2026-08-27", /हयग्रीव/).articleUrl);
 });
 
 test("2026 October includes Saraswati Avahan and Saraswati Puja", async () => {
