@@ -113,7 +113,8 @@ test("2026 March Drik Pithoragarh calendar anchors retain exact date and tithi",
   assert.equal(samvatsara.hinduTithi, "चैत्र शुक्ल प्रतिपदा");
   assert.equal(samvatsara.reviewStatus, "approved");
 });
-\ntest("Every legacy OurHinduDharm article link remains attached to the 2026 catalog", async () => {
+
+test("Every legacy OurHinduDharm article link remains attached to the 2026 catalog", async () => {
   const legacy = JSON.parse(await readFile(new URL("../data/festivals/legacy-source-preserved.json", import.meta.url), "utf8"));
   const names = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
   const current = await Promise.all(names.map(month));
