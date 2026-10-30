@@ -328,6 +328,19 @@
       var values=await getDatePanchang(dateIso);
       if(token!==requestToken||!content.isConnected) return;
       var context=muhurtaModule.getFestivalMuhurtaContext(values.p,values.next,values.date,values.location);
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="bhai-dooj-tilak";})){
+        var previousDate=new Date(dateIso+"T12:00:00.000Z");
+        previousDate.setUTCDate(previousDate.getUTCDate()-1);
+        var previousIso=previousDate.toISOString().slice(0,10);
+        var previousValues=await getDatePanchang(previousIso);
+        if(token!==requestToken||!content.isConnected) return;
+        context.bhaiDoojDateDecision=muhurtaModule.getBhaiDoojDateDecision(
+          {sunrise:previousValues.p.sunrise,sunset:previousValues.p.sunset,
+            tithis:[...(previousValues.p.tithis||[]),...(previousValues.next.tithis||[])]},
+          {sunrise:values.p.sunrise,sunset:values.p.sunset,
+            tithis:[...(values.p.tithis||[]),...(values.next.tithis||[])]}
+        );
+      }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja"||ruleItem.muhurtaRule==="dhanteras-muhurta";})){
         var sunset=new Date(values.p.sunset);
         var nextSunrise=new Date(values.next.sunrise);
@@ -378,7 +391,7 @@
         }else if(result.status==="calculated"&&result.start&&result.end){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
         }else{
-          detail.textContent="इस समय की गणना उपलब्ध नहीं है।";
+          detail.textContent=result.message||"इस समय की गणना उपलब्ध नहीं है।";
         }
         box.appendChild(detail);
         if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
