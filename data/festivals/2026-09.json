@@ -55,6 +55,15 @@
       "hinduTithi": "भाद्रपद कृष्ण अष्टमी"
     },
     {
+      "date": "2026-09-05",
+      "dateLabel": "5 सितंबर",
+      "title": "दही हांडी",
+      "description": "श्रीकृष्ण जन्माष्टमी के अगले दिन दही हांडी उत्सव में मटकी फोड़ने की परंपरा निभाई जाती है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद कृष्ण नवमी"
+    },
+    {
       "date": "2026-09-07",
       "dateLabel": "7 सितंबर",
       "title": "अजा एकादशी",
@@ -71,6 +80,15 @@
       "description": "अगस्त्य तारे के दर्शन और अर्घ्य से संबंधित यह पर्व खगोलीय गणना पर आधारित है।",
       "category": "पर्व",
       "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-09-07",
+      "dateLabel": "7 सितंबर",
+      "title": "बछ बारस / गोवत्स द्वादशी",
+      "description": "बछ बारस पर गौ और बछड़े का पूजन किया जाता है। इस दिन गौवत्स के प्रति कृतज्ञता और परिवार की मंगलकामना का विधान है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद कृष्ण एकादशी (द्वादशी व्याप्ति)"
     },
     {
       "date": "2026-09-08",
@@ -119,24 +137,22 @@
     {
       "date": "2026-09-13",
       "dateLabel": "13 सितंबर",
-      "title": " श्री वाराहावतार प्राकट्य ",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\">विष्णुजी के अवतार भगवान वाराह की जयन्ती</a>",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "भाद्रपद शुक्ल तृतीया",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html",
-      "articleLabel": "श्री वाराहावतार जयंती पढ़ें"
-    },
-    {
-      "date": "2026-09-13",
-      "dateLabel": "13 सितंबर",
-      "title": "श्री वराह अवतार जयंती",
+      "title": "श्री वराह अवतार जयंती / प्राकट्य",
       "description": "पिथौरागढ़ में 13 सितंबर को सूर्योदय 05:53 पर द्वितीया थी और तृतीया 07:08 AM पर आरम्भ हुई। तृतीया-व्याप्ति के अनुसार इसी दिन भगवान विष्णु के वराह अवतार का प्राकट्य-स्मरण और पूजन किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वाराह अवतार की कथा एवं महिमा पढ़ें</a>।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद शुक्ल द्वितीया (तृतीया 07:08 AM से)",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html",
       "articleLabel": "वराह अवतार की कथा पढ़ें"
+    },
+    {
+      "date": "2026-09-13",
+      "dateLabel": "13 सितंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल द्वितीया"
     },
     {
       "date": "2026-09-14",
@@ -202,6 +218,15 @@
       "reviewStatus": "approved"
     },
     {
+      "date": "2026-09-18",
+      "dateLabel": "18 सितंबर",
+      "title": "ललिता सप्तमी",
+      "description": "भाद्रपद शुक्ल सप्तमी को भगवती ललिता की पूजा-अर्चना की जाती है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल सप्तमी"
+    },
+    {
       "date": "2026-09-19",
       "dateLabel": "19 सितंबर",
       "title": "महर्षि दधीचि जयंती",
@@ -225,6 +250,24 @@
       "title": "राधाष्टमी | श्री राधा जयन्ती",
       "description": "राधाष्टमी भगवती श्रीराधा के प्राकट्य-स्मरण का पर्व है। इस दिज श्री राधा-कृष्ण पूजन, भजन, स्तोत्रपाठ-जप और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>। देवी राधा की पूजा मध्याह्नकाल में की जाती है।",
       "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+    },
+    {
+      "date": "2026-09-19",
+      "dateLabel": "19 सितंबर",
+      "title": "दूर्वाष्टमी",
+      "description": "भाद्रपद शुक्ल अष्टमी को दूर्वा का पूजन कर भगवान गणेश और देवी का स्मरण किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+    },
+    {
+      "date": "2026-09-19",
+      "dateLabel": "19 सितंबर",
+      "title": "महालक्ष्मी व्रत प्रारम्भ",
+      "description": "महालक्ष्मी व्रत का आरम्भ भाद्रपद शुक्ल अष्टमी से होता है। व्रत की परंपरा सोलह दिनों तक चलती है।",
+      "category": "पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
     },
