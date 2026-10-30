@@ -520,6 +520,8 @@ test("Sankranti Punya Kala follows sign-specific ghatis measured from local day 
   assert.equal(result.status, "calculated");
   assert.equal(result.windows[0].start.toISOString(), date("2026-04-14T08:00:00+05:30").toISOString());
   assert.equal(result.windows[0].end.toISOString(), date("2026-04-14T16:00:00+05:30").toISOString());
+  assert.equal(result.windows[1].start.toISOString(), date("2026-04-14T10:00:00+05:30").toISOString());
+  assert.equal(result.windows[1].end.toISOString(), date("2026-04-14T14:00:00+05:30").toISOString());
 });
 
 test("Night-time non-Ayana Sankranti moves its punya period to the following daylight", () => {
