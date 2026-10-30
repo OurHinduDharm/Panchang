@@ -348,6 +348,7 @@ const rules = {
     const sunset = validDate(context.sunset);
     const nextNakshatraEnd = validDate(context.nextNakshatraEndTime);
     const currentNakshatraEnd = validDate(context.nakshatraEndTime);
+    const namedHasta = collectNamedIntervals(context.nakshatras, isHasta)[0];
     if (!sunrise || !sunset || sunset <= sunrise) {
       return {
         label: "सामवेदी उपाकर्म — अपराह्ण काल",
@@ -356,12 +357,12 @@ const rules = {
       };
     }
 
-    let hastaStart = null;
-    let hastaEnd = null;
-    if (isHasta(context.nakshatra)) {
+    let hastaStart = namedHasta && namedHasta.start;
+    let hastaEnd = namedHasta && namedHasta.end;
+    if (!hastaStart && isHasta(context.nakshatra)) {
       hastaStart = sunrise;
       hastaEnd = currentNakshatraEnd;
-    } else if (isHasta(context.nextNakshatra)) {
+    } else if (!hastaStart && isHasta(context.nextNakshatra)) {
       // The next day's sunrise nakshatra began when today's nakshatra ended.
       hastaStart = currentNakshatraEnd;
       hastaEnd = nextNakshatraEnd;
@@ -1186,6 +1187,10 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
     nextTithiEndTime: nextPanchang && nextPanchang.tithiEndTime,
     nakshatra: panchang && panchang.nakshatra,
     nakshatraEndTime: panchang && panchang.nakshatraEndTime,
+    nakshatras: [
+      ...(panchang && Array.isArray(panchang.nakshatras) ? panchang.nakshatras : []),
+      ...(nextPanchang && Array.isArray(nextPanchang.nakshatras) ? nextPanchang.nakshatras : [])
+    ],
     nextNakshatra: nextPanchang && nextPanchang.nakshatra,
     nextNakshatraEndTime: nextPanchang && nextPanchang.nakshatraEndTime,
     yoga: panchang && panchang.yoga,
@@ -1229,6 +1234,8 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
   const isPanchami = day => hasName(day.tithi, /panchami|पञ्चमी|पंचमी/);
 
   function hastaInterval(day) {
+    const named = collectNamedIntervals(day.nakshatras, isHasta);
+    if (named.length) return { start: named[0].start, end: named[0].end };
     const explicitStart = validDate(day.hastaStartTime);
     const explicitEnd = validDate(day.hastaEndTime);
     if (explicitStart && explicitEnd && explicitEnd > explicitStart) {
