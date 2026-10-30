@@ -593,8 +593,9 @@ const rules = {
 
     // Aparahna is the fourth of five equal parts of local daytime.
     const dayDuration = sunset.getTime() - sunrise.getTime();
-    const aparahnaStart = new Date(sunrise.getTime() + dayDuration * 3 / 5);
-    const aparahnaEnd = new Date(sunrise.getTime() + dayDuration * 4 / 5);
+    const roundMinute = value => new Date(Math.round(value / 60000) * 60000);
+    const aparahnaStart = roundMinute(sunrise.getTime() + dayDuration * 3 / 5);
+    const aparahnaEnd = roundMinute(sunrise.getTime() + dayDuration * 4 / 5);
     const tilakWindow = windowWithin(
       aparahnaStart,
       aparahnaEnd,
