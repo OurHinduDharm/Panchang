@@ -477,54 +477,43 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
   const selected = getPlanetDailyData(body, selectedDate);
   if (!Number.isFinite(selected.eclipticSeparation)) return null;
 
-  // दिन-स्तर पर अधिकतम 400 दिन आगे/पीछे खोजें।
+  // चयनित समय सीमा के किस ओर है, उसी के अनुसार केवल सम्भव निकटतम दिशा खोजें।
+  // सीमा से ऊपर: अस्त भविष्य में, उदय अतीत में।
+  // सीमा पर/नीचे: अस्त अतीत में, उदय भविष्य में।
+  const selectedAboveThreshold = selected.eclipticSeparation > threshold;
+  const expectedDirection = eventType === "asta"
+    ? (selectedAboveThreshold ? "future" : "past")
+    : (selectedAboveThreshold ? "past" : "future");
+
+  // मौजूदा 400-दिन की सुरक्षा-सीमा और दैनिक bracket को यथावत रखें।
   for (let offset = 1; offset <= 400; offset++) {
-    const pastDate = addDays(selectedDate, -offset);
-    const pastNextDate = addDays(selectedDate, -offset + 1);
-    const futurePrevDate = addDays(selectedDate, offset - 1);
-    const futureDate = addDays(selectedDate, offset);
+    const dateA = addDays(
+      selectedDate,
+      expectedDirection === "past" ? -offset : offset - 1
+    );
+    const dateB = addDays(
+      selectedDate,
+      expectedDirection === "past" ? -offset + 1 : offset
+    );
+    const a = getPlanetDailyData(body, dateA);
+    const b = getPlanetDailyData(body, dateB);
 
-    const pastA = getPlanetDailyData(body, pastDate);
-    const pastB = getPlanetDailyData(body, pastNextDate);
-    const futureA = getPlanetDailyData(body, futurePrevDate);
-    const futureB = getPlanetDailyData(body, futureDate);
+    const crossed = eventType === "asta"
+      ? a.eclipticSeparation > threshold && b.eclipticSeparation <= threshold
+      : a.eclipticSeparation <= threshold && b.eclipticSeparation > threshold;
 
-    const crossedDown = (a, b) =>
-      a.eclipticSeparation > threshold &&
-      b.eclipticSeparation <= threshold;
+    if (!crossed) continue;
 
-    const crossedUp = (a, b) =>
-      a.eclipticSeparation <= threshold &&
-      b.eclipticSeparation > threshold;
-
-    const matches = eventType === "asta" ? crossedDown : crossedUp;
-
-    // बराबर दूरी पर पिछले दिन की सीमा को प्राथमिकता दें।
-    if (matches(pastA, pastB)) {
-      const instant = findThresholdCrossingInstant(
-        body, pastA.date, pastB.date, threshold, eventType
-      );
-      return {
-        date: pastB.date,
-        instant,
-        degree: pastB.eclipticSeparation,
-        threshold,
-        direction: "past"
-      };
-    }
-
-    if (matches(futureA, futureB)) {
-      const instant = findThresholdCrossingInstant(
-        body, futureA.date, futureB.date, threshold, eventType
-      );
-      return {
-        date: futureB.date,
-        instant,
-        degree: futureB.eclipticSeparation,
-        threshold,
-        direction: "future"
-      };
-    }
+    const instant = findThresholdCrossingInstant(
+      body, a.date, b.date, threshold, eventType
+    );
+    return {
+      date: b.date,
+      instant,
+      degree: b.eclipticSeparation,
+      threshold,
+      direction: expectedDirection
+    };
   }
 
   return null;
