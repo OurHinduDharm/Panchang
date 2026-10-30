@@ -5,6 +5,8 @@ on:
       - verify/2026-pradosh-pithoragarh
     paths:
       - 'tests/pradosh-real-panchang-2026.test.js'
+      - 'tests/recurring-tithi-scan-2026.test.js'
+      - 'data/festivals/2026-*.json'
       - '.github/workflows/pradosh-panchang-validation.yml'
   pull_request:
     paths:
@@ -24,3 +26,5 @@ jobs:
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Validate 2026 local tithi windows
         run: node --test tests/pradosh-real-panchang-2026.test.js
+      - name: Scan recurring tithis at local sunrise
+        run: node --test tests/recurring-tithi-scan-2026.test.js
