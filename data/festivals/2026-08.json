@@ -62,6 +62,15 @@
       "muhurtaRule": "masik-shivaratri-nishita"
     },
     {
+      "date": "2026-08-12",
+      "dateLabel": "12 अगस्त",
+      "title": "श्रावण अमावस्या",
+      "description": "अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। श्राद्ध और तर्पण का समय कर्म के प्रकार तथा संबंधित काल-व्याप्ति से निर्धारित होता है।",
+      "category": "अमावस्या",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण कृष्ण अमावस्या"
+    },
+    {
       "date": "2026-08-15",
       "dateLabel": "15 अगस्त",
       "title": "स्वतंत्रता दिवस",
@@ -116,11 +125,29 @@
     {
       "date": "2026-08-18",
       "dateLabel": "18 अगस्त",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द/कार्तिकेय की उपासना और व्रत किया जाता है। इस तिथि पर शुक्ल षष्ठी स्थानीय सूर्योदय पर विद्यमान है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल षष्ठी"
+    },
+    {
+      "date": "2026-08-18",
+      "dateLabel": "18 अगस्त",
       "title": "श्री कल्कि अवतार जयंती",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\">श्री कल्कि अवतार जयंती</a>",
       "category": "जयंती",
       "reviewStatus": "needs-review",
       "hinduTithi": "श्रावण शुक्ल षष्ठी"
+    },
+    {
+      "date": "2026-08-20",
+      "dateLabel": "20 अगस्त",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप की परंपरा है। इस तिथि पर शुक्ल अष्टमी स्थानीय सूर्योदय पर विद्यमान है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल अष्टमी"
     },
     {
       "date": "2026-08-23",
