@@ -168,6 +168,15 @@
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,
       "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-12-23",
+      "dateLabel": "23 दिसंबर",
+      "title": "श्री त्रिपुरभैरवी महाविद्या जयंती",
+      "description": "मार्गशीर्ष शुक्ल पूर्णिमा पर श्री त्रिपुरभैरवी महाविद्या की उपासना। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
     }
   ]
 }
