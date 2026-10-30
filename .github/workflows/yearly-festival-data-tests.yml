@@ -11,13 +11,13 @@ on:
       - 'festival-year-review.html'
       - 'tests/samaveda-annual-review.test.mjs'
       - 'tests/merge-festival-months-to-yearly.test.mjs'
-      - 'samaveda-annual-review.js'
-      - 'festival-year-review.html'
-      - 'tests/samaveda-annual-review.test.mjs'
       - '.github/workflows/yearly-festival-data-tests.yml'
   pull_request:
     paths:
       - 'scripts/merge-festival-months-to-yearly.mjs'
+      - 'samaveda-annual-review.js'
+      - 'festival-year-review.html'
+      - 'tests/samaveda-annual-review.test.mjs'
       - 'tests/merge-festival-months-to-yearly.test.mjs'
       - '.github/workflows/yearly-festival-data-tests.yml'
 
