@@ -30,7 +30,7 @@ export function auditMonth(data, expectedYear, expectedMonth) {
         previousDate = event.date;
       }
     }
-    if (event.endDate && (!/^\\d{4}-\\d{2}-\\d{2}$/.test(event.endDate) || event.endDate < event.date)) add("error", "END_DATE_INVALID", label + ": " + event.date + " -> " + event.endDate);
+    if (event.endDate && (!/^\d{4}-\d{2}-\d{2}$/.test(event.endDate) || event.endDate < event.date)) add("error", "END_DATE_INVALID", label + ": " + event.date + " -> " + event.endDate);
     if (!["approved", "needs-review", "source-conflict", "draft", "rejected"].includes(status)) add("error", "UNKNOWN_EVENT_STATUS", label + ": " + status);
     if (TITHI_CATEGORIES.test((event.title || "") + " " + (event.category || "")) && !event.hinduTithi) add("warning", "TITHI_METADATA_MISSING", label);
     if (/मुहूर्त|समय.*निर्धारित|समय.*निकाल/i.test(event.description || "") && !event.muhurtaRule) add("warning", "TIME_PROMISE_WITHOUT_RULE", label);
