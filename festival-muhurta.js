@@ -795,6 +795,49 @@ const rules = {
     return result ? { ...result, status: "calculated" } : null;
   },
 
+  "vinayaka-chaturthi-madhyahna"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const chaturthi = collectNamedIntervals(context.tithis, item => {
+      const name = normalizedName(item);
+      const raw = item && typeof item === "object"
+        ? item.index ?? item.number ?? item.value
+        : item;
+      return Number(raw) === 3 ||
+        /shukla.*chaturthi|शुक्ल.*चतुर्थी/.test(name);
+    });
+    if (!sunrise || !sunset || sunset <= sunrise || !chaturthi.length) {
+      return {
+        label: "विनायक चतुर्थी मध्याह्न पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्योदय-सूर्यास्त और शुक्ल चतुर्थी की वास्तविक समय-सीमा उपलब्ध नहीं है; अनुमानित पूजा-मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+    const madhyahna = fractionInterval(sunrise, sunset, 2 / 5, 3 / 5, "मध्याह्न काल");
+    const pujaWindow = madhyahna && windowWithin(
+      madhyahna.start,
+      madhyahna.end,
+      chaturthi,
+      "विनायक चतुर्थी पूजा मुहूर्त — मध्याह्न",
+      "स्थानीय दिनमान के पाँच बराबर भागों में तीसरा भाग (मध्याह्न) और शुक्ल चतुर्थी की संयुक्त व्याप्ति।"
+    );
+    if (!pujaWindow) {
+      return {
+        label: "विनायक चतुर्थी मध्याह्न पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय मध्याह्न काल और शुक्ल चतुर्थी की साझा व्याप्ति नहीं मिली; पूजा-मुहूर्त नहीं दिखाया जा रहा है।"
+      };
+    }
+    return {
+      label: "विनायक चतुर्थी — मध्याह्न पूजा मुहूर्त",
+      status: "calculated",
+      date: sunrise,
+      dateLabel: formatDateLabel(sunrise),
+      windows: [pujaWindow],
+      note: "समय स्थानीय दिनमान के तीसरे पाँचवें भाग (मध्याह्न) और शुक्ल चतुर्थी की वास्तविक व्याप्ति के साझा अंतराल से निकाला गया है।"
+    };
+  },
+
   "masik-shivaratri-nishita"(context) {
     const sunset = validDate(context.sunset);
     const nextSunrise = validDate(context.nextSunrise);
