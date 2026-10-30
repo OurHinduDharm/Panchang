@@ -587,7 +587,7 @@ test("Samaveda Upakarma does not invent a time when Hasta does not overlap Apara
 });
 
 
-test("Samaveda Upakarma date decision follows the two-day Aparahna overlap rule", () => {
+test("Samaveda Upakarma date decision follows the two-day Aparahna overlap rule", async () => {
   const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
   const mk = (dateValue, nakshatra, end, nextNakshatra, nextEnd) => ({
     date: date(dateValue + "T12:00:00+05:30"),
@@ -598,15 +598,15 @@ test("Samaveda Upakarma date decision follows the two-day Aparahna overlap rule"
     nextNakshatra, nextNakshatraEndTime: nextEnd ? date(nextEnd) : null
   });
   const result = getSamavedaUpakarmaDateDecision([
-    mk("2026-09-11", "उत्तराफाल्गुनी", "2026-09-11T12:55:00+05:30", "हस्त", "2026-09-12T12:55:00+05:30"),
-    mk("2026-09-12", "हस्त", "2026-09-12T12:55:00+05:30", "चित्रा", "2026-09-13T13:07:00+05:30")
+    { ...mk("2026-09-11", "उत्तराफाल्गुनी", "2026-09-12T12:55:00+05:30", "उत्तराफाल्गुनी", "2026-09-12T12:55:00+05:30"), hastaStartTime: date("2026-09-12T12:55:00+05:30"), hastaEndTime: date("2026-09-13T13:07:00+05:30") },
+    { ...mk("2026-09-12", "हस्त", "2026-09-13T13:07:00+05:30", "चित्रा", "2026-09-14T14:00:00+05:30"), hastaStartTime: date("2026-09-12T12:55:00+05:30"), hastaEndTime: date("2026-09-13T13:07:00+05:30") }
   ]);
   assert.equal(result.status, "selected");
   assert.equal(result.date, "2026-09-12");
   assert.equal(result.label, "भाद्रपद शुक्ल हस्त");
 });
 
-test("Samaveda Upakarma falls back from a Sankranti-dosha primary Hasta", () => {
+test("Samaveda Upakarma falls back from a Sankranti-dosha primary Hasta", async () => {
   const { getSamavedaUpakarmaDateDecision } = await import(engineUrl);
   const day = (dateValue, month, sankranti = false) => ({
     date: date(dateValue + "T12:00:00+05:30"),
@@ -614,6 +614,8 @@ test("Samaveda Upakarma falls back from a Sankranti-dosha primary Hasta", () => 
     sunset: date(dateValue + "T18:00:00+05:30"),
     month, paksha: "शुक्ल", nakshatra: "हस्त",
     nakshatraEndTime: date(dateValue + "T17:00:00+05:30"),
+    hastaStartTime: date(dateValue + "T05:00:00+05:30"),
+    hastaEndTime: date(dateValue + "T17:00:00+05:30"),
     sankranti
   });
   const result = getSamavedaUpakarmaDateDecision([
