@@ -1142,6 +1142,12 @@
       if(!response.ok)return null;
       var data=await response.json();
       if(Number(data.year)!==Number(year)||data.status!=="approved"||!Array.isArray(data.tithis))return null;
+      // वार्षिक तिथि-निर्णय स्थान-विशिष्ट है। दूसरे शहर में पिथौरागढ़ की तारीख़ें न दिखाएँ।
+      var location=getLocalLocation();
+      var annualLocation=data.location||{};
+      var sameLatitude=Number.isFinite(Number(annualLocation.latitude))&&Math.abs(Number(annualLocation.latitude)-location.lat)<=0.01;
+      var sameLongitude=Number.isFinite(Number(annualLocation.longitude))&&Math.abs(Number(annualLocation.longitude)-location.lon)<=0.01;
+      if(!sameLatitude||!sameLongitude)return null;
       return data;
     }catch(_){return null}
   }
