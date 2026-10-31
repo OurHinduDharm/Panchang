@@ -1289,13 +1289,17 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
     const kalaDosha = Boolean(
       day.grahana || day.eclipse || day.sankranti ||
       flags.grahana || flags.eclipse || flags.sankranti ||
-      occursInDay(day.grahanaTimes || day.eclipseTimes || day.grahanaTime || day.eclipseTime) ||
+      occursInDay([
+        ...(Array.isArray(day.grahanaTimes) ? day.grahanaTimes : day.grahanaTimes ? [day.grahanaTimes] : []),
+        ...(Array.isArray(day.eclipseTimes) ? day.eclipseTimes : day.eclipseTimes ? [day.eclipseTimes] : []),
+        ...(day.grahanaTime ? [day.grahanaTime] : []),
+        ...(day.eclipseTime ? [day.eclipseTime] : [])
+      ]) ||
       occursInDay(day.sankrantiTimes || day.sankrantiTime)
     );
-    const firstOnlyDosha = Boolean(options.firstUpakarma &&
-      (day.guruAsta || day.shukraAsta || flags.guruAsta || flags.shukraAsta ||
-       day.guruInSimha || flags.guruInSimha));
-    return kalaDosha || firstOnlyDosha;
+    // Guru/Shukra Asta and Guru-in-Simha are intentionally excluded from
+    // this annual resolver. They are being handled in a separate project task.
+    return kalaDosha;
   }
 
   function chooseHasta(candidates, label) {
