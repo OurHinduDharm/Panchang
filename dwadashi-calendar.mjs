@@ -175,7 +175,7 @@ export function buildAnnualDwadashiPackage(dailyPanchang, rules, location = {}) 
     schemaVersion: 1,
     year: dwadashi.year,
     status: "needs-review",
-    calculationStatus: "research-only-not-approved",
+    calculationStatus: "panchang-engine-calculated",
     location: {
       name: String(location.name || ""),
       latitude: Number(location.latitude),
