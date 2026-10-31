@@ -505,7 +505,7 @@
     "drikLabelScope": "drik2026Labels केवल Drik Panchang की 2026 New Delhi वार्षिक सूची में उसी मास-पक्ष की द्वादशी पर दिखे नामों का cross-check हैं; इन्हें स्थायी स्थानीय तिथि या सार्वभौमिक पुराण-विधान न मानें।",
     "tithis": [
       {
-        "id": "चैत्र-कृष्ण",
+        "id": "chaitra-krishna",
         "month": "चैत्र",
         "paksha": "कृष्ण",
         "observances": [],
@@ -517,7 +517,7 @@
         ]
       },
       {
-        "id": "चैत्र-शुक्ल",
+        "id": "chaitra-shukla",
         "month": "चैत्र",
         "paksha": "शुक्ल",
         "observances": [
@@ -557,7 +557,7 @@
         ]
       },
       {
-        "id": "वैशाख-शुक्ल",
+        "id": "vaishakha-shukla",
         "month": "वैशाख",
         "paksha": "शुक्ल",
         "observances": [
@@ -587,7 +587,7 @@
         ]
       },
       {
-        "id": "ज्येष्ठ-शुक्ल",
+        "id": "jyeshtha-shukla",
         "month": "ज्येष्ठ",
         "paksha": "शुक्ल",
         "observances": [
@@ -618,7 +618,7 @@
         ]
       },
       {
-        "id": "आषाढ़-शुक्ल",
+        "id": "ashadha-shukla",
         "month": "आषाढ़",
         "paksha": "शुक्ल",
         "observances": [
@@ -648,7 +648,7 @@
         ]
       },
       {
-        "id": "श्रावण-कृष्ण",
+        "id": "shravana-krishna",
         "month": "श्रावण",
         "paksha": "कृष्ण",
         "observances": [],
@@ -660,7 +660,7 @@
         ]
       },
       {
-        "id": "श्रावण-शुक्ल",
+        "id": "shravana-shukla",
         "month": "श्रावण",
         "paksha": "शुक्ल",
         "observances": [
@@ -692,7 +692,7 @@
         ]
       },
       {
-        "id": "भाद्रपद-कृष्ण",
+        "id": "bhadrapada-krishna",
         "month": "भाद्रपद",
         "paksha": "कृष्ण",
         "observances": [],
@@ -704,7 +704,7 @@
         ]
       },
       {
-        "id": "भाद्रपद-शुक्ल",
+        "id": "bhadrapada-shukla",
         "month": "भाद्रपद",
         "paksha": "शुक्ल",
         "observances": [
@@ -754,7 +754,7 @@
         ]
       },
       {
-        "id": "आश्विन-कृष्ण",
+        "id": "ashwin-krishna",
         "month": "आश्विन",
         "paksha": "कृष्ण",
         "observances": [],
@@ -766,7 +766,7 @@
         ]
       },
       {
-        "id": "आश्विन-शुक्ल",
+        "id": "ashwin-shukla",
         "month": "आश्विन",
         "paksha": "शुक्ल",
         "observances": [
@@ -795,7 +795,7 @@
         ]
       },
       {
-        "id": "कार्तिक-कृष्ण",
+        "id": "kartika-krishna",
         "month": "कार्तिक",
         "paksha": "कृष्ण",
         "observances": [
@@ -818,7 +818,7 @@
         ]
       },
       {
-        "id": "कार्तिक-शुक्ल",
+        "id": "kartika-shukla",
         "month": "कार्तिक",
         "paksha": "शुक्ल",
         "observances": [
@@ -842,7 +842,7 @@
         ]
       },
       {
-        "id": "मार्गशीर्ष-कृष्ण",
+        "id": "margashirsha-krishna",
         "month": "मार्गशीर्ष",
         "paksha": "कृष्ण",
         "observances": [],
@@ -854,7 +854,7 @@
         ]
       },
       {
-        "id": "मार्गशीर्ष-शुक्ल",
+        "id": "margashirsha-shukla",
         "month": "मार्गशीर्ष",
         "paksha": "शुक्ल",
         "observances": [
@@ -885,7 +885,7 @@
         ]
       },
       {
-        "id": "पौष-कृष्ण",
+        "id": "pausha-krishna",
         "month": "पौष",
         "paksha": "कृष्ण",
         "observances": [
@@ -903,7 +903,7 @@
         ]
       },
       {
-        "id": "पौष-शुक्ल",
+        "id": "pausha-shukla",
         "month": "पौष",
         "paksha": "शुक्ल",
         "observances": [
@@ -930,7 +930,7 @@
         ]
       },
       {
-        "id": "माघ-कृष्ण",
+        "id": "magha-krishna",
         "month": "माघ",
         "paksha": "कृष्ण",
         "observances": [],
@@ -942,7 +942,7 @@
         ]
       },
       {
-        "id": "माघ-शुक्ल",
+        "id": "magha-shukla",
         "month": "माघ",
         "paksha": "शुक्ल",
         "observances": [
@@ -964,7 +964,7 @@
         ]
       },
       {
-        "id": "फाल्गुन-कृष्ण",
+        "id": "phalguna-krishna",
         "month": "फाल्गुन",
         "paksha": "कृष्ण",
         "observances": [],
@@ -976,7 +976,7 @@
         ]
       },
       {
-        "id": "फाल्गुन-शुक्ल",
+        "id": "phalguna-shukla",
         "month": "फाल्गुन",
         "paksha": "शुक्ल",
         "observances": [
@@ -1006,6 +1006,6 @@
         ]
       }
     ],
-    "sortingRule": "मास-क्रम के भीतर कृष्ण पक्ष पहले और शुक्ल पक्ष बाद में; एक ही मास-पक्ष का रिकॉर्ड केवल एक बार।"
+    "sortingRule": "मास-क्रम के भीतर कृष्ण पक्ष पहले और शुक्ल पक्ष बाद में; हर मास-पक्ष का एक स्थिर ASCII id और केवल एक तिथि-रिकॉर्ड।"
   }
 }
