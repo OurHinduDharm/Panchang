@@ -23,7 +23,10 @@
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "माघ शुक्ल पूर्णिमा",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2015/02/The-StoryOf-Goddess-TripurSundari-On-ShriLalitaJayanti.html"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/02/The-StoryOf-Goddess-TripurSundari-On-ShriLalitaJayanti.html",
+      "articleLabel": "भगवती ललिता के प्रादुर्भाव की कथा",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2015/02/About-Goddess-Lalita-Or-Shodashi-Mahavidya-On-TripurSundariJayanti-LalithaPanchratn-Stotram.html",
+      "secondaryArticleLabel": "श्री षोडशी महाविद्या (ललिता त्रिपुरसुंदरी) की जयंती"
     },
     {
       "date": "2026-02-05",
@@ -80,7 +83,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-02-13",
@@ -109,7 +116,11 @@
       "muhurtaRules": [
         "mahashivaratri-four-prahar",
         "mahashivaratri-nishita"
-      ]
+      ],
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html",
+      "articleLabel": "महाशिवरात्रि व्रत की महिमा",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "secondaryArticleLabel": "शिवरात्रि का रहस्य"
     },
     {
       "date": "2026-02-17",
@@ -165,7 +176,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html",
+      "articleLabel": "आमलकी एकादशी का माहात्म्य",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     }
   ]
 }
