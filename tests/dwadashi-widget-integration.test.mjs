@@ -10,6 +10,10 @@ test("annual review scans the Panchang engine at each local sunrise", async () =
   assert.match(html, /getPanchangam\(new Date\(dayRecord\.sunrise\),observer/);
   assert.match(html, /sunriseTithi=\{/);
   assert.match(html, /downloadDwadashi/);
+  assert.match(html, /renderDwadashiReview/);
+  assert.match(html, /syncDwadashiPackageStatus/);
+  assert.match(html, /approveChLabel/);
+  assert.match(html, /dwadashiReview/);
 });
 
 test("monthly Vrat-Parv widget only imports approved annual Dwadashi records", async () => {
@@ -37,4 +41,5 @@ test("publication instructions keep unreviewed dates out of the live widgets", a
   assert.match(readme, /needs-review/);
   assert.match(readme, /udayavyapini-smarta-first-sunrise/);
   assert.match(readme, /अधिक मास/);
+  assert.match(readme, /स्वीकृति बॉक्स/);
 });
