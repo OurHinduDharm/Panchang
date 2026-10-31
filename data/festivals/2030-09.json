@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "year": 2030,
+  "month": 9,
+  "monthName": "सितंबर",
+  "status": "approved",
+  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
+  "events": [
+    {
+      "date": "2030-09-25",
+      "dateLabel": "25 सितंबर",
+      "title": "कलि युग दिवस",
+      "description": "आश्विन कृष्ण त्रयोदशी को कलि युग के आरम्भ का स्मरण कलि युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन कृष्ण त्रयोदशी",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=25/09/2030"
+    }
+  ]
+}
