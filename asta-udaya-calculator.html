@@ -87,8 +87,11 @@ async function begin(resume=false){
     }
     samples.push([iso(t),positions]);
    }
-   const key="v1-"+dateKey(chunkStart)+"-"+dateKey(chunkEnd-1);
-   await put(STORE,{key,runKey:config.startYear+"-"+config.endYear+"-"+config.cadenceHours,fromUtc:iso(chunkStart),toUtcExclusive:iso(chunkEnd),sampleCount:samples.length,samples});
+   const runKey=config.startYear+"-"+config.endYear+"-"+config.cadenceHours+"h-"+config.chunkDays+"d";
+   const key=runKey+"-"+dateKey(chunkStart)+"-"+dateKey(chunkEnd-1);
+   const payload=JSON.stringify(samples);
+   const checksum="sha256:"+Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(payload)))).map(b=>b.toString(16).padStart(2,"0")).join("");
+   await put(STORE,{key,runKey,fromUtc:iso(chunkStart),toUtcExclusive:iso(chunkEnd),sampleCount:samples.length,checksum,samples});
    cursor=chunkEnd;await saveMeta();
    const done=(cursor-dayStart(config.startYear))/86400000;
    setProgress(done,totalDays);
