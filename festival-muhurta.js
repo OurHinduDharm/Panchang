@@ -986,18 +986,84 @@ const rules = {
     if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !purnima.length) {
       return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "स्थानीय दिनमान और पूर्णिमा की वास्तविक व्याप्ति उपलब्ध नहीं है; अनुमानित समय नहीं दिखाया जा रहा है।" };
     }
+
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const pradoshEnd = new Date(sunset.getTime() + nightDuration / 5);
+    const hinduMidnight = new Date(sunset.getTime() + nightDuration / 2);
     const purnimaAtSunrise = purnima.some(item => item.start <= sunrise && item.end > sunrise);
-    if (!purnimaAtSunrise) {
-      return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "इस दिन सूर्योदय पर पूर्णिमा की व्याप्ति नहीं मिली; समय स्वतः निर्धारित नहीं किया गया।" };
+    const purnimaDuringPradosh = purnima.find(item => item.end > sunset && item.start < pradoshEnd);
+
+    // Drik Panchang also publishes the special Udaya-vyapini case:
+    // when Purnima prevails at this day's sunrise but ends before Pradosh,
+    // Holika Dahan is still assigned to this evening's Pradosh.
+    let baseStart = purnimaDuringPradosh
+      ? laterDate(sunset, purnimaDuringPradosh.start)
+      : purnimaAtSunrise ? sunset : null;
+    let baseEnd = purnimaDuringPradosh
+      ? earlierDate(pradoshEnd, purnimaDuringPradosh.end)
+      : purnimaAtSunrise ? pradoshEnd : null;
+    if (!baseStart || !baseEnd || baseEnd <= baseStart) {
+      return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "पूर्णिमा की स्थानीय व्याप्ति से होलिका-दहन का मान्य समय नहीं मिला।" };
     }
-    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+
     const bhadra = collectNamedIntervals(context.karanas, item => /vishti|विष्टि/.test(normalizedName(item)));
-    if (bhadra.some(item => item.end > sunset && item.start < pradoshEnd)) {
-      return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "प्रदोष काल में भद्रा की व्याप्ति है; भद्रा-पुच्छ का पृथक निर्णय आवश्यक है, इसलिए अनुमानित समय नहीं दिखाया जा रहा है।" };
+    const overlap = bhadra.find(item => item.end > baseStart && item.start < baseEnd);
+    const windows = [];
+    let primary = null;
+
+    if (!overlap) {
+      primary = interval(baseStart, baseEnd, "होलिका-दहन — प्रदोष काल", "पूर्णिमा-व्याप्ति और प्रदोष काल का मान्य समय।");
+    } else if (overlap.end <= hinduMidnight) {
+      // When Bhadra ends before Hindu midnight, wait for its end.
+      const afterBhadraStart = laterDate(baseStart, overlap.end);
+      const afterBhadraLimit = overlap.end < pradoshEnd ? pradoshEnd : hinduMidnight;
+      const afterBhadraEnd = earlierDate(afterBhadraLimit, purnimaDuringPradosh?.end ?? (purnimaAtSunrise ? pradoshEnd : null));
+      primary = interval(afterBhadraStart, afterBhadraEnd, "होलिका-दहन — भद्रा समाप्ति के बाद", "प्रदोष में भद्रा होने पर उसके समाप्त होने के बाद का पूर्णिमा-व्याप्त समय।");
+      if (!primary && purnimaDuringPradosh) {
+        primary = interval(laterDate(pradoshEnd, overlap.end), earlierDate(hinduMidnight, purnimaDuringPradosh.end), "होलिका-दहन — भद्रा समाप्ति के बाद", "भद्रा समाप्ति के बाद उपलब्ध समय।");
+      }
+    } else {
+      // Bhadra lasts beyond Hindu midnight. Its third-prahar tail (last
+      // three ghatis) is preferred when it falls between Pradosh and midnight.
+      const bhadraDuration = overlap.end.getTime() - overlap.start.getTime();
+      const ghati = (nextSunrise.getTime() - sunrise.getTime()) / 60;
+      const thirdPraharEnd = new Date(overlap.start.getTime() + bhadraDuration * 3 / 4);
+      const puchhaStart = new Date(thirdPraharEnd.getTime() - 3 * ghati);
+      const puchha = interval(
+        laterDate(baseStart, puchhaStart),
+        earlierDate(baseEnd, thirdPraharEnd),
+        "होलिका-दहन — भद्रा पुच्छ",
+        "भद्रा के तृतीय प्रहर के अंतिम तीन घटी; यह समय प्रदोष और हिन्दू मध्यरात्रि के भीतर होने पर ही ग्रहण किया जाता है।"
+      );
+      if (puchha && puchha.end <= hinduMidnight) {
+        primary = puchha;
+      } else {
+        // If the tail is not available before Hindu midnight, Drik permits
+        // Pradosh during Bhadra, but never during Bhadra Mukha.
+        const mukhaStart = thirdPraharEnd;
+        const mukhaEnd = new Date(mukhaStart.getTime() + 5 * ghati);
+        if (baseStart < mukhaStart) {
+          primary = interval(baseStart, earlierDate(baseEnd, mukhaStart), "होलिका-दहन — प्रदोष काल", "भद्रा मध्यरात्रि के बाद तक रहने पर प्रदोष में भद्रा पुच्छ उपलब्ध न होने की स्थिति; भद्रा मुख का समय वर्जित।");
+        }
+        if (!primary && baseEnd > mukhaEnd) {
+          primary = interval(laterDate(baseStart, mukhaEnd), baseEnd, "होलिका-दहन — प्रदोष काल", "भद्रा मुख के बाद उपलब्ध प्रदोष-व्याप्त समय।");
+        }
+      }
+
+      // Drik also lists the post-midnight alternative after Bhadra ends,
+      // provided Purnima is still prevailing.
+      const purnimaEnd = purnimaDuringPradosh?.end ?? purnima.find(item => item.end > overlap.end)?.end;
+      if (purnimaEnd && overlap.end < nextSunrise) {
+        const alternate = interval(overlap.end, earlierDate(nextSunrise, purnimaEnd), "वैकल्पिक मुहूर्त — भद्रा समाप्ति के बाद", "भद्रा समाप्त होने के बाद और सूर्योदय से पहले की पूर्णिमा-व्याप्त अवधि।");
+        if (alternate) windows.push(alternate);
+      }
     }
-    const dahan = interval(sunset, pradoshEnd, "होलिका-दहन — प्रदोष काल", "पूर्णिमा-सूर्योदय और भद्रा-विचार के बाद उपलब्ध प्रदोष अवधि।");
-    if (!dahan) return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "स्थानीय प्रदोष अवधि उपलब्ध नहीं हुई।" };
-    return { label: "होलिका-दहन मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows: [dahan] };
+
+    if (!primary) {
+      return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "पूर्णिमा, प्रदोष और भद्रा के नियमों में कोई पूरा मान्य समय नहीं मिला; अधूरा मुहूर्त नहीं दिखाया जा रहा है।" };
+    }
+    windows.unshift(primary);
+    return { label: "होलिका-दहन मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows };
   },
 
   "mahashivaratri-four-prahar"(context) {
@@ -1017,7 +1083,11 @@ const rules = {
       const start = new Date(sunset.getTime() + duration * i / 4);
       const end = new Date(sunset.getTime() + duration * (i + 1) / 4);
       const part = windowWithin(start, end, chaturdashi, names[i], "रात्रि को सूर्यास्त से अगले सूर्योदय तक चार समान प्रहरों में बाँटा गया है।");
-      if (part) windows.push(part);
+      // Do not publish a clipped/partial prahar as if it were a complete one.
+      if (!part || part.start.getTime() !== start.getTime() || part.end.getTime() !== end.getTime()) {
+        return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "कृष्ण चतुर्दशी की व्याप्ति चारों प्रहरों को पूरा नहीं ढकती; अधूरे प्रहर-समय नहीं दिखाए जा रहे हैं।" };
+      }
+      windows.push(part);
     }
     if (windows.length !== 4) return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "चारों प्रहरों में कृष्ण चतुर्दशी की पूरी व्याप्ति नहीं मिली; अधूरे समय नहीं दिखाए जा रहे हैं।" };
     return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows };
