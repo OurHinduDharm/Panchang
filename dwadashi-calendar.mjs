@@ -100,7 +100,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
 
   // Preserve user-approved 2026 Drik cross-references as review-only records
   // when the local scan has no observation for that month/paksha.
-  if (year === 2026 && Array.isArray(rules.drik2026Calendar)) {
+  if (year === 2026 && rules && Array.isArray(rules.drik2026Calendar)) {
     rules.drik2026Calendar.forEach(item => {
       const masa = normalizeMonth(item.month);
       const paksha = normalizePaksha(item.paksha);
@@ -120,7 +120,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       ? catalog.find(item => item.month === group.month && item.paksha === group.paksha)
       : null;
     const observances = source && Array.isArray(source.observances) ? source.observances : [];
-    const drik2026Entry = year === 2026 && Array.isArray(rules.drik2026Calendar)
+    const drik2026Entry = year === 2026 && rules && Array.isArray(rules.drik2026Calendar)
       ? rules.drik2026Calendar.find(item =>
           item.month === group.month &&
           item.paksha === group.paksha &&
