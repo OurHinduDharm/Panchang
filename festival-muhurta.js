@@ -823,29 +823,27 @@ const rules = {
       /simha|सिंह|leo/i.test(String(w.name || w.rashi || "")) &&
       validDate(w.end) > nishitaStart && validDate(w.start) < nishitaEnd
     );
-    if (nishita && simhaLagna) {
-      const simhaNishita = interval(
-        laterDate(nishita.start, validDate(simhaLagna.start)),
-        earlierDate(nishita.end, validDate(simhaLagna.end)),
-        "महानिशीथ काल — सिंह स्थिर लग्न",
-        "महानिशीथ और सिंह स्थिर लग्न की संयुक्त व्याप्ति; यह विशेष साधना के लिए वैकल्पिक समय है।"
-      );
-      // Show the complete Mahanishita interval as well as its smaller Simha overlap.
-      // Replacing the full interval with the overlap can hide most of the actual period.
-      windows.push(nishita);
-      if (simhaNishita) windows.push(simhaNishita);
-    } else if (nishita) {
-      windows.push(nishita);
-    }
-    if (simhaLagna && !windows.some(w => /सिंह स्थिर लग्न/.test(w.label))) {
+    if (simhaLagna) {
       const simhaAmavasya = windowWithin(
         validDate(simhaLagna.start),
         validDate(simhaLagna.end),
         tithis,
         "सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय",
-        "कार्तिक अमावस्या और सिंह स्थिर लग्न की संयुक्त व्याप्ति; सामान्य गृहस्थों के मुख्य प्रदोष मुहूर्त का विकल्प नहीं।"
+        "कार्तिक अमावस्या और सिंह स्थिर लग्न की पूरी संयुक्त व्याप्ति; इसे सामान्य गृहस्थों के मुख्य प्रदोष मुहूर्त के बराबर न मानें।"
       );
       if (simhaAmavasya) windows.push(simhaAmavasya);
+    }
+    if (nishita && simhaLagna) {
+      const simhaNishita = interval(
+        laterDate(nishita.start, validDate(simhaLagna.start)),
+        earlierDate(nishita.end, validDate(simhaLagna.end)),
+        "महानिशीथ काल — सिंह स्थिर लग्न का संयुक्त समय",
+        "महानिशीथ और सिंह स्थिर लग्न की वास्तविक साझा अवधि; पूरी महानिशीथ और पूरी सिंह लग्न अवधि ऊपर अलग-अलग दी गई हैं।"
+      );
+      windows.push(nishita);
+      if (simhaNishita) windows.push(simhaNishita);
+    } else if (nishita) {
+      windows.push(nishita);
     }
 
     // Godhuli is a separate twilight interval useful for lighting lamps.
