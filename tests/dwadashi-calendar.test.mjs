@@ -74,6 +74,7 @@ test("Chaturmas uses the first sunrise-observed date for each boundary", () => {
   assert.deepEqual(result.phases.map(x=>x.startDate),["2026-07-25","2026-08-24","2026-09-23","2026-10-23"]);
   assert.equal(result.endDate,"2026-11-20");
   assert.equal(result.cardVisibleThroughDate,"2026-11-22");
+  assert.match(result.rulesArticleUrl,/About-Chaaturmaas/);
 });
 
 test("missing Chaturmas boundary is marked incomplete, never guessed", () => {
