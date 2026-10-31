@@ -38,8 +38,20 @@ test("a single sunrise date remains a candidate until a vrata rule is reviewed",
     sunriseDay("2026-04-01","चैत्र","शुक्ल","द्वादशी")
   ],rules);
   assert.equal(result.tithis[0].selectedDate,"2026-04-01");
-  assert.equal(result.tithis[0].dateSelection,"single-sunrise-candidate-review-required");
+  assert.equal(result.tithis[0].dateSelection,"single-observation-candidate-review-required");
   assert.equal(result.tithis[0].status,"needs-review");
+});
+
+test("noon-only Dwadashi is retained as a candidate without pretending it prevailed at sunrise", () => {
+  const day = sunriseDay("2026-04-01","चैत्र","शुक्ल","एकादशी");
+  day.tithi = "द्वादशी";
+  day.tithiStartTime = "2026-04-01T08:00:00.000Z";
+  day.tithiEndTime = "2026-04-02T03:00:00.000Z";
+  const result = buildDwadashiCalendar([day],rules);
+  assert.deepEqual(result.tithis[0].sunriseDates,[]);
+  assert.deepEqual(result.tithis[0].noonDates,["2026-04-01"]);
+  assert.deepEqual(result.tithis[0].candidateDates,["2026-04-01"]);
+  assert.equal(result.tithis[0].selectedDate,"2026-04-01");
 });
 
 test("Drik 2026 labels are not carried into later annual calendars", () => {
