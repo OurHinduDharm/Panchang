@@ -1489,7 +1489,7 @@ function getHindiWeekday(date, tzOffsetMin) {
     location,
     api
   ) {
-    var module = api && api.module;
+    var module = api && (api.module || api);
     if (!module) {
       throw new Error(
         'Panchangam module उपलब्ध नहीं है।'
@@ -1894,6 +1894,20 @@ function getHindiWeekday(date, tzOffsetMin) {
   }
 
   function getLocalVisibility(g, dayPanchangs) {
+    // The astronomy engine's solar obscuration check is already observer-specific.
+    // Never let a horizon-only overlap turn a geometrically invisible solar eclipse visible.
+    if (g && g.isVisible === false) {
+      return {
+        localVisible: false,
+        localStatus: 'अदृश्य',
+        visibleStart: null,
+        visibleEnd: null,
+        visibleDuration: 0,
+        grastodaya: false,
+        grastasta: false
+      };
+    }
+
     var eclipse = getGrahanBodyInterval(g);
     if (!eclipse) {
       return {
@@ -3027,6 +3041,12 @@ if (
   /* ============================================================
      PUBLIC API
      ============================================================ */
+
+  window.__OHDEclipsePanchangTools = {
+    discoverEclipses: discoverEclipses,
+    getLocalVisibility: getLocalVisibility,
+    getEclipseDayPanchangs: getEclipseDayPanchangs
+  };
 
   window.initEclipsePanchang = initEclipsePanchang;
 })();
