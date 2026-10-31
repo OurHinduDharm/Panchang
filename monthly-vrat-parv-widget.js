@@ -393,8 +393,19 @@
        !lib||typeof lib.getPanchangam!=="function")return [];
     var fixedNames={1:"Vrishabha",4:"Simha",7:"Vrishchika",10:"Kumbha"};
     function signAt(ms){
-      try{return getLagnaIndex(lib.getPanchangam(new Date(ms),observer,{timezoneOffset:330}));}
-      catch(_){return null;}
+      var instant=new Date(ms);
+      try{
+        var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:330});
+        var index=getLagnaIndex(panchang);
+        if(index!==null)return index;
+        // कुछ package builds में getPanchangam के परिणाम पर Udaya Lagna
+        // उपलब्ध नहीं होता; Kundli API का Ascendant उसी क्षण का लग्न देता है।
+        if(typeof lib.calculateKundli==="function"){
+          var kundli=lib.calculateKundli(instant,observer);
+          return getLagnaIndex({ascendant:kundli&&kundli.ascendant});
+        }
+      }catch(_){}
+      return null;
     }
     function isFixed(sign){return Object.prototype.hasOwnProperty.call(fixedNames,sign);}
     var step=5*60*1000,points=[];
