@@ -73,13 +73,17 @@
       "showReviewStatus": false
     },
     {
-      "date": "2028-10-16",
-      "dateLabel": "16 अक्टूबर",
+      "date": "2028-10-17",
+      "dateLabel": "17 अक्टूबर",
       "title": "नरक चतुर्दशी",
-      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। कई परंपराओं में प्रातः अभ्यंग-स्नान और दीपदान होता है।",
+      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। इस दिन कृष्ण चतुर्दशी की व्याप्ति में चंद्रोदय के बाद और सूर्योदय से पहले अभ्यंग-स्नान किया जाता है। अपामार्ग (चिचड़ा) को शरीर के चारों ओर घुमाकर पाप-निवारण की प्रार्थना करने का विधान धर्मसिंधु में मिलता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
+      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
+      "muhurtaRule": "narak-chaturdashi-abhyanga"
     },
     {
       "date": "2028-10-17",
