@@ -357,5 +357,122 @@
     "doNotMergeTraditions": "नारद पुराण और वराह पुराण की मासिक सूचियों को एक ही क्रम में न मिलाएँ। वराह पुराण के अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत है; मत्स्य-द्वादशी को इस बारह-मासीय क्रम का अंग न मानें।",
     "doNotInferDates": "इन नामों/विवरणों से वार्षिक तिथि स्वयं न गढ़ें। वास्तविक तारीख पंचांग गणना और स्वीकृत व्रत-निर्णय से आएगी।",
     "doNotOvergeneralize": "दिन में न सोना, हर द्वादशी पर समान उपवास, या सभी व्रतों में समान दान जैसे नियम बिना विशिष्ट स्रोत और परंपरा के सामान्य नियम के रूप में न दिखाएँ।"
+  },
+  "drikPanchangCrossCheck": {
+    "source": {
+      "text": "Drik Panchang — Dwadashi Dates (2026)",
+      "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2026",
+      "note": "यह 2026 की New Delhi सूची है। नामों/परंपरागत पहचान के मिलान के लिए उपयोग; तारीखों को Pithoragarh या अन्य स्थानों के लिए स्थायी न मानें।"
+    },
+    "policy": "Drik Panchang में समान नाम मिलने पर उसे alternateName या crossReference के रूप में जोड़ें; अलग पुराण-परंपराओं के विधान को एक न करें। वार्षिक तिथि स्थानीय पंचांग-गणना से ही निकलेगी।",
+    "matches": [
+      {
+        "drikName": "मदन द्वादशी",
+        "matches": [
+          "नारद पुराण: मदन द्वादशी"
+        ],
+        "relation": "same-name"
+      },
+      {
+        "drikName": "परशुराम द्वादशी",
+        "matches": [
+          "वराह पुराण: परशुराम-द्वादशी"
+        ],
+        "relation": "same-name"
+      },
+      {
+        "drikName": "रामलक्ष्मण द्वादशी",
+        "matches": [
+          "वराह पुराण: राम-द्वादशी"
+        ],
+        "relation": "close-name; deity-and-month tradition to be checked"
+      },
+      {
+        "drikName": "वासुदेव द्वादशी",
+        "matches": [
+          "वराह पुराण: वासुदेव-द्वादशी"
+        ],
+        "relation": "same-name"
+      },
+      {
+        "drikName": "दामोदर द्वादशी",
+        "matches": [
+          "नारद पुराण: दामोदर-द्वादशी",
+          "वराह पुराण: दामोदर-द्वादशी"
+        ],
+        "relation": "same-name; distinct text traditions"
+      },
+      {
+        "drikName": "कल्कि द्वादशी",
+        "matches": [
+          "वराह पुराण: कल्कि-द्वादशी"
+        ],
+        "relation": "same-name"
+      },
+      {
+        "drikName": "पद्मनाभ द्वादशी",
+        "matches": [
+          "नारद पुराण: पद्मनाभ-द्वादशी",
+          "वराह पुराण: पद्मनाभ-द्वादशी"
+        ],
+        "relation": "same-name; distinct text traditions"
+      },
+      {
+        "drikName": "गोवत्स द्वादशी / बछ बारस",
+        "matches": [
+          "नारद पुराण: गोवत्स द्वादशी"
+        ],
+        "relation": "same-observance-name"
+      },
+      {
+        "drikName": "योगेश्वर द्वादशी",
+        "matches": [
+          "कार्तिक शुक्ल द्वादशी; तुलसी-विवाह/देवोत्थान के आसपास की परंपराएँ"
+        ],
+        "relation": "cross-reference only; do not equate automatically with every Devotthana Ekadashi/Dwadashi"
+      },
+      {
+        "drikName": "मत्स्य द्वादशी",
+        "matches": [
+          "वराह पुराण: मत्स्य-द्वादशी"
+        ],
+        "relation": "same-name"
+      },
+      {
+        "drikName": "नृसिंह द्वादशी",
+        "matches": [
+          "वराह पुराण: नृसिंह-द्वादशी"
+        ],
+        "relation": "same-name"
+      },
+      {
+        "drikName": "भीष्म द्वादशी",
+        "matches": [
+          "माघ शुक्ल द्वादशी; नारद पुराण में माधव-पूजन; वराह पुराण में वराह-द्वादशी"
+        ],
+        "relation": "shared date, differing vrata names/traditions; keep aliases and source-specific details separate"
+      },
+      {
+        "drikName": "कूर्म द्वादशी",
+        "matches": [
+          "वराह पुराण सूची में पौष शुक्ल कूर्म-द्वादशी; Drik 2026 list also has कृष्ण-कूर्म नाम"
+        ],
+        "relation": "paksha/month distinction required"
+      }
+    ],
+    "additionalDrikNames": [
+      "कृष्ण-कूर्म द्वादशी",
+      "कृष्ण-भीष्म द्वादशी",
+      "कृष्ण-नृसिंह द्वादशी",
+      "कृष्ण-वामन द्वादशी",
+      "कृष्ण-परशुराम द्वादशी",
+      "कृष्ण-रामलक्ष्मण द्वादशी",
+      "कृष्ण-वासुदेव द्वादशी",
+      "कृष्ण-दामोदर द्वादशी",
+      "कृष्ण-कल्कि द्वादशी",
+      "कृष्ण-पद्मनाभ द्वादशी",
+      "कृष्ण-योगेश्वर द्वादशी"
+    ],
+    "editorialNote": "Drik की वार्षिक सूची में दिखने वाले नामों को इस कैटलॉग में संदर्भ/वैकल्पिक नाम के रूप में रखा जा सकता है। केवल सूची में नाम आने से किसी पुराण में उसका विधान सिद्ध नहीं माना जाएगा।"
   }
 }
