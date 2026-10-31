@@ -24,12 +24,13 @@ test("one month-paksha Dwadashi record retains names without guessing when sunri
     sunriseDay("2026-04-02","चैत्र","शुक्ल","द्वादशी")
   ];
   const result = buildDwadashiCalendar(days,rules);
-  assert.equal(result.tithis.length,1);
-  assert.equal(result.tithis[0].selectedDate,null);
-  assert.equal(result.tithis[0].dateSelection,"requires-vrata-specific-rule");
-  assert.deepEqual(result.tithis[0].sunriseDates,["2026-04-01","2026-04-02"]);
-  assert.deepEqual(result.tithis[0].candidateDates,["2026-04-01","2026-04-02"]);
-  assert.deepEqual(result.tithis[0].displayNames,["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"]);
+  const record = result.tithis.find(item => item.id === "chaitra-shukla");
+  assert.equal(result.tithis.filter(item => item.candidateDates.length).length,1);
+  assert.equal(record.selectedDate,null);
+  assert.equal(record.dateSelection,"requires-vrata-specific-rule");
+  assert.deepEqual(record.sunriseDates,["2026-04-01","2026-04-02"]);
+  assert.deepEqual(record.candidateDates,["2026-04-01","2026-04-02"]);
+  assert.deepEqual(record.displayNames,["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"]);
   assert.deepEqual(result.tithiDates.map(item=>item.date),["2026-04-01","2026-04-02"]);
   assert.equal(result.tithiDates[0].observedAtSunrise,true);
 });
@@ -134,9 +135,15 @@ test("annual package is explicitly review-only", () => {
 
 
 test("Pausha Krishna and Shukla records remain visible when outside the scan window", () => {
+  const paushaRules = {
+    unifiedTithiIndex: {tithis:[
+      {month:"पौष",paksha:"कृष्ण",observances:[{name:"रूप-व्रत"}]},
+      {month:"पौष",paksha:"शुक्ल",observances:[{name:"सुजन्न-द्वादशी"},{name:"कूर्म-द्वादशी"}]}
+    ]}
+  };
   const result = buildDwadashiCalendar([
     sunriseDay("2026-01-01","माघ","कृष्ण","प्रतिपदा")
-  ], rules);
+  ], paushaRules);
   const krishna = result.tithis.find(x => x.id === "pausha-krishna");
   const shukla = result.tithis.find(x => x.id === "pausha-shukla");
   assert.ok(krishna);
