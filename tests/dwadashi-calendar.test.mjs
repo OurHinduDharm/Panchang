@@ -51,9 +51,10 @@ test("a single sunrise date remains a candidate until a vrata rule is reviewed",
   const result = buildDwadashiCalendar([
     sunriseDay("2026-04-01","चैत्र","शुक्ल","द्वादशी")
   ],rules);
-  assert.equal(result.tithis[0].selectedDate,"2026-04-01");
-  assert.equal(result.tithis[0].dateSelection,"single-observation-candidate-review-required");
-  assert.equal(result.tithis[0].status,"needs-review");
+  const record=result.tithis.find(item=>item.id==="chaitra-shukla");
+  assert.equal(record.selectedDate,"2026-04-01");
+  assert.equal(record.dateSelection,"single-observation-candidate-review-required");
+  assert.equal(record.status,"needs-review");
 });
 
 test("noon-only Dwadashi is retained as a candidate without pretending it prevailed at sunrise", () => {
@@ -62,10 +63,11 @@ test("noon-only Dwadashi is retained as a candidate without pretending it prevai
   day.tithiStartTime = "2026-04-01T08:00:00.000Z";
   day.tithiEndTime = "2026-04-02T03:00:00.000Z";
   const result = buildDwadashiCalendar([day],rules);
-  assert.deepEqual(result.tithis[0].sunriseDates,[]);
-  assert.deepEqual(result.tithis[0].noonDates,["2026-04-01"]);
-  assert.deepEqual(result.tithis[0].candidateDates,["2026-04-01"]);
-  assert.equal(result.tithis[0].selectedDate,"2026-04-01");
+  const record=result.tithis.find(item=>item.id==="chaitra-shukla");
+  assert.deepEqual(record.sunriseDates,[]);
+  assert.deepEqual(record.noonDates,["2026-04-01"]);
+  assert.deepEqual(record.candidateDates,["2026-04-01"]);
+  assert.equal(record.selectedDate,"2026-04-01");
 });
 
 test("permanent month-paksha names are carried into later annual calendars", () => {
