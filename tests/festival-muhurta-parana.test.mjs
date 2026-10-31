@@ -825,5 +825,11 @@ test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published 
       assert.ok(delta <= 3, `Choghadiya window ${index + 1} endpoint ${endpoint + 1}: expected ${expected[index][endpoint]}, received ${pair[endpoint]}`);
     }
   });
-  assert.ok(choghadiya.every(window => /वैकल्पिक शुभ समय/.test(window.label)));
+  const charWindows = choghadiya.filter(window => /चर चौघड़िया/.test(window.label));
+  const auspiciousWindows = choghadiya.filter(window => !/चर चौघड़िया/.test(window.label));
+  assert.equal(charWindows.length, 1);
+  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
+  assert.ok(auspiciousWindows.every(window => /वैकल्पिक शुभ समय/.test(window.label)));
+  assert.ok(choghadiya.every(window => /राहुकाल या वेला/.test(window.note)));
+  assert.ok(choghadiya.every(window => /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं/.test(window.note)));
 });
