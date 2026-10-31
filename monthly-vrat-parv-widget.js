@@ -206,7 +206,7 @@
       // Blogger के mini-panchang ने लाइब्रेरी पहले से उपलब्ध करा दी हो,
       // तो उसी API का उपयोग करें; अन्यथा उसी मॉड्यूल को fallback के रूप में import करें।
       var ready=window.__ohdPanchangam;
-      var panchangLib=(ready&&typeof ready.getPanchangam==="function"&&typeof ready.Observer==="function")
+      var panchangLib=(ready&&typeof ready.getPanchangam==="function"&&typeof ready.Observer==="function"&&typeof ready.getKundli==="function")
         ? ready
         : await import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0");
       if(typeof panchangLib.Observer!=="function"||typeof panchangLib.getPanchangam!=="function"){
@@ -373,7 +373,9 @@
       if(raw&&typeof raw==="object")raw=raw.index??raw.number??raw.value??raw.name??raw.label;
       if(raw!==undefined)value=raw;
     }
-    if(typeof value==="number"&&Number.isFinite(value))return value;
+    if(typeof value==="number"&&Number.isFinite(value)){
+      return Number.isInteger(value)&&value>=0&&value<=11?value:null;
+    }
     var name=String(value??"").normalize("NFC").toLocaleLowerCase("hi");
     var names=[
       [/mesh|मेष|aries/,0],[/vrishabha|वृषभ|taurus/,1],
@@ -385,7 +387,7 @@
     ];
     for(var i=0;i<names.length;i++)if(names[i][0].test(name))return names[i][1];
     var numeric=Number(value);
-    return Number.isInteger(numeric)?numeric:null;
+    return Number.isInteger(numeric)&&numeric>=0&&numeric<=11?numeric:null;
   }
   function getStiraLagnaWindows(lib,observer,startValue,endValue){
     var start=new Date(startValue),end=new Date(endValue);
@@ -393,8 +395,19 @@
        !lib||typeof lib.getPanchangam!=="function")return [];
     var fixedNames={1:"Vrishabha",4:"Simha",7:"Vrishchika",10:"Kumbha"};
     function signAt(ms){
-      try{return getLagnaIndex(lib.getPanchangam(new Date(ms),observer,{timezoneOffset:330}));}
-      catch(_){return null;}
+      var instant=new Date(ms);
+      try{
+        var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:330});
+        var index=getLagnaIndex(panchang);
+        if(index!==null)return index;
+        // कुछ package builds में getPanchangam के परिणाम पर Udaya Lagna
+        // उपलब्ध नहीं होता; Kundli API का Ascendant उसी क्षण का लग्न देता है।
+        if(typeof lib.getKundli==="function"){
+          var kundli=lib.getKundli(instant,observer);
+          return getLagnaIndex({ascendant:kundli&&kundli.ascendant});
+        }
+      }catch(_){}
+      return null;
     }
     function isFixed(sign){return Object.prototype.hasOwnProperty.call(fixedNames,sign);}
     var step=5*60*1000,points=[];
@@ -513,11 +526,9 @@
         var nextSunrise=new Date(values.next.sunrise);
         var nightDuration=nextSunrise.getTime()-sunset.getTime();
         var pradoshEnd=new Date(sunset.getTime()+nightDuration/5);
-        var isDiwaliMuhurta=usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja";});
-        var lagnaScanStart=isDiwaliMuhurta?new Date(values.p.sunrise):sunset;
-        var lagnaScanEnd=isDiwaliMuhurta?nextSunrise:pradoshEnd;
+        // लक्ष्मी-पूजन का मुख्य लग्न प्रदोष में चाहिए; पूरे दिन/रात को स्कैन न करें।
         context.sthirLagnaWindows=[
-          ...getStiraLagnaWindows(values.panchangLib,values.observer,lagnaScanStart,lagnaScanEnd)
+          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd)
         ];
       }
       usableRules.forEach(function(ruleItem){
