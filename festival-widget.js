@@ -124,14 +124,25 @@
       status = remaining === 0 ? "आज चातुर्मास समापन" : "चातुर्मास चल रहा है · समापन में " + remaining + " दिन शेष";
     }
     card.appendChild(element("div", "ohd-fw-chaturmas-status", status));
-    const linkUrl = safeHttpUrl(start.articleUrl) || safeHttpUrl(end.articleUrl);
-    if (linkUrl) {
-      const link = element("a", "ohd-fw-link", start.articleLabel || "चातुर्मास के बारे में पढ़ें →");
-      link.href = linkUrl;
+    function appendEkadashiLink(item, label) {
+      const url = safeHttpUrl(item.articleUrl);
+      if (!url) return;
+      const row = element("div", "ohd-fw-chaturmas-event");
+      const link = element("a", "ohd-fw-link", label);
+      link.href = url;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      card.appendChild(link);
+      row.appendChild(link);
+
+      const dateText = item.dateLabel || (MONTH_NAMES[parseDate(item.date).getMonth()] + " " + parseDate(item.date).getDate());
+      const yearText = String(parseDate(item.date).getFullYear());
+      const hindiDigits = value => String(value).replace(/[0-9]/g, digit => "०१२३४५६७८९"[Number(digit)]);
+      row.appendChild(element("span", "ohd-fw-chaturmas-event-date", " — " + hindiDigits(dateText) + " " + hindiDigits(yearText)));
+      card.appendChild(row);
     }
+
+    appendEkadashiLink(start, "देवशयनी / हरिशयनी एकादशी");
+    appendEkadashiLink(end, "देवोत्थानी एकादशी");
     return card;
   }
 
@@ -208,6 +219,9 @@
       #ohd-festival-widget .ohd-fw-chaturmas-title{font-weight:800;line-height:1.4}
       #ohd-festival-widget .ohd-fw-chaturmas-range{margin-top:3px;font-size:.82em}
       #ohd-festival-widget .ohd-fw-chaturmas-status{margin-top:4px;color:#8c4810;font-size:.82em;font-weight:700}
+      #ohd-festival-widget .ohd-fw-chaturmas-event{margin-top:6px;font-size:.84em;line-height:1.45;overflow-wrap:anywhere}
+      #ohd-festival-widget .ohd-fw-chaturmas-event .ohd-fw-link{display:inline;font-weight:600}
+      #ohd-festival-widget .ohd-fw-chaturmas-event-date{color:#5f5548}
       @media(max-width:380px){#ohd-festival-widget .ohd-fw-list{padding:6px 8px}#ohd-festival-widget .ohd-fw-item{gap:7px}#ohd-festival-widget .ohd-fw-date{flex-basis:49px}#ohd-festival-widget .ohd-fw-description{font-size:.82em}}
     `;
     mount.appendChild(style);
