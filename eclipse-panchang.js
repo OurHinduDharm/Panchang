@@ -1894,6 +1894,20 @@ function getHindiWeekday(date, tzOffsetMin) {
   }
 
   function getLocalVisibility(g, dayPanchangs) {
+    // The astronomy engine's solar obscuration check is already observer-specific.
+    // Never let a horizon-only overlap turn a geometrically invisible solar eclipse visible.
+    if (g && g.isVisible === false) {
+      return {
+        localVisible: false,
+        localStatus: 'अदृश्य',
+        visibleStart: null,
+        visibleEnd: null,
+        visibleDuration: 0,
+        grastodaya: false,
+        grastasta: false
+      };
+    }
+
     var eclipse = getGrahanBodyInterval(g);
     if (!eclipse) {
       return {
