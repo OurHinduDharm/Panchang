@@ -111,14 +111,16 @@ $("cancel").onclick=async()=>{cancelled=true;};
 function download(name,obj){const blob=new Blob([JSON.stringify(obj)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
 function monthOf(isoText){return Number(isoText.slice(5,7));}
 async function refreshExports(){
- const rows=await all(STORE),years=[...new Set(rows.map(r=>Number(r.fromUtc.slice(0,4))))].sort((a,b)=>a-b);
+ const meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null;
+ const rows=(await all(STORE)).filter(r=>r.runKey===runKey),years=[...new Set(rows.map(r=>Number(r.fromUtc.slice(0,4))))].sort((a,b)=>a-b);
  $("exportYear").innerHTML=years.map(y=>'<option value="'+y+'">'+y+'</option>').join("");
  $("exportMonth").innerHTML=Array.from({length:12},(_,i)=>'<option value="'+(i+1)+'">'+String(i+1).padStart(2,"0")+'</option>').join("");
  $("exportStatus").textContent="सहेजे गए खंड: "+rows.length+" · उपलब्ध वर्ष: "+(years.join(", ")||"अभी कोई नहीं");
 }
 async function makeManifest(){
- const rows=await all(STORE),meta=await get(META,"active");
- const chunks=rows.map(r=>({key:r.key,fromUtc:r.fromUtc,toUtcExclusive:r.toUtcExclusive,sampleCount:r.sampleCount}));
+ const meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null;
+ const rows=(await all(STORE)).filter(r=>r.runKey===runKey);
+ const chunks=rows.map(r=>({key:r.key,fromUtc:r.fromUtc,toUtcExclusive:r.toUtcExclusive,sampleCount:r.sampleCount,checksum:r.checksum}));
  return {schemaVersion:"1.0.0",datasetType:"geocentric-apparent-vectors",status:meta?.completed?"generated-unvalidated":"partial-unvalidated",generatedAtUtc:iso(Date.now()),generator:config||meta?.config||null,coordinateFrame:"EQJ",unit:"AU",timeScale:"UTC timestamps supplied to Astronomy Engine Date API",aberration:true,chunks,warning:"Unvalidated research data; not a certified Asta/Udaya event table."};
 }
 $("exportManifestBtn").onclick=async()=>download("asta-udaya-manifest.json",await makeManifest());
