@@ -1274,7 +1274,7 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
  * by lunar month/pakṣa. It applies the Aparāhṇa overlap rule and the
  * Sāmaveda-specific fallback order; it does not infer missing astronomy.
  */
-export function getSamavedaUpakarmaDateDecision(days, options = {}) {
+export function getSamavedaUpakarmaDateDecision(days) {
   const records = (Array.isArray(days) ? days : [])
     .map(day => ({
       ...day,
@@ -1292,9 +1292,7 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
   const hasName = (value, pattern) => pattern.test(normalizedName(value));
   const isBhadrapada = day => hasName(day.month, /bhadrapada|भाद्रपद|प्रौष्ठपद/);
   const isShravana = day => hasName(day.month, /shravana|श्रावण/);
-  const isKanya = day => hasName(day.month, /kanya|कन्या/);
   const isShukla = day => hasName(day.paksha, /shukla|शुक्ल/);
-  const isKrishna = day => hasName(day.paksha, /krishna|कृष्ण|वद्य/);
   const isPanchami = day => hasName(day.tithi, /panchami|पञ्चमी|पंचमी/);
 
   function hastaInterval(day) {
@@ -1413,24 +1411,14 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
   const shravanaHastaKarka = shravanaHasta.filter(isKarkaSun);
   const bhadrapadaPanchami = records.filter(day => isBhadrapada(day) && isShukla(day) && isPanchami(day));
   const shravanaPanchami = records.filter(day => isShravana(day) && isShukla(day) && isPanchami(day));
-  const kanyaHasta = records.filter(day =>
-    isKanya(day) && isKrishna(day) && (isHasta(day.nakshatra) || isHasta(day.nextNakshatra) || hastaInterval(day))
-  );
-
   const primary = chooseHasta(bhadrapadaHasta, "भाद्रपद शुक्ल हस्त");
-  const tamilSampradaya = options.sampradaya === "tamil";
-  const tamilHasta = tamilSampradaya
-    ? chooseHasta(kanyaHasta, "कन्या मास कृष्ण हस्त — तमिल परंपरा")
-    : null;
-  const ordered = tamilSampradaya
-    ? [primary, tamilHasta].filter(Boolean)
-    : [
-        primary,
-        chooseHasta(shravanaHastaRegular, "श्रावण शुक्ल हस्त"),
-        ...bhadrapadaPanchami.map(day => ({ day, label: "भाद्रपद शुक्ल पंचमी", note: "सामवेदी उपाकर्म का पंचमी विकल्प।" })),
-        ...shravanaPanchami.map(day => ({ day, label: "श्रावण शुक्ल पंचमी", note: "सामवेदी उपाकर्म का अगला पंचमी विकल्प।" })),
-        chooseHasta(shravanaHastaKarka, "श्रावण शुक्ल हस्त — कर्कस्थ सूर्य में अंतिम विकल्प")
-      ].filter(Boolean);
+  const ordered = [
+    primary,
+    chooseHasta(shravanaHastaRegular, "श्रावण शुक्ल हस्त"),
+    ...bhadrapadaPanchami.map(day => ({ day, label: "भाद्रपद शुक्ल पंचमी", note: "सामवेदी उपाकर्म का पंचमी विकल्प।" })),
+    ...shravanaPanchami.map(day => ({ day, label: "श्रावण शुक्ल पंचमी", note: "सामवेदी उपाकर्म का अगला पंचमी विकल्प।" })),
+    chooseHasta(shravanaHastaKarka, "श्रावण शुक्ल हस्त — कर्कस्थ सूर्य में अंतिम विकल्प")
+  ].filter(Boolean);
 
   for (const candidate of ordered) {
     if (!hasDosha(candidate.day, candidate !== primary)) {
