@@ -56,10 +56,10 @@ test("annual resolver carries location-specific Sankranti timestamps into the de
   assert.equal(result.reviewStatus,"approved");
 });
 
-test("Tamil Sampradaya is retained as a distinct selectable calculation option", () => {
-  const result = resolveSamavedaAnnualDecision([], {sampradaya:"tamil"});
-  assert.equal(result.sampradaya,"tamil");
+test("annual Upakarma decision exposes no community-selection option", () => {
+  const result = resolveSamavedaAnnualDecision([]);
   assert.equal(result.status,"unavailable");
+  assert.equal(Object.hasOwn(result,"sampradaya"),false);
 });
 
 test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–2029", () => {
