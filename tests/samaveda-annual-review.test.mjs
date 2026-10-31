@@ -63,7 +63,7 @@ test("Tamil Sampradaya is retained as a distinct selectable calculation option",
 });
 
 test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–2029", () => {
-  const observer = new Observer(30.1265,80.4817,0);
+  const observer = new Observer(29.58,80.22,1650);
   const years = [2026,2027,2028,2029];
   const monthNames = {Bhadrapada:"भाद्रपद",Shravana:"श्रावण",Ashadha:"आषाढ़"};
   for (const year of years) {
