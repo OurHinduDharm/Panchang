@@ -48,14 +48,14 @@ test("production Asta-Udaya baseline: repeated timings and unchanged output fing
     await page.locator("#dateInput").dispatchEvent("change");
     await page.waitForFunction(() => {
       const panel = document.querySelector("#ohd-perf-panel")?.textContent || "";
-      return (panel.match(/planet rise\\/set calculation and card/g) || []).length >= 2;
+      return panel.split("planet rise/set calculation and card").length - 1 >= 2;
     }, null, { timeout: 180000 });
 
     await page.locator("#dateInput").fill("2026-10-31");
     await page.locator("#dateInput").dispatchEvent("change");
     await page.waitForFunction(() => {
       const panel = document.querySelector("#ohd-perf-panel")?.textContent || "";
-      return (panel.match(/planet rise\\/set calculation and card/g) || []).length >= 3;
+      return panel.split("planet rise/set calculation and card").length - 1 >= 3;
     }, null, { timeout: 180000 });
 
     const finalFingerprint = (await card.innerText()).replace(/\s+/g, " ").trim();
