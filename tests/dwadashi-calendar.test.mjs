@@ -5,7 +5,7 @@ import { buildDwadashiCalendar, buildChaturmasProposal, buildAnnualDwadashiPacka
 const rules = {
   unifiedTithiIndex: {
     tithis: [
-      { month:"चैत्र", paksha:"शुक्ल", displayNames:["मदन द्वादशी","भर्तृ द्वादशी","मदन द्वादशी"], drik2026Labels:["मदन द्वादशी","वामन द्वादशी"], observances:[{id:"madana",name:"मदन द्वादशी"},{id:"bhartr",name:"भर्तृ द्वादशी"}] }
+      { month:"चैत्र", paksha:"शुक्ल", displayNames:["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"], observances:[{id:"madana",name:"मदन द्वादशी"},{id:"bhartr",name:"भर्तृ द्वादशी"}] }
     ]
   }
 };
@@ -156,43 +156,41 @@ test("Pausha Krishna and Shukla records remain visible when outside the scan win
   assert.ok(shukla.displayNames.includes("कूर्म-द्वादशी"));
 });
 
-test("2026 Drik reference entries preserve missing Ashadha Krishna and Adhika Jyeshtha records without guessing local dates", () => {
-  const rulesWith2026 = {
-    unifiedTithiIndex: { tithis: [] },
-    drik2026Calendar: [
-      {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:false,labels:["कृष्ण परशुराम द्वादशी"],referenceDate:"2026-05-13"},
-      {month:"ज्येष्ठ",paksha:"शुक्ल",adhika:true,labels:["उन्मीलिनी महाद्वादशी","अधिक रामलक्ष्मण द्वादशी"],referenceDate:"2026-05-27"},
-      {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:true,labels:["अधिक कृष्ण रामलक्ष्मण द्वादशी"],referenceDate:"2026-06-12"},
-      {month:"ज्येष्ठ",paksha:"शुक्ल",adhika:false,labels:["पक्षवर्द्धिनी महाद्वादशी","रामलक्ष्मण द्वादशी","चम्पक द्वादशी"],referenceDate:"2026-06-26"},
-      {month:"आषाढ़",paksha:"कृष्ण",adhika:false,labels:["त्रिस्पर्शा महाद्वादशी","कृष्ण रामलक्ष्मण द्वादशी"],referenceDate:"2026-07-11"}
-    ]
-  };
-  const result = buildDwadashiCalendar([
-    sunriseDay("2026-01-01","माघ","कृष्ण","प्रतिपदा")
-  ], rulesWith2026);
-  const ashadha = result.tithis.find(x => x.id === "ashadha-krishna");
-  const adhikaShukla = result.tithis.find(x => x.id === "jyeshtha-shukla-adhika");
-  const adhikaKrishna = result.tithis.find(x => x.id === "jyeshtha-krishna-adhika");
-  assert.equal(ashadha.referenceDate,"2026-07-11");
-  assert.deepEqual(ashadha.candidateDates,[]);
-  assert.equal(ashadha.status,"needs-local-observation");
-  assert.deepEqual(ashadha.displayNames,["त्रिस्पर्शा महाद्वादशी","कृष्ण रामलक्ष्मण द्वादशी"]);
-  assert.equal(adhikaShukla.referenceDate,"2026-05-27");
-  assert.equal(adhikaShukla.adhika,true);
-  assert.equal(adhikaKrishna.referenceDate,"2026-06-12");
-  assert.equal(adhikaKrishna.adhika,true);
+test("permanent month-paksha names remain the same in every year, including Adhika Jyeshtha and Ashadha Krishna", () => {
+  const master = [
+    {id:"jyeshtha-krishna",month:"ज्येष्ठ",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण परशुराम द्वादशी"]},
+    {id:"jyeshtha-shukla",month:"ज्येष्ठ",paksha:"शुक्ल",observances:[],displayNames:["त्रिविक्रम द्वादशी","रामलक्ष्मण द्वादशी","पक्षवर्द्धिनी महाद्वादशी","चम्पक द्वादशी"]},
+    {id:"jyeshtha-shukla-adhika",month:"ज्येष्ठ",paksha:"शुक्ल",adhika:true,observances:[],displayNames:["उन्मीलिनी महाद्वादशी","अधिक रामलक्ष्मण द्वादशी"]},
+    {id:"jyeshtha-krishna-adhika",month:"ज्येष्ठ",paksha:"कृष्ण",adhika:true,observances:[],displayNames:["अधिक कृष्ण रामलक्ष्मण द्वादशी"]},
+    {id:"ashadha-krishna",month:"आषाढ़",paksha:"कृष्ण",observances:[],displayNames:["त्रिस्पर्शा महाद्वादशी","कृष्ण रामलक्ष्मण द्वादशी"]}
+  ];
+  const refs = [
+    {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:false,referenceDate:"2026-05-13"},
+    {month:"ज्येष्ठ",paksha:"शुक्ल",adhika:true,referenceDate:"2026-05-27"},
+    {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:true,referenceDate:"2026-06-12"},
+    {month:"ज्येष्ठ",paksha:"शुक्ल",adhika:false,referenceDate:"2026-06-26"},
+    {month:"आषाढ़",paksha:"कृष्ण",adhika:false,referenceDate:"2026-07-11"}
+  ];
+  const make = year => buildDwadashiCalendar([
+    sunriseDay(year+"-01-01","माघ","कृष्ण","प्रतिपदा")
+  ], {unifiedTithiIndex:{tithis:master},drik2026Calendar:refs});
+  const y2026=make(2026), y2027=make(2027);
+  for (const id of ["jyeshtha-krishna","jyeshtha-shukla","jyeshtha-shukla-adhika","jyeshtha-krishna-adhika","ashadha-krishna"]) {
+    assert.deepEqual(y2026.tithis.find(x=>x.id===id).displayNames,y2027.tithis.find(x=>x.id===id).displayNames);
+  }
+  assert.equal(y2026.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,"2026-07-11");
+  assert.equal(y2027.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,null);
+  assert.equal(y2026.tithis.find(x=>x.id==="jyeshtha-shukla-adhika").adhika,true);
 });
 
-test("2026-only aliases from the rule catalog do not leak into 2027", () => {
-  const result = buildDwadashiCalendar([
+test("annual reference dates do not provide or override permanent Dwadashi names", () => {
+  const master=[{id:"pausha-krishna",month:"पौष",paksha:"कृष्ण",displayNames:["रूप-व्रत"],observances:[]}];
+  const result=buildDwadashiCalendar([
     sunriseDay("2027-01-01","पौष","कृष्ण","द्वादशी")
-  ], {
-    unifiedTithiIndex: {tithis:[]},
-    drik2026Calendar:[
-      {month:"पौष",paksha:"कृष्ण",adhika:false,labels:["2026-only label"],referenceDate:"2026-12-01"}
-    ]
-  });
-  const pausha = result.tithis.find(x => x.id === "pausha-krishna");
-  assert.deepEqual(pausha.displayNames,[]);
+  ],{unifiedTithiIndex:{tithis:master},drik2026Calendar:[
+    {month:"पौष",paksha:"कृष्ण",adhika:false,referenceDate:"2026-12-01"}
+  ]});
+  const pausha=result.tithis.find(x=>x.id==="pausha-krishna");
+  assert.deepEqual(pausha.displayNames,["रूप-व्रत"]);
   assert.equal(pausha.referenceDate,null);
 });
