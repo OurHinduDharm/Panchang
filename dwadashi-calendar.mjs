@@ -135,6 +135,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     year: Number.isFinite(year) ? year : null,
     status: complete ? "needs-review" : "incomplete",
     selectionMethod: "udayavyapini-smarta-first-sunrise",
+    rulesArticleUrl: "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html",
     location: {
       name: String(location.name || ""),
       latitude: Number.isFinite(Number(location.latitude)) ? Number(location.latitude) : null,
