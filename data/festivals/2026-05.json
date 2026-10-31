@@ -22,7 +22,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\">श्री कूर्म अवतार जयन्ती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "वैशाख शुक्ल पूर्णिमा"
+      "hinduTithi": "वैशाख शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html",
+      "articleLabel": "श्री कूर्म अवतार जयन्ती"
     },
     {
       "date": "2026-05-01",
@@ -40,7 +42,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Muni-Naradji-on-Devarshi-Narad-Jayanti.html\" target=\"_blank\">देवर्षि नारद जी की जयन्ती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "ज्येष्ठ कृष्ण प्रतिपदा"
+      "hinduTithi": "ज्येष्ठ कृष्ण प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/05/About-Muni-Naradji-on-Devarshi-Narad-Jayanti.html",
+      "articleLabel": "देवर्षि नारद जी की जयन्ती"
     },
     {
       "date": "2026-05-05",
@@ -70,7 +74,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-05-14",
@@ -163,7 +171,9 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "endDate": "2026-05-25",
-      "hinduTithi": "ज्येष्ठ शुक्ल दशमी"
+      "hinduTithi": "ज्येष्ठ शुक्ल दशमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/06/about-Godess-Ganga-on-ganga-dussehra.html",
+      "articleLabel": "25 मई - ज्येष्ठ शु. दशमी को गंगा दशहरा।"
     },
     {
       "date": "2026-05-27",
@@ -173,7 +183,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ अधिक शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-05-28",

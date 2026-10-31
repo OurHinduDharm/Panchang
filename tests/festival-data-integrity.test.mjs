@@ -126,6 +126,40 @@ test("2026 Mahashivaratri, Holika Dahan and Dhulandi have separate complete card
   assert.ok(march.events.every(event => event.reviewStatus === "approved"));
 });
 
+test("2026 festival cards expose the linked articles from the Vrat-Parv page", () => {
+  const cases = [
+    ["2026-03.json","श्रीरामनवमी (वैष्णव सम्प्रदाय)","About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html"],
+    ["2026-04.json","श्री हनुमान जयंती / चैत्र पूर्णिमा","About-Lord-Hanuman-Jayanti.html"],
+    ["2026-04.json","सीता नवमी / जानकी नवमी","About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html"],
+    ["2026-05.json","गंगा दशहरा","about-Godess-Ganga-on-ganga-dussehra.html"],
+    ["2026-07.json","आषाढ़ गुप्त नवरात्र प्रारम्भ - शैलपुत्री पूजन","About-Gupt-Navratris.html"],
+    ["2026-07.json","गुप्त नवरात्र द्वितीया - ब्रह्मचारिणी","About-Brahmacharini-Ma-On-Navaratri.html"],
+    ["2026-07.json","गुप्त नवरात्र तृतीया - चन्द्रघंटा","About-ChadraghantaMaa-On-Navaratri.html"],
+    ["2026-07.json","गुप्त नवरात्र तृतीया (क्षय चतुर्थी) - कूष्माण्डा","About-KooshmandaMata-On-Navaratri.html"],
+    ["2026-07.json","गुप्त नवरात्र पंचमी - स्कन्दमाता","About-BhagwatiSkandaMata-On-Navratri.html"],
+    ["2026-07.json","गुप्त नवरात्र षष्ठी - कात्यायनी","About-GodessKaatyaayani-On-Navratri.html"],
+    ["2026-07.json","गुप्त नवरात्र सप्तमी - कालरात्रि","About-KalratriMaa-On-Navratri.html"],
+    ["2026-07.json","गुप्त नवरात्र अष्टमी - महागौरी","About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html"],
+    ["2026-07.json","गुप्त नवरात्र नवमी - सिद्धिदात्री","About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html"],
+    ["2026-07.json","देवशयनी / हरिशयनी एकादशी — चातुर्मास प्रारम्भ","About-HarishayaniEkadashiAndStartingOfChaturmas.html"],
+    ["2026-08.json","नाग पंचमी / नाग पंचमी व्रत","About-NagPanchami.html"],
+    ["2026-09.json","श्रीकृष्ण जन्माष्टमी, श्री कृष्ण जयंती","About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html"],
+    ["2026-09.json","श्री गणेश चतुर्थी / सिद्धिविनायक चतुर्थी — गणेश जयंती","About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html"],
+    ["2026-09.json","राधाष्टमी | श्री राधा जयन्ती","About-ShreeRadha-On-Radhaashtami.html"],
+    ["2026-11.json","गोवत्स द्वादशी व्रत","About-Govats-Dwadashi-vrat.html"],
+    ["2026-11.json","देवउठनी एकादशी","About-Shree-Hari-Prabodhini-Ekaadashi.html"],
+    ["2026-02.json","महाशिवरात्रि / मासिक शिवरात्रि व्रत","About-Mahashivratri-Vrat.html"],
+    ["2026-02.json","आमलकी एकादशी","About-Aamlaki-Ekadashi-Mahatmya.html"]
+  ];
+  for (const [file,title,slug] of cases) {
+    const data=JSON.parse(readFileSync(join(folder,file),"utf8"));
+    const event=data.events.find(item=>item.title===title);
+    assert.ok(event,file+": "+title+" must exist");
+    const links=[event.articleUrl,event.secondaryArticleUrl].filter(Boolean).join(" ");
+    assert.ok(links.includes(slug),file+": "+title+" must expose "+slug+" as a card link");
+  }
+});
+
 test("2028 Narak Chaturdashi is dated October 17 with its Abhyanga Snan rule", () => {
   const data = JSON.parse(readFileSync(join(folder,"2028-10.json"),"utf8"));
   const event = data.events.find(item => item.title === "नरक चतुर्दशी");

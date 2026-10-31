@@ -44,7 +44,11 @@
       "hinduTithi": "आश्विन कृष्ण एकादशी",
       "description": "इंदिरा एकादशी पितृपक्ष में आने वाली एकादशी है। भगवान विष्णु की पूजा और पितरों के कल्याण की कामना से व्रत किया जाता है। इस व्रत का पुण्य पितरों को अर्पित करने से उन्हें यमलोक की यातनाओं से मुक्ति और मोक्ष मिलता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "reviewStatus": "approved",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2026-10-08",
@@ -249,7 +253,11 @@
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "endDate": "2026-10-20",
-      "hinduTithi": "आश्विन शुक्ल अष्टमी (नवमी व्याप्ति)"
+      "hinduTithi": "आश्विन शुक्ल अष्टमी (नवमी व्याप्ति)",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
+      "articleLabel": "नवमं सिद्धिदात्री",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html",
+      "secondaryArticleLabel": "नवमी हवन विधि"
     },
     {
       "date": "2026-10-19",
@@ -259,7 +267,11 @@
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "endDate": "2026-10-20",
-      "hinduTithi": "आश्विन शुक्ल अष्टमी"
+      "hinduTithi": "आश्विन शुक्ल अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "articleLabel": "महागौरीति चाष्टमम्",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html",
+      "secondaryArticleLabel": "भद्रकाली जयन्ती"
     },
     {
       "date": "2026-10-19",
@@ -325,7 +337,11 @@
       "hinduTithi": "आश्विन शुक्ल एकादशी",
       "description": "पापांकुशा एकादशी पर भगवान विष्णु की पूजा, व्रत और जप की परंपरा है।  पापों पर अंकुश लगाने वाली इस एकादशी के प्रभाव से मनुष्य को यमराज के कठोर दंड का भागी नहीं बनना पड़ता और उत्तम गति मिलती है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "reviewStatus": "approved",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2026-10-23",

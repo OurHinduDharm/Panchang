@@ -34,7 +34,9 @@
       "description": "महाकाली महाविद्या को श्री आद्याकाली कहा गया है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री आद्याकाली / महाकाली संबंधी लेख</a>।",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "भाद्रपद कृष्ण अष्टमी"
+      "hinduTithi": "भाद्रपद कृष्ण अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html",
+      "articleLabel": "श्री आद्याकाली / महाकाली संबंधी लेख"
     },
     {
       "date": "2026-09-04",
@@ -52,7 +54,9 @@
       "description": "श्री कृष्ण प्राकट्योत्सव। श्रीकृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण के निमित्त व्रत, पूजन करें और मध्यरात्रि में जन्मोत्सव मनायें। स्तोत्र पाठ, भजन करें। स्मार्त और वैष्णव व्रत-निर्णय क्षेत्र तथा परंपरा के अनुसार अलग हो सकते हैं। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख</a>।",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "भाद्रपद कृष्ण अष्टमी"
+      "hinduTithi": "भाद्रपद कृष्ण अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
+      "articleLabel": "श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख"
     },
     {
       "date": "2026-09-05",
@@ -71,7 +75,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2026-09-07",
@@ -173,7 +181,9 @@
       "reviewStatus": "approved",
       "endDate": "2026-09-25",
       "hinduTithi": "भाद्रपद शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html",
+      "articleLabel": "श्री गणेश चतुर्थी व्रत विधि व कथा"
     },
     {
       "date": "2026-09-15",
@@ -261,7 +271,9 @@
       "description": "राधाष्टमी भगवती श्रीराधा के प्राकट्य-स्मरण का पर्व है। इस दिज श्री राधा-कृष्ण पूजन, भजन, स्तोत्रपाठ-जप और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>। देवी राधा की पूजा मध्याह्नकाल में की जाती है।",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html",
+      "articleLabel": "भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी"
     },
     {
       "date": "2026-09-19",
@@ -281,7 +293,9 @@
       "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद शुक्ल एकादशी",
       "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
-      "articleLabel": "वेदमाता गायत्री जयंती की महिमा पढ़ें"
+      "articleLabel": "वेदमाता गायत्री जयंती की महिमा पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-09-22",
@@ -291,7 +305,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "भाद्रपद शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2026-09-23",
@@ -300,7 +318,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Goddess-Bhuvaneshvari-On-BhuwaneshwariMahavidyaJayanti.html\" target=\"_blank\">श्री भुवनेश्वरी महाविद्या जयन्ती</a> इस तिथि को मनाई जाती है। आज भगवती भुवनेश्वरी महाविद्या की उपासना अवश्य करें।",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "भाद्रपद शुक्ल द्वादशी"
+      "hinduTithi": "भाद्रपद शुक्ल द्वादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Goddess-Bhuvaneshvari-On-BhuwaneshwariMahavidyaJayanti.html",
+      "articleLabel": "श्री भुवनेश्वरी महाविद्या जयन्ती"
     },
     {
       "date": "2026-09-23",
@@ -309,7 +329,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\"> भाद्रपद शुक्ल द्वादशी को भगवान वामन की जयंती</a> मनाई जाती है।",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "भाद्रपद शुक्ल द्वादशी"
+      "hinduTithi": "भाद्रपद शुक्ल द्वादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html",
+      "articleLabel": "भाद्रपद शुक्ल द्वादशी को भगवान वामन की जयंती"
     },
     {
       "date": "2026-09-24",
@@ -355,7 +377,9 @@
       "reviewStatus": "approved",
       "endDate": "2026-10-10",
       "statusText": "पितृपक्ष चल रहा है",
-      "hinduTithi": "आश्विन कृष्ण प्रतिपदा"
+      "hinduTithi": "आश्विन कृष्ण प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध - महालय प्रारंभ, पितृपक्ष प्रारंभ"
     },
     {
       "date": "2026-09-29",
