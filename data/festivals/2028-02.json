@@ -53,7 +53,8 @@
       "description": "माघ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पूर्णिमा"
     },
     {
       "date": "2028-02-13",
@@ -85,7 +86,8 @@
       "muhurtaRules": [
         "mahashivaratri-four-prahar",
         "mahashivaratri-nishita"
-      ]
+      ],
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी"
     },
     {
       "date": "2028-02-25",
