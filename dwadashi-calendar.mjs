@@ -83,6 +83,33 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   });
 
   const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
+  const ensureEmptyGroup = (month, paksha, adhika = false, referenceDate = null) => {
+    const key = [month, paksha, adhika ? "adhika" : "nija"].join("|");
+    if (!groups.has(key)) groups.set(key, {
+      id: MONTH_SLUGS[month] + "-" + (paksha === "कृष्ण" ? "krishna" : "shukla") + (adhika ? "-adhika" : ""),
+      month, paksha, adhika, referenceDate,
+      sunriseDates: [], noonDates: [], sunriseObservations: [], noonObservations: []
+    });
+    else if (referenceDate) groups.get(key).referenceDate = referenceDate;
+  };
+
+  // Keep both Pausha pakshas visible in the annual review even when their
+  // tithi dates fall just outside the Gregorian scan window. Never invent dates.
+  ensureEmptyGroup("पौष", "कृष्ण");
+  ensureEmptyGroup("पौष", "शुक्ल");
+
+  // Preserve user-approved 2026 Drik cross-references as review-only records
+  // when the local scan has no observation for that month/paksha.
+  if (year === 2026 && Array.isArray(rules.drik2026Calendar)) {
+    rules.drik2026Calendar.forEach(item => {
+      const masa = normalizeMonth(item.month);
+      const paksha = normalizePaksha(item.paksha);
+      if (masa.month && paksha) {
+        ensureEmptyGroup(masa.month, paksha, !!item.adhika, item.referenceDate || null);
+      }
+    });
+  }
+
   const tithis = Array.from(groups.values()).map(group => {
     group.sunriseDates = unique(group.sunriseDates).sort(dateSort);
     group.noonDates = unique(group.noonDates).sort(dateSort);
@@ -93,8 +120,17 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       ? catalog.find(item => item.month === group.month && item.paksha === group.paksha)
       : null;
     const observances = source && Array.isArray(source.observances) ? source.observances : [];
-    const drikNames = year === 2026 && source && Array.isArray(source.drik2026Labels)
-      ? source.drik2026Labels : [];
+    const drik2026Entry = year === 2026 && Array.isArray(rules.drik2026Calendar)
+      ? rules.drik2026Calendar.find(item =>
+          item.month === group.month &&
+          item.paksha === group.paksha &&
+          !!item.adhika === !!group.adhika
+        )
+      : null;
+    const drikNames = unique(
+      (year === 2026 && source && Array.isArray(source.drik2026Labels) ? source.drik2026Labels : [])
+        .concat(drik2026Entry && Array.isArray(drik2026Entry.labels) ? drik2026Entry.labels : [])
+    );
     const names = unique(observances.map(item => item.name).concat(drikNames));
     return {
       id: group.id,
@@ -107,14 +143,23 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       sunriseObservations: group.sunriseObservations,
       noonObservations: group.noonObservations,
       candidateDates,
+      referenceDate: drik2026Entry?.referenceDate || group.referenceDate || null,
       selectedDate: candidateDates.length === 1 ? candidateDates[0] : null,
       dateSelection: candidateDates.length === 1
         ? "single-observation-candidate-review-required"
-        : "requires-vrata-specific-rule",
+        : candidateDates.length > 1
+          ? "requires-vrata-specific-rule"
+          : (drik2026Entry?.referenceDate || group.referenceDate)
+            ? "reference-date-awaiting-local-observation"
+            : "no-observation-in-scan-window",
       displayNames: names,
       observances,
       drik2026Labels: drikNames,
-      status: "needs-review"
+      status: candidateDates.length
+        ? "needs-review"
+        : (drik2026Entry?.referenceDate || group.referenceDate)
+          ? "needs-local-observation"
+          : "needs-observation"
     };
   }).sort((a, b) => MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month) ||
     (a.adhika === b.adhika ? (a.paksha === "कृष्ण" ? -1 : 1) : (a.adhika ? -1 : 1)));
