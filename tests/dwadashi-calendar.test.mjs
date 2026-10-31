@@ -68,20 +68,22 @@ test("noon-only Dwadashi is retained as a candidate without pretending it prevai
   assert.equal(result.tithis[0].selectedDate,"2026-04-01");
 });
 
-test("Drik 2026 labels are not carried into later annual calendars", () => {
+test("permanent month-paksha names are carried into later annual calendars", () => {
   const result = buildDwadashiCalendar([
     sunriseDay("2027-04-01","चैत्र","शुक्ल","द्वादशी")
   ],rules);
-  assert.deepEqual(result.tithis[0].displayNames,["मदन द्वादशी","भर्तृ द्वादशी"]);
-  assert.deepEqual(result.tithis[0].drik2026Labels,[]);
+  const record=result.tithis.find(item=>item.id==="chaitra-shukla");
+  assert.deepEqual(record.displayNames,["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"]);
+  assert.equal("drik2026Labels" in record,false);
 });
 
 test("Adhika month stays separate and does not inherit nija-month vrata aliases", () => {
   const result = buildDwadashiCalendar([
     sunriseDay("2026-08-01","श्रावण","शुक्ल","द्वादशी",true)
   ],rules);
-  assert.equal(result.tithis[0].adhika,true);
-  assert.deepEqual(result.tithis[0].displayNames,[]);
+  const record=result.tithis.find(item=>item.id==="shravana-shukla-adhika");
+  assert.equal(record.adhika,true);
+  assert.deepEqual(record.displayNames,[]);
 });
 
 test("Chaturmas uses the first sunrise-observed date for each boundary", () => {
