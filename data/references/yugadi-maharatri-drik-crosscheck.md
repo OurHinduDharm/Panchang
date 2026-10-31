@@ -1,7 +1,7 @@
 # युगादि एवं महारात्रि — स्रोत और Drik Panchang मिलान
 
 **समीक्षा तिथि:** 2026-11-01  
-**स्थिति:** केवल शोध-दस्तावेज़; live festival JSON, runtime और Blogger payload में कोई परिवर्तन नहीं।
+**स्थिति:** पिथौरागढ़ के 2026–2030 Drik परिणामों से स्थानीय तिथि-मिलान पूरा; युगादि कार्ड और वार्षिक JSON आधार PR में जोड़े गए हैं।
 
 ## 1. चार युगादि तिथियाँ — Drik Panchang से 2026 मिलान उपलब्ध
 
@@ -37,7 +37,7 @@ Drik Panchang का 2026 “Yugadi Days” पृष्ठ चारों cosm
 - Kali Yuga Diwas — Ashwina/Bhadrapada Krishna Trayodashi
 - Sata/Krita Yuga Diwas — Kartika Shukla Navami
 
-2026 Tiruvallur (India) पृष्ठ पर तिथियाँ क्रमशः 17 February, 19 April, 8 October और 18 November दी गई हैं। एक अलग Washington, D.C. पृष्ठ पर Dwapara Yuga Diwas 16 February दिखता है; इससे स्पष्ट है कि sunrise-based Hindu date assignment स्थान/समय-क्षेत्र के अनुसार बदल सकता है। अतः Pithoragarh के लिए स्थानीय Drik चयन से अलग पुष्टि किए बिना Tiruvallur की तारीखें सीधे production में कॉपी न करें।
+2026 Tiruvallur (India) पृष्ठ पर तिथियाँ क्रमशः 17 February, 19 April, 8 October और 18 November दी गई हैं। एक अलग Washington, D.C. पृष्ठ पर Dwapara Yuga Diwas 16 February दिखता है; इससे स्पष्ट है कि sunrise-based Hindu date assignment स्थान/समय-क्षेत्र के अनुसार बदल सकता है। ये Tiruvallur तिथियाँ केवल cross-check हैं; उत्पादन के लिए नीचे दिया गया पिथौरागढ़-विशिष्ट परिणाम-समूह लिया गया है।
 
 स्रोत:
 - https://www.drikpanchang.com/panchang/tithi/yugadi/yugadi-days.html
@@ -54,9 +54,24 @@ Drik का सामान्य Ugadi (Chaitra Shukla Pratipada) और चा
 
 स्रोत: https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857977.html
 
-**कार्रवाई:** चार युगादि दिनों को OurHinduDharm में जोड़ना उपयोगी है और 2026–2030 के लिए Drik के वार्षिक संदर्भ उपलब्ध हैं। लेकिन पिथौरागढ़ की स्थानीय तिथियाँ और तिथि-व्याप्ति अलग से सत्यापित करने के बाद ही production JSON में जोड़ें। यदि जोड़ा जाए तो इन्हें “चार युगादि / युग-स्मृति दिवस” के रूप में अलग पहचान दें और बंगाल की वैकल्पिक परंपरा को शोध-नोट में रखें; उसे default date set में न मिलाएँ।
+**कार्रवाई:** पिथौरागढ़ के लिए उपयोगकर्ता द्वारा उपलब्ध कराए गए Drik Panchang month-panchang परिणामों से 2026–2030 की सभी 20 तारीख़ें मिलाई गईं। इन्हें “युगादि दिवस” श्रेणी में अलग कार्ड के रूप में production JSON में जोड़ा गया है। बंगाल की वैकल्पिक सूची शोध-नोट में ही रहेगी; default date set में नहीं मिलाई जाएगी।
 
-### 2027–2030 Drik वार्षिक मिलान
+
+### पिथौरागढ़ के स्थानीय Drik परिणाम — production date set (2026–2030)
+
+नीचे की 20 तारीख़ें उपयोगकर्ता ने Drik Panchang में पिथौरागढ़ स्थान चयन के साथ उपलब्ध month-panchang परिणामों से दी हैं। हर लिंक उसी दिन के Drik month-panchang पृष्ठ पर जाता है। ये तिथियाँ मौजूदा मासिक JSON में अलग “युगादि दिवस” कार्ड के रूप में दर्ज की गई हैं।
+
+| वर्ष | द्वापर युग दिवस — फाल्गुन कृष्ण अमावस्या | त्रेता युग दिवस — वैशाख शुक्ल तृतीया | कलि युग दिवस — आश्विन कृष्ण त्रयोदशी | सत युग दिवस — कार्तिक शुक्ल नवमी |
+|---|---|---|---|---|
+| 2026 | [17 फ़रवरी](https://www.drikpanchang.com/panchang/month-panchang.html?date=17/02/2026) | [19 अप्रैल](https://www.drikpanchang.com/panchang/month-panchang.html?date=19/04/2026) | [8 अक्टूबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=08/10/2026) | [18 नवंबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=18/11/2026) |
+| 2027 | [7 मार्च](https://www.drikpanchang.com/panchang/month-panchang.html?date=07/03/2027) | [9 मई](https://www.drikpanchang.com/panchang/month-panchang.html?date=09/05/2027) | [28 सितंबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=28/09/2027) | [7 नवंबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=07/11/2027) |
+| 2028 | [24 फ़रवरी](https://www.drikpanchang.com/panchang/month-panchang.html?date=24/02/2028) | [27 अप्रैल](https://www.drikpanchang.com/panchang/month-panchang.html?date=27/04/2028) | [17 सितंबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=17/09/2028) | [26 अक्टूबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=26/10/2028) |
+| 2029 | [13 फ़रवरी](https://www.drikpanchang.com/panchang/month-panchang.html?date=13/02/2029) | [16 मई](https://www.drikpanchang.com/panchang/month-panchang.html?date=16/05/2029) | [6 अक्टूबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=06/10/2029) | [14 नवंबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=14/11/2029) |
+| 2030 | [3 मार्च](https://www.drikpanchang.com/panchang/month-panchang.html?date=03/03/2030) | [5 मई](https://www.drikpanchang.com/panchang/month-panchang.html?date=05/05/2030) | [25 सितंबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=25/09/2030) | [3 नवंबर](https://www.drikpanchang.com/panchang/month-panchang.html?date=03/11/2030) |
+
+द्वापर युग दिवस के लिए पूर्णिमान्त नाम **फाल्गुन कृष्ण अमावस्या** रखा गया है। कुछ अमान्त संदर्भों में यही अमावस्या माघ कृष्ण अमावस्या कहलाती है; इसे अलग तिथि या दूसरा event नहीं माना गया है। इसी प्रकार कलि युग दिवस का Drik पूर्णिमान्त मास-नाम **आश्विन कृष्ण त्रयोदशी** रखा गया है।
+
+### 2027–2030 Drik वार्षिक मिलान (पूर्व cross-check; अलग नगर-चयन)
 
 | वर्ष | द्वापर युगादि — अमावस्या | त्रेता — वैशाख शुक्ल तृतीया | कलि — कृष्ण त्रयोदशी | सत्य/कृत — कार्तिक शुक्ल नवमी | Drik पृष्ठ का स्थान |
 |---|---|---|---|---|---|
@@ -67,7 +82,7 @@ Drik का सामान्य Ugadi (Chaitra Shukla Pratipada) और चा
 
 स्रोत: [Drik 2027](https://www.drikpanchang.com/panchang/tithi/yugadi/yugadi-days.html?year=2027), [Drik 2028](https://www.drikpanchang.com/panchang/tithi/yugadi/yugadi-days.html?year=2028), [Drik 2029](https://www.drikpanchang.com/panchang/tithi/yugadi/yugadi-days.html?year=2029), [Drik 2030](https://www.drikpanchang.com/panchang/tithi/yugadi/yugadi-days.html?year=2030)।
 
-**स्थान-संबंधी सीमा:** ये तारीखें अलग-अलग Drik शहर-चयन से ली गई हैं; 2027 का उपलब्ध परिणाम Pokhara (नेपाल) का है। इन्हें पिथौरागढ़ की अंतिम तारीखें नहीं माना जा सकता। Drik के अनुसार पंचांग-दिवस सूर्योदय से शुरू और समाप्त होता है। 2026 में Tiruvallur पर द्वापर युगादि 17 फ़रवरी और Washington D.C. पर 16 फ़रवरी दिखना स्थान/समय-क्षेत्र के प्रभाव का प्रत्यक्ष उदाहरण है। इसलिए पिथौरागढ़ की स्थानीय तिथि और तिथि-व्याप्ति जाँचकर ही production JSON में जोड़ें।
+**स्थान-संबंधी सीमा:** यह पुराना cross-check अलग-अलग नगरों से था; इसे पिथौरागढ़ production source नहीं माना गया। अब ऊपर दिए पिथौरागढ़-चयन वाले Drik परिणामों से स्थानीय तारीख़ें प्राप्त हैं। Drik के अनुसार पंचांग-दिवस सूर्योदय से शुरू और समाप्त होता है।
 
 अमान्त/पूर्णिमान्त मास-नाम का अंतर भी ध्यान रखें: द्वापर युगादि अमावस्या MyPanchang में माघ कृष्ण अमावस्या और Drik के पूर्णिमान्त पृष्ठ पर फाल्गुन कृष्ण अमावस्या कही जा सकती है; यह एक ही अमावस्या है, दो अलग events नहीं।
 
@@ -92,8 +107,9 @@ Drik Panchang की पर्व-तिथि गणना अपने-आप 
 ## 4. कार्यान्वयन निर्णय
 
 - यह दस्तावेज़ research-only है।
-- कोई live festival JSON, runtime, test fixture या Blogger widget नहीं बदला गया।
-- चार युगादि दिनों का 2026 Drik cross-check उपलब्ध है; Pithoragarh और 2027–2030 की local date verification शेष है।
+- 2026–2029 के संबंधित मासिक festival JSON में युगादि कार्ड जोड़े/एकरूप किए गए; 2030 के सभी 12 मासिक JSON बनाए गए और चार सत्यापित युगादि कार्ड दर्ज किए गए।
+- 2026–2030 के 20 पिथौरागढ़ Drik date references को regression test में शामिल किया गया है।
+- 2030 की अन्य पर्व-सूची अभी संकलित नहीं है; 2030 के मासिक JSON केवल इस चरण के युगादि डेटा का आधार हैं।
 - सामान्य Ugadi/चैत्र शुक्ल प्रतिपदा को चार cosmic Yugadi observances से अलग रखें।
 - चार महारात्रियों के पर्व-समीकरण, सिद्ध रात्रियों और अप्रमाणित जयन्ती-दावों को skip करें।
 - उत्पादन में वही तिथि डालें जिसकी स्थानीय sunrise-based assignment और source tradition दोनों जाँचे जा चुके हों।
