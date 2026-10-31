@@ -373,7 +373,9 @@
       if(raw&&typeof raw==="object")raw=raw.index??raw.number??raw.value??raw.name??raw.label;
       if(raw!==undefined)value=raw;
     }
-    if(typeof value==="number"&&Number.isFinite(value))return value;
+    if(typeof value==="number"&&Number.isFinite(value)){
+      return Number.isInteger(value)&&value>=0&&value<=11?value:null;
+    }
     var name=String(value??"").normalize("NFC").toLocaleLowerCase("hi");
     var names=[
       [/mesh|मेष|aries/,0],[/vrishabha|वृषभ|taurus/,1],
@@ -385,7 +387,7 @@
     ];
     for(var i=0;i<names.length;i++)if(names[i][0].test(name))return names[i][1];
     var numeric=Number(value);
-    return Number.isInteger(numeric)?numeric:null;
+    return Number.isInteger(numeric)&&numeric>=0&&numeric<=11?numeric:null;
   }
   function getStiraLagnaWindows(lib,observer,startValue,endValue){
     var start=new Date(startValue),end=new Date(endValue);
@@ -400,8 +402,8 @@
         if(index!==null)return index;
         // कुछ package builds में getPanchangam के परिणाम पर Udaya Lagna
         // उपलब्ध नहीं होता; Kundli API का Ascendant उसी क्षण का लग्न देता है।
-        if(typeof lib.calculateKundli==="function"){
-          var kundli=lib.calculateKundli(instant,observer);
+        if(typeof lib.getKundli==="function"){
+          var kundli=lib.getKundli(instant,observer);
           return getLagnaIndex({ascendant:kundli&&kundli.ascendant});
         }
       }catch(_){}
