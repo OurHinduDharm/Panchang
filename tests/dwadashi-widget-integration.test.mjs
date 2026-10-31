@@ -26,6 +26,9 @@ test("monthly Vrat-Parv widget only imports approved annual Dwadashi records", a
   assert.match(widget, /sameLongitude/);
   assert.match(widget, /record\.status!=="approved"/);
   assert.match(widget, /mergeAnnualDwadashiEvents/);
+  assert.match(widget, /annual\.tithiDates/);
+  assert.match(widget, /category:"द्वादशी तिथि"/);
+  assert.match(widget, /व्रत-विशेष के शास्त्रीय नियम/);
   assert.match(widget, /एकादशी\|पारण\|parana/);
 });
 
@@ -35,6 +38,8 @@ test("upcoming festival widget prefers approved annual Chaturmas phases and reta
   assert.match(widget, /annual\.status === "approved"/);
   assert.match(widget, /candidate\.status === "approved"/);
   assert.match(widget, /completePhases/);
+  assert.match(widget, /todayKey < phase\.endDate/);
+  assert.match(widget, /पिछला चरण पूर्ण और अगला चरण वर्तमान होगा/);
   assert.match(widget, /\.\.\/chaturmas\//);
 });
 
