@@ -433,6 +433,7 @@ const PLANET_ASTA_THRESHOLDS = {
   Saturn: 15
 };
 
+// Opt-in diagnostics only; this state never participates in astronomy decisions.
 const planetDailyCache = new Map();
 let planetPerfStats = null;
 
