@@ -128,9 +128,11 @@
     if (todayKey < start.date) {
       const remaining = daysBetween(todayKey, start.date);
       status = remaining === 0 ? "आज से प्रारंभ" : remaining === 1 ? "कल से प्रारंभ" : "प्रारंभ होने में " + remaining + " दिन शेष";
-    } else {
+    } else if (todayKey <= end.date) {
       const remaining = daysBetween(todayKey, end.date);
       status = remaining === 0 ? "आज चातुर्मास समापन" : "चातुर्मास चल रहा है · समापन में " + remaining + " दिन शेष";
+    } else {
+      status = "चातुर्मास समापन · द्वादशी के अनुष्ठान तक जानकारी उपलब्ध";
     }
     card.appendChild(element("div", "ohd-fw-chaturmas-status", status));
     function appendEkadashiLink(item, label) {
