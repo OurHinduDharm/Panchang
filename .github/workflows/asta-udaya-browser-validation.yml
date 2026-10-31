@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - "index.html"
+      - "app.js"
+      - "extra-panchang.js"
+      - "tests/asta-udaya-production-perf.spec.mjs"
       - "test-astronomy.html"
       - "data/asta-udaya-benchmark.json"
       - "tests/asta-udaya-browser.spec.mjs"
@@ -40,3 +44,5 @@ jobs:
           exit 1
       - name: Execute real Swiss WASM heliacal calculation in Chromium
         run: node --test tests/asta-udaya-browser.spec.mjs
+      - name: Capture fixed-date production Asta-Udaya timing and output fingerprint
+        run: node --test tests/asta-udaya-production-perf.spec.mjs
