@@ -159,6 +159,34 @@ test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", asy
   assert.ok(secondary.every(w => /वैकल्पिक/.test(w.label)));
 });
 
+test("Diwali shows Guru Hora only as a supplementary overlap within Pradosh", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const sunrise = date("2026-11-08T06:20:00+05:30");
+  const sunset = date("2026-11-08T17:30:00+05:30");
+  const nextSunrise = date("2026-11-09T06:20:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, {
+    date: date("2026-11-08T12:00:00+05:30"),
+    sunrise,
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 29,
+      name: "Amavasya",
+      startTime: date("2026-11-08T11:27:00+05:30"),
+      endTime: date("2026-11-09T12:31:00+05:30")
+    }],
+    sthirLagnaWindows: []
+  });
+  const horas = result.windows.filter(w => /होरा/.test(w.label));
+  assert.equal(horas.length, 1);
+  assert.match(horas[0].label, /गुरु होरा/);
+  assert.match(horas[0].note, /पूरक समय/);
+  assert.equal(horas[0].start.toISOString(), sunset.toISOString());
+  const expectedEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 12);
+  assert.ok(Math.abs(horas[0].end.getTime() - expectedEnd.getTime()) < 1000);
+  assert.ok(horas[0].end <= date("2026-11-08T20:04:00+05:30"));
+});
+
 test("Diwali does not invent a puja window when Amavasya interval is missing", async () => {
   const { getFestivalMuhurta } = await import(engineUrl);
   const result = getFestivalMuhurta({
