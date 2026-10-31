@@ -1083,7 +1083,11 @@ const rules = {
       const start = new Date(sunset.getTime() + duration * i / 4);
       const end = new Date(sunset.getTime() + duration * (i + 1) / 4);
       const part = windowWithin(start, end, chaturdashi, names[i], "रात्रि को सूर्यास्त से अगले सूर्योदय तक चार समान प्रहरों में बाँटा गया है।");
-      if (part) windows.push(part);
+      // Do not publish a clipped/partial prahar as if it were a complete one.
+      if (!part || part.start.getTime() !== start.getTime() || part.end.getTime() !== end.getTime()) {
+        return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "कृष्ण चतुर्दशी की व्याप्ति चारों प्रहरों को पूरा नहीं ढकती; अधूरे प्रहर-समय नहीं दिखाए जा रहे हैं।" };
+      }
+      windows.push(part);
     }
     if (windows.length !== 4) return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "चारों प्रहरों में कृष्ण चतुर्दशी की पूरी व्याप्ति नहीं मिली; अधूरे समय नहीं दिखाए जा रहे हैं।" };
     return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows };
