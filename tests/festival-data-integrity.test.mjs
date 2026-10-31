@@ -126,6 +126,23 @@ test("2026 Mahashivaratri, Holika Dahan and Dhulandi have separate complete card
   assert.ok(march.events.every(event => event.reviewStatus === "approved"));
 });
 
+test("Mahashivaratri and Holika Dahan have complete muhurta rules for 2027–2029", () => {
+  const cases = [
+    ["2027-03.json","महाशिवरात्रि","muhurtaRules",["mahashivaratri-four-prahar","mahashivaratri-nishita"]],
+    ["2027-03.json","होलिका दहन","muhurtaRule","holika-dahan-pradosh"],
+    ["2028-02.json","महाशिवरात्रि","muhurtaRules",["mahashivaratri-four-prahar","mahashivaratri-nishita"]],
+    ["2028-03.json","होलिका दहन","muhurtaRule","holika-dahan-pradosh"],
+    ["2029-02.json","महाशिवरात्रि","muhurtaRules",["mahashivaratri-four-prahar","mahashivaratri-nishita"]],
+    ["2029-02.json","होलिका दहन","muhurtaRule","holika-dahan-pradosh"]
+  ];
+  for (const [file,title,field,expected] of cases) {
+    const data = JSON.parse(readFileSync(join(folder,file),"utf8"));
+    const event = data.events.find(item => item.title === title);
+    assert.ok(event,file+": "+title+" must exist");
+    assert.deepEqual(event[field],expected,file+": "+title+" must expose its muhurta rule");
+  }
+});
+
 test("all 2026 Sankranti cards are automatically eligible for punya-kala calculation", () => {
   const sankrantiTitles = [];
   for (let month = 1; month <= 12; month++) {
