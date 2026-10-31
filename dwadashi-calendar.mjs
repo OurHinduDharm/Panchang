@@ -76,8 +76,11 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       adhika: group.adhika,
       tithi: "द्वादशी",
       sunriseDates: group.sunriseDates,
-      selectedDate: group.sunriseDates[0] || null,
-      dateSelection: "sunrise-observed",
+      candidateDates: group.sunriseDates,
+      selectedDate: group.sunriseDates.length === 1 ? group.sunriseDates[0] : null,
+      dateSelection: group.sunriseDates.length === 1
+        ? "single-sunrise-candidate-review-required"
+        : "requires-vrata-specific-rule",
       displayNames: names,
       observances,
       drik2026Labels: drikNames,
@@ -91,7 +94,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     year: Number.isFinite(year) ? year : null,
     status: "needs-review",
     locationSelection: "स्थान-विशिष्ट सूर्योदय",
-    dateSelection: "केवल सूर्योदय पर द्वादशी होने की पुष्टि; व्रत-विशेष के अलग शास्त्रीय काल-नियमों का स्थानापन्न नहीं",
+    dateSelection: "सूर्योदय-द्वादशी केवल संभावित तारीख़ें देती है; व्रत-विशेष के नियम से चयन और स्वीकृति आवश्यक है",
     tithis
   };
 }
@@ -165,7 +168,7 @@ export function buildAnnualDwadashiPackage(dailyPanchang, rules, location = {}) 
       timezoneOffset: 330
     },
     selectionPolicy: {
-      dwadashiCalendar: "सूर्योदय पर द्वादशी की उपस्थिति; यह सामान्य तिथि-सूची है, प्रत्येक व्रत का स्वतंत्र निर्णय नहीं",
+      dwadashiCalendar: "सूर्योदय पर द्वादशी की तारीख़ें candidate हैं; प्रत्येक व्रत के स्वतंत्र काल-नियम के बाद ही selectedDate स्वीकृत करें",
       chaturmas: "उदयव्यापिनी स्मार्त मान्यता; एकाधिक सूर्योदय-दिन हों तो प्रथम सूर्योदय-दिन",
       traditions: "एक तिथि का एक कार्ड; अनेक नाम aliases, अलग observance विवरण सुरक्षित"
     },
