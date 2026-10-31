@@ -34,7 +34,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "आषाढ़ कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-07-11",
@@ -44,7 +48,11 @@
       "hinduTithi": "आषाढ़ कृष्ण एकादशी",
       "description": "योगिनी एकादशी की गौण/वैष्णव तिथि उन परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। एकादशी-व्रत और पारण का समय तिथि-व्याप्ति, द्वादशी और हरिवासर के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "muhurtaRule": "ekadashi-parana",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-07-12",
@@ -80,7 +88,11 @@
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "endDate": "2026-07-23",
-      "hinduTithi": "आषाढ़ शुक्ल प्रतिपदा"
+      "hinduTithi": "आषाढ़ शुक्ल प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html",
+      "articleLabel": "आषाढ़ गुप्त नवरात्र का महत्व",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html",
+      "secondaryArticleLabel": "माँ शैलपुत्री पूजन"
     },
     {
       "date": "2026-07-15",
@@ -106,7 +118,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">द्वितीयं ब्रह्मचारिणी</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल द्वितीया"
+      "hinduTithi": "आषाढ़ शुक्ल द्वितीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "articleLabel": "द्वितीयं ब्रह्मचारिणी"
     },
     {
       "date": "2026-07-16",
@@ -141,7 +155,9 @@
       "description": "17 जुलाई को सूर्योदय-व्यापिनी तृतीया के दिन चन्द्रघंटा के साथ माँ कूष्माण्डा की पूजा भी की जाती है। चतुर्थी तिथि सूर्योदय पर न रहने के कारण क्षय तिथि के रूप में इसी दिन दोनों देवियों का पूजन है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा का स्वरूप एवं पूजन</a>।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल तृतीया"
+      "hinduTithi": "आषाढ़ शुक्ल तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "articleLabel": "माँ कूष्माण्डा का स्वरूप एवं पूजन"
     },
     {
       "date": "2026-07-17",
@@ -150,7 +166,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">तृतीयं चन्द्रघंटेति</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल तृतीया"
+      "hinduTithi": "आषाढ़ शुक्ल तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "articleLabel": "तृतीयं चन्द्रघंटेति"
     },
     {
       "date": "2026-07-18",
@@ -159,7 +177,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">पंचमं स्कन्दमातेति</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल पंचमी"
+      "hinduTithi": "आषाढ़ शुक्ल पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "articleLabel": "पंचमं स्कन्दमातेति"
     },
     {
       "date": "2026-07-19",
@@ -168,7 +188,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">षष्ठं कात्यायनीति</a> च।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल षष्ठी"
+      "hinduTithi": "आषाढ़ शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "articleLabel": "षष्ठं कात्यायनीति"
     },
     {
       "date": "2026-07-19",
@@ -186,7 +208,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">सप्तमं कालरात्रि</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल सप्तमी"
+      "hinduTithi": "आषाढ़ शुक्ल सप्तमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "articleLabel": "सप्तमं कालरात्रि"
     },
     {
       "date": "2026-07-21",
@@ -195,7 +219,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">महागौरीति चाष्टमम्</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल अष्टमी"
+      "hinduTithi": "आषाढ़ शुक्ल अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "articleLabel": "महागौरीति चाष्टमम्"
     },
     {
       "date": "2026-07-21",
@@ -213,7 +239,11 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमं सिद्धिदात्री</a> च नवदुर्गाः प्रकीर्तिताः। <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a> तथा दुर्गा देवी के निमित्त बलिदान की परंपरा।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "आषाढ़ शुक्ल नवमी"
+      "hinduTithi": "आषाढ़ शुक्ल नवमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
+      "articleLabel": "नवमं सिद्धिदात्री",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html",
+      "secondaryArticleLabel": "नवमी हवन विधि"
     },
     {
       "date": "2026-07-23",
@@ -236,7 +266,10 @@
       "endDate": "2026-07-30",
       "hinduTithi": "आषाढ़ शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html"
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/07/About-HarishayaniEkadashiAndStartingOfChaturmas.html",
+      "articleLabel": "देवशयनी / हरिशयनी एकादशी",
+      "secondaryArticleLabel": "चातुर्मास्य व्रत की महिमा"
     },
     {
       "date": "2026-07-26",
