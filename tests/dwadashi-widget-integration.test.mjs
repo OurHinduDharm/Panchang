@@ -8,6 +8,9 @@ test("annual review scans the Panchang engine at each local sunrise", async () =
   const html = await read("festival-year-review.html");
   assert.match(html, /buildAnnualDwadashiPackage/);
   assert.match(html, /getPanchangam\(new Date\(dayRecord\.sunrise\),observer/);
+  assert.match(html, /const dwadashiScanDays=yearDays\+31/);
+  assert.match(html, /dwadashiDays\.push\(dayRecord\)/);
+  assert.match(html, /buildAnnualDwadashiPackage\(dwadashiDays,dwadashiRules/);
   assert.match(html, /sunriseTithi=\{/);
   assert.match(html, /noonObservations/);
   assert.match(html, /approveChLabel/);
