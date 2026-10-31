@@ -158,6 +158,10 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
             : "no-observation-in-scan-window",
       displayNames: names,
       observances,
+      // Conditional Mahadwadashi and calendar cross-reference labels are
+      // preserved as metadata; they are not displayed as permanent names.
+      conditionalObservances: source && Array.isArray(source.conditionalObservances) ? source.conditionalObservances : [],
+      crossReferences: source && Array.isArray(source.crossReferences) ? source.crossReferences : [],
       status: candidateDates.length
         ? "needs-review"
         : (drik2026Entry?.referenceDate || group.referenceDate)
