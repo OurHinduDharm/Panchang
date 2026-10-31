@@ -181,6 +181,7 @@
           selectedLocationInSession=selected;
           panchangCache.clear();
           observerCache.clear();
+          locationEclipseCache.clear();
           locationInput.value=selected.city||selected.name;
           locationSuggestions.replaceChildren();
           locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM";
@@ -1363,6 +1364,7 @@
       syncLocationUI();
       if(elevationChanged){
         panchangCache.clear();
+        locationEclipseCache.clear();
         loadMonth();
       }
     }catch(error){
