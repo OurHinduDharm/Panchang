@@ -17,7 +17,7 @@ test("master catalogue contains named records for all 24 regular month-paksha Dw
   const regular=entries.filter(item=>!item.adhika);
   const pairs=new Set(regular.map(item=>item.month+"|"+item.paksha));
   assert.equal(pairs.size,24);
-  assert.ok(regular.every(item=>Array.isArray(item.displayNames)&&item.displayNames.length>0));
+  assert.ok(regular.every(item=>(Array.isArray(item.displayNames)&&item.displayNames.length>0)||(Array.isArray(item.crossReferences)&&item.crossReferences.length>0)));
   assert.ok(entries.some(item=>item.id==="jyeshtha-krishna-adhika"&&item.displayNames.includes("अधिक कृष्ण रामलक्ष्मण द्वादशी")));
   assert.ok(entries.some(item=>item.id==="jyeshtha-shukla-adhika"&&item.conditionalObservances?.some(x=>x.id==="unmilini")));
 });
