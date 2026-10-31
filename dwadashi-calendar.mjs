@@ -1,5 +1,6 @@
 const MONTHS = ["चैत्र","वैशाख","ज्येष्ठ","आषाढ़","श्रावण","भाद्रपद","आश्विन","कार्तिक","मार्गशीर्ष","पौष","माघ","फाल्गुन"];
 const TITHI_NAMES = ["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पञ्चमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी"];
+const MONTH_SLUGS = { "चैत्र":"chaitra", "वैशाख":"vaishakha", "ज्येष्ठ":"jyeshtha", "आषाढ़":"ashadha", "श्रावण":"shravana", "भाद्रपद":"bhadrapada", "आश्विन":"ashwin", "कार्तिक":"kartika", "मार्गशीर्ष":"margashirsha", "पौष":"pausha", "माघ":"magha", "फाल्गुन":"phalguna" };
 
 function normalizePaksha(value) {
   const text = String(value || "").normalize("NFC").trim();
@@ -50,7 +51,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     if (!masa.month || !paksha || !/^\d{4}-\d{2}-\d{2}$/.test(String(day.date || ""))) return;
     const key = [masa.month, paksha, masa.adhika ? "adhika" : "nija"].join("|");
     if (!groups.has(key)) groups.set(key, {
-      id: masa.month + "-" + paksha + (masa.adhika ? "-adhika" : ""),
+      id: MONTH_SLUGS[masa.month] + "-" + (paksha === "कृष्ण" ? "krishna" : "shukla") + (masa.adhika ? "-adhika" : ""),
       month: masa.month,
       paksha,
       adhika: masa.adhika,
