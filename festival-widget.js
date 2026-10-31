@@ -177,8 +177,10 @@
           const hindiDigits = value => String(value).replace(/[0-9]/g, digit => "०१२३४५६७८९"[Number(digit)]);
           const dateLabel = date => hindiDigits(date.getDate() + " " + MONTH_NAMES[date.getMonth()]);
           copy.appendChild(phaseTitle);
+          const fromLabel = phase.startTithi ? phase.startTithi + " (" + dateLabel(from) + ")" : dateLabel(from);
+          const toLabel = phase.endTithi ? phase.endTithi + " (" + dateLabel(to) + ")" : dateLabel(to);
           copy.appendChild(element("div", "ohd-fw-chaturmas-phase-dates",
-            dateLabel(from) + " से " + dateLabel(to) + " " + hindiDigits(to.getFullYear())));
+            fromLabel + " से " + toLabel + " " + hindiDigits(to.getFullYear())));
           if (phase.detail) copy.appendChild(element("div", "ohd-fw-chaturmas-phase-detail", phase.detail));
           row.appendChild(copy);
 
