@@ -1299,7 +1299,9 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
       flags.grahana || flags.eclipse || flags.sankranti ||
       occursInDay([
         ...(Array.isArray(day.grahanaTimes) ? day.grahanaTimes : day.grahanaTimes ? [day.grahanaTimes] : []),
+        ...(Array.isArray(day.grahanaIntervals) ? day.grahanaIntervals : day.grahanaIntervals ? [day.grahanaIntervals] : []),
         ...(Array.isArray(day.eclipseTimes) ? day.eclipseTimes : day.eclipseTimes ? [day.eclipseTimes] : []),
+        ...(Array.isArray(day.eclipseIntervals) ? day.eclipseIntervals : day.eclipseIntervals ? [day.eclipseIntervals] : []),
         ...(day.grahanaTime ? [day.grahanaTime] : []),
         ...(day.eclipseTime ? [day.eclipseTime] : [])
       ]) ||
