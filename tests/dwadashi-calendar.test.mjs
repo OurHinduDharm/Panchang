@@ -30,8 +30,21 @@ test("one month-paksha Dwadashi record retains names without guessing when sunri
   assert.deepEqual(result.tithis[0].sunriseDates,["2026-04-01","2026-04-02"]);
   assert.deepEqual(result.tithis[0].candidateDates,["2026-04-01","2026-04-02"]);
   assert.deepEqual(result.tithis[0].displayNames,["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"]);
+  assert.deepEqual(result.tithiDates.map(item=>item.date),["2026-04-01","2026-04-02"]);
+  assert.equal(result.tithiDates[0].observedAtSunrise,true);
 });
 
+
+
+test("annual tithi date index keeps Shukla and Krishna Dwadashi observations separately", () => {
+  const result = buildDwadashiCalendar([
+    sunriseDay("2026-04-01","चैत्र","शुक्ल","द्वादशी"),
+    sunriseDay("2026-04-15","चैत्र","कृष्ण","द्वादशी")
+  ],rules);
+  assert.equal(result.tithiDates.length,2);
+  assert.deepEqual(result.tithiDates.map(item=>item.paksha),["शुक्ल","कृष्ण"]);
+  assert.ok(result.tithiDates.every(item=>item.tithi==="द्वादशी"&&item.observedAtSunrise));
+});
 
 test("a single sunrise date remains a candidate until a vrata rule is reviewed", () => {
   const result = buildDwadashiCalendar([
