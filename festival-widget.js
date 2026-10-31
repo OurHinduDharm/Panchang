@@ -195,7 +195,9 @@
           if (todayKey < phase.startDate) {
             phaseStatus = "आगामी";
             row.classList.add("is-upcoming");
-          } else if (todayKey <= phase.endDate) {
+          // अगला आहार-चरण उसी द्वादशी-तिथि से शुरू होता है;
+          // इसलिए endDate पर पिछला चरण पूर्ण और अगला चरण वर्तमान होगा।
+          } else if (todayKey < phase.endDate) {
             phaseStatus = "अभी चल रहा है";
             row.classList.add("is-current");
           } else {

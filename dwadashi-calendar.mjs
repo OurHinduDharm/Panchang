@@ -119,11 +119,37 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   }).sort((a, b) => MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month) ||
     (a.adhika === b.adhika ? (a.paksha === "कृष्ण" ? -1 : 1) : (a.adhika ? -1 : 1)));
 
+  const tithiDateMap = new Map();
+  tithis.forEach(record => {
+    record.candidateDates.forEach(date => {
+      const key = [date, record.month, record.paksha, record.adhika ? "adhika" : "nija"].join("|");
+      if (!tithiDateMap.has(key)) tithiDateMap.set(key, {
+        date, month: record.month, paksha: record.paksha, adhika: record.adhika,
+        tithi: "द्वादशी", observedAtSunrise: false, observedAtNoon: false,
+        sunriseObservations: [], noonObservations: []
+      });
+      const entry = tithiDateMap.get(key);
+      if (record.sunriseDates.includes(date)) {
+        entry.observedAtSunrise = true;
+        entry.sunriseObservations.push(...record.sunriseObservations.filter(item => item.date === date));
+      }
+      if (record.noonDates.includes(date)) {
+        entry.observedAtNoon = true;
+        entry.noonObservations.push(...record.noonObservations.filter(item => item.date === date));
+      }
+    });
+  });
+  const tithiDates = Array.from(tithiDateMap.values()).sort((a,b) =>
+    dateSort(a.date,b.date) || MONTHS.indexOf(a.month)-MONTHS.indexOf(b.month) ||
+    (a.paksha === b.paksha ? 0 : a.paksha === "शुक्ल" ? -1 : 1)
+  );
+
   return {
     schemaVersion: 1,
     year: Number.isFinite(year) ? year : null,
     status: "needs-review",
     locationSelection: "स्थान-विशिष्ट सूर्योदय",
+    tithiDates,
     dateSelection: "सूर्योदय-द्वादशी केवल संभावित तारीख़ें देती है; व्रत-विशेष के नियम से चयन और स्वीकृति आवश्यक है",
     tithis
   };
@@ -210,6 +236,7 @@ export function buildAnnualDwadashiPackage(dailyPanchang, rules, location = {}) 
       traditions: "एक तिथि का एक कार्ड; अनेक नाम aliases, अलग observance विवरण सुरक्षित"
     },
     tithis: dwadashi.tithis,
+    tithiDates: dwadashi.tithiDates,
     chaturmas
   };
 }

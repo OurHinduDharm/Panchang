@@ -1154,6 +1154,34 @@
   function mergeAnnualDwadashiEvents(data,annual,year,month){
     if(!annual||annual.status!=="approved"||Number(annual.year)!==Number(year)||!Array.isArray(annual.tithis))return data;
     var events=Array.isArray(data.events)?data.events.slice():[];
+    // वार्षिक पंचांग से सभी शुक्ल/कृष्ण द्वादशी की वास्तविक तिथि-उपस्थिति
+    // मासिक सूची में जोड़ें; ये तिथि-सूचनाएँ व्रत-निर्णय का विकल्प नहीं हैं।
+    (Array.isArray(annual.tithiDates)?annual.tithiDates:[]).forEach(function(item){
+      if(!item||!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(item.date||"")))return;
+      var date=String(item.date);
+      if(Number(date.slice(0,4))!==Number(year)||Number(date.slice(5,7))!==Number(month))return;
+      var paksha=String(item.paksha||"");
+      if(!/^(शुक्ल|कृष्ण)$/.test(paksha)||!item.month)return;
+      var tithiLabel=String(item.month)+" "+paksha+" द्वादशी";
+      var exists=events.some(function(event){
+        return String(event.date||"")===date&&String(event.hinduTithi||"")===tithiLabel;
+      });
+      if(exists)return;
+      var observation=[];
+      if(item.observedAtSunrise)observation.push("सूर्योदय पर");
+      if(item.observedAtNoon)observation.push("दोपहर में");
+      events.push({
+        date:date,
+        title:tithiLabel,
+        description:"पंचांग गणना में "+(observation.join(" एवं ")||"")+
+          " द्वादशी तिथि की उपस्थिति। यह तिथि-सूचना है; किसी विशेष व्रत का दिन व्रत-विशेष के शास्त्रीय नियम से निर्धारित होगा।",
+        category:"द्वादशी तिथि",
+        reviewStatus:"approved",
+        calculationStatus:"panchang-engine-calculated",
+        hinduTithi:tithiLabel,
+        dwadashiTithi:true
+      });
+    });
     annual.tithis.forEach(function(record){
       if(!record||record.status!=="approved"||!record.selectedDate||!Array.isArray(record.displayNames)||!record.displayNames.length)return;
       var date=String(record.selectedDate);
