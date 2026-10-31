@@ -185,8 +185,8 @@ function renderDwadashiReview(){
   if(!candidateDates.length){
    const detail=document.createElement("p");detail.className="muted";detail.textContent="सूर्योदय या दोपहर के निरीक्षण में द्वादशी नहीं मिली; व्रत-विशेष के नियम से तारीख़ अलग निर्धारित करनी होगी।";card.appendChild(detail);
   }
-  if((record.observances||[]).length>1){
-   const caution=document.createElement("p");caution.className="muted";caution.textContent="इस कार्ड में "+record.observances.length+" अलग व्रत-विवरण एक साथ हैं। स्वीकृति तभी दें जब चुनी तारीख़ सभी संबंधित नामों के लिए मान्य हो।";card.appendChild(caution);
+  if((record.displayNames||[]).length>1){
+   const caution=document.createElement("p");caution.className="muted";caution.textContent="इस एक कार्ड में "+record.displayNames.length+" प्रचलित नाम जुड़े हैं। स्वीकृति तभी दें जब चुनी तारीख़ सभी संबंधित नामों/व्रतों के लिए मान्य हो।";card.appendChild(caution);
   }
   (record.observances||[]).forEach(item=>{
    const detail=document.createElement("p");detail.textContent=[item.name,item.deity,item.shortDetail].filter(Boolean).join(" — ");card.appendChild(detail);
