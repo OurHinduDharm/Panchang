@@ -1135,6 +1135,60 @@
       eventsEl.appendChild(eclipseFailureNote);
     }
   }
+  async function fetchDwadashiYear(year,signal){
+    var url="https://ourhindudharm.github.io/Panchang/data/dwadashi/"+year+".json";
+    try{
+      var response=await fetch(url,{signal:signal,cache:"no-cache"});
+      if(!response.ok)return null;
+      var data=await response.json();
+      if(Number(data.year)!==Number(year)||data.status!=="approved"||!Array.isArray(data.tithis))return null;
+      return data;
+    }catch(_){return null}
+  }
+  function mergeAnnualDwadashiEvents(data,annual,year,month){
+    if(!annual||annual.status!=="approved"||Number(annual.year)!==Number(year)||!Array.isArray(annual.tithis))return data;
+    var events=Array.isArray(data.events)?data.events.slice():[];
+    annual.tithis.forEach(function(record){
+      if(!record||record.status!=="approved"||!record.selectedDate||!Array.isArray(record.displayNames)||!record.displayNames.length)return;
+      var date=String(record.selectedDate);
+      if(Number(date.slice(0,4))!==Number(year)||Number(date.slice(5,7))!==Number(month))return;
+      var names=record.displayNames.map(function(name){return String(name||"").trim()}).filter(Boolean);
+      if(!names.length)return;
+      var paksha=String(record.paksha||"");
+      var tithiLabel=String(record.month||"")+" "+paksha+" द्वादशी";
+      var existing=events.find(function(item){
+        if(String(item.date||"")!==date||/एकादशी|पारण|parana/i.test(String(item.title||"")))return false;
+        return String(item.hinduTithi||"").includes(record.month)&&
+          String(item.hinduTithi||"").includes(paksha)&&
+          /द्वादशी/.test(String(item.hinduTithi||""))&&
+          (/द्वादशी/.test(String(item.category||""))||/द्वादशी/.test(String(item.title||"")));
+      });
+      var details=(Array.isArray(record.observances)?record.observances:[]).map(function(item){
+        return [item.name,item.deity,item.shortDetail].filter(Boolean).join(" — ");
+      }).filter(Boolean);
+      var description=details.join("\n\n");
+      if(existing){
+        var oldTitle=String(existing.title||"");
+        var mergedNames=names.filter(function(name){return !oldTitle.includes(name)});
+        if(mergedNames.length)existing.title=oldTitle+" / "+mergedNames.join(" / ");
+        if(description&&!String(existing.description||"").includes(description))existing.description=[existing.description,description].filter(Boolean).join("\n\n");
+        existing.dwadashiAliases=names;
+        return;
+      }
+      events.push({
+        date:date,
+        title:names.join(" / "),
+        description:description,
+        category:"द्वादशी व्रत",
+        reviewStatus:"approved",
+        calculationStatus:"tithi-derived",
+        hinduTithi:tithiLabel,
+        dwadashiAliases:names
+      });
+    });
+    return Object.assign({},data,{events:events});
+  }
+
   async function loadMonth(preserveViewportAnchor){
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
       ?preserveViewportAnchor.getBoundingClientRect().top:null;
@@ -1164,6 +1218,7 @@
       if(!response.ok) throw new Error("not-found");
       var data=await response.json();
       if(token!==requestToken)return;
+      var dwadashiYearPromise=fetchDwadashiYear(year,controller.signal);
       // पहले उपलब्ध मासिक सूची दिखाएँ; नवरात्रि की गतिशील गणना के दौरान
       // उपयोगकर्ता को खाली loading screen पर प्रतीक्षा न करनी पड़े।
       if(Array.isArray(data.events)&&data.events.length){render(data,year,month,token);restoreViewportAnchor();}
@@ -1197,6 +1252,9 @@
       var locationEclipseEvents=await buildLocationEclipseEvents(year,month,token);
       if(token!==requestToken)return;
       data.events=data.events.concat(locationEclipseEvents);
+      var approvedDwadashiYear=await dwadashiYearPromise;
+      if(token!==requestToken)return;
+      data=mergeAnnualDwadashiEvents(data,approvedDwadashiYear,year,month);
       render(data,year,month,token);
       restoreViewportAnchor();
       focusFestivalCard();
