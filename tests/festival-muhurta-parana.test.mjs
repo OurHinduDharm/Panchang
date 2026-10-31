@@ -180,7 +180,7 @@ test("Diwali shows Guru Hora only as a supplementary overlap within Pradosh", as
   const horas = result.windows.filter(w => /होरा/.test(w.label));
   assert.equal(horas.length, 1);
   assert.match(horas[0].label, /गुरु होरा/);
-  assert.match(horas[0].note, /पूरक समय/);
+  assert.match(horas[0].note, /अतिरिक्त ज्योतिषीय संकेत/);
   assert.equal(horas[0].start.toISOString(), sunset.toISOString());
   const expectedEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 12);
   assert.ok(Math.abs(horas[0].end.getTime() - expectedEnd.getTime()) < 1000);
