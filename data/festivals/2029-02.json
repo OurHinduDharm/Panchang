@@ -25,7 +25,11 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी"
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी",
+      "muhurtaRules": [
+        "mahashivaratri-four-prahar",
+        "mahashivaratri-nishita"
+      ]
     },
     {
       "date": "2029-02-12",
@@ -56,7 +60,8 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन पूर्णिमा"
+      "hinduTithi": "फाल्गुन पूर्णिमा",
+      "muhurtaRule": "holika-dahan-pradosh"
     }
   ]
 }
