@@ -779,7 +779,7 @@ const rules = {
     } else if (nishita) {
       windows.push(nishita);
     }
-    if (simhaLagna && !nishita) {
+    if (simhaLagna && !windows.some(w => /सिंह स्थिर लग्न/.test(w.label))) {
       const simhaAmavasya = windowWithin(
         validDate(simhaLagna.start),
         validDate(simhaLagna.end),
