@@ -11,6 +11,8 @@ test("annual review scans the Panchang engine at each local sunrise", async () =
   assert.match(html, /const dwadashiScanDays=yearDays\+31/);
   assert.match(html, /dwadashiDays\.push\(dayRecord\)/);
   assert.match(html, /buildAnnualDwadashiPackage\(dwadashiDays,dwadashiRules/);
+  assert.match(html, /inScannedJanuary=chosen&&chosen\.startsWith\(String\(meta\.year\+1\)\+"-01-"\)/);
+  assert.match(html, /पंचांग संदर्भ तारीख़/);
   assert.match(html, /sunriseTithi=\{/);
   assert.match(html, /noonObservations/);
   assert.match(html, /approveChLabel/);
