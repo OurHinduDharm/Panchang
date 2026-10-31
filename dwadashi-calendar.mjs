@@ -55,14 +55,22 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       month: masa.month,
       paksha,
       adhika: masa.adhika,
-      sunriseDates: []
+      sunriseDates: [],
+      sunriseObservations: []
     });
     groups.get(key).sunriseDates.push(day.date);
+    groups.get(key).sunriseObservations.push({
+      date: day.date,
+      sunrise: day.sunrise || null,
+      tithiStartTime: sunrise.tithiStartTime || null,
+      tithiEndTime: sunrise.tithiEndTime || null
+    });
   });
 
   const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
   const tithis = Array.from(groups.values()).map(group => {
     group.sunriseDates = unique(group.sunriseDates).sort(dateSort);
+    group.sunriseObservations.sort((a, b) => dateSort(a.date, b.date));
     const source = !group.adhika
       ? catalog.find(item => item.month === group.month && item.paksha === group.paksha)
       : null;
@@ -77,6 +85,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       adhika: group.adhika,
       tithi: "द्वादशी",
       sunriseDates: group.sunriseDates,
+      sunriseObservations: group.sunriseObservations,
       candidateDates: group.sunriseDates,
       selectedDate: group.sunriseDates.length === 1 ? group.sunriseDates[0] : null,
       dateSelection: group.sunriseDates.length === 1
@@ -109,15 +118,21 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     { id: "end", month: "कार्तिक", paksha: "शुक्ल", tithi: "एकादशी" }
   ];
   const boundaries = boundarySpecs.map(spec => {
-    const matches = dailyPanchang.filter(day => {
+    const observations = dailyPanchang.filter(day => {
       const sunrise = day && day.sunriseTithi;
       if (!sunrise) return false;
       const masa = normalizeMonth(sunrise.masa || day.masa);
       return !masa.adhika && masa.month === spec.month &&
         normalizePaksha(sunrise.paksha || day.paksha) === spec.paksha &&
         normalizeTithi(sunrise.tithi) === spec.tithi;
-    }).map(day => day.date).filter(Boolean).sort(dateSort);
-    return { ...spec, observedDates: unique(matches), selectedDate: unique(matches).sort(dateSort)[0] || null };
+    }).map(day => ({
+      date: day.date,
+      sunrise: day.sunrise || null,
+      tithiStartTime: day.sunriseTithi.tithiStartTime || null,
+      tithiEndTime: day.sunriseTithi.tithiEndTime || null
+    })).filter(item => item.date).sort((a, b) => dateSort(a.date, b.date));
+    const observedDates = unique(observations.map(item => item.date));
+    return { ...spec, observations, observedDates, selectedDate: observedDates[0] || null };
   });
   const missing = boundaries.filter(item => !item.selectedDate).map(item => item.id);
   const complete = missing.length === 0;
