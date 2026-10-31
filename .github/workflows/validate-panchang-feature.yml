@@ -38,3 +38,5 @@ jobs:
         run: node --experimental-default-type=module --test tests/planetary-asta-udaya-direction.test.js
       - name: Validate uploaded Asta/Udaya data integrity and sampled vectors
         run: node tests/validate-asta-udaya-dataset.mjs
+      - name: Measure six-hour vector interpolation error at every interval midpoint
+        run: node tests/measure-asta-udaya-interpolation.mjs
