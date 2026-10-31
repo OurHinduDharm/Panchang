@@ -51,7 +51,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "श्रावण कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-08-10",
@@ -131,7 +135,11 @@
       "description": "नाग पंचमी पर नाग-देवताओं का पूजन और सर्पों के प्रति श्रद्धा व्यक्त करने की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नाग पंचमी व्रत</a> तथा <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नागों की स्तोत्रात्मक उपासना</a>।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "श्रावण शुक्ल पंचमी"
+      "hinduTithi": "श्रावण शुक्ल पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
+      "articleLabel": "नाग पंचमी व्रत",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html",
+      "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना"
     },
     {
       "date": "2026-08-17",
@@ -157,7 +165,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\">श्री कल्कि अवतार जयंती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "श्रावण शुक्ल षष्ठी"
+      "hinduTithi": "श्रावण शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
+      "articleLabel": "श्री कल्कि अवतार जयंती"
     },
     {
       "date": "2026-08-20",
@@ -176,7 +186,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-08-25",
@@ -238,7 +252,8 @@
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html"
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
+      "articleLabel": "लव-कुश जयंती एवं श्रावण पूर्णिमा"
     },
     {
       "date": "2026-08-28",
@@ -268,7 +283,8 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html"
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
+      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा"
     },
     {
       "date": "2026-08-28",
