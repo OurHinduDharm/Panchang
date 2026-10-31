@@ -164,16 +164,13 @@ test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", asy
 test("Pithoragarh Diwali ascendant can be read at the Vrishabha interval", () => {
   const instant = date("2026-11-08T18:30:00+05:30");
   const panchang = getPanchangam(instant, projectObserver, { timezoneOffset:330, calendarType:"purnimanta" });
-  const probes = ["2026-11-08T17:30:00+05:30","2026-11-08T17:40:00+05:30","2026-11-08T18:30:00+05:30","2026-11-08T19:35:00+05:30","2026-11-08T19:45:00+05:30"].map(value => {
-    const at = date(value);
-    const p = getPanchangam(at, projectObserver, { timezoneOffset:330, calendarType:"purnimanta" });
-    let udaya = null, kundli = null;
-    try { udaya = panchangPackage.getUdayaLagna(at, projectObserver, { timezoneOffset:330 }); } catch(error) { udaya = String(error); }
-    try { kundli = panchangPackage.getKundli(at, projectObserver); } catch(error) { kundli = String(error); }
-    return { at:value, pUdaya:p.udayaLagna, getUdaya:udaya, ascendant:kundli && typeof kundli==="object" ? kundli.ascendant : kundli };
-  });
-  console.log("OHD_DIWALI_LAGNA_DEBUG", JSON.stringify({ probes }));
-  assert.ok(true);
+  const before = panchangPackage.getKundli(date("2026-11-08T17:30:00+05:30"), projectObserver);
+  const main = panchangPackage.getKundli(date("2026-11-08T18:30:00+05:30"), projectObserver);
+  const after = panchangPackage.getKundli(date("2026-11-08T19:45:00+05:30"), projectObserver);
+  assert.equal(before.ascendant.rashiName, "Aries");
+  assert.equal(main.ascendant.rashiName, "Taurus");
+  assert.equal(main.ascendant.rashi, 1);
+  assert.equal(after.ascendant.rashiName, "Gemini");
 });
 
 test("Pithoragarh Diwali main puja is the Amavasya + Pradosh + Vrishabha overlap", async () => {
