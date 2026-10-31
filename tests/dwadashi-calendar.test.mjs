@@ -118,3 +118,42 @@ test("annual package is explicitly review-only", () => {
   assert.equal(result.calculationStatus,"panchang-engine-calculated");
   assert.equal(result.chaturmas.status,"incomplete");
 });
+
+
+test("2026 Drik aliases attach to the exact nija and adhika Jyeshtha records", () => {
+  const rulesWith2026 = {
+    unifiedTithiIndex: { tithis: [] },
+    drik2026Calendar: [
+      {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:false,labels:["कृष्ण परशुराम द्वादशी"]},
+      {month:"ज्येष्ठ",paksha:"शुक्ल",adhika:true,labels:["उन्मीलिनी महाद्वादशी","अधिक रामलक्ष्मण द्वादशी"]},
+      {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:true,labels:["अधिक कृष्ण रामलक्ष्मण द्वादशी"]},
+      {month:"ज्येष्ठ",paksha:"शुक्ल",adhika:false,labels:["पक्षवर्द्धिनी महाद्वादशी","रामलक्ष्मण द्वादशी","चम्पक द्वादशी"]}
+    ]
+  };
+  const result = buildDwadashiCalendar([
+    sunriseDay("2026-05-14","ज्येष्ठ","कृष्ण","द्वादशी"),
+    sunriseDay("2026-05-28","ज्येष्ठ","शुक्ल","द्वादशी",true),
+    sunriseDay("2026-06-12","ज्येष्ठ","कृष्ण","द्वादशी",true),
+    sunriseDay("2026-06-26","ज्येष्ठ","शुक्ल","द्वादशी")
+  ], rulesWith2026);
+  const byId = Object.fromEntries(result.tithis.map(item => [item.id,item]));
+  assert.deepEqual(byId["jyeshtha-krishna"].displayNames,["कृष्ण परशुराम द्वादशी"]);
+  assert.deepEqual(byId["jyeshtha-shukla-adhika"].displayNames,["उन्मीलिनी महाद्वादशी","अधिक रामलक्ष्मण द्वादशी"]);
+  assert.deepEqual(byId["jyeshtha-krishna-adhika"].displayNames,["अधिक कृष्ण रामलक्ष्मण द्वादशी"]);
+  assert.deepEqual(byId["jyeshtha-shukla"].displayNames,["पक्षवर्द्धिनी महाद्वादशी","रामलक्ष्मण द्वादशी","चम्पक द्वादशी"]);
+});
+
+test("Drik aliases do not leak between adhika and nija months", () => {
+  const result = buildDwadashiCalendar([
+    sunriseDay("2026-05-14","ज्येष्ठ","कृष्ण","द्वादशी"),
+    sunriseDay("2026-06-12","ज्येष्ठ","कृष्ण","द्वादशी",true)
+  ], {
+    unifiedTithiIndex:{tithis:[]},
+    drik2026Calendar:[
+      {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:false,labels:["कृष्ण परशुराम द्वादशी"]},
+      {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:true,labels:["अधिक कृष्ण रामलक्ष्मण द्वादशी"]}
+    ]
+  });
+  assert.deepEqual(result.tithis.find(x=>!x.adhika).displayNames,["कृष्ण परशुराम द्वादशी"]);
+  assert.deepEqual(result.tithis.find(x=>x.adhika).displayNames,["अधिक कृष्ण रामलक्ष्मण द्वादशी"]);
+});
