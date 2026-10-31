@@ -65,6 +65,7 @@ test("Tamil Sampradaya is retained as a distinct selectable calculation option",
 test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–2029", () => {
   const observer = new Observer(29.58,80.22,1650);
   const years = [2026,2027,2028,2029];
+  const expectedDates = {2026:"2026-09-12",2027:"2027-09-03",2028:"2028-08-23",2029:"2029-09-10"};
   const monthNames = {Bhadrapada:"भाद्रपद",Shravana:"श्रावण",Ashadha:"आषाढ़"};
   for (const year of years) {
     const count = (Date.UTC(year+1,0,1)-Date.UTC(year,0,1))/86400000;
@@ -93,6 +94,7 @@ test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–202
     const result = resolveSamavedaAnnualDecision(annualDays);
     assert.equal(result.status,"selected",year+" must resolve from real exact Panchanga intervals");
     assert.match(result.date,/^\d{4}-\d{2}-\d{2}$/);
+    assert.equal(result.date,expectedDates[year],year+" must match the verified published date");
     assert.equal(result.reviewStatus,"approved");
     assert.equal(result.coverage.daysScanned,count);
     assert.ok(result.coverage.daysWithExactHastaIntervals>0,year+" must include exact Hasta intervals");
