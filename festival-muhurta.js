@@ -683,28 +683,74 @@ const rules = {
         if (overlap) choghadiyaWindows.push(overlap);
       }
     }
-    const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
-      /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
-      validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
+    const fixedLagnaWindows = Array.isArray(context.sthirLagnaWindows)
+      ? context.sthirLagnaWindows
+      : [];
+    const findLagna = pattern => fixedLagnaWindows.find(w =>
+      pattern.test(String(w.name || w.rashi || ""))
     );
-    if (fixedLagna && pradosh) {
+    const fixedLagna = findLagna(/vrishabha|वृषभ|taurus/i);
+    let hasVrishabhaPradoshOverlap = false;
+    if (fixedLagna) {
       const lagnaWindow = interval(
-        laterDate(pradosh.start, validDate(fixedLagna.start)),
-        earlierDate(pradosh.end, validDate(fixedLagna.end)),
-        "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न",
-        "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+        laterDate(pradosh ? pradosh.start : sunset, validDate(fixedLagna.start)),
+        earlierDate(pradosh ? pradosh.end : nextSunrise, validDate(fixedLagna.end)),
+        pradosh ? "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न" : "वृषभ स्थिर लग्न — अमावस्या में वैकल्पिक समय",
+        pradosh
+          ? "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+          : "वृषभ स्थिर लग्न और कार्तिक अमावस्या की संयुक्त व्याप्ति; प्रदोष से बाहर होने के कारण इसे मुख्य गृहस्थ मुहूर्त न मानें।"
       );
-      if (lagnaWindow) windows.push(lagnaWindow);
+      if (lagnaWindow) {
+        windows.push(lagnaWindow);
+        hasVrishabhaPradoshOverlap = !!pradosh &&
+          lagnaWindow.start >= pradosh.start && lagnaWindow.end <= pradosh.end;
+      }
     }
+
+    // Show the other fixed signs as secondary Amavasya options. Vrishabha
+    // during Pradosh remains the primary household recommendation.
+    const additionalFixedLagnas = [
+      {
+        pattern: /vrishchika|वृश्चिक|scorpio/i,
+        name: "वृश्चिक",
+        label: "वृश्चिक स्थिर लग्न — वैकल्पिक पूजन समय",
+        note: "कार्तिक अमावस्या और वृश्चिक स्थिर लग्न की संयुक्त व्याप्ति। यह वृषभ-प्रदोष मुख्य गृहस्थ मुहूर्त का विकल्प है, समान प्राथमिकता वाला दावा नहीं।"
+      },
+      {
+        pattern: /kumbha|कुम्भ|कुंभ|aquarius/i,
+        name: "कुंभ",
+        label: "कुंभ स्थिर लग्न — वैकल्पिक पूजन समय",
+        note: "कार्तिक अमावस्या और कुंभ स्थिर लग्न की संयुक्त व्याप्ति। यह वृषभ-प्रदोष मुख्य गृहस्थ मुहूर्त का विकल्प है, समान प्राथमिकता वाला दावा नहीं।"
+      },
+      {
+        pattern: /simha|सिंह|leo/i,
+        name: "सिंह",
+        label: "सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय",
+        note: "कार्तिक अमावस्या और सिंह स्थिर लग्न की संयुक्त व्याप्ति। महानिशीथ से इसका मेल अलग से दिखाया जाएगा; इसे सामान्य गृहस्थों के मुख्य प्रदोष मुहूर्त के बराबर न मानें।"
+      }
+    ];
+    for (const option of additionalFixedLagnas) {
+      const lagna = findLagna(option.pattern);
+      if (!lagna) continue;
+      const overlap = windowWithin(
+        validDate(lagna.start),
+        validDate(lagna.end),
+        tithis,
+        option.label,
+        option.note
+      );
+      if (overlap) windows.push(overlap);
+    }
+
     if (pradosh) {
       windows.push({
         ...pradosh,
-        label: fixedLagna && windows.length
-          ? "प्रदोष काल में वैकल्पिक पूजन"
+        label: hasVrishabhaPradoshOverlap
+          ? "प्रदोष काल — अमावस्या-व्याप्ति"
           : "लक्ष्मी-गणेश पूजन — प्रदोष काल",
-        note: fixedLagna && windows.length
-          ? "वैकल्पिक पूजा समय: अमावस्या-व्याप्ति वाला प्रदोष काल।"
-          : "गृहस्थों के लक्ष्मी-गणेश पूजन के लिए प्रदोष काल मुख्य पूजा-समय है."
+        note: hasVrishabhaPradoshOverlap
+          ? "वृषभ स्थिर लग्न का संयुक्त समय ऊपर मुख्य मुहूर्त के रूप में दिया है; यह प्रदोष काल की पूरी अमावस्या-व्याप्ति है।"
+          : "गृहस्थों के लक्ष्मी-गणेश पूजन के लिए प्रदोष काल मुख्य आधार है; जहाँ संभव हो अमावस्या और वृषभ स्थिर लग्न का मेल प्राथमिक रखें।"
       });
     }
 
