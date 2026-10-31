@@ -434,14 +434,23 @@ const PLANET_ASTA_THRESHOLDS = {
 };
 
 const planetDailyCache = new Map();
+let planetPerfStats = null;
 
 function getPlanetDailyData(body, dateString) {
+  if (planetPerfStats) planetPerfStats.dailyRequests++;
   const cacheKey = body + "|" + dateString;
   if (planetDailyCache.has(cacheKey)) {
+    if (planetPerfStats) planetPerfStats.dailyCacheHits++;
     return planetDailyCache.get(cacheKey);
   }
 
+  if (planetPerfStats) planetPerfStats.dailyCacheMisses++;
+  const ephemerisStart = planetPerfStats ? performance.now() : 0;
   const result = Elongation(body, getLocalNoon(dateString));
+  if (planetPerfStats) {
+    planetPerfStats.dailyEphemerisCalls++;
+    planetPerfStats.dailyEphemerisMilliseconds += performance.now() - ephemerisStart;
+  }
   const data = {
     date: dateString,
     eclipticSeparation: Number(result.ecliptic_separation)
@@ -462,7 +471,12 @@ function findThresholdCrossingInstant(body, startDateString, endDateString, thre
   // Daily scan locates the crossing; bisection refines it to about one minute.
   for (let i = 0; i < 18 && high - low > 60_000; i++) {
     const middle = (low + high) / 2;
+    const ephemerisStart = planetPerfStats ? performance.now() : 0;
     const result = Elongation(body, new Date(middle));
+    if (planetPerfStats) {
+      planetPerfStats.bisectionEvaluations++;
+      planetPerfStats.bisectionMilliseconds += performance.now() - ephemerisStart;
+    }
     const separation = Number(result.ecliptic_separation);
     if (!Number.isFinite(separation)) return null;
 
@@ -487,6 +501,7 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
 
   // मौजूदा 400-दिन की सुरक्षा-सीमा और दैनिक bracket को यथावत रखें।
   for (let offset = 1; offset <= 400; offset++) {
+    if (planetPerfStats) planetPerfStats.boundaryScanDays++;
     const dateA = addDays(
       selectedDate,
       expectedDirection === "past" ? -offset : offset - 1
@@ -551,6 +566,7 @@ function getPlanetEvent(planet, selectedDate) {
   );
 
   if (cached) {
+    if (planetPerfStats) planetPerfStats.pairedBoundaryCacheHits++;
     return { ...cached.result, name: planet.name };
   }
 
@@ -1193,6 +1209,17 @@ function restorePanchangDisclosureState(state) {
 function updatePlanetRiseSet() {
   const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
   const __ohdPerfStart = performance.now();
+  planetPerfStats = __ohdPerfEnabled ? {
+    dailyRequests: 0,
+    dailyCacheHits: 0,
+    dailyCacheMisses: 0,
+    dailyEphemerisCalls: 0,
+    dailyEphemerisMilliseconds: 0,
+    bisectionEvaluations: 0,
+    bisectionMilliseconds: 0,
+    boundaryScanDays: 0,
+    pairedBoundaryCacheHits: 0
+  } : null;
   let __ohdPerfLast = __ohdPerfStart;
   const __ohdPerfPhases = [];
   const __ohdPerfMark = label => {
@@ -1461,7 +1488,13 @@ if(
       label: "Extra Panchang update",
       date: selectedDate,
       totalMilliseconds: Number((performance.now() - __ohdPerfStart).toFixed(2)),
-      phases: __ohdPerfPhases
+      phases: __ohdPerfPhases,
+      planetDiagnostics: {
+        ...planetPerfStats,
+        dailyEphemerisMilliseconds: Number(planetPerfStats.dailyEphemerisMilliseconds.toFixed(2)),
+        bisectionMilliseconds: Number(planetPerfStats.bisectionMilliseconds.toFixed(2)),
+        dailyCacheSize: planetDailyCache.size
+      }
     };
     console.info("[OHD performance] Extra Panchang update", report);
     let panel = document.getElementById("ohd-perf-panel");
