@@ -110,6 +110,21 @@ $("pause").onclick=async()=>{paused=true;};
 $("cancel").onclick=async()=>{cancelled=true;};
 function download(name,obj){const blob=new Blob([JSON.stringify(obj)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
 function monthOf(isoText){return Number(isoText.slice(5,7));}
+async function sha256(value){return "sha256:"+Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value)))).map(b=>b.toString(16).padStart(2,"0")).join("");}
+async function verifyRows(rows,expectedStart,expectedEnd){
+ const issues=[],step=(config?.cadenceHours||6)*3600000;let cursor=expectedStart;
+ for(const row of [...rows].sort((a,b)=>a.fromUtc.localeCompare(b.fromUtc))){
+  if(Date.parse(row.fromUtc)!==cursor)issues.push("खंडों के बीच अंतर/ओवरलैप: "+iso(cursor)+" के बाद "+row.fromUtc);
+  if(row.sampleCount!==row.samples.length)issues.push("नमूना संख्या मेल नहीं खाती: "+row.key);
+  if(await sha256(JSON.stringify(row.samples))!==row.checksum)issues.push("SHA-256 जाँच विफल: "+row.key);
+  const start=Date.parse(row.fromUtc),end=Date.parse(row.toUtcExclusive),expectedCount=(end-start)/step;
+  if(!Number.isInteger(expectedCount)||row.samples.length!==expectedCount)issues.push("खंड में नमूने कम/अधिक: "+row.key);
+  for(let i=0;i<row.samples.length;i++)if(Date.parse(row.samples[i][0])!==start+i*step){issues.push("समय-अंतराल/क्रम दोष: "+row.key+" नमूना "+i);break;}
+  cursor=end;
+ }
+ if(cursor!==expectedEnd)issues.push("डेटा अपेक्षित अंतिम सीमा तक नहीं पहुँचा: "+iso(cursor)+" बनाम "+iso(expectedEnd));
+ return issues;
+}
 async function refreshExports(){
  const meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null;
  const rows=(await all(STORE)).filter(r=>r.runKey===runKey),years=[...new Set(rows.map(r=>Number(r.fromUtc.slice(0,4))))].sort((a,b)=>a-b);
@@ -127,15 +142,22 @@ $("exportManifestBtn").onclick=async()=>download("asta-udaya-manifest.json",awai
 $("exportMonthBtn").onclick=async()=>{
  const y=Number($("exportYear").value),m=Number($("exportMonth").value),meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null,rows=(await all(STORE)).filter(r=>r.runKey===runKey),monthStart=Date.UTC(y,m-1,1),monthEnd=Date.UTC(y,m,1),selected=rows.filter(r=>Date.parse(r.fromUtc)<monthEnd&&Date.parse(r.toUtcExclusive)>monthStart);
  if(!selected.length){$("exportStatus").textContent="इस माह का कोई डेटा नहीं मिला।";return;}
- const samples=selected.flatMap(r=>r.samples).filter(s=>Date.parse(s[0])>=monthStart&&Date.parse(s[0])<monthEnd);
- const payload=JSON.stringify(samples),checksum="sha256:"+Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(payload)))).map(b=>b.toString(16).padStart(2,"0")).join("");
+ const samples=selected.flatMap(r=>r.samples).filter(s=>Date.parse(s[0])>=monthStart&&Date.parse(s[0])<monthEnd).sort((a,b)=>a[0].localeCompare(b[0]));
+ const step=(config?.cadenceHours||6)*3600000,expectedCount=(monthEnd-monthStart)/step;
+ if(samples.length!==expectedCount||samples.some((s,i)=>Date.parse(s[0])!==monthStart+i*step)){
+  $("exportStatus").textContent="निर्यात रोका गया: इस माह का डेटा अधूरा है या समय-अंतराल में दोष है। उपलब्ध "+samples.length+" / अपेक्षित "+expectedCount+" नमूने।";return;
+ }
+ const payload=JSON.stringify(samples),checksum=await sha256(payload);
  download("asta-udaya-"+y+"-"+String(m).padStart(2,"0")+".json",{schemaVersion:"1.0.0",year:y,month:m,coordinateFrame:"EQJ",unit:"AU",timeScale:"UTC",aberration:true,bodies:config?.bodies||bodies.map(x=>x[0]),sampleCount:samples.length,checksum,samples});
- $("exportStatus").textContent="माह का JSON तैयार: "+samples.length+" समय-बिंदु।";
+ $("exportStatus").textContent="माह का JSON तैयार और समय-अंतराल सत्यापित: "+samples.length+" समय-बिंदु।";
 };
 $("exportAllBtn").onclick=async()=>{
- const meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null,rows=(await all(STORE)).filter(r=>r.runKey===runKey);if(!rows.length){$("exportStatus").textContent="पहले गणना चलाएँ।";return;}
+ const meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null,rows=(await all(STORE)).filter(r=>r.runKey===runKey);
+ if(!rows.length){$("exportStatus").textContent="पहले गणना चलाएँ।";return;}
+ const expectedStart=Date.UTC(config.startYear,0,1),expectedEnd=cursor,issues=await verifyRows(rows,expectedStart,expectedEnd);
+ if(issues.length){$("exportStatus").textContent="निर्यात रोका गया; डेटा सत्यापन में समस्या:\\n"+issues.slice(0,8).join("\\n");return;}
  download("asta-udaya-all-chunks.json",{manifest:await makeManifest(),chunks:rows});
- $("exportStatus").textContent="सभी सहेजे गए खंड निर्यात किए गए। बड़ी अवधि के लिए माहवार फ़ाइलें अधिक सुरक्षित हैं।";
+ $("exportStatus").textContent="सभी सहेजे गए खंड, checksum और समय-अंतराल सत्यापित: "+rows.length+" खंड।";
 };
 await (async()=>{db=await openDB();const saved=await get(META,"active");if(saved&&!saved.completed){config=saved.config;cursor=saved.cursor;$("fromYear").value=config.startYear;$("toYear").value=config.endYear;$("cadence").value=String(config.cadenceHours);$("chunkDays").value=String(config.chunkDays);$("resume").disabled=false;setStatus("अधूरी गणना मिली। अंतिम सुरक्षित बिंदु: "+iso(cursor)+"। 'फिर शुरू करें' दबाकर जारी रखें।");}else if(saved?.completed){config=saved.config;cursor=saved.cursor;setStatus("पिछली गणना पूरी मिली। सहेजे गए खंड निर्यात कर सकते हैं।");}await refreshExports();})();
 </script>
