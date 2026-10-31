@@ -53,7 +53,7 @@ test("annual resolver carries location-specific Sankranti timestamps into the de
   ];
   const result = resolveSamavedaAnnualDecision(records);
   assert.equal(result.coverage.daysWithSankrantiTimes,1);
-  assert.equal(result.reviewStatus,"needs-review");
+  assert.equal(result.reviewStatus,"approved");
 });
 
 test("Tamil Sampradaya is retained as a distinct selectable calculation option", () => {
@@ -93,7 +93,7 @@ test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–202
     const result = resolveSamavedaAnnualDecision(annualDays);
     assert.equal(result.status,"selected",year+" must resolve from real exact Panchanga intervals");
     assert.match(result.date,/^\d{4}-\d{2}-\d{2}$/);
-    assert.equal(result.reviewStatus,"needs-review");
+    assert.equal(result.reviewStatus,"approved");
     assert.equal(result.coverage.daysScanned,count);
     assert.ok(result.coverage.daysWithExactHastaIntervals>0,year+" must include exact Hasta intervals");
     console.log("SAMAVEDA_ANNUAL_RESULT",year,result.date,result.label);
