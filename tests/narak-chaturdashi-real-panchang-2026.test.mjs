@@ -5,7 +5,13 @@ import panchangPackage from "@ishubhamx/panchangam-js";
 
 const { getPanchangam, Observer } = panchangPackage;
 const engineSource = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
-const engineUrl = "data:text/javascript;base64," + Buffer.from(engineSource).toString("base64");
+const helperSource = await readFile(new URL("../night-prahar.js", import.meta.url), "utf8");
+const helperUrl = "data:text/javascript;base64," + Buffer.from(helperSource).toString("base64");
+const engineSourceWithHelper = engineSource.replace(
+  'import { getNightPraharWindows } from "./night-prahar.js";',
+  `const { getNightPraharWindows } = await import("${helperUrl}");`
+);
+const engineUrl = "data:text/javascript;base64," + Buffer.from(engineSourceWithHelper).toString("base64");
 const { getFestivalMuhurta, getFestivalMuhurtaContext } = await import(engineUrl);
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
 const TZ = 330;
