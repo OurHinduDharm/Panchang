@@ -188,7 +188,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     if (spec.id === "end" && !selectedDate) {
       const byDate = new Map(dailyPanchang.map(day => [day.date, day]));
       const smartaCandidates = dailyPanchang.filter(day => {
-        if (!day || !/^\\d{4}-\\d{2}-\\d{2}$/.test(String(day.date || ""))) return false;
+        if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(String(day.date || ""))) return false;
         const masa = normalizeMonth(day.masa);
         if (masa.adhika || masa.month !== spec.month ||
             normalizePaksha(day.paksha) !== spec.paksha ||
