@@ -224,7 +224,7 @@ test("2026 Pithoragarh Drik annual-calendar anchor observances are present on th
     ["11-01", /अहोई अष्टमी/], ["11-05", /रमा एकादशी/], ["11-06", /धनतेरस/],
     ["11-08", /दीपावली/], ["11-08", /नरक चतुर्दशी/], ["11-10", /गोवर्धन पूजा/],
     ["11-11", /भाई दूज/], ["11-15", /छठ पूजा/], ["11-20", /देवउठनी एकादशी/],
-    ["11-21", /गौण देवउठनी/], ["11-21", /तुलसी विवाह/], ["11-24", /कार्तिक पूर्णिमा/],
+    ["11-21", /वैष्णव देवउठनी/], ["11-21", /तुलसी विवाह/], ["11-24", /कार्तिक पूर्णिमा/],
     ["12-01", /कालभैरव जयंती/], ["12-04", /उत्पन्ना एकादशी/], ["12-14", /विवाह पंचमी/],
     ["12-16", /धनु संक्रांति/], ["12-20", /गीता जयंती/], ["12-20", /मोक्षदा एकादशी/],
     ["12-23", /दत्तात्रेय जयंती/]
@@ -240,6 +240,13 @@ test("2026 Pithoragarh Drik annual-calendar anchor observances are present on th
   }
   assert.deepEqual(missing, []);
   assert.deepEqual(unapproved, []);
+  assert.deepEqual(
+    months[10].events
+      .filter(item => item.date === "2026-11-21" && /देवउठनी/i.test(item.title || ""))
+      .map(item => item.title),
+    ["वैष्णव देवउठनी एकादशी"],
+    "November 21 must keep one Vaishnava Dev Uthani card, not a duplicate Gauna card"
+  );
 });
 
 

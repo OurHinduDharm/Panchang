@@ -720,3 +720,64 @@ test("Pithoragarh Maha Shivaratri publishes four complete prahars for 2026–202
     }
   }
 });
+
+test("Masik Shivaratri exposes all four local night prahars when Chaturdashi overlaps Nishita", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const sunset = date("2026-06-13T18:00:00+05:30");
+  const nextSunrise = date("2026-06-14T06:00:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "masik-shivaratri-four-prahar" }, {
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 28,
+      name: "Krishna Chaturdashi",
+      startTime: date("2026-06-13T20:00:00+05:30"),
+      endTime: date("2026-06-14T02:00:00+05:30")
+    }]
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 4);
+  assert.deepEqual(result.windows.map(w => w.label), ["प्रथम प्रहर","द्वितीय प्रहर","तृतीय प्रहर","चतुर्थ प्रहर"]);
+  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
+  assert.equal(result.windows[3].end.toISOString(), nextSunrise.toISOString());
+});
+
+test("Masik Shivaratri does not show four prahars when Chaturdashi misses Nishita", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const result = getFestivalMuhurta({ muhurtaRule: "masik-shivaratri-four-prahar" }, {
+    sunset: date("2026-06-13T18:00:00+05:30"),
+    nextSunrise: date("2026-06-14T06:00:00+05:30"),
+    tithis: [{
+      index: 28,
+      name: "Krishna Chaturdashi",
+      startTime: date("2026-06-13T18:00:00+05:30"),
+      endTime: date("2026-06-13T22:00:00+05:30")
+    }]
+  });
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.windows, undefined);
+});
+
+test("Diwali includes separately labelled Amavasya Choghadiya alternatives", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, {
+    date: date("2026-11-08T12:00:00+05:30"),
+    sunrise: date("2026-11-08T06:20:00+05:30"),
+    sunset: date("2026-11-08T17:30:00+05:30"),
+    nextSunrise: date("2026-11-09T06:20:00+05:30"),
+    tithis: [{
+      index: 29,
+      name: "Amavasya",
+      startTime: date("2026-11-08T11:27:00+05:30"),
+      endTime: date("2026-11-09T12:31:00+05:30")
+    }],
+    sthirLagnaWindows: []
+  });
+  assert.equal(result.status, "calculated");
+  const choghadiya = result.windows.filter(w => /चौघड़िया/.test(w.label));
+  assert.ok(choghadiya.length >= 4);
+  assert.ok(choghadiya.every(w => /वैकल्पिक शुभ समय/.test(w.label)));
+  assert.ok(choghadiya.every(w => /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं/.test(w.note)));
+  assert.ok(result.windows.some(w => /प्रदोष काल/.test(w.label)));
+  assert.ok(result.windows.some(w => /महानिशीथ/.test(w.label)));
+});
