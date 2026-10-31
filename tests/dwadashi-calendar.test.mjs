@@ -158,6 +158,7 @@ test("Pausha Krishna and Shukla records remain visible when outside the scan win
 
 test("permanent month-paksha names remain the same in every year, including Adhika Jyeshtha and Ashadha Krishna", () => {
   const master = [
+    {id:"vaishakha-krishna",month:"वैशाख",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण-वामन द्वादशी"]},
     {id:"jyeshtha-krishna",month:"ज्येष्ठ",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण परशुराम द्वादशी"]},
     {id:"jyeshtha-shukla",month:"ज्येष्ठ",paksha:"शुक्ल",observances:[],displayNames:["त्रिविक्रम द्वादशी","रामलक्ष्मण द्वादशी","पक्षवर्द्धिनी महाद्वादशी","चम्पक द्वादशी"]},
     {id:"jyeshtha-shukla-adhika",month:"ज्येष्ठ",paksha:"शुक्ल",adhika:true,observances:[],displayNames:["उन्मीलिनी महाद्वादशी","अधिक रामलक्ष्मण द्वादशी"]},
@@ -175,7 +176,7 @@ test("permanent month-paksha names remain the same in every year, including Adhi
     sunriseDay(year+"-01-01","माघ","कृष्ण","प्रतिपदा")
   ], {unifiedTithiIndex:{tithis:master},drik2026Calendar:refs});
   const y2026=make(2026), y2027=make(2027);
-  for (const id of ["jyeshtha-krishna","jyeshtha-shukla","jyeshtha-shukla-adhika","jyeshtha-krishna-adhika","ashadha-krishna"]) {
+  for (const id of ["vaishakha-krishna","jyeshtha-krishna","jyeshtha-shukla","jyeshtha-shukla-adhika","jyeshtha-krishna-adhika","ashadha-krishna"]) {
     assert.deepEqual(y2026.tithis.find(x=>x.id===id).displayNames,y2027.tithis.find(x=>x.id===id).displayNames);
   }
   assert.equal(y2026.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,"2026-07-11");
