@@ -623,6 +623,58 @@ const rules = {
     );
 
     const windows = [];
+    const sunrise = validDate(context.sunrise);
+    const weekday = localWeekday(context.date);
+    const sequences = [
+      ["Udveg","Chal","Labh","Amrit","Kaal","Shubh","Rog","Udveg"],
+      ["Amrit","Kaal","Shubh","Rog","Udveg","Chal","Labh","Amrit"],
+      ["Rog","Udveg","Chal","Labh","Amrit","Kaal","Shubh","Rog"],
+      ["Labh","Amrit","Kaal","Shubh","Rog","Udveg","Chal","Labh"],
+      ["Shubh","Rog","Udveg","Chal","Labh","Amrit","Kaal","Shubh"],
+      ["Chal","Labh","Amrit","Kaal","Shubh","Rog","Udveg","Chal"],
+      ["Kaal","Shubh","Rog","Udveg","Chal","Labh","Amrit","Kaal"]
+    ];
+    const nightSequences = [
+      ["Shubh","Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh"],
+      ["Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh","Amrit"],
+      ["Chal","Rog","Kaal","Labh","Udveg","Shubh","Amrit","Chal"],
+      ["Labh","Udveg","Shubh","Amrit","Chal","Rog","Kaal","Labh"],
+      ["Shubh","Amrit","Chal","Rog","Kaal","Labh","Udveg","Shubh"],
+      ["Rog","Kaal","Labh","Udveg","Shubh","Amrit","Chal","Rog"],
+      ["Kaal","Labh","Udveg","Shubh","Amrit","Chal","Rog","Kaal"]
+    ];
+    const choghadiyaNames = {
+      Amrit: "अमृत चौघड़िया", Shubh: "शुभ चौघड़िया",
+      Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया"
+    };
+    const favourable = new Set(["Amrit","Shubh","Labh","Chal"]);
+    const choghadiyaWindows = [];
+    if (sunrise && sunset > sunrise && Number.isInteger(weekday) && sequences[weekday]) {
+      const dayDuration = sunset.getTime() - sunrise.getTime();
+      for (let i = 0; i < 8; i++) {
+        const kind = sequences[weekday][i];
+        if (!favourable.has(kind)) continue;
+        const start = new Date(sunrise.getTime() + dayDuration * i / 8);
+        const end = new Date(sunrise.getTime() + dayDuration * (i + 1) / 8);
+        const overlap = windowWithin(start, end, tithis,
+          choghadiyaNames[kind] + " — वैकल्पिक शुभ समय",
+          "अमावस्या-व्याप्ति में दिनमान के आठ भागों पर आधारित चौघड़िया। यह मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं है।");
+        if (overlap) choghadiyaWindows.push(overlap);
+      }
+    }
+    const nightDurationForChoghadiya = nextSunrise.getTime() - sunset.getTime();
+    if (nightDurationForChoghadiya > 0 && Number.isInteger(weekday) && nightSequences[weekday]) {
+      for (let i = 0; i < 8; i++) {
+        const kind = nightSequences[weekday][i];
+        if (!favourable.has(kind)) continue;
+        const start = new Date(sunset.getTime() + nightDurationForChoghadiya * i / 8);
+        const end = new Date(sunset.getTime() + nightDurationForChoghadiya * (i + 1) / 8);
+        const overlap = windowWithin(start, end, tithis,
+          choghadiyaNames[kind] + " — वैकल्पिक शुभ समय",
+          "अमावस्या-व्याप्ति में रात्रिमान के आठ भागों पर आधारित चौघड़िया। यह मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं है।");
+        if (overlap) choghadiyaWindows.push(overlap);
+      }
+    }
     const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
       /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
       validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
@@ -685,6 +737,10 @@ const rules = {
       "सूर्यास्त के आसपास दीपदान का समय; मुख्य लक्ष्मी-गणेश पूजन के लिए प्रदोष काल प्राथमिक विकल्प है।"
     );
     if (godhuli) windows.push(godhuli);
+
+    // Keep Choghadiya as separately labelled alternatives, never as the
+    // primary Lakshmi-Ganesha puja recommendation.
+    windows.push(...choghadiyaWindows.sort((a, b) => a.start - b.start));
 
     if (!windows.length) {
       return {
@@ -1091,6 +1147,54 @@ const rules = {
     }
     if (windows.length !== 4) return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "चारों प्रहरों में कृष्ण चतुर्दशी की पूरी व्याप्ति नहीं मिली; अधूरे समय नहीं दिखाए जा रहे हैं।" };
     return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows };
+  },
+
+  "masik-shivaratri-four-prahar"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const chaturdashi = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 28 || /krishna.*chaturdashi|कृष्ण.*चतुर्दशी/.test(normalizedName(item));
+    });
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !chaturdashi.length) {
+      return {
+        label: "मासिक शिवरात्रि — चार प्रहर पूजा समय",
+        status: "unavailable",
+        message: "स्थानीय रात्रिमान और कृष्ण चतुर्दशी की वास्तविक व्याप्ति उपलब्ध नहीं है; प्रहर-समय नहीं दिखाए जा रहे हैं।"
+      };
+    }
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const nishitaStart = new Date(sunset.getTime() + nightDuration * 7 / 15);
+    const nishitaEnd = new Date(sunset.getTime() + nightDuration * 8 / 15);
+    const nishitaOverlap = windowWithin(nishitaStart, nishitaEnd, chaturdashi, "निशीथ काल");
+    if (!nishitaOverlap) {
+      return {
+        label: "मासिक शिवरात्रि — चार प्रहर पूजा समय",
+        status: "unavailable",
+        message: "निशीथ काल में कृष्ण चतुर्दशी की व्याप्ति नहीं मिली; चार प्रहरों का पूजा-समय नहीं दिखाया जा रहा है।"
+      };
+    }
+    const names = ["प्रथम प्रहर", "द्वितीय प्रहर", "तृतीय प्रहर", "चतुर्थ प्रहर"];
+    const windows = names.map((name, index) => interval(
+      new Date(sunset.getTime() + nightDuration * index / 4),
+      new Date(sunset.getTime() + nightDuration * (index + 1) / 4),
+      name,
+      "स्थानीय सूर्यास्त से अगले सूर्योदय तक रात्रि को चार समान प्रहरों में विभाजित किया गया है। कृष्ण चतुर्दशी की निशीथ-व्याप्ति अलग से सत्यापित है।"
+    )).filter(Boolean);
+    if (windows.length !== 4) {
+      return {
+        label: "मासिक शिवरात्रि — चार प्रहर पूजा समय",
+        status: "unavailable",
+        message: "स्थानीय रात्रि के चारों प्रहर पूरे निर्धारित नहीं हो सके।"
+      };
+    }
+    return {
+      label: "मासिक शिवरात्रि — चार प्रहर पूजा समय",
+      status: "calculated",
+      date: sunset,
+      dateLabel: formatDateLabel(sunset),
+      windows
+    };
   },
 
   "mahashivaratri-nishita"(context) {
