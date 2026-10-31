@@ -52,7 +52,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html\" target=\"_blank\">गोवत्स द्वादशी व्रत</a>[प्रदोष काल (सायंकाल) व्यापिनी द्वादशी में]",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "कार्तिक कृष्ण द्वादशी"
+      "hinduTithi": "कार्तिक कृष्ण द्वादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html",
+      "articleLabel": "गोवत्स द्वादशी व्रत"
     },
     {
       "date": "2026-11-05",
@@ -64,7 +66,9 @@
       "hinduTithi": "कार्तिक कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html",
-      "articleLabel": "रमा एकादशी का माहात्म्य पढ़ें"
+      "articleLabel": "रमा एकादशी का माहात्म्य पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-11-06",
@@ -115,7 +119,8 @@
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण अमावस्या",
       "muhurtaRule": "diwali-lakshmi-puja",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html",
+      "articleLabel": "दीपावली का महत्व"
     },
     {
       "date": "2026-11-08",
@@ -277,7 +282,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
+      "articleLabel": "देवोत्थापनी एकादशी की महिमा",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2026-11-20",
@@ -296,7 +305,11 @@
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
       "description": "देवउठनी एकादशी की यह तिथि उन वैष्णव परंपराओं के लिए है जिनमें व्रत अगले दिन रखा जाता है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "reviewStatus": "approved",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2026-11-21",
@@ -306,7 +319,8 @@
       "category": "पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल द्वादशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekaadashi.html"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekaadashi.html",
+      "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह"
     },
     {
       "date": "2026-11-21",
