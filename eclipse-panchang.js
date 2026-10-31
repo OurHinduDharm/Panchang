@@ -1489,7 +1489,7 @@ function getHindiWeekday(date, tzOffsetMin) {
     location,
     api
   ) {
-    var module = api && api.module;
+    var module = api && (api.module || api);
     if (!module) {
       throw new Error(
         'Panchangam module उपलब्ध नहीं है।'
@@ -3027,6 +3027,12 @@ if (
   /* ============================================================
      PUBLIC API
      ============================================================ */
+
+  window.__OHDEclipsePanchangTools = {
+    discoverEclipses: discoverEclipses,
+    getLocalVisibility: getLocalVisibility,
+    getEclipseDayPanchangs: getEclipseDayPanchangs
+  };
 
   window.initEclipsePanchang = initEclipsePanchang;
 })();
