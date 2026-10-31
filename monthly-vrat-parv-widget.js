@@ -375,8 +375,15 @@
     }
     if(typeof value==="number"&&Number.isFinite(value))return value;
     var name=String(value??"").normalize("NFC").toLocaleLowerCase("hi");
-    if(/vrishabha|वृषभ|taurus/.test(name))return 1;
-    if(/simha|सिंह|leo/.test(name))return 4;
+    var names=[
+      [/mesh|मेष|aries/,0],[/vrishabha|वृषभ|taurus/,1],
+      [/mithun|मिथुन|gemini/,2],[/karka|कर्क|cancer/,3],
+      [/simha|सिंह|leo/,4],[/kanya|कन्या|virgo/,5],
+      [/tula|तुला|libra/,6],[/vrishchik|वृश्चिक|scorpio/,7],
+      [/dhanu|धनु|sagittarius/,8],[/makar|मकर|capricorn/,9],
+      [/kumbh|कुम्भ|कुंभ|aquarius/,10],[/meen|मीन|pisces/,11]
+    ];
+    for(var i=0;i<names.length;i++)if(names[i][0].test(name))return names[i][1];
     var numeric=Number(value);
     return Number.isInteger(numeric)?numeric:null;
   }
@@ -384,10 +391,12 @@
     var start=new Date(startValue),end=new Date(endValue);
     if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<=start||
        !lib||typeof lib.getPanchangam!=="function")return [];
+    var fixedNames={1:"Vrishabha",4:"Simha",7:"Vrishchika",10:"Kumbha"};
     function signAt(ms){
       try{return getLagnaIndex(lib.getPanchangam(new Date(ms),observer,{timezoneOffset:330}));}
       catch(_){return null;}
     }
+    function isFixed(sign){return Object.prototype.hasOwnProperty.call(fixedNames,sign);}
     var step=5*60*1000,points=[];
     for(var t=start.getTime();t<end.getTime();t+=step)points.push(t);
     points.push(end.getTime());
@@ -403,23 +412,23 @@
     for(var i=0;i<points.length;i++){
       var sign=signs[i];
       if(i===0){
-        if(sign===1||sign===4){segmentStart=points[i];segmentSign=sign;}
+        if(isFixed(sign)){segmentStart=points[i];segmentSign=sign;}
         continue;
       }
       var prev=signs[i-1],prevTime=points[i-1],time=points[i];
       if(prev===sign)continue;
-      if((prev===1||prev===4)&&segmentStart!==null){
+      if(isFixed(prev)&&segmentStart!==null){
         var segEnd=boundary(prevTime,time,prev);
-        segments.push({name:prev===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:new Date(segEnd)});
+        segments.push({name:fixedNames[prev],start:new Date(segmentStart),end:new Date(segEnd)});
         segmentStart=null;segmentSign=null;
       }
-      if(sign===1||sign===4){
+      if(isFixed(sign)){
         segmentStart=boundary(prevTime,time,sign);
         segmentSign=sign;
       }
     }
-    if(segmentStart!==null&&(segmentSign===1||segmentSign===4)){
-      segments.push({name:segmentSign===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:end});
+    if(segmentStart!==null&&isFixed(segmentSign)){
+      segments.push({name:fixedNames[segmentSign],start:new Date(segmentStart),end:end});
     }
     return segments;
   }
@@ -504,14 +513,12 @@
         var nextSunrise=new Date(values.next.sunrise);
         var nightDuration=nextSunrise.getTime()-sunset.getTime();
         var pradoshEnd=new Date(sunset.getTime()+nightDuration/5);
+        var isDiwaliMuhurta=usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja";});
+        var lagnaScanStart=isDiwaliMuhurta?new Date(values.p.sunrise):sunset;
+        var lagnaScanEnd=isDiwaliMuhurta?nextSunrise:pradoshEnd;
         context.sthirLagnaWindows=[
-          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd)
+          ...getStiraLagnaWindows(values.panchangLib,values.observer,lagnaScanStart,lagnaScanEnd)
         ];
-        if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja";})){
-          var nishitaStart=new Date(sunset.getTime()+nightDuration*7/15);
-          var nishitaEnd=new Date(sunset.getTime()+nightDuration*8/15);
-          context.sthirLagnaWindows.push(...getStiraLagnaWindows(values.panchangLib,values.observer,nishitaStart,nishitaEnd));
-        }
       }
       usableRules.forEach(function(ruleItem){
         var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);

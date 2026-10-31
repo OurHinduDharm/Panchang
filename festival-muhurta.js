@@ -651,7 +651,7 @@ const rules = {
     };
     const choghadiyaLabel = kind => kind === "Chal"
       ? "चर चौघड़िया — यात्रा/गतिशील कार्य का विकल्प"
-      : choghadiyaNames[kind] + " — वैकल्पिक शुभ समय";
+      : choghadiyaNames[kind] + " — द्वितीयक समय-विकल्प";
     const choghadiyaNote = kind => kind === "Chal"
       ? "चर चौघड़िया सामान्यतः यात्रा या गतिशील कार्यों के लिए उपयोगी माना जाता है; यह मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं है। राहुकाल या वेला से टकराव होने पर उस अवधि को त्यागें।"
       : "अमावस्या-व्याप्ति में दिन/रात्रि के चौघड़िया विभाजन से निकला वैकल्पिक समय; यह मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं है। राहुकाल या वेला से टकराव होने पर उस अवधि को त्यागें।";
@@ -683,28 +683,131 @@ const rules = {
         if (overlap) choghadiyaWindows.push(overlap);
       }
     }
-    const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
-      /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
-      validDate(w.end) > sunset && validDate(w.start) < pradoshEnd
+    const fixedLagnaWindows = Array.isArray(context.sthirLagnaWindows)
+      ? context.sthirLagnaWindows
+      : [];
+    const findLagna = pattern => fixedLagnaWindows.find(w =>
+      pattern.test(String(w.name || w.rashi || ""))
     );
-    if (fixedLagna && pradosh) {
-      const lagnaWindow = interval(
-        laterDate(pradosh.start, validDate(fixedLagna.start)),
-        earlierDate(pradosh.end, validDate(fixedLagna.end)),
-        "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न",
-        "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
-      );
-      if (lagnaWindow) windows.push(lagnaWindow);
+    const fixedLagna = findLagna(/vrishabha|वृषभ|taurus/i);
+    let hasVrishabhaPradoshOverlap = false;
+    if (fixedLagna) {
+      const lagnaWindow = pradosh
+        ? interval(
+            laterDate(pradosh.start, validDate(fixedLagna.start)),
+            earlierDate(pradosh.end, validDate(fixedLagna.end)),
+            "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न",
+            "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+          )
+        : windowWithin(
+            validDate(fixedLagna.start),
+            validDate(fixedLagna.end),
+            tithis,
+            "वृषभ स्थिर लग्न — अमावस्या में वैकल्पिक समय",
+            "वृषभ स्थिर लग्न और कार्तिक अमावस्या की संयुक्त व्याप्ति; प्रदोष से बाहर होने के कारण इसे मुख्य गृहस्थ मुहूर्त न मानें।"
+          );
+      if (lagnaWindow) {
+        windows.push(lagnaWindow);
+        hasVrishabhaPradoshOverlap = !!pradosh;
+      }
     }
+
+    // Show the other fixed signs as secondary Amavasya options. Vrishabha
+    // during Pradosh remains the primary household recommendation.
+    const additionalFixedLagnas = [
+      {
+        pattern: /vrishchika|वृश्चिक|scorpio/i,
+        name: "वृश्चिक",
+        label: "वृश्चिक स्थिर लग्न — वैकल्पिक पूजन समय",
+        note: "कार्तिक अमावस्या और वृश्चिक स्थिर लग्न की संयुक्त व्याप्ति। यह वृषभ-प्रदोष मुख्य गृहस्थ मुहूर्त का विकल्प है, समान प्राथमिकता वाला दावा नहीं।"
+      },
+      {
+        pattern: /kumbha|कुम्भ|कुंभ|aquarius/i,
+        name: "कुंभ",
+        label: "कुंभ स्थिर लग्न — वैकल्पिक पूजन समय",
+        note: "कार्तिक अमावस्या और कुंभ स्थिर लग्न की संयुक्त व्याप्ति। यह वृषभ-प्रदोष मुख्य गृहस्थ मुहूर्त का विकल्प है, समान प्राथमिकता वाला दावा नहीं।"
+      },
+    ];
+    for (const option of additionalFixedLagnas) {
+      const lagna = findLagna(option.pattern);
+      if (!lagna) continue;
+      const overlap = windowWithin(
+        validDate(lagna.start),
+        validDate(lagna.end),
+        tithis,
+        option.label,
+        option.note
+      );
+      if (overlap) windows.push(overlap);
+    }
+
+    // Daytime Abhijit (8th of 15) and Vijaya (11th of 15) are
+    // supplementary task windows only when Amavasya is actually present.
+    if (sunrise && sunset > sunrise) {
+      const dayDuration = sunset.getTime() - sunrise.getTime();
+      const weekdayForDayMuhurtas = localWeekday(context.date);
+      if (weekdayForDayMuhurtas !== 3) {
+        const abhijit = windowWithin(
+          new Date(sunrise.getTime() + dayDuration * 7 / 15),
+          new Date(sunrise.getTime() + dayDuration * 8 / 15),
+          tithis,
+          "अभिजित् मुहूर्त — दिन के पूरक कार्य हेतु",
+          "दिन के 15 मुहूर्तों में आठवाँ मुहूर्त और अमावस्या की संयुक्त व्याप्ति। यह प्रदोष-वृषभ मुख्य गृहस्थ लक्ष्मी-पूजन का विकल्प नहीं है।"
+        );
+        if (abhijit) windows.push(abhijit);
+      }
+      const vijaya = windowWithin(
+        new Date(sunrise.getTime() + dayDuration * 10 / 15),
+        new Date(sunrise.getTime() + dayDuration * 11 / 15),
+        tithis,
+        "विजय मुहूर्त — दिन के पूरक व्यापार/लेखा कार्य हेतु",
+        "दिन के 15 मुहूर्तों में ग्यारहवाँ मुहूर्त और अमावस्या की संयुक्त व्याप्ति। इसे मुख्य लक्ष्मी-गणेश पूजन मुहूर्त न मानें।"
+      );
+      if (vijaya) windows.push(vijaya);
+    }
+
+    // Hora follows the same sunrise/sunset-based 12 day + 12 night
+    // sequence used by extra-panchang.js. Treat benefic horas as secondary
+    // overlays inside the already Amavasya-qualified Pradosh interval.
+    if (pradosh && sunrise && sunset > sunrise && nextSunrise > sunset) {
+      const horaPlanets = ["सूर्य","शुक्र","बुध","चन्द्र","शनि","गुरु","मंगल"];
+      const dayLordIndex = { 0:0, 1:3, 2:6, 3:2, 4:5, 5:1, 6:4 };
+      const weekdayForHora = localWeekday(context.date);
+      const firstPlanetIndex = dayLordIndex[weekdayForHora];
+      if (Number.isInteger(firstPlanetIndex)) {
+        const dayHoraMs = (sunset.getTime() - sunrise.getTime()) / 12;
+        const nightHoraMs = (nextSunrise.getTime() - sunset.getTime()) / 12;
+        for (let i = 0; i < 24; i++) {
+          const isDayHora = i < 12;
+          const startMs = isDayHora
+            ? sunrise.getTime() + i * dayHoraMs
+            : sunset.getTime() + (i - 12) * nightHoraMs;
+          const endMs = isDayHora
+            ? sunrise.getTime() + (i + 1) * dayHoraMs
+            : sunset.getTime() + (i - 11) * nightHoraMs;
+          const planet = horaPlanets[(firstPlanetIndex + i) % horaPlanets.length];
+          if (!["शुक्र","बुध","गुरु"].includes(planet)) continue;
+          const overlap = windowWithin(
+            new Date(startMs),
+            new Date(endMs),
+            [pradosh],
+            planet + " होरा — प्रदोष में पूरक समय",
+            "प्रदोष और अमावस्या के भीतर " + planet + " होरा का साझा समय। होरा अतिरिक्त ज्योतिषीय संकेत है; गृहस्थों के लिए वृषभ स्थिर लग्न का मुख्य मुहूर्त प्राथमिक रहेगा।"
+          );
+          if (overlap) windows.push(overlap);
+        }
+      }
+    }
+
     if (pradosh) {
       windows.push({
         ...pradosh,
-        label: fixedLagna && windows.length
-          ? "प्रदोष काल में वैकल्पिक पूजन"
+        label: hasVrishabhaPradoshOverlap
+          ? "प्रदोष काल — अमावस्या-व्याप्ति"
           : "लक्ष्मी-गणेश पूजन — प्रदोष काल",
-        note: fixedLagna && windows.length
-          ? "वैकल्पिक पूजा समय: अमावस्या-व्याप्ति वाला प्रदोष काल।"
-          : "गृहस्थों के लक्ष्मी-गणेश पूजन के लिए प्रदोष काल मुख्य पूजा-समय है."
+        note: hasVrishabhaPradoshOverlap
+          ? "वृषभ स्थिर लग्न का संयुक्त समय ऊपर मुख्य मुहूर्त के रूप में दिया है; यह प्रदोष काल की पूरी अमावस्या-व्याप्ति है।"
+          : "गृहस्थों के लक्ष्मी-गणेश पूजन के लिए प्रदोष काल मुख्य आधार है; जहाँ संभव हो अमावस्या और वृषभ स्थिर लग्न का मेल प्राथमिक रखें।"
       });
     }
 
@@ -720,15 +823,23 @@ const rules = {
       /simha|सिंह|leo/i.test(String(w.name || w.rashi || "")) &&
       validDate(w.end) > nishitaStart && validDate(w.start) < nishitaEnd
     );
+    if (simhaLagna) {
+      const simhaAmavasya = windowWithin(
+        validDate(simhaLagna.start),
+        validDate(simhaLagna.end),
+        tithis,
+        "सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय",
+        "कार्तिक अमावस्या और सिंह स्थिर लग्न की पूरी संयुक्त व्याप्ति; इसे सामान्य गृहस्थों के मुख्य प्रदोष मुहूर्त के बराबर न मानें।"
+      );
+      if (simhaAmavasya) windows.push(simhaAmavasya);
+    }
     if (nishita && simhaLagna) {
       const simhaNishita = interval(
         laterDate(nishita.start, validDate(simhaLagna.start)),
         earlierDate(nishita.end, validDate(simhaLagna.end)),
-        "महानिशीथ काल — सिंह स्थिर लग्न",
-        "महानिशीथ और सिंह स्थिर लग्न की संयुक्त व्याप्ति; यह विशेष साधना के लिए वैकल्पिक समय है।"
+        "महानिशीथ काल — सिंह स्थिर लग्न का संयुक्त समय",
+        "महानिशीथ और सिंह स्थिर लग्न की वास्तविक साझा अवधि; पूरी महानिशीथ और पूरी सिंह लग्न अवधि ऊपर अलग-अलग दी गई हैं।"
       );
-      // Show the complete Mahanishita interval as well as its smaller Simha overlap.
-      // Replacing the full interval with the overlap can hide most of the actual period.
       windows.push(nishita);
       if (simhaNishita) windows.push(simhaNishita);
     } else if (nishita) {
