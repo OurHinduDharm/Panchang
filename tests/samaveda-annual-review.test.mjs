@@ -116,6 +116,8 @@ test("annual resolver detects an eclipse interval that overlaps the Hindu day ev
     }),
     day("2026-09-13","2026-09-13T00:30:00Z","2026-09-13T12:30:00Z",[])
   ];
+  records[0].nakshatraIntervals=[{index:3,startTime:d("2026-09-11T00:30:00Z"),endTime:d("2026-09-11T12:30:00Z")}];
+  records[2].nakshatraIntervals=[{index:3,startTime:d("2026-09-13T00:30:00Z"),endTime:d("2026-09-13T12:30:00Z")}];
   const result = resolveSamavedaAnnualDecision(records);
   assert.equal(result.status,"selected-with-shanti");
   assert.equal(result.date,"2026-09-12");
