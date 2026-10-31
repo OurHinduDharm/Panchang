@@ -1275,23 +1275,33 @@ export function getSamavedaUpakarmaDateDecision(days, options = {}) {
     const afterMidnight = next
       ? new Date((day.sunset.getTime() + next.sunrise.getTime()) / 2)
       : null;
-    const eventDates = values => (Array.isArray(values) ? values : values ? [values] : [])
-      .map(value => validDate(value && typeof value === "object"
-        ? value.time ?? value.startTime ?? value.date
-        : value))
-      .filter(Boolean);
     const occursInDay = values => {
       if (!beforeMidnight || !afterMidnight) return false;
-      return eventDates(values).some(time =>
-        time >= beforeMidnight && time < afterMidnight
-      );
+      const items = Array.isArray(values) ? values : values ? [values] : [];
+      return items.some(value => {
+        if (value && typeof value === "object") {
+          const start = validDate(value.startTime ?? value.start);
+          const end = validDate(value.endTime ?? value.end);
+          // Exact eclipse visibility is an interval, not a representative
+          // midpoint. Any overlap with this Hindu day is sufficient.
+          if (start && end && end > start) {
+            return start < afterMidnight && end > beforeMidnight;
+          }
+          const time = validDate(value.time ?? value.date ?? value.startTime);
+          return Boolean(time && time >= beforeMidnight && time < afterMidnight);
+        }
+        const time = validDate(value);
+        return Boolean(time && time >= beforeMidnight && time < afterMidnight);
+      });
     };
     const kalaDosha = Boolean(
       day.grahana || day.eclipse || day.sankranti ||
       flags.grahana || flags.eclipse || flags.sankranti ||
       occursInDay([
         ...(Array.isArray(day.grahanaTimes) ? day.grahanaTimes : day.grahanaTimes ? [day.grahanaTimes] : []),
+        ...(Array.isArray(day.grahanaIntervals) ? day.grahanaIntervals : day.grahanaIntervals ? [day.grahanaIntervals] : []),
         ...(Array.isArray(day.eclipseTimes) ? day.eclipseTimes : day.eclipseTimes ? [day.eclipseTimes] : []),
+        ...(Array.isArray(day.eclipseIntervals) ? day.eclipseIntervals : day.eclipseIntervals ? [day.eclipseIntervals] : []),
         ...(day.grahanaTime ? [day.grahanaTime] : []),
         ...(day.eclipseTime ? [day.eclipseTime] : [])
       ]) ||
