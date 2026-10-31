@@ -26,7 +26,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2026-12-06",
@@ -135,7 +139,8 @@
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html",
+      "articleLabel": "श्रीमद्भगवद्गीता जयंती"
     },
     {
       "date": "2026-12-20",
@@ -145,7 +150,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2026-12-21",
@@ -164,7 +173,8 @@
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html",
+      "articleLabel": "श्रीदत्तात्रेय जयंती"
     },
     {
       "date": "2026-12-23",
@@ -182,7 +192,9 @@
       "description": "मार्गशीर्ष शुक्ल पूर्णिमा पर श्री त्रिपुरभैरवी महाविद्या की उपासना। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
+      "articleLabel": "श्री त्रिपुरभैरवी महाविद्या जयंती"
     },
     {
       "date": "2026-12-23",
