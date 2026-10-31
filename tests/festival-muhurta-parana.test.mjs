@@ -159,6 +159,34 @@ test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", asy
   assert.ok(secondary.every(w => /वैकल्पिक/.test(w.label)));
 });
 
+
+test("Pithoragarh Diwali main puja is the Amavasya + Pradosh + Vrishabha overlap", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, {
+    date: date("2026-11-08T12:00:00+05:30"),
+    sunrise: date("2026-11-08T06:21:00+05:30"),
+    sunset: date("2026-11-08T17:18:00+05:30"),
+    nextSunrise: date("2026-11-09T06:22:00+05:30"),
+    tithis: [{
+      index: 29,
+      name: "Amavasya",
+      startTime: date("2026-11-08T11:27:00+05:30"),
+      endTime: date("2026-11-09T12:31:00+05:30")
+    }],
+    sthirLagnaWindows: [{
+      name: "Vrishabha",
+      start: date("2026-11-08T17:40:00+05:30"),
+      end: date("2026-11-08T19:35:00+05:30")
+    }]
+  });
+  const main = result.windows[0];
+  assert.match(main.label, /वृषभ स्थिर लग्न/);
+  assert.equal(main.start.toISOString(), date("2026-11-08T17:40:00+05:30").toISOString());
+  assert.equal(main.end.toISOString(), date("2026-11-08T19:35:00+05:30").toISOString());
+  assert.match(main.note, /प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न/);
+  assert.ok(result.windows.every(window => !/राहुकाल/.test(window.note || "")));
+});
+
 test("Diwali daytime Abhijit and Vijaya are shown only as supplementary Amavasya options", async () => {
   const { getFestivalMuhurta } = await import(engineUrl);
   const common = {
@@ -181,8 +209,8 @@ test("Diwali daytime Abhijit and Vijaya are shown only as supplementary Amavasya
   const vijaya = sunday.windows.find(w => /विजय मुहूर्त/.test(w.label));
   assert.ok(abhijit);
   assert.ok(vijaya);
-  assert.match(abhijit.note, /मुख्य गृहस्थ लक्ष्मी-पूजन का विकल्प नहीं/);
-  assert.match(vijaya.note, /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त न मानें/);
+  assert.match(abhijit.note, /अमावस्या-व्याप्त/);
+  assert.match(vijaya.note, /अमावस्या-व्याप्त/);
   assert.equal(abhijit.start.toISOString(), date("2026-11-08T11:32:40+05:30").toISOString());
   assert.equal(abhijit.end.toISOString(), date("2026-11-08T12:17:20+05:30").toISOString());
   assert.equal(vijaya.start.toISOString(), date("2026-11-08T13:46:40+05:30").toISOString());
@@ -216,7 +244,7 @@ test("Diwali shows Guru Hora only as a supplementary overlap within Pradosh", as
   const horas = result.windows.filter(w => /होरा/.test(w.label));
   assert.equal(horas.length, 1);
   assert.match(horas[0].label, /गुरु होरा/);
-  assert.match(horas[0].note, /अतिरिक्त ज्योतिषीय संकेत/);
+  assert.match(horas[0].note, /प्रदोष और अमावस्या के भीतर गुरु होरा/);
   assert.equal(horas[0].start.toISOString(), sunset.toISOString());
   const expectedEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 12);
   assert.ok(Math.abs(horas[0].end.getTime() - expectedEnd.getTime()) < 1000);
@@ -884,8 +912,8 @@ test("Diwali includes separately labelled Amavasya Choghadiya alternatives", asy
   assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
   assert.ok(/यात्रा|गतिशील/.test(charWindows[0].note));
   assert.ok(auspiciousWindows.every(w => /द्वितीयक समय-विकल्प/.test(w.label)));
-  assert.ok(choghadiya.every(w => /राहुकाल या वेला/.test(w.note)));
-  assert.ok(choghadiya.every(w => /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं/.test(w.note)));
+  assert.ok(choghadiya.every(w => !/राहुकाल/.test(w.note)));
+  assert.ok(choghadiya.every(w => /अमावस्या-व्याप्त/.test(w.note) || /यात्रा/.test(w.note)));
   assert.ok(result.windows.some(w => /प्रदोष काल/.test(w.label)));
   assert.ok(result.windows.some(w => /महानिशीथ/.test(w.label)));
 });
@@ -926,6 +954,6 @@ test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published 
   assert.equal(charWindows.length, 1);
   assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
   assert.ok(auspiciousWindows.every(window => /द्वितीयक समय-विकल्प/.test(window.label)));
-  assert.ok(choghadiya.every(window => /राहुकाल या वेला/.test(window.note)));
-  assert.ok(choghadiya.every(window => /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं/.test(window.note)));
+  assert.ok(choghadiya.every(window => !/राहुकाल/.test(window.note)));
+  assert.ok(choghadiya.every(window => /अमावस्या-व्याप्त/.test(window.note) || /यात्रा/.test(window.note)));
 });
