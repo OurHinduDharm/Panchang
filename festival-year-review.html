@@ -211,7 +211,7 @@ function renderDwadashiReview(){
   ch.boundaries.forEach(boundary=>{
    const line=document.createElement("p");line.textContent=boundary.month+" "+boundary.paksha+" "+boundary.tithi+" — चुनी तारीख़: "+(boundary.selectedDate||"नहीं मिली")+(boundary.observedDates?.length>1?" · सूर्योदय तिथियाँ: "+boundary.observedDates.join(", "):"");chCard.appendChild(line);
    (boundary.observations||[]).forEach(item=>{
-    const timing=document.createElement("p");timing.className="muted";timing.textContent=item.date+" · तिथि "+dateTimeHindi(item.tithiStartTime)+" से "+dateTimeHindi(item.tithiEndTime);chCard.appendChild(timing);
+    const timing=document.createElement("p");timing.className="muted";timing.textContent=(item.basis==="smarta-ekadashi-between-sunrises"?"स्मार्त एकादशी निर्णय ":"सूर्योदय निरीक्षण ")+item.date+" · तिथि "+dateTimeHindi(item.tithiStartTime)+" से "+dateTimeHindi(item.tithiEndTime)+(item.nextSunrise?" · अगले सूर्योदय "+dateTimeHindi(item.nextSunrise):"");chCard.appendChild(timing);
    });
   });
   if(ch.status==="incomplete"){
