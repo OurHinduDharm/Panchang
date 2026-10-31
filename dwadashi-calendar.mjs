@@ -93,8 +93,17 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       ? catalog.find(item => item.month === group.month && item.paksha === group.paksha)
       : null;
     const observances = source && Array.isArray(source.observances) ? source.observances : [];
-    const drikNames = year === 2026 && source && Array.isArray(source.drik2026Labels)
-      ? source.drik2026Labels : [];
+    const drik2026Entry = year === 2026 && Array.isArray(rules.drik2026Calendar)
+      ? rules.drik2026Calendar.find(item =>
+          item.month === group.month &&
+          item.paksha === group.paksha &&
+          !!item.adhika === !!group.adhika
+        )
+      : null;
+    const drikNames = unique(
+      (source && Array.isArray(source.drik2026Labels) ? source.drik2026Labels : [])
+        .concat(drik2026Entry && Array.isArray(drik2026Entry.labels) ? drik2026Entry.labels : [])
+    );
     const names = unique(observances.map(item => item.name).concat(drikNames));
     return {
       id: group.id,
