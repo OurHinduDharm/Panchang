@@ -13,7 +13,8 @@
       "description": "शरद पूर्णिमा कोजागरी पूर्णिमा के नाम से भी जानी जाती है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
     },
     {
       "date": "2028-10-07",
@@ -102,7 +103,8 @@
       "description": "गोवर्धन पूजा में श्रीकृष्ण द्वारा गोवर्धन धारण की लीला का स्मरण और अन्नकूट-भोग की परंपरा है। पूजा-विधि में क्षेत्रीय परंपराओं के अनुसार अंतर मिलता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल प्रतिपदा"
     },
     {
       "date": "2028-10-19",
