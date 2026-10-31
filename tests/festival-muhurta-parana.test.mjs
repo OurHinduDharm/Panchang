@@ -129,6 +129,36 @@ test("Diwali returns Pradosh and special Nishita options only during Amavasya", 
   assert.equal(result.windows[2].end.toISOString(), date("2026-11-08T17:54:00+05:30").toISOString());
 });
 
+test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, {
+    sunset: date("2026-11-08T17:30:00+05:30"),
+    nextSunrise: date("2026-11-09T06:20:00+05:30"),
+    tithis: [{
+      index: 29,
+      name: "Amavasya",
+      startTime: date("2026-11-08T06:00:00+05:30"),
+      endTime: date("2026-11-09T12:31:00+05:30")
+    }],
+    sthirLagnaWindows: [
+      { name: "Vrishchika", start: date("2026-11-08T08:00:00+05:30"), end: date("2026-11-08T10:00:00+05:30") },
+      { name: "Kumbha", start: date("2026-11-08T13:00:00+05:30"), end: date("2026-11-08T15:00:00+05:30") },
+      { name: "Vrishabha", start: date("2026-11-08T18:00:00+05:30"), end: date("2026-11-08T19:00:00+05:30") },
+      { name: "Simha", start: date("2026-11-09T00:10:00+05:30"), end: date("2026-11-09T01:00:00+05:30") }
+    ]
+  });
+  assert.equal(result.status, "calculated");
+  assert.ok(result.windows.some(w => /वृश्चिक स्थिर लग्न/.test(w.label)));
+  assert.ok(result.windows.some(w => /कुंभ स्थिर लग्न/.test(w.label)));
+  assert.ok(result.windows.some(w => /वृषभ स्थिर लग्न/.test(w.label)));
+  assert.ok(result.windows.some(w => /सिंह स्थिर लग्न/.test(w.label)));
+  const vrishabha = result.windows.find(w => /वृषभ स्थिर लग्न/.test(w.label));
+  assert.ok(vrishabha.start >= date("2026-11-08T17:30:00+05:30"));
+  assert.ok(vrishabha.end <= date("2026-11-08T20:04:00+05:30"));
+  const secondary = result.windows.filter(w => /वृश्चिक|कुंभ स्थिर लग्न/.test(w.label));
+  assert.ok(secondary.every(w => /वैकल्पिक/.test(w.label)));
+});
+
 test("Diwali does not invent a puja window when Amavasya interval is missing", async () => {
   const { getFestivalMuhurta } = await import(engineUrl);
   const result = getFestivalMuhurta({
