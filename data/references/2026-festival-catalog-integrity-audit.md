@@ -81,3 +81,29 @@ A dedicated muhurta rule now intersects the local Nishita interval with the actu
 The complete 12-date Vinayaka Chaturthi series is now represented. The local Panchang test confirms Shukla Chaturthi overlaps the Madhyahna interval for all 12 dates at the default Pithoragarh observer. Existing January, June and September records were retained and updated; nine missing records were added.
 
 A dedicated muhurta rule intersects the local Madhyahna interval with the actual Shukla Chaturthi interval. It returns unavailable rather than an estimated time when the tithi or overlap is missing. All 12 event records use this rule.
+
+## Current monthly catalog snapshot (2026-10-31)
+
+A fresh audit of all twelve live 2026 monthly JSON files after the Dev Uthani duplicate cleanup found **359 event records**, with all 359 marked approved. Every month file has `reviewStatus: "approved"`; no records remain marked `needs-review`.
+
+| Month | Events | Approved | Needs review | Month status |
+|---|---:|---:|---:|---|
+| January | 24 | 24 | 0 | approved |
+| February | 17 | 17 | 0 | approved |
+| March | 39 | 39 | 0 | approved |
+| April | 41 | 41 | 0 | approved |
+| May | 20 | 20 | 0 | approved |
+| June | 20 | 20 | 0 | approved |
+| July | 31 | 31 | 0 | approved |
+| August | 32 | 32 | 0 | approved |
+| September | 39 | 39 | 0 | approved |
+| October | 37 | 37 | 0 | approved |
+| November | 37 | 37 | 0 | approved |
+| December | 22 | 22 | 0 | approved |
+| **Total** | **359** | **359** | **0** | |
+
+The 25-date Pradosh series remains represented in the monthly files and was previously cross-checked against the Pithoragarh-specific Drik Panchang 2026 Pradosh calendar. These static event records do not hard-code puja clock times; the runtime muhurta engine calculates local windows.
+
+The November Dev Uthani records were reconciled: the general observance remains on November 20 and the Vaishnava observance on November 21. The duplicate Gauna title on November 21 was removed; the November 21 card is now represented once.
+
+The exact normalized date/title duplicate audit returned zero duplicate pairs. This snapshot describes the monthly festival catalog only; it is not the separate 365-day annual Panchang calculation review or the annual Dwadashi/Chaturmas approval package.
