@@ -103,11 +103,17 @@
       /देवशयनी|हरिशयनी|चातुर्मास प्रारम्भ/i.test(item.title || "") && item.date);
     const end = events.find(item => isPublishable(item) &&
       /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "") && item.date);
-    if (!start || !end || end.date < todayKey) return null;
+    if (!start || !end) return null;
 
     const startDate = parseDate(start.date);
     const endDate = parseDate(end.date);
     if (!startDate || !endDate || end.date < start.date) return null;
+
+    // Keep the card visible through the Dwadashi observance after Devotthani Ekadashi.
+    // The festival date remains the approved event date; this is only the card's hide date.
+    const cardVisibleThrough = new Date(endDate);
+    cardVisibleThrough.setDate(cardVisibleThrough.getDate() + 2);
+    if (dateKey(cardVisibleThrough) < todayKey) return null;
 
     const card = element("section", "ohd-fw-chaturmas");
     card.appendChild(element("div", "ohd-fw-chaturmas-title", "🪔 चातुर्मास"));
