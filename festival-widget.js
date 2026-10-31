@@ -282,10 +282,12 @@
           content.appendChild(description);
         }
 
-        // Only show this shortcut when the monthly record has a declared muhurta rule
-        // or already carries a dynamically calculated muhurta interval.
+        // Sankranti records use a shared date-based rule in the monthly page;
+        // older JSON entries do not need a per-record muhurtaRule field.
         const ruleIds = Array.isArray(item.muhurtaRules) ? item.muhurtaRules : (item.muhurtaRule ? [item.muhurtaRule] : []);
-        const hasMuhurta = ruleIds.length > 0 ||
+        const isSankranti = /संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title || "")) ||
+          String(item.category || "") === "संक्रांति";
+        const hasMuhurta = ruleIds.length > 0 || isSankranti ||
           (item.muhurtaStart && item.muhurtaEnd) ||
           (item.muhurtaTime && String(item.muhurtaTime).trim());
         if (hasMuhurta) {
