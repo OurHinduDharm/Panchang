@@ -58,7 +58,9 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
   ).length;
   const eclipseDays = source.filter(day =>
     (Array.isArray(day?.grahanaTimes) && day.grahanaTimes.length) ||
+    (Array.isArray(day?.grahanaIntervals) && day.grahanaIntervals.length) ||
     (Array.isArray(day?.eclipseTimes) && day.eclipseTimes.length) ||
+    (Array.isArray(day?.eclipseIntervals) && day.eclipseIntervals.length) ||
     day?.grahana || day?.eclipse
   ).length;
 
