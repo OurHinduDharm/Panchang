@@ -1,4 +1,5 @@
 import { getPanchangam, Observer } from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
+import { getNightPraharWindows } from "./night-prahar.js";
 import {
   Body as AstroBody,
   Observer as AstroObserver,
@@ -2382,41 +2383,12 @@ function getPraharDetails(
     };
   }
 
-  const nightPraharMs =
-    nightDuration / 4;
-
-  const nightPrahar = [];
-
-  for(
-    let i = 0;
-    i < 4;
-    i++
-  ){
-
-    const start =
-      new Date(
-        nightStart.getTime() +
-        i * nightPraharMs
-      );
-
-    const end =
-      new Date(
-        nightStart.getTime() +
-        (i + 1) * nightPraharMs
-      );
-
-    const isActive =
-      shouldHighlight &&
-      now >= start &&
-      now < end;
-
-    nightPrahar.push({
-      start,
-      end,
-      isActive,
-      type:"night"
-    });
-  }
+  const nightPrahar = getNightPraharWindows(
+    nightStart,
+    nightEnd,
+    now,
+    shouldHighlight
+  );
 
   let currentPrahar = null;
 
