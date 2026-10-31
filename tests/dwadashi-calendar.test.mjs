@@ -88,7 +88,7 @@ test("permanent month-paksha names are carried into later annual calendars", () 
   ],rules);
   const record=result.tithis.find(item=>item.id==="chaitra-shukla");
   assert.deepEqual(record.displayNames,["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"]);
-  assert.equal("drik2026Labels" in record,false);
+  assert.deepEqual(record.drik2026Labels, []);
 });
 
 test("Adhika month stays separate and does not inherit nija-month vrata aliases", () => {
@@ -277,5 +277,9 @@ test("Drik 2026 cross-reference labels remain metadata and are year-gated", () =
   assert.deepEqual(record2027.displayNames, ["कृष्ण-वामन द्वादशी"]);
 
   const emptyScan = buildDwadashiCalendar([], rulesWithDrik);
-  assert.deepEqual(emptyScan.tithis, [], "A Drik reference alone must not invent a local Dwadashi record");
+  const emptyRecord = emptyScan.tithis.find(item => item.id === "jyeshtha-krishna");
+  assert.ok(emptyRecord, "The review catalog row may remain visible without a local observation");
+  assert.deepEqual(emptyRecord.candidateDates, []);
+  assert.equal(emptyRecord.referenceDate, null);
+  assert.deepEqual(emptyRecord.drik2026Labels, [], "A Drik reference alone must not invent a local Dwadashi date");
 });
