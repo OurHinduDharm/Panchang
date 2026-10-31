@@ -155,3 +155,19 @@ Fixed observer: Pithoragarh (29.5828° N, 80.2182° E, 1650 m), selected date 20
 - Visible Asta/Udaya card fingerprint was identical after switching away and back; test passed.
 
 These are repeatable browser-run measurements, not a proven before/after speedup. They are not directly comparable to the historical 616–654 ms log because the earlier environment/run conditions are not controlled here. No production JS, thresholds, search bounds, or calculation outputs were changed. Next safe step: establish a same-environment baseline, then optimize only a measured bottleneck and require exact fingerprint equality.
+
+
+## CI timing correction and phase-level measurement — 2026-10-31
+
+The successful run #41162201755 log was inspected directly. The precise production phase measurements are:
+- Initial 2026-10-31 update: **219.7 ms** for planetary calculation + card.
+- 2026-11-01 update: **78.0 ms**, then **71.1 ms** on the repeated update.
+- Return to 2026-10-31: **70.5 ms**, then **70.1 ms** on the repeated update.
+- The final visible card fingerprint exactly matched the initial fingerprint; browser test passed 1/1, with no uncaught page errors.
+- The full Extra Panchang update was 297.2 ms initially; DOM replacement itself was 1.2 ms. Thus DOM replacement is not the bottleneck in this run.
+
+**Correction:** An earlier checkpoint note gave approximate values of 233.1 ms and 74–82 ms. Those were not the values in the captured CI log. Use the log-derived figures above as the authoritative measurements for run #41162201755. The older 616–654 ms figure remains a separate historical run and is not a controlled before/after comparison.
+
+Standard feature CI run #41162201760 also passed: 139/139 feature tests and 3/3 Asta/Udaya direction tests. The Swiss heliacal browser test passed 1/1, but its event times still differ from the published Drik boundaries by −2,893.9 and +1,439.1 minutes respectively; this remains a diagnostic mismatch, not a verified method.
+
+The measurable hot path is now clearly the planetary calculation/card phase (about 70 ms warm, 220 ms cold in this CI run), not DOM replacement. Next instrumentation should split ephemeris calls, daily-cache hits/misses, bisection calls, and card formatting without altering any astronomy inputs or returned values. Do not attempt a speed optimization until this split identifies a safe target.
