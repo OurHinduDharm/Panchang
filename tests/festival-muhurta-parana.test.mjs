@@ -845,7 +845,7 @@ test("Diwali includes separately labelled Amavasya Choghadiya alternatives", asy
   assert.equal(charWindows.length, 1);
   assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
   assert.ok(/यात्रा|गतिशील/.test(charWindows[0].note));
-  assert.ok(auspiciousWindows.every(w => /वैकल्पिक शुभ समय/.test(w.label)));
+  assert.ok(auspiciousWindows.every(w => /द्वितीयक समय-विकल्प/.test(w.label)));
   assert.ok(choghadiya.every(w => /राहुकाल या वेला/.test(w.note)));
   assert.ok(choghadiya.every(w => /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं/.test(w.note)));
   assert.ok(result.windows.some(w => /प्रदोष काल/.test(w.label)));
@@ -887,7 +887,7 @@ test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published 
   const auspiciousWindows = choghadiya.filter(window => !/चर चौघड़िया/.test(window.label));
   assert.equal(charWindows.length, 1);
   assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
-  assert.ok(auspiciousWindows.every(window => /वैकल्पिक शुभ समय/.test(window.label)));
+  assert.ok(auspiciousWindows.every(window => /द्वितीयक समय-विकल्प/.test(window.label)));
   assert.ok(choghadiya.every(window => /राहुकाल या वेला/.test(window.note)));
   assert.ok(choghadiya.every(window => /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं/.test(window.note)));
 });
