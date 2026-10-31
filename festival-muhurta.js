@@ -649,6 +649,12 @@ const rules = {
       Amrit: "अमृत चौघड़िया", Shubh: "शुभ चौघड़िया",
       Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया"
     };
+    const choghadiyaLabel = kind => kind === "Chal"
+      ? "चर चौघड़िया — यात्रा/गतिशील कार्य का विकल्प"
+      : choghadiyaNames[kind] + " — वैकल्पिक शुभ समय";
+    const choghadiyaNote = kind => kind === "Chal"
+      ? "चर चौघड़िया सामान्यतः यात्रा या गतिशील कार्यों के लिए उपयोगी माना जाता है; इसे मुख्य लक्ष्मी-गणेश पूजन मुहूर्त न मानें। राहुकाल या वेला से टकराव होने पर उस अवधि को त्यागें।"
+      : "अमावस्या-व्याप्ति में दिन/रात्रि के चौघड़िया विभाजन से निकला वैकल्पिक समय; यह मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं है। राहुकाल या वेला से टकराव होने पर उस अवधि को त्यागें।";
     const favourable = new Set(["Amrit","Shubh","Labh","Chal"]);
     const choghadiyaWindows = [];
     if (sunrise && sunset > sunrise && Number.isInteger(weekday) && sequences[weekday]) {
@@ -659,8 +665,8 @@ const rules = {
         const start = new Date(sunrise.getTime() + dayDuration * i / 8);
         const end = new Date(sunrise.getTime() + dayDuration * (i + 1) / 8);
         const overlap = windowWithin(start, end, tithis,
-          choghadiyaNames[kind] + " — वैकल्पिक शुभ समय",
-          "अमावस्या-व्याप्ति में दिनमान के आठ भागों पर आधारित चौघड़िया। यह मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं है।");
+          choghadiyaLabel(kind),
+          choghadiyaNote(kind));
         if (overlap) choghadiyaWindows.push(overlap);
       }
     }
@@ -672,8 +678,8 @@ const rules = {
         const start = new Date(sunset.getTime() + nightDurationForChoghadiya * i / 8);
         const end = new Date(sunset.getTime() + nightDurationForChoghadiya * (i + 1) / 8);
         const overlap = windowWithin(start, end, tithis,
-          choghadiyaNames[kind] + " — वैकल्पिक शुभ समय",
-          "अमावस्या-व्याप्ति में रात्रिमान के आठ भागों पर आधारित चौघड़िया। यह मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं है।");
+          choghadiyaLabel(kind),
+          choghadiyaNote(kind));
         if (overlap) choghadiyaWindows.push(overlap);
       }
     }
