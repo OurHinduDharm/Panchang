@@ -1,17 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import panchangPackage from "@ishubhamx/panchangam-js";
 
-const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
-const helperSource = await readFile(new URL("../night-prahar.js", import.meta.url), "utf8");
-const helperUrl = "data:text/javascript;base64," + Buffer.from(helperSource).toString("base64");
-const sourceWithHelper = source.replace(
-  'import { getNightPraharWindows } from "./night-prahar.js";',
-  `const { getNightPraharWindows } = await import("${helperUrl}");`
-);
-const engineUrl = "data:text/javascript;base64," + Buffer.from(sourceWithHelper).toString("base64");
-const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent } = await import(engineUrl);
+const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent } = await import("../festival-muhurta.js");
 
 const date = value => new Date(value);
 const { getPanchangam, Observer } = panchangPackage;
