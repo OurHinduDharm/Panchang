@@ -261,9 +261,10 @@ test("Diwali prioritizes Vrishabha in Pradosh and offers Simha in Nishita when a
   assert.match(result.windows[0].label, /वृषभ स्थिर लग्न/);
   assert.equal(result.windows[0].start.toISOString(), date("2026-11-08T18:00:00+05:30").toISOString());
   assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T19:00:00+05:30").toISOString());
-  assert.match(result.windows[2].label, /महानिशीथ काल — विशेष परंपराओं के लिए/);
-  assert.equal(result.windows[2].start.toISOString(), date("2026-11-08T23:29:20+05:30").toISOString());
-  assert.match(result.windows[3].label, /सिंह स्थिर लग्न — विशेष पूजन/);
+  assert.match(result.windows[2].label, /सिंह स्थिर लग्न — विशेष पूजन/);
+  assert.equal(result.windows[2].start.toISOString(), date("2026-11-09T00:10:00+05:30").toISOString());
+  assert.match(result.windows[3].label, /महानिशीथ काल — विशेष परंपराओं के लिए/);
+  assert.equal(result.windows[3].start.toISOString(), date("2026-11-08T23:29:20+05:30").toISOString());
   assert.match(result.windows[4].label, /महानिशीथ काल — सिंह स्थिर लग्न का संयुक्त समय/);
   assert.match(result.windows[5].label, /गोधूलि काल.*दीपदान/);
 });
