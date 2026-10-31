@@ -71,7 +71,7 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
     label: safeDecision.label || null,
     note: safeDecision.note || safeDecision.message || null,
     requiresShanti: Boolean(safeDecision.requiresShanti),
-    reviewStatus: "approved",
+    reviewStatus: safeDecision.status === "selected" || safeDecision.status === "selected-with-shanti" ? "approved" : "unavailable",
     sampradaya: options.sampradaya === "tamil" ? "tamil" : "general",
     coverage: {
       daysScanned: source.length,
