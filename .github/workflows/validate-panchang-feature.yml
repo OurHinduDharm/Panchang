@@ -24,6 +24,8 @@ jobs:
           node --experimental-default-type=module --check festival-filter.js
           node --experimental-default-type=module --check monthly-vrat-parv-widget.js
           node --experimental-default-type=module --check festival-muhurta.js
+          sed -n '/^<script type="module">$/,/^<\\/script>$/p' asta-udaya-calculator.html | sed '1d;$d' > /tmp/asta-udaya-calculator.mjs
+          node --check /tmp/asta-udaya-calculator.mjs
       - name: Install pinned Panchang engine for local-time tests
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Run Agnivasa/Shivavasa regression tests
