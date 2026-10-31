@@ -741,6 +741,31 @@ const rules = {
       if (overlap) windows.push(overlap);
     }
 
+    // Daytime Abhijit (8th of 15) and Vijaya (11th of 15) are
+    // supplementary task windows only when Amavasya is actually present.
+    if (sunrise && sunset > sunrise) {
+      const dayDuration = sunset.getTime() - sunrise.getTime();
+      const weekdayForDayMuhurtas = localWeekday(context.date);
+      if (weekdayForDayMuhurtas !== 3) {
+        const abhijit = windowWithin(
+          new Date(sunrise.getTime() + dayDuration * 7 / 15),
+          new Date(sunrise.getTime() + dayDuration * 8 / 15),
+          tithis,
+          "अभिजित् मुहूर्त — दिन के पूरक कार्य हेतु",
+          "दिन के 15 मुहूर्तों में आठवाँ मुहूर्त और अमावस्या की संयुक्त व्याप्ति। यह प्रदोष-वृषभ मुख्य गृहस्थ लक्ष्मी-पूजन का विकल्प नहीं है।"
+        );
+        if (abhijit) windows.push(abhijit);
+      }
+      const vijaya = windowWithin(
+        new Date(sunrise.getTime() + dayDuration * 10 / 15),
+        new Date(sunrise.getTime() + dayDuration * 11 / 15),
+        tithis,
+        "विजय मुहूर्त — दिन के पूरक व्यापार/लेखा कार्य हेतु",
+        "दिन के 15 मुहूर्तों में ग्यारहवाँ मुहूर्त और अमावस्या की संयुक्त व्याप्ति। इसे मुख्य लक्ष्मी-गणेश पूजन मुहूर्त न मानें।"
+      );
+      if (vijaya) windows.push(vijaya);
+    }
+
     // Hora follows the same sunrise/sunset-based 12 day + 12 night
     // sequence used by extra-panchang.js. Treat benefic horas as secondary
     // overlays inside the already Amavasya-qualified Pradosh interval.
