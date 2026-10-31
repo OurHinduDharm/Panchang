@@ -142,3 +142,16 @@ Read-only inspection of production `main/extra-panchang.js` (blob `d1ab028cfd842
 
 A speedup is accepted only when repeatable timings improve and all output fingerprints remain identical. A different output is a correctness regression, not an optimization.
 
+
+
+## Repeatable production performance baseline — 2026-10-31 (CI Chromium)
+
+The new browser test on PR head `0449c8ce8e7d1923674d883b3e0236d41b8a0751` passed (1/1; 0 failures). The standard feature workflow also passed (139/139 feature tests and 3/3 Asta/Udaya direction tests).
+
+Fixed observer: Pithoragarh (29.5828° N, 80.2182° E, 1650 m), selected date 2026-10-31. Observed combined `planet rise/set calculation and card` timings:
+- First/cold update: **233.1 ms**.
+- Date switched to 2026-11-01: **81.6 ms**, then **75.3 ms** on repeated update.
+- Date switched back to 2026-10-31: **75.1 ms**, then **74.1 ms** on repeated update.
+- Visible Asta/Udaya card fingerprint was identical after switching away and back; test passed.
+
+These are repeatable browser-run measurements, not a proven before/after speedup. They are not directly comparable to the historical 616–654 ms log because the earlier environment/run conditions are not controlled here. No production JS, thresholds, search bounds, or calculation outputs were changed. Next safe step: establish a same-environment baseline, then optimize only a measured bottleneck and require exact fingerprint equality.
