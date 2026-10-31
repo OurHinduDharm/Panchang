@@ -443,7 +443,7 @@
     }
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
     // मासिक शिवरात्रि में निशीथ के साथ चारों रात्रि-प्रहर भी दिखाएँ।
-    if(/मासिक\s*शिवरात्रि/i.test(String(item.title||""))){
+    if(/मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/महाशिवरात्रि|महा\s*शिवरात्रि/i.test(String(item.title||""))){
       if(ruleIds.indexOf("masik-shivaratri-nishita")===-1) ruleIds.push("masik-shivaratri-nishita");
       if(ruleIds.indexOf("masik-shivaratri-four-prahar")===-1) ruleIds.push("masik-shivaratri-four-prahar");
     }
