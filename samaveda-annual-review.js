@@ -34,7 +34,9 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
     sunRashi: day?.sunRashi,
     sankrantiTimes: Array.isArray(day?.sankrantiTimes) ? day.sankrantiTimes : [],
     grahanaTimes: Array.isArray(day?.grahanaTimes) ? day.grahanaTimes : [],
+    grahanaIntervals: Array.isArray(day?.grahanaIntervals) ? day.grahanaIntervals : [],
     eclipseTimes: Array.isArray(day?.eclipseTimes) ? day.eclipseTimes : [],
+    eclipseIntervals: Array.isArray(day?.eclipseIntervals) ? day.eclipseIntervals : [],
     dosha: day?.dosha || {}
   }));
 
