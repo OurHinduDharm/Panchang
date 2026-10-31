@@ -1,12 +1,24 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import panchangPackage from "@ishubhamx/panchangam-js";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const engineUrl = "data:text/javascript;base64," + Buffer.from(source).toString("base64");
 const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent } = await import(engineUrl);
 
 const date = value => new Date(value);
+const { getPanchangam, Observer } = panchangPackage;
+const projectObserver = new Observer(29.58,80.22,1650);
+function realPanchangContext(iso) {
+  const anchor = new Date(iso + "T06:30:00.000Z");
+  const nextAnchor = new Date(anchor);
+  nextAnchor.setUTCDate(nextAnchor.getUTCDate() + 1);
+  const options = { timezoneOffset:330, calendarType:"purnimanta" };
+  const p = getPanchangam(anchor, projectObserver, options);
+  const next = getPanchangam(nextAnchor, projectObserver, options);
+  return getFestivalMuhurtaContext(p, next, anchor, {name:"पिथौरागढ़",lat:29.58,lon:80.22,elevation:1650});
+}
 const sunrise = date("2026-10-22T06:00:00+05:30");
 const sunset = date("2026-10-22T17:45:00+05:30");
 
@@ -673,4 +685,38 @@ test("Karka-Sun Shravana Hasta is considered only after other general fallbacks"
   assert.equal(result.status, "selected");
   assert.equal(result.date, "2026-08-01");
   assert.match(result.label, /कर्कस्थ सूर्य/);
+});
+
+test("Pithoragarh Holika Dahan uses complete Drik-style windows for 2026–2029", () => {
+  const dates = ["2026-03-03","2027-03-21","2028-03-10","2029-02-28"];
+  const results = dates.map(iso => getFestivalMuhurta(
+    {muhurtaRule:"holika-dahan-pradosh"},
+    realPanchangContext(iso)
+  ));
+  for (let i=0;i<results.length;i++) {
+    assert.equal(results[i].status,"calculated",dates[i]);
+    assert.ok(Array.isArray(results[i].windows) && results[i].windows.length>0,dates[i]);
+    for (const window of results[i].windows) {
+      assert.ok(window.end > window.start,dates[i]+" must have a complete positive interval");
+    }
+  }
+  assert.equal(results[1].windows.length,2,"2027 includes the post-Bhadra alternative");
+  assert.match(results[1].windows[0].label,/प्रदोष/);
+  assert.match(results[1].windows[1].label,/वैकल्पिक/);
+  assert.match(results[2].windows[0].label,/भद्रा समाप्ति/);
+});
+
+test("Pithoragarh Maha Shivaratri publishes four complete prahars for 2026–2029", () => {
+  const dates = ["2026-02-15","2027-03-06","2028-02-23","2029-02-11"];
+  for (const iso of dates) {
+    const result = getFestivalMuhurta(
+      {muhurtaRule:"mahashivaratri-four-prahar"},
+      realPanchangContext(iso)
+    );
+    assert.equal(result.status,"calculated",iso);
+    assert.equal(result.windows.length,4,iso);
+    for (const window of result.windows) {
+      assert.ok(window.end > window.start,iso+" each prahar must be complete");
+    }
+  }
 });
