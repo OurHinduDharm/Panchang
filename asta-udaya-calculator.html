@@ -125,10 +125,11 @@ async function makeManifest(){
 }
 $("exportManifestBtn").onclick=async()=>download("asta-udaya-manifest.json",await makeManifest());
 $("exportMonthBtn").onclick=async()=>{
- const y=Number($("exportYear").value),m=Number($("exportMonth").value),meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null,rows=(await all(STORE)).filter(r=>r.runKey===runKey),selected=rows.filter(r=>Number(r.fromUtc.slice(0,4))===y&&monthOf(r.fromUtc)<=m&&monthOf(r.toUtcExclusive.slice(0,10))>=m);
+ const y=Number($("exportYear").value),m=Number($("exportMonth").value),meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null,rows=(await all(STORE)).filter(r=>r.runKey===runKey),monthStart=Date.UTC(y,m-1,1),monthEnd=Date.UTC(y,m,1),selected=rows.filter(r=>Date.parse(r.fromUtc)<monthEnd&&Date.parse(r.toUtcExclusive)>monthStart);
  if(!selected.length){$("exportStatus").textContent="इस माह का कोई डेटा नहीं मिला।";return;}
- const samples=selected.flatMap(r=>r.samples).filter(s=>Number(s[0].slice(5,7))===m);
- download("asta-udaya-"+y+"-"+String(m).padStart(2,"0")+".json",{schemaVersion:"1.0.0",year:y,month:m,coordinateFrame:"EQJ",unit:"AU",timeScale:"UTC",aberration:true,bodies:config?.bodies||bodies.map(x=>x[0]),samples});
+ const samples=selected.flatMap(r=>r.samples).filter(s=>Date.parse(s[0])>=monthStart&&Date.parse(s[0])<monthEnd);
+ const payload=JSON.stringify(samples),checksum="sha256:"+Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(payload)))).map(b=>b.toString(16).padStart(2,"0")).join("");
+ download("asta-udaya-"+y+"-"+String(m).padStart(2,"0")+".json",{schemaVersion:"1.0.0",year:y,month:m,coordinateFrame:"EQJ",unit:"AU",timeScale:"UTC",aberration:true,bodies:config?.bodies||bodies.map(x=>x[0]),sampleCount:samples.length,checksum,samples});
  $("exportStatus").textContent="माह का JSON तैयार: "+samples.length+" समय-बिंदु।";
 };
 $("exportAllBtn").onclick=async()=>{
