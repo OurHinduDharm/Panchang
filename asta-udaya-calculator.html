@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>बहुवर्षीय ग्रह-स्थिति गणना | OurHinduDharm</title>
+<style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;padding:16px;background:#f6f4ef;color:#28231d;font:16px/1.55 system-ui,"Noto Sans Devanagari",sans-serif}main{max-width:850px;margin:auto}h1{font-size:1.55rem;margin:0 0 8px}.muted{color:#655f56;font-size:.92rem}.panel{background:#fff;border:1px solid #e2ddd3;border-radius:12px;padding:15px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}label{display:block;font-weight:650;margin-bottom:5px}input,select,button{font:inherit}input,select{width:100%;padding:10px;border:1px solid #cfc8bc;border-radius:8px;background:#fff}button{padding:10px 14px;border:0;border-radius:8px;background:#8b3218;color:#fff;font-weight:650;cursor:pointer}button.secondary{background:#555}button:disabled{opacity:.5;cursor:not-allowed}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.status{padding:12px;border-radius:8px;background:#f3f0e9;white-space:pre-wrap;overflow-wrap:anywhere}.warn{background:#fff3d9;border-left:4px solid #c28b21}.bar{height:12px;background:#e9e4da;border-radius:20px;overflow:hidden;margin:10px 0}.bar>i{display:block;height:100%;width:0;background:#39734b;transition:width .15s}code{overflow-wrap:anywhere}.small{font-size:.86rem}
+</style>
+</head>
+<body><main>
+<h1>बहुवर्षीय ग्रह-स्थिति गणना</h1>
+<p class="muted">OurHinduDharm · अलग गणना प्रयोगशाला · Astronomy Engine 2.1.19</p>
+<div class="panel warn"><strong>महत्वपूर्ण:</strong> यह पहला डेटा-जनरेटर प्रोटोटाइप है। यह पृथ्वी-केंद्रित (geocentric) ग्रह-सदिश निकालता है; यह अपने-आप शास्त्रीय अस्त/उदय, स्थानीय दृश्यता या Drik Panchang से समानता प्रमाणित नहीं करता। मौजूदा मुख्य पंचांग की गणना इससे नहीं बदलेगी।</div>
+<div class="panel">
+<div class="grid">
+<div><label for="fromYear">आरम्भ वर्ष</label><input id="fromYear" type="number" min="1900" max="2100" value="2026"></div>
+<div><label for="toYear">अंतिम वर्ष</label><input id="toYear" type="number" min="1900" max="2100" value="2027"></div>
+<div><label for="cadence">नमूना-अंतराल</label><select id="cadence"><option value="24">हर 24 घंटे</option><option value="12">हर 12 घंटे</option><option value="6" selected>हर 6 घंटे (प्रारम्भिक)</option><option value="3">हर 3 घंटे</option><option value="1">हर 1 घंटा (बहुत बड़ा डेटा)</option></select></div>
+<div><label for="chunkDays">सहेजने का खंड</label><select id="chunkDays"><option value="1">1 दिन</option><option value="7" selected>7 दिन</option><option value="30">लगभग 1 माह</option></select></div>
+</div>
+<div class="actions"><button id="start">गणना शुरू करें</button><button id="pause" class="secondary" disabled>रोकें</button><button id="resume" class="secondary" disabled>फिर शुरू करें</button><button id="cancel" class="secondary" disabled>रद्द करें</button></div>
+<div class="bar"><i id="bar"></i></div><div id="status" class="status" role="status">तैयार। पहले 2026–2027 की छोटी अवधि जाँचें।</div>
+</div>
+<div class="panel">
+<h2>डेटा निर्यात</h2>
+<p class="small">गणना पूरी होने या बीच में रुकने पर भी सहेजे गए खंड डाउनलोड किए जा सकते हैं। पहले manifest डाउनलोड करें, फिर वर्ष/माह के JSON खंड। सभी फ़ाइलें एक साथ सुरक्षित रखें।</p>
+<div class="grid"><div><label for="exportYear">वर्ष</label><select id="exportYear"></select></div><div><label for="exportMonth">माह</label><select id="exportMonth"></select></div></div>
+<div class="actions"><button id="exportMonthBtn">चुना माह JSON डाउनलोड</button><button id="exportManifestBtn" class="secondary">Manifest डाउनलोड</button><button id="exportAllBtn" class="secondary">सभी डेटा JSON डाउनलोड</button></div>
+<div id="exportStatus" class="muted small"></div>
+</div>
+<div class="panel">
+<h2>डेटा का अर्थ और सीमा</h2>
+<ul class="small">
+<li>समय UTC में ISO-8601 है। नमूना समय UTC की आधी रात से चुने गए अंतराल पर है।</li>
+<li>सदिश Astronomy Engine के <code>GeoVector(body, date, true)</code> से हैं; निर्देशांक फ्रेम <code>EQJ</code>, इकाई <code>AU</code>, aberration सक्षम।</li>
+<li>सूर्य और बुध, शुक्र, मंगल, गुरु, शनि शामिल हैं। प्रत्येक नमूने में x/y/z घटक सुरक्षित होते हैं।</li>
+<li>नमूना-अंतराल के बीच की घटना के लिए interpolation त्रुटि अभी प्रमाणित नहीं है। अंतिम अस्त/उदय सीमा निकालते समय सीधे ephemeris पुनर्गणना और स्वतंत्र सत्यापन आवश्यक रहेगा।</li>
+<li>यह डेटा स्थान-स्वतंत्र geocentric आधार है। स्थानीय क्षितिज, ऊँचाई, परावर्तन, दृश्यता और स्थानीय समय के परिणाम शहर-विशिष्ट अलग चरण में बनेंगे।</li>
+</ul>
+</div>
+</main>
+<script type="module">
+import * as Astronomy from "https://esm.sh/astronomy-engine@2.1.19";
+const DB_NAME="ohd-asta-udaya-data-v1", STORE="chunks", META="meta";
+const bodies=[["Sun",Astronomy.Body.Sun],["Mercury",Astronomy.Body.Mercury],["Venus",Astronomy.Body.Venus],["Mars",Astronomy.Body.Mars],["Jupiter",Astronomy.Body.Jupiter],["Saturn",Astronomy.Body.Saturn]];
+const $=id=>document.getElementById(id);
+let db, running=false, paused=false, cancelled=false, cursor=null, config=null;
+const openDB=()=>new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE,{keyPath:"key"});if(!d.objectStoreNames.contains(META))d.createObjectStore(META,{keyPath:"key"});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
+const tx=(store,mode,fn)=>new Promise((resolve,reject)=>{const t=db.transaction(store,mode),s=t.objectStore(store);let result;try{result=fn(s)}catch(e){reject(e);return;}t.oncomplete=()=>resolve(result?.result);t.onerror=()=>reject(t.error);t.onabort=()=>reject(t.error);});
+const put=(store,value)=>tx(store,"readwrite",s=>s.put(value));
+const get=(store,key)=>new Promise((resolve,reject)=>{const r=db.transaction(store).objectStore(store).get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});
+const all=(store)=>new Promise((resolve,reject)=>{const r=db.transaction(store).objectStore(store).getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});
+const iso=ms=>new Date(ms).toISOString();
+const dayStart=y=>Date.UTC(y,0,1);
+const dayEnd=y=>Date.UTC(y+1,0,1);
+const dateKey=ms=>iso(ms).slice(0,10);
+function setStatus(s){$("status").textContent=s;}
+function setProgress(done,total){$("bar").style.width=(total?Math.min(100,done/total*100):0)+"%";}
+function saveMeta(){return put(META,{key:"active",config,cursor,updatedAt:iso(Date.now()),paused});}
+async function begin(resume=false){
+ if(running)return;
+ if(!resume){
+  const y1=Number($("fromYear").value),y2=Number($("toYear").value),hours=Number($("cadence").value),chunkDays=Number($("chunkDays").value);
+  if(!Number.isInteger(y1)||!Number.isInteger(y2)||y1<1900||y2>2100||y2<y1||y2-y1>20){setStatus("वर्ष 1900–2100 के बीच रखें और अधिकतम 20 वर्ष चुनें।");return;}
+  config={startYear:y1,endYear:y2,cadenceHours:hours,chunkDays,engine:"astronomy-engine@2.1.19",vectorMethod:"GeoVector(body,date,true)",coordinateFrame:"EQJ",unit:"AU",aberration:true,bodies:bodies.map(x=>x[0]),schemaVersion:"1.0.0"};
+  cursor=dayStart(y1);await saveMeta();
+ }else{
+  const saved=await get(META,"active");if(!saved){setStatus("कोई अधूरी गणना नहीं मिली। पहले नई गणना शुरू करें।");return;}
+  config=saved.config;cursor=saved.cursor;paused=false;await saveMeta();
+ }
+ running=true;paused=false;cancelled=false;
+ $("start").disabled=true;$("resume").disabled=true;$("pause").disabled=false;$("cancel").disabled=false;
+ const totalDays=(dayEnd(config.endYear)-dayStart(config.startYear))/86400000;
+ const doneDays=(cursor-dayStart(config.startYear))/86400000;
+ setProgress(doneDays,totalDays);
+ try{
+  while(cursor<dayEnd(config.endYear)&&!paused&&!cancelled){
+   const chunkStart=cursor,chunkEnd=Math.min(dayEnd(config.endYear),chunkStart+config.chunkDays*86400000);
+   const samples=[];
+   for(let t=chunkStart;t<chunkEnd;t+=config.cadenceHours*3600000){
+    const date=new Date(t),positions=[];
+    for(const [name,body] of bodies){
+     const v=Astronomy.GeoVector(body,date,true);
+     if(!v||![v.x,v.y,v.z].every(Number.isFinite))throw new Error("अमान्य सदिश: "+name+" @ "+iso(t));
+     positions.push([name,+v.x.toFixed(12),+v.y.toFixed(12),+v.z.toFixed(12)]);
+    }
+    samples.push([iso(t),positions]);
+   }
+   const runKey=config.startYear+"-"+config.endYear+"-"+config.cadenceHours+"h-"+config.chunkDays+"d";
+   const key=runKey+"-"+dateKey(chunkStart)+"-"+dateKey(chunkEnd-1);
+   const payload=JSON.stringify(samples);
+   const checksum="sha256:"+Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(payload)))).map(b=>b.toString(16).padStart(2,"0")).join("");
+   await put(STORE,{key,runKey,fromUtc:iso(chunkStart),toUtcExclusive:iso(chunkEnd),sampleCount:samples.length,checksum,samples});
+   cursor=chunkEnd;await saveMeta();
+   const done=(cursor-dayStart(config.startYear))/86400000;
+   setProgress(done,totalDays);
+   setStatus("गणना जारी…\nपूर्ण दिन: "+done+" / "+totalDays+"\nअंतिम सुरक्षित खंड: "+dateKey(chunkStart)+" से "+dateKey(chunkEnd-1)+"\nइस खंड के नमूने: "+samples.length+"\nसहेजा गया डेटा IndexedDB में सुरक्षित है।");
+   await new Promise(r=>setTimeout(r,0));
+  }
+  if(cursor>=dayEnd(config.endYear)){await put(META,{key:"active",config,cursor,paused:false,completed:true,completedAt:iso(Date.now())});setStatus("गणना पूरी। अब Manifest और वर्ष/माह के JSON खंड डाउनलोड करें।");}
+  else if(cancelled){setStatus("गणना रद्द की गई। पहले से सहेजे गए खंड सुरक्षित हैं; चाहें तो फिर शुरू करें।");}
+  else{setStatus("गणना रोकी गई। सहेजे गए खंड सुरक्षित हैं; 'फिर शुरू करें' दबाएँ।");}
+ }catch(e){setStatus("गणना में त्रुटि: "+(e?.stack||e));}
+ finally{running=false;$("start").disabled=false;$("pause").disabled=true;$("cancel").disabled=true;$("resume").disabled=!(cursor&&config&&cursor<dayEnd(config.endYear));refreshExports();}
+}
+$("start").onclick=()=>begin(false);
+$("resume").onclick=()=>begin(true);
+$("pause").onclick=async()=>{paused=true;};
+$("cancel").onclick=async()=>{cancelled=true;};
+function download(name,obj){const blob=new Blob([JSON.stringify(obj)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
+function monthOf(isoText){return Number(isoText.slice(5,7));}
+async function sha256(value){return "sha256:"+Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value)))).map(b=>b.toString(16).padStart(2,"0")).join("");}
+async function verifyRows(rows,expectedStart,expectedEnd){
+ const issues=[],step=(config?.cadenceHours||6)*3600000;let cursor=expectedStart;
+ for(const row of [...rows].sort((a,b)=>a.fromUtc.localeCompare(b.fromUtc))){
+  if(Date.parse(row.fromUtc)!==cursor)issues.push("खंडों के बीच अंतर/ओवरलैप: "+iso(cursor)+" के बाद "+row.fromUtc);
+  if(row.sampleCount!==row.samples.length)issues.push("नमूना संख्या मेल नहीं खाती: "+row.key);
+  if(await sha256(JSON.stringify(row.samples))!==row.checksum)issues.push("SHA-256 जाँच विफल: "+row.key);
+  const start=Date.parse(row.fromUtc),end=Date.parse(row.toUtcExclusive),expectedCount=(end-start)/step;
+  if(!Number.isInteger(expectedCount)||row.samples.length!==expectedCount)issues.push("खंड में नमूने कम/अधिक: "+row.key);
+  for(let i=0;i<row.samples.length;i++)if(Date.parse(row.samples[i][0])!==start+i*step){issues.push("समय-अंतराल/क्रम दोष: "+row.key+" नमूना "+i);break;}
+  cursor=end;
+ }
+ if(cursor!==expectedEnd)issues.push("डेटा अपेक्षित अंतिम सीमा तक नहीं पहुँचा: "+iso(cursor)+" बनाम "+iso(expectedEnd));
+ return issues;
+}
+async function refreshExports(){
+ const meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null;
+ const rows=(await all(STORE)).filter(r=>r.runKey===runKey),years=[...new Set(rows.map(r=>Number(r.fromUtc.slice(0,4))))].sort((a,b)=>a-b);
+ $("exportYear").innerHTML=years.map(y=>'<option value="'+y+'">'+y+'</option>').join("");
+ $("exportMonth").innerHTML=Array.from({length:12},(_,i)=>'<option value="'+(i+1)+'">'+String(i+1).padStart(2,"0")+'</option>').join("");
+ $("exportStatus").textContent="सहेजे गए खंड: "+rows.length+" · उपलब्ध वर्ष: "+(years.join(", ")||"अभी कोई नहीं");
+}
+async function makeManifest(){
+ const meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null;
+ const rows=(await all(STORE)).filter(r=>r.runKey===runKey);
+ const chunks=rows.map(r=>({key:r.key,fromUtc:r.fromUtc,toUtcExclusive:r.toUtcExclusive,sampleCount:r.sampleCount,checksum:r.checksum}));
+ return {schemaVersion:"1.0.0",datasetType:"geocentric-apparent-vectors",status:meta?.completed?"generated-unvalidated":"partial-unvalidated",generatedAtUtc:iso(Date.now()),generator:config||meta?.config||null,coordinateFrame:"EQJ",unit:"AU",timeScale:"UTC timestamps supplied to Astronomy Engine Date API",aberration:true,chunks,warning:"Unvalidated research data; not a certified Asta/Udaya event table."};
+}
+$("exportManifestBtn").onclick=async()=>download("asta-udaya-manifest.json",await makeManifest());
+$("exportMonthBtn").onclick=async()=>{
+ const y=Number($("exportYear").value),m=Number($("exportMonth").value),meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null,rows=(await all(STORE)).filter(r=>r.runKey===runKey),monthStart=Date.UTC(y,m-1,1),monthEnd=Date.UTC(y,m,1),selected=rows.filter(r=>Date.parse(r.fromUtc)<monthEnd&&Date.parse(r.toUtcExclusive)>monthStart);
+ if(!selected.length){$("exportStatus").textContent="इस माह का कोई डेटा नहीं मिला।";return;}
+ const selectedIssues=await verifyRows(selected,Date.parse(selected[0].fromUtc),Date.parse(selected[selected.length-1].toUtcExclusive));
+ if(selectedIssues.length){$("exportStatus").textContent="माह निर्यात रोका गया: "+selectedIssues.slice(0,5).join(" · ");return;}
+ const samples=selected.flatMap(r=>r.samples).filter(s=>Date.parse(s[0])>=monthStart&&Date.parse(s[0])<monthEnd).sort((a,b)=>a[0].localeCompare(b[0]));
+ const step=(config?.cadenceHours||6)*3600000,expectedCount=(monthEnd-monthStart)/step;
+ if(samples.length!==expectedCount||samples.some((s,i)=>Date.parse(s[0])!==monthStart+i*step)){
+  $("exportStatus").textContent="निर्यात रोका गया: इस माह का डेटा अधूरा है या समय-अंतराल में दोष है। उपलब्ध "+samples.length+" / अपेक्षित "+expectedCount+" नमूने।";return;
+ }
+ const payload=JSON.stringify(samples),checksum=await sha256(payload);
+ download("asta-udaya-"+y+"-"+String(m).padStart(2,"0")+".json",{schemaVersion:"1.0.0",year:y,month:m,coordinateFrame:"EQJ",unit:"AU",timeScale:"UTC",aberration:true,bodies:config?.bodies||bodies.map(x=>x[0]),sampleCount:samples.length,checksum,samples});
+ $("exportStatus").textContent="माह का JSON तैयार और समय-अंतराल सत्यापित: "+samples.length+" समय-बिंदु।";
+};
+$("exportAllBtn").onclick=async()=>{
+ const meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null,rows=(await all(STORE)).filter(r=>r.runKey===runKey);
+ if(!rows.length){$("exportStatus").textContent="पहले गणना चलाएँ।";return;}
+ const expectedStart=Date.UTC(config.startYear,0,1),expectedEnd=cursor,issues=await verifyRows(rows,expectedStart,expectedEnd);
+ if(issues.length){$("exportStatus").textContent="निर्यात रोका गया; डेटा सत्यापन में समस्या:\\n"+issues.slice(0,8).join("\\n");return;}
+ download("asta-udaya-all-chunks.json",{manifest:await makeManifest(),chunks:rows});
+ $("exportStatus").textContent="सभी सहेजे गए खंड, checksum और समय-अंतराल सत्यापित: "+rows.length+" खंड।";
+};
+await (async()=>{db=await openDB();const saved=await get(META,"active");if(saved&&!saved.completed){config=saved.config;cursor=saved.cursor;$("fromYear").value=config.startYear;$("toYear").value=config.endYear;$("cadence").value=String(config.cadenceHours);$("chunkDays").value=String(config.chunkDays);$("resume").disabled=false;setStatus("अधूरी गणना मिली। अंतिम सुरक्षित बिंदु: "+iso(cursor)+"। 'फिर शुरू करें' दबाकर जारी रखें।");}else if(saved?.completed){config=saved.config;cursor=saved.cursor;setStatus("पिछली गणना पूरी मिली। सहेजे गए खंड निर्यात कर सकते हैं।");}await refreshExports();})();
+</script>
+</body></html>
