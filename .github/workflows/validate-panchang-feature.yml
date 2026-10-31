@@ -24,7 +24,7 @@ jobs:
           node --experimental-default-type=module --check festival-filter.js
           node --experimental-default-type=module --check monthly-vrat-parv-widget.js
           node --experimental-default-type=module --check festival-widget.js
-          node --experimental-default-type=module --check dwadashi-calendar.js
+          node --check dwadashi-calendar.mjs
           node --experimental-default-type=module --check festival-muhurta.js
           sed -n '/^<script type="module">$/,/^<\\/script>$/p' festival-year-review.html | sed '1d;$d' > /tmp/festival-year-review.mjs
           node --check /tmp/festival-year-review.mjs
