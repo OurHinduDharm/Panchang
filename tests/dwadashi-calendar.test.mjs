@@ -90,14 +90,27 @@ test("Chaturmas uses the first sunrise-observed date for each boundary", () => {
     sunriseDay("2026-08-25","श्रावण","शुक्ल","द्वादशी"),
     sunriseDay("2026-09-23","भाद्रपद","शुक्ल","द्वादशी"),
     sunriseDay("2026-10-23","आश्विन","शुक्ल","द्वादशी"),
-    sunriseDay("2026-11-20","कार्तिक","शुक्ल","एकादशी")
+    {
+      date:"2026-11-20", masa:"कार्तिक", paksha:"शुक्ल पक्ष", tithi:"एकादशी",
+      sunrise:"2026-11-20T01:07:00.000Z",
+      tithiStartTime:"2026-11-20T01:15:00.000Z",
+      tithiEndTime:"2026-11-21T01:01:00.000Z",
+      sunriseTithi:{masa:"कार्तिक",paksha:"शुक्ल पक्ष",tithi:"दशमी"}
+    },
+    {
+      date:"2026-11-21", masa:"कार्तिक", paksha:"शुक्ल पक्ष", tithi:"द्वादशी",
+      sunrise:"2026-11-21T01:08:00.000Z",
+      sunriseTithi:{masa:"कार्तिक",paksha:"शुक्ल पक्ष",tithi:"द्वादशी"}
+    }
   ];
   const result = buildChaturmasProposal(days,{name:"Pithoragarh",latitude:29.58,longitude:80.22,elevation:1650});
   assert.equal(result.status,"needs-review");
-  assert.equal(result.selectionMethod,"udayavyapini-smarta-first-sunrise");
+  assert.equal(result.selectionMethod,"udayavyapini-smarta-first-sunrise-with-kartik-ekadashi-vrata-rule");
   assert.equal(result.boundaries[1].selectedDate,"2026-08-24");
   assert.deepEqual(result.phases.map(x=>x.startDate),["2026-07-25","2026-08-24","2026-09-23","2026-10-23"]);
   assert.equal(result.endDate,"2026-11-20");
+  assert.equal(result.boundaries[4].selectionBasis,"smarta-ekadashi-between-sunrises");
+  assert.equal(result.boundaries[4].observations[0].basis,"smarta-ekadashi-between-sunrises");
   assert.equal(result.cardVisibleThroughDate,"2026-11-22");
   assert.match(result.rulesArticleUrl,/About-Chaaturmaas/);
 });

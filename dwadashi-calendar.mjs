@@ -173,12 +173,54 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
         normalizeTithi(sunrise.tithi) === spec.tithi;
     }).map(day => ({
       date: day.date,
+      basis: "sunrise-tithi",
       sunrise: day.sunrise || null,
       tithiStartTime: day.sunriseTithi.tithiStartTime || null,
       tithiEndTime: day.sunriseTithi.tithiEndTime || null
     })).filter(item => item.date).sort((a, b) => dateSort(a.date, b.date));
-    const observedDates = unique(observations.map(item => item.date));
-    return { ...spec, observations, observedDates, selectedDate: observedDates[0] || null };
+    let observedDates = unique(observations.map(item => item.date));
+    let selectedDate = observedDates[0] || null;
+    let selectionBasis = selectedDate ? "udayavyapini-smarta-first-sunrise" : null;
+
+    // Kartik Shukla Ekadashi may be the Smarta observance day even when
+    // Dashami is present at that day's sunrise and Ekadashi ends before
+    // the following sunrise. In that case sunrise-only matching misses it.
+    if (spec.id === "end" && !selectedDate) {
+      const byDate = new Map(dailyPanchang.map(day => [day.date, day]));
+      const smartaCandidates = dailyPanchang.filter(day => {
+        if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(String(day.date || ""))) return false;
+        const masa = normalizeMonth(day.masa);
+        if (masa.adhika || masa.month !== spec.month ||
+            normalizePaksha(day.paksha) !== spec.paksha ||
+            normalizeTithi(day.tithi) !== spec.tithi ||
+            !day.tithiStartTime || !day.tithiEndTime || !day.sunrise) return false;
+        const nextDate = new Date(day.date + "T00:00:00Z");
+        nextDate.setUTCDate(nextDate.getUTCDate() + 1);
+        const nextKey = nextDate.toISOString().slice(0, 10);
+        const nextSunrise = byDate.get(nextKey)?.sunrise;
+        if (!nextSunrise) return false;
+        const start = new Date(day.tithiStartTime).getTime();
+        const end = new Date(day.tithiEndTime).getTime();
+        const sunrise = new Date(day.sunrise).getTime();
+        const followingSunrise = new Date(nextSunrise).getTime();
+        return [start, end, sunrise, followingSunrise].every(Number.isFinite) &&
+          start >= sunrise && end <= followingSunrise;
+      }).map(day => ({
+        date: day.date,
+        basis: "smarta-ekadashi-between-sunrises",
+        sunrise: day.sunrise,
+        nextSunrise: byDate.get((() => { const d=new Date(day.date+"T00:00:00Z"); d.setUTCDate(d.getUTCDate()+1); return d.toISOString().slice(0,10); })())?.sunrise || null,
+        tithiStartTime: day.tithiStartTime,
+        tithiEndTime: day.tithiEndTime
+      })).sort((a, b) => dateSort(a.date, b.date));
+      if (smartaCandidates.length === 1) {
+        observations.push(...smartaCandidates);
+        observedDates = unique(observations.map(item => item.date));
+        selectedDate = smartaCandidates[0].date;
+        selectionBasis = "smarta-ekadashi-between-sunrises";
+      }
+    }
+    return { ...spec, observations, observedDates, selectedDate, selectionBasis };
   });
   const missing = boundaries.filter(item => !item.selectedDate).map(item => item.id);
   const complete = missing.length === 0;
@@ -195,7 +237,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     schemaVersion: 1,
     year: Number.isFinite(year) ? year : null,
     status: complete ? "needs-review" : "incomplete",
-    selectionMethod: "udayavyapini-smarta-first-sunrise",
+    selectionMethod: "udayavyapini-smarta-first-sunrise-with-kartik-ekadashi-vrata-rule",
     rulesArticleUrl: "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html",
     location: {
       name: String(location.name || ""),
