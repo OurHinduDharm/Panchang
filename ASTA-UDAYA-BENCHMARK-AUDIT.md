@@ -99,3 +99,23 @@ For the March 2025 Pithoragarh city-label reference, the initial run returned:
 - Morning-first visibility: 24 Mar 2025 05:39 IST versus published 23 Mar 2025 05:40 IST (+1,439.1 minutes).
 
 These are real calculated results, but **not a match** and not grounds to tune a threshold. The event model may differ. The test page now starts 10 days before the published timestamp (using its explicit timezone offset), which bounds the candidate search near the reference; this window does not itself prove event equivalence. It then reports the actual signed time difference. The browser test asserts that a finite difference is rendered; it does not require or fabricate a match. Re-run the browser workflow and review its logged numbers before drawing any accuracy conclusion.
+
+
+## Progress checkpoint — 2026-10-31
+
+### Completed in this checkpoint
+- Fixed over-escaped regular expressions in `tests/asta-udaya-browser.spec.mjs`; the browser test now extracts the two event blocks and signed minute deltas correctly.
+- Confirmed the latest GitHub Actions run for head `8365a135b88894c9a8df2bdf705b3c04ec64569e`: browser validation run `41133812210` **success**, 1 test passed / 0 failed; standard Panchang feature validation run `41133812333` **success**.
+- The actual Chromium/Swiss result remains unchanged: Evening Last is −2,893.9 minutes from the published Asta-start; Morning First is +1,439.1 minutes from the published Asta-end. This confirms test stability, not agreement between event models.
+- Re-inspected production `main/extra-panchang.js` (blob `d1ab028cfd84224462ced2da9f1bb9ac045cc9a0`). It still uses provisional ecliptic-longitude thresholds and marks verification pending. Production has not been changed by this benchmark PR.
+
+### Six-stage delivery tracker
+1. **Reference provenance and test harness** — substantially complete. References are explicitly location/source-bound; browser execution and feature checks pass. Exact provider coordinates remain undisclosed for the Pithoragarh city-label references.
+2. **Event-definition and numerical discrepancy review** — in progress. The measured Swiss/Drik time deltas are large; no threshold fitting is permitted. Need reliable same-location, same-event-definition evidence before declaring the method verified.
+3. **Choose the production method and its limits** — pending. Keep Drik-style modern calculations separate from the classical Sūrya-siddhānta diagnostic.
+4. **Production performance baseline and safe optimization** — pending. First capture repeatable before/after timings and output snapshots; preserve the 400-day search limit, crossing direction, and approximately one-minute root tolerance unless an independently justified change is approved.
+5. **Production integration and regression tests** — pending; no production calculation changes are part of PR #149 at this checkpoint.
+6. **Location/date acceptance checks, merge and publish** — pending; includes Pithoragarh and a second location, past/future dates, event ordering, and explicit no-result behavior.
+
+### Time estimate
+The original 8–17 hours was an estimate of active engineering/review time, not a delivery promise. Given the unresolved event-model discrepancy, remaining work is provisionally **6–14 active hours** after the reference decision is made; if a trustworthy same-event reference cannot be obtained, the correct result may be a documented limitation rather than a falsely “matched” algorithm. Calendar time depends on review/CI turnaround. Do not mark stages 2–6 complete until their acceptance checks actually pass.
