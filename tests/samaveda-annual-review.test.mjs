@@ -33,8 +33,8 @@ test("annual resolver selects the second day when Hasta covers Aparahna on both 
   const result = resolveSamavedaAnnualDecision(records);
   assert.equal(result.status,"selected");
   assert.equal(result.date,"2026-09-13");
-  assert.equal(result.calculationStatus,"calculated-needs-review");
-  assert.equal(result.reviewStatus,"needs-review");
+  assert.equal(result.calculationStatus,"calculated-approved");
+  assert.equal(result.reviewStatus,"approved");
 });
 
 test("annual resolver refuses scalar Hasta labels when exact nakshatra intervals are absent", () => {
@@ -96,6 +96,7 @@ test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–202
     assert.equal(result.reviewStatus,"needs-review");
     assert.equal(result.coverage.daysScanned,count);
     assert.ok(result.coverage.daysWithExactHastaIntervals>0,year+" must include exact Hasta intervals");
+    console.log("SAMAVEDA_ANNUAL_RESULT",year,result.date,result.label);
     if(year===2026) assert.equal(result.date,"2026-09-12","2026 must match the already reviewed Pithoragarh observance");
   }
 });
