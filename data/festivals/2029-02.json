@@ -42,6 +42,17 @@
       "hinduTithi": "सूर्य का कुंभ राशि में प्रवेश"
     },
     {
+      "date": "2029-02-13",
+      "dateLabel": "13 फ़रवरी",
+      "title": "द्वापर युग दिवस",
+      "description": "फाल्गुन कृष्ण अमावस्या को द्वापर युग के आरम्भ का स्मरण द्वापर युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "approved",
+      "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=13/02/2029"
+    },
+    {
       "date": "2029-02-25",
       "dateLabel": "25 फरवरी",
       "title": "आमलकी एकादशी",
