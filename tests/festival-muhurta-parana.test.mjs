@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import panchangPackage from "@ishubhamx/panchangam-js";
+import { calculateKundli } from "@ishubhamx/panchangam-js";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const helperSource = await readFile(new URL("../night-prahar.js", import.meta.url), "utf8");
@@ -164,7 +165,7 @@ test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", asy
 test("Pithoragarh Diwali ascendant can be read at the Vrishabha interval", () => {
   const instant = date("2026-11-08T18:30:00+05:30");
   const panchang = getPanchangam(instant, projectObserver, { timezoneOffset:330, calendarType:"purnimanta" });
-  const kundli = panchangPackage.calculateKundli(instant, projectObserver);
+  const kundli = calculateKundli(instant, projectObserver);
   function isVrishabha(value) {
     if (value && typeof value === "object") {
       value = value.rashiIndex ?? value.rashiName ?? value.rashi ?? value.signName ?? value.name ?? value.label ?? value.index ?? value.number ?? value.value;
