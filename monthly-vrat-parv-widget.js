@@ -268,8 +268,11 @@
   }
   async function buildLocationEclipseEvents(year,month,token){
     var location=getLocalLocation();
-    var cacheKey=[year,month,location.lat,location.lon,location.elevation].join("|");
-    if(locationEclipseCache.has(cacheKey))return locationEclipseCache.get(cacheKey);
+    var cacheKey=[year,location.lat,location.lon,location.elevation].join("|");
+    if(locationEclipseCache.has(cacheKey)){
+      var cachedEvents=await locationEclipseCache.get(cacheKey);
+      return cachedEvents.filter(function(item){return Number(String(item.date||"").slice(5,7))===month;});
+    }
     var task=(async function(){
       var tools=await eclipseToolsPromise;
       if(!tools||typeof tools.discoverEclipses!=="function"||
@@ -278,7 +281,6 @@
       // getDatePanchang supplies the same pinned Panchang API and observer
       // already used by the monthly muhurta calculations.
       var values=await getDatePanchang(String(year)+"-01-01");
-      if(token!==requestToken)return [];
       var eclipses=await tools.discoverEclipses(year,values.location,values.panchangLib);
       var events=[];
       (Array.isArray(eclipses)?eclipses:[]).forEach(function(item){
@@ -287,8 +289,7 @@
         var firstContact=grahan.contact&&grahan.contact.firstContact;
         var eclipseDate=firstContact||item.date;
         var dateKey=istDateKey(eclipseDate);
-        if(!dateKey||Number(dateKey.slice(0,4))!==year||
-           Number(dateKey.slice(5,7))!==month)return;
+        if(!dateKey||Number(dateKey.slice(0,4))!==year)return;
         var visibilityDate=new Date(dateKey+"T12:00:00+05:30");
         var dayPanchangs=tools.getEclipseDayPanchangs(visibilityDate,values.observer,values.panchangLib);
         var visibility=tools.getLocalVisibility(grahan,dayPanchangs);
@@ -318,8 +319,7 @@
     });
     locationEclipseCache.set(cacheKey,task);
     var result=await task;
-    if(!result.length)locationEclipseCache.delete(cacheKey);
-    return result;
+    return result.filter(function(item){return Number(String(item.date||"").slice(5,7))===month;});
   }
 
   function getSankrantiRashiIndex(item){
