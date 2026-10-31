@@ -18,7 +18,7 @@ const sunriseDay = (date, month, paksha, tithi, adhika=false) => ({
   sunriseTithi: { masa:(adhika ? "अधिक " : "") + month, paksha:paksha + " पक्ष", tithi }
 });
 
-test("one month-paksha Dwadashi record retains multiple names and chooses first sunrise", () => {
+test("one month-paksha Dwadashi record retains names without guessing when sunrise repeats", () => {
   const days = [
     sunriseDay("2026-04-01","चैत्र","शुक्ल","द्वादशी"),
     sunriseDay("2026-04-02","चैत्र","शुक्ल","द्वादशी")
@@ -30,6 +30,16 @@ test("one month-paksha Dwadashi record retains multiple names and chooses first 
   assert.deepEqual(result.tithis[0].sunriseDates,["2026-04-01","2026-04-02"]);
   assert.deepEqual(result.tithis[0].candidateDates,["2026-04-01","2026-04-02"]);
   assert.deepEqual(result.tithis[0].displayNames,["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"]);
+});
+
+
+test("a single sunrise date remains a candidate until a vrata rule is reviewed", () => {
+  const result = buildDwadashiCalendar([
+    sunriseDay("2026-04-01","चैत्र","शुक्ल","द्वादशी")
+  ],rules);
+  assert.equal(result.tithis[0].selectedDate,"2026-04-01");
+  assert.equal(result.tithis[0].dateSelection,"single-sunrise-candidate-review-required");
+  assert.equal(result.tithis[0].status,"needs-review");
 });
 
 test("Drik 2026 labels are not carried into later annual calendars", () => {
