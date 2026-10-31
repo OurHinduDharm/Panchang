@@ -187,7 +187,7 @@ function renderDwadashiReview(){
   dateLabel.appendChild(dateInput);controls.appendChild(dateLabel);
   const approveLabel=document.createElement("label");approveLabel.className="field";approveLabel.textContent="व्रत-विशेष का नियम जाँचकर स्वीकृत करें";
   const approve=document.createElement("input");approve.type="checkbox";approve.checked=record.status==="approved";approve.disabled=!record.selectedDate;
-  approve.addEventListener("change",()=>{record.status=approve.checked&&record.selectedDate?"approved":"needs-review";if(record.status==="approved")record.dateSelection="vrata-specific-rule-reviewed";syncDwadashiPackageStatus();renderDwadashiReview()});
+  approve.addEventListener("change",()=>{record.status=approve.checked&&record.selectedDate?"approved":"needs-review";record.dateSelection=record.status==="approved"?"vrata-specific-rule-reviewed":record.selectedDate?"manual-vrata-rule-selection-review-required":"requires-vrata-specific-rule";syncDwadashiPackageStatus();renderDwadashiReview()});
   approveLabel.appendChild(approve);controls.appendChild(approveLabel);
   card.appendChild(controls);
   const state=document.createElement("p");state.className="muted";state.textContent=record.status==="approved"?"स्थिति: स्वीकृत":"स्थिति: जाँच बाकी";card.appendChild(state);
