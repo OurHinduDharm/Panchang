@@ -166,13 +166,24 @@ function renderDwadashiReview(){
   const card=document.createElement("div");card.className="event";
   const heading=document.createElement("h3");heading.textContent=record.month+" "+record.paksha+" द्वादशी";card.appendChild(heading);
   const names=document.createElement("p");names.textContent="प्रचलित नाम: "+((record.displayNames||[]).join(" / ")||"इस तिथि के लिए सूचीबद्ध विशेष नाम नहीं");card.appendChild(names);
-  const observations=Array.isArray(record.sunriseObservations)?record.sunriseObservations:[];
-  if(observations.length){
+  const candidateDates=Array.isArray(record.candidateDates)?record.candidateDates:[];
+  if(candidateDates.length){
+   const candidates=document.createElement("p");candidates.className="muted";candidates.textContent="संभावित तारीख़ें (सूर्योदय/दोपहर निरीक्षण): "+candidateDates.join(", ");card.appendChild(candidates);
+  }
+  const sunriseObservations=Array.isArray(record.sunriseObservations)?record.sunriseObservations:[];
+  sunriseObservations.forEach(item=>{
    const detail=document.createElement("p");detail.className="muted";
-   detail.textContent="सूर्योदय पर मिली तारीख़ें: "+observations.map(item=>item.date+" · तिथि "+dateTimeHindi(item.tithiStartTime)+" से "+dateTimeHindi(item.tithiEndTime)).join(" | ");
+   detail.textContent="सूर्योदय "+item.date+" · तिथि "+dateTimeHindi(item.tithiStartTime)+" से "+dateTimeHindi(item.tithiEndTime);
    card.appendChild(detail);
-  }else{
-   const detail=document.createElement("p");detail.className="muted";detail.textContent="इस मास-पक्ष की द्वादशी सूर्योदय पर नहीं मिली; यदि व्रत-विशेष का नियम दूसरी तारीख़ देता है तो नीचे वही तारीख़ चुनें।";card.appendChild(detail);
+  });
+  const noonObservations=Array.isArray(record.noonObservations)?record.noonObservations:[];
+  noonObservations.forEach(item=>{
+   const detail=document.createElement("p");detail.className="muted";
+   detail.textContent="दोपहर "+item.date+" · तिथि "+dateTimeHindi(item.tithiStartTime)+" से "+dateTimeHindi(item.tithiEndTime);
+   card.appendChild(detail);
+  });
+  if(!candidateDates.length){
+   const detail=document.createElement("p");detail.className="muted";detail.textContent="सूर्योदय या दोपहर के निरीक्षण में द्वादशी नहीं मिली; व्रत-विशेष के नियम से तारीख़ अलग निर्धारित करनी होगी।";card.appendChild(detail);
   }
   if((record.observances||[]).length>1){
    const caution=document.createElement("p");caution.className="muted";caution.textContent="इस कार्ड में "+record.observances.length+" अलग व्रत-विवरण एक साथ हैं। स्वीकृति तभी दें जब चुनी तारीख़ सभी संबंधित नामों के लिए मान्य हो।";card.appendChild(caution);
