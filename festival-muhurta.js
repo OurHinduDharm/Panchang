@@ -692,18 +692,23 @@ const rules = {
     const fixedLagna = findLagna(/vrishabha|वृषभ|taurus/i);
     let hasVrishabhaPradoshOverlap = false;
     if (fixedLagna) {
-      const lagnaWindow = interval(
-        laterDate(pradosh ? pradosh.start : sunset, validDate(fixedLagna.start)),
-        earlierDate(pradosh ? pradosh.end : nextSunrise, validDate(fixedLagna.end)),
-        pradosh ? "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न" : "वृषभ स्थिर लग्न — अमावस्या में वैकल्पिक समय",
-        pradosh
-          ? "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
-          : "वृषभ स्थिर लग्न और कार्तिक अमावस्या की संयुक्त व्याप्ति; प्रदोष से बाहर होने के कारण इसे मुख्य गृहस्थ मुहूर्त न मानें।"
-      );
+      const lagnaWindow = pradosh
+        ? interval(
+            laterDate(pradosh.start, validDate(fixedLagna.start)),
+            earlierDate(pradosh.end, validDate(fixedLagna.end)),
+            "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न",
+            "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+          )
+        : windowWithin(
+            validDate(fixedLagna.start),
+            validDate(fixedLagna.end),
+            tithis,
+            "वृषभ स्थिर लग्न — अमावस्या में वैकल्पिक समय",
+            "वृषभ स्थिर लग्न और कार्तिक अमावस्या की संयुक्त व्याप्ति; प्रदोष से बाहर होने के कारण इसे मुख्य गृहस्थ मुहूर्त न मानें।"
+          );
       if (lagnaWindow) {
         windows.push(lagnaWindow);
-        hasVrishabhaPradoshOverlap = !!pradosh &&
-          lagnaWindow.start >= pradosh.start && lagnaWindow.end <= pradosh.end;
+        hasVrishabhaPradoshOverlap = !!pradosh;
       }
     }
 
@@ -722,12 +727,6 @@ const rules = {
         label: "कुंभ स्थिर लग्न — वैकल्पिक पूजन समय",
         note: "कार्तिक अमावस्या और कुंभ स्थिर लग्न की संयुक्त व्याप्ति। यह वृषभ-प्रदोष मुख्य गृहस्थ मुहूर्त का विकल्प है, समान प्राथमिकता वाला दावा नहीं।"
       },
-      {
-        pattern: /simha|सिंह|leo/i,
-        name: "सिंह",
-        label: "सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय",
-        note: "कार्तिक अमावस्या और सिंह स्थिर लग्न की संयुक्त व्याप्ति। महानिशीथ से इसका मेल अलग से दिखाया जाएगा; इसे सामान्य गृहस्थों के मुख्य प्रदोष मुहूर्त के बराबर न मानें।"
-      }
     ];
     for (const option of additionalFixedLagnas) {
       const lagna = findLagna(option.pattern);
@@ -779,6 +778,16 @@ const rules = {
       if (simhaNishita) windows.push(simhaNishita);
     } else if (nishita) {
       windows.push(nishita);
+    }
+    if (simhaLagna && !nishita) {
+      const simhaAmavasya = windowWithin(
+        validDate(simhaLagna.start),
+        validDate(simhaLagna.end),
+        tithis,
+        "सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय",
+        "कार्तिक अमावस्या और सिंह स्थिर लग्न की संयुक्त व्याप्ति; सामान्य गृहस्थों के मुख्य प्रदोष मुहूर्त का विकल्प नहीं।"
+      );
+      if (simhaAmavasya) windows.push(simhaAmavasya);
     }
 
     // Godhuli is a separate twilight interval useful for lighting lamps.
