@@ -166,6 +166,11 @@ function renderDwadashiReview(){
   const card=document.createElement("div");card.className="event";
   const heading=document.createElement("h3");heading.textContent=record.month+" "+record.paksha+" द्वादशी";card.appendChild(heading);
   const names=document.createElement("p");names.textContent="प्रचलित नाम: "+((record.displayNames||[]).join(" / ")||"इस तिथि के लिए सूचीबद्ध विशेष नाम नहीं");card.appendChild(names);
+  if(record.referenceDate){
+   const reference=document.createElement("p");reference.className="muted";
+   reference.textContent="पंचांग संदर्भ तारीख़: "+record.referenceDate+" (यह स्थानीय गणना से चुनी/स्वीकृत तारीख़ नहीं है)";
+   card.appendChild(reference);
+  }
   const candidateDates=Array.isArray(record.candidateDates)?record.candidateDates:[];
   if(candidateDates.length){
    const candidates=document.createElement("p");candidates.className="muted";candidates.textContent="संभावित तारीख़ें (सूर्योदय/दोपहर निरीक्षण): "+candidateDates.join(", ");card.appendChild(candidates);
