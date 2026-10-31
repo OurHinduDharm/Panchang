@@ -42,7 +42,9 @@
       "description": "मान्यता है फाल्गुन पूर्णिमा को श्री महालक्ष्मी समुद्र मंथन से उद्भूत हुई थीं - प्रमुखता से दक्षिणी भारत में श्री लक्ष्मी जी की जयंती - इस अवसर पर <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\">श्री महालक्ष्मी जी की उपासना करें </a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "articleLabel": "श्री महालक्ष्मी जी की उपासना करें"
     },
     {
       "date": "2026-03-03",
@@ -104,7 +106,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-03-15",
@@ -161,7 +167,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Hindu-Navsamvatsar.html\" target=\"_blank\"> \"रौद्र\" नामक हिंदू नवसंवत्सर २०८३ मंगलमय हो!</a> वसन्त ऋतु प्रारंभ",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल प्रतिपदा"
+      "hinduTithi": "चैत्र शुक्ल प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Hindu-Navsamvatsar.html",
+      "articleLabel": "\"रौद्र\" नामक हिंदू नवसंवत्सर २०८३ मंगलमय हो!"
     },
     {
       "date": "2026-03-20",
@@ -179,7 +187,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\">नवरात्रि के दूसरे दिन ब्रह्मचारिणी जी का आराधन</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल द्वितीया"
+      "hinduTithi": "चैत्र शुक्ल द्वितीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "articleLabel": "नवरात्रि के दूसरे दिन ब्रह्मचारिणी जी का आराधन"
     },
     {
       "date": "2026-03-20",
@@ -205,7 +215,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\">नवरात्रि के तृतीय दिवस चन्द्रघंटा माँ की आराधना</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल तृतीया"
+      "hinduTithi": "चैत्र शुक्ल तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "articleLabel": "नवरात्रि के तृतीय दिवस चन्द्रघंटा माँ की आराधना"
     },
     {
       "date": "2026-03-21",
@@ -214,7 +226,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\">श्री मत्स्य-अवतार जयन्ती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल तृतीया"
+      "hinduTithi": "चैत्र शुक्ल तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html",
+      "articleLabel": "श्री मत्स्य-अवतार जयन्ती"
     },
     {
       "date": "2026-03-22",
@@ -223,7 +237,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\">नवरात्रि का चतुर्थ दिन - कूष्माण्डा जी का पूजन</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल चतुर्थी"
+      "hinduTithi": "चैत्र शुक्ल चतुर्थी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "articleLabel": "नवरात्रि का चतुर्थ दिन - कूष्माण्डा जी का पूजन"
     },
     {
       "date": "2026-03-22",
@@ -241,7 +257,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\">नवरात्र के पंचम दिन स्कन्दमाता जी का पूजन</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल पंचमी"
+      "hinduTithi": "चैत्र शुक्ल पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "articleLabel": "नवरात्र के पंचम दिन स्कन्दमाता जी का पूजन"
     },
     {
       "date": "2026-03-23",
@@ -259,7 +277,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\">नवरात्र के छठे दिन कात्यायनी माँ की पूजा</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल षष्ठी"
+      "hinduTithi": "चैत्र शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "articleLabel": "नवरात्र के छठे दिन कात्यायनी माँ की पूजा"
     },
     {
       "date": "2026-03-24",
@@ -286,7 +306,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\">नवरात्र के सप्तम दिन कालरात्रि पूजन</a> महासप्तमी",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल सप्तमी"
+      "hinduTithi": "चैत्र शुक्ल सप्तमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "articleLabel": "नवरात्र के सप्तम दिन कालरात्रि पूजन"
     },
     {
       "date": "2026-03-26",
@@ -295,7 +317,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\">नवरात्रि में अष्टमी को महागौरी जी की आराधना</a>, अन्नपूर्णा माँ की पूजा। (चैत्र नवरात्रि अष्टमी - इस दिन कन्या पूजन करें।)",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल अष्टमी"
+      "hinduTithi": "चैत्र शुक्ल अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "articleLabel": "नवरात्रि में अष्टमी को महागौरी जी की आराधना"
     },
     {
       "date": "2026-03-26",
@@ -316,7 +340,8 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल नवमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html",
+      "articleLabel": "श्रीराम नवमी व्रत"
     },
     {
       "date": "2026-03-27",
@@ -325,7 +350,11 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवरात्र के नवम दिन माँ सिद्धिदात्री की आराधना</a> तथा <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल नवमी"
+      "hinduTithi": "चैत्र शुक्ल नवमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
+      "articleLabel": "नवरात्र के नवम दिन माँ सिद्धिदात्री की आराधना",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html",
+      "secondaryArticleLabel": "नवमी हवन विधि"
     },
     {
       "date": "2026-03-27",
@@ -343,7 +372,9 @@
       "description": "२७ मार्च को वैष्णव सम्प्रदाय (वैष्णव दीक्षा प्राप्त) के अनुसार श्रीरामनवमी। <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html\" target=\"_blank\">भगवान श्री राम जयंती अर्थात् श्रीराम नवमी पर संक्षिप्त पूजा विधि</a>",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल नवमी"
+      "hinduTithi": "चैत्र शुक्ल नवमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html",
+      "articleLabel": "भगवान श्री राम जयंती अर्थात् श्रीराम नवमी पर संक्षिप्त पूजा विधि"
     },
     {
       "date": "2026-03-28",
@@ -362,7 +393,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-03-30",
