@@ -741,6 +741,39 @@ const rules = {
       if (overlap) windows.push(overlap);
     }
 
+    // Hora follows the same sunrise/sunset-based 12 day + 12 night
+    // sequence used by extra-panchang.js. Treat benefic horas as secondary
+    // overlays inside the already Amavasya-qualified Pradosh interval.
+    if (pradosh && sunrise && sunset > sunrise && nextSunrise > sunset) {
+      const horaPlanets = ["सूर्य","शुक्र","बुध","चन्द्र","शनि","गुरु","मंगल"];
+      const dayLordIndex = { 0:0, 1:3, 2:6, 3:2, 4:5, 5:1, 6:4 };
+      const weekdayForHora = localWeekday(context.date);
+      const firstPlanetIndex = dayLordIndex[weekdayForHora];
+      if (Number.isInteger(firstPlanetIndex)) {
+        const dayHoraMs = (sunset.getTime() - sunrise.getTime()) / 12;
+        const nightHoraMs = (nextSunrise.getTime() - sunset.getTime()) / 12;
+        for (let i = 0; i < 24; i++) {
+          const isDayHora = i < 12;
+          const startMs = isDayHora
+            ? sunrise.getTime() + i * dayHoraMs
+            : sunset.getTime() + (i - 12) * nightHoraMs;
+          const endMs = isDayHora
+            ? sunrise.getTime() + (i + 1) * dayHoraMs
+            : sunset.getTime() + (i - 11) * nightHoraMs;
+          const planet = horaPlanets[(firstPlanetIndex + i) % horaPlanets.length];
+          if (!["शुक्र","बुध","गुरु"].includes(planet)) continue;
+          const overlap = windowWithin(
+            new Date(startMs),
+            new Date(endMs),
+            [pradosh],
+            planet + " होरा — प्रदोष में पूरक समय",
+            "प्रदोष और अमावस्या के भीतर " + planet + " होरा का साझा समय। होरा अतिरिक्त ज्योतिषीय संकेत है; गृहस्थों के लिए वृषभ स्थिर लग्न का मुख्य मुहूर्त प्राथमिक रहेगा।"
+          );
+          if (overlap) windows.push(overlap);
+        }
+      }
+    }
+
     if (pradosh) {
       windows.push({
         ...pradosh,
