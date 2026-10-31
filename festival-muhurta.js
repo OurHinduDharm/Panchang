@@ -4,6 +4,8 @@
  * Keep rule decisions isolated here so each festival can receive a reviewed rule.
  */
 
+import { getNightPraharWindows } from "./night-prahar.js";
+
 function validDate(value) {
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   return Number.isFinite(date.getTime()) ? date : null;
@@ -1132,13 +1134,13 @@ const rules = {
     if (!sunset || !nextSunrise || nextSunrise <= sunset || !chaturdashi.length) {
       return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "स्थानीय रात्रिमान और कृष्ण चतुर्दशी की वास्तविक व्याप्ति उपलब्ध नहीं है; प्रहर-समय नहीं दिखाए जा रहे हैं।" };
     }
-    const duration = nextSunrise.getTime() - sunset.getTime();
+    const prahars = getNightPraharWindows(sunset, nextSunrise);
     const names = ["प्रथम प्रहर", "द्वितीय प्रहर", "तृतीय प्रहर", "चतुर्थ प्रहर"];
     const windows = [];
-    for (let i = 0; i < 4; i++) {
-      const start = new Date(sunset.getTime() + duration * i / 4);
-      const end = new Date(sunset.getTime() + duration * (i + 1) / 4);
-      const part = windowWithin(start, end, chaturdashi, names[i], "रात्रि को सूर्यास्त से अगले सूर्योदय तक चार समान प्रहरों में बाँटा गया है।");
+    for (let i = 0; i < prahars.length; i++) {
+      const start = prahars[i].start;
+      const end = prahars[i].end;
+      const part = windowWithin(start, end, chaturdashi, names[i], "रात्रि को साझा स्थानीय प्रहर-मॉड्यूल से सूर्यास्त से अगले सूर्योदय तक चार समान भागों में बाँटा गया है।");
       // Do not publish a clipped/partial prahar as if it were a complete one.
       if (!part || part.start.getTime() !== start.getTime() || part.end.getTime() !== end.getTime()) {
         return { label: "महाशिवरात्रि — चार प्रहर पूजा समय", status: "unavailable", message: "कृष्ण चतुर्दशी की व्याप्ति चारों प्रहरों को पूरा नहीं ढकती; अधूरे प्रहर-समय नहीं दिखाए जा रहे हैं।" };
@@ -1175,11 +1177,12 @@ const rules = {
       };
     }
     const names = ["प्रथम प्रहर", "द्वितीय प्रहर", "तृतीय प्रहर", "चतुर्थ प्रहर"];
-    const windows = names.map((name, index) => interval(
-      new Date(sunset.getTime() + nightDuration * index / 4),
-      new Date(sunset.getTime() + nightDuration * (index + 1) / 4),
-      name,
-      "स्थानीय सूर्यास्त से अगले सूर्योदय तक रात्रि को चार समान प्रहरों में विभाजित किया गया है। कृष्ण चतुर्दशी की निशीथ-व्याप्ति अलग से सत्यापित है।"
+    const prahars = getNightPraharWindows(sunset, nextSunrise);
+    const windows = prahars.map((prahar, index) => interval(
+      prahar.start,
+      prahar.end,
+      names[index],
+      "स्थानीय सूर्यास्त से अगले सूर्योदय तक साझा रात्रि-प्रहर मॉड्यूल से चार समान प्रहर निकाले गए हैं। कृष्ण चतुर्दशी की निशीथ-व्याप्ति अलग से सत्यापित है।"
     )).filter(Boolean);
     if (windows.length !== 4) {
       return {
