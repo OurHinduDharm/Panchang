@@ -47,21 +47,21 @@
     },
     {
       "date": "2026-02-08",
-      "dateLabel": "8 फ़रवरी",
-      "title": "शबरी जयंती",
-      "description": "फाल्गुन कृष्ण सप्तमी - शबरी जयंती",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "फाल्गुन कृष्ण सप्तमी"
-    },
-    {
-      "date": "2026-02-08",
       "dateLabel": "8 फरवरी",
       "title": "भानु सप्तमी",
       "description": "रविवार को सप्तमी तिथि होने पर सूर्यदेव की उपासना और अर्घ्य का विशेष महत्व है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "hinduTithi": "माघ कृष्ण सप्तमी"
+    },
+    {
+      "date": "2026-02-08",
+      "dateLabel": "8 फ़रवरी",
+      "title": "शबरी जयंती",
+      "description": "फाल्गुन कृष्ण सप्तमी - शबरी जयंती",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "फाल्गुन कृष्ण सप्तमी"
     },
     {
       "date": "2026-02-09",
@@ -78,6 +78,14 @@
     {
       "date": "2026-02-13",
       "dateLabel": "13 फ़रवरी",
+      "title": "कुम्भ संक्रांति",
+      "description": "सूर्य के मकर राशि से कुम्भ राशि में प्रवेश से कुम्भ संक्रांति होती है। इस अवसर पर स्नान, दान और जप की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-02-13",
+      "dateLabel": "13 फ़रवरी",
       "title": "विजया एकादशी",
       "description": "एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत-पारण द्वादशी की व्याप्ति और हरिवासर के नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
@@ -88,14 +96,6 @@
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
-    },
-    {
-      "date": "2026-02-13",
-      "dateLabel": "13 फ़रवरी",
-      "title": "कुम्भ संक्रांति",
-      "description": "सूर्य के मकर राशि से कुम्भ राशि में प्रवेश से कुम्भ संक्रांति होती है। इस अवसर पर स्नान, दान और जप की परंपरा है।",
-      "category": "संक्रांति",
-      "reviewStatus": "approved"
     },
     {
       "date": "2026-02-14",
@@ -121,6 +121,17 @@
       "articleLabel": "महाशिवरात्रि व्रत की महिमा",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "secondaryArticleLabel": "शिवरात्रि का रहस्य"
+    },
+    {
+      "date": "2026-02-17",
+      "dateLabel": "17 फ़रवरी",
+      "title": "द्वापर युग दिवस",
+      "description": "फाल्गुन कृष्ण अमावस्या को द्वापर युग के आरम्भ का स्मरण द्वापर युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "approved",
+      "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=17/02/2026"
     },
     {
       "date": "2026-02-17",
