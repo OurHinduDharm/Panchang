@@ -30,7 +30,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\">श्री शाकम्भरी</a> माता की जयंती।",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "hinduTithi": "पौष शुक्ल पूर्णिमा"
+      "hinduTithi": "पौष शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html",
+      "articleLabel": "श्री शाकम्भरी"
     },
     {
       "date": "2026-01-04",
@@ -40,7 +42,9 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "endDate": "2026-02-01",
-      "hinduTithi": "माघ कृष्ण प्रतिपदा"
+      "hinduTithi": "माघ कृष्ण प्रतिपदा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/01/About-Bathing-On-Maagh-The-Hindu-Month.html?m=1",
+      "articleLabel": "माघ मास माहात्म्य"
     },
     {
       "date": "2026-01-06",
@@ -77,7 +81,9 @@
       "title": "मकर संक्रांति / सूर्य उत्तरायण प्रारम्भ",
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\" rel=\"noopener noreferrer\">मकर संक्रांति</a> और सूर्य के उत्तरायण प्रारम्भ से संबंधित पर्व। स्नान, दान और जप की परंपरा है; पुण्यकाल सूर्य-संक्रमण के वास्तविक समय और संबंधित नियमों के आधार पर निर्धारित होता है।",
       "category": "व्रत-पर्व",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html",
+      "articleLabel": "मकर संक्रांति"
     },
     {
       "date": "2026-01-14",
@@ -88,7 +94,11 @@
       "description": "षट्तिला एकादशी पर भगवान विष्णु की पूजा, तिल से स्नान, तिल-दान और तिल से बने पदार्थों के सेवन/दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "muhurtaRule": "ekadashi-parana",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-01-16",
@@ -124,7 +134,9 @@
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "endDate": "2026-01-27",
-      "hinduTithi": "माघ शुक्ल प्रतिपदा"
+      "hinduTithi": "माघ शुक्ल प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html",
+      "articleLabel": "माघ गुप्त नवरात्र"
     },
     {
       "date": "2026-01-19",
@@ -160,7 +172,9 @@
       "description": "द्वादश सिद्धविद्याओं की परंपरा में इस दिन सरस्वती जयन्ती भी मनाई जाती है। वसंत पंचमी पर माँ सरस्वती की पूजा, विद्यारम्भ, पुस्तक-पूजन और पीले वस्त्र/भोग की परंपरा है। इसे श्री पंचमी भी कहते हैं। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a>।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "माघ शुक्ल पंचमी"
+      "hinduTithi": "माघ शुक्ल पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
+      "articleLabel": "सरस्वती पूजन की विधि पढ़ें"
     },
     {
       "date": "2026-01-24",
@@ -196,7 +210,9 @@
       "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html\" target=\"_blank\"> भीष्माष्टमी, भीष्म तर्पण।</a>",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "माघ शुक्ल अष्टमी"
+      "hinduTithi": "माघ शुक्ल अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html",
+      "articleLabel": "भीष्माष्टमी, भीष्म तर्पण।"
     },
     {
       "date": "2026-01-26",
@@ -215,7 +231,11 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "माघ शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-01-30",
