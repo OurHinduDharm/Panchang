@@ -787,3 +787,37 @@ test("Diwali includes separately labelled Amavasya Choghadiya alternatives", asy
   assert.ok(result.windows.some(w => /प्रदोष काल/.test(w.label)));
   assert.ok(result.windows.some(w => /महानिशीथ/.test(w.label)));
 });
+
+test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published windows", async () => {
+  const context = realPanchangContext("2026-11-08");
+  const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, context);
+  assert.equal(result.status, "calculated");
+  const format = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23"
+  });
+  const choghadiya = result.windows
+    .filter(window => /चौघड़िया/.test(window.label))
+    .sort((a, b) => a.start - b.start);
+  const actual = choghadiya.map(window => [format.format(window.start), format.format(window.end)]);
+  const expected = [
+    ["11:27","11:53"],
+    ["13:14","14:35"],
+    ["17:18","18:57"],
+    ["18:57","20:36"],
+    ["20:36","22:14"],
+    ["01:32","03:11"],
+    ["04:50","06:28"]
+  ];
+  assert.equal(actual.length, expected.length);
+  const toMinutes = value => Number(value.slice(0,2)) * 60 + Number(value.slice(3,5));
+  actual.forEach((pair, index) => {
+    for (let endpoint = 0; endpoint < 2; endpoint++) {
+      const delta = Math.abs(toMinutes(pair[endpoint]) - toMinutes(expected[index][endpoint]));
+      assert.ok(delta <= 3, `Choghadiya window ${index + 1} endpoint ${endpoint + 1}: expected ${expected[index][endpoint]}, received ${pair[endpoint]}`);
+    }
+  });
+  assert.ok(choghadiya.every(window => /वैकल्पिक शुभ समय/.test(window.label)));
+});
