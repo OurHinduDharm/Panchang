@@ -13,6 +13,7 @@ on:
       - 'tests/2026-festival-coverage.test.mjs'
       - 'monthly-vrat-parv-widget.js'
       - 'monthly-vrat-parv.html'
+      - 'tests/monthly-location-eclipse-cards.test.mjs'
       - 'scripts/diagnose-2026-festival-review.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
   pull_request:
@@ -26,6 +27,7 @@ on:
       - 'tests/2026-festival-coverage.test.mjs'
       - 'monthly-vrat-parv-widget.js'
       - 'monthly-vrat-parv.html'
+      - 'tests/monthly-location-eclipse-cards.test.mjs'
       - '.github/workflows/festival-catalog-integrity.yml'
 permissions:
   contents: read
@@ -38,7 +40,7 @@ jobs:
         with:
           node-version: 20
       - name: Run integrity and 2026 coverage tests
-        run: node --test tests/festival-catalog-integrity.test.mjs tests/2026-festival-coverage.test.mjs
+        run: node --test tests/festival-catalog-integrity.test.mjs tests/2026-festival-coverage.test.mjs tests/monthly-location-eclipse-cards.test.mjs
       - name: Install pinned Panchang engine for location regression
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Diagnose remaining 2026 festival review dates at Pithoragarh
