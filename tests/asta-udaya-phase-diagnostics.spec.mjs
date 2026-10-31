@@ -28,15 +28,15 @@ test("Asta-Udaya perf diagnostics are present and visible output stays stable", 
     }, null, { timeout: 180000 });
 
     const card = page.locator("#planetRiseSetCard");
-    const initialFingerprint = (await card.innerText()).replace(/\\s+/g, " ").trim();
+    const initialFingerprint = (await card.innerText()).replace(/\s+/g, " ").trim();
     const panel = await page.locator("#ohd-perf-panel").innerText();
-    assert.match(panel, /"dailyRequests":\\s*[1-9]\\d*/);
-    assert.match(panel, /"dailyCacheHits":\\s*\\d+/);
-    assert.match(panel, /"dailyCacheMisses":\\s*\\d+/);
-    assert.match(panel, /"dailyEphemerisCalls":\\s*\\d+/);
-    assert.match(panel, /"bisectionEvaluations":\\s*\\d+/);
-    assert.match(panel, /"boundaryScanDays":\\s*\\d+/);
-    assert.match(panel, /"pairedBoundaryCacheHits":\\s*\\d+/);
+    assert.match(panel, /"dailyRequests":\s*[1-9]\d*/);
+    assert.match(panel, /"dailyCacheHits":\s*\d+/);
+    assert.match(panel, /"dailyCacheMisses":\s*\d+/);
+    assert.match(panel, /"dailyEphemerisCalls":\s*\d+/);
+    assert.match(panel, /"bisectionEvaluations":\s*\d+/);
+    assert.match(panel, /"boundaryScanDays":\s*\d+/);
+    assert.match(panel, /"pairedBoundaryCacheHits":\s*\d+/);
 
     await page.locator("#dateInput").fill("2026-11-01");
     await page.locator("#dateInput").dispatchEvent("change");
@@ -45,7 +45,7 @@ test("Asta-Udaya perf diagnostics are present and visible output stays stable", 
     await page.locator("#dateInput").dispatchEvent("change");
     await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetDiagnostics").length >= 3, null, { timeout: 180000 });
 
-    const finalFingerprint = (await card.innerText()).replace(/\\s+/g, " ").trim();
+    const finalFingerprint = (await card.innerText()).replace(/\s+/g, " ").trim();
     assert.equal(finalFingerprint, initialFingerprint, "visible Asta-Udaya result must remain identical after date round-trip");
     assert.deepEqual(errors, [], "no uncaught browser errors");
     console.log("Asta-Udaya diagnostic counters rendered; visible fingerprint unchanged:\\n" + initialFingerprint);
