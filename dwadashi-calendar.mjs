@@ -101,7 +101,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
         )
       : null;
     const drikNames = unique(
-      (source && Array.isArray(source.drik2026Labels) ? source.drik2026Labels : [])
+      (year === 2026 && source && Array.isArray(source.drik2026Labels) ? source.drik2026Labels : [])
         .concat(drik2026Entry && Array.isArray(drik2026Entry.labels) ? drik2026Entry.labels : [])
     );
     const names = unique(observances.map(item => item.name).concat(drikNames));
