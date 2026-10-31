@@ -102,3 +102,23 @@ test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–202
     if(year===2026) assert.equal(result.date,"2026-09-12","2026 must match the already reviewed Pithoragarh observance");
   }
 });
+
+test("annual resolver detects an eclipse interval that overlaps the Hindu day even when its start is before the day boundary", () => {
+  const records = [
+    day("2026-09-11","2026-09-11T00:30:00Z","2026-09-11T12:30:00Z",[]),
+    day("2026-09-12","2026-09-12T00:30:00Z","2026-09-12T12:30:00Z",[
+      {index:12,startTime:d("2026-09-12T07:00:00Z"),endTime:d("2026-09-12T12:00:00Z")}
+    ],{
+      grahanaIntervals:[{
+        startTime:d("2026-09-11T18:20:00Z"),
+        endTime:d("2026-09-11T18:40:00Z")
+      }]
+    }),
+    day("2026-09-13","2026-09-13T00:30:00Z","2026-09-13T12:30:00Z",[])
+  ];
+  const result = resolveSamavedaAnnualDecision(records);
+  assert.equal(result.status,"selected-with-shanti");
+  assert.equal(result.date,"2026-09-12");
+  assert.equal(result.requiresShanti,true);
+  assert.equal(result.coverage.daysWithEclipseData,1);
+});
