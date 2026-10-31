@@ -105,10 +105,13 @@
       /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "") && item.date);
     if (!start || !end) return null;
 
+    const eventStartDate = parseDate(start.date);
+    const eventEndDate = parseDate(end.date);
+    if (!eventStartDate || !eventEndDate) return null;
     const approvedAnnual = chaturmasConfig && chaturmasConfig.status === "approved" &&
-      Number(chaturmasConfig.year) === Number(parseDate(start.date).getFullYear());
-    const startDate = approvedAnnual && parseDate(chaturmasConfig.startDate) || parseDate(start.date);
-    const endDate = approvedAnnual && parseDate(chaturmasConfig.endDate) || parseDate(end.date);
+      Number(chaturmasConfig.year) === Number(eventStartDate.getFullYear());
+    const startDate = approvedAnnual && parseDate(chaturmasConfig.startDate) || eventStartDate;
+    const endDate = approvedAnnual && parseDate(chaturmasConfig.endDate) || eventEndDate;
     if (!startDate || !endDate || dateKey(endDate) < dateKey(startDate)) return null;
     const startKey = dateKey(startDate);
     const endKey = dateKey(endDate);
