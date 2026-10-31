@@ -237,6 +237,91 @@
     }
     return promise;
   }
+
+  // ग्रहण-पंचांग के उसी सत्यापित discovery/visibility module का उपयोग करें।
+  // केवल चुने हुए स्थान पर वास्तव में दृश्य ग्रहण ही मासिक सूची में जोड़ा जाएगा।
+  var eclipseToolsPromise=import("https://ourhindudharm.github.io/Panchang/eclipse-panchang.js").then(function(){
+    return window.__OHDEclipsePanchangTools||null;
+  }).catch(function(error){
+    console.warn("Eclipse visibility module unavailable:",error);return null;
+  });
+  var locationEclipseCache=new Map();
+  function istDateKey(value){
+    var date=value instanceof Date?value:new Date(value);
+    if(!Number.isFinite(date.getTime()))return "";
+    var parts=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);
+    var get=function(type){return (parts.find(function(part){return part.type===type;})||{}).value||"";};
+    return get("year")+"-"+get("month")+"-"+get("day");
+  }
+  function formatGrahanDateTime(value){
+    var date=value instanceof Date?value:new Date(value);
+    if(!Number.isFinite(date.getTime()))return "";
+    return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
+  }
+  function getGrahanTitle(grahan){
+    var type=String(grahan&&grahan.type||"").toLowerCase();
+    var body=type.indexOf("surya")>=0||type.indexOf("solar")>=0?"सूर्य":"चंद्र";
+    var subtype=String(grahan&&grahan.subtype||"").toLowerCase();
+    var kinds={total:"पूर्ण",partial:"आंशिक",annular:"वलयाकार",hybrid:"संकर",penumbral:"उपच्छाया"};
+    var kind=kinds[subtype]||"";
+    return (kind?kind+" ":"")+body+" ग्रहण";
+  }
+  async function buildLocationEclipseEvents(year,month,token){
+    var location=getLocalLocation();
+    var cacheKey=[year,location.lat,location.lon,location.elevation].join("|");
+    if(locationEclipseCache.has(cacheKey)){
+      var cachedEvents=await locationEclipseCache.get(cacheKey);
+      return cachedEvents.filter(function(item){return Number(String(item.date||"").slice(5,7))===month;});
+    }
+    var task=(async function(){
+      var tools=await eclipseToolsPromise;
+      if(!tools||typeof tools.discoverEclipses!=="function"||
+         typeof tools.getLocalVisibility!=="function"||
+         typeof tools.getEclipseDayPanchangs!=="function")return [];
+      // getDatePanchang supplies the same pinned Panchang API and observer
+      // already used by the monthly muhurta calculations.
+      var values=await getDatePanchang(String(year)+"-01-01");
+      var eclipses=await tools.discoverEclipses(year,values.location,values.panchangLib);
+      var events=[];
+      (Array.isArray(eclipses)?eclipses:[]).forEach(function(item){
+        var grahan=item&&item.grahan;
+        if(!grahan)return;
+        var firstContact=grahan.contact&&grahan.contact.firstContact;
+        var eclipseDate=firstContact||item.date;
+        var dateKey=istDateKey(eclipseDate);
+        if(!dateKey||Number(dateKey.slice(0,4))!==year)return;
+        var visibilityDate=new Date(dateKey+"T12:00:00+05:30");
+        var dayPanchangs=tools.getEclipseDayPanchangs(visibilityDate,values.observer,values.panchangLib);
+        var visibility=tools.getLocalVisibility(grahan,dayPanchangs);
+        if(!visibility||visibility.localVisible!==true)return;
+        var description="इस चुने हुए स्थान पर यह ग्रहण दृश्य है।";
+        var sutak=grahan.sutakKaal;
+        if(sutak&&sutak.start&&sutak.end){
+          description+=" सूतक काल: "+formatGrahanDateTime(sutak.start)+" से "+formatGrahanDateTime(sutak.end)+"।";
+        }
+        events.push({
+          date:dateKey,
+          dateLabel:new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"long"}).format(new Date(dateKey+"T12:00:00+05:30")),
+          title:getGrahanTitle(grahan),
+          category:"ग्रहण",
+          description:description,
+          articleUrl:"https://ourhindudharm.blogspot.com/p/grahan-panchang.html?m=1",
+          articleLabel:"ग्रहण का विस्तृत पंचांग देखें",
+          secondaryArticleUrl:"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html?m=1",
+          secondaryArticleLabel:"ग्रहण-मन्त्र पुरश्चरण",
+          isLocationEclipse:true,
+          showReviewStatus:false
+        });
+      });
+      return events;
+    })().catch(function(error){
+      console.warn("Location-based eclipse discovery failed:",error);return [];
+    });
+    locationEclipseCache.set(cacheKey,task);
+    var result=await task;
+    return result.filter(function(item){return Number(String(item.date||"").slice(5,7))===month;});
+  }
+
   function getSankrantiRashiIndex(item){
     var title=String(item&&item.title||"").normalize("NFC").toLocaleLowerCase("hi");
     var entries=[["मेष",0],["वृषभ",1],["मिथुन",2],["कर्क",3],["सिंह",4],["कन्या",5],["तुला",6],["वृश्चिक",7],["धनु",8],["मकर",9],["कुम्भ",10],["कुंभ",10],["मीन",11]];
@@ -916,7 +1001,7 @@
     if(pageTitle) pageTitle.textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
     var list=(data&&Array.isArray(data.events))?data.events.slice():[];
     if(!reviewMode){
-      list=list.filter(function(item){return item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy"||item.calculationStatus==="nakshatra-derived"||item.calculationStatus==="tithi-derived";});
+      list=list.filter(function(item){return item.isLocationEclipse===true||item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy"||item.calculationStatus==="nakshatra-derived"||item.calculationStatus==="tithi-derived";});
     }
     list.sort(function(a,b){return String(a.date||"").localeCompare(String(b.date||""));});
     countEl.textContent=list.length+" प्रविष्टियाँ";
@@ -1084,6 +1169,9 @@
       var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token);
       if(token!==requestToken)return;
       data.events=data.events.concat(computedSaraswatiEvents);
+      var locationEclipseEvents=await buildLocationEclipseEvents(year,month,token);
+      if(token!==requestToken)return;
+      data.events=data.events.concat(locationEclipseEvents);
       render(data,year,month,token);
       restoreViewportAnchor();
       focusFestivalCard();
