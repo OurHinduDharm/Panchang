@@ -526,11 +526,9 @@
         var nextSunrise=new Date(values.next.sunrise);
         var nightDuration=nextSunrise.getTime()-sunset.getTime();
         var pradoshEnd=new Date(sunset.getTime()+nightDuration/5);
-        var isDiwaliMuhurta=usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja";});
-        var lagnaScanStart=isDiwaliMuhurta?new Date(values.p.sunrise):sunset;
-        var lagnaScanEnd=isDiwaliMuhurta?nextSunrise:pradoshEnd;
+        // लक्ष्मी-पूजन का मुख्य लग्न प्रदोष में चाहिए; पूरे दिन/रात को स्कैन न करें।
         context.sthirLagnaWindows=[
-          ...getStiraLagnaWindows(values.panchangLib,values.observer,lagnaScanStart,lagnaScanEnd)
+          ...getStiraLagnaWindows(values.panchangLib,values.observer,sunset,pradoshEnd)
         ];
       }
       usableRules.forEach(function(ruleItem){
