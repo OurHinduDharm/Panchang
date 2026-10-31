@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "year": 2030,
+  "month": 3,
+  "monthName": "मार्च",
+  "status": "approved",
+  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
+  "events": [
+    {
+      "date": "2030-03-03",
+      "dateLabel": "3 मार्च",
+      "title": "द्वापर युग दिवस",
+      "description": "फाल्गुन कृष्ण अमावस्या को द्वापर युग के आरम्भ का स्मरण द्वापर युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "approved",
+      "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=03/03/2030"
+    }
+  ]
+}
