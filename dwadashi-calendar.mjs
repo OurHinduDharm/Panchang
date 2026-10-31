@@ -45,9 +45,11 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
 
   dailyPanchang.forEach(day => {
     const sunrise = day && day.sunriseTithi;
-    if (!sunrise || normalizeTithi(sunrise.tithi) !== "द्वादशी") return;
-    const masa = normalizeMonth(sunrise.masa || day.masa);
-    const paksha = normalizePaksha(sunrise.paksha || day.paksha);
+    const atSunrise = !!sunrise && normalizeTithi(sunrise.tithi) === "द्वादशी";
+    const atNoon = normalizeTithi(day && day.tithi) === "द्वादशी";
+    if (!atSunrise && !atNoon) return;
+    const masa = normalizeMonth(atSunrise ? (sunrise.masa || day.masa) : day.masa);
+    const paksha = normalizePaksha(atSunrise ? (sunrise.paksha || day.paksha) : day.paksha);
     if (!masa.month || !paksha || !/^\d{4}-\d{2}-\d{2}$/.test(String(day.date || ""))) return;
     const key = [masa.month, paksha, masa.adhika ? "adhika" : "nija"].join("|");
     if (!groups.has(key)) groups.set(key, {
@@ -56,21 +58,37 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       paksha,
       adhika: masa.adhika,
       sunriseDates: [],
-      sunriseObservations: []
+      noonDates: [],
+      sunriseObservations: [],
+      noonObservations: []
     });
-    groups.get(key).sunriseDates.push(day.date);
-    groups.get(key).sunriseObservations.push({
-      date: day.date,
-      sunrise: day.sunrise || null,
-      tithiStartTime: sunrise.tithiStartTime || null,
-      tithiEndTime: sunrise.tithiEndTime || null
-    });
+    const group = groups.get(key);
+    if (atSunrise) {
+      group.sunriseDates.push(day.date);
+      group.sunriseObservations.push({
+        date: day.date,
+        sunrise: day.sunrise || null,
+        tithiStartTime: sunrise.tithiStartTime || null,
+        tithiEndTime: sunrise.tithiEndTime || null
+      });
+    }
+    if (atNoon) {
+      group.noonDates.push(day.date);
+      group.noonObservations.push({
+        date: day.date,
+        tithiStartTime: day.tithiStartTime || null,
+        tithiEndTime: day.tithiEndTime || null
+      });
+    }
   });
 
   const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
   const tithis = Array.from(groups.values()).map(group => {
     group.sunriseDates = unique(group.sunriseDates).sort(dateSort);
+    group.noonDates = unique(group.noonDates).sort(dateSort);
     group.sunriseObservations.sort((a, b) => dateSort(a.date, b.date));
+    group.noonObservations.sort((a, b) => dateSort(a.date, b.date));
+    const candidateDates = unique(group.sunriseDates.concat(group.noonDates)).sort(dateSort);
     const source = !group.adhika
       ? catalog.find(item => item.month === group.month && item.paksha === group.paksha)
       : null;
@@ -85,11 +103,13 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       adhika: group.adhika,
       tithi: "द्वादशी",
       sunriseDates: group.sunriseDates,
+      noonDates: group.noonDates,
       sunriseObservations: group.sunriseObservations,
-      candidateDates: group.sunriseDates,
-      selectedDate: group.sunriseDates.length === 1 ? group.sunriseDates[0] : null,
-      dateSelection: group.sunriseDates.length === 1
-        ? "single-sunrise-candidate-review-required"
+      noonObservations: group.noonObservations,
+      candidateDates,
+      selectedDate: candidateDates.length === 1 ? candidateDates[0] : null,
+      dateSelection: candidateDates.length === 1
+        ? "single-observation-candidate-review-required"
         : "requires-vrata-specific-rule",
       displayNames: names,
       observances,
