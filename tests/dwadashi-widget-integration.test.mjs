@@ -16,6 +16,8 @@ test("monthly Vrat-Parv widget only imports approved annual Dwadashi records", a
   const widget = await read("monthly-vrat-parv-widget.js");
   assert.match(widget, /data\/dwadashi\/"\+year\+"\.json/);
   assert.match(widget, /data\.status!=="approved"/);
+  assert.match(widget, /sameLatitude/);
+  assert.match(widget, /sameLongitude/);
   assert.match(widget, /record\.status!=="approved"/);
   assert.match(widget, /mergeAnnualDwadashiEvents/);
   assert.match(widget, /एकादशी\|पारण\|parana/);
