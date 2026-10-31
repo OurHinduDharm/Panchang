@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "tool": "ohd-general-annual-festival-review",
   "generatedAt": "2026-10-31T05:31:09.881Z",
-  "calculationStatus": "research-only-not-approved",
+  "calculationStatus": "approved",
   "year": 2026,
   "location": {
     "name": "पिथौरागढ़",
@@ -50295,5 +50295,24 @@
       "eclipseDataProvided": true
     }
   },
-  "reviews": {}
+  "reviews": {},
+  "approval": {
+    "status": "approved",
+    "approvedDate": "2026-10-31",
+    "scope": "इस फ़ाइल में सम्मिलित 2026 वार्षिक पर्व-सूची, 365-दिवसीय पिथौरागढ़ पंचांग कवरेज और सामवेद उपाकर्म निर्णय",
+    "catalogRecords": 599,
+    "approvedCatalogRecords": 599,
+    "dailyPanchangDays": 365,
+    "completeDailyPanchangDays": 365,
+    "sankrantiTransitions": 12,
+    "localVisibleEclipseDates": [
+      "2026-03-03"
+    ],
+    "samavedaUpakarmaDate": "2026-09-12",
+    "excludedCalculations": [
+      "गुरु/शुक्र अस्त",
+      "उदय-अस्त"
+    ],
+    "note": "यह स्वीकृति केवल ऊपर बताए गए सम्मिलित डेटा और गणनाओं पर लागू है। गुरु/शुक्र अस्त तथा उदय-अस्त की गणना इस स्वीकृति में शामिल नहीं है; उन्हें अलग समीक्षा के बाद जोड़ा जाएगा।"
+  }
 }
