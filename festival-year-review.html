@@ -58,6 +58,7 @@
 <script type="module">
 import * as panchangApi from "https://esm.sh/@ishubhamx/panchangam-js@3.0.0";
 const {getPanchangam,Observer}=panchangApi;
+import {resolveSamavedaAnnualDecision} from "./samaveda-annual-review.js";
 const $=id=>document.getElementById(id);
 const tithiNames=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पञ्चमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा/अमावस्या"];
 const monthNames=["चैत्र","वैशाख","ज्येष्ठ","आषाढ़","श्रावण","भाद्रपद","आश्विन","कार्तिक","मार्गशीर्ष","पौष","माघ","फाल्गुन"];
