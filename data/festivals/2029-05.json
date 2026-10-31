@@ -40,6 +40,17 @@
     {
       "date": "2029-05-16",
       "dateLabel": "16 मई",
+      "title": "त्रेता युग दिवस",
+      "description": "वैशाख शुक्ल तृतीया को त्रेता युग के आरम्भ का स्मरण त्रेता युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "approved",
+      "hinduTithi": "वैशाख शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=16/05/2029"
+    },
+    {
+      "date": "2029-05-16",
+      "dateLabel": "16 मई",
       "title": "परशुराम जयंती",
       "description": "परशुराम जयंती भगवान परशुराम के प्राकट्य-स्मरण का पर्व है।",
       "category": "जयंती",
