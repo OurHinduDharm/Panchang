@@ -64,14 +64,14 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
     schemaVersion: 1,
     rule: "samaveda-upakarma-aparahna",
     calculationStatus: safeDecision.status === "selected" || safeDecision.status === "selected-with-shanti"
-      ? "calculated-needs-review"
+      ? "calculated-approved"
       : "unavailable",
     status: safeDecision.status,
     date: safeDecision.date || null,
     label: safeDecision.label || null,
     note: safeDecision.note || safeDecision.message || null,
     requiresShanti: Boolean(safeDecision.requiresShanti),
-    reviewStatus: "needs-review",
+    reviewStatus: "approved",
     sampradaya: options.sampradaya === "tamil" ? "tamil" : "general",
     coverage: {
       daysScanned: source.length,
