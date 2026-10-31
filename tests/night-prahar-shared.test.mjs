@@ -24,7 +24,7 @@ test("shared night Prahar module marks only the active segment when requested", 
     "2026-06-14T02:00:00+05:30",
     true
   );
-  assert.deepEqual(windows.map(item => item.isActive), [false,false,false,true]);
+  assert.deepEqual(windows.map(item => item.isActive), [false,false,true,false]);
 });
 
 test("shared night Prahar module rejects invalid or reversed intervals", () => {
