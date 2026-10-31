@@ -93,10 +93,13 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     else if (referenceDate) groups.get(key).referenceDate = referenceDate;
   };
 
-  // Keep both Pausha pakshas visible in the annual review even when their
-  // tithi dates fall just outside the Gregorian scan window. Never invent dates.
-  ensureEmptyGroup("पौष", "कृष्ण");
-  ensureEmptyGroup("पौष", "शुक्ल");
+  // Keep every master month-paksha Dwadashi record visible every year.
+  // Names belong to the permanent month/paksha catalogue, not to a Gregorian year.
+  catalog.forEach(item => {
+    const masa = normalizeMonth(item.month);
+    const paksha = normalizePaksha(item.paksha);
+    if (masa.month && paksha) ensureEmptyGroup(masa.month, paksha, !!item.adhika);
+  });
 
   // Preserve user-approved 2026 Drik cross-references as review-only records
   // when the local scan has no observation for that month/paksha.
@@ -116,9 +119,11 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     group.sunriseObservations.sort((a, b) => dateSort(a.date, b.date));
     group.noonObservations.sort((a, b) => dateSort(a.date, b.date));
     const candidateDates = unique(group.sunriseDates.concat(group.noonDates)).sort(dateSort);
-    const source = !group.adhika
-      ? catalog.find(item => item.month === group.month && item.paksha === group.paksha)
-      : null;
+    const source = catalog.find(item =>
+      item.month === group.month &&
+      item.paksha === group.paksha &&
+      !!item.adhika === !!group.adhika
+    );
     const observances = source && Array.isArray(source.observances) ? source.observances : [];
     const drik2026Entry = year === 2026 && rules && Array.isArray(rules.drik2026Calendar)
       ? rules.drik2026Calendar.find(item =>
@@ -127,11 +132,10 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
           !!item.adhika === !!group.adhika
         )
       : null;
-    const drikNames = unique(
-      (year === 2026 && source && Array.isArray(source.drik2026Labels) ? source.drik2026Labels : [])
-        .concat(drik2026Entry && Array.isArray(drik2026Entry.labels) ? drik2026Entry.labels : [])
+    const names = unique(
+      observances.map(item => item.name)
+        .concat(source && Array.isArray(source.displayNames) ? source.displayNames : [])
     );
-    const names = unique(observances.map(item => item.name).concat(drikNames));
     return {
       id: group.id,
       month: group.month,
@@ -154,7 +158,6 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
             : "no-observation-in-scan-window",
       displayNames: names,
       observances,
-      drik2026Labels: drikNames,
       status: candidateDates.length
         ? "needs-review"
         : (drik2026Entry?.referenceDate || group.referenceDate)
