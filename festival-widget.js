@@ -446,10 +446,16 @@
       if (annualResponse.ok) {
         const annual = await annualResponse.json();
         const candidate = annual && annual.chaturmas;
+        const completePhases = candidate && Array.isArray(candidate.phases) &&
+          candidate.phases.length === 4 && candidate.phases.every(phase =>
+            phase && phase.title && parseDate(phase.startDate) && parseDate(phase.endDate) &&
+            phase.endDate >= phase.startDate
+          );
         if (Number(annual.year) === Number(year) && annual.status === "approved" &&
             candidate && candidate.status === "approved" &&
-            Number(candidate.year) === Number(year) && Array.isArray(candidate.phases) &&
-            candidate.phases.length === 4) return candidate;
+            Number(candidate.year) === Number(year) && completePhases &&
+            parseDate(candidate.startDate) && parseDate(candidate.endDate) &&
+            parseDate(candidate.cardVisibleThroughDate)) return candidate;
       }
     } catch (_) {}
     // पुराने स्वीकृत वार्षिक कॉन्फ़िगरेशन के लिए backward-compatible fallback।
