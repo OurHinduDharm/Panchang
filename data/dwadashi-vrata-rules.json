@@ -631,7 +631,7 @@
         "conditionalObservances": [
           {
             "id": "pakshavardhini",
-            "name": "पक्षवर्धिनी महाद्वादशी",
+            "name": "पक्षवर्द्धिनी महाद्वादशी",
             "ruleRef": "mahaDwadashi.types.pakshavardhini",
             "status": "condition-required"
           }
