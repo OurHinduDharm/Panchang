@@ -160,6 +160,25 @@ test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", asy
 });
 
 
+
+test("Pithoragarh Diwali ascendant can be read at the Vrishabha interval", () => {
+  const instant = date("2026-11-08T18:30:00+05:30");
+  const panchang = getPanchangam(instant, projectObserver, { timezoneOffset:330, calendarType:"purnimanta" });
+  const kundli = panchangPackage.calculateKundli(instant, projectObserver);
+  function isVrishabha(value) {
+    if (value && typeof value === "object") {
+      value = value.rashiIndex ?? value.rashiName ?? value.rashi ?? value.signName ?? value.name ?? value.label ?? value.index ?? value.number ?? value.value;
+    }
+    if (typeof value === "number") return value === 1;
+    return /vrishabha|वृषभ|taurus/i.test(String(value || ""));
+  }
+  assert.ok(
+    isVrishabha(panchang.udayaLagna ?? panchang.lagna ?? panchang.ascendant) ||
+    isVrishabha(kundli && kundli.ascendant),
+    "one of the Panchang or Kundli APIs must identify the rising sign as Vrishabha"
+  );
+});
+
 test("Pithoragarh Diwali main puja is the Amavasya + Pradosh + Vrishabha overlap", async () => {
   const { getFestivalMuhurta } = await import(engineUrl);
   const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, {
