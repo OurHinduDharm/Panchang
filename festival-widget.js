@@ -105,9 +105,13 @@
       /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "") && item.date);
     if (!start || !end) return null;
 
-    const startDate = parseDate(start.date);
-    const endDate = parseDate(end.date);
-    if (!startDate || !endDate || end.date < start.date) return null;
+    const approvedAnnual = chaturmasConfig && chaturmasConfig.status === "approved" &&
+      Number(chaturmasConfig.year) === Number(parseDate(start.date).getFullYear());
+    const startDate = approvedAnnual && parseDate(chaturmasConfig.startDate) || parseDate(start.date);
+    const endDate = approvedAnnual && parseDate(chaturmasConfig.endDate) || parseDate(end.date);
+    if (!startDate || !endDate || dateKey(endDate) < dateKey(startDate)) return null;
+    const startKey = dateKey(startDate);
+    const endKey = dateKey(endDate);
 
     // Card visibility is independent from the actual festival/end date.
     // Use the reviewed annual Dwadashi date; otherwise retain the two-day fallback.
@@ -125,11 +129,11 @@
     card.appendChild(element("div", "ohd-fw-chaturmas-range", range));
 
     let status;
-    if (todayKey < start.date) {
-      const remaining = daysBetween(todayKey, start.date);
+    if (todayKey < startKey) {
+      const remaining = daysBetween(todayKey, startKey);
       status = remaining === 0 ? "आज से प्रारंभ" : remaining === 1 ? "कल से प्रारंभ" : "प्रारंभ होने में " + remaining + " दिन शेष";
-    } else if (todayKey <= end.date) {
-      const remaining = daysBetween(todayKey, end.date);
+    } else if (todayKey <= endKey) {
+      const remaining = daysBetween(todayKey, endKey);
       status = remaining === 0 ? "आज चातुर्मास समापन" : "चातुर्मास चल रहा है · समापन में " + remaining + " दिन शेष";
     } else {
       status = "चातुर्मास समापन · द्वादशी के अनुष्ठान तक जानकारी उपलब्ध";
