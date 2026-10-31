@@ -4,6 +4,7 @@
  * night segments are derived from the same sunset-to-next-sunrise interval.
  */
 function asValidDate(value) {
+  if (value == null || value === "") return null;
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   return Number.isFinite(date.getTime()) ? date : null;
 }
