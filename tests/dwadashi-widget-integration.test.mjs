@@ -9,6 +9,8 @@ test("annual review scans the Panchang engine at each local sunrise", async () =
   assert.match(html, /buildAnnualDwadashiPackage/);
   assert.match(html, /getPanchangam\(new Date\(dayRecord\.sunrise\),observer/);
   assert.match(html, /sunriseTithi=\{/);
+  assert.match(html, /noonObservations/);
+  assert.match(html, /approveChLabel/);
   assert.match(html, /downloadDwadashi/);
   assert.match(html, /renderDwadashiReview/);
   assert.match(html, /syncDwadashiPackageStatus/);
