@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { buildDwadashiCalendar, buildChaturmasProposal, buildAnnualDwadashiPackage } from "../dwadashi-calendar.mjs";
 
 const rules = {
@@ -9,6 +10,17 @@ const rules = {
     ]
   }
 };
+
+test("master catalogue contains named records for all 24 regular month-paksha Dwadashis", async () => {
+  const catalogFile=JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"));
+  const entries=catalogFile.unifiedTithiIndex.tithis;
+  const regular=entries.filter(item=>!item.adhika);
+  const pairs=new Set(regular.map(item=>item.month+"|"+item.paksha));
+  assert.equal(pairs.size,24);
+  assert.ok(regular.every(item=>Array.isArray(item.displayNames)&&item.displayNames.length>0));
+  assert.ok(entries.some(item=>item.id==="jyeshtha-krishna-adhika"&&item.displayNames.includes("अधिक कृष्ण रामलक्ष्मण द्वादशी")));
+  assert.ok(entries.some(item=>item.id==="jyeshtha-shukla-adhika"&&item.displayNames.includes("उन्मीलिनी महाद्वादशी")));
+});
 
 const sunriseDay = (date, month, paksha, tithi, adhika=false) => ({
   date,
