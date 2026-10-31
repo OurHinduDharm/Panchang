@@ -431,6 +431,21 @@
   }
 
   async function fetchChaturmasConfig(year) {
+    // स्वीकृत वार्षिक द्वादशी-पैकेज प्राथमिक स्रोत है; इससे चातुर्मास की
+    // चारों सीमाएँ उसी स्थान-विशिष्ट सूर्योदय गणना से मिलती हैं।
+    const annualUrl = new URL("../dwadashi/" + year + ".json", baseUrl);
+    try {
+      const annualResponse = await fetch(annualUrl.href, { cache: "no-cache" });
+      if (annualResponse.ok) {
+        const annual = await annualResponse.json();
+        const candidate = annual && annual.chaturmas;
+        if (Number(annual.year) === Number(year) && annual.status === "approved" &&
+            candidate && candidate.status === "approved" &&
+            Number(candidate.year) === Number(year) && Array.isArray(candidate.phases) &&
+            candidate.phases.length === 4) return candidate;
+      }
+    } catch (_) {}
+    // पुराने स्वीकृत वार्षिक कॉन्फ़िगरेशन के लिए backward-compatible fallback।
     const url = new URL("../chaturmas/" + year + ".json", baseUrl);
     try {
       const response = await fetch(url.href);
