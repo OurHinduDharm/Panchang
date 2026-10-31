@@ -119,3 +119,26 @@ These are real calculated results, but **not a match** and not grounds to tune a
 
 ### Time estimate
 The original 8–17 hours was an estimate of active engineering/review time, not a delivery promise. Given the unresolved event-model discrepancy, remaining work is provisionally **6–14 active hours** after the reference decision is made; if a trustworthy same-event reference cannot be obtained, the correct result may be a documented limitation rather than a falsely “matched” algorithm. Calendar time depends on review/CI turnaround. Do not mark stages 2–6 complete until their acceptance checks actually pass.
+
+### Production performance review checkpoint — 2026-10-31
+
+Read-only inspection of production `main/extra-panchang.js` (blob `d1ab028cfd84224462ced2da9f1bb9ac045cc9a0`) confirms:
+
+- `getPlanetEvent()` performs separate nearest-boundary searches for Asta and Udaya. Both searches share `planetDailyCache`, so cached daily elongation samples are reused within the page session; treating the two searches as wholly independent would overstate duplicated work.
+- `findNearestAngularBoundary()` scans daily brackets in the direction implied by the selected date's relation to the threshold, up to the existing 400-day bound.
+- `findThresholdCrossingInstant()` bisects the daily bracket until its width is at most about one minute, with the existing 18-iteration cap.
+- `planetEventBracketCache` reuses a paired result only when both found instants enclose the selected local noon; it is bounded to 12 intervals per planet.
+- The current performance mark combines planetary calculation and card construction, so it does not by itself identify whether ephemeris calls, cache misses, or rendering dominate the measured phase.
+
+**No production code or thresholds were changed during this review.** A new numeric baseline has not been measured in this checkpoint; the previously recorded 616–654 ms is historical and must not be presented as a fresh measurement.
+
+#### Safe next benchmark/optimization gate
+
+1. Capture repeated `?perf=1` runs for the same fixed date and location, including first (cold) and subsequent (warm) updates.
+2. Record the five planets' displayed Asta/Udaya strings and no-result states as the output fingerprint.
+3. Add finer instrumentation only if it can be done without changing astronomy inputs or returned values; distinguish boundary search from card rendering.
+4. Change one measured bottleneck at a time. Re-run the same fixed cases and compare exact output fingerprints, event ordering, and cold/warm timing distributions.
+5. Preserve thresholds, observer, 400-day limit, daily bracketing, bisection tolerance, and no-result behavior unless a separate correctness review explicitly approves a change.
+
+A speedup is accepted only when repeatable timings improve and all output fingerprints remain identical. A different output is a correctness regression, not an optimization.
+
