@@ -105,9 +105,16 @@
       /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "") && item.date);
     if (!start || !end) return null;
 
-    const startDate = parseDate(start.date);
-    const endDate = parseDate(end.date);
-    if (!startDate || !endDate || end.date < start.date) return null;
+    const eventStartDate = parseDate(start.date);
+    const eventEndDate = parseDate(end.date);
+    if (!eventStartDate || !eventEndDate) return null;
+    const approvedAnnual = chaturmasConfig && chaturmasConfig.status === "approved" &&
+      Number(chaturmasConfig.year) === Number(eventStartDate.getFullYear());
+    const startDate = approvedAnnual && parseDate(chaturmasConfig.startDate) || eventStartDate;
+    const endDate = approvedAnnual && parseDate(chaturmasConfig.endDate) || eventEndDate;
+    if (!startDate || !endDate || dateKey(endDate) < dateKey(startDate)) return null;
+    const startKey = dateKey(startDate);
+    const endKey = dateKey(endDate);
 
     // Card visibility is independent from the actual festival/end date.
     // Use the reviewed annual Dwadashi date; otherwise retain the two-day fallback.
@@ -125,11 +132,11 @@
     card.appendChild(element("div", "ohd-fw-chaturmas-range", range));
 
     let status;
-    if (todayKey < start.date) {
-      const remaining = daysBetween(todayKey, start.date);
+    if (todayKey < startKey) {
+      const remaining = daysBetween(todayKey, startKey);
       status = remaining === 0 ? "आज से प्रारंभ" : remaining === 1 ? "कल से प्रारंभ" : "प्रारंभ होने में " + remaining + " दिन शेष";
-    } else if (todayKey <= end.date) {
-      const remaining = daysBetween(todayKey, end.date);
+    } else if (todayKey <= endKey) {
+      const remaining = daysBetween(todayKey, endKey);
       status = remaining === 0 ? "आज चातुर्मास समापन" : "चातुर्मास चल रहा है · समापन में " + remaining + " दिन शेष";
     } else {
       status = "चातुर्मास समापन · द्वादशी के अनुष्ठान तक जानकारी उपलब्ध";
@@ -431,6 +438,27 @@
   }
 
   async function fetchChaturmasConfig(year) {
+    // स्वीकृत वार्षिक द्वादशी-पैकेज प्राथमिक स्रोत है; इससे चातुर्मास की
+    // चारों सीमाएँ उसी स्थान-विशिष्ट सूर्योदय गणना से मिलती हैं।
+    const annualUrl = new URL("../dwadashi/" + year + ".json", baseUrl);
+    try {
+      const annualResponse = await fetch(annualUrl.href, { cache: "no-cache" });
+      if (annualResponse.ok) {
+        const annual = await annualResponse.json();
+        const candidate = annual && annual.chaturmas;
+        const completePhases = candidate && Array.isArray(candidate.phases) &&
+          candidate.phases.length === 4 && candidate.phases.every(phase =>
+            phase && phase.title && parseDate(phase.startDate) && parseDate(phase.endDate) &&
+            phase.endDate >= phase.startDate
+          );
+        if (Number(annual.year) === Number(year) && annual.status === "approved" &&
+            candidate && candidate.status === "approved" &&
+            Number(candidate.year) === Number(year) && completePhases &&
+            parseDate(candidate.startDate) && parseDate(candidate.endDate) &&
+            parseDate(candidate.cardVisibleThroughDate)) return candidate;
+      }
+    } catch (_) {}
+    // पुराने स्वीकृत वार्षिक कॉन्फ़िगरेशन के लिए backward-compatible fallback।
     const url = new URL("../chaturmas/" + year + ".json", baseUrl);
     try {
       const response = await fetch(url.href);
