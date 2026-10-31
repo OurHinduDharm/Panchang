@@ -18,7 +18,7 @@ function hasExactHastaInterval(day) {
  * engine; scalar sunrise-nakshatra labels are deliberately not used as a
  * substitute for missing transition timestamps.
  */
-export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
+export function resolveSamavedaAnnualDecision(dailyPanchang) {
   const source = Array.isArray(dailyPanchang) ? dailyPanchang : [];
   const records = source.map(day => ({
     date: day?.date,
@@ -40,7 +40,7 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
     dosha: day?.dosha || {}
   }));
 
-  const decision = getSamavedaUpakarmaDateDecision(records, options);
+  const decision = getSamavedaUpakarmaDateDecision(records);
   const exactSunTimes = source.filter(day =>
     day?.sunrise && day?.sunset &&
     Number.isFinite(new Date(day.sunrise).getTime()) &&
@@ -76,7 +76,6 @@ export function resolveSamavedaAnnualDecision(dailyPanchang, options = {}) {
     note: safeDecision.note || safeDecision.message || null,
     requiresShanti: Boolean(safeDecision.requiresShanti),
     reviewStatus: safeDecision.status === "selected" || safeDecision.status === "selected-with-shanti" ? "approved" : "unavailable",
-    sampradaya: options.sampradaya === "tamil" ? "tamil" : "general",
     coverage: {
       daysScanned: source.length,
       daysWithSunriseAndSunset: exactSunTimes,
