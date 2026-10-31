@@ -88,7 +88,7 @@ test("permanent month-paksha names are carried into later annual calendars", () 
   ],rules);
   const record=result.tithis.find(item=>item.id==="chaitra-shukla");
   assert.deepEqual(record.displayNames,["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"]);
-  assert.equal("drik2026Labels" in record,false);
+  assert.deepEqual(record.drik2026Labels, []);
 });
 
 test("Adhika month stays separate and does not inherit nija-month vrata aliases", () => {
@@ -238,4 +238,48 @@ test("annual Dwadashi output keeps conditional names separate from display names
   const record=result.tithis.find(item=>item.id==="jyeshtha-shukla");
   assert.deepEqual(record.displayNames,["त्रिविक्रम द्वादशी"]);
   assert.deepEqual(record.conditionalObservances,[{id:"jaya",name:"जया महाद्वादशी"}]);
+});
+
+test("Drik 2026 cross-reference labels remain metadata and are year-gated", () => {
+  const rulesWithDrik = {
+    unifiedTithiIndex: {
+      tithis: [{
+        month: "ज्येष्ठ",
+        paksha: "कृष्ण",
+        adhika: false,
+        displayNames: ["कृष्ण-वामन द्वादशी"],
+        observances: []
+      }]
+    },
+    drik2026Calendar: [{
+      month: "ज्येष्ठ",
+      paksha: "कृष्ण",
+      adhika: false,
+      referenceDate: "2026-05-13",
+      labels: ["कृष्ण परशुराम द्वादशी"]
+    }]
+  };
+  const y2026 = buildDwadashiCalendar([
+    sunriseDay("2026-05-13","ज्येष्ठ","कृष्ण","द्वादशी")
+  ], rulesWithDrik);
+  const record2026 = y2026.tithis.find(item => item.id === "jyeshtha-krishna");
+  assert.equal(record2026.referenceDate, "2026-05-13");
+  assert.deepEqual(record2026.drik2026Labels, ["कृष्ण परशुराम द्वादशी"]);
+  assert.deepEqual(record2026.displayNames, ["कृष्ण-वामन द्वादशी"]);
+  assert.ok(!record2026.displayNames.includes("कृष्ण परशुराम द्वादशी"));
+
+  const y2027 = buildDwadashiCalendar([
+    sunriseDay("2027-05-02","ज्येष्ठ","कृष्ण","द्वादशी")
+  ], rulesWithDrik);
+  const record2027 = y2027.tithis.find(item => item.id === "jyeshtha-krishna");
+  assert.equal(record2027.referenceDate, null);
+  assert.deepEqual(record2027.drik2026Labels, []);
+  assert.deepEqual(record2027.displayNames, ["कृष्ण-वामन द्वादशी"]);
+
+  const emptyScan = buildDwadashiCalendar([], rulesWithDrik);
+  const emptyRecord = emptyScan.tithis.find(item => item.id === "jyeshtha-krishna");
+  assert.ok(emptyRecord, "The review catalog row may remain visible without a local observation");
+  assert.deepEqual(emptyRecord.candidateDates, []);
+  assert.equal(emptyRecord.referenceDate, null);
+  assert.deepEqual(emptyRecord.drik2026Labels, [], "A Drik reference alone must not invent a local Dwadashi date");
 });

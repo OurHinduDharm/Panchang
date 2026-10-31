@@ -1082,31 +1082,50 @@
       "month": "ज्येष्ठ",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2026-05-13"
+      "referenceDate": "2026-05-13",
+      "labels": [
+        "कृष्ण परशुराम द्वादशी"
+      ]
     },
     {
       "month": "ज्येष्ठ",
       "paksha": "शुक्ल",
       "adhika": true,
-      "referenceDate": "2026-05-27"
+      "referenceDate": "2026-05-27",
+      "labels": [
+        "उन्मीलिनी महाद्वादशी",
+        "अधिक रामलक्ष्मण द्वादशी"
+      ]
     },
     {
       "month": "ज्येष्ठ",
       "paksha": "कृष्ण",
       "adhika": true,
-      "referenceDate": "2026-06-12"
+      "referenceDate": "2026-06-12",
+      "labels": [
+        "अधिक कृष्ण रामलक्ष्मण द्वादशी"
+      ]
     },
     {
       "month": "ज्येष्ठ",
       "paksha": "शुक्ल",
       "adhika": false,
-      "referenceDate": "2026-06-26"
+      "referenceDate": "2026-06-26",
+      "labels": [
+        "पक्षवर्द्धिनी महाद्वादशी",
+        "रामलक्ष्मण द्वादशी",
+        "चम्पक द्वादशी"
+      ]
     },
     {
       "month": "आषाढ़",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2026-07-11"
+      "referenceDate": "2026-07-11",
+      "labels": [
+        "त्रिस्पर्शा महाद्वादशी",
+        "कृष्ण रामलक्ष्मण द्वादशी"
+      ]
     }
   ]
 }
