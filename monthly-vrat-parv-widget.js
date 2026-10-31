@@ -351,6 +351,8 @@
     // महाष्टमी प्रविष्टि पर संधिपूजा का मुहूर्त स्थानीय तिथि-संधि से निकालें।
     if(!ruleIds.length&&/महाष्टमी|महाअष्टमी|दुर्गाष्टमी|दुर्गा अष्टमी|दुर्गा पूजा.*अष्टमी/i.test(String(item.title||""))) ruleIds=["sandhi-puja"];
     if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title||""))||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
+    if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(String(item.title||""))) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
+    if(!ruleIds.length&&/होलिका[\s-]*दहन/i.test(String(item.title||""))) ruleIds=["holika-dahan-pradosh"];
     if(!ruleIds.length) return;
     try{
       var muhurtaModule=await muhurtaModulePromise;
