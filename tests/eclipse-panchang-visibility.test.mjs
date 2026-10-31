@@ -47,6 +47,23 @@ test("solar eclipse after local sunset is invisible at the selected location", (
   assert.equal(result.visibleDuration, 0);
 });
 
+test("solar eclipse with zero local obscuration remains invisible despite daytime overlap", () => {
+  const result = tools.getLocalVisibility({
+    type: "Surya Grahan",
+    isVisible: false,
+    contact: {
+      firstContact: d("2026-03-03T04:00:00Z"),
+      lastContact: d("2026-03-03T06:00:00Z")
+    }
+  }, [
+    { sunrise: d("2026-03-03T00:30:00Z"), sunset: d("2026-03-03T12:30:00Z") }
+  ]);
+  assert.equal(result.localVisible, false);
+  assert.equal(result.localStatus, "अदृश्य");
+  assert.equal(result.visibleStart, null);
+  assert.equal(result.visibleDuration, 0);
+});
+
 test("lunar eclipse uses local moonrise and moonset rather than solar horizon", () => {
   const result = tools.getLocalVisibility({
     type: "Chandra Grahan",
