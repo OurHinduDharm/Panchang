@@ -6,7 +6,7 @@ on:
     paths:
       - 'data/festivals/*.json'
       - 'data/dwadashi/**'
-      - 'dwadashi-calendar.js'
+      - 'dwadashi-calendar.mjs'
       - 'festival-widget.js'
       - 'festival-year-review.html'
       - 'tests/dwadashi-calendar.test.mjs'
@@ -25,6 +25,12 @@ on:
   pull_request:
     paths:
       - 'data/festivals/*.json'
+      - 'data/dwadashi/**'
+      - 'dwadashi-calendar.mjs'
+      - 'festival-widget.js'
+      - 'festival-year-review.html'
+      - 'tests/dwadashi-calendar.test.mjs'
+      - 'tests/dwadashi-widget-integration.test.mjs'
       - 'festival-muhurta.js'
       - 'tests/festival-muhurta-parana.test.mjs'
       - 'tests/narak-chaturdashi-real-panchang-2026.test.mjs'
