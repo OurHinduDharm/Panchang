@@ -782,7 +782,13 @@ test("Diwali includes separately labelled Amavasya Choghadiya alternatives", asy
   assert.equal(result.status, "calculated");
   const choghadiya = result.windows.filter(w => /चौघड़िया/.test(w.label));
   assert.ok(choghadiya.length >= 4);
-  assert.ok(choghadiya.every(w => /वैकल्पिक शुभ समय/.test(w.label)));
+  const charWindows = choghadiya.filter(w => /चर चौघड़िया/.test(w.label));
+  const auspiciousWindows = choghadiya.filter(w => !/चर चौघड़िया/.test(w.label));
+  assert.equal(charWindows.length, 1);
+  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
+  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].note));
+  assert.ok(auspiciousWindows.every(w => /वैकल्पिक शुभ समय/.test(w.label)));
+  assert.ok(choghadiya.every(w => /राहुकाल या वेला/.test(w.note)));
   assert.ok(choghadiya.every(w => /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं/.test(w.note)));
   assert.ok(result.windows.some(w => /प्रदोष काल/.test(w.label)));
   assert.ok(result.windows.some(w => /महानिशीथ/.test(w.label)));
@@ -819,5 +825,11 @@ test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published 
       assert.ok(delta <= 3, `Choghadiya window ${index + 1} endpoint ${endpoint + 1}: expected ${expected[index][endpoint]}, received ${pair[endpoint]}`);
     }
   });
-  assert.ok(choghadiya.every(window => /वैकल्पिक शुभ समय/.test(window.label)));
+  const charWindows = choghadiya.filter(window => /चर चौघड़िया/.test(window.label));
+  const auspiciousWindows = choghadiya.filter(window => !/चर चौघड़िया/.test(window.label));
+  assert.equal(charWindows.length, 1);
+  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
+  assert.ok(auspiciousWindows.every(window => /वैकल्पिक शुभ समय/.test(window.label)));
+  assert.ok(choghadiya.every(window => /राहुकाल या वेला/.test(window.note)));
+  assert.ok(choghadiya.every(window => /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त नहीं/.test(window.note)));
 });
