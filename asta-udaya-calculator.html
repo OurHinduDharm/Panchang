@@ -142,6 +142,8 @@ $("exportManifestBtn").onclick=async()=>download("asta-udaya-manifest.json",awai
 $("exportMonthBtn").onclick=async()=>{
  const y=Number($("exportYear").value),m=Number($("exportMonth").value),meta=await get(META,"active"),runKey=meta?.config?(meta.config.startYear+"-"+meta.config.endYear+"-"+meta.config.cadenceHours+"h-"+meta.config.chunkDays+"d"):null,rows=(await all(STORE)).filter(r=>r.runKey===runKey),monthStart=Date.UTC(y,m-1,1),monthEnd=Date.UTC(y,m,1),selected=rows.filter(r=>Date.parse(r.fromUtc)<monthEnd&&Date.parse(r.toUtcExclusive)>monthStart);
  if(!selected.length){$("exportStatus").textContent="इस माह का कोई डेटा नहीं मिला।";return;}
+ const selectedIssues=await verifyRows(selected,Date.parse(selected[0].fromUtc),Date.parse(selected[selected.length-1].toUtcExclusive));
+ if(selectedIssues.length){$("exportStatus").textContent="माह निर्यात रोका गया: "+selectedIssues.slice(0,5).join(" · ");return;}
  const samples=selected.flatMap(r=>r.samples).filter(s=>Date.parse(s[0])>=monthStart&&Date.parse(s[0])<monthEnd).sort((a,b)=>a[0].localeCompare(b[0]));
  const step=(config?.cadenceHours||6)*3600000,expectedCount=(monthEnd-monthStart)/step;
  if(samples.length!==expectedCount||samples.some((s,i)=>Date.parse(s[0])!==monthStart+i*step)){
