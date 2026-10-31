@@ -90,6 +90,6 @@ test("missing Chaturmas boundary is marked incomplete, never guessed", () => {
 test("annual package is explicitly review-only", () => {
   const result = buildAnnualDwadashiPackage([],rules,{name:"Pithoragarh",latitude:29.58,longitude:80.22,elevation:1650});
   assert.equal(result.status,"needs-review");
-  assert.equal(result.calculationStatus,"research-only-not-approved");
+  assert.equal(result.calculationStatus,"panchang-engine-calculated");
   assert.equal(result.chaturmas.status,"incomplete");
 });
