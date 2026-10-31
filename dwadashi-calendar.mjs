@@ -148,6 +148,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       noonObservations: group.noonObservations,
       candidateDates,
       referenceDate: drik2026Entry?.referenceDate || group.referenceDate || null,
+      drik2026Labels: year === 2026 && Array.isArray(drik2026Entry?.labels) ? unique(drik2026Entry.labels) : [],
       selectedDate: candidateDates.length === 1 ? candidateDates[0] : null,
       dateSelection: candidateDates.length === 1
         ? "single-observation-candidate-review-required"
