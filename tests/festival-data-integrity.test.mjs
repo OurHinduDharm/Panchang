@@ -126,6 +126,15 @@ test("2026 Mahashivaratri, Holika Dahan and Dhulandi have separate complete card
   assert.ok(march.events.every(event => event.reviewStatus === "approved"));
 });
 
+test("2028 Narak Chaturdashi is dated October 17 with its Abhyanga Snan rule", () => {
+  const data = JSON.parse(readFileSync(join(folder,"2028-10.json"),"utf8"));
+  const event = data.events.find(item => item.title === "नरक चतुर्दशी");
+  assert.ok(event);
+  assert.equal(event.date,"2028-10-17");
+  assert.equal(event.hinduTithi,"कार्तिक कृष्ण चतुर्दशी");
+  assert.equal(event.muhurtaRule,"narak-chaturdashi-abhyanga");
+});
+
 test("Mahashivaratri and Holika Dahan have complete muhurta rules for 2027–2029", () => {
   const cases = [
     ["2027-03.json","महाशिवरात्रि","muhurtaRules",["mahashivaratri-four-prahar","mahashivaratri-nishita"]],
