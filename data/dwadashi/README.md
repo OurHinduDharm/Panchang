@@ -24,4 +24,4 @@
 
 `data/dwadashi/YYYY.json`
 
-इसमें वार्षिक समीक्षा JSON का `dwadashiCalendar` पैकेज रखें। `festival-widget.js` पहले इसी फ़ाइल के स्वीकृत `chaturmas` को पढ़ेगा; पुरानी `data/chaturmas/YYYY.json` फ़ाइल backward-compatible fallback बनी रहेगी।
+अलग से डाउनलोड की गई द्वादशी समीक्षा फ़ाइल का पूरा JSON सीधे इस स्थान पर रखें। यदि पूरा वार्षिक समीक्षा JSON उपयोग कर रहे हों, तो उसमें से `dwadashiCalendar` ऑब्जेक्ट निकालकर रखें। `festival-widget.js` पहले इसी फ़ाइल के स्वीकृत `chaturmas` को पढ़ेगा; पुरानी `data/chaturmas/YYYY.json` फ़ाइल backward-compatible fallback बनी रहेगी।
