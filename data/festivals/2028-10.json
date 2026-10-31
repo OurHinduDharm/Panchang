@@ -76,6 +76,16 @@
     {
       "date": "2028-10-17",
       "dateLabel": "17 अक्टूबर",
+      "title": "दीपावली / लक्ष्मी पूजन",
+      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "muhurtaRule": "diwali-lakshmi-puja"
+    },
+    {
+      "date": "2028-10-17",
+      "dateLabel": "17 अक्टूबर",
       "title": "नरक चतुर्दशी",
       "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। इस दिन कृष्ण चतुर्दशी की व्याप्ति में चंद्रोदय के बाद और सूर्योदय से पहले अभ्यंग-स्नान किया जाता है। अपामार्ग (चिचड़ा) को शरीर के चारों ओर घुमाकर पाप-निवारण की प्रार्थना करने का विधान धर्मसिंधु में मिलता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">लेख पढ़ें</a>",
       "category": "पर्व",
@@ -85,16 +95,6 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
       "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
       "muhurtaRule": "narak-chaturdashi-abhyanga"
-    },
-    {
-      "date": "2028-10-17",
-      "dateLabel": "17 अक्टूबर",
-      "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "muhurtaRule": "diwali-lakshmi-puja"
     },
     {
       "date": "2028-10-18",
@@ -123,6 +123,17 @@
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2028-10-26",
+      "dateLabel": "26 अक्टूबर",
+      "title": "सत युग दिवस",
+      "description": "कार्तिक शुक्ल नवमी को सत युग के आरम्भ का स्मरण सत युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल नवमी",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=26/10/2028"
     },
     {
       "date": "2028-10-28",
