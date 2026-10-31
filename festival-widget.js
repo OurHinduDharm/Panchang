@@ -468,14 +468,21 @@
       });
       let items = Array.from(deduped.values());
 
-      // Keep this year's card through its actual end date; only then look ahead to next year.
+      // Keep this year's card through its reviewed Dwadashi visibility date,
+      // not merely through the Devotthani Ekadashi event date.
       const currentEnd = items.find(item => {
         const d = parseDate(item.date);
         return d && d.getFullYear() === currentChaturmasYear &&
           /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "");
       });
       let chaturmasYear = currentChaturmasYear;
-      if (!currentEnd || currentEnd.date < todayKey) {
+      let chaturmasConfig = await fetchChaturmasConfig(currentChaturmasYear);
+      let currentVisibleThrough = currentEnd && parseDate(chaturmasConfig && chaturmasConfig.cardVisibleThroughDate);
+      if (currentEnd && !currentVisibleThrough) {
+        currentVisibleThrough = parseDate(currentEnd.date);
+        currentVisibleThrough.setDate(currentVisibleThrough.getDate() + 2);
+      }
+      if (!currentEnd || dateKey(currentVisibleThrough) < todayKey) {
         chaturmasYear = currentChaturmasYear + 1;
         const nextYearMonths = [];
         for (let month = 5; month <= 10; month++) {
@@ -489,13 +496,13 @@
           if (!deduped.has(key)) deduped.set(key, item);
         });
         items = Array.from(deduped.values());
+        chaturmasConfig = await fetchChaturmasConfig(chaturmasYear);
       }
 
       const chaturmasEvents = items.filter(item => {
         const d = parseDate(item.date);
         return d && d.getFullYear() === chaturmasYear;
       });
-      const chaturmasConfig = await fetchChaturmasConfig(chaturmasYear);
       render(items, today, endExclusive, chaturmasEvents, chaturmasConfig);
     } catch (_) {
       mount.textContent = "अभी आगामी पर्व लोड नहीं हो पाए।";
