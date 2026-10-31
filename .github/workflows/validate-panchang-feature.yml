@@ -26,7 +26,7 @@ jobs:
           node --experimental-default-type=module --check festival-widget.js
           node --check dwadashi-calendar.mjs
           node --experimental-default-type=module --check festival-muhurta.js
-          sed -n '/^<script type="module">$/,/^<\\/script>$/p' festival-year-review.html | sed '1d;$d' > /tmp/festival-year-review.mjs
+          sed -n '/^<script type="module">$/,/^<\/script>$/p' festival-year-review.html | sed '1d;$d' > /tmp/festival-year-review.mjs
           node --check /tmp/festival-year-review.mjs
           sed -n '/^<script type="module">$/,/^<\/script>$/p' asta-udaya-calculator.html | sed '1d;$d' > /tmp/asta-udaya-calculator.mjs
           node --check /tmp/asta-udaya-calculator.mjs
