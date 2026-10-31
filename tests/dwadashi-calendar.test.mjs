@@ -17,9 +17,9 @@ test("master catalogue contains named records for all 24 regular month-paksha Dw
   const regular=entries.filter(item=>!item.adhika);
   const pairs=new Set(regular.map(item=>item.month+"|"+item.paksha));
   assert.equal(pairs.size,24);
-  assert.ok(regular.every(item=>Array.isArray(item.displayNames)&&item.displayNames.length>0));
+  assert.ok(regular.every(item=>(Array.isArray(item.displayNames)&&item.displayNames.length>0)||(Array.isArray(item.crossReferences)&&item.crossReferences.length>0)));
   assert.ok(entries.some(item=>item.id==="jyeshtha-krishna-adhika"&&item.displayNames.includes("अधिक कृष्ण रामलक्ष्मण द्वादशी")));
-  assert.ok(entries.some(item=>item.id==="jyeshtha-shukla-adhika"&&item.displayNames.includes("उन्मीलिनी महाद्वादशी")));
+  assert.ok(entries.some(item=>item.id==="jyeshtha-shukla-adhika"&&item.conditionalObservances?.some(x=>x.id==="unmilini")));
 });
 
 const sunriseDay = (date, month, paksha, tithi, adhika=false) => ({
@@ -176,10 +176,10 @@ test("permanent month-paksha names remain the same in every year, including Adhi
   const master = [
     {id:"vaishakha-krishna",month:"वैशाख",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण-वामन द्वादशी"]},
     {id:"jyeshtha-krishna",month:"ज्येष्ठ",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण परशुराम द्वादशी"]},
-    {id:"jyeshtha-shukla",month:"ज्येष्ठ",paksha:"शुक्ल",observances:[],displayNames:["त्रिविक्रम द्वादशी","रामलक्ष्मण द्वादशी","पक्षवर्द्धिनी महाद्वादशी","चम्पक द्वादशी"]},
-    {id:"jyeshtha-shukla-adhika",month:"ज्येष्ठ",paksha:"शुक्ल",adhika:true,observances:[],displayNames:["उन्मीलिनी महाद्वादशी","अधिक रामलक्ष्मण द्वादशी"]},
+    {id:"jyeshtha-shukla",month:"ज्येष्ठ",paksha:"शुक्ल",observances:[],displayNames:["त्रिविक्रम द्वादशी","रामलक्ष्मण द्वादशी","चम्पक द्वादशी"],conditionalObservances:[{id:"pakshavardhini",name:"पक्षवर्द्धिनी महाद्वादशी"}]},
+    {id:"jyeshtha-shukla-adhika",month:"ज्येष्ठ",paksha:"शुक्ल",adhika:true,observances:[],displayNames:["अधिक रामलक्ष्मण द्वादशी"],conditionalObservances:[{id:"unmilini",name:"उन्मीलिनी महाद्वादशी"}]},
     {id:"jyeshtha-krishna-adhika",month:"ज्येष्ठ",paksha:"कृष्ण",adhika:true,observances:[],displayNames:["अधिक कृष्ण रामलक्ष्मण द्वादशी"]},
-    {id:"ashadha-krishna",month:"आषाढ़",paksha:"कृष्ण",observances:[],displayNames:["त्रिस्पर्शा महाद्वादशी","कृष्ण रामलक्ष्मण द्वादशी"]}
+    {id:"ashadha-krishna",month:"आषाढ़",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण रामलक्ष्मण द्वादशी"],conditionalObservances:[{id:"trishprisha",name:"त्रिस्पर्शा महाद्वादशी"}]}
   ];
   const refs = [
     {month:"ज्येष्ठ",paksha:"कृष्ण",adhika:false,referenceDate:"2026-05-13"},
@@ -210,4 +210,32 @@ test("annual reference dates do not provide or override permanent Dwadashi names
   const pausha=result.tithis.find(x=>x.id==="pausha-krishna");
   assert.deepEqual(pausha.displayNames,["रूप-व्रत"]);
   assert.equal(pausha.referenceDate,null);
+});
+
+test("Mahadwadashi labels are conditional, not permanent month-paksha display names", async () => {
+  const catalogFile=JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"));
+  const byId=Object.fromEntries(catalogFile.unifiedTithiIndex.tithis.map(item=>[item.id,item]));
+  for (const [id,label] of [
+    ["jyeshtha-shukla","पक्षवर्द्धिनी महाद्वादशी"],
+    ["shravana-shukla","वंजुली महाद्वादशी"],
+    ["jyeshtha-shukla-adhika","उन्मीलिनी महाद्वादशी"],
+    ["ashadha-krishna","त्रिस्पर्शा महाद्वादशी"]
+  ]) {
+    assert.ok(!byId[id].displayNames.includes(label));
+    assert.ok(byId[id].conditionalObservances?.some(item=>item.name===label));
+  }
+  assert.ok(!byId["bhadrapada-shukla"].displayNames.includes("विष्णुशृंखला योग द्वादशी"));
+  assert.ok(byId["bhadrapada-shukla"].crossReferences?.some(item=>item.name==="विष्णुशृंखला योग द्वादशी"));
+  assert.equal(catalogFile.mahaDwadashi.sourceVariants.find(item=>item.id==="naradaPurana").criteria.jaya,"शुक्ल द्वादशी + मघा");
+  assert.equal(catalogFile.mahaDwadashi.sourceVariants.find(item=>item.id==="nirnayaSindhu").criteria.jaya,"शुक्ल द्वादशी + पुष्य");
+});
+
+test("annual Dwadashi output keeps conditional names separate from display names", () => {
+  const fixture={unifiedTithiIndex:{tithis:[
+    {id:"test",month:"ज्येष्ठ",paksha:"शुक्ल",displayNames:["त्रिविक्रम द्वादशी"],observances:[],conditionalObservances:[{id:"jaya",name:"जया महाद्वादशी"}]}
+  ]}};
+  const result=buildDwadashiCalendar([sunriseDay("2026-06-01","ज्येष्ठ","शुक्ल","द्वादशी")],fixture);
+  const record=result.tithis.find(item=>item.id==="jyeshtha-shukla");
+  assert.deepEqual(record.displayNames,["त्रिविक्रम द्वादशी"]);
+  assert.deepEqual(record.conditionalObservances,[{id:"jaya",name:"जया महाद्वादशी"}]);
 });
