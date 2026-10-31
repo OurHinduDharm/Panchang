@@ -28,6 +28,7 @@ test("upcoming festival widget prefers approved annual Chaturmas phases and reta
   assert.match(widget, /\.\.\/dwadashi\/.*year.*json/);
   assert.match(widget, /annual\.status === "approved"/);
   assert.match(widget, /candidate\.status === "approved"/);
+  assert.match(widget, /completePhases/);
   assert.match(widget, /\.\.\/chaturmas\//);
 });
 
