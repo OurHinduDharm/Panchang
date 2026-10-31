@@ -170,16 +170,9 @@ test("Pithoragarh Diwali ascendant can be read at the Vrishabha interval", () =>
     let udaya = null, kundli = null;
     try { udaya = panchangPackage.getUdayaLagna(at, projectObserver, { timezoneOffset:330 }); } catch(error) { udaya = String(error); }
     try { kundli = panchangPackage.getKundli(at, projectObserver); } catch(error) { kundli = String(error); }
-    return { at:value, pUdaya:p.udayaLagna, getUdaya:udaya, getKundli:kundli };
+    return { at:value, pUdaya:p.udayaLagna, getUdaya:udaya, ascendant:kundli && typeof kundli==="object" ? kundli.ascendant : kundli };
   });
   console.log("OHD_DIWALI_LAGNA_DEBUG", JSON.stringify({ probes }));
-  function isVrishabha(value) {
-    if (value && typeof value === "object") {
-      value = value.rashiIndex ?? value.rashiName ?? value.rashi ?? value.signName ?? value.name ?? value.label ?? value.index ?? value.number ?? value.value;
-    }
-    if (typeof value === "number") return value === 1;
-    return /vrishabha|वृषभ|taurus/i.test(String(value || ""));
-  }
   assert.ok(true);
 });
 
