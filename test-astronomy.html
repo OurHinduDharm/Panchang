@@ -366,8 +366,8 @@
     </p>
     <div class="status warn">
       <strong>Event semantics:</strong> 1 = Morning First (प्रातः पहली दृश्यता);
-      2 = Evening Last (सायंकाल अंतिम दृश्यता). The search begins 50 days
-      before the reference date. The returned beginning/optimum/end times
+      2 = Evening Last (सायंकाल अंतिम दृश्यता). The search begins 10 days
+      before the exact published boundary timestamp to avoid selecting the previous visibility cycle. The returned beginning/optimum/end times
       describe the visibility window, not three different Asta/Udaya dates.
     </div>
 
@@ -556,7 +556,8 @@ const TKS_CONFIG = {
   offsetMinutes: 330
 };
 
-// Source-specific Dehradun references; these are distinct from SHASTRIYA_REFERENCES (TKS test dates).
+// Historical Dehradun elongation samples only. They are not local event-time targets.
+// Retained for the existing elongation diagnostics; never feed them to the Swiss local-visibility runner.
 const REFERENCES = [
   { planet:"Venus", event:"Asta", date:"2026-10-19", sampleTime:"2026-10-19T12:00:00Z", elongation:7.76, eventType:2, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
   { planet:"Venus", event:"Udaya", date:"2026-10-30", sampleTime:"2026-10-30T00:30:00Z", elongation:9.70, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" },
@@ -564,15 +565,84 @@ const REFERENCES = [
   { planet:"Jupiter", event:"Udaya", date:"2027-09-15", sampleTime:"2027-09-15T00:30:00Z", elongation:11.28, eventType:1, source:"Tantrakulam", engine:"Drik", referenceLocation:"Dehradun, Uttarakhand, India" }
 ];
 
-// Published event boundaries transcribed by the user from Drik Panchang.
-// Local times are Pithoragarh clock time (Asia/Kolkata, UTC+05:30).
-// Keep these separate from the older Dehradun/Tantrakulam reference set above.
-const DRIK_PITHORAGARH_BOUNDARIES = [
-  { planet: "Venus", event: "Asta begins — evening boundary", localTime: "2026-10-12T18:05:00" },
-  { planet: "Venus", event: "Asta ends — morning boundary", localTime: "2026-10-29T05:49:00" },
-  { planet: "Jupiter", event: "Asta begins — evening boundary", localTime: "2027-08-16T19:24:00" },
-  { planet: "Jupiter", event: "Asta ends — morning boundary", localTime: "2027-09-13T05:09:00" }
-];
+// Load only the Pithoragarh Drik records and bind every event to the
+// project's Pithoragarh observer. The source's exact internal coordinates
+// are undisclosed, so comparisons remain city-label-only, not coordinate-exact.
+async function loadAstaUdayaLocationReferences() {
+  const response = await fetch("data/asta-udaya-benchmark.json", {
+    cache: "no-store"
+  });
+  if (!response.ok) {
+    throw new Error(`Unable to load Asta/Udaya benchmark dataset: HTTP ${response.status}`);
+  }
+
+  const dataset = await response.json();
+  if (!Array.isArray(dataset.cases)) {
+    throw new Error("Asta/Udaya benchmark dataset has no cases array.");
+  }
+
+  const planetCases = dataset.cases.filter(entry =>
+    entry.eventModel === "drik-tara-asta-window" &&
+    entry.sourceLocation === "Pithoragarh, Uttarakhand, India" &&
+    entry.comparisonLevel === "city-label-only" &&
+    entry.testObserver &&
+    Number.isFinite(Number(entry.testObserver.latitude)) &&
+    Number.isFinite(Number(entry.testObserver.longitude)) &&
+    Number.isFinite(Number(entry.testObserver.elevationMeters)) &&
+    entry.boundaries &&
+    typeof entry.boundaries.astaStart === "string" &&
+    typeof entry.boundaries.astaEnd === "string"
+  );
+
+  return planetCases.flatMap(entry => {
+    const observer = {
+      latitude: Number(entry.testObserver.latitude),
+      longitude: Number(entry.testObserver.longitude),
+      elevation: Number(entry.testObserver.elevationMeters)
+    };
+
+    // Swiss event types are not interchangeable:
+    // 2 = evening last visibility; 1 = morning first visibility.
+    // Only compare a published Asta-start at evening with type 2, and an
+    // Asta-end at morning with type 1. Other boundary/time combinations
+    // represent different visibility semantics and must remain un-compared.
+    const startHour = Number(entry.boundaries.astaStart.slice(11, 13));
+    const endHour = Number(entry.boundaries.astaEnd.slice(11, 13));
+    const startCompatible = startHour >= 16;
+    const endCompatible = endHour <= 10;
+
+    return [
+      {
+        id: entry.id + "-asta-start",
+        planet: entry.planet,
+        event: startCompatible
+          ? "Asta आरम्भ — सायंकाल अंतिम दृश्यता"
+          : "Asta आरम्भ — Swiss evening-setting मॉडल से असंगत",
+        date: entry.boundaries.astaStart.slice(0, 10),
+        boundaryTime: entry.boundaries.astaStart,
+        eventType: startCompatible ? 2 : null,
+        skipReason: startCompatible ? null : "Asta-start is not an evening boundary; no equivalent Swiss event type is asserted.",
+        sourceLocation: entry.sourceLocation,
+        comparisonLevel: entry.comparisonLevel,
+        observer
+      },
+      {
+        id: entry.id + "-asta-end",
+        planet: entry.planet,
+        event: endCompatible
+          ? "Asta समाप्त — प्रातः प्रथम दृश्यता"
+          : "Asta समाप्त — Swiss morning-rising मॉडल से असंगत",
+        date: entry.boundaries.astaEnd.slice(0, 10),
+        boundaryTime: entry.boundaries.astaEnd,
+        eventType: endCompatible ? 1 : null,
+        skipReason: endCompatible ? null : "Asta-end is not a morning boundary; no equivalent Swiss event type is asserted.",
+        sourceLocation: entry.sourceLocation,
+        comparisonLevel: entry.comparisonLevel,
+        observer
+      }
+    ];
+  });
+}
 
 const PLANETS = {
   Mercury: "Mercury",
@@ -797,26 +867,21 @@ const planet =
   return vectorSeparationDegrees(sun, planet);
 }
 
-function getHorizontal(body, date) {
-
-  const eq =
-    Astronomy.Equator(
-      body,
-      date,
-      observer,
-      true,
-      true
-    );
-
-  const hor =
-    Astronomy.Horizon(
-      date,
-      observer,
-      eq.ra,
-      eq.dec,
-      "normal"
-    );
-
+function getHorizontalAtObserver(body, date, observerAtLocation) {
+  const eq = Astronomy.Equator(
+    body,
+    date,
+    observerAtLocation,
+    true,
+    true
+  );
+  const hor = Astronomy.Horizon(
+    date,
+    observerAtLocation,
+    eq.ra,
+    eq.dec,
+    "normal"
+  );
   return {
     altitude: hor.altitude,
     azimuth: hor.azimuth,
@@ -825,11 +890,12 @@ function getHorizontal(body, date) {
   };
 }
 
+function getHorizontal(body, date) {
+  return getHorizontalAtObserver(body, date, observer);
+}
+
 function getSunHorizontal(date) {
-  return getHorizontal(
-    Astronomy.Body.Sun,
-    date
-  );
+  return getHorizontal(Astronomy.Body.Sun, date);
 }
 
 
@@ -1145,12 +1211,8 @@ const SWISS = {
 
   HELFLAG_HIGH_PRECISION: 256,
 
-  ATMOSPHERE: [
-    1013.25,
-    15,
-    40,
-    0
-  ],
+  // Swiss defaults adjust pressure for observer altitude.
+  ATMOSPHERE: [0, 0, 0, 0],
 
   OBSERVER: [
     36,
@@ -1228,13 +1290,14 @@ async function calculateSwissHeliacal(ref) {
    * Start sufficiently before the reference date.
    */
 
-  const startDate =
-    addDays(
-      new Date(
-        ref.date + "T00:00:00Z"
-      ),
-      -50
-    );
+  // Start from the exact published boundary timestamp, not midnight on its date.
+  // A short look-back bounds the candidate search near the published boundary.
+  // It does not prove event equivalence or force the Swiss result to match.
+  const boundaryInstant = new Date(ref.boundaryTime || (ref.date + "T00:00:00Z"));
+  if (Number.isNaN(boundaryInstant.getTime())) {
+    throw new Error(`Invalid published boundary timestamp: ${ref.boundaryTime || ref.date}`);
+  }
+  const startDate = addDays(boundaryInstant, -10);
 
   const jdStart =
     unixMsToJulian(
@@ -1248,18 +1311,26 @@ async function calculateSwissHeliacal(ref) {
    * into the WASM wrapper.
    */
 
+  const observerConfig = ref.observer;
+  if (
+    !observerConfig ||
+    !Number.isFinite(Number(observerConfig.latitude)) ||
+    !Number.isFinite(Number(observerConfig.longitude)) ||
+    !Number.isFinite(Number(observerConfig.elevation))
+  ) {
+    throw new Error(
+      `No exact test-observer coordinates are attached to this ${ref.referenceLocation || "reference location"} case; refusing to substitute Pithoragarh.`
+    );
+  }
+
   const geoPos = [
-    Number(CONFIG.longitude),
-    Number(CONFIG.latitude),
-    Number(CONFIG.elevation)
+    Number(observerConfig.longitude),
+    Number(observerConfig.latitude),
+    Number(observerConfig.elevation)
   ];
 
-  const atmosData = [
-    1013.25,
-    15,
-    40,
-    0
-  ];
+  // All-zero inputs request Swiss Ephemeris altitude-adjusted defaults.
+  const atmosData = [0, 0, 0, 0];
 
   const observerData = [
     36,
@@ -1523,14 +1594,14 @@ async function calculateSwissHeliacal(ref) {
 /* =============================================================
    SECTION 6
    HELIACAL UDAYA / ASTA DIAGNOSTIC
-   Swiss Ephemeris validation — all four reference events
+   Swiss Ephemeris validation — Pithoragarh benchmark cases only
    ============================================================= */
 
 async function runHeliacalValidation() {
 
   heliacalOutput.innerHTML = `
     <div class="status info">
-      🔭 Running Swiss Ephemeris against all four Udaya/Asta references...
+      🔭 Checking available same-location heliacal references...
     </div>
   `;
 
@@ -1543,15 +1614,48 @@ async function runHeliacalValidation() {
     }
 
     const results = [];
+    const skippedReferences = [];
 
-    console.log("========== SWISS HELIACAL FOUR-CASE VALIDATION ==========");
+    // Never run a local visibility calculation unless the source location
+    // and the exact test observer are attached to this reference record.
+    const locationReferences = await loadAstaUdayaLocationReferences();
+    const eligibleReferences = locationReferences.filter(ref => {
+      const p = ref.observer;
+      return p &&
+        Number.isFinite(Number(p.latitude)) &&
+        Number.isFinite(Number(p.longitude)) &&
+        Number.isFinite(Number(p.elevation));
+    });
 
-    for (const ref of REFERENCES) {
+    if (new Set(eligibleReferences.map(ref => ref.sourceLocation)).size > 1) {
+      throw new Error("Mixed source locations detected; this run accepts exactly one location.");
+    }
+
+    if (!eligibleReferences.length) {
+      heliacalOutput.innerHTML = `
+        <div class="status warn">
+          No eligible Pithoragarh benchmark case with an explicit test observer was found. No other city’s coordinates will be substituted; no local Swiss result has been calculated.
+        </div>
+      `;
+      return;
+    }
+
+    console.log("========== SWISS HELIACAL LOCATION-MATCHED VALIDATION ==========");
+
+    for (const ref of eligibleReferences) {
 
       const eventType = Number(ref.eventType);
 
       if (eventType !== 1 && eventType !== 2) {
-        console.warn("Skipping invalid event type:", ref);
+        const skipped = {
+          planet: ref.planet,
+          event: ref.event,
+          boundaryTime: ref.boundaryTime,
+          sourceLocation: ref.sourceLocation,
+          reason: ref.skipReason || "No semantically equivalent Swiss heliacal event type is established."
+        };
+        skippedReferences.push(skipped);
+        console.warn("Skipping incompatible heliacal boundary; no comparison made:", skipped);
         continue;
       }
 
@@ -1569,7 +1673,7 @@ async function runHeliacalValidation() {
 
       const result = await calculateSwissHeliacal(ref);
 
-      const referenceDate = new Date(ref.date + "T00:00:00Z");
+      const referenceDate = new Date(ref.boundaryTime);
 
       const eventMs =
         result.eventDate instanceof Date &&
@@ -1577,9 +1681,9 @@ async function runHeliacalValidation() {
           ? result.eventDate.getTime()
           : NaN;
 
-      const deltaDays =
+      const deltaMinutes =
         Number.isFinite(eventMs)
-          ? (eventMs - referenceDate.getTime()) / 86400000
+          ? (eventMs - referenceDate.getTime()) / 60000
           : null;
 
       const visibilityPoints = [
@@ -1590,8 +1694,21 @@ async function runHeliacalValidation() {
         if (!(point.date instanceof Date) || Number.isNaN(point.date.getTime())) {
           return { label: point.label, local: null, planetAlt: null, sunAlt: null, planetAz: null, sunAz: null, elongation: null };
         }
-        const planetHorizontal = getHorizontal(BODY_NAMES[ref.planet], point.date);
-        const sunHorizontal = getSunHorizontal(point.date);
+        const pointObserver = new Astronomy.Observer(
+          Number(ref.observer.latitude),
+          Number(ref.observer.longitude),
+          Number(ref.observer.elevation)
+        );
+        const planetHorizontal = getHorizontalAtObserver(
+          BODY_NAMES[ref.planet],
+          point.date,
+          pointObserver
+        );
+        const sunHorizontal = getHorizontalAtObserver(
+          Astronomy.Body.Sun,
+          point.date,
+          pointObserver
+        );
         return {
           label: point.label,
           local: formatLocalFromUTCDate(point.date),
@@ -1607,6 +1724,10 @@ async function runHeliacalValidation() {
         planet: ref.planet,
         event: ref.event,
         referenceDate: ref.date,
+        referenceBoundary: ref.boundaryTime,
+        sourceLocation: ref.sourceLocation,
+        comparisonLevel: ref.comparisonLevel,
+        testObserver: ref.observer,
         eventType,
         eventTypeLabel: result.eventTypeLabel,
         searchStart: result.searchStartDate?.toISOString?.() || null,
@@ -1618,7 +1739,7 @@ async function runHeliacalValidation() {
         swissEnd:
           result.end?.toISOString?.() || null,
         visibilityPoints,
-        deltaDays
+        deltaMinutes
       };
 
       results.push(row);
@@ -1626,22 +1747,29 @@ async function runHeliacalValidation() {
       console.table([row]);
     }
 
-    console.log("========== FOUR-CASE SUMMARY ==========");
+    console.log("========== LOCATION-MATCHED SUMMARY ==========");
     console.table(results);
-    console.log("IMPORTANT: Swiss result is a heliacal visibility event, not a simple elongation threshold.");
-    console.log("========== FOUR-CASE SUMMARY END ==========");
+    console.log("Skipped incompatible boundaries (no comparison made):", skippedReferences);
+    console.log("IMPORTANT: Swiss heliacal event vs same-city Drik boundary; source observer coordinates are undisclosed.");
+    console.log("========== LOCATION-MATCHED SUMMARY END ==========");
 
     heliacalOutput.innerHTML = `
       <div class="card">
-        <h3>🔭 Swiss Ephemeris — चारों Udaya/Asta परीक्षण</h3>
+        <h3>🔭 Swiss Ephemeris — स्थान-मिलान वाले परीक्षण</h3>
         <div class="metric">
-          <strong>स्थान</strong>
-          <span>${CONFIG.latitude}°, ${CONFIG.longitude}°</span>
+          <strong>स्रोत स्थान</strong>
+          <span>${results[0]?.sourceLocation || "—"}</span>
         </div>
         <div class="metric">
           <strong>Swiss event mapping</strong>
           <span>1 = Morning First, 2 = Evening Last</span>
         </div>
+        ${skippedReferences.length ? `
+          <div class="status warn">
+            <strong>तुलना नहीं की गई (${skippedReferences.length} सीमाएँ)</strong>
+            ${skippedReferences.map(item => `<p>${item.planet} — ${item.event}<br>स्रोत समय: ${item.boundaryTime}<br>कारण: ${item.reason}</p>`).join("")}
+          </div>
+        ` : ""}
         ${results.map(row => `
           <div class="card">
             <h3>${row.planet} — ${row.event}</h3>
@@ -1654,8 +1782,11 @@ async function runHeliacalValidation() {
               Beginning of visibility (UTC): ${row.swissStart || "—"}<br>
               Optimum visibility (UTC): ${row.swissOptimum || "—"}<br>
               End of visibility (UTC): ${row.swissEnd || "—"}<br>
-              Reference-date delta: ${row.deltaDays === null ? "—" : (row.deltaDays >= 0 ? "+" : "") + row.deltaDays.toFixed(3) + " days"}<br>
-              <span class="small">Delta is measured from reference-date 00:00 UTC, not from a known reference event instant.</span>
+              Published boundary (source local time): ${row.referenceBoundary}<br>
+              Test observer: ${row.testObserver.latitude}°, ${row.testObserver.longitude}°, ${row.testObserver.elevation} m<br>
+              Location comparison: ${row.comparisonLevel === "city-label-only" ? "same city label; source coordinates undisclosed" : "coordinate-exact"}<br>
+              Swiss minus published boundary: ${row.deltaMinutes === null ? "—" : (row.deltaMinutes >= 0 ? "+" : "") + row.deltaMinutes.toFixed(1) + " minutes"}<br>
+              <span class="small">Swiss heliacal visibility and Drik's published Tara Asta boundary may use different definitions. This is a same-city diagnostic, not proof of coordinate-exact equivalence.</span>
               </span>
             </div>
             <div class="table-wrap">
@@ -1672,14 +1803,14 @@ async function runHeliacalValidation() {
     `;
 
     setStatus(
-      "✅ Swiss heliacal validation completed for all four reference events.",
+      "✅ Swiss heliacal validation completed for eligible location-matched references.",
       "ok"
     );
 
   } catch (error) {
 
     console.error(
-      "HELIACAL FOUR-CASE VALIDATION ERROR:",
+      "LOCATION-MATCHED HELIACAL VALIDATION ERROR:",
       error
     );
 
@@ -1699,417 +1830,8 @@ async function runHeliacalValidation() {
   }
 }
 
- // ============================================================
-// STAGE 9 — HELIACAL VISIBILITY THRESHOLD ANALYSIS
-// Diagnostic only — does NOT calculate production Udaya/Asta
-// ============================================================
+// Removed unused Stage 9 heliacal_pheno scan: it paired Dehradun event dates with the Pithoragarh CONFIG observer and had no matching output element. A location-bound replacement belongs in the benchmark runner.
 
-async function calculateSwissVisibilityLimit(
-  date,
-  planet,
-  eventType
-) {
-  const swe = await initSwiss();
-
-  // Convert JS Date -> Julian Day UT
-  const jd = swe.julday(
-    date.getUTCFullYear(),
-    date.getUTCMonth() + 1,
-    date.getUTCDate(),
-    date.getUTCHours() +
-      date.getUTCMinutes() / 60 +
-      date.getUTCSeconds() / 3600,
-    1
-  );
-
-  const geoPos = [
-    CONFIG.longitude,
-    CONFIG.latitude,
-    CONFIG.elevation
-  ];
-
-  const atmosphere = [
-    1013.25,
-    15,
-    40,
-    0
-  ];
-
-  const observer = [
-    36,
-    1,
-    0,
-    0,
-    0,
-    0
-  ];
-
-  const result = new Float64Array(50);
-
-  const helFlag =
-    SWISS.FLG_SWIEPH |
-    SWISS.HELFLAG_HIGH_PRECISION;
-
-  const objectName = planet.toLowerCase();
-
-  try {
-    const rc = await swe.heliacal_pheno_ut(
-      jd,
-      geoPos,
-      atmosphere,
-      observer,
-      objectName,
-      eventType,
-      helFlag,
-      result
-    );
-
-    if (rc === undefined || rc === null) {
-      return null;
-    }
-
-    return {
-      jd,
-      altitude: result[0],
-      apparentAltitude: result[1],
-      geocentricAltitude: result[2],
-      azimuth: result[3],
-      sunAltitude: result[4],
-      sunAzimuth: result[5],
-      tav: result[6],
-      arcv: result[7],
-      daz: result[8],
-      arcl: result[9],
-      kact: result[10],
-      minTav: result[11],
-      tfirstVR: result[12],
-      tbVR: result[13],
-      tlastVR: result[14],
-      tbYallop: result[15],
-      moonPhase: result[16],
-      qYal: result[17],
-      qCrit: result[18],
-      parallax: result[19],
-      magnitude: result[20],
-      riseObject: result[21],
-      riseSun: result[22],
-      lag: result[23],
-      tvisVR: result[24],
-      moonLimitingMagnitude: result[25],
-      elongation: result[26],
-      illumination: result[27]
-    };
-
-  } catch (error) {
-    console.warn(
-      "Swiss heliacal_pheno_ut failed:",
-      planet,
-      date.toISOString(),
-      error
-    );
-
-    return null;
-  }
-}
-
-
-// ------------------------------------------------------------
-// Convert Julian Day -> Date
-// ------------------------------------------------------------
-
-function swissJdToDate(jd) {
-  if (!Number.isFinite(jd)) return null;
-
-  const unixMs =
-    (jd - 2440587.5) * 86400000;
-
-  return new Date(unixMs);
-}
-
-
-// ------------------------------------------------------------
-// Format local time for validation display
-// ------------------------------------------------------------
-
-function formatLocalDateTime(date) {
-  if (!(date instanceof Date) || isNaN(date)) {
-    return "Invalid";
-  }
-
-  return date.toLocaleString(
-    "en-IN",
-    {
-      timeZone: CONFIG.timezone,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false
-    }
-  );
-}
-
-
-// ------------------------------------------------------------
-// Stage 9 scan
-// ------------------------------------------------------------
-
-async function runVisibilityThresholdAnalysis() {
-
-  const container = document.getElementById("validation-results");
-
-  if (!container) {
-    console.warn(
-      "Stage 9: #validation-results not found."
-    );
-    return;
-  }
-
-  const references = [
-    {
-      planet: "Venus",
-      event: "Asta",
-      eventType: SWISS.HELIACAL_SETTING,
-      date: "2026-10-19"
-    },
-    {
-      planet: "Venus",
-      event: "Udaya",
-      eventType: SWISS.HELIACAL_RISING,
-      date: "2026-10-30"
-    },
-    {
-      planet: "Jupiter",
-      event: "Asta",
-      eventType: SWISS.HELIACAL_SETTING,
-      date: "2027-08-17"
-    },
-    {
-      planet: "Jupiter",
-      event: "Udaya",
-      eventType: SWISS.HELIACAL_RISING,
-      date: "2027-09-15"
-    }
-  ];
-
-  const rows = [];
-
-  for (const ref of references) {
-
-    const noon = new Date(
-      `${ref.date}T12:00:00Z`
-    );
-
-    // Scan ±2 days around reference.
-    // 10-minute resolution.
-    for (
-      let minutes = -2880;
-      minutes <= 2880;
-      minutes += 10
-    ) {
-
-      const date = new Date(
-        noon.getTime() +
-        minutes * 60000
-      );
-
-      const data =
-        await calculateSwissVisibilityLimit(
-          date,
-          ref.planet,
-          ref.eventType
-        );
-
-      if (!data) continue;
-
-      rows.push({
-        planet: ref.planet,
-        event: ref.event,
-        referenceDate: ref.date,
-        utc: date.toISOString(),
-        local: formatLocalDateTime(date),
-
-        altitude: data.altitude,
-        apparentAltitude:
-          data.apparentAltitude,
-
-        sunAltitude:
-          data.sunAltitude,
-
-        arcv: data.arcv,
-        daz: data.daz,
-        arcl: data.arcl,
-
-        kact: data.kact,
-        minTav: data.minTav,
-
-        qYal: data.qYal,
-        qCrit: data.qCrit,
-
-        magnitude:
-          data.magnitude,
-
-        lag:
-          data.lag,
-
-        elongation:
-          data.elongation,
-
-        illumination:
-          data.illumination
-      });
-    }
-  }
-
-  // ----------------------------------------------------------
-  // Find the most interesting samples
-  // ----------------------------------------------------------
-
-  const grouped = {};
-
-  for (const row of rows) {
-
-    const key =
-      `${row.planet}_${row.event}`;
-
-    if (!grouped[key]) {
-      grouped[key] = [];
-    }
-
-    grouped[key].push(row);
-  }
-
-  let html = `
-    <section class="validation-section">
-      <h2>8. Heliacal Visibility Threshold Analysis</h2>
-
-      <p>
-        This diagnostic scans the actual visibility parameters
-        around the reference events. It does not hard-code the
-        reference date as the calculated answer.
-      </p>
-  `;
-
-  for (const key of Object.keys(grouped)) {
-
-    const data = grouped[key];
-
-    const refDate =
-      new Date(
-        `${data[0].referenceDate}T12:00:00Z`
-      );
-
-    // Find sample closest to reference instant.
-    const closest =
-      data.reduce(
-        (best, current) => {
-
-          const d1 =
-            Math.abs(
-              new Date(current.utc) -
-              refDate
-            );
-
-          const d2 =
-            Math.abs(
-              new Date(best.utc) -
-              refDate
-            );
-
-          return d1 < d2
-            ? current
-            : best;
-        },
-        data[0]
-      );
-
-    html += `
-      <h3>
-        ${closest.planet} —
-        ${closest.event}
-      </h3>
-
-      <table class="validation-table">
-        <thead>
-          <tr>
-            <th>UTC</th>
-            <th>Local</th>
-            <th>Planet Alt</th>
-            <th>Sun Alt</th>
-            <th>ARCV</th>
-            <th>DAZ</th>
-            <th>ARCL</th>
-            <th>K</th>
-            <th>Min TAV</th>
-            <th>Magnitude</th>
-            <th>Elong.</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-
-    // Display only samples near the reference:
-    // ±6 hours, keeping the table manageable.
-    const nearby =
-      data.filter(row => {
-
-        const diff =
-          Math.abs(
-            new Date(row.utc) -
-            refDate
-          );
-
-        return diff <= 6 * 3600000;
-      });
-
-    for (const row of nearby) {
-
-      html += `
-        <tr>
-          <td>${row.utc}</td>
-          <td>${row.local}</td>
-          <td>${Number(row.altitude).toFixed(3)}°</td>
-          <td>${Number(row.sunAltitude).toFixed(3)}°</td>
-          <td>${Number(row.arcv).toFixed(3)}°</td>
-          <td>${Number(row.daz).toFixed(3)}°</td>
-          <td>${Number(row.arcl).toFixed(3)}°</td>
-          <td>${Number(row.kact).toFixed(3)}</td>
-          <td>${Number(row.minTav).toFixed(3)}°</td>
-          <td>${Number(row.magnitude).toFixed(2)}</td>
-          <td>${Number(row.elongation).toFixed(3)}°</td>
-        </tr>
-      `;
-    }
-
-    html += `
-        </tbody>
-      </table>
-    `;
-  }
-
-  html += `
-      <p class="validation-note">
-        ⚠️ Diagnostic only. The values above are used to
-        determine the visibility criterion before production
-        Udaya/Asta calculation is implemented.
-      </p>
-    </section>
-  `;
-
-  container.insertAdjacentHTML(
-    "beforeend",
-    html
-  );
-
-  console.log(
-    "STAGE 9 VISIBILITY ANALYSIS:",
-    rows
-  );
-
-  return rows;
-}
 /* =============================================================
    SHASTRIYA LAGNANTARA-ASU DIAGNOSTIC
    ============================================================= */
