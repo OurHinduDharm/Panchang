@@ -99,6 +99,17 @@
     {
       "date": "2028-04-27",
       "dateLabel": "27 अप्रैल",
+      "title": "त्रेता युग दिवस",
+      "description": "वैशाख शुक्ल तृतीया को त्रेता युग के आरम्भ का स्मरण त्रेता युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "approved",
+      "hinduTithi": "वैशाख शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=27/04/2028"
+    },
+    {
+      "date": "2028-04-27",
+      "dateLabel": "27 अप्रैल",
       "title": "परशुराम जयंती",
       "description": "परशुराम जयंती भगवान विष्णु के परशुराम अवतार के प्राकट्य-स्मरण का पर्व है। विष्णु-पूजन, पाठ, जप और दान की परंपरा है।",
       "category": "जयंती",
