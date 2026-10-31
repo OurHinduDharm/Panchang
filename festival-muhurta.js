@@ -1016,7 +1016,8 @@ const rules = {
     } else if (overlap.end <= hinduMidnight) {
       // When Bhadra ends before Hindu midnight, wait for its end.
       const afterBhadraStart = laterDate(baseStart, overlap.end);
-      const afterBhadraEnd = earlierDate(nextSunrise, purnimaDuringPradosh?.end ?? (purnimaAtSunrise ? pradoshEnd : null));
+      const afterBhadraLimit = overlap.end < pradoshEnd ? pradoshEnd : hinduMidnight;
+      const afterBhadraEnd = earlierDate(afterBhadraLimit, purnimaDuringPradosh?.end ?? (purnimaAtSunrise ? pradoshEnd : null));
       primary = interval(afterBhadraStart, afterBhadraEnd, "होलिका-दहन — भद्रा समाप्ति के बाद", "प्रदोष में भद्रा होने पर उसके समाप्त होने के बाद का पूर्णिमा-व्याप्त समय।");
       if (!primary && purnimaDuringPradosh) {
         primary = interval(laterDate(pradoshEnd, overlap.end), earlierDate(hinduMidnight, purnimaDuringPradosh.end), "होलिका-दहन — भद्रा समाप्ति के बाद", "भद्रा समाप्ति के बाद उपलब्ध समय।");
