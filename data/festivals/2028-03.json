@@ -23,7 +23,8 @@
       "description": "होलिका-दहन प्रह्लाद और भक्ति की विजय से जुड़ा पर्व है। दहन का मुहूर्त फाल्गुन पूर्णिमा-व्याप्ति तथा भद्रा आदि के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "holika-dahan-pradosh"
     },
     {
       "date": "2028-03-11",
