@@ -181,6 +181,7 @@
           selectedLocationInSession=selected;
           panchangCache.clear();
           observerCache.clear();
+          locationEclipseCache.clear();
           locationInput.value=selected.city||selected.name;
           locationSuggestions.replaceChildren();
           locationStatus.textContent="मुहूर्त की गणना का स्थान: "+selected.name+" · ऊँचाई डेटा: Open-Meteo / Copernicus DEM";
@@ -240,9 +241,13 @@
 
   // ग्रहण-पंचांग के उसी सत्यापित discovery/visibility module का उपयोग करें।
   // केवल चुने हुए स्थान पर वास्तव में दृश्य ग्रहण ही मासिक सूची में जोड़ा जाएगा।
+  var locationEclipseCalculationFailed=false;
   var eclipseToolsPromise=import("https://ourhindudharm.github.io/Panchang/eclipse-panchang.js").then(function(){
-    return window.__OHDEclipsePanchangTools||null;
+    var tools=window.__OHDEclipsePanchangTools||null;
+    if(!tools)locationEclipseCalculationFailed=true;
+    return tools;
   }).catch(function(error){
+    locationEclipseCalculationFailed=true;
     console.warn("Eclipse visibility module unavailable:",error);return null;
   });
   var locationEclipseCache=new Map();
@@ -256,7 +261,7 @@
   function formatGrahanDateTime(value){
     var date=value instanceof Date?value:new Date(value);
     if(!Number.isFinite(date.getTime()))return "";
-    return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
+    return new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(date);
   }
   function getGrahanTitle(grahan){
     var type=String(grahan&&grahan.type||"").toLowerCase();
@@ -277,7 +282,10 @@
       var tools=await eclipseToolsPromise;
       if(!tools||typeof tools.discoverEclipses!=="function"||
          typeof tools.getLocalVisibility!=="function"||
-         typeof tools.getEclipseDayPanchangs!=="function")return [];
+         typeof tools.getEclipseDayPanchangs!=="function"){
+        locationEclipseCalculationFailed=true;
+        return [];
+      }
       // getDatePanchang supplies the same pinned Panchang API and observer
       // already used by the monthly muhurta calculations.
       var values=await getDatePanchang(String(year)+"-01-01");
@@ -294,7 +302,7 @@
         var dayPanchangs=tools.getEclipseDayPanchangs(visibilityDate,values.observer,values.panchangLib);
         var visibility=tools.getLocalVisibility(grahan,dayPanchangs);
         if(!visibility||visibility.localVisible!==true)return;
-        var description="इस चुने हुए स्थान पर यह ग्रहण दृश्य है।";
+        var description="स्थान: "+String(values.location.name||values.location.city||"चयनित स्थान")+" में यह ग्रहण दृश्य है।";
         var sutak=grahan.sutakKaal;
         if(sutak&&sutak.start&&sutak.end){
           description+=" सूतक काल: "+formatGrahanDateTime(sutak.start)+" से "+formatGrahanDateTime(sutak.end)+"।";
@@ -315,6 +323,7 @@
       });
       return events;
     })().catch(function(error){
+      locationEclipseCalculationFailed=true;
       console.warn("Location-based eclipse discovery failed:",error);return [];
     });
     locationEclipseCache.set(cacheKey,task);
@@ -1000,6 +1009,12 @@
     var pageTitle=document.getElementById("pageTitle");
     if(pageTitle) pageTitle.textContent=months[month-1]+" "+year+" — व्रत एवं त्योहार";
     var list=(data&&Array.isArray(data.events))?data.events.slice():[];
+    // वर्ष के सामान्य ग्रहण-कैटलॉग कार्ड स्थान-विशिष्ट नहीं होते।
+    // उन्हें हटाकर केवल ऊपर की स्थानीय दृश्यता-जाँच से बने कार्ड दिखाएँ।
+    list=list.filter(function(item){
+      var eclipseText=String(item.title||"")+" "+String(item.category||"");
+      return item.isLocationEclipse===true||!/ग्रहण|grahan|eclipse/i.test(eclipseText);
+    });
     if(!reviewMode){
       list=list.filter(function(item){return item.isLocationEclipse===true||item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy"||item.calculationStatus==="nakshatra-derived"||item.calculationStatus==="tithi-derived";});
     }
@@ -1109,6 +1124,16 @@
       card.appendChild(content);eventsEl.appendChild(card);
     });
     applyFilters();
+    if(locationEclipseCalculationFailed&&!document.getElementById("ohd-eclipse-calculation-note")){
+      var eclipseFailureNote=document.createElement("div");
+      eclipseFailureNote.id="ohd-eclipse-calculation-note";
+      eclipseFailureNote.className="note";
+      eclipseFailureNote.style.marginTop="8px";
+      eclipseFailureNote.textContent="इस स्थान के ग्रहण की दृश्यता अभी जाँची नहीं जा सकी। विस्तृत जानकारी के लिए ग्रहण-पंचांग खोलें।";
+      var eclipseFailureLink=makeLink("https://ourhindudharm.blogspot.com/p/grahan-panchang.html?m=1","ग्रहण-पंचांग खोलें");
+      if(eclipseFailureLink)eclipseFailureNote.appendChild(eclipseFailureLink);
+      eventsEl.appendChild(eclipseFailureNote);
+    }
   }
   async function loadMonth(preserveViewportAnchor){
     var anchorTop=preserveViewportAnchor&&preserveViewportAnchor.isConnected
@@ -1339,6 +1364,7 @@
       syncLocationUI();
       if(elevationChanged){
         panchangCache.clear();
+        locationEclipseCache.clear();
         loadMonth();
       }
     }catch(error){
