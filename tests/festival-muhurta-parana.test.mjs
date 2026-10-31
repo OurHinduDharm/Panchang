@@ -162,8 +162,6 @@ test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", asy
 
 
 test("Pithoragarh Diwali ascendant can be read at the Vrishabha interval", () => {
-  const instant = date("2026-11-08T18:30:00+05:30");
-  const panchang = getPanchangam(instant, projectObserver, { timezoneOffset:330, calendarType:"purnimanta" });
   const before = panchangPackage.getKundli(date("2026-11-08T17:30:00+05:30"), projectObserver);
   const main = panchangPackage.getKundli(date("2026-11-08T18:30:00+05:30"), projectObserver);
   const after = panchangPackage.getKundli(date("2026-11-08T19:45:00+05:30"), projectObserver);
