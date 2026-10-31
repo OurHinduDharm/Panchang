@@ -121,7 +121,7 @@ test("Pithoragarh Drik Yugadi days are present for all four Yugas from 2026 thro
     assert.equal(event.category, "युगादि दिवस");
     assert.equal(event.reviewStatus, "approved");
     assert.equal(event.sourceName, "Drik Panchang — पिथौरागढ़");
-    assert.match(event.sourceUrl || "", /^https:\/\/www\\.drikpanchang\\.com\/panchang\/month-panchang\\.html\\?date=/);
+    assert.ok((event.sourceUrl || "").startsWith("https://www.drikpanchang.com/panchang/month-panchang.html?date="));
   }
 });
 
