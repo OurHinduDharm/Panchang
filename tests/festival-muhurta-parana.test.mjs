@@ -159,6 +159,42 @@ test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", asy
   assert.ok(secondary.every(w => /वैकल्पिक/.test(w.label)));
 });
 
+test("Diwali daytime Abhijit and Vijaya are shown only as supplementary Amavasya options", async () => {
+  const { getFestivalMuhurta } = await import(engineUrl);
+  const common = {
+    sunrise: date("2026-11-08T06:20:00+05:30"),
+    sunset: date("2026-11-08T17:30:00+05:30"),
+    nextSunrise: date("2026-11-09T06:20:00+05:30"),
+    tithis: [{
+      index: 29,
+      name: "Amavasya",
+      startTime: date("2026-11-08T11:27:00+05:30"),
+      endTime: date("2026-11-09T12:31:00+05:30")
+    }],
+    sthirLagnaWindows: []
+  };
+  const sunday = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, {
+    ...common,
+    date: date("2026-11-08T12:00:00+05:30")
+  });
+  const abhijit = sunday.windows.find(w => /अभिजित् मुहूर्त/.test(w.label));
+  const vijaya = sunday.windows.find(w => /विजय मुहूर्त/.test(w.label));
+  assert.ok(abhijit);
+  assert.ok(vijaya);
+  assert.match(abhijit.note, /मुख्य गृहस्थ लक्ष्मी-पूजन का विकल्प नहीं/);
+  assert.match(vijaya.note, /मुख्य लक्ष्मी-गणेश पूजन मुहूर्त न मानें/);
+  assert.equal(abhijit.start.toISOString(), date("2026-11-08T11:32:40+05:30").toISOString());
+  assert.equal(abhijit.end.toISOString(), date("2026-11-08T12:17:20+05:30").toISOString());
+  assert.equal(vijaya.start.toISOString(), date("2026-11-08T13:46:40+05:30").toISOString());
+  assert.equal(vijaya.end.toISOString(), date("2026-11-08T14:31:20+05:30").toISOString());
+
+  const wednesday = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, {
+    ...common,
+    date: date("2026-11-11T12:00:00+05:30")
+  });
+  assert.ok(!wednesday.windows.some(w => /अभिजित् मुहूर्त/.test(w.label)));
+});
+
 test("Diwali shows Guru Hora only as a supplementary overlap within Pradosh", async () => {
   const { getFestivalMuhurta } = await import(engineUrl);
   const sunrise = date("2026-11-08T06:20:00+05:30");
