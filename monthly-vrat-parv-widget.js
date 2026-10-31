@@ -289,7 +289,8 @@
         var dateKey=istDateKey(eclipseDate);
         if(!dateKey||Number(dateKey.slice(0,4))!==year||
            Number(dateKey.slice(5,7))!==month)return;
-        var dayPanchangs=tools.getEclipseDayPanchangs(item.date,values.observer,values.panchangLib);
+        var visibilityDate=new Date(dateKey+"T12:00:00+05:30");
+        var dayPanchangs=tools.getEclipseDayPanchangs(visibilityDate,values.observer,values.panchangLib);
         var visibility=tools.getLocalVisibility(grahan,dayPanchangs);
         if(!visibility||visibility.localVisible!==true)return;
         var description="इस चुने हुए स्थान पर यह ग्रहण दृश्य है।";
