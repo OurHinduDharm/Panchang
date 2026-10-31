@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "पौष कृष्ण एकादशी"
     },
     {
       "date": "2027-01-15",
@@ -42,7 +43,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "पौष शुक्ल एकादशी"
     },
     {
       "date": "2027-01-19",
@@ -81,7 +83,8 @@
       "description": "सकट/संकष्टी चौथ भगवान गणेश की आराधना और संतान/परिवार के मंगल की कामना से जुड़ा व्रत है। कई परंपराओं में चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय स्थान के अनुसार बदलता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "माघ कृष्ण चतुर्थी"
     }
   ]
 }
