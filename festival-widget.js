@@ -98,7 +98,7 @@
     return Math.round((parseDate(to).getTime() - parseDate(from).getTime()) / 86400000);
   }
 
-  function makeChaturmasCard(events, todayKey) {
+  function makeChaturmasCard(events, todayKey, chaturmasConfig) {
     const start = events.find(item => isPublishable(item) &&
       /देवशयनी|हरिशयनी|चातुर्मास प्रारम्भ/i.test(item.title || "") && item.date);
     const end = events.find(item => isPublishable(item) &&
@@ -109,11 +109,14 @@
     const endDate = parseDate(end.date);
     if (!startDate || !endDate || end.date < start.date) return null;
 
-    // Keep the card visible through the Dwadashi observance after Devotthani Ekadashi.
-    // The festival date remains the approved event date; this is only the card's hide date.
-    const cardVisibleThrough = new Date(endDate);
-    cardVisibleThrough.setDate(cardVisibleThrough.getDate() + 2);
-    if (dateKey(cardVisibleThrough) < todayKey) return null;
+    // Card visibility is independent from the actual festival/end date.
+    // Use the reviewed annual Dwadashi date; otherwise retain the two-day fallback.
+    let visibleThrough = chaturmasConfig && parseDate(chaturmasConfig.cardVisibleThroughDate);
+    if (!visibleThrough) {
+      visibleThrough = new Date(endDate);
+      visibleThrough.setDate(visibleThrough.getDate() + 2);
+    }
+    if (dateKey(visibleThrough) < todayKey) return null;
 
     const card = element("section", "ohd-fw-chaturmas");
     card.appendChild(element("div", "ohd-fw-chaturmas-title", "🪔 चातुर्मास"));
@@ -149,10 +152,64 @@
 
     appendEkadashiLink(start, "देवशयनी / हरिशयनी एकादशी");
     appendEkadashiLink(end, "देवोत्थानी एकादशी");
+
+    // The four dietary phases are maintained in a small, year-specific JSON file.
+    // Missing/unreviewed data never produces guessed dates or incomplete rule cards.
+    if (chaturmasConfig && chaturmasConfig.status === "approved" &&
+        Number(chaturmasConfig.year) === startDate.getFullYear() &&
+        Array.isArray(chaturmasConfig.phases) && chaturmasConfig.phases.length === 4) {
+      const phases = chaturmasConfig.phases;
+      const validPhases = phases.every(phase =>
+        phase && phase.title && parseDate(phase.startDate) && parseDate(phase.endDate) &&
+        phase.endDate >= phase.startDate
+      );
+      if (validPhases) {
+        const section = element("div", "ohd-fw-chaturmas-rules");
+        section.appendChild(element("div", "ohd-fw-chaturmas-rules-title", "चातुर्मास के चार आहार-नियम"));
+        phases.forEach(phase => {
+          const row = element("div", "ohd-fw-chaturmas-phase");
+          const copy = element("div", "ohd-fw-chaturmas-phase-copy");
+          const phaseTitle = element("div", "ohd-fw-chaturmas-phase-name", phase.title);
+          const from = parseDate(phase.startDate);
+          const to = parseDate(phase.endDate);
+          const hindiDigits = value => String(value).replace(/[0-9]/g, digit => "०१२३४५६७८९"[Number(digit)]);
+          const dateLabel = date => hindiDigits(date.getDate() + " " + MONTH_NAMES[date.getMonth()]);
+          copy.appendChild(phaseTitle);
+          copy.appendChild(element("div", "ohd-fw-chaturmas-phase-dates",
+            dateLabel(from) + " से " + dateLabel(to) + " " + hindiDigits(to.getFullYear())));
+          if (phase.detail) copy.appendChild(element("div", "ohd-fw-chaturmas-phase-detail", phase.detail));
+          row.appendChild(copy);
+
+          let phaseStatus;
+          if (todayKey < phase.startDate) {
+            phaseStatus = "आगामी";
+            row.classList.add("is-upcoming");
+          } else if (todayKey <= phase.endDate) {
+            phaseStatus = "अभी चल रहा है";
+            row.classList.add("is-current");
+          } else {
+            phaseStatus = "✓ पूर्ण";
+            row.classList.add("is-complete");
+          }
+          row.appendChild(element("span", "ohd-fw-chaturmas-phase-status", phaseStatus));
+          section.appendChild(row);
+        });
+
+        const rulesUrl = safeHttpUrl(chaturmasConfig.rulesArticleUrl);
+        if (rulesUrl) {
+          const rulesLink = element("a", "ohd-fw-link ohd-fw-chaturmas-rules-link", "चातुर्मास्य व्रत की महिमा एवं विस्तृत नियम पढ़ें");
+          rulesLink.href = rulesUrl;
+          rulesLink.target = "_blank";
+          rulesLink.rel = "noopener noreferrer";
+          section.appendChild(rulesLink);
+        }
+        card.appendChild(section);
+      }
+    }
     return card;
   }
 
-  function render(items, today, endExclusive, chaturmasEvents) {
+  function render(items, today, endExclusive, chaturmasEvents, chaturmasConfig) {
     mount.replaceChildren();
     mount.classList.add("ohd-festival-widget");
 
@@ -228,6 +285,19 @@
       #ohd-festival-widget .ohd-fw-chaturmas-event{margin-top:6px;font-size:.84em;line-height:1.45;overflow-wrap:anywhere}
       #ohd-festival-widget .ohd-fw-chaturmas-event .ohd-fw-link{display:inline;font-weight:600}
       #ohd-festival-widget .ohd-fw-chaturmas-event-date{color:#5f5548}
+      #ohd-festival-widget .ohd-fw-chaturmas-rules{margin-top:10px;padding-top:9px;border-top:1px dashed #dfc89f}
+      #ohd-festival-widget .ohd-fw-chaturmas-rules-title{font-size:.88em;font-weight:800;margin-bottom:6px}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0e5d3}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase:last-of-type{border-bottom:0}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase-copy{min-width:0;flex:1}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase-name{font-size:.84em;font-weight:700;line-height:1.4}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase-dates{font-size:.78em;color:#67594a;margin-top:1px}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase-detail{font-size:.76em;color:#6b6258;line-height:1.4;margin-top:2px}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase-status{flex:0 0 auto;font-size:.72em;font-weight:700;white-space:nowrap;padding:2px 6px;border-radius:20px;background:#f3eadb;color:#76552b}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase.is-current .ohd-fw-chaturmas-phase-status{background:#e4f3e7;color:#176b36}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase.is-complete .ohd-fw-chaturmas-phase-copy{opacity:.58;text-decoration:line-through}
+      #ohd-festival-widget .ohd-fw-chaturmas-phase.is-complete .ohd-fw-chaturmas-phase-status{background:#e8f4e9;color:#26733b;text-decoration:none}
+      #ohd-festival-widget .ohd-fw-chaturmas-rules-link{display:inline-block;margin-top:8px;font-size:.8em;font-weight:700}
       @media(max-width:380px){#ohd-festival-widget .ohd-fw-list{padding:6px 8px}#ohd-festival-widget .ohd-fw-item{gap:7px}#ohd-festival-widget .ohd-fw-date{flex-basis:49px}#ohd-festival-widget .ohd-fw-description{font-size:.82em}}
     `;
     mount.appendChild(style);
@@ -263,7 +333,7 @@
       return rankDiff || String(a.title || "").localeCompare(String(b.title || ""), "hi");
     });
 
-    const chaturmas = makeChaturmasCard(chaturmasEvents, todayKey);
+    const chaturmas = makeChaturmasCard(chaturmasEvents, todayKey, chaturmasConfig);
     if (chaturmas) list.appendChild(chaturmas);
 
     if (!visible.length) {
@@ -356,6 +426,18 @@
     }
   }
 
+  async function fetchChaturmasConfig(year) {
+    const url = new URL("../chaturmas/" + year + ".json", baseUrl);
+    try {
+      const response = await fetch(url.href);
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data && Number(data.year) === Number(year) ? data : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   async function load() {
     const today = localMidnight(new Date());
     const todayKey = dateKey(today);
@@ -411,7 +493,8 @@
         const d = parseDate(item.date);
         return d && d.getFullYear() === chaturmasYear;
       });
-      render(items, today, endExclusive, chaturmasEvents);
+      const chaturmasConfig = await fetchChaturmasConfig(chaturmasYear);
+      render(items, today, endExclusive, chaturmasEvents, chaturmasConfig);
     } catch (_) {
       mount.textContent = "अभी आगामी पर्व लोड नहीं हो पाए।";
     }
