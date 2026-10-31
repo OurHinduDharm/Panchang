@@ -25,8 +25,10 @@ test("one month-paksha Dwadashi record retains multiple names and chooses first 
   ];
   const result = buildDwadashiCalendar(days,rules);
   assert.equal(result.tithis.length,1);
-  assert.equal(result.tithis[0].selectedDate,"2026-04-01");
+  assert.equal(result.tithis[0].selectedDate,null);
+  assert.equal(result.tithis[0].dateSelection,"requires-vrata-specific-rule");
   assert.deepEqual(result.tithis[0].sunriseDates,["2026-04-01","2026-04-02"]);
+  assert.deepEqual(result.tithis[0].candidateDates,["2026-04-01","2026-04-02"]);
   assert.deepEqual(result.tithis[0].displayNames,["मदन द्वादशी","भर्तृ द्वादशी","वामन द्वादशी"]);
 });
 
