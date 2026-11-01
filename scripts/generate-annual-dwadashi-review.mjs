@@ -361,7 +361,8 @@ export async function generateYear(year, options = {}) {
       ...result.sourceReview,
       annualFestivalDates:"pending-manual-Drik-and-independent-Panchang-cross-check",
       localEclipseVisibility:"not-calculated-in-this-review-generator",
-      localSankrantiTransitions:"calculated-from-sun-rashi-transitions",\n      sankrantiCount:sankrantis.length,
+      localSankrantiTransitions:"calculated-from-sun-rashi-transitions",
+      sankrantiCount:sankrantis.length,
       note:"Daily Panchanga and Dwadashi candidates are calculated for Pithoragarh. This is a research draft, not an approved annual festival calendar."
     }
   };
