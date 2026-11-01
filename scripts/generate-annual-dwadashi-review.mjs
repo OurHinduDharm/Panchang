@@ -102,15 +102,18 @@ export async function generateYear(year, options = {}) {
   const currentYearDays = [];
   const allDwadashiDays = [];
   const precedingYearDays = [];
+  const engineDiagnostics = [];
+  const diagnosticDates = new Set(year === 2026 ? ["2026-07-11","2026-11-20","2026-11-21"] : []);
 
   for (let offset = -31; offset < yearDays + 31; offset += 1) {
     const instant = new Date(Date.UTC(year, 0, 1 + offset, 6, 30));
     const date = instant.toISOString().slice(0, 10);
     const noonPanchang = getPanchangam(instant, observer, { timezoneOffset:330, calendarType:"purnimanta" });
     const day = extractDwadashiDay(noonPanchang, date);
+    let sunrisePanchang = null;
 
     if (day.sunrise) {
-      const sunrisePanchang = getPanchangam(new Date(day.sunrise), observer, { timezoneOffset:330, calendarType:"purnimanta" });
+      sunrisePanchang = getPanchangam(new Date(day.sunrise), observer, { timezoneOffset:330, calendarType:"purnimanta" });
       const sunriseDay = extractDwadashiDay(sunrisePanchang, date);
       day.sunriseTithi = {
         tithi:sunriseDay.tithi,
@@ -119,6 +122,10 @@ export async function generateYear(year, options = {}) {
         tithiStartTime:sunriseDay.tithiStartTime,
         tithiEndTime:sunriseDay.tithiEndTime
       };
+    }
+    if (diagnosticDates.has(date)) {
+      const raw = p => p ? { tithi:p.tithi ?? null, paksha:p.paksha ?? null, masa:p.masa ?? p.month ?? null, sunrise:iso(p.sunrise), tithiStartTime:iso(p.tithiStartTime), tithiEndTime:iso(p.tithiEndTime) } : null;
+      engineDiagnostics.push({ date, noon:raw(noonPanchang), sunrise:raw(sunrisePanchang), normalized:day });
     }
 
     if (offset >= 0 && offset < yearDays) currentYearDays.push(day);
@@ -131,6 +138,7 @@ export async function generateYear(year, options = {}) {
   const result = buildAnnualDwadashiPackage(allDwadashiDays, rules, location);
   result.sourceReview = buildSourceReviewMetadata(year);
   result.sourceReview.engine = "@ishubhamx/panchangam-js@3.0.0";
+  result.sourceReview.engineDiagnostics = engineDiagnostics;
   result.sourceReview.calendar = "Purnimanta";
   result.sourceReview.timezone = "Asia/Kolkata";
   result.sourceReview.localScanCoverage = {
