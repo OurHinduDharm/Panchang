@@ -116,6 +116,14 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     });
   }
 
+  if (rules && Array.isArray(rules.drikSpecialObservances)) {
+    rules.drikSpecialObservances.filter(item => Number(item.year) === year).forEach(item => {
+      const masa = normalizeMonth(item.month);
+      const paksha = normalizePaksha(item.paksha);
+      if (masa.month && paksha) ensureEmptyGroup(masa.month, paksha, !!item.adhika, item.referenceDate || null);
+    });
+  }
+
   const tithis = Array.from(groups.values()).map(group => {
     group.sunriseDates = unique(group.sunriseDates).sort(dateSort);
     group.noonDates = unique(group.noonDates).sort(dateSort);
