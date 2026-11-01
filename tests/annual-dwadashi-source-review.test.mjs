@@ -28,6 +28,17 @@ test("extracts local-day tithi interval and sunrise as ISO timestamps", () => {
   assert.equal(result.sunrise, "2026-07-11T00:01:00.000Z");
 });
 
+test("extracts the tithi actually prevailing at noon from the engine transition array", () => {
+  const result = extractDwadashiDay({
+    tithi:10, paksha:"Shukla", masa:{name:"Margashirsha"},
+    sunrise:"2028-11-13T00:50:00.000Z",
+    tithis:[{index:11,name:"Dwadashi",startTime:new Date("2028-11-13T01:11:00.000Z"),endTime:new Date("2028-11-13T22:10:00.000Z")}]
+  }, "2028-11-13", new Date("2028-11-13T06:30:00.000Z"));
+  assert.equal(result.tithi, "एकादशी");
+  assert.equal(result.noonTithi, "द्वादशी");
+  assert.equal(result.noonTithiStartTime, "2028-11-13T01:11:00.000Z");
+});
+
 test("source metadata distinguishes Pithoragarh primary from New Delhi secondary checks", () => {
   const sources = buildSourceReviewMetadata(2028);
   assert.equal(sources.status, "pending-manual-cross-check");
