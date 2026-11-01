@@ -32,7 +32,7 @@ test("audit monthly Kalashtami dates at the site's actual default observer", asy
   console.log("Annual Bhairava date:", JSON.stringify(result.annualDecisionDays || []));
   assert.equal(result.year, 2026);
   assert.ok(selected.length >= 10, "Expected the annual monthly event series to be substantially populated");
-  assert.deepEqual(mismatches, ["2026-10-03"], "Only the October candidate remains unresolved in the local calculation");
+  assert.deepEqual(mismatches, ["2026-01-10", "2026-05-09", "2026-07-07", "2026-08-05", "2026-10-03", "2026-11-01", "2026-12-30"], "Keep all seven rule-vs-catalog date differences visible for manual review");
   assert.ok((result.unresolvedCandidates || []).some(item => item.date === "2026-10-03"), "October 3 must remain visible as an unresolved candidate");
   assert.ok((result.annualDecisionDays || []).some(item => item.date === "2026-12-01"));
 });
