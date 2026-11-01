@@ -1,0 +1,35 @@
+name: Annual Dwadashi source-review candidate generator
+
+on:
+  pull_request:
+    paths:
+      - "scripts/generate-annual-dwadashi-review.mjs"
+      - "dwadashi-calendar.mjs"
+      - "data/dwadashi-vrata-rules.json"
+      - "tests/annual-dwadashi-source-review.test.mjs"
+      - ".github/workflows/annual-dwadashi-source-review.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate-review-candidates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install pinned Panchanga engine
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Run Dwadashi generator tests
+        run: node --test tests/annual-dwadashi-source-review.test.mjs tests/dwadashi-calendar.test.mjs
+      - name: Generate 2026–2030 review-only candidates
+        run: node scripts/generate-annual-dwadashi-review.mjs --years=2026,2027,2028,2029,2030 --out=artifacts/dwadashi-review
+      - name: Upload review-only JSON files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ohd-dwadashi-review-2026-2030
+          path: artifacts/dwadashi-review/*.json
+          if-no-files-found: error
