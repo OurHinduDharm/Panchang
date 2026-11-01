@@ -4062,11 +4062,20 @@ document
   .addEventListener("click", () => {
     try {
       runDrikBoundaryAudit();
-  .getElementById("copyDrikBoundaryBtn")
-  .addEventListener("click", copyDrikBoundaryAuditJSON);
       setStatus("Drik boundary geometry calculated (diagnostic only).", "info");
     } catch (error) {
       console.error("DRIK BOUNDARY AUDIT ERROR:", error);
+      setStatus(error?.message || String(error), "error");
+    }
+  });
+
+document
+  .getElementById("copyDrikBoundaryBtn")
+  .addEventListener("click", async () => {
+    try {
+      await copyDrikBoundaryAuditJSON();
+    } catch (error) {
+      console.error("DRIK BOUNDARY JSON EXPORT ERROR:", error);
       setStatus(error?.message || String(error), "error");
     }
   });
