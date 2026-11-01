@@ -113,11 +113,10 @@ export async function generateYear(year, options = {}) {
   const yearDays = (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000;
   const currentYearDays = [];
   const allDwadashiDays = [];
-  const precedingYearDays = [];
   const engineDiagnostics = [];
   const diagnosticDates = new Set(year === 2026 ? ["2026-07-11","2026-11-20","2026-11-21"] : year === 2028 ? ["2028-11-13"] : []);
 
-  for (let offset = -31; offset < yearDays + 31; offset += 1) {
+  for (let offset = 0; offset < yearDays + 31; offset += 1) {
     const instant = new Date(Date.UTC(year, 0, 1 + offset, 6, 30));
     const date = instant.toISOString().slice(0, 10);
     const noonPanchang = getPanchangam(instant, observer, { timezoneOffset:330, calendarType:"purnimanta" });
@@ -140,13 +139,10 @@ export async function generateYear(year, options = {}) {
       engineDiagnostics.push({ date, noon:raw(noonPanchang), sunrise:raw(sunrisePanchang), normalized:day });
     }
 
-    if (offset >= 0 && offset < yearDays) currentYearDays.push(day);
-    if (offset >= 0) allDwadashiDays.push(day);
-    else precedingYearDays.push(day);
+    if (offset < yearDays) currentYearDays.push(day);
+    allDwadashiDays.push(day);
   }
 
-  // Keep target-year records first so the package retains the intended Gregorian year.
-  allDwadashiDays.push(...precedingYearDays);
   const result = buildAnnualDwadashiPackage(allDwadashiDays, rules, location);
   result.sourceReview = buildSourceReviewMetadata(year);
   result.sourceReview.engine = "@ishubhamx/panchangam-js@3.0.0";
@@ -155,7 +151,7 @@ export async function generateYear(year, options = {}) {
   result.sourceReview.timezone = "Asia/Kolkata";
   result.sourceReview.localScanCoverage = {
     targetYearDays: currentYearDays.length,
-    precedingYearBufferDays: precedingYearDays.length,
+    precedingYearBufferDays: 0,
     followingYearBufferDays: 31
   };
   result.status = "needs-review";
