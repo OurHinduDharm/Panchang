@@ -21,6 +21,7 @@ on:
     paths:
       - 'scripts/merge-festival-months-to-yearly.mjs'
       - 'scripts/audit-annual-publication-readiness.mjs'
+      - 'samaveda-annual-review.js'
       - 'festival-year-review.html'
       - 'eclipse-panchang.js'
       - 'tests/audit-annual-publication-readiness.test.mjs'
