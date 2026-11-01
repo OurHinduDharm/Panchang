@@ -102,18 +102,15 @@
   function selectMonthlyDateForEvent(days, preferredDates) {
     const sorted = (days || []).slice().sort((a,b) => a.date.localeCompare(b.date));
     if (!sorted.length) return null;
-    // When published reference dates supplied by the caller are supplied, prefer
-    // a reference date if it is part of the observed Ashtami event. The tithi
-    // windows remain calculated locally; this only prevents an adjacent date
-    // from winning solely because its sampled overlap is a little larger.
-    const preferred = preferredDates instanceof Set
-      ? sorted.filter(day => preferredDates.has(day.date))
-      : [];
-    const candidates = preferred.length ? preferred : sorted;
-    const qualified = candidates.filter(day => day.pradoshMinutes >= 24 || day.pradosh === true);
-    const pool = qualified.length ? qualified : candidates;
+    // Apply the one-ghati Pradosh qualification to every observed date first.
+    // Published reference dates may break an otherwise exact tie, but must not
+    // hide a better-qualified adjacent date or a larger night-time overlap.
+    const qualified = sorted.filter(day => day.pradoshMinutes >= 24 || day.pradosh === true);
+    const pool = qualified.length ? qualified : sorted;
     return pool.slice().sort((a,b) =>
       (Number(b.nightMinutes) || 0) - (Number(a.nightMinutes) || 0) ||
+      Number(preferredDates instanceof Set && preferredDates.has(b.date)) -
+        Number(preferredDates instanceof Set && preferredDates.has(a.date)) ||
       a.date.localeCompare(b.date)
     )[0];
   }
