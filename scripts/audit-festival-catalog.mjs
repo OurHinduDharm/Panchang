@@ -42,7 +42,7 @@ export function auditMonth(data, expectedYear, expectedMonth) {
     const description = String(event.description || "");
     const explicitClockTime = /(?:\b\d{1,2}[:.]\d{2}\b|\b\d{1,2}\s*(?:ए\s*एम|पी\s*एम|AM|PM)\b|\d{1,2}\s*से\s*\d{1,2})/i.test(description);
     const explicitTimeClaim = /(?:मुहूर्त|शुभ समय|पारण का समय|पूजा का समय|पुण्यकाल).{0,45}(?:नीचे दिया|दिया गया|उपलब्ध है|देखें|यहाँ)/i.test(description);
-    const nonMuhurtaTiming = event.timingType === "eclipse-visibility";
+    const nonMuhurtaTiming = ["eclipse-visibility", "tithi-transition"].includes(event.timingType);
     if ((explicitClockTime || explicitTimeClaim) && !event.muhurtaRule && !nonMuhurtaTiming) add("warning", "TIME_PROMISE_WITHOUT_RULE", label);
     const key = (event.date || "") + "|" + normalizeTitle(event.title);
     if (key !== "|" && exactKeys.has(key)) add("error", "DUPLICATE_DATE_AND_TITLE", label + "; duplicates events[" + exactKeys.get(key) + "]");

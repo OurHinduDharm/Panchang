@@ -68,3 +68,12 @@ test("accepts complete astronomical eclipse visibility timings without treating 
   data.events[0].timingType = "eclipse-visibility";
   assert.ok(!auditMonth(data, 2026, 6).some(x => x.code === "TIME_PROMISE_WITHOUT_RULE"));
 });
+
+
+test("accepts tithi-transition timings without requiring a muhurta rule", () => {
+  const data = base();
+  data.events[0].title = "श्री वराह अवतार जयंती";
+  data.events[0].description = "सूर्योदय 05:53 पर द्वितीया थी और तृतीया 07:08 AM पर आरम्भ हुई।";
+  data.events[0].timingType = "tithi-transition";
+  assert.ok(!auditMonth(data, 2026, 6).some(x => x.code === "TIME_PROMISE_WITHOUT_RULE"));
+});
