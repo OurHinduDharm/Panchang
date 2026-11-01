@@ -21,6 +21,18 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
+      "date": "2030-03-03",
+      "dateLabel": "3 मार्च",
+      "title": "द्वापर युग दिवस",
+      "description": "फाल्गुन कृष्ण अमावस्या को द्वापर युग के आरम्भ का स्मरण द्वापर युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — पिथौरागढ़ (मासिक पंचांग संदर्भ)",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=03/03/2030"
+    },
+    {
       "date": "2030-03-04",
       "dateLabel": "4 मार्च",
       "title": "सोमवती अमावस्या",
