@@ -27,6 +27,16 @@
         "verifiedStartLocal": "2027-07-21T05:08:00+05:30",
         "verifiedEndLocal": "2027-09-09T19:00:00+05:30",
         "verificationNote": "The retrieved Drik Panchang city-specific page explicitly identifies New Delhi and reports both boundaries exactly as transcribed in this fixture. This confirms only the 2027 New Delhi pair; it does not validate the other cities, 2026 pair, or our calculation method."
+      },
+      {
+        "city": "New Delhi",
+        "year": 2026,
+        "status": "independently-confirmed",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?lang=en",
+        "verifiedOn": "2026-11-01",
+        "verifiedStartLocal": "2026-10-12T18:19:00+05:30",
+        "verifiedEndLocal": "2026-10-29T06:00:00+05:30",
+        "verificationNote": "The retrieved Drik Panchang page explicitly identifies New Delhi and reports both 2026 boundaries exactly as transcribed in this fixture. This confirms only the 2026 New Delhi pair; it does not validate the other cities or our calculation method."
       }
     ]
   },
