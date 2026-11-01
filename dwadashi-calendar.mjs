@@ -49,7 +49,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     if (!day || !String(day.date || "").startsWith(targetYearPrefix)) return;
     const sunrise = day && day.sunriseTithi;
     const atSunrise = !!sunrise && normalizeTithi(sunrise.tithi) === "द्वादशी";
-    const noonTithi = day && (day.noonTithi || day.tithi);
+    const noonTithi = day && (day.noonTithi ?? day.tithi);
     const atNoon = normalizeTithi(noonTithi) === "द्वादशी";
     if (!atSunrise && !atNoon) return;
     const masa = normalizeMonth(atSunrise ? (sunrise.masa || day.masa) : day.masa);
@@ -248,7 +248,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
         const masa = normalizeMonth(day.masa);
         if (masa.adhika || masa.month !== spec.month ||
             normalizePaksha(day.paksha) !== spec.paksha ||
-            normalizeTithi(day.noonTithi || day.tithi) !== spec.tithi ||
+            normalizeTithi(day.noonTithi ?? day.tithi) !== spec.tithi ||
             !(day.noonTithiStartTime || day.tithiStartTime) || !(day.noonTithiEndTime || day.tithiEndTime) || !day.sunrise) return false;
         const nextDate = new Date(day.date + "T00:00:00Z");
         nextDate.setUTCDate(nextDate.getUTCDate() + 1);
