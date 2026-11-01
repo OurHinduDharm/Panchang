@@ -7,10 +7,12 @@ on:
       - feat/samaveda-annual-json-integration
     paths:
       - 'scripts/merge-festival-months-to-yearly.mjs'
+      - 'scripts/audit-annual-publication-readiness.mjs'
       - 'samaveda-annual-review.js'
       - 'festival-muhurta.js'
       - 'festival-year-review.html'
       - 'eclipse-panchang.js'
+      - 'tests/audit-annual-publication-readiness.test.mjs'
       - 'tests/eclipse-panchang-visibility.test.mjs'
       - 'tests/samaveda-annual-review.test.mjs'
       - 'tests/merge-festival-months-to-yearly.test.mjs'
@@ -18,9 +20,11 @@ on:
   pull_request:
     paths:
       - 'scripts/merge-festival-months-to-yearly.mjs'
+      - 'scripts/audit-annual-publication-readiness.mjs'
       - 'samaveda-annual-review.js'
       - 'festival-year-review.html'
       - 'eclipse-panchang.js'
+      - 'tests/audit-annual-publication-readiness.test.mjs'
       - 'tests/eclipse-panchang-visibility.test.mjs'
       - 'tests/samaveda-annual-review.test.mjs'
       - 'tests/merge-festival-months-to-yearly.test.mjs'
@@ -39,5 +43,5 @@ jobs:
           node-version: '20'
       - name: Install pinned Panchanga library for annual astronomy tests
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
-      - name: Run yearly migration, Samaveda annual decision, and local eclipse visibility tests
-        run: node --test tests/merge-festival-months-to-yearly.test.mjs tests/samaveda-annual-review.test.mjs tests/eclipse-panchang-visibility.test.mjs
+      - name: Run yearly migration, annual readiness, Samaveda decision, and local eclipse visibility tests
+        run: node --test tests/merge-festival-months-to-yearly.test.mjs tests/audit-annual-publication-readiness.test.mjs tests/samaveda-annual-review.test.mjs tests/eclipse-panchang-visibility.test.mjs
