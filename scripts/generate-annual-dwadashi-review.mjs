@@ -103,7 +103,7 @@ export async function generateYear(year, options = {}) {
   const allDwadashiDays = [];
   const precedingYearDays = [];
   const engineDiagnostics = [];
-  const diagnosticDates = new Set(year === 2026 ? ["2026-07-11","2026-11-20","2026-11-21"] : []);
+  const diagnosticDates = new Set(year === 2026 ? ["2026-07-11","2026-11-20","2026-11-21"] : year === 2028 ? ["2028-11-13"] : []);
 
   for (let offset = -31; offset < yearDays + 31; offset += 1) {
     const instant = new Date(Date.UTC(year, 0, 1 + offset, 6, 30));
