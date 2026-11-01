@@ -7,6 +7,19 @@
   "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
   "events": [
     {
+      "date": "2029-10-04",
+      "dateLabel": "4 अक्टूबर",
+      "title": "इंदिरा एकादशी",
+      "description": "इंदिरा एकादशी पर भगवान विष्णु की पूजा और पितरों की सद्गति के लिए व्रत, जप तथा तर्पण की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana",
+      "sourceName": "Drik Panchang — हरिद्वार",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/ekadashidates.html?lang=en&year=2029"
+    },
+    {
       "date": "2029-10-06",
       "dateLabel": "6 अक्टूबर",
       "title": "कलियुगादि (कलियुग का आरंभ)",
