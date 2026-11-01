@@ -1147,7 +1147,8 @@
       "referenceDate": "2026-06-26",
       "labels": [
         "पक्षवर्द्धिनी महाद्वादशी"
-      ]
+      ],
+      "sourcePage": "smarta-ekadashi"
     },
     {
       "year": 2026,
@@ -1157,7 +1158,8 @@
       "referenceDate": "2026-07-11",
       "labels": [
         "त्रिस्पर्शा महाद्वादशी"
-      ]
+      ],
+      "sourcePage": "smarta-ekadashi"
     },
     {
       "year": 2026,
@@ -1322,16 +1324,6 @@
     },
     {
       "year": 2029,
-      "month": "भाद्रपद",
-      "paksha": "कृष्ण",
-      "adhika": false,
-      "referenceDate": "2029-09-05",
-      "labels": [
-        "जया महाद्वादशी"
-      ]
-    },
-    {
-      "year": 2029,
       "month": "आश्विन",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -1372,12 +1364,32 @@
     },
     {
       "year": 2030,
-      "month": "वैशाख",
+      "month": "आश्विन",
       "paksha": "शुक्ल",
       "adhika": false,
-      "referenceDate": "2030-05-14",
+      "referenceDate": "2030-10-07",
       "labels": [
-        "त्रिस्पर्शा महाद्वादशी"
+        "एकादशी श्रवण योग द्वादशी"
+      ]
+    },
+    {
+      "year": 2029,
+      "month": "भाद्रपद",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2029-09-18",
+      "labels": [
+        "विष्णुशृंखला योग द्वादशी"
+      ]
+    },
+    {
+      "year": 2030,
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2030-05-28",
+      "labels": [
+        "वंजुली महाद्वादशी"
       ]
     },
     {
@@ -1387,7 +1399,7 @@
       "adhika": false,
       "referenceDate": "2030-08-25",
       "labels": [
-        "जयन्ती महाद्वादशी"
+        "उन्मीलिनी महाद्वादशी"
       ]
     },
     {
@@ -1395,19 +1407,9 @@
       "month": "भाद्रपद",
       "paksha": "शुक्ल",
       "adhika": false,
-      "referenceDate": "2030-09-08",
+      "referenceDate": "2030-09-09",
       "labels": [
-        "विष्णुशृंखला योग द्वादशी"
-      ]
-    },
-    {
-      "year": 2030,
-      "month": "आश्विन",
-      "paksha": "शुक्ल",
-      "adhika": false,
-      "referenceDate": "2030-10-07",
-      "labels": [
-        "एकादशी श्रवण योग द्वादशी"
+        "श्रवण योग द्वादशी"
       ]
     }
   ]
