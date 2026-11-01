@@ -31,5 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ohd-dwadashi-review-2026-2030
-          path: |\n            artifacts/dwadashi-review/*.json\n            artifacts/annual-review/*.json
+          path: |
+            artifacts/dwadashi-review/*.json
+            artifacts/annual-review/*.json
           if-no-files-found: error
