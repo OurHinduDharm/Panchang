@@ -41,9 +41,12 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   if (!Array.isArray(dailyPanchang)) throw new TypeError("dailyPanchang must be an array");
   const catalog = rules && rules.unifiedTithiIndex && Array.isArray(rules.unifiedTithiIndex.tithis)
     ? rules.unifiedTithiIndex.tithis : [];
+  const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
+  const targetYearPrefix = Number.isFinite(year) ? String(year) + "-" : "";
   const groups = new Map();
 
   dailyPanchang.forEach(day => {
+    if (!day || !String(day.date || "").startsWith(targetYearPrefix)) return;
     const sunrise = day && day.sunriseTithi;
     const atSunrise = !!sunrise && normalizeTithi(sunrise.tithi) === "द्वादशी";
     const atNoon = normalizeTithi(day && day.tithi) === "द्वादशी";
@@ -82,7 +85,6 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     }
   });
 
-  const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
   const ensureEmptyGroup = (month, paksha, adhika = false, referenceDate = null) => {
     const key = [month, paksha, adhika ? "adhika" : "nija"].join("|");
     if (!groups.has(key)) groups.set(key, {
