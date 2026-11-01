@@ -107,6 +107,28 @@ export function buildSourceReviewMetadata(year) {
   };
 }
 
+const CHATURMAS_START_REFERENCES = {
+  2026: { date:"2026-07-25", sources:[
+    { name:"EternalSanskriti", location:"Delhi", url:"https://eternalsanskriti.com/en/festivals/f/devshayani-ekadashi" }
+  ]},
+  2027: { date:"2027-07-14", sources:[
+    { name:"ShubhDin Panchang", location:"Delhi", url:"https://shubhdinpanchang.com/ekadashi/devshayani-ekadashi/" },
+    { name:"RealPanchang", location:"New Delhi", url:"https://www.realpanchang.in/en/festival/devshayani-ekadashi-2027" }
+  ]},
+  2028: { date:"2028-07-02", sources:[
+    { name:"Drik Panchang", location:"Pithoragarh", url:"https://www.drikpanchang.com/telugu/panchanga/telugu-day-panchanga.html?date=02%2F07%2F2028" },
+    { name:"ShubhDin Panchang", location:"Delhi", url:"https://shubhdinpanchang.com/ekadashi/devshayani-ekadashi/" }
+  ]},
+  2029: { date:"2029-07-21", sources:[
+    { name:"Drik Panchang", location:"Dabwali", url:"https://www.drikpanchang.com/panchang/day-panchang.html?date=21%2F07%2F2029" },
+    { name:"Drik Panchang Gujarati Calendar", location:"New Delhi", url:"https://www.drikpanchang.com/gujarati/calendar/gujarati-calendar.html?lang=en&year=2029" }
+  ]},
+  2030: { date:"2030-07-11", sources:[
+    { name:"Drik Panchang", location:"Muhammadabad", url:"https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2030" },
+    { name:"Drik Panchang", location:"Lucknow", url:"https://www.drikpanchang.com/panchang/month-panchang.html?date=26%2F07%2F2030" }
+  ]}
+};
+
 const CHATURMAS_END_REFERENCES = {
   2026: { date:"2026-11-20", sources:[
     { name:"Drik Panchang", location:"Pithoragarh", url:"https://www.drikpanchang.com/vrats/ekadashidates.html?year=2026&geoname-id=1259503" },
@@ -319,6 +341,14 @@ export async function generateYear(year, options = {}) {
   result.sourceReview = buildSourceReviewMetadata(year);
   result.sourceReview.engine = "@ishubhamx/panchangam-js@3.0.0";
   result.sourceReview.engineDiagnostics = engineDiagnostics;
+  const chaturmasStart = result.chaturmas.boundaries?.find(item => item.id === "start")?.selectedDate || null;
+  const chaturmasStartReference = CHATURMAS_START_REFERENCES[year];
+  result.sourceReview.chaturmasStartCrossCheck = {
+    generatedDate:chaturmasStart,
+    referenceDate:chaturmasStartReference.date,
+    status:chaturmasStart === chaturmasStartReference.date ? "date-match-location-and-vrata-rule-review-still-required" : chaturmasStart ? "date-mismatch-review-required" : "engine-date-missing",
+    sources:chaturmasStartReference.sources
+  };
   const chaturmasEnd = result.chaturmas.boundaries?.find(item => item.id === "end")?.selectedDate || null;
   const chaturmasReference = CHATURMAS_END_REFERENCES[year];
   result.sourceReview.chaturmasEndCrossCheck = {
