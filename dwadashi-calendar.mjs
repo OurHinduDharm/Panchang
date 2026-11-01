@@ -49,7 +49,8 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     if (!day || !String(day.date || "").startsWith(targetYearPrefix)) return;
     const sunrise = day && day.sunriseTithi;
     const atSunrise = !!sunrise && normalizeTithi(sunrise.tithi) === "द्वादशी";
-    const atNoon = normalizeTithi(day && day.tithi) === "द्वादशी";
+    const noonTithi = day && (day.noonTithi || day.tithi);
+    const atNoon = normalizeTithi(noonTithi) === "द्वादशी";
     if (!atSunrise && !atNoon) return;
     const masa = normalizeMonth(atSunrise ? (sunrise.masa || day.masa) : day.masa);
     const paksha = normalizePaksha(atSunrise ? (sunrise.paksha || day.paksha) : day.paksha);
@@ -79,8 +80,8 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       group.noonDates.push(day.date);
       group.noonObservations.push({
         date: day.date,
-        tithiStartTime: day.tithiStartTime || null,
-        tithiEndTime: day.tithiEndTime || null
+        tithiStartTime: day.noonTithiStartTime || day.tithiStartTime || null,
+        tithiEndTime: day.noonTithiEndTime || day.tithiEndTime || null
       });
     }
   });
@@ -247,15 +248,15 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
         const masa = normalizeMonth(day.masa);
         if (masa.adhika || masa.month !== spec.month ||
             normalizePaksha(day.paksha) !== spec.paksha ||
-            normalizeTithi(day.tithi) !== spec.tithi ||
-            !day.tithiStartTime || !day.tithiEndTime || !day.sunrise) return false;
+            normalizeTithi(day.noonTithi || day.tithi) !== spec.tithi ||
+            !(day.noonTithiStartTime || day.tithiStartTime) || !(day.noonTithiEndTime || day.tithiEndTime) || !day.sunrise) return false;
         const nextDate = new Date(day.date + "T00:00:00Z");
         nextDate.setUTCDate(nextDate.getUTCDate() + 1);
         const nextKey = nextDate.toISOString().slice(0, 10);
         const nextSunrise = byDate.get(nextKey)?.sunrise;
         if (!nextSunrise) return false;
-        const start = new Date(day.tithiStartTime).getTime();
-        const end = new Date(day.tithiEndTime).getTime();
+        const start = new Date(day.noonTithiStartTime || day.tithiStartTime).getTime();
+        const end = new Date(day.noonTithiEndTime || day.tithiEndTime).getTime();
         const sunrise = new Date(day.sunrise).getTime();
         const followingSunrise = new Date(nextSunrise).getTime();
         return [start, end, sunrise, followingSunrise].every(Number.isFinite) &&
@@ -265,8 +266,8 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
         basis: "smarta-ekadashi-between-sunrises",
         sunrise: day.sunrise,
         nextSunrise: byDate.get((() => { const d=new Date(day.date+"T00:00:00Z"); d.setUTCDate(d.getUTCDate()+1); return d.toISOString().slice(0,10); })())?.sunrise || null,
-        tithiStartTime: day.tithiStartTime,
-        tithiEndTime: day.tithiEndTime
+        tithiStartTime: day.noonTithiStartTime || day.tithiStartTime,
+        tithiEndTime: day.noonTithiEndTime || day.tithiEndTime
       })).sort((a, b) => dateSort(a.date, b.date));
       if (smartaCandidates.length === 1) {
         observations.push(...smartaCandidates);
