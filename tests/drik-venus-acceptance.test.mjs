@@ -20,6 +20,15 @@ test("Drik Venus fixture remains explicitly provisional and method-separated", (
   assert.match(fixture.source.captureMethod, /user-provided reference data/i);
   assert.equal(fixture.acceptancePolicy.keepClassicalSuryaSiddhantaKcSeparate, true);
   assert.equal(fixture.acceptancePolicy.doNotTuneArbitraryThresholdsToForceMatch, true);
+  assert.equal(fixture.source.independentChecks.length, 1);
+  const delhi2027 = fixture.source.independentChecks[0];
+  assert.equal(delhi2027.city, "New Delhi");
+  assert.equal(delhi2027.year, 2027);
+  assert.equal(delhi2027.status, "independently-confirmed");
+  const delhi = fixture.locations.find(location => location.city === "New Delhi");
+  const delhiEvent = delhi.events.find(event => event.cycle === "2027");
+  assert.equal(delhiEvent.astaStartLocal, delhi2027.verifiedStartLocal);
+  assert.equal(delhiEvent.astaEndLocal, delhi2027.verifiedEndLocal);
 });
 
 test("each city has separate 2026 and 2027 local boundaries with explicit IST offsets", () => {
