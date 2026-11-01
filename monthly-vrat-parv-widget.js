@@ -942,7 +942,8 @@
         var duplicate=seenUrls&&key&&seenUrls.has(key);
         if(seenUrls&&key)seenUrls.add(key);
         if(duplicate){
-          Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(parent,child,seenUrls);});
+          // The same URL is already rendered elsewhere in this card.
+          // Drop the duplicate anchor and its label (e.g. "लेख पढ़ें") together.
           return;
         }
         var link=document.createElement("a");
