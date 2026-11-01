@@ -174,7 +174,19 @@ test("Pausha Krishna and Shukla records remain visible when outside the scan win
   assert.ok(shukla.displayNames.includes("कूर्म-द्वादशी"));
 });
 
-test("the Dwadashi scan can include the preceding Pausha Shukla date without changing its target year", () => {\n  const paushaRules = { unifiedTithiIndex: { tithis:[{month:"पौष",paksha:"शुक्ल",observances:[{name:"सुजन्न-द्वादशी"}]}] } };\n  const result = buildDwadashiCalendar([\n    sunriseDay("2026-01-01","माघ","कृष्ण","प्रतिपदा"),\n    sunriseDay("2025-12-25","पौष","शुक्ल","द्वादशी")\n  ], paushaRules);\n  assert.equal(result.year, 2026);\n  const record = result.tithis.find(item => item.id === "pausha-shukla");\n  assert.deepEqual(record.candidateDates, ["2025-12-25"]);\n  assert.equal(record.status, "needs-review");\n});\n\ntest("permanent month-paksha names remain the same in every year, including Adhika Jyeshtha and Ashadha Krishna", () => {
+test("the Dwadashi scan can include the preceding Pausha Shukla date without changing its target year", () => {
+  const paushaRules = { unifiedTithiIndex: { tithis:[{month:"पौष",paksha:"शुक्ल",observances:[{name:"सुजन्न-द्वादशी"}]}] } };
+  const result = buildDwadashiCalendar([
+    sunriseDay("2026-01-01","माघ","कृष्ण","प्रतिपदा"),
+    sunriseDay("2025-12-25","पौष","शुक्ल","द्वादशी")
+  ], paushaRules);
+  assert.equal(result.year, 2026);
+  const record = result.tithis.find(item => item.id === "pausha-shukla");
+  assert.deepEqual(record.candidateDates, ["2025-12-25"]);
+  assert.equal(record.status, "needs-review");
+});
+
+test("permanent month-paksha names remain the same in every year, including Adhika Jyeshtha and Ashadha Krishna", () => {
   const master = [
     {id:"vaishakha-krishna",month:"वैशाख",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण-वामन द्वादशी"]},
     {id:"jyeshtha-krishna",month:"ज्येष्ठ",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण परशुराम द्वादशी"]},
