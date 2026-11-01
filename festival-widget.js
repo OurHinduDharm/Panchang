@@ -208,6 +208,10 @@
           section.appendChild(row);
         });
 
+        if (chaturmasConfig.completionDetail) {
+          section.appendChild(element("div", "ohd-fw-chaturmas-phase-detail", chaturmasConfig.completionDetail));
+        }
+
         const rulesUrl = safeHttpUrl(chaturmasConfig.rulesArticleUrl);
         if (rulesUrl) {
           const rulesLink = element("a", "ohd-fw-link ohd-fw-chaturmas-rules-link", "चातुर्मास्य व्रत की महिमा एवं विस्तृत नियम पढ़ें");
