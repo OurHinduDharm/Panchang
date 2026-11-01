@@ -3746,10 +3746,21 @@ function getSandhyaStatusHtml(ctx = null){
       <strong>प्रातः संध्या</strong><br/>
       उत्तमा तारकोपेता मध्यमाऽ लुप्ततारका।<br/>
       अधमा सूर्यसहिता प्रातःसन्ध्या त्रिधा मता॥
-      <br/><br/>
+      <div style="margin:3px 0 8px;padding-left:9px;font-size:12px;line-height:1.6;">
+        <strong>संक्षिप्त अर्थ:</strong><br/>
+        <strong>उत्तम:</strong> तारे स्पष्ट दिखाई दे रहे हों।<br/>
+        <strong>मध्यम:</strong> तारे मद्धिम पड़ रहे हों, पर अभी पूरी तरह ओझल न हुए हों।<br/>
+        <strong>अधम:</strong> सूर्य निकल आया हो।
+      </div>
       <strong>सायं संध्या</strong><br/>
       उत्तमा सूर्यसहिता मध्यमा लुप्ततारका।<br/>
       अधमा तारकोपेता सायंसन्ध्या त्रिधा मता॥
+      <div style="margin:3px 0 0;padding-left:9px;font-size:12px;line-height:1.6;">
+        <strong>संक्षिप्त अर्थ:</strong><br/>
+        <strong>उत्तम:</strong> सूर्यास्त के समय, जब सूर्य क्षितिज पर हो।<br/>
+        <strong>मध्यम:</strong> सूर्यास्त के बाद, जब तारे अभी दिखाई न दिए हों।<br/>
+        <strong>अधम:</strong> जब तारे स्पष्ट दिखाई देने लगें।
+      </div>
     </div>
     <div style="margin-top:6px;color:#666;font-size:12px;">
       तारे दिखाई देने की वास्तविक स्थिति उपयोगकर्ता स्वयं देखकर तय करे; यह समय-सूचना मात्र है।
