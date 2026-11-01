@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "tool": "ohd-general-annual-festival-review",
-  "generatedAt": "2026-11-01T18:39:27.896Z",
+  "generatedAt": "2026-11-01T22:03:15.209Z",
   "calculationStatus": "research-only-not-approved",
   "year": 2029,
   "location": {
@@ -800,6 +800,20 @@
       "reviewCategory": "श्राद्ध"
     },
     {
+      "date": "2029-10-04",
+      "dateLabel": "4 अक्टूबर",
+      "title": "इंदिरा एकादशी",
+      "description": "इंदिरा एकादशी पर भगवान विष्णु की पूजा और पितरों की सद्गति के लिए व्रत, जप तथा तर्पण की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana",
+      "sourceName": "Drik Panchang — हरिद्वार",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/ekadashidates.html?lang=en&year=2029",
+      "reviewCategory": "एकादशी"
+    },
+    {
       "date": "2029-10-06",
       "dateLabel": "6 अक्टूबर",
       "title": "कलियुगादि (कलियुग का आरंभ)",
@@ -1040,6 +1054,19 @@
       "sourceName": "Drik Panchang — पिथौरागढ़",
       "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=14/11/2029",
       "reviewCategory": "युगादि तिथि"
+    },
+    {
+      "date": "2029-11-15",
+      "dateLabel": "15 नवंबर",
+      "title": "कंस वध",
+      "description": "कार्तिक शुक्ल दशमी को भगवान श्रीकृष्ण द्वारा कंस-वध की स्मृति में कंस वध का पर्व मनाया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल दशमी",
+      "sourceName": "Drik Panchang — 2029 हिन्दू कैलेंडर",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029",
+      "reviewCategory": "पर्व"
     },
     {
       "date": "2029-11-16",
