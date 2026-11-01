@@ -59,24 +59,12 @@
     {
       "date": "2030-02-13",
       "dateLabel": "13 फ़रवरी",
-      "title": "कुंभ संक्रांति",
-      "description": "कुंभ संक्रांति पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
-      "category": "संक्रांति",
+      "title": "कुंभ संक्रांति / अर्धकुम्भ मेला समापन — प्रयागराज",
+      "description": "कुंभ संक्रांति के दिन प्रयागराज में अर्धकुम्भ मेले का समापन भी होता है।",
+      "category": "संक्रांति एवं धार्मिक आयोजन",
       "reviewStatus": "needs-review",
       "showReviewStatus": false,
-      "hinduTithi": "सूर्य का कुंभ राशि में प्रवेश",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
-    },
-    {
-      "date": "2030-02-13",
-      "dateLabel": "13 फ़रवरी",
-      "title": "अर्धकुम्भ मेला समापन — प्रयागराज",
-      "description": "प्रयागराज में अर्धकुम्भ मेले का समापन।",
-      "category": "धार्मिक आयोजन",
-      "reviewStatus": "needs-review",
-      "showReviewStatus": false,
-      "hinduTithi": "मकर सूर्य और वृश्चिक गुरु",
+      "hinduTithi": "सूर्य का कुंभ राशि में प्रवेश; मकर सूर्य और वृश्चिक गुरु",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
