@@ -11,7 +11,7 @@
 <body><main>
 <h1>बहुवर्षीय ग्रह-स्थिति गणना</h1>
 <p class="muted">OurHinduDharm · अलग गणना प्रयोगशाला · Astronomy Engine 2.1.19</p>
-<div class="panel warn"><strong>महत्वपूर्ण:</strong> यह पहला डेटा-जनरेटर प्रोटोटाइप है। यह पृथ्वी-केंद्रित (geocentric) ग्रह-सदिश निकालता है; यह अपने-आप शास्त्रीय अस्त/उदय, स्थानीय दृश्यता या Drik Panchang से समानता प्रमाणित नहीं करता। मौजूदा मुख्य पंचांग की गणना इससे नहीं बदलेगी।</div>
+<div class="panel warn"><strong>महत्वपूर्ण:</strong> यह पृथ्वी-केंद्रित (geocentric) ग्रह-सदिशों का शोध-डेटा जनरेटर है। निर्यात से पहले खंड-सीमा, समय-क्रम, ग्रह-सदिश संरचना, SHA-256 और चुने हुए बिंदुओं की सीधी पुनर्गणना जाँची जाएगी। ये जाँचें डेटा की अखंडता बताती हैं—शास्त्रीय अस्त/उदय, स्थानीय दृश्यता या Drik Panchang से समानता नहीं। उसके लिए JPL Horizons तथा PR #22 के अभिलेखों सहित स्वतंत्र स्रोत-जाँच अलग से आवश्यक है। मुख्य पंचांग की गणना इससे अपने-आप नहीं बदलेगी।</div>
 <div class="panel">
 <div class="grid">
 <div><label for="fromYear">आरम्भ वर्ष</label><input id="fromYear" type="number" min="1900" max="2100" value="2026"></div>
@@ -112,17 +112,65 @@ function download(name,obj){const blob=new Blob([JSON.stringify(obj)],{type:"app
 function monthOf(isoText){return Number(isoText.slice(5,7));}
 async function sha256(value){return "sha256:"+Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value)))).map(b=>b.toString(16).padStart(2,"0")).join("");}
 async function verifyRows(rows,expectedStart,expectedEnd){
- const issues=[],step=(config?.cadenceHours||6)*3600000;let cursor=expectedStart;
- for(const row of [...rows].sort((a,b)=>a.fromUtc.localeCompare(b.fromUtc))){
-  if(Date.parse(row.fromUtc)!==cursor)issues.push("खंडों के बीच अंतर/ओवरलैप: "+iso(cursor)+" के बाद "+row.fromUtc);
+ const issues=[],step=(config?.cadenceHours||6)*3600000;
+ const names=config?.bodies||bodies.map(x=>x[0]);
+ if(!Array.isArray(rows)||!rows.length)return ["सत्यापन के लिए कोई खंड नहीं है।"];
+ if(!Number.isFinite(expectedStart)||!Number.isFinite(expectedEnd)||expectedEnd<=expectedStart)
+  return ["अपेक्षित समय-सीमा अमान्य है।"];
+ const sorted=[...rows].sort((a,b)=>a.fromUtc.localeCompare(b.fromUtc));
+ const seenKeys=new Set();let cursor=expectedStart,globalSample=0,spotChecks=0;
+ for(const row of sorted){
+  if(!row||typeof row.key!=="string") {issues.push("खंड की पहचान अमान्य है।");continue;}
+  if(seenKeys.has(row.key))issues.push("दोहराई गई chunk key: "+row.key);
+  seenKeys.add(row.key);
+  const start=Date.parse(row.fromUtc),end=Date.parse(row.toUtcExclusive);
+  if(!Number.isFinite(start)||!Number.isFinite(end)||end<=start){issues.push("अमान्य समय-सीमा: "+row.key);continue;}
+  if(start!==cursor)issues.push("खंडों के बीच अंतर/ओवरलैप: अपेक्षित "+iso(cursor)+", मिला "+row.fromUtc);
+  if(start<expectedStart||end>expectedEnd)issues.push("खंड चुनी गई सीमा से बाहर है: "+row.key);
+  if(!Array.isArray(row.samples)){issues.push("samples सूची नहीं है: "+row.key);cursor=end;continue;}
   if(row.sampleCount!==row.samples.length)issues.push("नमूना संख्या मेल नहीं खाती: "+row.key);
   if(await sha256(JSON.stringify(row.samples))!==row.checksum)issues.push("SHA-256 जाँच विफल: "+row.key);
-  const start=Date.parse(row.fromUtc),end=Date.parse(row.toUtcExclusive),expectedCount=(end-start)/step;
+  const expectedCount=(end-start)/step;
   if(!Number.isInteger(expectedCount)||row.samples.length!==expectedCount)issues.push("खंड में नमूने कम/अधिक: "+row.key);
-  for(let i=0;i<row.samples.length;i++)if(Date.parse(row.samples[i][0])!==start+i*step){issues.push("समय-अंतराल/क्रम दोष: "+row.key+" नमूना "+i);break;}
+  for(let i=0;i<row.samples.length;i++){
+   const sample=row.samples[i],expectedTime=start+i*step;
+   if(!Array.isArray(sample)||sample.length!==2||Date.parse(sample[0])!==expectedTime){
+    issues.push("समय-अंतराल/क्रम दोष: "+row.key+" नमूना "+i);globalSample++;continue;
+   }
+   const vectors=sample[1];
+   if(!Array.isArray(vectors)||vectors.length!==names.length){
+    issues.push("ग्रह-सदिशों की संख्या गलत: "+sample[0]);globalSample++;continue;
+   }
+   let vectorShapeOk=true;
+   for(let b=0;b<names.length;b++){
+    const v=vectors[b];
+    if(!Array.isArray(v)||v.length!==4||v[0]!==names[b]||!v.slice(1).every(Number.isFinite)){
+     issues.push("सदिश का नाम/क्रम/संख्या अमान्य: "+sample[0]+" · अपेक्षित "+names[b]);
+     vectorShapeOk=false;break;
+    }
+   }
+   if(vectorShapeOk&&(i===0||i===row.samples.length-1||globalSample%97===0)){
+    for(const v of vectors){
+     const body=Astronomy.Body[v[0]];
+     if(body===undefined){issues.push("Astronomy Engine में ग्रह नहीं मिला: "+v[0]);continue;}
+     const direct=Astronomy.GeoVector(body,new Date(sample[0]),true);
+     const actual=[direct.x,direct.y,direct.z],stored=v.slice(1);
+     if(!actual.every(Number.isFinite)){issues.push("सीधी पुनर्गणना में अमान्य सदिश: "+v[0]+" @ "+sample[0]);continue;}
+     for(let axis=0;axis<3;axis++){
+      // Stored coordinates are rounded to 12 decimal AU; allow only that quantization error.
+      if(Math.abs(actual[axis]-stored[axis])>1.1e-12){
+       issues.push("सीधी पुनर्गणना मेल नहीं खाती: "+v[0]+" @ "+sample[0]+" अक्ष "+["x","y","z"][axis]);break;
+      }
+     }
+     spotChecks++;
+    }
+   }
+   globalSample++;
+  }
   cursor=end;
  }
  if(cursor!==expectedEnd)issues.push("डेटा अपेक्षित अंतिम सीमा तक नहीं पहुँचा: "+iso(cursor)+" बनाम "+iso(expectedEnd));
+ if(!issues.length)$("exportStatus").textContent="संरचना, समय-क्रम, SHA-256 और "+spotChecks+" सीधे पुनर्गणित सदिश-जाँच पास। ध्यान दें: यह उसी Astronomy Engine से पुनरुत्पादन है, स्वतंत्र खगोलीय स्रोत का प्रमाण नहीं।";
  return issues;
 }
 async function refreshExports(){
