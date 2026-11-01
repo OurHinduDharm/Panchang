@@ -64,7 +64,7 @@ export function extractDwadashiDay(panchang, date, instant = null) {
         return Number.isFinite(start) && Number.isFinite(end) && start <= at && at < end;
       })
     : null;
-  const noonTithi = interval ? normalizeEngineTithi(interval.index ?? interval.name) : normalizeEngineTithi(panchang.tithi);
+  const noonTithi = interval ? normalizeEngineTithi(interval.index ?? interval.name) : Array.isArray(panchang.tithis) ? "" : normalizeEngineTithi(panchang.tithi);
   return {
     date,
     tithi: normalizeEngineTithi(panchang.tithi),
