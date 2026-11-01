@@ -52,14 +52,26 @@ function iso(value) {
   return Number.isFinite(date.getTime()) ? date.toISOString() : null;
 }
 
-export function extractDwadashiDay(panchang, date) {
+export function extractDwadashiDay(panchang, date, instant = null) {
+  const at = instant ? new Date(instant).getTime() : NaN;
+  const interval = Number.isFinite(at) && Array.isArray(panchang.tithis)
+    ? panchang.tithis.find(item => {
+        const start = new Date(item.startTime).getTime();
+        const end = new Date(item.endTime).getTime();
+        return Number.isFinite(start) && Number.isFinite(end) && start <= at && at < end;
+      })
+    : null;
+  const noonTithi = interval ? normalizeEngineTithi(interval.index ?? interval.name) : normalizeEngineTithi(panchang.tithi);
   return {
     date,
     tithi: normalizeEngineTithi(panchang.tithi),
+    noonTithi,
     paksha: normalizeEnginePaksha(panchang.paksha, panchang.tithi),
     masa: normalizeEngineMasa(panchang.masa ?? panchang.month),
     tithiStartTime: iso(panchang.tithiStartTime),
     tithiEndTime: iso(panchang.tithiEndTime),
+    noonTithiStartTime: iso(interval?.startTime),
+    noonTithiEndTime: iso(interval?.endTime),
     sunrise: iso(panchang.sunrise)
   };
 }
@@ -109,12 +121,12 @@ export async function generateYear(year, options = {}) {
     const instant = new Date(Date.UTC(year, 0, 1 + offset, 6, 30));
     const date = instant.toISOString().slice(0, 10);
     const noonPanchang = getPanchangam(instant, observer, { timezoneOffset:330, calendarType:"purnimanta" });
-    const day = extractDwadashiDay(noonPanchang, date);
+    const day = extractDwadashiDay(noonPanchang, date, instant);
     let sunrisePanchang = null;
 
     if (day.sunrise) {
       sunrisePanchang = getPanchangam(new Date(day.sunrise), observer, { timezoneOffset:330, calendarType:"purnimanta" });
-      const sunriseDay = extractDwadashiDay(sunrisePanchang, date);
+      const sunriseDay = extractDwadashiDay(sunrisePanchang, date, new Date(day.sunrise));
       day.sunriseTithi = {
         tithi:sunriseDay.tithi,
         paksha:sunriseDay.paksha,
