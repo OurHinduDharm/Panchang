@@ -7,6 +7,7 @@ test("normalizes engine tithi indices to Hindi tithi names", () => {
   assert.equal(normalizeEngineTithi(26), "द्वादशी");
   assert.equal(normalizeEngineTithi(10), "एकादशी");
   assert.equal(normalizeEngineTithi(15), "प्रतिपदा");
+  assert.equal(normalizeEngineTithi("Dwadashi"), "द्वादशी");
 });
 
 test("normalizes paksha and adhika masa without dropping the month", () => {
