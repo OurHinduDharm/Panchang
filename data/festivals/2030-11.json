@@ -21,6 +21,18 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
+      "date": "2030-11-03",
+      "dateLabel": "3 नवंबर",
+      "title": "सत युग दिवस",
+      "description": "कार्तिक शुक्ल नवमी को सत युग के आरम्भ का स्मरण सत युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल नवमी",
+      "sourceName": "Drik Panchang — पिथौरागढ़ (मासिक पंचांग संदर्भ)",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=03/11/2030"
+    },
+    {
       "date": "2030-11-04",
       "dateLabel": "4 नवंबर",
       "title": "कंस वध",
