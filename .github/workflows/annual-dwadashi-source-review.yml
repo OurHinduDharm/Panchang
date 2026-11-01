@@ -62,10 +62,3 @@ jobs:
           git commit -m "Add 2026–2030 research-only Panchang review drafts"
           git push --force origin HEAD:refs/heads/chore/annual-panchang-review-drafts-2026-2030-v2
           git push origin --delete chore/annual-panchang-review-drafts-2026-2030 || true
-            ## समीक्षा ड्राफ्ट
-            - पाँचों वर्षों के दैनिक पिथौरागढ़ पंचांग स्कैन।
-            - द्वादशी तिथि, स्थानीय सूर्योदय/दोपहर अंतराल और चातुर्मास सीमाएँ।
-            - Drik Panchang विशेष महाद्वादशी क्रॉस-रेफरेंस।
-            - स्वतंत्र पंचांग स्रोतों से मिलान की स्थिति और स्रोत लिंक।
-
-            **ये फाइलें research-only / needs-review हैं। कोई तारीख़ या चातुर्मास नियम स्वतः स्वीकृत नहीं है।**
