@@ -903,16 +903,28 @@
     try { var u=new URL(value,window.location.href); return (u.protocol==="https:"||u.protocol==="http:")?u.href:""; }
     catch(e){ return ""; }
   }
-  function makeLink(url,label){
+  function linkKey(url){
+    var href=safeUrl(url);
+    if(!href)return "";
+    try{
+      var parsed=new URL(href);
+      parsed.hash="";
+      return parsed.href;
+    }catch(e){return href;}
+  }
+  function makeLink(url,label,seenUrls){
     var href=safeUrl(url);
     if(!href) return null;
+    var key=linkKey(href);
+    if(seenUrls&&key&&seenUrls.has(key))return null;
+    if(seenUrls&&key)seenUrls.add(key);
     var a=document.createElement("a");
     a.href=href;a.target="_blank";a.rel="noopener noreferrer";a.textContent=label||"लेख पढ़ें";
     return a;
   }
   // Legacy descriptions may contain article anchors and line breaks.
   // Render only safe text, HTTP(S) links, and <br>; never inject raw HTML.
-  function appendSafeDescriptionNode(parent,node){
+  function appendSafeDescriptionNode(parent,node,seenUrls){
     if(node.nodeType===Node.TEXT_NODE){
       parent.appendChild(document.createTextNode(node.nodeValue||""));
       return;
@@ -926,18 +938,25 @@
     if(tag==="a"){
       var href=safeUrl(node.getAttribute("href"));
       if(href){
+        var key=linkKey(href);
+        var duplicate=seenUrls&&key&&seenUrls.has(key);
+        if(seenUrls&&key)seenUrls.add(key);
+        if(duplicate){
+          Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(parent,child,seenUrls);});
+          return;
+        }
         var link=document.createElement("a");
         link.href=href;link.target="_blank";link.rel="noopener noreferrer";
-        Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(link,child);});
+        Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(link,child,seenUrls);});
         parent.appendChild(link);
         return;
       }
     }
-    Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(parent,child);});
+    Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(parent,child,seenUrls);});
   }
-  function renderDescription(container,value){
+  function renderDescription(container,value,seenUrls){
     var parsed=new DOMParser().parseFromString(String(value||""),"text/html");
-    Array.from(parsed.body.childNodes).forEach(function(node){appendSafeDescriptionNode(container,node);});
+    Array.from(parsed.body.childNodes).forEach(function(node){appendSafeDescriptionNode(container,node,seenUrls);});
   }
   function normalizeSearch(value){
     return String(value||"")
@@ -1074,6 +1093,7 @@
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
+      var cardLinkUrls=new Set();
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
         var description=String(item.description);
@@ -1084,7 +1104,7 @@
             .replace(/\s{2,}/g," ")
             .trim();
         }
-        renderDescription(desc,description);content.appendChild(desc);
+        renderDescription(desc,description,cardLinkUrls);content.appendChild(desc);
       }
       if(item.saraswatiLocation){
         var locationNote=document.createElement("div");
@@ -1095,9 +1115,9 @@
       }
       appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
-      var mainLink=makeLink(item.articleUrl,item.articleLabel);
+      var mainLink=makeLink(item.articleUrl,item.articleLabel,cardLinkUrls);
       if(mainLink)links.appendChild(mainLink);
-      var secondaryLink=makeLink(item.secondaryArticleUrl,item.secondaryArticleLabel);
+      var secondaryLink=makeLink(item.secondaryArticleUrl,item.secondaryArticleLabel,cardLinkUrls);
       if(secondaryLink)links.appendChild(secondaryLink);
 
       // चुनी हुई पर्व-तारीख़ के लिए मुख्य पंचांग का सीधा लिंक।
@@ -1109,12 +1129,8 @@
            panchangDateCheck.getFullYear()===Number(panchangDate.slice(0,4))&&
            panchangDateCheck.getMonth()+1===Number(panchangDate.slice(5,7))&&
            panchangDateCheck.getDate()===Number(panchangDate.slice(8,10))){
-          var panchangLink=document.createElement("a");
-          panchangLink.href="https://ourhindudharm.blogspot.com/p/panchang-today.html?date="+panchangDate;
-          panchangLink.target="_blank";
-          panchangLink.rel="noopener noreferrer";
-          panchangLink.textContent="इस दिन का पंचांग देखें";
-          links.appendChild(panchangLink);
+          var panchangLink=makeLink("https://ourhindudharm.blogspot.com/p/panchang-today.html?date="+panchangDate,"इस दिन का पंचांग देखें",cardLinkUrls);
+          if(panchangLink)links.appendChild(panchangLink);
         }
       }
 
@@ -1123,16 +1139,10 @@
       var eclipseText=String(item.title||"")+" "+String(item.category||"");
       var isEclipseEvent=/ग्रहण|grahan|eclipse/i.test(eclipseText);
       var eclipsePageUrl="https://ourhindudharm.blogspot.com/p/grahan-panchang.html";
-      var hasEclipsePageLink=[item.articleUrl,item.secondaryArticleUrl].some(function(url){
-        var href=safeUrl(url);
-        if(!href)return false;
-        try{
-          var parsed=new URL(href);
-          return parsed.protocol==="https:"&&parsed.hostname==="ourhindudharm.blogspot.com"&&parsed.pathname==="/p/grahan-panchang.html";
-        }catch(e){return false;}
-      });
+      var eclipsePageKey=linkKey(eclipsePageUrl);
+      var hasEclipsePageLink=!!(eclipsePageKey&&cardLinkUrls.has(eclipsePageKey));
       if(isEclipseEvent&&!hasEclipsePageLink){
-        var eclipseLink=makeLink(eclipsePageUrl,"सूतक, मंत्र-जप एवं पुरश्चरण की जानकारी");
+        var eclipseLink=makeLink(eclipsePageUrl,"सूतक, मंत्र-जप एवं पुरश्चरण की जानकारी",cardLinkUrls);
         if(eclipseLink)links.appendChild(eclipseLink);
       }
       if(links.childNodes.length)content.appendChild(links);
