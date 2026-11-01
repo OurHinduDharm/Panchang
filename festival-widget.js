@@ -226,7 +226,7 @@
     return card;
   }
 
-  function render(items, today, endExclusive, chaturmasEvents, chaturmasConfig) {
+  function render(items, today, chaturmasEvents, chaturmasConfig, pageOffset) {
     mount.replaceChildren();
     mount.classList.add("ohd-festival-widget");
 
@@ -295,6 +295,8 @@
       #ohd-festival-widget .ohd-fw-link{display:inline-block;margin-top:4px;font-size:.8em}
       #ohd-festival-widget .ohd-fw-empty{padding:12px 4px;font-size:.88em;color:#74685a}
       #ohd-festival-widget .ohd-fw-more{display:block;margin:12px 0 2px;padding:10px 8px;text-align:center;font-size:.88em;font-weight:800;color:#8c4810;background:#fff7e9;border:1px solid #f0dfc6;border-radius:9px;text-decoration:none}
+      #ohd-festival-widget .ohd-fw-pagination{display:flex;gap:8px;justify-content:space-between;margin:12px 0 2px}
+      #ohd-festival-widget .ohd-fw-page-button{flex:1;min-width:0;padding:10px 8px;border:1px solid #e8c78e;border-radius:9px;background:#fff7e9;color:#8c4810;font:inherit;font-size:.82em;font-weight:800;cursor:pointer}
       #ohd-festival-widget .ohd-fw-chaturmas{margin:9px 0;padding:10px 12px;border:1px solid #e8c78e;border-left:4px solid #d97706;border-radius:9px;background:#fff8e9}
       #ohd-festival-widget .ohd-fw-chaturmas-title{font-weight:800;line-height:1.4}
       #ohd-festival-widget .ohd-fw-chaturmas-range{margin-top:3px;font-size:.82em}
@@ -326,12 +328,15 @@
 
     const list = element("div", "ohd-fw-list");
     const todayKey = dateKey(today);
-    const endKey = dateKey(endExclusive);
+    const pageStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() + pageOffset);
+    const pageEndExclusive = new Date(pageStart.getFullYear(), pageStart.getMonth(), pageStart.getDate() + 10);
+    const pageStartKey = dateKey(pageStart);
+    const pageEndKey = dateKey(pageEndExclusive);
     const visible = items.filter(function (item) {
       if (!isPublishable(item) || !item.date || !parseDate(item.date)) return false;
-      const futureWithinWindow = item.date >= todayKey && item.date < endKey;
-      const activeRange = item.endDate && item.date <= todayKey && item.endDate >= todayKey;
-      return futureWithinWindow || activeRange;
+      const futureWithinPage = item.date >= pageStartKey && item.date < pageEndKey;
+      const activeRange = pageOffset === 0 && item.endDate && item.date <= todayKey && item.endDate >= todayKey;
+      return futureWithinPage || activeRange;
     }).sort(function (a, b) {
       const aActive = a.date < todayKey && a.endDate && a.endDate >= todayKey;
       const bActive = b.date < todayKey && b.endDate && b.endDate >= todayKey;
@@ -354,7 +359,7 @@
     if (chaturmas) list.appendChild(chaturmas);
 
     if (!visible.length) {
-      list.appendChild(element("div", "ohd-fw-empty", "अगले २० दिनों के लिए कोई स्वीकृत व्रत-पर्व उपलब्ध नहीं है।"));
+      list.appendChild(element("div", "ohd-fw-empty", "इस अवधि के लिए कोई स्वीकृत व्रत-पर्व उपलब्ध नहीं है।"));
     } else {
       visible.forEach(function (item) {
         const d = parseDate(item.date);
@@ -423,6 +428,25 @@
         list.appendChild(card);
       });
     }
+
+    const nav = element("div", "ohd-fw-pagination");
+    if (pageOffset > 0) {
+      const previous = element("button", "ohd-fw-page-button", "← पिछले १० दिन");
+      previous.type = "button";
+      previous.addEventListener("click", function () {
+        render(items, today, chaturmasEvents, chaturmasConfig, Math.max(0, pageOffset - 10));
+      });
+      nav.appendChild(previous);
+    }
+    if (pageOffset < DAYS_AHEAD - 10) {
+      const next = element("button", "ohd-fw-page-button", "अगले १० दिन →");
+      next.type = "button";
+      next.addEventListener("click", function () {
+        render(items, today, chaturmasEvents, chaturmasConfig, Math.min(DAYS_AHEAD - 10, pageOffset + 10));
+      });
+      nav.appendChild(next);
+    }
+    if (nav.childNodes.length) list.appendChild(nav);
 
     const more = element("a", "ohd-fw-more", "इस माह के सभी व्रत-पर्व देखें →");
     more.href = monthlyPageUrl;
@@ -539,7 +563,7 @@
         const d = parseDate(item.date);
         return d && d.getFullYear() === chaturmasYear;
       });
-      render(items, today, endExclusive, chaturmasEvents, chaturmasConfig);
+      render(items, today, chaturmasEvents, chaturmasConfig, 0);
     } catch (_) {
       mount.textContent = "अभी आगामी पर्व लोड नहीं हो पाए।";
     }
