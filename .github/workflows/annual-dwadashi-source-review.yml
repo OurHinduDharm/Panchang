@@ -47,21 +47,21 @@ jobs:
             artifacts/dwadashi-review/*.json
             artifacts/annual-review/*.json
           if-no-files-found: error
-      - name: Stage annual review drafts for a separate review PR
+      - name: Push clean annual review draft branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           mkdir -p data/references
           cp artifacts/dwadashi-review/*.json data/references/
           cp artifacts/annual-review/*.json data/
-      - name: Open PR for generated review-only data
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: chore/annual-panchang-review-drafts-2026-2030
-          delete-branch: true
-          title: "2026–2030 वार्षिक पंचांग एवं द्वादशी समीक्षा ड्राफ्ट"
-          commit-message: "Add 2026–2030 research-only Panchang review drafts"
-          body: |
+          rm -rf node_modules
+          rm -f package-lock.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b chore/annual-panchang-review-drafts-2026-2030-v2
+          git add data/ohd-annual-panchang-review-*.json data/references/ohd-dwadashi-*-review.json
+          git commit -m "Add 2026–2030 research-only Panchang review drafts"
+          git push --force origin HEAD:refs/heads/chore/annual-panchang-review-drafts-2026-2030-v2
+          git push origin --delete chore/annual-panchang-review-drafts-2026-2030 || true
             ## समीक्षा ड्राफ्ट
             - पाँचों वर्षों के दैनिक पिथौरागढ़ पंचांग स्कैन।
             - द्वादशी तिथि, स्थानीय सूर्योदय/दोपहर अंतराल और चातुर्मास सीमाएँ।
