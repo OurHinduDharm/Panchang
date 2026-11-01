@@ -126,6 +126,8 @@ test("Chaturmas uses the first sunrise-observed date for each boundary", () => {
   assert.equal(result.boundaries[1].selectedDate,"2026-08-24");
   assert.deepEqual(result.phases.map(x=>x.startDate),["2026-07-25","2026-08-24","2026-09-23","2026-10-23"]);
   assert.equal(result.endDate,"2026-11-20");
+  assert.equal(result.phases[3].endDate,"2026-11-21");
+  assert.equal(result.completionDate,"2026-11-22");
   assert.equal(result.boundaries[4].selectionBasis,"smarta-ekadashi-between-sunrises");
   assert.equal(result.boundaries[4].observations[0].basis,"smarta-ekadashi-between-sunrises");
   assert.equal(result.cardVisibleThroughDate,"2026-11-22");
