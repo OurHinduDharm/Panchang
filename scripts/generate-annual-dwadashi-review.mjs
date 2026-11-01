@@ -296,15 +296,14 @@ export async function generateYear(year, options = {}) {
     samavedaUpakarma:samaveda,
     reviews:{},
     sourceReview:{
-      ...buildSourceReviewMetadata(year),
+      ...result.sourceReview,
       annualFestivalDates:"pending-manual-Drik-and-independent-Panchang-cross-check",
       localEclipseVisibility:"not-calculated-in-this-review-generator",
       localSankrantiTransitions:"not-calculated-in-this-review-generator",
       note:"Daily Panchanga and Dwadashi candidates are calculated for Pithoragarh. This is a research draft, not an approved annual festival calendar."
     }
   };
-  result.annualReview = annualReview;
-  return result;
+  return { ...result, annualReview };
 }
 
 async function main() {
@@ -319,7 +318,8 @@ async function main() {
   for (const year of years) {
     const result = await generateYear(year);
     const target = path.join(outputDir, `ohd-dwadashi-${year}-review.json`);
-    await fs.writeFile(target, JSON.stringify(result, null, 2) + "\n");
+    const { annualReview, ...dwadashiResult } = result;
+    await fs.writeFile(target, JSON.stringify(dwadashiResult, null, 2) + "\n");
     const annualTarget = path.join(annualDir, `ohd-annual-panchang-review-${year}.json`);
     await fs.writeFile(annualTarget, JSON.stringify(result.annualReview, null, 2) + "\n");
     process.stdout.write(`${year}: ${result.tithis.length} Dwadashi records, ${result.tithiDates.length} tithi dates, ${result.annualReview.dailyPanchang.length} daily Panchang days, Chaturmas=${result.chaturmas.status} -> ${target} / ${annualTarget}\n`);
