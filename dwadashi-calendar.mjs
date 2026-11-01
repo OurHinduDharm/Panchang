@@ -135,6 +135,19 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
           !!item.adhika === !!group.adhika
         )
       : null;
+    const drikSpecialEntries = rules && Array.isArray(rules.drikSpecialObservances)
+      ? rules.drikSpecialObservances.filter(item =>
+          Number(item.year) === year &&
+          item.month === group.month &&
+          item.paksha === group.paksha &&
+          !!item.adhika === !!group.adhika
+        )
+      : [];
+    const drikReferenceDate = drik2026Entry?.referenceDate || drikSpecialEntries[0]?.referenceDate || group.referenceDate || null;
+    const drikLabels = unique(
+      (Array.isArray(drik2026Entry?.labels) ? drik2026Entry.labels : [])
+        .concat(drikSpecialEntries.flatMap(item => Array.isArray(item.labels) ? item.labels : []))
+    );
     const names = unique(
       observances.map(item => item.name)
         .concat(source && Array.isArray(source.displayNames) ? source.displayNames : [])
@@ -150,14 +163,16 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       sunriseObservations: group.sunriseObservations,
       noonObservations: group.noonObservations,
       candidateDates,
-      referenceDate: drik2026Entry?.referenceDate || group.referenceDate || null,
+      referenceDate: drikReferenceDate,
+      drikLabels,
       drik2026Labels: year === 2026 && Array.isArray(drik2026Entry?.labels) ? unique(drik2026Entry.labels) : [],
+      drikSpecialObservances: drikSpecialEntries.map(item => ({ ...item, source:"Drik Panchang", status:"source-cross-reference-needs-local-rule-review" })),
       selectedDate: candidateDates.length === 1 ? candidateDates[0] : null,
       dateSelection: candidateDates.length === 1
         ? "single-observation-candidate-review-required"
         : candidateDates.length > 1
           ? "requires-vrata-specific-rule"
-          : (drik2026Entry?.referenceDate || group.referenceDate)
+          : drikReferenceDate
             ? "reference-date-awaiting-local-observation"
             : "no-observation-in-scan-window",
       displayNames: names,
@@ -168,7 +183,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       crossReferences: source && Array.isArray(source.crossReferences) ? source.crossReferences : [],
       status: candidateDates.length
         ? "needs-review"
-        : (drik2026Entry?.referenceDate || group.referenceDate)
+        : drikReferenceDate
           ? "needs-local-observation"
           : "needs-observation"
     };
