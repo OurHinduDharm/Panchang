@@ -102,6 +102,7 @@
     const start = events.find(item => isPublishable(item) &&
       /देवशयनी|हरिशयनी|चातुर्मास प्रारम्भ/i.test(item.title || "") && item.date);
     const end = events.find(item => isPublishable(item) &&
+      !/वैष्णव|गौण/i.test(item.title || "") &&
       /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "") && item.date);
     if (!start || !end) return null;
 
@@ -160,7 +161,7 @@
     }
 
     appendEkadashiLink(start, "देवशयनी / हरिशयनी एकादशी");
-    appendEkadashiLink(end, "देवोत्थानी एकादशी");
+    appendEkadashiLink(end, "देवोत्थानी एकादशी (स्मार्त)");
 
     // The four dietary phases are maintained in a small, year-specific JSON file.
     // Missing/unreviewed data never produces guessed dates or incomplete rule cards.
@@ -175,7 +176,7 @@
       if (validPhases) {
         const section = element("div", "ohd-fw-chaturmas-rules");
         section.appendChild(element("div", "ohd-fw-chaturmas-rules-title", "चातुर्मास के चार आहार-नियम"));
-        phases.forEach(phase => {
+        phases.forEach((phase, phaseIndex) => {
           const row = element("div", "ohd-fw-chaturmas-phase");
           const copy = element("div", "ohd-fw-chaturmas-phase-copy");
           const phaseTitle = element("div", "ohd-fw-chaturmas-phase-name", phase.title);
@@ -197,7 +198,8 @@
             row.classList.add("is-upcoming");
           // अगला आहार-चरण उसी द्वादशी-तिथि से शुरू होता है;
           // इसलिए endDate पर पिछला चरण पूर्ण और अगला चरण वर्तमान होगा।
-          } else if (todayKey < phase.endDate) {
+          } else if (todayKey < phase.endDate ||
+              (phaseIndex === phases.length - 1 && todayKey === phase.endDate)) {
             phaseStatus = "अभी चल रहा है";
             row.classList.add("is-current");
           } else {
@@ -208,7 +210,15 @@
           section.appendChild(row);
         });
 
-        if (chaturmasConfig.completionDetail) {
+        const completionDate = parseDate(chaturmasConfig.completionDate) ||
+          (() => {
+            const lastPhaseEnd = parseDate(phases[phases.length - 1].endDate);
+            if (!lastPhaseEnd) return null;
+            lastPhaseEnd.setDate(lastPhaseEnd.getDate() + 1);
+            return lastPhaseEnd;
+          })();
+        if (chaturmasConfig.completionDetail && completionDate &&
+            todayKey >= dateKey(completionDate)) {
           section.appendChild(element("div", "ohd-fw-chaturmas-phase-detail", chaturmasConfig.completionDetail));
         }
 
@@ -539,6 +549,7 @@
       const currentEnd = items.find(item => {
         const d = parseDate(item.date);
         return d && d.getFullYear() === currentChaturmasYear &&
+          !/वैष्णव|गौण/i.test(item.title || "") &&
           /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "");
       });
       let chaturmasYear = currentChaturmasYear;
