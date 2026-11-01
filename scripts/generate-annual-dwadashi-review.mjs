@@ -142,13 +142,26 @@ function indexValue(value) {
   return Number.isFinite(number) ? number : -1;
 }
 
+function sunriseSunRashiIndex(value) {
+  const number = indexValue(value);
+  if (number >= 0 && number <= 11) return number;
+  const name = String(rawValue(value)).toLowerCase();
+  const patterns = [
+    [/mesha|aries|मेष/,0],[/vrishabha|taurus|वृषभ/,1],[/mithuna|gemini|मिथुन/,2],
+    [/karka|cancer|कर्क/,3],[/simha|leo|सिंह/,4],[/kanya|virgo|कन्या/,5],
+    [/tula|libra|तुला/,6],[/vrishchika|scorpio|वृश्चिक/,7],[/dhanu|sagittarius|धनु/,8],
+    [/makara|capricorn|मकर/,9],[/kumbha|aquarius|कुम्भ|कुंभ/,10],[/meena|pisces|मीन/,11]
+  ];
+  return patterns.find(([pattern]) => pattern.test(name))?.[1] ?? -1;
+}
+
 export function extractAnnualPanchangDay(panchang, date, instant) {
   const base = extractDwadashiDay(panchang, date, instant);
   const weekdayDate = new Date(date + "T12:00:00Z");
   const nakshatraIndex = indexValue(panchang.nakshatra);
   const yogaIndex = indexValue(panchang.yoga);
   const sunRashiRaw = panchang.sunRashi;
-  const sunRashiIndex = indexValue(sunRashiRaw);
+  const sunRashiIndex = sunriseSunRashiIndex(sunRashiRaw);
   const isoInterval = item => ({
     index:item.index,
     name:item.name ?? null,
