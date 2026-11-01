@@ -38,7 +38,7 @@ test("each city has separate 2026 and 2027 local boundaries with explicit IST of
     for (const event of location.events) {
       for (const field of ["astaStartLocal", "astaEndLocal"]) {
         const value = event[field];
-        assert.match(value, /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+05:30$/);
+        assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\+05:30$/);
         assert.ok(Number.isFinite(Date.parse(value)), `${location.city} ${event.cycle} ${field} must parse`);
       }
       assert.ok(
