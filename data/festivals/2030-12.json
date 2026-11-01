@@ -4,6 +4,57 @@
   "month": 12,
   "monthName": "दिसंबर",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
-  "events": []
+  "locationScope": "Drik Panchang 2030 वार्षिक कैलेंडर से संकलित प्रारम्भिक पर्व-सूची; पिथौरागढ़-विशिष्ट तिथि/तिथि-व्याप्ति और स्थानीय नियमों का सत्यापन शेष।",
+  "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+  "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+  "events": [
+    {
+      "date": "2030-12-05",
+      "dateLabel": "5 दिसंबर",
+      "title": "गीता जयंती / मोक्षदा एकादशी",
+      "description": "गीता जयंती / मोक्षदा एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "जयंती एवं एकादशी",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-12-09",
+      "dateLabel": "9 दिसंबर",
+      "title": "दत्तात्रेय जयंती / मार्गशीर्ष पूर्णिमा",
+      "description": "दत्तात्रेय जयंती / मार्गशीर्ष पूर्णिमा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "जयंती एवं पूर्णिमा",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-12-16",
+      "dateLabel": "16 दिसंबर",
+      "title": "धनु संक्रांति",
+      "description": "धनु संक्रांति पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का धनु राशि में प्रवेश",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-12-21",
+      "dateLabel": "21 दिसंबर",
+      "title": "सफला एकादशी",
+      "description": "सफला एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष कृष्ण एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    }
+  ]
 }
