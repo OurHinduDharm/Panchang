@@ -3,7 +3,94 @@
   "year": 2030,
   "month": 4,
   "monthName": "अप्रैल",
-  "status": "needs-review",
-  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
-  "events": []
+  "status": "approved",
+  "locationScope": "पिथौरागढ़ के लिए Drik Panchang 2030 वार्षिक कैलेंडर से मिलान करके स्वीकृत।",
+  "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+  "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+  "events": [
+    {
+      "date": "2030-04-03",
+      "dateLabel": "3 अप्रैल",
+      "title": "हिंदू नववर्ष / युगादि / गुड़ी पड़वा / चैत्र नवरात्रि प्रारम्भ",
+      "description": "हिंदू नववर्ष / युगादि / गुड़ी पड़वा / चैत्र नवरात्रि प्रारम्भ पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "नववर्ष एवं नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल प्रतिपदा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-04-06",
+      "dateLabel": "6 अप्रैल",
+      "title": "गौरी पूजन / गणगौर",
+      "description": "गौरी पूजन / गणगौर पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-04-09",
+      "dateLabel": "9 अप्रैल",
+      "title": "यमुना छठ",
+      "description": "यमुना छठ पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल षष्ठी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-04-12",
+      "dateLabel": "12 अप्रैल",
+      "title": "श्रीराम नवमी",
+      "description": "श्रीराम नवमी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल नवमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "मेष संक्रांति / सौर नववर्ष / कामदा एकादशी",
+      "description": "मेष संक्रांति / सौर नववर्ष / कामदा एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "संक्रांति एवं एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल एकादशी; सूर्य का मेष राशि में प्रवेश",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-04-18",
+      "dateLabel": "18 अप्रैल",
+      "title": "हनुमान जयंती / चैत्र पूर्णिमा",
+      "description": "हनुमान जयंती / चैत्र पूर्णिमा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "जयंती एवं पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-04-28",
+      "dateLabel": "28 अप्रैल",
+      "title": "वरुथिनी एकादशी",
+      "description": "वरुथिनी एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख कृष्ण एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    }
+  ]
 }

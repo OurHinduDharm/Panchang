@@ -4,8 +4,22 @@
   "month": 3,
   "monthName": "मार्च",
   "status": "approved",
-  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
+  "locationScope": "पिथौरागढ़ के लिए Drik Panchang 2030 वार्षिक कैलेंडर से मिलान करके स्वीकृत।",
+  "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+  "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
   "events": [
+    {
+      "date": "2030-03-02",
+      "dateLabel": "2 मार्च",
+      "title": "महाशिवरात्रि",
+      "description": "महाशिवरात्रि पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
     {
       "date": "2030-03-03",
       "dateLabel": "3 मार्च",
@@ -13,9 +27,82 @@
       "description": "फाल्गुन कृष्ण अमावस्या को द्वापर युग के आरम्भ का स्मरण द्वापर युग दिवस के रूप में किया जाता है।",
       "category": "युगादि दिवस",
       "reviewStatus": "approved",
+      "showReviewStatus": false,
       "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
       "sourceName": "Drik Panchang — पिथौरागढ़",
       "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=03/03/2030"
+    },
+    {
+      "date": "2030-03-04",
+      "dateLabel": "4 मार्च",
+      "title": "सोमवती अमावस्या",
+      "description": "सोमवती अमावस्या पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "अमावस्या",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-03-15",
+      "dateLabel": "15 मार्च",
+      "title": "मीना संक्रांति / आमलकी एकादशी",
+      "description": "मीना संक्रांति / आमलकी एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "संक्रांति एवं एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल एकादशी; सूर्य का मीन राशि में प्रवेश",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-03-19",
+      "dateLabel": "19 मार्च",
+      "title": "होलिका दहन / फाल्गुन पूर्णिमा",
+      "description": "होलिका दहन का निर्णय पूर्णिमा-व्याप्ति और भद्रा के विचार से किया जाता है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-03-20",
+      "dateLabel": "20 मार्च",
+      "title": "होली / धुलेंडी",
+      "description": "होली / धुलेंडी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण प्रतिपदा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-03-26",
+      "dateLabel": "26 मार्च",
+      "title": "शीतला अष्टमी / बसोड़ा",
+      "description": "शीतला अष्टमी / बसोड़ा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण अष्टमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-03-29",
+      "dateLabel": "29 मार्च",
+      "title": "पापमोचनी एकादशी",
+      "description": "पापमोचनी एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     }
   ]
 }

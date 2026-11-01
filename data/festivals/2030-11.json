@@ -4,8 +4,22 @@
   "month": 11,
   "monthName": "नवंबर",
   "status": "approved",
-  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
+  "locationScope": "पिथौरागढ़ के लिए Drik Panchang 2030 वार्षिक कैलेंडर से मिलान करके स्वीकृत।",
+  "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+  "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
   "events": [
+    {
+      "date": "2030-11-01",
+      "dateLabel": "1 नवंबर",
+      "title": "छठ पूजा",
+      "description": "छठ पूजा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल षष्ठी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
     {
       "date": "2030-11-03",
       "dateLabel": "3 नवंबर",
@@ -13,9 +27,118 @@
       "description": "कार्तिक शुक्ल नवमी को सत युग के आरम्भ का स्मरण सत युग दिवस के रूप में किया जाता है।",
       "category": "युगादि दिवस",
       "reviewStatus": "approved",
+      "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल नवमी",
       "sourceName": "Drik Panchang — पिथौरागढ़",
       "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=03/11/2030"
+    },
+    {
+      "date": "2030-11-04",
+      "dateLabel": "4 नवंबर",
+      "title": "कंस वध",
+      "description": "कंस वध पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल दशमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-05",
+      "dateLabel": "5 नवंबर",
+      "title": "देवउठनी / प्रबोधिनी एकादशी",
+      "description": "देवउठनी / प्रबोधिनी एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-06",
+      "dateLabel": "6 नवंबर",
+      "title": "तुलसी विवाह",
+      "description": "तुलसी विवाह पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-10",
+      "dateLabel": "10 नवंबर",
+      "title": "कार्तिक पूर्णिमा / देव दीपावली",
+      "description": "कार्तिक पूर्णिमा / देव दीपावली पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-16",
+      "dateLabel": "16 नवंबर",
+      "title": "वृश्चिक संक्रांति",
+      "description": "वृश्चिक संक्रांति पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का वृश्चिक राशि में प्रवेश",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-18",
+      "dateLabel": "18 नवंबर",
+      "title": "कालभैरव जयंती",
+      "description": "कालभैरव जयंती पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-21",
+      "dateLabel": "21 नवंबर",
+      "title": "उत्पन्ना एकादशी",
+      "description": "उत्पन्ना एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-25",
+      "dateLabel": "25 नवंबर",
+      "title": "सोमवती अमावस्या",
+      "description": "सोमवती अमावस्या पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "अमावस्या",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-29",
+      "dateLabel": "29 नवंबर",
+      "title": "विवाह पंचमी",
+      "description": "विवाह पंचमी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     }
   ]
 }
