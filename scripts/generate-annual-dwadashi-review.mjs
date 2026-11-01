@@ -106,6 +106,29 @@ export function buildSourceReviewMetadata(year) {
   };
 }
 
+const CHATURMAS_END_REFERENCES = {
+  2026: { date:"2026-11-20", sources:[
+    { name:"Drik Panchang", location:"Pithoragarh", url:"https://www.drikpanchang.com/vrats/ekadashidates.html?year=2026&geoname-id=1259503" },
+    { name:"HinduCalendar.org", location:"Delhi", url:"https://hinducalendar.org/articles/devutthana-ekadashi" }
+  ]},
+  2027: { date:"2027-11-10", sources:[
+    { name:"Drik Panchang", location:"Pithoragarh city selector", url:"https://www.drikpanchang.com/vrats/ekadashidates.html?year=2027&geoname-id=1259503" },
+    { name:"DharmaSangrah", location:"Ahmedabad", url:"https://dharmasangrah.com/festivals/devutthana-ekadashi" }
+  ]},
+  2028: { date:"2028-10-28", sources:[
+    { name:"Drik Panchang", location:"Pithoragarh city selector", url:"https://www.drikpanchang.com/vrats/ekadashidates.html?year=2028&geoname-id=1259503" },
+    { name:"AstroBharat", location:"Delhi", url:"https://www.astrobharat.in/ekadashi/devutthana" }
+  ]},
+  2029: { date:"2029-11-16", sources:[
+    { name:"Drik Panchang", location:"New Delhi", url:"https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029" },
+    { name:"EternalSanskriti", location:"Delhi", url:"https://eternalsanskriti.com/en/festivals/f/devutthana-ekadashi" }
+  ]},
+  2030: { date:"2030-11-05", sources:[
+    { name:"Drik Panchang", location:"New Delhi", url:"https://www.drikpanchang.com/panchang/month-panchang.html?date=17%2F11%2F2030" },
+    { name:"Hindu Calculator", location:"New Delhi", url:"https://hinducalculator.com/hindi-panchang/2030/?m=11" }
+  ]}
+};
+
 export async function generateYear(year, options = {}) {
   if (!Number.isInteger(year) || year < 2026 || year > 2030) {
     throw new RangeError("Supported years are 2026–2030");
@@ -150,6 +173,14 @@ export async function generateYear(year, options = {}) {
   result.sourceReview = buildSourceReviewMetadata(year);
   result.sourceReview.engine = "@ishubhamx/panchangam-js@3.0.0";
   result.sourceReview.engineDiagnostics = engineDiagnostics;
+  const chaturmasEnd = result.chaturmas.boundaries?.find(item => item.id === "end")?.selectedDate || null;
+  const chaturmasReference = CHATURMAS_END_REFERENCES[year];
+  result.sourceReview.chaturmasEndCrossCheck = {
+    generatedDate:chaturmasEnd,
+    referenceDate:chaturmasReference.date,
+    status:chaturmasEnd === chaturmasReference.date ? "date-match-location-and-vrata-rule-review-still-required" : chaturmasEnd ? "date-mismatch-review-required" : "engine-date-missing",
+    sources:chaturmasReference.sources
+  };
   result.sourceReview.calendar = "Purnimanta";
   result.sourceReview.timezone = "Asia/Kolkata";
   result.sourceReview.localScanCoverage = {
