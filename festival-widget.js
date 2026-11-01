@@ -290,6 +290,7 @@
       #ohd-festival-widget .ohd-fw-name{font-weight:700;font-size:.92em;line-height:1.45;overflow-wrap:anywhere}
       #ohd-festival-widget .ohd-fw-status{display:inline-block;margin:3px 0 2px;padding:2px 7px;border-radius:20px;background:#fff0d5;color:#8b4a0c;font-size:.73em;font-weight:700;line-height:1.4}
       #ohd-festival-widget .ohd-fw-description{margin-top:3px;font-size:.84em;line-height:1.55;overflow-wrap:anywhere}
+      #ohd-festival-widget .ohd-fw-tithi{margin-top:3px;font-size:.79em;line-height:1.45;font-weight:600;color:#76532f;overflow-wrap:anywhere}
       #ohd-festival-widget .ohd-fw-description a,#ohd-festival-widget .ohd-fw-link{color:#8c4810;text-decoration:none;font-weight:600}
       #ohd-festival-widget .ohd-fw-description a:hover,#ohd-festival-widget .ohd-fw-link:hover{text-decoration:underline}
       #ohd-festival-widget .ohd-fw-link{display:inline-block;margin-top:4px;font-size:.8em}
@@ -382,6 +383,10 @@
           status = remaining === 0 ? "आज" : remaining === 1 ? "कल" : remaining + " दिन शेष";
         }
         content.appendChild(element("span", "ohd-fw-status", status));
+
+        if (item.hinduTithi && String(item.hinduTithi).trim()) {
+          content.appendChild(element("div", "ohd-fw-tithi", String(item.hinduTithi).trim()));
+        }
 
         if (item.endDate && item.endDate >= todayKey && item.endDate > item.date) {
           const endDate = parseDate(item.endDate);
