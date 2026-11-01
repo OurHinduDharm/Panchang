@@ -4,6 +4,105 @@
   "month": 2,
   "monthName": "फ़रवरी",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
-  "events": []
+  "locationScope": "Drik Panchang 2030 वार्षिक कैलेंडर से संकलित प्रारम्भिक पर्व-सूची; पिथौरागढ़-विशिष्ट तिथि/तिथि-व्याप्ति और स्थानीय नियमों का सत्यापन शेष।",
+  "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+  "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+  "events": [
+    {
+      "date": "2030-02-02",
+      "dateLabel": "2 फ़रवरी",
+      "title": "मौनी अमावस्या",
+      "description": "मौनी अमावस्या पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "अमावस्या",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-02-07",
+      "dateLabel": "7 फ़रवरी",
+      "title": "वसंत पंचमी / श्रीपंचमी",
+      "description": "वसंत पंचमी / श्रीपंचमी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-02-09",
+      "dateLabel": "9 फ़रवरी",
+      "title": "रथ सप्तमी",
+      "description": "रथ सप्तमी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल सप्तमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-02-10",
+      "dateLabel": "10 फ़रवरी",
+      "title": "भीष्म अष्टमी",
+      "description": "भीष्म अष्टमी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-02-13",
+      "dateLabel": "13 फ़रवरी",
+      "title": "कुंभ संक्रांति",
+      "description": "कुंभ संक्रांति पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का कुंभ राशि में प्रवेश",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-02-14",
+      "dateLabel": "14 फ़रवरी",
+      "title": "जया एकादशी",
+      "description": "जया एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-02-18",
+      "dateLabel": "18 फ़रवरी",
+      "title": "माघ पूर्णिमा",
+      "description": "माघ पूर्णिमा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-02-28",
+      "dateLabel": "28 फ़रवरी",
+      "title": "विजया एकादशी",
+      "description": "विजया एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    }
+  ]
 }
