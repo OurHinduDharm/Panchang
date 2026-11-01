@@ -222,6 +222,7 @@
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
     <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
+    <button id="copyDrikBoundaryBtn" type="button">Copy boundary JSON</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
@@ -3305,6 +3306,76 @@ function runDrikBoundaryAudit() {
     <p class="small">“Δ from C” is calculated separation minus the classical angular threshold (Venus 8° retrograde / 10° direct; Jupiter 11°). Negative values mean the calculated separation is below C. The threshold rule is only a classical comparison and is not assumed to be Drik Panchang’s event criterion.</p>`;
 }
 
+async function copyDrikBoundaryAuditJSON() {
+  const events = DRIK_PITHORAGARH_BOUNDARIES.map(ref => {
+    const date = new Date(ref.localTime + "+05:30");
+    if (Number.isNaN(date.getTime())) throw new Error("Invalid Drik boundary time: " + ref.localTime);
+    const body = BODY_NAMES[ref.planet];
+    const geometry = getClassicalGeometry(body, date, ref.planet);
+    const planet = getHorizontal(body, date);
+    const sun = getSunHorizontal(date);
+    return {
+      planet: ref.planet,
+      publishedBoundary: ref.event,
+      publishedLocalTime: ref.localTime,
+      timeZone: "Asia/Kolkata",
+      instantUTC: date.toISOString(),
+      observer: {
+        locationLabel: "Pithoragarh (configured test observer)",
+        latitude: CONFIG.latitude,
+        longitude: CONFIG.longitude,
+        elevationMeters: CONFIG.elevation
+      },
+      method: {
+        positionSource: "Astronomy Engine; same-engine Sun/planet geometry",
+        horizontalCoordinates: "Astronomy.Equator(..., true, true) then Astronomy.Horizon(..., 'normal')",
+        horizonMode: "normal (library standard refraction mode)",
+        status: "Diagnostic only; not a reconstruction of Drik's internal event criterion."
+      },
+      calculated: {
+        motionType: geometry.motionType,
+        eclipticSeparationDegrees: geometry.eclipticSeparation,
+        true3dSeparationDegrees: geometry.trueSeparation,
+        classicalThresholdDegrees: geometry.threshold,
+        eclipticResidualFromThresholdDegrees: geometry.eclipticResidual,
+        true3dResidualFromThresholdDegrees: geometry.trueResidual,
+        sunAltitudeDegrees: sun.altitude,
+        planetAltitudeDegrees: planet.altitude,
+        azimuthDifferenceDegrees: angularDifference(planet.azimuth, sun.azimuth),
+        planetAzimuthDegrees: planet.azimuth,
+        sunAzimuthDegrees: sun.azimuth
+      }
+    };
+  });
+  const report = {
+    schemaVersion: "1.0.0",
+    reportType: "drik-published-boundary-geometry-diagnostic",
+    generatedAtUTC: new Date().toISOString(),
+    importantLimit: "Published Drik event times are inputs. Geometry at those instants is calculated independently; this is not proof of naked-eye visibility or Drik's private event algorithm.",
+    observerDefaults: {
+      locationLabel: "Pithoragarh",
+      latitude: CONFIG.latitude,
+      longitude: CONFIG.longitude,
+      elevationMeters: CONFIG.elevation,
+      timeZone: "Asia/Kolkata"
+    },
+    events
+  };
+  const json = JSON.stringify(report, null, 2);
+  try {
+    await navigator.clipboard.writeText(json);
+    document.getElementById("drikBoundaryOutput").insertAdjacentHTML("afterbegin",
+      '<div class="status ok">पूर्ण-सटीकता वाला JSON क्लिपबोर्ड में कॉपी हुआ। यह निदान है, प्रमाणित दृश्यता-मॉडल नहीं।</div>');
+  } catch (error) {
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(new Blob([json], {type:"application/json"}));
+    link.href = url;
+    link.download = "drik-boundary-geometry-diagnostic.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+}
+
 function classicalResidual(geometry, useTrue) {
   return useTrue ? geometry.trueResidual : geometry.eclipticResidual;
 }
@@ -3991,6 +4062,8 @@ document
   .addEventListener("click", () => {
     try {
       runDrikBoundaryAudit();
+  .getElementById("copyDrikBoundaryBtn")
+  .addEventListener("click", copyDrikBoundaryAuditJSON);
       setStatus("Drik boundary geometry calculated (diagnostic only).", "info");
     } catch (error) {
       console.error("DRIK BOUNDARY AUDIT ERROR:", error);
