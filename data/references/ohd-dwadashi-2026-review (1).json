@@ -1,0 +1,2133 @@
+{
+  "schemaVersion": 1,
+  "year": 2026,
+  "status": "needs-review",
+  "calculationStatus": "panchang-engine-calculated",
+  "location": {
+    "name": "पिथौरागढ़",
+    "latitude": 29.58,
+    "longitude": 80.22,
+    "elevation": 1650,
+    "timezone": "Asia/Kolkata",
+    "timezoneOffset": 330
+  },
+  "selectionPolicy": {
+    "dwadashiCalendar": "सूर्योदय पर द्वादशी की तारीख़ें candidate हैं; प्रत्येक व्रत के स्वतंत्र काल-नियम के बाद ही selectedDate स्वीकृत करें",
+    "chaturmas": "उदयव्यापिनी स्मार्त मान्यता; एकाधिक सूर्योदय-दिन हों तो प्रथम सूर्योदय-दिन",
+    "traditions": "एक तिथि का एक कार्ड; अनेक नाम aliases, अलग observance विवरण सुरक्षित"
+  },
+  "tithis": [
+    {
+      "id": "chaitra-krishna",
+      "month": "चैत्र",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-03-16"
+      ],
+      "noonDates": [
+        "2026-03-16"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-03-16",
+          "sunrise": "2026-03-16T00:48:31.196Z",
+          "tithiStartTime": "2026-03-15T03:46:56.712Z",
+          "tithiEndTime": "2026-03-16T04:11:16.190Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-03-16",
+          "tithiStartTime": "2026-03-15T03:46:56.712Z",
+          "tithiEndTime": "2026-03-16T04:11:16.190Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-03-16"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-03-16",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "कृष्ण-नृसिंह द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "chaitra-shukla",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-03-30"
+      ],
+      "noonDates": [
+        "2026-03-30"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-03-30",
+          "sunrise": "2026-03-30T00:31:51.020Z",
+          "tithiStartTime": "2026-03-29T02:16:52.227Z",
+          "tithiEndTime": "2026-03-30T01:40:03.536Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-03-30",
+          "tithiStartTime": "2026-03-29T02:16:52.227Z",
+          "tithiEndTime": "2026-03-30T01:40:03.536Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-03-30"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-03-30",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "मदन द्वादशी",
+        "भर्तृ द्वादशी",
+        "वामन-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "madana",
+          "name": "मदन द्वादशी",
+          "deity": "कामरूपी भगवान अच्युत",
+          "shortDetail": "कलश, श्वेत अक्षत, गन्ने, फल और श्वेत चंदन से सजाकर कामरूपी अच्युत की पूजा की जाती है। अगले दिन दान और ब्राह्मण-भोजन का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "bhartr",
+          "name": "भर्तृ द्वादशी",
+          "deity": "श्री-हरि एवं लक्ष्मी",
+          "shortDetail": "पुष्प-मंडप से सजी शय्या पर लक्ष्मी-हरि की पूजा, रात्रि-जागरण तथा अगले दिन शय्या और प्रतिमा के दान का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "vamana",
+          "name": "वामन-द्वादशी",
+          "deity": "भगवान वामन",
+          "shortDetail": "बलि से तीनों लोक प्राप्त करने वाले वामन की पूजा; कमण्डलु, छत्र और पादुका-युक्त प्रतिमा का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "vaishakha-krishna",
+      "month": "वैशाख",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-04-14"
+      ],
+      "noonDates": [
+        "2026-04-14"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-04-14",
+          "sunrise": "2026-04-14T00:14:34.615Z",
+          "tithiStartTime": "2026-04-13T19:39:05.628Z",
+          "tithiEndTime": "2026-04-14T18:42:46.398Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-04-14",
+          "tithiStartTime": "2026-04-13T19:39:05.628Z",
+          "tithiEndTime": "2026-04-14T18:42:46.398Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-04-14"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-04-14",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "कृष्ण-वामन द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "vaishakha-shukla",
+      "month": "वैशाख",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-04-28"
+      ],
+      "noonDates": [
+        "2026-04-28"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-04-28",
+          "sunrise": "2026-04-28T00:00:20.359Z",
+          "tithiStartTime": "2026-04-27T12:46:21.771Z",
+          "tithiEndTime": "2026-04-28T13:22:17.179Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-04-28",
+          "tithiStartTime": "2026-04-27T12:46:21.771Z",
+          "tithiEndTime": "2026-04-28T13:22:17.179Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-04-28"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-04-28",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "माधव-द्वादशी व्रत",
+        "परशुराम-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "madhava",
+          "name": "माधव-द्वादशी व्रत",
+          "deity": "भगवान माधव",
+          "shortDetail": "इन्द्रिय-संयम और उपवास के साथ माधव-पूजन; जल-कलश सहित मधुर पक्वान्न का दान बताया गया है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "parashurama",
+          "name": "परशुराम-द्वादशी",
+          "deity": "भगवान परशुराम",
+          "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "jyeshtha-krishna-adhika",
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": true,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-06-12"
+      ],
+      "noonDates": [
+        "2026-06-12"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-06-12",
+          "sunrise": "2026-06-11T23:38:53.908Z",
+          "tithiStartTime": "2026-06-11T17:06:37.182Z",
+          "tithiEndTime": "2026-06-12T14:07:01.296Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-06-12",
+          "tithiStartTime": "2026-06-11T17:06:37.182Z",
+          "tithiEndTime": "2026-06-12T14:07:01.296Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-06-12"
+      ],
+      "referenceDate": "2026-06-12",
+      "drik2026Labels": [
+        "अधिक कृष्ण रामलक्ष्मण द्वादशी"
+      ],
+      "selectedDate": "2026-06-12",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "अधिक कृष्ण रामलक्ष्मण द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "jyeshtha-shukla-adhika",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "adhika": true,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-05-28"
+      ],
+      "noonDates": [
+        "2026-05-28"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-05-28",
+          "sunrise": "2026-05-27T23:41:05.101Z",
+          "tithiStartTime": "2026-05-27T00:52:07.795Z",
+          "tithiEndTime": "2026-05-28T02:27:20.136Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-05-28",
+          "tithiStartTime": "2026-05-27T00:52:07.795Z",
+          "tithiEndTime": "2026-05-28T02:27:20.136Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-05-28"
+      ],
+      "referenceDate": "2026-05-27",
+      "drik2026Labels": [
+        "उन्मीलिनी महाद्वादशी",
+        "अधिक रामलक्ष्मण द्वादशी"
+      ],
+      "selectedDate": "2026-05-28",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "अधिक रामलक्ष्मण द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [
+        {
+          "id": "unmilini",
+          "name": "उन्मीलिनी महाद्वादशी",
+          "ruleRef": "mahaDwadashi.types.unmilini",
+          "status": "condition-required"
+        }
+      ],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "jyeshtha-krishna",
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-05-14"
+      ],
+      "noonDates": [
+        "2026-05-14"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-05-14",
+          "sunrise": "2026-05-13T23:47:46.359Z",
+          "tithiStartTime": "2026-05-13T08:00:15.846Z",
+          "tithiEndTime": "2026-05-14T05:50:57.849Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-05-14",
+          "tithiStartTime": "2026-05-13T08:00:15.846Z",
+          "tithiEndTime": "2026-05-14T05:50:57.849Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-05-14"
+      ],
+      "referenceDate": "2026-05-13",
+      "drik2026Labels": [
+        "कृष्ण परशुराम द्वादशी"
+      ],
+      "selectedDate": "2026-05-14",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "कृष्ण परशुराम द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "jyeshtha-shukla",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-06-26"
+      ],
+      "noonDates": [
+        "2026-06-26"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-06-26",
+          "sunrise": "2026-06-25T23:41:16.878Z",
+          "tithiStartTime": "2026-06-25T14:39:43.548Z",
+          "tithiEndTime": "2026-06-26T16:52:36.216Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-06-26",
+          "tithiStartTime": "2026-06-25T14:39:43.548Z",
+          "tithiEndTime": "2026-06-26T16:52:36.216Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-06-26"
+      ],
+      "referenceDate": "2026-06-26",
+      "drik2026Labels": [
+        "पक्षवर्द्धिनी महाद्वादशी",
+        "रामलक्ष्मण द्वादशी",
+        "चम्पक द्वादशी"
+      ],
+      "selectedDate": "2026-06-26",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "त्रिविक्रम-द्वादशी व्रत",
+        "राम-द्वादशी",
+        "रामलक्ष्मण द्वादशी",
+        "चम्पक द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "trivikrama",
+          "name": "त्रिविक्रम-द्वादशी व्रत",
+          "deity": "भगवान त्रिविक्रम",
+          "shortDetail": "त्रिविक्रम की गंध-पुष्पादि से पूजा, जल-पात्र और मधुर भोजन का दान तथा एकभुक्त का उल्लेख है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "rama",
+          "name": "राम-द्वादशी",
+          "deity": "भगवान श्रीराम एवं लक्ष्मण",
+          "shortDetail": "श्रीराम और लक्ष्मण की युगल प्रतिमाओं की पूजा का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [
+        {
+          "id": "pakshavardhini",
+          "name": "पक्षवर्द्धिनी महाद्वादशी",
+          "ruleRef": "mahaDwadashi.types.pakshavardhini",
+          "status": "condition-required"
+        }
+      ],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "ashadha-krishna",
+      "month": "आषाढ़",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [],
+      "noonDates": [],
+      "sunriseObservations": [],
+      "noonObservations": [],
+      "candidateDates": [],
+      "referenceDate": "2026-07-11",
+      "drik2026Labels": [
+        "त्रिस्पर्शा महाद्वादशी",
+        "कृष्ण रामलक्ष्मण द्वादशी"
+      ],
+      "selectedDate": null,
+      "dateSelection": "reference-date-awaiting-local-observation",
+      "displayNames": [
+        "कृष्ण रामलक्ष्मण द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [
+        {
+          "id": "trishprisha",
+          "name": "त्रिस्पर्शा महाद्वादशी",
+          "ruleRef": "mahaDwadashi.types.trishprisha",
+          "status": "condition-required"
+        }
+      ],
+      "crossReferences": [],
+      "status": "needs-local-observation"
+    },
+    {
+      "id": "ashadha-shukla",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-07-26"
+      ],
+      "noonDates": [
+        "2026-07-26"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-07-26",
+          "sunrise": "2026-07-25T23:55:39.988Z",
+          "tithiStartTime": "2026-07-25T06:04:40.295Z",
+          "tithiEndTime": "2026-07-26T08:28:12.038Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-07-26",
+          "tithiStartTime": "2026-07-25T06:04:40.295Z",
+          "tithiEndTime": "2026-07-26T08:28:12.038Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-07-26"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-07-26",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "आषाढ़ शुक्ल द्वादशी-व्रत",
+        "वासुदेव-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "ashadha-vishnu",
+          "name": "आषाढ़ शुक्ल द्वादशी-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "बारह ब्राह्मणों का क्रमशः पूजन, मधुर भोजन तथा यथाशक्ति वस्त्र, दण्ड, यज्ञोपवीत, अंगूठी और पात्र देने का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "vasudeva",
+          "name": "वासुदेव-द्वादशी",
+          "deity": "भगवान वासुदेव",
+          "shortDetail": "चतुर्व्यूह सहित वासुदेव-रूप की पूजा और कलश में स्थापित प्रतिमा का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "shravana-krishna",
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-08-10"
+      ],
+      "noonDates": [
+        "2026-08-10"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-08-10",
+          "sunrise": "2026-08-10T00:04:27.874Z",
+          "tithiStartTime": "2026-08-09T05:35:23.959Z",
+          "tithiEndTime": "2026-08-10T02:31:12.865Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-08-10",
+          "tithiStartTime": "2026-08-09T05:35:23.959Z",
+          "tithiEndTime": "2026-08-10T02:31:12.865Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-08-10"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-08-10",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "कृष्ण-वासुदेव द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "shravana-shukla",
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-08-24",
+        "2026-08-25"
+      ],
+      "noonDates": [
+        "2026-08-24",
+        "2026-08-25"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-08-24",
+          "sunrise": "2026-08-24T00:12:24.287Z",
+          "tithiStartTime": "2026-08-23T22:49:04.682Z",
+          "tithiEndTime": "2026-08-25T00:51:13.332Z"
+        },
+        {
+          "date": "2026-08-25",
+          "sunrise": "2026-08-25T00:12:57.072Z",
+          "tithiStartTime": null,
+          "tithiEndTime": "2026-08-25T00:51:13.323Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-08-24",
+          "tithiStartTime": "2026-08-23T22:49:04.682Z",
+          "tithiEndTime": "2026-08-25T00:51:13.332Z"
+        },
+        {
+          "date": "2026-08-25",
+          "tithiStartTime": null,
+          "tithiEndTime": "2026-08-25T00:51:13.323Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-08-24",
+        "2026-08-25"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": null,
+      "dateSelection": "requires-vrata-specific-rule",
+      "displayNames": [
+        "श्रीधर-द्वादशी व्रत",
+        "दामोदर-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "sridhara",
+          "name": "श्रीधर-द्वादशी व्रत",
+          "deity": "भगवान श्रीधर",
+          "shortDetail": "श्रीधर-पूजन, दही सहित भोजन का दान और दक्षिणा का विधान बताया गया है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "damodara",
+          "name": "दामोदर-द्वादशी",
+          "deity": "भगवान दामोदर",
+          "shortDetail": "यशोदा द्वारा रस्सी से बाँधे गए बालकृष्ण-दामोदर की पूजा और प्रतिमा-दान का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [
+        {
+          "id": "vanjuli",
+          "name": "वंजुली महाद्वादशी",
+          "ruleRef": "mahaDwadashi.types.vanjuli",
+          "status": "condition-required"
+        }
+      ],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "bhadrapada-krishna",
+      "month": "भाद्रपद",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-09-08"
+      ],
+      "noonDates": [
+        "2026-09-08"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-09-08",
+          "sunrise": "2026-09-08T00:20:23.437Z",
+          "tithiStartTime": "2026-09-07T11:34:30.482Z",
+          "tithiEndTime": "2026-09-08T09:13:18.760Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-09-08",
+          "tithiStartTime": "2026-09-07T11:34:30.482Z",
+          "tithiEndTime": "2026-09-08T09:13:18.760Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-09-08"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-09-08",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "कृष्ण-दामोदर द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "bhadrapada-shukla",
+      "month": "भाद्रपद",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-09-23"
+      ],
+      "noonDates": [
+        "2026-09-23"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-09-23",
+          "sunrise": "2026-09-23T00:28:14.746Z",
+          "tithiStartTime": "2026-09-22T16:13:37.432Z",
+          "tithiEndTime": "2026-09-23T17:20:50.513Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-09-23",
+          "tithiStartTime": "2026-09-22T16:13:37.432Z",
+          "tithiEndTime": "2026-09-23T17:20:50.513Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-09-23"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-09-23",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "वामन-द्वादशी व्रत",
+        "दामोदर-द्वादशी व्रत",
+        "नीराजन-व्रत",
+        "कल्कि-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "vamana",
+          "name": "वामन-द्वादशी व्रत",
+          "deity": "भगवान वामन",
+          "shortDetail": "भगवान वामन की पूजा, बारह ब्राह्मणों को पायस-भोजन तथा स्वर्ण-दक्षिणा का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "damodara",
+          "name": "दामोदर-द्वादशी व्रत",
+          "deity": "भगवान दामोदर",
+          "shortDetail": "दामोदर-पूजन, बारह ब्राह्मणों को भोजन तथा वस्त्राच्छादित जल-कलश, मोदक और स्वर्ण के दान का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "niranjana",
+          "name": "नीराजन-व्रत",
+          "deity": "भगवान हरि",
+          "shortDetail": "भगवान के योगनिद्रा से जागने के उपलक्ष्य में रात्रि में दीप, मंत्र, हवन और रजत-दीप से हरि का नीराजन; तत्पश्चात लक्ष्मी तथा अन्य देवशक्तियों का क्रमशः नीराजन बताया गया है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "kalki",
+          "name": "कल्कि-द्वादशी",
+          "deity": "भगवान कल्कि",
+          "shortDetail": "भविष्य में प्रकट होने वाले कल्कि-अवतार की पूजा और कल्कि-प्रतिमा का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [
+        {
+          "name": "विष्णुशृंखला योग द्वादशी",
+          "source": "Drik Panchang",
+          "relation": "योग-आधारित कैलेंडर नाम; पुराणोक्त महाद्वादशी से स्वतः समान न मानें",
+          "status": "date-condition-required"
+        }
+      ],
+      "status": "needs-review"
+    },
+    {
+      "id": "ashwin-krishna",
+      "month": "आश्विन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-10-07"
+      ],
+      "noonDates": [
+        "2026-10-07"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-10-07",
+          "sunrise": "2026-10-07T00:36:00.203Z",
+          "tithiStartTime": "2026-10-06T19:04:52.635Z",
+          "tithiEndTime": "2026-10-07T17:46:54.492Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-10-07",
+          "tithiStartTime": "2026-10-06T19:04:52.635Z",
+          "tithiEndTime": "2026-10-07T17:46:54.492Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-10-07"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-10-07",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "कृष्ण-कल्कि द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "ashwin-shukla",
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-10-23"
+      ],
+      "noonDates": [
+        "2026-10-23"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-10-23",
+          "sunrise": "2026-10-23T00:46:08.354Z",
+          "tithiStartTime": "2026-10-22T09:18:24.528Z",
+          "tithiEndTime": "2026-10-23T09:06:15.366Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-10-23",
+          "tithiStartTime": "2026-10-22T09:18:24.528Z",
+          "tithiEndTime": "2026-10-23T09:06:15.366Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-10-23"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-10-23",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "पद्मनाभ-द्वादशी व्रत",
+        "पद्मनाभ-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "padmanabha",
+          "name": "पद्मनाभ-द्वादशी व्रत",
+          "deity": "भगवान पद्मनाभ",
+          "shortDetail": "पद्मनाभ-पूजन, मधुर भोजन और स्वर्ण-दक्षिणा का विधान बताया गया है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "padmanabha",
+          "name": "पद्मनाभ-द्वादशी",
+          "deity": "भगवान पद्मनाभ",
+          "shortDetail": "नाभि-कमलधारी पद्मनाभ की पूजा और कलश में स्थापित प्रतिमा के दान का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "kartika-krishna",
+      "month": "कार्तिक",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-11-06"
+      ],
+      "noonDates": [
+        "2026-11-06"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-11-06",
+          "sunrise": "2026-11-06T00:56:23.173Z",
+          "tithiStartTime": "2026-11-05T05:06:00.008Z",
+          "tithiEndTime": "2026-11-06T05:00:59.972Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-11-06",
+          "tithiStartTime": "2026-11-05T05:06:00.008Z",
+          "tithiEndTime": "2026-11-06T05:00:59.972Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-11-06"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-11-06",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "गोवत्स द्वादशी",
+        "कृष्ण-पद्मनाभ द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "govatsa",
+          "name": "गोवत्स द्वादशी",
+          "deity": "गाय एवं बछड़ा",
+          "shortDetail": "ताम्र-पात्र पर गाय-बछड़े का चित्र बनाकर पूजा, अर्घ्य और गायों को चारा/भोजन कराने का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "kartika-shukla",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-11-21"
+      ],
+      "noonDates": [
+        "2026-11-21"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-11-21",
+          "sunrise": "2026-11-21T01:08:29.488Z",
+          "tithiStartTime": "2026-11-21T01:01:52.606Z",
+          "tithiEndTime": "2026-11-21T23:26:52.075Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-11-21",
+          "tithiStartTime": "2026-11-21T01:01:52.606Z",
+          "tithiEndTime": "2026-11-21T23:26:52.075Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-11-21"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-11-21",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "सहस्रशीर्ष नारायण द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "sahasrashirsha",
+          "name": "सहस्रशीर्ष नारायण द्वादशी",
+          "deity": "सहस्रशीर्ष भगवान नारायण",
+          "shortDetail": "योगनिद्रा में स्थित सहस्रशीर्ष नारायण की पूजा तथा चार समुद्र-कलश और प्रतिमा के दान का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [
+        {
+          "name": "योगेश्वर द्वादशी",
+          "source": "Drik Panchang",
+          "relation": "कार्तिक शुक्ल द्वादशी का कैलेंडर नाम; देवोत्थान एकादशी/द्वादशी से स्वतः समान न मानें",
+          "status": "cross-reference"
+        },
+        {
+          "name": "गरुड़ द्वादशी",
+          "source": "Drik Panchang",
+          "relation": "उसी तिथि के कैलेंडर में दिया गया नाम; पृथक पुराण-स्रोत न जोड़ा जाए",
+          "status": "cross-reference"
+        }
+      ],
+      "status": "needs-review"
+    },
+    {
+      "id": "margashirsha-krishna",
+      "month": "मार्गशीर्ष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-12-05"
+      ],
+      "noonDates": [
+        "2026-12-05"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-12-05",
+          "sunrise": "2026-12-05T01:19:39.861Z",
+          "tithiStartTime": "2026-12-04T18:15:06.795Z",
+          "tithiEndTime": "2026-12-05T19:22:21.029Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-12-05",
+          "tithiStartTime": "2026-12-04T18:15:06.795Z",
+          "tithiEndTime": "2026-12-05T19:22:21.029Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-12-05"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-12-05",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [
+        {
+          "name": "कृष्ण-योगेश्वर द्वादशी",
+          "source": "Drik Panchang",
+          "relation": "कैलेंडर संदर्भ नाम",
+          "status": "cross-reference"
+        }
+      ],
+      "status": "needs-review"
+    },
+    {
+      "id": "margashirsha-shukla",
+      "month": "मार्गशीर्ष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-12-21"
+      ],
+      "noonDates": [
+        "2026-12-21"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-12-21",
+          "sunrise": "2026-12-21T01:30:04.077Z",
+          "tithiStartTime": "2026-12-20T14:44:58.638Z",
+          "tithiEndTime": "2026-12-21T12:06:45.517Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-12-21",
+          "tithiStartTime": "2026-12-20T14:44:58.638Z",
+          "tithiEndTime": "2026-12-21T12:06:45.517Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-12-21"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-12-21",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "साध्य-व्रत",
+        "सामान्य द्वादशी-व्रत",
+        "मत्स्य द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "sadhya",
+          "name": "साध्य-व्रत",
+          "deity": "बारह साध्य देवता",
+          "shortDetail": "बारह साध्य देवताओं का कुश-आसन पर पूजन, बारह ब्राह्मणों को भोजन और दक्षिणा का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "standard-margashirsha",
+          "name": "सामान्य द्वादशी-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "वराह पुराण के इस मासिक क्रम में मार्गशीर्ष के लिए अलग अवतार-नाम नहीं दिया गया; इसे सामान्य द्वादशी-व्रत के रूप में रखा गया है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "pausha-krishna",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2027-01-04"
+      ],
+      "noonDates": [
+        "2027-01-04"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2027-01-04",
+          "sunrise": "2027-01-04T01:35:00.546Z",
+          "tithiStartTime": "2027-01-03T10:38:44.116Z",
+          "tithiEndTime": "2027-01-04T12:46:02.580Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2027-01-04",
+          "tithiStartTime": "2027-01-03T10:38:44.116Z",
+          "tithiEndTime": "2027-01-04T12:46:02.580Z"
+        }
+      ],
+      "candidateDates": [
+        "2027-01-04"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2027-01-04",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "रूप-व्रत"
+      ],
+      "observances": [
+        {
+          "id": "rupa",
+          "name": "रूप-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "दशमी से तैयारी, एकादशी-उपवास और जागरण; द्वादशी प्रातः विष्णु-पूजन, तिल-घृत से होम तथा पायस-भोजन और दान का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "pausha-shukla",
+      "month": "पौष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [],
+      "noonDates": [],
+      "sunriseObservations": [],
+      "noonObservations": [],
+      "candidateDates": [],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": null,
+      "dateSelection": "no-observation-in-scan-window",
+      "displayNames": [
+        "सुजन्न-द्वादशी",
+        "कूर्म-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "sujanna",
+          "name": "सुजन्न-द्वादशी",
+          "deity": "सूर्य",
+          "shortDetail": "एक वर्ष तक प्रत्येक शुक्ल द्वादशी पर निर्दिष्ट दान और संयम का क्रम; वर्षांत में सूर्य-प्रतिमा, गौदान और ब्राह्मण-भोजन का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "kurma",
+          "name": "कूर्म-द्वादशी",
+          "deity": "भगवान कूर्म",
+          "shortDetail": "समुद्र-मंथन में कूर्म-रूप धारण करने वाले विष्णु की पूजा और कूर्म-प्रतिमा सहित कलश का दान बताया गया है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-observation"
+    },
+    {
+      "id": "magha-krishna",
+      "month": "माघ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-01-15"
+      ],
+      "noonDates": [
+        "2026-01-15"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-01-15",
+          "sunrise": "2026-01-15T01:35:18.536Z",
+          "tithiStartTime": "2026-01-14T12:23:10.965Z",
+          "tithiEndTime": "2026-01-15T14:46:56.222Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-01-15",
+          "tithiStartTime": "2026-01-14T12:23:10.965Z",
+          "tithiEndTime": "2026-01-15T14:46:56.222Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-01-15"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-01-15",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "कृष्ण-कूर्म द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "magha-shukla",
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-01-30"
+      ],
+      "noonDates": [
+        "2026-01-30"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-01-30",
+          "sunrise": "2026-01-30T01:30:22.224Z",
+          "tithiStartTime": "2026-01-29T08:25:35.864Z",
+          "tithiEndTime": "2026-01-30T05:39:36.043Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-01-30",
+          "tithiStartTime": "2026-01-29T08:25:35.864Z",
+          "tithiEndTime": "2026-01-30T05:39:36.043Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-01-30"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-01-30",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "वराह-द्वादशी",
+        "भीष्म द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "varaha",
+          "name": "वराह-द्वादशी",
+          "deity": "भगवान वराह",
+          "shortDetail": "भूदेवी के उद्धारकर्ता वराह-रूप की पूजा; स्वर्ण-वराह प्रतिमा और बीजों से भरे पात्र का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "phalguna-krishna",
+      "month": "फाल्गुन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-02-14"
+      ],
+      "noonDates": [
+        "2026-02-14"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-02-14",
+          "sunrise": "2026-02-14T01:19:58.631Z",
+          "tithiStartTime": "2026-02-13T08:56:20.075Z",
+          "tithiEndTime": "2026-02-14T10:32:07.188Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-02-14",
+          "tithiStartTime": "2026-02-13T08:56:20.075Z",
+          "tithiEndTime": "2026-02-14T10:32:07.188Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-02-14"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-02-14",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "कृष्ण-भीष्म द्वादशी"
+      ],
+      "observances": [],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    },
+    {
+      "id": "phalguna-shukla",
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2026-02-28"
+      ],
+      "noonDates": [
+        "2026-02-28"
+      ],
+      "sunriseObservations": [
+        {
+          "date": "2026-02-28",
+          "sunrise": "2026-02-28T01:06:33.980Z",
+          "tithiStartTime": "2026-02-27T17:03:16.280Z",
+          "tithiEndTime": "2026-02-28T15:13:40.523Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-02-28",
+          "tithiStartTime": "2026-02-27T17:03:16.280Z",
+          "tithiEndTime": "2026-02-28T15:13:40.523Z"
+        }
+      ],
+      "candidateDates": [
+        "2026-02-28"
+      ],
+      "referenceDate": null,
+      "drik2026Labels": [],
+      "selectedDate": "2026-02-28",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "श्रीहरि-द्वादशी व्रत",
+        "नृसिंह-द्वादशी"
+      ],
+      "observances": [
+        {
+          "id": "phalguna-hari",
+          "name": "श्रीहरि-द्वादशी व्रत",
+          "deity": "भगवान श्रीहरि",
+          "shortDetail": "श्रीहरि की गंध-पुष्पादि से पूजा, स्वर्ण-प्रतिमा का दान, बारह ब्राह्मणों को भोजन और दक्षिणा का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        },
+        {
+          "id": "narasimha",
+          "name": "नृसिंह-द्वादशी",
+          "deity": "भगवान नृसिंह",
+          "shortDetail": "हिरण्यकशिपु-वध करने वाले नृसिंह की पूजा और नृसिंह-प्रतिमा के दान का विधान है।",
+          "sourceProfile": "varahaPurana",
+          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review"
+    }
+  ],
+  "tithiDates": [
+    {
+      "date": "2026-01-15",
+      "month": "माघ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-01-15",
+          "sunrise": "2026-01-15T01:35:18.536Z",
+          "tithiStartTime": "2026-01-14T12:23:10.965Z",
+          "tithiEndTime": "2026-01-15T14:46:56.222Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-01-15",
+          "tithiStartTime": "2026-01-14T12:23:10.965Z",
+          "tithiEndTime": "2026-01-15T14:46:56.222Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-30",
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-01-30",
+          "sunrise": "2026-01-30T01:30:22.224Z",
+          "tithiStartTime": "2026-01-29T08:25:35.864Z",
+          "tithiEndTime": "2026-01-30T05:39:36.043Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-01-30",
+          "tithiStartTime": "2026-01-29T08:25:35.864Z",
+          "tithiEndTime": "2026-01-30T05:39:36.043Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-14",
+      "month": "फाल्गुन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-02-14",
+          "sunrise": "2026-02-14T01:19:58.631Z",
+          "tithiStartTime": "2026-02-13T08:56:20.075Z",
+          "tithiEndTime": "2026-02-14T10:32:07.188Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-02-14",
+          "tithiStartTime": "2026-02-13T08:56:20.075Z",
+          "tithiEndTime": "2026-02-14T10:32:07.188Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-28",
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-02-28",
+          "sunrise": "2026-02-28T01:06:33.980Z",
+          "tithiStartTime": "2026-02-27T17:03:16.280Z",
+          "tithiEndTime": "2026-02-28T15:13:40.523Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-02-28",
+          "tithiStartTime": "2026-02-27T17:03:16.280Z",
+          "tithiEndTime": "2026-02-28T15:13:40.523Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-16",
+      "month": "चैत्र",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-03-16",
+          "sunrise": "2026-03-16T00:48:31.196Z",
+          "tithiStartTime": "2026-03-15T03:46:56.712Z",
+          "tithiEndTime": "2026-03-16T04:11:16.190Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-03-16",
+          "tithiStartTime": "2026-03-15T03:46:56.712Z",
+          "tithiEndTime": "2026-03-16T04:11:16.190Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-30",
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-03-30",
+          "sunrise": "2026-03-30T00:31:51.020Z",
+          "tithiStartTime": "2026-03-29T02:16:52.227Z",
+          "tithiEndTime": "2026-03-30T01:40:03.536Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-03-30",
+          "tithiStartTime": "2026-03-29T02:16:52.227Z",
+          "tithiEndTime": "2026-03-30T01:40:03.536Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-04-14",
+      "month": "वैशाख",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-04-14",
+          "sunrise": "2026-04-14T00:14:34.615Z",
+          "tithiStartTime": "2026-04-13T19:39:05.628Z",
+          "tithiEndTime": "2026-04-14T18:42:46.398Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-04-14",
+          "tithiStartTime": "2026-04-13T19:39:05.628Z",
+          "tithiEndTime": "2026-04-14T18:42:46.398Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-04-28",
+      "month": "वैशाख",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-04-28",
+          "sunrise": "2026-04-28T00:00:20.359Z",
+          "tithiStartTime": "2026-04-27T12:46:21.771Z",
+          "tithiEndTime": "2026-04-28T13:22:17.179Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-04-28",
+          "tithiStartTime": "2026-04-27T12:46:21.771Z",
+          "tithiEndTime": "2026-04-28T13:22:17.179Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-14",
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-05-14",
+          "sunrise": "2026-05-13T23:47:46.359Z",
+          "tithiStartTime": "2026-05-13T08:00:15.846Z",
+          "tithiEndTime": "2026-05-14T05:50:57.849Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-05-14",
+          "tithiStartTime": "2026-05-13T08:00:15.846Z",
+          "tithiEndTime": "2026-05-14T05:50:57.849Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-28",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "adhika": true,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-05-28",
+          "sunrise": "2026-05-27T23:41:05.101Z",
+          "tithiStartTime": "2026-05-27T00:52:07.795Z",
+          "tithiEndTime": "2026-05-28T02:27:20.136Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-05-28",
+          "tithiStartTime": "2026-05-27T00:52:07.795Z",
+          "tithiEndTime": "2026-05-28T02:27:20.136Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-12",
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": true,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-06-12",
+          "sunrise": "2026-06-11T23:38:53.908Z",
+          "tithiStartTime": "2026-06-11T17:06:37.182Z",
+          "tithiEndTime": "2026-06-12T14:07:01.296Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-06-12",
+          "tithiStartTime": "2026-06-11T17:06:37.182Z",
+          "tithiEndTime": "2026-06-12T14:07:01.296Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-26",
+      "month": "ज्येष्ठ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-06-26",
+          "sunrise": "2026-06-25T23:41:16.878Z",
+          "tithiStartTime": "2026-06-25T14:39:43.548Z",
+          "tithiEndTime": "2026-06-26T16:52:36.216Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-06-26",
+          "tithiStartTime": "2026-06-25T14:39:43.548Z",
+          "tithiEndTime": "2026-06-26T16:52:36.216Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-26",
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-07-26",
+          "sunrise": "2026-07-25T23:55:39.988Z",
+          "tithiStartTime": "2026-07-25T06:04:40.295Z",
+          "tithiEndTime": "2026-07-26T08:28:12.038Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-07-26",
+          "tithiStartTime": "2026-07-25T06:04:40.295Z",
+          "tithiEndTime": "2026-07-26T08:28:12.038Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-10",
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-08-10",
+          "sunrise": "2026-08-10T00:04:27.874Z",
+          "tithiStartTime": "2026-08-09T05:35:23.959Z",
+          "tithiEndTime": "2026-08-10T02:31:12.865Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-08-10",
+          "tithiStartTime": "2026-08-09T05:35:23.959Z",
+          "tithiEndTime": "2026-08-10T02:31:12.865Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-24",
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-08-24",
+          "sunrise": "2026-08-24T00:12:24.287Z",
+          "tithiStartTime": "2026-08-23T22:49:04.682Z",
+          "tithiEndTime": "2026-08-25T00:51:13.332Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-08-24",
+          "tithiStartTime": "2026-08-23T22:49:04.682Z",
+          "tithiEndTime": "2026-08-25T00:51:13.332Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-25",
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-08-25",
+          "sunrise": "2026-08-25T00:12:57.072Z",
+          "tithiStartTime": null,
+          "tithiEndTime": "2026-08-25T00:51:13.323Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-08-25",
+          "tithiStartTime": null,
+          "tithiEndTime": "2026-08-25T00:51:13.323Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-08",
+      "month": "भाद्रपद",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-09-08",
+          "sunrise": "2026-09-08T00:20:23.437Z",
+          "tithiStartTime": "2026-09-07T11:34:30.482Z",
+          "tithiEndTime": "2026-09-08T09:13:18.760Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-09-08",
+          "tithiStartTime": "2026-09-07T11:34:30.482Z",
+          "tithiEndTime": "2026-09-08T09:13:18.760Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-23",
+      "month": "भाद्रपद",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-09-23",
+          "sunrise": "2026-09-23T00:28:14.746Z",
+          "tithiStartTime": "2026-09-22T16:13:37.432Z",
+          "tithiEndTime": "2026-09-23T17:20:50.513Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-09-23",
+          "tithiStartTime": "2026-09-22T16:13:37.432Z",
+          "tithiEndTime": "2026-09-23T17:20:50.513Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-07",
+      "month": "आश्विन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-10-07",
+          "sunrise": "2026-10-07T00:36:00.203Z",
+          "tithiStartTime": "2026-10-06T19:04:52.635Z",
+          "tithiEndTime": "2026-10-07T17:46:54.492Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-10-07",
+          "tithiStartTime": "2026-10-06T19:04:52.635Z",
+          "tithiEndTime": "2026-10-07T17:46:54.492Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-23",
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-10-23",
+          "sunrise": "2026-10-23T00:46:08.354Z",
+          "tithiStartTime": "2026-10-22T09:18:24.528Z",
+          "tithiEndTime": "2026-10-23T09:06:15.366Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-10-23",
+          "tithiStartTime": "2026-10-22T09:18:24.528Z",
+          "tithiEndTime": "2026-10-23T09:06:15.366Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-11-06",
+      "month": "कार्तिक",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-11-06",
+          "sunrise": "2026-11-06T00:56:23.173Z",
+          "tithiStartTime": "2026-11-05T05:06:00.008Z",
+          "tithiEndTime": "2026-11-06T05:00:59.972Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-11-06",
+          "tithiStartTime": "2026-11-05T05:06:00.008Z",
+          "tithiEndTime": "2026-11-06T05:00:59.972Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-11-21",
+          "sunrise": "2026-11-21T01:08:29.488Z",
+          "tithiStartTime": "2026-11-21T01:01:52.606Z",
+          "tithiEndTime": "2026-11-21T23:26:52.075Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-11-21",
+          "tithiStartTime": "2026-11-21T01:01:52.606Z",
+          "tithiEndTime": "2026-11-21T23:26:52.075Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-12-05",
+      "month": "मार्गशीर्ष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-12-05",
+          "sunrise": "2026-12-05T01:19:39.861Z",
+          "tithiStartTime": "2026-12-04T18:15:06.795Z",
+          "tithiEndTime": "2026-12-05T19:22:21.029Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-12-05",
+          "tithiStartTime": "2026-12-04T18:15:06.795Z",
+          "tithiEndTime": "2026-12-05T19:22:21.029Z"
+        }
+      ]
+    },
+    {
+      "date": "2026-12-21",
+      "month": "मार्गशीर्ष",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2026-12-21",
+          "sunrise": "2026-12-21T01:30:04.077Z",
+          "tithiStartTime": "2026-12-20T14:44:58.638Z",
+          "tithiEndTime": "2026-12-21T12:06:45.517Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2026-12-21",
+          "tithiStartTime": "2026-12-20T14:44:58.638Z",
+          "tithiEndTime": "2026-12-21T12:06:45.517Z"
+        }
+      ]
+    },
+    {
+      "date": "2027-01-04",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "observedAtSunrise": true,
+      "observedAtNoon": true,
+      "sunriseObservations": [
+        {
+          "date": "2027-01-04",
+          "sunrise": "2027-01-04T01:35:00.546Z",
+          "tithiStartTime": "2027-01-03T10:38:44.116Z",
+          "tithiEndTime": "2027-01-04T12:46:02.580Z"
+        }
+      ],
+      "noonObservations": [
+        {
+          "date": "2027-01-04",
+          "tithiStartTime": "2027-01-03T10:38:44.116Z",
+          "tithiEndTime": "2027-01-04T12:46:02.580Z"
+        }
+      ]
+    }
+  ],
+  "chaturmas": {
+    "schemaVersion": 1,
+    "year": 2026,
+    "status": "incomplete",
+    "selectionMethod": "udayavyapini-smarta-first-sunrise-with-kartik-ekadashi-vrata-rule",
+    "rulesArticleUrl": "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html",
+    "location": {
+      "name": "पिथौरागढ़",
+      "latitude": 29.58,
+      "longitude": 80.22,
+      "elevation": 1650,
+      "timezone": "Asia/Kolkata",
+      "timezoneOffset": 330
+    },
+    "boundaries": [
+      {
+        "id": "start",
+        "month": "आषाढ़",
+        "paksha": "शुक्ल",
+        "tithi": "एकादशी",
+        "observations": [
+          {
+            "date": "2026-07-25",
+            "basis": "sunrise-tithi",
+            "sunrise": "2026-07-24T23:55:05.187Z",
+            "tithiStartTime": "2026-07-24T03:43:10.031Z",
+            "tithiEndTime": "2026-07-25T06:04:40.320Z"
+          }
+        ],
+        "observedDates": [
+          "2026-07-25"
+        ],
+        "selectedDate": "2026-07-25",
+        "selectionBasis": "udayavyapini-smarta-first-sunrise"
+      },
+      {
+        "id": "shak-end",
+        "month": "श्रावण",
+        "paksha": "शुक्ल",
+        "tithi": "द्वादशी",
+        "observations": [
+          {
+            "date": "2026-08-24",
+            "basis": "sunrise-tithi",
+            "sunrise": "2026-08-24T00:12:24.287Z",
+            "tithiStartTime": "2026-08-23T22:49:04.682Z",
+            "tithiEndTime": "2026-08-25T00:51:13.332Z"
+          },
+          {
+            "date": "2026-08-25",
+            "basis": "sunrise-tithi",
+            "sunrise": "2026-08-25T00:12:57.072Z",
+            "tithiStartTime": null,
+            "tithiEndTime": "2026-08-25T00:51:13.323Z"
+          }
+        ],
+        "observedDates": [
+          "2026-08-24",
+          "2026-08-25"
+        ],
+        "selectedDate": "2026-08-24",
+        "selectionBasis": "udayavyapini-smarta-first-sunrise"
+      },
+      {
+        "id": "dahi-end",
+        "month": "भाद्रपद",
+        "paksha": "शुक्ल",
+        "tithi": "द्वादशी",
+        "observations": [
+          {
+            "date": "2026-09-23",
+            "basis": "sunrise-tithi",
+            "sunrise": "2026-09-23T00:28:14.746Z",
+            "tithiStartTime": "2026-09-22T16:13:37.432Z",
+            "tithiEndTime": "2026-09-23T17:20:50.513Z"
+          }
+        ],
+        "observedDates": [
+          "2026-09-23"
+        ],
+        "selectedDate": "2026-09-23",
+        "selectionBasis": "udayavyapini-smarta-first-sunrise"
+      },
+      {
+        "id": "doodh-end",
+        "month": "आश्विन",
+        "paksha": "शुक्ल",
+        "tithi": "द्वादशी",
+        "observations": [
+          {
+            "date": "2026-10-23",
+            "basis": "sunrise-tithi",
+            "sunrise": "2026-10-23T00:46:08.354Z",
+            "tithiStartTime": "2026-10-22T09:18:24.528Z",
+            "tithiEndTime": "2026-10-23T09:06:15.366Z"
+          }
+        ],
+        "observedDates": [
+          "2026-10-23"
+        ],
+        "selectedDate": "2026-10-23",
+        "selectionBasis": "udayavyapini-smarta-first-sunrise"
+      },
+      {
+        "id": "end",
+        "month": "कार्तिक",
+        "paksha": "शुक्ल",
+        "tithi": "एकादशी",
+        "observations": [],
+        "observedDates": [],
+        "selectedDate": null,
+        "selectionBasis": null
+      }
+    ],
+    "missingBoundaries": [
+      "end"
+    ],
+    "startDate": null,
+    "endDate": null,
+    "completionDate": null,
+    "cardVisibleThroughDate": null,
+    "phases": []
+  },
+  "generatedAt": "2026-11-01T17:56:03.255Z",
+  "sourceTool": "ohd-annual-panchang-review",
+  "sourceLibrary": "@ishubhamx/panchangam-js@3.0.0",
+  "note": "स्वीकृत तिथियाँ और चातुर्मास चरण समीक्षा नियंत्रणों से तय किए गए हैं; केवल approved रिकॉर्ड सार्वजनिक विजेट में दिखेंगे।"
+}
