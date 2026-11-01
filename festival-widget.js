@@ -417,8 +417,9 @@
         }
 
         const articleUrl = safeHttpUrl(item.articleUrl);
-        if (articleUrl) {
-          const link = element("a", "ohd-fw-link", item.articleLabel || "विस्तार से पढ़ें →");
+        const articleLabel = typeof item.articleLabel === "string" ? item.articleLabel.trim() : "";
+        if (articleUrl && articleLabel) {
+          const link = element("a", "ohd-fw-link", articleLabel);
           link.href = articleUrl;
           link.target = "_blank";
           link.rel = "noopener noreferrer";
