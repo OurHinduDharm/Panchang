@@ -198,6 +198,52 @@ export function extractAnnualPanchangDay(panchang, date, instant) {
   };
 }
 
+function instantSunRashiIndex(panchang) {
+  const sun = panchang?.planetaryPositions?.sun;
+  let raw = sun?.rashiName ?? sun?.signName ?? sun?.rashi ?? sun?.rashiIndex ?? sun?.sign;
+  if (raw && typeof raw === "object") raw = raw.index ?? raw.number ?? raw.value ?? raw.name ?? raw.label;
+  if (typeof raw === "number" && Number.isInteger(raw) && raw >= 0 && raw <= 11) return raw;
+  const name = String(raw ?? "").toLowerCase();
+  const patterns = [
+    [/mesha|aries|मेष/,0],[/vrishabha|taurus|वृषभ/,1],[/mithuna|gemini|मिथुन/,2],
+    [/karka|cancer|कर्क/,3],[/simha|leo|सिंह/,4],[/kanya|virgo|कन्या/,5],
+    [/tula|libra|तुला/,6],[/vrishchika|scorpio|वृश्चिक/,7],[/dhanu|sagittarius|धनु/,8],
+    [/makara|capricorn|मकर/,9],[/kumbha|aquarius|कुम्भ|कुंभ/,10],[/meena|pisces|मीन/,11]
+  ];
+  return patterns.find(([pattern]) => pattern.test(name))?.[1] ?? null;
+}
+
+function computeSankrantiTimes(scanDays, observer) {
+  const found = [];
+  for (let i = 1; i < scanDays.length; i += 1) {
+    const previous = scanDays[i - 1];
+    const current = scanDays[i];
+    if (!Number.isInteger(previous.sunRashiIndex) || !Number.isInteger(current.sunRashiIndex) ||
+        previous.sunRashiIndex === current.sunRashiIndex) continue;
+    let low = new Date(previous.date + "T06:30:00Z").getTime();
+    let high = new Date(current.date + "T06:30:00Z").getTime();
+    const target = current.sunRashiIndex;
+    for (let step = 0; step < 24 && high - low > 1000; step += 1) {
+      const middle = Math.floor((low + high) / 2);
+      const panchang = getPanchangam(new Date(middle), observer, { timezoneOffset:330, calendarType:"purnimanta" });
+      if (instantSunRashiIndex(panchang) === target) high = middle;
+      else low = middle;
+    }
+    const time = new Date(high);
+    found.push({ date:current.date, time:time.toISOString(), from:previous.sunRashi, to:current.sunRashi });
+    for (let k = 1; k < scanDays.length - 1; k += 1) {
+      const day = scanDays[k], prev = scanDays[k - 1], next = scanDays[k + 1];
+      const before = prev.sunset && day.sunrise ? (new Date(prev.sunset).getTime() + new Date(day.sunrise).getTime()) / 2 : NaN;
+      const after = day.sunset && next.sunrise ? (new Date(day.sunset).getTime() + new Date(next.sunrise).getTime()) / 2 : NaN;
+      if (time.getTime() >= before && time.getTime() < after) {
+        day.sankrantiTimes.push(time.toISOString());
+        break;
+      }
+    }
+  }
+  return found;
+}
+
 async function loadYearCatalog(year) {
   const records = [];
   for (let month = 1; month <= 12; month += 1) {
@@ -220,6 +266,7 @@ export async function generateYear(year, options = {}) {
   const yearDays = (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000;
   const currentYearDays = [];
   const annualDays = [];
+  const scanDays = [];
   const allDwadashiDays = [];
   const engineDiagnostics = [];
   const diagnosticDates = new Set(year === 2026 ? ["2026-07-11","2026-11-20","2026-11-21"] : year === 2028 ? ["2028-11-13"] : []);
@@ -249,10 +296,12 @@ export async function generateYear(year, options = {}) {
       engineDiagnostics.push({ date, noon:raw(noonPanchang), sunrise:raw(sunrisePanchang), normalized:day });
     }
 
+    scanDays.push(annualDay);
     if (offset < yearDays) { currentYearDays.push(day); annualDays.push(annualDay); }
     allDwadashiDays.push(day);
   }
 
+  const sankrantis = computeSankrantiTimes(scanDays, observer);
   const result = buildAnnualDwadashiPackage(allDwadashiDays, rules, location);
   result.sourceReview = buildSourceReviewMetadata(year);
   result.sourceReview.engine = "@ishubhamx/panchangam-js@3.0.0";
@@ -299,7 +348,7 @@ export async function generateYear(year, options = {}) {
       ...result.sourceReview,
       annualFestivalDates:"pending-manual-Drik-and-independent-Panchang-cross-check",
       localEclipseVisibility:"not-calculated-in-this-review-generator",
-      localSankrantiTransitions:"not-calculated-in-this-review-generator",
+      localSankrantiTransitions:"calculated-from-sun-rashi-transitions",\n      sankrantiCount:sankrantis.length,
       note:"Daily Panchanga and Dwadashi candidates are calculated for Pithoragarh. This is a research draft, not an approved annual festival calendar."
     }
   };
