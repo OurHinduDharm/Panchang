@@ -174,7 +174,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       referenceDate: drikReferenceDate,
       drikLabels,
       drik2026Labels: year === 2026 && Array.isArray(drik2026Entry?.labels) ? unique(drik2026Entry.labels) : [],
-      drikSpecialObservances: drikSpecialEntries.map(item => ({ ...item, source:"Drik Panchang", status:"source-cross-reference-needs-local-rule-review" })),
+      drikSpecialObservances: drikSpecialEntries.map(item => ({ ...item, source:"Drik Panchang", sourceUrl:"https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=" + year + "&geoname-id=1259503", status:"source-cross-reference-needs-local-rule-review" })),
       selectedDate: candidateDates.length === 1 ? candidateDates[0] : null,
       dateSelection: candidateDates.length === 1
         ? "single-observation-candidate-review-required"
