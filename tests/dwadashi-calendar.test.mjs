@@ -71,9 +71,9 @@ test("a single sunrise date remains a candidate until a vrata rule is reviewed",
 
 test("noon-only Dwadashi is retained as a candidate without pretending it prevailed at sunrise", () => {
   const day = sunriseDay("2026-04-01","चैत्र","शुक्ल","एकादशी");
-  day.tithi = "द्वादशी";
-  day.tithiStartTime = "2026-04-01T08:00:00.000Z";
-  day.tithiEndTime = "2026-04-02T03:00:00.000Z";
+  day.noonTithi = "द्वादशी";
+  day.noonTithiStartTime = "2026-04-01T08:00:00.000Z";
+  day.noonTithiEndTime = "2026-04-02T03:00:00.000Z";
   const result = buildDwadashiCalendar([day],rules);
   const record=result.tithis.find(item=>item.id==="chaitra-shukla");
   assert.deepEqual(record.sunriseDates,[]);
@@ -108,10 +108,9 @@ test("Chaturmas uses the first sunrise-observed date for each boundary", () => {
     sunriseDay("2026-09-23","भाद्रपद","शुक्ल","द्वादशी"),
     sunriseDay("2026-10-23","आश्विन","शुक्ल","द्वादशी"),
     {
-      date:"2026-11-20", masa:"कार्तिक", paksha:"शुक्ल पक्ष", tithi:"एकादशी",
-      sunrise:"2026-11-20T01:07:00.000Z",
-      tithiStartTime:"2026-11-20T01:15:00.000Z",
-      tithiEndTime:"2026-11-21T01:01:00.000Z",
+      date:"2026-11-20", masa:"कार्तिक", paksha:"शुक्ल पक्ष", tithi:"दशमी",
+      noonTithi:"एकादशी", noonTithiStartTime:"2026-11-20T01:15:00.000Z",
+      noonTithiEndTime:"2026-11-21T01:01:00.000Z", sunrise:"2026-11-20T01:07:00.000Z",
       sunriseTithi:{masa:"कार्तिक",paksha:"शुक्ल पक्ष",tithi:"दशमी"}
     },
     {
