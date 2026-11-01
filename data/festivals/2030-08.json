@@ -4,6 +4,117 @@
   "month": 8,
   "monthName": "अगस्त",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
-  "events": []
+  "locationScope": "Drik Panchang 2030 वार्षिक कैलेंडर से संकलित प्रारम्भिक पर्व-सूची; पिथौरागढ़-विशिष्ट तिथि/तिथि-व्याप्ति और स्थानीय नियमों का सत्यापन शेष।",
+  "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+  "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+  "events": [
+    {
+      "date": "2030-08-02",
+      "dateLabel": "2 अगस्त",
+      "title": "हरियाली तीज",
+      "description": "हरियाली तीज पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-04",
+      "dateLabel": "4 अगस्त",
+      "title": "नाग पंचमी",
+      "description": "नाग पंचमी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-09",
+      "dateLabel": "9 अगस्त",
+      "title": "वरलक्ष्मी व्रत / श्रावण पुत्रदा एकादशी",
+      "description": "वरलक्ष्मी व्रत / श्रावण पुत्रदा एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "व्रत एवं एकादशी",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-13",
+      "dateLabel": "13 अगस्त",
+      "title": "रक्षाबंधन / गायत्री जयंती / श्रावण पूर्णिमा",
+      "description": "रक्षाबंधन / गायत्री जयंती / श्रावण पूर्णिमा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व एवं पूर्णिमा",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-16",
+      "dateLabel": "16 अगस्त",
+      "title": "कजरी तीज",
+      "description": "कजरी तीज पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण तृतीया",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-17",
+      "dateLabel": "17 अगस्त",
+      "title": "सिंह संक्रांति",
+      "description": "सिंह संक्रांति पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का सिंह राशि में प्रवेश",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-21",
+      "dateLabel": "21 अगस्त",
+      "title": "श्रीकृष्ण जन्माष्टमी",
+      "description": "श्रीकृष्ण जन्माष्टमी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "जयंती",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण अष्टमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-24",
+      "dateLabel": "24 अगस्त",
+      "title": "अजा एकादशी",
+      "description": "अजा एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-31",
+      "dateLabel": "31 अगस्त",
+      "title": "हरतालिका तीज",
+      "description": "हरतालिका तीज पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    }
+  ]
 }
