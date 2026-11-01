@@ -46,6 +46,10 @@ test("upcoming festival widget prefers approved annual Chaturmas phases and reta
   assert.match(widget, /candidate\.status === "approved"/);
   assert.match(widget, /completePhases/);
   assert.match(widget, /todayKey < phase\.endDate/);
+  assert.match(widget, /phaseIndex === phases\.length - 1 && todayKey === phase\.endDate/);
+  assert.match(widget, /todayKey >= dateKey\(completionDate\)/);
+  assert.match(widget, /देवोत्थानी एकादशी \(स्मार्त\)/);
+  assert.match(widget, /!\/वैष्णव\|गौण\/i\.test\(item\.title \|\| ""\)/);
   assert.match(widget, /पिछला चरण पूर्ण और अगला चरण वर्तमान होगा/);
   assert.match(widget, /\.\.\/chaturmas\//);
 });
@@ -56,4 +60,13 @@ test("publication instructions keep unreviewed dates out of the live widgets", a
   assert.match(readme, /udayavyapini-smarta-first-sunrise/);
   assert.match(readme, /अधिक मास/);
   assert.match(readme, /स्वीकृति बॉक्स/);
+});
+
+test("2026 Chaturmas keeps the final food restriction through Ekadashi and completes on Dwadashi", async () => {
+  const config = JSON.parse(await read("data/chaturmas/2026.json"));
+  assert.equal(config.endDate, "2026-11-20");
+  assert.equal(config.phases[3].endDate, "2026-11-21");
+  assert.equal(config.completionDate, "2026-11-22");
+  assert.equal(config.cardVisibleThroughDate, "2026-11-22");
+  assert.match(config.completionDetail, /कार्तिक शुक्ल द्वादशी/);
 });
