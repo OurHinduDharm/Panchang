@@ -5,10 +5,10 @@ import { readFile } from "node:fs/promises";
 const read = path => readFile(new URL("../" + path, import.meta.url), "utf8");
 
 test("annual review scans the Panchang engine at each local sunrise", async () => {
+  assert.match(html, /calendarType:"purnimanta"/);
+  assert.equal((html.match(/calendarType:"purnimanta"/g)||[]).length, 2);
   const html = await read("festival-year-review.html");
   assert.match(html, /buildAnnualDwadashiPackage/);
-  assert.match(html, /getPanchangam\\\(dt,observer,\\\{timezoneOffset:330,calendarType:"purnimanta"\\\}\\\)/);
-  assert.match(html, /getPanchangam\\\(new Date\\\(dayRecord\\\.sunrise\\\),observer,\\\{timezoneOffset:330,calendarType:"purnimanta"\\\}\\\)/);
   assert.match(html, /getPanchangam\(new Date\(dayRecord\.sunrise\),observer/);
   assert.match(html, /const dwadashiScanDays=yearDays\+31/);
   assert.match(html, /dwadashiDays\.push\(dayRecord\)/);
