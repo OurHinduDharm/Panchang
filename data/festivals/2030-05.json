@@ -11,8 +11,20 @@
     {
       "date": "2030-05-05",
       "dateLabel": "5 मई",
-      "title": "परशुराम जयंती / अक्षय तृतीया / त्रेता युग दिवस",
-      "description": "परशुराम जयंती / अक्षय तृतीया पर पूजा, व्रत, जप अथवा दान की परंपरा है। इसी तिथि पर त्रेता युग दिवस भी मनाया जाता है।",
+      "title": "त्रेता युग दिवस",
+      "description": "वैशाख शुक्ल तृतीया को त्रेता युग के आरम्भ का स्मरण त्रेता युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=05/05/2030"
+    },
+    {
+      "date": "2030-05-05",
+      "dateLabel": "5 मई",
+      "title": "परशुराम जयंती / अक्षय तृतीया",
+      "description": "परशुराम जयंती और अक्षय तृतीया वैशाख शुक्ल तृतीया को मनाई जाती हैं।",
       "category": "जयंती एवं पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
