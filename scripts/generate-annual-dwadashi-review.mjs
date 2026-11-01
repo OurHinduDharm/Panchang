@@ -24,8 +24,11 @@ function rawValue(value) {
 }
 
 export function normalizeEngineTithi(value) {
+  const raw = String(rawValue(value)).trim();
+  const aliases = { Pratipada:"प्रतिपदा", Dwitiya:"द्वितीया", Tritiya:"तृतीया", Chaturthi:"चतुर्थी", Panchami:"पञ्चमी", Shashthi:"षष्ठी", Sashti:"षष्ठी", Saptami:"सप्तमी", Ashtami:"अष्टमी", Navami:"नवमी", Dashami:"दशमी", Ekadashi:"एकादशी", Dwadashi:"द्वादशी", Trayodashi:"त्रयोदशी", Chaturdashi:"चतुर्दशी", Purnima:"पूर्णिमा", Amavasya:"अमावस्या" };
+  if (aliases[raw]) return aliases[raw];
   const number = Number(rawValue(value));
-  if (!Number.isFinite(number)) return String(rawValue(value)).trim();
+  if (!Number.isFinite(number)) return raw;
   const index = ((number % 15) + 15) % 15;
   if (index === 14) return number >= 15 ? "अमावस्या" : "पूर्णिमा";
   return TITHI_NAMES[index] || String(number);
