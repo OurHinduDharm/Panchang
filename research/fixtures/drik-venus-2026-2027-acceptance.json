@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "fixtureId": "drik-venus-2026-2027-city-benchmarks",
+  "status": "reference-transcription-not-yet-independently-recaptured",
+  "purpose": "Acceptance fixture for a separate Drik-compatible Venus Asta/Udaya implementation. It must not be used to tune or validate the Surya-siddhanta Chapter IX K/C model.",
+  "planet": "Venus",
+  "timeZone": "Asia/Kolkata",
+  "utcOffset": "+05:30",
+  "eventSemantics": {
+    "start": "Drik-published Venus Asta beginning",
+    "end": "Drik-published Venus Asta ending",
+    "warning": "The exact internal event definition and observer coordinates used by Drik have not been independently established. These timestamps are comparison targets, not a complete physical-visibility specification."
+  },
+  "source": {
+    "publisher": "Drik Panchang",
+    "page": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html",
+    "captureMethod": "Values transcribed from user-provided reference data in this conversation; must be re-captured from the source with each city explicitly selected before final acceptance.",
+    "capturedAt": null,
+    "locationSelectionVerified": false
+  },
+  "locations": [
+    {
+      "city": "Pithoragarh",
+      "state": "Uttarakhand",
+      "country": "India",
+      "geonameId": "1259503",
+      "coordinates": null,
+      "elevationMeters": null,
+      "events": [
+        {
+          "cycle": "2026",
+          "astaStartLocal": "2026-10-12T18:05:00+05:30",
+          "astaEndLocal": "2026-10-29T05:49:00+05:30"
+        },
+        {
+          "cycle": "2027",
+          "astaStartLocal": "2027-07-21T04:54:00+05:30",
+          "astaEndLocal": "2027-09-09T18:48:00+05:30"
+        }
+      ]
+    },
+    {
+      "city": "Varanasi",
+      "state": "Uttar Pradesh",
+      "country": "India",
+      "geonameId": null,
+      "coordinates": null,
+      "elevationMeters": null,
+      "events": [
+        {
+          "cycle": "2026",
+          "astaStartLocal": "2026-10-13T17:57:00+05:30",
+          "astaEndLocal": "2026-10-28T05:39:00+05:30"
+        },
+        {
+          "cycle": "2027",
+          "astaStartLocal": "2027-07-21T04:52:00+05:30",
+          "astaEndLocal": "2027-09-07T18:36:00+05:30"
+        }
+      ]
+    },
+    {
+      "city": "New Delhi",
+      "state": "Delhi",
+      "country": "India",
+      "geonameId": null,
+      "coordinates": null,
+      "elevationMeters": null,
+      "events": [
+        {
+          "cycle": "2026",
+          "astaStartLocal": "2026-10-12T18:19:00+05:30",
+          "astaEndLocal": "2026-10-29T06:00:00+05:30"
+        },
+        {
+          "cycle": "2027",
+          "astaStartLocal": "2027-07-21T05:08:00+05:30",
+          "astaEndLocal": "2027-09-09T19:00:00+05:30"
+        }
+      ]
+    }
+  ],
+  "acceptancePolicy": {
+    "compareSameCityOnly": true,
+    "compareLocalTimestamps": true,
+    "doNotSubstituteCityCoordinates": true,
+    "doNotInferElevation": true,
+    "doNotTuneArbitraryThresholdsToForceMatch": true,
+    "keepClassicalSuryaSiddhantaKcSeparate": true,
+    "requiredBeforePass": [
+      "Re-capture each event from the named city selection on the Drik source page and record capture timestamp and location settings.",
+      "Establish the event definition and time convention sufficiently to compare like with like.",
+      "Record the implementation's observer coordinates, elevation, pressure, temperature, refraction and horizon assumptions.",
+      "Run independent ephemeris/observer validation; same-engine interpolation checks alone are insufficient.",
+      "Publish per-boundary signed time error and a pre-declared tolerance before declaring a pass."
+    ]
+  }
+}
