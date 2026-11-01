@@ -4,6 +4,69 @@
   "month": 7,
   "monthName": "जुलाई",
   "status": "needs-review",
-  "locationScope": "पिथौरागढ़ के Drik Panchang से सत्यापित युगादि दिवस; अन्य पर्व-सूची अभी संकलित नहीं।",
-  "events": []
+  "locationScope": "Drik Panchang 2030 वार्षिक कैलेंडर से संकलित प्रारम्भिक पर्व-सूची; पिथौरागढ़-विशिष्ट तिथि/तिथि-व्याप्ति और स्थानीय नियमों का सत्यापन शेष।",
+  "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+  "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+  "events": [
+    {
+      "date": "2030-07-02",
+      "dateLabel": "2 जुलाई",
+      "title": "जगन्नाथ रथयात्रा",
+      "description": "जगन्नाथ रथयात्रा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल द्वितीया",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-07-11",
+      "dateLabel": "11 जुलाई",
+      "title": "देवशयनी / हरिशयनी एकादशी — चातुर्मास प्रारम्भ",
+      "description": "देवशयनी / हरिशयनी एकादशी — चातुर्मास प्रारम्भ पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-07-15",
+      "dateLabel": "15 जुलाई",
+      "title": "गुरु पूर्णिमा / आषाढ़ पूर्णिमा",
+      "description": "गुरु पूर्णिमा / आषाढ़ पूर्णिमा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "पर्व एवं पूर्णिमा",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-07-16",
+      "dateLabel": "16 जुलाई",
+      "title": "कर्क संक्रांति",
+      "description": "कर्क संक्रांति पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "सूर्य का कर्क राशि में प्रवेश",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-07-26",
+      "dateLabel": "26 जुलाई",
+      "title": "कामिका एकादशी",
+      "description": "कामिका एकादशी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण एकादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    }
+  ]
 }
