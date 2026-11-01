@@ -3749,7 +3749,7 @@ function getSandhyaStatusHtml(ctx = null){
       <div style="margin:3px 0 8px;padding-left:9px;font-size:12px;line-height:1.6;">
         <strong>संक्षिप्त अर्थ:</strong><br/>
         <strong>उत्तम:</strong> तारे स्पष्ट दिखाई दे रहे हों।<br/>
-        <strong>मध्यम:</strong> तारे मद्धिम पड़ रहे हों, पर अभी पूरी तरह ओझल न हुए हों।<br/>
+        <strong>मध्यम:</strong> तारे ओझल हो चुके हों।<br/>
         <strong>अधम:</strong> सूर्य निकल आया हो।
       </div>
       <strong>सायं संध्या</strong><br/>
