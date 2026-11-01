@@ -153,6 +153,18 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
+      "date": "2030-09-25",
+      "dateLabel": "25 सितंबर",
+      "title": "कलि युग दिवस",
+      "description": "आश्विन कृष्ण त्रयोदशी को कलि युग के आरम्भ का स्मरण कलि युग दिवस के रूप में किया जाता है।",
+      "category": "युगादि दिवस",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण त्रयोदशी",
+      "sourceName": "Drik Panchang — पिथौरागढ़ (मासिक पंचांग संदर्भ)",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=25/09/2030"
+    },
+    {
       "date": "2030-09-27",
       "dateLabel": "27 सितंबर",
       "title": "सर्वपितृ अमावस्या",
