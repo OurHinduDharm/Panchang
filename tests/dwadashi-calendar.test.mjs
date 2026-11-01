@@ -173,6 +173,24 @@ test("Pausha Krishna and Shukla records remain visible when outside the scan win
   assert.ok(shukla.displayNames.includes("कूर्म-द्वादशी"));
 });
 
+test("year-specific Drik Mahadwadashi labels stay review-only on the matching Dwadashi record", () => {
+  const rules = {
+    unifiedTithiIndex: { tithis:[{month:"पौष",paksha:"शुक्ल",observances:[],displayNames:[]}] },
+    drikSpecialObservances:[{
+      year:2027, month:"पौष", paksha:"शुक्ल", adhika:false,
+      referenceDate:"2027-01-19", labels:["त्रिस्पर्शा महाद्वादशी"]
+    }]
+  };
+  const result = buildDwadashiCalendar([
+    sunriseDay("2027-01-19","पौष","शुक्ल","द्वादशी")
+  ], rules);
+  const record = result.tithis.find(item => item.id === "pausha-shukla");
+  assert.deepEqual(record.drikLabels, ["त्रिस्पर्शा महाद्वादशी"]);
+  assert.equal(record.referenceDate, "2027-01-19");
+  assert.equal(record.drikSpecialObservances[0].status, "source-cross-reference-needs-local-rule-review");
+  assert.equal(record.status, "needs-review");
+});
+
 test("annual Dwadashi candidates exclude dates outside the selected Gregorian year", () => {
   const paushaRules = { unifiedTithiIndex: { tithis:[{month:"पौष",paksha:"शुक्ल",observances:[{name:"सुजन्न-द्वादशी"}]},{month:"पौष",paksha:"कृष्ण",observances:[{name:"रूप-द्वादशी"}]}] } };
   const result = buildDwadashiCalendar([
