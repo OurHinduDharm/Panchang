@@ -155,8 +155,8 @@ async function main() {
   for (const year of years) {
     const result = await generateYear(year);
     const target = path.join(outputDir, `ohd-dwadashi-${year}-review.json`);
-    await fs.writeFile(target, JSON.stringify(result, null, 2) + "\\n");
-    process.stdout.write(`${year}: ${result.tithis.length} month/paksha records, ${result.tithiDates.length} tithi dates, chaturmas=${result.chaturmas.status} -> ${target}\\n`);
+    await fs.writeFile(target, JSON.stringify(result, null, 2) + "\n");
+    process.stdout.write(`${year}: ${result.tithis.length} month/paksha records, ${result.tithiDates.length} tithi dates, chaturmas=${result.chaturmas.status} -> ${target}\n`);
   }
 }
 
