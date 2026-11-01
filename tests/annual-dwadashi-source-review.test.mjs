@@ -40,6 +40,17 @@ test("extracts the tithi actually prevailing at noon from the engine transition 
   assert.equal(result.noonTithiStartTime, "2028-11-13T01:11:00.000Z");
 });
 
+test("the Padmanabha source traditions remain one tithi with unique internal observance IDs", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const rules = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/dwadashi-vrata-rules.json"), "utf8"));
+  const item = rules.unifiedTithiIndex.tithis.find(x => x.month === "आश्विन" && x.paksha === "शुक्ल");
+  assert.equal(item.observances.length, 2);
+  assert.deepEqual(item.observances.map(x => x.id), ["padmanabha-narada","padmanabha-varaha"]);
+  assert.equal(item.displayNames.length, 2);
+});
+
 test("source metadata distinguishes Pithoragarh primary from New Delhi secondary checks", () => {
   const sources = buildSourceReviewMetadata(2028);
   assert.equal(sources.status, "pending-manual-cross-check");
