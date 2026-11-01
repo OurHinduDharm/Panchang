@@ -219,17 +219,7 @@ export function extractAnnualPanchangDay(panchang, date, instant) {
     eclipseTimes:[],
     eclipseIntervals:[],
     grahanaVisibilityChecked:false,
-    dosha:{},
-    raw:{
-      tithi:panchang.tithi,
-      paksha:panchang.paksha,
-      masa:panchang.masa,
-      nakshatra:panchang.nakshatra,
-      nakshatras:panchang.nakshatras || [],
-      yoga:panchang.yoga,
-      karanas:panchang.karanas || [],
-      sunRashi:panchang.sunRashi
-    }
+    dosha:{}
   };
 }
 
