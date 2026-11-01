@@ -1,0 +1,71 @@
+name: Annual Dwadashi source-review candidate generator
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/generate-annual-dwadashi-review.mjs"
+      - "dwadashi-calendar.mjs"
+      - "data/dwadashi-vrata-rules.json"
+      - "data/festivals/**"
+      - "festival-year-review.html"
+      - "festival-muhurta.js"
+      - "night-prahar.js"
+      - "samaveda-annual-review.js"
+  pull_request:
+    paths:
+      - "scripts/generate-annual-dwadashi-review.mjs"
+      - "dwadashi-calendar.mjs"
+      - "data/dwadashi-vrata-rules.json"
+      - "tests/annual-dwadashi-source-review.test.mjs"
+      - ".github/workflows/annual-dwadashi-source-review.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-review-candidates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install pinned Panchanga engine
+        run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Run Dwadashi generator tests
+        run: node --test tests/annual-dwadashi-source-review.test.mjs tests/dwadashi-calendar.test.mjs
+      - name: Generate 2026–2030 review-only candidates
+        run: node scripts/generate-annual-dwadashi-review.mjs --years=2026,2027,2028,2029,2030 --out=artifacts/dwadashi-review
+      - name: Upload review-only JSON files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ohd-dwadashi-review-2026-2030
+          path: |
+            artifacts/dwadashi-review/*.json
+            artifacts/annual-review/*.json
+          if-no-files-found: error
+      - name: Stage annual review drafts for a separate review PR
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p data/references
+          cp artifacts/dwadashi-review/*.json data/references/
+          cp artifacts/annual-review/*.json data/
+      - name: Open PR for generated review-only data
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/annual-panchang-review-drafts-2026-2030
+          delete-branch: true
+          title: "2026–2030 वार्षिक पंचांग एवं द्वादशी समीक्षा ड्राफ्ट"
+          commit-message: "Add 2026–2030 research-only Panchang review drafts"
+          body: |
+            ## समीक्षा ड्राफ्ट
+            - पाँचों वर्षों के दैनिक पिथौरागढ़ पंचांग स्कैन।
+            - द्वादशी तिथि, स्थानीय सूर्योदय/दोपहर अंतराल और चातुर्मास सीमाएँ।
+            - Drik Panchang विशेष महाद्वादशी क्रॉस-रेफरेंस।
+            - स्वतंत्र पंचांग स्रोतों से मिलान की स्थिति और स्रोत लिंक।
+
+            **ये फाइलें research-only / needs-review हैं। कोई तारीख़ या चातुर्मास नियम स्वतः स्वीकृत नहीं है।**
