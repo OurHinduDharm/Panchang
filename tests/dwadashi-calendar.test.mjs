@@ -174,7 +174,22 @@ test("Pausha Krishna and Shukla records remain visible when outside the scan win
   assert.ok(shukla.displayNames.includes("कूर्म-द्वादशी"));
 });
 
-test("annual Dwadashi candidates exclude dates outside the selected Gregorian year", () => {\n  const paushaRules = { unifiedTithiIndex: { tithis:[{month:"पौष",paksha:"शुक्ल",observances:[{name:"सुजन्न-द्वादशी"}]},{month:"पौष",paksha:"कृष्ण",observances:[{name:"रूप-द्वादशी"}]}] } };\n  const result = buildDwadashiCalendar([\n    sunriseDay("2026-01-01","माघ","कृष्ण","प्रतिपदा"),\n    sunriseDay("2025-12-25","पौष","शुक्ल","द्वादशी"),\n    sunriseDay("2027-01-04","पौष","कृष्ण","द्वादशी")\n  ], paushaRules);\n  assert.equal(result.year, 2026);\n  const shukla = result.tithis.find(item => item.id === "pausha-shukla");\n  const krishna = result.tithis.find(item => item.id === "pausha-krishna");\n  assert.deepEqual(shukla.candidateDates, []);\n  assert.deepEqual(krishna.candidateDates, []);\n  assert.equal(shukla.status, "needs-observation");\n});\n\ntest("permanent month-paksha names remain the same in every year, including Adhika Jyeshtha and Ashadha Krishna", () => {
+test("annual Dwadashi candidates exclude dates outside the selected Gregorian year", () => {
+  const paushaRules = { unifiedTithiIndex: { tithis:[{month:"पौष",paksha:"शुक्ल",observances:[{name:"सुजन्न-द्वादशी"}]},{month:"पौष",paksha:"कृष्ण",observances:[{name:"रूप-द्वादशी"}]}] } };
+  const result = buildDwadashiCalendar([
+    sunriseDay("2026-01-01","माघ","कृष्ण","प्रतिपदा"),
+    sunriseDay("2025-12-25","पौष","शुक्ल","द्वादशी"),
+    sunriseDay("2027-01-04","पौष","कृष्ण","द्वादशी")
+  ], paushaRules);
+  assert.equal(result.year, 2026);
+  const shukla = result.tithis.find(item => item.id === "pausha-shukla");
+  const krishna = result.tithis.find(item => item.id === "pausha-krishna");
+  assert.deepEqual(shukla.candidateDates, []);
+  assert.deepEqual(krishna.candidateDates, []);
+  assert.equal(shukla.status, "needs-observation");
+});
+
+test("permanent month-paksha names remain the same in every year, including Adhika Jyeshtha and Ashadha Krishna", () => {
   const master = [
     {id:"vaishakha-krishna",month:"वैशाख",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण-वामन द्वादशी"]},
     {id:"jyeshtha-krishna",month:"ज्येष्ठ",paksha:"कृष्ण",observances:[],displayNames:["कृष्ण परशुराम द्वादशी"]},
