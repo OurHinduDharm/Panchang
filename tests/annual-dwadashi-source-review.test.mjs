@@ -73,6 +73,21 @@ test("annual daily extraction preserves local sunrise, exact nakshatra intervals
   assert.equal(result.grahanaVisibilityChecked,false);
 });
 
+test("2029–2030 Drik special Dwadashi labels use the exact source dates and names", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const rules = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/dwadashi-vrata-rules.json"), "utf8"));
+  const specials = rules.drikSpecialObservances;
+  const find = (year, date) => specials.find(x => x.year === year && x.referenceDate === date);
+  assert.deepEqual(find(2029,"2029-09-18")?.labels, ["विष्णुशृंखला योग द्वादशी"]);
+  assert.equal(find(2029,"2029-09-05"), undefined);
+  assert.deepEqual(find(2030,"2030-05-28")?.labels, ["वंजुली महाद्वादशी"]);
+  assert.deepEqual(find(2030,"2030-08-25")?.labels, ["उन्मीलिनी महाद्वादशी"]);
+  assert.deepEqual(find(2030,"2030-09-09")?.labels, ["श्रवण योग द्वादशी"]);
+  assert.equal(find(2030,"2030-05-14"), undefined);
+});
+
 test("source metadata distinguishes Pithoragarh primary from New Delhi secondary checks", () => {
   const sources = buildSourceReviewMetadata(2028);
   assert.equal(sources.status, "pending-manual-cross-check");
