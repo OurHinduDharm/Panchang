@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeEngineTithi, normalizeEnginePaksha, normalizeEngineMasa, extractDwadashiDay, buildSourceReviewMetadata } from "../scripts/generate-annual-dwadashi-review.mjs";
+import { normalizeEngineTithi, normalizeEnginePaksha, normalizeEngineMasa, extractDwadashiDay, extractAnnualPanchangDay, buildSourceReviewMetadata } from "../scripts/generate-annual-dwadashi-review.mjs";
 
 test("normalizes engine tithi indices to Hindi tithi names", () => {
   assert.equal(normalizeEngineTithi(11), "द्वादशी");
@@ -49,6 +49,28 @@ test("the Padmanabha source traditions remain one tithi with unique internal obs
   assert.equal(item.observances.length, 2);
   assert.deepEqual(item.observances.map(x => x.id), ["padmanabha-narada","padmanabha-varaha"]);
   assert.equal(item.displayNames.length, 2);
+});
+
+test("annual daily extraction preserves local sunrise, exact nakshatra intervals and review-safe eclipse fields", () => {
+  const result = extractAnnualPanchangDay({
+    tithi:9, paksha:"Shukla", masa:{name:"Kartika",isAdhika:false},
+    sunrise:"2026-11-01T00:52:00.000Z", sunset:"2026-11-01T11:53:00.000Z",
+    tithiStartTime:"2026-10-31T23:00:00.000Z", tithiEndTime:"2026-11-01T09:00:00.000Z",
+    nakshatra:12, yoga:14, sunRashi:7, nakshatraEndTime:"2026-11-01T10:00:00.000Z",
+    nakshatras:[{index:12,name:"Hasta",startTime:new Date("2026-10-31T22:00:00.000Z"),endTime:new Date("2026-11-01T10:00:00.000Z")}],
+    karanas:[{name:"Bava",startTime:new Date("2026-10-31T23:00:00.000Z"),endTime:new Date("2026-11-01T04:00:00.000Z")}],
+    tithis:[{index:10,name:"Ekadashi",startTime:new Date("2026-10-31T23:00:00.000Z"),endTime:new Date("2026-11-01T09:00:00.000Z")}]
+  }, "2026-11-01", new Date("2026-11-01T06:30:00.000Z"));
+  assert.equal(result.weekday,"रविवार");
+  assert.equal(result.tithi,"दशमी");
+  assert.equal(result.noonTithi,"एकादशी");
+  assert.equal(result.nakshatra,"हस्त");
+  assert.equal(result.yoga,"वज्र");
+  assert.equal(result.sunRashi,"वृश्चिक");
+  assert.equal(result.karana,"बव");
+  assert.equal(result.nakshatraIntervals.length,1);
+  assert.deepEqual(result.grahanaTimes,[]);
+  assert.equal(result.grahanaVisibilityChecked,false);
 });
 
 test("source metadata distinguishes Pithoragarh primary from New Delhi secondary checks", () => {
