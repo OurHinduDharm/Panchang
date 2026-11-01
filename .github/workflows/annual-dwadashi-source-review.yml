@@ -12,6 +12,7 @@ on:
       - "festival-muhurta.js"
       - "night-prahar.js"
       - "samaveda-annual-review.js"
+      - ".github/workflows/annual-dwadashi-source-review.yml"
   pull_request:
     paths:
       - "scripts/generate-annual-dwadashi-review.mjs"
@@ -48,7 +49,7 @@ jobs:
             artifacts/annual-review/*.json
           if-no-files-found: error
       - name: Push clean annual review draft branch
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         run: |
           mkdir -p data/references
           cp artifacts/dwadashi-review/*.json data/references/
