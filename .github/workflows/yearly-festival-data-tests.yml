@@ -31,6 +31,8 @@ on:
     paths:
       - 'scripts/merge-festival-months-to-yearly.mjs'
       - 'scripts/audit-annual-publication-readiness.mjs'
+      - 'scripts/audit-festival-catalog.mjs'
+      - 'tests/festival-catalog-integrity.test.mjs'
       - 'festival-muhurta.js'
       - 'scripts/generate-annual-dwadashi-review.mjs'
       - 'data/festivals/**'
