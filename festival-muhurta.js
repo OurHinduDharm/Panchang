@@ -237,22 +237,40 @@ function collectTithiIntervals(...lists) {
   return intervals.sort((a, b) => a.start - b.start);
 }
 
+export function isSharadiyaMahashtamiEvent(event) {
+  if (!event || !/महाष्टमी|महाअष्टमी|दुर्गाष्टमी|दुर्गा अष्टमी/i.test(String(event.title || ""))) return false;
+  const text = String(event.title || "") + " " + String(event.description || "");
+  const tithi = normalizedName(event.hinduTithi);
+  return event.navratriFamily === "sharad" ||
+    /शारदीय\\s*नवरात्र/i.test(text) ||
+    /आश्विन\\s*शुक्ल\\s*अष्टमी/.test(tithi);
+}
+
 /*
  * Rule IDs are attached to event records as muhurtaRule.
  * Add a new reviewed rule here; do not store location-specific clock times in JSON.
  */
 const rules = {
   "sandhi-puja"(context) {
-    // संधिपूजा: अष्टमी-नवमी के वास्तविक तिथि-संधि क्षण के दोनों ओर 24-24 मिनट।
+    // संधिपूजा शारदीय नवरात्र की शुक्ल अष्टमी-नवमी संधि के लिए है।
+    const tithiValue = context.tithi && typeof context.tithi === "object"
+      ? context.tithi.index ?? context.tithi.number ?? context.tithi.value ?? context.tithi.name
+      : context.tithi;
+    const tithiIndex = Number(tithiValue);
     const tithi = normalizedName(context.tithi);
-    const rawTithi = rawValue(context.tithi);
-    const tithiIndex = Number(rawTithi);
-    let isAshtami = /अष्टमी|ashtami/i.test(tithi);
-    let isNavami = /नवमी|navami/i.test(tithi);
-    // Library index is zero-based in this project: Shukla/Krishna Ashtami=7/22, Navami=8/23.
-    if (!isAshtami && !isNavami && Number.isFinite(tithiIndex)) {
-      isAshtami = tithiIndex === 7 || tithiIndex === 22;
-      isNavami = tithiIndex === 8 || tithiIndex === 23;
+    const paksha = normalizedName(context.paksha);
+    const hasNumericIndex = Number.isInteger(tithiIndex);
+    const isShukla = hasNumericIndex
+      ? tithiIndex === 7 || tithiIndex === 8
+      : /shukla|शुक्ल/.test(paksha);
+    let isAshtami = hasNumericIndex ? tithiIndex === 7 : isShukla && /अष्टमी|ashtami/i.test(tithi);
+    let isNavami = hasNumericIndex ? tithiIndex === 8 : isShukla && /नवमी|navami/i.test(tithi);
+    if (!isShukla) {
+      return {
+        label: "महाष्टमी संधिपूजा मुहूर्त",
+        status: "unavailable",
+        message: "संधिपूजा के लिए शुक्ल अष्टमी-नवमी की तिथि-संधि आवश्यक है।"
+      };
     }
     let boundary = null;
     if (isAshtami) {
@@ -1462,6 +1480,7 @@ export function getFestivalMuhurtaContext(panchang, nextPanchang, date, location
     nextSunrise: nextPanchang && nextPanchang.sunrise,
     nextSunset: nextPanchang && nextPanchang.sunset,
     tithi: panchang && panchang.tithi,
+    paksha: panchang && panchang.paksha,
     tithiStartTime: panchang && panchang.tithiStartTime,
     tithiEndTime: panchang && panchang.tithiEndTime,
     // Transition arrays cover the fast day and the following parana day.
