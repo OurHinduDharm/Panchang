@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="description" content="आज और किसी भी चुनी हुई तारीख़ का हिंदू पंचांग देखें। स्थान के अनुसार तिथि, नक्षत्र, योग, करण, सूर्योदय और सूर्यास्त की जानकारी प्राप्त करें।"/>
 <title>हिंदू पंचांग | OurHinduDharm</title>
 <style>
 *{box-sizing:border-box}
@@ -630,11 +631,15 @@
 </div>
 <script type="module" src="app.js"></script>
 <script type="module" src="extra-panchang.js"></script>
-  <!-- Eruda conditional load -->
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <!-- Load Eruda only when explicitly requested with ?debug. -->
 <script>
-  if (new URLSearchParams(window.location.search).has('debug')) {
-    eruda.init();
+  if (new URLSearchParams(window.location.search).has("debug")) {
+    const erudaScript = document.createElement("script");
+    erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda";
+    erudaScript.onload = () => {
+      if (window.eruda) window.eruda.init();
+    };
+    document.head.appendChild(erudaScript);
   }
 </script>
 </body>
