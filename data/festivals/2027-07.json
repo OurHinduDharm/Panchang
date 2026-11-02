@@ -3,8 +3,8 @@
   "year": 2027,
   "month": 7,
   "monthName": "जुलाई",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; गणना-समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "Drik Panchang एवं अन्य ऑनलाइन पंचांगों से पर्व-तिथियों का स्रोत-मिलान",
   "events": [
     {
       "date": "2027-07-05",
