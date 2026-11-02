@@ -16,6 +16,21 @@
       "showReviewStatus": false
     },
     {
+      "date": "2027-08-02",
+      "dateLabel": "2 अगस्त",
+      "title": "आंशिक सूर्यग्रहण",
+      "description": "2 अगस्त 2027 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा। ग्रहण दोपहर 4:01 बजे आरंभ होगा, 4:29 बजे अधिकतम होगा और 4:56 बजे समाप्त होगा।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण अमावस्या",
+      "timingType": "eclipse-visibility",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
+      "sourceName": "Timeanddate — Pithoragarh; Drik Panchang",
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270802"
+    },
+    {
       "date": "2027-08-04",
       "dateLabel": "4 अगस्त",
       "title": "हरियाली तीज",
