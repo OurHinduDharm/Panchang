@@ -469,12 +469,6 @@
       if(ruleIds.indexOf("masik-shivaratri-nishita")===-1) ruleIds.push("masik-shivaratri-nishita");
       if(ruleIds.indexOf("masik-shivaratri-four-prahar")===-1) ruleIds.push("masik-shivaratri-four-prahar");
     }
-    // संधिपूजा केवल नवरात्रि की महाष्टमी-अष्टमी प्रविष्टि पर दिखाएँ;
-    // मासिक दुर्गाष्टमी या सामान्य अष्टमी-नवमी तिथि-संधि पर नहीं।
-    var sandhiEventText=String(item.title||"")+" "+String(item.description||"");
-    var isNavratriAshtami=/महाष्टमी|महाअष्टमी|दुर्गाष्टमी|दुर्गा अष्टमी/i.test(String(item.title||""))&&
-      /शारदीय\s*नवरात्र|नवरात्रि?\s*(?:के\s*)?अष्टमी|नवरात्र.*महाष्टमी/i.test(sandhiEventText);
-    if(!ruleIds.length&&isNavratriAshtami) ruleIds=["sandhi-puja"];
     if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title||""))||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
     if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(String(item.title||""))) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
     if(!ruleIds.length&&/होलिका[\s-]*दहन/i.test(String(item.title||""))) ruleIds=["holika-dahan-pradosh"];
@@ -482,6 +476,11 @@
     try{
       var muhurtaModule=await muhurtaModulePromise;
       if(!muhurtaModule) return;
+      var isSharadiyaMahashtami=typeof muhurtaModule.isSharadiyaMahashtamiEvent==="function"&&muhurtaModule.isSharadiyaMahashtamiEvent(item);
+      // Explicit JSON rule ho ya auto-detection, संधिपूजा केवल शारदीय महाष्टमी पर।
+      ruleIds=ruleIds.filter(function(ruleId){return ruleId!=="sandhi-puja"||isSharadiyaMahashtami;});
+      if(!ruleIds.length&&isSharadiyaMahashtami) ruleIds=["sandhi-puja"];
+      if(!ruleIds.length) return;
       var usableRules=[];
       ruleIds.forEach(function(ruleId){
         var ruleItem=Object.assign({},item,{muhurtaRule:ruleId});
