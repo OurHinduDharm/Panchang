@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "वैशाख कृष्ण एकादशी"
     },
     {
       "date": "2027-05-08",
@@ -82,7 +83,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "वैशाख शुक्ल एकादशी"
     },
     {
       "date": "2027-05-18",
@@ -100,7 +102,8 @@
       "description": "बुद्ध पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल पूर्णिमा"
     },
     {
       "date": "2027-05-21",
