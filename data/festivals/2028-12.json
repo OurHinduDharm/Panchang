@@ -88,6 +88,20 @@
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2028-12-31",
+      "dateLabel": "31 दिसंबर",
+      "title": "पूर्ण चंद्रग्रहण",
+      "description": "31 दिसंबर 2028 से 1 जनवरी 2029 तक पिथौरागढ़ में पूर्ण चंद्रग्रहण दिखाई देगा। ग्रहण 31 दिसंबर शाम 7:33 बजे आरंभ होगा, पूर्णता 9:46 से 10:57 बजे तक रहेगी और उपच्छाया चरण 1 जनवरी रात 1:10 बजे समाप्त होगा।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "पौष शुक्ल पूर्णिमा",
+      "timingType": "eclipse-visibility",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
+      "sourceName": "Timeanddate — Pithoragarh; Drik Panchang eclipse list",
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20281231"
     }
   ]
 }

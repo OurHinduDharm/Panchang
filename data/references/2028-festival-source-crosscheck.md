@@ -59,6 +59,19 @@ References:
 
 Drik's annual calendar lists Devshayani Ekadashi on 2 July and Devutthana Ekadashi on 28 October 2028. These match the OHD start/end dates. The OHD completion date under its existing two-day completion policy is a separate derived date and should not be confused with the Ekadashi end date.
 
+
+## Local eclipse visibility added to the monthly catalog
+
+- 6–7 July 2028 partial lunar eclipse: visible in Pithoragarh. Timeanddate's Pithoragarh page gives penumbral start 9:14 PM, partial phase 10:39 PM–1:00 AM, and penumbral end 2:25 AM. Added to the July 2028 public event file.
+- 31 December 2028–1 January 2029 total lunar eclipse: visible in Pithoragarh. Timeanddate gives penumbral start 7:33 PM, totality 9:46–10:57 PM, and penumbral end 1:10 AM. Added to the December 2028 public event file.
+- 12 January 2028 lunar eclipse and 26 January 2028 annular solar eclipse are not locally visible in Pithoragarh, so no local eclipse card is added for those events.
+- Eclipse cards link to the existing OHD grahan page automatically and to the mantra-purashcharan article through the event's article link.
+
+References:
+- Drik Panchang 2028 eclipse list: https://www.drikpanchang.com/eclipse/eclipse-date-time.html?year=2028
+- Timeanddate Pithoragarh, 6 July 2028: https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706
+- Timeanddate Pithoragarh, 31 December 2028: https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20281231
+
 ## Next checks
 
 1. Resolve Bhishma Ashtami with the actual local decision time and Pithoragarh tithi interval.
