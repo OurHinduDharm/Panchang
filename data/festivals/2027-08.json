@@ -3,8 +3,8 @@
   "year": 2027,
   "month": 8,
   "monthName": "अगस्त",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक डेटा; गणना-समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
       "date": "2027-08-02",
