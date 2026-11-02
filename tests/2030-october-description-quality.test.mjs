@@ -1,0 +1,50 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+
+const read = async () => JSON.parse(await readFile(
+  new URL("../data/festivals/2030-10.json", import.meta.url),
+  "utf8"
+));
+const find = (events, pattern) => events.find(event => pattern.test(event.title || ""));
+
+test("2030 October Navratri and Deepawali cards have distinct useful descriptions", async () => {
+  const data = await read();
+  const events = data.events;
+  const generic = events.filter(event =>
+    /पूजा, व्रत, जप अथवा दान की परंपरा है/.test(event.description || "")
+  );
+  assert.equal(generic.length, 0, "October must not contain generic placeholder descriptions");
+
+  assert.match(find(events, /सरस्वती आवाहन/).description, /आवाहन और स्थापना/);
+  assert.match(find(events, /दुर्गाष्टमी/).description, /माँ दुर्गा/);
+  const navami = find(events, /महानवमी/);
+  assert.match(navami.description, /हवन/);
+  assert.match(navami.articleUrl || "", /About-Goddess-Siddhidaatri/);
+  const vijaya = find(events, /विजयादशमी/);
+  assert.match(vijaya.description, /शमी-पूजन/);
+  assert.match(vijaya.articleUrl || "", /kalashvisarjan/);
+
+  const kojagara = find(events, /कोजागरा/);
+  assert.match(kojagara.description, /लक्ष्मी-कुबेर पूजन/);
+  assert.match(kojagara.articleUrl || "", /About-kojaagari/);
+  const karwa = find(events, /करवा चौथ/);
+  assert.match(karwa.description, /चंद्रमा को अर्घ्य/);
+  const ahoi = find(events, /अहोई अष्टमी/);
+  assert.match(ahoi.description, /तारों को अर्घ्य/);
+
+  const dhan = find(events, /धनतेरस/);
+  assert.match(dhan.description, /धन्वन्तरि/);
+  const diwali = find(events, /दीपावली/);
+  assert.match(diwali.description, /लक्ष्मी-गणेश पूजन/);
+  assert.match(diwali.articleUrl || "", /About-Deepawali/);
+  assert.match(diwali.secondaryArticleUrl || "", /About-Narak-Chaturdashi/);
+  const govardhan = find(events, /गोवर्धन पूजा/);
+  assert.match(govardhan.description, /अन्नकूट/);
+  assert.match(find(events, /भैया दूज/).description, /तिलक/);
+
+  assert.equal(find(events, /करवा चौथ/).muhurtaRule, "karwa-chauth-puja");
+  assert.equal(find(events, /धनतेरस/).muhurtaRule, "dhanteras-muhurta");
+  assert.deepEqual(diwali.muhurtaRules, ["diwali-lakshmi-puja", "narak-chaturdashi-abhyanga"]);
+  assert.equal(find(events, /भैया दूज/).muhurtaRule, "bhai-dooj-tilak");
+});
