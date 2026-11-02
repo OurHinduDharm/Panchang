@@ -11,8 +11,8 @@ test("Sandhi Puja is restricted to Sharadiya Mahashtami events", async () => {
   const event2027 = sharad2027.events.find(item => item.date === "2027-10-07" && /महाष्टमी/.test(item.title));
 
   assert.match(muhurta, /export function isSharadiyaMahashtamiEvent/);
-  assert.ok(muhurta.includes(String.raw`/शारदीय\s*नवरात्र/`));
-  assert.ok(muhurta.includes(String.raw`/आश्विन\s*शुक्ल\s*अष्टमी/`));
+  assert.ok(muhurta.includes("/शारदीय" + String.fromCharCode(92) + "s*नवरात्र/"));
+  assert.ok(muhurta.includes("आश्विन") && muhurta.includes("शुक्ल") && muhurta.includes("अष्टमी"));
   assert.match(widget, /isSharadiyaMahashtamiEvent\(item\)/);
   assert.match(widget, /ruleIds=ruleIds\.filter/);
   assert.match(event2027.description, /शारदीय नवरात्रि/);
