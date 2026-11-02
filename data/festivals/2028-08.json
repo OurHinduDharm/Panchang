@@ -81,6 +81,19 @@
       "showReviewStatus": false
     },
     {
+      "date": "2028-08-16",
+      "dateLabel": "16 अगस्त",
+      "title": "अजा एकादशी",
+      "description": "अजा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "category": "एकादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण एकादशी",
+      "muhurtaRule": "ekadashi-parana",
+      "sourceName": "Independent 2028 Ekadashi calendar cross-check",
+      "sourceUrl": "https://www.jyotishvidya.co.in/transits/ekadashi-2028"
+    },
+    {
       "date": "2028-08-20",
       "dateLabel": "20 अगस्त",
       "title": "भाद्रपद अमावस्या",
