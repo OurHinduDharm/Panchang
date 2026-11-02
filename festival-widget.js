@@ -43,6 +43,18 @@
     }
   }
 
+  function linkKey(value) {
+    const href = safeHttpUrl(value);
+    if (!href) return "";
+    try {
+      const url = new URL(href);
+      url.hash = "";
+      return url.href;
+    } catch (_) {
+      return href;
+    }
+  }
+
   function element(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -50,8 +62,8 @@
     return node;
   }
 
-  // Render approved descriptions while retaining their article links; discard unsafe tags/attributes.
-  function appendSafeDescription(container, html) {
+  // Render approved descriptions while retaining unique article links; discard unsafe tags/attributes.
+  function appendSafeDescription(container, html, seenUrls) {
     if (!html) return;
     const source = document.createElement("template");
     source.innerHTML = String(html);
@@ -78,6 +90,9 @@
           Array.from(node.childNodes).forEach(child => copyNode(child, parent));
           return;
         }
+        const key = linkKey(href);
+        if (seenUrls && key && seenUrls.has(key)) return;
+        if (seenUrls && key) seenUrls.add(key);
         const link = document.createElement("a");
         link.href = href;
         link.target = "_blank";
@@ -403,9 +418,10 @@
           content.appendChild(element("div", "ohd-fw-period", "पर्व-अवधि: " + d.getDate() + " " + MONTH_NAMES[d.getMonth()] + " – " + endDate.getDate() + " " + MONTH_NAMES[endDate.getMonth()]));
         }
 
+        const cardLinkUrls = new Set();
         if (item.description) {
           const description = element("div", "ohd-fw-description");
-          appendSafeDescription(description, item.description);
+          appendSafeDescription(description, item.description, cardLinkUrls);
           content.appendChild(description);
         }
 
@@ -433,7 +449,9 @@
 
         const articleUrl = safeHttpUrl(item.articleUrl);
         const articleLabel = typeof item.articleLabel === "string" ? item.articleLabel.trim() : "";
-        if (articleUrl && articleLabel) {
+        const articleKey = linkKey(articleUrl);
+        if (articleUrl && articleLabel && (!articleKey || !cardLinkUrls.has(articleKey))) {
+          if (articleKey) cardLinkUrls.add(articleKey);
           const link = element("a", "ohd-fw-link", articleLabel);
           link.href = articleUrl;
           link.target = "_blank";
