@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "ज्येष्ठ कृष्ण एकादशी"
     },
     {
       "date": "2027-06-04",
@@ -51,7 +52,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी"
     },
     {
       "date": "2027-06-15",
@@ -69,7 +71,8 @@
       "description": "ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। वट पूर्णिमा व्रत भी इसी दिन मनाया जाता है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
     },
     {
       "date": "2027-06-18",
@@ -78,7 +81,8 @@
       "description": "वट पूर्णिमा व्रत में सावित्री-सत्यवान की कथा का स्मरण और वटवृक्ष की पूजा की जाती है। यह विशेष रूप से महाराष्ट्र और कुछ पश्चिमी क्षेत्रों में प्रचलित है; क्षेत्रीय तिथि-निर्णय जाँचें।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
     },
     {
       "date": "2027-06-30",
@@ -88,7 +92,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "आषाढ़ कृष्ण एकादशी"
     }
   ]
 }
