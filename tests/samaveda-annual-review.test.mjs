@@ -55,10 +55,10 @@ test("annual Upakarma decision exposes no community-selection option", () => {
   assert.equal(Object.hasOwn(result,"sampradaya"),false);
 });
 
-test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–2029", () => {
+test("pinned Panchanga engine resolves real annual Samaveda dates for 2026–2030", () => {
   const observer = new Observer(29.58,80.22,1650);
-  const years = [2026,2027,2028,2029];
-  const expectedDates = {2026:"2026-09-12",2027:"2027-09-03",2028:"2028-08-23",2029:"2029-09-10"};
+  const years = [2026,2027,2028,2029,2030];
+  const expectedDates = {2026:"2026-09-12",2027:"2027-09-03",2028:"2028-08-23",2029:"2029-09-10",2030:"2030-08-31"};
   const monthNames = {Bhadrapada:"भाद्रपद",Shravana:"श्रावण",Ashadha:"आषाढ़"};
   for (const year of years) {
     const count = (Date.UTC(year+1,0,1)-Date.UTC(year,0,1))/86400000;
