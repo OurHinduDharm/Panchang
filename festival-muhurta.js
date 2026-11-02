@@ -242,8 +242,8 @@ export function isSharadiyaMahashtamiEvent(event) {
   const text = String(event.title || "") + " " + String(event.description || "");
   const tithi = normalizedName(event.hinduTithi);
   return event.navratriFamily === "sharad" ||
-    /शारदीय\\s*नवरात्र/i.test(text) ||
-    /आश्विन\\s*शुक्ल\\s*अष्टमी/.test(tithi);
+    /शारदीय\s*नवरात्र/i.test(text) ||
+    /आश्विन\s*शुक्ल\s*अष्टमी/.test(tithi);
 }
 
 /*
