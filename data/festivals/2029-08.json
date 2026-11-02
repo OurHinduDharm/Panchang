@@ -59,6 +59,18 @@
       "muhurtaRule": "ekadashi-parana"
     },
     {
+      "date": "2029-08-22",
+      "dateLabel": "22 अगस्त",
+      "title": "ओणम (तिरुवोणम)",
+      "description": "केरल का प्रमुख ओणम पर्व तिरुवोणम नक्षत्र में मनाया जाता है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रवण नक्षत्र",
+      "sourceName": "Drik Panchang — Thiruvonam 2029",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/onam/onam-thiruvonam-date.html?geoname-id=1254163&year=2029"
+    },
+    {
       "date": "2029-08-23",
       "dateLabel": "23 अगस्त",
       "title": "रक्षाबंधन",
@@ -67,6 +79,18 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण पूर्णिमा"
+    },
+    {
+      "date": "2029-08-24",
+      "dateLabel": "24 अगस्त",
+      "title": "वरलक्ष्मी व्रत / गायत्री जयंती",
+      "description": "श्रावण पूर्णिमा से पूर्व शुक्रवार को वरलक्ष्मी व्रत तथा श्रावण पूर्णिमा पर गायत्री जयंती और गायत्री जप की परंपरा है।",
+      "category": "व्रत एवं जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Hindu Calendar; PanchangTime",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
     },
     {
       "date": "2029-08-27",
