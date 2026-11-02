@@ -108,9 +108,7 @@
       "hinduTithi": "कार्तिक कृष्ण चतुर्थी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRules": [
-        "karwa-chauth-puja"
-      ]
+      "muhurtaRule": "karwa-chauth-puja"
     },
     {
       "date": "2030-10-17",
@@ -164,9 +162,7 @@
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRules": [
-        "dhanteras-muhurta"
-      ]
+      "muhurtaRule": "dhanteras-muhurta"
     },
     {
       "date": "2030-10-25",
@@ -219,9 +215,7 @@
       "hinduTithi": "कार्तिक शुक्ल द्वितीया",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRules": [
-        "bhai-dooj-tilak"
-      ]
+      "muhurtaRule": "bhai-dooj-tilak"
     }
   ]
 }
