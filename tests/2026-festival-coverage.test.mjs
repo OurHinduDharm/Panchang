@@ -158,11 +158,12 @@ test("Monthly footer navigation creates its next-month button before appending i
   assert.doesNotMatch(widget, /nav\.appendChild\(prev\);\s*nav\.appendChild\(next\)/);
 });
 
-test("Festival year selector exposes only years with catalog data", async () => {
+test("Festival year selector exposes catalog years from 2026 through 2030", async () => {
   const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
-  assert.match(html, /option value="2026"/);
-  assert.match(html, /option value="2029"/);
-  assert.doesNotMatch(html, /option value="2025"|option value="2030"/);
+  for (const year of [2026, 2027, 2028, 2029, 2030]) {
+    assert.match(html, new RegExp('option value="' + year + '"'));
+  }
+  assert.doesNotMatch(html, /option value="2025"|option value="2031"/);
 });
 
 test("2026 Purnima titles include the corresponding lunar month names", async () => {
