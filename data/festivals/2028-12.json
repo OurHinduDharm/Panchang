@@ -3,8 +3,8 @@
   "year": 2028,
   "month": 12,
   "monthName": "दिसंबर",
-  "status": "needs-review",
-  "locationScope": "प्रारंभिक वर्षवार कैलेंडर; स्थान-विशिष्ट गणना-समीक्षा आवश्यक",
+  "status": "approved",
+  "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
       "date": "2028-12-01",
