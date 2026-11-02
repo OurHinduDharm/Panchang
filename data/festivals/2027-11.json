@@ -67,7 +67,8 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
-      "articleLabel": "आकाशदीपदान की विधि पढ़ें"
+      "articleLabel": "आकाशदीपदान की विधि पढ़ें",
+      "hinduTithi": "कार्तिक शुक्ल पूर्णिमा"
     },
     {
       "date": "2027-11-20",
@@ -86,7 +87,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी"
     }
   ]
 }
