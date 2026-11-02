@@ -10,7 +10,7 @@ on:
       - 'festival-widget.js'
       - 'festival-year-review.html'
       - 'tests/dwadashi-calendar.test.mjs'
-      - 'tests/dwadashi-widget-integration.test.mjs'
+      - 'tests/dwadashi-widget-integration.test.mjs tests/supplied-article-link-coverage.test.mjs'
       - 'festival-muhurta.js'
       - 'tests/festival-muhurta-parana.test.mjs'
       - 'tests/narak-chaturdashi-real-panchang-2026.test.mjs'
