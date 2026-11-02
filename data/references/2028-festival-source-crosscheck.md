@@ -5,11 +5,11 @@ Review date: 2026-11-02
 ## Date corrections applied
 
 - Bhishma Ashtami corrected from 4 February to 3 February 2028. Drik's dedicated page gives the Bhishma Ashtami observance and Madhyahna interval on 3 February (11:49–14:02), with Ashtami tithi beginning at 12:21. The tithi overlaps the end of the Madhyahna decision window, so 3 February is retained.
-- Utpanna Ekadashi corrected from 13 November to 12 November 2028 and explicitly labelled Smarta. Drik's Pithoragarh Ekadashi list identifies 12 November as Smarta and 13 November as Gauna/Vaishnava. OHD's primary calendar uses Smarta observances; the Vaishnava-only duplicate is not retained.
+- Utpanna Ekadashi corrected from 13 November to 12 November 2028 and explicitly labelled Smarta. Drik's dedicated Utpanna Ekadashi page identifies 12 November as the Smarta observance and 13 November as Gauna/Vaishnava. Drik's 2028 annual calendar and independent Ekadashi tables agree. OHD's primary calendar uses Smarta observances; the Vaishnava-only duplicate is not retained.
 
 ## Other source-confirmed dates
 
-- The 2028 month catalog was compared against Drik's annual calendar and the location-specific Pithoragarh Ekadashi list. Existing Smarta/Gauna splits are retained only where OHD intentionally publishes both; Vaishnava-only aliases are not added.
+- The 2028 month catalog was compared against Drik's annual Hindu calendar, dedicated festival pages, and independent Ekadashi date/tithi tables. Existing Smarta/Gauna splits are retained only where OHD intentionally publishes both; Vaishnava-only aliases are not added.
 - Devshayani Ekadashi 2 July and Devutthana Ekadashi 28 October remain the Chaturmas start/end references. The existing two-day completion policy is separate from the Ekadashi date.
 
 ## Local eclipse visibility
@@ -20,7 +20,9 @@ Review date: 2026-11-02
 ## Sources
 
 - Drik Panchang 2028 Hindu calendar: https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2028
-- Drik Panchang Pithoragarh Smarta Ekadashi dates: https://www.drikpanchang.com/vrats/ekadashidates.html?year=-2028
+- Drik Panchang Utpanna Ekadashi 2028: https://www.drikpanchang.com/ekadashis/utpanna/utpanna-ekadashi-date-time.html?year=2028
+- Drik Panchang Ekadashi dates 2028: https://www.drikpanchang.com/vrats/ekadashidates.html?time-format=24plushour&year=2028
+- Jyotish Vidya Ekadashi dates 2028: https://www.jyotishvidya.co.in/transits/ekadashi-2028
 - Drik Panchang Bhishma Ashtami special page: https://www.drikpanchang.com/festivals/bhishma-ashtami/bhishma-ashtami-date-time.html?lang=hi&year=2028
 - Drik Panchang daily Panchang 3 February 2028: https://www.drikpanchang.com/tamil/tamil-day-panchangam.html?date=03%2F02%2F2028
 - Timeanddate Pithoragarh July 2028 eclipse: https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706
@@ -28,4 +30,5 @@ Review date: 2026-11-02
 
 ## Approval scope
 
-2028 festival date records are approved for the checked date calendar. City-specific muhurta/parana, eclipse visibility and ritual-specific decision rules remain separate data domains and are not implicitly approved by the month-level date status.
+All 2028 monthly files are approved for the checked festival date catalog. The review also added the previously missing Sheetala Ashtami/Basoda, Gauri Puja/Gangaur, Kamada Ekadashi, and Aja Ekadashi entries. City-specific muhurta/parana, eclipse visibility and ritual-specific decision rules remain separate data domains and are not implicitly approved by the month-level date status.
+
