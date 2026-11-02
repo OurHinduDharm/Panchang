@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "फाल्गुन शुक्ल एकादशी"
     },
     {
       "date": "2028-03-10",
@@ -34,7 +35,8 @@
       "description": "फाल्गुन पूर्णिमा होलिका-दहन और होली के पर्व-चक्र से जुड़ी है। व्रत और दहन का निर्णय पूर्णिमा-व्याप्ति तथा भद्रा के नियम देखकर करें।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
     },
     {
       "date": "2028-03-11",
@@ -74,7 +76,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "चैत्र कृष्ण एकादशी"
     },
     {
       "date": "2028-03-26",
@@ -83,7 +86,8 @@
       "description": "चैत्र अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है।",
       "category": "अमावस्या",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण अमावस्या"
     },
     {
       "date": "2028-03-27",
@@ -101,7 +105,8 @@
       "description": "चैत्र नवरात्र में माँ दुर्गा के नौ स्वरूपों की पूजा, पाठ, जप और व्रत की परंपरा है। घटस्थापना का मुहूर्त प्रतिपदा-व्याप्ति और स्थानीय दिनमान के आधार पर निर्धारित होता है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल प्रतिपदा"
     },
     {
       "date": "2028-03-29",
