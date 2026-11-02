@@ -472,7 +472,6 @@
     if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title||""))||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
     if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(String(item.title||""))) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
     if(!ruleIds.length&&/होलिका[\s-]*दहन/i.test(String(item.title||""))) ruleIds=["holika-dahan-pradosh"];
-    if(!ruleIds.length) return;
     try{
       var muhurtaModule=await muhurtaModulePromise;
       if(!muhurtaModule) return;
