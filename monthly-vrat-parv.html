@@ -101,7 +101,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       </select>
     </label>
     <label>वर्ष
-      <select id="yearSelect"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option></select>
+      <select id="yearSelect"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option></select>
     </label>
   </div>
   <div class="filters" aria-label="व्रत-पर्व खोजें">
@@ -437,16 +437,25 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     try { var u=new URL(value,window.location.href); return (u.protocol==="https:"||u.protocol==="http:")?u.href:""; }
     catch(e){ return ""; }
   }
-  function makeLink(url,label){
+  function linkKey(value){
+    var href=safeUrl(value);
+    if(!href)return "";
+    try{var url=new URL(href);url.hash="";url.searchParams.delete("m");return url.href;}
+    catch(e){return href;}
+  }
+  function makeLink(url,label,seenUrls){
     var href=safeUrl(url);
     if(!href) return null;
+    var key=linkKey(href);
+    if(seenUrls&&key&&seenUrls.has(key))return null;
+    if(seenUrls&&key)seenUrls.add(key);
     var a=document.createElement("a");
     a.href=href;a.target="_blank";a.rel="noopener noreferrer";a.textContent=label||"लेख पढ़ें";
     return a;
   }
   // Legacy descriptions may contain article anchors and line breaks.
   // Render only safe text, HTTP(S) links, and <br>; never inject raw HTML.
-  function appendSafeDescriptionNode(parent,node){
+  function appendSafeDescriptionNode(parent,node,seenUrls){
     if(node.nodeType===Node.TEXT_NODE){
       parent.appendChild(document.createTextNode(node.nodeValue||""));
       return;
@@ -460,18 +469,22 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     if(tag==="a"){
       var href=safeUrl(node.getAttribute("href"));
       if(href){
+        var key=linkKey(href);
+        var duplicate=seenUrls&&key&&seenUrls.has(key);
+        if(seenUrls&&key)seenUrls.add(key);
+        if(duplicate)return;
         var link=document.createElement("a");
         link.href=href;link.target="_blank";link.rel="noopener noreferrer";
-        Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(link,child);});
+        Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(link,child,seenUrls);});
         parent.appendChild(link);
         return;
       }
     }
-    Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(parent,child);});
+    Array.from(node.childNodes).forEach(function(child){appendSafeDescriptionNode(parent,child,seenUrls);});
   }
-  function renderDescription(container,value){
+  function renderDescription(container,value,seenUrls){
     var parsed=new DOMParser().parseFromString(String(value||""),"text/html");
-    Array.from(parsed.body.childNodes).forEach(function(node){appendSafeDescriptionNode(container,node);});
+    Array.from(parsed.body.childNodes).forEach(function(node){appendSafeDescriptionNode(container,node,seenUrls);});
   }
   function normalizeSearch(value){
     return String(value||"")
@@ -562,6 +575,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
+      var cardLinkUrls=new Set();
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
         var description=String(item.description);
@@ -573,13 +587,13 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             .replace(/\s{2,}/g," ")
             .trim();
         }
-        renderDescription(desc,description);content.appendChild(desc);
+        renderDescription(desc,description,cardLinkUrls);content.appendChild(desc);
       }
       appendMuhurta(item,String(item.muhurtaDate||item.date||""),content,token);
       var links=document.createElement("div");links.className="links";
-      var mainLink=makeLink(item.articleUrl,item.articleLabel);
+      var mainLink=makeLink(item.articleUrl,item.articleLabel,cardLinkUrls);
       if(mainLink)links.appendChild(mainLink);
-      var secondaryLink=makeLink(item.secondaryArticleUrl,item.secondaryArticleLabel);
+      var secondaryLink=makeLink(item.secondaryArticleUrl,item.secondaryArticleLabel,cardLinkUrls);
       if(secondaryLink)links.appendChild(secondaryLink);
 
       // चुनी हुई पर्व-तारीख़ के लिए मुख्य पंचांग का सीधा लिंक।
@@ -605,16 +619,8 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var eclipseText=String(item.title||"")+" "+String(item.category||"");
       var isEclipseEvent=/ग्रहण|grahan|eclipse/i.test(eclipseText);
       var eclipsePageUrl="https://ourhindudharm.blogspot.com/p/grahan-panchang.html";
-      var hasEclipsePageLink=[item.articleUrl,item.secondaryArticleUrl].some(function(url){
-        var href=safeUrl(url);
-        if(!href)return false;
-        try{
-          var parsed=new URL(href);
-          return parsed.protocol==="https:"&&parsed.hostname==="ourhindudharm.blogspot.com"&&parsed.pathname==="/p/grahan-panchang.html";
-        }catch(e){return false;}
-      });
-      if(isEclipseEvent&&!hasEclipsePageLink){
-        var eclipseLink=makeLink(eclipsePageUrl,"सूतक, मंत्र-जप एवं पुरश्चरण की जानकारी");
+      if(isEclipseEvent){
+        var eclipseLink=makeLink(eclipsePageUrl,"सूतक, मंत्र-जप एवं पुरश्चरण की जानकारी",cardLinkUrls);
         if(eclipseLink)links.appendChild(eclipseLink);
       }
       if(links.childNodes.length)content.appendChild(links);
@@ -662,7 +668,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     }
   }
   function ensureYearOption(year){
-    var value=String(year);
+    var numeric=Number(year);
+    if(!Number.isInteger(numeric)||numeric<2026||numeric>2030)return null;
+    var value=String(numeric);
     var existing=Array.from(yearSelect.options).find(function(option){return option.value===value;});
     if(existing)return existing;
     var option=document.createElement("option");
@@ -673,12 +681,20 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       .forEach(function(item){yearSelect.appendChild(item);});
     return option;
   }
+  function syncMonthNavigationButtons(){
+    var year=Number(yearSelect.value),month=Number(monthSelect.value);
+    var atStart=year===2026&&month===1,atEnd=year===2030&&month===12;
+    ["prevBtn","footerPrevBtn"].forEach(function(id){var button=document.getElementById(id);if(button)button.disabled=atStart;});
+    ["nextBtn","footerNextBtn"].forEach(function(id){var button=document.getElementById(id);if(button)button.disabled=atEnd;});
+  }
   function shiftMonth(delta,preserveViewportAnchor){
     var y=Number(yearSelect.value),m=Number(monthSelect.value)+delta;
     if(m<1){m=12;y--;}else if(m>12){m=1;y++;}
+    if(y<2026||y>2030){syncMonthNavigationButtons();return;}
     ensureYearOption(y);
     yearSelect.value=String(y);
     monthSelect.value=String(m).padStart(2,"0");
+    syncMonthNavigationButtons();
     loadMonth(preserveViewportAnchor);
   }
   locationSearchBtn.addEventListener("click",searchLocation);
@@ -687,8 +703,8 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   });
   syncLocationUI();
   searchInput.addEventListener("input",applyFilters);
-  monthSelect.addEventListener("change",loadMonth);
-  yearSelect.addEventListener("change",loadMonth);
+  monthSelect.addEventListener("change",function(){syncMonthNavigationButtons();loadMonth();});
+  yearSelect.addEventListener("change",function(){syncMonthNavigationButtons();loadMonth();});
   document.getElementById("prevBtn").addEventListener("click",function(){shiftMonth(-1);});
   document.getElementById("nextBtn").addEventListener("click",function(){shiftMonth(1);});
   document.getElementById("footerPrevBtn").addEventListener("click",function(event){shiftMonth(-1,event.currentTarget);});
@@ -706,6 +722,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   ensureYearOption(initialDate.getFullYear());
   yearSelect.value=String(initialDate.getFullYear());
   monthSelect.value=String(initialDate.getMonth()+1).padStart(2,"0");
+  syncMonthNavigationButtons();
   syncLocationUI();
   // The festival list must not wait for the external elevation service.
   loadMonth();
