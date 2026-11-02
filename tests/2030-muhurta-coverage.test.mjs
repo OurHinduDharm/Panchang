@@ -27,10 +27,10 @@ test("2030 major festival cards retain their implemented muhurta rules", async (
   const september = await readMonth(9);
   const october = await readMonth(10);
   const find = (events, pattern) => events.find(event => pattern.test(event.title || ""));
-  assert.equal(find(september.events, /गणेश चतुर्थी/).muhurtaRules[0], "vinayaka-chaturthi-madhyahna");
-  assert.equal(find(october.events, /करवा चौथ/).muhurtaRules[0], "karwa-chauth-puja");
-  assert.equal(find(october.events, /धनतेरस/).muhurtaRules[0], "dhanteras-muhurta");
+  assert.equal(find(september.events, /गणेश चतुर्थी/).muhurtaRule, "vinayaka-chaturthi-madhyahna");
+  assert.equal(find(october.events, /करवा चौथ/).muhurtaRule, "karwa-chauth-puja");
+  assert.equal(find(october.events, /धनतेरस/).muhurtaRule, "dhanteras-muhurta");
   assert.deepEqual(find(october.events, /दीपावली|दिवाली/).muhurtaRules,
     ["diwali-lakshmi-puja", "narak-chaturdashi-abhyanga"]);
-  assert.equal(find(october.events, /भैया दूज|भाई दूज/).muhurtaRules[0], "bhai-dooj-tilak");
+  assert.equal(find(october.events, /भैया दूज|भाई दूज/).muhurtaRule, "bhai-dooj-tilak");
 });
