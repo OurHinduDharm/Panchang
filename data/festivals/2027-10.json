@@ -50,7 +50,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "आश्विन शुक्ल एकादशी"
     },
     {
       "date": "2027-10-14",
@@ -59,7 +60,8 @@
       "description": "शरद पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
     },
     {
       "date": "2027-10-15",
@@ -68,7 +70,8 @@
       "description": "आश्विन पूर्णिमा तिथि का निर्णय पूर्णिमा-व्याप्ति के आधार पर किया जाता है। चंद्र-दर्शन और अर्घ्य का समय नगर के अनुसार बदलता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
     },
     {
       "date": "2027-10-22",
@@ -77,7 +80,8 @@
       "description": "अहोई अष्टमी पर माताएँ संतान के कल्याण और दीर्घायु की कामना से व्रत रखती हैं। संध्या में अहोई माता की पूजा और तारों को अर्घ्य देने की परंपरा है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण अष्टमी"
     },
     {
       "date": "2027-10-25",
@@ -87,7 +91,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "कार्तिक कृष्ण एकादशी"
     },
     {
       "date": "2027-10-26",

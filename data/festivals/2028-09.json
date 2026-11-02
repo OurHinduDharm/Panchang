@@ -31,7 +31,8 @@
       "description": "भाद्रपद पूर्णिमा पर स्नान, दान और चंद्र-पूजन की परंपरा है। कई पंचांगों में इसके बाद पितृपक्ष का आरम्भ माना जाता है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल पूर्णिमा"
     },
     {
       "date": "2028-09-04",
@@ -51,7 +52,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "आश्विन कृष्ण एकादशी"
     },
     {
       "date": "2028-09-16",
@@ -99,7 +101,8 @@
       "description": "शारदीय नवरात्र में माँ दुर्गा के स्वरूपों की पूजा, पाठ, जप और व्रत की परंपरा है। घटस्थापना का मुहूर्त प्रतिपदा-व्याप्ति और स्थानीय दिनमान के आधार पर निर्धारित होता है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल प्रतिपदा"
     },
     {
       "date": "2028-09-24",
@@ -136,7 +139,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "आश्विन शुक्ल एकादशी"
     }
   ]
 }

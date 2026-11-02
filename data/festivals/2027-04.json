@@ -14,7 +14,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "चैत्र कृष्ण एकादशी"
     },
     {
       "date": "2027-04-07",
@@ -32,7 +33,8 @@
       "description": "चैत्र नवरात्र में माँ दुर्गा के नौ स्वरूपों की पूजा, पाठ, जप और व्रत की परंपरा है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल प्रतिपदा"
     },
     {
       "date": "2027-04-09",
@@ -106,7 +108,8 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "चैत्र शुक्ल एकादशी"
     },
     {
       "date": "2027-04-20",
@@ -115,7 +118,8 @@
       "description": "हनुमान जयंती / चैत्र पूर्णिमा पर श्रीहनुमान की पूजा, हनुमान चालीसा-पाठ, स्नान, दान और जप की परंपरा है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा"
     }
   ]
 }
