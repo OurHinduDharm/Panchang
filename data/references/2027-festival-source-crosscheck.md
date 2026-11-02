@@ -19,6 +19,12 @@ The 2027 monthly catalog was compared with Drik Panchang's annual Hindu calendar
 - Durga Puja begins 5 October in Drik's dedicated calendar; this is distinct from Vijayadashami on 9 October.
 - 18 June Jyeshtha Purnima / Vat Purnima card has no Kabir Jayanti alias, following the user's earlier removal decision.
 
+## Local eclipse visibility
+
+- 2 August 2027 partial solar eclipse: visible in Pithoragarh from 4:01 PM to 4:56 PM, maximum at 4:29 PM. The 6 February annular solar eclipse is not visible locally, and the February/August penumbral lunar eclipses are not included as Hindu grahan cards.
+
+Reference: https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270802
+
 ## Chaturmas convention
 
 Devshayani Ekadashi 14 July and Smarta Devutthana Ekadashi 10 November are the OHD dates. OHD does not introduce Vaishnava-only Chaturmas dates. The completion and card-visibility dates remain governed by the separately approved Chaturmas rules.
