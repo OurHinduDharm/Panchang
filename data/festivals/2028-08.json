@@ -118,7 +118,8 @@
       "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजन, नैवेद्य और मंत्र-जप की परंपरा है। चतुर्थी-व्याप्ति और चंद्र-दर्शन संबंधी नियम चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2028-08-23",
