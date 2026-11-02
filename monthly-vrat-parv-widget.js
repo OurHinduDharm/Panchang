@@ -469,15 +469,17 @@
       if(ruleIds.indexOf("masik-shivaratri-nishita")===-1) ruleIds.push("masik-shivaratri-nishita");
       if(ruleIds.indexOf("masik-shivaratri-four-prahar")===-1) ruleIds.push("masik-shivaratri-four-prahar");
     }
-    // महाष्टमी प्रविष्टि पर संधिपूजा का मुहूर्त स्थानीय तिथि-संधि से निकालें।
-    if(!ruleIds.length&&/महाष्टमी|महाअष्टमी|दुर्गाष्टमी|दुर्गा अष्टमी|दुर्गा पूजा.*अष्टमी/i.test(String(item.title||""))) ruleIds=["sandhi-puja"];
     if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title||""))||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
     if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(String(item.title||""))) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
     if(!ruleIds.length&&/होलिका[\s-]*दहन/i.test(String(item.title||""))) ruleIds=["holika-dahan-pradosh"];
-    if(!ruleIds.length) return;
     try{
       var muhurtaModule=await muhurtaModulePromise;
       if(!muhurtaModule) return;
+      var isSharadiyaMahashtami=typeof muhurtaModule.isSharadiyaMahashtamiEvent==="function"&&muhurtaModule.isSharadiyaMahashtamiEvent(item);
+      // Explicit JSON rule ho ya auto-detection, संधिपूजा केवल शारदीय महाष्टमी पर।
+      ruleIds=ruleIds.filter(function(ruleId){return ruleId!=="sandhi-puja"||isSharadiyaMahashtami;});
+      if(!ruleIds.length&&isSharadiyaMahashtami) ruleIds=["sandhi-puja"];
+      if(!ruleIds.length) return;
       var usableRules=[];
       ruleIds.forEach(function(ruleId){
         var ruleItem=Object.assign({},item,{muhurtaRule:ruleId});
@@ -1191,7 +1193,7 @@
     // वार्षिक पंचांग से सभी शुक्ल/कृष्ण द्वादशी की वास्तविक तिथि-उपस्थिति
     // मासिक सूची में जोड़ें; ये तिथि-सूचनाएँ व्रत-निर्णय का विकल्प नहीं हैं।
     (Array.isArray(annual.tithiDates)?annual.tithiDates:[]).forEach(function(item){
-      if(!item||!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(item.date||"")))return;
+      if(!item||!/^\d{4}-\d{2}-\d{2}$/.test(String(item.date||"")))return;
       var date=String(item.date);
       if(Number(date.slice(0,4))!==Number(year)||Number(date.slice(5,7))!==Number(month))return;
       var paksha=String(item.paksha||"");
