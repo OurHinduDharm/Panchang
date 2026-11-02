@@ -1475,7 +1475,7 @@
      focusDate.slice(0,4)===String(requestedYear)&&Number(focusDate.slice(5,7))===requestedMonth){
     initialDate=new Date(requestedYear,requestedMonth-1,1,12,0,0);
   }
-  var initialYear=Math.min(2029,Math.max(2026,initialDate.getFullYear()));
+  var initialYear=Math.min(2030,Math.max(2026,initialDate.getFullYear()));
   if(initialYear!==initialDate.getFullYear())initialDate=new Date(initialYear,initialDate.getMonth(),1,12,0,0);
   ensureYearOption(initialYear);
   yearSelect.value=String(initialYear);
