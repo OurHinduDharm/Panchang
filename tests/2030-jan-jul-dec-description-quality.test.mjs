@@ -22,7 +22,7 @@ test("2030 January to July and December cards use event-specific descriptions", 
   assert.match(find(months[1].events, /सकट चौथ/).description, /तिल-गुड़/);
   assert.match(find(months[2].events, /वसंत पंचमी/).articleUrl || "", /AboutGoddessSaraswatiOnVasantPanchami/);
   assert.match(find(months[2].events, /भीष्म अष्टमी/).articleUrl || "", /AboutBheeshma-Tarpan/);
-  assert.match(find(months[3].events, /होली/).description, /रंग और गुलाल/);
+  assert.match(find(months[3].events, /होली \/ धुलेंडी/).description, /रंग और गुलाल/);
   assert.match(find(months[3].events, /शीतला अष्टमी/).description, /शीतल भोजन/);
   assert.match(find(months[4].events, /यमुना छठ/).description, /यमुना महारानी/);
   assert.match(find(months[4].events, /हनुमान जयंती/).articleUrl || "", /About-Lord-Hanuman-Jayanti/);
