@@ -8,6 +8,8 @@ on:
     paths:
       - 'scripts/merge-festival-months-to-yearly.mjs'
       - 'scripts/audit-annual-publication-readiness.mjs'
+      - 'scripts/audit-festival-catalog.mjs'
+      - 'tests/festival-catalog-integrity.test.mjs'
       - 'festival-muhurta.js'
       - 'scripts/generate-annual-dwadashi-review.mjs'
       - 'data/festivals/**'
@@ -29,6 +31,8 @@ on:
     paths:
       - 'scripts/merge-festival-months-to-yearly.mjs'
       - 'scripts/audit-annual-publication-readiness.mjs'
+      - 'scripts/audit-festival-catalog.mjs'
+      - 'tests/festival-catalog-integrity.test.mjs'
       - 'festival-muhurta.js'
       - 'scripts/generate-annual-dwadashi-review.mjs'
       - 'data/festivals/**'
@@ -61,3 +65,8 @@ jobs:
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Run yearly migration, annual readiness, Samaveda decision, and local eclipse visibility tests
         run: node --test tests/merge-festival-months-to-yearly.test.mjs tests/audit-annual-publication-readiness.test.mjs tests/samaveda-annual-review.test.mjs tests/eclipse-panchang-visibility.test.mjs
+      - name: Audit every monthly festival catalog from 2026 through 2030
+        run: |
+          for year in 2026 2027 2028 2029 2030; do
+            node scripts/audit-festival-catalog.mjs "$year"
+          done
