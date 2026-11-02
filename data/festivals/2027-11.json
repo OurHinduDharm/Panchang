@@ -45,7 +45,9 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
+      "articleLabel": "देवोत्थानी एकादशी की महिमा पढ़ें"
     },
     {
       "date": "2027-11-11",
@@ -63,7 +65,9 @@
       "description": "कार्तिक पूर्णिमा पर स्नान, दान, दीपदान और भगवान विष्णु/शिव की उपासना की परंपरा है। काशी सहित अनेक स्थानों पर देव दीपावली मनाई जाती है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
+      "articleLabel": "आकाशदीपदान की विधि पढ़ें"
     },
     {
       "date": "2027-11-20",
