@@ -790,14 +790,13 @@
     var item={date:iso,dateLabel:iso.slice(8,10)+" "+months[Number(iso.slice(5,7))-1],category:"नवरात्रि",
       calculationStatus:"tithi-derived",reviewStatus:"needs-review",showReviewStatus:true,
       navratriFamily:family.id,hinduTithi:"शुक्ल "+["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी"][tithiIndex]};
-    var note="";
     if(tithiIndex===0){
       item.title=family.label+" प्रारम्भ";
       item.description=family.kind==="वासन्तिक"
-        ?"चैत्र शुक्ल प्रतिपदा से वासन्तिक नवरात्र तथा नवसंवत्सर का आरम्भ। घटस्थापना करें। "+note
+        ?"चैत्र शुक्ल प्रतिपदा से वासन्तिक नवरात्र तथा नवसंवत्सर का आरम्भ। घटस्थापना करें।"
         :family.kind==="शारदीय"
-        ?"आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र का आरम्भ। घटस्थापना करें। "+note
-        :"शुक्ल प्रतिपदा से गुप्त नवरात्र-साधना का आरम्भ। घटस्थापना, जप और पाठ करें। "+note;
+        ?"आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र का आरम्भ। घटस्थापना करें।"
+        :"शुक्ल प्रतिपदा से गुप्त नवरात्र-साधना का आरम्भ। घटस्थापना, जप और पाठ करें।";
       item.articleUrl=family.kind==="गुप्त"
         ?"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html"
         :family.kind==="वासन्तिक"
@@ -809,7 +808,7 @@
       item.muhurtaRule="ghata-sthapana";
     }else if(tithiIndex>=1&&tithiIndex<=8){
       item.title=family.label+" "+["","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी"][tithiIndex]+" — "+navratriDeities[tithiIndex];
-      item.description="नवरात्र के इस दिन माँ "+navratriDeities[tithiIndex]+" की पूजा, स्तोत्र-पाठ और जप करें। "+note;
+      item.description="नवरात्र के इस दिन माँ "+navratriDeities[tithiIndex]+" की पूजा, स्तोत्र-पाठ और जप करें।";
       item.articleUrl=navratriLinks[tithiIndex];
       item.articleLabel=navratriDeities[tithiIndex]+" की पूजा";
       if(tithiIndex===7){
@@ -822,7 +821,7 @@
         item.secondaryArticleUrl="https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html";
         item.secondaryArticleLabel="नवमी हवन विधि";
         if(family.kind==="वासन्तिक"){
-          item.description+=" चैत्र नवरात्र की नवमी श्रीरामनवमी भी है; श्रीरामनवमी का पृथक तिथि-निर्णय देखें।";
+          item.description+=" चैत्र नवरात्र की नवमी पर श्रीरामनवमी भी मनाई जाती है।";
           item.secondaryArticleUrl="http://ourhindudharm.blogspot.com/2014/04/About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html";
           item.secondaryArticleLabel="श्रीरामनवमी पूजा-विधि";
         }
@@ -830,8 +829,8 @@
     }else if(tithiIndex===9){
       item.title=family.kind==="शारदीय"?"शारदीय नवरात्र दशमी — विजयादशमी":family.label+" दशमी — साधना-समापन / पारण";
       item.description=family.kind==="शारदीय"
-        ?"विजयादशमी पर अपराजिता-पूजन, शमी-पूजन, सीमोल्लंघन तथा कलश-विसर्जन करें। "+note
-        :"नवरात्र-साधना का समापन, कलश-विसर्जन और पारण करें। "+note;
+        ?"विजयादशमी पर अपराजिता-पूजन, शमी-पूजन, सीमोल्लंघन तथा कलश-विसर्जन करें।"
+        :"नवरात्र-साधना का समापन, कलश-विसर्जन और पारण करें।";
       item.articleUrl="https://ourhindudharm.blogspot.com/p/kalashvisarjan.html";
       item.articleLabel=family.kind==="शारदीय"?"कलश-विसर्जन विधि":"पारण और अनुष्ठान-समापन की जानकारी";
     }else return null;
