@@ -19,6 +19,17 @@ test("Saraswati event date guard accepts ISO dates and rejects escaped-pattern r
   );
 });
 
+test("dynamic Navratri public copy stays concise and avoids repeated local-calculation caveats", () => {
+  const start = source.indexOf("function makeDynamicNavratriEvent");
+  const end = source.indexOf("async function buildDynamicNavratriEvents", start);
+  assert.ok(start >= 0 && end > start, "dynamic Navratri copy builder must remain present");
+  const builder = source.slice(start, end);
+  assert.doesNotMatch(builder, /स्थानीय तिथि-व्याप्ति|चयनित स्थान:|अपनी कुल-परंपरा के अनुसार|स्थानीय समय को साथ में देखें/);
+  assert.match(builder, /संधिपूजा का मुहूर्त नीचे दिया गया है/);
+  assert.match(builder, /माँ सिद्धिदात्री की पूजा, हवन और कन्या-पूजन करें/);
+  assert.match(builder, /नवरात्र-साधना का समापन, कलश-विसर्जन और पारण करें/);
+});
+
 test("dynamic Navratri recognition requires a valid Shukla tithi before replacing stored entries", () => {
   const start = source.indexOf("async function buildDynamicNavratriEvents");
   const end = source.indexOf("function isLegacyNavratriDailyEvent", start);
