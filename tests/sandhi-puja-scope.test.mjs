@@ -66,6 +66,20 @@ test("Sandhi Puja scope is consistent across every catalog year (2026–2030)", 
   );
 });
 
+test("reported November monthly Durga Ashtami has no Sandhi Puja rule and Blogger CSS styles muhurta cards", async () => {
+  const november = JSON.parse(await read("data/festivals/2026-11.json"));
+  const event = november.events.find(item => item.date === "2026-11-17" && /मासिक दुर्गाष्टमी/.test(item.title || ""));
+  assert.ok(event, "17 November 2026 monthly Durga Ashtami fixture exists");
+  assert.equal(event.muhurtaRule, undefined, "monthly Durga Ashtami must not carry Sandhi Puja rule");
+
+  const css = await read("monthly-vrat-parv-widget.css");
+  for (const selector of [".muhurta-box", ".muhurta-heading", ".muhurta-detail", ".muhurta-window", ".muhurta-window.primary", ".muhurta-window-time", ".muhurta-location"]) {
+    assert.ok(css.includes("#ohd-monthly-festivals " + selector), "Blogger widget CSS styles " + selector);
+  }
+  assert.match(css, /@media\\s*\\(min-width:\\s*560px\\)/);
+  assert.match(css, /@media\\s*\\(max-width:\\s*380px\\)/);
+});
+
 test("annual Dwadashi date rows accept standard ISO dates", async () => {
   const widget = await read("monthly-vrat-parv-widget.js");
   assert.match(widget, /!\/\^\\d\{4\}-\\d\{2\}-\\d\{2\}\$/);
