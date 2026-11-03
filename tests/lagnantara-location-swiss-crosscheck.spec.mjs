@@ -56,22 +56,24 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
         );
         return row ? [...row.cells].map(cell => cell.innerText) : [];
       });
-    assert.equal(sourceCells.length, 15, "main Lagnantara row must expose all 15 comparison columns");
-    assert.equal(sourceCells[10], "8.00°", "Venus east-rising must use the Chapter IX.7 east-rising C=8° branch");
+    assert.equal(sourceCells.length, 16, "main Lagnantara row must expose all 16 comparison columns");
+    assert.match(sourceCells[2], /^east-rising \/ -?[0-9]+\\.[0-9]+°\/day$/,
+      "Venus Udaya must be independently classified as east-rising from zodiac order and signed motion");
+    assert.equal(sourceCells[11], "8.00°", "Venus east-rising must use the Chapter IX.7 east-rising C=8° branch");
     const jupiterAstaC = await page.locator("#lagnantaraOutput tbody tr")
       .evaluateAll(rows => {
         const row = rows.find(item =>
           item.cells?.[0]?.innerText.trim() === "Jupiter" &&
           item.cells?.[1]?.innerText.trim() === "Asta"
         );
-        return row?.cells?.[10]?.innerText.trim() || "";
+        return row?.cells?.[11]?.innerText.trim() || "";
       });
     assert.equal(jupiterAstaC, "11.00°", "Jupiter event geometry must use the Chapter IX.6 C=11° branch");
-    assert.ok(Number.isFinite(Number.parseFloat(sourceCells[6])),
+    assert.ok(Number.isFinite(Number.parseFloat(sourceCells[7])),
       "Chapter III + VII source-sequence K must be a finite numeric result");
-    assert.ok(sourceCells[14].length > 0,
+    assert.ok(sourceCells[15].length > 0,
       "Chapter III + VII source-sequence daily bracket must be reported");
-    const sourceUdaya = sourceCells[14];
+    const sourceUdaya = sourceCells[15];
     assert.ok(sourceUdaya.includes("28 Oct 2026") && sourceUdaya.includes("29 Oct 2026"),
       "PR #22 Chapter III + VII source sequence must bracket Venus Udaya on 28→29 Oct");
     const sourceBefore = sourceUdaya.indexOf("28 Oct 2026");
