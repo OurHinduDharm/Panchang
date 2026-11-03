@@ -221,7 +221,7 @@
     <button id="runRefBtn">Reference Comparison</button>
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
-    <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
+    <button id="runHistoricalBoundaryBtn">Historical Boundary Geometry</button>
     <button id="copyDrikBoundaryBtn" type="button">Copy boundary JSON</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
@@ -403,12 +403,12 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- DRIK PUBLISHED BOUNDARY AUDIT -->
+  <!-- HISTORICAL UNVERIFIED BOUNDARY AUDIT -->
   <!-- ========================================================= -->
 
   <section>
-    <h2>Drik Panchang Published Boundary Audit — Pithoragarh</h2>
-    <p>Uses the published local start/end times supplied for Pithoragarh. It calculates Sun–planet geometry at those exact instants with Astronomy Engine; it does not claim to reproduce Drik Panchang’s private visibility algorithm.</p>
+    <h2>Historical Pithoragarh Boundary Geometry — Unverified Transcriptions</h2>
+    <p><strong>महत्त्वपूर्ण:</strong> नीचे के चार समय पुराने project transcriptions हैं; named-city Drik source से स्वतंत्र रूप से पुनः सत्यापित नहीं हुए हैं। ये active benchmark या acceptance targets नहीं हैं। केवल configured Pithoragarh observer पर geometry का diagnostic निकालें; इन्हें प्रकाशित/प्रमाणित Drik समय न मानें।</p>
     <div class="status warn"><strong>Interpretation:</strong> Angular separation is a comparison diagnostic, not a pass/fail test for naked-eye visibility. Local altitude also does not account for terrain, haze, atmospheric extinction, or the full twilight visibility criterion.</div>
     <div id="drikBoundaryOutput"><div class="status info">Not run yet.</div></div>
   </section>
@@ -568,7 +568,7 @@ const REFERENCES = [
 // Published event boundaries transcribed by the user from Drik Panchang.
 // Local times are Pithoragarh clock time (Asia/Kolkata, UTC+05:30).
 // Keep these separate from the older Dehradun/Tantrakulam reference set above.
-const DRIK_PITHORAGARH_BOUNDARIES = [
+const UNVERIFIED_PITHORAGARH_BOUNDARY_TRANSCRIPTIONS = [
   { planet: "Venus", event: "Asta begins — evening boundary", localTime: "2026-10-12T18:05:00" },
   { planet: "Venus", event: "Asta ends — morning boundary", localTime: "2026-10-29T05:49:00" },
   { planet: "Jupiter", event: "Asta begins — evening boundary", localTime: "2027-08-16T19:24:00" },
@@ -1019,7 +1019,7 @@ console.log(
     html += `
       <tr>
         <td>${ref.planet}</td>
-        <td>${ref.event}</td>
+        <td>UNVERIFIED — ${ref.event}</td>
         <td>${ref.date}</td>
         <td>${ref.elongation.toFixed(3)}°</td>
         <td>${round(calculated, 3)}°</td>
@@ -3264,15 +3264,15 @@ function getClassicalGeometry(body, date, planet) {
   };
 }
 
-function runDrikBoundaryAudit() {
+function runHistoricalBoundaryGeometryAudit() {
   const output = document.getElementById("drikBoundaryOutput");
   const fmt = value => Number.isFinite(value) ? round(value, 3) + "°" : "—";
   let rows = "";
 
-  for (const ref of DRIK_PITHORAGARH_BOUNDARIES) {
-    // The supplied strings are local wall-clock times in Pithoragarh (IST).
+  for (const ref of UNVERIFIED_PITHORAGARH_BOUNDARY_TRANSCRIPTIONS) {
+    // Historical, unverified project transcription; local wall-clock time in IST.
     const date = new Date(ref.localTime + "+05:30");
-    if (Number.isNaN(date.getTime())) throw new Error("Invalid Drik boundary time: " + ref.localTime);
+    if (Number.isNaN(date.getTime())) throw new Error("Invalid historical boundary transcription: " + ref.localTime);
 
     const body = BODY_NAMES[ref.planet];
     const geometry = getClassicalGeometry(body, date, ref.planet);
@@ -3282,7 +3282,7 @@ function runDrikBoundaryAudit() {
 
     rows += `<tr>
       <td>${ref.planet}</td>
-      <td>${ref.event}</td>
+      <td>UNVERIFIED — ${ref.event}</td>
       <td>${ref.localTime.replace("T", " ")} IST</td>
       <td>${geometry.motionType}</td>
       <td>${fmt(geometry.eclipticSeparation)}</td>
@@ -3296,9 +3296,9 @@ function runDrikBoundaryAudit() {
     </tr>`;
   }
 
-  output.innerHTML = `<div class="status info">Observer: Pithoragarh (${CONFIG.latitude}°, ${CONFIG.longitude}°), elevation ${CONFIG.elevation} m. Published local event times are inputs; every angle and altitude below is calculated independently for that instant.</div>
+  output.innerHTML = `<div class="status info">Observer: Pithoragarh (${CONFIG.latitude}°, ${CONFIG.longitude}°), elevation ${CONFIG.elevation} m. Historical unverified transcriptions are inputs; geometry is calculated independently and is not an event validation.</div>
     <div class="table-wrap"><table><thead><tr>
-      <th>Planet</th><th>Published boundary</th><th>Local time</th><th>Motion</th>
+      <th>Planet</th><th>Unverified historical boundary</th><th>Local time</th><th>Motion</th>
       <th>Ecliptic separation</th><th>True 3-D elongation</th><th>Classical C</th>
       <th>Ecliptic Δ from C</th><th>3-D Δ from C</th><th>Sun altitude</th>
       <th>Planet altitude</th><th>Azimuth difference</th>
@@ -3306,18 +3306,19 @@ function runDrikBoundaryAudit() {
     <p class="small">“Δ from C” is calculated separation minus the classical angular threshold (Venus 8° retrograde / 10° direct; Jupiter 11°). Negative values mean the calculated separation is below C. The threshold rule is only a classical comparison and is not assumed to be Drik Panchang’s event criterion.</p>`;
 }
 
-async function copyDrikBoundaryAuditJSON() {
-  const events = DRIK_PITHORAGARH_BOUNDARIES.map(ref => {
+async function copyHistoricalBoundaryGeometryJSON() {
+  const events = UNVERIFIED_PITHORAGARH_BOUNDARY_TRANSCRIPTIONS.map(ref => {
     const date = new Date(ref.localTime + "+05:30");
-    if (Number.isNaN(date.getTime())) throw new Error("Invalid Drik boundary time: " + ref.localTime);
+    if (Number.isNaN(date.getTime())) throw new Error("Invalid historical boundary transcription: " + ref.localTime);
     const body = BODY_NAMES[ref.planet];
     const geometry = getClassicalGeometry(body, date, ref.planet);
     const planet = getHorizontal(body, date);
     const sun = getSunHorizontal(date);
     return {
       planet: ref.planet,
-      publishedBoundary: ref.event,
-      publishedLocalTime: ref.localTime,
+      referenceLabel: ref.event,
+      referenceStatus: "unverified-historical-transcription-not-acceptance-target",
+      referenceLocalTime: ref.localTime,
       timeZone: "Asia/Kolkata",
       instantUTC: date.toISOString(),
       observer: {
@@ -3349,9 +3350,10 @@ async function copyDrikBoundaryAuditJSON() {
   });
   const report = {
     schemaVersion: "1.0.0",
-    reportType: "drik-published-boundary-geometry-diagnostic",
+    reportType: "unverified-historical-boundary-geometry-diagnostic",
+    referenceStatus: "unverified-historical-transcription-not-acceptance-target",
     generatedAtUTC: new Date().toISOString(),
-    importantLimit: "Published Drik event times are inputs. Geometry at those instants is calculated independently; this is not proof of naked-eye visibility or Drik's private event algorithm.",
+    importantLimit: "These are unverified historical project transcriptions, not confirmed published Drik reference times. Geometry at these instants is diagnostic only and is not proof of naked-eye visibility or Drik's private event algorithm.",
     observerDefaults: {
       locationLabel: "Pithoragarh",
       latitude: CONFIG.latitude,
@@ -3365,12 +3367,12 @@ async function copyDrikBoundaryAuditJSON() {
   try {
     await navigator.clipboard.writeText(json);
     document.getElementById("drikBoundaryOutput").insertAdjacentHTML("afterbegin",
-      '<div class="status ok">पूर्ण-सटीकता वाला JSON क्लिपबोर्ड में कॉपी हुआ। यह निदान है, प्रमाणित दृश्यता-मॉडल नहीं।</div>');
+      '<div class="status ok">ऐतिहासिक अप्रमाणित reference का JSON कॉपी हुआ। यह केवल निदान है, Drik-सत्यापन नहीं।</div>');
   } catch (error) {
     const link = document.createElement("a");
     const url = URL.createObjectURL(new Blob([json], {type:"application/json"}));
     link.href = url;
-    link.download = "drik-boundary-geometry-diagnostic.json";
+    link.download = "unverified-historical-boundary-geometry-diagnostic.json";
     link.click();
     URL.revokeObjectURL(url);
   }
@@ -3933,9 +3935,9 @@ async function runAll() {
 await runReferenceWindowScan();
 console.log("RUN ALL: Section 7 DONE");
 
-console.log("RUN ALL: Drik boundary geometry START");
-runDrikBoundaryAudit();
-console.log("RUN ALL: Drik boundary geometry DONE");
+console.log("RUN ALL: Historical boundary geometry START");
+runHistoricalBoundaryGeometryAudit();
+console.log("RUN ALL: Historical boundary geometry DONE");
 
 console.log("RUN ALL: Swiss API inspection START");
 
@@ -4058,13 +4060,13 @@ document
   );
 
 document
-  .getElementById("runDrikBoundaryBtn")
+  .getElementById("runHistoricalBoundaryBtn")
   .addEventListener("click", () => {
     try {
-      runDrikBoundaryAudit();
-      setStatus("Drik boundary geometry calculated (diagnostic only).", "info");
+      runHistoricalBoundaryGeometryAudit();
+      setStatus("Historical unverified boundary geometry calculated (diagnostic only).", "info");
     } catch (error) {
-      console.error("DRIK BOUNDARY AUDIT ERROR:", error);
+      console.error("HISTORICAL BOUNDARY AUDIT ERROR:", error);
       setStatus(error?.message || String(error), "error");
     }
   });
@@ -4073,9 +4075,9 @@ document
   .getElementById("copyDrikBoundaryBtn")
   .addEventListener("click", async () => {
     try {
-      await copyDrikBoundaryAuditJSON();
+      await copyHistoricalBoundaryGeometryJSON();
     } catch (error) {
-      console.error("DRIK BOUNDARY JSON EXPORT ERROR:", error);
+      console.error("HISTORICAL BOUNDARY JSON EXPORT ERROR:", error);
       setStatus(error?.message || String(error), "error");
     }
   });
