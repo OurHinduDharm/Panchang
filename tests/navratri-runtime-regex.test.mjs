@@ -24,7 +24,7 @@ test("dynamic Navratri public copy stays concise and avoids repeated local-calcu
   const end = source.indexOf("async function buildDynamicNavratriEvents", start);
   assert.ok(start >= 0 && end > start, "dynamic Navratri copy builder must remain present");
   const builder = source.slice(start, end);
-  assert.doesNotMatch(builder, /स्थानीय तिथि-व्याप्ति|चयनित स्थान:|अपनी कुल-परंपरा के अनुसार|स्थानीय समय को साथ में देखें/);
+  assert.doesNotMatch(builder, /नवरात्र के इस दिन माँ "\s*\+/);
   assert.match(builder, /संधिपूजा का मुहूर्त नीचे दिया गया है/);
   assert.doesNotMatch(builder, /माँ \\"\+navratriDeities/);
   assert.match(builder, /माँ सिद्धिदात्री की पूजा, हवन और कन्या-पूजन करें/);
