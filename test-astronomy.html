@@ -3243,7 +3243,7 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Ch. III+VII source K</th><th>Current K−C</th><th>Sequential K−C</th><th>Source K−C</th><th>C (SS IX.6–9)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th><th>Ch. III+VII source daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Ch. III+VII source K</th><th>Current K−C</th><th>Sequential K−C</th><th>Source K−C</th><th>C (SS IX.6–8)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th><th>Ch. III+VII source daily bracket</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
@@ -3251,6 +3251,7 @@ async function runLagnantaraDiagnostic() {
     const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
     const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
     const gSource = sample ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction) : null;
+    const branch = sample ? getChapter9EventBranch(ref.planet, sample) : null;
     const C = sample ? shastriyaC(ref.planet, ref.direction, sample) : NaN;
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
@@ -3259,6 +3260,8 @@ async function runLagnantaraDiagnostic() {
     html += '<tr class="reference-row">';
     html += '<td>'+ref.planet+'</td>';
     html += '<td>'+ref.event+'</td>';
+    html += '<td>'+(branch ? branch.horizonEvent +
+      (Number.isFinite(branch.dailyMotionDegPerDay) ? ' / ' + round(branch.dailyMotionDegPerDay,6) + '°/day' : '') : "—")+'</td>';
     html += '<td>'+(sample ? formatLocalFromUTCDate(sample) : "—")+'</td>';
     html += '<td>'+(g ? round(g.rawK,4)+"°" : "—")+'</td>';
     html += '<td>'+(g ? round(g.K,4)+"°" : "—")+'</td>';
@@ -3333,7 +3336,7 @@ async function runLagnantaraDiagnostic() {
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="15"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="16"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
