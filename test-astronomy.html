@@ -3333,10 +3333,10 @@ function scanChapter9SourceEventTimes(ref, crossing, config = TKS_CONFIG, stepMi
     } else if (previous && previous.residual * current.residual < 0) {
       const root = bisectChapter9SourceRoot(ref, previous, current, config, C);
       if (root) {
-        root.transition =
-          previous.residual < 0 && current.residual > 0
-            ? "K−C −→+ (time scan)"
-            : "K−C +→− (time scan)";
+        const isUdaya =
+          previous.residual < 0 && current.residual > 0;
+        root.transition = isUdaya ? "Udaya" : "Asta";
+        root.signTransition = isUdaya ? "K−C −→+" : "K−C +→−";
         // Do not report the opposite conjunction-side transition as the
         // requested event (e.g. a Udaya root in an Asta search window).
         if (root.transition === ref.event) roots.push(root);
