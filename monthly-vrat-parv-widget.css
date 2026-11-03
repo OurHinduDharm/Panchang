@@ -9,3 +9,24 @@
 #ohd-monthly-festivals .event > .google-auto-placed{grid-column:1 / -1!important;grid-row:1!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
 #ohd-monthly-festivals .event:has(> .google-auto-placed) > .date{grid-column:1!important;min-width:0!important}
 #ohd-monthly-festivals .event:has(> .google-auto-placed) > .content{grid-column:2!important;min-width:0!important;width:auto!important;overflow-wrap:anywhere!important}
+
+
+/* Festival muhurta cards: keep Blogger widget styling in sync with the standalone page. */
+#ohd-monthly-festivals .muhurta-box{--muhurta-accent:#a76522;min-width:0;margin:14px 0 4px;padding:14px;border:1px solid #ead8bd;border-top:3px solid var(--muhurta-accent);border-radius:15px;background:linear-gradient(155deg,#fffaf2 0%,#fff 68%);box-shadow:0 4px 14px rgba(83,55,24,.07)}
+#ohd-monthly-festivals .muhurta-heading{display:flex;align-items:center;gap:9px;color:#67401f;font-size:15px;font-weight:800;line-height:1.5}
+#ohd-monthly-festivals .muhurta-heading:before{content:"🪔";display:inline-grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:10px;background:#fff0d7;font-size:17px}
+#ohd-monthly-festivals .muhurta-detail{display:grid;grid-template-columns:minmax(0,1fr);gap:9px;margin-top:12px;min-width:0}
+#ohd-monthly-festivals .muhurta-window{position:relative;min-width:0;padding:11px 12px;border:1px solid #eee3d3;border-radius:11px;background:#fff;box-shadow:0 1px 4px rgba(70,48,25,.035);overflow-wrap:anywhere}
+#ohd-monthly-festivals .muhurta-window.primary{border:1px solid #c99532;border-left:5px solid #b87918;background:linear-gradient(125deg,#ffedb5 0%,#fff5d9 58%,#fffaf0 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.72),0 3px 10px rgba(126,82,25,.13)}
+#ohd-monthly-festivals .muhurta-window-name{display:block;color:#49301c;font-size:13px;font-weight:800;line-height:1.5}
+#ohd-monthly-festivals .muhurta-window.primary .muhurta-window-name{color:#68400d;font-size:14px}
+#ohd-monthly-festivals .muhurta-window-time{display:block;margin-top:5px;color:#8b4d12;font-size:15px;font-weight:850;line-height:1.45;font-variant-numeric:tabular-nums;letter-spacing:.1px}
+#ohd-monthly-festivals .muhurta-window.primary .muhurta-window-time{color:#8a4a08;font-size:17px}
+#ohd-monthly-festivals .muhurta-window-note{margin-top:5px;color:#716354;font-size:12px;line-height:1.55}
+#ohd-monthly-festivals .muhurta-location{display:flex;align-items:center;gap:5px;margin-top:11px;padding-top:8px;border-top:1px solid #f0e8dc;color:#817465;font-size:11px;line-height:1.45;overflow-wrap:anywhere}
+#ohd-monthly-festivals .muhurta-location:before{content:"📍";font-size:11px}
+@media(min-width:560px){#ohd-monthly-festivals .muhurta-box{padding:16px}#ohd-monthly-festivals .muhurta-detail{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#ohd-monthly-festivals .muhurta-window.primary{grid-column:1/-1}#ohd-monthly-festivals .muhurta-window-time{font-size:16px}}
+@media(min-width:900px){#ohd-monthly-festivals .muhurta-box{padding:17px 18px}#ohd-monthly-festivals .muhurta-detail{gap:11px}}
+@media(max-width:380px){#ohd-monthly-festivals .muhurta-box{padding:11px;border-radius:12px}#ohd-monthly-festivals .muhurta-heading{font-size:14px}#ohd-monthly-festivals .muhurta-window{padding:10px}#ohd-monthly-festivals .muhurta-window-time{font-size:14px}}
+@media(prefers-reduced-motion:no-preference){#ohd-monthly-festivals .muhurta-window{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}#ohd-monthly-festivals .muhurta-window:hover{border-color:#d9c29f;box-shadow:0 3px 10px rgba(70,48,25,.07);transform:translateY(-1px)}}
+@media print{#ohd-monthly-festivals .muhurta-box{break-inside:avoid;box-shadow:none;background:#fff;border:1px solid #bbb}#ohd-monthly-festivals .muhurta-window,#ohd-monthly-festivals .muhurta-window.primary{break-inside:avoid;background:#fff;box-shadow:none}}

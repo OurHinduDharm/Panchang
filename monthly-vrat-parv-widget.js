@@ -475,10 +475,10 @@
     try{
       var muhurtaModule=await muhurtaModulePromise;
       if(!muhurtaModule) return;
-      var isSharadiyaMahashtami=typeof muhurtaModule.isNavratriMahashtamiEvent==="function"&&muhurtaModule.isNavratriMahashtamiEvent(item);
+      var isNavratriMahashtami=typeof muhurtaModule.isNavratriMahashtamiEvent==="function"&&muhurtaModule.isNavratriMahashtamiEvent(item);
       // Explicit JSON rule ho ya auto-detection, संधिपूजा केवल चारों नवरात्रों की महाष्टमी पर।
-      ruleIds=ruleIds.filter(function(ruleId){return ruleId!=="sandhi-puja"||isSharadiyaMahashtami;});
-      if(!ruleIds.length&&isSharadiyaMahashtami) ruleIds=["sandhi-puja"];
+      ruleIds=ruleIds.filter(function(ruleId){return ruleId!=="sandhi-puja"||isNavratriMahashtami;});
+      if(!ruleIds.length&&isNavratriMahashtami) ruleIds=["sandhi-puja"];
       if(!ruleIds.length) return;
       var usableRules=[];
       ruleIds.forEach(function(ruleId){
@@ -564,7 +564,7 @@
               time.textContent=startTime+" – "+endTime;
             }
             row.appendChild(time);
-            if(windowItem.note){var windowNote=document.createElement("div");windowNote.style.fontSize="12px";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
+            if(windowItem.note){var windowNote=document.createElement("div");windowNote.className="muhurta-window-note";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
             detail.appendChild(row);
           });
         }else if(result.status==="calculated"&&result.time){
@@ -576,7 +576,7 @@
         }
         box.appendChild(detail);
         if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
-        var loc=document.createElement("div");loc.style.marginTop="3px";loc.style.fontSize="11px";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
+        var loc=document.createElement("div");loc.className="muhurta-location";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
         content.appendChild(box);
       });
     }catch(error){console.warn("Festival muhurta unavailable:",item.muhurtaRule||item.muhurtaRules,error);}
