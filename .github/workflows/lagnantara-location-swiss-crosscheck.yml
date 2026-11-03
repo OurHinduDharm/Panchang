@@ -6,6 +6,9 @@ on:
     paths:
       - "test-astronomy.html"
       - "tests/lagnantara-location-swiss-crosscheck.spec.mjs"
+      - "tests/lagnantara-chapter3-7-source-helpers.spec.mjs"
+      - "ss_chapter3_lagnantara.js"
+      - "ss_chapter7_drikkarma.js"
       - ".github/workflows/lagnantara-location-swiss-crosscheck.yml"
 
 permissions:
@@ -24,6 +27,8 @@ jobs:
         run: npm install --no-save playwright@1.55.0
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
+      - name: Run reused Chapter III / VII source-derived helper tests
+        run: node --test tests/lagnantara-chapter3-7-source-helpers.spec.mjs
       - name: Serve repository files
         run: |
           python3 -m http.server 8080 --bind 127.0.0.1 > /tmp/lagnantara-http.log 2>&1 &
