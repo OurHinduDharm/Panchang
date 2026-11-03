@@ -14,7 +14,7 @@ test("historical boundary JSON export marks unverified references and preserves 
   let notice = "";
   const sandbox = {
     Date,
-    DRIK_PITHORAGARH_BOUNDARIES: [
+    UNVERIFIED_PITHORAGARH_BOUNDARY_TRANSCRIPTIONS: [
       { planet: "Venus", event: "Asta begins — evening boundary", localTime: "2026-10-12T18:05:00" },
       { planet: "Venus", event: "Asta ends — morning boundary", localTime: "2026-10-29T05:49:00" }
     ],
