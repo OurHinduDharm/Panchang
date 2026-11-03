@@ -536,19 +536,18 @@
       usableRules.forEach(function(ruleItem){
         var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);
         if(!result) return;
-        var box=document.createElement("div");box.className="desc";
-        box.style.marginTop="7px";box.style.padding="8px 9px";box.style.borderRadius="8px";box.style.background="#fff8e9";
-        var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
-        var detail=document.createElement("div");
+        var box=document.createElement("section");box.className="muhurta-box";
+        var title=document.createElement("div");title.className="muhurta-heading";title.textContent=result.label||"मुहूर्त";box.appendChild(title);
+        var detail=document.createElement("div");detail.className="muhurta-detail";
         var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
-            var row=document.createElement("div");row.style.marginTop="5px";
+            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन/.test(windowItem.label||""))row.classList.add("primary");
             // यदि विंडो का नाम ऊपर दिए मुख्य मुहूर्त-शीर्षक जैसा ही है, तो उसे दोबारा न दिखाएँ।
             if(!muhurtaModule.areFestivalMuhurtaLabelsEquivalent(result.label,windowItem.label)){
-              var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
+              var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
             }
-            var time=document.createElement("div");
+            var time=document.createElement("div");time.className="muhurta-window-time";
             var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
             var endTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
             function dateKey(value){
@@ -575,7 +574,7 @@
           detail.textContent=result.message||"इस समय की गणना उपलब्ध नहीं है।";
         }
         box.appendChild(detail);
-        if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
+        if(result.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=result.note;box.appendChild(note);}
         var loc=document.createElement("div");loc.className="muhurta-location";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
         content.appendChild(box);
       });
