@@ -199,6 +199,25 @@ export function runChapter3LagnantaraTests() {
       close(reversed.lagnantaraAsu, sample.lagnantaraAsu, 1e-7)
   });
 
+  const pithoragarh = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: 123.4,
+    planetSiderealLongitudeDeg: 132.1,
+    direction: "east",
+    observerLatitudeDeg: 29.5828
+  });
+  const secondObserver = chapter9LagnantaraAsus({
+    sunSiderealLongitudeDeg: 123.4,
+    planetSiderealLongitudeDeg: 132.1,
+    direction: "east",
+    observerLatitudeDeg: 28.6139
+  });
+  tests.push({
+    name: "K responds to observer latitude for identical geocentric longitudes",
+    passed: Number.isFinite(pithoragarh.K) &&
+      Number.isFinite(secondObserver.K) &&
+      Math.abs(pithoragarh.K - secondObserver.K) > 1e-5
+  });
+
   return {
     tests,
     passed: tests.filter(test => test.passed).length,
