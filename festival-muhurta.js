@@ -668,10 +668,10 @@ const rules = {
       Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया"
     };
     const choghadiyaLabel = kind => kind === "Chal"
-      ? "चर चौघड़िया — यात्रा/गतिशील कार्य का विकल्प"
+      ? "चर चौघड़िया — दीपावली पूजन का वैकल्पिक समय"
       : choghadiyaNames[kind] + " — द्वितीयक समय-विकल्प";
     const choghadiyaNote = kind => kind === "Chal"
-      ? "चर चौघड़िया यात्रा और गतिशील कार्यों के लिए है।"
+      ? "दीपावली पूजन के लिए एक वैकल्पिक चौघड़िया समय।"
       : "अमावस्या-व्याप्त चौघड़िया का वैकल्पिक समय।";
     const favourable = new Set(["Amrit","Shubh","Labh","Chal"]);
     const choghadiyaWindows = [];
