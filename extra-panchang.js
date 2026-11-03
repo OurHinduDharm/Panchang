@@ -645,25 +645,6 @@ function createPlanetCard(
   card.innerHTML = `
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
-    <p class="planet-rise-set-note" style="margin:8px 0 14px;padding:10px 12px;border-left:3px solid #b7791f;background:rgba(183,121,31,.08);font-size:.92em;line-height:1.5">
-      नीचे दी गई तिथियाँ आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना हैं; ये भू-केंद्रीय (geocentric) अनुमान हैं।
-      ये चयनित नगर, अक्षांश, देशांतर या ऊँचाई के अनुसार नहीं बदलतीं; इन्हें स्थानीय दृश्यता अथवा स्थानीय उदय-अस्त न मानें।
-      प्रत्येक सीमा-पार समय को उस दिन-स्तरीय अंतराल के भीतर लगभग एक मिनट तक परिशोधित किया जाता है।
-      यह सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु (K/C) गणना, प्रमाणित शास्त्रीय तिथि,
-      या स्थानीय आँखों से दृश्यता का दावा नहीं है। प्रयुक्त कोणीय सीमाएँ भी सत्यापनाधीन हैं।
-    </p>
-
-    <section class="planet-rise-set-authenticity" aria-label="ग्रह अस्त-उदय गणना की प्रामाणिकता" style="margin:0 0 14px;padding:10px 12px;border:1px solid rgba(90,105,120,.28);border-radius:8px;background:rgba(90,105,120,.045);font-size:.9em;line-height:1.55">
-      <strong>प्रामाणिकता की स्थिति</strong>
-      <p style="margin:5px 0">अभी इन समयों को प्रमाणित स्थानीय ग्रह-अस्त/उदय या अंतिम शास्त्रीय निर्णय नहीं माना जाना चाहिए। उपलब्ध समय केवल सूर्य–ग्रह कोणीय दूरी की निर्धारित सीमा पार करने के अनुमान हैं।</p>
-      <ul style="margin:5px 0;padding-left:20px">
-        <li><strong>आधुनिक गणना:</strong> भू-केंद्रीय कोणीय दूरी; चयनित स्थान, क्षितिज, ऊँचाई और स्थानीय वायुमंडलीय दशाओं से स्वतंत्र।</li>
-        <li><strong>शास्त्रीय जाँच:</strong> सूर्यसिद्धान्त अध्याय ३.४३–४६ (राशि-उदयांश), ७.८–१० (दृक्कर्म) और ९.२–८ (लम्बान्तर तथा घटना-वर्गीकरण) के गणना-पथ अलग-अलग जाँचे जा रहे हैं।</li>
-        <li><strong>प्रमाणित घोषित करने की शर्त:</strong> सूत्रों की स्वतंत्र समीक्षा और उसी स्थान के विश्वसनीय प्रकाशित समयों से मिलान पूरा होने तक शास्त्रीय K/C परिणाम सत्यापनाधीन रहेंगे।</li>
-      </ul>
-      <p style="margin:5px 0 0">इसलिए नीचे के समयों को स्थानीय दृश्यता, स्थानीय क्षितिज पर वास्तविक उदय-अस्त, या प्रमाणित मुहूर्त-निर्णय का विकल्प न मानें।</p>
-    </section>
-
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
       ${data.map(planet => `
         <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
@@ -679,10 +660,11 @@ function createPlanetCard(
             : `<span style="display:block">कोणीय उदय-अनुमान उपलब्ध नहीं</span>`
           }
 
-          <span style="display:block;font-size:.9em;color:#8a5a00">शास्त्रीय K/C गणना — सत्यापनाधीन</span>
         </div>
       `).join("")}
     </div>
+
+    <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">ये समय भू-केंद्रीय सूर्य–ग्रह कोणीय दूरी पर आधारित गणितीय अनुमान हैं; स्थानीय दृश्यता एवं शास्त्रीय K/C सत्यापन जारी है।</p>
   `;
 
   return card;
