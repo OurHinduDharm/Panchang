@@ -98,6 +98,21 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       Number.isFinite(sourceRootResidual) && Math.abs(sourceRootResidual) < 0.001,
       "continuous source-sequence root must report a near-zero K−C residual"
     );
+    const sourceBracketLines = sourceUdaya.split("\\n")
+      .filter(line => line.includes("Oct 2026"));
+    const sourceBracketTimes = sourceBracketLines.map(line =>
+      Date.parse(line.replace(/^→\\s*/, "").split(" (K−C=")[0].trim())
+    );
+    const sourceRootTime = Date.parse(sourceRoot.split(" (K−C=")[0].trim());
+    assert.equal(sourceBracketTimes.length, 2,
+      "source-sequence daily bracket must expose both endpoint instants");
+    assert.ok(
+      sourceBracketTimes.every(Number.isFinite) &&
+      Number.isFinite(sourceRootTime) &&
+      sourceRootTime >= sourceBracketTimes[0] &&
+      sourceRootTime <= sourceBracketTimes[1],
+      "continuous K=C root must lie between the actual two local event instants"
+    );
     console.log("Chapter III+VII continuous Venus Udaya root:", sourceRoot);
     for (const required of [
       "Venus Asta",
