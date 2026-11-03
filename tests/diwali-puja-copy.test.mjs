@@ -24,4 +24,7 @@ test("All existing Diwali cards link the festival article and Mahalakshmi-Kamala
   const diwali = current.events.find(event => event.date === "2026-11-08" && /दीपावली/.test(event.title));
   assert.match(diwali.description, /प्रदोष में वृषभ स्थिर लग्न और अमावस्या/);
   assert.doesNotMatch(diwali.description, /राहुकाल/);
+  const muhurtaRule = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
+  assert.match(muhurtaRule, /label: "दीपावली का शुभ समय"/);
+  assert.doesNotMatch(muhurtaRule, /दीपावली लक्ष्मी-गणेश पूजन मुहूर्त/);
 });
