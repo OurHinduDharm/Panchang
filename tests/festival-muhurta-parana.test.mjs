@@ -302,7 +302,7 @@ test("Diwali prioritizes Vrishabha in Pradosh and offers Simha in Nishita when a
   assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T19:00:00+05:30").toISOString());
   assert.match(result.windows[2].label, /सिंह स्थिर लग्न — विशेष पूजन/);
   assert.equal(result.windows[2].start.toISOString(), date("2026-11-09T00:10:00+05:30").toISOString());
-  assert.match(result.windows[3].label, /महानिशीथ काल — विशेष परंपराओं के लिए/);
+  assert.match(result.windows[3].label, /महानिशीथ काल — विशेष निशीथ उपासना हेतु/);
   assert.equal(result.windows[3].start.toISOString(), date("2026-11-08T23:29:20+05:30").toISOString());
   assert.match(result.windows[4].label, /महानिशीथ काल — सिंह स्थिर लग्न का संयुक्त समय/);
   assert.match(result.windows[5].label, /गोधूलि काल.*दीपदान/);
@@ -920,13 +920,20 @@ test("Diwali includes separately labelled Amavasya Choghadiya alternatives", asy
   const charWindows = choghadiya.filter(w => /चर चौघड़िया/.test(w.label));
   const auspiciousWindows = choghadiya.filter(w => !/चर चौघड़िया/.test(w.label));
   assert.equal(charWindows.length, 1);
-  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
-  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].note));
-  assert.ok(auspiciousWindows.every(w => /द्वितीयक समय-विकल्प/.test(w.label)));
+  assert.ok(/गतिशील कार्यों हेतु/.test(charWindows[0].label));
+  assert.ok(/इसे लक्ष्मी-गणेश पूजन का शुभ विकल्प न मानें/.test(charWindows[0].note));
+  assert.ok(auspiciousWindows.every(w => /लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय/.test(w.label)));
+  assert.ok(auspiciousWindows.every(w => /वृषभ स्थिर लग्न सर्वोत्तम है/.test(w.note)));
   assert.ok(choghadiya.every(w => !/राहुकाल/.test(w.note)));
-  assert.ok(choghadiya.every(w => /अमावस्या-व्याप्त/.test(w.note) || /यात्रा/.test(w.note)));
+  assert.ok(choghadiya.every(w => /अमावस्या-व्याप्त/.test(w.note) || /गतिशील कार्यों/.test(w.note)));
   assert.ok(result.windows.some(w => /प्रदोष काल/.test(w.label)));
   assert.ok(result.windows.some(w => /महानिशीथ/.test(w.label)));
+  const daytimePujaAlternatives = result.windows.filter(w => /अभिजित् मुहूर्त|विजय मुहूर्त/.test(w.label));
+  assert.ok(daytimePujaAlternatives.length >= 1);
+  assert.ok(daytimePujaAlternatives.every(w => /लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय/.test(w.label)));
+  assert.ok(daytimePujaAlternatives.every(w => /वृषभ स्थिर लग्न सर्वोत्तम है/.test(w.note)));
+  const horaAlternatives = result.windows.filter(w => /होरा/.test(w.label));
+  assert.ok(horaAlternatives.every(w => /लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय/.test(w.label)));
 });
 
 test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published windows", async () => {
@@ -963,8 +970,10 @@ test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published 
   const charWindows = choghadiya.filter(window => /चर चौघड़िया/.test(window.label));
   const auspiciousWindows = choghadiya.filter(window => !/चर चौघड़िया/.test(window.label));
   assert.equal(charWindows.length, 1);
-  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
-  assert.ok(auspiciousWindows.every(window => /द्वितीयक समय-विकल्प/.test(window.label)));
+  assert.ok(/गतिशील कार्यों हेतु/.test(charWindows[0].label));
+  assert.ok(/इसे लक्ष्मी-गणेश पूजन का शुभ विकल्प न मानें/.test(charWindows[0].note));
+  assert.ok(auspiciousWindows.every(window => /लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय/.test(window.label)));
+  assert.ok(auspiciousWindows.every(window => /वृषभ स्थिर लग्न सर्वोत्तम है/.test(window.note)));
   assert.ok(choghadiya.every(window => !/राहुकाल/.test(window.note)));
-  assert.ok(choghadiya.every(window => /अमावस्या-व्याप्त/.test(window.note) || /यात्रा/.test(window.note)));
+  assert.ok(choghadiya.every(window => /अमावस्या-व्याप्त/.test(window.note) || /गतिशील कार्यों/.test(window.note)));
 });

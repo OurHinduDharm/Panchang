@@ -668,11 +668,11 @@ const rules = {
       Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया"
     };
     const choghadiyaLabel = kind => kind === "Chal"
-      ? "चर चौघड़िया — यात्रा/गतिशील कार्य का विकल्प"
-      : choghadiyaNames[kind] + " — द्वितीयक समय-विकल्प";
+      ? "चर चौघड़िया — गतिशील कार्यों हेतु"
+      : choghadiyaNames[kind] + " — लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय";
     const choghadiyaNote = kind => kind === "Chal"
-      ? "चर चौघड़िया यात्रा और गतिशील कार्यों के लिए है।"
-      : "अमावस्या-व्याप्त चौघड़िया का वैकल्पिक समय।";
+      ? "चर चौघड़िया गतिशील कार्यों के लिए है; इसे लक्ष्मी-गणेश पूजन का शुभ विकल्प न मानें। पूजन के लिए अमृत, शुभ या लाभ चौघड़िया तथा मुख्य वृषभ स्थिर लग्न को प्राथमिकता दें।"
+      : "अमावस्या-व्याप्ति में लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय; वृषभ स्थिर लग्न सर्वोत्तम है।";
     const favourable = new Set(["Amrit","Shubh","Labh","Chal"]);
     const choghadiyaWindows = [];
     if (sunrise && sunset > sunrise && Number.isInteger(weekday) && sequences[weekday]) {
@@ -760,7 +760,7 @@ const rules = {
     }
 
     // Daytime Abhijit (8th of 15) and Vijaya (11th of 15) are
-    // supplementary task windows only when Amavasya is actually present.
+    // alternative Lakshmi-Ganesha puja windows only when Amavasya is present.
     if (sunrise && sunset > sunrise) {
       const dayDuration = sunset.getTime() - sunrise.getTime();
       const weekdayForDayMuhurtas = localWeekday(context.date);
@@ -769,8 +769,8 @@ const rules = {
           new Date(sunrise.getTime() + dayDuration * 7 / 15),
           new Date(sunrise.getTime() + dayDuration * 8 / 15),
           tithis,
-          "अभिजित् मुहूर्त — दिन के पूरक कार्य हेतु",
-          "अमावस्या-व्याप्त दिन का अभिजित् मुहूर्त।"
+          "अभिजित् मुहूर्त — लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय",
+          "अमावस्या-व्याप्त दिन का अभिजित् मुहूर्त; वृषभ स्थिर लग्न सर्वोत्तम है।"
         );
         if (abhijit) windows.push(abhijit);
       }
@@ -778,8 +778,8 @@ const rules = {
         new Date(sunrise.getTime() + dayDuration * 10 / 15),
         new Date(sunrise.getTime() + dayDuration * 11 / 15),
         tithis,
-        "विजय मुहूर्त — दिन के पूरक व्यापार/लेखा कार्य हेतु",
-        "अमावस्या-व्याप्त दिन का विजय मुहूर्त।"
+        "विजय मुहूर्त — लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय",
+        "अमावस्या-व्याप्त दिन का विजय मुहूर्त; वृषभ स्थिर लग्न सर्वोत्तम है।"
       );
       if (vijaya) windows.push(vijaya);
     }
@@ -809,8 +809,8 @@ const rules = {
             new Date(startMs),
             new Date(endMs),
             [pradosh],
-            planet + " होरा — प्रदोष में पूरक समय",
-            "प्रदोष और अमावस्या के भीतर " + planet + " होरा।"
+            planet + " होरा — लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय",
+            "प्रदोष और अमावस्या के भीतर " + planet + " होरा; वृषभ स्थिर लग्न सर्वोत्तम है।"
           );
           if (overlap) windows.push(overlap);
         }
@@ -834,8 +834,8 @@ const rules = {
     const nishitaEnd = new Date(sunset.getTime() + nightDuration * 8 / 15);
     const nishita = windowWithin(
       nishitaStart, nishitaEnd, tithis,
-      "महानिशीथ काल — विशेष परंपराओं के लिए",
-      "विशेष निशीथ उपासना के लिए।"
+      "महानिशीथ काल — विशेष निशीथ उपासना हेतु",
+      "मध्यरात्रि में अमावस्या-व्याप्त विशेष उपासना का समय।"
     );
     const simhaLagna = (context.sthirLagnaWindows || []).find(w =>
       /simha|सिंह|leo/i.test(String(w.name || w.rashi || "")) &&

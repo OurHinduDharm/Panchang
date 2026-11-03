@@ -25,3 +25,14 @@ test("All existing Diwali cards link the festival article and Mahalakshmi-Kamala
   assert.match(diwali.description, /प्रदोष में वृषभ स्थिर लग्न और अमावस्या/);
   assert.doesNotMatch(diwali.description, /राहुकाल/);
 });
+
+test("2026 Chhath card includes all four dates and Pithoragarh Arghya times", async () => {
+  const month = JSON.parse(await readFile(new URL("../data/festivals/2026-11.json", import.meta.url), "utf8"));
+  const chhath = month.events.find(event => event.date === "2026-11-15" && event.title === "छठ पूजा");
+  assert.ok(chhath, "Chhath card should exist on Shashthi");
+  assert.match(chhath.description, /नहाय-खाय.*13 नवंबर/);
+  assert.match(chhath.description, /खरना \/ लोहंडा.*14 नवंबर/);
+  assert.match(chhath.description, /संध्या अर्घ्य.*15 नवंबर.*05:14/);
+  assert.match(chhath.description, /उषा अर्घ्य एवं पारण.*16 नवंबर.*06:34/);
+  assert.match(chhath.description, /पिथौरागढ़ के स्थानीय सूर्योदय-सूर्यास्त/);
+});
