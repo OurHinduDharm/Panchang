@@ -3062,6 +3062,27 @@ function getLagnantaraSourceSequenceDiagnostic(planetBody, date, direction, conf
           sunSignRisingAsus: lagnantara.sunSignRisingAsus,
           planetSignRisingAsus: lagnantara.planetSignRisingAsus
         });
+
+        // Independent numerical dK/dt check over a centred one-hour window.
+        // These nested calls omit targetC, so they do not recurse into IX.10.
+        const halfHourMs = 30 * 60000;
+        const beforeK = getLagnantaraSourceSequenceDiagnostic(
+          planetBody, new Date(date.getTime() - halfHourMs), direction, config
+        );
+        const afterK = getLagnantaraSourceSequenceDiagnostic(
+          planetBody, new Date(date.getTime() + halfHourMs), direction, config
+        );
+        if (beforeK && afterK) {
+          const finiteDifferenceRatePranasPerDay =
+            (afterK.K - beforeK.K) * 60 * 24;
+          ix10.finiteDifferenceRatePranasPerDay = finiteDifferenceRatePranasPerDay;
+          ix10.rateDifferencePranasPerDay =
+            ix10.signedKalanshaRatePranasPerDay - finiteDifferenceRatePranasPerDay;
+          ix10.rateAgreementPercent = Math.abs(finiteDifferenceRatePranasPerDay) > 1e-10
+            ? 100 * Math.abs(ix10.rateDifferencePranasPerDay) / Math.abs(finiteDifferenceRatePranasPerDay)
+            : null;
+        }
+
         if (Number.isFinite(ix10.estimatedDays)) {
           estimatedEventTime = new Date(date.getTime() + ix10.estimatedDays * 86400000);
         }
@@ -3514,7 +3535,13 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(gSource && gSource.estimatedEventTime
       ? formatLocalFromUTCDate(gSource.estimatedEventTime) +
         ' (' + (gSource.ix10.estimatedDays >= 0 ? '+' : '') +
-        round(gSource.ix10.estimatedDays * 1440, 2) + ' min from sample)'
+        round(gSource.ix10.estimatedDays * 1440, 2) + ' min from sample)' +
+        (Number.isFinite(gSource.ix10.finiteDifferenceRatePranasPerDay)
+          ? '<br>IX.10 rate / numerical dK/dt: ' +
+            round(gSource.ix10.signedKalanshaRatePranasPerDay, 4) + ' / ' +
+            round(gSource.ix10.finiteDifferenceRatePranasPerDay, 4) +
+            ' prāṇa/day (Δ ' + round(gSource.ix10.rateDifferencePranasPerDay, 4) + ')'
+          : '')
       : '—')+'</td>';
     html += '<td>'+(sourceTimeSolutions.length
       ? sourceTimeSolutions.map((root, index) =>
