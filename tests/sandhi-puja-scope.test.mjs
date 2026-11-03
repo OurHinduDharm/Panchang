@@ -1,8 +1,31 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { isNavratriMahashtamiEvent } from "../festival-muhurta.js";
 
 const read = path => readFile(new URL("../" + path, import.meta.url), "utf8");
+
+
+test("Sandhi Puja is enabled for Mahashtami of all four Navratris only", () => {
+  for (const family of ["sharad", "vasanta", "magha-gupta", "ashadha-gupta"]) {
+    assert.equal(isNavratriMahashtamiEvent({
+      title: "नवरात्र महाष्टमी — माँ महागौरी",
+      navratriFamily: family
+    }), true, family + " Mahashtami qualifies");
+  }
+  assert.equal(isNavratriMahashtamiEvent({
+    title: "मासिक दुर्गाष्टमी",
+    hinduTithi: "कार्तिक शुक्ल अष्टमी"
+  }), false, "monthly Durga Ashtami does not qualify");
+  assert.equal(isNavratriMahashtamiEvent({
+    title: "मासिक दुर्गाष्टमी — माँ दुर्गा",
+    navratriFamily: "unrelated"
+  }), false, "an unrelated family does not qualify");
+  assert.equal(isNavratriMahashtamiEvent({
+    title: "शारदीय नवरात्र सप्तमी",
+    navratriFamily: "sharad"
+  }), false, "Navratri days other than Mahashtami do not qualify");
+});
 
 test("Sandhi Puja scope is consistent across every catalog year (2026–2030)", async () => {
   const widget = await read("monthly-vrat-parv-widget.js");
@@ -15,10 +38,10 @@ test("Sandhi Puja scope is consistent across every catalog year (2026–2030)", 
     2030: { month: "10", date: "2030-10-04" }
   };
 
-  assert.match(muhurta, /export function isSharadiyaMahashtamiEvent/);
+  assert.match(muhurta, /export function isNavratriMahashtamiEvent/);
   assert.ok(muhurta.includes("/शारदीय" + String.fromCharCode(92) + "s*नवरात्र/"));
   assert.ok(muhurta.includes("आश्विन") && muhurta.includes("शुक्ल") && muhurta.includes("अष्टमी"));
-  assert.match(widget, /isSharadiyaMahashtamiEvent\(item\)/);
+  assert.match(widget, /isNavratriMahashtamiEvent\(item\)/);
   assert.match(widget, /ruleIds=ruleIds\.filter/);
   assert.match(muhurta, /tithiIndex === 7 \|\| tithiIndex === 8/);
   assert.doesNotMatch(muhurta, /tithiIndex === 7 \|\| tithiIndex === 22/);
