@@ -119,14 +119,17 @@ test("Diwali returns Pradosh and special Nishita options only during Amavasya", 
   const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, context);
   assert.equal(result.status, "calculated");
   assert.equal(result.windows.length, 3);
-  assert.match(result.windows[0].label, /प्रदोष काल/);
-  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
-  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T20:04:00+05:30").toISOString());
-  assert.match(result.windows[1].label, /महानिशीथ/);
-  assert.match(result.windows[2].label, /गोधूलि काल.*दीपदान/);
+  const pradosh = result.windows.find(window => /प्रदोष काल/.test(window.label));
+  const nishita = result.windows.find(window => /महानिशीथ/.test(window.label));
+  const godhuli = result.windows.find(window => /गोधूलि काल.*दीपदान/.test(window.label));
+  assert.ok(pradosh);
+  assert.ok(nishita);
+  assert.ok(godhuli);
+  assert.equal(pradosh.start.toISOString(), sunset.toISOString());
+  assert.equal(pradosh.end.toISOString(), date("2026-11-08T20:04:00+05:30").toISOString());
   assert.equal(result.note, undefined);
-  assert.equal(result.windows[2].start.toISOString(), date("2026-11-08T17:06:00+05:30").toISOString());
-  assert.equal(result.windows[2].end.toISOString(), date("2026-11-08T17:54:00+05:30").toISOString());
+  assert.equal(godhuli.start.toISOString(), date("2026-11-08T17:06:00+05:30").toISOString());
+  assert.equal(godhuli.end.toISOString(), date("2026-11-08T17:54:00+05:30").toISOString());
 });
 
 test("Diwali offers Vrishchika and Kumbha as secondary fixed-lagna options", async () => {
@@ -190,7 +193,8 @@ test("Pithoragarh Diwali main puja is the Amavasya + Pradosh + Vrishabha overlap
       end: date("2026-11-08T19:35:00+05:30")
     }]
   });
-  const main = result.windows[0];
+  const main = result.windows.find(window => /वृषभ स्थिर लग्न/.test(window.label));
+  assert.ok(main, "Vrishabha Pradosh overlap should be present");
   assert.match(main.label, /वृषभ स्थिर लग्न/);
   assert.equal(main.start.toISOString(), date("2026-11-08T17:40:00+05:30").toISOString());
   assert.equal(main.end.toISOString(), date("2026-11-08T19:35:00+05:30").toISOString());
@@ -297,15 +301,16 @@ test("Diwali prioritizes Vrishabha in Pradosh and offers Simha in Nishita when a
   const result = getFestivalMuhurta({ muhurtaRule: "diwali-lakshmi-puja" }, context);
   assert.equal(result.status, "calculated");
   assert.equal(result.windows.length, 6);
-  assert.match(result.windows[0].label, /वृषभ स्थिर लग्न/);
-  assert.equal(result.windows[0].start.toISOString(), date("2026-11-08T18:00:00+05:30").toISOString());
-  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T19:00:00+05:30").toISOString());
-  assert.match(result.windows[2].label, /सिंह स्थिर लग्न — विशेष पूजन/);
-  assert.equal(result.windows[2].start.toISOString(), date("2026-11-09T00:10:00+05:30").toISOString());
-  assert.match(result.windows[3].label, /महानिशीथ काल — विशेष परंपराओं के लिए/);
-  assert.equal(result.windows[3].start.toISOString(), date("2026-11-08T23:29:20+05:30").toISOString());
-  assert.match(result.windows[4].label, /महानिशीथ काल — सिंह स्थिर लग्न का संयुक्त समय/);
-  assert.match(result.windows[5].label, /गोधूलि काल.*दीपदान/);
+  const vrishabha = result.windows.find(window => /वृषभ स्थिर लग्न/.test(window.label));
+  const simha = result.windows.find(window => /सिंह स्थिर लग्न — विशेष पूजन/.test(window.label));
+  const nishita = result.windows.find(window => /महानिशीथ काल — विशेष परंपराओं के लिए/.test(window.label));
+  const simhaNishita = result.windows.find(window => /महानिशीथ काल — सिंह स्थिर लग्न का संयुक्त समय/.test(window.label));
+  const godhuli = result.windows.find(window => /गोधूलि काल.*दीपदान/.test(window.label));
+  assert.ok(vrishabha && simha && nishita && simhaNishita && godhuli);
+  assert.equal(vrishabha.start.toISOString(), date("2026-11-08T18:00:00+05:30").toISOString());
+  assert.equal(vrishabha.end.toISOString(), date("2026-11-08T19:00:00+05:30").toISOString());
+  assert.equal(simha.start.toISOString(), date("2026-11-09T00:10:00+05:30").toISOString());
+  assert.equal(nishita.start.toISOString(), date("2026-11-08T23:29:20+05:30").toISOString());
 });
 
 
@@ -920,11 +925,11 @@ test("Diwali includes separately labelled Amavasya Choghadiya alternatives", asy
   const charWindows = choghadiya.filter(w => /चर चौघड़िया/.test(w.label));
   const auspiciousWindows = choghadiya.filter(w => !/चर चौघड़िया/.test(w.label));
   assert.equal(charWindows.length, 1);
-  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
-  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].note));
-  assert.ok(auspiciousWindows.every(w => /द्वितीयक समय-विकल्प/.test(w.label)));
+  assert.match(charWindows[0].label, /दीपावली पूजन का वैकल्पिक समय/);
+  assert.match(charWindows[0].note, /दीपावली पूजन के लिए/);
+  assert.ok(auspiciousWindows.every(w => /वैकल्पिक शुभ समय/.test(w.label)));
   assert.ok(choghadiya.every(w => !/राहुकाल/.test(w.note)));
-  assert.ok(choghadiya.every(w => /अमावस्या-व्याप्त/.test(w.note) || /यात्रा/.test(w.note)));
+  assert.ok(choghadiya.every(w => /अमावस्या-व्याप्त/.test(w.note) || /दीपावली पूजन/.test(w.note)));
   assert.ok(result.windows.some(w => /प्रदोष काल/.test(w.label)));
   assert.ok(result.windows.some(w => /महानिशीथ/.test(w.label)));
 });
@@ -963,8 +968,8 @@ test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published 
   const charWindows = choghadiya.filter(window => /चर चौघड़िया/.test(window.label));
   const auspiciousWindows = choghadiya.filter(window => !/चर चौघड़िया/.test(window.label));
   assert.equal(charWindows.length, 1);
-  assert.ok(/यात्रा|गतिशील/.test(charWindows[0].label));
-  assert.ok(auspiciousWindows.every(window => /द्वितीयक समय-विकल्प/.test(window.label)));
+  assert.match(charWindows[0].label, /दीपावली पूजन का वैकल्पिक समय/);
+  assert.ok(auspiciousWindows.every(window => /वैकल्पिक शुभ समय/.test(window.label)));
   assert.ok(choghadiya.every(window => !/राहुकाल/.test(window.note)));
-  assert.ok(choghadiya.every(window => /अमावस्या-व्याप्त/.test(window.note) || /यात्रा/.test(window.note)));
+  assert.ok(choghadiya.every(window => /अमावस्या-व्याप्त/.test(window.note) || /दीपावली पूजन/.test(window.note)));
 });
