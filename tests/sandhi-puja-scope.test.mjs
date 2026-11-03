@@ -72,6 +72,10 @@ test("reported November monthly Durga Ashtami has no Sandhi Puja rule and Blogge
   assert.ok(event, "17 November 2026 monthly Durga Ashtami fixture exists");
   assert.equal(event.muhurtaRule, undefined, "monthly Durga Ashtami must not carry Sandhi Puja rule");
 
+  const widget = await read("monthly-vrat-parv-widget.js");
+  assert.match(widget, /windowNote\\.className="muhurta-window-note"/);
+  assert.match(widget, /loc\\.className="muhurta-location"/);
+
   const css = await read("monthly-vrat-parv-widget.css");
   for (const selector of [".muhurta-box", ".muhurta-heading", ".muhurta-detail", ".muhurta-window", ".muhurta-window.primary", ".muhurta-window-time", ".muhurta-location"]) {
     assert.ok(css.includes("#ohd-monthly-festivals " + selector), "Blogger widget CSS styles " + selector);
