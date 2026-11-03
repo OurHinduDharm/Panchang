@@ -117,6 +117,30 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       "continuous K=C root must lie between the actual two local event instants"
     );
     console.log("Chapter III+VII continuous Venus Udaya root:", sourceRoot);
+    const continuousRootRows = await page.locator("#lagnantaraOutput tbody tr")
+      .evaluateAll(rows => rows
+        .filter(row =>
+          row.cells?.length === 18 &&
+          ["Venus", "Jupiter"].includes(row.cells[0].innerText.trim()) &&
+          ["Asta", "Udaya"].includes(row.cells[1].innerText.trim())
+        )
+        .map(row => ({
+          planet: row.cells[0].innerText.trim(),
+          event: row.cells[1].innerText.trim(),
+          root: row.cells[17].innerText
+        })));
+    assert.equal(continuousRootRows.length, 4,
+      "all four Venus/Jupiter Asta/Udaya fixtures must have a continuous source-sequence root");
+    for (const item of continuousRootRows) {
+      assert.ok(item.root.includes("Root 1") && item.root.includes("K−C="),
+        `${item.planet} ${item.event} must report its refined continuous K=C root`);
+      const residuals = item.root.split("K−C=").slice(1)
+        .map(part => Number.parseFloat(part));
+      assert.ok(residuals.length > 0 && residuals.every(value =>
+        Number.isFinite(value) && Math.abs(value) < 0.001
+      ), `${item.planet} ${item.event} root residuals must all be <0.001°`);
+    }
+    console.log("All four continuous source roots:", continuousRootRows);
     const reportedRootCells = await page.locator("#lagnantaraOutput tbody tr.reference-row")
       .evaluateAll(rows => rows.map(row => row.cells?.[17]?.innerText || "")
         .filter(cell => cell.includes("Root ")));
