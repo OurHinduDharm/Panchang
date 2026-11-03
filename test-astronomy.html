@@ -3540,7 +3540,7 @@ async function runLagnantaraDiagnostic() {
         ' (' + (sourceEstimate.ix10.estimatedDays >= 0 ? '+' : '') +
         round(sourceEstimate.ix10.estimatedDays * 1440, 2) + ' min from sample)' +
         (Number.isFinite(sourceEstimate.ix10.finiteDifferenceRatePranasPerDay)
-          ? '<br>IX.10 rate / numerical dK/dt: ' +
+          ? '<br>IX.10 rate / daily-sample dK/dt: ' +
             round(sourceEstimate.ix10.signedKalanshaRatePranasPerDay, 4) + ' / ' +
             round(sourceEstimate.ix10.finiteDifferenceRatePranasPerDay, 4) +
             ' prāṇa/day (Δ ' + round(sourceEstimate.ix10.rateDifferencePranasPerDay, 4) + ')'
