@@ -535,6 +535,11 @@ import {
   runChapter7DrikkarmaTests
 } from "./ss_chapter7_drikkarma.js";
 
+import {
+  chapter9Kalansha,
+  runChapter9ArithmeticTests
+} from "./ss_chapter9_test.js";
+
 
 /* =============================================================
    CONFIGURATION
@@ -2395,7 +2400,7 @@ async function runLagnantaraLocationEphemerisSweep() {
     const rows = [];
 
     for (const ref of SHASTRIYA_REFERENCES) {
-      const C = shastriyaC(ref.planet, ref.event);
+      const C = shastriyaC(ref.planet, ref.direction);
       for (const location of locations) {
         const crossing = findLagnantaraCrossing(ref, "current", location.config);
         const bracket = crossing?.brackets?.find(item => item.matchesRequestedEvent);
@@ -3095,7 +3100,7 @@ function getLagnantaraResidualForDate(ref, date, method = "current", config = TK
     ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, config)
     : getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method, config);
   if (!g) return null;
-  const C = shastriyaC(ref.planet, ref.event);
+  const C = shastriyaC(ref.planet, ref.direction);
   if (!Number.isFinite(C)) return null;
   return { eventTime, geometry:g, residual:g.K - C };
 }
@@ -3176,26 +3181,24 @@ function findLagnantaraCrossing(ref, method = "current", config = TKS_CONFIG) {
     noCrossing: true
   };
 }
-function shastriyaC(planet, event) {
-  // Sūrya-siddhānta IX.6–9, not values inferred from TKS.
-  if (planet === "Jupiter") return 11;
-  if (planet === "Saturn") return 15;
-  if (planet === "Mars") return 17;
-
+function shastriyaC(planet, direction) {
   /*
-   * IX.7 distinguishes the planet's event, not the Sun-event
-   * search direction: west-setting and east-rising are both 8°;
-   * east-setting and west-rising are both 10°.
-   * The present references test Asta and Udaya, so both use 8°.
+   * Delegate IX.6–8 to the PR #22 source-based selector.
+   * Direction is an explicit fixture input: west = west-setting,
+   * east = east-rising. Do not infer Venus's 8°/10° branch from
+   * the generic labels Asta/Udaya alone.
    */
-  if (planet === "Venus") {
-    if (event === "Asta" || event === "Udaya") return 8;
-    return NaN;
-  }
-
-  // IX.8 gives Mercury 12°/14° according to motion; that
-  // requires a separately validated motion-state rule.
-  return NaN;
+  const horizonEvent = direction === "west"
+    ? "west-setting"
+    : direction === "east"
+      ? "east-rising"
+      : null;
+  if (!horizonEvent) return NaN;
+  return chapter9Kalansha({
+    planet,
+    horizonEvent,
+    motionClass: null
+  });
 }
 
 async function runLagnantaraDiagnostic() {
@@ -3211,7 +3214,7 @@ async function runLagnantaraDiagnostic() {
     const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
     const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
     const gSource = sample ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction) : null;
-    const C = shastriyaC(ref.planet, ref.event);
+    const C = shastriyaC(ref.planet, ref.direction);
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
     const sourceCrossing = findLagnantaraCrossing(ref, "chapter3-vii-source");
