@@ -9,6 +9,7 @@ on:
       - "tests/lagnantara-chapter3-7-source-helpers.spec.mjs"
       - "ss_chapter3_lagnantara.js"
       - "ss_chapter7_drikkarma.js"
+      - "ss_chapter9_test.js"
       - ".github/workflows/lagnantara-location-swiss-crosscheck.yml"
 
 permissions:
