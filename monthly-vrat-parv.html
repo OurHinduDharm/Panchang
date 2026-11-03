@@ -69,12 +69,12 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 .muhurta-heading:before{content:"🪔";font-size:16px}
 .muhurta-detail{display:grid;gap:7px;margin-top:9px}
 .muhurta-window{padding:8px 10px;border:1px solid #efe4d3;border-radius:9px;background:rgba(255,255,255,.88)}
-.muhurta-window:first-child{border-color:#d9b77f;background:#fff5e3}
+.muhurta-window.primary{border-color:#d9b77f;background:#fff5e3}
 .muhurta-window-name{display:block;color:#49301c;font-size:13px;font-weight:750;line-height:1.45}
 .muhurta-window-time{margin-top:2px;color:#985313;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
 .muhurta-window-note{margin-top:3px;color:#74685a;font-size:11px;line-height:1.45}
 .muhurta-location{margin-top:8px;color:#817465;font-size:11px}
-@media(min-width:600px){.muhurta-box{padding:13px 14px}.muhurta-detail{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.muhurta-window:first-child{grid-column:1/-1}.muhurta-window-time{font-size:15px}}
+@media(min-width:600px){.muhurta-box{padding:13px 14px}.muhurta-detail{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.muhurta-window.primary{grid-column:1/-1}.muhurta-window-time{font-size:15px}}
 .footer-month-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 10px}.footer-month-nav button{cursor:pointer;background:#fffaf2;border:1px solid #d8b98e;border-radius:9px;color:#70421f;font:650 13px/1.4 system-ui,sans-serif;padding:8px 13px}.footer-month-nav button:hover{background:#fff0d9}.footer-month-nav button:focus-visible{outline:3px solid #dca45f;outline-offset:2px}
 @media(min-width:600px){main{padding:22px}.hero{padding:23px}.event{padding:14px}.date{flex-basis:78px}.desc{font-size:14px}}
 </style>
@@ -408,6 +408,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
             var row=document.createElement("div");row.className="muhurta-window";
+            if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन/.test(windowItem.label||""))row.classList.add("primary");
             var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
             var time=document.createElement("div");time.className="muhurta-window-time";
             var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
