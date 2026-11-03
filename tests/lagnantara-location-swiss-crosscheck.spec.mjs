@@ -44,6 +44,21 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       "29 Oct sample must have a negative K−C residual");
     assert.ok(venusUdayaRow.slice(afterIndex).includes("K−C=1."),
       "30 Oct sample must have a positive K−C residual");
+    assert.ok(lagnantaraMainText.includes("Ch. III+VII source K"),
+      "main diagnostic must show the separate PR #22 Chapter III/VII source-sequence candidate");
+    const sourceCells = await page.locator("#lagnantaraOutput tbody tr")
+      .evaluateAll(rows => {
+        const row = rows.find(item =>
+          item.cells?.[0]?.innerText.trim() === "Venus" &&
+          item.cells?.[1]?.innerText.trim() === "Udaya"
+        );
+        return row ? [...row.cells].map(cell => cell.innerText) : [];
+      });
+    assert.equal(sourceCells.length, 15, "main Lagnantara row must expose all 15 comparison columns");
+    assert.match(sourceCells[6], /^[0-9]+\\.[0-9]+°$/,
+      "Chapter III + VII source-sequence K must be a finite numeric result");
+    assert.ok(sourceCells[14].length > 0,
+      "Chapter III + VII source-sequence daily bracket must be reported");
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
