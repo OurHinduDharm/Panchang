@@ -73,15 +73,15 @@ test("reported November monthly Durga Ashtami has no Sandhi Puja rule and Blogge
   assert.equal(event.muhurtaRule, undefined, "monthly Durga Ashtami must not carry Sandhi Puja rule");
 
   const widget = await read("monthly-vrat-parv-widget.js");
-  assert.match(widget, /windowNote\\.className="muhurta-window-note"/);
-  assert.match(widget, /loc\\.className="muhurta-location"/);
+  assert.ok(widget.includes('windowNote.className="muhurta-window-note"'));
+  assert.ok(widget.includes('loc.className="muhurta-location"'));
 
   const css = await read("monthly-vrat-parv-widget.css");
-  for (const selector of [".muhurta-box", ".muhurta-heading", ".muhurta-detail", ".muhurta-window", ".muhurta-window.primary", ".muhurta-window-time", ".muhurta-location"]) {
+  for (const selector of [".muhurta-box", ".muhurta-heading", ".muhurta-detail", ".muhurta-window", ".muhurta-window.primary", ".muhurta-window-time", ".muhurta-window-note", ".muhurta-location"]) {
     assert.ok(css.includes("#ohd-monthly-festivals " + selector), "Blogger widget CSS styles " + selector);
   }
-  assert.match(css, /@media\\s*\\(min-width:\\s*560px\\)/);
-  assert.match(css, /@media\\s*\\(max-width:\\s*380px\\)/);
+  assert.ok(css.includes("@media(min-width:560px)"));
+  assert.ok(css.includes("@media(max-width:380px)"));
 });
 
 test("annual Dwadashi date rows accept standard ISO dates", async () => {
