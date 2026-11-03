@@ -790,14 +790,14 @@
     var item={date:iso,dateLabel:iso.slice(8,10)+" "+months[Number(iso.slice(5,7))-1],category:"नवरात्रि",
       calculationStatus:"tithi-derived",reviewStatus:"needs-review",showReviewStatus:true,
       navratriFamily:family.id,hinduTithi:"शुक्ल "+["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी"][tithiIndex]};
-    var note="तिथि और मास चयनित स्थान के सूर्योदय-पंचांग के अनुसार हैं; तिथि-परिवर्तन वाले दिनों में पूजा और व्रत का निर्णय संबंधित परंपरा के नियम से किया जाता है।";
+    var note="";
     if(tithiIndex===0){
       item.title=family.label+" प्रारम्भ";
       item.description=family.kind==="वासन्तिक"
-        ?"चैत्र शुक्ल प्रतिपदा से वासन्तिक नवरात्र तथा नवसंवत्सर का आरम्भ। घटस्थापना का समय स्थानीय तिथि-व्याप्ति के अनुसार देखें। "+note
+        ?"चैत्र शुक्ल प्रतिपदा से वासन्तिक नवरात्र तथा नवसंवत्सर का आरम्भ। घटस्थापना करें। "+note
         :family.kind==="शारदीय"
-        ?"आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र। घटस्थापना का समय स्थानीय तिथि-व्याप्ति के अनुसार देखें। "+note
-        :"शुक्ल प्रतिपदा से गुप्त नवरात्र-साधना का आरम्भ। अनुष्ठान, घटस्थापना और साधना अपनी गुरु/कुल-परंपरा के अनुसार करें। "+note;
+        ?"आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र का आरम्भ। घटस्थापना करें। "+note
+        :"शुक्ल प्रतिपदा से गुप्त नवरात्र-साधना का आरम्भ। घटस्थापना, जप और पाठ करें। "+note;
       item.articleUrl=family.kind==="गुप्त"
         ?"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html"
         :family.kind==="वासन्तिक"
@@ -809,16 +809,16 @@
       item.muhurtaRule="ghata-sthapana";
     }else if(tithiIndex>=1&&tithiIndex<=8){
       item.title=family.label+" "+["","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी"][tithiIndex]+" — "+navratriDeities[tithiIndex];
-      item.description="नवरात्र के इस दिन "+navratriDeities[tithiIndex]+" की आराधना करें। पूजा, पाठ, जप और व्रत अपनी कुल-परंपरा के अनुसार करें। "+note;
+      item.description="नवरात्र के इस दिन माँ "+navratriDeities[tithiIndex]+" की पूजा, स्तोत्र-पाठ और जप करें। "+note;
       item.articleUrl=navratriLinks[tithiIndex];
       item.articleLabel=navratriDeities[tithiIndex]+" की पूजा";
       if(tithiIndex===7){
         item.title=family.label+" महाष्टमी — माँ महागौरी";
-        item.description+=" इस दिन अष्टमी-पूजन और कन्या-पूजन अपनी परंपरा के अनुसार करें। संधिपूजा के लिए अष्टमी समाप्ति और नवमी आरम्भ के स्थानीय समय को साथ में देखें।";
+        item.description+=" महाष्टमी पर माँ महागौरी की पूजा, दुर्गा-सप्तशती पाठ और कन्या-पूजन करें। संधिपूजा का मुहूर्त नीचे दिया गया है।";
       }
       if(tithiIndex===8){
         item.title=family.label+" महानवमी — माँ सिद्धिदात्री";
-        item.description+=" नवमी हवन की विधि तथा पारण अपनी परंपरा के अनुसार करें।";
+        item.description+=" नवमी पर माँ सिद्धिदात्री की पूजा, हवन और कन्या-पूजन करें।";
         item.secondaryArticleUrl="https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html";
         item.secondaryArticleLabel="नवमी हवन विधि";
         if(family.kind==="वासन्तिक"){
@@ -830,12 +830,12 @@
     }else if(tithiIndex===9){
       item.title=family.kind==="शारदीय"?"शारदीय नवरात्र दशमी — विजयादशमी":family.label+" दशमी — साधना-समापन / पारण";
       item.description=family.kind==="शारदीय"
-        ?"विजयादशमी पर परंपरा के अनुसार अपराजिता-पूजन, शमी-पूजन, सीमोल्लंघन तथा कलश-विसर्जन करें। स्थानीय दशमी-व्याप्ति के अनुसार पूजा का समय देखें। "+note
-        :"गुप्त या वासन्तिक नवरात्र-साधना का समापन और पारण अपनी गुरु, कुल तथा क्षेत्रीय परंपरा के अनुसार करें। "+note;
+        ?"विजयादशमी पर अपराजिता-पूजन, शमी-पूजन, सीमोल्लंघन तथा कलश-विसर्जन करें। "+note
+        :"नवरात्र-साधना का समापन, कलश-विसर्जन और पारण करें। "+note;
       item.articleUrl="https://ourhindudharm.blogspot.com/p/kalashvisarjan.html";
       item.articleLabel=family.kind==="शारदीय"?"कलश-विसर्जन विधि":"पारण और अनुष्ठान-समापन की जानकारी";
     }else return null;
-    item.description+=" चयनित स्थान: "+locationName+"।";
+    if(locationName) item.locationName=locationName;
     return item;
   }
   async function buildDynamicNavratriEvents(year,month,token){
