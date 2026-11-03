@@ -3536,13 +3536,13 @@ async function runLagnantaraDiagnostic() {
       html += '<td>No valid daily samples in ±15 days</td>';
     }
     html += '<td>'+(sourceEstimate && sourceEstimate.estimatedEventTime
-      ? formatLocalFromUTCDate(gSource.estimatedEventTime) +
+      ? formatLocalFromUTCDate(sourceEstimate.estimatedEventTime) +
         ' (' + (sourceEstimate.ix10.estimatedDays >= 0 ? '+' : '') +
-        round(gSource.ix10.estimatedDays * 1440, 2) + ' min from sample)' +
+        round(sourceEstimate.ix10.estimatedDays * 1440, 2) + ' min from sample)' +
         (Number.isFinite(sourceEstimate.ix10.finiteDifferenceRatePranasPerDay)
           ? '<br>IX.10 rate / numerical dK/dt: ' +
             round(sourceEstimate.ix10.signedKalanshaRatePranasPerDay, 4) + ' / ' +
-            round(gSource.ix10.finiteDifferenceRatePranasPerDay, 4) +
+            round(sourceEstimate.ix10.finiteDifferenceRatePranasPerDay, 4) +
             ' prāṇa/day (Δ ' + round(sourceEstimate.ix10.rateDifferencePranasPerDay, 4) + ')'
           : '')
       : '—')+'</td>';
