@@ -64,8 +64,14 @@ for (const file of files) {
       }
     }
 
+    const phaseDetails = config.phases.map(phase => String(phase.detail || "").trim());
+    assert.ok(phaseDetails.every(Boolean), "every phase must have a concise instruction");
+    assert.equal(new Set(phaseDetails).size, phaseDetails.length,
+      "phase descriptions must not be duplicated");
     assert.ok(String(config.completionDetail || "").trim(),
       "completion detail must be present for the Dwadashi observance");
+    assert.ok(!/कार्तिक शुक्ल द्वादशी|नवंबर|दिसंबर/.test(config.completionDetail),
+      "completion date and tithi belong in their own structured fields, not repeated in the instruction");
   });
 }
 
@@ -73,4 +79,6 @@ test("10-day widget gives precedence to Smarta Devutthana Ekadashi over Gauna/Va
   assert.ok(widget.includes('!/वैष्णव|गौण/i.test(item.title || "")'));
   assert.ok(widget.includes("देवोत्थानी एकादशी (स्मार्त)"));
   assert.ok(widget.includes("cardVisibleThroughDate"));
+  assert.ok(widget.includes("chaturmasConfig.completionTithi"));
+  assert.ok(widget.includes("व्रत-समापन · "));
 });
