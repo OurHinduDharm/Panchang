@@ -3319,27 +3319,28 @@ function scanChapter9SourceEventTimes(ref, crossing, config = TKS_CONFIG, stepMi
     }
 
     if (current.residual === 0) {
-      const transition = previous && previous.residual < 0 ? "Udaya" : "Asta";
-      if (transition === ref.event) {
-        roots.push({
-          eventTime: current.date,
-          residual: 0,
-          K: current.geometry.K,
-          C,
-          iterations: 0,
-          transition
-        });
-      }
+      roots.push({
+        eventTime: current.date,
+        residual: 0,
+        K: current.geometry.K,
+        C,
+        iterations: 0,
+        transition: "K−C time root",
+        signTransition: previous && previous.residual < 0
+          ? "K−C −→+"
+          : "K−C +→−"
+      });
     } else if (previous && previous.residual * current.residual < 0) {
       const root = bisectChapter9SourceRoot(ref, previous, current, config, C);
       if (root) {
-        const isUdaya =
-          previous.residual < 0 && current.residual > 0;
-        root.transition = isUdaya ? "Udaya" : "Asta";
-        root.signTransition = isUdaya ? "K−C −→+" : "K−C +→−";
-        // Do not report the opposite conjunction-side transition as the
-        // requested event (e.g. a Udaya root in an Asta search window).
-        if (root.transition === ref.event) roots.push(root);
+        root.transition = "K−C time root";
+        root.signTransition =
+          previous.residual < 0 && current.residual > 0
+            ? "K−C −→+"
+            : "K−C +→−";
+        // Time-domain sign is deliberately not equated with civil-date
+        // Asta/Udaya classification. Keep every validated mathematical root.
+        roots.push(root);
       }
     }
     previous = current;
@@ -3518,6 +3519,7 @@ async function runLagnantaraDiagnostic() {
     html += '<td>'+(sourceTimeSolutions.length
       ? sourceTimeSolutions.map((root, index) =>
           (index ? '<hr>' : '') + 'Root ' + (index + 1) + ' — ' + root.transition +
+          ' (' + root.signTransition + ')' +
           '<br>' + formatLocalFromUTCDate(root.eventTime) +
           ' (K−C=' + round(root.residual,8) + '°; ' + root.iterations + ' iterations)'
         ).join('')
