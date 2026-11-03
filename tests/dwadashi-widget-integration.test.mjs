@@ -70,5 +70,6 @@ test("2026 Chaturmas keeps the final food restriction through Ekadashi and compl
   assert.equal(config.cardVisibleThroughDate, "2026-11-22");
   assert.equal(config.endObservance, "smarta-ekadashi");
   assert.equal(config.completionTithi, "कार्तिक शुक्ल द्वादशी");
-  assert.match(config.completionDetail, /कार्तिक शुक्ल द्वादशी/);
+  assert.ok(!/कार्तिक शुक्ल द्वादशी/.test(config.completionDetail),
+    "completion tithi is displayed from its dedicated field, not repeated in the instruction");
 });
