@@ -25,6 +25,9 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
 
     const output = page.locator("#lagnantaraLocationSweepOutput");
     const text = await output.innerText();
+    const lagnantaraMainText = await page.locator("#lagnantaraOutput").innerText();
+    assert.ok(lagnantaraMainText.includes("Venus") && lagnantaraMainText.includes("Jupiter"),
+      "main Lagnantara diagnostic must render the configured Venus and Jupiter references");
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
@@ -44,7 +47,7 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     }
     assert.deepEqual(pageErrors, [], "no uncaught browser errors");
     console.log("PASS: 4 Venus/Jupiter event cases × 2 observer configurations = 8 rows");
-    console.log(text);
+    console.log("MAIN LAGNANTARA TABLE:\\n" + lagnantaraMainText);\n    console.log("OBSERVER / SWISS SWEEP:\\n" + text);
   } finally {
     await browser.close();
   }
