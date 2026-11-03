@@ -102,7 +102,7 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     const sourceBracketLines = sourceUdaya.split("\n")
       .filter(line => line.includes("Oct 2026"));
     const sourceBracketTimes = sourceBracketLines.map(line =>
-      Date.parse(line.replace(/^→\\s*/, "").split(" (K−C=")[0].trim())
+      Date.parse((line.startsWith("→") ? line.slice(1).trim() : line.trim()).split(" (K−C=")[0].trim())
     );
     const sourceRootDateLine = sourceRoot.split("\n").find(line => line.includes("Oct 2026")) || "";
     const sourceRootTime = Date.parse(sourceRootDateLine.split(" (K−C=")[0].trim());
