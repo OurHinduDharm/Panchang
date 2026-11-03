@@ -69,7 +69,7 @@
       "date": "2029-11-05",
       "dateLabel": "5 नवंबर",
       "title": "नरक चतुर्दशी",
-      "description": "नरक चतुर्दशी पर अभ्यंग-स्नान, दीपदान और भगवान कृष्ण के स्मरण की परंपरा है।",
+      "description": "नरक चतुर्दशी पर अभ्यंग-स्नान, दीपदान और भगवान कृष्ण के स्मरण की परंपरा है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -145,11 +145,13 @@
       "date": "2029-11-17",
       "dateLabel": "17 नवंबर",
       "title": "तुलसी विवाह",
-      "description": "तुलसी विवाह में तुलसी माता और भगवान विष्णु/शालिग्राम के विवाहोत्सव की परंपरा है।",
+      "description": "तुलसी विवाह में तुलसी माता और भगवान विष्णु/शालिग्राम के विवाहोत्सव की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">प्रबोधिनी एकादशी पर तुलसी विवाह</a> द्वादशी से पूर्णिमा तक किसी भी दिन यह कर सकते हैं। रविवार को तुलसी-स्पर्श शास्त्रानुसार वर्जित है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक शुक्ल द्वादशी"
+      "hinduTithi": "कार्तिक शुक्ल द्वादशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
+      "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह"
     },
     {
       "date": "2029-11-21",
