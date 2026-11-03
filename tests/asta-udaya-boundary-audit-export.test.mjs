@@ -9,7 +9,7 @@ const end = source.indexOf("\nfunction classicalResidual", start);
 assert.notEqual(start, -1, "boundary JSON export function must exist");
 assert.notEqual(end, -1, "boundary JSON export function must have a bounded end");
 
-test("Drik boundary JSON export preserves published local time and configured observer provenance", async () => {
+test("historical boundary JSON export marks unverified references and preserves observer provenance", async () => {
   let copied = null;
   let notice = "";
   const sandbox = {
