@@ -47,7 +47,8 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     }
     assert.deepEqual(pageErrors, [], "no uncaught browser errors");
     console.log("PASS: 4 Venus/Jupiter event cases × 2 observer configurations = 8 rows");
-    console.log("MAIN LAGNANTARA TABLE:\\n" + lagnantaraMainText);\n    console.log("OBSERVER / SWISS SWEEP:\\n" + text);
+    console.log("MAIN LAGNANTARA TABLE:\\n" + lagnantaraMainText);
+    console.log("OBSERVER / SWISS SWEEP:\\n" + text);
   } finally {
     await browser.close();
   }
