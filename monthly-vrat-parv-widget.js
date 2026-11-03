@@ -808,7 +808,7 @@
       item.muhurtaRule="ghata-sthapana";
     }else if(tithiIndex>=1&&tithiIndex<=8){
       item.title=family.label+" "+["","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी"][tithiIndex]+" — "+navratriDeities[tithiIndex];
-      item.description="नवरात्र के इस दिन माँ "+navratriDeities[tithiIndex]+" की पूजा, स्तोत्र-पाठ और जप करें।";
+      item.description="नवरात्र के इस दिन "+navratriDeities[tithiIndex]+" की पूजा, स्तोत्र-पाठ और जप करें।";
       item.articleUrl=navratriLinks[tithiIndex];
       item.articleLabel=navratriDeities[tithiIndex]+" की पूजा";
       if(tithiIndex===7){
