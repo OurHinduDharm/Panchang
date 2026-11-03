@@ -53,10 +53,12 @@
       "date": "2027-11-11",
       "dateLabel": "11 नवंबर",
       "title": "तुलसी विवाह",
-      "description": "तुलसी विवाह में तुलसी माता और शालिग्राम/भगवान विष्णु का विवाहोत्सव किया जाता है।",
+      "description": "तुलसी विवाह में तुलसी माता और शालिग्राम/भगवान विष्णु का विवाहोत्सव किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">प्रबोधिनी एकादशी पर तुलसी विवाह</a> द्वादशी से पूर्णिमा तक किसी भी दिन यह कर सकते हैं। रविवार को तुलसी-स्पर्श शास्त्रानुसार वर्जित है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
+      "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह"
     },
     {
       "date": "2027-11-14",
