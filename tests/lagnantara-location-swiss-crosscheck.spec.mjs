@@ -28,6 +28,10 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     const lagnantaraMainText = await page.locator("#lagnantaraOutput").innerText();
     assert.ok(lagnantaraMainText.includes("Venus") && lagnantaraMainText.includes("Jupiter"),
       "main Lagnantara diagnostic must render the configured Venus and Jupiter references");
+    assert.ok(lagnantaraMainText.includes("2026-10-29"),
+      "Venus Udaya reference date must align with the published Pithoragarh Asta-end boundary");
+    assert.ok(!lagnantaraMainText.includes("2026-11-01"),
+      "the stale post-event Venus Udaya sample date must not remain in the diagnostic");
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
