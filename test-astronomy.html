@@ -2444,8 +2444,7 @@ async function runLagnantaraLocationEphemerisSweep() {
         other !== row &&
         other.ref === row.ref &&
         other.sample?.date?.getTime() === row.sample.date.getTime() &&
-        other.location.key !== row.location.key &&
-        other.bracketSide === row.bracketSide
+        other.location.key !== row.location.key
       );
       row.locationDelta = counterpart?.current
         ? (row.location.key === "ohd"
