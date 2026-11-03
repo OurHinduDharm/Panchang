@@ -628,7 +628,7 @@ const rules = {
     const tithis = collectNamedIntervals(context.tithis, item => isAmavasya(item) || isAmavasya(item.name));
     if (!sunset || !nextSunrise || nextSunrise <= sunset || !tithis.length) {
       return {
-        label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+        label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त",
         status: "unavailable",
         message: "स्थानीय सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक समय-सीमा उपलब्ध नहीं है।"
       };
@@ -668,10 +668,10 @@ const rules = {
       Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया"
     };
     const choghadiyaLabel = kind => kind === "Chal"
-      ? "चर चौघड़िया — यात्रा/गतिशील कार्य का विकल्प"
-      : choghadiyaNames[kind] + " — द्वितीयक समय-विकल्प";
+      ? "चर चौघड़िया — दीपावली पूजन का वैकल्पिक समय"
+      : choghadiyaNames[kind] + " — वैकल्पिक शुभ समय";
     const choghadiyaNote = kind => kind === "Chal"
-      ? "चर चौघड़िया यात्रा और गतिशील कार्यों के लिए है।"
+      ? "दीपावली पूजन के लिए एक वैकल्पिक चौघड़िया समय।"
       : "अमावस्या-व्याप्त चौघड़िया का वैकल्पिक समय।";
     const favourable = new Set(["Amrit","Shubh","Labh","Chal"]);
     const choghadiyaWindows = [];
@@ -879,15 +879,18 @@ const rules = {
     // primary Lakshmi-Ganesha puja recommendation.
     windows.push(...choghadiyaWindows.sort((a, b) => a.start - b.start));
 
+    // सभी पूजा, लग्न और चौघड़िया विकल्प वास्तविक आरम्भ-समय के क्रम में दिखें।
+    windows.sort((a, b) => a.start.getTime() - b.start.getTime());
+
     if (!windows.length) {
       return {
-        label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+        label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त",
         status: "unavailable",
         message: "चुने गए नगर में प्रदोष/निशीथ काल और अमावस्या की व्याप्ति के बीच कोई साझा समयावधि इस गणना में नहीं मिली।"
       };
     }
     return {
-      label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+      label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त",
       status: "calculated",
       date: sunset,
       dateLabel: formatDateLabel(sunset),
