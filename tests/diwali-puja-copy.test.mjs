@@ -22,14 +22,14 @@ test("All existing Diwali cards link the festival article and Mahalakshmi-Kamala
   }
   const current = JSON.parse(await readFile(new URL("../data/festivals/2026-11.json", import.meta.url), "utf8"));
   const diwali = current.events.find(event => event.date === "2026-11-08" && /दीपावली/.test(event.title));
-  assert.match(diwali.description, /प्रदोष में वृषभ स्थिर लग्न और अमावस्या/);
+  assert.match(diwali.description, /प्रदोष में वृषभ लग्न \(स्थिर लग्न\) और अमावस्या/);
   assert.doesNotMatch(diwali.description, /राहुकाल/);
   const muhurtaRule = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
   assert.match(muhurtaRule, /label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त"/);
   assert.doesNotMatch(muhurtaRule, /दीपावली का शुभ समय/);
   assert.match(muhurtaRule, /चर चौघड़िया — दीपावली पूजन का वैकल्पिक समय/);
-  assert.match(muhurtaRule, /सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न/);
-  assert.match(muhurtaRule, /सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय/);
+  assert.match(muhurtaRule, /सर्वोत्तम लक्ष्मी पूजन — वृषभ लग्न \(स्थिर लग्न\)/);
+  assert.match(muhurtaRule, /सिंह लग्न \(स्थिर लग्न\) — विशेष पूजन का वैकल्पिक समय/);
   assert.match(muhurtaRule, /Labh: "लाभ चौघड़िया"/);
   assert.match(muhurtaRule, /choghadiyaNames\[kind\] \+ " — वैकल्पिक शुभ समय"/);
   assert.doesNotMatch(muhurtaRule, /द्वितीयक समय-विकल्प/);
@@ -38,5 +38,6 @@ test("All existing Diwali cards link the festival article and Mahalakshmi-Kamala
   const monthlyPage = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
   assert.match(monthlyPage, /\.muhurta-box\{/);
   assert.match(monthlyPage, /\.muhurta-window-time\{/);
+  assert.match(monthlyPage, /\.muhurta-window\.primary\{/);
   assert.match(monthlyPage, /className="muhurta-window"/);
 });

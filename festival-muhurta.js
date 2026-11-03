@@ -714,15 +714,15 @@ const rules = {
         ? interval(
             laterDate(pradosh.start, validDate(fixedLagna.start)),
             earlierDate(pradosh.end, validDate(fixedLagna.end)),
-            "सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न",
-            "प्रदोष काल, अमावस्या और वृषभ स्थिर लग्न की संयुक्त व्याप्ति।"
+            "सर्वोत्तम लक्ष्मी पूजन — वृषभ लग्न (स्थिर लग्न)",
+            "प्रदोष काल, अमावस्या और वृषभ लग्न (स्थिर लग्न) की संयुक्त व्याप्ति।"
           )
         : windowWithin(
             validDate(fixedLagna.start),
             validDate(fixedLagna.end),
             tithis,
-            "वृषभ स्थिर लग्न — अमावस्या में वैकल्पिक समय",
-            "अमावस्या में वृषभ स्थिर लग्न का समय।"
+            "वृषभ लग्न (स्थिर लग्न) — अमावस्या में वैकल्पिक समय",
+            "अमावस्या में वृषभ लग्न (स्थिर लग्न) का समय।"
           );
       if (lagnaWindow) {
         windows.push(lagnaWindow);
@@ -846,8 +846,8 @@ const rules = {
         validDate(simhaLagna.start),
         validDate(simhaLagna.end),
         tithis,
-        "सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय",
-        "कार्तिक अमावस्या और सिंह स्थिर लग्न की पूरी संयुक्त व्याप्ति; इसे सामान्य गृहस्थों के मुख्य प्रदोष मुहूर्त के बराबर न मानें।"
+        "सिंह लग्न (स्थिर लग्न) — विशेष पूजन का वैकल्पिक समय",
+        "कार्तिक अमावस्या और सिंह लग्न (स्थिर लग्न) की पूरी संयुक्त व्याप्ति; इसे सामान्य गृहस्थों के मुख्य प्रदोष मुहूर्त के बराबर न मानें।"
       );
       if (simhaAmavasya) windows.push(simhaAmavasya);
     }
@@ -855,8 +855,8 @@ const rules = {
       const simhaNishita = interval(
         laterDate(nishita.start, validDate(simhaLagna.start)),
         earlierDate(nishita.end, validDate(simhaLagna.end)),
-        "महानिशीथ काल — सिंह स्थिर लग्न का संयुक्त समय",
-        "महानिशीथ और सिंह स्थिर लग्न की वास्तविक साझा अवधि; पूरी महानिशीथ और पूरी सिंह लग्न अवधि ऊपर अलग-अलग दी गई हैं।"
+        "महानिशीथ काल — सिंह लग्न (स्थिर लग्न) का संयुक्त समय",
+        "महानिशीथ और सिंह लग्न (स्थिर लग्न) की वास्तविक साझा अवधि; पूरी महानिशीथ और पूरी सिंह लग्न अवधि ऊपर अलग-अलग दी गई हैं।"
       );
       windows.push(nishita);
       if (simhaNishita) windows.push(simhaNishita);

@@ -16,7 +16,7 @@ test("2030 November festival cards have specific descriptions and known links", 
   assert.match(find(/कंस वध/).description, /श्रीकृष्ण/);
   const tulsi = find(/तुलसी विवाह/);
   assert.match(tulsi.description, /तुलसी माता और शालिग्राम/);
-  assert.match(tulsi.articleUrl || "", /About-Tulsi-vivah-On-Prabodhini-Ekaadashi/);
+  assert.match(tulsi.articleUrl || "", /About-Tulsi-vivah-On-Prabodhini-Ekadashi/);
   assert.match(find(/कार्तिक पूर्णिमा/).description, /देव दीपावली/);
   assert.match(find(/वृश्चिक संक्रांति/).description, /वृश्चिक राशि/);
   const bhairav = find(/कालभैरव जयंती/);
