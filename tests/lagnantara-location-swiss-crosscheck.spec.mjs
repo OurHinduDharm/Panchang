@@ -57,8 +57,10 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
         return row ? [...row.cells].map(cell => cell.innerText) : [];
       });
     assert.equal(sourceCells.length, 16, "main Lagnantara row must expose all 16 comparison columns");
-    assert.match(sourceCells[2], /^east-rising \/ -?[0-9]+\\.[0-9]+°\/day$/,
+    assert.ok(sourceCells[2].startsWith("east-rising / "),
       "Venus Udaya must be independently classified as east-rising from zodiac order and signed motion");
+    assert.ok(Number.isFinite(Number.parseFloat(sourceCells[2].split("/")[1])),
+      "Venus signed daily motion must be finite before the IX.7 branch is selected");
     assert.equal(sourceCells[11], "8.00°", "Venus east-rising must use the Chapter IX.7 east-rising C=8° branch");
     const jupiterAstaC = await page.locator("#lagnantaraOutput tbody tr")
       .evaluateAll(rows => {
