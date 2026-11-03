@@ -114,6 +114,18 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       "continuous K=C root must lie between the actual two local event instants"
     );
     console.log("Chapter III+VII continuous Venus Udaya root:", sourceRoot);
+    const reportedRootCells = await page.locator("#lagnantaraOutput tbody tr.reference-row")
+      .evaluateAll(rows => rows.map(row => row.cells?.[17]?.innerText || "")
+        .filter(cell => cell.includes("Root ")));
+    for (const rootCell of reportedRootCells) {
+      const residuals = rootCell.split("K−C=").slice(1)
+        .map(value => Number(value.split("°")[0]));
+      assert.ok(
+        residuals.length > 0 &&
+        residuals.every(value => Number.isFinite(value) && Math.abs(value) <= 0.001),
+        "no continuous event root may be reported unless its K−C residual is within 0.001°"
+      );
+    }
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
