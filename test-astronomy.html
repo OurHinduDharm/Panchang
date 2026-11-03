@@ -459,9 +459,9 @@
     <h3>Coordinate-frame sensitivity audit (diagnostic only)</h3>
     <p class="small">This audit does not alter the current or sequential result. It compares the fixed 23.4367° obliquity used by the OA helper with Astronomy Engine’s date-dependent true obliquity, and shows the geocentric/topocentric RA/declination difference at the same instant. Important: the 24.217° value is subtracted to create the helper’s sidereal-longitude representation and then added back before oblique ascension is calculated. With that same offset used consistently, it cancels; this is not an independent test of ayanāṃśa choice.</p>
     <div id="frameAuditOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this audit.</div></div>
-    <h3>Jupiter Asta component sweep — 12, 13 and 20 August 2027</h3>
-    <p class="small">This table samples actual local sunset and compares Astronomy Engine against the page’s separately loaded Swiss Ephemeris at the identical UTC instant. It also exposes each correction term. This is an ephemeris cross-check, not a formula change.</p>
-    <div id="jupiterAstaSweepOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this sweep.</div></div>
+    <h3>Venus/Jupiter location & ephemeris component sweep</h3>
+    <p class="small">This table tests every currently configured Venus/Jupiter TKS event (Asta and Udaya) at both separately defined Pithoragarh observer inputs. Swiss and Astronomy Engine states are compared at the same UTC instant; this is a diagnostic, not a formula validation.</p>
+    <div id="lagnantaraLocationSweepOutput"><div class="status info">Run Sūrya-siddhānta Lagnāntara to populate this sweep.</div></div>
   </section>
   <!-- ========================================================= -->
   <!-- 9. DIAGNOSTIC NOTES -->
@@ -2271,14 +2271,27 @@ function runCoordinateFrameSensitivityAudit() {
   out.innerHTML = html;
 }
 
-function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_CONFIG) {
+function calculateSwissStateLagnantara(swe, planetName, eventTime, direction, config = TKS_CONFIG) {
   /*
    * Independent state-input path:
    * Swiss Ephemeris supplies apparent geocentric ecliptic longitude/latitude
    * and equatorial RA/declination. The classical correction/OA formulas
    * remain the same as the Astronomy Engine path so the state-source delta
    * can be isolated without silently changing the method.
+   *
+   * This adapter is intentionally limited to the planets whose C/event
+   * references are currently present in SHASTRIYA_REFERENCES.
    */
+  const planetIds = {
+    Mercury: swe.SE_MERCURY,
+    Venus: swe.SE_VENUS,
+    Mars: swe.SE_MARS,
+    Jupiter: swe.SE_JUPITER,
+    Saturn: swe.SE_SATURN
+  };
+  const planetId = planetIds[planetName];
+  if (!Number.isInteger(planetId)) return null;
+
   const jd = swe.julday(
     eventTime.getUTCFullYear(),
     eventTime.getUTCMonth() + 1,
@@ -2292,17 +2305,17 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
   const eclFlags = swe.SEFLG_SWIEPH;
   const eqFlags = swe.SEFLG_SWIEPH | 2048; // SEFLG_EQUATORIAL
   const swSun = swe.calc_ut(jd, swe.SE_SUN, eclFlags);
-  const swJupiter = swe.calc_ut(jd, swe.SE_JUPITER, eclFlags);
-  const swJupiterEq = swe.calc_ut(jd, swe.SE_JUPITER, eqFlags);
+  const swPlanet = swe.calc_ut(jd, planetId, eclFlags);
+  const swPlanetEq = swe.calc_ut(jd, planetId, eqFlags);
 
-  if (![swSun, swJupiter, swJupiterEq].every(v =>
+  if (![swSun, swPlanet, swPlanetEq].every(v =>
     v && Number.isFinite(v[0]) && Number.isFinite(v[1])
   )) return null;
 
-  const longitude = normalize360(swJupiter[0] - 24.217);
-  const latitude = swJupiter[1];
-  const ra = normalize360(swJupiterEq[0]);
-  const dec = swJupiterEq[1];
+  const longitude = normalize360(swPlanet[0] - 24.217);
+  const latitude = swPlanet[1];
+  const ra = normalize360(swPlanetEq[0]);
+  const dec = swPlanetEq[1];
   const phi = config.latitude * Math.PI / 180;
   let hourAngleDeg = normalize360(
     Astronomy.SiderealTime(eventTime) * 15 +
@@ -2319,7 +2332,7 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
     latitude * Math.tan(phi) *
     (hourAngleDeg / halfDayAngleDeg);
 
-  const ayanaLongitude = normalize360(swJupiter[0] + 90);
+  const ayanaLongitude = normalize360(swPlanet[0] + 90);
   const eps = 23.4367 * Math.PI / 180;
   const ayanaDeclination = Math.asin(clampUnit(
     Math.sin(eps) * Math.sin(ayanaLongitude * Math.PI / 180)
@@ -2343,7 +2356,7 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
 
   return {
     sunLongitude: swSun[0],
-    planetLongitude: swJupiter[0],
+    planetLongitude: swPlanet[0],
     planetLatitude: latitude,
     ra,
     dec,
@@ -2354,46 +2367,54 @@ function calculateSwissStateLagnantara(swe, eventTime, direction, config = TKS_C
   };
 }
 
-async function runJupiterAstaComponentSweep() {
-  const out = document.getElementById("jupiterAstaSweepOutput");
+async function runLagnantaraLocationEphemerisSweep() {
+  const out = document.getElementById("lagnantaraLocationSweepOutput");
   if (!out) return;
-  out.innerHTML = '<div class="status info">Comparing both standardized locations for 12, 13 and 20 August 2027…</div>';
+  out.innerHTML = '<div class="status info">शुक्र और गुरु के सभी उपलब्ध TKS संदर्भों पर दोनों पिथौरागढ़ observer configurations की तुलना की जा रही है…</div>';
 
-  const dates = ["2027-08-12", "2027-08-13", "2027-08-20"];
   const locations = [
-    { label: "Pithoragarh (29.5828° N, 80.2182° E; 1650 m)", config: CONFIG },
-    { label: "TKS reference (29.5830° N, 80.2090° E; 0 m)", config: TKS_CONFIG }
+    { label: "OurHinduDharm Pithoragarh (29.5828° N, 80.2182° E; 1650 m)", config: CONFIG },
+    { label: "TKS reference Pithoragarh (29.5830° N, 80.2090° E; 0 m as supplied)", config: TKS_CONFIG }
   ];
-  let html = '<div class="status info"><strong>Location standards</strong><br>' +
-    'Pithoragarh: 29.5828° N, 80.2182° E, elevation 1650 m.<br>' +
-    'TKS reference: 29.5830° N, 80.2090° E, elevation 0 m (as supplied; not independently confirmed).<br>' +
-    'Location ΔK is Pithoragarh K minus TKS K for the same date; Swiss ΔK is Swiss-state K minus Astronomy Engine K at the same instant.</div>';
+  let html = '<div class="status info"><strong>Observer separation</strong><br>' +
+    'दोनों observer पिथौरागढ़ के अलग-अलग दिए गए coordinate sets हैं; इन्हें दो अलग शहर या Drik के छिपे हुए coordinates न समझें। TKS output में elevation नहीं दिया गया था, इसलिए 0 m केवल उस diagnostic input का स्पष्ट assumption है।<br>' +
+    'हर case में उसी observer पर स्थानीय सूर्योदय/सूर्यास्त खोजा जाता है। Swiss Ephemeris और Astronomy Engine की तुलना एक ही UTC instant पर होती है। यह event-model या शास्त्रीय सूत्र की स्वतंत्र पुष्टि नहीं है।</div>';
 
   try {
     const swe = await initSwiss();
     const rows = [];
-    for (const day of dates) {
+
+    for (const ref of SHASTRIYA_REFERENCES) {
       const dayRows = [];
+      const body = BODY_NAMES[ref.planet];
+      const C = shastriyaC(ref.planet, ref.event);
+
       for (const location of locations) {
         const config = location.config;
         const eventTime = getSunEventTimeForLagnantara(
-          new Date(day + "T12:00:00Z"), "west", config
+          new Date(ref.date + "T12:00:00Z"),
+          ref.direction,
+          config
         );
         if (!eventTime) {
-          dayRows.push({ day, location, error: "Local sunset not found." });
+          dayRows.push({ ref, location, error: "उसी स्थानीय नागरिक तिथि का सूर्योदय/सूर्यास्त नहीं मिला।" });
           continue;
         }
+
         const current = getLagnantaraDiagnostic(
-          Astronomy.Body.Jupiter, eventTime, "west", "current", config
+          body, eventTime, ref.direction, "current", config
         );
-        const swiss = calculateSwissStateLagnantara(swe, eventTime, "west", config);
-        if (!current || !swiss) {
-          dayRows.push({ day, location, eventTime, error: "Required calculation unavailable." });
+        const swiss = calculateSwissStateLagnantara(
+          swe, ref.planet, eventTime, ref.direction, config
+        );
+        if (!current || !swiss || !Number.isFinite(C)) {
+          dayRows.push({ ref, location, eventTime, error: "आवश्यक ग्रह-स्थिति, K या C उपलब्ध नहीं।" });
           continue;
         }
-        dayRows.push({ day, location, eventTime, current, swiss });
+        dayRows.push({ ref, location, eventTime, current, swiss, C });
       }
-      const valid = dayRows.filter(row => row.current);
+
+      const valid = dayRows.filter(row => row.current && row.swiss);
       const pith = valid.find(row => row.location.config === CONFIG);
       const tks = valid.find(row => row.location.config === TKS_CONFIG);
       const locationDelta = pith && tks ? pith.current.K - tks.current.K : NaN;
@@ -2402,37 +2423,43 @@ async function runJupiterAstaComponentSweep() {
     }
 
     html += '<div class="table-wrap"><table><thead><tr>' +
-      '<th>Location</th><th>Local sunset date</th><th>Sunset (IST)</th>' +
-      '<th>Raw K</th><th>Aksha</th><th>Ayana</th><th>Final K</th>' +
-      '<th>Swiss K−AE K</th><th>Final K−11°</th><th>Same-date location ΔK</th>' +
+      '<th>ग्रह / घटना</th><th>Observer</th><th>स्थानीय सूर्य घटना (IST)</th>' +
+      '<th>Raw K</th><th>Aksha</th><th>Ayana</th><th>AE Final K</th>' +
+      '<th>Swiss Final K</th><th>Swiss−AE K</th><th>C</th><th>AE K−C</th><th>Observer ΔK</th>' +
       '</tr></thead><tbody>';
+
     for (const row of rows) {
-      html += '<tr class="' + (row.day === "2027-08-20" ? "reference-row" : "") + '">';
+      html += '<tr class="' + (row.ref.planet === "Jupiter" && row.ref.event === "Asta" ? "reference-row" : "") + '">';
       if (row.error) {
-        html += '<td>' + row.location.label + '</td><td>' + row.day +
-          '</td><td colspan="8">' + row.error + '</td></tr>';
+        html += '<td>' + row.ref.planet + ' ' + row.ref.event + '</td><td>' +
+          row.location.label + '</td><td>' + row.ref.date +
+          '</td><td colspan="9">' + row.error + '</td></tr>';
         continue;
       }
       const d = row.current.drikkarma;
       const swissDelta = row.swiss.K - row.current.K;
-      html += '<td>' + row.location.label + '</td>' +
-        '<td>' + row.day + '</td>' +
+      const residual = row.current.K - row.C;
+      html += '<td>' + row.ref.planet + ' ' + row.ref.event + ' (' + row.ref.date + ')</td>' +
+        '<td>' + row.location.label + '</td>' +
         '<td>' + formatLocalFromUTCDate(row.eventTime) + '</td>' +
         '<td>' + round(row.current.rawK, 6) + '°</td>' +
         '<td>' + round(d.akshaDeg, 6) + '°</td>' +
         '<td>' + round(d.ayanaDeg, 6) + '°</td>' +
         '<td>' + round(row.current.K, 6) + '°</td>' +
+        '<td>' + round(row.swiss.K, 6) + '°</td>' +
         '<td>' + (swissDelta >= 0 ? '+' : '') + round(swissDelta, 6) + '°</td>' +
-        '<td>' + (row.current.K-11 >= 0 ? '+' : '') + round(row.current.K-11, 6) + '°</td>' +
+        '<td>' + round(row.C, 2) + '°</td>' +
+        '<td>' + (residual >= 0 ? '+' : '') + round(residual, 6) + '°</td>' +
         '<td>' + (Number.isFinite(row.locationDelta) ? (row.locationDelta >= 0 ? '+' : '') + round(row.locationDelta, 6) + '°' : 'unavailable') + '</td>' +
         '</tr>';
     }
+
     html += '</tbody></table></div>' +
-      '<div class="status warn">This compares the same diagnostic formula at each location and compares Swiss-state inputs at the same instant. It does not independently validate the classical formula or establish an event date by itself. The height and coordinate differences must be evaluated numerically; they must not be assumed to explain a multi-day date discrepancy.</div>';
+      '<div class="status warn">यह परीक्षण उपलब्ध Venus/Jupiter TKS reference dates पर location-input और ephemeris-state sensitivity दिखाता है। Swiss−AE K केवल दो ephemeris state sources का अंतर है; यह K/C सूत्र की स्वतंत्र पुष्टि नहीं। Observer ΔK दो पिथौरागढ़ coordinate/elevation configurations का अंतर है, city-to-city तुलना नहीं। किसी भी mismatch को threshold बदलकर ठीक नहीं किया जाएगा।</div>';
     out.innerHTML = html;
   } catch (error) {
-    out.innerHTML = '<div class="status error">Location comparison failed: ' +
-      String(error?.message || error) + '. The main lagnāntara table remains available.</div>';
+    out.innerHTML = '<div class="status error">Location / ephemeris comparison failed: ' +
+      String(error?.message || error) + '. Main lagnāntara diagnostic remains available.</div>';
   }
 }
 function getPlanetSiderealState(body, date) {
@@ -3213,7 +3240,7 @@ async function runLagnantaraDiagnostic() {
 
   lagnantaraOutput.innerHTML = html;
   runCoordinateFrameSensitivityAudit();
-  runJupiterAstaComponentSweep();
+  runLagnantaraLocationEphemerisSweep();
   setStatus("Lagnāntara diagnostic completed; coordinate-frame audit populated and independent Swiss comparison started.", "ok");
 }
 /* =============================================================
