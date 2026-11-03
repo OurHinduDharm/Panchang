@@ -88,70 +88,12 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     console.log("Chapter IX.10–11 first-order event-time estimate:", sourceCells[16]);
     assert.ok(sourceCells[16].includes("IX.10 rate / daily-sample dK/dt"),
       "first-order IX.10 rate must be compared against an independent finite-difference dK/dt");
-    const sourceRoot = sourceCells[17];
-    assert.ok(
-      sourceRoot.includes("Root 1") &&
-      sourceRoot.includes("29 Oct 2026") &&
-      !sourceRoot.includes("28 Oct 2026") &&
-      sourceRoot.includes("K−C="),
-      "10-minute event-window scan must select the source-sequence Venus Udaya root near the later 29 Oct sunrise"
-    );
-    const sourceRootResidual = Number(sourceRoot.split("K−C=")[1]?.split("°")[0]);
-    assert.ok(
-      Number.isFinite(sourceRootResidual) && Math.abs(sourceRootResidual) < 0.001,
-      "continuous source-sequence root must report a near-zero K−C residual"
-    );
-    const parseOctTimestamp = value => {
-      const monthIndex = value.indexOf("Oct 2026");
-      return monthIndex >= 3
-        ? Date.parse(value.slice(monthIndex - 3).split(" (K−C=")[0].trim())
-        : NaN;
-    };
-    const sourceBracketTimes = sourceUdaya.split("→").map(parseOctTimestamp);
-    const sourceRootTime = parseOctTimestamp(sourceRoot);
-    assert.equal(sourceBracketTimes.length, 2,
-      "source-sequence daily bracket must expose both endpoint instants");
-    assert.ok(
-      sourceBracketTimes.every(Number.isFinite) &&
-      Number.isFinite(sourceRootTime) &&
-      sourceRootTime >= sourceBracketTimes[0] &&
-      sourceRootTime <= sourceBracketTimes[1],
-      "continuous K=C root must lie between the actual two local event instants"
-    );
-    console.log("Chapter III+VII continuous Venus Udaya root:", sourceRoot);
-    const continuousRootRows = await page.locator("#lagnantaraOutput tbody tr")
-      .evaluateAll(rows => rows
-        .filter(row =>
-          row.cells?.length === 18 &&
-          ["Venus", "Jupiter"].includes(row.cells[0].innerText.trim()) &&
-          ["Asta", "Udaya"].includes(row.cells[1].innerText.trim())
-        )
-        .map(row => ({
-          planet: row.cells[0].innerText.trim(),
-          event: row.cells[1].innerText.trim(),
-          root: row.cells[17].innerText
-        })));
-    const rootsFound = continuousRootRows
-      .filter(item => item.root.includes("Root "))
-      .map(item => `${item.planet} ${item.event}`)
-      .sort();
-    assert.deepEqual(rootsFound, ["Jupiter Asta", "Jupiter Udaya", "Venus Asta", "Venus Udaya"],
-      "all four continuous K=C mathematical roots must be reported without relabelling time-direction as Asta/Udaya");
-    for (const item of continuousRootRows) {
-      assert.ok(item.root.includes("Root 1") && item.root.includes("K−C time root") &&
-        item.root.includes("K−C="),
-        `${item.planet} ${item.event} must report its continuous K=C root and independent time-direction`);
-      const residuals = item.root.split("K−C=").slice(1)
-        .map(part => Number.parseFloat(part));
-      assert.ok(residuals.length > 0 && residuals.every(value =>
-        Number.isFinite(value) && Math.abs(value) < 0.001
-      ), `${item.planet} ${item.event} root residuals must all be <0.001°`);
-      assert.ok(
-        item.root.includes("K−C −→+") || item.root.includes("K−C +→−"),
-        `${item.planet} ${item.event} must report the time-domain sign direction separately`
-      );
-    }
-    console.log("All four continuous source roots (time-domain signs kept separate):", continuousRootRows);
+    assert.ok(sourceCells[17].includes("Withheld: continuous event-time root is not derived"),
+      "continuous root must be withheld until a separate source-derived event-time equation is implemented");
+    assert.ok(sourceCells[17].includes("Horizon-only Aksha is restricted to daily sunrise/sunset samples"),
+      "the reason for withholding the continuous root must be explicit");
+    assert.ok(sourceCells[16].includes("IX.10 rate / daily-sample dK/dt"),
+      "first-order IX.10 estimate must remain visible as a diagnostic, not a verified event time");
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
