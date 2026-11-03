@@ -59,6 +59,15 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       "Chapter III + VII source-sequence K must be a finite numeric result");
     assert.ok(sourceCells[14].length > 0,
       "Chapter III + VII source-sequence daily bracket must be reported");
+    const sourceUdaya = sourceCells[14].slice(sourceCells[14].indexOf("Bracket 2"));
+    assert.ok(sourceUdaya.includes("28 Oct 2026") && sourceUdaya.includes("29 Oct 2026"),
+      "PR #22 Chapter III + VII source sequence must bracket Venus Udaya on 28→29 Oct");
+    const sourceBefore = sourceUdaya.indexOf("28 Oct 2026");
+    const sourceAfter = sourceUdaya.indexOf("29 Oct 2026");
+    assert.ok(sourceUdaya.slice(sourceBefore, sourceAfter).includes("K−C=-1."),
+      "28 Oct source-sequence sample must be below C");
+    assert.ok(sourceUdaya.slice(sourceAfter).includes("K−C=0."),
+      "29 Oct source-sequence sample must be above C");
     console.log("PR #22 source-sequence Venus Udaya row:", sourceCells.join(" | "));
     for (const required of [
       "Venus Asta",
