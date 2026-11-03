@@ -184,6 +184,8 @@
         Number(chaturmasConfig.year) === startDate.getFullYear() &&
         Array.isArray(chaturmasConfig.phases) && chaturmasConfig.phases.length === 4) {
       const phases = chaturmasConfig.phases;
+      const hindiDigits = value => String(value).replace(/[0-9]/g, digit => "०१२३४५६७८९"[Number(digit)]);
+      const dateLabel = date => hindiDigits(date.getDate() + " " + MONTH_NAMES[date.getMonth()]);
       const validPhases = phases.every(phase =>
         phase && phase.title && parseDate(phase.startDate) && parseDate(phase.endDate) &&
         phase.endDate >= phase.startDate
@@ -197,8 +199,6 @@
           const phaseTitle = element("div", "ohd-fw-chaturmas-phase-name", phase.title);
           const from = parseDate(phase.startDate);
           const to = parseDate(phase.endDate);
-          const hindiDigits = value => String(value).replace(/[0-9]/g, digit => "०१२३४५६७८९"[Number(digit)]);
-          const dateLabel = date => hindiDigits(date.getDate() + " " + MONTH_NAMES[date.getMonth()]);
           copy.appendChild(phaseTitle);
           const fromLabel = phase.startTithi ? phase.startTithi + " (" + dateLabel(from) + ")" : dateLabel(from);
           const toLabel = phase.endTithi ? phase.endTithi + " (" + dateLabel(to) + ")" : dateLabel(to);
