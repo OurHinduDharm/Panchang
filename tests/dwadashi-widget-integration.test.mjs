@@ -28,28 +28,28 @@ test("annual review scans the Panchang engine at each local sunrise", async () =
 test("monthly Vrat-Parv widget only imports approved annual Dwadashi records", async () => {
   const widget = await read("monthly-vrat-parv-widget.js");
   assert.match(widget, /data\/dwadashi\/"\+year\+"\.json/);
-  assert.match(widget, /data\.status!=="approved"/);
+  assert.match(widget, /data\.status!==\"approved\"/);
   assert.match(widget, /sameLatitude/);
   assert.match(widget, /sameLongitude/);
-  assert.match(widget, /record\.status!=="approved"/);
+  assert.match(widget, /record\.status!==\"approved\"/);
   assert.match(widget, /mergeAnnualDwadashiEvents/);
   assert.match(widget, /annual\.tithiDates/);
-  assert.match(widget, /category:"द्वादशी तिथि"/);
+  assert.match(widget, /category:\"द्वादशी तिथि\"/);
   assert.match(widget, /व्रत-विशेष के शास्त्रीय नियम/);
-  assert.match(widget, /एकादशी\|पारण\|parana/);
+  assert.match(widget, /एकादशी\\|पारण\\|parana/);
 });
 
 test("upcoming festival widget prefers approved annual Chaturmas phases and retains legacy fallback", async () => {
   const widget = await read("festival-widget.js");
   assert.match(widget, /\.\.\/dwadashi\/.*year.*json/);
-  assert.match(widget, /annual\.status === "approved"/);
-  assert.match(widget, /candidate\.status === "approved"/);
+  assert.match(widget, /annual\.status === \"approved\"/);
+  assert.match(widget, /candidate\.status === \"approved\"/);
   assert.match(widget, /completePhases/);
   assert.match(widget, /todayKey < phase\.endDate/);
   assert.match(widget, /phaseIndex === phases\.length - 1 && todayKey === phase\.endDate/);
   assert.match(widget, /todayKey >= dateKey\(completionDate\)/);
-  assert.match(widget, /देवोत्थानी एकादशी \(स्मार्त\)/);
-  assert.match(widget, /!\/वैष्णव\|गौण\/i\.test\(item\.title \|\| ""\)/);
+  assert.match(widget, /देवोत्थानी एकादशी \\(स्मार्त\\)/);
+  assert.match(widget, /!\/वैष्णव\\|गौण\/i\.test\(item\.title \\|\\| \"\"\)/);
   assert.match(widget, /पिछला चरण पूर्ण और अगला चरण वर्तमान होगा/);
   assert.match(widget, /\.\.\/chaturmas\//);
 });
@@ -62,11 +62,13 @@ test("publication instructions keep unreviewed dates out of the live widgets", a
   assert.match(readme, /स्वीकृति बॉक्स/);
 });
 
-test("2026 Chaturmas keeps the final food restriction through Ekadashi and completes on Dwadashi", async () => {
+test("2026 Chaturmas follows Smarta Ekadashi and completes on the Dwadashi date", async () => {
   const config = JSON.parse(await read("data/chaturmas/2026.json"));
   assert.equal(config.endDate, "2026-11-20");
-  assert.equal(config.phases[3].endDate, "2026-11-21");
-  assert.equal(config.completionDate, "2026-11-22");
+  assert.equal(config.phases[3].endDate, "2026-11-20");
+  assert.equal(config.completionDate, "2026-11-21");
   assert.equal(config.cardVisibleThroughDate, "2026-11-22");
+  assert.equal(config.endObservance, "smarta-ekadashi");
+  assert.match(config.completionTithi, /कार्तिक शुक्ल द्वादशी/);
   assert.match(config.completionDetail, /कार्तिक शुक्ल द्वादशी/);
 });
