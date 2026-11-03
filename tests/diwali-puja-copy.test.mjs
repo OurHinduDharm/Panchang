@@ -30,7 +30,8 @@ test("All existing Diwali cards link the festival article and Mahalakshmi-Kamala
   assert.match(muhurtaRule, /चर चौघड़िया — दीपावली पूजन का वैकल्पिक समय/);
   assert.match(muhurtaRule, /सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न/);
   assert.match(muhurtaRule, /सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय/);
-  assert.match(muhurtaRule, /लाभ चौघड़िया — वैकल्पिक शुभ समय/);
+  assert.match(muhurtaRule, /Labh: "लाभ चौघड़िया"/);
+  assert.match(muhurtaRule, /choghadiyaNames\[kind\] \+ " — वैकल्पिक शुभ समय"/);
   assert.doesNotMatch(muhurtaRule, /द्वितीयक समय-विकल्प/);
   assert.doesNotMatch(muhurtaRule, /चर चौघड़िया यात्रा और गतिशील कार्यों के लिए है/);
   assert.match(muhurtaRule, /windows\.sort\(\(a, b\) => a\.start\.getTime\(\) - b\.start\.getTime\(\)\)/);
