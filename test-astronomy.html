@@ -3321,7 +3321,19 @@ function shastriyaC(planet, direction, date) {
 }
 
 async function runLagnantaraDiagnostic() {
-  lagnantaraOutput.innerHTML = '<div class="status info">Calculating TKS-coordinate sunrise/sunset lagnāntara geometry...</div>';
+  lagnantaraOutput.innerHTML = '<div class="status info">Running classical helper regression suites and calculating lagnāntara geometry...</div>';
+
+  const helperTestSuites = [
+    { name: "Chapter III — rising-asus interpolation", result: runChapter3LagnantaraTests() },
+    { name: "Chapter VII — sequential dṛkkarma", result: runChapter7DrikkarmaTests() },
+    { name: "Chapter IX — event classification and time arithmetic", result: runChapter9ArithmeticTests() }
+  ];
+  const helperTests = helperTestSuites.flatMap(suite =>
+    suite.result.tests.map(test => ({ ...test, suite: suite.name }))
+  );
+  const helperPassed = helperTests.filter(test => test.passed).length;
+  const helperTotal = helperTests.length;
+  const helperAllPassed = helperPassed === helperTotal;
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
@@ -3486,10 +3498,30 @@ async function runLagnantaraDiagnostic() {
   html += '<li>A close match is useful evidence; a mismatch means we continue the dṛkkarma/apparent-longitude investigation rather than altering the formula to fit.</li>';
   html += '</ul></div>';
 
+  html += '<div class="card"><h3>Classical helper regression suites</h3>';
+  html += '<div class="status ' + (helperAllPassed ? 'ok' : 'error') + '">' +
+    helperPassed + '/' + helperTotal + ' tests passed across ' +
+    helperTestSuites.length + ' suites.</div>';
+  html += '<table><thead><tr><th>Suite</th><th>Passed</th><th>Total</th><th>Failed tests</th></tr></thead><tbody>';
+  for (const suite of helperTestSuites) {
+    const failed = suite.result.tests.filter(test => !test.passed);
+    html += '<tr><td>' + suite.name + '</td><td>' +
+      suite.result.passed + '</td><td>' + suite.result.total + '</td><td>' +
+      (failed.length ? failed.map(test => test.name).join('; ') : 'None') +
+      '</td></tr>';
+  }
+  html += '</tbody></table>';
+  html += '<p class="small">These helper tests validate arithmetic and invariants only; they do not prove a complete classical event model or Drik-equivalent event times.</p></div>';
+
   lagnantaraOutput.innerHTML = html;
   runCoordinateFrameSensitivityAudit();
   runLagnantaraLocationEphemerisSweep();
-  setStatus("Lagnāntara diagnostic completed; coordinate-frame audit populated and independent Swiss comparison started.", "ok");
+  setStatus(
+    helperAllPassed
+      ? 'Lagnāntara diagnostic completed; classical helper regressions passed. Independent Swiss comparison started.'
+      : 'Lagnāntara diagnostic completed with failed classical helper regression tests. Review the failed cases before proceeding.',
+    helperAllPassed ? "ok" : "error"
+  );
 }
 /* =============================================================
    CLASSICAL ASTA / UDAYA DIAGNOSTIC
