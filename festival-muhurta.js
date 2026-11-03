@@ -237,13 +237,17 @@ function collectTithiIntervals(...lists) {
   return intervals.sort((a, b) => a.start - b.start);
 }
 
-export function isSharadiyaMahashtamiEvent(event) {
-  if (!event || !/महाष्टमी|महाअष्टमी|दुर्गाष्टमी|दुर्गा अष्टमी/i.test(String(event.title || ""))) return false;
+export function isNavratriMahashtamiEvent(event) {
+  if (!event || !/महाष्टमी|महाअष्टमी/i.test(String(event.title || ""))) return false;
+  const familyIds = new Set(["sharad", "vasanta", "magha-gupta", "ashadha-gupta"]);
+  if (familyIds.has(String(event.navratriFamily || ""))) return true;
   const text = String(event.title || "") + " " + String(event.description || "");
-  const tithi = normalizedName(event.hinduTithi);
-  return event.navratriFamily === "sharad" ||
-    /शारदीय\s*नवरात्र/i.test(text) ||
-    /आश्विन\s*शुक्ल\s*अष्टमी/.test(tithi);
+  return /(?:शारदीय|चैत्र(?:\s*\/\s*वासन्तिक)?|वासन्तिक|माघ\s*गुप्त|आषाढ़\s*गुप्त)\s*नवरात्र/i.test(text);
+}
+
+// Backward-compatible export for older integrations; scope now includes all four Navratris.
+export function isSharadiyaMahashtamiEvent(event) {
+  return isNavratriMahashtamiEvent(event);
 }
 
 /*
@@ -252,7 +256,7 @@ export function isSharadiyaMahashtamiEvent(event) {
  */
 const rules = {
   "sandhi-puja"(context) {
-    // संधिपूजा शारदीय नवरात्र की शुक्ल अष्टमी-नवमी संधि के लिए है।
+    // संधिपूजा चारों नवरात्रों की महाष्टमी पर शुक्ल अष्टमी-नवमी संधि के लिए है।
     const tithiValue = context.tithi && typeof context.tithi === "object"
       ? context.tithi.index ?? context.tithi.number ?? context.tithi.value ?? context.tithi.name
       : context.tithi;
