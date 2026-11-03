@@ -538,6 +538,7 @@ import {
 import {
   chapter9Kalansha,
   classifyChapter9HorizonEvent,
+  estimateChapter9TimeCorrectionFromArcMotions,
   runChapter9ArithmeticTests
 } from "./ss_chapter9_test.js";
 
@@ -2993,7 +2994,7 @@ function getLagnantaraDiagnostic(planetBody, date, direction, method = "current"
     drikkarma
   };
 }
-function getLagnantaraSourceSequenceDiagnostic(planetBody, date, direction, config = TKS_CONFIG) {
+function getLagnantaraSourceSequenceDiagnostic(planetBody, date, direction, config = TKS_CONFIG, targetC = NaN) {
   /*
    * PR #22 source-derived candidate:
    * Chapter VII sequential dṛkkarma helper + Chapter III sign-rising-asus
@@ -3038,6 +3039,38 @@ function getLagnantaraSourceSequenceDiagnostic(planetBody, date, direction, conf
     obliquityDeg: 24
   });
 
+  let ix10 = null;
+  let estimatedEventTime = null;
+  if (Number.isFinite(targetC)) {
+    const halfDayMs = 12 * 3600000;
+    const sunBefore = getPlanetSiderealState(Astronomy.Body.Sun, new Date(date.getTime() - halfDayMs));
+    const sunAfter = getPlanetSiderealState(Astronomy.Body.Sun, new Date(date.getTime() + halfDayMs));
+    const planetBefore = getPlanetSiderealState(planetBody, new Date(date.getTime() - halfDayMs));
+    const planetAfter = getPlanetSiderealState(planetBody, new Date(date.getTime() + halfDayMs));
+    if (sunBefore && sunAfter && planetBefore && planetAfter) {
+      const sunDailyMotionArcminPerDay =
+        signedLongitudeDelta(sunAfter.longitude, sunBefore.longitude) * 60;
+      const planetDailyMotionArcminPerDay =
+        signedLongitudeDelta(planetAfter.longitude, planetBefore.longitude) * 60;
+      try {
+        ix10 = estimateChapter9TimeCorrectionFromArcMotions({
+          currentKalanshaDeg: lagnantara.K,
+          targetKalanshaDeg: targetC,
+          signedLagnantaraDeg: lagnantara.signedLagnantaraAsu / 60,
+          sunDailyMotionArcminPerDay,
+          planetDailyMotionArcminPerDay,
+          sunSignRisingAsus: lagnantara.sunSignRisingAsus,
+          planetSignRisingAsus: lagnantara.planetSignRisingAsus
+        });
+        if (Number.isFinite(ix10.estimatedDays)) {
+          estimatedEventTime = new Date(date.getTime() + ix10.estimatedDays * 86400000);
+        }
+      } catch (error) {
+        ix10 = { error: String(error?.message || error) };
+      }
+    }
+  }
+
   return {
     ...lagnantara,
     K: lagnantara.K,
@@ -3046,7 +3079,9 @@ function getLagnantaraSourceSequenceDiagnostic(planetBody, date, direction, conf
     correctedPlanetLongitude: drikkarma.correctedLongitude,
     planetLatitude: planetState.latitude,
     sourceObliquityDeg,
-    drikkarma
+    drikkarma,
+    ix10,
+    estimatedEventTime
   };
 }
 
@@ -3097,13 +3132,13 @@ function getSunEventTimeForLagnantara(date, direction, config = TKS_CONFIG) {
 function getLagnantaraResidualForDate(ref, date, method = "current", config = TKS_CONFIG) {
   const eventTime = getSunEventTimeForLagnantara(date, ref.direction, config);
   if (!eventTime) return null;
-  const g = method === "chapter3-vii-source"
-    ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, config)
-    : getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method, config);
-  if (!g) return null;
   const branch = getChapter9EventBranch(ref.planet, eventTime);
   const C = shastriyaC(ref.planet, ref.direction, eventTime);
   if (!branch || !Number.isFinite(C)) return null;
+  const g = method === "chapter3-vii-source"
+    ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, config, C)
+    : getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method, config);
+  if (!g) return null;
   return { eventTime, geometry:g, residual:g.K - C, C, branch };
 }
 
@@ -3243,16 +3278,18 @@ async function runLagnantaraDiagnostic() {
 
   let html = '<div class="status info">Validation location: Pithoragarh 29.5830° N, 80.2090° E. TKS output did not specify elevation; this pass uses 0 m.</div>';
   html += '<div class="table-wrap"><table><thead><tr>';
-  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Ch. III+VII source K</th><th>Current K−C</th><th>Sequential K−C</th><th>Source K−C</th><th>C (SS IX.6–8)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th><th>Ch. III+VII source daily bracket</th>';
+  html += '<th>Planet</th><th>Event</th><th>IX.2–3 classified branch</th><th>Sun event</th><th>Raw K</th><th>Current K</th><th>Sequential K</th><th>Ch. III+VII source K</th><th>Current K−C</th><th>Sequential K−C</th><th>Source K−C</th><th>C (SS IX.6–8)</th><th>TKS target</th><th>Current daily bracket</th><th>Sequential daily bracket</th><th>Ch. III+VII source daily bracket</th><th>IX.10–11 estimated event time (source candidate)</th>';
   html += '</tr></thead><tbody>';
 
   for (const ref of SHASTRIYA_REFERENCES) {
     const sample = getSunEventTimeForLagnantara(new Date(ref.date+"T12:00:00Z"), ref.direction);
-    const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
-    const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
-    const gSource = sample ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction) : null;
     const branch = sample ? getChapter9EventBranch(ref.planet, sample) : null;
     const C = sample ? shastriyaC(ref.planet, ref.direction, sample) : NaN;
+    const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
+    const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
+    const gSource = sample && Number.isFinite(C)
+      ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, TKS_CONFIG, C)
+      : null;
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
     const sourceCrossing = findLagnantaraCrossing(ref, "chapter3-vii-source");
@@ -3333,10 +3370,15 @@ async function runLagnantaraDiagnostic() {
     } else {
       html += '<td>No valid daily samples in ±15 days</td>';
     }
+    html += '<td>'+(gSource && gSource.estimatedEventTime
+      ? formatLocalFromUTCDate(gSource.estimatedEventTime) +
+        ' (' + (gSource.ix10.estimatedDays >= 0 ? '+' : '') +
+        round(gSource.ix10.estimatedDays * 1440, 2) + ' min from sample)'
+      : '—')+'</td>';
     html += '</tr>';
 
     if (g) {
-      html += '<tr><td colspan="16"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
+      html += '<tr><td colspan="17"><details><summary>Intermediate geometry — '+ref.planet+' '+ref.event+'</summary>';
       html += '<div class="grid">';
       html += '<div class="metric"><strong>Sun tropical longitude (°)</strong><span>'+round(g.sunTropicalLongitude,6)+'°</span></div>';
       html += '<div class="metric"><strong>Sun sidereal longitude (°)</strong><span>'+round(g.sunSiderealLongitude,6)+'°</span></div>';
@@ -3384,6 +3426,7 @@ async function runLagnantaraDiagnostic() {
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
   html += '<li>The table compares the direct analytical OA method, its earlier sequential correction experiment, and the separate PR #22 Chapter VII + Chapter III source-sequence candidate (fixed 24° frame, frame-converted local sidereal angle, and sign-rising-asus interpolation).</li>';
   html += '<li>The Chapter III + VII path is a research candidate only. Its Chapter VII zero-latitude Ayana point and 24° frame assumptions still need source-led adjudication; it is not a validated complete classical ephemeris.</li>';
+  html += '<li>The source-sequence row also shows a first-order IX.10–11 time correction from signed lagnāntara and relative time-motion. This is a sample-based estimate, not an iterative or exact event-time solution.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
   html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
