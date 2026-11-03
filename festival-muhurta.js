@@ -628,7 +628,7 @@ const rules = {
     const tithis = collectNamedIntervals(context.tithis, item => isAmavasya(item) || isAmavasya(item.name));
     if (!sunset || !nextSunrise || nextSunrise <= sunset || !tithis.length) {
       return {
-        label: "दीपावली का शुभ समय",
+        label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त",
         status: "unavailable",
         message: "स्थानीय सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक समय-सीमा उपलब्ध नहीं है।"
       };
@@ -669,7 +669,7 @@ const rules = {
     };
     const choghadiyaLabel = kind => kind === "Chal"
       ? "चर चौघड़िया — दीपावली पूजन का वैकल्पिक समय"
-      : choghadiyaNames[kind] + " — द्वितीयक समय-विकल्प";
+      : choghadiyaNames[kind] + " — वैकल्पिक शुभ समय";
     const choghadiyaNote = kind => kind === "Chal"
       ? "दीपावली पूजन के लिए एक वैकल्पिक चौघड़िया समय।"
       : "अमावस्या-व्याप्त चौघड़िया का वैकल्पिक समय।";
@@ -881,13 +881,13 @@ const rules = {
 
     if (!windows.length) {
       return {
-        label: "दीपावली का शुभ समय",
+        label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त",
         status: "unavailable",
         message: "चुने गए नगर में प्रदोष/निशीथ काल और अमावस्या की व्याप्ति के बीच कोई साझा समयावधि इस गणना में नहीं मिली।"
       };
     }
     return {
-      label: "दीपावली का शुभ समय",
+      label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त",
       status: "calculated",
       date: sunset,
       dateLabel: formatDateLabel(sunset),
