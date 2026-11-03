@@ -36,10 +36,14 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       .evaluateAll(rows => rows.map(row => row.innerText)
         .find(text => text.startsWith("Venus\tUdaya")) || "");
     assert.ok(venusUdayaRow, "dedicated Venus Udaya row must exist");
-    assert.match(venusUdayaRow, /29 Oct 2026[\s\\S]*K−C=-0\\./,
-      "Venus Udaya K=C bracket must begin with a negative residual on 29 Oct");
-    assert.match(venusUdayaRow, /30 Oct 2026[\s\\S]*K−C=1\\./,
-      "Venus Udaya K=C bracket must end with a positive residual on 30 Oct");
+    const beforeIndex = venusUdayaRow.indexOf("29 Oct 2026");
+    const afterIndex = venusUdayaRow.indexOf("30 Oct 2026");
+    assert.ok(beforeIndex >= 0 && afterIndex > beforeIndex,
+      "Venus Udaya bracket must list 29 Oct before 30 Oct");
+    assert.ok(venusUdayaRow.slice(beforeIndex, afterIndex).includes("K−C=-0."),
+      "29 Oct sample must have a negative K−C residual");
+    assert.ok(venusUdayaRow.slice(afterIndex).includes("K−C=1."),
+      "30 Oct sample must have a positive K−C residual");
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
