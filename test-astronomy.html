@@ -3221,43 +3221,45 @@ function findLagnantaraCrossing(ref, method = "current", config = TKS_CONFIG) {
     noCrossing: true
   };
 }
-function solveChapter9SourceEventTime(ref, crossing, config = TKS_CONFIG) {
-  const bracket = crossing?.brackets?.find(item => item.matchesRequestedEvent);
-  if (!bracket) return null;
+function evaluateChapter9SourceResidual(ref, date, config, expectedC) {
+  const branch = getChapter9EventBranch(ref.planet, date);
+  const C = shastriyaC(ref.planet, ref.direction, date);
+  if (!branch || !Number.isFinite(C) || C !== expectedC) return null;
+  const geometry = getLagnantaraSourceSequenceDiagnostic(
+    BODY_NAMES[ref.planet], date, ref.direction, config
+  );
+  if (!geometry || !Number.isFinite(geometry.K)) return null;
+  return { date, geometry, C, residual: geometry.K - C };
+}
 
-  let low = bracket.before.eventTime.getTime();
-  let high = bracket.after.eventTime.getTime();
-  let lowResidual = bracket.beforeResidual;
-  let highResidual = bracket.afterResidual;
-  const lowC = bracket.before.C;
-  const highC = bracket.after.C;
+function bisectChapter9SourceRoot(ref, before, after, config, C) {
+  let low = before.date.getTime();
+  let high = after.date.getTime();
+  let lowResidual = before.residual;
+  let highResidual = after.residual;
+  if (lowResidual === 0) {
+    return { eventTime: before.date, residual: 0, K: before.geometry.K, C, iterations: 0 };
+  }
+  if (highResidual === 0) {
+    return { eventTime: after.date, residual: 0, K: after.geometry.K, C, iterations: 0 };
+  }
+  if (lowResidual * highResidual >= 0) return null;
 
-  if (
-    !Number.isFinite(lowResidual) ||
-    !Number.isFinite(highResidual) ||
-    lowC !== highC ||
-    lowResidual * highResidual > 0 ||
-    high <= low
-  ) return null;
-
-  let best = null;
   for (let iteration = 1; iteration <= 48; iteration++) {
     const middle = Math.floor((low + high) / 2);
-    const date = new Date(middle);
-    const branch = getChapter9EventBranch(ref.planet, date);
-    const C = shastriyaC(ref.planet, ref.direction, date);
-    if (!branch || !Number.isFinite(C) || C !== lowC) return null;
-
-    const geometry = getLagnantaraSourceSequenceDiagnostic(
-      BODY_NAMES[ref.planet], date, ref.direction, config
-    );
-    if (!geometry || !Number.isFinite(geometry.K)) return null;
-    const residual = geometry.K - C;
-    best = { eventTime: date, K: geometry.K, C, residual, iterations: iteration };
-
-    if (Math.abs(residual) <= 1e-8 || high - low <= 1000) return best;
-
-    if (lowResidual === 0 || lowResidual * residual <= 0) {
+    const evaluated = evaluateChapter9SourceResidual(ref, new Date(middle), config, C);
+    if (!evaluated) return null;
+    const residual = evaluated.residual;
+    if (Math.abs(residual) <= 1e-8 || high - low <= 1000) {
+      return {
+        eventTime: evaluated.date,
+        residual,
+        K: evaluated.geometry.K,
+        C,
+        iterations: iteration
+      };
+    }
+    if (lowResidual * residual <= 0) {
       high = middle;
       highResidual = residual;
     } else {
@@ -3265,7 +3267,55 @@ function solveChapter9SourceEventTime(ref, crossing, config = TKS_CONFIG) {
       lowResidual = residual;
     }
   }
-  return best;
+  return null;
+}
+
+function scanChapter9SourceEventTimes(ref, crossing, config = TKS_CONFIG, stepMinutes = 30) {
+  const bracket = crossing?.brackets?.find(item => item.matchesRequestedEvent);
+  if (!bracket) return [];
+
+  const C = bracket.before.C;
+  if (!Number.isFinite(C) || bracket.after.C !== C) return [];
+
+  const start = bracket.before.eventTime.getTime();
+  const end = bracket.after.eventTime.getTime();
+  if (!(end > start) || !Number.isFinite(stepMinutes) || stepMinutes <= 0) return [];
+
+  const stepMs = stepMinutes * 60000;
+  const times = [];
+  for (let time = start; time < end; time += stepMs) times.push(time);
+  times.push(end);
+
+  const roots = [];
+  let previous = null;
+  for (const time of times) {
+    const current = evaluateChapter9SourceResidual(ref, new Date(time), config, C);
+    if (!current) {
+      previous = null;
+      continue;
+    }
+
+    if (current.residual === 0) {
+      roots.push({
+        eventTime: current.date,
+        residual: 0,
+        K: current.geometry.K,
+        C,
+        iterations: 0,
+        transition: previous && previous.residual < 0 ? "Udaya" : "Asta"
+      });
+    } else if (previous && previous.residual * current.residual < 0) {
+      const root = bisectChapter9SourceRoot(ref, previous, current, config, C);
+      if (root) {
+        root.transition =
+          previous.residual < 0 && current.residual > 0 ? "Udaya" : "Asta";
+        roots.push(root);
+      }
+    }
+    previous = current;
+  }
+
+  return roots;
 }
 
 function getChapter9EventBranch(planet, date) {
@@ -3352,7 +3402,7 @@ async function runLagnantaraDiagnostic() {
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
     const sourceCrossing = findLagnantaraCrossing(ref, "chapter3-vii-source");
-    const sourceTimeSolution = solveChapter9SourceEventTime(ref, sourceCrossing, TKS_CONFIG);
+    const sourceTimeSolutions = scanChapter9SourceEventTimes(ref, sourceCrossing, TKS_CONFIG, 30);
 
     html += '<tr class="reference-row">';
     html += '<td>'+ref.planet+'</td>';
@@ -3435,11 +3485,13 @@ async function runLagnantaraDiagnostic() {
         ' (' + (gSource.ix10.estimatedDays >= 0 ? '+' : '') +
         round(gSource.ix10.estimatedDays * 1440, 2) + ' min from sample)'
       : '—')+'</td>';
-    html += '<td>'+(sourceTimeSolution
-      ? formatLocalFromUTCDate(sourceTimeSolution.eventTime) +
-        ' (K−C=' + round(sourceTimeSolution.residual,8) + '°; ' +
-        sourceTimeSolution.iterations + ' iterations)'
-      : '—')+'</td>';
+    html += '<td>'+(sourceTimeSolutions.length
+      ? sourceTimeSolutions.map((root, index) =>
+          (index ? '<hr>' : '') + 'Root ' + (index + 1) + ' — ' + root.transition +
+          '<br>' + formatLocalFromUTCDate(root.eventTime) +
+          ' (K−C=' + round(root.residual,8) + '°; ' + root.iterations + ' iterations)'
+        ).join('')
+      : 'No continuous root found at ' + 30 + '-minute scan resolution')+'</td>';
     html += '</tr>';
 
     if (g) {
@@ -3491,7 +3543,7 @@ async function runLagnantaraDiagnostic() {
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
   html += '<li>The table compares the direct analytical OA method, its earlier sequential correction experiment, and the separate PR #22 Chapter VII + Chapter III source-sequence candidate (fixed 24° frame, frame-converted local sidereal angle, and sign-rising-asus interpolation).</li>';
   html += '<li>The Chapter III + VII path is a research candidate only. Its Chapter VII zero-latitude Ayana point and 24° frame assumptions still need source-led adjudication; it is not a validated complete classical ephemeris.</li>';
-  html += '<li>The source-sequence row shows both the first-order IX.10–11 estimate and a bisection root of the continuous Chapter III+VII K−C candidate between adjacent daily sun-event samples. The root is exact only for this implemented candidate equation; it is not proof of naked-eye visibility or Drik event equivalence.</li>';
+  html += '<li>The source-sequence row shows both the first-order IX.10–11 estimate and every continuous Chapter III+VII K−C sign-change root found by a 30-minute scan between adjacent daily sun-event samples, refined by bisection. Roots solve only this implemented candidate equation; they are not proof of naked-eye visibility or Drik event equivalence.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
   html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
