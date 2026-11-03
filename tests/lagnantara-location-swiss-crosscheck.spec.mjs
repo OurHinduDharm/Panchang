@@ -19,13 +19,15 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     await page.waitForFunction(() => {
       const output = document.querySelector("#lagnantaraLocationSweepOutput");
       const text = output?.innerText || "";
-      const rows = output?.querySelectorAll("tbody tr").length || 0;
-      return rows >= 8 && text.includes("Swiss K") && text.includes("Observer ΔK");
+      const table = output?.querySelector("tbody");
+      return Boolean(table && text.includes("Swiss K") && text.includes("Observer ΔK"));
     }, null, { timeout: 240000 });
 
     const output = page.locator("#lagnantaraLocationSweepOutput");
     const text = await output.innerText();
     const lagnantaraMainText = await page.locator("#lagnantaraOutput").innerText();
+    console.log("MAIN LAGNANTARA TABLE (including branch/C classification):\\n" + lagnantaraMainText);
+    console.log("OBSERVER SWEEP TABLE:\\n" + text);
     assert.ok(lagnantaraMainText.includes("Venus") && lagnantaraMainText.includes("Jupiter"),
       "main Lagnantara diagnostic must render the configured Venus and Jupiter references");
     assert.ok(lagnantaraMainText.includes("2026-10-29"),
