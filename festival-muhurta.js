@@ -628,7 +628,7 @@ const rules = {
     const tithis = collectNamedIntervals(context.tithis, item => isAmavasya(item) || isAmavasya(item.name));
     if (!sunset || !nextSunrise || nextSunrise <= sunset || !tithis.length) {
       return {
-        label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+        label: "दीपावली का शुभ समय",
         status: "unavailable",
         message: "स्थानीय सूर्यास्त, अगले सूर्योदय और अमावस्या की वास्तविक समय-सीमा उपलब्ध नहीं है।"
       };
@@ -881,13 +881,13 @@ const rules = {
 
     if (!windows.length) {
       return {
-        label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+        label: "दीपावली का शुभ समय",
         status: "unavailable",
         message: "चुने गए नगर में प्रदोष/निशीथ काल और अमावस्या की व्याप्ति के बीच कोई साझा समयावधि इस गणना में नहीं मिली।"
       };
     }
     return {
-      label: "दीपावली लक्ष्मी-गणेश पूजन मुहूर्त",
+      label: "दीपावली का शुभ समय",
       status: "calculated",
       date: sunset,
       dateLabel: formatDateLabel(sunset),
