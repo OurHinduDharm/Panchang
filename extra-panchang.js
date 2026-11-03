@@ -535,7 +535,9 @@ function getPlanetEvent(planet, selectedDate) {
       astaDegree: null,
       udaya: null,
       udayaDegree: null,
-      verificationPending: true
+      verificationPending: true,
+      calculationScope: "geocentric-angular-threshold",
+      locationSpecific: false
     };
   }
 
@@ -568,7 +570,9 @@ function getPlanetEvent(planet, selectedDate) {
       astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
       udaya: udaya ? formatEventDateTime(udaya.instant) : null,
       udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
-      verificationPending: true
+      verificationPending: true,
+      calculationScope: "geocentric-angular-threshold",
+      locationSpecific: false
     };
 
     const astaMs = asta?.instant instanceof Date ? asta.instant.getTime() : NaN;
@@ -603,7 +607,9 @@ function getPlanetEvent(planet, selectedDate) {
       astaDegree: null,
       udaya: null,
       udayaDegree: null,
-      verificationPending: true
+      verificationPending: true,
+      calculationScope: "geocentric-angular-threshold",
+      locationSpecific: false
     };
   }
 }
@@ -623,7 +629,8 @@ function createPlanetCard(
     <h3>🌌 ग्रह उदय-अस्त</h3>
 
     <p class="planet-rise-set-note" style="margin:8px 0 14px;padding:10px 12px;border-left:3px solid #b7791f;background:rgba(183,121,31,.08);font-size:.92em;line-height:1.5">
-      नीचे दी गई तिथियाँ आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना हैं।
+      नीचे दी गई तिथियाँ आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना हैं; ये भू-केंद्रीय (geocentric) अनुमान हैं।
+      ये चयनित नगर, अक्षांश, देशांतर या ऊँचाई के अनुसार नहीं बदलतीं; इन्हें स्थानीय दृश्यता अथवा स्थानीय उदय-अस्त न मानें।
       प्रत्येक सीमा-पार समय को उस दिन-स्तरीय अंतराल के भीतर लगभग एक मिनट तक परिशोधित किया जाता है।
       यह सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु (K/C) गणना, प्रमाणित शास्त्रीय तिथि,
       या स्थानीय आँखों से दृश्यता का दावा नहीं है। प्रयुक्त कोणीय सीमाएँ भी सत्यापनाधीन हैं।
