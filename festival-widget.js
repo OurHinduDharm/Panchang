@@ -232,9 +232,19 @@
             lastPhaseEnd.setDate(lastPhaseEnd.getDate() + 1);
             return lastPhaseEnd;
           })();
-        if (chaturmasConfig.completionDetail && completionDate &&
-            todayKey >= dateKey(completionDate)) {
-          section.appendChild(element("div", "ohd-fw-chaturmas-phase-detail", chaturmasConfig.completionDetail));
+        if (completionDate && todayKey >= dateKey(completionDate)) {
+          const completion = element("div", "ohd-fw-chaturmas-completion");
+          const completionLabel = [
+            chaturmasConfig.completionTithi || "",
+            dateLabel(completionDate) + " " + hindiDigits(completionDate.getFullYear())
+          ].filter(Boolean).join(" · ");
+          if (completionLabel) {
+            completion.appendChild(element("div", "ohd-fw-chaturmas-phase-name", "व्रत-समापन · " + completionLabel));
+          }
+          if (chaturmasConfig.completionDetail) {
+            completion.appendChild(element("div", "ohd-fw-chaturmas-phase-detail", chaturmasConfig.completionDetail));
+          }
+          section.appendChild(completion);
         }
 
         const rulesUrl = safeHttpUrl(chaturmasConfig.rulesArticleUrl);
@@ -338,6 +348,7 @@
       #ohd-festival-widget .ohd-fw-chaturmas-phase-name{font-size:.84em;font-weight:700;line-height:1.4}
       #ohd-festival-widget .ohd-fw-chaturmas-phase-dates{font-size:.78em;color:#67594a;margin-top:1px}
       #ohd-festival-widget .ohd-fw-chaturmas-phase-detail{font-size:.76em;color:#6b6258;line-height:1.4;margin-top:2px}
+      #ohd-festival-widget .ohd-fw-chaturmas-completion{margin-top:8px;padding:8px 9px;border:1px solid #eadcc8;border-radius:8px;background:#fffaf2}
       #ohd-festival-widget .ohd-fw-chaturmas-phase-status{flex:0 0 auto;font-size:.72em;font-weight:700;white-space:nowrap;padding:2px 6px;border-radius:20px;background:#f3eadb;color:#76552b}
       #ohd-festival-widget .ohd-fw-chaturmas-phase.is-current .ohd-fw-chaturmas-phase-status{background:#e4f3e7;color:#176b36}
       #ohd-festival-widget .ohd-fw-chaturmas-phase.is-complete .ohd-fw-chaturmas-phase-copy{opacity:.58;text-decoration:line-through}
