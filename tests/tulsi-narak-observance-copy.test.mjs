@@ -17,7 +17,7 @@ test("Tulsi Vivah article and observance guidance are consistent for 2026–2030
     const event = data.events.find(item => /तुलसी विवाह/.test(item.title || ""));
     assert.ok(event, "Tulsi Vivah card should exist in " + name);
     assert.equal(event.articleUrl, tulsiUrl, "Tulsi article URL should be canonical in " + name);
-    assert.match(event.description || "", new RegExp(tulsiUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.ok((event.description || "").includes(tulsiUrl), "Tulsi link should appear in the card description for " + name);
     assert.ok(event.description.includes(tulsiGuidance), "Tulsi observance guidance should appear in " + name);
     assert.equal(event.articleLabel, "प्रबोधिनी एकादशी पर तुलसी विवाह");
   }
