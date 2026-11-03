@@ -84,3 +84,12 @@ test("boundary JSON export button is connected without changing the existing geo
   assert.match(source, /await copyHistoricalBoundaryGeometryJSON\(\)/);
   assert.match(source, /runHistoricalBoundaryGeometryAudit\(\)/);
 });
+
+test("historical boundary inputs cannot be presented as confirmed Drik acceptance references", () => {
+  assert.match(source, /UNVERIFIED_PITHORAGARH_BOUNDARY_TRANSCRIPTIONS/);
+  assert.match(source, /unverified-historical-transcription-not-acceptance-target/);
+  assert.match(source, /Historical Pithoragarh Boundary Geometry — Unverified Transcriptions/);
+  assert.match(source, /named-city Drik source से स्वतंत्र रूप से पुनः सत्यापित नहीं हुए हैं/);
+  assert.doesNotMatch(source, /<h2>Drik Panchang Published Boundary Audit/);
+  assert.match(source, /id="runHistoricalBoundaryBtn"/);
+});
