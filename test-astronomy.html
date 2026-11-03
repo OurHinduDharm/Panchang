@@ -3262,9 +3262,17 @@ function bisectChapter9SourceRoot(ref, before, after, config, C) {
     }
     if (high - low <= 1000) {
       // A narrow time interval is not sufficient evidence of a root.
-      // Discontinuous/event-branch changes can leave a large K−C residual.
-      // Reject instead of returning a fabricated event timestamp.
-      return null;
+      // Accept only if the remaining angular residual is also small;
+      // otherwise reject a discontinuity/branch jump instead of inventing a time.
+      if (Math.abs(residual) > 1e-3) return null;
+      return {
+        eventTime: evaluated.date,
+        residual,
+        K: evaluated.geometry.K,
+        C,
+        iterations: iteration,
+        residualToleranceDeg: 1e-3
+      };
     }
     if (lowResidual * residual <= 0) {
       high = middle;
