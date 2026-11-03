@@ -15,6 +15,7 @@ function makeSearch(separationByOffset) {
   const sampledOffsets = [];
   const sandbox = {
     Date,
+    planetPerfStats: null,
     addDays(dateString, days) {
       return new Date(Date.parse(dateString + "T12:00:00Z") + days * 86400000).toISOString().slice(0, 10);
     },
