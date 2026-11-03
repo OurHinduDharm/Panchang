@@ -2401,13 +2401,12 @@ async function runLagnantaraLocationEphemerisSweep() {
     const rows = [];
 
     for (const ref of SHASTRIYA_REFERENCES) {
-      const C = sample ? shastriyaC(ref.planet, ref.direction, sample) : NaN;
       for (const location of locations) {
         const crossing = findLagnantaraCrossing(ref, "current", location.config);
         const bracket = crossing?.brackets?.find(item => item.matchesRequestedEvent);
         if (!bracket) {
           rows.push({
-            ref, location, C,
+            ref, location,
             error: crossing?.noCrossing
               ? "इस observer पर ±15 दिन में requested K=C संक्रमण नहीं मिला।"
               : "Requested Asta/Udaya bracket उपलब्ध नहीं।"
@@ -2419,6 +2418,7 @@ async function runLagnantaraLocationEphemerisSweep() {
           ["Before K=C", bracket.before],
           ["After K=C", bracket.after]
         ]) {
+          const C = sample.C;
           const swiss = calculateSwissStateLagnantara(
             swe, ref.planet, sample.eventTime, ref.direction, location.config
           );
