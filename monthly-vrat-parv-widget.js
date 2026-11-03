@@ -475,10 +475,10 @@
     try{
       var muhurtaModule=await muhurtaModulePromise;
       if(!muhurtaModule) return;
-      var isSharadiyaMahashtami=typeof muhurtaModule.isNavratriMahashtamiEvent==="function"&&muhurtaModule.isNavratriMahashtamiEvent(item);
+      var isNavratriMahashtami=typeof muhurtaModule.isNavratriMahashtamiEvent==="function"&&muhurtaModule.isNavratriMahashtamiEvent(item);
       // Explicit JSON rule ho ya auto-detection, संधिपूजा केवल चारों नवरात्रों की महाष्टमी पर।
-      ruleIds=ruleIds.filter(function(ruleId){return ruleId!=="sandhi-puja"||isSharadiyaMahashtami;});
-      if(!ruleIds.length&&isSharadiyaMahashtami) ruleIds=["sandhi-puja"];
+      ruleIds=ruleIds.filter(function(ruleId){return ruleId!=="sandhi-puja"||isNavratriMahashtami;});
+      if(!ruleIds.length&&isNavratriMahashtami) ruleIds=["sandhi-puja"];
       if(!ruleIds.length) return;
       var usableRules=[];
       ruleIds.forEach(function(ruleId){
