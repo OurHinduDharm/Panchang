@@ -56,7 +56,7 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
         );
         return row ? [...row.cells].map(cell => cell.innerText) : [];
       });
-    assert.equal(sourceCells.length, 16, "main Lagnantara row must expose all 16 comparison columns");
+    assert.equal(sourceCells.length, 17, "main Lagnantara row must expose all 17 comparison columns");
     assert.ok(sourceCells[2].startsWith("east-rising / "),
       "Venus Udaya must be independently classified as east-rising from zodiac order and signed motion");
     assert.ok(Number.isFinite(Number.parseFloat(sourceCells[2].split("/")[1])),
@@ -85,6 +85,7 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     assert.ok(sourceUdaya.slice(sourceAfter).includes("K−C=0."),
       "29 Oct source-sequence sample must be above C");
     console.log("PR #22 source-sequence Venus Udaya row:", sourceCells.join(" | "));
+    console.log("Chapter IX.10–11 first-order event-time estimate:", sourceCells[16]);
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
