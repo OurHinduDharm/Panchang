@@ -22,7 +22,7 @@ test("All existing Diwali cards link the festival article and Mahalakshmi-Kamala
   }
   const current = JSON.parse(await readFile(new URL("../data/festivals/2026-11.json", import.meta.url), "utf8"));
   const diwali = current.events.find(event => event.date === "2026-11-08" && /दीपावली/.test(event.title));
-  assert.match(diwali.description, /प्रदोष में वृषभ स्थिर लग्न और अमावस्या/);
+  assert.match(diwali.description, /प्रदोष में वृषभ लग्न \\(स्थिर लग्न\\) और अमावस्या/);
   assert.doesNotMatch(diwali.description, /राहुकाल/);
   const muhurtaRule = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
   assert.match(muhurtaRule, /label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त"/);
