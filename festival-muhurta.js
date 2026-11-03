@@ -879,6 +879,9 @@ const rules = {
     // primary Lakshmi-Ganesha puja recommendation.
     windows.push(...choghadiyaWindows.sort((a, b) => a.start - b.start));
 
+    // सभी पूजा, लग्न और चौघड़िया विकल्प वास्तविक आरम्भ-समय के क्रम में दिखें।
+    windows.sort((a, b) => a.start.getTime() - b.start.getTime());
+
     if (!windows.length) {
       return {
         label: "दीपावली में लक्ष्मी-गणेश पूजन के मुहूर्त",
