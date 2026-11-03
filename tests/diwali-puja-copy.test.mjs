@@ -33,4 +33,9 @@ test("All existing Diwali cards link the festival article and Mahalakshmi-Kamala
   assert.match(muhurtaRule, /लाभ चौघड़िया — वैकल्पिक शुभ समय/);
   assert.doesNotMatch(muhurtaRule, /द्वितीयक समय-विकल्प/);
   assert.doesNotMatch(muhurtaRule, /चर चौघड़िया यात्रा और गतिशील कार्यों के लिए है/);
+  assert.match(muhurtaRule, /windows\.sort\(\(a, b\) => a\.start\.getTime\(\) - b\.start\.getTime\(\)\)/);
+  const monthlyPage = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
+  assert.match(monthlyPage, /\.muhurta-box\{/);
+  assert.match(monthlyPage, /\.muhurta-window-time\{/);
+  assert.match(monthlyPage, /className="muhurta-window"/);
 });
