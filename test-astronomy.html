@@ -224,7 +224,7 @@
     <button id="runHistoricalBoundaryBtn">Historical Boundary Geometry</button>
     <button id="copyDrikBoundaryBtn" type="button">Copy boundary JSON</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
-    <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
+    <button id="runHistoricalThresholdComparisonBtn">Historical Threshold Comparison — Unverified References</button>
     <button id="runLocalHorizonBtn">Local Horizon at Threshold</button>
     <button id="runLagnantaraBtn">Sūrya-siddhānta Lagnāntara</button>
   </div>
@@ -430,8 +430,8 @@
 
   <section>
     <h2>Exact-Time Asta/Udaya Boundary Audit — Pithoragarh</h2>
-    <p>This test calculates sub-day crossings of the selected angular-threshold model, then compares them with the supplied Drik local timestamps. A precise root of a chosen threshold is not automatically the same event as Drik visibility-based Asta/Udaya.</p>
-    <div class="status warn"><strong>Interpretation:</strong> A result marked as a time match only compares timestamps. A mismatch may mean the event definitions differ; do not tune the threshold merely to force a match.</div>
+    <p>This test compares the selected angular-threshold roots with old Pithoragarh project timestamps that have not been independently re-captured from a named-city Drik page. These are unverified historical transcriptions, not Drik acceptance targets.</p>
+    <div class="status warn"><strong>Interpretation:</strong> This is a diagnostic against unverified transcriptions only. It cannot validate Drik accuracy. Do not tune thresholds to force a match.</div>
     <div id="exactBoundaryAuditOutput"><div class="status info">Not run yet.</div></div>
   </section>
 
@@ -3863,18 +3863,18 @@ async function runReferenceWindowScan() {
 /* =============================================================
    EXACT-TIME BOUNDARY AUDIT
    ============================================================= */
-const EXACT_TIME_BOUNDARY_REFERENCES = [
-  { planet:"Venus", event:"Asta", label:"Drik Asta begins", localTime:"2026-10-12T18:05:00" },
-  { planet:"Venus", event:"Udaya", label:"Drik Asta ends", localTime:"2026-10-29T05:49:00" },
-  { planet:"Jupiter", event:"Asta", label:"Drik Asta begins", localTime:"2027-08-16T19:24:00" },
-  { planet:"Jupiter", event:"Udaya", label:"Drik Asta ends", localTime:"2027-09-13T05:09:00" }
+const UNVERIFIED_EXACT_TIME_BOUNDARY_TRANSCRIPTIONS = [
+  { planet:"Venus", event:"Asta", label:"Unverified historical Asta-start transcription", localTime:"2026-10-12T18:05:00" },
+  { planet:"Venus", event:"Udaya", label:"Unverified historical Asta-end transcription", localTime:"2026-10-29T05:49:00" },
+  { planet:"Jupiter", event:"Asta", label:"Unverified historical Asta-start transcription", localTime:"2027-08-16T19:24:00" },
+  { planet:"Jupiter", event:"Udaya", label:"Unverified historical Asta-end transcription", localTime:"2027-09-13T05:09:00" }
 ];
 
-function runExactTimeBoundaryAudit() {
+function runHistoricalBoundaryThresholdComparison() {
   const output = document.getElementById("exactBoundaryAuditOutput");
   const rows = [];
 
-  for (const ref of EXACT_TIME_BOUNDARY_REFERENCES) {
+  for (const ref of UNVERIFIED_EXACT_TIME_BOUNDARY_TRANSCRIPTIONS) {
     const published = new Date(ref.localTime + "+05:30");
     const searchRef = { planet:ref.planet, event:ref.event, date:ref.localTime.slice(0,10) };
     const ecliptic = findClassicalCrossing(searchRef, false);
@@ -3900,10 +3900,10 @@ function runExactTimeBoundaryAudit() {
   }
 
   output.innerHTML = '<div class="table-wrap"><table><thead><tr>' +
-    '<th>ग्रह</th><th>संदर्भ घटना</th><th>प्रकाशित स्थानीय समय</th>' +
+    '<th>ग्रह</th><th>संदर्भ घटना</th><th>अप्रमाणित ऐतिहासिक समय</th>' +
     '<th>गणितीय सीमा-संक्रमण (ecliptic)</th><th>गणितीय सीमा-संक्रमण (3-D)</th>' +
     '</tr></thead><tbody>' + rows.join("") + '</tbody></table></div>' +
-    '<p class="small">संदर्भ समय Drik Panchang के Pithoragarh परिणामों से दिए गए परीक्षण-इनपुट हैं। यह ऑडिट उन्हें गणना का उत्तर नहीं मानता।</p>';
+    '<p class="small">संदर्भ समय पुराने, अप्रमाणित project transcriptions हैं; इन्हें Drik के सत्यापित Pithoragarh परिणाम या acceptance targets न मानें।</p>';
 }
 
 /* =============================================================
@@ -4090,11 +4090,11 @@ document
   );
 
 document
-  .getElementById("runExactBoundaryAuditBtn")
+  .getElementById("runHistoricalThresholdComparisonBtn")
   .addEventListener("click", () => {
     try {
-      runExactTimeBoundaryAudit();
-      setStatus("Exact-time boundary audit completed. Compare the two definitions; do not treat threshold crossings as visibility proof.", "info");
+      runHistoricalBoundaryThresholdComparison();
+      setStatus("Historical threshold comparison completed against unverified transcriptions only; no Drik validation is implied.", "info");
     } catch (error) {
       console.error("EXACT-TIME BOUNDARY AUDIT ERROR:", error);
       setStatus(error?.message || String(error), "error");

@@ -93,3 +93,13 @@ test("historical boundary inputs cannot be presented as confirmed Drik acceptanc
   assert.doesNotMatch(source, /<h2>Drik Panchang Published Boundary Audit/);
   assert.match(source, /id="runHistoricalBoundaryBtn"/);
 });
+
+test("exact-time threshold comparison labels historical Pithoragarh timestamps as unverified", () => {
+  assert.match(source, /UNVERIFIED_EXACT_TIME_BOUNDARY_TRANSCRIPTIONS/);
+  assert.match(source, /runHistoricalBoundaryThresholdComparison/);
+  assert.match(source, /Historical Threshold Comparison — Unverified References/);
+  assert.match(source, /not been independently re-captured from a named-city Drik page/);
+  assert.match(source, /unverified historical transcriptions/);
+  assert.match(source, /id="runHistoricalThresholdComparisonBtn"/);
+  assert.doesNotMatch(source, /const EXACT_TIME_BOUNDARY_REFERENCES/);
+});
