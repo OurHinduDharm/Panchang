@@ -3250,14 +3250,21 @@ function bisectChapter9SourceRoot(ref, before, after, config, C) {
     const evaluated = evaluateChapter9SourceResidual(ref, new Date(middle), config, C);
     if (!evaluated) return null;
     const residual = evaluated.residual;
-    if (Math.abs(residual) <= 1e-8 || high - low <= 1000) {
+    if (Math.abs(residual) <= 1e-8) {
       return {
         eventTime: evaluated.date,
         residual,
         K: evaluated.geometry.K,
         C,
-        iterations: iteration
+        iterations: iteration,
+        residualToleranceDeg: 1e-8
       };
+    }
+    if (high - low <= 1000) {
+      // A narrow time interval is not sufficient evidence of a root.
+      // Discontinuous/event-branch changes can leave a large K−C residual.
+      // Reject instead of returning a fabricated event timestamp.
+      return null;
     }
     if (lowResidual * residual <= 0) {
       high = middle;
