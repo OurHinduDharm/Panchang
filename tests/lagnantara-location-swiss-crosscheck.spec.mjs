@@ -32,6 +32,15 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       "Venus Udaya reference date must align with the published Pithoragarh Asta-end boundary");
     assert.ok(!lagnantaraMainText.includes("2026-11-01"),
       "the stale post-event Venus Udaya sample date must not remain in the diagnostic");
+    const venusUdayaRow = await page.locator("#lagnantaraOutput tbody tr")
+      .filter({ hasText: "Venus" })
+      .filter({ hasText: "Udaya" })
+      .first()
+      .innerText();
+    assert.match(venusUdayaRow, /29 Oct 2026[\\s\\S]*K−C=-0\\./,
+      "Venus Udaya K=C bracket must begin with a negative residual on 29 Oct");
+    assert.match(venusUdayaRow, /30 Oct 2026[\\s\\S]*K−C=1\\./,
+      "Venus Udaya K=C bracket must end with a positive residual on 30 Oct");
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
