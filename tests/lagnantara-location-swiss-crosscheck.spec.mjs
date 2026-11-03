@@ -99,13 +99,14 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       Number.isFinite(sourceRootResidual) && Math.abs(sourceRootResidual) < 0.001,
       "continuous source-sequence root must report a near-zero K−C residual"
     );
-    const sourceBracketLines = sourceUdaya.split("\n")
-      .filter(line => line.includes("Oct 2026"));
-    const sourceBracketTimes = sourceBracketLines.map(line =>
-      Date.parse((line.startsWith("→") ? line.slice(1).trim() : line.trim()).split(" (K−C=")[0].trim())
-    );
-    const sourceRootDateLine = sourceRoot.split("\n").find(line => line.includes("Oct 2026")) || "";
-    const sourceRootTime = Date.parse(sourceRootDateLine.split(" (K−C=")[0].trim());
+    const parseOctTimestamp = value => {
+      const monthIndex = value.indexOf("Oct 2026");
+      return monthIndex >= 3
+        ? Date.parse(value.slice(monthIndex - 3).split(" (K−C=")[0].trim())
+        : NaN;
+    };
+    const sourceBracketTimes = sourceUdaya.split("→").map(parseOctTimestamp);
+    const sourceRootTime = parseOctTimestamp(sourceRoot);
     assert.equal(sourceBracketTimes.length, 2,
       "source-sequence daily bracket must expose both endpoint instants");
     assert.ok(
