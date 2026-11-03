@@ -121,28 +121,25 @@ test("Extra Panchang placement helpers target the shared results grid", () => {
 });
 
 
-test("Planetary Asta/Udaya card labels angular estimates and keeps classical status separate", () => {
+test("Planetary Asta/Udaya card keeps calculation labels and one concise final disclosure", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const start = source.indexOf("function createPlanetCard(");
-  const end = source.indexOf("\nfunction createHoraCard(", start);
+  const end = source.indexOf("\\nfunction createHoraCard(", start);
   assert.notEqual(start, -1, "planet card renderer must exist");
   assert.notEqual(end, -1, "planet card renderer must end before Hora card");
 
   const cardSource = source.slice(start, end);
-  assert.ok(cardSource.includes("आधुनिक सूर्य–ग्रह कोणीय दूरी की प्रारंभिक, दिन-स्तरीय गणना"));
-  assert.ok(cardSource.includes("सूर्यसिद्धान्त अध्याय ९ की लम्बान्तर-आसु (K/C) गणना"));
   assert.ok(cardSource.includes("कोणीय अनुमानित अस्त"));
   assert.ok(cardSource.includes("कोणीय अनुमानित उदय"));
-  assert.ok(cardSource.includes("शास्त्रीय K/C गणना — सत्यापनाधीन"));
-  assert.ok(cardSource.includes("प्रामाणिकता की स्थिति"));
-  assert.ok(cardSource.includes("सूर्यसिद्धान्त अध्याय ३.४३–४६"));
-  assert.ok(cardSource.includes("७.८–१० (दृक्कर्म)"));
-  assert.ok(cardSource.includes("९.२–८ (लम्बान्तर तथा घटना-वर्गीकरण)"));
-  assert.ok(cardSource.includes("उसी स्थान के विश्वसनीय प्रकाशित समयों से मिलान"));
+  assert.ok(cardSource.includes("ये समय भू-केंद्रीय सूर्य–ग्रह कोणीय दूरी पर आधारित गणितीय अनुमान हैं; स्थानीय दृश्यता एवं शास्त्रीय K/C सत्यापन जारी है।"));
+  assert.ok(!cardSource.includes("प्रामाणिकता की स्थिति"));
+  assert.ok(!cardSource.includes("सूर्यसिद्धान्त अध्याय ३.४३–४६"));
+  assert.ok(!cardSource.includes("प्रमाणित घोषित करने की शर्त"));
+  assert.equal((cardSource.match(/स्थानीय दृश्यता एवं शास्त्रीय K\\/C सत्यापन जारी है/g) || []).length, 1);
+  assert.ok(!cardSource.includes("शास्त्रीय K/C गणना — सत्यापनाधीन"));
   assert.ok(!cardSource.includes("!planet.verificationPending && planet.asta"));
   assert.ok(!cardSource.includes("!planet.verificationPending && planet.udaya"));
 });
-
 
 test("Hora and classical-yoga disclosure states survive card refreshes", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
