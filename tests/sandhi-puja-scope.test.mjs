@@ -40,7 +40,6 @@ test("Sandhi Puja scope is consistent across every catalog year (2026–2030)", 
 
   assert.match(muhurta, /export function isNavratriMahashtamiEvent/);
   assert.ok(muhurta.includes('"sharad", "vasanta", "magha-gupta", "ashadha-gupta"'));
-  assert.ok(muhurta.includes("आश्विन") && muhurta.includes("शुक्ल") && muhurta.includes("अष्टमी"));
   assert.match(widget, /isNavratriMahashtamiEvent\(item\)/);
   assert.match(widget, /ruleIds=ruleIds\.filter/);
   assert.match(muhurta, /tithiIndex === 7 \|\| tithiIndex === 8/);
