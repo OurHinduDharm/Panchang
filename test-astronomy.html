@@ -3157,7 +3157,7 @@ function getLagnantaraResidualForDate(ref, date, method = "current", config = TK
   const C = shastriyaC(ref.planet, ref.direction, eventTime);
   if (!branch || !Number.isFinite(C)) return null;
   const g = method === "chapter3-vii-source"
-    ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, config, C)
+    ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, config)
     : getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method, config);
   if (!g) return null;
   return { eventTime, geometry:g, residual:g.K - C, C, branch };
