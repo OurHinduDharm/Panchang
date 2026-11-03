@@ -3319,20 +3319,25 @@ function scanChapter9SourceEventTimes(ref, crossing, config = TKS_CONFIG, stepMi
     }
 
     if (current.residual === 0) {
-      roots.push({
-        eventTime: current.date,
-        residual: 0,
-        K: current.geometry.K,
-        C,
-        iterations: 0,
-        transition: previous && previous.residual < 0 ? "Udaya" : "Asta"
-      });
+      const transition = previous && previous.residual < 0 ? "Udaya" : "Asta";
+      if (transition === ref.event) {
+        roots.push({
+          eventTime: current.date,
+          residual: 0,
+          K: current.geometry.K,
+          C,
+          iterations: 0,
+          transition
+        });
+      }
     } else if (previous && previous.residual * current.residual < 0) {
       const root = bisectChapter9SourceRoot(ref, previous, current, config, C);
       if (root) {
         root.transition =
           previous.residual < 0 && current.residual > 0 ? "Udaya" : "Asta";
-        roots.push(root);
+        // Do not report the opposite conjunction-side transition as the
+        // requested event (e.g. a Udaya root in an Asta search window).
+        if (root.transition === ref.event) roots.push(root);
       }
     }
     previous = current;
@@ -3514,7 +3519,7 @@ async function runLagnantaraDiagnostic() {
           '<br>' + formatLocalFromUTCDate(root.eventTime) +
           ' (K−C=' + round(root.residual,8) + '°; ' + root.iterations + ' iterations)'
         ).join('')
-      : 'No validated continuous root (30-minute scan; residual gate 0.001°)')+'</td>';
+      : 'No validated root in the requested direction (scan/residual gate)')+'</td>';
     html += '</tr>';
 
     if (g) {
