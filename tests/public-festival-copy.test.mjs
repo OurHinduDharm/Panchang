@@ -21,6 +21,22 @@ test("public yearly festival descriptions do not send users to another Panchang 
   assert.deepEqual(violations, []);
 });
 
+test("monthly Durga Ashtami and Skanda Shashthi copy avoids awkward sunrise wording", async () => {
+  for (let month = 1; month <= 12; month++) {
+    const file = "2026-" + String(month).padStart(2, "0") + ".json";
+    const data = JSON.parse(await readFile(new URL(file, directory), "utf8"));
+    for (const event of data.events || []) {
+      if (event.title === "मासिक दुर्गाष्टमी") {
+        assert.equal(event.description, "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।");
+      }
+      if (event.title === "मासिक स्कन्द षष्ठी") {
+        assert.equal(event.description, "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।");
+      }
+      assert.doesNotMatch(event.description || "", /स्थानीय सूर्योदय पर विद्यमान है/);
+    }
+  }
+});
+
 test("city selection obtains terrain elevation without blocking the initial festival list", async () => {
   const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
   const html = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
