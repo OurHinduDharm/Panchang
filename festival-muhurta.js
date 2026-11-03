@@ -769,8 +769,8 @@ const rules = {
           new Date(sunrise.getTime() + dayDuration * 7 / 15),
           new Date(sunrise.getTime() + dayDuration * 8 / 15),
           tithis,
-          "अभिजित् मुहूर्त — दिन के शुभ कार्यों हेतु",
-          "अमावस्या-व्याप्त दिन का अभिजित् मुहूर्त।"
+          "अभिजित् मुहूर्त — लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय",
+          "अमावस्या-व्याप्त दिन का अभिजित् मुहूर्त; वृषभ स्थिर लग्न सर्वोत्तम है।"
         );
         if (abhijit) windows.push(abhijit);
       }
@@ -778,8 +778,8 @@ const rules = {
         new Date(sunrise.getTime() + dayDuration * 10 / 15),
         new Date(sunrise.getTime() + dayDuration * 11 / 15),
         tithis,
-        "विजय मुहूर्त — व्यापार एवं लेखा कार्य हेतु",
-        "अमावस्या-व्याप्त दिन का विजय मुहूर्त।"
+        "विजय मुहूर्त — लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय",
+        "अमावस्या-व्याप्त दिन का विजय मुहूर्त; वृषभ स्थिर लग्न सर्वोत्तम है।"
       );
       if (vijaya) windows.push(vijaya);
     }
@@ -809,8 +809,8 @@ const rules = {
             new Date(startMs),
             new Date(endMs),
             [pradosh],
-            planet + " होरा — प्रदोष में शुभ समय",
-            "प्रदोष और अमावस्या के भीतर " + planet + " होरा।"
+            planet + " होरा — लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय",
+            "प्रदोष और अमावस्या के भीतर " + planet + " होरा; वृषभ स्थिर लग्न सर्वोत्तम है।"
           );
           if (overlap) windows.push(overlap);
         }
