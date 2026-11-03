@@ -23,7 +23,6 @@
 #ohd-monthly-festivals .muhurta-window-time{display:block;margin-top:5px;color:#8b4d12;font-size:15px;font-weight:850;line-height:1.45;font-variant-numeric:tabular-nums;letter-spacing:.1px}
 #ohd-monthly-festivals .muhurta-window.primary .muhurta-window-time{color:#8a4a08;font-size:17px}
 #ohd-monthly-festivals .muhurta-window-note{margin-top:5px;color:#716354;font-size:12px;line-height:1.55}
-#ohd-monthly-festivals .muhurta-window-note{margin-top:5px;color:#716354;font-size:12px;line-height:1.55}
 #ohd-monthly-festivals .muhurta-location{display:flex;align-items:center;gap:5px;margin-top:11px;padding-top:8px;border-top:1px solid #f0e8dc;color:#817465;font-size:11px;line-height:1.45;overflow-wrap:anywhere}
 #ohd-monthly-festivals .muhurta-location:before{content:"📍";font-size:11px}
 @media(min-width:560px){#ohd-monthly-festivals .muhurta-box{padding:16px}#ohd-monthly-festivals .muhurta-detail{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#ohd-monthly-festivals .muhurta-window.primary{grid-column:1/-1}#ohd-monthly-festivals .muhurta-window-time{font-size:16px}}
