@@ -537,6 +537,7 @@ import {
 
 import {
   chapter9Kalansha,
+  classifyChapter9HorizonEvent,
   runChapter9ArithmeticTests
 } from "./ss_chapter9_test.js";
 
@@ -2400,7 +2401,7 @@ async function runLagnantaraLocationEphemerisSweep() {
     const rows = [];
 
     for (const ref of SHASTRIYA_REFERENCES) {
-      const C = shastriyaC(ref.planet, ref.direction);
+      const C = sample ? shastriyaC(ref.planet, ref.direction, sample) : NaN;
       for (const location of locations) {
         const crossing = findLagnantaraCrossing(ref, "current", location.config);
         const bracket = crossing?.brackets?.find(item => item.matchesRequestedEvent);
@@ -3100,9 +3101,10 @@ function getLagnantaraResidualForDate(ref, date, method = "current", config = TK
     ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, config)
     : getLagnantaraDiagnostic(BODY_NAMES[ref.planet], eventTime, ref.direction, method, config);
   if (!g) return null;
-  const C = shastriyaC(ref.planet, ref.direction);
-  if (!Number.isFinite(C)) return null;
-  return { eventTime, geometry:g, residual:g.K - C };
+  const branch = getChapter9EventBranch(ref.planet, eventTime);
+  const C = shastriyaC(ref.planet, ref.direction, eventTime);
+  if (!branch || !Number.isFinite(C)) return null;
+  return { eventTime, geometry:g, residual:g.K - C, C, branch };
 }
 
 function findLagnantaraCrossing(ref, method = "current", config = TKS_CONFIG) {
@@ -3132,7 +3134,10 @@ function findLagnantaraCrossing(ref, method = "current", config = TKS_CONFIG) {
     const a = samples[i-1];
     const b = samples[i];
 
-    if (a.residual === 0 || a.residual * b.residual < 0) {
+    if (
+      b.date.getTime() - a.date.getTime() === 86400000 &&
+      (a.residual === 0 || a.residual * b.residual < 0)
+    ) {
       brackets.push({
         before: a,
         after: b,
@@ -3181,23 +3186,55 @@ function findLagnantaraCrossing(ref, method = "current", config = TKS_CONFIG) {
     noCrossing: true
   };
 }
-function shastriyaC(planet, direction) {
+function getChapter9EventBranch(planet, date) {
+  const body = BODY_NAMES[planet];
+  if (!body || !(date instanceof Date) || Number.isNaN(date.getTime())) return null;
+
+  const planetState = getPlanetSiderealState(body, date);
+  const sunState = getPlanetSiderealState(Astronomy.Body.Sun, date);
+  if (!planetState || !sunState) return null;
+
+  let dailyMotionDegPerDay = NaN;
+  if (planet === "Venus" || planet === "Mercury") {
+    const before = getPlanetSiderealState(body, new Date(date.getTime() - 12 * 3600000));
+    const after = getPlanetSiderealState(body, new Date(date.getTime() + 12 * 3600000));
+    if (!before || !after) return null;
+    dailyMotionDegPerDay = signedLongitudeDelta(after.longitude, before.longitude);
+  }
+
+  const horizonEvent = classifyChapter9HorizonEvent({
+    planet,
+    planetLongitudeDeg: planetState.longitude,
+    sunLongitudeDeg: sunState.longitude,
+    dailyMotionDegPerDay
+  });
+  if (!horizonEvent) return null;
+
+  return { horizonEvent, dailyMotionDegPerDay, planetState, sunState };
+}
+
+function shastriyaC(planet, direction, date) {
   /*
-   * Delegate IX.6–8 to the PR #22 source-based selector.
-   * Direction is an explicit fixture input: west = west-setting,
-   * east = east-rising. Do not infer Venus's 8°/10° branch from
-   * the generic labels Asta/Udaya alone.
+   * IX.2–3 event branch is classified from same-frame zodiac order
+   * and signed planetary motion. IX.6–8 then selects C from that
+   * actual horizon event. Never choose Venus C from Asta/Udaya text alone.
    */
-  const horizonEvent = direction === "west"
+  const branch = getChapter9EventBranch(planet, date);
+  if (!branch) return NaN;
+  const expectedEvent = direction === "west"
     ? "west-setting"
     : direction === "east"
       ? "east-rising"
       : null;
-  if (!horizonEvent) return NaN;
+  if (!expectedEvent || branch.horizonEvent !== expectedEvent) return NaN;
+
+  const motionClass = planet === "Mercury"
+    ? (branch.dailyMotionDegPerDay < 0 ? "retrograde" : "direct-fast")
+    : null;
   return chapter9Kalansha({
     planet,
-    horizonEvent,
-    motionClass: null
+    horizonEvent: branch.horizonEvent,
+    motionClass
   });
 }
 
@@ -3214,7 +3251,7 @@ async function runLagnantaraDiagnostic() {
     const g = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "current") : null;
     const gs = sample ? getLagnantaraDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction, "sequential") : null;
     const gSource = sample ? getLagnantaraSourceSequenceDiagnostic(BODY_NAMES[ref.planet], sample, ref.direction) : null;
-    const C = shastriyaC(ref.planet, ref.direction);
+    const C = sample ? shastriyaC(ref.planet, ref.direction, sample) : NaN;
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
     const sourceCrossing = findLagnantaraCrossing(ref, "chapter3-vii-source");
