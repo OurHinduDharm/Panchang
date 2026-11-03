@@ -123,7 +123,7 @@ test("Jayanti and Vrat-Parv index article links are attached to their 2026 cards
   const july = await month("07");
   assert.match(find(july, "2026-07-25", /देवशयनी/).description, /About-Chaaturmaas/);
   const november = await month("11");
-  assert.match(find(november, "2026-11-21", /तुलसी विवाह/).description, /About-Tulsi-vivah-On-Prabodhini-Ekaadashi/);
+  assert.match(find(november, "2026-11-21", /तुलसी विवाह/).description, /About-Tulsi-vivah-On-Prabodhini-Ekadashi/);
   const december = await month("12");
   assert.match(find(december, "2026-12-20", /गीता जयंती/).description, /About-ShimadbhagvatGita/);
   assert.match(find(december, "2026-12-23", /दत्तात्रेय जयंती/).description, /About-Lord-Dattatreya/);
