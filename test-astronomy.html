@@ -3506,7 +3506,7 @@ async function runLagnantaraDiagnostic() {
           '<br>' + formatLocalFromUTCDate(root.eventTime) +
           ' (K−C=' + round(root.residual,8) + '°; ' + root.iterations + ' iterations)'
         ).join('')
-      : 'No continuous root found at ' + 30 + '-minute scan resolution')+'</td>';
+      : 'No validated continuous root (30-minute scan; residual gate 0.001°)')+'</td>';
     html += '</tr>';
 
     if (g) {
