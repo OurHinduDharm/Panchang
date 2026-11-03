@@ -141,11 +141,18 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       ), `${item.planet} ${item.event} root residuals must all be <0.001°`);
     }
     console.log("All four continuous source roots:", continuousRootRows);
-    const reportedRootCells = await page.locator("#lagnantaraOutput tbody tr.reference-row")
-      .evaluateAll(rows => rows.map(row => row.cells?.[17]?.innerText || "")
-        .filter(cell => cell.includes("Root ")));
-    for (const rootCell of reportedRootCells) {
-      const residuals = rootCell.split("K−C=").slice(1)
+    const reportedRootRows = await page.locator("#lagnantaraOutput tbody tr.reference-row")
+      .evaluateAll(rows => rows.map(row => ({
+        event: row.cells?.[1]?.innerText.trim() || "",
+        cell: row.cells?.[17]?.innerText || ""
+      })).filter(item => item.cell.includes("Root ")));
+    for (const item of reportedRootRows) {
+      const oppositeEvent = item.event === "Asta" ? "Udaya" : "Asta";
+      assert.ok(
+        !item.cell.includes("— " + oppositeEvent),
+        "a " + item.event + " search must not report an opposite-direction " + oppositeEvent + " root"
+      );
+      const residuals = item.cell.split("K−C=").slice(1)
         .map(value => Number(value.split("°")[0]));
       assert.ok(
         residuals.length > 0 &&
