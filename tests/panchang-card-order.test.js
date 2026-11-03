@@ -134,6 +134,11 @@ test("Planetary Asta/Udaya card labels angular estimates and keeps classical sta
   assert.ok(cardSource.includes("कोणीय अनुमानित अस्त"));
   assert.ok(cardSource.includes("कोणीय अनुमानित उदय"));
   assert.ok(cardSource.includes("शास्त्रीय K/C गणना — सत्यापनाधीन"));
+  assert.ok(cardSource.includes("प्रामाणिकता की स्थिति"));
+  assert.ok(cardSource.includes("सूर्यसिद्धान्त अध्याय ३.४३–४६"));
+  assert.ok(cardSource.includes("७.८–१० (दृक्कर्म)"));
+  assert.ok(cardSource.includes("९.२–८ (लम्बान्तर तथा घटना-वर्गीकरण)"));
+  assert.ok(cardSource.includes("उसी स्थान के विश्वसनीय प्रकाशित समयों से मिलान"));
   assert.ok(!cardSource.includes("!planet.verificationPending && planet.asta"));
   assert.ok(!cardSource.includes("!planet.verificationPending && planet.udaya"));
 });
