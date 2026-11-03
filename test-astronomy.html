@@ -3334,7 +3334,9 @@ function scanChapter9SourceEventTimes(ref, crossing, config = TKS_CONFIG, stepMi
       const root = bisectChapter9SourceRoot(ref, previous, current, config, C);
       if (root) {
         root.transition =
-          previous.residual < 0 && current.residual > 0 ? "Udaya" : "Asta";
+          previous.residual < 0 && current.residual > 0
+            ? "K−C −→+ (time scan)"
+            : "K−C +→− (time scan)";
         // Do not report the opposite conjunction-side transition as the
         // requested event (e.g. a Udaya root in an Asta search window).
         if (root.transition === ref.event) roots.push(root);
@@ -3571,7 +3573,7 @@ async function runLagnantaraDiagnostic() {
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
   html += '<li>The table compares the direct analytical OA method, its earlier sequential correction experiment, and the separate PR #22 Chapter VII + Chapter III source-sequence candidate (fixed 24° frame, frame-converted local sidereal angle, and sign-rising-asus interpolation).</li>';
   html += '<li>The Chapter III + VII path is a research candidate only. Its Chapter VII zero-latitude Ayana point and 24° frame assumptions still need source-led adjudication; it is not a validated complete classical ephemeris.</li>';
-  html += '<li>The source-sequence row shows both the first-order IX.10–11 estimate and every continuous Chapter III+VII K−C sign-change root found by a 10-minute scan within ±6 hours of the later daily sun event, refined by bisection. Roots solve only this implemented candidate equation; they are not proof of naked-eye visibility or Drik event equivalence.</li>';
+  html += '<li>The source-sequence row shows both the first-order IX.10–11 estimate and every continuous Chapter III+VII K−C sign-change root found by a 10-minute scan within ±6 hours of the later daily sun event, refined by bisection. The time-domain K−C sign direction is deliberately not labelled Asta/Udaya; those labels belong to the separate civil-date transition. Roots solve only this implemented candidate equation and are not proof of naked-eye visibility or Drik event equivalence.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
   html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
