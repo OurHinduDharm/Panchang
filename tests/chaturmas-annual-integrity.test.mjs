@@ -1,13 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
 
 const dataDir = new URL("../data/chaturmas/", import.meta.url);
 const widget = await readFile(new URL("../festival-widget.js", import.meta.url), "utf8");
 
 function validDate(value) {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(value || ""))) return false;
+  if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(String(value || ""))) return false;
   const date = new Date(value + "T00:00:00Z");
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
@@ -16,7 +15,9 @@ function compare(a, b) {
   return a.localeCompare(b);
 }
 
-const files = (await readdir(dataDir)).filter(name => /^\\d{4}\\.json$/.test(name)).sort();
+const files = (await readdir(dataDir))
+  .filter(name => /^[0-9]{4}[.]json$/.test(name))
+  .sort();
 
 test("annual Chaturmas configs exist and every file is named for its year", () => {
   assert.ok(files.length > 0, "at least one annual Chaturmas config must exist");
@@ -69,7 +70,7 @@ for (const file of files) {
 }
 
 test("10-day widget gives precedence to Smarta Devutthana Ekadashi over Gauna/Vaishnava entries", () => {
-  assert.match(widget, /!\\/वैष्णव\\|गौण\\/i.test\\(item\\.title \\|\\| ""\\)/);
-  assert.match(widget, /देवोत्थानी एकादशी \\(स्मार्त\\)/);
-  assert.match(widget, /cardVisibleThroughDate/);
+  assert.ok(widget.includes('!/वैष्णव|गौण/i.test(item.title || "")'));
+  assert.ok(widget.includes("देवोत्थानी एकादशी (स्मार्त)"));
+  assert.ok(widget.includes("cardVisibleThroughDate"));
 });
