@@ -32,6 +32,9 @@ test("monthly Durga Ashtami and Skanda Shashthi copy avoids awkward sunrise word
       if (event.title === "मासिक स्कन्द षष्ठी") {
         assert.equal(event.description, "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।");
       }
+      if (event.title === "स्कन्द षष्ठी") {
+        assert.equal(event.description, "स्कन्द षष्ठी पर भगवान कार्तिकेय की पूजा और व्रत करें।");
+      }
       assert.doesNotMatch(event.description || "", /स्थानीय सूर्योदय पर विद्यमान है/);
     }
   }
