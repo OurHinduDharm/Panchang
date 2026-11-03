@@ -89,7 +89,8 @@ export function calculateChapter7SequentialDrikkarma({
   obliquityDeg = 24,
   localSiderealObliquityDeg = obliquityDeg,
   planetDeclinationDeg = NaN,
-  planetRightAscensionDeg = NaN
+  planetRightAscensionDeg = NaN,
+  akshaHorizonHemisphere = null
 }) {
   const inputs = [
     siderealLongitudeDeg, planetLatitudeDeg, observerLatitudeDeg,
@@ -98,6 +99,11 @@ export function calculateChapter7SequentialDrikkarma({
   ];
   if (!inputs.every(Number.isFinite) || Math.abs(observerLatitudeDeg) >= 90) {
     throw new TypeError("Finite coordinates are required; observer latitude must be between -90° and +90°.");
+  }
+  if (akshaHorizonHemisphere !== null &&
+      akshaHorizonHemisphere !== "east" &&
+      akshaHorizonHemisphere !== "west") {
+    throw new TypeError("Aksha horizon hemisphere must be east, west, or null.");
   }
 
   const tropicalLongitudeDeg = normalize360(siderealLongitudeDeg + ayanamshaDeg);
@@ -149,7 +155,15 @@ export function calculateChapter7SequentialDrikkarma({
     return null;
   }
 
-  const akshaTimeRatio = hourAngleDeg / halfDayAngleDeg;
+  // Chapter IX.4–5 applies the Chapter VII dṛkkarma at the actual
+  // sunrise/sunset. Burgess's note to IX.4 specifies the Aksha part
+  // at the horizon (VII.8 first half), omitting the meridian-distance /
+  // half-day scaling used for a planet at an arbitrary altitude in VII.8.
+  // At the horizon the signed ratio is -1 for east/rising and +1 for
+  // west/setting. Keep null as the full Chapter VII arbitrary-altitude path.
+  const akshaTimeRatio = akshaHorizonHemisphere === "east" ? -1
+    : akshaHorizonHemisphere === "west" ? 1
+      : hourAngleDeg / halfDayAngleDeg;
   const akshaDeg =
     planetLatitudeDeg * Math.tan(phi) * akshaTimeRatio;
   const totalCorrection = ayanaDeg + akshaDeg;
@@ -290,6 +304,22 @@ export function runChapter7DrikkarmaTests() {
   tests.push({
     name: "Aksha correction is zero at the equator",
     passed: close(equator.akshaDeg, 0)
+  });
+
+  const horizonEast = calculateChapter7SequentialDrikkarma({
+    ...base, localSiderealAngleDeg: 10, akshaHorizonHemisphere: "east"
+  });
+  const horizonWest = calculateChapter7SequentialDrikkarma({
+    ...base, localSiderealAngleDeg: 250, akshaHorizonHemisphere: "west"
+  });
+  const horizonMagnitude =
+    base.planetLatitudeDeg * Math.tan(base.observerLatitudeDeg * Math.PI / 180);
+  tests.push({
+    name: "Chapter IX horizon-only Aksha uses the VII.8 first-half magnitude, independent of event-time hour angle",
+    passed: close(horizonEast.akshaTimeRatio, -1) &&
+      close(horizonWest.akshaTimeRatio, 1) &&
+      close(horizonEast.akshaDeg, -horizonMagnitude) &&
+      close(horizonWest.akshaDeg, horizonMagnitude)
   });
 
   const zeroPlanetLatitude = calculateChapter7SequentialDrikkarma({
