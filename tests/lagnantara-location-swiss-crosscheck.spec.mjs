@@ -103,7 +103,7 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     const sourceBracketTimes = sourceBracketLines.map(line =>
       Date.parse(line.replace(/^→\\s*/, "").split(" (K−C=")[0].trim())
     );
-    const sourceRootTime = Date.parse(sourceRoot.split(" (K−C=")[0].trim());
+    const sourceRootDateLine = sourceRoot.split("\n").find(line => line.includes("Oct 2026")) || "";\n    const sourceRootTime = Date.parse(sourceRootDateLine.split(" (K−C=")[0].trim());
     assert.equal(sourceBracketTimes.length, 2,
       "source-sequence daily bracket must expose both endpoint instants");
     assert.ok(
