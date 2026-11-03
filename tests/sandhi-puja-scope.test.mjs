@@ -74,6 +74,15 @@ test("reported November monthly Durga Ashtami has no Sandhi Puja rule and Blogge
 
   const widget = await read("monthly-vrat-parv-widget.js");
   assert.ok(widget.includes('windowNote.className="muhurta-window-note"'));
+  for (const markup of [
+    'box.className="muhurta-box"',
+    'title.className="muhurta-heading"',
+    'detail.className="muhurta-detail"',
+    'row.className="muhurta-window"',
+    'name.className="muhurta-window-name"',
+    'time.className="muhurta-window-time"',
+    'row.classList.add("primary")'
+  ]) assert.ok(widget.includes(markup), "Blogger muhurta markup includes " + markup);
   assert.ok(widget.includes('loc.className="muhurta-location"'));
 
   const css = await read("monthly-vrat-parv-widget.css");
