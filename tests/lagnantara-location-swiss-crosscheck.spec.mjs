@@ -55,6 +55,16 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
         return row ? [...row.cells].map(cell => cell.innerText) : [];
       });
     assert.equal(sourceCells.length, 15, "main Lagnantara row must expose all 15 comparison columns");
+    assert.equal(sourceCells[10], "8.00°", "Venus east-rising must use the Chapter IX.7 east-rising C=8° branch");
+    const jupiterAstaC = await page.locator("#lagnantaraOutput tbody tr")
+      .evaluateAll(rows => {
+        const row = rows.find(item =>
+          item.cells?.[0]?.innerText.trim() === "Jupiter" &&
+          item.cells?.[1]?.innerText.trim() === "Asta"
+        );
+        return row?.cells?.[10]?.innerText.trim() || "";
+      });
+    assert.equal(jupiterAstaC, "11.00°", "Jupiter event geometry must use the Chapter IX.6 C=11° branch");
     assert.ok(Number.isFinite(Number.parseFloat(sourceCells[6])),
       "Chapter III + VII source-sequence K must be a finite numeric result");
     assert.ok(sourceCells[14].length > 0,
