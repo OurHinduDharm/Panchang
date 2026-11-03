@@ -668,11 +668,11 @@ const rules = {
       Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया"
     };
     const choghadiyaLabel = kind => kind === "Chal"
-      ? "चर चौघड़िया"
-       : choghadiyaNames[kind];
+      ? "चर चौघड़िया — गतिशील कार्यों हेतु"
+      : choghadiyaNames[kind] + " — लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय";
     const choghadiyaNote = kind => kind === "Chal"
-      ? "गतिशील कार्यों के लिए अनुकूल समय; लक्ष्मी पूजन में वृषभ स्थिर लग्न को प्राथमिकता दें।"
-       : "अमावस्या-व्याप्त चौघड़िया।";
+      ? "चर चौघड़िया गतिशील कार्यों के लिए है; इसे लक्ष्मी-गणेश पूजन का शुभ विकल्प न मानें। पूजन के लिए अमृत, शुभ या लाभ चौघड़िया तथा मुख्य वृषभ स्थिर लग्न को प्राथमिकता दें।"
+      : "अमावस्या-व्याप्ति में लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय; वृषभ स्थिर लग्न सर्वोत्तम है।";
     const favourable = new Set(["Amrit","Shubh","Labh","Chal"]);
     const choghadiyaWindows = [];
     if (sunrise && sunset > sunrise && Number.isInteger(weekday) && sequences[weekday]) {
@@ -760,7 +760,7 @@ const rules = {
     }
 
     // Daytime Abhijit (8th of 15) and Vijaya (11th of 15) are
-    // supplementary task windows only when Amavasya is actually present.
+    // alternative Lakshmi-Ganesha puja windows only when Amavasya is present.
     if (sunrise && sunset > sunrise) {
       const dayDuration = sunset.getTime() - sunrise.getTime();
       const weekdayForDayMuhurtas = localWeekday(context.date);
