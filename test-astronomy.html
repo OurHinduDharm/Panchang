@@ -3292,8 +3292,16 @@ function scanChapter9SourceEventTimes(ref, crossing, config = TKS_CONFIG, stepMi
   const C = bracket.before.C;
   if (!Number.isFinite(C) || bracket.after.C !== C) return [];
 
-  const start = bracket.before.eventTime.getTime();
-  const end = bracket.after.eventTime.getTime();
+  /*
+   * Search around the later local sunrise/sunset, where the requested
+   * heliacal event is expected. A whole inter-sunrise interval can contain
+   * a previous day's crossing and hour-angle wrap discontinuities; those
+   * must not be mistaken for the requested event.
+   */
+  const afterSunEvent = bracket.after.eventTime.getTime();
+  const windowHours = 6;
+  const start = afterSunEvent - windowHours * 3600000;
+  const end = afterSunEvent + windowHours * 3600000;
   if (!(end > start) || !Number.isFinite(stepMinutes) || stepMinutes <= 0) return [];
 
   const stepMs = stepMinutes * 60000;
@@ -3417,7 +3425,7 @@ async function runLagnantaraDiagnostic() {
     const crossing = findLagnantaraCrossing(ref, "current");
     const sequentialCrossing = findLagnantaraCrossing(ref, "sequential");
     const sourceCrossing = findLagnantaraCrossing(ref, "chapter3-vii-source");
-    const sourceTimeSolutions = scanChapter9SourceEventTimes(ref, sourceCrossing, TKS_CONFIG, 30);
+    const sourceTimeSolutions = scanChapter9SourceEventTimes(ref, sourceCrossing, TKS_CONFIG, 10);
 
     html += '<tr class="reference-row">';
     html += '<td>'+ref.planet+'</td>';
@@ -3558,7 +3566,7 @@ async function runLagnantaraDiagnostic() {
   html += '<li>The dṛkkarma state now derives right ascension and declination from the same geocentric ecliptic vector; it no longer mixes geocentric latitude with topocentric declination/hour angle.</li>';
   html += '<li>The table compares the direct analytical OA method, its earlier sequential correction experiment, and the separate PR #22 Chapter VII + Chapter III source-sequence candidate (fixed 24° frame, frame-converted local sidereal angle, and sign-rising-asus interpolation).</li>';
   html += '<li>The Chapter III + VII path is a research candidate only. Its Chapter VII zero-latitude Ayana point and 24° frame assumptions still need source-led adjudication; it is not a validated complete classical ephemeris.</li>';
-  html += '<li>The source-sequence row shows both the first-order IX.10–11 estimate and every continuous Chapter III+VII K−C sign-change root found by a 30-minute scan between adjacent daily sun-event samples, refined by bisection. Roots solve only this implemented candidate equation; they are not proof of naked-eye visibility or Drik event equivalence.</li>';
+  html += '<li>The source-sequence row shows both the first-order IX.10–11 estimate and every continuous Chapter III+VII K−C sign-change root found by a 10-minute scan within ±6 hours of the later daily sun event, refined by bisection. Roots solve only this implemented candidate equation; they are not proof of naked-eye visibility or Drik event equivalence.</li>';
   html += '<li>The fixed mean obliquity remains an approximation and must be independently checked against date-dependent obliquity.</li>';
   html += '<li>The 24.217° ayanāṃśa is subtracted and then restored for tropical-frame geometry, so this test does not independently validate that ayanāṃśa.</li>';
   html += '<li>The crossing search is independent of the published TKS date; the TKS date is only the center of the ±15-day validation window.</li>';
