@@ -221,7 +221,7 @@
     <button id="runRefBtn">Reference Comparison</button>
     <button id="runHeliacalBtn">Heliacal Validation</button>
     <button id="runScanBtn">Reference Window Scan</button>
-    <button id="runDrikBoundaryBtn">Drik Boundary Geometry</button>
+    <button id="runHistoricalBoundaryBtn">Historical Boundary Geometry</button>
     <button id="copyDrikBoundaryBtn" type="button">Copy boundary JSON</button>
     <button id="runClassicalBtn">Classical Asta/Udaya Test</button>
     <button id="runExactBoundaryAuditBtn">Exact-Time Boundary Audit</button>
@@ -403,7 +403,7 @@
   </section>
 
   <!-- ========================================================= -->
-  <!-- DRIK PUBLISHED BOUNDARY AUDIT -->
+  <!-- HISTORICAL UNVERIFIED BOUNDARY AUDIT -->
   <!-- ========================================================= -->
 
   <section>
@@ -3935,9 +3935,9 @@ async function runAll() {
 await runReferenceWindowScan();
 console.log("RUN ALL: Section 7 DONE");
 
-console.log("RUN ALL: Drik boundary geometry START");
+console.log("RUN ALL: Historical boundary geometry START");
 runHistoricalBoundaryGeometryAudit();
-console.log("RUN ALL: Drik boundary geometry DONE");
+console.log("RUN ALL: Historical boundary geometry DONE");
 
 console.log("RUN ALL: Swiss API inspection START");
 
@@ -4060,13 +4060,13 @@ document
   );
 
 document
-  .getElementById("runDrikBoundaryBtn")
+  .getElementById("runHistoricalBoundaryBtn")
   .addEventListener("click", () => {
     try {
       runHistoricalBoundaryGeometryAudit();
-      setStatus("Drik boundary geometry calculated (diagnostic only).", "info");
+      setStatus("Historical unverified boundary geometry calculated (diagnostic only).", "info");
     } catch (error) {
-      console.error("DRIK BOUNDARY AUDIT ERROR:", error);
+      console.error("HISTORICAL BOUNDARY AUDIT ERROR:", error);
       setStatus(error?.message || String(error), "error");
     }
   });
@@ -4077,7 +4077,7 @@ document
     try {
       await copyHistoricalBoundaryGeometryJSON();
     } catch (error) {
-      console.error("DRIK BOUNDARY JSON EXPORT ERROR:", error);
+      console.error("HISTORICAL BOUNDARY JSON EXPORT ERROR:", error);
       setStatus(error?.message || String(error), "error");
     }
   });
