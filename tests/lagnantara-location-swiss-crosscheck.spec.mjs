@@ -86,7 +86,7 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       "29 Oct source-sequence sample must be above C");
     console.log("PR #22 source-sequence Venus Udaya row:", sourceCells.join(" | "));
     console.log("Chapter IX.10–11 first-order event-time estimate:", sourceCells[16]);
-    assert.ok(sourceCells[16].includes("IX.10 rate / numerical dK/dt"),
+    assert.ok(sourceCells[16].includes("IX.10 rate / daily-sample dK/dt"),
       "first-order IX.10 rate must be compared against an independent finite-difference dK/dt");
     const sourceRoot = sourceCells[17];
     assert.ok(
