@@ -928,6 +928,12 @@ test("Diwali includes separately labelled Amavasya Choghadiya alternatives", asy
   assert.ok(choghadiya.every(w => /अमावस्या-व्याप्त/.test(w.note) || /गतिशील कार्यों/.test(w.note)));
   assert.ok(result.windows.some(w => /प्रदोष काल/.test(w.label)));
   assert.ok(result.windows.some(w => /महानिशीथ/.test(w.label)));
+  const daytimePujaAlternatives = result.windows.filter(w => /अभिजित् मुहूर्त|विजय मुहूर्त/.test(w.label));
+  assert.ok(daytimePujaAlternatives.length >= 1);
+  assert.ok(daytimePujaAlternatives.every(w => /लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय/.test(w.label)));
+  assert.ok(daytimePujaAlternatives.every(w => /वृषभ स्थिर लग्न सर्वोत्तम है/.test(w.note)));
+  const horaAlternatives = result.windows.filter(w => /होरा/.test(w.label));
+  assert.ok(horaAlternatives.every(w => /लक्ष्मी-गणेश पूजन हेतु वैकल्पिक शुभ समय/.test(w.label)));
 });
 
 test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published windows", async () => {
