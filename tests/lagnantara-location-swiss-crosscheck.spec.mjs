@@ -133,42 +133,23 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       .filter(item => item.root.includes("Root "))
       .map(item => `${item.planet} ${item.event}`)
       .sort();
-    assert.deepEqual(rootsFound, ["Venus Asta", "Venus Udaya"],
-      "only the two Venus roots with matching event direction are currently validated; Jupiter opposite-direction crossings must remain unavailable");
-    for (const item of continuousRootRows.filter(item => item.root.includes("Root "))) {
-      assert.ok(item.root.includes("Root 1") && item.root.includes("— " + item.event) &&
+    assert.deepEqual(rootsFound, ["Jupiter Asta", "Jupiter Udaya", "Venus Asta", "Venus Udaya"],
+      "all four continuous K=C mathematical roots must be reported without relabelling time-direction as Asta/Udaya");
+    for (const item of continuousRootRows) {
+      assert.ok(item.root.includes("Root 1") && item.root.includes("K−C time root") &&
         item.root.includes("K−C="),
-        `${item.planet} ${item.event} must report only its matching continuous K=C root`);
+        `${item.planet} ${item.event} must report its continuous K=C root and independent time-direction`);
       const residuals = item.root.split("K−C=").slice(1)
         .map(part => Number.parseFloat(part));
       assert.ok(residuals.length > 0 && residuals.every(value =>
         Number.isFinite(value) && Math.abs(value) < 0.001
       ), `${item.planet} ${item.event} root residuals must all be <0.001°`);
-    }
-    for (const item of continuousRootRows.filter(item => item.planet === "Jupiter")) {
-      assert.ok(item.root.includes("No validated root in the requested direction"),
-        `Jupiter ${item.event} must not expose an opposite-direction root as the requested event`);
-    }
-    console.log("Direction-filtered continuous source roots:", continuousRootRows);
-    const reportedRootRows = await page.locator("#lagnantaraOutput tbody tr.reference-row")
-      .evaluateAll(rows => rows.map(row => ({
-        event: row.cells?.[1]?.innerText.trim() || "",
-        cell: row.cells?.[17]?.innerText || ""
-      })).filter(item => item.cell.includes("Root ")));
-    for (const item of reportedRootRows) {
-      const oppositeEvent = item.event === "Asta" ? "Udaya" : "Asta";
       assert.ok(
-        !item.cell.includes("— " + oppositeEvent),
-        "a " + item.event + " search must not report an opposite-direction " + oppositeEvent + " root"
-      );
-      const residuals = item.cell.split("K−C=").slice(1)
-        .map(value => Number(value.split("°")[0]));
-      assert.ok(
-        residuals.length > 0 &&
-        residuals.every(value => Number.isFinite(value) && Math.abs(value) <= 0.001),
-        "no continuous event root may be reported unless its K−C residual is within 0.001°"
+        item.root.includes("K−C −→+") || item.root.includes("K−C +→−"),
+        `${item.planet} ${item.event} must report the time-domain sign direction separately`
       );
     }
+    console.log("All four continuous source roots (time-domain signs kept separate):", continuousRootRows);
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
