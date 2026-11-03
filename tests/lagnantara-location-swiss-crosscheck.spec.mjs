@@ -86,9 +86,18 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       "29 Oct source-sequence sample must be above C");
     console.log("PR #22 source-sequence Venus Udaya row:", sourceCells.join(" | "));
     console.log("Chapter IX.10–11 first-order event-time estimate:", sourceCells[16]);
-    assert.ok(sourceCells[17].includes("29 Oct 2026") && sourceCells[17].includes("K−C="),
-      "Chapter III + VII continuous K=C bisection root must resolve Venus Udaya on 29 Oct with a residual");
-    console.log("Chapter III+VII continuous Venus Udaya root:", sourceCells[17]);
+    const sourceRoot = sourceCells[17];
+    assert.ok(
+      (sourceRoot.includes("28 Oct 2026") || sourceRoot.includes("29 Oct 2026")) &&
+      sourceRoot.includes("K−C="),
+      "Chapter III + VII continuous K=C root must lie on one of the two civil dates bounding the actual 28→29 Oct source-sequence bracket"
+    );
+    const sourceRootResidual = sourceRoot.match(/K−C=([+-]?\\d+(?:\\.\\d+)?)°/);
+    assert.ok(
+      sourceRootResidual && Math.abs(Number(sourceRootResidual[1])) < 0.001,
+      "continuous source-sequence root must report a near-zero K−C residual"
+    );
+    console.log("Chapter III+VII continuous Venus Udaya root:", sourceRoot);
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
