@@ -668,11 +668,11 @@ const rules = {
       Labh: "लाभ चौघड़िया", Chal: "चर चौघड़िया"
     };
     const choghadiyaLabel = kind => kind === "Chal"
-      ? "चर चौघड़िया — यात्रा/गतिशील कार्य का विकल्प"
-      : choghadiyaNames[kind] + " — द्वितीयक समय-विकल्प";
+      ? "चर चौघड़िया"
+       : choghadiyaNames[kind];
     const choghadiyaNote = kind => kind === "Chal"
-      ? "चर चौघड़िया यात्रा और गतिशील कार्यों के लिए है।"
-      : "अमावस्या-व्याप्त चौघड़िया का वैकल्पिक समय।";
+      ? "गतिशील कार्यों के लिए अनुकूल समय; लक्ष्मी पूजन में वृषभ स्थिर लग्न को प्राथमिकता दें।"
+       : "अमावस्या-व्याप्त चौघड़िया।";
     const favourable = new Set(["Amrit","Shubh","Labh","Chal"]);
     const choghadiyaWindows = [];
     if (sunrise && sunset > sunrise && Number.isInteger(weekday) && sequences[weekday]) {
@@ -769,7 +769,7 @@ const rules = {
           new Date(sunrise.getTime() + dayDuration * 7 / 15),
           new Date(sunrise.getTime() + dayDuration * 8 / 15),
           tithis,
-          "अभिजित् मुहूर्त — दिन के पूरक कार्य हेतु",
+          "अभिजित् मुहूर्त — दिन के शुभ कार्यों हेतु",
           "अमावस्या-व्याप्त दिन का अभिजित् मुहूर्त।"
         );
         if (abhijit) windows.push(abhijit);
@@ -778,7 +778,7 @@ const rules = {
         new Date(sunrise.getTime() + dayDuration * 10 / 15),
         new Date(sunrise.getTime() + dayDuration * 11 / 15),
         tithis,
-        "विजय मुहूर्त — दिन के पूरक व्यापार/लेखा कार्य हेतु",
+        "विजय मुहूर्त — व्यापार एवं लेखा कार्य हेतु",
         "अमावस्या-व्याप्त दिन का विजय मुहूर्त।"
       );
       if (vijaya) windows.push(vijaya);
@@ -809,7 +809,7 @@ const rules = {
             new Date(startMs),
             new Date(endMs),
             [pradosh],
-            planet + " होरा — प्रदोष में पूरक समय",
+            planet + " होरा — प्रदोष में शुभ समय",
             "प्रदोष और अमावस्या के भीतर " + planet + " होरा।"
           );
           if (overlap) windows.push(overlap);
@@ -834,8 +834,8 @@ const rules = {
     const nishitaEnd = new Date(sunset.getTime() + nightDuration * 8 / 15);
     const nishita = windowWithin(
       nishitaStart, nishitaEnd, tithis,
-      "महानिशीथ काल — विशेष परंपराओं के लिए",
-      "विशेष निशीथ उपासना के लिए।"
+      "महानिशीथ काल — विशेष निशीथ उपासना हेतु",
+      "मध्यरात्रि में अमावस्या-व्याप्त विशेष उपासना का समय।"
     );
     const simhaLagna = (context.sthirLagnaWindows || []).find(w =>
       /simha|सिंह|leo/i.test(String(w.name || w.rashi || "")) &&
