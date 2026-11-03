@@ -34,11 +34,11 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       "the stale post-event Venus Udaya sample date must not remain in the diagnostic");
     const venusUdayaRow = await page.locator("#lagnantaraOutput tbody tr")
       .evaluateAll(rows => rows.map(row => row.innerText)
-        .find(text => text.startsWith("Venus\\tUdaya")) || "");
+        .find(text => text.startsWith("Venus\tUdaya")) || "");
     assert.ok(venusUdayaRow, "dedicated Venus Udaya row must exist");
-    assert.match(venusUdayaRow, /29 Oct 2026[\\s\\S]*K−C=-0\\./,
+    assert.match(venusUdayaRow, /29 Oct 2026[\s\\S]*K−C=-0\\./,
       "Venus Udaya K=C bracket must begin with a negative residual on 29 Oct");
-    assert.match(venusUdayaRow, /30 Oct 2026[\\s\\S]*K−C=1\\./,
+    assert.match(venusUdayaRow, /30 Oct 2026[\s\\S]*K−C=1\\./,
       "Venus Udaya K=C bracket must end with a positive residual on 30 Oct");
     for (const required of [
       "Venus Asta",
