@@ -1,0 +1,39 @@
+name: Lagnantara Venus/Jupiter observer and Swiss cross-check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "test-astronomy.html"
+      - "tests/lagnantara-location-swiss-crosscheck.spec.mjs"
+      - ".github/workflows/lagnantara-location-swiss-crosscheck.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  lagnantara-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned browser test dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Serve repository files
+        run: |
+          python3 -m http.server 8080 --bind 127.0.0.1 > /tmp/lagnantara-http.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8080/test-astronomy.html > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/lagnantara-http.log
+          exit 1
+      - name: Run Venus/Jupiter Asta/Udaya observer and Swiss comparison
+        run: node --test tests/lagnantara-location-swiss-crosscheck.spec.mjs
