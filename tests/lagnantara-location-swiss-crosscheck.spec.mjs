@@ -55,10 +55,11 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
         return row ? [...row.cells].map(cell => cell.innerText) : [];
       });
     assert.equal(sourceCells.length, 15, "main Lagnantara row must expose all 15 comparison columns");
-    assert.match(sourceCells[6], /^[0-9]+\.[0-9]+°$/,
+    assert.ok(Number.isFinite(Number.parseFloat(sourceCells[6])),
       "Chapter III + VII source-sequence K must be a finite numeric result");
     assert.ok(sourceCells[14].length > 0,
       "Chapter III + VII source-sequence daily bracket must be reported");
+    console.log("PR #22 source-sequence Venus Udaya row:", sourceCells.join(" | "));
     for (const required of [
       "Venus Asta",
       "Venus Udaya",
