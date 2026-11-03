@@ -27,4 +27,8 @@ test("All existing Diwali cards link the festival article and Mahalakshmi-Kamala
   const muhurtaRule = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
   assert.match(muhurtaRule, /label: "दीपावली का शुभ समय"/);
   assert.doesNotMatch(muhurtaRule, /दीपावली लक्ष्मी-गणेश पूजन मुहूर्त/);
+  assert.match(muhurtaRule, /चर चौघड़िया — दीपावली पूजन का वैकल्पिक समय/);
+  assert.match(muhurtaRule, /सर्वोत्तम लक्ष्मी पूजन — वृषभ स्थिर लग्न/);
+  assert.match(muhurtaRule, /सिंह स्थिर लग्न — विशेष पूजन का वैकल्पिक समय/);
+  assert.doesNotMatch(muhurtaRule, /चर चौघड़िया यात्रा और गतिशील कार्यों के लिए है/);
 });
