@@ -88,6 +88,7 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     console.log("Chapter IX.10–11 first-order event-time estimate:", sourceCells[16]);
     const sourceRoot = sourceCells[17];
     assert.ok(
+      sourceRoot.includes("Root 1") &&
       (sourceRoot.includes("28 Oct 2026") || sourceRoot.includes("29 Oct 2026")) &&
       sourceRoot.includes("K−C="),
       "Chapter III + VII continuous K=C root must lie on one of the two civil dates bounding the actual 28→29 Oct source-sequence bracket"
