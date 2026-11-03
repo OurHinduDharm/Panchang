@@ -3459,7 +3459,10 @@ async function runLagnantaraDiagnostic() {
             : null;
       }
     }
-    const sourceTimeSolutions = scanChapter9SourceEventTimes(ref, sourceCrossing, TKS_CONFIG, 10);
+    // Withhold continuous roots: Chapter IX horizon-only Aksha applies at the daily
+    // sunrise/sunset sample, not at arbitrary timestamps in a ±6-hour bisection.
+    // A separate source-derived event-time equation is required before solving roots.
+    const sourceTimeSolutions = [];
 
     html += '<tr class="reference-row">';
     html += '<td>'+ref.planet+'</td>';
@@ -3555,7 +3558,7 @@ async function runLagnantaraDiagnostic() {
           '<br>' + formatLocalFromUTCDate(root.eventTime) +
           ' (K−C=' + round(root.residual,8) + '°; ' + root.iterations + ' iterations)'
         ).join('')
-      : 'No validated root in the requested direction (scan/residual gate)')+'</td>';
+      : 'Withheld: continuous event-time root is not derived. Horizon-only Aksha is restricted to daily sunrise/sunset samples; IX.10–11 estimate remains diagnostic only.')+'</td>';
     html += '</tr>';
 
     if (g) {
