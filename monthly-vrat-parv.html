@@ -63,6 +63,18 @@ h2{font-size:19px;margin:0}
 .note{margin-top:13px;padding:12px;font-size:12px;color:var(--muted)}
 .empty{background:#fff;border:1px dashed #d6c5af;border-radius:12px;padding:18px;text-align:center;color:var(--muted)}
 footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
+/* मुहूर्त सूची: समयानुसार साफ़ और पढ़ने योग्य कार्ड */
+.muhurta-box{margin-top:10px;padding:11px 12px;border:1px solid #ead5b5;border-radius:12px;background:linear-gradient(145deg,#fffaf1,#fff 72%);box-shadow:0 2px 8px rgba(91,58,25,.06)}
+.muhurta-heading{display:flex;align-items:center;gap:8px;color:#70421f;font-size:14px;font-weight:800;line-height:1.45}
+.muhurta-heading:before{content:"🪔";font-size:16px}
+.muhurta-detail{display:grid;gap:7px;margin-top:9px}
+.muhurta-window{padding:8px 10px;border:1px solid #efe4d3;border-radius:9px;background:rgba(255,255,255,.88)}
+.muhurta-window:first-child{border-color:#d9b77f;background:#fff5e3}
+.muhurta-window-name{display:block;color:#49301c;font-size:13px;font-weight:750;line-height:1.45}
+.muhurta-window-time{margin-top:2px;color:#985313;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+.muhurta-window-note{margin-top:3px;color:#74685a;font-size:11px;line-height:1.45}
+.muhurta-location{margin-top:8px;color:#817465;font-size:11px}
+@media(min-width:600px){.muhurta-box{padding:13px 14px}.muhurta-detail{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.muhurta-window:first-child{grid-column:1/-1}.muhurta-window-time{font-size:15px}}
 .footer-month-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 10px}.footer-month-nav button{cursor:pointer;background:#fffaf2;border:1px solid #d8b98e;border-radius:9px;color:#70421f;font:650 13px/1.4 system-ui,sans-serif;padding:8px 13px}.footer-month-nav button:hover{background:#fff0d9}.footer-month-nav button:focus-visible{outline:3px solid #dca45f;outline-offset:2px}
 @media(min-width:600px){main{padding:22px}.hero{padding:23px}.event{padding:14px}.date{flex-basis:78px}.desc{font-size:14px}}
 </style>
@@ -389,16 +401,15 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       usableRules.forEach(function(ruleItem){
         var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);
         if(!result) return;
-        var box=document.createElement("div");box.className="desc";
-        box.style.marginTop="7px";box.style.padding="8px 9px";box.style.borderRadius="8px";box.style.background="#fff8e9";
-        var title=document.createElement("strong");title.textContent=result.label||"मुहूर्त";box.appendChild(title);
-        var detail=document.createElement("div");
+        var box=document.createElement("section");box.className="muhurta-box";
+        var title=document.createElement("div");title.className="muhurta-heading";title.textContent=result.label||"मुहूर्त";box.appendChild(title);
+        var detail=document.createElement("div");detail.className="muhurta-detail";
         var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
-            var row=document.createElement("div");row.style.marginTop="5px";
-            var name=document.createElement("strong");name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
-            var time=document.createElement("div");
+            var row=document.createElement("div");row.className="muhurta-window";
+            var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
+            var time=document.createElement("div");time.className="muhurta-window-time";
             var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
             var endTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.end);
             function dateKey(value){
@@ -414,7 +425,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
               time.textContent=startTime+" – "+endTime;
             }
             row.appendChild(time);
-            if(windowItem.note){var windowNote=document.createElement("div");windowNote.style.fontSize="12px";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
+            if(windowItem.note){var windowNote=document.createElement("div");windowNote.className="muhurta-window-note";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
             detail.appendChild(row);
           });
         }else if(result.status==="calculated"&&result.time){
@@ -426,7 +437,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         }
         box.appendChild(detail);
         if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
-        var loc=document.createElement("div");loc.style.marginTop="3px";loc.style.fontSize="11px";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
+        var loc=document.createElement("div");loc.className="muhurta-location";loc.textContent="स्थान: "+values.location.name;box.appendChild(loc);
         content.appendChild(box);
       });
     }catch(error){console.warn("Festival muhurta unavailable:",item.muhurtaRule||item.muhurtaRules,error);}
