@@ -20,7 +20,7 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
       const output = document.querySelector("#lagnantaraLocationSweepOutput");
       const text = output?.innerText || "";
       const rows = output?.querySelectorAll("tbody tr").length || 0;
-      return rows >= 8 && text.includes("Swiss Final K") && text.includes("Observer ΔK");
+      return rows >= 8 && text.includes("Swiss K") && text.includes("Observer ΔK");
     }, null, { timeout: 240000 });
 
     const output = page.locator("#lagnantaraLocationSweepOutput");
@@ -40,13 +40,13 @@ test("Sūrya-siddhānta Lagnāntara compares Venus/Jupiter Asta/Udaya across the
     }
 
     const rows = await output.locator("tbody tr").allInnerTexts();
-    assert.equal(rows.length, 8, "four event references × two observers must render exactly eight rows");
+    assert.equal(rows.length, 16, "four event references × two observers × two K=C bracket samples must render exactly sixteen rows");
     for (const row of rows) {
-      assert.doesNotMatch(row, /आवश्यक ग्रह-स्थिति|स्थानीय नागरिक तिथि|NaN|undefined|null/);
+      assert.doesNotMatch(row, /requested K=C संक्रमण नहीं मिला|Requested Asta\/Udaya bracket उपलब्ध|AE\/Swiss state या C उपलब्ध|NaN|undefined|null/);
       assert.match(row, /[0-9]+\.[0-9]+°/, "each successful row must include numeric angular results");
     }
     assert.deepEqual(pageErrors, [], "no uncaught browser errors");
-    console.log("PASS: 4 Venus/Jupiter event cases × 2 observer configurations = 8 rows");
+    console.log("PASS: 4 Venus/Jupiter event cases × 2 observers × 2 actual K=C bracket samples = 16 rows");
     console.log("MAIN LAGNANTARA TABLE:\\n" + lagnantaraMainText);
     console.log("OBSERVER / SWISS SWEEP:\\n" + text);
   } finally {
