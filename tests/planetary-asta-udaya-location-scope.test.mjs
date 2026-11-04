@@ -9,18 +9,26 @@ const end = source.indexOf("\n/* =========================================\n   C
 assert.notEqual(start, -1, "planetary event cache/function block must exist");
 assert.notEqual(end, -1, "planetary event block must have a bounded end");
 
-function loadEventFunction(boundaries = {}) {
+function loadEventFunction() {
+  const anchor = new Date("2026-10-29T12:00:00+05:30").getTime();
   const sandbox = {
     Date, Map, Number, String, Math,
     PLANET_ASTA_THRESHOLDS: { Mercury: 14, Venus: 10, Mars: 17, Jupiter: 11, Saturn: 15 },
-    formatEventDateTime: () => "परिक्षण समय",
-    findNearestAngularBoundary(_body, _date, threshold, type) {
-      return boundaries[type] ?? {
-        instant: new Date(type === "asta" ? "2026-10-12T00:00:00Z" : "2026-10-30T00:00:00Z"),
-        threshold,
-        angularSeparation: threshold
-      };
+    getLocalNoon(date) {
+      return new Date(date + "T12:00:00+05:30");
     },
+    addDays(date, days) {
+      const value = new Date(date + "T12:00:00+05:30");
+      value.setUTCDate(value.getUTCDate() + days);
+      return value.toISOString().slice(0, 10);
+    },
+    Equator(body, instant) {
+      if (body === "Sun") return { ra: 0, dec: 0 };
+      const offset = (instant.getTime() - anchor) / 86400000;
+      const separation = 10 + 12 * Math.sin((2 * Math.PI * offset / 70) + 0.5);
+      return { ra: separation / 15, dec: 0 };
+    },
+    formatEventDateTime: instant => instant.toISOString(),
     console: { warn() {} }
   };
   vm.runInNewContext(source.slice(start, end), sandbox);
