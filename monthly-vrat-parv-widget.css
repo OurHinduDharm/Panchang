@@ -30,3 +30,73 @@
 @media(max-width:380px){#ohd-monthly-festivals .muhurta-box{padding:11px;border-radius:12px}#ohd-monthly-festivals .muhurta-heading{font-size:14px}#ohd-monthly-festivals .muhurta-window{padding:10px}#ohd-monthly-festivals .muhurta-window-time{font-size:14px}}
 @media(prefers-reduced-motion:no-preference){#ohd-monthly-festivals .muhurta-window{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}#ohd-monthly-festivals .muhurta-window:hover{border-color:#d9c29f;box-shadow:0 3px 10px rgba(70,48,25,.07);transform:translateY(-1px)}}
 @media print{#ohd-monthly-festivals .muhurta-box{break-inside:avoid;box-shadow:none;background:#fff;border:1px solid #bbb}#ohd-monthly-festivals .muhurta-window,#ohd-monthly-festivals .muhurta-window.primary{break-inside:avoid;background:#fff;box-shadow:none}}
+
+
+/* Readability and SEO introduction: shared by Blogger and the standalone page. */
+#ohd-monthly-festivals{
+  font-family:system-ui,-apple-system,"Noto Sans Devanagari","Nirmala UI",Mangal,sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+#ohd-monthly-festivals .ohd-seo-intro{
+  margin:0 0 13px;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#fff;
+  color:#514536;
+  font-size:14px;
+  line-height:1.75;
+}
+#ohd-monthly-festivals .ohd-seo-intro p{margin:0 0 8px}
+#ohd-monthly-festivals .ohd-seo-intro p:last-child{margin-bottom:0}
+#ohd-monthly-festivals .ohd-seo-intro strong{color:#68401f;font-weight:750}
+#ohd-monthly-festivals .title{font-size:17px;line-height:1.5}
+#ohd-monthly-festivals .hindu-tithi{font-size:14px;line-height:1.55}
+#ohd-monthly-festivals .desc{font-size:14px;line-height:1.7}
+#ohd-monthly-festivals .links a{font-size:14px;line-height:1.55}
+#ohd-monthly-festivals .date strong{font-size:18px}
+#ohd-monthly-festivals .date small{font-size:11px}
+#ohd-monthly-festivals .location-status{font-size:12px;line-height:1.55}
+#ohd-monthly-festivals .location-suggestions button{font-size:13px}
+#ohd-monthly-festivals .filters label,
+#ohd-monthly-festivals .location-picker>label,
+#ohd-monthly-festivals label{font-size:13px}
+#ohd-monthly-festivals .count{font-size:13px}
+#ohd-monthly-festivals footer{font-size:12px}
+#ohd-monthly-festivals .pill{font-size:11px}
+#ohd-monthly-festivals .note{font-size:13px;line-height:1.7}
+#ohd-monthly-festivals .muhurta-window-note{font-size:13px;line-height:1.65}
+#ohd-monthly-festivals .muhurta-location{font-size:12px}
+#ohd-monthly-festivals .location-clear{
+  position:absolute;right:82px;top:50%;transform:translateY(-50%);
+  width:30px;height:30px;padding:0;border:0;border-radius:50%;
+  background:#f4ede3;color:#72583e;font-size:19px;line-height:1;cursor:pointer;
+}
+#ohd-monthly-festivals .location-search{position:relative}
+#ohd-monthly-festivals .location-search input{padding-right:40px}
+#ohd-monthly-festivals button:disabled{opacity:.48;cursor:not-allowed}
+@media(max-width:420px){
+  #ohd-monthly-festivals main{padding:10px}
+  #ohd-monthly-festivals .event{gap:10px;padding:10px}
+  #ohd-monthly-festivals .date{flex-basis:62px;padding:7px 2px}
+  #ohd-monthly-festivals .date strong{font-size:17px}
+  #ohd-monthly-festivals .title{font-size:16px}
+  #ohd-monthly-festivals .desc{font-size:14px;line-height:1.68}
+  #ohd-monthly-festivals .event:has(> .google-auto-placed){grid-template-columns:62px minmax(0,1fr)!important;column-gap:10px!important}
+  #ohd-monthly-festivals .ohd-seo-intro{padding:12px;font-size:14px}
+}
+@media(min-width:600px){
+  #ohd-monthly-festivals .ohd-seo-intro{padding:16px 18px;font-size:14px}
+  #ohd-monthly-festivals .title{font-size:17px}
+  #ohd-monthly-festivals .desc{font-size:14px}
+}
+@media(prefers-reduced-motion:no-preference){
+  #ohd-monthly-festivals .event{transition:border-color .16s ease,box-shadow .16s ease}
+  #ohd-monthly-festivals .event:hover{border-color:#ddc7a8;box-shadow:0 2px 9px rgba(70,48,25,.045)}
+}
+@media print{
+  #ohd-monthly-festivals .ohd-seo-intro{break-inside:avoid;background:#fff}
+}
