@@ -4,14 +4,14 @@ import vm from "node:vm";
 import test from "node:test";
 
 const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-const start = source.indexOf("function getPlanetObserverKey(");
+const start = source.indexOf("const planetDailyCache = new Map();");
 const end = source.indexOf("\n/* =========================================\n   Card creation", start);
 assert.notEqual(start, -1, "planetary event cache/function block must exist");
 assert.notEqual(end, -1, "planetary event block must have a bounded end");
 
 function loadEventFunction(boundaries = {}) {
   const sandbox = {
-    Date,
+    Date, Map, Number, String, Math, Map, Number, String, Math,
     PLANET_ASTA_THRESHOLDS: { Mercury: 14, Venus: 10, Mars: 17, Jupiter: 11, Saturn: 15 },
     formatEventDateTime: () => "परिक्षण समय",
     findNearestAngularBoundary(_body, _date, threshold, type) {
