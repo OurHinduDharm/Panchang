@@ -68,3 +68,10 @@ OurHinduDharm में बुध, शुक्र, मंगल, गुरु �
 ## जल्द पूरा करने की रणनीति
 
 पहले केवल Venus और Jupiter के उपलब्ध Drik reference periods पर एक compact event-model comparison पूरा करें। इससे event semantics और candidate selection जल्दी तय होंगे। इसके बाद Mercury, Mars और Saturn जोड़ें। Multi-year JSON generation सबसे अंत में करें—गलत model के लिए बड़े पैमाने पर data पहले से न बनाएं।
+
+
+## 4 नवम्बर 2026 — नवीनतम benchmark निर्णय
+
+CI browser diagnostics सफल रहे (8 scenarios × 10 boundaries), पर accuracy gate पास नहीं हुआ। Swiss heliacal के सबसे कम MAE वाले diagnostic scenarios (age 23, 300/500/1000 km range) पर चार indexed Pithoragarh Venus boundaries का MAE 2,160 मिनट है। 300 km को वास्तविक atmosphere या production parameter न मानें। बाकी scenario परिणाम और signed errors `ASTA-UDAYA-BENCHMARK-AUDIT.md` में दर्ज हैं।
+
+**निर्णय:** fixed 10° topocentric threshold और Swiss heliacal दोनों अभी production के लिए reject हैं। PR #278 research-only draft रहेगा; Main/production में कोई बदलाव या merge नहीं। अगले चरण में Drik boundary semantics और अतिरिक्त independently captured same-city references की जाँच होगी—parameter tuning या provisional user rows पर fit नहीं।
