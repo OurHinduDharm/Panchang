@@ -97,3 +97,27 @@ Swiss heliacal rising/setting एक भौतिक visibility candidate है
 यह geocentric longitude-only estimate से एक ठोस सुधार है, लेकिन **Drik का algorithm clone नहीं** है। Topocentric parallax outer planets पर बहुत छोटा होगा; event time में बड़ा अंतर मुख्यतः visibility/event definition और threshold model से आ सकता है। इसलिए अगले चरण में published Drik boundaries पर signed error report और threshold sensitivity आवश्यक है। किसी एक benchmark पर fit करके सभी ग्रहों/वर्षों के लिए सही होने का दावा नहीं किया जाएगा।
 
 Regression tests में observer geometry, location-specific cache, search direction और benchmark provenance शामिल किए गए हैं। Browser workflow को इन्हें चलाने के लिए विस्तारित किया गया है।
+
+
+## 4 नवम्बर 2026 — published Pithoragarh Venus benchmark का वास्तविक error report
+
+Pinned `astronomy-engine@2.1.19` और project observer (29.5828° N, 80.2182° E, 1650 m) से topocentric 3-D angular-threshold candidate चलाया गया। तुलना केवल Drik Pithoragarh Venus 2025 published reference windows से है; Drik के आंतरिक coordinates उपलब्ध न होने से यह city-label comparison है।
+
+| Drik boundary | Published IST | 10° candidate IST | Signed error |
+|---|---|---|---:|
+| 20 Mar 2025 Asta start | 20 Mar 18:42 | 20 Mar 01:18 | −1,043 min |
+| 23 Mar 2025 Asta end | 23 Mar 05:40 | 26 Mar 23:22 | +5,383 min |
+| 11 Dec 2025 Asta start | 11 Dec 06:25 | 26 Nov 15:23 | −21,061 min |
+| 2 Feb 2026 Asta end | 2 Feb 18:15 | 17 Feb 04:35 | +20,781 min |
+
+Published boundary instants पर measured apparent topocentric separation क्रमशः 9.4349°, 8.4096°, 6.4097°, 6.5683° थी। एक ही 10° threshold चारों boundaries से मेल नहीं खाता। इसलिए यह candidate location-aware तो है, पर **Drik-सन्निकट स्वीकृति के लिए असफल** है; इसे production में promote नहीं करना है। इन observed angles को universal thresholds में hard-code करना भी उचित नहीं—यह केवल चार event-specific samples हैं।
+
+### अगला candidate: Swiss heliacal visibility
+
+अगली तुलना उसी चार published boundaries पर Swiss Ephemeris `heliacal_ut` चलाती है:
+- Evening Last (event type 2) को Drik Asta-start के सामने।
+- Morning First (event type 1) को Drik Asta-end/Udaya के सामने।
+- वही Pithoragarh project observer और explicit atmosphere/observer parameters।
+- Swiss output का beginning/optimum/end visibility window अलग-अलग दर्ज होगा; किसी एक slot को Drik boundary तभी मानेंगे जब चारों cases में उसका अर्थ और signed error स्थिर रूप से बेहतर हो।
+
+Swiss heliacal भी स्वतः Drik clone नहीं है। इसे केवल error report से बेहतर candidate सिद्ध होने पर आगे बढ़ाएँ।
