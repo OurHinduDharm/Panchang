@@ -14,7 +14,13 @@ const references = [
   { id: "venus-pithoragarh-2025-march-asta-start", date: "2025-03-20", published: "2025-03-20T18:42:00+05:30", eventType: 2, event: "Evening Last" },
   { id: "venus-pithoragarh-2025-march-asta-end", date: "2025-03-23", published: "2025-03-23T05:40:00+05:30", eventType: 1, event: "Morning First" },
   { id: "venus-pithoragarh-2025-december-asta-start", date: "2025-12-11", published: "2025-12-11T06:25:00+05:30", eventType: 4, event: "Morning Last" },
-  { id: "venus-pithoragarh-2026-february-asta-end", date: "2026-02-02", published: "2026-02-02T18:15:00+05:30", eventType: 3, event: "Evening First" }
+  { id: "venus-pithoragarh-2026-february-asta-end", planet: "Venus", date: "2026-02-02", published: "2026-02-02T18:15:00+05:30", eventType: 3, event: "Evening First", sourceStatus: "published-indexed" },
+  { id: "venus-pithoragarh-2026-october-asta-start", planet: "Venus", date: "2026-10-12", published: "2026-10-12T18:05:00+05:30", eventType: 2, event: "Evening Last", sourceStatus: "user-reported-provisional" },
+  { id: "venus-pithoragarh-2026-october-asta-end", planet: "Venus", date: "2026-10-29", published: "2026-10-29T05:49:00+05:30", eventType: 1, event: "Morning First", sourceStatus: "user-reported-provisional" },
+  { id: "venus-pithoragarh-2027-july-asta-start", planet: "Venus", date: "2027-07-21", published: "2027-07-21T04:54:00+05:30", eventType: 4, event: "Morning Last", sourceStatus: "user-reported-provisional" },
+  { id: "venus-pithoragarh-2027-september-asta-end", planet: "Venus", date: "2027-09-09", published: "2027-09-09T18:48:00+05:30", eventType: 3, event: "Evening First", sourceStatus: "user-reported-provisional" },
+  { id: "jupiter-pithoragarh-2027-asta-start", planet: "Jupiter", date: "2027-08-16", published: "2027-08-16T19:24:00+05:30", eventType: 2, event: "Evening Last", sourceStatus: "user-reported-provisional" },
+  { id: "jupiter-pithoragarh-2027-asta-end", planet: "Jupiter", date: "2027-09-13", published: "2027-09-13T05:09:00+05:30", eventType: 1, event: "Morning First", sourceStatus: "user-reported-provisional" }
 ];
 
 function julianDay(ms) {
@@ -56,7 +62,7 @@ try {
         geoPos,
         scenario.atmosphere,
         scenario.observer,
-        "venus",
+        (ref.planet || "Venus").toLowerCase(),
         ref.eventType,
         flags
       );
@@ -65,6 +71,8 @@ try {
       const publishedMs = Date.parse(ref.published);
       scenarioResults.push({
         id: ref.id,
+        planet: ref.planet || "Venus",
+        sourceStatus: ref.sourceStatus || "published-indexed",
         event: ref.event,
         publishedIST: ref.published,
         swissIST: formatIST(eventDate),
