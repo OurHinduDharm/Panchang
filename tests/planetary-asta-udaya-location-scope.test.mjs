@@ -50,7 +50,9 @@ test("missing thresholds never imply a location-specific result", () => {
   assert.equal(result.verificationPending, true);
 });
 
-test("the user-facing card explicitly warns that changing city does not change these estimates", () => {
-  assert.match(source, /ये चयनित नगर, अक्षांश, देशांतर या ऊँचाई के अनुसार नहीं बदलतीं/);
-  assert.match(source, /स्थानीय दृश्यता अथवा स्थानीय उदय-अस्त न मानें/);
+test("the user-facing card keeps one concise geocentric-estimate note", () => {
+  assert.match(source, /ये समय भू-केंद्रीय सूर्य–ग्रह कोणीय दूरी पर आधारित गणितीय अनुमान हैं; स्थानीय दृश्यता एवं शास्त्रीय K\/C सत्यापन जारी है।/);
+  assert.equal((source.match(/class="planet-rise-set-note"/g) || []).length, 1);
+  assert.doesNotMatch(source, /ये चयनित नगर, अक्षांश, देशांतर या ऊँचाई के अनुसार नहीं बदलतीं/);
+  assert.doesNotMatch(source, /स्थानीय दृश्यता अथवा स्थानीय उदय-अस्त न मानें/);
 });
