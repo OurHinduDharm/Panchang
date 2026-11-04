@@ -28,7 +28,7 @@ function angularSeparation(body, date, observer) {
   return Math.acos(dot) * 180 / Math.PI;
 }
 
-function findBoundary(body, timestamp, threshold, type, observer) {
+function formatIST(date) {\n  return new Date(date.getTime() + 330 * 60000).toISOString().replace("Z", "+05:30");\n}\n\nfunction findBoundary(body, timestamp, threshold, type, observer) {
   const target = Date.parse(timestamp);
   const centerDate = timestamp.slice(0, 10);
   let previousDate = addDays(centerDate, -30);
@@ -75,7 +75,7 @@ for (const entry of dataset.cases) {
       location: entry.sourceLocation,
       boundary: key,
       publishedIST: published,
-      modelIST: calculated ? calculated.toISOString() : null,
+      modelIST: calculated ? formatIST(calculated) : null,
       signedDifferenceMinutes: calculated ? Math.round((calculated.getTime() - Date.parse(published)) / 60000) : null,
       thresholdDegrees: threshold,
       observer: { latitude: observer.latitude, longitude: observer.longitude, elevationMeters: observer.height },
