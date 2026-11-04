@@ -28,7 +28,12 @@ function angularSeparation(body, date, observer) {
   return Math.acos(dot) * 180 / Math.PI;
 }
 
-function formatIST(date) {\n  return new Date(date.getTime() + 330 * 60000).toISOString().replace("Z", "+05:30");\n}\n\nfunction findBoundary(body, timestamp, threshold, type, observer) {
+function formatIST(date) {
+  return new Date(date.getTime() + 330 * 60000)
+    .toISOString()
+    .replace("Z", "+05:30");
+}
+
   const target = Date.parse(timestamp);
   const centerDate = timestamp.slice(0, 10);
   let previousDate = addDays(centerDate, -30);
