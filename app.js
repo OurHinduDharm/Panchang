@@ -5982,26 +5982,7 @@ bhadraPartsHtml += `
         ${ghatiHtml}
       </div>
 
-      <div class="card full">
-        <div class="label">
-          🕉️ संकल्प जनरेटर
-        </div>
-
-        <div id="sankalpControls" class="sankalp-controls"></div>
-
-        <div class="sankalp-box">
-          <div class="sankalp-text" id="sankalpText"></div>
-
-          <button class="sankalp-copy" type="button" onclick="copySankalp()">
-            📋 संकल्प कॉपी करें
-          </button>
-
-          <div class="sankalp-note">
-            यह संकल्प चयनित प्रकार के अनुसार स्वतः निर्मित है। गोत्र, नाम, वर्ण आदि भरने पर वे संकल्प में सम्मिलित हो जाते हैं। (विशेष: जिनका यज्ञोपवीत संस्कार नहीं हुआ हो, वे 'ॐ' की जगह 'औं' का उच्चारण करें।) अपनी परंपरा व गुरु-निर्देशानुसार संकल्प वाक्य में परिवर्तन किया जा सकता है।
-          </div>
-        </div>
-      </div>
-      
+            
        ${renderCollapsibleTimePeriods(
         p.choghadiya?.day,
         "🕐 दिन के चौघड़िया",
@@ -6376,6 +6357,27 @@ bhadraPartsHtml += `
           ${selectedLocation.name}
         </div>
       </div>
+
+      <div class="card full">
+        <div class="label">
+          🕉️ संकल्प जनरेटर
+        </div>
+
+        <div id="sankalpControls" class="sankalp-controls"></div>
+
+        <div class="sankalp-box">
+          <div class="sankalp-text" id="sankalpText"></div>
+
+          <button class="sankalp-copy" type="button" onclick="copySankalp()">
+            📋 संकल्प कॉपी करें
+          </button>
+
+          <div class="sankalp-note">
+            यह संकल्प चयनित प्रकार के अनुसार स्वतः निर्मित है। गोत्र, नाम, वर्ण आदि भरने पर वे संकल्प में सम्मिलित हो जाते हैं। (विशेष: जिनका यज्ञोपवीत संस्कार नहीं हुआ हो, वे 'ॐ' की जगह 'औं' का उच्चारण करें।) अपनी परंपरा व गुरु-निर्देशानुसार संकल्प वाक्य में परिवर्तन किया जा सकता है।
+          </div>
+        </div>
+      </div>
+
 
     </div>
   `;
