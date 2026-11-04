@@ -152,3 +152,26 @@ Latest CI run: `41849145392`, job `browser-diagnostics`, commit `e8620eae64d3bd4
 ### अगला निर्णय
 
 Swiss heliacal और fixed-angle candidates को production में promote नहीं करना है। अगला काम नए thresholds आज़माना नहीं, बल्कि Drik के प्रकाशित boundary labels की event-definition को स्वतंत्र रूप से समझना और उसी शहर के अतिरिक्त independently captured references जुटाना है। जब तक model दोनों boundary types और अनेक ग्रहों/वर्षों पर घोषित tolerance में नहीं आता, production output को बदलना नहीं है।
+
+
+## 4 नवम्बर 2026 — Schaefer candidate की परिभाषा-जाँच (production से पहले अनिवार्य रोक)
+
+प्राथमिक स्रोतों की जाँच के बाद Schaefer photometric visibility को सीधे Drik-जैसी Pañcāṅga Tara Asta/Udaya गणना मानना उचित नहीं है:
+
+1. TKS की Udaya-Asta documentation स्वयं तीन परिणाम अलग रखती है: शास्त्रीय Pañcāṅga/combustion result, Ptolemaic arcus visionis, और Schaefer photometric naked-eye visibility। उसके अनुसार इनकी dates अलग हो सकती हैं क्योंकि event definitions अलग हैं।
+2. Schaefer criterion वास्तविक आँख से दृश्यता का मॉडल है: extincted planetary magnitude बनाम twilight sky की limiting magnitude। इसमें observer, atmosphere, optics और sky contrast आते हैं। यह केवल ग्रह-सूर्य कोण की दूसरी गणना नहीं है।
+3. MontuPython की heliacal-rise documentation भी स्पष्ट करती है कि heliacal event model, atmosphere, horizon, acuity और chosen time step पर निर्भर visibility prediction है; इसे geometric instant नहीं कहा जा सकता।
+4. Swiss Ephemeris heliacal documentation visibility में position/magnitude, observer/optics, meteorology और sky-background contrast की dependencies बताती है।
+
+**निर्णय:** Schaefer को Drik matching का अगला production candidate घोषित नहीं किया जाएगा। पहले Drik के Tara Asta/Udaya event labels का अर्थ और उसकी गणना की परिभाषा स्वतंत्र रूप से स्थापित करनी होगी। यदि Drik का प्रकाशित event वास्तव में naked-eye heliacal visibility निकले, तभी Schaefer को अलग diagnostic branch में जाँचें। यदि वह पंचांग-परंपरा का combustion/asta interval है, तो physical heliacal model को उस परिणाम से force-fit न करें।
+
+### उपयोगी प्राथमिक/तकनीकी स्रोत
+
+- TKS Udaya-Asta model definitions: https://tksephemeris.com/tks-udaya-asta
+- Swiss Ephemeris, chapter 5.1 (heliacal visibility factors and functions): https://www.astro.com/swisseph/swisseph.htm
+- Bradley E. Schaefer, “Astronomy and the limits of vision” (1993): https://doi.org/10.1016/0083-6656(93)90113-X
+- MontuPython, “The Heliacal Rise of Sirius, Step by Step” (model definitions and worked methodology): https://montupythob.readthedocs.io/en/latest/examples/MontuPython-HeliacalRises.html
+
+### Revised immediate next step
+
+Do not write another candidate engine yet. First capture Drik's own explanation/FAQ and a controlled set of same-city event pairs for Venus, Mercury, Mars, Jupiter and Saturn, including the event labels (morning/evening, first/last) and retrograde state. Compare those labels with the ephemeris geometry at the published boundary. This distinguishes a Panchanga Asta rule from a naked-eye heliacal visibility event. Only then select the correct mathematical model and implement it. This prevents another round of parameter tuning against the wrong physical quantity.
