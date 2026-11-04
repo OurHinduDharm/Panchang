@@ -115,8 +115,9 @@ Published boundary instants पर measured apparent topocentric separation क�
 ### अगला candidate: Swiss heliacal visibility
 
 अगली तुलना उसी चार published boundaries पर Swiss Ephemeris `heliacal_ut` चलाती है:
-- Evening Last (event type 2) को Drik Asta-start के सामने।
-- Morning First (event type 1) को Drik Asta-end/Udaya के सामने।
+- Asta-start के लिए planet Sun के पूर्व/पश्चिम होने के अनुसार Evening Last (event type 2) या Morning Last (event type 4)।
+- Asta-end/Udaya के लिए उसी geometry के अनुसार Morning First (event type 1) या Evening First (event type 3)।
+- Venus December 2025–February 2026 के sample में Asta-start Morning Last (4) और Asta-end Evening First (3) हैं; इन्हें March 2025 के Evening Last (2) / Morning First (1) से अलग रखा गया है।
 - वही Pithoragarh project observer और explicit atmosphere/observer parameters।
 - Swiss output का beginning/optimum/end visibility window अलग-अलग दर्ज होगा; किसी एक slot को Drik boundary तभी मानेंगे जब चारों cases में उसका अर्थ और signed error स्थिर रूप से बेहतर हो।
 
