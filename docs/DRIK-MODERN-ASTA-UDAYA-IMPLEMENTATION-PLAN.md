@@ -30,7 +30,7 @@ OurHinduDharm में बुध, शुक्र, मंगल, गुरु �
 - पुराने अप्रमाणित Pithoragarh 2026 Venus और 2027 Jupiter समय active acceptance targets नहीं हैं।
 - छः-घंटे के geocentric vector chunks केवल खगोलीय आधार डेटा हैं; वे local visibility अथवा Drik equivalence प्रमाणित नहीं करते।
 
-## कार्य के अनिवार्य चरण
+## वर्तमान candidate — तेज़ प्रथम संस्करण\n\nशोध शाखा में आधुनिक candidate अब selected observer के apparent topocentric RA/Dec से Sun–planet 3-D angular separation निकालता है। यह geocentric ecliptic-longitude difference से बेहतर location-aware approximation है। परंतु यह Drik का exact visibility model नहीं है; प्रकाशित event boundaries पर error जाँचना बाकी है। Venus retrograde और Mercury retrograde के लिए direction-specific approximate thresholds अभी लागू नहीं हैं।\n\n## कार्य के अनिवार्य चरण
 
 ### A. Reference ledger पूरा करना
 - Drik के Pithoragarh city selector से प्रत्येक उपलब्ध ग्रह/वर्ष की exact event pages capture करें।
