@@ -75,7 +75,7 @@ for (const entry of dataset.cases) {
       location: entry.sourceLocation,
       boundary: key,
       publishedIST: published,
-      modelIST: calculated ? formatIST(calculated) : null,
+      modelIST: calculated ? formatIST(calculated) : null,\n      publishedAngularSeparationDegrees: Number(angularSeparation(entry.planet, new Date(published), observer).toFixed(4)),\n      thresholdMinusPublishedAngleDegrees: Number((threshold - angularSeparation(entry.planet, new Date(published), observer)).toFixed(4)),
       signedDifferenceMinutes: calculated ? Math.round((calculated.getTime() - Date.parse(published)) / 60000) : null,
       thresholdDegrees: threshold,
       observer: { latitude: observer.latitude, longitude: observer.longitude, elevationMeters: observer.height },
