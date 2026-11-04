@@ -6358,7 +6358,7 @@ bhadraPartsHtml += `
         </div>
       </div>
 
-      <div class="card full">
+      <div id="sankalpGeneratorCard" class="card full">
         <div class="label">
           🕉️ संकल्प जनरेटर
         </div>

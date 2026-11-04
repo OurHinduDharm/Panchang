@@ -1116,6 +1116,7 @@ function placeClassicalYogaCard(newCard) {
 
 function getPanchangCardOrder(card) {
   const id = card.id || "";
+  if (id === "sankalpGeneratorCard") return 99;
   const content = (card.textContent || "").replace(/\s+/g, " ").trim();
 
   if (id === "ohdHinduFestivalsCard") return 2.5;
