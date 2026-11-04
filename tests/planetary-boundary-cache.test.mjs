@@ -5,7 +5,7 @@ import test from "node:test";
 
 test("Planetary boundary-bracket cache reuses only dates strictly inside a valid pair", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-  const start = source.indexOf("function getPlanetObserverKey(");
+  const start = source.indexOf("const planetDailyCache = new Map();");
   const end = source.indexOf("function createPlanetCard(", start);
   assert.notEqual(start, -1);
   assert.ok(end > start);
@@ -17,6 +17,8 @@ test("Planetary boundary-bracket cache reuses only dates strictly inside a valid
     Date, Map, Number, String, Math, console,
     PLANETS: [{ body: "Venus", name: "शुक्र" }],
     observer: { latitude: 29.5828, longitude: 80.2182, height: 1650 },
+    PLANET_ASTA_THRESHOLDS: { Mercury: 14, Venus: 10, Mars: 17, Jupiter: 11, Saturn: 15 },
+    planetPerfStats: null,
     getLocalNoon(date) {
       return new Date(date + "T12:00:00+05:30");
     },
