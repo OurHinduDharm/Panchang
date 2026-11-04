@@ -1,6 +1,6 @@
 # ग्रह उदय-अस्त: स्रोत और स्वीकृति ऑडिट
 
-अंतिम अद्यतन: 2026-11-03
+अंतिम अद्यतन: 2026-11-04
 
 ## उद्देश्य
 
@@ -39,9 +39,9 @@ Swiss heliacal rising/setting एक भौतिक visibility candidate है
 
 यह बड़ा अंतर event-definition mismatch दिखाता है; इसे threshold tuning या “match” कहने का आधार नहीं बनाना है। Swiss visibility window के beginning/optimum/end को अलग Asta/Udaya boundaries की तरह न समझें। Atmospheric inputs और observer assumptions हर run में दर्ज होने चाहिए।
 
-### शास्त्रीय सूर्यसिद्धांत
+### सूर्यसिद्धान्त शोध — उत्पादन दायरे से बाहर
 
-सूर्यसिद्धांत अध्याय 9 की लम्बान्तर-आसु (K/C) पद्धति अलग गणना-परिवार है। इसे आधुनिक Drik-style apparent positions, Swiss heliacal visibility या स्थानीय sunrise से मिलाकर एक hybrid result न बनाएँ। प्रत्येक method का result, inputs और uncertainty अलग रहे।
+सूर्यसिद्धान्त अध्याय 9 की लम्बान्तर-आसु (K/C) पद्धति को आधुनिक ग्रह-अस्त/उदय के production engine, acceptance gate या Drik matching में उपयोग नहीं किया जाएगा। पुराना शोध केवल ऐतिहासिक/शास्त्रीय संदर्भ के रूप में अलग archive में रहेगा। इस परियोजना के अगले implementation और validation चरणों में इस पद्धति पर समय नहीं लगाया जाएगा।
 
 ## वर्तमान production स्थिति
 
