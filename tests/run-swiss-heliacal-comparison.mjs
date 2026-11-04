@@ -15,7 +15,8 @@ try {
     error: window.__SWISS_ERROR__ || null
   }));
   assert.equal(result.error, null, result.error || "Swiss heliacal comparison failed");
-  assert.equal(result.result?.results?.length, 4, "all four published Pithoragarh Venus boundaries must be compared");
+  assert.equal(result.result?.scenarios?.length, 5, "all five Swiss visibility scenarios must be compared");
+  assert.ok(result.result.scenarios.every(scenario => scenario.results?.length === 4), "each scenario must compare all four published Pithoragarh Venus boundaries");
   console.log(JSON.stringify(result.result, null, 2));
 } finally {
   await browser.close();
