@@ -2,12 +2,14 @@
   "schemaVersion": 1,
   "title": "OurHinduDharm Asta-Udaya Benchmark Dataset",
   "policy": {
-    "primaryModernTarget": "Drik Panchang location-specific Tara Asta/Udaya published boundaries",
-    "independentScientificCrossCheck": "Rashtriya Panchang / Positional Astronomy Centre",
-    "classicalCrossCheck": "Surya Siddhanta / Tantrakulam, kept as a separate event model",
+    "primaryModernTarget": "Drik Panchang published location-specific Tara Asta/Udaya boundaries",
+    "secondaryPanchangCrossCheck": "Rashtriya Panchang / Positional Astronomy Centre and other established Panchangs, with source event definitions kept separate",
+    "scientificCrossCheck": "Independent modern ephemerides and observer-geometry calculations; never treated as a substitute for published Panchang acceptance",
+    "classicalMethods": "Out of scope for production Asta/Udaya; preserve historical Surya Siddhanta research only as a separate archive",
     "comparisonRule": "Never average event times from different definitions, locations, coordinate frames, or visibility models.",
     "unknownValues": "Keep null or omit; never fill by inference.",
-    "locationComparison": "Every benchmark case is scoped to one named source location. Never compare or average across locations. If the provider's exact observer coordinates are undisclosed, label the case city-level-only and do not claim coordinate-exact validation."
+    "locationComparison": "Every benchmark case is scoped to one named source location. Never compare or average across locations. If provider coordinates are undisclosed, label the case city-level-only and do not claim coordinate-exact validation.",
+    "acceptanceRule": "Production acceptance is based on same-city published Panchang event boundaries and declared tolerances. No arbitrary threshold fitting."
   },
   "sources": {
     "drik-pithoragarh-2025-venus": {
