@@ -33,35 +33,52 @@ try {
   if (typeof swiss.heliacal_ut !== "function") throw new Error("Swiss heliacal_ut API unavailable.");
 
   const geoPos = [80.2182, 29.5828, 1650];
-  const atmosData = [1013.25, 15, 40, 0];
-  const observerData = [36, 1, 0, 0, 0, 0];
+  const scenarios = [
+    { name: "baseline-age36-default-range", atmosphere: [1013.25, 15, 40, 0], observer: [36, 1, 0, 0, 0, 0] },
+    { name: "age23-default-range", atmosphere: [1013.25, 15, 40, 0], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range80km", atmosphere: [1013.25, 15, 40, 80], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range120km", atmosphere: [1013.25, 15, 40, 120], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range200km", atmosphere: [1013.25, 15, 40, 200], observer: [23, 1, 0, 0, 0, 0] }
+  ];
   const flags = 2 | 256;
   const results = [];
 
-  for (const ref of references) {
-    const start = new Date(ref.date + "T00:00:00Z");
-    start.setUTCDate(start.getUTCDate() - 50);
-    const raw = swiss.heliacal_ut(
-      julianDay(start.getTime()),
-      geoPos,
-      atmosData,
-      observerData,
-      "venus",
-      ref.eventType,
-      flags
+  for (const scenario of scenarios) {
+    const scenarioResults = [];
+    for (const ref of references) {
+      const start = new Date(ref.date + "T00:00:00Z");
+      start.setUTCDate(start.getUTCDate() - 50);
+      const raw = swiss.heliacal_ut(
+        julianDay(start.getTime()),
+        geoPos,
+        scenario.atmosphere,
+        scenario.observer,
+        "venus",
+        ref.eventType,
+        flags
+      );
+      if (!raw || raw.length < 3) throw new Error("Invalid Swiss result for " + ref.id + " / " + scenario.name);
+      const eventDate = fromJulianDay(Number(raw[0]));
+      const publishedMs = Date.parse(ref.published);
+      scenarioResults.push({
+        id: ref.id,
+        event: ref.event,
+        publishedIST: ref.published,
+        swissIST: formatIST(eventDate),
+        signedDifferenceMinutes: Math.round((eventDate.getTime() - publishedMs) / 60000),
+        visibilityOptimumIST: formatIST(fromJulianDay(Number(raw[1]))),
+        visibilityEndIST: formatIST(fromJulianDay(Number(raw[2])))
+      });
+    }
+    const meanAbsoluteErrorMinutes = Math.round(
+      scenarioResults.reduce((sum, item) => sum + Math.abs(item.signedDifferenceMinutes), 0) / scenarioResults.length
     );
-    if (!raw || raw.length < 3) throw new Error("Invalid Swiss result for " + ref.id);
-    const eventDate = fromJulianDay(Number(raw[0]));
-    const publishedMs = Date.parse(ref.published);
     results.push({
-      id: ref.id,
-      event: ref.event,
-      publishedIST: ref.published,
-      swissIST: formatIST(eventDate),
-      signedDifferenceMinutes: Math.round((eventDate.getTime() - publishedMs) / 60000),
-      visibilityOptimumIST: formatIST(fromJulianDay(Number(raw[1]))),
-      visibilityEndIST: formatIST(fromJulianDay(Number(raw[2]))),
-      raw: Array.from(raw).slice(0, 3)
+      name: scenario.name,
+      atmosphere: scenario.atmosphere,
+      observer: scenario.observer,
+      meanAbsoluteErrorMinutes,
+      results: scenarioResults
     });
   }
 
@@ -69,8 +86,8 @@ try {
     location: { latitude: 29.5828, longitude: 80.2182, elevationMeters: 1650, timeZone: "Asia/Kolkata" },
     atmosphere: atmosData,
     observer: observerData,
-    warning: "Swiss heliacal visibility is a candidate model, not a Drik clone. Compare event semantics and signed offsets before any production use.",
-    results
+    warning: "Swiss heliacal visibility is a candidate model, not a Drik clone. Parameter sensitivity is diagnostic only; do not select a scenario merely because it minimizes this four-case sample.",
+    scenarios: results
   };
   document.getElementById("output").textContent = JSON.stringify(window.__SWISS_RESULT__, null, 2);
 } catch (error) {
