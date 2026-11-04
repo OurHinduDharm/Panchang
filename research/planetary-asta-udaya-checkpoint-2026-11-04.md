@@ -120,3 +120,33 @@ PR #263 की वर्तमान टिप्पणी/तालिका �
 
 ---
 यह परिशिष्ट शोध-नोट है, प्रमाणित production specification नहीं। जहाँ “अनसुलझा”, “candidate”, “diagnostic” या “अज्ञात” लिखा है, वहाँ वही स्थिति बनाए रखें।
+
+
+## 10. 4 नवम्बर 2026 के बाद उपयोगकर्ता का स्पष्ट निर्णय: Drik Panchang benchmark
+
+उपयोगकर्ता ने स्पष्ट निर्देश दिया है कि आधुनिक ग्रह उदय-अस्त परिणाम Drik Panchang से मिलाए जाएँ। इसलिए आधुनिक production engine के लिए Drik Panchang के प्रकाशित स्थान-विशिष्ट Asta/Udaya परिणाम प्राथमिक acceptance benchmark होंगे।
+
+इसका अर्थ:
+- लक्ष्य स्थान Pithoragarh, Uttarakhand; Drik city identity `geoname-id=1259503`। स्थानीय timezone IST।
+- Drik के planet Asta pages स्वयं कहते हैं कि उनके प्रकाशित combustion timings observer geolocation पर आधारित modern algorithms से निकाले जाते हैं; वे Surya Siddhanta angular thresholds को approximate बताते हैं। उदाहरण: Venus 2026 New Delhi page और Jupiter 2026 New Delhi page।
+- Drik Pithoragarh Panchang page 4 Nov 2026 को location identity और local sunrise/sunset सहित देता है।
+- Drik Pithoragarh Venus 2025 page 11 Dec 2025 06:25 AM से 2 Feb 2026 06:15 PM का प्रकाशित समय देता है। यह पुराने checkpoint के user-supplied संदर्भ से मेल खाता है और location-specific reference के रूप में उपयोगी है।
+- पहले से दर्ज Pithoragarh references (Venus 2026 Oct 12 18:05 → Oct 29 05:49; Jupiter 2027 Aug 16 19:24 → Sep 13 05:09) को तब तक provisional रखें जब तक उसी Drik city selection, year, time format और page output को पुनः capture न कर लें।
+- New Delhi के परिणामों को Pithoragarh reference न बनाएँ। Search results में New Delhi Venus 2026 Oct 12 18:19 → Oct 29 06:00 और Jupiter 2026 Jul 15 19:59 → Aug 12 05:03 हैं; ये केवल location-sensitivity का उदाहरण हैं।
+
+Benchmark प्रक्रिया:
+1. प्रत्येक planet/year के लिए Drik page का exact city, page URL, retrieval date, 24-hour/24+ format और raw event rows archive करें।
+2. घटना start=Asta तथा end=Udaya की exact event-definition verify करें; event dates को local IST में absolute timestamps में normalize करें।
+3. OurHinduDharm output को उसी स्थान और समान timestamps/definitions पर compare करें।
+4. अंतर को event-wise seconds/minutes में report करें; date boundary, sunrise-relative notation और 24+ hour notation को सही normalize करें।
+5. Thresholds को केवल match कराने के लिए न बदलें। Ephemeris, observer coordinates/elevation, topocentric/geocentric frame, apparent/true coordinates, refraction/visibility criterion, planet-specific rule और event root-finding को जाँचें।
+6. आधुनिक production acceptance के लिए Drik benchmark पर agreed tolerance तय करें और multiple years + other locations पर regression चलाएँ।
+7. Surya Siddhanta Chapter III/VII/IX engine और उसके K/C kālāṃśa परिणाम अलग classical output के रूप में रहें; Drik matching से classical method को overwrite या relabel न करें।
+
+स्रोत:
+- Drik Pithoragarh Panchang 4 Nov 2026: https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
+- Drik Pithoragarh Venus Asta 2025: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025
+- Drik Venus Asta 2026 New Delhi (method note + location-specific output): https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=24hour
+- Drik Jupiter Asta 2026 New Delhi (method note + location-specific output): https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?time-format=24plushour&year=2026
+
+यह निर्णय आधुनिक engine के लिए benchmark प्राथमिकता स्पष्ट करता है; इससे अभी तक कोई नई गणना या production result प्रमाणित नहीं होता।
