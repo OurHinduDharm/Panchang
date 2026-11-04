@@ -108,12 +108,12 @@ export function calculateChapter7SequentialDrikkarma({
 
   const tropicalLongitudeDeg = normalize360(siderealLongitudeDeg + ayanamshaDeg);
 
-  // VII.10 / Gūḍhārtha-prakāśaka says to use the declination arising from
-  // the planet with three signs added. This candidate evaluates the shifted
-  // longitude with ecliptic latitude = 0. The commentary's wording has not
-  // yet been conclusively mapped to whether the planet's signed latitude is
-  // retained at the shifted point; see the source audit. Do not treat this
-  // zero-latitude choice as a fully adjudicated classical convention.
+  // VII.10: use the declination of the ecliptic point 90° ahead of the
+  // planet's longitude. Burgess's Chapter VII commentary (pp. 191–193)
+  // explicitly identifies this as the declination of the point 90° in
+  // advance of M, so the shifted ecliptic point has zero ecliptic latitude;
+  // the planet's signed latitude is used separately as the multiplier below.
+  // Source: Burgess, Translation of the Sūrya-Siddhānta, VII.10 commentary.
   const ayanaPoint = eclipticEquatorial(tropicalLongitudeDeg + 90, obliquityDeg);
   const ayanaDeclinationDeg = ayanaPoint.declinationDeg;
 
