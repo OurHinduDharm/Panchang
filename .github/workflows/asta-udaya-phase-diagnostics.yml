@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 22
       - name: Install pinned browser test dependency
-        run: npm install --no-save playwright@1.55.0
+        run: npm install --no-save playwright@1.55.0 astronomy-engine@2.1.19
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Serve repository files
