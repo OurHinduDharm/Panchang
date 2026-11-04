@@ -35,5 +35,13 @@ jobs:
           done
           cat /tmp/asta-udaya-http.log
           exit 1
+      - name: Verify topocentric estimate, search direction, cache scope, and benchmark provenance
+        run: >-
+          node --test
+          tests/planetary-asta-udaya-topocentric.test.mjs
+          tests/planetary-asta-udaya-direction.test.js
+          tests/planetary-asta-udaya-location-scope.test.mjs
+          tests/planetary-boundary-cache.test.mjs
+          tests/asta-udaya-benchmark.test.mjs
       - name: Verify opt-in counters and unchanged visible output
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
