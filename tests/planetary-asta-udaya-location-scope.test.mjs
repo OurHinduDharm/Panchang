@@ -11,7 +11,7 @@ assert.notEqual(end, -1, "planetary event block must have a bounded end");
 
 function loadEventFunction(boundaries = {}) {
   const sandbox = {
-    Date, Map, Number, String, Math, Map, Number, String, Math,
+    Date, Map, Number, String, Math,
     PLANET_ASTA_THRESHOLDS: { Mercury: 14, Venus: 10, Mars: 17, Jupiter: 11, Saturn: 15 },
     formatEventDateTime: () => "परिक्षण समय",
     findNearestAngularBoundary(_body, _date, threshold, type) {
