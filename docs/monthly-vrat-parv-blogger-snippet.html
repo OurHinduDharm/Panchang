@@ -1,63 +1,99 @@
-<!-- मासिक व्रत-पर्व विजेट: HTML को Blogger पेज के HTML view में रखें -->
+<!-- मासिक व्रत-पर्व विजेट: Blogger पेज के HTML view में पूरा कोड रखें -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@main/monthly-vrat-parv-widget.css">
 <div id="ohd-monthly-festivals">
-<main class="ohd-monthly-main">
-<header>
-  <div class="hero">
-    <div class="lamp" aria-hidden="true">🪔</div>
-    <div>
-      <div class="sub">॥ श्री गणेशाय नमः ॥</div>
-      <h1 id="pageTitle">मासिक व्रत एवं त्योहार</h1>
-      <div class="sub">सनातन पर्व · व्रत · उत्सव</div>
-    </div>
-  </div>
-  <div class="draft" id="reviewBanner" hidden>समीक्षा मोड — कुछ तारीख़ें अभी स्वीकृत नहीं हैं। यह सूची लाइव प्रकाशन के लिए अंतिम नहीं है।</div>
-</header>
+  <main class="ohd-monthly-main">
+    <header>
+      <div class="hero">
+        <div class="lamp" aria-hidden="true">🪔</div>
+        <div class="hero-text">
+          <div class="sub">॥ श्री गणेशाय नमः ॥</div>
+          <h1 id="pageTitle">मासिक व्रत एवं त्योहार</h1>
+          <div class="sub">सनातन पर्व · व्रत · उत्सव</div>
+        </div>
+      </div>
+      <div class="draft" id="reviewBanner" hidden>समीक्षा मोड — कुछ तारीख़ें अभी स्वीकृत नहीं हैं। यह सूची लाइव प्रकाशन के लिए अंतिम नहीं है।</div>
+    </header>
 
-<section class="monthbar" aria-label="महीना चुनें">
-  <div class="location-picker" aria-label="मुहूर्त के लिए स्थान चुनें">
-    <label for="locationInput">मुहूर्त के लिए स्थान चुनें</label>
-    <div class="location-search">
-      <input id="locationInput" type="search" placeholder="शहर का नाम लिखें, जैसे दिल्ली या पिथौरागढ़" autocomplete="off" aria-describedby="locationStatus">
-      <button id="locationSearchBtn" type="button">खोजें</button>
-    </div>
-    <div id="locationStatus" class="location-status" role="status" aria-live="polite">डिफ़ॉल्ट स्थान: पिथौरागढ़</div>
-    <div id="locationSuggestions" class="location-suggestions" role="listbox" aria-label="स्थान के परिणाम"></div>
-  </div>
-  <div class="controls">
-    <label>महीना
-      <select id="monthSelect">
-        <option value="01">जनवरी</option><option value="02">फ़रवरी</option><option value="03">मार्च</option>
-        <option value="04">अप्रैल</option><option value="05">मई</option><option value="06">जून</option>
-        <option value="07">जुलाई</option><option value="08">अगस्त</option><option value="09">सितंबर</option>
-        <option value="10">अक्टूबर</option><option value="11">नवंबर</option><option value="12">दिसंबर</option>
-      </select>
-    </label>
-    <label>वर्ष
-      <select id="yearSelect"><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option></select>
-    </label>
-  </div>
-  <div class="filters" aria-label="व्रत-पर्व खोजें">
-    <label for="searchInput">पर्व खोजें
-      <input id="searchInput" type="search" placeholder="पर्व का नाम या तिथि लिखें…" autocomplete="off" aria-label="पर्व या तिथि खोजें">
-    </label>
-  </div>
-  <div class="nav">
-    <button id="prevBtn" type="button">‹ पिछला महीना</button>
-    <button id="nextBtn" class="primary" type="button">अगला महीना ›</button>
-  </div>
-  <div class="current-month-row">
-    <button id="currentMonthBtn" type="button">वर्तमान महीना</button>
-  </div>
-</section>
+    <section class="ohd-seo-intro" aria-label="मासिक व्रत-पर्व सूची के बारे में">
+      <p><strong>मासिक व्रत एवं त्योहार पंचांग</strong> में महीने के प्रमुख हिन्दू व्रत, पर्व, त्योहार और जयंतियों की तिथि-वार जानकारी देखें। सूची में पर्व की तिथि, संबंधित हिन्दू मास और तिथि, उपलब्ध पूजा-मुहूर्त तथा विस्तृत धार्मिक लेखों के लिंक दिए जाते हैं।</p>
+      <p>स्थान चुनकर सूर्योदय, सूर्यास्त, चंद्रोदय और उपलब्ध मुहूर्त अपने नगर के अनुसार देखें। महीने और वर्ष बदलकर आगामी पर्वों की जानकारी भी प्राप्त करें।</p>
+    </section>
 
-<div class="summary">
-  <h2 id="listTitle">अक्टूबर 2026 के व्रत-पर्व</h2>
-  <span class="count" id="count">लोड हो रहा है…</span>
+    <section class="monthbar" aria-label="महीना चुनें">
+      <div class="location-picker" aria-label="मुहूर्त के लिए स्थान चुनें">
+        <label for="locationInput">मुहूर्त के लिए स्थान चुनें</label>
+        <div class="location-search">
+          <input id="locationInput" type="search" placeholder="शहर का नाम लिखें, जैसे दिल्ली या पिथौरागढ़" autocomplete="off" aria-describedby="locationStatus">
+          <button id="locationSearchBtn" type="button">खोजें</button>
+        </div>
+        <div id="locationStatus" class="location-status" role="status" aria-live="polite">डिफ़ॉल्ट स्थान: पिथौरागढ़</div>
+        <div id="locationSuggestions" class="location-suggestions" role="listbox" aria-label="स्थान के परिणाम"></div>
+      </div>
+
+      <div class="controls">
+        <label for="monthSelect">महीना
+          <select id="monthSelect">
+            <option value="01">जनवरी</option><option value="02">फ़रवरी</option><option value="03">मार्च</option>
+            <option value="04">अप्रैल</option><option value="05">मई</option><option value="06">जून</option>
+            <option value="07">जुलाई</option><option value="08">अगस्त</option><option value="09">सितंबर</option>
+            <option value="10">अक्टूबर</option><option value="11">नवंबर</option><option value="12">दिसंबर</option>
+          </select>
+        </label>
+        <label for="yearSelect">वर्ष
+          <select id="yearSelect">
+            <option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="filters" aria-label="व्रत-पर्व खोजें">
+        <label for="searchInput">पर्व खोजें
+          <input id="searchInput" type="search" placeholder="पर्व का नाम या तिथि लिखें…" autocomplete="off">
+        </label>
+      </div>
+
+      <div class="nav" aria-label="महीने बदलें">
+        <button id="prevBtn" type="button">‹ पिछला महीना</button>
+        <button id="nextBtn" class="primary" type="button">अगला महीना ›</button>
+      </div>
+      <div class="current-month-row">
+        <button id="currentMonthBtn" type="button">वर्तमान महीना</button>
+      </div>
+    </section>
+
+    <div class="summary">
+      <h2 id="listTitle">मासिक व्रत-पर्व</h2>
+      <span class="count" id="count">लोड हो रहा है…</span>
+    </div>
+    <section id="events" class="events" aria-live="polite">
+      <div class="empty">पर्वों की सूची लोड हो रही है…</div>
+    </section>
+    <div class="note" id="sourceNote">लेख के लिंक केवल उन्हीं पर्वों पर दिखेंगे जिनके लिए OurHinduDharm पर संबंधित लेख उपलब्ध है।</div>
+    <footer>OurHinduDharm · मासिक व्रत-पर्व सूची</footer>
+  </main>
 </div>
-<section id="events" class="events" aria-live="polite"><div class="empty">पर्वों की सूची लोड हो रही है…</div></section>
-<div class="note" id="sourceNote">लेख के लिंक केवल उन्हीं पर्वों पर दिखेंगे जिनके लिए OurHinduDharm पर संबंधित लेख उपलब्ध है।</div>
-<footer>OurHinduDharm · मासिक व्रत-पर्व सूची</footer>
-</main>
-</div>
+
+<script>
+(function(){
+  var input=document.getElementById("locationInput");
+  if(!input||input.dataset.clearButtonReady==="1")return;
+  input.dataset.clearButtonReady="1";
+  var wrap=input.parentElement;
+  if(!wrap)return;
+  var clear=document.createElement("button");
+  clear.type="button";
+  clear.className="location-clear";
+  clear.textContent="×";
+  clear.setAttribute("aria-label","स्थान खोज मिटाएँ");
+  clear.hidden=!input.value;
+  input.addEventListener("input",function(){clear.hidden=!input.value;});
+  clear.addEventListener("click",function(){
+    input.value="";
+    clear.hidden=true;
+    input.dispatchEvent(new Event("input",{bubbles:true}));
+    input.focus();
+  });
+  wrap.appendChild(clear);
+})();
+</script>
 <script type="module" src="https://cdn.jsdelivr.net/gh/OurHinduDharm/Panchang@main/monthly-vrat-parv-widget.js"></script>
