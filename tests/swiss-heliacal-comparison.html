@@ -81,14 +81,23 @@ try {
         visibilityEndIST: formatIST(fromJulianDay(Number(raw[2])))
       });
     }
-    const meanAbsoluteErrorMinutes = Math.round(
-      scenarioResults.reduce((sum, item) => sum + Math.abs(item.signedDifferenceMinutes), 0) / scenarioResults.length
+    const meanAbsoluteError = rows => rows.length
+      ? Math.round(rows.reduce((sum, item) => sum + Math.abs(item.signedDifferenceMinutes), 0) / rows.length)
+      : null;
+    const meanAbsoluteErrorMinutes = meanAbsoluteError(scenarioResults);
+    const publishedReferenceMaeMinutes = meanAbsoluteError(
+      scenarioResults.filter(item => item.sourceStatus === "published-indexed")
+    );
+    const provisionalReferenceMaeMinutes = meanAbsoluteError(
+      scenarioResults.filter(item => item.sourceStatus === "user-reported-provisional")
     );
     results.push({
       name: scenario.name,
       atmosphere: scenario.atmosphere,
       observer: scenario.observer,
       meanAbsoluteErrorMinutes,
+      publishedReferenceMaeMinutes,
+      provisionalReferenceMaeMinutes,
       results: scenarioResults
     });
   }
