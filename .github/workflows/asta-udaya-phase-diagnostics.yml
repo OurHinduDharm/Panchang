@@ -45,5 +45,7 @@ jobs:
           tests/asta-udaya-benchmark.test.mjs
       - name: Report signed differences against published Pithoragarh Drik boundaries
         run: node tests/report-drik-asta-udaya-similarity.mjs
+      - name: Compare Swiss heliacal visibility with the same four Pithoragarh boundaries
+        run: node tests/run-swiss-heliacal-comparison.mjs
       - name: Verify opt-in counters and unchanged visible output
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
