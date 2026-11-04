@@ -122,3 +122,33 @@ Published boundary instants पर measured apparent topocentric separation क�
 - Swiss output का beginning/optimum/end visibility window अलग-अलग दर्ज होगा; किसी एक slot को Drik boundary तभी मानेंगे जब चारों cases में उसका अर्थ और signed error स्थिर रूप से बेहतर हो।
 
 Swiss heliacal भी स्वतः Drik clone नहीं है। इसे केवल error report से बेहतर candidate सिद्ध होने पर आगे बढ़ाएँ।
+
+
+## 4 नवम्बर 2026 — Swiss heliacal का विस्तृत 10-boundary परिणाम
+
+Latest CI run: `41849145392`, job `browser-diagnostics`, commit `e8620eae64d3bd429a6d47cac594704973d70162` — सफल। आठ scenarios × दस boundaries जाँची गईं। चार indexed published Pithoragarh Venus boundaries पर MAE:
+
+| Swiss diagnostic scenario | Published 4-boundary MAE | Provisional 6-boundary MAE |
+|---|---:|---:|
+| age 36 / default range | 6,842 min | 9,360 min |
+| age 23 / default range | 5,764 min | 8,640 min |
+| age 23 / 80 km | 9,002 min | 10,322 min |
+| age 23 / 120 km | 6,124 min | 6,481 min |
+| age 23 / 200 km | 2,522 min | 3,123 min |
+| age 23 / 300 km | 2,160 min | 2,161 min |
+| age 23 / 500 km | 2,160 min | 2,161 min |
+| age 23 / 1000 km | 2,160 min | 2,161 min |
+
+यहाँ 300–1000 km plateau का अर्थ यह नहीं कि इतनी atmospheric range वास्तविक या स्वीकार्य है। यह केवल parameter sensitivity का diagnostic है; इसे production setting नहीं चुनना है। सर्वश्रेष्ठ sample MAE भी indexed references पर 2,160 मिनट (लगभग 1.5 दिन) है—हमारी अपेक्षित समय-सटीकता से बहुत दूर। अतः **Swiss heliacal candidate भी अभी Drik-सन्निकट production engine के रूप में असफल/अस्वीकृत है**। Beginning, optimum और end में से कोई भी slot इस निष्कर्ष को नहीं बदलता।
+
+छह अतिरिक्त Pithoragarh 2026/2027 rows केवल user-reported-provisional हैं; वे independent Drik capture नहीं हैं। इन्हें acceptance gate या tuning target न बनाएं। खासकर 2027 Venus/Jupiter के कुछ provisional boundaries पर Swiss error कई दिनों का है।
+
+### सत्यापित स्रोत और सीमा
+
+- Drik Pithoragarh Venus 2025 page: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025 — March 20 18:42, March 23 05:40, Dec 11 06:25; page also reports Feb 2 2026 06:15 PM. Search capture: `turn823154search9`.
+- इस page पर Drik कहता है कि वह location-based modern algorithm उपयोग करता है; Surya Siddhanta angular limits approximate हैं। Drik के hidden observer coordinates/atmospheric inputs प्रकाशित नहीं हैं, इसलिए comparison city-label-only है।
+- 2026 October तथा 2027 Venus/Jupiter Pithoragarh rows को अब भी provisional मानें; exact named-city primary page capture उपलब्ध नहीं। New Delhi references से Pithoragarh की missing values कभी न भरें।
+
+### अगला निर्णय
+
+Swiss heliacal और fixed-angle candidates को production में promote नहीं करना है। अगला काम नए thresholds आज़माना नहीं, बल्कि Drik के प्रकाशित boundary labels की event-definition को स्वतंत्र रूप से समझना और उसी शहर के अतिरिक्त independently captured references जुटाना है। जब तक model दोनों boundary types और अनेक ग्रहों/वर्षों पर घोषित tolerance में नहीं आता, production output को बदलना नहीं है।
