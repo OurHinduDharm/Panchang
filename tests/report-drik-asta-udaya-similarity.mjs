@@ -34,6 +34,7 @@ function formatIST(date) {
     .replace("Z", "+05:30");
 }
 
+function findBoundary(body, timestamp, threshold, type, observer) {
   const target = Date.parse(timestamp);
   const centerDate = timestamp.slice(0, 10);
   let previousDate = addDays(centerDate, -30);
@@ -80,7 +81,9 @@ for (const entry of dataset.cases) {
       location: entry.sourceLocation,
       boundary: key,
       publishedIST: published,
-      modelIST: calculated ? formatIST(calculated) : null,\n      publishedAngularSeparationDegrees: Number(angularSeparation(entry.planet, new Date(published), observer).toFixed(4)),\n      thresholdMinusPublishedAngleDegrees: Number((threshold - angularSeparation(entry.planet, new Date(published), observer)).toFixed(4)),
+      modelIST: calculated ? formatIST(calculated) : null,
+      publishedAngularSeparationDegrees: Number(angularSeparation(entry.planet, new Date(published), observer).toFixed(4)),
+      thresholdMinusPublishedAngleDegrees: Number((threshold - angularSeparation(entry.planet, new Date(published), observer)).toFixed(4)),
       signedDifferenceMinutes: calculated ? Math.round((calculated.getTime() - Date.parse(published)) / 60000) : null,
       thresholdDegrees: threshold,
       observer: { latitude: observer.latitude, longitude: observer.longitude, elevationMeters: observer.height },
