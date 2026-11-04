@@ -150,3 +150,53 @@ Benchmark प्रक्रिया:
 - Drik Jupiter Asta 2026 New Delhi (method note + location-specific output): https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?time-format=24plushour&year=2026
 
 यह निर्णय आधुनिक engine के लिए benchmark प्राथमिकता स्पष्ट करता है; इससे अभी तक कोई नई गणना या production result प्रमाणित नहीं होता।
+
+
+## 11. 4 नवम्बर 2026 के बाद की प्रत्यक्ष Drik और production-code जाँच
+
+### Drik से प्रत्यक्ष रूप में क्या सत्यापित हुआ
+
+- Drik Day Panchang URL `day-panchang.html?geoname-id=1259503` स्पष्ट रूप से Pithoragarh, India दिखाता है। 4 Nov 2026 के लिए sunrise 06:24 AM और sunset 05:21 PM IST देता है। यह city ID की पुष्टि करता है, ग्रह-अस्त तालिका की नहीं।
+- Drik 2027 Jupiter Asta page जो सार्वजनिक search/open result में मिला, **New Delhi** का है, Pithoragarh का नहीं: Asta starts 17 Aug 2027 19:32, ends 13 Sep 2027 05:22 IST. इसे Pithoragarh benchmark न बनाएँ।
+- उसी Drik page का method note कहता है कि site modern algorithms से observer geolocation के आधार पर combustion timings निकालती है; Surya Siddhanta 11° को approximate बताती है।
+- Planet Asta page पर `geoname-id=1259503` जोड़कर खोलने के प्रयास web retrieval में सफल नहीं हुए; returned indexed page default New Delhi ही रहा। इसलिए Pithoragarh-specific event page values अभी independently recaptured नहीं हुए।
+- पहले user-supplied Pithoragarh values को अभी provisional transcription रखें; उन्हें web-verified Drik result न लिखें।
+
+स्रोत:
+- Drik Pithoragarh day Panchang: https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=1259503
+- Drik Jupiter Asta 2027 (New Delhi only): https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?time-format=24hour&year=2027
+
+### Drik location benchmark का वर्तमान blocking point
+
+Drik ग्रह-अस्त page पर city selector है, लेकिन crawler/indexed result ने Pithoragarh query parameter का परिणाम नहीं दिया। अगला सही कदम browser UI में city selector से Pithoragarh चुनकर exact generated URL/visible rows capture करना है। जब तक ऐसा capture न हो, New Delhi के result को Pithoragarh पर लागू न करें। Search result में दिखी New Delhi values का उपयोग केवल New Delhi validation case के रूप में किया जा सकता है।
+
+### Repository code review से एक ठोस architectural finding
+
+Main `extra-panchang.js` के current production implementation में:
+- `PLANET_ASTA_THRESHOLDS` = Mercury 14°, Venus 10°, Mars 17°, Jupiter 11°, Saturn 15°।
+- `getPlanetDailyData()` `Elongation(body, getLocalNoon(dateString))` से daily geocentric ecliptic separation लेता है।
+- `findNearestAngularBoundary()` local observer latitude/longitude/elevation का उपयोग नहीं करता।
+- `findThresholdCrossingInstant()` उसी geocentric ecliptic separation को threshold के विरुद्ध bisect करता है।
+- परिणाम में `calculationScope: "geocentric-angular-threshold"`, `locationSpecific: false`, `verificationPending: true` रखा गया है।
+
+इसलिए मौजूदा production Asta/Udaya value केवल geocentric longitude-separation threshold crossing है; यह Drik-जैसा observer-geolocation event engine नहीं है। इसे local event time कहने या Pithoragarh-specific घोषित करने का आधार नहीं है।
+
+### Research page के existing fixtures का महत्वपूर्ण भेद
+
+शोध `test-astronomy.html` में:
+- `REFERENCES` की चार angular samples (Venus 2026 7.76°/9.70°, Jupiter 2027 10.49°/11.28°) का `referenceLocation` स्पष्ट रूप से **Dehradun, Uttarakhand, India** है; source Tantrakulam, engine label Drik है।
+- अलग `UNVERIFIED_PITHORAGARH_BOUNDARY_TRANSCRIPTIONS` में user-supplied Pithoragarh times हैं: Venus 12 Oct 2026 18:05 / 29 Oct 2026 05:49; Jupiter 16 Aug 2027 19:24 / 13 Sep 2027 05:09। Comment इन्हें unverified कहता है।
+- अतः Dehradun angular samples को Pithoragarh event boundaries से न मिलाएँ। पहले की कुछ बातचीत में इन sets का स्थान-फ्रेम गड्डमड्ड होने का जोखिम था; यह स्पष्ट रूप से सुधारा जाए।
+
+### अगला implementation plan — production code अभी न बदलें
+
+1. Drik city selector से Pithoragarh की exact Guru/Shukra year pages और raw event times capture करें; URL + screenshot/HTML + retrieval timestamp archive करें।
+2. अलग control dataset: New Delhi 2027 Guru Asta = 17 Aug 19:32 → 13 Sep 05:22, क्योंकि यही currently directly retrievable Drik result है।
+3. Drik benchmark को event start/end, event type (evening setting / morning rising), exact observer city, timezone और date convention सहित schema में रखें।
+4. Modern engine के लिए observer-geolocation event model बनाएं; geocentric elongation-only current function को classical Chapter IX helper से न मिलाएँ।
+5. Ephemeris state (apparent/topocentric RA/Dec or altitude/azimuth), observer lat/lon/elevation, atmospheric/refraction assumptions और visibility criterion का स्रोत/परिभाषा स्पष्ट करें। Drik का algorithm proprietary/अपूर्ण रूप से वर्णित हो सकता है; अतः exact internal reproduction का दावा न करें—published output benchmark पर empirical validation करें।
+6. Threshold values 8/10/11/12/14/15/17 को event-specific visibility criteria समझकर बिना स्रोत न बदलें; modern Drik matching के लिए मनमाने threshold fitting निषिद्ध।
+7. Drik event rows के साथ same location पर multiple years और दूसरी cities की regression suite बनाएं।
+8. Main page पर तब तक मौजूदा transparent geocentric label और verification-pending स्थिति बनाए रखें।
+
+यह समीक्षा production files में कोई बदलाव नहीं करती।
