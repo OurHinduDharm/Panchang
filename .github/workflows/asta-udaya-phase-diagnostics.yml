@@ -43,5 +43,7 @@ jobs:
           tests/planetary-asta-udaya-location-scope.test.mjs
           tests/planetary-boundary-cache.test.mjs
           tests/asta-udaya-benchmark.test.mjs
+      - name: Report signed differences against published Pithoragarh Drik boundaries
+        run: node tests/report-drik-asta-udaya-similarity.mjs
       - name: Verify opt-in counters and unchanged visible output
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
