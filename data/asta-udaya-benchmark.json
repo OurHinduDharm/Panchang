@@ -376,6 +376,19 @@
       "geonameId": "1259503",
       "verifiedOn": "2026-11-05",
       "notes": "Drik's indexed monthly Panchang identifies Pithoragarh and supplies geoname-id=1259503. This establishes the provider city selector ID only; it does not reveal the observer coordinates/elevation or any Asta event timestamp."
+    },
+    "pithoragarh-geonames-place-reference": {
+      "name": "SunsetToday — Pithoragarh place reference",
+      "url": "https://sunsettoday.in/uttarakhand/pithoragarh",
+      "sourceType": "independent-place-coordinate-reference-not-planet-event",
+      "location": "Pithoragarh, Uttarakhand, India",
+      "geonamesId": "1259503",
+      "latitude": 29.5835,
+      "longitude": 80.2095,
+      "elevationMeters": null,
+      "coordinateMeaning": "place reference point published by this site; not Drik observer coordinates",
+      "verifiedOn": "2026-11-05",
+      "notes": "The page explicitly labels these as its Pithoragarh calculation point and identifies GeoNames 1259503. It is useful for checking locality identity and approximate point separation only. It does not disclose Drik's observer coordinates, does not validate the project's selected 29.5828,80.2182,1650m observer, and supplies no planetary Asta/Udaya timestamps."
     }
   },
   "cases": [
@@ -2672,5 +2685,25 @@
         "acceptanceEligible": false
       }
     ]
+  },
+  "locationReferenceChecks": {
+    "pithoragarh": {
+      "referenceSourceId": "pithoragarh-geonames-place-reference",
+      "projectObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "coordinateStatus": "project-selected"
+      },
+      "referencePoint": {
+        "latitude": 29.5835,
+        "longitude": 80.2095,
+        "elevationMeters": null,
+        "coordinateStatus": "third-party place reference; not Drik"
+      },
+      "approximateHorizontalSeparationMeters": 846,
+      "acceptanceEligible": false,
+      "notes": "Do not silently substitute the third-party place reference for the project's selected observer or infer Drik's internal coordinates. The ~0.84 km separation is a locality consistency check, not a planetary event validation."
+    }
   }
 }
