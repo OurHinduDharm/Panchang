@@ -4416,21 +4416,21 @@
         "planet": "Mercury",
         "pageYear": 2026,
         "status": "inaccessible",
-        "reason": "Drik city identity is now resolved to geoname-id=1259503 from its indexed Pithoragarh monthly Panchang. The canonical planet-Asta URL using this ID still returned an access error in this retrieval attempt; event data remains inaccessible, not zero-event. Retry via Drik city selector/browser capture."
+        "reason": "The user has supplied this Pithoragarh event data in a transcription now stored separately. The corresponding named-city Drik page has not yet been independently recaptured; canonical URL retrieval returned an access error. Keep the event values provisional, not zero-event."
       },
       {
         "city": "Pithoragarh, Uttarakhand, India",
         "planet": "Venus",
         "pageYear": 2026,
         "status": "inaccessible",
-        "reason": "Drik city identity is now resolved to geoname-id=1259503 from its indexed Pithoragarh monthly Panchang. The canonical planet-Asta URL using this ID still returned an access error in this retrieval attempt; event data remains inaccessible, not zero-event. Retry via Drik city selector/browser capture."
+        "reason": "The user has supplied this Pithoragarh event data in a transcription now stored separately. The corresponding named-city Drik page has not yet been independently recaptured; canonical URL retrieval returned an access error. Keep the event values provisional, not zero-event."
       },
       {
         "city": "Pithoragarh, Uttarakhand, India",
         "planet": "Jupiter",
         "pageYear": 2027,
         "status": "inaccessible",
-        "reason": "Drik city identity is now resolved to geoname-id=1259503 from its indexed Pithoragarh monthly Panchang. The canonical planet-Asta URL using this ID still returned an access error in this retrieval attempt; event data remains inaccessible, not zero-event. Retry via Drik city selector/browser capture."
+        "reason": "The user has not supplied Pithoragarh Guru 2027 values. Drik city identity is resolved to geoname-id=1259503, but the canonical planet-Asta URL returned an access error; this is not a zero-event result."
       },
       {
         "city": "Ujjain, Madhya Pradesh, India",
@@ -4559,10 +4559,57 @@
         "pageYear": 2026,
         "status": "direct-page-inaccessible-or-not-captured",
         "attemptedGeonameId": "1259503",
-        "reason": "No verified named-city Drik planetary page for target year captured; Venus 2025 cross-year window is retained separately."
+        "reason": "Drik named-city pages remain inaccessible for independent recapture with geoname-id=1259503. User-transcribed Pithoragarh values are now available for Venus (2024–2027), Mars (2024–2026), Mercury (2024, 2026–2027), Jupiter (2024–2026), and Saturn (2024–2026), but are not independently page-verified and do not count as captured primary pages."
       }
     ],
-    "nextPriority": "Capture all five Drik Asta pages for Ujjain and Chennai with verified year selectors, then Mumbai and Varanasi 2027. Use browser city selector when direct URLs are inaccessible. Never count an inaccessible page as a zero-event year."
+    "nextPriority": "Capture all five Drik Asta pages for Ujjain and Chennai with verified year selectors, then Mumbai and Varanasi 2027. Use browser city selector when direct URLs are inaccessible. Never count an inaccessible page as a zero-event year.",
+    "userTranscribed": [
+      {
+        "city": "Pithoragarh, Uttarakhand, India",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "pageYears": [
+          2024,
+          2025,
+          2026,
+          2027
+        ],
+        "status": "user-transcribed-not-independently-page-verified",
+        "planetWindowCounts": {
+          "Venus": {
+            "2024": 1,
+            "2025": 2,
+            "2026": 2,
+            "2027": 1
+          },
+          "Mars": {
+            "2024": 1,
+            "2025": 1,
+            "2026": 1,
+            "2027": "not supplied"
+          },
+          "Mercury": {
+            "2024": 6,
+            "2025": "not supplied",
+            "2026": 7,
+            "2027": 7
+          },
+          "Jupiter": {
+            "2024": 1,
+            "2025": 1,
+            "2026": 1,
+            "2027": "not supplied"
+          },
+          "Saturn": {
+            "2024": 1,
+            "2025": 1,
+            "2026": 1,
+            "2027": "not supplied"
+          }
+        },
+        "acceptanceEligible": false,
+        "note": "Track separately from captured named-city pages; values were supplied by the user and must not be silently upgraded to independently retrieved source evidence."
+      }
+    ]
   },
   "comparisons": {
     "trac-vs-drik-new-delhi-2027": [
