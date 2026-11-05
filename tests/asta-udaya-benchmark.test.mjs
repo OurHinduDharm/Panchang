@@ -119,3 +119,48 @@ test("Rashtriya Panchang Central Station is kept separate from every city-level 
   assert.ok(dataset.cases.filter(entry => entry.sourceLocation !== central.sourceLocation)
     .every(entry => entry.comparisonLevel === "city-label-only"));
 });
+
+
+test("Drik New Delhi Mercury source ledger preserves all 2026 and 2027 multi-window events", () => {
+  const source = dataset.sources["drik-new-delhi-mercury-2026-2027-multiwindow"];
+  assert.ok(source);
+  assert.equal(source.location, "New Delhi, NCT, India");
+  assert.equal(source.timezone, "Asia/Kolkata");
+  assert.equal(source.sourceObserver.coordinates, null);
+  assert.match(source.rawNotation, /24\+ hour notation/);
+  const y2026 = dataset.eventWindows["drik-new-delhi-mercury-2026"];
+  const y2027 = dataset.eventWindows["drik-new-delhi-mercury-2027"];
+  assert.equal(y2026.length, 7);
+  assert.equal(y2027.length, 7);
+  for (const [year, windows] of [[2026, y2026], [2027, y2027]]) {
+    for (let i = 0; i < windows.length; i++) {
+      const entry = windows[i];
+      assert.equal(entry.pageYear, year);
+      assert.equal(entry.sequence, i + 1);
+      assert.equal(entry.status, "source-captured; normalization rule explicit; city-label-only");
+      assert.ok(Date.parse(entry.start.normalizedLocal) < Date.parse(entry.end.normalizedLocal));
+      assert.match(entry.start.normalizedLocal, /\+05:30$/);
+      assert.match(entry.end.normalizedLocal, /\+05:30$/);
+      if (i) {
+        assert.ok(Date.parse(windows[i - 1].start.normalizedLocal) < Date.parse(entry.start.normalizedLocal));
+        assert.ok(Date.parse(windows[i - 1].end.normalizedLocal) < Date.parse(entry.start.normalizedLocal),
+          "separate apparition windows must not overlap after normalization");
+      }
+    }
+  }
+});
+
+test("Drik 24+ hour timestamps normalize to the next civil date without losing raw source notation", () => {
+  const y2026 = dataset.eventWindows["drik-new-delhi-mercury-2026"];
+  const y2027 = dataset.eventWindows["drik-new-delhi-mercury-2027"];
+  assert.equal(y2026[0].start.panchangDate, "2026-01-01");
+  assert.equal(y2026[0].start.rawLocalTime, "30:29+");
+  assert.equal(y2026[0].start.normalizedLocal, "2026-01-02T06:29:00+05:30");
+  assert.equal(y2026[1].end.normalizedLocal, "2026-03-18T05:30:00+05:30");
+  assert.equal(y2027[1].end.normalizedLocal, "2027-02-27T05:52:00+05:30");
+  assert.equal(y2027[6].start.normalizedLocal, "2027-11-25T06:07:00+05:30");
+  assert.equal(y2027[6].end.normalizedLocal, "2028-01-02T18:28:00+05:30");
+  assert.equal(y2026[6].start.normalizedLocal, y2027[0].start.normalizedLocal,
+    "overlapping annual pages must preserve the same shared event boundary");
+  assert.equal(y2026[6].end.normalizedLocal, y2027[0].end.normalizedLocal);
+});
