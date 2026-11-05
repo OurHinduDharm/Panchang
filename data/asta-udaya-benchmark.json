@@ -145,6 +145,23 @@
         }
       },
       "notes": "Retain as a separate published longitude-combustion comparator only. Do not treat its threshold model as Drik's algorithm or as physical heliacal visibility. The source explicitly distinguishes longitude-based combustion from its Surya Siddhanta Ujjain events."
+    },
+    "drik-chennai-2027-jupiter": {
+      "name": "Drik Panchang",
+      "url": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2028",
+      "sourceType": "published-location-specific-event-times",
+      "location": "Chennai, Tamil Nadu, India",
+      "verifiedOn": "2026-11-05",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Drik provider coordinates/elevation not disclosed; city-label-only"
+      },
+      "pageYear": 2027,
+      "queryParameterYear": 2028,
+      "captureWarning": "Search result heading and event dates explicitly identify 2027 although the returned URL query parameter is year=2028. Preserve this discrepancy; do not silently rewrite source URL.",
+      "retrievalEvidence": "Search-indexed Drik page explicitly titled '2027 Guru Tara Asta ... for Chennai' and displays both boundaries. Direct page open was inaccessible in this capture."
     }
   },
   "cases": [
@@ -310,6 +327,27 @@
         "coordinates": null,
         "coordinateStatus": "provider coordinates not disclosed"
       }
+    },
+    {
+      "id": "jupiter-chennai-2027",
+      "planet": "Jupiter",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Chennai, Tamil Nadu, India",
+      "sourceId": "drik-chennai-2027-jupiter",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-08-19T19:00:00+05:30",
+        "astaEnd": "2027-09-13T05:21:00+05:30"
+      },
+      "status": "independently-captured-city-label-only",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik Chennai page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "Held as a cross-city source observation, not strict acceptance yet: search result heading says 2027 but query URL carries year=2028, and direct open was inaccessible. Re-capture the named-city page before promotion."
     }
   ],
   "excludedUnverifiedData": [
@@ -1226,6 +1264,30 @@
         "precision": "minute",
         "status": "published-comparator"
       }
+    ],
+    "drik-chennai-jupiter-2027": [
+      {
+        "id": "jupiter-chennai-2027",
+        "planet": "Jupiter",
+        "eventModel": "drik-tara-asta-window",
+        "pageYear": 2027,
+        "sourceId": "drik-chennai-2027-jupiter",
+        "sourceLocation": "Chennai, Tamil Nadu, India",
+        "start": {
+          "rawLocalDate": "2027-08-19",
+          "rawLocalTime": "07:00 PM",
+          "normalizedLocal": "2027-08-19T19:00:00+05:30"
+        },
+        "end": {
+          "rawLocalDate": "2027-09-13",
+          "rawLocalTime": "05:21 AM",
+          "normalizedLocal": "2027-09-13T05:21:00+05:30"
+        },
+        "precision": "minute",
+        "status": "independently-captured-city-label-only",
+        "comparisonLevel": "city-label-only",
+        "notes": "Drik search result heading explicitly identifies 2027 Chennai. Returned URL query parameter is year=2028; preserve this source anomaly and require a second capture before using as strict acceptance."
+      }
     ]
   },
   "eventWindowsMetadata": {
@@ -1394,6 +1456,14 @@
         "windowCount": 1,
         "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
         "eventModel": "sidereal-longitude-combustion"
+      },
+      {
+        "city": "Chennai, Tamil Nadu, India",
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "status": "captured-with-source-query-year-anomaly",
+        "windowCount": 1,
+        "sourceId": "drik-chennai-2027-jupiter"
       }
     ],
     "notCapturedPages": [
