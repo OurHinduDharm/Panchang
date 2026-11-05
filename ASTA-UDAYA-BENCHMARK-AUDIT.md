@@ -382,3 +382,14 @@ VedicTithi के 2027 Ujjain पृष्ठ से दो city-labelled window
 - गुरु: Divine Nakshatra longitude-window 16 अगस्त 19:43 → 15 सितम्बर 03:13; VedicTithi का Tara-Asta 18 अगस्त 19:29 → 13 सितम्बर 05:31। आरम्भ/अंत में लगभग 1 दिन 23 घण्टे 46 मिनट और 1 दिन 21 घण्टे 42 मिनट का अंतर।
 
 ये अंतर **किसी एक स्रोत की त्रुटि सिद्ध नहीं करते**—दोनों के event definitions/algorithms समान प्रमाणित नहीं हैं। यही कारण है कि हम अलग source families को average नहीं करेंगे और एक के timestamps से दूसरे का threshold fit नहीं करेंगे। पहले semantics और गणना-पद्धति की पुष्टि, फिर same-city/same-event boundary comparison।
+
+
+## 5 नवम्बर 2026 — Drik Jupiter 2027 का New Delhi बनाम Chennai स्थान-अंतर
+
+Drik के search-indexed 2027 Guru Tara Asta परिणाम में Chennai के लिए 19 Aug 2027 19:00 से 13 Sep 2027 05:21 IST मिला। New Delhi के पहले से captured Drik window में 17 Aug 2027 19:32 से 13 Sep 2027 05:22 IST है। Chennai − New Delhi signed अंतर:
+- आरम्भ: +4,308 मिनट (+2 दिन 23 घंटे 48 मिनट)
+- अन्त: −1 मिनट
+
+यह उपयोगी संकेत है कि Drik का Guru Asta start city label के अनुसार बदलता है, जबकि इस उदाहरण में end लगभग समान है। इससे किसी एक शहर का timestamp लेकर केवल sunrise offset जोड़ने वाला मॉडल अस्वीकार्य दिखता है। हालांकि दोनों पृष्ठों के exact observer coordinates/elevation अघोषित हैं और Chennai परिणाम search-indexed है; observed URL में `year=2028` जबकि page title/body 2027 कहता है। इसलिए इसे provisional named-city cross-check मानें, final coordinate-level proof नहीं।
+
+स्रोत: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2028
