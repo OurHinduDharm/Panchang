@@ -3926,7 +3926,7 @@
       "rowCount": 1,
       "pageYear": 2024,
       "timezone": "Asia/Kolkata",
-      "reportedAnnualAstaDays": null,
+      "reportedAnnualAstaDays": 67,
       "annualTotalNote": null,
       "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
     },
@@ -4955,6 +4955,7 @@
       },
       "annualReportedDays": {
         "Venus": {
+          "2024": 67,
           "2025": 24,
           "2026": 51,
           "2027": 51
@@ -5117,6 +5118,15 @@
           "reportedAnnualAstaDays": 41,
           "computedElapsedOverlapDays": 40.397222,
           "reportedMinusComputedDays": 0.602778,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Venus",
+          "year": 2024,
+          "reportedAnnualAstaDays": 67,
+          "computedElapsedOverlapDays": 66.608333,
+          "reportedMinusComputedDays": 0.391667,
           "reconciliationStatus": "within-one-day-of-endpoint-overlap",
           "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
         }
