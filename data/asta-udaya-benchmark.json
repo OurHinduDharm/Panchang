@@ -359,6 +359,15 @@
       },
       "eventDefinition": "Vivaha-calendar day-level Panchang Shuddhi exclusions; downstream consumer-state labels, not astronomical Asta/Udaya event timestamps.",
       "notes": "The page distinguishes Shukra Tara Asta, Shishutva Shukra, Guru Tara Asta and Shishutva Brihaspati. These labels are useful to validate state transitions and downstream calendar treatment only. Do not convert date ranges into exact event instants or include them in minute-level model accuracy metrics."
+    },
+    "drik-pithoragarh-location-identity": {
+      "name": "Drik Panchang — Pithoragarh city identity",
+      "url": "https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503",
+      "sourceType": "provider-city-selector-identity-not-asta-event",
+      "location": "Pithoragarh, Uttarakhand, India",
+      "geonameId": "1259503",
+      "verifiedOn": "2026-11-05",
+      "notes": "Drik's indexed monthly Panchang identifies Pithoragarh and supplies geoname-id=1259503. This establishes the provider city selector ID only; it does not reveal the observer coordinates/elevation or any Asta event timestamp."
     }
   },
   "cases": [
@@ -2222,21 +2231,21 @@
         "planet": "Mercury",
         "pageYear": 2026,
         "status": "inaccessible",
-        "reason": "Direct named-city URL returned internal access error; retry city selector/indexed capture."
+        "reason": "Drik city identity is now resolved to geoname-id=1259503 from its indexed Pithoragarh monthly Panchang. The canonical planet-Asta URL using this ID still returned an access error in this retrieval attempt; event data remains inaccessible, not zero-event. Retry via Drik city selector/browser capture."
       },
       {
         "city": "Pithoragarh, Uttarakhand, India",
         "planet": "Venus",
         "pageYear": 2026,
         "status": "inaccessible",
-        "reason": "Direct named-city URL returned internal access error; 2025 source page's cross-year window is not a full 2026 page."
+        "reason": "Drik city identity is now resolved to geoname-id=1259503 from its indexed Pithoragarh monthly Panchang. The canonical planet-Asta URL using this ID still returned an access error in this retrieval attempt; event data remains inaccessible, not zero-event. Retry via Drik city selector/browser capture."
       },
       {
         "city": "Pithoragarh, Uttarakhand, India",
         "planet": "Jupiter",
         "pageYear": 2027,
         "status": "inaccessible",
-        "reason": "Direct named-city URL returned internal access error; no New Delhi substitution."
+        "reason": "Drik city identity is now resolved to geoname-id=1259503 from its indexed Pithoragarh monthly Panchang. The canonical planet-Asta URL using this ID still returned an access error in this retrieval attempt; event data remains inaccessible, not zero-event. Retry via Drik city selector/browser capture."
       },
       {
         "city": "Ujjain, Madhya Pradesh, India",
