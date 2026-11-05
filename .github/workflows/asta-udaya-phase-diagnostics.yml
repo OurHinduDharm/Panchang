@@ -47,6 +47,8 @@ jobs:
           tests/planetary-asta-udaya-location-scope.test.mjs
           tests/planetary-boundary-cache.test.mjs
           tests/asta-udaya-benchmark.test.mjs
+      - name: Diagnose fixed geocentric longitude thresholds against TRAC 2027 boundaries
+        run: node tests/report-longitude-threshold-boundaries.mjs
       - name: Report signed differences against published Pithoragarh Drik boundaries
         run: node tests/report-drik-asta-udaya-similarity.mjs
       - name: Compare Swiss heliacal visibility with published and provisional Pithoragarh boundaries
