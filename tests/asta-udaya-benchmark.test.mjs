@@ -192,3 +192,34 @@ test("New Delhi 2026–2027 Drik ledger covers captured Tara planets without inv
   assert.deepEqual(dataset.eventWindows["drik-new-delhi-mars-2027"], []);
   assert.equal(dataset.eventWindowsMetadata["drik-new-delhi-mars-2027"].status, "not-captured");
 });
+
+
+test("IMD Central Station heliacal event ledger preserves source family, raw times, and normalized instants", () => {
+  const source = dataset.sources["rashtriya-2026-27-heliacal-central-station"];
+  const events = dataset.eventWindows["rashtriya-central-station-heliacal-2026-2027"];
+  const metadata = dataset.eventWindowsMetadata["rashtriya-central-station-heliacal-2026-2027"];
+  assert.ok(source);
+  assert.equal(source.sourceType, "official-heliacal-rising-setting-event-times");
+  assert.equal(source.location, "Central Station of India");
+  assert.equal(source.eventDefinition, "Heliacal rising/setting; eastern/western horizon events. Not Drik Tara Asta/combustion boundaries.");
+  assert.equal(events.length, 20);
+  assert.equal(metadata.rowCount, 20);
+  assert.equal(metadata.eventDefinition, "heliacal-rising-setting");
+  for (const event of events) {
+    assert.equal(event.sourceId, "rashtriya-2026-27-heliacal-central-station");
+    assert.equal(event.sourceLocation, "Central Station of India");
+    assert.equal(event.status, "official-independent-heliacal-cross-check");
+    assert.match(event.instant, /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:00\\+05:30$/);
+    assert.match(event.rawSourceTime, /^\\d{2}:\\d{2}$/);
+    assert.match(event.sourceEventDate, /^\\d{4}-\\d{2}-\\d{2}$/);
+  }
+  const mercuryLate = events.find(event => event.id === "imd-mercury-rises-west-2026-09-14");
+  assert.equal(mercuryLate.sourceEventDate, "2026-09-13");
+  assert.equal(mercuryLate.rawSourceTime, "26:54");
+  assert.equal(mercuryLate.instant, "2026-09-14T02:54:00+05:30");
+  const venusLate = events.find(event => event.id === "imd-venus-sets-west-2026-10-14");
+  assert.equal(venusLate.sourceEventDate, "2026-10-13");
+  assert.equal(venusLate.rawSourceTime, "24:18");
+  assert.equal(venusLate.instant, "2026-10-14T00:18:00+05:30");
+  assert.ok(events.every(event => event.notes.includes("not Drik Tara Asta start/end")));
+});
