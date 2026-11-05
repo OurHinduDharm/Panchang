@@ -467,3 +467,18 @@ test("Mumbai 2027 Vivaha calendar keeps Asta and Shishutva as separate day-level
   assert.ok(!dataset.eventWindows["mumbai-vivaha-2027"]);
   assert.ok(!dataset.cases.some(row => row.sourceId === "drik-mumbai-vivaha-2027-asta-states"));
 });
+
+
+test("Pithoragarh Drik city identity is recorded without treating it as an Asta event reference", () => {
+  const source = dataset.sources["drik-pithoragarh-location-identity"];
+  assert.ok(source);
+  assert.equal(source.geonameId, "1259503");
+  assert.equal(source.location, "Pithoragarh, Uttarakhand, India");
+  assert.equal(source.sourceType, "provider-city-selector-identity-not-asta-event");
+  assert.match(source.notes, /does not reveal.*Asta event timestamp/);
+  const pending = dataset.cityCoverage.notCapturedPages.filter(row =>
+    row.city === "Pithoragarh, Uttarakhand, India");
+  assert.equal(pending.length, 3);
+  assert.ok(pending.every(row => row.status === "inaccessible"));
+  assert.ok(pending.every(row => /1259503/.test(row.reason)));
+});
