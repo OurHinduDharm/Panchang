@@ -469,6 +469,21 @@ test("Mumbai 2027 Vivaha calendar keeps Asta and Shishutva as separate day-level
 });
 
 
+test("Pithoragarh third-party place coordinates are not promoted to Drik observer or acceptance data", () => {
+  const source = dataset.sources["pithoragarh-geonames-place-reference"];
+  const check = dataset.locationReferenceChecks.pithoragarh;
+  assert.ok(source);
+  assert.equal(source.geonamesId, "1259503");
+  assert.equal(source.latitude, 29.5835);
+  assert.equal(source.longitude, 80.2095);
+  assert.equal(source.elevationMeters, null);
+  assert.equal(check.projectObserver.latitude, 29.5828);
+  assert.equal(check.projectObserver.longitude, 80.2182);
+  assert.equal(check.referenceSourceId, "pithoragarh-geonames-place-reference");
+  assert.equal(check.acceptanceEligible, false);
+  assert.ok(check.approximateHorizontalSeparationMeters > 700 && check.approximateHorizontalSeparationMeters < 1000);
+});
+
 test("Pithoragarh 2025 Drik indexed event references retain direct-URL reproducibility caveat", () => {
   const source = dataset.sources["drik-pithoragarh-2025-venus"];
   assert.ok(source);
