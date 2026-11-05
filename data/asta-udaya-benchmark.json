@@ -162,6 +162,37 @@
       "queryParameterYear": 2028,
       "captureWarning": "Search result heading and event dates explicitly identify 2027 although the returned URL query parameter is year=2028. Preserve this discrepancy; do not silently rewrite source URL.",
       "retrievalEvidence": "Search-indexed Drik page explicitly titled '2027 Guru Tara Asta ... for Chennai' and displays both boundaries. Direct page open was inaccessible in this capture."
+    },
+    "trac-new-delhi-combustion-2027": {
+      "name": "TRAC Astrology — Planet Combustion 2027",
+      "url": "https://www.tracastrology.com/Panchang/combustion?year=2027",
+      "sourceType": "published-sidereal-longitude-combustion-intervals",
+      "location": "New Delhi, Delhi, India",
+      "verifiedOn": "2026-11-05",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "New Delhi city label; provider observer coordinates/elevation not disclosed"
+      },
+      "eventDefinition": "Combustion intervals defined by sidereal angular distance thresholds; not a physical heliacal visibility table.",
+      "thresholdRules": {
+        "Mercury": {
+          "directDegrees": 14,
+          "retrogradeDegrees": 12
+        },
+        "Venus": {
+          "directDegrees": 10,
+          "retrogradeDegrees": 8
+        },
+        "Jupiter": {
+          "degrees": 11
+        },
+        "Saturn": {
+          "degrees": 15
+        }
+      },
+      "notes": "Published page states times are local to New Delhi and uses Lahiri sidereal zodiac. Values closely resemble other longitude-threshold calendars; independence of underlying ephemeris/algorithm is not established. Comparator only, not ground truth or proof of Drik's algorithm."
     }
   },
   "cases": [
@@ -1288,6 +1319,148 @@
         "comparisonLevel": "city-label-only",
         "notes": "Drik search result heading explicitly identifies 2027 Chennai. Returned URL query parameter is year=2028; preserve this source anomaly and require a second capture before using as strict acceptance."
       }
+    ],
+    "trac-new-delhi-combustion-2027": [
+      {
+        "id": "trac-2027-mercury-1",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2026-12-07T00:54:00+05:30",
+        "end": "2027-01-23T18:51:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-mercury-2",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-02-12T13:35:00+05:30",
+        "end": "2027-02-24T19:25:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-mercury-3",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-04-15T12:17:00+05:30",
+        "end": "2027-05-11T12:42:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-mercury-4",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-06-15T05:30:00+05:30",
+        "end": "2027-07-02T02:29:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-mercury-5",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-07-29T14:57:00+05:30",
+        "end": "2027-08-26T19:46:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-mercury-6",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-10-14T03:27:00+05:30",
+        "end": "2027-10-25T23:15:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-mercury-7",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-11-17T04:47:00+05:30",
+        "end": "2028-01-05T11:04:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-venus-8",
+        "planet": "Venus",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-07-06T20:42:00+05:30",
+        "end": "2027-09-17T22:48:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-jupiter-9",
+        "planet": "Jupiter",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-08-16T19:42:00+05:30",
+        "end": "2027-09-15T03:12:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "trac-2027-saturn-10",
+        "planet": "Saturn",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-03-21T13:46:00+05:30",
+        "end": "2027-04-25T12:39:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "sourceLocation": "New Delhi, Delhi, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      }
     ]
   },
   "eventWindowsMetadata": {
@@ -1314,6 +1487,15 @@
       "pageYear": 2027,
       "timezone": "Asia/Kolkata",
       "note": "Includes partial windows where one boundary lies outside the page year; missing boundary remains null. Mars has no published Asta window in the captured page and is not inferred."
+    },
+    "trac-new-delhi-combustion-2027": {
+      "sourceId": "trac-new-delhi-combustion-2027",
+      "status": "captured",
+      "eventDefinition": "sidereal-longitude-combustion",
+      "rowCount": 10,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "Source states New Delhi local time and Lahiri sidereal zodiac. Similarity to other fixed-threshold calendars is visible; shared upstream calculation is unknown. Not ground truth."
     }
   },
   "cityCoverage": {
@@ -1464,6 +1646,46 @@
         "status": "captured-with-source-query-year-anomaly",
         "windowCount": 1,
         "sourceId": "drik-chennai-2027-jupiter"
+      },
+      {
+        "city": "New Delhi, Delhi, India",
+        "planet": "Mercury",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 7,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "eventModel": "sidereal-longitude-combustion",
+        "sourceFamily": "TRAC published comparator"
+      },
+      {
+        "city": "New Delhi, Delhi, India",
+        "planet": "Venus",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "eventModel": "sidereal-longitude-combustion",
+        "sourceFamily": "TRAC published comparator"
+      },
+      {
+        "city": "New Delhi, Delhi, India",
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "eventModel": "sidereal-longitude-combustion",
+        "sourceFamily": "TRAC published comparator"
+      },
+      {
+        "city": "New Delhi, Delhi, India",
+        "planet": "Saturn",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "trac-new-delhi-combustion-2027",
+        "eventModel": "sidereal-longitude-combustion",
+        "sourceFamily": "TRAC published comparator"
       }
     ],
     "notCapturedPages": [
