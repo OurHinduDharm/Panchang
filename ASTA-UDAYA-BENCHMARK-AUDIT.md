@@ -175,3 +175,48 @@ Swiss heliacal और fixed-angle candidates को production में promote
 ### Revised immediate next step
 
 Do not write another candidate engine yet. First capture Drik's own explanation/FAQ and a controlled set of same-city event pairs for Venus, Mercury, Mars, Jupiter and Saturn, including the event labels (morning/evening, first/last) and retrograde state. Compare those labels with the ephemeris geometry at the published boundary. This distinguishes a Panchanga Asta rule from a naked-eye heliacal visibility event. Only then select the correct mathematical model and implement it. This prevents another round of parameter tuning against the wrong physical quantity.
+
+
+## 5 नवम्बर 2026 — Drik event-pairing evidence और horizon-method की सीमा
+
+आज की source capture से model selection के लिए दो उपयोगी तथ्य मिले हैं:
+
+### Drik के प्रकाशित event windows: पाँच ग्रहों के अलग व्यवहार
+
+एक ही published city label (New Delhi) के 2026 pages पर Drik निम्न उदाहरण देता है:
+
+- **Budha/Mercury:** सात अलग Asta windows; उपलब्ध page पर 2 Jan–5 Feb, 1–18 Mar, 27 Apr–23 May, 30 Jun–25 Jul, 18 Aug–18 Sep, 25 Oct–11 Nov और 14 Dec–19 Jan 2027 के pairs हैं।
+- **Mangal/Mars:** 1 Nov 2025–2 May 2026 का एक लम्बा interval।
+- **Guru/Jupiter:** 15 Jul–12 Aug 2026।
+- **Shani/Saturn:** 13 Mar–22 Apr 2026।
+- **Shukra/Venus:** 11 Dec 2025–1 Feb 2026 और 12–29 Oct 2026।
+
+स्रोत पृष्ठ:
+- Mercury: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?lang=en
+- Mars: https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html
+- Jupiter: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?lang=en
+- Saturn: https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2026
+- Venus: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=24hour
+
+**गणना पर असर:** engine को किसी ग्रह के लिए प्रति वर्ष एक ही Asta pair मानकर नहीं चलना चाहिए। Mercury जैसे ग्रहों के कई disjoint intervals, year-boundary crossing और adjacent apparition pairing सम्भालनी होगी। Event stream को chronological और non-overlapping validate करें; किसी retrograde station पर अपने-आप नया interval शुरू न करें, जब तक source/model event definition ऐसा न कहे। ये published examples event topology बताते हैं, Drik का hidden mathematical algorithm नहीं।
+
+### Horizon-crossing / kālāṃśa research: स्पष्ट रूप से अलग रखें
+
+TathaAstu API की documentation एक अलग, स्पष्टतः **Sūrya Siddhānta IX.2–IX.9** आधारित पद्धति बताती है: सूर्य और ग्रह के horizon crossings के बीच समय-अंतर (kālāṃśa) को शास्त्रीय सीमा से तुलना करना। वह स्वयं कहती है कि यह ecliptic longitude separation या chart-combustion orb नहीं है और स्थान बदलने पर परिणाम बदलता है।
+
+यह एक उपयोगी conceptual distinction है—पर **यह Drik के modern algorithm का प्रमाण नहीं** है। चूँकि परियोजना का निर्णय है कि Sūrya Siddhānta K/C production scope से बाहर रहेगा, TathaAstu implementation को production candidate या acceptance oracle नहीं बनाया जाएगा। इसे केवल historical-method reference के रूप में cite करें।
+
+स्रोत: https://docs.tathaastuapi.com/
+
+एक अलग third-party methodology page (AstroLogics) अपने New Delhi Drik comparisons में कुछ ग्रह/अवधियों के लिए 1–13 दिन तक boundary differences बताती है और स्पष्ट कहती है कि उसकी fixed-orb periods Drik से लम्बी हो सकती हैं। यह independent primary evidence नहीं है, लेकिन एक उपयोगी warning है: approximate angular limits को Drik-equivalent मान लेना सुरक्षित नहीं। इसे acceptance dataset में न जोड़ें।
+स्रोत: https://developers.astrologics.in/docs/vedic-additions
+
+### निर्णय और अगला तकनीकी कदम
+
+1. Drik के प्रत्येक ग्रह के लिए कम-से-कम दो वर्षों के complete event windows capture करें—केवल एक start/end pair नहीं।
+2. हर window को apparition sequence, morning/evening geometry, direct/retrograde motion, superior/inferior conjunction और source city के साथ tag करें।
+3. Published boundary instants पर pinned ephemeris से geocentric और topocentric geometry अलग-अलग निकालें; यह diagnostic है, model proof नहीं।
+4. एक ही event-pairing rule सभी captured cases पर लागू करके देखें। यदि event topology ही reproduce नहीं होती, threshold optimization शुरू न करें।
+5. New Delhi और Pithoragarh को अलग benchmark groups रखें। New Delhi के source times को Pithoragarh observer पर कभी न चलाएँ।
+
+**स्थिति:** कोई नया production formula स्वीकृत नहीं। Fixed-angle और Swiss heliacal candidates पहले ही accuracy gate में असफल हैं; Schaefer physical-visibility model Drik event definition के प्रमाण के बिना अगला candidate नहीं है। Production output provisional ही रहेगा।
