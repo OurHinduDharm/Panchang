@@ -905,8 +905,8 @@
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
         "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
-        "sourceEventDate": "2027-01-17",
-        "rawSourceTime": "34:05"
+        "sourceEventDate": "2027-01-18",
+        "rawSourceTime": "10:05"
       },
       {
         "id": "imd-mercury-sets-west-2027-02-13",
