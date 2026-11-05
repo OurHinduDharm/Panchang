@@ -464,3 +464,14 @@ Drik Panchang के Mumbai 2027 Vivaha calendar से चार day-level stat
 स्रोत: https://www.drikpanchang.com/shubh-dates/shubh-marriage-dates-with-muhurat.html?geoname-id=1275339&year=2027
 
 यह downstream Vivaha-calendar classification है, minute-level Asta/Udaya timestamp नहीं। इसलिए इसे `downstreamCalendarCrossChecks` में रखा है; `eventWindows`, exact-time benchmark cases, MAE या model fitting में शामिल नहीं किया। Asta और Shishutva अलग states हैं—इन्हें एक boolean में collapse नहीं करना है। यह source transition/order की जाँच में उपयोगी है, लेकिन exact astronomical boundary का प्रमाण नहीं।
+
+
+## 5 नवम्बर 2026 — Pithoragarh Drik city selector की पहचान
+
+Drik के indexed monthly Panchang से Pithoragarh का provider city ID `geoname-id=1259503` सत्यापित हुआ:
+
+https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
+
+यह पहले की तुलना में उपयोगी सुधार है: अब ग्रह-अस्त पृष्ठों को सही Drik city selector ID के साथ पुनः खोलने का स्पष्ट आधार है। लेकिन इस retrieval में उसी ID के साथ Guru/Shukra planet-Asta URLs ने access error दिया। इसलिए अभी Pithoragarh 2026/2027 के exact Asta windows को उपलब्ध नहीं मानेंगे; coverage status `inaccessible` ही रहेगा, `captured-no-events` नहीं। City ID से Drik के अंदरूनी observer coordinates/elevation भी सिद्ध नहीं होते।
+
+अगला retrieval प्रयास इसी ID को Drik के city selector में चुनकर canonical planet pages से raw local timestamps सुरक्षित करना है। किसी दूसरे शहर के समय को Pithoragarh पर लागू नहीं करेंगे।
