@@ -466,6 +466,18 @@ Drik Panchang के Mumbai 2027 Vivaha calendar से चार day-level stat
 यह downstream Vivaha-calendar classification है, minute-level Asta/Udaya timestamp नहीं। इसलिए इसे `downstreamCalendarCrossChecks` में रखा है; `eventWindows`, exact-time benchmark cases, MAE या model fitting में शामिल नहीं किया। Asta और Shishutva अलग states हैं—इन्हें एक boolean में collapse नहीं करना है। यह source transition/order की जाँच में उपयोगी है, लेकिन exact astronomical boundary का प्रमाण नहीं।
 
 
+## 5 नवम्बर 2026 — Pithoragarh place-reference coordinate cross-check
+
+SunsetToday का Pithoragarh पृष्ठ GeoNames ID `1259503` के साथ अपना calculation point `29.5835° N, 80.2095° E` बताता है। यह OurHinduDharm के project-selected observer `29.5828° N, 80.2182° E, 1650 m` से लगभग 0.84 km क्षैतिज दूरी पर है।
+
+यह केवल locality/point-identity cross-check है:
+- SunsetToday का point Drik के internal observer coordinates नहीं है।
+- वहाँ elevation नहीं दिया गया है।
+- इसे project observer के स्थान पर स्वतः लागू नहीं करना है।
+- इससे किसी ग्रह के अस्त/उदय समय की पुष्टि नहीं होती।
+
+इसलिए इसे `locationReferenceChecks` में रखा है और `acceptanceEligible:false` है। इससे एक उपयोगी बात स्पष्ट होती है: Pithoragarh नाम/GeoNames ID एक हो सकता है, पर अलग सेवाओं के चुने हुए calculation points समान होना आवश्यक नहीं। स्रोत: https://sunsettoday.in/uttarakhand/pithoragarh
+
 ## 5 नवम्बर 2026 — Pithoragarh 2025 Drik source URL reproducibility caveat
 
 Pithoragarh Venus 2025 के indexed search result में शीर्षक और local timestamps Pithoragarh के नाम से स्पष्ट हैं। लेकिन उसी result URL को सीधे खोलने पर page ने New Delhi का data render किया; event URL में `geoname-id` मौजूद नहीं है। इसलिए:
