@@ -98,3 +98,8 @@ CI browser diagnostics सफल रहे (8 scenarios × 10 boundaries), प�
 Drik New Delhi Mercury 2026/2027 के सात-सात published windows अब benchmark JSON में raw Panchang date/time तथा normalized civil local instant दोनों रूपों में दर्ज हैं। 24+ notation को source rule के अनुसार normalize किया गया है; annual pages के overlap को भी tests में identity-check किया गया है। यह source-ledger validation है, astronomical engine validation नहीं।
 
 आगे के code changes में eventWindows को multi-window source stream के रूप में पढ़ें; annual page year को event year न मानें, क्योंकि कुछ intervals अगले/पिछले civil year में जाते हैं। Raw source values और provider location provenance हमेशा साथ रखें। New Delhi city-label-only records पर Pithoragarh coordinates लागू न करें।
+
+
+### 5 नवम्बर — सभी ग्रहों के New Delhi source windows
+
+Structured source ledger में Mercury के अतिरिक्त Venus, Jupiter, Saturn और उपलब्ध Mars 2026 intervals शामिल हैं। Mars 2027 को स्पष्ट रूप से not-captured रखा है। सभी rows New Delhi city-label-only हैं; project Pithoragarh coordinates का उपयोग इनमें नहीं किया जाएगा। Benchmark tests अब multi-planet stream counts, chronological ordering, timezone और missing-data policy जाँचते हैं। Browser diagnostics workflow भी benchmark data/test paths पर trigger होता है।
