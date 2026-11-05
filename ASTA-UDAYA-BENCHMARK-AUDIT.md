@@ -241,3 +241,21 @@ TathaAstu API की documentation एक अलग, स्पष्टतः **
 ये सभी New Delhi city-label references हैं; इन्हें Pithoragarh observer या Pithoragarh acceptance group में न डालें। Provider की exact coordinates/elevation अब भी disclosed नहीं हैं। 24+ hour times को बिना source-day convention समझे UTC/IST instant में convert न करें; source raw string और normalized instant दोनों साथ रखें और conversion rule audit करें।
 
 **Research consequence:** multi-window support अब केवल edge case नहीं, Drik के Mercury data में recurring structure है। Event pairing को apparent solar conjunction / apparition sequence के आसपास independently investigate करना होगा; retrograde status अकेले pair boundary का पर्याप्त selector सिद्ध नहीं हुआ है।
+
+
+## 5 नवम्बर 2026 — Mercury 24+ source-time normalization और structured ledger
+
+Drik के New Delhi Mercury pages के 24+ hour notation को अब केवल prose में नहीं, benchmark JSON में raw तथा normalized दोनों रूपों में सुरक्षित किया गया है:
+
+- 2026 page: सात windows; उदाहरण 2026-01-01 30:29+ → civil local instant 2026-01-02 06:29 IST।
+- 2027 page: सात windows; इसमें Dec 2026–Jan 2027 और Nov 2027–Jan 2028 year-crossing intervals शामिल हैं।
+- दोनों annual pages पर Dec 2026–Jan 2027 का साझा interval एक ही normalized start/end पर आता है; dataset इसे duplicate event के रूप में पहचानने योग्य रखता है, लेकिन दोनों source-page provenance सुरक्षित हैं।
+- Source page स्वयं कहता है कि 24:00 से आगे के घंटे अगले civil दिन पर आते हैं और Panchang day sunrise से sunrise तक है।
+
+**डेटा नीति:** panchangDate, rawLocalTime, normalizedLocal, annual page year और sequence अलग fields हैं। Normalization में hour ≥24 होने पर 24 घटाकर civil date में एक दिन जोड़ा जाता है। Raw source string कभी overwrite नहीं होती। सभी records New Delhi city-label-only हैं; provider coordinates/elevation उपलब्ध नहीं।
+
+फ़ाइलें:
+- data/asta-udaya-benchmark.json — 14 annual-page entries, 7 + 7 windows, explicit normalized local instants।
+- tests/asta-udaya-benchmark.test.mjs — नए tests: दोनों वर्षों में सात-सात windows, chronological order, non-overlap, timezone, 24+ conversion और annual-page shared-boundary identity।
+
+**सावधानी:** ये timestamps Drik की published events का normalized source ledger हैं; ये हमारे ephemeris model की गणना या Drik formula की खोज नहीं हैं। किसी candidate model का accuracy result इससे सिद्ध नहीं होता।
