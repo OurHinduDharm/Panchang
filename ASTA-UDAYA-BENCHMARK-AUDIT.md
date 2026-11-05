@@ -373,3 +373,12 @@ VedicTithi के 2027 Ujjain पृष्ठ से दो city-labelled window
 यह Ujjain में independent source disagreement देखने में मदद करता है: VedicTithi के शुक्र/गुरु windows को Ujjain के longitude-based output और New Delhi Drik city-label values के साथ केवल contextually compare किया जा सकता है; exact same-city Drik Ujjain data अभी उपलब्ध नहीं। Regression test source/method separation और timestamps जाँचता है।
 
 स्रोत: https://vedictithi.com/astrology-events/combustion/2027
+
+
+### Ujjain के दो third-party outputs में अंतर — method-mixing से बचने का उदाहरण
+
+2027 Ujjain के उपलब्ध outputs को केवल descriptive रूप से साथ रखने पर:
+- शुक्र: Divine Nakshatra का longitude-window 6 जुलाई 20:39 → 17 सितम्बर 22:48; VedicTithi का प्रकाशित Tara-Asta 22 जुलाई 05:26 → 6 सितम्बर 19:04। आरम्भ में लगभग 15 दिन 8 घण्टे 47 मिनट और अंत में लगभग 11 दिन 3 घण्टे 44 मिनट का अंतर।
+- गुरु: Divine Nakshatra longitude-window 16 अगस्त 19:43 → 15 सितम्बर 03:13; VedicTithi का Tara-Asta 18 अगस्त 19:29 → 13 सितम्बर 05:31। आरम्भ/अंत में लगभग 1 दिन 23 घण्टे 46 मिनट और 1 दिन 21 घण्टे 42 मिनट का अंतर।
+
+ये अंतर **किसी एक स्रोत की त्रुटि सिद्ध नहीं करते**—दोनों के event definitions/algorithms समान प्रमाणित नहीं हैं। यही कारण है कि हम अलग source families को average नहीं करेंगे और एक के timestamps से दूसरे का threshold fit नहीं करेंगे। पहले semantics और गणना-पद्धति की पुष्टि, फिर same-city/same-event boundary comparison।
