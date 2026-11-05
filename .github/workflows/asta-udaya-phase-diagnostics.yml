@@ -8,6 +8,8 @@ on:
       - "tests/asta-udaya-phase-diagnostics.spec.mjs"
       - "tests/swiss-heliacal-comparison.html"
       - "tests/run-swiss-heliacal-comparison.mjs"
+      - "tests/asta-udaya-benchmark.test.mjs"
+      - "data/asta-udaya-benchmark.json"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
 
 permissions:
