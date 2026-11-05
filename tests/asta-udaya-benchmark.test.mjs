@@ -577,3 +577,20 @@ test("Pithoragarh user-supplied Drik 2024-2027 ledger preserves all supplied int
   assert.equal(dataset.cases.filter(row => row.sourceId === sourceId).length, 35);
   assert.ok(dataset.cases.filter(row => row.sourceId === sourceId).every(row => row.acceptanceEligible === false));
 });
+
+
+test("Pithoragarh annual totals are retained separately and discrepancies are surfaced, not normalized away", () => {
+  const audit = dataset.userSuppliedDataNotes.pithoragarhDrik2024to2027.annualSummaryAudit;
+  assert.ok(Array.isArray(audit));
+  const get = (planet, year) => audit.find(row => row.planet === planet && row.year === year);
+  assert.equal(get("Venus", 2026).reportedAnnualAstaDays, 51);
+  assert.equal(get("Venus", 2026).computedElapsedOverlapDays, 49.249);
+  assert.equal(get("Venus", 2026).reconciliationStatus, "not-reconciled-from-supplied-event-endpoints");
+  assert.equal(get("Mercury", 2024).reportedAnnualAstaDays, 165);
+  assert.equal(get("Mercury", 2024).computedElapsedOverlapDays, 159.972);
+  assert.equal(get("Mercury", 2026).reportedAnnualAstaDays, 179);
+  assert.equal(get("Mercury", 2026).computedElapsedOverlapDays, 173.703);
+  assert.equal(get("Mercury", 2027).reportedAnnualAstaDays, 181);
+  assert.equal(get("Mercury", 2027).computedElapsedOverlapDays, 175.963);
+  assert.ok(audit.every(row => row.note.includes("preserved verbatim")));
+});
