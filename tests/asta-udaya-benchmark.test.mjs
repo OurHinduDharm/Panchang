@@ -469,6 +469,20 @@ test("Mumbai 2027 Vivaha calendar keeps Asta and Shishutva as separate day-level
 });
 
 
+test("Pithoragarh 2025 Drik indexed event references retain direct-URL reproducibility caveat", () => {
+  const source = dataset.sources["drik-pithoragarh-2025-venus"];
+  assert.ok(source);
+  assert.equal(source.reproducibilityStatus, "search-index-city-label-only-direct-url-resolves-new-delhi");
+  assert.equal(source.directReopenObservation.sameUrlRenderedCity, "New Delhi, NCT, India");
+  assert.equal(source.directReopenObservation.requestedSearchResultCity, "Pithoragarh, Uttarakhand, India");
+  assert.equal(source.directReopenObservation.geonameIdInEventUrl, false);
+  assert.match(source.notes, /indexed city-label references only/);
+  for (const row of dataset.cases.filter(row => row.sourceId === "drik-pithoragarh-2025-venus")) {
+    assert.equal(row.comparisonLevel, "city-label-only");
+    assert.equal(row.sourceObserver.coordinates, null);
+  }
+});
+
 test("Pithoragarh Drik city identity is recorded without treating it as an Asta event reference", () => {
   const source = dataset.sources["drik-pithoragarh-location-identity"];
   assert.ok(source);
