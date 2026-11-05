@@ -778,7 +778,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-04-29",
+        "rawSourceTime": "06:53"
       },
       {
         "id": "imd-mercury-rises-west-2026-05-23",
@@ -790,7 +792,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-05-23",
+        "rawSourceTime": "05:24"
       },
       {
         "id": "imd-mercury-sets-west-2026-07-03",
@@ -802,7 +806,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-07-03",
+        "rawSourceTime": "12:37"
       },
       {
         "id": "imd-mercury-rises-east-2026-07-21",
@@ -814,7 +820,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-07-21",
+        "rawSourceTime": "12:34"
       },
       {
         "id": "imd-mercury-sets-east-2026-08-18",
@@ -826,7 +834,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-08-18",
+        "rawSourceTime": "08:44"
       },
       {
         "id": "imd-mercury-rises-west-2026-09-14",
@@ -838,7 +848,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-09-13",
+        "rawSourceTime": "26:54"
       },
       {
         "id": "imd-mercury-sets-west-2026-10-28",
@@ -850,7 +862,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-10-28",
+        "rawSourceTime": "06:32"
       },
       {
         "id": "imd-mercury-rises-east-2026-11-09",
@@ -862,7 +876,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-11-09",
+        "rawSourceTime": "11:40"
       },
       {
         "id": "imd-mercury-sets-east-2026-12-13",
@@ -874,7 +890,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-12-13",
+        "rawSourceTime": "22:19"
       },
       {
         "id": "imd-mercury-rises-west-2027-01-18",
@@ -886,7 +904,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2027-01-17",
+        "rawSourceTime": "34:05"
       },
       {
         "id": "imd-mercury-sets-west-2027-02-13",
@@ -898,7 +918,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2027-02-13",
+        "rawSourceTime": "21:20"
       },
       {
         "id": "imd-mercury-rises-east-2027-02-24",
@@ -910,7 +932,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2027-02-23",
+        "rawSourceTime": "24:38"
       },
       {
         "id": "imd-mercury-sets-east-2027-04-11",
@@ -922,7 +946,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2027-04-11",
+        "rawSourceTime": "17:33"
       },
       {
         "id": "imd-venus-sets-west-2026-10-14",
@@ -934,7 +960,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-10-13",
+        "rawSourceTime": "24:18"
       },
       {
         "id": "imd-venus-rises-east-2026-10-28",
@@ -946,7 +974,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-10-28",
+        "rawSourceTime": "07:36"
       },
       {
         "id": "imd-mars-rises-east-2026-04-18",
@@ -958,7 +988,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-04-17",
+        "rawSourceTime": "25:49"
       },
       {
         "id": "imd-jupiter-sets-west-2026-07-15",
@@ -970,7 +1002,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-07-15",
+        "rawSourceTime": "11:10"
       },
       {
         "id": "imd-jupiter-rises-east-2026-08-10",
@@ -982,7 +1016,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-08-10",
+        "rawSourceTime": "07:53"
       },
       {
         "id": "imd-saturn-rises-east-2026-04-17",
@@ -994,7 +1030,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2026-04-17",
+        "rawSourceTime": "13:58"
       },
       {
         "id": "imd-saturn-sets-west-2027-03-24",
@@ -1006,7 +1044,9 @@
         "sourceLocation": "Central Station of India",
         "comparisonLevel": "coordinate-exact",
         "status": "official-independent-heliacal-cross-check",
-        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end."
+        "notes": "Exact published IST event time. Source event is heliacal rising/setting, not Drik Tara Asta start/end.",
+        "sourceEventDate": "2027-03-24",
+        "rawSourceTime": "23:55"
       }
     ]
   },
@@ -1023,7 +1063,7 @@
       "eventDefinition": "heliacal-rising-setting",
       "rowCount": 20,
       "timezone": "Asia/Kolkata",
-      "normalization": "Raw IMD hour values above 24:00 were normalized to the next civil date while preserving the source event date in the row id/notes where applicable.",
+      "normalization": "Raw source date/time retained per row. Source hour notation above 24:00 is normalized to the next civil date for instant; sourceEventDate and rawSourceTime preserve the original published values.",
       "note": "Separate from Drik combustion/Tara Asta windows; no direct boundary error score is permitted."
     }
   }
