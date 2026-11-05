@@ -209,9 +209,9 @@ test("IMD Central Station heliacal event ledger preserves source family, raw tim
     assert.equal(event.sourceId, "rashtriya-2026-27-heliacal-central-station");
     assert.equal(event.sourceLocation, "Central Station of India");
     assert.equal(event.status, "official-independent-heliacal-cross-check");
-    assert.match(event.instant, /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:00\\+05:30$/);
-    assert.match(event.rawSourceTime, /^\\d{2}:\\d{2}$/);
-    assert.match(event.sourceEventDate, /^\\d{4}-\\d{2}-\\d{2}$/);
+    assert.match(event.instant, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:00\+05:30$/);
+    assert.match(event.rawSourceTime, /^\d{2}:\d{2}$/);
+    assert.match(event.sourceEventDate, /^\d{4}-\d{2}-\d{2}$/);
   }
   const mercuryLate = events.find(event => event.id === "imd-mercury-rises-west-2026-09-14");
   assert.equal(mercuryLate.sourceEventDate, "2026-09-13");
