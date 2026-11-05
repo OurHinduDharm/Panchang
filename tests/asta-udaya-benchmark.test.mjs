@@ -379,3 +379,24 @@ test("Drik Jupiter 2027 city comparison preserves local event-time differences",
   assert.equal(row.chennaiMinusDelhiEndMinutes, -1);
   assert.ok(row.note.includes("coordinates/elevations undisclosed"));
 });
+
+
+test("Drik Jupiter 2027 five-city sample has ordered local windows and signed deltas", () => {
+  const rows = dataset.comparisons["drik-jupiter-2027-multi-city-vs-new-delhi"];
+  assert.equal(rows.length, 5);
+  const expected = {
+    "Chennai, Tamil Nadu, India":[2848,-1],
+    "Naksalbari, West Bengal, India":[-46,-42],
+    "Rajgarh, Rajasthan, India":[1,3],
+    "Athagarh, Odisha, India":[1396,-28],
+    "Taleigao, Goa, India":[2875,23]
+  };
+  for (const row of rows) {
+    assert.deepEqual(
+      [row.cityMinusNewDelhiStartMinutes,row.cityMinusNewDelhiEndMinutes],
+      expected[row.city]
+    );
+    assert.ok(Date.parse(row.cityStart) < Date.parse(row.cityEnd));
+    assert.equal(row.status, "same-provider-city-label-comparison");
+  }
+});
