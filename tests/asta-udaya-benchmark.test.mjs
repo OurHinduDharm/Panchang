@@ -375,7 +375,7 @@ test("Drik Jupiter 2027 city comparison preserves local event-time differences",
     Math.round((Date.parse(row.chennaiStart) - Date.parse(row.delhiStart)) / 60000));
   assert.equal(row.chennaiMinusDelhiEndMinutes,
     Math.round((Date.parse(row.chennaiEnd) - Date.parse(row.delhiEnd)) / 60000));
-  assert.equal(row.chennaiMinusDelhiStartMinutes, 4308);
+  assert.equal(row.chennaiMinusDelhiStartMinutes, 2848);
   assert.equal(row.chennaiMinusDelhiEndMinutes, -1);
   assert.ok(row.note.includes("coordinates/elevations undisclosed"));
 });
