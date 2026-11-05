@@ -2559,6 +2559,36 @@
         "status": "same-provider-city-label-comparison",
         "note": "Drik named-city page result; exact observer coordinates/elevation undisclosed. Some source URLs have non-2027 query values despite 2027 page content."
       }
+    ],
+    "drik-venus-2027-multi-city-vs-new-delhi": [
+      {
+        "planet": "Venus",
+        "pageYear": 2027,
+        "referenceCity": "New Delhi, NCT, India",
+        "city": "Khilchipur, Madhya Pradesh, India",
+        "referenceStart": "2027-07-21T05:08:00+05:30",
+        "cityStart": "2027-07-22T05:22:00+05:30",
+        "referenceEnd": "2027-09-09T19:00:00+05:30",
+        "cityEnd": "2027-09-06T19:02:00+05:30",
+        "cityMinusNewDelhiStartMinutes": 1454,
+        "cityMinusNewDelhiEndMinutes": -4318,
+        "status": "same-provider-city-label-comparison",
+        "note": "Drik named-city page; exact observer coordinates/elevation undisclosed. Source URL year query differs from 2027 page title for some entries."
+      },
+      {
+        "planet": "Venus",
+        "pageYear": 2027,
+        "referenceCity": "New Delhi, NCT, India",
+        "city": "Alleppey, Kerala, India",
+        "referenceStart": "2027-07-21T05:08:00+05:30",
+        "cityStart": "2027-07-22T05:49:00+05:30",
+        "referenceEnd": "2027-09-09T19:00:00+05:30",
+        "cityEnd": "2027-09-02T18:56:00+05:30",
+        "cityMinusNewDelhiStartMinutes": 1481,
+        "cityMinusNewDelhiEndMinutes": -10084,
+        "status": "same-provider-city-label-comparison",
+        "note": "Drik named-city page; exact observer coordinates/elevation undisclosed. Source URL year query differs from 2027 page title for some entries."
+      }
     ]
   }
 }
