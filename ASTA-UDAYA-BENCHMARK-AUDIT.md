@@ -321,3 +321,15 @@ Divine Nakshatra के 2027 Ujjain पृष्ठ से longitude-based Asta 
 Drik search-indexed page पर Chennai के लिए Guru Tara Asta 19 Aug 2027 19:00 IST से 13 Sep 2027 05:21 IST तक दिखता है। यह New Delhi Jupiter 2027 के 17 Aug 2027 19:32 से 13 Sep 2027 05:22 से अलग city-label observation है। इसे अभी strict acceptance में शामिल नहीं किया गया, क्योंकि indexed result की heading 2027 कहती है लेकिन URL query में `year=2028` है और direct page open इस capture में inaccessible रहा। मूल URL/query anomaly जस की तस सुरक्षित है; page को पुनः खोलकर पुष्टि के बाद ही acceptanceEligible किया जा सकता है।
 
 स्रोत: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2028
+
+
+## 5 नवम्बर 2026 — Drik-only शहर-कवरेज को अलग किया
+
+पिछले `cityCoverage` में अन्य source families की coverage भी साथ दिखाई दे रही थी। इससे Ujjain के Divine Nakshatra longitude data को गलती से Drik city coverage समझे जाने का जोखिम था। इसे रोकने के लिए `drikOnlyCoverage` अलग जोड़ा है:
+- New Delhi: Mercury 2026/27, Venus 2026/27, Jupiter 2026/27, Saturn 2026/27, Mars 2026 — captured, city-label-only.
+- Pithoragarh: Venus 2025 — historical city-label-only; target-year 2026/27 coverage नहीं।
+- Chennai: Jupiter 2027 — केवल search-index result; heading 2027 और URL query `year=2028` में विरोध, इसलिए provisional.
+- Ujjain: Drik के पाँच ग्रहों के 2027 direct URLs (`geoname-id=1253914`) इस capture में inaccessible; इसे Divine Nakshatra के अलग Ujjain data से नहीं भरेंगे।
+- Pithoragarh target-year planetary pages: अभी verified नहीं।
+
+नई regression test सुनिश्चित करती है कि Drik-only सूची में IMD/Divine Nakshatra source IDs न आएँ और Chennai query-year anomaly strict capture न बने। यह छोटा लेकिन महत्वपूर्ण data-governance सुधार है: आगे की तुलना केवल समान source family और स्पष्ट city/year provenance के साथ होगी।
