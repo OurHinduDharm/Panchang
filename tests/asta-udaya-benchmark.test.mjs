@@ -333,3 +333,25 @@ test("TRAC New Delhi 2027 comparator retains signed Drik boundary deltas without
   assert.equal(jupiter.drikMinusTracEndMinutes, -2750);
   assert.ok(source.notes.includes("independence"));
 });
+
+
+test("VedicTithi Ujjain Tara Asta windows remain a third-party comparator with unknown method", () => {
+  const source = dataset.sources["vedictithi-ujjain-guru-shukra-2027"];
+  const events = dataset.eventWindows["vedictithi-ujjain-tara-asta-2027"];
+  const metadata = dataset.eventWindowsMetadata["vedictithi-ujjain-tara-asta-2027"];
+  assert.ok(source);
+  assert.equal(source.location, "Ujjain, Madhya Pradesh, India");
+  assert.equal(source.zodiac, "Vedic sidereal (Lahiri)");
+  assert.match(source.eventDefinition, /not disclosed/);
+  assert.equal(events.length, 2);
+  assert.equal(metadata.eventDefinition, "third-party-tara-asta-method-undisclosed");
+  for (const event of events) {
+    assert.equal(event.sourceId, "vedictithi-ujjain-guru-shukra-2027");
+    assert.equal(event.comparisonLevel, "city-label-only");
+    assert.equal(event.status, "published-city-label-comparator");
+    assert.ok(Date.parse(event.start) < Date.parse(event.end));
+  }
+  assert.equal(events.find(event => event.planet === "Venus").start, "2027-07-22T05:26:00+05:30");
+  assert.equal(events.find(event => event.planet === "Jupiter").end, "2027-09-13T05:31:00+05:30");
+  assert.ok(!dataset.drikOnlyCoverage.captured.some(row => row.sourceId === "vedictithi-ujjain-guru-shukra-2027"));
+});
