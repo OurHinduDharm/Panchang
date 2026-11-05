@@ -511,3 +511,69 @@ test("Pithoragarh Drik city identity is recorded without treating it as an Asta 
   assert.ok(pending.every(row => row.status === "inaccessible"));
   assert.ok(pending.every(row => /1259503/.test(row.reason)));
 });
+
+
+test("Pithoragarh user-supplied Drik 2024-2027 ledger preserves all supplied intervals, exact elapsed durations, and provenance", () => {
+  const sourceId = "drik-pithoragarh-user-transcribed-asta-2024-2027";
+  const source = dataset.sources[sourceId];
+  assert.ok(source);
+  assert.equal(source.location, "Pithoragarh, Uttarakhand, India");
+  assert.equal(source.geonameId, "1259503");
+  assert.equal(source.sourceObserver.coordinates, null);
+  assert.equal(source.provenance.suppliedBy, "user");
+  assert.equal(source.provenance.independentlyCrossChecked[0].planet, "Venus");
+  assert.equal(source.provenance.independentlyCrossChecked[0].pageYear, 2025);
+  const expectedCounts = {
+    "venus-2024":1,"venus-2025":2,"venus-2026":2,"venus-2027":1,
+    "mars-2024":1,"mars-2025":1,"mars-2026":1,
+    "mercury-2024":6,"mercury-2026":7,"mercury-2027":7,
+    "jupiter-2024":1,"jupiter-2025":1,"jupiter-2026":1,
+    "saturn-2024":1,"saturn-2025":1,"saturn-2026":1
+  };
+  let total = 0;
+  for (const [suffix, count] of Object.entries(expectedCounts)) {
+    const key = "drik-pithoragarh-" + suffix;
+    const rows = dataset.eventWindows[key];
+    assert.ok(Array.isArray(rows), "missing supplied event stream " + key);
+    assert.equal(rows.length, count);
+    assert.equal(dataset.eventWindowsMetadata[key].status, "user-transcribed-not-independently-page-verified");
+    for (const row of rows) {
+      assert.equal(row.sourceId, sourceId);
+      assert.equal(row.sourceLocation, "Pithoragarh, Uttarakhand, India");
+      assert.equal(row.status, "user-provided-transcription; city-label-only; not-independently-page-verified");
+      assert.equal(row.computedElapsedMinutes,
+        (Date.parse(row.end.normalizedLocal) - Date.parse(row.start.normalizedLocal)) / 60000);
+      assert.equal(row.reportedDurationDays, Math.ceil(row.computedElapsedMinutes / 1440));
+      assert.ok(Date.parse(row.start.normalizedLocal) < Date.parse(row.end.normalizedLocal));
+      assert.match(row.start.normalizedLocal, /\\+05:30$/);
+      assert.match(row.end.normalizedLocal, /\\+05:30$/);
+      total++;
+    }
+  }
+  assert.equal(total, 35);
+  const missing = [
+    "drik-pithoragarh-mars-2027","drik-pithoragarh-mercury-2025",
+    "drik-pithoragarh-jupiter-2027","drik-pithoragarh-saturn-2027"
+  ];
+  for (const key of missing) {
+    assert.equal(dataset.eventWindowsMetadata[key].status, "not-provided-by-user; not-zero-event");
+    assert.equal(Object.hasOwn(dataset.eventWindows, key), false);
+  }
+  const venus2025 = dataset.eventWindows["drik-pithoragarh-venus-2025"];
+  const venus2026 = dataset.eventWindows["drik-pithoragarh-venus-2026"];
+  assert.equal(venus2025[1].start.normalizedLocal, "2025-12-11T06:25:00+05:30");
+  assert.equal(venus2025[1].end.normalizedLocal, "2026-02-02T18:15:00+05:30");
+  assert.equal(venus2026[0].start.normalizedLocal, venus2025[1].start.normalizedLocal);
+  assert.equal(venus2026[0].end.normalizedLocal, venus2025[1].end.normalizedLocal);
+  const mars2025 = dataset.eventWindows["drik-pithoragarh-mars-2025"][0];
+  const mars2026 = dataset.eventWindows["drik-pithoragarh-mars-2026"][0];
+  assert.equal(mars2026.start.normalizedLocal, mars2025.start.normalizedLocal);
+  assert.equal(mars2026.end.normalizedLocal, mars2025.end.normalizedLocal);
+  const mercury2026 = dataset.eventWindows["drik-pithoragarh-mercury-2026"][6];
+  const mercury2027 = dataset.eventWindows["drik-pithoragarh-mercury-2027"][0];
+  assert.equal(mercury2026.start.normalizedLocal, mercury2027.start.normalizedLocal);
+  assert.equal(mercury2026.end.normalizedLocal, mercury2027.end.normalizedLocal);
+  assert.equal(dataset.userSuppliedDataNotes.pithoragarhDrik2024to2027.acceptanceEligible, false);
+  assert.equal(dataset.cases.filter(row => row.sourceId === sourceId).length, 35);
+  assert.ok(dataset.cases.filter(row => row.sourceId === sourceId).every(row => row.acceptanceEligible === false));
+});
