@@ -410,3 +410,12 @@ New Delhi को reference रखकर अन्य Drik city-labelled results 
 यह spread दिखाता है कि सभी शहरों में एक जैसा civil-time offset लगाना पर्याप्त नहीं। फिर भी provider observer coordinates उपलब्ध न होने और कुछ search-indexed URLs में page-year/query-year mismatch होने के कारण इन शहरों को coordinate-grade calibration set नहीं मानेंगे। हर शहर का source page और raw local time अलग संरक्षित है।
 
 **CI correction note:** पहले cross-city regression में Chennai start delta को गलती से 4,308 मिनट लिखा गया था; सही timestamp subtraction +2,848 मिनट है। Failure logs से arithmetic mismatch पहचाना, expected value ठीक की, और नए multi-city regression assertions जोड़े। नया CI run ही corrected state का pass/fail निर्णायक होगा।
+
+
+### Drik Venus/Mars 2027 अतिरिक्त city pages और explicit zero-event cases
+
+- Khilchipur (Madhya Pradesh): Venus Asta 22 Jul 2027 05:22 → 6 Sep 19:02 IST.
+- Alleppey (Kerala): Venus Asta का raw start `21 Jul 29:49+` है; normalize करके 22 Jul 2027 05:49 → 2 Sep 18:56 IST।
+- Rahuri (Maharashtra) और Visakhapatnam (Andhra Pradesh): Mars 2027 pages स्पष्ट रूप से `Total Asta Days In Year = 0 Days` बताते हैं। इन्हें `captured-no-events` के रूप में दर्ज किया है—यह inaccessible या uncaptured page से अलग है।
+
+यहाँ भी source URLs में कुछ `year` query values page title 2027 से अलग हैं; exact observed URL सुरक्षित है और direct canonical URL verification बाकी है। Zero-event result उसी शहर/ग्रह/वर्ष के लिए source का दावा है; इसे अन्य शहरों या अन्य गणना-पद्धति पर लागू न करें।
