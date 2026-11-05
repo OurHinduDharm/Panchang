@@ -333,3 +333,30 @@ Drik search-indexed page पर Chennai के लिए Guru Tara Asta 19 Aug 2
 - Pithoragarh target-year planetary pages: अभी verified नहीं।
 
 नई regression test सुनिश्चित करती है कि Drik-only सूची में IMD/Divine Nakshatra source IDs न आएँ और Chennai query-year anomaly strict capture न बने। यह छोटा लेकिन महत्वपूर्ण data-governance सुधार है: आगे की तुलना केवल समान source family और स्पष्ट city/year provenance के साथ होगी।
+
+
+## 5 नवम्बर 2026 — TRAC New Delhi 2027 बनाम Drik New Delhi: signed boundary audit
+
+TRAC Astrology के 2027 combustion page से बुध के 7, शुक्र/गुरु/शनि के 1-1 windows लेकर उसी New Delhi city-label वाले Drik 2027 windows से start/end signed deltas निकाले गए। तुलना `data/asta-udaya-benchmark.json` के `comparisons.trac-vs-drik-new-delhi-2027` में सुरक्षित है। Delta = Drik normalized local instant − TRAC published instant; positive का अर्थ Drik बाद में, negative का अर्थ पहले।
+
+कुछ मुख्य अंतर:
+
+| ग्रह / window | आरम्भ Δ | अन्त Δ |
+|---|---:|---:|
+| बुध 1 | +10,406 min | −5,772 min |
+| बुध 2 | +328 min | +3,507 min |
+| बुध 3 | −9,058 min | −3,888 min |
+| बुध 4 | −3,431 min | +8,754 min |
+| बुध 5 | +6,602 min | +4,308 min |
+| बुध 6 | −10,595 min | +1,811 min |
+| बुध 7 | +11,600 min | −3,876 min |
+| शुक्र 1 | +20,666 min | −11,748 min |
+| गुरु 1 | +1,430 min | −2,750 min |
+| शनि 1 | +7,535 min | +13,917 min |
+
+**निष्कर्ष:** एक ही शहर-लेबल और समान Lahiri/longitude-combustion भाषा होने पर भी सभी ग्रहों/विंडो में अंतर एक जैसा नहीं है। अतः Gemini के fixed angles को Drik पर fit करके सीधे अपनाना उचित नहीं। पहले event semantics, exact observer coordinates/elevation, ephemeris, retrograde rule, angular metric (longitude बनाम 3D separation), तथा source day/time convention की पुष्टि चाहिए। TRAC और Ujjain comparator के कुछ values अत्यधिक समान हैं; इनके upstream engine की स्वतंत्रता सिद्ध नहीं, इसलिए इन्हें दो independent votes नहीं गिनेंगे।
+
+TRAC स्रोत: https://www.tracastrology.com/Panchang/combustion?year=2027
+Drik Mercury 2027 स्रोत: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?time-format=24plushour&year=2027
+
+यह comparison मात्र प्रकाशित timestamps का descriptive audit है। Drik coordinates अघोषित हैं, इसलिए अभी इसे exact same-observer scientific error score नहीं कहेंगे।
