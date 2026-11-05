@@ -2073,6 +2073,22 @@
         "comparisonStatus": "same-city-label-different-published-output",
         "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
       }
+    ],
+    "drik-jupiter-2027-new-delhi-vs-chennai": [
+      {
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "cityA": "New Delhi, NCT, India",
+        "cityB": "Chennai, Tamil Nadu, India",
+        "delhiStart": "2027-08-17T19:32:00+05:30",
+        "chennaiStart": "2027-08-19T19:00:00+05:30",
+        "delhiEnd": "2027-09-13T05:22:00+05:30",
+        "chennaiEnd": "2027-09-13T05:21:00+05:30",
+        "chennaiMinusDelhiStartMinutes": 2848,
+        "chennaiMinusDelhiEndMinutes": -1,
+        "status": "same-provider-city-label-comparison",
+        "note": "Both Drik pages; city coordinates/elevations undisclosed. Chennai page result is search-indexed and its observed URL has year=2028 despite 2027 title/body."
+      }
     ]
   }
 }
