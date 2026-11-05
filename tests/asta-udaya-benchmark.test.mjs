@@ -268,3 +268,22 @@ test("Ujjain 2027 longitude-combustion comparator remains separate from Drik and
   assert.ok(!events.some(event => event.planet === "Mars"), "no Mars window was published; do not infer one");
   assert.ok(!dataset.cases.some(entry => entry.sourceId === "divinenakshatra-ujjain-longitude-asta-2027"));
 });
+
+
+test("Drik Chennai Jupiter 2027 is preserved as a city-label cross-check with source URL year anomaly", () => {
+  const source = dataset.sources["drik-chennai-2027-jupiter"];
+  const windows = dataset.eventWindows["drik-chennai-jupiter-2027"];
+  const entry = dataset.cases.find(item => item.id === "jupiter-chennai-2027");
+  assert.ok(source);
+  assert.equal(source.location, "Chennai, Tamil Nadu, India");
+  assert.equal(source.pageYear, 2027);
+  assert.equal(source.queryParameterYear, 2028);
+  assert.match(source.captureWarning, /do not silently rewrite/);
+  assert.equal(windows.length, 1);
+  assert.equal(windows[0].start.normalizedLocal, "2027-08-19T19:00:00+05:30");
+  assert.equal(windows[0].end.normalizedLocal, "2027-09-13T05:21:00+05:30");
+  assert.ok(entry);
+  assert.equal(entry.acceptanceEligible, false);
+  assert.equal(entry.comparisonLevel, "city-label-only");
+  assert.equal(entry.sourceLocation, "Chennai, Tamil Nadu, India");
+});
