@@ -387,7 +387,7 @@ VedicTithi के 2027 Ujjain पृष्ठ से दो city-labelled window
 ## 5 नवम्बर 2026 — Drik Jupiter 2027 का New Delhi बनाम Chennai स्थान-अंतर
 
 Drik के search-indexed 2027 Guru Tara Asta परिणाम में Chennai के लिए 19 Aug 2027 19:00 से 13 Sep 2027 05:21 IST मिला। New Delhi के पहले से captured Drik window में 17 Aug 2027 19:32 से 13 Sep 2027 05:22 IST है। Chennai − New Delhi signed अंतर:
-- आरम्भ: +4,308 मिनट (+2 दिन 23 घंटे 48 मिनट)
+- आरम्भ: +2,848 मिनट (+1 दिन 23 घंटे 28 मिनट)
 - अन्त: −1 मिनट
 
 यह उपयोगी संकेत है कि Drik का Guru Asta start city label के अनुसार बदलता है, जबकि इस उदाहरण में end लगभग समान है। इससे किसी एक शहर का timestamp लेकर केवल sunrise offset जोड़ने वाला मॉडल अस्वीकार्य दिखता है। हालांकि दोनों पृष्ठों के exact observer coordinates/elevation अघोषित हैं और Chennai परिणाम search-indexed है; observed URL में `year=2028` जबकि page title/body 2027 कहता है। इसलिए इसे provisional named-city cross-check मानें, final coordinate-level proof नहीं।
