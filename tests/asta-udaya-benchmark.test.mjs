@@ -307,3 +307,29 @@ test("Drik-only city coverage excludes other source families and query-year anom
   assert.equal(ujjain.attemptedGeonameId, "1253914");
   assert.match(coverage.nextPriority, /Mumbai and Varanasi/);
 });
+
+
+test("TRAC New Delhi 2027 comparator retains signed Drik boundary deltas without treating either source as ground truth", () => {
+  const source = dataset.sources["trac-new-delhi-combustion-2027"];
+  const events = dataset.eventWindows["trac-new-delhi-combustion-2027"];
+  const comparisons = dataset.comparisons["trac-vs-drik-new-delhi-2027"];
+  assert.equal(source.location, "New Delhi, Delhi, India");
+  assert.equal(source.timezone, "Asia/Kolkata");
+  assert.deepEqual(source.thresholdRules.Mercury, {directDegrees:14,retrogradeDegrees:12});
+  assert.equal(events.length, 10);
+  assert.equal(comparisons.length, 10);
+  assert.ok(comparisons.every(row => row.comparisonStatus === "same-city-label-different-published-output"));
+  for (const row of comparisons) {
+    assert.equal(row.drikMinusTracStartMinutes,
+      Math.round((Date.parse(row.drikStart) - Date.parse(row.tracStart)) / 60000));
+    assert.equal(row.drikMinusTracEndMinutes,
+      Math.round((Date.parse(row.drikEnd) - Date.parse(row.tracEnd)) / 60000));
+  }
+  const venus = comparisons.find(row => row.planet === "Venus");
+  assert.equal(venus.drikMinusTracStartMinutes, 20666);
+  assert.equal(venus.drikMinusTracEndMinutes, -11748);
+  const jupiter = comparisons.find(row => row.planet === "Jupiter");
+  assert.equal(jupiter.drikMinusTracStartMinutes, 1430);
+  assert.equal(jupiter.drikMinusTracEndMinutes, -2750);
+  assert.ok(source.notes.includes("independence"));
+});
