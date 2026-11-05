@@ -103,3 +103,69 @@ Drik New Delhi Mercury 2026/2027 के सात-सात published windows �
 ### 5 नवम्बर — सभी ग्रहों के New Delhi source windows
 
 Structured source ledger में Mercury के अतिरिक्त Venus, Jupiter, Saturn और उपलब्ध Mars 2026 intervals शामिल हैं। Mars 2027 को स्पष्ट रूप से not-captured रखा है। सभी rows New Delhi city-label-only हैं; project Pithoragarh coordinates का उपयोग इनमें नहीं किया जाएगा। Benchmark tests अब multi-planet stream counts, chronological ordering, timezone और missing-data policy जाँचते हैं। Browser diagnostics workflow भी benchmark data/test paths पर trigger होता है।
+
+
+
+## 5 नवम्बर 2026 — बहु-शहर, बहु-वर्ष डेटा रणनीति और Gemini सुझावों का तकनीकी मूल्यांकन
+
+### निर्णय: शहरों का डेटा बढ़ाएँ, पर शहरों के बीच समय-offset से गणना न करें
+
+अब benchmark collection को केवल Pithoragarh तक सीमित नहीं रखना है। Drik के named-city pages से पहले बड़े/भौगोलिक रूप से अलग भारतीय शहरों के 2026–2028 (और जहाँ उपलब्ध हों वहाँ पिछले वर्षों) के सभी पाँच ग्रहों के पूरे Asta windows इकट्ठे किए जाएँ। प्राथमिक शहर-समूह:
+
+- उत्तर/मध्य: New Delhi, Jaipur, Agra, Varanasi, Lucknow, Ujjain
+- पश्चिम: Mumbai, Pune, Ahmedabad
+- पूर्व: Kolkata, Patna
+- दक्षिण: Bengaluru, Hyderabad, Chennai
+- परियोजना का लक्ष्य-स्थान: Pithoragarh
+
+यह सूची डेटा-संग्रह की प्राथमिकता है, यह दावा नहीं कि हर शहर का डेटा अभी उपलब्ध या सत्यापित है। प्रत्येक शहर/ग्रह/वर्ष को अलग key और अलग source URL मिलेगा। किसी शहर के समय को दूसरे शहर पर लागू, औसत या interpolate नहीं करना है। Latitude/longitude/elevation/timezone और horizon/atmosphere inputs उपलब्ध हों तभी location-exact label दिया जा सकता है; Drik के coordinates न मिलने पर source row city-label-only ही रहेगी।
+
+### डेटा संग्रह का क्रम
+
+1. Drik के city selector से शहर चुनकर Mercury, Venus, Mars, Jupiter और Saturn के वार्षिक Asta pages खोलें।
+2. हर page के सभी event windows दर्ज करें—केवल पहले/मुख्य window को नहीं। Start और end दोनों, raw displayed text, normalized local ISO timestamp, timezone, city label, year selector, retrieval date और exact URL रखें।
+3. कम-से-कम दो वर्षों का overlap capture करें ताकि annual-page boundary और multi-window continuity जाँची जा सके। 24+ hour notation को raw रूप में सुरक्षित रखें; normalized civil date अलग field हो।
+4. हर ग्रह के लिए source coverage matrix रखें: captured / not-captured / inaccessible / provisional. खाली डेटा को अनुमान से न भरें।
+5. Drik के अलावा Rashtriya Panchang/IMD, अन्य प्रतिष्ठित पंचांग और स्वतंत्र ephemeris को अलग source-family में रखें। उनकी event definition और precision समान सिद्ध हुए बिना उन्हें Drik values के साथ एक ही error metric में न मिलाएँ।
+
+### Gemini प्रस्ताव: क्या अपनाना है, क्या बदलना है
+
+**अपनाएँ:** बहु-शहर reference ledger, पृथक JavaScript engine, versioned JSON, pinned ephemeris, event-time bracketing/interpolation, regression tests और production से पहले offline precomputation।
+
+**ज्यों का त्यों न अपनाएँ:**
+
+- 8°/10°/11°/12°/14°/15°/17° को सार्वभौमिक modern visibility limits मानकर सीधे production में न लगाएँ। ये परंपरागत/अनुमानित angular criteria हो सकते हैं; Drik स्वयं modern geolocation-based algorithm बताता है। हर ग्रह की retrograde अवस्था और apparition के अनुसार अलग व्यवहार हो सकता है।
+- केवल निरयण longitude difference से वास्तविक दृश्यता नहीं निकलती। समान epoch पर compatible apparent coordinates चाहिए; topocentric RA/Dec, angular separation, altitude/azimuth, सूर्य की ऊँचाई, twilight, refraction, observer elevation और स्थानीय horizon को candidate diagnostics में अलग-अलग जाँचें।
+- Latitude/longitude का प्रभाव केवल sunrise offset या एक सरल “Lagna correction” नहीं है। स्थानीय क्षितिज पर ग्रह-सूर्य की स्थिति बदलती है; इसे वास्तविक observer geometry से निकालना होगा।
+- एक मिनट के step scan को अंतिम समाधान न मानें। पहले event interval bracket करें, फिर robust root-finding/refinement करें; ग्रहों के अनेक disjoint windows और year-crossing को संभालें।
+- 2–5 मिनट का target पहले से मानकर threshold tune न करें। पहले स्रोत की minute rounding, coordinate uncertainty और event-definition uncertainty लिखें; फिर holdout cities/years पर signed error और MAE/P95 प्रकाशित करें।
+
+### गणना और सत्यापन की प्रस्तावित संरचना
+
+- `tools/asta-udaya-data-collector/`: source capture/normalization, manual review manifest और provenance validation।
+- `tools/asta-udaya-calculator/`: pinned ephemeris से offline multi-city/multi-year event calculations; browser production bundle से अलग।
+- `src/asta-udaya/` (या repo के मौजूदा module conventions के अनुसार): isolated calculation interfaces और deterministic tests; acceptance से पहले production import नहीं।
+- `data/asta-udaya-benchmark.json`: प्रकाशित references; `data/asta-udaya-generated/`: model output, engine/version/config/checksum सहित। Reference और generated output कभी एक ही field में न रखें।
+- `reports/`: प्रति ग्रह/शहर/वर्ष boundary-wise signed error, missing events, event pairing, uncertainty और performance।
+
+### Validation design
+
+- Training/reference cities और holdout cities अलग रखें। उदाहरणतः New Delhi और Mumbai पर model चुनकर Varanasi, Chennai और Pithoragarh को holdout रखें; बाद में roles rotate करें।
+- हर शहर में पाँचों ग्रहों के कई वर्षों के start/end boundaries जाँचें। एक ही apparition के start/end दोनों सही होने चाहिए; केवल window midpoint या एक boundary पास होना पर्याप्त नहीं।
+- अलग-अलग event classes (morning/evening, eastern/western, direct/retrograde, inferior/superior conjunction के आसपास) की coverage अनिवार्य हो।
+- कम-से-कम एक independent source family से event topology/date cross-check करें; exact-time comparison तभी जब event semantics और observer location तुलनीय हों।
+- Acceptance tolerance model selection से पहले तय हो। शहर/वर्ष/ग्रह के हिसाब से errors प्रकाशित हों; aggregate score अकेले असफल cases नहीं छिपाए।
+- Performance test offline calculator और browser runtime दोनों के लिए हो। Precomputed JSON तभी बने जब calculation model acceptance gate पार करे।
+
+### उपलब्ध आधिकारिक cross-check का उपयोग
+
+IMD Positional Astronomy Centre के Rashtriya Panchang में 2026–27 के लिए ग्रहों की visibility periods तथा अलग Heliacal Rising/Setting तालिका उपलब्ध है। Heliacal table Central Station of India के लिए है; इसे Drik New Delhi या Pithoragarh exact-time benchmark न मानें। यह event sequence/topology और broad date cross-check के लिए उपयोगी स्वतंत्र dataset है। स्रोत:
+- https://packolkata.imd.gov.in/panchang/en/visibility
+- https://packolkata.imd.gov.in/panchang/en/helical
+- https://internal.imd.gov.in/press_release/20250322_pr_3824.pdf
+
+Drik के New Delhi pages अपने notes में local observer geolocation पर modern algorithm का उल्लेख करते हैं और Surya Siddhanta angles को approximate बताते हैं। इसलिए fixed-angle formula को Drik का algorithm मानना उचित नहीं। उदाहरण:
+- https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?lang=en
+- https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2027
+
+**अगला ठोस काम:** पहले New Delhi के मौजूदा 2026–2027 ledger को baseline बनाकर बाकी प्राथमिक शहरों के Drik city/year/planet pages capture करना; फिर same-city source coverage और event topology पूरी करना। इसके बाद ही किसी नए physical/geometry model की parameter study और holdout validation होगी। PR #278 research-only draft रहेगा; Main पर अभी कोई formula या UI बदलाव नहीं।
