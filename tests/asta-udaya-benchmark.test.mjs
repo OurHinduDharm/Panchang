@@ -355,3 +355,27 @@ test("VedicTithi Ujjain Tara Asta windows remain a third-party comparator with u
   assert.equal(events.find(event => event.planet === "Jupiter").end, "2027-09-13T05:31:00+05:30");
   assert.ok(!dataset.drikOnlyCoverage.captured.some(row => row.sourceId === "vedictithi-ujjain-guru-shukra-2027"));
 });
+
+
+test("Drik Chennai Guru 2027 city-labelled result is retained with URL-year caveat", () => {
+  const source = dataset.sources["drik-chennai-guru-2027"];
+  const event = dataset.eventWindows["drik-chennai-guru-2027"][0];
+  assert.equal(source.location, "Chennai, Tamil Nadu, India");
+  assert.equal(event.pageYear, 2027);
+  assert.equal(event.start.normalizedLocal, "2027-08-19T19:00:00+05:30");
+  assert.equal(event.end.normalizedLocal, "2027-09-13T05:21:00+05:30");
+  assert.ok(source.notes.includes("year=2028"));
+  assert.equal(event.status, "source-captured; search-indexed; city-label-only");
+});
+
+test("Drik Jupiter 2027 city comparison preserves local event-time differences", () => {
+  const row = dataset.comparisons["drik-jupiter-2027-new-delhi-vs-chennai"][0];
+  assert.equal(row.status, "same-provider-city-label-comparison");
+  assert.equal(row.chennaiMinusDelhiStartMinutes,
+    Math.round((Date.parse(row.chennaiStart) - Date.parse(row.delhiStart)) / 60000));
+  assert.equal(row.chennaiMinusDelhiEndMinutes,
+    Math.round((Date.parse(row.chennaiEnd) - Date.parse(row.delhiEnd)) / 60000));
+  assert.equal(row.chennaiMinusDelhiStartMinutes, 4308);
+  assert.equal(row.chennaiMinusDelhiEndMinutes, -1);
+  assert.ok(row.note.includes("coordinates/elevations undisclosed"));
+});
