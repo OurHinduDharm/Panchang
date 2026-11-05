@@ -419,3 +419,13 @@ New Delhi को reference रखकर अन्य Drik city-labelled results 
 - Rahuri (Maharashtra) और Visakhapatnam (Andhra Pradesh): Mars 2027 pages स्पष्ट रूप से `Total Asta Days In Year = 0 Days` बताते हैं। इन्हें `captured-no-events` के रूप में दर्ज किया है—यह inaccessible या uncaptured page से अलग है।
 
 यहाँ भी source URLs में कुछ `year` query values page title 2027 से अलग हैं; exact observed URL सुरक्षित है और direct canonical URL verification बाकी है। Zero-event result उसी शहर/ग्रह/वर्ष के लिए source का दावा है; इसे अन्य शहरों या अन्य गणना-पद्धति पर लागू न करें।
+
+
+### Drik Venus 2027 — New Delhi बनाम Khilchipur/Alleppey
+
+| शहर | आरम्भ Δ | अन्त Δ |
+|---|---:|---:|
+| Khilchipur | +1,454 min | −4,318 min |
+| Alleppey | +1,481 min | −10,084 min |
+
+यह भी दिखाता है कि केवल आरम्भ समय पर कोई एक offset लागू कर देने से अवधि/अन्त सही नहीं होंगे। अलग-अलग boundaries का स्थानानुसार बदलाव अलग है। इसे location-aware event engine की आवश्यकता का संकेत मानें; exact coordinates/elevation के अभाव में इसे भौतिक model का calibration नहीं मानेंगे। तुलना `comparisons.drik-venus-2027-multi-city-vs-new-delhi` में सुरक्षित है।
