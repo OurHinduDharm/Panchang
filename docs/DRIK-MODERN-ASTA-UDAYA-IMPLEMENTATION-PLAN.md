@@ -169,3 +169,10 @@ Drik के New Delhi pages अपने notes में local observer geolocat
 - https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2027
 
 **अगला ठोस काम:** पहले New Delhi के मौजूदा 2026–2027 ledger को baseline बनाकर बाकी प्राथमिक शहरों के Drik city/year/planet pages capture करना; फिर same-city source coverage और event topology पूरी करना। इसके बाद ही किसी नए physical/geometry model की parameter study और holdout validation होगी। PR #278 research-only draft रहेगा; Main पर अभी कोई formula या UI बदलाव नहीं।
+
+
+### 5 नवम्बर 2026 — fixed-angle प्रस्ताव का गणितीय diagnostic
+
+`tests/report-longitude-threshold-boundaries.mjs` में TRAC 2027 के 20 start/end boundaries पर Gemini के प्रकाशित threshold rules का एक अलग diagnostic जोड़ा गया है। यह `astronomy-engine@2.1.19` के `GeoVector + Ecliptic` से ग्रह का geocentric apparent ecliptic-of-date longitude और `SunPosition` से सूर्य का उसी frame का longitude लेता है; दोनों का shortest angular difference निकालता है। Direct/retrograde स्थिति ग्रह के geocentric longitude के centered 12-hour derivative से तय होती है। यह केवल threshold-boundary residual diagnostic है; यह अभी event-root calculation या production formula नहीं है।
+
+**Ayanamsa पर सुधार:** सूर्य और ग्रह दोनों के longitude पर एक ही समय का समान ayanamsa घटाने से उनका angular difference नहीं बदलता—सामान्य common ayanamsa offset अंतर में cancel हो जाता है। इसलिए relative longitude-gap threshold के लिए Lahiri चुनना अपने-आप accuracy नहीं बढ़ाता। जरूरी है कि दोनों positions एक ही apparent/geocentric/topocentric convention, epoch और ecliptic frame में हों। Absolute sidereal rashi/longitude दिखाने में ayanamsa फिर भी महत्वपूर्ण है।
