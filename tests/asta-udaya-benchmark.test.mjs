@@ -223,3 +223,24 @@ test("IMD Central Station heliacal event ledger preserves source family, raw tim
   assert.equal(venusLate.instant, "2026-10-14T00:18:00+05:30");
   assert.ok(events.every(event => event.notes.includes("not Drik Tara Asta start/end")));
 });
+
+
+test("city coverage tracker distinguishes captured, inaccessible, and not-started sources", () => {
+  const coverage = dataset.cityCoverage;
+  assert.ok(coverage);
+  assert.deepEqual(coverage.targetYears, [2026, 2027, 2028]);
+  assert.equal(coverage.priorityCities.length, 15);
+  const newDelhiMercury = coverage.capturedPages.filter(row =>
+    row.city === "New Delhi, NCT, India" && row.planet === "Mercury");
+  assert.deepEqual(newDelhiMercury.map(row => row.pageYear).sort(), [2026, 2027]);
+  assert.deepEqual(newDelhiMercury.map(row => row.windowCount), [7, 7]);
+  const missingMars = coverage.notCapturedPages.find(row =>
+    row.city === "New Delhi, NCT, India" && row.planet === "Mars" && row.pageYear === 2027);
+  assert.equal(missingMars.status, "not-captured");
+  const inaccessiblePith = coverage.notCapturedPages.filter(row =>
+    row.city === "Pithoragarh, Uttarakhand, India");
+  assert.equal(inaccessiblePith.length, 3);
+  assert.ok(inaccessiblePith.every(row => row.status === "inaccessible"));
+  assert.ok(coverage.notCapturedPages.every(row => row.reason));
+  assert.match(coverage.policy, /not zero-event years/);
+});
