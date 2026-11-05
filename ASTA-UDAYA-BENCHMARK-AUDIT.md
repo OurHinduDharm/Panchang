@@ -514,3 +514,17 @@ https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
 **अभी अनुपलब्ध (शून्य अस्त नहीं):** मंगल 2027, बुध 2025, गुरु 2027 और शनि 2027 के लिए कोई data उपलब्ध नहीं कराया गया। इनकी metadata स्थिति `not-provided-by-user; not-zero-event` है और इनके लिए कोई empty event array बनाकर zero-event निष्कर्ष नहीं निकाला गया।
 
 यह ledger अब Pithoragarh के लिए उपयोगी multi-planet holdout/reference set है। यह अपने-आप किसी formula को प्रमाणित नहीं करता; exact Drik page capture और स्वतंत्र astronomical model के विरुद्ध validation अभी बाकी है।
+
+
+### Pithoragarh annual-total reconciliation warning
+
+उपयोगकर्ता द्वारा दिए गए annual “कुल अस्त के दिन” को प्रत्येक event window के exact IST endpoints से Gregorian calendar year में overlap करके अलग से जाँचा। कुछ totals endpoint-overlap से मेल खाते हैं, लेकिन कुछ में स्पष्ट अंतर है:
+
+| ग्रह-वर्ष | स्रोत annual total | दिए गए endpoints का वर्ष-अंदर exact overlap |
+|---|---:|---:|
+| शुक्र 2026 | 51 दिन | 49.249 दिन |
+| बुध 2024 | 165 दिन | 159.972 दिन |
+| बुध 2026 | 179 दिन | 173.703 दिन |
+| बुध 2027 | 181 दिन | 175.963 दिन |
+
+अन्य दर्ज annual totals भी ledger में गणना सहित सुरक्षित हैं। यह अभी स्रोत की गलती सिद्ध नहीं करता—Drik का annual day-count convention, day-boundary या transcription में कोई अतिरिक्त/छूटी अवधि हो सकती है। इसलिए reported annual total को overwrite नहीं किया गया और किसी inclusive/exclusive formula को मनमाने ढंग से लागू नहीं किया गया। इन mismatches को संबंधित Pithoragarh Drik annual pages के direct recapture में प्राथमिकता से सुलझाना है।
