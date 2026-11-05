@@ -4416,21 +4416,21 @@
         "planet": "Mercury",
         "pageYear": 2026,
         "status": "inaccessible",
-        "reason": "The user has supplied this Pithoragarh event data in a transcription now stored separately. The corresponding named-city Drik page has not yet been independently recaptured; canonical URL retrieval returned an access error. Keep the event values provisional, not zero-event."
+        "reason": "The user has supplied this Pithoragarh event data in a transcription now stored separately. The corresponding named-city Drik page has not yet been independently recaptured; canonical URL retrieval returned an access error. Keep the event values provisional, not zero-event. Provider city identity: geoname-id=1259503."
       },
       {
         "city": "Pithoragarh, Uttarakhand, India",
         "planet": "Venus",
         "pageYear": 2026,
         "status": "inaccessible",
-        "reason": "The user has supplied this Pithoragarh event data in a transcription now stored separately. The corresponding named-city Drik page has not yet been independently recaptured; canonical URL retrieval returned an access error. Keep the event values provisional, not zero-event."
+        "reason": "The user has supplied this Pithoragarh event data in a transcription now stored separately. The corresponding named-city Drik page has not yet been independently recaptured; canonical URL retrieval returned an access error. Keep the event values provisional, not zero-event. Provider city identity: geoname-id=1259503."
       },
       {
         "city": "Pithoragarh, Uttarakhand, India",
         "planet": "Jupiter",
         "pageYear": 2027,
         "status": "inaccessible",
-        "reason": "The user has not supplied Pithoragarh Guru 2027 values. Drik city identity is resolved to geoname-id=1259503, but the canonical planet-Asta URL returned an access error; this is not a zero-event result."
+        "reason": "The user has not supplied Pithoragarh Guru 2027 values. Drik city identity is resolved to geoname-id=1259503, but the canonical planet-Asta URL returned an access error; this is not a zero-event result. Provider city identity: geoname-id=1259503."
       },
       {
         "city": "Ujjain, Madhya Pradesh, India",
