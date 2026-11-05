@@ -259,3 +259,17 @@ Drik के New Delhi Mercury pages के 24+ hour notation को अब क�
 - tests/asta-udaya-benchmark.test.mjs — नए tests: दोनों वर्षों में सात-सात windows, chronological order, non-overlap, timezone, 24+ conversion और annual-page shared-boundary identity।
 
 **सावधानी:** ये timestamps Drik की published events का normalized source ledger हैं; ये हमारे ephemeris model की गणना या Drik formula की खोज नहीं हैं। किसी candidate model का accuracy result इससे सिद्ध नहीं होता।
+
+
+## 5 नवम्बर 2026 — New Delhi multi-planet source ledger का विस्तार
+
+Mercury के 2026–2027 multi-window records के अतिरिक्त Drik के New Delhi pages से Venus, Jupiter, Saturn और Mars के उपलब्ध 2026–2027 event windows भी structured JSON में जोड़े गए:
+
+- Venus: 2026 में दो windows (एक 2025–26 year-crossing), 2027 में एक window।
+- Jupiter: 2026 और 2027 में एक-एक window; 24+ hour end times को अगले civil दिन में normalize किया गया।
+- Saturn: 2026 और 2027 में एक-एक window; 2027 का 28:36+ end अगले civil दिन 04:36 IST है।
+- Mars: 2026 page पर 1 Nov 2025–2 May 2026 का interval। 2027 Mars page इस capture pass में सत्यापित नहीं हुआ; JSON में empty stream और not-captured metadata है—कोई अनुमान नहीं।
+
+सभी New Delhi entries city-label-only हैं। Drik provider coordinates/elevation अज्ञात हैं। ये windows source ledger और event-stream architecture के लिए हैं, ephemeris accuracy acceptance नहीं।
+
+Regression coverage `tests/asta-udaya-benchmark.test.mjs` में बढ़ाई गई। Browser diagnostics workflow के path filters में benchmark JSON और test file जोड़े गए ताकि केवल data/test बदलाव होने पर भी validation workflow चल सके।
