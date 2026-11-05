@@ -360,3 +360,16 @@ TRAC स्रोत: https://www.tracastrology.com/Panchang/combustion?year=202
 Drik Mercury 2027 स्रोत: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?time-format=24plushour&year=2027
 
 यह comparison मात्र प्रकाशित timestamps का descriptive audit है। Drik coordinates अघोषित हैं, इसलिए अभी इसे exact same-observer scientific error score नहीं कहेंगे।
+
+
+## 5 नवम्बर 2026 — Ujjain का दूसरा स्वतंत्र Tara Asta स्रोत
+
+VedicTithi के 2027 Ujjain पृष्ठ से दो city-labelled windows दर्ज किए:
+- शुक्र: 22 जुलाई 2027 05:26 IST → 6 सितम्बर 2027 19:04 IST
+- गुरु: 18 अगस्त 2027 19:29 IST → 13 सितम्बर 2027 05:31 IST
+
+पृष्ठ Vedic sidereal (Lahiri) और Ujjain का उल्लेख करता है, पर सटीक ephemeris, event threshold, computational method, source lineage और observer coordinates प्रकाशित नहीं करता। इसलिए इसे `third-party-tara-asta-method-undisclosed` comparator के रूप में रखा है—न Drik, न Divine Nakshatra longitude threshold, न IMD heliacal data। इसे strict accuracy/threshold fitting में नहीं मिलाएँ।
+
+यह Ujjain में independent source disagreement देखने में मदद करता है: VedicTithi के शुक्र/गुरु windows को Ujjain के longitude-based output और New Delhi Drik city-label values के साथ केवल contextually compare किया जा सकता है; exact same-city Drik Ujjain data अभी उपलब्ध नहीं। Regression test source/method separation और timestamps जाँचता है।
+
+स्रोत: https://vedictithi.com/astrology-events/combustion/2027
