@@ -466,6 +466,15 @@ Drik Panchang के Mumbai 2027 Vivaha calendar से चार day-level stat
 यह downstream Vivaha-calendar classification है, minute-level Asta/Udaya timestamp नहीं। इसलिए इसे `downstreamCalendarCrossChecks` में रखा है; `eventWindows`, exact-time benchmark cases, MAE या model fitting में शामिल नहीं किया। Asta और Shishutva अलग states हैं—इन्हें एक boolean में collapse नहीं करना है। यह source transition/order की जाँच में उपयोगी है, लेकिन exact astronomical boundary का प्रमाण नहीं।
 
 
+## 5 नवम्बर 2026 — Pithoragarh 2025 Drik source URL reproducibility caveat
+
+Pithoragarh Venus 2025 के indexed search result में शीर्षक और local timestamps Pithoragarh के नाम से स्पष्ट हैं। लेकिन उसी result URL को सीधे खोलने पर page ने New Delhi का data render किया; event URL में `geoname-id` मौजूद नहीं है। इसलिए:
+
+- 20 Mar 2025 18:42 → 23 Mar 2025 05:40 और 11 Dec 2025 06:25 → 2 Feb 2026 18:15 को केवल **indexed city-label references** माना जाएगा।
+- ये चार boundaries city-label comparison के लिए उपयोगी हैं, पर reproducible canonical-page capture या coordinate-grade validation नहीं हैं।
+- इन्हें अभी हटाया नहीं गया है, क्योंकि provider search result स्वयं Pithoragarh नाम और timestamps देता है; लेकिन confidence/acceptance level को इससे ऊपर नहीं बढ़ाया जाएगा।
+- अगला सही कदम Drik UI में Pithoragarh चुनकर event page का ऐसा URL/session capture करना है जिसमें city selector स्थिर रहे। केवल `geoname-id=1259503` monthly Panchang selector को planet event page पर मान लेना पर्याप्त नहीं।
+
 ## 5 नवम्बर 2026 — Pithoragarh Drik city selector की पहचान
 
 Drik के indexed monthly Panchang से Pithoragarh का provider city ID `geoname-id=1259503` सत्यापित हुआ:
