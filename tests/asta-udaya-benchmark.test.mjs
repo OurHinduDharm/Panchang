@@ -244,3 +244,27 @@ test("city coverage tracker distinguishes captured, inaccessible, and not-starte
   assert.ok(coverage.notCapturedPages.every(row => row.reason));
   assert.match(coverage.policy, /not zero-event years/);
 });
+
+
+test("Ujjain 2027 longitude-combustion comparator remains separate from Drik and IMD heliacal events", () => {
+  const source = dataset.sources["divinenakshatra-ujjain-longitude-asta-2027"];
+  const events = dataset.eventWindows["divinenakshatra-ujjain-longitude-combustion-2027"];
+  const metadata = dataset.eventWindowsMetadata["divinenakshatra-ujjain-longitude-combustion-2027"];
+  assert.ok(source);
+  assert.equal(source.location, "Ujjain, Madhya Pradesh, India");
+  assert.equal(source.eventDefinition, "Asta by sidereal longitude threshold; distinct from the same page's Surya Siddhanta Ujjain heliacal twilight events and distinct from Drik Tara Asta.");
+  assert.deepEqual(source.thresholdRules.Mercury, {directDegrees:14,retrogradeDegrees:12});
+  assert.equal(events.length, 10);
+  assert.equal(metadata.eventDefinition, "sidereal-longitude-combustion");
+  for (const event of events) {
+    assert.equal(event.sourceId, "divinenakshatra-ujjain-longitude-asta-2027");
+    assert.equal(event.sourceLocation, "Ujjain, Madhya Pradesh, India");
+    assert.ok(event.start === null || Date.parse(event.start) < Date.parse("2028-01-01T00:00:00+05:30"));
+    assert.ok(event.end === null || Date.parse(event.end) < Date.parse("2028-01-01T00:00:00+05:30"));
+    if (event.start && event.end) assert.ok(Date.parse(event.start) < Date.parse(event.end));
+  }
+  assert.equal(events.find(event => event.id === "dn-mercury-2027-window-1").start, null);
+  assert.equal(events.find(event => event.id === "dn-mercury-2027-window-7").end, null);
+  assert.ok(!events.some(event => event.planet === "Mars"), "no Mars window was published; do not infer one");
+  assert.ok(!dataset.cases.some(entry => entry.sourceId === "divinenakshatra-ujjain-longitude-asta-2027"));
+});
