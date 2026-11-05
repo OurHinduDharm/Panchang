@@ -448,3 +448,19 @@ CI run #98 में `tests/report-longitude-threshold-boundaries.mjs` ने TR
 | शनि | 2 | 0.002089° | 0.002143° |
 
 यह बहुत मजबूत संकेत है कि TRAC के प्रकाशित समय उसके बताए गए longitude-threshold rules से संगत हैं। पर यह केवल TRAC source की internal consistency है; Drik algorithm की पुष्टि नहीं। TRAC और Divine Nakshatra के कुछ परिणाम पहले से लगभग समान हैं, इसलिए upstream independence अज्ञात है। अगला चरण उसी threshold model से boundary roots निकालकर TRAC के minute timestamps से time residual मापना है; फिर अलग Drik data पर बिना threshold refit किए holdout comparison करना होगा।
+
+
+## 5 नवम्बर 2026 — Mumbai Vivaha downstream state cross-check
+
+Drik Panchang के Mumbai 2027 Vivaha calendar से चार day-level states अलग ledger में सुरक्षित किए गए:
+
+| ग्रह | स्थिति | आरम्भ | अन्त |
+|---|---|---|---|
+| शुक्र | Tara Asta | 21 Jul 2027 | 5 Sep 2027 |
+| शुक्र | Shishutva | 6 Sep 2027 | 8 Sep 2027 |
+| गुरु | Tara Asta | 9 Sep 2027 | 12 Sep 2027 |
+| गुरु | Shishutva | 13 Sep 2027 | 15 Sep 2027 |
+
+स्रोत: https://www.drikpanchang.com/shubh-dates/shubh-marriage-dates-with-muhurat.html?geoname-id=1275339&year=2027
+
+यह downstream Vivaha-calendar classification है, minute-level Asta/Udaya timestamp नहीं। इसलिए इसे `downstreamCalendarCrossChecks` में रखा है; `eventWindows`, exact-time benchmark cases, MAE या model fitting में शामिल नहीं किया। Asta और Shishutva अलग states हैं—इन्हें एक boolean में collapse नहीं करना है। यह source transition/order की जाँच में उपयोगी है, लेकिन exact astronomical boundary का प्रमाण नहीं।
