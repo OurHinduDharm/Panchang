@@ -109,6 +109,42 @@
       },
       "eventDefinition": "Heliacal rising/setting; eastern/western horizon events. Not Drik Tara Asta/combustion boundaries.",
       "notes": "Keep as a separate event family. Useful for apparition topology and broad independent astronomical cross-check, not a same-event Drik exact-time acceptance benchmark."
+    },
+    "divinenakshatra-ujjain-longitude-asta-2027": {
+      "name": "Divine Nakshatra — 2027 Graha Asta/Udaya",
+      "url": "https://divinenakshatra.com/graha/2027/",
+      "sourceType": "published-longitude-combustion-events",
+      "location": "Ujjain, Madhya Pradesh, India",
+      "verifiedOn": "2026-11-05",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Ujjain city label; provider observer coordinates/elevation not disclosed"
+      },
+      "eventDefinition": "Asta by sidereal longitude threshold; distinct from the same page's Surya Siddhanta Ujjain heliacal twilight events and distinct from Drik Tara Asta.",
+      "thresholdRules": {
+        "Mercury": {
+          "directDegrees": 14,
+          "retrogradeDegrees": 12
+        },
+        "Venus": {
+          "directDegrees": 10,
+          "retrogradeDegrees": 8
+        },
+        "Mars": {
+          "directDegrees": 17,
+          "retrogradeDegrees": 8,
+          "sourceNote": "Source page says the 8° retrograde Mars rule is still to be checked against its cited text."
+        },
+        "Jupiter": {
+          "degrees": 11
+        },
+        "Saturn": {
+          "degrees": 16
+        }
+      },
+      "notes": "Retain as a separate published longitude-combustion comparator only. Do not treat its threshold model as Drik's algorithm or as physical heliacal visibility. The source explicitly distinguishes longitude-based combustion from its Surya Siddhanta Ujjain events."
     }
   },
   "cases": [
@@ -1048,6 +1084,148 @@
         "sourceEventDate": "2027-03-24",
         "rawSourceTime": "23:55"
       }
+    ],
+    "divinenakshatra-ujjain-longitude-combustion-2027": [
+      {
+        "id": "dn-mercury-2027-window-1",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": null,
+        "end": "2027-01-23T18:52:00+05:30",
+        "startStatus": "outside-page-year",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator-partial-window"
+      },
+      {
+        "id": "dn-mercury-2027-window-2",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-02-12T13:37:00+05:30",
+        "end": "2027-02-24T19:27:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "dn-mercury-2027-window-3",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-04-15T12:19:00+05:30",
+        "end": "2027-05-11T12:44:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "dn-mercury-2027-window-4",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-06-15T05:33:00+05:30",
+        "end": "2027-07-02T02:31:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "dn-mercury-2027-window-5",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-07-29T14:57:00+05:30",
+        "end": "2027-08-26T19:46:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "dn-mercury-2027-window-6",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-10-14T03:28:00+05:30",
+        "end": "2027-10-25T23:15:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "dn-mercury-2027-window-7",
+        "planet": "Mercury",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-11-17T04:46:00+05:30",
+        "end": null,
+        "startStatus": "published",
+        "endStatus": "outside-page-year",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator-partial-window"
+      },
+      {
+        "id": "dn-jupiter-2027-window-1",
+        "planet": "Jupiter",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-08-16T19:43:00+05:30",
+        "end": "2027-09-15T03:13:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "dn-venus-2027-window-1",
+        "planet": "Venus",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-07-06T20:39:00+05:30",
+        "end": "2027-09-17T22:48:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      },
+      {
+        "id": "dn-saturn-2027-window-1",
+        "planet": "Saturn",
+        "eventModel": "sidereal-longitude-combustion",
+        "start": "2027-03-20T10:08:00+05:30",
+        "end": "2027-04-26T16:49:00+05:30",
+        "startStatus": "published",
+        "endStatus": "published",
+        "pageYear": 2027,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-comparator"
+      }
     ]
   },
   "eventWindowsMetadata": {
@@ -1065,6 +1243,15 @@
       "timezone": "Asia/Kolkata",
       "normalization": "Raw source date/time retained per row. Source hour notation above 24:00 is normalized to the next civil date for instant; sourceEventDate and rawSourceTime preserve the original published values.",
       "note": "Separate from Drik combustion/Tara Asta windows; no direct boundary error score is permitted."
+    },
+    "divinenakshatra-ujjain-longitude-combustion-2027": {
+      "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+      "status": "captured",
+      "eventDefinition": "sidereal-longitude-combustion",
+      "rowCount": 10,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "Includes partial windows where one boundary lies outside the page year; missing boundary remains null. Mars has no published Asta window in the captured page and is not inferred."
     }
   },
   "cityCoverage": {
