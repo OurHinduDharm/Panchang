@@ -305,3 +305,12 @@ Pithoragarh का Drik city geoname id `1259503` अन्य Drik pages मे
 ## 5 नवम्बर 2026 — शहरवार स्रोत-कवरेज tracker
 
 `data/asta-udaya-benchmark.json` में `cityCoverage` जोड़ा गया है। इसमें 15 प्राथमिक शहर, लक्ष्य वर्ष 2026–2028, captured page/window counts, inaccessible URLs और not-captured pages अलग दर्ज हैं। New Delhi के उपलब्ध 2026–2027 streams तथा Pithoragarh Venus 2025 capture दर्ज हैं। New Delhi Mars 2027 को missing रखा है; Pithoragarh Mercury/Venus 2026 और Jupiter 2027 के direct-page access blockers स्पष्ट हैं। शेष शहरों के लिए status अभी not-started है—इसे शून्य घटनाएँ न समझें। Coverage tracker केवल source collection progress है, algorithm accuracy का प्रमाण नहीं।
+
+
+## 5 नवम्बर 2026 — Ujjain का स्वतंत्र longitude-combustion comparator
+
+Divine Nakshatra के 2027 Ujjain पृष्ठ से longitude-based Asta windows का अलग ledger जोड़ा गया है: बुध के 7 windows (पहला और अंतिम partial), शुक्र 1, गुरु 1, शनि 1। मंगल के लिए इस page पर longitude-Asta window सूचीबद्ध नहीं है; इसे universal no-Asta निष्कर्ष नहीं माना जाएगा। स्रोत अपने fixed sidereal longitude thresholds (बुध 14°/12°, शुक्र 10°/8°, मंगल 17°/8°—मंगल का retrograde 8° source के अनुसार अभी unchecked, गुरु 11°, शनि 16°) और Surya Siddhanta Ujjain twilight events को अलग बताता है।
+
+यह dataset **Ujjain city-label-only, longitude-combustion comparator** है। इसे Drik Tara Asta या IMD heliacal rising/setting के साथ एक ही error metric में न मिलाएँ। Partial windows में अनुपलब्ध boundary null है। यह Gemini के fixed-angle विचार को अलग source पर परखने के लिए उपयोगी है, पर इससे Drik algorithm सिद्ध नहीं होता।
+
+स्रोत: https://divinenakshatra.com/graha/2027/
