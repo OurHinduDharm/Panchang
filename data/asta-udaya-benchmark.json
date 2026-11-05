@@ -344,6 +344,21 @@
       },
       "eventDefinition": "Drik Tara Asta page; page describes modern location-aware combustion timings.",
       "notes": "Search-indexed page explicitly reports Total Asta Days In Year = 0 Days. Record as captured no-event result, not missing data."
+    },
+    "drik-mumbai-vivaha-2027-asta-states": {
+      "name": "Drik Panchang — 2027 Hindu Marriage Calendar",
+      "url": "https://www.drikpanchang.com/shubh-dates/shubh-marriage-dates-with-muhurat.html?geoname-id=1275339&year=2027",
+      "sourceType": "downstream-vivaha-calendar-state-cross-check",
+      "location": "Mumbai, Maharashtra, India",
+      "verifiedOn": "2026-11-05",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Mumbai city label; Drik observer coordinates/elevation not disclosed"
+      },
+      "eventDefinition": "Vivaha-calendar day-level Panchang Shuddhi exclusions; downstream consumer-state labels, not astronomical Asta/Udaya event timestamps.",
+      "notes": "The page distinguishes Shukra Tara Asta, Shishutva Shukra, Guru Tara Asta and Shishutva Brihaspati. These labels are useful to validate state transitions and downstream calendar treatment only. Do not convert date ranges into exact event instants or include them in minute-level model accuracy metrics."
     }
   },
   "cases": [
@@ -2594,6 +2609,50 @@
         "cityMinusNewDelhiEndMinutes": -10084,
         "status": "same-provider-city-label-comparison",
         "note": "Drik named-city page; exact observer coordinates/elevation undisclosed. Source URL year query differs from 2027 page title for some entries."
+      }
+    ]
+  },
+  "downstreamCalendarCrossChecks": {
+    "mumbai-vivaha-2027": [
+      {
+        "id": "mumbai-2027-shukra-tara-asta",
+        "planet": "Venus",
+        "state": "tara-asta",
+        "startDate": "2027-07-21",
+        "endDate": "2027-09-05",
+        "precision": "day-level",
+        "timestampAvailable": false,
+        "acceptanceEligible": false
+      },
+      {
+        "id": "mumbai-2027-shukra-shishutva",
+        "planet": "Venus",
+        "state": "shishutva",
+        "startDate": "2027-09-06",
+        "endDate": "2027-09-08",
+        "precision": "day-level",
+        "timestampAvailable": false,
+        "acceptanceEligible": false
+      },
+      {
+        "id": "mumbai-2027-guru-tara-asta",
+        "planet": "Jupiter",
+        "state": "tara-asta",
+        "startDate": "2027-09-09",
+        "endDate": "2027-09-12",
+        "precision": "day-level",
+        "timestampAvailable": false,
+        "acceptanceEligible": false
+      },
+      {
+        "id": "mumbai-2027-guru-shishutva",
+        "planet": "Jupiter",
+        "state": "shishutva",
+        "startDate": "2027-09-13",
+        "endDate": "2027-09-15",
+        "precision": "day-level",
+        "timestampAvailable": false,
+        "acceptanceEligible": false
       }
     ]
   }
