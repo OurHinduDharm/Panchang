@@ -438,3 +438,12 @@ test("Drik Venus 2027 city comparisons retain signed start and end differences",
     assert.equal(row.status,"same-provider-city-label-comparison");
   }
 });
+
+
+test("priority-city progress count excludes non-priority captures and does not imply full coverage", () => {
+  const coverage = dataset.cityCoverage;
+  assert.equal(coverage.priorityCitiesWithAnyCapture.length, 4);
+  assert.equal(coverage.pendingCityCount, 11);
+  assert.ok(coverage.priorityCitiesWithAnyCapture.every(city => coverage.priorityCities.includes(city)));
+  assert.match(coverage.pendingNote, /full 5-planet × 3-year source matrix remains incomplete/);
+});
