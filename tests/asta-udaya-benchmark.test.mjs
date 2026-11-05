@@ -447,3 +447,23 @@ test("priority-city progress count excludes non-priority captures and does not i
   assert.ok(coverage.priorityCitiesWithAnyCapture.every(city => coverage.priorityCities.includes(city)));
   assert.match(coverage.pendingNote, /full 5-planet × 3-year source matrix remains incomplete/);
 });
+
+
+test("Mumbai 2027 Vivaha calendar keeps Asta and Shishutva as separate day-level downstream states", () => {
+  const source = dataset.sources["drik-mumbai-vivaha-2027-asta-states"];
+  const rows = dataset.downstreamCalendarCrossChecks["mumbai-vivaha-2027"];
+  assert.ok(source);
+  assert.equal(source.location, "Mumbai, Maharashtra, India");
+  assert.equal(source.sourceType, "downstream-vivaha-calendar-state-cross-check");
+  assert.match(source.eventDefinition, /not astronomical Asta\/Udaya event timestamps/);
+  assert.equal(rows.length, 4);
+  assert.deepEqual(rows.map(row => [row.planet,row.state,row.startDate,row.endDate]), [
+    ["Venus","tara-asta","2027-07-21","2027-09-05"],
+    ["Venus","shishutva","2027-09-06","2027-09-08"],
+    ["Jupiter","tara-asta","2027-09-09","2027-09-12"],
+    ["Jupiter","shishutva","2027-09-13","2027-09-15"]
+  ]);
+  assert.ok(rows.every(row => row.precision === "day-level" && row.timestampAvailable === false && row.acceptanceEligible === false));
+  assert.ok(!dataset.eventWindows["mumbai-vivaha-2027"]);
+  assert.ok(!dataset.cases.some(row => row.sourceId === "drik-mumbai-vivaha-2027-asta-states"));
+});
