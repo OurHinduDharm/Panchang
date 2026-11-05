@@ -75,3 +75,19 @@ OurHinduDharm में बुध, शुक्र, मंगल, गुरु �
 CI browser diagnostics सफल रहे (8 scenarios × 10 boundaries), पर accuracy gate पास नहीं हुआ। Swiss heliacal के सबसे कम MAE वाले diagnostic scenarios (age 23, 300/500/1000 km range) पर चार indexed Pithoragarh Venus boundaries का MAE 2,160 मिनट है। 300 km को वास्तविक atmosphere या production parameter न मानें। बाकी scenario परिणाम और signed errors `ASTA-UDAYA-BENCHMARK-AUDIT.md` में दर्ज हैं।
 
 **निर्णय:** fixed 10° topocentric threshold और Swiss heliacal दोनों अभी production के लिए reject हैं। PR #278 research-only draft रहेगा; Main/production में कोई बदलाव या merge नहीं। अगले चरण में Drik boundary semantics और अतिरिक्त independently captured same-city references की जाँच होगी—parameter tuning या provisional user rows पर fit नहीं।
+
+
+## 5 नवम्बर 2026 — event topology के आधार पर कार्ययोजना संशोधन
+
+आज के Drik named-city captures से पहले की “पहले Venus/Jupiter, फिर बाकी ग्रह” वाली संकरी योजना को संशोधित किया गया है। New Delhi 2026 में Mercury के सात अलग windows और Mars का एक लम्बा window है; 2027 में Mercury के सात windows फिर दिखते हैं। Jupiter, Saturn और Venus के 2026–2027 pairs भी capture हुए हैं। इसका अर्थ है कि event stream architecture और apparition pairing को सभी ग्रहों पर एक साथ validate करना होगा—केवल Venus/Jupiter के दो उदाहरणों पर model lock नहीं किया जा सकता।
+
+### अब अगला क्रम
+
+1. **Reference ledger:** New Delhi 2026–2027 के प्राप्त Drik windows को अलग city-label dataset में सुरक्षित करें। Mercury की 24+ hour notation को raw form में रखें; normalization rule और source-day interpretation को अलग test करें। Missing Mars 2027 को null रखें।
+2. **Pithoragarh capture:** उसी ग्रह/वर्ष के named-city pages अलग से प्राप्त करें। New Delhi timestamps को Pithoragarh के project observer पर कभी calculate न करें।
+3. **Event topology:** हर planet के multiple disjoint windows, year-boundary crossing, chronological ordering, non-overlap और start/end pairing के tests बनाएं।
+4. **Geometry diagnostics:** प्रत्येक published boundary instant पर same pinned ephemeris से geocentric और topocentric apparent positions, angular separation, altitude/azimuth, solar elongation और direct/retrograde state record करें। Geometry report model proof नहीं होगी।
+5. **Model selection:** किसी भी production algorithm से पहले event definition का evidence चाहिए। Schaefer/Swiss physical visibility, classical horizon-crossing/K/C और fixed angular threshold को अलग-अलग रखें; इन्हें combine या average न करें।
+6. **Acceptance:** हर city के भीतर multi-year/multi-planet boundary errors और declared tolerance पास हों; provider coordinates अज्ञात हों तो city-label-only comparison के रूप में ही report करें।
+
+**अभी भी कोई production formula स्वीकृत नहीं है।** PR #278 research-only रहेगा। पहले event-stream correctness और source ledger, फिर model validation; इसके बाद ही optimized precomputation/data pipeline।
