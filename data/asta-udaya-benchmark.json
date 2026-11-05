@@ -284,6 +284,66 @@
       },
       "eventDefinition": "Drik Guru Tara Asta start/end; page states modern location-based algorithms and geo-location observer dependence.",
       "notes": "Search-indexed result identifies 2027 page content but observed URL carries a non-2027 year query value; preserve observed URL and do not assume query parameter canonicality. City coordinates/elevation undisclosed."
+    },
+    "drik-khilchipur-venus-2027": {
+      "name": "Drik Panchang — 2027 Venus Tara Asta, Khilchipur, Madhya Pradesh, India",
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=5790",
+      "sourceType": "named-city-drik-tara-asta-page",
+      "location": "Khilchipur, Madhya Pradesh, India",
+      "timezone": "Asia/Kolkata",
+      "verifiedOn": "2026-11-05",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "City label only; observer coordinates/elevation not disclosed"
+      },
+      "eventDefinition": "Drik Tara Asta page; page describes modern location-aware combustion timings.",
+      "notes": "Search-indexed page; URL year query differs from page's 2027 title/body. Preserve observed URL and source time notation."
+    },
+    "drik-alleppey-venus-2027": {
+      "name": "Drik Panchang — 2027 Venus Tara Asta, Alleppey, Kerala, India",
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2035",
+      "sourceType": "named-city-drik-tara-asta-page",
+      "location": "Alleppey, Kerala, India",
+      "timezone": "Asia/Kolkata",
+      "verifiedOn": "2026-11-05",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "City label only; observer coordinates/elevation not disclosed"
+      },
+      "eventDefinition": "Drik Tara Asta page; page describes modern location-aware combustion timings.",
+      "notes": "Search-indexed page; URL year query differs from page's 2027 title/body. Preserve observed URL and source time notation."
+    },
+    "drik-rahuri-mars-2027": {
+      "name": "Drik Panchang — 2027 Mars Tara Asta, Rahuri, Maharashtra, India",
+      "url": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?time-format=24plushour&year=2027",
+      "sourceType": "named-city-drik-tara-asta-page",
+      "location": "Rahuri, Maharashtra, India",
+      "timezone": "Asia/Kolkata",
+      "verifiedOn": "2026-11-05",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "City label only; observer coordinates/elevation not disclosed"
+      },
+      "eventDefinition": "Drik Tara Asta page; page describes modern location-aware combustion timings.",
+      "notes": "Search-indexed page explicitly reports Total Asta Days In Year = 0 Days. Record as captured no-event result, not missing data."
+    },
+    "drik-visakhapatnam-mars-2027": {
+      "name": "Drik Panchang — 2027 Mars Tara Asta, Visakhapatnam, Andhra Pradesh, India",
+      "url": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?year=2083",
+      "sourceType": "named-city-drik-tara-asta-page",
+      "location": "Visakhapatnam, Andhra Pradesh, India",
+      "timezone": "Asia/Kolkata",
+      "verifiedOn": "2026-11-05",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "City label only; observer coordinates/elevation not disclosed"
+      },
+      "eventDefinition": "Drik Tara Asta page; page describes modern location-aware combustion timings.",
+      "notes": "Search-indexed page explicitly reports Total Asta Days In Year = 0 Days. Record as captured no-event result, not missing data."
     }
   },
   "cases": [
@@ -1690,7 +1750,53 @@
         "precision": "minute",
         "status": "source-captured; search-indexed; city-label-only"
       }
-    ]
+    ],
+    "drik-khilchipur-venus-2027": [
+      {
+        "id": "drik-khilchipur-venus-2027-window-1",
+        "planet": "Venus",
+        "sequence": 1,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-07-22",
+          "rawLocalTime": "05:22",
+          "normalizedLocal": "2027-07-22T05:22:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-09-06",
+          "rawLocalTime": "19:02",
+          "normalizedLocal": "2027-09-06T19:02:00+05:30"
+        },
+        "sourceId": "drik-khilchipur-venus-2027",
+        "sourceLocation": "Khilchipur, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "source-captured; search-indexed; city-label-only"
+      }
+    ],
+    "drik-alleppey-venus-2027": [
+      {
+        "id": "drik-alleppey-venus-2027-window-1",
+        "planet": "Venus",
+        "sequence": 1,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-07-22",
+          "rawLocalTime": "21 Jul 2027 29:49+",
+          "normalizedLocal": "2027-07-22T05:49:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-09-02",
+          "rawLocalTime": "18:56",
+          "normalizedLocal": "2027-09-02T18:56:00+05:30"
+        },
+        "sourceId": "drik-alleppey-venus-2027",
+        "sourceLocation": "Alleppey, Kerala, India",
+        "precision": "minute",
+        "status": "source-captured; search-indexed; city-label-only"
+      }
+    ],
+    "drik-rahuri-mars-2027": [],
+    "drik-visakhapatnam-mars-2027": []
   },
   "eventWindowsMetadata": {
     "drik-new-delhi-mars-2027": {
@@ -1779,6 +1885,42 @@
       "pageYear": 2027,
       "timezone": "Asia/Kolkata",
       "note": "Search-indexed Drik page content; URL query year mismatch retained in source record."
+    },
+    "drik-khilchipur-venus-2027": {
+      "sourceId": "drik-khilchipur-venus-2027",
+      "status": "captured-search-indexed",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "Search-indexed 2027 page; URL year query mismatch preserved."
+    },
+    "drik-alleppey-venus-2027": {
+      "sourceId": "drik-alleppey-venus-2027",
+      "status": "captured-search-indexed",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "Search-indexed 2027 page; URL year query mismatch preserved."
+    },
+    "drik-rahuri-mars-2027": {
+      "sourceId": "drik-rahuri-mars-2027",
+      "status": "captured-no-events",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 0,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "Source explicitly reports zero Asta days for the planet/year/location."
+    },
+    "drik-visakhapatnam-mars-2027": {
+      "sourceId": "drik-visakhapatnam-mars-2027",
+      "status": "captured-no-events",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 0,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "Source explicitly reports zero Asta days for the planet/year/location."
     }
   },
   "cityCoverage": {
@@ -2013,6 +2155,42 @@
         "status": "captured-search-indexed",
         "windowCount": 1,
         "sourceId": "drik-taleigao-guru-2027",
+        "eventModel": "drik-tara-asta"
+      },
+      {
+        "city": "Khilchipur, Madhya Pradesh, India",
+        "planet": "Venus",
+        "pageYear": 2027,
+        "status": "captured-search-indexed",
+        "windowCount": 1,
+        "sourceId": "drik-khilchipur-venus-2027",
+        "eventModel": "drik-tara-asta"
+      },
+      {
+        "city": "Alleppey, Kerala, India",
+        "planet": "Venus",
+        "pageYear": 2027,
+        "status": "captured-search-indexed",
+        "windowCount": 1,
+        "sourceId": "drik-alleppey-venus-2027",
+        "eventModel": "drik-tara-asta"
+      },
+      {
+        "city": "Rahuri, Maharashtra, India",
+        "planet": "Mars",
+        "pageYear": 2027,
+        "status": "captured-no-events",
+        "windowCount": 0,
+        "sourceId": "drik-rahuri-mars-2027",
+        "eventModel": "drik-tara-asta"
+      },
+      {
+        "city": "Visakhapatnam, Andhra Pradesh, India",
+        "planet": "Mars",
+        "pageYear": 2027,
+        "status": "captured-no-events",
+        "windowCount": 0,
+        "sourceId": "drik-visakhapatnam-mars-2027",
         "eventModel": "drik-tara-asta"
       }
     ],
