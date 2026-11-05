@@ -220,3 +220,24 @@ TathaAstu API की documentation एक अलग, स्पष्टतः **
 5. New Delhi और Pithoragarh को अलग benchmark groups रखें। New Delhi के source times को Pithoragarh observer पर कभी न चलाएँ।
 
 **स्थिति:** कोई नया production formula स्वीकृत नहीं। Fixed-angle और Swiss heliacal candidates पहले ही accuracy gate में असफल हैं; Schaefer physical-visibility model Drik event definition के प्रमाण के बिना अगला candidate नहीं है। Production output provisional ही रहेगा।
+
+
+### 2027 New Delhi capture — multi-window pattern की पुष्टि
+
+5 नवम्बर की अतिरिक्त primary-page capture से:
+
+- **Budha/Mercury:** सात windows; इनमें 13 Dec 2026 30:20+ से 19 Jan 2027 18:39 वाला year-crossing pair, फिर 12–26 Feb, 8 Apr–8 May, 12 Jun–7 Jul, 2–29 Aug, 6–26 Oct और 24 Nov 2027–2 Jan 2028 शामिल हैं। स्रोत 24+ hour notation में है; raw notation को सुरक्षित रखा गया है, normalization अलग स्पष्ट रूप से करना होगा।
+- **Guru/Jupiter:** 17 Aug 2027 19:32 से 13 Sep 2027 05:22।
+- **Shani/Saturn:** 26 Mar 2027 19:21 से 5 May 2027 04:36।
+- **Shukra/Venus:** 21 Jul 2027 05:08 से 9 Sep 2027 19:00।
+- **Mangal/Mars:** 2027 का named-city capture अभी इस pass में प्राप्त नहीं हुआ; इसे missing ही रखें।
+
+स्रोत:
+- Mercury: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?time-format=24plushour&year=2027
+- Jupiter: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2027
+- Saturn: https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2027
+- Venus: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2027
+
+ये सभी New Delhi city-label references हैं; इन्हें Pithoragarh observer या Pithoragarh acceptance group में न डालें। Provider की exact coordinates/elevation अब भी disclosed नहीं हैं। 24+ hour times को बिना source-day convention समझे UTC/IST instant में convert न करें; source raw string और normalized instant दोनों साथ रखें और conversion rule audit करें।
+
+**Research consequence:** multi-window support अब केवल edge case नहीं, Drik के Mercury data में recurring structure है। Event pairing को apparent solar conjunction / apparition sequence के आसपास independently investigate करना होगा; retrograde status अकेले pair boundary का पर्याप्त selector सिद्ध नहीं हुआ है।
