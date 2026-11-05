@@ -429,3 +429,8 @@ New Delhi को reference रखकर अन्य Drik city-labelled results 
 | Alleppey | +1,481 min | −10,084 min |
 
 यह भी दिखाता है कि केवल आरम्भ समय पर कोई एक offset लागू कर देने से अवधि/अन्त सही नहीं होंगे। अलग-अलग boundaries का स्थानानुसार बदलाव अलग है। इसे location-aware event engine की आवश्यकता का संकेत मानें; exact coordinates/elevation के अभाव में इसे भौतिक model का calibration नहीं मानेंगे। तुलना `comparisons.drik-venus-2027-multi-city-vs-new-delhi` में सुरक्षित है।
+
+
+### Priority-city coverage accounting corrected
+
+15 priority cities में से अभी 4 के लिए कम-से-कम एक named-city/source-family capture है: New Delhi, Chennai, Ujjain और Pithoragarh। शेष 11 शहरों का कोई capture अभी नहीं है। यह केवल city-level first-capture count है; चारों captured शहर भी 5 ग्रह × 3 वर्ष की पूरी matrix में covered नहीं हैं। Naksalbari, Rajgarh, Athagarh, Taleigao, Khilchipur, Alleppey, Rahuri और Visakhapatnam जैसे अतिरिक्त source cities को अलग sample के रूप में रखा गया है; वे priority-city count घटाते नहीं।
