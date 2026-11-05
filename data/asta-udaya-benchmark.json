@@ -1842,5 +1842,129 @@
       }
     ],
     "nextPriority": "Capture all five Drik Asta pages for Ujjain and Chennai with verified year selectors, then Mumbai and Varanasi 2027. Use browser city selector when direct URLs are inaccessible. Never count an inaccessible page as a zero-event year."
+  },
+  "comparisons": {
+    "trac-vs-drik-new-delhi-2027": [
+      {
+        "planet": "Mercury",
+        "window": 1,
+        "tracStart": "2026-12-07T00:54:00+05:30",
+        "tracEnd": "2027-01-23T18:51:00+05:30",
+        "drikStart": "2026-12-14T06:20:00+05:30",
+        "drikEnd": "2027-01-19T18:39:00+05:30",
+        "drikMinusTracStartMinutes": 10406,
+        "drikMinusTracEndMinutes": -5772,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Mercury",
+        "window": 2,
+        "tracStart": "2027-02-12T13:35:00+05:30",
+        "tracEnd": "2027-02-24T19:25:00+05:30",
+        "drikStart": "2027-02-12T19:03:00+05:30",
+        "drikEnd": "2027-02-27T05:52:00+05:30",
+        "drikMinusTracStartMinutes": 328,
+        "drikMinusTracEndMinutes": 3507,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Mercury",
+        "window": 3,
+        "tracStart": "2027-04-15T12:17:00+05:30",
+        "tracEnd": "2027-05-11T12:42:00+05:30",
+        "drikStart": "2027-04-09T05:19:00+05:30",
+        "drikEnd": "2027-05-08T19:54:00+05:30",
+        "drikMinusTracStartMinutes": -9058,
+        "drikMinusTracEndMinutes": -3888,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Mercury",
+        "window": 4,
+        "tracStart": "2027-06-15T05:30:00+05:30",
+        "tracEnd": "2027-07-02T02:29:00+05:30",
+        "drikStart": "2027-06-12T20:19:00+05:30",
+        "drikEnd": "2027-07-08T04:23:00+05:30",
+        "drikMinusTracStartMinutes": -3431,
+        "drikMinusTracEndMinutes": 8754,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Mercury",
+        "window": 5,
+        "tracStart": "2027-07-29T14:57:00+05:30",
+        "tracEnd": "2027-08-26T19:46:00+05:30",
+        "drikStart": "2027-08-03T04:59:00+05:30",
+        "drikEnd": "2027-08-29T19:34:00+05:30",
+        "drikMinusTracStartMinutes": 6602,
+        "drikMinusTracEndMinutes": 4308,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Mercury",
+        "window": 6,
+        "tracStart": "2027-10-14T03:27:00+05:30",
+        "tracEnd": "2027-10-25T23:15:00+05:30",
+        "drikStart": "2027-10-06T18:52:00+05:30",
+        "drikEnd": "2027-10-27T05:26:00+05:30",
+        "drikMinusTracStartMinutes": -10595,
+        "drikMinusTracEndMinutes": 1811,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Mercury",
+        "window": 7,
+        "tracStart": "2027-11-17T04:47:00+05:30",
+        "tracEnd": "2028-01-05T11:04:00+05:30",
+        "drikStart": "2027-11-25T06:07:00+05:30",
+        "drikEnd": "2028-01-02T18:28:00+05:30",
+        "drikMinusTracStartMinutes": 11600,
+        "drikMinusTracEndMinutes": -3876,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Venus",
+        "window": 1,
+        "tracStart": "2027-07-06T20:42:00+05:30",
+        "tracEnd": "2027-09-17T22:48:00+05:30",
+        "drikStart": "2027-07-21T05:08:00+05:30",
+        "drikEnd": "2027-09-09T19:00:00+05:30",
+        "drikMinusTracStartMinutes": 20666,
+        "drikMinusTracEndMinutes": -11748,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Jupiter",
+        "window": 1,
+        "tracStart": "2027-08-16T19:42:00+05:30",
+        "tracEnd": "2027-09-15T03:12:00+05:30",
+        "drikStart": "2027-08-17T19:32:00+05:30",
+        "drikEnd": "2027-09-13T05:22:00+05:30",
+        "drikMinusTracStartMinutes": 1430,
+        "drikMinusTracEndMinutes": -2750,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      },
+      {
+        "planet": "Saturn",
+        "window": 1,
+        "tracStart": "2027-03-21T13:46:00+05:30",
+        "tracEnd": "2027-04-25T12:39:00+05:30",
+        "drikStart": "2027-03-26T19:21:00+05:30",
+        "drikEnd": "2027-05-05T04:36:00+05:30",
+        "drikMinusTracStartMinutes": 7535,
+        "drikMinusTracEndMinutes": 13917,
+        "comparisonStatus": "same-city-label-different-published-output",
+        "note": "Drik page observer coordinates/elevation undisclosed; TRAC gives New Delhi city-label. Signed deltas are descriptive only, not proof of error until observer/time/event semantics are matched."
+      }
+    ]
   }
 }
