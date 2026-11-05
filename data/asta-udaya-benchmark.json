@@ -1358,6 +1358,42 @@
         "status": "captured",
         "windowCount": 2,
         "sourceId": "drik-pithoragarh-2025-venus"
+      },
+      {
+        "city": "Ujjain, Madhya Pradesh, India",
+        "planet": "Mercury",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 7,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "eventModel": "sidereal-longitude-combustion"
+      },
+      {
+        "city": "Ujjain, Madhya Pradesh, India",
+        "planet": "Venus",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "eventModel": "sidereal-longitude-combustion"
+      },
+      {
+        "city": "Ujjain, Madhya Pradesh, India",
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "eventModel": "sidereal-longitude-combustion"
+      },
+      {
+        "city": "Ujjain, Madhya Pradesh, India",
+        "planet": "Saturn",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "divinenakshatra-ujjain-longitude-asta-2027",
+        "eventModel": "sidereal-longitude-combustion"
       }
     ],
     "notCapturedPages": [
@@ -1388,9 +1424,16 @@
         "pageYear": 2027,
         "status": "inaccessible",
         "reason": "Direct named-city URL returned internal access error; no New Delhi substitution."
+      },
+      {
+        "city": "Ujjain, Madhya Pradesh, India",
+        "planet": "Mars",
+        "pageYear": 2027,
+        "status": "not-reported",
+        "reason": "Captured source page did not list a Mars longitude-combustion window; do not infer absence for all methods or other years."
       }
     ],
-    "pendingCityCount": 14,
-    "pendingNote": "Other priority-city/planet/year combinations are not-started and must be captured from their own named-city pages before comparison."
+    "pendingCityCount": 13,
+    "pendingNote": "Other priority-city/planet/year combinations are not-started; Ujjain 2027 data is a separate longitude-combustion source family, not Drik Tara Asta."
   }
 }
