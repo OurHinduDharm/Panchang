@@ -164,3 +164,31 @@ test("Drik 24+ hour timestamps normalize to the next civil date without losing r
     "overlapping annual pages must preserve the same shared event boundary");
   assert.equal(y2026[6].end.normalizedLocal, y2027[0].end.normalizedLocal);
 });
+
+
+test("New Delhi 2026–2027 Drik ledger covers captured Tara planets without inventing missing Mars data", () => {
+  const expected = [
+    ["Venus", "drik-new-delhi-venus-2026", 2],
+    ["Venus", "drik-new-delhi-venus-2027", 1],
+    ["Jupiter", "drik-new-delhi-jupiter-2026", 1],
+    ["Jupiter", "drik-new-delhi-jupiter-2027", 1],
+    ["Saturn", "drik-new-delhi-saturn-2026", 1],
+    ["Saturn", "drik-new-delhi-saturn-2027", 1],
+    ["Mars", "drik-new-delhi-mars-2026", 1]
+  ];
+  for (const [planet, key, count] of expected) {
+    const windows = dataset.eventWindows[key];
+    assert.ok(Array.isArray(windows), `missing event stream ${key}`);
+    assert.equal(windows.length, count);
+    for (const entry of windows) {
+      assert.equal(entry.planet, planet);
+      assert.equal(entry.status, "source-captured; city-label-only");
+      assert.equal(entry.sourceId, "drik-new-delhi-other-planets-2026-2027");
+      assert.match(entry.start.normalizedLocal, /\+05:30$/);
+      assert.match(entry.end.normalizedLocal, /\+05:30$/);
+      assert.ok(Date.parse(entry.start.normalizedLocal) < Date.parse(entry.end.normalizedLocal));
+    }
+  }
+  assert.deepEqual(dataset.eventWindows["drik-new-delhi-mars-2027"], []);
+  assert.equal(dataset.eventWindowsMetadata["drik-new-delhi-mars-2027"].status, "not-captured");
+});
