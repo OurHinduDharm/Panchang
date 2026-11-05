@@ -496,3 +496,21 @@ https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
 यह पहले की तुलना में उपयोगी सुधार है: अब ग्रह-अस्त पृष्ठों को सही Drik city selector ID के साथ पुनः खोलने का स्पष्ट आधार है। लेकिन इस retrieval में उसी ID के साथ Guru/Shukra planet-Asta URLs ने access error दिया। इसलिए अभी Pithoragarh 2026/2027 के exact Asta windows को उपलब्ध नहीं मानेंगे; coverage status `inaccessible` ही रहेगा, `captured-no-events` नहीं। City ID से Drik के अंदरूनी observer coordinates/elevation भी सिद्ध नहीं होते।
 
 अगला retrieval प्रयास इसी ID को Drik के city selector में चुनकर canonical planet pages से raw local timestamps सुरक्षित करना है। किसी दूसरे शहर के समय को Pithoragarh पर लागू नहीं करेंगे।
+
+
+## 5 नवम्बर 2026 — उपयोगकर्ता द्वारा उपलब्ध कराया गया Pithoragarh Drik Asta ledger (2024–2027)
+
+उपयोगकर्ता ने Pithoragarh के Drik Panchang Tara Asta पृष्ठों से शुक्र, मंगल, बुध, गुरु और शनि के 2024–2027 के उपलब्ध start/end timestamps साझा किए। सभी 35 supplied interval occurrences को `data/asta-udaya-benchmark.json` में `drik-pithoragarh-user-transcribed-asta-2024-2027` source के अंतर्गत दर्ज किया गया है। प्रत्येक record में source page-year, raw local date/time, normalized IST instant, user-reported whole-day duration और endpoint से स्वतंत्र रूप से निकले exact elapsed minutes/days अलग रखे हैं।
+
+**स्रोत-स्तर स्पष्ट रखा गया है:**
+- शुक्र 2025 के दोनों intervals Drik के indexed Pithoragarh page से स्वतंत्र रूप से मेल खाते हैं: 20 Mar 2025 18:42 → 23 Mar 2025 05:40 और 11 Dec 2025 06:25 → 2 Feb 2026 18:15। Direct URL reproducibility की पुरानी समस्या अभी भी बनी है।
+- बाकी 2024–2027 ग्रह/वर्ष entries उपयोगकर्ता द्वारा transcribed हैं; संबंधित named-city Drik page का स्वतंत्र पुनः-capture अभी नहीं हुआ। इन्हें `user-provided-transcription` और `acceptanceEligible:false` रखा है।
+- Drik के observer coordinates/elevation अज्ञात हैं। Project observer coordinates को Drik के coordinates नहीं माना गया।
+
+**Duration audit:** दिए गए हर interval का elapsed duration endpoints से मिनटों में निकाला गया। इस sample में Drik का reported whole-day duration हर interval के लिए `ceil(elapsed minutes / 1440)` से मेल खाता है। उदाहरण: शुक्र 2024 = 66.608 दिन → 67; शुक्र मार्च 2025 = 2.457 → 3; मंगल 2025–26 = 184.410 → 185। इसलिए reported duration को exact elapsed days न मानें; दोनों values अलग सुरक्षित हैं।
+
+**Annual totals:** उपयोगकर्ता द्वारा दिए गए “साल में कुल अस्त के दिन” को page-reported summary के रूप में अलग रखा है, full-window durations के योग के रूप में नहीं। Cross-year interval दोनों annual pages पर दोहराया गया है तो वही astronomical interval है, दो अलग घटनाएँ नहीं। उदाहरण: शुक्र Dec 2025–Feb 2026, मंगल Oct 2025–May 2026 और बुध Dec 2026–Jan 2027।
+
+**अभी अनुपलब्ध (शून्य अस्त नहीं):** मंगल 2027, बुध 2025, गुरु 2027 और शनि 2027 के लिए कोई data उपलब्ध नहीं कराया गया। इनकी metadata स्थिति `not-provided-by-user; not-zero-event` है और इनके लिए कोई empty event array बनाकर zero-event निष्कर्ष नहीं निकाला गया।
+
+यह ledger अब Pithoragarh के लिए उपयोगी multi-planet holdout/reference set है। यह अपने-आप किसी formula को प्रमाणित नहीं करता; exact Drik page capture और स्वतंत्र astronomical model के विरुद्ध validation अभी बाकी है।
