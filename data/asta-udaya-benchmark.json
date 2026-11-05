@@ -25,7 +25,8 @@
         "requestedSearchResultCity": "Pithoragarh, Uttarakhand, India",
         "geonameIdInEventUrl": false
       },
-      "notes": "Treat the two Pithoragarh 2025 Venus intervals as provider-indexed city-label references only. The search result explicitly names Pithoragarh, but reopening its URL directly rendered New Delhi; the event URL has no geoname-id. Do not upgrade to coordinate-grade or reproducible-page acceptance until the Pithoragarh selector is preserved in a canonical event URL or captured browser session. Drik observer coordinates/elevation remain undisclosed."
+      "notes": "Treat the two Pithoragarh 2025 Venus intervals as provider-indexed city-label references only. The search result explicitly names Pithoragarh, but reopening its URL directly rendered New Delhi; the event URL has no geoname-id. Do not upgrade to coordinate-grade or reproducible-page acceptance until the Pithoragarh selector is preserved in a canonical event URL or captured browser session. Drik observer coordinates/elevation remain undisclosed. Additional user-supplied 2024–2027 Pithoragarh transcriptions are now kept separately under source drik-pithoragarh-user-transcribed-asta-2024-2027; the 2025 indexed page independently matches the two 2025 Venus intervals. This does not repair the direct-URL city-selector reproducibility issue.",
+      "provenanceNote": "2025 indexed result corroborates the exact 2025 Venus intervals; direct URL still rendered New Delhi during prior direct reopen."
     },
     "drik-new-delhi-2027-jupiter": {
       "name": "Drik Panchang",
@@ -389,6 +390,35 @@
       "coordinateMeaning": "place reference point published by this site; not Drik observer coordinates",
       "verifiedOn": "2026-11-05",
       "notes": "The page explicitly labels these as its Pithoragarh calculation point and identifies GeoNames 1259503. It is useful for checking locality identity and approximate point separation only. It does not disclose Drik's observer coordinates, does not validate the project's selected 29.5828,80.2182,1650m observer, and supplies no planetary Asta/Udaya timestamps."
+    },
+    "drik-pithoragarh-user-transcribed-asta-2024-2027": {
+      "name": "Drik Panchang — Pithoragarh Tara Asta (user-transcribed source data)",
+      "url": "https://www.drikpanchang.com/planet/asta/",
+      "sourceType": "user-transcribed-published-location-specific-event-times",
+      "location": "Pithoragarh, Uttarakhand, India",
+      "geonameId": "1259503",
+      "timezone": "Asia/Kolkata",
+      "capturedOn": "2026-11-05",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Drik observer coordinates/elevation not disclosed; city-label-only"
+      },
+      "eventDefinition": "Drik Tara Asta start/end as presented in the supplied Pithoragarh year-wise text; not a claim about Drik's internal algorithm.",
+      "provenance": {
+        "suppliedBy": "user",
+        "suppliedFormat": "Pasted year-wise Drik Panchang event text",
+        "independentlyCrossChecked": [
+          {
+            "planet": "Venus",
+            "pageYear": 2025,
+            "sourceRef": "turn147353search0",
+            "status": "search-indexed Pithoragarh page independently matches both supplied 2025 intervals"
+          }
+        ],
+        "notIndependentlyPageVerified": "All other supplied Pithoragarh year/planet values remain user-transcribed until the corresponding named-city Drik page or stable browser capture is independently retrieved."
+      },
+      "notes": "Treat as a valuable same-city city-label reference set, not coordinate-grade truth. Preserve pageYear, raw local dates/times, reported duration labels, and annual totals separately. Do not infer missing planet-years as zero events. Exact observer coordinates/elevation remain undisclosed."
     }
   },
   "cases": [
@@ -575,6 +605,1091 @@
         "coordinateStatus": "provider coordinates not disclosed"
       },
       "notes": "Held as a cross-city source observation, not strict acceptance yet: search result heading says 2027 but query URL carries year=2028, and direct open was inaccessible. Re-capture the named-city page before promotion."
+    },
+    {
+      "id": "pithoragarh-venus-2024-window-1",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-04-24T05:07:00+05:30",
+        "astaEnd": "2024-06-29T19:43:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 67,
+      "computedElapsedMinutes": 95916,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-venus-2025-window-1",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-03-20T18:42:00+05:30",
+        "astaEnd": "2025-03-23T05:40:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 3,
+      "computedElapsedMinutes": 3538,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-venus-2025-window-2",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-12-11T06:25:00+05:30",
+        "astaEnd": "2026-02-02T18:15:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 54,
+      "computedElapsedMinutes": 77030,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-venus-2026-window-1",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-12-11T06:25:00+05:30",
+        "astaEnd": "2026-02-02T18:15:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 54,
+      "computedElapsedMinutes": 77030,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-venus-2026-window-2",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-10-12T18:05:00+05:30",
+        "astaEnd": "2026-10-29T05:49:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 17,
+      "computedElapsedMinutes": 23744,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-venus-2027-window-1",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-07-21T04:54:00+05:30",
+        "astaEnd": "2027-09-09T18:48:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 51,
+      "computedElapsedMinutes": 72834,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mars-2024-window-1",
+      "planet": "Mars",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2023-09-11T19:19:00+05:30",
+        "astaEnd": "2024-01-25T05:55:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 136,
+      "computedElapsedMinutes": 195036,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mars-2025-window-1",
+      "planet": "Mars",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-10-31T18:23:00+05:30",
+        "astaEnd": "2026-05-04T04:14:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 185,
+      "computedElapsedMinutes": 265551,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mars-2026-window-1",
+      "planet": "Mars",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-10-31T18:23:00+05:30",
+        "astaEnd": "2026-05-04T04:14:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 185,
+      "computedElapsedMinutes": 265551,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2024-window-1",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-02-07T06:12:00+05:30",
+        "astaEnd": "2024-03-11T19:05:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 34,
+      "computedElapsedMinutes": 48293,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2024-window-2",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-04-04T19:24:00+05:30",
+        "astaEnd": "2024-05-02T04:23:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 28,
+      "computedElapsedMinutes": 39419,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2024-window-3",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-06-02T04:21:00+05:30",
+        "astaEnd": "2024-06-25T20:10:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 24,
+      "computedElapsedMinutes": 34069,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2024-window-4",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-08-03T19:55:00+05:30",
+        "astaEnd": "2024-08-28T04:44:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 25,
+      "computedElapsedMinutes": 35089,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2024-window-5",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-09-20T05:14:00+05:30",
+        "astaEnd": "2024-10-28T18:13:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 39,
+      "computedElapsedMinutes": 55499,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2024-window-6",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-11-29T18:02:00+05:30",
+        "astaEnd": "2024-12-12T05:52:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 13,
+      "computedElapsedMinutes": 17990,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2026-window-1",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-01-01T06:16:00+05:30",
+        "astaEnd": "2026-02-05T18:38:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 36,
+      "computedElapsedMinutes": 51142,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2026-window-2",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-03-01T18:58:00+05:30",
+        "astaEnd": "2026-03-19T05:15:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 18,
+      "computedElapsedMinutes": 25097,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2026-window-3",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-04-26T04:47:00+05:30",
+        "astaEnd": "2026-05-23T19:52:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 28,
+      "computedElapsedMinutes": 39785,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2026-window-4",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-06-30T20:12:00+05:30",
+        "astaEnd": "2026-07-26T04:17:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 26,
+      "computedElapsedMinutes": 36485,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2026-window-5",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-08-18T04:51:00+05:30",
+        "astaEnd": "2026-09-19T18:57:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 33,
+      "computedElapsedMinutes": 46926,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2026-window-6",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-10-24T18:21:00+05:30",
+        "astaEnd": "2026-11-11T05:29:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 18,
+      "computedElapsedMinutes": 25148,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2026-window-7",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-12-14T06:10:00+05:30",
+        "astaEnd": "2027-01-19T18:25:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 37,
+      "computedElapsedMinutes": 52575,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2027-window-1",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-12-14T06:10:00+05:30",
+        "astaEnd": "2027-01-19T18:25:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 37,
+      "computedElapsedMinutes": 52575,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2027-window-2",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-02-12T18:51:00+05:30",
+        "astaEnd": "2027-02-28T05:36:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 16,
+      "computedElapsedMinutes": 22245,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2027-window-3",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-04-09T05:07:00+05:30",
+        "astaEnd": "2027-05-08T19:44:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 30,
+      "computedElapsedMinutes": 42637,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2027-window-4",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-06-12T20:09:00+05:30",
+        "astaEnd": "2027-07-09T04:06:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 27,
+      "computedElapsedMinutes": 37917,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2027-window-5",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-08-02T04:39:00+05:30",
+        "astaEnd": "2027-08-30T19:22:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 29,
+      "computedElapsedMinutes": 41203,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2027-window-6",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-10-06T18:39:00+05:30",
+        "astaEnd": "2027-10-27T05:15:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 21,
+      "computedElapsedMinutes": 29436,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-mercury-2027-window-7",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-11-25T05:57:00+05:30",
+        "astaEnd": "2028-01-02T18:14:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 39,
+      "computedElapsedMinutes": 55457,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-jupiter-2024-window-1",
+      "planet": "Jupiter",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-05-07T19:26:00+05:30",
+        "astaEnd": "2024-06-06T04:22:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 30,
+      "computedElapsedMinutes": 42296,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-jupiter-2025-window-1",
+      "planet": "Jupiter",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-06-12T19:47:00+05:30",
+        "astaEnd": "2025-07-10T04:27:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 28,
+      "computedElapsedMinutes": 39400,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-jupiter-2026-window-1",
+      "planet": "Jupiter",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-07-15T19:49:00+05:30",
+        "astaEnd": "2026-08-12T04:49:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 28,
+      "computedElapsedMinutes": 39420,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-saturn-2024-window-1",
+      "planet": "Saturn",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2024-02-16T18:47:00+05:30",
+        "astaEnd": "2024-03-27T05:06:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 40,
+      "computedElapsedMinutes": 56779,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-saturn-2025-window-1",
+      "planet": "Saturn",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-02-28T18:53:00+05:30",
+        "astaEnd": "2025-04-10T04:48:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 41,
+      "computedElapsedMinutes": 58195,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "pithoragarh-saturn-2026-window-1",
+      "planet": "Saturn",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "testObserver": {
+        "name": "OurHinduDharm Pithoragarh validation point",
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project-selected; not asserted to be Drik internal geoname coordinates"
+      },
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-03-13T19:01:00+05:30",
+        "astaEnd": "2026-04-23T04:33:00+05:30"
+      },
+      "status": "user-transcribed-reference-not-independently-page-verified",
+      "acceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "reportedDurationDays": 41,
+      "computedElapsedMinutes": 58172,
+      "sourceObserver": {
+        "name": "Drik Pithoragarh page (user transcription)",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
     }
   ],
   "excludedUnverifiedData": [
@@ -1841,7 +2956,844 @@
       }
     ],
     "drik-rahuri-mars-2027": [],
-    "drik-visakhapatnam-mars-2027": []
+    "drik-visakhapatnam-mars-2027": [],
+    "drik-pithoragarh-venus-2024": [
+      {
+        "id": "drik-pithoragarh-venus-2024-window-1",
+        "planet": "Venus",
+        "sequence": 1,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-04-24",
+          "rawLocalTime": "05:07",
+          "normalizedLocal": "2024-04-24T05:07:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-06-29",
+          "rawLocalTime": "19:43",
+          "normalizedLocal": "2024-06-29T19:43:00+05:30"
+        },
+        "reportedDurationDays": 67,
+        "computedElapsedMinutes": 95916,
+        "computedElapsedDays": 66.608333,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-venus-2025": [
+      {
+        "id": "drik-pithoragarh-venus-2025-window-1",
+        "planet": "Venus",
+        "sequence": 1,
+        "pageYear": 2025,
+        "start": {
+          "panchangDate": "2025-03-20",
+          "rawLocalTime": "18:42",
+          "normalizedLocal": "2025-03-20T18:42:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2025-03-23",
+          "rawLocalTime": "05:40",
+          "normalizedLocal": "2025-03-23T05:40:00+05:30"
+        },
+        "reportedDurationDays": 3,
+        "computedElapsedMinutes": 3538,
+        "computedElapsedDays": 2.456944,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-venus-2025-window-2",
+        "planet": "Venus",
+        "sequence": 2,
+        "pageYear": 2025,
+        "start": {
+          "panchangDate": "2025-12-11",
+          "rawLocalTime": "06:25",
+          "normalizedLocal": "2025-12-11T06:25:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-02-02",
+          "rawLocalTime": "18:15",
+          "normalizedLocal": "2026-02-02T18:15:00+05:30"
+        },
+        "reportedDurationDays": 54,
+        "computedElapsedMinutes": 77030,
+        "computedElapsedDays": 53.493056,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-venus-2026": [
+      {
+        "id": "drik-pithoragarh-venus-2026-window-1",
+        "planet": "Venus",
+        "sequence": 1,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2025-12-11",
+          "rawLocalTime": "06:25",
+          "normalizedLocal": "2025-12-11T06:25:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-02-02",
+          "rawLocalTime": "18:15",
+          "normalizedLocal": "2026-02-02T18:15:00+05:30"
+        },
+        "reportedDurationDays": 54,
+        "computedElapsedMinutes": 77030,
+        "computedElapsedDays": 53.493056,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-venus-2026-window-2",
+        "planet": "Venus",
+        "sequence": 2,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-10-12",
+          "rawLocalTime": "18:05",
+          "normalizedLocal": "2026-10-12T18:05:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-10-29",
+          "rawLocalTime": "05:49",
+          "normalizedLocal": "2026-10-29T05:49:00+05:30"
+        },
+        "reportedDurationDays": 17,
+        "computedElapsedMinutes": 23744,
+        "computedElapsedDays": 16.488889,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-venus-2027": [
+      {
+        "id": "drik-pithoragarh-venus-2027-window-1",
+        "planet": "Venus",
+        "sequence": 1,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-07-21",
+          "rawLocalTime": "04:54",
+          "normalizedLocal": "2027-07-21T04:54:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-09-09",
+          "rawLocalTime": "18:48",
+          "normalizedLocal": "2027-09-09T18:48:00+05:30"
+        },
+        "reportedDurationDays": 51,
+        "computedElapsedMinutes": 72834,
+        "computedElapsedDays": 50.579167,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-mars-2024": [
+      {
+        "id": "drik-pithoragarh-mars-2024-window-1",
+        "planet": "Mars",
+        "sequence": 1,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2023-09-11",
+          "rawLocalTime": "19:19",
+          "normalizedLocal": "2023-09-11T19:19:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-01-25",
+          "rawLocalTime": "05:55",
+          "normalizedLocal": "2024-01-25T05:55:00+05:30"
+        },
+        "reportedDurationDays": 136,
+        "computedElapsedMinutes": 195036,
+        "computedElapsedDays": 135.441667,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-mars-2025": [
+      {
+        "id": "drik-pithoragarh-mars-2025-window-1",
+        "planet": "Mars",
+        "sequence": 1,
+        "pageYear": 2025,
+        "start": {
+          "panchangDate": "2025-10-31",
+          "rawLocalTime": "18:23",
+          "normalizedLocal": "2025-10-31T18:23:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-05-04",
+          "rawLocalTime": "04:14",
+          "normalizedLocal": "2026-05-04T04:14:00+05:30"
+        },
+        "reportedDurationDays": 185,
+        "computedElapsedMinutes": 265551,
+        "computedElapsedDays": 184.410417,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-mars-2026": [
+      {
+        "id": "drik-pithoragarh-mars-2026-window-1",
+        "planet": "Mars",
+        "sequence": 1,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2025-10-31",
+          "rawLocalTime": "18:23",
+          "normalizedLocal": "2025-10-31T18:23:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-05-04",
+          "rawLocalTime": "04:14",
+          "normalizedLocal": "2026-05-04T04:14:00+05:30"
+        },
+        "reportedDurationDays": 185,
+        "computedElapsedMinutes": 265551,
+        "computedElapsedDays": 184.410417,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-mercury-2024": [
+      {
+        "id": "drik-pithoragarh-mercury-2024-window-1",
+        "planet": "Mercury",
+        "sequence": 1,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-02-07",
+          "rawLocalTime": "06:12",
+          "normalizedLocal": "2024-02-07T06:12:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-03-11",
+          "rawLocalTime": "19:05",
+          "normalizedLocal": "2024-03-11T19:05:00+05:30"
+        },
+        "reportedDurationDays": 34,
+        "computedElapsedMinutes": 48293,
+        "computedElapsedDays": 33.536806,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2024-window-2",
+        "planet": "Mercury",
+        "sequence": 2,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-04-04",
+          "rawLocalTime": "19:24",
+          "normalizedLocal": "2024-04-04T19:24:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-05-02",
+          "rawLocalTime": "04:23",
+          "normalizedLocal": "2024-05-02T04:23:00+05:30"
+        },
+        "reportedDurationDays": 28,
+        "computedElapsedMinutes": 39419,
+        "computedElapsedDays": 27.374306,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2024-window-3",
+        "planet": "Mercury",
+        "sequence": 3,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-06-02",
+          "rawLocalTime": "04:21",
+          "normalizedLocal": "2024-06-02T04:21:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-06-25",
+          "rawLocalTime": "20:10",
+          "normalizedLocal": "2024-06-25T20:10:00+05:30"
+        },
+        "reportedDurationDays": 24,
+        "computedElapsedMinutes": 34069,
+        "computedElapsedDays": 23.659028,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2024-window-4",
+        "planet": "Mercury",
+        "sequence": 4,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-08-03",
+          "rawLocalTime": "19:55",
+          "normalizedLocal": "2024-08-03T19:55:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-08-28",
+          "rawLocalTime": "04:44",
+          "normalizedLocal": "2024-08-28T04:44:00+05:30"
+        },
+        "reportedDurationDays": 25,
+        "computedElapsedMinutes": 35089,
+        "computedElapsedDays": 24.367361,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2024-window-5",
+        "planet": "Mercury",
+        "sequence": 5,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-09-20",
+          "rawLocalTime": "05:14",
+          "normalizedLocal": "2024-09-20T05:14:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-10-28",
+          "rawLocalTime": "18:13",
+          "normalizedLocal": "2024-10-28T18:13:00+05:30"
+        },
+        "reportedDurationDays": 39,
+        "computedElapsedMinutes": 55499,
+        "computedElapsedDays": 38.540972,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2024-window-6",
+        "planet": "Mercury",
+        "sequence": 6,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-11-29",
+          "rawLocalTime": "18:02",
+          "normalizedLocal": "2024-11-29T18:02:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-12-12",
+          "rawLocalTime": "05:52",
+          "normalizedLocal": "2024-12-12T05:52:00+05:30"
+        },
+        "reportedDurationDays": 13,
+        "computedElapsedMinutes": 17990,
+        "computedElapsedDays": 12.493056,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-mercury-2026": [
+      {
+        "id": "drik-pithoragarh-mercury-2026-window-1",
+        "planet": "Mercury",
+        "sequence": 1,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-01-01",
+          "rawLocalTime": "06:16",
+          "normalizedLocal": "2026-01-01T06:16:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-02-05",
+          "rawLocalTime": "18:38",
+          "normalizedLocal": "2026-02-05T18:38:00+05:30"
+        },
+        "reportedDurationDays": 36,
+        "computedElapsedMinutes": 51142,
+        "computedElapsedDays": 35.515278,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2026-window-2",
+        "planet": "Mercury",
+        "sequence": 2,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-03-01",
+          "rawLocalTime": "18:58",
+          "normalizedLocal": "2026-03-01T18:58:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-03-19",
+          "rawLocalTime": "05:15",
+          "normalizedLocal": "2026-03-19T05:15:00+05:30"
+        },
+        "reportedDurationDays": 18,
+        "computedElapsedMinutes": 25097,
+        "computedElapsedDays": 17.428472,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2026-window-3",
+        "planet": "Mercury",
+        "sequence": 3,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-04-26",
+          "rawLocalTime": "04:47",
+          "normalizedLocal": "2026-04-26T04:47:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-05-23",
+          "rawLocalTime": "19:52",
+          "normalizedLocal": "2026-05-23T19:52:00+05:30"
+        },
+        "reportedDurationDays": 28,
+        "computedElapsedMinutes": 39785,
+        "computedElapsedDays": 27.628472,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2026-window-4",
+        "planet": "Mercury",
+        "sequence": 4,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-06-30",
+          "rawLocalTime": "20:12",
+          "normalizedLocal": "2026-06-30T20:12:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-07-26",
+          "rawLocalTime": "04:17",
+          "normalizedLocal": "2026-07-26T04:17:00+05:30"
+        },
+        "reportedDurationDays": 26,
+        "computedElapsedMinutes": 36485,
+        "computedElapsedDays": 25.336806,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2026-window-5",
+        "planet": "Mercury",
+        "sequence": 5,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-08-18",
+          "rawLocalTime": "04:51",
+          "normalizedLocal": "2026-08-18T04:51:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-09-19",
+          "rawLocalTime": "18:57",
+          "normalizedLocal": "2026-09-19T18:57:00+05:30"
+        },
+        "reportedDurationDays": 33,
+        "computedElapsedMinutes": 46926,
+        "computedElapsedDays": 32.5875,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2026-window-6",
+        "planet": "Mercury",
+        "sequence": 6,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-10-24",
+          "rawLocalTime": "18:21",
+          "normalizedLocal": "2026-10-24T18:21:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-11-11",
+          "rawLocalTime": "05:29",
+          "normalizedLocal": "2026-11-11T05:29:00+05:30"
+        },
+        "reportedDurationDays": 18,
+        "computedElapsedMinutes": 25148,
+        "computedElapsedDays": 17.463889,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2026-window-7",
+        "planet": "Mercury",
+        "sequence": 7,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-12-14",
+          "rawLocalTime": "06:10",
+          "normalizedLocal": "2026-12-14T06:10:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-01-19",
+          "rawLocalTime": "18:25",
+          "normalizedLocal": "2027-01-19T18:25:00+05:30"
+        },
+        "reportedDurationDays": 37,
+        "computedElapsedMinutes": 52575,
+        "computedElapsedDays": 36.510417,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-mercury-2027": [
+      {
+        "id": "drik-pithoragarh-mercury-2027-window-1",
+        "planet": "Mercury",
+        "sequence": 1,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2026-12-14",
+          "rawLocalTime": "06:10",
+          "normalizedLocal": "2026-12-14T06:10:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-01-19",
+          "rawLocalTime": "18:25",
+          "normalizedLocal": "2027-01-19T18:25:00+05:30"
+        },
+        "reportedDurationDays": 37,
+        "computedElapsedMinutes": 52575,
+        "computedElapsedDays": 36.510417,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2027-window-2",
+        "planet": "Mercury",
+        "sequence": 2,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-02-12",
+          "rawLocalTime": "18:51",
+          "normalizedLocal": "2027-02-12T18:51:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-02-28",
+          "rawLocalTime": "05:36",
+          "normalizedLocal": "2027-02-28T05:36:00+05:30"
+        },
+        "reportedDurationDays": 16,
+        "computedElapsedMinutes": 22245,
+        "computedElapsedDays": 15.447917,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2027-window-3",
+        "planet": "Mercury",
+        "sequence": 3,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-04-09",
+          "rawLocalTime": "05:07",
+          "normalizedLocal": "2027-04-09T05:07:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-05-08",
+          "rawLocalTime": "19:44",
+          "normalizedLocal": "2027-05-08T19:44:00+05:30"
+        },
+        "reportedDurationDays": 30,
+        "computedElapsedMinutes": 42637,
+        "computedElapsedDays": 29.609028,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2027-window-4",
+        "planet": "Mercury",
+        "sequence": 4,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-06-12",
+          "rawLocalTime": "20:09",
+          "normalizedLocal": "2027-06-12T20:09:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-07-09",
+          "rawLocalTime": "04:06",
+          "normalizedLocal": "2027-07-09T04:06:00+05:30"
+        },
+        "reportedDurationDays": 27,
+        "computedElapsedMinutes": 37917,
+        "computedElapsedDays": 26.33125,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2027-window-5",
+        "planet": "Mercury",
+        "sequence": 5,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-08-02",
+          "rawLocalTime": "04:39",
+          "normalizedLocal": "2027-08-02T04:39:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-08-30",
+          "rawLocalTime": "19:22",
+          "normalizedLocal": "2027-08-30T19:22:00+05:30"
+        },
+        "reportedDurationDays": 29,
+        "computedElapsedMinutes": 41203,
+        "computedElapsedDays": 28.613194,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2027-window-6",
+        "planet": "Mercury",
+        "sequence": 6,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-10-06",
+          "rawLocalTime": "18:39",
+          "normalizedLocal": "2027-10-06T18:39:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-10-27",
+          "rawLocalTime": "05:15",
+          "normalizedLocal": "2027-10-27T05:15:00+05:30"
+        },
+        "reportedDurationDays": 21,
+        "computedElapsedMinutes": 29436,
+        "computedElapsedDays": 20.441667,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      },
+      {
+        "id": "drik-pithoragarh-mercury-2027-window-7",
+        "planet": "Mercury",
+        "sequence": 7,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-11-25",
+          "rawLocalTime": "05:57",
+          "normalizedLocal": "2027-11-25T05:57:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2028-01-02",
+          "rawLocalTime": "18:14",
+          "normalizedLocal": "2028-01-02T18:14:00+05:30"
+        },
+        "reportedDurationDays": 39,
+        "computedElapsedMinutes": 55457,
+        "computedElapsedDays": 38.511806,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-jupiter-2024": [
+      {
+        "id": "drik-pithoragarh-jupiter-2024-window-1",
+        "planet": "Jupiter",
+        "sequence": 1,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-05-07",
+          "rawLocalTime": "19:26",
+          "normalizedLocal": "2024-05-07T19:26:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-06-06",
+          "rawLocalTime": "04:22",
+          "normalizedLocal": "2024-06-06T04:22:00+05:30"
+        },
+        "reportedDurationDays": 30,
+        "computedElapsedMinutes": 42296,
+        "computedElapsedDays": 29.372222,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-jupiter-2025": [
+      {
+        "id": "drik-pithoragarh-jupiter-2025-window-1",
+        "planet": "Jupiter",
+        "sequence": 1,
+        "pageYear": 2025,
+        "start": {
+          "panchangDate": "2025-06-12",
+          "rawLocalTime": "19:47",
+          "normalizedLocal": "2025-06-12T19:47:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2025-07-10",
+          "rawLocalTime": "04:27",
+          "normalizedLocal": "2025-07-10T04:27:00+05:30"
+        },
+        "reportedDurationDays": 28,
+        "computedElapsedMinutes": 39400,
+        "computedElapsedDays": 27.361111,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-jupiter-2026": [
+      {
+        "id": "drik-pithoragarh-jupiter-2026-window-1",
+        "planet": "Jupiter",
+        "sequence": 1,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-07-15",
+          "rawLocalTime": "19:49",
+          "normalizedLocal": "2026-07-15T19:49:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-08-12",
+          "rawLocalTime": "04:49",
+          "normalizedLocal": "2026-08-12T04:49:00+05:30"
+        },
+        "reportedDurationDays": 28,
+        "computedElapsedMinutes": 39420,
+        "computedElapsedDays": 27.375,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-saturn-2024": [
+      {
+        "id": "drik-pithoragarh-saturn-2024-window-1",
+        "planet": "Saturn",
+        "sequence": 1,
+        "pageYear": 2024,
+        "start": {
+          "panchangDate": "2024-02-16",
+          "rawLocalTime": "18:47",
+          "normalizedLocal": "2024-02-16T18:47:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-03-27",
+          "rawLocalTime": "05:06",
+          "normalizedLocal": "2024-03-27T05:06:00+05:30"
+        },
+        "reportedDurationDays": 40,
+        "computedElapsedMinutes": 56779,
+        "computedElapsedDays": 39.429861,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-saturn-2025": [
+      {
+        "id": "drik-pithoragarh-saturn-2025-window-1",
+        "planet": "Saturn",
+        "sequence": 1,
+        "pageYear": 2025,
+        "start": {
+          "panchangDate": "2025-02-28",
+          "rawLocalTime": "18:53",
+          "normalizedLocal": "2025-02-28T18:53:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2025-04-10",
+          "rawLocalTime": "04:48",
+          "normalizedLocal": "2025-04-10T04:48:00+05:30"
+        },
+        "reportedDurationDays": 41,
+        "computedElapsedMinutes": 58195,
+        "computedElapsedDays": 40.413194,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ],
+    "drik-pithoragarh-saturn-2026": [
+      {
+        "id": "drik-pithoragarh-saturn-2026-window-1",
+        "planet": "Saturn",
+        "sequence": 1,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-03-13",
+          "rawLocalTime": "19:01",
+          "normalizedLocal": "2026-03-13T19:01:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-04-23",
+          "rawLocalTime": "04:33",
+          "normalizedLocal": "2026-04-23T04:33:00+05:30"
+        },
+        "reportedDurationDays": 41,
+        "computedElapsedMinutes": 58172,
+        "computedElapsedDays": 40.397222,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified",
+        "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+        "sourceLocation": "Pithoragarh, Uttarakhand, India",
+        "precision": "minute"
+      }
+    ]
   },
   "eventWindowsMetadata": {
     "drik-new-delhi-mars-2027": {
@@ -1966,6 +3918,218 @@
       "pageYear": 2027,
       "timezone": "Asia/Kolkata",
       "note": "Source explicitly reports zero Asta days for the planet/year/location."
+    },
+    "drik-pithoragarh-venus-2024": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2024,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": null,
+      "annualTotalNote": null,
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-venus-2025": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 2,
+      "pageYear": 2025,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 24,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-venus-2026": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 2,
+      "pageYear": 2026,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 51,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-venus-2027": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 51,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-mars-2024": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2024,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 25,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-mars-2025": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2025,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 61,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-mars-2026": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2026,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 123,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-mars-2027": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "not-provided-by-user; not-zero-event",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": null,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "No data supplied for this planet/year. This does not mean Drik reports zero Asta windows."
+    },
+    "drik-pithoragarh-mercury-2024": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 6,
+      "pageYear": 2024,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 165,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-mercury-2025": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "not-provided-by-user; not-zero-event",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": null,
+      "pageYear": 2025,
+      "timezone": "Asia/Kolkata",
+      "note": "No data supplied for this planet/year. This does not mean Drik reports zero Asta windows."
+    },
+    "drik-pithoragarh-mercury-2026": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 7,
+      "pageYear": 2026,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 179,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-mercury-2027": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 7,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 181,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-jupiter-2024": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2024,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 30,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-jupiter-2025": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2025,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 28,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-jupiter-2026": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2026,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 28,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-jupiter-2027": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "not-provided-by-user; not-zero-event",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": null,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "No data supplied for this planet/year. This does not mean Drik reports zero Asta windows."
+    },
+    "drik-pithoragarh-saturn-2024": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2024,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 40,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-saturn-2025": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2025,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 41,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-saturn-2026": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "user-transcribed-not-independently-page-verified",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": 1,
+      "pageYear": 2026,
+      "timezone": "Asia/Kolkata",
+      "reportedAnnualAstaDays": 41,
+      "annualTotalNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "note": "Raw local dates/times and source-reported duration labels are preserved. Duration in minutes/days is independently derived from the supplied endpoints; no inference about method."
+    },
+    "drik-pithoragarh-saturn-2027": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "status": "not-provided-by-user; not-zero-event",
+      "eventDefinition": "drik-tara-asta",
+      "rowCount": null,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "No data supplied for this planet/year. This does not mean Drik reports zero Asta windows."
     }
   },
   "cityCoverage": {
@@ -2704,6 +4868,75 @@
       "approximateHorizontalSeparationMeters": 846,
       "acceptanceEligible": false,
       "notes": "Do not silently substitute the third-party place reference for the project's selected observer or infer Drik's internal coordinates. The ~0.84 km separation is a locality consistency check, not a planetary event validation."
+    }
+  },
+  "userSuppliedDataNotes": {
+    "pithoragarhDrik2024to2027": {
+      "sourceId": "drik-pithoragarh-user-transcribed-asta-2024-2027",
+      "receivedOn": "2026-11-05",
+      "planetCoverage": {
+        "Venus": {
+          "2024": 1,
+          "2025": 2,
+          "2026": 2,
+          "2027": 1
+        },
+        "Mars": {
+          "2024": 1,
+          "2025": 1,
+          "2026": 1,
+          "2027": "not supplied"
+        },
+        "Mercury": {
+          "2024": 6,
+          "2025": "not supplied",
+          "2026": 7,
+          "2027": 7
+        },
+        "Jupiter": {
+          "2024": 1,
+          "2025": 1,
+          "2026": 1,
+          "2027": "not supplied"
+        },
+        "Saturn": {
+          "2024": 1,
+          "2025": 1,
+          "2026": 1,
+          "2027": "not supplied"
+        }
+      },
+      "annualReportedDays": {
+        "Venus": {
+          "2025": 24,
+          "2026": 51,
+          "2027": 51
+        },
+        "Mars": {
+          "2024": 25,
+          "2025": 61,
+          "2026": 123
+        },
+        "Mercury": {
+          "2024": 165,
+          "2026": 179,
+          "2027": 181
+        },
+        "Jupiter": {
+          "2024": 30,
+          "2025": 28,
+          "2026": 28
+        },
+        "Saturn": {
+          "2024": 40,
+          "2025": 41,
+          "2026": 41
+        }
+      },
+      "annualReportedDaysNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
+      "durationMethod": "Computed elapsed minutes from exact supplied local timestamps; reported whole-day duration labels retained separately. They are generally ceiling-rounded, not exact elapsed whole days.",
+      "acceptanceEligible": false,
+      "note": "Missing years are not zero-event years. Annual page overlap duplicates the same cross-year interval under both source page years where supplied; do not double-count as distinct astronomical events."
     }
   }
 }
