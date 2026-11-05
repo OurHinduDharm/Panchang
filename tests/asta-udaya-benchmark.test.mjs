@@ -400,3 +400,27 @@ test("Drik Jupiter 2027 five-city sample has ordered local windows and signed de
     assert.equal(row.status, "same-provider-city-label-comparison");
   }
 });
+
+
+test("Drik city pages distinguish explicit zero-event Mars results from uncaptured data", () => {
+  for (const id of ["drik-rahuri-mars-2027","drik-visakhapatnam-mars-2027"]) {
+    assert.ok(dataset.sources[id]);
+    assert.deepEqual(dataset.eventWindows[id], []);
+    assert.equal(dataset.eventWindowsMetadata[id].status, "captured-no-events");
+    assert.equal(dataset.eventWindowsMetadata[id].rowCount, 0);
+  }
+  assert.ok(dataset.cityCoverage.capturedPages.some(row =>
+    row.sourceId === "drik-rahuri-mars-2027" && row.status === "captured-no-events"));
+  assert.ok(dataset.cityCoverage.capturedPages.some(row =>
+    row.sourceId === "drik-visakhapatnam-mars-2027" && row.status === "captured-no-events"));
+});
+
+test("Drik Venus 2027 city pages preserve 24+ notation and normalized local instants", () => {
+  const khilchipur = dataset.eventWindows["drik-khilchipur-venus-2027"][0];
+  const alleppey = dataset.eventWindows["drik-alleppey-venus-2027"][0];
+  assert.equal(khilchipur.start.normalizedLocal, "2027-07-22T05:22:00+05:30");
+  assert.equal(khilchipur.end.normalizedLocal, "2027-09-06T19:02:00+05:30");
+  assert.equal(alleppey.start.rawLocalTime, "21 Jul 2027 29:49+");
+  assert.equal(alleppey.start.normalizedLocal, "2027-07-22T05:49:00+05:30");
+  assert.equal(alleppey.end.normalizedLocal, "2027-09-02T18:56:00+05:30");
+});
