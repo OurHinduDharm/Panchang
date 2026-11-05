@@ -260,6 +260,83 @@
     return paksha === 2 || index < 0 ? 999 : paksha * 20 + index;
   }
 
+
+  const tithiVyaptiModulePromise = import(new URL("tithi-vyapti.js", import.meta.url).href).catch(function(error){
+    console.warn("Tithi vyapti helper unavailable:",error);return null;
+  });
+  let tithiPanchangLibPromise = null;
+  let tithiObserver = null;
+  const tithiPanchangCache = new Map();
+
+  function shiftTithiDate(value,delta){
+    const date=new Date(value+"T12:00:00.000Z");
+    date.setUTCDate(date.getUTCDate()+delta);
+    return date.toISOString().slice(0,10);
+  }
+
+  async function getWidgetTithiDay(dateIso){
+    if(tithiPanchangCache.has(dateIso))return tithiPanchangCache.get(dateIso);
+    const task=(async function(){
+      const ready=window.__ohdPanchangam;
+      const lib=ready&&typeof ready.getPanchangam==="function"&&typeof ready.Observer==="function"
+        ?ready
+        :(tithiPanchangLibPromise||(tithiPanchangLibPromise=import("https://esm.sh/@ishubhamx/panchangam-js@3.0.0")));
+      const panchangLib=await lib;
+      if(!panchangLib||typeof panchangLib.getPanchangam!=="function"||typeof panchangLib.Observer!=="function")return null;
+      if(!tithiObserver)tithiObserver=new panchangLib.Observer(29.5828,80.2182,1650);
+      const date=new Date(dateIso+"T06:30:00.000Z");
+      const nextDate=new Date(date);nextDate.setUTCDate(nextDate.getUTCDate()+1);
+      return {
+        p:panchangLib.getPanchangam(date,tithiObserver,{timezoneOffset:330,calendarType:"purnimanta"}),
+        next:panchangLib.getPanchangam(nextDate,tithiObserver,{timezoneOffset:330,calendarType:"purnimanta"})
+      };
+    })().catch(function(error){
+      tithiPanchangCache.delete(dateIso);
+      console.warn("Tithi vyapti Panchang calculation unavailable:",error);
+      return null;
+    });
+    tithiPanchangCache.set(dateIso,task);
+    while(tithiPanchangCache.size>12)tithiPanchangCache.delete(tithiPanchangCache.keys().next().value);
+    return task;
+  }
+
+  async function appendTithiVyapti(item,dateIso,content){
+    try{
+      const module=await tithiVyaptiModulePromise;
+      if(!module)return;
+      const descriptor=module.parseTithiVyapti(item);
+      if(!descriptor)return;
+      const dates=[shiftTithiDate(dateIso,-1),dateIso,shiftTithiDate(dateIso,1)];
+      const values=await Promise.all(dates.map(getWidgetTithiDay));
+      if(!content.isConnected)return;
+      const days=[];
+      values.forEach(function(value){
+        if(value&&value.p)days.push(value.p);
+        if(value&&value.next)days.push(value.next);
+      });
+      const base=module.findTithiInterval(days,descriptor.base,dateIso);
+      const vyapti=module.findTithiInterval(days,descriptor.vyapti,dateIso);
+      if(!base&&!vyapti)return;
+      const box=element("div","ohd-fw-vyapti");
+      if(base){
+        const row=element("div","ohd-fw-vyapti-row");
+        row.appendChild(element("strong","ohd-fw-vyapti-label",descriptor.base.name+" तिथि समाप्ति"));
+        row.appendChild(element("span","ohd-fw-vyapti-time",module.formatTithiPoint(base.end,dateIso)+" तक"));
+        box.appendChild(row);
+      }
+      if(vyapti){
+        const row=element("div","ohd-fw-vyapti-row");
+        row.appendChild(element("strong","ohd-fw-vyapti-label",descriptor.vyapti.name+" व्याप्ति"));
+        row.appendChild(element("span","ohd-fw-vyapti-time",module.formatTithiPoint(vyapti.start,dateIso)+" से "+module.formatTithiPoint(vyapti.end,dateIso)+" तक"));
+        box.appendChild(row);
+      }
+      box.appendChild(element("div","ohd-fw-vyapti-location","स्थान: पिथौरागढ़"));
+      content.appendChild(box);
+    }catch(error){
+      console.warn("Tithi vyapti display unavailable:",error);
+    }
+  }
+
   function render(items, today, chaturmasEvents, chaturmasConfig, pageOffset) {
     mount.replaceChildren();
     mount.classList.add("ohd-festival-widget");
@@ -325,6 +402,12 @@
       #ohd-festival-widget .ohd-fw-status{display:inline-block;margin:3px 0 2px;padding:2px 7px;border-radius:20px;background:#fff0d5;color:#8b4a0c;font-size:.73em;font-weight:700;line-height:1.4}
       #ohd-festival-widget .ohd-fw-description{margin-top:3px;font-size:.84em;line-height:1.55;overflow-wrap:anywhere}
       #ohd-festival-widget .ohd-fw-tithi{margin-top:3px;font-size:.79em;line-height:1.45;font-weight:600;color:#76532f;overflow-wrap:anywhere}
+      #ohd-festival-widget .ohd-fw-vyapti{display:grid;gap:5px;margin:7px 0 8px;padding:8px 9px;border:1px solid #eadcc8;border-left:3px solid #c58b4a;border-radius:8px;background:#fffaf2}
+      #ohd-festival-widget .ohd-fw-vyapti-row{display:grid;gap:2px;min-width:0}
+      #ohd-festival-widget .ohd-fw-vyapti-label{font-size:.76em;line-height:1.4;color:#76502b}
+      #ohd-festival-widget .ohd-fw-vyapti-time{font-size:.82em;line-height:1.5;color:#493522;font-weight:650;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+      #ohd-festival-widget .ohd-fw-vyapti-location{font-size:.7em;color:#817465}
+
       #ohd-festival-widget .ohd-fw-description a,#ohd-festival-widget .ohd-fw-link{color:#8c4810;text-decoration:none;font-weight:600}
       #ohd-festival-widget .ohd-fw-description a:hover,#ohd-festival-widget .ohd-fw-link:hover{text-decoration:underline}
       #ohd-festival-widget .ohd-fw-link{display:inline-block;margin-top:4px;font-size:.8em}
@@ -416,6 +499,7 @@
         if (item.hinduTithi && String(item.hinduTithi).trim()) {
           content.appendChild(element("div", "ohd-fw-tithi", String(item.hinduTithi).trim()));
         }
+        appendTithiVyapti(item,String(item.date||""),content);
 
         if (item.endDate && item.endDate >= todayKey && item.endDate > item.date) {
           const endDate = parseDate(item.endDate);

@@ -53,6 +53,7 @@ h2{font-size:19px;margin:0}
 .content{min-width:0;flex:1}
 .title{font-weight:750;line-height:1.45;margin:0 0 3px;font-size:16px}
 .hindu-tithi{display:block;font-size:13px;line-height:1.45;color:#74604a;background:transparent;border:0;border-radius:0;padding:0;margin:0 0 6px}
+.tithi-vyapti-box{display:grid;gap:6px;margin:7px 0 9px;padding:9px 10px;border:1px solid #eadcc8;border-left:3px solid #c58b4a;border-radius:9px;background:#fffaf2}.tithi-vyapti-row{display:grid;gap:2px;min-width:0}.tithi-vyapti-label{font-size:12px;line-height:1.4;color:#76502b}.tithi-vyapti-time{font-size:13px;line-height:1.5;color:#493522;font-weight:650;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .desc{font-size:13px;color:#5f5142;line-height:1.55}
 .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:7px}
 .links a{color:#8c4810;text-decoration:none;font-size:13px;font-weight:650}
@@ -402,6 +403,53 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     panchangCache.set(cacheKey,promise);
     return promise;
   }
+
+  // जिन पर्वों का निर्णय कोष्ठक में दी गई तिथि-व्याप्ति पर आधारित है,
+  // उनके लिए उसी चुने हुए स्थान के पंचांग से वास्तविक समय दिखाएँ।
+  async function appendTithiVyapti(item,dateIso,content,token){
+    try{
+      var module=await import("https://ourhindudharm.github.io/Panchang/tithi-vyapti.js");
+      var descriptor=module.parseTithiVyapti(item);
+      if(!descriptor)return;
+      function shiftIso(value,delta){
+        var date=new Date(value+"T12:00:00.000Z");
+        date.setUTCDate(date.getUTCDate()+delta);
+        return date.toISOString().slice(0,10);
+      }
+      var dates=[shiftIso(dateIso,-1),dateIso,shiftIso(dateIso,1)];
+      var values=await Promise.all(dates.map(getDatePanchang));
+      if((token!==undefined&&token!==requestToken)||!content.isConnected)return;
+      var days=[];
+      values.forEach(function(value){
+        if(value&&value.p)days.push(value.p);
+        if(value&&value.next)days.push(value.next);
+      });
+      var base=module.findTithiInterval(days,descriptor.base,dateIso);
+      var vyapti=module.findTithiInterval(days,descriptor.vyapti,dateIso);
+      if(!base&&!vyapti)return;
+      var box=document.createElement("div");box.className="tithi-vyapti-box";
+      if(base){
+        var baseRow=document.createElement("div");baseRow.className="tithi-vyapti-row";
+        var baseLabel=document.createElement("strong");baseLabel.className="tithi-vyapti-label";
+        baseLabel.textContent=descriptor.base.name+" तिथि समाप्ति";
+        var baseTime=document.createElement("span");baseTime.className="tithi-vyapti-time";
+        baseTime.textContent=module.formatTithiPoint(base.end,dateIso)+" तक";
+        baseRow.appendChild(baseLabel);baseRow.appendChild(baseTime);box.appendChild(baseRow);
+      }
+      if(vyapti){
+        var vyaptiRow=document.createElement("div");vyaptiRow.className="tithi-vyapti-row";
+        var vyaptiLabel=document.createElement("strong");vyaptiLabel.className="tithi-vyapti-label";
+        vyaptiLabel.textContent=descriptor.vyapti.name+" व्याप्ति";
+        var vyaptiTime=document.createElement("span");vyaptiTime.className="tithi-vyapti-time";
+        vyaptiTime.textContent=module.formatTithiPoint(vyapti.start,dateIso)+" से "+module.formatTithiPoint(vyapti.end,dateIso)+" तक";
+        vyaptiRow.appendChild(vyaptiLabel);vyaptiRow.appendChild(vyaptiTime);box.appendChild(vyaptiRow);
+      }
+      content.appendChild(box);
+    }catch(error){
+      console.warn("Tithi vyapti interval unavailable:",error);
+    }
+  }
+
   function getLagnaIndex(p){
     var value=p&&p.udayaLagna;
     if(value&&typeof value==="object"){
@@ -710,6 +758,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       var title=document.createElement("div");title.className="title";title.textContent=item.title||"व्रत-पर्व";
       content.appendChild(title);
       if(item.hinduTithi){var tithi=document.createElement("div");tithi.className="hindu-tithi";tithi.textContent=item.hinduTithi;content.appendChild(tithi);}
+      appendTithiVyapti(item,String(item.date||""),content,token);
       var cardLinkUrls=new Set();
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
