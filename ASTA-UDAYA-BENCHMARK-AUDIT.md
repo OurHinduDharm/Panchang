@@ -273,3 +273,30 @@ Mercury के 2026–2027 multi-window records के अतिरिक्त 
 सभी New Delhi entries city-label-only हैं। Drik provider coordinates/elevation अज्ञात हैं। ये windows source ledger और event-stream architecture के लिए हैं, ephemeris accuracy acceptance नहीं।
 
 Regression coverage `tests/asta-udaya-benchmark.test.mjs` में बढ़ाई गई। Browser diagnostics workflow के path filters में benchmark JSON और test file जोड़े गए ताकि केवल data/test बदलाव होने पर भी validation workflow चल सके।
+
+
+## 5 नवम्बर 2026 — IMD Heliacal Rising/Setting का अलग reference ledger
+
+Rashtriya Panchang / Positional Astronomy Centre की 2026–27 Heliacal Rising and Setting table से Central Station of India के लिए 20 event timestamps अलग event-family में benchmark JSON में दर्ज किए गए हैं:
+- बुध: 13 eastern/western set/rise events
+- शुक्र: 2 events
+- मंगल: 1 event
+- गुरु: 2 events
+- शनि: 2 events
+
+मूल प्रकाशित event date और raw IST time दोनों सुरक्षित हैं। 24:18, 25:49, 26:54 और 24:38 जैसी values को अगले civil date में normalize किया गया है; raw source notation नष्ट नहीं की गई। उदाहरण: 13 Sep 2026 26:54 → 14 Sep 2026 02:54 IST।
+
+**महत्वपूर्ण सीमा:** ये IMD के heliacal rising/setting events हैं—Drik Tara Asta/combustion की start/end boundaries नहीं। इसलिए इन्हें Drik exact-time MAE, threshold fitting या city-level Drik acceptance में शामिल करना निषिद्ध है। इनका उपयोग event topology, morning/evening/east/west sequence और broad independent astronomical cross-check के लिए होगा। स्रोत Central Station है; New Delhi, Pithoragarh या किसी अन्य शहर के समय के रूप में न दिखाएँ।
+
+स्रोत: https://packolkata.imd.gov.in/panchang/en/helical
+
+## 5 नवम्बर 2026 — Pithoragarh Drik capture blocker
+
+Pithoragarh का Drik city geoname id `1259503` अन्य Drik pages में पुष्ट है और Venus 2025 Asta page खोज परिणाम में दोनों boundaries सहित उपलब्ध है। लेकिन इस capture pass में Pithoragarh के Mercury 2026, Venus 2026 और Jupiter 2027 named-city planetary Asta URLs सीधे retrieve नहीं हुए (page access internal error)। इन्हें `not-captured/inaccessible` माना जाएगा; New Delhi data से भरना या अनुमान लगाना मना है। अगले capture प्रयास में Drik city selector/browser route या indexed search snippets से पुनः जाँच करें।
+
+सहायक city evidence:
+- Pithoragarh 2025 Venus Asta: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025
+- Pithoragarh geoname ID evidence: https://www.drikpanchang.com/vrats/pradoshdates.html?geoname-id=1259503
+- Pithoragarh sidereal planetary positions page: https://www.drikpanchang.com/planet/position/planetary-positions-sidereal.html?lang=hi&time=01%3A18%3A57
+
+इनमें से planetary positions page location context देता है, Asta boundary data या Drik's internal observer coordinates नहीं। इसे अलग evidence समझें।
