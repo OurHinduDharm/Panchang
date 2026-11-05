@@ -176,3 +176,17 @@ Drik के New Delhi pages अपने notes में local observer geolocat
 `tests/report-longitude-threshold-boundaries.mjs` में TRAC 2027 के 20 start/end boundaries पर Gemini के प्रकाशित threshold rules का एक अलग diagnostic जोड़ा गया है। यह `astronomy-engine@2.1.19` के `GeoVector + Ecliptic` से ग्रह का geocentric apparent ecliptic-of-date longitude और `SunPosition` से सूर्य का उसी frame का longitude लेता है; दोनों का shortest angular difference निकालता है। Direct/retrograde स्थिति ग्रह के geocentric longitude के centered 12-hour derivative से तय होती है। यह केवल threshold-boundary residual diagnostic है; यह अभी event-root calculation या production formula नहीं है।
 
 **Ayanamsa पर सुधार:** सूर्य और ग्रह दोनों के longitude पर एक ही समय का समान ayanamsa घटाने से उनका angular difference नहीं बदलता—सामान्य common ayanamsa offset अंतर में cancel हो जाता है। इसलिए relative longitude-gap threshold के लिए Lahiri चुनना अपने-आप accuracy नहीं बढ़ाता। जरूरी है कि दोनों positions एक ही apparent/geocentric/topocentric convention, epoch और ecliptic frame में हों। Absolute sidereal rashi/longitude दिखाने में ayanamsa फिर भी महत्वपूर्ण है।
+
+### 5 नवम्बर 2026 — Mumbai 2027 downstream Panchang cross-check (date-only)
+
+Drik Panchang का Mumbai 2027 Vivaha calendar एक उपयोगी, लेकिन सीमित, स्वतंत्र cross-check देता है:
+- 21 जुलाई से 5 सितम्बर 2027 तक calendar में **Shukra Tara Asta** कारण दिखता है।
+- 6–8 सितम्बर को **Shishutva Shukra** दिखता है।
+- 9–12 सितम्बर को **Guru Tara Asta** दिखता है।
+- 13–15 सितम्बर को **Shishutva Brihaspati** दिखता है।
+
+स्रोत: https://www.drikpanchang.com/shubh-dates/shubh-marriage-dates-with-muhurat.html?geoname-id=1275339&year=2027 (Mumbai, Maharashtra; 2027).
+
+**इस डेटा का सही उपयोग:** यह उसी शहर के Drik downstream Vivaha/Panchang logic में Tara Asta और बाल्य/वृद्धत्व अवस्थाओं के दिन-स्तरीय प्रभाव की पुष्टि करता है। यह Asta-start/Asta-end का exact timestamp नहीं देता; इसलिए इसे minute-level event benchmark, स्वतंत्र खगोलीय ephemeris या Pithoragarh reference न मानें। इसका उपयोग केवल calendar-state regression fixture के लिए किया जा सकता है, यदि बाद में उस fixture का source capture और day-boundary interpretation अलग से सत्यापित हो।
+
+यह capture एक और उपयोगी नियम स्पष्ट करता है: event के बाद का Shishutva काल Asta interval से अलग state है। भविष्य के Panchang consumer tests में Asta और Shishutva/Vriddhatva को एक ही boolean में collapse नहीं करना चाहिए। अभी इस खोज के आधार पर कोई नया event time या production formula नहीं जोड़ा गया है।
