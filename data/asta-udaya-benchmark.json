@@ -62,6 +62,24 @@
           "verificationNote": "City-specific New Delhi page; confirms this pair only, not other cities or the calculation method."
         }
       ]
+    },
+    "drik-new-delhi-mercury-2026-2027-multiwindow": {
+      "name": "Drik Panchang",
+      "location": "New Delhi, NCT, India",
+      "sourceType": "published-location-specific-event-windows",
+      "sourceUrls": {
+        "2026": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?time-format=24plushour",
+        "2027": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?time-format=24plushour&year=2027"
+      },
+      "verifiedOn": "2026-11-05",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Drik provider coordinates/elevation not disclosed; city-label-only"
+      },
+      "rawNotation": "24+ hour notation; page states hours past midnight are above 24:00 and fall on next day; Panchang day starts/ends at sunrise.",
+      "notes": "Seven separate Tara Asta windows are listed on each annual page. 2026 and 2027 page captures overlap on the Dec 2026–Jan 2027 interval; retain pageYear to preserve source provenance. Do not treat this as coordinate-exact observer validation."
     }
   },
   "cases": [
@@ -323,5 +341,235 @@
         "coordinateStatus": "provider coordinates not disclosed"
       }
     }
-  ]
+  ],
+  "eventWindows": {
+    "drik-new-delhi-mercury-2026": [
+      {
+        "sequence": 1,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-01-01",
+          "rawLocalTime": "30:29+",
+          "normalizedLocal": "2026-01-02T06:29:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-02-05",
+          "rawLocalTime": "18:51",
+          "normalizedLocal": "2026-02-05T18:51:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 2,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-03-01",
+          "rawLocalTime": "19:10",
+          "normalizedLocal": "2026-03-01T19:10:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-03-17",
+          "rawLocalTime": "29:30+",
+          "normalizedLocal": "2026-03-18T05:30:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 3,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-04-26",
+          "rawLocalTime": "29:00+",
+          "normalizedLocal": "2026-04-27T05:00:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-05-23",
+          "rawLocalTime": "20:01",
+          "normalizedLocal": "2026-05-23T20:01:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 4,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-06-30",
+          "rawLocalTime": "20:22",
+          "normalizedLocal": "2026-06-30T20:22:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-07-24",
+          "rawLocalTime": "28:34+",
+          "normalizedLocal": "2026-07-25T04:34:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 5,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-08-17",
+          "rawLocalTime": "29:05+",
+          "normalizedLocal": "2026-08-18T05:05:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-09-18",
+          "rawLocalTime": "19:09",
+          "normalizedLocal": "2026-09-18T19:09:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 6,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-10-25",
+          "rawLocalTime": "18:31",
+          "normalizedLocal": "2026-10-25T18:31:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-11-10",
+          "rawLocalTime": "29:40+",
+          "normalizedLocal": "2026-11-11T05:40:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 7,
+        "pageYear": 2026,
+        "start": {
+          "panchangDate": "2026-12-13",
+          "rawLocalTime": "30:20+",
+          "normalizedLocal": "2026-12-14T06:20:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-01-19",
+          "rawLocalTime": "18:39",
+          "normalizedLocal": "2027-01-19T18:39:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      }
+    ],
+    "drik-new-delhi-mercury-2027": [
+      {
+        "sequence": 1,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2026-12-13",
+          "rawLocalTime": "30:20+",
+          "normalizedLocal": "2026-12-14T06:20:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-01-19",
+          "rawLocalTime": "18:39",
+          "normalizedLocal": "2027-01-19T18:39:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 2,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-02-12",
+          "rawLocalTime": "19:03",
+          "normalizedLocal": "2027-02-12T19:03:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-02-26",
+          "rawLocalTime": "29:52+",
+          "normalizedLocal": "2027-02-27T05:52:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 3,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-04-08",
+          "rawLocalTime": "29:19+",
+          "normalizedLocal": "2027-04-09T05:19:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-05-08",
+          "rawLocalTime": "19:54",
+          "normalizedLocal": "2027-05-08T19:54:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 4,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-06-12",
+          "rawLocalTime": "20:19",
+          "normalizedLocal": "2027-06-12T20:19:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-07-07",
+          "rawLocalTime": "28:23+",
+          "normalizedLocal": "2027-07-08T04:23:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 5,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-08-02",
+          "rawLocalTime": "28:59+",
+          "normalizedLocal": "2027-08-03T04:59:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-08-29",
+          "rawLocalTime": "19:34",
+          "normalizedLocal": "2027-08-29T19:34:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 6,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-10-06",
+          "rawLocalTime": "18:52",
+          "normalizedLocal": "2027-10-06T18:52:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-10-26",
+          "rawLocalTime": "29:26+",
+          "normalizedLocal": "2027-10-27T05:26:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      },
+      {
+        "sequence": 7,
+        "pageYear": 2027,
+        "start": {
+          "panchangDate": "2027-11-24",
+          "rawLocalTime": "30:07+",
+          "normalizedLocal": "2027-11-25T06:07:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2028-01-02",
+          "rawLocalTime": "18:28",
+          "normalizedLocal": "2028-01-02T18:28:00+05:30"
+        },
+        "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
+        "status": "source-captured; normalization rule explicit; city-label-only"
+      }
+    ]
+  }
 }
