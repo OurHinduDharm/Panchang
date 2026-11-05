@@ -193,6 +193,22 @@
         }
       },
       "notes": "Published page states times are local to New Delhi and uses Lahiri sidereal zodiac. Values closely resemble other longitude-threshold calendars; independence of underlying ephemeris/algorithm is not established. Comparator only, not ground truth or proof of Drik's algorithm."
+    },
+    "vedictithi-ujjain-guru-shukra-2027": {
+      "name": "VedicTithi — Guru and Shukra Asta 2027",
+      "url": "https://vedictithi.com/astrology-events/combustion/2027",
+      "sourceType": "third-party-published-city-specific-tara-asta-windows",
+      "location": "Ujjain, Madhya Pradesh, India",
+      "timezone": "Asia/Kolkata",
+      "zodiac": "Vedic sidereal (Lahiri)",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Ujjain city label; provider observer coordinates/elevation not disclosed"
+      },
+      "eventDefinition": "Published Guru/Shukra Tara Asta windows. Exact computational method, ephemeris, event thresholds, and source lineage are not disclosed on the captured page; do not assume identical to Drik or Divine Nakshatra.",
+      "verifiedOn": "2026-11-05",
+      "notes": "Useful independent city-labelled comparator only. Page says Asta depends on location and times are for Ujjain; it does not publish exact observer coordinates or enough algorithm details for strict model acceptance."
     }
   },
   "cases": [
@@ -1461,6 +1477,34 @@
         "precision": "minute",
         "status": "published-comparator"
       }
+    ],
+    "vedictithi-ujjain-tara-asta-2027": [
+      {
+        "id": "vt-venus-ujjain-2027",
+        "planet": "Venus",
+        "eventModel": "third-party-tara-asta-method-undisclosed",
+        "pageYear": 2027,
+        "start": "2027-07-22T05:26:00+05:30",
+        "end": "2027-09-06T19:04:00+05:30",
+        "sourceId": "vedictithi-ujjain-guru-shukra-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-city-label-comparator",
+        "comparisonLevel": "city-label-only"
+      },
+      {
+        "id": "vt-jupiter-ujjain-2027",
+        "planet": "Jupiter",
+        "eventModel": "third-party-tara-asta-method-undisclosed",
+        "pageYear": 2027,
+        "start": "2027-08-18T19:29:00+05:30",
+        "end": "2027-09-13T05:31:00+05:30",
+        "sourceId": "vedictithi-ujjain-guru-shukra-2027",
+        "sourceLocation": "Ujjain, Madhya Pradesh, India",
+        "precision": "minute",
+        "status": "published-city-label-comparator",
+        "comparisonLevel": "city-label-only"
+      }
     ]
   },
   "eventWindowsMetadata": {
@@ -1496,6 +1540,15 @@
       "pageYear": 2027,
       "timezone": "Asia/Kolkata",
       "note": "Source states New Delhi local time and Lahiri sidereal zodiac. Similarity to other fixed-threshold calendars is visible; shared upstream calculation is unknown. Not ground truth."
+    },
+    "vedictithi-ujjain-tara-asta-2027": {
+      "sourceId": "vedictithi-ujjain-guru-shukra-2027",
+      "status": "captured",
+      "eventDefinition": "third-party-tara-asta-method-undisclosed",
+      "rowCount": 2,
+      "pageYear": 2027,
+      "timezone": "Asia/Kolkata",
+      "note": "Exact method and source lineage not disclosed. City-label comparison only; exclude from Drik accuracy acceptance and from longitude/heliacal same-model MAE."
     }
   },
   "cityCoverage": {
