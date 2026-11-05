@@ -2309,6 +2309,78 @@
         "status": "same-provider-city-label-comparison",
         "note": "Both Drik pages; city coordinates/elevations undisclosed. Chennai page result is search-indexed and its observed URL has year=2028 despite 2027 title/body."
       }
+    ],
+    "drik-jupiter-2027-multi-city-vs-new-delhi": [
+      {
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "referenceCity": "New Delhi, NCT, India",
+        "city": "Chennai, Tamil Nadu, India",
+        "referenceStart": "2027-08-17T19:32:00+05:30",
+        "cityStart": "2027-08-19T19:00:00+05:30",
+        "referenceEnd": "2027-09-13T05:22:00+05:30",
+        "cityEnd": "2027-09-13T05:21:00+05:30",
+        "cityMinusNewDelhiStartMinutes": 2848,
+        "cityMinusNewDelhiEndMinutes": -1,
+        "status": "same-provider-city-label-comparison",
+        "note": "Drik named-city page result; exact observer coordinates/elevation undisclosed. Some source URLs have non-2027 query values despite 2027 page content."
+      },
+      {
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "referenceCity": "New Delhi, NCT, India",
+        "city": "Naksalbari, West Bengal, India",
+        "referenceStart": "2027-08-17T19:32:00+05:30",
+        "cityStart": "2027-08-17T18:46:00+05:30",
+        "referenceEnd": "2027-09-13T05:22:00+05:30",
+        "cityEnd": "2027-09-13T04:40:00+05:30",
+        "cityMinusNewDelhiStartMinutes": -46,
+        "cityMinusNewDelhiEndMinutes": -42,
+        "status": "same-provider-city-label-comparison",
+        "note": "Drik named-city page result; exact observer coordinates/elevation undisclosed. Some source URLs have non-2027 query values despite 2027 page content."
+      },
+      {
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "referenceCity": "New Delhi, NCT, India",
+        "city": "Rajgarh, Rajasthan, India",
+        "referenceStart": "2027-08-17T19:32:00+05:30",
+        "cityStart": "2027-08-17T19:33:00+05:30",
+        "referenceEnd": "2027-09-13T05:22:00+05:30",
+        "cityEnd": "2027-09-13T05:25:00+05:30",
+        "cityMinusNewDelhiStartMinutes": 1,
+        "cityMinusNewDelhiEndMinutes": 3,
+        "status": "same-provider-city-label-comparison",
+        "note": "Drik named-city page result; exact observer coordinates/elevation undisclosed. Some source URLs have non-2027 query values despite 2027 page content."
+      },
+      {
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "referenceCity": "New Delhi, NCT, India",
+        "city": "Athagarh, Odisha, India",
+        "referenceStart": "2027-08-17T19:32:00+05:30",
+        "cityStart": "2027-08-18T18:48:00+05:30",
+        "referenceEnd": "2027-09-13T05:22:00+05:30",
+        "cityEnd": "2027-09-13T04:54:00+05:30",
+        "cityMinusNewDelhiStartMinutes": 1396,
+        "cityMinusNewDelhiEndMinutes": -28,
+        "status": "same-provider-city-label-comparison",
+        "note": "Drik named-city page result; exact observer coordinates/elevation undisclosed. Some source URLs have non-2027 query values despite 2027 page content."
+      },
+      {
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "referenceCity": "New Delhi, NCT, India",
+        "city": "Taleigao, Goa, India",
+        "referenceStart": "2027-08-17T19:32:00+05:30",
+        "cityStart": "2027-08-19T19:27:00+05:30",
+        "referenceEnd": "2027-09-13T05:22:00+05:30",
+        "cityEnd": "2027-09-13T05:45:00+05:30",
+        "cityMinusNewDelhiStartMinutes": 2875,
+        "cityMinusNewDelhiEndMinutes": 23,
+        "status": "same-provider-city-label-comparison",
+        "note": "Drik named-city page result; exact observer coordinates/elevation undisclosed. Some source URLs have non-2027 query values despite 2027 page content."
+      }
     ]
   }
 }
