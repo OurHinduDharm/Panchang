@@ -4991,7 +4991,7 @@
           "reportedAnnualAstaDays": 24,
           "computedElapsedOverlapDays": 23.189583,
           "reportedMinusComputedDays": 0.810417,
-          "reconciliationStatus": "not-reconciled-from-supplied-event-endpoints",
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
           "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
         },
         {
@@ -5018,7 +5018,7 @@
           "reportedAnnualAstaDays": 25,
           "computedElapsedOverlapDays": 24.246528,
           "reportedMinusComputedDays": 0.753472,
-          "reconciliationStatus": "not-reconciled-from-supplied-event-endpoints",
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
           "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
         },
         {
