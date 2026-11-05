@@ -4983,7 +4983,145 @@
       "annualReportedDaysNote": "Provider-reported annual total retained verbatim; it is not the sum of full durations of cross-year windows.",
       "durationMethod": "Computed elapsed minutes from exact supplied local timestamps; reported whole-day duration labels retained separately. They are generally ceiling-rounded, not exact elapsed whole days.",
       "acceptanceEligible": false,
-      "note": "Missing years are not zero-event years. Annual page overlap duplicates the same cross-year interval under both source page years where supplied; do not double-count as distinct astronomical events."
+      "note": "Missing years are not zero-event years. Annual page overlap duplicates the same cross-year interval under both source page years where supplied; do not double-count as distinct astronomical events.",
+      "annualSummaryAudit": [
+        {
+          "planet": "Venus",
+          "year": 2025,
+          "reportedAnnualAstaDays": 24,
+          "computedElapsedOverlapDays": 23.189583,
+          "reportedMinusComputedDays": 0.810417,
+          "reconciliationStatus": "not-reconciled-from-supplied-event-endpoints",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Venus",
+          "year": 2026,
+          "reportedAnnualAstaDays": 51,
+          "computedElapsedOverlapDays": 49.249306,
+          "reportedMinusComputedDays": 1.750694,
+          "reconciliationStatus": "not-reconciled-from-supplied-event-endpoints",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Venus",
+          "year": 2027,
+          "reportedAnnualAstaDays": 51,
+          "computedElapsedOverlapDays": 50.579167,
+          "reportedMinusComputedDays": 0.420833,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Mars",
+          "year": 2024,
+          "reportedAnnualAstaDays": 25,
+          "computedElapsedOverlapDays": 24.246528,
+          "reportedMinusComputedDays": 0.753472,
+          "reconciliationStatus": "not-reconciled-from-supplied-event-endpoints",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Mars",
+          "year": 2025,
+          "reportedAnnualAstaDays": 61,
+          "computedElapsedOverlapDays": 61.234028,
+          "reportedMinusComputedDays": -0.234028,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Mars",
+          "year": 2026,
+          "reportedAnnualAstaDays": 123,
+          "computedElapsedOverlapDays": 123.176389,
+          "reportedMinusComputedDays": -0.176389,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Mercury",
+          "year": 2024,
+          "reportedAnnualAstaDays": 165,
+          "computedElapsedOverlapDays": 159.971528,
+          "reportedMinusComputedDays": 5.028472,
+          "reconciliationStatus": "not-reconciled-from-supplied-event-endpoints",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Mercury",
+          "year": 2026,
+          "reportedAnnualAstaDays": 179,
+          "computedElapsedOverlapDays": 173.703472,
+          "reportedMinusComputedDays": 5.296528,
+          "reconciliationStatus": "not-reconciled-from-supplied-event-endpoints",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Mercury",
+          "year": 2027,
+          "reportedAnnualAstaDays": 181,
+          "computedElapsedOverlapDays": 175.9625,
+          "reportedMinusComputedDays": 5.0375,
+          "reconciliationStatus": "not-reconciled-from-supplied-event-endpoints",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Jupiter",
+          "year": 2024,
+          "reportedAnnualAstaDays": 30,
+          "computedElapsedOverlapDays": 29.372222,
+          "reportedMinusComputedDays": 0.627778,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Jupiter",
+          "year": 2025,
+          "reportedAnnualAstaDays": 28,
+          "computedElapsedOverlapDays": 27.361111,
+          "reportedMinusComputedDays": 0.638889,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Jupiter",
+          "year": 2026,
+          "reportedAnnualAstaDays": 28,
+          "computedElapsedOverlapDays": 27.375,
+          "reportedMinusComputedDays": 0.625,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Saturn",
+          "year": 2024,
+          "reportedAnnualAstaDays": 40,
+          "computedElapsedOverlapDays": 39.429861,
+          "reportedMinusComputedDays": 0.570139,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Saturn",
+          "year": 2025,
+          "reportedAnnualAstaDays": 41,
+          "computedElapsedOverlapDays": 40.413194,
+          "reportedMinusComputedDays": 0.586806,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        },
+        {
+          "planet": "Saturn",
+          "year": 2026,
+          "reportedAnnualAstaDays": 41,
+          "computedElapsedOverlapDays": 40.397222,
+          "reportedMinusComputedDays": 0.602778,
+          "reconciliationStatus": "within-one-day-of-endpoint-overlap",
+          "note": "Reported annual total is preserved verbatim; computed overlap is diagnostic only and does not redefine the source's day-count convention."
+        }
+      ],
+      "annualSummaryAuditNote": "Annual totals are not uniformly reproduced by summing exact endpoint overlap in Gregorian years. Preserve the provider-reported figures and flag discrepancies for direct page recapture; do not force-fit an inclusive/exclusive counting rule."
     }
   }
 }
