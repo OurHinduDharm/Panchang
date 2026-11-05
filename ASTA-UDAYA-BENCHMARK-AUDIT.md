@@ -393,3 +393,20 @@ Drik के search-indexed 2027 Guru Tara Asta परिणाम में Chen
 यह उपयोगी संकेत है कि Drik का Guru Asta start city label के अनुसार बदलता है, जबकि इस उदाहरण में end लगभग समान है। इससे किसी एक शहर का timestamp लेकर केवल sunrise offset जोड़ने वाला मॉडल अस्वीकार्य दिखता है। हालांकि दोनों पृष्ठों के exact observer coordinates/elevation अघोषित हैं और Chennai परिणाम search-indexed है; observed URL में `year=2028` जबकि page title/body 2027 कहता है। इसलिए इसे provisional named-city cross-check मानें, final coordinate-level proof नहीं।
 
 स्रोत: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2028
+
+
+### Drik Guru 2027 — पाँच अतिरिक्त शहरों का नमूना
+
+New Delhi को reference रखकर अन्य Drik city-labelled results के अंतर भी जोड़े गए हैं (`comparisons.drik-jupiter-2027-multi-city-vs-new-delhi`):
+
+| शहर | आरम्भ Δ | अन्त Δ |
+|---|---:|---:|
+| Chennai | +2,848 min | −1 min |
+| Naksalbari | −46 min | −42 min |
+| Rajgarh | +1 min | +3 min |
+| Athagarh | +1,396 min | −28 min |
+| Taleigao | +2,875 min | +23 min |
+
+यह spread दिखाता है कि सभी शहरों में एक जैसा civil-time offset लगाना पर्याप्त नहीं। फिर भी provider observer coordinates उपलब्ध न होने और कुछ search-indexed URLs में page-year/query-year mismatch होने के कारण इन शहरों को coordinate-grade calibration set नहीं मानेंगे। हर शहर का source page और raw local time अलग संरक्षित है।
+
+**CI correction note:** पहले cross-city regression में Chennai start delta को गलती से 4,308 मिनट लिखा गया था; सही timestamp subtraction +2,848 मिनट है। Failure logs से arithmetic mismatch पहचाना, expected value ठीक की, और नए multi-city regression assertions जोड़े। नया CI run ही corrected state का pass/fail निर्णायक होगा।
