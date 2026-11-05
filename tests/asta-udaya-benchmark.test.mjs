@@ -594,3 +594,13 @@ test("Pithoragarh annual totals are retained separately and discrepancies are su
   assert.equal(get("Mercury", 2027).computedElapsedOverlapDays, 175.963);
   assert.ok(audit.every(row => row.note.includes("preserved verbatim")));
 });
+
+
+test("Pithoragarh Venus 2024 annual summary is retained with the supplied 67-day total", () => {
+  const metadata = dataset.eventWindowsMetadata["drik-pithoragarh-venus-2024"];
+  assert.equal(metadata.reportedAnnualAstaDays, 67);
+  const row = dataset.userSuppliedDataNotes.pithoragarhDrik2024to2027.annualSummaryAudit.find(item => item.planet === "Venus" && item.year === 2024);
+  assert.equal(row.reportedAnnualAstaDays, 67);
+  assert.equal(row.computedElapsedOverlapDays, 66.608333);
+  assert.equal(row.reconciliationStatus, "within-one-day-of-endpoint-overlap");
+});
