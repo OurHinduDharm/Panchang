@@ -2231,8 +2231,14 @@
         "reason": "Captured source page did not list a Mars longitude-combustion window; do not infer absence for all methods or other years."
       }
     ],
-    "pendingCityCount": 12,
-    "pendingNote": "Twelve of the fifteen priority cities still have no captured target-year source page. New Delhi, Ujjain and Chennai have at least one 2026–2027 source capture; coverage is partial, not complete. Pithoragarh's captured Venus page is from 2025 and does not count as target-year coverage."
+    "pendingCityCount": 11,
+    "pendingNote": "11 of 15 priority cities have no captured page in any source family yet. The 4 cities with any capture are not fully covered: the full 5-planet × 3-year source matrix remains incomplete. Captures from non-priority city labels do not reduce this priority-city count.",
+    "priorityCitiesWithAnyCapture": [
+      "New Delhi, NCT, India",
+      "Chennai, Tamil Nadu, India",
+      "Ujjain, Madhya Pradesh, India",
+      "Pithoragarh, Uttarakhand, India"
+    ]
   },
   "drikOnlyCoverage": {
     "policy": "Only independently verified Drik named-city Asta pages count here. Other source families (IMD heliacal, Divine Nakshatra longitude thresholds) are excluded. A search-index result with page-year/query-year conflict is provisional, not verified.",
