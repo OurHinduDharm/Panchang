@@ -545,8 +545,8 @@ test("Pithoragarh user-supplied Drik 2024-2027 ledger preserves all supplied int
         (Date.parse(row.end.normalizedLocal) - Date.parse(row.start.normalizedLocal)) / 60000);
       assert.equal(row.reportedDurationDays, Math.ceil(row.computedElapsedMinutes / 1440));
       assert.ok(Date.parse(row.start.normalizedLocal) < Date.parse(row.end.normalizedLocal));
-      assert.match(row.start.normalizedLocal, /\\+05:30$/);
-      assert.match(row.end.normalizedLocal, /\\+05:30$/);
+      assert.match(row.start.normalizedLocal, /\+05:30$/);
+      assert.match(row.end.normalizedLocal, /\+05:30$/);
       total++;
     }
   }
