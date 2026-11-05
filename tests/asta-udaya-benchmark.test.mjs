@@ -424,3 +424,17 @@ test("Drik Venus 2027 city pages preserve 24+ notation and normalized local inst
   assert.equal(alleppey.start.normalizedLocal, "2027-07-22T05:49:00+05:30");
   assert.equal(alleppey.end.normalizedLocal, "2027-09-02T18:56:00+05:30");
 });
+
+
+test("Drik Venus 2027 city comparisons retain signed start and end differences", () => {
+  const rows = dataset.comparisons["drik-venus-2027-multi-city-vs-new-delhi"];
+  assert.equal(rows.length, 2);
+  const expected = {
+    "Khilchipur, Madhya Pradesh, India":[1454,-4318],
+    "Alleppey, Kerala, India":[1481,-10084]
+  };
+  for (const row of rows) {
+    assert.deepEqual([row.cityMinusNewDelhiStartMinutes,row.cityMinusNewDelhiEndMinutes],expected[row.city]);
+    assert.equal(row.status,"same-provider-city-label-comparison");
+  }
+});
