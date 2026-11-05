@@ -300,3 +300,8 @@ Pithoragarh का Drik city geoname id `1259503` अन्य Drik pages मे
 - Pithoragarh sidereal planetary positions page: https://www.drikpanchang.com/planet/position/planetary-positions-sidereal.html?lang=hi&time=01%3A18%3A57
 
 इनमें से planetary positions page location context देता है, Asta boundary data या Drik's internal observer coordinates नहीं। इसे अलग evidence समझें।
+
+
+## 5 नवम्बर 2026 — शहरवार स्रोत-कवरेज tracker
+
+`data/asta-udaya-benchmark.json` में `cityCoverage` जोड़ा गया है। इसमें 15 प्राथमिक शहर, लक्ष्य वर्ष 2026–2028, captured page/window counts, inaccessible URLs और not-captured pages अलग दर्ज हैं। New Delhi के उपलब्ध 2026–2027 streams तथा Pithoragarh Venus 2025 capture दर्ज हैं। New Delhi Mars 2027 को missing रखा है; Pithoragarh Mercury/Venus 2026 और Jupiter 2027 के direct-page access blockers स्पष्ट हैं। शेष शहरों के लिए status अभी not-started है—इसे शून्य घटनाएँ न समझें। Coverage tracker केवल source collection progress है, algorithm accuracy का प्रमाण नहीं।
