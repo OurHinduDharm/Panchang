@@ -1505,5 +1505,120 @@
     ],
     "pendingCityCount": 12,
     "pendingNote": "Twelve of the fifteen priority cities still have no captured target-year source page. New Delhi, Ujjain and Chennai have at least one 2026–2027 source capture; coverage is partial, not complete. Pithoragarh's captured Venus page is from 2025 and does not count as target-year coverage."
+  },
+  "drikOnlyCoverage": {
+    "policy": "Only independently verified Drik named-city Asta pages count here. Other source families (IMD heliacal, Divine Nakshatra longitude thresholds) are excluded. A search-index result with page-year/query-year conflict is provisional, not verified.",
+    "captured": [
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Mercury",
+        "pageYears": [
+          2026,
+          2027
+        ],
+        "windowCounts": [
+          7,
+          7
+        ],
+        "status": "captured-city-label-only",
+        "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Venus",
+        "pageYears": [
+          2026,
+          2027
+        ],
+        "windowCounts": [
+          2,
+          1
+        ],
+        "status": "captured-city-label-only",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Jupiter",
+        "pageYears": [
+          2026,
+          2027
+        ],
+        "windowCounts": [
+          1,
+          1
+        ],
+        "status": "captured-city-label-only",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Saturn",
+        "pageYears": [
+          2026,
+          2027
+        ],
+        "windowCounts": [
+          1,
+          1
+        ],
+        "status": "captured-city-label-only",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Mars",
+        "pageYears": [
+          2026
+        ],
+        "windowCounts": [
+          1
+        ],
+        "status": "captured-city-label-only",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "Pithoragarh, Uttarakhand, India",
+        "planet": "Venus",
+        "pageYears": [
+          2025
+        ],
+        "windowCounts": [
+          2
+        ],
+        "status": "captured-historical-city-label-only",
+        "sourceId": "drik-pithoragarh-2025-venus"
+      }
+    ],
+    "provisional": [
+      {
+        "city": "Chennai, Tamil Nadu, India",
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "windowCount": 1,
+        "status": "search-result-only-query-year-conflict",
+        "sourceId": "drik-chennai-2027-jupiter",
+        "reason": "Search result title says 2027 but URL query has year=2028; require page selector/browser capture before strict use."
+      }
+    ],
+    "inaccessible": [
+      {
+        "city": "Ujjain, Madhya Pradesh, India",
+        "planet": "Mercury/Venus/Mars/Jupiter/Saturn",
+        "pageYear": 2027,
+        "status": "direct-page-inaccessible",
+        "attemptedGeonameId": "1253914",
+        "reason": "All five direct named-city URLs returned internal errors in this capture. Ujjain Divine Nakshatra is a separate source family and is not a Drik substitute."
+      },
+      {
+        "city": "Pithoragarh, Uttarakhand, India",
+        "planet": "Mercury/Venus/Jupiter/Saturn/Mars",
+        "pageYear": 2026,
+        "status": "direct-page-inaccessible-or-not-captured",
+        "attemptedGeonameId": "1259503",
+        "reason": "No verified named-city Drik planetary page for target year captured; Venus 2025 cross-year window is retained separately."
+      }
+    ],
+    "nextPriority": "Capture all five Drik Asta pages for Ujjain and Chennai with verified year selectors, then Mumbai and Varanasi 2027. Use browser city selector when direct URLs are inaccessible. Never count an inaccessible page as a zero-event year."
   }
 }
