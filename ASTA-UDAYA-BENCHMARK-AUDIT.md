@@ -434,3 +434,17 @@ New Delhi को reference रखकर अन्य Drik city-labelled results 
 ### Priority-city coverage accounting corrected
 
 15 priority cities में से अभी 4 के लिए कम-से-कम एक named-city/source-family capture है: New Delhi, Chennai, Ujjain और Pithoragarh। शेष 11 शहरों का कोई capture अभी नहीं है। यह केवल city-level first-capture count है; चारों captured शहर भी 5 ग्रह × 3 वर्ष की पूरी matrix में covered नहीं हैं। Naksalbari, Rajgarh, Athagarh, Taleigao, Khilchipur, Alleppey, Rahuri और Visakhapatnam जैसे अतिरिक्त source cities को अलग sample के रूप में रखा गया है; वे priority-city count घटाते नहीं।
+
+
+## 5 नवम्बर 2026 — TRAC fixed-angle boundary diagnostic का पहला परिणाम
+
+CI run #98 में `tests/report-longitude-threshold-boundaries.mjs` ने TRAC के 2027 के 20 प्रकाशित boundaries पर apparent geocentric true ecliptic-of-date longitude gap जाँचा। Planet retrograde/direct स्थिति centered 12-hour geocentric longitude derivative से ली गई। प्रकाशित threshold rules (Mercury 14° direct/12° retrograde, Venus 10° direct/8° retrograde, Jupiter 11°, Saturn 15°) के विरुद्ध परिणाम:
+
+| ग्रह | सीमाएँ | औसत absolute angle residual | अधिकतम absolute residual |
+|---|---:|---:|---:|
+| बुध | 14 | 0.001068° | 0.002735° |
+| शुक्र | 2 | 0.000238° | 0.000465° |
+| गुरु | 2 | 0.000528° | 0.000662° |
+| शनि | 2 | 0.002089° | 0.002143° |
+
+यह बहुत मजबूत संकेत है कि TRAC के प्रकाशित समय उसके बताए गए longitude-threshold rules से संगत हैं। पर यह केवल TRAC source की internal consistency है; Drik algorithm की पुष्टि नहीं। TRAC और Divine Nakshatra के कुछ परिणाम पहले से लगभग समान हैं, इसलिए upstream independence अज्ञात है। अगला चरण उसी threshold model से boundary roots निकालकर TRAC के minute timestamps से time residual मापना है; फिर अलग Drik data पर बिना threshold refit किए holdout comparison करना होगा।
