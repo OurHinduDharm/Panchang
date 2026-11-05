@@ -287,3 +287,23 @@ test("Drik Chennai Jupiter 2027 is preserved as a city-label cross-check with so
   assert.equal(entry.comparisonLevel, "city-label-only");
   assert.equal(entry.sourceLocation, "Chennai, Tamil Nadu, India");
 });
+
+
+test("Drik-only city coverage excludes other source families and query-year anomalies", () => {
+  const coverage = dataset.drikOnlyCoverage;
+  assert.ok(coverage);
+  assert.equal(coverage.captured.length, 6);
+  assert.equal(coverage.provisional.length, 1);
+  assert.equal(coverage.inaccessible.length, 2);
+  assert.ok(coverage.captured.every(row => row.sourceId.startsWith("drik-")));
+  assert.ok(coverage.provisional.every(row => row.status === "search-result-only-query-year-conflict"));
+  assert.ok(coverage.inaccessible.every(row => row.status.includes("inaccessible")));
+  assert.ok(!coverage.captured.some(row => row.sourceId.includes("divinenakshatra")));
+  assert.ok(!coverage.captured.some(row => row.sourceId.includes("rashtriya")));
+  const chennai = coverage.provisional[0];
+  assert.equal(chennai.city, "Chennai, Tamil Nadu, India");
+  assert.match(chennai.reason, /year=2028/);
+  const ujjain = coverage.inaccessible.find(row => row.city.startsWith("Ujjain"));
+  assert.equal(ujjain.attemptedGeonameId, "1253914");
+  assert.match(coverage.nextPriority, /Mumbai and Varanasi/);
+});
