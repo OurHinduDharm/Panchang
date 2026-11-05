@@ -314,3 +314,10 @@ Divine Nakshatra के 2027 Ujjain पृष्ठ से longitude-based Asta 
 यह dataset **Ujjain city-label-only, longitude-combustion comparator** है। इसे Drik Tara Asta या IMD heliacal rising/setting के साथ एक ही error metric में न मिलाएँ। Partial windows में अनुपलब्ध boundary null है। यह Gemini के fixed-angle विचार को अलग source पर परखने के लिए उपयोगी है, पर इससे Drik algorithm सिद्ध नहीं होता।
 
 स्रोत: https://divinenakshatra.com/graha/2027/
+
+
+## 5 नवम्बर 2026 — Chennai Drik Jupiter 2027 cross-city capture
+
+Drik search-indexed page पर Chennai के लिए Guru Tara Asta 19 Aug 2027 19:00 IST से 13 Sep 2027 05:21 IST तक दिखता है। यह New Delhi Jupiter 2027 के 17 Aug 2027 19:32 से 13 Sep 2027 05:22 से अलग city-label observation है। इसे अभी strict acceptance में शामिल नहीं किया गया, क्योंकि indexed result की heading 2027 कहती है लेकिन URL query में `year=2028` है और direct page open इस capture में inaccessible रहा। मूल URL/query anomaly जस की तस सुरक्षित है; page को पुनः खोलकर पुष्टि के बाद ही acceptanceEligible किया जा सकता है।
+
+स्रोत: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2028
