@@ -251,6 +251,15 @@
     return card;
   }
 
+  // कृष्ण पक्ष पहले, फिर शुक्ल पक्ष; समान तिथि पर कैटलॉग का मूल क्रम बनाए रखें।
+  function festivalTithiRank(item) {
+    const value = String(item && (item.hinduTithi || item.tithi) || "");
+    const paksha = /कृष्ण/.test(value) ? 0 : /शुक्ल/.test(value) ? 1 : 2;
+    const order = ["प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पंचमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "अमावस्या", "पूर्णिमा", "पूर्णमासी"];
+    const index = order.findIndex(function (name) { return value.includes(name); });
+    return paksha === 2 || index < 0 ? 999 : paksha * 20 + index;
+  }
+
   function render(items, today, chaturmasEvents, chaturmasConfig, pageOffset) {
     mount.replaceChildren();
     mount.classList.add("ohd-festival-widget");
@@ -363,23 +372,18 @@
       const futureWithinPage = item.date >= pageStartKey && item.date < pageEndKey;
       const activeRange = pageOffset === 0 && item.endDate && item.date <= todayKey && item.endDate >= todayKey;
       return futureWithinPage || activeRange;
+    }).map(function (item, index) {
+      return { item: item, index: index };
     }).sort(function (a, b) {
-      const aActive = a.date < todayKey && a.endDate && a.endDate >= todayKey;
-      const bActive = b.date < todayKey && b.endDate && b.endDate >= todayKey;
+      const left = a.item, right = b.item;
+      const aActive = left.date < todayKey && left.endDate && left.endDate >= todayKey;
+      const bActive = right.date < todayKey && right.endDate && right.endDate >= todayKey;
       if (aActive && !bActive) return -1;
       if (bActive && !aActive) return 1;
-      if (a.date !== b.date) return a.date.localeCompare(b.date);
-      // On the same Gregorian date, follow the declared Hindu tithi sequence.
-      const tithiOrder = ["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","अमावस्या","पूर्णिमा","पूर्णमासी"];
-      function rank(item) {
-        const tithi = String(item.hinduTithi || "");
-        const paksha = /कृष्ण/.test(tithi) ? 0 : /शुक्ल/.test(tithi) ? 1 : 2;
-        const index = tithiOrder.findIndex(function (name) { return tithi.includes(name); });
-        return index < 0 ? 999 : paksha * 20 + index;
-      }
-      const rankDiff = rank(a) - rank(b);
-      return rankDiff || String(a.title || "").localeCompare(String(b.title || ""), "hi");
-    });
+      if (left.date !== right.date) return left.date.localeCompare(right.date);
+      const rankDiff = festivalTithiRank(left) - festivalTithiRank(right);
+      return rankDiff || a.index - b.index;
+    }).map(function (entry) { return entry.item; });
 
     const chaturmas = makeChaturmasCard(chaturmasEvents, todayKey, chaturmasConfig);
     if (chaturmas) list.appendChild(chaturmas);

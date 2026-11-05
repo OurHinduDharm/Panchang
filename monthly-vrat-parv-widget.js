@@ -1042,6 +1042,24 @@
       empty.hidden=false;
     }else if(empty){empty.hidden=true;}
   }
+  // एक ही तारीख़ पर पर्वों को हिन्दू तिथि के क्रम में रखें; समान तिथि पर मूल JSON क्रम सुरक्षित रहे।
+  function festivalTithiRank(item){
+    var value=String(item&& (item.hinduTithi||item.tithi)||"");
+    var paksha=/कृष्ण/.test(value)?0:/शुक्ल/.test(value)?1:2;
+    var order=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","अमावस्या","पूर्णिमा","पूर्णमासी"];
+    var index=order.findIndex(function(name){return value.includes(name);});
+    return paksha===2||index<0?999:paksha*20+index;
+  }
+  function sortFestivalEvents(items){
+    return items.map(function(item,index){return {item:item,index:index};})
+      .sort(function(a,b){
+        var dateOrder=String(a.item.date||"").localeCompare(String(b.item.date||""));
+        if(dateOrder)return dateOrder;
+        var rankOrder=festivalTithiRank(a.item)-festivalTithiRank(b.item);
+        return rankOrder||a.index-b.index;
+      }).map(function(entry){return entry.item;});
+  }
+
   function render(data,year,month,token){
     eventsEl.replaceChildren();
     if(reviewMode&&data&&data.status&&data.status!=="approved"){
@@ -1062,7 +1080,7 @@
     if(!reviewMode){
       list=list.filter(function(item){return item.isLocationEclipse===true||item.reviewStatus==="approved"||item.reviewStatus==="user-confirmed-hard-copy"||item.calculationStatus==="nakshatra-derived"||item.calculationStatus==="tithi-derived";});
     }
-    list.sort(function(a,b){return String(a.date||"").localeCompare(String(b.date||""));});
+    list=sortFestivalEvents(list);
     countEl.textContent=list.length+" प्रविष्टियाँ";
     searchInput.value="";
     if(!list.length){
