@@ -91,3 +91,10 @@ CI browser diagnostics सफल रहे (8 scenarios × 10 boundaries), प�
 6. **Acceptance:** हर city के भीतर multi-year/multi-planet boundary errors और declared tolerance पास हों; provider coordinates अज्ञात हों तो city-label-only comparison के रूप में ही report करें।
 
 **अभी भी कोई production formula स्वीकृत नहीं है।** PR #278 research-only रहेगा। पहले event-stream correctness और source ledger, फिर model validation; इसके बाद ही optimized precomputation/data pipeline।
+
+
+### 5 नवम्बर — 24+ hour source data और regression gate
+
+Drik New Delhi Mercury 2026/2027 के सात-सात published windows अब benchmark JSON में raw Panchang date/time तथा normalized civil local instant दोनों रूपों में दर्ज हैं। 24+ notation को source rule के अनुसार normalize किया गया है; annual pages के overlap को भी tests में identity-check किया गया है। यह source-ledger validation है, astronomical engine validation नहीं।
+
+आगे के code changes में eventWindows को multi-window source stream के रूप में पढ़ें; annual page year को event year न मानें, क्योंकि कुछ intervals अगले/पिछले civil year में जाते हैं। Raw source values और provider location provenance हमेशा साथ रखें। New Delhi city-label-only records पर Pithoragarh coordinates लागू न करें।
