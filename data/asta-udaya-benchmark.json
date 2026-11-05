@@ -1066,5 +1066,144 @@
       "normalization": "Raw source date/time retained per row. Source hour notation above 24:00 is normalized to the next civil date for instant; sourceEventDate and rawSourceTime preserve the original published values.",
       "note": "Separate from Drik combustion/Tara Asta windows; no direct boundary error score is permitted."
     }
+  },
+  "cityCoverage": {
+    "policy": "A city/planet/year is covered only when its named-city source page and event windows are captured. 'not-started' and 'inaccessible' are not zero-event years. Cross-year windows retain the source page year.",
+    "targetYears": [
+      2026,
+      2027,
+      2028
+    ],
+    "priorityCities": [
+      "New Delhi, NCT, India",
+      "Mumbai, Maharashtra, India",
+      "Varanasi, Uttar Pradesh, India",
+      "Ujjain, Madhya Pradesh, India",
+      "Pithoragarh, Uttarakhand, India",
+      "Agra, Uttar Pradesh, India",
+      "Jaipur, Rajasthan, India",
+      "Lucknow, Uttar Pradesh, India",
+      "Kolkata, West Bengal, India",
+      "Patna, Bihar, India",
+      "Pune, Maharashtra, India",
+      "Ahmedabad, Gujarat, India",
+      "Bengaluru, Karnataka, India",
+      "Hyderabad, Telangana, India",
+      "Chennai, Tamil Nadu, India"
+    ],
+    "capturedPages": [
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Mercury",
+        "pageYear": 2026,
+        "status": "captured",
+        "windowCount": 7,
+        "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Mercury",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 7,
+        "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Venus",
+        "pageYear": 2026,
+        "status": "captured",
+        "windowCount": 2,
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Venus",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Jupiter",
+        "pageYear": 2026,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Saturn",
+        "pageYear": 2026,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Saturn",
+        "pageYear": 2027,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Mars",
+        "pageYear": 2026,
+        "status": "captured",
+        "windowCount": 1,
+        "sourceId": "drik-new-delhi-other-planets-2026-2027"
+      },
+      {
+        "city": "Pithoragarh, Uttarakhand, India",
+        "planet": "Venus",
+        "pageYear": 2025,
+        "status": "captured",
+        "windowCount": 2,
+        "sourceId": "drik-pithoragarh-2025-venus"
+      }
+    ],
+    "notCapturedPages": [
+      {
+        "city": "New Delhi, NCT, India",
+        "planet": "Mars",
+        "pageYear": 2027,
+        "status": "not-captured",
+        "reason": "Named-city 2027 source page not verified; no event inferred."
+      },
+      {
+        "city": "Pithoragarh, Uttarakhand, India",
+        "planet": "Mercury",
+        "pageYear": 2026,
+        "status": "inaccessible",
+        "reason": "Direct named-city URL returned internal access error; retry city selector/indexed capture."
+      },
+      {
+        "city": "Pithoragarh, Uttarakhand, India",
+        "planet": "Venus",
+        "pageYear": 2026,
+        "status": "inaccessible",
+        "reason": "Direct named-city URL returned internal access error; 2025 source page's cross-year window is not a full 2026 page."
+      },
+      {
+        "city": "Pithoragarh, Uttarakhand, India",
+        "planet": "Jupiter",
+        "pageYear": 2027,
+        "status": "inaccessible",
+        "reason": "Direct named-city URL returned internal access error; no New Delhi substitution."
+      }
+    ],
+    "pendingCityCount": 14,
+    "pendingNote": "Other priority-city/planet/year combinations are not-started and must be captured from their own named-city pages before comparison."
   }
 }
