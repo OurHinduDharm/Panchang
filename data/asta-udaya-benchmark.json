@@ -80,6 +80,19 @@
       },
       "rawNotation": "24+ hour notation; page states hours past midnight are above 24:00 and fall on next day; Panchang day starts/ends at sunrise.",
       "notes": "Seven separate Tara Asta windows are listed on each annual page. 2026 and 2027 page captures overlap on the Dec 2026–Jan 2027 interval; retain pageYear to preserve source provenance. Do not treat this as coordinate-exact observer validation."
+    },
+    "drik-new-delhi-other-planets-2026-2027": {
+      "name": "Drik Panchang",
+      "location": "New Delhi, NCT, India",
+      "sourceType": "published-location-specific-event-windows",
+      "verifiedOn": "2026-11-05",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Drik provider coordinates/elevation not disclosed; city-label-only"
+      },
+      "notes": "Published city-label times for Venus, Mars, Jupiter and Saturn. The source page's raw local date/time is retained; 24+ hour times are normalized by the same explicit rule used for Mercury. No observer coordinates are inferred."
     }
   },
   "cases": [
@@ -570,6 +583,181 @@
         "normalization": "Drik 24+ hour notation: when hour >= 24, subtract 24 and advance civil date by one day; preserve original Panchang date/time alongside normalized local instant.",
         "status": "source-captured; normalization rule explicit; city-label-only"
       }
-    ]
+    ],
+    "drik-new-delhi-venus-2026": [
+      {
+        "sequence": 1,
+        "pageYear": 2026,
+        "planet": "Venus",
+        "start": {
+          "panchangDate": "2025-12-11",
+          "rawLocalTime": "06:35",
+          "normalizedLocal": "2025-12-11T06:35:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-02-01",
+          "rawLocalTime": "18:27",
+          "normalizedLocal": "2026-02-01T18:27:00+05:30"
+        },
+        "normalization": "Local time Asia/Kolkata; 24+ hour values are advanced to the next civil date after subtracting 24 hours; raw source notation is retained.",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=24hour",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027",
+        "status": "source-captured; city-label-only"
+      },
+      {
+        "sequence": 2,
+        "pageYear": 2026,
+        "planet": "Venus",
+        "start": {
+          "panchangDate": "2026-10-12",
+          "rawLocalTime": "18:19",
+          "normalizedLocal": "2026-10-12T18:19:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-10-29",
+          "rawLocalTime": "06:00",
+          "normalizedLocal": "2026-10-29T06:00:00+05:30"
+        },
+        "normalization": "Local time Asia/Kolkata; 24+ hour values are advanced to the next civil date after subtracting 24 hours; raw source notation is retained.",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=24hour",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027",
+        "status": "source-captured; city-label-only"
+      }
+    ],
+    "drik-new-delhi-venus-2027": [
+      {
+        "sequence": 1,
+        "pageYear": 2027,
+        "planet": "Venus",
+        "start": {
+          "panchangDate": "2027-07-21",
+          "rawLocalTime": "05:08",
+          "normalizedLocal": "2027-07-21T05:08:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-09-09",
+          "rawLocalTime": "19:00",
+          "normalizedLocal": "2027-09-09T19:00:00+05:30"
+        },
+        "normalization": "Local time Asia/Kolkata; 24+ hour values are advanced to the next civil date after subtracting 24 hours; raw source notation is retained.",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2027",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027",
+        "status": "source-captured; city-label-only"
+      }
+    ],
+    "drik-new-delhi-jupiter-2026": [
+      {
+        "sequence": 1,
+        "pageYear": 2026,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2026-07-15",
+          "rawLocalTime": "19:59",
+          "normalizedLocal": "2026-07-15T19:59:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-08-11",
+          "rawLocalTime": "29:03+",
+          "normalizedLocal": "2026-08-12T05:03:00+05:30"
+        },
+        "normalization": "Local time Asia/Kolkata; 24+ hour values are advanced to the next civil date after subtracting 24 hours; raw source notation is retained.",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?time-format=24plushour&year=2026",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027",
+        "status": "source-captured; city-label-only"
+      }
+    ],
+    "drik-new-delhi-jupiter-2027": [
+      {
+        "sequence": 1,
+        "pageYear": 2027,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2027-08-17",
+          "rawLocalTime": "19:32",
+          "normalizedLocal": "2027-08-17T19:32:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-09-12",
+          "rawLocalTime": "29:22+",
+          "normalizedLocal": "2027-09-13T05:22:00+05:30"
+        },
+        "normalization": "Local time Asia/Kolkata; 24+ hour values are advanced to the next civil date after subtracting 24 hours; raw source notation is retained.",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?time-format=24plushour&year=2027",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027",
+        "status": "source-captured; city-label-only"
+      }
+    ],
+    "drik-new-delhi-saturn-2026": [
+      {
+        "sequence": 1,
+        "pageYear": 2026,
+        "planet": "Saturn",
+        "start": {
+          "panchangDate": "2026-03-13",
+          "rawLocalTime": "19:13",
+          "normalizedLocal": "2026-03-13T19:13:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-04-22",
+          "rawLocalTime": "04:49",
+          "normalizedLocal": "2026-04-22T04:49:00+05:30"
+        },
+        "normalization": "Local time Asia/Kolkata; 24+ hour values are advanced to the next civil date after subtracting 24 hours; raw source notation is retained.",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?lang=en",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027",
+        "status": "source-captured; city-label-only"
+      }
+    ],
+    "drik-new-delhi-saturn-2027": [
+      {
+        "sequence": 1,
+        "pageYear": 2027,
+        "planet": "Saturn",
+        "start": {
+          "panchangDate": "2027-03-26",
+          "rawLocalTime": "19:21",
+          "normalizedLocal": "2027-03-26T19:21:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-05-04",
+          "rawLocalTime": "28:36+",
+          "normalizedLocal": "2027-05-05T04:36:00+05:30"
+        },
+        "normalization": "Local time Asia/Kolkata; 24+ hour values are advanced to the next civil date after subtracting 24 hours; raw source notation is retained.",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?time-format=24plushour&year=2027",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027",
+        "status": "source-captured; city-label-only"
+      }
+    ],
+    "drik-new-delhi-mars-2026": [
+      {
+        "sequence": 1,
+        "pageYear": 2026,
+        "planet": "Mars",
+        "start": {
+          "panchangDate": "2025-11-01",
+          "rawLocalTime": "18:36",
+          "normalizedLocal": "2025-11-01T18:36:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-05-02",
+          "rawLocalTime": "04:30",
+          "normalizedLocal": "2026-05-02T04:30:00+05:30"
+        },
+        "normalization": "Local time Asia/Kolkata; 24+ hour values are advanced to the next civil date after subtracting 24 hours; raw source notation is retained.",
+        "sourceUrl": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html",
+        "sourceId": "drik-new-delhi-other-planets-2026-2027",
+        "status": "source-captured; city-label-only"
+      }
+    ],
+    "drik-new-delhi-mars-2027": []
+  },
+  "eventWindowsMetadata": {
+    "drik-new-delhi-mars-2027": {
+      "planet": "Mars",
+      "pageYear": 2027,
+      "status": "not-captured",
+      "reason": "No 2027 New Delhi Mars Asta page result was verified in this capture pass. Keep missing; do not infer."
+    }
   }
 }
