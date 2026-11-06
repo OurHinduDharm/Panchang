@@ -206,3 +206,11 @@ Drik Panchang का Mumbai 2027 Vivaha calendar एक उपयोगी, ल�
 **सीमाएँ:** Drik का exact modern algorithm, visibility threshold, observer coordinates/elevation सार्वजनिक रूप से स्पष्ट नहीं हैं। पहले direct reopen में event URL ने New Delhi दिखाया था; इसलिए नए indexed capture के बावजूद event-page selector की reproducibility अभी unresolved है। इस reference को city-label-only ही रखें—coordinate-exact न कहें।
 
 इससे अगला तकनीकी कदम स्पष्ट है: Drik के अपने location selector / geoname identity को event pages पर स्थिर रूप से capture करना, और उसी शहर/ग्रह/वर्ष के दोनों boundaries पर candidate models के signed time errors मापना। Panchang Guru Dehradun rows केवल secondary comparison stream रहेंगी। कोई fixed threshold या Swiss heliacal model अभी स्वीकृत नहीं है; production files अपरिवर्तित रहेंगी।
+
+### 7 नवम्बर 2026 — Drik elevation setting: अतिरिक्त अनिश्चितता
+
+Drik की सामान्य Settings page कहती है कि geographic elevation का उपयोग default रूप से Disabled है; इसे Enable करने पर elevation गणनाओं में शामिल होता है। Drik यह भी कहता है कि इस setting से Panchang/Muhurat timings, sunrise/sunset सहित, कुछ मिनट बदल सकते हैं।
+
+स्रोत: https://www.drikpanchang.com/settings/drikpanchang-settings.html?lang=en
+
+**सीमा:** यह सामान्य product-setting disclosure है; इससे यह सिद्ध नहीं होता कि Tara Asta/Udaya event pages इसी elevation toggle को किस प्रकार लागू करते हैं। इसलिए Drik के internal observer coordinates/elevation अभी भी अज्ञात हैं। Project Pithoragarh elevation 1650 m को Drik का elevation न मानें और model को elevation के आधार पर Drik से मिलाने के लिए मनमाने ढंग से न बदलें। इस evidence को केवल uncertainty/provenance note के रूप में रखा गया है, acceptance data या formula के रूप में नहीं।
