@@ -17,8 +17,8 @@
       "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025",
       "sourceType": "published-location-specific-event-times",
       "location": "Pithoragarh, Uttarakhand, India",
-      "retrievalEvidence": "Search-index result explicitly identifies Pithoragarh and displays the event times; reopening the same URL directly returned a New Delhi page. City label is supported by the indexed result, but the URL is not a reproducible city selector.",
-      "reproducibilityStatus": "search-index-city-label-only-direct-url-resolves-new-delhi",
+      "retrievalEvidence": "Search-index result explicitly identifies Pithoragarh and displays the event times; reopening the same URL directly returned a New Delhi page. City label is supported by the indexed result, but the URL is not a reproducible city selector. On 2026-11-06, a fresh indexed Drik result again identified the 2025 Venus Asta page as Pithoragarh and disclosed that modern timings use observer geolocation; Drik's Pithoragarh monthly page separately confirms geoname-id=1259503.",
+      "reproducibilityStatus": "indexed-city-label-and-geoname-id-corroborated; direct-event-page-selector-persistence-unverified",
       "directReopenObservation": {
         "observedOn": "2026-11-05",
         "sameUrlRenderedCity": "New Delhi, NCT, India",
@@ -26,7 +26,19 @@
         "geonameIdInEventUrl": false
       },
       "notes": "Treat the two Pithoragarh 2025 Venus intervals as provider-indexed city-label references only. The search result explicitly names Pithoragarh, but reopening its URL directly rendered New Delhi; the event URL has no geoname-id. Do not upgrade to coordinate-grade or reproducible-page acceptance until the Pithoragarh selector is preserved in a canonical event URL or captured browser session. Drik observer coordinates/elevation remain undisclosed. Additional user-supplied 2024–2027 Pithoragarh transcriptions are now kept separately under source drik-pithoragarh-user-transcribed-asta-2024-2027; the 2025 indexed page independently matches the two 2025 Venus intervals. This does not repair the direct-URL city-selector reproducibility issue.",
-      "provenanceNote": "2025 indexed result corroborates the exact 2025 Venus intervals; direct URL still rendered New Delhi during prior direct reopen."
+      "provenanceNote": "2025 indexed result corroborates the exact 2025 Venus intervals; direct URL still rendered New Delhi during prior direct reopen. Fresh 2026-11-06 indexed capture supports Pithoragarh city identity and Drik's geolocation-based modern method, but exact algorithm/observer coordinates and direct event-page selector persistence remain undisclosed.",
+      "providerCityIdentity": {
+        "geonameId": 1259503,
+        "evidenceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503",
+        "status": "Drik city identity independently corroborated; event-page selector persistence still requires direct verification"
+      },
+      "methodDisclosure": "The published Drik Venus Asta page states that its modern algorithms predict combustion timings based on observer geolocation. It separately describes Surya Siddhanta angular limits as approximate. The exact modern algorithm, visibility threshold, observer coordinates and elevation are not disclosed.",
+      "methodEvidence": {
+        "pageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025",
+        "observedOn": "2026-11-06",
+        "indexedPageTitle": "2025 Shukra Tara Asta and Uday Timings for Pithoragarh, Uttarakhand, India",
+        "limitation": "The search-indexed event page identifies Pithoragarh and provides both 2025 windows; a prior direct reopen of the URL rendered New Delhi. Do not call this a reproducible direct-page capture yet."
+      }
     },
     "drik-new-delhi-2027-jupiter": {
       "name": "Drik Panchang",
