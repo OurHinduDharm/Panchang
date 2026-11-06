@@ -179,34 +179,35 @@
     {
       "date": "2030-10-25",
       "dateLabel": "25 अक्टूबर",
-      "title": "काली चौदस",
-      "description": "काली चौदस कुछ क्षेत्रीय परंपराओं में नरक चतुर्दशी के आसपास मनाई जाती है। इस दिन देवी काली का पूजन, दीपदान और स्नान-दान की परंपरा है।",
-      "category": "पर्व",
+      "title": "काली चौदस / नरक चतुर्दशी / रूप चौदस",
+      "description": "इस वर्ष कृष्ण चतुर्दशी 25 अक्टूबर को प्रातः सूर्योदय के बाद आरम्भ होकर 26 अक्टूबर के अरुणोदय से पहले समाप्त होती है; इसलिए दोनों दिनों के अरुणोदय में इसकी व्याप्ति नहीं है। क्षय-तिथि के विशेष निर्णय में जिस सूर्योदय-दिन चतुर्दशी की अवधि अधिक रहती है, उस आधार पर 25 अक्टूबर को नरक चतुर्दशी / रूप चौदस का पर्व-दिन माना गया है। काली चौदस की रात्रि-पूजा भी इसी दिन है। अभ्यंग-स्नान की परंपरा में अरुणोदय के समय तैल-उबटन लगाया जाता है। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\\\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">नरक चतुर्दशी की महिमा पढ़ें</a>।",
+      "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      "sourceName": "Drik Panchang 2030 तिथि-गणना; क्षय-तिथि निर्णय — धर्मसिंधु परंपरा",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
+      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
+      "secondaryArticleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें"
     },
     {
       "date": "2030-10-26",
       "dateLabel": "26 अक्टूबर",
-      "title": "दीपावली / लक्ष्मी पूजन / नरक चतुर्दशी",
-      "description": "दीपावली पर दीपदान तथा लक्ष्मी-गणेश पूजन किया जाता है। इसी संयुक्त पर्व-तिथि में नरक चतुर्दशी के निमित्त अभ्यंग-स्नान और दीपदान की परंपरा भी जुड़ी है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें।",
+      "title": "दीपावली / लक्ष्मी पूजन",
+      "description": "दीपावली पर दीपदान तथा माँ लक्ष्मी और भगवान गणेश का पूजन किया जाता है। गृहस्थों के लिए स्थानीय प्रदोष काल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। <a href=\\\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">दीपावली का महत्व</a>। <a href=\\\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण अमावस्या एवं चतुर्दशी",
+      "hinduTithi": "कार्तिक कृष्ण अमावस्या",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "muhurtaRules": [
-        "diwali-lakshmi-puja",
-        "narak-chaturdashi-abhyanga"
+        "diwali-lakshmi-puja"
       ],
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html",
-      "articleLabel": "दीपावली का महत्व",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
-      "secondaryArticleLabel": "नरक चतुर्दशी की महिमा"
+      "articleLabel": "दीपावली का महत्व"
     },
     {
       "date": "2030-10-27",
