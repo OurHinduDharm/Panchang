@@ -28,7 +28,7 @@ test("Kali Chaudas and Narak Chaturdashi dates are reviewed consistently for 202
   }
 });
 
-test("2030 kshaya Chaturdashi follows the Dharmasindhu second-day observance without a fabricated overlap muhurta", async () => {
+test("2030 kshaya Chaturdashi follows the Dharmasindhu second-day observance with the explicit Dharmasindhu kshaya-tithi muhurta", async () => {
   const data = await readMonth("2030-10");
   const diwali = data.events.find(event => /दीपावली/.test(event.title || ""));
   const kali = data.events.find(event => /काली चौदस/.test(event.title || ""));
@@ -38,7 +38,7 @@ test("2030 kshaya Chaturdashi follows the Dharmasindhu second-day observance wit
   assert.match(narak.description, /दोनों दिनों के अरुणोदय में चतुर्दशी की व्याप्ति नहीं होने पर/);
   assert.match(narak.description, /धर्मसिंधु में वर्णित विशेष क्षय-तिथि निर्णय/);
   assert.match(narak.description, /दूसरे दिन चंद्रोदय-काल में अभ्यंग-स्नान/);
-  assert.equal(narak.muhurtaRule, undefined);
+  assert.equal(narak.muhurtaRule, "narak-chaturdashi-kshaya-abhyanga");
   assert.equal(narak.muhurtaRules, undefined);
   assert.equal(diwali.date, "2030-10-26");
   assert.deepEqual(diwali.muhurtaRules, ["diwali-lakshmi-puja"]);
