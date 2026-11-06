@@ -551,6 +551,7 @@
         if(token!==requestToken||!content.isConnected) return;
         context.tithis=[...(previousValues.p.tithis||[]),...(previousValues.next.tithis||[]),...(context.tithis||[])];
         context.previousSunrise=previousValues.p.sunrise;
+        context.previousMoonrise=previousValues.p.moonrise;
       }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="bhai-dooj-tilak";})){
         var previousDate=new Date(dateIso+"T12:00:00.000Z");
