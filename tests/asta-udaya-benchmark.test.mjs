@@ -503,7 +503,9 @@ test("Pithoragarh third-party place coordinates are not promoted to Drik observe
 test("Pithoragarh 2025 Drik indexed event references retain direct-URL reproducibility caveat", () => {
   const source = dataset.sources["drik-pithoragarh-2025-venus"];
   assert.ok(source);
-  assert.equal(source.reproducibilityStatus, "search-index-city-label-only-direct-url-resolves-new-delhi");
+  assert.equal(source.reproducibilityStatus, "indexed-city-label-and-geoname-id-corroborated; direct-event-page-selector-persistence-unverified");
+  assert.equal(source.providerCityIdentity.geonameId, 1259503);
+  assert.match(source.methodDisclosure, /modern algorithms.*observer geolocation/i);
   assert.equal(source.directReopenObservation.sameUrlRenderedCity, "New Delhi, NCT, India");
   assert.equal(source.directReopenObservation.requestedSearchResultCity, "Pithoragarh, Uttarakhand, India");
   assert.equal(source.directReopenObservation.geonameIdInEventUrl, false);
