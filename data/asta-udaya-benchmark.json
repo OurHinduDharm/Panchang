@@ -38,6 +38,12 @@
         "observedOn": "2026-11-06",
         "indexedPageTitle": "2025 Shukra Tara Asta and Uday Timings for Pithoragarh, Uttarakhand, India",
         "limitation": "The search-indexed event page identifies Pithoragarh and provides both 2025 windows; a prior direct reopen of the URL rendered New Delhi. Do not call this a reproducible direct-page capture yet."
+      },
+      "settingsEvidence": {
+        "pageUrl": "https://www.drikpanchang.com/settings/drikpanchang-settings.html?lang=en",
+        "observedOn": "2026-11-07",
+        "observation": "Drik's general settings page says elevation is disabled by default; enabling it considers geographic elevation in calculations. It says the setting may change Panchang and Muhurat timings, including sunrise/sunset, by a couple of minutes.",
+        "limitation": "This is a general product setting disclosure. It does not explicitly confirm whether or how the Tara Asta/Udaya event pages apply this elevation option. Do not infer Drik's Asta observer elevation or silently set the project observer elevation equal to Drik's."
       }
     },
     "drik-new-delhi-2027-jupiter": {
