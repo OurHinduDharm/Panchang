@@ -38,10 +38,12 @@ test("2030 October Navratri and Deepawali cards have distinct useful description
   const diwali = find(events, /दीपावली/);
   assert.match(diwali.description, /लक्ष्मी-गणेश पूजन/);
   assert.match(diwali.articleUrl || "", /About-Deepawali/);
-  const chaturdashi = find(events, /काली चौदस/);
-  assert.match(chaturdashi.title, /नरक चतुर्दशी.*रूप चौदस/);
-  assert.match(chaturdashi.description, /क्षय-तिथि के विशेष निर्णय/);
-  assert.match(chaturdashi.articleUrl || "", /About-Narak-Chaturdashi/);
+  const kali = find(events, /काली चौदस/);
+  assert.equal(kali.date, "2030-10-25");
+  const narak = find(events, /नरक चतुर्दशी/);
+  assert.equal(narak.date, "2030-10-26");
+  assert.match(narak.description, /धर्मसिंधु में वर्णित विशेष क्षय-तिथि निर्णय/);
+  assert.match(narak.articleUrl || "", /About-Narak-Chaturdashi/);
   const govardhan = find(events, /गोवर्धन पूजा/);
   assert.match(govardhan.description, /अन्नकूट/);
   assert.match(find(events, /भैया दूज/).description, /तिलक/);
@@ -49,6 +51,6 @@ test("2030 October Navratri and Deepawali cards have distinct useful description
   assert.equal(find(events, /करवा चौथ/).muhurtaRule, "karwa-chauth-puja");
   assert.equal(find(events, /धनतेरस/).muhurtaRule, "dhanteras-muhurta");
   assert.deepEqual(diwali.muhurtaRules, ["diwali-lakshmi-puja"]);
-  assert.equal(chaturdashi.muhurtaRule, undefined);
+  assert.equal(narak.muhurtaRule, undefined);
   assert.equal(find(events, /भैया दूज/).muhurtaRule, "bhai-dooj-tilak");
 });
