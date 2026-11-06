@@ -35,7 +35,7 @@ test("2030 kshaya Chaturdashi follows the Dharmasindhu second-day observance wit
   const narak = data.events.find(event => /नरक चतुर्दशी/.test(event.title || ""));
   assert.equal(kali.date, "2030-10-25");
   assert.equal(narak.date, "2030-10-26");
-  assert.match(narak.description, /दोनों दिनों के अरुणोदय में चतुर्दशी की व्याप्ति नहीं होने पर/);
+  assert.match(narak.description, /दोनों दिनों के अरुणोदय और चंद्रोदय में चतुर्दशी की व्याप्ति नहीं होने पर/);
   assert.match(narak.description, /धर्मसिंधु में वर्णित विशेष क्षय-तिथि निर्णय/);
   assert.match(narak.description, /दूसरे दिन चंद्रोदय से सूर्योदय तक अभ्यंग-स्नान/);
   assert.match(kali.description, /निशीथकालीन माँ काली/);
