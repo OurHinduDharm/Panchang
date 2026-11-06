@@ -21,4 +21,11 @@ This is an isolated review aid. It does not change the live Blogger page, the mo
 
 ## Current implementation status
 
-The pure classifier and tests are the first safe layer. They require the future calculation adapter to supply explicit evidence and a reviewed rule profile. They do not yet recalculate festival dates or auto-approve the existing 2026–2028 data. Until the adapter and rule registry are implemented and checked against the user's approved hard-copy decisions, current candidate dates remain provisional.
+The workflow now has two deliberately separate layers:
+
+1. `festival-detector.mjs` discovers candidate civil dates by matching the catalogued tithi, paksha and lunar month against the annual scan's sunrise and noon Panchang observations. It supports Hindi/English aliases, distinguishes Adhika month from the regular month, reports missing metadata, flags a recorded date that does not match the scan, and preserves multiple matching days instead of guessing.
+2. `festival-auto-review.mjs` remains a separate evidence gate. It can classify a record only when a reviewed, versioned observance rule and all calculation/independent-check evidence are supplied.
+
+The detector is intentionally not a final vrata-date decider. A tithi match is only a candidate: Ekadashi, Pradosh, Shivaratri, Janmashtami, Chaturthi, Jayanti, regional observances and multi-day festivals can require different decision moments or source-specific rules. If two sunrise days match, if the paksha/month is missing, or if the stored date disagrees, the tool must surface that fact and leave the decision for review. It must never turn a candidate into an approved date by itself.
+
+The annual review page now uses the detector when a catalog record is selected. The live monthly page remains static-JSON-first; no visitor-side annual scan or automatic publication has been added. Existing 2026–2030 dates are not automatically changed by this detector.
