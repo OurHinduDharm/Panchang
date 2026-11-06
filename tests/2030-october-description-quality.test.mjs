@@ -43,6 +43,9 @@ test("2030 October Navratri and Deepawali cards have distinct useful description
   const narak = find(events, /नरक चतुर्दशी/);
   assert.equal(narak.date, "2030-10-26");
   assert.match(narak.description, /धर्मसिंधु में वर्णित विशेष क्षय-तिथि निर्णय/);
+  assert.match(narak.description, /चंद्रोदय से सूर्योदय तक अभ्यंग-स्नान/);
+  assert.doesNotMatch(narak.description, /चंद्रोदय-काल \(अरुणोदय\)/);
+  assert.match(kali.description, /निशीथकालीन माँ काली/);
   assert.match(narak.articleUrl || "", /About-Narak-Chaturdashi/);
   const govardhan = find(events, /गोवर्धन पूजा/);
   assert.match(govardhan.description, /अन्नकूट/);
