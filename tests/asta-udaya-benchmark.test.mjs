@@ -8,6 +8,22 @@ const here = dirname(fileURLToPath(import.meta.url));
 const datasetPath = resolve(here, "../data/asta-udaya-benchmark.json");
 const dataset = JSON.parse(readFileSync(datasetPath, "utf8"));
 
+test("Drik is the primary modern acceptance source; other sources remain secondary cross-checks", () => {
+  assert.match(dataset.policy.primaryModernTarget, /Drik Panchang/);
+  assert.match(dataset.policy.secondaryPanchangCrossCheck, /Rashtriya Panchang/);
+  assert.match(dataset.policy.scientificCrossCheck, /never treated as a substitute/);
+  const drik = dataset.sources["drik-pithoragarh-2025-venus"];
+  assert.ok(drik);
+  assert.equal(drik.providerCityIdentity.geonameId, 1259503);
+  assert.match(drik.methodDisclosure, /modern algorithms.*observer geolocation/i);
+  assert.match(drik.methodDisclosure, /exact modern algorithm.*not disclosed/i);
+  assert.equal(drik.reproducibilityStatus,
+    "indexed-city-label-and-geoname-id-corroborated; direct-event-page-selector-persistence-unverified");
+  const guru = dataset.sources["panchang-guru-dehradun-guru-asta-2022-2030"];
+  assert.ok(guru);
+  assert.equal(dataset.eventWindowsMetadata["panchang-guru-dehradun-guru-asta-2022-2030"].acceptanceEligible, false);
+});
+
 test("Asta-Udaya benchmark has explicit source provenance for every active case", () => {
   assert.equal(dataset.schemaVersion, 1);
   assert.ok(dataset.sources);
