@@ -623,8 +623,8 @@ test("Panchang Guru New Delhi Guru Asta ledger preserves nine published annual w
     const event = windows[i];
     assert.equal(event.planet, "Jupiter");
     assert.equal(event.pageYear, 2022 + i);
-    assert.match(event.start.normalizedLocal, /\\+05:30$/);
-    assert.match(event.end.normalizedLocal, /\\+05:30$/);
+    assert.match(event.start.normalizedLocal, /\+05:30$/);
+    assert.match(event.end.normalizedLocal, /\+05:30$/);
     assert.ok(Date.parse(event.start.normalizedLocal) < Date.parse(event.end.normalizedLocal));
   }
   const guru2027 = windows.find(event => event.pageYear === 2027);
