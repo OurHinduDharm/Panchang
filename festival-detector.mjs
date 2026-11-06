@@ -104,7 +104,7 @@ function eventDescriptor(event) {
   return {
     tithi: parsed ? { ...parsed, paksha } : null,
     month,
-    recordedDate: event?.date?.start || event?.date || event?.sourceRecord?.date || null
+    recordedDate: event?.date?.start || event?.sourceRecord?.date || (typeof event?.date === "string" ? event.date : null)
   };
 }
 
