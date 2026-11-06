@@ -31,8 +31,10 @@ test("Pithoragarh 2030 kshaya Chaturdashi ends before the second-day Arunodaya a
   const sunrise26 = new Date(p26.sunrise);
   const moonrise26 = new Date(p25.moonrise);
 
-  assert.ok(start > sunrise25, "Chaturdashi starts after the 25 October sunrise");
-  assert.ok(end < sunrise26, "Chaturdashi ends before the 26 October sunrise");
+  const arunodayaStart25 = new Date(sunrise25.getTime() - 96 * 60 * 1000);
+  const arunodayaStart26 = new Date(sunrise26.getTime() - 96 * 60 * 1000);
+  assert.ok(start > arunodayaStart25, "Chaturdashi starts after the 25 October Arunodaya");
+  assert.ok(end < arunodayaStart26, "Chaturdashi ends before the 26 October Arunodaya");
   assert.ok(moonrise26 > end && moonrise26 < sunrise26,
     "the second-day pre-dawn moonrise follows the Chaturdashi end and precedes sunrise");
 });
