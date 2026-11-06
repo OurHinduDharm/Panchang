@@ -1024,6 +1024,38 @@ const rules = {
     };
   },
 
+  "narak-chaturdashi-kshaya-abhyanga"(context) {
+    const moonrise = validDate(context.moonrise);
+    const sunrise = validDate(context.sunrise);
+    const previousSunrise = validDate(context.previousSunrise);
+    const chaturdashi = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 28 || /krishna.*chaturdashi|कृष्ण.*चतुर्दशी/.test(normalizedName(item));
+    });
+    if (!moonrise || !sunrise || !previousSunrise || sunrise <= moonrise || !chaturdashi.length) {
+      return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "unavailable", message: "क्षय-तिथि के विशेष स्नान-काल के लिए स्थानीय चंद्रोदय, दोनों सूर्योदय और कृष्ण चतुर्दशी की अवधि उपलब्ध नहीं है; समय नहीं दिखाया जा रहा है।" };
+    }
+    const previousArunodayaStart = new Date(previousSunrise.getTime() - 96 * 60 * 1000);
+    const currentArunodayaStart = new Date(sunrise.getTime() - 96 * 60 * 1000);
+    const kshayaInterval = chaturdashi.find(candidate => {
+      const missesPreviousArunodaya = candidate.end <= previousArunodayaStart || candidate.start >= previousSunrise;
+      const missesCurrentArunodaya = candidate.end <= currentArunodayaStart || candidate.start >= sunrise;
+      return missesPreviousArunodaya && missesCurrentArunodaya &&
+        candidate.end > previousSunrise.getTime() - 36 * 60 * 60 * 1000 &&
+        moonrise > candidate.end && moonrise < sunrise;
+    });
+    if (!kshayaInterval) {
+      return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "unavailable", message: "दोनों दिनों के अरुणोदय में चतुर्दशी की अनुपस्थिति और दूसरे दिन का चंद्रोदय-काल एक साथ सत्यापित नहीं हुआ; समय नहीं दिखाया जा रहा है।" };
+    }
+    const bath = interval(
+      moonrise,
+      sunrise,
+      "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त",
+      "धर्मसिंधु के विशेष क्षय-तिथि निर्णय के अनुसार दूसरे दिन चंद्रोदय से सूर्योदय तक का स्नान-काल।"
+    );
+    return { label: "नरक चतुर्दशी अभ्यंग स्नान मुहूर्त", status: "calculated", date: sunrise, dateLabel: formatDateLabel(sunrise), windows: [bath] };
+  },
+
   "narak-chaturdashi-abhyanga"(context) {
     const moonrise = validDate(context.moonrise);
     const sunrise = validDate(context.sunrise);
