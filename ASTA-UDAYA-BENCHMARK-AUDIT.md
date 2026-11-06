@@ -528,3 +528,22 @@ https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
 | बुध 2027 | 181 दिन | 175.963 दिन |
 
 अन्य दर्ज annual totals भी ledger में गणना सहित सुरक्षित हैं। यह अभी स्रोत की गलती सिद्ध नहीं करता—Drik का annual day-count convention, day-boundary या transcription में कोई अतिरिक्त/छूटी अवधि हो सकती है। इसलिए reported annual total को overwrite नहीं किया गया और किसी inclusive/exclusive formula को मनमाने ढंग से लागू नहीं किया गया। इन mismatches को संबंधित Pithoragarh Drik annual pages के direct recapture में प्राथमिकता से सुलझाना है।
+
+
+## 6 नवम्बर 2026 — Panchang Guru New Delhi Guru Asta, 2022–2030
+
+Panchang Guru के live Guru Asta पृष्ठ से New Delhi के 2022–2030 तक नौ वार्षिक Guru Asta/Udaya intervals दर्ज किए गए हैं। 2027 का pair Drik New Delhi 2027 Guru pair से मिनट तक बिल्कुल समान है। इसे **published-output corroboration** मानें; दोनों providers के algorithm स्वतंत्र हैं, इसका प्रमाण उपलब्ध नहीं है।
+
+Panchang Guru event semantics बताता है: Asta ग्रह के अस्त होने पर और Udaya ग्रह के पुनः उदय होने पर; गुरु को शुक्र की तुलना में अधिक अंधकार चाहिए, इसलिए अवधि केवल bare Sun–planet angular distance से अधिक हो सकती है और latitude/twilight से बदलती है। उसकी methodology page VSOP87 Sun, Meeus Moon और planetary orbital elements बताती है, लेकिन Guru Asta का सटीक twilight/visibility criterion या boundary-solving formula प्रकाशित नहीं करती।
+
+इसलिए इन नौ intervals को अलग `panchang-guru-visibility-boundary` source family में रखा गया है:
+- New Delhi city-label-only; provider coordinates/elevation अज्ञात।
+- 2022–2030 के नौ intervals क्रमबद्ध और timezone-aware।
+- 2027 Drik pair से exact output agreement दर्ज।
+- Algorithm independence अज्ञात; इन्हें independent validation count या production acceptance gate में अभी शामिल न करें।
+
+यह डेटा Guru visibility model के लिए held-out year comparisons और event-duration trend की जाँच में उपयोगी है; formula स्वयं इससे सिद्ध नहीं होता।
+
+Sources:
+- https://www.panchangguru.com/guru-asta
+- https://www.panchangguru.com/how-we-calculate
