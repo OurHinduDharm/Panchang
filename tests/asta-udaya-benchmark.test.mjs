@@ -673,3 +673,13 @@ test("Panchang Guru Dehradun Guru Asta windows are kept separate from New Delhi"
   const delhi = dataset.eventWindows["panchang-guru-new-delhi-guru-asta-2022-2030"][5];
   assert.notEqual(rows[5].start.normalizedLocal, delhi.start.normalizedLocal);
 });
+
+test("Drik elevation settings are recorded as a caveat, not provider observer metadata", () => {
+  const source = dataset.sources["drik-pithoragarh-2025-venus"];
+  const evidence = source.settingsEvidence;
+  assert.ok(evidence);
+  assert.match(evidence.observation, /disabled by default/i);
+  assert.match(evidence.limitation, /does not explicitly confirm/i);
+  assert.match(evidence.limitation, /Do not infer Drik's Asta observer elevation/i);
+  assert.equal(source.providerObserver?.elevationMeters ?? null, null);
+});
