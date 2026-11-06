@@ -547,3 +547,13 @@ Panchang Guru event semantics बताता है: Asta ग्रह के �
 Sources:
 - https://www.panchangguru.com/guru-asta
 - https://www.panchangguru.com/how-we-calculate
+
+## 6 नवम्बर 2026 — Panchang Guru Dehradun Guru Asta, 2022–2030
+
+उपयोगकर्ता द्वारा Dehradun स्थान चुनकर साझा किए गए 2022–2030 के नौ Guru Asta/Udaya intervals को `data/asta-udaya-benchmark.json` में अलग `panchang-guru-dehradun-guru-asta-2022-2030` stream के रूप में दर्ज किया गया। Raw IST timestamps, स्रोत के duration labels और endpoints से निकले elapsed minutes अलग-अलग सुरक्षित हैं।
+
+Dehradun और New Delhi के outputs को मिलाया नहीं गया है। उदाहरण: 2022 में Dehradun Udaya 28 मार्च 05:31, New Delhi 27 मार्च 05:37; 2027 में Dehradun Asta 16 अगस्त 19:34, New Delhi 17 अगस्त 19:32। 2027 Udaya क्रमशः 13 सितंबर 05:17 और 05:22 है। अतः स्थान-विशिष्ट परिणामों का अलग परीक्षण आवश्यक है।
+
+Dehradun timestamps उपयोगकर्ता द्वारा दिए गए पृष्ठ से transcribed हैं; direct independent recapture अभी नहीं हुआ। Provider के exact observer coordinates/elevation और Guru Asta visibility threshold प्रकाशित नहीं हैं। इस कारण source `city-label-only`, `acceptanceEligible:false` है। इसे Pithoragarh का proxy या formula validation नहीं मानना है।
+
+स्रोत: https://www.panchangguru.com/guru-asta ; https://www.panchangguru.com/how-we-calculate
