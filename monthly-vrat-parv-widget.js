@@ -543,7 +543,7 @@
       }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="narak-chaturdashi-abhyanga"||ruleItem.muhurtaRule==="narak-chaturdashi-kshaya-abhyanga";})){
         // Panchang day intervals are clipped at sunrise; include the previous sunrise-day interval
-        // so a pre-dawn Chaturdashi already active at moonrise is not lost.
+        // and its sunrise boundary for ordinary overlap and kshaya-tithi decisions.
         var previousDate=new Date(dateIso+"T12:00:00.000Z");
         previousDate.setUTCDate(previousDate.getUTCDate()-1);
         var previousIso=previousDate.toISOString().slice(0,10);
