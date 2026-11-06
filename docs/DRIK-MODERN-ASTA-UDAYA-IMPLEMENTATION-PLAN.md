@@ -190,3 +190,19 @@ Drik Panchang का Mumbai 2027 Vivaha calendar एक उपयोगी, ल�
 **इस डेटा का सही उपयोग:** यह उसी शहर के Drik downstream Vivaha/Panchang logic में Tara Asta और बाल्य/वृद्धत्व अवस्थाओं के दिन-स्तरीय प्रभाव की पुष्टि करता है। यह Asta-start/Asta-end का exact timestamp नहीं देता; इसलिए इसे minute-level event benchmark, स्वतंत्र खगोलीय ephemeris या Pithoragarh reference न मानें। इसका उपयोग केवल calendar-state regression fixture के लिए किया जा सकता है, यदि बाद में उस fixture का source capture और day-boundary interpretation अलग से सत्यापित हो।
 
 यह capture एक और उपयोगी नियम स्पष्ट करता है: event के बाद का Shishutva काल Asta interval से अलग state है। भविष्य के Panchang consumer tests में Asta और Shishutva/Vriddhatva को एक ही boolean में collapse नहीं करना चाहिए। अभी इस खोज के आधार पर कोई नया event time या production formula नहीं जोड़ा गया है।
+
+
+### 6 नवम्बर 2026 — Drik Panchang को प्राथमिक benchmark मानक की पुष्टि
+
+परियोजना का स्रोत-क्रम स्पष्ट और बाध्यकारी है:
+
+1. **Drik Panchang:** आधुनिक Tara Asta/Udaya के location-specific प्रकाशित समयों का मुख्य acceptance benchmark।
+2. Panchang Guru तथा अन्य प्रतिष्ठित पंचांग: सहायक cross-check; Drik से असहमति होने पर इनके समयों का औसत या प्रतिस्थापन नहीं।
+3. Rashtriya Panchang / Positional Astronomy Centre: heliacal event family और date-level independent context; Drik के minute-level Tara Asta timestamps का सीधा विकल्प नहीं।
+4. Astronomy Engine / Swiss Ephemeris: ग्रह-सूर्य geometry और ephemeris cross-check; स्वयं published Panchang acceptance source नहीं।
+
+6 नवम्बर को Drik के Pithoragarh Venus 2025 indexed event page ने फिर Pithoragarh शहर और दोनों Asta windows की पहचान की। उसी पृष्ठ पर Drik स्पष्ट करता है कि उसके modern algorithms observer geolocation के आधार पर combustion timings निकालते हैं; Surya Siddhanta angular limits को वह approximate timings के संदर्भ में अलग बताता है। Drik का Pithoragarh monthly Panchang geoname-id=1259503 की पुष्टि करता है।
+
+**सीमाएँ:** Drik का exact modern algorithm, visibility threshold, observer coordinates/elevation सार्वजनिक रूप से स्पष्ट नहीं हैं। पहले direct reopen में event URL ने New Delhi दिखाया था; इसलिए नए indexed capture के बावजूद event-page selector की reproducibility अभी unresolved है। इस reference को city-label-only ही रखें—coordinate-exact न कहें।
+
+इससे अगला तकनीकी कदम स्पष्ट है: Drik के अपने location selector / geoname identity को event pages पर स्थिर रूप से capture करना, और उसी शहर/ग्रह/वर्ष के दोनों boundaries पर candidate models के signed time errors मापना। Panchang Guru Dehradun rows केवल secondary comparison stream रहेंगी। कोई fixed threshold या Swiss heliacal model अभी स्वीकृत नहीं है; production files अपरिवर्तित रहेंगी।
