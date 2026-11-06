@@ -8,7 +8,7 @@ const LOCATION = new Observer(29.5828, 80.2182, 1650);
 const TZ = 330;
 const atLocalNoon = (year, month, day) => new Date(Date.UTC(year, month - 1, day, 6, 30, 0));
 
-test("Pithoragarh 2030 kshaya Chaturdashi misses both consecutive Arunodaya windows", () => {
+test("Pithoragarh 2030 kshaya Chaturdashi misses both consecutive Arunodaya and Chandrodaya windows", () => {
   const date25 = atLocalNoon(2030, 10, 25);
   const date26 = atLocalNoon(2030, 10, 26);
   const date27 = atLocalNoon(2030, 10, 27);
@@ -33,8 +33,12 @@ test("Pithoragarh 2030 kshaya Chaturdashi misses both consecutive Arunodaya wind
   const arunodayaStart26 = new Date(sunrise26.getTime() - 96 * 60 * 1000);
   assert.ok(start > arunodayaStart25, "Chaturdashi starts after the 25 October Arunodaya");
   assert.ok(end < arunodayaStart26, "Chaturdashi ends before the 26 October Arunodaya");
+  assert.ok(p25.moonrise && p26.moonrise, "Both local moonrises must be available");
+  assert.ok(new Date(p25.moonrise) < start, "Chaturdashi starts after the 25 October Chandrodaya");
+  assert.ok(new Date(p26.moonrise) > end, "Chaturdashi ends before the 26 October Chandrodaya");
   const context = getFestivalMuhurtaContext(p26, p27, date26, { name: "Pithoragarh" });
   context.previousSunrise = p25.sunrise;
+  context.previousMoonrise = p25.moonrise;
   context.tithis = [...(p25.tithis || []), ...(p26.tithis || []), ...(context.tithis || [])];
   const result = getFestivalMuhurta({ muhurtaRule: "narak-chaturdashi-kshaya-abhyanga" }, context);
   assert.equal(result.status, "calculated");
