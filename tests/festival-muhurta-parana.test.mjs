@@ -617,6 +617,7 @@ test("Narak Chaturdashi Abhyanga Snan uses the actual moonrise-to-sunrise Chatur
 test("Narak Chaturdashi kshaya rule uses second-day Chandrodya only when both Arunodaya windows are missed", () => {
   const previousSunrise = date("2030-10-25T06:17:31+05:30");
   const sunrise = date("2030-10-26T06:18:13+05:30");
+  const previousMoonrise = date("2030-10-25T05:20:00+05:30");
   const moonrise = date("2030-10-26T05:31:51+05:30");
   const chaturdashi = {
     index: 28,
@@ -624,7 +625,7 @@ test("Narak Chaturdashi kshaya rule uses second-day Chandrodya only when both Ar
     startTime: date("2030-10-25T07:11:27+05:30"),
     endTime: date("2030-10-26T04:41:00+05:30")
   };
-  const context = { previousSunrise, moonrise, sunrise, tithis: [chaturdashi] };
+  const context = { previousSunrise, previousMoonrise, moonrise, sunrise, tithis: [chaturdashi] };
   const result = getFestivalMuhurta({ muhurtaRule: "narak-chaturdashi-kshaya-abhyanga" }, context);
   assert.equal(result.status, "calculated");
   assert.equal(result.windows.length, 1);
@@ -633,9 +634,10 @@ test("Narak Chaturdashi kshaya rule uses second-day Chandrodya only when both Ar
   assert.match(result.windows[0].note, /धर्मसिंधु के विशेष क्षय-तिथि निर्णय/);
 });
 
-test("Narak Chaturdashi kshaya rule does not fabricate a window when Chaturdashi touches either Arunodaya", () => {
+test("Narak Chaturdashi kshaya rule does not fabricate a window when Chaturdashi touches a required Chandrodaya or Arunodaya", () => {
   const result = getFestivalMuhurta({ muhurtaRule: "narak-chaturdashi-kshaya-abhyanga" }, {
     previousSunrise: date("2030-10-25T06:17:31+05:30"),
+    previousMoonrise: date("2030-10-25T07:30:00+05:30"),
     moonrise: date("2030-10-26T05:31:51+05:30"),
     sunrise: date("2030-10-26T06:18:13+05:30"),
     tithis: [{
