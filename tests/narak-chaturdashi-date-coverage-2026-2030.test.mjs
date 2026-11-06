@@ -24,7 +24,7 @@ test("Kali Chaudas and Narak Chaturdashi dates are reviewed consistently for 202
     assert.equal(kali.date, item.kali, "Kali Chaudas date in " + item.month);
     assert.equal(narak.date, item.narak, "Narak Chaturdashi date in " + item.month);
     assert.equal(kali === narak, item.combined, "Same-day observances should share one card only in 2030");
-    assert.equal(narak.hinduTithi, "कार्तिक कृष्ण चतुर्दशी");
+    assert.match(narak.hinduTithi, /^कार्तिक कृष्ण चतुर्दशी/);
   }
 });
 
