@@ -569,3 +569,11 @@ Drik Pithoragarh Venus 2025 indexed result (पृष्ठ शीर्षक �
 इससे Drik की प्राथमिकता और geolocation-आधारित आधुनिक गणना का दावा मजबूत होता है; पर exact algorithm, threshold और provider observer coordinates/elevation अभी अज्ञात हैं। Event URL को direct reopen करने पर पहले New Delhi render हुआ था, इसलिए page-selector persistence अभी अप्रमाणित है। Dataset में इसे city-label-only रखा गया है; coordinate-exact acceptance का दावा नहीं है।
 
 Panchang Guru Dehradun 2022–2030 rows secondary cross-check हैं और acceptanceEligible=false ही रहेंगी। किसी भी model को Drik के same-city published boundaries पर अलग-अलग signed errors, multiple planets/years और held-out cases के साथ जाँचना होगा। अलग event definitions या शहरों के समयों का averaging निषिद्ध है।
+
+### 7 नवम्बर 2026 — Drik elevation setting: अतिरिक्त अनिश्चितता
+
+Drik की सामान्य Settings page कहती है कि geographic elevation का उपयोग default रूप से Disabled है; इसे Enable करने पर elevation गणनाओं में शामिल होता है। Drik यह भी कहता है कि इस setting से Panchang/Muhurat timings, sunrise/sunset सहित, कुछ मिनट बदल सकते हैं।
+
+स्रोत: https://www.drikpanchang.com/settings/drikpanchang-settings.html?lang=en
+
+**सीमा:** यह सामान्य product-setting disclosure है; इससे यह सिद्ध नहीं होता कि Tara Asta/Udaya event pages इसी elevation toggle को किस प्रकार लागू करते हैं। इसलिए Drik के internal observer coordinates/elevation अभी भी अज्ञात हैं। Project Pithoragarh elevation 1650 m को Drik का elevation न मानें और model को elevation के आधार पर Drik से मिलाने के लिए मनमाने ढंग से न बदलें। इस evidence को केवल uncertainty/provenance note के रूप में रखा गया है, acceptance data या formula के रूप में नहीं।
