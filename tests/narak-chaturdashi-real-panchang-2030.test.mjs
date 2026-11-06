@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import panchangPackage from "@ishubhamx/panchangam-js";
+import { getFestivalMuhurta, getFestivalMuhurtaContext } from "../festival-muhurta.js";
 
 const { getPanchangam, Observer } = panchangPackage;
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
@@ -32,10 +33,13 @@ test("Pithoragarh 2030 kshaya Chaturdashi misses both consecutive Arunodaya wind
   const arunodayaStart26 = new Date(sunrise26.getTime() - 96 * 60 * 1000);
   assert.ok(start > arunodayaStart25, "Chaturdashi starts after the 25 October Arunodaya");
   assert.ok(end < arunodayaStart26, "Chaturdashi ends before the 26 October Arunodaya");
-  console.log("OHD_2030_KSHAYA_PANCHANG=" + JSON.stringify({
-    sunrise25: sunrise25.toISOString(), sunrise26: sunrise26.toISOString(),
-    moonrise25: p25.moonrise ? new Date(p25.moonrise).toISOString() : null,
-    moonrise26: p26.moonrise ? new Date(p26.moonrise).toISOString() : null,
-    chaturdashiStart: start.toISOString(), chaturdashiEnd: end.toISOString()
-  }));
+  const context = getFestivalMuhurtaContext(p26, p27, date26, { name: "Pithoragarh" });
+  context.previousSunrise = p25.sunrise;
+  context.tithis = [...(p25.tithis || []), ...(p26.tithis || []), ...(context.tithis || [])];
+  const result = getFestivalMuhurta({ muhurtaRule: "narak-chaturdashi-kshaya-abhyanga" }, context);
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.toISOString(), new Date(p26.moonrise).toISOString());
+  assert.equal(result.windows[0].end.toISOString(), sunrise26.toISOString());
+  assert.match(result.windows[0].note, /धर्मसिंधु के विशेष क्षय-तिथि निर्णय/);
 });
