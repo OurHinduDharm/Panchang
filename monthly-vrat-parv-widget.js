@@ -541,7 +541,7 @@
         context.sankrantiMoment=findSankrantiMoment(values,item,dateIso);
         context.sankrantiRashiIndex=getSankrantiRashiIndex(item);
       }
-      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="narak-chaturdashi-abhyanga";})){
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="narak-chaturdashi-abhyanga"||ruleItem.muhurtaRule==="narak-chaturdashi-kshaya-abhyanga";})){
         // Panchang day intervals are clipped at sunrise; include the previous sunrise-day interval
         // so a pre-dawn Chaturdashi already active at moonrise is not lost.
         var previousDate=new Date(dateIso+"T12:00:00.000Z");
@@ -550,6 +550,7 @@
         var previousValues=await getDatePanchang(previousIso);
         if(token!==requestToken||!content.isConnected) return;
         context.tithis=[...(previousValues.p.tithis||[]),...(previousValues.next.tithis||[]),...(context.tithis||[])];
+        context.previousSunrise=previousValues.p.sunrise;
       }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="bhai-dooj-tilak";})){
         var previousDate=new Date(dateIso+"T12:00:00.000Z");
