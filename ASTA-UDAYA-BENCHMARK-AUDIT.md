@@ -557,3 +557,15 @@ Dehradun और New Delhi के outputs को मिलाया नहीं 
 Dehradun timestamps उपयोगकर्ता द्वारा दिए गए पृष्ठ से transcribed हैं; direct independent recapture अभी नहीं हुआ। Provider के exact observer coordinates/elevation और Guru Asta visibility threshold प्रकाशित नहीं हैं। इस कारण source `city-label-only`, `acceptanceEligible:false` है। इसे Pithoragarh का proxy या formula validation नहीं मानना है।
 
 स्रोत: https://www.panchangguru.com/guru-asta ; https://www.panchangguru.com/how-we-calculate
+
+
+## 6 नवम्बर 2026 — Drik प्राथमिक स्रोत की अतिरिक्त provenance
+
+Drik Pithoragarh Venus 2025 indexed result (पृष्ठ शीर्षक में Pithoragarh, दोनों 2025 windows सहित) ने 6 नवम्बर को फिर पुष्टि की कि Drik आधुनिक combustion समय observer geolocation के आधार पर निकालता है। उसी पृष्ठ में Surya Siddhanta angular separation को approximate timing के रूप में अलग बताया गया है। Pithoragarh monthly Panchang URL में geoname-id=1259503 भी मिला।
+
+- Event page: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025
+- City identity: https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
+
+इससे Drik की प्राथमिकता और geolocation-आधारित आधुनिक गणना का दावा मजबूत होता है; पर exact algorithm, threshold और provider observer coordinates/elevation अभी अज्ञात हैं। Event URL को direct reopen करने पर पहले New Delhi render हुआ था, इसलिए page-selector persistence अभी अप्रमाणित है। Dataset में इसे city-label-only रखा गया है; coordinate-exact acceptance का दावा नहीं है।
+
+Panchang Guru Dehradun 2022–2030 rows secondary cross-check हैं और acceptanceEligible=false ही रहेंगी। किसी भी model को Drik के same-city published boundaries पर अलग-अलग signed errors, multiple planets/years और held-out cases के साथ जाँचना होगा। अलग event definitions या शहरों के समयों का averaging निषिद्ध है।
