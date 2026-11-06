@@ -419,6 +419,23 @@
         "notIndependentlyPageVerified": "All other supplied Pithoragarh year/planet values remain user-transcribed until the corresponding named-city Drik page or stable browser capture is independently retrieved."
       },
       "notes": "Treat as a valuable same-city city-label reference set, not coordinate-grade truth. Preserve pageYear, raw local dates/times, reported duration labels, and annual totals separately. Do not infer missing planet-years as zero events. Exact observer coordinates/elevation remain undisclosed."
+    },
+    "panchang-guru-new-delhi-guru-asta-2022-2030": {
+      "name": "Panchang Guru",
+      "url": "https://www.panchangguru.com/guru-asta",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, India",
+      "verifiedOn": "2026-11-06",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider names New Delhi but does not disclose observer coordinates/elevation; city-label-only"
+      },
+      "eventDefinition": "Provider-described visibility loss in solar glare: Asta begins at planet setting and Udaya at planet rising. Provider states Jupiter needs darker sky than Venus and duration depends on latitude/twilight. Exact visibility criterion and numerical algorithm are not disclosed.",
+      "methodDisclosure": "Panchang Guru methodology page states VSOP87 for Sun, Meeus lunar theory, and orbital elements for planets, with independent ephemeris checks. It does not publish the precise Guru Asta visibility threshold or event-solving formula.",
+      "crossSourceRelationship": "The 2027 New Delhi Guru Asta pair exactly matches the Drik New Delhi 2027 Guru Asta pair already captured. Independence of the two providers' algorithms is unknown; treat as published-output corroboration, not independent validation.",
+      "retrievalEvidence": "The live provider page was reviewed on 2026-11-06 and lists annual New Delhi Guru Asta/Udaya windows from 2022 through 2030."
     }
   },
   "cases": [
@@ -3793,6 +3810,188 @@
         "sourceLocation": "Pithoragarh, Uttarakhand, India",
         "precision": "minute"
       }
+    ],
+    "panchang-guru-new-delhi-guru-asta-2022-2030": [
+      {
+        "sequence": 1,
+        "pageYear": 2022,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2022-02-23",
+          "rawLocalTime": "18:50",
+          "normalizedLocal": "2022-02-23T18:50:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2022-03-27",
+          "rawLocalTime": "05:37",
+          "normalizedLocal": "2022-03-27T05:37:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      },
+      {
+        "sequence": 2,
+        "pageYear": 2023,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2023-04-01",
+          "rawLocalTime": "19:12",
+          "normalizedLocal": "2023-04-01T19:12:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2023-05-03",
+          "rawLocalTime": "04:56",
+          "normalizedLocal": "2023-05-03T04:56:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      },
+      {
+        "sequence": 3,
+        "pageYear": 2024,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2024-05-07",
+          "rawLocalTime": "19:36",
+          "normalizedLocal": "2024-05-07T19:36:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-06-06",
+          "rawLocalTime": "04:36",
+          "normalizedLocal": "2024-06-06T04:36:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      },
+      {
+        "sequence": 4,
+        "pageYear": 2025,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2025-06-12",
+          "rawLocalTime": "19:56",
+          "normalizedLocal": "2025-06-12T19:56:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2025-07-09",
+          "rawLocalTime": "04:45",
+          "normalizedLocal": "2025-07-09T04:45:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      },
+      {
+        "sequence": 5,
+        "pageYear": 2026,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2026-07-15",
+          "rawLocalTime": "19:59",
+          "normalizedLocal": "2026-07-15T19:59:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-08-12",
+          "rawLocalTime": "05:03",
+          "normalizedLocal": "2026-08-12T05:03:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      },
+      {
+        "sequence": 6,
+        "pageYear": 2027,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2027-08-17",
+          "rawLocalTime": "19:32",
+          "normalizedLocal": "2027-08-17T19:32:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-09-13",
+          "rawLocalTime": "05:22",
+          "normalizedLocal": "2027-09-13T05:22:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      },
+      {
+        "sequence": 7,
+        "pageYear": 2028,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2028-09-16",
+          "rawLocalTime": "18:57",
+          "normalizedLocal": "2028-09-16T18:57:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2028-10-13",
+          "rawLocalTime": "05:38",
+          "normalizedLocal": "2028-10-13T05:38:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      },
+      {
+        "sequence": 8,
+        "pageYear": 2029,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2029-10-17",
+          "rawLocalTime": "18:23",
+          "normalizedLocal": "2029-10-17T18:23:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2029-11-12",
+          "rawLocalTime": "05:57",
+          "normalizedLocal": "2029-11-12T05:57:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      },
+      {
+        "sequence": 9,
+        "pageYear": 2030,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2030-11-18",
+          "rawLocalTime": "18:02",
+          "normalizedLocal": "2030-11-18T18:02:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2030-12-13",
+          "rawLocalTime": "06:20",
+          "normalizedLocal": "2030-12-13T06:20:00+05:30"
+        },
+        "normalization": "Published local clock times retained as Asia/Kolkata; no 24+ hour normalization needed.",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+        "sourceLocation": "New Delhi, India",
+        "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
+      }
     ]
   },
   "eventWindowsMetadata": {
@@ -4130,6 +4329,28 @@
       "pageYear": 2027,
       "timezone": "Asia/Kolkata",
       "note": "No data supplied for this planet/year. This does not mean Drik reports zero Asta windows."
+    },
+    "panchang-guru-new-delhi-guru-asta-2022-2030": {
+      "sourceId": "panchang-guru-new-delhi-guru-asta-2022-2030",
+      "sourceLocation": "New Delhi, India",
+      "planet": "Jupiter",
+      "pageYears": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "rowCount": 9,
+      "eventDefinition": "provider-described planet setting/rising visibility boundary; exact criterion undisclosed",
+      "precision": "minute",
+      "comparisonLevel": "city-label-only",
+      "acceptanceEligible": false,
+      "reason": "Secondary provider's published outputs are a cross-check only; algorithmic independence from Drik is unknown and provider observer coordinates are undisclosed."
     }
   },
   "cityCoverage": {
