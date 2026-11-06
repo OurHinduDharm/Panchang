@@ -7,7 +7,7 @@ const cases = [
   { month: "2027-10", narak: "2027-10-28", kali: "2027-10-27", combined: false },
   { month: "2028-10", narak: "2028-10-17", kali: "2028-10-16", combined: false },
   { month: "2029-11", narak: "2029-11-05", kali: "2029-11-04", combined: false },
-  { month: "2030-10", narak: "2030-10-25", kali: "2030-10-25", combined: true }
+  { month: "2030-10", narak: "2030-10-26", kali: "2030-10-25", combined: false }
 ];
 
 async function readMonth(name) {
@@ -28,15 +28,18 @@ test("Kali Chaudas and Narak Chaturdashi dates are reviewed consistently for 202
   }
 });
 
-test("2030 kshaya Chaturdashi does not attach the Narak bath rule to Diwali", async () => {
+test("2030 kshaya Chaturdashi follows the Dharmasindhu second-day observance without a fabricated overlap muhurta", async () => {
   const data = await readMonth("2030-10");
   const diwali = data.events.find(event => /दीपावली/.test(event.title || ""));
-  const chaturdashi = data.events.find(event => /काली चौदस/.test(event.title || ""));
-  assert.equal(chaturdashi.date, "2030-10-25");
-  assert.match(chaturdashi.description, /दोनों दिनों के अरुणोदय में इसकी व्याप्ति नहीं है/);
-  assert.match(chaturdashi.description, /क्षय-तिथि के विशेष निर्णय/);
-  assert.equal(chaturdashi.muhurtaRule, undefined);
-  assert.equal(chaturdashi.muhurtaRules, undefined);
+  const kali = data.events.find(event => /काली चौदस/.test(event.title || ""));
+  const narak = data.events.find(event => /नरक चतुर्दशी/.test(event.title || ""));
+  assert.equal(kali.date, "2030-10-25");
+  assert.equal(narak.date, "2030-10-26");
+  assert.match(narak.description, /दोनों दिनों के अरुणोदय में चतुर्दशी की व्याप्ति नहीं होने पर/);
+  assert.match(narak.description, /धर्मसिंधु में वर्णित विशेष क्षय-तिथि निर्णय/);
+  assert.match(narak.description, /दूसरे दिन चंद्रोदय-काल में अभ्यंग-स्नान/);
+  assert.equal(narak.muhurtaRule, undefined);
+  assert.equal(narak.muhurtaRules, undefined);
   assert.equal(diwali.date, "2030-10-26");
   assert.deepEqual(diwali.muhurtaRules, ["diwali-lakshmi-puja"]);
   assert.doesNotMatch(diwali.title, /नरक चतुर्दशी/);
