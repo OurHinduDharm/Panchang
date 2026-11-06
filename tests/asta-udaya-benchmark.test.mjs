@@ -634,3 +634,24 @@ test("Panchang Guru New Delhi Guru Asta ledger preserves nine published annual w
   assert.equal(guru2027.end.normalizedLocal, drik2027.end.normalizedLocal,
     "Panchang Guru and Drik published New Delhi 2027 end times match exactly");
 });
+
+test("Panchang Guru Dehradun Guru Asta windows are kept separate from New Delhi", () => {
+  const id = "panchang-guru-dehradun-guru-asta-2022-2030";
+  const rows = dataset.eventWindows[id];
+  const meta = dataset.eventWindowsMetadata[id];
+  assert.equal(rows.length, 9);
+  assert.equal(meta.acceptanceEligible, false);
+  assert.equal(meta.comparisonLevel, "city-label-only");
+  assert.equal(dataset.sources[id].location, "Dehradun, Uttarakhand, India");
+  for (let i = 0; i < rows.length; i++) {
+    assert.equal(rows[i].pageYear, 2022 + i);
+    assert.equal(rows[i].planet, "Jupiter");
+    assert.equal(rows[i].sourceLocation, "Dehradun, Uttarakhand, India");
+    assert.ok(Date.parse(rows[i].start.normalizedLocal) < Date.parse(rows[i].end.normalizedLocal));
+    assert.equal(rows[i].computedElapsedMinutes, (Date.parse(rows[i].end.normalizedLocal) - Date.parse(rows[i].start.normalizedLocal)) / 60000);
+  }
+  assert.equal(rows[5].start.normalizedLocal, "2027-08-16T19:34:00+05:30");
+  assert.equal(rows[5].end.normalizedLocal, "2027-09-13T05:17:00+05:30");
+  const delhi = dataset.eventWindows["panchang-guru-new-delhi-guru-asta-2022-2030"][5];
+  assert.notEqual(rows[5].start.normalizedLocal, delhi.start.normalizedLocal);
+});
