@@ -537,6 +537,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         if(token!==requestToken||!content.isConnected) return;
         context.tithis=[...(previousValues.p.tithis||[]),...(previousValues.next.tithis||[]),...(context.tithis||[])];
         context.previousSunrise=previousValues.p.sunrise;
+        context.previousMoonrise=previousValues.p.moonrise;
       }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="diwali-lakshmi-puja"||ruleItem.muhurtaRule==="dhanteras-muhurta";})){
         var sunset=new Date(values.p.sunset);
