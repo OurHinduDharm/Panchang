@@ -436,6 +436,23 @@
       "methodDisclosure": "Panchang Guru methodology page states VSOP87 for Sun, Meeus lunar theory, and orbital elements for planets, with independent ephemeris checks. It does not publish the precise Guru Asta visibility threshold or event-solving formula.",
       "crossSourceRelationship": "The 2027 New Delhi Guru Asta pair exactly matches the Drik New Delhi 2027 Guru Asta pair already captured. Independence of the two providers' algorithms is unknown; treat as published-output corroboration, not independent validation.",
       "retrievalEvidence": "The live provider page was reviewed on 2026-11-06 and lists annual New Delhi Guru Asta/Udaya windows from 2022 through 2030."
+    },
+    "panchang-guru-dehradun-guru-asta-2022-2030": {
+      "name": "Panchang Guru",
+      "url": "https://www.panchangguru.com/guru-asta",
+      "sourceType": "user-supplied-location-specific-published-event-times",
+      "location": "Dehradun, Uttarakhand, India",
+      "verifiedOn": "2026-11-06",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider observer coordinates/elevation undisclosed; city-label-only."
+      },
+      "eventDefinition": "Provider-described Jupiter setting/rising visibility boundaries; exact visibility criterion and event-solving formula undisclosed.",
+      "methodDisclosure": "Provider methodology describes VSOP87 Sun, Meeus Moon and planetary orbital elements, but does not publish the exact Guru Asta threshold.",
+      "crossSourceRelationship": "Separate city stream from New Delhi. Published times differ; do not transfer between cities. Algorithmic independence from Drik is unknown.",
+      "retrievalEvidence": "All nine annual windows transcribed from user-supplied Dehradun page output on 2026-11-06."
     }
   },
   "cases": [
@@ -3992,6 +4009,197 @@
         "sourceLocation": "New Delhi, India",
         "status": "source-captured; city-label-only; secondary-provider-output-corroboration"
       }
+    ],
+    "panchang-guru-dehradun-guru-asta-2022-2030": [
+      {
+        "sequence": 1,
+        "pageYear": 2022,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2022-02-23",
+          "rawLocalTime": "18:46",
+          "normalizedLocal": "2022-02-23T18:46:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2022-03-28",
+          "rawLocalTime": "05:31",
+          "normalizedLocal": "2022-03-28T05:31:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 33,
+        "computedElapsedMinutes": 46725,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      },
+      {
+        "sequence": 2,
+        "pageYear": 2023,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2023-04-01",
+          "rawLocalTime": "19:10",
+          "normalizedLocal": "2023-04-01T19:10:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2023-05-04",
+          "rawLocalTime": "04:48",
+          "normalizedLocal": "2023-05-04T04:48:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 33,
+        "computedElapsedMinutes": 46658,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      },
+      {
+        "sequence": 3,
+        "pageYear": 2024,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2024-05-07",
+          "rawLocalTime": "19:36",
+          "normalizedLocal": "2024-05-07T19:36:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2024-06-07",
+          "rawLocalTime": "04:26",
+          "normalizedLocal": "2024-06-07T04:26:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 31,
+        "computedElapsedMinutes": 43730,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      },
+      {
+        "sequence": 4,
+        "pageYear": 2025,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2025-06-12",
+          "rawLocalTime": "19:57",
+          "normalizedLocal": "2025-06-12T19:57:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2025-07-10",
+          "rawLocalTime": "04:34",
+          "normalizedLocal": "2025-07-10T04:34:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 28,
+        "computedElapsedMinutes": 39397,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      },
+      {
+        "sequence": 5,
+        "pageYear": 2026,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2026-07-15",
+          "rawLocalTime": "19:59",
+          "normalizedLocal": "2026-07-15T19:59:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2026-08-12",
+          "rawLocalTime": "04:56",
+          "normalizedLocal": "2026-08-12T04:56:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 28,
+        "computedElapsedMinutes": 39417,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      },
+      {
+        "sequence": 6,
+        "pageYear": 2027,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2027-08-16",
+          "rawLocalTime": "19:34",
+          "normalizedLocal": "2027-08-16T19:34:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2027-09-13",
+          "rawLocalTime": "05:17",
+          "normalizedLocal": "2027-09-13T05:17:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 28,
+        "computedElapsedMinutes": 39463,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      },
+      {
+        "sequence": 7,
+        "pageYear": 2028,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2028-09-15",
+          "rawLocalTime": "18:57",
+          "normalizedLocal": "2028-09-15T18:57:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2028-10-13",
+          "rawLocalTime": "05:35",
+          "normalizedLocal": "2028-10-13T05:35:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 28,
+        "computedElapsedMinutes": 39518,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      },
+      {
+        "sequence": 8,
+        "pageYear": 2029,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2029-10-17",
+          "rawLocalTime": "18:18",
+          "normalizedLocal": "2029-10-17T18:18:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2029-11-12",
+          "rawLocalTime": "05:56",
+          "normalizedLocal": "2029-11-12T05:56:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 26,
+        "computedElapsedMinutes": 36698,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      },
+      {
+        "sequence": 9,
+        "pageYear": 2030,
+        "planet": "Jupiter",
+        "start": {
+          "panchangDate": "2030-11-18",
+          "rawLocalTime": "17:55",
+          "normalizedLocal": "2030-11-18T17:55:00+05:30"
+        },
+        "end": {
+          "panchangDate": "2030-12-13",
+          "rawLocalTime": "06:20",
+          "normalizedLocal": "2030-12-13T06:20:00+05:30"
+        },
+        "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+        "sourceUrl": "https://www.panchangguru.com/guru-asta",
+        "sourceLocation": "Dehradun, Uttarakhand, India",
+        "reportedDurationDays": 25,
+        "computedElapsedMinutes": 35305,
+        "status": "user-provided-transcription; city-label-only; not-independently-page-verified"
+      }
     ]
   },
   "eventWindowsMetadata": {
@@ -4351,6 +4559,28 @@
       "comparisonLevel": "city-label-only",
       "acceptanceEligible": false,
       "reason": "Secondary provider's published outputs are a cross-check only; algorithmic independence from Drik is unknown and provider observer coordinates are undisclosed."
+    },
+    "panchang-guru-dehradun-guru-asta-2022-2030": {
+      "sourceId": "panchang-guru-dehradun-guru-asta-2022-2030",
+      "sourceLocation": "Dehradun, Uttarakhand, India",
+      "planet": "Jupiter",
+      "pageYears": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "rowCount": 9,
+      "eventDefinition": "provider-described visibility boundary; exact criterion undisclosed",
+      "precision": "minute",
+      "comparisonLevel": "city-label-only",
+      "acceptanceEligible": false,
+      "reason": "User-supplied transcription; provider coordinates undisclosed; not independently recaptured."
     }
   },
   "cityCoverage": {
