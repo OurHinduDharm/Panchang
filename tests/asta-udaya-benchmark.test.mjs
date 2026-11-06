@@ -604,3 +604,33 @@ test("Pithoragarh Venus 2024 annual summary is retained with the supplied 67-day
   assert.equal(row.computedElapsedOverlapDays, 66.608333);
   assert.equal(row.reconciliationStatus, "within-one-day-of-endpoint-overlap");
 });
+
+ 
+test("Panchang Guru New Delhi Guru Asta ledger preserves nine published annual windows without claiming independent algorithm validation", () => {
+  const source = dataset.sources["panchang-guru-new-delhi-guru-asta-2022-2030"];
+  const windows = dataset.eventWindows["panchang-guru-new-delhi-guru-asta-2022-2030"];
+  const metadata = dataset.eventWindowsMetadata["panchang-guru-new-delhi-guru-asta-2022-2030"];
+  assert.ok(source);
+  assert.equal(source.location, "New Delhi, India");
+  assert.equal(source.sourceObserver.coordinates, null);
+  assert.match(source.eventDefinition, /setting.*rising/i);
+  assert.match(source.methodDisclosure, /does not publish the precise Guru Asta visibility threshold/i);
+  assert.match(source.crossSourceRelationship, /Independence.*unknown/i);
+  assert.equal(windows.length, 9);
+  assert.equal(metadata.acceptanceEligible, false);
+  assert.equal(metadata.comparisonLevel, "city-label-only");
+  for (let i = 0; i < windows.length; i++) {
+    const event = windows[i];
+    assert.equal(event.planet, "Jupiter");
+    assert.equal(event.pageYear, 2022 + i);
+    assert.match(event.start.normalizedLocal, /\\+05:30$/);
+    assert.match(event.end.normalizedLocal, /\\+05:30$/);
+    assert.ok(Date.parse(event.start.normalizedLocal) < Date.parse(event.end.normalizedLocal));
+  }
+  const guru2027 = windows.find(event => event.pageYear === 2027);
+  const drik2027 = dataset.eventWindows["drik-new-delhi-jupiter-2027"][0];
+  assert.equal(guru2027.start.normalizedLocal, drik2027.start.normalizedLocal,
+    "Panchang Guru and Drik published New Delhi 2027 start times match exactly");
+  assert.equal(guru2027.end.normalizedLocal, drik2027.end.normalizedLocal,
+    "Panchang Guru and Drik published New Delhi 2027 end times match exactly");
+});
