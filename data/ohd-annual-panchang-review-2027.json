@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "tool": "ohd-general-annual-festival-review",
-  "generatedAt": "2026-11-01T18:39:15.099Z",
+  "generatedAt": "2026-11-07T05:02:10.320Z",
   "calculationStatus": "research-only-not-approved",
   "year": 2027,
   "location": {
@@ -89,6 +89,8 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "पौष शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html",
+      "articleLabel": "पौष मास का माहात्म्य पढ़ें",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -111,6 +113,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "माघ कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -121,6 +124,7 @@
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "माघ कृष्ण अमावस्या",
       "reviewCategory": "अमावस्या"
     },
     {
@@ -173,6 +177,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "माघ शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -183,6 +188,7 @@
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पूर्णिमा",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -194,6 +200,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "फाल्गुन कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -209,6 +216,8 @@
         "mahashivaratri-nishita"
       ],
       "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html",
+      "articleLabel": "शिवरात्रि के चारों प्रहर की पूजा-विधि पढ़ें",
       "reviewCategory": "प्रमुख पर्व"
     },
     {
@@ -231,6 +240,7 @@
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
       "reviewCategory": "अमावस्या"
     },
     {
@@ -252,6 +262,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "फाल्गुन शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -284,6 +295,7 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण अष्टमी",
       "reviewCategory": "व्रत-पर्व"
     },
     {
@@ -295,6 +307,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "चैत्र कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -315,6 +328,7 @@
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल प्रतिपदा",
       "reviewCategory": "नवरात्रि"
     },
     {
@@ -397,6 +411,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "चैत्र शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -407,6 +422,7 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा",
       "reviewCategory": "प्रमुख पर्व"
     },
     {
@@ -418,6 +434,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "वैशाख कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -438,6 +455,8 @@
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
+      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
       "reviewCategory": "पर्व"
     },
     {
@@ -491,6 +510,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "वैशाख शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -511,6 +531,7 @@
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल पूर्णिमा",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -532,6 +553,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "ज्येष्ठ कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -573,6 +595,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -588,11 +611,12 @@
     {
       "date": "2027-06-18",
       "dateLabel": "18 जून",
-      "title": "ज्येष्ठ पूर्णिमा / कबीर जयंती",
-      "description": "ज्येष्ठ पूर्णिमा / कबीर जयंती पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
+      "title": "ज्येष्ठ पूर्णिमा / वट पूर्णिमा व्रत",
+      "description": "ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। वट पूर्णिमा व्रत भी इसी दिन मनाया जाता है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -603,6 +627,7 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा",
       "reviewCategory": "व्रत"
     },
     {
@@ -614,6 +639,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "आषाढ़ कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -635,6 +661,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "आषाढ़ शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -655,6 +682,7 @@
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -666,6 +694,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "श्रावण कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -688,7 +717,24 @@
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण अमावस्या",
       "reviewCategory": "अमावस्या"
+    },
+    {
+      "date": "2027-08-02",
+      "dateLabel": "2 अगस्त",
+      "title": "आंशिक सूर्यग्रहण",
+      "description": "2 अगस्त 2027 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा। ग्रहण दोपहर 4:01 बजे आरंभ होगा, 4:29 बजे अधिकतम होगा और 4:56 बजे समाप्त होगा।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण अमावस्या",
+      "timingType": "eclipse-visibility",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
+      "sourceName": "Timeanddate — Pithoragarh; Drik Panchang",
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270802",
+      "reviewCategory": "व्रत-पर्व"
     },
     {
       "date": "2027-08-04",
@@ -719,6 +765,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "श्रावण शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -749,6 +796,7 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "reviewCategory": "प्रमुख पर्व"
     },
     {
@@ -779,6 +827,8 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
+      "articleLabel": "श्रीकृष्ण जन्माष्टमी एवं दशाफल व्रत की विधि पढ़ें",
       "reviewCategory": "प्रमुख पर्व"
     },
     {
@@ -821,6 +871,8 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "hinduTithi": "भाद्रपद शुक्ल चतुर्थी",
       "reviewCategory": "प्रमुख पर्व"
     },
     {
@@ -853,6 +905,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -926,6 +979,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "आश्विन कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -959,6 +1013,7 @@
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल प्रतिपदा",
       "reviewCategory": "प्रमुख पर्व"
     },
     {
@@ -975,7 +1030,7 @@
       "date": "2027-10-07",
       "dateLabel": "7 अक्टूबर",
       "title": "दुर्गाष्टमी / महाष्टमी",
-      "description": "नवरात्रि के अष्टमी-दिन माँ दुर्गा के महागौरी स्वरूप की पूजा की जाती है। कई परंपराओं में संधि-पूजा और कन्या-पूजन भी होता है।",
+      "description": "शारदीय नवरात्रि के अष्टमी-दिन माँ दुर्गा के महागौरी स्वरूप की पूजा की जाती है। कई परंपराओं में संधि-पूजा और कन्या-पूजन भी होता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -1010,6 +1065,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "आश्विन शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -1020,6 +1076,7 @@
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -1030,6 +1087,7 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
       "reviewCategory": "व्रत"
     },
     {
@@ -1040,6 +1098,7 @@
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण अष्टमी",
       "reviewCategory": "पर्व"
     },
     {
@@ -1051,6 +1110,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "कार्तिक कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -1088,7 +1148,7 @@
       "date": "2027-10-28",
       "dateLabel": "28 अक्टूबर",
       "title": "नरक चतुर्दशी",
-      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। कई परंपराओं में प्रातः अभ्यंग-स्नान और दीपदान होता है; रीति क्षेत्रानुसार भिन्न हो सकती है।",
+      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। कई परंपराओं में प्रातः अभ्यंग-स्नान और दीपदान होता है; रीति क्षेत्रानुसार भिन्न हो सकती है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -1173,16 +1233,20 @@
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
+      "articleLabel": "देवोत्थानी एकादशी की महिमा पढ़ें",
       "reviewCategory": "एकादशी"
     },
     {
       "date": "2027-11-11",
       "dateLabel": "11 नवंबर",
       "title": "तुलसी विवाह",
-      "description": "तुलसी विवाह में तुलसी माता और शालिग्राम/भगवान विष्णु का विवाहोत्सव किया जाता है।",
+      "description": "तुलसी विवाह में तुलसी माता और शालिग्राम/भगवान विष्णु का विवाहोत्सव किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">प्रबोधिनी एकादशी पर तुलसी विवाह</a> द्वादशी से पूर्णिमा तक किसी भी दिन यह कर सकते हैं। रविवार को तुलसी-स्पर्श शास्त्रानुसार वर्जित है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
+      "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह",
       "reviewCategory": "पर्व"
     },
     {
@@ -1193,6 +1257,9 @@
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
+      "articleLabel": "आकाशदीपदान की विधि पढ़ें",
+      "hinduTithi": "कार्तिक शुक्ल पूर्णिमा",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -1214,6 +1281,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -1235,6 +1303,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -1255,6 +1324,7 @@
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
       "reviewCategory": "पूर्णिमा"
     },
     {
@@ -1276,6 +1346,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
+      "hinduTithi": "पौष कृष्ण एकादशी",
       "reviewCategory": "एकादशी"
     },
     {
@@ -1286,6 +1357,7 @@
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "पौष कृष्ण अमावस्या",
       "reviewCategory": "अमावस्या"
     }
   ],
