@@ -260,7 +260,7 @@ export function evaluateObservanceRule(ruleId, context) {
   const profile = PROFILES[profileId];
   const day = context?.date;
   if (profile.allowedMonths) {
-    const month = String(context?.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+    const month = String(context?.masa ?? "").replace(/^अधिक\s+/, "").trim();
     if (!month) return {
       status: "insufficient-data", ruleId: profile.id, date: day ?? null,
       decisionMoment: profile.decisionMoment, warnings: ["lunar-month-missing"],
