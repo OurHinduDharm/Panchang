@@ -39,7 +39,7 @@ The annual review page now uses the detector when a catalog record is selected. 
 - **Navratri day-count:** Shukla Pratipada through Ashtami at sunrise, restricted to Chaitra/Ashwin; the first sunrise is retained on a repeated tithi.
 - **Navratri Maha Navami:** a separate Ashtami-viddha profile requires Ashtami at sunrise and Navami to overlap the daytime. This is not collapsed into the ordinary sunrise count.
 - **Navratri Sandhi Puja:** a separate Navratri-only profile requires both Shukla Ashtami and Navami intervals around their exact junction, with a 24-minute window on either side. It cannot be selected as a generic monthly Durga Ashtami rule.
-- **Pradosh:** Trayodashi overlap with the three muhurtas (3 × 48 minutes) after local sunset. This replaces the earlier rough one-fifth-of-night approximation.
+- **Pradosh:** Trayodashi overlap with the three night-muhurtas after local sunset (the night is divided into fifteen muhurtas, so the window varies with local night length).
 - **Sankashti:** Krishna Chaturthi active at local moonrise.
 - **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Phalguna in the Purnimanta calendar.
 - **Vinayaka Chaturthi:** Shukla Chaturthi overlap with the local Madhyahna interval.
