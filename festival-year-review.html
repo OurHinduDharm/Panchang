@@ -199,7 +199,9 @@ function renderCandidates(matches,detection={}){
   if(selectedRuleProfile){
    const nextDate=new Date(match.date+"T00:00:00Z");nextDate.setUTCDate(nextDate.getUTCDate()+1);const nextIso=nextDate.toISOString().slice(0,10);
    const nextDay=days.find(item=>item.date===nextIso)||dwadashiDays.find(item=>item.date===nextIso);
-   const previousDate=new Date(match.date+"T00:00:00Z");previousDate.setUTCDate(previousDate.getUTCDate()-1);const previousIso=previousDate.toISOString().slice(0,10);\n   const previousDay=days.find(item=>item.date===previousIso)||dwadashiDays.find(item=>item.date===previousIso);\n   const result=evaluateObservanceRule(selectedRuleProfile,{date:d.date,sunrise:d.sunrise,sunset:d.sunset,nextSunrise:nextDay?.sunrise,previousSunrise:previousDay?.sunrise,previousTithis:previousDay?.tithiIntervals,moonrise:d.moonrise,masa:d.masa,tithis:d.tithiIntervals,nakshatraIntervals:d.nakshatraIntervals});
+   const previousDate=new Date(match.date+"T00:00:00Z");previousDate.setUTCDate(previousDate.getUTCDate()-1);const previousIso=previousDate.toISOString().slice(0,10);
+   const previousDay=days.find(item=>item.date===previousIso)||dwadashiDays.find(item=>item.date===previousIso);
+   const result=evaluateObservanceRule(selectedRuleProfile,{date:d.date,sunrise:d.sunrise,sunset:d.sunset,nextSunrise:nextDay?.sunrise,previousSunrise:previousDay?.sunrise,previousTithis:previousDay?.tithiIntervals,moonrise:d.moonrise,masa:d.masa,tithis:d.tithiIntervals,nakshatraIntervals:d.nakshatraIntervals});
    const statusText=result.status==="candidate-supported"?"संभावित समर्थन मिला":result.status==="candidate-not-supported"?"निर्णय-काल में तिथि नहीं मिली":result.status==="insufficient-data"?"आवश्यक समय/डेटा अनुपलब्ध":"मानवीय समीक्षा आवश्यक";
    ruleCell.textContent=statusText+(result.evidence?.length?" · साक्ष्य: "+result.evidence.length:"")+" · स्रोत-समीक्षा लंबित";
   }else{ruleCell.textContent="ऊपर पर्व-विशेष प्रोफ़ाइल चुनें";}
