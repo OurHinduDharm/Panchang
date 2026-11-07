@@ -10,7 +10,12 @@ const OPTIONS = { timezoneOffset: 330, calendarType: "purnimanta" };
 function localNoon(isoDate) {
   return new Date(isoDate + "T06:30:00.000Z");
 }
-function previousIsoDate(isoDate) {\n  const date = new Date(isoDate + "T00:00:00.000Z");\n  date.setUTCDate(date.getUTCDate() - 1);\n  return date.toISOString().slice(0, 10);\n}\nfunction nextIsoDate(isoDate) {
+function previousIsoDate(isoDate) {
+  const date = new Date(isoDate + "T00:00:00.000Z");
+  date.setUTCDate(date.getUTCDate() - 1);
+  return date.toISOString().slice(0, 10);
+}
+function nextIsoDate(isoDate) {
   const date = new Date(isoDate + "T00:00:00.000Z");
   date.setUTCDate(date.getUTCDate() + 1);
   return date.toISOString().slice(0, 10);
