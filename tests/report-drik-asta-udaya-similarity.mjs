@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { Equator, Observer } from "astronomy-engine";
+import { Equator, Horizon, Observer } from "astronomy-engine";
 
 const dataset = JSON.parse(await readFile(new URL("../data/asta-udaya-benchmark.json", import.meta.url), "utf8"));
 const thresholds = { Mercury: 14, Venus: 10, Mars: 17, Jupiter: 11, Saturn: 15 };
@@ -32,6 +32,25 @@ function formatIST(date) {
   return new Date(date.getTime() + 330 * 60000)
     .toISOString()
     .replace("Z", "+05:30");
+}
+
+function horizontalPosition(body, date, observer, refraction = null) {
+  const equatorial = Equator(body, date, observer, true, true);
+  return Horizon(
+    date,
+    observer,
+    equatorial.ra,
+    equatorial.dec,
+    refraction
+  );
+}
+
+function wrap180(degrees) {
+  return ((degrees + 180) % 360 + 360) % 360 - 180;
+}
+
+function round4(value) {
+  return Number(value.toFixed(4));
 }
 
 function findBoundary(body, timestamp, threshold, type, observer) {
@@ -75,16 +94,30 @@ for (const entry of dataset.cases) {
   const threshold = thresholds[entry.planet];
   for (const [key, type] of [["astaStart", "asta"], ["astaEnd", "udaya"]]) {
     const published = entry.boundaries[key];
+    const publishedInstant = new Date(published);
     const calculated = findBoundary(entry.planet, published, threshold, type, observer);
+    const sunHorizontal = horizontalPosition("Sun", publishedInstant, observer, "normal");
+    const planetHorizontal = horizontalPosition(entry.planet, publishedInstant, observer, "normal");
+    const sunGeometric = horizontalPosition("Sun", publishedInstant, observer);
+    const planetGeometric = horizontalPosition(entry.planet, publishedInstant, observer);
+    const publishedSeparation = angularSeparation(entry.planet, publishedInstant, observer);
     report.push({
       case: entry.id,
       location: entry.sourceLocation,
       boundary: key,
       publishedIST: published,
       modelIST: calculated ? formatIST(calculated) : null,
-      publishedAngularSeparationDegrees: Number(angularSeparation(entry.planet, new Date(published), observer).toFixed(4)),
-      thresholdMinusPublishedAngleDegrees: Number((threshold - angularSeparation(entry.planet, new Date(published), observer)).toFixed(4)),
-      signedDifferenceMinutes: calculated ? Math.round((calculated.getTime() - Date.parse(published)) / 60000) : null,
+      publishedAngularSeparationDegrees: round4(publishedSeparation),
+      thresholdMinusPublishedAngleDegrees: round4(threshold - publishedSeparation),
+      publishedSunAltitudeDegrees: round4(sunHorizontal.altitude),
+      publishedPlanetAltitudeDegrees: round4(planetHorizontal.altitude),
+      publishedPlanetMinusSunAltitudeDegrees: round4(planetHorizontal.altitude - sunHorizontal.altitude),
+      publishedSunAzimuthDegrees: round4(sunHorizontal.azimuth),
+      publishedPlanetAzimuthDegrees: round4(planetHorizontal.azimuth),
+      publishedAzimuthDifferenceDegrees: round4(Math.abs(wrap180(planetHorizontal.azimuth - sunHorizontal.azimuth))),
+      geometricSunAltitudeDegrees: round4(sunGeometric.altitude),
+      geometricPlanetAltitudeDegrees: round4(planetGeometric.altitude),
+      signedDifferenceMinutes: calculated ? Math.round((calculated.getTime() - publishedInstant.getTime()) / 60000) : null,
       thresholdDegrees: threshold,
       observer: { latitude: observer.latitude, longitude: observer.longitude, elevationMeters: observer.height },
       status: calculated ? "diagnostic-only" : "no-crossing-found"
@@ -93,7 +126,7 @@ for (const entry of dataset.cases) {
 }
 
 console.log(JSON.stringify({
-  title: "Drik similarity diagnostic — topocentric angular-threshold candidate",
-  warning: "Not a Drik clone or acceptance result. Pithoragarh provider coordinates are undisclosed; this compares a project-selected observer at the same city label.",
+  title: "Drik boundary geometry diagnostic — topocentric angle and local horizon",
+  warning: "Not a Drik clone or acceptance result. Pithoragarh provider coordinates are undisclosed; this compares a project-selected observer at the same city label. Horizontal coordinates are diagnostic samples at the published instant, not inferred Drik thresholds.",
   cases: report
 }, null, 2));
