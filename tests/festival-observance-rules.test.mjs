@@ -63,7 +63,7 @@ test("wrong paksha does not satisfy a profile that specifies paksha", () => {
 });
 
 test("unknown or missing data never guesses a rule or approves a date", () => {
-  const unknown = evaluateObservanceRule("janmashtami", { date: "2026-08-20" });
+  const unknown = evaluateObservanceRule("unknown-observance-rule", { date: "2026-08-20" });
   assert.equal(unknown.status, "manual-review");
   assert.equal(unknown.autoApproved, false);
   const missing = evaluateObservanceRule("pradosh", { date: "2026-11-07", tithis: [] });
@@ -77,7 +77,7 @@ test("profile metadata makes the pending source-review boundary explicit", () =>
   assert.equal(profile.sourceReview, "pending-primary-source-review");
   assert.equal(profile.tradition, "smarta-review-default");
   assert.equal(getObservanceRuleProfile("masik-shivaratri-nishita").label, "मासिक शिवरात्रि");
-  assert.equal(getObservanceRuleProfile("ekadashi"), null);
+  assert.equal(getObservanceRuleProfile("ekadashi").id, "ekadashi-smarta-udaya");
 });
 
 test("explicit conflicting paksha is rejected while index-coded tithi can stand alone", () => {
