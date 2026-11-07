@@ -9,6 +9,16 @@ This is an isolated review aid. It does not change the live Blogger page, the mo
 - `manual-review`: explicitly disputed or tradition-dependent rules that require a human decision.
 - `manual-confirmed`: a decision already confirmed by the user's hard-copy Panchang. This is not silently overwritten by automation.
 
+## User-confirmed date policy (2026–2030)
+
+The user has manually finalized the annual festival dates through 2030. Treat those dates as the current approved baseline:
+
+1. Do not recalculate, rewrite, normalize, or replace any manually entered 2026–2030 festival date as part of detector work.
+2. If any date, tithi, paksha, lunar month, observance moment, regional practice, or exception is doubtful, compare that exact festival and year with Drik Panchang before proposing a change.
+3. Drik Panchang is a cross-check for the specific year, not permission for unattended bulk replacement. Record the compared year and the relevant rule/evidence in the review notes; the user makes the final manual decision.
+4. Keep any unresolved or conflicting case in manual-review / needs-review. Never infer a final date from a simple tithi match, and never mark a critical case auto-approved.
+5. Only routine, non-critical observances with a fully reviewed rule and complete evidence may use the automated candidate/evidence workflow. Even then, candidate generation is not publication approval.
+
 ## Safety boundaries
 
 1. A festival title or old date alone is never sufficient to auto-approve.
@@ -21,4 +31,63 @@ This is an isolated review aid. It does not change the live Blogger page, the mo
 
 ## Current implementation status
 
-The pure classifier and tests are the first safe layer. They require the future calculation adapter to supply explicit evidence and a reviewed rule profile. They do not yet recalculate festival dates or auto-approve the existing 2026–2028 data. Until the adapter and rule registry are implemented and checked against the user's approved hard-copy decisions, current candidate dates remain provisional.
+The workflow now has two deliberately separate layers:
+
+1. `festival-detector.mjs` discovers candidate civil dates by matching the catalogued tithi, paksha and lunar month against the annual scan's sunrise and noon Panchang observations. It supports Hindi/English aliases, distinguishes Adhika month from the regular month, reports missing metadata, flags a recorded date that does not match the scan, and preserves multiple matching days instead of guessing.
+2. `festival-auto-review.mjs` remains a separate evidence gate. It can classify a record only when a reviewed, versioned observance rule and all calculation/independent-check evidence are supplied.
+
+The detector is intentionally not a final vrata-date decider. A tithi match is only a candidate: Ekadashi, Pradosh, Shivaratri, Janmashtami, Chaturthi, Jayanti, regional observances and multi-day festivals can require different decision moments or source-specific rules. If two sunrise days match, if the paksha/month is missing, or if the stored date disagrees, the tool must surface that fact and leave the decision for review. It must never turn a candidate into an approved date by itself.
+
+The annual review page now uses the detector when a catalog record is selected. The live monthly page remains static-JSON-first; no visitor-side annual scan or automatic publication has been added. Existing 2026–2030 dates are not automatically changed by this detector.
+
+## Observance-specific candidate profiles (PR #283 follow-up)
+
+`festival-observance-rules.mjs` exposes explicit, versioned candidate-evidence profiles. The annual review UI requires the reviewer to select a rule; festival names are never guessed into a rule.
+
+- **Smarta Ekadashi:** Ekadashi active at local sunrise; when the same Ekadashi spans two sunrises, the first sunrise is retained as the candidate. Dashami at sunrise does not count as Ekadashi at sunrise. The Dharmasindhu digest distinguishes Smarta sunrise-Dashami vedha from Vaishnava Arunodaya vedha. Mahadvadashi and parana exceptions remain manual-review.
+- **Smarta Janmashtami:** Krishna Ashtami at Nishita, with Rohini-at-Nishita reported as supporting evidence. This profile reports each night's evidence only; it does not yet resolve the full two-night Dharmasindhu tie-break. If Ashtami is Nishita-vyapini on both nights, or neither night, the reviewer must apply the Rohini/second-night decision from the text. The profile is restricted to Bhadrapada in the project's Purnimanta calendar.
+- **Navratri day-count:** Shukla Pratipada through Saptami at sunrise, restricted to Chaitra/Ashwin. Repeated tithis retain the first sunrise.
+- **Rama Navami:** Chaitra Shukla Navami overlapping Madhyahna is shown as candidate evidence. Dharmasindhu's Ashtami-vedha-through-Madhyahna qualification is not fully resolved by this simple profile and remains a manual exception check.
+- **Nag Panchami:** the earlier Madhyahna-only profile was too simple and has been withdrawn. The special Dharmasindhu rule requires Panchami for three muhurtas after sunrise, joined to Shashthi, with short-tithi and Chaturthi-touch exceptions. The profile now deliberately returns manual review until those cases are implemented and tested. The general Panchami digest summary is not sufficient on its own.
+- **Kartika Skanda Shashthi / Soorasamharam:** remains manual review. Dharmasindhu's Panchami-joined Shashthi rule and regional Tamil temple practice must not be conflated with every monthly Shashthi. The day can move according to local sunrise/daytime conjunction.
+- **Ratha Saptami:** remains manual review. Dharmasindhu Chapter 12 gives Arunodaya Saptami or a previous-day Shashthi-Saptami conjunction subject to a proximity condition; Chapter 5's condensed tithi-vrata summary describes a different general rule. This needs reconciliation before coding a final candidate rule.
+- **Vijayadashami:** Ashwin Shukla Dashami overlapping Aparahna is shown as candidate evidence; Shravana at Aparahna is reported separately. The Dharmasindhu two-day Aparahna/Shravana tie-break is not auto-selected.
+- **Navratri Maha Ashtami:** a separate sunrise profile for Shukla Ashtami. The Dharmasindhu text includes Saptami-vedha and short/long Ashtami exceptions; those complex edge cases are not silently auto-decided.
+- **Navratri Maha Navami:** two explicit candidate profiles: Ashtami at sunrise with Navami continuing for at least six ghatis after local sunset, and a next-day Navami-at-sunrise fallback. The six-ghati rule is drawn from the Dharmasindhu Maha-Ashtami/Navami decision section; special edge cases remain review-only.
+- **Navratri Sandhi Puja:** requires adjacent Shukla Ashtami and Navami intervals and reports the transition estimate; when the Panchang engine rounds the two interval boundaries apart by up to 90 seconds, their midpoint is used. It is explicitly restricted to Chaitra/Ashwin Navratri and is not a generic monthly Durga Ashtami rule. The engine no longer invents a fixed 48-minute window where the reviewed text only identifies the tithi junction.
+- **Pradosh:** Trayodashi overlap with three night-muhurtas after local sunset; the night is divided into fifteen muhurtas, so the duration varies with local night length.
+- **Sankashti:** Krishna Chaturthi active at local moonrise.
+- **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Phalguna in the project Purnimanta calendar; Dharmasindhu names Magha Krishna Chaturdashi in its Amanta month convention, which maps to Phalguna in Purnimanta.
+- **Chhath:** remains manual review. This is a regional folk observance centred on Kartika Shukla Shashthi evening arghya and the following Saptami dawn arghya. The consulted sources explicitly distinguish this living regional rule from a date rule found in Dharmasindhu/Nirnaya Sindhu; a simple Shashthi-at-sunrise match must not silently decide it.
+- **Hanuman Jayanti:** remains manual review. Chaitra Purnima is a widely followed North Indian convention, but other regions observe different dates. The profile preserves the common convention as a review clue, not as a universal date rule.
+- **Narasimha Jayanti:** remains manual review. The Smarta rule is tied to Vaishakha Shukla Chaturdashi at Sayankala; the separate sunrise-based Vaishnava calendar convention is not merged into this profile. The exact evening window and fast/parana exceptions need implementation.
+- **Parashurama Jayanti:** remains manual review. Vaishakha Shukla Tritiya must be present at Pradosha; if Pradosha-vyapini Tritiya falls on both days, the second-day rule is relevant. This must remain separate from Akshaya Tritiya's own selection.
+- **Radha Ashtami:** remains manual review. Bhadrapada Shukla Ashtami is worshipped at Madhyahna; Saptami-vedha and other exceptions need a full source review.
+- **Vamana Jayanti:** remains manual review. Dharmasindhu Chapter 7 requires Bhadrapada Shukla Dwadashi at Madhyahna with Shravana yoga; if Shravana is present on both Ekadashi and Dwadashi, Ekadashi is selected. A plain Dwadashi match is insufficient.
+- **Shani Jayanti:** remains manual review. The common Jyeshtha Krishna Amavasya convention is recorded, but a complete primary-source decision rule and local exception review are still pending.
+- **Vinayaka Chaturthi:** Shukla Chaturthi overlap with the local Madhyahna interval.
+
+Primary text and source cross-checks now consulted:
+- Dharmasindhu, Janmashtami-vrata and Rohini-yoga sections: https://www.transliteral.org/pages/z80422113144/view and https://www.transliteral.org/pages/z80421221115/view
+- Dharmasindhu, Maha-Ashtami decision (including Ashtami-viddha Navami and Sandhi): https://www.transliteral.org/pages/z80504211648/view
+- Dharmasindhu, Vijayadashami decision (Aparahna-vyapti and Shravana two-day tie-break): https://www.transliteral.org/pages/z80504212607/view
+- Dharmasindhu, Tithi Vrata Nirnayas (Panchami vrata through Madhyahna; Chapter 5 digest): https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
+- Dharmasindhu Nag Panchami special rule cross-check (three muhurtas after sunrise, Shashthi conjunction, short-tithi exceptions): https://epandit.in/en/learn/festival/nag-panchami
+- Dharmasindhu Ratha Saptami, Maagha chapter (Arunodaya and previous-day Shashthi-Saptami option): https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=12
+- Dharmasindhu tithi-vrata summary, Chapter 5 (general Shashthi and Saptami rules): https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
+- Drik Panchang, 2026 Nag Panchami tithi/date cross-check: https://www.drikpanchang.com/festivals/nag-panchami/nag-panchami-date-time.html?lang=en&year=2026 
+- Dharmasindhu, Mahashivaratri-vrata (Magha Krishna Chaturdashi and Nishita rule): https://www.transliteral.org/pages/z80505114958/view
+- Dharmasindhu tithi-vrata digest, including Smarta/Vaishnava Ekadashi distinction, Sankashti and Pradosh: https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
+- Night-length-aware Pradosh methodology cross-check: https://panchangtime.com/methodology/pradosh-vrat
+- Chhath regional observance and four-day sequence; source explicitly notes no named Dharmasindhu/Nirnaya Sindhu rule found: https://epandit.in/en/learn/festival/chhath-puja
+- Chhath sunset/Saptami dawn arghya practice cross-check: https://udyog.io/en/puja-vidhi/chhath-puja
+- Hanuman Jayanti North Indian Chaitra Purnima convention and regional date variations; source notes no classical date rule found: https://epandit.in/en/learn/festival/hanuman-jayanti
+- Narasimha Jayanti Vaishakha Shukla Chaturdashi and Sayankala rule cross-check: https://www.drikpanchang.com/dashavatara/narasimha/narasimha-jayanti-date-time.html?year=2026 and https://sanatana.ekatantra.com/rituals/narasimha-jayanti
+- Parashurama Jayanti Pradosha-vyapini Tritiya and two-day tie-break: https://www.drikpanchang.com/dashavatara/parashurama/parashurama-jayanti-date-time.html?year=2027
+- Radha Ashtami Madhyahna worship and Bhadrapada Shukla Ashtami: https://www.drikpanchang.com/festivals/radha-ashtami/radha-ashtami-date-time.html?year=2026
+- Vamana Jayanti special Dwadashi, Madhyahna and Shravana rule, Dharmasindhu Chapter 7: https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=7
+- Shani Jayanti Jyeshtha Krishna Amavasya convention cross-check: https://panchangtime.com/festivals/shani-jayanti/pune
+- Drik Panchang 2026 Janmashtami tithi/timing cross-check: https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?geoname-id=1275004&year=2026
+- Drik Panchang 2026 Sharad Navratri date cross-check: https://www.drikpanchang.com/navratri/ashwin-shardiya-navratri-dates.html?geoname-id=1273294&year=2026
+
+A source page or digest translation is not the same as a completed critical edition review. Every profile remains candidate-only, and all relevant exceptions must be checked before any public date is approved. All results retain `finalDate: null` and `autoApproved: false`. Missing decision windows, unknown profiles, wrong lunar months and incomplete tithi transitions fail closed. No live festival JSON or Blogger output is modified by these profiles.

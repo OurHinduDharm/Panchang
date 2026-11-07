@@ -1,0 +1,425 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { evaluateObservanceRule, getObservanceRuleProfile } from "../festival-observance-rules.mjs";
+
+const interval = (index, startTime, endTime, paksha) => ({ index, startTime, endTime, paksha });
+
+test("Pradosh requires Trayodashi overlap with the first fifth of the local night", () => {
+  const sunset = "2026-11-07T12:30:00.000Z";
+  const nextSunrise = "2026-11-08T00:30:00.000Z";
+  const result = evaluateObservanceRule("pradosh", {
+    date: "2026-11-07", sunset, nextSunrise,
+    tithis: [interval(27, "2026-11-07T13:00:00Z", "2026-11-07T15:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "pradosh");
+  assert.equal(result.finalDate, null);
+});
+
+test("Sankashti requires Krishna Chaturthi to be active at local moonrise", () => {
+  const result = evaluateObservanceRule("sankashti-moonrise", {
+    date: "2026-11-27", moonrise: "2026-11-27T12:00:00.000Z",
+    tithis: [interval(18, "2026-11-27T11:00:00Z", "2026-11-27T13:00:00Z", "कृष्ण पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "moonrise");
+});
+
+test("Sankashti rejects a Chaturthi that starts after moonrise", () => {
+  const result = evaluateObservanceRule("sankashti-moonrise", {
+    date: "2026-11-27", moonrise: "2026-11-27T12:00:00.000Z",
+    tithis: [interval(18, "2026-11-27T12:00:01Z", "2026-11-27T13:00:00Z", "कृष्ण पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+});
+
+test("Masik Shivaratri requires Krishna Chaturdashi during Nishita", () => {
+  const result = evaluateObservanceRule("masik-shivaratri-nishita", {
+    date: "2026-11-07", sunset: "2026-11-07T12:30:00Z",
+    nextSunrise: "2026-11-08T00:30:00Z",
+    tithis: [interval(28, "2026-11-07T17:00:00Z", "2026-11-07T19:00:00Z", "कृष्ण पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "nishita");
+});
+
+test("Vinayaka Chaturthi requires Shukla Chaturthi during Madhyahna", () => {
+  const result = evaluateObservanceRule("vinayaka-chaturthi-madhyahna", {
+    date: "2026-09-14", sunrise: "2026-09-14T00:00:00Z",
+    sunset: "2026-09-14T12:00:00Z",
+    tithis: [interval(3, "2026-09-14T04:00:00Z", "2026-09-14T06:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "madhyahna");
+});
+
+test("wrong paksha does not satisfy a profile that specifies paksha", () => {
+  const result = evaluateObservanceRule("vinayaka-chaturthi-madhyahna", {
+    date: "2026-09-14", sunrise: "2026-09-14T00:00:00Z",
+    sunset: "2026-09-14T12:00:00Z",
+    tithis: [interval(3, "2026-09-14T04:00:00Z", "2026-09-14T06:00:00Z", "कृष्ण पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+});
+
+test("unknown or missing data never guesses a rule or approves a date", () => {
+  const unknown = evaluateObservanceRule("unknown-observance-rule", { date: "2026-08-20" });
+  assert.equal(unknown.status, "manual-review");
+  assert.equal(unknown.autoApproved, false);
+  const missing = evaluateObservanceRule("pradosh", { date: "2026-11-07", tithis: [] });
+  assert.equal(missing.status, "insufficient-data");
+});
+
+test("profile metadata makes the pending source-review boundary explicit", () => {
+  const profile = getObservanceRuleProfile("mahashivaratri-nishita");
+  assert.equal(profile.id, "mahashivaratri-nishita");
+  assert.equal(profile.label, "महाशिवरात्रि");
+  assert.equal(profile.sourceReview, "primary-text-consulted-two-night-tie-break-pending");
+  assert.equal(profile.tradition, "smarta-review-default");
+  assert.equal(getObservanceRuleProfile("masik-shivaratri-nishita").label, "मासिक शिवरात्रि");
+  assert.equal(getObservanceRuleProfile("ekadashi").id, "ekadashi-smarta-udaya");
+});
+
+test("explicit conflicting paksha is rejected while index-coded tithi can stand alone", () => {
+  const result = evaluateObservanceRule("sankashti-moonrise", {
+    date: "2026-11-27", moonrise: "2026-11-27T12:00:00.000Z",
+    tithis: [interval(18, "2026-11-27T11:00:00Z", "2026-11-27T13:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+});
+
+test("missing tithi intervals are insufficient data, not a negative date decision", () => {
+  const result = evaluateObservanceRule("pradosh", {
+    date: "2026-11-07", sunset: "2026-11-07T12:30:00Z",
+    nextSunrise: "2026-11-08T00:30:00Z", tithis: []
+  });
+  assert.equal(result.status, "insufficient-data");
+  assert.ok(result.warnings.includes("tithi-intervals-missing"));
+});
+
+test("Pradosh uses three night-length-aware muhurtas after sunset", () => {
+  const result = evaluateObservanceRule("pradosh-trayodashi", {
+    date: "2026-06-01", sunset: "2026-06-01T18:00:00Z",
+    nextSunrise: "2026-06-02T00:00:00Z",
+    tithis: [interval(12, "2026-06-01T18:30:00Z", "2026-06-01T19:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].windowEnd, "2026-06-01T19:12:00.000Z");
+});
+
+test("Smarta Ekadashi requires Ekadashi at sunrise", () => {
+  const result = evaluateObservanceRule("ekadashi-smarta-udaya", {
+    date: "2026-11-20", sunrise: "2026-11-20T00:30:00Z",
+    tithis: [interval(10, "2026-11-19T22:00:00Z", "2026-11-20T20:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "sunrise");
+});
+
+test("Smarta Ekadashi does not select the second sunrise of a vriddhi tithi", () => {
+  const result = evaluateObservanceRule("ekadashi-smarta-udaya", {
+    date: "2026-11-21", sunrise: "2026-11-21T00:30:00Z",
+    previousSunrise: "2026-11-20T00:30:00Z",
+    previousTithis: [interval(10, "2026-11-19T22:00:00Z", "2026-11-21T20:00:00Z")],
+    tithis: [interval(10, "2026-11-19T22:00:00Z", "2026-11-21T20:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("vriddhi-tithi-first-sunrise-only"));
+});
+
+test("Smarta Janmashtami checks Krishna Ashtami at Nishita and records Rohini separately", () => {
+  const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
+    date: "2026-08-20", masa: "भाद्रपद", sunset: "2026-08-20T13:00:00Z",
+    nextSunrise: "2026-08-21T00:00:00Z",
+    tithis: [interval(22, "2026-08-20T17:00:00Z", "2026-08-20T20:00:00Z", "कृष्ण पक्ष")],
+    nakshatraIntervals: [interval(3, "2026-08-20T18:00:00Z", "2026-08-20T19:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.nakshatraEvidence[0].index, 3);
+});
+
+test("Navratri day count uses Shukla tithi at sunrise", () => {
+  const result = evaluateObservanceRule("navratri-udaya", {
+    date: "2026-10-11", masa: "आश्विन", sunrise: "2026-10-11T00:30:00Z",
+    tithis: [interval(0, "2026-10-10T20:00:00Z", "2026-10-11T16:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].tithiIndex, 0);
+});
+
+test("Navratri Sandhi Puja needs both Ashtami and Navami around their exact transition", () => {
+  const result = evaluateObservanceRule("navratri-sandhi-puja", {
+    date: "2026-10-19", masa: "आश्विन",
+    tithis: [
+      interval(7, "2026-10-19T08:00:00Z", "2026-10-19T10:00:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T10:00:00Z", "2026-10-19T16:00:00Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence.length, 2);
+  assert.equal(result.evidence[0].transitionTime, "2026-10-19T10:00:00.000Z");
+});
+
+test("Navratri Sandhi Puja rejects incomplete transition evidence", () => {
+  const result = evaluateObservanceRule("navratri-sandhi-puja", {
+    date: "2026-10-19",
+    tithis: [interval(7, "2026-10-19T08:00:00Z", "2026-10-19T10:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "insufficient-data");
+});
+
+test("Navratri Navami is supported only when Ashtami holds sunrise and Navami follows by day", () => {
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date: "2026-10-19", masa: "आश्विन",
+    sunrise: "2026-10-19T00:30:00Z", sunset: "2026-10-19T12:00:00Z",
+    tithis: [
+      interval(7, "2026-10-19T00:00:00Z", "2026-10-19T05:22:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T05:22:00Z", "2026-10-20T00:00:00Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence.length, 2);
+});
+
+test("Navratri Navami profile rejects a day without Ashtami at sunrise", () => {
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date: "2026-10-20", masa: "आश्विन",
+    sunrise: "2026-10-20T00:30:00Z", sunset: "2026-10-20T12:00:00Z",
+    tithis: [interval(8, "2026-10-19T05:22:00Z", "2026-10-20T08:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("ashtami-not-active-at-sunrise"));
+});
+
+test("annual profiles reject the wrong lunar month instead of matching a same-numbered tithi", () => {
+  const result = evaluateObservanceRule("navratri-udaya", {
+    date: "2026-11-01", masa: "कार्तिक", sunrise: "2026-11-01T00:30:00Z",
+    tithis: [interval(0, "2026-10-31T22:00:00Z", "2026-11-01T10:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+});
+
+test("Navratri Mahashtami profile checks Shukla Ashtami at sunrise", () => {
+  const result = evaluateObservanceRule("navratri-maha-ashtami", {
+    date: "2026-10-18", masa: "आश्विन", sunrise: "2026-10-18T00:30:00Z",
+    tithis: [interval(7, "2026-10-18T00:00:00Z", "2026-10-18T10:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+});
+
+test("Navratri Navami sunrise profile provides the next-day fallback candidate", () => {
+  const result = evaluateObservanceRule("navratri-navami-udaya", {
+    date: "2026-10-20", masa: "आश्विन", sunrise: "2026-10-20T00:30:00Z",
+    tithis: [interval(8, "2026-10-19T05:22:00Z", "2026-10-20T08:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+});
+
+test("Navratri Ashtami-viddha Navami requires six ghatis after sunset", () => {
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date: "2026-10-19", masa: "आश्विन",
+    sunrise: "2026-10-19T00:30:00Z", sunset: "2026-10-19T12:00:00Z",
+    tithis: [
+      interval(7, "2026-10-19T00:00:00Z", "2026-10-19T06:00:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T06:00:00Z", "2026-10-19T14:24:00Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence.length, 2);
+});
+
+test("Navratri Ashtami-viddha Navami rejects less than six ghatis after sunset", () => {
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date: "2026-10-19", masa: "आश्विन",
+    sunrise: "2026-10-19T00:30:00Z", sunset: "2026-10-19T12:00:00Z",
+    tithis: [
+      interval(7, "2026-10-19T00:00:00Z", "2026-10-19T06:00:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T06:00:00Z", "2026-10-19T14:23:59Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("navami-less-than-six-ghatis-after-sunset"));
+});
+
+test("Navratri Sandhi normalizes up to 90 seconds of rounded adjacent tithi boundary", () => {
+  const result = evaluateObservanceRule("navratri-sandhi-puja", {
+    date: "2026-10-19", masa: "आश्विन",
+    tithis: [
+      interval(7, "2026-10-19T08:00:00Z", "2026-10-19T10:00:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T10:01:00Z", "2026-10-19T16:00:00Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].transitionTime, "2026-10-19T10:00:30.000Z");
+});
+
+test("Rama Navami candidate requires Chaitra Shukla Navami at Madhyahna", () => {
+  const result = evaluateObservanceRule("ram-navami-madhyahna", {
+    date: "2026-04-06", masa: "चैत्र",
+    sunrise: "2026-04-06T00:00:00Z", sunset: "2026-04-06T12:00:00Z",
+    tithis: [interval(8, "2026-04-06T05:00:00Z", "2026-04-06T06:30:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "madhyahna");
+});
+
+test("Vijayadashami candidate uses Ashwin Shukla Dashami at Aparahna and reports Shravana", () => {
+  const result = evaluateObservanceRule("vijayadashami-aparahna", {
+    date: "2026-10-20", masa: "आश्विन",
+    sunrise: "2026-10-20T00:00:00Z", sunset: "2026-10-20T12:00:00Z",
+    tithis: [interval(9, "2026-10-20T07:30:00Z", "2026-10-20T09:00:00Z", "शुक्ल पक्ष")],
+    nakshatraIntervals: [interval(21, "2026-10-20T08:00:00Z", "2026-10-20T08:30:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.nakshatraLabel, "श्रवण");
+  assert.equal(result.nakshatraEvidence[0].index, 21);
+});
+
+test("Vijayadashami remains a candidate even without Shravana; two-day tie-break stays manual", () => {
+  const result = evaluateObservanceRule("vijayadashami-aparahna", {
+    date: "2026-10-20", masa: "आश्विन",
+    sunrise: "2026-10-20T00:00:00Z", sunset: "2026-10-20T12:00:00Z",
+    tithis: [interval(9, "2026-10-20T07:30:00Z", "2026-10-20T09:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.ok(result.warnings.includes("shravana-at-aparahna-not-confirmed"));
+  assert.equal(result.autoApproved, false);
+});
+
+test("Rama Navami profile rejects non-Chaitra lunar months", () => {
+  const result = evaluateObservanceRule("ram-navami-madhyahna", {
+    date: "2026-04-06", masa: "वैशाख",
+    sunrise: "2026-04-06T00:00:00Z", sunset: "2026-04-06T12:00:00Z",
+    tithis: [interval(8, "2026-04-06T05:00:00Z", "2026-04-06T06:30:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+});
+
+test("Janmashtami reports when Rohini is absent at Nishita without rejecting the Ashtami candidate", () => {
+  const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
+    date: "2026-08-20", masa: "भाद्रपद",
+    sunset: "2026-08-20T13:00:00Z", nextSunrise: "2026-08-21T00:00:00Z",
+    tithis: [interval(22, "2026-08-20T17:00:00Z", "2026-08-20T20:00:00Z", "कृष्ण पक्ष")],
+    nakshatraIntervals: [interval(4, "2026-08-20T18:00:00Z", "2026-08-20T19:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.ok(result.warnings.includes("rohini-at-nishita-not-confirmed"));
+  assert.equal(result.autoApproved, false);
+});
+
+test("Nag Panchami stays manual until its three-muhurta and short-tithi exceptions are implemented", () => {
+  const result = evaluateObservanceRule("nag-panchami", {
+    date: "2026-08-17", masa: "श्रावण",
+    sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:40:00Z",
+    tithis: [interval(4, "2026-08-16T11:23:00Z", "2026-08-17T11:30:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "manual-review");
+  assert.match(result.reviewNote, /तीन मुहूर्त/);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("Kartika Skanda rule is not assigned to generic monthly Skanda Shashthi", () => {
+  assert.equal(getObservanceRuleProfile("skanda-shashthi"), null);
+  assert.equal(getObservanceRuleProfile("soorasamharam").reviewOnly, true);
+});
+
+test("Skanda Shashthi and Ratha Saptami stay manual until their special day-selection rules are reconciled", () => {
+  for (const [ruleId, masa] of [["skanda-shashthi-kartika-review", "कार्तिक"], ["ratha-saptami-review", "माघ"]]) {
+    const result = evaluateObservanceRule(ruleId, {
+      date: "2026-11-15", masa,
+      sunrise: "2026-11-15T00:30:00Z", sunset: "2026-11-15T12:40:00Z",
+      tithis: [interval(ruleId === "ratha-saptami-review" ? 6 : 5, "2026-11-14T17:30:00Z", "2026-11-16T20:00:00Z", "शुक्ल पक्ष")]
+    });
+    assert.equal(result.status, "manual-review");
+    assert.equal(result.finalDate, null);
+    assert.equal(result.autoApproved, false);
+    assert.ok(result.warnings.includes("special-rule-not-fully-implemented"));
+  }
+});
+
+test("Chhath remains manual because its regional observance rule is not established as a universal Smriti rule", () => {
+  const profile = getObservanceRuleProfile("chhath-puja");
+  assert.equal(profile.id, "chhath-kartika-review");
+  assert.equal(profile.reviewOnly, true);
+  const result = evaluateObservanceRule("chhath", {
+    date: "2026-11-15", masa: "कार्तिक", sunrise: "2026-11-15T00:30:00Z",
+    sunset: "2026-11-15T12:30:00Z", nextSunrise: "2026-11-16T00:30:00Z",
+    tithis: [interval(5, "2026-11-15T00:00:00Z", "2026-11-15T18:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "manual-review");
+  assert.match(result.reviewNote, /लोक-परंपरा/);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("Hanuman Jayanti profile preserves the North Indian Chaitra Purnima convention without erasing regional dates", () => {
+  const profile = getObservanceRuleProfile("hanuman-janmotsav");
+  assert.equal(profile.id, "hanuman-jayanti-chaitra-review");
+  assert.equal(profile.reviewOnly, true);
+  const result = evaluateObservanceRule("hanuman-jayanti", {
+    date: "2026-04-02", masa: "चैत्र",
+    sunrise: "2026-04-02T00:30:00Z", sunset: "2026-04-02T12:30:00Z",
+    tithis: [interval(14, "2026-04-01T18:00:00Z", "2026-04-02T18:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "manual-review");
+  assert.match(result.reviewNote, /क्षेत्रों/);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("review-only profiles still reject an incompatible lunar month", () => {
+  const result = evaluateObservanceRule("chhath", {
+    date: "2026-04-10", masa: "चैत्र",
+    tithis: [interval(5, "2026-04-10T00:00:00Z", "2026-04-10T12:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("review-only profiles require lunar-month metadata before showing a manual decision", () => {
+  const result = evaluateObservanceRule("hanuman-jayanti", {
+    date: "2026-04-02", sunrise: "2026-04-02T00:30:00Z",
+    tithis: [interval(14, "2026-04-01T18:00:00Z", "2026-04-02T18:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "insufficient-data");
+  assert.ok(result.warnings.includes("lunar-month-missing"));
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("additional Jayanti profiles remain manual and enforce their own lunar months", () => {
+  const cases = [
+    ["narasimha-jayanti", "वैशाख", 13, "शुक्ल पक्ष"],
+    ["parashurama-jayanti", "वैशाख", 2, "शुक्ल पक्ष"],
+    ["radhashtami", "भाद्रपद", 7, "शुक्ल पक्ष"],
+    ["vamana-jayanti", "भाद्रपद", 11, "शुक्ल पक्ष"],
+    ["shani-jayanti", "ज्येष्ठ", 29, "कृष्ण पक्ष"]
+  ];
+  for (const [ruleId, masa, index, paksha] of cases) {
+    const profile = getObservanceRuleProfile(ruleId);
+    assert.equal(profile.reviewOnly, true, ruleId);
+    const result = evaluateObservanceRule(ruleId, {
+      date: "2026-04-30", masa,
+      sunrise: "2026-04-30T00:30:00Z", sunset: "2026-04-30T12:30:00Z",
+      tithis: [interval(index, "2026-04-30T00:00:00Z", "2026-04-30T12:00:00Z", paksha)]
+    });
+    assert.equal(result.status, "manual-review", ruleId);
+    assert.equal(result.finalDate, null, ruleId);
+    assert.equal(result.autoApproved, false, ruleId);
+  }
+});
+
+test("Jayanti review profiles reject a mismatched month instead of silently applying another festival rule", () => {
+  const result = evaluateObservanceRule("vamana-jayanti", {
+    date: "2026-04-30", masa: "वैशाख",
+    tithis: [interval(11, "2026-04-30T00:00:00Z", "2026-04-30T12:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+  assert.equal(result.autoApproved, false);
+});

@@ -1,0 +1,438 @@
+/**
+ * OurHinduDharm — observance-specific date evidence profiles.
+ *
+ * These profiles reuse calculation windows already covered by project tests.
+ * They are candidate evidence only: no profile certifies a shastriya rule,
+ * chooses a final public date, or auto-approves a festival.
+ */
+const PROFILES = {
+  "pradosh-trayodashi": {
+    id: "pradosh-trayodashi", aliases: ["pradosh", "pradosh-evening"],
+    label: "प्रदोष व्रत", tithiIndices: [12, 27], paksha: null,
+    decisionMoment: "pradosh", windowLabel: "प्रदोष काल",
+    calculationBasis: "three-night-muhurtas-after-local-sunset-night-divided-into-fifteen",
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+  },
+  "ekadashi-smarta-udaya": {
+    id: "ekadashi-smarta-udaya", aliases: ["smarta-ekadashi", "ekadashi"],
+    label: "स्मार्त एकादशी", tithiIndices: [10, 25], paksha: null,
+    decisionMoment: "sunrise", windowLabel: "सूर्योदय",
+    calculationBasis: "ekadashi-active-at-local-sunrise-first-sunrise-on-vriddhi",
+    firstSunriseOnly: true,
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+  },
+  "janmashtami-smarta-nishita": {
+    id: "janmashtami-smarta-nishita", aliases: ["smarta-janmashtami", "janmashtami"],
+    label: "स्मार्त जन्माष्टमी", tithiIndices: [22], paksha: "कृष्ण पक्ष",
+    decisionMoment: "nishita", windowLabel: "निशीथ काल",
+    calculationBasis: "krishna-ashtami-at-nishita-rohini-as-supporting-evidence",
+    nakshatraIndices: [3], nakshatraLabel: "रोहिणी", nakshatraWarning: "rohini-at-nishita-not-confirmed", allowedMonths: ["भाद्रपद"],
+    sourceReview: "primary-text-consulted-two-night-tie-break-pending"
+  },
+  "navratri-udaya": {
+    id: "navratri-udaya", aliases: ["navratri-day-count"],
+    label: "नवरात्रि — उदयव्यापिनी तिथि", tithiIndices: [0,1,2,3,4,5,6], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sunrise", windowLabel: "सूर्योदय",
+    calculationBasis: "shukla-pratipada-to-navami-at-sunrise-first-sunrise-on-vriddhi",
+    firstSunriseOnly: true, allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+  },
+  "navratri-maha-ashtami": {
+    id: "navratri-maha-ashtami", aliases: ["maha-ashtami-navratri"],
+    label: "नवरात्रि महाष्टमी", tithiIndices: [7], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sunrise", windowLabel: "सूर्योदय",
+    calculationBasis: "ashwin-or-chaitra-shukla-ashtami-at-sunrise-saptami-vedha-review",
+    allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "primary-text-consulted-translation-review-pending"
+  },
+  "navratri-navami-udaya": {
+    id: "navratri-navami-udaya", aliases: ["maha-navami-udaya"],
+    label: "नवरात्रि महानवमी — उदयव्यापिनी", tithiIndices: [8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sunrise", windowLabel: "सूर्योदय",
+    calculationBasis: "shukla-navami-at-local-sunrise-fallback-candidate",
+    allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "primary-text-consulted-translation-review-pending"
+  },
+  "navratri-navami-ashtami-viddha": {
+    id: "navratri-navami-ashtami-viddha", aliases: ["navratri-navami"],
+    label: "नवरात्रि महानवमी — अष्टमी-विद्धा", tithiIndices: [7,8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "navami-ashtami-viddha", windowLabel: "सूर्यास्त के बाद छह घटिका",
+    calculationBasis: "navami-covers-six-ghatis-after-sunset-on-ashtami-sunrise-day",
+    requireAllTithis: true, requiredCoverageMs: 6 * 24 * 60000, allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "primary-text-consulted-translation-review-pending"
+  },
+  "navratri-sandhi-puja": {
+    id: "navratri-sandhi-puja", aliases: ["sandhi-puja-navratri"],
+    label: "नवरात्रि संधि पूजा", tithiIndices: [7,8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sandhi", windowLabel: "अष्टमी–नवमी संधि",
+    calculationBasis: "exact-ashtami-navami-tithi-junction",
+    requireAllTithis: true, allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "primary-text-consulted-translation-review-pending"
+  },
+  "sankashti-moonrise": {
+    id: "sankashti-moonrise", aliases: ["sankashti", "sakat-moonrise"],
+    label: "संकष्टी चतुर्थी", tithiIndices: [18], paksha: "कृष्ण पक्ष",
+    decisionMoment: "moonrise", windowLabel: "चन्द्रोदय",
+    calculationBasis: "krishna-chaturthi-active-at-local-moonrise",
+    sourceReview: "pending-primary-source-review"
+  },
+  "masik-shivaratri-nishita": {
+    id: "masik-shivaratri-nishita", aliases: [],
+    label: "मासिक शिवरात्रि", tithiIndices: [28], paksha: "कृष्ण पक्ष",
+    decisionMoment: "nishita", windowLabel: "निशीथ काल",
+    calculationBasis: "sunset-to-next-sunrise-seven-fifteenths-to-eight-fifteenths",
+    sourceReview: "pending-primary-source-review"
+  },
+  "mahashivaratri-nishita": {
+    id: "mahashivaratri-nishita", aliases: [],
+    label: "महाशिवरात्रि", tithiIndices: [28], paksha: "कृष्ण पक्ष",
+    decisionMoment: "nishita", windowLabel: "निशीथ काल",
+    calculationBasis: "sunset-to-next-sunrise-seven-fifteenths-to-eight-fifteenths",
+    allowedMonths: ["फाल्गुन"],
+    sourceReview: "primary-text-consulted-two-night-tie-break-pending"
+  },
+  "ram-navami-madhyahna": {
+    id: "ram-navami-madhyahna", aliases: ["rama-navami"],
+    label: "रामनवमी", tithiIndices: [8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "madhyahna", windowLabel: "मध्याह्न काल",
+    calculationBasis: "chaitra-shukla-navami-at-madhyahna-ashtami-vedha-review",
+    allowedMonths: ["चैत्र"],
+    sourceReview: "primary-digest-consulted-ashtami-vedha-review-pending"
+  },
+  "vijayadashami-aparahna": {
+    id: "vijayadashami-aparahna", aliases: ["vijayadashami", "dussehra"],
+    label: "विजयादशमी", tithiIndices: [9], paksha: "शुक्ल पक्ष",
+    decisionMoment: "aparahna", windowLabel: "दोपहर बाद का काल",
+    calculationBasis: "ashwin-shukla-dashami-at-aparahna-shravana-as-supporting-evidence",
+    allowedMonths: ["आश्विन"], nakshatraIndices: [21],
+    nakshatraLabel: "श्रवण", nakshatraWarning: "shravana-at-aparahna-not-confirmed",
+    sourceReview: "primary-text-consulted-two-day-shravana-tie-break-pending"
+  },
+  "nag-panchami-special-review": {
+    id: "nag-panchami-special-review", aliases: ["nag-panchami", "nag-panchami-madhyahna"],
+    label: "नाग पंचमी — विशेष तिथि-नियम की जाँच बाकी", tithiIndices: [4], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "तीन मुहूर्त और तिथि-वेध",
+    calculationBasis: "dharmasindhu-three-muhurta-para-viddha-and-short-tithi-exceptions",
+    allowedMonths: ["श्रावण"], reviewOnly: true,
+    reviewNote: "धर्मसिंधु में नाग पंचमी के लिए सूर्योदय के बाद तीन मुहूर्त तक पंचमी और षष्ठी से संयोग का विशेष नियम है। छोटी पंचमी और चतुर्थी-स्पर्श के अपवाद भी हैं। केवल मध्याह्न-मिलान पर्याप्त नहीं; इसलिए अंतिम निर्णय अभी हाथ से जाँचना होगा।",
+    sourceReview: "dharmasindhu-special-rule-identified-full-exception-implementation-pending"
+  },
+  "skanda-shashthi-kartika-review": {
+    id: "skanda-shashthi-kartika-review", aliases: ["kanda-sashti", "soorasamharam"],
+    label: "कार्तिक स्कन्द षष्ठी — परंपरा अनुसार जाँच", tithiIndices: [5], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "पञ्चमी-षष्ठी संयोग",
+    calculationBasis: "panchami-shashthi-purva-viddha-with-regional-tradition-variation",
+    allowedMonths: ["कार्तिक"], reviewOnly: true,
+    reviewNote: "धर्मसिंधु में पञ्चमी से युक्त षष्ठी का विचार है, जबकि क्षेत्रीय मंदिर-परंपराओं में सूर्योदय और दिन के संयोग से निर्णय बदल सकता है। तमिल सूरसम्हारम् और सामान्य मासिक स्कन्द षष्ठी को एक नियम नहीं मानना चाहिए।",
+    sourceReview: "dharmasindhu-and-regional-practice-crosscheck-manual-decision-required"
+  },
+  "ratha-saptami-review": {
+    id: "ratha-saptami-review", aliases: ["ratha-saptami", "magha-saptami", "surya-jayanti"],
+    label: "रथ सप्तमी — अरुणोदय के विशेष नियम की जाँच", tithiIndices: [6], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "अरुणोदय और षष्ठी-सप्तमी संयोग",
+    calculationBasis: "magha-shukla-saptami-arunodaya-or-previous-day-yoga-special-case",
+    allowedMonths: ["माघ"], reviewOnly: true,
+    reviewNote: "धर्मसिंधु के माघ अध्याय में अरुणोदय पर सप्तमी और पिछले दिन षष्ठी-सप्तमी संयोग का विशेष विकल्प है। तिथि-व्रत अध्याय में अलग सामान्य नियम भी मिलता है। दोनों स्थितियों का पूरा मिलान किए बिना तारीख़ तय नहीं की जाएगी।",
+    sourceReview: "dharmasindhu-chapter-5-and-12-rule-reconciliation-pending"
+  },
+  "chhath-kartika-review": {
+    id: "chhath-kartika-review", aliases: ["chhath", "chhath-puja", "surya-shashthi-chhath"],
+    label: "छठ पूजा — क्षेत्रीय परंपरा अनुसार जाँच", tithiIndices: [5], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "षष्ठी का सूर्यास्त और अगले दिन का सूर्योदय",
+    calculationBasis: "kartika-shukla-shashthi-sunset-arghya-followed-by-saptami-sunrise-arghya",
+    allowedMonths: ["कार्तिक"], reviewOnly: true,
+    reviewNote: "छठ बिहार, मिथिला और पूर्वांचल की प्रमुख लोक-परंपरा है। संध्या अर्घ्य और अगले दिन उषा अर्घ्य इसके मुख्य अंग हैं। उपलब्ध धर्मसिंधु/निर्णयसिंधु संदर्भों में इसी नाम से एक सर्वमान्य तिथि-निर्णय नहीं मिला; इसलिए इसे केवल कार्तिक शुक्ल षष्ठी के सामान्य मिलान से स्वतः तय नहीं किया जाएगा।",
+    sourceReview: "regional-folk-observance-source-crosscheck-primary-rule-not-established"
+  },
+  "hanuman-jayanti-chaitra-review": {
+    id: "hanuman-jayanti-chaitra-review", aliases: ["hanuman-jayanti", "hanuman-janmotsav", "hanuman-jayanti-chaitra-purnima"],
+    label: "हनुमान जन्मोत्सव — क्षेत्रीय परंपरा अनुसार जाँच", tithiIndices: [14], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "चैत्र पूर्णिमा",
+    calculationBasis: "north-indian-chaitra-purnima-tradition-with-regional-date-variants",
+    allowedMonths: ["चैत्र"], reviewOnly: true,
+    reviewNote: "उत्तर भारत में चैत्र पूर्णिमा की परंपरा प्रचलित है, जबकि दक्षिण और कुछ अन्य क्षेत्रों में अलग तिथियाँ मानी जाती हैं। इसे एकमात्र सार्वभौमिक हनुमान-जयंती नियम न मानें; क्षेत्रीय परंपरा की पुष्टि के बाद ही तारीख़ तय करें।",
+    sourceReview: "regional-traditions-crosschecked-classical-date-rule-not-established"
+  },
+  "narasimha-jayanti-smarta-review": {
+    id: "narasimha-jayanti-smarta-review", aliases: ["narasimha-jayanti", "nrisimha-jayanti", "narasimha-chaturdashi"],
+    label: "नृसिंह जयंती — संध्याकाल का नियम जाँचना बाकी", tithiIndices: [13], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "संध्याकाल में चतुर्दशी-व्याप्ति",
+    calculationBasis: "vaishakha-shukla-chaturdashi-at-sayankala-smarta-observance",
+    allowedMonths: ["वैशाख"], reviewOnly: true,
+    reviewNote: "स्मार्त परंपरा में वैशाख शुक्ल चतुर्दशी का संध्याकाल में रहना निर्णायक है। कुछ वैष्णव पंचांग सूर्योदय-व्याप्ति से अलग दिन रखते हैं; यहाँ वैष्णव नियम नहीं मिलाया जाएगा। संध्याकाल की पूरी अवधि और व्रत-पारण के अपवाद लागू होने तक तारीख़ हाथ से जाँची जाएगी।",
+    sourceReview: "drik-and-nirnaya-sindhu-rule-crosscheck-special-window-implementation-pending"
+  },
+  "parashurama-jayanti-pradosha-review": {
+    id: "parashurama-jayanti-pradosha-review", aliases: ["parashurama-jayanti", "parashuram-jayanti", "parashurama-avatara-jayanti"],
+    label: "परशुराम जयंती — प्रदोष-व्याप्ति की जाँच", tithiIndices: [2], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "प्रदोष काल में तृतीया-व्याप्ति",
+    calculationBasis: "vaishakha-shukla-tritiya-at-pradosha-second-day-if-two-day-vyapti",
+    allowedMonths: ["वैशाख"], reviewOnly: true,
+    reviewNote: "परशुराम जयंती का निर्णय केवल अक्षय तृतीया के नाम या सूर्योदय की तिथि से नहीं होगा। वैशाख शुक्ल तृतीया का प्रदोष काल में होना देखा जाता है; दो दिन प्रदोष-व्याप्ति होने पर दूसरे दिन का नियम भी जाँचना होगा।",
+    sourceReview: "drik-dedicated-parashurama-rule-crosschecked-primary-text-tie-break-pending"
+  },
+  "radha-ashtami-madhyahna-review": {
+    id: "radha-ashtami-madhyahna-review", aliases: ["radha-ashtami", "radhashtami", "radha-jayanti"],
+    label: "राधाष्टमी — मध्याह्न-व्याप्ति की जाँच", tithiIndices: [7], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "मध्याह्न काल में अष्टमी-व्याप्ति",
+    calculationBasis: "bhadrapada-shukla-ashtami-at-madhyahna",
+    allowedMonths: ["भाद्रपद"], reviewOnly: true,
+    reviewNote: "राधाष्टमी पर भाद्रपद शुक्ल अष्टमी में मध्याह्न काल की पूजा-परंपरा है। सप्तमी-वेध और तिथि के विशेष संयोगों की पूरी जाँच के बाद ही अंतिम दिन तय होगा।",
+    sourceReview: "drik-madhyahna-purana-crosscheck-exception-review-pending"
+  },
+  "vamana-jayanti-madhyahna-review": {
+    id: "vamana-jayanti-madhyahna-review", aliases: ["vamana-jayanti", "vamana-dwadashi", "vamana-avatara-jayanti"],
+    label: "वामन जयंती — श्रवण नक्षत्र सहित जाँच", tithiIndices: [11], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "मध्याह्न में द्वादशी और श्रवण नक्षत्र",
+    calculationBasis: "bhadrapada-shukla-dwadashi-madhyahna-shravana-yoga-ekadashi-tie-break",
+    allowedMonths: ["भाद्रपद"], reviewOnly: true,
+    reviewNote: "धर्मसिंधु के अनुसार भाद्रपद शुक्ल द्वादशी का मध्याह्न में श्रवण नक्षत्र से संयोग देखा जाता है। यदि श्रवण योग एकादशी और द्वादशी दोनों पर हो, तो एकादशी चुनने का नियम भी लागू होता है; इसलिए केवल द्वादशी-मिलान पर्याप्त नहीं।",
+    sourceReview: "dharmasindhu-chapter-7-special-shravana-and-ekadashi-tie-break-manual-review"
+  },
+  "shani-jayanti-amavasya-review": {
+    id: "shani-jayanti-amavasya-review", aliases: ["shani-jayanti", "shaneshchara-jayanti"],
+    label: "शनि जयंती — ज्येष्ठ अमावस्या की जाँच", tithiIndices: [29], paksha: "कृष्ण पक्ष",
+    decisionMoment: "manual-review", windowLabel: "ज्येष्ठ अमावस्या",
+    calculationBasis: "jyeshtha-krishna-amavasya-regional-observance",
+    allowedMonths: ["ज्येष्ठ"], reviewOnly: true,
+    reviewNote: "शनि जयंती ज्येष्ठ कृष्ण अमावस्या पर मनाई जाती है। पूजा का कोई एक अनिवार्य मुहूर्त मानकर तारीख़ तय नहीं की जाएगी; अमावस्या और स्थानीय परंपरा का मिलान हाथ से होगा।",
+    sourceReview: "common-calendar-convention-crosscheck-primary-rule-pending"
+  },
+  "vinayaka-chaturthi-madhyahna": {
+    id: "vinayaka-chaturthi-madhyahna", aliases: ["vinayaka-chaturthi"],
+    label: "विनायक चतुर्थी", tithiIndices: [3], paksha: "शुक्ल पक्ष",
+    decisionMoment: "madhyahna", windowLabel: "मध्याह्न काल",
+    calculationBasis: "sunrise-to-sunset-two-fifths-to-three-fifths",
+    sourceReview: "pending-primary-source-review"
+  }
+};
+
+const ALIAS_TO_ID = new Map();
+for (const profile of Object.values(PROFILES)) {
+  ALIAS_TO_ID.set(profile.id, profile.id);
+  for (const alias of profile.aliases) ALIAS_TO_ID.set(alias, profile.id);
+}
+
+function asDate(value) {
+  const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
+  return Number.isFinite(date.getTime()) ? date : null;
+}
+function asInterval(row) {
+  const start = asDate(row?.startTime ?? row?.start);
+  const end = asDate(row?.endTime ?? row?.end);
+  if (!start || !end || end <= start) return null;
+  return { start, end, index: Number(row?.index ?? row?.number ?? row?.value) };
+}
+function overlap(a, b) {
+  const start = new Date(Math.max(a.start.getTime(), b.start.getTime()));
+  const end = new Date(Math.min(a.end.getTime(), b.end.getTime()));
+  return end > start ? { start, end } : null;
+}
+function makeWindow(profile, context) {
+  if (profile.decisionMoment === "sunrise") {
+    const point = asDate(context.sunrise);
+    return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;
+  }
+  if (profile.decisionMoment === "navami-ashtami-viddha") {
+    const sunset = asDate(context.sunset);
+    return sunset ? { start: sunset, end: new Date(sunset.getTime() + 6 * 24 * 60000), point: sunset } : null;
+  }
+  if (profile.decisionMoment === "sandhi") {
+    const rows = Array.isArray(context.tithis) ? context.tithis.map(asInterval).filter(Boolean) : [];
+    const ashtami = rows.filter(row => row.index === 7);
+    const navami = rows.filter(row => row.index === 8);
+    for (const a of ashtami) for (const n of navami) {
+      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 90000) {
+        const transition = new Date((a.end.getTime() + n.start.getTime()) / 2);
+        return { start: transition, end: new Date(transition.getTime() + 1), transition };
+      }
+    }
+    return null;
+  }
+  if (profile.decisionMoment === "moonrise") {
+    const point = asDate(context.moonrise);
+    return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;
+  }
+  if (profile.decisionMoment === "aparahna") {
+    const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);
+    if (!sunrise || !sunset || sunset <= sunrise) return null;
+    const span = sunset.getTime() - sunrise.getTime();
+    return { start: new Date(sunrise.getTime() + span * 3 / 5), end: new Date(sunrise.getTime() + span * 4 / 5) };
+  }
+  if (profile.decisionMoment === "madhyahna") {
+    const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);
+    if (!sunrise || !sunset || sunset <= sunrise) return null;
+    const span = sunset.getTime() - sunrise.getTime();
+    return { start: new Date(sunrise.getTime() + span * 2 / 5), end: new Date(sunrise.getTime() + span * 3 / 5) };
+  }
+  const sunset = asDate(context.sunset), nextSunrise = asDate(context.nextSunrise);
+  if (!sunset || !nextSunrise || nextSunrise <= sunset) return null;
+  const night = nextSunrise.getTime() - sunset.getTime();
+  if (profile.decisionMoment === "nishita") {
+    return { start: new Date(sunset.getTime() + night * 7 / 15), end: new Date(sunset.getTime() + night * 8 / 15) };
+  }
+  if (profile.decisionMoment === "pradosh") {
+    return { start: sunset, end: new Date(sunset.getTime() + night * 3 / 15) };
+  }
+  return null;
+}
+
+/** Resolve a reviewed profile ID without inferring rules from a festival title. */
+export function getObservanceRuleProfile(ruleId) {
+  const id = ALIAS_TO_ID.get(String(ruleId ?? "").trim().toLowerCase());
+  if (!id) return null;
+  const profile = PROFILES[id];
+  return Object.freeze({
+    id: profile.id, label: profile.label, tithiIndices: [...profile.tithiIndices],
+    paksha: profile.paksha, allowedMonths: profile.allowedMonths ? [...profile.allowedMonths] : null, decisionMoment: profile.decisionMoment, nakshatraLabel: profile.nakshatraLabel ?? null, reviewOnly: Boolean(profile.reviewOnly), reviewNote: profile.reviewNote ?? null,
+    windowLabel: profile.windowLabel, calculationBasis: profile.calculationBasis,
+    sourceReview: profile.sourceReview, ruleVersion: "0.2.0",
+    tradition: "smarta-review-default"
+  });
+}
+
+/**
+ * Evaluate one day against an explicit profile. A match is only candidate
+ * evidence; source review and festival-specific exceptions remain separate.
+ */
+export function evaluateObservanceRule(ruleId, context) {
+  const profileId = ALIAS_TO_ID.get(String(ruleId ?? "").trim().toLowerCase());
+  if (!profileId) return {
+    status: "manual-review", ruleId: String(ruleId ?? ""),
+    warnings: ["unknown-or-unassigned-observance-rule"],
+    evidence: [], finalDate: null, autoApproved: false
+  };
+  const profile = PROFILES[profileId];
+  const day = context?.date;
+  if (profile.allowedMonths) {
+    const month = String(context?.masa ?? "").replace(/^अधिक\s+/, "").trim();
+    if (!month) return {
+      status: "insufficient-data", ruleId: profile.id, date: day ?? null,
+      decisionMoment: profile.decisionMoment, warnings: ["lunar-month-missing"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+    if (!profile.allowedMonths.includes(month)) return {
+      status: "candidate-not-supported", ruleId: profile.id, date: day ?? null,
+      decisionMoment: profile.decisionMoment, warnings: ["lunar-month-outside-profile"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+  }
+  if (profile.reviewOnly) return {
+    status: "manual-review", ruleId: profile.id, ruleVersion: "0.2.0",
+    date: day ?? null, label: profile.label, decisionMoment: profile.decisionMoment,
+    calculationBasis: profile.calculationBasis, sourceReview: profile.sourceReview,
+    reviewNote: profile.reviewNote,
+    warnings: ["special-rule-not-fully-implemented", "manual-source-and-tradition-review-required"],
+    evidence: [], finalDate: null, autoApproved: false
+  };
+  const window = makeWindow(profile, context || {});
+  if (!day || !window) return {
+    status: "insufficient-data", ruleId: profile.id, date: day ?? null,
+    decisionMoment: profile.decisionMoment,
+    warnings: ["decision-window-or-date-missing"],
+    evidence: [], finalDate: null, autoApproved: false
+  };
+  const rows = Array.isArray(context?.tithis) ? context.tithis : [];
+  if (!rows.length) return {
+    status: "insufficient-data", ruleId: profile.id, date: day,
+    decisionMoment: profile.decisionMoment,
+    warnings: ["tithi-intervals-missing"],
+    evidence: [], finalDate: null, autoApproved: false
+  };
+  if (profile.firstSunriseOnly && context.previousSunrise && Array.isArray(context.previousTithis)) {
+    const previousPoint = asDate(context.previousSunrise);
+    const repeated = previousPoint && context.previousTithis.some(row => {
+      const interval = asInterval(row);
+      return interval && profile.tithiIndices.includes(interval.index) && interval.start <= previousPoint && interval.end > previousPoint;
+    });
+    if (repeated) return {
+      status: "candidate-not-supported", ruleId: profile.id, date: day,
+      decisionMoment: profile.decisionMoment,
+      warnings: ["vriddhi-tithi-first-sunrise-only"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+  }
+  if (profile.decisionMoment === "navami-ashtami-viddha") {
+    const sunrise = asDate(context.sunrise);
+    const ashtamiAtSunrise = sunrise && rows.some(row => {
+      const interval = asInterval(row);
+      return interval && interval.index === 7 && interval.start <= sunrise && interval.end > sunrise;
+    });
+    if (!ashtamiAtSunrise) return {
+      status: "candidate-not-supported", ruleId: profile.id, date: day,
+      decisionMoment: profile.decisionMoment,
+      warnings: ["ashtami-not-active-at-sunrise"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+    const navamiCoversEvening = rows.some(row => {
+      const interval = asInterval(row);
+      return interval && interval.index === 8 && interval.start <= window.start &&
+        interval.end.getTime() - window.start.getTime() >= profile.requiredCoverageMs;
+    });
+    if (!navamiCoversEvening) return {
+      status: "candidate-not-supported", ruleId: profile.id, date: day,
+      decisionMoment: profile.decisionMoment,
+      warnings: ["navami-less-than-six-ghatis-after-sunset"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+  }
+  const evidence = [];
+  if (profile.decisionMoment === "sandhi") {
+    const ashtami = rows.map(asInterval).filter(interval => interval && interval.index === 7);
+    const navami = rows.map(asInterval).filter(interval => interval && interval.index === 8);
+    for (const a of ashtami) for (const n of navami) {
+      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 90000) {
+        evidence.push({
+          tithiIndex: 7, start: a.start.toISOString(), end: a.end.toISOString(),
+          decisionMoment: "sandhi-junction", transitionTime: window.transition.toISOString()
+        });
+        evidence.push({
+          tithiIndex: 8, start: n.start.toISOString(), end: n.end.toISOString(),
+          decisionMoment: "sandhi-junction", transitionTime: window.transition.toISOString()
+        });
+      }
+    }
+  } else {
+    for (const row of rows) {
+      const interval = asInterval(row);
+      if (!interval || !profile.tithiIndices.includes(interval.index)) continue;
+      if (profile.paksha && row.paksha && row.paksha !== profile.paksha) continue;
+      let matched = profile.decisionMoment === "moonrise"
+        ? (interval.start <= window.point && interval.end > window.point
+          ? { start: window.point, end: window.point } : null)
+        : overlap(interval, window);
+      if (profile.decisionMoment === "navami-ashtami-viddha") {
+        if (interval.index === 7) {
+          const sunrise = asDate(context.sunrise);
+          matched = sunrise && interval.start <= sunrise && interval.end > sunrise
+            ? { start: sunrise, end: new Date(sunrise.getTime() + 1) } : null;
+        }
+      }
+      if (matched) evidence.push({
+        tithiIndex: interval.index,
+        tithiName: row.name ?? row.tithi ?? null,
+        start: matched.start.toISOString(), end: matched.end.toISOString(),
+        decisionMoment: profile.decisionMoment,
+        windowStart: window.start.toISOString(), windowEnd: window.end.toISOString()
+      });
+    }
+  }
+  const matchedTithis = new Set(evidence.map(item => item.tithiIndex));
+  const allRequired = !profile.requireAllTithis || profile.tithiIndices.every(index => matchedTithis.has(index));
+  const nakshatraEvidence = profile.nakshatraIndices && Array.isArray(context.nakshatraIntervals)
+    ? context.nakshatraIntervals.filter(item => profile.nakshatraIndices.includes(Number(item.index)) && (() => {
+      const interval = asInterval(item);
+      return interval && overlap(interval, window);
+    })()).map(item => ({ index: Number(item.index), name: item.name ?? null }))
+    : [];
+  return {
+    status: evidence.length && allRequired ? "candidate-supported" : "candidate-not-supported",
+    ruleId: profile.id, ruleVersion: "0.2.0", date: day,
+    label: profile.label, decisionMoment: profile.decisionMoment,
+    calculationBasis: profile.calculationBasis,
+    sourceReview: profile.sourceReview,
+    evidence, nakshatraEvidence, nakshatraLabel: profile.nakshatraLabel ?? null,
+    warnings: ["candidate-evidence-only", "primary-source-and-exception-review-required", ...(profile.nakshatraIndices && !nakshatraEvidence.length ? [profile.nakshatraWarning ?? "required-nakshatra-not-confirmed"] : []), ...(profile.requireAllTithis && !allRequired ? ["both-transition-tithis-not-confirmed"] : [])],
+    finalDate: null, autoApproved: false
+  };
+}

@@ -24,6 +24,8 @@ jobs:
           node --experimental-default-type=module --check festivals.js
           node --experimental-default-type=module --check nivas.js
           node --experimental-default-type=module --check festival-filter.js
+          node --check festival-detector.mjs
+          node --check festival-observance-rules.mjs
           node --experimental-default-type=module --check monthly-vrat-parv-widget.js
           sed -n '/^<script type="module">$/,/^<\/script>$/p' monthly-vrat-parv.html | sed '1d;$d' > /tmp/monthly-vrat-parv.mjs
           node --check /tmp/monthly-vrat-parv.mjs
