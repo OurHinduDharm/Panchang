@@ -50,6 +50,11 @@ The annual review page now uses the detector when a catalog record is selected. 
 - **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Phalguna in the project Purnimanta calendar; Dharmasindhu names Magha Krishna Chaturdashi in its Amanta month convention, which maps to Phalguna in Purnimanta.
 - **Chhath:** remains manual review. This is a regional folk observance centred on Kartika Shukla Shashthi evening arghya and the following Saptami dawn arghya. The consulted sources explicitly distinguish this living regional rule from a date rule found in Dharmasindhu/Nirnaya Sindhu; a simple Shashthi-at-sunrise match must not silently decide it.
 - **Hanuman Jayanti:** remains manual review. Chaitra Purnima is a widely followed North Indian convention, but other regions observe different dates. The profile preserves the common convention as a review clue, not as a universal date rule.
+- **Narasimha Jayanti:** remains manual review. The Smarta rule is tied to Vaishakha Shukla Chaturdashi at Sayankala; the separate sunrise-based Vaishnava calendar convention is not merged into this profile. The exact evening window and fast/parana exceptions need implementation.
+- **Parashurama Jayanti:** remains manual review. Vaishakha Shukla Tritiya must be present at Pradosha; if Pradosha-vyapini Tritiya falls on both days, the second-day rule is relevant. This must remain separate from Akshaya Tritiya's own selection.
+- **Radha Ashtami:** remains manual review. Bhadrapada Shukla Ashtami is worshipped at Madhyahna; Saptami-vedha and other exceptions need a full source review.
+- **Vamana Jayanti:** remains manual review. Dharmasindhu Chapter 7 requires Bhadrapada Shukla Dwadashi at Madhyahna with Shravana yoga; if Shravana is present on both Ekadashi and Dwadashi, Ekadashi is selected. A plain Dwadashi match is insufficient.
+- **Shani Jayanti:** remains manual review. The common Jyeshtha Krishna Amavasya convention is recorded, but a complete primary-source decision rule and local exception review are still pending.
 - **Vinayaka Chaturthi:** Shukla Chaturthi overlap with the local Madhyahna interval.
 
 Primary text and source cross-checks now consulted:
@@ -67,6 +72,11 @@ Primary text and source cross-checks now consulted:
 - Chhath regional observance and four-day sequence; source explicitly notes no named Dharmasindhu/Nirnaya Sindhu rule found: https://epandit.in/en/learn/festival/chhath-puja
 - Chhath sunset/Saptami dawn arghya practice cross-check: https://udyog.io/en/puja-vidhi/chhath-puja
 - Hanuman Jayanti North Indian Chaitra Purnima convention and regional date variations; source notes no classical date rule found: https://epandit.in/en/learn/festival/hanuman-jayanti
+- Narasimha Jayanti Vaishakha Shukla Chaturdashi and Sayankala rule cross-check: https://www.drikpanchang.com/dashavatara/narasimha/narasimha-jayanti-date-time.html?year=2026 and https://sanatana.ekatantra.com/rituals/narasimha-jayanti
+- Parashurama Jayanti Pradosha-vyapini Tritiya and two-day tie-break: https://www.drikpanchang.com/dashavatara/parashurama/parashurama-jayanti-date-time.html?year=2027
+- Radha Ashtami Madhyahna worship and Bhadrapada Shukla Ashtami: https://www.drikpanchang.com/festivals/radha-ashtami/radha-ashtami-date-time.html?year=2026
+- Vamana Jayanti special Dwadashi, Madhyahna and Shravana rule, Dharmasindhu Chapter 7: https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=7
+- Shani Jayanti Jyeshtha Krishna Amavasya convention cross-check: https://panchangtime.com/festivals/shani-jayanti/pune
 - Drik Panchang 2026 Janmashtami tithi/timing cross-check: https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?geoname-id=1275004&year=2026
 - Drik Panchang 2026 Sharad Navratri date cross-check: https://www.drikpanchang.com/navratri/ashwin-shardiya-navratri-dates.html?geoname-id=1273294&year=2026
 
