@@ -153,6 +153,51 @@ const PROFILES = {
     reviewNote: "उत्तर भारत में चैत्र पूर्णिमा की परंपरा प्रचलित है, जबकि दक्षिण और कुछ अन्य क्षेत्रों में अलग तिथियाँ मानी जाती हैं। इसे एकमात्र सार्वभौमिक हनुमान-जयंती नियम न मानें; क्षेत्रीय परंपरा की पुष्टि के बाद ही तारीख़ तय करें।",
     sourceReview: "regional-traditions-crosschecked-classical-date-rule-not-established"
   },
+  "narasimha-jayanti-smarta-review": {
+    id: "narasimha-jayanti-smarta-review", aliases: ["narasimha-jayanti", "nrisimha-jayanti", "narasimha-chaturdashi"],
+    label: "नृसिंह जयंती — संध्याकाल का नियम जाँचना बाकी", tithiIndices: [13], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "संध्याकाल में चतुर्दशी-व्याप्ति",
+    calculationBasis: "vaishakha-shukla-chaturdashi-at-sayankala-smarta-observance",
+    allowedMonths: ["वैशाख"], reviewOnly: true,
+    reviewNote: "स्मार्त परंपरा में वैशाख शुक्ल चतुर्दशी का संध्याकाल में रहना निर्णायक है। कुछ वैष्णव पंचांग सूर्योदय-व्याप्ति से अलग दिन रखते हैं; यहाँ वैष्णव नियम नहीं मिलाया जाएगा। संध्याकाल की पूरी अवधि और व्रत-पारण के अपवाद लागू होने तक तारीख़ हाथ से जाँची जाएगी।",
+    sourceReview: "drik-and-nirnaya-sindhu-rule-crosscheck-special-window-implementation-pending"
+  },
+  "parashurama-jayanti-pradosha-review": {
+    id: "parashurama-jayanti-pradosha-review", aliases: ["parashurama-jayanti", "parashuram-jayanti", "parashurama-avatara-jayanti"],
+    label: "परशुराम जयंती — प्रदोष-व्याप्ति की जाँच", tithiIndices: [2], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "प्रदोष काल में तृतीया-व्याप्ति",
+    calculationBasis: "vaishakha-shukla-tritiya-at-pradosha-second-day-if-two-day-vyapti",
+    allowedMonths: ["वैशाख"], reviewOnly: true,
+    reviewNote: "परशुराम जयंती का निर्णय केवल अक्षय तृतीया के नाम या सूर्योदय की तिथि से नहीं होगा। वैशाख शुक्ल तृतीया का प्रदोष काल में होना देखा जाता है; दो दिन प्रदोष-व्याप्ति होने पर दूसरे दिन का नियम भी जाँचना होगा।",
+    sourceReview: "drik-dedicated-parashurama-rule-crosschecked-primary-text-tie-break-pending"
+  },
+  "radha-ashtami-madhyahna-review": {
+    id: "radha-ashtami-madhyahna-review", aliases: ["radha-ashtami", "radhashtami", "radha-jayanti"],
+    label: "राधाष्टमी — मध्याह्न-व्याप्ति की जाँच", tithiIndices: [7], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "मध्याह्न काल में अष्टमी-व्याप्ति",
+    calculationBasis: "bhadrapada-shukla-ashtami-at-madhyahna",
+    allowedMonths: ["भाद्रपद"], reviewOnly: true,
+    reviewNote: "राधाष्टमी पर भाद्रपद शुक्ल अष्टमी में मध्याह्न काल की पूजा-परंपरा है। सप्तमी-वेध और तिथि के विशेष संयोगों की पूरी जाँच के बाद ही अंतिम दिन तय होगा।",
+    sourceReview: "drik-madhyahna-and-brihann aradiya-purana-crosscheck-exception-review-pending".replace("brihann aradiya","brihann aradiya")
+  },
+  "vamana-jayanti-madhyahna-review": {
+    id: "vamana-jayanti-madhyahna-review", aliases: ["vamana-jayanti", "vamana-dwadashi", "vamana-avatara-jayanti"],
+    label: "वामन जयंती — श्रवण नक्षत्र सहित जाँच", tithiIndices: [11], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "मध्याह्न में द्वादशी और श्रवण नक्षत्र",
+    calculationBasis: "bhadrapada-shukla-dwadashi-madhyahna-shravana-yoga-ekadashi-tie-break",
+    allowedMonths: ["भाद्रपद"], reviewOnly: true,
+    reviewNote: "धर्मसिंधु के अनुसार भाद्रपद शुक्ल द्वादशी का मध्याह्न में श्रवण नक्षत्र से संयोग देखा जाता है। यदि श्रवण योग एकादशी और द्वादशी दोनों पर हो, तो एकादशी चुनने का नियम भी लागू होता है; इसलिए केवल द्वादशी-मिलान पर्याप्त नहीं।",
+    sourceReview: "dharmasindhu-chapter-7-special-shravana-and-ekadashi-tie-break-manual-review"
+  },
+  "shani-jayanti-amavasya-review": {
+    id: "shani-jayanti-amavasya-review", aliases: ["shani-jayanti", "shaneshchara-jayanti"],
+    label: "शनि जयंती — ज्येष्ठ अमावस्या की जाँच", tithiIndices: [29], paksha: "कृष्ण पक्ष",
+    decisionMoment: "manual-review", windowLabel: "ज्येष्ठ अमावस्या",
+    calculationBasis: "jyeshtha-krishna-amavasya-regional-observance",
+    allowedMonths: ["ज्येष्ठ"], reviewOnly: true,
+    reviewNote: "शनि जयंती ज्येष्ठ कृष्ण अमावस्या पर मनाई जाती है। पूजा का कोई एक अनिवार्य मुहूर्त मानकर तारीख़ तय नहीं की जाएगी; अमावस्या और स्थानीय परंपरा का मिलान हाथ से होगा।",
+    sourceReview: "common-calendar-convention-crosscheck-primary-rule-pending"
+  },
   "vinayaka-chaturthi-madhyahna": {
     id: "vinayaka-chaturthi-madhyahna", aliases: ["vinayaka-chaturthi"],
     label: "विनायक चतुर्थी", tithiIndices: [3], paksha: "शुक्ल पक्ष",
