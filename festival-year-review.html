@@ -153,15 +153,15 @@ function selectFestival(f){
  const ruleSelect=document.createElement("select");
  [[ "", "प्रोफ़ाइल चुनें — सामान्य तिथि-मिलान ही दिखाएँ" ],["ekadashi-smarta-udaya","स्मार्त एकादशी — सूर्योदय / दशमी-वेध"],["janmashtami-smarta-nishita","स्मार्त जन्माष्टमी — निशीथ / रोहिणी सहायक साक्ष्य"],["navratri-udaya","नवरात्रि — उदयव्यापिनी तिथि"],["navratri-maha-ashtami","नवरात्रि महाष्टमी — सूर्योदय / सप्तमी-वेध समीक्षा"],["navratri-navami-udaya","नवरात्रि महानवमी — उदयव्यापिनी"],["navratri-sandhi-puja","नवरात्रि संधि पूजा — अष्टमी/नवमी संक्रमण"],["navratri-navami-ashtami-viddha","नवरात्रि महानवमी — अष्टमी-विद्धा"],["ram-navami-madhyahna","रामनवमी — मध्याह्न / चैत्र शुक्ल नवमी"],["vijayadashami-aparahna","विजयादशमी — दोपहर बाद / श्रवण सहायक साक्ष्य"],["nag-panchami-madhyahna","नाग पंचमी — श्रावण शुक्ल पंचमी / मध्याह्न"],["pradosh-trayodashi","प्रदोष — त्रयोदशी / प्रदोष काल"],["sankashti-moonrise","संकष्टी — कृष्ण चतुर्थी / चन्द्रोदय"],["masik-shivaratri-nishita","मासिक शिवरात्रि — कृष्ण चतुर्दशी / निशीथ"],["mahashivaratri-nishita","महाशिवरात्रि — कृष्ण चतुर्दशी / निशीथ"],["vinayaka-chaturthi-madhyahna","विनायक चतुर्थी — शुक्ल चतुर्थी / मध्याह्न"]].forEach(([value,label])=>ruleSelect.add(new Option(label,value)));
  ruleSelect.value=selectedRuleProfile;ruleSelect.addEventListener("change",()=>{selectedRuleProfile=ruleSelect.value;renderCandidates(detection.candidates,detection)});ruleLabel.append(ruleSelect);box.append(ruleLabel);
- const ruleNote=document.createElement("p");ruleNote.className="muted";ruleNote.textContent="प्रोफ़ाइल चुनने पर समय-व्याप्ति का अतिरिक्त मिलान होगा। यह केवल संभावित समर्थन है; प्राथमिक स्रोत-समीक्षा और पर्व-विशेष अपवादों के बिना अंतिम तारीख़ स्वीकृत नहीं होगी।";box.append(ruleNote);
+ const ruleNote=document.createElement("p");ruleNote.className="muted";ruleNote.textContent="नियम चुनने पर यह भी जाँचा जाएगा कि पूजा या व्रत के सही समय पर तिथि थी या नहीं। अंतिम तारीख़ तय करने से पहले धर्मसिंधु के नियम और पर्व की विशेष स्थितियाँ भी देखनी होंगी।";box.append(ruleNote);
  const desc=document.createElement("p");desc.textContent=String(f.description||f.sourceText?.description||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,600);box.append(desc);
  if(f.sourceUrl){const lp=document.createElement("p");lp.textContent="लेख लिंक: "+String(f.sourceUrl);box.append(lp)}
  else{const lp=document.createElement("p");lp.textContent="लेख लिंक दर्ज नहीं है।";box.append(lp)}
  const detection=detectFestivalCandidates(f,days);
  const diag=document.createElement("p");diag.className="muted";
  diag.textContent=detection.candidates.length
-  ? "डिटेक्टर: "+detection.candidates.length+" संभावित दिन मिले। यह तिथि-मिलान है, अंतिम पर्व-निर्णय नहीं।"
-  : "डिटेक्टर: दर्ज हिन्दू तिथि से कोई पुष्ट संभावित दिन नहीं मिला; दर्ज तारीख़ को स्वतः सही नहीं माना गया।";
+  ? "पंचांग मिलान: "+detection.candidates.length+" तारीख़ों पर तिथि मिली। इनमें से सही पर्व-दिन का फैसला अलग नियम देखकर होगा।"
+  : "पंचांग मिलान: दर्ज हिन्दू तिथि किसी दिन से नहीं मिली। इसलिए रिकॉर्ड में दी गई तारीख़ की पुष्टि नहीं हुई।";
  box.append(diag);
  if(detection.warnings.length){
   const warning=document.createElement("p");warning.className="muted";
@@ -207,11 +207,11 @@ function renderCandidates(matches,detection={}){
    if(result.warnings?.includes("vriddhi-tithi-first-sunrise-only"))statusText="तिथि दो सूर्योदय पर है; पहला दिन मान्य उम्मीदवार है";
    if(result.warnings?.includes("ashtami-not-active-at-sunrise"))statusText="सूर्योदय पर अष्टमी नहीं थी; महानवमी नियम लागू नहीं";
    if(result.warnings?.includes("navami-less-than-six-ghatis-after-sunset"))statusText="अष्टमी-दिन की संध्या में नवमी छह घटिका तक नहीं रही; अगले दिन का नियम देखें";
-   if(result.warnings?.includes("rohin-at-nishita-not-confirmed"))statusText+=" · निशीथ में रोहिणी का सहायक साक्ष्य नहीं मिला";
+   if(result.warnings?.includes("rohini-at-nishita-not-confirmed"))statusText+=" · निशीथ में रोहिणी का सहायक साक्ष्य नहीं मिला";
    if(result.warnings?.includes("shravana-at-aparahna-not-confirmed"))statusText+=" · दोपहर बाद श्रवण नक्षत्र का साक्ष्य नहीं मिला";
    if(result.nakshatraEvidence?.length)statusText+=" · "+(result.nakshatraLabel||"नक्षत्र")+" सहायक साक्ष्य मिला";
    if(result.evidence?.[0]?.transitionTime)statusText+=" · संधि समय: "+dateTimeHindi(result.evidence[0].transitionTime);
-   ruleCell.textContent=statusText+(result.evidence?.length?" · तिथि-साक्ष्य: "+result.evidence.length:"")+" · शास्त्रीय पुष्टि बाकी";
+   ruleCell.textContent=statusText+(result.evidence?.length?" · तिथि के मिलान: "+result.evidence.length:"")+" · पर्व के नियमों से अंतिम पुष्टि बाकी";
   }else{ruleCell.textContent="ऊपर पर्व-विशेष प्रोफ़ाइल चुनें";}
   const statusCell=document.createElement("td"),sel=document.createElement("select");
   [["pending","जाँच बाकी"],["approved","सही"],["fix","सुधार चाहिए"]].forEach(([v,t])=>sel.add(new Option(t,v)));
@@ -222,7 +222,7 @@ function renderCandidates(matches,detection={}){
  });
  table.append(thead,tb);box.append(table);
  const note=document.createElement("p");note.className="muted";
- note.textContent="यह जाँच तारीख़ का संकेत देती है, अंतिम फैसला नहीं। पर्व की सही तारीख़ तय करने से पहले संबंधित नियम और पंचांग से पुष्टि करें।";
+ note.textContent="यह जाँच बताती है कि चुने हुए समय पर तिथि थी या नहीं। पर्व की तारीख़ तय करने से पहले उसके व्रत-नियम और पंचांग का मिलान ज़रूर करें।";
  box.append(note);
  if(detection.warnings?.includes("multiple-observance-days-require-festival-specific-rule")){
   const extra=document.createElement("p");extra.className="muted";extra.textContent="अगर तिथि दो सूर्योदय पर रहे, तो यह जाँच खुद किसी एक दिन को नहीं चुनेगी। पर्व के नियम देखकर फैसला करना होगा।";box.append(extra);
