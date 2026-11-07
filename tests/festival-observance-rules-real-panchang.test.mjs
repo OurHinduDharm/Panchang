@@ -78,7 +78,7 @@ test("real Pithoragarh Panchang confirms Mahashivaratri during Nishita", () => {
   const date = "2026-02-15", previous = panchang(previousIsoDate(date)), current = panchang(date), next = panchang(nextIsoDate(date));
   const result = evaluateObservanceRule("mahashivaratri-nishita", {
     date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
-    tithis: intervals(current, next)
+    tithis: intervals(previous, current, next)
   });
   assert.equal(result.status, "candidate-supported");
   assert.ok(result.evidence.length > 0);
@@ -111,7 +111,7 @@ test("real Pithoragarh Panchang finds Smarta Janmashtami in Bhadrapada at Nishit
     const dateObject = new Date(start);
     dateObject.setUTCDate(dateObject.getUTCDate() + offset);
     const date = dateObject.toISOString().slice(0, 10);
-    const current = panchang(date), next = panchang(nextIsoDate(date));
+    const previous = panchang(previousIsoDate(date)), current = panchang(date), next = panchang(nextIsoDate(date));
     const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
       date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
       tithis: intervals(previous, current, next), nakshatraIntervals: nakshatras(previous, current, next)
@@ -132,27 +132,27 @@ test("real Pithoragarh Panchang supports Sharad Navratri Pratipada at sunrise", 
 });
 
 test("real Pithoragarh Panchang confirms Navratri Maha Ashtami sunrise evidence", () => {
-  const date = "2026-10-19", current = panchang(date);
+  const date = "2026-10-19", previous = panchang(previousIsoDate(date)), current = panchang(date);
   const result = evaluateObservanceRule("navratri-maha-ashtami", {
     date, masa: masa(current), sunrise: current.sunrise,
-    tithis: intervals(current)
+    tithis: intervals(previous, current)
   });
   assert.equal(result.status, "candidate-supported");
 });
 
 test("real Pithoragarh Panchang checks Ashtami-viddha Maha Navami evening coverage", () => {
-  const date = "2026-10-19", current = panchang(date);
+  const date = "2026-10-19", previous = panchang(previousIsoDate(date)), current = panchang(date);
   const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
     date, masa: masa(current), sunrise: current.sunrise, sunset: current.sunset,
-    tithis: intervals(current)
+    tithis: intervals(previous, current)
   });
   assert.equal(result.status, "candidate-supported");
 });
 
 test("real Pithoragarh Panchang identifies the Navratri Sandhi tithi junction", () => {
-  const date = "2026-10-19", current = panchang(date);
+  const date = "2026-10-19", previous = panchang(previousIsoDate(date)), current = panchang(date);
   const result = evaluateObservanceRule("navratri-sandhi-puja", {
-    date, masa: masa(current), tithis: intervals(current)
+    date, masa: masa(current), tithis: intervals(previous, current)
   });
   assert.equal(result.status, "candidate-supported");
   assert.equal(result.evidence.length, 2);
