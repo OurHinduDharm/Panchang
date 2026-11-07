@@ -218,3 +218,21 @@ Drik की सामान्य Settings page कहती है कि geogr
 ### 7 नवम्बर 2026 — UI disclosure tightened
 
 Draft branch के Planetary Asta/Udaya card में “दृश्य कोणीय सीमा” को “आभासी कोणीय सीमा” किया गया है। अंतिम disclosure अब स्पष्ट कहता है कि ये चयनित स्थान पर सूर्य–ग्रह की आभासी कोणीय दूरी से निकले अस्थायी गणितीय अनुमान हैं; वास्तविक दृश्यता और Drik के प्रकाशित समयों से मेल अभी प्रमाणित नहीं है। यह केवल भाषा/दावे की शुद्धता है—कोई threshold, ephemeris, event time, cache या production calculation rule नहीं बदला। extra-panchang.js का परिवर्तन अभी Draft PR में ही है; main पर लागू नहीं है।
+
+### 7 नवम्बर 2026 — प्रकाशित सीमांत समयों पर स्थानीय क्षितिज-ज्यामिति
+
+Draft diagnostic में प्रत्येक उपलब्ध Pithoragarh सीमा-समय पर project observer (29.5828° N, 80.2182° E, 1650 m) के लिए Astronomy Engine से topocentric apparent equatorial coordinates लेकर local horizontal coordinates निकाले गए। Horizon altitude में सामान्य atmospheric refraction लागू है; geometric altitude अलग दर्ज है। Drik के वास्तविक observer coordinates/elevation अज्ञात हैं, इसलिए ये Drik के internal coordinates पर गणना नहीं हैं।
+
+64 deduplicated planet-boundary samples (पाँचों ग्रह; indexed 2025 Venus source + user-transcribed Pithoragarh rows) का सार:
+
+| ग्रह | सीमाएँ | ग्रह की apparent altitude min / median / max | सूर्य की altitude min / median / max | सूर्य–ग्रह angular separation min / max |
+|---|---:|---:|---:|---:|
+| बुध | 38 | −0.0839° / +0.0066° / +0.0851° | −13.8218° / −10.8278° / −9.2166° | 9.447° / 24.5373° |
+| शुक्र | 10 | −0.0524° / +0.0135° / +0.0593° | −6.7900° / −5.7407° / −4.9018° | 6.1107° / 19.1159° |
+| मंगल | 4 | −0.0585° / +0.0667° / +0.0898° | −14.3663° / −12.9359° / −12.9089° | 18.7853° / 24.8891° |
+| गुरु | 6 | −0.0845° / +0.0175° / +0.0296° | −9.6348° / −7.5519° / −7.2743° | 8.2073° / 13.1976° |
+| शनि | 6 | −0.0396° / +0.0700° / +0.0834° | −13.0431° / −10.6171° / −10.0297° | 10.4895° / 24.8725° |
+
+**प्रारम्भिक निष्कर्ष:** project observer पर सभी ग्रहों की published boundary instants पर apparent altitude लगभग 0° के आसपास है, जबकि angular separation ग्रह और event के अनुसार काफी बदलती है। यह fixed elongation threshold के बजाय local horizon / heliacal-visibility event family की ओर मजबूत संकेत है। ग्रह-विशिष्ट सूर्य depression भी बदलता है; इसलिए एक universal solar-altitude threshold या मनमाना per-planet constant अभी स्वीकार नहीं किया गया।
+
+**सीमाएँ:** इस 64-sample set का बड़ा भाग user-transcribed है और independently page-verified नहीं; 2025 Venus के चार boundaries ही indexed Pithoragarh Drik page से corroborated हैं। Coordinates project proxy हैं, Drik observer नहीं। इस pattern को model proof, Drik algorithm disclosure या acceptance result न मानें। अगला वैज्ञानिक परीक्षण: source-verified multi-planet/multi-year boundaries, actual observer coordinate uncertainty, horizon-crossing instants plus twilight/planet-brightness criterion, और अलग years/cities पर held-out validation। कोई production threshold या output नहीं बदला।
