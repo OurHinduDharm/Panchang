@@ -78,3 +78,11 @@ test("profile metadata makes the pending source-review boundary explicit", () =>
   assert.equal(profile.tradition, "smarta-review-default");
   assert.equal(getObservanceRuleProfile("ekadashi"), null);
 });
+
+test("missing paksha is not accepted as evidence for a paksha-specific observance", () => {
+  const result = evaluateObservanceRule("sankashti-moonrise", {
+    date: "2026-11-27", moonrise: "2026-11-27T12:00:00.000Z",
+    tithis: [interval(18, "2026-11-27T11:00:00Z", "2026-11-27T13:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+});
