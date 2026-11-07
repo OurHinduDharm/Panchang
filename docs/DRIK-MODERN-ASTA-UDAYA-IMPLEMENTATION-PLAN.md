@@ -284,3 +284,21 @@ Source: https://ephe.scryr.io/swisseph/doc/swisseph.htm (sections 5.1.1–5.1.3;
 The current browser runner passes Swiss event types 1=Morning First, 2=Evening Last, 3=Evening First, 4=Morning Last; it records the returned beginning/optimum/end times separately. The high Drik mismatch therefore cannot be “fixed” by casually changing which output slot is read. Before another Swiss run, audit the pinned WASM wrapper's exported low-level visibility-limit API and compare the visibility threshold at the exact local planet rise/set instant. Do not change atmosphere/observer parameters solely to minimize the small current benchmark.
 
 Swiss heliacal output remains a useful independent physical-visibility comparator, not the Drik acceptance model. Drik's local planet rise/set timestamp match and Swiss's visibility-start timestamp are distinct observables; the remaining selector must be identified with held-out, source-verified data.
+
+## 7 नवम्बर 2026 — शोध-चक्र समाप्त, सीमित उत्पाद-डिलीवरी चरण
+
+परियोजना अब अनिश्चितकालीन मॉडल-शोध में नहीं रहेगी। लक्ष्य स्पष्ट और छोटा है: चुने हुए स्थान पर बुध, शुक्र, मंगल, गुरु और शनि के अगले/वर्तमान अस्त तथा उदय की तारीख-समय और अवधि दिखाना। पहले Pithoragarh को पूर्ण कार्यशील लक्ष्य बनाया जाएगा; उसके बाद अलग शहरों को उसी गणना में observer coordinates/elevation/timezone देकर जोड़ा जाएगा।
+
+### डिलीवरी का क्रम
+1. **कार्यशील गणना मॉड्यूल:** fixed angular-threshold candidate को production-ready न मानते हुए local rise/set + heliacal visibility candidate को एक पृथक module में लागू करना। हर ग्रह के लिए event semantics स्पष्ट: बाह्य ग्रहों के लिए evening-last / morning-first; बुध-शुक्र के लिए conjunction के अनुसार morning-last / evening-first भी। Missing event पर null; fallback नहीं।
+2. **उपयोगकर्ता को दिखने वाला पहला परिणाम:** Pithoragarh पर पाँच ग्रहों की अस्त-आरम्भ, उदय/दृश्यता-वापसी, और कुल अवधि का सीधा card/table। केवल source-backed/accepted values को verified कहा जाए; बाकी स्पष्ट provisional label के साथ अलग रहें या छिपें—चुपचाप verified न बनें।
+3. **सीमित acceptance:** Pithoragarh के उपलब्ध Drik records और कम-से-कम दो अलग longitude वाले शहरों के published records पर per-boundary error report। मुख्य Panchang में integration तभी जब event family सही हो और source-backed sample पर error gate पूरा हो।
+4. **बहुवर्षीय JSON:** Pithoragarh first release के बाद calculator से 2024–2035 precompute; फिर अन्य city profiles। Main Panchang में केवल छोटा versioned JSON lookup, भारी गणना नहीं।
+
+### Stop rule
+- अब fixed-angle, fixed-twilight और parameter-sweep शोध को दोहराना नहीं। पहले से reject किए गए candidates फिर से नहीं चलाने हैं, जब तक नया independent evidence न हो।
+- हर अगला कार्य-चक्र code या user-visible output देगा; केवल नई शोध-रिपोर्ट को progress नहीं माना जाएगा।
+- 64 local-horizon boundary matches को event-selection proof नहीं कहना है। वे केवल boundary instant पर planet horizon crossing का संकेत हैं; visibility selection अभी अलग से implement होना है।
+- Drik observer coordinates अज्ञात होने पर location label को city-level ही रखना है; project coordinates को provider coordinates बताना मना है।
+
+**पहला release scope:** Pithoragarh, पाँच ग्रह, अगले/वर्तमान event dates and times, duration, clear source/status. No main Panchang integration and no PR merge until the release candidate passes the stated acceptance gate.
