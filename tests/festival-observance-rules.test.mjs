@@ -391,3 +391,35 @@ test("review-only profiles require lunar-month metadata before showing a manual 
   assert.equal(result.finalDate, null);
   assert.equal(result.autoApproved, false);
 });
+
+test("additional Jayanti profiles remain manual and enforce their own lunar months", () => {
+  const cases = [
+    ["narasimha-jayanti", "वैशाख", 13, "शुक्ल पक्ष"],
+    ["parashurama-jayanti", "वैशाख", 2, "शुक्ल पक्ष"],
+    ["radhashtami", "भाद्रपद", 7, "शुक्ल पक्ष"],
+    ["vamana-jayanti", "भाद्रपद", 11, "शुक्ल पक्ष"],
+    ["shani-jayanti", "ज्येष्ठ", 29, "कृष्ण पक्ष"]
+  ];
+  for (const [ruleId, masa, index, paksha] of cases) {
+    const profile = getObservanceRuleProfile(ruleId);
+    assert.equal(profile.reviewOnly, true, ruleId);
+    const result = evaluateObservanceRule(ruleId, {
+      date: "2026-04-30", masa,
+      sunrise: "2026-04-30T00:30:00Z", sunset: "2026-04-30T12:30:00Z",
+      tithis: [interval(index, "2026-04-30T00:00:00Z", "2026-04-30T12:00:00Z", paksha)]
+    });
+    assert.equal(result.status, "manual-review", ruleId);
+    assert.equal(result.finalDate, null, ruleId);
+    assert.equal(result.autoApproved, false, ruleId);
+  }
+});
+
+test("Jayanti review profiles reject a mismatched month instead of silently applying another festival rule", () => {
+  const result = evaluateObservanceRule("vamana-jayanti", {
+    date: "2026-04-30", masa: "वैशाख",
+    tithis: [interval(11, "2026-04-30T00:00:00Z", "2026-04-30T12:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+  assert.equal(result.autoApproved, false);
+});
