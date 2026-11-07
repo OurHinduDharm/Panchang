@@ -309,22 +309,28 @@ test("Janmashtami reports when Rohini is absent at Nishita without rejecting the
   assert.equal(result.autoApproved, false);
 });
 
-test("Nag Panchami candidate requires Shravan Shukla Panchami at Madhyahna", () => {
-  const result = evaluateObservanceRule("nag-panchami-madhyahna", {
+test("Nag Panchami stays manual until its three-muhurta and short-tithi exceptions are implemented", () => {
+  const result = evaluateObservanceRule("nag-panchami", {
     date: "2026-08-17", masa: "श्रावण",
     sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:40:00Z",
     tithis: [interval(4, "2026-08-16T11:23:00Z", "2026-08-17T11:30:00Z", "शुक्ल पक्ष")]
   });
-  assert.equal(result.status, "candidate-supported");
-  assert.equal(result.evidence[0].decisionMoment, "madhyahna");
+  assert.equal(result.status, "manual-review");
+  assert.match(result.reviewNote, /तीन मुहूर्त/);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
 });
 
-test("Nag Panchami profile rejects Panchami in a non-Shravan month", () => {
-  const result = evaluateObservanceRule("nag-panchami-madhyahna", {
-    date: "2026-08-17", masa: "भाद्रपद",
-    sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:40:00Z",
-    tithis: [interval(4, "2026-08-16T11:23:00Z", "2026-08-17T11:30:00Z", "शुक्ल पक्ष")]
-  });
-  assert.equal(result.status, "candidate-not-supported");
-  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+test("Skanda Shashthi and Ratha Saptami stay manual until their special day-selection rules are reconciled", () => {
+  for (const ruleId of ["skanda-shashthi", "ratha-saptami"]) {
+    const result = evaluateObservanceRule(ruleId, {
+      date: "2026-11-15", masa: "कार्तिक",
+      sunrise: "2026-11-15T00:30:00Z", sunset: "2026-11-15T12:40:00Z",
+      tithis: [interval(5, "2026-11-14T17:30:00Z", "2026-11-16T20:00:00Z", "शुक्ल पक्ष")]
+    });
+    assert.equal(result.status, "manual-review");
+    assert.equal(result.finalDate, null);
+    assert.equal(result.autoApproved, false);
+    assert.ok(result.warnings.includes("special-rule-not-fully-implemented"));
+  }
 });
