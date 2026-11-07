@@ -101,8 +101,11 @@ test("real Pithoragarh Panchang supports Smarta Ekadashi at sunrise", () => {
 
 test("real Pithoragarh Panchang finds Smarta Janmashtami in Bhadrapada at Nishita", () => {
   let supportedDate = null;
-  for (let day = 15; day <= 31; day++) {
-    const date = "2026-08-" + String(day).padStart(2, "0");
+  const start = new Date("2026-08-20T00:00:00Z");
+  for (let offset = 0; offset < 35; offset++) {
+    const dateObject = new Date(start);
+    dateObject.setUTCDate(dateObject.getUTCDate() + offset);
+    const date = dateObject.toISOString().slice(0, 10);
     const current = panchang(date), next = panchang(nextIsoDate(date));
     const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
       date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
