@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { Equator, Horizon, Observer } from "astronomy-engine";
+import { Equator, Horizon, Observer, SearchRiseSet } from "astronomy-engine";
 
 const dataset = JSON.parse(await readFile(new URL("../data/asta-udaya-benchmark.json", import.meta.url), "utf8"));
 const thresholds = { Mercury: 14, Venus: 10, Mars: 17, Jupiter: 11, Saturn: 15 };
@@ -101,6 +101,16 @@ for (const entry of dataset.cases) {
     const sunGeometric = horizontalPosition("Sun", publishedInstant, observer);
     const planetGeometric = horizontalPosition(entry.planet, publishedInstant, observer);
     const publishedSeparation = angularSeparation(entry.planet, publishedInstant, observer);
+    const horizonCrossingDirection = sunHorizontal.azimuth < 180 ? 1 : -1;
+    const horizonCrossing = SearchRiseSet(
+      entry.planet,
+      observer,
+      horizonCrossingDirection,
+      new Date(publishedInstant.getTime() - 12 * 3600000),
+      1,
+      0
+    );
+    const horizonCrossingDate = horizonCrossing?.date ?? null;
     const geometryValues = [
       sunHorizontal.altitude, planetHorizontal.altitude,
       sunHorizontal.azimuth, planetHorizontal.azimuth,
@@ -129,6 +139,11 @@ for (const entry of dataset.cases) {
       publishedAzimuthDifferenceDegrees: round4(Math.abs(wrap180(planetHorizontal.azimuth - sunHorizontal.azimuth))),
       geometricSunAltitudeDegrees: round4(sunGeometric.altitude),
       geometricPlanetAltitudeDegrees: round4(planetGeometric.altitude),
+      horizonCrossingDirection: horizonCrossingDirection > 0 ? "rise" : "set",
+      horizonCrossingIST: horizonCrossingDate ? formatIST(horizonCrossingDate) : null,
+      horizonCrossingDeltaMinutes: horizonCrossingDate
+        ? Math.round((horizonCrossingDate.getTime() - publishedInstant.getTime()) / 60000)
+        : null,
       signedDifferenceMinutes: calculated ? Math.round((calculated.getTime() - publishedInstant.getTime()) / 60000) : null,
       thresholdDegrees: threshold,
       observer: { latitude: observer.latitude, longitude: observer.longitude, elevationMeters: observer.height },
