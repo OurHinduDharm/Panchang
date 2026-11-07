@@ -9,6 +9,16 @@ This is an isolated review aid. It does not change the live Blogger page, the mo
 - `manual-review`: explicitly disputed or tradition-dependent rules that require a human decision.
 - `manual-confirmed`: a decision already confirmed by the user's hard-copy Panchang. This is not silently overwritten by automation.
 
+## User-confirmed date policy (2026–2030)
+
+The user has manually finalized the annual festival dates through 2030. Treat those dates as the current approved baseline:
+
+1. Do not recalculate, rewrite, normalize, or replace any manually entered 2026–2030 festival date as part of detector work.
+2. If any date, tithi, paksha, lunar month, observance moment, regional practice, or exception is doubtful, compare that exact festival and year with Drik Panchang before proposing a change.
+3. Drik Panchang is a cross-check for the specific year, not permission for unattended bulk replacement. Record the compared year and the relevant rule/evidence in the review notes; the user makes the final manual decision.
+4. Keep any unresolved or conflicting case in manual-review / needs-review. Never infer a final date from a simple tithi match, and never mark a critical case auto-approved.
+5. Only routine, non-critical observances with a fully reviewed rule and complete evidence may use the automated candidate/evidence workflow. Even then, candidate generation is not publication approval.
+
 ## Safety boundaries
 
 1. A festival title or old date alone is never sufficient to auto-approve.
