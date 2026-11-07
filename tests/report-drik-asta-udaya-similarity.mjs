@@ -112,8 +112,10 @@ for (const entry of dataset.cases) {
     }
     report.push({
       case: entry.id,
+      planet: entry.planet,
       location: entry.sourceLocation,
       boundary: key,
+      boundaryKind: type,
       publishedIST: published,
       modelIST: calculated ? formatIST(calculated) : null,
       publishedAngularSeparationDegrees: round4(publishedSeparation),
