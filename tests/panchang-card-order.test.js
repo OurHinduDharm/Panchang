@@ -131,7 +131,7 @@ test("Planetary Asta/Udaya card keeps calculation labels and one concise final d
   const cardSource = source.slice(start, end);
   assert.ok(cardSource.includes("कोणीय अनुमानित अस्त"));
   assert.ok(cardSource.includes("कोणीय अनुमानित उदय"));
-  assert.ok(cardSource.includes("ये समय चयनित स्थान पर सूर्य और ग्रह की आभासी कोणीय दूरी से निकले अनुमान हैं। दूसरे पंचांगों से समय-मिलान का सत्यापन जारी है।"));
+  assert.ok(cardSource.includes("ये चयनित स्थान पर सूर्य–ग्रह की आभासी कोणीय दूरी पर आधारित अस्थायी गणितीय अनुमान हैं; वास्तविक दृश्यता और Drik के समयों से मिलान अभी प्रमाणित नहीं है।"));
   assert.ok(!cardSource.includes("प्रामाणिकता की स्थिति"));
   assert.ok(!cardSource.includes("सूर्यसिद्धान्त अध्याय ३.४३–४६"));
   assert.ok(!cardSource.includes("प्रमाणित घोषित करने की शर्त"));
