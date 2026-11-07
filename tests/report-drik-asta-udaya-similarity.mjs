@@ -189,7 +189,8 @@ for (const planet of [...new Set(uniqueBoundaries.map(row => row.planet))].sort(
     planetAltitudeDegrees: summarize(rows.map(row => row.publishedPlanetAltitudeDegrees)),
     sunAltitudeDegrees: summarize(rows.map(row => row.publishedSunAltitudeDegrees)),
     angularSeparationDegrees: summarize(rows.map(row => row.publishedAngularSeparationDegrees)),
-    azimuthDifferenceDegrees: summarize(rows.map(row => row.publishedAzimuthDifferenceDegrees))
+    azimuthDifferenceDegrees: summarize(rows.map(row => row.publishedAzimuthDifferenceDegrees)),
+    horizonCrossingDeltaMinutes: summarize(rows.map(row => row.horizonCrossingDeltaMinutes))
   };
 }
 
