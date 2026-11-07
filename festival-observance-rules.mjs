@@ -21,8 +21,15 @@ const PROFILES = {
     sourceReview: "pending-primary-source-review"
   },
   "masik-shivaratri-nishita": {
-    id: "masik-shivaratri-nishita", aliases: ["mahashivaratri-nishita"],
+    id: "masik-shivaratri-nishita", aliases: [],
     label: "मासिक शिवरात्रि", tithiIndices: [28], paksha: "कृष्ण पक्ष",
+    decisionMoment: "nishita", windowLabel: "निशीथ काल",
+    calculationBasis: "sunset-to-next-sunrise-seven-fifteenths-to-eight-fifteenths",
+    sourceReview: "pending-primary-source-review"
+  },
+  "mahashivaratri-nishita": {
+    id: "mahashivaratri-nishita", aliases: [],
+    label: "महाशिवरात्रि", tithiIndices: [28], paksha: "कृष्ण पक्ष",
     decisionMoment: "nishita", windowLabel: "निशीथ काल",
     calculationBasis: "sunset-to-next-sunrise-seven-fifteenths-to-eight-fifteenths",
     sourceReview: "pending-primary-source-review"
@@ -115,6 +122,12 @@ export function evaluateObservanceRule(ruleId, context) {
     evidence: [], finalDate: null, autoApproved: false
   };
   const rows = Array.isArray(context?.tithis) ? context.tithis : [];
+  if (!rows.length) return {
+    status: "insufficient-data", ruleId: profile.id, date: day,
+    decisionMoment: profile.decisionMoment,
+    warnings: ["tithi-intervals-missing"],
+    evidence: [], finalDate: null, autoApproved: false
+  };
   const evidence = [];
   for (const row of rows) {
     const interval = asInterval(row);
