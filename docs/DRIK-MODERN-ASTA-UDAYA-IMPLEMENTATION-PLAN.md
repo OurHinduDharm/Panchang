@@ -302,3 +302,28 @@ Swiss heliacal output remains a useful independent physical-visibility comparato
 - Drik observer coordinates अज्ञात होने पर location label को city-level ही रखना है; project coordinates को provider coordinates बताना मना है।
 
 **पहला release scope:** Pithoragarh, पाँच ग्रह, अगले/वर्तमान event dates and times, duration, clear source/status. No main Panchang integration and no PR merge until the release candidate passes the stated acceptance gate.
+
+## Display sequence confirmed by project owner — 7 Nov 2026
+
+The owner confirmed this product sequence:
+
+### First: minimum display on the main Panchang page
+As soon as the event-calculation module has passed its initial acceptance gate, show a compact **ग्रह अस्त–उदय** card on the main Panchang page. For each of Mercury, Venus, Mars, Jupiter and Saturn, show:
+- अस्त आरम्भ: local date and time;
+- उदय / दृश्यता-वापसी: local date and time;
+- अस्त अवधि: elapsed duration in days (and hours where useful);
+- selected observer/location label and calculation/source status.
+
+The card is driven by the selected Panchang location and date. It must not use hard-coded Pithoragarh times for other locations. If a boundary is unavailable or not accepted, show an explicit unavailable/provisional state; never invent or silently substitute a time. The main Panchang must remain lightweight: load only the relevant compact event data or calculate only the needed event, not the full multi-year dataset.
+
+### Second: separate annual Asta/Udaya page
+After the calculation code and compact Panchang display are working, build a separate page where visitors can select a year and location and see the full annual Asta/Udaya schedule for all five planets. The annual page may load versioned precomputed JSON by year/location. It should include start/end date-time, total duration, source/status and year navigation.
+
+### Delivery order (replaces any ambiguity in the earlier scope)
+1. Complete and validate the event calculation module.
+2. Integrate the compact, location-aware card into the main Panchang page.
+3. Verify the Panchang card does not regress calculation speed or existing Panchang results.
+4. Build the separate year-wise schedule page using the same calculation engine and precomputed JSON.
+5. Only then expand city/year coverage.
+
+Do not wait for the annual page before showing the compact Panchang information. Conversely, do not put unvalidated candidate times on the main page merely to make the card appear sooner.
