@@ -178,12 +178,14 @@ test("real Pithoragarh Panchang supports Smarta Rama Navami on 26 March 2026", (
   assert.equal(result.evidence[0].decisionMoment, "madhyahna");
 });
 
-test("real Pithoragarh Panchang confirms Nag Panchami Madhyahna candidate on 17 August 2026", () => {
+test("real Pithoragarh Nag Panchami data remains manual until special three-muhurta exceptions are evaluated", () => {
   const date = "2026-08-17", previous = panchang(previousIsoDate(date)), current = panchang(date);
-  const result = evaluateObservanceRule("nag-panchami-madhyahna", {
+  const result = evaluateObservanceRule("nag-panchami", {
     date, masa: masa(current), sunrise: current.sunrise, sunset: current.sunset,
     tithis: intervals(previous, current)
   });
-  assert.equal(result.status, "candidate-supported");
-  assert.equal(result.evidence[0].decisionMoment, "madhyahna");
+  assert.equal(result.status, "manual-review");
+  assert.match(result.reviewNote, /तीन मुहूर्त/);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
 });
