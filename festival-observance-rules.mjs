@@ -31,10 +31,18 @@ const PROFILES = {
   },
   "navratri-udaya": {
     id: "navratri-udaya", aliases: ["navratri-day-count"],
-    label: "नवरात्रि — उदयव्यापिनी तिथि", tithiIndices: [0,1,2,3,4,5,6,7,8], paksha: "शुक्ल पक्ष",
+    label: "नवरात्रि — उदयव्यापिनी तिथि", tithiIndices: [0,1,2,3,4,5,6,7], paksha: "शुक्ल पक्ष",
     decisionMoment: "sunrise", windowLabel: "सूर्योदय",
     calculationBasis: "shukla-pratipada-to-navami-at-sunrise-first-sunrise-on-vriddhi",
     firstSunriseOnly: true, allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+  },
+  "navratri-navami-ashtami-viddha": {
+    id: "navratri-navami-ashtami-viddha", aliases: ["navratri-navami"],
+    label: "नवरात्रि महानवमी — अष्टमी-विद्धा", tithiIndices: [7,8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "navami-ashtami-viddha", windowLabel: "सूर्योदय से सूर्यास्त",
+    calculationBasis: "navami-overlaps-day-after-ashtami-at-sunrise",
+    requireAllTithis: true, allowedMonths: ["चैत्र", "आश्विन"],
     sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
   "navratri-sandhi-puja": {
@@ -97,7 +105,7 @@ function overlap(a, b) {
   const end = new Date(Math.min(a.end.getTime(), b.end.getTime()));
   return end > start ? { start, end } : null;
 }
-function makeWindow(profile, context) {\n  if (profile.decisionMoment === "sunrise") {\n    const point = asDate(context.sunrise);\n    return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;\n  }\n  if (profile.decisionMoment === "sandhi") {\n    const rows = Array.isArray(context.tithis) ? context.tithis.map(asInterval).filter(Boolean) : [];\n    const ashtami = rows.filter(row => row.index === 7);\n    const navami = rows.filter(row => row.index === 8);\n    for (const a of ashtami) for (const n of navami) {\n      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {\n        const transition = new Date((a.end.getTime() + n.start.getTime()) / 2);\n        return { start: new Date(transition.getTime() - 24 * 60000), end: new Date(transition.getTime() + 24 * 60000), transition };\n      }\n    }\n    return null;\n  }
+function makeWindow(profile, context) {\n  if (profile.decisionMoment === "sunrise") {\n    const point = asDate(context.sunrise);\n    return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;\n  }\n  if (profile.decisionMoment === "navami-ashtami-viddha") {\n    const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);\n    return sunrise && sunset && sunset > sunrise ? { start: sunrise, end: sunset, point: sunrise } : null;\n  }\n  if (profile.decisionMoment === "sandhi") {\n    const rows = Array.isArray(context.tithis) ? context.tithis.map(asInterval).filter(Boolean) : [];\n    const ashtami = rows.filter(row => row.index === 7);\n    const navami = rows.filter(row => row.index === 8);\n    for (const a of ashtami) for (const n of navami) {\n      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {\n        const transition = new Date((a.end.getTime() + n.start.getTime()) / 2);\n        return { start: new Date(transition.getTime() - 24 * 60000), end: new Date(transition.getTime() + 24 * 60000), transition };\n      }\n    }\n    return null;\n  }
   if (profile.decisionMoment === "moonrise") {
     const point = asDate(context.moonrise);
     return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;
