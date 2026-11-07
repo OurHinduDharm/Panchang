@@ -74,7 +74,7 @@ test("profile metadata makes the pending source-review boundary explicit", () =>
   const profile = getObservanceRuleProfile("mahashivaratri-nishita");
   assert.equal(profile.id, "mahashivaratri-nishita");
   assert.equal(profile.label, "महाशिवरात्रि");
-  assert.equal(profile.sourceReview, "pending-primary-source-review");
+  assert.equal(profile.sourceReview, "primary-text-consulted-two-night-tie-break-pending");
   assert.equal(profile.tradition, "smarta-review-default");
   assert.equal(getObservanceRuleProfile("masik-shivaratri-nishita").label, "मासिक शिवरात्रि");
   assert.equal(getObservanceRuleProfile("ekadashi").id, "ekadashi-smarta-udaya");
