@@ -157,3 +157,13 @@ test("real Pithoragarh Panchang identifies the Navratri Sandhi tithi junction", 
   assert.equal(result.status, "candidate-supported");
   assert.equal(result.evidence.length, 2);
 });
+
+test("real Pithoragarh Panchang confirms Vijayadashami Aparahna candidate on 20 October 2026", () => {
+  const date = "2026-10-20", previous = panchang(previousIsoDate(date)), current = panchang(date);
+  const result = evaluateObservanceRule("vijayadashami-aparahna", {
+    date, masa: masa(current), sunrise: current.sunrise, sunset: current.sunset,
+    tithis: intervals(previous, current), nakshatraIntervals: nakshatras(previous, current)
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.nakshatraLabel, "श्रवण");
+});
