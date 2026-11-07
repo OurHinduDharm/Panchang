@@ -18,7 +18,7 @@ function nextIsoDate(isoDate) {
 function panchang(isoDate) {
   return getPanchangam(localNoon(isoDate), LOCATION, OPTIONS);
 }
-function intervals(...days) {
+function masa(day) {\n  const raw = day?.masa ?? day?.month;\n  const value = raw && typeof raw === "object" ? raw.name ?? raw.value ?? "" : String(raw ?? "");\n  return ({ Chaitra: "चैत्र", Vaishakha: "वैशाख", Jyeshtha: "ज्येष्ठ", Ashadha: "आषाढ़", Shravana: "श्रावण", Bhadrapada: "भाद्रपद", Ashwin: "आश्विन", Ashwina: "आश्विन", Kartika: "कार्तिक", Margashirsha: "मार्गशीर्ष", Pausha: "पौष", Magha: "माघ", Phalguna: "फाल्गुन" })[value] ?? value;\n}\nfunction nakshatras(...days) {\n  return days.flatMap(day => Array.isArray(day?.nakshatras) ? day.nakshatras : []).map(row => ({ index: Number(row.index), name: row.name ?? null, startTime: row.startTime, endTime: row.endTime }));\n}\nfunction intervals(...days) {
   return days.flatMap(day => Array.isArray(day?.tithis) ? day.tithis : [])
     .map(row => {
       const index = Number(row.index ?? row.number ?? row.value);
@@ -79,4 +79,34 @@ test("real Pithoragarh Panchang confirms Vinayaka Chaturthi during Madhyahna", (
   });
   assert.equal(result.status, "candidate-supported");
   assert.ok(result.evidence.length > 0);
+});
+
+test("real Pithoragarh Panchang supports Smarta Ekadashi at sunrise", () => {
+  const date = "2026-11-20", current = panchang(date);
+  const result = evaluateObservanceRule("ekadashi-smarta-udaya", {
+    date, masa: masa(current), sunrise: current.sunrise,
+    tithis: intervals(current)
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "sunrise");
+});
+
+test("real Pithoragarh Panchang supports Smarta Janmashtami at Nishita", () => {
+  const date = "2026-09-03", current = panchang(date), next = panchang(nextIsoDate(date));
+  const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
+    date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
+    tithis: intervals(current, next), nakshatraIntervals: nakshatras(current, next)
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.ok(result.evidence.length > 0);
+});
+
+test("real Pithoragarh Panchang supports Sharad Navratri Pratipada at sunrise", () => {
+  const date = "2026-10-11", current = panchang(date);
+  const result = evaluateObservanceRule("navratri-udaya", {
+    date, masa: masa(current), sunrise: current.sunrise,
+    tithis: intervals(current)
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].tithiIndex, 0);
 });
