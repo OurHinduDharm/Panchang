@@ -181,6 +181,15 @@ function summarize(values) {
   };
 }
 
+const horizonCrossingOffsets = uniqueBoundaries.map(row => row.horizonCrossingDeltaMinutes);
+if (horizonCrossingOffsets.some(value => !Number.isFinite(value))) {
+  throw new Error("Missing local rise/set crossing for one or more published boundaries");
+}
+const maxAbsoluteHorizonCrossingDeltaMinutes = Math.max(...horizonCrossingOffsets.map(Math.abs));
+if (maxAbsoluteHorizonCrossingDeltaMinutes > 1) {
+  throw new Error("A published boundary differs from local planet rise/set by more than one minute");
+}
+
 const summaryByPlanet = {};
 for (const planet of [...new Set(uniqueBoundaries.map(row => row.planet))].sort()) {
   const rows = uniqueBoundaries.filter(row => row.planet === planet);
@@ -198,6 +207,7 @@ console.log(JSON.stringify({
   title: "Drik boundary geometry diagnostic — topocentric angle and local horizon",
   warning: "Not a Drik clone or acceptance result. Pithoragarh provider coordinates are undisclosed; this compares a project-selected observer at the same city label. Horizontal coordinates are diagnostic samples at the published instant, not inferred Drik thresholds. Source provenance is retained per boundary.",
   uniqueBoundaryCount: uniqueBoundaries.length,
+  maxAbsoluteHorizonCrossingDeltaMinutes,
   summaryByPlanet,
   uniqueBoundaries,
   cases: report
