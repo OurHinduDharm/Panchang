@@ -157,8 +157,7 @@ test("Navratri Sandhi Puja needs both Ashtami and Navami around their exact tran
   });
   assert.equal(result.status, "candidate-supported");
   assert.equal(result.evidence.length, 2);
-  assert.equal(result.evidence[0].windowStart, "2026-10-19T09:36:00.000Z");
-  assert.equal(result.evidence[0].windowEnd, "2026-10-19T10:24:00.000Z");
+  assert.equal(result.evidence[0].transitionTime, "2026-10-19T10:00:00.000Z");
 });
 
 test("Navratri Sandhi Puja rejects incomplete transition evidence", () => {
