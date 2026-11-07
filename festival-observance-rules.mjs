@@ -10,8 +10,40 @@ const PROFILES = {
     id: "pradosh-trayodashi", aliases: ["pradosh", "pradosh-evening"],
     label: "प्रदोष व्रत", tithiIndices: [12, 27], paksha: null,
     decisionMoment: "pradosh", windowLabel: "प्रदोष काल",
-    calculationBasis: "sunset-to-one-fifth-of-night",
-    sourceReview: "pending-primary-source-review"
+    calculationBasis: "three-muhurtas-after-local-sunset-3x48-minutes",
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+  },
+  "ekadashi-smarta-udaya": {
+    id: "ekadashi-smarta-udaya", aliases: ["smarta-ekadashi", "ekadashi"],
+    label: "स्मार्त एकादशी", tithiIndices: [10, 25], paksha: null,
+    decisionMoment: "sunrise", windowLabel: "सूर्योदय",
+    calculationBasis: "ekadashi-active-at-local-sunrise-first-sunrise-on-vriddhi",
+    firstSunriseOnly: true,
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+  },
+  "janmashtami-smarta-nishita": {
+    id: "janmashtami-smarta-nishita", aliases: ["smarta-janmashtami", "janmashtami"],
+    label: "स्मार्त जन्माष्टमी", tithiIndices: [22], paksha: "कृष्ण पक्ष",
+    decisionMoment: "nishita", windowLabel: "निशीथ काल",
+    calculationBasis: "krishna-ashtami-at-nishita-rohini-as-supporting-evidence",
+    nakshatraIndices: [3],
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+  },
+  "navratri-udaya": {
+    id: "navratri-udaya", aliases: ["navratri-day-count"],
+    label: "नवरात्रि — उदयव्यापिनी तिथि", tithiIndices: [0,1,2,3,4,5,6,7,8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sunrise", windowLabel: "सूर्योदय",
+    calculationBasis: "shukla-pratipada-to-navami-at-sunrise-first-sunrise-on-vriddhi",
+    firstSunriseOnly: true,
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+  },
+  "navratri-sandhi-puja": {
+    id: "navratri-sandhi-puja", aliases: ["sandhi-puja-navratri"],
+    label: "नवरात्रि संधि पूजा", tithiIndices: [7,8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sandhi", windowLabel: "अष्टमी–नवमी संधि",
+    calculationBasis: "last-24-minutes-ashtami-plus-first-24-minutes-navami",
+    requireAllTithis: true,
+    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
   "sankashti-moonrise": {
     id: "sankashti-moonrise", aliases: ["sankashti", "sakat-moonrise"],
@@ -64,7 +96,7 @@ function overlap(a, b) {
   const end = new Date(Math.min(a.end.getTime(), b.end.getTime()));
   return end > start ? { start, end } : null;
 }
-function makeWindow(profile, context) {
+function makeWindow(profile, context) {\n  if (profile.decisionMoment === "sunrise") {\n    const point = asDate(context.sunrise);\n    return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;\n  }\n  if (profile.decisionMoment === "sandhi") {\n    const rows = Array.isArray(context.tithis) ? context.tithis.map(asInterval).filter(Boolean) : [];\n    const ashtami = rows.filter(row => row.index === 7);\n    const navami = rows.filter(row => row.index === 8);\n    for (const a of ashtami) for (const n of navami) {\n      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {\n        const transition = new Date((a.end.getTime() + n.start.getTime()) / 2);\n        return { start: new Date(transition.getTime() - 24 * 60000), end: new Date(transition.getTime() + 24 * 60000), transition };\n      }\n    }\n    return null;\n  }
   if (profile.decisionMoment === "moonrise") {
     const point = asDate(context.moonrise);
     return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;
@@ -82,7 +114,7 @@ function makeWindow(profile, context) {
     return { start: new Date(sunset.getTime() + night * 7 / 15), end: new Date(sunset.getTime() + night * 8 / 15) };
   }
   if (profile.decisionMoment === "pradosh") {
-    return { start: sunset, end: new Date(sunset.getTime() + night / 5) };
+    return { start: sunset, end: new Date(sunset.getTime() + 3 * 48 * 60000) };
   }
   return null;
 }
@@ -96,7 +128,7 @@ export function getObservanceRuleProfile(ruleId) {
     id: profile.id, label: profile.label, tithiIndices: [...profile.tithiIndices],
     paksha: profile.paksha, decisionMoment: profile.decisionMoment,
     windowLabel: profile.windowLabel, calculationBasis: profile.calculationBasis,
-    sourceReview: profile.sourceReview, ruleVersion: "0.1.0",
+    sourceReview: profile.sourceReview, ruleVersion: "0.2.0",
     tradition: "smarta-review-default"
   });
 }
