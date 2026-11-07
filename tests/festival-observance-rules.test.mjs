@@ -339,3 +339,33 @@ test("Skanda Shashthi and Ratha Saptami stay manual until their special day-sele
     assert.ok(result.warnings.includes("special-rule-not-fully-implemented"));
   }
 });
+
+test("Chhath remains manual because its regional observance rule is not established as a universal Smriti rule", () => {
+  const profile = getObservanceRuleProfile("chhath-puja");
+  assert.equal(profile.id, "chhath-kartika-review");
+  assert.equal(profile.reviewOnly, true);
+  const result = evaluateObservanceRule("chhath", {
+    date: "2026-11-15", masa: "कार्तिक", sunrise: "2026-11-15T00:30:00Z",
+    sunset: "2026-11-15T12:30:00Z", nextSunrise: "2026-11-16T00:30:00Z",
+    tithis: [interval(5, "2026-11-15T00:00:00Z", "2026-11-15T18:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "manual-review");
+  assert.match(result.reviewNote, /लोक-परंपरा/);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("Hanuman Jayanti profile preserves the North Indian Chaitra Purnima convention without erasing regional dates", () => {
+  const profile = getObservanceRuleProfile("hanuman-janmotsav");
+  assert.equal(profile.id, "hanuman-jayanti-chaitra-review");
+  assert.equal(profile.reviewOnly, true);
+  const result = evaluateObservanceRule("hanuman-jayanti", {
+    date: "2026-04-02", masa: "चैत्र",
+    sunrise: "2026-04-02T00:30:00Z", sunset: "2026-04-02T12:30:00Z",
+    tithis: [interval(14, "2026-04-01T18:00:00Z", "2026-04-02T18:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "manual-review");
+  assert.match(result.reviewNote, /क्षेत्रों/);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
