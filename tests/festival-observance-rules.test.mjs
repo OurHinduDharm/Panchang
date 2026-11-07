@@ -129,7 +129,7 @@ test("Smarta Ekadashi does not select the second sunrise of a vriddhi tithi", ()
 
 test("Smarta Janmashtami checks Krishna Ashtami at Nishita and records Rohini separately", () => {
   const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
-    date: "2026-08-20", sunset: "2026-08-20T13:00:00Z",
+    date: "2026-08-20", masa: "भाद्रपद", sunset: "2026-08-20T13:00:00Z",
     nextSunrise: "2026-08-21T00:00:00Z",
     tithis: [interval(22, "2026-08-20T17:00:00Z", "2026-08-20T20:00:00Z", "कृष्ण पक्ष")],
     nakshatraIntervals: [interval(3, "2026-08-20T18:00:00Z", "2026-08-20T19:00:00Z")]
@@ -140,7 +140,7 @@ test("Smarta Janmashtami checks Krishna Ashtami at Nishita and records Rohini se
 
 test("Navratri day count uses Shukla tithi at sunrise", () => {
   const result = evaluateObservanceRule("navratri-udaya", {
-    date: "2026-10-11", sunrise: "2026-10-11T00:30:00Z",
+    date: "2026-10-11", masa: "आश्विन", sunrise: "2026-10-11T00:30:00Z",
     tithis: [interval(0, "2026-10-10T20:00:00Z", "2026-10-11T16:00:00Z", "शुक्ल पक्ष")]
   });
   assert.equal(result.status, "candidate-supported");
