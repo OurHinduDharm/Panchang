@@ -297,6 +297,18 @@ test("Rama Navami profile rejects non-Chaitra lunar months", () => {
   assert.ok(result.warnings.includes("lunar-month-outside-profile"));
 });
 
+test("Janmashtami reports when Rohini is absent at Nishita without rejecting the Ashtami candidate", () => {
+  const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
+    date: "2026-08-20", masa: "भाद्रपद",
+    sunset: "2026-08-20T13:00:00Z", nextSunrise: "2026-08-21T00:00:00Z",
+    tithis: [interval(22, "2026-08-20T17:00:00Z", "2026-08-20T20:00:00Z", "कृष्ण पक्ष")],
+    nakshatraIntervals: [interval(4, "2026-08-20T18:00:00Z", "2026-08-20T19:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.ok(result.warnings.includes("rohini-at-nishita-not-confirmed"));
+  assert.equal(result.autoApproved, false);
+});
+
 test("Nag Panchami candidate requires Shravan Shukla Panchami at Madhyahna", () => {
   const result = evaluateObservanceRule("nag-panchami-madhyahna", {
     date: "2026-08-17", masa: "श्रावण",
