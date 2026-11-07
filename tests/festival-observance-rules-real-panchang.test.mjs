@@ -125,3 +125,30 @@ test("real Pithoragarh Panchang supports Sharad Navratri Pratipada at sunrise", 
   assert.equal(result.status, "candidate-supported");
   assert.equal(result.evidence[0].tithiIndex, 0);
 });
+
+test("real Pithoragarh Panchang confirms Navratri Maha Ashtami sunrise evidence", () => {
+  const date = "2026-10-19", current = panchang(date);
+  const result = evaluateObservanceRule("navratri-maha-ashtami", {
+    date, masa: masa(current), sunrise: current.sunrise,
+    tithis: intervals(current)
+  });
+  assert.equal(result.status, "candidate-supported");
+});
+
+test("real Pithoragarh Panchang checks Ashtami-viddha Maha Navami evening coverage", () => {
+  const date = "2026-10-19", current = panchang(date);
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date, masa: masa(current), sunrise: current.sunrise, sunset: current.sunset,
+    tithis: intervals(current)
+  });
+  assert.equal(result.status, "candidate-supported");
+});
+
+test("real Pithoragarh Panchang identifies the Navratri Sandhi tithi junction", () => {
+  const date = "2026-10-19", current = panchang(date);
+  const result = evaluateObservanceRule("navratri-sandhi-puja", {
+    date, masa: masa(current), tithis: intervals(current)
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence.length, 2);
+});
