@@ -26,7 +26,7 @@ const PROFILES = {
     label: "स्मार्त जन्माष्टमी", tithiIndices: [22], paksha: "कृष्ण पक्ष",
     decisionMoment: "nishita", windowLabel: "निशीथ काल",
     calculationBasis: "krishna-ashtami-at-nishita-rohini-as-supporting-evidence",
-    nakshatraIndices: [3], nakshatraLabel: "रोहिणी", allowedMonths: ["भाद्रपद"],
+    nakshatraIndices: [3], nakshatraLabel: "रोहिणी", nakshatraWarning: "rohini-at-nishita-not-confirmed", allowedMonths: ["भाद्रपद"],
     sourceReview: "primary-text-consulted-two-night-tie-break-pending"
   },
   "navratri-udaya": {
