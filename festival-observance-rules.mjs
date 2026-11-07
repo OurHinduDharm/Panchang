@@ -135,6 +135,24 @@ const PROFILES = {
     reviewNote: "धर्मसिंधु के माघ अध्याय में अरुणोदय पर सप्तमी और पिछले दिन षष्ठी-सप्तमी संयोग का विशेष विकल्प है। तिथि-व्रत अध्याय में अलग सामान्य नियम भी मिलता है। दोनों स्थितियों का पूरा मिलान किए बिना तारीख़ तय नहीं की जाएगी।",
     sourceReview: "dharmasindhu-chapter-5-and-12-rule-reconciliation-pending"
   },
+  "chhath-kartika-review": {
+    id: "chhath-kartika-review", aliases: ["chhath", "chhath-puja", "surya-shashthi-chhath"],
+    label: "छठ पूजा — क्षेत्रीय परंपरा अनुसार जाँच", tithiIndices: [5], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "षष्ठी का सूर्यास्त और अगले दिन का सूर्योदय",
+    calculationBasis: "kartika-shukla-shashthi-sunset-arghya-followed-by-saptami-sunrise-arghya",
+    allowedMonths: ["कार्तिक"], reviewOnly: true,
+    reviewNote: "छठ बिहार, मिथिला और पूर्वांचल की प्रमुख लोक-परंपरा है। संध्या अर्घ्य और अगले दिन उषा अर्घ्य इसके मुख्य अंग हैं। उपलब्ध धर्मसिंधु/निर्णयसिंधु संदर्भों में इसी नाम से एक सर्वमान्य तिथि-निर्णय नहीं मिला; इसलिए इसे केवल कार्तिक शुक्ल षष्ठी के सामान्य मिलान से स्वतः तय नहीं किया जाएगा।",
+    sourceReview: "regional-folk-observance-source-crosscheck-primary-rule-not-established"
+  },
+  "hanuman-jayanti-chaitra-review": {
+    id: "hanuman-jayanti-chaitra-review", aliases: ["hanuman-jayanti", "hanuman-janmotsav", "hanuman-jayanti-chaitra-purnima"],
+    label: "हनुमान जन्मोत्सव — क्षेत्रीय परंपरा अनुसार जाँच", tithiIndices: [14], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "चैत्र पूर्णिमा",
+    calculationBasis: "north-indian-chaitra-purnima-tradition-with-regional-date-variants",
+    allowedMonths: ["चैत्र"], reviewOnly: true,
+    reviewNote: "उत्तर भारत में चैत्र पूर्णिमा की परंपरा प्रचलित है, जबकि दक्षिण और कुछ अन्य क्षेत्रों में अलग तिथियाँ मानी जाती हैं। इसे एकमात्र सार्वभौमिक हनुमान-जयंती नियम न मानें; क्षेत्रीय परंपरा की पुष्टि के बाद ही तारीख़ तय करें।",
+    sourceReview: "regional-traditions-crosschecked-classical-date-rule-not-established"
+  },
   "vinayaka-chaturthi-madhyahna": {
     id: "vinayaka-chaturthi-madhyahna", aliases: ["vinayaka-chaturthi"],
     label: "विनायक चतुर्थी", tithiIndices: [3], paksha: "शुक्ल पक्ष",
