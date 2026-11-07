@@ -97,14 +97,14 @@ test("missing tithi intervals are insufficient data, not a negative date decisio
   assert.ok(result.warnings.includes("tithi-intervals-missing"));
 });
 
-test("Pradosh uses three fixed muhurtas after sunset, not a fraction of night", () => {
+test("Pradosh uses three night-length-aware muhurtas after sunset", () => {
   const result = evaluateObservanceRule("pradosh-trayodashi", {
     date: "2026-06-01", sunset: "2026-06-01T18:00:00Z",
     nextSunrise: "2026-06-02T00:00:00Z",
-    tithis: [interval(12, "2026-06-01T19:30:00Z", "2026-06-01T20:00:00Z")]
+    tithis: [interval(12, "2026-06-01T18:30:00Z", "2026-06-01T19:00:00Z")]
   });
   assert.equal(result.status, "candidate-supported");
-  assert.equal(result.evidence[0].windowEnd, "2026-06-01T20:24:00.000Z");
+  assert.equal(result.evidence[0].windowEnd, "2026-06-01T19:12:00.000Z");
 });
 
 test("Smarta Ekadashi requires Ekadashi at sunrise", () => {
