@@ -1,9 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import * as panchangApi from "@ishubhamx/panchangam-js";
+import panchangPackage from "@ishubhamx/panchangam-js";
 import { evaluateObservanceRule } from "../festival-observance-rules.mjs";
 
-const { getPanchangam, Observer } = panchangApi;
+const { getPanchangam, Observer } = panchangPackage;
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
 const OPTIONS = { timezoneOffset: 330, calendarType: "purnimanta" };
 
