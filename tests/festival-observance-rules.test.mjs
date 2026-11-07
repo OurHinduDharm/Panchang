@@ -241,3 +241,15 @@ test("Navratri Ashtami-viddha Navami rejects less than six ghatis after sunset",
   assert.equal(result.status, "candidate-not-supported");
   assert.ok(result.warnings.includes("navami-less-than-six-ghatis-after-sunset"));
 });
+
+test("Navratri Sandhi normalizes up to 90 seconds of rounded adjacent tithi boundary", () => {
+  const result = evaluateObservanceRule("navratri-sandhi-puja", {
+    date: "2026-10-19", masa: "आश्विन",
+    tithis: [
+      interval(7, "2026-10-19T08:00:00Z", "2026-10-19T10:00:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T10:01:00Z", "2026-10-19T16:00:00Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].transitionTime, "2026-10-19T10:00:30.000Z");
+});
