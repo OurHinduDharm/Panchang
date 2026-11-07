@@ -1021,3 +1021,15 @@ test("Chhath arghya times use local sunset and the following sunrise", () => {
   assert.equal(result.times[1].time.toISOString(), nextSunrise.toISOString());
   assert.equal(getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {sunset}).status,"unavailable");
 });
+
+
+test("Pithoragarh Chhath 2026 arghya times match local sunrise and sunset", () => {
+  const context = realPanchangContext("2026-11-15");
+  const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, context);
+  assert.equal(result.status,"calculated");
+  const format = value => new Intl.DateTimeFormat("en-GB", {
+    timeZone:"Asia/Kolkata", hour:"2-digit", minute:"2-digit", hourCycle:"h23"
+  }).format(value);
+  assert.equal(format(result.times[0].time),"17:14");
+  assert.equal(format(result.times[1].time),"06:34");
+});
