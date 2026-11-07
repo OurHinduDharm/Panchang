@@ -189,7 +189,7 @@ export function getBhaiDoojDateDecision(previousDay, currentDay, nextDay) {
   const overlaps = days.map(overlapsAparahna);
   let selectedDateKey = "";
   if (overlaps[0] && overlaps[1] && overlaps[2]) {
-    return { status: "unavailable", message: "द्वितीया तीन लगातार दिनों के अपराह्ण में व्याप्त दिख रही है; सामान्य द्विदिनीय नियम से निर्णय सुरक्षित रूप से नहीं किया जा सकता।" };
+    return { status: "unavailable", message: "द्वितीया तीन लगातार दिनों के अपराह्न में व्याप्त दिख रही है; सामान्य द्विदिनीय नियम से निर्णय सुरक्षित रूप से नहीं किया जा सकता।" };
   }
   if (overlaps[0] && overlaps[1]) selectedDateKey = keys[1];
   else if (overlaps[1] && overlaps[2]) selectedDateKey = keys[2];
@@ -202,7 +202,7 @@ export function getBhaiDoojDateDecision(previousDay, currentDay, nextDay) {
     const lastMoment = new Date(Math.max(...tithis.map(item => item.end.getTime())) - 1);
     selectedDateKey = localDateKey(lastMoment);
     if (!keys.includes(selectedDateKey)) {
-      return { status: "unavailable", message: "अपराह्ण-व्याप्ति नहीं मिली और द्वितीया की समाप्ति इन तीन दिनों के बाहर है; पर्व-दिन निर्धारित नहीं किया गया।" };
+      return { status: "unavailable", message: "अपराह्न-व्याप्ति नहीं मिली और द्वितीया की समाप्ति इन तीन दिनों के बाहर है; पर्व-दिन निर्धारित नहीं किया गया।" };
     }
   }
   const selectedIndex = keys.indexOf(selectedDateKey);
@@ -377,7 +377,7 @@ const rules = {
     const namedHasta = collectNamedIntervals(context.nakshatras, isHasta)[0];
     if (!sunrise || !sunset || sunset <= sunrise) {
       return {
-        label: "सामवेदी उपाकर्म — अपराह्ण काल",
+        label: "सामवेदी उपाकर्म — अपराह्न काल",
         status: "unavailable",
         message: "स्थानीय सूर्योदय और सूर्यास्त उपलब्ध नहीं हैं; उपाकर्म-काल की गणना नहीं की गई।"
       };
@@ -387,7 +387,7 @@ const rules = {
     const hastaEnd = namedHasta && namedHasta.end;
     if (!hastaStart || !hastaEnd || hastaEnd <= hastaStart) {
       return {
-        label: "सामवेदी उपाकर्म — अपराह्ण काल",
+        label: "सामवेदी उपाकर्म — अपराह्न काल",
         status: "unavailable",
         message: "हस्त नक्षत्र की आरम्भ और समाप्ति अवधि उपलब्ध नहीं है; अनुमानित समय नहीं दिखाया गया।"
       };
@@ -401,14 +401,14 @@ const rules = {
     const window = interval(
       laterDate(hastaStart, aparahnaStart),
       earlierDate(hastaEnd, aparahnaEnd),
-      "सामवेदी उपाकर्म — हस्त नक्षत्र अपराह्ण व्याप्ति",
-      "भाद्रपद शुक्ल पक्ष के हस्त नक्षत्र और स्थानीय दिनमान के चौथे भाग (अपराह्ण) की संयुक्त अवधि।"
+      "सामवेदी उपाकर्म — हस्त नक्षत्र अपराह्न व्याप्ति",
+      "भाद्रपद शुक्ल पक्ष के हस्त नक्षत्र और स्थानीय दिनमान के चौथे भाग (अपराह्न) की संयुक्त अवधि।"
     );
     if (!window) {
       return {
-        label: "सामवेदी उपाकर्म — अपराह्ण काल",
+        label: "सामवेदी उपाकर्म — अपराह्न काल",
         status: "unavailable",
-        message: "इस दिन हस्त नक्षत्र और अपराह्ण काल की संयुक्त व्याप्ति नहीं मिली।"
+        message: "इस दिन हस्त नक्षत्र और अपराह्न काल की संयुक्त व्याप्ति नहीं मिली।"
       };
     }
     return { ...window, status: "calculated" };
@@ -911,7 +911,7 @@ const rules = {
       return {
         label: "भाई दूज तिलक मुहूर्त",
         status: "unavailable",
-        message: "धर्मसिंधु के दिन-निर्णय के लिए दोनों दिनों की अपराह्ण-व्याप्ति जाँची नहीं जा सकी; मुहूर्त नहीं दिखाया जा रहा है।"
+        message: "धर्मसिंधु के दिन-निर्णय के लिए दोनों दिनों की अपराह्न-व्याप्ति जाँची नहीं जा सकी; मुहूर्त नहीं दिखाया जा रहा है।"
       };
     }
     if (decision.selectedDateKey !== currentDateKey) {
@@ -947,14 +947,14 @@ const rules = {
       aparahnaStart,
       aparahnaEnd,
       tithis,
-      "भाई दूज तिलक मुहूर्त — अपराह्ण",
-      "स्थानीय दिनमान के पाँच बराबर भागों में चौथा भाग (अपराह्ण) और कार्तिक शुक्ल द्वितीया की संयुक्त व्याप्ति।"
+      "भाई दूज तिलक मुहूर्त — अपराह्न",
+      "स्थानीय दिनमान के पाँच बराबर भागों में चौथा भाग (अपराह्न) और कार्तिक शुक्ल द्वितीया की संयुक्त व्याप्ति।"
     );
     if (!tilakWindow) {
       return {
         label: "भाई दूज तिलक मुहूर्त",
         status: "unavailable",
-        message: "चुनी गई तिथि पर अपराह्ण काल और कार्तिक शुक्ल द्वितीया की साझा अवधि नहीं मिली।"
+        message: "चुनी गई तिथि पर अपराह्न काल और कार्तिक शुक्ल द्वितीया की साझा अवधि नहीं मिली।"
       };
     }
     return {
@@ -963,7 +963,7 @@ const rules = {
       date: sunrise,
       dateLabel: formatDateLabel(sunrise),
       windows: [tilakWindow],
-      note: "धर्मसिंधु के यमद्वितीया दिन-निर्णय में दोनों दिनों की अपराह्ण-व्याप्ति जाँची गई है।"
+      note: "धर्मसिंधु के यमद्वितीया दिन-निर्णय में दोनों दिनों की अपराह्न-व्याप्ति जाँची गई है।"
     };
   },
 
@@ -1643,10 +1643,10 @@ export function getSamavedaUpakarmaDateDecision(days) {
       const firstHas = hasHastaAparahna(first);
       const secondHas = hasHastaAparahna(second);
       const selected = firstHas && !secondHas ? first : second;
-      return { day: selected, label, note: "दो लगातार दिनों में हस्त नक्षत्र की अपराह्ण-व्याप्ति की शास्त्रीय तुलना से चयन।" };
+      return { day: selected, label, note: "दो लगातार दिनों में हस्त नक्षत्र की अपराह्न-व्याप्ति की शास्त्रीय तुलना से चयन।" };
     }
     const only = sorted.find(day => hasHastaAparahna(day)) || sorted[0];
-    return { day: only, label, note: "हस्त नक्षत्र की स्थानीय अपराह्ण-व्याप्ति के आधार पर चयन।" };
+    return { day: only, label, note: "हस्त नक्षत्र की स्थानीय अपराह्न-व्याप्ति के आधार पर चयन।" };
   }
 
   const bhadrapadaHasta = records.filter(day =>
