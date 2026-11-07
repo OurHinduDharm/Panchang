@@ -118,7 +118,7 @@ const PROFILES = {
     sourceReview: "dharmasindhu-special-rule-identified-full-exception-implementation-pending"
   },
   "skanda-shashthi-kartika-review": {
-    id: "skanda-shashthi-kartika-review", aliases: ["skanda-shashthi", "kanda-sashti", "soorasamharam"],
+    id: "skanda-shashthi-kartika-review", aliases: ["kanda-sashti", "soorasamharam"],
     label: "कार्तिक स्कन्द षष्ठी — परंपरा अनुसार जाँच", tithiIndices: [5], paksha: "शुक्ल पक्ष",
     decisionMoment: "manual-review", windowLabel: "पञ्चमी-षष्ठी संयोग",
     calculationBasis: "panchami-shashthi-purva-viddha-with-regional-tradition-variation",
