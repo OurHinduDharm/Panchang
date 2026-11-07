@@ -91,6 +91,23 @@ const PROFILES = {
     allowedMonths: ["फाल्गुन"],
     sourceReview: "primary-text-consulted-two-night-tie-break-pending"
   },
+  "ram-navami-madhyahna": {
+    id: "ram-navami-madhyahna", aliases: ["rama-navami"],
+    label: "रामनवमी", tithiIndices: [8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "madhyahna", windowLabel: "मध्याह्न काल",
+    calculationBasis: "chaitra-shukla-navami-at-madhyahna-ashtami-vedha-review",
+    allowedMonths: ["चैत्र"],
+    sourceReview: "primary-digest-consulted-ashtami-vedha-review-pending"
+  },
+  "vijayadashami-aparahna": {
+    id: "vijayadashami-aparahna", aliases: ["vijayadashami", "dussehra"],
+    label: "विजयादशमी", tithiIndices: [9], paksha: "शुक्ल पक्ष",
+    decisionMoment: "aparahna", windowLabel: "अपराह्ण काल",
+    calculationBasis: "ashwin-shukla-dashami-at-aparahna-shravana-as-supporting-evidence",
+    allowedMonths: ["आश्विन"], nakshatraIndices: [21],
+    nakshatraLabel: "श्रवण", nakshatraWarning: "shravana-at-aparahna-not-confirmed",
+    sourceReview: "primary-text-consulted-two-day-shravana-tie-break-pending"
+  },
   "vinayaka-chaturthi-madhyahna": {
     id: "vinayaka-chaturthi-madhyahna", aliases: ["vinayaka-chaturthi"],
     label: "विनायक चतुर्थी", tithiIndices: [3], paksha: "शुक्ल पक्ष",
@@ -146,6 +163,12 @@ function makeWindow(profile, context) {
     const point = asDate(context.moonrise);
     return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;
   }
+  if (profile.decisionMoment === "aparahna") {
+    const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);
+    if (!sunrise || !sunset || sunset <= sunrise) return null;
+    const span = sunset.getTime() - sunrise.getTime();
+    return { start: new Date(sunrise.getTime() + span * 3 / 5), end: new Date(sunrise.getTime() + span * 4 / 5) };
+  }
   if (profile.decisionMoment === "madhyahna") {
     const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);
     if (!sunrise || !sunset || sunset <= sunrise) return null;
@@ -171,7 +194,7 @@ export function getObservanceRuleProfile(ruleId) {
   const profile = PROFILES[id];
   return Object.freeze({
     id: profile.id, label: profile.label, tithiIndices: [...profile.tithiIndices],
-    paksha: profile.paksha, allowedMonths: profile.allowedMonths ? [...profile.allowedMonths] : null, decisionMoment: profile.decisionMoment,
+    paksha: profile.paksha, allowedMonths: profile.allowedMonths ? [...profile.allowedMonths] : null, decisionMoment: profile.decisionMoment, nakshatraLabel: profile.nakshatraLabel ?? null,
     windowLabel: profile.windowLabel, calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview, ruleVersion: "0.2.0",
     tradition: "smarta-review-default"
@@ -302,8 +325,8 @@ export function evaluateObservanceRule(ruleId, context) {
     label: profile.label, decisionMoment: profile.decisionMoment,
     calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview,
-    evidence, nakshatraEvidence,
-    warnings: ["candidate-evidence-only", "primary-source-and-exception-review-required", ...(profile.nakshatraIndices && !nakshatraEvidence.length ? ["rohin-at-nishita-not-confirmed"] : []), ...(profile.requireAllTithis && !allRequired ? ["both-transition-tithis-not-confirmed"] : [])],
+    evidence, nakshatraEvidence, nakshatraLabel: profile.nakshatraLabel ?? null,
+    warnings: ["candidate-evidence-only", "primary-source-and-exception-review-required", ...(profile.nakshatraIndices && !nakshatraEvidence.length ? [profile.nakshatraWarning ?? "required-nakshatra-not-confirmed"] : []), ...(profile.requireAllTithis && !allRequired ? ["both-transition-tithis-not-confirmed"] : [])],
     finalDate: null, autoApproved: false
   };
 }
