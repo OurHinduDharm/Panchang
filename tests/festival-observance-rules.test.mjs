@@ -253,3 +253,46 @@ test("Navratri Sandhi normalizes up to 90 seconds of rounded adjacent tithi boun
   assert.equal(result.status, "candidate-supported");
   assert.equal(result.evidence[0].transitionTime, "2026-10-19T10:00:30.000Z");
 });
+
+test("Rama Navami candidate requires Chaitra Shukla Navami at Madhyahna", () => {
+  const result = evaluateObservanceRule("ram-navami-madhyahna", {
+    date: "2026-04-06", masa: "चैत्र",
+    sunrise: "2026-04-06T00:00:00Z", sunset: "2026-04-06T12:00:00Z",
+    tithis: [interval(8, "2026-04-06T05:00:00Z", "2026-04-06T06:30:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "madhyahna");
+});
+
+test("Vijayadashami candidate uses Ashwin Shukla Dashami at Aparahna and reports Shravana", () => {
+  const result = evaluateObservanceRule("vijayadashami-aparahna", {
+    date: "2026-10-20", masa: "आश्विन",
+    sunrise: "2026-10-20T00:00:00Z", sunset: "2026-10-20T12:00:00Z",
+    tithis: [interval(9, "2026-10-20T07:30:00Z", "2026-10-20T09:00:00Z", "शुक्ल पक्ष")],
+    nakshatraIntervals: [interval(21, "2026-10-20T08:00:00Z", "2026-10-20T08:30:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.nakshatraLabel, "श्रवण");
+  assert.equal(result.nakshatraEvidence[0].index, 21);
+});
+
+test("Vijayadashami remains a candidate even without Shravana; two-day tie-break stays manual", () => {
+  const result = evaluateObservanceRule("vijayadashami-aparahna", {
+    date: "2026-10-20", masa: "आश्विन",
+    sunrise: "2026-10-20T00:00:00Z", sunset: "2026-10-20T12:00:00Z",
+    tithis: [interval(9, "2026-10-20T07:30:00Z", "2026-10-20T09:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.ok(result.warnings.includes("shravana-at-aparahna-not-confirmed"));
+  assert.equal(result.autoApproved, false);
+});
+
+test("Rama Navami profile rejects non-Chaitra lunar months", () => {
+  const result = evaluateObservanceRule("ram-navami-madhyahna", {
+    date: "2026-04-06", masa: "वैशाख",
+    sunrise: "2026-04-06T00:00:00Z", sunset: "2026-04-06T12:00:00Z",
+    tithis: [interval(8, "2026-04-06T05:00:00Z", "2026-04-06T06:30:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+});
