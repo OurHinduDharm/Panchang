@@ -259,6 +259,19 @@ export function evaluateObservanceRule(ruleId, context) {
   };
   const profile = PROFILES[profileId];
   const day = context?.date;
+  if (profile.allowedMonths) {
+    const month = String(context?.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+    if (!month) return {
+      status: "insufficient-data", ruleId: profile.id, date: day ?? null,
+      decisionMoment: profile.decisionMoment, warnings: ["lunar-month-missing"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+    if (!profile.allowedMonths.includes(month)) return {
+      status: "candidate-not-supported", ruleId: profile.id, date: day ?? null,
+      decisionMoment: profile.decisionMoment, warnings: ["lunar-month-outside-profile"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+  }
   if (profile.reviewOnly) return {
     status: "manual-review", ruleId: profile.id, ruleVersion: "0.2.0",
     date: day ?? null, label: profile.label, decisionMoment: profile.decisionMoment,
@@ -274,11 +287,6 @@ export function evaluateObservanceRule(ruleId, context) {
     warnings: ["decision-window-or-date-missing"],
     evidence: [], finalDate: null, autoApproved: false
   };
-  if (profile.allowedMonths) {
-    const month = String(context?.masa ?? "").replace(/^अधिक\s+/, "").trim();
-    if (!month) return { status: "insufficient-data", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-missing"], evidence: [], finalDate: null, autoApproved: false };
-    if (!profile.allowedMonths.includes(month)) return { status: "candidate-not-supported", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-outside-profile"], evidence: [], finalDate: null, autoApproved: false };
-  }
   const rows = Array.isArray(context?.tithis) ? context.tithis : [];
   if (!rows.length) return {
     status: "insufficient-data", ruleId: profile.id, date: day,
