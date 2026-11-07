@@ -168,3 +168,35 @@ test("Navratri Sandhi Puja rejects incomplete transition evidence", () => {
   });
   assert.equal(result.status, "insufficient-data");
 });
+
+test("Navratri Navami is supported only when Ashtami holds sunrise and Navami follows by day", () => {
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date: "2026-10-19", masa: "आश्विन",
+    sunrise: "2026-10-19T00:30:00Z", sunset: "2026-10-19T12:00:00Z",
+    tithis: [
+      interval(7, "2026-10-19T00:00:00Z", "2026-10-19T05:22:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T05:22:00Z", "2026-10-20T00:00:00Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence.length, 2);
+});
+
+test("Navratri Navami profile rejects a day without Ashtami at sunrise", () => {
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date: "2026-10-20", masa: "आश्विन",
+    sunrise: "2026-10-20T00:30:00Z", sunset: "2026-10-20T12:00:00Z",
+    tithis: [interval(8, "2026-10-19T05:22:00Z", "2026-10-20T08:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("ashtami-not-active-at-sunrise"));
+});
+
+test("annual profiles reject the wrong lunar month instead of matching a same-numbered tithi", () => {
+  const result = evaluateObservanceRule("navratri-udaya", {
+    date: "2026-11-01", masa: "कार्तिक", sunrise: "2026-11-01T00:30:00Z",
+    tithis: [interval(0, "2026-10-31T22:00:00Z", "2026-11-01T10:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+});
