@@ -48,6 +48,8 @@ The annual review page now uses the detector when a catalog record is selected. 
 - **Pradosh:** Trayodashi overlap with three night-muhurtas after local sunset; the night is divided into fifteen muhurtas, so the duration varies with local night length.
 - **Sankashti:** Krishna Chaturthi active at local moonrise.
 - **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Phalguna in the project Purnimanta calendar; Dharmasindhu names Magha Krishna Chaturdashi in its Amanta month convention, which maps to Phalguna in Purnimanta.
+- **Chhath:** remains manual review. This is a regional folk observance centred on Kartika Shukla Shashthi evening arghya and the following Saptami dawn arghya. The consulted sources explicitly distinguish this living regional rule from a date rule found in Dharmasindhu/Nirnaya Sindhu; a simple Shashthi-at-sunrise match must not silently decide it.
+- **Hanuman Jayanti:** remains manual review. Chaitra Purnima is a widely followed North Indian convention, but other regions observe different dates. The profile preserves the common convention as a review clue, not as a universal date rule.
 - **Vinayaka Chaturthi:** Shukla Chaturthi overlap with the local Madhyahna interval.
 
 Primary text and source cross-checks now consulted:
@@ -62,6 +64,9 @@ Primary text and source cross-checks now consulted:
 - Dharmasindhu, Mahashivaratri-vrata (Magha Krishna Chaturdashi and Nishita rule): https://www.transliteral.org/pages/z80505114958/view
 - Dharmasindhu tithi-vrata digest, including Smarta/Vaishnava Ekadashi distinction, Sankashti and Pradosh: https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
 - Night-length-aware Pradosh methodology cross-check: https://panchangtime.com/methodology/pradosh-vrat
+- Chhath regional observance and four-day sequence; source explicitly notes no named Dharmasindhu/Nirnaya Sindhu rule found: https://epandit.in/en/learn/festival/chhath-puja
+- Chhath sunset/Saptami dawn arghya practice cross-check: https://udyog.io/en/puja-vidhi/chhath-puja
+- Hanuman Jayanti North Indian Chaitra Purnima convention and regional date variations; source notes no classical date rule found: https://epandit.in/en/learn/festival/hanuman-jayanti
 - Drik Panchang 2026 Janmashtami tithi/timing cross-check: https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?geoname-id=1275004&year=2026
 - Drik Panchang 2026 Sharad Navratri date cross-check: https://www.drikpanchang.com/navratri/ashwin-shardiya-navratri-dates.html?geoname-id=1273294&year=2026
 
