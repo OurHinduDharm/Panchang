@@ -2,7 +2,6 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { evaluateObservanceRule, getObservanceRuleProfile } from "../festival-observance-rules.mjs";
 
-const iso = value => new Date(value).toISOString();
 const interval = (index, startTime, endTime, paksha) => ({ index, startTime, endTime, paksha });
 
 test("Pradosh requires Trayodashi overlap with the first fifth of the local night", () => {
@@ -73,9 +72,11 @@ test("unknown or missing data never guesses a rule or approves a date", () => {
 
 test("profile metadata makes the pending source-review boundary explicit", () => {
   const profile = getObservanceRuleProfile("mahashivaratri-nishita");
-  assert.equal(profile.id, "masik-shivaratri-nishita");
+  assert.equal(profile.id, "mahashivaratri-nishita");
+  assert.equal(profile.label, "महाशिवरात्रि");
   assert.equal(profile.sourceReview, "pending-primary-source-review");
   assert.equal(profile.tradition, "smarta-review-default");
+  assert.equal(getObservanceRuleProfile("masik-shivaratri-nishita").label, "मासिक शिवरात्रि");
   assert.equal(getObservanceRuleProfile("ekadashi"), null);
 });
 
@@ -85,4 +86,13 @@ test("explicit conflicting paksha is rejected while index-coded tithi can stand 
     tithis: [interval(18, "2026-11-27T11:00:00Z", "2026-11-27T13:00:00Z", "शुक्ल पक्ष")]
   });
   assert.equal(result.status, "candidate-not-supported");
+});
+
+test("missing tithi intervals are insufficient data, not a negative date decision", () => {
+  const result = evaluateObservanceRule("pradosh", {
+    date: "2026-11-07", sunset: "2026-11-07T12:30:00Z",
+    nextSunrise: "2026-11-08T00:30:00Z", tithis: []
+  });
+  assert.equal(result.status, "insufficient-data");
+  assert.ok(result.warnings.includes("tithi-intervals-missing"));
 });
