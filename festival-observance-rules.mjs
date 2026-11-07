@@ -10,7 +10,7 @@ const PROFILES = {
     id: "pradosh-trayodashi", aliases: ["pradosh", "pradosh-evening"],
     label: "प्रदोष व्रत", tithiIndices: [12, 27], paksha: null,
     decisionMoment: "pradosh", windowLabel: "प्रदोष काल",
-    calculationBasis: "three-muhurtas-after-local-sunset-3x48-minutes",
+    calculationBasis: "three-night-muhurtas-after-local-sunset-night-divided-into-fifteen",
     sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
   "ekadashi-smarta-udaya": {
@@ -143,7 +143,7 @@ function makeWindow(profile, context) {
     return { start: new Date(sunset.getTime() + night * 7 / 15), end: new Date(sunset.getTime() + night * 8 / 15) };
   }
   if (profile.decisionMoment === "pradosh") {
-    return { start: sunset, end: new Date(sunset.getTime() + 3 * 48 * 60000) };
+    return { start: sunset, end: new Date(sunset.getTime() + night * 3 / 15) };
   }
   return null;
 }
