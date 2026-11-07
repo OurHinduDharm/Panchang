@@ -274,3 +274,13 @@ Draft diagnostic में प्रत्येक उपलब्ध Pithoraga
 कुछ छोटे sample medians भ्रामक हैं क्योंकि एक-दो outliers बहुत बड़े हैं; इसे सफल model न मानें। सभी thresholds उसी provisional city-label dataset से निकले हैं, इसलिए यह Drik validation नहीं है।
 
 **निर्णय:** fixed planet-specific twilight-altitude constants भी अभी reject। Local planet rise/set timestamp component मजबूत है; अंतिम/प्रथम दृश्य crossing चुनने के लिए apparent magnitude/phase, Sun altitude, azimuthal separation, atmospheric extinction और observer conditions का संयुक्त visibility criterion जाँचना होगा। Swiss heliacal candidate भी पहले के परीक्षण में पर्याप्त सटीक नहीं था; अगली बार उसकी event-type/observer assumptions की audit करें, मनमाने parameter sweep से MAE कम करने की कोशिश न करें।
+
+### 7 नवम्बर 2026 — Swiss heliacal model documentation audit
+
+Official Swiss Ephemeris documentation confirms that its heliacal event engine is a separate physical-visibility model based on Schaefer (1993/2000), Reijs (2003), and Koch (2009). It accounts for apparent magnitude and celestial positions (Sun/Moon/object), topocentric observer location and height, observer acuity/optics, atmospheric extinction from pressure/temperature/humidity/visibility, and object-to-sky contrast. Its event search works near Sun rise/set and determines whether the object is visible there. It also documents limitations, including incomplete handling of Venus daytime visibility and unusual multi-visibility sequences at higher latitudes.
+
+Source: https://ephe.scryr.io/swisseph/doc/swisseph.htm (sections 5.1.1–5.1.3; event types and limitations).
+
+The current browser runner passes Swiss event types 1=Morning First, 2=Evening Last, 3=Evening First, 4=Morning Last; it records the returned beginning/optimum/end times separately. The high Drik mismatch therefore cannot be “fixed” by casually changing which output slot is read. Before another Swiss run, audit the pinned WASM wrapper's exported low-level visibility-limit API and compare the visibility threshold at the exact local planet rise/set instant. Do not change atmosphere/observer parameters solely to minimize the small current benchmark.
+
+Swiss heliacal output remains a useful independent physical-visibility comparator, not the Drik acceptance model. Drik's local planet rise/set timestamp match and Swiss's visibility-start timestamp are distinct observables; the remaining selector must be identified with held-out, source-verified data.
