@@ -39,6 +39,6 @@ The annual review page now uses the detector when a catalog record is selected. 
 - Masik Shivaratri: Krishna Chaturdashi overlap with the Nishita interval.
 - Vinayaka Chaturthi: Shukla Chaturthi overlap with the local Madhyahna interval.
 
-These windows mirror calculation patterns already exercised by the repository's Pithoragarh Panchang tests and muhurta code. They are not a claim that a primary Dharmashastra source has been reviewed. Each profile explicitly reports `pending-primary-source-review`; results remain candidate evidence, always return `finalDate: null` and `autoApproved: false`. Missing decision times, unknown profiles, or missing required paksha fail closed.
+These windows mirror calculation patterns already exercised by the repository's Pithoragarh Panchang tests and muhurta code. They are not a claim that a primary Dharmashastra source has been reviewed. Each profile explicitly reports `pending-primary-source-review`; results remain candidate evidence, always return `finalDate: null` and `autoApproved: false`. Missing decision windows and unknown profiles fail closed; when the engine supplies an index-coded tithi, its index carries paksha, while an explicitly conflicting paksha is rejected.
 
 Ekadashi, Janmashtami, Navratri/Jayanti and other complex observances are deliberately not mapped to generic profiles. They need separately reviewed Smarta rules, including relevant vedha, Arunodaya, Nishita, Rohini, regional and exception handling. No live festival JSON or Blogger output is modified by these profiles.
