@@ -178,7 +178,7 @@ const PROFILES = {
     calculationBasis: "bhadrapada-shukla-ashtami-at-madhyahna",
     allowedMonths: ["भाद्रपद"], reviewOnly: true,
     reviewNote: "राधाष्टमी पर भाद्रपद शुक्ल अष्टमी में मध्याह्न काल की पूजा-परंपरा है। सप्तमी-वेध और तिथि के विशेष संयोगों की पूरी जाँच के बाद ही अंतिम दिन तय होगा।",
-    sourceReview: "drik-madhyahna-and-brihann aradiya-purana-crosscheck-exception-review-pending".replace("brihann aradiya","brihann aradiya")
+    sourceReview: "drik-madhyahna-purana-crosscheck-exception-review-pending"
   },
   "vamana-jayanti-madhyahna-review": {
     id: "vamana-jayanti-madhyahna-review", aliases: ["vamana-jayanti", "vamana-dwadashi", "vamana-avatara-jayanti"],
