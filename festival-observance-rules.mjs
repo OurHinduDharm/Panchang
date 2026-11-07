@@ -27,7 +27,7 @@ const PROFILES = {
     decisionMoment: "nishita", windowLabel: "निशीथ काल",
     calculationBasis: "krishna-ashtami-at-nishita-rohini-as-supporting-evidence",
     nakshatraIndices: [3], allowedMonths: ["भाद्रपद"],
-    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+    sourceReview: "primary-text-consulted-two-night-tie-break-pending"
   },
   "navratri-udaya": {
     id: "navratri-udaya", aliases: ["navratri-day-count"],
@@ -89,7 +89,7 @@ const PROFILES = {
     decisionMoment: "nishita", windowLabel: "निशीथ काल",
     calculationBasis: "sunset-to-next-sunrise-seven-fifteenths-to-eight-fifteenths",
     allowedMonths: ["माघ"],
-    sourceReview: "pending-primary-source-review"
+    sourceReview: "primary-text-consulted-two-night-tie-break-pending"
   },
   "vinayaka-chaturthi-madhyahna": {
     id: "vinayaka-chaturthi-madhyahna", aliases: ["vinayaka-chaturthi"],
