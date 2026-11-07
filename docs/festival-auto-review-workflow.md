@@ -32,11 +32,11 @@ The annual review page now uses the detector when a catalog record is selected. 
 
 ## Observance-specific candidate profiles (PR #283 follow-up)
 
-`festival-observance-rules.mjs` adds explicit, versioned calculation profiles for four recurring observance families:
+`festival-observance-rules.mjs` adds explicit, versioned calculation profiles for five recurring observance families:
 
 - Pradosh: Trayodashi overlap with the first fifth of the local night after sunset.
 - Sankashti: Krishna Chaturthi active at local moonrise.
-- Masik Shivaratri: Krishna Chaturdashi overlap with the Nishita interval.
+- Masik Shivaratri and Mahashivaratri: separate Krishna Chaturdashi/Nishita profiles, so their labels and review records are not conflated.
 - Vinayaka Chaturthi: Shukla Chaturthi overlap with the local Madhyahna interval.
 
 These windows mirror calculation patterns already exercised by the repository's Pithoragarh Panchang tests and muhurta code. They are not a claim that a primary Dharmashastra source has been reviewed. Each profile explicitly reports `pending-primary-source-review`; results remain candidate evidence, always return `finalDate: null` and `autoApproved: false`. Missing decision windows and unknown profiles fail closed; when the engine supplies an index-coded tithi, its index carries paksha, while an explicitly conflicting paksha is rejected.
