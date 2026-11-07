@@ -38,6 +38,7 @@ The annual review page now uses the detector when a catalog record is selected. 
 - **Smarta Janmashtami:** Krishna Ashtami at Nishita, with Rohini-at-Nishita reported as supporting evidence. This profile reports each night's evidence only; it does not yet resolve the full two-night Dharmasindhu tie-break. If Ashtami is Nishita-vyapini on both nights, or neither night, the reviewer must apply the Rohini/second-night decision from the text. The profile is restricted to Bhadrapada in the project's Purnimanta calendar.
 - **Navratri day-count:** Shukla Pratipada through Saptami at sunrise, restricted to Chaitra/Ashwin. Repeated tithis retain the first sunrise.
 - **Rama Navami:** Chaitra Shukla Navami overlapping Madhyahna is shown as candidate evidence. Dharmasindhu's Ashtami-vedha-through-Madhyahna qualification is not fully resolved by this simple profile and remains a manual exception check.
+- **Nag Panchami:** Shravan Shukla Panchami overlapping Madhyahna is shown as candidate evidence. The Dharmasindhu digest states the Panchami vrata should be taken when Panchami extends to Madhyahna; the profile does not resolve local/regional variations or any additional vrata-specific exception.
 - **Vijayadashami:** Ashwin Shukla Dashami overlapping Aparahna is shown as candidate evidence; Shravana at Aparahna is reported separately. The Dharmasindhu two-day Aparahna/Shravana tie-break is not auto-selected.
 - **Navratri Maha Ashtami:** a separate sunrise profile for Shukla Ashtami. The Dharmasindhu text includes Saptami-vedha and short/long Ashtami exceptions; those complex edge cases are not silently auto-decided.
 - **Navratri Maha Navami:** two explicit candidate profiles: Ashtami at sunrise with Navami continuing for at least six ghatis after local sunset, and a next-day Navami-at-sunrise fallback. The six-ghati rule is drawn from the Dharmasindhu Maha-Ashtami/Navaमी decision section; special edge cases remain review-only.
@@ -50,7 +51,9 @@ The annual review page now uses the detector when a catalog record is selected. 
 Primary text and source cross-checks now consulted:
 - Dharmasindhu, Janmashtami-vrata and Rohini-yoga sections: https://www.transliteral.org/pages/z80422113144/view and https://www.transliteral.org/pages/z80421221115/view
 - Dharmasindhu, Maha-Ashtami decision (including Ashtami-viddha Navami and Sandhi): https://www.transliteral.org/pages/z80504211648/view
-- Dharmasindhu, Vijayadashami decision (Aparahna-vyapti and Shravana two-day tie-break): https://www.transliteral.org/pages/z80504212607/view\n- Dharmasindhu, Mahashivaratri-vrata (Magha Krishna Chaturdashi and Nishita rule): https://www.transliteral.org/pages/z80505114958/view
+- Dharmasindhu, Vijayadashami decision (Aparahna-vyapti and Shravana two-day tie-break): https://www.transliteral.org/pages/z80504212607/view
+- Dharmasindhu, Tithi Vrata Nirnayas (Panchami vrata through Madhyahna; Chapter 5 digest): https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
+- Drik Panchang, 2026 Nag Panchami tithi/date cross-check: https://www.drikpanchang.com/festivals/nag-panchami/nag-panchami-date-time.html?year=2026\n- Dharmasindhu, Mahashivaratri-vrata (Magha Krishna Chaturdashi and Nishita rule): https://www.transliteral.org/pages/z80505114958/view
 - Dharmasindhu tithi-vrata digest, including Smarta/Vaishnava Ekadashi distinction, Sankashti and Pradosh: https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
 - Night-length-aware Pradosh methodology cross-check: https://panchangtime.com/methodology/pradosh-vrat
 - Drik Panchang 2026 Janmashtami tithi/timing cross-check: https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?geoname-id=1275004&year=2026
