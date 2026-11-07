@@ -206,6 +206,7 @@ function renderCandidates(matches,detection={}){
    if(result.warnings?.includes("lunar-month-outside-profile"))statusText="यह हिन्दू मास इस पर्व के नियम से मेल नहीं खाता";
    if(result.warnings?.includes("vriddhi-tithi-first-sunrise-only"))statusText="तिथि दो सूर्योदय पर है; पहला दिन मान्य उम्मीदवार है";
    if(result.warnings?.includes("ashtami-not-active-at-sunrise"))statusText="सूर्योदय पर अष्टमी नहीं थी; महानवमी नियम लागू नहीं";
+   if(result.warnings?.includes("navami-less-than-six-ghatis-after-sunset"))statusText="अष्टमी-दिन की संध्या में नवमी छह घटिका तक नहीं रही; अगले दिन का नियम देखें";
    if(result.warnings?.includes("rohin-at-nishita-not-confirmed"))statusText+=" · निशीथ में रोहिणी का सहायक साक्ष्य नहीं मिला";
    if(result.nakshatraEvidence?.length)statusText+=" · रोहिणी सहायक साक्ष्य मिला";
    ruleCell.textContent=statusText+(result.evidence?.length?" · तिथि-साक्ष्य: "+result.evidence.length:"")+" · स्रोत-समीक्षा लंबित";
