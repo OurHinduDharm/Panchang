@@ -151,6 +151,7 @@ test("real Pithoragarh Panchang checks Ashtami-viddha Maha Navami evening covera
 
 test("real Pithoragarh Panchang identifies the Navratri Sandhi tithi junction", () => {
   const date = "2026-10-19", previous = panchang(previousIsoDate(date)), current = panchang(date);
+  console.log("SANDHI_DEBUG", intervals(previous, current), masa(current));
   const result = evaluateObservanceRule("navratri-sandhi-puja", {
     date, masa: masa(current), tithis: intervals(previous, current)
   });
