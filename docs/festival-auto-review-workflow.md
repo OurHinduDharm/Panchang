@@ -29,3 +29,16 @@ The workflow now has two deliberately separate layers:
 The detector is intentionally not a final vrata-date decider. A tithi match is only a candidate: Ekadashi, Pradosh, Shivaratri, Janmashtami, Chaturthi, Jayanti, regional observances and multi-day festivals can require different decision moments or source-specific rules. If two sunrise days match, if the paksha/month is missing, or if the stored date disagrees, the tool must surface that fact and leave the decision for review. It must never turn a candidate into an approved date by itself.
 
 The annual review page now uses the detector when a catalog record is selected. The live monthly page remains static-JSON-first; no visitor-side annual scan or automatic publication has been added. Existing 2026–2030 dates are not automatically changed by this detector.
+
+## Observance-specific candidate profiles (PR #283 follow-up)
+
+`festival-observance-rules.mjs` adds explicit, versioned calculation profiles for four recurring observance families:
+
+- Pradosh: Trayodashi overlap with the first fifth of the local night after sunset.
+- Sankashti: Krishna Chaturthi active at local moonrise.
+- Masik Shivaratri: Krishna Chaturdashi overlap with the Nishita interval.
+- Vinayaka Chaturthi: Shukla Chaturthi overlap with the local Madhyahna interval.
+
+These windows mirror calculation patterns already exercised by the repository's Pithoragarh Panchang tests and muhurta code. They are not a claim that a primary Dharmashastra source has been reviewed. Each profile explicitly reports `pending-primary-source-review`; results remain candidate evidence, always return `finalDate: null` and `autoApproved: false`. Missing decision times, unknown profiles, or missing required paksha fail closed.
+
+Ekadashi, Janmashtami, Navratri/Jayanti and other complex observances are deliberately not mapped to generic profiles. They need separately reviewed Smarta rules, including relevant vedha, Arunodaya, Nishita, Rohini, regional and exception handling. No live festival JSON or Blogger output is modified by these profiles.
