@@ -621,7 +621,8 @@
             var name=document.createElement("strong");name.className="muhurta-window-name";
             name.textContent=timeItem.label||"पूजन समय";row.appendChild(name);
             var time=document.createElement("div");time.className="muhurta-window-time";
-            time.textContent=muhurtaModule.formatFestivalMuhurtaTime(timeItem.time);
+            var timeDate=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short"}).format(timeItem.time);
+            time.textContent=timeDate+" · "+muhurtaModule.formatFestivalMuhurtaTime(timeItem.time);
             row.appendChild(time);
             if(timeItem.note){var timeNote=document.createElement("div");timeNote.className="muhurta-window-note";timeNote.textContent=timeItem.note;row.appendChild(timeNote);}
             detail.appendChild(row);
