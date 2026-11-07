@@ -10,7 +10,7 @@ const OPTIONS = { timezoneOffset: 330, calendarType: "purnimanta" };
 function localNoon(isoDate) {
   return new Date(isoDate + "T06:30:00.000Z");
 }
-function nextIsoDate(isoDate) {
+function previousIsoDate(isoDate) {\n  const date = new Date(isoDate + "T00:00:00.000Z");\n  date.setUTCDate(date.getUTCDate() - 1);\n  return date.toISOString().slice(0, 10);\n}\nfunction nextIsoDate(isoDate) {
   const date = new Date(isoDate + "T00:00:00.000Z");
   date.setUTCDate(date.getUTCDate() + 1);
   return date.toISOString().slice(0, 10);
@@ -70,7 +70,7 @@ test("real Pithoragarh Panchang confirms Masik Shivaratri during Nishita", () =>
 });
 
 test("real Pithoragarh Panchang confirms Mahashivaratri during Nishita", () => {
-  const date = "2026-02-15", current = panchang(date), next = panchang(nextIsoDate(date));
+  const date = "2026-02-15", previous = panchang(previousIsoDate(date)), current = panchang(date), next = panchang(nextIsoDate(date));
   const result = evaluateObservanceRule("mahashivaratri-nishita", {
     date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
     tithis: intervals(current, next)
@@ -109,7 +109,7 @@ test("real Pithoragarh Panchang finds Smarta Janmashtami in Bhadrapada at Nishit
     const current = panchang(date), next = panchang(nextIsoDate(date));
     const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
       date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
-      tithis: intervals(current, next), nakshatraIntervals: nakshatras(current, next)
+      tithis: intervals(previous, current, next), nakshatraIntervals: nakshatras(previous, current, next)
     });
     if (result.status === "candidate-supported") { supportedDate = date; break; }
   }
