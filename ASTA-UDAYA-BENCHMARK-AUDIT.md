@@ -599,3 +599,23 @@ Draft diagnostic में प्रत्येक उपलब्ध Pithoraga
 **प्रारम्भिक निष्कर्ष:** project observer पर सभी ग्रहों की published boundary instants पर apparent altitude लगभग 0° के आसपास है, जबकि angular separation ग्रह और event के अनुसार काफी बदलती है। यह fixed elongation threshold के बजाय local horizon / heliacal-visibility event family की ओर मजबूत संकेत है। ग्रह-विशिष्ट सूर्य depression भी बदलता है; इसलिए एक universal solar-altitude threshold या मनमाना per-planet constant अभी स्वीकार नहीं किया गया।
 
 **सीमाएँ:** इस 64-sample set का बड़ा भाग user-transcribed है और independently page-verified नहीं; 2025 Venus के चार boundaries ही indexed Pithoragarh Drik page से corroborated हैं। Coordinates project proxy हैं, Drik observer नहीं। इस pattern को model proof, Drik algorithm disclosure या acceptance result न मानें। अगला वैज्ञानिक परीक्षण: source-verified multi-planet/multi-year boundaries, actual observer coordinate uncertainty, horizon-crossing instants plus twilight/planet-brightness criterion, और अलग years/cities पर held-out validation। कोई production threshold या output नहीं बदला।
+
+### 7 नवम्बर 2026 — निर्णायक ज्यामितीय संकेत: सीमांत समय = स्थानीय ग्रह-उदय/अस्त
+
+उसी 64 deduplicated Pithoragarh boundary sample पर अगला diagnostic किया गया। प्रत्येक प्रकाशित समय के आसपास सूर्य के azimuth से दिशा पहचानी गई (पूर्वी अर्धाकाश: ग्रह-rise; पश्चिमी अर्धाकाश: ग्रह-set), फिर Astronomy Engine 2.1.19 के SearchRiseSet से उसी observer पर अगला संबंधित ग्रह-क्षितिज crossing निकाला गया। SearchRiseSet सामान्य atmospheric refraction लागू करता है।
+
+**परिणाम:** पाँचों ग्रहों के सभी 64 unique boundaries में प्रकाशित समय और स्थानीय planet rise/set instant का अंतर −1 से +1 मिनट के भीतर है; हर ग्रह का median अंतर 0 मिनट है। अलग-अलग ग्रहों का सार:
+
+| ग्रह | सीमाएँ | rise/set अंतर min / median / max |
+|---|---:|---:|
+| बुध | 38 | −1 / 0 / +1 मिनट |
+| शुक्र | 10 | −1 / 0 / +1 मिनट |
+| मंगल | 4 | 0 / 0 / +1 मिनट |
+| गुरु | 6 | −1 / 0 / +1 मिनट |
+| शनि | 6 | −1 / 0 / +1 मिनट |
+
+2025 के Pithoragarh Venus के चार indexed Drik boundaries भी इसी ±1 मिनट pattern में हैं। शेष 60 boundaries user-transcribed source rows हैं; वे independently page-verified नहीं हैं। सभी calculations project observer proxy (29.5828° N, 80.2182° E, 1650 m) पर हैं, Drik के undisclosed observer coordinates पर नहीं।
+
+**कार्यकारी निष्कर्ष:** प्रकाशित boundary timestamp के लिए सबसे मजबूत candidate local planet rise/set instant है—न कि fixed Sun–planet angular-separation crossing। लेकिन इससे अभी Drik का internal algorithm सिद्ध नहीं होता। Asta/Udaya की शुरुआत/समाप्ति किस दैनिक rise/set को चुने, यह twilight visibility criterion तय करता हुआ प्रतीत होता है। Planet-specific Sun-altitude medians इस sample में लगभग बुध −10.83°, शुक्र −5.74°, मंगल −12.94°, गुरु −7.55°, शनि −10.62° हैं; इनके फैलाव के कारण इन्हें अभी fixed visibility thresholds नहीं बनाया गया है।
+
+**अगला candidate model:** (1) पूरे apparition में local planet rise/set events की sequence निकालना; (2) हर crossing पर Sun altitude, planet apparent magnitude/brightness, azimuth separation और atmospheric visibility context निकालना; (3) अंतिम/प्रथम दृश्य crossing चुनना; (4) source-verified years/cities पर train और held-out validation करना। Arbitrary per-planet thresholds fit नहीं करने हैं। Existing fixed-angle और Swiss heliacal candidates diagnostic-only रहेंगे; production output/thresholds अभी अपरिवर्तित हैं।
