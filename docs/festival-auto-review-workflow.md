@@ -32,25 +32,25 @@ The annual review page now uses the detector when a catalog record is selected. 
 
 ## Observance-specific candidate profiles (PR #283 follow-up)
 
-`festival-observance-rules.mjs` now exposes explicit, versioned candidate-evidence profiles. The profiles are selected explicitly in the annual review UI; festival names are never guessed into a rule.
+`festival-observance-rules.mjs` exposes explicit, versioned candidate-evidence profiles. The annual review UI requires the reviewer to select a rule; festival names are never guessed into a rule.
 
-- **Smarta Ekadashi:** Ekadashi active at local sunrise; when the same Ekadashi spans two sunrises, the first sunrise is retained as the candidate. A Dashami sunrise therefore does not count as an Ekadashi sunrise. Special Mahadvadashi/parana cases remain manual-review.
-- **Smarta Janmashtami:** Krishna Ashtami at Nishita; Rohini at Nishita is reported as supporting evidence, not used as an automatic final-date tie-break. The profile is restricted to Bhadrapada in the project's Purnimanta calendar.
-- **Navratri day-count:** Shukla Pratipada through Ashtami at sunrise, restricted to Chaitra/Ashwin; the first sunrise is retained on a repeated tithi.
-- **Navratri Maha Navami:** a separate Ashtami-viddha profile requires Ashtami at sunrise and Navami to overlap the daytime. This is not collapsed into the ordinary sunrise count.
-- **Navratri Sandhi Puja:** a separate Navratri-only profile requires both Shukla Ashtami and Navami intervals around their exact junction, with a 24-minute window on either side. It cannot be selected as a generic monthly Durga Ashtami rule.
-- **Pradosh:** Trayodashi overlap with the three night-muhurtas after local sunset (the night is divided into fifteen muhurtas, so the window varies with local night length).
+- **Smarta Ekadashi:** Ekadashi active at local sunrise; when the same Ekadashi spans two sunrises, the first sunrise is retained as the candidate. Dashami at sunrise does not count as Ekadashi at sunrise. The Dharmasindhu digest distinguishes Smarta sunrise-Dashami vedha from Vaishnava Arunodaya vedha. Mahadvadashi and parana exceptions remain manual-review.
+- **Smarta Janmashtami:** Krishna Ashtami at Nishita, with Rohini-at-Nishita reported as supporting evidence. This profile reports each night's evidence only; it does not yet resolve the full two-night Dharmasindhu tie-break. If Ashtami is Nishita-vyapini on both nights, or neither night, the reviewer must apply the Rohini/second-night decision from the text. The profile is restricted to Bhadrapada in the project's Purnimanta calendar.
+- **Navratri day-count:** Shukla Pratipada through Saptami at sunrise, restricted to Chaitra/Ashwin. Repeated tithis retain the first sunrise.
+- **Navratri Maha Ashtami:** a separate sunrise profile for Shukla Ashtami. The Dharmasindhu text includes Saptami-vedha and short/long Ashtami exceptions; those complex edge cases are not silently auto-decided.
+- **Navratri Maha Navami:** two explicit candidate profiles: Ashtami at sunrise with Navami continuing for at least six ghatis after local sunset, and a next-day Navami-at-sunrise fallback. The six-ghati rule is drawn from the Dharmasindhu Maha-Ashtami/Navaमी decision section; special edge cases remain review-only.
+- **Navratri Sandhi Puja:** requires adjacent Shukla Ashtami and Navami intervals and reports their exact transition instant. It is explicitly restricted to Chaitra/Ashwin Navratri and is not a generic monthly Durga Ashtami rule. The engine no longer invents a fixed 48-minute window where the reviewed text only identifies the tithi junction.
+- **Pradosh:** Trayodashi overlap with three night-muhurtas after local sunset; the night is divided into fifteen muhurtas, so the duration varies with local night length.
 - **Sankashti:** Krishna Chaturthi active at local moonrise.
 - **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Phalguna in the Purnimanta calendar.
 - **Vinayaka Chaturthi:** Shukla Chaturthi overlap with the local Madhyahna interval.
 
-The calculations are cross-checked against secondary Panchang methodology pages and the repository's real Pithoragarh Panchang tests. That is not equivalent to a completed primary-text review: every profile still records that primary Dharmashastra review is pending. In particular, complex Ekadashi/Mahadvadashi exceptions, Janmashtami's multi-night tie-break, Navratri's regional observances and Sandhi authorities need a separate primary-source sign-off.
+Primary text and source cross-checks now consulted:
+- Dharmasindhu, Janmashtami-vrata and Rohini-yoga sections: https://www.transliteral.org/pages/z80422113144/view and https://www.transliteral.org/pages/z80421221115/view
+- Dharmasindhu, Maha-Ashtami decision (including Ashtami-viddha Navami and Sandhi): https://www.transliteral.org/pages/z80504211648/view
+- Dharmasindhu tithi-vrata digest, including Smarta/Vaishnava Ekadashi distinction, Sankashti and Pradosh: https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
+- Night-length-aware Pradosh methodology cross-check: https://panchangtime.com/methodology/pradosh-vrat
+- Drik Panchang 2026 Janmashtami tithi/timing cross-check: https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?geoname-id=1275004&year=2026
+- Drik Panchang 2026 Sharad Navratri date cross-check: https://www.drikpanchang.com/navratri/ashwin-shardiya-navratri-dates.html?geoname-id=1273294&year=2026
 
-All results remain candidate evidence: `finalDate: null`, `autoApproved: false`. Missing decision windows, unknown profiles, wrong lunar months and incomplete transition evidence fail closed. No live festival JSON or Blogger output is modified by these profiles.
-
-Secondary methodology references consulted:
-- Dharmasindhu-based Smarta Ekadashi summary: https://epandit.in/en/learn/festival/ekadashi
-- Dharmasindhu-based Pradosh summary (three muhurtas after sunset): https://epandit.in/en/learn/festival/pradosh-vrat
-- Smarta Janmashtami Nishita/Rohini summary: https://udyog.io/en/puja-vidhi/janmashtami-puja
-- Navratri sunrise day-count and Navami exception summary: https://panchangtime.com/methodology/navratri
-- Drik Panchang 2026 Sharad Navratri calendar cross-check: https://www.drikpanchang.com/navratri/ashwin-shardiya-navratri-dates.html?geoname-id=1273294&year=2026
+A source page or digest translation is not the same as a completed critical edition review. Every profile remains candidate-only, and all relevant exceptions must be checked before any public date is approved. All results retain `finalDate: null` and `autoApproved: false`. Missing decision windows, unknown profiles, wrong lunar months and incomplete tithi transitions fail closed. No live festival JSON or Blogger output is modified by these profiles.
