@@ -59,7 +59,7 @@ test("missing thresholds never imply a location-specific result", () => {
 });
 
 test("the user-facing card keeps one concise observer-based estimate note", () => {
-  assert.match(source, /ये समय चयनित स्थान पर सूर्य और ग्रह की आभासी कोणीय दूरी से निकले अनुमान हैं। दूसरे पंचांगों से समय-मिलान का सत्यापन जारी है।/);
+  assert.match(source, /ये चयनित स्थान पर सूर्य–ग्रह की आभासी कोणीय दूरी पर आधारित अस्थायी गणितीय अनुमान हैं; वास्तविक दृश्यता और Drik के समयों से मिलान अभी प्रमाणित नहीं है।/);
   assert.equal((source.match(/class="planet-rise-set-note"/g) || []).length, 1);
   assert.doesNotMatch(source, /ये चयनित नगर, अक्षांश, देशांतर या ऊँचाई के अनुसार नहीं बदलतीं/);
   assert.doesNotMatch(source, /स्थानीय दृश्यता अथवा स्थानीय उदय-अस्त न मानें/);
