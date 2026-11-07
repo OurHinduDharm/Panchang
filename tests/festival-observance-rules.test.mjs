@@ -149,7 +149,7 @@ test("Navratri day count uses Shukla tithi at sunrise", () => {
 
 test("Navratri Sandhi Puja needs both Ashtami and Navami around their exact transition", () => {
   const result = evaluateObservanceRule("navratri-sandhi-puja", {
-    date: "2026-10-19",
+    date: "2026-10-19", masa: "आश्विन",
     tithis: [
       interval(7, "2026-10-19T08:00:00Z", "2026-10-19T10:00:00Z", "शुक्ल पक्ष"),
       interval(8, "2026-10-19T10:00:00Z", "2026-10-19T16:00:00Z", "शुक्ल पक्ष")
