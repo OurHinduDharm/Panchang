@@ -183,7 +183,7 @@ export function evaluateObservanceRule(ruleId, context) {
     evidence: [], finalDate: null, autoApproved: false
   };
   if (profile.allowedMonths) {
-    const month = String(context?.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+    const month = String(context?.masa ?? "").replace(/^अधिक\s+/, "").trim();
     if (!month) return { status: "insufficient-data", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-missing"], evidence: [], finalDate: null, autoApproved: false };
     if (!profile.allowedMonths.includes(month)) return { status: "candidate-not-supported", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-outside-profile"], evidence: [], finalDate: null, autoApproved: false };
   }
