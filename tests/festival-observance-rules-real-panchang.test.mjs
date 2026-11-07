@@ -18,7 +18,15 @@ function nextIsoDate(isoDate) {
 function panchang(isoDate) {
   return getPanchangam(localNoon(isoDate), LOCATION, OPTIONS);
 }
-function masa(day) {\n  const raw = day?.masa ?? day?.month;\n  const value = raw && typeof raw === "object" ? raw.name ?? raw.value ?? "" : String(raw ?? "");\n  return ({ Chaitra: "चैत्र", Vaishakha: "वैशाख", Jyeshtha: "ज्येष्ठ", Ashadha: "आषाढ़", Shravana: "श्रावण", Bhadrapada: "भाद्रपद", Ashwin: "आश्विन", Ashwina: "आश्विन", Kartika: "कार्तिक", Margashirsha: "मार्गशीर्ष", Pausha: "पौष", Magha: "माघ", Phalguna: "फाल्गुन" })[value] ?? value;\n}\nfunction nakshatras(...days) {\n  return days.flatMap(day => Array.isArray(day?.nakshatras) ? day.nakshatras : []).map(row => ({ index: Number(row.index), name: row.name ?? null, startTime: row.startTime, endTime: row.endTime }));\n}\nfunction intervals(...days) {
+function masa(day) {
+  const raw = day?.masa ?? day?.month;
+  const value = raw && typeof raw === "object" ? raw.name ?? raw.value ?? "" : String(raw ?? "");
+  return ({ Chaitra: "चैत्र", Vaishakha: "वैशाख", Jyeshtha: "ज्येष्ठ", Ashadha: "आषाढ़", Shravana: "श्रावण", Bhadrapada: "भाद्रपद", Ashwin: "आश्विन", Ashwina: "आश्विन", Kartika: "कार्तिक", Margashirsha: "मार्गशीर्ष", Pausha: "पौष", Magha: "माघ", Phalguna: "फाल्गुन" })[value] ?? value;
+}
+function nakshatras(...days) {
+  return days.flatMap(day => Array.isArray(day?.nakshatras) ? day.nakshatras : []).map(row => ({ index: Number(row.index), name: row.name ?? null, startTime: row.startTime, endTime: row.endTime }));
+}
+function intervals(...days) {
   return days.flatMap(day => Array.isArray(day?.tithis) ? day.tithis : [])
     .map(row => {
       const index = Number(row.index ?? row.number ?? row.value);
