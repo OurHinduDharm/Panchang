@@ -53,7 +53,7 @@ Primary text and source cross-checks now consulted:
 - Dharmasindhu, Maha-Ashtami decision (including Ashtami-viddha Navami and Sandhi): https://www.transliteral.org/pages/z80504211648/view
 - Dharmasindhu, Vijayadashami decision (Aparahna-vyapti and Shravana two-day tie-break): https://www.transliteral.org/pages/z80504212607/view
 - Dharmasindhu, Tithi Vrata Nirnayas (Panchami vrata through Madhyahna; Chapter 5 digest): https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
-- Drik Panchang, 2026 Nag Panchami tithi/date cross-check: https://www.drikpanchang.com/festivals/nag-panchami/nag-panchami-date-time.html?year=2026\n- Dharmasindhu, Mahashivaratri-vrata (Magha Krishna Chaturdashi and Nishita rule): https://www.transliteral.org/pages/z80505114958/view
+- Drik Panchang, 2026 Nag Panchami tithi/date cross-check: https://www.drikpanchang.com/festivals/nag-panchami/nag-panchami-date-time.html?lang=en&year=2026\n- Dharmasindhu, Mahashivaratri-vrata (Magha Krishna Chaturdashi and Nishita rule): https://www.transliteral.org/pages/z80505114958/view
 - Dharmasindhu tithi-vrata digest, including Smarta/Vaishnava Ekadashi distinction, Sankashti and Pradosh: https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
 - Night-length-aware Pradosh methodology cross-check: https://panchangtime.com/methodology/pradosh-vrat
 - Drik Panchang 2026 Janmashtami tithi/timing cross-check: https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?geoname-id=1275004&year=2026
