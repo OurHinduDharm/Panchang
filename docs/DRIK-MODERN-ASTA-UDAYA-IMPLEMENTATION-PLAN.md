@@ -256,3 +256,21 @@ Draft diagnostic में प्रत्येक उपलब्ध Pithoraga
 **कार्यकारी निष्कर्ष:** प्रकाशित boundary timestamp के लिए सबसे मजबूत candidate local planet rise/set instant है—न कि fixed Sun–planet angular-separation crossing। लेकिन इससे अभी Drik का internal algorithm सिद्ध नहीं होता। Asta/Udaya की शुरुआत/समाप्ति किस दैनिक rise/set को चुने, यह twilight visibility criterion तय करता हुआ प्रतीत होता है। Planet-specific Sun-altitude medians इस sample में लगभग बुध −10.83°, शुक्र −5.74°, मंगल −12.94°, गुरु −7.55°, शनि −10.62° हैं; इनके फैलाव के कारण इन्हें अभी fixed visibility thresholds नहीं बनाया गया है।
 
 **अगला candidate model:** (1) पूरे apparition में local planet rise/set events की sequence निकालना; (2) हर crossing पर Sun altitude, planet apparent magnitude/brightness, azimuth separation और atmospheric visibility context निकालना; (3) अंतिम/प्रथम दृश्य crossing चुनना; (4) source-verified years/cities पर train और held-out validation करना। Arbitrary per-planet thresholds fit नहीं करने हैं। Existing fixed-angle और Swiss heliacal candidates diagnostic-only रहेंगे; production output/thresholds अभी अपरिवर्तित हैं।
+
+### 7 नवम्बर 2026 — fixed twilight-threshold selector असफल
+
+अगला exploratory test: हर boundary के लिए उसी ग्रह और उसी rise/set दिशा के अन्य apparitions से Sun apparent-altitude का median निकाला (leave-one-apparition-out), फिर target boundary के ±30 दिनों में daily local planet rise/set crossings में उस median के सबसे निकट crossing को चुना। यह threshold target apparition से train नहीं किया गया।
+
+**नतीजा:** एक स्थिर planet+direction twilight threshold पर्याप्त नहीं है। Median absolute date/time error:
+
+| ग्रह | Rise MAE median | Set MAE median | नमूना |
+|---|---:|---:|---:|
+| बुध | 2,884 मिनट | 1,443 मिनट | 19 + 19 |
+| शुक्र | 1,434 मिनट | 4,319 मिनट | 5 + 5 |
+| मंगल | उपलब्ध नहीं | उपलब्ध नहीं | दिशा-विशिष्ट independent training अपर्याप्त |
+| गुरु | 1,437 मिनट | 1 मिनट | 3 + 3; set में max error 1,438 मिनट |
+| शनि | 0 मिनट | 1 मिनट | 3 + 3; set में max error 1,436 मिनट |
+
+कुछ छोटे sample medians भ्रामक हैं क्योंकि एक-दो outliers बहुत बड़े हैं; इसे सफल model न मानें। सभी thresholds उसी provisional city-label dataset से निकले हैं, इसलिए यह Drik validation नहीं है।
+
+**निर्णय:** fixed planet-specific twilight-altitude constants भी अभी reject। Local planet rise/set timestamp component मजबूत है; अंतिम/प्रथम दृश्य crossing चुनने के लिए apparent magnitude/phase, Sun altitude, azimuthal separation, atmospheric extinction और observer conditions का संयुक्त visibility criterion जाँचना होगा। Swiss heliacal candidate भी पहले के परीक्षण में पर्याप्त सटीक नहीं था; अगली बार उसकी event-type/observer assumptions की audit करें, मनमाने parameter sweep से MAE कम करने की कोशिश न करें।
