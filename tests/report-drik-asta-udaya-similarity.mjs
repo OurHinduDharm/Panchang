@@ -112,6 +112,7 @@ for (const entry of dataset.cases) {
     }
     report.push({
       case: entry.id,
+      sourceId: entry.sourceId,
       planet: entry.planet,
       location: entry.sourceLocation,
       boundary: key,
@@ -136,8 +137,52 @@ for (const entry of dataset.cases) {
   }
 }
 
+const uniqueBoundaryMap = new Map();
+for (const row of report) {
+  const key = [row.planet, row.boundary, row.publishedIST].join("|");
+  const existing = uniqueBoundaryMap.get(key);
+  if (existing) {
+    existing.duplicateCaseIds.push(row.case);
+    if (!existing.sourceIds.includes(row.sourceId)) existing.sourceIds.push(row.sourceId);
+  } else {
+    uniqueBoundaryMap.set(key, {
+      ...row,
+      duplicateCaseIds: [],
+      sourceIds: [row.sourceId]
+    });
+  }
+}
+const uniqueBoundaries = [...uniqueBoundaryMap.values()];
+
+function summarize(values) {
+  const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
+  if (!sorted.length) return null;
+  return {
+    count: sorted.length,
+    min: Number(sorted[0].toFixed(4)),
+    median: Number(sorted[Math.floor(sorted.length / 2)].toFixed(4)),
+    max: Number(sorted.at(-1).toFixed(4)),
+    mean: Number((sorted.reduce((sum, value) => sum + value, 0) / sorted.length).toFixed(4))
+  };
+}
+
+const summaryByPlanet = {};
+for (const planet of [...new Set(uniqueBoundaries.map(row => row.planet))].sort()) {
+  const rows = uniqueBoundaries.filter(row => row.planet === planet);
+  summaryByPlanet[planet] = {
+    uniqueBoundaries: rows.length,
+    planetAltitudeDegrees: summarize(rows.map(row => row.publishedPlanetAltitudeDegrees)),
+    sunAltitudeDegrees: summarize(rows.map(row => row.publishedSunAltitudeDegrees)),
+    angularSeparationDegrees: summarize(rows.map(row => row.publishedAngularSeparationDegrees)),
+    azimuthDifferenceDegrees: summarize(rows.map(row => row.publishedAzimuthDifferenceDegrees))
+  };
+}
+
 console.log(JSON.stringify({
   title: "Drik boundary geometry diagnostic — topocentric angle and local horizon",
-  warning: "Not a Drik clone or acceptance result. Pithoragarh provider coordinates are undisclosed; this compares a project-selected observer at the same city label. Horizontal coordinates are diagnostic samples at the published instant, not inferred Drik thresholds.",
+  warning: "Not a Drik clone or acceptance result. Pithoragarh provider coordinates are undisclosed; this compares a project-selected observer at the same city label. Horizontal coordinates are diagnostic samples at the published instant, not inferred Drik thresholds. Source provenance is retained per boundary.",
+  uniqueBoundaryCount: uniqueBoundaries.length,
+  summaryByPlanet,
+  uniqueBoundaries,
   cases: report
 }, null, 2));
