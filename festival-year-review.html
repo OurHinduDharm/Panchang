@@ -202,7 +202,7 @@ function renderCandidates(matches,detection={}){
    const previousDate=new Date(match.date+"T00:00:00Z");previousDate.setUTCDate(previousDate.getUTCDate()-1);const previousIso=previousDate.toISOString().slice(0,10);
    const previousDay=days.find(item=>item.date===previousIso)||dwadashiDays.find(item=>item.date===previousIso);
    const result=evaluateObservanceRule(selectedRuleProfile,{date:d.date,sunrise:d.sunrise,sunset:d.sunset,nextSunrise:nextDay?.sunrise,previousSunrise:previousDay?.sunrise,previousTithis:previousDay?.tithiIntervals,moonrise:d.moonrise,masa:d.masa,tithis:[...(previousDay?.tithiIntervals||[]),...(d.tithiIntervals||[])],nakshatraIntervals:[...(previousDay?.nakshatraIntervals||[]),...(d.nakshatraIntervals||[])]});
-   let statusText=result.status==="candidate-supported"?"संभावित समर्थन मिला":result.status==="candidate-not-supported"?"निर्णय-काल में तिथि नहीं मिली":result.status==="insufficient-data"?"आवश्यक समय/डेटा अनुपलब्ध":"मानवीय समीक्षा आवश्यक";
+   let statusText=result.status==="candidate-supported"?"इस समय तिथि का मेल मिला":result.status==="candidate-not-supported"?"चुने हुए समय में तिथि नहीं मिली":result.status==="insufficient-data"?"समय या पंचांग की जानकारी अधूरी है":"पंचांग देखकर पुष्टि करें";
    if(result.warnings?.includes("lunar-month-outside-profile"))statusText="यह हिन्दू मास इस पर्व के नियम से मेल नहीं खाता";
    if(result.warnings?.includes("vriddhi-tithi-first-sunrise-only"))statusText="तिथि दो सूर्योदय पर है; पहला दिन मान्य उम्मीदवार है";
    if(result.warnings?.includes("ashtami-not-active-at-sunrise"))statusText="सूर्योदय पर अष्टमी नहीं थी; महानवमी नियम लागू नहीं";
@@ -211,7 +211,7 @@ function renderCandidates(matches,detection={}){
    if(result.warnings?.includes("shravana-at-aparahna-not-confirmed"))statusText+=" · दोपहर बाद श्रवण नक्षत्र का साक्ष्य नहीं मिला";
    if(result.nakshatraEvidence?.length)statusText+=" · "+(result.nakshatraLabel||"नक्षत्र")+" सहायक साक्ष्य मिला";
    if(result.evidence?.[0]?.transitionTime)statusText+=" · संधि समय: "+dateTimeHindi(result.evidence[0].transitionTime);
-   ruleCell.textContent=statusText+(result.evidence?.length?" · तिथि-साक्ष्य: "+result.evidence.length:"")+" · स्रोत-समीक्षा लंबित";
+   ruleCell.textContent=statusText+(result.evidence?.length?" · तिथि-साक्ष्य: "+result.evidence.length:"")+" · शास्त्रीय पुष्टि बाकी";
   }else{ruleCell.textContent="ऊपर पर्व-विशेष प्रोफ़ाइल चुनें";}
   const statusCell=document.createElement("td"),sel=document.createElement("select");
   [["pending","जाँच बाकी"],["approved","सही"],["fix","सुधार चाहिए"]].forEach(([v,t])=>sel.add(new Option(t,v)));
@@ -222,10 +222,10 @@ function renderCandidates(matches,detection={}){
  });
  table.append(thead,tb);box.append(table);
  const note=document.createElement("p");note.className="muted";
- note.textContent="सभी परिणाम केवल संभावित तिथि-मिलान हैं। पर्व-विशेष प्रोफ़ाइल का समय-मिलान भी अंतिम शास्त्रीय निर्णय या सार्वजनिक तारीख़ की स्वतः स्वीकृति नहीं है।";
+ note.textContent="यह जाँच तारीख़ का संकेत देती है, अंतिम फैसला नहीं। पर्व की सही तारीख़ तय करने से पहले संबंधित नियम और पंचांग से पुष्टि करें।";
  box.append(note);
  if(detection.warnings?.includes("multiple-observance-days-require-festival-specific-rule")){
-  const extra=document.createElement("p");extra.className="muted";extra.textContent="एक ही तिथि दो सूर्योदयों पर मिलने पर डिटेक्टर किसी एक दिन को अपने-आप प्राथमिक/अंतिम घोषित नहीं करता।";box.append(extra);
+  const extra=document.createElement("p");extra.className="muted";extra.textContent="अगर तिथि दो सूर्योदय पर रहे, तो यह जाँच खुद किसी एक दिन को नहीं चुनेगी। पर्व के नियम देखकर फैसला करना होगा।";box.append(extra);
  }
 }
 async function scan(){let year=Number($("year").value),lat=Number($("lat").value),lon=Number($("lon").value),elev=Number($("elev").value);if(!Number.isInteger(year)||year<1900||year>2200||!Number.isFinite(lat)||lat< -90||lat>90||!Number.isFinite(lon)||lon< -180||lon>180||!Number.isFinite(elev)){ $("status").className="status error";$("status").textContent="वर्ष और स्थान की वैध जानकारी भरें।";return}meta={year,lat,lon,elev,city:$("city").value.trim()||"चुना गया स्थान"};days=[];dwadashiDays=[];dwadashiPackage=null;renderDwadashiReview();$("scan").disabled=true;$("download").disabled=true;$("downloadDwadashi").disabled=true;$("status").textContent="पंचांग पुस्तकालय लोड हो रहा है…";let started=performance.now();try{const observer=new Observer(lat,lon,elev);const yearDays=(new Date(Date.UTC(year+1,0,1))-new Date(Date.UTC(year,0,1)))/86400000;const dwadashiScanDays=yearDays+31;for(let day=0;day<dwadashiScanDays;day++){let dt=new Date(Date.UTC(year,0,1+day,6,30));let iso=dt.getUTCFullYear()+"-"+String(dt.getUTCMonth()+1).padStart(2,"0")+"-"+String(dt.getUTCDate()).padStart(2,"0");let p=getPanchangam(dt,observer,{timezoneOffset:330,calendarType:"purnimanta"});let dayRecord=extract(p,iso,dt);if(dayRecord.sunrise){const sunriseP=getPanchangam(new Date(dayRecord.sunrise),observer,{timezoneOffset:330,calendarType:"purnimanta"});const sunriseRecord=extract(sunriseP,iso,new Date(dayRecord.sunrise));dayRecord.sunriseTithi={tithi:sunriseRecord.tithi,paksha:sunriseRecord.paksha,masa:sunriseRecord.masa,tithiStartTime:sunriseRecord.tithiStartTime,tithiEndTime:sunriseRecord.tithiEndTime}}if(day<yearDays)days.push(dayRecord);dwadashiDays.push(dayRecord);if(day%15===0){$("status").textContent="वार्षिक स्कैन: "+Math.min(day+1,yearDays)+"/"+yearDays+" दिन · आगे के 31 दिन सहित";await new Promise(r=>setTimeout(r,0))}}
