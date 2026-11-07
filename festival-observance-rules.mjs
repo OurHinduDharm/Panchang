@@ -235,23 +235,58 @@ export function evaluateObservanceRule(ruleId, context) {
       warnings: ["ashtami-not-active-at-sunrise"],
       evidence: [], finalDate: null, autoApproved: false
     };
+    const navamiCoversEvening = rows.some(row => {
+      const interval = asInterval(row);
+      return interval && interval.index === 8 && interval.start <= window.start &&
+        interval.end.getTime() - window.start.getTime() >= profile.requiredCoverageMs;
+    });
+    if (!navamiCoversEvening) return {
+      status: "candidate-not-supported", ruleId: profile.id, date: day,
+      decisionMoment: profile.decisionMoment,
+      warnings: ["navami-less-than-six-ghatis-after-sunset"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
   }
   const evidence = [];
-  for (const row of rows) {
-    const interval = asInterval(row);
-    if (!interval || !profile.tithiIndices.includes(interval.index)) continue;
-    if (profile.paksha && row.paksha && row.paksha !== profile.paksha) continue;
-    const matched = profile.decisionMoment === "moonrise"
-      ? (interval.start <= window.point && interval.end > window.point
-        ? { start: window.point, end: window.point } : null)
-      : overlap(interval, window);
-    if (matched) evidence.push({
-      tithiIndex: interval.index,
-      tithiName: row.name ?? row.tithi ?? null,
-      start: matched.start.toISOString(), end: matched.end.toISOString(),
-      decisionMoment: profile.decisionMoment,
-      windowStart: window.start.toISOString(), windowEnd: window.end.toISOString()
-    });
+  if (profile.decisionMoment === "sandhi") {
+    const ashtami = rows.map(asInterval).filter(interval => interval && interval.index === 7);
+    const navami = rows.map(asInterval).filter(interval => interval && interval.index === 8);
+    for (const a of ashtami) for (const n of navami) {
+      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {
+        evidence.push({
+          tithiIndex: 7, start: a.start.toISOString(), end: a.end.toISOString(),
+          decisionMoment: "sandhi-junction", transitionTime: window.transition.toISOString()
+        });
+        evidence.push({
+          tithiIndex: 8, start: n.start.toISOString(), end: n.end.toISOString(),
+          decisionMoment: "sandhi-junction", transitionTime: window.transition.toISOString()
+        });
+      }
+    }
+  } else {
+    for (const row of rows) {
+      const interval = asInterval(row);
+      if (!interval || !profile.tithiIndices.includes(interval.index)) continue;
+      if (profile.paksha && row.paksha && row.paksha !== profile.paksha) continue;
+      let matched = profile.decisionMoment === "moonrise"
+        ? (interval.start <= window.point && interval.end > window.point
+          ? { start: window.point, end: window.point } : null)
+        : overlap(interval, window);
+      if (profile.decisionMoment === "navami-ashtami-viddha") {
+        if (interval.index === 7) {
+          const sunrise = asDate(context.sunrise);
+          matched = sunrise && interval.start <= sunrise && interval.end > sunrise
+            ? { start: sunrise, end: new Date(sunrise.getTime() + 1) } : null;
+        }
+      }
+      if (matched) evidence.push({
+        tithiIndex: interval.index,
+        tithiName: row.name ?? row.tithi ?? null,
+        start: matched.start.toISOString(), end: matched.end.toISOString(),
+        decisionMoment: profile.decisionMoment,
+        windowStart: window.start.toISOString(), windowEnd: window.end.toISOString()
+      });
+    }
   }
   const matchedTithis = new Set(evidence.map(item => item.tithiIndex));
   const allRequired = !profile.requireAllTithis || profile.tithiIndices.every(index => matchedTithis.has(index));
