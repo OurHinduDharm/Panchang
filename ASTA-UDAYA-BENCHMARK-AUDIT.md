@@ -1,6 +1,6 @@
 # ग्रह उदय-अस्त: स्रोत और स्वीकृति ऑडिट
 
-अंतिम अद्यतन: 2026-11-03
+अंतिम अद्यतन: 2026-11-04
 
 ## उद्देश्य
 
@@ -39,9 +39,9 @@ Swiss heliacal rising/setting एक भौतिक visibility candidate है
 
 यह बड़ा अंतर event-definition mismatch दिखाता है; इसे threshold tuning या “match” कहने का आधार नहीं बनाना है। Swiss visibility window के beginning/optimum/end को अलग Asta/Udaya boundaries की तरह न समझें। Atmospheric inputs और observer assumptions हर run में दर्ज होने चाहिए।
 
-### शास्त्रीय सूर्यसिद्धांत
+### सूर्यसिद्धान्त शोध — उत्पादन दायरे से बाहर
 
-सूर्यसिद्धांत अध्याय 9 की लम्बान्तर-आसु (K/C) पद्धति अलग गणना-परिवार है। इसे आधुनिक Drik-style apparent positions, Swiss heliacal visibility या स्थानीय sunrise से मिलाकर एक hybrid result न बनाएँ। प्रत्येक method का result, inputs और uncertainty अलग रहे।
+सूर्यसिद्धान्त अध्याय 9 की लम्बान्तर-आसु (K/C) पद्धति को आधुनिक ग्रह-अस्त/उदय के production engine, acceptance gate या Drik matching में उपयोग नहीं किया जाएगा। पुराना शोध केवल ऐतिहासिक/शास्त्रीय संदर्भ के रूप में अलग archive में रहेगा। इस परियोजना के अगले implementation और validation चरणों में इस पद्धति पर समय नहीं लगाया जाएगा।
 
 ## वर्तमान production स्थिति
 
@@ -80,3 +80,570 @@ Swiss heliacal rising/setting एक भौतिक visibility candidate है
 3. Swiss और classical K/C diagnostics को अलग-अलग benchmark करें; event definition match न हो तो model reject/limit करें।
 4. Independent ephemeris cross-check और location sensitivity के बाद ही modern production engine चुनें।
 5. Accuracy gate पास होने के बाद measured performance bottleneck optimize करें।
+
+
+## 4 नवम्बर 2026 — तेज़ व्यावहारिक candidate
+
+एक isolated candidate implementation अब `extra-panchang.js` की research branch में जोड़ा गया है:
+
+- चुने हुए स्थान के लिए `Observer(latitude, longitude, elevation)` उसी Panchang refresh से लिया जाता है।
+- Sun और planet के true-equator-of-date apparent topocentric coordinates `Equator(..., observer, true, true)` से लिए जाते हैं।
+- दोनों के RA/Dec unit vectors का 3-D angular separation निकाला जाता है।
+- Asta/Udaya crossing उसी selected observer के साथ daily bracketing और minute-level bisection से खोजी जाती है।
+- Daily cache तथा paired-boundary cache में latitude, longitude और elevation key का हिस्सा हैं; एक शहर का परिणाम दूसरे शहर पर reuse नहीं होगा।
+- मौजूदा published approximate angular limits अभी provisional हैं: Mercury 14°, Venus 10°, Mars 17°, Jupiter 11°, Saturn 15°। Venus retrograde और Mercury retrograde के लिए Drik के approximate notes में अलग limits का उल्लेख है; direction-aware logic अभी इस candidate में लागू नहीं है।
+- User-facing note अब इसे selected-place angular estimate कहती है; verified Drik-equivalent result का दावा नहीं करती।
+
+यह geocentric longitude-only estimate से एक ठोस सुधार है, लेकिन **Drik का algorithm clone नहीं** है। Topocentric parallax outer planets पर बहुत छोटा होगा; event time में बड़ा अंतर मुख्यतः visibility/event definition और threshold model से आ सकता है। इसलिए अगले चरण में published Drik boundaries पर signed error report और threshold sensitivity आवश्यक है। किसी एक benchmark पर fit करके सभी ग्रहों/वर्षों के लिए सही होने का दावा नहीं किया जाएगा।
+
+Regression tests में observer geometry, location-specific cache, search direction और benchmark provenance शामिल किए गए हैं। Browser workflow को इन्हें चलाने के लिए विस्तारित किया गया है।
+
+
+## 4 नवम्बर 2026 — published Pithoragarh Venus benchmark का वास्तविक error report
+
+Pinned `astronomy-engine@2.1.19` और project observer (29.5828° N, 80.2182° E, 1650 m) से topocentric 3-D angular-threshold candidate चलाया गया। तुलना केवल Drik Pithoragarh Venus 2025 published reference windows से है; Drik के आंतरिक coordinates उपलब्ध न होने से यह city-label comparison है।
+
+| Drik boundary | Published IST | 10° candidate IST | Signed error |
+|---|---|---|---:|
+| 20 Mar 2025 Asta start | 20 Mar 18:42 | 20 Mar 01:18 | −1,043 min |
+| 23 Mar 2025 Asta end | 23 Mar 05:40 | 26 Mar 23:22 | +5,383 min |
+| 11 Dec 2025 Asta start | 11 Dec 06:25 | 26 Nov 15:23 | −21,061 min |
+| 2 Feb 2026 Asta end | 2 Feb 18:15 | 17 Feb 04:35 | +20,781 min |
+
+Published boundary instants पर measured apparent topocentric separation क्रमशः 9.4349°, 8.4096°, 6.4097°, 6.5683° थी। एक ही 10° threshold चारों boundaries से मेल नहीं खाता। इसलिए यह candidate location-aware तो है, पर **Drik-सन्निकट स्वीकृति के लिए असफल** है; इसे production में promote नहीं करना है। इन observed angles को universal thresholds में hard-code करना भी उचित नहीं—यह केवल चार event-specific samples हैं।
+
+### अगला candidate: Swiss heliacal visibility
+
+अगली तुलना उसी चार published boundaries पर Swiss Ephemeris `heliacal_ut` चलाती है:
+- Asta-start के लिए planet Sun के पूर्व/पश्चिम होने के अनुसार Evening Last (event type 2) या Morning Last (event type 4)।
+- Asta-end/Udaya के लिए उसी geometry के अनुसार Morning First (event type 1) या Evening First (event type 3)।
+- Venus December 2025–February 2026 के sample में Asta-start Morning Last (4) और Asta-end Evening First (3) हैं; इन्हें March 2025 के Evening Last (2) / Morning First (1) से अलग रखा गया है।
+- वही Pithoragarh project observer और explicit atmosphere/observer parameters।
+- Swiss output का beginning/optimum/end visibility window अलग-अलग दर्ज होगा; किसी एक slot को Drik boundary तभी मानेंगे जब चारों cases में उसका अर्थ और signed error स्थिर रूप से बेहतर हो।
+
+Swiss heliacal भी स्वतः Drik clone नहीं है। इसे केवल error report से बेहतर candidate सिद्ध होने पर आगे बढ़ाएँ।
+
+
+## 4 नवम्बर 2026 — Swiss heliacal का विस्तृत 10-boundary परिणाम
+
+Latest CI run: `41849145392`, job `browser-diagnostics`, commit `e8620eae64d3bd429a6d47cac594704973d70162` — सफल। आठ scenarios × दस boundaries जाँची गईं। चार indexed published Pithoragarh Venus boundaries पर MAE:
+
+| Swiss diagnostic scenario | Published 4-boundary MAE | Provisional 6-boundary MAE |
+|---|---:|---:|
+| age 36 / default range | 6,842 min | 9,360 min |
+| age 23 / default range | 5,764 min | 8,640 min |
+| age 23 / 80 km | 9,002 min | 10,322 min |
+| age 23 / 120 km | 6,124 min | 6,481 min |
+| age 23 / 200 km | 2,522 min | 3,123 min |
+| age 23 / 300 km | 2,160 min | 2,161 min |
+| age 23 / 500 km | 2,160 min | 2,161 min |
+| age 23 / 1000 km | 2,160 min | 2,161 min |
+
+यहाँ 300–1000 km plateau का अर्थ यह नहीं कि इतनी atmospheric range वास्तविक या स्वीकार्य है। यह केवल parameter sensitivity का diagnostic है; इसे production setting नहीं चुनना है। सर्वश्रेष्ठ sample MAE भी indexed references पर 2,160 मिनट (लगभग 1.5 दिन) है—हमारी अपेक्षित समय-सटीकता से बहुत दूर। अतः **Swiss heliacal candidate भी अभी Drik-सन्निकट production engine के रूप में असफल/अस्वीकृत है**। Beginning, optimum और end में से कोई भी slot इस निष्कर्ष को नहीं बदलता।
+
+छह अतिरिक्त Pithoragarh 2026/2027 rows केवल user-reported-provisional हैं; वे independent Drik capture नहीं हैं। इन्हें acceptance gate या tuning target न बनाएं। खासकर 2027 Venus/Jupiter के कुछ provisional boundaries पर Swiss error कई दिनों का है।
+
+### सत्यापित स्रोत और सीमा
+
+- Drik Pithoragarh Venus 2025 page: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025 — March 20 18:42, March 23 05:40, Dec 11 06:25; page also reports Feb 2 2026 06:15 PM. Search capture: `turn823154search9`.
+- इस page पर Drik कहता है कि वह location-based modern algorithm उपयोग करता है; Surya Siddhanta angular limits approximate हैं। Drik के hidden observer coordinates/atmospheric inputs प्रकाशित नहीं हैं, इसलिए comparison city-label-only है।
+- 2026 October तथा 2027 Venus/Jupiter Pithoragarh rows को अब भी provisional मानें; exact named-city primary page capture उपलब्ध नहीं। New Delhi references से Pithoragarh की missing values कभी न भरें।
+
+### अगला निर्णय
+
+Swiss heliacal और fixed-angle candidates को production में promote नहीं करना है। अगला काम नए thresholds आज़माना नहीं, बल्कि Drik के प्रकाशित boundary labels की event-definition को स्वतंत्र रूप से समझना और उसी शहर के अतिरिक्त independently captured references जुटाना है। जब तक model दोनों boundary types और अनेक ग्रहों/वर्षों पर घोषित tolerance में नहीं आता, production output को बदलना नहीं है।
+
+
+## 4 नवम्बर 2026 — Schaefer candidate की परिभाषा-जाँच (production से पहले अनिवार्य रोक)
+
+प्राथमिक स्रोतों की जाँच के बाद Schaefer photometric visibility को सीधे Drik-जैसी Pañcāṅga Tara Asta/Udaya गणना मानना उचित नहीं है:
+
+1. TKS की Udaya-Asta documentation स्वयं तीन परिणाम अलग रखती है: शास्त्रीय Pañcāṅga/combustion result, Ptolemaic arcus visionis, और Schaefer photometric naked-eye visibility। उसके अनुसार इनकी dates अलग हो सकती हैं क्योंकि event definitions अलग हैं।
+2. Schaefer criterion वास्तविक आँख से दृश्यता का मॉडल है: extincted planetary magnitude बनाम twilight sky की limiting magnitude। इसमें observer, atmosphere, optics और sky contrast आते हैं। यह केवल ग्रह-सूर्य कोण की दूसरी गणना नहीं है।
+3. MontuPython की heliacal-rise documentation भी स्पष्ट करती है कि heliacal event model, atmosphere, horizon, acuity और chosen time step पर निर्भर visibility prediction है; इसे geometric instant नहीं कहा जा सकता।
+4. Swiss Ephemeris heliacal documentation visibility में position/magnitude, observer/optics, meteorology और sky-background contrast की dependencies बताती है।
+
+**निर्णय:** Schaefer को Drik matching का अगला production candidate घोषित नहीं किया जाएगा। पहले Drik के Tara Asta/Udaya event labels का अर्थ और उसकी गणना की परिभाषा स्वतंत्र रूप से स्थापित करनी होगी। यदि Drik का प्रकाशित event वास्तव में naked-eye heliacal visibility निकले, तभी Schaefer को अलग diagnostic branch में जाँचें। यदि वह पंचांग-परंपरा का combustion/asta interval है, तो physical heliacal model को उस परिणाम से force-fit न करें।
+
+### उपयोगी प्राथमिक/तकनीकी स्रोत
+
+- TKS Udaya-Asta model definitions: https://tksephemeris.com/tks-udaya-asta
+- Swiss Ephemeris, chapter 5.1 (heliacal visibility factors and functions): https://www.astro.com/swisseph/swisseph.htm
+- Bradley E. Schaefer, “Astronomy and the limits of vision” (1993): https://doi.org/10.1016/0083-6656(93)90113-X
+- MontuPython, “The Heliacal Rise of Sirius, Step by Step” (model definitions and worked methodology): https://montupythob.readthedocs.io/en/latest/examples/MontuPython-HeliacalRises.html
+
+### Revised immediate next step
+
+Do not write another candidate engine yet. First capture Drik's own explanation/FAQ and a controlled set of same-city event pairs for Venus, Mercury, Mars, Jupiter and Saturn, including the event labels (morning/evening, first/last) and retrograde state. Compare those labels with the ephemeris geometry at the published boundary. This distinguishes a Panchanga Asta rule from a naked-eye heliacal visibility event. Only then select the correct mathematical model and implement it. This prevents another round of parameter tuning against the wrong physical quantity.
+
+
+## 5 नवम्बर 2026 — Drik event-pairing evidence और horizon-method की सीमा
+
+आज की source capture से model selection के लिए दो उपयोगी तथ्य मिले हैं:
+
+### Drik के प्रकाशित event windows: पाँच ग्रहों के अलग व्यवहार
+
+एक ही published city label (New Delhi) के 2026 pages पर Drik निम्न उदाहरण देता है:
+
+- **Budha/Mercury:** सात अलग Asta windows; उपलब्ध page पर 2 Jan–5 Feb, 1–18 Mar, 27 Apr–23 May, 30 Jun–25 Jul, 18 Aug–18 Sep, 25 Oct–11 Nov और 14 Dec–19 Jan 2027 के pairs हैं।
+- **Mangal/Mars:** 1 Nov 2025–2 May 2026 का एक लम्बा interval।
+- **Guru/Jupiter:** 15 Jul–12 Aug 2026।
+- **Shani/Saturn:** 13 Mar–22 Apr 2026।
+- **Shukra/Venus:** 11 Dec 2025–1 Feb 2026 और 12–29 Oct 2026।
+
+स्रोत पृष्ठ:
+- Mercury: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?lang=en
+- Mars: https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html
+- Jupiter: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?lang=en
+- Saturn: https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2026
+- Venus: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=24hour
+
+**गणना पर असर:** engine को किसी ग्रह के लिए प्रति वर्ष एक ही Asta pair मानकर नहीं चलना चाहिए। Mercury जैसे ग्रहों के कई disjoint intervals, year-boundary crossing और adjacent apparition pairing सम्भालनी होगी। Event stream को chronological और non-overlapping validate करें; किसी retrograde station पर अपने-आप नया interval शुरू न करें, जब तक source/model event definition ऐसा न कहे। ये published examples event topology बताते हैं, Drik का hidden mathematical algorithm नहीं।
+
+### Horizon-crossing / kālāṃśa research: स्पष्ट रूप से अलग रखें
+
+TathaAstu API की documentation एक अलग, स्पष्टतः **Sūrya Siddhānta IX.2–IX.9** आधारित पद्धति बताती है: सूर्य और ग्रह के horizon crossings के बीच समय-अंतर (kālāṃśa) को शास्त्रीय सीमा से तुलना करना। वह स्वयं कहती है कि यह ecliptic longitude separation या chart-combustion orb नहीं है और स्थान बदलने पर परिणाम बदलता है।
+
+यह एक उपयोगी conceptual distinction है—पर **यह Drik के modern algorithm का प्रमाण नहीं** है। चूँकि परियोजना का निर्णय है कि Sūrya Siddhānta K/C production scope से बाहर रहेगा, TathaAstu implementation को production candidate या acceptance oracle नहीं बनाया जाएगा। इसे केवल historical-method reference के रूप में cite करें।
+
+स्रोत: https://docs.tathaastuapi.com/
+
+एक अलग third-party methodology page (AstroLogics) अपने New Delhi Drik comparisons में कुछ ग्रह/अवधियों के लिए 1–13 दिन तक boundary differences बताती है और स्पष्ट कहती है कि उसकी fixed-orb periods Drik से लम्बी हो सकती हैं। यह independent primary evidence नहीं है, लेकिन एक उपयोगी warning है: approximate angular limits को Drik-equivalent मान लेना सुरक्षित नहीं। इसे acceptance dataset में न जोड़ें।
+स्रोत: https://developers.astrologics.in/docs/vedic-additions
+
+### निर्णय और अगला तकनीकी कदम
+
+1. Drik के प्रत्येक ग्रह के लिए कम-से-कम दो वर्षों के complete event windows capture करें—केवल एक start/end pair नहीं।
+2. हर window को apparition sequence, morning/evening geometry, direct/retrograde motion, superior/inferior conjunction और source city के साथ tag करें।
+3. Published boundary instants पर pinned ephemeris से geocentric और topocentric geometry अलग-अलग निकालें; यह diagnostic है, model proof नहीं।
+4. एक ही event-pairing rule सभी captured cases पर लागू करके देखें। यदि event topology ही reproduce नहीं होती, threshold optimization शुरू न करें।
+5. New Delhi और Pithoragarh को अलग benchmark groups रखें। New Delhi के source times को Pithoragarh observer पर कभी न चलाएँ।
+
+**स्थिति:** कोई नया production formula स्वीकृत नहीं। Fixed-angle और Swiss heliacal candidates पहले ही accuracy gate में असफल हैं; Schaefer physical-visibility model Drik event definition के प्रमाण के बिना अगला candidate नहीं है। Production output provisional ही रहेगा।
+
+
+### 2027 New Delhi capture — multi-window pattern की पुष्टि
+
+5 नवम्बर की अतिरिक्त primary-page capture से:
+
+- **Budha/Mercury:** सात windows; इनमें 13 Dec 2026 30:20+ से 19 Jan 2027 18:39 वाला year-crossing pair, फिर 12–26 Feb, 8 Apr–8 May, 12 Jun–7 Jul, 2–29 Aug, 6–26 Oct और 24 Nov 2027–2 Jan 2028 शामिल हैं। स्रोत 24+ hour notation में है; raw notation को सुरक्षित रखा गया है, normalization अलग स्पष्ट रूप से करना होगा।
+- **Guru/Jupiter:** 17 Aug 2027 19:32 से 13 Sep 2027 05:22।
+- **Shani/Saturn:** 26 Mar 2027 19:21 से 5 May 2027 04:36।
+- **Shukra/Venus:** 21 Jul 2027 05:08 से 9 Sep 2027 19:00।
+- **Mangal/Mars:** 2027 का named-city capture अभी इस pass में प्राप्त नहीं हुआ; इसे missing ही रखें।
+
+स्रोत:
+- Mercury: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?time-format=24plushour&year=2027
+- Jupiter: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2027
+- Saturn: https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2027
+- Venus: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1261481&year=2027
+
+ये सभी New Delhi city-label references हैं; इन्हें Pithoragarh observer या Pithoragarh acceptance group में न डालें। Provider की exact coordinates/elevation अब भी disclosed नहीं हैं। 24+ hour times को बिना source-day convention समझे UTC/IST instant में convert न करें; source raw string और normalized instant दोनों साथ रखें और conversion rule audit करें।
+
+**Research consequence:** multi-window support अब केवल edge case नहीं, Drik के Mercury data में recurring structure है। Event pairing को apparent solar conjunction / apparition sequence के आसपास independently investigate करना होगा; retrograde status अकेले pair boundary का पर्याप्त selector सिद्ध नहीं हुआ है।
+
+
+## 5 नवम्बर 2026 — Mercury 24+ source-time normalization और structured ledger
+
+Drik के New Delhi Mercury pages के 24+ hour notation को अब केवल prose में नहीं, benchmark JSON में raw तथा normalized दोनों रूपों में सुरक्षित किया गया है:
+
+- 2026 page: सात windows; उदाहरण 2026-01-01 30:29+ → civil local instant 2026-01-02 06:29 IST।
+- 2027 page: सात windows; इसमें Dec 2026–Jan 2027 और Nov 2027–Jan 2028 year-crossing intervals शामिल हैं।
+- दोनों annual pages पर Dec 2026–Jan 2027 का साझा interval एक ही normalized start/end पर आता है; dataset इसे duplicate event के रूप में पहचानने योग्य रखता है, लेकिन दोनों source-page provenance सुरक्षित हैं।
+- Source page स्वयं कहता है कि 24:00 से आगे के घंटे अगले civil दिन पर आते हैं और Panchang day sunrise से sunrise तक है।
+
+**डेटा नीति:** panchangDate, rawLocalTime, normalizedLocal, annual page year और sequence अलग fields हैं। Normalization में hour ≥24 होने पर 24 घटाकर civil date में एक दिन जोड़ा जाता है। Raw source string कभी overwrite नहीं होती। सभी records New Delhi city-label-only हैं; provider coordinates/elevation उपलब्ध नहीं।
+
+फ़ाइलें:
+- data/asta-udaya-benchmark.json — 14 annual-page entries, 7 + 7 windows, explicit normalized local instants।
+- tests/asta-udaya-benchmark.test.mjs — नए tests: दोनों वर्षों में सात-सात windows, chronological order, non-overlap, timezone, 24+ conversion और annual-page shared-boundary identity।
+
+**सावधानी:** ये timestamps Drik की published events का normalized source ledger हैं; ये हमारे ephemeris model की गणना या Drik formula की खोज नहीं हैं। किसी candidate model का accuracy result इससे सिद्ध नहीं होता।
+
+
+## 5 नवम्बर 2026 — New Delhi multi-planet source ledger का विस्तार
+
+Mercury के 2026–2027 multi-window records के अतिरिक्त Drik के New Delhi pages से Venus, Jupiter, Saturn और Mars के उपलब्ध 2026–2027 event windows भी structured JSON में जोड़े गए:
+
+- Venus: 2026 में दो windows (एक 2025–26 year-crossing), 2027 में एक window।
+- Jupiter: 2026 और 2027 में एक-एक window; 24+ hour end times को अगले civil दिन में normalize किया गया।
+- Saturn: 2026 और 2027 में एक-एक window; 2027 का 28:36+ end अगले civil दिन 04:36 IST है।
+- Mars: 2026 page पर 1 Nov 2025–2 May 2026 का interval। 2027 Mars page इस capture pass में सत्यापित नहीं हुआ; JSON में empty stream और not-captured metadata है—कोई अनुमान नहीं।
+
+सभी New Delhi entries city-label-only हैं। Drik provider coordinates/elevation अज्ञात हैं। ये windows source ledger और event-stream architecture के लिए हैं, ephemeris accuracy acceptance नहीं।
+
+Regression coverage `tests/asta-udaya-benchmark.test.mjs` में बढ़ाई गई। Browser diagnostics workflow के path filters में benchmark JSON और test file जोड़े गए ताकि केवल data/test बदलाव होने पर भी validation workflow चल सके।
+
+
+## 5 नवम्बर 2026 — IMD Heliacal Rising/Setting का अलग reference ledger
+
+Rashtriya Panchang / Positional Astronomy Centre की 2026–27 Heliacal Rising and Setting table से Central Station of India के लिए 20 event timestamps अलग event-family में benchmark JSON में दर्ज किए गए हैं:
+- बुध: 13 eastern/western set/rise events
+- शुक्र: 2 events
+- मंगल: 1 event
+- गुरु: 2 events
+- शनि: 2 events
+
+मूल प्रकाशित event date और raw IST time दोनों सुरक्षित हैं। 24:18, 25:49, 26:54 और 24:38 जैसी values को अगले civil date में normalize किया गया है; raw source notation नष्ट नहीं की गई। उदाहरण: 13 Sep 2026 26:54 → 14 Sep 2026 02:54 IST।
+
+**महत्वपूर्ण सीमा:** ये IMD के heliacal rising/setting events हैं—Drik Tara Asta/combustion की start/end boundaries नहीं। इसलिए इन्हें Drik exact-time MAE, threshold fitting या city-level Drik acceptance में शामिल करना निषिद्ध है। इनका उपयोग event topology, morning/evening/east/west sequence और broad independent astronomical cross-check के लिए होगा। स्रोत Central Station है; New Delhi, Pithoragarh या किसी अन्य शहर के समय के रूप में न दिखाएँ।
+
+स्रोत: https://packolkata.imd.gov.in/panchang/en/helical
+
+## 5 नवम्बर 2026 — Pithoragarh Drik capture blocker
+
+Pithoragarh का Drik city geoname id `1259503` अन्य Drik pages में पुष्ट है और Venus 2025 Asta page खोज परिणाम में दोनों boundaries सहित उपलब्ध है। लेकिन इस capture pass में Pithoragarh के Mercury 2026, Venus 2026 और Jupiter 2027 named-city planetary Asta URLs सीधे retrieve नहीं हुए (page access internal error)। इन्हें `not-captured/inaccessible` माना जाएगा; New Delhi data से भरना या अनुमान लगाना मना है। अगले capture प्रयास में Drik city selector/browser route या indexed search snippets से पुनः जाँच करें।
+
+सहायक city evidence:
+- Pithoragarh 2025 Venus Asta: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025
+- Pithoragarh geoname ID evidence: https://www.drikpanchang.com/vrats/pradoshdates.html?geoname-id=1259503
+- Pithoragarh sidereal planetary positions page: https://www.drikpanchang.com/planet/position/planetary-positions-sidereal.html?lang=hi&time=01%3A18%3A57
+
+इनमें से planetary positions page location context देता है, Asta boundary data या Drik's internal observer coordinates नहीं। इसे अलग evidence समझें।
+
+
+## 5 नवम्बर 2026 — शहरवार स्रोत-कवरेज tracker
+
+`data/asta-udaya-benchmark.json` में `cityCoverage` जोड़ा गया है। इसमें 15 प्राथमिक शहर, लक्ष्य वर्ष 2026–2028, captured page/window counts, inaccessible URLs और not-captured pages अलग दर्ज हैं। New Delhi के उपलब्ध 2026–2027 streams तथा Pithoragarh Venus 2025 capture दर्ज हैं। New Delhi Mars 2027 को missing रखा है; Pithoragarh Mercury/Venus 2026 और Jupiter 2027 के direct-page access blockers स्पष्ट हैं। शेष शहरों के लिए status अभी not-started है—इसे शून्य घटनाएँ न समझें। Coverage tracker केवल source collection progress है, algorithm accuracy का प्रमाण नहीं।
+
+
+## 5 नवम्बर 2026 — Ujjain का स्वतंत्र longitude-combustion comparator
+
+Divine Nakshatra के 2027 Ujjain पृष्ठ से longitude-based Asta windows का अलग ledger जोड़ा गया है: बुध के 7 windows (पहला और अंतिम partial), शुक्र 1, गुरु 1, शनि 1। मंगल के लिए इस page पर longitude-Asta window सूचीबद्ध नहीं है; इसे universal no-Asta निष्कर्ष नहीं माना जाएगा। स्रोत अपने fixed sidereal longitude thresholds (बुध 14°/12°, शुक्र 10°/8°, मंगल 17°/8°—मंगल का retrograde 8° source के अनुसार अभी unchecked, गुरु 11°, शनि 16°) और Surya Siddhanta Ujjain twilight events को अलग बताता है।
+
+यह dataset **Ujjain city-label-only, longitude-combustion comparator** है। इसे Drik Tara Asta या IMD heliacal rising/setting के साथ एक ही error metric में न मिलाएँ। Partial windows में अनुपलब्ध boundary null है। यह Gemini के fixed-angle विचार को अलग source पर परखने के लिए उपयोगी है, पर इससे Drik algorithm सिद्ध नहीं होता।
+
+स्रोत: https://divinenakshatra.com/graha/2027/
+
+
+## 5 नवम्बर 2026 — Chennai Drik Jupiter 2027 cross-city capture
+
+Drik search-indexed page पर Chennai के लिए Guru Tara Asta 19 Aug 2027 19:00 IST से 13 Sep 2027 05:21 IST तक दिखता है। यह New Delhi Jupiter 2027 के 17 Aug 2027 19:32 से 13 Sep 2027 05:22 से अलग city-label observation है। इसे अभी strict acceptance में शामिल नहीं किया गया, क्योंकि indexed result की heading 2027 कहती है लेकिन URL query में `year=2028` है और direct page open इस capture में inaccessible रहा। मूल URL/query anomaly जस की तस सुरक्षित है; page को पुनः खोलकर पुष्टि के बाद ही acceptanceEligible किया जा सकता है।
+
+स्रोत: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2028
+
+
+## 5 नवम्बर 2026 — Drik-only शहर-कवरेज को अलग किया
+
+पिछले `cityCoverage` में अन्य source families की coverage भी साथ दिखाई दे रही थी। इससे Ujjain के Divine Nakshatra longitude data को गलती से Drik city coverage समझे जाने का जोखिम था। इसे रोकने के लिए `drikOnlyCoverage` अलग जोड़ा है:
+- New Delhi: Mercury 2026/27, Venus 2026/27, Jupiter 2026/27, Saturn 2026/27, Mars 2026 — captured, city-label-only.
+- Pithoragarh: Venus 2025 — historical city-label-only; target-year 2026/27 coverage नहीं।
+- Chennai: Jupiter 2027 — केवल search-index result; heading 2027 और URL query `year=2028` में विरोध, इसलिए provisional.
+- Ujjain: Drik के पाँच ग्रहों के 2027 direct URLs (`geoname-id=1253914`) इस capture में inaccessible; इसे Divine Nakshatra के अलग Ujjain data से नहीं भरेंगे।
+- Pithoragarh target-year planetary pages: अभी verified नहीं।
+
+नई regression test सुनिश्चित करती है कि Drik-only सूची में IMD/Divine Nakshatra source IDs न आएँ और Chennai query-year anomaly strict capture न बने। यह छोटा लेकिन महत्वपूर्ण data-governance सुधार है: आगे की तुलना केवल समान source family और स्पष्ट city/year provenance के साथ होगी।
+
+
+## 5 नवम्बर 2026 — TRAC New Delhi 2027 बनाम Drik New Delhi: signed boundary audit
+
+TRAC Astrology के 2027 combustion page से बुध के 7, शुक्र/गुरु/शनि के 1-1 windows लेकर उसी New Delhi city-label वाले Drik 2027 windows से start/end signed deltas निकाले गए। तुलना `data/asta-udaya-benchmark.json` के `comparisons.trac-vs-drik-new-delhi-2027` में सुरक्षित है। Delta = Drik normalized local instant − TRAC published instant; positive का अर्थ Drik बाद में, negative का अर्थ पहले।
+
+कुछ मुख्य अंतर:
+
+| ग्रह / window | आरम्भ Δ | अन्त Δ |
+|---|---:|---:|
+| बुध 1 | +10,406 min | −5,772 min |
+| बुध 2 | +328 min | +3,507 min |
+| बुध 3 | −9,058 min | −3,888 min |
+| बुध 4 | −3,431 min | +8,754 min |
+| बुध 5 | +6,602 min | +4,308 min |
+| बुध 6 | −10,595 min | +1,811 min |
+| बुध 7 | +11,600 min | −3,876 min |
+| शुक्र 1 | +20,666 min | −11,748 min |
+| गुरु 1 | +1,430 min | −2,750 min |
+| शनि 1 | +7,535 min | +13,917 min |
+
+**निष्कर्ष:** एक ही शहर-लेबल और समान Lahiri/longitude-combustion भाषा होने पर भी सभी ग्रहों/विंडो में अंतर एक जैसा नहीं है। अतः Gemini के fixed angles को Drik पर fit करके सीधे अपनाना उचित नहीं। पहले event semantics, exact observer coordinates/elevation, ephemeris, retrograde rule, angular metric (longitude बनाम 3D separation), तथा source day/time convention की पुष्टि चाहिए। TRAC और Ujjain comparator के कुछ values अत्यधिक समान हैं; इनके upstream engine की स्वतंत्रता सिद्ध नहीं, इसलिए इन्हें दो independent votes नहीं गिनेंगे।
+
+TRAC स्रोत: https://www.tracastrology.com/Panchang/combustion?year=2027
+Drik Mercury 2027 स्रोत: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?time-format=24plushour&year=2027
+
+यह comparison मात्र प्रकाशित timestamps का descriptive audit है। Drik coordinates अघोषित हैं, इसलिए अभी इसे exact same-observer scientific error score नहीं कहेंगे।
+
+
+## 5 नवम्बर 2026 — Ujjain का दूसरा स्वतंत्र Tara Asta स्रोत
+
+VedicTithi के 2027 Ujjain पृष्ठ से दो city-labelled windows दर्ज किए:
+- शुक्र: 22 जुलाई 2027 05:26 IST → 6 सितम्बर 2027 19:04 IST
+- गुरु: 18 अगस्त 2027 19:29 IST → 13 सितम्बर 2027 05:31 IST
+
+पृष्ठ Vedic sidereal (Lahiri) और Ujjain का उल्लेख करता है, पर सटीक ephemeris, event threshold, computational method, source lineage और observer coordinates प्रकाशित नहीं करता। इसलिए इसे `third-party-tara-asta-method-undisclosed` comparator के रूप में रखा है—न Drik, न Divine Nakshatra longitude threshold, न IMD heliacal data। इसे strict accuracy/threshold fitting में नहीं मिलाएँ।
+
+यह Ujjain में independent source disagreement देखने में मदद करता है: VedicTithi के शुक्र/गुरु windows को Ujjain के longitude-based output और New Delhi Drik city-label values के साथ केवल contextually compare किया जा सकता है; exact same-city Drik Ujjain data अभी उपलब्ध नहीं। Regression test source/method separation और timestamps जाँचता है।
+
+स्रोत: https://vedictithi.com/astrology-events/combustion/2027
+
+
+### Ujjain के दो third-party outputs में अंतर — method-mixing से बचने का उदाहरण
+
+2027 Ujjain के उपलब्ध outputs को केवल descriptive रूप से साथ रखने पर:
+- शुक्र: Divine Nakshatra का longitude-window 6 जुलाई 20:39 → 17 सितम्बर 22:48; VedicTithi का प्रकाशित Tara-Asta 22 जुलाई 05:26 → 6 सितम्बर 19:04। आरम्भ में लगभग 15 दिन 8 घण्टे 47 मिनट और अंत में लगभग 11 दिन 3 घण्टे 44 मिनट का अंतर।
+- गुरु: Divine Nakshatra longitude-window 16 अगस्त 19:43 → 15 सितम्बर 03:13; VedicTithi का Tara-Asta 18 अगस्त 19:29 → 13 सितम्बर 05:31। आरम्भ/अंत में लगभग 1 दिन 23 घण्टे 46 मिनट और 1 दिन 21 घण्टे 42 मिनट का अंतर।
+
+ये अंतर **किसी एक स्रोत की त्रुटि सिद्ध नहीं करते**—दोनों के event definitions/algorithms समान प्रमाणित नहीं हैं। यही कारण है कि हम अलग source families को average नहीं करेंगे और एक के timestamps से दूसरे का threshold fit नहीं करेंगे। पहले semantics और गणना-पद्धति की पुष्टि, फिर same-city/same-event boundary comparison।
+
+
+## 5 नवम्बर 2026 — Drik Jupiter 2027 का New Delhi बनाम Chennai स्थान-अंतर
+
+Drik के search-indexed 2027 Guru Tara Asta परिणाम में Chennai के लिए 19 Aug 2027 19:00 से 13 Sep 2027 05:21 IST मिला। New Delhi के पहले से captured Drik window में 17 Aug 2027 19:32 से 13 Sep 2027 05:22 IST है। Chennai − New Delhi signed अंतर:
+- आरम्भ: +2,848 मिनट (+1 दिन 23 घंटे 28 मिनट)
+- अन्त: −1 मिनट
+
+यह उपयोगी संकेत है कि Drik का Guru Asta start city label के अनुसार बदलता है, जबकि इस उदाहरण में end लगभग समान है। इससे किसी एक शहर का timestamp लेकर केवल sunrise offset जोड़ने वाला मॉडल अस्वीकार्य दिखता है। हालांकि दोनों पृष्ठों के exact observer coordinates/elevation अघोषित हैं और Chennai परिणाम search-indexed है; observed URL में `year=2028` जबकि page title/body 2027 कहता है। इसलिए इसे provisional named-city cross-check मानें, final coordinate-level proof नहीं।
+
+स्रोत: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2028
+
+
+### Drik Guru 2027 — पाँच अतिरिक्त शहरों का नमूना
+
+New Delhi को reference रखकर अन्य Drik city-labelled results के अंतर भी जोड़े गए हैं (`comparisons.drik-jupiter-2027-multi-city-vs-new-delhi`):
+
+| शहर | आरम्भ Δ | अन्त Δ |
+|---|---:|---:|
+| Chennai | +2,848 min | −1 min |
+| Naksalbari | −46 min | −42 min |
+| Rajgarh | +1 min | +3 min |
+| Athagarh | +1,396 min | −28 min |
+| Taleigao | +2,875 min | +23 min |
+
+यह spread दिखाता है कि सभी शहरों में एक जैसा civil-time offset लगाना पर्याप्त नहीं। फिर भी provider observer coordinates उपलब्ध न होने और कुछ search-indexed URLs में page-year/query-year mismatch होने के कारण इन शहरों को coordinate-grade calibration set नहीं मानेंगे। हर शहर का source page और raw local time अलग संरक्षित है।
+
+**CI correction note:** पहले cross-city regression में Chennai start delta को गलती से 4,308 मिनट लिखा गया था; सही timestamp subtraction +2,848 मिनट है। Failure logs से arithmetic mismatch पहचाना, expected value ठीक की, और नए multi-city regression assertions जोड़े। नया CI run ही corrected state का pass/fail निर्णायक होगा।
+
+
+### Drik Venus/Mars 2027 अतिरिक्त city pages और explicit zero-event cases
+
+- Khilchipur (Madhya Pradesh): Venus Asta 22 Jul 2027 05:22 → 6 Sep 19:02 IST.
+- Alleppey (Kerala): Venus Asta का raw start `21 Jul 29:49+` है; normalize करके 22 Jul 2027 05:49 → 2 Sep 18:56 IST।
+- Rahuri (Maharashtra) और Visakhapatnam (Andhra Pradesh): Mars 2027 pages स्पष्ट रूप से `Total Asta Days In Year = 0 Days` बताते हैं। इन्हें `captured-no-events` के रूप में दर्ज किया है—यह inaccessible या uncaptured page से अलग है।
+
+यहाँ भी source URLs में कुछ `year` query values page title 2027 से अलग हैं; exact observed URL सुरक्षित है और direct canonical URL verification बाकी है। Zero-event result उसी शहर/ग्रह/वर्ष के लिए source का दावा है; इसे अन्य शहरों या अन्य गणना-पद्धति पर लागू न करें।
+
+
+### Drik Venus 2027 — New Delhi बनाम Khilchipur/Alleppey
+
+| शहर | आरम्भ Δ | अन्त Δ |
+|---|---:|---:|
+| Khilchipur | +1,454 min | −4,318 min |
+| Alleppey | +1,481 min | −10,084 min |
+
+यह भी दिखाता है कि केवल आरम्भ समय पर कोई एक offset लागू कर देने से अवधि/अन्त सही नहीं होंगे। अलग-अलग boundaries का स्थानानुसार बदलाव अलग है। इसे location-aware event engine की आवश्यकता का संकेत मानें; exact coordinates/elevation के अभाव में इसे भौतिक model का calibration नहीं मानेंगे। तुलना `comparisons.drik-venus-2027-multi-city-vs-new-delhi` में सुरक्षित है।
+
+
+### Priority-city coverage accounting corrected
+
+15 priority cities में से अभी 4 के लिए कम-से-कम एक named-city/source-family capture है: New Delhi, Chennai, Ujjain और Pithoragarh। शेष 11 शहरों का कोई capture अभी नहीं है। यह केवल city-level first-capture count है; चारों captured शहर भी 5 ग्रह × 3 वर्ष की पूरी matrix में covered नहीं हैं। Naksalbari, Rajgarh, Athagarh, Taleigao, Khilchipur, Alleppey, Rahuri और Visakhapatnam जैसे अतिरिक्त source cities को अलग sample के रूप में रखा गया है; वे priority-city count घटाते नहीं।
+
+
+## 5 नवम्बर 2026 — TRAC fixed-angle boundary diagnostic का पहला परिणाम
+
+CI run #98 में `tests/report-longitude-threshold-boundaries.mjs` ने TRAC के 2027 के 20 प्रकाशित boundaries पर apparent geocentric true ecliptic-of-date longitude gap जाँचा। Planet retrograde/direct स्थिति centered 12-hour geocentric longitude derivative से ली गई। प्रकाशित threshold rules (Mercury 14° direct/12° retrograde, Venus 10° direct/8° retrograde, Jupiter 11°, Saturn 15°) के विरुद्ध परिणाम:
+
+| ग्रह | सीमाएँ | औसत absolute angle residual | अधिकतम absolute residual |
+|---|---:|---:|---:|
+| बुध | 14 | 0.001068° | 0.002735° |
+| शुक्र | 2 | 0.000238° | 0.000465° |
+| गुरु | 2 | 0.000528° | 0.000662° |
+| शनि | 2 | 0.002089° | 0.002143° |
+
+यह बहुत मजबूत संकेत है कि TRAC के प्रकाशित समय उसके बताए गए longitude-threshold rules से संगत हैं। पर यह केवल TRAC source की internal consistency है; Drik algorithm की पुष्टि नहीं। TRAC और Divine Nakshatra के कुछ परिणाम पहले से लगभग समान हैं, इसलिए upstream independence अज्ञात है। अगला चरण उसी threshold model से boundary roots निकालकर TRAC के minute timestamps से time residual मापना है; फिर अलग Drik data पर बिना threshold refit किए holdout comparison करना होगा।
+
+
+## 5 नवम्बर 2026 — Mumbai Vivaha downstream state cross-check
+
+Drik Panchang के Mumbai 2027 Vivaha calendar से चार day-level states अलग ledger में सुरक्षित किए गए:
+
+| ग्रह | स्थिति | आरम्भ | अन्त |
+|---|---|---|---|
+| शुक्र | Tara Asta | 21 Jul 2027 | 5 Sep 2027 |
+| शुक्र | Shishutva | 6 Sep 2027 | 8 Sep 2027 |
+| गुरु | Tara Asta | 9 Sep 2027 | 12 Sep 2027 |
+| गुरु | Shishutva | 13 Sep 2027 | 15 Sep 2027 |
+
+स्रोत: https://www.drikpanchang.com/shubh-dates/shubh-marriage-dates-with-muhurat.html?geoname-id=1275339&year=2027
+
+यह downstream Vivaha-calendar classification है, minute-level Asta/Udaya timestamp नहीं। इसलिए इसे `downstreamCalendarCrossChecks` में रखा है; `eventWindows`, exact-time benchmark cases, MAE या model fitting में शामिल नहीं किया। Asta और Shishutva अलग states हैं—इन्हें एक boolean में collapse नहीं करना है। यह source transition/order की जाँच में उपयोगी है, लेकिन exact astronomical boundary का प्रमाण नहीं।
+
+
+## 5 नवम्बर 2026 — Pithoragarh place-reference coordinate cross-check
+
+SunsetToday का Pithoragarh पृष्ठ GeoNames ID `1259503` के साथ अपना calculation point `29.5835° N, 80.2095° E` बताता है। यह OurHinduDharm के project-selected observer `29.5828° N, 80.2182° E, 1650 m` से लगभग 0.84 km क्षैतिज दूरी पर है।
+
+यह केवल locality/point-identity cross-check है:
+- SunsetToday का point Drik के internal observer coordinates नहीं है।
+- वहाँ elevation नहीं दिया गया है।
+- इसे project observer के स्थान पर स्वतः लागू नहीं करना है।
+- इससे किसी ग्रह के अस्त/उदय समय की पुष्टि नहीं होती।
+
+इसलिए इसे `locationReferenceChecks` में रखा है और `acceptanceEligible:false` है। इससे एक उपयोगी बात स्पष्ट होती है: Pithoragarh नाम/GeoNames ID एक हो सकता है, पर अलग सेवाओं के चुने हुए calculation points समान होना आवश्यक नहीं। स्रोत: https://sunsettoday.in/uttarakhand/pithoragarh
+
+## 5 नवम्बर 2026 — Pithoragarh 2025 Drik source URL reproducibility caveat
+
+Pithoragarh Venus 2025 के indexed search result में शीर्षक और local timestamps Pithoragarh के नाम से स्पष्ट हैं। लेकिन उसी result URL को सीधे खोलने पर page ने New Delhi का data render किया; event URL में `geoname-id` मौजूद नहीं है। इसलिए:
+
+- 20 Mar 2025 18:42 → 23 Mar 2025 05:40 और 11 Dec 2025 06:25 → 2 Feb 2026 18:15 को केवल **indexed city-label references** माना जाएगा।
+- ये चार boundaries city-label comparison के लिए उपयोगी हैं, पर reproducible canonical-page capture या coordinate-grade validation नहीं हैं।
+- इन्हें अभी हटाया नहीं गया है, क्योंकि provider search result स्वयं Pithoragarh नाम और timestamps देता है; लेकिन confidence/acceptance level को इससे ऊपर नहीं बढ़ाया जाएगा।
+- अगला सही कदम Drik UI में Pithoragarh चुनकर event page का ऐसा URL/session capture करना है जिसमें city selector स्थिर रहे। केवल `geoname-id=1259503` monthly Panchang selector को planet event page पर मान लेना पर्याप्त नहीं।
+
+## 5 नवम्बर 2026 — Pithoragarh Drik city selector की पहचान
+
+Drik के indexed monthly Panchang से Pithoragarh का provider city ID `geoname-id=1259503` सत्यापित हुआ:
+
+https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
+
+यह पहले की तुलना में उपयोगी सुधार है: अब ग्रह-अस्त पृष्ठों को सही Drik city selector ID के साथ पुनः खोलने का स्पष्ट आधार है। लेकिन इस retrieval में उसी ID के साथ Guru/Shukra planet-Asta URLs ने access error दिया। इसलिए अभी Pithoragarh 2026/2027 के exact Asta windows को उपलब्ध नहीं मानेंगे; coverage status `inaccessible` ही रहेगा, `captured-no-events` नहीं। City ID से Drik के अंदरूनी observer coordinates/elevation भी सिद्ध नहीं होते।
+
+अगला retrieval प्रयास इसी ID को Drik के city selector में चुनकर canonical planet pages से raw local timestamps सुरक्षित करना है। किसी दूसरे शहर के समय को Pithoragarh पर लागू नहीं करेंगे।
+
+
+## 5 नवम्बर 2026 — उपयोगकर्ता द्वारा उपलब्ध कराया गया Pithoragarh Drik Asta ledger (2024–2027)
+
+उपयोगकर्ता ने Pithoragarh के Drik Panchang Tara Asta पृष्ठों से शुक्र, मंगल, बुध, गुरु और शनि के 2024–2027 के उपलब्ध start/end timestamps साझा किए। सभी 35 supplied interval occurrences को `data/asta-udaya-benchmark.json` में `drik-pithoragarh-user-transcribed-asta-2024-2027` source के अंतर्गत दर्ज किया गया है। प्रत्येक record में source page-year, raw local date/time, normalized IST instant, user-reported whole-day duration और endpoint से स्वतंत्र रूप से निकले exact elapsed minutes/days अलग रखे हैं।
+
+**स्रोत-स्तर स्पष्ट रखा गया है:**
+- शुक्र 2025 के दोनों intervals Drik के indexed Pithoragarh page से स्वतंत्र रूप से मेल खाते हैं: 20 Mar 2025 18:42 → 23 Mar 2025 05:40 और 11 Dec 2025 06:25 → 2 Feb 2026 18:15। Direct URL reproducibility की पुरानी समस्या अभी भी बनी है।
+- बाकी 2024–2027 ग्रह/वर्ष entries उपयोगकर्ता द्वारा transcribed हैं; संबंधित named-city Drik page का स्वतंत्र पुनः-capture अभी नहीं हुआ। इन्हें `user-provided-transcription` और `acceptanceEligible:false` रखा है।
+- Drik के observer coordinates/elevation अज्ञात हैं। Project observer coordinates को Drik के coordinates नहीं माना गया।
+
+**Duration audit:** दिए गए हर interval का elapsed duration endpoints से मिनटों में निकाला गया। इस sample में Drik का reported whole-day duration हर interval के लिए `ceil(elapsed minutes / 1440)` से मेल खाता है। उदाहरण: शुक्र 2024 = 66.608 दिन → 67; शुक्र मार्च 2025 = 2.457 → 3; मंगल 2025–26 = 184.410 → 185। इसलिए reported duration को exact elapsed days न मानें; दोनों values अलग सुरक्षित हैं।
+
+**Annual totals:** उपयोगकर्ता द्वारा दिए गए “साल में कुल अस्त के दिन” को page-reported summary के रूप में अलग रखा है, full-window durations के योग के रूप में नहीं। Cross-year interval दोनों annual pages पर दोहराया गया है तो वही astronomical interval है, दो अलग घटनाएँ नहीं। उदाहरण: शुक्र Dec 2025–Feb 2026, मंगल Oct 2025–May 2026 और बुध Dec 2026–Jan 2027।
+
+**अभी अनुपलब्ध (शून्य अस्त नहीं):** मंगल 2027, बुध 2025, गुरु 2027 और शनि 2027 के लिए कोई data उपलब्ध नहीं कराया गया। इनकी metadata स्थिति `not-provided-by-user; not-zero-event` है और इनके लिए कोई empty event array बनाकर zero-event निष्कर्ष नहीं निकाला गया।
+
+यह ledger अब Pithoragarh के लिए उपयोगी multi-planet holdout/reference set है। यह अपने-आप किसी formula को प्रमाणित नहीं करता; exact Drik page capture और स्वतंत्र astronomical model के विरुद्ध validation अभी बाकी है।
+
+
+### Pithoragarh annual-total reconciliation warning
+
+उपयोगकर्ता द्वारा दिए गए annual “कुल अस्त के दिन” को प्रत्येक event window के exact IST endpoints से Gregorian calendar year में overlap करके अलग से जाँचा। कुछ totals endpoint-overlap से मेल खाते हैं, लेकिन कुछ में स्पष्ट अंतर है:
+
+| ग्रह-वर्ष | स्रोत annual total | दिए गए endpoints का वर्ष-अंदर exact overlap |
+|---|---:|---:|
+| शुक्र 2026 | 51 दिन | 49.249 दिन |
+| बुध 2024 | 165 दिन | 159.972 दिन |
+| बुध 2026 | 179 दिन | 173.703 दिन |
+| बुध 2027 | 181 दिन | 175.963 दिन |
+
+अन्य दर्ज annual totals भी ledger में गणना सहित सुरक्षित हैं। यह अभी स्रोत की गलती सिद्ध नहीं करता—Drik का annual day-count convention, day-boundary या transcription में कोई अतिरिक्त/छूटी अवधि हो सकती है। इसलिए reported annual total को overwrite नहीं किया गया और किसी inclusive/exclusive formula को मनमाने ढंग से लागू नहीं किया गया। इन mismatches को संबंधित Pithoragarh Drik annual pages के direct recapture में प्राथमिकता से सुलझाना है।
+
+
+## 6 नवम्बर 2026 — Panchang Guru New Delhi Guru Asta, 2022–2030
+
+Panchang Guru के live Guru Asta पृष्ठ से New Delhi के 2022–2030 तक नौ वार्षिक Guru Asta/Udaya intervals दर्ज किए गए हैं। 2027 का pair Drik New Delhi 2027 Guru pair से मिनट तक बिल्कुल समान है। इसे **published-output corroboration** मानें; दोनों providers के algorithm स्वतंत्र हैं, इसका प्रमाण उपलब्ध नहीं है।
+
+Panchang Guru event semantics बताता है: Asta ग्रह के अस्त होने पर और Udaya ग्रह के पुनः उदय होने पर; गुरु को शुक्र की तुलना में अधिक अंधकार चाहिए, इसलिए अवधि केवल bare Sun–planet angular distance से अधिक हो सकती है और latitude/twilight से बदलती है। उसकी methodology page VSOP87 Sun, Meeus Moon और planetary orbital elements बताती है, लेकिन Guru Asta का सटीक twilight/visibility criterion या boundary-solving formula प्रकाशित नहीं करती।
+
+इसलिए इन नौ intervals को अलग `panchang-guru-visibility-boundary` source family में रखा गया है:
+- New Delhi city-label-only; provider coordinates/elevation अज्ञात।
+- 2022–2030 के नौ intervals क्रमबद्ध और timezone-aware।
+- 2027 Drik pair से exact output agreement दर्ज।
+- Algorithm independence अज्ञात; इन्हें independent validation count या production acceptance gate में अभी शामिल न करें।
+
+यह डेटा Guru visibility model के लिए held-out year comparisons और event-duration trend की जाँच में उपयोगी है; formula स्वयं इससे सिद्ध नहीं होता।
+
+Sources:
+- https://www.panchangguru.com/guru-asta
+- https://www.panchangguru.com/how-we-calculate
+
+## 6 नवम्बर 2026 — Panchang Guru Dehradun Guru Asta, 2022–2030
+
+उपयोगकर्ता द्वारा Dehradun स्थान चुनकर साझा किए गए 2022–2030 के नौ Guru Asta/Udaya intervals को `data/asta-udaya-benchmark.json` में अलग `panchang-guru-dehradun-guru-asta-2022-2030` stream के रूप में दर्ज किया गया। Raw IST timestamps, स्रोत के duration labels और endpoints से निकले elapsed minutes अलग-अलग सुरक्षित हैं।
+
+Dehradun और New Delhi के outputs को मिलाया नहीं गया है। उदाहरण: 2022 में Dehradun Udaya 28 मार्च 05:31, New Delhi 27 मार्च 05:37; 2027 में Dehradun Asta 16 अगस्त 19:34, New Delhi 17 अगस्त 19:32। 2027 Udaya क्रमशः 13 सितंबर 05:17 और 05:22 है। अतः स्थान-विशिष्ट परिणामों का अलग परीक्षण आवश्यक है।
+
+Dehradun timestamps उपयोगकर्ता द्वारा दिए गए पृष्ठ से transcribed हैं; direct independent recapture अभी नहीं हुआ। Provider के exact observer coordinates/elevation और Guru Asta visibility threshold प्रकाशित नहीं हैं। इस कारण source `city-label-only`, `acceptanceEligible:false` है। इसे Pithoragarh का proxy या formula validation नहीं मानना है।
+
+स्रोत: https://www.panchangguru.com/guru-asta ; https://www.panchangguru.com/how-we-calculate
+
+
+## 6 नवम्बर 2026 — Drik प्राथमिक स्रोत की अतिरिक्त provenance
+
+Drik Pithoragarh Venus 2025 indexed result (पृष्ठ शीर्षक में Pithoragarh, दोनों 2025 windows सहित) ने 6 नवम्बर को फिर पुष्टि की कि Drik आधुनिक combustion समय observer geolocation के आधार पर निकालता है। उसी पृष्ठ में Surya Siddhanta angular separation को approximate timing के रूप में अलग बताया गया है। Pithoragarh monthly Panchang URL में geoname-id=1259503 भी मिला।
+
+- Event page: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?time-format=12hour&year=2025
+- City identity: https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503
+
+इससे Drik की प्राथमिकता और geolocation-आधारित आधुनिक गणना का दावा मजबूत होता है; पर exact algorithm, threshold और provider observer coordinates/elevation अभी अज्ञात हैं। Event URL को direct reopen करने पर पहले New Delhi render हुआ था, इसलिए page-selector persistence अभी अप्रमाणित है। Dataset में इसे city-label-only रखा गया है; coordinate-exact acceptance का दावा नहीं है।
+
+Panchang Guru Dehradun 2022–2030 rows secondary cross-check हैं और acceptanceEligible=false ही रहेंगी। किसी भी model को Drik के same-city published boundaries पर अलग-अलग signed errors, multiple planets/years और held-out cases के साथ जाँचना होगा। अलग event definitions या शहरों के समयों का averaging निषिद्ध है।
+
+### 7 नवम्बर 2026 — Drik elevation setting: अतिरिक्त अनिश्चितता
+
+Drik की सामान्य Settings page कहती है कि geographic elevation का उपयोग default रूप से Disabled है; इसे Enable करने पर elevation गणनाओं में शामिल होता है। Drik यह भी कहता है कि इस setting से Panchang/Muhurat timings, sunrise/sunset सहित, कुछ मिनट बदल सकते हैं।
+
+स्रोत: https://www.drikpanchang.com/settings/drikpanchang-settings.html?lang=en
+
+**सीमा:** यह सामान्य product-setting disclosure है; इससे यह सिद्ध नहीं होता कि Tara Asta/Udaya event pages इसी elevation toggle को किस प्रकार लागू करते हैं। इसलिए Drik के internal observer coordinates/elevation अभी भी अज्ञात हैं। Project Pithoragarh elevation 1650 m को Drik का elevation न मानें और model को elevation के आधार पर Drik से मिलाने के लिए मनमाने ढंग से न बदलें। इस evidence को केवल uncertainty/provenance note के रूप में रखा गया है, acceptance data या formula के रूप में नहीं।
+
+### 7 नवम्बर 2026 — UI disclosure tightened
+
+Draft branch के Planetary Asta/Udaya card में “दृश्य कोणीय सीमा” को “आभासी कोणीय सीमा” किया गया है। अंतिम disclosure अब स्पष्ट कहता है कि ये चयनित स्थान पर सूर्य–ग्रह की आभासी कोणीय दूरी से निकले अस्थायी गणितीय अनुमान हैं; वास्तविक दृश्यता और Drik के प्रकाशित समयों से मेल अभी प्रमाणित नहीं है। यह केवल भाषा/दावे की शुद्धता है—कोई threshold, ephemeris, event time, cache या production calculation rule नहीं बदला। extra-panchang.js का परिवर्तन अभी Draft PR में ही है; main पर लागू नहीं है।
+
+### 7 नवम्बर 2026 — प्रकाशित सीमांत समयों पर स्थानीय क्षितिज-ज्यामिति
+
+Draft diagnostic में प्रत्येक उपलब्ध Pithoragarh सीमा-समय पर project observer (29.5828° N, 80.2182° E, 1650 m) के लिए Astronomy Engine से topocentric apparent equatorial coordinates लेकर local horizontal coordinates निकाले गए। Horizon altitude में सामान्य atmospheric refraction लागू है; geometric altitude अलग दर्ज है। Drik के वास्तविक observer coordinates/elevation अज्ञात हैं, इसलिए ये Drik के internal coordinates पर गणना नहीं हैं।
+
+64 deduplicated planet-boundary samples (पाँचों ग्रह; indexed 2025 Venus source + user-transcribed Pithoragarh rows) का सार:
+
+| ग्रह | सीमाएँ | ग्रह की apparent altitude min / median / max | सूर्य की altitude min / median / max | सूर्य–ग्रह angular separation min / max |
+|---|---:|---:|---:|---:|
+| बुध | 38 | −0.0839° / +0.0066° / +0.0851° | −13.8218° / −10.8278° / −9.2166° | 9.447° / 24.5373° |
+| शुक्र | 10 | −0.0524° / +0.0135° / +0.0593° | −6.7900° / −5.7407° / −4.9018° | 6.1107° / 19.1159° |
+| मंगल | 4 | −0.0585° / +0.0667° / +0.0898° | −14.3663° / −12.9359° / −12.9089° | 18.7853° / 24.8891° |
+| गुरु | 6 | −0.0845° / +0.0175° / +0.0296° | −9.6348° / −7.5519° / −7.2743° | 8.2073° / 13.1976° |
+| शनि | 6 | −0.0396° / +0.0700° / +0.0834° | −13.0431° / −10.6171° / −10.0297° | 10.4895° / 24.8725° |
+
+**प्रारम्भिक निष्कर्ष:** project observer पर सभी ग्रहों की published boundary instants पर apparent altitude लगभग 0° के आसपास है, जबकि angular separation ग्रह और event के अनुसार काफी बदलती है। यह fixed elongation threshold के बजाय local horizon / heliacal-visibility event family की ओर मजबूत संकेत है। ग्रह-विशिष्ट सूर्य depression भी बदलता है; इसलिए एक universal solar-altitude threshold या मनमाना per-planet constant अभी स्वीकार नहीं किया गया।
+
+**सीमाएँ:** इस 64-sample set का बड़ा भाग user-transcribed है और independently page-verified नहीं; 2025 Venus के चार boundaries ही indexed Pithoragarh Drik page से corroborated हैं। Coordinates project proxy हैं, Drik observer नहीं। इस pattern को model proof, Drik algorithm disclosure या acceptance result न मानें। अगला वैज्ञानिक परीक्षण: source-verified multi-planet/multi-year boundaries, actual observer coordinate uncertainty, horizon-crossing instants plus twilight/planet-brightness criterion, और अलग years/cities पर held-out validation। कोई production threshold या output नहीं बदला।
+
+### 7 नवम्बर 2026 — निर्णायक ज्यामितीय संकेत: सीमांत समय = स्थानीय ग्रह-उदय/अस्त
+
+उसी 64 deduplicated Pithoragarh boundary sample पर अगला diagnostic किया गया। प्रत्येक प्रकाशित समय के आसपास सूर्य के azimuth से दिशा पहचानी गई (पूर्वी अर्धाकाश: ग्रह-rise; पश्चिमी अर्धाकाश: ग्रह-set), फिर Astronomy Engine 2.1.19 के SearchRiseSet से उसी observer पर अगला संबंधित ग्रह-क्षितिज crossing निकाला गया। SearchRiseSet सामान्य atmospheric refraction लागू करता है।
+
+**परिणाम:** पाँचों ग्रहों के सभी 64 unique boundaries में प्रकाशित समय और स्थानीय planet rise/set instant का अंतर −1 से +1 मिनट के भीतर है; हर ग्रह का median अंतर 0 मिनट है। अलग-अलग ग्रहों का सार:
+
+| ग्रह | सीमाएँ | rise/set अंतर min / median / max |
+|---|---:|---:|
+| बुध | 38 | −1 / 0 / +1 मिनट |
+| शुक्र | 10 | −1 / 0 / +1 मिनट |
+| मंगल | 4 | 0 / 0 / +1 मिनट |
+| गुरु | 6 | −1 / 0 / +1 मिनट |
+| शनि | 6 | −1 / 0 / +1 मिनट |
+
+2025 के Pithoragarh Venus के चार indexed Drik boundaries भी इसी ±1 मिनट pattern में हैं। शेष 60 boundaries user-transcribed source rows हैं; वे independently page-verified नहीं हैं। सभी calculations project observer proxy (29.5828° N, 80.2182° E, 1650 m) पर हैं, Drik के undisclosed observer coordinates पर नहीं।
+
+**कार्यकारी निष्कर्ष:** प्रकाशित boundary timestamp के लिए सबसे मजबूत candidate local planet rise/set instant है—न कि fixed Sun–planet angular-separation crossing। लेकिन इससे अभी Drik का internal algorithm सिद्ध नहीं होता। Asta/Udaya की शुरुआत/समाप्ति किस दैनिक rise/set को चुने, यह twilight visibility criterion तय करता हुआ प्रतीत होता है। Planet-specific Sun-altitude medians इस sample में लगभग बुध −10.83°, शुक्र −5.74°, मंगल −12.94°, गुरु −7.55°, शनि −10.62° हैं; इनके फैलाव के कारण इन्हें अभी fixed visibility thresholds नहीं बनाया गया है।
+
+**अगला candidate model:** (1) पूरे apparition में local planet rise/set events की sequence निकालना; (2) हर crossing पर Sun altitude, planet apparent magnitude/brightness, azimuth separation और atmospheric visibility context निकालना; (3) अंतिम/प्रथम दृश्य crossing चुनना; (4) source-verified years/cities पर train और held-out validation करना। Arbitrary per-planet thresholds fit नहीं करने हैं। Existing fixed-angle और Swiss heliacal candidates diagnostic-only रहेंगे; production output/thresholds अभी अपरिवर्तित हैं।
+
+### 7 नवम्बर 2026 — fixed twilight-threshold selector असफल
+
+अगला exploratory test: हर boundary के लिए उसी ग्रह और उसी rise/set दिशा के अन्य apparitions से Sun apparent-altitude का median निकाला (leave-one-apparition-out), फिर target boundary के ±30 दिनों में daily local planet rise/set crossings में उस median के सबसे निकट crossing को चुना। यह threshold target apparition से train नहीं किया गया।
+
+**नतीजा:** एक स्थिर planet+direction twilight threshold पर्याप्त नहीं है। Median absolute date/time error:
+
+| ग्रह | Rise MAE median | Set MAE median | नमूना |
+|---|---:|---:|---:|
+| बुध | 2,884 मिनट | 1,443 मिनट | 19 + 19 |
+| शुक्र | 1,434 मिनट | 4,319 मिनट | 5 + 5 |
+| मंगल | उपलब्ध नहीं | उपलब्ध नहीं | दिशा-विशिष्ट independent training अपर्याप्त |
+| गुरु | 1,437 मिनट | 1 मिनट | 3 + 3; set में max error 1,438 मिनट |
+| शनि | 0 मिनट | 1 मिनट | 3 + 3; set में max error 1,436 मिनट |
+
+कुछ छोटे sample medians भ्रामक हैं क्योंकि एक-दो outliers बहुत बड़े हैं; इसे सफल model न मानें। सभी thresholds उसी provisional city-label dataset से निकले हैं, इसलिए यह Drik validation नहीं है।
+
+**निर्णय:** fixed planet-specific twilight-altitude constants भी अभी reject। Local planet rise/set timestamp component मजबूत है; अंतिम/प्रथम दृश्य crossing चुनने के लिए apparent magnitude/phase, Sun altitude, azimuthal separation, atmospheric extinction और observer conditions का संयुक्त visibility criterion जाँचना होगा। Swiss heliacal candidate भी पहले के परीक्षण में पर्याप्त सटीक नहीं था; अगली बार उसकी event-type/observer assumptions की audit करें, मनमाने parameter sweep से MAE कम करने की कोशिश न करें।
+
+### 7 नवम्बर 2026 — Swiss heliacal model documentation audit
+
+Official Swiss Ephemeris documentation confirms that its heliacal event engine is a separate physical-visibility model based on Schaefer (1993/2000), Reijs (2003), and Koch (2009). It accounts for apparent magnitude and celestial positions (Sun/Moon/object), topocentric observer location and height, observer acuity/optics, atmospheric extinction from pressure/temperature/humidity/visibility, and object-to-sky contrast. Its event search works near Sun rise/set and determines whether the object is visible there. It also documents limitations, including incomplete handling of Venus daytime visibility and unusual multi-visibility sequences at higher latitudes.
+
+Source: https://ephe.scryr.io/swisseph/doc/swisseph.htm (sections 5.1.1–5.1.3; event types and limitations).
+
+The current browser runner passes Swiss event types 1=Morning First, 2=Evening Last, 3=Evening First, 4=Morning Last; it records the returned beginning/optimum/end times separately. The high Drik mismatch therefore cannot be “fixed” by casually changing which output slot is read. Before another Swiss run, audit the pinned WASM wrapper's exported low-level visibility-limit API and compare the visibility threshold at the exact local planet rise/set instant. Do not change atmosphere/observer parameters solely to minimize the small current benchmark.
+
+Swiss heliacal output remains a useful independent physical-visibility comparator, not the Drik acceptance model. Drik's local planet rise/set timestamp match and Swiss's visibility-start timestamp are distinct observables; the remaining selector must be identified with held-out, source-verified data.

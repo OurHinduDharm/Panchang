@@ -7,6 +7,7 @@ import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 
 import {
   Elongation,
+  Equator,
   Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
@@ -418,11 +419,11 @@ function addDays(
 
 
 /* =========================================
-   Planetary elongation — preliminary display only
-   आधुनिक apparent angular-separation threshold से
-   दिन-स्तर का अनुमान। यह शास्त्रीय Chapter IX के
-   lagnāntara K/C परिणाम या स्थानीय दृश्यता नहीं है।
-   Thresholds are provisional; do not label as classical.
+   Modern Panchang-sannikat Asta / Udaya estimate
+   Uses apparent topocentric Sun–planet angular separation
+   at the selected observer. The angular limits are published
+   traditional approximations, not a claim to reproduce Drik's
+   proprietary visibility algorithm.
    ========================================= */
 
 const PLANET_ASTA_THRESHOLDS = {
@@ -433,13 +434,44 @@ const PLANET_ASTA_THRESHOLDS = {
   Saturn: 15
 };
 
-// Opt-in diagnostics only; counters never participate in astronomy decisions.
 const planetDailyCache = new Map();
 let planetPerfStats = null;
+const planetEventBracketCache = new Map();
 
-function getPlanetDailyData(body, dateString) {
+function getPlanetObserverKey(observer) {
+  if (!observer) return "observer-unavailable";
+  return [
+    Number(observer.latitude).toFixed(5),
+    Number(observer.longitude).toFixed(5),
+    Number(observer.height).toFixed(1)
+  ].join(",");
+}
+
+function getApparentAngularSeparation(body, date, observer) {
+  if (!observer) return NaN;
+  const planet = Equator(body, date, observer, true, true);
+  const sun = Equator("Sun", date, observer, true, true);
+  const toVector = point => {
+    const ra = Number(point.ra) * Math.PI / 12;
+    const dec = Number(point.dec) * Math.PI / 180;
+    const cosDec = Math.cos(dec);
+    return [
+      cosDec * Math.cos(ra),
+      cosDec * Math.sin(ra),
+      Math.sin(dec)
+    ];
+  };
+  const p = toVector(planet);
+  const q = toVector(sun);
+  const dot = Math.max(-1, Math.min(1,
+    p[0] * q[0] + p[1] * q[1] + p[2] * q[2]
+  ));
+  return Math.acos(dot) * 180 / Math.PI;
+}
+
+function getPlanetDailyData(body, dateString, observer) {
   if (planetPerfStats) planetPerfStats.dailyRequests++;
-  const cacheKey = body + "|" + dateString;
+  const cacheKey = body + "|" + dateString + "|" + getPlanetObserverKey(observer);
   if (planetDailyCache.has(cacheKey)) {
     if (planetPerfStats) planetPerfStats.dailyCacheHits++;
     return planetDailyCache.get(cacheKey);
@@ -447,21 +479,28 @@ function getPlanetDailyData(body, dateString) {
 
   if (planetPerfStats) planetPerfStats.dailyCacheMisses++;
   const ephemerisStart = planetPerfStats ? performance.now() : 0;
-  const result = Elongation(body, getLocalNoon(dateString));
+  const separation = getApparentAngularSeparation(
+    body,
+    getLocalNoon(dateString),
+    observer
+  );
   if (planetPerfStats) {
     planetPerfStats.dailyEphemerisCalls++;
     planetPerfStats.dailyEphemerisMilliseconds += performance.now() - ephemerisStart;
   }
   const data = {
     date: dateString,
-    eclipticSeparation: Number(result.ecliptic_separation)
+    angularSeparation: separation
   };
 
   planetDailyCache.set(cacheKey, data);
+  if (planetDailyCache.size > 6000) {
+    planetDailyCache.delete(planetDailyCache.keys().next().value);
+  }
   return data;
 }
 
-function findThresholdCrossingInstant(body, startDateString, endDateString, threshold, eventType) {
+function findThresholdCrossingInstant(body, startDateString, endDateString, threshold, eventType, observer) {
   let low = new Date(`${startDateString}T12:00:00+05:30`).getTime();
   let high = new Date(`${endDateString}T12:00:00+05:30`).getTime();
   if (!Number.isFinite(low) || !Number.isFinite(high) || high <= low) return null;
@@ -469,16 +508,14 @@ function findThresholdCrossingInstant(body, startDateString, endDateString, thre
   const isPastThreshold = value =>
     eventType === "asta" ? value <= threshold : value > threshold;
 
-  // Daily scan locates the crossing; bisection refines it to about one minute.
   for (let i = 0; i < 18 && high - low > 60_000; i++) {
     const middle = (low + high) / 2;
     const ephemerisStart = planetPerfStats ? performance.now() : 0;
-    const result = Elongation(body, new Date(middle));
+    const separation = getApparentAngularSeparation(body, new Date(middle), observer);
     if (planetPerfStats) {
       planetPerfStats.bisectionEvaluations++;
       planetPerfStats.bisectionMilliseconds += performance.now() - ephemerisStart;
     }
-    const separation = Number(result.ecliptic_separation);
     if (!Number.isFinite(separation)) return null;
 
     if (isPastThreshold(separation)) high = middle;
@@ -488,19 +525,15 @@ function findThresholdCrossingInstant(body, startDateString, endDateString, thre
   return new Date((low + high) / 2);
 }
 
-function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
-  const selected = getPlanetDailyData(body, selectedDate);
-  if (!Number.isFinite(selected.eclipticSeparation)) return null;
+function findNearestAngularBoundary(body, selectedDate, threshold, eventType, observer) {
+  const selected = getPlanetDailyData(body, selectedDate, observer);
+  if (!Number.isFinite(selected.angularSeparation)) return null;
 
-  // चयनित समय सीमा के किस ओर है, उसी के अनुसार केवल सम्भव निकटतम दिशा खोजें।
-  // सीमा से ऊपर: अस्त भविष्य में, उदय अतीत में।
-  // सीमा पर/नीचे: अस्त अतीत में, उदय भविष्य में।
-  const selectedAboveThreshold = selected.eclipticSeparation > threshold;
+  const selectedAboveThreshold = selected.angularSeparation > threshold;
   const expectedDirection = eventType === "asta"
     ? (selectedAboveThreshold ? "future" : "past")
     : (selectedAboveThreshold ? "past" : "future");
 
-  // मौजूदा 400-दिन की सुरक्षा-सीमा और दैनिक bracket को यथावत रखें।
   for (let offset = 1; offset <= 400; offset++) {
     if (planetPerfStats) planetPerfStats.boundaryScanDays++;
     const dateA = addDays(
@@ -511,22 +544,22 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
       selectedDate,
       expectedDirection === "past" ? -offset + 1 : offset
     );
-    const a = getPlanetDailyData(body, dateA);
-    const b = getPlanetDailyData(body, dateB);
+    const a = getPlanetDailyData(body, dateA, observer);
+    const b = getPlanetDailyData(body, dateB, observer);
 
     const crossed = eventType === "asta"
-      ? a.eclipticSeparation > threshold && b.eclipticSeparation <= threshold
-      : a.eclipticSeparation <= threshold && b.eclipticSeparation > threshold;
+      ? a.angularSeparation > threshold && b.angularSeparation <= threshold
+      : a.angularSeparation <= threshold && b.angularSeparation > threshold;
 
     if (!crossed) continue;
 
     const instant = findThresholdCrossingInstant(
-      body, a.date, b.date, threshold, eventType
+      body, a.date, b.date, threshold, eventType, observer
     );
     return {
       date: b.date,
       instant,
-      degree: b.eclipticSeparation,
+      degree: b.angularSeparation,
       threshold,
       direction: expectedDirection
     };
@@ -535,16 +568,12 @@ function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
   return null;
 }
 
-// A previously calculated pair of nearest boundaries remains valid while
-// the selected local-noon instant stays strictly between those boundaries.
-// This avoids repeating hundreds of ephemeris evaluations when readers move
-// between nearby dates that are still inside the same angular-threshold interval.
-const planetEventBracketCache = new Map();
-
-function getPlanetEvent(planet, selectedDate) {
+function getPlanetEvent(planet, selectedDate, observer) {
   const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
+  const observerKey = getPlanetObserverKey(observer);
+  const cacheKey = planet.body + "|" + observerKey;
 
-  if (!Number.isFinite(threshold)) {
+  if (!Number.isFinite(threshold) || !observer) {
     return {
       name: planet.name,
       asta: null,
@@ -552,7 +581,7 @@ function getPlanetEvent(planet, selectedDate) {
       udaya: null,
       udayaDegree: null,
       verificationPending: true,
-      calculationScope: "geocentric-angular-threshold",
+      calculationScope: "topocentric-angular-threshold",
       locationSpecific: false
     };
   }
@@ -561,7 +590,7 @@ function getPlanetEvent(planet, selectedDate) {
     `${selectedDate}T12:00:00+05:30`
   ).getTime();
 
-  const cachedBrackets = planetEventBracketCache.get(planet.body) || [];
+  const cachedBrackets = planetEventBracketCache.get(cacheKey) || [];
   const cached = cachedBrackets.find(entry =>
     Number.isFinite(selectedNoon) &&
     entry.startMs < selectedNoon &&
@@ -575,29 +604,26 @@ function getPlanetEvent(planet, selectedDate) {
 
   try {
     const asta = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "asta"
+      planet.body, selectedDate, threshold, "asta", observer
     );
     const udaya = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "udaya"
+      planet.body, selectedDate, threshold, "udaya", observer
     );
 
     const result = {
       name: planet.name,
       asta: asta ? formatEventDateTime(asta.instant) : null,
-      astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
+      astaDegree: asta ? `${asta.threshold}° आभासी कोणीय सीमा` : null,
       udaya: udaya ? formatEventDateTime(udaya.instant) : null,
-      udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
+      udayaDegree: udaya ? `${udaya.threshold}° आभासी कोणीय सीमा` : null,
       verificationPending: true,
-      calculationScope: "geocentric-angular-threshold",
-      locationSpecific: false
+      calculationScope: "topocentric-angular-threshold",
+      locationSpecific: true
     };
 
     const astaMs = asta?.instant instanceof Date ? asta.instant.getTime() : NaN;
     const udayaMs = udaya?.instant instanceof Date ? udaya.instant.getTime() : NaN;
 
-    // Cache only when both independently found boundaries enclose the selected
-    // noon. If either boundary is missing or the pair does not enclose noon,
-    // recompute on the next date rather than risk reusing a stale estimate.
     if (
       Number.isFinite(selectedNoon) &&
       Number.isFinite(astaMs) &&
@@ -605,19 +631,18 @@ function getPlanetEvent(planet, selectedDate) {
       Math.min(astaMs, udayaMs) < selectedNoon &&
       selectedNoon < Math.max(astaMs, udayaMs)
     ) {
-      const entries = planetEventBracketCache.get(planet.body) || [];
+      const entries = planetEventBracketCache.get(cacheKey) || [];
       entries.unshift({
         startMs: Math.min(astaMs, udayaMs),
         endMs: Math.max(astaMs, udayaMs),
         result
       });
-      // Bound memory use; recent date intervals are most likely to be reused.
-      planetEventBracketCache.set(planet.body, entries.slice(0, 12));
+      planetEventBracketCache.set(cacheKey, entries.slice(0, 12));
     }
 
     return result;
   } catch (error) {
-    console.warn("Planetary angular-boundary estimate failed:", planet.body, error);
+    console.warn("Planetary topocentric angular-boundary estimate failed:", planet.body, error);
     return {
       name: planet.name,
       asta: null,
@@ -625,7 +650,7 @@ function getPlanetEvent(planet, selectedDate) {
       udaya: null,
       udayaDegree: null,
       verificationPending: true,
-      calculationScope: "geocentric-angular-threshold",
+      calculationScope: "topocentric-angular-threshold",
       locationSpecific: false
     };
   }
@@ -664,7 +689,7 @@ function createPlanetCard(
       `).join("")}
     </div>
 
-    <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">ये समय भू-केंद्रीय सूर्य–ग्रह कोणीय दूरी पर आधारित गणितीय अनुमान हैं; स्थानीय दृश्यता एवं शास्त्रीय K/C सत्यापन जारी है।</p>
+    <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">ये चयनित स्थान पर सूर्य–ग्रह की आभासी कोणीय दूरी पर आधारित अस्थायी गणितीय अनुमान हैं; वास्तविक दृश्यता और Drik के समयों से मिलान अभी प्रमाणित नहीं है।</p>
   `;
 
   return card;
@@ -1457,7 +1482,8 @@ if(
       planet =>
         getPlanetEvent(
           planet,
-          selectedDate
+          selectedDate,
+          horaObserver
         )
     );
 

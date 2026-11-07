@@ -6,6 +6,12 @@ on:
     paths:
       - "extra-panchang.js"
       - "tests/asta-udaya-phase-diagnostics.spec.mjs"
+      - "tests/swiss-heliacal-comparison.html"
+      - "tests/run-swiss-heliacal-comparison.mjs"
+      - "tests/report-longitude-threshold-boundaries.mjs"
+      - "tests/report-drik-longitude-threshold-boundaries.mjs"
+      - "tests/asta-udaya-benchmark.test.mjs"
+      - "data/asta-udaya-benchmark.json"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
 
 permissions:
@@ -21,7 +27,7 @@ jobs:
         with:
           node-version: 22
       - name: Install pinned browser test dependency
-        run: npm install --no-save playwright@1.55.0
+        run: npm install --no-save playwright@1.55.0 astronomy-engine@2.1.19
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Serve repository files
@@ -35,5 +41,21 @@ jobs:
           done
           cat /tmp/asta-udaya-http.log
           exit 1
+      - name: Verify topocentric estimate, search direction, cache scope, and benchmark provenance
+        run: >-
+          node --test
+          tests/planetary-asta-udaya-topocentric.test.mjs
+          tests/planetary-asta-udaya-direction.test.js
+          tests/planetary-asta-udaya-location-scope.test.mjs
+          tests/planetary-boundary-cache.test.mjs
+          tests/asta-udaya-benchmark.test.mjs
+      - name: Compare fixed-angle candidates with Drik New Delhi 2027 boundaries
+        run: node tests/report-drik-longitude-threshold-boundaries.mjs
+      - name: Diagnose fixed geocentric longitude thresholds against TRAC 2027 boundaries
+        run: node tests/report-longitude-threshold-boundaries.mjs
+      - name: Report signed differences against published Pithoragarh Drik boundaries
+        run: node tests/report-drik-asta-udaya-similarity.mjs
+      - name: Compare Swiss heliacal visibility with published and provisional Pithoragarh boundaries
+        run: node tests/run-swiss-heliacal-comparison.mjs
       - name: Verify opt-in counters and unchanged visible output
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs

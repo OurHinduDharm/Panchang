@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swiss heliacal vs Drik Pithoragarh references</title>
+</head>
+<body>
+<pre id="output">Loading Swiss Ephemeris…</pre>
+<script type="module">
+import SwissEph from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
+
+const references = [
+  { id: "venus-pithoragarh-2025-march-asta-start", date: "2025-03-20", published: "2025-03-20T18:42:00+05:30", eventType: 2, event: "Evening Last" },
+  { id: "venus-pithoragarh-2025-march-asta-end", date: "2025-03-23", published: "2025-03-23T05:40:00+05:30", eventType: 1, event: "Morning First" },
+  { id: "venus-pithoragarh-2025-december-asta-start", date: "2025-12-11", published: "2025-12-11T06:25:00+05:30", eventType: 4, event: "Morning Last" },
+  { id: "venus-pithoragarh-2026-february-asta-end", planet: "Venus", date: "2026-02-02", published: "2026-02-02T18:15:00+05:30", eventType: 3, event: "Evening First", sourceStatus: "published-indexed" },
+  { id: "venus-pithoragarh-2026-october-asta-start", planet: "Venus", date: "2026-10-12", published: "2026-10-12T18:05:00+05:30", eventType: 2, event: "Evening Last", sourceStatus: "user-reported-provisional" },
+  { id: "venus-pithoragarh-2026-october-asta-end", planet: "Venus", date: "2026-10-29", published: "2026-10-29T05:49:00+05:30", eventType: 1, event: "Morning First", sourceStatus: "user-reported-provisional" },
+  { id: "venus-pithoragarh-2027-july-asta-start", planet: "Venus", date: "2027-07-21", published: "2027-07-21T04:54:00+05:30", eventType: 4, event: "Morning Last", sourceStatus: "user-reported-provisional" },
+  { id: "venus-pithoragarh-2027-september-asta-end", planet: "Venus", date: "2027-09-09", published: "2027-09-09T18:48:00+05:30", eventType: 3, event: "Evening First", sourceStatus: "user-reported-provisional" },
+  { id: "jupiter-pithoragarh-2027-asta-start", planet: "Jupiter", date: "2027-08-16", published: "2027-08-16T19:24:00+05:30", eventType: 2, event: "Evening Last", sourceStatus: "user-reported-provisional" },
+  { id: "jupiter-pithoragarh-2027-asta-end", planet: "Jupiter", date: "2027-09-13", published: "2027-09-13T05:09:00+05:30", eventType: 1, event: "Morning First", sourceStatus: "user-reported-provisional" }
+];
+
+function julianDay(ms) {
+  return ms / 86400000 + 2440587.5;
+}
+function fromJulianDay(jd) {
+  return new Date((jd - 2440587.5) * 86400000);
+}
+function formatIST(date) {
+  return new Date(date.getTime() + 330 * 60000).toISOString().replace("Z", "+05:30");
+}
+
+try {
+  const swiss = new SwissEph();
+  await swiss.initSwissEph();
+  if (typeof swiss.heliacal_ut !== "function") throw new Error("Swiss heliacal_ut API unavailable.");
+
+  const geoPos = [80.2182, 29.5828, 1650];
+  const scenarios = [
+    { name: "baseline-age36-default-range", atmosphere: [1013.25, 15, 40, 0], observer: [36, 1, 0, 0, 0, 0] },
+    { name: "age23-default-range", atmosphere: [1013.25, 15, 40, 0], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range80km", atmosphere: [1013.25, 15, 40, 80], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range120km", atmosphere: [1013.25, 15, 40, 120], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range200km", atmosphere: [1013.25, 15, 40, 200], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range300km", atmosphere: [1013.25, 15, 40, 300], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range500km", atmosphere: [1013.25, 15, 40, 500], observer: [23, 1, 0, 0, 0, 0] },
+    { name: "age23-range1000km", atmosphere: [1013.25, 15, 40, 1000], observer: [23, 1, 0, 0, 0, 0] }
+  ];
+  const flags = 2 | 256;
+  const results = [];
+
+  for (const scenario of scenarios) {
+    const scenarioResults = [];
+    for (const ref of references) {
+      const start = new Date(ref.date + "T00:00:00Z");
+      start.setUTCDate(start.getUTCDate() - 50);
+      const raw = swiss.heliacal_ut(
+        julianDay(start.getTime()),
+        geoPos,
+        scenario.atmosphere,
+        scenario.observer,
+        (ref.planet || "Venus").toLowerCase(),
+        ref.eventType,
+        flags
+      );
+      if (!raw || raw.length < 3) throw new Error("Invalid Swiss result for " + ref.id + " / " + scenario.name);
+      const eventDate = fromJulianDay(Number(raw[0]));
+      const publishedMs = Date.parse(ref.published);
+      scenarioResults.push({
+        id: ref.id,
+        planet: ref.planet || "Venus",
+        sourceStatus: ref.sourceStatus || "published-indexed",
+        event: ref.event,
+        publishedIST: ref.published,
+        swissIST: formatIST(eventDate),
+        signedDifferenceMinutes: Math.round((eventDate.getTime() - publishedMs) / 60000),
+        visibilityOptimumIST: formatIST(fromJulianDay(Number(raw[1]))),
+        visibilityEndIST: formatIST(fromJulianDay(Number(raw[2])))
+      });
+    }
+    const meanAbsoluteError = rows => rows.length
+      ? Math.round(rows.reduce((sum, item) => sum + Math.abs(item.signedDifferenceMinutes), 0) / rows.length)
+      : null;
+    const meanAbsoluteErrorMinutes = meanAbsoluteError(scenarioResults);
+    const publishedReferenceMaeMinutes = meanAbsoluteError(
+      scenarioResults.filter(item => item.sourceStatus === "published-indexed")
+    );
+    const provisionalReferenceMaeMinutes = meanAbsoluteError(
+      scenarioResults.filter(item => item.sourceStatus === "user-reported-provisional")
+    );
+    results.push({
+      name: scenario.name,
+      atmosphere: scenario.atmosphere,
+      observer: scenario.observer,
+      meanAbsoluteErrorMinutes,
+      publishedReferenceMaeMinutes,
+      provisionalReferenceMaeMinutes,
+      results: scenarioResults
+    });
+  }
+
+  window.__SWISS_RESULT__ = {
+    location: { latitude: 29.5828, longitude: 80.2182, elevationMeters: 1650, timeZone: "Asia/Kolkata" },
+    scenarioCount: results.length,
+    warning: "Swiss heliacal visibility is a candidate model, not a Drik clone. Parameter sensitivity is diagnostic only; do not select a scenario merely because it minimizes this four-case sample.",
+    scenarios: results
+  };
+  document.getElementById("output").textContent = JSON.stringify(window.__SWISS_RESULT__, null, 2);
+} catch (error) {
+  window.__SWISS_ERROR__ = error?.stack || String(error);
+  document.getElementById("output").textContent = window.__SWISS_ERROR__;
+}
+</script>
+</body>
+</html>
