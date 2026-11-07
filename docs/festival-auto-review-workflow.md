@@ -42,12 +42,12 @@ The annual review page now uses the detector when a catalog record is selected. 
 - **Navratri Sandhi Puja:** requires adjacent Shukla Ashtami and Navami intervals and reports their exact transition instant. It is explicitly restricted to Chaitra/Ashwin Navratri and is not a generic monthly Durga Ashtami rule. The engine no longer invents a fixed 48-minute window where the reviewed text only identifies the tithi junction.
 - **Pradosh:** Trayodashi overlap with three night-muhurtas after local sunset; the night is divided into fifteen muhurtas, so the duration varies with local night length.
 - **Sankashti:** Krishna Chaturthi active at local moonrise.
-- **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Phalguna in the Purnimanta calendar.
+- **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Magha in the Purnimanta calendar, following the Dharmasindhu section stating Magha Krishna Chaturdashi.
 - **Vinayaka Chaturthi:** Shukla Chaturthi overlap with the local Madhyahna interval.
 
 Primary text and source cross-checks now consulted:
 - Dharmasindhu, Janmashtami-vrata and Rohini-yoga sections: https://www.transliteral.org/pages/z80422113144/view and https://www.transliteral.org/pages/z80421221115/view
-- Dharmasindhu, Maha-Ashtami decision (including Ashtami-viddha Navami and Sandhi): https://www.transliteral.org/pages/z80504211648/view
+- Dharmasindhu, Maha-Ashtami decision (including Ashtami-viddha Navami and Sandhi): https://www.transliteral.org/pages/z80504211648/view\n- Dharmasindhu, Mahashivaratri-vrata (Magha Krishna Chaturdashi and Nishita rule): https://www.transliteral.org/pages/z80505114958/view
 - Dharmasindhu tithi-vrata digest, including Smarta/Vaishnava Ekadashi distinction, Sankashti and Pradosh: https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=5
 - Night-length-aware Pradosh methodology cross-check: https://panchangtime.com/methodology/pradosh-vrat
 - Drik Panchang 2026 Janmashtami tithi/timing cross-check: https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?geoname-id=1275004&year=2026
