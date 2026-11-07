@@ -111,7 +111,8 @@ test("real Pithoragarh Panchang finds Smarta Janmashtami in Bhadrapada at Nishit
       date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
       tithis: intervals(current, next), nakshatraIntervals: nakshatras(current, next)
     });
-    if (result.status === "candidate-supported") { supportedDate = date; break; }\n    if (intervals(current, next).some(row => row.index === 22)) console.log("JANMA_DEBUG", date, masa(current), result.status, result.warnings, intervals(current, next).filter(row => row.index === 22), current.sunset, next.sunrise, nakshatras(current, next).filter(row => row.index === 3));
+    if (result.status === "candidate-supported") { supportedDate = date; break; }
+    if (intervals(current, next).some(row => row.index === 22)) console.log("JANMA_DEBUG", date, masa(current), result.status, result.warnings, intervals(current, next).filter(row => row.index === 22), current.sunset, next.sunrise, nakshatras(current, next).filter(row => row.index === 3));
   }
   assert.ok(supportedDate, "expected a Bhadrapada Nishita Ashtami candidate");
 });
