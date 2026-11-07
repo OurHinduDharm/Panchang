@@ -327,7 +327,7 @@ test("Kartika Skanda rule is not assigned to generic monthly Skanda Shashthi", (
 });
 
 test("Skanda Shashthi and Ratha Saptami stay manual until their special day-selection rules are reconciled", () => {
-  for (const ruleId of ["skanda-shashthi", "ratha-saptami"]) {
+  for (const ruleId of ["skanda-shashthi-kartika-review", "ratha-saptami-review"]) {
     const result = evaluateObservanceRule(ruleId, {
       date: "2026-11-15", masa: "कार्तिक",
       sunrise: "2026-11-15T00:30:00Z", sunset: "2026-11-15T12:40:00Z",
