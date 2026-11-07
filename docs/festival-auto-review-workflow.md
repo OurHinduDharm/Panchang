@@ -42,7 +42,7 @@ The annual review page now uses the detector when a catalog record is selected. 
 - **Navratri Sandhi Puja:** requires adjacent Shukla Ashtami and Navami intervals and reports their exact transition instant. It is explicitly restricted to Chaitra/Ashwin Navratri and is not a generic monthly Durga Ashtami rule. The engine no longer invents a fixed 48-minute window where the reviewed text only identifies the tithi junction.
 - **Pradosh:** Trayodashi overlap with three night-muhurtas after local sunset; the night is divided into fifteen muhurtas, so the duration varies with local night length.
 - **Sankashti:** Krishna Chaturthi active at local moonrise.
-- **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Magha in the Purnimanta calendar, following the Dharmasindhu section stating Magha Krishna Chaturdashi.
+- **Masik Shivaratri and Mahashivaratri:** separate Krishna Chaturdashi/Nishita profiles; Mahashivaratri is restricted to Phalguna in the project Purnimanta calendar; Dharmasindhu names Magha Krishna Chaturdashi in its Amanta month convention, which maps to Phalguna in Purnimanta.
 - **Vinayaka Chaturthi:** Shukla Chaturthi overlap with the local Madhyahna interval.
 
 Primary text and source cross-checks now consulted:
