@@ -96,3 +96,75 @@ test("missing tithi intervals are insufficient data, not a negative date decisio
   assert.equal(result.status, "insufficient-data");
   assert.ok(result.warnings.includes("tithi-intervals-missing"));
 });
+
+test("Pradosh uses three fixed muhurtas after sunset, not a fraction of night", () => {
+  const result = evaluateObservanceRule("pradosh-trayodashi", {
+    date: "2026-06-01", sunset: "2026-06-01T18:00:00Z",
+    nextSunrise: "2026-06-02T00:00:00Z",
+    tithis: [interval(12, "2026-06-01T19:30:00Z", "2026-06-01T20:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].windowEnd, "2026-06-01T20:24:00.000Z");
+});
+
+test("Smarta Ekadashi requires Ekadashi at sunrise", () => {
+  const result = evaluateObservanceRule("ekadashi-smarta-udaya", {
+    date: "2026-11-20", sunrise: "2026-11-20T00:30:00Z",
+    tithis: [interval(10, "2026-11-19T22:00:00Z", "2026-11-20T20:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "sunrise");
+});
+
+test("Smarta Ekadashi does not select the second sunrise of a vriddhi tithi", () => {
+  const result = evaluateObservanceRule("ekadashi-smarta-udaya", {
+    date: "2026-11-21", sunrise: "2026-11-21T00:30:00Z",
+    previousSunrise: "2026-11-20T00:30:00Z",
+    previousTithis: [interval(10, "2026-11-19T22:00:00Z", "2026-11-21T20:00:00Z")],
+    tithis: [interval(10, "2026-11-19T22:00:00Z", "2026-11-21T20:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("vriddhi-tithi-first-sunrise-only"));
+});
+
+test("Smarta Janmashtami checks Krishna Ashtami at Nishita and records Rohini separately", () => {
+  const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
+    date: "2026-08-20", sunset: "2026-08-20T13:00:00Z",
+    nextSunrise: "2026-08-21T00:00:00Z",
+    tithis: [interval(22, "2026-08-20T17:00:00Z", "2026-08-20T20:00:00Z", "कृष्ण पक्ष")],
+    nakshatraIntervals: [interval(3, "2026-08-20T18:00:00Z", "2026-08-20T19:00:00Z")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.nakshatraEvidence[0].index, 3);
+});
+
+test("Navratri day count uses Shukla tithi at sunrise", () => {
+  const result = evaluateObservanceRule("navratri-udaya", {
+    date: "2026-10-11", sunrise: "2026-10-11T00:30:00Z",
+    tithis: [interval(0, "2026-10-10T20:00:00Z", "2026-10-11T16:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].tithiIndex, 0);
+});
+
+test("Navratri Sandhi Puja needs both Ashtami and Navami around their exact transition", () => {
+  const result = evaluateObservanceRule("navratri-sandhi-puja", {
+    date: "2026-10-19",
+    tithis: [
+      interval(7, "2026-10-19T08:00:00Z", "2026-10-19T10:00:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T10:00:00Z", "2026-10-19T16:00:00Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence.length, 2);
+  assert.equal(result.evidence[0].windowStart, "2026-10-19T09:36:00.000Z");
+  assert.equal(result.evidence[0].windowEnd, "2026-10-19T10:24:00.000Z");
+});
+
+test("Navratri Sandhi Puja rejects incomplete transition evidence", () => {
+  const result = evaluateObservanceRule("navratri-sandhi-puja", {
+    date: "2026-10-19",
+    tithis: [interval(7, "2026-10-19T08:00:00Z", "2026-10-19T10:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "insufficient-data");
+});
