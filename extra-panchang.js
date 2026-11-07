@@ -613,9 +613,9 @@ function getPlanetEvent(planet, selectedDate, observer) {
     const result = {
       name: planet.name,
       asta: asta ? formatEventDateTime(asta.instant) : null,
-      astaDegree: asta ? `${asta.threshold}° दृश्य कोणीय सीमा` : null,
+      astaDegree: asta ? `${asta.threshold}° आभासी कोणीय सीमा` : null,
       udaya: udaya ? formatEventDateTime(udaya.instant) : null,
-      udayaDegree: udaya ? `${udaya.threshold}° दृश्य कोणीय सीमा` : null,
+      udayaDegree: udaya ? `${udaya.threshold}° आभासी कोणीय सीमा` : null,
       verificationPending: true,
       calculationScope: "topocentric-angular-threshold",
       locationSpecific: true
@@ -689,7 +689,7 @@ function createPlanetCard(
       `).join("")}
     </div>
 
-    <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">ये समय चयनित स्थान पर सूर्य और ग्रह की आभासी कोणीय दूरी से निकले अनुमान हैं। दूसरे पंचांगों से समय-मिलान का सत्यापन जारी है।</p>
+    <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">ये चयनित स्थान पर सूर्य–ग्रह की आभासी कोणीय दूरी पर आधारित अस्थायी गणितीय अनुमान हैं; वास्तविक दृश्यता और Drik के समयों से मिलान अभी प्रमाणित नहीं है।</p>
   `;
 
   return card;
