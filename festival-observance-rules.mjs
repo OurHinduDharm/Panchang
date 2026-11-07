@@ -58,8 +58,8 @@ const PROFILES = {
     label: "नवरात्रि महानवमी — अष्टमी-विद्धा", tithiIndices: [7,8], paksha: "शुक्ल पक्ष",
     decisionMoment: "navami-ashtami-viddha", windowLabel: "सूर्यास्त के बाद छह घटिका",
     calculationBasis: "navami-covers-six-ghatis-after-sunset-on-ashtami-sunrise-day",
-    requireAllTithis: true, allowedMonths: ["चैत्र", "आश्विन"],
-    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+    requireAllTithis: true, requiredCoverageMs: 6 * 24 * 60000, allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "primary-text-consulted-translation-review-pending"
   },
   "navratri-sandhi-puja": {
     id: "navratri-sandhi-puja", aliases: ["sandhi-puja-navratri"],
@@ -67,7 +67,7 @@ const PROFILES = {
     decisionMoment: "sandhi", windowLabel: "अष्टमी–नवमी संधि",
     calculationBasis: "exact-ashtami-navami-tithi-junction",
     requireAllTithis: true, allowedMonths: ["चैत्र", "आश्विन"],
-    sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
+    sourceReview: "primary-text-consulted-translation-review-pending"
   },
   "sankashti-moonrise": {
     id: "sankashti-moonrise", aliases: ["sankashti", "sakat-moonrise"],
