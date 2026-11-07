@@ -35,7 +35,7 @@ function masa(day) {\n  const raw = day?.masa ?? day?.month;\n  const value = ra
 test("real Pithoragarh Panchang confirms the Pradosh profile for a 2026 date", () => {
   const date = "2026-11-06", current = panchang(date), next = panchang(nextIsoDate(date));
   const result = evaluateObservanceRule("pradosh-trayodashi", {
-    date, sunset: current.sunset, nextSunrise: next.sunrise,
+    date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
     tithis: intervals(current)
   });
   assert.equal(result.status, "candidate-supported");
