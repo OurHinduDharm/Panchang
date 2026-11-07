@@ -101,6 +101,15 @@ for (const entry of dataset.cases) {
     const sunGeometric = horizontalPosition("Sun", publishedInstant, observer);
     const planetGeometric = horizontalPosition(entry.planet, publishedInstant, observer);
     const publishedSeparation = angularSeparation(entry.planet, publishedInstant, observer);
+    const geometryValues = [
+      sunHorizontal.altitude, planetHorizontal.altitude,
+      sunHorizontal.azimuth, planetHorizontal.azimuth,
+      sunGeometric.altitude, planetGeometric.altitude,
+      publishedSeparation
+    ];
+    if (!geometryValues.every(Number.isFinite)) {
+      throw new Error("Non-finite horizon geometry for " + entry.id + " " + key);
+    }
     report.push({
       case: entry.id,
       location: entry.sourceLocation,
