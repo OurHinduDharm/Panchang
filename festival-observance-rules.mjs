@@ -26,7 +26,7 @@ const PROFILES = {
     label: "स्मार्त जन्माष्टमी", tithiIndices: [22], paksha: "कृष्ण पक्ष",
     decisionMoment: "nishita", windowLabel: "निशीथ काल",
     calculationBasis: "krishna-ashtami-at-nishita-rohini-as-supporting-evidence",
-    nakshatraIndices: [3],
+    nakshatraIndices: [3], allowedMonths: ["भाद्रपद"],
     sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
   "navratri-udaya": {
@@ -34,7 +34,7 @@ const PROFILES = {
     label: "नवरात्रि — उदयव्यापिनी तिथि", tithiIndices: [0,1,2,3,4,5,6,7,8], paksha: "शुक्ल पक्ष",
     decisionMoment: "sunrise", windowLabel: "सूर्योदय",
     calculationBasis: "shukla-pratipada-to-navami-at-sunrise-first-sunrise-on-vriddhi",
-    firstSunriseOnly: true,
+    firstSunriseOnly: true, allowedMonths: ["चैत्र", "आश्विन"],
     sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
   "navratri-sandhi-puja": {
@@ -42,7 +42,7 @@ const PROFILES = {
     label: "नवरात्रि संधि पूजा", tithiIndices: [7,8], paksha: "शुक्ल पक्ष",
     decisionMoment: "sandhi", windowLabel: "अष्टमी–नवमी संधि",
     calculationBasis: "last-24-minutes-ashtami-plus-first-24-minutes-navami",
-    requireAllTithis: true,
+    requireAllTithis: true, allowedMonths: ["चैत्र", "आश्विन"],
     sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
   "sankashti-moonrise": {
@@ -64,6 +64,7 @@ const PROFILES = {
     label: "महाशिवरात्रि", tithiIndices: [28], paksha: "कृष्ण पक्ष",
     decisionMoment: "nishita", windowLabel: "निशीथ काल",
     calculationBasis: "sunset-to-next-sunrise-seven-fifteenths-to-eight-fifteenths",
+    allowedMonths: ["फाल्गुन"],
     sourceReview: "pending-primary-source-review"
   },
   "vinayaka-chaturthi-madhyahna": {
@@ -126,7 +127,7 @@ export function getObservanceRuleProfile(ruleId) {
   const profile = PROFILES[id];
   return Object.freeze({
     id: profile.id, label: profile.label, tithiIndices: [...profile.tithiIndices],
-    paksha: profile.paksha, decisionMoment: profile.decisionMoment,
+    paksha: profile.paksha, allowedMonths: profile.allowedMonths ? [...profile.allowedMonths] : null, decisionMoment: profile.decisionMoment,
     windowLabel: profile.windowLabel, calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview, ruleVersion: "0.2.0",
     tradition: "smarta-review-default"
@@ -153,7 +154,7 @@ export function evaluateObservanceRule(ruleId, context) {
     warnings: ["decision-window-or-date-missing"],
     evidence: [], finalDate: null, autoApproved: false
   };
-  const rows = Array.isArray(context?.tithis) ? context.tithis : [];
+  if (profile.allowedMonths) {\n    const month = String(context?.masa ?? "").replace(/^अधिक\\s+/, "").trim();\n    if (!month) return { status: "insufficient-data", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-missing"], evidence: [], finalDate: null, autoApproved: false };\n    if (!profile.allowedMonths.includes(month)) return { status: "candidate-not-supported", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-outside-profile"], evidence: [], finalDate: null, autoApproved: false };\n  }\n  const rows = Array.isArray(context?.tithis) ? context.tithis : [];
   if (!rows.length) return {
     status: "insufficient-data", ruleId: profile.id, date: day,
     decisionMoment: profile.decisionMoment,
