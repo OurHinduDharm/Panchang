@@ -1009,3 +1009,15 @@ test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published 
   assert.ok(choghadiya.every(window => !/राहुकाल/.test(window.note)));
   assert.ok(choghadiya.every(window => /अमावस्या-व्याप्त/.test(window.note) || /दीपावली पूजन/.test(window.note)));
 });
+
+
+test("Chhath arghya times use local sunset and the following sunrise", () => {
+  const sunset = date("2026-11-15T17:14:00+05:30");
+  const nextSunrise = date("2026-11-16T06:34:00+05:30");
+  const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {sunset,nextSunrise});
+  assert.equal(result.status,"calculated");
+  assert.deepEqual(result.times.map(item => item.label), ["संध्या अर्घ्य","उषा अर्घ्य"]);
+  assert.equal(result.times[0].time.toISOString(), sunset.toISOString());
+  assert.equal(result.times[1].time.toISOString(), nextSunrise.toISOString());
+  assert.equal(getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {sunset}).status,"unavailable");
+});
