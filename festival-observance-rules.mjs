@@ -108,6 +108,14 @@ const PROFILES = {
     nakshatraLabel: "श्रवण", nakshatraWarning: "shravana-at-aparahna-not-confirmed",
     sourceReview: "primary-text-consulted-two-day-shravana-tie-break-pending"
   },
+  "nag-panchami-madhyahna": {
+    id: "nag-panchami-madhyahna", aliases: ["nag-panchami"],
+    label: "नाग पंचमी", tithiIndices: [4], paksha: "शुक्ल पक्ष",
+    decisionMoment: "madhyahna", windowLabel: "मध्याह्न काल",
+    calculationBasis: "shravan-shukla-panchami-at-madhyahna",
+    allowedMonths: ["श्रावण"],
+    sourceReview: "dharmasindhu-panchami-vrata-digest-consulted-primary-edition-review-pending"
+  },
   "vinayaka-chaturthi-madhyahna": {
     id: "vinayaka-chaturthi-madhyahna", aliases: ["vinayaka-chaturthi"],
     label: "विनायक चतुर्थी", tithiIndices: [3], paksha: "शुक्ल पक्ष",
