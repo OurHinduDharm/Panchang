@@ -213,7 +213,7 @@ export function evaluateObservanceRule(ruleId, context) {
   }
   return {
     status: evidence.length ? "candidate-supported" : "candidate-not-supported",
-    ruleId: profile.id, ruleVersion: "0.1.0", date: day,
+    ruleId: profile.id, ruleVersion: "0.2.0", date: day,
     label: profile.label, decisionMoment: profile.decisionMoment,
     calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview,
