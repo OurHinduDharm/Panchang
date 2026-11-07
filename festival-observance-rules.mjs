@@ -119,7 +119,7 @@ export function evaluateObservanceRule(ruleId, context) {
   for (const row of rows) {
     const interval = asInterval(row);
     if (!interval || !profile.tithiIndices.includes(interval.index)) continue;
-    if (profile.paksha && row.paksha && row.paksha !== profile.paksha) continue;
+    if (profile.paksha && row.paksha !== profile.paksha) continue;
     const matched = profile.decisionMoment === "moonrise"
       ? (interval.start <= window.point && interval.end > window.point
         ? { start: window.point, end: window.point } : null)
@@ -134,7 +134,7 @@ export function evaluateObservanceRule(ruleId, context) {
   }
   return {
     status: evidence.length ? "candidate-supported" : "candidate-not-supported",
-    ruleId: profile.id, ruleVersion: "0.1.0", date,
+    ruleId: profile.id, ruleVersion: "0.1.0", date: day,
     label: profile.label, decisionMoment: profile.decisionMoment,
     calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview,
