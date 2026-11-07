@@ -200,3 +200,45 @@ test("annual profiles reject the wrong lunar month instead of matching a same-nu
   assert.equal(result.status, "candidate-not-supported");
   assert.ok(result.warnings.includes("lunar-month-outside-profile"));
 });
+
+test("Navratri Mahashtami profile checks Shukla Ashtami at sunrise", () => {
+  const result = evaluateObservanceRule("navratri-maha-ashtami", {
+    date: "2026-10-18", masa: "आश्विन", sunrise: "2026-10-18T00:30:00Z",
+    tithis: [interval(7, "2026-10-18T00:00:00Z", "2026-10-18T10:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+});
+
+test("Navratri Navami sunrise profile provides the next-day fallback candidate", () => {
+  const result = evaluateObservanceRule("navratri-navami-udaya", {
+    date: "2026-10-20", masa: "आश्विन", sunrise: "2026-10-20T00:30:00Z",
+    tithis: [interval(8, "2026-10-19T05:22:00Z", "2026-10-20T08:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+});
+
+test("Navratri Ashtami-viddha Navami requires six ghatis after sunset", () => {
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date: "2026-10-19", masa: "आश्विन",
+    sunrise: "2026-10-19T00:30:00Z", sunset: "2026-10-19T12:00:00Z",
+    tithis: [
+      interval(7, "2026-10-19T00:00:00Z", "2026-10-19T06:00:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T06:00:00Z", "2026-10-19T14:24:00Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence.length, 2);
+});
+
+test("Navratri Ashtami-viddha Navami rejects less than six ghatis after sunset", () => {
+  const result = evaluateObservanceRule("navratri-navami-ashtami-viddha", {
+    date: "2026-10-19", masa: "आश्विन",
+    sunrise: "2026-10-19T00:30:00Z", sunset: "2026-10-19T12:00:00Z",
+    tithis: [
+      interval(7, "2026-10-19T00:00:00Z", "2026-10-19T06:00:00Z", "शुक्ल पक्ष"),
+      interval(8, "2026-10-19T06:00:00Z", "2026-10-19T14:23:59Z", "शुक्ल पक्ष")
+    ]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("navami-less-than-six-ghatis-after-sunset"));
+});
