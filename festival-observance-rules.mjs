@@ -105,7 +105,27 @@ function overlap(a, b) {
   const end = new Date(Math.min(a.end.getTime(), b.end.getTime()));
   return end > start ? { start, end } : null;
 }
-function makeWindow(profile, context) {\n  if (profile.decisionMoment === "sunrise") {\n    const point = asDate(context.sunrise);\n    return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;\n  }\n  if (profile.decisionMoment === "navami-ashtami-viddha") {\n    const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);\n    return sunrise && sunset && sunset > sunrise ? { start: sunrise, end: sunset, point: sunrise } : null;\n  }\n  if (profile.decisionMoment === "sandhi") {\n    const rows = Array.isArray(context.tithis) ? context.tithis.map(asInterval).filter(Boolean) : [];\n    const ashtami = rows.filter(row => row.index === 7);\n    const navami = rows.filter(row => row.index === 8);\n    for (const a of ashtami) for (const n of navami) {\n      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {\n        const transition = new Date((a.end.getTime() + n.start.getTime()) / 2);\n        return { start: new Date(transition.getTime() - 24 * 60000), end: new Date(transition.getTime() + 24 * 60000), transition };\n      }\n    }\n    return null;\n  }
+function makeWindow(profile, context) {
+  if (profile.decisionMoment === "sunrise") {
+    const point = asDate(context.sunrise);
+    return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;
+  }
+  if (profile.decisionMoment === "navami-ashtami-viddha") {
+    const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);
+    return sunrise && sunset && sunset > sunrise ? { start: sunrise, end: sunset, point: sunrise } : null;
+  }
+  if (profile.decisionMoment === "sandhi") {
+    const rows = Array.isArray(context.tithis) ? context.tithis.map(asInterval).filter(Boolean) : [];
+    const ashtami = rows.filter(row => row.index === 7);
+    const navami = rows.filter(row => row.index === 8);
+    for (const a of ashtami) for (const n of navami) {
+      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {
+        const transition = new Date((a.end.getTime() + n.start.getTime()) / 2);
+        return { start: new Date(transition.getTime() - 24 * 60000), end: new Date(transition.getTime() + 24 * 60000), transition };
+      }
+    }
+    return null;
+  }
   if (profile.decisionMoment === "moonrise") {
     const point = asDate(context.moonrise);
     return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;
@@ -162,7 +182,12 @@ export function evaluateObservanceRule(ruleId, context) {
     warnings: ["decision-window-or-date-missing"],
     evidence: [], finalDate: null, autoApproved: false
   };
-  if (profile.allowedMonths) {\n    const month = String(context?.masa ?? "").replace(/^अधिक\\s+/, "").trim();\n    if (!month) return { status: "insufficient-data", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-missing"], evidence: [], finalDate: null, autoApproved: false };\n    if (!profile.allowedMonths.includes(month)) return { status: "candidate-not-supported", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-outside-profile"], evidence: [], finalDate: null, autoApproved: false };\n  }\n  const rows = Array.isArray(context?.tithis) ? context.tithis : [];
+  if (profile.allowedMonths) {
+    const month = String(context?.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+    if (!month) return { status: "insufficient-data", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-missing"], evidence: [], finalDate: null, autoApproved: false };
+    if (!profile.allowedMonths.includes(month)) return { status: "candidate-not-supported", ruleId: profile.id, date: day, decisionMoment: profile.decisionMoment, warnings: ["lunar-month-outside-profile"], evidence: [], finalDate: null, autoApproved: false };
+  }
+  const rows = Array.isArray(context?.tithis) ? context.tithis : [];
   if (!rows.length) return {
     status: "insufficient-data", ruleId: profile.id, date: day,
     decisionMoment: profile.decisionMoment,
