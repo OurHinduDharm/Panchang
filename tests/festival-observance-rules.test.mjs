@@ -321,6 +321,11 @@ test("Nag Panchami stays manual until its three-muhurta and short-tithi exceptio
   assert.equal(result.autoApproved, false);
 });
 
+test("Kartika Skanda rule is not assigned to generic monthly Skanda Shashthi", () => {
+  assert.equal(getObservanceRuleProfile("skanda-shashthi"), null);
+  assert.equal(getObservanceRuleProfile("soorasamharam").reviewOnly, true);
+});
+
 test("Skanda Shashthi and Ratha Saptami stay manual until their special day-selection rules are reconciled", () => {
   for (const ruleId of ["skanda-shashthi", "ratha-saptami"]) {
     const result = evaluateObservanceRule(ruleId, {
