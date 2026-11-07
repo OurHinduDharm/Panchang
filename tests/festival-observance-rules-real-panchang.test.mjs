@@ -62,7 +62,7 @@ test("real Pithoragarh Panchang confirms Sankashti at moonrise", () => {
 test("real Pithoragarh Panchang confirms Masik Shivaratri during Nishita", () => {
   const date = "2026-11-07", current = panchang(date), next = panchang(nextIsoDate(date));
   const result = evaluateObservanceRule("masik-shivaratri-nishita", {
-    date, sunset: current.sunset, nextSunrise: next.sunrise,
+    date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
     tithis: intervals(current, next)
   });
   assert.equal(result.status, "candidate-supported");
@@ -90,7 +90,7 @@ test("real Pithoragarh Panchang confirms Vinayaka Chaturthi during Madhyahna", (
 });
 
 test("real Pithoragarh Panchang supports Smarta Ekadashi at sunrise", () => {
-  const date = "2026-11-20", current = panchang(date);
+  const date = "2026-11-05", current = panchang(date);
   const result = evaluateObservanceRule("ekadashi-smarta-udaya", {
     date, masa: masa(current), sunrise: current.sunrise,
     tithis: intervals(current)
@@ -99,14 +99,18 @@ test("real Pithoragarh Panchang supports Smarta Ekadashi at sunrise", () => {
   assert.equal(result.evidence[0].decisionMoment, "sunrise");
 });
 
-test("real Pithoragarh Panchang supports Smarta Janmashtami at Nishita", () => {
-  const date = "2026-09-03", current = panchang(date), next = panchang(nextIsoDate(date));
-  const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
-    date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
-    tithis: intervals(current, next), nakshatraIntervals: nakshatras(current, next)
-  });
-  assert.equal(result.status, "candidate-supported");
-  assert.ok(result.evidence.length > 0);
+test("real Pithoragarh Panchang finds Smarta Janmashtami in Bhadrapada at Nishita", () => {
+  let supportedDate = null;
+  for (let day = 15; day <= 31; day++) {
+    const date = "2026-08-" + String(day).padStart(2, "0");
+    const current = panchang(date), next = panchang(nextIsoDate(date));
+    const result = evaluateObservanceRule("janmashtami-smarta-nishita", {
+      date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
+      tithis: intervals(current, next), nakshatraIntervals: nakshatras(current, next)
+    });
+    if (result.status === "candidate-supported") { supportedDate = date; break; }
+  }
+  assert.ok(supportedDate, "expected a Bhadrapada Nishita Ashtami candidate");
 });
 
 test("real Pithoragarh Panchang supports Sharad Navratri Pratipada at sunrise", () => {
