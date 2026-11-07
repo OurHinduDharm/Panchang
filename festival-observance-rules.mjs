@@ -135,7 +135,7 @@ function makeWindow(profile, context) {
     const ashtami = rows.filter(row => row.index === 7);
     const navami = rows.filter(row => row.index === 8);
     for (const a of ashtami) for (const n of navami) {
-      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {
+      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 90000) {
         const transition = new Date((a.end.getTime() + n.start.getTime()) / 2);
         return { start: transition, end: new Date(transition.getTime() + 1), transition };
       }
@@ -252,7 +252,7 @@ export function evaluateObservanceRule(ruleId, context) {
     const ashtami = rows.map(asInterval).filter(interval => interval && interval.index === 7);
     const navami = rows.map(asInterval).filter(interval => interval && interval.index === 8);
     for (const a of ashtami) for (const n of navami) {
-      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {
+      if (Math.abs(a.end.getTime() - n.start.getTime()) <= 90000) {
         evidence.push({
           tithiIndex: 7, start: a.start.toISOString(), end: a.end.toISOString(),
           decisionMoment: "sandhi-junction", transitionTime: window.transition.toISOString()
