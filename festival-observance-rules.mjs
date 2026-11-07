@@ -88,7 +88,7 @@ const PROFILES = {
     label: "महाशिवरात्रि", tithiIndices: [28], paksha: "कृष्ण पक्ष",
     decisionMoment: "nishita", windowLabel: "निशीथ काल",
     calculationBasis: "sunset-to-next-sunrise-seven-fifteenths-to-eight-fifteenths",
-    allowedMonths: ["माघ"],
+    allowedMonths: ["फाल्गुन"],
     sourceReview: "primary-text-consulted-two-night-tie-break-pending"
   },
   "vinayaka-chaturthi-madhyahna": {
