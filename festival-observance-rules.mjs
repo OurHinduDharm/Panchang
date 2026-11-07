@@ -108,13 +108,32 @@ const PROFILES = {
     nakshatraLabel: "श्रवण", nakshatraWarning: "shravana-at-aparahna-not-confirmed",
     sourceReview: "primary-text-consulted-two-day-shravana-tie-break-pending"
   },
-  "nag-panchami-madhyahna": {
-    id: "nag-panchami-madhyahna", aliases: ["nag-panchami"],
-    label: "नाग पंचमी", tithiIndices: [4], paksha: "शुक्ल पक्ष",
-    decisionMoment: "madhyahna", windowLabel: "मध्याह्न काल",
-    calculationBasis: "shravan-shukla-panchami-at-madhyahna",
-    allowedMonths: ["श्रावण"],
-    sourceReview: "dharmasindhu-panchami-vrata-digest-consulted-primary-edition-review-pending"
+  "nag-panchami-special-review": {
+    id: "nag-panchami-special-review", aliases: ["nag-panchami", "nag-panchami-madhyahna"],
+    label: "नाग पंचमी — विशेष तिथि-नियम की जाँच बाकी", tithiIndices: [4], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "तीन मुहूर्त और तिथि-वेध",
+    calculationBasis: "dharmasindhu-three-muhurta-para-viddha-and-short-tithi-exceptions",
+    allowedMonths: ["श्रावण"], reviewOnly: true,
+    reviewNote: "धर्मसिंधु में नाग पंचमी के लिए सूर्योदय के बाद तीन मुहूर्त तक पंचमी और षष्ठी से संयोग का विशेष नियम है। छोटी पंचमी और चतुर्थी-स्पर्श के अपवाद भी हैं। केवल मध्याह्न-मिलान पर्याप्त नहीं; इसलिए अंतिम निर्णय अभी हाथ से जाँचना होगा।",
+    sourceReview: "dharmasindhu-special-rule-identified-full-exception-implementation-pending"
+  },
+  "skanda-shashthi-kartika-review": {
+    id: "skanda-shashthi-kartika-review", aliases: ["skanda-shashthi", "kanda-sashti", "soorasamharam"],
+    label: "कार्तिक स्कन्द षष्ठी — परंपरा अनुसार जाँच", tithiIndices: [5], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "पञ्चमी-षष्ठी संयोग",
+    calculationBasis: "panchami-shashthi-purva-viddha-with-regional-tradition-variation",
+    allowedMonths: ["कार्तिक"], reviewOnly: true,
+    reviewNote: "धर्मसिंधु में पञ्चमी से युक्त षष्ठी का विचार है, जबकि क्षेत्रीय मंदिर-परंपराओं में सूर्योदय और दिन के संयोग से निर्णय बदल सकता है। तमिल सूरसम्हारम् और सामान्य मासिक स्कन्द षष्ठी को एक नियम नहीं मानना चाहिए।",
+    sourceReview: "dharmasindhu-and-regional-practice-crosscheck-manual-decision-required"
+  },
+  "ratha-saptami-review": {
+    id: "ratha-saptami-review", aliases: ["ratha-saptami", "magha-saptami", "surya-jayanti"],
+    label: "रथ सप्तमी — अरुणोदय के विशेष नियम की जाँच", tithiIndices: [6], paksha: "शुक्ल पक्ष",
+    decisionMoment: "manual-review", windowLabel: "अरुणोदय और षष्ठी-सप्तमी संयोग",
+    calculationBasis: "magha-shukla-saptami-arunodaya-or-previous-day-yoga-special-case",
+    allowedMonths: ["माघ"], reviewOnly: true,
+    reviewNote: "धर्मसिंधु के माघ अध्याय में अरुणोदय पर सप्तमी और पिछले दिन षष्ठी-सप्तमी संयोग का विशेष विकल्प है। तिथि-व्रत अध्याय में अलग सामान्य नियम भी मिलता है। दोनों स्थितियों का पूरा मिलान किए बिना तारीख़ तय नहीं की जाएगी।",
+    sourceReview: "dharmasindhu-chapter-5-and-12-rule-reconciliation-pending"
   },
   "vinayaka-chaturthi-madhyahna": {
     id: "vinayaka-chaturthi-madhyahna", aliases: ["vinayaka-chaturthi"],
@@ -202,7 +221,7 @@ export function getObservanceRuleProfile(ruleId) {
   const profile = PROFILES[id];
   return Object.freeze({
     id: profile.id, label: profile.label, tithiIndices: [...profile.tithiIndices],
-    paksha: profile.paksha, allowedMonths: profile.allowedMonths ? [...profile.allowedMonths] : null, decisionMoment: profile.decisionMoment, nakshatraLabel: profile.nakshatraLabel ?? null,
+    paksha: profile.paksha, allowedMonths: profile.allowedMonths ? [...profile.allowedMonths] : null, decisionMoment: profile.decisionMoment, nakshatraLabel: profile.nakshatraLabel ?? null, reviewOnly: Boolean(profile.reviewOnly), reviewNote: profile.reviewNote ?? null,
     windowLabel: profile.windowLabel, calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview, ruleVersion: "0.2.0",
     tradition: "smarta-review-default"
@@ -222,6 +241,14 @@ export function evaluateObservanceRule(ruleId, context) {
   };
   const profile = PROFILES[profileId];
   const day = context?.date;
+  if (profile.reviewOnly) return {
+    status: "manual-review", ruleId: profile.id, ruleVersion: "0.2.0",
+    date: day ?? null, label: profile.label, decisionMoment: profile.decisionMoment,
+    calculationBasis: profile.calculationBasis, sourceReview: profile.sourceReview,
+    reviewNote: profile.reviewNote,
+    warnings: ["special-rule-not-fully-implemented", "manual-source-and-tradition-review-required"],
+    evidence: [], finalDate: null, autoApproved: false
+  };
   const window = makeWindow(profile, context || {});
   if (!day || !window) return {
     status: "insufficient-data", ruleId: profile.id, date: day ?? null,
