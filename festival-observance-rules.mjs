@@ -31,17 +31,33 @@ const PROFILES = {
   },
   "navratri-udaya": {
     id: "navratri-udaya", aliases: ["navratri-day-count"],
-    label: "नवरात्रि — उदयव्यापिनी तिथि", tithiIndices: [0,1,2,3,4,5,6,7], paksha: "शुक्ल पक्ष",
+    label: "नवरात्रि — उदयव्यापिनी तिथि", tithiIndices: [0,1,2,3,4,5,6], paksha: "शुक्ल पक्ष",
     decisionMoment: "sunrise", windowLabel: "सूर्योदय",
     calculationBasis: "shukla-pratipada-to-navami-at-sunrise-first-sunrise-on-vriddhi",
     firstSunriseOnly: true, allowedMonths: ["चैत्र", "आश्विन"],
     sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
+  "navratri-maha-ashtami": {
+    id: "navratri-maha-ashtami", aliases: ["maha-ashtami-navratri"],
+    label: "नवरात्रि महाष्टमी", tithiIndices: [7], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sunrise", windowLabel: "सूर्योदय",
+    calculationBasis: "ashwin-or-chaitra-shukla-ashtami-at-sunrise-saptami-vedha-review",
+    allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "primary-text-consulted-translation-review-pending"
+  },
+  "navratri-navami-udaya": {
+    id: "navratri-navami-udaya", aliases: ["maha-navami-udaya"],
+    label: "नवरात्रि महानवमी — उदयव्यापिनी", tithiIndices: [8], paksha: "शुक्ल पक्ष",
+    decisionMoment: "sunrise", windowLabel: "सूर्योदय",
+    calculationBasis: "shukla-navami-at-local-sunrise-fallback-candidate",
+    allowedMonths: ["चैत्र", "आश्विन"],
+    sourceReview: "primary-text-consulted-translation-review-pending"
+  },
   "navratri-navami-ashtami-viddha": {
     id: "navratri-navami-ashtami-viddha", aliases: ["navratri-navami"],
     label: "नवरात्रि महानवमी — अष्टमी-विद्धा", tithiIndices: [7,8], paksha: "शुक्ल पक्ष",
     decisionMoment: "navami-ashtami-viddha", windowLabel: "सूर्योदय से सूर्यास्त",
-    calculationBasis: "navami-overlaps-day-after-ashtami-at-sunrise",
+    calculationBasis: "navami-covers-six-ghatis-after-sunset-on-ashtami-sunrise-day",
     requireAllTithis: true, allowedMonths: ["चैत्र", "आश्विन"],
     sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
@@ -49,7 +65,7 @@ const PROFILES = {
     id: "navratri-sandhi-puja", aliases: ["sandhi-puja-navratri"],
     label: "नवरात्रि संधि पूजा", tithiIndices: [7,8], paksha: "शुक्ल पक्ष",
     decisionMoment: "sandhi", windowLabel: "अष्टमी–नवमी संधि",
-    calculationBasis: "last-24-minutes-ashtami-plus-first-24-minutes-navami",
+    calculationBasis: "exact-ashtami-navami-tithi-junction",
     requireAllTithis: true, allowedMonths: ["चैत्र", "आश्विन"],
     sourceReview: "secondary-source-crosscheck-complete-primary-source-pending"
   },
@@ -111,8 +127,8 @@ function makeWindow(profile, context) {
     return point ? { start: point, end: new Date(point.getTime() + 1), point } : null;
   }
   if (profile.decisionMoment === "navami-ashtami-viddha") {
-    const sunrise = asDate(context.sunrise), sunset = asDate(context.sunset);
-    return sunrise && sunset && sunset > sunrise ? { start: sunrise, end: sunset, point: sunrise } : null;
+    const sunset = asDate(context.sunset);
+    return sunset ? { start: sunset, end: new Date(sunset.getTime() + 6 * 24 * 60000), point: sunset } : null;
   }
   if (profile.decisionMoment === "sandhi") {
     const rows = Array.isArray(context.tithis) ? context.tithis.map(asInterval).filter(Boolean) : [];
@@ -121,7 +137,7 @@ function makeWindow(profile, context) {
     for (const a of ashtami) for (const n of navami) {
       if (Math.abs(a.end.getTime() - n.start.getTime()) <= 1000) {
         const transition = new Date((a.end.getTime() + n.start.getTime()) / 2);
-        return { start: new Date(transition.getTime() - 24 * 60000), end: new Date(transition.getTime() + 24 * 60000), transition };
+        return { start: transition, end: new Date(transition.getTime() + 1), transition };
       }
     }
     return null;
