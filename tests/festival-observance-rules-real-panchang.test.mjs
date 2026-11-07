@@ -72,7 +72,7 @@ test("real Pithoragarh Panchang confirms Masik Shivaratri during Nishita", () =>
 test("real Pithoragarh Panchang confirms Mahashivaratri during Nishita", () => {
   const date = "2026-02-15", current = panchang(date), next = panchang(nextIsoDate(date));
   const result = evaluateObservanceRule("mahashivaratri-nishita", {
-    date, sunset: current.sunset, nextSunrise: next.sunrise,
+    date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
     tithis: intervals(current, next)
   });
   assert.equal(result.status, "candidate-supported");
@@ -111,7 +111,7 @@ test("real Pithoragarh Panchang finds Smarta Janmashtami in Bhadrapada at Nishit
       date, masa: masa(current), sunset: current.sunset, nextSunrise: next.sunrise,
       tithis: intervals(current, next), nakshatraIntervals: nakshatras(current, next)
     });
-    if (result.status === "candidate-supported") { supportedDate = date; break; }
+    if (result.status === "candidate-supported") { supportedDate = date; break; }\n    if (intervals(current, next).some(row => row.index === 22)) console.log("JANMA_DEBUG", date, masa(current), result.status, result.warnings, intervals(current, next).filter(row => row.index === 22), current.sunset, next.sunrise, nakshatras(current, next).filter(row => row.index === 3));
   }
   assert.ok(supportedDate, "expected a Bhadrapada Nishita Ashtami candidate");
 });
