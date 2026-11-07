@@ -124,6 +124,7 @@ for (const entry of dataset.cases) {
       case: entry.id,
       sourceId: entry.sourceId,
       planet: entry.planet,
+      apparitionKey: [entry.planet, entry.boundaries.astaStart, entry.boundaries.astaEnd].join("|"),
       location: entry.sourceLocation,
       boundary: key,
       boundaryKind: type,
@@ -190,6 +191,104 @@ if (maxAbsoluteHorizonCrossingDeltaMinutes > 1) {
   throw new Error("A published boundary differs from local planet rise/set by more than one minute");
 }
 
+function localMidnight(dateString) {
+  return new Date(dateString + "T00:00:00+05:30");
+}
+
+const twilightPredictions = [];
+for (const target of uniqueBoundaries) {
+  const training = uniqueBoundaries.filter(row =>
+    row.planet === target.planet &&
+    row.horizonCrossingDirection === target.horizonCrossingDirection &&
+    row.apparitionKey !== target.apparitionKey
+  );
+  if (training.length < 2) {
+    twilightPredictions.push({
+      planet: target.planet,
+      boundary: target.boundary,
+      publishedIST: target.publishedIST,
+      horizonCrossingDirection: target.horizonCrossingDirection,
+      trainingSampleCount: training.length,
+      status: "insufficient-independent-apparition-training"
+    });
+    continue;
+  }
+
+  const sortedTrainingAltitudes = training
+    .map(row => row.publishedSunAltitudeDegrees)
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+  const thresholdSunAltitude = sortedTrainingAltitudes[Math.floor(sortedTrainingAltitudes.length / 2)];
+  const observer = new Observer(
+    target.observer.latitude,
+    target.observer.longitude,
+    target.observer.elevationMeters
+  );
+  const centerDate = target.publishedIST.slice(0, 10);
+  const candidates = [];
+
+  for (let offset = -30; offset <= 30; offset++) {
+    const dateString = addDays(centerDate, offset);
+    const crossing = SearchRiseSet(
+      target.planet,
+      observer,
+      target.horizonCrossingDirection === "rise" ? 1 : -1,
+      localMidnight(dateString),
+      1,
+      0
+    );
+    if (!crossing) continue;
+    const sun = horizontalPosition("Sun", crossing.date, observer, "normal");
+    candidates.push({
+      date: dateString,
+      time: crossing.date,
+      sunAltitudeDegrees: sun.altitude,
+      thresholdResidualDegrees: Math.abs(sun.altitude - thresholdSunAltitude)
+    });
+  }
+
+  candidates.sort((a, b) =>
+    a.thresholdResidualDegrees - b.thresholdResidualDegrees ||
+    Math.abs(a.time.getTime() - Date.parse(target.publishedIST)) -
+      Math.abs(b.time.getTime() - Date.parse(target.publishedIST))
+  );
+  const predicted = candidates[0];
+  twilightPredictions.push({
+    planet: target.planet,
+    boundary: target.boundary,
+    publishedIST: target.publishedIST,
+    predictedIST: predicted ? formatIST(predicted.time) : null,
+    horizonCrossingDirection: target.horizonCrossingDirection,
+    trainingSampleCount: training.length,
+    thresholdSunAltitudeDegrees: round4(thresholdSunAltitude),
+    predictedSunAltitudeDegrees: predicted ? round4(predicted.sunAltitudeDegrees) : null,
+    thresholdResidualDegrees: predicted ? round4(predicted.thresholdResidualDegrees) : null,
+    signedDifferenceMinutes: predicted
+      ? Math.round((predicted.time.getTime() - Date.parse(target.publishedIST)) / 60000)
+      : null,
+    status: predicted ? "leave-one-apparition-out-diagnostic" : "no-daily-crossing-found"
+  });
+}
+
+const twilightSummaryByPlanet = {};
+for (const planet of [...new Set(twilightPredictions.map(row => row.planet))].sort()) {
+  for (const direction of ["rise", "set"]) {
+    const rows = twilightPredictions.filter(row =>
+      row.planet === planet &&
+      row.horizonCrossingDirection === direction &&
+      Number.isFinite(row.signedDifferenceMinutes)
+    );
+    if (!rows.length) continue;
+    twilightSummaryByPlanet[planet] ??= {};
+    twilightSummaryByPlanet[planet][direction] = {
+      predictions: rows.length,
+      meanAbsoluteErrorMinutes: round4(rows.reduce((sum, row) => sum + Math.abs(row.signedDifferenceMinutes), 0) / rows.length),
+      medianAbsoluteErrorMinutes: summarize(rows.map(row => Math.abs(row.signedDifferenceMinutes)))?.median ?? null,
+      maxAbsoluteErrorMinutes: Math.max(...rows.map(row => Math.abs(row.signedDifferenceMinutes)))
+    };
+  }
+}
+
 const summaryByPlanet = {};
 for (const planet of [...new Set(uniqueBoundaries.map(row => row.planet))].sort()) {
   const rows = uniqueBoundaries.filter(row => row.planet === planet);
@@ -209,6 +308,12 @@ console.log(JSON.stringify({
   uniqueBoundaryCount: uniqueBoundaries.length,
   maxAbsoluteHorizonCrossingDeltaMinutes,
   summaryByPlanet,
+  twilightSelector: {
+    method: "Leave-one-apparition-out median Sun apparent-altitude threshold, then choose the nearest daily planet rise/set crossing within +/-30 days.",
+    warning: "Exploratory diagnostic only. Training boundaries are mostly user-transcribed; the threshold is not accepted as Drik's visibility criterion.",
+    summaryByPlanet: twilightSummaryByPlanet,
+    predictions: twilightPredictions
+  },
   uniqueBoundaries,
   cases: report
 }, null, 2));
