@@ -194,6 +194,32 @@ export function evaluateObservanceRule(ruleId, context) {
     warnings: ["tithi-intervals-missing"],
     evidence: [], finalDate: null, autoApproved: false
   };
+  if (profile.firstSunriseOnly && context.previousSunrise && Array.isArray(context.previousTithis)) {
+    const previousPoint = asDate(context.previousSunrise);
+    const repeated = previousPoint && context.previousTithis.some(row => {
+      const interval = asInterval(row);
+      return interval && profile.tithiIndices.includes(interval.index) && interval.start <= previousPoint && interval.end > previousPoint;
+    });
+    if (repeated) return {
+      status: "candidate-not-supported", ruleId: profile.id, date: day,
+      decisionMoment: profile.decisionMoment,
+      warnings: ["vriddhi-tithi-first-sunrise-only"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+  }
+  if (profile.decisionMoment === "navami-ashtami-viddha") {
+    const sunrise = asDate(context.sunrise);
+    const ashtamiAtSunrise = sunrise && rows.some(row => {
+      const interval = asInterval(row);
+      return interval && interval.index === 7 && interval.start <= sunrise && interval.end > sunrise;
+    });
+    if (!ashtamiAtSunrise) return {
+      status: "candidate-not-supported", ruleId: profile.id, date: day,
+      decisionMoment: profile.decisionMoment,
+      warnings: ["ashtami-not-active-at-sunrise"],
+      evidence: [], finalDate: null, autoApproved: false
+    };
+  }
   const evidence = [];
   for (const row of rows) {
     const interval = asInterval(row);
@@ -211,14 +237,22 @@ export function evaluateObservanceRule(ruleId, context) {
       windowStart: window.start.toISOString(), windowEnd: window.end.toISOString()
     });
   }
+  const matchedTithis = new Set(evidence.map(item => item.tithiIndex));
+  const allRequired = !profile.requireAllTithis || profile.tithiIndices.every(index => matchedTithis.has(index));
+  const nakshatraEvidence = profile.nakshatraIndices && Array.isArray(context.nakshatraIntervals)
+    ? context.nakshatraIntervals.filter(item => profile.nakshatraIndices.includes(Number(item.index)) && (() => {
+      const interval = asInterval(item);
+      return interval && overlap(interval, window);
+    })()).map(item => ({ index: Number(item.index), name: item.name ?? null }))
+    : [];
   return {
-    status: evidence.length ? "candidate-supported" : "candidate-not-supported",
+    status: evidence.length && allRequired ? "candidate-supported" : "candidate-not-supported",
     ruleId: profile.id, ruleVersion: "0.2.0", date: day,
     label: profile.label, decisionMoment: profile.decisionMoment,
     calculationBasis: profile.calculationBasis,
     sourceReview: profile.sourceReview,
-    evidence,
-    warnings: ["candidate-evidence-only", "primary-source-and-exception-review-required"],
+    evidence, nakshatraEvidence,
+    warnings: ["candidate-evidence-only", "primary-source-and-exception-review-required", ...(profile.nakshatraIndices && !nakshatraEvidence.length ? ["rohin-at-nishita-not-confirmed"] : []), ...(profile.requireAllTithis && !allRequired ? ["both-transition-tithis-not-confirmed"] : [])],
     finalDate: null, autoApproved: false
   };
 }
