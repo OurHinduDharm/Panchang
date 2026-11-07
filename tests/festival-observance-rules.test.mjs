@@ -296,3 +296,23 @@ test("Rama Navami profile rejects non-Chaitra lunar months", () => {
   assert.equal(result.status, "candidate-not-supported");
   assert.ok(result.warnings.includes("lunar-month-outside-profile"));
 });
+
+test("Nag Panchami candidate requires Shravan Shukla Panchami at Madhyahna", () => {
+  const result = evaluateObservanceRule("nag-panchami-madhyahna", {
+    date: "2026-08-17", masa: "श्रावण",
+    sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:40:00Z",
+    tithis: [interval(4, "2026-08-16T11:23:00Z", "2026-08-17T11:30:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "madhyahna");
+});
+
+test("Nag Panchami profile rejects Panchami in a non-Shravan month", () => {
+  const result = evaluateObservanceRule("nag-panchami-madhyahna", {
+    date: "2026-08-17", masa: "भाद्रपद",
+    sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:40:00Z",
+    tithis: [interval(4, "2026-08-16T11:23:00Z", "2026-08-17T11:30:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+});
