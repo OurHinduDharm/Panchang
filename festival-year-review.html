@@ -202,8 +202,13 @@ function renderCandidates(matches,detection={}){
    const previousDate=new Date(match.date+"T00:00:00Z");previousDate.setUTCDate(previousDate.getUTCDate()-1);const previousIso=previousDate.toISOString().slice(0,10);
    const previousDay=days.find(item=>item.date===previousIso)||dwadashiDays.find(item=>item.date===previousIso);
    const result=evaluateObservanceRule(selectedRuleProfile,{date:d.date,sunrise:d.sunrise,sunset:d.sunset,nextSunrise:nextDay?.sunrise,previousSunrise:previousDay?.sunrise,previousTithis:previousDay?.tithiIntervals,moonrise:d.moonrise,masa:d.masa,tithis:d.tithiIntervals,nakshatraIntervals:d.nakshatraIntervals});
-   const statusText=result.status==="candidate-supported"?"संभावित समर्थन मिला":result.status==="candidate-not-supported"?"निर्णय-काल में तिथि नहीं मिली":result.status==="insufficient-data"?"आवश्यक समय/डेटा अनुपलब्ध":"मानवीय समीक्षा आवश्यक";
-   ruleCell.textContent=statusText+(result.evidence?.length?" · साक्ष्य: "+result.evidence.length:"")+" · स्रोत-समीक्षा लंबित";
+   let statusText=result.status==="candidate-supported"?"संभावित समर्थन मिला":result.status==="candidate-not-supported"?"निर्णय-काल में तिथि नहीं मिली":result.status==="insufficient-data"?"आवश्यक समय/डेटा अनुपलब्ध":"मानवीय समीक्षा आवश्यक";
+   if(result.warnings?.includes("lunar-month-outside-profile"))statusText="यह हिन्दू मास इस पर्व के नियम से मेल नहीं खाता";
+   if(result.warnings?.includes("vriddhi-tithi-first-sunrise-only"))statusText="तिथि दो सूर्योदय पर है; पहला दिन मान्य उम्मीदवार है";
+   if(result.warnings?.includes("ashtami-not-active-at-sunrise"))statusText="सूर्योदय पर अष्टमी नहीं थी; महानवमी नियम लागू नहीं";
+   if(result.warnings?.includes("rohin-at-nishita-not-confirmed"))statusText+=" · निशीथ में रोहिणी का सहायक साक्ष्य नहीं मिला";
+   if(result.nakshatraEvidence?.length)statusText+=" · रोहिणी सहायक साक्ष्य मिला";
+   ruleCell.textContent=statusText+(result.evidence?.length?" · तिथि-साक्ष्य: "+result.evidence.length:"")+" · स्रोत-समीक्षा लंबित";
   }else{ruleCell.textContent="ऊपर पर्व-विशेष प्रोफ़ाइल चुनें";}
   const statusCell=document.createElement("td"),sel=document.createElement("select");
   [["pending","जाँच बाकी"],["approved","सही"],["fix","सुधार चाहिए"]].forEach(([v,t])=>sel.add(new Option(t,v)));
