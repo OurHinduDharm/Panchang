@@ -135,7 +135,8 @@ test("Planetary Asta/Udaya card keeps calculation labels and one concise final d
   assert.ok(!cardSource.includes("प्रामाणिकता की स्थिति"));
   assert.ok(!cardSource.includes("सूर्यसिद्धान्त अध्याय ३.४३–४६"));
   assert.ok(!cardSource.includes("प्रमाणित घोषित करने की शर्त"));
-  assert.equal(cardSource.split("दूसरे पंचांगों से समय-मिलान का सत्यापन जारी है").length - 1, 1);
+  assert.equal(cardSource.split("वास्तविक दृश्यता और Drik के समयों से मिलान अभी प्रमाणित नहीं है").length - 1, 1);
+  assert.ok(!cardSource.includes("दूसरे पंचांगों से समय-मिलान का सत्यापन जारी है"));
   assert.ok(!cardSource.includes("शास्त्रीय K/C गणना — सत्यापनाधीन"));
   assert.ok(!cardSource.includes("!planet.verificationPending && planet.asta"));
   assert.ok(!cardSource.includes("!planet.verificationPending && planet.udaya"));
