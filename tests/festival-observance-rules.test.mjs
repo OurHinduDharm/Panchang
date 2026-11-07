@@ -327,11 +327,11 @@ test("Kartika Skanda rule is not assigned to generic monthly Skanda Shashthi", (
 });
 
 test("Skanda Shashthi and Ratha Saptami stay manual until their special day-selection rules are reconciled", () => {
-  for (const ruleId of ["skanda-shashthi-kartika-review", "ratha-saptami-review"]) {
+  for (const [ruleId, masa] of [["skanda-shashthi-kartika-review", "कार्तिक"], ["ratha-saptami-review", "माघ"]]) {
     const result = evaluateObservanceRule(ruleId, {
-      date: "2026-11-15", masa: "कार्तिक",
+      date: "2026-11-15", masa,
       sunrise: "2026-11-15T00:30:00Z", sunset: "2026-11-15T12:40:00Z",
-      tithis: [interval(5, "2026-11-14T17:30:00Z", "2026-11-16T20:00:00Z", "शुक्ल पक्ष")]
+      tithis: [interval(ruleId === "ratha-saptami-review" ? 6 : 5, "2026-11-14T17:30:00Z", "2026-11-16T20:00:00Z", "शुक्ल पक्ष")]
     });
     assert.equal(result.status, "manual-review");
     assert.equal(result.finalDate, null);
@@ -366,6 +366,28 @@ test("Hanuman Jayanti profile preserves the North Indian Chaitra Purnima convent
   });
   assert.equal(result.status, "manual-review");
   assert.match(result.reviewNote, /क्षेत्रों/);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("review-only profiles still reject an incompatible lunar month", () => {
+  const result = evaluateObservanceRule("chhath", {
+    date: "2026-04-10", masa: "चैत्र",
+    tithis: [interval(5, "2026-04-10T00:00:00Z", "2026-04-10T12:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "candidate-not-supported");
+  assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("review-only profiles require lunar-month metadata before showing a manual decision", () => {
+  const result = evaluateObservanceRule("hanuman-jayanti", {
+    date: "2026-04-02", sunrise: "2026-04-02T00:30:00Z",
+    tithis: [interval(14, "2026-04-01T18:00:00Z", "2026-04-02T18:00:00Z", "शुक्ल पक्ष")]
+  });
+  assert.equal(result.status, "insufficient-data");
+  assert.ok(result.warnings.includes("lunar-month-missing"));
   assert.equal(result.finalDate, null);
   assert.equal(result.autoApproved, false);
 });
