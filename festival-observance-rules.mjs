@@ -26,7 +26,7 @@ const PROFILES = {
     label: "स्मार्त जन्माष्टमी", tithiIndices: [22], paksha: "कृष्ण पक्ष",
     decisionMoment: "nishita", windowLabel: "निशीथ काल",
     calculationBasis: "krishna-ashtami-at-nishita-rohini-as-supporting-evidence",
-    nakshatraIndices: [3], allowedMonths: ["भाद्रपद"],
+    nakshatraIndices: [3], nakshatraLabel: "रोहिणी", allowedMonths: ["भाद्रपद"],
     sourceReview: "primary-text-consulted-two-night-tie-break-pending"
   },
   "navratri-udaya": {
@@ -102,7 +102,7 @@ const PROFILES = {
   "vijayadashami-aparahna": {
     id: "vijayadashami-aparahna", aliases: ["vijayadashami", "dussehra"],
     label: "विजयादशमी", tithiIndices: [9], paksha: "शुक्ल पक्ष",
-    decisionMoment: "aparahna", windowLabel: "अपराह्ण काल",
+    decisionMoment: "aparahna", windowLabel: "दोपहर बाद का काल",
     calculationBasis: "ashwin-shukla-dashami-at-aparahna-shravana-as-supporting-evidence",
     allowedMonths: ["आश्विन"], nakshatraIndices: [21],
     nakshatraLabel: "श्रवण", nakshatraWarning: "shravana-at-aparahna-not-confirmed",
