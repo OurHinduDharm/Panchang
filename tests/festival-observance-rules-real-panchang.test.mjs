@@ -167,3 +167,13 @@ test("real Pithoragarh Panchang confirms Vijayadashami Aparahna candidate on 20 
   assert.equal(result.status, "candidate-supported");
   assert.equal(result.nakshatraLabel, "श्रवण");
 });
+
+test("real Pithoragarh Panchang supports Smarta Rama Navami on 26 March 2026", () => {
+  const date = "2026-03-26", previous = panchang(previousIsoDate(date)), current = panchang(date);
+  const result = evaluateObservanceRule("ram-navami-madhyahna", {
+    date, masa: masa(current), sunrise: current.sunrise, sunset: current.sunset,
+    tithis: intervals(previous, current)
+  });
+  assert.equal(result.status, "candidate-supported");
+  assert.equal(result.evidence[0].decisionMoment, "madhyahna");
+});
