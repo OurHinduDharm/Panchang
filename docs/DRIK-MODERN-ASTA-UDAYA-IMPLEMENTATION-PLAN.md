@@ -214,3 +214,7 @@ Drik की सामान्य Settings page कहती है कि geogr
 स्रोत: https://www.drikpanchang.com/settings/drikpanchang-settings.html?lang=en
 
 **सीमा:** यह सामान्य product-setting disclosure है; इससे यह सिद्ध नहीं होता कि Tara Asta/Udaya event pages इसी elevation toggle को किस प्रकार लागू करते हैं। इसलिए Drik के internal observer coordinates/elevation अभी भी अज्ञात हैं। Project Pithoragarh elevation 1650 m को Drik का elevation न मानें और model को elevation के आधार पर Drik से मिलाने के लिए मनमाने ढंग से न बदलें। इस evidence को केवल uncertainty/provenance note के रूप में रखा गया है, acceptance data या formula के रूप में नहीं।
+
+### 7 नवम्बर 2026 — UI disclosure tightened
+
+Draft branch के Planetary Asta/Udaya card में “दृश्य कोणीय सीमा” को “आभासी कोणीय सीमा” किया गया है। अंतिम disclosure अब स्पष्ट कहता है कि ये चयनित स्थान पर सूर्य–ग्रह की आभासी कोणीय दूरी से निकले अस्थायी गणितीय अनुमान हैं; वास्तविक दृश्यता और Drik के प्रकाशित समयों से मेल अभी प्रमाणित नहीं है। यह केवल भाषा/दावे की शुद्धता है—कोई threshold, ephemeris, event time, cache या production calculation rule नहीं बदला। extra-panchang.js का परिवर्तन अभी Draft PR में ही है; main पर लागू नहीं है।
