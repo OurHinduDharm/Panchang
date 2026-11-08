@@ -327,3 +327,12 @@ After the calculation code and compact Panchang display are working, build a sep
 5. Only then expand city/year coverage.
 
 Do not wait for the annual page before showing the compact Panchang information. Conversely, do not put unvalidated candidate times on the main page merely to make the card appear sooner.
+
+
+## 8 नवम्बर 2026 — Swiss visibility-limit diagnostics और licensing gate
+
+PR के Swiss browser diagnostic में vis_limit_mag() से प्रत्येक Pithoragarh reference boundary के −20 से +20 मिनट के आसपास limiting magnitude, ग्रह की apparent altitude, सूर्य/चन्द्रमा की altitude और ग्रह का apparent magnitude दर्ज किया जाता है। इसका उपयोग केवल यह जाँचने के लिए है कि local rise/set crossing के आसपास physical-visibility margin कैसे बदलता है; इसे Drik का algorithm या production result नहीं माना जाएगा।
+
+Swiss source audit में तीन implementation constraints मिले: (1) dret[0..2] क्रमशः visibility beginning/optimum/end हैं; (2) outer planets के लिए event types 3/4 सामान्य heliacal mode में उपलब्ध नहीं; (3) WASM JS wrapper के AV-kind constants C header से मेल नहीं खाते, अतः AV-kind mode को parity test के बिना उपयोग न करें।
+
+Licensing gate: wrapper GPL-3.0-or-later है और Swiss Ephemeris dual-license (AGPL या Astrodienst Professional) बताता है। Commercial/monetized OurHinduDharm production में Swiss को dependency बनाने से पहले licensing clearance अनिवार्य है। तब तक यह research-only comparator रहेगा; production calculation engine के रूप में import नहीं होगा।
