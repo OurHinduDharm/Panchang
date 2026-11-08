@@ -102,11 +102,67 @@ try {
     });
   }
 
+  // Independent diagnostic: inspect the modelled limiting magnitude around
+  // each published boundary. This does not assume that Swiss visibility events
+  // are equivalent to Drik's event definition.
+  if (typeof swiss.vis_limit_mag !== "function") {
+    throw new Error("Swiss vis_limit_mag API unavailable.");
+  }
+  const visibilityLimitProfiles = [];
+  const profileOffsetsMinutes = [-20, -10, -5, 0, 5, 10, 20];
+  for (const ref of references) {
+    const planet = (ref.planet || "Venus").toLowerCase();
+    const publishedMs = Date.parse(ref.published);
+    const samples = profileOffsetsMinutes.map(offsetMinutes => {
+      const jd = julianDay(publishedMs + offsetMinutes * 60000);
+      const raw = swiss.vis_limit_mag(
+        jd,
+        [...geoPos],
+        [1013.25, 15, 40, 0],
+        [36, 1, 0, 0, 0, 0],
+        planet,
+        flags
+      );
+      if (!raw) {
+        return { offsetMinutes, status: "unavailable-or-below-horizon" };
+      }
+      const limitingMagnitude = Number(raw[0]);
+      const planetMagnitude = Number(raw[7]);
+      return {
+        offsetMinutes,
+        status: "calculated",
+        limitingMagnitude: Number.isFinite(limitingMagnitude) ? Number(limitingMagnitude.toFixed(4)) : null,
+        planetMagnitude: Number.isFinite(planetMagnitude) ? Number(planetMagnitude.toFixed(4)) : null,
+        visibilityMargin: Number.isFinite(limitingMagnitude) && Number.isFinite(planetMagnitude)
+          ? Number((limitingMagnitude - planetMagnitude).toFixed(4))
+          : null,
+        planetAltitudeDegrees: Number.isFinite(raw[1]) ? Number(raw[1].toFixed(4)) : null,
+        sunAltitudeDegrees: Number.isFinite(raw[3]) ? Number(raw[3].toFixed(4)) : null,
+        moonAltitudeDegrees: Number.isFinite(raw[5]) ? Number(raw[5].toFixed(4)) : null
+      };
+    });
+    visibilityLimitProfiles.push({
+      id: ref.id,
+      planet: ref.planet || "Venus",
+      sourceStatus: ref.sourceStatus || "published-indexed",
+      publishedIST: ref.published,
+      event: ref.event,
+      assumptions: {
+        atmosphere: [1013.25, 15, 40, 0],
+        observer: [36, 1, 0, 0, 0, 0],
+        flags,
+        note: "Baseline diagnostic only; no parameter fitting."
+      },
+      samples
+    });
+  }
+
   window.__SWISS_RESULT__ = {
     location: { latitude: 29.5828, longitude: 80.2182, elevationMeters: 1650, timeZone: "Asia/Kolkata" },
     scenarioCount: results.length,
     warning: "Swiss heliacal visibility is a candidate model, not a Drik clone. Parameter sensitivity is diagnostic only; do not select a scenario merely because it minimizes this four-case sample.",
-    scenarios: results
+    scenarios: results,
+    visibilityLimitProfiles
   };
   document.getElementById("output").textContent = JSON.stringify(window.__SWISS_RESULT__, null, 2);
 } catch (error) {
