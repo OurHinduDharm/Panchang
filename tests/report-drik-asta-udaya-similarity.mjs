@@ -100,7 +100,8 @@ for (const entry of dataset.cases) {
     const planetHorizontal = horizontalPosition(entry.planet, publishedInstant, observer, "normal");
     const sunGeometric = horizontalPosition("Sun", publishedInstant, observer);
     const planetGeometric = horizontalPosition(entry.planet, publishedInstant, observer);
-    const publishedSeparation = angularSeparation(entry.planet, publishedInstant, observer);\n    const publishedIllumination = Illumination(entry.planet, publishedInstant);
+    const publishedSeparation = angularSeparation(entry.planet, publishedInstant, observer);
+    const publishedIllumination = Illumination(entry.planet, publishedInstant);
     const horizonCrossingDirection = sunHorizontal.azimuth < 180 ? 1 : -1;
     const horizonCrossing = SearchRiseSet(
       entry.planet,
@@ -131,7 +132,11 @@ for (const entry of dataset.cases) {
       publishedIST: published,
       modelIST: calculated ? formatIST(calculated) : null,
       publishedAngularSeparationDegrees: round4(publishedSeparation),
-      publishedApparentMagnitude: round4(publishedIllumination.mag),\n      publishedPhaseAngleDegrees: round4(publishedIllumination.phase_angle),\n      publishedPhaseFraction: round4(publishedIllumination.phase_fraction),\n      heliocentricDistanceAu: round4(publishedIllumination.helio_dist),\n      geocentricDistanceAu: round4(publishedIllumination.geo_dist),
+      publishedApparentMagnitude: round4(publishedIllumination.mag),
+      publishedPhaseAngleDegrees: round4(publishedIllumination.phase_angle),
+      publishedPhaseFraction: round4(publishedIllumination.phase_fraction),
+      heliocentricDistanceAu: round4(publishedIllumination.helio_dist),
+      geocentricDistanceAu: round4(publishedIllumination.geo_dist),
       thresholdMinusPublishedAngleDegrees: round4(threshold - publishedSeparation),
       publishedSunAltitudeDegrees: round4(sunHorizontal.altitude),
       publishedPlanetAltitudeDegrees: round4(planetHorizontal.altitude),
@@ -297,7 +302,10 @@ for (const planet of [...new Set(uniqueBoundaries.map(row => row.planet))].sort(
     uniqueBoundaries: rows.length,
     planetAltitudeDegrees: summarize(rows.map(row => row.publishedPlanetAltitudeDegrees)),
     sunAltitudeDegrees: summarize(rows.map(row => row.publishedSunAltitudeDegrees)),
-    angularSeparationDegrees: summarize(rows.map(row => row.publishedAngularSeparationDegrees)),\n    apparentMagnitude: summarize(rows.map(row => row.publishedApparentMagnitude)),\n    phaseAngleDegrees: summarize(rows.map(row => row.publishedPhaseAngleDegrees)),\n    phaseFraction: summarize(rows.map(row => row.publishedPhaseFraction)),
+    angularSeparationDegrees: summarize(rows.map(row => row.publishedAngularSeparationDegrees)),
+    apparentMagnitude: summarize(rows.map(row => row.publishedApparentMagnitude)),
+    phaseAngleDegrees: summarize(rows.map(row => row.publishedPhaseAngleDegrees)),
+    phaseFraction: summarize(rows.map(row => row.publishedPhaseFraction)),
     azimuthDifferenceDegrees: summarize(rows.map(row => row.publishedAzimuthDifferenceDegrees)),
     horizonCrossingDeltaMinutes: summarize(rows.map(row => row.horizonCrossingDeltaMinutes))
   };
