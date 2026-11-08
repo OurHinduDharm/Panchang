@@ -673,3 +673,35 @@ Object स्थानीय क्षितिज से नीचे होन
 Pinned swisseph-wasm repository README wrapper को GPL-3.0-or-later बताता है और Swiss Ephemeris के लिए AGPL या Astrodienst Professional License का dual-licensing model बताता है; commercial use के लिए Astrodienst license आवश्यक बताया गया है। OurHinduDharm की monetized/public service में इसे production bundle या browser runtime में शामिल करने से पहले उपयुक्त license की लिखित पुष्टि/खरीद आवश्यक है। केवल research diagnostic होना production deployment की अनुमति नहीं देता। जब तक यह स्पष्ट न हो, Swiss को production engine dependency न बनाएं; research results को independent astronomical engine/Drik comparison के साथ अलग रखें।
 
 स्रोत कोड: https://github.com/prolaxu/swisseph-wasm/blob/fe9065942986dd7a0cc3dada7d5396c87331198c/src/swisseph.js ; https://github.com/prolaxu/swisseph-wasm/blob/fe9065942986dd7a0cc3dada7d5396c87331198c/deps/swisseph/swehel.c ; https://github.com/prolaxu/swisseph-wasm/blob/fe9065942986dd7a0cc3dada7d5396c87331198c/deps/swisseph/swephexp.h ; https://github.com/prolaxu/swisseph-wasm/blob/fe9065942986dd7a0cc3dada7d5396c87331198c/README.md
+
+
+## 8 नवम्बर 2026 — ग्रह-चमक और visibility-limit boundary profile के परिणाम
+
+Astronomy Engine 2.1.19 के Illumination() से 64 deduplicated Pithoragarh boundary instants पर apparent visual magnitude, phase angle/fraction और heliocentric/geocentric distance जोड़े गए। परिणाम (ये 64 rows मुख्यतः user-transcribed हैं; केवल Venus 2025 की चार boundaries indexed Drik page से corroborated हैं):
+
+| ग्रह | नमूने | apparent magnitude min–max | phase fraction min–max | boundary पर सूर्य altitude min–max |
+|---|---:|---:|---:|---:|
+| बुध | 38 | −1.3712 से +2.8530 | 0.0811–0.9631 | −13.8218° से −9.2166° |
+| शुक्र | 10 | −4.4319 से −3.8563 | 0.0104–0.9943 | −6.7900° से −4.9018° |
+| मंगल | 4 | +1.2334 से +1.7287 | 0.9762–0.9886 | −14.3663° से −12.9089° |
+| गुरु | 6 | −1.9970 से −1.7812 | 0.9995–0.9998 | −9.6348° से −7.2743° |
+| शनि | 6 | +0.7967 से +1.0854 | 0.9995–0.9999 | −13.0431° से −10.0297° |
+
+यह पुष्टि करता है कि खासकर बुध और शुक्र के लिए apparent brightness/phase को स्थिर ग्रह-विशिष्ट constant से बदलना उचित नहीं। यह table event-selection formula नहीं है; ये प्रकाशित boundary instants पर calculated physical inputs हैं।
+
+### Swiss vis_limit_mag() baseline profile
+
+Swiss browser test ने दस Venus/Jupiter boundary rows पर प्रकाशित instant के −20, −10, −5, 0, +5, +10 और +20 मिनट के samples लिए। Baseline assumptions: pressure 1013.25 mbar, temperature 15°C, relative humidity 40%, meteorological range default, observer age 36, naked-eye optics, Moon/Sun effects enabled; कोई parameter fitting नहीं।
+
+- प्रकाशित instant पर ग्रह local horizon के नीचे होने के कारण API ने null दिया।
+- क्षितिज के ऊपर उपलब्ध samples में सभी visibility margins negative थे—अर्थात इस baseline model के अनुसार ग्रह की apparent magnitude उस समय की limiting magnitude से कमजोर थी।
+- यह बात चार indexed Venus 2025 Drik boundaries पर भी दिखी; बाकी छह rows user-reported provisional हैं।
+- उदाहरण: 2025 Venus March Asta-start पर −5 मिनट में margin −3.3370 mag; March Udaya boundary पर +10 मिनट में −1.0755 mag; December Asta-start पर +10 मिनट में −1.8244 mag; February Udaya boundary पर −10 मिनट में −1.8952 mag।
+
+**इसका अर्थ:** Swiss/Schaefer naked-eye visibility event और Drik द्वारा प्रकाशित local planet rise/set timestamp एक ही observable नहीं हैं। ये परिणाम Swiss को Drik के विकल्प के रूप में अस्वीकार करने के पिछले निर्णय को और मजबूत करते हैं; लेकिन baseline atmosphere/observer assumptions को वास्तविक Pithoragarh conditions का प्रमाण न मानें।
+
+### अगला गणना-चरण
+
+अब selector को केवल fixed twilight altitude पर आधारित नहीं करना है। Candidate event stream में हर दिन के स्थानीय planet rise/set के साथ apparent magnitude, phase, Sun altitude, azimuth separation और Moon/atmospheric context को record करके event-day selection की जाँच करनी होगी। Source-verified same-city holdout cases के बिना इसे Drik-compatible या production-ready नहीं कहा जाएगा।
+
+Browser diagnostic run: https://github.com/OurHinduDharm/Panchang/actions/runs/42462626495 (success; report and visibility-limit assertions passed). Main branch और production output अपरिवर्तित हैं।
