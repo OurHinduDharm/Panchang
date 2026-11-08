@@ -115,7 +115,7 @@ for (const entry of dataset.cases) {
       sunHorizontal.altitude, planetHorizontal.altitude,
       sunHorizontal.azimuth, planetHorizontal.azimuth,
       sunGeometric.altitude, planetGeometric.altitude,
-      publishedSeparation
+      publishedSeparation, publishedIllumination.mag, publishedIllumination.phase_angle, publishedIllumination.phase_fraction
     ];
     if (!geometryValues.every(Number.isFinite)) {
       throw new Error("Non-finite horizon geometry for " + entry.id + " " + key);
@@ -130,7 +130,8 @@ for (const entry of dataset.cases) {
       boundaryKind: type,
       publishedIST: published,
       modelIST: calculated ? formatIST(calculated) : null,
-      publishedAngularSeparationDegrees: round4(publishedSeparation),\n      publishedApparentMagnitude: round4(publishedIllumination.mag),\n      publishedPhaseAngleDegrees: round4(publishedIllumination.phase_angle),\n      publishedPhaseFraction: round4(publishedIllumination.phase_fraction),\n      heliocentricDistanceAu: round4(publishedIllumination.helio_dist),\n      geocentricDistanceAu: round4(publishedIllumination.geo_dist),
+      publishedAngularSeparationDegrees: round4(publishedSeparation),
+      publishedApparentMagnitude: round4(publishedIllumination.mag),\n      publishedPhaseAngleDegrees: round4(publishedIllumination.phase_angle),\n      publishedPhaseFraction: round4(publishedIllumination.phase_fraction),\n      heliocentricDistanceAu: round4(publishedIllumination.helio_dist),\n      geocentricDistanceAu: round4(publishedIllumination.geo_dist),
       thresholdMinusPublishedAngleDegrees: round4(threshold - publishedSeparation),
       publishedSunAltitudeDegrees: round4(sunHorizontal.altitude),
       publishedPlanetAltitudeDegrees: round4(planetHorizontal.altitude),
