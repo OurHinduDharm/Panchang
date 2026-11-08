@@ -336,3 +336,10 @@ PR के Swiss browser diagnostic में vis_limit_mag() से प्रत
 Swiss source audit में तीन implementation constraints मिले: (1) dret[0..2] क्रमशः visibility beginning/optimum/end हैं; (2) outer planets के लिए event types 3/4 सामान्य heliacal mode में उपलब्ध नहीं; (3) WASM JS wrapper के AV-kind constants C header से मेल नहीं खाते, अतः AV-kind mode को parity test के बिना उपयोग न करें।
 
 Licensing gate: wrapper GPL-3.0-or-later है और Swiss Ephemeris dual-license (AGPL या Astrodienst Professional) बताता है। Commercial/monetized OurHinduDharm production में Swiss को dependency बनाने से पहले licensing clearance अनिवार्य है। तब तक यह research-only comparator रहेगा; production calculation engine के रूप में import नहीं होगा।
+
+
+## 8 नवम्बर 2026 — boundary पर apparent brightness और Swiss visibility profile
+
+Boundary report अब Astronomy Engine Illumination() से apparent magnitude/phase inputs भी निकालती है। Swiss test दस Pithoragarh Venus/Jupiter boundaries के आसपास vis_limit_mag() की seven-point time profile बनाता है। Browser workflow में ये assertions सफल हुए। Baseline Swiss model में boundary instant पर planet below horizon है और ऊपर-क्षितिज samples के visibility margins negative हैं; इसलिए यह physical naked-eye visibility model Drik के local rise/set timestamps के समान event definition नहीं है। इसे production में substitute नहीं करना है।
+
+अगला selector research candidate local daily planet rise/set sequence पर brightness/phase, Sun altitude, azimuth separation और Moon/atmospheric context साथ में रखेगा। कोई fixed twilight threshold या Swiss parameter tuning स्वीकार नहीं होगी। 64 boundary geometry/magnitude rows में source provenance की सीमा बनी रहेगी: केवल चार Venus 2025 boundaries indexed Drik evidence हैं; अन्य rows user-transcribed हैं। Main/production output अभी नहीं बदला।
