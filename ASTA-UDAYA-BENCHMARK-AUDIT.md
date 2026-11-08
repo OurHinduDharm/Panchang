@@ -647,3 +647,29 @@ Source: https://ephe.scryr.io/swisseph/doc/swisseph.htm (sections 5.1.1–5.1.3;
 The current browser runner passes Swiss event types 1=Morning First, 2=Evening Last, 3=Evening First, 4=Morning Last; it records the returned beginning/optimum/end times separately. The high Drik mismatch therefore cannot be “fixed” by casually changing which output slot is read. Before another Swiss run, audit the pinned WASM wrapper's exported low-level visibility-limit API and compare the visibility threshold at the exact local planet rise/set instant. Do not change atmosphere/observer parameters solely to minimize the small current benchmark.
 
 Swiss heliacal output remains a useful independent physical-visibility comparator, not the Drik acceptance model. Drik's local planet rise/set timestamp match and Swiss's visibility-start timestamp are distinct observables; the remaining selector must be identified with held-out, source-verified data.
+
+
+## 8 नवम्बर 2026 — Swiss visibility-limit API audit और उत्पादन-लाइसेंस रोक
+
+आज Swiss WASM wrapper के vis_limit_mag() API को source-level पर जाँचा गया। यह केवल heliacal event-date function नहीं है; किसी दिए हुए UTC instant पर local observer के लिए visibility threshold निकालता है। Wrapper से प्राप्त 10-element result में:
+
+- [0]: limiting visual magnitude;
+- [1], [2]: ग्रह की apparent altitude और azimuth;
+- [3], [4]: सूर्य की altitude और azimuth;
+- [5], [6]: चन्द्रमा की altitude और azimuth;
+- [7]: ग्रह का computed apparent magnitude.
+
+Object स्थानीय क्षितिज से नीचे होने पर C implementation status -2 लौटाती है; JS wrapper इसे null बनाता है। इस कारण केवल event date नहीं, बल्कि प्रकाशित सीमा से पहले/बाद के कई मिनटों पर limiting magnitude, ग्रह की ऊँचाई और visibility margin की profile बनाना सम्भव है। PR के browser diagnostic में दस मौजूदा Pithoragarh Venus/Jupiter boundaries के लिए −20, −10, −5, 0, +5, +10 और +20 मिनट के samples जोड़े गए हैं। यह अभी diagnostic है—Swiss का visibility model Drik की परिभाषा है, ऐसा कोई दावा नहीं।
+
+### Source-level सावधानियाँ
+
+1. Swiss C implementation के अनुसार heliacal search dret[0] में event beginning, dret[1] में optimum और dret[2] में visibility end देता है; इन slots को आपस में बदलकर benchmark fit नहीं करना है।
+2. Swiss swe_heliacal_ut() सामान्यतः outer planets (Mars और आगे) के लिए Morning Last / Evening First (event type 3/4) को reject करता है, जब तक arcus-visionis mode न हो। Venus/Mercury और outer planets के event-type support को एक जैसा न मानें।
+3. Pinned WASM wrapper की JS constants में AV-kind flag values, उसी source tree के C header के values से एक position shift दिखाती हैं। AV-kind flags उपयोग करने से पहले wrapper/header parity test आवश्यक है; अभी ऐसे flags का उपयोग न करें। मौजूदा runner का 2 | 256 flag combination AV-kind flags नहीं चुनता।
+4. Visibility-limit profile में age/optics/atmosphere assumptions स्पष्ट दर्ज रहें। किसी एक छोटे sample का MAE घटाने के लिए इन्हें tune न करें।
+
+### उत्पादन में Swiss Ephemeris उपयोग करने से पहले लाइसेंस निर्णय अनिवार्य
+
+Pinned swisseph-wasm repository README wrapper को GPL-3.0-or-later बताता है और Swiss Ephemeris के लिए AGPL या Astrodienst Professional License का dual-licensing model बताता है; commercial use के लिए Astrodienst license आवश्यक बताया गया है। OurHinduDharm की monetized/public service में इसे production bundle या browser runtime में शामिल करने से पहले उपयुक्त license की लिखित पुष्टि/खरीद आवश्यक है। केवल research diagnostic होना production deployment की अनुमति नहीं देता। जब तक यह स्पष्ट न हो, Swiss को production engine dependency न बनाएं; research results को independent astronomical engine/Drik comparison के साथ अलग रखें।
+
+स्रोत कोड: https://github.com/prolaxu/swisseph-wasm/blob/fe9065942986dd7a0cc3dada7d5396c87331198c/src/swisseph.js ; https://github.com/prolaxu/swisseph-wasm/blob/fe9065942986dd7a0cc3dada7d5396c87331198c/deps/swisseph/swehel.c ; https://github.com/prolaxu/swisseph-wasm/blob/fe9065942986dd7a0cc3dada7d5396c87331198c/deps/swisseph/swephexp.h ; https://github.com/prolaxu/swisseph-wasm/blob/fe9065942986dd7a0cc3dada7d5396c87331198c/README.md
