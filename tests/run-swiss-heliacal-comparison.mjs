@@ -17,6 +17,18 @@ try {
   assert.equal(result.error, null, result.error || "Swiss heliacal comparison failed");
   assert.equal(result.result?.scenarios?.length, 8, "all eight Swiss visibility scenarios must be compared");
   assert.ok(result.result.scenarios.every(scenario => scenario.results?.length === 10), "each scenario must compare all ten published and provisional Pithoragarh boundaries");
+  assert.equal(result.result.visibilityLimitProfiles?.length, 10, "all ten boundary visibility profiles must be reported");
+  assert.ok(result.result.visibilityLimitProfiles.every(profile =>
+    profile.samples?.length === 7 &&
+    profile.samples.some(sample => sample.status === "calculated") &&
+    profile.samples.filter(sample => sample.status === "calculated").every(sample =>
+      Number.isFinite(sample.planetAltitudeDegrees) &&
+      Number.isFinite(sample.sunAltitudeDegrees) &&
+      Number.isFinite(sample.limitingMagnitude) &&
+      Number.isFinite(sample.planetMagnitude) &&
+      Number.isFinite(sample.visibilityMargin)
+    )
+  ), "each boundary must include finite visibility-limit samples on at least one side");
   console.log(JSON.stringify(result.result, null, 2));
 } finally {
   await browser.close();
