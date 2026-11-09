@@ -27,7 +27,7 @@ test("2026–2030 festival article links use descriptive visible text", async ()
               key + " " + event.title + " has a generic metadata label");
           }
         }
-        for (const match of String(event.description || "").matchAll(/<a\\b[^>]*>([\\s\\S]*?)<\\/a>/gi)) {
+        for (const match of String(event.description || "").matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi)) {
           const label = match[1].replace(/<[^>]+>/g, "").trim();
           assert.ok(label, key + " " + event.title + " has an empty inline article link");
           assert.ok(!genericLabels.has(label),
