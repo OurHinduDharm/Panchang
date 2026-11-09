@@ -592,7 +592,8 @@ const rules = {
       if (purchase) windows.push(purchase);
     }
 
-    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const pradoshMinutes = Math.round((nextSunrise.getTime() - sunset.getTime()) / 5 / 60000);
+    const pradoshEnd = new Date(sunset.getTime() + pradoshMinutes * 60000);
     const pradosh = windowWithin(sunset, pradoshEnd, tithis, "धनतेरस पूजा — प्रदोष काल", "त्रयोदशी-व्याप्ति और प्रदोष काल का साझा समय।");
     const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
       /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
