@@ -10,7 +10,7 @@ test("normalizes Hindi festival titles and punctuation", () => {
     "मकर संक्रांति सूर्य उत्तरायण प्रारम्भ");
 });
 
-test("copies stable description and article links without changing annual dates or tithi", () => {
+test("preserves existing description and adds master article links without changing annual dates or tithi", () => {
   const event = {
     date: "2028-01-22",
     title: "षटतिला एकादशी",
@@ -60,23 +60,24 @@ test("does not duplicate an article already attached to the target card", () => 
   };
   const template = {
     title: "एकादशी",
-    articleUrl: "https://example.com/ekadashi",
+    articleUrl: "http://example.com/ekadashi",
     articleLabel: "एकादशी व्रत का विधान"
   };
   assert.equal(synchronizeEventContent(event, template), false);
   assert.equal(event.articleUrl, "https://example.com/ekadashi?m=1");
 });
 
-test("preserves target-only article links when stable description is synchronized", () => {
+test("preserves target-only copy and adds master article links", () => {
   const event = {
     title: "पोंगल",
     description: '<a href="https://example.com/local">स्थानीय परंपरा</a> पुराना विवरण'
   };
   const template = {
     title: "पोंगल",
-    description: "पोंगल तमिल फसल-पर्व है।",
+    description: '<a href="https://example.com/pongal">पोंगल का महत्व</a>',
   };
   synchronizeEventContent(event, template);
-  assert.match(event.description, /पोंगल तमिल फसल-पर्व है/);
+  assert.match(event.description, /पुराना विवरण/);
+  assert.match(event.description, /example\\.com\\/pongal/);
   assert.match(event.description, /example\.com\/local/);
 });
