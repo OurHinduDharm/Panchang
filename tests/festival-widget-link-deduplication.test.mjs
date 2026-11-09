@@ -21,5 +21,5 @@ test("10-day widget still renders a metadata article link when it is not in the 
 });
 
 test("10-day widget treats desktop and mobile variants of the same article as one link", () => {
-  assert.match(source, /url\\.searchParams\\.delete\\("m"\\)/);
+  assert.ok(source.includes('url.searchParams.delete("m")'));
 });
