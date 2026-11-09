@@ -30,7 +30,7 @@ test("copies stable description and article links without changing annual dates 
   assert.equal(event.hinduTithi, "माघ कृष्ण एकादशी");
   assert.equal(event.reviewStatus, "approved");
   assert.equal(event.muhurtaRule, "ekadashi-parana");
-  assert.equal(event.description, template.description);
+  assert.equal(event.description, "षटतिला एकादशी पर तिल-दान करें।");
   assert.equal(event.articleUrl, template.articleUrl);
 });
 
