@@ -13,18 +13,24 @@
       "description": "गंगा दशहरा माँ गंगा के पृथ्वी पर अवतरण का पर्व है। गंगा-स्नान, पूजन, अर्घ्य और दान की परंपरा है; स्नान और पूजा का समय संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/06/about-Godess-Ganga-on-ganga-dussehra.html",
+      "articleLabel": "25 मई - ज्येष्ठ शु. दशमी को गंगा दशहरा।"
     },
     {
       "date": "2028-06-03",
       "dateLabel": "3 जून",
       "title": "निर्जला एकादशी",
-      "description": "निर्जला एकादशी भगवान विष्णु की उपासना का प्रमुख व्रत है। कुछ परंपराओं में जल-त्याग सहित उपवास किया जाता है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
+      "description": "निर्जला एकादशी भगवान विष्णु की उपासना का प्रमुख व्रत है। कुछ परंपराओं में जल-त्याग सहित उपवास किया जाता है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी"
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2028-06-07",
@@ -59,12 +65,16 @@
       "date": "2028-06-18",
       "dateLabel": "18 जून",
       "title": "योगिनी एकादशी",
-      "description": "योगिनी एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें।",
+      "description": "योगिनी एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "आषाढ़ कृष्ण एकादशी"
+      "hinduTithi": "आषाढ़ कृष्ण एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2028-06-22",
