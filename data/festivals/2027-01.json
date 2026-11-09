@@ -30,10 +30,12 @@
       "date": "2027-01-15",
       "dateLabel": "15 जनवरी",
       "title": "मकर संक्रांति",
-      "description": "मकर संक्रांति सूर्य के मकर राशि में प्रवेश का सौर पर्व है। स्नान, दान, जप, तिल-गुड़ और अन्नदान की परंपराएँ प्रचलित हैं। पुण्यकाल संक्रमण के वास्तविक समय और परंपरागत नियमों से तय होता है।",
+      "description": "मकर संक्रांति सूर्य के मकर राशि में प्रवेश का सौर पर्व है। स्नान, दान, जप, तिल-गुड़ और अन्नदान की परंपराएँ प्रचलित हैं। पुण्यकाल संक्रमण के वास्तविक समय और परंपरागत नियमों से तय होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\" rel=\"noopener noreferrer\">मकर संक्रांति</a>",
       "category": "संक्रांति",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html",
+      "articleLabel": "मकर संक्रांति"
     },
     {
       "date": "2027-01-18",
