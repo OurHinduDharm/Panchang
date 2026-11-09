@@ -751,3 +751,16 @@ IMD Rashtriya Panchang 2026–27 के heliacal east/west rise/set records क�
 5. एक से अधिक ग्रहों और कम-से-कम दो वर्षों के independent same-city references पर holdout validation के बिना production output न बदले।
 
 यह केवल event-selection hypothesis है, अभी approved production formula नहीं। Main Panchang, current published output और performance path अपरिवर्तित रहेंगे।
+
+
+### महत्वपूर्ण परिशुद्धता: horizon event बनाम visibility-selection
+
+Panchang Guru का अपना Shukra Asta पृष्ठ साफ़ कहता है कि प्रकाशित Asta/Udaya का clock-time शुक्र के **अपने rising या setting** का समय है; स्थान बदलने से समय बदलता है। उसी पृष्ठ पर New Delhi के 2025 March और Dec–Feb event labels भी दिए हैं। यह source Drik का प्रमाण नहीं है और इसके New Delhi clock-times को Pithoragarh benchmark में नहीं मिलाना है; इसका उपयोग केवल event semantics समझने के लिए है: https://www.panchangguru.com/shukra-asta
+
+इससे एक जरूरी भेद निकलता है:
+- **Boundary timestamp:** ग्रह का स्थानीय horizon rise/set instant.
+- **कौन-सा दिन और कौन-सा rise/set चुना जाए:** ग्रह की सूर्य के पास स्थिति और twilight/visibility phase से तय होने वाला event-selection प्रश्न.
+
+अतः अगले selector को conjunction के ठीक पहले/बाद का निकटतम rise/set नहीं चुनना चाहिए—Venus के 2025 Dec–2026 Feb उदाहरण में conjunction और प्रकाशित boundaries के बीच कई सप्ताह हैं। सही अगला diagnostic है कि apparition के दौरान हर स्थानीय ग्रह rise/set event की सूची बनाई जाए और उसी instant पर सूर्य की स्थानीय altitude, ग्रह की apparent magnitude/phase तथा Sun–planet separation दर्ज हों। फिर बिना arbitrary fitting के जाँचा जाए कि Asta-start और Udaya के प्रकाशित दिनों पर कौन-सा observable transition स्थिर रहता है।
+
+पहले से दर्ज चार indexed Venus boundaries पर calculated solar altitude लगभग −6.79° से −4.90° के बीच थी। यह twilight-based selector की जाँच करने योग्य दिशा है, लेकिन चार samples से कोई universal −6° cutoff तय नहीं किया जा सकता। Mercury, Mars, Jupiter और Saturn के लिए अलग independent same-city references जरूरी हैं। Swiss/Schaefer photometric visibility को Drik का पर्याय मानना अभी भी गलत होगा।
