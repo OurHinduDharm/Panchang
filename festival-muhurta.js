@@ -255,6 +255,109 @@ export function isSharadiyaMahashtamiEvent(event) {
  * Add a new reviewed rule here; do not store location-specific clock times in JSON.
  */
 const rules = {
+
+  "sankashti-chaturthi-moonrise"(context) {
+    const moonrise = validDate(context.moonrise);
+    const chaturthi = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 18 || /krishna.*chaturthi|कृष्ण.*चतुर्थी/.test(normalizedName(item));
+    });
+    if (!moonrise || !chaturthi.length) return { label: "संकष्टी चतुर्थी — चंद्रोदय समय", status: "unavailable", message: "स्थानीय चंद्रोदय और कृष्ण चतुर्थी की वास्तविक अवधि उपलब्ध नहीं है।" };
+    if (!chaturthi.some(item => item.start <= moonrise && item.end > moonrise)) {
+      return { label: "संकष्टी चतुर्थी — चंद्रोदय समय", status: "unavailable", message: "स्थानीय चंद्रोदय के समय कृष्ण चतुर्थी की व्याप्ति नहीं है; पर्व-दिन या व्रत-तिथि स्वतः नहीं बदली गई।" };
+    }
+    return { label: "संकष्टी चतुर्थी — चंद्रोदय एवं पारण समय", status: "calculated", time: moonrise, note: "कृष्ण चतुर्थी की व्याप्ति में चंद्रदर्शन के बाद अर्घ्य देकर व्रत खोलें।" };
+  },
+
+  "vasant-panchami-saraswati"(context) {
+    const sunrise = validDate(context.sunrise), sunset = validDate(context.sunset);
+    const panchami = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 4 || /shukla.*panchami|शुक्ल.*पंचमी/.test(normalizedName(item));
+    });
+    if (!sunrise || !sunset || sunset <= sunrise || !panchami.length) return { label: "वसंत पंचमी — सरस्वती पूजा मुहूर्त", status: "unavailable", message: "स्थानीय दिनमान और शुक्ल पंचमी की वास्तविक अवधि उपलब्ध नहीं है।" };
+    const purvahna = interval(sunrise, new Date(sunrise.getTime() + (sunset.getTime() - sunrise.getTime()) / 2), "पूर्वाह्न — सरस्वती पूजा");
+    const window = purvahna && windowWithin(purvahna.start, purvahna.end, panchami, "वसंत पंचमी — सरस्वती पूजा मुहूर्त", "स्थानीय सूर्योदय से मध्याह्न तक का पूर्वाह्न और शुक्ल पंचमी की संयुक्त व्याप्ति।");
+    if (!window) return { label: "वसंत पंचमी — सरस्वती पूजा मुहूर्त", status: "unavailable", message: "पूर्वाह्न में शुक्ल पंचमी की व्याप्ति नहीं मिली; अनुमानित पूजा-समय नहीं दिखाया गया।" };
+    return { label: "वसंत पंचमी — सरस्वती पूजा मुहूर्त", status: "calculated", windows: [window] };
+  },
+
+  "ratha-saptami-arunodaya"(context) {
+    const sunrise = validDate(context.sunrise);
+    const saptami = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 6 || /shukla.*saptami|शुक्ल.*सप्तमी/.test(normalizedName(item));
+    });
+    if (!sunrise || !saptami.length) return { label: "रथ सप्तमी — अरुणोदय स्नान", status: "unavailable", message: "स्थानीय सूर्योदय और शुक्ल सप्तमी की वास्तविक अवधि उपलब्ध नहीं है।" };
+    if (!saptami.some(item => item.start <= sunrise && item.end > sunrise)) return { label: "रथ सप्तमी — अरुणोदय स्नान", status: "unavailable", message: "स्थानीय सूर्योदय पर शुक्ल सप्तमी की व्याप्ति नहीं मिली; स्नान-समय अनुमानित नहीं किया गया।" };
+    const arunodayaStart = new Date(sunrise.getTime() - 4 * 24 * 60000);
+    return { label: "रथ सप्तमी — स्नान और सूर्य-अर्घ्य", status: "calculated", times: [
+      { label: "अरुणोदय स्नान", time: arunodayaStart, note: "सूर्योदय से चार घटी (96 मिनट) पूर्व आरम्भ।" },
+      { label: "सूर्यदेव को अर्घ्य", time: sunrise, note: "स्नान के बाद सूर्योदय पर अर्घ्य दें।" }
+    ] };
+  },
+
+  "ram-navami-madhyahna"(context) {
+    const sunrise = validDate(context.sunrise), sunset = validDate(context.sunset);
+    const navami = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 8 || /shukla.*navami|शुक्ल.*नवमी/.test(normalizedName(item));
+    });
+    if (!sunrise || !sunset || sunset <= sunrise || !navami.length) return { label: "श्रीराम नवमी — मध्याह्न पूजा मुहूर्त", status: "unavailable", message: "स्थानीय दिनमान और शुक्ल नवमी की वास्तविक अवधि उपलब्ध नहीं है।" };
+    const madhyahna = fractionInterval(sunrise, sunset, 2 / 5, 3 / 5, "मध्याह्न काल");
+    const window = madhyahna && windowWithin(madhyahna.start, madhyahna.end, navami, "श्रीराम नवमी — मध्याह्न पूजा मुहूर्त", "स्थानीय दिनमान के मध्य भाग (छह घटी) और चैत्र शुक्ल नवमी की संयुक्त व्याप्ति।");
+    if (!window) return { label: "श्रीराम नवमी — मध्याह्न पूजा मुहूर्त", status: "unavailable", message: "मध्याह्न काल में शुक्ल नवमी की व्याप्ति नहीं मिली; पूजा-समय अनुमानित नहीं किया गया।" };
+    return { label: "श्रीराम नवमी — मध्याह्न पूजा मुहूर्त", status: "calculated", windows: [window], note: "मध्याह्न के मध्य-बिंदु पर श्रीराम जन्मोत्सव मनाएँ।" };
+  },
+
+  "janmashtami-nishita"(context) {
+    const sunset = validDate(context.sunset), nextSunrise = validDate(context.nextSunrise);
+    const ashtami = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 22 || /krishna.*ashtami|कृष्ण.*अष्टमी/.test(normalizedName(item));
+    });
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !ashtami.length) return { label: "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", status: "unavailable", message: "स्थानीय रात्रिमान और कृष्ण अष्टमी की वास्तविक अवधि उपलब्ध नहीं है।" };
+    const nishita = fractionInterval(sunset, nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
+    const window = nishita && windowWithin(nishita.start, nishita.end, ashtami, "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", "स्थानीय निशीथ काल और कृष्ण अष्टमी की संयुक्त व्याप्ति।");
+    if (!window) return { label: "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", status: "unavailable", message: "निशीथ काल में कृष्ण अष्टमी की व्याप्ति नहीं मिली; अनुमानित पूजा-समय नहीं दिखाया गया।" };
+    return { label: "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", status: "calculated", windows: [window] };
+  },
+
+  "raksha-bandhan-thread"(context) {
+    const sunrise = validDate(context.sunrise), sunset = validDate(context.sunset), nextSunrise = validDate(context.nextSunrise);
+    const purnima = collectNamedIntervals(context.tithis, isPurnima);
+    const bhadra = collectNamedIntervals(context.karanas, item => /vishti|विष्टि/.test(normalizedName(item)));
+    if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !purnima.length) return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "unavailable", message: "स्थानीय दिनमान और पूर्णिमा की वास्तविक अवधि उपलब्ध नहीं है।" };
+    const subtractBhadra = base => {
+      let segments = base ? [{ start: base.start, end: base.end }] : [];
+      for (const blocked of bhadra) segments = segments.flatMap(segment => {
+        if (blocked.end <= segment.start || blocked.start >= segment.end) return [segment];
+        const next = [];
+        if (blocked.start > segment.start) next.push({ start: segment.start, end: blocked.start });
+        if (blocked.end < segment.end) next.push({ start: blocked.end, end: segment.end });
+        return next;
+      });
+      return segments.filter(segment => segment.end > segment.start);
+    };
+    const dayPurnima = purnima.map(item => intersectIntervals({ start: sunrise, end: sunset }, item, "पूर्णिमा-व्याप्ति")).filter(Boolean);
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const aparahna = fractionInterval(sunrise, sunset, 3 / 5, 4 / 5, "अपराह्ण काल");
+    const pradosh = interval(sunset, new Date(sunset.getTime() + nightDuration / 5), "प्रदोष काल");
+    const cleanAparahna = purnima.map(item => intersectIntervals(aparahna, item, "अपराह्ण में सूत्रबंधन")).filter(Boolean).flatMap(subtractBhadra);
+    let selected = [], selectedLabel = "";
+    if (cleanAparahna.length) {
+      selected = cleanAparahna; selectedLabel = "रक्षाबंधन — अपराह्ण सूत्रबंधन";
+    } else if (purnima.every(item => item.end <= aparahna.start)) {
+      selected = dayPurnima.flatMap(subtractBhadra); selectedLabel = "रक्षाबंधन — पूर्णिमा-व्याप्त उपलब्ध समय";
+    } else {
+      selected = purnima.map(item => intersectIntervals(pradosh, item, "प्रदोष में सूत्रबंधन")).filter(Boolean).flatMap(subtractBhadra);
+      selectedLabel = "रक्षाबंधन — प्रदोष सूत्रबंधन";
+    }
+    if (!selected.length) return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "unavailable", message: "पूर्णिमा, अपराह्ण/प्रदोष और भद्रा-वर्जन के अनुसार कोई पूरा मान्य समय नहीं मिला।" };
+    const windows = selected.map(item => interval(item.start, item.end, selectedLabel, "पूर्णिमा-व्याप्ति में; भद्रा काल छोड़कर।")).filter(Boolean);
+    return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "calculated", windows };
+  },
+
   "sandhi-puja"(context) {
     // संधिपूजा चारों नवरात्रों की महाष्टमी पर शुक्ल अष्टमी-नवमी संधि के लिए है।
     const tithiValue = context.tithi && typeof context.tithi === "object"
