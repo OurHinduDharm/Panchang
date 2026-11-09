@@ -10,11 +10,15 @@
       "date": "2028-10-02",
       "dateLabel": "2 अक्टूबर",
       "title": "शरद पूर्णिमा",
-      "description": "शरद पूर्णिमा कोजागरी पूर्णिमा के नाम से भी जानी जाती है।",
+      "description": "शरद पूर्णिमा कोजागरी पूर्णिमा के नाम से भी जानी जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">कोजागरी पूर्णिमा</a> <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी-कुबेर पूजन</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html",
+      "articleLabel": "कोजागरी पूर्णिमा व्रत",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/lakshmi.html",
+      "secondaryArticleLabel": "लक्ष्मी-कुबेर पूजन"
     },
     {
       "date": "2028-10-07",
@@ -73,13 +77,15 @@
       "description": "काली चौदस कुछ क्षेत्रीय परंपराओं में नरक चतुर्दशी के आसपास मनाई जाती है। स्नान, दान और जप की परंपरा है; पुण्यकाल वास्तविक संक्रमण-समय से तय करें।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
+      "articleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें"
     },
     {
       "date": "2028-10-17",
       "dateLabel": "17 अक्टूबर",
       "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>।",
+      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -157,12 +163,16 @@
       "date": "2028-10-28",
       "dateLabel": "28 अक्टूबर",
       "title": "देवउठनी एकादशी",
-      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागरण का स्मरण किया जाता है। तुलसी-विवाह और मांगलिक कार्यों के आरम्भ की परंपरा भी इससे जुड़ी है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
+      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागरण का स्मरण किया जाता है। तुलसी-विवाह और मांगलिक कार्यों के आरम्भ की परंपरा भी इससे जुड़ी है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "कार्तिक शुक्ल एकादशी"
+      "hinduTithi": "कार्तिक शुक्ल एकादशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
+      "articleLabel": "देवोत्थापनी एकादशी की महिमा",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2028-10-29",
