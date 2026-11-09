@@ -141,6 +141,17 @@ test("2026 Ekadashi cards expose the general vrat and udyapan guides", async () 
   }
 });
 
+test("2026 Mahavidya Jayanti cards link the newer stotratmak upasana articles", async () => {
+  const shodashi = find(await month("02"), "2026-02-01", /षोडशी महाविद्या जयंती/);
+  assert.match(shodashi.description || "", /Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala/);
+  const tara = find(await month("03"), "2026-03-26", /श्री तारा महाविद्या जयंती/);
+  assert.match(tara.description || "", /About-Stotratmak-Sadhana-Of-Tara-Mahavidya/);
+  const matangi = find(await month("04"), "2026-04-20", /श्री मातंगी महाविद्या जयन्ती/);
+  assert.match(matangi.description || "", /About-MatangiMahavidya-ki-Stotratmak-upasana/);
+  const bhuvaneshwari = find(await month("09"), "2026-09-23", /श्री भुवनेश्वरी महाविद्या जयंती/);
+  assert.match(bhuvaneshwari.description || "", /About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya/);
+});
+
 test("Every legacy OurHinduDharm article link remains attached to the 2026 catalog", async () => {
   const legacy = JSON.parse(await readFile(new URL("../data/festivals/legacy-source-preserved.json", import.meta.url), "utf8"));
   const names = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
