@@ -615,6 +615,18 @@
             if(windowItem.note){var windowNote=document.createElement("div");windowNote.className="muhurta-window-note";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
             detail.appendChild(row);
           });
+        }else if(result.status==="calculated"&&Array.isArray(result.times)&&result.times.length){
+          result.times.forEach(function(timeItem){
+            var row=document.createElement("div");row.className="muhurta-window";
+            var name=document.createElement("strong");name.className="muhurta-window-name";
+            name.textContent=timeItem.label||"पूजन समय";row.appendChild(name);
+            var time=document.createElement("div");time.className="muhurta-window-time";
+            var timeDate=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short"}).format(timeItem.time);
+            time.textContent=timeDate+" · "+muhurtaModule.formatFestivalMuhurtaTime(timeItem.time);
+            row.appendChild(time);
+            if(timeItem.note){var timeNote=document.createElement("div");timeNote.className="muhurta-window-note";timeNote.textContent=timeItem.note;row.appendChild(timeNote);}
+            detail.appendChild(row);
+          });
         }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
