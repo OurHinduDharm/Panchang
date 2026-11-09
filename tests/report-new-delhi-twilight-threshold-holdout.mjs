@@ -12,7 +12,8 @@ const observer = new Astronomy.Observer(28.6139, 77.2090, 216);
 const SOURCE_CASES = {
   "venus-new-delhi-2026": { astaStart: -1, astaEnd: 1 },
   "venus-new-delhi-2027": { astaStart: 1, astaEnd: -1 },
-  "jupiter-new-delhi-2027": { astaStart: -1, astaEnd: 1 }
+  "jupiter-new-delhi-2027": { astaStart: -1, astaEnd: 1 },
+  "saturn-new-delhi-2027": { astaStart: -1, astaEnd: 1 }
 };
 
 // Derived only from the four indexed Pithoragarh Venus 2025 transitions.
