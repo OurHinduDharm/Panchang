@@ -78,6 +78,6 @@ test("preserves target-only copy and adds master article links", () => {
   };
   synchronizeEventContent(event, template);
   assert.match(event.description, /पुराना विवरण/);
-  assert.match(event.description, /example\\.com\\/pongal/);
-  assert.match(event.description, /example\.com\/local/);
+  assert.ok(event.description.includes("example.com/pongal"));
+  assert.ok(event.description.includes("example.com/local"));
 });
