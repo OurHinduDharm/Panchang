@@ -22,7 +22,7 @@ test("copies stable description and article links without changing annual dates 
   const template = {
     title: "षट्तिला एकादशी",
     description: "षट्तिला एकादशी पर तिल से स्नान, दान और भगवान विष्णु की पूजा की परंपरा है।",
-    articleUrl: "https://example.com/ekadashi",
+    articleUrl: "http://example.com/ekadashi",
     articleLabel: "एकादशी व्रत-विधान"
   };
   assert.equal(synchronizeEventContent(event, template), true);
