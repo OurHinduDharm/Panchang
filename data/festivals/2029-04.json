@@ -10,12 +10,16 @@
       "date": "2029-04-09",
       "dateLabel": "9 अप्रैल",
       "title": "परमा एकादशी",
-      "description": "अधिक मास में आने वाली परमा एकादशी पर भगवान विष्णु की पूजा, जप और दान की परंपरा है।",
+      "description": "अधिक मास में आने वाली परमा एकादशी पर भगवान विष्णु की पूजा, जप और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "अधिक चैत्र कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2029-04-14",
@@ -61,22 +65,30 @@
       "date": "2029-04-24",
       "dateLabel": "24 अप्रैल",
       "title": "कामदा एकादशी",
-      "description": "कामदा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है।",
+      "description": "कामदा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2029-04-28",
       "dateLabel": "28 अप्रैल",
       "title": "हनुमान जयंती",
-      "description": "हनुमान जयंती पर श्री हनुमान जी की पूजा, हनुमान चालीसा और सुंदरकांड पाठ की परंपरा है।",
+      "description": "हनुमान जयंती पर श्री हनुमान जी की पूजा, हनुमान चालीसा और सुंदरकांड पाठ की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र पूर्णिमा"
+      "hinduTithi": "चैत्र पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html",
+      "articleLabel": "श्रीहनुमान जयंती",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html",
+      "secondaryArticleLabel": "श्रीहनुमान जी की स्तोत्रात्मक साधना"
     }
   ]
 }
