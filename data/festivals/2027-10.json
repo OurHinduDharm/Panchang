@@ -46,22 +46,30 @@
       "date": "2027-10-11",
       "dateLabel": "11 अक्टूबर",
       "title": "पापांकुशा एकादशी",
-      "description": "पापांकुशा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें।",
+      "description": "पापांकुशा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "आश्विन शुक्ल एकादशी"
+      "hinduTithi": "आश्विन शुक्ल एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2027-10-14",
       "dateLabel": "14 अक्टूबर",
       "title": "शरद पूर्णिमा",
-      "description": "शरद पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
+      "description": "शरद पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">कोजागरी पूर्णिमा</a> <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी-कुबेर पूजन</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html",
+      "articleLabel": "कोजागरी पूर्णिमा व्रत",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/lakshmi.html",
+      "secondaryArticleLabel": "लक्ष्मी-कुबेर पूजन"
     },
     {
       "date": "2027-10-15",
@@ -107,11 +115,15 @@
       "date": "2027-10-27",
       "dateLabel": "27 अक्टूबर",
       "title": "धनतेरस / धन्वन्तरि जयंती",
-      "description": "धनतेरस पर धन्वन्तरि भगवान की पूजा, दीपदान और शुभ खरीदारी की परंपरा है। खरीदारी के शुभ चौघड़िया और प्रदोष काल में पूजा का मुहूर्त नीचे दिया जाएगा।",
+      "description": "धनतेरस पर धन्वन्तरि भगवान की पूजा, दीपदान और शुभ खरीदारी की परंपरा है। खरीदारी के शुभ चौघड़िया और प्रदोष काल में पूजा का मुहूर्त नीचे दिया जाएगा। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "dhanteras-muhurta"
+      "muhurtaRule": "dhanteras-muhurta",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
+      "articleLabel": "धनतेरस",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
+      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती"
     },
     {
       "date": "2027-10-27",
@@ -120,22 +132,26 @@
       "description": "काली चौदस कुछ क्षेत्रीय परंपराओं में नरक चतुर्दशी के आसपास मनाई जाती है। इस दिन देवी काली की पूजा और दीपदान की परंपरा भी प्रचलित है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
+      "articleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें"
     },
     {
       "date": "2027-10-28",
       "dateLabel": "28 अक्टूबर",
       "title": "नरक चतुर्दशी",
-      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। कई परंपराओं में प्रातः अभ्यंग-स्नान और दीपदान होता है; रीति क्षेत्रानुसार भिन्न हो सकती है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें।",
+      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। कई परंपराओं में प्रातः अभ्यंग-स्नान और दीपदान होता है; रीति क्षेत्रानुसार भिन्न हो सकती है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">नरक चतुर्दशी की महिमा पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
+      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें"
     },
     {
       "date": "2027-10-29",
       "dateLabel": "29 अक्टूबर",
       "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>।",
+      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
