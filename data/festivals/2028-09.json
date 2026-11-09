@@ -38,22 +38,28 @@
       "date": "2028-09-04",
       "dateLabel": "4 सितंबर",
       "title": "पितृपक्ष प्रारंभ",
-      "description": "पितृपक्ष में पितरों के निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
+      "description": "पितृपक्ष में पितरों के निमित्त श्राद्ध, तर्पण और दान किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html\" target=\"_blank\"> श्राद्ध - महालय प्रारंभ, पितृपक्ष प्रारंभ</a>",
       "category": "पितृपक्ष",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन कृष्ण प्रतिपदा"
+      "hinduTithi": "आश्विन कृष्ण प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध - महालय प्रारंभ, पितृपक्ष प्रारंभ"
     },
     {
       "date": "2028-09-15",
       "dateLabel": "15 सितंबर",
       "title": "इंदिरा एकादशी",
-      "description": "इंदिरा एकादशी पितृपक्ष में आने वाला विष्णु-व्रत है। व्रत-कथा, विष्णु-पूजन और पितरों के कल्याण की कामना की परंपरा है; पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
+      "description": "इंदिरा एकादशी पितृपक्ष में आने वाला विष्णु-व्रत है। व्रत-कथा, विष्णु-पूजन और पितरों के कल्याण की कामना की परंपरा है; पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "आश्विन कृष्ण एकादशी"
+      "hinduTithi": "आश्विन कृष्ण एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2028-09-16",
@@ -135,12 +141,16 @@
       "date": "2028-09-29",
       "dateLabel": "29 सितंबर",
       "title": "पापांकुशा एकादशी",
-      "description": "पापांकुशा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें।",
+      "description": "पापांकुशा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "आश्विन शुक्ल एकादशी"
+      "hinduTithi": "आश्विन शुक्ल एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     }
   ]
 }
