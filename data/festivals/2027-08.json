@@ -44,21 +44,29 @@
       "date": "2027-08-06",
       "dateLabel": "6 अगस्त",
       "title": "नाग पंचमी",
-      "description": "नाग पंचमी पर नाग-देवता का पूजन और सर्पों के प्रति श्रद्धा व्यक्त की जाती है। पूजा-विधि और निषेध क्षेत्रीय परंपरा के अनुसार भिन्न हो सकते हैं।",
+      "description": "नाग पंचमी पर नाग-देवता का पूजन और सर्पों के प्रति श्रद्धा व्यक्त की जाती है। पूजा-विधि और निषेध क्षेत्रीय परंपरा के अनुसार भिन्न हो सकते हैं। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नाग पंचमी व्रत</a> <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नागों की स्तोत्रात्मक उपासना</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
+      "articleLabel": "नाग पंचमी व्रत",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html",
+      "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना"
     },
     {
       "date": "2027-08-12",
       "dateLabel": "12 अगस्त",
       "title": "श्रावण पुत्रदा एकादशी",
-      "description": "श्रावण पुत्रदा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत खोलने का समय नीचे दिया गया है।",
+      "description": "श्रावण पुत्रदा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "श्रावण शुक्ल एकादशी"
+      "hinduTithi": "श्रावण शुक्ल एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2027-08-13",
@@ -73,20 +81,26 @@
       "date": "2027-08-17",
       "dateLabel": "17 अगस्त",
       "title": "गायत्री जयंती",
-      "description": "गायत्री जयंती पर गायत्री मंत्र-जप, संध्या-उपासना और देवी गायत्री का स्मरण किया जाता है।",
+      "description": "गायत्री जयंती पर गायत्री मंत्र-जप, संध्या-उपासना और देवी गायत्री का स्मरण किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वेदमाता गायत्री जयंती की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
+      "articleLabel": "वेदमाता गायत्री जयंती की महिमा पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2027-08-17",
       "dateLabel": "17 अगस्त",
       "title": "रक्षाबंधन / श्रावण पूर्णिमा",
-      "description": "रक्षाबंधन / श्रावण पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
+      "description": "रक्षाबंधन / श्रावण पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल पूर्णिमा"
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
+      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा"
     },
     {
       "date": "2027-08-17",
