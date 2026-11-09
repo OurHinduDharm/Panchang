@@ -69,11 +69,13 @@
       "date": "2029-11-05",
       "dateLabel": "5 नवंबर",
       "title": "नरक चतुर्दशी",
-      "description": "नरक चतुर्दशी पर अभ्यंग-स्नान, दीपदान और भगवान कृष्ण के स्मरण की परंपरा है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें।",
+      "description": "नरक चतुर्दशी पर अभ्यंग-स्नान, दीपदान और भगवान कृष्ण के स्मरण की परंपरा है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">नरक चतुर्दशी की महिमा पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी"
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
+      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें"
     },
     {
       "date": "2029-11-06",
@@ -133,14 +135,16 @@
       "date": "2029-11-16",
       "dateLabel": "16 नवंबर",
       "title": "देवउठनी एकादशी",
-      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागने और चातुर्मास समापन की परंपरा है।",
+      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागने और चातुर्मास समापन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
-      "articleLabel": "देवोत्थानी एकादशी की महिमा पढ़ें"
+      "articleLabel": "देवोत्थानी एकादशी की महिमा पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2029-11-17",
@@ -170,11 +174,13 @@
       "date": "2029-11-28",
       "dateLabel": "28 नवंबर",
       "title": "कालभैरव जयंती",
-      "description": "कालभैरव जयंती पर भगवान भैरव की पूजा, जप और रात्रि-उपासना की परंपरा है।",
+      "description": "कालभैरव जयंती पर भगवान भैरव की पूजा, जप और रात्रि-उपासना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी"
+      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     }
   ]
 }
