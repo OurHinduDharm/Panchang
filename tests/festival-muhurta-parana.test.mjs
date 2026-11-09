@@ -1009,3 +1009,27 @@ test("Pithoragarh Diwali 2026 Choghadiya alternatives match the local published 
   assert.ok(choghadiya.every(window => !/राहुकाल/.test(window.note)));
   assert.ok(choghadiya.every(window => /अमावस्या-व्याप्त/.test(window.note) || /दीपावली पूजन/.test(window.note)));
 });
+
+
+test("Dev Deepawali deepdaan uses only the local Pradosh interval covered by Purnima", () => {
+  const sunset = date("2026-11-24T17:08:00+05:30");
+  const nextSunrise = date("2026-11-25T06:22:00+05:30");
+  const purnima = {
+    index:14,
+    startTime:date("2026-11-23T23:42:00+05:30"),
+    endTime:date("2026-11-24T20:23:00+05:30")
+  };
+  const result = getFestivalMuhurta({muhurtaRule:"dev-deepawali-pradosh"}, {
+    sunrise:date("2026-11-24T06:21:00+05:30"),sunset,nextSunrise,tithis:[purnima]
+  });
+  assert.equal(result.status,"calculated");
+  assert.equal(result.windows.length,1);
+  assert.equal(formatFestivalMuhurtaTime(result.windows[0].start),"05:08 pm");
+  assert.equal(formatFestivalMuhurtaTime(result.windows[0].end),"07:47 pm");
+  const noOverlap = getFestivalMuhurta({muhurtaRule:"dev-deepawali-pradosh"}, {
+    sunrise:date("2026-11-24T06:21:00+05:30"),sunset,nextSunrise,
+    tithis:[{index:14,startTime:date("2026-11-24T20:30:00+05:30"),endTime:date("2026-11-25T21:00:00+05:30")}]
+  });
+  assert.equal(noOverlap.status,"unavailable");
+  assert.equal(getFestivalMuhurta({muhurtaRule:"dev-deepawali-pradosh"}, {sunrise,sunset,nextSunrise,tithis:[]}).status,"unavailable");
+});
