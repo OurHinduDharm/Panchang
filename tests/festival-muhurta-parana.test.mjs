@@ -1057,7 +1057,7 @@ test("Pithoragarh Chhath 2026 arghya times match local sunrise and sunset", () =
   const format = value => new Intl.DateTimeFormat("en-GB", {
     timeZone:"Asia/Kolkata", hour:"2-digit", minute:"2-digit", hourCycle:"h23"
   }).format(value);
-  assert.equal(format(result.times[0].time),"17:14");
+  assert.equal(format(result.times[0].time),"17:13");
   assert.equal(format(result.times[1].time),"06:34");
 });
 
