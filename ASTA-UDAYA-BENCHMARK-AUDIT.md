@@ -709,7 +709,7 @@ Browser diagnostic run: https://github.com/OurHinduDharm/Panchang/actions/runs/4
 
 ## 9 नवम्बर 2026 — independently indexed Drik boundary बनाम local planet horizon: अलग acceptance test
 
-आज 2025 Pithoragarh Venus के केवल चार independently indexed Drik boundary instants को बाकी user-transcribed references से अलग करके एक focused Node regression test बनाया गया: `tests/verified-horizon-crossing.test.mjs`.
+आज 2025 Pithoragarh Venus के केवल चार independently indexed Drik boundary instants को बाकी user-transcribed references से अलग करके एक focused Node regression test बनाया गया: `tests/verified-horizon-crossing-check.mjs`.
 
 ### परीक्षण का दायरा
 - Source: `drik-pithoragarh-2025-venus`; दो apparitions, कुल चार boundaries (20 Mar 2025 Asta-start, 23 Mar 2025 Asta-end, 11 Dec 2025 Asta-start, 2 Feb 2026 Asta-end)।
