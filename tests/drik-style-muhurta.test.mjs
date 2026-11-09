@@ -77,3 +77,16 @@ test("Raksha Bandhan excludes Bhadra and preserves an early Purnima window", () 
   assert.equal(result.windows[0].start.getTime(), day.sunrise.getTime());
   assert.equal(result.windows[0].end.toISOString(), at("2027-04-15T09:00:00+05:30").toISOString());
 });
+
+test("Raksha Bandhan falls back to the Bhadra-free Pradosh interval", () => {
+  const bhadraEnd = at("2027-04-15T19:30:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "raksha-bandhan-thread" }, {
+    ...day,
+    tithis: [{ index: 14, startTime: "2027-04-15T00:00:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }],
+    karanas: [{ name: "Vishti", startTime: "2027-04-15T13:00:00+05:30", endTime: bhadraEnd }]
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.getTime(), bhadraEnd.getTime());
+  assert.ok(result.windows[0].end > result.windows[0].start);
+});
