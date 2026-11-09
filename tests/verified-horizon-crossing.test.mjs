@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
-import { Observer, SearchRiseSet } from "astronomy-engine";
+import astronomyEngine from "astronomy-engine";
+const { Observer, SearchRiseSet } = astronomyEngine;
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataset = JSON.parse(readFileSync(resolve(here, "../data/asta-udaya-benchmark.json"), "utf8"));
