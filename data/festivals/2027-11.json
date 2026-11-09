@@ -41,14 +41,16 @@
       "date": "2027-11-10",
       "dateLabel": "10 नवंबर",
       "title": "देवउठनी एकादशी",
-      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागरण और चातुर्मास समापन की परंपरा है। व्रत-पारण का समय नीचे दिया गया है।",
+      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागरण और चातुर्मास समापन की परंपरा है। व्रत-पारण का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
-      "articleLabel": "देवोत्थानी एकादशी की महिमा पढ़ें"
+      "articleLabel": "देवोत्थानी एकादशी की महिमा पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2027-11-11",
@@ -78,21 +80,27 @@
       "date": "2027-11-20",
       "dateLabel": "20 नवंबर",
       "title": "कालभैरव जयंती",
-      "description": "कालभैरव जयंती पर भगवान शिव के कालभैरव स्वरूप की पूजा, मंत्र-जप और रात्रि-उपासना की परंपरा है। पूजा का दिन कृष्ण पक्ष अष्टमी की व्याप्ति के आधार पर निर्धारित होता है।",
+      "description": "कालभैरव जयंती पर भगवान शिव के कालभैरव स्वरूप की पूजा, मंत्र-जप और रात्रि-उपासना की परंपरा है। पूजा का दिन कृष्ण पक्ष अष्टमी की व्याप्ति के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
       "date": "2027-11-24",
       "dateLabel": "24 नवंबर",
       "title": "उत्पन्ना एकादशी",
-      "description": "उत्पन्ना एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "उत्पन्ना एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी"
+      "hinduTithi": "मार्गशीर्ष कृष्ण एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     }
   ]
 }
