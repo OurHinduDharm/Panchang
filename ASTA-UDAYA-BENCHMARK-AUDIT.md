@@ -726,3 +726,28 @@ IMD Rashtriya Panchang 2026–27 के heliacal east/west rise/set records क�
 
 ### CI
 नया focused test `.github/workflows/asta-udaya-phase-diagnostics.yml` में जोड़ा गया है। यह PR branch पर स्वतः चलना चाहिए। परिणाम आने तक कोई production promotion नहीं।
+
+
+## 9 नवम्बर 2026 — horizon-crossing hypothesis को दिशा सहित जाँचना
+
+पहले focused test में प्रकाशित boundary के निकटतम rise **या** set को स्वीकार किया जा सकता था। वह event-direction की पुष्टि नहीं करता था। अब test को मजबूत किया गया है: हर boundary के लिए अपेक्षित स्थानीय घटना अलग से तय है और उसी दिशा का crossing खोजा जाता है।
+
+| Apparition | Asta-start | Asta-end |
+|---|---|---|
+| Venus, March 2025 (inferior-conjunction side) | स्थानीय अस्त / setting | स्थानीय उदय / rising |
+| Venus, Dec 2025–Feb 2026 (superior-conjunction side) | स्थानीय उदय / rising | स्थानीय अस्त / setting |
+
+दिशा-क्रम independent published Panchang Guru event labels (“at its setting” / “at its rising”) और Venus की morning/evening-star topology से लिया गया है; यह Drik की proprietary implementation का खुलासा नहीं है। Panchang Guru के प्रकाशित समय Drik से कुछ मिनट अलग हैं, इसलिए उन्हें Drik benchmark में मिलाया नहीं गया। संदर्भ: https://www.panchangguru.com/shukra-asta
+
+नया regression अब केवल सही दिशा के local horizon crossing को ±1 मिनट के भीतर स्वीकार करेगा। यह पहले वाले nearest-either-direction test से अधिक कठोर है। फिर भी चार city-label-only samples से केवल Venus के दो apparitions पर geometric event correspondence का समर्थन मिलता है; पाँचों ग्रहों, हर apparition, या Drik के आंतरिक coordinates/algorithm की पुष्टि नहीं होती।
+
+### अगला engineering निर्णय
+
+यदि directed test सफल रहता है, तो अगला candidate fixed angular threshold या photometric visibility नहीं होगा। एक अलग, isolated event-selector बनाया जाएगा जो:
+1. हर selected observer पर Mercury–Saturn के local rise/set events की समय-श्रृंखला निकाले;
+2. Sun के local rise/set तथा planet–Sun conjunction/opposition topology से संबंधित Asta-start/Udaya boundary pair चुने;
+3. morning/evening star phase और retrograde/direct motion को अलग रखे;
+4. प्रत्येक candidate event पर source direction, signed timing error और event-pair duration दर्ज करे;
+5. एक से अधिक ग्रहों और कम-से-कम दो वर्षों के independent same-city references पर holdout validation के बिना production output न बदले।
+
+यह केवल event-selection hypothesis है, अभी approved production formula नहीं। Main Panchang, current published output और performance path अपरिवर्तित रहेंगे।
