@@ -471,6 +471,23 @@
       "methodDisclosure": "Provider methodology describes VSOP87 Sun, Meeus Moon and planetary orbital elements, but does not publish the exact Guru Asta threshold.",
       "crossSourceRelationship": "Separate city stream from New Delhi. Published times differ; do not transfer between cities. Algorithmic independence from Drik is unknown.",
       "retrievalEvidence": "All nine annual windows transcribed from user-supplied Dehradun page output on 2026-11-06."
+    },
+    "drik-new-delhi-2027-saturn": {
+      "name": "Drik Panchang; Panchang Guru",
+      "url": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2027",
+      "sourceType": "independently-cross-checked-published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-09",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Both providers name New Delhi but do not disclose their internal observer coordinates/elevation; city-label-only."
+      },
+      "eventDefinition": "Drik Shani Tara Asta start/end; Panchang Guru independently labels Asta at Saturn setting and Udaya at Saturn rising. Exact visibility threshold and numerical algorithm are not disclosed.",
+      "crossSourceRelationship": "The 2027 New Delhi Saturn Asta pair matches exactly across Drik and Panchang Guru. Independence of the providers' algorithms is unknown; treat as published-output corroboration, not independent validation.",
+      "retrievalEvidence": "Drik 2027 Shani Asta page gives 26 Mar 2027 19:21 setting and 5 May 2027 04:36 rising; Panchang Guru New Delhi Shani Asta page gives the same pair.",
+      "notes": "City-label-only. The New Delhi city-centre observer proxy in the diagnostic is not a provider coordinate and must not be used as a Pithoragarh fallback."
     }
   },
   "cases": [
@@ -1778,7 +1795,7 @@
         "timeZone": "Asia/Kolkata",
         "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
       },
-      "sourceId": "drik-new-delhi-2027-mercury",
+      "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow",
       "precision": "minute",
       "boundaries": {
         "astaStart": "2026-12-14T06:20:00+05:30",
@@ -1807,7 +1824,7 @@
         "timeZone": "Asia/Kolkata",
         "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
       },
-      "sourceId": "drik-new-delhi-2027-mercury",
+      "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow",
       "precision": "minute",
       "boundaries": {
         "astaStart": "2027-02-12T19:03:00+05:30",
@@ -1836,7 +1853,7 @@
         "timeZone": "Asia/Kolkata",
         "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
       },
-      "sourceId": "drik-new-delhi-2027-mercury",
+      "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow",
       "precision": "minute",
       "boundaries": {
         "astaStart": "2027-04-09T05:19:00+05:30",
@@ -1865,7 +1882,7 @@
         "timeZone": "Asia/Kolkata",
         "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
       },
-      "sourceId": "drik-new-delhi-2027-mercury",
+      "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow",
       "precision": "minute",
       "boundaries": {
         "astaStart": "2027-06-12T20:19:00+05:30",
@@ -1894,7 +1911,7 @@
         "timeZone": "Asia/Kolkata",
         "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
       },
-      "sourceId": "drik-new-delhi-2027-mercury",
+      "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow",
       "precision": "minute",
       "boundaries": {
         "astaStart": "2027-08-03T04:59:00+05:30",
@@ -1923,7 +1940,7 @@
         "timeZone": "Asia/Kolkata",
         "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
       },
-      "sourceId": "drik-new-delhi-2027-mercury",
+      "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow",
       "precision": "minute",
       "boundaries": {
         "astaStart": "2027-10-06T18:52:00+05:30",
@@ -1952,7 +1969,7 @@
         "timeZone": "Asia/Kolkata",
         "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
       },
-      "sourceId": "drik-new-delhi-2027-mercury",
+      "sourceId": "drik-new-delhi-mercury-2026-2027-multiwindow",
       "precision": "minute",
       "boundaries": {
         "astaStart": "2027-11-25T06:07:00+05:30",
