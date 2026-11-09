@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
-import astronomyEngine from "astronomy-engine";
+import * as astronomyEngine from "astronomy-engine";
 const { Observer, SearchRiseSet } = astronomyEngine;
 
 const here = dirname(fileURLToPath(import.meta.url));
