@@ -135,23 +135,21 @@ function addArticle(target, url, label) {
 export function synchronizeEventContent(event, template) {
   const before = JSON.stringify(event);
   const oldDescription = String(event.description || "");
-  const oldAnchors = extractAnchors(oldDescription);
   const masterAnchors = extractAnchors(template.description || "");
 
-  if (template.description) {
-    if (!oldDescription || !hasYearSpecificCopy(oldDescription)) {
-      event.description = appendMissingAnchors(template.description, oldAnchors);
-    } else {
-      // Keep year-specific notes/timings intact; add only stable article links.
-      event.description = appendMissingAnchors(oldDescription, masterAnchors);
-    }
+  // Existing year-specific copy can contain reviewed observance details.
+  // Never replace it with a generic master paragraph. Use the master text
+  // only when a matching card has no description; otherwise merge article links.
+  if (!oldDescription && template.description) {
+    event.description = template.description;
+  } else if (masterAnchors.length) {
+    event.description = appendMissingAnchors(oldDescription, masterAnchors);
   }
 
   addArticle(event, template.articleUrl, template.articleLabel);
   addArticle(event, template.secondaryArticleUrl, template.secondaryArticleLabel);
 
-  // Preserve all original year-specific data. The template's muhurtaRule is
-  // intentionally not copied: a separate rule audit must validate each event.
+  // Dates, tithis, review/calculation states and muhurta rules remain untouched.
   return before !== JSON.stringify(event);
 }
 
