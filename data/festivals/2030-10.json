@@ -167,14 +167,18 @@
       "date": "2030-10-24",
       "dateLabel": "24 अक्टूबर",
       "title": "धनतेरस / धन्वन्तरि जयंती",
-      "description": "धनतेरस पर भगवान धन्वन्तरि, माता लक्ष्मी और कुबेर का पूजन तथा दीपदान किया जाता है। इस दिन शुभ खरीदारी और यमदीपदान की परंपरा भी प्रचलित है।",
+      "description": "धनतेरस पर भगवान धन्वन्तरि, माता लक्ष्मी और कुबेर का पूजन तथा दीपदान किया जाता है। इस दिन शुभ खरीदारी और यमदीपदान की परंपरा भी प्रचलित है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRule": "dhanteras-muhurta"
+      "muhurtaRule": "dhanteras-muhurta",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
+      "articleLabel": "धनतेरस",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
+      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती"
     },
     {
       "date": "2030-10-25",
@@ -209,7 +213,7 @@
       "date": "2030-10-26",
       "dateLabel": "26 अक्टूबर",
       "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर दीपदान तथा माँ लक्ष्मी-गणेश पूजन किया जाता है। गृहस्थों के लिए स्थानीय प्रदोष काल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। <a href=\\\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">दीपावली का महत्व</a>। <a href=\\\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>।",
+      "description": "दीपावली पर दीपदान तथा माँ लक्ष्मी-गणेश पूजन किया जाता है। गृहस्थों के लिए स्थानीय प्रदोष काल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। <a href=\\\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">दीपावली का महत्व</a>। <a href=\\\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a> <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -220,7 +224,9 @@
         "diwali-lakshmi-puja"
       ],
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html",
-      "articleLabel": "दीपावली का महत्व"
+      "articleLabel": "दीपावली का महत्व",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना"
     },
     {
       "date": "2030-10-27",
