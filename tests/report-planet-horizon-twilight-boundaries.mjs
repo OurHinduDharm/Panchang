@@ -50,6 +50,7 @@ for (const entry of entries) {
   const expected = directions[entry.id];
   if (!expected) throw new Error("Missing explicit event direction for " + entry.id);
 
+  const series = [];
   for (const boundary of ["astaStart", "astaEnd"]) {
     const date = new Date(entry.boundaries[boundary]);
     const body = entry.planet;
@@ -70,13 +71,38 @@ for (const entry of entries) {
       apparentMagnitude: round(illumination.mag, 4),
       illuminatedFraction: round(illumination.phase_fraction, 6)
     });
+
+    // Sample the same directed local horizon event on nearby civil dates.
+    // This reveals how twilight geometry evolves around the published boundary
+    // without fitting a threshold or substituting another city's data.
+    for (let dayOffset = -5; dayOffset <= 5; dayOffset++) {
+      const searchStart = new Date(date.getTime() + dayOffset * 86400000 - 12 * 3600000);
+      const event = Astronomy.SearchRiseSet(body, observer, expected[boundary], searchStart, 1, 0);
+      if (!event) continue;
+      const eventDate = event.date;
+      const eventIllumination = Astronomy.Illumination(body, eventDate);
+      series.push({
+        entry: entry.id,
+        boundaryAnchor: boundary,
+        dayOffset,
+        localEvent: expected[boundary] === 1 ? "rise" : "set",
+        eventUTC: eventDate.toISOString(),
+        sunAltitudeDegrees: round(getSunAltitude(eventDate, observer), 5),
+        planetAltitudeDegrees: round(getPlanetAltitude(body, eventDate, observer), 5),
+        apparentElongationDegrees: round(Astronomy.AngleFromSun(body, eventDate), 5),
+        apparentMagnitude: round(eventIllumination.mag, 4),
+        illuminatedFraction: round(eventIllumination.phase_fraction, 6)
+      });
+    }
   }
+  rows.push({ entry: entry.id, boundarySeries: series });
 }
 
 console.log(JSON.stringify({
   title: "Independent Pithoragarh Venus boundary twilight profile",
   sourceId: SOURCE_ID,
-  sampleCount: rows.length,
+  boundaryCount: rows.filter(row => row.boundary && !row.boundarySeries).length,
+  nearbyRiseSetSampleCount: rows.reduce((sum, row) => sum + (row.boundarySeries?.length || 0), 0),
   interpretation: "Diagnostic only. Planetary horizon event time is checked separately; Sun altitude, elongation, magnitude and phase are candidate event-selection observables, not fitted production thresholds. Source observer coordinates remain undisclosed.",
   rows
 }, null, 2));
