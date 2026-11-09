@@ -19,3 +19,7 @@ test("10-day widget still renders a metadata article link when it is not in the 
   assert.match(source, /link\.href = articleUrl/);
   assert.match(source, /link\.textContent|element\("a", "ohd-fw-link", articleLabel\)/);
 });
+
+test("10-day widget treats desktop and mobile variants of the same article as one link", () => {
+  assert.ok(source.includes('url.searchParams.delete("m")'));
+});

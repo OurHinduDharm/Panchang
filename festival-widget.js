@@ -49,6 +49,7 @@
     try {
       const url = new URL(href);
       url.hash = "";
+      url.searchParams.delete("m");
       return url.href;
     } catch (_) {
       return href;
