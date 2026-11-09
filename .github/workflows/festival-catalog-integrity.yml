@@ -5,6 +5,9 @@ on:
       - audit/2026-festival-catalog-integrity
     paths:
       - 'data/festivals/*.json'
+      - 'data/festival-content-master.json'
+      - 'scripts/sync-festival-content-from-master.mjs'
+      - 'tests/festival-content-master-sync.test.mjs'
       - 'data/dwadashi/**'
       - 'dwadashi-calendar.mjs'
       - 'festival-widget.js'
@@ -62,7 +65,7 @@ jobs:
         with:
           node-version: 20
       - name: Run integrity, Yugadi and 2026 coverage tests
-        run: node --test tests/festival-catalog-integrity.test.mjs tests/2026-festival-coverage.test.mjs tests/yugadi-days-2026-2030.test.mjs tests/monthly-location-eclipse-cards.test.mjs tests/dwadashi-calendar.test.mjs tests/dwadashi-widget-integration.test.mjs tests/2030-muhurta-coverage.test.mjs tests/2030-october-description-quality.test.mjs tests/tulsi-narak-observance-copy.test.mjs tests/narak-chaturdashi-date-coverage-2026-2030.test.mjs
+        run: node --test tests/festival-catalog-integrity.test.mjs tests/festival-content-master-sync.test.mjs tests/2026-festival-coverage.test.mjs tests/yugadi-days-2026-2030.test.mjs tests/monthly-location-eclipse-cards.test.mjs tests/dwadashi-calendar.test.mjs tests/dwadashi-widget-integration.test.mjs tests/2030-muhurta-coverage.test.mjs tests/2030-october-description-quality.test.mjs tests/tulsi-narak-observance-copy.test.mjs tests/narak-chaturdashi-date-coverage-2026-2030.test.mjs
       - name: Install pinned Panchang engine for location regression
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Diagnose remaining 2026 festival review dates at Pithoragarh
