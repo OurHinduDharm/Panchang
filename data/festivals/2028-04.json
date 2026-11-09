@@ -18,33 +18,45 @@
       "date": "2028-04-05",
       "dateLabel": "5 अप्रैल",
       "title": "कामदा एकादशी",
-      "description": "कामदा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "description": "कामदा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana",
       "sourceName": "Independent 2028 Ekadashi calendar cross-check",
-      "sourceUrl": "https://www.jyotishvidya.co.in/transits/ekadashi-2028"
+      "sourceUrl": "https://www.jyotishvidya.co.in/transits/ekadashi-2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2028-04-09",
       "dateLabel": "9 अप्रैल",
       "title": "चैत्र पूर्णिमा",
-      "description": "चैत्र पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। कई परंपराओं में इसी दिन हनुमान जयंती भी मनाई जाती है।",
+      "description": "चैत्र पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। कई परंपराओं में इसी दिन हनुमान जयंती भी मनाई जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल पूर्णिमा"
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html",
+      "articleLabel": "श्रीहनुमान जयंती",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html",
+      "secondaryArticleLabel": "श्रीहनुमान जी की स्तोत्रात्मक साधना"
     },
     {
       "date": "2028-04-09",
       "dateLabel": "9 अप्रैल",
       "title": "हनुमान जयंती",
-      "description": "हनुमान जयंती पर श्रीहनुमान की पूजा, हनुमान चालीसा/सुंदरकाण्ड पाठ और मंत्र-जप की परंपरा है। तिथि-निर्णय संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है।",
+      "description": "हनुमान जयंती पर श्रीहनुमान की पूजा, हनुमान चालीसा/सुंदरकाण्ड पाठ और मंत्र-जप की परंपरा है। तिथि-निर्णय संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html",
+      "articleLabel": "श्रीहनुमान जयंती",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html",
+      "secondaryArticleLabel": "श्रीहनुमान जी की स्तोत्रात्मक साधना"
     },
     {
       "date": "2028-04-13",
@@ -86,12 +98,16 @@
       "date": "2028-04-20",
       "dateLabel": "20 अप्रैल",
       "title": "वरुथिनी एकादशी",
-      "description": "वरुथिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें।",
+      "description": "वरुथिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "वैशाख कृष्ण एकादशी"
+      "hinduTithi": "वैशाख कृष्ण एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2028-04-24",
@@ -107,12 +123,14 @@
       "date": "2028-04-27",
       "dateLabel": "27 अप्रैल",
       "title": "अक्षय तृतीया",
-      "description": "अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है।",
+      "description": "अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a> <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "https://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
-      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें"
+      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
+      "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें"
     },
     {
       "date": "2028-04-27",
@@ -129,10 +147,14 @@
       "date": "2028-04-27",
       "dateLabel": "27 अप्रैल",
       "title": "परशुराम जयंती",
-      "description": "परशुराम जयंती भगवान विष्णु के परशुराम अवतार के प्राकट्य-स्मरण का पर्व है। विष्णु-पूजन, पाठ, जप और दान की परंपरा है।",
+      "description": "परशुराम जयंती भगवान विष्णु के परशुराम अवतार के प्राकट्य-स्मरण का पर्व है। विष्णु-पूजन, पाठ, जप और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a> <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
+      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
+      "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें"
     },
     {
       "date": "2028-04-29",
