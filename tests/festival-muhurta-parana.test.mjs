@@ -1036,3 +1036,27 @@ test("Dev Deepawali deepdaan uses only the local Pradosh interval covered by Pur
   assert.equal(noOverlap.status,"unavailable");
   assert.equal(getFestivalMuhurta({muhurtaRule:"dev-deepawali-pradosh"}, {sunrise,sunset,nextSunrise,tithis:[]}).status,"unavailable");
 });
+
+
+test("Chhath arghya times use local sunset and the following sunrise", () => {
+  const sunset = date("2026-11-15T17:14:00+05:30");
+  const nextSunrise = date("2026-11-16T06:34:00+05:30");
+  const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {sunset,nextSunrise});
+  assert.equal(result.status,"calculated");
+  assert.deepEqual(result.times.map(item => item.label), ["संध्या अर्घ्य","उषा अर्घ्य"]);
+  assert.equal(result.times[0].time.toISOString(), sunset.toISOString());
+  assert.equal(result.times[1].time.toISOString(), nextSunrise.toISOString());
+  assert.equal(getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {sunset}).status,"unavailable");
+});
+
+
+test("Pithoragarh Chhath 2026 arghya times match local sunrise and sunset", () => {
+  const context = realPanchangContext("2026-11-15");
+  const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, context);
+  assert.equal(result.status,"calculated");
+  const format = value => new Intl.DateTimeFormat("en-GB", {
+    timeZone:"Asia/Kolkata", hour:"2-digit", minute:"2-digit", hourCycle:"h23"
+  }).format(value);
+  assert.equal(format(result.times[0].time),"17:14");
+  assert.equal(format(result.times[1].time),"06:34");
+});
