@@ -20,22 +20,28 @@
       "date": "2029-01-10",
       "dateLabel": "10 जनवरी",
       "title": "षट्तिला एकादशी",
-      "description": "षट्तिला एकादशी पर भगवान विष्णु की पूजा तथा तिल से स्नान, दान और जप की परंपरा है।",
+      "description": "षट्तिला एकादशी पर भगवान विष्णु की पूजा तथा तिल से स्नान, दान और जप की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2029-01-14",
       "dateLabel": "14 जनवरी",
       "title": "मकर संक्रांति",
-      "description": "मकर संक्रांति पर स्नान, दान और जप की परंपरा है।",
+      "description": "मकर संक्रांति पर स्नान, दान और जप की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\" rel=\"noopener noreferrer\">मकर संक्रांति</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "माघ"
+      "hinduTithi": "माघ",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html",
+      "articleLabel": "मकर संक्रांति"
     },
     {
       "date": "2029-01-14",
@@ -51,11 +57,13 @@
       "date": "2029-01-19",
       "dateLabel": "19 जनवरी",
       "title": "वसंत पंचमी",
-      "description": "वसंत पंचमी पर माँ सरस्वती की पूजा और विद्या-साधना की परंपरा है।",
+      "description": "वसंत पंचमी पर माँ सरस्वती की पूजा और विद्या-साधना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल पंचमी"
+      "hinduTithi": "माघ शुक्ल पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
+      "articleLabel": "सरस्वती पूजन की विधि पढ़ें"
     },
     {
       "date": "2029-01-22",
@@ -71,12 +79,16 @@
       "date": "2029-01-26",
       "dateLabel": "26 जनवरी",
       "title": "जया एकादशी",
-      "description": "जया एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है।",
+      "description": "जया एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2029-01-30",
