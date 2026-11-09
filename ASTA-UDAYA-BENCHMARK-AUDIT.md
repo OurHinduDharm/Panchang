@@ -764,3 +764,19 @@ Panchang Guru का अपना Shukra Asta पृष्ठ साफ़ क�
 अतः अगले selector को conjunction के ठीक पहले/बाद का निकटतम rise/set नहीं चुनना चाहिए—Venus के 2025 Dec–2026 Feb उदाहरण में conjunction और प्रकाशित boundaries के बीच कई सप्ताह हैं। सही अगला diagnostic है कि apparition के दौरान हर स्थानीय ग्रह rise/set event की सूची बनाई जाए और उसी instant पर सूर्य की स्थानीय altitude, ग्रह की apparent magnitude/phase तथा Sun–planet separation दर्ज हों। फिर बिना arbitrary fitting के जाँचा जाए कि Asta-start और Udaya के प्रकाशित दिनों पर कौन-सा observable transition स्थिर रहता है।
 
 पहले से दर्ज चार indexed Venus boundaries पर calculated solar altitude लगभग −6.79° से −4.90° के बीच थी। यह twilight-based selector की जाँच करने योग्य दिशा है, लेकिन चार samples से कोई universal −6° cutoff तय नहीं किया जा सकता। Mercury, Mars, Jupiter और Saturn के लिए अलग independent same-city references जरूरी हैं। Swiss/Schaefer photometric visibility को Drik का पर्याय मानना अभी भी गलत होगा।
+
+
+### Directed crossing test result — 9 नवम्बर 2026
+
+Pinned Astronomy Engine 2.1.19, Pithoragarh project observer proxy (29.5828° N, 80.2182° E, 1650 m), सही rise/set direction और ±1 minute tolerance के साथ सभी चार independently indexed Drik Venus 2025 boundaries सफल रहीं:
+
+| Boundary | अपेक्षित घटना | स्थानीय crossing से signed अंतर |
+|---|---|---:|
+| 20 Mar 2025 Asta-start | setting | −0.351 min |
+| 23 Mar 2025 Asta-end | rising | +0.148 min |
+| 11 Dec 2025 Asta-start | rising | +0.459 min |
+| 2 Feb 2026 Asta-end | setting | −0.318 min |
+
+यह nearest-either-direction संयोग नहीं है: चारों बार event की सही दिशा भी मेल खाती है। फिर भी provider coordinates अज्ञात हैं और नमूना केवल शुक्र के दो Pithoragarh apparitions का है। इस परिणाम से अन्य ग्रहों के लिए threshold या event-selection rule extrapolate नहीं किया जाएगा।
+
+अगला CI diagnostic अब उन्हीं चार instants पर local Sun altitude, planet altitude, apparent elongation, apparent magnitude और illuminated fraction अलग से record करता है। उद्देश्य visibility-phase selector के लिए observables की जाँच है—किसी एक solar-altitude cutoff को fit करना नहीं।
