@@ -13,7 +13,8 @@
       "description": "छठ पूजा में सूर्यदेव और छठी मैया की उपासना, अस्ताचलगामी और उदीयमान सूर्य को अर्घ्य तथा नियमपूर्वक व्रत की परंपरा है। अनुष्ठान के दिन और समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "muhurtaRule": "chhath-arghya"
     },
     {
       "date": "2027-11-07",
