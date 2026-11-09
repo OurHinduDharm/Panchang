@@ -1742,6 +1742,31 @@
         "coordinateStatus": "provider coordinates not disclosed"
       },
       "notes": "User-supplied Pithoragarh Drik transcription. Not coordinate-exact validation and not eligible for model acceptance until independently retrieved from the corresponding named-city page."
+    },
+    {
+      "id": "saturn-new-delhi-2027",
+      "planet": "Saturn",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-2027-saturn",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2027-03-26T19:21:00+05:30",
+        "astaEnd": "2027-05-05T04:36:00+05:30"
+      },
+      "status": "independently-confirmed-city-label-only",
+      "notes": "Drik New Delhi 2027 Shani Asta page times independently match Panchang Guru New Delhi 2027 Shani Asta page: Mar 26 19:21 setting; May 5 04:36 rising. Provider coordinates remain undisclosed. Use only as a city-label holdout with an explicitly approximate New Delhi observer proxy; never as a Pithoragarh result.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2027 Shani Asta; Panchang Guru New Delhi Shani Asta",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      }
     }
   ],
   "excludedUnverifiedData": [
