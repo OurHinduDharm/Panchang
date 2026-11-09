@@ -1221,16 +1221,14 @@ const rules = {
       {
         sunset: validDate(context.sunset),
         nextSunrise: validDate(context.nextSunrise),
-        date: validDate(context.date),
         label: "देव दीपावली दीपदान — प्रदोषकाल"
       },
       {
         sunset: validDate(context.previousSunset),
         nextSunrise: validDate(context.sunrise),
-        date: validDate(context.previousDate),
         label: "देव दीपावली दीपदान — पूर्व संध्या का प्रदोषकाल"
       }
-    ].filter(item => item.sunset && item.nextSunrise && item.date &&
+    ].filter(item => item.sunset && item.nextSunrise &&
       item.nextSunrise > item.sunset);
     if (!purnima.length || !candidates.length) {
       return { label: "देव दीपावली दीपदान का मुहूर्त", status: "unavailable", message: "स्थानीय सूर्यास्त, अगले सूर्योदय और पूर्णिमा की वास्तविक व्याप्ति उपलब्ध नहीं है; अनुमानित समय नहीं दिखाया जा रहा है।" };
