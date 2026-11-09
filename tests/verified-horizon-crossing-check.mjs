@@ -11,21 +11,26 @@ const dataset = JSON.parse(readFileSync(resolve(here, "../data/asta-udaya-benchm
 const SOURCE_ID = "drik-pithoragarh-2025-venus";
 const MAX_DELTA_MINUTES = 1;
 
-function nearestLocalHorizonCrossing(body, instant, observer) {
+// The expected direction is transcribed from the independently published
+// event labels ("at setting" / "at rising") for these four boundary types.
+// +1 = rise, -1 = set in Astronomy Engine SearchRiseSet.
+const EXPECTED_DIRECTIONS = {
+  "venus-pithoragarh-2025-march": { astaStart: -1, astaEnd: 1 },
+  "venus-pithoragarh-2025-december-to-2026-february": { astaStart: 1, astaEnd: -1 }
+};
+
+function findDirectedHorizonCrossing(body, instant, observer, direction) {
   const start = new Date(instant.getTime() - 12 * 60 * 60 * 1000);
-  const candidates = [1, -1]
-    .map(direction => SearchRiseSet(body, observer, direction, start, 1, 0))
-    .filter(Boolean)
-    .map(result => ({
-      direction: result.date.getTime() < instant.getTime() ? "before-or-near" : "after",
-      instant: result.date,
-      deltaMinutes: (result.date.getTime() - instant.getTime()) / 60000
-    }));
-  candidates.sort((a, b) => Math.abs(a.deltaMinutes) - Math.abs(b.deltaMinutes));
-  return candidates[0] ?? null;
+  const result = SearchRiseSet(body, observer, direction, start, 1, 0);
+  if (!result) return null;
+  return {
+    direction: direction === 1 ? "rise" : "set",
+    instant: result.date,
+    deltaMinutes: (result.date.getTime() - instant.getTime()) / 60000
+  };
 }
 
-test("independently indexed Pithoragarh Venus 2025 Drik boundaries coincide with a local planet horizon crossing", () => {
+test("indexed Pithoragarh Venus 2025 Drik boundaries match the correctly directed local planet horizon crossings", () => {
   const entries = dataset.cases.filter(entry =>
     entry.sourceId === SOURCE_ID &&
     entry.status === "published-reference" &&
@@ -42,6 +47,8 @@ test("independently indexed Pithoragarh Venus 2025 Drik boundaries coincide with
     assert.equal(entry.testObserver.longitude, 80.2182);
     assert.equal(entry.testObserver.elevationMeters, 1650);
 
+    const expected = EXPECTED_DIRECTIONS[entry.id];
+    assert.ok(expected, "explicit rise/set direction is required for " + entry.id);
     const observer = new Observer(
       entry.testObserver.latitude,
       entry.testObserver.longitude,
@@ -49,17 +56,20 @@ test("independently indexed Pithoragarh Venus 2025 Drik boundaries coincide with
     );
 
     for (const boundaryName of ["astaStart", "astaEnd"]) {
+      const direction = expected[boundaryName];
+      assert.ok(direction === 1 || direction === -1, entry.id + " " + boundaryName + ": missing expected direction");
       const published = new Date(entry.boundaries[boundaryName]);
-      const crossing = nearestLocalHorizonCrossing(entry.planet, published, observer);
-      assert.ok(crossing, entry.id + " " + boundaryName + ": no local rise/set crossing found");
+      const crossing = findDirectedHorizonCrossing(entry.planet, published, observer, direction);
+      assert.ok(crossing, entry.id + " " + boundaryName + ": no directed local rise/set crossing found");
       assert.ok(
         Math.abs(crossing.deltaMinutes) <= MAX_DELTA_MINUTES,
-        entry.id + " " + boundaryName + ": published boundary differs from nearest local horizon crossing by " +
-          crossing.deltaMinutes.toFixed(3) + " minutes"
+        entry.id + " " + boundaryName + ": expected " + crossing.direction +
+          " differs from published boundary by " + crossing.deltaMinutes.toFixed(3) + " minutes"
       );
       checked.push({
         entry: entry.id,
         boundary: boundaryName,
+        expectedEvent: crossing.direction,
         published: entry.boundaries[boundaryName],
         localHorizonCrossing: crossing.instant.toISOString(),
         signedDifferenceMinutes: Number(crossing.deltaMinutes.toFixed(3))
@@ -69,7 +79,7 @@ test("independently indexed Pithoragarh Venus 2025 Drik boundaries coincide with
 
   assert.equal(checked.length, 4);
   console.log(JSON.stringify({
-    title: "Indexed Pithoragarh Drik Venus 2025 horizon-crossing cross-check",
+    title: "Indexed Pithoragarh Drik Venus 2025 directed horizon-crossing cross-check",
     sourceId: SOURCE_ID,
     checkedBoundaryCount: checked.length,
     toleranceMinutes: MAX_DELTA_MINUTES,
