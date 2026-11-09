@@ -780,3 +780,23 @@ Pinned Astronomy Engine 2.1.19, Pithoragarh project observer proxy (29.5828° N,
 यह nearest-either-direction संयोग नहीं है: चारों बार event की सही दिशा भी मेल खाती है। फिर भी provider coordinates अज्ञात हैं और नमूना केवल शुक्र के दो Pithoragarh apparitions का है। इस परिणाम से अन्य ग्रहों के लिए threshold या event-selection rule extrapolate नहीं किया जाएगा।
 
 अगला CI diagnostic अब उन्हीं चार instants पर local Sun altitude, planet altitude, apparent elongation, apparent magnitude और illuminated fraction अलग से record करता है। उद्देश्य visibility-phase selector के लिए observables की जाँच है—किसी एक solar-altitude cutoff को fit करना नहीं।
+
+
+### Twilight profile — independently indexed Pithoragarh Venus 2025
+
+नए diagnostic run में चारों boundary instants पर selected observer के अनुसार:
+
+| Boundary | सूर्य altitude | शुक्र altitude | Sun–Venus elongation | apparent magnitude | illuminated fraction |
+|---|---:|---:|---:|---:|---:|
+| 20 Mar 2025 Asta-start | −4.90176° | +0.01352° | 9.43818° | −4.1902 | 0.013026 |
+| 23 Mar 2025 Asta-end | −6.64495° | +0.05010° | 8.41461° | −4.2089 | 0.010359 |
+| 11 Dec 2025 Asta-start | −5.91688° | +0.00129° | 6.40875° | −3.9273 | 0.994235 |
+| 2 Feb 2026 Asta-end | −5.92394° | +0.02178° | 6.56739° | −3.9128 | 0.993959 |
+
+यहाँ ग्रह की altitude लगभग शून्य है—स्थानीय horizon event की पुष्टि। सूर्य की altitude लगभग −4.9° से −6.65° है; चारों samples पर एक समान −6° hard cutoff सिद्ध नहीं होता। Venus की phase March apparition में लगभग 1% और December–February apparition में लगभग 99% है, जबकि apparent magnitude लगभग −4 के आसपास है। इसलिए सिर्फ elongation या सिर्फ magnitude भी पर्याप्त selector नहीं दिखता।
+
+अब उसी expected rise/set direction में boundary से पाँच दिन पहले और पाँच दिन बाद के local events की twilight-series भी CI में record होती है। इसका उद्देश्य transition pattern देखना है; threshold fit करना नहीं।
+
+Panchang Guru के स्वतंत्र source documentation में 550 planetary Asta events, चार शहरों के published-date comparison का उल्लेख है: 76.9% same-day और 93.5% within one day। वह यह भी कहता है कि ग्रह के visible होने का क्षण sky और observer पर निर्भर है। यह Drik का source नहीं है, लेकिन location/twilight sensitivity की स्वतंत्र पुष्टि और आगे के multi-city holdout dataset का उपयोगी स्रोत है। स्रोत: https://www.panchangguru.com/accuracy (Asta comparison), https://www.panchangguru.com/how-we-calculate (engine and observer methodology), https://www.panchangguru.com/guru-asta, https://www.panchangguru.com/shani-asta (event labels and twilight notes).
+
+**निर्णय:** कोई −6° production threshold अभी स्वीकार नहीं। अगला चरण daily rise/set series के साथ source-verified Venus, Jupiter और Saturn multi-city events का holdout comparison है; Mercury और Mars के लिए भी primary source capture आवश्यक है।
