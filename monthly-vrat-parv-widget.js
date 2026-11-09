@@ -516,8 +516,15 @@
       if(ruleIds.indexOf("masik-shivaratri-nishita")===-1) ruleIds.push("masik-shivaratri-nishita");
       if(ruleIds.indexOf("masik-shivaratri-four-prahar")===-1) ruleIds.push("masik-shivaratri-four-prahar");
     }
-    if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title||""))||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
-    if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(String(item.title||""))) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
+    var eventTitle=String(item.title||"");
+    if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(eventTitle)||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
+    if(!ruleIds.length&&/संकष्टी चतुर्थी|सकट चौथ/i.test(eventTitle)) ruleIds=["sankashti-chaturthi-moonrise"];
+    if(!ruleIds.length&&/वसंत पंचमी|श्रीपंचमी/i.test(eventTitle)) ruleIds=["vasant-panchami-saraswati"];
+    if(!ruleIds.length&&/रथ\s*सप्तमी/i.test(eventTitle)) ruleIds=["ratha-saptami-arunodaya"];
+    if(!ruleIds.length&&/राम नवमी/i.test(eventTitle)&&!/वैष्णव|गौण/i.test(eventTitle)) ruleIds=["ram-navami-madhyahna"];
+    if(!ruleIds.length&&/कृष्ण जन्माष्टमी/i.test(eventTitle)&&!/वैष्णव|इस्कॉन/i.test(eventTitle)) ruleIds=["janmashtami-nishita"];
+    if(!ruleIds.length&&/रक्षाबंधन|रक्षा बंधन/i.test(eventTitle)) ruleIds=["raksha-bandhan-thread"];
+    if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(eventTitle)) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
     if(!ruleIds.length&&/होलिका[\s-]*दहन/i.test(String(item.title||""))) ruleIds=["holika-dahan-pradosh"];
     try{
       var muhurtaModule=await muhurtaModulePromise;
