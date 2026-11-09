@@ -10,32 +10,42 @@
       "date": "2027-05-02",
       "dateLabel": "2 मई",
       "title": "वरुथिनी एकादशी",
-      "description": "वरुथिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत खोलने का समय नीचे दिया गया है।",
+      "description": "वरुथिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "वैशाख कृष्ण एकादशी"
+      "hinduTithi": "वैशाख कृष्ण एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2027-05-08",
       "dateLabel": "8 मई",
       "title": "परशुराम जयंती",
-      "description": "परशुराम जयंती भगवान विष्णु के परशुराम अवतार के प्राकट्य-स्मरण का पर्व है। विष्णु-पूजन, पाठ, जप और दान की परंपरा है।",
+      "description": "परशुराम जयंती भगवान विष्णु के परशुराम अवतार के प्राकट्य-स्मरण का पर्व है। विष्णु-पूजन, पाठ, जप और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a> <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
+      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
+      "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें"
     },
     {
       "date": "2027-05-09",
       "dateLabel": "9 मई",
       "title": "अक्षय तृतीया",
-      "description": "अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है। कई परंपराओं में भगवान विष्णु और परशुराम की उपासना होती है। स्तोत्र-पाठ, गुरु-स्मरण और अध्ययन की परंपरा है।",
+      "description": "अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है। कई परंपराओं में भगवान विष्णु और परशुराम की उपासना होती है। स्तोत्र-पाठ, गुरु-स्मरण और अध्ययन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a> <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "https://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
-      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें"
+      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
+      "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें"
     },
     {
       "date": "2027-05-09",
@@ -61,10 +71,12 @@
       "date": "2027-05-14",
       "dateLabel": "14 मई",
       "title": "सीता नवमी",
-      "description": "सीता नवमी माता सीता के प्राकट्य-स्मरण का पर्व है। श्रीराम-सीता पूजन, रामायण-पाठ और दान की परंपरा है।",
+      "description": "सीता नवमी माता सीता के प्राकट्य-स्मरण का पर्व है। श्रीराम-सीता पूजन, रामायण-पाठ और दान की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भगवती सीता जी की जयंती एवं पूजन-विधि</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html",
+      "articleLabel": "भगवती सीता जी की जयंती एवं पूजन-विधि"
     },
     {
       "date": "2027-05-15",
@@ -79,21 +91,27 @@
       "date": "2027-05-16",
       "dateLabel": "16 मई",
       "title": "मोहिनी एकादशी",
-      "description": "मोहिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत खोलने का समय नीचे दिया गया है।",
+      "description": "मोहिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "वैशाख शुक्ल एकादशी"
+      "hinduTithi": "वैशाख शुक्ल एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2027-05-18",
       "dateLabel": "18 मई",
       "title": "नृसिंह जयंती",
-      "description": "नृसिंह जयंती से जुड़ी पूजा, व्रत या उत्सव की रीति क्षेत्र और परिवार की परंपरा के अनुसार भिन्न हो सकती है।",
+      "description": "नृसिंह जयंती से जुड़ी पूजा, व्रत या उत्सव की रीति क्षेत्र और परिवार की परंपरा के अनुसार भिन्न हो सकती है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">नृसिंह जयंती एवं नृसिंह चतुर्दशी व्रत की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-lord-Nrisimha-On-NrisimhaJayanti.html",
+      "articleLabel": "नृसिंह जयंती एवं नृसिंह चतुर्दशी व्रत की महिमा पढ़ें"
     },
     {
       "date": "2027-05-20",
