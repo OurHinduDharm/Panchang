@@ -1060,3 +1060,27 @@ test("Pithoragarh Chhath 2026 arghya times match local sunrise and sunset", () =
   assert.equal(format(result.times[0].time),"17:14");
   assert.equal(format(result.times[1].time),"06:34");
 });
+
+
+test("Dev Deepawali can use the previous evening Pradosh when Purnima spans into the card date", () => {
+  const previousSunset = date("2027-11-13T17:11:00+05:30");
+  const currentSunrise = date("2027-11-14T06:14:00+05:30");
+  const nextSunrise = date("2027-11-15T06:15:00+05:30");
+  const purnima = {
+    index:14,
+    startTime:date("2027-11-13T09:55:00+05:30"),
+    endTime:date("2027-11-14T08:55:00+05:30")
+  };
+  const result = getFestivalMuhurta({muhurtaRule:"dev-deepawali-pradosh"}, {
+    date:date("2027-11-14T12:00:00+05:30"),
+    previousDate:date("2027-11-13T12:00:00+05:30"),
+    previousSunset,
+    sunrise:currentSunrise,
+    sunset:date("2027-11-14T17:10:00+05:30"),
+    nextSunrise,
+    tithis:[purnima]
+  });
+  assert.equal(result.status,"calculated");
+  assert.equal(result.windows[0].start.toISOString(),previousSunset.toISOString());
+  assert.match(result.windows[0].label,/पूर्व संध्या/);
+});
