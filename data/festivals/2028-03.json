@@ -10,23 +10,29 @@
       "date": "2028-03-07",
       "dateLabel": "7 मार्च",
       "title": "आमलकी एकादशी",
-      "description": "आमलकी एकादशी पर भगवान विष्णु और आँवले के वृक्ष के पूजन की परंपरा है। व्रत-पारण द्वादशी और हरिवासर के नियमों से तय करें।",
+      "description": "आमलकी एकादशी पर भगवान विष्णु और आँवले के वृक्ष के पूजन की परंपरा है। व्रत-पारण द्वादशी और हरिवासर के नियमों से तय करें। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html\" target=\"_blank\">आमलकी एकादशी</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "फाल्गुन शुक्ल एकादशी"
+      "hinduTithi": "फाल्गुन शुक्ल एकादशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html",
+      "articleLabel": "आमलकी एकादशी का माहात्म्य",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2028-03-10",
       "dateLabel": "10 मार्च",
       "title": "होलिका दहन",
-      "description": "होलिका-दहन प्रह्लाद और भक्ति की विजय से जुड़ा पर्व है। दहन का मुहूर्त फाल्गुन पूर्णिमा-व्याप्ति तथा भद्रा आदि के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है।",
+      "description": "होलिका-दहन प्रह्लाद और भक्ति की विजय से जुड़ा पर्व है। दहन का मुहूर्त फाल्गुन पूर्णिमा-व्याप्ति तथा भद्रा आदि के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">होलिका-दहन का महत्व पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "holika-dahan-pradosh",
-      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
+      "articleLabel": "होलिका-दहन का महत्व पढ़ें"
     },
     {
       "date": "2028-03-11",
@@ -72,12 +78,16 @@
       "date": "2028-03-21",
       "dateLabel": "21 मार्च",
       "title": "पापमोचनी एकादशी",
-      "description": "पापमोचनी एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी और हरिवासर के नियम देखकर तय करें।",
+      "description": "पापमोचनी एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी और हरिवासर के नियम देखकर तय करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "चैत्र कृष्ण एकादशी"
+      "hinduTithi": "चैत्र कृष्ण एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2028-03-26",
