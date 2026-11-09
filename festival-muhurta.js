@@ -1214,6 +1214,31 @@ const rules = {
     return { label: "संक्रांति पुण्यकाल", status: "calculated", date: moment, dateLabel: formatDateLabel(moment), windows: mahaPunya ? [punya, mahaPunya] : [punya] };
   },
 
+  "dev-deepawali-pradosh"(context) {
+    const sunrise = validDate(context.sunrise);
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const purnima = collectNamedIntervals(context.tithis, isPurnima);
+    if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !purnima.length) {
+      return { label: "देव दीपावली दीपदान का मुहूर्त", status: "unavailable", message: "स्थानीय सूर्यास्त, अगले सूर्योदय और पूर्णिमा की वास्तविक व्याप्ति उपलब्ध नहीं है; अनुमानित समय नहीं दिखाया जा रहा है।" };
+    }
+    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const purnimaDuringPradosh = purnima.find(item => item.end > sunset && item.start < pradoshEnd);
+    if (!purnimaDuringPradosh) {
+      return { label: "देव दीपावली दीपदान का मुहूर्त", status: "unavailable", message: "स्थानीय प्रदोषकाल में पूर्णिमा की व्याप्ति नहीं मिली; इस नियम से दीपदान का समय निर्धारित नहीं किया गया।" };
+    }
+    const deepdan = interval(
+      laterDate(sunset, purnimaDuringPradosh.start),
+      earlierDate(pradoshEnd, purnimaDuringPradosh.end),
+      "देव दीपावली दीपदान — प्रदोषकाल",
+      "स्थानीय सूर्यास्त से प्रदोषकाल के अंत तक, केवल पूर्णिमा-व्याप्त अवधि।"
+    );
+    if (!deepdan) {
+      return { label: "देव दीपावली दीपदान का मुहूर्त", status: "unavailable", message: "पूर्णिमा और प्रदोषकाल का मान्य साझा समय नहीं मिला।" };
+    }
+    return { label: "देव दीपावली दीपदान का मुहूर्त", status: "calculated", date: deepdan.start, dateLabel: formatDateLabel(deepdan.start), windows: [deepdan] };
+  },
+
   "holika-dahan-pradosh"(context) {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);
