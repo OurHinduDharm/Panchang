@@ -553,6 +553,20 @@
         context.previousSunrise=previousValues.p.sunrise;
         context.previousMoonrise=previousValues.p.moonrise;
       }
+      if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="dev-deepawali-pradosh";})){
+        var previousDate=new Date(dateIso+"T12:00:00.000Z");
+        previousDate.setUTCDate(previousDate.getUTCDate()-1);
+        var previousIso=previousDate.toISOString().slice(0,10);
+        var previousValues=await getDatePanchang(previousIso);
+        if(token!==requestToken||!content.isConnected) return;
+        context.previousSunset=previousValues.p.sunset;
+        context.previousDate=previousValues.date;
+        context.tithis=[
+          ...(previousValues.p.tithis||[]),
+          ...(previousValues.next.tithis||[]),
+          ...(context.tithis||[])
+        ];
+      }
       if(usableRules.some(function(ruleItem){return ruleItem.muhurtaRule==="bhai-dooj-tilak";})){
         var previousDate=new Date(dateIso+"T12:00:00.000Z");
         previousDate.setUTCDate(previousDate.getUTCDate()-1);
