@@ -10,18 +10,22 @@
       "date": "2029-02-09",
       "dateLabel": "9 फरवरी",
       "title": "विजया एकादशी",
-      "description": "विजया एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है।",
+      "description": "विजया एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "फाल्गुन कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2029-02-11",
       "dateLabel": "11 फ़रवरी",
       "title": "महाशिवरात्रि",
-      "description": "महाशिवरात्रि पर भगवान शिव की पूजा, अभिषेक, जप और रात्रि-जागरण की परंपरा है।",
+      "description": "महाशिवरात्रि पर भगवान शिव की पूजा, अभिषेक, जप और रात्रि-जागरण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html\" target=\"_blank\"> श्रीमहाशिवरात्रि व्रत </a> <a href=\"http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\">शिवरात्रि का रहस्य</a> <a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\">शिवरात्रि में रात्रि जागरण पूर्वक चारों प्रहर की शास्त्रोक्त विधान से पूजा करने की विधि</a>",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -31,7 +35,9 @@
         "mahashivaratri-nishita"
       ],
       "articleUrl": "https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html",
-      "articleLabel": "शिवरात्रि के चारों प्रहर की पूजा-विधि पढ़ें"
+      "articleLabel": "शिवरात्रि के चारों प्रहर की पूजा-विधि पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html",
+      "secondaryArticleLabel": "महाशिवरात्रि व्रत की महिमा"
     },
     {
       "date": "2029-02-12",
@@ -58,23 +64,29 @@
       "date": "2029-02-25",
       "dateLabel": "25 फरवरी",
       "title": "आमलकी एकादशी",
-      "description": "आमलकी एकादशी पर भगवान विष्णु और आँवले के वृक्ष के पूजन की परंपरा है।",
+      "description": "आमलकी एकादशी पर भगवान विष्णु और आँवले के वृक्ष के पूजन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html\" target=\"_blank\">आमलकी एकादशी</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "फाल्गुन शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/03/About-Aamlaki-Ekadashi-Mahatmya.html",
+      "articleLabel": "आमलकी एकादशी का माहात्म्य",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2029-02-28",
       "dateLabel": "28 फ़रवरी",
       "title": "होलिका दहन",
-      "description": "होलिका दहन बुराई पर अच्छाई की विजय का प्रतीक है। प्रदोषकाल और भद्रा का विचार तिथि-व्याप्ति और संबंधित नियमों से निर्धारित होता है।",
+      "description": "होलिका दहन बुराई पर अच्छाई की विजय का प्रतीक है। प्रदोषकाल और भद्रा का विचार तिथि-व्याप्ति और संबंधित नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">होलिका-दहन का महत्व पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "फाल्गुन पूर्णिमा",
-      "muhurtaRule": "holika-dahan-pradosh"
+      "muhurtaRule": "holika-dahan-pradosh",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
+      "articleLabel": "होलिका-दहन का महत्व पढ़ें"
     }
   ]
 }
