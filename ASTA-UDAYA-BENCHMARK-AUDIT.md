@@ -705,3 +705,24 @@ Swiss browser test ने दस Venus/Jupiter boundary rows पर प्रक
 अब selector को केवल fixed twilight altitude पर आधारित नहीं करना है। Candidate event stream में हर दिन के स्थानीय planet rise/set के साथ apparent magnitude, phase, Sun altitude, azimuth separation और Moon/atmospheric context को record करके event-day selection की जाँच करनी होगी। Source-verified same-city holdout cases के बिना इसे Drik-compatible या production-ready नहीं कहा जाएगा।
 
 Browser diagnostic run: https://github.com/OurHinduDharm/Panchang/actions/runs/42462626495 (success; report and visibility-limit assertions passed). Main branch और production output अपरिवर्तित हैं।
+
+
+## 9 नवम्बर 2026 — independently indexed Drik boundary बनाम local planet horizon: अलग acceptance test
+
+आज 2025 Pithoragarh Venus के केवल चार independently indexed Drik boundary instants को बाकी user-transcribed references से अलग करके एक focused Node regression test बनाया गया: `tests/verified-horizon-crossing.test.mjs`.
+
+### परीक्षण का दायरा
+- Source: `drik-pithoragarh-2025-venus`; दो apparitions, कुल चार boundaries (20 Mar 2025 Asta-start, 23 Mar 2025 Asta-end, 11 Dec 2025 Asta-start, 2 Feb 2026 Asta-end)।
+- Observer proxy: 29.5828° N, 80.2182° E, 1650 m — यह OurHinduDharm का selected Pithoragarh validation point है, Drik के undisclosed internal coordinates नहीं।
+- Pinned engine: Astronomy Engine 2.1.19; दोनों दिशाओं के अगले स्थानीय planet rise/set events खोजकर प्रकाशित instant के सबसे निकट crossing चुनी जाती है।
+- Tolerance: ±1 minute.
+- अन्य 60 user-transcribed boundaries इस focused acceptance test में शामिल नहीं हैं। वे diagnostic-only रहेंगे।
+
+### परिणाम का अर्थ
+पिछले successful browser run में सभी 64 mixed-provenance rows का nearest local horizon crossing −1 से +1 minute के भीतर था। उस mixed total को independent validation बताना उचित नहीं था। अब test केवल चार indexed Drik boundaries को अलग gate करता है। यदि यह test pass होता है, तो इससे केवल इतना समर्थन मिलेगा कि इन चार Pithoragarh city-label reference times का event instant local planet rise/set crossing के बहुत निकट है। यह पूर्ण Drik algorithm, provider coordinate equality, सभी ग्रहों, या सभी वर्षों की पुष्टि नहीं है।
+
+### IMD source-family safeguard
+IMD Rashtriya Panchang 2026–27 के heliacal east/west rise/set records को benchmark में अलग event family में रखा गया है। उन्हें Drik Tara Asta-start/end के minute-level acceptance target में नहीं मिलाना है। IMD rows apparition direction/topology और independent heliacal context के लिए हैं।
+
+### CI
+नया focused test `.github/workflows/asta-udaya-phase-diagnostics.yml` में जोड़ा गया है। यह PR branch पर स्वतः चलना चाहिए। परिणाम आने तक कोई production promotion नहीं।
