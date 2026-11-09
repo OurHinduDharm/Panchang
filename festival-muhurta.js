@@ -325,8 +325,11 @@ const rules = {
 
   "raksha-bandhan-thread"(context) {
     const sunrise = validDate(context.sunrise), sunset = validDate(context.sunset), nextSunrise = validDate(context.nextSunrise);
-    const purnima = collectNamedIntervals(context.tithis, isPurnima);
-    const bhadra = collectNamedIntervals(context.karanas, item => /vishti|विष्टि/.test(normalizedName(item)));
+    const uniqueIntervals = items => items.filter((item, index) =>
+      items.findIndex(other => other.start.getTime() === item.start.getTime() && other.end.getTime() === item.end.getTime()) === index
+    );
+    const purnima = uniqueIntervals(collectNamedIntervals(context.tithis, isPurnima));
+    const bhadra = uniqueIntervals(collectNamedIntervals(context.karanas, item => /vishti|विष्टि/.test(normalizedName(item))));
     if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !purnima.length) return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "unavailable", message: "स्थानीय दिनमान और पूर्णिमा की वास्तविक अवधि उपलब्ध नहीं है।" };
     const subtractBhadra = base => {
       let segments = base ? [{ start: base.start, end: base.end }] : [];
