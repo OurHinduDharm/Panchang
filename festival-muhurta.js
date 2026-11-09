@@ -1467,6 +1467,34 @@ const rules = {
     return result ? { ...result, status: "calculated" } : null;
   },
 
+  "chhath-arghya"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    if (!sunset || !nextSunrise || nextSunrise <= sunset) {
+      return {
+        label: "छठ पूजा — अर्घ्य समय",
+        status: "unavailable",
+        message: "स्थानीय सूर्यास्त और अगले दिन का सूर्योदय उपलब्ध नहीं है; अर्घ्य समय नहीं दिखाया जा रहा है।"
+      };
+    }
+    return {
+      label: "छठ पूजा — अर्घ्य समय",
+      status: "calculated",
+      times: [
+        {
+          label: "संध्या अर्घ्य",
+          time: sunset,
+          note: "षष्ठी तिथि पर अस्ताचलगामी सूर्य को अर्घ्य।"
+        },
+        {
+          label: "उषा अर्घ्य",
+          time: nextSunrise,
+          note: "अगली सुबह सप्तमी पर उदयगामी सूर्य को अर्घ्य; इसके बाद पारण।"
+        }
+      ]
+    };
+  },
+
   "moonlight-until-midnight"(context) {
     const moonrise = validDate(context.moonrise);
     const date = validDate(context.date);
