@@ -800,3 +800,33 @@ Pinned Astronomy Engine 2.1.19, Pithoragarh project observer proxy (29.5828° N,
 Panchang Guru के स्वतंत्र source documentation में 550 planetary Asta events, चार शहरों के published-date comparison का उल्लेख है: 76.9% same-day और 93.5% within one day। वह यह भी कहता है कि ग्रह के visible होने का क्षण sky और observer पर निर्भर है। यह Drik का source नहीं है, लेकिन location/twilight sensitivity की स्वतंत्र पुष्टि और आगे के multi-city holdout dataset का उपयोगी स्रोत है। स्रोत: https://www.panchangguru.com/accuracy (Asta comparison), https://www.panchangguru.com/how-we-calculate (engine and observer methodology), https://www.panchangguru.com/guru-asta, https://www.panchangguru.com/shani-asta (event labels and twilight notes).
 
 **निर्णय:** कोई −6° production threshold अभी स्वीकार नहीं। अगला चरण daily rise/set series के साथ source-verified Venus, Jupiter और Saturn multi-city events का holdout comparison है; Mercury और Mars के लिए भी primary source capture आवश्यक है।
+
+
+### Twilight-threshold holdout — New Delhi (9 नवम्बर 2026)
+
+Pithoragarh Venus के चार boundary transitions से निकला common interval (एक ही दिशा के पिछले और boundary-day local planet event के बीच सूर्य-altitude transition):
+
+- Astronomy Engine refracted altitude: **(−5.85697°, −5.82432°]**
+- geometric altitude: **(−6.46385°, −6.43144°]**
+
+यह केवल चार Pithoragarh Venus samples का calibration interval है; −6° को exact universal threshold नहीं माना गया।
+
+New Delhi city-centre proxy (28.6139° N, 77.2090° E, 216 m; provider coordinates नहीं) पर:
+- Venus 2026 के दोनों boundaries और Venus 2027 Asta-start पर Pithoragarh Venus interval overlap हुआ।
+- Venus 2027 Udaya-end पर overlap नहीं हुआ।
+- Proxy local rise/set timestamps चारों New Delhi Venus boundaries पर published Drik time से −0.43 से −0.05 मिनट के भीतर थे; यह city-label-only comparison है, exact observer validation नहीं।
+- Jupiter 2027 के दोनों boundaries पर proxy event times −0.03 और +0.04 मिनट के भीतर थे, लेकिन solar-altitude transition intervals शुक्र के interval से बहुत अधिक नीचे थे (refracted लगभग −7.12° से −9.57°)। इसलिए Venus threshold Jupiter पर लागू नहीं होता।
+
+यह परिणाम **planet-specific twilight threshold** की दिशा को समर्थन देता है। Panchang Guru का Jupiter पृष्ठ स्पष्ट करता है कि Guru को Shukra से अधिक अँधेरा आकाश चाहिए; Shani पृष्ठ कहता है कि Shani, Guru से भी मंद है और उसे पुनः दिखने के लिए और गहरा आकाश चाहिए। ये provider descriptions हैं, Drik algorithm disclosure नहीं। स्रोत:
+- Drik Venus 2026–27: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html
+- Drik Jupiter 2027: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2027
+- Panchang Guru Jupiter: https://www.panchangguru.com/guru-asta
+- Panchang Guru Saturn: https://www.panchangguru.com/shani-asta
+
+### नई multi-planet holdout सामग्री
+
+- Saturn 2027 New Delhi: Drik और Panchang Guru दोनों में 26 Mar 2027 19:21 (setting) से 5 May 2027 04:36 (rising) समान। इसे city-label-only holdout बनाया।
+- Mercury 2027 New Delhi: Drik की सात अलग-अलग Tara Asta windows जोड़ीं। 24+ hour notation (जैसे 29:52+) को अगले civil date पर 05:52 में बदला; raw-source provenance और timezone सुरक्षित रखे।
+- इन नए records का source-catalog validation एक बार fail हुआ था क्योंकि Saturn के source catalog entry और Mercury के sourceId link छूट गए थे। दोनों ठीक कर दिए गए; current CI rerun में benchmark provenance/data validation success है।
+
+अगला निष्कर्ष केवल तभी निकलेगा जब Mercury और Saturn holdout series भी pass हों। Main Panchang का visible output, production event code और performance path अभी अपरिवर्तित हैं।
