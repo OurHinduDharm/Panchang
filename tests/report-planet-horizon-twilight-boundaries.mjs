@@ -16,9 +16,9 @@ function round(value, digits = 4) {
   return Number.isFinite(value) ? Number(value.toFixed(digits)) : null;
 }
 
-function getSunAltitude(date, observer) {
+function getSunAltitude(date, observer, refraction = "normal") {
   const sun = Astronomy.Equator("Sun", date, observer, true, true);
-  return Astronomy.Horizon(date, observer, sun.ra, sun.dec, "normal").altitude;
+  return Astronomy.Horizon(date, observer, sun.ra, sun.dec, refraction).altitude;
 }
 
 function getPlanetAltitude(body, date, observer) {
@@ -65,7 +65,8 @@ for (const entry of entries) {
         longitude: entry.testObserver.longitude,
         elevationMeters: entry.testObserver.elevationMeters
       },
-      sunAltitudeDegrees: round(getSunAltitude(date, observer), 5),
+      sunAltitudeRefractedDegrees: round(getSunAltitude(date, observer, "normal"), 5),
+      sunAltitudeGeometricDegrees: round(getSunAltitude(date, observer, false), 5),
       planetAltitudeDegrees: round(getPlanetAltitude(body, date, observer), 5),
       apparentElongationDegrees: round(Astronomy.AngleFromSun(body, date), 5),
       apparentMagnitude: round(illumination.mag, 4),
@@ -87,7 +88,8 @@ for (const entry of entries) {
         dayOffset,
         localEvent: expected[boundary] === 1 ? "rise" : "set",
         eventUTC: eventDate.toISOString(),
-        sunAltitudeDegrees: round(getSunAltitude(eventDate, observer), 5),
+        sunAltitudeRefractedDegrees: round(getSunAltitude(eventDate, observer, "normal"), 5),
+        sunAltitudeGeometricDegrees: round(getSunAltitude(eventDate, observer, false), 5),
         planetAltitudeDegrees: round(getPlanetAltitude(body, eventDate, observer), 5),
         apparentElongationDegrees: round(Astronomy.AngleFromSun(body, eventDate), 5),
         apparentMagnitude: round(eventIllumination.mag, 4),
@@ -98,11 +100,50 @@ for (const entry of entries) {
   rows.push({ entry: entry.id, boundarySeries: series });
 }
 
+const thresholdIntervals = { refracted: [], geometric: [] };
+for (const group of rows.filter(row => row.boundarySeries)) {
+  for (const boundary of ["astaStart", "astaEnd"]) {
+    const series = group.boundarySeries.filter(row => row.boundaryAnchor === boundary);
+    const previous = series.find(row => row.dayOffset === -1);
+    const current = series.find(row => row.dayOffset === 0);
+    if (!previous || !current) throw new Error("Missing adjacent event pair for " + group.entry + " " + boundary);
+    for (const mode of ["refracted", "geometric"]) {
+      const field = mode === "refracted" ? "sunAltitudeRefractedDegrees" : "sunAltitudeGeometricDegrees";
+      const a = previous[field];
+      const b = current[field];
+      const lower = Math.min(a, b);
+      const upper = Math.max(a, b);
+      thresholdIntervals[mode].push({
+        entry: group.entry,
+        boundary,
+        previousDaySunAltitude: a,
+        boundaryDaySunAltitude: b,
+        thresholdMustBeAbove: lower,
+        thresholdMayBeAtOrBelow: upper
+      });
+    }
+  }
+}
+const commonThresholdInterval = Object.fromEntries(
+  Object.entries(thresholdIntervals).map(([mode, intervals]) => {
+    const lower = Math.max(...intervals.map(item => item.thresholdMustBeAbove));
+    const upper = Math.min(...intervals.map(item => item.thresholdMayBeAtOrBelow));
+    return [mode, {
+      lowerExclusiveDegrees: round(lower, 6),
+      upperInclusiveDegrees: round(upper, 6),
+      widthDegrees: round(upper - lower, 6),
+      includesMinusSixDegrees: lower < -6 && -6 <= upper,
+      intervals
+    }];
+  })
+);
+
 console.log(JSON.stringify({
   title: "Independent Pithoragarh Venus boundary twilight profile",
   sourceId: SOURCE_ID,
   boundaryCount: rows.filter(row => row.boundary && !row.boundarySeries).length,
   nearbyRiseSetSampleCount: rows.reduce((sum, row) => sum + (row.boundarySeries?.length || 0), 0),
+  commonThresholdInterval,
   interpretation: "Diagnostic only. Planetary horizon event time is checked separately; Sun altitude, elongation, magnitude and phase are candidate event-selection observables, not fitted production thresholds. Source observer coordinates remain undisclosed.",
   rows
 }, null, 2));
