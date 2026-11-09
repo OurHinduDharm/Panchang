@@ -592,7 +592,8 @@ const rules = {
       if (purchase) windows.push(purchase);
     }
 
-    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const pradoshMinutes = Math.round((nextSunrise.getTime() - sunset.getTime()) / 5 / 60000);
+    const pradoshEnd = new Date(sunset.getTime() + pradoshMinutes * 60000);
     const pradosh = windowWithin(sunset, pradoshEnd, tithis, "धनतेरस पूजा — प्रदोष काल", "त्रयोदशी-व्याप्ति और प्रदोष काल का साझा समय।");
     const fixedLagna = (context.sthirLagnaWindows || []).find(w =>
       /vrishabha|वृषभ|taurus/i.test(String(w.name || w.rashi || "")) &&
@@ -1214,6 +1215,58 @@ const rules = {
     return { label: "संक्रांति पुण्यकाल", status: "calculated", date: moment, dateLabel: formatDateLabel(moment), windows: mahaPunya ? [punya, mahaPunya] : [punya] };
   },
 
+  "dev-deepawali-pradosh"(context) {
+    const purnima = collectNamedIntervals(context.tithis, isPurnima);
+    const candidates = [
+      {
+        sunset: validDate(context.sunset),
+        nextSunrise: validDate(context.nextSunrise),
+        label: "देव दीपावली दीपदान — प्रदोषकाल"
+      },
+      {
+        sunset: validDate(context.previousSunset),
+        nextSunrise: validDate(context.sunrise),
+        label: "देव दीपावली दीपदान — पूर्व संध्या का प्रदोषकाल"
+      }
+    ].filter(item => item.sunset && item.nextSunrise &&
+      item.nextSunrise > item.sunset);
+    if (!purnima.length || !candidates.length) {
+      return { label: "देव दीपावली दीपदान का मुहूर्त", status: "unavailable", message: "स्थानीय सूर्यास्त, अगले सूर्योदय और पूर्णिमा की वास्तविक व्याप्ति उपलब्ध नहीं है; अनुमानित समय नहीं दिखाया जा रहा है।" };
+    }
+    const matches = candidates.flatMap(candidate => {
+      const pradoshMinutes = Math.round((candidate.nextSunrise.getTime() - candidate.sunset.getTime()) / 5 / 60000);
+      const pradoshEnd = new Date(candidate.sunset.getTime() + pradoshMinutes * 60000);
+      const purnimaDuringPradosh = purnima.find(item =>
+        item.end > candidate.sunset && item.start < pradoshEnd
+      );
+      if (!purnimaDuringPradosh) return [];
+      const deepdan = interval(
+        laterDate(candidate.sunset, purnimaDuringPradosh.start),
+        earlierDate(pradoshEnd, purnimaDuringPradosh.end),
+        candidate.label,
+        "स्थानीय सूर्यास्त से प्रदोषकाल के अंत तक, केवल पूर्णिमा-व्याप्त अवधि।"
+      );
+      return deepdan ? [{...candidate, deepdan}] : [];
+    });
+    if (matches.length !== 1) {
+      return {
+        label: "देव दीपावली दीपदान का मुहूर्त",
+        status: "unavailable",
+        message: matches.length
+          ? "पूर्णिमा एक से अधिक प्रदोषकाल में व्याप्त है; इस स्थिति में स्वतः मुहूर्त तय नहीं किया गया।"
+          : "स्थानीय प्रदोषकाल में पूर्णिमा की व्याप्ति नहीं मिली; इस नियम से दीपदान का समय निर्धारित नहीं किया गया।"
+      };
+    }
+    const selected = matches[0];
+    return {
+      label: "देव दीपावली दीपदान का मुहूर्त",
+      status: "calculated",
+      date: selected.deepdan.start,
+      dateLabel: formatDateLabel(selected.deepdan.start),
+      windows: [selected.deepdan]
+    };
+  },
+
   "holika-dahan-pradosh"(context) {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);
@@ -1439,6 +1492,34 @@ const rules = {
   nishita(context) {
     const result = fractionInterval(context.sunset, context.nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
     return result ? { ...result, status: "calculated" } : null;
+  },
+
+  "chhath-arghya"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    if (!sunset || !nextSunrise || nextSunrise <= sunset) {
+      return {
+        label: "छठ पूजा — अर्घ्य समय",
+        status: "unavailable",
+        message: "स्थानीय सूर्यास्त और अगले दिन का सूर्योदय उपलब्ध नहीं है; अर्घ्य समय नहीं दिखाया जा रहा है।"
+      };
+    }
+    return {
+      label: "छठ पूजा — अर्घ्य समय",
+      status: "calculated",
+      times: [
+        {
+          label: "संध्या अर्घ्य",
+          time: sunset,
+          note: "षष्ठी तिथि पर अस्ताचलगामी सूर्य को अर्घ्य।"
+        },
+        {
+          label: "उषा अर्घ्य",
+          time: nextSunrise,
+          note: "अगली सुबह सप्तमी पर उदयगामी सूर्य को अर्घ्य; इसके बाद पारण।"
+        }
+      ]
+    };
   },
 
   "moonlight-until-midnight"(context) {
