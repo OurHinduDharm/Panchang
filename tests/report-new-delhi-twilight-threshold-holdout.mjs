@@ -13,7 +13,14 @@ const SOURCE_CASES = {
   "venus-new-delhi-2026": { astaStart: -1, astaEnd: 1 },
   "venus-new-delhi-2027": { astaStart: 1, astaEnd: -1 },
   "jupiter-new-delhi-2027": { astaStart: -1, astaEnd: 1 },
-  "saturn-new-delhi-2027": { astaStart: -1, astaEnd: 1 }
+  "saturn-new-delhi-2027": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2026-december-to-2027-january": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2027-february": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2027-april-to-may": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2027-june-to-july": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2027-august": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2027-october": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2027-november-to-2028-january": { astaStart: 1, astaEnd: -1 }
 };
 
 // Derived only from the four indexed Pithoragarh Venus 2025 transitions.
