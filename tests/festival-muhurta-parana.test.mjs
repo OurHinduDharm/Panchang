@@ -1024,8 +1024,11 @@ test("Dev Deepawali deepdaan uses only the local Pradosh interval covered by Pur
   });
   assert.equal(result.status,"calculated");
   assert.equal(result.windows.length,1);
-  assert.equal(formatFestivalMuhurtaTime(result.windows[0].start),"05:08 pm");
-  assert.equal(formatFestivalMuhurtaTime(result.windows[0].end),"07:47 pm");
+  const localTime = value => new Intl.DateTimeFormat("en-GB", {
+    timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",hourCycle:"h23"
+  }).format(value);
+  assert.equal(localTime(result.windows[0].start),"17:08");
+  assert.equal(localTime(result.windows[0].end),"19:47");
   const noOverlap = getFestivalMuhurta({muhurtaRule:"dev-deepawali-pradosh"}, {
     sunrise:date("2026-11-24T06:21:00+05:30"),sunset,nextSunrise,
     tithis:[{index:14,startTime:date("2026-11-24T20:30:00+05:30"),endTime:date("2026-11-25T21:00:00+05:30")}]
