@@ -19,21 +19,27 @@
       "date": "2027-12-09",
       "dateLabel": "9 दिसंबर",
       "title": "मोक्षदा एकादशी / गीता जयंती",
-      "description": "मोक्षदा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इसी दिन गीता जयंती पर भगवद्गीता के उपदेश का स्मरण, गीता-पाठ और श्लोक-मनन किया जाता है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के नियम देखकर निर्धारित होता है।",
+      "description": "मोक्षदा एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इसी दिन गीता जयंती पर भगवद्गीता के उपदेश का स्मरण, गीता-पाठ और श्लोक-मनन किया जाता है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के नियम देखकर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी"
+      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2027-12-13",
       "dateLabel": "13 दिसंबर",
       "title": "दत्तात्रेय जयंती",
-      "description": "दत्तात्रेय जयंती पर भगवान दत्तात्रेय की पूजा, गुरु-स्मरण, जप और दान की परंपरा है। पूजा का दिन स्थानीय पूर्णिमा-व्याप्ति और क्षेत्रीय परंपरा से जाँचें।",
+      "description": "दत्तात्रेय जयंती पर भगवान दत्तात्रेय की पूजा, गुरु-स्मरण, जप और दान की परंपरा है। पूजा का दिन स्थानीय पूर्णिमा-व्याप्ति और क्षेत्रीय परंपरा से जाँचें। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीदत्तात्रेय जयंती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html",
+      "articleLabel": "श्रीदत्तात्रेय जयंती"
     },
     {
       "date": "2027-12-13",
