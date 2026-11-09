@@ -11,7 +11,7 @@ on:
       - "tests/report-longitude-threshold-boundaries.mjs"
       - "tests/report-drik-longitude-threshold-boundaries.mjs"
       - "tests/asta-udaya-benchmark.test.mjs"
-      - "tests/verified-horizon-crossing.test.mjs"
+      - "tests/verified-horizon-crossing-check.mjs"
       - "data/asta-udaya-benchmark.json"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
 
@@ -50,7 +50,7 @@ jobs:
           tests/planetary-asta-udaya-location-scope.test.mjs
           tests/planetary-boundary-cache.test.mjs
           tests/asta-udaya-benchmark.test.mjs
-          tests/verified-horizon-crossing.test.mjs
+          tests/verified-horizon-crossing-check.mjs
       - name: Compare fixed-angle candidates with Drik New Delhi 2027 boundaries
         run: node tests/report-drik-longitude-threshold-boundaries.mjs
       - name: Diagnose fixed geocentric longitude thresholds against TRAC 2027 boundaries
