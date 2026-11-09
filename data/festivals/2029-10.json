@@ -10,14 +10,18 @@
       "date": "2029-10-04",
       "dateLabel": "4 अक्टूबर",
       "title": "इंदिरा एकादशी",
-      "description": "इंदिरा एकादशी पर भगवान विष्णु की पूजा और पितरों की सद्गति के लिए व्रत, जप तथा तर्पण की परंपरा है।",
+      "description": "इंदिरा एकादशी पर भगवान विष्णु की पूजा और पितरों की सद्गति के लिए व्रत, जप तथा तर्पण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन कृष्ण एकादशी",
       "muhurtaRule": "ekadashi-parana",
       "sourceName": "Drik Panchang — हरिद्वार",
-      "sourceUrl": "https://www.drikpanchang.com/vrats/ekadashidates.html?lang=en&year=2029"
+      "sourceUrl": "https://www.drikpanchang.com/vrats/ekadashidates.html?lang=en&year=2029",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2029-10-06",
@@ -44,11 +48,15 @@
       "date": "2029-10-08",
       "dateLabel": "8 अक्टूबर",
       "title": "शारदीय नवरात्र प्रारम्भ",
-      "description": "आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र आरम्भ होते हैं। घटस्थापना का मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
+      "description": "आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र आरम्भ होते हैं। घटस्थापना का मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href='http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html' target='_blank'>शारदीय नवरात्र प्रारम्भ</a> <a href='https://ourhindudharm.blogspot.com/p/kalash-sthapan.html' target='_blank'>घटस्थापना की संपूर्ण विधि</a> <a href=\"https://ourhindudharm.blogspot.com/p/panchang-today.html\" target=\"_blank\" rel=\"noopener noreferrer\">हमारे पंचांग पृष्ठ</a> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">प्रथमं शैलपुत्री च</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल प्रतिपदा"
+      "hinduTithi": "आश्विन शुक्ल प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
+      "articleLabel": "शारदीय नवरात्र का महत्व",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
+      "secondaryArticleLabel": "घटस्थापना की संपूर्ण विधि"
     },
     {
       "date": "2029-10-14",
@@ -94,12 +102,16 @@
       "date": "2029-10-18",
       "dateLabel": "18 अक्टूबर",
       "title": "पापांकुशा एकादशी",
-      "description": "पापांकुशा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "description": "पापांकुशा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2029-10-21",
