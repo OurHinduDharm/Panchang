@@ -26,7 +26,7 @@ test("Asta-Udaya benchmark has explicit source provenance for every active case"
 });
 
 test("exact-time benchmark entries have timezone-aware timestamps and ordered boundaries", () => {
-  const exactCases = dataset.cases.filter(entry => entry.precision === "minute");
+  const exactCases = dataset.cases.filter(entry => entry.precision === "minute" && entry.eventModel === "drik-tara-asta-window");
   assert.ok(exactCases.length >= 1);
   for (const entry of exactCases) {
     const { astaStart, astaEnd } = entry.boundaries;
@@ -41,7 +41,7 @@ test("date-only official visibility data is never represented as an exact clock 
   assert.ok(dateOnlyCases.length >= 1);
   for (const entry of dateOnlyCases) {
     for (const value of Object.values(entry.boundaries)) {
-      assert.match(value, /^\d{4}-\d{2}-\d{2}$/);
+      if (value !== null) assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
     }
     assert.equal(entry.eventModel, "rashtriya-panchang-visibility-period");
   }
@@ -109,13 +109,84 @@ test("Pithoragarh 2027 and Varanasi transcriptions remain provisional, not accep
   }
 });
 
-test("Rashtriya Panchang Central Station is kept separate from every city-level Drik reference", () => {
-  const central = dataset.cases.find(entry => entry.id === "venus-central-station-2026-visibility-period");
-  assert.ok(central);
-  assert.equal(central.comparisonLevel, "coordinate-exact");
-  assert.equal(central.testObserver.latitude, central.sourceObserver.latitude);
-  assert.equal(central.testObserver.longitude, central.sourceObserver.longitude);
-  assert.equal(central.sourceLocation, "Central Station of India");
-  assert.ok(dataset.cases.filter(entry => entry.sourceLocation !== central.sourceLocation)
+test("Rashtriya Panchang Central Station source labels are not mistaken for published coordinates", () => {
+  const central = dataset.cases.filter(entry => entry.sourceLocation === "Central Station of India");
+  assert.ok(central.length >= 3);
+  for (const entry of central) {
+    assert.equal(entry.comparisonLevel, "city-label-only");
+    assert.equal(entry.testObserver.latitude, undefined);
+    assert.equal(entry.testObserver.longitude, undefined);
+    assert.equal(entry.sourceObserver.coordinates, null);
+    assert.match(entry.sourceObserver.coordinateStatus, /not supplied|does not publish/i);
+  }
+  assert.ok(dataset.cases.filter(entry => entry.sourceLocation !== "Central Station of India")
     .every(entry => entry.comparisonLevel === "city-label-only"));
+});
+
+test("official IMD heliacal event times preserve source clock and civil-date rollover", () => {
+  const source = dataset.sources["rashtriya-2026-27-heliacal-times"];
+  assert.ok(source);
+  assert.equal(source.sourceType, "official-heliacal-setting-rising-times");
+  const venus = dataset.cases.find(entry => entry.id === "venus-central-station-2026-heliacal-events");
+  const jupiter = dataset.cases.find(entry => entry.id === "jupiter-central-station-2026-heliacal-events");
+  assert.ok(venus && jupiter);
+  assert.equal(venus.eventModel, "rashtriya-panchang-heliacal-setting-rising");
+  assert.equal(venus.boundaries.heliacalSetting.sourcePrintedDate, "2026-10-13");
+  assert.equal(venus.boundaries.heliacalSetting.sourcePrintedClock, "24:18");
+  assert.equal(venus.boundaries.heliacalSetting.normalizedLocalDateTime, "2026-10-14T00:18:00+05:30");
+  assert.equal(venus.boundaries.heliacalRising.normalizedLocalDateTime, "2026-10-28T07:36:00+05:30");
+  assert.equal(jupiter.boundaries.heliacalSetting.normalizedLocalDateTime, "2026-07-15T11:10:00+05:30");
+  assert.equal(jupiter.boundaries.heliacalRising.normalizedLocalDateTime, "2026-08-10T07:53:00+05:30");
+  for (const entry of [venus, jupiter]) {
+    assert.equal(entry.acceptanceEligible, false);
+    assert.equal(entry.comparisonLevel, "city-label-only");
+    assert.equal(entry.eventModel, "rashtriya-panchang-heliacal-setting-rising");
+  }
+});
+
+
+test("official IMD heliacal event table is transcribed completely without pairing unlike events", () => {
+  const events = dataset.officialHeliacalEvents;
+  assert.ok(Array.isArray(events));
+  assert.equal(events.length, 20);
+  const counts = Object.fromEntries(["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]
+    .map(planet => [planet, events.filter(event => event.planet === planet).length]));
+  assert.deepEqual(counts, { Mercury: 13, Venus: 2, Mars: 1, Jupiter: 2, Saturn: 2 });
+  for (const event of events) {
+    assert.equal(event.eventModel, "rashtriya-panchang-heliacal-setting-rising");
+    assert.equal(event.acceptanceEligible, false);
+    assert.ok(["Sets in the east", "Sets in the west", "Rises in the east", "Rises in the west"].includes(event.event));
+    assert.match(event.printedClock, /^\d{2}:\d{2}$/);
+    assert.match(event.normalizedLocalDateTime, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:00\+05:30$/);
+    assert.ok(dataset.sources[event.sourceId]);
+  }
+  const rollovers = events.filter(event => Number(event.printedClock.slice(0, 2)) >= 24);
+  assert.equal(rollovers.length, 4);
+  assert.ok(rollovers.every(event => event.normalizedLocalDateTime.slice(0, 10) !== event.printedGregorianDate));
+  const mercurySep = events.find(event => event.printedGregorianDate === "2026-09-13");
+  assert.equal(mercurySep.normalizedLocalDateTime, "2026-09-14T02:54:00+05:30");
+  const venus = events.find(event => event.planet === "Venus" && event.printedGregorianDate === "2026-10-13");
+  assert.equal(venus.normalizedLocalDateTime, "2026-10-14T00:18:00+05:30");
+});
+
+
+test("official IMD visibility periods are transcribed as date-only and remain separate from heliacal instants", () => {
+  const periods = dataset.officialVisibilityPeriods;
+  assert.ok(Array.isArray(periods));
+  assert.equal(periods.length, 28);
+  const counts = Object.fromEntries(["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]
+    .map(planet => [planet, periods.filter(period => period.planet === planet).length]));
+  assert.deepEqual(counts, { Mercury: 7, Venus: 2, Mars: 5, Jupiter: 7, Saturn: 7 });
+  for (const period of periods) {
+    assert.equal(period.precision, "date-only");
+    assert.equal(period.eventModel, "rashtriya-panchang-visibility-period");
+    assert.equal(period.comparisonLevel, "city-label-only");
+    assert.equal(period.acceptanceEligible, false);
+    assert.ok(dataset.sources[period.sourceId]);
+    for (const value of [period.from, period.to]) {
+      if (value !== null) assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
+    }
+    if (period.from && period.to) assert.ok(Date.parse(period.from) <= Date.parse(period.to));
+  }
+  assert.ok(!periods.some(period => "time" in period || "timestamp" in period));
 });
