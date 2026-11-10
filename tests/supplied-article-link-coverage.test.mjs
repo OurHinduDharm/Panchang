@@ -200,4 +200,6 @@ test("Festival card renderers add the requested article links and muhurta rules"
   }
   assert.match(widget, /kali-chaudas-nishita/);
   assert.match(annualPage, /kali-chaudas-nishita/);
+  assert.match(annualPage, /getKundli/);
+  assert.match(annualPage, /fixedNames=\{1:"Vrishabha",4:"Simha",7:"Vrishchika",10:"Kumbha"\}/);
 });
