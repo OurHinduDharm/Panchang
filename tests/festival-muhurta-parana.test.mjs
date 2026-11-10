@@ -1109,6 +1109,11 @@ test("Raksha Bandhan explicitly reports Bhadra status and excludes Vishti", () =
   assert.match(withBhadra.note,/भद्रा काल/);
   assert.match(withBhadra.note,/इस अवधि में रक्षा-सूत्र न बाँधें/);
   assert.ok(withBhadra.windows.every(window => window.end<=date("2028-08-05T13:00:00+05:30")||window.start>=date("2028-08-05T15:00:00+05:30")));
+  const fullyBlocked=getFestivalMuhurta({muhurtaRule:"raksha-bandhan-thread"},{sunrise,sunset,nextSunrise,tithis:[purnima],karanas:[
+    {name:"Vishti",startTime:sunrise,endTime:nextSunrise}
+  ]});
+  assert.equal(fullyBlocked.status,"unavailable");
+  assert.match(fullyBlocked.note,/भद्रा काल/);
 });
 
 
