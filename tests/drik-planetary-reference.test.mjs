@@ -29,6 +29,7 @@ test("resolves Hindi and English city names without nearest-city fallback", () =
   assert.equal(resolveDrikCity({ city: "पिथौरागढ़", state: "उत्तराखंड" }),
     "Pithoragarh, Uttarakhand, India");
   assert.equal(resolveDrikCity({ city: "Mumbai" }), "Mumbai, Maharashtra, India");
+  assert.equal(resolveDrikCity({ city: "Delhi" }), "New Delhi, NCT, India");
   assert.equal(resolveDrikCity({ city: "Almora", state: "Uttarakhand" }), null);
 });
 
