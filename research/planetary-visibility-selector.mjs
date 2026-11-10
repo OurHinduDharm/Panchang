@@ -154,6 +154,7 @@ export function findVisibilityBoundaryNearAnchor({
       : { longitudeRateDegPerDay: null, retrograde: null, retrogradeState: null };
     const observables = {
       apparentMagnitude,
+      magnitudeDirectionInteraction: apparentMagnitude * direction,
       elongationDegrees: typeof astronomy.AngleFromSun === "function"
         ? astronomy.AngleFromSun(body, date)
         : equatorialSeparationDegrees(sun, planet),
