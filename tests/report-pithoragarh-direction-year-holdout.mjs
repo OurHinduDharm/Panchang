@@ -52,6 +52,8 @@ function trainingSample(entry, boundaryName) {
     magnitudeDirectionInteraction: apparentMagnitude * event.direction,
     longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
     retrograde: motion.retrograde,
+    thresholdPrevious: sunAltitude(previous.date),
+    thresholdCurrent: sunAltitude(event.date),
     thresholdMidpoint: (sunAltitude(previous.date) + sunAltitude(event.date)) / 2
   };
 }
@@ -75,7 +77,7 @@ function solve(matrix, vector) {
   }
   return a.map(row => row[n]);
 }
-function fitFeatures(samples, keys) {
+function fitFeatures(samples, keys, targetKey) {
   const size = keys.length + 1;
   const xtx = Array.from({ length: size }, () => Array(size).fill(0));
   const xty = Array(size).fill(0);
@@ -85,7 +87,7 @@ function fitFeatures(samples, keys) {
     if (row.some(value => !Number.isFinite(value))) continue;
     count++;
     for (let i = 0; i < size; i++) {
-      xty[i] += row[i] * sample.thresholdMidpoint;
+      xty[i] += row[i] * sample[targetKey];
       for (let j = 0; j < size; j++) xtx[i][j] += row[i] * row[j];
     }
   }
@@ -147,8 +149,9 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
       ]
     : [{ name: "magnitude-only", keys: ["apparentMagnitude"] }];
 
-  for (const variant of variants) {
-    for (const holdoutYear of years) {
+  for (const targetKey of ["thresholdCurrent", "thresholdMidpoint", "thresholdPrevious"]) {
+    for (const variant of variants) {
+      for (const holdoutYear of years) {
       const training = planetRows.filter(entry => entry.sourcePageYear !== holdoutYear);
       const holdouts = planetRows.filter(entry => entry.sourcePageYear === holdoutYear);
       const modelByBoundary = {}, trainingCounts = {};
@@ -156,12 +159,12 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
       for (const boundary of ["astaStart", "astaEnd"]) {
         const samples = training.map(entry => trainingSample(entry, boundary)).filter(Boolean);
         trainingCounts[boundary] = samples.length;
-        modelByBoundary[boundary] = fitFeatures(samples, variant.keys);
+        modelByBoundary[boundary] = fitFeatures(samples, variant.keys, targetKey);
         if (!modelByBoundary[boundary]) ready = false;
       }
       if (!ready) {
         output.push({
-          planet, model: variant.name, holdoutYear, available: false,
+          planet, model: variant.name, thresholdTarget: targetKey, holdoutYear, available: false,
           trainingWindows: training.length, holdoutWindows: holdouts.length,
           trainingCounts, reason: "Insufficient independent-year samples or singular feature matrix"
         });
@@ -211,7 +214,7 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
       }
       const matched = predictions.filter(item => item.matched);
       output.push({
-        planet, model: variant.name, holdoutYear, available: true,
+        planet, model: variant.name, thresholdTarget: targetKey, holdoutYear, available: true,
         trainingWindows: training.length, holdoutWindows: holdouts.length,
         trainingCounts, matchedCount: matched.length,
         unmatchedCount: predictions.length - matched.length,
@@ -221,13 +224,14 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
         udayaClockMinutes: summarize(matched.map(x => x.udayaClockErrorMinutes)),
         predictions
       });
+      }
     }
   }
 }
 console.log(JSON.stringify({
-  title: "Pithoragarh leave-one-source-year-out direction-feature validation",
-  method: "For each held-out Drik source year, train only on the other direct Pithoragarh source years. Compare Mercury magnitude-only, magnitude+event-direction, and magnitude+direction-interaction models. Other planets use magnitude-only because their local annual sample counts are too small for extra coefficients.",
-  motionDefinition: "Topocentric local rise/set direction (rise=+1, set=-1) plus magnitude interaction. Geocentric retrograde and longitude rate are calculated in the sample ledger but are not fitted in this experiment because previous blind tests did not show consistent gains.",
+  title: "Pithoragarh leave-one-source-year-out event-direction and threshold-target validation",
+  method: "For each held-out Drik source year, train only on the other direct Pithoragarh source years. Compare the published-boundary target label as previous-event solar altitude, midpoint altitude, or current-event solar altitude, with magnitude-only/direction models. Other planets use magnitude-only because their local annual sample counts are too small for extra coefficients.",
+  motionDefinition: "Topocentric local rise/set direction (rise=+1, set=-1) plus magnitude interaction. Geocentric retrograde and longitude rate are calculated in the sample ledger but are not fitted in this experiment because previous blind tests did not show consistent gains. Threshold target variants: current event Sun altitude, midpoint of previous/current event Sun altitude, previous event Sun altitude.",
   holdoutSource: "Direct Drik Pithoragarh city pages; observer proxy 29.5828 N, 80.2182 E, 1650 m. Drik internal observer coordinates remain undisclosed.",
   warning: "Research-only; one-day civil-date error remains a release failure. Held-out year samples are never used to fit their own fold.",
   output
