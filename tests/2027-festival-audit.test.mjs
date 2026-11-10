@@ -327,7 +327,9 @@ test("2027 April includes verified regional new years and major observances", ()
     ["2027-04-08", /झूलेलाल जयंती/, "चैत्र शुक्ल द्वितीया"],
     ["2027-04-09", /^गणगौर \/ गौरी पूजा$/, "चैत्र शुक्ल तृतीया"],
     ["2027-04-09", /^मत्स्य-अवतार जयंती$/, "चैत्र शुक्ल तृतीया"],
-    ["2027-04-14", /मेष संक्रांति.*बैसाखी.*बोहाग बिहू.*सौर नववर्ष/, undefined],
+    ["2027-04-14", /^मेष संक्रांति$/, undefined],
+    ["2027-04-14", /^बैसाखी$/, undefined],
+    ["2027-04-14", /^बोहाग बिहू \/ रोंगाली बिहू$/, undefined],
     ["2027-04-14", /अशोकाष्टमी व्रत/, "चैत्र शुक्ल अष्टमी / नवमी व्याप्ति"],
     ["2027-04-15", /^विषु कणि$/, undefined],
     ["2027-04-15", /^पोहेला बोइशाख$/, undefined],
@@ -359,7 +361,8 @@ test("2027 May includes verified acharya, Mahavidya and regional observances", (
     ["2027-05-16", /परशुराम द्वादशी/, "वैशाख शुक्ल द्वादशी"],
     ["2027-05-20", /^बुद्ध पूर्णिमा \/ वैशाख पूर्णिमा$/, "वैशाख शुक्ल पूर्णिमा"],
     ["2027-05-20", /^चण्डिका जयंती$/, "वैशाख शुक्ल पूर्णिमा"],
-    ["2027-05-21", /नारद जयंती \/ ज्येष्ठ मासारंभ/, "ज्येष्ठ कृष्ण प्रतिपदा"],
+    ["2027-05-21", /^नारद जयंती$/, "ज्येष्ठ कृष्ण प्रतिपदा"],
+    ["2027-05-21", /^ज्येष्ठ मासारंभ \(उत्तर भारत\)$/, "ज्येष्ठ कृष्ण प्रतिपदा"],
     ["2027-05-28", /मासिक कालाष्टमी \/ मासिक कृष्ण जन्माष्टमी/, "ज्येष्ठ कृष्ण सप्तमी (अष्टमी व्याप्ति)"],
     ["2027-05-31", /हनुमान जयंती \(तेलुगु परंपरा\)/, "ज्येष्ठ कृष्ण दशमी"]
   ];
@@ -544,5 +547,16 @@ test("2027 September to December includes the verified Shraddha sequence and maj
     const data = month(monthNumber);
     assert.equal(data.status, "approved");
     assert.ok(data.events.length > 0);
+  }
+});
+
+
+test("2027 descriptions contain no generic placeholder copy", () => {
+  for (let monthNumber = 1; monthNumber <= 12; monthNumber++) {
+    const data = month(monthNumber);
+    for (const event of data.events) {
+      assert.doesNotMatch(event.description || "", /परंपरानुसार पूजा, व्रत और दान किया जाता है/,
+        data.year + "-" + String(monthNumber).padStart(2, "0") + " " + event.title);
+    }
   }
 });
