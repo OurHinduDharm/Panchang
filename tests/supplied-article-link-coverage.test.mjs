@@ -159,3 +159,31 @@ test("links Paush Mahatmya and Tailang Swami articles only to their matching obs
     await assertArticle(year, monthNumber, date, pattern, "About-Tailang-SwamiJi-On-His-Jayanti");
   }
 });
+
+test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing annual cards", async () => {
+  const cases = [
+    [2026,3,"2026-03-28",/कलश विसर्जन/,"kalashvisarjan"],
+    [2027,9,"2027-09-29",/महालया|सर्वपितृ/,"pitri-visarjan"],
+    [2027,10,"2027-10-09",/विजयादशमी/,"kalashvisarjan"],
+    [2028,4,"2028-04-03",/राम नवमी.*चैत्र नवरात्र/,"navratrihavanvidhi"],
+    [2028,9,"2028-09-18",/महालया/,"pitri-visarjan"],
+    [2028,9,"2028-09-26",/महाष्टमी.*महानवमी/,"navratrihavanvidhi"],
+    [2029,4,"2029-04-23",/राम नवमी.*चैत्र नवरात्र/,"navratrihavanvidhi"],
+    [2029,10,"2029-10-07",/सर्वपितृ/,"pitri-visarjan"],
+    [2029,10,"2029-10-15",/महानवमी/,"navratrihavanvidhi"],
+    [2030,4,"2030-04-12",/श्रीराम नवमी.*चैत्र नवरात्र/,"navratrihavanvidhi"],
+    [2030,9,"2030-09-27",/सर्वपितृ/,"pitri-visarjan"]
+  ];
+  for (const [year, monthNumber, date, pattern, urlPart] of cases) {
+    await assertArticle(year, monthNumber, date, pattern, urlPart);
+  }
+  const pitriCases = [
+    [2027,9,"2027-09-29",/महालया|सर्वपितृ/],
+    [2028,9,"2028-09-18",/महालया/],
+    [2029,10,"2029-10-07",/सर्वपितृ/],
+    [2030,9,"2030-09-27",/सर्वपितृ/]
+  ];
+  for (const [year, monthNumber, date, pattern] of pitriCases) {
+    await assertArticle(year, monthNumber, date, pattern, "pitri-tarpan-vidhi");
+  }
+});

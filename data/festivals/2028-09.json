@@ -174,11 +174,15 @@
       "date": "2028-09-18",
       "dateLabel": "18 सितंबर",
       "title": "महालया अमावस्या",
-      "description": "महालया अमावस्या पितृपक्ष के समापन और पितरों के निमित्त तर्पण/श्राद्ध से जुड़ी है।",
+      "description": "महालया अमावस्या पितृपक्ष के समापन और पितरों के निमित्त तर्पण/श्राद्ध से जुड़ी है। <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a>। <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ विसर्जन विधि</a>।",
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन कृष्ण अमावस्या"
+      "hinduTithi": "आश्विन कृष्ण अमावस्या",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/pitri-visarjan.html",
+      "articleLabel": "पितृ विसर्जन विधि",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
     },
     {
       "date": "2028-09-19",
@@ -302,11 +306,13 @@
       "date": "2028-09-26",
       "dateLabel": "26 सितंबर",
       "title": "महाष्टमी / महानवमी — माँ महागौरी एवं सिद्धिदात्री",
-      "description": "शारदीय नवरात्र की अष्टमी पर माँ दुर्गा के महागौरी स्वरूप की पूजा की जाती है। दुर्गा-पूजन, व्रत और कई परंपराओं में हवन/कन्या-पूजन किया जाता है; तिथि-व्याप्ति से दिन तय करें। मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। नवरात्रि की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a>",
+      "description": "शारदीय नवरात्र की अष्टमी पर माँ दुर्गा के महागौरी स्वरूप की पूजा की जाती है। दुर्गा-पूजन, व्रत और कई परंपराओं में हवन/कन्या-पूजन किया जाता है; तिथि-व्याप्ति से दिन तय करें। मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। नवरात्रि की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a> <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल अष्टमी",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html",
+      "secondaryArticleLabel": "नवमी हवन विधि"
     },
     {
       "date": "2028-09-26",
