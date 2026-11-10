@@ -22,6 +22,7 @@ test("Kali Chaudas and Narak Chaturdashi remain separate observances with the co
     assert.ok(narak, "Narak Chaturdashi card missing in " + item.month);
     assert.notEqual(kali, narak);
     assert.equal(kali.articleUrl, KALI_URL);
+    assert.equal(kali.muhurtaRule, "kali-chaudas-nishita");
     assert.match(kali.description, /निशीथ|रात्रि/);
     assert.match(narak.description, /अभ्यंग|अभ्यङ्ग/);
     assert.match(narak.description, /उबटन/);
