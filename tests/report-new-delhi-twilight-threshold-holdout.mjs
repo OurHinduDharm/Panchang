@@ -30,7 +30,13 @@ const SOURCE_CASES = {
   "mars-new-delhi-2026": { astaStart: -1, astaEnd: 1 },
   "venus-new-delhi-2025-december-to-2026-february": { astaStart: 1, astaEnd: -1 },
   "jupiter-new-delhi-2026": { astaStart: -1, astaEnd: 1 },
-  "saturn-new-delhi-2026": { astaStart: -1, astaEnd: 1 }
+  "saturn-new-delhi-2026": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2025-january-february": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2025-march-april": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2025-may-june": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2025-july-august": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2025-september-october": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2025-november": { astaStart: -1, astaEnd: 1 }
 };
 
 // Derived only from the four indexed Pithoragarh Venus 2025 transitions.
@@ -256,12 +262,20 @@ const mercuryMagnitudeCrossValidation = Object.fromEntries(
           thresholdMidpoint: (boundary.refractedTransitionInterval.lower + boundary.refractedTransitionInterval.upper) / 2
         }))
       );
-    const year2026 = samples.filter(item => item.year === 2026);
-    const year2027 = samples.filter(item => item.year === 2027);
+    const years = [2025, 2026, 2027];
+    const yearPairs = {};
+    for (const trainYear of years) {
+      for (const testYear of years) {
+        if (trainYear === testYear) continue;
+        yearPairs[trainYear + "To" + testYear] = evaluateMagnitudeHoldout(
+          samples.filter(item => item.year === trainYear),
+          samples.filter(item => item.year === testYear)
+        );
+      }
+    }
     return [boundaryName, {
       totalSamples: samples.length,
-      year2026To2027: evaluateMagnitudeHoldout(year2026, year2027),
-      year2027To2026: evaluateMagnitudeHoldout(year2027, year2026)
+      yearPairs
     }];
   })
 );
@@ -349,8 +363,7 @@ const mercuryBoundaryDateHoldouts = Object.fromEntries(
           thresholdMidpoint: (boundary.refractedTransitionInterval.lower + boundary.refractedTransitionInterval.upper) / 2
         }))
       );
-    const year2026 = samples.filter(item => item.year === 2026);
-    const year2027 = samples.filter(item => item.year === 2027);
+    const years = [2025, 2026, 2027];
     const testYear = (train, test) => {
       if (train.length < 4 || test.length < 4) return { available: false };
       const model = fitMagnitudeThreshold(train);
@@ -369,10 +382,17 @@ const mercuryBoundaryDateHoldouts = Object.fromEntries(
         }))
       };
     };
-    return [boundaryName, {
-      train2026Test2027: testYear(year2026, year2027),
-      train2027Test2026: testYear(year2027, year2026)
-    }];
+    const yearPairs = {};
+    for (const trainYear of years) {
+      for (const testYearNumber of years) {
+        if (trainYear === testYearNumber) continue;
+        yearPairs[trainYear + "To" + testYearNumber] = testYear(
+          samples.filter(item => item.year === trainYear),
+          samples.filter(item => item.year === testYearNumber)
+        );
+      }
+    }
+    return [boundaryName, { yearPairs }];
   })
 );
 
