@@ -488,6 +488,36 @@
       "crossSourceRelationship": "The 2027 New Delhi Saturn Asta pair matches exactly across Drik and Panchang Guru. Independence of the providers' algorithms is unknown; treat as published-output corroboration, not independent validation.",
       "retrievalEvidence": "Drik 2027 Shani Asta page gives 26 Mar 2027 19:21 setting and 5 May 2027 04:36 rising; Panchang Guru New Delhi Shani Asta page gives the same pair.",
       "notes": "City-label-only. The New Delhi city-centre observer proxy in the diagnostic is not a provider coordinate and must not be used as a Pithoragarh fallback."
+    },
+    "drik-new-delhi-mercury-2026": {
+      "name": "Drik Panchang 2026 Budha Tara Asta",
+      "url": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-10",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider location label is New Delhi; internal observer coordinates/elevation not disclosed."
+      },
+      "eventDefinition": "Mercury Tara Asta start/end timestamps. The page states that modern algorithms are used and the timings depend on observer geolocation; Surya Siddhanta angular limits are described as approximate.",
+      "notes": "2026 New Delhi Mercury windows, excluding the Dec 2026–Jan 2027 window already represented in the 2027 source page."
+    },
+    "drik-new-delhi-mars-2026": {
+      "name": "Drik Panchang 2026 Mangal Tara Asta",
+      "url": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-10",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider location label is New Delhi; internal observer coordinates/elevation not disclosed."
+      },
+      "eventDefinition": "Mars Tara Asta start/end timestamps. The page states modern location-based algorithms are used and Surya Siddhanta 17° limits are approximate.",
+      "notes": "One long Mars Asta window spanning 1 Nov 2025 through 2 May 2026. This is a New Delhi city-label reference, not Pithoragarh data."
     }
   },
   "cases": [
@@ -1986,6 +2016,209 @@
       "expectedDirections": {
         "astaStart": 1,
         "astaEnd": -1
+      }
+    },
+    {
+      "id": "mercury-new-delhi-2026-january-february",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-mercury-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-01-02T06:29:00+05:30",
+        "astaEnd": "2026-02-05T18:51:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik Panchang 2026 Budha Tara Asta page. Times are local New Delhi IST. Provider coordinates remain undisclosed; use only as a city-label holdout with an explicitly approximate New Delhi observer proxy, never as a Pithoragarh result.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Budha Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": 1,
+        "astaEnd": -1
+      }
+    },
+    {
+      "id": "mercury-new-delhi-2026-march",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-mercury-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-03-01T19:10:00+05:30",
+        "astaEnd": "2026-03-18T05:30:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik Panchang 2026 Budha Tara Asta page. Times are local New Delhi IST. Provider coordinates remain undisclosed; use only as a city-label holdout with an explicitly approximate New Delhi observer proxy, never as a Pithoragarh result.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Budha Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
+      }
+    },
+    {
+      "id": "mercury-new-delhi-2026-april-may",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-mercury-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-04-27T05:00:00+05:30",
+        "astaEnd": "2026-05-23T20:01:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik Panchang 2026 Budha Tara Asta page. Times are local New Delhi IST. Provider coordinates remain undisclosed; use only as a city-label holdout with an explicitly approximate New Delhi observer proxy, never as a Pithoragarh result.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Budha Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": 1,
+        "astaEnd": -1
+      }
+    },
+    {
+      "id": "mercury-new-delhi-2026-june-july",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-mercury-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-06-30T20:22:00+05:30",
+        "astaEnd": "2026-07-25T04:34:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik Panchang 2026 Budha Tara Asta page. Times are local New Delhi IST. Provider coordinates remain undisclosed; use only as a city-label holdout with an explicitly approximate New Delhi observer proxy, never as a Pithoragarh result.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Budha Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
+      }
+    },
+    {
+      "id": "mercury-new-delhi-2026-august-september",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-mercury-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-08-18T05:05:00+05:30",
+        "astaEnd": "2026-09-18T19:09:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik Panchang 2026 Budha Tara Asta page. Times are local New Delhi IST. Provider coordinates remain undisclosed; use only as a city-label holdout with an explicitly approximate New Delhi observer proxy, never as a Pithoragarh result.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Budha Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": 1,
+        "astaEnd": -1
+      }
+    },
+    {
+      "id": "mercury-new-delhi-2026-october-november",
+      "planet": "Mercury",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-mercury-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-10-25T18:31:00+05:30",
+        "astaEnd": "2026-11-11T05:40:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik Panchang 2026 Budha Tara Asta page. Times are local New Delhi IST. Provider coordinates remain undisclosed; use only as a city-label holdout with an explicitly approximate New Delhi observer proxy, never as a Pithoragarh result.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Budha Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
+      }
+    },
+    {
+      "id": "mars-new-delhi-2026",
+      "planet": "Mars",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-mars-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-11-01T18:36:00+05:30",
+        "astaEnd": "2026-05-02T04:30:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik Panchang 2026 Mangal Tara Asta page reports the window beginning 1 Nov 2025 and ending 2 May 2026. The event is a single long Mars Asta interval; provider coordinates remain undisclosed, so compare only with an explicitly approximate New Delhi observer proxy.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Mangal Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
       }
     }
   ],
