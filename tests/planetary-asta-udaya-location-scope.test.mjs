@@ -5,12 +5,12 @@ import test from "node:test";
 
 const source = await readFile(new URL("../extra-panchang.js", import.meta.url), "utf8");
 const dataset = JSON.parse(await readFile(
-  new URL("../data/drik-pithoragarh-asta-udaya-2024-2027.json", import.meta.url), "utf8"
+  new URL("../data/drik-planetary-reference-2024-2027.json", import.meta.url), "utf8"
 ));
 
 test("production Panchang uses direct city references, not geocentric fixed-angle thresholds", () => {
   assert.ok(source.includes("getDrikPlanetaryReference"));
-  assert.ok(source.includes("drik-pithoragarh-asta-udaya-2024-2027.json"));
+  assert.ok(source.includes("drik-planetary-reference-2024-2027.json"));
   assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findNearestAngularBoundary|findThresholdCrossingInstant/);
 });
 
