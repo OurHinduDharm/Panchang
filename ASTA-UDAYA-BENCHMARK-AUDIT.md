@@ -1015,3 +1015,19 @@ Latest browser diagnostics में 2024–27 के **38 New Delhi Asta window
 2. **Boundary date:** planet brightness और local twilight के आधार पर visibility transition चुनना—Mercury के लिए cross-year model candidate सफल है; अन्य ग्रहों का calibration बाकी है।
 
 CI browser diagnostics, Panchang feature validation और classical interval tests सफल रहे। Production Panchang display/code path अभी नहीं बदला।
+
+
+### Venus New Delhi→Pithoragarh cross-location holdout — CI success
+
+नया cross-location test New Delhi के Venus data से calibration करता है और Pithoragarh की दोनों 2025 apparitions को holdout रखता है। Leakage रोकने के लिए हर Pithoragarh test apparition के समान New Delhi apparition को training से हटाया गया। Training में हर boundary direction के लिए चार अलग New Delhi apparitions बचे।
+
+| Pithoragarh boundary | Published date | Predicted date | अंतर |
+|---|---|---|---:|
+| Mar 2025 Asta-start | 20 Mar 2025 | 20 Mar 2025 | 0 दिन |
+| Mar 2025 Asta-end | 23 Mar 2025 | 23 Mar 2025 | 0 दिन |
+| Dec 2025 Asta-start | 11 Dec 2025 | 10 Dec 2025 | −1 दिन |
+| Feb 2026 Asta-end | 2 Feb 2026 | 2 Feb 2026 | 0 दिन |
+
+**4 में से 3 exact, सभी 4 एक दिन के भीतर।** यह New Delhi से Pithoragarh पर Venus के लिए promising location-transfer evidence है। Pithoragarh test observer project coordinates 29.5828° N, 80.2182° E, 1650 m हैं; Drik के internal coordinates प्रकाशित नहीं, इसलिए इसे exact observer equivalence न मानें। केवल दो Pithoragarh apparitions और छोटे training samples हैं; इससे अन्य ग्रहों के coefficients सिद्ध नहीं होते।
+
+**अगला कदम:** Venus के लिए इस candidate को अलग research module में स्थिर करना, फिर 2026/27 Pithoragarh user-provided windows और उपलब्ध अतिरिक्त independent same-city references पर blind/forward validation। Main Panchang में अभी कोई display या calculation नहीं जोड़ी गई।
