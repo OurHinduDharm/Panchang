@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "title": "Panchang Guru New Delhi Asta/Udaya cross-provider snapshot",
+  "capturedOn": "2026-11-10",
+  "provider": {
+    "name": "Panchang Guru",
+    "location": "New Delhi, India",
+    "timeZone": "Asia/Kolkata",
+    "sources": {
+      "Venus": "https://www.panchangguru.com/shukra-asta",
+      "Jupiter": "https://www.panchangguru.com/guru-asta",
+      "Saturn": "https://www.panchangguru.com/shani-asta"
+    },
+    "eventDefinition": "Provider states each boundary is the planet's own setting or rising while lost in solar glare. Exact numerical visibility algorithm and observer coordinates/elevation are not disclosed.",
+    "comparisonPolicy": "Compare provider outputs as separate published event definitions. Do not average values or claim coordinate-exact agreement."
+  },
+  "windows": [
+    {
+      "id": "venus-2025-march",
+      "planet": "Venus",
+      "astaStart": "2025-03-20T18:53:00+05:30",
+      "astaEnd": "2025-03-23T05:53:00+05:30",
+      "benchmarkCaseId": "venus-new-delhi-2025-march"
+    },
+    {
+      "id": "venus-2025-december-2026-february",
+      "planet": "Venus",
+      "astaStart": "2025-12-12T06:37:00+05:30",
+      "astaEnd": "2026-02-01T18:27:00+05:30",
+      "benchmarkCaseId": "venus-new-delhi-2025-december-to-2026-february"
+    },
+    {
+      "id": "venus-2026-october",
+      "planet": "Venus",
+      "astaStart": "2026-10-12T18:19:00+05:30",
+      "astaEnd": "2026-10-29T06:00:00+05:30",
+      "benchmarkCaseId": "venus-new-delhi-2026"
+    },
+    {
+      "id": "venus-2027-july-september",
+      "planet": "Venus",
+      "astaStart": "2027-07-21T05:08:00+05:30",
+      "astaEnd": "2027-09-09T19:00:00+05:30",
+      "benchmarkCaseId": "venus-new-delhi-2027"
+    },
+    {
+      "id": "jupiter-2025",
+      "planet": "Jupiter",
+      "astaStart": "2025-06-12T19:56:00+05:30",
+      "astaEnd": "2025-07-09T04:45:00+05:30",
+      "benchmarkCaseId": "jupiter-new-delhi-2025"
+    },
+    {
+      "id": "jupiter-2026",
+      "planet": "Jupiter",
+      "astaStart": "2026-07-15T19:59:00+05:30",
+      "astaEnd": "2026-08-12T05:03:00+05:30",
+      "benchmarkCaseId": "jupiter-new-delhi-2026"
+    },
+    {
+      "id": "jupiter-2027",
+      "planet": "Jupiter",
+      "astaStart": "2027-08-17T19:32:00+05:30",
+      "astaEnd": "2027-09-13T05:22:00+05:30",
+      "benchmarkCaseId": "jupiter-new-delhi-2027"
+    },
+    {
+      "id": "saturn-2025",
+      "planet": "Saturn",
+      "astaStart": "2025-02-28T19:06:00+05:30",
+      "astaEnd": "2025-04-09T05:03:00+05:30",
+      "benchmarkCaseId": "saturn-new-delhi-2025"
+    },
+    {
+      "id": "saturn-2026",
+      "planet": "Saturn",
+      "astaStart": "2026-03-13T19:13:00+05:30",
+      "astaEnd": "2026-04-22T04:49:00+05:30",
+      "benchmarkCaseId": "saturn-new-delhi-2026"
+    },
+    {
+      "id": "saturn-2027",
+      "planet": "Saturn",
+      "astaStart": "2027-03-26T19:21:00+05:30",
+      "astaEnd": "2027-05-05T04:36:00+05:30",
+      "benchmarkCaseId": "saturn-new-delhi-2027"
+    }
+  ]
+}
