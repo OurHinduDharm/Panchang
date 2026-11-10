@@ -9,24 +9,50 @@
     {
       "date": "2027-11-02",
       "dateLabel": "2 नवंबर",
-      "title": "लाभ चतुर्थी",
+      "title": "लाभ चतुर्थी / नागुला चविथि",
       "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027"
+    },
+    {
+      "date": "2027-11-03",
+      "dateLabel": "3 नवम्बर",
+      "title": "लाभ पंचमी",
+      "description": "लाभ पंचमी के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027",
+      "hinduTithi": "कार्तिक शुक्ल पंचमी"
     },
     {
       "date": "2027-11-04",
       "dateLabel": "4 नवंबर",
-      "title": "छठ पूजा / मासिक स्कन्द षष्ठी",
+      "title": "छठ पूजा / मासिक स्कन्द षष्ठी / सूरसम्हारम्",
       "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। छठ पूजा में सूर्यदेव और छठी मैया की उपासना, अस्ताचलगामी और उदीयमान सूर्य को अर्घ्य तथा नियमपूर्वक व्रत की परंपरा है। अनुष्ठान के दिन और समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल षष्ठी",
-      "muhurtaRule": "chhath-arghya"
+      "muhurtaRule": "chhath-arghya",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027"
+    },
+    {
+      "date": "2027-11-05",
+      "dateLabel": "5 नवम्बर",
+      "title": "जलाराम बापा जयंती",
+      "description": "जलाराम बापा जयंती के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027",
+      "hinduTithi": "कार्तिक शुक्ल सप्तमी"
     },
     {
       "date": "2027-11-06",
@@ -41,7 +67,7 @@
     {
       "date": "2027-11-07",
       "dateLabel": "7 नवंबर",
-      "title": "सतयुगादि तिथि (सतयुग का आरंभ) / अक्षय नवमी",
+      "title": "सतयुगादि तिथि (सतयुग का आरंभ) / अक्षय नवमी / जगद्धात्री पूजा",
       "description": "कार्तिक शुक्ल नवमी को सतयुगादि कहा जाता है। पुराणों के अनुसार इस तिथि से सतयुग का आरंभ हुआ था। यही तिथि अक्षय नवमी के रूप में भी प्रसिद्ध है। इस दिन जप, तप और दान को अक्षय पुण्यदायी माना गया है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
@@ -62,7 +88,7 @@
     {
       "date": "2027-11-10",
       "dateLabel": "10 नवंबर",
-      "title": "देवउठनी एकादशी / भीष्म पंचक प्रारंभ",
+      "title": "देवोत्थानी एकादशी (स्मार्त) / भीष्म पंचक प्रारंभ",
       "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागरण और चातुर्मास समापन की परंपरा है। व्रत-पारण का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> भीष्म पंचक व्रत पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">भीष्म पंचक व्रत</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
@@ -77,6 +103,17 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1273294&year=2027"
     },
     {
+      "date": "2027-11-10",
+      "dateLabel": "10 नवम्बर",
+      "title": "योगेश्वर द्वादशी",
+      "description": "योगेश्वर द्वादशी के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027",
+      "hinduTithi": "कार्तिक शुक्ल द्वादशी"
+    },
+    {
       "date": "2027-11-11",
       "dateLabel": "11 नवंबर",
       "title": "गुरु प्रदोष व्रत",
@@ -89,19 +126,21 @@
     {
       "date": "2027-11-11",
       "dateLabel": "11 नवंबर",
-      "title": "तुलसी विवाह",
+      "title": "तुलसी विवाह / तमस मन्वादि",
       "description": "तुलसी विवाह में तुलसी माता और शालिग्राम/भगवान विष्णु का विवाहोत्सव किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">प्रबोधिनी एकादशी पर तुलसी विवाह</a> द्वादशी से पूर्णिमा तक किसी भी दिन यह कर सकते हैं। रविवार को तुलसी-स्पर्श शास्त्रानुसार वर्जित है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
       "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह",
-      "hinduTithi": "कार्तिक शुक्ल द्वादशी"
+      "hinduTithi": "कार्तिक शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027"
     },
     {
       "date": "2027-11-12",
       "dateLabel": "12 नवंबर",
-      "title": "वैकुण्ठ चतुर्दशी",
+      "title": "वैकुण्ठ चतुर्दशी / विश्वेश्वर व्रत",
       "description": "वैकुण्ठ चतुर्दशी पर भगवान विष्णु और भगवान शिव की संयुक्त उपासना, दीपदान और पूजन की परंपरा है।",
       "category": "पर्व",
       "reviewStatus": "approved",
@@ -113,7 +152,7 @@
     {
       "date": "2027-11-13",
       "dateLabel": "13 नवंबर",
-      "title": "देव दीपावली",
+      "title": "देव दीपावली / मणिकर्णिका स्नान",
       "description": "कार्तिक शुक्ल पूर्णिमा के प्रदोषकाल में देव दीपावली का उत्सव मनाया जाता है। मंदिरों और घाटों पर दीपदान तथा भगवान शिव की उपासना की परंपरा है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
@@ -126,14 +165,27 @@
     {
       "date": "2027-11-14",
       "dateLabel": "14 नवंबर",
-      "title": "कार्तिक पूर्णिमा",
+      "title": "कार्तिक पूर्णिमा / भीष्म पंचक समाप्त / पुष्कर स्नान / मासिक कार्तिगाई / उत्तम मन्वादि / इष्टि",
       "description": "कार्तिक पूर्णिमा पर स्नान, दान, दीपदान और भगवान विष्णु/शिव की उपासना की परंपरा है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
       "articleLabel": "आकाशदीपदान की विधि पढ़ें",
-      "hinduTithi": "कार्तिक शुक्ल पूर्णिमा"
+      "hinduTithi": "कार्तिक शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027"
+    },
+    {
+      "date": "2027-11-15",
+      "dateLabel": "15 नवम्बर",
+      "title": "मार्गशीर्ष मासारंभ (उत्तर)",
+      "description": "मार्गशीर्ष मासारंभ (उत्तर) के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "मासारंभ",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027",
+      "hinduTithi": "मार्गशीर्ष कृष्ण प्रतिपदा"
     },
     {
       "date": "2027-11-17",
@@ -157,16 +209,28 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027"
     },
     {
+      "date": "2027-11-17",
+      "dateLabel": "17 नवम्बर",
+      "title": "मंडल पूजा प्रारंभ (सबरीमला)",
+      "description": "मंडल पूजा प्रारंभ (सबरीमला) के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027"
+    },
+    {
       "date": "2027-11-20",
       "dateLabel": "20 नवंबर",
-      "title": "कालभैरव जयंती / मासिक कालाष्टमी",
+      "title": "कालभैरव जयंती / मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
       "description": "कालभैरव जयंती पर भगवान शिव के कालभैरव स्वरूप की पूजा, मंत्र-जप और रात्रि-उपासना की परंपरा है। पूजा का दिन कृष्ण पक्ष अष्टमी की व्याप्ति के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
-      "hinduTithi": "मार्गशीर्ष कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+      "hinduTithi": "मार्गशीर्ष कृष्ण सप्तमी (अष्टमी व्याप्ति)",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027"
     },
     {
       "date": "2027-11-24",
@@ -182,6 +246,17 @@
       "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
+    },
+    {
+      "date": "2027-11-24",
+      "dateLabel": "24 नवम्बर",
+      "title": "कृष्ण योगेश्वर द्वादशी",
+      "description": "कृष्ण योगेश्वर द्वादशी के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027",
+      "hinduTithi": "मार्गशीर्ष कृष्ण द्वादशी"
     },
     {
       "date": "2027-11-25",
@@ -209,7 +284,7 @@
     {
       "date": "2027-11-28",
       "dateLabel": "28 नवंबर",
-      "title": "मार्गशीर्ष अमावस्या",
+      "title": "मार्गशीर्ष अमावस्या / इष्टि",
       "description": "मार्गशीर्ष अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है।",
       "category": "अमावस्या",
       "reviewStatus": "approved",

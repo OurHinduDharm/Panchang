@@ -389,3 +389,50 @@ test("2027 August includes Vedic, regional, Smarta and seasonal observances", ()
     seen.add(key);
   }
 });
+
+
+test("2027 September to December includes the verified Shraddha sequence and major regional observances", () => {
+  const checks = [
+    [9, "2027-09-07", /ललिता सप्तमी/],
+    [9, "2027-09-16", /प्रतिपदा श्राद्ध/],
+    [9, "2027-09-20", /पंचमी श्राद्ध/],
+    [9, "2027-09-23", /जीवित्पुत्रिका व्रत/],
+    [9, "2027-09-27", /द्वादशी श्राद्ध/],
+    [9, "2027-09-29", /दर्श अमावस्या/],
+    [9, "2027-09-30", /घटस्थापना/],
+    [10, "2027-10-08", /संधि पूजा/],
+    [10, "2027-10-10", /दुर्गा विसर्जन/],
+    [10, "2027-10-14", /कोजागरा पूजा/],
+    [10, "2027-10-15", /वाल्मीकि जयंती/],
+    [10, "2027-10-27", /यम दीपदान/],
+    [10, "2027-10-30", /अन्नकूट/],
+    [11, "2027-11-10", /देवोत्थानी एकादशी \\(स्मार्त\\)/],
+    [11, "2027-11-17", /मंडल पूजा प्रारंभ/],
+    [11, "2027-11-20", /मासिक कृष्ण जन्माष्टमी/],
+    [11, "2027-11-24", /कृष्ण योगेश्वर द्वादशी/],
+    [12, "2027-12-03", /तेलुगु नाग पंचमी/],
+    [12, "2027-12-12", /कार्तिगाई दीपम/],
+    [12, "2027-12-27", /हनुमान जयंती \\(तमिल परंपरा\\)/],
+    [12, "2027-12-31", /विघ्नेश्वर चतुर्थी/]
+  ];
+  for (const [monthNumber, date, title] of checks) {
+    const event = find(monthNumber, date, title);
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+    assert.ok(event.sourceUrl, date + " source URL");
+  }
+  const pratipada = find(9, "2027-09-16", /प्रतिपदा श्राद्ध/);
+  assert.ok(pratipada.articleUrl);
+  assert.ok(pratipada.secondaryArticleUrl);
+  for (const monthNumber of [9, 10, 11, 12]) {
+    const data = month(monthNumber);
+    assert.equal(data.status, "approved");
+    const seen = new Set();
+    for (const event of data.events) {
+      if (!event.hinduTithi) continue;
+      const key = event.date + "|" + event.hinduTithi;
+      assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
+      seen.add(key);
+    }
+  }
+});
