@@ -78,6 +78,24 @@ async function queryHorizons(targetId, times, label) {
   };
 }
 
+async function queryHorizonsBatched(targetId, times, label) {
+  const batchSize = 50;
+  const batches = [];
+  for (let start = 0; start < times.length; start += batchSize) {
+    batches.push(times.slice(start, start + batchSize));
+  }
+  const results = await Promise.all(batches.map((batch, index) =>
+    queryHorizons(targetId, batch, label + " batch " + (index + 1))
+  ));
+  return {
+    targetId,
+    requestedTimesUTC: times,
+    header: results[0]?.header ?? [],
+    rows: results.flatMap(result => result.rows),
+    batchCount: batches.length
+  };
+}
+
 const dataset = JSON.parse(await readFile(DATA_PATH, "utf8"));
 const windows = dataset.windows.filter(window =>
   window.sourcePageYear >= 2021 && window.sourcePageYear <= 2027 &&
@@ -137,8 +155,8 @@ const report = {
 for (const [planet, boundaries] of grouped) {
   const times = [...new Set(boundaries.flatMap(boundary => boundary.samplesUTC))].sort();
   const [target, sun] = await Promise.all([
-    queryHorizons(TARGET_IDS[planet], times, planet + " target"),
-    queryHorizons("10", times, planet + " Sun")
+    queryHorizonsBatched(TARGET_IDS[planet], times, planet + " target"),
+    queryHorizonsBatched("10", times, planet + " Sun")
   ]);
   const boundaryDiagnostics = boundaries.map(boundary => {
     const centerIndex = target.requestedTimesUTC.indexOf(boundary.samplesUTC[1]);
@@ -183,7 +201,7 @@ report.summary = {
   planets: report.planetResults.length,
   boundaries: totalBoundaries,
   ephemerisRows: totalRows,
-  apiQueries: report.planetResults.length * 2,
+  apiQueries: report.planetResults.reduce((sum, item) => sum + 2 * item.target.batchCount, 0),
   meanTargetAltitudeAtPublishedBoundaryDeg: Number(meanTargetAltitude.toFixed(4)),
   meanAbsoluteDifferenceFromMinusHalfDegreeDeg: Number((allDiagnostics.reduce((sum, item) => sum + Math.abs(item.targetAltitudeDifferenceFromMinusHalfDeg), 0) / allDiagnostics.length).toFixed(4)),
   withinPointTwoDegreesOfMinusHalfHorizon: nearHorizonCount,
