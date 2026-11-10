@@ -21,7 +21,7 @@ test("2028 monthly festival files have approved records dated within their month
     assert.equal(data.status, "approved");
     for (const event of data.events || []) {
       assert.equal(event.reviewStatus, "approved", event.date + ": " + event.title);
-      assert.match(event.date, /^2028-\\d{2}-\\d{2}$/);
+      assert.match(event.date, /^2028-\d{2}-\d{2}$/);
       assert.equal(Number(event.date.slice(5, 7)), index + 1,
         event.date + " is stored in the wrong monthly file");
     }
@@ -44,7 +44,7 @@ test("2028 Pithoragarh-visible lunar eclipses retain local contact times", () =>
   assert.ok(july);
   assert.equal(july.hinduTithi, "आषाढ़ शुक्ल पूर्णिमा");
   assert.match(july.description, /10:39 बजे से 7 जुलाई रात 1:00 बजे तक/);
-  assert.match(july.sourceUrl, /timeanddate\\.com\\/eclipse\\/in\\/india\\/pithoragarh/);
+  assert.match(july.sourceUrl, /timeanddate\.com\/eclipse\/in\/india\/pithoragarh/);
 
   const december = events.find(event => event.date === "2028-12-31" && /पूर्ण चंद्रग्रहण/.test(event.title || ""));
   assert.ok(december);
