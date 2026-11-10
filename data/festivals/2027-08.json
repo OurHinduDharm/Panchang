@@ -9,8 +9,8 @@
     {
       "date": "2027-08-02",
       "dateLabel": "2 अगस्त",
-      "title": "सोमवती अमावस्या / हरियाली अमावस्या / आषाढ़ी-आदि अमावस्या / तृतीय श्रावण सोमवार / आंशिक सूर्यग्रहण",
-      "description": "श्रावण अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। तमिल परंपरा में आदि अमावासै भी इसी दिन है। श्रावण के तीसरे सोमवार का शिव-व्रत भी है। पिथौरागढ़ में आंशिक सूर्यग्रहण 16:01 से 16:56 बजे तक दिखाई देगा; अधिकतम ग्रहण 16:29 बजे होगा।",
+      "title": "सोमवती अमावस्या / हरियाली अमावस्या / श्रावण अमावस्या / आदि अमावासै / दर्श अमावस्या / तृतीय श्रावण सोमवार / आंशिक सूर्यग्रहण",
+      "description": "श्रावण अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। उत्तर भारत में हरियाली अमावस्या, तमिल परंपरा में आदि अमावासै तथा दर्श अमावस्या भी इसी दिन हैं। श्रावण के तीसरे सोमवार का शिव-व्रत भी है। पिथौरागढ़ में आंशिक सूर्यग्रहण 16:01 से 16:56 बजे तक दिखाई देगा; अधिकतम ग्रहण 16:29 बजे होगा।",
       "category": "अमावस्या एवं ग्रहण",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -52,6 +52,17 @@
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल चतुर्थी",
       "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
+      "date": "2027-08-05",
+      "dateLabel": "5 अगस्त",
+      "title": "आण्डाल जयंती",
+      "description": "तमिल आषाढ़ (आदि) मास के पूरम नक्षत्र पर श्रीगोदा देवी (आण्डाल) की जयंती मनाई जाती है। इस दिन उनकी भक्ति-रचनाओं और श्रीविष्णु के प्रति समर्पण का स्मरण किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — August 2027 Tamil Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2027"
     },
     {
       "date": "2027-08-06",
@@ -290,14 +301,16 @@
     {
       "date": "2027-08-25",
       "dateLabel": "25 अगस्त",
-      "title": "मासिक कालाष्टमी",
+      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
       "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद कृष्ण अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "sourceName": "Drik Panchang — August 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2027"
     },
     {
       "date": "2027-08-26",
