@@ -78,8 +78,11 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
   const targetYearPrefix = Number.isFinite(year) ? String(year) + "-" : "";
   const groups = new Map();
+  const groupBuckets = new Map();
 
-  dailyPanchang.forEach(day => {
+  // Process observations chronologically so separate lunar occurrences of
+  // the same masa/paksha never collapse into one annual record.
+  dailyPanchang.slice().sort((a, b) => dateSort(a?.date, b?.date)).forEach(day => {
     if (!day || !String(day.date || "").startsWith(targetYearPrefix)) return;
     const sunrise = day && day.sunriseTithi;
     const atSunrise = !!sunrise && normalizeTithi(sunrise.tithi) === "द्वादशी";
@@ -89,18 +92,41 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     const masa = normalizeMonth(atSunrise ? (sunrise.masa || day.masa) : day.masa);
     const paksha = normalizePaksha(atSunrise ? (sunrise.paksha || day.paksha) : day.paksha);
     if (!masa.month || !paksha || !/^\d{4}-\d{2}-\d{2}$/.test(String(day.date || ""))) return;
-    const key = [masa.month, paksha, masa.adhika ? "adhika" : "nija"].join("|");
-    if (!groups.has(key)) groups.set(key, {
-      id: MONTH_SLUGS[masa.month] + "-" + (paksha === "कृष्ण" ? "krishna" : "shukla") + (masa.adhika ? "-adhika" : ""),
-      month: masa.month,
-      paksha,
-      adhika: masa.adhika,
-      sunriseDates: [],
-      noonDates: [],
-      sunriseObservations: [],
-      noonObservations: []
-    });
-    const group = groups.get(key);
+    const baseKey = [masa.month, paksha, masa.adhika ? "adhika" : "nija"].join("|");
+    const bucket = groupBuckets.get(baseKey) || [];
+    const dayNumber = Date.parse(day.date + "T00:00:00Z");
+    let group = bucket.length ? bucket[bucket.length - 1] : null;
+    const lastDate = group && group.lastObservationDate;
+    const lastNumber = lastDate ? Date.parse(lastDate + "T00:00:00Z") : NaN;
+    const dayGap = Number.isFinite(dayNumber) && Number.isFinite(lastNumber)
+      ? Math.round((dayNumber - lastNumber) / 86400000) : Infinity;
+
+    // A single Dwadashi tithi can touch only a short run of civil dates.
+    // A gap greater than 3 days therefore starts a distinct lunar occurrence.
+    if (!group || dayGap > 3) {
+      const occurrence = bucket.length + 1;
+      const baseId = MONTH_SLUGS[masa.month] + "-" +
+        (paksha === "कृष्ण" ? "krishna" : "shukla") + (masa.adhika ? "-adhika" : "");
+      group = {
+        id: baseId + (occurrence > 1 ? "-occurrence-" + occurrence : ""),
+        baseKey,
+        occurrence,
+        month: masa.month,
+        paksha,
+        adhika: masa.adhika,
+        sunriseDates: [],
+        noonDates: [],
+        sunriseObservations: [],
+        noonObservations: [],
+        drik2026Entry: null,
+        drikSpecialEntries: [],
+        referenceDate: null
+      };
+      bucket.push(group);
+      groupBuckets.set(baseKey, bucket);
+      groups.set(baseKey + "|occurrence|" + occurrence, group);
+    }
+    group.lastObservationDate = day.date;
     if (atSunrise) {
       group.sunriseDates.push(day.date);
       group.sunriseObservations.push({
@@ -120,14 +146,57 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     }
   });
 
-  const ensureEmptyGroup = (month, paksha, adhika = false, referenceDate = null) => {
-    const key = [month, paksha, adhika ? "adhika" : "nija"].join("|");
-    if (!groups.has(key)) groups.set(key, {
-      id: MONTH_SLUGS[month] + "-" + (paksha === "कृष्ण" ? "krishna" : "shukla") + (adhika ? "-adhika" : ""),
-      month, paksha, adhika, referenceDate,
-      sunriseDates: [], noonDates: [], sunriseObservations: [], noonObservations: []
-    });
-    else if (referenceDate) groups.get(key).referenceDate = referenceDate;
+  const ensureEmptyGroup = (month, paksha, adhika = false, referenceDate = null, sourceEntry = null, sourceKind = null) => {
+    const baseKey = [month, paksha, adhika ? "adhika" : "nija"].join("|");
+    const bucket = groupBuckets.get(baseKey) || [];
+    let target = null;
+    if (referenceDate) {
+      const referenceNumber = Date.parse(referenceDate + "T00:00:00Z");
+      const matches = bucket.map(group => {
+        const dates = unique(group.sunriseDates.concat(group.noonDates));
+        const exact = dates.includes(referenceDate);
+        const overlap = !exact && !!findDwadashiIntervalOnLocalDate(dailyPanchang, referenceDate, month, paksha, adhika);
+        const distance = dates.length && Number.isFinite(referenceNumber)
+          ? Math.min(...dates.map(date => Math.abs(Date.parse(date + "T00:00:00Z") - referenceNumber) / 86400000))
+          : Infinity;
+        return {group, exact, overlap, distance};
+      }).filter(item => item.exact || item.overlap || item.distance <= 3)
+        .sort((a, b) => (a.exact ? -1 : a.overlap ? -1 : 0) - (b.exact ? -1 : b.overlap ? -1 : 0) || a.distance - b.distance);
+      target = matches[0]?.group || null;
+    }
+    if (!target && bucket.length === 0) {
+      const baseId = MONTH_SLUGS[month] + "-" + (paksha === "कृष्ण" ? "krishna" : "shukla") + (adhika ? "-adhika" : "");
+      target = {
+        id: baseId, baseKey, occurrence: 1, month, paksha, adhika,
+        referenceDate: null, sunriseDates: [], noonDates: [],
+        sunriseObservations: [], noonObservations: [],
+        drik2026Entry: null, drikSpecialEntries: []
+      };
+      bucket.push(target);
+      groupBuckets.set(baseKey, bucket);
+      groups.set(baseKey + "|occurrence|1", target);
+    } else if (!target && referenceDate) {
+      // Keep a source reference as its own review row when it cannot be
+      // safely associated with any locally observed occurrence.
+      const occurrence = bucket.length + 1;
+      const baseId = MONTH_SLUGS[month] + "-" + (paksha === "कृष्ण" ? "krishna" : "shukla") + (adhika ? "-adhika" : "");
+      target = {
+        id: baseId + "-occurrence-" + occurrence, baseKey, occurrence,
+        month, paksha, adhika, referenceDate,
+        sunriseDates: [], noonDates: [], sunriseObservations: [], noonObservations: [],
+        drik2026Entry: null, drikSpecialEntries: []
+      };
+      bucket.push(target);
+      groupBuckets.set(baseKey, bucket);
+      groups.set(baseKey + "|occurrence|" + occurrence, target);
+    }
+    if (!target) target = bucket[0];
+    if (referenceDate && target) target.referenceDate = referenceDate;
+    if (sourceKind === "drik2026" && target) target.drik2026Entry = sourceEntry;
+    if (sourceKind === "special" && target && sourceEntry &&
+        !target.drikSpecialEntries.some(item => item.referenceDate === sourceEntry.referenceDate && item.labels?.join("|") === sourceEntry.labels?.join("|"))) {
+      target.drikSpecialEntries.push(sourceEntry);
+    }
   };
 
   // Keep every master month-paksha Dwadashi record visible every year.
@@ -145,7 +214,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       const masa = normalizeMonth(item.month);
       const paksha = normalizePaksha(item.paksha);
       if (masa.month && paksha) {
-        ensureEmptyGroup(masa.month, paksha, !!item.adhika, item.referenceDate || null);
+        ensureEmptyGroup(masa.month, paksha, !!item.adhika, item.referenceDate || null, item, "drik2026");
       }
     });
   }
@@ -154,7 +223,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     rules.drikSpecialObservances.filter(item => Number(item.year) === year).forEach(item => {
       const masa = normalizeMonth(item.month);
       const paksha = normalizePaksha(item.paksha);
-      if (masa.month && paksha) ensureEmptyGroup(masa.month, paksha, !!item.adhika, item.referenceDate || null);
+      if (masa.month && paksha) ensureEmptyGroup(masa.month, paksha, !!item.adhika, item.referenceDate || null, item, "special");
     });
   }
 
@@ -173,22 +242,9 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       !!item.adhika === !!group.adhika
     );
     const observances = source && Array.isArray(source.observances) ? source.observances : [];
-    const drik2026Entry = year === 2026 && rules && Array.isArray(rules.drik2026Calendar)
-      ? rules.drik2026Calendar.find(item =>
-          item.month === group.month &&
-          item.paksha === group.paksha &&
-          !!item.adhika === !!group.adhika
-        )
-      : null;
-    const drikSpecialEntries = rules && Array.isArray(rules.drikSpecialObservances)
-      ? rules.drikSpecialObservances.filter(item =>
-          Number(item.year) === year &&
-          item.month === group.month &&
-          item.paksha === group.paksha &&
-          !!item.adhika === !!group.adhika
-        )
-      : [];
-    const drikReferenceDate = drik2026Entry?.referenceDate || drikSpecialEntries[0]?.referenceDate || group.referenceDate || null;
+    const drik2026Entry = group.drik2026Entry || null;
+    const drikSpecialEntries = group.drikSpecialEntries || [];
+    const drikReferenceDate = group.referenceDate || drik2026Entry?.referenceDate || drikSpecialEntries[0]?.referenceDate || null;
     const sourceReferenceObservation = drikReferenceDate && !candidateDates.includes(drikReferenceDate)
       ? findDwadashiIntervalOnLocalDate(dailyPanchang, drikReferenceDate, group.month, group.paksha, group.adhika)
       : null;
@@ -202,6 +258,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     );
     return {
       id: group.id,
+      occurrence: group.occurrence || 1,
       month: group.month,
       paksha: group.paksha,
       adhika: group.adhika,
