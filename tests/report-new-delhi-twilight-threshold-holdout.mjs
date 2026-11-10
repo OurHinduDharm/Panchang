@@ -527,7 +527,7 @@ const planetAnnualBlindWindowHoldouts = Object.fromEntries(
         continue;
       }
 
-      const searchDays = planetName === "Mars" ? 150 : 60;
+      const searchDays = planetName === "Mars" ? 150 : planetName === "Mercury" ? 45 : 60;
       const windows = generateVisibilityWindows({
         astronomy: Astronomy,
         body: planetName,
