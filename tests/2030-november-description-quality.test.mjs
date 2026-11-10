@@ -29,4 +29,5 @@ test("2030 November festival cards have specific descriptions and known links", 
   assert.match(bhairav.articleUrl || "", /AboutBhairavashtamiOn-BhairavaJayanti/);
   assert.match(find(/सोमवती अमावस्या/).description, /पितृ-तर्पण/);
   assert.match(find(/विवाह पंचमी/).description, /श्रीराम और माता सीता/);
+  assert.match(find(/कृच्छ्र चतुर्थी/).title, /विनायक चतुर्थी/);
 });
