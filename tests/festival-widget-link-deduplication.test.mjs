@@ -10,7 +10,9 @@ test("10-day festival widget deduplicates inline and metadata article links", ()
   assert.match(source, /function appendSafeDescription\(container, html, seenUrls\)/);
   assert.match(source, /if \(seenUrls && key && seenUrls\.has\(key\)\) return/);
   assert.match(source, /const cardLinkUrls = new Set\(\)/);
-  assert.match(source, /appendSafeDescription\(description, item\.description, cardLinkUrls\)/);
+  assert.match(source, /appendSafeDescription\\(description, descriptionHtml, cardLinkUrls\\)/);
+  assert.match(source, /descriptionHtml \\+= .*pitri-tarpan-vidhi/);
+  assert.match(source, /descriptionHtml \\+= .*shivratri-prahar-pooja-vidhi/);
   assert.match(source, /articleUrl && articleLabel && \(!articleKey \|\| !cardLinkUrls\.has\(articleKey\)\)/);
 });
 
