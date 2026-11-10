@@ -465,3 +465,14 @@ test("2026 December includes Matsya Dwadashi and Soma Pradosh on their respectiv
   assert.equal(pradosh.reviewStatus, "approved");
   assert.ok(data.events.indexOf(matsya) < data.events.indexOf(pradosh));
 });
+
+
+test("2026 December descriptions do not repeat the same article URL", async () => {
+  const data = await month("12");
+  for (const event of data.events) {
+    const links = [...String(event.description || "").matchAll(/<a\\b[^>]*href=["']([^"']+)["']/gi)]
+      .map(match => match[1].replace(/^http:/i, "https:").replace(/\\?m=1$/i, "").toLowerCase());
+    assert.equal(links.length, new Set(links).size,
+      String(event.date) + ": duplicate article URL in " + event.title);
+  }
+});
