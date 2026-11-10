@@ -8,6 +8,7 @@ const months = Array.from({ length: 12 }, (_, i) =>
   JSON.parse(readFileSync(join(folder, "2029-" + String(i + 1).padStart(2, "0") + ".json"), "utf8")));
 const events = months.flatMap(data => data.events || []);
 const has = (date, pattern) => events.find(event => event.date === date && pattern.test(event.title || ""));
+const titles = date => events.filter(event => event.date === date).map(event => event.title);
 
 test("2029 monthly festival files have approved records dated within their month", () => {
   for (const [index, data] of months.entries()) {
@@ -16,82 +17,108 @@ test("2029 monthly festival files have approved records dated within their month
     assert.equal(data.status, "approved");
     for (const event of data.events || []) {
       assert.equal(event.reviewStatus, "approved", event.date + ": " + event.title);
-      assert.match(event.date, /^2029-\d{2}-\d{2}$/);
+      assert.match(event.date, /^2029-\\d{2}-\\d{2}$/);
       assert.equal(Number(event.date.slice(5, 7)), index + 1,
         event.date + " is stored in the wrong monthly file");
     }
   }
 });
 
-test("2029 independent same-date observances remain separate cards", () => {
-  const allowed = new Map([
-    ["2029-11-04|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि"])],
-    ["2029-11-05|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती"])]
-  ]);
-  const seen = new Map();
+test("2029 independent observances use separate cards without duplicate titles", () => {
+  const seen = new Set();
   for (const event of events) {
-    if (!event.hinduTithi) continue;
-    const key = String(event.date) + "|" + String(event.hinduTithi);
-    if (seen.has(key)) {
-      const group = allowed.get(key);
-      assert.ok(group && group.has(seen.get(key)) && group.has(event.title),
-        "Unexpected same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
-    }
-    seen.set(key, event.title);
+    const key = event.date + "|" + event.title;
+    assert.ok(!seen.has(key), "Duplicate card: " + key);
+    seen.add(key);
   }
+  assert.ok(titles("2029-01-22").some(x => /^रथ सप्तमी/.test(x)));
+  assert.ok(titles("2029-01-22").some(x => /^नर्मदा जयंती$/.test(x)));
+  assert.ok(titles("2029-01-22").some(x => /माघ गुप्त नवरात्र सप्तमी/.test(x)));
+  assert.ok(titles("2029-02-28").some(x => /^होलिका दहन$/.test(x)));
+  assert.ok(titles("2029-02-28").some(x => /^फाल्गुन पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-02-28").some(x => /^श्री महालक्ष्मी जयंती$/.test(x)));
+  assert.ok(titles("2029-04-14").some(x => /^चैत्र नवरात्र प्रारम्भ$/.test(x)));
+  assert.ok(titles("2029-04-14").some(x => /^गुड़ी पड़वा$/.test(x)));
+  assert.ok(titles("2029-04-14").some(x => /^उगादी$/.test(x)));
+  assert.ok(titles("2029-04-14").some(x => /^मेष संक्रांति$/.test(x)));
+  assert.ok(titles("2029-04-14").some(x => /^बैसाखी \\/ वैशाखी$/.test(x)));
+  assert.ok(titles("2029-04-14").some(x => /^विषु$/.test(x)));
+  assert.ok(titles("2029-04-14").some(x => /^बोहाग बिहू$/.test(x)));
+  assert.ok(titles("2029-05-16").some(x => /^अक्षय तृतीया$/.test(x)));
+  assert.ok(titles("2029-05-16").some(x => /^मातंगी महाविद्या जयंती$/.test(x)));
+  assert.ok(titles("2029-05-16").some(x => /^त्रेतायुगादि तिथि$/.test(x)));
+  assert.ok(titles("2029-05-16").some(x => /^परशुराम जयंती$/.test(x)));
+  assert.ok(titles("2029-06-25").some(x => /^वट पूर्णिमा व्रत$/.test(x)));
+  assert.ok(titles("2029-06-25").some(x => /^ज्येष्ठ पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-07-13").some(x => /^श्रीजगन्नाथ रथयात्रा$/.test(x)));
+  assert.ok(titles("2029-07-13").some(x => /^चन्द्र दर्शन$/.test(x)));
+  assert.ok(titles("2029-07-13").some(x => /आषाढ़ गुप्त नवरात्र द्वितीय/.test(x)));
+  assert.ok(titles("2029-08-23").some(x => /^रक्षाबंधन$/.test(x)));
+  assert.ok(titles("2029-08-23").some(x => /^श्रावण पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-08-23").some(x => /^श्री हयग्रीव जयंती$/.test(x)));
+  assert.ok(titles("2029-09-19").some(x => /^बुध प्रदोष व्रत$/.test(x)));
+  assert.ok(titles("2029-09-19").some(x => /^भुवनेश्वरी महाविद्या जयंती$/.test(x)));
+  assert.ok(titles("2029-09-19").some(x => /^वामन जयंती$/.test(x)));
+  assert.ok(titles("2029-10-15").some(x => /^महानवमी/.test(x)));
+  assert.ok(titles("2029-10-15").some(x => /^सरस्वती विसर्जन$/.test(x)));
+  assert.ok(titles("2029-10-15").some(x => /^आयुध पूजा$/.test(x)));
+  assert.ok(titles("2029-11-21").some(x => /^कार्तिक पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-11-21").some(x => /^देव दीपावली$/.test(x)));
+  assert.ok(titles("2029-12-16").some(x => /^मोक्षदा एकादशी$/.test(x)));
+  assert.ok(titles("2029-12-16").some(x => /^गीता जयंती$/.test(x)));
+  assert.ok(titles("2029-12-16").some(x => /^धनु संक्रांति$/.test(x)));
 });
 
 test("2029 Ekadashi cards follow the Smarta-only policy", () => {
   assert.equal(events.filter(event => /(गौण|वैष्णव)/.test(event.title || "")).length, 0);
-  const utpanna = has("2029-12-01", /उत्पन्ना एकादशी \(स्मार्त\)/);
+  const utpanna = has("2029-12-01", /उत्पन्ना एकादशी \\(स्मार्त\\)/);
+  assert.ok(utpanna);
   assert.equal(utpanna.hinduTithi, "मार्गशीर्ष कृष्ण एकादशी");
   assert.equal(events.filter(event => /उत्पन्ना एकादशी/.test(event.title || "")).length, 1);
 });
 
-test("2029 Navratri and same-tithi observances are combined", () => {
-  assert.ok(has("2029-01-16", /चन्द्र दर्शन.*ब्रह्मचारिणी/));
-  assert.ok(has("2029-01-18", /गौरी गणेश.*कूष्माण्डा/));
-  assert.ok(has("2029-01-19", /वसंत पंचमी.*स्कन्दमाता/));
-  assert.ok(has("2029-01-20", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
-  assert.ok(has("2029-01-22", /रथ सप्तमी.*कालरात्रि/));
-  assert.ok(has("2029-01-23", /मासिक दुर्गाष्टमी.*भीष्माष्टमी.*महागौरी/));
-  assert.ok(has("2029-04-15", /चन्द्र दर्शन.*ब्रह्मचारिणी/));
-  assert.ok(has("2029-04-17", /गणगौर.*चन्द्रघंटा/));
-  assert.ok(has("2029-04-20", /यमुना छठ.*कात्यायनी/));
-  assert.ok(has("2029-10-09", /चन्द्र दर्शन.*ब्रह्मचारिणी/));
+test("2029 Navratri days are independent from other same-tithi observances", () => {
+  assert.ok(has("2029-01-16", /चन्द्र दर्शन/));
+  assert.ok(has("2029-01-16", /माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी/));
+  assert.ok(has("2029-01-18", /गौरी गणेश चतुर्थी/));
+  assert.ok(has("2029-01-18", /माघ गुप्त नवरात्र चतुर्थ — माँ कूष्माण्डा/));
+  assert.ok(has("2029-01-19", /वसंत पंचमी/));
+  assert.ok(has("2029-01-19", /माघ गुप्त नवरात्र पंचमी — माँ स्कन्दमाता/));
+  assert.ok(has("2029-01-23", /भीष्माष्टमी/));
+  assert.ok(has("2029-01-23", /माघ गुप्त नवरात्र अष्टमी — माँ महागौरी/));
+  assert.ok(has("2029-04-15", /चन्द्र दर्शन/));
+  assert.ok(has("2029-04-15", /चैत्र नवरात्र द्वितीय — माँ ब्रह्मचारिणी/));
+  assert.ok(has("2029-04-17", /गणगौर/));
+  assert.ok(has("2029-04-17", /चैत्र नवरात्र तृतीय — माँ चन्द्रघंटा/));
+  assert.ok(has("2029-04-20", /यमुना छठ/));
+  assert.ok(has("2029-04-20", /चैत्र नवरात्र षष्ठी — माँ कात्यायनी/));
+  assert.ok(has("2029-07-18", /आषाढ़ गुप्त नवरात्र सप्तमी — माँ कालरात्रि/));
+  assert.ok(has("2029-07-18", /आषाढ़ गुप्त नवरात्र अष्टमी — माँ महागौरी/));
+  assert.ok(has("2029-07-19", /आषाढ़ गुप्त नवरात्र नवमी — माँ सिद्धिदात्री/));
+  assert.ok(has("2029-10-09", /चन्द्र दर्शन/));
+  assert.ok(has("2029-10-09", /शारदीय नवरात्र द्वितीय — माँ ब्रह्मचारिणी/));
 });
 
-test("2029 major festivals and saint jayantis are represented", () => {
+test("2029 major deity and regional observances are retained while human jayanti cards are omitted", () => {
   assert.ok(has("2029-01-13", /लोहड़ी/));
-  assert.ok(has("2029-01-14", /पोंगल/));
-  assert.ok(has("2029-01-30", /गुरु रविदास जयंती/));
-  assert.ok(has("2029-02-08", /महर्षि दयानंद सरस्वती जयंती/));
-  assert.ok(has("2029-02-15", /रामकृष्ण परमहंस जयंती/));
-  assert.ok(has("2029-02-28", /चैतन्य महाप्रभु जयंती/));
-  assert.ok(has("2029-04-14", /उगादी/));
-  assert.ok(has("2029-04-14", /मेष संक्रांति/));
-  assert.ok(has("2029-04-14", /बैसाखी/));
-  assert.ok(has("2029-04-14", /विषु/));
-  assert.ok(has("2029-04-14", /बोहाग बिहू/));
-  assert.ok(has("2029-05-09", /वरुथिनी एकादशी.*वल्लभाचार्य जयंती/));
-  assert.ok(has("2029-05-18", /आदि शंकराचार्य जयंती.*सूरदास जयंती/));
-  assert.ok(has("2029-06-25", /वट पूर्णिमा व्रत.*ज्येष्ठ पूर्णिमा/));
-  assert.equal(events.filter(event => event.date === "2029-06-26" && /ज्येष्ठ पूर्णिमा/.test(event.title || "")).length, 0);
-  assert.ok(has("2029-08-16", /गोस्वामी तुलसीदास जयंती/));
-  assert.ok(has("2029-08-23", /रक्षाबंधन/));
+  assert.ok(has("2029-01-14", /^पोंगल$/));
+  assert.ok(has("2029-04-14", /^उगादी$/));
+  assert.ok(has("2029-04-14", /^विषु$/));
+  assert.ok(has("2029-04-14", /^बोहाग बिहू$/));
+  assert.ok(has("2029-05-26", /^नृसिंह जयंती$/));
+  assert.ok(has("2029-05-26", /^छिन्नमस्ता महाविद्या जयंती$/));
   assert.ok(has("2029-08-22", /ओणम/));
-  assert.ok(has("2029-09-01", /अगस्त्य अर्घ्य/));
-  assert.ok(has("2029-09-17", /विश्वकर्मा पूजा/));
+  assert.ok(has("2029-08-23", /^रक्षाबंधन$/));
+  assert.ok(has("2029-09-01", /^अगस्त्य अर्घ्य$/));
+  assert.ok(has("2029-09-17", /^विश्वकर्मा पूजा$/));
   assert.ok(has("2029-10-01", /जीवित्पुत्रिका व्रत/));
-  assert.ok(has("2029-10-13", /सरस्वती आवाहन/));
-  assert.ok(has("2029-10-14", /सरस्वती पूजा/));
-  assert.ok(has("2029-10-16", /मध्वाचार्य जयंती/));
+  assert.ok(has("2029-10-13", /^सरस्वती आवाहन$/));
+  assert.ok(has("2029-10-14", /^सरस्वती पूजा$/));
   assert.ok(has("2029-10-18", /पद्मनाभ द्वादशी/));
-  assert.ok(has("2029-10-22", /वाल्मीकि जयंती.*मीराबाई जयंती/));
-  assert.ok(has("2029-10-30", /राधाकुण्ड स्नान/));
-  assert.ok(has("2029-11-16", /देवउठनी एकादशी \(स्मार्त\)/));
-  assert.ok(has("2029-11-21", /कार्तिक पूर्णिमा.*देव दीपावली/));
+  assert.ok(has("2029-10-30", /^राधाकुण्ड स्नान$/));
+  assert.ok(has("2029-11-16", /देवोत्थानी एकादशी \\(स्मार्त\\)/));
   assert.ok(has("2029-12-02", /कृष्ण योगेश्वर द्वादशी/));
+  assert.equal(events.some(event => /गुरु रविदास जयंती|महर्षि दयानंद सरस्वती जयंती|रामकृष्ण परमहंस जयंती|चैतन्य महाप्रभु जयंती|वल्लभाचार्य जयंती|आदि शंकराचार्य जयंती|सूरदास जयंती|नारद जयंती|गोस्वामी तुलसीदास जयंती|मध्वाचार्य जयंती|वाल्मीकि जयंती|मीराबाई जयंती/.test(event.title || "")), false);
 });
 
 test("2029 solar and June lunar eclipses are excluded because they are not visible in Pithoragarh", () => {
@@ -104,5 +131,5 @@ test("2029 Pithoragarh total lunar eclipse has local contact timings", () => {
   assert.equal(eclipse.hinduTithi, "मार्गशीर्ष शुक्ल पूर्णिमा");
   assert.match(eclipse.description, /2:25 से सुबह 5:58 बजे तक/);
   assert.match(eclipse.description, /3:45 से 4:38 बजे तक/);
-  assert.match(eclipse.sourceUrl, /timeanddate\.com\/eclipse\/in\/india\/pithoragarh/);
+  assert.match(eclipse.sourceUrl, /timeanddate\\.com\\/eclipse\\/in\\/india\\/pithoragarh/);
 });
