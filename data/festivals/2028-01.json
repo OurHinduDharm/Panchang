@@ -59,12 +59,16 @@
     {
       "date": "2028-01-12",
       "dateLabel": "12 जनवरी",
-      "title": "शाकंभरी पूर्णिमा",
-      "description": "शाकंभरी पूर्णिमा पौष शुक्ल पूर्णिमा पर माँ शाकंभरी के पूजन और स्मरण से जुड़ी है। कुछ परंपराओं में शाकंभरी नवरात्र का समापन भी इसी दिन होता है।",
+      "title": "पौष पूर्णिमा / शाकंभरी माता जयंती",
+      "description": "शाकंभरी पूर्णिमा पौष शुक्ल पूर्णिमा पर माँ शाकंभरी के पूजन और स्मरण से जुड़ी है। कुछ परंपराओं में शाकंभरी नवरात्र का समापन भी इसी दिन होता है। शाकंभरी माता जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">शाकंभरी माता जयंती</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "पौष शुक्ल पूर्णिमा"
+      "hinduTithi": "पौष शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html",
+      "articleLabel": "शाकंभरी माता जयंती",
+      "sourceName": "Drik Panchang — Shakambhari Purnima",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/shakambari/shakambari-purnima-date-time.html?year=2028"
     },
     {
       "date": "2028-01-15",
@@ -230,14 +234,16 @@
     {
       "date": "2028-01-31",
       "dateLabel": "31 जनवरी",
-      "title": "वसंत पंचमी",
+      "title": "वसंत पंचमी / श्री पंचमी / सरस्वती सिद्धविद्या जयंती",
       "description": "वसंत पंचमी पर माँ सरस्वती की पूजा, विद्यारम्भ, पुस्तक-पूजन और पीले वस्त्र/भोग की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल पंचमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
-      "articleLabel": "सरस्वती पूजन की विधि पढ़ें"
+      "articleLabel": "सरस्वती पूजन की विधि पढ़ें",
+      "sourceName": "Drik Panchang — Vasant Panchami",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?year=2028"
     },
     {
       "date": "2028-01-31",
