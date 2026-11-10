@@ -56,12 +56,17 @@ function makeSafeAnchor(href, label) {
   };
 }
 
+function stripHtmlTags(value) {
+  // Remove complete tags first, then any unmatched angle brackets left by malformed HTML.
+  return String(value || "").replace(/<[^>]*>|[<>]/g, "").trim();
+}
+
 function extractAnchors(html) {
   const anchors = [];
   for (const match of String(html || "").matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
     const href = match[1].match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] || "";
     // Escape leftover angle brackets too, including malformed "<script" fragments.
-    const label = match[2].replace(/<[^>]*>/g, "").trim();
+    const label = stripHtmlTags(match[2]);
     const safe = makeSafeAnchor(href, label);
     if (safe) anchors.push(safe);
   }
@@ -72,7 +77,7 @@ function extractAnchors(html) {
 function sanitizeDescriptionAnchors(html) {
   return String(html || "").replace(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi, (_whole, attrs, inner) => {
     const href = attrs.match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] || "";
-    const label = inner.replace(/<[^>]*>/g, "").trim();
+    const label = stripHtmlTags(inner);
     const safe = makeSafeAnchor(href, label);
     return safe ? safe.html : escapeHtml(label);
   });
