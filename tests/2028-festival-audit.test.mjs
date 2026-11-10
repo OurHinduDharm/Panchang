@@ -227,6 +227,9 @@ test("2026–2030 calendar excludes non-core Tamil observances and non-religious
   assert.match(diwali.title, /केदार गौरी व्रत/);
   assert.equal(year2029.filter(event => /केदार गौरी व्रत/.test(event.title || "")).length, 1);
 
+  const april2027 = JSON.parse(readFileSync(join(folder, "2027-04.json"), "utf8"));
+  assert.equal(april2027.events.find(event => event.date === "2027-04-20" && /चैत्र पूर्णिमा/.test(event.title || "")).title, "चैत्र पूर्णिमा");
+
   const october2027 = JSON.parse(readFileSync(join(folder, "2027-10.json"), "utf8"));
   const diwali2027 = october2027.events.find(event => event.date === "2027-10-29" && /दीपावली/.test(event.title || ""));
   assert.match(diwali2027.title, /केदार गौरी व्रत/);
