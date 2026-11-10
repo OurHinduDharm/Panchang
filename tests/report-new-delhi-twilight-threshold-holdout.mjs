@@ -449,7 +449,7 @@ const mercuryBoundaryDateHoldouts = Object.fromEntries(
 
 
 const additionalPlanetYearHoldouts = Object.fromEntries(
-  ["Venus", "Saturn"].map(planetName => {
+  ["Venus", "Saturn", "Jupiter"].map(planetName => {
     const byBoundary = Object.fromEntries(
       ["astaStart", "astaEnd"].map(boundaryName => {
         const samples = (thresholdGroups[planetName + ":" + boundaryName] || [])
