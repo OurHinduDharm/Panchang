@@ -422,8 +422,8 @@ function addDays(
 
 /* =========================================
    Direct Drik Asta/Udaya reference data
-   Only browser-verified Pithoragarh records are
-   displayed. No angular-threshold fallback.
+   Only browser-verified five-city Drik records are
+   displayed. No angular-threshold or nearest-city fallback.
    ========================================= */
 
 let drikPlanetaryReferenceDataPromise = null;
