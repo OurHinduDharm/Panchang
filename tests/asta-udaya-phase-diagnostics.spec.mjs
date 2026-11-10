@@ -38,10 +38,10 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
 
     await page.locator("#dateInput").fill("2026-11-01");
     await page.locator("#dateInput").dispatchEvent("change");
-    await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetDiagnostics").length >= 2, null, { timeout: 180000 });
+    await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetaryReference").length >= 2, null, { timeout: 180000 });
     await page.locator("#dateInput").fill("2026-10-31");
     await page.locator("#dateInput").dispatchEvent("change");
-    await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetDiagnostics").length >= 3, null, { timeout: 180000 });
+    await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetaryReference").length >= 3, null, { timeout: 180000 });
 
     const finalFingerprint = (await card.innerText()).replace(/\s+/g, " ").trim();
     assert.equal(finalFingerprint, initialFingerprint, "visible Asta-Udaya result must remain identical after date round-trip");
