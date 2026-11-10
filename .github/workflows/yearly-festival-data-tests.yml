@@ -65,6 +65,8 @@ jobs:
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Run yearly migration, annual readiness, Samaveda decision, and local eclipse visibility tests
         run: node --test tests/merge-festival-months-to-yearly.test.mjs tests/audit-annual-publication-readiness.test.mjs tests/samaveda-annual-review.test.mjs tests/eclipse-panchang-visibility.test.mjs
+      - name: Run 2030 annual festival and muhurta regression audit
+        run: node --test tests/2030-festival-audit.test.mjs
       - name: Audit every monthly festival catalog from 2026 through 2030
         run: |
           for year in 2026 2027 2028 2029 2030; do
