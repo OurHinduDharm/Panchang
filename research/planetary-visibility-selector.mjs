@@ -160,7 +160,8 @@ export function findVisibilityBoundaryNearAnchor({
       illuminatedFraction: illumination.phase_fraction,
       azimuthSeparationDegrees,
       longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
-      retrograde: motion.retrograde
+      retrograde: motion.retrograde,
+      eventDirection: direction
     };
     const thresholdAltitude = thresholdAltitudeForModel(model, observables);
     const local = localDateTime(date, timeZone);
@@ -211,6 +212,7 @@ export function findVisibilityBoundaryNearAnchor({
     status,
     boundaryName,
     direction: direction === 1 ? "rise" : "set",
+    eventDirection: direction,
     searchDays,
     crossingCount: crossings.length,
     predictedBoundaryDate: selected?.current.localDate ?? null,
