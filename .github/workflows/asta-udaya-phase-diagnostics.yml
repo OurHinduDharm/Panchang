@@ -70,7 +70,7 @@ jobs:
           cat /tmp/asta-udaya-http.log
           exit 1
       - name: Compare Swiss heliacal visibility with published and provisional Pithoragarh boundaries
-        if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'tests/run-swiss-heliacal-comparison.mjs')
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, 'Swiss heliacal validation')
         run: node tests/run-swiss-heliacal-comparison.mjs
       - name: Capture Drik Pithoragarh five-planet named-city pages without city fallback
         if: github.event_name == 'push' && contains(github.event.head_commit.message, 'Pithoragarh source capture')
