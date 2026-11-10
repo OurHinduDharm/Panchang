@@ -44,26 +44,17 @@
     {
       "date": "2028-07-06",
       "dateLabel": "6 जुलाई",
-      "title": "गुरु पूर्णिमा",
-      "description": "गुरु पूर्णिमा पर गुरु, आचार्य और आध्यात्मिक परंपरा के प्रति कृतज्ञता व्यक्त की जाती है। गुरु-पूजन, सत्संग, अध्ययन और दान की परंपरा है।",
-      "category": "पूर्णिमा",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा"
-    },
-    {
-      "date": "2028-07-06",
-      "dateLabel": "6 जुलाई",
-      "title": "आंशिक चंद्रग्रहण",
-      "description": "6–7 जुलाई 2028 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 6 जुलाई रात 10:39 बजे से 7 जुलाई रात 1:00 बजे तक रहेगा; उपच्छाया चरण 7 जुलाई रात 2:25 बजे समाप्त होगा।",
+      "title": "गुरु पूर्णिमा / आंशिक चंद्रग्रहण",
+      "description": "गुरु पूर्णिमा पर गुरु, आचार्य और आध्यात्मिक परंपरा के प्रति कृतज्ञता व्यक्त की जाती है। गुरु-पूजन, सत्संग, अध्ययन और दान की परंपरा है। 6–7 जुलाई 2028 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 6 जुलाई रात 10:39 बजे से 7 जुलाई रात 1:00 बजे तक रहेगा; उपच्छाया चरण 7 जुलाई रात 2:25 बजे समाप्त होगा।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
+      "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा",
       "timingType": "eclipse-visibility",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
-      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
       "sourceName": "Timeanddate — Pithoragarh; Drik Panchang eclipse list",
-      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706"
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें"
     },
     {
       "date": "2028-07-10",
