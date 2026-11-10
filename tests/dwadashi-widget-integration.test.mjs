@@ -65,8 +65,10 @@ test("publication instructions keep unreviewed dates out of the live widgets", a
 test("2026 Chaturmas keeps the final food restriction through Ekadashi and completes on Dwadashi", async () => {
   const config = JSON.parse(await read("data/chaturmas/2026.json"));
   assert.equal(config.endDate, "2026-11-20");
-  assert.equal(config.phases[3].endDate, "2026-11-21");
-  assert.equal(config.completionDate, "2026-11-22");
+  assert.equal(config.phases[3].endDate, "2026-11-20");
+  assert.equal(config.completionDate, "2026-11-21");
   assert.equal(config.cardVisibleThroughDate, "2026-11-22");
-  assert.match(config.completionDetail, /कार्तिक शुक्ल द्वादशी/);
+  assert.equal(config.endObservance, "smarta-ekadashi");
+  assert.equal(config.completionTithi, "कार्तिक शुक्ल द्वादशी");
+  assert.ok(!/कार्तिक शुक्ल द्वादशी/.test(config.completionDetail));
 });
