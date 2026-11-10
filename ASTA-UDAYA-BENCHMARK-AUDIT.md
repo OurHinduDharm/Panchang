@@ -972,3 +972,18 @@ Drik के 2025 New Delhi pages से Mercury की छह windows के अ
 - Mars: **1.72° / 1.82°** (n=1 each)
 
 हर ग्रह में global magnitude curve constant baseline से बेहतर रही, लेकिन Mars और कुछ Venus/Jupiter दिशाओं में error अभी 1° से ऊपर है। Jupiter/Saturn/Mars sample counts अभी भी छोटे हैं। इसलिए एक global coefficient set को production में इस्तेमाल नहीं किया जाएगा; Mercury के लिए अलग candidate और बाकी ग्रहों के लिए अलग पर्याप्त reference data चाहिए।
+
+
+### 2024 historical reference expansion
+
+New Delhi के Drik 2024 pages से Mercury की छह windows, Venus की एक और Saturn की एक window जोड़ी:
+- Mercury: 7 Feb–11 Mar, 4 Apr–1 May, 2–25 Jun, 4–28 Aug, 20 Sep–27 Oct, 29 Nov–12 Dec 2024.
+- Venus: 25 Apr 2024 05:19 (rising) → 29 Jun 2024 19:52 (setting).
+- Saturn: 17 Feb 2024 18:56 (setting) → 26 Mar 2024 05:20 (rising).
+
+स्रोत:
+- https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?year=2024
+- https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2024
+- https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2024
+
+अब benchmark में **38 New Delhi windows / 76 boundary events** हैं: Mercury 25, Venus 5, Jupiter 3, Saturn 4, Mars 1. 2024–27 Mercury year-pair cross-validation चल रही है; पुराने 2025–27 coefficients को final नहीं माना जाएगा।
