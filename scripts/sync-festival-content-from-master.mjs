@@ -72,8 +72,7 @@ function extractAnchors(html) {
 function sanitizeDescriptionAnchors(html) {
   return String(html || "").replace(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi, (_whole, attrs, inner) => {
     const href = attrs.match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] || "";
-    const label = inner.replace(/<[^>]*>/g, "").replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;").trim();
+    const label = inner.replace(/<[^>]*>/g, "").trim();
     const safe = makeSafeAnchor(href, label);
     return safe ? safe.html : escapeHtml(label);
   });
