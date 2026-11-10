@@ -27,6 +27,7 @@ test("2030 November festival cards have specific descriptions and known links", 
   const bhairav = find(/कालभैरव जयंती/);
   assert.match(bhairav.description, /मंत्र-जप और रात्रि-उपासना/);
   assert.match(bhairav.articleUrl || "", /AboutBhairavashtamiOn-BhairavaJayanti/);
+  assert.doesNotMatch(bhairav.description, /प्रत्येक माह के कृष्ण पक्ष/);
   assert.match(find(/सोमवती अमावस्या/).description, /पितृ-तर्पण/);
   assert.match(find(/विवाह पंचमी/).description, /श्रीराम और माता सीता/);
   assert.match(find(/कृच्छ्र चतुर्थी/).title, /विनायक चतुर्थी/);
