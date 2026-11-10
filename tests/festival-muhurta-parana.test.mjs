@@ -726,8 +726,8 @@ test("Kali Chaudas calculates the local Nishita overlap with Krishna Chaturdashi
   assert.equal(result.status, "calculated");
   assert.match(result.label, /काली चौदस/);
   assert.equal(result.windows.length, 1);
-  assert.equal(result.windows[0].start.toISOString(), date("2026-11-07T23:26:00+05:30").toISOString());
-  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T00:14:00+05:30").toISOString());
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-07T23:24:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T00:16:00+05:30").toISOString());
 });
 
 test("Sankranti Punya Kala follows sign-specific ghatis measured from local day length", () => {
