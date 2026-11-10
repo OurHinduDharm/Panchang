@@ -104,12 +104,16 @@
     {
       "date": "2029-08-14",
       "dateLabel": "14 अगस्त",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "title": "मासिक स्कन्द षष्ठी / कल्कि अवतार जयंती",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। कल्कि अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल षष्ठी"
+      "hinduTithi": "श्रावण शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
+      "articleLabel": "कल्कि अवतार जयंती",
+      "sourceName": "Drik Panchang — 2029 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2029"
     },
     {
       "date": "2029-08-17",
@@ -171,14 +175,18 @@
     {
       "date": "2029-08-23",
       "dateLabel": "23 अगस्त",
-      "title": "रक्षाबंधन",
-      "description": "रक्षाबंधन भाई-बहन के स्नेह और मंगलकामना का पर्व है। राखी का समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a>",
+      "title": "रक्षाबंधन / श्रावण पूर्णिमा / हयग्रीव जयंती",
+      "description": "रक्षाबंधन भाई-बहन के स्नेह और मंगलकामना का पर्व है। राखी का समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a> हयग्रीव भगवान जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">हयग्रीव भगवान जयंती</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण पूर्णिमा",
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
-      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा"
+      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
+      "secondaryArticleLabel": "हयग्रीव भगवान जयंती",
+      "sourceName": "Drik Panchang — 2029 Hayagriva Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-gods/trimurti/lord-vishnu/avatara/hayagriva/jayanti/hayagriva-jayanti-date-time.html?year=2029"
     },
     {
       "date": "2029-08-24",
