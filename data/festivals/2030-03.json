@@ -18,7 +18,8 @@
       "showReviewStatus": false,
       "hinduTithi": "फाल्गुन कृष्ण द्वादशी / त्रयोदशी",
       "sourceName": "Drik Panchang — 2030 March Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2030",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-03-02",
@@ -155,7 +156,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "फाल्गुन शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-03-19",
@@ -276,7 +278,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "चैत्र कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     }
   ]
 }
