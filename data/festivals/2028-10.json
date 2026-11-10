@@ -74,7 +74,9 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण द्वादशी"
+      "hinduTithi": "कार्तिक कृष्ण द्वादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html",
+      "articleLabel": "गोवत्स द्वादशी व्रत"
     },
     {
       "date": "2028-10-15",
@@ -84,7 +86,11 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "कार्तिक कृष्ण पक्ष त्रयोदशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
+      "articleLabel": "धनतेरस",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
+      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती"
     },
     {
       "date": "2028-10-16",
@@ -97,7 +103,9 @@
       "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
-      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
+      "secondaryArticleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें"
     },
     {
       "date": "2028-10-17",
