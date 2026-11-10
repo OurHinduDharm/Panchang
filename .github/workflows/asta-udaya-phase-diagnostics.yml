@@ -7,6 +7,7 @@ on:
       - "tests/capture-drik-pithoragarh-asta.mjs"
       - "tests/drik-pithoragarh-asta-data.test.mjs"
       - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
+      - "tests/report-pithoragarh-local-year-holdout.mjs"
       - "data/drik-pithoragarh-asta-udaya-2024-2027.json"
       - "tests/asta-udaya-phase-diagnostics.spec.mjs"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
@@ -56,5 +57,7 @@ jobs:
         run: node --test tests/drik-pithoragarh-asta-data.test.mjs
       - name: Run New Delhi-trained model against direct Pithoragarh Drik holdout
         run: node tests/report-pithoragarh-direct-drik-blind-holdout.mjs
+      - name: Run Pithoragarh location-calibrated leave-one-year-out validation
+        run: node tests/report-pithoragarh-local-year-holdout.mjs
       - name: Verify opt-in counters and unchanged visible output
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
