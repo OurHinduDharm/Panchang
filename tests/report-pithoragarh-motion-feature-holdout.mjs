@@ -171,6 +171,11 @@ const variants = [
   { name: "magnitude+elongation+azimuth+phase+motion", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "retrograde", "longitudeRateDegPerDay"] },
   { name: "magnitude+event-direction", keys: ["apparentMagnitude", "eventDirection"] },
   { name: "magnitude+direction+interaction", keys: ["apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction"] },
+  { name: "magnitude+direction+retrograde", keys: ["apparentMagnitude", "eventDirection", "retrograde"] },
+  { name: "magnitude+direction+longitude-rate", keys: ["apparentMagnitude", "eventDirection", "longitudeRateDegPerDay"] },
+  { name: "magnitude+direction+phase", keys: ["apparentMagnitude", "eventDirection", "illuminatedFraction"] },
+  { name: "magnitude+direction+retrograde+rate", keys: ["apparentMagnitude", "eventDirection", "retrograde", "longitudeRateDegPerDay"] },
+  { name: "magnitude+direction+phase+retrograde", keys: ["apparentMagnitude", "eventDirection", "illuminatedFraction", "retrograde"] },
   { name: "magnitude+phase+event-direction", keys: ["apparentMagnitude", "illuminatedFraction", "eventDirection"] },
   { name: "magnitude+elongation+azimuth+phase+direction", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "eventDirection"] },
   { name: "magnitude+elongation+azimuth+phase+motion+direction", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "retrograde", "longitudeRateDegPerDay", "eventDirection"] }
