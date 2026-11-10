@@ -97,36 +97,6 @@
       "category": "क्षेत्रीय देव पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष शुक्ल पंचमी"
-    },
-    {
-      "date": "2029-12-10",
-      "dateLabel": "10 दिसंबर",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "शुक्ल पक्ष की षष्ठी को भगवान स्कन्द की पूजा और व्रत किया जाता है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष शुक्ल पंचमी"
-    },
-    {
-      "date": "2029-12-10",
-      "dateLabel": "10 दिसंबर",
-      "title": "विवाह पंचमी",
-      "description": "मार्गशीर्ष शुक्ल पंचमी को भगवान श्रीराम और माता सीता के विवाहोत्सव के रूप में विवाह पंचमी मनाई जाती है।",
-      "category": "प्रमुख पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष शुक्ल षष्ठी"
-    },
-    {
-      "date": "2029-12-10",
-      "dateLabel": "10 दिसंबर",
-      "title": "चम्पा षष्ठी",
-      "description": "मार्गशीर्ष शुक्ल षष्ठी को भगवान खंडोबा की पूजा के साथ चम्पा षष्ठी मनाई जाती है।",
-      "category": "क्षेत्रीय देव पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष शुक्ल षष्ठी"
     },
     {
@@ -171,39 +141,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana"
-    },
-    {
-      "date": "2029-12-16",
-      "dateLabel": "16 दिसंबर",
-      "title": "धनु संक्रांति",
-      "description": "सूर्य के धनु राशि में प्रवेश पर धनु संक्रांति मनाई जाती है।",
-      "category": "संक्रांति",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "सूर्य का धनु राशि में प्रवेश",
-      "muhurtaRule": "ekadashi-parana"
-    },
-    {
-      "date": "2029-12-16",
-      "dateLabel": "16 दिसंबर",
-      "title": "मोक्षदा एकादशी",
-      "description": "मार्गशीर्ष शुक्ल एकादशी पर भगवान विष्णु की पूजा, व्रत और गीता-पाठ की परंपरा है।",
-      "category": "एकादशी",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "सूर्य का धनु राशि में प्रवेश",
-      "muhurtaRule": "ekadashi-parana"
-    },
-    {
-      "date": "2029-12-16",
-      "dateLabel": "16 दिसंबर",
-      "title": "गीता जयंती",
-      "description": "मार्गशीर्ष शुक्ल एकादशी को श्रीमद्भगवद्गीता के उपदेश-प्राकट्य का स्मरण करते हुए गीता जयंती मनाई जाती है।",
-      "category": "प्रमुख पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "सूर्य का धनु राशि में प्रवेश",
       "muhurtaRule": "ekadashi-parana"
     },
     {
