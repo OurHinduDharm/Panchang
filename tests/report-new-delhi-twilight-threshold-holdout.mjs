@@ -48,6 +48,16 @@ const SOURCE_CASES = {
   "mercury-new-delhi-2024-november-december": { astaStart: -1, astaEnd: 1 },
   "venus-new-delhi-2024": { astaStart: 1, astaEnd: -1 },
   "saturn-new-delhi-2024": { astaStart: -1, astaEnd: 1 }
+  ,"mercury-new-delhi-2023-january": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2023-february-march": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2023-april-may": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2023-june-july": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2023-august-september": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2023-october-november": { astaStart: 1, astaEnd: -1 },
+  "mercury-new-delhi-2023-december": { astaStart: -1, astaEnd: 1 },
+  "venus-new-delhi-2023": { astaStart: -1, astaEnd: 1 },
+  "saturn-new-delhi-2023": { astaStart: -1, astaEnd: 1 },
+  "jupiter-new-delhi-2023": { astaStart: -1, astaEnd: 1 }
 };
 
 // Derived only from the four indexed Pithoragarh Venus 2025 transitions.
@@ -303,7 +313,7 @@ const mercuryMagnitudeCrossValidation = Object.fromEntries(
           thresholdMidpoint: (boundary.refractedTransitionInterval.lower + boundary.refractedTransitionInterval.upper) / 2
         }))
       );
-    const years = [2024, 2025, 2026, 2027];
+    const years = [2023, 2024, 2025, 2026, 2027];
     const yearPairs = {};
     for (const trainYear of years) {
       for (const testYear of years) {
@@ -404,7 +414,7 @@ const mercuryBoundaryDateHoldouts = Object.fromEntries(
           thresholdMidpoint: (boundary.refractedTransitionInterval.lower + boundary.refractedTransitionInterval.upper) / 2
         }))
       );
-    const years = [2024, 2025, 2026, 2027];
+    const years = [2023, 2024, 2025, 2026, 2027];
     const testYear = (train, test) => {
       if (train.length < 4 || test.length < 4) return { available: false };
       const model = fitMagnitudeThreshold(train);
@@ -453,7 +463,7 @@ const additionalPlanetYearHoldouts = Object.fromEntries(
               thresholdMidpoint: (item.lower + item.upper) / 2
             };
           });
-        const years = [2024, 2025, 2026, 2027];
+        const years = [2023, 2024, 2025, 2026, 2027];
         const yearCounts = Object.fromEntries(years.map(year => [year, samples.filter(item => item.year === year).length]));
         const yearPairs = {};
         for (const trainYear of years) {
