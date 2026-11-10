@@ -82,6 +82,25 @@ test("noon-only Dwadashi is retained as a candidate without pretending it prevai
   assert.equal(record.selectedDate,"2026-04-01");
 });
 
+test("a conflicting source reference leaves the local Dwadashi candidate unselected", () => {
+  const day = sunriseDay("2026-05-14","ज्येष्ठ","कृष्ण","द्वादशी");
+  const sourceRules = {
+    ...rules,
+    drikSpecialObservances: [{
+      year:2026, month:"ज्येष्ठ", paksha:"कृष्ण", adhika:false,
+      referenceDate:"2026-05-13",
+      labels:["कृष्ण परशुराम द्वादशी"]
+    }]
+  };
+  const result = buildDwadashiCalendar([day],sourceRules);
+  const record = result.tithis.find(item => item.id === "jyeshtha-krishna");
+  assert.deepEqual(record.candidateDates,["2026-05-14"]);
+  assert.equal(record.referenceDate,"2026-05-13");
+  assert.equal(record.selectedDate,null);
+  assert.equal(record.dateSelection,"reference-date-outside-local-observations-review-required");
+  assert.equal(record.status,"needs-review");
+});
+
 test("a matching Drik reference date resolves a multi-date Dwadashi candidate without approving it", () => {
   const previousDay = sunriseDay("2027-03-04","फाल्गुन","कृष्ण","एकादशी");
   previousDay.noonTithi = "द्वादशी";
