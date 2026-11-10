@@ -95,6 +95,17 @@
       "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
+      "date": "2027-01-12",
+      "dateLabel": "12 जनवरी",
+      "title": "स्वामी विवेकानन्द जयंती / राष्ट्रीय युवा दिवस",
+      "description": "स्वामी विवेकानन्द जयंती पर उनके जीवन, वेदान्त संदेश और युवाओं को दिए गए प्रेरक विचारों का स्मरण किया जाता है। भारत में यह दिन राष्ट्रीय युवा दिवस के रूप में भी मनाया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — 2027 Indian Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?year=2027"
+    },
+    {
       "date": "2027-01-13",
       "dateLabel": "13 जनवरी",
       "title": "मासिक स्कन्द षष्ठी",
@@ -165,7 +176,7 @@
       "date": "2027-01-18",
       "dateLabel": "18 जनवरी",
       "title": "पौष पुत्रदा एकादशी / धर्म सावर्णि मन्वादि / मासिक कार्तिगाई",
-      "description": "पुत्रदा एकादशी संतान के कल्याण की कामना से रखा जाने वाला भगवान विष्णु का व्रत है। इस दिन व्रत-कथा, विष्णु-पूजन, जप और दान की परंपरा है। इसी तिथि पर धर्म सावर्णि मन्वादि तथा तमिल परंपरा का मासिक कार्तिगाई observance भी है। व्रत खोलने का समय नीचे दिया गया है।",
+      "description": "पुत्रदा एकादशी संतान के कल्याण की कामना से रखा जाने वाला भगवान विष्णु का व्रत है। इस दिन व्रत-कथा, विष्णु-पूजन, जप और दान की परंपरा है। इसी तिथि पर धर्म सावर्णि मन्वादि तथा तमिल परंपरा का मासिक कार्तिगाई पर्व भी है। व्रत खोलने का समय नीचे दिया गया है।",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -218,6 +229,18 @@
       "secondaryArticleLabel": "शाकंभरी माता जयंती",
       "sourceName": "Drik Panchang — January 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=22%2F01%2F2027"
+    },
+    {
+      "date": "2027-01-23",
+      "dateLabel": "23 जनवरी",
+      "title": "माघ मासारंभ",
+      "description": "पौष पूर्णिमा के बाद माघ मास का आरंभ होता है। इस मास में माघ-स्नान, दान, जप और भगवान विष्णु की उपासना का विशेष महत्त्व माना जाता है।",
+      "category": "मासारंभ",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ कृष्ण प्रतिपदा",
+      "sourceName": "Drik Panchang — January 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-january.html?year=2027"
     },
     {
       "date": "2027-01-25",
