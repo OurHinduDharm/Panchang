@@ -34,17 +34,8 @@
     {
       "date": "2028-08-04",
       "dateLabel": "4 अगस्त",
-      "title": "वरलक्ष्मी व्रत",
-      "description": "वरलक्ष्मी व्रत में माँ लक्ष्मी की पूजा परिवार के कल्याण और समृद्धि की कामना से की जाती है। यह व्रत विशेष रूप से दक्षिण भारतीय परंपराओं में प्रचलित है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
-    },
-    {
-      "date": "2028-08-04",
-      "dateLabel": "4 अगस्त",
-      "title": "हयग्रीव भगवान जयंती",
-      "description": "श्रावण शुक्ल पूर्णिमा की अपराह्न-व्याप्ति में भगवान हयग्रीव का पूजन किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">हयग्रीव भगवान जयंती</a>",
+      "title": "हयग्रीव भगवान जयंती / वरलक्ष्मी व्रत",
+      "description": "श्रावण शुक्ल पूर्णिमा की अपराह्न-व्याप्ति में भगवान हयग्रीव का पूजन किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">हयग्रीव भगवान जयंती</a> इसी दिन श्रावण मास के शुक्रवार पर वरलक्ष्मी व्रत भी रखा जाता है।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -57,8 +48,8 @@
     {
       "date": "2028-08-05",
       "dateLabel": "5 अगस्त",
-      "title": "श्रावण पूर्णिमा",
-      "description": "श्रावण पूर्णिमा पर स्नान, दान और जप की परंपरा है; इसी दिन कई क्षेत्रों में रक्षाबंधन मनाया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a>",
+      "title": "श्रावण पूर्णिमा / रक्षाबंधन / गायत्री जयंती / लव-कुश जयंती",
+      "description": "श्रावण पूर्णिमा पर स्नान, दान और जप की परंपरा है; इसी दिन कई क्षेत्रों में रक्षाबंधन मनाया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a> इसी पूर्णिमा पर रक्षाबंधन, गायत्री जयंती और लव-कुश जयंती भी मनाई जाती हैं।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -67,22 +58,14 @@
       "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा"
     },
     {
-      "date": "2028-08-05",
-      "dateLabel": "5 अगस्त",
-      "title": "रक्षाबंधन / श्रावण पूर्णिमा / लव-कुश जयंती",
-      "description": "रक्षाबंधन में बहनें भाइयों की कलाई पर राखी बाँधकर मंगल की कामना करती हैं।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
-    },
-    {
       "date": "2028-08-08",
       "dateLabel": "8 अगस्त",
       "title": "कजरी तीज",
       "description": "कजरी तीज भाद्रपद कृष्ण तृतीया से जुड़ा लोकपर्व है। कई क्षेत्रों में शिव-पार्वती की पूजा, गीत और व्रत की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण तृतीया"
     },
     {
       "date": "2028-08-09",
@@ -97,8 +80,8 @@
     {
       "date": "2028-08-13",
       "dateLabel": "13 अगस्त",
-      "title": "श्रीकृष्ण जन्माष्टमी / काली महाविद्या जयंती",
-      "description": "2028 में जन्माष्टमी 13 अगस्त को है। अष्टमी तिथि इस दिन सूर्योदय पर विद्यमान रहती है और उसी रात निशीथ-काल में भी रहती है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख</a> प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> काली महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">काली महाविद्या</a>",
+      "title": "श्रीकृष्ण जन्माष्टमी / काली महाविद्या जयंती / मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
+      "description": "2028 में जन्माष्टमी 13 अगस्त को है। अष्टमी तिथि इस दिन सूर्योदय पर विद्यमान रहती है और उसी रात निशीथ-काल में भी रहती है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख</a> प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> काली महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">काली महाविद्या</a> इसी तिथि पर मासिक कालाष्टमी और मासिक कृष्ण जन्माष्टमी भी हैं।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -224,36 +207,26 @@
       "description": "ऋषि पंचमी पर सप्तऋषियों का स्मरण और पूजन किया जाता है। व्रत-विधि, आहार और नियम परिवार तथा क्षेत्रीय परंपरा के अनुसार भिन्न हो सकते हैं।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल पंचमी"
     },
     {
       "date": "2028-08-25",
       "dateLabel": "25 अगस्त",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। कल्कि अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
+      "title": "मासिक स्कन्द षष्ठी / बलराम जयंती",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। कल्कि अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a> भाद्रपद शुक्ल षष्ठी को भगवान बलराम की जयंती भी मनाई जाती है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल षष्ठी",
+      "hinduTithi": "भाद्रपद शुक्ल षष्ठी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
       "articleLabel": "कल्कि अवतार जयंती"
     },
     {
-      "date": "2028-08-26",
-      "dateLabel": "26 अगस्त",
-      "title": "राधाष्टमी",
-      "description": "राधाष्टमी श्रीराधा के प्राकट्य-स्मरण का पर्व है। राधा-कृष्ण पूजन, भजन, जप और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html",
-      "articleLabel": "भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी"
-    },
-    {
       "date": "2028-08-27",
       "dateLabel": "27 अगस्त",
-      "title": "मासिक दुर्गाष्टमी",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "title": "राधाष्टमी / मासिक दुर्गाष्टमी",
+      "description": "राधाष्टमी श्रीराधा के प्राकट्य-स्मरण का पर्व है। राधा-कृष्ण पूजन, भजन, जप और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a> मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
