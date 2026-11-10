@@ -27,6 +27,40 @@ function dateSort(a, b) {
   return String(a).localeCompare(String(b));
 }
 
+function findDwadashiIntervalOnLocalDate(dailyPanchang, date, month, paksha, adhika) {
+  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(date || ""))) return null;
+  const start = Date.parse(date + "T00:00:00+05:30");
+  const next = new Date(date + "T00:00:00Z");
+  next.setUTCDate(next.getUTCDate() + 1);
+  const end = Date.parse(next.toISOString().slice(0, 10) + "T00:00:00+05:30");
+  if (![start, end].every(Number.isFinite)) return null;
+
+  for (const day of dailyPanchang) {
+    if (!day) continue;
+    const masa = normalizeMonth(day.masa);
+    if (masa.month !== month || masa.adhika !== !!adhika || normalizePaksha(day.paksha) !== paksha) continue;
+    const intervals = [];
+    if (normalizeTithi(day.tithi) === "द्वादशी") {
+      intervals.push({start:day.tithiStartTime, end:day.tithiEndTime, basis:"daily-tithi-interval"});
+    }
+    if (normalizeTithi(day.noonTithi) === "द्वादशी") {
+      intervals.push({start:day.noonTithiStartTime || day.tithiStartTime, end:day.noonTithiEndTime || day.tithiEndTime, basis:"noon-tithi-interval"});
+    }
+    const sunrise = day.sunriseTithi;
+    if (sunrise && normalizeTithi(sunrise.tithi) === "द्वादशी") {
+      intervals.push({start:sunrise.tithiStartTime || day.tithiStartTime, end:sunrise.tithiEndTime || day.tithiEndTime, basis:"sunrise-tithi-interval"});
+    }
+    for (const interval of intervals) {
+      const intervalStart = Date.parse(interval.start || "");
+      const intervalEnd = Date.parse(interval.end || "");
+      if (Number.isFinite(intervalStart) && Number.isFinite(intervalEnd) && intervalStart < end && intervalEnd > start) {
+        return {date, intervalStart:new Date(intervalStart).toISOString(), intervalEnd:new Date(intervalEnd).toISOString(), basis:interval.basis, source:"local-panchang-tithi-interval"};
+      }
+    }
+  }
+  return null;
+}
+
 function unique(values) {
   const seen = new Set();
   return values.filter(value => {
@@ -155,6 +189,9 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
         )
       : [];
     const drikReferenceDate = drik2026Entry?.referenceDate || drikSpecialEntries[0]?.referenceDate || group.referenceDate || null;
+    const sourceReferenceObservation = drikReferenceDate && !candidateDates.includes(drikReferenceDate)
+      ? findDwadashiIntervalOnLocalDate(dailyPanchang, drikReferenceDate, group.month, group.paksha, group.adhika)
+      : null;
     const drikLabels = unique(
       (Array.isArray(drik2026Entry?.labels) ? drik2026Entry.labels : [])
         .concat(drikSpecialEntries.flatMap(item => Array.isArray(item.labels) ? item.labels : []))
@@ -175,17 +212,20 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       noonObservations: group.noonObservations,
       candidateDates,
       referenceDate: drikReferenceDate,
+      sourceReferenceObservation,
       drikLabels,
       drik2026Labels: year === 2026 && Array.isArray(drik2026Entry?.labels) ? unique(drik2026Entry.labels) : [],
       drikSpecialObservances: drikSpecialEntries.map(item => ({ ...item, source:"Drik Panchang", sourceUrl:item.sourcePage === "smarta-ekadashi" ? "https://www.drikpanchang.com/ekadashi/ekadashi-dates.html?year=" + year + "&geoname-id=1259503" : "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=" + year + "&geoname-id=1259503", status:"source-cross-reference-needs-local-rule-review" })),
       selectedDate: drikReferenceDate
-        ? (candidateDates.includes(drikReferenceDate) ? drikReferenceDate : null)
+        ? (candidateDates.includes(drikReferenceDate) || sourceReferenceObservation ? drikReferenceDate : null)
         : candidateDates.length === 1
           ? candidateDates[0]
           : null,
       dateSelection: drikReferenceDate && candidateDates.includes(drikReferenceDate)
         ? "source-reference-date-candidate-review-required"
-        : drikReferenceDate && candidateDates.length && !candidateDates.includes(drikReferenceDate)
+        : drikReferenceDate && sourceReferenceObservation
+          ? "source-reference-date-tithi-overlap-review-required"
+          : drikReferenceDate && candidateDates.length && !candidateDates.includes(drikReferenceDate)
           ? "reference-date-outside-local-observations-review-required"
           : candidateDates.length === 1
             ? "single-observation-candidate-review-required"
