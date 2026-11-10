@@ -532,3 +532,23 @@ Dataset:
 `data/drik-multicity-asta-udaya-2024-2028.json`
 
 Source observer coordinates/elevation Drik ने नहीं दिए; सभी accepted comparisons city-label-only हैं, coordinate-grade नहीं। Dataset tests अब requested year, 24+ normalization, duplicate annual overlap, exact Pithoragarh reconciliation और zero-event non-inference को enforce करते हैं।
+
+
+### Five-city leave-one-city-out transfer — 10 नवम्बर 2026
+
+200 unique, requested-year-verified Drik windows से city-wise blind transfer किया: हर बार एक पूरा शहर holdout रहा और model केवल बाकी चार शहरों के windows पर fit हुआ। प्रत्येक planet के लिए magnitude-only, magnitude+event-direction interaction और richer local-geometry variants तुलना किए।
+
+Best simple model per planet:
+| ग्रह | Holdout events | Asta date MAE / max | Udaya date MAE / max |
+|---|---:|---:|---:|
+| Mercury — magnitude + event direction | 125/125 | 0.192 / 1 दिन | 0.080 / 1 दिन |
+| Venus — magnitude + event direction | 25/25 | 0.240 / 1 दिन | 0.360 / 1 दिन |
+| Jupiter — magnitude-only | 20/20 | 0.200 / 1 दिन | 0.100 / 1 दिन |
+| Saturn — magnitude-only | 20/20 | 0.050 / 1 दिन | 0.150 / 1 दिन |
+| Mars | 0/10 matched | unavailable | unavailable |
+
+Best simple model में Mercury के 125 में 101 Asta और 115 Udaya dates exact; Venus 19/25 और 16/25; Jupiter 16/20 और 18/20; Saturn 19/20 और 17/20 exact। सभी matched simple-model predictions अधिकतम एक civil day के भीतर हैं। Mars के 10 holdout windows में कोई candidate 30-day matching gate के भीतर नहीं मिला।
+
+Richer geometry model ने कुछ folds में 20–35 दिन तक गलत Udaya boundaries चुनीं; इसे reject किया। Mercury/Venus में event-direction interaction उपयोगी है; Jupiter/Saturn के लिए extra geometry लाभ नहीं देती।
+
+**महत्त्वपूर्ण सीमा:** ये city-centre proxy observers पर city-label holdouts हैं; Drik के exact internal coordinates/elevation उपलब्ध नहीं। 1-day maximum error अभी भी exact published-date acceptance gate fail करता है। इसलिए इसे मजबूत calibration evidence मानें, production proof नहीं। नए clock-of-day error metrics भी जोड़े गए हैं ताकि अगली CI run में तारीख और समय की त्रुटि अलग-अलग दिखाई दे।
