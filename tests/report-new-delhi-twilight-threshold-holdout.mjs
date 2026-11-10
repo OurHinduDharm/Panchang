@@ -164,7 +164,69 @@ const thresholdSummary = Object.fromEntries(
   })
 );
 
-${insert}console.log(JSON.stringify({
+
+function fitMagnitudeThreshold(samples) {
+  const meanMagnitude = samples.reduce((sum, item) => sum + item.magnitude, 0) / samples.length;
+  const meanAltitude = samples.reduce((sum, item) => sum + item.thresholdMidpoint, 0) / samples.length;
+  const denominator = samples.reduce((sum, item) => sum + (item.magnitude - meanMagnitude) ** 2, 0);
+  if (!denominator) throw new Error("Cannot fit magnitude threshold with zero magnitude variance");
+  const slope = samples.reduce((sum, item) =>
+    sum + (item.magnitude - meanMagnitude) * (item.thresholdMidpoint - meanAltitude), 0
+  ) / denominator;
+  return { intercept: meanAltitude - slope * meanMagnitude, slope };
+}
+
+function evaluateMagnitudeHoldout(train, test) {
+  if (train.length < 4 || test.length < 4) {
+    return { available: false, reason: "At least four independent windows per year are required" };
+  }
+  const model = fitMagnitudeThreshold(train);
+  const baseline = train.reduce((sum, item) => sum + item.thresholdMidpoint, 0) / train.length;
+  const errors = test.map(item => ({
+    id: item.id,
+    actualThresholdMidpoint: round(item.thresholdMidpoint, 5),
+    predictedThresholdMidpoint: round(model.intercept + model.slope * item.magnitude, 5),
+    apparentMagnitude: item.magnitude,
+    absoluteErrorDegrees: round(Math.abs(model.intercept + model.slope * item.magnitude - item.thresholdMidpoint), 5),
+    constantBaselineAbsoluteErrorDegrees: round(Math.abs(baseline - item.thresholdMidpoint), 5)
+  }));
+  const mean = values => values.reduce((sum, value) => sum + value, 0) / values.length;
+  return {
+    available: true,
+    trainCount: train.length,
+    testCount: test.length,
+    model: { intercept: round(model.intercept, 6), slopeDegreesPerMagnitude: round(model.slope, 6) },
+    testMaeDegrees: round(mean(errors.map(item => item.absoluteErrorDegrees)), 5),
+    constantBaselineMaeDegrees: round(mean(errors.map(item => item.constantBaselineAbsoluteErrorDegrees)), 5),
+    maxAbsoluteErrorDegrees: round(Math.max(...errors.map(item => item.absoluteErrorDegrees)), 5),
+    errors
+  };
+}
+
+const mercuryMagnitudeCrossValidation = Object.fromEntries(
+  ["astaStart", "astaEnd"].map(boundaryName => {
+    const samples = rows
+      .filter(item => item.planet === "Mercury")
+      .flatMap(item => item.boundaries
+        .filter(boundary => boundary.boundary === boundaryName)
+        .map(boundary => ({
+          id: item.id,
+          year: Number(boundary.publishedLocal.slice(0, 4)),
+          magnitude: boundary.boundaryPlanetObservables.apparentMagnitude,
+          thresholdMidpoint: (boundary.refractedTransitionInterval.lower + boundary.refractedTransitionInterval.upper) / 2
+        }))
+      );
+    const year2026 = samples.filter(item => item.year === 2026);
+    const year2027 = samples.filter(item => item.year === 2027);
+    return [boundaryName, {
+      totalSamples: samples.length,
+      year2026To2027: evaluateMagnitudeHoldout(year2026, year2027),
+      year2027To2026: evaluateMagnitudeHoldout(year2027, year2026)
+    }];
+  })
+);
+
+console.log(JSON.stringify({
   title: "New Delhi out-of-sample twilight-threshold diagnostic",
   sampleCaseCount: rows.length,
   boundaryCount: rows.reduce((sum, item) => sum + item.boundaries.length, 0),
