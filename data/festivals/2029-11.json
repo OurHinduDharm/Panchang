@@ -94,8 +94,8 @@
     {
       "date": "2029-11-05",
       "dateLabel": "5 नवंबर",
-      "title": "दीपावली / लक्ष्मी-गणेश पूजन",
-      "description": "दीपावली की अमावस्या पर माँ लक्ष्मी और भगवान गणेश का पूजन तथा दीपदान किया जाता है। गृहस्थों के लिए प्रदोषकाल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी पूजन विधि पढ़ें</a>",
+      "title": "दीपावली / लक्ष्मी-गणेश पूजन / केदार गौरी व्रत",
+      "description": "दीपावली की अमावस्या पर माँ लक्ष्मी और भगवान गणेश का पूजन तथा दीपदान किया जाता है। गृहस्थों के लिए प्रदोषकाल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी पूजन विधि पढ़ें</a> तमिलनाडु सहित दक्षिण भारत में इसी अमावस्या पर केदार गौरी व्रत भी किया जाता है। इसमें भगवान शिव के केदारेश्वर स्वरूप और भगवती गौरी की संयुक्त उपासना होती है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -106,7 +106,9 @@
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
       "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना",
       "sourceName": "Drik Panchang — 2029 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2029"
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2029",
+      "secondarySourceName": "Drik Panchang — Kedar Gauri Vrat 2029",
+      "secondarySourceUrl": "https://www.drikpanchang.com/vrats/kedar-gauri/kedar-gauri-vrat-date-time.html?year=2029"
     },
     {
       "date": "2029-11-05",
@@ -184,18 +186,6 @@
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल षष्ठी",
       "muhurtaRule": "chhath-arghya"
-    },
-    {
-      "date": "2029-11-11",
-      "dateLabel": "11 नवंबर",
-      "title": "सूरसंहारम्",
-      "description": "कंद षष्ठी के अवसर पर भगवान मुरुगन द्वारा असुर सूरपद्म के संहार की लीला का स्मरण सूरसंहारम् के रूप में किया जाता है।",
-      "category": "तमिल देव पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "कार्तिक शुक्ल षष्ठी",
-      "sourceName": "Drik Panchang — 2029 Tamil / Regional Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/malayalam/malayalam-month-calendar.html?date=13%2F11%2F2029&lang=en"
     },
     {
       "date": "2029-11-13",
