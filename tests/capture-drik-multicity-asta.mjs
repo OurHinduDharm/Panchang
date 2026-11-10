@@ -14,7 +14,7 @@ const TARGETS = [
   { planet: "Jupiter", slug: "guru", names: /Jupiter|Guru/i },
   { planet: "Saturn", slug: "shani", names: /Saturn|Shani/i }
 ];
-const YEARS = [2024, 2025, 2026, 2027, 2028];
+const YEARS = [2021, 2022, 2023, 2024, 2025, 2026, 2027];
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({
   viewport: { width: 1440, height: 1100 },
@@ -86,7 +86,7 @@ try {
   const yearVerified = cityPlanetVerified.filter(x => x.requestedYearConfirmed);
   const yearMismatch = cityPlanetVerified.filter(x => !x.requestedYearConfirmed);
   const summary = {
-    title: "Drik five-planet multi-city annual Tara Asta capture",
+    title: "Drik five-planet multi-city annual Tara Asta capture 2021–2027",
     capturedAt: new Date().toISOString(),
     policy: "Every city/planet/year page is independently opened with geoname-id. Rendered city, planet and requested page year are checked separately. A city+planet match with a different rendered year is quarantined, never counted as requested-year evidence. No New Delhi fallback, search-result substitution, or zero-event inference.",
     attempted: captures.length,
