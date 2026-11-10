@@ -205,12 +205,14 @@
     {
       "date": "2028-11-24",
       "dateLabel": "24 नवंबर",
-      "title": "मासिक दुर्गाष्टमी",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
-      "category": "व्रत",
+      "title": "मासिक दुर्गाष्टमी / बाबा नीब करौरी जयंती",
+      "description": "मार्गशीर्ष शुक्ल अष्टमी को मासिक दुर्गाष्टमी के साथ बाबा नीब करौरी महाराज के प्राकट्य दिवस का स्मरण किया जाता है।",
+      "category": "जयंती एवं व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी"
+      "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी",
+      "sourceName": "Hinduism Today — Neem Karoli Baba",
+      "sourceUrl": "https://www.hinduismtoday.com/magazine/april-may-june-2024/educational-insight-neem-karoli-baba/"
     },
     {
       "date": "2028-11-27",
