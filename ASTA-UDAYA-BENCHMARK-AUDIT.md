@@ -999,3 +999,19 @@ New Delhi के Drik 2024 pages से Mercury की छह windows, Venus क
 - 89% predictions ±1 दिन और 95% ±2 दिन के भीतर रहीं। ये repeated year-pair predictions हैं, 147 अलग-अलग reference dates नहीं।
 
 इससे Mercury magnitude-based candidate की cross-year stability और मजबूत हुई। लेकिन अभी भी New Delhi city-centre proxy और reference-date के ±20 दिन के local search window पर निर्भर है। Pithoragarh में location transfer, observer elevation/atmosphere और independent same-city Mercury references अभी बाकी हैं।
+
+
+### 38-window local horizon clock verification — CI success
+
+Latest browser diagnostics में 2024–27 के **38 New Delhi Asta windows / 76 boundaries** पर सही direction वाले Astronomy Engine local rise/set event और Drik published clock-time की तुलना:
+
+- Mean absolute clock difference: **0.2347 minute** (लगभग 14 सेकंड).
+- Maximum absolute difference: **0.61 minute** (लगभग 37 सेकंड).
+- Signed difference range: **−0.49 to +0.61 minute**.
+- Planet-wise maximum: Venus 0.61, Jupiter 0.57, Saturn 0.59, Mercury 0.56, Mars 0.57 minute.
+
+यह 76 city-label-only New Delhi comparisons हैं; provider coordinates undisclosed हैं, इसलिए यह exact-coordinate validation नहीं। फिर भी clock-time semantics के लिए मजबूत evidence है: प्रकाशित Asta/Udaya timestamp स्थानीय ग्रह के सही rise/set event के अनुरूप है। अब engineering problem दो अलग हिस्सों में स्पष्ट है:
+1. **Clock time:** observer के topocentric horizon rise/set से निकालना—यह हिस्सा अत्यंत अच्छी तरह match कर रहा है।
+2. **Boundary date:** planet brightness और local twilight के आधार पर visibility transition चुनना—Mercury के लिए cross-year model candidate सफल है; अन्य ग्रहों का calibration बाकी है।
+
+CI browser diagnostics, Panchang feature validation और classical interval tests सफल रहे। Production Panchang display/code path अभी नहीं बदला।
