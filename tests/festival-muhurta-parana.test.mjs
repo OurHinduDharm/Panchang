@@ -1066,15 +1066,49 @@ test("Dev Deepawali deepdaan uses only the local Pradosh interval covered by Pur
 });
 
 
-test("Chhath arghya times use local sunset and the following sunrise", () => {
+test("Chhath shows all four dated observances and local sunset/sunrise arghya times", () => {
   const sunset = date("2026-11-15T17:14:00+05:30");
   const nextSunrise = date("2026-11-16T06:34:00+05:30");
-  const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {sunset,nextSunrise});
+  const mainDate = date("2026-11-15T12:00:00+05:30");
+  const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {date:mainDate,sunset,nextSunrise});
   assert.equal(result.status,"calculated");
-  assert.deepEqual(result.times.map(item => item.label), ["संध्या अर्घ्य","उषा अर्घ्य"]);
+  assert.deepEqual(result.milestones.map(item => item.label), ["नहाय-खाय (चतुर्थी)","खरना / लोहंडा (पंचमी)"]);
+  assert.equal(result.milestones[0].date.toISOString(), date("2026-11-13T11:30:00.000Z").toISOString());
+  assert.equal(result.milestones[1].date.toISOString(), date("2026-11-14T11:30:00.000Z").toISOString());
+  assert.deepEqual(result.times.map(item => item.label), ["संध्या अर्घ्य (षष्ठी)","उषा अर्घ्य एवं पारण (सप्तमी)"]);
   assert.equal(result.times[0].time.toISOString(), sunset.toISOString());
   assert.equal(result.times[1].time.toISOString(), nextSunrise.toISOString());
-  assert.equal(getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {sunset}).status,"unavailable");
+  assert.equal(getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {sunset,nextSunrise}).status,"unavailable");
+});
+
+test("Vasant Panchami Saraswati puja uses only the local Purvahna overlapping Shukla Panchami", () => {
+  const sunrise=date("2027-02-11T06:45:00+05:30");
+  const sunset=date("2027-02-11T17:40:00+05:30");
+  const panchami={index:4,name:"Shukla Panchami",startTime:date("2027-02-11T03:04:00+05:30"),endTime:date("2027-02-12T03:18:00+05:30")};
+  const result=getFestivalMuhurta({muhurtaRule:"vasant-panchami-saraswati"},{sunrise,sunset,tithis:[panchami]});
+  assert.equal(result.status,"calculated");
+  assert.equal(result.windows.length,1);
+  assert.equal(result.windows[0].start.toISOString(),sunrise.toISOString());
+  assert.ok(result.windows[0].end<date("2027-02-11T12:30:00+05:30"));
+  assert.match(result.windows[0].label,/सरस्वती पूजा/);
+});
+
+test("Raksha Bandhan explicitly reports Bhadra status and excludes Vishti", () => {
+  const sunrise=date("2028-08-05T05:40:00+05:30");
+  const sunset=date("2028-08-05T18:55:00+05:30");
+  const nextSunrise=date("2028-08-06T05:41:00+05:30");
+  const purnima={index:14,name:"Purnima",startTime:date("2028-08-04T19:00:00+05:30"),endTime:date("2028-08-06T02:00:00+05:30")};
+  const clear=getFestivalMuhurta({muhurtaRule:"raksha-bandhan-thread"},{sunrise,sunset,nextSunrise,tithis:[purnima],karanas:[{name:"Bava",startTime:date("2028-08-05T05:00:00+05:30"),endTime:date("2028-08-05T11:00:00+05:30")}]});
+  assert.equal(clear.status,"calculated");
+  assert.match(clear.note,/भद्रा नहीं है/);
+  const withBhadra=getFestivalMuhurta({muhurtaRule:"raksha-bandhan-thread"},{sunrise,sunset,nextSunrise,tithis:[purnima],karanas:[
+    {name:"Bava",startTime:date("2028-08-05T05:00:00+05:30"),endTime:date("2028-08-05T11:00:00+05:30")},
+    {name:"Vishti",startTime:date("2028-08-05T13:00:00+05:30"),endTime:date("2028-08-05T15:00:00+05:30")}
+  ]});
+  assert.equal(withBhadra.status,"calculated");
+  assert.match(withBhadra.note,/भद्रा काल/);
+  assert.match(withBhadra.note,/इस अवधि में रक्षा-सूत्र न बाँधें/);
+  assert.ok(withBhadra.windows.every(window => window.end<=date("2028-08-05T13:00:00+05:30")||window.start>=date("2028-08-05T15:00:00+05:30")));
 });
 
 
