@@ -278,11 +278,15 @@
       "date": "2027-09-29",
       "dateLabel": "29 सितंबर",
       "title": "महालया / सर्वपितृ अमावस्या",
-      "description": "पितृपक्ष के समापन पर पितरों के निमित्त श्राद्ध और तर्पण की परंपरा है।",
+      "description": "पितृपक्ष के समापन पर पितरों के निमित्त श्राद्ध और तर्पण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a>। <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ विसर्जन विधि</a>।",
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन कृष्ण अमावस्या"
+      "hinduTithi": "आश्विन कृष्ण अमावस्या",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/pitri-visarjan.html",
+      "articleLabel": "पितृ विसर्जन विधि",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
     },
     {
       "date": "2027-09-30",

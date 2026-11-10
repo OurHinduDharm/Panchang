@@ -201,11 +201,13 @@
       "date": "2029-04-23",
       "dateLabel": "23 अप्रैल",
       "title": "राम नवमी / चैत्र नवरात्र नवमी — माँ सिद्धिदात्री",
-      "description": "राम नवमी भगवान श्रीराम के प्राकट्य का पर्व है। पूजा-काल संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a>",
+      "description": "राम नवमी भगवान श्रीराम के प्राकट्य का पर्व है। पूजा-काल संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a> <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल नवमी"
+      "hinduTithi": "चैत्र शुक्ल नवमी",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html",
+      "secondaryArticleLabel": "नवमी हवन विधि"
     },
     {
       "date": "2029-04-24",

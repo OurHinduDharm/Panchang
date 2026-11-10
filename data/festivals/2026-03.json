@@ -382,10 +382,12 @@
       "date": "2026-03-28",
       "dateLabel": "28 मार्च",
       "title": "कलश विसर्जन",
-      "description": "चैत्र नवरात्रि के समापन पर दशमी तिथि में कलश-विसर्जन की परंपरा है।",
+      "description": "चैत्र नवरात्रि के समापन पर दशमी तिथि में कलश-विसर्जन की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश विसर्जन विधि</a>।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "चैत्र शुक्ल दशमी"
+      "hinduTithi": "चैत्र शुक्ल दशमी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "articleLabel": "कलश विसर्जन विधि"
     },
     {
       "date": "2026-03-29",
