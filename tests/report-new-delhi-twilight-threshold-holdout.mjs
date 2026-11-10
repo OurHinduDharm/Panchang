@@ -203,6 +203,43 @@ function evaluateMagnitudeHoldout(train, test) {
   };
 }
 
+
+const planetLeaveOneOutCrossValidation = Object.fromEntries(
+  ["astaStart", "astaEnd"].map(boundaryName => {
+    const samples = Object.entries(thresholdGroups)
+      .filter(([key]) => key.endsWith(":" + boundaryName))
+      .flatMap(([key, group]) => {
+        const planet = key.split(":")[0];
+        return group.map(item => ({
+          planet,
+          id: item.caseId,
+          magnitude: item.apparentMagnitude,
+          thresholdMidpoint: (item.lower + item.upper) / 2
+        }));
+      });
+    return [boundaryName, Object.fromEntries(
+      [...new Set(samples.map(item => item.planet))].map(heldOutPlanet => {
+        const train = samples.filter(item => item.planet !== heldOutPlanet);
+        const test = samples.filter(item => item.planet === heldOutPlanet);
+        const model = fitMagnitudeThreshold(train);
+        const baseline = train.reduce((sum, item) => sum + item.thresholdMidpoint, 0) / train.length;
+        const errors = test.map(item => ({
+          absoluteError: Math.abs(model.intercept + model.slope * item.magnitude - item.thresholdMidpoint),
+          baselineAbsoluteError: Math.abs(baseline - item.thresholdMidpoint)
+        }));
+        const mean = values => values.reduce((sum, value) => sum + value, 0) / values.length;
+        return [heldOutPlanet, {
+          trainCount: train.length,
+          testCount: test.length,
+          testMaeDegrees: round(mean(errors.map(item => item.absoluteError)), 5),
+          constantBaselineMaeDegrees: round(mean(errors.map(item => item.baselineAbsoluteError)), 5),
+          maxAbsoluteErrorDegrees: round(Math.max(...errors.map(item => item.absoluteError)), 5)
+        }];
+      })
+    )];
+  })
+);
+
 const mercuryMagnitudeCrossValidation = Object.fromEntries(
   ["astaStart", "astaEnd"].map(boundaryName => {
     const samples = rows
@@ -343,6 +380,7 @@ console.log(JSON.stringify({
   pithoragarhVenusThresholdIntervals: PITHORAGARH_VENUS_THRESHOLD,
   planetAndBoundaryThresholdSummary: thresholdSummary,
   mercuryMagnitudeCrossValidation,
+  planetLeaveOneOutCrossValidation,
   mercuryBoundaryDateHoldouts,
   interpretation: "Diagnostic only. New Delhi source coordinates are undisclosed; a city-centre proxy is used solely to test day-level threshold transfer. Do not claim coordinate-exact validation or promote this threshold to production.",
   cases: rows
