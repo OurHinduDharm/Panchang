@@ -169,38 +169,45 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
       }
 
       const searchDays = planet === "Mercury" ? 45 : planet === "Mars" ? 90 : 60;
-      const candidates = generateVisibilityWindows({
-        astronomy: Astronomy, body: planet, observer, modelByBoundary,
-        startDate: new Date(Date.UTC(holdoutYear, 0, 1)),
-        endDate: new Date(Date.UTC(holdoutYear, 11, 31, 23, 59, 59)),
-        searchDays, timeZone: TIME_ZONE
-      }).filter(window =>
-        window.status === "candidate" &&
-        window.asta.predictedBoundaryDate?.slice(0, 4) === String(holdoutYear)
-      );
-
-      const used = new Set(), predictions = [];
-      for (const entry of holdouts) {
-        const publishedAsta = entry.boundaries.astaStart;
-        const ranked = candidates.map((window, index) => ({
-          window, index,
-          error: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedAsta.local)
-        })).filter(item => !used.has(item.index))
-          .sort((a, b) => Math.abs(a.error) - Math.abs(b.error));
-        const best = ranked[0];
-        if (!best || Math.abs(best.error) > 30) {
-          predictions.push({ id: entry.id, matched: false });
-          continue;
+      const predictions = [];
+      const eventYears = [...new Set(holdouts.map(entry =>
+        Number(entry.boundaries.astaStart.local.slice(0, 4))
+      ))].sort();
+      for (const eventYear of eventYears) {
+        const candidates = generateVisibilityWindows({
+          astronomy: Astronomy, body: planet, observer, modelByBoundary,
+          startDate: new Date(Date.UTC(eventYear, 0, 1)),
+          endDate: new Date(Date.UTC(eventYear, 11, 31, 23, 59, 59)),
+          searchDays, timeZone: TIME_ZONE
+        }).filter(window =>
+          window.status === "candidate" &&
+          window.asta.predictedBoundaryDate?.slice(0, 4) === String(eventYear)
+        );
+        const used = new Set();
+        for (const entry of holdouts.filter(item =>
+          Number(item.boundaries.astaStart.local.slice(0, 4)) === eventYear
+        )) {
+          const publishedAsta = entry.boundaries.astaStart;
+          const ranked = candidates.map((window, index) => ({
+            window, index,
+            error: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedAsta.local)
+          })).filter(item => !used.has(item.index))
+            .sort((a, b) => Math.abs(a.error) - Math.abs(b.error));
+          const best = ranked[0];
+          if (!best || Math.abs(best.error) > 30) {
+            predictions.push({ id: entry.id, matched: false });
+            continue;
+          }
+          used.add(best.index);
+          const publishedEnd = entry.boundaries.astaEnd;
+          predictions.push({
+            id: entry.id, matched: true,
+            astaErrorDays: best.error,
+            udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd.local),
+            astaClockErrorMinutes: clockError(best.window.asta.predictedEventLocalTime, publishedAsta.local.slice(11, 16)),
+            udayaClockErrorMinutes: clockError(best.window.udaya.predictedEventLocalTime, publishedEnd.local.slice(11, 16))
+          });
         }
-        used.add(best.index);
-        const publishedEnd = entry.boundaries.astaEnd;
-        predictions.push({
-          id: entry.id, matched: true,
-          astaErrorDays: best.error,
-          udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd.local),
-          astaClockErrorMinutes: clockError(best.window.asta.predictedEventLocalTime, publishedAsta.local.slice(11, 16)),
-          udayaClockErrorMinutes: clockError(best.window.udaya.predictedEventLocalTime, publishedEnd.local.slice(11, 16))
-        });
       }
       const matched = predictions.filter(item => item.matched);
       output.push({
