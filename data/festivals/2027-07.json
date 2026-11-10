@@ -19,8 +19,8 @@
     {
       "date": "2027-07-01",
       "dateLabel": "1 जुलाई",
-      "title": "कृष्ण रामलक्ष्मण द्वादशी / मासिक कार्तिगाई",
-      "description": "आषाढ़ कृष्ण द्वादशी को भगवान श्रीराम और लक्ष्मणजी का स्मरण एवं पूजन किया जाता है। तमिल परंपरा में इसी दिन मासिक कार्तिगाई का पर्व भी मनाया जाता है।",
+      "title": "कृष्ण रामलक्ष्मण द्वादशी",
+      "description": "आषाढ़ कृष्ण द्वादशी को भगवान श्रीराम और लक्ष्मणजी का स्मरण एवं पूजन किया जाता है।",
       "category": "व्रत एवं पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -361,17 +361,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण कृष्ण नवमी",
-      "sourceName": "Drik Panchang — July 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2027"
-    },
-    {
-      "date": "2027-07-28",
-      "dateLabel": "28 जुलाई",
-      "title": "मासिक कार्तिगाई",
-      "description": "तमिल परंपरा में कार्तिगाई नक्षत्र के अवसर पर भगवान शिव और कार्तिकेय की पूजा, दीपदान और उपासना की जाती है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
       "sourceName": "Drik Panchang — July 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2027"
     },
