@@ -851,3 +851,18 @@ New Delhi के लिए Drik के 2026 पृष्ठों से छह 
 - Asta-end: r = −0.901 (n=7)
 
 यह मजबूत exploratory association है, पर एक शहर/एक वर्ष के सीमित नमूने पर आधारित है। इसे fitted production formula नहीं मानना है। 2026 Mercury और Mars जोड़ने के बाद पुनः गणना और validation आवश्यक है।
+
+
+### Event-family correction: Swiss heliacal moment बनाम Asta/Udaya clock time
+
+10 नवम्बर की स्रोत-जाँच से एक महत्वपूर्ण methodological correction:
+
+- Panchang Guru स्पष्ट करता है कि Asta/Udaya में प्रकाशित clock-time ग्रह का अपना स्थानीय rising या setting है; visibility window की शुरुआत/समाप्ति उस दिन के ग्रह-उदय/अस्त के साथ जोड़ी जाती है। स्रोत: https://www.panchangguru.com/shukra-asta (विशेषतः “moment given … own rising or setting”).
+- Swiss Ephemeris का `swe_heliacal_ut()` first/last visibility का heliacal moment निकालता है; `swe_vis_limit_mag()` अलग से उस समय visibility के लिए limiting magnitude देता है। ये local horizon rise/set clock-time नहीं हैं। स्रोत: https://www.astro.com/ftp/swisseph/doc/swephprg.2.10.htm (sections 7.17–7.18).
+
+इसलिए पहले Swiss output का Drik Asta/Udaya timestamp से minute-level MAE निकालना apples-to-oranges था। इसे अब ठीक किया गया:
+- Swiss heliacal event और published boundary का **स्थानीय civil-date offset (days)** primary metric होगा।
+- Swiss heliacal clock-time और planet rise/set clock-time का minute difference केवल diagnostic field है; इसे accuracy metric नहीं माना जाएगा।
+- Swiss visibility model की date-level तुलना भी Drik algorithm की पुष्टि नहीं है; वह केवल स्वतंत्र candidate model का holdout test है।
+
+चार independently indexed Pithoragarh Venus 2025 boundaries पर baseline Swiss scenario के date offsets क्रमशः −2, +2, −7 और +8 दिन थे (published sample का MAE 4.75 दिन)। इससे baseline Schaefer/Swiss visibility setup अभी published Asta/Udaya dates को पर्याप्त सटीकता से नहीं पकड़ता। Observer/atmosphere parameters को सिर्फ चार samples पर tune नहीं किया जाएगा।
