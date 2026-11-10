@@ -79,14 +79,15 @@ async function queryHorizons(targetId, times, label) {
 }
 
 async function queryHorizonsBatched(targetId, times, label) {
-  const batchSize = 50;
+  const batchSize = 8;
   const batches = [];
   for (let start = 0; start < times.length; start += batchSize) {
     batches.push(times.slice(start, start + batchSize));
   }
-  const results = await Promise.all(batches.map((batch, index) =>
-    queryHorizons(targetId, batch, label + " batch " + (index + 1))
-  ));
+  const results = [];
+  for (let index = 0; index < batches.length; index++) {
+    results.push(await queryHorizons(targetId, batches[index], label + " batch " + (index + 1)));
+  }
   return {
     targetId,
     requestedTimesUTC: times,
