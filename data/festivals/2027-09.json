@@ -87,24 +87,14 @@
     {
       "date": "2027-09-08",
       "dateLabel": "8 सितंबर",
-      "title": "मासिक दुर्गाष्टमी",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
-      "category": "व्रत",
+      "title": "राधाष्टमी / मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। राधाष्टमी श्रीराधा के प्राकट्य-स्मरण का पर्व है। राधा-कृष्ण पूजन, भजन, जप और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>",
+      "category": "पर्व एवं व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
-    },
-    {
-      "date": "2027-09-08",
-      "dateLabel": "8 सितंबर",
-      "title": "राधाष्टमी",
-      "description": "राधाष्टमी श्रीराधा के प्राकट्य-स्मरण का पर्व है। राधा-कृष्ण पूजन, भजन, जप और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html",
-      "articleLabel": "भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी",
-      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+      "articleLabel": "भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी"
     },
     {
       "date": "2027-09-11",
