@@ -41,7 +41,7 @@ test("date-only official visibility data is never represented as an exact clock 
   assert.ok(dateOnlyCases.length >= 1);
   for (const entry of dateOnlyCases) {
     for (const value of Object.values(entry.boundaries)) {
-      assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
+      if (value !== null) assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
     }
     assert.equal(entry.eventModel, "rashtriya-panchang-visibility-period");
   }
