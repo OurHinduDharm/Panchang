@@ -45,6 +45,16 @@ function wrap180(degrees) {
   return ((degrees + 540) % 360) - 180;
 }
 
+function equatorialSeparationDegrees(a, b) {
+  const radians = Math.PI / 180;
+  const raDelta = (a.ra - b.ra) * 15 * radians;
+  const decA = a.dec * radians;
+  const decB = b.dec * radians;
+  const cosine = Math.sin(decA) * Math.sin(decB) +
+    Math.cos(decA) * Math.cos(decB) * Math.cos(raDelta);
+  return Math.acos(Math.max(-1, Math.min(1, cosine))) / radians;
+}
+
 function geocentricMotionFeatures(astronomy, body, date) {
   if (typeof astronomy.GeoVector !== "function" || typeof astronomy.Ecliptic !== "function") {
     return { longitudeRateDegPerDay: null, retrograde: null, retrogradeState: null };
@@ -146,7 +156,7 @@ export function findVisibilityBoundaryNearAnchor({
       apparentMagnitude,
       elongationDegrees: typeof astronomy.AngleFromSun === "function"
         ? astronomy.AngleFromSun(body, date)
-        : null,
+        : equatorialSeparationDegrees(sun, planet),
       illuminatedFraction: illumination.phase_fraction,
       azimuthSeparationDegrees,
       longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
