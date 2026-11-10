@@ -7,8 +7,7 @@ import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
 
 import {
-  Observer,
-  SearchRiseSet
+  Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
 import {
@@ -434,8 +433,7 @@ function createPlanetCard(data, dailyEvents = {}) {
 
   const dailyRows = [
     { name: "सूर्य", udaya: dailyEvents.sunrise || null, asta: dailyEvents.sunset || null },
-    { name: "चंद्रमा", udaya: dailyEvents.moonrise || null, asta: dailyEvents.moonset || null },
-    { name: "मंगल — अगला दैनिक उदय-अस्त", udaya: dailyEvents.marsrise || null, asta: dailyEvents.marsset || null }
+    { name: "चंद्रमा", udaya: dailyEvents.moonrise || null, asta: dailyEvents.moonset || null }
   ].map(body => `
     <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
       <strong style="font-size:1.02em">${body.name}</strong>
@@ -1247,17 +1245,11 @@ if(
    * =========================================================
    */
 
-  // Mars ke daily horizon rise/set: selected local date se aage ke agle events.
-  // Yeh Tara-Asta/visibility boundary nahi, balki topocentric horizon crossing hai.
-  const marsRiseEvent = SearchRiseSet("Mars", horaObserver, 1, horaDate, 3, 0);
-  const marsSetEvent = SearchRiseSet("Mars", horaObserver, -1, horaDate, 3, 0);
   const dailyEvents = {
     sunrise: pHora.sunrise ? formatEventDateTime(new Date(pHora.sunrise)) : null,
     sunset: pHora.sunset ? formatEventDateTime(new Date(pHora.sunset)) : null,
     moonrise: pHora.moonrise ? formatEventDateTime(new Date(pHora.moonrise)) : null,
-    moonset: pHora.moonset ? formatEventDateTime(new Date(pHora.moonset)) : null,
-    marsrise: marsRiseEvent?.date ? formatEventDateTime(marsRiseEvent.date) : null,
-    marsset: marsSetEvent?.date ? formatEventDateTime(marsSetEvent.date) : null
+    moonset: pHora.moonset ? formatEventDateTime(new Date(pHora.moonset)) : null
   };
   renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents);
   __ohdPerfMark("direct Drik reference lookup and card");
