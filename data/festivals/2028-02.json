@@ -43,11 +43,13 @@
     {
       "date": "2028-02-03",
       "dateLabel": "3 फ़रवरी",
-      "title": "रथ सप्तमी",
-      "description": "रथ सप्तमी सूर्यदेव की उपासना से जुड़ी तिथि है। प्रातः स्नान, सूर्य को अर्घ्य, आदित्य-स्मरण और दान की परंपरा है।",
+      "title": "रथ सप्तमी / नर्मदा जयंती",
+      "description": "रथ सप्तमी सूर्यदेव की उपासना से जुड़ी तिथि है। प्रातः स्नान, सूर्य को अर्घ्य, आदित्य-स्मरण और दान की परंपरा है। नर्मदा जयंती पर माँ नर्मदा के प्राकट्य-स्मरण, स्नान, पूजन और दान की परंपरा है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — Narmada Jayanti 2028",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/narmada-jayanti-date-time.html?year=2028"
     },
     {
       "date": "2028-02-03",
