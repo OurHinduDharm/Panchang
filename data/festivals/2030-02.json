@@ -35,6 +35,16 @@
       "articleLabel": "सरस्वती पूजन की विधि पढ़ें"
     },
     {
+      "date": "2030-02-08",
+      "dateLabel": "8 फरवरी",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल षष्ठी"
+    },
+    {
       "date": "2030-02-09",
       "dateLabel": "9 फ़रवरी",
       "title": "रथ सप्तमी",
@@ -49,8 +59,8 @@
     {
       "date": "2030-02-10",
       "dateLabel": "10 फ़रवरी",
-      "title": "भीष्म अष्टमी",
-      "description": "भीष्म अष्टमी पर पितामह भीष्म का स्मरण और उनके निमित्त तर्पण किया जाता है।",
+      "title": "भीष्म अष्टमी / मासिक दुर्गाष्टमी",
+      "description": "भीष्म अष्टमी पर पितामह भीष्म का स्मरण और उनके निमित्त तर्पण किया जाता है। मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -90,6 +100,16 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2030-02-15",
+      "dateLabel": "15 फरवरी",
+      "title": "शुक्र प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पक्ष त्रयोदशी"
+    },
+    {
       "date": "2030-02-18",
       "dateLabel": "18 फ़रवरी",
       "title": "माघ पूर्णिमा",
@@ -100,6 +120,18 @@
       "hinduTithi": "माघ शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-02-25",
+      "dateLabel": "25 फरवरी",
+      "title": "मासिक कालाष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
       "date": "2030-02-28",
