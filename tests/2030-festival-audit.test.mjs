@@ -173,6 +173,21 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-10-02", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
 });
 
+test("2030 every Pradosh observance has its correct local muhurta rule", () => {
+  const allowed = new Set([
+    "pradosh-kala",
+    "pradosh-and-masik-shivaratri",
+    "dhanteras-muhurta",
+    "dev-deepawali-pradosh"
+  ]);
+  for (const event of events.filter(event => /प्रदोष/.test(event.title || ""))) {
+    assert.ok(allowed.has(event.muhurtaRule),
+      event.date + " " + event.title + " is missing a Pradosh-capable muhurta rule");
+  }
+  assert.equal(has("2030-06-28", /शुक्र प्रदोष.*मासिक शिवरात्रि/)?.muhurtaRule,
+    "pradosh-and-masik-shivaratri");
+});
+
 test("2030 Sharadiya Navratri puja labels match the actual tithi and Devi form", () => {
   assert.ok(has("2030-10-01", /पंचमी पूजा.*माँ स्कन्दमाता/));
   assert.ok(has("2030-10-02", /षष्ठी.*माँ कात्यायनी/));
