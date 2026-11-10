@@ -52,3 +52,25 @@ test("2028 Pithoragarh-visible lunar eclipses retain local contact times", () =>
   assert.match(december.description, /9:46 से 10:57 बजे तक/);
   assert.match(december.description, /1:10 बजे समाप्त/);
 });
+
+test("2028 January to April retain source-checked regional and same-tithi observances", () => {
+  const putrada = events.find(event => event.date === "2028-01-08" && /पुत्रदा एकादशी/.test(event.title || ""));
+  assert.match(putrada.title, /तैलंग स्वामी जयंती/);
+  assert.ok(events.some(event => event.date === "2028-01-14" && /लोहड़ी/.test(event.title || "")));
+
+  const ratha = events.find(event => event.date === "2028-02-03" && /रथ सप्तमी/.test(event.title || ""));
+  assert.equal(ratha.hinduTithi, "माघ शुक्ल सप्तमी");
+  const bhishma = events.find(event => event.date === "2028-02-03" && /भीष्माष्टमी/.test(event.title || ""));
+  assert.equal(bhishma.hinduTithi, "माघ शुक्ल अष्टमी");
+  assert.match(bhishma.title, /माँ महागौरी/);
+
+  assert.ok(events.some(event => event.date === "2028-03-08" && /नृसिंह द्वादशी/.test(event.title || "")));
+  assert.equal(events.filter(event => event.date === "2028-03-11" && /होली/.test(event.title || "")).length, 1);
+
+  const yamuna = events.find(event => event.date === "2028-04-01" && /यमुना छठ/.test(event.title || ""));
+  assert.ok(yamuna);
+  const hanuman = events.find(event => event.date === "2028-04-09" && /हनुमान जयंती/.test(event.title || ""));
+  assert.equal(hanuman.hinduTithi, "चैत्र शुक्ल पूर्णिमा");
+  const parashurama = events.find(event => event.date === "2028-04-27" && /परशुराम जयंती/.test(event.title || ""));
+  assert.equal(parashurama.hinduTithi, "वैशाख शुक्ल तृतीया");
+});
