@@ -119,7 +119,7 @@ test("formats normalized IST timestamps and preserves 24+ rollover normalization
 });
 
 test("production dataset contains 231 verified unique windows with extended Pithoragarh history", () => {
-  assert.equal(dataset.windows.length, 200);
+  assert.equal(dataset.windows.length, 231);
   assert.equal(dataset.cities.length, 5);
   assert.deepEqual(dataset.years, [2024, 2025, 2026, 2027]);
   const counts = new Map();
