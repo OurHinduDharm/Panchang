@@ -1228,3 +1228,14 @@ New Delhi के 8 Venus windows में से हर Pithoragarh test appari
 **4 boundaries में 3 exact; सभी 4 ±1 दिन के भीतर।** Annual generator ने 2 candidates निकाले और दोनों published windows से one-to-one match हुए; कोई extra candidate नहीं।
 
 यह पहले के boundary-centred cross-location test से मजबूत है: candidate windows conjunction से निकले और New Delhi training में same apparition शामिल नहीं था। फिर भी Drik के Pithoragarh observer coordinates/elevation सार्वजनिक नहीं हैं; project coordinates proxy हैं। Reference केवल दो Venus apparitions का है, इसलिए इसे अन्य ग्रहों/वर्षों पर स्वतः लागू नहीं करेंगे।
+
+
+### Local Sun–planet azimuth feature — annual holdout
+
+Local azimuth separation को magnitude के साथ fit करके 2022–27 annual conjunction holdout दोबारा चलाया:
+- Saturn: Asta 6/6 ±1 दिन; Udaya **6/6 exact**।
+- Mercury: Asta 37/38 ±1 दिन; Udaya 32/38 ±1 और 37/38 ±2 दिन।
+- Venus: Asta 6/8 ±1 दिन (magnitude-only से कमजोर); Udaya 8/8 ±1 और 5/8 exact।
+- Jupiter: कोई complete candidate window नहीं; यह feature model वहाँ अस्थिर रहा।
+
+**निर्णय:** Azimuth को भी universal feature न बनाएं। Saturn Udaya और Venus Udaya के लिए यह promising candidate है; Venus Asta/Jupiter के लिए नहीं। इसे Pithoragarh transfer पर अलग से जाँचे बिना production coefficients में शामिल नहीं करेंगे।
