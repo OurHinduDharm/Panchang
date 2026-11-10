@@ -85,6 +85,20 @@
       "hinduTithi": "श्रावण शुक्ल षष्ठी"
     },
     {
+      "date": "2027-08-07",
+      "dateLabel": "7 अगस्त",
+      "title": "कल्कि अवतार जयंती",
+      "description": "श्रावण शुक्ल षष्ठी को भगवान विष्णु के भावी कल्कि अवतार का स्मरण और पूजन किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
+      "articleLabel": "कल्कि अवतार जयंती",
+      "sourceName": "Drik Panchang — 2027 Kalki Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/kalki/kalki-jayanti-date-time.html?lang=hi&year=2027"
+    },
+    {
       "date": "2027-08-09",
       "dateLabel": "9 अगस्त",
       "title": "मासिक दुर्गाष्टमी",
@@ -129,16 +143,34 @@
       "hinduTithi": "श्रावण शुक्ल पक्ष त्रयोदशी"
     },
     {
+      "date": "2027-08-16",
+      "dateLabel": "16 अगस्त",
+      "title": "हयग्रीव भगवान जयंती",
+      "description": "श्रावण शुक्ल पूर्णिमा की अपराह्न-व्याप्ति में भगवान हयग्रीव का पूजन किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">हयग्रीव भगवान जयंती</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा (अपराह्न व्याप्ति)",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
+      "articleLabel": "हयग्रीव भगवान जयंती",
+      "sourceName": "Drik Panchang — 2027 Hayagriva Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-gods/trimurti/lord-vishnu/avatara/hayagriva/jayanti/hayagriva-jayanti-date-time.html?time-format=12hour&year=2027"
+    },
+    {
       "date": "2027-08-17",
       "dateLabel": "17 अगस्त",
-      "title": "रक्षाबंधन / श्रावण पूर्णिमा",
-      "description": "रक्षाबंधन / श्रावण पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a>",
+      "title": "रक्षाबंधन / श्रावण पूर्णिमा / लव-कुश जयंती",
+      "description": "रक्षाबंधन / श्रावण पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a> हयग्रीव भगवान जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">हयग्रीव भगवान जयंती</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
-      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा"
+      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
+      "secondaryArticleLabel": "हयग्रीव भगवान जयंती",
+      "sourceName": "Drik Panchang — 2027 Hayagriva Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-gods/trimurti/lord-vishnu/avatara/hayagriva/jayanti/hayagriva-jayanti-date-time.html?time-format=12hour&year=2027"
     },
     {
       "date": "2027-08-17",
