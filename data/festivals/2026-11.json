@@ -73,16 +73,25 @@
     {
       "date": "2026-11-06",
       "dateLabel": "6 नवंबर",
-      "title": "धनतेरस / धन्वन्तरि जयंती",
-      "description": "धनतेरस पर भगवान धन्वन्तरि की पूजा, माँ लक्ष्मी और कुबेर का स्मरण तथा यमदीपदान किया जाता है। खरीदारी के शुभ चौघड़िया और प्रदोष काल में पूजा का मुहूर्त नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a>।",
+      "title": "धनतेरस",
+      "description": "कार्तिक कृष्ण त्रयोदशी पर घर की स्वच्छता, दीपदान और शुभ खरीदारी की परंपरा है। स्थानीय त्रयोदशी-व्याप्ति और शुभ चौघड़िया के अनुसार खरीदारी करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
-      "articleLabel": "धनतेरस",
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
-      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती",
+      "articleLabel": "धनतेरस की विधि",
       "muhurtaRule": "dhanteras-muhurta"
+    },
+    {
+      "date": "2026-11-06",
+      "dateLabel": "6 नवंबर",
+      "title": "धन्वन्तरि जयंती",
+      "description": "कार्तिक कृष्ण त्रयोदशी को भगवान धन्वन्तरि के प्राकट्य-स्मरण और आरोग्य-कल्याण की कामना से उनकी पूजा, मंत्र-जप तथा स्तुति की जाती है। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि की स्तोत्रात्मक उपासना पढ़ें</a>",
+      "category": "देव-जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
+      "articleLabel": "श्रीधन्वन्तरि की स्तोत्रात्मक उपासना पढ़ें"
     },
     {
       "date": "2026-11-06",
@@ -366,9 +375,18 @@
     {
       "date": "2026-11-24",
       "dateLabel": "24 नवंबर",
-      "title": "कार्तिक पूर्णिमा / देव दीपावली",
-      "description": "कार्तिक पूर्णिमा पर स्नान, दान, दीपदान और भगवान विष्णु/शिव की उपासना की परंपरा है। काशी सहित अनेक स्थानों पर देव दीपावली मनाई जाती है। पूर्णिमा-व्याप्त प्रदोषकाल में दीपदान का समय स्थानीय गणना से निर्धारित होता है।<br><br>कार्तिक मास में प्रतिदिन सायंकाल आकाशदीपदान करने की परंपरा है। यदि पूरे मास यह न कर सकें तो कम से कम देव दीपावली (कार्तिक पूर्णिमा) को अवश्य करें।",
+      "title": "कार्तिक पूर्णिमा",
+      "description": "कार्तिक शुक्ल पूर्णिमा पर स्नान, दान, जप और भगवान विष्णु तथा शिव की आराधना की जाती है।",
       "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2026-11-24",
+      "dateLabel": "24 नवंबर",
+      "title": "देव दीपावली",
+      "description": "कार्तिक पूर्णिमा की प्रदोष बेला में देव दीपावली मनाई जाती है। गंगा-तटों और मंदिरों में दीपदान, आरती तथा भगवान शिव द्वारा त्रिपुरासुर-वध का स्मरण किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">आकाशदीपदान की विधि पढ़ें</a>",
+      "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
