@@ -66,6 +66,30 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     assert.equal(await normalPage.locator("#ohd-perf-panel").count(), 0, "normal page must not render diagnostics");
     await normalPage.close();
 
+    const mumbaiPage = await browser.newPage();
+    await mumbaiPage.addInitScript(() => localStorage.setItem("ohdPanchangLocation", JSON.stringify({
+      name: "Mumbai, Maharashtra, India",
+      lat: 19.0760,
+      lon: 72.8777,
+      elevation: 14,
+      state: "Maharashtra",
+      city: "Mumbai"
+    })));
+    const mumbaiResponse = await mumbaiPage.goto("http://127.0.0.1:8080/index.html?date=2026-10-31", {
+      waitUntil: "domcontentloaded",
+      timeout: 60000
+    });
+    assert.ok(mumbaiResponse?.ok(), "Mumbai Panchang page must load");
+    await mumbaiPage.waitForFunction(() => {
+      const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
+      return card.includes("Mumbai, Maharashtra, India") && card.includes("Drik मूल स्रोत");
+    }, null, { timeout: 180000 });
+    const mumbaiCard = await mumbaiPage.locator("#planetRiseSetCard").innerText();
+    assert.match(mumbaiCard, /Mumbai, Maharashtra, India/);
+    assert.doesNotMatch(mumbaiCard, /Drik Panchang के पिथौरागढ़/);
+    assert.doesNotMatch(mumbaiCard, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
+    await mumbaiPage.close();
+
     console.log("Asta-Udaya diagnostic counters rendered only in opt-in mode; visible fingerprint unchanged:\\n" + initialFingerprint);
     console.log(panel);
   } finally {
