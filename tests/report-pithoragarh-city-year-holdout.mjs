@@ -44,6 +44,24 @@ function sunAltitude(observer, date) {
   const sun = Astronomy.Equator("Sun", date, observer, true, true);
   return Astronomy.Horizon(date, observer, sun.ra, sun.dec, "normal").altitude;
 }
+function wrap180(value) {
+  return ((value + 540) % 360) - 180;
+}
+function motionAt(body, date) {
+  const halfDay = 12 * 3600000;
+  const before = Astronomy.Ecliptic(Astronomy.GeoVector(body, new Date(date.getTime() - halfDay), true));
+  const after = Astronomy.Ecliptic(Astronomy.GeoVector(body, new Date(date.getTime() + halfDay), true));
+  const longitudeRateDegPerDay = wrap180(after.elon - before.elon);
+  return { longitudeRateDegPerDay, retrograde: longitudeRateDegPerDay < 0 ? 1 : 0 };
+}
+function equatorialSeparationDegrees(a, b) {
+  const radians = Math.PI / 180;
+  const raDelta = (a.ra - b.ra) * 15 * radians;
+  const decA = a.dec * radians, decB = b.dec * radians;
+  const cosine = Math.sin(decA) * Math.sin(decB) +
+    Math.cos(decA) * Math.cos(decB) * Math.cos(raDelta);
+  return Math.acos(Math.max(-1, Math.min(1, cosine))) / radians;
+}
 function trainingSample(entry, boundaryName) {
   const observer = observerFor(entry.sourceLocation);
   const anchor = new Date(entry.boundaries[boundaryName].normalizedUtcInstant);
@@ -54,13 +72,27 @@ function trainingSample(entry, boundaryName) {
     new Date(anchor.getTime() - 36 * 3600000), 1, 0
   );
   if (!previous?.date) return null;
-  const magnitude = Astronomy.Illumination(entry.planet, event.date).mag;
+  const illumination = Astronomy.Illumination(entry.planet, event.date);
+  const motion = motionAt(entry.planet, event.date);
+  const sunEq = Astronomy.Equator("Sun", event.date, observer, true, true);
+  const planetEq = Astronomy.Equator(entry.planet, event.date, observer, true, true);
+  const sunH = Astronomy.Horizon(event.date, observer, sunEq.ra, sunEq.dec, "normal");
+  const planetH = Astronomy.Horizon(event.date, observer, planetEq.ra, planetEq.dec, "normal");
+  const elongationDegrees = typeof Astronomy.AngleFromSun === "function"
+    ? Astronomy.AngleFromSun(entry.planet, event.date)
+    : equatorialSeparationDegrees(sunEq, planetEq);
+  const azimuthSeparationDegrees = Math.abs(wrap180(sunH.azimuth - planetH.azimuth));
   const previousAltitude = sunAltitude(observer, previous.date);
   const currentAltitude = sunAltitude(observer, event.date);
   return {
-    apparentMagnitude: magnitude,
+    apparentMagnitude: illumination.mag,
     eventDirection: event.direction,
-    magnitudeDirectionInteraction: magnitude * event.direction,
+    magnitudeDirectionInteraction: illumination.mag * event.direction,
+    elongationDegrees,
+    azimuthSeparationDegrees,
+    illuminatedFraction: illumination.phase_fraction,
+    longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
+    retrograde: motion.retrograde,
     thresholdPrevious: previousAltitude,
     thresholdCurrent: currentAltitude,
     thresholdMidpoint: (previousAltitude + currentAltitude) / 2
@@ -138,12 +170,21 @@ for (const entry of combinedWindows) {
 const entries = [...unique.values()];
 const targetRows = entries.filter(entry => entry.sourceLocation === TARGET_CITY);
 const output = [];
-const variants = [
+const baseVariants = [
   { name: "magnitude-only", keys: ["apparentMagnitude"] },
   { name: "magnitude+event-direction", keys: ["apparentMagnitude", "eventDirection"] },
   { name: "magnitude+direction-interaction", keys: [
     "apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction"
   ] }
+];
+const midpointVariants = [
+  { name: "magnitude+longitude-rate", keys: ["apparentMagnitude", "longitudeRateDegPerDay"], targets: ["thresholdMidpoint"] },
+  { name: "magnitude+phase", keys: ["apparentMagnitude", "illuminatedFraction"], targets: ["thresholdMidpoint"] },
+  { name: "magnitude+direction+longitude-rate", keys: ["apparentMagnitude", "eventDirection", "longitudeRateDegPerDay"], targets: ["thresholdMidpoint"] },
+  { name: "magnitude+direction+phase", keys: ["apparentMagnitude", "eventDirection", "illuminatedFraction"], targets: ["thresholdMidpoint"] },
+  { name: "magnitude+elongation+azimuth+phase", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction"], targets: ["thresholdMidpoint"] },
+  { name: "magnitude+elongation+azimuth+phase+direction", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "eventDirection"], targets: ["thresholdMidpoint"] },
+  { name: "magnitude+elongation+azimuth+phase+motion+direction", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "retrograde", "longitudeRateDegPerDay", "eventDirection"], targets: ["thresholdMidpoint"] }
 ];
 
 for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
@@ -155,16 +196,20 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
       entry.planet === planet &&
       !(entry.sourceLocation === TARGET_CITY && entry.sourcePageYear === holdoutYear)
     );
-    const planetVariants = planet === "Mercury" || planet === "Venus"
-      ? variants
-      : [variants[0]];
+    const planetVariants = planet === "Mercury"
+      ? [...baseVariants, ...midpointVariants]
+      : planet === "Venus"
+        ? [...baseVariants, ...midpointVariants.filter(x =>
+            ["magnitude+longitude-rate", "magnitude+phase", "magnitude+direction+longitude-rate", "magnitude+direction+phase"].includes(x.name)
+          )]
+        : [baseVariants[0]];
     const trainingSamplesByBoundary = {};
     for (const boundaryName of ["astaStart", "astaEnd"]) {
       trainingSamplesByBoundary[boundaryName] = training
         .map(entry => trainingSample(entry, boundaryName)).filter(Boolean);
     }
-    for (const targetKey of ["thresholdCurrent", "thresholdMidpoint", "thresholdPrevious"]) {
-      for (const variant of planetVariants) {
+    for (const variant of planetVariants) {
+      for (const targetKey of variant.targets ?? ["thresholdCurrent", "thresholdMidpoint", "thresholdPrevious"]) {
         const modelByBoundary = {}, trainingCounts = {};
         let ready = true;
         for (const boundaryName of ["astaStart", "astaEnd"]) {
@@ -236,7 +281,7 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
 }
 console.log(JSON.stringify({
   title: "Pithoragarh city-year holdout: pooled multi-city + local historical calibration",
-  method: "For each Pithoragarh source year, exclude that entire city-year from training, but use all other four cities across all verified years plus Pithoragarh's other source years. Compare magnitude-only and event-direction models and three solar-altitude target definitions. Predict only the held-out Pithoragarh year.",
+  method: "For each Pithoragarh source year, exclude that entire city-year from training, but use all other four cities across all verified years plus Pithoragarh's other source years. Compare magnitude, event direction, phase, elongation, azimuth and retrograde/longitude-rate features; expanded feature variants use the midpoint solar-altitude target. Predict only the held-out Pithoragarh year.",
   observerPolicy: "Training samples use explicit proxy observers for New Delhi, Mumbai, Ujjain, Varanasi and Pithoragarh. Held-out predictions use Pithoragarh 29.5828 N, 80.2182 E, 1650 m. Drik provider coordinates remain undisclosed.",
   warning: "Research-only city-year holdout; no held-out city-year sample is used in fitting. One-day date error remains a release failure.",
   acceptedWindows: entries.length,
