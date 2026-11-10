@@ -388,3 +388,13 @@ Research module में अब:
 ### Adjacent-year accounting fix
 
 पहले 68 generated candidates दिखे थे। जाँच में 10 candidates neighboring calendar-year padding के कारण दोबारा गिने गए और 2 evaluation range के बाहर (2021/2028) थे। अब annual holdout हर window को Asta-start के वर्ष में ही assign करता है। Re-run में **56/56 published windows matched, 0 extra candidates, 0 missing cases**। Date-error metrics वही रहे। इस accounting correction के बाद annual generator का benchmark one-to-one है।
+
+
+### Elongation predictor experiment
+
+Research selector अब optional multifeature model (magnitude + elongation + phase fraction) स्वीकार सकता है। Magnitude+elongation annual holdout का नतीजा:
+- Venus Asta 8/8 ±1 दिन (magnitude-only 7/8); Udaya 8/8 ±1 दिन।
+- Mercury में लाभ नहीं; Udaya थोड़ा खराब।
+- Saturn Asta अस्थिर (4/6 matched, एक 10-day error); Jupiter कोई complete window नहीं निकाल पाया।
+
+इसलिए multi-feature model को universal selector नहीं बनाया। Magnitude-only baseline अभी बेहतर overall choice है; Venus-specific elongation refinement को अलग शोध में रखा जाएगा। Unit test और सभी Panchang feature regressions बाद के commit में सफल हुए।
