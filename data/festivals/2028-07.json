@@ -168,12 +168,16 @@
     {
       "date": "2028-07-26",
       "dateLabel": "26 जुलाई",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "title": "मासिक स्कन्द षष्ठी / कल्कि अवतार जयंती",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। श्रावण शुक्ल षष्ठी पर भगवान विष्णु के भावी कल्कि अवतार का स्मरण और पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल षष्ठी"
+      "hinduTithi": "श्रावण शुक्ल षष्ठी",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
+      "secondaryArticleLabel": "कल्कि अवतार जयंती",
+      "sourceName": "Drik Panchang — 2028 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028"
     },
     {
       "date": "2028-07-26",
