@@ -150,5 +150,7 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.equal(has("2028-11-13", /कृष्ण योगेश्वर द्वादशी/).hinduTithi, "मार्गशीर्ष कृष्ण द्वादशी");
   assert.equal(has("2028-11-28", /मत्स्य द्वादशी/).hinduTithi, "मार्गशीर्ष शुक्ल द्वादशी");
   assert.ok(has("2028-12-01", /दत्तात्रेय जयंती/));
+  assert.ok(has("2028-12-01", /अन्नपूर्णा जयंती/));
+  assert.ok(has("2028-12-23", /गुरु गोबिन्द सिंह जयंती/));
   assert.ok(has("2028-12-27", /टेलंग स्वामी जयंती/));
 });
