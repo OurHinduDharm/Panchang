@@ -31,17 +31,22 @@
     {
       "date": "2028-06-03",
       "dateLabel": "3 जून",
-      "title": "निर्जला एकादशी / गायत्री जयंती",
-      "description": "निर्जला एकादशी भगवान विष्णु की उपासना का प्रमुख व्रत है। कुछ परंपराओं में जल-त्याग सहित उपवास किया जाता है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> इसी दिन ज्येष्ठ शुक्ल एकादशी पर गायत्री जयंती भी मनाई जाती है। <a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वेदमाता गायत्री जयंती की महिमा पढ़ें</a>",
+      "title": "निर्जला एकादशी",
+      "description": "ज्येष्ठ शुक्ल एकादशी को भगवान विष्णु की आराधना और निर्जल उपवास का विशेष महत्व है। विष्णु-पूजन, एकादशी-व्रत कथा, जप और दान करें।",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "articleLabel": "एकादशी व्रत का पवित्र विधान",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी"
+    },
+    {
+      "date": "2028-06-03",
+      "dateLabel": "3 जून",
+      "title": "गायत्री जयंती",
+      "description": "ज्येष्ठ शुक्ल एकादशी पर माँ गायत्री की पूजा, गायत्री मंत्र-जप और हवन की परंपरा है।",
+      "category": "देवी-जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी"
     },
     {
       "date": "2028-06-04",
@@ -78,9 +83,19 @@
     {
       "date": "2028-06-07",
       "dateLabel": "7 जून",
-      "title": "ज्येष्ठ पूर्णिमा / बटुक भैरव जयंती",
-      "description": "ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत-दिन और पूर्णिमा-व्याप्ति तिथि-व्याप्ति के आधार पर निर्धारित होता है। इसी पूर्णिमा पर बटुक भैरव जयंती भी मनाई जाती है।",
+      "title": "ज्येष्ठ पूर्णिमा",
+      "description": "ज्येष्ठ शुक्ल पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
       "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2028-06-07",
+      "dateLabel": "7 जून",
+      "title": "बटुक भैरव जयंती",
+      "description": "ज्येष्ठ पूर्णिमा पर भगवान भैरव के बटुक स्वरूप की पूजा, मंत्र-जप और स्तोत्र-पाठ किया जाता है।",
+      "category": "देव-जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
@@ -237,17 +252,26 @@
     {
       "date": "2028-06-26",
       "dateLabel": "26 जून",
-      "title": "अनिरुद्ध चतुर्थी / आषाढ़ गुप्त नवरात्र चतुर्थी — माँ कूष्माण्डा",
-      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है। आषाढ़ गुप्त नवरात्र के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
-      "category": "व्रत",
+      "title": "अनिरुद्ध चतुर्थी",
+      "description": "आषाढ़ शुक्ल चतुर्थी पर भगवान गणेश का पूजन, दूर्वा और मोदक अर्पण तथा व्रत किया जाता है।",
+      "category": "गणेश-व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "sourceName": "Drik Panchang — 2028 Ashadha Gupta Navratri",
-      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
-      "articleLabel": "माँ कूष्माण्डा"
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028"
+    },
+    {
+      "date": "2028-06-26",
+      "dateLabel": "26 जून",
+      "title": "आषाढ़ गुप्त नवरात्र चतुर्थी — माँ कूष्माण्डा",
+      "description": "आषाढ़ गुप्त नवरात्र के चौथे दिन माँ कूष्माण्डा की पूजा, ध्यान और मंत्र-जप किया जाता है।",
+      "category": "गुप्त नवरात्र",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
+      "sourceName": "Drik Panchang — 2028 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028"
     },
     {
       "date": "2028-06-27",

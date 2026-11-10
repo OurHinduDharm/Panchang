@@ -9,14 +9,24 @@
     {
       "date": "2028-04-01",
       "dateLabel": "1 अप्रैल",
-      "title": "यमुना छठ / चैत्र नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "यमुना छठ पर माँ यमुना की पूजा, स्नान और दान की परंपरा है। नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
-      "category": "नवरात्रि",
+      "title": "यमुना छठ",
+      "description": "चैत्र शुक्ल षष्ठी पर माँ यमुना की पूजा, यमुना-स्नान और दान की परंपरा है।",
+      "category": "देवी-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल षष्ठी"
+    },
+    {
+      "date": "2028-04-01",
+      "dateLabel": "1 अप्रैल",
+      "title": "चैत्र नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "चैत्र नवरात्र के छठे दिन माँ कात्यायनी की पूजा, ध्यान और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी की पूजा पढ़ें</a>",
+      "category": "नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल षष्ठी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
-      "articleLabel": "माँ कात्यायनी"
+      "articleLabel": "माँ कात्यायनी की पूजा पढ़ें"
     },
     {
       "date": "2028-04-02",
@@ -33,14 +43,28 @@
     {
       "date": "2028-04-03",
       "dateLabel": "3 अप्रैल",
-      "title": "मासिक दुर्गाष्टमी / चैत्र नवरात्र महाष्टमी — माँ महागौरी",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। नवरात्रि की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "चैत्र शुक्ल अष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और मंत्र-जप की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल अष्टमी",
       "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
+    },
+    {
+      "date": "2028-04-03",
+      "dateLabel": "3 अप्रैल",
+      "title": "चैत्र नवरात्र महाष्टमी — माँ महागौरी",
+      "description": "चैत्र नवरात्र की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और दुर्गा-सप्तशती पाठ किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी की पूजा पढ़ें</a>",
+      "category": "नवरात्र",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "articleLabel": "माँ महागौरी की पूजा पढ़ें"
     },
     {
       "date": "2028-04-03",
@@ -136,16 +160,24 @@
     {
       "date": "2028-04-09",
       "dateLabel": "9 अप्रैल",
-      "title": "चैत्र पूर्णिमा / हनुमान जयंती",
-      "description": "चैत्र पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। कई परंपराओं में इसी दिन हनुमान जयंती भी मनाई जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a> हनुमान जयंती पर श्रीहनुमान की पूजा, हनुमान चालीसा/सुंदरकाण्ड पाठ और मंत्र-जप की परंपरा है। तिथि-निर्णय संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>",
+      "title": "चैत्र पूर्णिमा",
+      "description": "चैत्र शुक्ल पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल पूर्णिमा",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html",
-      "articleLabel": "श्रीहनुमान जयंती",
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html",
-      "secondaryArticleLabel": "श्रीहनुमान जी की स्तोत्रात्मक साधना",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
+    },
+    {
+      "date": "2028-04-09",
+      "dateLabel": "9 अप्रैल",
+      "title": "श्री हनुमान जयंती",
+      "description": "चैत्र शुक्ल पूर्णिमा को श्रीहनुमान जयंती मनाई जाती है। श्रीहनुमान-पूजन, हनुमान चालीसा और सुंदरकाण्ड पाठ, मंत्र-जप तथा जन्मोत्सव की परंपरा है।",
+      "category": "देव-जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
@@ -221,9 +253,19 @@
     {
       "date": "2028-04-14",
       "dateLabel": "14 अप्रैल",
-      "title": "विषु / पोहेला बोइशाख",
-      "description": "केरल में विषु और बंगाल में पोहेला बोइशाख के साथ सौर नववर्ष की परंपरा मनाई जाती है।",
-      "category": "सौर नववर्ष",
+      "title": "विषु",
+      "description": "केरल में मेष संक्रांति के अवसर पर विषु नववर्ष मनाया जाता है। प्रातः विषुक्कणी-दर्शन, दीप-पूजन और परिवार के मंगल की कामना की जाती है।",
+      "category": "क्षेत्रीय नववर्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
+    },
+    {
+      "date": "2028-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "पोहेला बोइशाख",
+      "description": "बंगाल में वैशाख के प्रथम दिन पोहेला बोइशाख नववर्ष मनाया जाता है। घरों और व्यापारिक प्रतिष्ठानों में शुभारंभ, पूजा और सांस्कृतिक आयोजन होते हैं।",
+      "category": "क्षेत्रीय नववर्ष",
       "reviewStatus": "approved",
       "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
