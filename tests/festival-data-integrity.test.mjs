@@ -199,12 +199,20 @@ test("all 2026 Sankranti cards are automatically eligible for punya-kala calcula
 });
 
 
-test("all 2026 monthly review metadata matches the fully approved event catalog", () => {
+test("2026 monthly review metadata matches each event's actual approval state", () => {
   for (let month = 1; month <= 12; month++) {
     const file = "2026-" + String(month).padStart(2, "0") + ".json";
     const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
-    assert.equal(data.status, "approved", file + ": month status should be approved");
     assert.equal(data.locationScope, "सत्यापित डेटा", file + ": public review label should be normalized");
-    assert.ok(data.events.every(event => event.reviewStatus === "approved"), file + ": every event should be approved");
+    const pending = data.events.filter(event => event.reviewStatus !== "approved");
+    if (month === 12) {
+      assert.equal(data.status, "needs-review", file + ": unresolved Sankashti keeps the month under review");
+      assert.equal(pending.length, 1, file + ": only the unresolved Sankashti may remain unapproved");
+      assert.equal(pending[0].date, "2026-12-26");
+      assert.match(pending[0].title, /संकष्टी/);
+    } else {
+      assert.equal(data.status, "approved", file + ": month status should be approved");
+      assert.equal(pending.length, 0, file + ": every event should be approved");
+    }
   }
 });
