@@ -17,6 +17,7 @@ test("all 2030 Pithoragarh Sankashti cards have Krishna Chaturthi at local moonr
  const failures=[];
  for(const event of list){
   const p=getPanchangam(localNoon(event.date),LOCATION,OPTIONS), moonrise=asDate(p&&p.moonrise);
+  if(event.date==="2030-04-21") console.log("APRIL_2030_SANKASHTI_DIAGNOSTIC",JSON.stringify({sunrise:p.sunrise,moonrise:p.moonrise,tithis:(p.tithis||[]).map(row=>({index:row.index,startTime:row.startTime,endTime:row.endTime}))}));
   const overlaps=(p&&p.tithis||[]).some(row=>{
    if(Number(row.index)!==18)return false;
    const start=asDate(row.startTime),finish=asDate(row.endTime);
