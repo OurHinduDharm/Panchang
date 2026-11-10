@@ -168,6 +168,10 @@ for (const [planet, boundaries] of grouped) {
     const targetAt = parseHorizonsRow(target.rows[centerIndex]);
     const targetAfter = parseHorizonsRow(target.rows[afterIndex]);
     const sunAt = parseHorizonsRow(sun.rows[centerIndex]);
+    const altitudeRate = targetAfter.elevationDeg - targetBefore.elevationDeg;
+    if (Math.abs(altitudeRate) < 1e-9) throw new Error("No measurable altitude change around " + boundary.windowId);
+    const interpolatedMinusHalfCrossingOffsetMinutes =
+      ((-0.5 - targetBefore.elevationDeg) / altitudeRate) * 20 - 10;
     return {
       windowId: boundary.windowId,
       sourcePageYear: boundary.sourcePageYear,
@@ -182,6 +186,8 @@ for (const [planet, boundaries] of grouped) {
       illuminatedPercent: targetAt.illuminatedPercent,
       sunAltitudeDeg: sunAt.elevationDeg,
       targetAltitudeDifferenceFromMinusHalfDeg: targetAt.elevationDeg + 0.5,
+      interpolatedMinusHalfCrossingOffsetMinutes: Number(interpolatedMinusHalfCrossingOffsetMinutes.toFixed(3)),
+      absoluteInterpolatedMinusHalfCrossingOffsetMinutes: Number(Math.abs(interpolatedMinusHalfCrossingOffsetMinutes).toFixed(3)),
       nearMinusHalfDegreeHorizon: Math.abs(targetAt.elevationDeg + 0.5) <= 0.2
     };
   });
@@ -209,6 +215,9 @@ report.summary = {
   meanTargetAltitudeAtPublishedBoundaryDeg: Number(meanTargetAltitude.toFixed(4)),
   meanAbsoluteDifferenceFromMinusHalfDegreeDeg: Number((allDiagnostics.reduce((sum, item) => sum + Math.abs(item.targetAltitudeDifferenceFromMinusHalfDeg), 0) / allDiagnostics.length).toFixed(4)),
   withinPointTwoDegreesOfMinusHalfHorizon: nearHorizonCount,
+  crossingsWithinOneMinuteOfPublishedTime: allDiagnostics.filter(item => item.absoluteInterpolatedMinusHalfCrossingOffsetMinutes <= 1).length,
+  meanAbsoluteMinutesFromInterpolatedMinusHalfDegreeCrossing: Number((allDiagnostics.reduce((sum, item) => sum + item.absoluteInterpolatedMinusHalfCrossingOffsetMinutes, 0) / allDiagnostics.length).toFixed(3)),
+  maxAbsoluteMinutesFromInterpolatedMinusHalfDegreeCrossing: Number(Math.max(...allDiagnostics.map(item => item.absoluteInterpolatedMinusHalfCrossingOffsetMinutes)).toFixed(3)),
   boundaryCount: allDiagnostics.length,
   sourceYears: [...new Set(report.planetResults.flatMap(item => item.boundaryDiagnostics.map(boundary => boundary.sourcePageYear)))].sort(),
   solarAltitudeRangeAtPublishedBoundariesDeg: [
