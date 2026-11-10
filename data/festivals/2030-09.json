@@ -252,7 +252,7 @@
       "date": "2030-09-28",
       "dateLabel": "28 सितंबर",
       "title": "शारदीय नवरात्रि प्रारम्भ",
-      "description": "आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र आरम्भ होते हैं। घटस्थापना के साथ माँ दुर्गा के नौ रूपों की प्रतिदिन पूजा और व्रत का संकल्प किया जाता है।",
+      "description": "आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र आरम्भ होते हैं। घटस्थापना के साथ माँ दुर्गा के नौ रूपों की प्रतिदिन पूजा और व्रत का संकल्प किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -262,7 +262,7 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
       "articleLabel": "शारदीय नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
-      "secondaryArticleLabel": "घटस्थापना की संपूर्ण विधि"
+      "secondaryArticleLabel": "घटस्थापना विधि"
     },
     {
       "date": "2030-09-29",
@@ -275,6 +275,18 @@
       "hinduTithi": "आश्विन शुक्ल द्वितीया"
     },
     {
+      "date": "2030-09-29",
+      "dateLabel": "29 सितंबर",
+      "title": "शारदीय नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
+      "description": "नवरात्रि के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल द्वितीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "articleLabel": "माँ ब्रह्मचारिणी"
+    },
+    {
       "date": "2030-09-30",
       "dateLabel": "30 सितंबर",
       "title": "कपर्दीश चतुर्थी",
@@ -284,6 +296,20 @@
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल चतुर्थी",
       "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
+      "date": "2030-09-30",
+      "dateLabel": "30 सितंबर",
+      "title": "शारदीय नवरात्र तृतीया/चतुर्थी — माँ चन्द्रघंटा एवं कूष्माण्डा",
+      "description": "नवरात्रि के तीसरे दिन माँ चन्द्रघंटा की आराधना की जाती है। देवी के इस स्वरूप का ध्यान कर पुष्प, दीप और नैवेद्य अर्पित करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a> नवरात्रि के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल तृतीया (चतुर्थी क्षय)",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "articleLabel": "माँ चन्द्रघंटा",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "secondaryArticleLabel": "माँ कूष्माण्डा"
     }
   ]
 }
