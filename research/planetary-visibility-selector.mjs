@@ -52,8 +52,13 @@ function validateInput({ astronomy, body, observer, anchorDate, direction, bound
   if (boundaryName !== "astaStart" && boundaryName !== "astaEnd") {
     throw new RangeError("boundaryName must be astaStart or astaEnd");
   }
-  if (!Number.isFinite(model?.intercept) || !Number.isFinite(model?.slope)) {
-    throw new TypeError("model.intercept and model.slope must be finite numbers");
+  const hasLinearMagnitudeModel = Number.isFinite(model?.intercept) && Number.isFinite(model?.slope);
+  const hasFeatureModel = Number.isFinite(model?.intercept) &&
+    model?.coefficients && typeof model.coefficients === "object" &&
+    Object.keys(model.coefficients).length > 0 &&
+    Object.values(model.coefficients).every(Number.isFinite);
+  if (!hasLinearMagnitudeModel && !hasFeatureModel) {
+    throw new TypeError("model must contain finite intercept/slope or finite feature coefficients");
   }
   if (!Number.isInteger(searchDays) || searchDays < 2 || searchDays > 200) {
     throw new RangeError("searchDays must be an integer from 2 to 200");
@@ -276,8 +281,13 @@ export function generateVisibilityWindows({
     throw new RangeError("searchDays must be an integer from 2 to 90");
   }
   for (const boundaryName of ["astaStart", "astaEnd"]) {
-    if (!Number.isFinite(modelByBoundary?.[boundaryName]?.intercept) ||
-        !Number.isFinite(modelByBoundary?.[boundaryName]?.slope)) {
+    const model = modelByBoundary?.[boundaryName];
+    const hasLinearMagnitudeModel = Number.isFinite(model?.intercept) && Number.isFinite(model?.slope);
+    const hasFeatureModel = Number.isFinite(model?.intercept) &&
+      model?.coefficients && typeof model.coefficients === "object" &&
+      Object.keys(model.coefficients).length > 0 &&
+      Object.values(model.coefficients).every(Number.isFinite);
+    if (!hasLinearMagnitudeModel && !hasFeatureModel) {
       throw new TypeError("A finite model is required for " + boundaryName);
     }
   }
