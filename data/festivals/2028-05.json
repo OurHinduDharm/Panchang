@@ -7,6 +7,16 @@
   "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
+      "date": "2028-05-01",
+      "dateLabel": "1 मई",
+      "title": "गंगा सप्तमी",
+      "description": "वैशाख शुक्ल सप्तमी को गंगा सप्तमी मनाई जाती है। इस दिन माँ गंगा का पूजन, स्नान, अर्घ्य और दान करने की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल सप्तमी"
+    },
+    {
       "date": "2028-05-02",
       "dateLabel": "2 मई",
       "title": "मासिक दुर्गाष्टमी / वगलामुखी महाविद्या जयंती",
@@ -19,6 +29,16 @@
       "articleLabel": "वगलामुखी महाविद्या",
       "sourceName": "Drik Panchang — 2028 Dasha Mahavidya Jayanti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2028"
+    },
+    {
+      "date": "2028-05-03",
+      "dateLabel": "3 मई",
+      "title": "सीता नवमी / जानकी जयंती",
+      "description": "वैशाख शुक्ल नवमी को माता सीता के प्राकट्य-दिवस के रूप में सीता नवमी मनाई जाती है। श्रीराम-सीता का पूजन और कथा-श्रवण करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल नवमी"
     },
     {
       "date": "2028-05-05",
@@ -76,6 +96,16 @@
       "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028"
     },
     {
+      "date": "2028-05-09",
+      "dateLabel": "9 मई",
+      "title": "नारद जयंती",
+      "description": "ज्येष्ठ कृष्ण प्रतिपदा को देवर्षि नारद की जयंती मनाई जाती है। इस दिन नारदजी का स्मरण, भक्ति-साधना और नारद भक्ति सूत्र का पाठ करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण प्रतिपदा"
+    },
+    {
       "date": "2028-05-11",
       "dateLabel": "11 मई",
       "title": "एकदन्त संकष्टी चतुर्थी",
@@ -88,10 +118,19 @@
       "sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2028"
     },
     {
+      "date": "2028-05-14",
+      "dateLabel": "14 मई",
+      "title": "वृषभ संक्रांति",
+      "description": "सूर्य के वृषभ राशि में प्रवेश पर वृषभ संक्रांति मनाई जाती है। स्नान, दान और जप की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false
+    },
+    {
       "date": "2028-05-16",
       "dateLabel": "16 मई",
-      "title": "मासिक कालाष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> इस मासिक कृष्ण जन्माष्टमी पर रात्रि में भगवान श्रीकृष्ण का स्मरण और पूजन करें।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -140,21 +179,12 @@
     {
       "date": "2028-05-24",
       "dateLabel": "24 मई",
-      "title": "ज्येष्ठ अमावस्या",
-      "description": "ज्येष्ठ अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। वट सावित्री और शनि जयंती जैसी क्षेत्रीय परंपराएँ भी इस तिथि से जुड़ सकती हैं।",
+      "title": "ज्येष्ठ अमावस्या / वट सावित्री व्रत / शनि जयंती",
+      "description": "ज्येष्ठ अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। वट सावित्री और शनि जयंती जैसी क्षेत्रीय परंपराएँ भी इस तिथि से जुड़ सकती हैं। वट सावित्री व्रत में सावित्री-सत्यवान की कथा, वटवृक्ष-पूजन और पति की दीर्घायु की कामना की जाती है। इसी तिथि पर शनि जयंती भी मनाई जाती है।",
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
-    },
-    {
-      "date": "2028-05-24",
-      "dateLabel": "24 मई",
-      "title": "वट सावित्री व्रत",
-      "description": "वट सावित्री व्रत में सावित्री-सत्यवान की कथा का स्मरण कर वटवृक्ष की पूजा की जाती है। इसकी तिथि विभिन्न पंचांगों में यह व्रत अमावस्या या पूर्णिमा से संबंधित मिलता है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
     },
     {
       "date": "2028-05-25",
