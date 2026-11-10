@@ -442,19 +442,19 @@ const additionalPlanetYearHoldouts = Object.fromEntries(
   ["Venus", "Saturn"].map(planetName => {
     const byBoundary = Object.fromEntries(
       ["astaStart", "astaEnd"].map(boundaryName => {
-        const samples = rows
-          .filter(item => item.planet === planetName)
-          .flatMap(item => item.boundaries
-            .filter(boundary => boundary.boundary === boundaryName)
-            .map(boundary => ({
-              entry: dataset.cases.find(candidate => candidate.id === item.id),
-              id: item.id,
-              year: Number(boundary.publishedLocal.slice(0, 4)),
-              magnitude: boundary.boundaryPlanetObservables.apparentMagnitude,
-              thresholdMidpoint: (boundary.refractedTransitionInterval.lower + boundary.refractedTransitionInterval.upper) / 2
-            }))
-          );
+        const samples = (thresholdGroups[planetName + ":" + boundaryName] || [])
+          .map(item => {
+            const entry = dataset.cases.find(candidate => candidate.id === item.caseId);
+            return {
+              entry,
+              id: item.caseId,
+              year: Number(entry.boundaries[boundaryName].slice(0, 4)),
+              magnitude: item.apparentMagnitude,
+              thresholdMidpoint: (item.lower + item.upper) / 2
+            };
+          });
         const years = [2024, 2025, 2026, 2027];
+        const yearCounts = Object.fromEntries(years.map(year => [year, samples.filter(item => item.year === year).length]));
         const yearPairs = {};
         for (const trainYear of years) {
           for (const testYear of years) {
@@ -487,7 +487,7 @@ const additionalPlanetYearHoldouts = Object.fromEntries(
             };
           }
         }
-        return [boundaryName, { sampleCount: samples.length, yearPairs }];
+        return [boundaryName, { sampleCount: samples.length, yearCounts, yearPairs }];
       })
     );
     return [planetName, byBoundary];
