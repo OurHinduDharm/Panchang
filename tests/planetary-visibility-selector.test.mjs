@@ -426,3 +426,25 @@ test("supports local azimuth separation and illuminated fraction as visibility f
   assert.equal(phaseResult.predictedBoundaryDate, "2026-01-11");
   assert.equal(phaseResult.thresholdAltitudeDegrees, 1);
 });
+
+test("uses the actual local rise/set direction as an independent visibility feature", () => {
+  const rise = findVisibilityBoundaryNearAnchor({
+    ...base,
+    direction: 1,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { eventDirection: 1 } }
+  });
+  const set = findVisibilityBoundaryNearAnchor({
+    ...base,
+    direction: -1,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { eventDirection: 1 } }
+  });
+
+  assert.equal(rise.eventDirection, 1);
+  assert.equal(rise.thresholdAltitudeDegrees, 1);
+  assert.equal(rise.predictedBoundaryDate, "2026-01-11");
+  assert.equal(set.eventDirection, -1);
+  assert.equal(set.thresholdAltitudeDegrees, -1);
+  assert.equal(set.predictedBoundaryDate, "2026-01-09");
+});
