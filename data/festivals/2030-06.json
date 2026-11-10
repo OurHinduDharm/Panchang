@@ -149,7 +149,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल द्वादशी / त्रयोदशी व्याप्ति"
+      "hinduTithi": "ज्येष्ठ शुक्ल द्वादशी / त्रयोदशी व्याप्ति",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-06-15",
