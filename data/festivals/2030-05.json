@@ -50,12 +50,14 @@
     {
       "date": "2030-05-08",
       "dateLabel": "8 मई",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "title": "आदि शंकराचार्य जयंती / सूरदास जयंती / मासिक स्कन्द षष्ठी",
+      "description": "आदि शंकराचार्य जयंती पर अद्वैत वेदान्त के आचार्य के जीवन और दर्शन का स्मरण किया जाता है। सूरदास जयंती पर श्रीकृष्ण-भक्ति से ओतप्रोत उनके पदों का पाठ किया जाता है। मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल षष्ठी"
+      "hinduTithi": "वैशाख शुक्ल पंचमी / षष्ठी",
+      "sourceName": "Drik Panchang — May 8, 2030 Panchang",
+      "sourceUrl": "https://www.drikpanchang.com/telugu/panchanga/telugu-day-panchanga.html?date=08%2F05%2F2030"
     },
     {
       "date": "2030-05-09",
@@ -109,22 +111,6 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "muhurtaRule": "ekadashi-parana",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "articleLabel": "एकादशी व्रत का पवित्र विधान",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
-    },
-    {
-      "date": "2030-05-14",
-      "dateLabel": "14 मई",
-      "title": "गौण मोहिनी एकादशी",
-      "description": "गौण मोहिनी एकादशी का व्रत वैष्णव परंपरा के तिथि-निर्णय के अनुसार रखा जाता है। इस दिन भगवान विष्णु का पूजन, व्रत-कथा और जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
-      "category": "एकादशी",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल एकादशी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
