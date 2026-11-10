@@ -40,14 +40,16 @@
     {
       "date": "2030-04-04",
       "dateLabel": "4 अप्रैल",
-      "title": "चन्द्र दर्शन / चैत्र नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। नवरात्रि के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
+      "title": "चन्द्र दर्शन / चैत्र नवरात्र द्वितीय — माँ ब्रह्मचारिणी / झूलेलाल जयंती",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। नवरात्रि के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a> झूलेलाल जयंती पर भगवान झूलेलाल का पूजन और जल-तत्त्व के प्रति कृतज्ञता व्यक्त करने की परंपरा है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल द्वितीया",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
-      "articleLabel": "माँ ब्रह्मचारिणी"
+      "articleLabel": "माँ ब्रह्मचारिणी",
+      "secondarySourceName": "Drik Panchang — 2030 Indian Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
     },
     {
       "date": "2030-04-06",
@@ -183,7 +185,7 @@
     {
       "date": "2030-04-14",
       "dateLabel": "14 अप्रैल",
-      "title": "मेष संक्रांति / सौर नववर्ष / कामदा एकादशी",
+      "title": "मेष संक्रांति / सौर नववर्ष / बैसाखी / कामदा एकादशी",
       "description": "मेष संक्रांति / सौर नववर्ष / कामदा एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "संक्रांति एवं एकादशी",
       "reviewStatus": "approved",
@@ -250,8 +252,8 @@
     {
       "date": "2030-04-28",
       "dateLabel": "28 अप्रैल",
-      "title": "वरुथिनी एकादशी",
-      "description": "वरुथिनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "title": "वरुथिनी एकादशी / श्री वल्लभाचार्य जयंती",
+      "description": "वरुथिनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> श्री वल्लभाचार्य जयंती पर पुष्टिमार्ग के आचार्य के जीवन और भक्ति-दर्शन का स्मरण किया जाता है।",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -262,7 +264,9 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "secondarySourceName": "Drik Panchang — 2030 Indian Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
     },
     {
       "date": "2030-04-29",
