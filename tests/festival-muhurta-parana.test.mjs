@@ -764,7 +764,7 @@ test("Samaveda Upakarma uses the overlap of Bhadrapada Hasta and local Aparahna"
   assert.equal(result.status, "calculated");
   assert.equal(result.start.toISOString(), date("2026-09-12T13:12:00+05:30").toISOString());
   assert.equal(result.end.toISOString(), date("2026-09-12T15:36:00+05:30").toISOString());
-  assert.match(result.label, /हस्त नक्षत्र अपराह्ण/);
+  assert.match(result.label, /हस्त नक्षत्र अपराह्न/);
 });
 
 test("Samaveda Upakarma does not invent a time when Hasta does not overlap Aparahna", async () => {
