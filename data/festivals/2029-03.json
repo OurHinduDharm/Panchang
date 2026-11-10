@@ -97,6 +97,18 @@
       "hinduTithi": "सूर्य का मीन राशि में प्रवेश"
     },
     {
+      "date": "2029-03-14",
+      "dateLabel": "14 मार्च",
+      "title": "करडैयान नोम्बु",
+      "description": "करडैयान नोम्बु तमिल परंपरा का व्रत है। इसमें महिलाएँ परिवार के मंगल और पति की दीर्घायु की कामना से देवी की पूजा करती हैं।",
+      "category": "तमिल व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "तमिल मासी मास",
+      "sourceName": "Drik Panchang — 2029 Tamil / Regional Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/tamil/tamil-month-panchangam.html?date=04%2F03%2F2029"
+    },
+    {
       "date": "2029-03-16",
       "dateLabel": "16 मार्च",
       "title": "अधिक चैत्र चन्द्र दर्शन",
@@ -161,6 +173,18 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "अधिक चैत्र शुक्ल पक्ष त्रयोदशी"
+    },
+    {
+      "date": "2029-03-29",
+      "dateLabel": "29 मार्च",
+      "title": "पंगुनी उत्तिरम्",
+      "description": "तमिल पंगुनी मास में उत्तिरम् नक्षत्र पर पंगुनी उत्तिरम् मनाया जाता है। यह भगवान शिव-पार्वती तथा अन्य दिव्य विवाहोत्सवों से जुड़ा प्रमुख पर्व है।",
+      "category": "तमिल देव पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "अधिक चैत्र शुक्ल चतुर्दशी",
+      "sourceName": "Drik Panchang — 2029 Tamil / Regional Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=29%2F03%2F2029"
     },
     {
       "date": "2029-03-30",
