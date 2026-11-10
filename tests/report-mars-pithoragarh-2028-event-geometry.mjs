@@ -54,6 +54,36 @@ const focus = rows.filter(row =>
   row.localIST.startsWith("2028-05-") ||
   row.localIST.startsWith("2028-06-")
 );
+
+const twilightSamples = [];
+for (const day of ["2028-01-04", "2028-01-13", "2028-06-05", "2028-06-08"]) {
+  const localMidnight = new Date(day + "T00:00:00+05:30");
+  for (const [phase, direction, altitudes] of [
+    ["dawn", 1, [-18, -12, -6]],
+    ["dusk", -1, [-6, -12, -18]]
+  ]) {
+    for (const targetAltitude of altitudes) {
+      const event = Astronomy.SearchAltitude("Sun", observer, direction, localMidnight, 1, targetAltitude);
+      if (!event?.date) continue;
+      const mars = Astronomy.Equator("Mars", event.date, observer, true, true);
+      const marsHorizon = Astronomy.Horizon(event.date, observer, mars.ra, mars.dec, "normal");
+      const illumination = Astronomy.Illumination("Mars", event.date);
+      const relativeLongitude = Astronomy.PairLongitude("Mars", "Sun", event.date);
+      const signedLongitude = relativeLongitude > 180 ? relativeLongitude - 360 : relativeLongitude;
+      twilightSamples.push({
+        localDate: day,
+        phase,
+        sunAltitudeTargetDeg: targetAltitude,
+        localIST: local(event.date),
+        marsAltitudeDeg: Number(marsHorizon.altitude.toFixed(4)),
+        marsAzimuthDeg: Number(marsHorizon.azimuth.toFixed(4)),
+        elongationDeg: Number(Astronomy.AngleFromSun("Mars", event.date).toFixed(4)),
+        signedEclipticLongitudeDeltaDeg: Number(signedLongitude.toFixed(4)),
+        apparentMagnitude: Number(illumination.mag.toFixed(3))
+      });
+    }
+  }
+}
 console.log(JSON.stringify({
   title: "Pithoragarh Mars local horizon-event geometry, Jan-Jun 2028",
   observer: { latitude: 29.5828, longitude: 80.2182, elevationMeters: 1650, timeZone },
@@ -66,5 +96,6 @@ console.log(JSON.stringify({
   },
   totalRiseEvents: rows.filter(x => x.event === "rise").length,
   totalSetEvents: rows.filter(x => x.event === "set").length,
-  focusedEvents: focus
+  focusedEvents: focus,
+  twilightSamples
 }, null, 2));
