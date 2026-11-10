@@ -7,6 +7,18 @@
   "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
   "events": [
     {
+      "date": "2029-10-01",
+      "dateLabel": "1 अक्टूबर",
+      "title": "जीवित्पुत्रिका व्रत (जिउतिया)",
+      "description": "आश्विन कृष्ण अष्टमी को माताएँ संतान की दीर्घायु और कल्याण की कामना से जीवित्पुत्रिका व्रत रखती हैं। जीमूतवाहन की कथा सुनने और विधिपूर्वक व्रत-पूजन की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण अष्टमी",
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2029"
+    },
+    {
       "date": "2029-10-04",
       "dateLabel": "4 अक्टूबर",
       "title": "इंदिरा एकादशी",
@@ -22,6 +34,18 @@
       "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
+    },
+    {
+      "date": "2029-10-04",
+      "dateLabel": "4 अक्टूबर",
+      "title": "कृष्ण कल्कि द्वादशी",
+      "description": "आश्विन कृष्ण द्वादशी को भगवान विष्णु के कल्कि स्वरूप का स्मरण, पूजन और स्तोत्र-पाठ किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2029"
     },
     {
       "date": "2029-10-05",
@@ -154,8 +178,8 @@
     {
       "date": "2029-10-13",
       "dateLabel": "13 अक्टूबर",
-      "title": "शारदीय नवरात्र सप्तमी — माँ कालरात्रि",
-      "description": "नवरात्रि के सातवें दिन माँ कालरात्रि की आराधना की जाती है। भय और संकटों से रक्षा की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कालरात्रि</a>",
+      "title": "शारदीय नवरात्र सप्तमी — माँ कालरात्रि / सरस्वती आवाहन",
+      "description": "नवरात्रि के सातवें दिन माँ कालरात्रि की आराधना की जाती है। भय और संकटों से रक्षा की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कालरात्रि</a> इसी दिन मूल नक्षत्र में माँ सरस्वती का आवाहन भी किया जाता है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -166,8 +190,8 @@
     {
       "date": "2029-10-14",
       "dateLabel": "14 अक्टूबर",
-      "title": "दुर्गाष्टमी / माँ महागौरी पूजन",
-      "description": "दुर्गाष्टमी पर माँ दुर्गा की पूजा और कन्या-पूजन की परंपरा है। मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। नवरात्रि की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
+      "title": "दुर्गाष्टमी / माँ महागौरी पूजन / सरस्वती पूजा",
+      "description": "दुर्गाष्टमी पर माँ दुर्गा की पूजा और कन्या-पूजन की परंपरा है। मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। नवरात्रि की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a> इसी दिन माँ सरस्वती की पूजा, पुष्प अर्पण और विद्या-प्राप्ति की प्रार्थना की जाती है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -176,8 +200,8 @@
     {
       "date": "2029-10-15",
       "dateLabel": "15 अक्टूबर",
-      "title": "महानवमी / माँ सिद्धिदात्री पूजन",
-      "description": "महानवमी पर माँ दुर्गा की पूजा, हवन और परंपरानुसार कन्या-पूजन किया जाता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a>",
+      "title": "महानवमी / माँ सिद्धिदात्री पूजन / सरस्वती विसर्जन / आयुध पूजा",
+      "description": "महानवमी पर माँ दुर्गा की पूजा, हवन और परंपरानुसार कन्या-पूजन किया जाता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a> इस दिन कई परंपराओं में सरस्वती विसर्जन और आयुध-पूजन भी किया जाता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -186,8 +210,8 @@
     {
       "date": "2029-10-16",
       "dateLabel": "16 अक्टूबर",
-      "title": "विजयादशमी / नवरात्रि पारण",
-      "description": "विजयादशमी धर्म, साहस और सदाचार की विजय का पर्व है। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>",
+      "title": "विजयादशमी / नवरात्रि पारण / मध्वाचार्य जयंती",
+      "description": "विजयादशमी धर्म, साहस और सदाचार की विजय का पर्व है। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a> इसी दिन आचार्य मध्वाचार्य की जयंती पर उनके जीवन और द्वैत वेदांत के उपदेशों का स्मरण किया जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -221,6 +245,18 @@
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
+      "date": "2029-10-18",
+      "dateLabel": "18 अक्टूबर",
+      "title": "पद्मनाभ द्वादशी",
+      "description": "आश्विन शुक्ल द्वादशी को भगवान विष्णु के पद्मनाभ स्वरूप का पूजन और स्मरण किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2029"
+    },
+    {
       "date": "2029-10-19",
       "dateLabel": "19 अक्टूबर",
       "title": "शुक्र प्रदोष व्रत",
@@ -241,6 +277,18 @@
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
     },
     {
+      "date": "2029-10-22",
+      "dateLabel": "22 अक्टूबर",
+      "title": "वाल्मीकि जयंती / मीराबाई जयंती / आश्विन पूर्णिमा",
+      "description": "आश्विन शुक्ल पूर्णिमा पर महर्षि वाल्मीकि और भक्त मीराबाई की जयंती मनाई जाती है। उनके जीवन, भक्ति और साहित्यिक योगदान का स्मरण करें।",
+      "category": "जयंती एवं पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2029"
+    },
+    {
       "date": "2029-10-26",
       "dateLabel": "26 अक्टूबर",
       "title": "करवा चौथ / वक्रतुण्ड संकष्टी",
@@ -256,8 +304,8 @@
     {
       "date": "2029-10-30",
       "dateLabel": "30 अक्टूबर",
-      "title": "अहोई अष्टमी / मासिक कालाष्टमी",
-      "description": "अहोई अष्टमी पर संतान की मंगल-कामना से अहोई माता की पूजा और व्रत की परंपरा है। प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "अहोई अष्टमी / मासिक कालाष्टमी / राधाकुण्ड स्नान",
+      "description": "अहोई अष्टमी पर संतान की मंगल-कामना से अहोई माता की पूजा और व्रत की परंपरा है। प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> इसी दिन राधाकुण्ड स्नान की परंपरा भी है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
