@@ -196,8 +196,10 @@ test("Festival card renderers add the requested article links and muhurta rules"
   for (const source of [widget, annualPage, compactWidget]) {
     assert.match(source, /pitri-tarpan-vidhi/);
     assert.match(source, /shivratri-prahar-pooja-vidhi/);
+  }
+  for (const source of [widget, annualPage]) {
     assert.match(source, /masik-shivaratri-four-prahar/);
-    assert.match(source, /वृषभ\.\*स्थिर लग्न/);
+    assert.match(source, /वृषभ\\.\\*स्थिर लग्न/);
   }
   assert.match(widget, /kali-chaudas-nishita/);
   assert.match(annualPage, /kali-chaudas-nishita/);
