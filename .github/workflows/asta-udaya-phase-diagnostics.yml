@@ -5,6 +5,7 @@ on:
     branches: [feat/drik-modern-planetary-asta-udaya-20261104]
     paths:
       - "tests/capture-drik-pithoragarh-asta.mjs"
+      - "tests/capture-drik-multicity-asta.mjs"
       - "tests/drik-pithoragarh-asta-data.test.mjs"
       - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
       - "tests/report-pithoragarh-local-year-holdout.mjs"
@@ -56,6 +57,8 @@ jobs:
         run: node tests/run-swiss-heliacal-comparison.mjs
       - name: Capture Drik Pithoragarh five-planet named-city pages without city fallback
         run: node tests/capture-drik-pithoragarh-asta.mjs
+      - name: Capture direct Drik multi-city annual Asta pages
+        run: node tests/capture-drik-multicity-asta.mjs
       - name: Validate direct Drik Pithoragarh source ledger
         run: node --test tests/drik-pithoragarh-asta-data.test.mjs
       - name: Run New Delhi-trained model against direct Pithoragarh Drik holdout
