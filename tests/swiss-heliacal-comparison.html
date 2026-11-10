@@ -32,6 +32,11 @@ function fromJulianDay(jd) {
 function formatIST(date) {
   return new Date(date.getTime() + 330 * 60000).toISOString().replace("Z", "+05:30");
 }
+function localDayNumber(isoDateTime) {
+  const match = /^(\\d{4})-(\\d{2})-(\\d{2})/.exec(isoDateTime);
+  if (!match) throw new Error("Invalid local date: " + isoDateTime);
+  return Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])) / 86400000;
+}
 
 try {
   const swiss = new SwissEph();
@@ -76,28 +81,30 @@ try {
         event: ref.event,
         publishedIST: ref.published,
         swissIST: formatIST(eventDate),
-        signedDifferenceMinutes: Math.round((eventDate.getTime() - publishedMs) / 60000),
+        signedDateOffsetDays: localDayNumber(formatIST(eventDate)) - localDayNumber(ref.published),
+        nonComparableClockOffsetMinutes: Math.round((eventDate.getTime() - publishedMs) / 60000),
         visibilityOptimumIST: formatIST(fromJulianDay(Number(raw[1]))),
         visibilityEndIST: formatIST(fromJulianDay(Number(raw[2])))
       });
     }
-    const meanAbsoluteError = rows => rows.length
-      ? Math.round(rows.reduce((sum, item) => sum + Math.abs(item.signedDifferenceMinutes), 0) / rows.length)
+    const meanAbsoluteDateError = rows => rows.length
+      ? Number((rows.reduce((sum, item) => sum + Math.abs(item.signedDateOffsetDays), 0) / rows.length).toFixed(3))
       : null;
-    const meanAbsoluteErrorMinutes = meanAbsoluteError(scenarioResults);
-    const publishedReferenceMaeMinutes = meanAbsoluteError(
+    const meanAbsoluteDateErrorDays = meanAbsoluteDateError(scenarioResults);
+    const publishedReferenceMaeDays = meanAbsoluteDateError(
       scenarioResults.filter(item => item.sourceStatus === "published-indexed")
     );
-    const provisionalReferenceMaeMinutes = meanAbsoluteError(
+    const provisionalReferenceMaeDays = meanAbsoluteDateError(
       scenarioResults.filter(item => item.sourceStatus === "user-reported-provisional")
     );
     results.push({
       name: scenario.name,
       atmosphere: scenario.atmosphere,
       observer: scenario.observer,
-      meanAbsoluteErrorMinutes,
-      publishedReferenceMaeMinutes,
-      provisionalReferenceMaeMinutes,
+      meanAbsoluteDateErrorDays,
+      publishedReferenceMaeDays,
+      provisionalReferenceMaeDays,
+      clockComparisonWarning: "Do not compare Swiss heliacal-event clock time with the published Asta/Udaya local planet rise/set timestamp; compare local event dates only.",
       results: scenarioResults
     });
   }
@@ -160,7 +167,7 @@ try {
   window.__SWISS_RESULT__ = {
     location: { latitude: 29.5828, longitude: 80.2182, elevationMeters: 1650, timeZone: "Asia/Kolkata" },
     scenarioCount: results.length,
-    warning: "Swiss heliacal visibility is a candidate model, not a Drik clone. Parameter sensitivity is diagnostic only; do not select a scenario merely because it minimizes this four-case sample.",
+    warning: "Swiss heliacal events predict first/last visibility moments; the published Asta/Udaya clock time is the planet's own local rise/set. The old minute-MAE was not a valid like-for-like metric. Date offsets are now primary; clock offsets are retained only as explicitly non-comparable diagnostics. Swiss is not a Drik clone.",
     scenarios: results,
     visibilityLimitProfiles
   };
