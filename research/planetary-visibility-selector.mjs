@@ -241,8 +241,8 @@ export function findVisibilityBoundaryNearAnchor({
  *
  * The approximate date is only used to select the conjunction family/event;
  * the returned anchor itself is calculated from planetary relative longitude.
- * Inferior planets have both inferior (0°) and superior (180°) conjunctions.
- * Superior planets use their superior conjunction (180°).
+ * Mercury and Venus have inferior (0°) and superior (180°) conjunctions.
+ * Mars, Jupiter, and Saturn have solar conjunctions at 0°; 180° is opposition.
  */
 export function findNearestConjunctionAnchor({
   astronomy,
@@ -264,7 +264,7 @@ export function findNearestConjunctionAnchor({
     throw new RangeError("maxDistanceDays must be from 10 to 200");
   }
 
-  const targets = body === "Mercury" || body === "Venus" ? [0, 180] : [180];
+  const targets = body === "Mercury" || body === "Venus" ? [0, 180] : [0];
   const start = new Date(approximate.getTime() - maxDistanceDays * DAY_MS);
   const finish = approximate.getTime() + maxDistanceDays * DAY_MS;
   const candidates = [];
@@ -352,7 +352,7 @@ export function generateVisibilityWindows({
     }
   }
 
-  const targets = body === "Mercury" || body === "Venus" ? [0, 180] : [180];
+  const targets = body === "Mercury" || body === "Venus" ? [0, 180] : [0];
   const searchStart = new Date(start.getTime() - searchDays * DAY_MS);
   const searchFinish = new Date(end.getTime() + searchDays * DAY_MS);
   const windows = [];
@@ -411,7 +411,9 @@ export function generateVisibilityWindows({
       const hasBoth = asta.status === "candidate" && udaya.status === "candidate";
       windows.push({
         body,
-        conjunctionType: targetRelLon === 0 ? "inferior" : "superior",
+        conjunctionType: targetRelLon === 0
+          ? (body === "Mercury" || body === "Venus" ? "inferior" : "conjunction")
+          : "superior",
         conjunctionUTC: conjunctionDate.toISOString(),
         asta,
         udaya,
