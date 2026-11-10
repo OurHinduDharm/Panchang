@@ -139,7 +139,7 @@ test("official IMD heliacal event times preserve source clock and civil-date rol
   assert.equal(jupiter.boundaries.heliacalRising.normalizedLocalDateTime, "2026-08-10T07:53:00+05:30");
   for (const entry of [venus, jupiter]) {
     assert.equal(entry.acceptanceEligible, false);
-    assert.equal(entry.comparisonLevel, "coordinate-exact");
+    assert.equal(entry.comparisonLevel, "city-label-only");
     assert.equal(entry.eventModel, "rashtriya-panchang-heliacal-setting-rising");
   }
 });
