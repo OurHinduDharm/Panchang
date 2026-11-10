@@ -148,3 +148,78 @@ export function findVisibilityBoundaryNearAnchor({
     residualAfterDegrees: selected ? Number(selected.current.residual.toFixed(5)) : null
   };
 }
+
+
+/**
+ * Finds the nearest relevant geocentric conjunction to an approximate date.
+ *
+ * The approximate date is only used to select the conjunction family/event;
+ * the returned anchor itself is calculated from planetary relative longitude.
+ * Inferior planets have both inferior (0°) and superior (180°) conjunctions.
+ * Superior planets use their superior conjunction (180°).
+ */
+export function findNearestConjunctionAnchor({
+  astronomy,
+  body,
+  approximateDate,
+  maxDistanceDays = 90
+}) {
+  if (!astronomy || typeof astronomy.SearchRelativeLongitude !== "function") {
+    throw new TypeError("A compatible Astronomy Engine SearchRelativeLongitude function is required");
+  }
+  if (!["Mercury", "Venus", "Mars", "Jupiter", "Saturn"].includes(body)) {
+    throw new RangeError("body must be Mercury, Venus, Mars, Jupiter, or Saturn");
+  }
+  const approximate = new Date(approximateDate);
+  if (!Number.isFinite(approximate.getTime())) {
+    throw new TypeError("approximateDate must be a valid date");
+  }
+  if (!Number.isFinite(maxDistanceDays) || maxDistanceDays < 10 || maxDistanceDays > 200) {
+    throw new RangeError("maxDistanceDays must be from 10 to 200");
+  }
+
+  const targets = body === "Mercury" || body === "Venus" ? [0, 180] : [180];
+  const start = new Date(approximate.getTime() - maxDistanceDays * DAY_MS);
+  const finish = approximate.getTime() + maxDistanceDays * DAY_MS;
+  const candidates = [];
+
+  for (const targetRelLon of targets) {
+    let cursor = start;
+    for (let iteration = 0; iteration < 4; iteration++) {
+      const event = astronomy.SearchRelativeLongitude(body, targetRelLon, cursor);
+      const date = event?.date;
+      if (!(date instanceof Date) || !Number.isFinite(date.getTime())) break;
+      if (date.getTime() > finish) break;
+      if (Math.abs(date.getTime() - approximate.getTime()) <= maxDistanceDays * DAY_MS) {
+        candidates.push({ date, targetRelLon });
+      }
+      cursor = new Date(date.getTime() + 1000);
+    }
+  }
+
+  candidates.sort((a, b) =>
+    Math.abs(a.date.getTime() - approximate.getTime()) -
+    Math.abs(b.date.getTime() - approximate.getTime())
+  );
+
+  const selected = candidates[0] ?? null;
+  const ambiguous = candidates.length > 1 &&
+    Math.abs(
+      Math.abs(candidates[0].date.getTime() - approximate.getTime()) -
+      Math.abs(candidates[1].date.getTime() - approximate.getTime())
+    ) < DAY_MS;
+
+  return {
+    status: !selected ? "no-conjunction" : ambiguous ? "ambiguous" : "candidate",
+    body,
+    approximateDate: approximate.toISOString(),
+    maxDistanceDays,
+    candidateCount: candidates.length,
+    targetRelativeLongitudeDegrees: ambiguous ? null : selected?.targetRelLon ?? null,
+    conjunctionUTC: ambiguous ? null : selected?.date.toISOString() ?? null,
+    signedOffsetDays: ambiguous ? null : selected
+      ? Number(((selected.date.getTime() - approximate.getTime()) / DAY_MS).toFixed(4))
+      : null
+  };
+}
+
