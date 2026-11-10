@@ -32,3 +32,21 @@ This note separates ordinary local daily horizon rise/set from heliacal Tara Ast
 
 ## Status
 Daily Mars rise/set UI is implemented in a separate main-based PR (#318); CI is running. The future Mars Tara Asta/Udaya local prediction remains research-only and is not yet approved for public display.
+## 10 November follow-up: year-specific Mars Asta cross-check
+
+- Drik Panchang's direct New Delhi Mars Asta page for 2027 explicitly reports `Total Asta Days In Year = 0 Days` and shows no boundary rows. This is a source-specific no-window result, not a Pithoragarh observation. The page states that its approximate Surya Siddhanta 17° rule differs from its modern location-aware algorithm.
+- Direct page: https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?year=2027
+- Astromitra independently reports Mars is not combust in 2027 and that the next combustion begins 4 Jan 2028. This agrees with the Drik 2027 no-window statement at the year level, but it is not an independent local heliacal visibility observation.
+- Source: https://www.astromitra.com/transit/combust-planets/2027/
+- For 2028, School of Vedic Sciences lists 4 Jan 2028 18:15 to 5 Jun 2028 20:18 IST using the 17° Surya Siddhanta rule, and explicitly notes that practice varies. Astromitra independently publishes nearly identical times. These two sources are consistent with each other but may share the same angular-threshold convention; they are not proof of local visibility.
+- Sources: https://fsvs.co.in/panchang/gochar/mangal/2028 and https://www.astromitra.com/transit/combust-planets/2028/
+- Divine Nakshatra explicitly separates longitude-threshold dates (4 Jan / 5 Jun) from Siddhanta Ujjain labels (13 Jan / 8 Jun). That nine-day start offset is direct evidence that '17° combustion' and Siddhanta local visibility event are not interchangeable.
+- Source: https://divinenakshatra.com/graha/2028/
+- IMD Rashtriya Panchang's 2026–27 Central Station heliacal table lists Mars 'Rises in the east' on 17 Apr 2026 at 25:49 IST (i.e. after midnight into 18 Apr). It lists no Mars boundary later in its published 2026–27 table. This is a central-station heliacal event series, not a Pithoragarh Tara Asta pair.
+- Source: https://packolkata.imd.gov.in/panchang/en/helical
+
+### Updated interpretation
+1. 2027 is a useful negative/control year for the 17° combustion family: direct Drik and Astromitra both say no Mars Asta/combustion window in 2027.
+2. 2028 is a positive angular-threshold case, with a roughly five-month 17° interval. Do not copy its dates into the Pithoragarh heliacal engine.
+3. The IMD Central Station heliacal event cannot be compared as a simple start/end pair against the Drik 17° interval without reconstructing event direction and source convention.
+4. The Pithoragarh Mars local visibility model remains research-only until a direct local event ledger and holdout validation exist. The new daily Mars rise/set UI remains a separate, already merged horizon-event feature.
