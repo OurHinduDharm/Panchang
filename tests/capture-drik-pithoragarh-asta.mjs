@@ -3,8 +3,11 @@ import { chromium } from "playwright";
 const CITY_ID = "1259503";
 const CITY = "Pithoragarh, Uttarakhand, India";
 const TARGETS = [
-  { planet: "Mercury", slug: "budha" },
-  { planet: "Jupiter", slug: "guru" }
+  { planet: "Mercury", slug: "budha", names: "Mercury|Budha" },
+  { planet: "Venus", slug: "shukra", names: "Venus|Shukra" },
+  { planet: "Mars", slug: "mangal", names: "Mars|Mangal" },
+  { planet: "Jupiter", slug: "guru", names: "Jupiter|Guru" },
+  { planet: "Saturn", slug: "shani", names: "Saturn|Shani" }
 ];
 const YEARS = [2024, 2025, 2026, 2027];
 
@@ -40,6 +43,7 @@ try {
         cityConfirmed: false,
         planetConfirmed: false,
         relevantLines: [],
+        eventRows: [],
         error: null
       };
 
@@ -54,7 +58,12 @@ try {
         const body = await page.locator("body").innerText({ timeout: 15000 });
         const lines = body.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
         capture.cityConfirmed = /Pithoragarh/i.test(body);
-        capture.planetConfirmed = new RegExp(target.planet === "Mercury" ? "Mercury|Budha" : "Jupiter|Guru", "i").test(body);
+        capture.planetConfirmed = new RegExp(target.names, "i").test(body);
+        capture.eventRows = lines.flatMap((line, index) =>
+          /Tara Asta (Starts|Ends) On/i.test(line)
+            ? [{ label: line, context: lines.slice(index, index + 4) }]
+            : []
+        );
         capture.relevantLines = lines.filter(line =>
           /Pithoragarh|Tara Asta|Asta Starts|Asta Ends|Uday|Total Asta Duration|Internal Error|Access Denied|not found|Change Year/i.test(line)
         ).slice(0, 80);
@@ -75,11 +84,12 @@ try {
   }
 
   const summary = {
-    title: "Drik Pithoragarh Mercury/Jupiter named-city page capture",
+    title: "Drik Pithoragarh five-planet named-city page capture",
     capturedAt: new Date().toISOString(),
     policy: "No New Delhi fallback. A capture is eligible for review only when the page itself confirms Pithoragarh and the requested planet. Search-index text is not substituted for page content.",
     attempted: captures.length,
     verifiedPageLoads: captures.filter(x => x.status === "page-loaded-city-and-planet-confirmed").length,
+    verifiedEventRows: captures.reduce((sum, x) => sum + x.eventRows.length, 0),
     captures
   };
   console.log(JSON.stringify(summary, null, 2));
