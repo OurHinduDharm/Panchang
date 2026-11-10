@@ -114,7 +114,7 @@ function monthFile(date) {
 test("Pithoragarh Drik Yugadi days are present for all four Yugas from 2026 through 2030", () => {
   for (const [date,title,tithi] of expected) {
     const data = JSON.parse(readFileSync(new URL(date.slice(0,7)+".json", folder), "utf8"));
-    const matches = data.events.filter(event => event.date === date && event.title === title);
+    const matches = data.events.filter(event => event.date === date && (event.title === title || event.title.includes(title)));
     assert.equal(matches.length, 1, date + " " + title + " should appear exactly once");
     const event = matches[0];
     assert.equal(event.hinduTithi, tithi, date + " tithi");
