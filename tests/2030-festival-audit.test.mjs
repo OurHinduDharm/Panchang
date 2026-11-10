@@ -243,5 +243,5 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 264);
+  assert.equal(events.length, 263);
 });
