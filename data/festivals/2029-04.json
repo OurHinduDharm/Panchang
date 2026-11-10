@@ -69,8 +69,8 @@
     {
       "date": "2029-04-14",
       "dateLabel": "14 अप्रैल",
-      "title": "चैत्र नवरात्र प्रारम्भ / गुड़ी पड़वा / उगादी",
-      "description": "चैत्र शुक्ल प्रतिपदा से नवरात्र और हिंदू नववर्ष की परंपरा आरम्भ होती है। घटस्थापना का मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री</a> इसी दिन दक्षिण भारत में उगादी और अन्य क्षेत्रों में नववर्ष का आरंभ भी मनाया जाता है।",
+      "title": "चैत्र नवरात्र प्रारम्भ / गुड़ी पड़वा / उगादी / मेष संक्रांति / बैसाखी / विषु / बोहाग बिहू",
+      "description": "चैत्र शुक्ल प्रतिपदा से नवरात्र और हिंदू नववर्ष की परंपरा आरम्भ होती है। घटस्थापना का मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री</a> इसी दिन दक्षिण भारत में उगादी और अन्य क्षेत्रों में नववर्ष का आरंभ भी मनाया जाता है। इसी दिन मेष संक्रांति के अवसर पर सूर्योपासना और दान की परंपरा है। पंजाब में बैसाखी, केरल में विषु और असम में बोहाग बिहू भी मनाए जाते हैं।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -78,50 +78,8 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/About-The-Significance-of-Vasanti-Or-Chaitra-Navratri.html",
       "articleLabel": "चैत्र नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
-      "secondaryArticleLabel": "घटस्थापना विधि"
-    },
-    {
-      "date": "2029-04-14",
-      "dateLabel": "14 अप्रैल",
-      "title": "मेष संक्रांति",
-      "description": "सूर्य के मेष राशि में प्रवेश पर मेष संक्रांति मनाई जाती है। स्नान, दान और सूर्योपासना की परंपरा है।",
-      "category": "संक्रांति",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "sourceName": "Drik Panchang — 2029 Festival Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
-    },
-    {
-      "date": "2029-04-14",
-      "dateLabel": "14 अप्रैल",
-      "title": "बैसाखी / वैशाखी",
-      "description": "बैसाखी फसल और नववर्ष से जुड़ा प्रमुख पर्व है। पंजाब सहित कई क्षेत्रों में इसे उत्साह से मनाया जाता है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "sourceName": "Drik Panchang — 2029 Festival Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
-    },
-    {
-      "date": "2029-04-14",
-      "dateLabel": "14 अप्रैल",
-      "title": "विषु",
-      "description": "विषु केरल का प्रमुख सौर नववर्ष-पर्व है। विषुक्कणी दर्शन, दीप और पारंपरिक उत्सव इसकी पहचान हैं।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "sourceName": "Drik Panchang — 2029 Festival Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
-    },
-    {
-      "date": "2029-04-14",
-      "dateLabel": "14 अप्रैल",
-      "title": "बोहाग बिहू",
-      "description": "बोहाग बिहू असम का वसंत और नववर्ष उत्सव है। लोकगीत, नृत्य और सामुदायिक उल्लास इसकी परंपराएँ हैं।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "secondaryArticleLabel": "घटस्थापना विधि",
+      "sourceName": "Drik Panchang — 2029 Hindu and Indian Calendars",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
     },
     {
