@@ -216,8 +216,8 @@
     {
       "date": "2028-03-29",
       "dateLabel": "29 मार्च",
-      "title": "गौरी पूजन / गणगौर / मत्स्य-अवतार जयंती",
-      "description": "चैत्र शुक्ल तृतीया पर गौरी पूजन और गणगौर उत्सव मनाया जाता है। मत्स्य-अवतार जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">मत्स्य-अवतार जयंती</a>",
+      "title": "गौरी पूजन / गणगौर / मत्स्य-अवतार जयंती / चैत्र नवरात्र तृतीय — माँ चन्द्रघंटा",
+      "description": "चैत्र शुक्ल तृतीया पर गौरी पूजन और गणगौर उत्सव मनाया जाता है। मत्स्य-अवतार जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">मत्स्य-अवतार जयंती</a> नवरात्रि के तीसरे दिन माँ चन्द्रघंटा की आराधना की जाती है। देवी के इस स्वरूप का ध्यान कर पुष्प, दीप और नैवेद्य अर्पित करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a>",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -228,37 +228,15 @@
       "articleLabel": "मत्स्य-अवतार जयंती"
     },
     {
-      "date": "2028-03-29",
-      "dateLabel": "29 मार्च",
-      "title": "चैत्र नवरात्र तृतीय — माँ चन्द्रघंटा",
-      "description": "नवरात्रि के तीसरे दिन माँ चन्द्रघंटा की आराधना की जाती है। देवी के इस स्वरूप का ध्यान कर पुष्प, दीप और नैवेद्य अर्पित करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल तृतीया",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
-      "articleLabel": "माँ चन्द्रघंटा"
-    },
-    {
       "date": "2028-03-30",
       "dateLabel": "30 मार्च",
-      "title": "वासुदेव चतुर्थी",
-      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "title": "वासुदेव चतुर्थी / चैत्र नवरात्र चतुर्थ — माँ कूष्माण्डा",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है। नवरात्रि के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
-    },
-    {
-      "date": "2028-03-30",
-      "dateLabel": "30 मार्च",
-      "title": "चैत्र नवरात्र चतुर्थ — माँ कूष्माण्डा",
-      "description": "नवरात्रि के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
       "articleLabel": "माँ कूष्माण्डा"
     },
