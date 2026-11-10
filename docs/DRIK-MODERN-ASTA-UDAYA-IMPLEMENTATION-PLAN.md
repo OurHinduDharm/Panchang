@@ -509,3 +509,26 @@ Mercury 25/25 matched across four held-out years:
 Venus: only five unique windows across 2024–2027 (one or two per year). Magnitude-only matched 5/5 with date MAE 0.600 d Asta / 0.400 d Udaya (max 2/1 d). Feature-rich models frequently lacked enough non-held-out training rows; no Venus motion model is justified from this sample.
 
 **Production gate remains closed for both Mercury and Venus:** best Mercury model still has a one-day civil-date miss; Venus evidence is too sparse and includes a two-day Asta miss. Clock-of-day agreement is encouraging, but correct clock on the wrong civil date is not an acceptable published boundary. Keep current production behavior unchanged until more independent multi-city/multi-year direct reference windows establish an exact-date model.
+
+
+### Five-city direct Drik page capture — 10 नवम्बर 2026
+
+Playwright Chromium ने 5 cities × 5 planets × 5 requested years (2024–2028) के कुल 125 named-city pages खोले। हर page पर rendered city और planet सत्यापित हुए; 125/125 दोनों checks पास।
+
+**Year selector की अलग जाँच जरूरी निकली:** 2028 माँगने पर सभी 25 pages ने 2027 का title/body render किया। इसलिए ये pages city+planet के लिए loaded हैं, लेकिन requested year के लिए valid नहीं। इनके 50 windows को `provisionalWindows` में रखा है; `acceptanceEligible=false`, model training/holdout से बाहर। कोई 2028 event दावा नहीं किया गया।
+
+सही rendered year वाले 2024–2027 के 100 pages से:
+- 430 acceptance-eligible boundary rows / 215 raw annual-page windows
+- overlap हटाने पर 200 unique windows, प्रत्येक city में 40
+- अतिरिक्त 100 boundary rows / 50 year-mismatched provisional windows अलग quarantine में
+- प्रत्येक city: 20/20 requested-year-verified pages; 43 raw windows → 40 unique windows
+- प्रत्येक planet: 20/20 requested-year-verified pages; Mercury 130, Venus 30, Mars 15, Jupiter 20, Saturn 20 raw windows
+
+**Pithoragarh reconciliation:** five-city capture के 40 unique Pithoragarh windows dedicated direct Pithoragarh dataset के 40 unique windows से 40/40 exact boundary match करते हैं। यह independent recapture reconciliation है; दोनों captures उसी Drik provider के हैं, इसलिए independent provider evidence नहीं।
+
+Mars 2027 pages में event rows नहीं थीं, लेकिन explicit “Total Asta Duration = 0 Days” नहीं था। उन्हें “no-window-listed-not-zero-proof” रखा है; zero-event conclusion नहीं निकाला।
+
+Dataset:
+`data/drik-multicity-asta-udaya-2024-2028.json`
+
+Source observer coordinates/elevation Drik ने नहीं दिए; सभी accepted comparisons city-label-only हैं, coordinate-grade नहीं। Dataset tests अब requested year, 24+ normalization, duplicate annual overlap, exact Pithoragarh reconciliation और zero-event non-inference को enforce करते हैं।
