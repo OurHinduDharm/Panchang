@@ -95,7 +95,7 @@ test("rejects invalid event direction and incomplete models", () => {
     ...base,
     model: { intercept: 0 },
     astronomy: fakeAstronomy(dayOffset => dayOffset)
-  }), /model.intercept and model.slope/);
+  }), /model must contain finite intercept\/slope/);
 });
 
 
