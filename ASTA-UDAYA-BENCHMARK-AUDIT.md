@@ -914,3 +914,18 @@ Expanded New Delhi dataset में Mercury की 13 Asta-start और 13 Asta
 Common magnitude curve हर ग्रह में constant-threshold baseline से बेहतर थी, पर ग्रहों के बीच error अभी बहुत अलग है; Venus और Mars में 1° से अधिक औसत error आया। एक ग्रह के coefficients दूसरे ग्रह पर सीधे लागू करना सुरक्षित नहीं।
 
 **अगला निर्णय:** Mercury के लिए अलग calibrated candidate जारी रहेगा। Venus, Jupiter, Saturn और Mars के लिए अतिरिक्त multi-year published windows और same-city/location holdouts जुटाए बिना coefficients तय नहीं होंगे। एक global brightness formula production में नहीं जाएगा।
+
+
+### 2026 New Delhi holdout विस्तार — Venus, Jupiter और Saturn
+
+Drik के 2026 New Delhi pages से अतिरिक्त windows benchmark में जोड़ी गईं:
+- Venus: 11 Dec 2025 06:35 (rise) → 1 Feb 2026 18:27 (set), साथ में पहले से मौजूद Oct 2026 window.
+- Jupiter: 15 Jul 2026 19:59 (set) → 12 Aug 2026 05:03 (rise).
+- Saturn: 13 Mar 2026 19:13 (set) → 22 Apr 2026 04:49 (rise).
+
+ये New Delhi city-label-only references हैं; Pithoragarh के स्थानापन्न नहीं। Source pages:
+- https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2026
+- https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2026
+- https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2026
+
+अब New Delhi dataset में 21 Asta windows और 42 boundary events होंगे। इससे Venus, Jupiter और Saturn के लिए एक अतिरिक्त year-specific window जुड़ती है; फिर भी किसी ग्रह के लिए multi-year independent validation का विकल्प नहीं।
