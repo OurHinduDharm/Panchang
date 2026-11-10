@@ -65,6 +65,17 @@
       "hinduTithi": "भाद्रपद शुक्ल पंचमी"
     },
     {
+      "date": "2027-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "अगस्त्य अर्घ्य",
+      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
+      "sourceName": "Drik Panchang — 2027 Agastya Arghya",
+      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2027"
+    },
+    {
       "date": "2027-09-05",
       "dateLabel": "5 सितंबर",
       "title": "मासिक स्कन्द षष्ठी",
@@ -286,17 +297,6 @@
       "articleLabel": "शारदीय नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
       "secondaryArticleLabel": "घटस्थापना विधि"
-    },
-    {
-      "date": "2027-09-04",
-      "dateLabel": "4 सितंबर",
-      "title": "अगस्त्य अर्घ्य",
-      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
-      "sourceName": "Drik Panchang — 2027 Agastya Arghya",
-      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2027"
     }
   ]
 }
