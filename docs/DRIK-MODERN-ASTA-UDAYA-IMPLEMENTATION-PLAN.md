@@ -626,3 +626,23 @@ Midpoint + magnitude/direction-interaction variant:
 - मंगल: 2024 की एक window match हुई, 2025 की एक नहीं; दो windows से reliable model नहीं बनता।
 
 **निर्णय:** pooled training से Mercury Udaya में सुधार हुआ, लेकिन Asta exact-date gate अभी fail है। Saturn का 4/4 परिणाम आशाजनक है, लेकिन चार windows और provider-coordinate uncertainty के कारण universal release के लिए पर्याप्त नहीं। कोई model production में promote नहीं किया।
+
+
+### Mercury/Venus retrograde-feature ablation — 10 नवम्बर 2026
+
+Direct Pithoragarh Drik 2024–2027 के पूरे start-year को fold से बाहर रखकर चार models की तुलना की: magnitude-only, magnitude + retrograde flag, magnitude + geocentric longitude-rate, और दोनों motion features साथ। हर boundary के लिए केवल non-held-out years से coefficients fit हुए। सभी 25 Mercury windows चारों folds में match हुए; Venus में baseline 5/5 match हुआ, लेकिन feature models के कुछ folds insufficient/singular रहे।
+
+**Mercury aggregate (25/25 matched):**
+
+| Model | Asta exact | Udaya exact | Asta date MAE | Udaya date MAE | Max date error |
+|---|---:|---:|---:|---:|---:|
+| Magnitude only | 11/25 | 14/25 | 0.680 d | 0.680 d | 3 d |
+| + retrograde flag | 10/25 | 15/25 | 0.720 d | 0.640 d | 3 d |
+| + longitude rate | 13/25 | 14/25 | 0.520 d | 0.680 d | 3 d |
+| + both features | 11/25 | 12/25 | 0.600 d | 0.680 d | 3 d |
+
+**Venus:** magnitude-only baseline 5/5 matched; Asta 3/5 exact, Udaya 3/5 exact. Feature variants के कुछ folds में model fit ही नहीं हुआ और उपलब्ध folds में aggregate exact-date accuracy बेहतर नहीं हुई। पाँच windows किसी reliable retrograde coefficient को प्रमाणित करने के लिए पर्याप्त नहीं हैं।
+
+**निर्णय:** geocentric longitude-rate बुध के Asta date fit को कुछ बेहतर करता है (11 से 13 exact), लेकिन Udaya exact dates नहीं बढ़ाता और अधिकतम तीन दिन की त्रुटि बनी रहती है। Retrograde flag अकेले लगभग कोई लाभ नहीं देता; दोनों features साथ रखने से लाभ घटता है। इसलिए कोई motion-aware model production में promote नहीं किया गया। सभी feature calculations opt-in हैं; magnitude-only baseline behavior अपरिवर्तित है। यह प्रयोग बताता है कि केवल retrograde/direct state जोड़ना पर्याप्त नहीं—अगला आवश्यक सुधार conjunction/phase pairing और visibility criterion की physical definition है, न कि और मनमाने coefficients।
+
+CI run: `42773424328` — browser diagnostics, direct source capture, source-ledger validation, New Delhi transfer, Pithoragarh LOYO, motion-feature selector tests और model comparison सभी सफल।
