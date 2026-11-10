@@ -23,7 +23,7 @@ test("planet card does not add the long source-coordinate disclaimer", () => {
 });
 
 test("missing Mars or unsupported city is shown briefly without a false zero-event claim", () => {
-  assert.match(card, /चयनित तिथि के बाद उपलब्ध सत्यापित संदर्भ नहीं/);
-  assert.match(card, /इस स्थान का डेटा उपलब्ध नहीं/);
+  assert.match(card, /आगामी अस्त-अवधि उपलब्ध नहीं/);
+  assert.match(card, /इस स्थान के लिए जानकारी उपलब्ध नहीं/);
   assert.doesNotMatch(card, /कोई अस्त नहीं|zero events|अस्त नहीं होगा/);
 });
