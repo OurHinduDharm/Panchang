@@ -49,6 +49,9 @@ try {
           capture.httpStatus = response?.status() ?? null;
           await page.waitForTimeout(300);
           capture.title = await page.title();
+          const renderedYear = Number(capture.title.match(/^(20\d{2})/)?.[1] || NaN);
+          capture.renderedYear = Number.isFinite(renderedYear) ? renderedYear : null;
+          capture.requestedYearConfirmed = capture.renderedYear === year;
           const body = await page.locator("body").innerText({ timeout: 10000 });
           const lines = body.split(/\r?\n/).map(x => x.trim()).filter(Boolean);
           capture.cityConfirmed = city.pattern.test(body);
@@ -61,11 +64,14 @@ try {
           capture.relevantLines = lines.filter(line =>
             /Tara Asta|Asta Starts|Asta Ends|Total Asta Duration|Internal Error|Access Denied|not found|Change Year/i.test(line)
           ).slice(0, 60);
-          capture.status = capture.httpStatus >= 200 && capture.httpStatus < 400 &&
+          const cityPlanetVerified = capture.httpStatus >= 200 && capture.httpStatus < 400 &&
             capture.cityConfirmed && capture.planetConfirmed && /Asta/i.test(body) &&
-            !/Internal Error/i.test(body)
-              ? "page-loaded-city-and-planet-confirmed"
-              : "page-loaded-but-source-not-verified";
+            !/Internal Error/i.test(body);
+          capture.status = !cityPlanetVerified
+            ? "page-loaded-but-source-not-verified"
+            : capture.requestedYearConfirmed
+              ? "page-loaded-city-planet-and-year-confirmed"
+              : "page-loaded-city-and-planet-confirmed-year-mismatch";
         } catch (error) {
           capture.status = "navigation-or-extraction-failed";
           capture.error = String(error?.message || error);
@@ -74,30 +80,40 @@ try {
       }
     }
   }
+  const cityPlanetVerified = captures.filter(x =>
+    x.httpStatus >= 200 && x.httpStatus < 400 && x.cityConfirmed && x.planetConfirmed
+  );
+  const yearVerified = cityPlanetVerified.filter(x => x.requestedYearConfirmed);
+  const yearMismatch = cityPlanetVerified.filter(x => !x.requestedYearConfirmed);
   const summary = {
     title: "Drik five-planet multi-city annual Tara Asta capture",
     capturedAt: new Date().toISOString(),
-    policy: "Every city/planet/year page is independently opened with geoname-id and verified against the city and planet text rendered by that page. No New Delhi fallback, search-result substitution, or zero-event inference.",
+    policy: "Every city/planet/year page is independently opened with geoname-id. Rendered city, planet and requested page year are checked separately. A city+planet match with a different rendered year is quarantined, never counted as requested-year evidence. No New Delhi fallback, search-result substitution, or zero-event inference.",
     attempted: captures.length,
-    verifiedPageLoads: captures.filter(x => x.status === "page-loaded-city-and-planet-confirmed").length,
-    verifiedEventRows: captures.reduce((sum, x) => sum + x.eventRows.length, 0),
+    cityPlanetVerifiedPageLoads: cityPlanetVerified.length,
+    verifiedPageLoads: yearVerified.length,
+    yearMismatchPages: yearMismatch.length,
+    rawEventRows: captures.reduce((sum, x) => sum + x.eventRows.length, 0),
+    verifiedEventRows: yearVerified.reduce((sum, x) => sum + x.eventRows.length, 0),
+    provisionalEventRows: yearMismatch.reduce((sum, x) => sum + x.eventRows.length, 0),
     cityCoverage: CITIES.map(city => ({
       city: city.name,
-      verifiedPages: captures.filter(x => x.cityId === city.id &&
-        x.status === "page-loaded-city-and-planet-confirmed").length,
-      eventRows: captures.filter(x => x.cityId === city.id)
+      cityPlanetVerifiedPages: cityPlanetVerified.filter(x => x.cityId === city.id).length,
+      verifiedPages: yearVerified.filter(x => x.cityId === city.id).length,
+      yearMismatchPages: yearMismatch.filter(x => x.cityId === city.id).length,
+      verifiedEventRows: yearVerified.filter(x => x.cityId === city.id)
         .reduce((sum, x) => sum + x.eventRows.length, 0)
     })),
     planetCoverage: TARGETS.map(target => ({
       planet: target.planet,
-      verifiedPages: captures.filter(x => x.planet === target.planet &&
-        x.status === "page-loaded-city-and-planet-confirmed").length,
-      eventRows: captures.filter(x => x.planet === target.planet)
+      cityPlanetVerifiedPages: cityPlanetVerified.filter(x => x.planet === target.planet).length,
+      verifiedPages: yearVerified.filter(x => x.planet === target.planet).length,
+      yearMismatchPages: yearMismatch.filter(x => x.planet === target.planet).length,
+      verifiedEventRows: yearVerified.filter(x => x.planet === target.planet)
         .reduce((sum, x) => sum + x.eventRows.length, 0)
     })),
     captures
-  };
-  console.log(JSON.stringify(summary, null, 2));
+  };  console.log(JSON.stringify(summary, null, 2));
 } finally {
   await browser.close();
 }
