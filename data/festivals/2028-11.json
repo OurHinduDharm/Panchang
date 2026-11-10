@@ -34,13 +34,14 @@
     {
       "date": "2028-11-09",
       "dateLabel": "9 नवंबर",
-      "title": "कालभैरव जयंती",
-      "description": "कालभैरव जयंती पर भगवान शिव के कालभैरव स्वरूप की पूजा, मंत्र-जप और रात्रि-उपासना की परंपरा है। पूजा का दिन कृष्ण पक्ष अष्टमी की व्याप्ति के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "कालभैरव जयंती / मासिक कालाष्टमी",
+      "description": "कालभैरव जयंती पर भगवान शिव के कालभैरव स्वरूप की पूजा, मंत्र-जप और रात्रि-उपासना की परंपरा है। पूजा का दिन कृष्ण पक्ष अष्टमी की व्याप्ति के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "hinduTithi": "मार्गशीर्ष कृष्ण सप्तमी (अष्टमी व्याप्ति)"
     },
     {
       "date": "2028-11-12",
@@ -58,6 +59,28 @@
       "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
+    },
+    {
+      "date": "2028-11-14",
+      "dateLabel": "14 नवंबर",
+      "title": "भौम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण पक्ष त्रयोदशी"
+    },
+    {
+      "date": "2028-11-15",
+      "dateLabel": "15 नवंबर",
+      "title": "मासिक शिवरात्रि",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
       "date": "2028-11-15",
@@ -81,6 +104,16 @@
     {
       "date": "2028-11-21",
       "dateLabel": "21 नवंबर",
+      "title": "चम्पा षष्ठी / मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल षष्ठी"
+    },
+    {
+      "date": "2028-11-21",
+      "dateLabel": "21 नवंबर",
       "title": "विवाह पंचमी",
       "description": "विवाह पंचमी मार्गशीर्ष शुक्ल पंचमी को श्रीराम और माता सीता के विवाह-स्मरण का पर्व है। राम-सीता पूजन, रामायण-पाठ और विवाहोत्सव की परंपरा है।",
       "category": "पर्व",
@@ -88,15 +121,14 @@
       "showReviewStatus": false
     },
     {
-      "date": "2028-11-27",
-      "dateLabel": "27 नवंबर",
-      "title": "गीता जयंती",
-      "description": "गीता जयंती पर भगवद्गीता के उपदेश का स्मरण किया जाता है। गीता-पाठ, श्लोक-मनन, सत्संग और दान की परंपरा है; तिथि मोक्षदा एकादशी के निर्णय से मिलाएँ। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीमद्भगवद्गीता जयंती</a>",
-      "category": "जयंती",
+      "date": "2028-11-24",
+      "dateLabel": "24 नवंबर",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html",
-      "articleLabel": "श्रीमद्भगवद्गीता जयंती"
+      "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी"
     },
     {
       "date": "2028-11-27",
@@ -112,6 +144,27 @@
       "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
+    },
+    {
+      "date": "2028-11-27",
+      "dateLabel": "27 नवंबर",
+      "title": "गीता जयंती",
+      "description": "गीता जयंती पर भगवद्गीता के उपदेश का स्मरण किया जाता है। गीता-पाठ, श्लोक-मनन, सत्संग और दान की परंपरा है; तिथि मोक्षदा एकादशी के निर्णय से मिलाएँ। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीमद्भगवद्गीता जयंती</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html",
+      "articleLabel": "श्रीमद्भगवद्गीता जयंती"
+    },
+    {
+      "date": "2028-11-29",
+      "dateLabel": "29 नवंबर",
+      "title": "बुध प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पक्ष त्रयोदशी"
     }
   ]
 }

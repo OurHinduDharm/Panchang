@@ -33,21 +33,14 @@
     {
       "date": "2028-10-11",
       "dateLabel": "11 अक्टूबर",
-      "title": "अहोई अष्टमी",
-      "description": "अहोई अष्टमी कई परिवारों में संतान के कल्याण की कामना से रखा जाने वाला व्रत है। अहोई माता की पूजा और तारों को अर्घ्य देने की परंपरा है।",
+      "title": "अहोई अष्टमी / मासिक कालाष्टमी",
+      "description": "अहोई अष्टमी कई परिवारों में संतान के कल्याण की कामना से रखा जाने वाला व्रत है। अहोई माता की पूजा और तारों को अर्घ्य देने की परंपरा है। प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण अष्टमी"
-    },
-    {
-      "date": "2028-10-14",
-      "dateLabel": "14 अक्टूबर",
-      "title": "गोवत्स द्वादशी",
-      "description": "गोवत्स द्वादशी में गाय और बछड़े का पूजन कई परंपराओं में किया जाता है। पूजा-विधि क्षेत्रीय रीति के अनुसार भिन्न हो सकती है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
+      "hinduTithi": "कार्तिक कृष्ण अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
       "date": "2028-10-14",
@@ -61,6 +54,25 @@
       "hinduTithi": "कार्तिक कृष्ण एकादशी"
     },
     {
+      "date": "2028-10-14",
+      "dateLabel": "14 अक्टूबर",
+      "title": "गोवत्स द्वादशी",
+      "description": "गोवत्स द्वादशी में गाय और बछड़े का पूजन कई परंपराओं में किया जाता है। पूजा-विधि क्षेत्रीय रीति के अनुसार भिन्न हो सकती है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false
+    },
+    {
+      "date": "2028-10-15",
+      "dateLabel": "15 अक्टूबर",
+      "title": "रवि प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण पक्ष त्रयोदशी"
+    },
+    {
       "date": "2028-10-15",
       "dateLabel": "15 अक्टूबर",
       "title": "धनतेरस",
@@ -69,6 +81,19 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "dhanteras-muhurta"
+    },
+    {
+      "date": "2028-10-16",
+      "dateLabel": "16 अक्टूबर",
+      "title": "मासिक शिवरात्रि",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
       "date": "2028-10-16",
@@ -84,6 +109,19 @@
     {
       "date": "2028-10-17",
       "dateLabel": "17 अक्टूबर",
+      "title": "नरक चतुर्दशी",
+      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। इस दिन कृष्ण चतुर्दशी की व्याप्ति में चंद्रोदय के बाद और सूर्योदय से पहले अभ्यंग-स्नान किया जाता है। अपामार्ग (चिचड़ा) को शरीर के चारों ओर घुमाकर पाप-निवारण की प्रार्थना करने का विधान धर्मसिंधु में मिलता है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">नरक चतुर्दशी की महिमा पढ़ें</a>",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
+      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
+      "muhurtaRule": "narak-chaturdashi-abhyanga"
+    },
+    {
+      "date": "2028-10-17",
+      "dateLabel": "17 अक्टूबर",
       "title": "दीपावली / लक्ष्मी पूजन",
       "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>",
       "category": "पर्व",
@@ -94,19 +132,6 @@
       "articleLabel": "दीपावली का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
       "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना"
-    },
-    {
-      "date": "2028-10-17",
-      "dateLabel": "17 अक्टूबर",
-      "title": "नरक चतुर्दशी",
-      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। इस दिन कृष्ण चतुर्दशी की व्याप्ति में चंद्रोदय के बाद और सूर्योदय से पहले अभ्यंग-स्नान किया जाता है। अपामार्ग (चिचड़ा) को शरीर के चारों ओर घुमाकर पाप-निवारण की प्रार्थना करने का विधान धर्मसिंधु में मिलता है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">नरक चतुर्दशी की महिमा पढ़ें</a>",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
-      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
-      "muhurtaRule": "narak-chaturdashi-abhyanga"
     },
     {
       "date": "2028-10-18",
@@ -130,11 +155,31 @@
     {
       "date": "2028-10-23",
       "dateLabel": "23 अक्टूबर",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल षष्ठी"
+    },
+    {
+      "date": "2028-10-23",
+      "dateLabel": "23 अक्टूबर",
       "title": "छठ पूजा",
       "description": "छठ पूजा में सूर्यदेव और छठी मैया की उपासना, अस्ताचलगामी और उदीयमान सूर्य को अर्घ्य तथा नियमपूर्वक व्रत की परंपरा है। अनुष्ठान का समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2028-10-25",
+      "dateLabel": "25 अक्टूबर",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल अष्टमी"
     },
     {
       "date": "2028-10-26",
@@ -184,6 +229,16 @@
       "showReviewStatus": false,
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
       "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह"
+    },
+    {
+      "date": "2028-10-30",
+      "dateLabel": "30 अक्टूबर",
+      "title": "सोम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल पक्ष त्रयोदशी"
     }
   ]
 }
