@@ -171,24 +171,14 @@
     {
       "date": "2029-06-25",
       "dateLabel": "25 जून",
-      "title": "वट पूर्णिमा व्रत",
-      "description": "वट पूर्णिमा व्रत में सौभाग्यवती स्त्रियाँ वटवृक्ष की पूजा कर पति की दीर्घायु और परिवार के मंगल की कामना करती हैं।",
+      "title": "वट पूर्णिमा व्रत / ज्येष्ठ पूर्णिमा",
+      "description": "ज्येष्ठ शुक्ल पूर्णिमा के अवसर पर वट पूर्णिमा व्रत में सौभाग्यवती स्त्रियाँ वटवृक्ष की पूजा कर पति की दीर्घायु और परिवार के मंगल की कामना करती हैं। इस दिन स्नान, दान और जप का भी विधान है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — Vat Purnima Vrat 2029",
       "sourceUrl": "https://www.drikpanchang.com/festivals/savitri/vat-purnima-date-time.html?lang=en&year=2029"
-    },
-    {
-      "date": "2029-06-26",
-      "dateLabel": "26 जून",
-      "title": "ज्येष्ठ पूर्णिमा",
-      "description": "ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और पूजा की परंपरा है।",
-      "category": "पूर्णिमा",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
     },
     {
       "date": "2029-06-29",
