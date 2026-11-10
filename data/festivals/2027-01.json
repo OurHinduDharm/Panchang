@@ -55,20 +55,10 @@
     {
       "date": "2027-01-07",
       "dateLabel": "7 जनवरी",
-      "title": "पौष अमावस्या",
-      "description": "पौष अमावस्या पर पवित्र नदियों में स्नान, दान, जप और पितरों के निमित्त तर्पण करने की परंपरा है।",
-      "category": "अमावस्या",
-      "reviewStatus": "approved",
-      "hinduTithi": "पौष कृष्ण अमावस्या"
-    },
-    {
-      "date": "2027-01-07",
-      "dateLabel": "7 जनवरी",
       "title": "पौष अमावस्या / तमिल हनुमान जयंती",
       "description": "पौष अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। तमिल परंपरा में इसी दिन हनुमान जयंती मनाई जाती है; भक्त हनुमानजी का पूजन और हनुमान चालीसा का पाठ करते हैं।",
-      "category": "अमावस्या एवं जयंती",
+      "category": "अमावस्या",
       "reviewStatus": "approved",
-      "showReviewStatus": false,
       "hinduTithi": "पौष कृष्ण अमावस्या",
       "sourceName": "Drik Panchang — January 2027 Tamil Panchangam",
       "sourceUrl": "https://www.drikpanchang.com/tamil/tamil-day-panchangam.html?date=07%2F01%2F2027"
@@ -118,19 +108,10 @@
     {
       "date": "2027-01-14",
       "dateLabel": "14 जनवरी",
-      "title": "लोहड़ी",
-      "description": "लोहड़ी उत्तर भारत, विशेषकर पंजाब और आसपास के क्षेत्रों का पारंपरिक लोकपर्व है। संध्या में अग्नि प्रज्वलित कर अग्नि की परिक्रमा, तिल, गुड़, मूँगफली और रेवड़ी अर्पित करने की परंपरा है।",
-      "category": "पर्व",
-      "reviewStatus": "approved"
-    },
-    {
-      "date": "2027-01-14",
-      "dateLabel": "14 जनवरी",
       "title": "लोहड़ी / भोगी पंडिगाई",
       "description": "मकर संक्रांति से एक दिन पहले पंजाब और उत्तर भारत में लोहड़ी तथा तमिल परंपरा में भोगी पंडिगाई मनाई जाती है। अग्नि-पूजन, नई फसल के प्रति कृतज्ञता और सामुदायिक उत्सव इसकी प्रमुख परंपराएँ हैं।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false,
       "hinduTithi": "पौष शुक्ल षष्ठी",
       "sourceName": "Drik Panchang — 2027 Sankranti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/festivals/sankranti/sankranti-calendar.html"
