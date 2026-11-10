@@ -104,6 +104,7 @@ test("2029 approved saint jayantis are retained and explicitly excluded modern p
   assert.ok(has("2029-01-13", /लोहड़ी/));
   assert.ok(has("2029-01-13", /^भोगी पण्डिगै$/));
   assert.ok(has("2029-01-14", /^थाई अमावासै$/));
+  assert.match(has("2029-01-14", /^थाई अमावासै$/).sourceUrl, /date=14%2F01%2F2029/);
   assert.ok(has("2029-01-15", /^मट्टु पोंगल$/));
   assert.ok(has("2029-01-30", /^थाई पूसम$/));
   assert.ok(has("2029-02-28", /^मासी मघम$/));
