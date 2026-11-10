@@ -108,16 +108,6 @@
       "hinduTithi": "चैत्र शुक्ल पक्ष त्रयोदशी"
     },
     {
-      "date": "2028-04-08",
-      "dateLabel": "8 अप्रैल",
-      "title": "पंगुनी उत्तिरम",
-      "description": "पंगुनी उत्तिरम के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
-    },
-    {
       "date": "2028-04-09",
       "dateLabel": "9 अप्रैल",
       "title": "चैत्र पूर्णिमा / हनुमान जयंती",
@@ -205,8 +195,8 @@
     {
       "date": "2028-04-14",
       "dateLabel": "14 अप्रैल",
-      "title": "पुथांडु / विषु कणि / पोहेला बोइशाख",
-      "description": "पुथांडु / विषु कणि / पोहेला बोइशाख के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "title": "विषु / पोहेला बोइशाख",
+      "description": "केरल में विषु और बंगाल में पोहेला बोइशाख के साथ सौर नववर्ष की परंपरा मनाई जाती है।",
       "category": "सौर नववर्ष",
       "reviewStatus": "approved",
       "sourceName": "Drik Panchang — April 2028 Hindu Festivals",

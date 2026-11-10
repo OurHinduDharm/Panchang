@@ -135,7 +135,7 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-10-02", /कोजागरा पूजा/));
   assert.ok(has("2028-10-03", /वाल्मीकि जयंती.*मीराबाई जयंती/));
   assert.ok(has("2028-10-16", /हनुमान पूजा/));
-  assert.match(has("2028-10-17", /नरक चतुर्दशी/).description, /तमिल दीपावली/);
+  assert.doesNotMatch(has("2028-10-17", /नरक चतुर्दशी/).description, /तमिल दीपावली/);
   assert.ok(has("2028-10-16", /काली चौदस.*शिवरात्रि|शिवरात्रि.*काली चौदस/));
   assert.ok(has("2028-10-19", /भैया दूज.*चन्द्र दर्शन|चन्द्र दर्शन.*भैया दूज/));
   assert.ok(has("2028-10-23", /छठ पूजा.*स्कन्द षष्ठी|स्कन्द षष्ठी.*छठ पूजा/));
@@ -153,4 +153,22 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-12-01", /अन्नपूर्णा जयंती/));
   assert.ok(has("2028-12-23", /गुरु गोबिन्द सिंह जयंती/));
   assert.ok(has("2028-12-27", /टेलंग स्वामी जयंती/));
+});
+
+
+test("2026–2030 calendar excludes non-core Tamil observances and non-religious biographies", () => {
+  const years = [2026, 2027, 2028, 2029, 2030];
+  const excluded = /स्वामी विवेकानन्द|राष्ट्रीय युवा दिवस|पंगुनी|पुथांडु|मासिक कार्तिगाई|कार्तिगाई दीपम|मासी मागम|थाई पूसम|कराडैयान|आदि अमावासै|आदि पेरुक्कु|आण्डाल जयंती|वैकासी विसाकम|अष्टमी रोहिणी|तमिल हनुमान जयंती|तमिल दीपावली|भोगी पंडिगाई|मट्टू पोंगल|कानुम पोंगल|आर्द्रा दर्शन|आरुद्र दर्शन/;
+  const matches = [];
+  for (const year of years) {
+    for (let month = 1; month <= 12; month++) {
+      const file = join(folder, year + "-" + String(month).padStart(2, "0") + ".json");
+      const data = JSON.parse(readFileSync(file, "utf8"));
+      for (const event of data.events || []) {
+        const text = [event.title, event.description].filter(Boolean).join(" ");
+        if (excluded.test(text)) matches.push({ year, month, title: event.title });
+      }
+    }
+  }
+  assert.deepEqual(matches, []);
 });
