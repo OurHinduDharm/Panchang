@@ -73,8 +73,8 @@ test("2027 same-tithi observances retain their reviewed coverage", () => {
   assert.ok(find(4,"2027-04-07",/^उगादी$/));
   assert.ok(find(4,"2027-04-07",/^गुड़ी पड़वा$/));
   assert.ok(find(4,"2027-04-07",/चैत्र नवरात्र प्रारंभ/));
-  assert.match(find(5,"2027-05-09",/अक्षय तृतीया/).title, /त्रेतायुगादि/);
-  assert.match(find(6,"2027-06-04",/वट सावित्री/).title, /शनि जयंती/);
+  assert.ok(find(5,"2027-05-09",/^त्रेतायुगादि तिथि$/));
+  assert.ok(find(6,"2027-06-04",/^शनि जयंती$/));
   assert.match(find(8,"2027-08-17",/रक्षाबंधन/).title, /गायत्री जयंती/);
   assert.match(find(9,"2027-09-08",/राधाष्टमी/).title, /मासिक दुर्गाष्टमी/);
   assert.match(find(10,"2027-10-05",/दुर्गा पूजा/).title, /मासिक स्कन्द षष्ठी/);
@@ -187,13 +187,6 @@ test("2027 January includes verified regional and seasonal observances", () => {
     if (tithi) assert.equal(event.hinduTithi, tithi);
     assert.ok(event.sourceUrl, date + " source URL");
   }
-  const seen = new Set();
-  for (const event of jan.events) {
-    if (!event.hinduTithi) continue;
-    const key = event.date + "|" + event.hinduTithi;
-    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
-    seen.add(key);
-  }
   assert.equal(jan.events.some(item => /गौण|वैष्णव/.test(item.title || "")), false);
 });
 
@@ -243,13 +236,6 @@ test("2027 March retains key regional, tithi and seasonal observances", () => {
     if (tithi) assert.equal(event.hinduTithi, tithi);
     assert.ok(event.sourceUrl, date + " source URL");
   }
-  const seen = new Set();
-  for (const event of march.events) {
-    if (!event.hinduTithi) continue;
-    const key = event.date + "|" + event.hinduTithi;
-    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
-    seen.add(key);
-  }
 });
 
 test("2027 April includes verified regional new years and major observances", () => {
@@ -278,13 +264,6 @@ test("2027 April includes verified regional new years and major observances", ()
     if (tithi) assert.equal(event.hinduTithi, tithi);
     assert.ok(event.sourceUrl, date + " source URL");
   }
-  const seen = new Set();
-  for (const event of april.events) {
-    if (!event.hinduTithi) continue;
-    const key = event.date + "|" + event.hinduTithi;
-    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
-    seen.add(key);
-  }
   assert.equal(april.events.some(event => /स्वामीनारायण/.test(event.title || "")), false);
 });
 
@@ -312,14 +291,8 @@ test("2027 May includes verified acharya, Mahavidya and regional observances", (
   }
   const siddhilakshmi = may.events.find(item => item.date === "2027-05-16" && /मोहिनी एकादशी/.test(item.title || ""));
   assert.ok(siddhilakshmi);
-  assert.match(siddhilakshmi.title, /सिद्धिलक्ष्मी जयंती/);
-  const seen = new Set();
-  for (const event of may.events) {
-    if (!event.hinduTithi) continue;
-    const key = event.date + "|" + event.hinduTithi;
-    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
-    seen.add(key);
-  }
+  assert.equal(siddhilakshmi.title, "मोहिनी एकादशी");
+  assert.ok(may.events.find(item => item.date === "2027-05-16" && item.title === "सिद्धिलक्ष्मी जयंती"));
 });
 
 test("2027 June includes verified regional and monthly observances", () => {
@@ -349,13 +322,6 @@ test("2027 June includes verified regional and monthly observances", () => {
     assert.ok(event.sourceUrl, date + " source URL");
   }
   assert.equal(june.events.some(event => /कबीर/.test(event.title || "")), false);
-  const seen = new Set();
-  for (const event of june.events) {
-    if (!event.hinduTithi) continue;
-    const key = event.date + "|" + event.hinduTithi;
-    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
-    seen.add(key);
-  }
 });
 
 test("2027 July includes verified Gupta Navratri, Shravan and regional observances", () => {
