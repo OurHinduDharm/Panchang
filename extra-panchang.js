@@ -446,16 +446,16 @@ function createPlanetCard(data, dailyEvents = {}) {
 
   const rows = data.map(planet => {
     if (planet.status === "loading") {
-      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>प्रत्यक्ष संदर्भ डेटा लोड हो रहा है…</span></div>`;
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>लोड हो रहा है…</span></div>`;
     }
     if (planet.status === "unavailable" && planet.reason === "city-not-covered") {
-      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>इस स्थान का डेटा उपलब्ध नहीं</span></div>`;
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>इस स्थान के लिए जानकारी उपलब्ध नहीं</span></div>`;
     }
     if (planet.status === "no-upcoming-reference") {
-      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>चयनित तिथि के बाद उपलब्ध सत्यापित संदर्भ नहीं</span></div>`;
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>आगामी अस्त-अवधि उपलब्ध नहीं</span></div>`;
     }
     if (planet.status === "unavailable") {
-      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>प्रत्यक्ष संदर्भ डेटा उपलब्ध नहीं हो पाया</span></div>`;
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>जानकारी उपलब्ध नहीं हो पाई</span></div>`;
     }
 
     const label = planet.status === "active" ? "वर्तमान अस्त-अवधि" : "आगामी अस्त-अवधि";
