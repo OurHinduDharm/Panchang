@@ -76,7 +76,7 @@ test("All supplied OurHinduDharm articles are linked to their matching 2026-2030
 
 const normalizeArticleUrl = value => String(value || "")
   .replace(/^http:/i, "https:")
-  .replace(/[?&]m=1\\b/g, "")
+  .replace(/[?&]m=1/g, "")
   .replace(/#.*$/, "");
 const articleUrls = event => [
   event.articleUrl,
@@ -89,7 +89,6 @@ test("every linked master article is present on its matching 2026-2030 festival 
   const missing = [];
   for (let year = 2026; year <= 2030; year++) {
     for (let monthNumber = 1; monthNumber <= 12; monthNumber++) {
-      const key = String(year) + "-" + String(monthNumber).padStart(2, "0");
       const data = await month(year, monthNumber);
       for (const event of data.events || []) {
         const simulated = JSON.parse(JSON.stringify(event));
