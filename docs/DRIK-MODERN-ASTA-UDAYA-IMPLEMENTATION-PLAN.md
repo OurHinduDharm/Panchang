@@ -663,3 +663,24 @@ CI run: `42773424328` — browser diagnostics, direct source capture, source-led
 नया research ledger: data/drik-pithoragarh-asta-udaya-2021-2027.json. पुराने 2024–2027 snapshot को बदला नहीं; नया विस्तारित ledger अलग रखा। नई regression file tests/drik-pithoragarh-asta-extended-data.test.mjs raw source year, city, planet, quarantines, time rollover, IST→UTC और coordinate caveat जाँचती है।
 
 अब Pithoragarh local-year/motion holdouts 2021–2027 के 71 unique windows पर चलेंगे। Pooled city-year holdout में अन्य चार शहरों के verified 2024–2028 references के साथ Pithoragarh की सात-वर्षीय local history जोड़ी गई है; target Pithoragarh source-year fold से पूरी तरह बाहर रहता है। Provider coordinates/elevation अब भी undisclosed हैं, इसलिए यह city-label-only benchmark है—exact-coordinate equality का दावा नहीं।
+### सात-वर्षीय city-year blind validation और feature ablation — 10 नवम्बर 2026
+
+231 accepted unique training/reference windows (चार अन्य शहरों के 2024–2028 records + Pithoragarh 2021–2027 local ledger) पर Pithoragarh का हर पूरा source-year fold training से बाहर रखा।
+
+**सबसे अच्छा सरल pooled model:** magnitude + local event direction + magnitude×direction interaction; solar-altitude midpoint target.
+
+| ग्रह | Asta exact | Udaya exact | अधिकतम date error | Holdout windows |
+|---|---:|---:|---:|---:|
+| बुध | 31/45 | 42/45 | 1 दिन | 45 |
+| शुक्र | 8/9 | 5/9 | 1 दिन | 9 |
+| गुरु | 7/7 | 6/7 | 1 दिन | 7 |
+| शनि | 6/7 | 7/7 | 1 दिन | 7 |
+| मंगल | 1/2 matched Asta; 2/2 matched Udaya | — | अपर्याप्त नमूना | 3 |
+
+Mercury local-only leave-one-year-out में direction-interaction model 28/45 Asta और 40/45 Udaya dates exact था; चार अन्य शहरों का training जोड़ने पर यह 31/45 और 42/45 हुआ। सभी matched dates एक दिन के भीतर रहीं।
+
+**Feature ablation:** elongation, azimuth separation, illuminated fraction, geocentric retrograde flag और longitude rate को जोड़ा। कोई expanded feature set simple magnitude+direction-interaction pooled model से बेहतर नहीं निकला। इसलिए अतिरिक्त features को production coefficients में नहीं डाला। Retrograde/direct गणना selector में opt-in research feature के रूप में उपलब्ध है; default baseline अपरिवर्तित है।
+
+**Release decision:** model अभी production date engine नहीं है। बुध के 45 holdouts में 14 Asta और 3 Udaya dates एक दिन से चूकीं; शुक्र के 9 windows में 1 Asta और 4 Udaya dates एक दिन से चूकीं। एक-दिन की त्रुटि भी exact-date acceptance gate में असफल है। Jupiter/Saturn के केवल सात-सात windows हैं; अच्छे परिणाम के बावजूद यह सार्वभौमिक प्रमाण नहीं। Provider के exact observer coordinates/elevation उपलब्ध नहीं।
+
+CI run 42803012385: extended source ledger, all direct/local/city-year holdouts, expanded feature ablation, selector motion tests, five-city transfer and production no-fallback/performance checks — successful.
