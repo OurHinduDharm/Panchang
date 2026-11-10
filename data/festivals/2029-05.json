@@ -7,6 +7,16 @@
   "locationScope": "सामान्य उत्तर भारतीय पर्व-तिथियाँ; विशिष्ट पूजा-मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
   "events": [
     {
+      "date": "2029-05-01",
+      "dateLabel": "1 मई",
+      "title": "विकट संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख कृष्ण चतुर्थी"
+    },
+    {
       "date": "2029-05-05",
       "dateLabel": "5 मई",
       "title": "मासिक कालाष्टमी",
@@ -57,6 +67,16 @@
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
+      "date": "2029-05-14",
+      "dateLabel": "14 मई",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल प्रतिपदा"
+    },
+    {
       "date": "2029-05-15",
       "dateLabel": "15 मई",
       "title": "वृषभ संक्रांति",
@@ -104,6 +124,17 @@
       "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
       "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें"
+    },
+    {
+      "date": "2029-05-17",
+      "dateLabel": "17 मई",
+      "title": "संकर्षण चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2029-05-19",
@@ -203,6 +234,16 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ कृष्ण प्रतिपदा"
+    },
+    {
+      "date": "2029-05-30",
+      "dateLabel": "30 मई",
+      "title": "एकदन्त संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण चतुर्थी"
     }
   ]
 }

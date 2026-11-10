@@ -61,6 +61,16 @@
     {
       "date": "2029-09-10",
       "dateLabel": "10 सितंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल द्वितीया"
+    },
+    {
+      "date": "2029-09-10",
+      "dateLabel": "10 सितंबर",
       "title": "सामवेदियों का उपाकर्म",
       "description": "सामवेदी द्विजों का उपाकर्म भाद्रपद शुक्ल पक्ष के हस्त नक्षत्र में किया जाता है। इसके लिए स्थानीय हस्त नक्षत्र की अपराह्ण-व्याप्ति निर्णायक है। अपराह्ण दिनमान के पाँच बराबर भागों में चौथा भाग है। इस वर्ष की तारीख़ पिथौरागढ़ के वास्तविक पंचांग-अंतराल और अपराह्ण गणना से निर्धारित की गई है।",
       "category": "उपाकर्म",
@@ -82,13 +92,15 @@
     {
       "date": "2029-09-11",
       "dateLabel": "11 सितंबर",
-      "title": "गणेश चतुर्थी",
-      "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजा और भोग अर्पित किया जाता है।",
+      "title": "गणेश चतुर्थी / श्री गणेश चतुर्थी / सिद्धिविनायक चतुर्थी — गणेश जयंती",
+      "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजा और भोग अर्पित किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री गणेश चतुर्थी व्रत विधि व कथा</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html",
+      "articleLabel": "श्री गणेश चतुर्थी व्रत विधि व कथा"
     },
     {
       "date": "2029-09-12",
@@ -188,6 +200,16 @@
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन कृष्ण प्रतिपदा",
       "showReviewStatus": false
+    },
+    {
+      "date": "2029-09-26",
+      "dateLabel": "26 सितंबर",
+      "title": "विघ्नराज संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण चतुर्थी"
     },
     {
       "date": "2029-09-30",

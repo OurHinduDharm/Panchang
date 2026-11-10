@@ -59,12 +59,23 @@
     {
       "date": "2029-07-13",
       "dateLabel": "13 जुलाई",
-      "title": "जगन्नाथ रथयात्रा",
-      "description": "जगन्नाथ रथयात्रा भगवान जगन्नाथ, बलभद्र और सुभद्रा की यात्रा का उत्सव है।",
+      "title": "जगन्नाथ रथयात्रा / चन्द्र दर्शन",
+      "description": "जगन्नाथ रथयात्रा भगवान जगन्नाथ, बलभद्र और सुभद्रा की यात्रा का उत्सव है। अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल द्वितीया"
+    },
+    {
+      "date": "2029-07-15",
+      "dateLabel": "15 जुलाई",
+      "title": "अनिरुद्ध चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2029-07-16",
@@ -126,6 +137,16 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ पूर्णिमा"
+    },
+    {
+      "date": "2029-07-28",
+      "dateLabel": "28 जुलाई",
+      "title": "गजानन संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण चतुर्थी"
     }
   ]
 }
