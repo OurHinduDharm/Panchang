@@ -552,3 +552,33 @@ Best simple model में Mercury के 125 में 101 Asta और 115 Uda
 Richer geometry model ने कुछ folds में 20–35 दिन तक गलत Udaya boundaries चुनीं; इसे reject किया। Mercury/Venus में event-direction interaction उपयोगी है; Jupiter/Saturn के लिए extra geometry लाभ नहीं देती।
 
 **महत्त्वपूर्ण सीमा:** ये city-centre proxy observers पर city-label holdouts हैं; Drik के exact internal coordinates/elevation उपलब्ध नहीं। 1-day maximum error अभी भी exact published-date acceptance gate fail करता है। इसलिए इसे मजबूत calibration evidence मानें, production proof नहीं। नए clock-of-day error metrics भी जोड़े गए हैं ताकि अगली CI run में तारीख और समय की त्रुटि अलग-अलग दिखाई दे।
+
+
+## 10 नवम्बर 2026 — पाँच नगरों का leave-one-city-out और मुख्य पंचांग का प्रत्यक्ष-स्रोत कार्ड
+
+### पाँच नगरों का स्वतंत्र स्थान-परीक्षण
+100 year-verified annual pages से overlap हटाकर **200 unique windows** (5 नगर × 5 ग्रह × 2024–2027) पर leave-one-city-out परीक्षण पूरा हुआ। प्रत्येक fold में लक्ष्य नगर का पूरा डेटा training से बाहर रखा; बाकी चार नगरों के सभी सत्यापित वर्षों से fit किया। सभी नगरों के लिए स्पष्ट proxy observers उपयोग किए; Drik के आंतरिक coordinates/elevation प्रकाशित नहीं हैं।
+
+पिथौरागढ़ holdout में event-direction interaction model के नतीजे:
+- बुध: 25/25 windows matched; Asta 19/25 exact, max 1 दिन; Udaya 24/25 exact, max 1 दिन।
+- शुक्र: 5/5 matched; Asta 3/5 exact, Udaya 3/5 exact; दोनों का max 1 दिन।
+- गुरु: 4/4 matched; Asta 4/4 exact; Udaya 3/4 exact, max 1 दिन।
+- शनि: 4/4 matched; Asta और Udaya दोनों 4/4 exact।
+- मंगल: 2/2 references के लिए candidate windows match नहीं हुए; model अभी अनुपलब्ध।
+
+Magnitude-only की तुलना में event-direction feature ने बुध/शुक्र की तारीखों को सुधारा। Local geometry + direction model कुछ ग्रहों में उल्टा बिगड़ा और Venus/Jupiter/Saturn के कुछ folds में गलत apparition pairing तक हुई। इसलिए उसे reject किया। Retrograde/longitude-rate अकेले इस benchmark में consistently helpful नहीं रहे।
+
+**Release gate:** एक दिन की भी civil-date त्रुटि को exact-date release के लिए असफल माना जाएगा। Saturn का 4/4 exact परिणाम अभी केवल चार annual windows है; इसे universal validation नहीं मानते। Mercury/Venus/Jupiter में कुछ one-day misses शेष हैं। Mars में usable matching नहीं है। इसलिए fitted model को अभी public time calculation के रूप में जारी नहीं किया गया।
+
+### Main Panchang में वास्तविक display बदलाव
+`extra-panchang.js` से पुराना fixed-angle `PLANET_ASTA_THRESHOLDS` / daily noon scan / bisection display engine हटाया। अब:
+- सूर्य और चंद्रमा के दैनिक उदय-अस्त समय मौजूदा Panchang ephemeris (`getPanchangam`) से दिखते हैं।
+- बुध, शुक्र, मंगल, गुरु और शनि के तारा-अस्त प्रारम्भ तथा पुनः उदय समय direct browser-verified Pithoragarh Drik reference JSON से दिखते हैं।
+- स्रोत link प्रत्येक उपलब्ध ग्रह के साथ है; समय IST में प्रकाशित minute precision पर है।
+- शहर की पहचान स्पष्ट न हो या दूसरा नगर चुना हो तो कोई दूसरे शहर का fallback नहीं।
+- 2024–2027 के verified date range से आगे अथवा किसी ग्रह के लिए row न होने पर “संदर्भ उपलब्ध नहीं” दिखता है; उसे “अस्त नहीं” या zero event नहीं कहा जाता।
+- UI साफ बताता है कि Drik ने अपने internal observer coordinates/elevation प्रकाशित नहीं किए; इसलिए यह Pithoragarh city-label reference है, चुने हुए exact coordinates के साथ पूर्ण समानता का दावा नहीं।
+
+Lookup helper: `research/drik-planetary-reference.mjs`. Regression: `tests/drik-planetary-reference.test.mjs` और browser test `tests/asta-udaya-phase-diagnostics.spec.mjs`.
+
+यह production-facing display अब अनुमानित fixed-angle output नहीं है। लेकिन इसे **source-backed city reference display** कहा जाएगा, पूर्णतः स्वतंत्र universal ephemeris calculation engine नहीं। अगला शेष काम exact-date model validation, अधिक वर्षों के direct references, और अलग वार्षिक पृष्ठ है।
