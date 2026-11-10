@@ -25,7 +25,7 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     await page.waitForFunction(() => {
       const panel = document.querySelector("#ohd-perf-panel")?.textContent || "";
       const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
-      return panel.includes("planetaryReference") && card.includes("Drik मूल स्रोत");
+      return panel.includes("planetaryReference") && card.includes("अस्त प्रारम्भ") && card.includes("पुनः उदय");
     }, null, { timeout: 180000 });
 
     const card = page.locator("#planetRiseSetCard");
@@ -38,6 +38,8 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     assert.match(initialFingerprint, /सूर्य/);
     assert.match(initialFingerprint, /चंद्रमा/);
     assert.match(initialFingerprint, /उदय/);
+    assert.doesNotMatch(initialFingerprint, /Drik मूल स्रोत|Drik Panchang|drikpanchang\.com/i);
+    assert.equal(await card.locator('a[href*="drikpanchang.com"]').count(), 0, "public Panchang card must not expose Drik source links");
 
     await page.locator("#dateInput").fill("2026-11-01");
     await page.locator("#dateInput").dispatchEvent("change");
@@ -62,7 +64,8 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
       timeout: 60000
     });
     assert.ok(normalResponse?.ok(), "normal Panchang page must load");
-    await normalPage.waitForFunction(() => (document.querySelector("#planetRiseSetCard")?.innerText || "").includes("Drik मूल स्रोत"), null, { timeout: 180000 });
+    await normalPage.waitForFunction(() => (document.querySelector("#planetRiseSetCard")?.innerText || "").includes("अस्त प्रारम्भ"), null, { timeout: 180000 });
+    assert.equal(await normalPage.locator('#planetRiseSetCard a[href*="drikpanchang.com"]').count(), 0, "normal card must not expose Drik source links");
     assert.equal(await normalPage.locator("#ohd-perf-panel").count(), 0, "normal page must not render diagnostics");
     await normalPage.close();
 
@@ -82,11 +85,11 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     assert.ok(mumbaiResponse?.ok(), "Mumbai Panchang page must load");
     await mumbaiPage.waitForFunction(() => {
       const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
-      return card.includes("Mumbai, Maharashtra, India") && card.includes("Drik मूल स्रोत");
+      return card.includes("अस्त प्रारम्भ") && card.includes("पुनः उदय");
     }, null, { timeout: 180000 });
     const mumbaiCard = await mumbaiPage.locator("#planetRiseSetCard").innerText();
-    assert.match(mumbaiCard, /Mumbai, Maharashtra, India/);
-    assert.doesNotMatch(mumbaiCard, /Drik Panchang के पिथौरागढ़/);
+    assert.doesNotMatch(mumbaiCard, /Drik मूल स्रोत|Drik Panchang|Pithoragarh|पिथौरागढ़/i);
+    assert.equal(await mumbaiPage.locator('#planetRiseSetCard a[href*="drikpanchang.com"]').count(), 0, "Mumbai card must not expose Drik source links");
     assert.doesNotMatch(mumbaiCard, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
     await mumbaiPage.close();
 
@@ -114,4 +117,5 @@ test("production Asta/Udaya card has no provisional angular-threshold engine", (
   assert.match(source, /getDrikPlanetaryReference/);
   assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findThresholdCrossingInstant|findNearestAngularBoundary|getLocalNoon\(/);
   assert.doesNotMatch(source, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
+  assert.doesNotMatch(source, /Drik मूल स्रोत|Drik Panchang|https?:\\/\\/[^"']*drikpanchang\\.com/i);
 });
