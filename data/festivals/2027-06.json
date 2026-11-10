@@ -22,6 +22,18 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2027-06-01",
+      "dateLabel": "1 जून",
+      "title": "कृष्ण परशुराम द्वादशी",
+      "description": "ज्येष्ठ कृष्ण द्वादशी को भगवान विष्णु के परशुराम स्वरूप का स्मरण और पूजन किया जाता है। इस दिन जप, दान और विष्णु-पूजन की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
+    },
+    {
       "date": "2027-06-02",
       "dateLabel": "2 जून",
       "title": "बुध प्रदोष व्रत",
@@ -34,25 +46,29 @@
     {
       "date": "2027-06-03",
       "dateLabel": "3 जून",
-      "title": "मासिक शिवरात्रि",
-      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "title": "मासिक शिवरात्रि / मासिक कार्तिगाई",
+      "description": "ज्येष्ठ कृष्ण चतुर्दशी को मासिक शिवरात्रि पर भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण किया जाता है। तमिल परंपरा में इसी दिन मासिक कार्तिगाई भी मनाई जाती है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ कृष्ण चतुर्दशी",
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
-      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
     },
     {
       "date": "2027-06-04",
       "dateLabel": "4 जून",
-      "title": "वट सावित्री व्रत / शनि जयंती",
-      "description": "वट सावित्री व्रत में सावित्री-सत्यवान की कथा का स्मरण कर वटवृक्ष की पूजा की जाती है। इसकी तिथि विभिन्न पंचांगों में यह व्रत अमावस्या या पूर्णिमा से संबंधित मिलता है। शनि जयंती पर शनिदेव की पूजा, मंत्र-जप, दीपदान और दान की परंपरा है।",
+      "title": "वट सावित्री व्रत / शनि जयंती / ज्येष्ठ अमावस्या / दर्श अमावस्या",
+      "description": "ज्येष्ठ अमावस्या पर वट सावित्री व्रत में सावित्री-सत्यवान की कथा का स्मरण कर वटवृक्ष की पूजा की जाती है। इसी दिन शनि जयंती पर शनिदेव का पूजन, मंत्र-जप, दीपदान और दान तथा दर्श अमावस्या के निमित्त स्नान-तर्पण की परंपरा है।",
       "category": "व्रत एवं जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
+      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
     },
     {
       "date": "2027-06-05",
@@ -63,6 +79,18 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ शुक्ल प्रतिपदा"
+    },
+    {
+      "date": "2027-06-07",
+      "dateLabel": "7 जून",
+      "title": "महाराणा प्रताप जयंती",
+      "description": "महाराणा प्रताप जयंती पर मेवाड़ के वीर शासक महाराणा प्रताप के जीवन, स्वाभिमान और पराक्रम का स्मरण किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
     },
     {
       "date": "2027-06-08",
@@ -86,6 +114,18 @@
       "hinduTithi": "ज्येष्ठ शुक्ल षष्ठी"
     },
     {
+      "date": "2027-06-10",
+      "dateLabel": "10 जून",
+      "title": "जामाई षष्ठी",
+      "description": "ज्येष्ठ शुक्ल षष्ठी को बंगाल में जामाई षष्ठी मनाई जाती है। परिवार में दामाद के सम्मान, मंगलकामना और पारिवारिक मिलन की परंपरा है।",
+      "category": "क्षेत्रीय पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल षष्ठी",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
+    },
+    {
       "date": "2027-06-11",
       "dateLabel": "11 जून",
       "title": "मासिक दुर्गाष्टमी / धूमावती महाविद्या जयंती",
@@ -98,6 +138,18 @@
       "articleLabel": "धूमावती महाविद्या",
       "sourceName": "Drik Panchang — 2027 Dasha Mahavidya Jayanti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027"
+    },
+    {
+      "date": "2027-06-12",
+      "dateLabel": "12 जून",
+      "title": "महेश नवमी",
+      "description": "ज्येष्ठ शुक्ल नवमी को भगवान शिव के महेश्वर स्वरूप की उपासना की जाती है। माहेश्वरी समाज में यह पर्व विशेष श्रद्धा से मनाया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल नवमी",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
     },
     {
       "date": "2027-06-13",
@@ -114,8 +166,8 @@
     {
       "date": "2027-06-14",
       "dateLabel": "14 जून",
-      "title": "निर्जला एकादशी",
-      "description": "निर्जला एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "title": "निर्जला एकादशी / गायत्री जयंती",
+      "description": "निर्जला एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। इसी दिन माँ गायत्री जयंती पर गायत्री मंत्र-जप और देवी-पूजन किया जाता है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -124,7 +176,9 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
     },
     {
       "date": "2027-06-15",
@@ -134,6 +188,18 @@
       "category": "संक्रांति",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2027-06-15",
+      "dateLabel": "15 जून",
+      "title": "रामलक्ष्मण द्वादशी",
+      "description": "ज्येष्ठ शुक्ल द्वादशी को भगवान श्रीराम और लक्ष्मणजी का स्मरण एवं पूजन किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
     },
     {
       "date": "2027-06-16",
@@ -148,12 +214,26 @@
     {
       "date": "2027-06-18",
       "dateLabel": "18 जून",
-      "title": "ज्येष्ठ पूर्णिमा / वट पूर्णिमा व्रत",
-      "description": "ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। वट पूर्णिमा व्रत भी इसी दिन मनाया जाता है। वट पूर्णिमा व्रत में सावित्री-सत्यवान की कथा का स्मरण और वटवृक्ष की पूजा की जाती है। यह विशेष रूप से महाराष्ट्र और कुछ पश्चिमी क्षेत्रों में प्रचलित है; क्षेत्रीय तिथि-निर्णय जाँचें।",
+      "title": "ज्येष्ठ पूर्णिमा / वट पूर्णिमा व्रत / बटुक भैरवी जयंती / वैवस्वत मन्वादि",
+      "description": "ज्येष्ठ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। वट पूर्णिमा व्रत में सावित्री-सत्यवान की कथा का स्मरण और वटवृक्ष की पूजा की जाती है। इसी तिथि पर माँ बटुक भैरवी जयंती तथा वैवस्वत मन्वादि का भी उल्लेख है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
+    },
+    {
+      "date": "2027-06-20",
+      "dateLabel": "20 जून",
+      "title": "आषाढ़ मासारंभ (उत्तर भारत)",
+      "description": "ज्येष्ठ पूर्णिमा के बाद उत्तर भारत की पूर्णिमान्त गणना के अनुसार आषाढ़ मास का आरंभ होता है।",
+      "category": "मासारंभ",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण प्रतिपदा",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
     },
     {
       "date": "2027-06-22",
@@ -166,6 +246,18 @@
       "hinduTithi": "आषाढ़ कृष्ण चतुर्थी"
     },
     {
+      "date": "2027-06-26",
+      "dateLabel": "26 जून",
+      "title": "मासिक कृष्ण जन्माष्टमी",
+      "description": "आषाढ़ कृष्ण अष्टमी की निशीथ-व्याप्ति में भगवान श्रीकृष्ण का पूजन, मंत्र-जप और रात्रि-व्रत किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण अष्टमी",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
+    },
+    {
       "date": "2027-06-27",
       "dateLabel": "27 जून",
       "title": "मासिक कालाष्टमी",
@@ -175,7 +267,9 @@
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ कृष्ण अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "sourceName": "Drik Panchang — June 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?year=2027"
     },
     {
       "date": "2027-06-30",

@@ -7,6 +7,18 @@
   "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
+      "date": "2027-03-02",
+      "dateLabel": "2 मार्च",
+      "title": "महर्षि दयानन्द सरस्वती जयंती",
+      "description": "महर्षि दयानन्द सरस्वती जयंती पर स्वामी दयानन्द के जीवन, वैदिक धर्म के प्रचार और उनके सामाजिक-सुधार कार्यों का स्मरण किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण दशमी",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+    },
+    {
       "date": "2027-03-04",
       "dateLabel": "4 मार्च",
       "title": "विजया एकादशी",
@@ -32,6 +44,18 @@
       "hinduTithi": "फाल्गुन कृष्ण पक्ष त्रयोदशी"
     },
     {
+      "date": "2027-03-05",
+      "dateLabel": "5 मार्च",
+      "title": "कृष्ण भीष्म द्वादशी",
+      "description": "फाल्गुन कृष्ण द्वादशी को भीष्म पितामह का स्मरण और उनके निमित्त तर्पण की परंपरा है। इस दिन श्रद्धापूर्वक पितृ-तर्पण और दान किया जाता है।",
+      "category": "व्रत एवं तर्पण",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+    },
+    {
       "date": "2027-03-06",
       "dateLabel": "6 मार्च",
       "title": "महाशिवरात्रि / मासिक शिवरात्रि",
@@ -53,13 +77,13 @@
     {
       "date": "2027-03-07",
       "dateLabel": "7 मार्च",
-      "title": "द्वापरादि तिथि (द्वापरयुग का आरंभ)",
-      "description": "माघ कृष्ण अमावस्या को द्वापरयुगादि माना जाता है। पूर्णिमान्त गणना में यही तिथि फाल्गुन कृष्ण अमावस्या कहलाती है। इसे मौनी अमावस्या के रूप में भी जाना जाता है। इस दिन स्नान, मौन-व्रत और दान का विशेष महत्व है।",
+      "title": "द्वापरादि (द्वापरयुग का आरंभ) / दर्श अमावस्या",
+      "description": "फाल्गुन कृष्ण अमावस्या को द्वापरयुगादि माना जाता है। इसी दिन दर्श अमावस्या भी है। इस दिन स्नान, मौन-व्रत, दान और पितरों के निमित्त तर्पण की परंपरा है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
       "hinduTithi": "फाल्गुन कृष्ण अमावस्या",
-      "sourceName": "Drik Panchang — पिथौरागढ़",
-      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=07/03/2027"
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
     },
     {
       "date": "2027-03-08",
@@ -82,6 +106,18 @@
       "hinduTithi": "फाल्गुन शुक्ल प्रतिपदा"
     },
     {
+      "date": "2027-03-10",
+      "dateLabel": "10 मार्च",
+      "title": "फुलेरा दूज / रामकृष्ण जयंती",
+      "description": "फाल्गुन शुक्ल द्वितीया को फुलेरा दूज मनाई जाती है। यह राधा-कृष्ण के पुष्पोत्सव और होली की तैयारी से जुड़ा पर्व है। इसी दिन श्रीरामकृष्ण परमहंस की जयंती पर उनके जीवन और आध्यात्मिक संदेश का स्मरण किया जाता है।",
+      "category": "पर्व एवं जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल द्वितीया",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+    },
+    {
       "date": "2027-03-12",
       "dateLabel": "12 मार्च",
       "title": "ढुण्ढिराज चतुर्थी",
@@ -95,12 +131,14 @@
     {
       "date": "2027-03-13",
       "dateLabel": "13 मार्च",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "title": "मासिक स्कन्द षष्ठी / मासिक कार्तिगाई",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। तमिल परंपरा में इसी दिन मासिक कार्तिगाई का पर्व भी मनाया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन शुक्ल षष्ठी"
+      "hinduTithi": "फाल्गुन शुक्ल षष्ठी",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
     },
     {
       "date": "2027-03-15",
@@ -110,6 +148,17 @@
       "category": "संक्रांति",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2027-03-15",
+      "dateLabel": "15 मार्च",
+      "title": "मीन संक्रांति / कराडैयान नोम्बु",
+      "description": "मीन संक्रांति सूर्य के मीन राशि में प्रवेश से जुड़ी है। इसी दिन तमिल परंपरा में कराडैयान नोम्बु का व्रत भी किया जाता है। स्नान, दान और जप की परंपरा है; पुण्यकाल वास्तविक संक्रमण-समय से तय होता है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
     },
     {
       "date": "2027-03-16",
@@ -137,19 +186,33 @@
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
+      "date": "2027-03-19",
+      "dateLabel": "19 मार्च",
+      "title": "नृसिंह द्वादशी",
+      "description": "फाल्गुन शुक्ल द्वादशी को भगवान विष्णु के नृसिंह स्वरूप का स्मरण और पूजन किया जाता है। इस दिन विष्णु-पूजन, जप और दान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+    },
+    {
       "date": "2027-03-20",
       "dateLabel": "20 मार्च",
-      "title": "शनि प्रदोष व्रत",
+      "title": "शनि त्रयोदशी / शनि प्रदोष व्रत",
       "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "फाल्गुन शुक्ल पक्ष त्रयोदशी",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
     },
     {
       "date": "2027-03-21",
       "dateLabel": "21 मार्च",
-      "title": "होलिका दहन",
+      "title": "छोटी होली / होलिका दहन",
       "description": "होलिका-दहन प्रह्लाद और भक्ति की विजय से जुड़ा पर्व है। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">होलिका-दहन का महत्व पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
@@ -157,21 +220,47 @@
       "muhurtaRule": "holika-dahan-pradosh",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
       "articleLabel": "होलिका-दहन का महत्व पढ़ें",
-      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
     },
     {
       "date": "2027-03-22",
       "dateLabel": "22 मार्च",
-      "title": "होली / फाल्गुन पूर्णिमा / श्री महालक्ष्मी जयंती",
-      "description": "फाल्गुन पूर्णिमा के अवसर पर होलिका-दहन के अगले दिन होली का रंगोत्सव मनाया जाता है। श्री महालक्ष्मी जयंती पर देवी की पूजा और स्तोत्र-पाठ की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी जयंती</a>",
+      "title": "होली / फाल्गुन पूर्णिमा / दोल पूर्णिमा / पंगुनी उथिरम / सावर्णि मन्वादि / श्री महालक्ष्मी जयंती",
+      "description": "फाल्गुन पूर्णिमा पर होलिका-दहन के अगले दिन होली का रंगोत्सव मनाया जाता है। बंगाल और पूर्वी भारत में इसी दिन दोल पूर्णिमा, तमिल परंपरा में पंगुनी उथिरम तथा पंचांग-परंपरा में सावर्णि मन्वादि का उल्लेख मिलता है। श्री महालक्ष्मी जयंती पर देवी की पूजा और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी जयंती</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
       "articleLabel": "श्री महालक्ष्मी जयंती",
-      "sourceName": "Drik Panchang — Phalguna Purnima 2027",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/purnima/purnima-calendar.html?year=2027"
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+    },
+    {
+      "date": "2027-03-23",
+      "dateLabel": "23 मार्च",
+      "title": "चैत्र मासारंभ (उत्तर भारत)",
+      "description": "फाल्गुन पूर्णिमा के बाद उत्तर भारत की पूर्णिमान्त गणना के अनुसार चैत्र मास का आरंभ होता है।",
+      "category": "मासारंभ",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण प्रतिपदा",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+    },
+    {
+      "date": "2027-03-24",
+      "dateLabel": "24 मार्च",
+      "title": "भाई दूज / भ्रातृ द्वितीया",
+      "description": "चैत्र कृष्ण द्वितीया को कुछ परंपराओं में भ्रातृ द्वितीया या भाई दूज का पर्व मनाया जाता है। बहनें भाइयों के मंगल और दीर्घायु की कामना करती हैं।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण द्वितीया",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
     },
     {
       "date": "2027-03-25",
@@ -184,16 +273,42 @@
       "hinduTithi": "चैत्र कृष्ण चतुर्थी"
     },
     {
+      "date": "2027-03-27",
+      "dateLabel": "27 मार्च",
+      "title": "रंग पंचमी",
+      "description": "चैत्र कृष्ण पंचमी को रंग पंचमी मनाई जाती है। इस दिन रंगोत्सव, देवी-देवताओं के पूजन और आनंदोत्सव की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण पंचमी",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+    },
+    {
+      "date": "2027-03-28",
+      "dateLabel": "28 मार्च",
+      "title": "शीतला सप्तमी",
+      "description": "चैत्र कृष्ण सप्तमी को माँ शीतला की पूजा की जाती है। कई क्षेत्रों में शीतला अष्टमी से एक दिन पहले शीतला सप्तमी का व्रत और पूजन किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण सप्तमी",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+    },
+    {
       "date": "2027-03-29",
       "dateLabel": "29 मार्च",
-      "title": "मासिक कालाष्टमी",
+      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
       "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र कृष्ण सप्तमी (अष्टमी व्याप्ति)",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
     },
     {
       "date": "2027-03-30",
@@ -203,7 +318,9 @@
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र कृष्ण अष्टमी"
+      "hinduTithi": "चैत्र कृष्ण अष्टमी",
+      "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
     }
   ]
 }
