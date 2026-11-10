@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const folder = join(process.cwd(), "data", "festivals");
-const month = number => JSON.parse(readFileSync(join(folder, \`2027-\${String(number).padStart(2,"0")}.json\`), "utf8"));
+const month = number => JSON.parse(readFileSync(join(folder, "2027-" + String(number).padStart(2,"0") + ".json"), "utf8"));
 const year = Array.from({length:12}, (_,i) => month(i+1));
 const events = year.flatMap(data => data.events);
 const find = (m, date, pattern) => month(m).events.find(event => event.date === date && pattern.test(event.title || ""));
@@ -19,9 +19,9 @@ test("2027 has one card per same-date Hindu tithi", () => {
   const seen = new Map();
   for (const event of events) {
     if (!event.hinduTithi) continue;
-    const key = \`\${event.date}|\${event.hinduTithi}\`;
+    const key = String(event.date) + "|" + String(event.hinduTithi);
     assert.ok(!seen.has(key),
-      \`Duplicate same-date/tithi cards: \${key}: \${seen.get(key)} / \${event.title}\`);
+      "Duplicate same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
     seen.set(key, event.title);
   }
 });
@@ -72,6 +72,7 @@ test("2027 festival descriptions do not repeat the same article URL", () => {
   for (const event of events) {
     const urls = [...String(event.description || "").matchAll(/<a\b[^>]*href=["']([^"']+)["']/gi)]
       .map(match => match[1].replace(/^http:/i,"https:").replace(/\?m=1$/i,"").toLowerCase());
-    assert.equal(urls.length,new Set(urls).size,\`\${event.date}: duplicate article link in \${event.title}\`);
+    assert.equal(urls.length,new Set(urls).size,
+      String(event.date) + ": duplicate article link in " + event.title);
   }
 });
