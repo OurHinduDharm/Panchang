@@ -395,11 +395,13 @@
       "date": "2028-09-20",
       "dateLabel": "20 सितंबर",
       "title": "शारदीय नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
-      "description": "शारदीय नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा, तप, संयम और मंत्र-साधना की जाती है।",
+      "description": "शारदीय नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा, तप, संयम और मंत्र-साधना की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी की पूजा पढ़ें</a>",
       "category": "नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल द्वितीया"
+      "hinduTithi": "आश्विन शुक्ल द्वितीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "articleLabel": "माँ ब्रह्मचारिणी की पूजा पढ़ें"
     },
     {
       "date": "2028-09-21",
@@ -476,11 +478,13 @@
       "date": "2028-09-24",
       "dateLabel": "24 सितंबर",
       "title": "शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "शारदीय नवरात्र के छठे दिन माँ कात्यायनी की पूजा, ध्यान और मंत्र-जप किया जाता है।",
+      "description": "शारदीय नवरात्र के छठे दिन माँ कात्यायनी की पूजा, ध्यान और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी की पूजा पढ़ें</a>",
       "category": "नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल षष्ठी"
+      "hinduTithi": "आश्विन शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "articleLabel": "माँ कात्यायनी की पूजा पढ़ें"
     },
     {
       "date": "2028-09-24",

@@ -73,11 +73,13 @@
       "date": "2028-11-09",
       "dateLabel": "9 नवंबर",
       "title": "मासिक कालाष्टमी",
-      "description": "कृष्ण पक्ष अष्टमी की रात्रि भगवान भैरव की पूजा, मंत्र-जप और रात्रि-उपासना की जाती है।",
+      "description": "कृष्ण पक्ष अष्टमी की रात्रि भगवान भैरव की पूजा, मंत्र-जप और रात्रि-उपासना की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण सप्तमी (अष्टमी व्याप्ति)"
+      "hinduTithi": "मार्गशीर्ष कृष्ण सप्तमी (अष्टमी व्याप्ति)",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
       "date": "2028-11-12",
