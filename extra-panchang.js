@@ -449,7 +449,7 @@ function createPlanetCard(data, dailyEvents = {}) {
       return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>प्रत्यक्ष संदर्भ डेटा लोड हो रहा है…</span></div>`;
     }
     if (planet.status === "unavailable" && planet.reason === "city-not-covered") {
-      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>इस स्थान के लिए सत्यापित Drik संदर्भ उपलब्ध नहीं</span></div>`;
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>इस स्थान का डेटा उपलब्ध नहीं</span></div>`;
     }
     if (planet.status === "no-upcoming-reference") {
       return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>चयनित तिथि के बाद उपलब्ध सत्यापित संदर्भ नहीं</span></div>`;
@@ -473,26 +473,9 @@ function createPlanetCard(data, dailyEvents = {}) {
     `;
   }).join("");
 
-  const cityUnavailable = data.every(item =>
-    item.status === "unavailable" && item.reason === "city-not-covered"
-  );
-  const datasetUnavailable = data.every(item =>
-    item.status === "unavailable" && item.reason === "dataset-unavailable"
-  );
-  const sourceCity = data.find(item => item.sourceLocation)?.sourceLocation || null;
-  const sourceNote = cityUnavailable
-    ? "अभी प्रत्यक्ष Drik संदर्भ डेटा केवल दिल्ली, मुंबई, उज्जैन, वाराणसी और पिथौरागढ़ के सत्यापित नगर-पृष्ठों के लिए उपलब्ध है। दूसरे नगर का डेटा स्वतः लागू नहीं किया जाता।"
-    : datasetUnavailable
-      ? "प्रत्यक्ष Drik संदर्भ डेटा अभी लोड नहीं हो पाया। कोई वैकल्पिक या अनुमानित समय नहीं दिखाया गया है।"
-      : sourceCity
-        ? `स्रोत: Drik Panchang का ${sourceCity} नगर-पृष्ठ; समय IST में प्रकाशित मिनट-स्तर के संदर्भ हैं। स्रोत अपने आंतरिक अक्षांश/देशांतर और ऊँचाई प्रकाशित नहीं करता, इसलिए इन्हें नगर-स्तरीय संदर्भ मानें, सटीक चुने हुए निर्देशांकों का दावा नहीं।`
-        : "प्रत्यक्ष Drik संदर्भ डेटा लोड हो रहा है…";
   card.innerHTML = `
     <h3>🌌 ग्रहों का तारा अस्त एवं पुनः उदय</h3>
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${dailyRows}${rows}</div>
-    <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">
-      ${sourceNote}
-    </p>
   `;
   return card;
 }
