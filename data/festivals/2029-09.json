@@ -25,6 +25,17 @@
       "secondarySourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=01%2F09%2F2029&lang=hi"
     },
     {
+      "date": "2029-09-01",
+      "dateLabel": "1 सितंबर",
+      "title": "अगस्त्य अर्घ्य",
+      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
+      "sourceName": "Drik Panchang — 2029 Agastya Arghya",
+      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2029"
+    },
+    {
       "date": "2029-09-04",
       "dateLabel": "4 सितंबर",
       "title": "अजा एकादशी",
@@ -238,17 +249,6 @@
       "hinduTithi": "आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
-    },
-    {
-      "date": "2029-09-01",
-      "dateLabel": "1 सितंबर",
-      "title": "अगस्त्य अर्घ्य",
-      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
-      "sourceName": "Drik Panchang — 2029 Agastya Arghya",
-      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2029"
     }
   ]
 }
