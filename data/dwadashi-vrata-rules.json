@@ -1085,7 +1085,8 @@
       "referenceDate": "2026-05-13",
       "labels": [
         "कृष्ण परशुराम द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     },
     {
       "month": "ज्येष्ठ",
@@ -1095,7 +1096,8 @@
       "labels": [
         "उन्मीलिनी महाद्वादशी",
         "अधिक रामलक्ष्मण द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     },
     {
       "month": "ज्येष्ठ",
@@ -1104,7 +1106,8 @@
       "referenceDate": "2026-06-12",
       "labels": [
         "अधिक कृष्ण रामलक्ष्मण द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     },
     {
       "month": "ज्येष्ठ",
@@ -1115,7 +1118,8 @@
         "पक्षवर्द्धिनी महाद्वादशी",
         "रामलक्ष्मण द्वादशी",
         "चम्पक द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     },
     {
       "month": "आषाढ़",
@@ -1125,7 +1129,50 @@
       "labels": [
         "त्रिस्पर्शा महाद्वादशी",
         "कृष्ण रामलक्ष्मण द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2026-03-29",
+      "labels": [
+        "मदन द्वादशी",
+        "वामन द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2026-07-25",
+      "labels": [
+        "वासुदेव द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2026-08-09",
+      "labels": [
+        "कृष्ण वासुदेव द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "कार्तिक",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2026-11-05",
+      "labels": [
+        "गोवत्स द्वादशी",
+        "कृष्ण पद्मनाभ द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     }
   ],
   "drikSpecialObservances": [
