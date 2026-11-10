@@ -129,7 +129,7 @@ test("2026 Mahashivaratri, Holika Dahan and Dhulandi have separate complete card
 test("2026 festival cards expose the linked articles from the Vrat-Parv page", () => {
   const cases = [
     ["2026-03.json","श्रीरामनवमी (वैष्णव सम्प्रदाय)","About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html"],
-    ["2026-04.json","श्री हनुमान जयंती / चैत्र पूर्णिमा","About-Lord-Hanuman-Jayanti.html"],
+    ["2026-04.json","श्री हनुमान जयंती","About-Lord-Hanuman-Jayanti.html"],
     ["2026-04.json","सीता नवमी / जानकी नवमी","About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html"],
     ["2026-05.json","गंगा दशहरा","about-Godess-Ganga-on-ganga-dussehra.html"],
     ["2026-07.json","आषाढ़ गुप्त नवरात्र प्रारम्भ - शैलपुत्री पूजन","About-Gupt-Navratris.html"],
