@@ -1,0 +1,99 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { findVisibilityBoundaryNearAnchor } from "../research/planetary-visibility-selector.mjs";
+
+const DAY_MS = 86400000;
+const anchorDate = new Date("2026-01-10T06:30:00.000Z");
+
+function fakeAstronomy(sunAltitudeAt) {
+  return {
+    SearchRiseSet(_body, _observer, _direction, start) {
+      return { date: new Date(start.getTime() + 12 * 3600000) };
+    },
+    Equator(body) {
+      return { ra: body === "Sun" ? 1 : 2, dec: 0 };
+    },
+    Horizon(date, _observer, ra) {
+      const dayOffset = (date.getTime() - anchorDate.getTime()) / DAY_MS;
+      return { altitude: ra === 1 ? sunAltitudeAt(dayOffset) : 0.1 };
+    },
+    Illumination() {
+      return { mag: 1 };
+    }
+  };
+}
+
+const base = {
+  body: "Venus",
+  observer: { latitude: 28.6139, longitude: 77.209, height: 216 },
+  anchorDate,
+  direction: 1,
+  boundaryName: "astaStart",
+  model: { intercept: 0, slope: 0 },
+  searchDays: 20,
+  timeZone: "Asia/Kolkata"
+};
+
+test("selects a single Asta-start crossing at the local planetary rise event", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => dayOffset)
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.crossingCount, 1);
+  assert.equal(result.predictedBoundaryDate, "2026-01-10");
+  assert.equal(result.direction, "rise");
+  assert.equal(result.signedDateOffsetDays, 0);
+  assert.ok(Math.abs(result.planetAltitudeDegrees - 0.1) < 1e-9);
+});
+
+test("selects a single Asta-end crossing with the opposite residual direction", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    direction: -1,
+    boundaryName: "astaEnd",
+    astronomy: fakeAstronomy(dayOffset => -dayOffset)
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.crossingCount, 1);
+  assert.equal(result.predictedBoundaryDate, "2026-01-10");
+  assert.equal(result.direction, "set");
+});
+
+test("returns no-crossing instead of inventing a boundary", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(() => -1)
+  });
+
+  assert.equal(result.status, "no-crossing");
+  assert.equal(result.predictedBoundaryDate, null);
+  assert.equal(result.predictedEventUTC, null);
+});
+
+test("refuses to select when multiple crossings occur in the search window", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => Math.sin(dayOffset * Math.PI / 5))
+  });
+
+  assert.equal(result.status, "ambiguous");
+  assert.ok(result.crossingCount > 1);
+  assert.equal(result.predictedBoundaryDate, null);
+});
+
+test("rejects invalid event direction and incomplete models", () => {
+  assert.throws(() => findVisibilityBoundaryNearAnchor({
+    ...base,
+    direction: 0,
+    astronomy: fakeAstronomy(dayOffset => dayOffset)
+  }), /direction must be 1/);
+
+  assert.throws(() => findVisibilityBoundaryNearAnchor({
+    ...base,
+    model: { intercept: 0 },
+    astronomy: fakeAstronomy(dayOffset => dayOffset)
+  }), /model.intercept and model.slope/);
+});
