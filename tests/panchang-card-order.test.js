@@ -124,7 +124,7 @@ test("Extra Panchang placement helpers target the shared results grid", () => {
 test("Planetary Asta/Udaya card displays direct source labels and seven celestial bodies", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const start = source.indexOf("function createPlanetCard(");
-  const end = source.indexOf("\\nfunction createHoraCard(", start);
+  const end = source.indexOf("\nfunction createHoraCard(", start);
   assert.notEqual(start, -1);
   assert.notEqual(end, -1);
   const cardSource = source.slice(start, end);
