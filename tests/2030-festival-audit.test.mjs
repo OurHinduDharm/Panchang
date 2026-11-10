@@ -199,3 +199,49 @@ test("2030 only Pithoragarh-visible solar and partial lunar eclipses are listed"
   const lunar = has("2030-06-15", /आंशिक चंद्रग्रहण/);
   assert.match(lunar.description, /10:51 बजे.*1:15 बजे/);
 });
+
+
+test("2030 October-November-December source audit covers same-tithi and annual observances", () => {
+  const oct = months[9].events;
+  const nov = months[10].events;
+  const dec = months[11].events;
+  const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
+  assert.equal(oct.length, 26);
+  assert.equal(nov.length, 24);
+  assert.equal(dec.length, 19);
+  assert.ok(at(oct, "2030-10-01", /उपांग ललिता व्रत/));
+  assert.ok(at(oct, "2030-10-05", /दक्ष सावर्णि मन्वादि तिथि/));
+  assert.ok(at(oct, "2030-10-07", /पद्मनाभ द्वादशी.*काशी भरत मिलाप/));
+  assert.ok(at(oct, "2030-10-19", /मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी.*अहोई अष्टमी/)?.muhurtaRule === "janmashtami-nishita");
+  assert.equal(at(oct, "2030-10-19", /^अहोई अष्टमी$/), undefined);
+  assert.ok(at(oct, "2030-10-23", /^गोवत्स द्वादशी.*कृष्ण पद्मनाभ द्वादशी$/)?.hinduTithi === "कार्तिक कृष्ण द्वादशी");
+  assert.ok(at(oct, "2030-10-23", /^रमा एकादशी$/)?.hinduTithi === "कार्तिक कृष्ण एकादशी");
+  assert.ok(at(oct, "2030-10-24", /यमदीपदान/));
+  assert.ok(at(oct, "2030-10-25", /हनुमान पूजा/));
+  assert.ok(at(oct, "2030-10-27", /अन्नकूट/));
+  assert.ok(at(oct, "2030-10-28", /यम द्वितीया.*चित्रगुप्त पूजा/));
+  assert.ok(at(oct, "2030-10-31", /लाभ पंचमी/)?.hinduTithi === "कार्तिक शुक्ल पंचमी");
+
+  assert.ok(at(nov, "2030-11-02", /गोपाष्टमी.*मासिक दुर्गाष्टमी/));
+  assert.ok(at(nov, "2030-11-03", /सतयुगादि तिथि.*अक्षय नवमी/));
+  assert.ok(at(nov, "2030-11-05", /देवउठनी एकादशी \(स्मार्त\).*भीष्म पंचक प्रारम्भ/));
+  assert.ok(at(nov, "2030-11-07", /गुरु प्रदोष.*विश्वेश्वर व्रत/));
+  assert.ok(at(nov, "2030-11-08", /वैकुण्ठ चतुर्दशी.*मणिकर्णिका स्नान/));
+  assert.ok(at(nov, "2030-11-09", /देव दीपावली/)?.muhurtaRule === "dev-deepawali-pradosh");
+  assert.ok(at(nov, "2030-11-10", /कार्तिक पूर्णिमा.*गुरु नानक जयंती/));
+  assert.equal(at(nov, "2030-11-10", /देव दीपावली/), undefined);
+  assert.ok(at(nov, "2030-11-17", /भानु सप्तमी/));
+  assert.ok(at(nov, "2030-11-18", /मासिक कृष्ण जन्माष्टमी/)?.muhurtaRule === "janmashtami-nishita");
+  assert.ok(at(nov, "2030-11-22", /कृष्ण योगेश्वर द्वादशी/));
+  assert.ok(at(nov, "2030-11-24", /बाला जयंती.*दर्श अमावस्या/));
+  assert.ok(at(nov, "2030-11-25", /सोमवती अमावस्या/));
+
+  assert.ok(at(dec, "2030-12-01", /भानु सप्तमी/));
+  assert.ok(at(dec, "2030-12-06", /मत्स्य द्वादशी/)?.hinduTithi === "मार्गशीर्ष शुक्ल द्वादशी");
+  assert.ok(at(dec, "2030-12-09", /अन्नपूर्णा जयंती/));
+  assert.ok(at(dec, "2030-12-17", /मासिक कालाष्टमी.*मासिक कृष्ण जन्माष्टमी/)?.muhurtaRule === "janmashtami-nishita");
+  assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
+  assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
+  assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
+  assert.equal(events.length, 264);
+});
