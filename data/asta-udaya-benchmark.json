@@ -518,6 +518,48 @@
       },
       "eventDefinition": "Mars Tara Asta start/end timestamps. The page states modern location-based algorithms are used and Surya Siddhanta 17° limits are approximate.",
       "notes": "One long Mars Asta window spanning 1 Nov 2025 through 2 May 2026. This is a New Delhi city-label reference, not Pithoragarh data."
+    },
+    "drik-new-delhi-venus-2026": {
+      "name": "Drik Panchang 2026 Shukra Tara Asta",
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2026",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-10",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider coordinates/elevation not disclosed."
+      },
+      "eventDefinition": "Modern location-based Venus Tara Asta start/end times; source describes Surya Siddhanta 10° direct / 8° retrograde as approximate."
+    },
+    "drik-new-delhi-jupiter-2026": {
+      "name": "Drik Panchang 2026 Guru Tara Asta",
+      "url": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2026",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-10",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider coordinates/elevation not disclosed."
+      },
+      "eventDefinition": "Modern location-based Jupiter Tara Asta start/end times; source describes Surya Siddhanta 11° as approximate."
+    },
+    "drik-new-delhi-saturn-2026": {
+      "name": "Drik Panchang 2026 Shani Tara Asta",
+      "url": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2026",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-10",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider coordinates/elevation not disclosed."
+      },
+      "eventDefinition": "Modern location-based Saturn Tara Asta start/end times; source describes Surya Siddhanta 15° as approximate."
     }
   },
   "cases": [
@@ -2213,6 +2255,93 @@
       "comparisonLevel": "city-label-only",
       "sourceObserver": {
         "name": "Drik New Delhi 2026 Mangal Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
+      }
+    },
+    {
+      "id": "venus-new-delhi-2025-december-to-2026-february",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-venus-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-12-11T06:35:00+05:30",
+        "astaEnd": "2026-02-01T18:27:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik 2026 New Delhi Venus page includes a cross-year window beginning 11 Dec 2025 and ending 1 Feb 2026. Provider coordinates undisclosed.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": 1,
+        "astaEnd": -1
+      }
+    },
+    {
+      "id": "jupiter-new-delhi-2026",
+      "planet": "Jupiter",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-jupiter-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-07-15T19:59:00+05:30",
+        "astaEnd": "2026-08-12T05:03:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik 2026 New Delhi Guru Tara Asta window, 15 Jul–12 Aug 2026. Provider coordinates undisclosed.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
+      }
+    },
+    {
+      "id": "saturn-new-delhi-2026",
+      "planet": "Saturn",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-saturn-2026",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2026-03-13T19:13:00+05:30",
+        "astaEnd": "2026-04-22T04:49:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik 2026 New Delhi Shani Tara Asta window, 13 Mar–22 Apr 2026. Provider coordinates undisclosed.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2026 Asta page",
         "coordinates": null,
         "coordinateStatus": "provider coordinates not disclosed"
       },
