@@ -1135,3 +1135,16 @@ Benchmark अब **58 New Delhi windows / 116 boundaries** है: Mercury 38, V
 - Venus New Delhi→Pithoragarh cross-location test: 4 में 3 exact और सभी 4 एक दिन के भीतर। Same-apparition training sample हटाया गया।
 
 **Engineering status:** Mercury का selector सबसे मजबूत; Venus/Saturn/Jupiter promising research candidates; Mars के लिए केवल दो distinct New Delhi apparitions हैं, इसलिए अभी पर्याप्त नहीं। अभी भी किसी ग्रह का production Panchang display/code path नहीं बदला है।
+
+
+### 2023 New Delhi source verification
+
+2023 की 11 windows (Mercury 7, Venus 1, Saturn 1, Jupiter 1, Mars 1) benchmark में दर्ज हैं। Mercury की सातों date/time सीमाएँ सीधे Drik New Delhi 2023 page से पुनः जाँची गईं; page पर प्रकाशित समय को IST में ISO timestamps में रखा गया है। 24+ hour clock के उदाहरणों को अगले Gregorian दिन में normalize किया गया है, न कि date घटाकर/बढ़ाकर अनुमान लगाया गया है।
+
+Verified source pages:
+- Mercury: https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?year=2023
+- Venus: https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2023
+- Saturn: https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2023
+- Jupiter: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2023
+
+इन pages पर Drik स्वयं बताता है कि modern location-based algorithms उपयोग किए जाते हैं और Surya Siddhanta angular limits approximate हैं। स्रोत का शहर New Delhi है; provider observer coordinates/elevation प्रकाशित नहीं हैं।
