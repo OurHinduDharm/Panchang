@@ -27,3 +27,28 @@ test("2028 monthly festival files have approved records dated within their month
     }
   }
 });
+
+test("2028 has one card per same-date Hindu tithi", () => {
+  const seen = new Map();
+  for (const event of events) {
+    if (!event.hinduTithi) continue;
+    const key = String(event.date) + "|" + String(event.hinduTithi);
+    assert.ok(!seen.has(key),
+      "Duplicate same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    seen.set(key, event.title);
+  }
+});
+
+test("2028 Pithoragarh-visible lunar eclipses retain local contact times", () => {
+  const july = events.find(event => event.date === "2028-07-06" && /आंशिक चंद्रग्रहण/.test(event.title || ""));
+  assert.ok(july);
+  assert.equal(july.hinduTithi, "आषाढ़ शुक्ल पूर्णिमा");
+  assert.match(july.description, /10:39 बजे से 7 जुलाई रात 1:00 बजे तक/);
+  assert.match(july.sourceUrl, /timeanddate\\.com\\/eclipse\\/in\\/india\\/pithoragarh/);
+
+  const december = events.find(event => event.date === "2028-12-31" && /पूर्ण चंद्रग्रहण/.test(event.title || ""));
+  assert.ok(december);
+  assert.equal(december.hinduTithi, "पौष शुक्ल पूर्णिमा");
+  assert.match(december.description, /9:46 से 10:57 बजे तक/);
+  assert.match(december.description, /1:10 बजे समाप्त/);
+});
