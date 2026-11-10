@@ -582,3 +582,9 @@ Magnitude-only की तुलना में event-direction feature ने �
 Lookup helper: `research/drik-planetary-reference.mjs`. Regression: `tests/drik-planetary-reference.test.mjs` और browser test `tests/asta-udaya-phase-diagnostics.spec.mjs`.
 
 यह production-facing display अब अनुमानित fixed-angle output नहीं है। लेकिन इसे **source-backed city reference display** कहा जाएगा, पूर्णतः स्वतंत्र universal ephemeris calculation engine नहीं। अगला शेष काम exact-date model validation, अधिक वर्षों के direct references, और अलग वार्षिक पृष्ठ है।
+
+
+### Main-card data coverage correction — पाँच सत्यापित नगर
+अलग clean PR #299 में main Panchang card अब केवल पिथौरागढ़ तक सीमित नहीं है। यह `data/drik-planetary-reference-2024-2027.json` से 5 verified city references (New Delhi, Mumbai, Ujjain, Varanasi, Pithoragarh) और 200 unique windows पढ़ता है। हर city के 40 windows हैं। 2028-render mismatch pages dataset से बाहर हैं। Exact city match के बिना दूसरे शहर का fallback नहीं। Provider coordinates/elevation unavailable होने के कारण display city-level published reference है, exact observer-coordinate prediction नहीं।
+
+Sun/Moon daily local rise/set अभी भी existing `getPanchangam` events से आते हैं। Mercury/Venus/Mars/Jupiter/Saturn Tara Asta/Udaya rows source-page link सहित आते हैं। Fixed-angle production scanner हट चुका है। पाँच नगरों के बाहर कोई approximate Drik time नहीं दिखाया जाता।
