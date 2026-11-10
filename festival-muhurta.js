@@ -323,6 +323,23 @@ const rules = {
     return { label: "श्रीकृष्ण जन्माष्टमी — निशीथ पूजा मुहूर्त", status: "calculated", windows: [window] };
   },
 
+  "kalashtami-nishita"(context) {
+    const sunset = validDate(context.sunset), nextSunrise = validDate(context.nextSunrise);
+    const ashtami = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 22 || /krishna.*ashtami|कृष्ण.*अष्टमी/.test(normalizedName(item));
+    });
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !ashtami.length) {
+      return { label: "मासिक कालाष्टमी — निशीथ पूजा मुहूर्त", status: "unavailable", message: "स्थानीय रात्रिमान और कृष्ण अष्टमी की वास्तविक अवधि उपलब्ध नहीं है।" };
+    }
+    const nishita = fractionInterval(sunset, nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
+    const window = nishita && windowWithin(nishita.start, nishita.end, ashtami, "मासिक कालाष्टमी — निशीथ पूजा मुहूर्त", "स्थानीय निशीथ काल और कृष्ण अष्टमी की संयुक्त व्याप्ति।");
+    if (!window) {
+      return { label: "मासिक कालाष्टमी — निशीथ पूजा मुहूर्त", status: "unavailable", message: "निशीथ काल में कृष्ण अष्टमी की व्याप्ति नहीं मिली; अनुमानित पूजा-समय नहीं दिखाया गया।" };
+    }
+    return { label: "मासिक कालाष्टमी — निशीथ पूजा मुहूर्त", status: "calculated", windows: [window] };
+  },
+
   "raksha-bandhan-thread"(context) {
     const sunrise = validDate(context.sunrise), sunset = validDate(context.sunset), nextSunrise = validDate(context.nextSunrise);
     const uniqueIntervals = items => items.filter((item, index) =>
