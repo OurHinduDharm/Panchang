@@ -42,11 +42,18 @@ test("Distinct observances on Diwali cluster dates have individual cards and the
     assert.ok(diwali,"Diwali card missing in "+c.month);
     assert.doesNotMatch(diwali.title,/कमला महाविद्या जयंती|काली पूजा|केदार गौरी व्रत/);
     assert.match(diwali.description,/Kakaradi-Kali-sahasranam-stotra/);
-    if(c.kamla) assert.ok(d.events.some(e=>e.date===c.date && /कमला महाविद्या जयंती/.test(e.title||"")));
+    if(c.kamla) {
+      const kamla=d.events.find(e=>e.date===c.date && /कमला महाविद्या जयंती/.test(e.title||""));
+      assert.ok(kamla);
+      assert.equal(kamla.muhurtaRule,undefined);
+      assert.equal(kamla.muhurtaRules,undefined);
+    }
     if(c.kaliPujaDate) {
       const kp=d.events.find(e=>e.date===c.kaliPujaDate && /काली पूजा/.test(e.title||""));
       assert.ok(kp,"Kali Puja card missing in "+c.month);
       assert.equal(kp.articleUrl,KALI_URL);
+      assert.equal(kp.muhurtaRule,undefined);
+      assert.equal(kp.muhurtaRules,undefined);
     }
   }
 });
