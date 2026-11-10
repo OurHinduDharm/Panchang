@@ -477,3 +477,18 @@ Independent New Delhi Drik samples से fit magnitude-only model को 40 uni
 
 ### अगला model experiment
 Mercury/Venus के लिए geocentric apparent ecliptic longitude rate और retrograde/direct state को optional model features बनाया गया है। Motion feature के बिना model baseline behavior unchanged रहेगा। नया LOYO report magnitude-only, magnitude+retrograde, magnitude+longitude-rate और combined model variants की तुलना करेगा। किसी एक अच्छे fold से model lock नहीं होगा।
+
+
+### 10 नवम्बर 2026 — Mercury/Venus feature-model comparison
+
+Direct Pithoragarh data पर 2024–2027 leave-one-year-out folds में 25 Mercury windows के लिए:
+- Magnitude-only: Asta MAE 0.680 d / max 2 d; Udaya 0.680 d / max 3 d.
+- Magnitude + retrograde flag: 0.720 / 2 d; Udaya 0.640 / 3 d — consistent improvement नहीं।
+- Magnitude + geocentric longitude rate: Asta 0.520 / max 2 d; Udaya 0.680 / max 3 d — Asta में modest gain, Udaya में नहीं।
+- Magnitude + illuminated fraction: Asta 0.560 / max 2 d; Udaya 0.320 / max 1 d.
+- Magnitude + elongation + local azimuth separation + illuminated fraction: **Asta 0.480 / max 2 d; Udaya 0.240 / max 1 d**.
+- Geometry + motion combined model: Asta 0.720 / max 3 d; Udaya 0.320 / max 1 d — overfit/unstable, reject.
+
+Venus के केवल पाँच unique windows हैं; अतिरिक्त feature models के कई folds में training sample पर्याप्त नहीं या feature matrix singular है। Venus model अभी lock नहीं।
+
+**अगला experiment:** actual local event direction (rise vs set) को model feature के रूप में जोड़कर Mercury LOYO में जाँचना। यह feature selector और tests में जोड़ा गया है; latest CI report अभी चल रहा है। किसी भी candidate का maximum 2-day Asta residual होने पर वह exact-date production gate पास नहीं करता।
