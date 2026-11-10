@@ -269,7 +269,7 @@ test("uses set-to-rise boundaries around an outer-planet solar conjunction", () 
   let activeDirection = 0;
   const astronomy = {
     SearchRelativeLongitude(_body, target, start) {
-      if (target !== 180 || start.getTime() >= conjunctionDate.getTime()) return null;
+      if (target !== 0 || start.getTime() >= conjunctionDate.getTime()) return null;
       return { date: conjunctionDate };
     },
     SearchRiseSet(_body, _observer, direction, start) {
