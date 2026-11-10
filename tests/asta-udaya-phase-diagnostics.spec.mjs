@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { readFileSync } from "node:fs";
 
 test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", async () => {
   const browser = await chromium.launch({ headless: true });
