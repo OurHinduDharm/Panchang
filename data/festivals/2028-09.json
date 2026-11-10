@@ -118,14 +118,12 @@
     {
       "date": "2028-09-16",
       "dateLabel": "16 सितंबर",
-      "title": "शनि प्रदोष व्रत / कलियुगादि",
-      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है। इसी दिन कलियुगादि का स्मरण भी किया जाता है।",
+      "title": "शनि प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन कृष्ण पक्ष त्रयोदशी",
-      "sourceName": "Drik Panchang — September 2028 Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2028"
+      "hinduTithi": "आश्विन कृष्ण पक्ष त्रयोदशी"
     },
     {
       "date": "2028-09-16",
@@ -157,6 +155,18 @@
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+    },
+    {
+      "date": "2028-09-17",
+      "dateLabel": "17 सितंबर",
+      "title": "कलियुगादि (कलियुग का आरंभ)",
+      "description": "आश्विन कृष्ण त्रयोदशी को कलियुगादि माना जाता है। इस युगादि तिथि पर पितरों का स्मरण, तर्पण और धर्म-कर्म करने की परंपरा बताई गई है।",
+      "category": "युगादि तिथि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण त्रयोदशी",
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=17/09/2028"
     },
     {
       "date": "2028-09-18",
