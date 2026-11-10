@@ -192,7 +192,8 @@ test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing an
 test("Festival card renderers add the requested article links and muhurta rules", async () => {
   const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
   const annualPage = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
-  for (const source of [widget, annualPage]) {
+  const compactWidget = await readFile(new URL("../festival-widget.js", import.meta.url), "utf8");
+  for (const source of [widget, annualPage, compactWidget]) {
     assert.match(source, /pitri-tarpan-vidhi/);
     assert.match(source, /shivratri-prahar-pooja-vidhi/);
     assert.match(source, /masik-shivaratri-four-prahar/);
