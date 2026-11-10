@@ -29,6 +29,17 @@
       "secondarySourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2026"
     },
     {
+      "date": "2026-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "अगस्त्य अर्घ्य",
+      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
+      "sourceName": "Drik Panchang — 2026 Agastya Arghya",
+      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2026"
+    },
+    {
       "date": "2026-09-05",
       "dateLabel": "5 सितंबर",
       "title": "दही हांडी",
@@ -351,17 +362,6 @@
       "hinduTithi": "आश्विन कृष्ण चतुर्थी",
       "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
       "reviewStatus": "approved"
-    },
-    {
-      "date": "2026-09-04",
-      "dateLabel": "4 सितंबर",
-      "title": "अगस्त्य अर्घ्य",
-      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
-      "sourceName": "Drik Panchang — 2026 Agastya Arghya",
-      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2026"
     }
   ]
 }
