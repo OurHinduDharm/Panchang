@@ -17,6 +17,30 @@
       "hinduTithi": "माघ शुक्ल षष्ठी"
     },
     {
+      "date": "2028-02-01",
+      "dateLabel": "1 फ़रवरी",
+      "title": "माघ गुप्त नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "articleLabel": "माँ कात्यायनी"
+    },
+    {
+      "date": "2028-02-02",
+      "dateLabel": "2 फ़रवरी",
+      "title": "माघ गुप्त नवरात्र सप्तमी — माँ कालरात्रि",
+      "description": "सातवें दिन माँ कालरात्रि की आराधना की जाती है। भय और संकटों से रक्षा की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कालरात्रि</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल सप्तमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "articleLabel": "माँ कालरात्रि"
+    },
+    {
       "date": "2028-02-03",
       "dateLabel": "3 फ़रवरी",
       "title": "रथ सप्तमी",
@@ -39,6 +63,18 @@
       "articleLabel": "भीष्माष्टमी, भीष्म तर्पण।"
     },
     {
+      "date": "2028-02-03",
+      "dateLabel": "3 फ़रवरी",
+      "title": "माघ गुप्त नवरात्र अष्टमी — माँ महागौरी",
+      "description": "अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "articleLabel": "माँ महागौरी"
+    },
+    {
       "date": "2028-02-04",
       "dateLabel": "4 फरवरी",
       "title": "मासिक दुर्गाष्टमी",
@@ -47,6 +83,30 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल अष्टमी"
+    },
+    {
+      "date": "2028-02-04",
+      "dateLabel": "4 फ़रवरी",
+      "title": "माघ गुप्त नवरात्र नवमी — माँ सिद्धिदात्री",
+      "description": "नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल नवमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
+      "articleLabel": "माँ सिद्धिदात्री"
+    },
+    {
+      "date": "2028-02-05",
+      "dateLabel": "5 फ़रवरी",
+      "title": "माघ गुप्त नवरात्र पारण",
+      "description": "नवमी के उपरांत माघ गुप्त नवरात्रि-व्रत का पारण और घटस्थापित कलश का विधिपूर्वक विसर्जन करें। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल दशमी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "articleLabel": "कलश-विसर्जन विधि"
     },
     {
       "date": "2028-02-06",
