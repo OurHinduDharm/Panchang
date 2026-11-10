@@ -702,6 +702,34 @@ test("Holika Dahan uses local Pradosh when Purnima prevails at sunrise and Bhadr
   assert.equal(result.windows[0].end.toISOString(), date("2026-03-03T20:24:00+05:30").toISOString());
 });
 
+test("Holika Dahan reports the Panchang Bhadra interval when present", () => {
+  const sunset = date("2026-03-03T18:00:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "holika-dahan-pradosh" }, {
+    sunrise: date("2026-03-03T06:30:00+05:30"), sunset,
+    nextSunrise: date("2026-03-04T06:00:00+05:30"),
+    tithis: [{ index: 14, name: "Purnima", startTime: date("2026-03-02T17:55:00+05:30"), endTime: date("2026-03-04T01:00:00+05:30") }],
+    karanas: [{ name: "Vishti", startTime: date("2026-03-03T18:30:00+05:30"), endTime: date("2026-03-03T19:30:00+05:30") }]
+  });
+  assert.equal(result.status, "calculated");
+  assert.match(result.note || "", /भद्रा/);
+  assert.match(result.note || "", /06:30|6:30/);
+  assert.match(result.note || "", /07:30|7:30/);
+});
+
+test("Kali Chaudas calculates the local Nishita overlap with Krishna Chaturdashi", () => {
+  const sunset = date("2026-11-07T17:20:00+05:30");
+  const result = getFestivalMuhurta({ muhurtaRule: "kali-chaudas-nishita" }, {
+    sunset,
+    nextSunrise: date("2026-11-08T06:20:00+05:30"),
+    tithis: [{ index: 28, name: "Krishna Chaturdashi", startTime: date("2026-11-07T22:30:00+05:30"), endTime: date("2026-11-08T01:30:00+05:30") }]
+  });
+  assert.equal(result.status, "calculated");
+  assert.match(result.label, /काली चौदस/);
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.toISOString(), date("2026-11-07T23:26:00+05:30").toISOString());
+  assert.equal(result.windows[0].end.toISOString(), date("2026-11-08T00:14:00+05:30").toISOString());
+});
+
 test("Sankranti Punya Kala follows sign-specific ghatis measured from local day length", () => {
   const sunrise = date("2026-04-14T06:00:00+05:30");
   const sunset = date("2026-04-14T18:00:00+05:30");
