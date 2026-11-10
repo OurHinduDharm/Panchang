@@ -3,7 +3,7 @@ import * as Astronomy from "astronomy-engine";
 import { generateVisibilityWindows } from "../research/planetary-visibility-selector.mjs";
 
 const direct = JSON.parse(await readFile(
-  new URL("../data/drik-pithoragarh-asta-udaya-2024-2027.json", import.meta.url), "utf8"
+  new URL("../data/drik-pithoragarh-asta-udaya-2021-2027.json", import.meta.url), "utf8"
 ));
 const TIME_ZONE = "Asia/Kolkata";
 const observer = new Astronomy.Observer(29.5828, 80.2182, 1650);
