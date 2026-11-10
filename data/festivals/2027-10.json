@@ -683,8 +683,8 @@
     {
       "date": "2027-10-29",
       "dateLabel": "29 अक्टूबर",
-      "title": "दीपावली / लक्ष्मी-गणेश पूजन",
-      "description": "दीपावली की अमावस्या पर माँ लक्ष्मी और भगवान गणेश का पूजन तथा दीपदान किया जाता है। गृहस्थों के लिए प्रदोषकाल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी पूजन विधि पढ़ें</a>",
+      "title": "दीपावली / लक्ष्मी-गणेश पूजन / केदार गौरी व्रत",
+      "description": "दीपावली की अमावस्या पर माँ लक्ष्मी और भगवान गणेश का पूजन तथा दीपदान किया जाता है। गृहस्थों के लिए प्रदोषकाल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-MahalakshmiPooja.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी पूजन विधि पढ़ें</a> तमिलनाडु सहित दक्षिण भारत में इसी अमावस्या पर केदार गौरी व्रत भी किया जाता है। इसमें भगवान शिव के केदारेश्वर स्वरूप और भगवती गौरी की संयुक्त उपासना होती है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -695,7 +695,9 @@
       "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना",
       "hinduTithi": "कार्तिक कृष्ण अमावस्या",
       "sourceName": "Drik Panchang — 2027 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027"
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027",
+      "secondarySourceName": "Drik Panchang — Kedar Gauri Vrat 2027",
+      "secondarySourceUrl": "https://www.drikpanchang.com/vrats/kedar-gauri/kedar-gauri-vrat-date-time.html?year=2027"
     },
     {
       "date": "2027-10-29",
@@ -707,18 +709,6 @@
       "showReviewStatus": false,
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html",
       "articleLabel": "श्री कमला महाविद्या जयंती एवं स्वरूप",
-      "hinduTithi": "कार्तिक कृष्ण अमावस्या",
-      "sourceName": "Drik Panchang — 2027 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027"
-    },
-    {
-      "date": "2027-10-29",
-      "dateLabel": "29 अक्टूबर",
-      "title": "केदार गौरी व्रत",
-      "description": "केदार गौरी व्रत में भगवान शिव के केदारेश्वर स्वरूप और भगवती गौरी की उपासना की जाती है। व्रत-कथा, पूजन और दीपदान की परंपरा है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण अमावस्या",
       "sourceName": "Drik Panchang — 2027 Dasha Mahavidya Jayanti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027"
