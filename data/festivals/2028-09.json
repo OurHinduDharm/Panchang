@@ -32,7 +32,8 @@
       "description": "अनंत चतुर्दशी पर भगवान विष्णु के अनंत स्वरूप की पूजा और अनंत-सूत्र धारण करने की परंपरा है। कई स्थानों पर इसी दिन गणेश-विसर्जन भी होता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल चतुर्दशी"
     },
     {
       "date": "2028-09-03",
