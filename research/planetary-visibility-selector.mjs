@@ -42,8 +42,8 @@ function validateInput({ astronomy, body, observer, anchorDate, direction, bound
   if (!Number.isFinite(model?.intercept) || !Number.isFinite(model?.slope)) {
     throw new TypeError("model.intercept and model.slope must be finite numbers");
   }
-  if (!Number.isInteger(searchDays) || searchDays < 2 || searchDays > 90) {
-    throw new RangeError("searchDays must be an integer from 2 to 90");
+  if (!Number.isInteger(searchDays) || searchDays < 2 || searchDays > 200) {
+    throw new RangeError("searchDays must be an integer from 2 to 200");
   }
   if (!Number.isFinite(new Date(anchorDate).getTime())) throw new TypeError("anchorDate must be a valid date");
   if (typeof timeZone !== "string" || !timeZone) throw new TypeError("timeZone is required");
