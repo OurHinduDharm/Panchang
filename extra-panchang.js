@@ -4,9 +4,9 @@ import "./ads-layout-print-safety.js";
 import "./classical-yogas.js";
 import "./festivals.js";
 import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
+import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
 
 import {
-  Elongation,
   Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
@@ -293,7 +293,10 @@ function getLocation() {
     return {
       latitude: lat,
       longitude: lon,
-      elevation
+      elevation,
+      name: location.name || "",
+      city: location.city || "",
+      state: location.state || ""
     };
 
   } catch (error) {
@@ -418,255 +421,156 @@ function addDays(
 
 
 /* =========================================
-   Planetary elongation — preliminary display only
-   आधुनिक apparent angular-separation threshold से
-   दिन-स्तर का अनुमान। यह शास्त्रीय Chapter IX के
-   lagnāntara K/C परिणाम या स्थानीय दृश्यता नहीं है।
-   Thresholds are provisional; do not label as classical.
+   Direct Drik Asta/Udaya reference data
+   Only browser-verified Pithoragarh records are
+   displayed. No angular-threshold fallback.
    ========================================= */
 
-const PLANET_ASTA_THRESHOLDS = {
-  Mercury: 14,
-  Venus: 10,
-  Mars: 17,
-  Jupiter: 11,
-  Saturn: 15
-};
+let drikPlanetaryReferenceDataPromise = null;
+let planetReferenceRenderVersion = 0;
 
-// Opt-in diagnostics only; counters never participate in astronomy decisions.
-const planetDailyCache = new Map();
-let planetPerfStats = null;
-
-function getPlanetDailyData(body, dateString) {
-  if (planetPerfStats) planetPerfStats.dailyRequests++;
-  const cacheKey = body + "|" + dateString;
-  if (planetDailyCache.has(cacheKey)) {
-    if (planetPerfStats) planetPerfStats.dailyCacheHits++;
-    return planetDailyCache.get(cacheKey);
-  }
-
-  if (planetPerfStats) planetPerfStats.dailyCacheMisses++;
-  const ephemerisStart = planetPerfStats ? performance.now() : 0;
-  const result = Elongation(body, getLocalNoon(dateString));
-  if (planetPerfStats) {
-    planetPerfStats.dailyEphemerisCalls++;
-    planetPerfStats.dailyEphemerisMilliseconds += performance.now() - ephemerisStart;
-  }
-  const data = {
-    date: dateString,
-    eclipticSeparation: Number(result.ecliptic_separation)
-  };
-
-  planetDailyCache.set(cacheKey, data);
-  return data;
-}
-
-function findThresholdCrossingInstant(body, startDateString, endDateString, threshold, eventType) {
-  let low = new Date(`${startDateString}T12:00:00+05:30`).getTime();
-  let high = new Date(`${endDateString}T12:00:00+05:30`).getTime();
-  if (!Number.isFinite(low) || !Number.isFinite(high) || high <= low) return null;
-
-  const isPastThreshold = value =>
-    eventType === "asta" ? value <= threshold : value > threshold;
-
-  // Daily scan locates the crossing; bisection refines it to about one minute.
-  for (let i = 0; i < 18 && high - low > 60_000; i++) {
-    const middle = (low + high) / 2;
-    const ephemerisStart = planetPerfStats ? performance.now() : 0;
-    const result = Elongation(body, new Date(middle));
-    if (planetPerfStats) {
-      planetPerfStats.bisectionEvaluations++;
-      planetPerfStats.bisectionMilliseconds += performance.now() - ephemerisStart;
-    }
-    const separation = Number(result.ecliptic_separation);
-    if (!Number.isFinite(separation)) return null;
-
-    if (isPastThreshold(separation)) high = middle;
-    else low = middle;
-  }
-
-  return new Date((low + high) / 2);
-}
-
-function findNearestAngularBoundary(body, selectedDate, threshold, eventType) {
-  const selected = getPlanetDailyData(body, selectedDate);
-  if (!Number.isFinite(selected.eclipticSeparation)) return null;
-
-  // चयनित समय सीमा के किस ओर है, उसी के अनुसार केवल सम्भव निकटतम दिशा खोजें।
-  // सीमा से ऊपर: अस्त भविष्य में, उदय अतीत में।
-  // सीमा पर/नीचे: अस्त अतीत में, उदय भविष्य में।
-  const selectedAboveThreshold = selected.eclipticSeparation > threshold;
-  const expectedDirection = eventType === "asta"
-    ? (selectedAboveThreshold ? "future" : "past")
-    : (selectedAboveThreshold ? "past" : "future");
-
-  // मौजूदा 400-दिन की सुरक्षा-सीमा और दैनिक bracket को यथावत रखें।
-  for (let offset = 1; offset <= 400; offset++) {
-    if (planetPerfStats) planetPerfStats.boundaryScanDays++;
-    const dateA = addDays(
-      selectedDate,
-      expectedDirection === "past" ? -offset : offset - 1
-    );
-    const dateB = addDays(
-      selectedDate,
-      expectedDirection === "past" ? -offset + 1 : offset
-    );
-    const a = getPlanetDailyData(body, dateA);
-    const b = getPlanetDailyData(body, dateB);
-
-    const crossed = eventType === "asta"
-      ? a.eclipticSeparation > threshold && b.eclipticSeparation <= threshold
-      : a.eclipticSeparation <= threshold && b.eclipticSeparation > threshold;
-
-    if (!crossed) continue;
-
-    const instant = findThresholdCrossingInstant(
-      body, a.date, b.date, threshold, eventType
-    );
-    return {
-      date: b.date,
-      instant,
-      degree: b.eclipticSeparation,
-      threshold,
-      direction: expectedDirection
-    };
-  }
-
-  return null;
-}
-
-// A previously calculated pair of nearest boundaries remains valid while
-// the selected local-noon instant stays strictly between those boundaries.
-// This avoids repeating hundreds of ephemeris evaluations when readers move
-// between nearby dates that are still inside the same angular-threshold interval.
-const planetEventBracketCache = new Map();
-
-function getPlanetEvent(planet, selectedDate) {
-  const threshold = PLANET_ASTA_THRESHOLDS[planet.body];
-
-  if (!Number.isFinite(threshold)) {
-    return {
-      name: planet.name,
-      asta: null,
-      astaDegree: null,
-      udaya: null,
-      udayaDegree: null,
-      verificationPending: true,
-      calculationScope: "geocentric-angular-threshold",
-      locationSpecific: false
-    };
-  }
-
-  const selectedNoon = new Date(
-    `${selectedDate}T12:00:00+05:30`
-  ).getTime();
-
-  const cachedBrackets = planetEventBracketCache.get(planet.body) || [];
-  const cached = cachedBrackets.find(entry =>
-    Number.isFinite(selectedNoon) &&
-    entry.startMs < selectedNoon &&
-    selectedNoon < entry.endMs
-  );
-
-  if (cached) {
-    if (planetPerfStats) planetPerfStats.pairedBoundaryCacheHits++;
-    return { ...cached.result, name: planet.name };
-  }
-
-  try {
-    const asta = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "asta"
-    );
-    const udaya = findNearestAngularBoundary(
-      planet.body, selectedDate, threshold, "udaya"
-    );
-
-    const result = {
-      name: planet.name,
-      asta: asta ? formatEventDateTime(asta.instant) : null,
-      astaDegree: asta ? `${asta.threshold}° कोणीय सीमा` : null,
-      udaya: udaya ? formatEventDateTime(udaya.instant) : null,
-      udayaDegree: udaya ? `${udaya.threshold}° कोणीय सीमा` : null,
-      verificationPending: true,
-      calculationScope: "geocentric-angular-threshold",
-      locationSpecific: false
-    };
-
-    const astaMs = asta?.instant instanceof Date ? asta.instant.getTime() : NaN;
-    const udayaMs = udaya?.instant instanceof Date ? udaya.instant.getTime() : NaN;
-
-    // Cache only when both independently found boundaries enclose the selected
-    // noon. If either boundary is missing or the pair does not enclose noon,
-    // recompute on the next date rather than risk reusing a stale estimate.
-    if (
-      Number.isFinite(selectedNoon) &&
-      Number.isFinite(astaMs) &&
-      Number.isFinite(udayaMs) &&
-      Math.min(astaMs, udayaMs) < selectedNoon &&
-      selectedNoon < Math.max(astaMs, udayaMs)
-    ) {
-      const entries = planetEventBracketCache.get(planet.body) || [];
-      entries.unshift({
-        startMs: Math.min(astaMs, udayaMs),
-        endMs: Math.max(astaMs, udayaMs),
-        result
+function loadDrikPlanetaryReferenceData() {
+  if (!drikPlanetaryReferenceDataPromise) {
+    const url = new URL("./data/drik-planetary-reference-2024-2027.json", import.meta.url);
+    drikPlanetaryReferenceDataPromise = fetch(url, { cache: "force-cache" })
+      .then(response => {
+        if (!response.ok) throw new Error("Drik reference data HTTP " + response.status);
+        return response.json();
+      })
+      .catch(error => {
+        console.warn("Direct Drik Asta/Udaya reference data unavailable:", error);
+        return null;
       });
-      // Bound memory use; recent date intervals are most likely to be reused.
-      planetEventBracketCache.set(planet.body, entries.slice(0, 12));
-    }
+  }
+  return drikPlanetaryReferenceDataPromise;
+}
 
-    return result;
-  } catch (error) {
-    console.warn("Planetary angular-boundary estimate failed:", planet.body, error);
+function buildDrikPlanetReferenceRows(dataset, location, selectedDate) {
+  return PLANETS.map(planet => {
+    const reference = getDrikPlanetaryReference({
+      dataset,
+      location,
+      selectedDate,
+      planet: planet.body
+    });
+    const window = reference.window;
     return {
       name: planet.name,
-      asta: null,
-      astaDegree: null,
-      udaya: null,
-      udayaDegree: null,
-      verificationPending: true,
-      calculationScope: "geocentric-angular-threshold",
-      locationSpecific: false
+      status: reference.status,
+      reason: reference.reason,
+      asta: window ? formatDrikBoundary(window.boundaries.astaStart) : null,
+      udaya: window ? formatDrikBoundary(window.boundaries.astaEnd) : null,
+      sourceUrl: window?.sourcePageUrl || null,
+      sourcePageYear: window?.sourcePageYear ?? null,
+      sourceLocation: reference.city || null
     };
-  }
+  });
+}
+
+function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
+  const renderVersion = ++planetReferenceRenderVersion;
+  const loadingCard = createPlanetCard(PLANETS.map(planet => ({
+    name: planet.name,
+    status: "loading",
+    asta: null,
+    udaya: null,
+    sourceUrl: null
+  })), dailyEvents);
+  replaceOrPlacePanchangCard("planetRiseSetCard", loadingCard);
+
+  loadDrikPlanetaryReferenceData().then(dataset => {
+    if (renderVersion !== planetReferenceRenderVersion) return;
+    if (getSelectedDate() !== selectedDate) return;
+    const latestLocation = getLocation();
+    if (
+      !latestLocation ||
+      latestLocation.latitude !== location.latitude ||
+      latestLocation.longitude !== location.longitude ||
+      latestLocation.city !== location.city ||
+      latestLocation.name !== location.name
+    ) return;
+
+    const rows = dataset
+      ? buildDrikPlanetReferenceRows(dataset, latestLocation, selectedDate)
+      : PLANETS.map(planet => ({
+          name: planet.name, status: "unavailable",
+          reason: "dataset-unavailable", asta: null, udaya: null, sourceUrl: null
+        }));
+    replaceOrPlacePanchangCard("planetRiseSetCard", createPlanetCard(rows, dailyEvents));
+    normalizePanchangCardOrder();
+  });
 }
 
 /* =========================================
    Card creation
    ========================================= */
 
-function createPlanetCard(
-  data
-) {
+function createPlanetCard(data, dailyEvents = {}) {
   const card = document.createElement("div");
   card.className = "card full";
   card.id = "planetRiseSetCard";
 
-  card.innerHTML = `
-    <h3>🌌 ग्रह उदय-अस्त</h3>
-
-    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
-      ${data.map(planet => `
-        <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
-          <strong style="font-size:1.02em">${planet.name}</strong>
-
-          ${planet.asta
-            ? `<span style="display:block">कोणीय अनुमानित अस्त — ${planet.asta}${planet.astaDegree ? ` (${planet.astaDegree})` : ""}</span>`
-            : `<span style="display:block">कोणीय अस्त-अनुमान उपलब्ध नहीं</span>`
-          }
-
-          ${planet.udaya
-            ? `<span style="display:block">कोणीय अनुमानित उदय — ${planet.udaya}${planet.udayaDegree ? ` (${planet.udayaDegree})` : ""}</span>`
-            : `<span style="display:block">कोणीय उदय-अनुमान उपलब्ध नहीं</span>`
-          }
-
-        </div>
-      `).join("")}
+  const dailyRows = [
+    { name: "सूर्य", udaya: dailyEvents.sunrise || null, asta: dailyEvents.sunset || null },
+    { name: "चंद्रमा", udaya: dailyEvents.moonrise || null, asta: dailyEvents.moonset || null }
+  ].map(body => `
+    <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
+      <strong style="font-size:1.02em">${body.name}</strong>
+      <span>उदय — <b>${body.udaya || "गणना उपलब्ध नहीं"}</b></span>
+      <span>अस्त — <b>${body.asta || "गणना उपलब्ध नहीं"}</b></span>
     </div>
+  `).join("");
 
-    <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">ये समय भू-केंद्रीय सूर्य–ग्रह कोणीय दूरी पर आधारित गणितीय अनुमान हैं; स्थानीय दृश्यता एवं शास्त्रीय K/C सत्यापन जारी है।</p>
+  const rows = data.map(planet => {
+    if (planet.status === "loading") {
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>प्रत्यक्ष संदर्भ डेटा लोड हो रहा है…</span></div>`;
+    }
+    if (planet.status === "unavailable" && planet.reason === "city-not-covered") {
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>इस स्थान के लिए सत्यापित Drik संदर्भ उपलब्ध नहीं</span></div>`;
+    }
+    if (planet.status === "no-upcoming-reference") {
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>चयनित तिथि के बाद उपलब्ध सत्यापित संदर्भ नहीं</span></div>`;
+    }
+    if (planet.status === "unavailable") {
+      return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>प्रत्यक्ष संदर्भ डेटा उपलब्ध नहीं हो पाया</span></div>`;
+    }
+
+    const label = planet.status === "active" ? "वर्तमान अस्त-अवधि" : "आगामी अस्त-अवधि";
+    const source = planet.sourceUrl
+      ? `<a href="${planet.sourceUrl}" target="_blank" rel="noopener noreferrer">Drik मूल स्रोत</a>`
+      : "";
+    return `
+      <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
+        <strong style="font-size:1.02em">${planet.name}</strong>
+        <span style="font-size:.82em;color:var(--muted-color,#777)">${label}</span>
+        <span>अस्त प्रारम्भ — <b>${planet.asta ? `${planet.asta.date}, ${planet.asta.time}` : "—"}</b></span>
+        <span>पुनः उदय — <b>${planet.udaya ? `${planet.udaya.date}, ${planet.udaya.time}` : "—"}</b></span>
+        <span style="font-size:.8em">${source}</span>
+      </div>
+    `;
+  }).join("");
+
+  const cityUnavailable = data.every(item =>
+    item.status === "unavailable" && item.reason === "city-not-covered"
+  );
+  const datasetUnavailable = data.every(item =>
+    item.status === "unavailable" && item.reason === "dataset-unavailable"
+  );
+  const sourceCity = data.find(item => item.sourceLocation)?.sourceLocation || null;
+  const sourceNote = cityUnavailable
+    ? "अभी प्रत्यक्ष Drik संदर्भ डेटा केवल दिल्ली, मुंबई, उज्जैन, वाराणसी और पिथौरागढ़ के सत्यापित नगर-पृष्ठों के लिए उपलब्ध है। दूसरे नगर का डेटा स्वतः लागू नहीं किया जाता।"
+    : datasetUnavailable
+      ? "प्रत्यक्ष Drik संदर्भ डेटा अभी लोड नहीं हो पाया। कोई वैकल्पिक या अनुमानित समय नहीं दिखाया गया है।"
+      : sourceCity
+        ? `स्रोत: Drik Panchang का ${sourceCity} नगर-पृष्ठ; समय IST में प्रकाशित मिनट-स्तर के संदर्भ हैं। स्रोत अपने आंतरिक अक्षांश/देशांतर और ऊँचाई प्रकाशित नहीं करता, इसलिए इन्हें नगर-स्तरीय संदर्भ मानें, सटीक चुने हुए निर्देशांकों का दावा नहीं।`
+        : "प्रत्यक्ष Drik संदर्भ डेटा लोड हो रहा है…";
+  card.innerHTML = `
+    <h3>🌌 ग्रहों का तारा अस्त एवं पुनः उदय</h3>
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${dailyRows}${rows}</div>
+    <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">
+      ${sourceNote}
+    </p>
   `;
-
   return card;
 }
 
@@ -1211,17 +1115,6 @@ function restorePanchangDisclosureState(state) {
 function updatePlanetRiseSet() {
   const __ohdPerfEnabled = new URLSearchParams(window.location.search).get("perf") === "1";
   const __ohdPerfStart = performance.now();
-  planetPerfStats = __ohdPerfEnabled ? {
-    dailyRequests: 0,
-    dailyCacheHits: 0,
-    dailyCacheMisses: 0,
-    dailyEphemerisCalls: 0,
-    dailyEphemerisMilliseconds: 0,
-    bisectionEvaluations: 0,
-    bisectionMilliseconds: 0,
-    boundaryScanDays: 0,
-    pairedBoundaryCacheHits: 0
-  } : null;
   let __ohdPerfLast = __ohdPerfStart;
   const __ohdPerfPhases = [];
   const __ohdPerfMark = label => {
@@ -1452,20 +1345,14 @@ if(
    * =========================================================
    */
 
-  const data =
-    PLANETS.map(
-      planet =>
-        getPlanetEvent(
-          planet,
-          selectedDate
-        )
-    );
-
-  const planetCard =
-    createPlanetCard(
-      data
-    );
-  __ohdPerfMark("planet rise/set calculation and card");
+  const dailyEvents = {
+    sunrise: pHora.sunrise ? formatEventDateTime(new Date(pHora.sunrise)) : null,
+    sunset: pHora.sunset ? formatEventDateTime(new Date(pHora.sunset)) : null,
+    moonrise: pHora.moonrise ? formatEventDateTime(new Date(pHora.moonrise)) : null,
+    moonset: pHora.moonset ? formatEventDateTime(new Date(pHora.moonset)) : null
+  };
+  renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents);
+  __ohdPerfMark("direct Drik reference lookup and card");
 
 
   /*
@@ -1476,7 +1363,6 @@ if(
    * =========================================================
    */
 
-  replaceOrPlacePanchangCard("planetRiseSetCard", planetCard);
   replaceOrPlacePanchangCard("horaCard", horaCard);
   replaceOrPlacePanchangCard("classicalYogasCard", classicalYogaCard);
   replaceOrPlacePanchangCard("nivasCard", nivasCard);
@@ -1491,12 +1377,7 @@ if(
       date: selectedDate,
       totalMilliseconds: Number((performance.now() - __ohdPerfStart).toFixed(2)),
       phases: __ohdPerfPhases,
-      planetDiagnostics: {
-        ...planetPerfStats,
-        dailyEphemerisMilliseconds: Number(planetPerfStats.dailyEphemerisMilliseconds.toFixed(2)),
-        bisectionMilliseconds: Number(planetPerfStats.bisectionMilliseconds.toFixed(2)),
-        dailyCacheSize: planetDailyCache.size
-      }
+      planetaryReference: "direct-drik-city-data; no ephemeris scan"
     };
     console.info("[OHD performance] Extra Panchang update", report);
     let panel = document.getElementById("ohd-perf-panel");
