@@ -58,8 +58,8 @@ function makeSafeAnchor(href, label) {
 
 function extractAnchors(html) {
   const anchors = [];
-  for (const match of String(html || "").matchAll(/<a\\b([^>]*)>([\\s\\S]*?)<\\/a>/gi)) {
-    const href = match[1].match(/\\bhref\\s*=\\s*["']([^"']+)["']/i)?.[1] || "";
+  for (const match of String(html || "").matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
+    const href = match[1].match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] || "";
     // Keep the source label as text; makeSafeAnchor always HTML-escapes it before output.
     const label = String(match[2] || "").trim();
     const safe = makeSafeAnchor(href, label);
@@ -69,8 +69,8 @@ function extractAnchors(html) {
 }
 
 function sanitizeDescriptionAnchors(html) {
-  return String(html || "").replace(/<a\\b([^>]*)>([\\s\\S]*?)<\\/a>/gi, (_whole, attrs, inner) => {
-    const href = attrs.match(/\\bhref\\s*=\\s*["']([^"']+)["']/i)?.[1] || "";
+  return String(html || "").replace(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi, (_whole, attrs, inner) => {
+    const href = attrs.match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] || "";
     // Never interpret nested or malformed markup in the label as HTML.
     const label = String(inner || "").trim();
     const safe = makeSafeAnchor(href, label);
