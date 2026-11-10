@@ -86,16 +86,28 @@
     {
       "date": "2028-05-08",
       "dateLabel": "8 मई",
-      "title": "बुद्ध पूर्णिमा / कूर्म अवतार जयंती / वैशाख पूर्णिमा",
-      "description": "बुद्ध पूर्णिमा गौतम बुद्ध के जीवन और उपदेशों के स्मरण का दिन है। बौद्ध परंपराओं में ध्यान, करुणा, दान और धर्मोपदेश का विशेष महत्व है। वैशाख शुक्ल पूर्णिमा को भगवान विष्णु के कूर्म अवतार की जयंती भी मनाई जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कूर्म अवतार जयंती</a> वैशाख पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। इसी पूर्णिमा पर बुद्ध पूर्णिमा भी मनाई जाती है।",
-      "category": "पूर्णिमा",
+      "title": "बुद्ध पूर्णिमा / वैशाख पूर्णिमा",
+      "description": "वैशाख शुक्ल पूर्णिमा पर बुद्ध पूर्णिमा मनाई जाती है। भगवान विष्णु के बुद्धावतार का स्मरण, ध्यान, करुणा, दान और धर्मोपदेश की परंपरा है।",
+      "category": "पूर्णिमा-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल पूर्णिमा",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html",
-      "secondaryArticleLabel": "कूर्म अवतार जयंती",
       "sourceName": "Drik Panchang — 2028 Dashavatara Calendar",
       "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-05-08",
+      "dateLabel": "8 मई",
+      "title": "कूर्म अवतार जयंती",
+      "description": "वैशाख शुक्ल पूर्णिमा पर भगवान विष्णु के कूर्म अवतार का स्मरण और पूजन किया जाता है। कूर्मावतार की कथा, विष्णु-मंत्र-जप और दान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कूर्म अवतार जयंती का महत्व पढ़ें</a>",
+      "category": "अवतार जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2028 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html",
+      "articleLabel": "कूर्म अवतार जयंती का महत्व पढ़ें"
     },
     {
       "date": "2028-05-09",
@@ -183,16 +195,36 @@
     {
       "date": "2028-05-24",
       "dateLabel": "24 मई",
-      "title": "ज्येष्ठ अमावस्या / वट सावित्री व्रत / शनि जयंती",
-      "description": "ज्येष्ठ अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण की परंपरा है। वट सावित्री और शनि जयंती जैसी क्षेत्रीय परंपराएँ भी इस तिथि से जुड़ सकती हैं। वट सावित्री व्रत में सावित्री-सत्यवान की कथा, वटवृक्ष-पूजन और पति की दीर्घायु की कामना की जाती है। इसी तिथि पर शनि जयंती भी मनाई जाती है।",
+      "title": "ज्येष्ठ अमावस्या / दर्श अमावस्या",
+      "description": "ज्येष्ठ कृष्ण अमावस्या पर स्नान, पितरों के निमित्त तर्पण, जप और दान की परंपरा है।",
       "category": "अमावस्या",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
+    },
+    {
+      "date": "2028-05-24",
+      "dateLabel": "24 मई",
+      "title": "वट सावित्री व्रत",
+      "description": "ज्येष्ठ अमावस्या पर वटवृक्ष और सावित्री-सत्यवान की पूजा कर अखण्ड सौभाग्य तथा परिवार के मंगल की कामना की जाती है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
+    },
+    {
+      "date": "2028-05-24",
+      "dateLabel": "24 मई",
+      "title": "शनि जयंती",
+      "description": "ज्येष्ठ अमावस्या को भगवान शनिदेव का प्राकट्योत्सव मनाया जाता है। शनि-पूजन, तिल-तेल अर्पण, शनि-मंत्र-जप और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">शनि जयंती का महत्व पढ़ें</a> <a href=\"https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">शनिदेव की शतार्चन पूजा-विधि पढ़ें</a>",
+      "category": "देव-जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html",
-      "articleLabel": "शनि जयंती की महिमा पढ़ें",
+      "articleLabel": "शनि जयंती का महत्व पढ़ें",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html",
-      "secondaryArticleLabel": "शनि देव की पूजन-साधना विधि पढ़ें"
+      "secondaryArticleLabel": "शनिदेव की शतार्चन पूजा-विधि पढ़ें"
     },
     {
       "date": "2028-05-25",
