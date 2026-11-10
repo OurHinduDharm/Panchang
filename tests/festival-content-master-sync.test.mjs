@@ -133,3 +133,15 @@ test("matches the alternate Tailang spelling on a combined Paush Putrada card", 
   );
   assert.equal(matched[0]?.key, "तैलंग स्वामी जयंती");
 });
+
+
+test("matches the combined Diwali and Lakshmi-Ganesh title variant", () => {
+  const templates = [
+    { key: "दीपावली लक्ष्मी पूजन", articleUrl: "https://example.com/mahalakshmi", articleLabel: "महालक्ष्मी पूजन विधि" }
+  ];
+  const matched = findMatchingFestivalTemplates(
+    { title: "दीपावली / लक्ष्मी-गणेश पूजन / कमला महाविद्या जयंती" },
+    templates
+  );
+  assert.equal(matched[0]?.key, "दीपावली लक्ष्मी पूजन");
+});
