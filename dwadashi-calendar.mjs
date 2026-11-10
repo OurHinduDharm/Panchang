@@ -178,8 +178,8 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       drikLabels,
       drik2026Labels: year === 2026 && Array.isArray(drik2026Entry?.labels) ? unique(drik2026Entry.labels) : [],
       drikSpecialObservances: drikSpecialEntries.map(item => ({ ...item, source:"Drik Panchang", sourceUrl:item.sourcePage === "smarta-ekadashi" ? "https://www.drikpanchang.com/ekadashi/ekadashi-dates.html?year=" + year + "&geoname-id=1259503" : "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=" + year + "&geoname-id=1259503", status:"source-cross-reference-needs-local-rule-review" })),
-      selectedDate: drikReferenceDate && candidateDates.includes(drikReferenceDate)
-        ? drikReferenceDate
+      selectedDate: drikReferenceDate
+        ? (candidateDates.includes(drikReferenceDate) ? drikReferenceDate : null)
         : candidateDates.length === 1
           ? candidateDates[0]
           : null,
