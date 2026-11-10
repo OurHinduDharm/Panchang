@@ -237,6 +237,7 @@ for (const pithoragarhId of PITHORAGARH_IDS) {
     ? "venus-new-delhi-2025-march"
     : "venus-new-delhi-2025-december-to-2026-february";
   const modelByBoundary = {};
+  const trainingCounts = {};
 
   for (const boundaryName of ["astaStart", "astaEnd"]) {
     const training = allSamples.filter(sample =>
@@ -249,6 +250,7 @@ for (const pithoragarhId of PITHORAGARH_IDS) {
       id: sample.id
     }));
     const model = fit(training);
+    trainingCounts[boundaryName] = training.length;
     modelByBoundary[boundaryName] = model;
   }
 
@@ -276,7 +278,7 @@ for (const pithoragarhId of PITHORAGARH_IDS) {
   pithoragarhAnnualBlindHoldouts.push({
     pithoragarhCase: pithoragarhId,
     trainingExcludedSameApparition: sameApparitionNewDelhiId,
-    trainingCountPerBoundary: modelByBoundary.astaStart ? 7 : 0,
+    trainingCountPerBoundary: trainingCounts,
     candidateWindowCount: candidates.length,
     matched: Boolean(best),
     conjunctionUTC: best?.window.conjunctionUTC ?? null,
