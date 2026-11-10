@@ -1493,7 +1493,32 @@ const rules = {
       return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "पूर्णिमा, प्रदोष और भद्रा के नियमों में कोई पूरा मान्य समय नहीं मिला; अधूरा मुहूर्त नहीं दिखाया जा रहा है।" };
     }
     windows.unshift(primary);
-    return { label: "होलिका-दहन मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows };
+    const bhadraNote = overlap
+      ? "पंचांगानुसार भद्रा: " + formatFestivalMuhurtaTime(overlap.start) + " से " + formatFestivalMuhurtaTime(overlap.end) + " तक। होलिका-दहन का समय भद्रा के नियमों के अनुसार चुना गया है।"
+      : "";
+    return { label: "होलिका-दहन मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows, note: bhadraNote };
+  },
+
+  "kali-chaudas-nishita"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const chaturdashi = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 28 || /krishna.*chaturdashi|कृष्ण.*चतुर्दशी/.test(normalizedName(item));
+    });
+    const label = "काली चौदस — निशीथकालीन माँ काली पूजन";
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !chaturdashi.length) {
+      return { label, status: "unavailable", message: "स्थानीय रात्रिमान और कार्तिक कृष्ण चतुर्दशी की वास्तविक व्याप्ति उपलब्ध नहीं है; अनुमानित निशीथ समय नहीं दिखाया जा रहा है।" };
+    }
+    const nishita = fractionInterval(sunset, nextSunrise, 7 / 15, 8 / 15, "निशीथ काल");
+    const pujaWindow = nishita && windowWithin(
+      nishita.start, nishita.end, chaturdashi, label,
+      "निशीथ काल और कार्तिक कृष्ण चतुर्दशी की संयुक्त व्याप्ति।"
+    );
+    if (!pujaWindow) {
+      return { label, status: "unavailable", message: "निशीथ काल में कार्तिक कृष्ण चतुर्दशी की व्याप्ति नहीं मिली; समय नहीं दिखाया जा रहा है।" };
+    }
+    return { label, status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows: [pujaWindow] };
   },
 
   "mahashivaratri-four-prahar"(context) {
