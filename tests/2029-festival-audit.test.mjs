@@ -100,7 +100,7 @@ test("2029 Navratri days are independent from other same-tithi observances", () 
   assert.ok(has("2029-10-09", /शारदीय नवरात्र द्वितीय — माँ ब्रह्मचारिणी/));
 });
 
-test("2029 major deity and regional observances are retained while human jayanti cards are omitted", () => {
+test("2029 approved saint jayantis are retained and explicitly excluded modern public figures stay omitted", () => {
   assert.ok(has("2029-01-13", /लोहड़ी/));
   assert.ok(has("2029-01-13", /^भोगी पण्डिगै$/));
   assert.ok(has("2029-01-14", /^थाई अमावासै$/));
@@ -142,7 +142,11 @@ test("2029 major deity and regional observances are retained while human jayanti
   assert.ok(has("2029-10-30", /^राधाकुण्ड स्नान$/));
   assert.ok(has("2029-11-16", /देवोत्थानी एकादशी \(स्मार्त\)/));
   assert.ok(has("2029-12-02", /कृष्ण योगेश्वर द्वादशी/));
-  assert.equal(events.some(event => /गुरु रविदास जयंती|महर्षि दयानंद सरस्वती जयंती|रामकृष्ण परमहंस जयंती|चैतन्य महाप्रभु जयंती|वल्लभाचार्य जयंती|आदि शंकराचार्य जयंती|सूरदास जयंती|नारद जयंती|गोस्वामी तुलसीदास जयंती|मध्वाचार्य जयंती|वाल्मीकि जयंती|मीराबाई जयंती/.test(event.title || "")), false);
+  assert.ok(has("2029-05-18", /आदि शंकराचार्य जयंती एवं सूरदास जयंती/));
+  assert.ok(has("2029-08-16", /गोस्वामी तुलसीदास जयंती/));
+  assert.ok(has("2029-10-22", /वाल्मीकि जयंती एवं मीराबाई जयंती/));
+  assert.ok(has("2029-12-13", /बाबा नीब करौरी जयंती/));
+  assert.equal(events.some(event => /कबीर जयंती|कबीरदास जयंती|विवेकानंद जयंती|स्वामी विवेकानंद|दयानंद सरस्वती जयंती|गांधी जयंती|प्रभुपाद जयंती/.test(event.title || "")), false);
 });
 
 test("2029 solar and June lunar eclipses are excluded because they are not visible in Pithoragarh", () => {
