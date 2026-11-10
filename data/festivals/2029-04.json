@@ -243,27 +243,6 @@
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल षष्ठी",
-      "articleLabel": "माँ स्कन्दमाता"
-    },
-    {
-      "date": "2029-04-19",
-      "dateLabel": "19 अप्रैल",
-      "title": "लक्ष्मी पंचमी",
-      "description": "चैत्र शुक्ल पंचमी को माँ लक्ष्मी की पूजा और धन-धान्य की मंगलकामना की जाती है।",
-      "category": "देवी पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल षष्ठी"
-    },
-    {
-      "date": "2029-04-19",
-      "dateLabel": "19 अप्रैल",
-      "title": "चैत्र नवरात्र पंचमी — माँ स्कन्दमाता",
-      "description": "चैत्र नवरात्र के पाँचवें दिन माँ स्कन्दमाता की पूजा की जाती है।",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल पंचमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
       "articleLabel": "माँ स्कन्दमाता"
@@ -277,6 +256,17 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल पंचमी"
+    },
+    {
+      "date": "2029-04-19",
+      "dateLabel": "19 अप्रैल",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "शुक्ल पक्ष की षष्ठी को भगवान स्कन्द की पूजा और व्रत किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल षष्ठी",
+      "articleLabel": "माँ स्कन्दमाता"
     },
     {
       "date": "2029-04-20",
