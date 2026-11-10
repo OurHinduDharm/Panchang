@@ -223,3 +223,110 @@ export function findNearestConjunctionAnchor({
   };
 }
 
+
+
+/**
+ * Enumerates conjunction-centred local Asta/Udaya candidates for a date range.
+ * It does not use published Asta/Udaya dates to choose a search anchor.
+ */
+export function generateVisibilityWindows({
+  astronomy,
+  body,
+  observer,
+  modelByBoundary,
+  startDate,
+  endDate,
+  searchDays = 60,
+  timeZone = "Asia/Kolkata"
+}) {
+  if (!astronomy || typeof astronomy.SearchRelativeLongitude !== "function") {
+    throw new TypeError("A compatible Astronomy Engine SearchRelativeLongitude function is required");
+  }
+  if (!["Mercury", "Venus", "Mars", "Jupiter", "Saturn"].includes(body)) {
+    throw new RangeError("body must be Mercury, Venus, Mars, Jupiter, or Saturn");
+  }
+  if (!observer) throw new TypeError("observer is required");
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  if (!Number.isFinite(start.getTime()) || !Number.isFinite(end.getTime()) || end <= start) {
+    throw new TypeError("startDate and endDate must be valid and endDate must follow startDate");
+  }
+  if (!Number.isInteger(searchDays) || searchDays < 2 || searchDays > 90) {
+    throw new RangeError("searchDays must be an integer from 2 to 90");
+  }
+  for (const boundaryName of ["astaStart", "astaEnd"]) {
+    if (!Number.isFinite(modelByBoundary?.[boundaryName]?.intercept) ||
+        !Number.isFinite(modelByBoundary?.[boundaryName]?.slope)) {
+      throw new TypeError("A finite model is required for " + boundaryName);
+    }
+  }
+
+  const targets = body === "Mercury" || body === "Venus" ? [0, 180] : [180];
+  const searchStart = new Date(start.getTime() - searchDays * DAY_MS);
+  const searchFinish = new Date(end.getTime() + searchDays * DAY_MS);
+  const windows = [];
+
+  for (const targetRelLon of targets) {
+    let cursor = searchStart;
+    for (let iteration = 0; iteration < 16; iteration++) {
+      const conjunction = astronomy.SearchRelativeLongitude(body, targetRelLon, cursor);
+      const conjunctionDate = conjunction?.date;
+      if (!(conjunctionDate instanceof Date) || !Number.isFinite(conjunctionDate.getTime())) break;
+      if (conjunctionDate > searchFinish) break;
+
+      const startDirection = (body === "Mercury" || body === "Venus") && targetRelLon === 180
+        ? 1
+        : -1;
+      const endDirection = -startDirection;
+      const asta = findVisibilityBoundaryNearAnchor({
+        astronomy,
+        body,
+        observer,
+        anchorDate: conjunctionDate,
+        direction: startDirection,
+        boundaryName: "astaStart",
+        model: modelByBoundary.astaStart,
+        searchDays,
+        timeZone
+      });
+      const udaya = findVisibilityBoundaryNearAnchor({
+        astronomy,
+        body,
+        observer,
+        anchorDate: conjunctionDate,
+        direction: endDirection,
+        boundaryName: "astaEnd",
+        model: modelByBoundary.astaEnd,
+        searchDays,
+        timeZone
+      });
+
+      const startInstant = asta.predictedEventUTC ? new Date(asta.predictedEventUTC) : null;
+      const endInstant = udaya.predictedEventUTC ? new Date(udaya.predictedEventUTC) : null;
+      const withinRange = instant =>
+        instant && instant >= new Date(start.getTime() - searchDays * DAY_MS) &&
+        instant <= new Date(end.getTime() + searchDays * DAY_MS);
+      const hasBoth = asta.status === "candidate" && udaya.status === "candidate";
+      windows.push({
+        body,
+        conjunctionType: targetRelLon === 0 ? "inferior" : "superior",
+        conjunctionUTC: conjunctionDate.toISOString(),
+        asta,
+        udaya,
+        status: !hasBoth
+          ? "incomplete"
+          : endInstant <= startInstant
+            ? "invalid-order"
+            : "candidate",
+        intersectsRequestedRange: withinRange(startInstant) || withinRange(endInstant)
+      });
+
+      cursor = new Date(conjunctionDate.getTime() + 1000);
+    }
+  }
+
+  return windows
+    .filter(window => window.intersectsRequestedRange)
+    .sort((a, b) => new Date(a.conjunctionUTC) - new Date(b.conjunctionUTC));
+}
+
