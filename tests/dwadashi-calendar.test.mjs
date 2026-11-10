@@ -82,6 +82,23 @@ test("noon-only Dwadashi is retained as a candidate without pretending it prevai
   assert.equal(record.selectedDate,"2026-04-01");
 });
 
+test("a single sunrise Dwadashi wins over the previous day's noon-only overlap", () => {
+  const previousDay = sunriseDay("2027-03-04","फाल्गुन","कृष्ण","एकादशी");
+  previousDay.noonTithi = "द्वादशी";
+  previousDay.noonTithiStartTime = "2027-03-04T01:54:00.000Z";
+  previousDay.noonTithiEndTime = "2027-03-05T04:23:00.000Z";
+  const sunriseDayRecord = sunriseDay("2027-03-05","फाल्गुन","कृष्ण","द्वादशी");
+  const result = buildDwadashiCalendar([previousDay,sunriseDayRecord],rules);
+  const record = result.tithis.find(item => item.id === "phalguna-krishna");
+  assert.deepEqual(record.noonDates,["2027-03-04"]);
+  assert.deepEqual(record.sunriseDates,["2027-03-05"]);
+  assert.deepEqual(record.candidateDates,["2027-03-04","2027-03-05"]);
+  assert.equal(record.selectedDate,"2027-03-05");
+  assert.equal(record.dateSelection,"single-observation-candidate-review-required");
+  assert.deepEqual(record.drikLabels,["उन्मीलिनी महाद्वादशी","श्रवण योग द्वादशी"]);
+  assert.equal(record.status,"needs-review");
+});
+
 test("permanent month-paksha names are carried into later annual calendars", () => {
   const result = buildDwadashiCalendar([
     sunriseDay("2027-04-01","चैत्र","शुक्ल","द्वादशी")
