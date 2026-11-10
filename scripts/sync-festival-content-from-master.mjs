@@ -81,13 +81,6 @@ function appendMissingAnchors(description, anchors) {
   return result;
 }
 
-function hasYearSpecificCopy(value) {
-  const text = String(value || "")
-    .replace(/<a\b[^>]*>([\s\S]*?)<\/a>/gi, "$1")
-    .replace(/<[^>]*>/g, " ");
-  return /(?:\d{1,2}[:.]\d{2}|\d{4}|[०-९]{1,4}|(?:जनवरी|फ़रवरी|फरवरी|मार्च|अप्रैल|मई|जून|जुलाई|अगस्त|सितंबर|अक्टूबर|नवंबर|दिसंबर)\s+[०-९\d]{1,2})/i.test(text);
-}
-
 const ALIASES = new Map([
   ["षटतिला एकादशी", "षट्तिला एकादशी"],
   ["संकष्टी चतुर्थी", "सकट चौथ"],
