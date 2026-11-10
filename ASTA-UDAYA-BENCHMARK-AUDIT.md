@@ -1203,3 +1203,14 @@ Research-only selector के पाँच unit tests सफल हैं। Sel
 - Asta/Udaya date errors और ऊपर के MAE परिणाम अपरिवर्तित रहे।
 
 इससे annual holdout का candidate accounting ठीक हुआ। इसका अर्थ यह नहीं कि सभी वर्षों/ग्रहों के लिए कोई अज्ञात window नहीं; यह केवल 2022–27 benchmark ledger के भीतर exact one-to-one accounting है।
+
+
+### Elongation feature experiment — 10 नवम्बर 2026
+
+Magnitude-only model के मुकाबले apparent elongation को दूसरा predictor बनाकर वही annual year-holdout फिर चलाया:
+- Venus: Asta 8/8 ±1 दिन (पहले 7/8), Udaya 8/8 ±1 दिन; MAE 0.75 / 0.625 दिन। छोटा सुधार, लेकिन exact dates अभी भी 2/8 और 3/8।
+- Mercury: Asta परिणाम लगभग अपरिवर्तित; Udaya MAE थोड़ा खराब (0.684 दिन)।
+- Saturn: Asta model अस्थिर—केवल 4/6 candidate windows, unmatched 2 और matched cases में अधिकतम 10 दिन त्रुटि; Udaya 6/6 ±1 दिन।
+- Jupiter: कोई complete candidate window नहीं निकला; multifeature model को अस्वीकार करें।
+
+**निर्णय:** elongation को सभी ग्रहों पर एक सार्वभौमिक अतिरिक्त predictor के रूप में लागू नहीं करेंगे। Magnitude-only model ही baseline रहेगा। Venus-specific elongation model पर और परीक्षण हो सकता है, लेकिन अभी production में नहीं। Phase fraction और local azimuth separation अभी अगली feature candidates हैं।
