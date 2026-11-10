@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { findNearestConjunctionAnchor, findVisibilityBoundaryNearAnchor } from "../research/planetary-visibility-selector.mjs";
+import { findNearestConjunctionAnchor, findVisibilityBoundaryNearAnchor, generateVisibilityWindows } from "../research/planetary-visibility-selector.mjs";
 
 const DAY_MS = 86400000;
 const anchorDate = new Date("2026-01-10T06:30:00.000Z");
@@ -164,5 +164,54 @@ test("returns no-conjunction when no event is in the allowed window", () => {
 
   assert.equal(result.status, "no-conjunction");
   assert.equal(result.conjunctionUTC, null);
+});
+
+
+
+test("enumerates an inferior-conjunction window without a published boundary anchor", () => {
+  const conjunctionDate = new Date("2026-01-10T00:00:00.000Z");
+  let activeDirection = 0;
+  const astronomy = {
+    SearchRelativeLongitude(_body, target, start) {
+      if (target !== 0 || start.getTime() >= conjunctionDate.getTime()) return null;
+      return { date: conjunctionDate };
+    },
+    SearchRiseSet(_body, _observer, direction, start) {
+      activeDirection = direction;
+      return { date: new Date(start.getTime() + 12 * 3600000) };
+    },
+    Equator(body) {
+      return { ra: body === "Sun" ? 1 : 2, dec: 0 };
+    },
+    Horizon(date, _observer, ra) {
+      const dayOffset = (date.getTime() - conjunctionDate.getTime()) / DAY_MS;
+      if (ra !== 1) return { altitude: 0.1 };
+      return { altitude: activeDirection === -1 ? dayOffset : 5 - dayOffset };
+    },
+    Illumination() {
+      return { mag: 1 };
+    }
+  };
+
+  const windows = generateVisibilityWindows({
+    astronomy,
+    body: "Venus",
+    observer: { latitude: 28.6139, longitude: 77.209, height: 216 },
+    modelByBoundary: {
+      astaStart: { intercept: 0, slope: 0 },
+      astaEnd: { intercept: 0, slope: 0 }
+    },
+    startDate: "2026-01-05T00:00:00.000Z",
+    endDate: "2026-01-20T00:00:00.000Z",
+    searchDays: 10
+  });
+
+  assert.equal(windows.length, 1);
+  assert.equal(windows[0].conjunctionType, "inferior");
+  assert.equal(windows[0].status, "candidate");
+  assert.equal(windows[0].asta.direction, "set");
+  assert.equal(windows[0].udaya.direction, "rise");
+  assert.equal(windows[0].asta.predictedBoundaryDate, "2026-01-10");
+  assert.equal(windows[0].udaya.predictedBoundaryDate, "2026-01-15");
 });
 
