@@ -79,6 +79,15 @@
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
+      "date": "2028-07-16",
+      "dateLabel": "16 जुलाई",
+      "title": "कर्क संक्रांति",
+      "description": "सूर्य के कर्क राशि में प्रवेश पर कर्क संक्रांति मनाई जाती है। इस दिन स्नान, दान और जप की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false
+    },
+    {
       "date": "2028-07-18",
       "dateLabel": "18 जुलाई",
       "title": "कामिका एकादशी",
@@ -143,7 +152,8 @@
       "description": "हरियाली तीज वर्षा ऋतु का पर्व है। कई परंपराओं में शिव-पार्वती की पूजा, व्रत, झूले और लोकगीतों के माध्यम से उत्सव मनाया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल तृतीया"
     },
     {
       "date": "2028-07-25",
@@ -181,7 +191,8 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
       "articleLabel": "नाग पंचमी व्रत",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html",
-      "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना"
+      "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना",
+      "hinduTithi": "श्रावण शुक्ल पंचमी"
     },
     {
       "date": "2028-07-29",
