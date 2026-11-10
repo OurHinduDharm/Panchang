@@ -38,3 +38,10 @@
 ## Browser verification
 
 Commit `e60d5e4f2b85dc325d0cddb2884e8255a366930a` updates the phase-diagnostics test file to trigger the branch's push-path workflow. The prior run's browser test failed at JavaScript parse time on a stale regular-expression line; the corrected file was fetched and checked. A successful new browser run has not yet been confirmed, so this report does not mark browser verification as passed.
+## 10 November follow-up: conjunction geometry and holdout matching correction
+
+Code audit found a fundamental anchor error in the research selector: Mars, Jupiter, and Saturn were enumerated at 180° relative longitude and labelled a 'superior conjunction'. In geocentric Sun-relative longitude, 180° is opposition; solar conjunction is at 0°. The selector now searches 0° for the outer planets and labels this event `conjunction`, while Mercury/Venus retain 0° inferior and 180° superior conjunction families.
+
+The selector unit tests now assert that Jupiter's nearest solar conjunction is selected at 0°, that the outer-planet generated window is centred on 0°, and that its local boundary directions remain set-to-rise. The direction-year holdout matcher now constrains candidate matches by the corresponding conjunction family, observed local rise/set directions at both published boundaries, and both start/end civil-date errors (each no more than 30 days); eligible matches are ranked by combined absolute date error.
+
+These are research-code corrections, not a production release. The new branch push workflow has not yet been independently confirmed successful through the available workflow-run lookup, which only returns pull-request-triggered runs. Do not treat the model as validated until the branch workflow output, every unmatched record, date errors, and clock errors have been reviewed.
