@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import * as Astronomy from "astronomy-engine";
+import { findNearestConjunctionAnchor } from "../research/planetary-visibility-selector.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataset = JSON.parse(readFileSync(resolve(here, "../data/asta-udaya-benchmark.json"), "utf8"));
@@ -360,9 +361,27 @@ function dayNumber(dateString) {
 }
 
 function predictPlanetBoundaryDate(entry, boundaryName, direction, model) {
-  const anchor = new Date(entry.boundaries[boundaryName]);
+  const publishedDate = entry.boundaries[boundaryName].slice(0, 10);
+  const conjunction = findNearestConjunctionAnchor({
+    astronomy: Astronomy,
+    body: entry.planet,
+    approximateDate: entry.boundaries[boundaryName],
+    maxDistanceDays: 90
+  });
+  if (conjunction.status !== "candidate") {
+    return {
+      publishedDate,
+      conjunctionAnchor: conjunction,
+      searchDays: 60,
+      crossingCountWithinSearchWindow: 0,
+      nearestCrossing: null
+    };
+  }
+
+  const anchor = new Date(conjunction.conjunctionUTC);
+  const searchDays = 60;
   const samples = [];
-  for (let dayOffset = -20; dayOffset <= 20; dayOffset++) {
+  for (let dayOffset = -searchDays; dayOffset <= searchDays; dayOffset++) {
     const eventDate = localPlanetEvent(entry.planet, anchor, direction, dayOffset);
     if (!eventDate) continue;
     const sun = sunAltitude(eventDate, "normal");
@@ -390,7 +409,6 @@ function predictPlanetBoundaryDate(entry, boundaryName, direction, model) {
     if (crossed) crossings.push({ previous, current });
   }
 
-  const publishedDate = entry.boundaries[boundaryName].slice(0, 10);
   const ranked = crossings.map(crossing => ({
     ...crossing,
     predictedBoundaryDate: crossing.current.localDate,
@@ -399,7 +417,9 @@ function predictPlanetBoundaryDate(entry, boundaryName, direction, model) {
 
   return {
     publishedDate,
-    crossingCountWithin40Days: crossings.length,
+    conjunctionAnchor: conjunction,
+    searchDays,
+    crossingCountWithinSearchWindow: crossings.length,
     nearestCrossing: ranked[0] ? {
       predictedBoundaryDate: ranked[0].predictedBoundaryDate,
       signedDateOffsetDays: ranked[0].signedDateOffsetDays,
