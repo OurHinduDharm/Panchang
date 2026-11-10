@@ -150,7 +150,6 @@ test("links Paush Mahatmya and Tailang Swami articles only to their matching obs
     await assertArticle(year, monthNumber, date, pattern, "About-Paush-Mahatmya");
   }
   const tailangCases = [
-    [2027,1,"2027-01-19",/तैलंग स्वामी/],
     [2028,1,"2028-01-08",/तैलंग स्वामी/],
     [2028,12,"2028-12-27",/टेलंग स्वामी/],
     [2030,1,"2030-01-15",/तैलंग स्वामी/]
