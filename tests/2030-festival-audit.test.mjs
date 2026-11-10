@@ -26,7 +26,8 @@ test("2030 monthly festival files have approved records dated within their month
 test("2030 catalog keeps distinct same-date observances on separate cards", () => {
   const seen = new Map();
   const allowedSameDate = new Map([
-    ["2030-10-25|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि", "हनुमान पूजा"])]
+    ["2030-10-25|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि", "हनुमान पूजा"])],
+    ["2030-10-26|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती", "काली पूजा"])]
   ]);
   for (const event of events) {
     if (!event.hinduTithi) continue;
@@ -287,7 +288,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 263);
+  assert.equal(events.length, 267);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");

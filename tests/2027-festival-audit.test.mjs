@@ -15,18 +15,25 @@ test("2027 festival catalog excludes Vaishnava/Gauna Ekadashi cards", () => {
   assert.deepEqual(excluded, []);
 });
 
-test("2027 has one card per same-date Hindu tithi", () => {
+test("2027 independent same-date observances remain separate cards", () => {
+  const allowed = new Map([
+    ["2027-10-27|कार्तिक कृष्ण त्रयोदशी", new Set(["धनतेरस", "धन्वन्तरि जयंती", "बुध प्रदोष व्रत", "यम दीपदान", "यम पंचक प्रारम्भ"])],
+    ["2027-10-27|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि", "हनुमान पूजा"])]
+  ]);
   const seen = new Map();
   for (const event of events) {
     if (!event.hinduTithi) continue;
     const key = String(event.date) + "|" + String(event.hinduTithi);
-    assert.ok(!seen.has(key),
-      "Duplicate same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    if (seen.has(key)) {
+      const group = allowed.get(key);
+      assert.ok(group && group.has(seen.get(key)) && group.has(event.title),
+        "Unexpected same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    }
     seen.set(key, event.title);
   }
 });
 
-test("2027 same-tithi festival cards retain their combined observances", () => {
+test("2027 same-tithi observances retain their reviewed coverage", () => {
   assert.match(find(2,"2027-02-14",/भीष्माष्टमी/).title, /मासिक दुर्गाष्टमी/);
   assert.match(find(4,"2027-04-07",/नवसंवत्सर/).title, /गुड़ी पड़वा/);
   assert.match(find(5,"2027-05-09",/अक्षय तृतीया/).title, /त्रेतायुगादि/);
@@ -35,7 +42,12 @@ test("2027 same-tithi festival cards retain their combined observances", () => {
   assert.match(find(9,"2027-09-08",/राधाष्टमी/).title, /मासिक दुर्गाष्टमी/);
   assert.match(find(10,"2027-10-05",/दुर्गा पूजा/).title, /मासिक स्कन्द षष्ठी/);
   assert.match(find(10,"2027-10-27",/धनतेरस/).title, /प्रदोष व्रत/);
-  assert.match(find(10,"2027-10-27",/काली चौदस/).title, /मासिक शिवरात्रि/);
+  assert.equal(find(10,"2027-10-27",/काली चौदस/).title, "काली चौदस");
+  assert.equal(find(10,"2027-10-27",/मासिक शिवरात्रि/).title, "मासिक शिवरात्रि");
+  assert.equal(find(10,"2027-10-27",/धनतेरस/).title, "धनतेरस");
+  assert.equal(find(10,"2027-10-27",/धन्वन्तरि जयंती/).title, "धन्वन्तरि जयंती");
+  assert.equal(find(10,"2027-10-27",/बुध प्रदोष व्रत/).muhurtaRule, "pradosh-kala");
+  assert.equal(find(10,"2027-10-27",/यम दीपदान/).muhurtaRule, "pradosh-kala");
   assert.match(find(11,"2027-11-04",/छठ पूजा/).title, /मासिक स्कन्द षष्ठी/);
   assert.match(find(12,"2027-12-13",/दत्तात्रेय जयंती/).title, /त्रिपुरभैरवी/);
 });
@@ -57,7 +69,7 @@ test("Pithoragarh-visible 2027 eclipses have local contact timings", () => {
 
 test("2027 combined cards retain their special muhurta rules", () => {
   assert.equal(find(10,"2027-10-27",/धनतेरस/).muhurtaRule,"dhanteras-muhurta");
-  assert.equal(find(10,"2027-10-27",/काली चौदस/).muhurtaRule,"masik-shivaratri-nishita");
+  assert.equal(find(10,"2027-10-27",/मासिक शिवरात्रि/).muhurtaRule,"masik-shivaratri-nishita");
   assert.equal(find(11,"2027-11-04",/छठ पूजा/).muhurtaRule,"chhath-arghya");
 });
 

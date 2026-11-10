@@ -28,13 +28,20 @@ test("2028 monthly festival files have approved records dated within their month
   }
 });
 
-test("2028 has one card per same-date Hindu tithi", () => {
+test("2028 independent same-date observances remain separate cards", () => {
+  const allowed = new Map([
+    ["2028-10-16|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि", "हनुमान पूजा"])],
+    ["2028-10-17|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती"])]
+  ]);
   const seen = new Map();
   for (const event of events) {
     if (!event.hinduTithi) continue;
     const key = String(event.date) + "|" + String(event.hinduTithi);
-    assert.ok(!seen.has(key),
-      "Duplicate same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    if (seen.has(key)) {
+      const group = allowed.get(key);
+      assert.ok(group && group.has(seen.get(key)) && group.has(event.title),
+        "Unexpected same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    }
     seen.set(key, event.title);
   }
 });
@@ -136,7 +143,9 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-10-03", /वाल्मीकि जयंती.*मीराबाई जयंती/));
   assert.ok(has("2028-10-16", /हनुमान पूजा/));
   assert.doesNotMatch(has("2028-10-17", /नरक चतुर्दशी/).description, /तमिल दीपावली/);
-  assert.ok(has("2028-10-16", /काली चौदस.*शिवरात्रि|शिवरात्रि.*काली चौदस/));
+  assert.equal(has("2028-10-16", /^काली चौदस$/).articleUrl, "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html");
+  assert.ok(has("2028-10-16", /^मासिक शिवरात्रि$/));
+  assert.ok(has("2028-10-17", /^श्री कमला महाविद्या जयंती$/));
   assert.ok(has("2028-10-19", /भैया दूज.*चन्द्र दर्शन|चन्द्र दर्शन.*भैया दूज/));
   assert.ok(has("2028-10-23", /छठ पूजा.*स्कन्द षष्ठी|स्कन्द षष्ठी.*छठ पूजा/));
   assert.ok(has("2028-10-22", /लाभ पंचमी/));

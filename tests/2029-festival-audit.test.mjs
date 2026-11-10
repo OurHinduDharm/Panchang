@@ -23,13 +23,20 @@ test("2029 monthly festival files have approved records dated within their month
   }
 });
 
-test("2029 catalog has one card per same-date Hindu tithi", () => {
+test("2029 independent same-date observances remain separate cards", () => {
+  const allowed = new Map([
+    ["2029-11-04|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि"])],
+    ["2029-11-05|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती"])]
+  ]);
   const seen = new Map();
   for (const event of events) {
     if (!event.hinduTithi) continue;
     const key = String(event.date) + "|" + String(event.hinduTithi);
-    assert.ok(!seen.has(key),
-      "Duplicate same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    if (seen.has(key)) {
+      const group = allowed.get(key);
+      assert.ok(group && group.has(seen.get(key)) && group.has(event.title),
+        "Unexpected same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    }
     seen.set(key, event.title);
   }
 });
