@@ -9,6 +9,20 @@
   "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
   "events": [
     {
+      "date": "2030-07-01",
+      "dateLabel": "1 जुलाई",
+      "title": "आषाढ़ गुप्त नवरात्र प्रारंभ — माँ शैलपुत्री",
+      "description": "आषाढ़ शुक्ल प्रतिपदा से गुप्त नवरात्र की साधना, जप और स्तोत्र-पाठ का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html\" target=\"_blank\" rel=\"noopener noreferrer\">आषाढ़ गुप्त नवरात्र का महत्व</a> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री पूजन</a> <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\" target=\"_blank\" rel=\"noopener noreferrer\">घटस्थापना विधि</a>।",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html",
+      "articleLabel": "आषाढ़ गुप्त नवरात्र का महत्व",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html",
+      "secondaryArticleLabel": "माँ शैलपुत्री पूजन"
+    },
+    {
       "date": "2030-07-02",
       "dateLabel": "2 जुलाई",
       "title": "जगन्नाथ रथयात्रा / चन्द्र दर्शन",
