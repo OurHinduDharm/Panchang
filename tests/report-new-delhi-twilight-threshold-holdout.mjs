@@ -669,6 +669,120 @@ const planetAnnualElongationHoldouts = Object.fromEntries(
   })
 );
 
+const planetAnnualAzimuthHoldouts = Object.fromEntries(
+  [...new Set(rows.map(item => item.planet))].map(planetName => {
+    const planetCases = dataset.cases.filter(entry =>
+      entry.planet === planetName && rows.some(row => row.id === entry.id)
+    );
+    const years = [...new Set(planetCases.map(entry =>
+      Number(entry.boundaries.astaStart.slice(0, 4))
+    ))].sort((a, b) => a - b);
+    const yearResults = [];
+
+    for (const testYear of years) {
+      const testCases = planetCases.filter(entry =>
+        Number(entry.boundaries.astaStart.slice(0, 4)) === testYear
+      );
+      const modelByBoundary = {};
+      let enoughTraining = true;
+      for (const boundaryName of ["astaStart", "astaEnd"]) {
+        const training = (thresholdGroups[planetName + ":" + boundaryName] || [])
+          .filter(sample => {
+            const entry = dataset.cases.find(item => item.id === sample.caseId);
+            return Number(entry.boundaries.astaStart.slice(0, 4)) !== testYear;
+          })
+          .map(sample => ({
+            apparentMagnitude: sample.apparentMagnitude,
+            azimuthSeparationDegrees: sample.azimuthSeparation,
+            thresholdMidpoint: (sample.lower + sample.upper) / 2
+          }));
+        if (training.length < 4) {
+          enoughTraining = false;
+          break;
+        }
+        modelByBoundary[boundaryName] = fitFeatureThreshold(
+          training,
+          ["apparentMagnitude", "azimuthSeparationDegrees"]
+        );
+      }
+      if (!enoughTraining) {
+        yearResults.push({ testYear, available: false, reason: "Insufficient same-planet training samples" });
+        continue;
+      }
+
+      const searchDays = planetName === "Mars" ? 150 : planetName === "Mercury" ? 45 : 60;
+      const windows = generateVisibilityWindows({
+        astronomy: Astronomy,
+        body: planetName,
+        observer,
+        modelByBoundary,
+        startDate: new Date(Date.UTC(testYear, 0, 1)),
+        endDate: new Date(Date.UTC(testYear, 11, 31, 23, 59, 59)),
+        searchDays,
+        timeZone: "Asia/Kolkata"
+      });
+      const candidates = windows.filter(window =>
+        window.status === "candidate" &&
+        window.asta.predictedBoundaryDate?.slice(0, 4) === String(testYear)
+      );
+      const used = new Set();
+      const matches = [];
+      for (const entry of testCases) {
+        const publishedStart = entry.boundaries.astaStart.slice(0, 10);
+        const ranked = candidates
+          .map((window, index) => ({
+            window,
+            index,
+            startError: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedStart)
+          }))
+          .filter(item => !used.has(item.index))
+          .sort((a, b) => Math.abs(a.startError) - Math.abs(b.startError));
+        const best = ranked[0];
+        if (!best || Math.abs(best.startError) > 30) {
+          matches.push({ id: entry.id, matched: false });
+          continue;
+        }
+        used.add(best.index);
+        matches.push({
+          id: entry.id,
+          matched: true,
+          astaErrorDays: best.startError,
+          udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) -
+            dayNumber(entry.boundaries.astaEnd.slice(0, 10))
+        });
+      }
+      const matched = matches.filter(item => item.matched);
+      const summarize = key => {
+        const errors = matched.map(item => item[key]);
+        return {
+          count: errors.length,
+          exact: errors.filter(value => value === 0).length,
+          withinOneDay: errors.filter(value => Math.abs(value) <= 1).length,
+          withinTwoDays: errors.filter(value => Math.abs(value) <= 2).length,
+          meanAbsoluteErrorDays: errors.length
+            ? round(errors.reduce((sum, value) => sum + Math.abs(value), 0) / errors.length, 4)
+            : null,
+          maxAbsoluteErrorDays: errors.length
+            ? Math.max(...errors.map(Math.abs))
+            : null
+        };
+      };
+      yearResults.push({
+        testYear,
+        available: true,
+        candidateWindowCount: candidates.length,
+        matchedCaseCount: matched.length,
+        unmatchedCaseCount: matches.length - matched.length,
+        unmatchedCandidateCount: candidates.length - used.size,
+        asta: summarize("astaErrorDays"),
+        udaya: summarize("udayaErrorDays"),
+        matches
+      });
+    }
+    return [planetName, { years: yearResults }];
+  })
+);
+
 const planetAnnualBlindWindowHoldouts = Object.fromEntries(
   [...new Set(rows.map(item => item.planet))].map(planetName => {
     const planetCases = dataset.cases.filter(entry =>
@@ -992,6 +1106,7 @@ console.log(JSON.stringify({
   planetSpecificApparitionHoldouts,
   planetAnnualBlindWindowHoldouts,
   planetAnnualElongationHoldouts,
+  planetAnnualAzimuthHoldouts,
   interpretation: "Diagnostic only. New Delhi source coordinates are undisclosed; a city-centre proxy is used solely to test day-level threshold transfer. Do not claim coordinate-exact validation or promote this threshold to production.",
   cases: rows
 }, null, 2));
