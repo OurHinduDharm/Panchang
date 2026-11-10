@@ -139,7 +139,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "आश्विन शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-10-10",
@@ -265,7 +266,7 @@
       "date": "2030-10-25",
       "dateLabel": "25 अक्टूबर",
       "title": "काली चौदस / मासिक शिवरात्रि / हनुमान पूजा",
-      "description": "काली चौदस कुछ क्षेत्रों में कार्तिक कृष्ण चतुर्दशी की निशीथकालीन माँ काली-पूजन और दीपदान का पर्व है। मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
+      "description": "काली चौदस कुछ क्षेत्रों में कार्तिक कृष्ण चतुर्दशी की निशीथकालीन माँ काली-पूजन और दीपदान का पर्व है। इस दिन हनुमान जी की विशेष पूजा, सिंदूर और चमेली का तेल अर्पित करने की परंपरा भी कुछ क्षेत्रों में प्रचलित है। मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -291,7 +292,7 @@
       "sourceUrl": "https://www.transliteral.org/pages/z80505062049/view",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
       "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
-      "muhurtaRule": "narak-chaturdashi-kshaya-abhyanga"
+      "muhurtaRule": "diwali-lakshmi-puja"
     },
     {
       "date": "2030-10-26",
