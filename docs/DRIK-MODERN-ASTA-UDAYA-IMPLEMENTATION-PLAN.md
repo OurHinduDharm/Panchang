@@ -383,3 +383,8 @@ Research module में अब:
 - Mars के लिए training samples अपर्याप्त हैं।
 
 **निर्णय:** यह अब वास्तविक annual event-generation pipeline का प्रमाण है, केवल boundary-centered diagnostic नहीं। फिर भी exact date की अपेक्षा के लिए 1–3 दिन की त्रुटि और 12 unmatched candidates स्वीकार्य नहीं। इसलिए अभी भी main Panchang display/production में integrate न करें। अगला चरण: unmatched windows audit, फिर magnitude के साथ phase angle, elongation और Sun–planet azimuth separation की feature validation। उसके बाद Pithoragarh के स्वतंत्र multi-planet references पर blind test।
+
+
+### Adjacent-year accounting fix
+
+पहले 68 generated candidates दिखे थे। जाँच में 10 candidates neighboring calendar-year padding के कारण दोबारा गिने गए और 2 evaluation range के बाहर (2021/2028) थे। अब annual holdout हर window को Asta-start के वर्ष में ही assign करता है। Re-run में **56/56 published windows matched, 0 extra candidates, 0 missing cases**। Date-error metrics वही रहे। इस accounting correction के बाद annual generator का benchmark one-to-one है।
