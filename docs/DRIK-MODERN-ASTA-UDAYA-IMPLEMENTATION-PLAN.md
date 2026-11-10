@@ -492,3 +492,20 @@ Direct Pithoragarh data पर 2024–2027 leave-one-year-out folds में 25
 Venus के केवल पाँच unique windows हैं; अतिरिक्त feature models के कई folds में training sample पर्याप्त नहीं या feature matrix singular है। Venus model अभी lock नहीं।
 
 **अगला experiment:** actual local event direction (rise vs set) को model feature के रूप में जोड़कर Mercury LOYO में जाँचना। यह feature selector और tests में जोड़ा गया है; latest CI report अभी चल रहा है। किसी भी candidate का maximum 2-day Asta residual होने पर वह exact-date production gate पास नहीं करता।
+
+
+### Motion-feature model comparison — 10 नवम्बर 2026 CI
+
+Latest commit `e72c70eea7c0e2920478b508f72ba045f76f26bc`:
+- Browser phase-diagnostics workflow: success; direct Drik capture, ledger validation, New Delhi blind holdout, Pithoragarh LOYO, selector unit tests, feature comparison और no-production-visible-change regression सभी सफल।
+- PR #278 CodeQL JavaScript/TypeScript और Actions दोनों सफल।
+
+Mercury 25/25 matched across four held-out years:
+- Magnitude-only baseline aggregate date MAE: Asta 0.680 d; Udaya 0.680 d; maxima 2/3 d.
+- Best balanced tested candidate, magnitude + event direction + magnitude×direction interaction: Asta MAE 0.320 d, Udaya MAE 0.360 d; both max error 1 day. Asta/Udaya local clock-of-day MAE 1.68/2.16 min; maxima 8/7 min.
+- Magnitude + direction + longitude-rate: Asta MAE 0.440 d, Udaya 0.240 d; max 1 day for both.
+- Adding retrograde state or combined multi-feature motion did not improve consistently; the most complex motion variant lost one matched event and had worse 2027 Asta error. Retrograde is therefore measured, but not selected as a production coefficient yet.
+
+Venus: only five unique windows across 2024–2027 (one or two per year). Magnitude-only matched 5/5 with date MAE 0.600 d Asta / 0.400 d Udaya (max 2/1 d). Feature-rich models frequently lacked enough non-held-out training rows; no Venus motion model is justified from this sample.
+
+**Production gate remains closed for both Mercury and Venus:** best Mercury model still has a one-day civil-date miss; Venus evidence is too sparse and includes a two-day Asta miss. Clock-of-day agreement is encouraging, but correct clock on the wrong civil date is not an acceptable published boundary. Keep current production behavior unchanged until more independent multi-city/multi-year direct reference windows establish an exact-date model.
