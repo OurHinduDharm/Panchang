@@ -9,6 +9,16 @@
   "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
   "events": [
     {
+      "date": "2030-08-01",
+      "dateLabel": "1 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल द्वितीया"
+    },
+    {
       "date": "2030-08-02",
       "dateLabel": "2 अगस्त",
       "title": "हरियाली तीज",
@@ -21,14 +31,25 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
+      "date": "2030-08-03",
+      "dateLabel": "3 अगस्त",
+      "title": "दूर्वा गणपति चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
       "date": "2030-08-04",
       "dateLabel": "4 अगस्त",
-      "title": "नाग पंचमी",
-      "description": "नाग पंचमी पर नाग-देवताओं का पूजन और सर्पों के प्रति श्रद्धा व्यक्त करने की परंपरा है।",
+      "title": "नाग पंचमी / कल्कि जयंती",
+      "description": "नाग पंचमी पर नाग-देवताओं का पूजन और सर्पों के प्रति श्रद्धा व्यक्त करने की परंपरा है। इसी दिन भगवान विष्णु के कल्कि अवतार की जयंती भी मनाई जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नाग पंचमी व्रत</a> <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नागों की स्तोत्रात्मक उपासना</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल पंचमी",
+      "hinduTithi": "श्रावण शुक्ल पंचमी / षष्ठी-व्याप्ति",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
@@ -37,9 +58,41 @@
       "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना"
     },
     {
+      "date": "2030-08-05",
+      "dateLabel": "5 अगस्त",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल षष्ठी"
+    },
+    {
+      "date": "2030-08-06",
+      "dateLabel": "6 अगस्त",
+      "title": "गोस्वामी तुलसीदास जयंती",
+      "description": "गोस्वामी तुलसीदास जयंती पर रामचरितमानस के रचयिता संत तुलसीदास का स्मरण, रामनाम-जप और रामचरितमानस पाठ किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल सप्तमी",
+      "sourceName": "Drik Panchang — Tulsidas Jayanti 2030",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/tulsidas/goswami-tulsidas-jayanti.html?year=2030"
+    },
+    {
+      "date": "2030-08-07",
+      "dateLabel": "7 अगस्त",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल अष्टमी"
+    },
+    {
       "date": "2030-08-09",
       "dateLabel": "9 अगस्त",
-      "title": "वरलक्ष्मी व्रत / श्रावण पुत्रदा एकादशी",
+      "title": "वरलक्ष्मी व्रत / श्रावण पुत्रदा एकादशी (स्मार्त)",
       "description": "वरलक्ष्मी व्रत / श्रावण पुत्रदा एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "व्रत एवं एकादशी",
       "reviewStatus": "approved",
@@ -54,6 +107,17 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2030-08-11",
+      "dateLabel": "11 अगस्त",
+      "title": "रवि प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
+    },
+    {
       "date": "2030-08-13",
       "dateLabel": "13 अगस्त",
       "title": "रक्षाबंधन / गायत्री जयंती / श्रावण पूर्णिमा",
@@ -65,7 +129,8 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
-      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा"
+      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा",
+      "muhurtaRule": "raksha-bandhan-thread"
     },
     {
       "date": "2030-08-16",
@@ -80,6 +145,17 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
+      "date": "2030-08-16",
+      "dateLabel": "16 अगस्त",
+      "title": "हेरम्ब संकष्टी चतुर्थी / बहुला चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण चतुर्थी",
+      "muhurtaRule": "sankashti-chaturthi-moonrise"
+    },
+    {
       "date": "2030-08-17",
       "dateLabel": "17 अगस्त",
       "title": "सिंह संक्रांति",
@@ -89,21 +165,49 @@
       "showReviewStatus": false,
       "hinduTithi": "सूर्य का सिंह राशि में प्रवेश",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "muhurtaRule": "sankranti-punya-kala"
+    },
+    {
+      "date": "2030-08-19",
+      "dateLabel": "19 अगस्त",
+      "title": "हलषष्ठी (ललही छठ)",
+      "description": "हलषष्ठी पर बलराम जी की पूजा और संतान की मंगलकामना के लिए व्रत किया जाता है। इस दिन हल से जोती भूमि में उगे अन्न के सेवन से परहेज और षष्ठी-व्रत के विशेष नियमों का पालन किया जाता है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण षष्ठी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
-      "date": "2030-08-21",
-      "dateLabel": "21 अगस्त",
-      "title": "श्रीकृष्ण जन्माष्टमी",
-      "description": "श्रीकृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण के निमित्त व्रत, पूजन, स्तोत्र-पाठ और भजन किए जाते हैं। रात्रि के निशीथ काल में जन्मोत्सव मनाने की परंपरा है।",
-      "category": "जयंती",
+      "date": "2030-08-20",
+      "dateLabel": "20 अगस्त",
+      "title": "मासिक कालाष्टमी / श्रीकृष्ण जन्माष्टमी (स्मार्त) / आद्याकाली एवं विंध्यवासिनी जयंती",
+      "description": "कृष्ण पक्ष की अष्टमी निशीथ काल में व्याप्त होने से स्मार्त नियम के अनुसार श्रीकृष्ण जन्माष्टमी का व्रत 20 अगस्त को है। इसी तिथि पर मासिक कालाष्टमी, आद्याकाली महाविद्या जयंती और विंध्यवासिनी जयंती भी हैं। रात्रि के निशीथ काल में भगवान श्रीकृष्ण का जन्मोत्सव तथा भगवान भैरव और देवी की पूजा की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख</a> <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">काली महाविद्या</a> <a href=\"https://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद कृष्ण अष्टमी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "hinduTithi": "भाद्रपद कृष्ण सप्तमी (अष्टमी निशीथ-व्याप्ति)",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
-      "articleLabel": "श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख"
+      "articleLabel": "श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख",
+      "muhurtaRule": "janmashtami-nishita",
+      "sourceName": "Drik Panchang — Krishna Janmashtami tithi and Dasha Mahavidya calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?year=2030",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Mahavidya-MahaKali-On-KalikaJayanti.html",
+      "secondaryArticleLabel": "काली महाविद्या"
+    },
+    {
+      "date": "2030-08-22",
+      "dateLabel": "22 अगस्त",
+      "title": "दही हांडी",
+      "description": "श्रीकृष्ण जन्माष्टमी के अगले दिन दही हांडी उत्सव मनाया जाता है। इसमें भगवान श्रीकृष्ण की बाल-लीलाओं का स्मरण करते हुए मटकी फोड़ने की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण नवमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
       "date": "2030-08-24",
@@ -123,10 +227,68 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2030-08-25",
+      "dateLabel": "25 अगस्त",
+      "title": "बछबारस (वत्स द्वादशी)",
+      "description": "बछबारस पर गाय और बछड़े का पूजन कर संतान की सुख-समृद्धि की कामना की जाती है। यह व्रत विशेष रूप से राजस्थान और पश्चिम भारत के कुछ क्षेत्रों में प्रचलित है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-26",
+      "dateLabel": "26 अगस्त",
+      "title": "सोम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
+    },
+    {
+      "date": "2030-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "मासिक शिवरात्रि",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण चतुर्दशी",
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+    },
+    {
+      "date": "2030-08-28",
+      "dateLabel": "28 अगस्त",
+      "title": "पिठोरी अमावस्या / भाद्रपद अमावस्या / दर्श अमावस्या",
+      "description": "भाद्रपद अमावस्या पर पितरों के निमित्त तर्पण, श्राद्ध, स्नान और दान किया जाता है। पिठोरी अमावस्या पर माताएँ संतान की रक्षा और मंगल के लिए देवी की पूजा करती हैं।",
+      "category": "अमावस्या",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-30",
+      "dateLabel": "30 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल द्वितीया"
+    },
+    {
       "date": "2030-08-31",
       "dateLabel": "31 अगस्त",
-      "title": "हरतालिका तीज",
-      "description": "हरतालिका तीज पर भगवान शिव और माता पार्वती की पूजा, व्रत और कथा-श्रवण की परंपरा है।",
+      "title": "वराह जयंती / हरतालिका तीज / रुद्र सावर्णि मन्वादि तिथि",
+      "description": "भाद्रपद शुक्ल तृतीया पर भगवान विष्णु के वराह अवतार की जयंती और हरतालिका तीज का पर्व मनाया जाता है। हरतालिका पर महिलाएँ भगवान शिव और माता पार्वती की पूजा, व्रत और कथा-श्रवण करती हैं। इस तिथि को रुद्र सावर्णि मन्वादि तिथि भी कहा गया है।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,

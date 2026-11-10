@@ -151,9 +151,11 @@
       "title": "मासिक शिवरात्रि",
       "category": "व्रत",
       "hinduTithi": "वैशाख कृष्ण चतुर्दशी",
-      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
       "reviewStatus": "approved",
-      "muhurtaRule": "masik-shivaratri-nishita"
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
       "date": "2026-04-15",
@@ -214,7 +216,7 @@
     {
       "date": "2026-04-19",
       "dateLabel": "19 अप्रैल",
-      "title": "त्रेतायुगादि (त्रेतायुग का आरंभ)",
+      "title": "त्रेतायुगादि तिथि (त्रेतायुग का आरंभ)",
       "description": "वैशाख शुक्ल तृतीया को त्रेतायुगादि माना जाता है। मान्यता है कि इसी तिथि से त्रेतायुग का आरंभ हुआ था। यही तिथि अक्षय तृतीया कहलाती है। इस दिन दान-पुण्य और शुभ कार्यों का विशेष महत्व है।",
       "category": "युगादि तिथि",
       "hinduTithi": "वैशाख शुक्ल तृतीया",
@@ -226,7 +228,7 @@
       "date": "2026-04-20",
       "dateLabel": "20 अप्रैल",
       "title": "श्री मातंगी महाविद्या जयन्ती",
-      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Godess-Matangi-ON-Maatangi-Jayanti.html\" target=\"_blank\">श्री मातंगी महाविद्या जयन्ती</a>",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Godess-Matangi-ON-Maatangi-Jayanti.html\" target=\"_blank\">श्री मातंगी महाविद्या जयन्ती</a> <a href=\"https://ourhindudharm.blogspot.com/2021/08/About-MatangiMahavidya-ki-Stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री मातंगी महाविद्या की स्तोत्रात्मक उपासना</a>।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल तृतीया",

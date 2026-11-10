@@ -25,10 +25,20 @@ test("2030 August and September festival descriptions are specific", async () =>
   assert.match(rakhi.description, /रक्षा-सूत्र/);
   assert.match(rakhi.description, /गायत्री मंत्र-जप/);
   assert.match(rakhi.articleUrl || "", /About-RakshaBandhan/);
-  assert.match(find(august.events, /श्रीकृष्ण जन्माष्टमी/).description, /निशीथ काल/);
+  const janmashtami = find(august.events, /श्रीकृष्ण जन्माष्टमी/);
+  assert.equal(janmashtami.date, "2030-08-20");
+  assert.match(janmashtami.description, /निशीथ काल/);
+  assert.match(janmashtami.articleUrl || "", /About-Shree-Krishna-Janmaashtami/);
+  assert.match(janmashtami.secondaryArticleUrl || "", /About-Mahavidya-MahaKali/);
   assert.match(find(august.events, /हरतालिका तीज/).description, /शिव और माता पार्वती/);
 
   assert.match(find(september.events, /ऋषि पंचमी/).description, /सप्तऋषियों/);
+  assert.match(find(september.events, /ललिता सप्तमी/).description, /देवी ललिता/);
+  assert.match(find(september.events, /राधाष्टमी/).description, /श्रीराधा/);
+  assert.match(find(september.events, /जीवित्पुत्रिका व्रत/).description, /निर्जला उपवास/);
+  assert.match(find(september.events, /मासिक कृष्ण जन्माष्टमी/).description, /निशीथ काल/);
+  assert.match(find(september.events, /महाराजा अग्रसेन/).description, /घटस्थापना/);
+
   assert.match(find(september.events, /बलराम जयंती/).description, /भगवान बलराम/);
   const radha = find(september.events, /राधाष्टमी/);
   assert.match(radha.articleUrl || "", /About-ShreeRadha-On-Radhaashtami/);

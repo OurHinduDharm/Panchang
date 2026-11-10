@@ -25,6 +25,23 @@ test("Sankashti moonrise is shown only when Krishna Chaturthi prevails", () => {
   assert.equal(invalid.status, "unavailable");
 });
 
+test("Pradosh muhurta is restricted to the local sunset window and Trayodashi", () => {
+  const event = { muhurtaRule: "pradosh-kala" };
+  const valid = getFestivalMuhurta(event, {
+    ...day,
+    tithis: [{ index: 12, startTime: "2027-04-15T18:00:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }]
+  });
+  assert.equal(valid.status, "calculated");
+  assert.equal(valid.windows.length, 1);
+  assert.equal(valid.windows[0].start.getTime(), day.sunset.getTime());
+  assert.ok(valid.windows[0].end < day.nextSunrise);
+  const invalid = getFestivalMuhurta(event, {
+    ...day,
+    tithis: [{ index: 12, startTime: "2027-04-15T21:30:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }]
+  });
+  assert.equal(invalid.status, "unavailable");
+});
+
 test("Vasant Panchami puja is clipped to Purvahna and Shukla Panchami", () => {
   const result = getFestivalMuhurta({ muhurtaRule: "vasant-panchami-saraswati" }, {
     ...day,

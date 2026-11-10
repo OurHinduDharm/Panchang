@@ -7,56 +7,147 @@
   "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
-      "date": "2028-02-03",
-      "dateLabel": "3 फ़रवरी",
-      "title": "रथ सप्तमी",
-      "description": "रथ सप्तमी सूर्यदेव की उपासना से जुड़ी तिथि है। प्रातः स्नान, सूर्य को अर्घ्य, आदित्य-स्मरण और दान की परंपरा है।",
-      "category": "पर्व",
+      "date": "2028-02-01",
+      "dateLabel": "1 फरवरी",
+      "title": "मासिक स्कन्द षष्ठी / माघ गुप्त नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
+      "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "articleLabel": "माँ कात्यायनी"
+    },
+    {
+      "date": "2028-02-02",
+      "dateLabel": "2 फ़रवरी",
+      "title": "माघ गुप्त नवरात्र सप्तमी — माँ कालरात्रि",
+      "description": "सातवें दिन माँ कालरात्रि की आराधना की जाती है। भय और संकटों से रक्षा की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कालरात्रि</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल सप्तमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "articleLabel": "माँ कालरात्रि"
     },
     {
       "date": "2028-02-03",
-      "dateLabel": "3 फरवरी",
-      "title": "भीष्माष्टमी",
-      "description": "भीष्माष्टमी पर महाभारत के भीष्म पितामह का स्मरण तथा कुछ परंपराओं में तर्पण किया जाता है।",
+      "dateLabel": "3 फ़रवरी",
+      "title": "रथ सप्तमी / नर्मदा जयंती",
+      "description": "रथ सप्तमी सूर्यदेव की उपासना से जुड़ी तिथि है। प्रातः स्नान, सूर्य को अर्घ्य, आदित्य-स्मरण और दान की परंपरा है। नर्मदा जयंती पर माँ नर्मदा के प्राकट्य-स्मरण, स्नान, पूजन और दान की परंपरा है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "sourceName": "Drik Panchang — Bhishma Ashtami special page",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/bhishma-ashtami/bhishma-ashtami-date-time.html?lang=hi&year=2028"
+      "sourceName": "Drik Panchang — Narmada Jayanti 2028",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/narmada-jayanti-date-time.html?year=2028",
+      "hinduTithi": "माघ शुक्ल सप्तमी"
+    },
+    {
+      "date": "2028-02-03",
+      "dateLabel": "3 फ़रवरी",
+      "title": "भीष्माष्टमी / माघ गुप्त नवरात्र अष्टमी — माँ महागौरी",
+      "description": "भीष्माष्टमी पर महाभारत के भीष्म पितामह का स्मरण तथा कुछ परंपराओं में तर्पण किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html\" target=\"_blank\"> भीष्माष्टमी, भीष्म तर्पण।</a> अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "articleLabel": "माँ महागौरी"
+    },
+    {
+      "date": "2028-02-04",
+      "dateLabel": "4 फरवरी",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल अष्टमी"
+    },
+    {
+      "date": "2028-02-04",
+      "dateLabel": "4 फ़रवरी",
+      "title": "माघ गुप्त नवरात्र नवमी — माँ सिद्धिदात्री",
+      "description": "नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल नवमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
+      "articleLabel": "माँ सिद्धिदात्री"
+    },
+    {
+      "date": "2028-02-05",
+      "dateLabel": "5 फ़रवरी",
+      "title": "माघ गुप्त नवरात्र पारण",
+      "description": "नवमी के उपरांत माघ गुप्त नवरात्रि-व्रत का पारण और घटस्थापित कलश का विधिपूर्वक विसर्जन करें। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल दशमी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "articleLabel": "कलश-विसर्जन विधि"
     },
     {
       "date": "2028-02-06",
       "dateLabel": "6 फ़रवरी",
       "title": "जया एकादशी (स्मार्त)",
-      "description": "स्मार्त परंपरा में जया एकादशी का व्रत 6 फरवरी को है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
+      "description": "स्मार्त परंपरा में जया एकादशी का व्रत 6 फरवरी को है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "muhurtaRule": "ekadashi-parana",
       "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल एकादशी"
+      "hinduTithi": "माघ शुक्ल एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2028-02-07",
       "dateLabel": "7 फ़रवरी",
-      "title": "जया एकादशी (वैष्णव)",
-      "description": "वैष्णव परंपरा में गौण जया एकादशी का व्रत 7 फरवरी को रखा जाता है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
-      "category": "एकादशी",
+      "title": "भीष्म द्वादशी",
+      "description": "माघ शुक्ल द्वादशी को भीष्म द्वादशी के रूप में पितामह भीष्म का स्मरण, तर्पण और दान किया जाता है।",
+      "category": "पर्व",
       "reviewStatus": "approved",
-      "muhurtaRule": "ekadashi-parana",
       "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल एकादशी"
+      "hinduTithi": "माघ शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-february.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-02-08",
+      "dateLabel": "8 फरवरी",
+      "title": "भौम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पक्ष त्रयोदशी"
     },
     {
       "date": "2028-02-10",
       "dateLabel": "10 फ़रवरी",
-      "title": "माघ पूर्णिमा",
-      "description": "माघ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
+      "title": "माघ पूर्णिमा / ललिता षोडशी महाविद्या जयंती",
+      "description": "माघ पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। ललिता षोडशी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html\" target=\"_blank\" rel=\"noopener noreferrer\">ललिता षोडशी महाविद्या</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल पूर्णिमा"
+      "hinduTithi": "माघ शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html",
+      "articleLabel": "ललिता षोडशी महाविद्या",
+      "sourceName": "Drik Panchang — 2028 Dasha Mahavidya Jayanti Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2028"
+    },
+    {
+      "date": "2028-02-13",
+      "dateLabel": "13 फरवरी",
+      "title": "द्विजप्रिय संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्थी"
     },
     {
       "date": "2028-02-13",
@@ -68,21 +159,73 @@
       "showReviewStatus": false
     },
     {
+      "date": "2028-02-15",
+      "dateLabel": "15 फ़रवरी",
+      "title": "यशोदा जयंती",
+      "description": "फाल्गुन कृष्ण षष्ठी को माता यशोदा के वात्सल्य और भगवान श्रीकृष्ण के बालरूप का स्मरण किया जाता है। इस अवसर पर बालकृष्ण और माता यशोदा का पूजन करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण षष्ठी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-february.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-02-16",
+      "dateLabel": "16 फ़रवरी",
+      "title": "शबरी जयंती",
+      "description": "शबरी जयंती पर भगवान श्रीराम की परम भक्त माता शबरी की भक्ति और समर्पण का स्मरण किया जाता है। रामनाम-जप, पूजा और कथा-श्रवण करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण सप्तमी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-february.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-02-17",
+      "dateLabel": "17 फरवरी",
+      "title": "जानकी जयंती / मासिक कालाष्टमी",
+      "description": "फाल्गुन कृष्ण अष्टमी पर जानकी जयंती के अवसर पर माता सीता का स्मरण और पूजन किया जाता है। इसी तिथि पर मासिक कालाष्टमी का व्रत भी है; भगवान भैरव की उपासना, शिवपूजन और रुद्राभिषेक की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कालाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "sourceName": "Drik Panchang — February 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-february.html?lang=en&year=2028"
+    },
+    {
       "date": "2028-02-20",
       "dateLabel": "20 फ़रवरी",
       "title": "विजया एकादशी",
-      "description": "विजया एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें।",
+      "description": "विजया एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "फाल्गुन कृष्ण एकादशी"
+      "hinduTithi": "फाल्गुन कृष्ण एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+    },
+    {
+      "date": "2028-02-22",
+      "dateLabel": "22 फरवरी",
+      "title": "भौम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण पक्ष त्रयोदशी"
     },
     {
       "date": "2028-02-23",
       "dateLabel": "23 फ़रवरी",
-      "title": "महाशिवरात्रि",
-      "description": "महाशिवरात्रि भगवान शिव की उपासना का प्रमुख पर्व है। जलाभिषेक, बिल्वपत्र अर्पण, मंत्र-जप और रात्रि-जागरण की परंपरा है; निशीथ-काल रात्रि का मध्य भाग है।",
+      "title": "महाशिवरात्रि / मासिक शिवरात्रि",
+      "description": "महाशिवरात्रि भगवान शिव की उपासना का प्रमुख पर्व है। जलाभिषेक, बिल्वपत्र अर्पण, मंत्र-जप और रात्रि-जागरण की परंपरा है; निशीथ-काल रात्रि का मध्य भाग है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html\" target=\"_blank\"> श्रीमहाशिवरात्रि व्रत </a> <a href=\"http://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\">शिवरात्रि का रहस्य</a> <a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\">शिवरात्रि में रात्रि जागरण पूर्वक चारों प्रहर की शास्त्रोक्त विधान से पूजा करने की विधि</a> मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -92,12 +235,15 @@
       ],
       "hinduTithi": "फाल्गुन कृष्ण चतुर्दशी",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html",
-      "articleLabel": "शिवरात्रि के चारों प्रहर की पूजा-विधि पढ़ें"
+      "articleLabel": "शिवरात्रि के चारों प्रहर की पूजा-विधि पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/02/About-Mahashivratri-Vrat.html",
+      "secondaryArticleLabel": "महाशिवरात्रि व्रत की महिमा",
+      "muhurtaRule": "masik-shivaratri-nishita"
     },
     {
       "date": "2028-02-24",
       "dateLabel": "24 फ़रवरी",
-      "title": "द्वापरादि (द्वापरयुग का आरंभ)",
+      "title": "द्वापरादि तिथि (द्वापरयुग का आरंभ)",
       "description": "माघ कृष्ण अमावस्या को द्वापरयुगादि माना जाता है। पूर्णिमान्त गणना में यही तिथि फाल्गुन कृष्ण अमावस्या कहलाती है। इसे मौनी अमावस्या के रूप में भी जाना जाता है। इस दिन स्नान, मौन-व्रत और दान का विशेष महत्व है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
@@ -114,6 +260,39 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "फाल्गुन कृष्ण अमावस्या"
+    },
+    {
+      "date": "2028-02-26",
+      "dateLabel": "26 फरवरी",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल प्रतिपदा"
+    },
+    {
+      "date": "2028-02-27",
+      "dateLabel": "27 फ़रवरी",
+      "title": "फुलेरा दूज / श्रीरामकृष्ण जयंती",
+      "description": "फाल्गुन शुक्ल द्वितीया को फुलेरा दूज पर राधा-कृष्ण की पुष्प-सेवा और फागोत्सव की परंपरा है। इसी दिन श्रीरामकृष्ण परमहंस की जयंती पर उनके जीवन, उपदेशों और साधना का स्मरण करें।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल द्वितीया",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-february.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-02-29",
+      "dateLabel": "29 फरवरी",
+      "title": "ढुण्ढिराज चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     }
   ]
 }

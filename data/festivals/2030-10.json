@@ -9,6 +9,30 @@
   "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
   "events": [
     {
+      "date": "2030-10-01",
+      "dateLabel": "1 अक्टूबर",
+      "title": "शारदीय नवरात्र पंचमी पूजा — माँ स्कन्दमाता / उपांग ललिता व्रत",
+      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "articleLabel": "माँ स्कन्दमाता"
+    },
+    {
+      "date": "2030-10-02",
+      "dateLabel": "2 अक्टूबर",
+      "title": "मासिक स्कन्द षष्ठी / शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "articleLabel": "माँ कात्यायनी"
+    },
+    {
       "date": "2030-10-03",
       "dateLabel": "3 अक्टूबर",
       "title": "सरस्वती आवाहन",
@@ -21,10 +45,22 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
+      "date": "2030-10-03",
+      "dateLabel": "3 अक्टूबर",
+      "title": "शारदीय नवरात्र सप्तमी पूजा — माँ कालरात्रि",
+      "description": "नवरात्रि के सातवें दिन माँ कालरात्रि की आराधना की जाती है। भय और संकटों से रक्षा की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कालरात्रि</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल सप्तमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "articleLabel": "माँ कालरात्रि"
+    },
+    {
       "date": "2030-10-04",
       "dateLabel": "4 अक्टूबर",
-      "title": "दुर्गाष्टमी / सरस्वती पूजन",
-      "description": "दुर्गाष्टमी पर माँ दुर्गा और माँ महागौरी की पूजा तथा कन्या-पूजन की परंपरा है। सरस्वती पूजन में विद्या और कला की अधिष्ठात्री देवी की आराधना की जाती है।",
+      "title": "दुर्गाष्टमी / माँ महागौरी पूजन / सरस्वती पूजा",
+      "description": "दुर्गाष्टमी पर माँ दुर्गा और माँ महागौरी की पूजा तथा कन्या-पूजन की परंपरा है। कई परंपराओं में अष्टमी-नवमी के संधिकाल में संधि-पूजा भी की जाती है। सरस्वती पूजा में विद्या और कला की अधिष्ठात्री देवी का आवाहन और पूजन किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -37,8 +73,8 @@
     {
       "date": "2030-10-05",
       "dateLabel": "5 अक्टूबर",
-      "title": "महानवमी",
-      "description": "महानवमी पर माँ दुर्गा और माँ सिद्धिदात्री की पूजा, हवन तथा परंपरानुसार कन्या-पूजन किया जाता है।",
+      "title": "महानवमी / माँ सिद्धिदात्री पूजन / दक्ष सावर्णि मन्वादि तिथि",
+      "description": "महानवमी पर माँ दुर्गा और माँ सिद्धिदात्री की पूजा, हवन तथा परंपरानुसार कन्या-पूजन किया जाता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a> इसी दिन दक्ष सावर्णि मन्वादि तिथि का स्मरण भी किया जाता है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -53,8 +89,8 @@
     {
       "date": "2030-10-06",
       "dateLabel": "6 अक्टूबर",
-      "title": "विजयादशमी / दशहरा",
-      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शमी-पूजन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ प्रचलित हैं।",
+      "title": "विजयादशमी / नवरात्रि पारण / मध्वाचार्य जयंती",
+      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शमी-पूजन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ प्रचलित हैं। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a> मध्वाचार्य जयंती पर द्वैत वेदान्त के आचार्य श्रीमध्वाचार्य के जीवन और दर्शन का स्मरण किया जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -62,7 +98,9 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
-      "articleLabel": "कलश विसर्जन विधि"
+      "articleLabel": "कलश विसर्जन विधि",
+      "secondarySourceName": "Drik Panchang — 2030 Indian Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
     },
     {
       "date": "2030-10-07",
@@ -80,6 +118,29 @@
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+    },
+    {
+      "date": "2030-10-07",
+      "dateLabel": "7 अक्टूबर",
+      "title": "पद्मनाभ द्वादशी / काशी भरत मिलाप",
+      "description": "आश्विन शुक्ल द्वादशी पर भगवान विष्णु के पद्मनाभ स्वरूप का स्मरण और पूजन किया जाता है। दशहरा के अगले दिन काशी में भरत मिलाप की परंपरा भी है।",
+      "category": "व्रत एवं पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — 2030 मासिक पंचांग",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=17%2F10%2F2030"
+    },
+    {
+      "date": "2030-10-08",
+      "dateLabel": "8 अक्टूबर",
+      "title": "भौम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-10-10",
@@ -100,27 +161,31 @@
     {
       "date": "2030-10-11",
       "dateLabel": "11 अक्टूबर",
-      "title": "आश्विन पूर्णिमा",
-      "description": "आश्विन पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। पूर्णिमा-व्रत और चंद्र-अर्घ्य का विधान तिथि-व्याप्ति के अनुसार किया जाता है।",
+      "title": "आश्विन पूर्णिमा / महर्षि वाल्मीकि जयंती / मीराबाई जयंती",
+      "description": "आश्विन पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। पूर्णिमा-व्रत और चंद्र-अर्घ्य का विधान तिथि-व्याप्ति के अनुसार किया जाता है। महर्षि वाल्मीकि जयंती पर आदिकवि वाल्मीकि और रामायण-परंपरा का स्मरण किया जाता है। मीराबाई जयंती पर श्रीकृष्ण के प्रति उनकी अनन्य भक्ति और पदों का पाठ किया जाता है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "secondarySourceName": "Drik Panchang — 2030 Indian Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
     },
     {
       "date": "2030-10-15",
       "dateLabel": "15 अक्टूबर",
-      "title": "करवा चौथ",
-      "description": "करवा चौथ पर सुहाग की मंगलकामना से व्रत रखा जाता है। संध्या में करवा माता और गौरी-गणेश का पूजन कर चंद्रमा को अर्घ्य देने के बाद व्रत का पारण किया जाता है।",
+      "title": "करवा चौथ / वक्रतुण्ड संकष्टी",
+      "description": "करवा चौथ पर विवाहित महिलाएँ पति के मंगल और दीर्घायु की कामना से व्रत रखती हैं। संध्या में करवा माता तथा गौरी-गणेश का पूजन कर चंद्रमा को अर्घ्य देने के बाद व्रत खोलती हैं। इसी दिन वक्रतुण्ड संकष्टी चतुर्थी पर भी भगवान गणेश का व्रत-पूजन किया जाता है। चंद्र-दर्शन और अर्घ्य का समय स्थानानुसार बदलता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\" rel=\"noopener noreferrer\">करवा चौथ व्रत</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण चतुर्थी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRule": "karwa-chauth-puja"
+      "muhurtaRule": "karwa-chauth-puja",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
+      "articleLabel": "करवा चौथ व्रत-विधि"
     },
     {
       "date": "2030-10-17",
@@ -137,26 +202,27 @@
     {
       "date": "2030-10-19",
       "dateLabel": "19 अक्टूबर",
-      "title": "अहोई अष्टमी",
-      "description": "अहोई अष्टमी पर संतान के कल्याण और दीर्घायु की कामना से व्रत रखा जाता है। संध्या में अहोई माता की पूजा और तारों को अर्घ्य देने की परंपरा है।",
+      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी / अहोई अष्टमी / राधाकुण्ड स्नान",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> इसी दिन मासिक कृष्ण जन्माष्टमी की निशीथकालीन उपासना, अहोई माता का संतान-सुख हेतु पूजन और तारों को अर्घ्य देने की परंपरा है। ब्रज में अहोई अष्टमी पर राधाकुण्ड स्नान का विशेष महत्व माना जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण अष्टमी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      "hinduTithi": "कार्तिक कृष्ण सप्तमी (अष्टमी व्याप्ति)",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "muhurtaRule": "janmashtami-nishita"
     },
     {
       "date": "2030-10-23",
       "dateLabel": "23 अक्टूबर",
-      "title": "गोवत्स द्वादशी / रमा एकादशी",
-      "description": "गोवत्स द्वादशी / रमा एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
-      "category": "व्रत एवं एकादशी",
+      "title": "रमा एकादशी",
+      "description": "रमा एकादशी पर भगवान विष्णु और माता लक्ष्मी की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">रमा एकादशी का माहात्म्य पढ़ें</a>",
+      "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण द्वादशी एवं एकादशी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "hinduTithi": "कार्तिक कृष्ण एकादशी",
+      "sourceName": "Drik Panchang — 2030 मासिक पंचांग",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=17%2F10%2F2030",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
@@ -164,23 +230,44 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2030-10-23",
+      "dateLabel": "23 अक्टूबर",
+      "title": "गोवत्स द्वादशी / कृष्ण पद्मनाभ द्वादशी",
+      "description": "कार्तिक कृष्ण द्वादशी पर गोवत्स द्वादशी में गाय और बछड़े का पूजन किया जाता है। इसी तिथि पर भगवान विष्णु के पद्मनाभ स्वरूप की उपासना का भी विधान है। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">गोवत्स द्वादशी व्रत</a>",
+      "category": "व्रत एवं द्वादशी",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html",
+      "articleLabel": "गोवत्स द्वादशी व्रत"
+    },
+    {
       "date": "2030-10-24",
       "dateLabel": "24 अक्टूबर",
-      "title": "धनतेरस / धन्वन्तरि जयंती",
-      "description": "धनतेरस पर भगवान धन्वन्तरि, माता लक्ष्मी और कुबेर का पूजन तथा दीपदान किया जाता है। इस दिन शुभ खरीदारी और यमदीपदान की परंपरा भी प्रचलित है।",
+      "title": "धनतेरस / धन्वन्तरि जयंती / गुरु प्रदोष व्रत / यमदीपदान",
+      "description": "धनतेरस पर भगवान धन्वन्तरि, माता लक्ष्मी और कुबेर का पूजन तथा दीपदान किया जाता है। इस दिन शुभ खरीदारी और यमदीपदान की परंपरा भी प्रचलित है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a> त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRule": "dhanteras-muhurta"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
+      "articleLabel": "धनतेरस",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
+      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती",
+      "muhurtaRules": [
+        "dhanteras-muhurta",
+        "pradosh-kala"
+      ]
     },
     {
       "date": "2030-10-25",
       "dateLabel": "25 अक्टूबर",
-      "title": "काली चौदस",
-      "description": "काली चौदस कुछ क्षेत्रों में कार्तिक कृष्ण चतुर्दशी की निशीथकालीन माँ काली-पूजन और दीपदान का पर्व है।",
+      "title": "काली चौदस / मासिक शिवरात्रि / हनुमान पूजा",
+      "description": "काली चौदस कुछ क्षेत्रों में कार्तिक कृष्ण चतुर्दशी की निशीथकालीन माँ काली-पूजन और दीपदान का पर्व है। इस दिन हनुमान जी की विशेष पूजा, सिंदूर और चमेली का तेल अर्पित करने की परंपरा भी कुछ क्षेत्रों में प्रचलित है। मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -188,7 +275,10 @@
       "sourceName": "Drik Panchang 2030 तिथि-गणना; क्षय-तिथि निर्णय — धर्मसिंधु परंपरा",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
-      "secondaryArticleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें"
+      "secondaryArticleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "muhurtaRule": "masik-shivaratri-nishita"
     },
     {
       "date": "2030-10-26",
@@ -208,19 +298,21 @@
     {
       "date": "2030-10-26",
       "dateLabel": "26 अक्टूबर",
-      "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर दीपदान तथा माँ लक्ष्मी-गणेश पूजन किया जाता है। गृहस्थों के लिए स्थानीय प्रदोष काल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। <a href=\\\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">दीपावली का महत्व</a>। <a href=\\\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>।",
+      "title": "दीपावली / लक्ष्मी पूजन / काली पूजा / कमला महाविद्या जयंती",
+      "description": "दीपावली पर दीपदान तथा माँ लक्ष्मी-गणेश पूजन किया जाता है। गृहस्थों के लिए स्थानीय प्रदोष काल में अमावस्या-व्याप्ति और वृषभ स्थिर लग्न का संयुक्त समय मुख्य पूजन मुहूर्त है। बंगाल सहित अनेक क्षेत्रों में इसी अमावस्या की रात्रि माँ काली की विशेष पूजा होती है। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>। कमला महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">कमला महाविद्या</a>।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण अमावस्या",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "sourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030",
       "muhurtaRules": [
         "diwali-lakshmi-puja"
       ],
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html",
-      "articleLabel": "दीपावली का महत्व"
+      "articleLabel": "दीपावली का महत्व",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना"
     },
     {
       "date": "2030-10-27",
@@ -237,8 +329,8 @@
     {
       "date": "2030-10-28",
       "dateLabel": "28 अक्टूबर",
-      "title": "भैया दूज",
-      "description": "भैया दूज पर बहनें भाइयों के मंगल और दीर्घायु की कामना करती हैं। तिलक, आरती और पारिवारिक मिलन इसकी प्रमुख परंपराएँ हैं।",
+      "title": "भैया दूज / चन्द्र दर्शन / यम द्वितीया / चित्रगुप्त पूजा",
+      "description": "भैया दूज पर बहनें भाइयों के मंगल और दीर्घायु की कामना करती हैं। तिलक, आरती और पारिवारिक मिलन इसकी प्रमुख परंपराएँ हैं। अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -246,6 +338,39 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "muhurtaRule": "bhai-dooj-tilak"
+    },
+    {
+      "date": "2030-10-30",
+      "dateLabel": "30 अक्टूबर",
+      "title": "लाभ चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
+      "date": "2030-10-31",
+      "dateLabel": "31 अक्टूबर",
+      "title": "लाभ पंचमी",
+      "description": "कार्तिक शुक्ल पंचमी को लाभ पंचमी के रूप में शुभारंभ, लेखा-पूजन और मंगलकार्य करने की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — 2030 मासिक पंचांग",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=17%2F10%2F2030"
+    },
+    {
+      "date": "2030-10-31",
+      "dateLabel": "31 अक्टूबर",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल षष्ठी"
     }
   ]
 }

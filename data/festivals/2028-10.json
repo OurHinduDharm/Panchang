@@ -9,77 +9,136 @@
     {
       "date": "2028-10-02",
       "dateLabel": "2 अक्टूबर",
-      "title": "शरद पूर्णिमा",
-      "description": "शरद पूर्णिमा कोजागरी पूर्णिमा के नाम से भी जानी जाती है।",
+      "title": "शरद पूर्णिमा / कोजागरा पूजा",
+      "description": "शरद पूर्णिमा कोजागरी पूर्णिमा के नाम से भी जानी जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">कोजागरी पूर्णिमा</a> <a href=\"https://ourhindudharm.blogspot.com/p/lakshmi.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी-कुबेर पूजन</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल पूर्णिमा"
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-kojaagari-sharatpoornima-vrat.html",
+      "articleLabel": "कोजागरी पूर्णिमा व्रत",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/lakshmi.html",
+      "secondaryArticleLabel": "लक्ष्मी-कुबेर पूजन",
+      "sourceName": "Drik Panchang — October 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-10-03",
+      "dateLabel": "3 अक्टूबर",
+      "title": "आश्विन पूर्णिमा / वाल्मीकि जयंती / मीराबाई जयंती",
+      "description": "आश्विन शुक्ल पूर्णिमा पर स्नान, दान और व्रत की परंपरा है। इसी दिन महर्षि वाल्मीकि और भक्त मीराबाई की जयंती भी मनाई जाती है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — October 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
     },
     {
       "date": "2028-10-07",
       "dateLabel": "7 अक्टूबर",
-      "title": "करवा चौथ",
-      "description": "करवा चौथ का व्रत कई उत्तर भारतीय परंपराओं में पति के मंगल की कामना से रखा जाता है। चंद्र-दर्शन और अर्घ्य का समय नगर के अनुसार बदलता है।",
-      "category": "पर्व",
+      "title": "करवा चौथ / कार्तिक कृष्ण चतुर्थी — करकचतुर्थी / वक्रतुण्ड संकष्टी",
+      "description": "करवा चौथ का व्रत कई उत्तर भारतीय परंपराओं में पति के मंगल की कामना से रखा जाता है। चंद्र-दर्शन और अर्घ्य का समय नगर के अनुसार बदलता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\" rel=\"noopener noreferrer\">करवा चौथ व्रत</a> विवाहित महिलाएँ पति के मंगल और दीर्घायु की कामना से रखती हैं। चंद्रमा को अर्घ्य देकर व्रत खोलें। चंद्र-दर्शन और अर्घ्य का स्थानीय समय स्थान के अनुसार बदलता है।",
+      "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "karwa-chauth-puja"
+      "hinduTithi": "कार्तिक कृष्ण चतुर्थी",
+      "muhurtaRule": "karwa-chauth-puja",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
+      "articleLabel": "करवा चौथ व्रत-विधि"
     },
     {
       "date": "2028-10-11",
       "dateLabel": "11 अक्टूबर",
-      "title": "अहोई अष्टमी",
-      "description": "अहोई अष्टमी कई परिवारों में संतान के कल्याण की कामना से रखा जाने वाला व्रत है। अहोई माता की पूजा और तारों को अर्घ्य देने की परंपरा है।",
+      "title": "अहोई अष्टमी / मासिक कालाष्टमी / राधाकुण्ड स्नान",
+      "description": "अहोई अष्टमी कई परिवारों में संतान के कल्याण की कामना से रखा जाने वाला व्रत है। अहोई माता की पूजा और तारों को अर्घ्य देने की परंपरा है। प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> इसी दिन राधाकुण्ड में स्नान की परंपरा भी है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण अष्टमी"
-    },
-    {
-      "date": "2028-10-14",
-      "dateLabel": "14 अक्टूबर",
-      "title": "गोवत्स द्वादशी",
-      "description": "गोवत्स द्वादशी में गाय और बछड़े का पूजन कई परंपराओं में किया जाता है। पूजा-विधि क्षेत्रीय रीति के अनुसार भिन्न हो सकती है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
+      "hinduTithi": "कार्तिक कृष्ण अष्टमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
       "date": "2028-10-14",
       "dateLabel": "14 अक्टूबर",
       "title": "रमा एकादशी",
-      "description": "रमा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें।",
+      "description": "रमा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">रमा एकादशी का माहात्म्य पढ़ें</a> <a href=\"https://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "कार्तिक कृष्ण एकादशी"
+      "hinduTithi": "कार्तिक कृष्ण एकादशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html",
+      "articleLabel": "रमा एकादशी का माहात्म्य पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2028-10-15",
       "dateLabel": "15 अक्टूबर",
-      "title": "धनतेरस",
-      "description": "धनतेरस पर धन्वंतरि, लक्ष्मी और कुबेर की पूजा तथा दीपदान की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, त्रयोदशी-व्याप्ति और प्रदोष काल से निकाला जाएगा। खरीदारी के लिए स्थानीय त्रयोदशी-व्याप्ति में शुभ चौघड़िया और पूजा के लिए त्रयोदशी-व्याप्ति वाला प्रदोष काल नीचे दिखाया जाएगा।",
-      "category": "पर्व",
+      "title": "गोवत्स द्वादशी",
+      "description": "गोवत्स द्वादशी में गाय और बछड़े का पूजन कई परंपराओं में किया जाता है। पूजा-विधि क्षेत्रीय रीति के अनुसार भिन्न हो सकती है।",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "muhurtaRule": "dhanteras-muhurta"
+      "hinduTithi": "कार्तिक कृष्ण द्वादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html",
+      "articleLabel": "गोवत्स द्वादशी व्रत"
+    },
+    {
+      "date": "2028-10-15",
+      "dateLabel": "15 अक्टूबर",
+      "title": "धनतेरस / यम दीपदान / रवि प्रदोष व्रत",
+      "description": "धनतेरस पर धन्वंतरि, लक्ष्मी और कुबेर की पूजा तथा दीपदान की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, त्रयोदशी-व्याप्ति और प्रदोष काल से निकाला जाएगा। खरीदारी के लिए स्थानीय त्रयोदशी-व्याप्ति में शुभ चौघड़िया और पूजा के लिए त्रयोदशी-व्याप्ति वाला प्रदोष काल नीचे दिखाया जाएगा। त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है। इसी दिन यमदीपदान की परंपरा भी है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण पक्ष त्रयोदशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
+      "articleLabel": "धनतेरस",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
+      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती",
+      "sourceName": "Drik Panchang — October 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
     },
     {
       "date": "2028-10-16",
       "dateLabel": "16 अक्टूबर",
-      "title": "काली चौदस",
-      "description": "काली चौदस कुछ क्षेत्रीय परंपराओं में नरक चतुर्दशी के आसपास मनाई जाती है। स्नान, दान और जप की परंपरा है; पुण्यकाल वास्तविक संक्रमण-समय से तय करें।",
-      "category": "पर्व",
+      "title": "काली चौदस / हनुमान पूजा / मासिक शिवरात्रि",
+      "description": "काली चौदस कुछ क्षेत्रीय परंपराओं में नरक चतुर्दशी के आसपास मनाई जाती है। स्नान, दान और जप की परंपरा है; पुण्यकाल वास्तविक संक्रमण-समय से तय करें। मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। कई क्षेत्रों में इस दिन हनुमानजी की विशेष पूजा भी की जाती है।",
+      "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
+      "secondaryArticleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें",
+      "sourceName": "Drik Panchang — October 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
     },
     {
       "date": "2028-10-17",
       "dateLabel": "17 अक्टूबर",
-      "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>।",
+      "title": "नरक चतुर्दशी",
+      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। इस दिन कृष्ण चतुर्दशी की व्याप्ति में चंद्रोदय के बाद और सूर्योदय से पहले अभ्यंग-स्नान किया जाता है। अपामार्ग (चिचड़ा) को शरीर के चारों ओर घुमाकर पाप-निवारण की प्रार्थना करने का विधान धर्मसिंधु में मिलता है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">नरक चतुर्दशी की महिमा पढ़ें</a> दक्षिण भारत की कई परंपराओं में इसी दिन तमिल दीपावली का मुख्य स्नान और उत्सव मनाया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
+      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
+      "muhurtaRule": "narak-chaturdashi-abhyanga",
+      "sourceName": "Drik Panchang — October 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-10-17",
+      "dateLabel": "17 अक्टूबर",
+      "title": "दीपावली / लक्ष्मी पूजन / कमला महाविद्या जयंती",
+      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a> कमला महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">कमला महाविद्या</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -87,20 +146,10 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html",
       "articleLabel": "दीपावली का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
-      "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना"
-    },
-    {
-      "date": "2028-10-17",
-      "dateLabel": "17 अक्टूबर",
-      "title": "नरक चतुर्दशी",
-      "description": "नरक चतुर्दशी को रूप चौदस या छोटी दीपावली भी कहा जाता है। इस दिन कृष्ण चतुर्दशी की व्याप्ति में चंद्रोदय के बाद और सूर्योदय से पहले अभ्यंग-स्नान किया जाता है। अपामार्ग (चिचड़ा) को शरीर के चारों ओर घुमाकर पाप-निवारण की प्रार्थना करने का विधान धर्मसिंधु में मिलता है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">नरक चतुर्दशी की महिमा पढ़ें</a>",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
-      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें",
-      "muhurtaRule": "narak-chaturdashi-abhyanga"
+      "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना",
+      "hinduTithi": "कार्तिक कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2028 Dasha Mahavidya Jayanti Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2028"
     },
     {
       "date": "2028-10-18",
@@ -115,31 +164,69 @@
     {
       "date": "2028-10-19",
       "dateLabel": "19 अक्टूबर",
-      "title": "भैया दूज",
-      "description": "भैया दूज पर बहनें भाइयों के मंगल की कामना करती हैं; तिलक और पारिवारिक मिलन इसकी प्रमुख परंपराएँ हैं। तिलक का समय द्वितीया-व्याप्ति के आधार पर निर्धारित होता है।",
+      "title": "भैया दूज / चन्द्र दर्शन",
+      "description": "भैया दूज पर बहनें भाइयों के मंगल की कामना करती हैं; तिलक और पारिवारिक मिलन इसकी प्रमुख परंपराएँ हैं। तिलक का समय द्वितीया-व्याप्ति के आधार पर निर्धारित होता है। अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल द्वितीया"
+    },
+    {
+      "date": "2028-10-21",
+      "dateLabel": "21 अक्टूबर",
+      "title": "लाभ चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
+      "date": "2028-10-22",
+      "dateLabel": "22 अक्टूबर",
+      "title": "लाभ पंचमी",
+      "description": "लाभ पंचमी पर शुभारंभ, व्यापार-वृद्धि और मंगलकामना के लिए पूजा-अर्चना की जाती है। इसे सौभाग्य पंचमी भी कहते हैं।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "कार्तिक शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — October 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
     },
     {
       "date": "2028-10-23",
       "dateLabel": "23 अक्टूबर",
-      "title": "छठ पूजा",
-      "description": "छठ पूजा में सूर्यदेव और छठी मैया की उपासना, अस्ताचलगामी और उदीयमान सूर्य को अर्घ्य तथा नियमपूर्वक व्रत की परंपरा है। अनुष्ठान का समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
-      "category": "पर्व",
+      "title": "छठ पूजा / मासिक स्कन्द षष्ठी",
+      "description": "छठ पूजा में सूर्यदेव और छठी मैया की उपासना, अस्ताचलगामी और उदीयमान सूर्य को अर्घ्य तथा नियमपूर्वक व्रत की परंपरा है। अनुष्ठान का समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल षष्ठी"
+    },
+    {
+      "date": "2028-10-25",
+      "dateLabel": "25 अक्टूबर",
+      "title": "मासिक दुर्गाष्टमी / गोपाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। गोपाष्टमी पर गौ-पूजन और गोसेवा की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — October 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
     },
     {
       "date": "2028-10-26",
       "dateLabel": "26 अक्टूबर",
-      "title": "सतयुगादि (सतयुग का आरंभ)",
-      "description": "कार्तिक शुक्ल नवमी को सतयुगादि कहा जाता है। पुराणों के अनुसार इस तिथि से सतयुग का आरंभ हुआ था। यही तिथि अक्षय नवमी के रूप में भी प्रसिद्ध है। इस दिन जप, तप और दान को अक्षय पुण्यदायी माना गया है।",
+      "title": "सतयुगादि तिथि (सतयुग का आरंभ) / अक्षय नवमी",
+      "description": "कार्तिक शुक्ल नवमी को सतयुगादि कहा जाता है। पुराणों के अनुसार इस तिथि से सतयुग का आरंभ हुआ था। यही तिथि अक्षय नवमी के रूप में भी प्रसिद्ध है। इस दिन जप, तप और दान को अक्षय पुण्यदायी माना गया है। अक्षय नवमी पर आँवले के वृक्ष का पूजन, दान और पुण्यकर्म करने की परंपरा है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल नवमी",
       "sourceName": "Drik Panchang — पिथौरागढ़",
-      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=26/10/2028"
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=26/10/2028",
+      "secondarySourceName": "Drik Panchang — October 2028 Festivals",
+      "secondarySourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
     },
     {
       "date": "2028-10-27",
@@ -156,13 +243,19 @@
     {
       "date": "2028-10-28",
       "dateLabel": "28 अक्टूबर",
-      "title": "देवउठनी एकादशी",
-      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागरण का स्मरण किया जाता है। तुलसी-विवाह और मांगलिक कार्यों के आरम्भ की परंपरा भी इससे जुड़ी है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है।",
+      "title": "देवउठनी एकादशी / भीष्म पंचक प्रारंभ",
+      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागरण का स्मरण किया जाता है। तुलसी-विवाह और मांगलिक कार्यों के आरम्भ की परंपरा भी इससे जुड़ी है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> भीष्म पंचक व्रत पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">भीष्म पंचक व्रत</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "कार्तिक शुक्ल एकादशी"
+      "hinduTithi": "कार्तिक शुक्ल एकादशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
+      "articleLabel": "देवोत्थापनी एकादशी की महिमा",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान",
+      "sourceName": "Drik Panchang — 2028 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2028"
     },
     {
       "date": "2028-10-29",
@@ -173,7 +266,28 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
-      "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह"
+      "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह",
+      "hinduTithi": "कार्तिक शुक्ल द्वादशी"
+    },
+    {
+      "date": "2028-10-30",
+      "dateLabel": "30 अक्टूबर",
+      "title": "सोम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल पक्ष त्रयोदशी"
+    },
+    {
+      "date": "2028-10-31",
+      "dateLabel": "31 अक्टूबर",
+      "title": "वैकुण्ठ चतुर्दशी / विश्वेश्वर व्रत",
+      "description": "कार्तिक शुक्ल चतुर्दशी को वैकुण्ठ चतुर्दशी और विश्वेश्वर व्रत मनाया जाता है। भगवान विष्णु और भगवान शिव का पूजन करें।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल चतुर्दशी"
     }
   ]
 }

@@ -24,12 +24,16 @@ test("2030 Smarta Ekadashi cards carry the same parana rule and guides as earlie
 });
 
 test("2030 major festival cards retain their implemented muhurta rules", async () => {
+  const march = await readMonth(3);
   const september = await readMonth(9);
   const october = await readMonth(10);
   const find = (events, pattern) => events.find(event => pattern.test(event.title || ""));
   assert.equal(find(september.events, /गणेश चतुर्थी/).muhurtaRule, "vinayaka-chaturthi-madhyahna");
+  assert.deepEqual(find(march.events, /महाशिवरात्रि/).muhurtaRules,
+    ["mahashivaratri-four-prahar", "mahashivaratri-nishita"]);
   assert.equal(find(october.events, /करवा चौथ/).muhurtaRule, "karwa-chauth-puja");
-  assert.equal(find(october.events, /धनतेरस/).muhurtaRule, "dhanteras-muhurta");
+  assert.deepEqual(find(october.events, /धनतेरस/).muhurtaRules,
+    ["dhanteras-muhurta", "pradosh-kala"]);
   assert.deepEqual(find(october.events, /दीपावली|दिवाली/).muhurtaRules,
     ["diwali-lakshmi-puja"]);
   const kali = find(october.events, /काली चौदस/);

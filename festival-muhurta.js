@@ -610,6 +610,41 @@ const rules = {
     };
   },
 
+  "pradosh-kala"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const trayodashi = collectNamedIntervals(context.tithis, item => {
+      const index = tithiIndex(item);
+      return index === 12 || index === 27 || /trayodashi|त्रयोदशी/.test(normalizedName(item));
+    });
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !trayodashi.length) {
+      return {
+        label: "प्रदोष व्रत — प्रदोषकाल",
+        status: "unavailable",
+        message: "स्थानीय सूर्यास्त, अगले सूर्योदय और त्रयोदशी की वास्तविक अवधि उपलब्ध नहीं है; अनुमानित पूजा-समय नहीं दिखाया गया।"
+      };
+    }
+    const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+    const window = windowWithin(
+      sunset, pradoshEnd, trayodashi,
+      "प्रदोष व्रत — प्रदोषकाल",
+      "स्थानीय सूर्यास्त के बाद रात्रिमान के प्रथम पाँचवें भाग और त्रयोदशी की संयुक्त व्याप्ति।"
+    );
+    if (!window) {
+      return {
+        label: "प्रदोष व्रत — प्रदोषकाल",
+        status: "unavailable",
+        message: "स्थानीय प्रदोषकाल में त्रयोदशी की व्याप्ति नहीं मिली; पूजा-समय अनुमानित नहीं किया गया।"
+      };
+    }
+    return {
+      label: "प्रदोष व्रत — प्रदोषकाल",
+      status: "calculated",
+      windows: [window],
+      note: "भगवान शिव का पूजन सूर्यास्त के बाद प्रदोषकाल में करें।"
+    };
+  },
+
   "dhanteras-muhurta"(context) {
     const sunrise = validDate(context.sunrise);
     const sunset = validDate(context.sunset);

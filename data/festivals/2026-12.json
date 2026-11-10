@@ -3,14 +3,14 @@
   "year": 2026,
   "month": 12,
   "monthName": "दिसंबर",
-  "status": "approved",
+  "status": "needs-review",
   "locationScope": "सत्यापित डेटा",
   "events": [
     {
       "date": "2026-12-01",
       "dateLabel": "1 दिसंबर",
-      "title": "कालभैरव जयंती / मासिक कालाष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "कालभैरव जयंती / मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। इसी दिन मासिक कृष्ण जन्माष्टमी का व्रत भी है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी",
@@ -33,6 +33,15 @@
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
+      "date": "2026-12-05",
+      "dateLabel": "5 दिसंबर",
+      "title": "कृष्ण योगेश्वर द्वादशी",
+      "description": "मार्गशीर्ष कृष्ण द्वादशी पर भगवान विष्णु के योगेश्वर स्वरूप का स्मरण और पूजन किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष कृष्ण द्वादशी"
+    },
+    {
       "date": "2026-12-06",
       "dateLabel": "6 दिसंबर",
       "title": "प्रदोष व्रत",
@@ -44,27 +53,20 @@
     {
       "date": "2026-12-07",
       "dateLabel": "7 दिसंबर",
-      "title": "मासिक शिवरात्रि",
-      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी का शिव-व्रत है। इस दिन शिवलिंग पर जल चढ़ाने, मंत्र-जप और रात्रि-जागरण की परंपरा है।",
+      "title": "मासिक शिवरात्रि / श्री बाला सिद्धविद्या जयंती",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी का शिव-व्रत है। इस दिन शिवलिंग पर जल चढ़ाने, मंत्र-जप और रात्रि-जागरण की परंपरा है। इसी तिथि पर द्वादश सिद्धविद्याओं की परंपरा में श्री बाला सिद्धविद्या जयंती भी मनाई जाती है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
-      "muhurtaRule": "masik-shivaratri-nishita"
-    },
-    {
-      "date": "2026-12-07",
-      "dateLabel": "7 दिसंबर",
-      "title": "श्री बाला सिद्धविद्या जयंती",
-      "description": "द्वादश सिद्धविद्याओं की परंपरा में मार्गशीर्ष कृष्ण चतुर्दशी को श्री बाला सिद्धविद्या जयंती मनाई जाती है।",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी"
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
       "date": "2026-12-08",
       "dateLabel": "8 दिसंबर",
-      "title": "मार्गशीर्ष अमावस्या",
-      "description": "मार्गशीर्ष अमावस्या पर स्नान, दान, जप और पितरों के निमित्त तर्पण आदि की परंपरा है।",
+      "title": "दर्श अमावस्या / मार्गशीर्ष अमावस्या",
+      "description": "मार्गशीर्ष अमावस्या (दर्श अमावस्या) पर स्नान, दान, जप और पितरों के निमित्त तर्पण आदि की परंपरा है।",
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष कृष्ण अमावस्या"
@@ -80,7 +82,7 @@
     },
     {
       "date": "2026-12-13",
-      "title": "कृच्छ्र चतुर्थी",
+      "title": "कृच्छ्र चतुर्थी / विनायक चतुर्थी",
       "category": "व्रत",
       "hinduTithi": "मार्गशीर्ष शुक्ल चतुर्थी",
       "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
@@ -99,18 +101,9 @@
     {
       "date": "2026-12-15",
       "dateLabel": "15 दिसंबर",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "title": "मासिक स्कन्द षष्ठी / चम्पा षष्ठी (सुब्रह्मण्य षष्ठी)",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। इसी दिन भगवान खंडोबा/मल्लारी की पूजा के साथ चम्पा षष्ठी भी मनाई जाती है। दक्षिण भारत में इसे सुब्रह्मण्य षष्ठी के रूप में भी जाना जाता है।",
       "category": "व्रत",
-      "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल षष्ठी"
-    },
-    {
-      "date": "2026-12-15",
-      "dateLabel": "15 दिसंबर",
-      "title": "चम्पा षष्ठी",
-      "description": "मार्गशीर्ष शुक्ल षष्ठी को भगवान खंडोबा/मल्लारी की पूजा और चम्पा षष्ठी व्रत की परंपरा है।",
-      "category": "पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल षष्ठी"
     },
@@ -134,33 +127,31 @@
     {
       "date": "2026-12-20",
       "dateLabel": "20 दिसंबर",
-      "title": "गीता जयंती",
-      "description": "गीता जयंती पर भगवद्गीता के उपदेश का स्मरण किया जाता है। गीता-पाठ, श्लोक-मनन, सत्संग और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीमद्भगवद्गीता जयंती</a>",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html",
-      "articleLabel": "श्रीमद्भगवद्गीता जयंती"
-    },
-    {
-      "date": "2026-12-20",
-      "dateLabel": "20 दिसंबर",
-      "title": "मोक्षदा एकादशी",
-      "description": "मोक्षदा एकादशी मार्गशीर्ष शुक्ल एकादशी का व्रत है और इसी अवसर पर गीता जयंती मनाने की परंपरा है। श्रीविष्णु-पूजन और दान करें। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
+      "title": "मोक्षदा एकादशी / गीता जयंती",
+      "description": "मोक्षदा एकादशी मार्गशीर्ष शुक्ल एकादशी का व्रत है और इसी अवसर पर गीता जयंती मनाने की परंपरा है। श्रीविष्णु-पूजन और दान करें। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> इसी दिन भगवद्गीता के उपदेश का स्मरण करते हुए गीता-पाठ और श्लोक-मनन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीमद्भगवद्गीता जयंती</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html",
+      "articleLabel": "श्रीमद्भगवद्गीता जयंती",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-12-21",
       "dateLabel": "21 दिसंबर",
-      "title": "प्रदोष व्रत",
-      "description": "प्रदोष व्रत में भगवान शिव की संध्याकाल में पूजा करें।",
+      "title": "मत्स्य द्वादशी",
+      "description": "मार्गशीर्ष शुक्ल द्वादशी को भगवान विष्णु के मत्स्य अवतार की पूजा की जाती है। इस दिन व्रत, विष्णु-पूजन और दान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष शुक्ल द्वादशी"
+    },
+    {
+      "date": "2026-12-21",
+      "dateLabel": "21 दिसंबर",
+      "title": "सोम प्रदोष व्रत",
+      "description": "मार्गशीर्ष शुक्ल त्रयोदशी के प्रदोषकाल में सोमवार होने से सोम प्रदोष व्रत किया जाता है। इस दिन संध्याकाल में भगवान शिव का पूजन और व्रत करने की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल त्रयोदशी"
@@ -168,42 +159,15 @@
     {
       "date": "2026-12-23",
       "dateLabel": "23 दिसंबर",
-      "title": "दत्तात्रेय जयंती",
-      "description": "दत्तात्रेय जयंती पर भगवान दत्तात्रेय की पूजा, गुरु-स्मरण, जप और दान किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीदत्तात्रेय जयंती</a>",
-      "category": "जयंती",
+      "title": "मार्गशीर्ष पूर्णिमा / दत्तात्रेय जयंती / अन्नपूर्णा जयंती (श्री अन्नपूर्णा सिद्धविद्या जयंती) / त्रिपुरभैरवी महाविद्या जयंती",
+      "description": "मार्गशीर्ष पूर्णिमा पर स्नान, दान, जप और भगवान विष्णु की उपासना की जाती है। कुछ क्षेत्रों में यह दिन दत्तात्रेय जयंती के रूप में भी मनाया जाता है। इसी दिन भगवान दत्तात्रेय की जयंती, श्री अन्नपूर्णा सिद्धविद्या जयंती तथा श्री त्रिपुरभैरवी महाविद्या जयंती भी मनाई जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीदत्तात्रेय जयंती</a> <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>",
+      "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html",
-      "articleLabel": "श्रीदत्तात्रेय जयंती"
-    },
-    {
-      "date": "2026-12-23",
-      "dateLabel": "23 दिसंबर",
-      "title": "मार्गशीर्ष पूर्णिमा",
-      "description": "मार्गशीर्ष पूर्णिमा पर स्नान, दान, जप और भगवान विष्णु की उपासना की जाती है। कुछ क्षेत्रों में यह दिन दत्तात्रेय जयंती के रूप में भी मनाया जाता है।",
-      "category": "पूर्णिमा",
-      "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
-    },
-    {
-      "date": "2026-12-23",
-      "dateLabel": "23 दिसंबर",
-      "title": "श्री त्रिपुरभैरवी महाविद्या जयंती",
-      "description": "मार्गशीर्ष शुक्ल पूर्णिमा पर श्री त्रिपुरभैरवी महाविद्या की उपासना। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
-      "articleLabel": "श्री त्रिपुरभैरवी महाविद्या जयंती"
-    },
-    {
-      "date": "2026-12-23",
-      "dateLabel": "23 दिसंबर",
-      "title": "श्री अन्नपूर्णा सिद्धविद्या जयंती",
-      "description": "द्वादश सिद्धविद्याओं की परंपरा में मार्गशीर्ष शुक्ल पूर्णिमा को श्री अन्नपूर्णा सिद्धविद्या जयंती मनाई जाती है।",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
+      "articleLabel": "श्रीदत्तात्रेय जयंती",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
+      "secondaryArticleLabel": "श्री त्रिपुरभैरवी महाविद्या जयंती"
     },
     {
       "date": "2026-12-26",
@@ -211,16 +175,16 @@
       "title": "संकष्टी चतुर्थी",
       "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय नगर के अनुसार अलग होता है।",
       "category": "व्रत",
-      "reviewStatus": "approved",
+      "reviewStatus": "needs-review",
       "hinduTithi": "पौष कृष्ण चतुर्थी"
     },
     {
       "date": "2026-12-30",
       "dateLabel": "30 दिसंबर",
-      "title": "मासिक कालाष्टमी",
+      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
       "category": "व्रत",
       "hinduTithi": "पौष कृष्ण अष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव की पूजा की जाती है। कई परंपराओं में शिवपूजन और रुद्राभिषेक भी किया जाता है। यह रात्रि का व्रत है, इसलिए अष्टमी तिथि का रात में होना महत्वपूर्ण माना जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इसी दिन मासिक कृष्ण जन्माष्टमी का व्रत भी है। इस दिन भगवान भैरव की पूजा की जाती है। कई परंपराओं में शिवपूजन और रुद्राभिषेक भी किया जाता है। यह रात्रि का व्रत है, इसलिए अष्टमी तिथि का रात में होना महत्वपूर्ण माना जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "showReviewStatus": false,

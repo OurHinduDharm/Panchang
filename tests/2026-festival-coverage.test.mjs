@@ -51,7 +51,7 @@ test("2026 October includes Saraswati Avahan and Saraswati Puja", async () => {
 
 test("2026 September includes Agastya Arghya and preserves Varaha article", async () => {
   const data = await month("09");
-  assert.ok(find(data, "2026-09-07", /अगस्त्य अर्घ्य/));
+  assert.ok(find(data, "2026-09-04", /अगस्त्य अर्घ्य/));
   assert.match(find(data, "2026-09-13", /वराह अवतार/).articleUrl || "", /About-Lord-Varah/);
 });
 
@@ -141,6 +141,17 @@ test("2026 Ekadashi cards expose the general vrat and udyapan guides", async () 
   }
 });
 
+test("2026 Mahavidya Jayanti cards link the newer stotratmak upasana articles", async () => {
+  const shodashi = find(await month("02"), "2026-02-01", /षोडशी महाविद्या जयंती/);
+  assert.match(shodashi.description || "", /Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala/);
+  const tara = find(await month("03"), "2026-03-26", /श्री तारा महाविद्या जयंती/);
+  assert.match(tara.description || "", /About-Stotratmak-Sadhana-Of-Tara-Mahavidya/);
+  const matangi = find(await month("04"), "2026-04-20", /श्री मातंगी महाविद्या जयन्ती/);
+  assert.match(matangi.description || "", /About-MatangiMahavidya-ki-Stotratmak-upasana/);
+  const bhuvaneshwari = find(await month("09"), "2026-09-23", /श्री भुवनेश्वरी महाविद्या जयंती/);
+  assert.match(bhuvaneshwari.description || "", /About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya/);
+});
+
 test("Every legacy OurHinduDharm article link remains attached to the 2026 catalog", async () => {
   const legacy = JSON.parse(await readFile(new URL("../data/festivals/legacy-source-preserved.json", import.meta.url), "utf8"));
   const names = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
@@ -207,13 +218,13 @@ test("2026 Pithoragarh Drik annual-calendar anchor observances are present on th
     ["05-15", /वृषभ संक्रांति/], ["05-16", /वट सावित्री/], ["05-16", /शनि जयन्ती/],
     ["05-25", /गंगा दशहरा/], ["05-27", /पद्मिनी एकादशी/], ["05-31", /ज्येष्ठ अधिक पूर्णिमा/],
     ["06-11", /परमा एकादशी/], ["06-15", /मिथुन संक्रांति/], ["06-25", /निर्जला एकादशी/],
-    ["06-29", /वट पूर्णिमा/], ["07-10", /योगिनी एकादशी/], ["07-11", /गौण योगिनी एकादशी/],
+    ["06-29", /वट पूर्णिमा/], ["07-10", /योगिनी एकादशी/],
     ["07-16", /जगन्नाथ रथयात्रा/], ["07-16", /कर्क संक्रान्ति/], ["07-25", /देवशयनी/],
     ["07-29", /गुरु पूर्णिमा/], ["08-09", /कामिका एकादशी/], ["08-12", /पूर्ण सूर्यग्रहण/],
     ["08-15", /हरियाली तीज/], ["08-17", /नाग पंचमी/], ["08-17", /सिंह संक्रांति/],
     ["08-23", /श्रावण पुत्रदा/], ["08-26", /ओणम/], ["08-28", /वरलक्ष्मी व्रत/],
     ["08-28", /रक्षाबंधन/], ["08-28", /गायत्री जयन्ती/], ["08-28", /आंशिक चंद्रग्रहण/],
-    ["08-31", /कजरी तीज/], ["09-04", /जन्माष्टमी/], ["09-07", /अगस्त्य अर्घ्य/],
+    ["08-31", /कजरी तीज/], ["09-04", /जन्माष्टमी/], ["09-04", /अगस्त्य अर्घ्य/],
     ["09-07", /अजा एकादशी/], ["09-14", /हरतालिका तीज/], ["09-14", /गणेश चतुर्थी/],
     ["09-15", /ऋषि पंचमी/], ["09-16", /बलराम जयंती/], ["09-17", /कन्या संक्रांति/],
     ["09-17", /विश्वकर्मा पूजा/], ["09-19", /राधाष्टमी/], ["09-22", /पार्श्व.*एकादशी/],
@@ -224,8 +235,8 @@ test("2026 Pithoragarh Drik annual-calendar anchor observances are present on th
     ["10-22", /पापांकुशा एकादशी/], ["10-25", /शरद पूर्णिमा/], ["10-29", /करकचतुर्थी/],
     ["11-01", /अहोई अष्टमी/], ["11-05", /रमा एकादशी/], ["11-06", /धनतेरस/],
     ["11-08", /दीपावली/], ["11-08", /नरक चतुर्दशी/], ["11-10", /गोवर्धन पूजा/],
-    ["11-11", /भाई दूज/], ["11-15", /छठ पूजा/], ["11-20", /देवउठनी एकादशी/],
-    ["11-21", /वैष्णव देवउठनी/], ["11-21", /तुलसी विवाह/], ["11-24", /कार्तिक पूर्णिमा/],
+    ["11-11", /भाई दूज/], ["11-15", /छठ पूजा/], ["11-20", /देवोत्थानी एकादशी \(स्मार्त\)/],
+    ["11-21", /तुलसी विवाह/], ["11-24", /कार्तिक पूर्णिमा/],
     ["12-01", /कालभैरव जयंती/], ["12-04", /उत्पन्ना एकादशी/], ["12-14", /विवाह पंचमी/],
     ["12-16", /धनु संक्रांति/], ["12-20", /गीता जयंती/], ["12-20", /मोक्षदा एकादशी/],
     ["12-23", /दत्तात्रेय जयंती/]
@@ -241,12 +252,10 @@ test("2026 Pithoragarh Drik annual-calendar anchor observances are present on th
   }
   assert.deepEqual(missing, []);
   assert.deepEqual(unapproved, []);
-  assert.deepEqual(
-    months[10].events
-      .filter(item => item.date === "2026-11-21" && /देवउठनी/i.test(item.title || ""))
-      .map(item => item.title),
-    ["वैष्णव देवउठनी एकादशी"],
-    "November 21 must keep one Vaishnava Dev Uthani card, not a duplicate Gauna card"
+  assert.equal(
+    months[10].events.filter(item => /वैष्णव|गौण/.test(item.title || "") && /एकादशी/.test(item.title || "")).length,
+    0,
+    "2026 public calendar must contain Smarta Devotthani Ekadashi only"
   );
 });
 
@@ -405,7 +414,6 @@ test("2026 preserves the Drik Chandra Darshan dates and additional special obser
     ["11", "2026-11-20", /भीष्म पंचक प्रारम्भ/],
     ["11", "2026-11-22", /विश्वेश्वर व्रत/],
     ["11", "2026-11-23", /वैकुण्ठ चतुर्दशी/],
-    ["11", "2026-11-21", /वैष्णव देवउठनी एकादशी/],
     ["11", "2026-11-23", /मणिकर्णिका स्नान/],
     ["12", "2026-12-15", /चम्पा षष्ठी/]
   ];
@@ -440,4 +448,28 @@ test("2026 Sharadiya Navratri has all nine forms with the Ashtami-Navami overlap
   assert.equal(data.events.some(e => e.date === "2026-10-18" && /कालरात्रि/.test(e.title || "")), false);
   assert.ok(find(data, "2026-10-20", /शारदीय नवरात्र पारण/));
   assert.ok(find(data, "2026-10-20", /दुर्गा विसर्जन/));
+});
+
+test("2026 December includes Matsya Dwadashi and Soma Pradosh on their respective tithis", async () => {
+  const data = await month("12");
+  const matsya = find(data, "2026-12-21", /मत्स्य द्वादशी/);
+  const pradosh = find(data, "2026-12-21", /सोम प्रदोष व्रत/);
+  assert.ok(matsya);
+  assert.equal(matsya.hinduTithi, "मार्गशीर्ष शुक्ल द्वादशी");
+  assert.equal(matsya.reviewStatus, "approved");
+  assert.ok(pradosh);
+  assert.equal(pradosh.hinduTithi, "मार्गशीर्ष शुक्ल त्रयोदशी");
+  assert.equal(pradosh.reviewStatus, "approved");
+  assert.ok(data.events.indexOf(matsya) < data.events.indexOf(pradosh));
+});
+
+
+test("2026 December descriptions do not repeat the same article URL", async () => {
+  const data = await month("12");
+  for (const event of data.events) {
+    const links = [...String(event.description || "").matchAll(/<a\\b[^>]*href=["']([^"']+)["']/gi)]
+      .map(match => match[1].replace(/^http:/i, "https:").replace(/\\?m=1$/i, "").toLowerCase());
+    assert.equal(links.length, new Set(links).size,
+      String(event.date) + ": duplicate article URL in " + event.title);
+  }
 });

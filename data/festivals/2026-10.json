@@ -53,7 +53,7 @@
     {
       "date": "2026-10-08",
       "dateLabel": "8 अक्टूबर",
-      "title": "कलियुगादि (कलियुग का आरंभ)",
+      "title": "कलियुगादि तिथि (कलियुग का आरंभ)",
       "description": "भाद्रपद कृष्ण त्रयोदशी को कलियुगादि माना जाता है। पूर्णिमान्त गणना में यह तिथि आश्विन कृष्ण त्रयोदशी कहलाती है। इस युगादि तिथि पर पितरों का स्मरण, तर्पण और धर्म-कर्म करने की परंपरा बताई गई है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
@@ -74,9 +74,11 @@
       "title": "मासिक शिवरात्रि",
       "category": "व्रत",
       "hinduTithi": "आश्विन कृष्ण चतुर्दशी",
-      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
       "reviewStatus": "approved",
-      "muhurtaRule": "masik-shivaratri-nishita"
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
       "date": "2026-10-10",

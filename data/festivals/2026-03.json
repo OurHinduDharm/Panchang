@@ -133,9 +133,11 @@
       "title": "मासिक शिवरात्रि",
       "category": "व्रत",
       "hinduTithi": "चैत्र कृष्ण चतुर्दशी",
-      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
       "reviewStatus": "approved",
-      "muhurtaRule": "masik-shivaratri-nishita"
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
       "date": "2026-03-19",
@@ -325,7 +327,7 @@
       "date": "2026-03-26",
       "dateLabel": "26 मार्च",
       "title": "श्री तारा महाविद्या जयंती",
-      "description": "चैत्र शुक्ल नवमी पर श्री महातारा की जयंती एवं उपासना। <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री तारा महाविद्या जयंती</a>।",
+      "description": "चैत्र शुक्ल नवमी पर श्री महातारा की जयंती एवं उपासना। <a href=\"http://ourhindudharm.blogspot.com/2014/04/About-Godess-Tara-On-Tara-Mahavidya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री तारा महाविद्या जयंती</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Sadhana-Of-Tara-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">तारा महाविद्या की स्तोत्रात्मक उपासना</a>।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल नवमी",

@@ -7,6 +7,20 @@
   "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
+      "date": "2028-07-01",
+      "dateLabel": "1 जुलाई",
+      "title": "आषाढ़ गुप्त नवरात्र पारण एवं कलश विसर्जन",
+      "description": "नवमी के उपरांत आषाढ़ गुप्त नवरात्रि-व्रत का पारण और घटस्थापित कलश का विधिपूर्वक विसर्जन करें। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल दशमी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "articleLabel": "कलश-विसर्जन विधि",
+      "sourceName": "Drik Panchang — 2028 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028"
+    },
+    {
       "date": "2028-07-02",
       "dateLabel": "2 जुलाई",
       "title": "देवशयनी एकादशी",
@@ -18,33 +32,34 @@
       "hinduTithi": "आषाढ़ शुक्ल एकादशी"
     },
     {
-      "date": "2028-07-06",
-      "dateLabel": "6 जुलाई",
-      "title": "गुरु पूर्णिमा",
-      "description": "गुरु पूर्णिमा पर गुरु, आचार्य और आध्यात्मिक परंपरा के प्रति कृतज्ञता व्यक्त की जाती है। गुरु-पूजन, सत्संग, अध्ययन और दान की परंपरा है।",
-      "category": "पूर्णिमा",
+      "date": "2028-07-04",
+      "dateLabel": "4 जुलाई",
+      "title": "भौम प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा"
+      "hinduTithi": "आषाढ़ शुक्ल पक्ष त्रयोदशी"
     },
     {
       "date": "2028-07-06",
       "dateLabel": "6 जुलाई",
-      "title": "आंशिक चंद्रग्रहण",
-      "description": "6–7 जुलाई 2028 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 6 जुलाई रात 10:39 बजे से 7 जुलाई रात 1:00 बजे तक रहेगा; उपच्छाया चरण 7 जुलाई रात 2:25 बजे समाप्त होगा।",
+      "title": "गुरु पूर्णिमा / आंशिक चंद्रग्रहण",
+      "description": "गुरु पूर्णिमा पर गुरु, आचार्य और आध्यात्मिक परंपरा के प्रति कृतज्ञता व्यक्त की जाती है। गुरु-पूजन, सत्संग, अध्ययन और दान की परंपरा है। 6–7 जुलाई 2028 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 6 जुलाई रात 10:39 बजे से 7 जुलाई रात 1:00 बजे तक रहेगा; उपच्छाया चरण 7 जुलाई रात 2:25 बजे समाप्त होगा।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
+      "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा",
       "timingType": "eclipse-visibility",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
-      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
       "sourceName": "Timeanddate — Pithoragarh; Drik Panchang eclipse list",
-      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706"
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें"
     },
     {
       "date": "2028-07-10",
       "dateLabel": "10 जुलाई",
-      "title": "संकष्टी चतुर्थी",
+      "title": "संकष्टी चतुर्थी / गजानन संकष्टी चतुर्थी",
       "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय स्थान के अनुसार बदलता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
@@ -52,15 +67,63 @@
       "hinduTithi": "श्रावण कृष्ण चतुर्थी"
     },
     {
+      "date": "2028-07-14",
+      "dateLabel": "14 जुलाई",
+      "title": "मासिक कालाष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण सप्तमी (अष्टमी व्याप्ति)",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+    },
+    {
+      "date": "2028-07-16",
+      "dateLabel": "16 जुलाई",
+      "title": "कर्क संक्रांति",
+      "description": "सूर्य के कर्क राशि में प्रवेश पर कर्क संक्रांति मनाई जाती है। इस दिन स्नान, दान और जप की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false
+    },
+    {
       "date": "2028-07-18",
       "dateLabel": "18 जुलाई",
       "title": "कामिका एकादशी",
-      "description": "कामिका एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें।",
+      "description": "कामिका एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "श्रावण कृष्ण एकादशी"
+      "hinduTithi": "श्रावण कृष्ण एकादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+    },
+    {
+      "date": "2028-07-19",
+      "dateLabel": "19 जुलाई",
+      "title": "बुध प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण पक्ष त्रयोदशी"
+    },
+    {
+      "date": "2028-07-20",
+      "dateLabel": "20 जुलाई",
+      "title": "मासिक शिवरात्रि",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण चतुर्दशी",
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
       "date": "2028-07-22",
@@ -73,22 +136,73 @@
       "hinduTithi": "श्रावण कृष्ण अमावस्या"
     },
     {
+      "date": "2028-07-23",
+      "dateLabel": "23 जुलाई",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल प्रतिपदा"
+    },
+    {
       "date": "2028-07-24",
       "dateLabel": "24 जुलाई",
       "title": "हरियाली तीज",
       "description": "हरियाली तीज वर्षा ऋतु का पर्व है। कई परंपराओं में शिव-पार्वती की पूजा, व्रत, झूले और लोकगीतों के माध्यम से उत्सव मनाया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल तृतीया"
+    },
+    {
+      "date": "2028-07-25",
+      "dateLabel": "25 जुलाई",
+      "title": "दूर्वा गणपति चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
+      "date": "2028-07-26",
+      "dateLabel": "26 जुलाई",
+      "title": "मासिक स्कन्द षष्ठी / कल्कि अवतार जयंती",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। श्रावण शुक्ल षष्ठी पर भगवान विष्णु के भावी कल्कि अवतार का स्मरण और पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल षष्ठी",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
+      "secondaryArticleLabel": "कल्कि अवतार जयंती",
+      "sourceName": "Drik Panchang — 2028 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028"
     },
     {
       "date": "2028-07-26",
       "dateLabel": "26 जुलाई",
       "title": "नाग पंचमी",
-      "description": "नाग पंचमी पर नाग-देवता का पूजन और सर्पों के प्रति श्रद्धा व्यक्त की जाती है। पूजा-विधि और निषेध क्षेत्रीय परंपरा के अनुसार भिन्न हो सकते हैं।",
+      "description": "नाग पंचमी पर नाग-देवता का पूजन और सर्पों के प्रति श्रद्धा व्यक्त की जाती है। पूजा-विधि और निषेध क्षेत्रीय परंपरा के अनुसार भिन्न हो सकते हैं। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नाग पंचमी व्रत</a> <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नागों की स्तोत्रात्मक उपासना</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
+      "articleLabel": "नाग पंचमी व्रत",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html",
+      "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना",
+      "hinduTithi": "श्रावण शुक्ल पंचमी"
+    },
+    {
+      "date": "2028-07-29",
+      "dateLabel": "29 जुलाई",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल अष्टमी"
     }
   ]
 }

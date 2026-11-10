@@ -275,7 +275,7 @@
     {
       "date": "2026-11-18",
       "dateLabel": "18 नवंबर",
-      "title": "सतयुगादि (सतयुग का आरंभ)",
+      "title": "सतयुगादि तिथि (सतयुग का आरंभ)",
       "description": "कार्तिक शुक्ल नवमी को सतयुगादि कहा जाता है। पुराणों के अनुसार इस तिथि से सतयुग का आरंभ हुआ था। यही तिथि अक्षय नवमी के रूप में भी प्रसिद्ध है। इस दिन जप, तप और दान को अक्षय पुण्यदायी माना गया है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
@@ -295,7 +295,7 @@
     {
       "date": "2026-11-20",
       "dateLabel": "20 नवंबर",
-      "title": "देवउठनी एकादशी",
+      "title": "देवोत्थानी एकादशी (स्मार्त)",
       "description": "देवउठनी या प्रबोधिनी एकादशी को भगवान विष्णु के योगनिद्रा से जागने का पर्व माना जाता है। चातुर्मास-व्रत के समापन और तुलसी-विवाह की परंपरा इससे जुड़ी है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
@@ -327,20 +327,6 @@
       "hinduTithi": "कार्तिक शुक्ल द्वादशी",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html",
       "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह"
-    },
-    {
-      "date": "2026-11-21",
-      "dateLabel": "21 नवंबर",
-      "title": "वैष्णव देवउठनी एकादशी",
-      "description": "वैष्णव परंपरा में देवउठनी एकादशी का यह विशेष पालन गौण तिथि पर किया जाता है। व्रत और पारण के नियम परंपरा के अनुसार निभाएँ। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
-      "category": "एकादशी",
-      "reviewStatus": "approved",
-      "hinduTithi": "कार्तिक शुक्ल एकादशी",
-      "muhurtaRule": "ekadashi-parana",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "articleLabel": "एकादशी व्रत का उद्यापन",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "secondaryArticleLabel": "एकादशी व्रत का विधान"
     },
     {
       "date": "2026-11-22",
