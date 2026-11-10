@@ -145,14 +145,18 @@
     {
       "date": "2027-01-22",
       "dateLabel": "22 जनवरी",
-      "title": "पौष पूर्णिमा",
-      "description": "पौष पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
+      "title": "पौष पूर्णिमा / शाकंभरी माता जयंती",
+      "description": "पौष पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। शाकंभरी माता जयंती पर देवी की पूजा और स्तोत्र-पाठ की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">शाकंभरी माता जयंती</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "पौष शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html",
-      "articleLabel": "पौष मास का माहात्म्य पढ़ें"
+      "articleLabel": "पौष मास का माहात्म्य पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html",
+      "secondaryArticleLabel": "शाकंभरी माता जयंती",
+      "sourceName": "Drik Panchang — Shakambhari Purnima 2027",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/purnima/purnima-calendar.html?year=2027"
     },
     {
       "date": "2027-01-25",
