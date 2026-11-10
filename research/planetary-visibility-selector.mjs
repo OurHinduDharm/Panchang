@@ -41,6 +41,29 @@ function thresholdAltitudeForModel(model, observables) {
   return model.intercept + model.slope * observables.apparentMagnitude;
 }
 
+function wrap180(degrees) {
+  return ((degrees + 540) % 360) - 180;
+}
+
+function geocentricMotionFeatures(astronomy, body, date) {
+  if (typeof astronomy.GeoVector !== "function" || typeof astronomy.Ecliptic !== "function") {
+    return { longitudeRateDegPerDay: null, retrograde: null, retrogradeState: null };
+  }
+  const halfDay = 12 * 3600000;
+  const before = astronomy.Ecliptic(
+    astronomy.GeoVector(body, new Date(date.getTime() - halfDay), true)
+  );
+  const after = astronomy.Ecliptic(
+    astronomy.GeoVector(body, new Date(date.getTime() + halfDay), true)
+  );
+  const rate = wrap180(after.elon - before.elon);
+  return {
+    longitudeRateDegPerDay: rate,
+    retrograde: rate < 0 ? 1 : 0,
+    retrogradeState: rate < 0 ? "retrograde" : "direct"
+  };
+}
+
 function validateInput({ astronomy, body, observer, anchorDate, direction, boundaryName, model, searchDays, timeZone }) {
   if (!astronomy || typeof astronomy.SearchRiseSet !== "function" ||
       typeof astronomy.Equator !== "function" || typeof astronomy.Horizon !== "function" ||
@@ -113,13 +136,21 @@ export function findVisibilityBoundaryNearAnchor({
     );
     const illumination = astronomy.Illumination(body, date);
     const apparentMagnitude = illumination.mag;
+    const needsMotionFeatures = model.coefficients &&
+      (Object.hasOwn(model.coefficients, "retrograde") ||
+       Object.hasOwn(model.coefficients, "longitudeRateDegPerDay"));
+    const motion = needsMotionFeatures
+      ? geocentricMotionFeatures(astronomy, body, date)
+      : { longitudeRateDegPerDay: null, retrograde: null, retrogradeState: null };
     const observables = {
       apparentMagnitude,
       elongationDegrees: typeof astronomy.AngleFromSun === "function"
         ? astronomy.AngleFromSun(body, date)
         : null,
       illuminatedFraction: illumination.phase_fraction,
-      azimuthSeparationDegrees
+      azimuthSeparationDegrees,
+      longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
+      retrograde: motion.retrograde
     };
     const thresholdAltitude = thresholdAltitudeForModel(model, observables);
     const local = localDateTime(date, timeZone);
@@ -132,6 +163,9 @@ export function findVisibilityBoundaryNearAnchor({
       sunAltitude,
       planetAltitude,
       apparentMagnitude,
+      longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
+      retrograde: motion.retrograde,
+      retrogradeState: motion.retrogradeState,
       thresholdAltitude,
       residual: sunAltitude - thresholdAltitude
     });
@@ -176,6 +210,9 @@ export function findVisibilityBoundaryNearAnchor({
     sunAltitudeDegrees: selected ? Number(selected.current.sunAltitude.toFixed(5)) : null,
     planetAltitudeDegrees: selected ? Number(selected.current.planetAltitude.toFixed(5)) : null,
     apparentMagnitude: selected ? Number(selected.current.apparentMagnitude.toFixed(5)) : null,
+    longitudeRateDegPerDay: selected && Number.isFinite(selected.current.longitudeRateDegPerDay)
+      ? Number(selected.current.longitudeRateDegPerDay.toFixed(6)) : null,
+    retrogradeState: selected?.current.retrogradeState ?? null,
     thresholdAltitudeDegrees: selected ? Number(selected.current.thresholdAltitude.toFixed(5)) : null,
     residualBeforeDegrees: selected ? Number(selected.previous.residual.toFixed(5)) : null,
     residualAfterDegrees: selected ? Number(selected.current.residual.toFixed(5)) : null
