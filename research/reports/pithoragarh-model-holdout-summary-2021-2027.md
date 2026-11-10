@@ -48,7 +48,7 @@ For Mercury, pooled training improved over local-history-only direction model:
 - Udaya exact dates: 23/25 pooled vs 16/25 local-only.
 - Both approaches placed all 25 windows within one day, but pooled mean absolute error was lower (Asta 0.24 d; Udaya 0.08 d).
 
-This supports pooling carefully selected multi-city training data for year-generalization, but it does not justify treating other cities as identical observers. Each city still uses an explicit observer proxy and the held-out Pithoragarh year remains excluded from training. A separate strict forward-only validation has now been added: it trains exclusively on source years earlier than the held-out year and is still running.
+This supports pooling carefully selected multi-city training data for year-generalization, but it does not justify treating other cities as identical observers. Each city still uses an explicit observer proxy and the held-out Pithoragarh year remains excluded from training. A separate strict forward-only validation has now completed successfully. It trains exclusively on source years earlier than the held-out year; the 2026 held-out results are exact for the accepted Mercury/Venus/Jupiter/Saturn windows, while 2027 still has Mercury Asta and Venus Udaya one-day misses. See [the forward-only report](./pithoragarh-forward-only-validation-2021-2027.md).
 
 ## 3. Combined interpretation with the JPL seven-year geometry check
 
