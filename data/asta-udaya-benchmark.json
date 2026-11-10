@@ -60,6 +60,13 @@
           "verificationNote": "City-specific New Delhi page; confirms this pair only, not other cities or the calculation method."
         }
       ]
+    },
+    "rashtriya-2026-27-heliacal-times": {
+      "name": "Rashtriya Panchang — Positional Astronomy Centre, IMD",
+      "url": "https://packolkata.imd.gov.in/panchang/en/helical",
+      "sourceType": "official-heliacal-setting-rising-times",
+      "location": "Central Station of India (23°11′ N, 82°30′ E)",
+      "retrievalEvidence": "Official 2026–27 Heliacal Rising and setting of planets table gives event direction, Gregorian date and IST hour/minute. The published Venus setting is printed as 13 Oct 2026 at 24:18; normalized to 14 Oct 2026 at 00:18 IST without changing the source's printed value."
     }
   },
   "cases": [
@@ -224,6 +231,88 @@
         "name": "Drik New Delhi page",
         "coordinates": null,
         "coordinateStatus": "provider coordinates not disclosed"
+      }
+    },
+    {
+      "id": "venus-central-station-2026-heliacal-events",
+      "planet": "Venus",
+      "eventModel": "rashtriya-panchang-heliacal-setting-rising",
+      "sourceLocation": "Central Station of India",
+      "testObserver": {
+        "name": "Rashtriya Panchang Central Station",
+        "latitude": 23.1833333333,
+        "longitude": 82.5,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "published Central Station coordinates (23°11′ N, 82°30′ E); source elevation not supplied"
+      },
+      "sourceId": "rashtriya-2026-27-heliacal-times",
+      "precision": "minute",
+      "boundaries": {
+        "heliacalSetting": {
+          "sourcePrintedDate": "2026-10-13",
+          "sourcePrintedClock": "24:18",
+          "normalizedLocalDateTime": "2026-10-14T00:18:00+05:30",
+          "direction": "west"
+        },
+        "heliacalRising": {
+          "sourcePrintedDate": "2026-10-28",
+          "sourcePrintedClock": "07:36",
+          "normalizedLocalDateTime": "2026-10-28T07:36:00+05:30",
+          "direction": "east"
+        }
+      },
+      "status": "official-independent-cross-check",
+      "acceptanceEligible": false,
+      "notes": "Official heliacal setting/rising instants, not Drik Tara Asta boundaries and not a Drik-algorithm validation target. Preserve the printed 24:18 and the normalized next-civil-day timestamp together. Source elevation is not supplied.",
+      "comparisonLevel": "coordinate-exact",
+      "sourceObserver": {
+        "name": "Rashtriya Panchang Central Station",
+        "latitude": 23.1833333333,
+        "longitude": 82.5,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "published Central Station coordinates (23°11′ N, 82°30′ E); source elevation not supplied",
+        "elevationMeters": null
+      }
+    },
+    {
+      "id": "jupiter-central-station-2026-heliacal-events",
+      "planet": "Jupiter",
+      "eventModel": "rashtriya-panchang-heliacal-setting-rising",
+      "sourceLocation": "Central Station of India",
+      "testObserver": {
+        "name": "Rashtriya Panchang Central Station",
+        "latitude": 23.1833333333,
+        "longitude": 82.5,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "published Central Station coordinates (23°11′ N, 82°30′ E); source elevation not supplied"
+      },
+      "sourceId": "rashtriya-2026-27-heliacal-times",
+      "precision": "minute",
+      "boundaries": {
+        "heliacalSetting": {
+          "sourcePrintedDate": "2026-07-15",
+          "sourcePrintedClock": "11:10",
+          "normalizedLocalDateTime": "2026-07-15T11:10:00+05:30",
+          "direction": "west"
+        },
+        "heliacalRising": {
+          "sourcePrintedDate": "2026-08-10",
+          "sourcePrintedClock": "07:53",
+          "normalizedLocalDateTime": "2026-08-10T07:53:00+05:30",
+          "direction": "east"
+        }
+      },
+      "status": "official-independent-cross-check",
+      "acceptanceEligible": false,
+      "notes": "Official heliacal setting/rising instants, not Drik Tara Asta boundaries and not a Drik-algorithm validation target. Source elevation is not supplied.",
+      "comparisonLevel": "coordinate-exact",
+      "sourceObserver": {
+        "name": "Rashtriya Panchang Central Station",
+        "latitude": 23.1833333333,
+        "longitude": 82.5,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "published Central Station coordinates (23°11′ N, 82°30′ E); source elevation not supplied",
+        "elevationMeters": null
       }
     }
   ],
