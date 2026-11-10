@@ -1289,7 +1289,31 @@
       ],
       "observanceDate": "2027-04-02",
       "dateRole": "special-observance-date",
-      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date."
+      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date.",
+      "independentTithiCrossCheck": [
+        {
+          "source": "Telugu Panchangam (Drik Ganitha, Hyderabad)",
+          "url": "https://telugupanchangam.co.in/en/2027/april/3/",
+          "tithi": "फाल्गुन कृष्ण द्वादशी",
+          "starts": "2027-04-03 02:52 IST",
+          "ends": "2027-04-04 04:26 IST"
+        },
+        {
+          "source": "The Telugu Calendar",
+          "url": "https://thetelugucalendar.com/telugu-thidulu/dwadashi-2027/",
+          "tithi": "फाल्गुन कृष्ण द्वादशी",
+          "starts": "2027-04-03 02:52 IST",
+          "ends": "2027-04-04 04:27 IST"
+        },
+        {
+          "source": "Satmarg Astro",
+          "url": "https://satmargastro.com/telugu-calendar/2027/04",
+          "tithi": "फाल्गुन कृष्ण द्वादशी",
+          "starts": "2027-04-03 02:52 IST",
+          "ends": "2027-04-04 04:27 IST"
+        }
+      ],
+      "reviewNote": "Drik lists the named Krishna Narasimha / Ekadashi Shravana Yoga observance on 2 April, but the Dwadashi tithi begins at 02:51 IST on 3 April. The independent amanta sources agree on the tithi interval to within about one minute."
     },
     {
       "year": 2027,
@@ -1361,7 +1385,31 @@
       ],
       "observanceDate": "2028-03-21",
       "dateRole": "special-observance-date",
-      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date."
+      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date.",
+      "independentTithiCrossCheck": [
+        {
+          "source": "Telugu Panchangam",
+          "url": "https://telugupanchangam.co.in/en/2028/march/",
+          "tithi": "फाल्गुन कृष्ण द्वादशी",
+          "starts": "2028-03-22 00:13 IST",
+          "ends": "2028-03-23 02:56 IST"
+        },
+        {
+          "source": "Sanatan Marg",
+          "url": "https://sanatanmarg.org/hindu-calendar/2028/march",
+          "tithi": "चैत्र कृष्ण द्वादशी (पूर्णिमान्त)",
+          "starts": "2028-03-22 00:14 IST",
+          "ends": "2028-03-23 02:56 IST"
+        },
+        {
+          "source": "Shubh Panchang",
+          "url": "https://shubhpanchang.com/panchang/dwadashi-dates/2028",
+          "tithi": "फाल्गुन कृष्ण द्वादशी",
+          "starts": "2028-03-22 00:13 IST",
+          "ends": "2028-03-23 02:56 IST"
+        }
+      ],
+      "reviewNote": "Drik lists Vishnushrinkhala Yoga Dwadashi as a named observance on 21 March; the Dwadashi tithi itself begins at 00:13 IST on 22 March. Independent Panchang sources confirm the following-day tithi interval."
     },
     {
       "year": 2028,
@@ -1443,7 +1491,31 @@
       ],
       "observanceDate": "2030-03-29",
       "dateRole": "special-observance-date",
-      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date."
+      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date.",
+      "independentTithiCrossCheck": [
+        {
+          "source": "Divine Nakshatra",
+          "url": "https://divinenakshatra.com/tithi/dwadashi/2030/",
+          "tithi": "फाल्गुन कृष्ण द्वादशी",
+          "starts": "2030-03-30 00:34 IST",
+          "ends": "2030-03-31 00:42 IST"
+        },
+        {
+          "source": "AstroVachmi",
+          "url": "https://www.astrovachmi.com/tithi/dwadashi-dates/2030",
+          "tithi": "फाल्गुन कृष्ण द्वादशी",
+          "starts": "2030-03-30 00:35 IST",
+          "ends": "2030-03-31 00:43 IST"
+        },
+        {
+          "source": "Drik Panchang Telugu Daily Panchanga",
+          "url": "https://www.drikpanchang.com/telugu/panchanga/telugu-day-panchanga.html?date=30%2F03%2F2030&lang=en",
+          "tithi": "फाल्गुन कृष्ण द्वादशी",
+          "starts": "2030-03-30 00:34 IST",
+          "ends": "2030-03-31 00:42 IST"
+        }
+      ],
+      "reviewNote": "Drik lists Ekadashi Shravana Yoga / Krishna Narasimha Dwadashi on 29 March; the actual Dwadashi tithi starts at 00:34 IST on 30 March. Independent sources corroborate the tithi interval."
     },
     {
       "year": 2030,
