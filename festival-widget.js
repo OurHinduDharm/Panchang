@@ -522,7 +522,7 @@
         if (item.description) {
           const description = element("div", "ohd-fw-description");
           let descriptionHtml = String(item.description);
-          if (/अमावस्या/.test(String(item.title || "")) && /तर्पण/.test(descriptionHtml) &&
+          if (/अमावस्या|अमावास्या/.test(String(item.title || "")) && /तर्पण/.test(descriptionHtml) &&
               !/pitri-tarpan-vidhi/i.test(descriptionHtml + " " + String(item.articleUrl || "") + " " + String(item.secondaryArticleUrl || ""))) {
             descriptionHtml += ' <a href="https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html" target="_blank" rel="noopener noreferrer">पितृ तर्पण विधि</a>।';
           }
