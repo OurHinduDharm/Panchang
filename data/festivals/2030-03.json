@@ -211,7 +211,8 @@
       "showReviewStatus": false,
       "hinduTithi": "चैत्र कृष्ण तृतीया / चतुर्थी",
       "sourceName": "Drik Panchang — 2030 Indian Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030",
+      "muhurtaRule": "sankashti-chaturthi-moonrise"
     },
     {
       "date": "2030-03-24",
