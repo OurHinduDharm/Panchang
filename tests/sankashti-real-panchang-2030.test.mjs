@@ -27,8 +27,8 @@ test("all 2030 Pithoragarh Sankashti cards have Krishna Chaturthi at local moonr
   else if(!overlaps&&event.date==="2030-04-21"){
    const sunrise=asDate(p.sunrise);
    const chaturthi=(p.tithis||[]).find(row=>Number(row.index)===18);
-   const end=asDate(chaturthi&&chaturthi.endTime);
-   if(!sunrise||!chaturthi||asDate(chaturthi.startTime)>sunrise||!end||end>=moonrise){
+   const start=asDate(chaturthi&&chaturthi.startTime), end=asDate(chaturthi&&chaturthi.endTime);
+   if(!sunrise||!chaturthi||!start||start>sunrise||!end||end>=moonrise){
     failures.push({date:event.date,reason:"expected sunrise Chaturthi ending before moonrise"});
    }else{
     const result=getFestivalMuhurta({muhurtaRule:"sankashti-chaturthi-moonrise"},{moonrise,tithis:p.tithis});
