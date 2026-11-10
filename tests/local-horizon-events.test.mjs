@@ -135,7 +135,7 @@ test("calculates real Pithoragarh rise and set events for all seven bodies", () 
     for (const event of [item.rise, item.set]) {
       if (!event) continue;
       assert.equal(event.localDate, "2026-09-13");
-      assert.match(event.localTime, /^\\d{2}:\\d{2}:\\d{2}$/);
+      assert.match(event.localTime, /^\d{2}:\d{2}:\d{2}$/);
       assert.ok(Number.isFinite(Date.parse(event.instant)));
     }
   }
