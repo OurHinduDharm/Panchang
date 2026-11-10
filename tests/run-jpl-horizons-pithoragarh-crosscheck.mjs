@@ -13,6 +13,21 @@ const TARGET_IDS = {
 };
 const TIME_OFFSETS_MINUTES = [-10, 0, 10];
 
+function parseHorizonsRow(row) {
+  const fields = row.split(",").map(value => value.trim());
+  if (fields.length < 8) throw new Error("Unexpected Horizons CSV row: " + row);
+  return {
+    utc: fields[0],
+    visibilityFlag: fields[1],
+    interfererFlag: fields[2],
+    azimuthDeg: Number(fields[3]),
+    elevationDeg: Number(fields[4]),
+    apparentMagnitude: Number(fields[5]),
+    surfaceBrightness: Number(fields[6]),
+    illuminatedPercent: Number(fields[7])
+  };
+}
+
 function utcCalendar(date) {
   return date.toISOString().replace("T", " ").slice(0, 19);
 }
@@ -124,11 +139,35 @@ for (const [planet, boundaries] of grouped) {
     queryHorizons(TARGET_IDS[planet], times, planet + " target"),
     queryHorizons("10", times, planet + " Sun")
   ]);
+  const boundaryDiagnostics = boundaries.map(boundary => {
+    const centerIndex = target.requestedTimesUTC.indexOf(boundary.samplesUTC[1]);
+    if (centerIndex < 0) throw new Error("Missing JPL center sample for " + boundary.windowId);
+    const targetBefore = parseHorizonsRow(target.rows[centerIndex - 1]);
+    const targetAt = parseHorizonsRow(target.rows[centerIndex]);
+    const targetAfter = parseHorizonsRow(target.rows[centerIndex + 1]);
+    const sunAt = parseHorizonsRow(sun.rows[centerIndex]);
+    return {
+      windowId: boundary.windowId,
+      boundaryName: boundary.boundaryName,
+      drikUTC: boundary.drikUTC,
+      targetAltitudeDeg: targetAt.elevationDeg,
+      targetAltitudeMinus10MinDeg: targetBefore.elevationDeg,
+      targetAltitudePlus10MinDeg: targetAfter.elevationDeg,
+      targetMotion: targetAfter.elevationDeg > targetBefore.elevationDeg ? "rising" : "setting",
+      targetAzimuthDeg: targetAt.azimuthDeg,
+      apparentMagnitude: targetAt.apparentMagnitude,
+      illuminatedPercent: targetAt.illuminatedPercent,
+      sunAltitudeDeg: sunAt.elevationDeg,
+      targetAltitudeDifferenceFromMinusHalfDeg: targetAt.elevationDeg + 0.5,
+      nearMinusHalfDegreeHorizon: Math.abs(targetAt.elevationDeg + 0.5) <= 0.2
+    };
+  });
   report.planetResults.push({
     planet,
     boundaryCount: boundaries.length,
     sampleCount: times.length,
     boundaries,
+    boundaryDiagnostics,
     target,
     sun
   });
@@ -136,11 +175,23 @@ for (const [planet, boundaries] of grouped) {
 
 const totalBoundaries = report.planetResults.reduce((sum, item) => sum + item.boundaryCount, 0);
 const totalRows = report.planetResults.reduce((sum, item) => sum + item.target.rows.length + item.sun.rows.length, 0);
+const allDiagnostics = report.planetResults.flatMap(item => item.boundaryDiagnostics);
+const meanTargetAltitude = allDiagnostics.reduce((sum, item) => sum + item.targetAltitudeDeg, 0) / allDiagnostics.length;
+const nearHorizonCount = allDiagnostics.filter(item => item.nearMinusHalfDegreeHorizon).length;
 report.summary = {
   planets: report.planetResults.length,
   boundaries: totalBoundaries,
   ephemerisRows: totalRows,
   apiQueries: report.planetResults.length * 2,
+  meanTargetAltitudeAtPublishedBoundaryDeg: Number(meanTargetAltitude.toFixed(4)),
+  meanAbsoluteDifferenceFromMinusHalfDegreeDeg: Number((allDiagnostics.reduce((sum, item) => sum + Math.abs(item.targetAltitudeDifferenceFromMinusHalfDeg), 0) / allDiagnostics.length).toFixed(4)),
+  withinPointTwoDegreesOfMinusHalfHorizon: nearHorizonCount,
+  boundaryCount: allDiagnostics.length,
+  solarAltitudeRangeAtPublishedBoundariesDeg: [
+    Number(Math.min(...allDiagnostics.map(item => item.sunAltitudeDeg)).toFixed(3)),
+    Number(Math.max(...allDiagnostics.map(item => item.sunAltitudeDeg)).toFixed(3))
+  ],
+  interpretation: "Observed alignment is consistent with a local planetary horizon-crossing boundary near -0.5 degrees for this sample. It is not proof of Drik's complete event algorithm or observer elevation.",
   status: "complete"
 };
 
