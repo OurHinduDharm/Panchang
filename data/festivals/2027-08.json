@@ -20,15 +20,15 @@
       "date": "2027-08-02",
       "dateLabel": "2 अगस्त",
       "title": "आंशिक सूर्यग्रहण",
-      "description": "2 अगस्त 2027 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा। ग्रहण दोपहर 4:01 बजे आरंभ होगा, 4:29 बजे अधिकतम होगा और 4:56 बजे समाप्त होगा।",
+      "description": "पिथौरागढ़ में आंशिक सूर्यग्रहण 16:01 से 16:56 बजे तक दिखाई देगा। अधिकतम ग्रहण 16:29 बजे होगा।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण अमावस्या",
+      "hinduTithi": "श्रावण कृष्ण अमावस्या",
       "timingType": "eclipse-visibility",
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
       "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
-      "sourceName": "Timeanddate — Pithoragarh; Drik Panchang",
+      "sourceName": "Time and Date — Pithoragarh",
       "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270802"
     },
     {
@@ -48,7 +48,8 @@
       "description": "हरियाली तीज वर्षा ऋतु का पर्व है। कई परंपराओं में शिव-पार्वती की पूजा, व्रत, झूले और लोकगीतों के माध्यम से उत्सव मनाया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल तृतीया"
     },
     {
       "date": "2027-08-05",
@@ -72,24 +73,15 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
       "articleLabel": "नाग पंचमी व्रत",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html",
-      "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना"
+      "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना",
+      "hinduTithi": "श्रावण शुक्ल पंचमी"
     },
     {
       "date": "2027-08-07",
       "dateLabel": "7 अगस्त",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल षष्ठी"
-    },
-    {
-      "date": "2027-08-07",
-      "dateLabel": "7 अगस्त",
-      "title": "कल्कि अवतार जयंती",
-      "description": "श्रावण शुक्ल षष्ठी को भगवान विष्णु के भावी कल्कि अवतार का स्मरण और पूजन किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
-      "category": "जयंती",
+      "title": "मासिक स्कन्द षष्ठी / कल्कि अवतार जयंती",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। श्रावण शुक्ल षष्ठी को भगवान विष्णु के भावी कल्कि अवतार का स्मरण और पूजन किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
+      "category": "व्रत एवं जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल षष्ठी",
@@ -130,7 +122,8 @@
       "description": "वरलक्ष्मी व्रत में माँ लक्ष्मी की पूजा परिवार के कल्याण और समृद्धि की कामना से की जाती है। यह व्रत विशेष रूप से दक्षिण भारतीय परंपराओं में प्रचलित है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल द्वादशी"
     },
     {
       "date": "2027-08-14",
@@ -159,27 +152,16 @@
     {
       "date": "2027-08-17",
       "dateLabel": "17 अगस्त",
-      "title": "रक्षाबंधन / श्रावण पूर्णिमा / लव-कुश जयंती",
-      "description": "रक्षाबंधन / श्रावण पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a>",
+      "title": "रक्षाबंधन / श्रावण पूर्णिमा / गायत्री जयंती / लव-कुश जयंती",
+      "description": "रक्षाबंधन / श्रावण पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a> गायत्री जयंती पर गायत्री मंत्र-जप, संध्या-उपासना और देवी गायत्री का स्मरण किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वेदमाता गायत्री जयंती की महिमा पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
-      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा"
-    },
-    {
-      "date": "2027-08-17",
-      "dateLabel": "17 अगस्त",
-      "title": "गायत्री जयंती",
-      "description": "गायत्री जयंती पर गायत्री मंत्र-जप, संध्या-उपासना और देवी गायत्री का स्मरण किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वेदमाता गायत्री जयंती की महिमा पढ़ें</a>",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
-      "articleLabel": "वेदमाता गायत्री जयंती की महिमा पढ़ें",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2018/08/About-Goddess-Gayatri-On-Gayatri-Jayanti.html",
+      "secondaryArticleLabel": "वेदमाता गायत्री जयंती की महिमा पढ़ें"
     },
     {
       "date": "2027-08-17",
@@ -207,7 +189,8 @@
       "description": "कजरी तीज भाद्रपद कृष्ण तृतीया से जुड़ा लोकपर्व है। कई क्षेत्रों में शिव-पार्वती की पूजा, गीत और व्रत की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण तृतीया"
     },
     {
       "date": "2027-08-24",
