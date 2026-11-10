@@ -43,6 +43,33 @@ function sunAltitude(date, observer) {
   return Astronomy.Horizon(date, observer, sun.ra, sun.dec, "normal").altitude;
 }
 
+function clockMinutes(value) {
+  const match = String(value).match(/^(\\d{1,2}):(\\d{2})/);
+  if (!match) return null;
+  return Number(match[1]) * 60 + Number(match[2]);
+}
+
+function clockErrorMinutes(predicted, published) {
+  const a = clockMinutes(predicted);
+  const b = clockMinutes(published);
+  if (a === null || b === null) return null;
+  return ((a - b + 720 + 1440) % 1440) - 720;
+}
+
+function summarizeMinutes(errors) {
+  const values = errors.filter(Number.isFinite);
+  return {
+    count: values.length,
+    withinOneMinute: values.filter(x => Math.abs(x) <= 1).length,
+    withinFiveMinutes: values.filter(x => Math.abs(x) <= 5).length,
+    withinTenMinutes: values.filter(x => Math.abs(x) <= 10).length,
+    meanAbsoluteErrorMinutes: values.length
+      ? Number((values.reduce((sum, x) => sum + Math.abs(x), 0) / values.length).toFixed(2))
+      : null,
+    maxAbsoluteErrorMinutes: values.length ? Math.max(...values.map(Math.abs)) : null
+  };
+}
+
 function trainingSample(entry, boundaryName) {
   const observer = observerFor(entry);
   const anchor = new Date(entry.boundaries[boundaryName]);
@@ -186,11 +213,15 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
         predictedAstaDate: best.window.asta.predictedBoundaryDate,
         predictedAstaTime: best.window.asta.predictedEventLocalTime,
         publishedAstaDate: targetStart,
+        publishedAstaTime: entry.boundaries.astaStart.slice(11, 16),
         astaErrorDays: best.error,
+        astaClockErrorMinutes: clockErrorMinutes(best.window.asta.predictedEventLocalTime, entry.boundaries.astaStart.slice(11, 16)),
         predictedUdayaDate: best.window.udaya.predictedBoundaryDate,
         predictedUdayaTime: best.window.udaya.predictedEventLocalTime,
         publishedUdayaDate: publishedUdaya,
-        udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedUdaya)
+        publishedUdayaTime: entry.boundaries.astaEnd.slice(11, 16),
+        udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedUdaya),
+        udayaClockErrorMinutes: clockErrorMinutes(best.window.udaya.predictedEventLocalTime, entry.boundaries.astaEnd.slice(11, 16))
       });
     }
   }
@@ -215,6 +246,8 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
     unmatchedCount: predictions.length - matched.length,
     asta: summarize("astaErrorDays"),
     udaya: summarize("udayaErrorDays"),
+    astaClock: summarizeMinutes(matched.map(x => x.astaClockErrorMinutes)),
+    udayaClock: summarizeMinutes(matched.map(x => x.udayaClockErrorMinutes)),
     predictions
   });
 }
