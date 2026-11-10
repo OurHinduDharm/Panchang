@@ -157,11 +157,9 @@
       "eventModel": "rashtriya-panchang-visibility-period",
       "sourceLocation": "Central Station of India",
       "testObserver": {
-        "name": "Rashtriya Panchang Central Station",
-        "latitude": 23.1833333333,
-        "longitude": 82.5,
+        "name": "Rashtriya Panchang Central Station (coordinates not stated on cited page)",
         "timeZone": "Asia/Kolkata",
-        "coordinateStatus": "published in Rashtriya Panchang explanation"
+        "coordinateStatus": "source identifies Central Station of India but does not publish coordinates/elevation on this page"
       },
       "sourceId": "rashtriya-2026-27-visibility",
       "precision": "date-only",
@@ -170,15 +168,14 @@
         "easternMorningVisibilityFrom": "2026-10-29"
       },
       "status": "official-independent-cross-check",
-      "notes": "These are visibility-period dates, not exact Asta-start/Udaya-end clock times. Keep separate from Drik exact-time cases.",
-      "comparisonLevel": "coordinate-exact",
+      "notes": "These are visibility-period dates, not exact Asta-start/Udaya-end clock times. Keep separate from Drik exact-time cases. The cited source page does not publish station coordinates/elevation; do not claim coordinate-exact comparison.",
+      "comparisonLevel": "city-label-only",
       "sourceObserver": {
         "name": "Rashtriya Panchang Central Station",
-        "latitude": 23.1833333333,
-        "longitude": 82.5,
+        "coordinates": null,
         "elevationMeters": null,
         "timeZone": "Asia/Kolkata",
-        "coordinateStatus": "published location coordinates; elevation not supplied"
+        "coordinateStatus": "coordinates/elevation not supplied on cited source page"
       }
     },
     {
@@ -239,11 +236,9 @@
       "eventModel": "rashtriya-panchang-heliacal-setting-rising",
       "sourceLocation": "Central Station of India",
       "testObserver": {
-        "name": "Rashtriya Panchang Central Station",
-        "latitude": 23.1833333333,
-        "longitude": 82.5,
+        "name": "Rashtriya Panchang Central Station (coordinates not stated on cited page)",
         "timeZone": "Asia/Kolkata",
-        "coordinateStatus": "published Central Station coordinates (23°11′ N, 82°30′ E); source elevation not supplied"
+        "coordinateStatus": "source identifies Central Station of India but does not publish coordinates/elevation on this page"
       },
       "sourceId": "rashtriya-2026-27-heliacal-times",
       "precision": "minute",
@@ -263,15 +258,14 @@
       },
       "status": "official-independent-cross-check",
       "acceptanceEligible": false,
-      "notes": "Official heliacal setting/rising instants, not Drik Tara Asta boundaries and not a Drik-algorithm validation target. Preserve the printed 24:18 and the normalized next-civil-day timestamp together. Source elevation is not supplied.",
-      "comparisonLevel": "coordinate-exact",
+      "notes": "Official heliacal setting/rising instants, not Drik Tara Asta boundaries and not a Drik-algorithm validation target. Preserve the printed 24:18 and the normalized next-civil-day timestamp together. Source elevation is not supplied. The cited source page does not publish station coordinates/elevation; do not claim coordinate-exact comparison.",
+      "comparisonLevel": "city-label-only",
       "sourceObserver": {
         "name": "Rashtriya Panchang Central Station",
-        "latitude": 23.1833333333,
-        "longitude": 82.5,
+        "coordinates": null,
+        "elevationMeters": null,
         "timeZone": "Asia/Kolkata",
-        "coordinateStatus": "published Central Station coordinates (23°11′ N, 82°30′ E); source elevation not supplied",
-        "elevationMeters": null
+        "coordinateStatus": "coordinates/elevation not supplied on cited source page"
       }
     },
     {
@@ -280,11 +274,9 @@
       "eventModel": "rashtriya-panchang-heliacal-setting-rising",
       "sourceLocation": "Central Station of India",
       "testObserver": {
-        "name": "Rashtriya Panchang Central Station",
-        "latitude": 23.1833333333,
-        "longitude": 82.5,
+        "name": "Rashtriya Panchang Central Station (coordinates not stated on cited page)",
         "timeZone": "Asia/Kolkata",
-        "coordinateStatus": "published Central Station coordinates (23°11′ N, 82°30′ E); source elevation not supplied"
+        "coordinateStatus": "source identifies Central Station of India but does not publish coordinates/elevation on this page"
       },
       "sourceId": "rashtriya-2026-27-heliacal-times",
       "precision": "minute",
@@ -304,15 +296,14 @@
       },
       "status": "official-independent-cross-check",
       "acceptanceEligible": false,
-      "notes": "Official heliacal setting/rising instants, not Drik Tara Asta boundaries and not a Drik-algorithm validation target. Source elevation is not supplied.",
-      "comparisonLevel": "coordinate-exact",
+      "notes": "Official heliacal setting/rising instants, not Drik Tara Asta boundaries and not a Drik-algorithm validation target. Source elevation is not supplied. The cited source page does not publish station coordinates/elevation; do not claim coordinate-exact comparison.",
+      "comparisonLevel": "city-label-only",
       "sourceObserver": {
         "name": "Rashtriya Panchang Central Station",
-        "latitude": 23.1833333333,
-        "longitude": 82.5,
+        "coordinates": null,
+        "elevationMeters": null,
         "timeZone": "Asia/Kolkata",
-        "coordinateStatus": "published Central Station coordinates (23°11′ N, 82°30′ E); source elevation not supplied",
-        "elevationMeters": null
+        "coordinateStatus": "coordinates/elevation not supplied on cited source page"
       }
     }
   ],
