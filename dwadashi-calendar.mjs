@@ -150,14 +150,16 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     const baseKey = [month, paksha, adhika ? "adhika" : "nija"].join("|");
     const bucket = groupBuckets.get(baseKey) || [];
     let target = null;
-    if (referenceDate) {
-      const referenceNumber = Date.parse(referenceDate + "T00:00:00Z");
+    const associationDate = referenceDate || sourceEntry?.observanceDate || null;
+    if (associationDate) {
+      const associationNumber = Date.parse(associationDate + "T00:00:00Z");
       const matches = bucket.map(group => {
         const dates = unique(group.sunriseDates.concat(group.noonDates));
-        const exact = dates.includes(referenceDate);
-        const overlap = !exact && !!findDwadashiIntervalOnLocalDate(dailyPanchang, referenceDate, month, paksha, adhika);
-        const distance = dates.length && Number.isFinite(referenceNumber)
-          ? Math.min(...dates.map(date => Math.abs(Date.parse(date + "T00:00:00Z") - referenceNumber) / 86400000))
+        const exact = dates.includes(associationDate);
+        const overlap = !!referenceDate && !exact &&
+          !!findDwadashiIntervalOnLocalDate(dailyPanchang, referenceDate, month, paksha, adhika);
+        const distance = dates.length && Number.isFinite(associationNumber)
+          ? Math.min(...dates.map(date => Math.abs(Date.parse(date + "T00:00:00Z") - associationNumber) / 86400000))
           : Infinity;
         return {group, exact, overlap, distance};
       }).filter(item => item.exact || item.overlap || item.distance <= 3)
@@ -253,7 +255,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     const observances = source && Array.isArray(source.observances) ? source.observances : [];
     const drik2026Entry = group.drik2026Entry || null;
     const drikSpecialEntries = group.drikSpecialEntries || [];
-    const drikReferenceDate = group.referenceDate || drik2026Entry?.referenceDate || drikSpecialEntries[0]?.referenceDate || null;
+    const drikReferenceDate = group.referenceDate || drik2026Entry?.referenceDate || drikSpecialEntries.find(item => item.referenceDate)?.referenceDate || null;
     const sourceReferenceObservation = drikReferenceDate && !candidateDates.includes(drikReferenceDate)
       ? findDwadashiIntervalOnLocalDate(dailyPanchang, drikReferenceDate, group.month, group.paksha, group.adhika)
       : null;
