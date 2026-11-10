@@ -125,24 +125,12 @@
     {
       "date": "2029-08-14",
       "dateLabel": "14 अगस्त",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "शुक्ल पक्ष की षष्ठी को भगवान स्कन्द की पूजा और व्रत किया जाता है।",
-      "category": "व्रत",
+      "title": "नाग पंचमी",
+      "description": "श्रावण शुक्ल पंचमी को नागदेवता की पूजा कर परिवार की रक्षा और मंगल की कामना की जाती है।",
+      "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल पंचमी"
-    },
-    {
-      "date": "2029-08-14",
-      "dateLabel": "14 अगस्त",
-      "title": "कल्कि अवतार जयंती",
-      "description": "भगवान विष्णु के भावी कल्कि अवतार का स्मरण और पूजन कल्कि जयंती पर किया जाता है।",
-      "category": "भगवान विष्णु का पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल पंचमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
-      "articleLabel": "नाग पंचमी व्रत"
     },
     {
       "date": "2029-08-14",
@@ -308,26 +296,6 @@
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — 2029 Festival Calendar",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2029"
-    },
-    {
-      "date": "2029-08-27",
-      "dateLabel": "27 अगस्त",
-      "title": "हेरम्ब संकष्टी चतुर्थी",
-      "description": "भाद्रपद कृष्ण चतुर्थी को भगवान गणेश के हेरम्ब स्वरूप की पूजा और चंद्रोदय के बाद व्रत-पारण किया जाता है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद कृष्ण तृतीया"
-    },
-    {
-      "date": "2029-08-27",
-      "dateLabel": "27 अगस्त",
-      "title": "बहुला चतुर्थी",
-      "description": "भाद्रपद कृष्ण चतुर्थी को बहुला चतुर्थी पर गौ-पूजन और व्रत की परंपरा है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद कृष्ण तृतीया"
     },
     {
       "date": "2029-08-27",
