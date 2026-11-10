@@ -188,3 +188,39 @@ test("2027 February retains Narmada Jayanti, Brahma Savarni Manvadi and Masi Mag
   assert.ok(purnima.sourceUrl);
   assert.equal(feb.events.some(event => /गौण|वैष्णव/.test(event.title || "")), false);
 });
+
+test("2027 March retains key regional, tithi and seasonal observances", () => {
+  const march = month(3);
+  const checks = [
+    ["2027-03-02", /महर्षि दयानन्द सरस्वती जयंती/, "फाल्गुन कृष्ण दशमी"],
+    ["2027-03-05", /कृष्ण भीष्म द्वादशी/, "फाल्गुन कृष्ण द्वादशी"],
+    ["2027-03-07", /दर्श अमावस्या/, "फाल्गुन कृष्ण अमावस्या"],
+    ["2027-03-10", /फुलेरा दूज \/ रामकृष्ण जयंती/, "फाल्गुन शुक्ल द्वितीया"],
+    ["2027-03-13", /मासिक स्कन्द षष्ठी \/ मासिक कार्तिगाई/, "फाल्गुन शुक्ल षष्ठी"],
+    ["2027-03-15", /मीन संक्रांति \/ कराडैयान नोम्बु/, undefined],
+    ["2027-03-19", /नृसिंह द्वादशी/, "फाल्गुन शुक्ल द्वादशी"],
+    ["2027-03-20", /शनि त्रयोदशी \/ शनि प्रदोष व्रत/, "फाल्गुन शुक्ल पक्ष त्रयोदशी"],
+    ["2027-03-21", /छोटी होली \/ होलिका दहन/, "फाल्गुन शुक्ल पूर्णिमा"],
+    ["2027-03-22", /दोल पूर्णिमा.*पंगुनी उथिरम.*सावर्णि मन्वादि/, "फाल्गुन शुक्ल पूर्णिमा"],
+    ["2027-03-23", /चैत्र मासारंभ/, "चैत्र कृष्ण प्रतिपदा"],
+    ["2027-03-24", /भाई दूज \/ भ्रातृ द्वितीया/, "चैत्र कृष्ण द्वितीया"],
+    ["2027-03-27", /रंग पंचमी/, "चैत्र कृष्ण पंचमी"],
+    ["2027-03-28", /शीतला सप्तमी/, "चैत्र कृष्ण सप्तमी"],
+    ["2027-03-29", /मासिक कालाष्टमी \/ मासिक कृष्ण जन्माष्टमी/, "चैत्र कृष्ण सप्तमी (अष्टमी व्याप्ति)"],
+    ["2027-03-30", /शीतला अष्टमी \/ बसोड़ा/, "चैत्र कृष्ण अष्टमी"]
+  ];
+  for (const [date, title, tithi] of checks) {
+    const event = march.events.find(item => item.date === date && title.test(item.title || ""));
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+    if (tithi) assert.equal(event.hinduTithi, tithi);
+    assert.ok(event.sourceUrl, date + " source URL");
+  }
+  const seen = new Set();
+  for (const event of march.events) {
+    if (!event.hinduTithi) continue;
+    const key = event.date + "|" + event.hinduTithi;
+    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
+    seen.add(key);
+  }
+});
