@@ -7,7 +7,6 @@ import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
 
 import {
-  Elongation,
   Observer
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
