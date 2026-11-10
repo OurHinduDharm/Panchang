@@ -39,6 +39,15 @@ function sunAltitude(date) {
   const sun = Astronomy.Equator("Sun", date, observer, true, true);
   return Astronomy.Horizon(date, observer, sun.ra, sun.dec, "normal").altitude;
 }
+function equatorialSeparationDegrees(a, b) {
+  const radians = Math.PI / 180;
+  const raDelta = (a.ra - b.ra) * 15 * radians;
+  const decA = a.dec * radians, decB = b.dec * radians;
+  const cosine = Math.sin(decA) * Math.sin(decB) +
+    Math.cos(decA) * Math.cos(decB) * Math.cos(raDelta);
+  return Math.acos(Math.max(-1, Math.min(1, cosine))) / radians;
+}
+
 function trainingSample(entry, boundary) {
   const anchor = new Date(entry.boundaries[boundary]);
   const current = nearestEvent(entry.planet, anchor);
@@ -49,10 +58,24 @@ function trainingSample(entry, boundary) {
   );
   if (!previous?.date) return null;
   const motion = motionAt(entry.planet, current.date);
+  const illumination = Astronomy.Illumination(entry.planet, current.date);
+  const sunEq = Astronomy.Equator("Sun", current.date, observer, true, true);
+  const planetEq = Astronomy.Equator(entry.planet, current.date, observer, true, true);
+  const sunH = Astronomy.Horizon(current.date, observer, sunEq.ra, sunEq.dec, "normal");
+  const planetH = Astronomy.Horizon(current.date, observer, planetEq.ra, planetEq.dec, "normal");
+  const elongationDegrees = typeof Astronomy.AngleFromSun === "function"
+    ? Astronomy.AngleFromSun(entry.planet, current.date)
+    : equatorialSeparationDegrees(sunEq, planetEq);
+  const azimuthSeparationDegrees = Math.abs(
+    ((sunH.azimuth - planetH.azimuth + 540) % 360) - 180
+  );
   return {
-    apparentMagnitude: Astronomy.Illumination(entry.planet, current.date).mag,
+    apparentMagnitude: illumination.mag,
     retrograde: motion.retrograde,
     longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
+    elongationDegrees,
+    azimuthSeparationDegrees,
+    illuminatedFraction: illumination.phase_fraction,
     thresholdMidpoint: (sunAltitude(previous.date) + sunAltitude(current.date)) / 2
   };
 }
@@ -138,7 +161,12 @@ const variants = [
   { name: "magnitude-only", keys: ["apparentMagnitude"] },
   { name: "magnitude+retrograde", keys: ["apparentMagnitude", "retrograde"] },
   { name: "magnitude+longitude-rate", keys: ["apparentMagnitude", "longitudeRateDegPerDay"] },
-  { name: "magnitude+retrograde+rate", keys: ["apparentMagnitude", "retrograde", "longitudeRateDegPerDay"] }
+  { name: "magnitude+retrograde+rate", keys: ["apparentMagnitude", "retrograde", "longitudeRateDegPerDay"] },
+  { name: "magnitude+elongation", keys: ["apparentMagnitude", "elongationDegrees"] },
+  { name: "magnitude+azimuth-separation", keys: ["apparentMagnitude", "azimuthSeparationDegrees"] },
+  { name: "magnitude+phase", keys: ["apparentMagnitude", "illuminatedFraction"] },
+  { name: "magnitude+elongation+azimuth+phase", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction"] },
+  { name: "magnitude+elongation+azimuth+phase+motion", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "retrograde", "longitudeRateDegPerDay"] }
 ];
 const output = [];
 
