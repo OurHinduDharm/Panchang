@@ -188,3 +188,16 @@ test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing an
     await assertArticle(year, monthNumber, date, pattern, "pitri-tarpan-vidhi");
   }
 });
+
+test("Festival card renderers add the requested article links and muhurta rules", async () => {
+  const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
+  const annualPage = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
+  for (const source of [widget, annualPage]) {
+    assert.match(source, /pitri-tarpan-vidhi/);
+    assert.match(source, /shivratri-prahar-pooja-vidhi/);
+    assert.match(source, /masik-shivaratri-four-prahar/);
+    assert.match(source, /वृषभ\.\*स्थिर लग्न/);
+  }
+  assert.match(widget, /kali-chaudas-nishita/);
+  assert.match(annualPage, /kali-chaudas-nishita/);
+});
