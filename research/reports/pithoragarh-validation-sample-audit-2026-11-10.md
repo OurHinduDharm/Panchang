@@ -33,3 +33,12 @@ Source ledger: `data/drik-pithoragarh-asta-udaya-2021-2027.json`.
 ## Next research priority
 
 Improve candidate-to-reference matching in the holdout runner so it uses conjunction family and local rise/set direction, then re-run all folds and inspect every prediction/unmatched row. Only after that should coefficient changes be considered.
+## Workflow coverage audit
+
+The branch workflow `.github/workflows/asta-udaya-phase-diagnostics.yml` includes the direction-year holdout runner, forward-only validation, pooled/city-year holdouts, independent-source comparisons, JPL Horizons geometry cross-check, selector unit tests, and browser diagnostics. The direction-year runner writes its JSON report as a workflow artifact. The workflow is configured for pushes to this research branch when one of its listed paths changes.
+
+The GitHub connector available during this audit can retrieve runs associated with pull-request commits but filters out push-triggered runs. Therefore an empty result from that endpoint is not evidence that a push workflow did not run. No successful run status is asserted here.
+
+## Matching weakness retained as a required fix
+
+The current direction-year report runner selects a candidate primarily by nearest Asta-start date within a 30-day window, then reports the Udaya-end error. This can pair a published window with the wrong conjunction family if two candidate windows are close. Before trusting its aggregate scores, candidate matching must be constrained by: (a) conjunction family nearest the published window midpoint, (b) expected local rise/set direction for that family, and (c) both Asta-start and Asta-end date errors. Unmatched cases must remain unmatched; do not widen tolerances to force a match.
