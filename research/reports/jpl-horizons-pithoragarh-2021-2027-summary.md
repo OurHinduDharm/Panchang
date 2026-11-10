@@ -61,3 +61,10 @@ Before treating the geometry as final location-level validation:
 - Indian gravimetric geoid model IndGG-SH2021: https://new.isgeoid.polimi.it/Geoid/Asia/India/india_SH2021_g.html
 
 **Release decision:** Research-only. Do not use this correlation as a hard-coded production threshold or publish predicted Asta/Udaya dates from this report alone. PR #278 remains Draft pending full model validation and observer-datum review.
+
+
+## Independent location-coordinate check
+
+An Irrigation Research Institute, Roorkee instrument inventory lists a Pithoragarh automatic rain-gauge station at 29.5819744° N, 80.2187114° E. This is approximately 104 m from the project observer coordinates used here (29.5828° N, 80.2182° E), providing a useful independent check that the project point is in the Pithoragarh town area. It does not establish Drik's provider coordinates or the observer's vertical datum.
+
+Source: https://www.iriroorkee.res.in/documents/pdf/news_events/Annexure_17_10_24.pdf
