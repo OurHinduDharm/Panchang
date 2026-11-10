@@ -880,3 +880,22 @@ Expanded New Delhi dataset में Mercury की 13 Asta-start और 13 Asta
 - अधिकतम individual error **1.26°** तक रहा।
 
 इससे Mercury के लिए apparent magnitude आधारित planet-specific twilight threshold एक उपयोगी candidate बनता है; पर यह अभी New Delhi city-centre proxy पर एक वर्ष से दूसरे वर्ष का fit है। Provider coordinates अज्ञात हैं, atmospheric assumptions सरल हैं, और date-level event prediction अभी अलग से validate होना बाकी है। इसे Pithoragarh या production में सीधे लागू नहीं किया जाएगा।
+
+
+### Mercury date-level holdout prediction — 10 नवम्बर 2026
+
+अगला चरण केवल threshold midpoint की regression नहीं रहा। 2026 और 2027 को अलग-अलग train/test रखकर magnitude model से स्थानीय ग्रह-उदय/अस्त event series में threshold residual crossing खोजी गई। हर held-out window में search केवल reference date के ±20 दिनों के diagnostic window में की गई; इसलिए इसे पूर्ण blind forecast नहीं, बल्कि **cross-year local-window holdout** कहा जाएगा।
+
+परिणाम:
+- **Asta-start:** 13 held-out boundaries में 5 exact-date, 7 एक दिन के भीतर, 1 दो दिन के भीतर। MAE लगभग **0.69 दिन**.
+- **Asta-end:** 12 held-out boundaries में 8 exact-date, 3 एक दिन के भीतर, 1 तीन दिन के भीतर। MAE **0.50 दिन**.
+- कुल 25 date predictions में 13 exact, 10 ±1 दिन, 1 ±2 दिन और 1 ±3 दिन; कुल MAE **0.60 दिन**.
+- हर tested boundary के ±20 दिन में residual का एक ही crossing मिला; ambiguous multiple crossings नहीं आए।
+
+यह पहली बार है जब fixed-angle rule के बजाय apparent-magnitude-dependent threshold ने दूसरे वर्ष के Mercury Asta/Udaya boundary dates को लगभग एक दिन की औसत त्रुटि में पुनः प्राप्त किया। फिर भी:
+1. सभी references New Delhi city-label-only हैं; exact provider coordinates अज्ञात हैं।
+2. search window reference date के आसपास रखी गई थी; यह पूर्ण स्वतंत्र future forecast नहीं है।
+3. model अभी Mercury-only है; इसे Venus/Jupiter/Saturn/Mars पर लागू नहीं किया जाएगा।
+4. Pithoragarh same-city Mercury holdout और अलग वर्ष/स्थान validation के बिना production में नहीं जाएगा।
+
+**Engineering decision:** Mercury के लिए यह अब सबसे मजबूत candidate event-selector hypothesis है। अगला काम इसे Pithoragarh observer पर चलाना और उपलब्ध same-city references जुटाना है; बाकी ग्रहों के लिए अलग calibration जारी रहेगी।
