@@ -174,7 +174,7 @@ test("Pithoragarh historical 2021–2023 windows are available without changing 
   const result = getDrikPlanetaryReference({
     dataset,
     location: { city: "पिथौरागढ़" },
-    selectedDate: "2021-03-01",
+    selectedDate: "2021-04-01",
     planet: "Mercury"
   });
   assert.equal(result.status, "active");
