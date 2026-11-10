@@ -451,26 +451,49 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   }
 
   function getLagnaIndex(p){
-    var value=p&&p.udayaLagna;
+    var value=p&&(p.udayaLagna??p.lagna??p.ascendant);
     if(value&&typeof value==="object"){
-      var raw=value.index??value.number??value.value??value.name??value.label;
+      var raw=value.index??value.number??value.value??value.rashiIndex??value.rashiName??value.rashi??value.signName??value.name??value.label;
+      if(raw&&typeof raw==="object")raw=raw.index??raw.number??raw.value??raw.name??raw.label;
       if(raw!==undefined)value=raw;
     }
-    if(typeof value==="number"&&Number.isFinite(value))return value;
+    if(typeof value==="number"&&Number.isFinite(value)){
+      return Number.isInteger(value)&&value>=0&&value<=11?value:null;
+    }
     var name=String(value??"").normalize("NFC").toLocaleLowerCase("hi");
-    if(/vrishabha|वृषभ|taurus/.test(name))return 1;
-    if(/simha|सिंह|leo/.test(name))return 4;
+    var names=[
+      [/mesh|मेष|aries/,0],[/vrishabha|वृषभ|taurus/,1],
+      [/mithun|मिथुन|gemini/,2],[/karka|कर्क|cancer/,3],
+      [/simha|सिंह|leo/,4],[/kanya|कन्या|virgo/,5],
+      [/tula|तुला|libra/,6],[/vrishchik|वृश्चिक|scorpio/,7],
+      [/dhanu|धनु|sagittarius/,8],[/makar|मकर|capricorn/,9],
+      [/kumbh|कुम्भ|कुंभ|aquarius/,10],[/meen|मीन|pisces/,11]
+    ];
+    for(var i=0;i<names.length;i++)if(names[i][0].test(name))return names[i][1];
     var numeric=Number(value);
-    return Number.isInteger(numeric)?numeric:null;
+    return Number.isInteger(numeric)&&numeric>=0&&numeric<=11?numeric:null;
   }
   function getStiraLagnaWindows(lib,observer,startValue,endValue){
     var start=new Date(startValue),end=new Date(endValue);
     if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<=start||
        !lib||typeof lib.getPanchangam!=="function")return [];
+    var fixedNames={1:"Vrishabha",4:"Simha",7:"Vrishchika",10:"Kumbha"};
     function signAt(ms){
-      try{return getLagnaIndex(lib.getPanchangam(new Date(ms),observer,{timezoneOffset:330}));}
-      catch(_){return null;}
+      var instant=new Date(ms);
+      try{
+        var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:330});
+        var index=getLagnaIndex(panchang);
+        if(index!==null)return index;
+        // कुछ package builds में getPanchangam पर Udaya Lagna नहीं मिलता;
+        // Kundli API का Ascendant उसी क्षण का लग्न देता है।
+        if(typeof lib.getKundli==="function"){
+          var kundli=lib.getKundli(instant,observer);
+          return getLagnaIndex({ascendant:kundli&&kundli.ascendant});
+        }
+      }catch(_){}
+      return null;
     }
+    function isFixed(sign){return Object.prototype.hasOwnProperty.call(fixedNames,sign);}
     var step=5*60*1000,points=[];
     for(var t=start.getTime();t<end.getTime();t+=step)points.push(t);
     points.push(end.getTime());
@@ -486,23 +509,23 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     for(var i=0;i<points.length;i++){
       var sign=signs[i];
       if(i===0){
-        if(sign===1||sign===4){segmentStart=points[i];segmentSign=sign;}
+        if(isFixed(sign)){segmentStart=points[i];segmentSign=sign;}
         continue;
       }
       var prev=signs[i-1],prevTime=points[i-1],time=points[i];
       if(prev===sign)continue;
-      if((prev===1||prev===4)&&segmentStart!==null){
+      if(isFixed(prev)&&segmentStart!==null){
         var segEnd=boundary(prevTime,time,prev);
-        segments.push({name:prev===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:new Date(segEnd)});
+        segments.push({name:fixedNames[prev],start:new Date(segmentStart),end:new Date(segEnd)});
         segmentStart=null;segmentSign=null;
       }
-      if(sign===1||sign===4){
+      if(isFixed(sign)){
         segmentStart=boundary(prevTime,time,sign);
         segmentSign=sign;
       }
     }
-    if(segmentStart!==null&&(segmentSign===1||segmentSign===4)){
-      segments.push({name:segmentSign===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:end});
+    if(segmentStart!==null&&isFixed(segmentSign)){
+      segments.push({name:fixedNames[segmentSign],start:new Date(segmentStart),end:end});
     }
     return segments;
   }
