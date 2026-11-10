@@ -71,7 +71,7 @@ jobs:
         if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'tests/run-swiss-heliacal-comparison.mjs')
         run: node tests/run-swiss-heliacal-comparison.mjs
       - name: Capture Drik Pithoragarh five-planet named-city pages without city fallback
-        if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'tests/capture-drik-pithoragarh-asta.mjs')
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, 'Pithoragarh source capture')
         run: node tests/capture-drik-pithoragarh-asta.mjs
       - name: Capture direct Drik multi-city annual Asta pages
         if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'tests/capture-drik-multicity-asta.mjs')
