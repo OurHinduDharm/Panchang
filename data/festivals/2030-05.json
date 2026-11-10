@@ -104,14 +104,14 @@
     {
       "date": "2030-05-13",
       "dateLabel": "13 मई",
-      "title": "मोहिनी एकादशी",
-      "description": "मोहिनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "title": "मोहिनी एकादशी / सिद्धिलक्ष्मी जयंती",
+      "description": "मोहिनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। सिद्धिलक्ष्मी जयंती पर माँ सिद्धिलक्ष्मी की उपासना, स्तोत्र-पाठ और दान करें। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल दशमी / एकादशी व्याप्ति",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "sourceName": "Drik Panchang — 2030 Dwadasha Siddhividya Jayanti Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhividya-jayanti-dates.html?year=2030",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
@@ -159,8 +159,8 @@
     {
       "date": "2030-05-17",
       "dateLabel": "17 मई",
-      "title": "वैशाख पूर्णिमा / बुद्ध पूर्णिमा / कूर्म अवतार जयंती",
-      "description": "वैशाख पूर्णिमा को बुद्ध पूर्णिमा के रूप में भी मनाया जाता है। इस दिन भगवान बुद्ध का स्मरण, ध्यान, जप, स्नान और दान करें। कूर्म अवतार जयंती पर भगवान विष्णु के कूर्म अवतार का स्मरण कर पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कूर्म अवतार जयंती</a>",
+      "title": "वैशाख पूर्णिमा / बुद्ध पूर्णिमा / कूर्म अवतार जयंती / चण्डिका जयंती",
+      "description": "वैशाख पूर्णिमा को बुद्ध पूर्णिमा के रूप में भी मनाया जाता है। इस दिन भगवान बुद्ध का स्मरण, ध्यान, जप, स्नान और दान करें। कूर्म अवतार जयंती पर भगवान विष्णु के कूर्म अवतार का स्मरण कर पूजन और स्तोत्र-पाठ करें। चण्डिका जयंती पर माँ चण्डिका की उपासना करें। <a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कूर्म अवतार जयंती</a>",
       "category": "जयंती एवं पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -168,7 +168,9 @@
       "sourceName": "Drik Panchang — 2030 Dashavatara Calendar",
       "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2030",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html",
-      "articleLabel": "कूर्म अवतार जयंती"
+      "articleLabel": "कूर्म अवतार जयंती",
+      "secondarySourceName": "Drik Panchang — 2030 Dwadasha Siddhividya Jayanti Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/hindu-goddesses/siddhividya/siddhividya-jayanti-dates.html?year=2030"
     },
     {
       "date": "2030-05-18",
