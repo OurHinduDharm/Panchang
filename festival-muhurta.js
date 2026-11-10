@@ -329,8 +329,11 @@ const rules = {
       items.findIndex(other => other.start.getTime() === item.start.getTime() && other.end.getTime() === item.end.getTime()) === index
     );
     const purnima = uniqueIntervals(collectNamedIntervals(context.tithis, isPurnima));
-    const bhadra = uniqueIntervals(collectNamedIntervals(context.karanas, item => /vishti|विष्टि/.test(normalizedName(item))));
-    if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !purnima.length) return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "unavailable", message: "स्थानीय दिनमान और पूर्णिमा की वास्तविक अवधि उपलब्ध नहीं है।" };
+    const karanas = Array.isArray(context.karanas) ? context.karanas : [];
+    const bhadra = uniqueIntervals(collectNamedIntervals(karanas, item => /vishti|विष्टि/.test(normalizedName(item))));
+    if (!sunrise || !sunset || !nextSunrise || sunset <= sunrise || nextSunrise <= sunset || !purnima.length || !karanas.length) {
+      return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "unavailable", message: "स्थानीय दिनमान, पूर्णिमा और भद्रा-करण की पूरी गणना उपलब्ध नहीं है; अप्रमाणित समय नहीं दिखाया जा रहा है।" };
+    }
     const subtractBhadra = base => {
       let segments = base ? [{ start: base.start, end: base.end }] : [];
       for (const blocked of bhadra) segments = segments.flatMap(segment => {
@@ -358,7 +361,11 @@ const rules = {
     }
     if (!selected.length) return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "unavailable", message: "पूर्णिमा, अपराह्न/प्रदोष और भद्रा-वर्जन के अनुसार कोई पूरा मान्य समय नहीं मिला।" };
     const windows = selected.map(item => interval(item.start, item.end, selectedLabel, "पूर्णिमा-व्याप्ति में; भद्रा काल छोड़कर।")).filter(Boolean);
-    return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "calculated", windows };
+    const format = value => new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: true }).format(value);
+    const bhadraNote = bhadra.length
+      ? "भद्रा काल: " + bhadra.map(item => format(item.start) + " – " + format(item.end)).join("; ") + "। इस अवधि में रक्षा-सूत्र न बाँधें।"
+      : "भद्रा की स्थिति: पूर्णिमा-व्याप्ति में भद्रा नहीं है।";
+    return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "calculated", windows, note: bhadraNote };
   },
 
   "sandhi-puja"(context) {
@@ -1664,28 +1671,32 @@ const rules = {
   "chhath-arghya"(context) {
     const sunset = validDate(context.sunset);
     const nextSunrise = validDate(context.nextSunrise);
-    if (!sunset || !nextSunrise || nextSunrise <= sunset) {
+    const mainDate = validDate(context.date);
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !mainDate) {
       return {
-        label: "छठ पूजा — अर्घ्य समय",
+        label: "छठ महापर्व — चार दिवसीय अनुष्ठान",
         status: "unavailable",
-        message: "स्थानीय सूर्यास्त और अगले दिन का सूर्योदय उपलब्ध नहीं है; अर्घ्य समय नहीं दिखाया जा रहा है।"
+        message: "स्थानीय तिथि, सूर्यास्त और अगले दिन का सूर्योदय उपलब्ध नहीं है; तिथियाँ या अर्घ्य समय अनुमान से नहीं दिखाए जा रहे हैं।"
       };
     }
+    const dateParts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit"
+    }).formatToParts(mainDate);
+    const part = type => (dateParts.find(item => item.type === type) || {}).value;
+    const base = new Date(Date.UTC(Number(part("year")), Number(part("month")) - 1, Number(part("day")), 6, 0));
+    const day = offset => new Date(base.getTime() + offset * 86400000);
     return {
-      label: "छठ पूजा — अर्घ्य समय",
+      label: "छठ महापर्व — चार दिवसीय अनुष्ठान",
       status: "calculated",
+      milestones: [
+        { label: "नहाय-खाय (चतुर्थी)", date: day(-2), note: "स्नान-शुद्धि, कद्दू-भात सहित सात्विक भोजन और व्रत का संकल्प।" },
+        { label: "खरना / लोहंडा (पंचमी)", date: day(-1), note: "दिनभर उपवास; संध्या में गुड़ की खीर का प्रसाद, इसके बाद निर्जला व्रत आरंभ।" }
+      ],
       times: [
-        {
-          label: "संध्या अर्घ्य",
-          time: sunset,
-          note: "षष्ठी तिथि पर अस्ताचलगामी सूर्य को अर्घ्य।"
-        },
-        {
-          label: "उषा अर्घ्य",
-          time: nextSunrise,
-          note: "अगली सुबह सप्तमी पर उदयगामी सूर्य को अर्घ्य; इसके बाद पारण।"
-        }
-      ]
+        { label: "संध्या अर्घ्य (षष्ठी)", time: sunset, note: "अस्ताचलगामी सूर्य को अर्घ्य।" },
+        { label: "उषा अर्घ्य एवं पारण (सप्तमी)", time: nextSunrise, note: "उदयगामी सूर्य को अर्घ्य देकर व्रत का समापन और पारण।" }
+      ],
+      note: "अर्घ्य का समय स्थानीय सूर्यास्त और सूर्योदय के अनुसार है।"
     };
   },
 
