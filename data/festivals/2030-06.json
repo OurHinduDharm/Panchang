@@ -11,14 +11,14 @@
     {
       "date": "2030-06-01",
       "dateLabel": "1 जून",
-      "title": "शनि जयंती",
-      "description": "शनि जयंती पर भगवान शनिदेव का पूजन, शनि-मंत्र जप और तिल-तेल आदि का दान किया जाता है।",
+      "title": "शनि जयंती / वट सावित्री व्रत / ज्येष्ठ अमावस्या / दर्श अमावस्या",
+      "description": "ज्येष्ठ अमावस्या पर शनि जयंती के अवसर पर शनिदेव का पूजन, शनि-मंत्र जप और तिल-तेल आदि का दान करें। वट सावित्री व्रत में सावित्री-सत्यवान की कथा का श्रवण कर वटवृक्ष की पूजा, परिक्रमा और रक्षा-सूत्र बाँधने की परंपरा है। अमावस्या पर पितरों के निमित्त तर्पण और दान भी करें।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "sourceName": "Drik Panchang — 1 जून 2030 पर्व सूची",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html",
       "articleLabel": "शनि जयंती की महिमा",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html",
@@ -80,7 +80,9 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल षष्ठी"
+      "hinduTithi": "ज्येष्ठ शुक्ल षष्ठी",
+      "sourceName": "Drik Panchang — 2030 जून पर्व सूची",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030"
     },
     {
       "date": "2030-06-09",
@@ -95,6 +97,18 @@
       "articleLabel": "धूमावती महाविद्या",
       "sourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030"
+    },
+    {
+      "date": "2030-06-10",
+      "dateLabel": "10 जून",
+      "title": "महेश नवमी",
+      "description": "महेश नवमी पर भगवान शिव और माता पार्वती का पूजन, शिव-मंत्र जप तथा धर्म, सेवा और दान का संकल्प किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल नवमी",
+      "sourceName": "Drik Panchang — 2030 जून पर्व सूची",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030"
     },
     {
       "date": "2030-06-11",
@@ -113,14 +127,14 @@
     {
       "date": "2030-06-12",
       "dateLabel": "12 जून",
-      "title": "निर्जला एकादशी",
-      "description": "निर्जला एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "title": "निर्जला एकादशी / गायत्री जयंती / रामलक्ष्मण द्वादशी",
+      "description": "निर्जला एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और जलदान की परंपरा है। इसी दिन गायत्री जयंती पर माँ गायत्री का पूजन, गायत्री मंत्र-जप और हवन करें। द्वादशी तिथि की व्याप्ति में रामलक्ष्मण द्वादशी का स्मरण और श्रीराम-लक्ष्मण पूजन भी करें। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "hinduTithi": "ज्येष्ठ शुक्ल एकादशी / द्वादशी व्याप्ति",
+      "sourceName": "Drik Panchang — 12 जून 2030 दैनिक पंचांग",
+      "sourceUrl": "https://www.drikpanchang.com/bengali/bengali-day-panjika.html?date=12%2F06%2F2030",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
@@ -135,19 +149,21 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "ज्येष्ठ शुक्ल द्वादशी / त्रयोदशी व्याप्ति"
     },
     {
       "date": "2030-06-15",
       "dateLabel": "15 जून",
-      "title": "वट पूर्णिमा व्रत / मिथुन संक्रांति",
-      "description": "वट पूर्णिमा व्रत में सावित्री-सत्यवान की कथा का स्मरण कर वटवृक्ष का पूजन, परिक्रमा और रक्षा-सूत्र बाँधने की परंपरा है। इसी दिन सूर्य के मिथुन राशि में प्रवेश पर स्नान, दान और सूर्योपासना भी की जाती है।",
+      "title": "ज्येष्ठ पूर्णिमा / वट पूर्णिमा व्रत / मिथुन संक्रांति / बटुक भैरव जयंती / वैवस्वत मन्वादि तिथि",
+      "description": "ज्येष्ठ पूर्णिमा पर वट पूर्णिमा व्रत में सावित्री-सत्यवान की कथा का स्मरण कर वटवृक्ष का पूजन, परिक्रमा और रक्षा-सूत्र बाँधने की परंपरा है। इसी दिन सूर्य के मिथुन राशि में प्रवेश पर स्नान, दान और सूर्योपासना करें। बटुक भैरव जयंती पर भगवान भैरव का पूजन करें तथा वैवस्वत मन्वादि तिथि पर दान-जप और पुण्यकर्म करें।",
       "category": "व्रत एवं संक्रांति",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा; सूर्य का मिथुन राशि में प्रवेश",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2030 जून पर्व सूची",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030",
+      "secondarySourceName": "Drik Panchang — 2030 जून पर्व सूची",
+      "secondarySourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030"
     },
     {
       "date": "2030-06-15",
@@ -176,12 +192,12 @@
     {
       "date": "2030-06-22",
       "dateLabel": "22 जून",
-      "title": "मासिक कालाष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
+      "description": "रात्रिव्यापिनी अष्टमी पर मासिक कालाष्टमी तथा मासिक कृष्ण जन्माष्टमी का व्रत करें। भगवान भैरव का पूजन, मंत्र-जप और रात्रि-जागरण करें; भगवान श्रीकृष्ण का स्मरण, नाम-जप और पूजन भी करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ कृष्ण सप्तमी (अष्टमी व्याप्ति)",
+      "hinduTithi": "आषाढ़ कृष्ण सप्तमी / अष्टमी व्याप्ति",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
@@ -203,6 +219,18 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2030-06-27",
+      "dateLabel": "27 जून",
+      "title": "कृष्ण रामलक्ष्मण द्वादशी",
+      "description": "आषाढ़ कृष्ण द्वादशी पर श्रीराम और लक्ष्मण का स्मरण, पूजन, रामनाम-जप तथा दान करें।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2030 जून पर्व सूची",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030"
+    },
+    {
       "date": "2030-06-28",
       "dateLabel": "28 जून",
       "title": "शुक्र प्रदोष व्रत",
@@ -213,17 +241,31 @@
       "hinduTithi": "आषाढ़ कृष्ण पक्ष त्रयोदशी"
     },
     {
-      "date": "2030-06-29",
-      "dateLabel": "29 जून",
-      "title": "मासिक शिवरात्रि",
-      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "date": "2030-06-28",
+      "dateLabel": "28 जून",
+      "title": "शुक्र प्रदोष व्रत / मासिक शिवरात्रि",
+      "description": "त्रयोदशी के प्रदोषकाल में भगवान शिव का पूजन और दीपदान करें। रात्रि में चतुर्दशी-व्याप्ति पर मासिक शिवरात्रि का व्रत, जलाभिषेक, बिल्वपत्र अर्पण, शिवमंत्र-जप और रात्रि-जागरण करें। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि की महिमा एवं पंचाक्षर स्तोत्र</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ कृष्ण चतुर्दशी",
+      "hinduTithi": "आषाढ़ कृष्ण त्रयोदशी / चतुर्दशी व्याप्ति",
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
-      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "sourceName": "Drik Panchang — 2030 जून पर्व सूची",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030"
+    },
+    {
+      "date": "2030-06-30",
+      "dateLabel": "30 जून",
+      "title": "आषाढ़ अमावस्या / दर्श अमावस्या",
+      "description": "आषाढ़ अमावस्या पर पितरों के निमित्त तर्पण, श्राद्ध, स्नान और दान करें। इस दिन जप, ध्यान और जरूरतमंदों को अन्न-वस्त्र दान करने की भी परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2030 जून पर्व सूची",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030"
     }
   ]
 }
