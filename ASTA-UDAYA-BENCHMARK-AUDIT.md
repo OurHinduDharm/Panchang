@@ -1040,3 +1040,20 @@ Pithoragarh cross-location holdout का 3/4 exact परिणाम अके
 - Asta-end: 0, 0, +1, 0, 0 दिन.
 
 अर्थात Asta-end पक्ष अभी मजबूत दिखता है, पर Asta-start में दो apparitions 3–4 दिन पहले predict हुए। इसलिए Venus का पूरा दो-सीमा selector अभी production-ready नहीं। Pithoragarh cross-location result promising है, लेकिन Asta-start की same-city generalization में कमजोरी बनी हुई है। अधिक historical windows और बेहतर brightness/phase model चाहिए।
+
+
+### 2023 New Delhi reference expansion
+
+2023 Drik New Delhi pages से Mercury की सात, Venus की एक, Saturn की एक और Jupiter की एक Asta window जोड़ी:
+- Mercury: 1–14 Jan, 24 Feb–28 Mar, 24 Apr–23 May, 21 Jun–12 Jul, 22 Aug–15 Sep, 8 Oct–16 Nov, 16–29 Dec 2023.
+- Venus: 3–19 Aug 2023.
+- Saturn: 4 Feb–14 Mar 2023.
+- Jupiter: 1 Apr–4 May 2023.
+
+स्रोत:
+- https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?year=2023
+- https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2023
+- https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2023
+- https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2023
+
+Dataset अब **48 New Delhi windows / 96 boundary events** पर है: Mercury 32, Venus 6, Jupiter 4, Saturn 5, Mars 1. Mercury year-split अब 2023–27 तक और Venus/Saturn holdouts भी 2023–27 तक चलेंगे। यह New Delhi city-label dataset है; Pithoragarh का स्थानापन्न नहीं।
