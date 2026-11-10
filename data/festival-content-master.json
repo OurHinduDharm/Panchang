@@ -3139,6 +3139,28 @@
       "secondaryArticleUrl": "",
       "secondaryArticleLabel": "",
       "muhurtaRule": ""
+    },
+    {
+      "key": "गोस्वामी तुलसीदास जयंती",
+      "title": "गोस्वामी तुलसीदास जयंती",
+      "category": "जयंती",
+      "description": "श्रावण शुक्ल सप्तमी को गोस्वामी तुलसीदास जी की जयंती मनाई जाती है। इस अवसर पर श्रीरामचरितमानस का पाठ और रामभक्ति का स्मरण किया जाता है।",
+      "articleUrl": "",
+      "articleLabel": "",
+      "secondaryArticleUrl": "",
+      "secondaryArticleLabel": "",
+      "muhurtaRule": ""
+    },
+    {
+      "key": "बाबा नीब करौरी जयंती",
+      "title": "बाबा नीब करौरी जयंती",
+      "category": "जयंती",
+      "description": "मार्गशीर्ष शुक्ल अष्टमी को बाबा नीब करौरी महाराज के प्राकट्य दिवस का स्मरण किया जाता है। उनके जीवन, हनुमद्भक्ति और प्रेम तथा सेवा के संदेश को याद किया जाता है।",
+      "articleUrl": "",
+      "articleLabel": "",
+      "secondaryArticleUrl": "",
+      "secondaryArticleLabel": "",
+      "muhurtaRule": ""
     }
   ]
 }
