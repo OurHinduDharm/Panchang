@@ -1082,3 +1082,16 @@ Latest successful numerical validation (48 New Delhi windows / 96 boundary event
 - 2023–27 के पाँच windows पर leave-one-year-out: Asta-start 4/5 exact और 5/5 within one day; Asta-end 3/5 exact और 5/5 within one day। यह promising है, पर पाँच samples ही हैं।
 
 Jupiter के लिए इसी प्रकार का year-holdout diagnostic जोड़ा गया है; उसका परिणाम अगली CI run के बाद दर्ज होगा। अभी कोई planetary selector production Panchang में नहीं जोड़ा गया।
+
+
+### 2023–27 Venus, Saturn और Jupiter LOYO परिणाम
+
+अब leave-one-year-out (बाकी सभी उपलब्ध वर्षों पर fit, एक वर्ष holdout) का परिणाम:
+
+- **Venus:** Asta-start 6 holdouts में 5 एक दिन के भीतर, 1 तीन दिन पहले; Asta-end 6/6 एक दिन के भीतर (5 exact). Start-boundary outlier के कारण Venus पूरा selector अभी production-ready नहीं।
+- **Saturn:** पाँच वर्षों के holdout में Asta-start 4/5 exact, 5/5 एक दिन के भीतर; Asta-end 3/5 exact, 5/5 एक दिन के भीतर। यह promising candidate है, लेकिन sample छोटा है।
+- **Jupiter:** चार windows पर Asta-start 2 exact + 2 एक दिन; Asta-end 2 exact, 1 एक दिन, 1 दो दिन। Date result promising है, पर threshold-angle regression हर split में constant baseline से बेहतर नहीं रही; और data बढ़ाना होगा।
+
+New Delhi से Pithoragarh Venus cross-location test में 2023 New Delhi apparition जोड़ने के बाद चारों Pithoragarh boundaries (दो 2025 apparitions) **4/4 exact dates** पर आईं; same-apparition New Delhi training record हर बार हटाया गया। यह उपयोगी transfer evidence है, लेकिन अभी केवल शुक्र और दो Pithoragarh apparitions तक सीमित है।
+
+**स्थिति:** Mercury मजबूत; Venus end मजबूत पर start में outlier; Saturn promising; Jupiter preliminary; Mars के लिए अभी पर्याप्त New Delhi/Pithoragarh multi-year windows नहीं। सभी ग्रहों के लिए एक ही coefficient set नहीं अपनाया जाएगा।
