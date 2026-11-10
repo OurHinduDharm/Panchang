@@ -10,7 +10,7 @@
       "date": "2027-05-02",
       "dateLabel": "2 मई",
       "title": "वरुथिनी एकादशी",
-      "description": "वैशाख कृष्ण एकादशी पर भगवान विष्णु की उपासना, व्रत, विष्णु-स्मरण, मंत्र-जप और दान की परंपरा है। व्रत-पारण का समय नीचे दिया गया है।",
+      "description": "वैशाख कृष्ण एकादशी पर भगवान विष्णु की उपासना, व्रत, विष्णु-स्मरण, मंत्र-जप और दान की परंपरा है। व्रत-पारण का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -117,9 +117,7 @@
       "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल तृतीया",
       "sourceName": "Drik Panchang — पिथौरागढ़",
-      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=09/05/2027",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
-      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें"
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=09/05/2027"
     },
     {
       "date": "2027-05-09",
@@ -187,8 +185,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल अष्टमी",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html",
-      "articleLabel": "वगलामुखी महाविद्या",
       "sourceName": "Drik Panchang — 2027 Dasha Mahavidya Jayanti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027"
     },
@@ -231,7 +227,7 @@
       "date": "2027-05-16",
       "dateLabel": "16 मई",
       "title": "मोहिनी एकादशी",
-      "description": "वैशाख शुक्ल एकादशी पर भगवान विष्णु के मोहिनी स्वरूप का स्मरण और पूजन किया जाता है। व्रत, विष्णु-मंत्र-जप और दान की परंपरा है। व्रत-पारण का समय नीचे दिया गया है।",
+      "description": "वैशाख शुक्ल एकादशी पर भगवान विष्णु के मोहिनी स्वरूप का स्मरण और पूजन किया जाता है। व्रत, विष्णु-मंत्र-जप और दान की परंपरा है। व्रत-पारण का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -239,7 +235,9 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "sourceName": "Drik Panchang — May 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-may.html?year=2027"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-may.html?year=2027",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2027-05-16",
@@ -250,8 +248,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल एकादशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "sourceName": "Drik Panchang — May 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-may.html?year=2027"
     },
@@ -341,9 +337,7 @@
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — May 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-may.html?year=2027",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
-      "articleLabel": "माँ महालक्ष्मी की स्तोत्रात्मक उपासना पढ़ें"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-may.html?year=2027"
     },
     {
       "date": "2027-05-21",
