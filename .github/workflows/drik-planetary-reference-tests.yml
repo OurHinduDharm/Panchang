@@ -6,7 +6,9 @@ on:
     paths:
       - "data/drik-planetary-reference-2024-2027.json"
       - "research/drik-planetary-reference.mjs"
+      - "extra-panchang.js"
       - "tests/drik-planetary-reference.test.mjs"
+      - "tests/planet-rise-set-card-compact.test.mjs"
       - ".github/workflows/drik-planetary-reference-tests.yml"
   pull_request:
     branches: [main]
@@ -31,5 +33,5 @@ jobs:
           node-version: 22
       - name: Check reference module syntax
         run: node --check research/drik-planetary-reference.mjs
-      - name: Validate city matching, unique windows, historical coverage and date formatting
-        run: node --test tests/drik-planetary-reference.test.mjs
+      - name: Validate planetary reference data and compact Panchang card
+        run: node --test tests/drik-planetary-reference.test.mjs tests/planet-rise-set-card-compact.test.mjs
