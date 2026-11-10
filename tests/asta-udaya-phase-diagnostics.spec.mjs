@@ -35,6 +35,9 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     assert.doesNotMatch(initialFingerprint, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
     assert.match(initialFingerprint, /अस्त प्रारम्भ/);
     assert.match(initialFingerprint, /पुनः उदय/);
+    assert.match(initialFingerprint, /सूर्य/);
+    assert.match(initialFingerprint, /चंद्रमा/);
+    assert.match(initialFingerprint, /उदय/);
 
     await page.locator("#dateInput").fill("2026-11-01");
     await page.locator("#dateInput").dispatchEvent("change");
