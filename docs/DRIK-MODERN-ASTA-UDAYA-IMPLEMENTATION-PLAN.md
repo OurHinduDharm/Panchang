@@ -601,3 +601,15 @@ Sun/Moon daily local rise/set अभी भी existing `getPanchangam` events �
 - Browser card smoke: Pithoragarh shows Sun/Moon daily rise/set and direct Mercury/Venus/Jupiter/Saturn reference rows; Mars correctly says no verified future row in captured range. Mumbai smoke displays Mumbai's own source page, not Pithoragarh or Delhi fallback.
 
 **Production status:** direct published-reference display is deployed. Computed universal ephemeris Asta/Udaya engine and annual calculated page remain open research tasks; no provisional angular threshold output remains in production.
+
+
+### Threshold-label ablation — 10 नवम्बर 2026
+Pithoragarh leave-one-source-year-out में तीन target definitions जाँचीं: वर्तमान event का सूर्य-altitude, पिछले/वर्तमान event का midpoint, और पिछले event का सूर्य-altitude।
+
+- बुध के लिए midpoint model, current-event और previous-event target से अधिक स्थिर रहा। Magnitude + event-direction LOYO में 13/25 Asta और 19/25 Udaya dates exact; magnitude + direction-interaction में 17/25 Asta और 16/25 Udaya exact। सभी matched dates अधिकतम एक दिन के भीतर थीं, लेकिन zero-error gate पास नहीं हुआ।
+- शुक्र के छोटे sample (5 windows) में midpoint ने current/previous target से बेहतर aggregate exact-date count दिया; अतिरिक्त features के लिए data अपर्याप्त।
+- गुरु के midpoint model ने 4 में से 3 Asta और 3 Udaya dates exact दीं।
+- शनि के midpoint model ने 4/4 Udaya और 3/4 Asta exact दीं।
+- Previous-event target ने कई ग्रहों में error बढ़ाया; current-event target भी Mercury में Udaya को काफी बिगाड़ता है।
+
+**निर्णय:** midpoint target को फिलहाल baseline रखा। कोई नया threshold target या motion coefficient production में नहीं लगाया। अगला परीक्षण pooled cross-city + Pithoragarh local-history city-year holdout है, ताकि training में अधिक independent windows आएँ और target Pithoragarh-year पूरी तरह held out रहे।
