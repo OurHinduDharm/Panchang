@@ -1139,6 +1139,38 @@ test("2026–2030 Vasant Panchami, Raksha Bandhan and Chhath cards use reviewed 
   }
 });
 
+test("Pithoragarh Vasant Panchami 2026–2030 returns a real Panchami-overlapping Purvahna window", () => {
+  const dates=["2026-01-23","2027-02-11","2028-01-31","2029-01-19","2030-02-07"];
+  for(const iso of dates){
+    const result=getFestivalMuhurta({muhurtaRule:"vasant-panchami-saraswati"},realPanchangContext(iso));
+    assert.equal(result.status,"calculated",iso);
+    assert.equal(result.windows.length,1,iso);
+    assert.ok(result.windows[0].end>result.windows[0].start,iso);
+  }
+});
+
+test("Pithoragarh Raksha Bandhan 2026–2030 reports local Bhadra status and valid thread windows", () => {
+  const dates=["2026-08-28","2027-08-17","2028-08-05","2029-08-23","2030-08-13"];
+  for(const iso of dates){
+    const result=getFestivalMuhurta({muhurtaRule:"raksha-bandhan-thread"},realPanchangContext(iso));
+    assert.equal(result.status,"calculated",iso);
+    assert.ok(result.windows.length>0,iso);
+    assert.match(result.note,/भद्रा काल|भद्रा नहीं है/,iso);
+    for(const window of result.windows)assert.ok(window.end>window.start,iso);
+  }
+});
+
+test("Pithoragarh Chhath 2026–2030 returns both dated observance milestones and local arghya times", () => {
+  const dates=["2026-11-15","2027-11-04","2028-10-23","2029-11-11","2030-11-01"];
+  for(const iso of dates){
+    const result=getFestivalMuhurta({muhurtaRule:"chhath-arghya"},realPanchangContext(iso));
+    assert.equal(result.status,"calculated",iso);
+    assert.equal(result.milestones.length,2,iso);
+    assert.equal(result.times.length,2,iso);
+    assert.ok(result.times[0].time&&result.times[1].time,iso);
+  }
+});
+
 test("Pithoragarh Chhath 2026 arghya times match local sunrise and sunset", () => {
   const context = realPanchangContext("2026-11-15");
   const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, context);
