@@ -1494,8 +1494,8 @@ const rules = {
       return { label: "होलिका-दहन मुहूर्त", status: "unavailable", message: "पूर्णिमा, प्रदोष और भद्रा के नियमों में कोई पूरा मान्य समय नहीं मिला; अधूरा मुहूर्त नहीं दिखाया जा रहा है।" };
     }
     windows.unshift(primary);
-    const bhadraNote = overlap
-      ? "पंचांगानुसार भद्रा: " + formatFestivalMuhurtaTime(overlap.start) + " से " + formatFestivalMuhurtaTime(overlap.end) + " तक। होलिका-दहन का समय भद्रा के नियमों के अनुसार चुना गया है।"
+    const bhadraNote = bhadraForDate
+      ? "पंचांगानुसार भद्रा: " + formatFestivalMuhurtaTime(bhadraForDate.start) + " से " + formatFestivalMuhurtaTime(bhadraForDate.end) + " तक। होलिका-दहन का समय भद्रा के नियमों के अनुसार चुना गया है।"
       : "";
     return { label: "होलिका-दहन मुहूर्त", status: "calculated", date: sunset, dateLabel: formatDateLabel(sunset), windows, note: bhadraNote };
   },
