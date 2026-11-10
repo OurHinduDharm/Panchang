@@ -1214,3 +1214,17 @@ Magnitude-only model के मुकाबले apparent elongation को द
 - Jupiter: कोई complete candidate window नहीं निकला; multifeature model को अस्वीकार करें।
 
 **निर्णय:** elongation को सभी ग्रहों पर एक सार्वभौमिक अतिरिक्त predictor के रूप में लागू नहीं करेंगे। Magnitude-only model ही baseline रहेगा। Venus-specific elongation model पर और परीक्षण हो सकता है, लेकिन अभी production में नहीं। Phase fraction और local azimuth separation अभी अगली feature candidates हैं।
+
+
+### Pithoragarh Venus annual blind transfer — New Delhi-trained model
+
+New Delhi के 8 Venus windows में से हर Pithoragarh test apparition के समान New Delhi apparition को training से हटाकर बाकी 7 windows से magnitude-threshold fit किया। फिर Pithoragarh के project observer proxy (29.5828° N, 80.2182° E, 1650 m) पर 2025 के सभी relevant conjunctions स्वयं enumerate करके annual generator चलाया।
+
+| Pithoragarh 2025 window | Published Asta | Predicted Asta | Published Udaya | Predicted Udaya |
+|---|---|---|---|---|
+| March apparition | 20 Mar | 20 Mar | 23 Mar | 22 Mar |
+| Dec 2025–Feb 2026 | 11 Dec | 11 Dec | 2 Feb | 2 Feb |
+
+**4 boundaries में 3 exact; सभी 4 ±1 दिन के भीतर।** Annual generator ने 2 candidates निकाले और दोनों published windows से one-to-one match हुए; कोई extra candidate नहीं।
+
+यह पहले के boundary-centred cross-location test से मजबूत है: candidate windows conjunction से निकले और New Delhi training में same apparition शामिल नहीं था। फिर भी Drik के Pithoragarh observer coordinates/elevation सार्वजनिक नहीं हैं; project coordinates proxy हैं। Reference केवल दो Venus apparitions का है, इसलिए इसे अन्य ग्रहों/वर्षों पर स्वतः लागू नहीं करेंगे।
