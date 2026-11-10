@@ -12,6 +12,7 @@ on:
       - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
       - "tests/report-pithoragarh-local-year-holdout.mjs"
       - "tests/report-pithoragarh-motion-feature-holdout.mjs"
+      - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "tests/planetary-visibility-selector.test.mjs"
       - "research/planetary-visibility-selector.mjs"
       - "data/drik-pithoragarh-asta-udaya-2024-2027.json"
@@ -73,5 +74,7 @@ jobs:
         run: node --test tests/planetary-visibility-selector.test.mjs
       - name: Compare Mercury/Venus retrograde-aware model variants
         run: node tests/report-pithoragarh-motion-feature-holdout.mjs
+      - name: Run five-city leave-one-city-out Asta/Udaya transfer validation
+        run: node tests/report-drik-five-city-leave-one-city-out.mjs
       - name: Verify opt-in counters and unchanged visible output
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
