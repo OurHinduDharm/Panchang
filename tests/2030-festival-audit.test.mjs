@@ -69,6 +69,8 @@ test("2030 important annual festivals and jayantis are represented", () => {
   assert.ok(has("2030-04-14", /बैसाखी/));
   assert.ok(has("2030-04-28", /वल्लभाचार्य जयंती/));
   assert.ok(has("2030-05-08", /आदि शंकराचार्य जयंती.*सूरदास जयंती/));
+  assert.equal(events.filter(event => event.date === "2030-05-08" && /आदि शंकराचार्य जयंती|सूरदास जयंती/.test(event.title || "")).length, 1);
+  assert.ok(has("2030-05-08", /मासिक स्कन्द षष्ठी/)?.hinduTithi.includes("पंचमी / षष्ठी"));
   assert.ok(has("2030-06-04", /महाराणा प्रताप जयंती/));
   assert.ok(has("2030-08-06", /गोस्वामी तुलसीदास जयंती/));
   assert.ok(has("2030-10-06", /मध्वाचार्य जयंती/));
