@@ -7,6 +7,20 @@
   "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
+      "date": "2028-07-01",
+      "dateLabel": "1 जुलाई",
+      "title": "आषाढ़ गुप्त नवरात्र पारण एवं कलश विसर्जन",
+      "description": "नवमी के उपरांत आषाढ़ गुप्त नवरात्रि-व्रत का पारण और घटस्थापित कलश का विधिपूर्वक विसर्जन करें। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल दशमी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "articleLabel": "कलश-विसर्जन विधि",
+      "sourceName": "Drik Panchang — 2028 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028"
+    },
+    {
       "date": "2028-07-02",
       "dateLabel": "2 जुलाई",
       "title": "देवशयनी एकादशी",
