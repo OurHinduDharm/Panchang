@@ -9,6 +9,18 @@
   "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
   "events": [
     {
+      "date": "2030-10-01",
+      "dateLabel": "1 अक्टूबर",
+      "title": "शारदीय नवरात्र चतुर्थी — माँ स्कन्दमाता",
+      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "articleLabel": "माँ स्कन्दमाता"
+    },
+    {
       "date": "2030-10-02",
       "dateLabel": "2 अक्टूबर",
       "title": "मासिक स्कन्द षष्ठी",
@@ -17,6 +29,18 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल षष्ठी"
+    },
+    {
+      "date": "2030-10-02",
+      "dateLabel": "2 अक्टूबर",
+      "title": "शारदीय नवरात्र पंचमी — माँ कात्यायनी",
+      "description": "नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "articleLabel": "माँ कात्यायनी"
     },
     {
       "date": "2030-10-03",
@@ -31,10 +55,22 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
+      "date": "2030-10-03",
+      "dateLabel": "3 अक्टूबर",
+      "title": "शारदीय नवरात्र षष्ठी — माँ कालरात्रि",
+      "description": "नवरात्रि के सातवें दिन माँ कालरात्रि की आराधना की जाती है। भय और संकटों से रक्षा की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कालरात्रि</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल सप्तमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "articleLabel": "माँ कालरात्रि"
+    },
+    {
       "date": "2030-10-04",
       "dateLabel": "4 अक्टूबर",
-      "title": "दुर्गाष्टमी / सरस्वती पूजन / मासिक दुर्गाष्टमी",
-      "description": "दुर्गाष्टमी पर माँ दुर्गा और माँ महागौरी की पूजा तथा कन्या-पूजन की परंपरा है। सरस्वती पूजन में विद्या और कला की अधिष्ठात्री देवी की आराधना की जाती है। मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "title": "दुर्गाष्टमी / माँ महागौरी पूजन",
+      "description": "दुर्गाष्टमी पर माँ दुर्गा और माँ महागौरी की पूजा तथा कन्या-पूजन की परंपरा है। सरस्वती पूजन में विद्या और कला की अधिष्ठात्री देवी की आराधना की जाती है। मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। नवरात्रि की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -47,8 +83,8 @@
     {
       "date": "2030-10-05",
       "dateLabel": "5 अक्टूबर",
-      "title": "महानवमी",
-      "description": "महानवमी पर माँ दुर्गा और माँ सिद्धिदात्री की पूजा, हवन तथा परंपरानुसार कन्या-पूजन किया जाता है।",
+      "title": "महानवमी / माँ सिद्धिदात्री पूजन",
+      "description": "महानवमी पर माँ दुर्गा और माँ सिद्धिदात्री की पूजा, हवन तथा परंपरानुसार कन्या-पूजन किया जाता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -63,8 +99,8 @@
     {
       "date": "2030-10-06",
       "dateLabel": "6 अक्टूबर",
-      "title": "विजयादशमी / दशहरा",
-      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शमी-पूजन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ प्रचलित हैं।",
+      "title": "विजयादशमी / नवरात्रि पारण",
+      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शमी-पूजन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ प्रचलित हैं। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -72,7 +108,9 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
-      "articleLabel": "कलश विसर्जन विधि"
+      "articleLabel": "कलश विसर्जन विधि",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "secondaryArticleLabel": "कलश-विसर्जन विधि"
     },
     {
       "date": "2030-10-07",
