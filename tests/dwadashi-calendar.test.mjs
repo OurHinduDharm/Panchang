@@ -493,3 +493,28 @@ test("special yoga observance dates do not override the actual Dwadashi tithi da
     assert.deepEqual(record.drikLabels,[item.label]);
   }
 });
+
+
+test("special observance records retain independent tithi cross-check sources", async () => {
+  const sourceRules=JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"));
+  const cases=[
+    {year:2027,observanceDate:"2027-04-02",tithiDate:"2027-04-03",month:"चैत्र",paksha:"कृष्ण"},
+    {year:2028,observanceDate:"2028-03-21",tithiDate:"2028-03-22",month:"चैत्र",paksha:"कृष्ण"},
+    {year:2030,observanceDate:"2030-03-29",tithiDate:"2030-03-30",month:"चैत्र",paksha:"कृष्ण"}
+  ];
+  for(const item of cases){
+    const source=sourceRules.drikSpecialObservances.find(x=>x.year===item.year && x.observanceDate===item.observanceDate);
+    assert.ok(source,"source entry exists for "+item.year);
+    assert.equal(source.referenceDate,undefined);
+    assert.equal(source.dateRole,"special-observance-date");
+    assert.ok(source.independentTithiCrossCheck.length>=2);
+    const result=buildDwadashiCalendar([
+      sunriseDay(item.tithiDate,item.month,item.paksha,"द्वादशी")
+    ],sourceRules);
+    const record=result.tithis.find(x=>x.month===item.month && x.paksha===item.paksha && x.candidateDates.includes(item.tithiDate));
+    const special=record.drikSpecialObservances.find(x=>x.observanceDate===item.observanceDate);
+    assert.equal(record.selectedDate,item.tithiDate);
+    assert.equal(record.referenceDate,null);
+    assert.ok(special.independentTithiCrossCheck.length>=2);
+  }
+});
