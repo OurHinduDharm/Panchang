@@ -73,6 +73,7 @@ function trainingSample(entry, boundary) {
     apparentMagnitude: illumination.mag,
     retrograde: motion.retrograde,
     longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
+    eventDirection: current.direction,
     elongationDegrees,
     azimuthSeparationDegrees,
     illuminatedFraction: illumination.phase_fraction,
@@ -166,7 +167,11 @@ const variants = [
   { name: "magnitude+azimuth-separation", keys: ["apparentMagnitude", "azimuthSeparationDegrees"] },
   { name: "magnitude+phase", keys: ["apparentMagnitude", "illuminatedFraction"] },
   { name: "magnitude+elongation+azimuth+phase", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction"] },
-  { name: "magnitude+elongation+azimuth+phase+motion", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "retrograde", "longitudeRateDegPerDay"] }
+  { name: "magnitude+elongation+azimuth+phase+motion", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "retrograde", "longitudeRateDegPerDay"] },
+  { name: "magnitude+event-direction", keys: ["apparentMagnitude", "eventDirection"] },
+  { name: "magnitude+phase+event-direction", keys: ["apparentMagnitude", "illuminatedFraction", "eventDirection"] },
+  { name: "magnitude+elongation+azimuth+phase+direction", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "eventDirection"] },
+  { name: "magnitude+elongation+azimuth+phase+motion+direction", keys: ["apparentMagnitude", "elongationDegrees", "azimuthSeparationDegrees", "illuminatedFraction", "retrograde", "longitudeRateDegPerDay", "eventDirection"] }
 ];
 const output = [];
 
