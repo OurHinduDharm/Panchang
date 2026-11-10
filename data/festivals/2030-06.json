@@ -188,7 +188,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ कृष्ण चतुर्थी"
+      "hinduTithi": "आषाढ़ कृष्ण चतुर्थी",
+      "muhurtaRule": "sankashti-chaturthi-moonrise"
     },
     {
       "date": "2030-06-22",
