@@ -1,0 +1,50 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+const folder = join(process.cwd(), "data", "festivals");
+const months = Array.from({ length: 12 }, (_, i) =>
+  JSON.parse(readFileSync(join(folder, "2030-" + String(i + 1).padStart(2, "0") + ".json"), "utf8")));
+const events = months.flatMap(data => data.events || []);
+const has = (date, pattern) => events.find(event => event.date === date && pattern.test(event.title || ""));
+
+test("2030 monthly festival files have approved records dated within their month", () => {
+  for (const [index, data] of months.entries()) {
+    assert.equal(data.year, 2030);
+    assert.equal(data.month, index + 1);
+    assert.equal(data.status, "approved");
+    for (const event of data.events || []) {
+      assert.equal(event.reviewStatus, "approved", event.date + ": " + event.title);
+      assert.match(event.date, /^2030-\\d{2}-\\d{2}$/);
+      assert.equal(Number(event.date.slice(5, 7)), index + 1,
+        event.date + " is stored in the wrong monthly file");
+    }
+  }
+});
+
+test("2030 catalog has one card per same-date Hindu tithi", () => {
+  const seen = new Map();
+  for (const event of events) {
+    if (!event.hinduTithi) continue;
+    const key = String(event.date) + "|" + String(event.hinduTithi);
+    assert.ok(!seen.has(key),
+      "Duplicate same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    seen.set(key, event.title);
+  }
+});
+
+test("2030 same-tithi Navratri and festival observances are combined", () => {
+  assert.ok(has("2030-02-03", /चन्द्र दर्शन.*माघ गुप्त नवरात्र प्रारंभ/));
+  assert.ok(has("2030-02-06", /गौरी गणेश.*कूष्माण्डा/));
+  assert.ok(has("2030-02-07", /वसंत पंचमी.*स्कन्दमाता/));
+  assert.ok(has("2030-02-08", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
+  assert.ok(has("2030-02-09", /रथ सप्तमी.*नर्मदा जयंती.*कालरात्रि/));
+  assert.ok(has("2030-02-10", /भीष्म अष्टमी.*मासिक दुर्गाष्टमी.*महागौरी/));
+  assert.ok(has("2030-04-04", /चन्द्र दर्शन.*ब्रह्मचारिणी/));
+  assert.ok(has("2030-04-06", /गणगौर.*मत्स्य-अवतार.*चन्द्रघंटा/));
+  assert.ok(has("2030-04-09", /यमुना छठ.*कात्यायनी/));
+  assert.ok(has("2030-05-05", /त्रेतायुगादि तिथि.*परशुराम जयंती.*अक्षय तृतीया.*मातंगी/));
+  assert.ok(has("2030-09-29", /चन्द्र दर्शन.*ब्रह्मचारिणी/));
+  assert.ok(has("2030-10-02", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
+});
