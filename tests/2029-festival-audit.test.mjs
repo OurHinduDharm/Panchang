@@ -104,12 +104,11 @@ test("2029 approved saint jayantis are retained and explicitly excluded modern p
   assert.ok(has("2029-01-13", /लोहड़ी/));
   assert.ok(has("2029-04-14", /^तमिल नववर्ष \(पुथांडु\)$/));
   assert.ok(has("2029-01-14", /^पोंगल$/));
-  assert.ok(has("2029-04-14", /^तमिल नववर्ष \\(पुथांडु\\)$/));
   assert.ok(has("2029-11-20", /^कार्तिगै दीपम$/));
   const diwali = has("2029-11-05", /^दीपावली/);
   assert.ok(diwali);
   assert.match(diwali.title, /केदार गौरी व्रत/);
-  assert.match(diwali.secondarySourceUrl, /kedar-gauri-vrat-date-time\\.html\\?year=2029/);
+  assert.match(diwali.secondarySourceUrl, /kedar-gauri-vrat-date-time\.html\?year=2029/);
   assert.ok(has("2029-04-14", /^उगादी$/));
   assert.ok(has("2029-04-14", /^विषु$/));
   assert.ok(has("2029-04-14", /^बोहाग बिहू$/));
