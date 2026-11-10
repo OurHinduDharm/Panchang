@@ -96,16 +96,51 @@
       "hinduTithi": "भाद्रपद शुक्ल षष्ठी"
     },
     {
+      "date": "2027-09-07",
+      "dateLabel": "7 सितम्बर",
+      "title": "ललिता सप्तमी",
+      "description": "भाद्रपद शुक्ल सप्तमी को भगवती ललिता की पूजा-अर्चना की जाती है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "भाद्रपद शुक्ल सप्तमी"
+    },
+    {
+      "date": "2027-09-07",
+      "dateLabel": "7 सितम्बर",
+      "title": "दुर्वाष्टमी / ज्येष्ठा गौरी आवाहन",
+      "description": "दुर्वाष्टमी / ज्येष्ठा गौरी आवाहन के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+    },
+    {
       "date": "2027-09-08",
       "dateLabel": "8 सितंबर",
-      "title": "राधाष्टमी / मासिक दुर्गाष्टमी",
+      "title": "राधाष्टमी / मासिक दुर्गाष्टमी / महालक्ष्मी व्रत आरम्भ / ज्येष्ठा गौरी पूजा / दधीचि जयंती",
       "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। राधाष्टमी श्रीराधा के प्राकट्य-स्मरण का पर्व है। राधा-कृष्ण पूजन, भजन, जप और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>",
       "category": "पर्व एवं व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html",
-      "articleLabel": "भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी"
+      "articleLabel": "भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
+    },
+    {
+      "date": "2027-09-09",
+      "dateLabel": "9 सितम्बर",
+      "title": "ज्येष्ठा गौरी विसर्जन / दशावतार व्रत",
+      "description": "ज्येष्ठा गौरी विसर्जन / दशावतार व्रत के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "भाद्रपद शुक्ल दशमी"
     },
     {
       "date": "2027-09-11",
@@ -130,7 +165,7 @@
     {
       "date": "2027-09-12",
       "dateLabel": "12 सितंबर",
-      "title": "भुवनेश्वरी महाविद्या जयंती / वामन जयंती",
+      "title": "भुवनेश्वरी महाविद्या जयंती / वामन जयंती / कृष्ण कल्कि द्वादशी",
       "description": "भाद्रपद शुक्ल द्वादशी भगवती भुवनेश्वरी के प्राकट्य-स्मरण की तिथि है। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a> वामन अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वामन अवतार जयंती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
@@ -166,33 +201,41 @@
     {
       "date": "2027-09-15",
       "dateLabel": "15 सितंबर",
-      "title": "भाद्रपद पूर्णिमा",
+      "title": "भाद्रपद पूर्णिमा / पूर्णिमा श्राद्ध",
       "description": "भाद्रपद पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। इसके बाद कृष्ण प्रतिपदा से पितृपक्ष आरम्भ होता है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल पूर्णिमा"
+      "hinduTithi": "भाद्रपद शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
     },
     {
       "date": "2027-09-16",
       "dateLabel": "16 सितंबर",
-      "title": "पितृपक्ष प्रारंभ",
+      "title": "पितृपक्ष प्रारंभ / प्रतिपदा श्राद्ध",
       "description": "पितृपक्ष में पितरों के निमित्त श्राद्ध, तर्पण और दान किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html\" target=\"_blank\"> श्राद्ध - महालय प्रारंभ, पितृपक्ष प्रारंभ</a>",
       "category": "पितृपक्ष",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन कृष्ण प्रतिपदा",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
-      "articleLabel": "श्राद्ध - महालय प्रारंभ, पितृपक्ष प्रारंभ"
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
     },
     {
       "date": "2027-09-17",
       "dateLabel": "17 सितंबर",
-      "title": "कन्या संक्रांति",
+      "title": "कन्या संक्रांति / विश्वकर्मा पूजा",
       "description": "कन्या संक्रांति सूर्य के कन्या राशि में प्रवेश से जुड़ी है। स्नान, दान और जप की परंपरा है; पुण्यकाल वास्तविक संक्रमण-समय से तय करें।",
       "category": "संक्रांति",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
     },
     {
       "date": "2027-09-17",
@@ -204,31 +247,150 @@
       "showReviewStatus": false
     },
     {
+      "date": "2027-09-17",
+      "dateLabel": "17 सितम्बर",
+      "title": "द्वितीया श्राद्ध",
+      "description": "पितृपक्ष की इस तिथि पर जिन पितरों का निधन हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण द्वितीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
+    },
+    {
+      "date": "2027-09-18",
+      "dateLabel": "18 सितम्बर",
+      "title": "तृतीया श्राद्ध",
+      "description": "पितृपक्ष की इस तिथि पर जिन पितरों का निधन हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
+    },
+    {
       "date": "2027-09-19",
       "dateLabel": "19 सितंबर",
-      "title": "विघ्नराज संकष्टी चतुर्थी",
+      "title": "विघ्नराज संकष्टी चतुर्थी / चतुर्थी श्राद्ध",
       "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन कृष्ण चतुर्थी"
+      "hinduTithi": "आश्विन कृष्ण चतुर्थी",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
+    },
+    {
+      "date": "2027-09-20",
+      "dateLabel": "20 सितम्बर",
+      "title": "पंचमी श्राद्ध / महाभरणी श्राद्ध",
+      "description": "पितृपक्ष की इस तिथि पर जिन पितरों का निधन हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
+    },
+    {
+      "date": "2027-09-20",
+      "dateLabel": "20 सितम्बर",
+      "title": "मासिक कार्तिगाई",
+      "description": "मासिक कार्तिगाई के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
+    },
+    {
+      "date": "2027-09-21",
+      "dateLabel": "21 सितम्बर",
+      "title": "षष्ठी श्राद्ध",
+      "description": "पितृपक्ष की इस तिथि पर जिन पितरों का निधन हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
+    },
+    {
+      "date": "2027-09-22",
+      "dateLabel": "22 सितम्बर",
+      "title": "सप्तमी श्राद्ध",
+      "description": "पितृपक्ष की इस तिथि पर जिन पितरों का निधन हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण सप्तमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
     },
     {
       "date": "2027-09-23",
       "dateLabel": "23 सितंबर",
-      "title": "मासिक कालाष्टमी",
+      "title": "मासिक कालाष्टमी / अष्टमी श्राद्ध / महालक्ष्मी व्रत पूर्ण / जीवित्पुत्रिका व्रत / मासिक कृष्ण जन्माष्टमी",
       "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन कृष्ण अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
+    },
+    {
+      "date": "2027-09-24",
+      "dateLabel": "24 सितम्बर",
+      "title": "नवमी श्राद्ध",
+      "description": "पितृपक्ष की इस तिथि पर जिन पितरों का निधन हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण नवमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
+    },
+    {
+      "date": "2027-09-25",
+      "dateLabel": "25 सितम्बर",
+      "title": "दशमी श्राद्ध",
+      "description": "पितृपक्ष की इस तिथि पर जिन पितरों का निधन हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण दशमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
     },
     {
       "date": "2027-09-26",
       "dateLabel": "26 सितंबर",
-      "title": "इंदिरा एकादशी",
+      "title": "इंदिरा एकादशी / एकादशी श्राद्ध",
       "description": "इंदिरा एकादशी पितृपक्ष में आने वाला विष्णु-व्रत है। व्रत खोलने का समय नीचे दिया गया है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
@@ -238,7 +400,9 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
       "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
     },
     {
       "date": "2027-09-27",
@@ -251,9 +415,24 @@
       "hinduTithi": "आश्विन कृष्ण पक्ष त्रयोदशी"
     },
     {
+      "date": "2027-09-27",
+      "dateLabel": "27 सितम्बर",
+      "title": "द्वादशी श्राद्ध / मघा श्राद्ध / कृष्ण कल्कि द्वादशी",
+      "description": "द्वादशी श्राद्ध / मघा श्राद्ध / कृष्ण कल्कि द्वादशी के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण द्वादशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
+    },
+    {
       "date": "2027-09-28",
       "dateLabel": "28 सितंबर",
-      "title": "कलियुगादि तिथि (कलियुग का आरंभ)",
+      "title": "कलियुगादि तिथि (कलियुग का आरंभ) / त्रयोदशी श्राद्ध",
       "description": "भाद्रपद कृष्ण त्रयोदशी को कलियुगादि माना जाता है। पूर्णिमान्त गणना में यह तिथि आश्विन कृष्ण त्रयोदशी कहलाती है। इस युगादि तिथि पर पितरों का स्मरण, तर्पण और धर्म-कर्म करने की परंपरा बताई गई है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
@@ -264,7 +443,7 @@
     {
       "date": "2027-09-28",
       "dateLabel": "28 सितंबर",
-      "title": "मासिक शिवरात्रि",
+      "title": "मासिक शिवरात्रि / चतुर्दशी श्राद्ध",
       "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
@@ -272,12 +451,14 @@
       "hinduTithi": "आश्विन कृष्ण चतुर्दशी",
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
-      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
     },
     {
       "date": "2027-09-29",
       "dateLabel": "29 सितंबर",
-      "title": "महालया / सर्वपितृ अमावस्या",
+      "title": "महालया / सर्वपितृ अमावस्या / दर्श अमावस्या",
       "description": "पितृपक्ष के समापन पर पितरों के निमित्त श्राद्ध और तर्पण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a>। <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ विसर्जन विधि</a>।",
       "category": "अमावस्या",
       "reviewStatus": "approved",
@@ -286,12 +467,25 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/p/pitri-visarjan.html",
       "articleLabel": "पितृ विसर्जन विधि",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
-      "secondaryArticleLabel": "पितृ तर्पण विधि"
+      "secondaryArticleLabel": "पितृ तर्पण विधि",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
+    },
+    {
+      "date": "2027-09-29",
+      "dateLabel": "29 सितम्बर",
+      "title": "अन्वाधान",
+      "description": "अन्वाधान के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027",
+      "hinduTithi": "आश्विन कृष्ण चतुर्दशी"
     },
     {
       "date": "2027-09-30",
       "dateLabel": "30 सितंबर",
-      "title": "शारदीय नवरात्रि प्रारंभ",
+      "title": "शारदीय नवरात्रि प्रारंभ / घटस्थापना",
       "description": "शारदीय नवरात्र में माँ दुर्गा के स्वरूपों की पूजा, पाठ, जप और व्रत की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">शारदीय नवरात्र का महत्व</a> <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\" target=\"_blank\" rel=\"noopener noreferrer\">घटस्थापना विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री पूजन</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
@@ -300,7 +494,19 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
       "articleLabel": "शारदीय नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
-      "secondaryArticleLabel": "घटस्थापना विधि"
+      "secondaryArticleLabel": "घटस्थापना विधि",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
+    },
+    {
+      "date": "2027-09-30",
+      "dateLabel": "30 सितम्बर",
+      "title": "महाराजा अग्रसेन जयंती",
+      "description": "महाराजा अग्रसेन जयंती के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2027"
     }
   ]
 }

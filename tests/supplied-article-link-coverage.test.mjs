@@ -43,7 +43,7 @@ test("All supplied OurHinduDharm articles are linked to their matching 2026-2030
     [2027,3,"2027-03-06",/महाशिवरात्रि/,"shivratri-prahar-pooja-vidhi"],
     [2027,5,"2027-05-09",/अक्षय तृतीया/,"About-Akshaya-Triteeya"],
     [2027,8,"2027-08-24",/श्रीकृष्ण जन्माष्टमी/,"About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti"],
-    [2027,11,"2027-11-10",/देवउठनी एकादशी/,"About-Shree-Hari-Prabodhini-Ekaadashi"],
+    [2027,11,"2027-11-10",/देवोत्थानी एकादशी \(स्मार्त\)/,"About-Shree-Hari-Prabodhini-Ekaadashi"],
     [2027,11,"2027-11-14",/कार्तिक पूर्णिमा/,"aakash-deep-daan-vidhi"],
     [2028,2,"2028-02-23",/महाशिवरात्रि/,"shivratri-prahar-pooja-vidhi"],
     [2028,4,"2028-04-27",/अक्षय तृतीया/,"About-Akshaya-Triteeya"],
