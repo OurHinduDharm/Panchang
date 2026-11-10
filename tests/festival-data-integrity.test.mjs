@@ -205,14 +205,13 @@ test("2026 monthly review metadata matches each event's actual approval state", 
     const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
     assert.equal(data.locationScope, "सत्यापित डेटा", file + ": public review label should be normalized");
     const pending = data.events.filter(event => event.reviewStatus !== "approved");
+    assert.equal(data.status, "approved", file + ": month status should be approved");
+    assert.equal(pending.length, 0, file + ": every event should be approved");
     if (month === 12) {
-      assert.equal(data.status, "needs-review", file + ": unresolved Sankashti keeps the month under review");
-      assert.equal(pending.length, 1, file + ": only the unresolved Sankashti may remain unapproved");
-      assert.equal(pending[0].date, "2026-12-26");
-      assert.match(pending[0].title, /संकष्टी/);
-    } else {
-      assert.equal(data.status, "approved", file + ": month status should be approved");
-      assert.equal(pending.length, 0, file + ": every event should be approved");
+      const sankashti = data.events.find(event => /संकष्टी/.test(event.title || ""));
+      assert.ok(sankashti, "December Sankashti should be retained");
+      assert.equal(sankashti.date, "2026-12-27");
+      assert.equal(sankashti.reviewStatus, "approved");
     }
   }
 });
