@@ -151,12 +151,17 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
     const planetVariants = planet === "Mercury" || planet === "Venus"
       ? variants
       : [variants[0]];
+    const trainingSamplesByBoundary = {};
+    for (const boundaryName of ["astaStart", "astaEnd"]) {
+      trainingSamplesByBoundary[boundaryName] = training
+        .map(entry => trainingSample(entry, boundaryName)).filter(Boolean);
+    }
     for (const targetKey of ["thresholdCurrent", "thresholdMidpoint", "thresholdPrevious"]) {
       for (const variant of planetVariants) {
         const modelByBoundary = {}, trainingCounts = {};
         let ready = true;
         for (const boundaryName of ["astaStart", "astaEnd"]) {
-          const samples = training.map(entry => trainingSample(entry, boundaryName)).filter(Boolean);
+          const samples = trainingSamplesByBoundary[boundaryName];
           trainingCounts[boundaryName] = samples.length;
           modelByBoundary[boundaryName] = fit(samples, variant.keys, targetKey);
           if (!modelByBoundary[boundaryName]) ready = false;
