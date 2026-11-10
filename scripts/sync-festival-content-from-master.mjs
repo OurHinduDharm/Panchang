@@ -98,7 +98,9 @@ function appendMissingAnchors(description, anchors) {
 const ALIASES = new Map([
   ["षटतिला एकादशी", "षट्तिला एकादशी"],
   ["संकष्टी चतुर्थी", "सकट चौथ"],
-  ["माघ शुक्ल पंचमी", "वसंत पंचमी"]
+  ["माघ शुक्ल पंचमी", "वसंत पंचमी"],
+  ["रमा एकादशी", "रमा एकादशी व्रत"],
+  ["मकर संक्रांति उत्तरायण पोंगल", "मकर संक्रांति सूर्य उत्तरायण प्रारम्भ"]
 ]);
 
 function makeTemplateIndex(templates) {
@@ -116,26 +118,28 @@ function makeTemplateIndex(templates) {
   return index;
 }
 
-function findTemplate(event, index) {
+function findTemplates(event, index) {
   const key = normalizeFestivalTitle(event?.title);
-  if (!key) return null;
-  if (index.has(key)) return index.get(key);
+  if (!key) return [];
+
+  // A combined festival card can represent several master observances.
+  // Apply every master key that is explicitly present in the card title;
+  // do not guess from a longer, only partially matching master title.
+  const matches = [...index.entries()]
+    .filter(([candidate]) => candidate.length >= 9 && key.includes(candidate))
+    .sort((a, b) => b[0].length - a[0].length)
+    .map(([, template]) => template);
 
   const alias = ALIASES.get(key);
-  if (alias && index.has(normalizeFestivalTitle(alias))) return index.get(normalizeFestivalTitle(alias));
-
-  const candidates = [...index.entries()]
-    .filter(([candidate]) =>
-      Math.min(candidate.length, key.length) >= 9 &&
-      (key.includes(candidate) || candidate.includes(key))
-    )
-    .sort((a, b) => Math.min(b[0].length, key.length) - Math.min(a[0].length, key.length));
-  if (!candidates.length) return null;
-  if (candidates.length > 1 &&
-      Math.min(candidates[0][0].length, key.length) === Math.min(candidates[1][0].length, key.length)) {
-    return null;
+  if (alias && index.has(normalizeFestivalTitle(alias))) {
+    const template = index.get(normalizeFestivalTitle(alias));
+    if (!matches.includes(template)) matches.push(template);
   }
-  return candidates[0][1];
+  return matches;
+}
+
+export function findMatchingFestivalTemplates(event, templates) {
+  return findTemplates(event, makeTemplateIndex(templates));
 }
 
 function addArticle(target, url, label) {
@@ -194,15 +198,17 @@ export function syncYearFiles(root, master, years = YEARS) {
       const data = JSON.parse(fs.readFileSync(file, "utf8"));
       let changed = false;
       for (const event of data.events || []) {
-        const template = findTemplate(event, index);
-        if (!template) {
+        const templates = findTemplates(event, index);
+        if (!templates.length) {
           report.unmatched.push({ year, month, title: event.title || "" });
           continue;
         }
         yearMatched += 1;
-        if (synchronizeEventContent(event, template)) {
-          yearUpdated += 1;
-          changed = true;
+        for (const template of templates) {
+          if (synchronizeEventContent(event, template)) {
+            yearUpdated += 1;
+            changed = true;
+          }
         }
       }
       if (changed && process.argv.includes("--write")) {
