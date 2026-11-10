@@ -104,3 +104,36 @@ test("2027 January retains Amavasya, regional Lohri, Kurma Dwadashi and monthly 
   const kalashtami = find(1,"2027-01-29",/मासिक कालाष्टमी/);
   assert.match(kalashtami.title,/मासिक कृष्ण जन्माष्टमी/);
 });
+
+test("2027 January includes verified regional and seasonal observances", () => {
+  const jan = month(1);
+  const checks = [
+    ["2027-01-04", /कृष्ण मत्स्य द्वादशी/, "पौष कृष्ण द्वादशी"],
+    ["2027-01-07", /पौष अमावस्या \/ तमिल हनुमान जयंती/, "पौष कृष्ण अमावस्या"],
+    ["2027-01-12", /स्वामी विवेकानन्द जयंती/, undefined],
+    ["2027-01-14", /लोहड़ी \/ भोगी पंडिगाई/, "पौष शुक्ल षष्ठी"],
+    ["2027-01-15", /मकर संक्रांति.*पोंगल.*उत्तरायण/, undefined],
+    ["2027-01-16", /मासिक दुर्गाष्टमी.*बनाडा अष्टमी.*मट्टू पोंगल/, "पौष शुक्ल अष्टमी"],
+    ["2027-01-17", /कानुम पोंगल \/ मुक्कनुमा/, "पौष शुक्ल नवमी"],
+    ["2027-01-18", /पौष पुत्रदा एकादशी.*धर्म सावर्णि मन्वादि.*मासिक कार्तिगाई/, "पौष शुक्ल एकादशी"],
+    ["2027-01-19", /कूर्म द्वादशी/, "पौष शुक्ल द्वादशी"],
+    ["2027-01-22", /पौष पूर्णिमा.*थाई पूसम.*रामलला प्रतिष्ठा दिवस/, "पौष शुक्ल पूर्णिमा"],
+    ["2027-01-23", /माघ मासारंभ/, "माघ कृष्ण प्रतिपदा"],
+    ["2027-01-29", /मासिक कालाष्टमी \/ मासिक कृष्ण जन्माष्टमी/, "माघ कृष्ण अष्टमी"]
+  ];
+  for (const [date, title, tithi] of checks) {
+    const event = jan.events.find(item => item.date === date && title.test(item.title || ""));
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+    if (tithi) assert.equal(event.hinduTithi, tithi);
+    assert.ok(event.sourceUrl, date + " source URL");
+  }
+  const seen = new Set();
+  for (const event of jan.events) {
+    if (!event.hinduTithi) continue;
+    const key = event.date + "|" + event.hinduTithi;
+    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
+    seen.add(key);
+  }
+  assert.equal(jan.events.some(item => /गौण|वैष्णव/.test(item.title || "")), false);
+});
