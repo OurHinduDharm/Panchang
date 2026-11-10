@@ -1112,6 +1112,33 @@ test("Raksha Bandhan explicitly reports Bhadra status and excludes Vishti", () =
 });
 
 
+test("2026–2030 Vasant Panchami, Raksha Bandhan and Chhath cards use reviewed local muhurta rules", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const expectations = [
+    ["2026-01", /वसंत पंचमी/, "vasant-panchami-saraswati"],
+    ["2027-02", /वसंत पंचमी/, "vasant-panchami-saraswati"],
+    ["2028-01", /वसंत पंचमी/, "vasant-panchami-saraswati"],
+    ["2029-01", /वसंत पंचमी/, "vasant-panchami-saraswati"],
+    ["2030-02", /वसंत पंचमी/, "vasant-panchami-saraswati"],
+    ["2026-08", /रक्षाबंधन/, "raksha-bandhan-thread"],
+    ["2027-08", /रक्षाबंधन/, "raksha-bandhan-thread"],
+    ["2028-08", /रक्षाबंधन/, "raksha-bandhan-thread"],
+    ["2029-08", /रक्षाबंधन/, "raksha-bandhan-thread"],
+    ["2030-08", /रक्षाबंधन/, "raksha-bandhan-thread"],
+    ["2026-11", /छठ पूजा/, "chhath-arghya"],
+    ["2027-11", /छठ पूजा/, "chhath-arghya"],
+    ["2028-10", /छठ पूजा/, "chhath-arghya"],
+    ["2029-11", /छठ पूजा/, "chhath-arghya"],
+    ["2030-11", /छठ पूजा/, "chhath-arghya"]
+  ];
+  for (const [month, title, rule] of expectations) {
+    const data = JSON.parse(await readFile(new URL("../data/festivals/" + month + ".json", import.meta.url), "utf8"));
+    const event = data.events.find(item => title.test(item.title || ""));
+    assert.ok(event, month + " must include the expected festival card");
+    assert.equal(event.muhurtaRule, rule, month + " must use " + rule);
+  }
+});
+
 test("Pithoragarh Chhath 2026 arghya times match local sunrise and sunset", () => {
   const context = realPanchangContext("2026-11-15");
   const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, context);
