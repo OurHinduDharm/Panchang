@@ -25,19 +25,16 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     await page.waitForFunction(() => {
       const panel = document.querySelector("#ohd-perf-panel")?.textContent || "";
       const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
-      return panel.includes("planetDiagnostics") && card.length > 20;
+      return panel.includes("planetaryReference") && card.includes("Drik मूल स्रोत");
     }, null, { timeout: 180000 });
 
     const card = page.locator("#planetRiseSetCard");
     const initialFingerprint = (await card.innerText()).replace(/\s+/g, " ").trim();
     const panel = await page.locator("#ohd-perf-panel").innerText();
-    assert.match(panel, /"dailyRequests":\s*[1-9]\d*/);
-    assert.match(panel, /"dailyCacheHits":\s*\d+/);
-    assert.match(panel, /"dailyCacheMisses":\s*\d+/);
-    assert.match(panel, /"dailyEphemerisCalls":\s*\d+/);
-    assert.match(panel, /"bisectionEvaluations":\s*\d+/);
-    assert.match(panel, /"boundaryScanDays":\s*\d+/);
-    assert.match(panel, /"pairedBoundaryCacheHits":\s*\d+/);
+    assert.match(panel, /direct-drik-city-data; no ephemeris scan/);
+    assert.doesNotMatch(initialFingerprint, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
+    assert.match(initialFingerprint, /अस्त प्रारम्भ/);
+    assert.match(initialFingerprint, /पुनः उदय/);
 
     await page.locator("#dateInput").fill("2026-11-01");
     await page.locator("#dateInput").dispatchEvent("change");
@@ -62,7 +59,7 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
       timeout: 60000
     });
     assert.ok(normalResponse?.ok(), "normal Panchang page must load");
-    await normalPage.waitForSelector("#planetRiseSetCard", { timeout: 180000 });
+    await normalPage.waitForFunction(() => (document.querySelector("#planetRiseSetCard")?.innerText || "").includes("Drik मूल स्रोत"), null, { timeout: 180000 });
     assert.equal(await normalPage.locator("#ohd-perf-panel").count(), 0, "normal page must not render diagnostics");
     await normalPage.close();
 
