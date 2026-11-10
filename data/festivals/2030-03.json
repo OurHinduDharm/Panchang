@@ -11,12 +11,14 @@
     {
       "date": "2030-03-01",
       "dateLabel": "1 मार्च",
-      "title": "शुक्र प्रदोष व्रत",
-      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "title": "कृष्ण भीष्म द्वादशी / शुक्र प्रदोष व्रत",
+      "description": "कृष्ण भीष्म द्वादशी पर पितामह भीष्म का स्मरण और उनके निमित्त तर्पण किया जाता है। त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा, व्रत और दीपदान की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "फाल्गुन कृष्ण द्वादशी / त्रयोदशी",
+      "sourceName": "Drik Panchang — 2030 March Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2030"
     },
     {
       "date": "2030-03-02",
@@ -194,16 +196,6 @@
       "hinduTithi": "चैत्र कृष्ण द्वितीया",
       "sourceName": "Drik Panchang — 2030 March Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2030"
-    },
-    {
-      "date": "2030-03-22",
-      "dateLabel": "22 मार्च",
-      "title": "भालचन्द्र संकष्टी चतुर्थी",
-      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "चैत्र कृष्ण चतुर्थी"
     },
     {
       "date": "2030-03-22",
