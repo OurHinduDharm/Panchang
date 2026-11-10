@@ -184,15 +184,16 @@ test("2030 October-December descriptions do not repeat the same article link", (
 
 test("2030 Sankashti, Narak Chaturdashi and Diwali retain their specific timing rules", () => {
   for (const event of events.filter(event => /संकष्टी/.test(event.title || ""))) {
+    const ruleIds = Array.isArray(event.muhurtaRules) ? event.muhurtaRules : [event.muhurtaRule];
     assert.ok(
-      ["sankashti-chaturthi-moonrise", "karwa-chauth-puja"].includes(event.muhurtaRule),
+      ruleIds.some(rule => ["sankashti-chaturthi-moonrise", "karwa-chauth-puja"].includes(rule)),
       event.date + " " + event.title + " is missing its moonrise/puja rule"
     );
   }
   assert.equal(has("2030-10-26", /नरक चतुर्दशी/)?.muhurtaRule,
     "narak-chaturdashi-kshaya-abhyanga");
-  assert.equal(has("2030-10-26", /दीपावली/)?.muhurtaRule,
-    "diwali-lakshmi-puja");
+  assert.deepEqual(has("2030-10-26", /दीपावली/)?.muhurtaRules,
+    ["diwali-lakshmi-puja"]);
 });
 
 test("2030 every Pradosh observance has its correct local muhurta rule", () => {
@@ -203,11 +204,12 @@ test("2030 every Pradosh observance has its correct local muhurta rule", () => {
     "dev-deepawali-pradosh"
   ]);
   for (const event of events.filter(event => /प्रदोष/.test(event.title || ""))) {
-    assert.ok(allowed.has(event.muhurtaRule),
+    const ruleIds = Array.isArray(event.muhurtaRules) ? event.muhurtaRules : [event.muhurtaRule];
+    assert.ok(ruleIds.some(rule => allowed.has(rule)),
       event.date + " " + event.title + " is missing a Pradosh-capable muhurta rule");
   }
-  assert.equal(has("2030-06-28", /शुक्र प्रदोष.*मासिक शिवरात्रि/)?.muhurtaRule,
-    "pradosh-and-masik-shivaratri");
+  assert.deepEqual(has("2030-06-28", /शुक्र प्रदोष.*मासिक शिवरात्रि/)?.muhurtaRules,
+    ["pradosh-kala", "masik-shivaratri-nishita"]);
 });
 
 test("2030 Sharadiya Navratri puja labels match the actual tithi and Devi form", () => {
