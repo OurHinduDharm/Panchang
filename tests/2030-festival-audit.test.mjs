@@ -74,6 +74,15 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-10-02", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
 });
 
+test("2030 Agastya Arghya remains a separate observance card", () => {
+  assert.ok(has("2030-09-04", /अगस्त्य अर्घ्य/));
+  assert.ok(has("2030-08-24", /अजा एकादशी/));
+  assert.notEqual(
+    has("2030-09-04", /अगस्त्य अर्घ्य/)?.title,
+    has("2030-08-24", /अजा एकादशी/)?.title
+  );
+});
+
 test("2030 only Pithoragarh-visible solar and partial lunar eclipses are listed", () => {
   const eclipses = events.filter(event => /ग्रहण/.test(event.title || ""));
   assert.equal(eclipses.filter(event => event.date === "2030-06-01").length, 1);
