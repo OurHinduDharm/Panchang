@@ -31,7 +31,8 @@ test("2028 monthly festival files have approved records dated within their month
 test("2028 independent same-date observances remain separate cards", () => {
   const allowed = new Map([
     ["2028-10-16|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि", "हनुमान पूजा"])],
-    ["2028-10-17|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती"])]
+    ["2028-10-17|कार्तिक कृष्ण अमावस्या", new Set(["दीपावली / लक्ष्मी-गणेश पूजन", "श्री कमला महाविद्या जयंती"])],
+    ["2028-10-28|कार्तिक शुक्ल एकादशी", new Set(["देवोत्थानी एकादशी (स्मार्त)", "भीष्म पंचक प्रारम्भ"])]
   ]);
   const seen = new Map();
   for (const event of events) {
