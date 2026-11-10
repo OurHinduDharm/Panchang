@@ -88,7 +88,7 @@ const holdoutPageRows = direct.windows.map(window => ({
   comparisonLevel: window.comparisonLevel,
   sourceStatus: window.sourceStatus,
   testObserver: window.testObserver,
-  precision: window.sourcePrecision,
+  precision: window.precision,
   boundaries: {
     astaStart: window.boundaries.astaStart.normalizedLocalDateTime,
     astaEnd: window.boundaries.astaEnd.normalizedLocalDateTime
