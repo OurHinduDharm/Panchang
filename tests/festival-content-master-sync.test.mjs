@@ -90,7 +90,7 @@ test("escapes malformed HTML fragments in imported article labels", () => {
     description: '<a href="https://example.com/safe"><script</a>'
   };
   synchronizeEventContent(event, template);
-  assert.match(event.description, /<a href="https:\/\/example\.com\/safe"[^>]*>script<\/a>/);
+  assert.match(event.description, /<a href="https:\/\/example\.com\/safe"[^>]*>&lt;script<\/a>/);
   assert.doesNotMatch(event.description, /<script/);
   assert.match(event.description, /href="https:\/\/example\.com\/safe"/);
 });
