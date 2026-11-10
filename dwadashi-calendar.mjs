@@ -176,19 +176,28 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       groupBuckets.set(baseKey, bucket);
       groups.set(baseKey + "|occurrence|1", target);
     } else if (!target && referenceDate) {
-      // Keep a source reference as its own review row when it cannot be
-      // safely associated with any locally observed occurrence.
-      const occurrence = bucket.length + 1;
-      const baseId = MONTH_SLUGS[month] + "-" + (paksha === "कृष्ण" ? "krishna" : "shukla") + (adhika ? "-adhika" : "");
-      target = {
-        id: baseId + "-occurrence-" + occurrence, baseKey, occurrence,
-        month, paksha, adhika, referenceDate,
-        sunriseDates: [], noonDates: [], sunriseObservations: [], noonObservations: [],
-        drik2026Entry: null, drikSpecialEntries: []
-      };
-      bucket.push(target);
-      groupBuckets.set(baseKey, bucket);
-      groups.set(baseKey + "|occurrence|" + occurrence, target);
+      const unusedCatalogueRow = bucket.length === 1 &&
+        !bucket[0].sunriseDates.length && !bucket[0].noonDates.length &&
+        !bucket[0].drik2026Entry && !bucket[0].drikSpecialEntries.length &&
+        !bucket[0].referenceDate;
+      if (unusedCatalogueRow) {
+        // Reuse the catalogue placeholder instead of creating a duplicate.
+        target = bucket[0];
+      } else {
+        // Keep a source reference as its own review row when it cannot be
+        // safely associated with any locally observed occurrence.
+        const occurrence = bucket.length + 1;
+        const baseId = MONTH_SLUGS[month] + "-" + (paksha === "कृष्ण" ? "krishna" : "shukla") + (adhika ? "-adhika" : "");
+        target = {
+          id: baseId + "-occurrence-" + occurrence, baseKey, occurrence,
+          month, paksha, adhika, referenceDate,
+          sunriseDates: [], noonDates: [], sunriseObservations: [], noonObservations: [],
+          drik2026Entry: null, drikSpecialEntries: []
+        };
+        bucket.push(target);
+        groupBuckets.set(baseKey, bucket);
+        groups.set(baseKey + "|occurrence|" + occurrence, target);
+      }
     }
     if (!target) target = bucket[0];
     if (referenceDate && target) target.referenceDate = referenceDate;
