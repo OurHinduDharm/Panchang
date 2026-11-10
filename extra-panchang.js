@@ -459,16 +459,12 @@ function createPlanetCard(data, dailyEvents = {}) {
     }
 
     const label = planet.status === "active" ? "वर्तमान अस्त-अवधि" : "आगामी अस्त-अवधि";
-    const source = planet.sourceUrl
-      ? `<a href="${planet.sourceUrl}" target="_blank" rel="noopener noreferrer">Drik मूल स्रोत</a>`
-      : "";
     return `
       <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
         <strong style="font-size:1.02em">${planet.name}</strong>
         <span style="font-size:.82em;color:var(--muted-color,#777)">${label}</span>
         <span>अस्त प्रारम्भ — <b>${planet.asta ? `${planet.asta.date}, ${planet.asta.time}` : "—"}</b></span>
         <span>पुनः उदय — <b>${planet.udaya ? `${planet.udaya.date}, ${planet.udaya.time}` : "—"}</b></span>
-        <span style="font-size:.8em">${source}</span>
       </div>
     `;
   }).join("");
