@@ -36,8 +36,8 @@ test("2030 catalog has one card per same-date Hindu tithi", () => {
 
 test("2030 Ekadashi cards follow the Smarta-only policy", () => {
   assert.equal(events.filter(event => /(गौण|वैष्णव)/.test(event.title || "")).length, 0);
-  assert.ok(has("2030-11-05", /देवउठनी एकादशी \\(स्मार्त\\)/));
-  assert.ok(has("2030-11-21", /उत्पन्ना एकादशी \\(स्मार्त\\)/));
+  assert.ok(has("2030-11-05", /देवउठनी एकादशी \(स्मार्त\)/));
+  assert.ok(has("2030-11-21", /उत्पन्ना एकादशी \(स्मार्त\)/));
 });
 
 test("2030 important annual festivals and jayantis are represented", () => {
