@@ -143,6 +143,7 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.equal(has("2030-08-16", /हेरम्ब संकष्टी/)?.muhurtaRule, "sankashti-chaturthi-moonrise");
   assert.ok(has("2030-08-17", /सिंह संक्रांति/)?.muhurtaRule === "sankranti-punya-kala");
   assert.ok(has("2030-08-19", /हलषष्ठी/));
+  assert.equal(has("2030-08-20", /मासिक कालाष्टमी/)?.muhurtaRule, "kalashtami-nishita");
   assert.ok(has("2030-08-21", /श्रीकृष्ण जन्माष्टमी.*काली महाविद्या जयंती/)?.muhurtaRule === "janmashtami-nishita");
   assert.ok(has("2030-08-22", /दही हांडी/));
   assert.ok(has("2030-08-24", /अजा एकादशी/)?.muhurtaRule === "ekadashi-parana");
