@@ -42,6 +42,28 @@ test("only seven exact requested years enter the accepted event ledger", () => {
   assert.ok(!dataset.windows.some(window => window.sourcePageYear < 2021 || window.sourcePageYear > 2027));
 });
 
+test("extended ledger has 71 unique event intervals after annual-page overlap deduplication", () => {
+  const keyOf = window => [
+    window.planet,
+    window.boundaries.astaStart.normalizedUtcInstant,
+    window.boundaries.astaEnd.normalizedUtcInstant
+  ].join("|");
+  const unique = new Map(dataset.windows.map(window => [keyOf(window), window]));
+  assert.equal(dataset.windows.length, 75);
+  assert.equal(unique.size, 71);
+  assert.equal(dataset.windows.length - unique.size, 4);
+  const counts = Object.fromEntries(["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]
+    .map(planet => [planet, [...unique.values()].filter(window => window.planet === planet).length]));
+  assert.deepEqual(counts, {
+    Mercury: 45,
+    Venus: 9,
+    Mars: 3,
+    Jupiter: 7,
+    Saturn: 7
+  });
+  assert.equal(unique.size * 2, 142);
+});
+
 test("planet/year window counts preserve missing rows without inventing zero-event claims", () => {
   const expected = {
     Mercury: [7, 6, 7, 6, 6, 7, 7],
