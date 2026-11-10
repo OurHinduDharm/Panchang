@@ -121,7 +121,7 @@ test("Extra Panchang placement helpers target the shared results grid", () => {
 });
 
 
-test("Planetary Asta/Udaya card displays direct source labels and seven celestial bodies", () => {
+test("Planetary Asta/Udaya card displays seven celestial bodies without external source links", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const start = source.indexOf("function createPlanetCard(");
   const end = source.indexOf("\nfunction createHoraCard(", start);
@@ -130,10 +130,10 @@ test("Planetary Asta/Udaya card displays direct source labels and seven celestia
   const cardSource = source.slice(start, end);
   assert.ok(cardSource.includes("अस्त प्रारम्भ"));
   assert.ok(cardSource.includes("पुनः उदय"));
-  assert.ok(cardSource.includes("Drik मूल स्रोत"));
+  assert.ok(!cardSource.includes("Drik मूल स्रोत"));
+  assert.ok(!cardSource.includes("sourceUrl"));
   assert.ok(cardSource.includes("सूर्य"));
   assert.ok(cardSource.includes("चंद्रमा"));
-  assert.ok(cardSource.includes("स्रोत: Drik Panchang का"));
   assert.ok(!cardSource.includes("कोणीय अनुमानित"));
   assert.ok(!cardSource.includes("सत्यापनाधीन"));
 });
