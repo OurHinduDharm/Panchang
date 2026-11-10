@@ -91,7 +91,15 @@ test("a matching Drik reference date resolves a multi-date Dwadashi candidate wi
   // The tithi ends before local noon on 5 March, so only sunrise (not noon)
   // observes Dwadashi on that date.
   sunriseDayRecord.noonTithi = "त्रयोदशी";
-  const result = buildDwadashiCalendar([previousDay,sunriseDayRecord],rules);
+  const sourceRules = {
+    ...rules,
+    drikSpecialObservances: [{
+      year:2027, month:"फाल्गुन", paksha:"कृष्ण", adhika:false,
+      referenceDate:"2027-03-05",
+      labels:["उन्मीलिनी महाद्वादशी","श्रवण योग द्वादशी"]
+    }]
+  };
+  const result = buildDwadashiCalendar([previousDay,sunriseDayRecord],sourceRules);
   const record = result.tithis.find(item => item.id === "phalguna-krishna");
   assert.deepEqual(record.noonDates,["2027-03-04"]);
   assert.deepEqual(record.sunriseDates,["2027-03-05"]);
