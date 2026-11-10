@@ -121,9 +121,9 @@ test("2028 additional major observances are present with their reviewed tithis",
 
   assert.equal(has("2028-09-02", /अनंत चतुर्दशी/).hinduTithi, "भाद्रपद शुक्ल चतुर्दशी");
   assert.ok(has("2028-09-24", /दुर्गा पूजा/));
-  assert.ok(has("2028-09-16", /शनि प्रदोष.*कलियुगादि|कलियुगादि.*शनि प्रदोष/));
+  assert.ok(has("2028-09-16", /शनि प्रदोष व्रत/));
+  assert.equal(has("2028-09-17", /कलियुगादि/).hinduTithi, "आश्विन कृष्ण त्रयोदशी");
   assert.equal(events.filter(event => /कलियुगादि/.test(event.title || "")).length, 1);
-  assert.equal(events.filter(event => /कलियुगादि/.test(event.title || ""))[0].date, "2028-09-16");
   assert.equal(has("2028-09-12", /जीवित्पुत्रिका व्रत/).hinduTithi, "आश्विन कृष्ण अष्टमी");
   assert.ok(has("2028-09-25", /सरस्वती आवाहन/));
   assert.ok(has("2028-09-26", /सरस्वती पूजा/));
