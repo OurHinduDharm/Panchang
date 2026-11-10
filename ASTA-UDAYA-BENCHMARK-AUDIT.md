@@ -1095,3 +1095,20 @@ Jupiter के लिए इसी प्रकार का year-holdout diagno
 New Delhi से Pithoragarh Venus cross-location test में 2023 New Delhi apparition जोड़ने के बाद चारों Pithoragarh boundaries (दो 2025 apparitions) **4/4 exact dates** पर आईं; same-apparition New Delhi training record हर बार हटाया गया। यह उपयोगी transfer evidence है, लेकिन अभी केवल शुक्र और दो Pithoragarh apparitions तक सीमित है।
 
 **स्थिति:** Mercury मजबूत; Venus end मजबूत पर start में outlier; Saturn promising; Jupiter preliminary; Mars के लिए अभी पर्याप्त New Delhi/Pithoragarh multi-year windows नहीं। सभी ग्रहों के लिए एक ही coefficient set नहीं अपनाया जाएगा।
+
+
+### 2022 historical expansion
+
+2022 Drik New Delhi pages से Mercury की छह, Venus की दो और Saturn की एक window जोड़ी गई; 2023 Mars page से एक long window भी जोड़ी:
+- Mercury: 17–31 Jan, 13 Mar–12 Apr, 13 May–10 Jun, 7–30 Jul, 8 Sep–1 Oct, 25 Oct–4 Dec 2022.
+- Venus: 6–11 Jan और 1 Oct–22 Nov 2022.
+- Saturn: 23 Jan–28 Feb 2022.
+- Mars: 12 Sep 2023–23 Jan 2024 (एक ही long apparition; 2024 page duplicate है, इसलिए दूसरी बार नहीं गिना)।
+
+स्रोत:
+- https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?year=2022
+- https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2022
+- https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2022
+- https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?year=2023
+
+Benchmark अब **58 New Delhi windows / 116 boundaries** है: Mercury 38, Venus 8, Jupiter 4, Saturn 6, Mars 2. Mercury model का year holdout अब 2022–27 के छह वर्षों पर चलेगा; Venus transfer training में 2022 के दोनों apparitions भी शामिल होंगे। Provider observer coordinates अब भी undisclosed हैं।
