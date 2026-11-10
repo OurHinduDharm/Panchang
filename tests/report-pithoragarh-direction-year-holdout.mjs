@@ -37,7 +37,7 @@ function sunAltitude(date) {
   return Astronomy.Horizon(date, observer, sun.ra, sun.dec, "normal").altitude;
 }
 function trainingSample(entry, boundaryName) {
-  const anchor = new Date(entry.boundaries[boundaryName]);
+  const anchor = new Date(entry.boundaries[boundaryName].instant);
   const event = nearestEvent(entry.planet, anchor);
   if (!event) return null;
   const previous = Astronomy.SearchRiseSet(
@@ -126,8 +126,8 @@ for (const entry of direct.windows) {
   if (!unique.has(key)) unique.set(key, {
     id: entry.id, planet: entry.planet, sourcePageYear: entry.sourcePageYear,
     boundaries: {
-      astaStart: entry.boundaries.astaStart.normalizedUtcInstant,
-      astaEnd: entry.boundaries.astaEnd.normalizedUtcInstant
+      astaStart: { instant: entry.boundaries.astaStart.normalizedUtcInstant, local: entry.boundaries.astaStart.normalizedLocalDateTime },
+      astaEnd: { instant: entry.boundaries.astaEnd.normalizedUtcInstant, local: entry.boundaries.astaEnd.normalizedLocalDateTime }
     }
   });
 }
@@ -184,7 +184,7 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
         const publishedAsta = entry.boundaries.astaStart;
         const ranked = candidates.map((window, index) => ({
           window, index,
-          error: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedAsta)
+          error: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedAsta.local)
         })).filter(item => !used.has(item.index))
           .sort((a, b) => Math.abs(a.error) - Math.abs(b.error));
         const best = ranked[0];
@@ -197,9 +197,9 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
         predictions.push({
           id: entry.id, matched: true,
           astaErrorDays: best.error,
-          udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd),
-          astaClockErrorMinutes: clockError(best.window.asta.predictedEventLocalTime, publishedAsta.slice(11, 16)),
-          udayaClockErrorMinutes: clockError(best.window.udaya.predictedEventLocalTime, publishedEnd.slice(11, 16))
+          udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd.local),
+          astaClockErrorMinutes: clockError(best.window.asta.predictedEventLocalTime, publishedAsta.local.slice(11, 16)),
+          udayaClockErrorMinutes: clockError(best.window.udaya.predictedEventLocalTime, publishedEnd.local.slice(11, 16))
         });
       }
       const matched = predictions.filter(item => item.matched);
