@@ -96,12 +96,19 @@ function localPlanetEvent(body, anchor, direction, dayOffset) {
 
 function planetObservables(body, date) {
   const eq = Astronomy.Equator(body, date, observer, true, true);
+  const sunEq = Astronomy.Equator("Sun", date, observer, true, true);
+  const planetHorizon = Astronomy.Horizon(date, observer, eq.ra, eq.dec, "normal");
+  const sunHorizon = Astronomy.Horizon(date, observer, sunEq.ra, sunEq.dec, "normal");
   const illumination = Astronomy.Illumination(body, date);
+  const azimuthSeparationDegrees = Math.abs(
+    ((sunHorizon.azimuth - planetHorizon.azimuth + 540) % 360) - 180
+  );
   return {
-    planetAltitudeDegrees: round(Astronomy.Horizon(date, observer, eq.ra, eq.dec, "normal").altitude),
+    planetAltitudeDegrees: round(planetHorizon.altitude),
     apparentElongationDegrees: round(Astronomy.AngleFromSun(body, date)),
     apparentMagnitude: round(illumination.mag, 4),
-    illuminatedFraction: round(illumination.phase_fraction, 6)
+    illuminatedFraction: round(illumination.phase_fraction, 6),
+    azimuthSeparationDegrees: round(azimuthSeparationDegrees, 5)
   };
 }
 
@@ -185,7 +192,8 @@ for (const item of rows) {
       upper: interval.upper,
       apparentMagnitude: boundary.boundaryPlanetObservables.apparentMagnitude,
       elongation: boundary.boundaryPlanetObservables.apparentElongationDegrees,
-      phase: boundary.boundaryPlanetObservables.illuminatedFraction
+      phase: boundary.boundaryPlanetObservables.illuminatedFraction,
+      azimuthSeparation: boundary.boundaryPlanetObservables.azimuthSeparationDegrees
     });
   }
 }
