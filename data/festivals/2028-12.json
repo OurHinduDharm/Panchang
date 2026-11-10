@@ -9,18 +9,54 @@
     {
       "date": "2028-12-01",
       "dateLabel": "1 दिसंबर",
-      "title": "मार्गशीर्ष पूर्णिमा / त्रिपुरभैरवी महाविद्या जयंती / दत्तात्रेय जयंती / अन्नपूर्णा जयंती",
-      "description": "मार्गशीर्ष पूर्णिमा पर स्नान, दान, जप और भगवान विष्णु की उपासना की परंपरा है। कुछ क्षेत्रों में इसी दिन दत्तात्रेय जयंती भी मनाई जाती है। त्रिपुरभैरवी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">त्रिपुरभैरवी महाविद्या</a> इसी पूर्णिमा पर भगवान दत्तात्रेय की जयंती भी मनाई जाती है। इसी पूर्णिमा पर माँ अन्नपूर्णा की जयंती भी मनाई जाती है।",
+      "title": "मार्गशीर्ष पूर्णिमा",
+      "description": "मार्गशीर्ष शुक्ल पूर्णिमा पर स्नान, दान, जप और भगवान विष्णु की आराधना की परंपरा है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html",
-      "articleLabel": "श्रीदत्तात्रेय जयंती",
+      "sourceName": "Drik Panchang — December 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?lang=hi&year=2028"
+    },
+    {
+      "date": "2028-12-01",
+      "dateLabel": "1 दिसंबर",
+      "title": "त्रिपुरभैरवी महाविद्या जयंती",
+      "description": "मार्गशीर्ष पूर्णिमा पर माँ त्रिपुरभैरवी महाविद्या की उपासना, स्तोत्र-पाठ और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ त्रिपुरभैरवी की उपासना पढ़ें</a>",
+      "category": "महाविद्या जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — December 2028 Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?lang=hi&year=2028",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
-      "secondaryArticleLabel": "श्री त्रिपुरभैरवी महाविद्या जयंती"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
+      "articleLabel": "माँ त्रिपुरभैरवी की उपासना पढ़ें"
+    },
+    {
+      "date": "2028-12-01",
+      "dateLabel": "1 दिसंबर",
+      "title": "दत्तात्रेय जयंती",
+      "description": "मार्गशीर्ष पूर्णिमा पर भगवान दत्तात्रेय का प्राकट्योत्सव मनाया जाता है। दत्तात्रेय-पूजन, गुरु-परंपरा का स्मरण, मंत्र-जप और भजन कीर्तन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीदत्तात्रेय जयंती का महत्व पढ़ें</a>",
+      "category": "देव-जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — December 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?lang=hi&year=2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html",
+      "articleLabel": "श्रीदत्तात्रेय जयंती का महत्व पढ़ें"
+    },
+    {
+      "date": "2028-12-01",
+      "dateLabel": "1 दिसंबर",
+      "title": "अन्नपूर्णा जयंती",
+      "description": "मार्गशीर्ष पूर्णिमा पर माँ अन्नपूर्णा की पूजा, अन्नदान और स्तोत्रात्मक उपासना की परंपरा है।",
+      "category": "देवी-जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — December 2028 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?lang=hi&year=2028"
     },
     {
       "date": "2028-12-05",
@@ -152,17 +188,17 @@
     {
       "date": "2028-12-27",
       "dateLabel": "27 दिसंबर",
-      "title": "पौष पुत्रदा एकादशी / टेलंग स्वामी जयंती",
-      "description": "पौष शुक्ल एकादशी पर भगवान विष्णु की उपासना और व्रत की परंपरा है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है। इसी दिन पौष शुक्ल एकादशी पर टेलंग स्वामी जयंती भी मनाई जाती है।",
+      "title": "पौष पुत्रदा एकादशी",
+      "description": "पौष शुक्ल एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, मंत्र-जप और दान की परंपरा है। व्रत-पारण द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
       "hinduTithi": "पौष शुक्ल एकादशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "articleLabel": "एकादशी व्रत का पवित्र विधान",
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2014/01/About-Tailang-SwamiJi-On-His-Jayanti.html",
-      "secondaryArticleLabel": "तैलंग स्वामी जयंती का महत्व पढ़ें"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "articleLabel": "एकादशी व्रत के उद्यापन की विधि",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
       "date": "2028-12-29",
@@ -177,9 +213,22 @@
     {
       "date": "2028-12-31",
       "dateLabel": "31 दिसंबर",
-      "title": "पौष पूर्णिमा / पूर्ण चंद्रग्रहण",
-      "description": "पौष पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। कई परंपराओं में शाकंभरी पूर्णिमा भी इसी तिथि से जुड़ती है। 31 दिसंबर 2028 से 1 जनवरी 2029 तक पिथौरागढ़ में पूर्ण चंद्रग्रहण दिखाई देगा। ग्रहण 31 दिसंबर शाम 7:33 बजे आरंभ होगा, पूर्णता 9:46 से 10:57 बजे तक रहेगी और उपच्छाया चरण 1 जनवरी रात 1:10 बजे समाप्त होगा।",
-      "category": "व्रत-पर्व",
+      "title": "पौष पूर्णिमा",
+      "description": "पौष शुक्ल पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। कई परंपराओं में शाकंभरी पूर्णिमा भी इसी तिथि से जुड़ती है।",
+      "category": "पूर्णिमा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल पूर्णिमा",
+      "timingType": "eclipse-visibility",
+      "sourceName": "Timeanddate — Pithoragarh; Drik Panchang eclipse list",
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20281231"
+    },
+    {
+      "date": "2028-12-31",
+      "dateLabel": "31 दिसंबर",
+      "title": "पूर्ण चंद्रग्रहण",
+      "description": "31 दिसंबर 2028 की संध्या से पिथौरागढ़ में पूर्ण चंद्रग्रहण दिखाई देगा। ग्रहण के दौरान चंद्रमा पृथ्वी की छाया से पूर्णतः ढक जाएगा। ग्रहण-मंत्र, जप और सूतक संबंधी नियम स्थानीय ग्रहण-समय के अनुसार देखें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\" rel=\"noopener noreferrer\">ग्रहण में मंत्र-पुरश्चरण का विधान पढ़ें</a>",
+      "category": "ग्रहण",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "पौष शुक्ल पूर्णिमा",
@@ -187,9 +236,7 @@
       "sourceName": "Timeanddate — Pithoragarh; Drik Panchang eclipse list",
       "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20281231",
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
-      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html",
-      "secondaryArticleLabel": "पौष मास का माहात्म्य पढ़ें"
+      "articleLabel": "ग्रहण में मंत्र-पुरश्चरण का विधान पढ़ें"
     }
   ]
 }
