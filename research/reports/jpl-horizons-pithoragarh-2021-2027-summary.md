@@ -109,3 +109,7 @@ The selected regional candidate is **IndGG-SH2021**, a public Indian gravimetric
 The model page exposes both an original file and ISG-format file. The ISG format records the reference ellipsoid, grid geometry, ordering and undulation units; its documented default grid ordering is north-to-south, each row west-to-east. Do not parse or interpolate the grid until the downloaded file header confirms the exact metadata and no-data convention.
 
 **Still unresolved:** No numerical undulation has yet been extracted at 29.5828° N, 80.2182° E. The project's 1650 m input has not been proven to be orthometric height. Do not apply a geoid correction or claim a corrected observer altitude until both facts are established. After extraction, compare IndGG-SH2021 with EGM2008 and rerun JPL checks over the 142 unique boundary instants.
+
+## 2026-11-10 follow-up — unique-boundary runner corrected
+
+The JPL runner was updated in commit `9d152af7ec94b35beb27f0dd6547f109f1980fc4` to deduplicate annual-page overlap by `(planet, normalized UTC AstaStart, normalized UTC AstaEnd)` **before** requesting Horizons samples and calculating statistics. It records the 75 raw rows, 4 duplicate annual-page references and 71 unique windows in the generated JSON, and fails closed if the ledger no longer reconciles to those counts. A fresh execution will therefore evaluate 142 unique boundaries. The older raw artifact and its 150-observation aggregates remain historical and must not be cited as unique-sample statistics. Fresh unique-boundary JPL results are still pending.
