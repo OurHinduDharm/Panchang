@@ -80,6 +80,42 @@
       "hinduTithi": "भाद्रपद कृष्ण चतुर्थी"
     },
     {
+      "date": "2028-08-10",
+      "dateLabel": "10 अगस्त",
+      "title": "नाग पंचमी",
+      "description": "नाग पंचमी पर नागदेवता का पूजन, दूध-लावा अर्पण और परिवार की रक्षा एवं कल्याण की प्रार्थना की जाती है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण पंचमी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-08-11",
+      "dateLabel": "11 अगस्त",
+      "title": "हलषष्ठी / ललही छठ",
+      "description": "हलषष्ठी पर भगवान बलराम के हल और मूसल का स्मरण किया जाता है। संतान की दीर्घायु और कल्याण के लिए माताएँ व्रत रखती हैं।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण षष्ठी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-08-12",
+      "dateLabel": "12 अगस्त",
+      "title": "शीतला सप्तमी",
+      "description": "शीतला सप्तमी पर माता शीतला की पूजा और शीतल भोजन अर्पित करने की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण सप्तमी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?lang=en&year=2028"
+    },
+    {
       "date": "2028-08-13",
       "dateLabel": "13 अगस्त",
       "title": "श्रीकृष्ण जन्माष्टमी / काली महाविद्या जयंती / मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
@@ -94,6 +130,18 @@
       "secondaryArticleLabel": "भैरवाष्टमी की महिमा पढ़ें",
       "sourceName": "Drik Panchang — 2028 Dasha Mahavidya Jayanti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2028"
+    },
+    {
+      "date": "2028-08-14",
+      "dateLabel": "14 अगस्त",
+      "title": "दही हांडी / गोपालकाला",
+      "description": "श्रीकृष्ण जन्माष्टमी के अगले दिन कई क्षेत्रों में दही हांडी और गोपालकाला उत्सव मनाया जाता है। मटकी-फोड़ आयोजन के माध्यम से भगवान श्रीकृष्ण की बाल लीलाओं का उत्सव होता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण नवमी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?lang=en&year=2028"
     },
     {
       "date": "2028-08-16",
@@ -120,6 +168,18 @@
       "category": "संक्रांति",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2028-08-17",
+      "dateLabel": "17 अगस्त",
+      "title": "कृष्ण दामोदर द्वादशी / बछ बारस",
+      "description": "भाद्रपद कृष्ण द्वादशी पर भगवान श्रीकृष्ण के दामोदर स्वरूप का पूजन किया जाता है। कई क्षेत्रों में इसी दिन बछ बारस का व्रत भी रखा जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?lang=en&year=2028"
     },
     {
       "date": "2028-08-18",
@@ -223,6 +283,18 @@
       "hinduTithi": "भाद्रपद शुक्ल षष्ठी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
       "articleLabel": "कल्कि अवतार जयंती"
+    },
+    {
+      "date": "2028-08-26",
+      "dateLabel": "26 अगस्त",
+      "title": "ललिता सप्तमी",
+      "description": "भाद्रपद शुक्ल सप्तमी को श्रीराधा की सखी ललिता देवी का प्राकट्य-दिवस मनाया जाता है। राधा-कृष्ण और ललिता सखी का पूजन करें।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल सप्तमी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?lang=en&year=2028"
     },
     {
       "date": "2028-08-27",
