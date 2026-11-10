@@ -440,3 +440,40 @@ Pinned Astronomy Engine 2.1.19 के साथ New Delhi के independent pub
 3. Jupiter/Saturn के वर्तमान 3-window holdouts को कम-से-कम 3 अतिरिक्त वर्षों/अन्य city holdouts से बढ़ाएँ।
 4. Mars के लिए New Delhi तथा Pithoragarh दोनों में पर्याप्त independently captured windows के बिना fitted model publish न करें।
 5. जब तक exact-date tolerance पूरी न हो, candidate JSON में uncertainty/status रहे और main Panchang में verified Tara Asta time न दिखे।
+
+
+## 10 नवम्बर 2026 — प्रत्यक्ष Pithoragarh Drik data और स्वतंत्र holdout
+
+### Direct source ledger
+Playwright Chromium से पाँचों ग्रहों के 2024–2027 named-city Drik annual pages capture किए:
+- 20/20 pages HTTP 200; page title और body दोनों में Pithoragarh तथा ग्रह की पुष्टि।
+- 43 annual-page rows; overlap हटाकर 40 unique Tara Asta windows।
+- 86 minute-precision start/end boundaries; raw source date/clock, normalized Asia/Kolkata local instant और UTC instant सुरक्षित।
+- 24+ hour rollover के 43 boundary examples; raw notation को overwrite नहीं किया।
+- 2027 Mars page पर कोई boundary row extract नहीं हुई; इसे no-event assertion नहीं माना।
+- पुराने benchmark के 37 Pithoragarh records के start/end times 37/37 direct pages से exact match हुए।
+
+Canonical dataset अब main में PR #298 से merge है:
+`data/drik-pithoragarh-asta-udaya-2024-2027.json`
+Source coordinates/elevation Drik publish नहीं करता; ये direct named-city references city-label-only हैं। Project observer 29.5828° N, 80.2182° E, 1650 m है, पर provider के internal observer के बराबर होने का दावा नहीं।
+
+### New Delhi-trained blind transfer results
+Independent New Delhi Drik samples से fit magnitude-only model को 40 unique direct Pithoragarh windows पर test किया:
+- Mercury: 25/25 matched; Asta MAE 0.760 d (max 2 d), Udaya MAE 0.600 d (max 3 d)
+- Venus: 5/5 matched; Asta MAE 0.800 d (max 2 d), Udaya MAE 0.600 d (max 2 d)
+- Jupiter: 4/4 matched; Asta 4/4 exact, Udaya 3/4 exact (MAE 0.250 d; max 1 d)
+- Saturn: 4/4 matched; Asta और Udaya दोनों 4/4 exact
+- Mars: केवल 2 unique windows; independent New Delhi calibration samples अपर्याप्त, इसलिए model unavailable
+
+### Pithoragarh local leave-one-year-out results
+हर held-out year को छोड़कर बाकी direct Pithoragarh years पर magnitude-only model fit किया:
+- Mercury: Asta MAE 0.333–1.000 d (max 2 d); Udaya MAE 0.429–1.167 d (max 3 d)
+- Venus: Asta max 2 d; Udaya max 1 d
+- Jupiter: एक 2024 fold में Asta/Udaya 1 d; 2025–2027 folds exact
+- Saturn: 2024 Asta 1 d; अन्य folds exact
+- Local horizon clock comparison में Mercury का अधिकतम clock-of-day error 8 min Asta / 7 min Udaya; Venus 2/3 min; Jupiter 4/3 min; Saturn 4/1 min।
+
+**निर्णय:** actual local horizon event clock उपयोगी रूप से सटीक है; मुख्य शेष त्रुटि सही civil date चुनने में है। Mercury/Venus का magnitude-only date model अभी production tolerance पास नहीं करता। Jupiter/Saturn promising हैं, पर चार annual windows और undisclosed provider coordinates के कारण इसे सभी स्थानों/वर्षों के लिए final proof नहीं मानेंगे। किसी ग्रह का production card तभी बनेगा जब date model blind holdouts में exact-date gate पास करे।
+
+### अगला model experiment
+Mercury/Venus के लिए geocentric apparent ecliptic longitude rate और retrograde/direct state को optional model features बनाया गया है। Motion feature के बिना model baseline behavior unchanged रहेगा। नया LOYO report magnitude-only, magnitude+retrograde, magnitude+longitude-rate और combined model variants की तुलना करेगा। किसी एक अच्छे fold से model lock नहीं होगा।
