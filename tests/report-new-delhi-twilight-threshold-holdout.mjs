@@ -460,6 +460,62 @@ const mercuryBoundaryDateHoldouts = Object.fromEntries(
 
 
 
+
+const planetSpecificApparitionHoldouts = Object.fromEntries(
+  [...new Set(rows.map(item => item.planet))].map(planetName => {
+    const planetRows = rows.filter(item => item.planet === planetName);
+    const predictions = [];
+    for (const heldOut of planetRows) {
+      const entry = dataset.cases.find(candidate => candidate.id === heldOut.id);
+      for (const boundaryName of ["astaStart", "astaEnd"]) {
+        const training = (thresholdGroups[planetName + ":" + boundaryName] || [])
+          .filter(sample => sample.caseId !== heldOut.id)
+          .map(sample => ({
+            id: sample.caseId,
+            magnitude: sample.apparentMagnitude,
+            thresholdMidpoint: (sample.lower + sample.upper) / 2
+          }));
+        if (training.length < 3) {
+          predictions.push({
+            id: heldOut.id,
+            boundary: boundaryName,
+            available: false,
+            reason: "Fewer than three independent same-planet training boundaries"
+          });
+          continue;
+        }
+        const model = fitMagnitudeThreshold(training);
+        predictions.push({
+          id: heldOut.id,
+          boundary: boundaryName,
+          available: true,
+          trainingCount: training.length,
+          ...predictPlanetBoundaryDate(
+            entry,
+            boundaryName,
+            SOURCE_CASES[heldOut.id][boundaryName],
+            model
+          )
+        });
+      }
+    }
+    const valid = predictions.filter(item => item.available && item.nearestCrossing);
+    const errors = valid.map(item => item.nearestCrossing.signedDateOffsetDays);
+    const meanAbs = values => values.reduce((sum, value) => sum + Math.abs(value), 0) / values.length;
+    return [planetName, {
+      apparitionCount: planetRows.length,
+      predictionCount: predictions.length,
+      validPredictionCount: valid.length,
+      exact: errors.filter(value => value === 0).length,
+      withinOneDay: errors.filter(value => Math.abs(value) <= 1).length,
+      withinTwoDays: errors.filter(value => Math.abs(value) <= 2).length,
+      meanAbsoluteDateErrorDays: errors.length ? round(meanAbs(errors), 4) : null,
+      maxAbsoluteDateErrorDays: errors.length ? round(Math.max(...errors.map(Math.abs)), 4) : null,
+      predictions
+    }];
+  })
+);
+
 const planetBoundaryDateLeaveOnePlanetOut = Object.fromEntries(
   [...new Set(rows.map(item => item.planet))].map(heldOutPlanet => {
     const predictions = [];
@@ -566,6 +622,7 @@ console.log(JSON.stringify({
   mercuryBoundaryDateHoldouts,
   additionalPlanetYearHoldouts,
   planetBoundaryDateLeaveOnePlanetOut,
+  planetSpecificApparitionHoldouts,
   interpretation: "Diagnostic only. New Delhi source coordinates are undisclosed; a city-centre proxy is used solely to test day-level threshold transfer. Do not claim coordinate-exact validation or promote this threshold to production.",
   cases: rows
 }, null, 2));
