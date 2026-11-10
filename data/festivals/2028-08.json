@@ -228,8 +228,20 @@
     {
       "date": "2028-08-17",
       "dateLabel": "17 अगस्त",
-      "title": "कृष्ण दामोदर द्वादशी / बछ बारस",
-      "description": "भाद्रपद कृष्ण द्वादशी पर भगवान श्रीकृष्ण के दामोदर स्वरूप का पूजन किया जाता है। कई क्षेत्रों में इसी दिन बछ बारस का व्रत भी रखा जाता है।",
+      "title": "कृष्ण दामोदर द्वादशी",
+      "description": "भाद्रपद कृष्ण द्वादशी पर भगवान श्रीकृष्ण के दामोदर स्वरूप का पूजन, दीपदान और विष्णु-मंत्र-जप किया जाता है।",
+      "category": "विष्णु-व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण द्वादशी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-08-17",
+      "dateLabel": "17 अगस्त",
+      "title": "बछ बारस",
+      "description": "भाद्रपद कृष्ण द्वादशी पर बछ बारस में गाय और बछड़े का पूजन कर संतान और परिवार के मंगल की कामना की जाती है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -341,14 +353,22 @@
     {
       "date": "2028-08-25",
       "dateLabel": "25 अगस्त",
-      "title": "मासिक स्कन्द षष्ठी / बलराम जयंती",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। कल्कि अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a> भाद्रपद शुक्ल षष्ठी को भगवान बलराम की जयंती भी मनाई जाती है।",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "भाद्रपद शुक्ल षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत किया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल षष्ठी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
-      "articleLabel": "कल्कि अवतार जयंती"
+      "hinduTithi": "भाद्रपद शुक्ल षष्ठी"
+    },
+    {
+      "date": "2028-08-25",
+      "dateLabel": "25 अगस्त",
+      "title": "बलराम जयंती",
+      "description": "भाद्रपद शुक्ल षष्ठी पर भगवान बलराम के प्राकट्य-स्मरण और पूजन की परंपरा है। हल और मूसलधारी बलरामजी की आराधना करें।",
+      "category": "देव-जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल षष्ठी"
     },
     {
       "date": "2028-08-26",
@@ -365,14 +385,22 @@
     {
       "date": "2028-08-27",
       "dateLabel": "27 अगस्त",
-      "title": "राधाष्टमी / मासिक दुर्गाष्टमी",
-      "description": "राधाष्टमी श्रीराधा के प्राकट्य-स्मरण का पर्व है। राधा-कृष्ण पूजन, भजन, जप और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a> मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "title": "राधाष्टमी",
+      "description": "भाद्रपद शुक्ल अष्टमी को श्रीराधा का प्राकट्योत्सव मनाया जाता है। राधा-कृष्ण पूजन, भजन, जप और मंदिर-दर्शन की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+    },
+    {
+      "date": "2028-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "भाद्रपद शुक्ल अष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और मंत्र-जप की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल अष्टमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html",
-      "articleLabel": "भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी"
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
     },
     {
       "date": "2028-08-30",

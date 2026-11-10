@@ -129,17 +129,28 @@
     {
       "date": "2028-09-09",
       "dateLabel": "9 सितम्बर",
-      "title": "पंचमी श्राद्ध / महाभरणी श्राद्ध",
-      "description": "पितृपक्ष की इस तिथि पर जिन पितरों का निधन हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है।",
-      "category": "पितृपक्ष",
+      "title": "पंचमी श्राद्ध",
+      "description": "पितृपक्ष की आश्विन कृष्ण पंचमी पर जिन पितरों का निधन पंचमी तिथि को हुआ हो, उनके निमित्त श्राद्ध, तर्पण और दान किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्राद्ध और पितृपक्ष का महत्व पढ़ें</a>",
+      "category": "श्राद्ध",
       "reviewStatus": "approved",
       "sourceName": "Drik Panchang — September 2028 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2028",
       "hinduTithi": "आश्विन कृष्ण पंचमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
-      "articleLabel": "श्राद्ध और पितृपक्ष का विधान पढ़ें",
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
-      "secondaryArticleLabel": "पितृ तर्पण विधि"
+      "articleLabel": "श्राद्ध और पितृपक्ष का महत्व पढ़ें"
+    },
+    {
+      "date": "2028-09-09",
+      "dateLabel": "9 सितम्बर",
+      "title": "महाभरणी श्राद्ध",
+      "description": "पितृपक्ष में भरणी नक्षत्र के संयोग पर महाभरणी श्राद्ध किया जाता है। पितरों के निमित्त तर्पण, पिण्डदान और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्राद्ध और पितृपक्ष का महत्व पढ़ें</a>",
+      "category": "श्राद्ध",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — September 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2028",
+      "hinduTithi": "आश्विन कृष्ण पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Shraaddhs-and-Pitripaksha-on-Mahalaya.html",
+      "articleLabel": "श्राद्ध और पितृपक्ष का महत्व पढ़ें"
     },
     {
       "date": "2028-09-10",
