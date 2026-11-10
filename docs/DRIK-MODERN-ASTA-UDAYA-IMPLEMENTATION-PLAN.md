@@ -398,3 +398,13 @@ Research selector अब optional multifeature model (magnitude + elongation + p
 - Saturn Asta अस्थिर (4/6 matched, एक 10-day error); Jupiter कोई complete window नहीं निकाल पाया।
 
 इसलिए multi-feature model को universal selector नहीं बनाया। Magnitude-only baseline अभी बेहतर overall choice है; Venus-specific elongation refinement को अलग शोध में रखा जाएगा। Unit test और सभी Panchang feature regressions बाद के commit में सफल हुए।
+
+
+### Pithoragarh cross-location annual holdout
+
+New Delhi के 8 Venus apparitions में से प्रत्येक Pithoragarh 2025 test apparition के समान New Delhi apparition को हटाकर 7 अलग apparitions से model train किया। फिर project Pithoragarh observer proxy (29.5828° N, 80.2182° E, 1650 m) पर conjunction-driven annual generator चलाया:
+- March 2025: Asta exact (20 Mar); Udaya 1 दिन पहले (22 बनाम 23 Mar)।
+- Dec 2025–Feb 2026: Asta और Udaya दोनों exact (11 Dec, 2 Feb)।
+- 2/2 windows matched, 3/4 boundaries exact, 4/4 ±1 दिन।
+
+यह New Delhi→Pithoragarh का उपयोगी transfer evidence है, लेकिन source provider coordinates अज्ञात और Pithoragarh references केवल दो apparitions हैं। इसलिए इसे अभी Venus-only research evidence मानें, production acceptance नहीं।
