@@ -94,7 +94,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "पौष कृष्ण चतुर्थी"
+      "hinduTithi": "पौष कृष्ण चतुर्थी",
+      "muhurtaRule": "sankashti-chaturthi-moonrise"
     },
     {
       "date": "2030-12-16",
