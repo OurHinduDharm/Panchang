@@ -168,3 +168,25 @@ test("official IMD heliacal event table is transcribed completely without pairin
   const venus = events.find(event => event.planet === "Venus" && event.printedGregorianDate === "2026-10-13");
   assert.equal(venus.normalizedLocalDateTime, "2026-10-14T00:18:00+05:30");
 });
+
+
+test("official IMD visibility periods are transcribed as date-only and remain separate from heliacal instants", () => {
+  const periods = dataset.officialVisibilityPeriods;
+  assert.ok(Array.isArray(periods));
+  assert.equal(periods.length, 28);
+  const counts = Object.fromEntries(["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]
+    .map(planet => [planet, periods.filter(period => period.planet === planet).length]));
+  assert.deepEqual(counts, { Mercury: 7, Venus: 2, Mars: 5, Jupiter: 7, Saturn: 7 });
+  for (const period of periods) {
+    assert.equal(period.precision, "date-only");
+    assert.equal(period.eventModel, "rashtriya-panchang-visibility-period");
+    assert.equal(period.comparisonLevel, "city-label-only");
+    assert.equal(period.acceptanceEligible, false);
+    assert.ok(dataset.sources[period.sourceId]);
+    for (const value of [period.from, period.to]) {
+      if (value !== null) assert.match(value, /^\\d{4}-\\d{2}-\\d{2}$/);
+    }
+    if (period.from && period.to) assert.ok(Date.parse(period.from) <= Date.parse(period.to));
+  }
+  assert.ok(!periods.some(period => "time" in period || "timestamp" in period));
+});
