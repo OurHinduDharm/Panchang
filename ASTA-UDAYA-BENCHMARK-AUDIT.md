@@ -987,3 +987,15 @@ New Delhi के Drik 2024 pages से Mercury की छह windows, Venus क
 - https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2024
 
 अब benchmark में **38 New Delhi windows / 76 boundary events** हैं: Mercury 25, Venus 5, Jupiter 3, Saturn 4, Mars 1. 2024–27 Mercury year-pair cross-validation चल रही है; पुराने 2025–27 coefficients को final नहीं माना जाएगा।
+
+
+### 2024–27 Mercury four-year holdout — updated result
+
+2024–27 के 25 Mercury windows (49 unique boundary dates; 2028 में समाप्त होने वाला एक end event year-split training से बाहर) पर अब चारों years के बीच सभी 12 directed train-year→test-year pairs चलाए गए:
+
+- Asta-start: average twilight-angle MAE **0.470°**, constant-threshold baseline **0.950°**; सभी 12 year-pair fits baseline से बेहतर।
+- Asta-end: average MAE **0.455°**, baseline **1.145°**; सभी 12 year-pair fits baseline से बेहतर।
+- Date-level holdout: 147 pairwise predictions (49 unique boundary dates × तीन अन्य training years) में **78 exact, 53 ±1 दिन, 9 ±2 दिन, 7 ±3 दिन**; MAE **0.626 दिन**.
+- 89% predictions ±1 दिन और 95% ±2 दिन के भीतर रहीं। ये repeated year-pair predictions हैं, 147 अलग-अलग reference dates नहीं।
+
+इससे Mercury magnitude-based candidate की cross-year stability और मजबूत हुई। लेकिन अभी भी New Delhi city-centre proxy और reference-date के ±20 दिन के local search window पर निर्भर है। Pithoragarh में location transfer, observer elevation/atmosphere और independent same-city Mercury references अभी बाकी हैं।
