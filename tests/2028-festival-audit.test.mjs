@@ -66,6 +66,10 @@ test("2028 January to April retain source-checked regional and same-tithi observ
 
   assert.ok(events.some(event => event.date === "2028-03-08" && /नृसिंह द्वादशी/.test(event.title || "")));
   assert.equal(events.filter(event => event.date === "2028-03-11" && /होली/.test(event.title || "")).length, 1);
+  const holi = events.find(event => event.date === "2028-03-11" && /होली/.test(event.title || ""));
+  assert.equal(holi.hinduTithi, "चैत्र कृष्ण प्रतिपदा");
+  assert.ok(events.some(event => event.date === "2028-03-10" && /श्री महालक्ष्मी जयंती/.test(event.title || "")));
+  assert.equal(events.filter(event => /श्री महालक्ष्मी जयंती/.test(event.title || "")).length, 1);
 
   const yamuna = events.find(event => event.date === "2028-04-01" && /यमुना छठ/.test(event.title || ""));
   assert.ok(yamuna);
