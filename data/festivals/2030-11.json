@@ -146,7 +146,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्थी"
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्थी",
+      "muhurtaRule": "sankashti-chaturthi-moonrise"
     },
     {
       "date": "2030-11-16",
