@@ -52,7 +52,7 @@ test("2030 October Navratri and Deepawali cards have distinct useful description
   assert.match(find(events, /भैया दूज/).description, /तिलक/);
 
   assert.equal(find(events, /करवा चौथ/).muhurtaRule, "karwa-chauth-puja");
-  assert.equal(find(events, /धनतेरस/).muhurtaRule, "dhanteras-muhurta");
+  assert.deepEqual(find(events, /धनतेरस/).muhurtaRules, ["dhanteras-muhurta", "pradosh-kala"]);
   assert.deepEqual(diwali.muhurtaRules, ["diwali-lakshmi-puja"]);
   assert.equal(narak.muhurtaRule, "narak-chaturdashi-kshaya-abhyanga");
   assert.equal(find(events, /भैया दूज/).muhurtaRule, "bhai-dooj-tilak");
