@@ -70,13 +70,17 @@
     {
       "date": "2027-05-09",
       "dateLabel": "9 मई",
-      "title": "त्रेतायुगादि (त्रेतायुग का आरंभ)",
-      "description": "वैशाख शुक्ल तृतीया को त्रेतायुगादि माना जाता है। मान्यता है कि इसी तिथि से त्रेतायुग का आरंभ हुआ था। यही तिथि अक्षय तृतीया कहलाती है। इस दिन दान-पुण्य और शुभ कार्यों का विशेष महत्व है।",
-      "category": "युगादि तिथि",
+      "title": "अक्षय तृतीया / त्रेतायुगादि / मातंगी महाविद्या जयंती",
+      "description": "वैशाख शुक्ल तृतीया को त्रेतायुगादि माना जाता है। मान्यता है कि इसी तिथि से त्रेतायुग का आरंभ हुआ था। यही तिथि अक्षय तृतीया कहलाती है। इस दिन दान-पुण्य और शुभ कार्यों का विशेष महत्व है। अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है। कई परंपराओं में भगवान विष्णु और परशुराम की उपासना होती है। स्तोत्र-पाठ, गुरु-स्मरण और अध्ययन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a> <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a> मातंगी महाविद्या जयंती पर माँ की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/08/About-MatangiMahavidya-ki-Stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">मातंगी महाविद्या</a>",
+      "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "वैशाख शुक्ल तृतीया",
       "sourceName": "Drik Panchang — पिथौरागढ़",
-      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=09/05/2027"
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=09/05/2027",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
+      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
+      "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें"
     },
     {
       "date": "2027-05-09",
@@ -88,22 +92,6 @@
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल चतुर्थी",
       "muhurtaRule": "vinayaka-chaturthi-madhyahna"
-    },
-    {
-      "date": "2027-05-09",
-      "dateLabel": "9 मई",
-      "title": "अक्षय तृतीया / मातंगी महाविद्या जयंती",
-      "description": "अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है। कई परंपराओं में भगवान विष्णु और परशुराम की उपासना होती है। स्तोत्र-पाठ, गुरु-स्मरण और अध्ययन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a> <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a> मातंगी महाविद्या जयंती पर माँ की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/08/About-MatangiMahavidya-ki-Stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">मातंगी महाविद्या</a>",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "articleUrl": "https://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
-      "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
-      "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें",
-      "hinduTithi": "वैशाख शुक्ल तृतीया",
-      "sourceName": "Drik Panchang — 2027 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027"
     },
     {
       "date": "2027-05-11",
@@ -122,7 +110,8 @@
       "description": "गंगा सप्तमी माँ गंगा के प्राकट्य-स्मरण से जुड़ी तिथि है। गंगा-पूजन, अर्घ्य और दान की परंपरा है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल सप्तमी"
     },
     {
       "date": "2027-05-13",
@@ -147,7 +136,8 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html",
-      "articleLabel": "भगवती सीता जी की जयंती एवं पूजन-विधि"
+      "articleLabel": "भगवती सीता जी की जयंती एवं पूजन-विधि",
+      "hinduTithi": "वैशाख शुक्ल नवमी"
     },
     {
       "date": "2027-05-15",
@@ -230,7 +220,8 @@
       "description": "नारद जयंती देवर्षि नारद के स्मरण, भक्ति, कीर्तन और विष्णु-नाम-जप से जुड़ी है। पूजा और सत्संग की रीति क्षेत्रानुसार हो सकती है।",
       "category": "जयंती",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण प्रतिपदा"
     },
     {
       "date": "2027-05-23",
