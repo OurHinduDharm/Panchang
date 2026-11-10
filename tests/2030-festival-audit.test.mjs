@@ -136,7 +136,7 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-07-30", /हरियाली अमावस्या.*श्रावण अमावस्या.*दर्श अमावस्या.*तृतीय मंगला गौरी/));
   assert.ok(has("2030-08-04", /नाग पंचमी.*कल्कि जयंती/));
   assert.equal(has("2030-08-05", /मासिक स्कन्द षष्ठी/)?.hinduTithi, "श्रावण शुक्ल षष्ठी");
-  assert.ok(has("2030-08-09", /वरलक्ष्मी व्रत.*श्रावण पुत्रदा एकादशी \\(स्मार्त\\)/)?.muhurtaRule === "ekadashi-parana");
+  assert.ok(has("2030-08-09", /वरलक्ष्मी व्रत.*श्रावण पुत्रदा एकादशी.*स्मार्त/)?.muhurtaRule === "ekadashi-parana");
   assert.equal(has("2030-08-11", /रवि प्रदोष व्रत/)?.muhurtaRule, "pradosh-kala");
   assert.equal(has("2030-08-13", /रक्षाबंधन/)?.muhurtaRule, "raksha-bandhan-thread");
   assert.ok(has("2030-08-16", /कजरी तीज/) && has("2030-08-16", /हेरम्ब संकष्टी/));
