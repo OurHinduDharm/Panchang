@@ -106,3 +106,12 @@ test("Drik capture is hard-pinned to Pithoragarh and rejects city fallback", () 
   assert.match(script, /page-loaded-city-and-planet-confirmed/);
   assert.match(script, /No New Delhi fallback/);
 });
+
+test("production Asta/Udaya card has no provisional angular-threshold engine", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  assert.match(source, /loadDrikPlanetaryReferenceData/);
+  assert.match(source, /drik-planetary-reference-2024-2027\.json/);
+  assert.match(source, /getDrikPlanetaryReference/);
+  assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findThresholdCrossingInstant|findNearestAngularBoundary|getLocalNoon\(/);
+  assert.doesNotMatch(source, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
+});
