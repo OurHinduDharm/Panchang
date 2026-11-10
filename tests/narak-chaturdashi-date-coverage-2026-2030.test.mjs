@@ -25,6 +25,7 @@ test("Kali Chaudas and Narak Chaturdashi remain separate observances with the co
     assert.match(kali.description, /निशीथ|रात्रि/);
     assert.match(narak.description, /अभ्यंग|अभ्यङ्ग/);
     assert.match(narak.description, /उबटन/);
+    assert.equal((narak.description.match(/उबटन लगाने की परंपरा/g)||[]).length, 1);
     assert.ok(narak.muhurtaRule, "Abhyanga muhurta rule missing in " + item.month);
   }
 });
