@@ -23,13 +23,19 @@ test("2030 monthly festival files have approved records dated within their month
   }
 });
 
-test("2030 catalog has one card per same-date Hindu tithi", () => {
+test("2030 catalog keeps distinct same-date observances on separate cards", () => {
   const seen = new Map();
+  const allowedSameDate = new Map([
+    ["2030-10-25|कार्तिक कृष्ण चतुर्दशी", new Set(["काली चौदस", "मासिक शिवरात्रि", "हनुमान पूजा"])]
+  ]);
   for (const event of events) {
     if (!event.hinduTithi) continue;
     const key = String(event.date) + "|" + String(event.hinduTithi);
-    assert.ok(!seen.has(key),
-      "Duplicate same-date/tithi cards: " + key + ": " + seen.get(key) + " / " + event.title);
+    if (seen.has(key)) {
+      const allowed = allowedSameDate.get(key);
+      assert.ok(allowed && allowed.has(seen.get(key)) && allowed.has(event.title),
+        "Unexpected same-date/tithi combination: " + key + ": " + seen.get(key) + " / " + event.title);
+    }
     seen.set(key, event.title);
   }
 });
@@ -244,7 +250,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   const nov = months[10].events;
   const dec = months[11].events;
   const at = (list, date, pattern) => list.find(event => event.date === date && pattern.test(event.title || ""));
-  assert.equal(oct.length, 26);
+  assert.equal(oct.length, 30);
   assert.equal(nov.length, 24);
   assert.equal(dec.length, 19);
   assert.ok(at(oct, "2030-10-01", /उपांग ललिता व्रत/));
