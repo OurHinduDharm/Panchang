@@ -69,8 +69,8 @@
     {
       "date": "2029-04-14",
       "dateLabel": "14 अप्रैल",
-      "title": "चैत्र नवरात्र प्रारम्भ / गुड़ी पड़वा",
-      "description": "चैत्र शुक्ल प्रतिपदा से नवरात्र और हिंदू नववर्ष की परंपरा आरम्भ होती है। घटस्थापना का मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री</a>",
+      "title": "चैत्र नवरात्र प्रारम्भ / गुड़ी पड़वा / उगादी",
+      "description": "चैत्र शुक्ल प्रतिपदा से नवरात्र और हिंदू नववर्ष की परंपरा आरम्भ होती है। घटस्थापना का मुहूर्त चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री</a> इसी दिन दक्षिण भारत में उगादी और अन्य क्षेत्रों में नववर्ष का आरंभ भी मनाया जाता है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -81,20 +81,54 @@
       "secondaryArticleLabel": "घटस्थापना विधि"
     },
     {
-      "date": "2029-04-15",
-      "dateLabel": "15 अप्रैल",
-      "title": "चन्द्र दर्शन",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "date": "2029-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "मेष संक्रांति",
+      "description": "सूर्य के मेष राशि में प्रवेश पर मेष संक्रांति मनाई जाती है। स्नान, दान और सूर्योपासना की परंपरा है।",
+      "category": "संक्रांति",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
+    },
+    {
+      "date": "2029-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "बैसाखी / वैशाखी",
+      "description": "बैसाखी फसल और नववर्ष से जुड़ा प्रमुख पर्व है। पंजाब सहित कई क्षेत्रों में इसे उत्साह से मनाया जाता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल द्वितीया"
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
+    },
+    {
+      "date": "2029-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "विषु",
+      "description": "विषु केरल का प्रमुख सौर नववर्ष-पर्व है। विषुक्कणी दर्शन, दीप और पारंपरिक उत्सव इसकी पहचान हैं।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
+    },
+    {
+      "date": "2029-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "बोहाग बिहू",
+      "description": "बोहाग बिहू असम का वसंत और नववर्ष उत्सव है। लोकगीत, नृत्य और सामुदायिक उल्लास इसकी परंपराएँ हैं।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
     },
     {
       "date": "2029-04-15",
       "dateLabel": "15 अप्रैल",
-      "title": "चैत्र नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
-      "description": "नवरात्रि के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
+      "title": "चन्द्र दर्शन / चैत्र नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। नवरात्रि के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -105,8 +139,8 @@
     {
       "date": "2029-04-17",
       "dateLabel": "17 अप्रैल",
-      "title": "गणगौर / मत्स्य-अवतार जयंती",
-      "description": "गणगौर में गौरी-शंकर की पूजा और दांपत्य-सौभाग्य की कामना की परंपरा है। मत्स्य-अवतार जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">मत्स्य-अवतार जयंती</a>",
+      "title": "गणगौर / मत्स्य-अवतार जयंती / चैत्र नवरात्र तृतीय — माँ चन्द्रघंटा",
+      "description": "गणगौर में गौरी-शंकर की पूजा और दांपत्य-सौभाग्य की कामना की परंपरा है। मत्स्य-अवतार जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">मत्स्य-अवतार जयंती</a> नवरात्रि के तीसरे दिन माँ चन्द्रघंटा की पूजा की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -114,7 +148,9 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html",
       "articleLabel": "मत्स्य-अवतार जयंती",
       "sourceName": "Drik Panchang — 2029 Dashavatara Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2029"
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2029",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "secondaryArticleLabel": "माँ चन्द्रघंटा"
     },
     {
       "date": "2029-04-17",
@@ -126,18 +162,6 @@
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल चतुर्थी",
       "muhurtaRule": "vinayaka-chaturthi-madhyahna"
-    },
-    {
-      "date": "2029-04-17",
-      "dateLabel": "17 अप्रैल",
-      "title": "चैत्र नवरात्र तृतीय — माँ चन्द्रघंटा",
-      "description": "नवरात्रि के तीसरे दिन माँ चन्द्रघंटा की आराधना की जाती है। देवी के इस स्वरूप का ध्यान कर पुष्प, दीप और नैवेद्य अर्पित करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल तृतीया",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
-      "articleLabel": "माँ चन्द्रघंटा"
     },
     {
       "date": "2029-04-18",
@@ -180,24 +204,14 @@
     {
       "date": "2029-04-20",
       "dateLabel": "20 अप्रैल",
-      "title": "यमुना छठ",
-      "description": "यमुना छठ पर माँ यमुना की पूजा और स्मरण की परंपरा है।",
+      "title": "यमुना छठ / चैत्र नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "यमुना छठ पर माँ यमुना की पूजा और स्मरण की परंपरा है। नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल षष्ठी"
-    },
-    {
-      "date": "2029-04-20",
-      "dateLabel": "20 अप्रैल",
-      "title": "चैत्र नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल षष्ठी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
-      "articleLabel": "माँ कात्यायनी"
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
+      "secondaryArticleLabel": "माँ कात्यायनी"
     },
     {
       "date": "2029-04-21",
