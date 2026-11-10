@@ -1112,3 +1112,26 @@ New Delhi से Pithoragarh Venus cross-location test में 2023 New Delhi 
 - https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?year=2023
 
 Benchmark अब **58 New Delhi windows / 116 boundaries** है: Mercury 38, Venus 8, Jupiter 4, Saturn 6, Mars 2. Mercury model का year holdout अब 2022–27 के छह वर्षों पर चलेगा; Venus transfer training में 2022 के दोनों apparitions भी शामिल होंगे। Provider observer coordinates अब भी undisclosed हैं।
+
+
+### 2022–27 six-year validation update — 10 नवम्बर 2026
+
+2022 के historical windows जोड़ने के बाद latest Validate CI सफल:
+
+**58 New Delhi windows / 116 boundary events**
+- Local horizon clock comparison: mean absolute difference **0.2528 minute** (~15.2 sec), maximum **0.66 minute** (~39.6 sec), signed range −0.52 to +0.66 minute.
+- यह city-centre proxy बनाम provider city label comparison है; provider coordinates अज्ञात हैं।
+
+**Mercury — 2022 से 2027**
+- 38 windows; 75 unique boundary dates (एक end 2028 में समाप्त होता है)।
+- 30 directed year-pair fits प्रति boundary direction.
+- Asta-start threshold MAE **0.513°** बनाम constant baseline **0.988°**; Asta-end **0.478°** बनाम **1.197°**. सभी 60 year-pair fits baseline से बेहतर।
+- 375 repeated date predictions: 184 exact, 153 एक दिन, 24 दो दिन, 14 तीन दिन; combined MAE लगभग **0.65 दिन**। ये 375 independent dates नहीं; unique boundaries को अलग-अलग training-year models से दोहराकर जाँचा गया।
+
+**Venus / Saturn / Jupiter — leave-one-year-out**
+- Venus: Asta-start 8/8 में 7 एक दिन के भीतर, 1 दो दिन; Asta-end 8/8 एक दिन के भीतर.
+- Saturn: दोनों दिशाओं में 6/6 एक दिन के भीतर; 4/6 exact.
+- Jupiter: Asta-start 4/4 एक दिन के भीतर; Asta-end 3/4 एक दिन के भीतर, 1 दो दिन.
+- Venus New Delhi→Pithoragarh cross-location test: 4 में 3 exact और सभी 4 एक दिन के भीतर। Same-apparition training sample हटाया गया।
+
+**Engineering status:** Mercury का selector सबसे मजबूत; Venus/Saturn/Jupiter promising research candidates; Mars के लिए केवल दो distinct New Delhi apparitions हैं, इसलिए अभी पर्याप्त नहीं। अभी भी किसी ग्रह का production Panchang display/code path नहीं बदला है।
