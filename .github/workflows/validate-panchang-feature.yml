@@ -45,6 +45,7 @@ jobs:
       - name: Run Asta/Udaya numerical diagnostics
         run: |
           node tests/verified-horizon-crossing-check.mjs
+          node --test tests/planetary-visibility-selector.test.mjs
           node tests/report-planet-horizon-twilight-boundaries.mjs
           node tests/report-new-delhi-twilight-threshold-holdout.mjs
           node tests/report-venus-cross-location-threshold-holdout.mjs
