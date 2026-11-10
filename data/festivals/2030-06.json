@@ -50,6 +50,18 @@
       "hinduTithi": "ज्येष्ठ शुक्ल प्रतिपदा"
     },
     {
+      "date": "2030-06-04",
+      "dateLabel": "4 जून",
+      "title": "महाराणा प्रताप जयंती",
+      "description": "महाराणा प्रताप जयंती पर मेवाड़ के वीर शासक के स्वाभिमान, पराक्रम और स्वतंत्रता-संकल्प का स्मरण किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — 2030 Indian Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
+    },
+    {
       "date": "2030-06-05",
       "dateLabel": "5 जून",
       "title": "प्रद्युम्न चतुर्थी / विनायक चतुर्थी",
