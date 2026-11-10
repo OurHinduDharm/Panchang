@@ -104,8 +104,13 @@ export function findVisibilityBoundaryNearAnchor({
     const date = event.date;
     const sun = astronomy.Equator("Sun", date, observer, true, true);
     const planet = astronomy.Equator(body, date, observer, true, true);
-    const sunAltitude = astronomy.Horizon(date, observer, sun.ra, sun.dec, "normal").altitude;
-    const planetAltitude = astronomy.Horizon(date, observer, planet.ra, planet.dec, "normal").altitude;
+    const sunHorizon = astronomy.Horizon(date, observer, sun.ra, sun.dec, "normal");
+    const planetHorizon = astronomy.Horizon(date, observer, planet.ra, planet.dec, "normal");
+    const sunAltitude = sunHorizon.altitude;
+    const planetAltitude = planetHorizon.altitude;
+    const azimuthSeparationDegrees = Math.abs(
+      ((sunHorizon.azimuth - planetHorizon.azimuth + 540) % 360) - 180
+    );
     const illumination = astronomy.Illumination(body, date);
     const apparentMagnitude = illumination.mag;
     const observables = {
@@ -113,7 +118,8 @@ export function findVisibilityBoundaryNearAnchor({
       elongationDegrees: typeof astronomy.AngleFromSun === "function"
         ? astronomy.AngleFromSun(body, date)
         : null,
-      illuminatedFraction: illumination.phase_fraction
+      illuminatedFraction: illumination.phase_fraction,
+      azimuthSeparationDegrees
     };
     const thresholdAltitude = thresholdAltitudeForModel(model, observables);
     const local = localDateTime(date, timeZone);
