@@ -228,12 +228,16 @@
     {
       "date": "2029-05-27",
       "dateLabel": "27 मई",
-      "title": "बुद्ध पूर्णिमा",
-      "description": "वैशाख पूर्णिमा भगवान बुद्ध के जन्म, ज्ञान और महापरिनिर्वाण से जुड़ा पर्व है।",
+      "title": "बुद्ध पूर्णिमा / कूर्म अवतार जयंती",
+      "description": "वैशाख पूर्णिमा भगवान बुद्ध के जन्म, ज्ञान और महापरिनिर्वाण से जुड़ा पर्व है। कूर्म अवतार जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कूर्म अवतार जयंती</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख पूर्णिमा"
+      "hinduTithi": "वैशाख शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html",
+      "articleLabel": "कूर्म अवतार जयंती",
+      "sourceName": "Drik Panchang — 2029 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2029"
     },
     {
       "date": "2029-05-28",
