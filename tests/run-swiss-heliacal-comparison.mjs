@@ -16,7 +16,12 @@ try {
   }));
   assert.equal(result.error, null, result.error || "Swiss heliacal comparison failed");
   assert.equal(result.result?.scenarios?.length, 8, "all eight Swiss visibility scenarios must be compared");
-  assert.ok(result.result.scenarios.every(scenario => scenario.results?.length === 10), "each scenario must compare all ten published and provisional Pithoragarh boundaries");
+  assert.ok(result.result.scenarios.every(scenario =>
+    scenario.results?.length === 10 &&
+    Number.isFinite(scenario.meanAbsoluteDateErrorDays) &&
+    Number.isFinite(scenario.publishedReferenceMaeDays) &&
+    scenario.results.every(item => Number.isFinite(item.signedDateOffsetDays) && Number.isFinite(item.nonComparableClockOffsetMinutes))
+  ), "each scenario must compare all ten Pithoragarh boundary dates and keep clock offsets explicitly non-comparable");
   assert.equal(result.result.visibilityLimitProfiles?.length, 10, "all ten boundary visibility profiles must be reported");
   assert.ok(result.result.visibilityLimitProfiles.every(profile =>
     profile.samples?.length === 7 &&
