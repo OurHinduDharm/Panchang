@@ -34,6 +34,31 @@ test("2030 catalog has one card per same-date Hindu tithi", () => {
   }
 });
 
+test("2030 Ekadashi cards follow the Smarta-only policy", () => {
+  assert.equal(events.filter(event => /(गौण|वैष्णव)/.test(event.title || "")).length, 0);
+  assert.ok(has("2030-11-05", /देवउठनी एकादशी \\(स्मार्त\\)/));
+  assert.ok(has("2030-11-21", /उत्पन्ना एकादशी \\(स्मार्त\\)/));
+});
+
+test("2030 important annual festivals and jayantis are represented", () => {
+  assert.ok(has("2030-01-12", /स्वामी विवेकानंद जयंती/));
+  assert.ok(has("2030-01-13", /लोहड़ी/));
+  assert.ok(has("2030-01-15", /तैलंग स्वामी जयंती/));
+  assert.ok(has("2030-02-18", /गुरु रविदास जयंती/));
+  assert.ok(has("2030-02-27", /महर्षि दयानंद सरस्वती जयंती/));
+  assert.ok(has("2030-03-06", /श्रीरामकृष्ण परमहंस जयंती/));
+  assert.ok(has("2030-03-19", /चैतन्य महाप्रभु जयंती/));
+  assert.ok(has("2030-04-04", /झूलेलाल जयंती/));
+  assert.ok(has("2030-04-14", /बैसाखी/));
+  assert.ok(has("2030-04-28", /वल्लभाचार्य जयंती/));
+  assert.ok(has("2030-05-08", /आदि शंकराचार्य जयंती.*सूरदास जयंती/));
+  assert.ok(has("2030-06-04", /महाराणा प्रताप जयंती/));
+  assert.ok(has("2030-08-06", /गोस्वामी तुलसीदास जयंती/));
+  assert.ok(has("2030-10-06", /मध्वाचार्य जयंती/));
+  assert.ok(has("2030-10-11", /वाल्मीकि जयंती.*मीराबाई जयंती/));
+  assert.ok(has("2030-12-30", /गुरु गोबिंद सिंह जयंती/));
+});
+
 test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-02-03", /चन्द्र दर्शन.*माघ गुप्त नवरात्र प्रारंभ/));
   assert.ok(has("2030-02-06", /गौरी गणेश.*कूष्माण्डा/));
