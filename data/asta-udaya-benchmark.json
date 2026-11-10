@@ -574,6 +574,48 @@
         "coordinateStatus": "Provider coordinates/elevation not disclosed."
       },
       "eventDefinition": "Modern location-based Mercury Tara Asta start/end times; source describes Surya Siddhanta 14° direct / 12° retrograde as approximate."
+    },
+    "drik-new-delhi-venus-2025": {
+      "name": "Drik Panchang 2025 Shukra Tara Asta",
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2025",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-10",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider coordinates/elevation not disclosed."
+      },
+      "eventDefinition": "Modern location-based Venus Tara Asta start/end times; Surya Siddhanta 10° direct / 8° retrograde are approximate."
+    },
+    "drik-new-delhi-jupiter-2025": {
+      "name": "Drik Panchang 2025 Guru Tara Asta",
+      "url": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2025",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-10",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider coordinates/elevation not disclosed."
+      },
+      "eventDefinition": "Modern location-based Jupiter Tara Asta start/end times; Surya Siddhanta 11° is approximate."
+    },
+    "drik-new-delhi-saturn-2025": {
+      "name": "Drik Panchang 2025 Shani Tara Asta",
+      "url": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2025",
+      "sourceType": "published-location-specific-event-times",
+      "location": "New Delhi, NCT, India",
+      "verifiedOn": "2026-11-10",
+      "timezone": "Asia/Kolkata",
+      "sourceObserver": {
+        "coordinates": null,
+        "elevationMeters": null,
+        "coordinateStatus": "Provider coordinates/elevation not disclosed."
+      },
+      "eventDefinition": "Modern location-based Saturn Tara Asta start/end times; Surya Siddhanta 15° is approximate."
     }
   },
   "cases": [
@@ -2530,6 +2572,93 @@
       "comparisonLevel": "city-label-only",
       "sourceObserver": {
         "name": "Drik New Delhi 2025 Budha Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
+      }
+    },
+    {
+      "id": "venus-new-delhi-2025-march",
+      "planet": "Venus",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-venus-2025",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-03-19T19:00:00+05:30",
+        "astaEnd": "2025-03-23T05:52:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik 2025 New Delhi Venus Tara Asta page. March 19 evening setting to March 23 morning rising.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2025 Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
+      }
+    },
+    {
+      "id": "jupiter-new-delhi-2025",
+      "planet": "Jupiter",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-jupiter-2025",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-06-12T19:56:00+05:30",
+        "astaEnd": "2025-07-09T04:44:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik 2025 New Delhi Guru Tara Asta window, 12 Jun–9 Jul 2025.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2025 Asta page",
+        "coordinates": null,
+        "coordinateStatus": "provider coordinates not disclosed"
+      },
+      "expectedDirections": {
+        "astaStart": -1,
+        "astaEnd": 1
+      }
+    },
+    {
+      "id": "saturn-new-delhi-2025",
+      "planet": "Saturn",
+      "eventModel": "drik-tara-asta-window",
+      "sourceLocation": "New Delhi, NCT, India",
+      "testObserver": {
+        "name": "New Delhi city-centre diagnostic proxy",
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "proxy coordinates are used only for day-level diagnostic; source provider coordinates and elevation are not disclosed"
+      },
+      "sourceId": "drik-new-delhi-saturn-2025",
+      "precision": "minute",
+      "boundaries": {
+        "astaStart": "2025-02-28T19:06:00+05:30",
+        "astaEnd": "2025-04-09T05:03:00+05:30"
+      },
+      "status": "published-reference",
+      "notes": "Drik 2025 New Delhi Shani Tara Asta window, 28 Feb–9 Apr 2025.",
+      "comparisonLevel": "city-label-only",
+      "sourceObserver": {
+        "name": "Drik New Delhi 2025 Asta page",
         "coordinates": null,
         "coordinateStatus": "provider coordinates not disclosed"
       },
