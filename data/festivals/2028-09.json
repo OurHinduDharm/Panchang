@@ -532,13 +532,15 @@
       "date": "2028-09-26",
       "dateLabel": "26 सितंबर",
       "title": "महानवमी — माँ सिद्धिदात्री",
-      "description": "नवरात्र की नवमी पर माँ सिद्धिदात्री की पूजा, हवन और कन्या-पूजन की परंपरा है।",
+      "description": "नवरात्र की नवमी पर माँ सिद्धिदात्री की पूजा, हवन और कन्या-पूजन की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवरात्र हवन-विधि पढ़ें</a>",
       "category": "नवरात्र",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल अष्टमी",
       "showReviewStatus": false,
       "sourceName": "Drik Panchang — September 2028 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2028"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2028",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html",
+      "secondaryArticleLabel": "नवरात्र हवन-विधि पढ़ें"
     },
     {
       "date": "2028-09-26",
