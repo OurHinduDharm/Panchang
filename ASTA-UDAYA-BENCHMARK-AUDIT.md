@@ -1,6 +1,6 @@
 # ग्रह उदय-अस्त: स्रोत और स्वीकृति ऑडिट
 
-अंतिम अद्यतन: 2026-11-03
+अंतिम अद्यतन: 2026-11-10
 
 ## उद्देश्य
 
@@ -21,6 +21,7 @@
 2. Drik New Delhi Jupiter 2027: पृथक New Delhi city-label-only reference; Pithoragarh coordinates लागू करना निषिद्ध है।
 3. Drik New Delhi Venus 2026 और 2027: named New Delhi pages से स्वतंत्र रूप से पुनः जाँचे गए exact local times। Provider observer coordinates फिर भी प्रकाशित नहीं हैं; इसलिए city-label-only ही रहेगा।
 4. Rashtriya Panchang 2026–27 Venus visibility: Central Station of India का अलग official date-only cross-check; यह Drik exact-time event नहीं है।
+5. Rashtriya Panchang की अलग `Heliacal Rising and setting of planets` तालिका में Venus तथा Jupiter के लिए Central Station के exact IST setting/rising times भी प्रकाशित हैं। इन्हें `rashtriya-panchang-heliacal-setting-rising` event model के रूप में अलग रखा गया है; ये Drik Tara Asta boundaries नहीं हैं। Venus का source-printed 13 Oct 2026 24:18 अगले civil date 14 Oct 00:18 IST में normalize किया गया है, और मूल printed date/clock भी सुरक्षित हैं।
 
 ## Quarantined / provisional references
 
@@ -28,6 +29,15 @@
 - Pithoragarh Venus 2027 तथा Varanasi Venus 2026/2027 की ऐतिहासिक transcriptions `provisionalTranscriptions` में हैं। मूल named-city Drik page को फिर से खोलकर शहर/वर्ष चुनना, capture time और दोनों boundaries दर्ज करना आवश्यक है।
 - Varanasi के coordinates/elevation अनुमान से न भरें।
 - किसी दूसरे शहर के coordinates या event time से missing values न भरें।
+
+## नया स्वतंत्र सरकारी समय-संदर्भ (2026-11-10)
+
+Positional Astronomy Centre, IMD की Rashtriya Panchang `Heliacal Rising and setting of planets` तालिका (`https://packolkata.imd.gov.in/panchang/en/helical`) से Central Station of India (23°11′ N, 82°30′ E) के लिए:
+
+- Venus: पश्चिम में अस्त — 13 Oct 2026, 24:18 IST (अर्थात 14 Oct 2026, 00:18 IST); पूर्व में उदय — 28 Oct 2026, 07:36 IST।
+- Jupiter: पश्चिम में अस्त — 15 Jul 2026, 11:10 IST; पूर्व में उदय — 10 Aug 2026, 07:53 IST।
+
+ये exact-time सरकारी heliacal events हैं। इन्हें Drik Tara Asta/Udaya windows, date-only visibility table, Swiss heliacal diagnostics या Surya Siddhanta K/C परिणामों के साथ interchangeable न मानें। Source elevation प्रकाशित नहीं है; इसलिए latitude/longitude match होने पर भी पूर्ण observer equivalence सिद्ध नहीं होती। 24:18 को मूल रूप में और normalized अगले civil date के साथ रखें।
 
 ## Candidate event models
 
@@ -76,7 +86,8 @@ Swiss heliacal rising/setting एक भौतिक visibility candidate है
 ## अगला क्रम
 
 1. Provisional city transcriptions को primary pages से फिर capture करें और source metadata भरें।
-2. Exact Drik boundary instants पर same-engine geometry report बनाएं; इसे Drik algorithm का प्रमाण न मानें।
-3. Swiss और classical K/C diagnostics को अलग-अलग benchmark करें; event definition match न हो तो model reject/limit करें।
-4. Independent ephemeris cross-check और location sensitivity के बाद ही modern production engine चुनें।
-5. Accuracy gate पास होने के बाद measured performance bottleneck optimize करें।
+2. नए IMD heliacal exact-time cases को अलग event-model benchmark में रखें; पहले same-coordinate astronomy output से इनका स्वतंत्र परीक्षण करें, Drik acceptance में न मिलाएँ।
+3. Exact Drik boundary instants पर same-engine geometry report बनाएं; इसे Drik algorithm का प्रमाण न मानें।
+4. Swiss और classical K/C diagnostics को अलग-अलग benchmark करें; event definition match न हो तो model reject/limit करें।
+5. Independent ephemeris cross-check और location sensitivity के बाद ही modern production engine चुनें।
+6. Accuracy gate पास होने के बाद measured performance bottleneck optimize करें।
