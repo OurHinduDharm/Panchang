@@ -29,15 +29,17 @@
     {
       "date": "2028-01-08",
       "dateLabel": "8 जनवरी",
-      "title": "पौष पुत्रदा एकादशी / तैलंग स्वामी जयंती",
-      "description": "पौष शुक्ल एकादशी पर भगवान विष्णु की उपासना और व्रत की परंपरा है। पारण का समय द्वादशी-व्याप्ति और हरिवासर के आधार पर निर्धारित होता है। तैलंग (त्रैलंग) स्वामी जयंती पर काशी के प्रसिद्ध योगी श्री त्रैलंग स्वामी का स्मरण किया जाता है। इस अवसर पर पूजा, जप, भजन और संत-स्मरण की परंपरा है।",
+      "title": "पौष पुत्रदा एकादशी",
+      "description": "पौष शुक्ल एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, मंत्र-जप और दान की परंपरा है। व्रत-पारण द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
       "hinduTithi": "पौष शुक्ल एकादशी",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2014/01/About-Tailang-SwamiJi-On-His-Jayanti.html",
-      "articleLabel": "तैलंग स्वामी जयंती का महत्व पढ़ें"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
+      "articleLabel": "एकादशी व्रत का पवित्र विधान",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विधि"
     },
     {
       "date": "2028-01-09",
@@ -64,8 +66,8 @@
     {
       "date": "2028-01-12",
       "dateLabel": "12 जनवरी",
-      "title": "पौष पूर्णिमा / शाकंभरी माता जयंती",
-      "description": "शाकंभरी पूर्णिमा पौष शुक्ल पूर्णिमा पर माँ शाकंभरी के पूजन और स्मरण से जुड़ी है। कुछ परंपराओं में शाकंभरी नवरात्र का समापन भी इसी दिन होता है। शाकंभरी माता जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">शाकंभरी माता जयंती</a>",
+      "title": "पौष पूर्णिमा / शाकंभरी पूर्णिमा / शाकंभरी माता जयंती",
+      "description": "पौष शुक्ल पूर्णिमा को माँ शाकंभरी के प्राकट्य और शाकंभरी नवरात्र के समापन का पर्व मनाया जाता है। देवी को शाक-सब्जियों का भोग अर्पित कर अन्न-समृद्धि और लोककल्याण की प्रार्थना करें। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शाकंभरी का महत्व पढ़ें</a> <a href=\"https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html\" target=\"_blank\" rel=\"noopener noreferrer\">पौष मास का माहात्म्य पढ़ें</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -195,14 +197,24 @@
     {
       "date": "2028-01-28",
       "dateLabel": "28 जनवरी",
-      "title": "चन्द्र दर्शन / माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
-      "category": "पर्व",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। चन्द्रमा को अर्घ्य देकर कल्याण की कामना की जाती है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल द्वितीया"
+    },
+    {
+      "date": "2028-01-28",
+      "dateLabel": "28 जनवरी",
+      "title": "माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
+      "description": "माघ गुप्त नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा, तप, संयम और मंत्र-साधना की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी की पूजा पढ़ें</a>",
+      "category": "गुप्त नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल द्वितीया",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
-      "articleLabel": "माँ ब्रह्मचारिणी"
+      "articleLabel": "माँ ब्रह्मचारिणी की पूजा पढ़ें"
     },
     {
       "date": "2028-01-29",
@@ -219,29 +231,53 @@
     {
       "date": "2028-01-30",
       "dateLabel": "30 जनवरी",
-      "title": "गौरी गणेश चतुर्थी / गणेश जयंती / माघ गुप्त नवरात्र चतुर्थ — माँ कूष्माण्डा",
-      "description": "गौरी गणेश चतुर्थी को गणेश जयंती भी कहा जाता है। माघ शुक्ल चतुर्थी पर भगवान गणेश की विशेष पूजा, स्तोत्र-मंत्र पाठ और तिल के मोदक अर्पित करने की परंपरा है। तिलकुन्द चतुर्थी और वरद चतुर्थी नाम भी प्रचलित हैं। चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
-      "category": "व्रत-पर्व",
+      "title": "गौरी गणेश चतुर्थी / गणेश जयंती",
+      "description": "माघ शुक्ल चतुर्थी पर भगवान गणेश का प्राकट्योत्सव मनाया जाता है। गणेश-पूजन, दूर्वा और तिल के मोदक अर्पण तथा गणेश-मंत्र-जप की परंपरा है। तिलकुन्द और वरद चतुर्थी नाम भी प्रचलित हैं।",
+      "category": "गणेश-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
+      "date": "2028-01-30",
+      "dateLabel": "30 जनवरी",
+      "title": "माघ गुप्त नवरात्र चतुर्थ — माँ कूष्माण्डा",
+      "description": "माघ गुप्त नवरात्र के चौथे दिन माँ कूष्माण्डा की पूजा, ध्यान और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा की पूजा पढ़ें</a>",
+      "category": "गुप्त नवरात्र",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल चतुर्थी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
-      "articleLabel": "माँ कूष्माण्डा"
+      "articleLabel": "माँ कूष्माण्डा की पूजा पढ़ें"
     },
     {
       "date": "2028-01-31",
       "dateLabel": "31 जनवरी",
-      "title": "वसंत पंचमी / श्री पंचमी / सरस्वती सिद्धविद्या जयंती / माघ गुप्त नवरात्र पंचमी — माँ स्कन्दमाता",
-      "description": "वसंत पंचमी पर माँ सरस्वती की पूजा, विद्यारम्भ, पुस्तक-पूजन और पीले वस्त्र/भोग की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a> पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
-      "category": "पर्व",
+      "title": "वसंत पंचमी / श्री पंचमी / सरस्वती सिद्धविद्या जयंती",
+      "description": "माघ शुक्ल पंचमी पर माँ सरस्वती की पूजा, पुस्तक-पूजन, विद्यारम्भ और विद्या-साधना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a>",
+      "category": "देवी-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल पंचमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
-      "articleLabel": "सरस्वती पूजन की विधि पढ़ें",
       "sourceName": "Drik Panchang — Vasant Panchami",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?year=2028"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?year=2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
+      "articleLabel": "सरस्वती पूजन की विधि पढ़ें"
+    },
+    {
+      "date": "2028-01-31",
+      "dateLabel": "31 जनवरी",
+      "title": "माघ गुप्त नवरात्र पंचमी — माँ स्कन्दमाता",
+      "description": "माघ गुप्त नवरात्र के पाँचवें दिन माँ स्कन्दमाता की पूजा, ध्यान और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता की पूजा पढ़ें</a>",
+      "category": "गुप्त नवरात्र",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — Vasant Panchami",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?year=2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "articleLabel": "माँ स्कन्दमाता की पूजा पढ़ें"
     }
   ]
 }

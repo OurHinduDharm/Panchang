@@ -150,12 +150,14 @@ test("links Paush Mahatmya and Tailang Swami articles only to their matching obs
     await assertArticle(year, monthNumber, date, pattern, "About-Paush-Mahatmya");
   }
   const tailangCases = [
-    [2028,1,"2028-01-08",/तैलंग स्वामी/],
-    [2028,12,"2028-12-27",/टेलंग स्वामी/],
     [2030,1,"2030-01-15",/तैलंग स्वामी/]
   ];
   for (const [year, monthNumber, date, pattern] of tailangCases) {
     await assertArticle(year, monthNumber, date, pattern, "About-Tailang-SwamiJi-On-His-Jayanti");
+  }
+  for (const [year, monthNumber] of [[2028,1],[2028,12]]) {
+    const data = await month(year, monthNumber);
+    assert.equal(data.events.some(event => /तैलंग स्वामी|टेलंग स्वामी/.test(event.title || "")), false);
   }
 });
 
@@ -164,9 +166,9 @@ test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing an
     [2026,3,"2026-03-28",/कलश विसर्जन/,"kalashvisarjan"],
     [2027,9,"2027-09-29",/महालया|सर्वपितृ/,"pitri-visarjan"],
     [2027,10,"2027-10-09",/विजयादशमी/,"kalashvisarjan"],
-    [2028,4,"2028-04-03",/राम नवमी.*चैत्र नवरात्र/,"navratrihavanvidhi"],
+    [2028,4,"2028-04-03",/चैत्र नवरात्र नवमी/,"navratrihavanvidhi"],
     [2028,9,"2028-09-18",/महालया/,"pitri-visarjan"],
-    [2028,9,"2028-09-26",/महाष्टमी.*महानवमी/,"navratrihavanvidhi"],
+    [2028,9,"2028-09-26",/महानवमी/,"navratrihavanvidhi"],
     [2029,4,"2029-04-23",/राम नवमी.*चैत्र नवरात्र/,"navratrihavanvidhi"],
     [2029,10,"2029-10-07",/सर्वपितृ/,"pitri-visarjan"],
     [2029,10,"2029-10-15",/महानवमी/,"navratrihavanvidhi"],

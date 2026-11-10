@@ -44,9 +44,21 @@
     {
       "date": "2028-07-06",
       "dateLabel": "6 जुलाई",
-      "title": "गुरु पूर्णिमा / आंशिक चंद्रग्रहण",
-      "description": "गुरु पूर्णिमा पर गुरु, आचार्य और आध्यात्मिक परंपरा के प्रति कृतज्ञता व्यक्त की जाती है। गुरु-पूजन, सत्संग, अध्ययन और दान की परंपरा है। 6–7 जुलाई 2028 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 6 जुलाई रात 10:39 बजे से 7 जुलाई रात 1:00 बजे तक रहेगा; उपच्छाया चरण 7 जुलाई रात 2:25 बजे समाप्त होगा।",
-      "category": "व्रत-पर्व",
+      "title": "गुरु पूर्णिमा / व्यास पूजा",
+      "description": "आषाढ़ शुक्ल पूर्णिमा पर गुरु-पूजन, महर्षि वेदव्यास का स्मरण, व्यास पूजा और गुरु-दक्षिणा अर्पित करने की परंपरा है।",
+      "category": "गुरु-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा",
+      "sourceName": "Timeanddate — Pithoragarh; Drik Panchang eclipse list",
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706"
+    },
+    {
+      "date": "2028-07-06",
+      "dateLabel": "6 जुलाई",
+      "title": "आंशिक चंद्रग्रहण",
+      "description": "6 जुलाई 2028 को पिथौरागढ़ में आंशिक चंद्रग्रहण 10:39 बजे से 7 जुलाई रात 1:00 बजे तक दिखाई देगा। ग्रहण के स्पर्श-समय के अनुसार जप, स्नान और सूतक के नियम देखें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\" rel=\"noopener noreferrer\">ग्रहण में मंत्र-पुरश्चरण का विधान पढ़ें</a>",
+      "category": "ग्रहण",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा",
@@ -54,7 +66,7 @@
       "sourceName": "Timeanddate — Pithoragarh; Drik Panchang eclipse list",
       "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706",
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
-      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें"
+      "articleLabel": "ग्रहण में मंत्र-पुरश्चरण का विधान पढ़ें"
     },
     {
       "date": "2028-07-10",
@@ -169,14 +181,24 @@
     {
       "date": "2028-07-26",
       "dateLabel": "26 जुलाई",
-      "title": "मासिक स्कन्द षष्ठी / कल्कि अवतार जयंती",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। श्रावण शुक्ल षष्ठी पर भगवान विष्णु के भावी कल्कि अवतार का स्मरण और पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "श्रावण शुक्ल षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत किया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल षष्ठी",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
-      "secondaryArticleLabel": "कल्कि अवतार जयंती",
+      "sourceName": "Drik Panchang — 2028 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028"
+    },
+    {
+      "date": "2028-07-26",
+      "dateLabel": "26 जुलाई",
+      "title": "कल्कि अवतार जयंती",
+      "description": "श्रावण शुक्ल षष्ठी पर भगवान विष्णु के भावी कल्कि अवतार का स्मरण, पूजन और मंत्र-जप किया जाता है।",
+      "category": "अवतार जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल षष्ठी",
       "sourceName": "Drik Panchang — 2028 Dashavatara Calendar",
       "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028"
     },
