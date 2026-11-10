@@ -103,7 +103,8 @@ function publishedConjunctionType(entry) {
   const start = new Date(entry.boundaries.astaStart.instant);
   const end = new Date(entry.boundaries.astaEnd.instant);
   const midpoint = new Date((start.getTime() + end.getTime()) / 2);
-  const targets = entry.planet === 'Mercury' || entry.planet === 'Venus' ? [0, 180] : [180];
+  const innerPlanet = entry.planet === 'Mercury' || entry.planet === 'Venus';
+  const targets = innerPlanet ? [0, 180] : [0];
   const candidates = [];
   for (const targetRelLon of targets) {
     const event = Astronomy.SearchRelativeLongitude(entry.planet, targetRelLon, new Date(midpoint.getTime() - 90 * DAY_MS));
@@ -114,7 +115,9 @@ function publishedConjunctionType(entry) {
   }
   candidates.sort((a, b) => a.distanceDays - b.distanceDays);
   if (!candidates.length || (candidates.length > 1 && Math.abs(candidates[0].distanceDays - candidates[1].distanceDays) < 1)) return null;
-  return candidates[0].targetRelLon === 0 ? 'inferior' : 'superior';
+  return candidates[0].targetRelLon === 0
+    ? (innerPlanet ? 'inferior' : 'conjunction')
+    : 'superior';
 }
 function clockMinutes(value) {
   const match = String(value).match(/^(\d{1,2}):(\d{2})/);
