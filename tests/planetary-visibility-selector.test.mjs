@@ -308,3 +308,27 @@ test("uses set-to-rise boundaries for an outer-planet superior conjunction", () 
   assert.equal(windows[0].asta.direction, "set");
   assert.equal(windows[0].udaya.direction, "rise");
 });
+
+
+test("evaluates elongation and phase coefficients in a multifeature threshold", () => {
+  const astronomy = fakeAstronomy(dayOffset => dayOffset);
+  astronomy.AngleFromSun = () => 10;
+  astronomy.Illumination = () => ({ mag: 1, phase_fraction: 0.5 });
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy,
+    model: {
+      intercept: 0,
+      coefficients: {
+        apparentMagnitude: 0,
+        elongationDegrees: 0.1,
+        illuminatedFraction: 0
+      }
+    }
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.predictedBoundaryDate, "2026-01-11");
+  assert.equal(result.thresholdAltitudeDegrees, 1);
+});
+
