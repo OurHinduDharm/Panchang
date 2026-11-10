@@ -117,5 +117,5 @@ test("production Asta/Udaya card has no provisional angular-threshold engine", (
   assert.match(source, /getDrikPlanetaryReference/);
   assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findThresholdCrossingInstant|findNearestAngularBoundary|getLocalNoon\(/);
   assert.doesNotMatch(source, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
-  assert.doesNotMatch(source, /Drik मूल स्रोत|Drik Panchang|https?:\\/\\/[^"']*drikpanchang\\.com/i);
+    assert.doesNotMatch(source, /Drik मूल स्रोत|Drik Panchang|drikpanchang\\.com/i);
 });
