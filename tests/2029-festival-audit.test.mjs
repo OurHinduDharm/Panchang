@@ -63,7 +63,8 @@ test("2029 independent observances use separate cards without duplicate titles",
   assert.ok(titles("2029-10-15").some(x => /^सरस्वती विसर्जन$/.test(x)));
   assert.ok(titles("2029-10-15").some(x => /^आयुध पूजा$/.test(x)));
   assert.ok(titles("2029-11-21").some(x => /^कार्तिक पूर्णिमा$/.test(x)));
-  assert.ok(titles("2029-11-21").some(x => /^देव दीपावली$/.test(x)));
+  assert.ok(titles("2029-11-20").some(x => /^देव दीपावली$/.test(x)));
+  assert.ok(titles("2029-11-20").some(x => /^कार्तिगै दीपम$/.test(x)));
   assert.ok(titles("2029-12-16").some(x => /^मोक्षदा एकादशी$/.test(x)));
   assert.ok(titles("2029-12-16").some(x => /^गीता जयंती$/.test(x)));
   assert.ok(titles("2029-12-16").some(x => /^धनु संक्रांति$/.test(x)));
@@ -101,6 +102,18 @@ test("2029 Navratri days are independent from other same-tithi observances", () 
 
 test("2029 major deity and regional observances are retained while human jayanti cards are omitted", () => {
   assert.ok(has("2029-01-13", /लोहड़ी/));
+  assert.ok(has("2029-01-13", /^भोगी पण्डिगै$/));
+  assert.ok(has("2029-01-14", /^थाई अमावासै$/));
+  assert.ok(has("2029-01-15", /^मट्टु पोंगल$/));
+  assert.ok(has("2029-01-30", /^थाई पूसम$/));
+  assert.ok(has("2029-02-28", /^मासी मघम$/));
+  assert.ok(has("2029-03-14", /^करडैयान नोम्बु$/));
+  assert.ok(has("2029-03-29", /^पंगुनी उत्तिरम्$/));
+  assert.ok(has("2029-04-14", /^तमिल नववर्ष \\(पुथांडु\\)$/));
+  assert.ok(has("2029-04-28", /^चित्रा पूर्णिमा$/));
+  assert.ok(has("2029-05-27", /^वैकासी विशाकम्$/));
+  assert.ok(has("2029-11-11", /^सूरसंहारम्$/));
+  assert.ok(has("2029-12-22", /^आरुद्र दर्शन \\/ तिरुवादिरै$/));
   assert.ok(has("2029-01-14", /^पोंगल$/));
   assert.ok(has("2029-04-14", /^उगादी$/));
   assert.ok(has("2029-04-14", /^विषु$/));
