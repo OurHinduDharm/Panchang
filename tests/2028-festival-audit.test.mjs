@@ -84,7 +84,7 @@ test("2028 Pithoragarh-visible lunar eclipses retain local contact times", () =>
 
 test("2028 January to April retain source-checked regional and same-tithi observances", () => {
   const putrada = events.find(event => event.date === "2028-01-08" && /पुत्रदा एकादशी/.test(event.title || ""));
-  assert.equal(putrada.title, "पौष पुत्रदा एकादशी");
+  assert.equal(putrada.title, "पौष पुत्रदा एकादशी / तैलंग स्वामी जयंती");
   assert.ok(events.some(event => event.date === "2028-01-14" && /लोहड़ी/.test(event.title || "")));
   assert.equal(events.find(event => event.date === "2028-01-09" && /कूर्म द्वादशी/.test(event.title || "")).hinduTithi, "पौष शुक्ल द्वादशी");
 
@@ -219,7 +219,7 @@ test("2026–2030 calendar excludes non-core Tamil observances and non-religious
 
 test("2026–2030 approved saint jayantis are retained and excluded public figures stay omitted", () => {
   const expected = [
-    [2026,4,"2026-04-21",/आदि शंकराचार्य एवं सूरदास जयंती/],
+    [2026,4,"2026-04-21",/आदि शंकराचार्य जयंती एवं सूरदास जयंती/],
     [2026,8,"2026-08-19",/गोस्वामी तुलसीदास जयंती/],
     [2026,10,"2026-10-26",/वाल्मीकि जयंती एवं मीराबाई जयंती/],
     [2026,12,"2026-12-17",/बाबा नीब करौरी जयंती/],
