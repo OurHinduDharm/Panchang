@@ -24,6 +24,8 @@ on:
       - "tests/planetary-visibility-selector.test.mjs"
       - "research/planetary-visibility-selector.mjs"
       - "data/drik-pithoragarh-asta-udaya-2024-2027.json"
+      - "data/drik-pithoragarh-asta-udaya-2021-2027.json"
+      - "tests/drik-pithoragarh-asta-extended-data.test.mjs"
       - "tests/asta-udaya-phase-diagnostics.spec.mjs"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
   pull_request:
@@ -78,6 +80,8 @@ jobs:
         run: node tests/capture-drik-multicity-asta.mjs
       - name: Validate direct Drik Pithoragarh source ledger
         run: node --test tests/drik-pithoragarh-asta-data.test.mjs
+      - name: Validate extended 2021–2027 Pithoragarh ledger and quarantined years
+        run: node --test tests/drik-pithoragarh-asta-extended-data.test.mjs
       - name: Validate five-city Drik source provenance, dates and selector anomalies
         run: node --test tests/drik-multicity-asta-data.test.mjs
       - name: Run New Delhi-trained model against direct Pithoragarh Drik holdout
