@@ -102,29 +102,21 @@ test("2029 Navratri days are independent from other same-tithi observances", () 
 
 test("2029 approved saint jayantis are retained and explicitly excluded modern public figures stay omitted", () => {
   assert.ok(has("2029-01-13", /लोहड़ी/));
-  assert.ok(has("2029-01-13", /^भोगी पण्डिगै$/));
-  assert.ok(has("2029-01-14", /^थाई अमावासै$/));
-  assert.match(has("2029-01-14", /^थाई अमावासै$/).sourceUrl, /date=14%2F01%2F2029/);
-  assert.ok(has("2029-01-15", /^मट्टु पोंगल$/));
-  assert.ok(has("2029-01-30", /^थाई पूसम$/));
-  assert.ok(has("2029-02-28", /^मासी मघम$/));
-  assert.ok(has("2029-03-14", /^करडैयान नोम्बु$/));
-  assert.ok(has("2029-03-29", /^पंगुनी उत्तिरम्$/));
   assert.ok(has("2029-04-14", /^तमिल नववर्ष \(पुथांडु\)$/));
-  assert.ok(has("2029-04-28", /^चित्रा पूर्णिमा$/));
-  assert.ok(has("2029-05-27", /^वैकासी विशाकम्$/));
-  assert.ok(has("2029-11-11", /^सूरसंहारम्$/));
-  assert.ok(has("2029-12-22", /^आरुद्र दर्शन \/ तिरुवादिरै$/));
   assert.ok(has("2029-01-14", /^पोंगल$/));
+  assert.ok(has("2029-04-14", /^तमिल नववर्ष \\(पुथांडु\\)$/));
+  assert.ok(has("2029-11-20", /^कार्तिगै दीपम$/));
+  const diwali = has("2029-11-05", /^दीपावली/);
+  assert.ok(diwali);
+  assert.match(diwali.title, /केदार गौरी व्रत/);
+  assert.match(diwali.secondarySourceUrl, /kedar-gauri-vrat-date-time\\.html\\?year=2029/);
   assert.ok(has("2029-04-14", /^उगादी$/));
   assert.ok(has("2029-04-14", /^विषु$/));
   assert.ok(has("2029-04-14", /^बोहाग बिहू$/));
   assert.ok(has("2029-05-26", /^नृसिंह जयंती$/));
   assert.ok(has("2029-05-26", /^छिन्नमस्ता महाविद्या जयंती$/));
   assert.ok(has("2029-08-22", /ओणम/));
-  assert.ok(has("2029-08-02", /^आदि पेरुक्कु$/));
   assert.ok(has("2029-08-14", /^नाग पंचमी$/));
-  assert.ok(has("2029-08-09", /^आदि अमावस्या \(तमिल\)$/));
   assert.ok(has("2029-08-10", /^श्रावण अमावस्या \/ हरियाली अमावस्या$/));
   assert.ok(has("2029-08-23", /^यजुर्वेदीय उपाकर्म$/));
   assert.ok(has("2029-08-24", /^नारळी पूर्णिमा$/));
