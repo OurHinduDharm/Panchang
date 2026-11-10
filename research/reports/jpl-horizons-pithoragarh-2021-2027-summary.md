@@ -36,6 +36,21 @@ The 2021–2027 accepted Pithoragarh ledger contains 75 windows and 150 Asta/Uda
 | 2026 | 24 | 0.410 min | 0.829 min |
 | 2027 | 20 | 0.286 min | 0.737 min |
 
+
+## Event-direction findings
+
+The JPL samples also preserve whether the planet was rising or setting through the -0.5° crossing. The direction is not safely inferred from the AstaStart/AstaEnd label alone:
+
+| Planet | AstaStart: rising / setting | AstaEnd: rising / setting |
+|---|---:|---:|
+| Mercury | 24 / 22 | 22 / 24 |
+| Venus | 6 / 4 | 4 / 6 |
+| Mars | 0 / 5 | 5 / 0 |
+| Jupiter | 0 / 7 | 7 / 0 |
+| Saturn | 0 / 7 | 7 / 0 |
+
+This reinforces the need to preserve apparition/conjunction type and actual event direction in the selector. A universal rule such as “Asta always begins at setting and ends at rising” would be wrong for Mercury and Venus.
+
 ## Interpretation
 
 This is strong evidence that the published Drik boundary times are closely associated with a **local topocentric planetary horizon-crossing condition near -0.5° apparent elevation**. The result is consistent across the five planets and seven source years.
