@@ -66,6 +66,10 @@ test("2029 major festivals and saint jayantis are represented", () => {
   assert.ok(has("2029-04-14", /बैसाखी/));
   assert.ok(has("2029-04-14", /विषु/));
   assert.ok(has("2029-04-14", /बोहाग बिहू/));
+  assert.ok(has("2029-05-18", /आदि शंकराचार्य जयंती.*सूरदास जयंती/));
+  assert.ok(has("2029-08-16", /गोस्वामी तुलसीदास जयंती/));
+  assert.ok(has("2029-08-23", /रक्षाबंधन/));
+  assert.ok(has("2029-08-22", /ओणम/));
   assert.ok(has("2029-09-01", /अगस्त्य अर्घ्य/));
   assert.ok(has("2029-09-17", /विश्वकर्मा पूजा/));
   assert.ok(has("2029-10-01", /जीवित्पुत्रिका व्रत/));
@@ -78,6 +82,10 @@ test("2029 major festivals and saint jayantis are represented", () => {
   assert.ok(has("2029-11-16", /देवउठनी एकादशी \(स्मार्त\)/));
   assert.ok(has("2029-11-21", /कार्तिक पूर्णिमा.*देव दीपावली/));
   assert.ok(has("2029-12-02", /कृष्ण योगेश्वर द्वादशी/));
+});
+
+test("2029 solar and June lunar eclipses are excluded because they are not visible in Pithoragarh", () => {
+  assert.equal(events.filter(event => /ग्रहण/.test(event.title || "")).filter(event => event.date !== "2029-12-21").length, 0);
 });
 
 test("2029 Pithoragarh total lunar eclipse has local contact timings", () => {
