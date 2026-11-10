@@ -5,10 +5,12 @@ on:
       - verify/2026-masik-shivaratri-pithoragarh
     paths:
       - 'tests/masik-shivaratri-real-panchang-2026.test.js'
+      - 'tests/masik-shivaratri-real-panchang-2030.test.mjs'
       - '.github/workflows/masik-shivaratri-panchang-validation.yml'
   pull_request:
     paths:
       - 'tests/masik-shivaratri-real-panchang-2026.test.js'
+      - 'tests/masik-shivaratri-real-panchang-2030.test.mjs'
       - '.github/workflows/masik-shivaratri-panchang-validation.yml'
 permissions:
   contents: read
@@ -22,5 +24,7 @@ jobs:
           node-version: 20
       - name: Install pinned Panchang engine
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Validate 2030 Pithoragarh Shivaratri Nishita dates
+        run: node --test tests/masik-shivaratri-real-panchang-2030.test.mjs
       - name: Validate Nishita and Chaturdashi
         run: node --test tests/masik-shivaratri-real-panchang-2026.test.js tests/festival-muhurta-parana.test.mjs
