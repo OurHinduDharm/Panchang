@@ -93,8 +93,8 @@
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
-      "date": "2028-11-15",
-      "dateLabel": "15 नवंबर",
+      "date": "2028-11-16",
+      "dateLabel": "16 नवंबर",
       "title": "वृश्चिक संक्रांति",
       "description": "वृश्चिक संक्रांति सूर्य के वृश्चिक राशि में प्रवेश से जुड़ी है। स्नान, दान और जप की परंपरा है; पुण्यकाल वास्तविक संक्रमण-समय से तय करें।",
       "category": "संक्रांति",
@@ -149,7 +149,8 @@
       "description": "विवाह पंचमी मार्गशीर्ष शुक्ल पंचमी को श्रीराम और माता सीता के विवाह-स्मरण का पर्व है। राम-सीता पूजन, रामायण-पाठ और विवाहोत्सव की परंपरा है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल पंचमी"
     },
     {
       "date": "2028-11-24",
@@ -164,8 +165,8 @@
     {
       "date": "2028-11-27",
       "dateLabel": "27 नवंबर",
-      "title": "मोक्षदा एकादशी",
-      "description": "मोक्षदा एकादशी मार्गशीर्ष शुक्ल एकादशी का व्रत है और गीता जयंती से भी जुड़ी है। भगवद्गीता-पाठ, विष्णु-पूजन और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
+      "title": "मोक्षदा एकादशी / गीता जयंती",
+      "description": "मोक्षदा एकादशी मार्गशीर्ष शुक्ल एकादशी का व्रत है और गीता जयंती से भी जुड़ी है। भगवद्गीता-पाठ, विष्णु-पूजन और दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> इसी दिन मोक्षदा एकादशी के साथ गीता जयंती भी मनाई जाती है। श्रीमद्भगवद्गीता का पाठ और पूजन करें।",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -175,17 +176,6 @@
       "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
-    },
-    {
-      "date": "2028-11-27",
-      "dateLabel": "27 नवंबर",
-      "title": "गीता जयंती",
-      "description": "गीता जयंती पर भगवद्गीता के उपदेश का स्मरण किया जाता है। गीता-पाठ, श्लोक-मनन, सत्संग और दान की परंपरा है; तिथि मोक्षदा एकादशी के निर्णय से मिलाएँ। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीमद्भगवद्गीता जयंती</a>",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html",
-      "articleLabel": "श्रीमद्भगवद्गीता जयंती"
     },
     {
       "date": "2028-11-29",
