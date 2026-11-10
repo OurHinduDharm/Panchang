@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
 
 test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", async () => {
@@ -70,4 +71,14 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
   } finally {
     await browser.close();
   }
+});
+
+
+test("Drik capture is hard-pinned to Pithoragarh and rejects city fallback", () => {
+  const script = readFileSync(new URL("./capture-drik-pithoragarh-asta.mjs", import.meta.url), "utf8");
+  assert.match(script, /const CITY_ID = "1259503"/);
+  assert.match(script, /url\.searchParams\.set\("geoname-id", CITY_ID\)/);
+  assert.match(script, /capture\.cityConfirmed = \/Pithoragarh\/i\.test\(body\)/);
+  assert.match(script, /page-loaded-city-and-planet-confirmed/);
+  assert.match(script, /No New Delhi fallback/);
 });
