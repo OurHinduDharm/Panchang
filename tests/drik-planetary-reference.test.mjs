@@ -11,6 +11,20 @@ const dataset = JSON.parse(await readFile(
   new URL("../data/drik-planetary-reference-2024-2027.json", import.meta.url), "utf8"
 ));
 
+test("compact production dataset contains only 200 unique year-verified windows", () => {
+  assert.equal(dataset.uniqueAcceptedWindows, 200);
+  assert.equal(dataset.windows.length, 200);
+  assert.deepEqual(dataset.years, [2024, 2025, 2026, 2027]);
+  assert.equal(dataset.cities.length, 5);
+  assert.equal(dataset.planets.length, 5);
+  assert.equal(dataset.provisionalExcludedWindows, 50);
+  assert.ok(dataset.windows.every(row =>
+    row.acceptanceEligible === true &&
+    row.sourceStatus === "direct-page-captured-browser-verified" &&
+    row.sourcePageYear >= 2024 && row.sourcePageYear <= 2027
+  ));
+});
+
 test("resolves Hindi and English city names without nearest-city fallback", () => {
   assert.equal(resolveDrikCity({ city: "पिथौरागढ़", state: "उत्तराखंड" }),
     "Pithoragarh, Uttarakhand, India");
