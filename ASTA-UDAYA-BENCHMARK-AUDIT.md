@@ -1188,3 +1188,18 @@ Research-only selector के पाँच unit tests सफल हैं। Sel
 यह अब तक का सबसे मजबूत event-selection परीक्षण है क्योंकि candidate windows conjunctions से स्वतंत्र रूप से निकले, न कि published boundary के आसपास ±20/60 दिन scan करके। फिर भी ±1–3 दिन की date त्रुटि exact Panchang publication के लिए स्वीकार्य नहीं; अभी production gate पास नहीं। Clock-time अलग से मजबूत है: 116 New Delhi boundaries पर MAE 0.2528 मिनट, maximum 0.66 मिनट; Pithoragarh Venus 2025 के चार indexed boundaries पर maximum 0.459 मिनट।
 
 **अगला तकनीकी काम:** 12 unmatched candidates का कारण निकालना; फिर magnitude-only threshold में phase/elongation/azimuth separation जैसे भौतिक predictors जाँचना। Production integration अभी रोकें।
+
+
+### Calendar-year assignment correction — 12 unmatched candidates resolved
+
+पहले annual holdout में 68 candidates / 56 matches दिखे थे। Unmatched candidate details जाँचने पर वे visibility false positives नहीं निकले:
+- 10 windows adjacent calendar-year padding के कारण दो वार गिने गए (उदाहरण: Dec 2025–Feb 2026 window 2025 और 2026 दोनों searches में आती थी)।
+- 2 windows evaluation range के बाहर थीं: Nov–Dec 2021 और Jan–Feb 2028।
+
+अब हर window को उसके **Asta-start के Gregorian year** में ही गिना जाता है। Re-run में:
+- **56 candidates / 56 published windows matched**
+- **0 unmatched published windows**
+- **0 extra candidates**
+- Asta/Udaya date errors और ऊपर के MAE परिणाम अपरिवर्तित रहे।
+
+इससे annual holdout का candidate accounting ठीक हुआ। इसका अर्थ यह नहीं कि सभी वर्षों/ग्रहों के लिए कोई अज्ञात window नहीं; यह केवल 2022–27 benchmark ledger के भीतर exact one-to-one accounting है।
