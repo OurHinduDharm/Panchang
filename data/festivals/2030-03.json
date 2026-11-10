@@ -36,7 +36,10 @@
       "articleLabel": "महाशिवरात्रि व्रत की महिमा",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html",
       "secondaryArticleLabel": "शिवरात्रि के चारों प्रहर की पूजा-विधि पढ़ें",
-      "muhurtaRule": "masik-shivaratri-nishita"
+      "muhurtaRules": [
+        "mahashivaratri-four-prahar",
+        "mahashivaratri-nishita"
+      ]
     },
     {
       "date": "2030-03-03",
