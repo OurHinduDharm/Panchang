@@ -266,9 +266,20 @@ export function generateVisibilityWindows({
   const searchFinish = new Date(end.getTime() + searchDays * DAY_MS);
   const windows = [];
 
+  const synodicDays = {
+    Mercury: 116,
+    Venus: 584,
+    Mars: 780,
+    Jupiter: 399,
+    Saturn: 378
+  }[body];
+  const maxEventsPerConjunctionFamily = Math.ceil(
+    (searchFinish.getTime() - searchStart.getTime()) / DAY_MS / synodicDays
+  ) + 2;
+
   for (const targetRelLon of targets) {
     let cursor = searchStart;
-    for (let iteration = 0; iteration < 16; iteration++) {
+    for (let iteration = 0; iteration < maxEventsPerConjunctionFamily; iteration++) {
       const conjunction = astronomy.SearchRelativeLongitude(body, targetRelLon, cursor);
       const conjunctionDate = conjunction?.date;
       if (!(conjunctionDate instanceof Date) || !Number.isFinite(conjunctionDate.getTime())) break;
