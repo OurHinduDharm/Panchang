@@ -1173,6 +1173,36 @@
         "कृष्ण पद्मनाभ द्वादशी"
       ],
       "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2026-01-29",
+      "labels": [
+        "भीष्म द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "फाल्गुन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2026-02-13",
+      "labels": [
+        "कृष्ण भीष्म द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2026-10-22",
+      "labels": [
+        "पद्मनाभ द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     }
   ],
   "drikSpecialObservances": [
