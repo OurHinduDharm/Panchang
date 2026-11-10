@@ -41,7 +41,7 @@ test("date-only official visibility data is never represented as an exact clock 
   assert.ok(dateOnlyCases.length >= 1);
   for (const entry of dateOnlyCases) {
     for (const value of Object.values(entry.boundaries)) {
-      assert.match(value, /^\d{4}-\d{2}-\d{2}$/);
+      assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
     }
     assert.equal(entry.eventModel, "rashtriya-panchang-visibility-period");
   }
@@ -184,7 +184,7 @@ test("official IMD visibility periods are transcribed as date-only and remain se
     assert.equal(period.acceptanceEligible, false);
     assert.ok(dataset.sources[period.sourceId]);
     for (const value of [period.from, period.to]) {
-      if (value !== null) assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
+      assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
     }
     if (period.from && period.to) assert.ok(Date.parse(period.from) <= Date.parse(period.to));
   }
