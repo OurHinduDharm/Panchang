@@ -124,6 +124,7 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.equal(has("2030-07-13", /जयापार्वती व्रत प्रारम्भ/)?.endDate, "2030-07-17");
   assert.ok(has("2030-07-14", /कोकिला व्रत.*चाक्षुष मन्वादि तिथि/));
   assert.ok(has("2030-07-15", /गुरु पूर्णिमा.*दक्षिणामूर्ति जयंती/));
+  assert.equal(has("2030-07-16", /कर्क संक्रांति.*श्रावण मासारम्भ.*प्रथम मंगला गौरी/)?.muhurtaRule, "sankranti-punya-kala");
   assert.ok(has("2030-07-16", /कर्क संक्रांति.*श्रावण मासारम्भ.*प्रथम मंगला गौरी/)?.description.includes("17 जुलाई को 00:16 बजे"));
   assert.equal(has("2030-07-18", /गजानन संकष्टी/)?.muhurtaRule, "sankashti-chaturthi-moonrise");
   assert.ok(has("2030-07-21", /भानु सप्तमी/));
