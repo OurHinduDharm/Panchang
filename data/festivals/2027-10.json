@@ -420,6 +420,18 @@
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
     },
     {
+      "date": "2027-10-15",
+      "dateLabel": "15 अक्टूबर",
+      "title": "आश्विन पूर्णिमा / वाल्मीकि जयंती एवं मीराबाई जयंती",
+      "description": "आश्विन शुक्ल पूर्णिमा को महर्षि वाल्मीकि जयंती और संत मीराबाई जयंती का स्मरण किया जाता है। इस दिन पूर्णिमा-स्नान, दान और चंद्र-पूजन की भी परंपरा है।",
+      "category": "पूर्णिमा एवं जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — Valmiki Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2027"
+    },
+    {
       "date": "2027-10-18",
       "dateLabel": "18 अक्टूबर",
       "title": "करक चतुर्थी / करवा चौथ",
@@ -804,18 +816,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल द्वितीया",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
-    },
-    {
-      "date": "2027-10-15",
-      "dateLabel": "15 अक्टूबर",
-      "title": "आश्विन पूर्णिमा व्रत",
-      "description": "आश्विन शुक्ल पूर्णिमा पर पूर्णिमा-व्रत, स्नान, दान, जप और चंद्र-दर्शन की परंपरा है। व्रत और पारण का निर्णय स्थानीय पूर्णिमा-व्याप्ति के अनुसार करें।",
-      "category": "पूर्णिमा-व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
     }
