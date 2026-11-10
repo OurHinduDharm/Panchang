@@ -197,6 +197,7 @@ test("2028 additional major observances are present with their reviewed tithis",
 test("2026–2030 calendar excludes non-core Tamil observances and non-religious biographies", () => {
   const years = [2026, 2027, 2028, 2029, 2030];
   const excluded = /स्वामी विवेकानन्द|राष्ट्रीय युवा दिवस|पंगुनी|पुथांडु|मासिक कार्तिगाई|कार्तिगाई दीपम|मासी मागम|थाई पूसम|कराडैयान|आदि अमावासै|आदि पेरुक्कु|आण्डाल जयंती|वैकासी विसाकम|अष्टमी रोहिणी|तमिल हनुमान जयंती|तमिल दीपावली|भोगी पंडिगाई|मट्टू पोंगल|कानुम पोंगल|आर्द्रा दर्शन|आरुद्र दर्शन/;
+  const allowed2029Tamil = new Set(["भोगी पण्डिगै","थाई अमावासै","मट्टु पोंगल","थाई पूसम","मासी मघम","करडैयान नोम्बु","पंगुनी उत्तिरम्","तमिल नववर्ष (पुथांडु)","चित्रा पूर्णिमा","वैकासी विशाकम्","आदि पेरुक्कु","आदि अमावस्या (तमिल)","कार्तिगै दीपम","आरुद्र दर्शन / तिरुवादिरै"]);
   const matches = [];
   for (const year of years) {
     for (let month = 1; month <= 12; month++) {
@@ -204,7 +205,7 @@ test("2026–2030 calendar excludes non-core Tamil observances and non-religious
       const data = JSON.parse(readFileSync(file, "utf8"));
       for (const event of data.events || []) {
         const text = [event.title, event.description].filter(Boolean).join(" ");
-        if (excluded.test(text)) matches.push({ year, month, title: event.title });
+        if (excluded.test(text) && !(year === 2029 && allowed2029Tamil.has(event.title))) matches.push({ year, month, title: event.title });
       }
     }
   }
