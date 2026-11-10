@@ -61,6 +61,21 @@ test("2027 combined cards retain their special muhurta rules", () => {
   assert.equal(find(11,"2027-11-04",/छठ पूजा/).muhurtaRule,"chhath-arghya");
 });
 
+test("2027 regional and Kartik observances use their correct tithi dates", () => {
+  const devDiwali = find(11,"2027-11-13",/देव दीपावली/);
+  const kartikPurnima = find(11,"2027-11-14",/कार्तिक पूर्णिमा/);
+  assert.ok(devDiwali);
+  assert.equal(devDiwali.muhurtaRule,"dev-deepawali-pradosh");
+  assert.equal(devDiwali.hinduTithi,"कार्तिक शुक्ल पूर्णिमा");
+  assert.ok(kartikPurnima);
+  assert.equal(kartikPurnima.muhurtaRule,undefined);
+  assert.match(find(11,"2027-11-06",/गोपाष्टमी/).title,/मासिक दुर्गाष्टमी/);
+  assert.ok(find(11,"2027-11-12",/वैकुण्ठ चतुर्दशी/));
+  assert.ok(find(11,"2027-11-28",/मार्गशीर्ष अमावस्या/));
+  assert.match(find(12,"2027-12-13",/अन्नपूर्णा सिद्धविद्या/).title,/दत्तात्रेय जयंती/);
+  assert.match(find(5,"2027-05-20",/बुद्ध पूर्णिमा/).title,/वैशाख पूर्णिमा/);
+});
+
 test("2027 Gayatri Jayanti card has only relevant article links", () => {
   const event = find(8,"2027-08-17",/गायत्री जयंती/);
   assert.ok(event);
