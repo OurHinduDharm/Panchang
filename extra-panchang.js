@@ -1287,7 +1287,7 @@ if(
       date: selectedDate,
       totalMilliseconds: Number((performance.now() - __ohdPerfStart).toFixed(2)),
       phases: __ohdPerfPhases,
-      planetaryReference: "direct-drik-city-data; no ephemeris scan"
+      planetaryReference: "direct-drik-city-data; Mars daily horizon rise/set"
     };
     console.info("[OHD performance] Extra Panchang update", report);
     let panel = document.getElementById("ohd-perf-panel");
