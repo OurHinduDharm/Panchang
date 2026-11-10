@@ -351,3 +351,48 @@ test("evaluates local azimuth separation in a multifeature threshold", () => {
   assert.equal(result.thresholdAltitudeDegrees, 1);
 });
 
+
+function fakeMotionAstronomy(longitudeRateDegPerDay) {
+  const astronomy = fakeAstronomy(dayOffset => dayOffset);
+  astronomy.GeoVector = (_body, date) => ({ date });
+  astronomy.Ecliptic = vector => ({
+    elon: 100 + ((vector.date.getTime() - anchorDate.getTime()) / DAY_MS) * longitudeRateDegPerDay
+  });
+  return astronomy;
+}
+
+test("detects geocentric retrograde motion and exposes its longitude rate as a model feature", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeMotionAstronomy(-2),
+    model: { intercept: 0, coefficients: { retrograde: 1 } }
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.predictedBoundaryDate, "2026-01-11");
+  assert.equal(result.longitudeRateDegPerDay, -2);
+  assert.equal(result.retrogradeState, "retrograde");
+  assert.equal(result.thresholdAltitudeDegrees, 1);
+});
+
+test("detects direct geocentric motion and supports continuous longitude-rate coefficients", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeMotionAstronomy(2),
+    model: { intercept: 0, coefficients: { longitudeRateDegPerDay: 0.5 } }
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.predictedBoundaryDate, "2026-01-11");
+  assert.equal(result.longitudeRateDegPerDay, 2);
+  assert.equal(result.retrogradeState, "direct");
+  assert.equal(result.thresholdAltitudeDegrees, 1);
+});
+
+test("does not silently substitute direct motion when ephemeris motion vectors are unavailable", () => {
+  assert.throws(() => findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { retrograde: 1 } }
+  }), /Missing finite visibility feature: retrograde/);
+});
