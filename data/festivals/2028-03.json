@@ -67,12 +67,16 @@
     {
       "date": "2028-03-11",
       "dateLabel": "11 मार्च",
-      "title": "फाल्गुन पूर्णिमा",
-      "description": "फाल्गुन पूर्णिमा होलिका-दहन और होली के पर्व-चक्र से जुड़ी है। व्रत और दहन का निर्णय पूर्णिमा-व्याप्ति तथा भद्रा के नियम देखकर करें।",
+      "title": "होली / फाल्गुन पूर्णिमा / श्री महालक्ष्मी जयंती",
+      "description": "फाल्गुन पूर्णिमा होलिका-दहन और होली के पर्व-चक्र से जुड़ी है। व्रत और दहन का निर्णय पूर्णिमा-व्याप्ति तथा भद्रा के नियम देखकर करें। श्री महालक्ष्मी जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी जयंती</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा"
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "articleLabel": "श्री महालक्ष्मी जयंती",
+      "sourceName": "Drik Panchang — Phalguna Purnima",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/purnima/purnima-calendar.html?year=2028"
     },
     {
       "date": "2028-03-11",
@@ -212,14 +216,16 @@
     {
       "date": "2028-03-29",
       "dateLabel": "29 मार्च",
-      "title": "गौरी पूजन / गणगौर",
-      "description": "चैत्र शुक्ल तृतीया पर गौरी पूजन और गणगौर उत्सव मनाया जाता है।",
+      "title": "गौरी पूजन / गणगौर / मत्स्य-अवतार जयंती",
+      "description": "चैत्र शुक्ल तृतीया पर गौरी पूजन और गणगौर उत्सव मनाया जाता है। मत्स्य-अवतार जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">मत्स्य-अवतार जयंती</a>",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल तृतीया",
-      "sourceName": "Drik Panchang — 2028 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2028"
+      "sourceName": "Drik Panchang — Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html",
+      "articleLabel": "मत्स्य-अवतार जयंती"
     },
     {
       "date": "2028-03-29",
@@ -269,14 +275,18 @@
     {
       "date": "2028-03-31",
       "dateLabel": "31 मार्च",
-      "title": "चैत्र नवरात्र पंचमी — माँ स्कन्दमाता",
-      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
+      "title": "चैत्र नवरात्र पंचमी — माँ स्कन्दमाता / लक्ष्मी पंचमी",
+      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a> लक्ष्मी पंचमी के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी पंचमी</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल पंचमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
-      "articleLabel": "माँ स्कन्दमाता"
+      "articleLabel": "माँ स्कन्दमाता",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "secondaryArticleLabel": "लक्ष्मी पंचमी",
+      "sourceName": "Drik Panchang — Lakshmi Panchami",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/panchami/lakshmi-panchami/lakshmi-panchami-date-time.html?year=2028"
     }
   ]
 }
