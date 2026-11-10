@@ -107,8 +107,8 @@ test("matches every explicit observance on combined cards without false partial 
     templates
   );
   assert.deepEqual(matched.map(item => item.key), [
-    "मासिक कालाष्टमी",
-    "मासिक कृष्ण जन्माष्टमी"
+    "मासिक कृष्ण जन्माष्टमी",
+    "मासिक कालाष्टमी"
   ]);
 });
 
