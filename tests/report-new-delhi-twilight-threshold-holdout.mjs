@@ -125,10 +125,44 @@ for (const [id, directions] of Object.entries(SOURCE_CASES)) {
   });
 }
 
+const thresholdGroups = {};
+for (const item of rows) {
+  for (const boundary of item.boundaries) {
+    const key = item.planet + ":" + boundary.boundary;
+    const interval = boundary.refractedTransitionInterval;
+    (thresholdGroups[key] ??= []).push({
+      caseId: item.id,
+      lower: interval.lower,
+      upper: interval.upper,
+      apparentMagnitude: boundary.boundaryPlanetObservables.apparentMagnitude,
+      elongation: boundary.boundaryPlanetObservables.apparentElongationDegrees,
+      phase: boundary.boundaryPlanetObservables.illuminatedFraction
+    });
+  }
+}
+const thresholdSummary = Object.fromEntries(
+  Object.entries(thresholdGroups).map(([key, samples]) => {
+    const lower = Math.max(...samples.map(item => item.lower));
+    const upper = Math.min(...samples.map(item => item.upper));
+    const magnitudes = samples.map(item => item.apparentMagnitude);
+    const elongations = samples.map(item => item.elongation);
+    return [key, {
+      sampleCount: samples.length,
+      commonInterval: lower < upper ? { lowerExclusive: round(lower), upperInclusive: round(upper) } : null,
+      intersectionWidthDegrees: round(upper - lower, 5),
+      apparentMagnitudeRange: [Math.min(...magnitudes), Math.max(...magnitudes)],
+      elongationRangeDegrees: [Math.min(...elongations), Math.max(...elongations)],
+      samples
+    }];
+  })
+);
+
 console.log(JSON.stringify({
   title: "New Delhi out-of-sample twilight-threshold diagnostic",
   sampleCaseCount: rows.length,
+  boundaryCount: rows.reduce((sum, item) => sum + item.boundaries.length, 0),
   pithoragarhVenusThresholdIntervals: PITHORAGARH_VENUS_THRESHOLD,
+  planetAndBoundaryThresholdSummary: thresholdSummary,
   interpretation: "Diagnostic only. New Delhi source coordinates are undisclosed; a city-centre proxy is used solely to test day-level threshold transfer. Do not claim coordinate-exact validation or promote this threshold to production.",
   cases: rows
 }, null, 2));
