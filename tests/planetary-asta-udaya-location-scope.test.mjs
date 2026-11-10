@@ -14,13 +14,21 @@ test("production Panchang uses direct city references, not geocentric fixed-angl
   assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findNearestAngularBoundary|findThresholdCrossingInstant/);
 });
 
-test("Pithoragarh direct records are available but a different city receives no fallback", () => {
+test("five supported cities use their own direct records and an unsupported city receives no fallback", () => {
   const pithoragarh = getDrikPlanetaryReference({
     dataset, location: { city: "पिथौरागढ़" },
     selectedDate: "2026-10-31", planet: "Venus"
   });
   assert.ok(["active", "upcoming"].includes(pithoragarh.status));
   assert.ok(pithoragarh.window);
+
+  const mumbai = getDrikPlanetaryReference({
+    dataset, location: { city: "Mumbai", state: "Maharashtra" },
+    selectedDate: "2026-10-31", planet: "Venus"
+  });
+  assert.ok(["active", "upcoming"].includes(mumbai.status));
+  assert.equal(mumbai.city, "Mumbai, Maharashtra, India");
+  assert.equal(mumbai.window.sourceLocation, "Mumbai, Maharashtra, India");
 
   const otherCity = getDrikPlanetaryReference({
     dataset, location: { city: "Agra", state: "Uttar Pradesh" },
