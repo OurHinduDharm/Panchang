@@ -24,6 +24,28 @@ function dayNumber(value) {
   const [year, month, day] = value.slice(0, 10).split("-").map(Number);
   return Date.UTC(year, month - 1, day) / DAY_MS;
 }
+function clockMinutes(value) {
+  const match = String(value).match(/^(\\d{1,2}):(\\d{2})/);
+  return match ? Number(match[1]) * 60 + Number(match[2]) : null;
+}
+function clockError(predicted, published) {
+  const a = clockMinutes(predicted), b = clockMinutes(published);
+  if (a === null || b === null) return null;
+  return ((a - b + 720 + 1440) % 1440) - 720;
+}
+function summarizeClock(values) {
+  const errors = values.filter(Number.isFinite);
+  return {
+    count: errors.length,
+    withinOneMinute: errors.filter(x => Math.abs(x) <= 1).length,
+    withinFiveMinutes: errors.filter(x => Math.abs(x) <= 5).length,
+    withinTenMinutes: errors.filter(x => Math.abs(x) <= 10).length,
+    meanAbsoluteErrorMinutes: errors.length
+      ? Number((errors.reduce((sum, x) => sum + Math.abs(x), 0) / errors.length).toFixed(2))
+      : null,
+    maxAbsoluteErrorMinutes: errors.length ? Math.max(...errors.map(Math.abs)) : null
+  };
+}
 function nearestEvent(body, observer, anchor) {
   const start = new Date(anchor.getTime() - 12 * 3600000);
   const options = [1, -1].map(direction => {
@@ -207,10 +229,24 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
           }
           used.add(best.index);
           const publishedUdaya = entry.boundaries.astaEnd.normalizedLocalDateTime;
+          const predictedAstaDate = best.window.asta.predictedBoundaryDate;
+          const predictedUdayaDate = best.window.udaya.predictedBoundaryDate;
+          const predictedAstaTime = best.window.asta.predictedEventLocalTime;
+          const predictedUdayaTime = best.window.udaya.predictedEventLocalTime;
           predictions.push({
             id: entry.id, matched: true,
+            predictedAstaDate,
+            publishedAstaDate: publishedAsta.slice(0, 10),
+            predictedAstaTime,
+            publishedAstaTime: publishedAsta.slice(11, 16),
             astaErrorDays: best.error,
-            udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedUdaya)
+            astaClockErrorMinutes: clockError(predictedAstaTime, publishedAsta.slice(11, 16)),
+            predictedUdayaDate,
+            publishedUdayaDate: publishedUdaya.slice(0, 10),
+            predictedUdayaTime,
+            publishedUdayaTime: publishedUdaya.slice(11, 16),
+            udayaErrorDays: dayNumber(predictedUdayaDate) - dayNumber(publishedUdaya),
+            udayaClockErrorMinutes: clockError(predictedUdayaTime, publishedUdaya.slice(11, 16))
           });
         }
       }
@@ -222,6 +258,8 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
         matchedCount: matched.length, unmatchedCount: predictions.length - matched.length,
         astaDate: summarize(matched.map(x => x.astaErrorDays)),
         udayaDate: summarize(matched.map(x => x.udayaErrorDays)),
+        astaClock: summarizeClock(matched.map(x => x.astaClockErrorMinutes)),
+        udayaClock: summarizeClock(matched.map(x => x.udayaClockErrorMinutes)),
         predictions
       });
     }
