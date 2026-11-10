@@ -48,6 +48,18 @@
       "hinduTithi": "पौष शुक्ल पक्ष त्रयोदशी"
     },
     {
+      "date": "2028-01-09",
+      "dateLabel": "9 जनवरी",
+      "title": "कूर्म द्वादशी",
+      "description": "पौष शुक्ल द्वादशी को भगवान विष्णु के कूर्म अवतार का स्मरण और पूजन किया जाता है। इस दिन व्रत, जप और दान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — 2028 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2028"
+    },
+    {
       "date": "2028-01-12",
       "dateLabel": "12 जनवरी",
       "title": "पौष पूर्णिमा / शाकंभरी माता जयंती",
