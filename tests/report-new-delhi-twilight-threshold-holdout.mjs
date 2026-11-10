@@ -226,7 +226,117 @@ const mercuryMagnitudeCrossValidation = Object.fromEntries(
   })
 );
 
-${helper}console.log(JSON.stringify({
+
+function localDateString(date) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+  return values.year + "-" + values.month + "-" + values.day;
+}
+
+function dayNumber(dateString) {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return Date.UTC(year, month - 1, day) / 86400000;
+}
+
+function predictMercuryBoundaryDate(entry, boundaryName, direction, model) {
+  const anchor = new Date(entry.boundaries[boundaryName]);
+  const samples = [];
+  for (let dayOffset = -20; dayOffset <= 20; dayOffset++) {
+    const eventDate = localPlanetEvent(entry.planet, anchor, direction, dayOffset);
+    if (!eventDate) continue;
+    const sun = sunAltitude(eventDate, "normal");
+    const planet = planetObservables(entry.planet, eventDate);
+    const threshold = model.intercept + model.slope * planet.apparentMagnitude;
+    samples.push({
+      dayOffset,
+      localDate: localDateString(eventDate),
+      eventUTC: eventDate.toISOString(),
+      sunAltitude: sun,
+      apparentMagnitude: planet.apparentMagnitude,
+      predictedThreshold: threshold,
+      residual: sun - threshold
+    });
+  }
+  samples.sort((a, b) => a.dayOffset - b.dayOffset);
+
+  const crossings = [];
+  for (let i = 1; i < samples.length; i++) {
+    const previous = samples[i - 1];
+    const current = samples[i];
+    const crossed = boundaryName === "astaStart"
+      ? previous.residual < 0 && current.residual >= 0
+      : previous.residual > 0 && current.residual <= 0;
+    if (crossed) crossings.push({ previous, current });
+  }
+
+  const publishedDate = entry.boundaries[boundaryName].slice(0, 10);
+  const ranked = crossings.map(crossing => ({
+    ...crossing,
+    predictedBoundaryDate: crossing.current.localDate,
+    signedDateOffsetDays: dayNumber(crossing.current.localDate) - dayNumber(publishedDate)
+  })).sort((a, b) => Math.abs(a.signedDateOffsetDays) - Math.abs(b.signedDateOffsetDays));
+
+  return {
+    publishedDate,
+    crossingCountWithin40Days: crossings.length,
+    nearestCrossing: ranked[0] ? {
+      predictedBoundaryDate: ranked[0].predictedBoundaryDate,
+      signedDateOffsetDays: ranked[0].signedDateOffsetDays,
+      previousResidual: round(ranked[0].previous.residual, 5),
+      boundaryResidual: round(ranked[0].current.residual, 5),
+      previousEventDate: ranked[0].previous.localDate,
+      boundaryEventDate: ranked[0].current.localDate
+    } : null
+  };
+}
+
+const mercuryBoundaryDateHoldouts = Object.fromEntries(
+  ["astaStart", "astaEnd"].map(boundaryName => {
+    const samples = rows
+      .filter(item => item.planet === "Mercury")
+      .flatMap(item => item.boundaries
+        .filter(boundary => boundary.boundary === boundaryName)
+        .map(boundary => ({
+          entry: dataset.cases.find(candidate => candidate.id === item.id),
+          id: item.id,
+          year: Number(boundary.publishedLocal.slice(0, 4)),
+          magnitude: boundary.boundaryPlanetObservables.apparentMagnitude,
+          thresholdMidpoint: (boundary.refractedTransitionInterval.lower + boundary.refractedTransitionInterval.upper) / 2
+        }))
+      );
+    const year2026 = samples.filter(item => item.year === 2026);
+    const year2027 = samples.filter(item => item.year === 2027);
+    const testYear = (train, test) => {
+      if (train.length < 4 || test.length < 4) return { available: false };
+      const model = fitMagnitudeThreshold(train);
+      return {
+        trainCount: train.length,
+        testCount: test.length,
+        model: { intercept: round(model.intercept, 6), slope: round(model.slope, 6) },
+        predictions: test.map(sample => ({
+          id: sample.id,
+          ...predictMercuryBoundaryDate(
+            sample.entry,
+            boundaryName,
+            SOURCE_CASES[sample.id][boundaryName],
+            model
+          )
+        }))
+      };
+    };
+    return [boundaryName, {
+      train2026Test2027: testYear(year2026, year2027),
+      train2027Test2026: testYear(year2027, year2026)
+    }];
+  })
+);
+
+console.log(JSON.stringify({
   title: "New Delhi out-of-sample twilight-threshold diagnostic",
   sampleCaseCount: rows.length,
   boundaryCount: rows.reduce((sum, item) => sum + item.boundaries.length, 0),
