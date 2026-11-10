@@ -19,6 +19,7 @@ test("planet card keeps daily Sun/Moon rise and set plus five Tara Asta rows", (
 test("planet card does not add the long source-coordinate disclaimer", () => {
   assert.doesNotMatch(card, /sourceNote|आंतरिक अक्षांश|ऊँचाई प्रकाशित नहीं करता/);
   assert.doesNotMatch(card, /स्रोत: Drik Panchang का/);
+  assert.doesNotMatch(card, /Drik मूल स्रोत|planet\.sourceUrl|href=.*sourceUrl/);
 });
 
 test("missing Mars or unsupported city is shown briefly without a false zero-event claim", () => {
