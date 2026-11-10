@@ -150,15 +150,15 @@ test("links Paush Mahatmya and Tailang Swami articles only to their matching obs
     await assertArticle(year, monthNumber, date, pattern, "About-Paush-Mahatmya");
   }
   const tailangCases = [
+    [2027,1,"2027-01-19",/तैलंग स्वामी/],
+    [2028,1,"2028-01-08",/तैलंग स्वामी/],
+    [2028,12,"2028-12-27",/तैलंग स्वामी/],
     [2030,1,"2030-01-15",/तैलंग स्वामी/]
   ];
   for (const [year, monthNumber, date, pattern] of tailangCases) {
     await assertArticle(year, monthNumber, date, pattern, "About-Tailang-SwamiJi-On-His-Jayanti");
   }
-  for (const [year, monthNumber] of [[2028,1],[2028,12]]) {
-    const data = await month(year, monthNumber);
-    assert.equal(data.events.some(event => /तैलंग स्वामी|टेलंग स्वामी/.test(event.title || "")), false);
-  }
+
 });
 
 test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing annual cards", async () => {
