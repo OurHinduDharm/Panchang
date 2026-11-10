@@ -83,3 +83,29 @@ Before treating the geometry as final location-level validation:
 An Irrigation Research Institute, Roorkee instrument inventory lists a Pithoragarh automatic rain-gauge station at 29.5819744° N, 80.2187114° E. This is approximately 104 m from the project observer coordinates used here (29.5828° N, 80.2182° E), providing a useful independent check that the project point is in the Pithoragarh town area. It does not establish Drik's provider coordinates or the observer's vertical datum.
 
 Source: https://www.iriroorkee.res.in/documents/pdf/news_events/Annexure_17_10_24.pdf
+
+
+## 2026-11-10 audit addendum — deduplicated sample size
+
+A later audit compared the raw Pithoragarh source capture with the canonical main-branch reference ledger.
+
+- Raw capture: 75 annual-page windows.
+- Duplicate annual-page references: 4.
+- Unique Asta windows: **71**.
+- Unique published boundaries: **142** (two per window).
+- The 71 unique `(planet, AstaStart UTC, AstaEnd UTC)` keys exactly match the 71 Pithoragarh windows in the main-branch canonical reference file `data/drik-planetary-reference-2024-2027.json`.
+- Unique boundary counts: Mercury 90, Venus 18, Mars 6, Jupiter 14, Saturn 14.
+
+**Interpretation correction:** The 150 observations in the original table are raw boundary observations, not 150 independent published events. They comprise 142 unique boundaries plus 8 repeated observations arising from four duplicate annual-page window references. The original aggregate means, maxima and 150/150 statements describe the raw repeated-observation set; they must not be presented as deduplicated independent-sample statistics. A fresh unique-boundary JPL aggregation is required before reporting independent-sample error statistics. The raw checks remain a useful per-observation geometry cross-check, but this correction reduces the evidential sample count.
+
+## India-specific geoid model metadata
+
+The selected regional candidate is **IndGG-SH2021**, a public Indian gravimetric geoid model (CC BY 4.0) based on the Stokes–Helmert approach. Its published grid covers 7–37° N and 68–98° E at 0.02° spacing and is referenced to the GRS80 ellipsoid. The published India-wide GNSS/levelling validation is mean ± standard deviation of −0.33 ± 0.49 m; this is a country-level statistic, not a Pithoragarh-specific accuracy claim.
+
+- Model page: https://new.isgeoid.polimi.it/Geoid/Asia/India/india_SH2021_g.html
+- Dataset DOI: https://doi.org/10.5880/isg.2021.009
+- ISG height-conversion service: https://www.isgeoid.polimi.it/Geoid/height_conversion.html
+
+The model page exposes both an original file and ISG-format file. The ISG format records the reference ellipsoid, grid geometry, ordering and undulation units; its documented default grid ordering is north-to-south, each row west-to-east. Do not parse or interpolate the grid until the downloaded file header confirms the exact metadata and no-data convention.
+
+**Still unresolved:** No numerical undulation has yet been extracted at 29.5828° N, 80.2182° E. The project's 1650 m input has not been proven to be orthometric height. Do not apply a geoid correction or claim a corrected observer altitude until both facts are established. After extraction, compare IndGG-SH2021 with EGM2008 and rerun JPL checks over the 142 unique boundary instants.
