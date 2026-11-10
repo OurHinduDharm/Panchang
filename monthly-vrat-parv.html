@@ -623,7 +623,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             if(windowItem.note){var windowNote=document.createElement("div");windowNote.className="muhurta-window-note";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
             detail.appendChild(row);
           });
-        else if(result.status==="calculated"&&Array.isArray(result.times)&&result.times.length){
+        }else if(result.status==="calculated"&&Array.isArray(result.times)&&result.times.length){
           result.times.forEach(function(timeItem){
             var row=document.createElement("div");row.className="muhurta-window";
             var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=timeItem.label||"पूजन समय";row.appendChild(name);
