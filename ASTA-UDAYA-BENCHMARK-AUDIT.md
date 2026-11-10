@@ -1167,3 +1167,24 @@ Universal apparent-magnitude/twilight model को हर बार एक प�
 यह date-only holdout है; clock-time validation अलग है। Local horizon clock engine New Delhi के 116 boundaries पर MAE 0.2528 minute और max 0.66 minute तक पहुँचा। Pithoragarh Venus 2025 के चार independently indexed boundaries पर max absolute clock difference 0.459 minute रहा।
 
 Research-only selector के पाँच unit tests सफल हैं। Selector एक ही crossing को candidate, zero को no-crossing और multiple को ambiguous बताता है; कोई fallback boundary नहीं बनाता। अभी production integration नहीं।
+
+
+### Annual conjunction-driven blind holdout — 10 नवम्बर 2026
+
+अब event search को published boundary date के आसपास नहीं, बल्कि Astronomy Engine के computed conjunctions के आसपास चलाया गया। प्रत्येक test year का पूरा data training से हटाया गया; model केवल उसी ग्रह के अन्य वर्षों के local-twilight/magnitude samples से fit हुआ। Test-year के conjunctions स्वयं engine ने enumerate किए, फिर हर conjunction से Asta/Udaya के local rise/set candidates निकाले। Published dates से मिलान candidate generation के बाद हुआ।
+
+**56 published windows / 112 boundary dates** (Mercury 38, Venus 8, Jupiter 4, Saturn 6; Mars training अपर्याप्त होने से skip):
+- **Asta:** 25/56 exact, 54/56 ±1 दिन, 56/56 ±2 दिन; MAE **0.589 दिन**, maximum 2 दिन।
+- **Udaya:** 31/56 exact, 49/56 ±1 दिन, 54/56 ±2 दिन; MAE **0.607 दिन**, maximum 3 दिन।
+- कुल 103/112 boundaries ±1 दिन और 110/112 ±2 दिन में आए।
+- Planet-wise:
+  - Mercury: Asta 37/38 ±1 दिन; Udaya 32/38 ±1 दिन, 36/38 ±2 दिन; MAE 0.579 / 0.658 दिन।
+  - Venus: Asta 7/8 ±1 दिन; Udaya 8/8 ±1 दिन; MAE 0.875 / 0.5 दिन।
+  - Jupiter: Asta 4/4 ±1 दिन; Udaya 3/4 ±1 दिन, 4/4 ±2 दिन।
+  - Saturn: दोनों सीमाएँ 6/6 ±1 दिन; MAE 0.333 दिन प्रति दिशा।
+- Generator ने 68 candidate windows बनाए; 56 प्रकाशित windows से match हुए और **12 अतिरिक्त candidates** unmatched रहे (Mercury 9, Saturn 2, Venus 1)। इन्हें अभी false positive घोषित नहीं किया गया है—पहले reference ledger की completeness और unmatched candidate dates जाँची जाएँगी।
+- Mars के दो ही reference apparitions हैं; प्रत्येक test year में पर्याप्त same-planet training नहीं बचता, इसलिए कोई परिणाम घोषित नहीं।
+
+यह अब तक का सबसे मजबूत event-selection परीक्षण है क्योंकि candidate windows conjunctions से स्वतंत्र रूप से निकले, न कि published boundary के आसपास ±20/60 दिन scan करके। फिर भी ±1–3 दिन की date त्रुटि exact Panchang publication के लिए स्वीकार्य नहीं; अभी production gate पास नहीं। Clock-time अलग से मजबूत है: 116 New Delhi boundaries पर MAE 0.2528 मिनट, maximum 0.66 मिनट; Pithoragarh Venus 2025 के चार indexed boundaries पर maximum 0.459 मिनट।
+
+**अगला तकनीकी काम:** 12 unmatched candidates का कारण निकालना; फिर magnitude-only threshold में phase/elongation/azimuth separation जैसे भौतिक predictors जाँचना। Production integration अभी रोकें।
