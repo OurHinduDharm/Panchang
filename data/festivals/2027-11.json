@@ -365,13 +365,15 @@
       "date": "2027-11-20",
       "dateLabel": "20 नवंबर",
       "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी",
-      "description": "मार्गशीर्ष कृष्ण अष्टमी पर भगवान भैरव की पूजा, मंत्र-जप और रात्रि-उपासना की परंपरा है।",
+      "description": "मार्गशीर्ष कृष्ण अष्टमी पर भगवान भैरव की पूजा, मंत्र-जप और रात्रि-उपासना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष कृष्ण सप्तमी (अष्टमी व्याप्ति)",
       "sourceName": "Drik Panchang — November 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-november.html?year=2027",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
       "date": "2027-11-24",
