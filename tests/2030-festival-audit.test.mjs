@@ -16,7 +16,7 @@ test("2030 monthly festival files have approved records dated within their month
     assert.equal(data.status, "approved");
     for (const event of data.events || []) {
       assert.equal(event.reviewStatus, "approved", event.date + ": " + event.title);
-      assert.match(event.date, /^2030-\\d{2}-\\d{2}$/);
+      assert.match(event.date, /^2030-\d{2}-\d{2}$/);
       assert.equal(Number(event.date.slice(5, 7)), index + 1,
         event.date + " is stored in the wrong monthly file");
     }
