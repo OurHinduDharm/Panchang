@@ -7,6 +7,8 @@ on:
       - "tests/capture-drik-pithoragarh-asta.mjs"
       - "tests/capture-drik-multicity-asta.mjs"
       - "tests/drik-pithoragarh-asta-data.test.mjs"
+      - "tests/drik-multicity-asta-data.test.mjs"
+      - "data/drik-multicity-asta-udaya-2024-2028.json"
       - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
       - "tests/report-pithoragarh-local-year-holdout.mjs"
       - "tests/report-pithoragarh-motion-feature-holdout.mjs"
@@ -61,6 +63,8 @@ jobs:
         run: node tests/capture-drik-multicity-asta.mjs
       - name: Validate direct Drik Pithoragarh source ledger
         run: node --test tests/drik-pithoragarh-asta-data.test.mjs
+      - name: Validate five-city Drik source provenance, dates and selector anomalies
+        run: node --test tests/drik-multicity-asta-data.test.mjs
       - name: Run New Delhi-trained model against direct Pithoragarh Drik holdout
         run: node tests/report-pithoragarh-direct-drik-blind-holdout.mjs
       - name: Run Pithoragarh location-calibrated leave-one-year-out validation
