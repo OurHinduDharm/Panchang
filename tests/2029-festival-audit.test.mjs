@@ -16,7 +16,7 @@ test("2029 monthly festival files have approved records dated within their month
     assert.equal(data.status, "approved");
     for (const event of data.events || []) {
       assert.equal(event.reviewStatus, "approved", event.date + ": " + event.title);
-      assert.match(event.date, /^2029-\\d{2}-\\d{2}$/);
+      assert.match(event.date, /^2029-\d{2}-\d{2}$/);
       assert.equal(Number(event.date.slice(5, 7)), index + 1,
         event.date + " is stored in the wrong monthly file");
     }
@@ -36,7 +36,7 @@ test("2029 catalog has one card per same-date Hindu tithi", () => {
 
 test("2029 Ekadashi cards follow the Smarta-only policy", () => {
   assert.equal(events.filter(event => /(गौण|वैष्णव)/.test(event.title || "")).length, 0);
-  const utpanna = has("2029-12-01", /उत्पन्ना एकादशी \\(स्मार्त\\)/);
+  const utpanna = has("2029-12-01", /उत्पन्ना एकादशी \(स्मार्त\)/);
   assert.equal(utpanna.hinduTithi, "मार्गशीर्ष कृष्ण एकादशी");
   assert.equal(events.filter(event => /उत्पन्ना एकादशी/.test(event.title || "")).length, 1);
 });
@@ -85,5 +85,5 @@ test("2029 Pithoragarh total lunar eclipse has local contact timings", () => {
   assert.equal(eclipse.hinduTithi, "मार्गशीर्ष शुक्ल पूर्णिमा");
   assert.match(eclipse.description, /2:25 से सुबह 5:58 बजे तक/);
   assert.match(eclipse.description, /3:45 से 4:38 बजे तक/);
-  assert.match(eclipse.sourceUrl, /timeanddate\\.com\\/eclipse\\/in\\/india\\/pithoragarh/);
+  assert.match(eclipse.sourceUrl, /timeanddate\.com\/eclipse\/in\/india\/pithoragarh/);
 });
