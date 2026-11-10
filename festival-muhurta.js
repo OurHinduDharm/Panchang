@@ -1438,6 +1438,7 @@ const rules = {
 
     const bhadra = collectNamedIntervals(context.karanas, item => /vishti|विष्टि/.test(normalizedName(item)));
     const overlap = bhadra.find(item => item.end > baseStart && item.start < baseEnd);
+    const bhadraForDate = bhadra.find(item => item.end > sunrise && item.start < nextSunrise);
     const windows = [];
     let primary = null;
 
