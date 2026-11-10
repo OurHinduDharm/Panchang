@@ -466,36 +466,33 @@ const additionalPlanetYearHoldouts = Object.fromEntries(
         const years = [2023, 2024, 2025, 2026, 2027];
         const yearCounts = Object.fromEntries(years.map(year => [year, samples.filter(item => item.year === year).length]));
         const yearPairs = {};
-        for (const trainYear of years) {
-          for (const testYear of years) {
-            if (trainYear === testYear) continue;
-            const train = samples.filter(item => item.year === trainYear);
-            const test = samples.filter(item => item.year === testYear);
-            if (train.length < 3 || test.length < 1) continue;
-            const model = fitMagnitudeThreshold(train);
-            const mean = values => values.reduce((sum, value) => sum + value, 0) / values.length;
-            const baseline = mean(train.map(item => item.thresholdMidpoint));
-            const angleErrors = test.map(item => Math.abs(
-              model.intercept + model.slope * item.magnitude - item.thresholdMidpoint
-            ));
-            yearPairs[trainYear + "To" + testYear] = {
-              trainCount: train.length,
-              testCount: test.length,
-              thresholdMaeDegrees: round(mean(angleErrors), 5),
-              constantBaselineMaeDegrees: round(mean(test.map(item => Math.abs(
-                baseline - item.thresholdMidpoint
-              ))), 5),
-              datePredictions: test.map(sample => ({
-                id: sample.id,
-                ...predictPlanetBoundaryDate(
-                  sample.entry,
-                  boundaryName,
-                  SOURCE_CASES[sample.id][boundaryName],
-                  model
-                )
-              }))
-            };
-          }
+        for (const testYear of years) {
+          const train = samples.filter(item => item.year !== testYear);
+          const test = samples.filter(item => item.year === testYear);
+          if (train.length < 3 || test.length < 1) continue;
+          const model = fitMagnitudeThreshold(train);
+          const mean = values => values.reduce((sum, value) => sum + value, 0) / values.length;
+          const baseline = mean(train.map(item => item.thresholdMidpoint));
+          const angleErrors = test.map(item => Math.abs(
+            model.intercept + model.slope * item.magnitude - item.thresholdMidpoint
+          ));
+          yearPairs["trainAllExcept" + testYear] = {
+            trainCount: train.length,
+            testCount: test.length,
+            thresholdMaeDegrees: round(mean(angleErrors), 5),
+            constantBaselineMaeDegrees: round(mean(test.map(item => Math.abs(
+              baseline - item.thresholdMidpoint
+            ))), 5),
+            datePredictions: test.map(sample => ({
+              id: sample.id,
+              ...predictPlanetBoundaryDate(
+                sample.entry,
+                boundaryName,
+                SOURCE_CASES[sample.id][boundaryName],
+                model
+              )
+            }))
+          };
         }
         return [boundaryName, { sampleCount: samples.length, yearCounts, yearPairs }];
       })
