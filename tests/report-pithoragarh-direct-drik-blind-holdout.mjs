@@ -80,7 +80,7 @@ const trainingEntries = benchmark.cases.filter(entry =>
 
 // Every holdout row below comes from a direct browser capture of the named
 // Pithoragarh Drik page. User-transcribed rows are deliberately excluded.
-const holdoutEntries = direct.windows.map(window => ({
+const holdoutPageRows = direct.windows.map(window => ({
   id: window.id,
   planet: window.planet,
   sourceLocation: window.sourceLocation,
@@ -99,6 +99,20 @@ const holdoutEntries = direct.windows.map(window => ({
   entry.precision === "minute" &&
   observerFor(entry)
 );
+
+// Annual Drik pages overlap around year boundaries. Deduplicate the same
+// apparition while retaining every source page that independently lists it.
+const holdoutByEvent = new Map();
+for (const entry of holdoutPageRows) {
+  const key = [entry.planet, entry.boundaries.astaStart, entry.boundaries.astaEnd].join("|");
+  const existing = holdoutByEvent.get(key);
+  if (!existing) holdoutByEvent.set(key, { ...entry, sourcePageUrls: [entry.sourcePageUrl] });
+  else existing.sourcePageUrls.push(entry.sourcePageUrl);
+}
+const holdoutEntries = [...holdoutByEvent.values()].map(entry => ({
+  ...entry,
+  sourcePageUrls: [...new Set(entry.sourcePageUrls)]
+}));
 
 const output = [];
 for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
@@ -159,7 +173,7 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
         predictions.push({
           id: entry.id, matched: false,
           publishedAstaDate: targetStart,
-          sourcePageUrl: entry.sourcePageUrl
+          sourcePageUrls: entry.sourcePageUrls
         });
         continue;
       }
@@ -211,7 +225,9 @@ console.log(JSON.stringify({
   holdout: {
     source: "Direct Drik named-city Pithoragarh pages, captured by Playwright Chromium",
     sourcePages: direct.verifiedPages,
-    windows: holdoutEntries.length,
+    annualPageRows: direct.windows.length,
+    duplicateAnnualPageReferences: direct.duplicateAnnualPageReferences,
+    uniqueWindows: holdoutEntries.length,
     cityId: direct.sourceCityId,
     comparisonLevel: "city-label-only; Drik provider coordinates/elevation are not published"
   },
