@@ -195,8 +195,8 @@
     {
       "date": "2030-02-18",
       "dateLabel": "18 फ़रवरी",
-      "title": "माघ पूर्णिमा / ललिता षोडशी महाविद्या जयंती",
-      "description": "माघ पूर्णिमा पर पवित्र स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत और स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार किया जाता है। ललिता षोडशी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html\" target=\"_blank\" rel=\"noopener noreferrer\">ललिता षोडशी महाविद्या</a>",
+      "title": "माघ पूर्णिमा / ललिता षोडशी महाविद्या जयंती / गुरु रविदास जयंती",
+      "description": "माघ पूर्णिमा पर पवित्र स्नान, दान, जप और चंद्र-पूजन की परंपरा है। व्रत और स्नान का निर्णय पूर्णिमा-व्याप्ति के अनुसार किया जाता है। ललिता षोडशी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html\" target=\"_blank\" rel=\"noopener noreferrer\">ललिता षोडशी महाविद्या</a> गुरु रविदास जयंती पर संत रविदास के समता, भक्ति और सदाचार के संदेश का स्मरण किया जाता है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -204,7 +204,9 @@
       "sourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030",
       "articleUrl": "https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html",
-      "articleLabel": "ललिता षोडशी महाविद्या"
+      "articleLabel": "ललिता षोडशी महाविद्या",
+      "secondarySourceName": "Drik Panchang — 2030 Indian Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
     },
     {
       "date": "2030-02-21",
@@ -227,6 +229,18 @@
       "hinduTithi": "फाल्गुन कृष्ण अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+    },
+    {
+      "date": "2030-02-27",
+      "dateLabel": "27 फ़रवरी",
+      "title": "महर्षि दयानंद सरस्वती जयंती",
+      "description": "महर्षि दयानंद सरस्वती जयंती पर उनके वैदिक चिंतन, समाज-सुधार और आर्य समाज की स्थापना में योगदान का स्मरण किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण दशमी",
+      "sourceName": "Drik Panchang — Maharishi Dayanand Saraswati Jayanti 2030",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/indian/jayanti/maharishi-dayanand-saraswati/maharishi-dayanand-saraswati-jayanti.html?year=2030"
     },
     {
       "date": "2030-02-28",
