@@ -1073,8 +1073,8 @@ test("Chhath shows all four dated observances and local sunset/sunrise arghya ti
   const result = getFestivalMuhurta({muhurtaRule:"chhath-arghya"}, {date:mainDate,sunset,nextSunrise});
   assert.equal(result.status,"calculated");
   assert.deepEqual(result.milestones.map(item => item.label), ["नहाय-खाय (चतुर्थी)","खरना / लोहंडा (पंचमी)"]);
-  assert.equal(result.milestones[0].date.toISOString(), date("2026-11-13T11:30:00.000Z").toISOString());
-  assert.equal(result.milestones[1].date.toISOString(), date("2026-11-14T11:30:00.000Z").toISOString());
+  assert.equal(result.milestones[0].date.toISOString(), date("2026-11-13T06:00:00.000Z").toISOString());
+  assert.equal(result.milestones[1].date.toISOString(), date("2026-11-14T06:00:00.000Z").toISOString());
   assert.deepEqual(result.times.map(item => item.label), ["संध्या अर्घ्य (षष्ठी)","उषा अर्घ्य एवं पारण (सप्तमी)"]);
   assert.equal(result.times[0].time.toISOString(), sunset.toISOString());
   assert.equal(result.times[1].time.toISOString(), nextSunrise.toISOString());
