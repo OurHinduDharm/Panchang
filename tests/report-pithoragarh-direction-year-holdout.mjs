@@ -210,6 +210,17 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
           const publishedEnd = entry.boundaries.astaEnd;
           predictions.push({
             id: entry.id, matched: true,
+            conjunctionType: best.window.conjunctionType,
+            astaDirection: best.window.asta.direction,
+            udayaDirection: best.window.udaya.direction,
+            predictedAstaDate: best.window.asta.predictedBoundaryDate,
+            publishedAstaDate: publishedAsta.local.slice(0, 10),
+            predictedAstaTime: best.window.asta.predictedEventLocalTime,
+            publishedAstaTime: publishedAsta.local.slice(11, 16),
+            predictedUdayaDate: best.window.udaya.predictedBoundaryDate,
+            publishedUdayaDate: publishedEnd.local.slice(0, 10),
+            predictedUdayaTime: best.window.udaya.predictedEventLocalTime,
+            publishedUdayaTime: publishedEnd.local.slice(11, 16),
             astaErrorDays: best.error,
             udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd.local),
             astaClockErrorMinutes: clockError(best.window.asta.predictedEventLocalTime, publishedAsta.local.slice(11, 16)),
