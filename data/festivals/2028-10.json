@@ -135,8 +135,8 @@
     {
       "date": "2028-10-17",
       "dateLabel": "17 अक्टूबर",
-      "title": "दीपावली / लक्ष्मी पूजन",
-      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>",
+      "title": "दीपावली / लक्ष्मी पूजन / कमला महाविद्या जयंती",
+      "description": "दीपावली पर दीपदान, घर की स्वच्छता तथा लक्ष्मी-गणेश पूजन की परंपरा है। पूजा का समय चुने गए नगर के सूर्यास्त, अमावस्या-व्याप्ति और उपलब्ध स्थिर लग्न से निकाला जाएगा। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली का महत्व</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">महालक्ष्मी-कमला की स्तोत्रात्मक उपासना</a>। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">दीपावली की रात्रि में श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a> कमला महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Kamla-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">कमला महाविद्या</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -144,7 +144,10 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Deepawali.html",
       "articleLabel": "दीपावली का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
-      "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना"
+      "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना",
+      "hinduTithi": "कार्तिक कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2028 Dasha Mahavidya Jayanti Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2028"
     },
     {
       "date": "2028-10-18",
