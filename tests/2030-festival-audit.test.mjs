@@ -292,6 +292,6 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.equal(at(dec, "2030-12-22", /रवि प्रदोष/)?.muhurtaRule, "pradosh-kala");
 
   // Deepawali must render its city-specific Lakshmi-Ganesha puja windows.
-  assert.equal(at(oct, "2030-10-26", /दीपावली.*लक्ष्मी पूजन/)?.muhurtaRule, "diwali-lakshmi-puja");
+  assert.deepEqual(at(oct, "2030-10-26", /दीपावली.*लक्ष्मी पूजन/)?.muhurtaRules, ["diwali-lakshmi-puja"]);
   assert.match(at(oct, "2030-10-25", /हनुमान पूजा/)?.description || "", /हनुमान जी की विशेष पूजा/);
 });
