@@ -225,6 +225,12 @@ test("2026–2030 calendar excludes non-core Tamil observances and non-religious
   }
   const diwali = year2029.find(event => event.date === "2029-11-05" && /दीपावली/.test(event.title || ""));
   assert.match(diwali.title, /केदार गौरी व्रत/);
+  assert.equal(year2029.filter(event => /केदार गौरी व्रत/.test(event.title || "")).length, 1);
+
+  const october2027 = JSON.parse(readFileSync(join(folder, "2027-10.json"), "utf8"));
+  const diwali2027 = october2027.events.find(event => event.date === "2027-10-29" && /दीपावली/.test(event.title || ""));
+  assert.match(diwali2027.title, /केदार गौरी व्रत/);
+  assert.equal(october2027.events.filter(event => event.date === "2027-10-29" && /केदार गौरी व्रत/.test(event.title || "")).length, 1);
 });
 
 
