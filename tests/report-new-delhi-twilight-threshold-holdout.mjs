@@ -218,6 +218,70 @@ function fitMagnitudeThreshold(samples) {
   return { intercept: meanAltitude - slope * meanMagnitude, slope };
 }
 
+
+function solveLinearSystem(matrix, vector) {
+  const size = vector.length;
+  const a = matrix.map((row, index) => [...row, vector[index]]);
+  for (let column = 0; column < size; column++) {
+    let pivot = column;
+    for (let row = column + 1; row < size; row++) {
+      if (Math.abs(a[row][column]) > Math.abs(a[pivot][column])) pivot = row;
+    }
+    if (Math.abs(a[pivot][column]) < 1e-10) {
+      throw new Error("Feature regression matrix is singular");
+    }
+    [a[column], a[pivot]] = [a[pivot], a[column]];
+    const divisor = a[column][column];
+    for (let j = column; j <= size; j++) a[column][j] /= divisor;
+    for (let row = 0; row < size; row++) {
+      if (row === column) continue;
+      const factor = a[row][column];
+      for (let j = column; j <= size; j++) a[row][j] -= factor * a[column][j];
+    }
+  }
+  return a.map(row => row[size]);
+}
+
+function fitFeatureThreshold(samples, featureKeys, ridge = 0.1) {
+  if (samples.length < featureKeys.length + 2) {
+    throw new Error("Insufficient samples for feature regression");
+  }
+  const means = Object.fromEntries(featureKeys.map(key => [
+    key,
+    samples.reduce((sum, item) => sum + item[key], 0) / samples.length
+  ]));
+  const scales = Object.fromEntries(featureKeys.map(key => {
+    const variance = samples.reduce((sum, item) => sum + (item[key] - means[key]) ** 2, 0) / samples.length;
+    return [key, Math.sqrt(variance) || 1];
+  }));
+  const rows = samples.map(item => [
+    1,
+    ...featureKeys.map(key => (item[key] - means[key]) / scales[key])
+  ]);
+  const targets = samples.map(item => item.thresholdMidpoint);
+  const size = featureKeys.length + 1;
+  const matrix = Array.from({ length: size }, () => Array(size).fill(0));
+  const vector = Array(size).fill(0);
+  for (let i = 0; i < rows.length; i++) {
+    for (let row = 0; row < size; row++) {
+      vector[row] += rows[i][row] * targets[i];
+      for (let column = 0; column < size; column++) {
+        matrix[row][column] += rows[i][row] * rows[i][column];
+      }
+    }
+  }
+  for (let index = 1; index < size; index++) matrix[index][index] += ridge;
+  const beta = solveLinearSystem(matrix, vector);
+  const coefficients = Object.fromEntries(featureKeys.map((key, index) => [
+    key,
+    beta[index + 1] / scales[key]
+  ]));
+  const intercept = beta[0] - featureKeys.reduce((sum, key) =>
+    sum + coefficients[key] * means[key], 0
+  );
+  return { intercept, coefficients, featureKeys, ridge };
+}
+
 function evaluateMagnitudeHoldout(train, test) {
   if (train.length < 4 || test.length < 4) {
     return { available: false, reason: "At least four independent windows per year are required" };
@@ -481,6 +545,121 @@ const mercuryBoundaryDateHoldouts = Object.fromEntries(
 
 
 
+
+
+const planetAnnualElongationHoldouts = Object.fromEntries(
+  [...new Set(rows.map(item => item.planet))].map(planetName => {
+    const planetCases = dataset.cases.filter(entry =>
+      entry.planet === planetName && rows.some(row => row.id === entry.id)
+    );
+    const years = [...new Set(planetCases.map(entry =>
+      Number(entry.boundaries.astaStart.slice(0, 4))
+    ))].sort((a, b) => a - b);
+    const yearResults = [];
+
+    for (const testYear of years) {
+      const testCases = planetCases.filter(entry =>
+        Number(entry.boundaries.astaStart.slice(0, 4)) === testYear
+      );
+      const modelByBoundary = {};
+      let enoughTraining = true;
+      for (const boundaryName of ["astaStart", "astaEnd"]) {
+        const training = (thresholdGroups[planetName + ":" + boundaryName] || [])
+          .filter(sample => {
+            const entry = dataset.cases.find(item => item.id === sample.caseId);
+            return Number(entry.boundaries.astaStart.slice(0, 4)) !== testYear;
+          })
+          .map(sample => ({
+            apparentMagnitude: sample.apparentMagnitude,
+            elongationDegrees: sample.elongation,
+            thresholdMidpoint: (sample.lower + sample.upper) / 2
+          }));
+        if (training.length < 4) {
+          enoughTraining = false;
+          break;
+        }
+        modelByBoundary[boundaryName] = fitFeatureThreshold(
+          training,
+          ["apparentMagnitude", "elongationDegrees"]
+        );
+      }
+      if (!enoughTraining) {
+        yearResults.push({ testYear, available: false, reason: "Insufficient same-planet training samples" });
+        continue;
+      }
+
+      const searchDays = planetName === "Mars" ? 150 : planetName === "Mercury" ? 45 : 60;
+      const windows = generateVisibilityWindows({
+        astronomy: Astronomy,
+        body: planetName,
+        observer,
+        modelByBoundary,
+        startDate: new Date(Date.UTC(testYear, 0, 1)),
+        endDate: new Date(Date.UTC(testYear, 11, 31, 23, 59, 59)),
+        searchDays,
+        timeZone: "Asia/Kolkata"
+      });
+      const candidates = windows.filter(window =>
+        window.status === "candidate" &&
+        window.asta.predictedBoundaryDate?.slice(0, 4) === String(testYear)
+      );
+      const used = new Set();
+      const matches = [];
+      for (const entry of testCases) {
+        const publishedStart = entry.boundaries.astaStart.slice(0, 10);
+        const ranked = candidates
+          .map((window, index) => ({
+            window,
+            index,
+            startError: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedStart)
+          }))
+          .filter(item => !used.has(item.index))
+          .sort((a, b) => Math.abs(a.startError) - Math.abs(b.startError));
+        const best = ranked[0];
+        if (!best || Math.abs(best.startError) > 30) {
+          matches.push({ id: entry.id, matched: false });
+          continue;
+        }
+        used.add(best.index);
+        matches.push({
+          id: entry.id,
+          matched: true,
+          astaErrorDays: best.startError,
+          udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) -
+            dayNumber(entry.boundaries.astaEnd.slice(0, 10))
+        });
+      }
+      const matched = matches.filter(item => item.matched);
+      const summarize = key => {
+        const errors = matched.map(item => item[key]);
+        return {
+          count: errors.length,
+          exact: errors.filter(value => value === 0).length,
+          withinOneDay: errors.filter(value => Math.abs(value) <= 1).length,
+          withinTwoDays: errors.filter(value => Math.abs(value) <= 2).length,
+          meanAbsoluteErrorDays: errors.length
+            ? round(errors.reduce((sum, value) => sum + Math.abs(value), 0) / errors.length, 4)
+            : null,
+          maxAbsoluteErrorDays: errors.length
+            ? Math.max(...errors.map(Math.abs))
+            : null
+        };
+      };
+      yearResults.push({
+        testYear,
+        available: true,
+        candidateWindowCount: candidates.length,
+        matchedCaseCount: matched.length,
+        unmatchedCaseCount: matches.length - matched.length,
+        unmatchedCandidateCount: candidates.length - used.size,
+        asta: summarize("astaErrorDays"),
+        udaya: summarize("udayaErrorDays"),
+        matches
+      });
+    }
+    return [planetName, { years: yearResults }];
+  })
+);
 
 const planetAnnualBlindWindowHoldouts = Object.fromEntries(
   [...new Set(rows.map(item => item.planet))].map(planetName => {
@@ -804,6 +983,7 @@ console.log(JSON.stringify({
   planetBoundaryDateLeaveOnePlanetOut,
   planetSpecificApparitionHoldouts,
   planetAnnualBlindWindowHoldouts,
+  planetAnnualElongationHoldouts,
   interpretation: "Diagnostic only. New Delhi source coordinates are undisclosed; a city-centre proxy is used solely to test day-level threshold transfer. Do not claim coordinate-exact validation or promote this threshold to production.",
   cases: rows
 }, null, 2));
