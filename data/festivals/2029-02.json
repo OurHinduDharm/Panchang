@@ -162,15 +162,19 @@
     {
       "date": "2029-02-28",
       "dateLabel": "28 फ़रवरी",
-      "title": "होलिका दहन",
-      "description": "होलिका दहन बुराई पर अच्छाई की विजय का प्रतीक है। प्रदोषकाल और भद्रा का विचार तिथि-व्याप्ति और संबंधित नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">होलिका-दहन का महत्व पढ़ें</a>",
+      "title": "होलिका दहन / फाल्गुन पूर्णिमा / श्री महालक्ष्मी जयंती",
+      "description": "होलिका दहन बुराई पर अच्छाई की विजय का प्रतीक है। प्रदोषकाल और भद्रा का विचार तिथि-व्याप्ति और संबंधित नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">होलिका-दहन का महत्व पढ़ें</a> श्री महालक्ष्मी जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी जयंती</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन पूर्णिमा",
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
       "muhurtaRule": "holika-dahan-pradosh",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
-      "articleLabel": "होलिका-दहन का महत्व पढ़ें"
+      "articleLabel": "होलिका-दहन का महत्व पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "secondaryArticleLabel": "श्री महालक्ष्मी जयंती",
+      "sourceName": "Drik Panchang — Phalguna Purnima 2029",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/purnima/purnima-calendar.html?year=2029"
     }
   ]
 }
