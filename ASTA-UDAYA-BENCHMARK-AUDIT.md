@@ -866,3 +866,17 @@ New Delhi के लिए Drik के 2026 पृष्ठों से छह 
 - Swiss visibility model की date-level तुलना भी Drik algorithm की पुष्टि नहीं है; वह केवल स्वतंत्र candidate model का holdout test है।
 
 चार independently indexed Pithoragarh Venus 2025 boundaries पर baseline Swiss scenario के date offsets क्रमशः −2, +2, −7 और +8 दिन थे (published sample का MAE 4.75 दिन)। इससे baseline Schaefer/Swiss visibility setup अभी published Asta/Udaya dates को पर्याप्त सटीकता से नहीं पकड़ता। Observer/atmosphere parameters को सिर्फ चार samples पर tune नहीं किया जाएगा।
+
+
+### Mercury magnitude–twilight relationship: expanded holdout (2026–27)
+
+Expanded New Delhi dataset में Mercury की 13 Asta-start और 13 Asta-end boundaries (2026 तथा 2027) पर:
+- Asta-start apparent magnitude बनाम twilight-transition midpoint: **r = −0.875**.
+- Asta-end: **r = −0.930**.
+
+सिर्फ correlation पर निर्भर न रहकर year-wise holdout linear fit भी जाँचा:
+- Asta-start: 2026 पर fit, 2027 पर test MAE **0.474°**, जबकि constant-threshold baseline **1.184°**; उलटी दिशा में MAE **0.498°** बनाम baseline **0.867°**.
+- Asta-end: 2026→2027 MAE **0.500°** बनाम baseline **1.175°**; 2027→2026 MAE **0.335°** बनाम baseline **1.163°**.
+- अधिकतम individual error **1.26°** तक रहा।
+
+इससे Mercury के लिए apparent magnitude आधारित planet-specific twilight threshold एक उपयोगी candidate बनता है; पर यह अभी New Delhi city-centre proxy पर एक वर्ष से दूसरे वर्ष का fit है। Provider coordinates अज्ञात हैं, atmospheric assumptions सरल हैं, और date-level event prediction अभी अलग से validate होना बाकी है। इसे Pithoragarh या production में सीधे लागू नहीं किया जाएगा।
