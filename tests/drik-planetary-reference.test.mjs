@@ -11,10 +11,10 @@ const dataset = JSON.parse(await readFile(
   new URL("../data/drik-planetary-reference-2024-2027.json", import.meta.url), "utf8"
 ));
 
-test("compact production dataset contains only 200 unique year-verified windows", () => {
-  assert.equal(dataset.uniqueAcceptedWindows, 200);
-  assert.equal(dataset.windows.length, 200);
-  assert.deepEqual(dataset.years, [2024, 2025, 2026, 2027]);
+test("production dataset contains 231 unique year-verified windows with city-specific historical coverage", () => {
+  assert.equal(dataset.uniqueAcceptedWindows, 231);
+  assert.equal(dataset.windows.length, 231);
+  assert.deepEqual(dataset.years, [2021, 2022, 2023, 2024, 2025, 2026, 2027]);
   assert.equal(dataset.cities.length, 5);
   assert.equal(dataset.planets.length, 5);
   assert.equal(dataset.provisionalExcludedWindows, 50);
@@ -118,7 +118,7 @@ test("formats normalized IST timestamps and preserves 24+ rollover normalization
   assert.equal(formatDrikBoundary({ normalizedLocalDateTime: "2024-02-07T06:22:00Z" }), null);
 });
 
-test("compact production dataset contains only 200 verified unique windows for five cities", () => {
+test("production dataset contains 231 verified unique windows with extended Pithoragarh history", () => {
   assert.equal(dataset.windows.length, 200);
   assert.equal(dataset.cities.length, 5);
   assert.deepEqual(dataset.years, [2024, 2025, 2026, 2027]);
@@ -141,7 +141,7 @@ test("compact production dataset contains only 200 verified unique windows for f
     keys.add(key);
     counts.set(entry.sourceLocation, (counts.get(entry.sourceLocation) || 0) + 1);
   }
-  assert.deepEqual([...counts.values()].sort((a, b) => a - b), [40, 40, 40, 40, 40]);
+  assert.deepEqual([...counts.values()].sort((a, b) => a - b), [40, 40, 40, 40, 71]);
 });
 
 test("Mumbai has its own direct source window rather than borrowing New Delhi", () => {
@@ -154,4 +154,29 @@ test("Mumbai has its own direct source window rather than borrowing New Delhi", 
   assert.equal(result.status, "upcoming");
   assert.equal(result.city, "Mumbai, Maharashtra, India");
   assert.ok(result.window.sourcePageUrl.includes("geoname-id=1275339"));
+});
+
+
+test("Pithoragarh historical 2021–2023 windows are available without changing other cities", () => {
+  const pith = dataset.windows.filter(row =>
+    row.sourceLocation === "Pithoragarh, Uttarakhand, India"
+  );
+  assert.equal(pith.length, 71);
+  for (const year of [2021, 2022, 2023]) {
+    assert.ok(pith.some(row => row.sourcePageYear === year), "missing Pithoragarh " + year);
+  }
+  for (const city of dataset.cities.filter(row =>
+    row.name !== "Pithoragarh, Uttarakhand, India"
+  )) {
+    assert.ok(dataset.windows.filter(row => row.sourceLocation === city.name)
+      .every(row => row.sourcePageYear >= 2024));
+  }
+  const result = getDrikPlanetaryReference({
+    dataset,
+    location: { city: "पिथौरागढ़" },
+    selectedDate: "2021-03-01",
+    planet: "Mercury"
+  });
+  assert.equal(result.status, "active");
+  assert.equal(result.window.sourcePageYear, 2021);
 });
