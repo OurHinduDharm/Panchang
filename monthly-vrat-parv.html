@@ -770,6 +770,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
         var description=String(item.description);
+        if(/अमावस्या/.test(String(item.title||""))&&/तर्पण/.test(description)&&!/pitri-tarpan-vidhi/i.test(description+" "+String(item.articleUrl||"")+" "+String(item.secondaryArticleUrl||""))){
+          description+=" <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a>।";
+        }
         if(/महाशिवरात्रि|मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/shivratri-prahar-pooja-vidhi/i.test(description)){
           description+=" <a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">चारों प्रहर की पूजा-विधि पढ़ें</a>।";
         }
