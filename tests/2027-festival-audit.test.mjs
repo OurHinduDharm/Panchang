@@ -104,3 +104,16 @@ test("2027 January retains Amavasya, regional Lohri, Kurma Dwadashi and monthly 
   const kalashtami = find(1,"2027-01-29",/मासिक कालाष्टमी/);
   assert.match(kalashtami.title,/मासिक कृष्ण जन्माष्टमी/);
 });
+
+test("2027 February preserves Shabari Jayanti, Nishita Masik Krishna Janmashtami and Janaki Jayanti", () => {
+  const shabari = find(2,"2027-02-27",/शबरी जयंती/);
+  assert.ok(shabari);
+  assert.equal(shabari.hinduTithi,"फाल्गुन कृष्ण सप्तमी");
+  const masikJanmashtami = find(2,"2027-02-27",/मासिक कृष्ण जन्माष्टमी/);
+  assert.ok(masikJanmashtami);
+  assert.equal(masikJanmashtami.hinduTithi,"फाल्गुन कृष्ण अष्टमी");
+  const janaki = find(2,"2027-02-28",/जानकी जयंती/);
+  assert.ok(janaki);
+  assert.match(janaki.title,/मासिक कालाष्टमी/);
+  assert.equal(janaki.hinduTithi,"फाल्गुन कृष्ण अष्टमी");
+});
