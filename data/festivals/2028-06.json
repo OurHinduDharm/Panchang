@@ -53,6 +53,16 @@
       "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा"
     },
     {
+      "date": "2028-06-10",
+      "dateLabel": "10 जून",
+      "title": "कृष्णपिङ्गल संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण चतुर्थी"
+    },
+    {
       "date": "2028-06-11",
       "dateLabel": "11 जून",
       "title": "संकष्टी चतुर्थी",
@@ -134,11 +144,32 @@
     {
       "date": "2028-06-24",
       "dateLabel": "24 जून",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल द्वितीया"
+    },
+    {
+      "date": "2028-06-24",
+      "dateLabel": "24 जून",
       "title": "जगन्नाथ रथयात्रा",
       "description": "जगन्नाथ रथयात्रा में भगवान जगन्नाथ, बलभद्र और सुभद्रा के विग्रहों की रथयात्रा निकाली जाती है। पुरी इसका प्रमुख केंद्र है; अन्य क्षेत्रों में स्थानीय रीति होती है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2028-06-26",
+      "dateLabel": "26 जून",
+      "title": "अनिरुद्ध चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2028-06-27",

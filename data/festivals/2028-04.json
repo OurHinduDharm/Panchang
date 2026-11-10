@@ -79,6 +79,16 @@
       "secondaryArticleLabel": "श्रीहनुमान जी की स्तोत्रात्मक साधना"
     },
     {
+      "date": "2028-04-12",
+      "dateLabel": "12 अप्रैल",
+      "title": "विकट संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख कृष्ण चतुर्थी"
+    },
+    {
       "date": "2028-04-13",
       "dateLabel": "13 अप्रैल",
       "title": "बिहू",
@@ -175,6 +185,16 @@
       "hinduTithi": "वैशाख कृष्ण अमावस्या"
     },
     {
+      "date": "2028-04-26",
+      "dateLabel": "26 अप्रैल",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल द्वितीया"
+    },
+    {
       "date": "2028-04-27",
       "dateLabel": "27 अप्रैल",
       "title": "त्रेतायुगादि (त्रेतायुग का आरंभ)",
@@ -210,6 +230,17 @@
       "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
       "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें"
+    },
+    {
+      "date": "2028-04-28",
+      "dateLabel": "28 अप्रैल",
+      "title": "संकर्षण चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2028-04-29",

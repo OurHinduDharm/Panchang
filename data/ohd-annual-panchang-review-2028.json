@@ -81,6 +81,17 @@
     {
       "date": "2028-01-15",
       "dateLabel": "15 जनवरी",
+      "title": "संकष्टी चतुर्थी / लम्बोदर संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय स्थान के अनुसार बदलता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "reviewCategory": "व्रत",
+      "hinduTithi": "माघ कृष्ण चतुर्थी"
+    },
+    {
+      "date": "2028-01-15",
+      "dateLabel": "15 जनवरी",
       "title": "पोंगल",
       "description": "पोंगल दक्षिण भारत, विशेषकर तमिल परंपरा का फसल-पर्व है। सूर्यदेव के प्रति कृतज्ञता व्यक्त करते हुए नए चावल और दूध से पोंगल बनाया जाता है। इसकी तिथि सौर पंचांग पर आधारित होती है।",
       "category": "पर्व",
@@ -97,16 +108,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "संक्रांति"
-    },
-    {
-      "date": "2028-01-15",
-      "dateLabel": "15 जनवरी",
-      "title": "संकष्टी चतुर्थी",
-      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय स्थान के अनुसार बदलता है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-01-18",
@@ -166,6 +167,29 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "अमावस्या"
+    },
+    {
+      "date": "2028-01-28",
+      "dateLabel": "28 जनवरी",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-01-30",
+      "dateLabel": "30 जनवरी",
+      "title": "गौरी गणेश चतुर्थी / गणेश जयंती",
+      "description": "गौरी गणेश चतुर्थी को गणेश जयंती भी कहा जाता है। माघ शुक्ल चतुर्थी पर भगवान गणेश की विशेष पूजा, स्तोत्र-मंत्र पाठ और तिल के मोदक अर्पित करने की परंपरा है। तिलकुन्द चतुर्थी और वरद चतुर्थी नाम भी प्रचलित हैं।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत-पर्व"
     },
     {
       "date": "2028-01-31",
@@ -268,6 +292,17 @@
     },
     {
       "date": "2028-02-13",
+      "dateLabel": "13 फरवरी",
+      "title": "द्विजप्रिय संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
+      "date": "2028-02-13",
       "dateLabel": "13 फ़रवरी",
       "title": "कुंभ संक्रांति",
       "description": "कुंभ संक्रांति सूर्य के कुंभ राशि में प्रवेश से जुड़ी है। स्नान, दान और जप की परंपरा है; पुण्यकाल वास्तविक संक्रमण-समय से तय करें।",
@@ -352,6 +387,29 @@
       "reviewCategory": "अमावस्या"
     },
     {
+      "date": "2028-02-26",
+      "dateLabel": "26 फरवरी",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-02-29",
+      "dateLabel": "29 फरवरी",
+      "title": "ढुण्ढिराज चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2028-03-02",
       "dateLabel": "2 मार्च",
       "title": "मासिक स्कन्द षष्ठी",
@@ -428,6 +486,17 @@
       "reviewCategory": "पर्व"
     },
     {
+      "date": "2028-03-13",
+      "dateLabel": "13 मार्च",
+      "title": "भालचन्द्र संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2028-03-14",
       "dateLabel": "14 मार्च",
       "title": "मीन संक्रांति",
@@ -499,6 +568,17 @@
     {
       "date": "2028-03-27",
       "dateLabel": "27 मार्च",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-03-27",
+      "dateLabel": "27 मार्च",
       "title": "उगादी / गुड़ी पड़वा",
       "description": "उगादी और गुड़ी पड़वा चैत्र शुक्ल प्रतिपदा से जुड़ा नववर्ष-पर्व है, जिसे दक्षिण और पश्चिम भारत की अलग-अलग परंपराओं में मनाया जाता है।",
       "category": "पर्व",
@@ -515,6 +595,18 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "नवरात्रि"
+    },
+    {
+      "date": "2028-03-30",
+      "dateLabel": "30 मार्च",
+      "title": "वासुदेव चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-03-31",
@@ -577,6 +669,17 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "जयंती"
+    },
+    {
+      "date": "2028-04-12",
+      "dateLabel": "12 अप्रैल",
+      "title": "विकट संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-04-13",
@@ -678,6 +781,17 @@
       "reviewCategory": "अमावस्या"
     },
     {
+      "date": "2028-04-26",
+      "dateLabel": "26 अप्रैल",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
       "date": "2028-04-27",
       "dateLabel": "27 अप्रैल",
       "title": "त्रेतायुगादि (त्रेतायुग का आरंभ)",
@@ -708,6 +822,18 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "जयंती"
+    },
+    {
+      "date": "2028-04-28",
+      "dateLabel": "28 अप्रैल",
+      "title": "संकर्षण चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-04-29",
@@ -794,6 +920,17 @@
       "reviewCategory": "पूर्णिमा"
     },
     {
+      "date": "2028-05-11",
+      "dateLabel": "11 मई",
+      "title": "एकदन्त संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2028-05-12",
       "dateLabel": "12 मई",
       "title": "संकष्टी चतुर्थी",
@@ -873,6 +1010,29 @@
       "reviewCategory": "व्रत"
     },
     {
+      "date": "2028-05-25",
+      "dateLabel": "25 मई",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-05-27",
+      "dateLabel": "27 मई",
+      "title": "प्रद्युम्न चतुर्थी / विनायक चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2028-05-29",
       "dateLabel": "29 मई",
       "title": "मासिक स्कन्द षष्ठी",
@@ -935,6 +1095,17 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "पूर्णिमा"
+    },
+    {
+      "date": "2028-06-10",
+      "dateLabel": "10 जून",
+      "title": "कृष्णपिङ्गल संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-06-11",
@@ -1018,12 +1189,35 @@
     {
       "date": "2028-06-24",
       "dateLabel": "24 जून",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-06-24",
+      "dateLabel": "24 जून",
       "title": "जगन्नाथ रथयात्रा",
       "description": "जगन्नाथ रथयात्रा में भगवान जगन्नाथ, बलभद्र और सुभद्रा के विग्रहों की रथयात्रा निकाली जाती है। पुरी इसका प्रमुख केंद्र है; अन्य क्षेत्रों में स्थानीय रीति होती है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-06-26",
+      "dateLabel": "26 जून",
+      "title": "अनिरुद्ध चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-06-27",
@@ -1082,12 +1276,13 @@
     {
       "date": "2028-07-10",
       "dateLabel": "10 जुलाई",
-      "title": "संकष्टी चतुर्थी",
+      "title": "संकष्टी चतुर्थी / गजानन संकष्टी चतुर्थी",
       "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय स्थान के अनुसार बदलता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "reviewCategory": "व्रत"
+      "reviewCategory": "व्रत",
+      "hinduTithi": "श्रावण कृष्ण चतुर्थी"
     },
     {
       "date": "2028-07-14",
@@ -1149,6 +1344,17 @@
       "reviewCategory": "अमावस्या"
     },
     {
+      "date": "2028-07-23",
+      "dateLabel": "23 जुलाई",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
       "date": "2028-07-24",
       "dateLabel": "24 जुलाई",
       "title": "हरियाली तीज",
@@ -1156,6 +1362,18 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "reviewCategory": "व्रत"
+    },
+    {
+      "date": "2028-07-25",
+      "dateLabel": "25 जुलाई",
+      "title": "दूर्वा गणपति चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "reviewCategory": "व्रत"
     },
     {
@@ -1255,12 +1473,13 @@
     {
       "date": "2028-08-09",
       "dateLabel": "9 अगस्त",
-      "title": "संकष्टी चतुर्थी",
+      "title": "संकष्टी चतुर्थी / हेरम्ब संकष्टी चतुर्थी / बहुला चतुर्थी",
       "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय स्थान के अनुसार बदलता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "reviewCategory": "व्रत"
+      "reviewCategory": "व्रत",
+      "hinduTithi": "भाद्रपद कृष्ण चतुर्थी"
     },
     {
       "date": "2028-08-13",
@@ -1323,6 +1542,17 @@
     {
       "date": "2028-08-22",
       "dateLabel": "22 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-08-22",
+      "dateLabel": "22 अगस्त",
       "title": "हरतालिका तीज",
       "description": "हरतालिका तीज पर कई परंपराओं में शिव-पार्वती की पूजा, व्रत और कथा-श्रवण किया जाता है। व्रत की तिथि तृतीया-व्याप्ति के आधार पर निर्धारित होती है।",
       "category": "व्रत",
@@ -1333,12 +1563,16 @@
     {
       "date": "2028-08-23",
       "dateLabel": "23 अगस्त",
-      "title": "गणेश चतुर्थी",
-      "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजन, नैवेद्य और मंत्र-जप की परंपरा है। चतुर्थी-व्याप्ति और चंद्र-दर्शन संबंधी नियम चुने गए नगर के अनुसार मुहूर्त निकाला जाता है।",
+      "title": "गणेश चतुर्थी / श्री गणेश चतुर्थी / सिद्धिविनायक चतुर्थी — गणेश जयंती",
+      "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजन, नैवेद्य और मंत्र-जप की परंपरा है। चतुर्थी-व्याप्ति और चंद्र-दर्शन संबंधी नियम चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री गणेश चतुर्थी व्रत विधि व कथा</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "reviewCategory": "व्रत"
+      "reviewCategory": "व्रत",
+      "hinduTithi": "भाद्रपद शुक्ल चतुर्थी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html",
+      "articleLabel": "श्री गणेश चतुर्थी व्रत विधि व कथा",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2028-08-23",
@@ -1458,6 +1692,17 @@
       "reviewCategory": "पितृपक्ष"
     },
     {
+      "date": "2028-09-07",
+      "dateLabel": "7 सितंबर",
+      "title": "विघ्नराज संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2028-09-11",
       "dateLabel": "11 सितंबर",
       "title": "मासिक कालाष्टमी",
@@ -1560,6 +1805,29 @@
       "reviewCategory": "नवरात्रि"
     },
     {
+      "date": "2028-09-20",
+      "dateLabel": "20 सितंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-09-21",
+      "dateLabel": "21 सितंबर",
+      "title": "कपर्दीश चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2028-09-23",
       "dateLabel": "23 सितंबर",
       "title": "मासिक स्कन्द षष्ठी",
@@ -1633,6 +1901,20 @@
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
       "reviewCategory": "पूर्णिमा"
+    },
+    {
+      "date": "2028-10-07",
+      "dateLabel": "7 अक्टूबर",
+      "title": "कार्तिक कृष्ण चतुर्थी — करकचतुर्थी / वक्रतुण्ड संकष्टी",
+      "description": "<a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\" rel=\"noopener noreferrer\">करवा चौथ व्रत</a> विवाहित महिलाएँ पति के मंगल और दीर्घायु की कामना से रखती हैं। चंद्रमा को अर्घ्य देकर व्रत खोलें। चंद्र-दर्शन और अर्घ्य का स्थानीय समय स्थान के अनुसार बदलता है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्थी",
+      "muhurtaRule": "karwa-chauth-puja",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
+      "articleLabel": "करवा चौथ व्रत-विधि",
+      "reviewCategory": "व्रत-पर्व"
     },
     {
       "date": "2028-10-07",
@@ -1778,12 +2060,35 @@
     {
       "date": "2028-10-19",
       "dateLabel": "19 अक्टूबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-10-19",
+      "dateLabel": "19 अक्टूबर",
       "title": "भैया दूज",
       "description": "भैया दूज पर बहनें भाइयों के मंगल की कामना करती हैं; तिलक और पारिवारिक मिलन इसकी प्रमुख परंपराएँ हैं। तिलक का समय द्वितीया-व्याप्ति के आधार पर निर्धारित होता है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-10-21",
+      "dateLabel": "21 अक्टूबर",
+      "title": "लाभ चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-10-23",
@@ -1883,6 +2188,17 @@
       "reviewCategory": "पूर्णिमा"
     },
     {
+      "date": "2028-11-05",
+      "dateLabel": "5 नवंबर",
+      "title": "गणाधिप संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय नगर के अनुसार अलग होता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2028-11-09",
       "dateLabel": "9 नवंबर",
       "title": "कालभैरव जयंती / मासिक कालाष्टमी",
@@ -1949,6 +2265,29 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "अमावस्या"
+    },
+    {
+      "date": "2028-11-18",
+      "dateLabel": "18 नवंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-11-20",
+      "dateLabel": "20 नवंबर",
+      "title": "कृच्छ्र चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-11-21",
@@ -2042,7 +2381,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "reviewCategory": "व्रत"
+      "reviewCategory": "व्रत",
+      "hinduTithi": "पौष कृष्ण चतुर्थी"
     },
     {
       "date": "2028-12-09",
@@ -2112,6 +2452,29 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "reviewCategory": "अमावस्या"
+    },
+    {
+      "date": "2028-12-17",
+      "dateLabel": "17 दिसंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2028-12-19",
+      "dateLabel": "19 दिसंबर",
+      "title": "विनायक चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को भगवान गणेश की पूजा और व्रत किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2028-12-21",

@@ -103,6 +103,27 @@
       "hinduTithi": "पौष कृष्ण अमावस्या"
     },
     {
+      "date": "2028-12-17",
+      "dateLabel": "17 दिसंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल द्वितीया"
+    },
+    {
+      "date": "2028-12-19",
+      "dateLabel": "19 दिसंबर",
+      "title": "विनायक चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को भगवान गणेश की पूजा और व्रत किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
       "date": "2028-12-21",
       "dateLabel": "21 दिसंबर",
       "title": "मासिक स्कन्द षष्ठी",
