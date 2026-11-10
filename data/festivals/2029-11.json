@@ -10,12 +10,16 @@
       "date": "2029-11-02",
       "dateLabel": "2 नवंबर",
       "title": "रमा एकादशी",
-      "description": "रमा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है।",
+      "description": "रमा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">रमा एकादशी का माहात्म्य पढ़ें</a> <a href=\"https://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण एकादशी",
-      "muhurtaRule": "ekadashi-parana"
+      "muhurtaRule": "ekadashi-parana",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/10/About-Rama-Ekadashi.html",
+      "articleLabel": "रमा एकादशी का माहात्म्य पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2029-11-03",
