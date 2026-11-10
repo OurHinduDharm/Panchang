@@ -366,3 +366,20 @@ Boundary report अब Astronomy Engine Illumination() से apparent magnitude
 4. PR #278 Draft रहेगा; merge/release नहीं। Main Panchang performance और existing calculations untouched हैं।
 
 Latest validation run 42750287551 में Panchang feature tests सफल रहे; browser diagnostics और classical interval regression अलग workflows में भी सफल रहे।
+
+
+### Conjunction-derived annual generator — नया परिणाम
+
+Research module में अब:
+- findNearestConjunctionAnchor() — Mercury/Venus के inferior और superior conjunction; Mars/Jupiter/Saturn के superior conjunction खोजता है।
+- generateVisibilityWindows() — चुने हुए year-range में conjunctions स्वयं enumerate करके local planetary rise/set और twilight residual से Asta/Udaya candidates बनाता है। यह published event dates को search centre नहीं बनाता।
+- Candidate status केवल एक crossing पर मिलता है; no-crossing और multiple-crossing अलग status रहते हैं। Mercury के दोनों conjunction families और outer-planet direction mapping के unit tests सफल हुए। Mars के लिए 150-day search window की अनुमति भी है।
+
+2022–27 annual blind holdout में 56 New Delhi windows / 112 boundaries:
+- Asta MAE 0.589 दिन; 54/56 ±1 दिन और 56/56 ±2 दिन।
+- Udaya MAE 0.607 दिन; 49/56 ±1 दिन और 54/56 ±2 दिन।
+- Saturn और Venus के लिए अधिकांश dates ±1 दिन; Jupiter भी लगभग ±1–2 दिन। Mercury Udaya में अधिक त्रुटि (एक अधिकतम 3 दिन)।
+- 68 candidates में 12 unmatched अतिरिक्त windows हैं। Reference ledger completeness और false candidates का पृथक विश्लेषण बाकी है।
+- Mars के लिए training samples अपर्याप्त हैं।
+
+**निर्णय:** यह अब वास्तविक annual event-generation pipeline का प्रमाण है, केवल boundary-centered diagnostic नहीं। फिर भी exact date की अपेक्षा के लिए 1–3 दिन की त्रुटि और 12 unmatched candidates स्वीकार्य नहीं। इसलिए अभी भी main Panchang display/production में integrate न करें। अगला चरण: unmatched windows audit, फिर magnitude के साथ phase angle, elongation और Sun–planet azimuth separation की feature validation। उसके बाद Pithoragarh के स्वतंत्र multi-planet references पर blind test।
