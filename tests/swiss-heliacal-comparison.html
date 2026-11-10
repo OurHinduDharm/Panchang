@@ -11,16 +11,66 @@
 import SwissEph from "https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js";
 
 const references = [
-  { id: "venus-pithoragarh-2025-march-asta-start", date: "2025-03-20", published: "2025-03-20T18:42:00+05:30", eventType: 2, event: "Evening Last" },
-  { id: "venus-pithoragarh-2025-march-asta-end", date: "2025-03-23", published: "2025-03-23T05:40:00+05:30", eventType: 1, event: "Morning First" },
-  { id: "venus-pithoragarh-2025-december-asta-start", date: "2025-12-11", published: "2025-12-11T06:25:00+05:30", eventType: 4, event: "Morning Last" },
-  { id: "venus-pithoragarh-2026-february-asta-end", planet: "Venus", date: "2026-02-02", published: "2026-02-02T18:15:00+05:30", eventType: 3, event: "Evening First", sourceStatus: "published-indexed" },
-  { id: "venus-pithoragarh-2026-october-asta-start", planet: "Venus", date: "2026-10-12", published: "2026-10-12T18:05:00+05:30", eventType: 2, event: "Evening Last", sourceStatus: "user-reported-provisional" },
-  { id: "venus-pithoragarh-2026-october-asta-end", planet: "Venus", date: "2026-10-29", published: "2026-10-29T05:49:00+05:30", eventType: 1, event: "Morning First", sourceStatus: "user-reported-provisional" },
-  { id: "venus-pithoragarh-2027-july-asta-start", planet: "Venus", date: "2027-07-21", published: "2027-07-21T04:54:00+05:30", eventType: 4, event: "Morning Last", sourceStatus: "user-reported-provisional" },
-  { id: "venus-pithoragarh-2027-september-asta-end", planet: "Venus", date: "2027-09-09", published: "2027-09-09T18:48:00+05:30", eventType: 3, event: "Evening First", sourceStatus: "user-reported-provisional" },
-  { id: "jupiter-pithoragarh-2027-asta-start", planet: "Jupiter", date: "2027-08-16", published: "2027-08-16T19:24:00+05:30", eventType: 2, event: "Evening Last", sourceStatus: "user-reported-provisional" },
-  { id: "jupiter-pithoragarh-2027-asta-end", planet: "Jupiter", date: "2027-09-13", published: "2027-09-13T05:09:00+05:30", eventType: 1, event: "Morning First", sourceStatus: "user-reported-provisional" }
+  {
+    id: "mercury-pithoragarh-2025-asta-start",
+    planet: "Mercury", date: "2025-01-19", published: "2025-01-19T06:18:00+05:30",
+    eventType: 4, event: "Morning Last", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "mercury-pithoragarh-2025-asta-end",
+    planet: "Mercury", date: "2025-02-22", published: "2025-02-22T18:51:00+05:30",
+    eventType: 3, event: "Evening First", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "venus-pithoragarh-2025-asta-start",
+    planet: "Venus", date: "2025-03-20", published: "2025-03-20T18:42:00+05:30",
+    eventType: 2, event: "Evening Last", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "venus-pithoragarh-2025-asta-end",
+    planet: "Venus", date: "2025-03-23", published: "2025-03-23T05:40:00+05:30",
+    eventType: 1, event: "Morning First", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "mars-pithoragarh-2025-asta-start",
+    planet: "Mars", date: "2025-10-31", published: "2025-10-31T18:23:00+05:30",
+    eventType: 2, event: "Evening Last", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "mars-pithoragarh-2025-asta-end",
+    planet: "Mars", date: "2026-05-04", published: "2026-05-04T04:14:00+05:30",
+    eventType: 1, event: "Morning First", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "jupiter-pithoragarh-2025-asta-start",
+    planet: "Jupiter", date: "2025-06-12", published: "2025-06-12T19:47:00+05:30",
+    eventType: 2, event: "Evening Last", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "jupiter-pithoragarh-2025-asta-end",
+    planet: "Jupiter", date: "2025-07-10", published: "2025-07-10T04:27:00+05:30",
+    eventType: 1, event: "Morning First", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "saturn-pithoragarh-2025-asta-start",
+    planet: "Saturn", date: "2025-02-28", published: "2025-02-28T18:53:00+05:30",
+    eventType: 2, event: "Evening Last", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  },
+  {
+    id: "saturn-pithoragarh-2025-asta-end",
+    planet: "Saturn", date: "2025-04-10", published: "2025-04-10T04:48:00+05:30",
+    eventType: 1, event: "Morning First", sourceStatus: "direct-page-captured-browser-verified",
+    sourcePageUrl: "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en"
+  }
 ];
 
 function julianDay(ms) {
@@ -92,7 +142,7 @@ try {
       : null;
     const meanAbsoluteDateErrorDays = meanAbsoluteDateError(scenarioResults);
     const publishedReferenceMaeDays = meanAbsoluteDateError(
-      scenarioResults.filter(item => item.sourceStatus === "published-indexed")
+      scenarioResults.filter(item => item.sourceStatus === "published-indexed" || item.sourceStatus === "direct-page-captured-browser-verified")
     );
     const provisionalReferenceMaeDays = meanAbsoluteDateError(
       scenarioResults.filter(item => item.sourceStatus === "user-reported-provisional")
@@ -167,7 +217,7 @@ try {
   window.__SWISS_RESULT__ = {
     location: { latitude: 29.5828, longitude: 80.2182, elevationMeters: 1650, timeZone: "Asia/Kolkata" },
     scenarioCount: results.length,
-    warning: "Swiss heliacal events predict first/last visibility moments; the published Asta/Udaya clock time is the planet's own local rise/set. The old minute-MAE was not a valid like-for-like metric. Date offsets are now primary; clock offsets are retained only as explicitly non-comparable diagnostics. Swiss is not a Drik clone.",
+    warning: "Swiss heliacal events predict first/last visibility moments; the published Asta/Udaya clock time is the planet's own local rise/set. The old minute-MAE was not a valid like-for-like metric. Date offsets are now primary; clock offsets are retained only as explicitly non-comparable diagnostics. Swiss is not a Drik clone; this test now uses ten direct Pithoragarh 2025 references spanning all five visible planets.",
     scenarios: results,
     visibilityLimitProfiles
   };
