@@ -9,6 +9,18 @@
   "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
   "events": [
     {
+      "date": "2030-05-02",
+      "dateLabel": "2 मई",
+      "title": "वैशाख अमावस्या / दर्श अमावस्या",
+      "description": "वैशाख कृष्ण अमावस्या पर पितरों के निमित्त तर्पण, स्नान, दान और जप करने की परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2 मई 2030 दैनिक पंचांग",
+      "sourceUrl": "https://www.drikpanchang.com/assamese/assamese-day-panjika.html?date=02%2F05%2F2030"
+    },
+    {
       "date": "2030-05-03",
       "dateLabel": "3 मई",
       "title": "चन्द्र दर्शन",
@@ -39,7 +51,7 @@
     {
       "date": "2030-05-06",
       "dateLabel": "6 मई",
-      "title": "संकर्षण चतुर्थी",
+      "title": "विनायक चतुर्थी",
       "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
@@ -74,30 +86,20 @@
     {
       "date": "2030-05-11",
       "dateLabel": "11 मई",
-      "title": "मासिक दुर्गाष्टमी / वगलामुखी महाविद्या जयंती",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। वगलामुखी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वगलामुखी महाविद्या</a>",
-      "category": "व्रत",
+      "title": "मासिक दुर्गाष्टमी / सीता नवमी / वगलामुखी महाविद्या जयंती",
+      "description": "वैशाख शुक्ल अष्टमी और नवमी की व्याप्ति में मासिक दुर्गाष्टमी तथा सीता नवमी के पर्व हैं। माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। माता सीता के प्राकट्य-स्मरण में सीता-राम पूजन, रामायण-पाठ और दान करें। वगलामुखी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वगलामुखी महाविद्या</a> <a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भगवती सीता जी की जयंती एवं पूजन-विधि</a>",
+      "category": "व्रत एवं जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख शुक्ल अष्टमी / नवमी व्याप्ति",
       "articleUrl": "https://ourhindudharm.blogspot.com/2014/05/About-Goddess-Bagalamukhi-On-Vagalamukhi-Jayanti.html",
       "articleLabel": "वगलामुखी महाविद्या",
-      "sourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030"
-    },
-    {
-      "date": "2030-05-11",
-      "dateLabel": "11 मई",
-      "title": "सीता नवमी",
-      "description": "वैशाख शुक्ल नवमी को माता सीता के प्राकट्य-स्मरण में सीता नवमी मनाई जाती है। इस दिन सीता-राम पूजन, रामायण-पाठ और दान की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भगवती सीता जी की जयंती एवं पूजन-विधि</a>",
-      "category": "जयंती",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल नवमी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html",
-      "articleLabel": "भगवती सीता जी की जयंती एवं पूजन-विधि"
+      "sourceName": "Drik Panchang — 11 मई 2030 दैनिक पंचांग",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=11%2F05%2F2030",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html",
+      "secondaryArticleLabel": "भगवती सीता जी की जयंती एवं पूजन-विधि",
+      "secondarySourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030"
     },
     {
       "date": "2030-05-13",
@@ -107,7 +109,7 @@
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल एकादशी",
+      "hinduTithi": "वैशाख शुक्ल दशमी / एकादशी व्याप्ति",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "muhurtaRule": "ekadashi-parana",
@@ -157,8 +159,8 @@
     {
       "date": "2030-05-17",
       "dateLabel": "17 मई",
-      "title": "बुद्ध पूर्णिमा / कूर्म अवतार जयंती",
-      "description": "वैशाख पूर्णिमा को बुद्ध पूर्णिमा के रूप में भी मनाया जाता है। इस दिन भगवान बुद्ध का स्मरण, ध्यान, जप, स्नान और दान की परंपरा है। कूर्म अवतार जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कूर्म अवतार जयंती</a>",
+      "title": "वैशाख पूर्णिमा / बुद्ध पूर्णिमा / कूर्म अवतार जयंती",
+      "description": "वैशाख पूर्णिमा को बुद्ध पूर्णिमा के रूप में भी मनाया जाता है। इस दिन भगवान बुद्ध का स्मरण, ध्यान, जप, स्नान और दान करें। कूर्म अवतार जयंती पर भगवान विष्णु के कूर्म अवतार का स्मरण कर पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/05/About-Lord-Koorma-on-ShriKurma-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कूर्म अवतार जयंती</a>",
       "category": "जयंती एवं पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -239,7 +241,7 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ कृष्ण चतुर्दशी",
+      "hinduTithi": "ज्येष्ठ कृष्ण त्रयोदशी / चतुर्दशी व्याप्ति",
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
@@ -247,14 +249,14 @@
     {
       "date": "2030-05-31",
       "dateLabel": "31 मई",
-      "title": "वट सावित्री व्रत",
-      "description": "वट सावित्री व्रत में सावित्री-सत्यवान की कथा का श्रवण/पाठ कर वटवृक्ष की पूजा की जाती है। वटवृक्ष को जल अर्पित कर उसकी परिक्रमा और रक्षा-सूत्र बाँधने की परंपरा है। सुहाग की मंगल-कामना के साथ व्रत, पूजन और दान किया जाता है।",
+      "title": "वट सावित्री व्रत / शनि जयंती / ज्येष्ठ अमावस्या / दर्श अमावस्या",
+      "description": "ज्येष्ठ अमावस्या पर वट सावित्री व्रत में सावित्री-सत्यवान की कथा का श्रवण/पाठ कर वटवृक्ष की पूजा, परिक्रमा और रक्षा-सूत्र बाँधने की परंपरा है। इसी दिन शनि जयंती पर शनिदेव का तैलाभिषेक, पूजन, मंत्र-जप और दान करें। अमावस्या पर पितरों के निमित्त तर्पण और दान भी किया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      "sourceName": "Drik Panchang — 31 मई 2030 दैनिक पंचांग",
+      "sourceUrl": "https://www.drikpanchang.com/kannada/panchangam/kannada-day-panchangam.html?date=31%2F05%2F2030"
     }
   ]
 }
