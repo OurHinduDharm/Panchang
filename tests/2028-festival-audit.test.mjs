@@ -200,8 +200,8 @@ test("2028 additional major observances are present with their reviewed tithis",
 
 test("2026–2030 calendar excludes non-core Tamil observances and non-religious biographies", () => {
   const years = [2026, 2027, 2028, 2029, 2030];
-  const excluded = /स्वामी विवेकानन्द|राष्ट्रीय युवा दिवस|पंगुनी|पुथांडु|मासिक कार्तिगाई|कार्तिगाई दीपम|मासी मागम|थाई पूसम|कराडैयान|आदि अमावासै|आदि पेरुक्कु|आण्डाल जयंती|वैकासी विसाकम|अष्टमी रोहिणी|तमिल हनुमान जयंती|तमिल दीपावली|भोगी पंडिगाई|मट्टू पोंगल|कानुम पोंगल|आर्द्रा दर्शन|आरुद्र दर्शन/;
-  const allowed2029Tamil = new Set(["भोगी पण्डिगै","थाई अमावासै","मट्टु पोंगल","थाई पूसम","मासी मघम","करडैयान नोम्बु","पंगुनी उत्तिरम्","तमिल नववर्ष (पुथांडु)","चित्रा पूर्णिमा","वैकासी विशाकम्","आदि पेरुक्कु","आदि अमावस्या (तमिल)","कार्तिगै दीपम","आरुद्र दर्शन / तिरुवादिरै"]);
+  const excluded = /स्वामी विवेकानन्द|राष्ट्रीय युवा दिवस|पंगुनी|मासिक कार्तिगाई|कार्तिगाई दीपम|मासी मागम|थाई पूसम|करडैयान|आदि अमावासै|आदि पेरुक्कु|आण्डाल जयंती|वैकासी विसाकम|अष्टमी रोहिणी|तमिल हनुमान जयंती|तमिल दीपावली|भोगी पंडिगाई|भोगी पण्डिगै|मट्टू पोंगल|मट्टु पोंगल|कानुम पोंगल|आर्द्रा दर्शन|आरुद्र दर्शन|थाई अमावासै|मासी मघम|करडैयान नोम्बु|पंगुनी उत्तिरम्|चित्रा पूर्णिमा|वैकासी विशाकम्|आदि अमावस्या \\(तमिल\\)|सूरसंहारम्/;
+  const allowed2029Tamil = new Set(["पोंगल","तमिल नववर्ष (पुथांडु)","कार्तिगै दीपम"]);
   const matches = [];
   for (const year of years) {
     for (let month = 1; month <= 12; month++) {
@@ -214,6 +214,17 @@ test("2026–2030 calendar excludes non-core Tamil observances and non-religious
     }
   }
   assert.deepEqual(matches, []);
+
+  const year2029 = Array.from({ length: 12 }, (_, month) =>
+    JSON.parse(readFileSync(join(folder, "2029-" + String(month + 1).padStart(2, "0") + ".json"), "utf8")))
+    .flatMap(data => data.events || []);
+  for (const event of year2029) {
+    if (/तमिल|पोंगल|कार्तिगै दीपम/.test([event.title, event.category].filter(Boolean).join(" "))) {
+      assert.ok(allowed2029Tamil.has(event.title), "Non-top Tamil observance retained: " + event.title);
+    }
+  }
+  const diwali = year2029.find(event => event.date === "2029-11-05" && /दीपावली/.test(event.title || ""));
+  assert.match(diwali.title, /केदार गौरी व्रत/);
 });
 
 
