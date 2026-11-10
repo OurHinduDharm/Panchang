@@ -1,6 +1,12 @@
 name: Asta-Udaya phase diagnostics browser test
 
 on:
+  push:
+    branches: [feat/drik-modern-planetary-asta-udaya-20261104]
+    paths:
+      - "tests/capture-drik-pithoragarh-asta.mjs"
+      - "tests/asta-udaya-phase-diagnostics.spec.mjs"
+      - ".github/workflows/asta-udaya-phase-diagnostics.yml"
   pull_request:
     branches: [main]
     paths:
