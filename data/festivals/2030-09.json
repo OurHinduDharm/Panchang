@@ -48,18 +48,16 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
-      "date": "2030-09-05",
-      "dateLabel": "5 सितंबर",
-      "title": "राधाष्टमी / मासिक दुर्गाष्टमी",
-      "description": "राधाष्टमी श्रीराधा के प्राकट्य-स्मरण का पर्व है। इस दिन राधा-कृष्ण पूजन, भजन, स्तोत्र-पाठ और मंदिर-दर्शन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a> मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
-      "category": "जयंती",
+      "date": "2030-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "ललिता सप्तमी / दूर्वाष्टमी / ज्येष्ठा गौरी आवाहन",
+      "description": "ललिता सप्तमी पर देवी ललिता का पूजन किया जाता है। दूर्वाष्टमी पर दूर्वा का पूजन और सेवन/अर्पण करने की परंपरा है। इसी दिन ज्येष्ठा गौरी का आवाहन कर गौरी उत्सव आरम्भ किया जाता है।",
+      "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल अष्टमी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html",
-      "articleLabel": "भगवती राधा का जयंती महोत्सव"
+      "hinduTithi": "भाद्रपद शुक्ल सप्तमी (अष्टमी व्याप्ति)",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030"
     },
     {
       "date": "2030-09-04",
@@ -74,16 +72,42 @@
       "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2030"
     },
     {
+      "date": "2030-09-05",
+      "dateLabel": "5 सितंबर",
+      "title": "राधाष्टमी / मासिक दुर्गाष्टमी / महालक्ष्मी व्रत प्रारम्भ / ज्येष्ठा गौरी पूजा / दधीचि जयंती",
+      "description": "राधाष्टमी पर श्रीराधा के प्राकट्य-दिवस का उत्सव मनाकर राधा-कृष्ण का पूजन, भजन और स्तोत्र-पाठ करें। इसी दिन मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, महालक्ष्मी व्रत का आरम्भ, ज्येष्ठा गौरी पूजन और महर्षि दधीचि का स्मरण किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\" rel=\"noopener noreferrer\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html",
+      "articleLabel": "भगवती राधा का जयंती महोत्सव"
+    },
+    {
+      "date": "2030-09-06",
+      "dateLabel": "6 सितंबर",
+      "title": "ज्येष्ठा गौरी विसर्जन / दशावतार व्रत",
+      "description": "ज्येष्ठा गौरी उत्सव के समापन पर देवी गौरी का विधिपूर्वक विसर्जन किया जाता है। दशावतार व्रत में भगवान विष्णु के दस अवतारों का स्मरण और पूजन किया जाता है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल नवमी / दशमी व्याप्ति",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030"
+    },
+    {
       "date": "2030-09-08",
       "dateLabel": "8 सितंबर",
-      "title": "परिवर्तिनी / पार्श्व एकादशी",
-      "description": "परिवर्तिनी / पार्श्व एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
+      "title": "परिवर्तिनी / पार्श्व एकादशी (स्मार्त) / वामन जयंती / कल्कि द्वादशी",
+      "description": "परिवर्तिनी एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान करें। इसी दिन वामन जयंती तथा कल्कि द्वादशी भी हैं। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर समाप्ति के बाद करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल एकादशी",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "hinduTithi": "भाद्रपद शुक्ल एकादशी / द्वादशी व्याप्ति",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030",
       "muhurtaRule": "ekadashi-parana",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
@@ -102,7 +126,8 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html",
       "articleLabel": "भुवनेश्वरी महाविद्या",
       "sourceName": "Drik Panchang — 2030 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2030",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-09-09",
@@ -162,7 +187,20 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन कृष्ण चतुर्थी"
+      "hinduTithi": "आश्विन कृष्ण चतुर्थी",
+      "muhurtaRule": "sankashti-chaturthi-moonrise"
+    },
+    {
+      "date": "2030-09-16",
+      "dateLabel": "16 सितंबर",
+      "title": "महा भरणी श्राद्ध",
+      "description": "पितृपक्ष में भरणी नक्षत्र के संयोग से महा भरणी श्राद्ध का विशेष महत्व माना जाता है। इस दिन पितरों के निमित्त तर्पण, पिंडदान और श्राद्ध किया जाता है।",
+      "category": "श्राद्ध",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण पंचमी / भरणी नक्षत्र",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030"
     },
     {
       "date": "2030-09-17",
@@ -174,19 +212,35 @@
       "showReviewStatus": false,
       "hinduTithi": "सूर्य का कन्या राशि में प्रवेश",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "muhurtaRule": "sankranti-punya-kala"
     },
     {
       "date": "2030-09-19",
       "dateLabel": "19 सितंबर",
-      "title": "मासिक कालाष्टमी",
-      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी / महालक्ष्मी व्रत पूर्ण",
+      "description": "कृष्ण पक्ष की अष्टमी निशीथ काल में व्याप्त होने पर मासिक कृष्ण जन्माष्टमी का व्रत और रात्रि में श्रीकृष्ण पूजन किया जाता है। इसी दिन कालाष्टमी पर भगवान भैरव की पूजा तथा महालक्ष्मी व्रत का समापन होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "muhurtaRule": "janmashtami-nishita",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030"
+    },
+    {
+      "date": "2030-09-20",
+      "dateLabel": "20 सितंबर",
+      "title": "जीवित्पुत्रिका व्रत (जिउतिया)",
+      "description": "जीवित्पुत्रिका व्रत में माताएँ संतान की दीर्घायु, स्वास्थ्य और मंगल के लिए निर्जला उपवास रखती हैं। व्रत के साथ जीमूतवाहन की कथा और पूजा की जाती है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण अष्टमी (नवमी व्याप्ति)",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030"
     },
     {
       "date": "2030-09-23",
@@ -208,12 +262,15 @@
     {
       "date": "2030-09-24",
       "dateLabel": "24 सितंबर",
-      "title": "भौम प्रदोष व्रत",
-      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "title": "कृष्ण कल्कि द्वादशी / भौम प्रदोष व्रत",
+      "description": "कृष्ण कल्कि द्वादशी पर भगवान विष्णु का स्मरण और पूजन किया जाता है। त्रयोदशी के प्रदोषकाल में भगवान शिव की पूजा, दीपदान और व्रत का विधान है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "आश्विन कृष्ण द्वादशी / त्रयोदशी व्याप्ति",
+      "muhurtaRule": "pradosh-kala",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030"
     },
     {
       "date": "2030-09-25",
@@ -243,7 +300,7 @@
     {
       "date": "2030-09-27",
       "dateLabel": "27 सितंबर",
-      "title": "सर्वपितृ अमावस्या",
+      "title": "सर्वपितृ अमावस्या / आश्विन अमावस्या / दर्श अमावस्या",
       "description": "सर्वपितृ अमावस्या पितृपक्ष का समापन-दिन है। इस दिन उन सभी पितरों के निमित्त श्राद्ध, तर्पण और दान किया जाता है जिनकी श्राद्ध-तिथि ज्ञात न हो या जिनका श्राद्ध छूट गया हो।",
       "category": "श्राद्ध एवं अमावस्या",
       "reviewStatus": "approved",
@@ -255,18 +312,19 @@
     {
       "date": "2030-09-28",
       "dateLabel": "28 सितंबर",
-      "title": "शारदीय नवरात्रि प्रारम्भ",
-      "description": "आश्विन शुक्ल प्रतिपदा से शारदीय नवरात्र आरम्भ होते हैं। घटस्थापना के साथ माँ दुर्गा के नौ रूपों की प्रतिदिन पूजा और व्रत का संकल्प किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री</a>",
+      "title": "महाराजा अग्रसेन जयंती / शारदीय नवरात्रि प्रारम्भ — माँ शैलपुत्री",
+      "description": "आश्विन शुक्ल प्रतिपदा पर घटस्थापना के साथ शारदीय नवरात्र आरम्भ होते हैं और माँ शैलपुत्री की पूजा की जाती है। इसी दिन महाराजा अग्रसेन जयंती भी मनाई जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल प्रतिपदा",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "sourceName": "Drik Panchang — 2030 September Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?lang=en&year=2030",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
       "articleLabel": "शारदीय नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
-      "secondaryArticleLabel": "घटस्थापना विधि"
+      "secondaryArticleLabel": "घटस्थापना विधि",
+      "muhurtaRule": "ghata-sthapana"
     },
     {
       "date": "2030-09-29",
@@ -283,27 +341,17 @@
     {
       "date": "2030-09-30",
       "dateLabel": "30 सितंबर",
-      "title": "कपर्दीश चतुर्थी",
-      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
-    },
-    {
-      "date": "2030-09-30",
-      "dateLabel": "30 सितंबर",
-      "title": "शारदीय नवरात्र तृतीया/चतुर्थी — माँ चन्द्रघंटा एवं कूष्माण्डा",
-      "description": "नवरात्रि के तीसरे दिन माँ चन्द्रघंटा की आराधना की जाती है। देवी के इस स्वरूप का ध्यान कर पुष्प, दीप और नैवेद्य अर्पित करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a> नवरात्रि के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
+      "title": "कपर्दीश चतुर्थी / शारदीय नवरात्र तृतीया-चतुर्थी — माँ चन्द्रघंटा एवं कूष्माण्डा",
+      "description": "शारदीय नवरात्र के तीसरे दिन माँ चन्द्रघंटा और चतुर्थी-व्याप्ति में माँ कूष्माण्डा की पूजा की जाती है। इसी दिन कपर्दीश चतुर्थी का व्रत भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल तृतीया (चतुर्थी क्षय)",
+      "hinduTithi": "आश्विन शुक्ल तृतीया / चतुर्थी व्याप्ति (चतुर्थी क्षय)",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
       "articleLabel": "माँ चन्द्रघंटा",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
-      "secondaryArticleLabel": "माँ कूष्माण्डा"
+      "secondaryArticleLabel": "माँ कूष्माण्डा",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     }
   ]
 }
