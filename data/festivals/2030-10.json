@@ -89,8 +89,8 @@
     {
       "date": "2030-10-06",
       "dateLabel": "6 अक्टूबर",
-      "title": "विजयादशमी / नवरात्रि पारण",
-      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शमी-पूजन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ प्रचलित हैं। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>",
+      "title": "विजयादशमी / नवरात्रि पारण / मध्वाचार्य जयंती",
+      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शमी-पूजन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ प्रचलित हैं। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a> मध्वाचार्य जयंती पर द्वैत वेदान्त के आचार्य श्रीमध्वाचार्य के जीवन और दर्शन का स्मरण किया जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -100,7 +100,9 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
       "articleLabel": "कलश विसर्जन विधि",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
-      "secondaryArticleLabel": "कलश-विसर्जन विधि"
+      "secondaryArticleLabel": "कलश-विसर्जन विधि",
+      "secondarySourceName": "Drik Panchang — 2030 Indian Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
     },
     {
       "date": "2030-10-07",
@@ -148,14 +150,16 @@
     {
       "date": "2030-10-11",
       "dateLabel": "11 अक्टूबर",
-      "title": "आश्विन पूर्णिमा",
-      "description": "आश्विन पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। पूर्णिमा-व्रत और चंद्र-अर्घ्य का विधान तिथि-व्याप्ति के अनुसार किया जाता है।",
+      "title": "आश्विन पूर्णिमा / महर्षि वाल्मीकि जयंती / मीराबाई जयंती",
+      "description": "आश्विन पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। पूर्णिमा-व्रत और चंद्र-अर्घ्य का विधान तिथि-व्याप्ति के अनुसार किया जाता है। महर्षि वाल्मीकि जयंती पर आदिकवि वाल्मीकि और रामायण-परंपरा का स्मरण किया जाता है। मीराबाई जयंती पर श्रीकृष्ण के प्रति उनकी अनन्य भक्ति और पदों का पाठ किया जाता है।",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "secondarySourceName": "Drik Panchang — 2030 Indian Calendar",
+      "secondarySourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2030"
     },
     {
       "date": "2030-10-15",
