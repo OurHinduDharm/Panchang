@@ -183,6 +183,30 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
     },
     {
+      "date": "2029-09-13",
+      "dateLabel": "13 सितंबर",
+      "title": "ज्येष्ठा गौरी आवाहन",
+      "description": "महाराष्ट्र की परंपरा में भाद्रपद शुक्ल षष्ठी के आसपास ज्येष्ठा गौरी का आवाहन कर देवी का स्वागत किया जाता है।",
+      "category": "क्षेत्रीय देवी पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल षष्ठी",
+      "sourceName": "Drik Panchang — 2029 Bhadrapada Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/lunar-month/festivals-bhadrapada.html?lunar-year=2086"
+    },
+    {
+      "date": "2029-09-14",
+      "dateLabel": "14 सितंबर",
+      "title": "ज्येष्ठा गौरी पूजन",
+      "description": "ज्येष्ठा गौरी पूजन में माँ गौरी की स्थापना कर पूजा, नैवेद्य और पारंपरिक अनुष्ठान किए जाते हैं।",
+      "category": "क्षेत्रीय देवी पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल सप्तमी",
+      "sourceName": "Drik Panchang — 2029 Bhadrapada Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/lunar-month/festivals-bhadrapada.html?lunar-year=2086"
+    },
+    {
       "date": "2029-09-15",
       "dateLabel": "15 सितंबर",
       "title": "राधाष्टमी",
@@ -203,6 +227,30 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल अष्टमी"
+    },
+    {
+      "date": "2029-09-15",
+      "dateLabel": "15 सितंबर",
+      "title": "ज्येष्ठा गौरी विसर्जन",
+      "description": "ज्येष्ठा गौरी उत्सव के समापन पर देवी का विधिपूर्वक विसर्जन किया जाता है।",
+      "category": "क्षेत्रीय देवी पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — 2029 Bhadrapada Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/lunar-month/festivals-bhadrapada.html?lunar-year=2086"
+    },
+    {
+      "date": "2029-09-15",
+      "dateLabel": "15 सितंबर",
+      "title": "महालक्ष्मी व्रत प्रारम्भ",
+      "description": "भाद्रपद शुक्ल अष्टमी से महालक्ष्मी व्रत आरंभ होता है। इस व्रत में माँ महालक्ष्मी की पूजा और नियमपूर्वक उपासना की जाती है।",
+      "category": "देवी व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — 2029 Bhadrapada Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/lunar-month/festivals-bhadrapada.html?lunar-year=2086"
     },
     {
       "date": "2029-09-17",
