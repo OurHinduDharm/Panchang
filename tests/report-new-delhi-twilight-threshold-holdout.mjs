@@ -538,7 +538,13 @@ const planetAnnualBlindWindowHoldouts = Object.fromEntries(
         searchDays,
         timeZone: "Asia/Kolkata"
       });
-      const candidates = windows.filter(window => window.status === "candidate");
+      // Assign each window to the calendar year in which Asta starts.
+      // Padding deliberately generates adjacent-year windows too; without this
+      // filter they are counted again in the neighboring year's holdout.
+      const candidates = windows.filter(window =>
+        window.status === "candidate" &&
+        window.asta.predictedBoundaryDate?.slice(0, 4) === String(testYear)
+      );
       const used = new Set();
       const matches = [];
 
