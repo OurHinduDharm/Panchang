@@ -113,9 +113,12 @@ test("a source date overlapping the Dwadashi interval is retained as a review ca
 test("2026 Drik source dates resolve four multi-day Dwadashi intervals as review candidates", async () => {
   const sourceRules=JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"));
   const cases=[
+    {id:"magha-shukla",month:"माघ",paksha:"शुक्ल",date:"2026-01-29",candidate:"2026-01-30",start:"2026-01-29T08:25:35.864Z",end:"2026-01-30T05:39:36.043Z",labels:["भीष्म द्वादशी"]},
+    {id:"phalguna-krishna",month:"फाल्गुन",paksha:"कृष्ण",date:"2026-02-13",candidate:"2026-02-14",start:"2026-02-13T08:56:20.075Z",end:"2026-02-14T10:32:07.188Z",labels:["कृष्ण भीष्म द्वादशी"]},
     {id:"chaitra-shukla",month:"चैत्र",paksha:"शुक्ल",date:"2026-03-29",candidate:"2026-03-30",start:"2026-03-29T02:16:52.227Z",end:"2026-03-30T01:40:03.536Z",labels:["मदन द्वादशी","वामन द्वादशी"]},
     {id:"ashadha-shukla",month:"आषाढ़",paksha:"शुक्ल",date:"2026-07-25",candidate:"2026-07-26",start:"2026-07-25T06:04:40.295Z",end:"2026-07-26T08:28:12.038Z",labels:["वासुदेव द्वादशी"]},
     {id:"shravana-krishna",month:"श्रावण",paksha:"कृष्ण",date:"2026-08-09",candidate:"2026-08-10",start:"2026-08-09T05:35:23.959Z",end:"2026-08-10T02:31:12.865Z",labels:["कृष्ण वासुदेव द्वादशी"]},
+    {id:"ashwin-shukla",month:"आश्विन",paksha:"शुक्ल",date:"2026-10-22",candidate:"2026-10-23",start:"2026-10-22T09:18:24.528Z",end:"2026-10-23T09:06:15.366Z",labels:["पद्मनाभ द्वादशी"]},
     {id:"kartika-krishna",month:"कार्तिक",paksha:"कृष्ण",date:"2026-11-05",candidate:"2026-11-06",start:"2026-11-05T05:06:00.008Z",end:"2026-11-06T05:00:59.972Z",labels:["गोवत्स द्वादशी","कृष्ण पद्मनाभ द्वादशी"]}
   ];
   for(const item of cases) {
