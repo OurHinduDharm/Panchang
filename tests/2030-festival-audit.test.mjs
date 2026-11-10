@@ -173,6 +173,15 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-10-02", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
 });
 
+test("2030 October-December descriptions do not repeat the same article link", () => {
+  for (const event of events.filter(event => /^2030-(10|11|12)-/.test(event.date))) {
+    const hrefs = [...String(event.description || "").matchAll(/href=["']([^"']+)["']/g)]
+      .map(match => match[1]);
+    assert.equal(new Set(hrefs).size, hrefs.length,
+      event.date + " " + event.title + " repeats an article link");
+  }
+});
+
 test("2030 Sankashti, Narak Chaturdashi and Diwali retain their specific timing rules", () => {
   for (const event of events.filter(event => /संकष्टी/.test(event.title || ""))) {
     assert.ok(
