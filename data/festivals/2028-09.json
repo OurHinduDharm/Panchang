@@ -295,10 +295,13 @@
       "date": "2028-09-27",
       "dateLabel": "27 सितंबर",
       "title": "विजयादशमी / नवरात्रि पारण",
-      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ क्षेत्रानुसार प्रचलित हैं। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a>",
+      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ क्षेत्रानुसार प्रचलित हैं। <a href=\"https://ourhindudharm.blogspot.com/p/kalashvisarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">कलश-विसर्जन विधि</a>।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल दशमी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
+      "articleLabel": "कलश-विसर्जन विधि"
     },
     {
       "date": "2028-09-29",
