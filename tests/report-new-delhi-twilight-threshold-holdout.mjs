@@ -224,6 +224,36 @@ function evaluateMagnitudeHoldout(train, test) {
 }
 
 
+
+const localRiseSetClockSummary = (() => {
+  const samples = rows.flatMap(item => item.boundaries.map(boundary => ({
+    planet: item.planet,
+    caseId: item.id,
+    boundary: boundary.boundary,
+    signedDifferenceMinutes: boundary.proxyEventSignedDifferenceMinutes
+  })));
+  const meanAbs = items => items.reduce((sum, item) => sum + Math.abs(item.signedDifferenceMinutes), 0) / items.length;
+  return {
+    sampleCount: samples.length,
+    meanAbsoluteDifferenceMinutes: round(meanAbs(samples), 4),
+    maxAbsoluteDifferenceMinutes: round(Math.max(...samples.map(item => Math.abs(item.signedDifferenceMinutes))), 4),
+    signedDifferenceRangeMinutes: [
+      round(Math.min(...samples.map(item => item.signedDifferenceMinutes)), 4),
+      round(Math.max(...samples.map(item => item.signedDifferenceMinutes)), 4)
+    ],
+    byPlanet: Object.fromEntries(
+      [...new Set(samples.map(item => item.planet))].map(planet => {
+        const items = samples.filter(item => item.planet === planet);
+        return [planet, {
+          count: items.length,
+          meanAbsoluteDifferenceMinutes: round(meanAbs(items), 4),
+          maxAbsoluteDifferenceMinutes: round(Math.max(...items.map(item => Math.abs(item.signedDifferenceMinutes))), 4)
+        }];
+      })
+    )
+  };
+})();
+
 const planetLeaveOneOutCrossValidation = Object.fromEntries(
   ["astaStart", "astaEnd"].map(boundaryName => {
     const samples = Object.entries(thresholdGroups)
@@ -412,6 +442,7 @@ console.log(JSON.stringify({
   sampleCaseCount: rows.length,
   boundaryCount: rows.reduce((sum, item) => sum + item.boundaries.length, 0),
   pithoragarhVenusThresholdIntervals: PITHORAGARH_VENUS_THRESHOLD,
+  localRiseSetClockSummary,
   planetAndBoundaryThresholdSummary: thresholdSummary,
   mercuryMagnitudeCrossValidation,
   planetLeaveOneOutCrossValidation,
