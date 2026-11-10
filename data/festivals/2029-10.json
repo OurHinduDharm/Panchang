@@ -333,14 +333,14 @@
     {
       "date": "2029-10-22",
       "dateLabel": "22 अक्टूबर",
-      "title": "आश्विन पूर्णिमा",
-      "description": "आश्विन मास की पूर्णिमा पर स्नान, दान और चन्द्रमा की उपासना का विधान है।",
-      "category": "पूर्णिमा व्रत",
+      "title": "आश्विन पूर्णिमा / वाल्मीकि जयंती एवं मीराबाई जयंती",
+      "description": "आश्विन शुक्ल पूर्णिमा को महर्षि वाल्मीकि जयंती और संत मीराबाई जयंती का स्मरण किया जाता है। इस दिन पूर्णिमा-स्नान, दान और चंद्र-पूजन की भी परंपरा है。",
+      "category": "पूर्णिमा एवं जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पूर्णिमा",
-      "sourceName": "Drik Panchang — 2029 Festival Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2029"
+      "sourceName": "Drik Panchang — Valmiki Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/valmiki/maharishi-valmiki-jayanti.html?year=2029"
     },
     {
       "date": "2029-10-26",
