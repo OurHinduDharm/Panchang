@@ -646,3 +646,20 @@ Direct Pithoragarh Drik 2024–2027 के पूरे start-year को fold �
 **निर्णय:** geocentric longitude-rate बुध के Asta date fit को कुछ बेहतर करता है (11 से 13 exact), लेकिन Udaya exact dates नहीं बढ़ाता और अधिकतम तीन दिन की त्रुटि बनी रहती है। Retrograde flag अकेले लगभग कोई लाभ नहीं देता; दोनों features साथ रखने से लाभ घटता है। इसलिए कोई motion-aware model production में promote नहीं किया गया। सभी feature calculations opt-in हैं; magnitude-only baseline behavior अपरिवर्तित है। यह प्रयोग बताता है कि केवल retrograde/direct state जोड़ना पर्याप्त नहीं—अगला आवश्यक सुधार conjunction/phase pairing और visibility criterion की physical definition है, न कि और मनमाने coefficients।
 
 CI run: `42773424328` — browser diagnostics, direct source capture, source-ledger validation, New Delhi transfer, Pithoragarh LOYO, motion-feature selector tests और model comparison सभी सफल।
+
+### सात-वर्षीय Pithoragarh direct Drik capture — 10 नवम्बर 2026
+
+2020–2030 की 55 annual pages (5 ग्रह × 11 वर्ष) को Playwright Chromium से खोला। केवल HTTP 200 को प्रमाण नहीं माना; page title का वर्ष, शहर और ग्रह तीनों जाँचे।
+
+- **35/55 pages verified:** 2021–2027 के सभी पाँच ग्रह।
+- **75 complete Asta windows / 150 minute-precision boundaries** स्वीकार किए।
+- 71 unique windows; चार duplicate annual-page references सुरक्षित रखे गए।
+- 75 24+ clock rollovers को raw clock सहित normalize किया।
+- Planet totals: Mercury 46, Venus 10, Mars 5, Jupiter 7, Saturn 7.
+- 2020 के पाँच pages पर reCAPTCHA था; वे unverified रहे।
+- 2028–2030 के सभी 15 requested pages ने गलत तरीके से 2027 title/content लौटाया। उनमें मौजूद 60 boundary rows quarantine कीं; उन्हें 2028–2030 का data नहीं माना।
+- Mars 2022 और Mars 2027 के verified pages में कोई Asta rows extract नहीं हुईं। इसे “उस वर्ष कोई अस्त नहीं” का प्रमाण नहीं माना।
+
+नया research ledger: data/drik-pithoragarh-asta-udaya-2021-2027.json. पुराने 2024–2027 snapshot को बदला नहीं; नया विस्तारित ledger अलग रखा। नई regression file tests/drik-pithoragarh-asta-extended-data.test.mjs raw source year, city, planet, quarantines, time rollover, IST→UTC और coordinate caveat जाँचती है।
+
+अब Pithoragarh local-year/motion holdouts 2021–2027 के 71 unique windows पर चलेंगे। Pooled city-year holdout में अन्य चार शहरों के verified 2024–2028 references के साथ Pithoragarh की सात-वर्षीय local history जोड़ी गई है; target Pithoragarh source-year fold से पूरी तरह बाहर रहता है। Provider coordinates/elevation अब भी undisclosed हैं, इसलिए यह city-label-only benchmark है—exact-coordinate equality का दावा नहीं।
