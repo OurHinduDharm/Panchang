@@ -199,4 +199,5 @@ test("2028 missing regional observances and the complete Pitru Paksha sequence a
   const pratipada = has("2028-09-04", /प्रतिपदा श्राद्ध/);
   assert.ok(pratipada.articleUrl);
   assert.ok(pratipada.secondaryArticleUrl);
+  assert.equal(events.filter(event => event.date === "2028-04-13" && /विषु/.test(event.title || "")).length, 0);
 });
