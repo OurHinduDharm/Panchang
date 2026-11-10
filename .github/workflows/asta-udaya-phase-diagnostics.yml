@@ -5,6 +5,9 @@ on:
     branches: [feat/drik-modern-planetary-asta-udaya-20261104]
     paths:
       - "tests/capture-drik-pithoragarh-asta.mjs"
+      - "tests/drik-pithoragarh-asta-data.test.mjs"
+      - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
+      - "data/drik-pithoragarh-asta-udaya-2024-2027.json"
       - "tests/asta-udaya-phase-diagnostics.spec.mjs"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
   pull_request:
@@ -49,5 +52,9 @@ jobs:
         run: node tests/run-swiss-heliacal-comparison.mjs
       - name: Capture Drik Pithoragarh five-planet named-city pages without city fallback
         run: node tests/capture-drik-pithoragarh-asta.mjs
+      - name: Validate direct Drik Pithoragarh source ledger
+        run: node --test tests/drik-pithoragarh-asta-data.test.mjs
+      - name: Run New Delhi-trained model against direct Pithoragarh Drik holdout
+        run: node tests/report-pithoragarh-direct-drik-blind-holdout.mjs
       - name: Verify opt-in counters and unchanged visible output
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
