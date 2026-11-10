@@ -6,7 +6,7 @@ const benchmark = JSON.parse(await readFile(
   new URL("../data/asta-udaya-benchmark.json", import.meta.url), "utf8"
 ));
 const direct = JSON.parse(await readFile(
-  new URL("../data/drik-pithoragarh-asta-udaya-2024-2027.json", import.meta.url), "utf8"
+  new URL("../data/drik-pithoragarh-asta-udaya-2021-2027.json", import.meta.url), "utf8"
 ));
 const TIME_ZONE = "Asia/Kolkata";
 const NEW_DELHI_PROXY = new Astronomy.Observer(28.6139, 77.2090, 216);
