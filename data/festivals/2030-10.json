@@ -132,15 +132,17 @@
     {
       "date": "2030-10-15",
       "dateLabel": "15 अक्टूबर",
-      "title": "करवा चौथ",
-      "description": "करवा चौथ पर सुहाग की मंगलकामना से व्रत रखा जाता है। संध्या में करवा माता और गौरी-गणेश का पूजन कर चंद्रमा को अर्घ्य देने के बाद व्रत का पारण किया जाता है।",
+      "title": "करवा चौथ / वक्रतुण्ड संकष्टी",
+      "description": "करवा चौथ पर सुहाग की मंगलकामना से व्रत रखा जाता है। संध्या में करवा माता और गौरी-गणेश का पूजन कर चंद्रमा को अर्घ्य देने के बाद व्रत का पारण किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\" rel=\"noopener noreferrer\">करवा चौथ व्रत</a> विवाहित महिलाएँ पति के मंगल और दीर्घायु की कामना से रखती हैं। चंद्रमा को अर्घ्य देकर व्रत खोलें। चंद्र-दर्शन और अर्घ्य का स्थानीय समय स्थान के अनुसार बदलता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण चतुर्थी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRule": "karwa-chauth-puja"
+      "muhurtaRule": "karwa-chauth-puja",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
+      "articleLabel": "करवा चौथ व्रत-विधि"
     },
     {
       "date": "2030-10-17",
@@ -278,8 +280,8 @@
     {
       "date": "2030-10-28",
       "dateLabel": "28 अक्टूबर",
-      "title": "भैया दूज",
-      "description": "भैया दूज पर बहनें भाइयों के मंगल और दीर्घायु की कामना करती हैं। तिलक, आरती और पारिवारिक मिलन इसकी प्रमुख परंपराएँ हैं।",
+      "title": "भैया दूज / चन्द्र दर्शन",
+      "description": "भैया दूज पर बहनें भाइयों के मंगल और दीर्घायु की कामना करती हैं। तिलक, आरती और पारिवारिक मिलन इसकी प्रमुख परंपराएँ हैं। अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -287,6 +289,17 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "muhurtaRule": "bhai-dooj-tilak"
+    },
+    {
+      "date": "2030-10-30",
+      "dateLabel": "30 अक्टूबर",
+      "title": "लाभ चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2030-10-31",

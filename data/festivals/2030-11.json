@@ -112,6 +112,16 @@
       "muhurtaRule": "dev-deepawali-pradosh"
     },
     {
+      "date": "2030-11-13",
+      "dateLabel": "13 नवंबर",
+      "title": "गणाधिप संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय नगर के अनुसार अलग होता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्थी"
+    },
+    {
       "date": "2030-11-16",
       "dateLabel": "16 नवंबर",
       "title": "वृश्चिक संक्रांति",
@@ -188,6 +198,27 @@
       "hinduTithi": "मार्गशीर्ष कृष्ण अमावस्या",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-11-26",
+      "dateLabel": "26 नवंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल प्रतिपदा"
+    },
+    {
+      "date": "2030-11-28",
+      "dateLabel": "28 नवंबर",
+      "title": "कृच्छ्र चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2030-11-29",

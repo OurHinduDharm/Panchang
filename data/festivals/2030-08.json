@@ -9,6 +9,16 @@
   "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
   "events": [
     {
+      "date": "2030-08-01",
+      "dateLabel": "1 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल द्वितीया"
+    },
+    {
       "date": "2030-08-02",
       "dateLabel": "2 अगस्त",
       "title": "हरियाली तीज",
@@ -19,6 +29,17 @@
       "hinduTithi": "श्रावण शुक्ल तृतीया",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+    },
+    {
+      "date": "2030-08-03",
+      "dateLabel": "3 अगस्त",
+      "title": "दूर्वा गणपति चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2030-08-04",
@@ -110,6 +131,16 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     },
     {
+      "date": "2030-08-16",
+      "dateLabel": "16 अगस्त",
+      "title": "हेरम्ब संकष्टी चतुर्थी / बहुला चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण चतुर्थी"
+    },
+    {
       "date": "2030-08-17",
       "dateLabel": "17 अगस्त",
       "title": "सिंह संक्रांति",
@@ -186,6 +217,16 @@
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+    },
+    {
+      "date": "2030-08-30",
+      "dateLabel": "30 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल द्वितीया"
     },
     {
       "date": "2030-08-31",

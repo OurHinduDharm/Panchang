@@ -40,6 +40,29 @@
       "reviewCategory": "व्रत"
     },
     {
+      "date": "2030-01-05",
+      "dateLabel": "5 जनवरी",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-01-07",
+      "dateLabel": "7 जनवरी",
+      "title": "विनायक चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को भगवान गणेश की पूजा और व्रत किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-01-09",
       "dateLabel": "9 जनवरी",
       "title": "मासिक स्कन्द षष्ठी",
@@ -114,8 +137,8 @@
     {
       "date": "2030-01-22",
       "dateLabel": "22 जनवरी",
-      "title": "सकट चौथ",
-      "description": "सकट चौथ पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "title": "सकट चौथ / लम्बोदर संकष्टी चतुर्थी",
+      "description": "सकट चौथ पर पूजा, व्रत, जप अथवा दान की परंपरा है। संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय नगर के अनुसार अलग होता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -187,6 +210,29 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "reviewCategory": "अमावस्या"
+    },
+    {
+      "date": "2030-02-03",
+      "dateLabel": "3 फरवरी",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-02-06",
+      "dateLabel": "6 फरवरी",
+      "title": "गौरी गणेश चतुर्थी / गणेश जयंती",
+      "description": "गौरी गणेश चतुर्थी को गणेश जयंती भी कहा जाता है। माघ शुक्ल चतुर्थी पर भगवान गणेश की विशेष पूजा, स्तोत्र-मंत्र पाठ और तिल के मोदक अर्पित करने की परंपरा है। तिलकुन्द चतुर्थी और वरद चतुर्थी नाम भी प्रचलित हैं।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत-पर्व"
     },
     {
       "date": "2030-02-07",
@@ -289,6 +335,17 @@
       "reviewCategory": "पूर्णिमा"
     },
     {
+      "date": "2030-02-21",
+      "dateLabel": "21 फरवरी",
+      "title": "द्विजप्रिय संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-02-25",
       "dateLabel": "25 फरवरी",
       "title": "मासिक कालाष्टमी",
@@ -368,6 +425,29 @@
       "reviewCategory": "अमावस्या"
     },
     {
+      "date": "2030-03-05",
+      "dateLabel": "5 मार्च",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-03-08",
+      "dateLabel": "8 मार्च",
+      "title": "ढुण्ढिराज चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-03-10",
       "dateLabel": "10 मार्च",
       "title": "मासिक स्कन्द षष्ठी",
@@ -440,6 +520,17 @@
       "reviewCategory": "प्रमुख पर्व"
     },
     {
+      "date": "2030-03-22",
+      "dateLabel": "22 मार्च",
+      "title": "भालचन्द्र संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-03-26",
       "dateLabel": "26 मार्च",
       "title": "शीतला अष्टमी / बसोड़ा / मासिक कालाष्टमी",
@@ -506,6 +597,17 @@
       "reviewCategory": "नववर्ष एवं नवरात्रि"
     },
     {
+      "date": "2030-04-04",
+      "dateLabel": "4 अप्रैल",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
       "date": "2030-04-06",
       "dateLabel": "6 अप्रैल",
       "title": "गौरी पूजन / गणगौर",
@@ -517,6 +619,18 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-04-06",
+      "dateLabel": "6 अप्रैल",
+      "title": "वासुदेव चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2030-04-08",
@@ -604,6 +718,17 @@
       "reviewCategory": "जयंती एवं पूर्णिमा"
     },
     {
+      "date": "2030-04-21",
+      "dateLabel": "21 अप्रैल",
+      "title": "विकट संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-04-24",
       "dateLabel": "24 अप्रैल",
       "title": "मासिक कालाष्टमी",
@@ -655,6 +780,17 @@
       "reviewCategory": "व्रत"
     },
     {
+      "date": "2030-05-03",
+      "dateLabel": "3 मई",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
       "date": "2030-05-05",
       "dateLabel": "5 मई",
       "title": "त्रेतायुगादि (त्रेतायुग का आरंभ)",
@@ -679,6 +815,18 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "reviewCategory": "जयंती एवं पर्व"
+    },
+    {
+      "date": "2030-05-06",
+      "dateLabel": "6 मई",
+      "title": "संकर्षण चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2030-05-08",
@@ -818,6 +966,17 @@
       "reviewCategory": "जयंती"
     },
     {
+      "date": "2030-05-20",
+      "dateLabel": "20 मई",
+      "title": "एकदन्त संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-05-24",
       "dateLabel": "24 मई",
       "title": "मासिक कालाष्टमी",
@@ -895,6 +1054,29 @@
       "reviewCategory": "जयंती"
     },
     {
+      "date": "2030-06-02",
+      "dateLabel": "2 जून",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-06-05",
+      "dateLabel": "5 जून",
+      "title": "प्रद्युम्न चतुर्थी / विनायक चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-06-07",
       "dateLabel": "7 जून",
       "title": "मासिक स्कन्द षष्ठी",
@@ -967,6 +1149,17 @@
       "reviewCategory": "व्रत एवं संक्रांति"
     },
     {
+      "date": "2030-06-18",
+      "dateLabel": "18 जून",
+      "title": "कृष्णपिङ्गल संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-06-22",
       "dateLabel": "22 जून",
       "title": "मासिक कालाष्टमी",
@@ -1020,8 +1213,8 @@
     {
       "date": "2030-07-02",
       "dateLabel": "2 जुलाई",
-      "title": "जगन्नाथ रथयात्रा",
-      "description": "जगन्नाथ रथयात्रा पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "title": "जगन्नाथ रथयात्रा / चन्द्र दर्शन",
+      "description": "जगन्नाथ रथयात्रा पर पूजा, व्रत, जप अथवा दान की परंपरा है। अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -1029,6 +1222,18 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-07-04",
+      "dateLabel": "4 जुलाई",
+      "title": "अनिरुद्ध चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2030-07-06",
@@ -1103,6 +1308,17 @@
       "reviewCategory": "संक्रांति"
     },
     {
+      "date": "2030-07-18",
+      "dateLabel": "18 जुलाई",
+      "title": "गजानन संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-07-22",
       "dateLabel": "22 जुलाई",
       "title": "मासिक कालाष्टमी",
@@ -1154,6 +1370,17 @@
       "reviewCategory": "व्रत"
     },
     {
+      "date": "2030-08-01",
+      "dateLabel": "1 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
       "date": "2030-08-02",
       "dateLabel": "2 अगस्त",
       "title": "हरियाली तीज",
@@ -1165,6 +1392,18 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "reviewCategory": "व्रत-पर्व"
+    },
+    {
+      "date": "2030-08-03",
+      "dateLabel": "3 अगस्त",
+      "title": "दूर्वा गणपति चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2030-08-04",
@@ -1252,6 +1491,17 @@
       "reviewCategory": "व्रत-पर्व"
     },
     {
+      "date": "2030-08-16",
+      "dateLabel": "16 अगस्त",
+      "title": "हेरम्ब संकष्टी चतुर्थी / बहुला चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-08-17",
       "dateLabel": "17 अगस्त",
       "title": "सिंह संक्रांति",
@@ -1329,6 +1579,17 @@
       "reviewCategory": "व्रत"
     },
     {
+      "date": "2030-08-30",
+      "dateLabel": "30 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
       "date": "2030-08-31",
       "dateLabel": "31 अगस्त",
       "title": "हरतालिका तीज",
@@ -1344,15 +1605,18 @@
     {
       "date": "2030-09-01",
       "dateLabel": "1 सितंबर",
-      "title": "गणेश चतुर्थी",
-      "description": "गणेश चतुर्थी पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "title": "गणेश चतुर्थी / श्री गणेश चतुर्थी / सिद्धिविनायक चतुर्थी — गणेश जयंती",
+      "description": "गणेश चतुर्थी पर पूजा, व्रत, जप अथवा दान की परंपरा है। गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजन, मोदक/नैवेद्य और स्तोत्रादि पाठ पूर्वक जन्मोत्सव मनाने की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\">श्री गणेश चतुर्थी व्रत विधि व कथा </a> पत्थर चौथ - भाद्रपद शुक्ल चतुर्थी के दिन चन्द्रमा का दर्शन न करें यदि भूल से हो जाए तो स्यमन्तक मणि का अपकीर्तिनाशक आख्यान पढ़ना चाहिए। इस दिन से लेकर अनंत चतुर्दशी तक भगवान गणेश की विशेष पूजा करनी चाहिए। गणेशोत्सव प्रारंभ।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल चतुर्थी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "reviewCategory": "प्रमुख पर्व"
+      "reviewCategory": "प्रमुख पर्व",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html",
+      "articleLabel": "श्री गणेश चतुर्थी व्रत विधि व कथा",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2030-09-02",
@@ -1483,6 +1747,17 @@
       "reviewCategory": "श्राद्ध"
     },
     {
+      "date": "2030-09-15",
+      "dateLabel": "15 सितंबर",
+      "title": "विघ्नराज संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-09-17",
       "dateLabel": "17 सितंबर",
       "title": "विश्वकर्मा पूजा / कन्या संक्रांति",
@@ -1584,6 +1859,29 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "reviewCategory": "नवरात्रि"
+    },
+    {
+      "date": "2030-09-29",
+      "dateLabel": "29 सितंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल द्वितीया",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-09-30",
+      "dateLabel": "30 सितंबर",
+      "title": "कपर्दीश चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2030-10-02",
@@ -1701,15 +1999,18 @@
     {
       "date": "2030-10-15",
       "dateLabel": "15 अक्टूबर",
-      "title": "करवा चौथ",
-      "description": "करवा चौथ पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "title": "करवा चौथ / वक्रतुण्ड संकष्टी",
+      "description": "करवा चौथ पर पूजा, व्रत, जप अथवा दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html\" target=\"_blank\" rel=\"noopener noreferrer\">करवा चौथ व्रत</a> विवाहित महिलाएँ पति के मंगल और दीर्घायु की कामना से रखती हैं। चंद्रमा को अर्घ्य देकर व्रत खोलें। चंद्र-दर्शन और अर्घ्य का स्थानीय समय स्थान के अनुसार बदलता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण चतुर्थी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "reviewCategory": "व्रत"
+      "reviewCategory": "व्रत",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-KarwaChauth.html",
+      "articleLabel": "करवा चौथ व्रत-विधि",
+      "muhurtaRule": "karwa-chauth-puja"
     },
     {
       "date": "2030-10-17",
@@ -1821,8 +2122,8 @@
     {
       "date": "2030-10-28",
       "dateLabel": "28 अक्टूबर",
-      "title": "भैया दूज",
-      "description": "भैया दूज पर पूजा, व्रत, जप अथवा दान की परंपरा है।",
+      "title": "भैया दूज / चन्द्र दर्शन",
+      "description": "भैया दूज पर पूजा, व्रत, जप अथवा दान की परंपरा है। अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -1830,6 +2131,18 @@
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
       "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-10-30",
+      "dateLabel": "30 अक्टूबर",
+      "title": "लाभ चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
     },
     {
       "date": "2030-10-31",
@@ -1943,6 +2256,17 @@
       "reviewCategory": "पूर्णिमा"
     },
     {
+      "date": "2030-11-13",
+      "dateLabel": "13 नवंबर",
+      "title": "गणाधिप संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय नगर के अनुसार अलग होता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-11-16",
       "dateLabel": "16 नवंबर",
       "title": "वृश्चिक संक्रांति",
@@ -2022,6 +2346,29 @@
       "reviewCategory": "अमावस्या"
     },
     {
+      "date": "2030-11-26",
+      "dateLabel": "26 नवंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-11-28",
+      "dateLabel": "28 नवंबर",
+      "title": "कृच्छ्र चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-11-29",
       "dateLabel": "29 नवंबर",
       "title": "विवाह पंचमी",
@@ -2094,6 +2441,17 @@
       "reviewCategory": "जयंती एवं पूर्णिमा"
     },
     {
+      "date": "2030-12-13",
+      "dateLabel": "13 दिसंबर",
+      "title": "संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय नगर के अनुसार अलग होता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष कृष्ण चतुर्थी",
+      "reviewCategory": "व्रत"
+    },
+    {
       "date": "2030-12-16",
       "dateLabel": "16 दिसंबर",
       "title": "धनु संक्रांति",
@@ -2155,6 +2513,29 @@
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "reviewCategory": "व्रत"
+    },
+    {
+      "date": "2030-12-25",
+      "dateLabel": "25 दिसंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल प्रतिपदा",
+      "reviewCategory": "पर्व"
+    },
+    {
+      "date": "2030-12-27",
+      "dateLabel": "27 दिसंबर",
+      "title": "विनायक चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को भगवान गणेश की पूजा और व्रत किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "reviewCategory": "व्रत"
     },
     {

@@ -11,15 +11,17 @@
     {
       "date": "2030-09-01",
       "dateLabel": "1 सितंबर",
-      "title": "गणेश चतुर्थी",
-      "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजन, नैवेद्य और मंत्र-जप की परंपरा है।",
+      "title": "गणेश चतुर्थी / श्री गणेश चतुर्थी / सिद्धिविनायक चतुर्थी — गणेश जयंती",
+      "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजन, नैवेद्य और मंत्र-जप की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री गणेश चतुर्थी व्रत विधि व कथा</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल चतुर्थी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/09/About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html",
+      "articleLabel": "श्री गणेश चतुर्थी व्रत विधि व कथा"
     },
     {
       "date": "2030-09-02",
@@ -149,6 +151,16 @@
       "articleLabel": "श्राद्ध एवं पितृपक्ष का महत्व"
     },
     {
+      "date": "2030-09-15",
+      "dateLabel": "15 सितंबर",
+      "title": "विघ्नराज संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण चतुर्थी"
+    },
+    {
       "date": "2030-09-17",
       "dateLabel": "17 सितंबर",
       "title": "विश्वकर्मा पूजा / कन्या संक्रांति",
@@ -251,6 +263,27 @@
       "articleLabel": "शारदीय नवरात्र का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
       "secondaryArticleLabel": "घटस्थापना की संपूर्ण विधि"
+    },
+    {
+      "date": "2030-09-29",
+      "dateLabel": "29 सितंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल द्वितीया"
+    },
+    {
+      "date": "2030-09-30",
+      "dateLabel": "30 सितंबर",
+      "title": "कपर्दीश चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     }
   ]
 }
