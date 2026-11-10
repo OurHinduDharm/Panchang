@@ -613,3 +613,16 @@ Pithoragarh leave-one-source-year-out में तीन target definitions ज
 - Previous-event target ने कई ग्रहों में error बढ़ाया; current-event target भी Mercury में Udaya को काफी बिगाड़ता है।
 
 **निर्णय:** midpoint target को फिलहाल baseline रखा। कोई नया threshold target या motion coefficient production में नहीं लगाया। अगला परीक्षण pooled cross-city + Pithoragarh local-history city-year holdout है, ताकि training में अधिक independent windows आएँ और target Pithoragarh-year पूरी तरह held out रहे।
+
+
+### Pooled city-year holdout — 10 नवम्बर 2026
+नए fold में test set का पूरा Pithoragarh source-year training से बाहर रखा, जबकि training में बाकी चार नगरों के सभी verified windows और Pithoragarh के अन्य source-years शामिल किए। इससे हर fold में लगभग 118–119 Mercury training windows मिले।
+
+Midpoint + magnitude/direction-interaction variant:
+- बुध: Asta 19/25 exact, Udaya 23/25 exact; सभी matched results अधिकतम 1 दिन के भीतर। फिर भी 6 Asta और 2 Udaya dates गलत।
+- गुरु: midpoint magnitude-only 4/4 Asta exact, 3/4 Udaya exact; 2024 Udaya एक दिन चूका।
+- शनि: midpoint magnitude-only 4/4 Asta और 4/4 Udaya exact; कुल केवल चार windows।
+- शुक्र: पाँच windows पर folds/model variants में परिणाम बदलते हैं; अतिरिक्त coefficients के लिए sample अभी छोटा।
+- मंगल: 2024 की एक window match हुई, 2025 की एक नहीं; दो windows से reliable model नहीं बनता।
+
+**निर्णय:** pooled training से Mercury Udaya में सुधार हुआ, लेकिन Asta exact-date gate अभी fail है। Saturn का 4/4 परिणाम आशाजनक है, लेकिन चार windows और provider-coordinate uncertainty के कारण universal release के लिए पर्याप्त नहीं। कोई model production में promote नहीं किया।
