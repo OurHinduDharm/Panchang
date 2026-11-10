@@ -946,3 +946,17 @@ Drik के 2025 New Delhi pages से Mercury की छह windows के अ
 - https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?year=2025
 
 इन additions के बाद dataset में **30 New Delhi windows** (60 boundary events) हैं: Mercury 19 windows; Venus 4; Jupiter 3; Saturn 3; Mars 1. Provider coordinates सभी मामलों में undisclosed हैं; इन्हें city-label-only comparison माना जाएगा। 2025–27 multi-year holdout पुनः चल रहा है; परिणाम आने तक कोई नया coefficient स्वीकार नहीं होगा।
+
+
+### Mercury 2025–27 three-year cross-validation — 10 नवम्बर 2026
+
+अब 2025, 2026 और 2027 के Drik New Delhi Mercury pages के **19 Asta windows** (38 boundary events) पर हर वर्ष को अलग रखकर बाकी एक वर्ष से model fit किया गया। 2028 में समाप्त होने वाली एक boundary को year-split fit से बाहर रखा गया।
+
+- सभी 6 directed year-pair fits में magnitude model का twilight-angle MAE **0.24°–0.72°** रहा; constant-threshold baseline लगभग **0.82°–1.26°** रहा।
+- Asta-start और Asta-end दोनों में हर train-year → test-year split पर magnitude model constant baseline से बेहतर रहा।
+- Date selector के ±20-day local event search में 74 pairwise predictions बने: **38 exact date, 28 एक दिन, 6 दो दिन और 2 तीन दिन** का अंतर। औसत absolute date error लगभग **0.62 दिन**; 97% से अधिक predictions दो दिनों के भीतर।
+- हर held-out boundary के local search window में एक ही residual crossing मिला; multiple crossing ambiguity नहीं मिली।
+
+यह अब तीन वर्षों का cross-year result है, लेकिन 74 predictions में वही 37 unique boundary events अलग-अलग train-year fits के अंतर्गत दोहराए गए हैं—इन्हें 74 स्वतंत्र observations न समझें। Search window published date के ±20 दिन पर anchored था; इसलिए यह पूर्ण blind forecast नहीं है। सभी references New Delhi city-label-only हैं और provider coordinates अज्ञात हैं।
+
+**निष्कर्ष:** Mercury का apparent-magnitude + local solar-altitude selector अब मजबूत candidate है, पर Pithoragarh same-city Mercury holdout के बिना इसे वहाँ प्रमाणित नहीं कहा जा सकता। अन्य ग्रहों के लिए अलग calibration और multi-year samples आवश्यक हैं।
