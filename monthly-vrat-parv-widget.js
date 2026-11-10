@@ -525,6 +525,7 @@
     if(!ruleIds.length&&/कृष्ण जन्माष्टमी/i.test(eventTitle)&&!/वैष्णव|इस्कॉन/i.test(eventTitle)) ruleIds=["janmashtami-nishita"];
     if(!ruleIds.length&&/रक्षाबंधन|रक्षा बंधन/i.test(eventTitle)) ruleIds=["raksha-bandhan-thread"];
     if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(eventTitle)) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
+    if(!ruleIds.length&&/काली\s*चौदस/i.test(String(item.title||""))) ruleIds=["kali-chaudas-nishita"];
     if(!ruleIds.length&&/होलिका[\s-]*दहन/i.test(String(item.title||""))) ruleIds=["holika-dahan-pradosh"];
     try{
       var muhurtaModule=await muhurtaModulePromise;
@@ -612,7 +613,7 @@
         var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
-            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन/.test(windowItem.label||""))row.classList.add("primary");
+            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
             // यदि विंडो का नाम ऊपर दिए मुख्य मुहूर्त-शीर्षक जैसा ही है, तो उसे दोबारा न दिखाएँ।
             if(!muhurtaModule.areFestivalMuhurtaLabelsEquivalent(result.label,windowItem.label)){
               var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
@@ -1200,6 +1201,9 @@
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
         var description=String(item.description);
+        if(/महाशिवरात्रि|मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/shivratri-prahar-pooja-vidhi/i.test(description)){
+          description+=" <a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">चारों प्रहर की पूजा-विधि पढ़ें</a>।";
+        }
         // नियम-आधारित मुहूर्त होने पर पुराने विवरण का स्थिर घड़ी-समय न दिखाएँ।
         if(item.muhurtaRule||Array.isArray(item.muhurtaRules)){
           description=description
