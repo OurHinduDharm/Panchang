@@ -53,5 +53,5 @@ test("Distinct observances on Diwali cluster dates have individual cards and the
 test("The 2028 Bhishma Panchak start is not merged into Smarta Devutthani Ekadashi", async()=>{
  const d=await readMonth("2028-10");
  assert.ok(d.events.some(e=>e.title==="देवोत्थानी एकादशी (स्मार्त)"));
- assert.ok(d.events.some(e=>e.title==="भीष्म पंचक प्रारंभ"));
+ assert.ok(d.events.some(e=>e.title==="भीष्म पंचक प्रारम्भ"));
 });
