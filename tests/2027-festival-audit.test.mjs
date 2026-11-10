@@ -91,3 +91,16 @@ test("2027 festival descriptions do not repeat the same article URL", () => {
       String(event.date) + ": duplicate article link in " + event.title);
   }
 });
+
+test("2027 January retains Amavasya, regional Lohri, Kurma Dwadashi and monthly Krishna Janmashtami", () => {
+  const amavasya = find(1,"2027-01-07",/पौष अमावस्या/);
+  assert.ok(amavasya);
+  assert.equal(amavasya.hinduTithi,"पौष कृष्ण अमावस्या");
+  const lohri = find(1,"2027-01-14",/लोहड़ी/);
+  assert.ok(lohri);
+  const kurma = find(1,"2027-01-19",/कूर्म द्वादशी/);
+  assert.ok(kurma);
+  assert.equal(kurma.hinduTithi,"पौष शुक्ल द्वादशी");
+  const kalashtami = find(1,"2027-01-29",/मासिक कालाष्टमी/);
+  assert.match(kalashtami.title,/मासिक कृष्ण जन्माष्टमी/);
+});
