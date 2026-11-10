@@ -830,3 +830,24 @@ New Delhi city-centre proxy (28.6139° N, 77.2090° E, 216 m; provider coordinat
 - इन नए records का source-catalog validation एक बार fail हुआ था क्योंकि Saturn के source catalog entry और Mercury के sourceId link छूट गए थे। दोनों ठीक कर दिए गए; current CI rerun में benchmark provenance/data validation success है।
 
 अगला निष्कर्ष केवल तभी निकलेगा जब Mercury और Saturn holdout series भी pass हों। Main Panchang का visible output, production event code और performance path अभी अपरिवर्तित हैं।
+
+
+### 10 नवम्बर 2026 — Mercury और Mars holdout विस्तार
+
+New Delhi के लिए Drik के 2026 पृष्ठों से छह अतिरिक्त Mercury Asta windows और एक Mars Asta window जोड़ी गईं:
+
+- **Mercury:** 2 Jan–5 Feb, 1–18 Mar, 27 Apr–23 May, 30 Jun–25 Jul, 18 Aug–18 Sep, 25 Oct–11 Nov 2026.
+- **Mars:** 1 Nov 2025–2 May 2026; Drik के 2027 पृष्ठ पर Mars Asta अवधि शून्य है।
+
+ये सभी city-label-only holdouts हैं; provider के internal coordinates उपलब्ध नहीं हैं। इन्हें Pithoragarh की गणना या exact-coordinate सत्यापन नहीं माना जाएगा। Source pages:
+- https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html
+- https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html
+- https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?year=2027
+
+अब New Delhi holdout set में 2026–27 Mercury की 13 अलग-अलग windows, Jupiter 2027 की एक, Saturn 2027 की एक, Venus 2026/27 की दो और Mars 2026 की एक window शामिल हैं। हर event पर सही local rise/set direction अलग से दर्ज है।
+
+पिछले 2027-only Mercury sample में apparent magnitude और twilight transition midpoint का Pearson correlation:
+- Asta-start: r = −0.912 (n=7)
+- Asta-end: r = −0.901 (n=7)
+
+यह मजबूत exploratory association है, पर एक शहर/एक वर्ष के सीमित नमूने पर आधारित है। इसे fitted production formula नहीं मानना है। 2026 Mercury और Mars जोड़ने के बाद पुनः गणना और validation आवश्यक है।
