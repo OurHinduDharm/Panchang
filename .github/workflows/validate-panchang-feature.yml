@@ -42,3 +42,12 @@ jobs:
         run: node tests/validate-asta-udaya-dataset.mjs
       - name: Measure six-hour vector interpolation error at every interval midpoint
         run: node tests/measure-asta-udaya-interpolation.mjs
+      - name: Run Asta/Udaya numerical diagnostics
+        run: |
+          node tests/verified-horizon-crossing-check.mjs
+          node tests/report-planet-horizon-twilight-boundaries.mjs
+          node tests/report-new-delhi-twilight-threshold-holdout.mjs
+          node tests/report-venus-cross-location-threshold-holdout.mjs
+          node tests/report-drik-longitude-threshold-boundaries.mjs
+          node tests/report-longitude-threshold-boundaries.mjs
+          node tests/report-drik-asta-udaya-similarity.mjs
