@@ -61,8 +61,7 @@ function extractAnchors(html) {
   for (const match of String(html || "").matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
     const href = match[1].match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] || "";
     // Escape leftover angle brackets too, including malformed "<script" fragments.
-    const label = match[2].replace(/<[^>]*>/g, "").replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;").trim();
+    const label = match[2].replace(/<[^>]*>/g, "").trim();
     const safe = makeSafeAnchor(href, label);
     if (safe) anchors.push(safe);
   }
