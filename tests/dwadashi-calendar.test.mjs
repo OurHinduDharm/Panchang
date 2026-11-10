@@ -82,7 +82,7 @@ test("noon-only Dwadashi is retained as a candidate without pretending it prevai
   assert.equal(record.selectedDate,"2026-04-01");
 });
 
-test("a single sunrise Dwadashi wins over the previous day's noon-only overlap", () => {
+test("a matching Drik reference date resolves a multi-date Dwadashi candidate without approving it", () => {
   const previousDay = sunriseDay("2027-03-04","फाल्गुन","कृष्ण","एकादशी");
   previousDay.noonTithi = "द्वादशी";
   previousDay.noonTithiStartTime = "2027-03-04T01:54:00.000Z";
@@ -93,8 +93,9 @@ test("a single sunrise Dwadashi wins over the previous day's noon-only overlap",
   assert.deepEqual(record.noonDates,["2027-03-04"]);
   assert.deepEqual(record.sunriseDates,["2027-03-05"]);
   assert.deepEqual(record.candidateDates,["2027-03-04","2027-03-05"]);
+  assert.equal(record.referenceDate,"2027-03-05");
   assert.equal(record.selectedDate,"2027-03-05");
-  assert.equal(record.dateSelection,"single-observation-candidate-review-required");
+  assert.equal(record.dateSelection,"source-reference-date-candidate-review-required");
   assert.deepEqual(record.drikLabels,["उन्मीलिनी महाद्वादशी","श्रवण योग द्वादशी"]);
   assert.equal(record.status,"needs-review");
 });
