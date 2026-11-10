@@ -22,6 +22,11 @@ try {
     Number.isFinite(scenario.publishedReferenceMaeDays) &&
     scenario.results.every(item => Number.isFinite(item.signedDateOffsetDays) && Number.isFinite(item.nonComparableClockOffsetMinutes))
   ), "each scenario must compare all ten Pithoragarh boundary dates and keep clock offsets explicitly non-comparable");
+  const testedPlanets = [...new Set(result.result.scenarios[0].results.map(item => item.planet))].sort();
+  assert.deepEqual(testedPlanets, ["Jupiter", "Mars", "Mercury", "Saturn", "Venus"]);
+  assert.ok(result.result.scenarios.every(scenario =>
+    scenario.results.every(item => item.sourceStatus === "direct-page-captured-browser-verified")
+  ), "Swiss comparisons must use only direct year-confirmed Pithoragarh Drik references");
   assert.equal(result.result.visibilityLimitProfiles?.length, 10, "all ten boundary visibility profiles must be reported");
   assert.ok(result.result.visibilityLimitProfiles.every(profile =>
     profile.samples?.length === 7 &&
