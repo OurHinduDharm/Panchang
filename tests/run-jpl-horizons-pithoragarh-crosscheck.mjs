@@ -98,12 +98,36 @@ async function queryHorizonsBatched(targetId, times, label) {
 }
 
 const dataset = JSON.parse(await readFile(DATA_PATH, "utf8"));
-const windows = dataset.windows.filter(window =>
+const rawWindows = dataset.windows.filter(window =>
   window.sourcePageYear >= 2021 && window.sourcePageYear <= 2027 &&
   window.acceptanceEligible === true &&
   TARGET_IDS[window.planet]
 );
-if (!windows.length) throw new Error("No accepted 2021–2027 Pithoragarh Drik windows found");
+if (!rawWindows.length) throw new Error("No accepted 2021–2027 Pithoragarh Drik windows found");
+
+// Annual pages overlap at year boundaries. Deduplicate by the actual published
+// event interval, not by page year or capture-row ID, before counting evidence.
+const uniqueWindowMap = new Map();
+for (const window of rawWindows) {
+  const start = window.boundaries?.astaStart?.normalizedUtcInstant;
+  const end = window.boundaries?.astaEnd?.normalizedUtcInstant;
+  if (!start || !end) throw new Error("Missing normalized UTC interval: " + window.id);
+  const key = [window.planet, start, end].join("|");
+  const existing = uniqueWindowMap.get(key);
+  if (!existing || window.sourcePageYear < existing.sourcePageYear) {
+    uniqueWindowMap.set(key, window);
+  }
+}
+const windows = [...uniqueWindowMap.values()].sort((a, b) =>
+  a.planet.localeCompare(b.planet) ||
+  a.boundaries.astaStart.normalizedUtcInstant.localeCompare(b.boundaries.astaStart.normalizedUtcInstant)
+);
+const duplicateWindowReferences = rawWindows.length - windows.length;
+if (windows.length !== 71 || duplicateWindowReferences !== 4) {
+  throw new Error("Unexpected deduplicated source ledger: " +
+    windows.length + " unique windows from " + rawWindows.length +
+    " raw rows (" + duplicateWindowReferences + " duplicates); expected 71/75/4");
+}
 
 const grouped = new Map();
 for (const window of windows) {
@@ -131,6 +155,12 @@ const report = {
   sourceUrl: "https://ssd-api.jpl.nasa.gov/api/horizons.api",
   referenceSource: "Direct browser-verified Drik Pithoragarh 2021–2027 annual pages",
   referencePrecision: "minute",
+  sourceLedger: {
+    rawAnnualPageRows: rawWindows.length,
+    uniqueEventWindows: windows.length,
+    duplicateAnnualPageReferences: duplicateWindowReferences,
+    deduplicationKey: "planet + normalized UTC AstaStart + normalized UTC AstaEnd"
+  },
   observer: {
     ...SITE,
     altitudeUnit: "km above reference ellipsoid as supplied to Horizons",
@@ -146,7 +176,8 @@ const report = {
   },
   planetResults: [],
   interpretation: [
-    "This report checks JPL apparent topocentric geometry at the published Drik boundary instants from 2021 through 2027 and at +/-10 minutes.",
+    "This report checks JPL apparent topocentric geometry at the 142 unique published Drik boundary instants from 2021 through 2027 and at +/-10 minutes.",
+    "Overlapping annual-page rows are deduplicated by planet and normalized UTC Asta interval before querying or calculating aggregate statistics.",
     "It does not assert that a planet being at the geometric horizon is identical to Drik's event definition.",
     "It does not train or fit the production event selector.",
     "Drik publishes the named city but not its internal observer coordinates/elevation; comparisons remain city-label-only."
@@ -210,6 +241,9 @@ const meanTargetAltitude = allDiagnostics.reduce((sum, item) => sum + item.targe
 const nearHorizonCount = allDiagnostics.filter(item => item.nearMinusHalfDegreeHorizon).length;
 report.summary = {
   planets: report.planetResults.length,
+  rawAnnualPageRows: rawWindows.length,
+  duplicateAnnualPageReferences: duplicateWindowReferences,
+  uniqueWindows: windows.length,
   boundaries: totalBoundaries,
   ephemerisRows: totalRows,
   apiQueries: report.planetResults.reduce((sum, item) => sum + 2 * item.target.batchCount, 0),
