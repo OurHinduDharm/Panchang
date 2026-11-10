@@ -157,8 +157,7 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
-      "endDate": "2030-07-15"
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2030-07-12",
@@ -182,14 +181,13 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल त्रयोदशी",
-      "endDate": "2030-07-17",
       "sourceName": "Drik Panchang — 2030 जुलाई पर्व सूची",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2030"
     },
     {
       "date": "2030-07-14",
       "dateLabel": "14 जुलाई",
-      "title": "कोकिला व्रत / आषाढ़ पूर्णिमा व्रत / चाक्षुष मन्वादि तिथि",
+      "title": "कोकिला व्रत / व्यास पूजा / आषाढ़ पूर्णिमा व्रत / चाक्षुष मन्वादि तिथि",
       "description": "आषाढ़ शुक्ल पूर्णिमा की आरम्भिक व्याप्ति में कोकिला व्रत का पालन और भगवती सती-पार्वती का पूजन करें। चाक्षुष मन्वादि तिथि पर स्नान, जप, तर्पण और दान-पुण्य करें।",
       "category": "व्रत एवं पर्व",
       "reviewStatus": "approved",
@@ -202,7 +200,7 @@
       "date": "2030-07-15",
       "dateLabel": "15 जुलाई",
       "title": "गुरु पूर्णिमा / आषाढ़ पूर्णिमा / दक्षिणामूर्ति जयंती / गौरी व्रत समापन",
-      "description": "आषाढ़ पूर्णिमा पर गुरुजनों और आचार्यों का पूजन, व्यास-पूजा, आशीर्वाद-ग्रहण तथा कृतज्ञता व्यक्त करें। महर्षि वेदव्यास का स्मरण करें। दक्षिणामूर्ति जयंती पर भगवान शिव के गुरु-स्वरूप की पूजा और स्तोत्र-पाठ करें। इसी दिन गौरी व्रत का समापन होता है।",
+      "description": "आषाढ़ पूर्णिमा पर गुरुजनों और आचार्यों का पूजन, आशीर्वाद-ग्रहण तथा कृतज्ञता व्यक्त करें। महर्षि वेदव्यास और गुरु-परंपरा का स्मरण करें। दक्षिणामूर्ति जयंती पर भगवान शिव के गुरु-स्वरूप की पूजा और स्तोत्र-पाठ करें। इसी दिन गौरी व्रत का समापन होता है।",
       "category": "पर्व एवं पूर्णिमा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -226,6 +224,18 @@
       "secondarySourceName": "Drik Panchang — 2030 संक्रांति कैलेंडर",
       "secondarySourceUrl": "https://www.drikpanchang.com/sankranti/sankranti.html?year=2030",
       "muhurtaRule": "sankranti-punya-kala"
+    },
+    {
+      "date": "2030-07-17",
+      "dateLabel": "17 जुलाई",
+      "title": "जयापार्वती व्रत समापन",
+      "description": "पाँच दिवसीय जयापार्वती व्रत का समापन कर माता पार्वती का पूजन, कथा-श्रवण और विधिपूर्वक पारण करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण तृतीया",
+      "sourceName": "Drik Panchang — 2030 जुलाई पर्व सूची",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2030"
     },
     {
       "date": "2030-07-18",
