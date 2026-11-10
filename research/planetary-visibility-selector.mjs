@@ -223,6 +223,8 @@ export function findVisibilityBoundaryNearAnchor({
     sunAltitudeDegrees: selected ? Number(selected.current.sunAltitude.toFixed(5)) : null,
     planetAltitudeDegrees: selected ? Number(selected.current.planetAltitude.toFixed(5)) : null,
     apparentMagnitude: selected ? Number(selected.current.apparentMagnitude.toFixed(5)) : null,
+    magnitudeDirectionInteraction: selected && Number.isFinite(selected.current.magnitudeDirectionInteraction)
+      ? Number(selected.current.magnitudeDirectionInteraction.toFixed(5)) : null,
     longitudeRateDegPerDay: selected && Number.isFinite(selected.current.longitudeRateDegPerDay)
       ? Number(selected.current.longitudeRateDegPerDay.toFixed(6)) : null,
     retrogradeState: selected?.current.retrogradeState ?? null,
