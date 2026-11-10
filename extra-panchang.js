@@ -7,7 +7,8 @@ import { calculateNivasa, normalizeTithiIndex } from "./nivas.js";
 import { formatDrikBoundary, getDrikPlanetaryReference } from "./research/drik-planetary-reference.mjs";
 
 import {
-  Observer
+  Observer,
+  SearchRiseSet
 } from "https://esm.sh/astronomy-engine@2.1.19";
 
 import {
@@ -435,7 +436,8 @@ function createPlanetCard(data, dailyEvents = {}) {
 
   const dailyRows = [
     { name: "सूर्य", udaya: dailyEvents.sunrise || null, asta: dailyEvents.sunset || null },
-    { name: "चंद्रमा", udaya: dailyEvents.moonrise || null, asta: dailyEvents.moonset || null }
+    { name: "चंद्रमा", udaya: dailyEvents.moonrise || null, asta: dailyEvents.moonset || null },
+    { name: "मंगल — अगला दैनिक उदय-अस्त", udaya: dailyEvents.marsrise || null, asta: dailyEvents.marsset || null }
   ].map(body => `
     <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
       <strong style="font-size:1.02em">${body.name}</strong>
@@ -1247,11 +1249,17 @@ if(
    * =========================================================
    */
 
+  // Selected date ke baad ke agle local Mars horizon rise/set events.
+  // Yeh daily topocentric horizon crossings hain, Tara-Asta visibility boundaries nahi.
+  const marsRiseEvent = SearchRiseSet("Mars", horaObserver, 1, horaDate, 3, 0);
+  const marsSetEvent = SearchRiseSet("Mars", horaObserver, -1, horaDate, 3, 0);
   const dailyEvents = {
     sunrise: pHora.sunrise ? formatEventDateTime(new Date(pHora.sunrise)) : null,
     sunset: pHora.sunset ? formatEventDateTime(new Date(pHora.sunset)) : null,
     moonrise: pHora.moonrise ? formatEventDateTime(new Date(pHora.moonrise)) : null,
-    moonset: pHora.moonset ? formatEventDateTime(new Date(pHora.moonset)) : null
+    moonset: pHora.moonset ? formatEventDateTime(new Date(pHora.moonset)) : null,
+    marsrise: marsRiseEvent?.date ? formatEventDateTime(marsRiseEvent.date) : null,
+    marsset: marsSetEvent?.date ? formatEventDateTime(marsSetEvent.date) : null
   };
   renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents);
   __ohdPerfMark("direct Drik reference lookup and card");
@@ -1279,7 +1287,7 @@ if(
       date: selectedDate,
       totalMilliseconds: Number((performance.now() - __ohdPerfStart).toFixed(2)),
       phases: __ohdPerfPhases,
-      planetaryReference: "direct-drik-city-data; no ephemeris scan"
+      planetaryReference: "direct-drik-city-data; Mars daily horizon rise/set"
     };
     console.info("[OHD performance] Extra Panchang update", report);
     let panel = document.getElementById("ohd-perf-panel");
