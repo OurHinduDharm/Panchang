@@ -31,16 +31,18 @@ test("Kali Chaudas and Narak Chaturdashi remain separate observances with the co
 });
 test("Distinct observances on Diwali cluster dates have individual cards and the Kali stotra link is on the relevant night card", async () => {
   const cases = [
-    {month:"2027-10",date:"2027-10-29",kamla:true,kaliPujaDate:"2027-10-28"},
+    {month:"2027-10",date:"2027-10-29",kamla:true,kedar:true,kaliPujaDate:"2027-10-28"},
     {month:"2028-10",date:"2028-10-17",kamla:true},
-    {month:"2029-11",date:"2029-11-05",kamla:true},
+    {month:"2029-11",date:"2029-11-05",kamla:true,kedar:true},
     {month:"2030-10",date:"2030-10-26",kamla:true,kaliPujaDate:"2030-10-26"}
   ];
   for (const c of cases) {
     const d=await readMonth(c.month);
     const diwali=d.events.find(e=>e.date===c.date && /^दीपावली/.test(e.title||""));
     assert.ok(diwali,"Diwali card missing in "+c.month);
-    assert.doesNotMatch(diwali.title,/कमला महाविद्या जयंती|काली पूजा|केदार गौरी व्रत/);
+    assert.doesNotMatch(diwali.title,/कमला महाविद्या जयंती|काली पूजा/);
+    if(c.kedar) assert.match(diwali.title,/केदार गौरी व्रत/);
+    else assert.doesNotMatch(diwali.title,/केदार गौरी व्रत/);
     assert.match(diwali.description,/Kakaradi-Kali-sahasranam-stotra/);
     if(c.kamla) {
       const kamla=d.events.find(e=>e.date===c.date && /कमला महाविद्या जयंती/.test(e.title||""));
