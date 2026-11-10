@@ -17,7 +17,9 @@ test("2030 October Navratri and Deepawali cards have distinct useful description
   assert.equal(generic.length, 0, "October must not contain generic placeholder descriptions");
 
   assert.match(find(events, /सरस्वती आवाहन/).description, /आवाहन और स्थापना/);
-  assert.match(find(events, /दुर्गाष्टमी/).description, /माँ दुर्गा/);
+  const durgaAshtami = find(events, /दुर्गाष्टमी/);
+  assert.match(durgaAshtami.description, /माँ दुर्गा/);
+  assert.doesNotMatch(durgaAshtami.description, /मासिक दुर्गाष्टमी पर/);
   const navami = find(events, /महानवमी/);
   assert.match(navami.description, /हवन/);
   assert.match(navami.articleUrl || "", /About-Goddess-Siddhidaatri/);
@@ -30,9 +32,14 @@ test("2030 October Navratri and Deepawali cards have distinct useful description
   assert.match(kojagara.articleUrl || "", /About-kojaagari/);
   const karwa = find(events, /करवा चौथ/);
   assert.match(karwa.description, /चंद्रमा को अर्घ्य/);
+  assert.equal((karwa.description.match(/चंद्रमा को अर्घ्य/g) || []).length, 1);
   const ahoi = find(events, /अहोई अष्टमी/);
   assert.match(ahoi.description, /तारों को अर्घ्य/);
   assert.match(ahoi.description, /राधाकुण्ड स्नान/);
+
+  const govats = find(events, /गोवत्स द्वादशी/);
+  assert.match(govats.articleUrl || "", /About-Govats-Dwadashi-vrat/);
+  assert.doesNotMatch([govats.articleUrl, govats.secondaryArticleUrl, govats.description].join(" "), /About-Ekadashi/);
 
   const dhan = find(events, /धनतेरस/);
   assert.match(dhan.description, /धन्वन्तरि/);
