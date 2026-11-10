@@ -30,11 +30,16 @@
     {
       "date": "2027-09-03",
       "dateLabel": "3 सितंबर",
-      "title": "हरतालिका तीज",
-      "description": "हरतालिका तीज पर कई परंपराओं में शिव-पार्वती की पूजा, व्रत और कथा-श्रवण किया जाता है।",
+      "title": "हरतालिका तीज / वराह अवतार जयंती",
+      "description": "हरतालिका तीज पर कई परंपराओं में शिव-पार्वती की पूजा, व्रत और कथा-श्रवण किया जाता है। वराह अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वराह अवतार जयंती</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html",
+      "articleLabel": "वराह अवतार जयंती",
+      "hinduTithi": "भाद्रपद शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — 2027 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2027"
     },
     {
       "date": "2027-09-04",
@@ -122,16 +127,18 @@
     {
       "date": "2027-09-12",
       "dateLabel": "12 सितंबर",
-      "title": "भुवनेश्वरी महाविद्या जयंती",
-      "description": "भाद्रपद शुक्ल द्वादशी भगवती भुवनेश्वरी के प्राकट्य-स्मरण की तिथि है। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a>",
+      "title": "भुवनेश्वरी महाविद्या जयंती / वामन जयंती",
+      "description": "भाद्रपद शुक्ल द्वादशी भगवती भुवनेश्वरी के प्राकट्य-स्मरण की तिथि है। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a> वामन अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वामन अवतार जयंती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल द्वादशी",
       "articleUrl": "https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html",
       "articleLabel": "भुवनेश्वरी महाविद्या",
-      "sourceName": "Drik Panchang — 2027 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027"
+      "sourceName": "Drik Panchang — 2027 Vamana Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2027",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html",
+      "secondaryArticleLabel": "वामन अवतार जयंती"
     },
     {
       "date": "2027-09-13",
