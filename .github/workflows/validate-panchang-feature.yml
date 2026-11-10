@@ -53,3 +53,4 @@ jobs:
           node tests/report-longitude-threshold-boundaries.mjs
           node tests/report-drik-asta-udaya-similarity.mjs
           node tests/report-local-horizon-angle-selector.mjs
+          node tests/report-pithoragarh-cross-location-blind-holdout.mjs
