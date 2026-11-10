@@ -1,6 +1,6 @@
 # ग्रह उदय-अस्त: स्रोत और स्वीकृति ऑडिट
 
-अंतिम अद्यतन: 2026-11-03
+अंतिम अद्यतन: 2026-11-10
 
 ## उद्देश्य
 
@@ -21,6 +21,7 @@
 2. Drik New Delhi Jupiter 2027: पृथक New Delhi city-label-only reference; Pithoragarh coordinates लागू करना निषिद्ध है।
 3. Drik New Delhi Venus 2026 और 2027: named New Delhi pages से स्वतंत्र रूप से पुनः जाँचे गए exact local times। Provider observer coordinates फिर भी प्रकाशित नहीं हैं; इसलिए city-label-only ही रहेगा।
 4. Rashtriya Panchang 2026–27 Venus visibility: Central Station of India का अलग official date-only cross-check; यह Drik exact-time event नहीं है।
+5. Rashtriya Panchang की अलग `Heliacal Rising and setting of planets` तालिका में Venus तथा Jupiter के लिए Central Station के exact IST setting/rising times भी प्रकाशित हैं। इन्हें `rashtriya-panchang-heliacal-setting-rising` event model के रूप में अलग रखा गया है; ये Drik Tara Asta boundaries नहीं हैं। Venus का source-printed 13 Oct 2026 24:18 अगले civil date 14 Oct 00:18 IST में normalize किया गया है, और मूल printed date/clock भी सुरक्षित हैं।
 
 ## Quarantined / provisional references
 
@@ -28,6 +29,15 @@
 - Pithoragarh Venus 2027 तथा Varanasi Venus 2026/2027 की ऐतिहासिक transcriptions `provisionalTranscriptions` में हैं। मूल named-city Drik page को फिर से खोलकर शहर/वर्ष चुनना, capture time और दोनों boundaries दर्ज करना आवश्यक है।
 - Varanasi के coordinates/elevation अनुमान से न भरें।
 - किसी दूसरे शहर के coordinates या event time से missing values न भरें।
+
+## नया स्वतंत्र सरकारी समय-संदर्भ (2026-11-10)
+
+Positional Astronomy Centre, IMD की Rashtriya Panchang `Heliacal Rising and setting of planets` तालिका (`https://packolkata.imd.gov.in/panchang/en/helical`) में Central Station of India के लिए Mercury के 13, Venus के 2, Mars के 1, Jupiter के 2 और Saturn के 2 — कुल 20 अलग-अलग heliacal events दिए हैं। ये annual event entries हैं; हर event को स्वतः paired Tara Asta interval न समझें। इस तालिका में Central Station के नाम के अलावा coordinates/elevation प्रकाशित नहीं हैं।
+
+- Venus: पश्चिम में अस्त — 13 Oct 2026, 24:18 IST (अर्थात 14 Oct 2026, 00:18 IST); पूर्व में उदय — 28 Oct 2026, 07:36 IST।
+- Jupiter: पश्चिम में अस्त — 15 Jul 2026, 11:10 IST; पूर्व में उदय — 10 Aug 2026, 07:53 IST।
+
+ये exact-time सरकारी heliacal events हैं। पूरी 20-entry सूची benchmark JSON में source-printed date/clock और normalized IST timestamp सहित सुरक्षित है। `Sets in east/west` तथा `Rises in east/west` को ज्यों का त्यों रखा है; इन्हें स्वतः एकल 'तारा अस्त/उदय अवधि' में pair नहीं किया है। IMD पृष्ठ Central Station का नाम देता है, पर इस event table में latitude/longitude/elevation नहीं देता; इसलिए पुराने benchmark में लिखे 23°11′ N, 82°30′ E को इस तालिका से independently confirmed coordinate न मानें। Venus 24:18, Mercury 26:54, Mercury 24:38 और Mars 25:49 जैसे 24h-पार clock values को मूल रूप में तथा अगले civil date के normalized timestamp में रखें। इन्हें Drik Tara Asta/Udaya windows, date-only visibility table, Swiss heliacal diagnostics या Surya Siddhanta K/C परिणामों के साथ interchangeable न मानें।
 
 ## Candidate event models
 
@@ -76,7 +86,16 @@ Swiss heliacal rising/setting एक भौतिक visibility candidate है
 ## अगला क्रम
 
 1. Provisional city transcriptions को primary pages से फिर capture करें और source metadata भरें।
-2. Exact Drik boundary instants पर same-engine geometry report बनाएं; इसे Drik algorithm का प्रमाण न मानें।
-3. Swiss और classical K/C diagnostics को अलग-अलग benchmark करें; event definition match न हो तो model reject/limit करें।
-4. Independent ephemeris cross-check और location sensitivity के बाद ही modern production engine चुनें।
-5. Accuracy gate पास होने के बाद measured performance bottleneck optimize करें।
+2. नए IMD heliacal exact-time cases को अलग event-model benchmark में रखें; पहले same-coordinate astronomy output से इनका स्वतंत्र परीक्षण करें, Drik acceptance में न मिलाएँ।
+3. Exact Drik boundary instants पर same-engine geometry report बनाएं; इसे Drik algorithm का प्रमाण न मानें।
+4. Swiss और classical K/C diagnostics को अलग-अलग benchmark करें; event definition match न हो तो model reject/limit करें।
+5. Independent ephemeris cross-check और location sensitivity के बाद ही modern production engine चुनें।
+6. Accuracy gate पास होने के बाद measured performance bottleneck optimize करें।
+
+
+## स्रोत-स्थान निर्देशांक सीमा (2026-11-10 सुधार)
+
+`Heliacal Rising and setting of planets` तथा `Visibility of Planets` के उद्धृत IMD पृष्ठ Central Station of India का नाम देते हैं, लेकिन उन पृष्ठों पर उसके latitude/longitude/elevation नहीं देते। इसलिए इन entries को `city-label-only` रखा गया है। पहले benchmark में Central Station के लिए 23°11′ N, 82°30′ E को source-published coordinates कहना अधिक मजबूत दावा था; इसे हटाया गया है। जब तक अलग प्राथमिक स्रोत से स्टेशन निर्देशांक न मिलें, इन cases पर coordinate-exact validation नहीं लिखना है।
+
+
+IMD के अलग `Visibility of Planets` पृष्ठ (`https://packolkata.imd.gov.in/panchang/en/visibility`) की 28 date-only visibility periods भी Mercury, Venus, Mars, Jupiter और Saturn के लिए benchmark JSON में transcribe की गई हैं। ये exact heliacal event timestamps से अलग dataset हैं; date-only precision ही रखी गई है और इनसे कोई clock time interpolate नहीं किया गया।
