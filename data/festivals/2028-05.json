@@ -38,7 +38,9 @@
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल नवमी"
+      "hinduTithi": "वैशाख शुक्ल नवमी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/04/About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html",
+      "articleLabel": "भगवती सीता जी की जयंती एवं पूजन-विधि"
     },
     {
       "date": "2028-05-05",
@@ -184,7 +186,11 @@
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या"
+      "hinduTithi": "ज्येष्ठ कृष्ण अमावस्या",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/06/About-Shanidev-On-ShanidevJayanti.html",
+      "articleLabel": "शनि जयंती की महिमा पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2021/06/About-Shani-dev-shatarchan-pooja-sadhana-vidhi-on-Shani-Jayanti.html",
+      "secondaryArticleLabel": "शनि देव की पूजन-साधना विधि पढ़ें"
     },
     {
       "date": "2028-05-25",
