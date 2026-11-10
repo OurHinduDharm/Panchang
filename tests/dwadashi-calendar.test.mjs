@@ -440,3 +440,27 @@ test("Drik 2026 cross-reference labels remain metadata and are year-gated", () =
   assert.equal(emptyRecord.referenceDate, null);
   assert.deepEqual(emptyRecord.drik2026Labels, [], "A Drik reference alone must not invent a local Dwadashi date");
 });
+
+
+test("separate Pausha Krishna occurrences in one Gregorian year remain separate records", () => {
+  const occurrenceRules = {
+    unifiedTithiIndex: {
+      tithis: [{month:"पौष",paksha:"कृष्ण",adhika:false,displayNames:["रूप-द्वादशी"],observances:[]}]
+    },
+    drikSpecialObservances: [{
+      year:2027, month:"पौष", paksha:"कृष्ण", adhika:false,
+      referenceDate:"2027-12-24", labels:["पौष कृष्ण विशेष द्वादशी"]
+    }]
+  };
+  const result = buildDwadashiCalendar([
+    sunriseDay("2027-01-04","पौष","कृष्ण","द्वादशी"),
+    sunriseDay("2027-12-24","पौष","कृष्ण","द्वादशी")
+  ], occurrenceRules);
+  const records = result.tithis.filter(item => item.month === "पौष" && item.paksha === "कृष्ण" && item.candidateDates.length);
+  assert.equal(records.length, 2);
+  assert.deepEqual(records.map(item => item.candidateDates), [["2027-01-04"],["2027-12-24"]]);
+  assert.deepEqual(records.map(item => item.id), ["pausha-krishna","pausha-krishna-occurrence-2"]);
+  assert.equal(records[0].referenceDate, null);
+  assert.equal(records[1].referenceDate, "2027-12-24");
+  assert.deepEqual(records[1].drikLabels, ["पौष कृष्ण विशेष द्वादशी"]);
+});
