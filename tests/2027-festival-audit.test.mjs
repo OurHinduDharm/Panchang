@@ -291,3 +291,35 @@ test("2027 May includes verified acharya, Mahavidya and regional observances", (
     seen.add(key);
   }
 });
+
+test("2027 June includes verified regional and monthly observances", () => {
+  const june = month(6);
+  const checks = [
+    ["2027-06-01", /कृष्ण परशुराम द्वादशी/, "ज्येष्ठ कृष्ण द्वादशी"],
+    ["2027-06-03", /मासिक शिवरात्रि \/ मासिक कार्तिगाई/, "ज्येष्ठ कृष्ण चतुर्दशी"],
+    ["2027-06-04", /वट सावित्री व्रत.*शनि जयंती.*ज्येष्ठ अमावस्या.*दर्श अमावस्या/, "ज्येष्ठ कृष्ण अमावस्या"],
+    ["2027-06-07", /महाराणा प्रताप जयंती/, "ज्येष्ठ शुक्ल तृतीया"],
+    ["2027-06-10", /जामाई षष्ठी/, "ज्येष्ठ शुक्ल षष्ठी"],
+    ["2027-06-12", /महेश नवमी/, "ज्येष्ठ शुक्ल नवमी"],
+    ["2027-06-14", /निर्जला एकादशी \/ गायत्री जयंती/, "ज्येष्ठ शुक्ल एकादशी"],
+    ["2027-06-15", /रामलक्ष्मण द्वादशी/, "ज्येष्ठ शुक्ल द्वादशी"],
+    ["2027-06-18", /ज्येष्ठ पूर्णिमा.*बटुक भैरवी जयंती.*वैवस्वत मन्वादि/, "ज्येष्ठ शुक्ल पूर्णिमा"],
+    ["2027-06-20", /आषाढ़ मासारंभ/, "आषाढ़ कृष्ण प्रतिपदा"],
+    ["2027-06-26", /मासिक कृष्ण जन्माष्टमी/, "आषाढ़ कृष्ण अष्टमी"]
+  ];
+  for (const [date, title, tithi] of checks) {
+    const event = june.events.find(item => item.date === date && title.test(item.title || ""));
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+    if (tithi) assert.equal(event.hinduTithi, tithi);
+    assert.ok(event.sourceUrl, date + " source URL");
+  }
+  assert.equal(june.events.some(event => /कबीर/.test(event.title || "")), false);
+  const seen = new Set();
+  for (const event of june.events) {
+    if (!event.hinduTithi) continue;
+    const key = event.date + "|" + event.hinduTithi;
+    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
+    seen.add(key);
+  }
+});
