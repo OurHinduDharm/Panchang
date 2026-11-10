@@ -32,7 +32,7 @@ Mars was not eligible for a stable per-year model in several folds: only two usa
 
 ## 2. Pooled multi-city plus local-history holdout (2024–2027)
 
-A second experiment trained on verified windows from other cities plus Pithoragarh's prior years, while excluding every Pithoragarh row from the held-out year. It compared the pooled model against a prior-Pithoragarh-years-only baseline.
+A second experiment performed strict leave-one-source-year-out validation on verified 2024–2027 windows from other cities and Pithoragarh. It excluded the held-out Pithoragarh source year, but it also used other source years later than the holdout year. Therefore this tests year-generalization, not a true prospective forecast. The earlier script's label 'prior-local-years-only' was imprecise; it means all other local years, not strictly earlier years.
 
 Accepted sample coverage: 200 windows total, including 40 Pithoragarh windows, across five cities and four held-out Pithoragarh years.
 
@@ -48,7 +48,7 @@ For Mercury, pooled training improved over local-history-only direction model:
 - Udaya exact dates: 23/25 pooled vs 16/25 local-only.
 - Both approaches placed all 25 windows within one day, but pooled mean absolute error was lower (Asta 0.24 d; Udaya 0.08 d).
 
-This supports pooling carefully selected multi-city training data, but it does not justify treating other cities as identical observers. Each city still uses an explicit observer proxy and the held-out Pithoragarh year remains excluded from training.
+This supports pooling carefully selected multi-city training data for year-generalization, but it does not justify treating other cities as identical observers. Each city still uses an explicit observer proxy and the held-out Pithoragarh year remains excluded from training. A separate strict forward-only validation has now been added: it trains exclusively on source years earlier than the held-out year and is still running.
 
 ## 3. Combined interpretation with the JPL seven-year geometry check
 
