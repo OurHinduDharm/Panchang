@@ -57,14 +57,20 @@ test("2028 January to April retain source-checked regional and same-tithi observ
   const putrada = events.find(event => event.date === "2028-01-08" && /पुत्रदा एकादशी/.test(event.title || ""));
   assert.match(putrada.title, /तैलंग स्वामी जयंती/);
   assert.ok(events.some(event => event.date === "2028-01-14" && /लोहड़ी/.test(event.title || "")));
+  assert.equal(events.find(event => event.date === "2028-01-09" && /कूर्म द्वादशी/.test(event.title || "")).hinduTithi, "पौष शुक्ल द्वादशी");
 
   const ratha = events.find(event => event.date === "2028-02-03" && /रथ सप्तमी/.test(event.title || ""));
   assert.equal(ratha.hinduTithi, "माघ शुक्ल सप्तमी");
   const bhishma = events.find(event => event.date === "2028-02-03" && /भीष्माष्टमी/.test(event.title || ""));
   assert.equal(bhishma.hinduTithi, "माघ शुक्ल अष्टमी");
+  assert.ok(events.some(event => event.date === "2028-02-15" && /यशोदा जयंती/.test(event.title || "")));
+  assert.ok(events.some(event => event.date === "2028-02-16" && /शबरी जयंती/.test(event.title || "")));
+  assert.ok(events.some(event => event.date === "2028-02-17" && /जानकी जयंती/.test(event.title || "")));
+  assert.ok(events.some(event => event.date === "2028-02-27" && /फुलेरा दूज.*रामकृष्ण जयंती|रामकृष्ण जयंती.*फुलेरा दूज/.test(event.title || "")));
   assert.match(bhishma.title, /माँ महागौरी/);
 
   assert.ok(events.some(event => event.date === "2028-03-08" && /नृसिंह द्वादशी/.test(event.title || "")));
+  assert.equal(events.find(event => event.date === "2028-03-21" && /कृष्ण नृसिंह द्वादशी/.test(event.title || "")).hinduTithi, "चैत्र कृष्ण द्वादशी");
   assert.equal(events.filter(event => event.date === "2028-03-11" && /होली/.test(event.title || "")).length, 1);
   const holi = events.find(event => event.date === "2028-03-11" && /होली/.test(event.title || ""));
   assert.equal(holi.hinduTithi, "चैत्र कृष्ण प्रतिपदा");
@@ -89,6 +95,8 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-05-24", /वट सावित्री व्रत.*शनि जयंती|शनि जयंती.*वट सावित्री व्रत/));
 
   assert.ok(has("2028-06-03", /गायत्री जयंती/));
+  assert.equal(has("2028-06-04", /राम-लक्ष्मण द्वादशी/).hinduTithi, "ज्येष्ठ शुक्ल द्वादशी");
+  assert.equal((has("2028-06-24", /जगन्नाथ रथयात्रा/).title.match(/जगन्नाथ रथयात्रा/g)||[]).length, 1);
   assert.ok(has("2028-06-06", /वट पूर्णिमा व्रत/));
   assert.ok(has("2028-06-07", /बटुक भैरव जयंती/));
   assert.equal(events.filter(event => event.date === "2028-06-10" && /संकष्टी/.test(event.title || "")).length, 1);
@@ -100,6 +108,12 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.equal(has("2028-07-26", /नाग पंचमी/).hinduTithi, "श्रावण शुक्ल पंचमी");
 
   assert.ok(has("2028-08-04", /वरलक्ष्मी व्रत/));
+  assert.ok(has("2028-08-10", /नाग पंचमी/));
+  assert.ok(has("2028-08-11", /हलषष्ठी/));
+  assert.ok(has("2028-08-12", /शीतला सप्तमी/));
+  assert.ok(has("2028-08-14", /दही हांडी/));
+  assert.equal(has("2028-08-17", /कृष्ण दामोदर द्वादशी/).hinduTithi, "भाद्रपद कृष्ण द्वादशी");
+  assert.ok(has("2028-08-26", /ललिता सप्तमी/));
   assert.ok(has("2028-08-05", /गायत्री जयंती/));
   assert.ok(has("2028-08-13", /मासिक कालाष्टमी/));
   assert.equal(has("2028-08-25", /बलराम जयंती/).hinduTithi, "भाद्रपद शुक्ल षष्ठी");
@@ -107,6 +121,9 @@ test("2028 additional major observances are present with their reviewed tithis",
 
   assert.equal(has("2028-09-02", /अनंत चतुर्दशी/).hinduTithi, "भाद्रपद शुक्ल चतुर्दशी");
   assert.ok(has("2028-09-24", /दुर्गा पूजा/));
+  assert.ok(has("2028-09-16", /शनि प्रदोष.*कलियुगादि|कलियुगादि.*शनि प्रदोष/));
+  assert.equal(events.filter(event => /कलियुगादि/.test(event.title || "")).length, 1);
+  assert.equal(events.filter(event => /कलियुगादि/.test(event.title || ""))[0].date, "2028-09-16");
   assert.equal(has("2028-09-12", /जीवित्पुत्रिका व्रत/).hinduTithi, "आश्विन कृष्ण अष्टमी");
   assert.ok(has("2028-09-25", /सरस्वती आवाहन/));
   assert.ok(has("2028-09-26", /सरस्वती पूजा/));
@@ -121,6 +138,8 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-11-16", /वृश्चिक संक्रांति/));
   assert.equal(has("2028-11-21", /विवाह पंचमी/).hinduTithi, "मार्गशीर्ष शुक्ल पंचमी");
   assert.ok(has("2028-11-27", /मोक्षदा एकादशी.*गीता जयंती|गीता जयंती.*मोक्षदा एकादशी/));
+  assert.equal(has("2028-11-13", /कृष्ण योगेश्वर द्वादशी/).hinduTithi, "मार्गशीर्ष कृष्ण द्वादशी");
+  assert.equal(has("2028-11-28", /मत्स्य द्वादशी/).hinduTithi, "मार्गशीर्ष शुक्ल द्वादशी");
   assert.ok(has("2028-12-01", /दत्तात्रेय जयंती/));
   assert.ok(has("2028-12-27", /टेलंग स्वामी जयंती/));
 });
