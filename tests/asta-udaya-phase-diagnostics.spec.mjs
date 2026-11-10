@@ -38,6 +38,7 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     assert.match(initialFingerprint, /सूर्य/);
     assert.match(initialFingerprint, /चंद्रमा/);
     assert.match(initialFingerprint, /उदय/);
+    // Public UI must not expose Drik branding or outbound source URLs.
     assert.doesNotMatch(initialFingerprint, /Drik मूल स्रोत|Drik Panchang|drikpanchang\.com/i);
     assert.equal(await card.locator('a[href*="drikpanchang.com"]').count(), 0, "public Panchang card must not expose Drik source links");
 
