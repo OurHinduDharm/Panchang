@@ -137,3 +137,22 @@ test("2027 January includes verified regional and seasonal observances", () => {
   }
   assert.equal(jan.events.some(item => /गौण|वैष्णव/.test(item.title || "")), false);
 });
+
+test("2027 February retains Narmada Jayanti, Brahma Savarni Manvadi and Masi Magam", () => {
+  const feb = month(2);
+  const ratha = find(2, "2027-02-13", /रथ सप्तमी/);
+  assert.ok(ratha);
+  assert.match(ratha.title, /नर्मदा जयंती/);
+  assert.match(ratha.title, /ब्रह्म सावर्णि मन्वादि/);
+  assert.equal(ratha.hinduTithi, "माघ शुक्ल सप्तमी");
+  assert.equal(ratha.reviewStatus, "approved");
+  assert.ok(ratha.sourceUrl);
+  const purnima = find(2, "2027-02-20", /माघ पूर्णिमा/);
+  assert.ok(purnima);
+  assert.match(purnima.title, /ललिता जयंती/);
+  assert.match(purnima.title, /मासी मागम/);
+  assert.equal(purnima.hinduTithi, "माघ शुक्ल पूर्णिमा");
+  assert.equal(purnima.reviewStatus, "approved");
+  assert.ok(purnima.sourceUrl);
+  assert.equal(feb.events.some(event => /गौण|वैष्णव/.test(event.title || "")), false);
+});
