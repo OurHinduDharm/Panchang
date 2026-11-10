@@ -169,6 +169,30 @@ const allSamples = entries.flatMap(entry =>
   ["astaStart", "astaEnd"].map(boundaryName => boundarySample(entry, boundaryName))
 );
 
+
+const newDelhiLeaveOneApparitionOut = [];
+for (const heldOutEntry of entries.filter(entry => NEW_DELHI_IDS.includes(entry.id))) {
+  for (const boundaryName of ["astaStart", "astaEnd"]) {
+    const training = allSamples.filter(sample =>
+      NEW_DELHI_IDS.includes(sample.id) &&
+      sample.id !== heldOutEntry.id &&
+      sample.boundary === boundaryName
+    ).map(sample => ({
+      magnitude: sample.boundaryMagnitude,
+      thresholdMidpoint: sample.thresholdMidpoint,
+      id: sample.id
+    }));
+    const model = fit(training);
+    newDelhiLeaveOneApparitionOut.push({
+      heldOutCase: heldOutEntry.id,
+      boundary: boundaryName,
+      trainingCount: training.length,
+      trainingCases: [...new Set(training.map(item => item.id))],
+      prediction: predictBoundary(heldOutEntry, boundaryName, model)
+    });
+  }
+}
+
 const holdouts = [];
 for (const pithoragarhId of PITHORAGARH_IDS) {
   const pithoragarhEntry = entries.find(entry => entry.id === pithoragarhId);
@@ -205,5 +229,6 @@ console.log(JSON.stringify({
   excludedSameApparition: true,
   trainingAndHoldoutSampleCount: allSamples.length,
   interpretation: "Research-only diagnostic. New Delhi training cases from the same apparition as each Pithoragarh holdout are excluded to avoid same-apparition leakage. Pithoragarh provider coordinates remain undisclosed, so this is city-label validation, not exact observer equivalence. Do not promote coefficients to production.",
+  newDelhiLeaveOneApparitionOut,
   holdouts
 }, null, 2));
