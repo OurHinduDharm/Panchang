@@ -263,11 +263,15 @@
       "date": "2027-09-30",
       "dateLabel": "30 सितंबर",
       "title": "शारदीय नवरात्रि प्रारंभ",
-      "description": "शारदीय नवरात्र में माँ दुर्गा के स्वरूपों की पूजा, पाठ, जप और व्रत की परंपरा है।",
+      "description": "शारदीय नवरात्र में माँ दुर्गा के स्वरूपों की पूजा, पाठ, जप और व्रत की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">शारदीय नवरात्र का महत्व</a> <a href=\"https://ourhindudharm.blogspot.com/p/kalash-sthapan.html\" target=\"_blank\" rel=\"noopener noreferrer\">घटस्थापना विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री पूजन</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल प्रतिपदा"
+      "hinduTithi": "आश्विन शुक्ल प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Sharadiya-Navaratri.html",
+      "articleLabel": "शारदीय नवरात्र का महत्व",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalash-sthapan.html",
+      "secondaryArticleLabel": "घटस्थापना विधि"
     }
   ]
 }
