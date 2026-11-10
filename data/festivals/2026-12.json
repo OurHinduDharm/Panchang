@@ -126,15 +126,15 @@
       "date": "2026-12-20",
       "dateLabel": "20 दिसंबर",
       "title": "मोक्षदा एकादशी / गीता जयंती",
-      "description": "मोक्षदा एकादशी मार्गशीर्ष शुक्ल एकादशी का व्रत है और इसी अवसर पर गीता जयंती मनाने की परंपरा है। श्रीविष्णु-पूजन और दान करें। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> इसी दिन भगवद्गीता के उपदेश का स्मरण करते हुए गीता-पाठ और श्लोक-मनन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीमद्भगवद्गीता जयंती</a>",
+      "description": "मोक्षदा एकादशी मार्गशीर्ष शुक्ल एकादशी का व्रत है और इसी अवसर पर गीता जयंती मनाने की परंपरा है। श्रीविष्णु-पूजन और दान करें। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> इसी दिन भगवद्गीता के उपदेश का स्मरण करते हुए गीता-पाठ और श्लोक-मनन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीमद्भगवद्गीता जयंती</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-ShimadbhagvatGita-On-Mokshada-Ekadashi.html",
+      "articleLabel": "श्रीमद्भगवद्गीता जयंती",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
       "date": "2026-12-21",
@@ -152,7 +152,11 @@
       "description": "मार्गशीर्ष पूर्णिमा पर स्नान, दान, जप और भगवान विष्णु की उपासना की जाती है। कुछ क्षेत्रों में यह दिन दत्तात्रेय जयंती के रूप में भी मनाया जाता है। इसी दिन भगवान दत्तात्रेय की जयंती, माँ अन्नपूर्णा की उपासना तथा श्री त्रिपुरभैरवी महाविद्या जयंती भी मनाई जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीदत्तात्रेय जयंती</a> <a href=\"http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री त्रिपुरभैरवी महाविद्या जयंती</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा"
+      "hinduTithi": "मार्गशीर्ष शुक्ल पूर्णिमा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Lord-Dattatreya-On-DattJayanti.html",
+      "articleLabel": "श्रीदत्तात्रेय जयंती",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/12/About-Goddess-TripurBhairavi-On-Tripura-Mahavidhya-Jayanti.html",
+      "secondaryArticleLabel": "श्री त्रिपुरभैरवी महाविद्या जयंती"
     },
     {
       "date": "2026-12-26",
