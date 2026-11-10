@@ -41,6 +41,20 @@
       "showReviewStatus": false
     },
     {
+      "date": "2028-08-04",
+      "dateLabel": "4 अगस्त",
+      "title": "हयग्रीव भगवान जयंती",
+      "description": "श्रावण शुक्ल पूर्णिमा की अपराह्न-व्याप्ति में भगवान हयग्रीव का पूजन किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">हयग्रीव भगवान जयंती</a>",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा (अपराह्न व्याप्ति)",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
+      "articleLabel": "हयग्रीव भगवान जयंती",
+      "sourceName": "Drik Panchang — 2028 Hayagriva Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-gods/trimurti/lord-vishnu/avatara/hayagriva/jayanti/hayagriva-jayanti-date-time.html?year=2028"
+    },
+    {
       "date": "2028-08-05",
       "dateLabel": "5 अगस्त",
       "title": "श्रावण पूर्णिमा",
@@ -55,7 +69,7 @@
     {
       "date": "2028-08-05",
       "dateLabel": "5 अगस्त",
-      "title": "रक्षा बंधन",
+      "title": "रक्षाबंधन / श्रावण पूर्णिमा / लव-कुश जयंती",
       "description": "रक्षाबंधन में बहनें भाइयों की कलाई पर राखी बाँधकर मंगल की कामना करती हैं।",
       "category": "पर्व",
       "reviewStatus": "approved",
@@ -168,11 +182,16 @@
     {
       "date": "2028-08-22",
       "dateLabel": "22 अगस्त",
-      "title": "हरतालिका तीज",
-      "description": "हरतालिका तीज पर कई परंपराओं में शिव-पार्वती की पूजा, व्रत और कथा-श्रवण किया जाता है। व्रत की तिथि तृतीया-व्याप्ति के आधार पर निर्धारित होती है।",
+      "title": "हरतालिका तीज / वराह अवतार जयंती",
+      "description": "हरतालिका तीज पर कई परंपराओं में शिव-पार्वती की पूजा, व्रत और कथा-श्रवण किया जाता है। व्रत की तिथि तृतीया-व्याप्ति के आधार पर निर्धारित होती है। वराह अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वराह अवतार जयंती</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html",
+      "articleLabel": "वराह अवतार जयंती",
+      "hinduTithi": "भाद्रपद शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — 2028 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2028"
     },
     {
       "date": "2028-08-23",
@@ -210,12 +229,16 @@
     {
       "date": "2028-08-25",
       "dateLabel": "25 अगस्त",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "title": "मासिक स्कन्द षष्ठी / कल्कि अवतार जयंती",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। कल्कि अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल षष्ठी"
+      "hinduTithi": "श्रावण शुक्ल षष्ठी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
+      "articleLabel": "कल्कि अवतार जयंती",
+      "sourceName": "Drik Panchang — 2028 Kalki Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/kalki/kalki-jayanti-date-time.html?year=2028"
     },
     {
       "date": "2028-08-26",
@@ -252,16 +275,18 @@
     {
       "date": "2028-08-31",
       "dateLabel": "31 अगस्त",
-      "title": "भुवनेश्वरी महाविद्या जयंती",
-      "description": "भाद्रपद शुक्ल द्वादशी भगवती भुवनेश्वरी के प्राकट्य-स्मरण की तिथि है। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a>",
+      "title": "भुवनेश्वरी महाविद्या जयंती / वामन जयंती",
+      "description": "भाद्रपद शुक्ल द्वादशी भगवती भुवनेश्वरी के प्राकट्य-स्मरण की तिथि है। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a> वामन अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वामन अवतार जयंती</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल द्वादशी",
       "articleUrl": "https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html",
       "articleLabel": "भुवनेश्वरी महाविद्या",
-      "sourceName": "Drik Panchang — 2028 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2028"
+      "sourceName": "Drik Panchang — 2028 Vamana Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2028",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html",
+      "secondaryArticleLabel": "वामन अवतार जयंती"
     }
   ]
 }
