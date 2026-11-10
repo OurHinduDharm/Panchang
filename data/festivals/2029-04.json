@@ -105,12 +105,16 @@
     {
       "date": "2029-04-17",
       "dateLabel": "17 अप्रैल",
-      "title": "गणगौर",
-      "description": "गणगौर में गौरी-शंकर की पूजा और दांपत्य-सौभाग्य की कामना की परंपरा है।",
+      "title": "गणगौर / मत्स्य-अवतार जयंती",
+      "description": "गणगौर में गौरी-शंकर की पूजा और दांपत्य-सौभाग्य की कामना की परंपरा है। मत्स्य-अवतार जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">मत्स्य-अवतार जयंती</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल तृतीया"
+      "hinduTithi": "चैत्र शुक्ल तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html",
+      "articleLabel": "मत्स्य-अवतार जयंती",
+      "sourceName": "Drik Panchang — 2029 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2029"
     },
     {
       "date": "2029-04-17",
@@ -160,14 +164,18 @@
     {
       "date": "2029-04-19",
       "dateLabel": "19 अप्रैल",
-      "title": "चैत्र नवरात्र पंचमी — माँ स्कन्दमाता",
-      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
+      "title": "चैत्र नवरात्र पंचमी — माँ स्कन्दमाता / लक्ष्मी पंचमी",
+      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a> लक्ष्मी पंचमी के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी पंचमी</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल पंचमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
-      "articleLabel": "माँ स्कन्दमाता"
+      "articleLabel": "माँ स्कन्दमाता",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "secondaryArticleLabel": "लक्ष्मी पंचमी",
+      "sourceName": "Drik Panchang — Lakshmi Panchami 2029",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/panchami/lakshmi-panchami/lakshmi-panchami-date-time.html?year=2029"
     },
     {
       "date": "2029-04-20",
