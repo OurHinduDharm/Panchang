@@ -99,6 +99,23 @@ function fitFeatures(samples, keys, targetKey) {
     coefficients: Object.fromEntries(keys.map((key, index) => [key, beta[index + 1]]))
   } : null;
 }
+function publishedConjunctionType(entry) {
+  const start = new Date(entry.boundaries.astaStart.instant);
+  const end = new Date(entry.boundaries.astaEnd.instant);
+  const midpoint = new Date((start.getTime() + end.getTime()) / 2);
+  const targets = entry.planet === 'Mercury' || entry.planet === 'Venus' ? [0, 180] : [180];
+  const candidates = [];
+  for (const targetRelLon of targets) {
+    const event = Astronomy.SearchRelativeLongitude(entry.planet, targetRelLon, new Date(midpoint.getTime() - 90 * DAY_MS));
+    if (event?.date) {
+      const distanceDays = Math.abs(event.date.getTime() - midpoint.getTime()) / DAY_MS;
+      if (distanceDays <= 90) candidates.push({ targetRelLon, distanceDays });
+    }
+  }
+  candidates.sort((a, b) => a.distanceDays - b.distanceDays);
+  if (!candidates.length || (candidates.length > 1 && Math.abs(candidates[0].distanceDays - candidates[1].distanceDays) < 1)) return null;
+  return candidates[0].targetRelLon === 0 ? 'inferior' : 'superior';
+}
 function clockMinutes(value) {
   const match = String(value).match(/^(\d{1,2}):(\d{2})/);
   return match ? Number(match[1]) * 60 + Number(match[2]) : null;
@@ -196,18 +213,29 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
           Number(item.boundaries.astaStart.local.slice(0, 4)) === eventYear
         )) {
           const publishedAsta = entry.boundaries.astaStart;
-          const ranked = candidates.map((window, index) => ({
-            window, index,
-            error: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedAsta.local)
-          })).filter(item => !used.has(item.index))
-            .sort((a, b) => Math.abs(a.error) - Math.abs(b.error));
+          const publishedEnd = entry.boundaries.astaEnd;
+          const conjunctionType = publishedConjunctionType(entry);
+          const publishedAstaEvent = nearestEvent(planet, new Date(publishedAsta.instant));
+          const publishedUdayaEvent = nearestEvent(planet, new Date(publishedEnd.instant));
+          const ranked = candidates.map((window, index) => {
+            const astaError = dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedAsta.local);
+            const udayaError = dayNumber(window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd.local);
+            return { window, index, astaError, udayaError, score: Math.abs(astaError) + Math.abs(udayaError) };
+          }).filter(item => !used.has(item.index) && conjunctionType &&
+            item.window.conjunctionType === conjunctionType &&
+            publishedAstaEvent && publishedUdayaEvent &&
+            item.window.asta.direction === (publishedAstaEvent.direction === 1 ? 'rise' : 'set') &&
+            item.window.udaya.direction === (publishedUdayaEvent.direction === 1 ? 'rise' : 'set') &&
+            Math.abs(item.astaError) <= 30 && Math.abs(item.udayaError) <= 30)
+            .sort((a, b) => a.score - b.score);
           const best = ranked[0];
-          if (!best || Math.abs(best.error) > 30) {
-            predictions.push({ id: entry.id, matched: false });
+          if (!best) {
+            predictions.push({ id: entry.id, matched: false, expectedConjunctionType: conjunctionType,
+              publishedAstaDirection: publishedAstaEvent?.direction === 1 ? 'rise' : publishedAstaEvent ? 'set' : null,
+              publishedUdayaDirection: publishedUdayaEvent?.direction === 1 ? 'rise' : publishedUdayaEvent ? 'set' : null });
             continue;
           }
           used.add(best.index);
-          const publishedEnd = entry.boundaries.astaEnd;
           predictions.push({
             id: entry.id, matched: true,
             conjunctionType: best.window.conjunctionType,
@@ -221,8 +249,8 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
             publishedUdayaDate: publishedEnd.local.slice(0, 10),
             predictedUdayaTime: best.window.udaya.predictedEventLocalTime,
             publishedUdayaTime: publishedEnd.local.slice(11, 16),
-            astaErrorDays: best.error,
-            udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd.local),
+            astaErrorDays: best.astaError,
+            udayaErrorDays: best.udayaError,
             astaClockErrorMinutes: clockError(best.window.asta.predictedEventLocalTime, publishedAsta.local.slice(11, 16)),
             udayaClockErrorMinutes: clockError(best.window.udaya.predictedEventLocalTime, publishedEnd.local.slice(11, 16))
           });
@@ -246,7 +274,7 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
 }
 console.log(JSON.stringify({
   title: "Pithoragarh leave-one-source-year-out event-direction and threshold-target validation",
-  method: "For each held-out Drik source year, train only on the other direct Pithoragarh source years. Compare the published-boundary target label as previous-event solar altitude, midpoint altitude, or current-event solar altitude, with magnitude-only/direction models. Other planets use magnitude-only because their local annual sample counts are too small for extra coefficients.",
+  method: "For each held-out Drik source year, train only on the other direct Pithoragarh source years. Match only candidates with the same conjunction family as the nearest solar conjunction to the published window midpoint, the same topocentric local rise/set directions measured at both published boundaries, and both Asta-start and Asta-end civil-date errors within 30 days. Rank eligible candidates by the sum of absolute start/end date errors. Other planets use magnitude-only because their local annual sample counts are too small for extra coefficients.",
   motionDefinition: "Topocentric local rise/set direction (rise=+1, set=-1) plus magnitude interaction. Geocentric retrograde and longitude rate are calculated in the sample ledger but are not fitted in this experiment because previous blind tests did not show consistent gains. Threshold target variants: current event Sun altitude, midpoint of previous/current event Sun altitude, previous event Sun altitude.",
   holdoutSource: "Direct Drik Pithoragarh city pages; observer proxy 29.5828 N, 80.2182 E, 1650 m. Drik internal observer coordinates remain undisclosed.",
   warning: "Research-only; one-day civil-date error remains a release failure. Held-out year samples are never used to fit their own fold.",
