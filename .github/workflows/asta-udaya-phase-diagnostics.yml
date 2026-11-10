@@ -16,6 +16,7 @@ on:
       - "data/drik-planetary-reference-2024-2027.json"
       - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
       - "tests/report-pithoragarh-local-year-holdout.mjs"
+      - "tests/report-pithoragarh-direction-year-holdout.mjs"
       - "tests/report-pithoragarh-motion-feature-holdout.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
@@ -82,6 +83,8 @@ jobs:
         run: node tests/report-pithoragarh-direct-drik-blind-holdout.mjs
       - name: Run Pithoragarh location-calibrated leave-one-year-out validation
         run: node tests/report-pithoragarh-local-year-holdout.mjs
+      - name: Compare Mercury event-direction models in Pithoragarh year holdouts
+        run: node tests/report-pithoragarh-direction-year-holdout.mjs
       - name: Test planetary visibility selector and retrograde/direct motion features
         run: node --test tests/planetary-visibility-selector.test.mjs
       - name: Compare Mercury/Venus retrograde-aware model variants
