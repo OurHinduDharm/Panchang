@@ -129,14 +129,10 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     group.noonDates = unique(group.noonDates).sort(dateSort);
     group.sunriseObservations.sort((a, b) => dateSort(a.date, b.date));
     group.noonObservations.sort((a, b) => dateSort(a.date, b.date));
-    // Keep both observation dates for transparency, but prefer the sunrise
-    // observation when selecting a Dwadashi vrata candidate. A tithi that
-    // begins after the previous sunrise can appear at noon on one day and
-    // at sunrise on the next; the noon-only date must not make that sunrise
-    // date look ambiguous.
+    // Keep sunrise and noon observations separately. Named Dwadashi
+    // observances can follow vrata-specific rules, so neither observation
+    // alone overrides an available source reference date.
     const candidateDates = unique(group.sunriseDates.concat(group.noonDates)).sort(dateSort);
-    const sunriseCandidateDates = group.sunriseDates.slice();
-    const noonOnlyDates = group.noonDates.filter(date => !group.sunriseDates.includes(date));
     const source = catalog.find(item =>
       item.month === group.month &&
       item.paksha === group.paksha &&
@@ -182,19 +178,17 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       drikLabels,
       drik2026Labels: year === 2026 && Array.isArray(drik2026Entry?.labels) ? unique(drik2026Entry.labels) : [],
       drikSpecialObservances: drikSpecialEntries.map(item => ({ ...item, source:"Drik Panchang", sourceUrl:item.sourcePage === "smarta-ekadashi" ? "https://www.drikpanchang.com/ekadashi/ekadashi-dates.html?year=" + year + "&geoname-id=1259503" : "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=" + year + "&geoname-id=1259503", status:"source-cross-reference-needs-local-rule-review" })),
-      selectedDate: sunriseCandidateDates.length === 1
-        ? sunriseCandidateDates[0]
-        : sunriseCandidateDates.length > 1
-          ? null
+      selectedDate: drikReferenceDate && candidateDates.includes(drikReferenceDate)
+        ? drikReferenceDate
+        : candidateDates.length === 1
+          ? candidateDates[0]
+          : null,
+      dateSelection: drikReferenceDate && candidateDates.includes(drikReferenceDate)
+        ? "source-reference-date-candidate-review-required"
+        : drikReferenceDate && candidateDates.length && !candidateDates.includes(drikReferenceDate)
+          ? "reference-date-outside-local-observations-review-required"
           : candidateDates.length === 1
-            ? candidateDates[0]
-            : null,
-      dateSelection: sunriseCandidateDates.length === 1
-        ? "single-observation-candidate-review-required"
-        : sunriseCandidateDates.length > 1
-          ? "requires-vrata-specific-rule"
-          : noonOnlyDates.length === 1
-            ? "noon-only-candidate-review-required"
+            ? "single-observation-candidate-review-required"
             : candidateDates.length > 1
               ? "requires-vrata-specific-rule"
               : drikReferenceDate
