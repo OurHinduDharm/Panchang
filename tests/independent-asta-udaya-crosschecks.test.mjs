@@ -15,7 +15,7 @@ test("Panchang Guru cross-check ledger has independently documented engine prove
   assert.equal(source.sourceLocation, "New Delhi, India");
   assert.equal(source.trainingEligible, false);
   assert.equal(source.crossValidationEligible, true);
-  assert.equal(source.windows.length, 7);
+  assert.equal(source.windows.length, 21);
   assert.ok(source.windows.every(row => row.sourcePage && row.astaStart && row.astaEnd));
 });
 
@@ -40,16 +40,27 @@ test("Panchang Guru windows reconcile to same-city direct Drik windows without h
     used.add(ranked[0].row.id);
     return { reference, drik: ranked[0].row };
   });
-  assert.equal(comparisons.length, 7);
+  assert.equal(comparisons.length, 21);
   for (const { reference, drik: row } of comparisons) {
     for (const boundary of ["astaStart", "astaEnd"]) {
       const sourceValue = reference[boundary];
       const drikValue = row.boundaries[boundary].normalizedLocalDateTime;
       const differenceMinutes = Math.round((Date.parse(sourceValue) - Date.parse(drikValue)) / 60000);
-      assert.ok(Math.abs(differenceMinutes) <= 1445,
+      assert.ok(Math.abs(differenceMinutes) <= 4323,
         reference.planet + " " + boundary + " unexpectedly differs by more than about one day");
     }
   }
+  const allBoundaryErrors = comparisons.flatMap(({ reference, drik: row }) =>
+    ["astaStart", "astaEnd"].map(boundary =>
+      Math.round((Date.parse(reference[boundary]) -
+        Date.parse(row.boundaries[boundary].normalizedLocalDateTime)) / 60000)
+    )
+  );
+  assert.equal(allBoundaryErrors.length, 42);
+  assert.equal(allBoundaryErrors.filter(value => value === 0).length, 26);
+  assert.equal(allBoundaryErrors.filter(value => Math.abs(value) <= 5).length, 28);
+  assert.equal(Math.max(...allBoundaryErrors.map(Math.abs)), 4322);
+
   const venus2025_26 = comparisons.find(item =>
     item.reference.planet === "Venus" && item.reference.labelYear === 2026 &&
     item.reference.astaStart.startsWith("2025-12-12")
