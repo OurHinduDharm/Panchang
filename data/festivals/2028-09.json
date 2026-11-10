@@ -58,6 +58,17 @@
       "articleLabel": "श्राद्ध - महालय प्रारंभ, पितृपक्ष प्रारंभ"
     },
     {
+      "date": "2028-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "अगस्त्य अर्घ्य",
+      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
+      "sourceName": "Drik Panchang — 2028 Agastya Arghya",
+      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2028"
+    },
+    {
       "date": "2028-09-07",
       "dateLabel": "7 सितंबर",
       "title": "विघ्नराज संकष्टी चतुर्थी",
@@ -346,17 +357,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पक्ष त्रयोदशी"
-    },
-    {
-      "date": "2028-09-04",
-      "dateLabel": "4 सितंबर",
-      "title": "अगस्त्य अर्घ्य",
-      "description": "अगस्त्य तारे के दर्शन के उपरान्त अगस्त्य ऋषि को अर्घ्य अर्पित किया जाता है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "hinduTithi": "अगस्त्य तारा दर्शन पर आधारित",
-      "sourceName": "Drik Panchang — 2028 Agastya Arghya",
-      "sourceUrl": "https://www.drikpanchang.com/rituals/agastya-arghya/agastya-arghya-date-time.html?year=2028"
     }
   ]
 }
