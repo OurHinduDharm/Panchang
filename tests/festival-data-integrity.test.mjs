@@ -147,7 +147,7 @@ test("2026 festival cards expose the linked articles from the Vrat-Parv page", (
     ["2026-09.json","श्री गणेश चतुर्थी / सिद्धिविनायक चतुर्थी — गणेश जयंती","About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html"],
     ["2026-09.json","राधाष्टमी | श्री राधा जयन्ती","About-ShreeRadha-On-Radhaashtami.html"],
     ["2026-11.json","गोवत्स द्वादशी व्रत","About-Govats-Dwadashi-vrat.html"],
-    ["2026-11.json","देवउठनी एकादशी","About-Shree-Hari-Prabodhini-Ekaadashi.html"],
+    ["2026-11.json","देवोत्थानी एकादशी (स्मार्त)","About-Shree-Hari-Prabodhini-Ekaadashi.html"],
     ["2026-02.json","महाशिवरात्रि / मासिक शिवरात्रि व्रत","About-Mahashivratri-Vrat.html"],
     ["2026-02.json","आमलकी एकादशी","About-Aamlaki-Ekadashi-Mahatmya.html"]
   ];
