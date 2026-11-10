@@ -5,10 +5,12 @@ on:
       - verify/2026-sankashti-pithoragarh
     paths:
       - 'tests/sankashti-real-panchang-2026.test.js'
+      - 'tests/sankashti-real-panchang-2030.test.mjs'
       - '.github/workflows/sankashti-panchang-validation.yml'
   pull_request:
     paths:
       - 'tests/sankashti-real-panchang-2026.test.js'
+      - 'tests/sankashti-real-panchang-2030.test.mjs'
       - '.github/workflows/sankashti-panchang-validation.yml'
 permissions:
   contents: read
@@ -22,5 +24,7 @@ jobs:
           node-version: 20
       - name: Install pinned Panchang engine
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
+      - name: Validate 2030 Pithoragarh Sankashti moonrise dates
+        run: node --test tests/sankashti-real-panchang-2030.test.mjs
       - name: Validate 2026 moonrise and tithi
         run: node --test tests/sankashti-real-panchang-2026.test.js
