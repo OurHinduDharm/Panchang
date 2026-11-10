@@ -81,3 +81,15 @@ test("preserves target-only copy and adds master article links", () => {
   assert.ok(event.description.includes("example.com/pongal"));
   assert.ok(event.description.includes("example.com/local"));
 });
+
+test("escapes malformed HTML fragments in imported article labels", () => {
+  const event = { title: "परीक्षण" };
+  const template = {
+    title: "परीक्षण",
+    description: '<a href="https://example.com/safe"><script</a>'
+  };
+  synchronizeEventContent(event, template);
+  assert.match(event.description, /&lt;script/);
+  assert.doesNotMatch(event.description, /<script/);
+  assert.match(event.description, /href="https:\/\/example\.com\/safe"/);
+});
