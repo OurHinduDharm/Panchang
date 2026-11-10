@@ -684,3 +684,18 @@ Mercury local-only leave-one-year-out में direction-interaction model 28/4
 **Release decision:** model अभी production date engine नहीं है। बुध के 45 holdouts में 14 Asta और 3 Udaya dates एक दिन से चूकीं; शुक्र के 9 windows में 1 Asta और 4 Udaya dates एक दिन से चूकीं। एक-दिन की त्रुटि भी exact-date acceptance gate में असफल है। Jupiter/Saturn के केवल सात-सात windows हैं; अच्छे परिणाम के बावजूद यह सार्वभौमिक प्रमाण नहीं। Provider के exact observer coordinates/elevation उपलब्ध नहीं।
 
 CI run 42803012385: extended source ledger, all direct/local/city-year holdouts, expanded feature ablation, selector motion tests, five-city transfer and production no-fallback/performance checks — successful.
+### Swiss Ephemeris independent heliacal comparison — all five planets
+
+Swiss Ephemeris WASM heliacal_ut was compared against ten direct, year-confirmed Pithoragarh Drik 2025 boundaries: one Asta-start and one Asta-end for Mercury, Venus, Mars, Jupiter and Saturn. Eight atmospheric/observer/range scenarios ran successfully; all ten visibility-limit profiles were finite and source-linked.
+
+| Swiss scenario | Mean absolute date offset |
+|---|---:|
+| Baseline, observer age 36, default range | 6.9 days |
+| Age 23, default range | 5.9 days |
+| Age 23, 120 km range | 4.3 days |
+| Age 23, 200 km range | 3.1 days |
+| Age 23, 300–1000 km range | 2.9 days |
+
+Per-planet MAE in the baseline scenario: Mercury 3.0 d, Venus 2.0 d, Mars 19.5 d, Jupiter 4.0 d, Saturn 6.0 d. A 300 km+ visibility range is not a defensible local-horizon setting for a Pithoragarh event. Swiss heliacal_ut predicts first/last visual visibility, while Drik's printed Asta/Udaya clock is the planet's local rise/set event; this is a definition mismatch, not evidence that Swiss ephemeris positions are inaccurate. Swiss is retained as an independent visibility diagnostic, not promoted as the Drik event engine.
+
+CI run 42803891599: Swiss all-five-planet comparison passed with direct references only; the full browser diagnostics and regression suite also passed.
