@@ -2,9 +2,12 @@ import { readFile } from "node:fs/promises";
 import * as Astronomy from "astronomy-engine";
 import { generateVisibilityWindows } from "../research/planetary-visibility-selector.mjs";
 
-const dataset = JSON.parse(await readFile(
-  new URL("../data/drik-multicity-asta-udaya-2024-2028.json", import.meta.url), "utf8"
-));
+const [dataset, localDataset] = await Promise.all([
+  readFile(new URL("../data/drik-multicity-asta-udaya-2024-2028.json", import.meta.url), "utf8")
+    .then(JSON.parse),
+  readFile(new URL("../data/drik-pithoragarh-asta-udaya-2021-2027.json", import.meta.url), "utf8")
+    .then(JSON.parse)
+]);
 const CITY_OBSERVERS = {
   "New Delhi, NCT, India": [28.6139, 77.2090, 216],
   "Mumbai, Maharashtra, India": [19.0760, 72.8777, 14],
@@ -119,7 +122,11 @@ function summarize(values) {
 }
 
 const unique = new Map();
-for (const entry of dataset.windows) {
+const combinedWindows = [
+  ...dataset.windows.filter(entry => entry.sourceLocation !== TARGET_CITY),
+  ...localDataset.windows
+];
+for (const entry of combinedWindows) {
   if (entry.acceptanceEligible !== true || entry.sourceStatus !== "direct-page-captured-browser-verified") continue;
   const key = [
     entry.sourceLocation, entry.planet,
