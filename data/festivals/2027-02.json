@@ -71,19 +71,9 @@
     {
       "date": "2027-02-08",
       "dateLabel": "8 फरवरी",
-      "title": "चन्द्र दर्शन",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल द्वितीया"
-    },
-    {
-      "date": "2027-02-08",
-      "dateLabel": "8 फ़रवरी",
-      "title": "माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
-      "description": "दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
-      "category": "नवरात्रि",
+      "title": "चन्द्र दर्शन / माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
+      "category": "पर्व एवं नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल द्वितीया",
@@ -105,31 +95,21 @@
     {
       "date": "2027-02-10",
       "dateLabel": "10 फरवरी",
-      "title": "गौरी गणेश चतुर्थी / गणेश जयंती",
-      "description": "गौरी गणेश चतुर्थी को गणेश जयंती भी कहा जाता है। माघ शुक्ल चतुर्थी पर भगवान गणेश की विशेष पूजा, स्तोत्र-मंत्र पाठ और तिल के मोदक अर्पित करने की परंपरा है। तिलकुन्द चतुर्थी और वरद चतुर्थी नाम भी प्रचलित हैं।",
-      "category": "व्रत-पर्व",
+      "title": "गौरी गणेश चतुर्थी / गणेश जयंती / माघ गुप्त नवरात्र चतुर्थ — माँ कूष्माण्डा",
+      "description": "गौरी गणेश चतुर्थी को गणेश जयंती भी कहा जाता है। माघ शुक्ल चतुर्थी पर भगवान गणेश की विशेष पूजा, स्तोत्र-मंत्र पाठ और तिल के मोदक अर्पित करने की परंपरा है। तिलकुन्द चतुर्थी और वरद चतुर्थी नाम भी प्रचलित हैं। चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
+      "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
-    },
-    {
-      "date": "2027-02-10",
-      "dateLabel": "10 फ़रवरी",
-      "title": "माघ गुप्त नवरात्र चतुर्थ — माँ कूष्माण्डा",
-      "description": "चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
       "articleLabel": "माँ कूष्माण्डा"
     },
     {
       "date": "2027-02-11",
       "dateLabel": "11 फ़रवरी",
-      "title": "वसंत पंचमी / श्री पंचमी / सरस्वती सिद्धविद्या जयंती",
-      "description": "वसंत पंचमी पर माँ सरस्वती की पूजा, विद्यारम्भ, पुस्तक-पूजन और पीले रंग के वस्त्र/भोग की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a>",
+      "title": "वसंत पंचमी / श्री पंचमी / सरस्वती सिद्धविद्या जयंती / माघ गुप्त नवरात्र पंचमी — माँ स्कन्दमाता",
+      "description": "वसंत पंचमी पर माँ सरस्वती की पूजा, विद्यारम्भ, पुस्तक-पूजन और पीले रंग के वस्त्र/भोग की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a> पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -137,36 +117,16 @@
       "articleLabel": "सरस्वती पूजन की विधि पढ़ें",
       "hinduTithi": "माघ शुक्ल पंचमी",
       "sourceName": "Drik Panchang — Vasant Panchami 2027",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?geoname-id=1273294"
-    },
-    {
-      "date": "2027-02-11",
-      "dateLabel": "11 फ़रवरी",
-      "title": "माघ गुप्त नवरात्र पंचमी — माँ स्कन्दमाता",
-      "description": "पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल पंचमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
-      "articleLabel": "माँ स्कन्दमाता"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?geoname-id=1273294",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "secondaryArticleLabel": "माँ स्कन्दमाता"
     },
     {
       "date": "2027-02-12",
       "dateLabel": "12 फरवरी",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल षष्ठी"
-    },
-    {
-      "date": "2027-02-12",
-      "dateLabel": "12 फ़रवरी",
-      "title": "माघ गुप्त नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
-      "category": "नवरात्रि",
+      "title": "मासिक स्कन्द षष्ठी / माघ गुप्त नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
+      "category": "व्रत एवं नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल षष्ठी",
@@ -176,12 +136,14 @@
     {
       "date": "2027-02-13",
       "dateLabel": "13 फ़रवरी",
-      "title": "रथ सप्तमी",
-      "description": "रथ सप्तमी पर सूर्यदेव की उपासना, प्रातः स्नान, सूर्य को अर्घ्य और आदित्य-स्मरण की परंपरा है।",
-      "category": "पर्व",
+      "title": "रथ सप्तमी / माघ गुप्त नवरात्र सप्तमी — माँ कालरात्रि",
+      "description": "रथ सप्तमी पर सूर्यदेव की उपासना, प्रातः स्नान, सूर्य को अर्घ्य और आदित्य-स्मरण की परंपरा है। सातवें दिन माँ कालरात्रि की आराधना की जाती है। भय और संकटों से रक्षा की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कालरात्रि</a>",
+      "category": "पर्व एवं नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल सप्तमी"
+      "hinduTithi": "माघ शुक्ल सप्तमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
+      "articleLabel": "माँ कालरात्रि"
     },
     {
       "date": "2027-02-13",
@@ -193,49 +155,18 @@
       "showReviewStatus": false
     },
     {
-      "date": "2027-02-13",
-      "dateLabel": "13 फ़रवरी",
-      "title": "माघ गुप्त नवरात्र सप्तमी — माँ कालरात्रि",
-      "description": "सातवें दिन माँ कालरात्रि की आराधना की जाती है। भय और संकटों से रक्षा की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कालरात्रि</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल सप्तमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
-      "articleLabel": "माँ कालरात्रि"
-    },
-    {
       "date": "2027-02-14",
       "dateLabel": "14 फरवरी",
-      "title": "मासिक दुर्गाष्टमी",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल अष्टमी"
-    },
-    {
-      "date": "2027-02-14",
-      "dateLabel": "14 फ़रवरी",
-      "title": "भीष्माष्टमी",
-      "description": "भीष्माष्टमी पर महाभारत के भीष्म पितामह का स्मरण तथा कुछ परंपराओं में तर्पण किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html\" target=\"_blank\"> भीष्माष्टमी, भीष्म तर्पण।</a>",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html",
-      "articleLabel": "भीष्माष्टमी, भीष्म तर्पण।"
-    },
-    {
-      "date": "2027-02-14",
-      "dateLabel": "14 फ़रवरी",
-      "title": "माघ गुप्त नवरात्र अष्टमी — माँ महागौरी",
-      "description": "अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
-      "category": "नवरात्रि",
+      "title": "मासिक दुर्गाष्टमी / भीष्माष्टमी एवं भीष्म तर्पण / माघ गुप्त नवरात्र अष्टमी — माँ महागौरी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। भीष्माष्टमी पर महाभारत के भीष्म पितामह का स्मरण तथा कुछ परंपराओं में तर्पण किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html\" target=\"_blank\"> भीष्माष्टमी, भीष्म तर्पण।</a> अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
+      "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल अष्टमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
-      "articleLabel": "माँ महागौरी"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutBheeshma-Tarpan.html",
+      "articleLabel": "भीष्माष्टमी, भीष्म तर्पण।",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
+      "secondaryArticleLabel": "माँ महागौरी"
     },
     {
       "date": "2027-02-15",
@@ -299,6 +230,18 @@
       "articleLabel": "ललिता षोडशी महाविद्या",
       "sourceName": "Drik Panchang — 2027 Dasha Mahavidya Jayanti Calendar",
       "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2027"
+    },
+    {
+      "date": "2027-02-21",
+      "dateLabel": "21 फ़रवरी",
+      "title": "उपच्छाया चंद्रग्रहण",
+      "description": "पिथौरागढ़ में उपच्छाया चंद्रग्रहण 21 फ़रवरी को रात्रि 02:42 से प्रातः 06:45 बजे तक दिखाई देगा। ग्रहण का मध्य 04:42 बजे रहेगा।",
+      "category": "ग्रहण",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पूर्णिमा",
+      "sourceName": "Time and Date — Pithoragarh",
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270220"
     },
     {
       "date": "2027-02-24",
