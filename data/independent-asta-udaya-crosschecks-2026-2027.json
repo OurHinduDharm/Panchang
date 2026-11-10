@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "title": "Independent planetary Asta/Udaya cross-check references",
+  "capturedAt": "2026-11-10",
+  "timeZone": "Asia/Kolkata",
+  "policy": {
+    "purpose": "Independent validation only; these records must not be used as training labels or silently merged into Drik reference windows.",
+    "matching": "Compare only events with the same event meaning and same named location. Keep civil-date differences separate from clock-time differences.",
+    "noFallback": "No city or coordinate substitution is permitted.",
+    "sourceIndependence": "Panchang Guru describes its own Trikala engine and published planetary theories; this is a declared independent implementation, but its precise planetary-visibility decision rule is not fully documented. Treat matching as cross-source agreement, not proof of full algorithmic independence.",
+    "officialHeliacal": "Rashtriya Panchang heliacal rising/setting is a separate official event series for the Central Station of India. It is not assumed equivalent to Panchang Guru or Drik Tara Asta/Udaya."
+  },
+  "sources": [
+    {
+      "id": "panchang-guru-trikala",
+      "name": "Panchang Guru — Trikala engine",
+      "url": "https://www.panchangguru.com/how-we-calculate",
+      "eventPages": {
+        "Venus": "https://www.panchangguru.com/shukra-asta",
+        "Jupiter": "https://www.panchangguru.com/guru-asta",
+        "Saturn": "https://www.panchangguru.com/shani-asta"
+      },
+      "sourceLocation": "New Delhi, India",
+      "sourceObserver": {
+        "latitude": null,
+        "longitude": null,
+        "elevationM": null,
+        "coordinateStatus": "The captured page identifies New Delhi but does not publish the engine observer coordinates/elevation."
+      },
+      "method": {
+        "engine": "Trikala, described as in-house independent astronomical engine",
+        "planetaryPositions": "VSOP87 Sun; Meeus Moon; published orbital elements for planets",
+        "statedPlanetPositionAgreement": "about one arcminute against an independent high-precision ephemeris",
+        "eventMeaning": "Planet's own local rise or set; source text describes Asta/Udaya as loss/reappearance in solar glare",
+        "visibilityThreshold": "Not fully disclosed in the public methodology page"
+      },
+      "trainingEligible": false,
+      "crossValidationEligible": true,
+      "windows": [
+        {
+          "planet": "Venus",
+          "labelYear": 2026,
+          "astaStart": "2025-12-12T06:37:00+05:30",
+          "astaStartKind": "rising",
+          "astaEnd": "2026-02-01T18:27:00+05:30",
+          "astaEndKind": "setting",
+          "durationDays": 51,
+          "sourcePage": "https://www.panchangguru.com/shukra-asta"
+        },
+        {
+          "planet": "Venus",
+          "labelYear": 2026,
+          "astaStart": "2026-10-12T18:19:00+05:30",
+          "astaStartKind": "setting",
+          "astaEnd": "2026-10-29T06:00:00+05:30",
+          "astaEndKind": "rising",
+          "durationDays": 17,
+          "sourcePage": "https://www.panchangguru.com/shukra-asta"
+        },
+        {
+          "planet": "Venus",
+          "labelYear": 2027,
+          "astaStart": "2027-07-21T05:08:00+05:30",
+          "astaStartKind": "rising",
+          "astaEnd": "2027-09-09T19:00:00+05:30",
+          "astaEndKind": "setting",
+          "durationDays": 50,
+          "sourcePage": "https://www.panchangguru.com/shukra-asta"
+        },
+        {
+          "planet": "Jupiter",
+          "labelYear": 2026,
+          "astaStart": "2026-07-15T19:59:00+05:30",
+          "astaStartKind": "setting",
+          "astaEnd": "2026-08-12T05:03:00+05:30",
+          "astaEndKind": "rising",
+          "durationDays": 28,
+          "sourcePage": "https://www.panchangguru.com/guru-asta"
+        },
+        {
+          "planet": "Jupiter",
+          "labelYear": 2027,
+          "astaStart": "2027-08-17T19:32:00+05:30",
+          "astaStartKind": "setting",
+          "astaEnd": "2027-09-13T05:22:00+05:30",
+          "astaEndKind": "rising",
+          "durationDays": 27,
+          "sourcePage": "https://www.panchangguru.com/guru-asta"
+        },
+        {
+          "planet": "Saturn",
+          "labelYear": 2026,
+          "astaStart": "2026-03-13T19:13:00+05:30",
+          "astaStartKind": "setting",
+          "astaEnd": "2026-04-22T04:49:00+05:30",
+          "astaEndKind": "rising",
+          "durationDays": 40,
+          "sourcePage": "https://www.panchangguru.com/shani-asta"
+        },
+        {
+          "planet": "Saturn",
+          "labelYear": 2027,
+          "astaStart": "2027-03-26T19:21:00+05:30",
+          "astaStartKind": "setting",
+          "astaEnd": "2027-05-05T04:36:00+05:30",
+          "astaEndKind": "rising",
+          "durationDays": 40,
+          "sourcePage": "https://www.panchangguru.com/shani-asta"
+        }
+      ]
+    },
+    {
+      "id": "rashtriya-panchang-imd-heliacal",
+      "name": "Rashtriya Panchang — Positional Astronomy Centre, IMD",
+      "url": "https://packolkata.imd.gov.in/panchang/en/helical",
+      "sourceLocation": "Central Station of India",
+      "sourceObserver": {
+        "latitude": null,
+        "longitude": null,
+        "elevationM": null,
+        "coordinateStatus": "The published heliacal table names the Central Station of India; coordinates/elevation are not included on the page."
+      },
+      "method": {
+        "eventMeaning": "Heliacal rising and setting of planets",
+        "ephemeris": "Indian Astronomical Ephemeris with latest available corrections",
+        "publication": "Government of India, Ministry of Earth Sciences, Positional Astronomy Centre"
+      },
+      "trainingEligible": false,
+      "crossValidationEligible": true,
+      "windows": [],
+      "events": [
+        {
+          "planet": "Mercury",
+          "event": "sets-east",
+          "localDateTime": "2026-04-29T06:53:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "rises-west",
+          "localDateTime": "2026-05-23T05:24:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "sets-west",
+          "localDateTime": "2026-07-03T12:37:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "rises-east",
+          "localDateTime": "2026-07-21T12:34:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "sets-east",
+          "localDateTime": "2026-08-18T08:44:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "rises-west",
+          "localDateTime": "2026-09-14T02:54:00+05:30",
+          "sourcePrintedClock": "26:54",
+          "dayRollover": 1
+        },
+        {
+          "planet": "Mercury",
+          "event": "sets-west",
+          "localDateTime": "2026-10-28T06:32:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "rises-east",
+          "localDateTime": "2026-11-09T11:40:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "sets-east",
+          "localDateTime": "2026-12-13T22:19:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "rises-west",
+          "localDateTime": "2027-01-18T10:05:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "sets-west",
+          "localDateTime": "2027-02-13T21:20:00+05:30"
+        },
+        {
+          "planet": "Mercury",
+          "event": "rises-east",
+          "localDateTime": "2027-02-24T00:38:00+05:30",
+          "sourcePrintedClock": "24:38",
+          "dayRollover": 1
+        },
+        {
+          "planet": "Mercury",
+          "event": "sets-east",
+          "localDateTime": "2027-04-11T17:33:00+05:30"
+        },
+        {
+          "planet": "Venus",
+          "event": "sets-west",
+          "localDateTime": "2026-10-14T00:18:00+05:30",
+          "sourcePrintedDate": "13 Oct 2026",
+          "sourcePrintedClock": "24:18",
+          "dayRollover": 1
+        },
+        {
+          "planet": "Venus",
+          "event": "rises-east",
+          "localDateTime": "2026-10-28T07:36:00+05:30"
+        },
+        {
+          "planet": "Mars",
+          "event": "rises-east",
+          "localDateTime": "2026-04-18T01:49:00+05:30",
+          "sourcePrintedDate": "17 Apr 2026",
+          "sourcePrintedClock": "25:49",
+          "dayRollover": 1
+        },
+        {
+          "planet": "Jupiter",
+          "event": "sets-west",
+          "localDateTime": "2026-07-15T11:10:00+05:30"
+        },
+        {
+          "planet": "Jupiter",
+          "event": "rises-east",
+          "localDateTime": "2026-08-10T07:53:00+05:30"
+        },
+        {
+          "planet": "Saturn",
+          "event": "rises-east",
+          "localDateTime": "2026-04-17T13:58:00+05:30"
+        },
+        {
+          "planet": "Saturn",
+          "event": "sets-west",
+          "localDateTime": "2027-03-24T23:55:00+05:30"
+        }
+      ]
+    },
+    {
+      "id": "tathaastu-surya-siddhanta",
+      "name": "TathaAstu API — Sūrya Siddhānta Tara events",
+      "url": "https://docs.tathaastuapi.com/",
+      "sourceLocation": "Location-specific; requires explicit latitude and longitude",
+      "method": {
+        "eventMeaning": "Tara Asta/Udaya based on Sūrya Siddhānta IX.2–IX.9 kālāṃśa, the interval between Sun and planet horizon crossings",
+        "thresholdsDegrees": {
+          "Mars": 17,
+          "Saturn": 15,
+          "Jupiter": 11,
+          "Venus": {
+            "inferiorConjunction": 8,
+            "superiorConjunction": 10
+          },
+          "Mercury": {
+            "inferiorConjunction": 12,
+            "superiorConjunction": 14
+          }
+        },
+        "important": "The conjunction type governing Venus/Mercury threshold is fixed for the apparition; it is not switched by retrograde/direct motion on the event day. This is not ecliptic longitude separation or chart-combustion orb.",
+        "access": "The documented /v1/tara/events endpoint is Pro and requires API credentials. No API output was captured in this dataset."
+      },
+      "trainingEligible": false,
+      "crossValidationEligible": false,
+      "windows": []
+    }
+  ]
+}
