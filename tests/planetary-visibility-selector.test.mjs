@@ -126,7 +126,7 @@ test("derives an inferior-planet conjunction anchor and selects the nearest even
   assert.equal(result.conjunctionUTC, "2026-01-12T00:00:00.000Z");
 });
 
-test("uses superior conjunction only for an outer planet", () => {
+test("uses solar conjunction at 0 degrees for an outer planet, not opposition", () => {
   const result = findNearestConjunctionAnchor({
     astronomy: fakeConjunctionSearch({
       0: ["2026-01-09T00:00:00.000Z"],
@@ -136,8 +136,8 @@ test("uses superior conjunction only for an outer planet", () => {
     approximateDate: "2026-01-10T00:00:00.000Z"
   });
 
-  assert.equal(result.targetRelativeLongitudeDegrees, 180);
-  assert.equal(result.conjunctionUTC, "2026-01-12T00:00:00.000Z");
+  assert.equal(result.targetRelativeLongitudeDegrees, 0);
+  assert.equal(result.conjunctionUTC, "2026-01-09T00:00:00.000Z");
 });
 
 test("returns ambiguous when inferior and superior conjunctions are equally near", () => {
@@ -222,7 +222,7 @@ test("enumerates a superior-conjunction window with reversed inner-planet direct
   let activeDirection = 0;
   const astronomy = {
     SearchRelativeLongitude(_body, target, start) {
-      if (target !== 180 || start.getTime() >= conjunctionDate.getTime()) return null;
+      if (target !== 0 || start.getTime() >= conjunctionDate.getTime()) return null;
       return { date: conjunctionDate };
     },
     SearchRiseSet(_body, _observer, direction, start) {
@@ -264,7 +264,7 @@ test("enumerates a superior-conjunction window with reversed inner-planet direct
   assert.equal(windows[0].udaya.predictedBoundaryDate, "2026-02-15");
 });
 
-test("uses set-to-rise boundaries for an outer-planet superior conjunction", () => {
+test("uses set-to-rise boundaries around an outer-planet solar conjunction", () => {
   const conjunctionDate = new Date("2026-03-10T00:00:00.000Z");
   let activeDirection = 0;
   const astronomy = {
@@ -303,7 +303,7 @@ test("uses set-to-rise boundaries for an outer-planet superior conjunction", () 
   });
 
   assert.equal(windows.length, 1);
-  assert.equal(windows[0].conjunctionType, "superior");
+  assert.equal(windows[0].conjunctionType, "conjunction");
   assert.equal(windows[0].status, "candidate");
   assert.equal(windows[0].asta.direction, "set");
   assert.equal(windows[0].udaya.direction, "rise");
