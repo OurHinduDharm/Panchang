@@ -50,7 +50,6 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल पूर्णिमा",
-      "timingType": "eclipse-visibility",
       "sourceName": "Timeanddate — Pithoragarh; Drik Panchang eclipse list",
       "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20280706"
     },
@@ -58,7 +57,7 @@
       "date": "2028-07-06",
       "dateLabel": "6 जुलाई",
       "title": "आंशिक चंद्रग्रहण",
-      "description": "6 जुलाई 2028 के आंशिक चंद्रग्रहण का स्थानीय दृश्य-समय ग्रहण-पथ और नगर के क्षितिज के अनुसार निर्धारित होता है। ग्रहण के स्पर्श-समय के अनुसार जप, स्नान और सूतक के नियम देखें।",
+      "description": "6 जुलाई 2028 को पिथौरागढ़ में आंशिक चंद्रग्रहण रात 10:39 बजे आरंभ होकर 7 जुलाई रात 1:00 बजे तक दिखाई देगा। ग्रहण के स्पर्श-समय के अनुसार जप, स्नान और सूतक के नियम देखें।",
       "category": "ग्रहण",
       "reviewStatus": "approved",
       "showReviewStatus": false,
