@@ -173,7 +173,7 @@ test("enumerates an inferior-conjunction window without a published boundary anc
   let activeDirection = 0;
   const astronomy = {
     SearchRelativeLongitude(_body, target, start) {
-      if (target !== 0 || start.getTime() >= conjunctionDate.getTime()) return null;
+      if (target !== 180 || start.getTime() >= conjunctionDate.getTime()) return null;
       return { date: conjunctionDate };
     },
     SearchRiseSet(_body, _observer, direction, start) {
