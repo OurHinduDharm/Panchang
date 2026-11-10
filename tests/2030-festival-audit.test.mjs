@@ -74,6 +74,13 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-10-02", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
 });
 
+test("2030 Sharadiya Navratri puja labels match the actual tithi and Devi form", () => {
+  assert.ok(has("2030-10-01", /पंचमी पूजा.*माँ स्कन्दमाता/));
+  assert.ok(has("2030-10-02", /षष्ठी.*माँ कात्यायनी/));
+  assert.ok(has("2030-10-03", /सप्तमी पूजा.*माँ कालरात्रि/));
+  assert.ok(has("2030-10-04", /दुर्गाष्टमी.*सरस्वती पूजा/));
+});
+
 test("2030 Agastya Arghya remains a separate observance card", () => {
   assert.ok(has("2030-09-04", /अगस्त्य अर्घ्य/));
   assert.ok(has("2030-08-24", /अजा एकादशी/));
