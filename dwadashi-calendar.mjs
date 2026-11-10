@@ -28,7 +28,7 @@ function dateSort(a, b) {
 }
 
 function findDwadashiIntervalOnLocalDate(dailyPanchang, date, month, paksha, adhika) {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(date || ""))) return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ""))) return null;
   const start = Date.parse(date + "T00:00:00+05:30");
   const next = new Date(date + "T00:00:00Z");
   next.setUTCDate(next.getUTCDate() + 1);
