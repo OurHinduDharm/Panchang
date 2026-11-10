@@ -224,3 +224,36 @@ test("2027 March retains key regional, tithi and seasonal observances", () => {
     seen.add(key);
   }
 });
+
+test("2027 April includes verified regional new years and major observances", () => {
+  const april = month(4);
+  const checks = [
+    ["2027-04-02", /कृष्ण नृसिंह द्वादशी/, "चैत्र कृष्ण द्वादशी"],
+    ["2027-04-06", /चैत्र अमावस्या \/ दर्श अमावस्या/, "चैत्र कृष्ण अमावस्या"],
+    ["2027-04-08", /झूलेलाल जयंती/, "चैत्र शुक्ल द्वितीया"],
+    ["2027-04-09", /गणगौर.*गौरी पूजा.*मत्स्य-अवतार जयंती.*स्वायम्भुव मन्वादि.*मासिक कार्तिगाई/, "चैत्र शुक्ल तृतीया"],
+    ["2027-04-14", /मेष संक्रांति.*बैसाखी.*पुथांडु.*बोहाग बिहू.*सौर नववर्ष/, undefined],
+    ["2027-04-14", /अशोकाष्टमी व्रत/, "चैत्र शुक्ल अष्टमी / नवमी व्याप्ति"],
+    ["2027-04-15", /विषु कणि \/ पोहेला बोइशाख/, undefined],
+    ["2027-04-17", /वामन द्वादशी \/ त्रिशूर पूरम/, "चैत्र शुक्ल द्वादशी"],
+    ["2027-04-18", /रवि प्रदोष व्रत/, "चैत्र शुक्ल पक्ष त्रयोदशी"],
+    ["2027-04-20", /चित्रा पूर्णिमा.*स्वरोचिष मन्वादि/, "चैत्र शुक्ल पूर्णिमा"],
+    ["2027-04-21", /वैशाख मासारंभ/, "वैशाख कृष्ण प्रतिपदा"],
+    ["2027-04-28", /मासिक कालाष्टमी \/ मासिक कृष्ण जन्माष्टमी/, "वैशाख कृष्ण अष्टमी"]
+  ];
+  for (const [date, title, tithi] of checks) {
+    const event = april.events.find(item => item.date === date && title.test(item.title || ""));
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+    if (tithi) assert.equal(event.hinduTithi, tithi);
+    assert.ok(event.sourceUrl, date + " source URL");
+  }
+  const seen = new Set();
+  for (const event of april.events) {
+    if (!event.hinduTithi) continue;
+    const key = event.date + "|" + event.hinduTithi;
+    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
+    seen.add(key);
+  }
+  assert.equal(april.events.some(event => /स्वामीनारायण/.test(event.title || "")), false);
+});
