@@ -19,6 +19,7 @@ on:
       - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
       - "tests/report-pithoragarh-local-year-holdout.mjs"
       - "tests/report-pithoragarh-direction-year-holdout.mjs"
+      - "tests/report-mars-pithoragarh-2028-event-geometry.mjs"
       - "tests/report-pithoragarh-city-year-holdout.mjs"
       - "tests/report-pithoragarh-pooled-year-holdout.mjs"
       - "tests/report-pithoragarh-forward-year-holdout.mjs"
@@ -100,6 +101,8 @@ jobs:
         run: node tests/report-pithoragarh-direct-drik-blind-holdout.mjs
       - name: Run Pithoragarh location-calibrated leave-one-year-out validation
         run: node tests/report-pithoragarh-local-year-holdout.mjs
+      - name: Report Pithoragarh Mars local rise/set geometry around 2028 Asta references
+        run: node tests/report-mars-pithoragarh-2028-event-geometry.mjs | tee research/reports/mars-pithoragarh-2028-event-geometry.json
       - name: Compare Mercury event-direction models in Pithoragarh year holdouts
         run: node tests/report-pithoragarh-direction-year-holdout.mjs | tee research/reports/pithoragarh-direction-year-holdout.json
       - name: Validate pooled multi-city plus local-history Pithoragarh city-year holdouts
@@ -130,6 +133,13 @@ jobs:
         run: node --test tests/drik-planetary-reference.test.mjs
       - name: Verify direct Drik Panchang card, no provisional display and unchanged performance mode
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
+
+      - name: Upload Pithoragarh Mars 2028 local event geometry
+        uses: actions/upload-artifact@v4
+        with:
+          name: mars-pithoragarh-2028-event-geometry
+          path: research/reports/mars-pithoragarh-2028-event-geometry.json
+          if-no-files-found: error
 
       - name: Upload Pithoragarh model-selection and blind-prediction report
         uses: actions/upload-artifact@v4
