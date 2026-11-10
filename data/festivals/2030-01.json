@@ -63,6 +63,18 @@
       "hinduTithi": "पौष शुक्ल षष्ठी"
     },
     {
+      "date": "2030-01-10",
+      "dateLabel": "10 जनवरी",
+      "title": "श्री गुरु गोबिंद सिंह जयंती",
+      "description": "दशम गुरु श्री गुरु गोबिंद सिंह जी के प्रकाश पर्व पर उनके जीवन, खालसा पंथ की स्थापना, साहस और धर्मरक्षा के आदर्शों का स्मरण किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल सप्तमी",
+      "sourceName": "Drik Panchang — January 10, 2030 Panchang",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=10%2F01%2F2030&lang=en"
+    },
+    {
       "date": "2030-01-11",
       "dateLabel": "11 जनवरी",
       "title": "मासिक दुर्गाष्टमी",
@@ -109,8 +121,8 @@
     {
       "date": "2030-01-15",
       "dateLabel": "15 जनवरी",
-      "title": "पौष पुत्रदा एकादशी / तैलंग स्वामी जयंती",
-      "description": "पौष पुत्रदा एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> तैलंग स्वामी जयंती पर महान योगी के जीवन और साधना का स्मरण किया जाता है।",
+      "title": "पौष पुत्रदा एकादशी / धर्मसावर्णि मन्वादि / तैलंग स्वामी जयंती",
+      "description": "पौष पुत्रदा एकादशी पर भगवान विष्णु की पूजा, व्रत, जप और दान की परंपरा है। पारण स्थानीय द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> तैलंग स्वामी जयंती पर महान योगी के जीवन और साधना का स्मरण किया जाता है। धर्मसावर्णि मन्वादि तिथि पर मन्वादि-श्राद्ध और पितृ-स्मरण का विधान भी माना जाता है।",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
