@@ -44,7 +44,7 @@ test("Pithoragarh-visible 2027 eclipses have local contact timings", () => {
   const lunar = find(2,"2027-02-21",/उपच्छाया चंद्रग्रहण/);
   assert.ok(lunar);
   assert.equal(lunar.hinduTithi,"माघ शुक्ल पूर्णिमा");
-  assert.match(lunar.description,/02:42 से प्रातः 06:45/);
+  assert.match(lunar.description,/02:42 से 06:43/);
   assert.match(lunar.sourceUrl,/timeanddate\.com\/eclipse\/in\/india\/pithoragarh/);
 
   const solar = find(8,"2027-08-02",/आंशिक सूर्यग्रहण/);
