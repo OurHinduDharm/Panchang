@@ -13,6 +13,7 @@ on:
       - "tests/drik-pithoragarh-asta-data.test.mjs"
       - "tests/drik-multicity-asta-data.test.mjs"
       - "data/drik-multicity-asta-udaya-2024-2028.json"
+      - "data/drik-planetary-reference-2024-2027.json"
       - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
       - "tests/report-pithoragarh-local-year-holdout.mjs"
       - "tests/report-pithoragarh-motion-feature-holdout.mjs"
@@ -32,6 +33,9 @@ on:
       - "tests/run-swiss-heliacal-comparison.mjs"
       - "tests/capture-drik-pithoragarh-asta.mjs"
       - "data/asta-udaya-benchmark.json"
+      - "research/drik-planetary-reference.mjs"
+      - "tests/drik-planetary-reference.test.mjs"
+      - "data/drik-planetary-reference-2024-2027.json"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
 
 permissions:
