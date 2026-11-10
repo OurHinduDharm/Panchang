@@ -413,15 +413,24 @@
     {
       "date": "2028-03-30",
       "dateLabel": "30 मार्च",
-      "title": "वासुदेव चतुर्थी / चैत्र नवरात्र चतुर्थ — माँ कूष्माण्डा",
-      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है। नवरात्रि के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
-      "category": "व्रत",
+      "title": "वासुदेव चतुर्थी",
+      "description": "चैत्र शुक्ल चतुर्थी पर भगवान गणेश की पूजा, दूर्वा और मोदक अर्पण तथा व्रत की परंपरा है।",
+      "category": "गणेश-व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल चतुर्थी"
+    },
+    {
+      "date": "2028-03-30",
+      "dateLabel": "30 मार्च",
+      "title": "चैत्र नवरात्र चतुर्थ — माँ कूष्माण्डा",
+      "description": "चैत्र नवरात्र के चौथे दिन माँ कूष्माण्डा की पूजा, ध्यान और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा की पूजा पढ़ें</a>",
+      "category": "नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
-      "articleLabel": "माँ कूष्माण्डा"
+      "articleLabel": "माँ कूष्माण्डा की पूजा पढ़ें"
     },
     {
       "date": "2028-03-30",
@@ -447,16 +456,26 @@
     {
       "date": "2028-03-31",
       "dateLabel": "31 मार्च",
-      "title": "चैत्र नवरात्र पंचमी — माँ स्कन्दमाता / लक्ष्मी पंचमी",
-      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a> लक्ष्मी पंचमी के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी पंचमी</a>",
-      "category": "नवरात्रि",
+      "title": "चैत्र नवरात्र पंचमी — माँ स्कन्दमाता",
+      "description": "चैत्र नवरात्र के पाँचवें दिन माँ स्कन्दमाता की पूजा, ध्यान और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता की पूजा पढ़ें</a>",
+      "category": "नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — Lakshmi Panchami",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/panchami/lakshmi-panchami/lakshmi-panchami-date-time.html?year=2028",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
-      "articleLabel": "माँ स्कन्दमाता",
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
-      "secondaryArticleLabel": "लक्ष्मी पंचमी",
+      "articleLabel": "माँ स्कन्दमाता की पूजा पढ़ें"
+    },
+    {
+      "date": "2028-03-31",
+      "dateLabel": "31 मार्च",
+      "title": "लक्ष्मी पंचमी",
+      "description": "चैत्र शुक्ल पंचमी को माँ लक्ष्मी की पूजा, श्रीसूक्त-पाठ, दीप और नैवेद्य अर्पण कर धन-धान्य तथा समृद्धि की कामना की जाती है।",
+      "category": "देवी-व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "चैत्र शुक्ल पंचमी",
       "sourceName": "Drik Panchang — Lakshmi Panchami",
       "sourceUrl": "https://www.drikpanchang.com/vrats/panchami/lakshmi-panchami/lakshmi-panchami-date-time.html?year=2028"
     }

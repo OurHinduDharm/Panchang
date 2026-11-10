@@ -197,14 +197,24 @@
     {
       "date": "2028-01-28",
       "dateLabel": "28 जनवरी",
-      "title": "चन्द्र दर्शन / माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
-      "category": "पर्व",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। चन्द्रमा को अर्घ्य देकर कल्याण की कामना की जाती है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल द्वितीया"
+    },
+    {
+      "date": "2028-01-28",
+      "dateLabel": "28 जनवरी",
+      "title": "माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
+      "description": "माघ गुप्त नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा, तप, संयम और मंत्र-साधना की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी की पूजा पढ़ें</a>",
+      "category": "गुप्त नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल द्वितीया",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
-      "articleLabel": "माँ ब्रह्मचारिणी"
+      "articleLabel": "माँ ब्रह्मचारिणी की पूजा पढ़ें"
     },
     {
       "date": "2028-01-29",
