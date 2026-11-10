@@ -17,7 +17,7 @@ const page = await browser.newPage({
   locale: "en-IN",
   timezoneId: "Asia/Kolkata"
 });
-page.setDefaultNavigationTimeout(45000);
+page.setDefaultNavigationTimeout(15000);
 const captures = [];
 
 try {
@@ -50,10 +50,10 @@ try {
       try {
         const response = await page.goto(url.toString(), {
           waitUntil: "domcontentloaded",
-          timeout: 45000
+          timeout: 15000
         });
         capture.httpStatus = response?.status() ?? null;
-        await page.waitForTimeout(1200);
+        await page.waitForTimeout(500);
         capture.title = await page.title();
         const body = await page.locator("body").innerText({ timeout: 15000 });
         const lines = body.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
