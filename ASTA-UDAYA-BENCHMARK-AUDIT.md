@@ -929,3 +929,20 @@ Drik के 2026 New Delhi pages से अतिरिक्त windows benchma
 - https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2026
 
 अब New Delhi dataset में 21 Asta windows और 42 boundary events होंगे। इससे Venus, Jupiter और Saturn के लिए एक अतिरिक्त year-specific window जुड़ती है; फिर भी किसी ग्रह के लिए multi-year independent validation का विकल्प नहीं।
+
+
+### 2025 multi-planet reference expansion
+
+Drik के 2025 New Delhi pages से Mercury की छह windows के अतिरिक्त Venus, Jupiter और Saturn की एक-एक window भी benchmark में जोड़ी गई:
+- Venus: 19 Mar 2025 19:00 (setting) → 23 Mar 2025 05:52 (rising).
+- Jupiter: 12 Jun 2025 19:56 (setting) → 9 Jul 2025 04:44 (rising).
+- Saturn: 28 Feb 2025 19:06 (setting) → 9 Apr 2025 05:03 (rising).
+- Mercury: 20 Jan–22 Feb, 18 Mar–8 Apr, 15 May–8 Jun, 18 Jul–11 Aug, 3 Sep–8 Oct, 11–27 Nov 2025.
+
+स्रोत:
+- https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?year=2025
+- https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2025
+- https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?year=2025
+- https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?year=2025
+
+इन additions के बाद dataset में **30 New Delhi windows** (60 boundary events) हैं: Mercury 19 windows; Venus 4; Jupiter 3; Saturn 3; Mars 1. Provider coordinates सभी मामलों में undisclosed हैं; इन्हें city-label-only comparison माना जाएगा। 2025–27 multi-year holdout पुनः चल रहा है; परिणाम आने तक कोई नया coefficient स्वीकार नहीं होगा।
