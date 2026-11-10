@@ -216,7 +216,7 @@
       "date": "2030-07-16",
       "dateLabel": "16 जुलाई",
       "title": "कर्क संक्रांति / श्रावण मासारम्भ (पूर्णिमान्त) / प्रथम मंगला गौरी व्रत",
-      "description": "सूर्य के कर्क राशि में प्रवेश से दक्षिणायन आरम्भ होता है। Drik Panchang के अनुसार संक्रांति का वास्तविक क्षण 17 जुलाई को 00:16 बजे (16 जुलाई की गणना में 24:16+) है; पुण्यकाल का आरम्भ इससे 12 घंटे पूर्व, 16 जुलाई दोपहर लगभग 12:16 बजे होता है। उत्तर भारतीय पूर्णिमान्त गणना में श्रावण मास का आरम्भ और प्रथम मंगला गौरी व्रत भी इसी दिन है।",
+      "description": "सूर्य के कर्क राशि में प्रवेश से दक्षिणायन आरम्भ होता है। Drik Panchang के अनुसार संक्रांति का वास्तविक क्षण 17 जुलाई को 00:16 बजे (16 जुलाई की गणना में 24:16+) है। स्थानीय संक्रांति-पुण्यकाल और महापुण्यकाल स्थान के सूर्योदय-सूर्यास्त के अनुसार गणना से दिखेंगे। उत्तर भारतीय पूर्णिमान्त गणना में श्रावण मास का आरम्भ और प्रथम मंगला गौरी व्रत भी इसी दिन है।",
       "category": "संक्रांति",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -224,7 +224,8 @@
       "sourceName": "Drik Panchang — जुलाई 2030 पर्व सूची",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2030",
       "secondarySourceName": "Drik Panchang — 2030 संक्रांति कैलेंडर",
-      "secondarySourceUrl": "https://www.drikpanchang.com/sankranti/sankranti.html?year=2030"
+      "secondarySourceUrl": "https://www.drikpanchang.com/sankranti/sankranti.html?year=2030",
+      "muhurtaRule": "sankranti-punya-kala"
     },
     {
       "date": "2030-07-18",
