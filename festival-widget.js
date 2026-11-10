@@ -540,8 +540,9 @@
         const isSankranti = /संक्रांति|संक्रान्ति|sankranti/i.test(String(item.title || "")) ||
           String(item.category || "") === "संक्रांति";
         const isMahaShivaratri = /महाशिवरात्रि|महा शिवरात्रि/i.test(String(item.title || ""));
+        const isMasikShivaratri = /मासिक\s*शिवरात्रि/i.test(String(item.title || ""));
         const isHolikaDahan = /होलिका[\s-]*दहन/i.test(String(item.title || ""));
-        const hasMuhurta = ruleIds.length > 0 || isSankranti || isMahaShivaratri || isHolikaDahan ||
+        const hasMuhurta = ruleIds.length > 0 || isSankranti || isMahaShivaratri || isMasikShivaratri || isHolikaDahan ||
           (item.muhurtaStart && item.muhurtaEnd) ||
           (item.muhurtaTime && String(item.muhurtaTime).trim());
         if (hasMuhurta) {
