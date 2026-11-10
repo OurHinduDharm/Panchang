@@ -141,3 +141,28 @@ test("official IMD heliacal event times preserve source clock and civil-date rol
     assert.equal(entry.eventModel, "rashtriya-panchang-heliacal-setting-rising");
   }
 });
+
+
+test("official IMD heliacal event table is transcribed completely without pairing unlike events", () => {
+  const events = dataset.officialHeliacalEvents;
+  assert.ok(Array.isArray(events));
+  assert.equal(events.length, 20);
+  const counts = Object.fromEntries(["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]
+    .map(planet => [planet, events.filter(event => event.planet === planet).length]));
+  assert.deepEqual(counts, { Mercury: 13, Venus: 2, Mars: 1, Jupiter: 2, Saturn: 2 });
+  for (const event of events) {
+    assert.equal(event.eventModel, "rashtriya-panchang-heliacal-setting-rising");
+    assert.equal(event.acceptanceEligible, false);
+    assert.ok(["Sets in the east", "Sets in the west", "Rises in the east", "Rises in the west"].includes(event.event));
+    assert.match(event.printedClock, /^\\d{2}:\\d{2}$/);
+    assert.match(event.normalizedLocalDateTime, /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:00\\+05:30$/);
+    assert.ok(dataset.sources[event.sourceId]);
+  }
+  const rollovers = events.filter(event => Number(event.printedClock.slice(0, 2)) >= 24);
+  assert.equal(rollovers.length, 4);
+  assert.ok(rollovers.every(event => event.normalizedLocalDateTime.slice(0, 10) !== event.printedGregorianDate));
+  const mercurySep = events.find(event => event.printedGregorianDate === "2026-09-13");
+  assert.equal(mercurySep.normalizedLocalDateTime, "2026-09-14T02:54:00+05:30");
+  const venus = events.find(event => event.planet === "Venus" && event.printedGregorianDate === "2026-10-13");
+  assert.equal(venus.normalizedLocalDateTime, "2026-10-14T00:18:00+05:30");
+});
