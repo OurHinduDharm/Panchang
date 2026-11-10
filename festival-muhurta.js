@@ -362,8 +362,11 @@ const rules = {
     if (!selected.length) return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "unavailable", message: "पूर्णिमा, अपराह्न/प्रदोष और भद्रा-वर्जन के अनुसार कोई पूरा मान्य समय नहीं मिला।" };
     const windows = selected.map(item => interval(item.start, item.end, selectedLabel, "पूर्णिमा-व्याप्ति में; भद्रा काल छोड़कर।")).filter(Boolean);
     const format = value => new Intl.DateTimeFormat("hi-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: true }).format(value);
-    const bhadraNote = bhadra.length
-      ? "भद्रा काल: " + bhadra.map(item => format(item.start) + " – " + format(item.end)).join("; ") + "। इस अवधि में रक्षा-सूत्र न बाँधें।"
+    const relevantBhadra = bhadra.filter(blocked => purnima.some(fullMoon =>
+      blocked.start < fullMoon.end && blocked.end > fullMoon.start
+    ));
+    const bhadraNote = relevantBhadra.length
+      ? "भद्रा काल: " + relevantBhadra.map(item => format(item.start) + " – " + format(item.end)).join("; ") + "। इस अवधि में रक्षा-सूत्र न बाँधें।"
       : "भद्रा की स्थिति: पूर्णिमा-व्याप्ति में भद्रा नहीं है।";
     return { label: "रक्षाबंधन सूत्रबंधन मुहूर्त", status: "calculated", windows, note: bhadraNote };
   },
