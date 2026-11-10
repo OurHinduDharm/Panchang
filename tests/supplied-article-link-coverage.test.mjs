@@ -123,3 +123,39 @@ test("public 2026-2030 festival cards and content master contain no Vaishnava or
   }
   assert.deepEqual(violations, []);
 });
+
+
+test("links the Mahalakshmi puja-vidhi article on every Diwali card from 2026 to 2030", async () => {
+  const cases = [
+    [2026,11,"2026-11-08",/दीपावली/],
+    [2027,10,"2027-10-29",/दीपावली/],
+    [2028,10,"2028-10-17",/दीपावली/],
+    [2029,11,"2029-11-05",/दीपावली/],
+    [2030,10,"2030-10-26",/दीपावली/]
+  ];
+  for (const [year, monthNumber, date, pattern] of cases) {
+    await assertArticle(year, monthNumber, date, pattern, "About-MahalakshmiPooja");
+  }
+});
+
+test("links Paush Mahatmya and Tailang Swami articles only to their matching observances", async () => {
+  const paushCases = [
+    [2026,1,"2026-01-03",/पौष पूर्णिमा/],
+    [2027,1,"2027-01-22",/पौष पूर्णिमा/],
+    [2028,1,"2028-01-12",/पौष पूर्णिमा/],
+    [2028,12,"2028-12-31",/पौष पूर्णिमा/],
+    [2030,1,"2030-01-19",/पौष पूर्णिमा/]
+  ];
+  for (const [year, monthNumber, date, pattern] of paushCases) {
+    await assertArticle(year, monthNumber, date, pattern, "About-Paush-Mahatmya");
+  }
+  const tailangCases = [
+    [2027,1,"2027-01-19",/तैलंग स्वामी/],
+    [2028,1,"2028-01-08",/तैलंग स्वामी/],
+    [2028,12,"2028-12-27",/टेलंग स्वामी/],
+    [2030,1,"2030-01-15",/तैलंग स्वामी/]
+  ];
+  for (const [year, monthNumber, date, pattern] of tailangCases) {
+    await assertArticle(year, monthNumber, date, pattern, "About-Tailang-SwamiJi-On-His-Jayanti");
+  }
+});
