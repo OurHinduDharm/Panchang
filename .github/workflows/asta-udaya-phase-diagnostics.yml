@@ -21,6 +21,7 @@ on:
       - "tests/report-pithoragarh-direction-year-holdout.mjs"
       - "tests/report-pithoragarh-city-year-holdout.mjs"
       - "tests/report-pithoragarh-pooled-year-holdout.mjs"
+      - "tests/report-pithoragarh-forward-year-holdout.mjs"
       - "data/independent-asta-udaya-crosschecks-2026-2027.json"
       - "tests/independent-asta-udaya-crosschecks.test.mjs"
       - "tests/report-independent-asta-udaya-crosschecks.mjs"
@@ -101,6 +102,8 @@ jobs:
         run: node tests/report-pithoragarh-city-year-holdout.mjs
       - name: Compare pooled other-city data plus prior Pithoragarh years against strict year holdouts
         run: node tests/report-pithoragarh-pooled-year-holdout.mjs
+      - name: Run strict forward-only Pithoragarh model validation
+        run: node tests/report-pithoragarh-forward-year-holdout.mjs | tee research/reports/pithoragarh-forward-year-holdout.json
       - name: Validate independent Panchang Guru, Rashtriya Panchang and classical source records
         run: node --test tests/independent-asta-udaya-crosschecks.test.mjs
       - name: Compare independent Panchang Guru windows against same-city Drik references
@@ -129,4 +132,11 @@ jobs:
         with:
           name: pithoragarh-direction-year-holdout-2021-2027
           path: research/reports/pithoragarh-direction-year-holdout.json
+          if-no-files-found: error
+
+      - name: Upload forward-only Pithoragarh model validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pithoragarh-forward-year-holdout-2021-2027
+          path: research/reports/pithoragarh-forward-year-holdout.json
           if-no-files-found: error
