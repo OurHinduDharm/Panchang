@@ -109,6 +109,7 @@ test("2029 major deity and regional observances are retained while human jayanti
   assert.ok(has("2029-05-26", /^छिन्नमस्ता महाविद्या जयंती$/));
   assert.ok(has("2029-08-22", /ओणम/));
   assert.ok(has("2029-08-02", /^आदि पेरुक्कु$/));
+  assert.ok(has("2029-08-14", /^नाग पंचमी$/));
   assert.ok(has("2029-08-09", /^आदि अमावस्या \\(तमिल\\)$/));
   assert.ok(has("2029-08-10", /^श्रावण अमावस्या \\/ हरियाली अमावस्या$/));
   assert.ok(has("2029-08-23", /^यजुर्वेदीय उपाकर्म$/));
@@ -116,6 +117,10 @@ test("2029 major deity and regional observances are retained while human jayanti
   assert.ok(has("2029-08-27", /^कजरी तीज$/));
   assert.ok(has("2029-08-23", /^रक्षाबंधन$/));
   assert.ok(has("2029-09-01", /^अगस्त्य अर्घ्य$/));
+  assert.ok(has("2029-09-13", /^ज्येष्ठा गौरी आवाहन$/));
+  assert.ok(has("2029-09-14", /^ज्येष्ठा गौरी पूजन$/));
+  assert.ok(has("2029-09-15", /^ज्येष्ठा गौरी विसर्जन$/));
+  assert.ok(has("2029-09-15", /^महालक्ष्मी व्रत प्रारम्भ$/));
   assert.ok(has("2029-09-17", /^विश्वकर्मा पूजा$/));
   assert.ok(has("2029-10-01", /जीवित्पुत्रिका व्रत/));
   assert.ok(has("2029-10-13", /^सरस्वती आवाहन$/));
