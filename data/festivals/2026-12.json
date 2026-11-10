@@ -90,11 +90,13 @@
     {
       "date": "2026-12-14",
       "dateLabel": "14 दिसंबर",
-      "title": "विवाह पंचमी",
-      "description": "विवाह पंचमी मार्गशीर्ष शुक्ल पंचमी को श्रीराम और माता सीता के विवाह हुआ था। इस दिन श्रीराम-सीता पूजन, रामायण-पाठ और विवाहोत्सव करने की परंपरा है।",
+      "title": "विवाह पंचमी / नाग पंचमी (तेलुगु परंपरा)",
+      "description": "मार्गशीर्ष शुक्ल पंचमी को श्रीराम और माता सीता का विवाहोत्सव मनाया जाता है। इस दिन श्रीराम-सीता पूजन, रामायण-पाठ और विवाहोत्सव की परंपरा है। तेलुगु परंपरा में इसी तिथि पर नाग पंचमी भी मनाई जाती है।",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल पंचमी"
+      "hinduTithi": "मार्गशीर्ष शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — December 2026 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?year=2026"
     },
     {
       "date": "2026-12-15",
@@ -148,11 +150,24 @@
     {
       "date": "2026-12-21",
       "dateLabel": "21 दिसंबर",
-      "title": "सोम प्रदोष व्रत",
-      "description": "मार्गशीर्ष शुक्ल त्रयोदशी के प्रदोषकाल में सोमवार होने से सोम प्रदोष व्रत किया जाता है। इस दिन संध्याकाल में भगवान शिव का पूजन और व्रत करने की परंपरा है।",
+      "title": "सोम प्रदोष व्रत / मासिक कार्तिगाई",
+      "description": "मार्गशीर्ष शुक्ल त्रयोदशी के प्रदोषकाल में सोमवार होने से सोम प्रदोष व्रत किया जाता है। तमिल परंपरा में इसी दिन मासिक कार्तिगाई का पर्व भी मनाया जाता है। संध्याकाल में भगवान शिव का पूजन करें।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष शुक्ल त्रयोदशी"
+      "hinduTithi": "मार्गशीर्ष शुक्ल त्रयोदशी",
+      "sourceName": "Drik Panchang — December 2026 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?year=2026"
+    },
+    {
+      "date": "2026-12-22",
+      "dateLabel": "22 दिसंबर",
+      "title": "हनुमान जयंती (कन्नड़ परंपरा)",
+      "description": "कर्नाटक की परंपरा में मार्गशीर्ष शुक्ल त्रयोदशी को हनुमान जयंती मनाई जाती है। इस दिन हनुमानजी का पूजन, हनुमान चालीसा और सुंदरकाण्ड पाठ किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष शुक्ल त्रयोदशी",
+      "sourceName": "Drik Panchang — Kannada Hanuman Jayanti 2026",
+      "sourceUrl": "https://www.drikpanchang.com/kannada/festivals/hanuman-jayanti/hanuman-jayanti-date-time.html?year=2026"
     },
     {
       "date": "2026-12-23",
@@ -168,6 +183,17 @@
       "secondaryArticleLabel": "श्री त्रिपुरभैरवी महाविद्या जयंती"
     },
     {
+      "date": "2026-12-24",
+      "dateLabel": "24 दिसंबर",
+      "title": "आर्द्रा दर्शन (आरुद्र दर्शन)",
+      "description": "तमिल मार्गज़ि मास में आर्द्रा नक्षत्र के दिन भगवान शिव के नटराज स्वरूप की विशेष पूजा की जाती है। चिदंबरम सहित शिवालयों में नटराज के आनंद ताण्डव स्वरूप का दर्शन और अभिषेक किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "पौष कृष्ण प्रतिपदा",
+      "sourceName": "Drik Panchang — Arudra Darshan 2026",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/arudra-darshan/arudra-darshan-date-time.html?year=2026"
+    },
+    {
       "date": "2026-12-26",
       "dateLabel": "26 दिसंबर",
       "title": "संकष्टी चतुर्थी",
@@ -175,6 +201,16 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "hinduTithi": "पौष कृष्ण चतुर्थी"
+    },
+    {
+      "date": "2026-12-27",
+      "dateLabel": "27 दिसंबर",
+      "title": "मंडल पूजा (सबरीमला)",
+      "description": "सबरीमला में भगवान अय्यप्पा के 41 दिवसीय मंडल-व्रत की पूर्णता पर मंडल पूजा की जाती है। यह केरल की अय्यप्पा परंपरा का महत्वपूर्ण अवसर है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — Mandala Pooja 2026",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/mandala-pooja/mandala-pooja-date-time.html?year=2026"
     },
     {
       "date": "2026-12-30",
