@@ -20,6 +20,7 @@ on:
       - "tests/report-pithoragarh-local-year-holdout.mjs"
       - "tests/report-pithoragarh-direction-year-holdout.mjs"
       - "tests/report-pithoragarh-city-year-holdout.mjs"
+      - "tests/report-pithoragarh-pooled-year-holdout.mjs"
       - "tests/report-pithoragarh-motion-feature-holdout.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
@@ -94,6 +95,8 @@ jobs:
         run: node tests/report-pithoragarh-direction-year-holdout.mjs
       - name: Validate pooled multi-city plus local-history Pithoragarh city-year holdouts
         run: node tests/report-pithoragarh-city-year-holdout.mjs
+      - name: Compare pooled other-city data plus prior Pithoragarh years against strict year holdouts
+        run: node tests/report-pithoragarh-pooled-year-holdout.mjs
       - name: Test planetary visibility selector and retrograde/direct motion features
         run: node --test tests/planetary-visibility-selector.test.mjs
       - name: Compare Mercury/Venus retrograde-aware model variants
