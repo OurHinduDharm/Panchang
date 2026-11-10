@@ -20,7 +20,7 @@
     {
       "date": "2027-12-03",
       "dateLabel": "3 दिसंबर",
-      "title": "चम्पा षष्ठी / मासिक स्कन्द षष्ठी / सुब्रह्मण्य षष्ठी",
+      "title": "मासिक स्कन्द षष्ठी / सुब्रह्मण्य षष्ठी",
       "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
       "category": "व्रत",
       "reviewStatus": "approved",
@@ -38,6 +38,17 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — December 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?year=2027"
+    },
+    {
+      "date": "2027-12-04",
+      "dateLabel": "4 दिसम्बर",
+      "title": "चम्पा षष्ठी",
+      "description": "मार्गशीर्ष शुक्ल षष्ठी को भगवान खंडोबा की उपासना का पर्व चम्पा षष्ठी मनाया जाता है। महाराष्ट्र और कर्नाटक में इसकी विशेष परंपरा है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "hinduTithi": "मार्गशीर्ष शुक्ल षष्ठी",
       "sourceName": "Drik Panchang — December 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?year=2027"
     },
