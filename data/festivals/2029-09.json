@@ -9,14 +9,16 @@
     {
       "date": "2029-09-01",
       "dateLabel": "1 सितंबर",
-      "title": "श्रीकृष्ण जन्माष्टमी",
-      "description": "श्रीकृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण की पूजा, भजन और रात्रि-जागरण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख</a>",
+      "title": "श्रीकृष्ण जन्माष्टमी / मासिक कालाष्टमी",
+      "description": "श्रीकृष्ण जन्माष्टमी पर भगवान श्रीकृष्ण की पूजा, भजन और रात्रि-जागरण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीकृष्ण जन्माष्टमी व्रत विधि पर आलेख</a> प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद कृष्ण अष्टमी",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
-      "articleLabel": "श्रीकृष्ण जन्माष्टमी एवं दशाफल व्रत की विधि पढ़ें"
+      "articleLabel": "श्रीकृष्ण जन्माष्टमी एवं दशाफल व्रत की विधि पढ़ें",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "secondaryArticleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     },
     {
       "date": "2029-09-04",
@@ -34,6 +36,29 @@
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
+      "date": "2029-09-06",
+      "dateLabel": "6 सितंबर",
+      "title": "गुरु प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण पक्ष त्रयोदशी"
+    },
+    {
+      "date": "2029-09-06",
+      "dateLabel": "6 सितंबर",
+      "title": "मासिक शिवरात्रि",
+      "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण चतुर्दशी",
+      "muhurtaRule": "masik-shivaratri-nishita",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+    },
+    {
       "date": "2029-09-10",
       "dateLabel": "10 सितंबर",
       "title": "सामवेदियों का उपाकर्म",
@@ -47,6 +72,16 @@
     {
       "date": "2029-09-11",
       "dateLabel": "11 सितंबर",
+      "title": "हरतालिका तीज",
+      "description": "हरतालिका तीज पर शिव-पार्वती की पूजा और व्रत की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल तृतीया"
+    },
+    {
+      "date": "2029-09-11",
+      "dateLabel": "11 सितंबर",
       "title": "गणेश चतुर्थी",
       "description": "गणेश चतुर्थी पर भगवान गणेश की स्थापना, पूजा और भोग अर्पित किया जाता है।",
       "category": "प्रमुख पर्व",
@@ -54,16 +89,6 @@
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल चतुर्थी",
       "muhurtaRule": "vinayaka-chaturthi-madhyahna"
-    },
-    {
-      "date": "2029-09-11",
-      "dateLabel": "11 सितंबर",
-      "title": "हरतालिका तीज",
-      "description": "हरतालिका तीज पर शिव-पार्वती की पूजा और व्रत की परंपरा है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल तृतीया"
     },
     {
       "date": "2029-09-12",
@@ -78,8 +103,8 @@
     {
       "date": "2029-09-13",
       "dateLabel": "13 सितंबर",
-      "title": "बलराम जयंती",
-      "description": "बलराम जयंती पर भगवान बलराम की पूजा, स्मरण और भक्ति की परंपरा है।",
+      "title": "बलराम जयंती / मासिक स्कन्द षष्ठी",
+      "description": "बलराम जयंती पर भगवान बलराम की पूजा, स्मरण और भक्ति की परंपरा है। मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -90,8 +115,8 @@
     {
       "date": "2029-09-15",
       "dateLabel": "15 सितंबर",
-      "title": "राधाष्टमी",
-      "description": "राधाष्टमी पर श्रीराधा रानी की पूजा, भजन और स्मरण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a>",
+      "title": "राधाष्टमी / मासिक दुर्गाष्टमी",
+      "description": "राधाष्टमी पर श्रीराधा रानी की पूजा, भजन और स्मरण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-ShreeRadha-On-Radhaashtami.html\" target=\"_blank\">भगवती राधा का जयंती महोत्सव, श्रीराधा जन्माष्टमी</a> मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -125,6 +150,16 @@
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
+      "date": "2029-09-19",
+      "dateLabel": "19 सितंबर",
+      "title": "बुध प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल पक्ष त्रयोदशी"
+    },
+    {
       "date": "2029-09-21",
       "dateLabel": "21 सितंबर",
       "title": "अनंत चतुर्दशी / गणेश विसर्जन",
@@ -153,6 +188,18 @@
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन कृष्ण प्रतिपदा",
       "showReviewStatus": false
+    },
+    {
+      "date": "2029-09-30",
+      "dateLabel": "30 सितंबर",
+      "title": "मासिक कालाष्टमी",
+      "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन कृष्ण सप्तमी (अष्टमी व्याप्ति)",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
     }
   ]
 }

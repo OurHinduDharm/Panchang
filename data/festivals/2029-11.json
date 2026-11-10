@@ -30,25 +30,40 @@
     {
       "date": "2029-11-04",
       "dateLabel": "4 नवंबर",
-      "title": "काली चौदस",
-      "description": "काली चौदस पर माँ काली की उपासना और दीपदान की कुछ क्षेत्रों में परंपरा है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
-      "articleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें"
-    },
-    {
-      "date": "2029-11-04",
-      "dateLabel": "4 नवंबर",
-      "title": "धनतेरस",
-      "description": "धनतेरस पर भगवान धन्वन्तरि की पूजा और दीपदान की परंपरा है। पूजा-मुहूर्त चुने गए नगर के अनुसार निकाला जाएगा। खरीदारी के लिए स्थानीय त्रयोदशी-व्याप्ति में शुभ चौघड़िया और पूजा के लिए त्रयोदशी-व्याप्ति वाला प्रदोष काल नीचे दिखाया जाएगा।",
+      "title": "धनतेरस / रवि प्रदोष व्रत",
+      "description": "धनतेरस पर भगवान धन्वन्तरि की पूजा और दीपदान की परंपरा है। पूजा-मुहूर्त चुने गए नगर के अनुसार निकाला जाएगा। खरीदारी के लिए स्थानीय त्रयोदशी-व्याप्ति में शुभ चौघड़िया और पूजा के लिए त्रयोदशी-व्याप्ति वाला प्रदोष काल नीचे दिखाया जाएगा। त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
       "muhurtaRule": "dhanteras-muhurta"
+    },
+    {
+      "date": "2029-11-04",
+      "dateLabel": "4 नवंबर",
+      "title": "काली चौदस / मासिक शिवरात्रि",
+      "description": "काली चौदस पर माँ काली की उपासना और दीपदान की कुछ क्षेत्रों में परंपरा है। मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि का माहात्म्य पढ़ें</a>",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
+      "articleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
+      "secondaryArticleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "muhurtaRule": "masik-shivaratri-nishita"
+    },
+    {
+      "date": "2029-11-05",
+      "dateLabel": "5 नवंबर",
+      "title": "नरक चतुर्दशी",
+      "description": "नरक चतुर्दशी पर अभ्यंग-स्नान, दीपदान और भगवान कृष्ण के स्मरण की परंपरा है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">नरक चतुर्दशी की महिमा पढ़ें</a>",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
+      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें"
     },
     {
       "date": "2029-11-05",
@@ -64,18 +79,6 @@
       "articleLabel": "दीपावली का महत्व",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
       "secondaryArticleLabel": "महालक्ष्मी-कमला की स्तोत्रात्मक उपासना"
-    },
-    {
-      "date": "2029-11-05",
-      "dateLabel": "5 नवंबर",
-      "title": "नरक चतुर्दशी",
-      "description": "नरक चतुर्दशी पर अभ्यंग-स्नान, दीपदान और भगवान कृष्ण के स्मरण की परंपरा है। अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html\" target=\"_blank\" rel=\"noopener noreferrer\">नरक चतुर्दशी की महिमा पढ़ें</a>",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "कार्तिक कृष्ण चतुर्दशी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Narak-Chaturdashi-Which-Ends-The-Fear-Of-Narak.html",
-      "articleLabel": "नरक चतुर्दशी की महिमा पढ़ें"
     },
     {
       "date": "2029-11-06",
@@ -100,13 +103,23 @@
     {
       "date": "2029-11-11",
       "dateLabel": "11 नवंबर",
-      "title": "छठ पूजा",
-      "description": "छठ पूजा में सूर्यदेव और छठी मैया की उपासना तथा अर्घ्य की परंपरा है।",
+      "title": "छठ पूजा / मासिक स्कन्द षष्ठी",
+      "description": "छठ पूजा में सूर्यदेव और छठी मैया की उपासना तथा अर्घ्य की परंपरा है। मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल षष्ठी",
       "muhurtaRule": "chhath-arghya"
+    },
+    {
+      "date": "2029-11-13",
+      "dateLabel": "13 नवंबर",
+      "title": "मासिक दुर्गाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल अष्टमी"
     },
     {
       "date": "2029-11-14",
@@ -159,6 +172,16 @@
       "articleLabel": "प्रबोधिनी एकादशी पर तुलसी विवाह"
     },
     {
+      "date": "2029-11-18",
+      "dateLabel": "18 नवंबर",
+      "title": "रवि प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल पक्ष त्रयोदशी"
+    },
+    {
       "date": "2029-11-21",
       "dateLabel": "21 नवंबर",
       "title": "कार्तिक पूर्णिमा",
@@ -173,8 +196,8 @@
     {
       "date": "2029-11-28",
       "dateLabel": "28 नवंबर",
-      "title": "कालभैरव जयंती",
-      "description": "कालभैरव जयंती पर भगवान भैरव की पूजा, जप और रात्रि-उपासना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "title": "कालभैरव जयंती / मासिक कालाष्टमी",
+      "description": "कालभैरव जयंती पर भगवान भैरव की पूजा, जप और रात्रि-उपासना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
