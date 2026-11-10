@@ -233,25 +233,15 @@
     {
       "date": "2030-06-28",
       "dateLabel": "28 जून",
-      "title": "शुक्र प्रदोष व्रत",
-      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ कृष्ण पक्ष त्रयोदशी"
-    },
-    {
-      "date": "2030-06-28",
-      "dateLabel": "28 जून",
       "title": "शुक्र प्रदोष व्रत / मासिक शिवरात्रि",
       "description": "त्रयोदशी के प्रदोषकाल में भगवान शिव का पूजन और दीपदान करें। रात्रि में चतुर्दशी-व्याप्ति पर मासिक शिवरात्रि का व्रत, जलाभिषेक, बिल्वपत्र अर्पण, शिवमंत्र-जप और रात्रि-जागरण करें। <a href=\"https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">शिवरात्रि की महिमा एवं पंचाक्षर स्तोत्र</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ कृष्ण त्रयोदशी / चतुर्दशी व्याप्ति",
-      "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "muhurtaRule": "masik-shivaratri-nishita",
       "sourceName": "Drik Panchang — 2030 जून पर्व सूची",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030"
     },
