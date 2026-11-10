@@ -899,3 +899,18 @@ Expanded New Delhi dataset में Mercury की 13 Asta-start और 13 Asta
 4. Pithoragarh same-city Mercury holdout और अलग वर्ष/स्थान validation के बिना production में नहीं जाएगा।
 
 **Engineering decision:** Mercury के लिए यह अब सबसे मजबूत candidate event-selector hypothesis है। अगला काम इसे Pithoragarh observer पर चलाना और उपलब्ध same-city references जुटाना है; बाकी ग्रहों के लिए अलग calibration जारी रहेगी।
+
+
+### Global magnitude rule का leave-one-planet-out परीक्षण
+
+सभी 18 New Delhi windows को मिलाकर एक common magnitude→twilight linear model बनाया और हर ग्रह को बारी-बारी से पूरा holdout रखा। परिणाम ने एक महत्वपूर्ण सीमा दिखाई:
+
+- Mercury holdout: MAE 0.68° (Asta-start), 1.17° (Asta-end).
+- Venus holdout: 1.08° / 1.28°.
+- Jupiter: 1.44° / 0.07° (केवल एक boundary प्रति दिशा).
+- Saturn: 0.28° / 0.81° (केवल एक boundary प्रति दिशा).
+- Mars: 1.59° / 1.91° (केवल एक boundary प्रति दिशा).
+
+Common magnitude curve हर ग्रह में constant-threshold baseline से बेहतर थी, पर ग्रहों के बीच error अभी बहुत अलग है; Venus और Mars में 1° से अधिक औसत error आया। एक ग्रह के coefficients दूसरे ग्रह पर सीधे लागू करना सुरक्षित नहीं।
+
+**अगला निर्णय:** Mercury के लिए अलग calibrated candidate जारी रहेगा। Venus, Jupiter, Saturn और Mars के लिए अतिरिक्त multi-year published windows और same-city/location holdouts जुटाए बिना coefficients तय नहीं होंगे। एक global brightness formula production में नहीं जाएगा।
