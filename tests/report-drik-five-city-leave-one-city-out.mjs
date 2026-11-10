@@ -25,7 +25,7 @@ function dayNumber(value) {
   return Date.UTC(year, month - 1, day) / DAY_MS;
 }
 function clockMinutes(value) {
-  const match = String(value).match(/^(\\d{1,2}):(\\d{2})/);
+  const match = String(value).match(/^(\d{1,2}):(\d{2})/);
   return match ? Number(match[1]) * 60 + Number(match[2]) : null;
 }
 function clockError(predicted, published) {
