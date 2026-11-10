@@ -38,12 +38,33 @@ function normalizeUrl(value) {
   }
 }
 
+function escapeHtml(value) {
+  return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+function makeSafeAnchor(href, label) {
+  let url;
+  try { url = new URL(String(href || "")); } catch { return null; }
+  if (!["http:", "https:"].includes(url.protocol) || !String(label || "").trim()) return null;
+  return {
+    href: url.href,
+    label: String(label).trim(),
+    html: '<a href="' + escapeHtml(url.href) +
+      '" target="_blank" rel="noopener noreferrer">' +
+      escapeHtml(String(label).trim()) + "</a>"
+  };
+}
+
 function extractAnchors(html) {
   const anchors = [];
   for (const match of String(html || "").matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)) {
     const href = match[1].match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] || "";
-    const label = match[2].replace(/<[^>]+>/g, "").trim();
-    if (/^https?:\/\//i.test(href) && label) anchors.push({ href, label, html: match[0] });
+    // Escape leftover angle brackets too, including malformed "<script" fragments.
+    const label = match[2].replace(/<[^>]*>/g, "").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").trim();
+    const safe = makeSafeAnchor(href, label);
+    if (safe) anchors.push(safe);
   }
   return anchors;
 }
@@ -126,9 +147,9 @@ function addArticle(target, url, label) {
     target.secondaryArticleLabel = label;
     return true;
   }
-  target.description = appendMissingAnchors(target.description, [{ href: url, label,
-    html: '<a href="' + url.replace(/&/g, "&amp;").replace(/"/g, "&quot;") +
-      '" target="_blank" rel="noopener noreferrer">' + label + "</a>" }]);
+  const safeAnchor = makeSafeAnchor(url, label);
+  if (!safeAnchor) return false;
+  target.description = appendMissingAnchors(target.description, [safeAnchor]);
   return true;
 }
 
