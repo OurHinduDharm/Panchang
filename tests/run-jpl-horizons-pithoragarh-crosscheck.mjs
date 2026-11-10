@@ -2,7 +2,7 @@ import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
 const DATA_PATH = "data/drik-pithoragarh-asta-udaya-2021-2027.json";
-const OUTPUT_PATH = "research/reports/jpl-horizons-pithoragarh-2025-boundaries.json";
+const OUTPUT_PATH = "research/reports/jpl-horizons-pithoragarh-2021-2027-boundaries.json";
 const SITE = { longitude: 80.2182, latitude: 29.5828, altitudeKm: 1.65 };
 const TARGET_IDS = {
   Mercury: "199",
@@ -80,11 +80,11 @@ async function queryHorizons(targetId, times, label) {
 
 const dataset = JSON.parse(await readFile(DATA_PATH, "utf8"));
 const windows = dataset.windows.filter(window =>
-  window.sourcePageYear === 2025 &&
+  window.sourcePageYear >= 2021 && window.sourcePageYear <= 2027 &&
   window.acceptanceEligible === true &&
   TARGET_IDS[window.planet]
 );
-if (!windows.length) throw new Error("No accepted 2025 Pithoragarh Drik windows found");
+if (!windows.length) throw new Error("No accepted 2021–2027 Pithoragarh Drik windows found");
 
 const grouped = new Map();
 for (const window of windows) {
@@ -95,6 +95,7 @@ for (const window of windows) {
     if (!instant) throw new Error("Missing normalized UTC boundary: " + window.id + "/" + boundaryName);
     grouped.get(window.planet).push({
       windowId: window.id,
+      sourcePageYear: window.sourcePageYear,
       boundaryName,
       drikUTC: instant,
       samplesUTC: TIME_OFFSETS_MINUTES.map(offset =>
@@ -109,7 +110,7 @@ const report = {
   generatedAt: new Date().toISOString(),
   source: "JPL Horizons API observer ephemeris, independent geometry cross-check",
   sourceUrl: "https://ssd-api.jpl.nasa.gov/api/horizons.api",
-  referenceSource: "Direct browser-verified Drik Pithoragarh 2025 annual pages",
+  referenceSource: "Direct browser-verified Drik Pithoragarh 2021–2027 annual pages",
   referencePrecision: "minute",
   observer: {
     ...SITE,
@@ -126,7 +127,7 @@ const report = {
   },
   planetResults: [],
   interpretation: [
-    "This report checks JPL apparent topocentric geometry at the published Drik boundary instants and at +/-10 minutes.",
+    "This report checks JPL apparent topocentric geometry at the published Drik boundary instants from 2021 through 2027 and at +/-10 minutes.",
     "It does not assert that a planet being at the geometric horizon is identical to Drik's event definition.",
     "It does not train or fit the production event selector.",
     "Drik publishes the named city but not its internal observer coordinates/elevation; comparisons remain city-label-only."
@@ -187,6 +188,7 @@ report.summary = {
   meanAbsoluteDifferenceFromMinusHalfDegreeDeg: Number((allDiagnostics.reduce((sum, item) => sum + Math.abs(item.targetAltitudeDifferenceFromMinusHalfDeg), 0) / allDiagnostics.length).toFixed(4)),
   withinPointTwoDegreesOfMinusHalfHorizon: nearHorizonCount,
   boundaryCount: allDiagnostics.length,
+  sourceYears: [...new Set(report.planetResults.flatMap(item => item.boundaryDiagnostics.map(boundary => boundary.sourcePageYear)))].sort(),
   solarAltitudeRangeAtPublishedBoundariesDeg: [
     Number(Math.min(...allDiagnostics.map(item => item.sunAltitudeDeg)).toFixed(3)),
     Number(Math.max(...allDiagnostics.map(item => item.sunAltitudeDeg)).toFixed(3))
