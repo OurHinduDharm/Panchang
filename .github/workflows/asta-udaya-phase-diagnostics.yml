@@ -5,6 +5,7 @@ on:
     branches: [feat/drik-modern-planetary-asta-udaya-20261104]
     paths:
       - "tests/capture-drik-pithoragarh-asta.mjs"
+      - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "extra-panchang.js"
       - "research/drik-planetary-reference.mjs"
       - "tests/drik-planetary-reference.test.mjs"
@@ -15,6 +16,7 @@ on:
       - "tests/report-pithoragarh-direct-drik-blind-holdout.mjs"
       - "tests/report-pithoragarh-local-year-holdout.mjs"
       - "tests/report-pithoragarh-motion-feature-holdout.mjs"
+      - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "tests/planetary-visibility-selector.test.mjs"
       - "research/planetary-visibility-selector.mjs"
