@@ -256,11 +256,14 @@
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
-      "muhurtaRule": "dhanteras-muhurta",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html",
       "articleLabel": "धनतेरस",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
-      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती"
+      "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती",
+      "muhurtaRules": [
+        "dhanteras-muhurta",
+        "pradosh-kala"
+      ]
     },
     {
       "date": "2030-10-25",
