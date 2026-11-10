@@ -1057,3 +1057,28 @@ Pithoragarh cross-location holdout का 3/4 exact परिणाम अके
 - https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2023
 
 Dataset अब **48 New Delhi windows / 96 boundary events** पर है: Mercury 32, Venus 6, Jupiter 4, Saturn 5, Mars 1. Mercury year-split अब 2023–27 तक और Venus/Saturn holdouts भी 2023–27 तक चलेंगे। यह New Delhi city-label dataset है; Pithoragarh का स्थानापन्न नहीं।
+
+
+### Updated 2023–27 results on 48-window dataset
+
+Latest successful numerical validation (48 New Delhi windows / 96 boundary events):
+
+**Clock-time event**
+- Mean absolute local rise/set clock difference: **0.254 minute** (about 15 seconds).
+- Maximum absolute difference: **0.66 minute** (about 40 seconds).
+- Signed range: −0.52 to +0.66 minute.
+- यह city-centre proxy comparison है; source providers के exact coordinates उपलब्ध नहीं।
+
+**Mercury event-date model**
+- 2023–27 में 32 Mercury windows; 63 unique boundary dates (एक end event 2028 में है और year split से बाहर)।
+- 20 directed year-pair fits प्रति boundary direction: Asta-start angle MAE **0.486°** बनाम constant baseline **0.995°**; Asta-end **0.465°** बनाम baseline **1.161°**. दोनों दिशाओं के सभी 20 year-pair fits baseline से बेहतर।
+- Date-level 252 repeated pairwise predictions: **131 exact, 95 एक दिन, 14 दो दिन और 12 तीन दिन**; MAE **0.631 दिन**. ये 252 स्वतंत्र dates नहीं—63 unique boundaries को चार अलग training-year models से जाँचा गया।
+
+**Venus location transfer**
+- 2023 New Delhi Venus window जोड़ने के बाद, same-apparition New Delhi training data हटाकर Pithoragarh की चारों 2025 boundaries अब **4/4 exact date** predict हुईं।
+- New Delhi leave-one-apparition-out में Venus Asta-start का एक 3-day miss अभी भी है; Asta-end 6/6 within one day है। इसलिए Venus start-boundary model अभी सीमित confidence वाला है।
+
+**Saturn year holdout**
+- 2023–27 के पाँच windows पर leave-one-year-out: Asta-start 4/5 exact और 5/5 within one day; Asta-end 3/5 exact और 5/5 within one day। यह promising है, पर पाँच samples ही हैं।
+
+Jupiter के लिए इसी प्रकार का year-holdout diagnostic जोड़ा गया है; उसका परिणाम अगली CI run के बाद दर्ज होगा। अभी कोई planetary selector production Panchang में नहीं जोड़ा गया।
