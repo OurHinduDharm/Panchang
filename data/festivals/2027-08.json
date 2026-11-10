@@ -15,22 +15,24 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण कृष्ण अमावस्या",
-      "sourceName": "Time and Date — Pithoragarh; Drik Panchang — August 2027",
-      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270802",
+      "sourceName": "Drik Panchang — August 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2027",
       "timingType": "eclipse-visibility"
     },
     {
       "date": "2027-08-02",
       "dateLabel": "2 अगस्त",
       "title": "आंशिक सूर्यग्रहण",
-      "description": "2 अगस्त 2027 को आंशिक सूर्यग्रहण की खगोलीय घटना होगी। पिथौरागढ़ में इसका दृश्य समय और स्पर्श-मध्य विवरण स्थानीय ग्रहण-गणना के अनुसार देखें।",
+      "description": "2 अगस्त 2027 को पिथौरागढ़ में आंशिक सूर्यग्रहण 16:01 से 16:56 बजे तक दिखाई देगा। अधिकतम ग्रहण 16:29 बजे होगा। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\" rel=\"noopener noreferrer\">ग्रहण में मंत्र-पुरश्चरण का विधान पढ़ें</a>",
       "category": "ग्रहण",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण कृष्ण अमावस्या",
-      "sourceName": "Timeanddate — Pithoragarh eclipse",
+      "sourceName": "Time and Date — Pithoragarh",
       "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270802",
-      "timingType": "eclipse-visibility"
+      "timingType": "eclipse-visibility",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "articleLabel": "ग्रहण में मंत्र-पुरश्चरण का विधान पढ़ें"
     },
     {
       "date": "2027-08-02",
@@ -41,8 +43,8 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण कृष्ण अमावस्या",
-      "sourceName": "Time and Date — Pithoragarh; Drik Panchang — August 2027",
-      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270802",
+      "sourceName": "Drik Panchang — August 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2027",
       "timingType": "eclipse-visibility"
     },
     {
