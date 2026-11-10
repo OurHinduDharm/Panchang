@@ -52,3 +52,4 @@ jobs:
           node tests/report-drik-longitude-threshold-boundaries.mjs
           node tests/report-longitude-threshold-boundaries.mjs
           node tests/report-drik-asta-udaya-similarity.mjs
+          node tests/report-local-horizon-angle-selector.mjs
