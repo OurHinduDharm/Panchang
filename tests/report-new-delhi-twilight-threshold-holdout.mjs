@@ -45,6 +45,17 @@ function localPlanetEvent(body, anchor, direction, dayOffset) {
   return result?.date ?? null;
 }
 
+function planetObservables(body, date) {
+  const eq = Astronomy.Equator(body, date, observer, true, true);
+  const illumination = Astronomy.Illumination(body, date);
+  return {
+    planetAltitudeDegrees: round(Astronomy.Horizon(date, observer, eq.ra, eq.dec, "normal").altitude),
+    apparentElongationDegrees: round(Astronomy.AngleFromSun(body, date)),
+    apparentMagnitude: round(illumination.mag, 4),
+    illuminatedFraction: round(illumination.phase_fraction, 6)
+  };
+}
+
 function intersects(a, b) {
   return Math.max(a.lower, b.lower) < Math.min(a.upper, b.upper);
 }
@@ -71,6 +82,8 @@ for (const [id, directions] of Object.entries(SOURCE_CASES)) {
     const currentRefracted = sunAltitude(current, "normal");
     const previousGeometric = sunAltitude(previous, false);
     const currentGeometric = sunAltitude(current, false);
+    const previousPlanet = planetObservables(entry.planet, previous);
+    const currentPlanet = planetObservables(entry.planet, current);
     const interval = (a, b) => ({ lower: Math.min(a, b), upper: Math.max(a, b) });
     const refractedInterval = interval(previousRefracted, currentRefracted);
     const geometricInterval = interval(previousGeometric, currentGeometric);
@@ -86,6 +99,8 @@ for (const [id, directions] of Object.entries(SOURCE_CASES)) {
       boundaryEventSunAltitudeRefracted: round(currentRefracted),
       previousEventSunAltitudeGeometric: round(previousGeometric),
       boundaryEventSunAltitudeGeometric: round(currentGeometric),
+      previousPlanetObservables: previousPlanet,
+      boundaryPlanetObservables: currentPlanet,
       refractedTransitionInterval: {
         lower: round(refractedInterval.lower),
         upper: round(refractedInterval.upper),
