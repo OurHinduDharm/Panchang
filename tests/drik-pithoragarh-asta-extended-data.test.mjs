@@ -93,8 +93,8 @@ test("all 75 accepted boundaries preserve 24+ clocks and normalize IST to UTC co
     assert.match(boundary.normalizedLocalDateTime, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:00\+05:30$/);
     assert.ok(Number.isFinite(Date.parse(boundary.normalizedUtcInstant)));
     assert.equal(
-      Date.parse(boundary.normalizedLocalDateTime) - Date.parse(boundary.normalizedUtcInstant),
-      330 * 60000
+      Date.parse(boundary.normalizedLocalDateTime),
+      Date.parse(boundary.normalizedUtcInstant)
     );
   }
 });
