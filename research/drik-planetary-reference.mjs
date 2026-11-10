@@ -54,8 +54,16 @@ export function getDrikPlanetaryReference({ dataset, location, selectedDate, pla
     ) continue;
     const start = boundaryDate(entry.boundaries?.astaStart);
     const end = boundaryDate(entry.boundaries?.astaEnd);
-    if (!start || !end || end < start) continue;
-    const key = start + "|" + end;
+    const startInstant = entry.boundaries?.astaStart?.normalizedLocalDateTime;
+    const endInstant = entry.boundaries?.astaEnd?.normalizedLocalDateTime;
+    if (
+      !start || !end || end < start ||
+      typeof startInstant !== "string" || typeof endInstant !== "string" ||
+      !Number.isFinite(Date.parse(startInstant)) ||
+      !Number.isFinite(Date.parse(endInstant)) ||
+      Date.parse(endInstant) <= Date.parse(startInstant)
+    ) continue;
+    const key = startInstant + "|" + endInstant;
     if (!unique.has(key)) unique.set(key, entry);
   }
 
