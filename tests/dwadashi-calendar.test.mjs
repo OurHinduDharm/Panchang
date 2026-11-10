@@ -464,3 +464,32 @@ test("separate Pausha Krishna occurrences in one Gregorian year remain separate 
   assert.equal(records[1].referenceDate, "2027-12-24");
   assert.deepEqual(records[1].drikLabels, ["पौष कृष्ण विशेष द्वादशी"]);
 });
+
+
+test("special yoga observance dates do not override the actual Dwadashi tithi date", () => {
+  const cases = [
+    {year:2027, month:"चैत्र", paksha:"कृष्ण", observanceDate:"2027-04-02", tithiDate:"2027-04-03", label:"एकादशी श्रवण योग द्वादशी"},
+    {year:2028, month:"चैत्र", paksha:"कृष्ण", observanceDate:"2028-03-21", tithiDate:"2028-03-22", label:"विष्णुशृंखला योग द्वादशी"},
+    {year:2030, month:"चैत्र", paksha:"कृष्ण", observanceDate:"2030-03-29", tithiDate:"2030-03-30", label:"एकादशी श्रवण योग द्वादशी"}
+  ];
+  for (const item of cases) {
+    const result = buildDwadashiCalendar([
+      sunriseDay(item.tithiDate,item.month,item.paksha,"द्वादशी")
+    ], {
+      unifiedTithiIndex:{tithis:[{month:item.month,paksha:item.paksha,adhika:false,displayNames:[],observances:[]}]},
+      drikSpecialObservances:[{
+        year:item.year, month:item.month, paksha:item.paksha, adhika:false,
+        observanceDate:item.observanceDate, dateRole:"special-observance-date",
+        labels:[item.label]
+      }]
+    });
+    const record=result.tithis.find(x=>x.month===item.month && x.paksha===item.paksha && x.candidateDates.length);
+    assert.ok(record, String(item.year)+" record exists");
+    assert.equal(record.referenceDate,null);
+    assert.equal(record.selectedDate,item.tithiDate);
+    assert.equal(record.dateSelection,"single-observation-candidate-review-required");
+    assert.equal(record.drikSpecialObservances[0].observanceDate,item.observanceDate);
+    assert.equal(record.drikSpecialObservances[0].dateRole,"special-observance-date");
+    assert.deepEqual(record.drikLabels,[item.label]);
+  }
+});
