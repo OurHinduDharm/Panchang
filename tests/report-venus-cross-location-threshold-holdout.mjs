@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import * as Astronomy from "astronomy-engine";
+import { generateVisibilityWindows } from "../research/planetary-visibility-selector.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataset = JSON.parse(readFileSync(resolve(here, "../data/asta-udaya-benchmark.json"), "utf8"));
@@ -228,6 +229,76 @@ for (const pithoragarhId of PITHORAGARH_IDS) {
   }
 }
 
+
+const pithoragarhAnnualBlindHoldouts = [];
+for (const pithoragarhId of PITHORAGARH_IDS) {
+  const pithoragarhEntry = entries.find(entry => entry.id === pithoragarhId);
+  const sameApparitionNewDelhiId = pithoragarhId === "venus-pithoragarh-2025-march"
+    ? "venus-new-delhi-2025-march"
+    : "venus-new-delhi-2025-december-to-2026-february";
+  const modelByBoundary = {};
+
+  for (const boundaryName of ["astaStart", "astaEnd"]) {
+    const training = allSamples.filter(sample =>
+      NEW_DELHI_IDS.includes(sample.id) &&
+      sample.id !== sameApparitionNewDelhiId &&
+      sample.boundary === boundaryName
+    ).map(sample => ({
+      magnitude: sample.boundaryMagnitude,
+      thresholdMidpoint: sample.thresholdMidpoint,
+      id: sample.id
+    }));
+    const model = fit(training);
+    modelByBoundary[boundaryName] = model;
+  }
+
+  const windows = generateVisibilityWindows({
+    astronomy: Astronomy,
+    body: "Venus",
+    observer: observerFor(pithoragarhEntry),
+    modelByBoundary,
+    startDate: new Date(Date.UTC(2025, 0, 1)),
+    endDate: new Date(Date.UTC(2025, 11, 31, 23, 59, 59)),
+    searchDays: 60,
+    timeZone: "Asia/Kolkata"
+  });
+  const candidates = windows.filter(window =>
+    window.status === "candidate" &&
+    window.asta.predictedBoundaryDate?.slice(0, 4) === "2025"
+  );
+  const publishedStart = pithoragarhEntry.boundaries.astaStart.slice(0, 10);
+  const ranked = candidates.map(window => ({
+    window,
+    startErrorDays: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedStart)
+  })).sort((a, b) => Math.abs(a.startErrorDays) - Math.abs(b.startErrorDays));
+  const best = ranked[0];
+
+  pithoragarhAnnualBlindHoldouts.push({
+    pithoragarhCase: pithoragarhId,
+    trainingExcludedSameApparition: sameApparitionNewDelhiId,
+    trainingCountPerBoundary: modelByBoundary.astaStart ? 7 : 0,
+    candidateWindowCount: candidates.length,
+    matched: Boolean(best),
+    conjunctionUTC: best?.window.conjunctionUTC ?? null,
+    conjunctionType: best?.window.conjunctionType ?? null,
+    predictedAstaDate: best?.window.asta.predictedBoundaryDate ?? null,
+    publishedAstaDate: publishedStart,
+    astaErrorDays: best?.startErrorDays ?? null,
+    predictedUdayaDate: best?.window.udaya.predictedBoundaryDate ?? null,
+    publishedUdayaDate: pithoragarhEntry.boundaries.astaEnd.slice(0, 10),
+    udayaErrorDays: best
+      ? dayNumber(best.window.udaya.predictedBoundaryDate) -
+        dayNumber(pithoragarhEntry.boundaries.astaEnd.slice(0, 10))
+      : null,
+    allCandidateWindows: candidates.map(window => ({
+      conjunctionUTC: window.conjunctionUTC,
+      conjunctionType: window.conjunctionType,
+      astaDate: window.asta.predictedBoundaryDate,
+      udayaDate: window.udaya.predictedBoundaryDate
+    }))
+  });
+}
+
 console.log(JSON.stringify({
   title: "Venus cross-location and cross-apparition threshold holdout",
   trainingLocation: "New Delhi, India (city-centre proxy; provider coordinates undisclosed)",
@@ -236,5 +307,6 @@ console.log(JSON.stringify({
   trainingAndHoldoutSampleCount: allSamples.length,
   interpretation: "Research-only diagnostic. New Delhi training cases from the same apparition as each Pithoragarh holdout are excluded to avoid same-apparition leakage. Pithoragarh provider coordinates remain undisclosed, so this is city-label validation, not exact observer equivalence. Do not promote coefficients to production.",
   newDelhiLeaveOneApparitionOut,
-  holdouts
+  holdouts,
+  pithoragarhAnnualBlindHoldouts
 }, null, 2));
