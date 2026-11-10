@@ -47,8 +47,8 @@ const SOURCE_CASES = {
   "mercury-new-delhi-2024-september-october": { astaStart: 1, astaEnd: -1 },
   "mercury-new-delhi-2024-november-december": { astaStart: -1, astaEnd: 1 },
   "venus-new-delhi-2024": { astaStart: 1, astaEnd: -1 },
-  "saturn-new-delhi-2024": { astaStart: -1, astaEnd: 1 }
-  ,"mercury-new-delhi-2023-january": { astaStart: -1, astaEnd: 1 },
+  "saturn-new-delhi-2024": { astaStart: -1, astaEnd: 1 },
+  "mercury-new-delhi-2023-january": { astaStart: -1, astaEnd: 1 },
   "mercury-new-delhi-2023-february-march": { astaStart: 1, astaEnd: -1 },
   "mercury-new-delhi-2023-april-may": { astaStart: -1, astaEnd: 1 },
   "mercury-new-delhi-2023-june-july": { astaStart: 1, astaEnd: -1 },
