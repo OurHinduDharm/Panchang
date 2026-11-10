@@ -38,7 +38,12 @@ export function auditMonth(data, expectedYear, expectedMonth) {
     if (event.endDate && (!/^\d{4}-\d{2}-\d{2}$/.test(event.endDate) || event.endDate < event.date)) add("error", "END_DATE_INVALID", label + ": " + event.date + " -> " + event.endDate);
     if (!["approved", "needs-review", "source-conflict", "draft", "rejected"].includes(status)) add("error", "UNKNOWN_EVENT_STATUS", label + ": " + status);
     if (TITHI_CATEGORIES.test((event.title || "") + " " + (event.category || "")) && !event.hinduTithi) add("warning", "TITHI_METADATA_MISSING", label);
-    if (event.muhurtaRule && !SUPPORTED_MUHURTA_RULES.has(event.muhurtaRule)) add("error", "UNKNOWN_MUHURTA_RULE", label + ": " + event.muhurtaRule);
+    const eventRuleIds = Array.isArray(event.muhurtaRules)
+      ? event.muhurtaRules
+      : (event.muhurtaRule ? [event.muhurtaRule] : []);
+    for (const ruleId of eventRuleIds) {
+      if (!SUPPORTED_MUHURTA_RULES.has(ruleId)) add("error", "UNKNOWN_MUHURTA_RULE", label + ": " + ruleId);
+    }
     const description = String(event.description || "");
     const explicitClockTime = /(?:\b\d{1,2}[:.]\d{2}\b|\b\d{1,2}\s*(?:ए\s*एम|पी\s*एम|AM|PM)\b|\d{1,2}\s*से\s*\d{1,2})/i.test(description);
     const explicitTimeClaim = /(?:मुहूर्त|शुभ समय|पारण का समय|पूजा का समय|पुण्यकाल).{0,45}(?:नीचे दिया|दिया गया|उपलब्ध है|देखें|यहाँ)/i.test(description);
