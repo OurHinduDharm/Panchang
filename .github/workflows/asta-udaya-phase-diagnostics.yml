@@ -5,6 +5,9 @@ on:
     branches: [feat/drik-modern-planetary-asta-udaya-20261104]
     paths:
       - "tests/capture-drik-pithoragarh-asta.mjs"
+      - "extra-panchang.js"
+      - "research/drik-planetary-reference.mjs"
+      - "tests/drik-planetary-reference.test.mjs"
       - "tests/capture-drik-multicity-asta.mjs"
       - "tests/drik-pithoragarh-asta-data.test.mjs"
       - "tests/drik-multicity-asta-data.test.mjs"
@@ -79,5 +82,7 @@ jobs:
         run: node tests/report-pithoragarh-motion-feature-holdout.mjs
       - name: Run five-city leave-one-city-out Asta/Udaya transfer validation
         run: node tests/report-drik-five-city-leave-one-city-out.mjs
-      - name: Verify opt-in counters and unchanged visible output
+      - name: Test direct Drik planetary reference lookup and no-fallback policy
+        run: node --test tests/drik-planetary-reference.test.mjs
+      - name: Verify direct Drik Panchang card, no provisional display and unchanged performance mode
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
