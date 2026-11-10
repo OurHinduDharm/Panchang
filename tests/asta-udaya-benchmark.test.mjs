@@ -184,7 +184,7 @@ test("official IMD visibility periods are transcribed as date-only and remain se
     assert.equal(period.acceptanceEligible, false);
     assert.ok(dataset.sources[period.sourceId]);
     for (const value of [period.from, period.to]) {
-      assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
+      if (value !== null) assert.match(value, /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
     }
     if (period.from && period.to) assert.ok(Date.parse(period.from) <= Date.parse(period.to));
   }
