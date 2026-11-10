@@ -154,10 +154,15 @@ for (const planet of ["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]) {
       for (const holdoutYear of years) {
       const training = planetRows.filter(entry => entry.sourcePageYear !== holdoutYear);
       const holdouts = planetRows.filter(entry => entry.sourcePageYear === holdoutYear);
+      const trainingSamplesByBoundary = {};
+      for (const boundary of ["astaStart", "astaEnd"]) {
+        trainingSamplesByBoundary[boundary] = training
+          .map(entry => trainingSample(entry, boundary)).filter(Boolean);
+      }
       const modelByBoundary = {}, trainingCounts = {};
       let ready = true;
       for (const boundary of ["astaStart", "astaEnd"]) {
-        const samples = training.map(entry => trainingSample(entry, boundary)).filter(Boolean);
+        const samples = trainingSamplesByBoundary[boundary];
         trainingCounts[boundary] = samples.length;
         modelByBoundary[boundary] = fitFeatures(samples, variant.keys, targetKey);
         if (!modelByBoundary[boundary]) ready = false;
