@@ -9,19 +9,9 @@
     {
       "date": "2027-10-01",
       "dateLabel": "1 अक्टूबर",
-      "title": "चन्द्र दर्शन",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल द्वितीया"
-    },
-    {
-      "date": "2027-10-01",
-      "dateLabel": "1 अक्टूबर",
-      "title": "शारदीय नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
-      "description": "नवरात्रि के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
-      "category": "नवरात्रि",
+      "title": "चन्द्र दर्शन / शारदीय नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। नवरात्रि के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
+      "category": "पर्व एवं नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल द्वितीया",
@@ -43,23 +33,13 @@
     {
       "date": "2027-10-03",
       "dateLabel": "3 अक्टूबर",
-      "title": "कपर्दीश चतुर्थी",
-      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
-      "category": "व्रत",
+      "title": "कपर्दीश चतुर्थी / शारदीय नवरात्र चतुर्थ — माँ कूष्माण्डा",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है। नवरात्रि के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
+      "category": "व्रत एवं नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
-    },
-    {
-      "date": "2027-10-03",
-      "dateLabel": "3 अक्टूबर",
-      "title": "शारदीय नवरात्र चतुर्थी — माँ कूष्माण्डा",
-      "description": "नवरात्रि के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
       "articleLabel": "माँ कूष्माण्डा"
     },
@@ -78,28 +58,9 @@
     {
       "date": "2027-10-05",
       "dateLabel": "5 अक्टूबर",
-      "title": "मासिक स्कन्द षष्ठी",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल षष्ठी"
-    },
-    {
-      "date": "2027-10-05",
-      "dateLabel": "5 अक्टूबर",
-      "title": "दुर्गा पूजा",
-      "description": "दुर्गा पूजा में माँ दुर्गा की आराधना, पुष्पांजलि, भोग और आरती की परंपरा है; बंगाल सहित कई क्षेत्रों में अनुष्ठान अलग-अलग दिनों में होते हैं।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
-    },
-    {
-      "date": "2027-10-05",
-      "dateLabel": "5 अक्टूबर",
-      "title": "शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
-      "category": "नवरात्रि",
+      "title": "मासिक स्कन्द षष्ठी / दुर्गा पूजा / शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। दुर्गा पूजा में माँ दुर्गा की आराधना, पुष्पांजलि, भोग और आरती की परंपरा है; बंगाल सहित कई क्षेत्रों में अनुष्ठान अलग-अलग दिनों में होते हैं। नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
+      "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल षष्ठी",
@@ -159,11 +120,12 @@
     {
       "date": "2027-10-09",
       "dateLabel": "9 अक्टूबर",
-      "title": "विजयादशमी / दशहरा",
-      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ क्षेत्रानुसार प्रचलित हैं।",
+      "title": "विजयादशमी / दशहरा / सरस्वती विसर्जन",
+      "description": "विजयादशमी अधर्म पर धर्म की विजय का पर्व है। दुर्गा-विसर्जन, शस्त्र-पूजन और रामलीला/रावण-दहन की परंपराएँ क्षेत्रानुसार प्रचलित हैं। शारदीय नवरात्र के उपरांत सरस्वती-विसर्जन की परंपरा भी इसी दिन आती है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल दशमी"
     },
     {
       "date": "2027-10-11",
