@@ -15,7 +15,7 @@ function fakeAstronomy(sunAltitudeAt) {
     },
     Horizon(date, _observer, ra) {
       const dayOffset = (date.getTime() - anchorDate.getTime()) / DAY_MS;
-      return { altitude: ra === 1 ? sunAltitudeAt(dayOffset) : 0.1 };
+      return { altitude: ra === 1 ? sunAltitudeAt(dayOffset) : 0.1, azimuth: ra === 1 ? 90 : 100 };
     },
     Illumination() {
       return { mag: 1 };
@@ -323,6 +323,25 @@ test("evaluates elongation and phase coefficients in a multifeature threshold", 
         apparentMagnitude: 0,
         elongationDegrees: 0.1,
         illuminatedFraction: 0
+      }
+    }
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.predictedBoundaryDate, "2026-01-11");
+  assert.equal(result.thresholdAltitudeDegrees, 1);
+});
+
+
+
+test("evaluates local azimuth separation in a multifeature threshold", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: {
+      intercept: 0,
+      coefficients: {
+        azimuthSeparationDegrees: 0.1
       }
     }
   });
