@@ -166,7 +166,7 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-10-15", /^यम दीपदान$/));
   assert.ok(has("2028-10-15", /^रवि प्रदोष व्रत$/));
   assert.ok(has("2028-10-02", /कोजागरा पूजा/));
-  assert.equal(has("2028-10-03", /वाल्मीकि जयंती|मीराबाई जयंती/), undefined);
+  assert.ok(has("2028-10-03", /वाल्मीकि जयंती एवं मीराबाई जयंती/));
   assert.ok(has("2028-10-16", /हनुमान पूजा/));
   assert.doesNotMatch(has("2028-10-17", /नरक चतुर्दशी/).description, /तमिल दीपावली/);
   assert.equal(has("2028-10-16", /^काली चौदस$/).articleUrl, "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html");
@@ -190,7 +190,11 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-12-01", /दत्तात्रेय जयंती/));
   assert.ok(has("2028-12-01", /अन्नपूर्णा जयंती/));
   assert.equal(has("2028-12-23", /गुरु गोबिन्द सिंह जयंती/), undefined);
-  assert.equal(has("2028-12-27", /टेलंग स्वामी जयंती/), undefined);
+  assert.ok(has("2028-01-08", /तैलंग स्वामी जयंती/));
+  assert.ok(has("2028-12-27", /तैलंग स्वामी जयंती/));
+  assert.ok(has("2028-11-24", /बाबा नीब करौरी जयंती/));
+  assert.ok(has("2028-04-29", /आदि शंकराचार्य जयंती एवं सूरदास जयंती/));
+  assert.ok(has("2028-07-28", /गोस्वामी तुलसीदास जयंती/));
 });
 
 
