@@ -199,14 +199,16 @@
     {
       "date": "2029-11-21",
       "dateLabel": "21 नवंबर",
-      "title": "कार्तिक पूर्णिमा",
-      "description": "कार्तिक पूर्णिमा पर स्नान, दीपदान, दान और पूजा की परंपरा है।",
+      "title": "कार्तिक पूर्णिमा / देव दीपावली",
+      "description": "कार्तिक पूर्णिमा पर स्नान, दान, दीपदान और भगवान विष्णु/शिव की उपासना की परंपरा है। इसी दिन प्रदोष और सायंकाल में देव दीपावली का दीपोत्सव मनाया जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
-      "articleLabel": "आकाशदीपदान की विधि पढ़ें"
+      "articleLabel": "आकाशदीपदान की विधि पढ़ें",
+      "sourceName": "Drik Panchang — November 2029 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
     },
     {
       "date": "2029-11-24",
