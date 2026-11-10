@@ -41,6 +41,8 @@ test("2030 Ekadashi cards follow the Smarta-only policy", () => {
 });
 
 test("2030 important annual festivals and jayantis are represented", () => {
+  assert.ok(has("2030-01-10", /श्री गुरु गोबिंद सिंह जयंती/));
+  assert.ok(has("2030-01-15", /धर्मसावर्णि मन्वादि/));
   assert.ok(has("2030-01-12", /स्वामी विवेकानंद जयंती/));
   assert.ok(has("2030-01-13", /लोहड़ी/));
   assert.ok(has("2030-01-15", /तैलंग स्वामी जयंती/));
