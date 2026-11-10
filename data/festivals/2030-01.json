@@ -16,7 +16,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "पौष कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "पौष कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-01-02",
@@ -145,7 +146,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "पौष शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "पौष शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-01-19",
@@ -210,7 +212,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "माघ कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "माघ कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-01-31",
