@@ -24,6 +24,7 @@ on:
       - "data/independent-asta-udaya-crosschecks-2026-2027.json"
       - "tests/independent-asta-udaya-crosschecks.test.mjs"
       - "tests/report-independent-asta-udaya-crosschecks.mjs"
+      - "tests/run-jpl-horizons-pithoragarh-crosscheck.mjs"
       - "tests/report-pithoragarh-motion-feature-holdout.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
@@ -104,6 +105,14 @@ jobs:
         run: node --test tests/independent-asta-udaya-crosschecks.test.mjs
       - name: Compare independent Panchang Guru windows against same-city Drik references
         run: node tests/report-independent-asta-udaya-crosschecks.mjs
+      - name: Cross-check direct Pithoragarh Drik boundaries with JPL Horizons topocentric geometry
+        run: node tests/run-jpl-horizons-pithoragarh-crosscheck.mjs
+      - name: Upload JPL Horizons independent geometry report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jpl-horizons-pithoragarh-2025-crosscheck
+          path: research/reports/jpl-horizons-pithoragarh-2025-boundaries.json
+          if-no-files-found: error
       - name: Test planetary visibility selector and retrograde/direct motion features
         run: node --test tests/planetary-visibility-selector.test.mjs
       - name: Compare Mercury/Venus retrograde-aware model variants
