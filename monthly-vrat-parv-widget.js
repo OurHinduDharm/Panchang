@@ -1092,7 +1092,7 @@
     if(/प्रदोष/.test(title)||raw==="प्रदोष") return "प्रदोष व्रत";
     if(/कालाष्टमी|अष्टमी व्रत|अहोई अष्टमी/.test(title)) return "अष्टमी व्रत";
     if(/चतुर्थी|संकष्टी|विनायक/.test(title)) return "चतुर्थी व्रत";
-    if(/अमावस्या/.test(title)||raw==="अमावस्या") return "अमावस्या";
+    if(/अमावस्या|अमावास्या/.test(title)||raw==="अमावस्या") return "अमावस्या";
     if(/पूर्णिमा/.test(title)||raw==="पूर्णिमा") return "पूर्णिमा";
     if(/संक्रांति/.test(title)||raw==="संक्रांति") return "संक्रांति";
     if(/नवरात्र|दुर्गा पूजा/.test(title)||raw==="नवरात्रि") return "नवरात्रि एवं दुर्गा पूजा";
@@ -1201,7 +1201,7 @@
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
         var description=String(item.description);
-        if(/अमावस्या/.test(String(item.title||""))&&/तर्पण/.test(description)&&!/pitri-tarpan-vidhi/i.test(description+" "+String(item.articleUrl||"")+" "+String(item.secondaryArticleUrl||""))){
+        if(/अमावस्या|अमावास्या/.test(String(item.title||""))&&/तर्पण/.test(description)&&!/pitri-tarpan-vidhi/i.test(description+" "+String(item.articleUrl||"")+" "+String(item.secondaryArticleUrl||""))){
           description+=" <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a>।";
         }
         if(/महाशिवरात्रि|मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/shivratri-prahar-pooja-vidhi/i.test(description)){
