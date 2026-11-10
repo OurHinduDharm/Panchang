@@ -418,3 +418,25 @@ Local Sun–planet azimuth separation को magnitude के साथ test क
 - Jupiter में complete candidate windows नहीं निकले।
 
 इसलिए azimuth model universal नहीं। Saturn Udaya और Venus Udaya के लिए candidate है; Pithoragarh cross-location test के बिना अपनाना नहीं है।
+
+
+## 10 नवम्बर 2026 — सभी ग्रहों का Pithoragarh cross-location diagnostic (user-transcribed holdout)
+
+Pinned Astronomy Engine 2.1.19 के साथ New Delhi के independent published-reference samples से प्रत्येक ग्रह के Asta-start/Asta-end solar-altitude-at-local-horizon magnitude models fit किए। फिर Pithoragarh project observer (29.5828° N, 80.2182° E, 1650 m) पर conjunction-derived annual windows बिना Pithoragarh values से training किए निकाले। Evaluation references Pithoragarh के user-transcribed records हैं; वे primary Drik pages से independently re-captured नहीं हैं और acceptance-eligible नहीं हैं।
+
+| ग्रह | Holdout windows | Asta MAE / max | Udaya MAE / max | स्थिति |
+|---|---:|---:|---:|---|
+| बुध | 19 | 0.737 / 2 दिन | 0.579 / 3 दिन | promising, exact-date gate fail |
+| शुक्र | 5 | 0.800 / 2 दिन | 0.600 / 2 दिन | promising, exact-date gate fail |
+| मंगल | — | — | — | केवल 2 training samples; model unavailable |
+| गुरु | 3 | 0 / 0 दिन | 0.333 / 1 दिन | promising, sample छोटा और references user-transcribed |
+| शनि | 3 | 0 / 0 दिन | 0 / 0 दिन | promising, sample छोटा और references user-transcribed |
+
+सभी उपलब्ध holdout windows one-to-one match हुए; पर यह model-validation का केवल transfer diagnostic है। New Delhi provider coordinates undisclosed हैं और Pithoragarh target dates user-transcribed हैं। इस कारण इन results को independent Drik validation, universal accuracy या production acceptance नहीं कहना है। विशेषतः बुध में 3-दिन का अधिकतम Udaya error और शुक्र में 2-दिन की त्रुटि मौजूद है।
+
+### अगला निर्णायक कार्य
+1. Pithoragarh Mercury, Venus, Jupiter, Saturn के source pages को city selector + year selector सहित independently capture करें; user transcriptions को acceptance ledger में promote न करें।
+2. Mercury के superior/inferior conjunction और retrograde/direct subsets पर अलग signed error निकालें।
+3. Jupiter/Saturn के वर्तमान 3-window holdouts को कम-से-कम 3 अतिरिक्त वर्षों/अन्य city holdouts से बढ़ाएँ।
+4. Mars के लिए New Delhi तथा Pithoragarh दोनों में पर्याप्त independently captured windows के बिना fitted model publish न करें।
+5. जब तक exact-date tolerance पूरी न हो, candidate JSON में uncertainty/status रहे और main Panchang में verified Tara Asta time न दिखे।
