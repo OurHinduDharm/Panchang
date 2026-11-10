@@ -88,11 +88,16 @@
     {
       "date": "2027-04-09",
       "dateLabel": "9 अप्रैल",
-      "title": "गणगौर",
-      "description": "गणगौर राजस्थान और आसपास के क्षेत्रों का प्रमुख पर्व है, जिसमें गौरी-शंकर की पूजा और दांपत्य-सौभाग्य की कामना की जाती है।",
+      "title": "गणगौर / मत्स्य-अवतार जयंती",
+      "description": "गणगौर राजस्थान और आसपास के क्षेत्रों का प्रमुख पर्व है, जिसमें गौरी-शंकर की पूजा और दांपत्य-सौभाग्य की कामना की जाती है। मत्स्य-अवतार जयंती पर देवी की पूजा और स्तोत्र-पाठ की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">मत्स्य-अवतार जयंती</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "http://ourhindudharm.blogspot.com/2015/03/About-Lord-Matsya-On-Shri-Matsyavatar-Jayanti.html",
+      "articleLabel": "मत्स्य-अवतार जयंती",
+      "hinduTithi": "चैत्र शुक्ल तृतीया",
+      "sourceName": "Drik Panchang — Dashavatara Calendar 2027",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2027"
     },
     {
       "date": "2027-04-09",
@@ -132,14 +137,18 @@
     {
       "date": "2027-04-11",
       "dateLabel": "11 अप्रैल",
-      "title": "नवरात्रि पंचमी — माँ स्कन्दमाता",
-      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
+      "title": "चैत्र नवरात्र पंचमी — माँ स्कन्दमाता / लक्ष्मी पंचमी",
+      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a> लक्ष्मी पंचमी पर देवी की पूजा और स्तोत्र-पाठ की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">लक्ष्मी पंचमी</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल पंचमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
-      "articleLabel": "माँ स्कन्दमाता"
+      "articleLabel": "माँ स्कन्दमाता",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "secondaryArticleLabel": "लक्ष्मी पंचमी",
+      "sourceName": "Drik Panchang — Lakshmi Panchami 2027",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/panchami/lakshmi-panchami/lakshmi-panchami-date-time.html?time-format=24hour"
     },
     {
       "date": "2027-04-12",
