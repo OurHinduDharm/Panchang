@@ -24,7 +24,7 @@ test("every 2030 Pithoragarh Shivaratri card has Krishna Chaturdashi during loca
   const overlaps=[...(p.tithis||[]),...(n.tithis||[])].some(row=>{
    if(Number(row.index)!==28)return false;
    const start=asDate(row.startTime),finish=asDate(row.endTime);
-   return start&&finish&&finish>endN?false:start&&finish&&finish>startN&&start<endN;
+   return start&&finish&&finish>startN&&start<endN;
   });
   if(!overlaps)failures.push({date:event.date,reason:"Krishna Chaturdashi does not overlap Nishita"});
   if(!ruleIds(event).some(rule=>["masik-shivaratri-nishita","mahashivaratri-nishita"].includes(rule)))failures.push({date:event.date,reason:"Nishita rule missing"});
