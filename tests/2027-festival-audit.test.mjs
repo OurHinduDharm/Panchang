@@ -254,8 +254,6 @@ test("2027 January includes verified regional and seasonal observances", () => {
     ["2027-01-14", /लोहड़ी/, "पौष शुक्ल षष्ठी"],
     ["2027-01-15", /^मकर संक्रांति \/ उत्तरायण$/, "पौष शुक्ल सप्तमी"],
     ["2027-01-15", /^पोंगल$/, "पौष शुक्ल सप्तमी"],
-    ["2027-01-15", /^मकरविलक्कु$/, "पौष शुक्ल सप्तमी"],
-    ["2027-01-15", /^माघ बिहू \/ भोगाली बिहू$/, "पौष शुक्ल सप्तमी"],
     ["2027-01-16", /^मासिक दुर्गाष्टमी$/, "पौष शुक्ल अष्टमी"],
     ["2027-01-18", /^पौष पुत्रदा एकादशी$/, "पौष शुक्ल एकादशी"],
     ["2027-01-18", /^धर्म सावर्णि मन्वादि$/, "पौष शुक्ल एकादशी"],
@@ -274,6 +272,7 @@ test("2027 January includes verified regional and seasonal observances", () => {
     assert.ok(event.sourceUrl, date + " source URL");
   }
   assert.equal(jan.events.some(item => /गौण|वैष्णव/.test(item.title || "")), false);
+  assert.equal(jan.events.some(item => /मकरविलक्कु|माघ बिहू/.test(item.title || "")), false);
 });
 
 test("2027 February retains Narmada Jayanti, Brahma Savarni Manvadi and Lalita Jayanti", () => {
