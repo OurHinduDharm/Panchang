@@ -25,6 +25,8 @@ test("direct Pithoragarh data has the expected 43 Asta windows and 86 minute bou
   assert.equal(dataset.windowsCount, 43);
   assert.equal(dataset.windows.length, 43);
   assert.equal(dataset.extractedBoundaryRows, 86);
+  assert.equal(dataset.uniqueEventsCount, 40);
+  assert.equal(dataset.duplicateAnnualPageReferences, 3);
   const counts = Object.fromEntries(["Mercury", "Venus", "Mars", "Jupiter", "Saturn"]
     .map(planet => [planet, dataset.windows.filter(window => window.planet === planet).length]));
   assert.deepEqual(counts, {
