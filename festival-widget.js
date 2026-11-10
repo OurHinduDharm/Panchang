@@ -519,7 +519,7 @@
         }
 
         const cardLinkUrls = new Set();
-        if (/मासिक\\s*कृष्ण\\s*जन्माष्टमी/i.test(String(item.title || "")) && !/मासिक कृष्ण जन्माष्टमी पर/.test(String(item.description || ""))) {
+        if (/मासिक\s*कृष्ण\s*जन्माष्टमी/i.test(String(item.title || "")) && !/मासिक कृष्ण जन्माष्टमी पर/.test(String(item.description || ""))) {
           item.description = String(item.description || "") + " मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी को भगवान श्रीकृष्ण का स्मरण, पूजन और व्रत किया जाता है। रात्रिव्यापिनी अष्टमी में निशीथकालीन पूजा का विशेष महत्व है।";
         }
         if (/छठ पूजा/.test(String(item.title || "")) && !/नहाय-खाय/.test(String(item.description || ""))) {
