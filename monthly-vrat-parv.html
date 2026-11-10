@@ -588,7 +588,18 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         var title=document.createElement("div");title.className="muhurta-heading";title.textContent=result.label||"मुहूर्त";box.appendChild(title);
         var detail=document.createElement("div");detail.className="muhurta-detail";
         var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
-        if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
+        if(result.status==="calculated"&&Array.isArray(result.milestones)&&result.milestones.length){
+          result.milestones.forEach(function(milestone){
+            var row=document.createElement("div");row.className="muhurta-window";
+            var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=milestone.label||"अनुष्ठान";row.appendChild(name);
+            var date=document.createElement("div");date.className="muhurta-window-time";
+            date.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"short",day:"numeric",month:"short"}).format(milestone.date);
+            row.appendChild(date);
+            if(milestone.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=milestone.note;row.appendChild(note);}
+            detail.appendChild(row);
+          });
+        }
+        else if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
             var row=document.createElement("div");row.className="muhurta-window";
             if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
@@ -612,6 +623,17 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             if(windowItem.note){var windowNote=document.createElement("div");windowNote.className="muhurta-window-note";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
             detail.appendChild(row);
           });
+        else if(result.status==="calculated"&&Array.isArray(result.times)&&result.times.length){
+          result.times.forEach(function(timeItem){
+            var row=document.createElement("div");row.className="muhurta-window";
+            var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=timeItem.label||"पूजन समय";row.appendChild(name);
+            var time=document.createElement("div");time.className="muhurta-window-time";
+            time.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"short",day:"numeric",month:"short"}).format(timeItem.time)+" · "+muhurtaModule.formatFestivalMuhurtaTime(timeItem.time);
+            row.appendChild(time);
+            if(timeItem.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=timeItem.note;row.appendChild(note);}
+            detail.appendChild(row);
+          });
+        }
         }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
@@ -796,6 +818,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         if(/अमावस्या|अमावास्या/.test(String(item.title||""))&&/तर्पण/.test(description)&&!/pitri-tarpan-vidhi/i.test(description+" "+String(item.articleUrl||"")+" "+String(item.secondaryArticleUrl||""))){
           description+=" <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a>।";
         }
+        if(/मासिक\s*कृष्ण\s*जन्माष्टमी/i.test(String(item.title||""))&&!/मासिक कृष्ण जन्माष्टमी पर/.test(description)){description+=" मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी को भगवान श्रीकृष्ण का स्मरण, पूजन और व्रत किया जाता है। रात्रिव्यापिनी अष्टमी में निशीथकालीन पूजा का विशेष महत्व है।";}
         if(/महाशिवरात्रि|मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/shivratri-prahar-pooja-vidhi/i.test(description)){
           description+=" <a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">चारों प्रहर की पूजा-विधि पढ़ें</a>।";
         }
