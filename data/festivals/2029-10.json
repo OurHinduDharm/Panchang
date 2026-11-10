@@ -85,11 +85,15 @@
       "date": "2029-10-07",
       "dateLabel": "7 अक्टूबर",
       "title": "सर्वपितृ अमावस्या",
-      "description": "सर्वपितृ अमावस्या पर पितरों के निमित्त श्राद्ध और तर्पण की परंपरा है।",
+      "description": "सर्वपितृ अमावस्या पर पितरों के निमित्त श्राद्ध और तर्पण की परंपरा है। <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a> एवं <a href=\"https://ourhindudharm.blogspot.com/p/pitri-visarjan.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ विसर्जन विधि</a>।",
       "category": "श्राद्ध",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन कृष्ण अमावस्या",
-      "showReviewStatus": false
+      "showReviewStatus": false,
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/pitri-visarjan.html",
+      "articleLabel": "पितृ विसर्जन विधि",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html",
+      "secondaryArticleLabel": "पितृ तर्पण विधि"
     },
     {
       "date": "2029-10-08",
@@ -191,11 +195,13 @@
       "date": "2029-10-15",
       "dateLabel": "15 अक्टूबर",
       "title": "महानवमी / माँ सिद्धिदात्री पूजन / सरस्वती विसर्जन / आयुध पूजा",
-      "description": "महानवमी पर माँ दुर्गा की पूजा, हवन और परंपरानुसार कन्या-पूजन किया जाता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a> इस दिन कई परंपराओं में सरस्वती विसर्जन और आयुध-पूजन भी किया जाता है।",
+      "description": "महानवमी पर माँ दुर्गा की पूजा, हवन और परंपरानुसार कन्या-पूजन किया जाता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a> इस दिन कई परंपराओं में सरस्वती विसर्जन और आयुध-पूजन भी किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल नवमी"
+      "hinduTithi": "आश्विन शुक्ल नवमी",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html",
+      "secondaryArticleLabel": "नवमी हवन विधि"
     },
     {
       "date": "2029-10-16",
