@@ -96,7 +96,7 @@ jobs:
       - name: Run Pithoragarh location-calibrated leave-one-year-out validation
         run: node tests/report-pithoragarh-local-year-holdout.mjs
       - name: Compare Mercury event-direction models in Pithoragarh year holdouts
-        run: node tests/report-pithoragarh-direction-year-holdout.mjs
+        run: node tests/report-pithoragarh-direction-year-holdout.mjs | tee research/reports/pithoragarh-direction-year-holdout.json
       - name: Validate pooled multi-city plus local-history Pithoragarh city-year holdouts
         run: node tests/report-pithoragarh-city-year-holdout.mjs
       - name: Compare pooled other-city data plus prior Pithoragarh years against strict year holdouts
@@ -123,3 +123,10 @@ jobs:
         run: node --test tests/drik-planetary-reference.test.mjs
       - name: Verify direct Drik Panchang card, no provisional display and unchanged performance mode
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
+
+      - name: Upload Pithoragarh model-selection and blind-prediction report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pithoragarh-direction-year-holdout-2021-2027
+          path: research/reports/pithoragarh-direction-year-holdout.json
+          if-no-files-found: error
