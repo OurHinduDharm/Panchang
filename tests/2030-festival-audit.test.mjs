@@ -36,7 +36,7 @@ test("2030 catalog has one card per same-date Hindu tithi", () => {
 
 test("2030 Ekadashi cards follow the Smarta-only policy", () => {
   assert.equal(events.filter(event => /(गौण|वैष्णव)/.test(event.title || "")).length, 0);
-  assert.ok(has("2030-11-05", /देवउठनी एकादशी \(स्मार्त\)/));
+  assert.ok(has("2030-11-05", /देवोत्थानी एकादशी \(स्मार्त\)/));
   assert.ok(has("2030-11-21", /उत्पन्ना एकादशी \(स्मार्त\)/));
 });
 
@@ -262,7 +262,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
 
   assert.ok(at(nov, "2030-11-02", /गोपाष्टमी.*मासिक दुर्गाष्टमी/));
   assert.ok(at(nov, "2030-11-03", /सतयुगादि तिथि.*अक्षय नवमी/));
-  assert.ok(at(nov, "2030-11-05", /देवउठनी एकादशी \(स्मार्त\).*भीष्म पंचक प्रारम्भ/));
+  assert.ok(at(nov, "2030-11-05", /देवोत्थानी एकादशी \(स्मार्त\).*भीष्म पंचक प्रारम्भ/));
   assert.ok(at(nov, "2030-11-07", /गुरु प्रदोष.*विश्वेश्वर व्रत/));
   assert.ok(at(nov, "2030-11-08", /वैकुण्ठ चतुर्दशी.*मणिकर्णिका स्नान/));
   assert.ok(at(nov, "2030-11-09", /देव दीपावली/)?.muhurtaRule === "dev-deepawali-pradosh");
