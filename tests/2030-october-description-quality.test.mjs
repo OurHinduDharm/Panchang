@@ -45,8 +45,12 @@ test("2030 October Navratri and Deepawali cards have distinct useful description
   assert.match(dhan.description, /धन्वन्तरि/);
   const diwali = find(events, /दीपावली/);
   assert.match(diwali.description, /लक्ष्मी-गणेश पूजन/);
-  assert.match(diwali.title, /काली पूजा/);
-  assert.match(diwali.description, /माँ काली की विशेष पूजा/);
+  assert.doesNotMatch(diwali.title, /काली पूजा/);
+  assert.doesNotMatch(diwali.description, /माँ काली की विशेष पूजा/);
+  const kaliPuja = find(events, /^काली पूजा$/);
+  assert.ok(kaliPuja, "Kali Puja must have its own observance card");
+  assert.equal(kaliPuja.date, "2030-10-26");
+  assert.match(kaliPuja.articleUrl || "", /Kakaradi-Kali-sahasranam-stotra/);
   assert.match(diwali.articleUrl || "", /About-Deepawali/);
   const kali = find(events, /काली चौदस/);
   assert.equal(kali.date, "2030-10-25");
