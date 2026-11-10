@@ -52,6 +52,16 @@
       "hinduTithi": "फाल्गुन शुक्ल पक्ष त्रयोदशी"
     },
     {
+      "date": "2028-03-08",
+      "dateLabel": "8 मार्च",
+      "title": "नृसिंह द्वादशी",
+      "description": "फाल्गुन शुक्ल द्वादशी को भगवान नृसिंह की उपासना, स्तोत्र-पाठ और दान की परंपरा है।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल द्वादशी"
+    },
+    {
       "date": "2028-03-10",
       "dateLabel": "10 मार्च",
       "title": "होलिका दहन",
@@ -77,15 +87,6 @@
       "articleLabel": "श्री महालक्ष्मी जयंती",
       "sourceName": "Drik Panchang — Phalguna Purnima",
       "sourceUrl": "https://www.drikpanchang.com/calendars/purnima/purnima-calendar.html?year=2028"
-    },
-    {
-      "date": "2028-03-11",
-      "dateLabel": "11 मार्च",
-      "title": "होली",
-      "description": "होली रंगों का पर्व है। होलिका-दहन के अगले दिन रंगोत्सव मनाया जाता है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
     },
     {
       "date": "2028-03-13",
