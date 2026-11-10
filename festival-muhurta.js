@@ -1677,31 +1677,6 @@ const rules = {
   }
 };
 
-// One calendar date can carry both Trayodashi Pradosh and Krishna Chaturdashi
-// Shivaratri. Preserve both observances instead of silently dropping either.
-rules["pradosh-and-masik-shivaratri"] = context => {
-  const pradosh = rules["pradosh-kala"](context);
-  const shivaratri = rules["masik-shivaratri-nishita"](context);
-  const windows = [
-    ...(pradosh && Array.isArray(pradosh.windows) ? pradosh.windows : []),
-    ...(shivaratri && Array.isArray(shivaratri.windows) ? shivaratri.windows : [])
-  ].sort((a, b) => validDate(a.start) - validDate(b.start));
-  if (!windows.length) {
-    return {
-      label: "प्रदोष एवं मासिक शिवरात्रि पूजा समय",
-      status: "unavailable",
-      message: "स्थानीय प्रदोषकाल, निशीथकाल और संबंधित तिथियों की वास्तविक व्याप्ति उपलब्ध नहीं है; अनुमानित समय नहीं दिखाया जा रहा है।"
-    };
-  }
-  return {
-    label: "प्रदोष एवं मासिक शिवरात्रि पूजा समय",
-    status: "calculated",
-    date: validDate(context.sunset),
-    dateLabel: formatDateLabel(context.sunset),
-    windows
-  };
-};
-
 // Render a shared muhurta title only once when its window repeats the same wording.
 function normalizedMuhurtaLabelTokens(value) {
   return String(value || "")
