@@ -28,7 +28,7 @@
       "name": "Rashtriya Panchang — Positional Astronomy Centre, IMD",
       "url": "https://packolkata.imd.gov.in/panchang/en/visibility",
       "sourceType": "official-visibility-period-date-only",
-      "location": "Central Station of India (82°30′ E, 23°11′ N)",
+      "location": "Central Station of India (coordinates/elevation not stated on cited visibility page)",
       "retrievalEvidence": "Official 2026–27 planetary visibility table; dates are not exact event timestamps."
     },
     "drik-venus-2026-2027-city-benchmarks": {
@@ -65,7 +65,7 @@
       "name": "Rashtriya Panchang — Positional Astronomy Centre, IMD",
       "url": "https://packolkata.imd.gov.in/panchang/en/helical",
       "sourceType": "official-heliacal-setting-rising-times",
-      "location": "Central Station of India (23°11′ N, 82°30′ E)",
+      "location": "Central Station of India (coordinates/elevation not stated on cited heliacal event page)",
       "retrievalEvidence": "Official PAC/IMD Rashtriya Panchang 2026–27 page table headed 'Heliacal Rising and setting of planets (For the Central Station of India)'; includes event direction, Gregorian date, IST hour and minute. The page is an annual event list, not a set of paired Asta windows."
     }
   },
