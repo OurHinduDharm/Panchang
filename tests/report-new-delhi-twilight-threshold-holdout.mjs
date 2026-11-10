@@ -226,13 +226,14 @@ const mercuryMagnitudeCrossValidation = Object.fromEntries(
   })
 );
 
-console.log(JSON.stringify({
+${helper}console.log(JSON.stringify({
   title: "New Delhi out-of-sample twilight-threshold diagnostic",
   sampleCaseCount: rows.length,
   boundaryCount: rows.reduce((sum, item) => sum + item.boundaries.length, 0),
   pithoragarhVenusThresholdIntervals: PITHORAGARH_VENUS_THRESHOLD,
   planetAndBoundaryThresholdSummary: thresholdSummary,
   mercuryMagnitudeCrossValidation,
+  mercuryBoundaryDateHoldouts,
   interpretation: "Diagnostic only. New Delhi source coordinates are undisclosed; a city-centre proxy is used solely to test day-level threshold transfer. Do not claim coordinate-exact validation or promote this threshold to production.",
   cases: rows
 }, null, 2));
