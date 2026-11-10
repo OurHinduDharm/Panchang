@@ -85,15 +85,13 @@ export function getDrikPlanetaryReference({ dataset, location, selectedDate, pla
 export function formatDrikBoundary(value) {
   const raw = value?.normalizedLocalDateTime;
   if (!raw || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+05:30$/.test(raw)) return null;
-  const [date, clock] = raw.split("T");
-  const [year, month, day] = date.split("-").map(Number);
-  const [hour, minute] = clock.slice(0, 5).split(":").map(Number);
-  const localDate = new Date(Date.UTC(year, month - 1, day, 6, 30));
+  const instant = new Date(raw);
+  if (!Number.isFinite(instant.getTime())) return null;
   const dateText = new Intl.DateTimeFormat("hi-IN", {
     timeZone: "Asia/Kolkata", day: "numeric", month: "long", year: "numeric"
-  }).format(localDate);
+  }).format(instant);
   const timeText = new Intl.DateTimeFormat("hi-IN", {
     timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: true
-  }).format(new Date(Date.UTC(year, month - 1, day, hour - 5, minute - 30)));
+  }).format(instant);
   return { date: dateText, time: timeText, iso: raw };
 }
