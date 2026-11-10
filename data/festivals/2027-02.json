@@ -235,14 +235,16 @@
       "date": "2027-02-21",
       "dateLabel": "21 फ़रवरी",
       "title": "उपच्छाया चंद्रग्रहण",
-      "description": "पिथौरागढ़ में उपच्छाया चंद्रग्रहण 21 फ़रवरी को 02:42 से 06:43 बजे तक रहेगा। ग्रहण का मध्य 04:42 बजे होगा। यह उपच्छाया ग्रहण है, इसलिए चंद्रमा की छाया बहुत हल्की दिखाई देगी; अंत में चंद्रमा पश्चिमी क्षितिज के निकट होगा।",
+      "description": "पिथौरागढ़ में उपच्छाया चंद्रग्रहण 21 फ़रवरी को 02:42 से 06:43 बजे तक रहेगा। ग्रहण का मध्य 04:42 बजे होगा। यह उपच्छाया ग्रहण है, इसलिए चंद्रमा की छाया बहुत हल्की दिखाई देगी; अंत में चंद्रमा पश्चिमी क्षितिज के निकट होगा। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html\" target=\"_blank\" rel=\"noopener noreferrer\">ग्रहण मंत्र-पुरश्चरण पढ़ें</a>",
       "category": "ग्रहण",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल पूर्णिमा",
       "sourceName": "Time and Date — Pithoragarh",
       "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270220",
-      "timingType": "eclipse-visibility"
+      "timingType": "eclipse-visibility",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
+      "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें"
     },
     {
       "date": "2027-02-24",
