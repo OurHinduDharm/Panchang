@@ -73,3 +73,14 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-09-29", /चन्द्र दर्शन.*ब्रह्मचारिणी/));
   assert.ok(has("2030-10-02", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
 });
+
+test("2030 only Pithoragarh-visible solar and partial lunar eclipses are listed", () => {
+  const eclipses = events.filter(event => /ग्रहण/.test(event.title || ""));
+  assert.equal(eclipses.filter(event => event.date === "2030-06-01").length, 1);
+  assert.equal(eclipses.filter(event => event.date === "2030-06-15").length, 1);
+  assert.equal(eclipses.some(event => event.date === "2030-11-25" || event.date === "2030-12-10"), false);
+  const solar = has("2030-06-01", /आंशिक सूर्यग्रहण/);
+  assert.match(solar.description, /3:57 बजे.*5:15:56 बजे.*6:38:21 बजे/);
+  const lunar = has("2030-06-15", /आंशिक चंद्रग्रहण/);
+  assert.match(lunar.description, /10:51 बजे.*1:15 बजे/);
+});
