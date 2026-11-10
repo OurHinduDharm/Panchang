@@ -156,8 +156,8 @@ test("official IMD heliacal event table is transcribed completely without pairin
     assert.equal(event.eventModel, "rashtriya-panchang-heliacal-setting-rising");
     assert.equal(event.acceptanceEligible, false);
     assert.ok(["Sets in the east", "Sets in the west", "Rises in the east", "Rises in the west"].includes(event.event));
-    assert.match(event.printedClock, /^\\d{2}:\\d{2}$/);
-    assert.match(event.normalizedLocalDateTime, /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:00\\+05:30$/);
+    assert.match(event.printedClock, /^\d{2}:\d{2}$/);
+    assert.match(event.normalizedLocalDateTime, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:00\+05:30$/);
     assert.ok(dataset.sources[event.sourceId]);
   }
   const rollovers = events.filter(event => Number(event.printedClock.slice(0, 2)) >= 24);
