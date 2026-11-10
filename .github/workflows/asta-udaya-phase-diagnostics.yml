@@ -110,8 +110,8 @@ jobs:
       - name: Upload JPL Horizons independent geometry report
         uses: actions/upload-artifact@v4
         with:
-          name: jpl-horizons-pithoragarh-2025-crosscheck
-          path: research/reports/jpl-horizons-pithoragarh-2025-boundaries.json
+          name: jpl-horizons-pithoragarh-2021-2027-crosscheck
+          path: research/reports/jpl-horizons-pithoragarh-2021-2027-boundaries.json
           if-no-files-found: error
       - name: Test planetary visibility selector and retrograde/direct motion features
         run: node --test tests/planetary-visibility-selector.test.mjs
