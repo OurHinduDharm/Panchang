@@ -23,10 +23,11 @@ test("2026 March includes Gauri Puja and Yamuna Chhath", async () => {
 
 test("2026 April restores Akshaya Tritiya and both original article links", async () => {
   const data = await month("04");
-  const event = find(data, "2026-04-19", /अक्षय तृतीया.*परशुराम जयंती/);
-  assert.ok(event);
-  assert.match(event.articleUrl || "", /About-Akshaya-Triteeya/);
-  assert.match(event.secondaryArticleUrl || "", /About-Lord-Parshuram/);
+  const akshaya = find(data, "2026-04-19", /^अक्षय तृतीया$/);
+  const parashurama = find(data, "2026-04-19", /^परशुराम जयंती$/);
+  assert.ok(akshaya && parashurama);
+  assert.match(akshaya.articleUrl || "", /About-Akshaya-Triteeya/);
+  assert.match(parashurama.articleUrl || "", /About-Lord-Parshuram/);
 });
 
 test("2026 April separates Shankaracharya-Surdas and Ramanuja Jayantis", async () => {
@@ -106,9 +107,12 @@ test("2026 March Drik Pithoragarh calendar anchors retain exact date and tithi",
   assert.equal(lakshmi.reviewStatus, "approved");
   const sankranti = find(data, "2026-03-15", /मीन संक्रांति/);
   assert.equal(sankranti.reviewStatus, "approved");
-  const ugadi = find(data, "2026-03-19", /उगादी \/ गुड़ी पड़वा/);
+  const ugadi = find(data, "2026-03-19", /^उगादी$/);
+  const gudi = find(data, "2026-03-19", /^गुड़ी पड़वा$/);
   assert.equal(ugadi.hinduTithi, "चैत्र शुक्ल प्रतिपदा");
+  assert.equal(gudi.hinduTithi, "चैत्र शुक्ल प्रतिपदा");
   assert.equal(ugadi.reviewStatus, "approved");
+  assert.equal(gudi.reviewStatus, "approved");
   const samvatsara = find(data, "2026-03-19", /हिंदू नवसंवत्सर/);
   assert.equal(samvatsara.hinduTithi, "चैत्र शुक्ल प्रतिपदा");
   assert.equal(samvatsara.reviewStatus, "approved");

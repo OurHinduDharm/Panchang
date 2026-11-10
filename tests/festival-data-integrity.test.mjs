@@ -129,7 +129,7 @@ test("2026 Mahashivaratri, Holika Dahan and Dhulandi have separate complete card
 test("2026 festival cards expose the linked articles from the Vrat-Parv page", () => {
   const cases = [
     ["2026-03.json","श्रीरामनवमी (वैष्णव सम्प्रदाय)","About-Birthday-Of-Lord-Ram-on-Shree-RamNavami.html"],
-    ["2026-04.json","श्री हनुमान जयंती / चैत्र पूर्णिमा","About-Lord-Hanuman-Jayanti.html"],
+    ["2026-04.json","श्री हनुमान जयंती","About-Lord-Hanuman-Jayanti.html"],
     ["2026-04.json","सीता नवमी / जानकी नवमी","About-Worship-Method-Of-Goddess-Sita-On-JanakiNavami-Or-Sita-Mata-Jayanti.html"],
     ["2026-05.json","गंगा दशहरा","about-Godess-Ganga-on-ganga-dussehra.html"],
     ["2026-07.json","आषाढ़ गुप्त नवरात्र प्रारम्भ - शैलपुत्री पूजन","About-Gupt-Navratris.html"],
@@ -143,7 +143,7 @@ test("2026 festival cards expose the linked articles from the Vrat-Parv page", (
     ["2026-07.json","गुप्त नवरात्र नवमी - सिद्धिदात्री","About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html"],
     ["2026-07.json","देवशयनी / हरिशयनी एकादशी — चातुर्मास प्रारम्भ","About-HarishayaniEkadashiAndStartingOfChaturmas.html"],
     ["2026-08.json","नाग पंचमी / नाग पंचमी व्रत","About-NagPanchami.html"],
-    ["2026-09.json","श्रीकृष्ण जन्माष्टमी, श्री कृष्ण जयंती / मासिक कालाष्टमी / श्री काली (आद्याकाली) महाविद्या जयंती / विन्ध्यवासिनी जयंती","About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html"],
+    ["2026-09.json","श्रीकृष्ण जन्माष्टमी / श्रीकृष्ण जयंती","About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html"],
     ["2026-09.json","श्री गणेश चतुर्थी / सिद्धिविनायक चतुर्थी — गणेश जयंती","About-Ganesh-Chaturthi-The-Story-Of-Syamantak-jewel.html"],
     ["2026-09.json","राधाष्टमी | श्री राधा जयन्ती","About-ShreeRadha-On-Radhaashtami.html"],
     ["2026-11.json","गोवत्स द्वादशी व्रत","About-Govats-Dwadashi-vrat.html"],

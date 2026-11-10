@@ -9,8 +9,8 @@
     {
       "date": "2026-04-02",
       "dateLabel": "2 अप्रैल",
-      "title": "श्री हनुमान जयंती / चैत्र पूर्णिमा",
-      "description": "चैत्र शुक्ल पूर्णिमा पर श्रीहनुमान जयंती मनाई जाती है। श्रीहनुमान की पूजा, हनुमान चालीसा/सुंदरकाण्ड पाठ, मंत्र-जप तथा पूर्णिमा पर स्नान-दान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> और <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>।",
+      "title": "श्री हनुमान जयंती",
+      "description": "चैत्र शुक्ल पूर्णिमा पर श्रीहनुमान जयंती मनाई जाती है। श्रीहनुमान की पूजा, हनुमान चालीसा और सुंदरकाण्ड पाठ, मंत्र-जप तथा जन्मोत्सव की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> और <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "चैत्र शुक्ल पूर्णिमा",
@@ -18,6 +18,15 @@
       "articleLabel": "श्रीहनुमान जयंती",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html",
       "secondaryArticleLabel": "श्रीहनुमान जी की स्तोत्रात्मक साधना"
+    },
+    {
+      "date": "2026-04-02",
+      "dateLabel": "2 अप्रैल",
+      "title": "चैत्र पूर्णिमा",
+      "description": "चैत्र शुक्ल पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
+      "category": "पूर्णिमा व्रत",
+      "reviewStatus": "approved",
+      "hinduTithi": "चैत्र शुक्ल पूर्णिमा"
     },
     {
       "date": "2026-04-05",
@@ -187,14 +196,23 @@
     {
       "date": "2026-04-19",
       "dateLabel": "19 अप्रैल",
-      "title": "अक्षय तृतीया / परशुराम जयंती",
-      "description": "वैशाख शुक्ल तृतीया को अक्षय तृतीया मनाई जाती है। इस दिन भगवान विष्णु और परशुराम अवतार का पूजन, जप, दान तथा शुभ कार्यों का आरम्भ किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a>। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a>",
+      "title": "अक्षय तृतीया",
+      "description": "वैशाख शुक्ल तृतीया को अक्षय तृतीया मनाई जाती है। इस दिन भगवान विष्णु का पूजन, जप, दान तथा शुभ कार्यों का आरम्भ किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a>।",
       "category": "प्रमुख पर्व",
       "hinduTithi": "वैशाख शुक्ल तृतीया",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html",
       "articleLabel": "अक्षय तृतीया का महत्व पढ़ें",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
-      "secondaryArticleLabel": "परशुराम जयंती की महिमा पढ़ें",
+      "reviewStatus": "approved"
+    },
+    {
+      "date": "2026-04-19",
+      "dateLabel": "19 अप्रैल",
+      "title": "परशुराम जयंती",
+      "description": "वैशाख शुक्ल तृतीया को भगवान विष्णु के छठे अवतार भगवान परशुराम का प्राकट्य-दिवस मनाया जाता है। इस दिन भगवान परशुराम का पूजन, मंत्र-जप और धर्मरक्षा के उनके आदर्शों का स्मरण किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">परशुराम जयंती की महिमा पढ़ें</a>।",
+      "category": "अवतार जयंती",
+      "hinduTithi": "वैशाख शुक्ल तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html",
+      "articleLabel": "परशुराम जयंती की महिमा पढ़ें",
       "reviewStatus": "approved"
     },
     {
