@@ -57,6 +57,15 @@
       "articleLabel": "श्राद्ध - महालय प्रारंभ, पितृपक्ष प्रारंभ"
     },
     {
+      "date": "2028-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "अगस्त्य अर्घ्य",
+      "description": "पितृपक्ष के आरंभ में अगस्त्य ऋषि को अर्घ्य देने की परंपरा है। यह अर्घ्य सूर्यास्त के समय दक्षिण दिशा की ओर दिया जाता है।",
+      "category": "पितृपक्ष",
+      "reviewStatus": "approved",
+      "showReviewStatus": false
+    },
+    {
       "date": "2028-09-07",
       "dateLabel": "7 सितंबर",
       "title": "विघ्नराज संकष्टी चतुर्थी",
@@ -241,17 +250,8 @@
     {
       "date": "2028-09-24",
       "dateLabel": "24 सितंबर",
-      "title": "दुर्गा पूजा",
-      "description": "दुर्गा पूजा में माँ दुर्गा की आराधना, पुष्पांजलि, भोग और आरती की परंपरा है; बंगाल सहित कई क्षेत्रों में अनुष्ठान अलग-अलग दिनों में होते हैं।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
-    },
-    {
-      "date": "2028-09-24",
-      "dateLabel": "24 सितंबर",
-      "title": "शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
+      "title": "दुर्गा पूजा / शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "दुर्गा पूजा में माँ दुर्गा की आराधना, पुष्पांजलि, भोग और आरती की परंपरा है; बंगाल सहित कई क्षेत्रों में अनुष्ठान अलग-अलग दिनों में होते हैं। नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -272,6 +272,15 @@
       "articleLabel": "माँ कालरात्रि"
     },
     {
+      "date": "2028-09-25",
+      "dateLabel": "25 सितंबर",
+      "title": "सरस्वती आवाहन",
+      "description": "शारदीय दुर्गा पूजा के क्रम में इस दिन माँ सरस्वती का आवाहन किया जाता है।",
+      "category": "पूजा",
+      "reviewStatus": "approved",
+      "showReviewStatus": false
+    },
+    {
       "date": "2028-09-26",
       "dateLabel": "26 सितंबर",
       "title": "महाष्टमी / महानवमी — माँ महागौरी एवं सिद्धिदात्री",
@@ -279,6 +288,15 @@
       "category": "पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल अष्टमी",
+      "showReviewStatus": false
+    },
+    {
+      "date": "2028-09-26",
+      "dateLabel": "26 सितंबर",
+      "title": "सरस्वती पूजा",
+      "description": "दुर्गा पूजा के अंतर्गत माँ सरस्वती की पूजा, पुष्प अर्पण और विद्या-प्राप्ति की प्रार्थना की जाती है।",
+      "category": "पूजा",
+      "reviewStatus": "approved",
       "showReviewStatus": false
     },
     {
