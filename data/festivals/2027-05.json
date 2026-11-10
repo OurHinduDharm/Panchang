@@ -45,6 +45,16 @@
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
+      "date": "2027-05-07",
+      "dateLabel": "7 मई",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल प्रतिपदा"
+    },
+    {
       "date": "2027-05-08",
       "dateLabel": "8 मई",
       "title": "परशुराम जयंती",
@@ -67,6 +77,17 @@
       "hinduTithi": "वैशाख शुक्ल तृतीया",
       "sourceName": "Drik Panchang — पिथौरागढ़",
       "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=09/05/2027"
+    },
+    {
+      "date": "2027-05-09",
+      "dateLabel": "9 मई",
+      "title": "संकर्षण चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "वैशाख शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2027-05-09",
@@ -184,6 +205,16 @@
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2027-05-23",
+      "dateLabel": "23 मई",
+      "title": "एकदन्त संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "ज्येष्ठ कृष्ण चतुर्थी"
     },
     {
       "date": "2027-05-28",

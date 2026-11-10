@@ -7,6 +7,17 @@
   "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
+      "date": "2027-11-02",
+      "dateLabel": "2 नवंबर",
+      "title": "लाभ चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
       "date": "2027-11-04",
       "dateLabel": "4 नवंबर",
       "title": "मासिक स्कन्द षष्ठी",
@@ -107,6 +118,16 @@
       "muhurtaRule": "dev-deepawali-pradosh"
     },
     {
+      "date": "2027-11-17",
+      "dateLabel": "17 नवंबर",
+      "title": "गणाधिप संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय नगर के अनुसार अलग होता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्थी"
+    },
+    {
       "date": "2027-11-20",
       "dateLabel": "20 नवंबर",
       "title": "कालभैरव जयंती / मासिक कालाष्टमी",
@@ -155,6 +176,16 @@
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+    },
+    {
+      "date": "2027-11-29",
+      "dateLabel": "29 नवंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल प्रतिपदा"
     }
   ]
 }

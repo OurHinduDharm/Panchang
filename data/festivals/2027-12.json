@@ -7,6 +7,17 @@
   "locationScope": "पिथौरागढ़ हेतु Drik Panchang तथा स्वतंत्र पंचांग स्रोतों से पर्व-तिथि मिलान पूर्ण",
   "events": [
     {
+      "date": "2027-12-02",
+      "dateLabel": "2 दिसंबर",
+      "title": "कृच्छ्र चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
       "date": "2027-12-03",
       "dateLabel": "3 दिसंबर",
       "title": "चम्पा षष्ठी / मासिक स्कन्द षष्ठी",
@@ -84,6 +95,16 @@
     {
       "date": "2027-12-16",
       "dateLabel": "16 दिसंबर",
+      "title": "संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत और पूजन किया जाता है। सामान्यतः चंद्रोदय के बाद चंद्रमा को अर्घ्य देकर व्रत खोला जाता है; चंद्रोदय का समय नगर के अनुसार अलग होता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष कृष्ण चतुर्थी"
+    },
+    {
+      "date": "2027-12-16",
+      "dateLabel": "16 दिसंबर",
       "title": "धनु संक्रांति",
       "description": "धनु संक्रांति सूर्य के राशि-परिवर्तन से जुड़ी है। स्नान, दान और जप की परंपरा है; पुण्यकाल संक्रमण के वास्तविक समय से तय करें।",
       "category": "संक्रांति",
@@ -145,6 +166,16 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "पौष कृष्ण अमावस्या"
+    },
+    {
+      "date": "2027-12-29",
+      "dateLabel": "29 दिसंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल द्वितीया"
     }
   ]
 }

@@ -32,6 +32,16 @@
       "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270802"
     },
     {
+      "date": "2027-08-03",
+      "dateLabel": "3 अगस्त",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल प्रतिपदा"
+    },
+    {
       "date": "2027-08-04",
       "dateLabel": "4 अगस्त",
       "title": "हरियाली तीज",
@@ -39,6 +49,17 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2027-08-05",
+      "dateLabel": "5 अगस्त",
+      "title": "दूर्वा गणपति चतुर्थी",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
       "date": "2027-08-06",
@@ -140,6 +161,16 @@
       "category": "संक्रांति",
       "reviewStatus": "approved",
       "showReviewStatus": false
+    },
+    {
+      "date": "2027-08-20",
+      "dateLabel": "20 अगस्त",
+      "title": "हेरम्ब संकष्टी चतुर्थी / बहुला चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण चतुर्थी"
     },
     {
       "date": "2027-08-20",

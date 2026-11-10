@@ -55,6 +55,27 @@
       "hinduTithi": "माघ कृष्ण अमावस्या"
     },
     {
+      "date": "2027-02-08",
+      "dateLabel": "8 फरवरी",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल द्वितीया"
+    },
+    {
+      "date": "2027-02-10",
+      "dateLabel": "10 फरवरी",
+      "title": "गौरी गणेश चतुर्थी / गणेश जयंती",
+      "description": "गौरी गणेश चतुर्थी को गणेश जयंती भी कहा जाता है। माघ शुक्ल चतुर्थी पर भगवान गणेश की विशेष पूजा, स्तोत्र-मंत्र पाठ और तिल के मोदक अर्पित करने की परंपरा है। तिलकुन्द चतुर्थी और वरद चतुर्थी नाम भी प्रचलित हैं।",
+      "category": "व्रत-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल चतुर्थी",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+    },
+    {
       "date": "2027-02-11",
       "dateLabel": "11 फ़रवरी",
       "title": "वसंत पंचमी",
@@ -149,6 +170,16 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल पूर्णिमा"
+    },
+    {
+      "date": "2027-02-24",
+      "dateLabel": "24 फरवरी",
+      "title": "द्विजप्रिय संकष्टी चतुर्थी",
+      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "needs-review",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन कृष्ण चतुर्थी"
     },
     {
       "date": "2027-02-28",
