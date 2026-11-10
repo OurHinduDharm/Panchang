@@ -110,6 +110,29 @@ test("a source date overlapping the Dwadashi interval is retained as a review ca
   assert.equal(record.status,"needs-review");
 });
 
+test("2026 Drik source dates resolve four multi-day Dwadashi intervals as review candidates", async () => {
+  const sourceRules=JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"));
+  const cases=[
+    {id:"chaitra-shukla",month:"चैत्र",paksha:"शुक्ल",date:"2026-03-29",candidate:"2026-03-30",start:"2026-03-29T02:16:52.227Z",end:"2026-03-30T01:40:03.536Z",labels:["मदन द्वादशी","वामन द्वादशी"]},
+    {id:"ashadha-shukla",month:"आषाढ़",paksha:"शुक्ल",date:"2026-07-25",candidate:"2026-07-26",start:"2026-07-25T06:04:40.295Z",end:"2026-07-26T08:28:12.038Z",labels:["वासुदेव द्वादशी"]},
+    {id:"shravana-krishna",month:"श्रावण",paksha:"कृष्ण",date:"2026-08-09",candidate:"2026-08-10",start:"2026-08-09T05:35:23.959Z",end:"2026-08-10T02:31:12.865Z",labels:["कृष्ण वासुदेव द्वादशी"]},
+    {id:"kartika-krishna",month:"कार्तिक",paksha:"कृष्ण",date:"2026-11-05",candidate:"2026-11-06",start:"2026-11-05T05:06:00.008Z",end:"2026-11-06T05:00:59.972Z",labels:["गोवत्स द्वादशी","कृष्ण पद्मनाभ द्वादशी"]}
+  ];
+  for(const item of cases) {
+    const day=sunriseDay(item.candidate,item.month,item.paksha,"द्वादशी");
+    day.tithiStartTime=item.start;
+    day.tithiEndTime=item.end;
+    const result=buildDwadashiCalendar([day],sourceRules);
+    const record=result.tithis.find(x=>x.id===item.id);
+    assert.equal(record.referenceDate,item.date,item.id);
+    assert.equal(record.selectedDate,item.date,item.id);
+    assert.equal(record.dateSelection,"source-reference-date-tithi-overlap-review-required",item.id);
+    assert.deepEqual(record.drikLabels,item.labels,item.id);
+    assert.ok(record.drik2026SourceUrl?.includes("drikpanchang.com/dwadashi/dwadashi-dates.html"),item.id);
+    assert.equal(record.status,"needs-review",item.id);
+  }
+});
+
 test("a source date outside both candidates and the Dwadashi interval remains unresolved", () => {
   const day = sunriseDay("2026-05-14","ज्येष्ठ","कृष्ण","द्वादशी");
   day.tithiStartTime = "2026-05-13T08:00:15.846Z";
