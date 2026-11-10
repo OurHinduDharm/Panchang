@@ -157,6 +157,20 @@
       "hinduTithi": "माघ कृष्ण अमावस्या"
     },
     {
+      "date": "2028-01-27",
+      "dateLabel": "27 जनवरी",
+      "title": "माघ गुप्त नवरात्र प्रारंभ — माँ शैलपुत्री",
+      "description": "माघ गुप्त नवरात्र में माँ दुर्गा के नौ स्वरूपों की उपासना, जप और साधना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html\" target=\"_blank\" rel=\"noopener noreferrer\">गुप्त नवरात्र का महत्व</a> माघ गुप्त नवरात्र के प्रथम दिन माँ शैलपुत्री की पूजा और घटस्थापना की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ शैलपुत्री</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल प्रतिपदा",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/07/About-Gupt-Navratris.html",
+      "articleLabel": "गुप्त नवरात्र का महत्व",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Shailputriji-On-FirstDay-OfNavaratri.html",
+      "secondaryArticleLabel": "माँ शैलपुत्री"
+    },
+    {
       "date": "2028-01-28",
       "dateLabel": "28 जनवरी",
       "title": "चन्द्र दर्शन",
@@ -165,6 +179,30 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल द्वितीया"
+    },
+    {
+      "date": "2028-01-28",
+      "dateLabel": "28 जनवरी",
+      "title": "माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी",
+      "description": "दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल द्वितीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "articleLabel": "माँ ब्रह्मचारिणी"
+    },
+    {
+      "date": "2028-01-29",
+      "dateLabel": "29 जनवरी",
+      "title": "माघ गुप्त नवरात्र तृतीय — माँ चन्द्रघंटा",
+      "description": "तीसरे दिन माँ चन्द्रघंटा की आराधना की जाती है। देवी के इस स्वरूप का ध्यान कर पुष्प, दीप और नैवेद्य अर्पित करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
+      "articleLabel": "माँ चन्द्रघंटा"
     },
     {
       "date": "2028-01-30",
@@ -178,6 +216,18 @@
       "muhurtaRule": "vinayaka-chaturthi-madhyahna"
     },
     {
+      "date": "2028-01-30",
+      "dateLabel": "30 जनवरी",
+      "title": "माघ गुप्त नवरात्र चतुर्थ — माँ कूष्माण्डा",
+      "description": "चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। देवी के स्वरूप का ध्यान और विधिपूर्वक पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल चतुर्थी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "articleLabel": "माँ कूष्माण्डा"
+    },
+    {
       "date": "2028-01-31",
       "dateLabel": "31 जनवरी",
       "title": "वसंत पंचमी",
@@ -188,6 +238,18 @@
       "hinduTithi": "माघ शुक्ल पंचमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
       "articleLabel": "सरस्वती पूजन की विधि पढ़ें"
+    },
+    {
+      "date": "2028-01-31",
+      "dateLabel": "31 जनवरी",
+      "title": "माघ गुप्त नवरात्र पंचमी — माँ स्कन्दमाता",
+      "description": "पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता</a>",
+      "category": "नवरात्रि",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पंचमी",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
+      "articleLabel": "माँ स्कन्दमाता"
     }
   ]
 }
