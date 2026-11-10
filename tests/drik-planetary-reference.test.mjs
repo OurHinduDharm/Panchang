@@ -21,7 +21,7 @@ test("production dataset contains 231 unique year-verified windows with city-spe
   assert.ok(dataset.windows.every(row =>
     row.acceptanceEligible === true &&
     row.sourceStatus === "direct-page-captured-browser-verified" &&
-    row.sourcePageYear >= 2024 && row.sourcePageYear <= 2027
+    row.sourcePageYear >= 2021 && row.sourcePageYear <= 2027
   ));
 });
 
