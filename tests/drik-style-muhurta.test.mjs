@@ -37,7 +37,7 @@ test("Pradosh muhurta is restricted to the local sunset window and Trayodashi", 
   assert.ok(valid.windows[0].end < day.nextSunrise);
   const invalid = getFestivalMuhurta(event, {
     ...day,
-    tithis: [{ index: 12, startTime: "2027-04-15T20:00:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }]
+    tithis: [{ index: 12, startTime: "2027-04-15T21:30:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }]
   });
   assert.equal(invalid.status, "unavailable");
 });
