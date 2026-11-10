@@ -25,7 +25,7 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     await page.waitForFunction(() => {
       const panel = document.querySelector("#ohd-perf-panel")?.textContent || "";
       const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
-      return panel.includes("planetaryReference") && card.includes("Drik मूल स्रोत");
+      return panel.includes("planetaryReference") && card.includes("अस्त प्रारम्भ") && !card.includes("Drik मूल स्रोत");
     }, null, { timeout: 180000 });
 
     const card = page.locator("#planetRiseSetCard");
@@ -62,7 +62,7 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
       timeout: 60000
     });
     assert.ok(normalResponse?.ok(), "normal Panchang page must load");
-    await normalPage.waitForFunction(() => (document.querySelector("#planetRiseSetCard")?.innerText || "").includes("Drik मूल स्रोत"), null, { timeout: 180000 });
+    await normalPage.waitForFunction(() => { const card = document.querySelector("#planetRiseSetCard")?.innerText || ""; return card.includes("अस्त प्रारम्भ") && !card.includes("Drik मूल स्रोत"); }, null, { timeout: 180000 });
     assert.equal(await normalPage.locator("#ohd-perf-panel").count(), 0, "normal page must not render diagnostics");
     await normalPage.close();
 
@@ -82,7 +82,7 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     assert.ok(mumbaiResponse?.ok(), "Mumbai Panchang page must load");
     await mumbaiPage.waitForFunction(() => {
       const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
-      return card.includes("Mumbai, Maharashtra, India") && card.includes("Drik मूल स्रोत");
+      return card.includes("अस्त प्रारम्भ") && !card.includes("Drik मूल स्रोत");
     }, null, { timeout: 180000 });
     const mumbaiCard = await mumbaiPage.locator("#planetRiseSetCard").innerText();
     assert.doesNotMatch(mumbaiCard, /Drik Panchang के पिथौरागढ़/);
