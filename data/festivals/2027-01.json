@@ -126,8 +126,8 @@
       "showReviewStatus": false,
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html",
       "articleLabel": "मकर संक्रांति",
-      "sourceName": "Drik Panchang — 2027 Sankranti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/sankranti/sankranti-calendar.html"
+      "sourceName": "Drik Panchang — January 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-january.html?year=2027"
     },
     {
       "date": "2027-01-16",
@@ -174,7 +174,9 @@
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "पौष शुक्ल एकादशी"
+      "hinduTithi": "पौष शुक्ल एकादशी",
+      "sourceName": "Drik Panchang — January 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-january.html?year=2027"
     },
     {
       "date": "2027-01-19",
@@ -183,7 +185,9 @@
       "description": "पौष शुक्ल द्वादशी को भगवान विष्णु के कूर्म अवतार का पूजन किया जाता है। इस दिन विष्णु-पूजन, व्रत और दान की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "hinduTithi": "पौष शुक्ल द्वादशी"
+      "hinduTithi": "पौष शुक्ल द्वादशी",
+      "sourceName": "Drik Panchang — 2027 Dwadashi Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2027"
     },
     {
       "date": "2027-01-20",
