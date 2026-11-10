@@ -35,7 +35,9 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "ekadashi-parana",
-      "hinduTithi": "पौष शुक्ल एकादशी"
+      "hinduTithi": "पौष शुक्ल एकादशी",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/01/About-Tailang-SwamiJi-On-His-Jayanti.html",
+      "articleLabel": "तैलंग स्वामी जयंती का महत्व पढ़ें"
     },
     {
       "date": "2028-01-09",
@@ -71,7 +73,9 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-Goddess-Shatakshi-On-Shaakambhari-Jayanti.html",
       "articleLabel": "शाकंभरी माता जयंती",
       "sourceName": "Drik Panchang — Shakambhari Purnima",
-      "sourceUrl": "https://www.drikpanchang.com/navratri/shakambari/shakambari-purnima-date-time.html?year=2028"
+      "sourceUrl": "https://www.drikpanchang.com/navratri/shakambari/shakambari-purnima-date-time.html?year=2028",
+      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2014/12/About-Paush-Mahatmya.html",
+      "secondaryArticleLabel": "पौष मास का माहात्म्य पढ़ें"
     },
     {
       "date": "2028-01-14",

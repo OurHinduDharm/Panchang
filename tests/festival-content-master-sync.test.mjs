@@ -121,3 +121,27 @@ test("applies specific Rama Ekadashi and Makar Sankranti aliases", () => {
   assert.equal(findMatchingFestivalTemplates({ title: "मकर संक्रांति / उत्तरायण / पोंगल" }, templates)[0].key,
     "मकर संक्रांति सूर्य उत्तरायण प्रारम्भ");
 });
+
+
+test("matches the alternate Tailang spelling on a combined Paush Putrada card", () => {
+  const templates = [
+    { key: "तैलंग स्वामी जयंती", articleUrl: "https://example.com/tailang", articleLabel: "तैलंग स्वामी जयंती" }
+  ];
+  const matched = findMatchingFestivalTemplates(
+    { title: "पौष पुत्रदा एकादशी / टेलंग स्वामी जयंती" },
+    templates
+  );
+  assert.equal(matched[0]?.key, "तैलंग स्वामी जयंती");
+});
+
+
+test("matches the combined Diwali and Lakshmi-Ganesh title variant", () => {
+  const templates = [
+    { key: "दीपावली लक्ष्मी पूजन", articleUrl: "https://example.com/mahalakshmi", articleLabel: "महालक्ष्मी पूजन विधि" }
+  ];
+  const matched = findMatchingFestivalTemplates(
+    { title: "दीपावली / लक्ष्मी-गणेश पूजन / कमला महाविद्या जयंती" },
+    templates
+  );
+  assert.equal(matched[0]?.key, "दीपावली लक्ष्मी पूजन");
+});
