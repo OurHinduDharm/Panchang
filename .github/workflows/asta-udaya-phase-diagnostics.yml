@@ -1,10 +1,13 @@
-name: Asta-Udaya phase diagnostics browser test
+name: Direct Drik planetary reference card tests
 
 on:
   pull_request:
     branches: [main]
     paths:
       - "extra-panchang.js"
+      - "research/drik-planetary-reference.mjs"
+      - "data/drik-planetary-reference-2024-2027.json"
+      - "tests/drik-planetary-reference.test.mjs"
       - "tests/asta-udaya-phase-diagnostics.spec.mjs"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
 
@@ -21,19 +24,23 @@ jobs:
         with:
           node-version: 22
       - name: Install pinned browser test dependency
-        run: npm install --no-save playwright@1.55.0
+        run: npm install --no-save playwright@1.55.0 astronomy-engine@2.1.19
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Serve repository files
         run: |
-          python3 -m http.server 8080 --bind 127.0.0.1 > /tmp/asta-udaya-http.log 2>&1 &
+          python3 -m http.server 8080 --bind 127.0.0.1 > /tmp/drik-reference-http.log 2>&1 &
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:8080/index.html > /dev/null; then
               exit 0
             fi
             sleep 1
           done
-          cat /tmp/asta-udaya-http.log
+          cat /tmp/drik-reference-http.log
           exit 1
-      - name: Verify opt-in counters and unchanged visible output
+      - name: Validate direct Drik reference lookup and no-fallback policy
+        run: node --test tests/drik-planetary-reference.test.mjs
+      - name: Verify location scope and planetary direction regressions
+        run: node --test tests/planetary-asta-udaya-location-scope.test.mjs tests/planetary-asta-udaya-direction.test.js tests/planetary-boundary-cache.test.mjs tests/panchang-card-order.test.js
+      - name: Verify seven-body Panchang display and unchanged performance mode
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs

@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { readFileSync } from "node:fs";
 
 test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", async () => {
   const browser = await chromium.launch({ headless: true });
@@ -24,26 +25,26 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     await page.waitForFunction(() => {
       const panel = document.querySelector("#ohd-perf-panel")?.textContent || "";
       const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
-      return panel.includes("planetDiagnostics") && card.length > 20;
+      return panel.includes("planetaryReference") && card.includes("Drik मूल स्रोत");
     }, null, { timeout: 180000 });
 
     const card = page.locator("#planetRiseSetCard");
     const initialFingerprint = (await card.innerText()).replace(/\s+/g, " ").trim();
     const panel = await page.locator("#ohd-perf-panel").innerText();
-    assert.match(panel, /"dailyRequests":\s*[1-9]\d*/);
-    assert.match(panel, /"dailyCacheHits":\s*\d+/);
-    assert.match(panel, /"dailyCacheMisses":\s*\d+/);
-    assert.match(panel, /"dailyEphemerisCalls":\s*\d+/);
-    assert.match(panel, /"bisectionEvaluations":\s*\d+/);
-    assert.match(panel, /"boundaryScanDays":\s*\d+/);
-    assert.match(panel, /"pairedBoundaryCacheHits":\s*\d+/);
+    assert.match(panel, /direct-drik-city-data; no ephemeris scan/);
+    assert.doesNotMatch(initialFingerprint, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
+    assert.match(initialFingerprint, /अस्त प्रारम्भ/);
+    assert.match(initialFingerprint, /पुनः उदय/);
+    assert.match(initialFingerprint, /सूर्य/);
+    assert.match(initialFingerprint, /चंद्रमा/);
+    assert.match(initialFingerprint, /उदय/);
 
     await page.locator("#dateInput").fill("2026-11-01");
     await page.locator("#dateInput").dispatchEvent("change");
-    await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetDiagnostics").length >= 2, null, { timeout: 180000 });
+    await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetaryReference").length >= 2, null, { timeout: 180000 });
     await page.locator("#dateInput").fill("2026-10-31");
     await page.locator("#dateInput").dispatchEvent("change");
-    await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetDiagnostics").length >= 3, null, { timeout: 180000 });
+    await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetaryReference").length >= 3, null, { timeout: 180000 });
 
     const finalFingerprint = (await card.innerText()).replace(/\s+/g, " ").trim();
     assert.equal(finalFingerprint, initialFingerprint, "visible Asta-Udaya result must remain identical after date round-trip");
@@ -61,13 +62,46 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
       timeout: 60000
     });
     assert.ok(normalResponse?.ok(), "normal Panchang page must load");
-    await normalPage.waitForSelector("#planetRiseSetCard", { timeout: 180000 });
+    await normalPage.waitForFunction(() => (document.querySelector("#planetRiseSetCard")?.innerText || "").includes("Drik मूल स्रोत"), null, { timeout: 180000 });
     assert.equal(await normalPage.locator("#ohd-perf-panel").count(), 0, "normal page must not render diagnostics");
     await normalPage.close();
+
+    const mumbaiPage = await browser.newPage();
+    await mumbaiPage.addInitScript(() => localStorage.setItem("ohdPanchangLocation", JSON.stringify({
+      name: "Mumbai, Maharashtra, India",
+      lat: 19.0760,
+      lon: 72.8777,
+      elevation: 14,
+      state: "Maharashtra",
+      city: "Mumbai"
+    })));
+    const mumbaiResponse = await mumbaiPage.goto("http://127.0.0.1:8080/index.html?date=2026-10-31", {
+      waitUntil: "domcontentloaded",
+      timeout: 60000
+    });
+    assert.ok(mumbaiResponse?.ok(), "Mumbai Panchang page must load");
+    await mumbaiPage.waitForFunction(() => {
+      const card = document.querySelector("#planetRiseSetCard")?.innerText || "";
+      return card.includes("Mumbai, Maharashtra, India") && card.includes("Drik मूल स्रोत");
+    }, null, { timeout: 180000 });
+    const mumbaiCard = await mumbaiPage.locator("#planetRiseSetCard").innerText();
+    assert.doesNotMatch(mumbaiCard, /Drik Panchang के पिथौरागढ़/);
+    assert.doesNotMatch(mumbaiCard, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
+    await mumbaiPage.close();
 
     console.log("Asta-Udaya diagnostic counters rendered only in opt-in mode; visible fingerprint unchanged:\\n" + initialFingerprint);
     console.log(panel);
   } finally {
     await browser.close();
   }
+});
+
+
+test("production Asta/Udaya card has no provisional angular-threshold engine", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  assert.match(source, /loadDrikPlanetaryReferenceData/);
+  assert.match(source, /drik-planetary-reference-2024-2027\.json/);
+  assert.match(source, /getDrikPlanetaryReference/);
+  assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findThresholdCrossingInstant|findNearestAngularBoundary|getLocalNoon\(/);
+  assert.doesNotMatch(source, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
 });

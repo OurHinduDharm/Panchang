@@ -121,111 +121,33 @@ test("Extra Panchang placement helpers target the shared results grid", () => {
 });
 
 
-test("Planetary Asta/Udaya card keeps calculation labels and one concise final disclosure", () => {
+test("Planetary Asta/Udaya card displays direct source labels and seven celestial bodies", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const start = source.indexOf("function createPlanetCard(");
   const end = source.indexOf("\nfunction createHoraCard(", start);
-  assert.notEqual(start, -1, "planet card renderer must exist");
-  assert.notEqual(end, -1, "planet card renderer must end before Hora card");
-
-  const cardSource = source.slice(start, end);
-  assert.ok(cardSource.includes("कोणीय अनुमानित अस्त"));
-  assert.ok(cardSource.includes("कोणीय अनुमानित उदय"));
-  assert.ok(cardSource.includes("ये समय भू-केंद्रीय सूर्य–ग्रह कोणीय दूरी पर आधारित गणितीय अनुमान हैं; स्थानीय दृश्यता एवं शास्त्रीय K/C सत्यापन जारी है।"));
-  assert.ok(!cardSource.includes("प्रामाणिकता की स्थिति"));
-  assert.ok(!cardSource.includes("सूर्यसिद्धान्त अध्याय ३.४३–४६"));
-  assert.ok(!cardSource.includes("प्रमाणित घोषित करने की शर्त"));
-  assert.equal(cardSource.split("स्थानीय दृश्यता एवं शास्त्रीय K/C सत्यापन जारी है").length - 1, 1);
-  assert.ok(!cardSource.includes("शास्त्रीय K/C गणना — सत्यापनाधीन"));
-  assert.ok(!cardSource.includes("!planet.verificationPending && planet.asta"));
-  assert.ok(!cardSource.includes("!planet.verificationPending && planet.udaya"));
-});
-
-test("Hora and classical-yoga disclosure states survive card refreshes", () => {
-  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-  const start = source.indexOf("function capturePanchangDisclosureState() {");
-  const end = source.indexOf("function updatePlanetRiseSet()", start);
-  assert.notEqual(start, -1, "disclosure-state helpers must exist");
-  assert.notEqual(end, -1, "disclosure-state helpers must end before the main update");
-
-  const makeCard = states => ({
-    details: states.map(open => ({ open: Boolean(open) })),
-    querySelectorAll(selector) {
-      assert.equal(selector, "details");
-      return this.details;
-    }
-  });
-  const cards = new Map([
-    ["horaCard", makeCard([true, false])],
-    ["classicalYogasCard", makeCard([true])]
-  ]);
-  const sandbox = {
-    document: {
-      getElementById(id) {
-        return cards.get(id) || null;
-      }
-    }
-  };
-
-  vm.runInNewContext(source.slice(start, end), sandbox);
-  const state = sandbox.capturePanchangDisclosureState();
-
-  // Simulate the refresh replacing both cards with all details closed.
-  cards.set("horaCard", makeCard([false, false]));
-  cards.set("classicalYogasCard", makeCard([false]));
-  sandbox.restorePanchangDisclosureState(state);
-
-  assert.deepEqual(cards.get("horaCard").details.map(item => item.open), [true, false]);
-  assert.deepEqual(cards.get("classicalYogasCard").details.map(item => item.open), [true]);
-});
-
-
-test("Planetary boundary-bracket cache reuses only dates strictly inside a valid pair", () => {
-  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
-  const start = source.indexOf("const PLANET_ASTA_THRESHOLDS = {");
-  const end = source.indexOf("function createPlanetCard(", start);
   assert.notEqual(start, -1);
-  assert.ok(end > start);
+  assert.notEqual(end, -1);
+  const cardSource = source.slice(start, end);
+  assert.ok(cardSource.includes("अस्त प्रारम्भ"));
+  assert.ok(cardSource.includes("पुनः उदय"));
+  assert.ok(cardSource.includes("Drik मूल स्रोत"));
+  assert.ok(cardSource.includes("सूर्य"));
+  assert.ok(cardSource.includes("चंद्रमा"));
+  assert.ok(cardSource.includes("स्रोत: Drik Panchang का"));
+  assert.ok(!cardSource.includes("कोणीय अनुमानित"));
+  assert.ok(!cardSource.includes("सत्यापनाधीन"));
+});
 
-  const selectedDate = "2026-01-15";
-  const anchor = new Date(selectedDate + "T12:00:00+05:30").getTime();
-  let elongationCalls = 0;
-  const sandbox = {
-    Date, Map, Number, String, Math, console,
-    PLANETS: [{ body: "Venus", name: "शुक्र" }],
-    getLocalNoon(date) {
-      return new Date(date + "T12:00:00+05:30");
-    },
-    addDays(date, days) {
-      const value = new Date(date + "T12:00:00+05:30");
-      value.setUTCDate(value.getUTCDate() + days);
-      return value.toISOString().slice(0, 10);
-    },
-    Elongation(body, instant) {
-      elongationCalls++;
-      const offset = (instant.getTime() - anchor) / 86400000;
-      return {
-        ecliptic_separation: 10 + 12 * Math.sin((2 * Math.PI * offset / 70) + 0.5)
-      };
-    },
-    formatEventDateTime(instant) {
-      return instant.toISOString();
-    }
-  };
-
-  vm.runInNewContext(source.slice(start, end), sandbox);
-  const first = sandbox.getPlanetEvent({ body: "Venus", name: "शुक्र" }, selectedDate);
-  assert.ok(first.asta && first.udaya, "both boundary estimates should be found");
-  const callsAfterFirst = elongationCalls;
-
-  const adjacentDate = sandbox.addDays(selectedDate, 1);
-  const adjacent = sandbox.getPlanetEvent({ body: "Venus", name: "शुक्र" }, adjacentDate);
-  assert.deepEqual(adjacent, first, "an interior date should reuse the same enclosing boundary pair");
-  assert.equal(elongationCalls, callsAfterFirst,
-    "a date strictly inside the cached boundary interval must not recalculate elongation");
-
-  const outsideDate = sandbox.addDays(selectedDate, 45);
-  sandbox.getPlanetEvent({ body: "Venus", name: "शुक्र" }, outsideDate);
-  assert.ok(elongationCalls > callsAfterFirst,
-    "a date outside the cached interval must run the normal calculation path");
+test("production Panchang no longer contains fixed-angle threshold or daily scan engine", () => {
+  const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
+  for (const legacy of [
+    "PLANET_ASTA_THRESHOLDS",
+    "findNearestAngularBoundary",
+    "findThresholdCrossingInstant",
+    "planetEventBracketCache",
+    "getPlanetEvent"
+  ]) assert.ok(!source.includes(legacy), legacy + " must be removed from production");
+  assert.ok(source.includes("getDrikPlanetaryReference"));
+  assert.ok(source.includes("loadDrikPlanetaryReferenceData"));
+  assert.ok(source.includes("force-cache"));
 });
