@@ -175,6 +175,7 @@ export function findVisibilityBoundaryNearAnchor({
       sunAltitude,
       planetAltitude,
       apparentMagnitude,
+      magnitudeDirectionInteraction: apparentMagnitude * direction,
       longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
       retrograde: motion.retrograde,
       retrogradeState: motion.retrogradeState,
