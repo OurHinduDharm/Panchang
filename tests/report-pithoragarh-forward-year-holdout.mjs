@@ -223,7 +223,10 @@ for (const planet of Object.keys(variantsByPlanet)) {
             startDate: new Date(Date.UTC(eventYear, 0, 1)),
             endDate: new Date(Date.UTC(eventYear, 11, 31, 23, 59, 59)),
             searchDays, timeZone: TIME_ZONE
-          }).filter(window => window.status === "candidate");
+          }).filter(window =>
+            window.status === "candidate" &&
+            window.asta.predictedBoundaryDate?.slice(0, 4) === String(eventYear)
+          );
           candidateRows.push(...candidates);
         }
 
