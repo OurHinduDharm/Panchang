@@ -1337,7 +1337,6 @@ if(
    * =========================================================
    */
 
-  replaceOrPlacePanchangCard("planetRiseSetCard", planetCard);
   replaceOrPlacePanchangCard("horaCard", horaCard);
   replaceOrPlacePanchangCard("classicalYogasCard", classicalYogaCard);
   replaceOrPlacePanchangCard("nivasCard", nivasCard);
