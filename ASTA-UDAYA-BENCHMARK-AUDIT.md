@@ -91,3 +91,8 @@ Swiss heliacal rising/setting एक भौतिक visibility candidate है
 4. Swiss और classical K/C diagnostics को अलग-अलग benchmark करें; event definition match न हो तो model reject/limit करें।
 5. Independent ephemeris cross-check और location sensitivity के बाद ही modern production engine चुनें।
 6. Accuracy gate पास होने के बाद measured performance bottleneck optimize करें।
+
+
+## स्रोत-स्थान निर्देशांक सीमा (2026-11-10 सुधार)
+
+`Heliacal Rising and setting of planets` तथा `Visibility of Planets` के उद्धृत IMD पृष्ठ Central Station of India का नाम देते हैं, लेकिन उन पृष्ठों पर उसके latitude/longitude/elevation नहीं देते। इसलिए इन entries को `city-label-only` रखा गया है। पहले benchmark में Central Station के लिए 23°11′ N, 82°30′ E को source-published coordinates कहना अधिक मजबूत दावा था; इसे हटाया गया है। जब तक अलग प्राथमिक स्रोत से स्टेशन निर्देशांक न मिलें, इन cases पर coordinate-exact validation नहीं लिखना है।
