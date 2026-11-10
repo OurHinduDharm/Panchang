@@ -128,13 +128,16 @@
     {
       "date": "2027-02-11",
       "dateLabel": "11 फ़रवरी",
-      "title": "वसंत पंचमी",
+      "title": "वसंत पंचमी / श्री पंचमी / सरस्वती सिद्धविद्या जयंती",
       "description": "वसंत पंचमी पर माँ सरस्वती की पूजा, विद्यारम्भ, पुस्तक-पूजन और पीले रंग के वस्त्र/भोग की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">सरस्वती पूजन की विधि पढ़ें</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
-      "articleLabel": "सरस्वती पूजन की विधि पढ़ें"
+      "articleLabel": "सरस्वती पूजन की विधि पढ़ें",
+      "hinduTithi": "माघ शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — Vasant Panchami 2027",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?geoname-id=1273294"
     },
     {
       "date": "2027-02-11",
