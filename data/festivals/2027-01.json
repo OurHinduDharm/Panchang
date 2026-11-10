@@ -132,13 +132,22 @@
     {
       "date": "2027-01-15",
       "dateLabel": "15 जनवरी",
-      "title": "मकर संक्रांति / पोंगल / उत्तरायण / मकरविलक्कु / माघ बिहू",
-      "description": "सूर्य के मकर राशि में प्रवेश का पर्व मकर संक्रांति कहलाता है। देश के विभिन्न भागों में इसे पोंगल, उत्तरायण और माघ बिहू के रूप में भी मनाया जाता है। सबरीमला में भगवान अय्यप्पा का मकरविलक्कु उत्सव भी इसी अवसर से जुड़ा है। स्नान, दान, तिल-गुड़ और अन्नदान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\" rel=\"noopener noreferrer\">मकर संक्रांति</a>",
-      "category": "संक्रांति",
+      "title": "मकरविलक्कु",
+      "description": "मकर संक्रांति के अवसर पर सबरीमला में भगवान अय्यप्पा के मकरविलक्कु दर्शन और दीपोत्सव का आयोजन होता है।",
+      "category": "अय्यप्पा-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "articleUrl": "http://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html",
-      "articleLabel": "मकर संक्रांति",
+      "sourceName": "Drik Panchang — January 2027 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-january.html?year=2027"
+    },
+    {
+      "date": "2027-01-15",
+      "dateLabel": "15 जनवरी",
+      "title": "माघ बिहू / भोगाली बिहू",
+      "description": "असम में माघ संक्रांति के आसपास माघ बिहू या भोगाली बिहू फसल-उत्सव के रूप में मनाया जाता है। सामुदायिक भोज, मेजी-अग्नि और अन्न-समृद्धि की कामना इसकी प्रमुख परंपराएँ हैं।",
+      "category": "क्षेत्रीय फसल-पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
       "sourceName": "Drik Panchang — January 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-january.html?year=2027"
     },
