@@ -107,6 +107,7 @@ test("2028 additional major observances are present with their reviewed tithis",
 
   assert.equal(has("2028-09-02", /अनंत चतुर्दशी/).hinduTithi, "भाद्रपद शुक्ल चतुर्दशी");
   assert.ok(has("2028-09-24", /दुर्गा पूजा/));
+  assert.equal(has("2028-09-12", /जीवित्पुत्रिका व्रत/).hinduTithi, "आश्विन कृष्ण अष्टमी");
   assert.ok(has("2028-09-25", /सरस्वती आवाहन/));
   assert.ok(has("2028-09-26", /सरस्वती पूजा/));
 
