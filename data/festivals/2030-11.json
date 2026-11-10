@@ -218,6 +218,16 @@
     {
       "date": "2030-11-23",
       "dateLabel": "23 नवंबर",
+      "title": "शनि प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण पक्ष त्रयोदशी"
+    },
+    {
+      "date": "2030-11-23",
+      "dateLabel": "23 नवंबर",
       "title": "मासिक शिवरात्रि",
       "description": "मासिक शिवरात्रि कृष्ण पक्ष की चतुर्दशी को मनाई जाती है। इस दिन भगवान शिव का पूजन, जलाभिषेक, बिल्वपत्र अर्पण और रात्रि-जागरण की परंपरा है।",
       "category": "व्रत",
@@ -227,16 +237,6 @@
       "muhurtaRule": "masik-shivaratri-nishita",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
-    },
-    {
-      "date": "2030-11-23",
-      "dateLabel": "23 नवंबर",
-      "title": "शनि प्रदोष व्रत",
-      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण पक्ष त्रयोदशी"
     },
     {
       "date": "2030-11-24",
