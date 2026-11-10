@@ -168,7 +168,12 @@ const variantsByPlanet = {
       "apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction"
     ] }
   ],
-  Venus: [{ name: "magnitude-only", keys: ["apparentMagnitude"] }],
+  Venus: [
+    { name: "magnitude-only", keys: ["apparentMagnitude"] },
+    { name: "magnitude+event-direction", keys: [
+      "apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction"
+    ] }
+  ],
   Mars: [{ name: "magnitude-only", keys: ["apparentMagnitude"] }],
   Jupiter: [{ name: "magnitude-only", keys: ["apparentMagnitude"] }],
   Saturn: [{ name: "magnitude-only", keys: ["apparentMagnitude"] }]
