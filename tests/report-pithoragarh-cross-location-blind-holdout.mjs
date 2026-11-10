@@ -4,6 +4,7 @@ import { generateVisibilityWindows } from "../research/planetary-visibility-sele
 
 const dataset = JSON.parse(await readFile(new URL("../data/asta-udaya-benchmark.json", import.meta.url), "utf8"));
 const TIME_ZONE = "Asia/Kolkata";
+const NEW_DELHI_PROXY = new Astronomy.Observer(28.6139, 77.2090, 216);
 
 function dayNumber(value) {
   const [year, month, day] = value.slice(0, 10).split("-").map(Number);
@@ -19,6 +20,7 @@ function localDate(date) {
 }
 
 function observerFor(entry) {
+  if (/New Delhi/i.test(entry.sourceLocation || "")) return NEW_DELHI_PROXY;
   const p = entry.testObserver;
   if (!Number.isFinite(p?.latitude) || !Number.isFinite(p?.longitude)) return null;
   return new Astronomy.Observer(p.latitude, p.longitude, p.elevationMeters ?? 0);
@@ -69,7 +71,7 @@ function fit(samples) {
 }
 
 const trainingEntries = dataset.cases.filter(entry =>
-  entry.status === "published-reference" &&
+  ["published-reference", "independently-confirmed-city-label-only"].includes(entry.status) &&
   /New Delhi/i.test(entry.sourceLocation || "") &&
   entry.precision === "minute" &&
   observerFor(entry)
