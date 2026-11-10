@@ -48,23 +48,16 @@
     {
       "date": "2027-07-05",
       "dateLabel": "5 जुलाई",
-      "title": "चन्द्र दर्शन / गुप्त नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। गुप्त नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
+      "title": "जगन्नाथ रथयात्रा / चन्द्र दर्शन / गुप्त नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। गुप्त नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a> जगन्नाथ रथयात्रा में भगवान जगन्नाथ, बलभद्र और सुभद्रा के विग्रहों की रथयात्रा निकाली जाती है। पुरी इसका प्रमुख केंद्र है; अन्य क्षेत्रों में स्थानीय रीति होती है।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल द्वितीया",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
-      "articleLabel": "माँ ब्रह्मचारिणी"
-    },
-    {
-      "date": "2027-07-05",
-      "dateLabel": "5 जुलाई",
-      "title": "जगन्नाथ रथयात्रा",
-      "description": "जगन्नाथ रथयात्रा में भगवान जगन्नाथ, बलभद्र और सुभद्रा के विग्रहों की रथयात्रा निकाली जाती है। पुरी इसका प्रमुख केंद्र है; अन्य क्षेत्रों में स्थानीय रीति होती है।",
-      "category": "पर्व",
-      "reviewStatus": "approved",
-      "showReviewStatus": false
+      "articleLabel": "माँ ब्रह्मचारिणी",
+      "sourceName": "Drik Panchang — 2027 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour"
     },
     {
       "date": "2027-07-06",
@@ -77,7 +70,7 @@
       "hinduTithi": "आषाढ़ शुक्ल तृतीया",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
       "articleLabel": "माँ चन्द्रघंटा",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2027 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour"
     },
     {
@@ -91,7 +84,9 @@
       "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
       "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
-      "articleLabel": "माँ कूष्माण्डा"
+      "articleLabel": "माँ कूष्माण्डा",
+      "sourceName": "Drik Panchang — 2027 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour"
     },
     {
       "date": "2027-07-08",
@@ -103,7 +98,9 @@
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल पंचमी / षष्ठी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
-      "articleLabel": "माँ स्कन्दमाता"
+      "articleLabel": "माँ स्कन्दमाता",
+      "sourceName": "Drik Panchang — 2027 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour"
     },
     {
       "date": "2027-07-09",
@@ -116,7 +113,7 @@
       "hinduTithi": "आषाढ़ शुक्ल षष्ठी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
       "articleLabel": "माँ कात्यायनी",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2027 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour"
     },
     {
@@ -130,7 +127,7 @@
       "hinduTithi": "आषाढ़ शुक्ल सप्तमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
       "articleLabel": "माँ कालरात्रि",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2027 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour"
     },
     {
@@ -143,7 +140,9 @@
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
-      "articleLabel": "माँ महागौरी"
+      "articleLabel": "माँ महागौरी",
+      "sourceName": "Drik Panchang — 2027 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour"
     },
     {
       "date": "2027-07-12",
@@ -156,7 +155,7 @@
       "hinduTithi": "आषाढ़ शुक्ल नवमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
       "articleLabel": "माँ सिद्धिदात्री",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2027 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
       "secondaryArticleLabel": "कलश-विसर्जन विधि"
