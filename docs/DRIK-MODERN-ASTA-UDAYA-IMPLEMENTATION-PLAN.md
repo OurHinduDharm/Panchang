@@ -588,3 +588,16 @@ Lookup helper: `research/drik-planetary-reference.mjs`. Regression: `tests/drik-
 अलग clean PR #299 में main Panchang card अब केवल पिथौरागढ़ तक सीमित नहीं है। यह `data/drik-planetary-reference-2024-2027.json` से 5 verified city references (New Delhi, Mumbai, Ujjain, Varanasi, Pithoragarh) और 200 unique windows पढ़ता है। हर city के 40 windows हैं। 2028-render mismatch pages dataset से बाहर हैं। Exact city match के बिना दूसरे शहर का fallback नहीं। Provider coordinates/elevation unavailable होने के कारण display city-level published reference है, exact observer-coordinate prediction नहीं।
 
 Sun/Moon daily local rise/set अभी भी existing `getPanchangam` events से आते हैं। Mercury/Venus/Mars/Jupiter/Saturn Tara Asta/Udaya rows source-page link सहित आते हैं। Fixed-angle production scanner हट चुका है। पाँच नगरों के बाहर कोई approximate Drik time नहीं दिखाया जाता।
+
+
+### Main deployment record — 10 नवम्बर 2026
+- Source-backed five-city Panchang card PR #299 squash-merged to main.
+- Merge commit: `b4794e38960c60510ec9af9c3b62afa5163ff2c4`.
+- GitHub Pages build + deploy: success.
+- jsDelivr cache purge: success.
+- Main CodeQL JavaScript/TypeScript and GitHub Actions scans: success.
+- PR validation: 352/352 main feature tests, 4/4 classical-yoga tests, 9/9 direct-reference/browser tests passed.
+- Browser perf sample (2026-10-31): main calculation 65.1 ms; Extra Panchang 64 ms; direct Drik lookup/card phase 1.5 ms; no planetary ephemeris scan.
+- Browser card smoke: Pithoragarh shows Sun/Moon daily rise/set and direct Mercury/Venus/Jupiter/Saturn reference rows; Mars correctly says no verified future row in captured range. Mumbai smoke displays Mumbai's own source page, not Pithoragarh or Delhi fallback.
+
+**Production status:** direct published-reference display is deployed. Computed universal ephemeris Asta/Udaya engine and annual calculated page remain open research tasks; no provisional angular threshold output remains in production.
