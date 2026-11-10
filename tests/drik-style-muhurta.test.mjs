@@ -83,6 +83,21 @@ test("Janmashtami Nishita puja requires Krishna Ashtami overlap", () => {
   assert.ok(result.windows[0].start < result.windows[0].end);
 });
 
+test("Kalashtami Nishita puja requires Krishna Ashtami overlap", () => {
+  const event = { muhurtaRule: "kalashtami-nishita" };
+  const valid = getFestivalMuhurta(event, {
+    ...day,
+    tithis: [{ index: 22, startTime: "2027-04-15T23:00:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }]
+  });
+  assert.equal(valid.status, "calculated");
+  assert.equal(valid.windows.length, 1);
+  const invalid = getFestivalMuhurta(event, {
+    ...day,
+    tithis: [{ index: 22, startTime: "2027-04-16T01:00:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }]
+  });
+  assert.equal(invalid.status, "unavailable");
+});
+
 test("Raksha Bandhan excludes Bhadra and preserves an early Purnima window", () => {
   const result = getFestivalMuhurta({ muhurtaRule: "raksha-bandhan-thread" }, {
     ...day,
