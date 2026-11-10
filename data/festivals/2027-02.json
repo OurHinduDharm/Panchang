@@ -241,7 +241,8 @@
       "showReviewStatus": false,
       "hinduTithi": "माघ शुक्ल पूर्णिमा",
       "sourceName": "Time and Date — Pithoragarh",
-      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270220"
+      "sourceUrl": "https://www.timeanddate.com/eclipse/in/india/pithoragarh?iso=20270220",
+      "timingType": "eclipse-visibility"
     },
     {
       "date": "2027-02-24",
