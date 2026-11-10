@@ -8,6 +8,7 @@ const dataset = JSON.parse(readFileSync(resolve(here, "../data/asta-udaya-benchm
 const NEW_DELHI_PROXY = new Astronomy.Observer(28.6139, 77.2090, 216);
 
 const DIRECTIONS = {
+  "venus-new-delhi-2023": { astaStart: -1, astaEnd: 1 },
   "venus-new-delhi-2024": { astaStart: 1, astaEnd: -1 },
   "venus-new-delhi-2025-march": { astaStart: -1, astaEnd: 1 },
   "venus-new-delhi-2025-december-to-2026-february": { astaStart: 1, astaEnd: -1 },
@@ -18,6 +19,7 @@ const DIRECTIONS = {
 };
 
 const NEW_DELHI_IDS = [
+  "venus-new-delhi-2023",
   "venus-new-delhi-2024",
   "venus-new-delhi-2025-march",
   "venus-new-delhi-2025-december-to-2026-february",
