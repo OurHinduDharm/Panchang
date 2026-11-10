@@ -21,6 +21,7 @@ jobs:
           node --experimental-default-type=module --check app.js
           node --experimental-default-type=module --check night-prahar.js
           node --experimental-default-type=module --check extra-panchang.js
+          node --check local-horizon-events.mjs
           node --experimental-default-type=module --check festivals.js
           node --experimental-default-type=module --check nivas.js
           node --experimental-default-type=module --check festival-filter.js
