@@ -111,13 +111,15 @@
       "date": "2030-01-14",
       "dateLabel": "14 जनवरी",
       "title": "मकर संक्रांति / उत्तरायण / पोंगल",
-      "description": "मकर संक्रांति पर सूर्योपासना, स्नान, दान और उत्तरायण पुण्यकाल का विधान है।",
+      "description": "मकर संक्रांति पर सूर्योपासना, स्नान, दान और उत्तरायण पुण्यकाल का विधान है। <a href=\"https://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html\" target=\"_blank\" rel=\"noopener noreferrer\">मकर संक्रांति</a>",
       "category": "संक्रांति",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "सूर्य का मकर राशि में प्रवेश",
       "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2014/01/About-MakarSankranti-And-Sooryashtakam.html",
+      "articleLabel": "मकर संक्रांति"
     },
     {
       "date": "2030-01-15",
