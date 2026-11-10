@@ -960,3 +960,15 @@ Drik के 2025 New Delhi pages से Mercury की छह windows के अ
 यह अब तीन वर्षों का cross-year result है, लेकिन 74 predictions में वही 37 unique boundary events अलग-अलग train-year fits के अंतर्गत दोहराए गए हैं—इन्हें 74 स्वतंत्र observations न समझें। Search window published date के ±20 दिन पर anchored था; इसलिए यह पूर्ण blind forecast नहीं है। सभी references New Delhi city-label-only हैं और provider coordinates अज्ञात हैं।
 
 **निष्कर्ष:** Mercury का apparent-magnitude + local solar-altitude selector अब मजबूत candidate है, पर Pithoragarh same-city Mercury holdout के बिना इसे वहाँ प्रमाणित नहीं कहा जा सकता। अन्य ग्रहों के लिए अलग calibration और multi-year samples आवश्यक हैं।
+
+
+### Updated leave-one-planet-out results on 30-window dataset
+
+2025 New Delhi Venus/Jupiter/Saturn windows जोड़ने के बाद global magnitude curve को फिर से जाँचा। नवीन परिणाम (MAE degrees; Asta-start / Asta-end):
+- Mercury: **0.71° / 0.85°** (test n=19 each)
+- Venus: **0.82° / 1.11°** (n=4 each)
+- Jupiter: **1.16° / 0.21°** (n=3 each)
+- Saturn: **0.43° / 0.62°** (n=3 each)
+- Mars: **1.72° / 1.82°** (n=1 each)
+
+हर ग्रह में global magnitude curve constant baseline से बेहतर रही, लेकिन Mars और कुछ Venus/Jupiter दिशाओं में error अभी 1° से ऊपर है। Jupiter/Saturn/Mars sample counts अभी भी छोटे हैं। इसलिए एक global coefficient set को production में इस्तेमाल नहीं किया जाएगा; Mercury के लिए अलग candidate और बाकी ग्रहों के लिए अलग पर्याप्त reference data चाहिए।
