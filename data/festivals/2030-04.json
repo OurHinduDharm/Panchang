@@ -225,7 +225,8 @@
       "showReviewStatus": false,
       "hinduTithi": "चैत्र शुक्ल द्वादशी / त्रयोदशी व्याप्ति",
       "sourceName": "Drik Panchang — 2030 Soma Pradosha",
-      "sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?lang=en&year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?lang=en&year=2030",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-04-18",
@@ -298,7 +299,8 @@
       "showReviewStatus": false,
       "hinduTithi": "वैशाख कृष्ण द्वादशी / त्रयोदशी व्याप्ति",
       "sourceName": "Drik Panchang — 2030 Soma Pradosha",
-      "sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?lang=en&year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?lang=en&year=2030",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-04-30",
