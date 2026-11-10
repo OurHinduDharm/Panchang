@@ -243,9 +243,12 @@
       "hinduTithi": "आषाढ़ कृष्ण त्रयोदशी / चतुर्दशी व्याप्ति",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
-      "muhurtaRule": "pradosh-and-masik-shivaratri",
       "sourceName": "Drik Panchang — 2030 जून पर्व सूची",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-june.html?lang=en&year=2030",
+      "muhurtaRules": [
+        "pradosh-kala",
+        "masik-shivaratri-nishita"
+      ]
     },
     {
       "date": "2030-06-30",
