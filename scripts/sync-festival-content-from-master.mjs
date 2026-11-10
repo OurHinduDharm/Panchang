@@ -69,6 +69,17 @@ function extractAnchors(html) {
   return anchors;
 }
 
+
+function sanitizeDescriptionAnchors(html) {
+  return String(html || "").replace(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi, (_whole, attrs, inner) => {
+    const href = attrs.match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] || "";
+    const label = inner.replace(/<[^>]*>/g, "").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").trim();
+    const safe = makeSafeAnchor(href, label);
+    return safe ? safe.html : escapeHtml(label);
+  });
+}
+
 function appendMissingAnchors(description, anchors) {
   let result = String(description || "").trim();
   const present = new Set(extractAnchors(result).map(item => normalizeUrl(item.href)));
@@ -155,7 +166,7 @@ export function synchronizeEventContent(event, template) {
   // Never replace it with a generic master paragraph. Use the master text
   // only when a matching card has no description; otherwise merge article links.
   if (!oldDescription && template.description) {
-    event.description = template.description;
+    event.description = sanitizeDescriptionAnchors(template.description);
   } else if (masterAnchors.length) {
     event.description = appendMissingAnchors(oldDescription, masterAnchors);
   }
