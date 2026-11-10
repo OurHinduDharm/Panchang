@@ -84,12 +84,16 @@
     {
       "date": "2029-09-11",
       "dateLabel": "11 सितंबर",
-      "title": "हरतालिका तीज",
-      "description": "हरतालिका तीज पर शिव-पार्वती की पूजा और व्रत की परंपरा है।",
+      "title": "हरतालिका तीज / वराह अवतार जयंती",
+      "description": "हरतालिका तीज पर शिव-पार्वती की पूजा और व्रत की परंपरा है। वराह अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वराह अवतार जयंती</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल तृतीया"
+      "hinduTithi": "भाद्रपद शुक्ल तृतीया",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-Lord-Varah-On-ShreeVarahJayanti.html",
+      "articleLabel": "वराह अवतार जयंती",
+      "sourceName": "Drik Panchang — 2029 Dashavatara Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2029"
     },
     {
       "date": "2029-09-11",
@@ -166,16 +170,18 @@
     {
       "date": "2029-09-19",
       "dateLabel": "19 सितंबर",
-      "title": "बुध प्रदोष व्रत / भुवनेश्वरी महाविद्या जयंती",
-      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है। भुवनेश्वरी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a>",
+      "title": "बुध प्रदोष व्रत / भुवनेश्वरी महाविद्या जयंती / वामन जयंती",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है। भुवनेश्वरी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">भुवनेश्वरी महाविद्या</a> वामन अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">वामन अवतार जयंती</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल द्वादशी / त्रयोदशी व्याप्ति",
       "articleUrl": "https://ourhindudharm.blogspot.com/2021/09/About-Stotratmak-worship-of-Bhuvaneshwari-Mahavidya.html",
       "articleLabel": "भुवनेश्वरी महाविद्या",
-      "sourceName": "Drik Panchang — 2029 Dasha Mahavidya Jayanti Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/hindu-goddesses/parvati/mahavidya/dasha-mahavidya-jayanti-dates.html?year=2029"
+      "sourceName": "Drik Panchang — 2029 Vamana Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2029",
+      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/09/About-LordVaaman-On-LordVamanJayanti.html",
+      "secondaryArticleLabel": "वामन अवतार जयंती"
     },
     {
       "date": "2029-09-21",
