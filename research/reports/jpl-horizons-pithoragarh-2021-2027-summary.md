@@ -113,3 +113,31 @@ The model page exposes both an original file and ISG-format file. The ISG format
 ## 2026-11-10 follow-up — unique-boundary runner corrected
 
 The JPL runner was updated in commit `9d152af7ec94b35beb27f0dd6547f109f1980fc4` to deduplicate annual-page overlap by `(planet, normalized UTC AstaStart, normalized UTC AstaEnd)` **before** requesting Horizons samples and calculating statistics. It records the 75 raw rows, 4 duplicate annual-page references and 71 unique windows in the generated JSON, and fails closed if the ledger no longer reconciles to those counts. A fresh execution will therefore evaluate 142 unique boundaries. The older raw artifact and its 150-observation aggregates remain historical and must not be cited as unique-sample statistics. Fresh unique-boundary JPL results are still pending.
+
+
+## 2026-11-10 follow-up — published elevation evidence at the project location
+
+A source search has now found elevation references tied to the correct Pithoragarh town area and, in two research records, to the same rounded headquarters coordinate used by the project.
+
+| Evidence | Coordinate / scope | Published elevation | What it establishes |
+|---|---|---:|---|
+| District Pithoragarh, Government of Uttarakhand | Pithoragarh town | **1645 m above sea level** | Official town-level sea-level reference; not a surveyed spot height at the exact observer point |
+| Bureau of Energy Efficiency (BEE), Uttarakhand district-headquarters coordinate table | Pithoragarh HQ: **29.5829° N, 80.2182° E** | Not stated in that table | Independent official coordinate corroboration for the project's rounded location |
+| Peer-reviewed field study | **29.5829° N, 80.2182° E** | **1627 m ASL** | A coordinate-matched published local elevation, but not a geodetic benchmark certificate |
+| DIBER field-station research record | **29.5829° N, 80.2182° E** | **1676 m ASL** | A second published local value; its 49 m difference from the 1627 m record shows that rounded coordinates/location labels cannot safely be treated as a surveyed point |
+
+Sources:
+- Government of Uttarakhand, District Pithoragarh — History / town height: https://pithoragarh.nic.in/history/
+- BEE, Draft Uttarakhand Energy Conservation & Energy Efficiency Policy annexure (district-headquarters coordinates): https://cdnbbs.s3waas.gov.in/s373f490f3f868edbcd80b5d3f7cedc403/uploads/2025/01/202501271575658752.pdf
+- Peer-reviewed study reporting 1627 m at 29.5829° N, 80.2182° E: https://tnsroindia.org.in/JOURNAL/issue88/ISSUE%2088-FEB%202025-FULL%20TEXT%20PART-03.pdf
+- DIBER field-station research record reporting 1676 m at the same rounded coordinate: https://ijplantenviro.com/index.php/IJPE/article/download/2145/1078/7145
+
+### Decision and handling
+
+1. The old **1650 m** input is plausible as a rounded town-area value (only 5 m above the district website's 1645 m town reference), but its source and vertical datum are not documented. It must not be called a verified spot elevation.
+2. The **1645 m** government value is the best authoritative town-level reference found so far. The **1627 m** and **1676 m** publications are useful local cross-checks, not enough to choose a precise observer height.
+3. Do not replace the Horizons observer height with 1645, 1627 or 1676 m yet. Horizons SITE_COORD altitude must be ellipsoidal height, whereas these sources explicitly report ASL / above sea level (orthometric height).
+4. Obtain a terrain raster sample at the exact project coordinate (preferably Copernicus DEM GLO-30 DTM/DSM with its vertical datum metadata), then obtain geoid undulation at the same point from EGM2008 and the regional IndGG-SH2021 model. Convert using **h = H + N** only after confirming the DEM's vertical datum and the geoid's reference ellipsoid.
+5. Until that extraction and datum reconciliation are complete, retain 1.65 km only as a clearly labelled proxy in the research runner and keep the JPL result research-only. Do not claim sub-minute location accuracy from the current height proxy.
+
+The government town-level value and the BEE headquarters coordinates materially improve the provenance of the observer location, but they do **not** close the ellipsoidal-height question.
