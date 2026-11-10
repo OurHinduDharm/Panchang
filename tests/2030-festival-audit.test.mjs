@@ -173,6 +173,19 @@ test("2030 same-tithi Navratri and festival observances are combined", () => {
   assert.ok(has("2030-10-02", /मासिक स्कन्द षष्ठी.*कात्यायनी/));
 });
 
+test("2030 Sankashti, Narak Chaturdashi and Diwali retain their specific timing rules", () => {
+  for (const event of events.filter(event => /संकष्टी/.test(event.title || ""))) {
+    assert.ok(
+      ["sankashti-chaturthi-moonrise", "karwa-chauth-puja"].includes(event.muhurtaRule),
+      event.date + " " + event.title + " is missing its moonrise/puja rule"
+    );
+  }
+  assert.equal(has("2030-10-26", /नरक चतुर्दशी/)?.muhurtaRule,
+    "narak-chaturdashi-kshaya-abhyanga");
+  assert.equal(has("2030-10-26", /दीपावली/)?.muhurtaRule,
+    "diwali-lakshmi-puja");
+});
+
 test("2030 every Pradosh observance has its correct local muhurta rule", () => {
   const allowed = new Set([
     "pradosh-kala",
