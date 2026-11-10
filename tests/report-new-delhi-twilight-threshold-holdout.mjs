@@ -607,6 +607,21 @@ const planetAnnualBlindWindowHoldouts = Object.fromEntries(
         matchedCaseCount: matched.length,
         unmatchedCaseCount: matches.length - matched.length,
         unmatchedCandidateCount: candidates.length - used.size,
+        unmatchedCandidateWindows: candidates
+          .map((window, index) => ({ window, index }))
+          .filter(item => !used.has(item.index))
+          .map(({ window }) => ({
+            conjunctionUTC: window.conjunctionUTC,
+            conjunctionType: window.conjunctionType,
+            astaDate: window.asta.predictedBoundaryDate,
+            astaTime: window.asta.predictedEventLocalTime,
+            astaSunAltitude: window.asta.sunAltitudeDegrees,
+            astaMagnitude: window.asta.apparentMagnitude,
+            udayaDate: window.udaya.predictedBoundaryDate,
+            udayaTime: window.udaya.predictedEventLocalTime,
+            udayaSunAltitude: window.udaya.sunAltitudeDegrees,
+            udayaMagnitude: window.udaya.apparentMagnitude
+          })),
         asta: summarize(astaErrors),
         udaya: summarize(udayaErrors),
         matches
