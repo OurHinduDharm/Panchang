@@ -53,7 +53,7 @@ test("All supplied OurHinduDharm articles are linked to their matching 2026-2030
     [2029,5,"2029-05-16",/अक्षय तृतीया/,"About-Akshaya-Triteeya"],
     [2029,9,"2029-09-01",/श्रीकृष्ण जन्माष्टमी/,"About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti"],
     [2029,11,"2029-11-04",/काली चौदस/,"Kakaradi-Kali-sahasranam-stotra"],
-    [2029,11,"2029-11-16",/देवउठनी एकादशी/,"About-Shree-Hari-Prabodhini-Ekaadashi"],
+    [2029,11,"2029-11-16",/देवोत्थानी एकादशी/,"About-Shree-Hari-Prabodhini-Ekaadashi"],
     [2029,11,"2029-11-21",/कार्तिक पूर्णिमा/,"aakash-deep-daan-vidhi"],
     [2030,3,"2030-03-02",/महाशिवरात्रि/,"shivratri-prahar-pooja-vidhi"],
     [2030,5,"2030-05-05",/अक्षय तृतीया/,"About-Akshaya-Triteeya"],
@@ -150,15 +150,15 @@ test("links Paush Mahatmya and Tailang Swami articles only to their matching obs
     await assertArticle(year, monthNumber, date, pattern, "About-Paush-Mahatmya");
   }
   const tailangCases = [
+    [2027,1,"2027-01-19",/तैलंग स्वामी/],
+    [2028,1,"2028-01-08",/तैलंग स्वामी/],
+    [2028,12,"2028-12-27",/तैलंग स्वामी/],
     [2030,1,"2030-01-15",/तैलंग स्वामी/]
   ];
   for (const [year, monthNumber, date, pattern] of tailangCases) {
     await assertArticle(year, monthNumber, date, pattern, "About-Tailang-SwamiJi-On-His-Jayanti");
   }
-  for (const [year, monthNumber] of [[2028,1],[2028,12]]) {
-    const data = await month(year, monthNumber);
-    assert.equal(data.events.some(event => /तैलंग स्वामी|टेलंग स्वामी/.test(event.title || "")), false);
-  }
+
 });
 
 test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing annual cards", async () => {
@@ -169,7 +169,7 @@ test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing an
     [2028,4,"2028-04-03",/चैत्र नवरात्र नवमी/,"navratrihavanvidhi"],
     [2028,9,"2028-09-18",/महालया/,"pitri-visarjan"],
     [2028,9,"2028-09-26",/महानवमी/,"navratrihavanvidhi"],
-    [2029,4,"2029-04-23",/राम नवमी.*चैत्र नवरात्र/,"navratrihavanvidhi"],
+    [2029,4,"2029-04-23",/चैत्र नवरात्र नवमी/,"navratrihavanvidhi"],
     [2029,10,"2029-10-07",/सर्वपितृ/,"pitri-visarjan"],
     [2029,10,"2029-10-15",/महानवमी/,"navratrihavanvidhi"],
     [2030,4,"2030-04-12",/श्रीराम नवमी.*चैत्र नवरात्र/,"navratrihavanvidhi"],
@@ -187,4 +187,27 @@ test("requested Pitri, Navratri-havan and Kalash-visarjan pages cover missing an
   for (const [year, monthNumber, date, pattern] of pitriCases) {
     await assertArticle(year, monthNumber, date, pattern, "pitri-tarpan-vidhi");
   }
+});
+
+test("Festival card renderers add the requested article links and muhurta rules", async () => {
+  const widget = await readFile(new URL("../monthly-vrat-parv-widget.js", import.meta.url), "utf8");
+  const annualPage = await readFile(new URL("../monthly-vrat-parv.html", import.meta.url), "utf8");
+  const compactWidget = await readFile(new URL("../festival-widget.js", import.meta.url), "utf8");
+  for (const source of [widget, annualPage, compactWidget]) {
+    assert.match(source, /pitri-tarpan-vidhi/);
+    assert.match(source, /shivratri-prahar-pooja-vidhi/);
+    assert.match(source, /अमावास्या/);
+  }
+  for (const source of [widget, annualPage]) {
+    assert.match(source, /masik-shivaratri-four-prahar/);
+    assert.ok(source.includes("वृषभ.*स्थिर लग्न"));
+  }
+  assert.match(compactWidget, /isMasikShivaratri/);
+  assert.match(widget, /मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी/);
+  assert.match(annualPage, /मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी/);
+  assert.match(compactWidget, /मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी/);
+  assert.match(widget, /kali-chaudas-nishita/);
+  assert.match(annualPage, /kali-chaudas-nishita/);
+  assert.match(annualPage, /getKundli/);
+  assert.match(annualPage, /fixedNames=\{1:"Vrishabha",4:"Simha",7:"Vrishchika",10:"Kumbha"\}/);
 });

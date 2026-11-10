@@ -172,6 +172,18 @@
       "articleLabel": "श्री कल्कि अवतार जयंती"
     },
     {
+      "date": "2026-08-19",
+      "dateLabel": "19 अगस्त",
+      "title": "गोस्वामी तुलसीदास जयंती",
+      "description": "श्रावण शुक्ल सप्तमी को गोस्वामी तुलसीदास जी की जयंती मनाई जाती है। इस अवसर पर श्रीरामचरितमानस का पाठ और रामभक्ति का स्मरण किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "hinduTithi": "श्रावण शुक्ल सप्तमी",
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — Saint Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/tulsidas/tulsidas-jayanti.html?year=2026"
+    },
+    {
       "date": "2026-08-20",
       "dateLabel": "20 अगस्त",
       "title": "मासिक दुर्गाष्टमी",
@@ -281,12 +293,13 @@
       "date": "2026-08-28",
       "dateLabel": "28 अगस्त",
       "title": "रक्षाबंधन / श्रावण पूर्णिमा",
-      "description": "श्रावण शुक्ल पूर्णिमा को रक्षाबंधन मनाया जाता है। बहनें भाइयों की कलाई पर रक्षा-सूत्र बाँधकर मंगलकामना करती हैं। राखी बाँधने के समय में भद्रा का विचार किया जाता है; कोई स्थिर घड़ी-समय यहाँ नहीं दिया जा रहा है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a>",
+      "description": "श्रावण शुक्ल पूर्णिमा को रक्षाबंधन मनाया जाता है। बहनें भाइयों की कलाई पर रक्षा-सूत्र बाँधकर मंगलकामना करती हैं। राखी बाँधने से पहले भद्रा का विचार करें; स्थानीय पूर्णिमा-व्याप्ति और भद्रा-वर्जन के अनुसार सूत्रबंधन मुहूर्त नीचे देखें। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
-      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा"
+      "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा",
+      "muhurtaRule": "raksha-bandhan-thread"
     },
     {
       "date": "2026-08-28",

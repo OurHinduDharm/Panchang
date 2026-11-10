@@ -57,6 +57,18 @@
       "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
     },
     {
+      "date": "2029-08-10",
+      "dateLabel": "10 अगस्त",
+      "title": "श्रावण अमावस्या / हरियाली अमावस्या",
+      "description": "श्रावण अमावस्या पर स्नान, दान, पितृ-तर्पण और शिवपूजन की परंपरा है। उत्तर भारत में इसे हरियाली अमावस्या भी कहते हैं।",
+      "category": "अमावस्या पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2029"
+    },
+    {
       "date": "2029-08-11",
       "dateLabel": "11 अगस्त",
       "title": "चन्द्र दर्शन",
@@ -91,41 +103,45 @@
       "date": "2029-08-14",
       "dateLabel": "14 अगस्त",
       "title": "नाग पंचमी",
-      "description": "नाग पंचमी पर नाग देवता की पूजा और प्रकृति के प्रति सम्मान की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नाग पंचमी व्रत</a> <a href=\"https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html\" target=\"_blank\" rel=\"noopener noreferrer\">नागों की स्तोत्रात्मक उपासना</a>",
-      "category": "प्रमुख पर्व",
+      "description": "श्रावण शुक्ल पंचमी को नागदेवता की पूजा कर परिवार की रक्षा और मंगल की कामना की जाती है।",
+      "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल पंचमी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/08/About-NagPanchami.html",
-      "articleLabel": "नाग पंचमी व्रत",
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2026/08/About-Naag-Stotratmak-Upasana-on-Naag-Panchami.html",
-      "secondaryArticleLabel": "नागों की स्तोत्रात्मक उपासना"
+      "hinduTithi": "श्रावण शुक्ल पंचमी"
     },
     {
       "date": "2029-08-14",
       "dateLabel": "14 अगस्त",
-      "title": "मासिक स्कन्द षष्ठी / कल्कि अवतार जयंती",
-      "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें। कल्कि अवतार जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">कल्कि अवतार जयंती</a>",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "शुक्ल पक्ष की षष्ठी को भगवान स्कन्द की पूजा और व्रत किया जाता है।",
       "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल षष्ठी"
+    },
+    {
+      "date": "2029-08-14",
+      "dateLabel": "14 अगस्त",
+      "title": "कल्कि अवतार जयंती",
+      "description": "भगवान विष्णु के भावी कल्कि अवतार का स्मरण और पूजन कल्कि जयंती पर किया जाता है।",
+      "category": "भगवान विष्णु का पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल षष्ठी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2015/08/About-Lord-Kalki-on-Kalki-Jayanti.html",
-      "articleLabel": "कल्कि अवतार जयंती",
-      "sourceName": "Drik Panchang — 2029 Dashavatara Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/dashavatara/dashavatara-calendar.html?lang=en&year=2029"
+      "articleLabel": "कल्कि अवतार जयंती"
     },
     {
       "date": "2029-08-16",
       "dateLabel": "16 अगस्त",
       "title": "गोस्वामी तुलसीदास जयंती",
-      "description": "गोस्वामी तुलसीदास जयंती पर रामचरितमानस के रचयिता भक्त कवि तुलसीदास जी का स्मरण, रामनाम-जप और रामकथा-पाठ किया जाता है।",
+      "description": "श्रावण शुक्ल सप्तमी को गोस्वामी तुलसीदास जी की जयंती मनाई जाती है। इस अवसर पर श्रीरामचरितमानस का पाठ और रामभक्ति का स्मरण किया जाता है।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल सप्तमी",
-      "sourceName": "Drik Panchang — 2029 Indian Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2029"
+      "sourceName": "Drik Panchang — Saint Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/tulsidas/tulsidas-jayanti.html?year=2029"
     },
     {
       "date": "2029-08-17",
@@ -187,25 +203,60 @@
     {
       "date": "2029-08-23",
       "dateLabel": "23 अगस्त",
-      "title": "रक्षाबंधन / श्रावण पूर्णिमा / हयग्रीव जयंती",
-      "description": "रक्षाबंधन भाई-बहन के स्नेह और मंगलकामना का पर्व है। राखी का समय चुने गए नगर के अनुसार मुहूर्त निकाला जाता है। <a href=\"https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html\" target=\"_blank\" rel=\"noopener noreferrer\">रक्षाबंधन / श्रावण पूर्णिमा</a> हयग्रीव भगवान जयंती पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">हयग्रीव भगवान जयंती</a>",
+      "title": "रक्षाबंधन",
+      "description": "श्रावण पूर्णिमा को रक्षाबंधन पर बहनें भाइयों की कलाई पर रक्षा-सूत्र बाँधती हैं।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Hayagriva Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-gods/trimurti/lord-vishnu/avatara/hayagriva/jayanti/hayagriva-jayanti-date-time.html?year=2029",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-RakshaBandhan-SanskritDiwas-LavKushJayanti-On-ShraawanPurnima.html",
       "articleLabel": "रक्षाबंधन / श्रावण पूर्णिमा",
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2018/08/about-lord-hayagreeva-on-hayagriva-avatar-jayanti.html",
-      "secondaryArticleLabel": "हयग्रीव भगवान जयंती",
+      "muhurtaRule": "raksha-bandhan-thread"
+    },
+    {
+      "date": "2029-08-23",
+      "dateLabel": "23 अगस्त",
+      "title": "श्रावण पूर्णिमा",
+      "description": "श्रावण मास की पूर्णिमा पर स्नान, दान, जप और उपाकर्म की परंपरा है।",
+      "category": "पूर्णिमा व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
       "sourceName": "Drik Panchang — 2029 Hayagriva Jayanti",
       "sourceUrl": "https://www.drikpanchang.com/hindu-gods/trimurti/lord-vishnu/avatara/hayagriva/jayanti/hayagriva-jayanti-date-time.html?year=2029"
     },
     {
+      "date": "2029-08-23",
+      "dateLabel": "23 अगस्त",
+      "title": "श्री हयग्रीव जयंती",
+      "description": "भगवान विष्णु के हयग्रीव स्वरूप की पूजा और विद्या-प्राप्ति की कामना इस दिन की जाती है।",
+      "category": "भगवान विष्णु का पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Hayagriva Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-gods/trimurti/lord-vishnu/avatara/hayagriva/jayanti/hayagriva-jayanti-date-time.html?year=2029"
+    },
+    {
+      "date": "2029-08-23",
+      "dateLabel": "23 अगस्त",
+      "title": "यजुर्वेदीय उपाकर्म",
+      "description": "श्रावण पूर्णिमा के अवसर पर यजुर्वेदीय परंपरा में उपाकर्म और वेदाध्ययन के नवीनीकरण का विधान है।",
+      "category": "वैदिक पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2029"
+    },
+    {
       "date": "2029-08-24",
       "dateLabel": "24 अगस्त",
-      "title": "वरलक्ष्मी व्रत / गायत्री जयंती",
-      "description": "श्रावण पूर्णिमा से पूर्व शुक्रवार को वरलक्ष्मी व्रत तथा श्रावण पूर्णिमा पर गायत्री जयंती और गायत्री जप की परंपरा है।",
-      "category": "व्रत एवं जयंती",
+      "title": "वरलक्ष्मी व्रत",
+      "description": "श्रावण मास के शुक्रवार को माँ वरलक्ष्मी की पूजा और व्रत किया जाता है।",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
@@ -213,24 +264,60 @@
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
     },
     {
-      "date": "2029-08-27",
-      "dateLabel": "27 अगस्त",
-      "title": "कजरी तीज",
-      "description": "कजरी तीज पर शिव-पार्वती की पूजा, व्रत और लोकगीतों की परंपरा है।",
-      "category": "व्रत",
+      "date": "2029-08-24",
+      "dateLabel": "24 अगस्त",
+      "title": "गायत्री जयंती",
+      "description": "श्रावण पूर्णिमा पर माँ गायत्री की उपासना और गायत्री मंत्र-जप का विशेष महत्व है।",
+      "category": "देवी पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद कृष्ण तृतीया"
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Hindu Calendar; PanchangTime",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
+    },
+    {
+      "date": "2029-08-24",
+      "dateLabel": "27 अगस्त",
+      "title": "नारळी पूर्णिमा",
+      "description": "श्रावण पूर्णिमा के अवसर पर महाराष्ट्र और पश्चिमी तटीय क्षेत्रों में समुद्र तथा वरुण देव की पूजा के साथ नारळी पूर्णिमा मनाई जाती है।",
+      "category": "क्षेत्रीय पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "श्रावण शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2029"
     },
     {
       "date": "2029-08-27",
       "dateLabel": "27 अगस्त",
-      "title": "हेरम्ब संकष्टी चतुर्थी / बहुला चतुर्थी",
-      "description": "संकष्टी चतुर्थी पर भगवान गणेश का व्रत रखा जाता है। चंद्रोदय के समय कृष्ण चतुर्थी व्याप्त होने पर चंद्रमा को अर्घ्य देकर व्रत खोला जाता है।",
+      "title": "हेरम्ब संकष्टी चतुर्थी",
+      "description": "भाद्रपद कृष्ण चतुर्थी को भगवान गणेश के हेरम्ब स्वरूप की पूजा और चंद्रोदय के बाद व्रत-पारण किया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद कृष्ण चतुर्थी"
+    },
+    {
+      "date": "2029-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "बहुला चतुर्थी",
+      "description": "भाद्रपद कृष्ण चतुर्थी को बहुला चतुर्थी पर गौ-पूजन और व्रत की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण चतुर्थी"
+    },
+    {
+      "date": "2029-08-27",
+      "dateLabel": "27 अगस्त",
+      "title": "कजरी तीज",
+      "description": "भाद्रपद कृष्ण तृतीया को उत्तर भारत में कजरी तीज का व्रत और पूजन किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद कृष्ण तृतीया",
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/marathi/marathi-day-panchang.html?date=27%2F08%2F2029"
     }
   ]
 }

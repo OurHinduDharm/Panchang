@@ -525,6 +525,7 @@
     if(!ruleIds.length&&/कृष्ण जन्माष्टमी/i.test(eventTitle)&&!/वैष्णव|इस्कॉन/i.test(eventTitle)) ruleIds=["janmashtami-nishita"];
     if(!ruleIds.length&&/रक्षाबंधन|रक्षा बंधन/i.test(eventTitle)) ruleIds=["raksha-bandhan-thread"];
     if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(eventTitle)) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
+    if(!ruleIds.length&&/काली\s*चौदस/i.test(String(item.title||""))) ruleIds=["kali-chaudas-nishita"];
     if(!ruleIds.length&&/होलिका[\s-]*दहन/i.test(String(item.title||""))) ruleIds=["holika-dahan-pradosh"];
     try{
       var muhurtaModule=await muhurtaModulePromise;
@@ -610,9 +611,20 @@
         var title=document.createElement("div");title.className="muhurta-heading";title.textContent=result.label||"मुहूर्त";box.appendChild(title);
         var detail=document.createElement("div");detail.className="muhurta-detail";
         var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
+        if(result.status==="calculated"&&Array.isArray(result.milestones)&&result.milestones.length){
+          result.milestones.forEach(function(milestone){
+            var row=document.createElement("div");row.className="muhurta-window";
+            var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=milestone.label||"अनुष्ठान";row.appendChild(name);
+            var date=document.createElement("div");date.className="muhurta-window-time";
+            date.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"short",day:"numeric",month:"short"}).format(milestone.date);
+            row.appendChild(date);
+            if(milestone.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=milestone.note;row.appendChild(note);}
+            detail.appendChild(row);
+          });
+        }
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
-            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन/.test(windowItem.label||""))row.classList.add("primary");
+            var row=document.createElement("div");row.className="muhurta-window";if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
             // यदि विंडो का नाम ऊपर दिए मुख्य मुहूर्त-शीर्षक जैसा ही है, तो उसे दोबारा न दिखाएँ।
             if(!muhurtaModule.areFestivalMuhurtaLabelsEquivalent(result.label,windowItem.label)){
               var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
@@ -1091,7 +1103,7 @@
     if(/प्रदोष/.test(title)||raw==="प्रदोष") return "प्रदोष व्रत";
     if(/कालाष्टमी|अष्टमी व्रत|अहोई अष्टमी/.test(title)) return "अष्टमी व्रत";
     if(/चतुर्थी|संकष्टी|विनायक/.test(title)) return "चतुर्थी व्रत";
-    if(/अमावस्या/.test(title)||raw==="अमावस्या") return "अमावस्या";
+    if(/अमावस्या|अमावास्या/.test(title)||raw==="अमावस्या") return "अमावस्या";
     if(/पूर्णिमा/.test(title)||raw==="पूर्णिमा") return "पूर्णिमा";
     if(/संक्रांति/.test(title)||raw==="संक्रांति") return "संक्रांति";
     if(/नवरात्र|दुर्गा पूजा/.test(title)||raw==="नवरात्रि") return "नवरात्रि एवं दुर्गा पूजा";
@@ -1200,6 +1212,13 @@
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
         var description=String(item.description);
+        if(/अमावस्या|अमावास्या/.test(String(item.title||""))&&/तर्पण/.test(description)&&!/pitri-tarpan-vidhi/i.test(description+" "+String(item.articleUrl||"")+" "+String(item.secondaryArticleUrl||""))){
+          description+=" <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a>।";
+        }
+        if(/मासिक\s*कृष्ण\s*जन्माष्टमी/i.test(String(item.title||""))&&!/मासिक कृष्ण जन्माष्टमी पर/.test(description)){description+=" मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी को भगवान श्रीकृष्ण का स्मरण, पूजन और व्रत किया जाता है। रात्रिव्यापिनी अष्टमी में निशीथकालीन पूजा का विशेष महत्व है।";}
+        if(/महाशिवरात्रि|मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/shivratri-prahar-pooja-vidhi/i.test(description)){
+          description+=" <a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">चारों प्रहर की पूजा-विधि पढ़ें</a>।";
+        }
         // नियम-आधारित मुहूर्त होने पर पुराने विवरण का स्थिर घड़ी-समय न दिखाएँ।
         if(item.muhurtaRule||Array.isArray(item.muhurtaRules)){
           description=description

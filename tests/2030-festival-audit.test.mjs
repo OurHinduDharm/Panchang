@@ -50,14 +50,12 @@ test("2030 Ekadashi cards follow the Smarta-only policy", () => {
 test("2030 important annual festivals and jayantis are represented", () => {
   assert.ok(has("2030-01-10", /श्री गुरु गोबिंद सिंह जयंती/));
   assert.ok(has("2030-01-15", /धर्मसावर्णि मन्वादि/));
-  assert.ok(has("2030-01-12", /स्वामी विवेकानंद जयंती/));
   assert.ok(has("2030-01-13", /लोहड़ी/));
   assert.ok(has("2030-01-15", /तैलंग स्वामी जयंती/));
   assert.ok(has("2030-02-18", /गुरु रविदास जयंती/));
   assert.ok(has("2030-02-23", /यशोदा जयंती/));
   assert.ok(has("2030-02-24", /भानु सप्तमी.*शबरी जयंती/));
   assert.ok(has("2030-02-25", /जानकी जयंती/));
-  assert.ok(has("2030-02-27", /महर्षि दयानंद सरस्वती जयंती/));
   assert.ok(has("2030-03-06", /फुलेरा दूज.*श्रीरामकृष्ण परमहंस जयंती/));
   assert.ok(has("2030-03-19", /चैतन्य महाप्रभु जयंती.*सावर्णि मन्वादि तिथि/));
   assert.ok(has("2030-03-21", /भाई दूज.*भ्रातृ द्वितीया/));
@@ -71,11 +69,16 @@ test("2030 important annual festivals and jayantis are represented", () => {
   assert.ok(has("2030-04-14", /बैसाखी/));
   assert.ok(has("2030-04-28", /वल्लभाचार्य जयंती/));
   assert.ok(has("2030-05-08", /आदि शंकराचार्य जयंती.*सूरदास जयंती/));
+  assert.equal(events.filter(event => event.date === "2030-05-08" && /आदि शंकराचार्य जयंती|सूरदास जयंती/.test(event.title || "")).length, 1);
+  assert.ok(has("2030-05-08", /मासिक स्कन्द षष्ठी/)?.hinduTithi.includes("पंचमी / षष्ठी"));
   assert.ok(has("2030-06-04", /महाराणा प्रताप जयंती/));
   assert.ok(has("2030-08-06", /गोस्वामी तुलसीदास जयंती/));
   assert.ok(has("2030-10-06", /मध्वाचार्य जयंती/));
   assert.ok(has("2030-10-11", /वाल्मीकि जयंती.*मीराबाई जयंती/));
   assert.ok(has("2030-12-30", /गुरु गोबिंद सिंह जयंती/));
+  assert.ok(has("2030-08-06", /गोस्वामी तुलसीदास जयंती/));
+  assert.ok(has("2030-12-02", /बाबा नीब करौरी जयंती/));
+  assert.equal(events.some(event => /कबीर जयंती|कबीरदास जयंती|विवेकानंद जयंती|स्वामी विवेकानंद|दयानंद सरस्वती जयंती|गांधी जयंती|प्रभुपाद जयंती/.test(event.title || "")), false);
 });
 
 test("2030 same-tithi Navratri and festival observances are combined", () => {
@@ -288,7 +291,7 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.ok(at(dec, "2030-12-21", /कृष्ण मत्स्य द्वादशी/)?.hinduTithi === "पौष कृष्ण द्वादशी");
   assert.ok(at(dec, "2030-12-24", /दर्श अमावस्या.*पौष अमावस्या/));
   assert.ok(at(dec, "2030-12-31", /बाणदा अष्टमी.*मासिक दुर्गाष्टमी/));
-  assert.equal(events.length, 267);
+  assert.equal(events.length, 265);
 
   // Every Pradosh observance must use the local sunset/tithi-overlap rule.
   assert.equal(at(oct, "2030-10-08", /भौम प्रदोष/)?.muhurtaRule, "pradosh-kala");

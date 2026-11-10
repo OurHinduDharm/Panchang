@@ -29,8 +29,8 @@
     {
       "date": "2028-01-08",
       "dateLabel": "8 जनवरी",
-      "title": "पौष पुत्रदा एकादशी",
-      "description": "पौष शुक्ल एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, मंत्र-जप और दान की परंपरा है। व्रत-पारण द्वादशी-व्याप्ति और हरिवासर के नियम से करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विधि</a>",
+      "title": "पौष पुत्रदा एकादशी / तैलंग स्वामी जयंती",
+      "description": "पौष शुक्ल एकादशी पर भगवान विष्णु की उपासना, व्रत-कथा, मंत्र-जप और दान की परंपरा है। व्रत-पारण द्वादशी-व्याप्ति और हरिवासर के नियम से करें। काशी के महान योगी श्री तैलंग स्वामी की जयंती भी इसी तिथि पर मनाई जाती है। <a href=\"https://ourhindudharm.blogspot.com/2014/01/About-Tailang-SwamiJi-On-His-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">तैलंग स्वामी जयंती का महत्व पढ़ें</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -39,7 +39,9 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विधि"
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "sourceName": "Drik Panchang — Tailang Swami Jayanti",
+      "sourceUrl": "https://www.drikpanchang.com/hindu-saints/tailang-swami/tailang-swami-jayanti.html?year=2028"
     },
     {
       "date": "2028-01-09",
@@ -263,7 +265,8 @@
       "sourceName": "Drik Panchang — Vasant Panchami",
       "sourceUrl": "https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?year=2028",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/02/AboutGoddessSaraswatiOnVasantPanchami.html",
-      "articleLabel": "सरस्वती पूजन की विधि पढ़ें"
+      "articleLabel": "सरस्वती पूजन की विधि पढ़ें",
+      "muhurtaRule": "vasant-panchami-saraswati"
     },
     {
       "date": "2028-01-31",

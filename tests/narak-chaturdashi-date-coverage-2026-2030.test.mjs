@@ -22,6 +22,7 @@ test("Kali Chaudas and Narak Chaturdashi remain separate observances with the co
     assert.ok(narak, "Narak Chaturdashi card missing in " + item.month);
     assert.notEqual(kali, narak);
     assert.equal(kali.articleUrl, KALI_URL);
+    assert.equal(kali.muhurtaRule, "kali-chaudas-nishita");
     assert.match(kali.description, /निशीथ|रात्रि/);
     assert.match(narak.description, /अभ्यंग|अभ्यङ्ग/);
     assert.match(narak.description, /उबटन/);
@@ -31,16 +32,18 @@ test("Kali Chaudas and Narak Chaturdashi remain separate observances with the co
 });
 test("Distinct observances on Diwali cluster dates have individual cards and the Kali stotra link is on the relevant night card", async () => {
   const cases = [
-    {month:"2027-10",date:"2027-10-29",kamla:true,kaliPujaDate:"2027-10-28"},
+    {month:"2027-10",date:"2027-10-29",kamla:true,kedar:true,kaliPujaDate:"2027-10-28"},
     {month:"2028-10",date:"2028-10-17",kamla:true},
-    {month:"2029-11",date:"2029-11-05",kamla:true},
+    {month:"2029-11",date:"2029-11-05",kamla:true,kedar:true},
     {month:"2030-10",date:"2030-10-26",kamla:true,kaliPujaDate:"2030-10-26"}
   ];
   for (const c of cases) {
     const d=await readMonth(c.month);
     const diwali=d.events.find(e=>e.date===c.date && /^दीपावली/.test(e.title||""));
     assert.ok(diwali,"Diwali card missing in "+c.month);
-    assert.doesNotMatch(diwali.title,/कमला महाविद्या जयंती|काली पूजा|केदार गौरी व्रत/);
+    assert.doesNotMatch(diwali.title,/कमला महाविद्या जयंती|काली पूजा/);
+    if(c.kedar) assert.match(diwali.title,/केदार गौरी व्रत/);
+    else assert.doesNotMatch(diwali.title,/केदार गौरी व्रत/);
     assert.match(diwali.description,/Kakaradi-Kali-sahasranam-stotra/);
     if(c.kamla) {
       const kamla=d.events.find(e=>e.date===c.date && /कमला महाविद्या जयंती/.test(e.title||""));
@@ -61,4 +64,30 @@ test("The 2028 Bhishma Panchak start is not merged into Smarta Devutthani Ekadas
  const d=await readMonth("2028-10");
  assert.ok(d.events.some(e=>e.title==="देवोत्थानी एकादशी (स्मार्त)"));
  assert.ok(d.events.some(e=>e.title==="भीष्म पंचक प्रारम्भ"));
+});
+
+test("Margashirsha Kalabhairavashtami cards carry distinct prakatya and night-worship details", async () => {
+  const cases = [
+    ["2026-12", "2026-12-01"],
+    ["2027-11", "2027-11-20"],
+    ["2028-11", "2028-11-09"],
+    ["2029-11", "2029-11-28"],
+    ["2030-11", "2030-11-18"]
+  ];
+  for (const [month, date] of cases) {
+    const data = await readMonth(month);
+    const event = data.events.find(e => e.date === date && /कालभैरव जयंती/.test(e.title || ""));
+    assert.ok(event, "Kalabhairavashtami card missing in " + month);
+    assert.match(event.description, /मार्गशीर्ष कृष्ण अष्टमी/);
+    assert.match(event.description, /मध्याह्नकाल/);
+    assert.match(event.description, /रात्रिव्यापिनी अष्टमी/);
+    assert.match(event.description, /AboutBhairavashtamiOn-BhairavaJayanti/);
+  }
+});
+
+test("Bala Siddhavidya is explicitly identified as Bala Tripurasundari", async () => {
+  const data = await readMonth("2026-12");
+  const event = data.events.find(e => /बाला सिद्धविद्या जयंती/.test(e.title || ""));
+  assert.ok(event);
+  assert.match(event.description, /श्री बाला त्रिपुरसुंदरी/);
 });

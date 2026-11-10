@@ -84,7 +84,7 @@ test("2028 Pithoragarh-visible lunar eclipses retain local contact times", () =>
 
 test("2028 January to April retain source-checked regional and same-tithi observances", () => {
   const putrada = events.find(event => event.date === "2028-01-08" && /पुत्रदा एकादशी/.test(event.title || ""));
-  assert.equal(putrada.title, "पौष पुत्रदा एकादशी");
+  assert.equal(putrada.title, "पौष पुत्रदा एकादशी / तैलंग स्वामी जयंती");
   assert.ok(events.some(event => event.date === "2028-01-14" && /लोहड़ी/.test(event.title || "")));
   assert.equal(events.find(event => event.date === "2028-01-09" && /कूर्म द्वादशी/.test(event.title || "")).hinduTithi, "पौष शुक्ल द्वादशी");
 
@@ -166,7 +166,7 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-10-15", /^यम दीपदान$/));
   assert.ok(has("2028-10-15", /^रवि प्रदोष व्रत$/));
   assert.ok(has("2028-10-02", /कोजागरा पूजा/));
-  assert.equal(has("2028-10-03", /वाल्मीकि जयंती|मीराबाई जयंती/), undefined);
+  assert.ok(has("2028-10-03", /वाल्मीकि जयंती एवं मीराबाई जयंती/));
   assert.ok(has("2028-10-16", /हनुमान पूजा/));
   assert.doesNotMatch(has("2028-10-17", /नरक चतुर्दशी/).description, /तमिल दीपावली/);
   assert.equal(has("2028-10-16", /^काली चौदस$/).articleUrl, "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html");
@@ -190,13 +190,18 @@ test("2028 additional major observances are present with their reviewed tithis",
   assert.ok(has("2028-12-01", /दत्तात्रेय जयंती/));
   assert.ok(has("2028-12-01", /अन्नपूर्णा जयंती/));
   assert.equal(has("2028-12-23", /गुरु गोबिन्द सिंह जयंती/), undefined);
-  assert.equal(has("2028-12-27", /टेलंग स्वामी जयंती/), undefined);
+  assert.ok(has("2028-01-08", /तैलंग स्वामी जयंती/));
+  assert.ok(has("2028-12-27", /तैलंग स्वामी जयंती/));
+  assert.ok(has("2028-11-24", /बाबा नीब करौरी जयंती/));
+  assert.ok(has("2028-04-29", /आदि शंकराचार्य जयंती एवं सूरदास जयंती/));
+  assert.ok(has("2028-07-28", /गोस्वामी तुलसीदास जयंती/));
 });
 
 
 test("2026–2030 calendar excludes non-core Tamil observances and non-religious biographies", () => {
   const years = [2026, 2027, 2028, 2029, 2030];
-  const excluded = /स्वामी विवेकानन्द|राष्ट्रीय युवा दिवस|पंगुनी|पुथांडु|मासिक कार्तिगाई|कार्तिगाई दीपम|मासी मागम|थाई पूसम|कराडैयान|आदि अमावासै|आदि पेरुक्कु|आण्डाल जयंती|वैकासी विसाकम|अष्टमी रोहिणी|तमिल हनुमान जयंती|तमिल दीपावली|भोगी पंडिगाई|मट्टू पोंगल|कानुम पोंगल|आर्द्रा दर्शन|आरुद्र दर्शन/;
+  const excluded = /स्वामी विवेकानन्द|राष्ट्रीय युवा दिवस|पंगुनी|मासिक कार्तिगाई|कार्तिगाई दीपम|मासी मागम|थाई पूसम|करडैयान|आदि अमावासै|आदि पेरुक्कु|आण्डाल जयंती|वैकासी विसाकम|अष्टमी रोहिणी|तमिल हनुमान जयंती|तमिल दीपावली|भोगी पंडिगाई|भोगी पण्डिगै|मट्टू पोंगल|मट्टु पोंगल|कानुम पोंगल|आर्द्रा दर्शन|आरुद्र दर्शन|थाई अमावासै|मासी मघम|करडैयान नोम्बु|पंगुनी उत्तिरम्|चित्रा पूर्णिमा|वैकासी विशाकम्|आदि अमावस्या \(तमिल\)|सूरसंहारम्/;
+  const allowed2029Tamil = new Set(["पोंगल","तमिल नववर्ष (पुथांडु)","कार्तिगै दीपम"]);
   const matches = [];
   for (const year of years) {
     for (let month = 1; month <= 12; month++) {
@@ -204,9 +209,72 @@ test("2026–2030 calendar excludes non-core Tamil observances and non-religious
       const data = JSON.parse(readFileSync(file, "utf8"));
       for (const event of data.events || []) {
         const text = [event.title, event.description].filter(Boolean).join(" ");
-        if (excluded.test(text)) matches.push({ year, month, title: event.title });
+        if (excluded.test(text) && !(year === 2029 && allowed2029Tamil.has(event.title))) matches.push({ year, month, title: event.title });
       }
     }
   }
   assert.deepEqual(matches, []);
+
+  const year2029 = Array.from({ length: 12 }, (_, month) =>
+    JSON.parse(readFileSync(join(folder, "2029-" + String(month + 1).padStart(2, "0") + ".json"), "utf8")))
+    .flatMap(data => data.events || []);
+  for (const event of year2029) {
+    if (/तमिल|पोंगल|कार्तिगै दीपम/.test([event.title, event.category].filter(Boolean).join(" "))) {
+      assert.ok(allowed2029Tamil.has(event.title), "Non-top Tamil observance retained: " + event.title);
+    }
+  }
+  const diwali = year2029.find(event => event.date === "2029-11-05" && /दीपावली/.test(event.title || ""));
+  assert.match(diwali.title, /केदार गौरी व्रत/);
+  assert.equal(year2029.filter(event => /केदार गौरी व्रत/.test(event.title || "")).length, 1);
+
+  const april2027 = JSON.parse(readFileSync(join(folder, "2027-04.json"), "utf8"));
+  assert.equal(april2027.events.find(event => event.date === "2027-04-20" && /चैत्र पूर्णिमा/.test(event.title || "")).title, "चैत्र पूर्णिमा");
+
+  const october2027 = JSON.parse(readFileSync(join(folder, "2027-10.json"), "utf8"));
+  const diwali2027 = october2027.events.find(event => event.date === "2027-10-29" && /दीपावली/.test(event.title || ""));
+  assert.match(diwali2027.title, /केदार गौरी व्रत/);
+  assert.equal(october2027.events.filter(event => event.date === "2027-10-29" && /केदार गौरी व्रत/.test(event.title || "")).length, 1);
+});
+
+
+test("2026–2030 approved saint jayantis are retained and excluded public figures stay omitted", () => {
+  const expected = [
+    [2026,4,"2026-04-21",/आदि शंकराचार्य जयंती एवं सूरदास जयंती/],
+    [2026,8,"2026-08-19",/गोस्वामी तुलसीदास जयंती/],
+    [2026,10,"2026-10-26",/वाल्मीकि जयंती एवं मीराबाई जयंती/],
+    [2026,12,"2026-12-17",/बाबा नीब करौरी जयंती/],
+    [2027,1,"2027-01-19",/तैलंग स्वामी जयंती/],
+    [2027,5,"2027-05-10",/आदि शंकराचार्य जयंती एवं सूरदास जयंती/],
+    [2027,8,"2027-08-08",/गोस्वामी तुलसीदास जयंती/],
+    [2027,10,"2027-10-15",/वाल्मीकि जयंती एवं मीराबाई जयंती/],
+    [2027,12,"2027-12-06",/बाबा नीब करौरी जयंती/],
+    [2028,1,"2028-01-08",/तैलंग स्वामी जयंती/],
+    [2028,4,"2028-04-29",/आदि शंकराचार्य जयंती एवं सूरदास जयंती/],
+    [2028,7,"2028-07-28",/गोस्वामी तुलसीदास जयंती/],
+    [2028,10,"2028-10-03",/वाल्मीकि जयंती एवं मीराबाई जयंती/],
+    [2028,11,"2028-11-24",/बाबा नीब करौरी जयंती/],
+    [2028,12,"2028-12-27",/तैलंग स्वामी जयंती/],
+    [2029,5,"2029-05-18",/आदि शंकराचार्य जयंती एवं सूरदास जयंती/],
+    [2029,8,"2029-08-16",/गोस्वामी तुलसीदास जयंती/],
+    [2029,10,"2029-10-22",/वाल्मीकि जयंती एवं मीराबाई जयंती/],
+    [2029,12,"2029-12-13",/बाबा नीब करौरी जयंती/],
+    [2030,1,"2030-01-15",/तैलंग स्वामी जयंती/],
+    [2030,5,"2030-05-08",/आदि शंकराचार्य जयंती एवं सूरदास जयंती/],
+    [2030,8,"2030-08-06",/गोस्वामी तुलसीदास जयंती/],
+    [2030,10,"2030-10-11",/वाल्मीकि जयंती एवं मीराबाई जयंती/],
+    [2030,12,"2030-12-02",/बाबा नीब करौरी जयंती/]
+  ];
+  for (const [year, monthNumber, date, pattern] of expected) {
+    const file = join(folder, year + "-" + String(monthNumber).padStart(2, "0") + ".json");
+    const data = JSON.parse(readFileSync(file, "utf8"));
+    assert.ok(data.events.some(event => event.date === date && pattern.test(event.title || "")), year + " " + date + " " + pattern);
+  }
+  const excluded = /कबीर जयंती|कबीरदास जयंती|विवेकानंद जयंती|स्वामी विवेकानंद|दयानंद सरस्वती जयंती|गांधी जयंती|प्रभुपाद जयंती/;
+  for (let year = 2026; year <= 2030; year++) {
+    for (let monthNumber = 1; monthNumber <= 12; monthNumber++) {
+      const file = join(folder, year + "-" + String(monthNumber).padStart(2, "0") + ".json");
+      const data = JSON.parse(readFileSync(file, "utf8"));
+      assert.equal((data.events || []).some(event => excluded.test(event.title || "")), false, year + "-" + monthNumber);
+    }
+  }
 });

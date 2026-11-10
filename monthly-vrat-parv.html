@@ -451,26 +451,49 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
   }
 
   function getLagnaIndex(p){
-    var value=p&&p.udayaLagna;
+    var value=p&&(p.udayaLagna??p.lagna??p.ascendant);
     if(value&&typeof value==="object"){
-      var raw=value.index??value.number??value.value??value.name??value.label;
+      var raw=value.index??value.number??value.value??value.rashiIndex??value.rashiName??value.rashi??value.signName??value.name??value.label;
+      if(raw&&typeof raw==="object")raw=raw.index??raw.number??raw.value??raw.name??raw.label;
       if(raw!==undefined)value=raw;
     }
-    if(typeof value==="number"&&Number.isFinite(value))return value;
+    if(typeof value==="number"&&Number.isFinite(value)){
+      return Number.isInteger(value)&&value>=0&&value<=11?value:null;
+    }
     var name=String(value??"").normalize("NFC").toLocaleLowerCase("hi");
-    if(/vrishabha|वृषभ|taurus/.test(name))return 1;
-    if(/simha|सिंह|leo/.test(name))return 4;
+    var names=[
+      [/mesh|मेष|aries/,0],[/vrishabha|वृषभ|taurus/,1],
+      [/mithun|मिथुन|gemini/,2],[/karka|कर्क|cancer/,3],
+      [/simha|सिंह|leo/,4],[/kanya|कन्या|virgo/,5],
+      [/tula|तुला|libra/,6],[/vrishchik|वृश्चिक|scorpio/,7],
+      [/dhanu|धनु|sagittarius/,8],[/makar|मकर|capricorn/,9],
+      [/kumbh|कुम्भ|कुंभ|aquarius/,10],[/meen|मीन|pisces/,11]
+    ];
+    for(var i=0;i<names.length;i++)if(names[i][0].test(name))return names[i][1];
     var numeric=Number(value);
-    return Number.isInteger(numeric)?numeric:null;
+    return Number.isInteger(numeric)&&numeric>=0&&numeric<=11?numeric:null;
   }
   function getStiraLagnaWindows(lib,observer,startValue,endValue){
     var start=new Date(startValue),end=new Date(endValue);
     if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<=start||
        !lib||typeof lib.getPanchangam!=="function")return [];
+    var fixedNames={1:"Vrishabha",4:"Simha",7:"Vrishchika",10:"Kumbha"};
     function signAt(ms){
-      try{return getLagnaIndex(lib.getPanchangam(new Date(ms),observer,{timezoneOffset:330}));}
-      catch(_){return null;}
+      var instant=new Date(ms);
+      try{
+        var panchang=lib.getPanchangam(instant,observer,{timezoneOffset:330});
+        var index=getLagnaIndex(panchang);
+        if(index!==null)return index;
+        // कुछ package builds में getPanchangam पर Udaya Lagna नहीं मिलता;
+        // Kundli API का Ascendant उसी क्षण का लग्न देता है।
+        if(typeof lib.getKundli==="function"){
+          var kundli=lib.getKundli(instant,observer);
+          return getLagnaIndex({ascendant:kundli&&kundli.ascendant});
+        }
+      }catch(_){}
+      return null;
     }
+    function isFixed(sign){return Object.prototype.hasOwnProperty.call(fixedNames,sign);}
     var step=5*60*1000,points=[];
     for(var t=start.getTime();t<end.getTime();t+=step)points.push(t);
     points.push(end.getTime());
@@ -486,29 +509,34 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     for(var i=0;i<points.length;i++){
       var sign=signs[i];
       if(i===0){
-        if(sign===1||sign===4){segmentStart=points[i];segmentSign=sign;}
+        if(isFixed(sign)){segmentStart=points[i];segmentSign=sign;}
         continue;
       }
       var prev=signs[i-1],prevTime=points[i-1],time=points[i];
       if(prev===sign)continue;
-      if((prev===1||prev===4)&&segmentStart!==null){
+      if(isFixed(prev)&&segmentStart!==null){
         var segEnd=boundary(prevTime,time,prev);
-        segments.push({name:prev===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:new Date(segEnd)});
+        segments.push({name:fixedNames[prev],start:new Date(segmentStart),end:new Date(segEnd)});
         segmentStart=null;segmentSign=null;
       }
-      if(sign===1||sign===4){
+      if(isFixed(sign)){
         segmentStart=boundary(prevTime,time,sign);
         segmentSign=sign;
       }
     }
-    if(segmentStart!==null&&(segmentSign===1||segmentSign===4)){
-      segments.push({name:segmentSign===1?"Vrishabha":"Simha",start:new Date(segmentStart),end:end});
+    if(segmentStart!==null&&isFixed(segmentSign)){
+      segments.push({name:fixedNames[segmentSign],start:new Date(segmentStart),end:end});
     }
     return segments;
   }
 
   async function appendMuhurta(item,dateIso,content,token){
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
+    if(/मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/महाशिवरात्रि|महा\s*शिवरात्रि/i.test(String(item.title||""))){
+      if(ruleIds.indexOf("masik-shivaratri-nishita")===-1)ruleIds.push("masik-shivaratri-nishita");
+      if(ruleIds.indexOf("masik-shivaratri-four-prahar")===-1)ruleIds.push("masik-shivaratri-four-prahar");
+    }
+    if(!ruleIds.length&&/काली\s*चौदस/i.test(String(item.title||"")))ruleIds=["kali-chaudas-nishita"];
     if(!ruleIds.length) return;
     try{
       var muhurtaModule=await muhurtaModulePromise;
@@ -560,10 +588,21 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         var title=document.createElement("div");title.className="muhurta-heading";title.textContent=result.label||"मुहूर्त";box.appendChild(title);
         var detail=document.createElement("div");detail.className="muhurta-detail";
         var paranaDatePrefix=result.dateLabel?result.dateLabel+" · ":"";
+        if(result.status==="calculated"&&Array.isArray(result.milestones)&&result.milestones.length){
+          result.milestones.forEach(function(milestone){
+            var row=document.createElement("div");row.className="muhurta-window";
+            var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=milestone.label||"अनुष्ठान";row.appendChild(name);
+            var date=document.createElement("div");date.className="muhurta-window-time";
+            date.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"short",day:"numeric",month:"short"}).format(milestone.date);
+            row.appendChild(date);
+            if(milestone.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=milestone.note;row.appendChild(note);}
+            detail.appendChild(row);
+          });
+        }
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
             var row=document.createElement("div");row.className="muhurta-window";
-            if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन/.test(windowItem.label||""))row.classList.add("primary");
+            if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
             var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
             var time=document.createElement("div");time.className="muhurta-window-time";
             var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
@@ -582,6 +621,16 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             }
             row.appendChild(time);
             if(windowItem.note){var windowNote=document.createElement("div");windowNote.className="muhurta-window-note";windowNote.textContent=windowItem.note;row.appendChild(windowNote);}
+            detail.appendChild(row);
+          });
+        }else if(result.status==="calculated"&&Array.isArray(result.times)&&result.times.length){
+          result.times.forEach(function(timeItem){
+            var row=document.createElement("div");row.className="muhurta-window";
+            var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=timeItem.label||"पूजन समय";row.appendChild(name);
+            var time=document.createElement("div");time.className="muhurta-window-time";
+            time.textContent=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"short",day:"numeric",month:"short"}).format(timeItem.time)+" · "+muhurtaModule.formatFestivalMuhurtaTime(timeItem.time);
+            row.appendChild(time);
+            if(timeItem.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=timeItem.note;row.appendChild(note);}
             detail.appendChild(row);
           });
         }else if(result.status==="calculated"&&result.time){
@@ -670,7 +719,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
     if(/प्रदोष/.test(title)||raw==="प्रदोष") return "प्रदोष व्रत";
     if(/कालाष्टमी|अष्टमी व्रत|अहोई अष्टमी/.test(title)) return "अष्टमी व्रत";
     if(/चतुर्थी|संकष्टी|विनायक/.test(title)) return "चतुर्थी व्रत";
-    if(/अमावस्या/.test(title)||raw==="अमावस्या") return "अमावस्या";
+    if(/अमावस्या|अमावास्या/.test(title)||raw==="अमावस्या") return "अमावस्या";
     if(/पूर्णिमा/.test(title)||raw==="पूर्णिमा") return "पूर्णिमा";
     if(/संक्रांति/.test(title)||raw==="संक्रांति") return "संक्रांति";
     if(/नवरात्र|दुर्गा पूजा/.test(title)||raw==="नवरात्रि") return "नवरात्रि एवं दुर्गा पूजा";
@@ -765,6 +814,13 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
         var description=String(item.description);
+        if(/अमावस्या|अमावास्या/.test(String(item.title||""))&&/तर्पण/.test(description)&&!/pitri-tarpan-vidhi/i.test(description+" "+String(item.articleUrl||"")+" "+String(item.secondaryArticleUrl||""))){
+          description+=" <a href=\"https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">पितृ तर्पण विधि</a>।";
+        }
+        if(/मासिक\s*कृष्ण\s*जन्माष्टमी/i.test(String(item.title||""))&&!/मासिक कृष्ण जन्माष्टमी पर/.test(description)){description+=" मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी को भगवान श्रीकृष्ण का स्मरण, पूजन और व्रत किया जाता है। रात्रिव्यापिनी अष्टमी में निशीथकालीन पूजा का विशेष महत्व है।";}
+        if(/महाशिवरात्रि|मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/shivratri-prahar-pooja-vidhi/i.test(description)){
+          description+=" <a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">चारों प्रहर की पूजा-विधि पढ़ें</a>।";
+        }
         // यदि अलग मुहूर्त-नियम जुड़ा है, तो पुराने विवरण में लिखा स्थिर घड़ी-समय
         // स्थानीय गणना का विकल्प नहीं बनना चाहिए। नियम का परिणाम नीचे अलग दिखेगा।
         if(item.muhurtaRule||Array.isArray(item.muhurtaRules)){

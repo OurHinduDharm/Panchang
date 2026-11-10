@@ -61,7 +61,7 @@
       "date": "2028-11-09",
       "dateLabel": "9 नवंबर",
       "title": "कालभैरव जयंती",
-      "description": "मार्गशीर्ष कृष्ण अष्टमी पर भगवान शिव के कालभैरव स्वरूप का प्राकट्योत्सव मनाया जाता है। भैरव-पूजन, मंत्र-जप और रात्रि-उपासना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
+      "description": "मार्गशीर्ष कृष्ण अष्टमी को कालभैरवाष्टमी मनाई जाती है। मान्यता है कि इसी तिथि पर भगवान शिव के कालभैरव स्वरूप का प्राकट्य हुआ था। मध्याह्नकाल में प्राकट्य-स्मरण के साथ भगवान कालभैरव का विशेष पूजन करें; व्रत और रात्रि-उपासना के लिए रात्रिव्यापिनी अष्टमी का विचार करें। भैरव-मंत्र-जप और रात्रि-उपासना, दीपदान तथा रात्रि-जागरण की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "देव-जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -205,12 +205,14 @@
     {
       "date": "2028-11-24",
       "dateLabel": "24 नवंबर",
-      "title": "मासिक दुर्गाष्टमी",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
-      "category": "व्रत",
+      "title": "मासिक दुर्गाष्टमी / बाबा नीब करौरी जयंती",
+      "description": "मार्गशीर्ष शुक्ल अष्टमी को मासिक दुर्गाष्टमी के साथ बाबा नीब करौरी महाराज के प्राकट्य दिवस का स्मरण किया जाता है।",
+      "category": "जयंती एवं व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी"
+      "hinduTithi": "मार्गशीर्ष शुक्ल अष्टमी",
+      "sourceName": "Hinduism Today — Neem Karoli Baba",
+      "sourceUrl": "https://www.hinduismtoday.com/magazine/april-may-june-2024/educational-insight-neem-karoli-baba/"
     },
     {
       "date": "2028-11-27",
