@@ -325,35 +325,7 @@ function getSelectedDate() {
 }
 
 
-/* =========================================
-   Date formatting
-   ========================================= */
-
-function formatEventDate(
-  dateString
-) {
-
-  if (!dateString) {
-    return "—";
-  }
-
-  const date =
-    new Date(
-      `${dateString}T12:00:00+05:30`
-    );
-
-  return new Intl.DateTimeFormat(
-    "hi-IN",
-    {
-      timeZone: "Asia/Kolkata",
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    }
-  ).format(date);
-}
-
-/* समय केवल कोणीय-सीमा पार करने का अनुमान है; यह स्थानीय दृश्यता का समय नहीं है। */
+/* दैनिक सूर्य/चंद्र उदय-अस्त का स्थानीय IST समय */
 function formatEventDateTime(instant) {
   if (!(instant instanceof Date) || !Number.isFinite(instant.getTime())) {
     return "—";
@@ -372,58 +344,9 @@ function formatEventDateTime(instant) {
 
 
 /* =========================================
-   Local noon
-
-   Tantrakulam के displayed degree
-   values से तुलना के लिए फिलहाल
-   local noon पर ecliptic separation
-   record किया जाता है।
-   ========================================= */
-
-function getLocalNoon(
-  dateString
-) {
-
-  return new Date(
-    `${dateString}T12:00:00+05:30`
-  );
-}
-
-
-/* =========================================
-   Date helper
-   ========================================= */
-
-function addDays(
-  dateString,
-  days
-) {
-
-  const date =
-    new Date(
-      `${dateString}T12:00:00+05:30`
-    );
-
-  date.setDate(
-    date.getDate() + days
-  );
-
-  return (
-    date
-      .toLocaleDateString(
-        "en-CA",
-        {
-          timeZone: "Asia/Kolkata"
-        }
-      )
-  );
-}
-
-
-/* =========================================
    Direct Drik Asta/Udaya reference data
-   Only browser-verified Pithoragarh records are
-   displayed. No angular-threshold fallback.
+   Only browser-verified five-city Drik records are
+   displayed. No angular-threshold or nearest-city fallback.
    ========================================= */
 
 let drikPlanetaryReferenceDataPromise = null;
