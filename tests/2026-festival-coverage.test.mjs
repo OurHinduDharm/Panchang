@@ -452,3 +452,16 @@ test("2026 Sharadiya Navratri has all nine forms with the Ashtami-Navami overlap
   assert.ok(find(data, "2026-10-20", /शारदीय नवरात्र पारण/));
   assert.ok(find(data, "2026-10-20", /दुर्गा विसर्जन/));
 });
+
+test("2026 December includes Matsya Dwadashi and Soma Pradosh on their respective tithis", async () => {
+  const data = await month("12");
+  const matsya = find(data, "2026-12-21", /मत्स्य द्वादशी/);
+  const pradosh = find(data, "2026-12-21", /सोम प्रदोष व्रत/);
+  assert.ok(matsya);
+  assert.equal(matsya.hinduTithi, "मार्गशीर्ष शुक्ल द्वादशी");
+  assert.equal(matsya.reviewStatus, "approved");
+  assert.ok(pradosh);
+  assert.equal(pradosh.hinduTithi, "मार्गशीर्ष शुक्ल त्रयोदशी");
+  assert.equal(pradosh.reviewStatus, "approved");
+  assert.ok(data.events.indexOf(matsya) < data.events.indexOf(pradosh));
+});
