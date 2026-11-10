@@ -165,6 +165,18 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "पौष शुक्ल षष्ठी"
+    },
+    {
+      "date": "2030-12-30",
+      "dateLabel": "30 दिसंबर",
+      "title": "श्री गुरु गोबिंद सिंह जयंती",
+      "description": "श्री गुरु गोबिंद सिंह जयंती पर दशम गुरु के जीवन, खालसा पंथ की स्थापना, साहस और धर्मरक्षा के आदर्शों का स्मरण किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "पौष शुक्ल सप्तमी",
+      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
     }
   ]
 }
