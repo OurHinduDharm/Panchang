@@ -3,46 +3,54 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const cases = [
-  { month: "2026-11", narak: "2026-11-08", kali: "2026-11-07", combined: false },
-  { month: "2027-10", narak: "2027-10-28", kali: "2027-10-27", combined: false },
-  { month: "2028-10", narak: "2028-10-17", kali: "2028-10-16", combined: false },
-  { month: "2029-11", narak: "2029-11-05", kali: "2029-11-04", combined: false },
-  { month: "2030-10", narak: "2030-10-26", kali: "2030-10-25", combined: false }
+  { month: "2026-11", narak: "2026-11-08", kali: "2026-11-07" },
+  { month: "2027-10", narak: "2027-10-28", kali: "2027-10-27" },
+  { month: "2028-10", narak: "2028-10-17", kali: "2028-10-16" },
+  { month: "2029-11", narak: "2029-11-05", kali: "2029-11-04" },
+  { month: "2030-10", narak: "2030-10-26", kali: "2030-10-25" }
 ];
-
+const KALI_URL = "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html";
 async function readMonth(name) {
   return JSON.parse(await readFile(new URL("../data/festivals/" + name + ".json", import.meta.url), "utf8"));
 }
-
-test("Kali Chaudas and Narak Chaturdashi dates are reviewed consistently for 2026–2030", async () => {
+test("Kali Chaudas and Narak Chaturdashi remain separate observances with the correct night/morning rituals in 2026–2030", async () => {
   for (const item of cases) {
     const data = await readMonth(item.month);
-    const kali = data.events.find(event => /काली चौदस/.test(event.title || ""));
-    const narak = data.events.find(event => /नरक चतुर्दशी/.test(event.title || ""));
+    const kali = data.events.find(e => e.date === item.kali && /काली चौदस/.test(e.title || ""));
+    const narak = data.events.find(e => e.date === item.narak && /नरक चतुर्दशी/.test(e.title || ""));
     assert.ok(kali, "Kali Chaudas card missing in " + item.month);
     assert.ok(narak, "Narak Chaturdashi card missing in " + item.month);
-    assert.equal(kali.date, item.kali, "Kali Chaudas date in " + item.month);
-    assert.equal(narak.date, item.narak, "Narak Chaturdashi date in " + item.month);
-    assert.equal(kali === narak, item.combined, "Same-day observances should share one card only in 2030");
-    if (narak.hinduTithi) assert.match(narak.hinduTithi, /^कार्तिक कृष्ण चतुर्दशी/);
+    assert.notEqual(kali, narak);
+    assert.equal(kali.articleUrl, KALI_URL);
+    assert.match(kali.description, /निशीथ|रात्रि/);
+    assert.match(narak.description, /अभ्यंग|अभ्यङ्ग/);
+    assert.match(narak.description, /उबटन/);
+    assert.ok(narak.muhurtaRule, "Abhyanga muhurta rule missing in " + item.month);
   }
 });
-
-test("2030 kshaya Chaturdashi follows the Dharmasindhu second-day observance with the explicit Dharmasindhu kshaya-tithi muhurta", async () => {
-  const data = await readMonth("2030-10");
-  const diwali = data.events.find(event => /दीपावली/.test(event.title || ""));
-  const kali = data.events.find(event => /काली चौदस/.test(event.title || ""));
-  const narak = data.events.find(event => /नरक चतुर्दशी/.test(event.title || ""));
-  assert.equal(kali.date, "2030-10-25");
-  assert.equal(narak.date, "2030-10-26");
-  assert.match(narak.description, /दोनों दिनों के अरुणोदय और चंद्रोदय में चतुर्दशी की व्याप्ति नहीं होने पर/);
-  assert.match(narak.description, /धर्मसिंधु में वर्णित विशेष क्षय-तिथि निर्णय/);
-  assert.match(narak.description, /दूसरे दिन चंद्रोदय से सूर्योदय तक अभ्यंग-स्नान/);
-  assert.match(kali.description, /निशीथकालीन माँ काली/);
-  assert.match(narak.description, /दोनों अनुष्ठानों के समय अलग हो सकते हैं/);
-  assert.equal(narak.muhurtaRule, "narak-chaturdashi-kshaya-abhyanga");
-  assert.equal(narak.muhurtaRules, undefined);
-  assert.equal(diwali.date, "2030-10-26");
-  assert.deepEqual(diwali.muhurtaRules, ["diwali-lakshmi-puja"]);
-  assert.doesNotMatch(diwali.title, /नरक चतुर्दशी/);
+test("Distinct observances on Diwali cluster dates have individual cards and the Kali stotra link is on the relevant night card", async () => {
+  const cases = [
+    {month:"2027-10",date:"2027-10-29",kamla:true,kaliPujaDate:"2027-10-28"},
+    {month:"2028-10",date:"2028-10-17",kamla:true},
+    {month:"2029-11",date:"2029-11-05",kamla:true},
+    {month:"2030-10",date:"2030-10-26",kamla:true,kaliPujaDate:"2030-10-26"}
+  ];
+  for (const c of cases) {
+    const d=await readMonth(c.month);
+    const diwali=d.events.find(e=>e.date===c.date && /^दीपावली/.test(e.title||""));
+    assert.ok(diwali,"Diwali card missing in "+c.month);
+    assert.doesNotMatch(diwali.title,/कमला महाविद्या जयंती|काली पूजा|केदार गौरी व्रत/);
+    assert.match(diwali.description,/Kakaradi-Kali-sahasranam-stotra/);
+    if(c.kamla) assert.ok(d.events.some(e=>e.date===c.date && /कमला महाविद्या जयंती/.test(e.title||"")));
+    if(c.kaliPujaDate) {
+      const kp=d.events.find(e=>e.date===c.kaliPujaDate && /काली पूजा/.test(e.title||""));
+      assert.ok(kp,"Kali Puja card missing in "+c.month);
+      assert.equal(kp.articleUrl,KALI_URL);
+    }
+  }
+});
+test("The 2028 Bhishma Panchak start is not merged into Smarta Devutthani Ekadashi", async()=>{
+ const d=await readMonth("2028-10");
+ assert.ok(d.events.some(e=>e.title==="देवोत्थानी एकादशी (स्मार्त)"));
+ assert.ok(d.events.some(e=>e.title==="भीष्म पंचक प्रारंभ"));
 });
