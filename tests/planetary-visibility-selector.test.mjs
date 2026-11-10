@@ -448,3 +448,23 @@ test("uses the actual local rise/set direction as an independent visibility feat
   assert.equal(set.thresholdAltitudeDegrees, -1);
   assert.equal(set.predictedBoundaryDate, "2026-01-09");
 });
+
+test("exposes magnitude-direction interaction for event-specific visibility thresholds", () => {
+  const rise = findVisibilityBoundaryNearAnchor({
+    ...base,
+    direction: 1,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { magnitudeDirectionInteraction: 1 } }
+  });
+  const set = findVisibilityBoundaryNearAnchor({
+    ...base,
+    direction: -1,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { magnitudeDirectionInteraction: 1 } }
+  });
+
+  assert.equal(rise.magnitudeDirectionInteraction, 1);
+  assert.equal(rise.thresholdAltitudeDegrees, 1);
+  assert.equal(set.magnitudeDirectionInteraction, -1);
+  assert.equal(set.thresholdAltitudeDegrees, -1);
+});
