@@ -109,13 +109,15 @@ test("Pithoragarh 2027 and Varanasi transcriptions remain provisional, not accep
   }
 });
 
-test("Rashtriya Panchang Central Station sources stay separate from city-level Drik references", () => {
+test("Rashtriya Panchang Central Station source labels are not mistaken for published coordinates", () => {
   const central = dataset.cases.filter(entry => entry.sourceLocation === "Central Station of India");
   assert.ok(central.length >= 3);
   for (const entry of central) {
-    assert.equal(entry.comparisonLevel, "coordinate-exact");
-    assert.equal(entry.testObserver.latitude, entry.sourceObserver.latitude);
-    assert.equal(entry.testObserver.longitude, entry.sourceObserver.longitude);
+    assert.equal(entry.comparisonLevel, "city-label-only");
+    assert.equal(entry.testObserver.latitude, undefined);
+    assert.equal(entry.testObserver.longitude, undefined);
+    assert.equal(entry.sourceObserver.coordinates, null);
+    assert.match(entry.sourceObserver.coordinateStatus, /not supplied|does not publish/i);
   }
   assert.ok(dataset.cases.filter(entry => entry.sourceLocation !== "Central Station of India")
     .every(entry => entry.comparisonLevel === "city-label-only"));
