@@ -116,3 +116,41 @@ test("formats normalized IST timestamps and preserves 24+ rollover normalization
   assert.equal(formatted.iso, "2024-02-07T06:22:00+05:30");
   assert.equal(formatDrikBoundary({ normalizedLocalDateTime: "2024-02-07T06:22:00Z" }), null);
 });
+
+test("compact production dataset contains only 200 verified unique windows for five cities", () => {
+  assert.equal(dataset.windows.length, 200);
+  assert.equal(dataset.cities.length, 5);
+  assert.deepEqual(dataset.years, [2024, 2025, 2026, 2027]);
+  const counts = new Map();
+  const keys = new Set();
+  for (const entry of dataset.windows) {
+    assert.equal(entry.acceptanceEligible, true);
+    assert.equal(entry.sourceStatus, "direct-page-captured-browser-verified");
+    assert.ok(dataset.years.includes(entry.sourcePageYear));
+    assert.ok(entry.sourcePageUrl.startsWith("https://www.drikpanchang.com/"));
+    const start = Date.parse(entry.boundaries.astaStart.normalizedLocalDateTime);
+    const end = Date.parse(entry.boundaries.astaEnd.normalizedLocalDateTime);
+    assert.ok(Number.isFinite(start) && Number.isFinite(end) && end > start);
+    const key = [
+      entry.sourceLocation, entry.planet,
+      entry.boundaries.astaStart.normalizedLocalDateTime,
+      entry.boundaries.astaEnd.normalizedLocalDateTime
+    ].join("|");
+    assert.ok(!keys.has(key), "duplicate city/planet Asta window: " + key);
+    keys.add(key);
+    counts.set(entry.sourceLocation, (counts.get(entry.sourceLocation) || 0) + 1);
+  }
+  assert.deepEqual([...counts.values()].sort((a, b) => a - b), [40, 40, 40, 40, 40]);
+});
+
+test("Mumbai has its own direct source window rather than borrowing New Delhi", () => {
+  const result = getDrikPlanetaryReference({
+    dataset,
+    location: { city: "Mumbai", state: "Maharashtra" },
+    selectedDate: "2024-01-01",
+    planet: "Mercury"
+  });
+  assert.equal(result.status, "upcoming");
+  assert.equal(result.city, "Mumbai, Maharashtra, India");
+  assert.ok(result.window.sourcePageUrl.includes("geoname-id=1275339"));
+});
