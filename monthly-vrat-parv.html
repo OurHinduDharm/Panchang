@@ -509,6 +509,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 
   async function appendMuhurta(item,dateIso,content,token){
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
+    if(/मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/महाशिवरात्रि|महा\s*शिवरात्रि/i.test(String(item.title||""))){
+      if(ruleIds.indexOf("masik-shivaratri-nishita")===-1)ruleIds.push("masik-shivaratri-nishita");
+      if(ruleIds.indexOf("masik-shivaratri-four-prahar")===-1)ruleIds.push("masik-shivaratri-four-prahar");
+    }
+    if(!ruleIds.length&&/काली\s*चौदस/i.test(String(item.title||"")))ruleIds=["kali-chaudas-nishita"];
     if(!ruleIds.length) return;
     try{
       var muhurtaModule=await muhurtaModulePromise;
@@ -563,7 +568,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         if(result.status==="calculated"&&Array.isArray(result.windows)&&result.windows.length){
           result.windows.forEach(function(windowItem){
             var row=document.createElement("div");row.className="muhurta-window";
-            if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन/.test(windowItem.label||""))row.classList.add("primary");
+            if(/सर्वोत्तम लक्ष्मी पूजन|मुख्य लक्ष्मी-गणेश पूजन|प्राथमिक पूजा विकल्प|वृषभ.*स्थिर लग्न/.test(windowItem.label||""))row.classList.add("primary");
             var name=document.createElement("strong");name.className="muhurta-window-name";name.textContent=windowItem.label||"पूजन समय";row.appendChild(name);
             var time=document.createElement("div");time.className="muhurta-window-time";
             var startTime=muhurtaModule.formatFestivalMuhurtaTime(windowItem.start);
@@ -765,6 +770,9 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       if(item.description){
         var desc=document.createElement("div");desc.className="desc";
         var description=String(item.description);
+        if(/महाशिवरात्रि|मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/shivratri-prahar-pooja-vidhi/i.test(description)){
+          description+=" <a href=\"https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">चारों प्रहर की पूजा-विधि पढ़ें</a>।";
+        }
         // यदि अलग मुहूर्त-नियम जुड़ा है, तो पुराने विवरण में लिखा स्थिर घड़ी-समय
         // स्थानीय गणना का विकल्प नहीं बनना चाहिए। नियम का परिणाम नीचे अलग दिखेगा।
         if(item.muhurtaRule||Array.isArray(item.muhurtaRules)){
