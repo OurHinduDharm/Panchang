@@ -1,0 +1,35 @@
+name: Drik planetary reference data tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/drik-planetary-reference-2024-2027.json"
+      - "research/drik-planetary-reference.mjs"
+      - "tests/drik-planetary-reference.test.mjs"
+      - ".github/workflows/drik-planetary-reference-tests.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "data/drik-planetary-reference-2024-2027.json"
+      - "research/drik-planetary-reference.mjs"
+      - "tests/drik-planetary-reference.test.mjs"
+      - ".github/workflows/drik-planetary-reference-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-reference-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check reference module syntax
+        run: node --check research/drik-planetary-reference.mjs
+      - name: Validate city matching, unique windows, historical coverage and date formatting
+        run: node --test tests/drik-planetary-reference.test.mjs
