@@ -8,7 +8,7 @@ import {
 } from "../research/drik-planetary-reference.mjs";
 
 const dataset = JSON.parse(await readFile(
-  new URL("../data/drik-multicity-asta-udaya-2024-2028.json", import.meta.url), "utf8"
+  new URL("../data/drik-planetary-reference-2024-2027.json", import.meta.url), "utf8"
 ));
 
 test("resolves Hindi and English city names without nearest-city fallback", () => {
@@ -16,6 +16,27 @@ test("resolves Hindi and English city names without nearest-city fallback", () =
     "Pithoragarh, Uttarakhand, India");
   assert.equal(resolveDrikCity({ city: "Mumbai" }), "Mumbai, Maharashtra, India");
   assert.equal(resolveDrikCity({ city: "Almora", state: "Uttarakhand" }), null);
+});
+
+test("uses direct city-matched windows for all five supported cities without substitution", () => {
+  for (const city of dataset.cities) {
+    for (const planet of dataset.planets) {
+      const entry = dataset.windows.find(row =>
+        row.sourceLocation === city.name && row.planet === planet
+      );
+      assert.ok(entry, `missing ${planet} window for ${city.name}`);
+      const date = entry.boundaries.astaStart.normalizedLocalDateTime.slice(0, 10);
+      const result = getDrikPlanetaryReference({
+        dataset,
+        location: { city: city.name },
+        selectedDate: date,
+        planet
+      });
+      assert.equal(result.status, "active", `${planet} / ${city.name}`);
+      assert.equal(result.city, city.name);
+      assert.equal(result.window.sourceLocation, city.name);
+    }
+  }
 });
 
 test("returns a directly captured Pithoragarh window for a date inside its Asta period", () => {
