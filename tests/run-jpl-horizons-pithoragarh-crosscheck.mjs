@@ -161,12 +161,16 @@ for (const [planet, boundaries] of grouped) {
   const boundaryDiagnostics = boundaries.map(boundary => {
     const centerIndex = target.requestedTimesUTC.indexOf(boundary.samplesUTC[1]);
     if (centerIndex < 0) throw new Error("Missing JPL center sample for " + boundary.windowId);
-    const targetBefore = parseHorizonsRow(target.rows[centerIndex - 1]);
+    const beforeIndex = target.requestedTimesUTC.indexOf(boundary.samplesUTC[0]);
+    const afterIndex = target.requestedTimesUTC.indexOf(boundary.samplesUTC[2]);
+    if (beforeIndex < 0 || afterIndex < 0) throw new Error("Missing JPL +/-10 minute samples for " + boundary.windowId);
+    const targetBefore = parseHorizonsRow(target.rows[beforeIndex]);
     const targetAt = parseHorizonsRow(target.rows[centerIndex]);
-    const targetAfter = parseHorizonsRow(target.rows[centerIndex + 1]);
+    const targetAfter = parseHorizonsRow(target.rows[afterIndex]);
     const sunAt = parseHorizonsRow(sun.rows[centerIndex]);
     return {
       windowId: boundary.windowId,
+      sourcePageYear: boundary.sourcePageYear,
       boundaryName: boundary.boundaryName,
       drikUTC: boundary.drikUTC,
       targetAltitudeDeg: targetAt.elevationDeg,
