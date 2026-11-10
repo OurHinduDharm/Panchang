@@ -408,3 +408,13 @@ New Delhi के 8 Venus apparitions में से प्रत्येक P
 - 2/2 windows matched, 3/4 boundaries exact, 4/4 ±1 दिन।
 
 यह New Delhi→Pithoragarh का उपयोगी transfer evidence है, लेकिन source provider coordinates अज्ञात और Pithoragarh references केवल दो apparitions हैं। इसलिए इसे अभी Venus-only research evidence मानें, production acceptance नहीं।
+
+
+### Local azimuth feature holdout
+
+Local Sun–planet azimuth separation को magnitude के साथ test किया:
+- Saturn Udaya 6/6 exact; Asta 6/6 ±1 दिन।
+- Mercury में छोटा लाभ; Venus Udaya में 8/8 ±1 दिन, लेकिन Venus Asta बिगड़ा।
+- Jupiter में complete candidate windows नहीं निकले।
+
+इसलिए azimuth model universal नहीं। Saturn Udaya और Venus Udaya के लिए candidate है; Pithoragarh cross-location test के बिना अपनाना नहीं है।
