@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { findVisibilityBoundaryNearAnchor } from "../research/planetary-visibility-selector.mjs";
+import { findNearestConjunctionAnchor, findVisibilityBoundaryNearAnchor } from "../research/planetary-visibility-selector.mjs";
 
 const DAY_MS = 86400000;
 const anchorDate = new Date("2026-01-10T06:30:00.000Z");
@@ -97,3 +97,72 @@ test("rejects invalid event direction and incomplete models", () => {
     astronomy: fakeAstronomy(dayOffset => dayOffset)
   }), /model.intercept and model.slope/);
 });
+
+
+function fakeConjunctionSearch(eventsByTarget) {
+  return {
+    SearchRelativeLongitude(_body, target, start) {
+      const next = (eventsByTarget[target] || [])
+        .map(value => new Date(value))
+        .filter(date => date.getTime() > start.getTime())
+        .sort((a, b) => a - b)[0];
+      return next ? { date: next } : null;
+    }
+  };
+}
+
+test("derives an inferior-planet conjunction anchor and selects the nearest event", () => {
+  const result = findNearestConjunctionAnchor({
+    astronomy: fakeConjunctionSearch({
+      0: ["2026-01-07T00:00:00.000Z"],
+      180: ["2026-01-12T00:00:00.000Z"]
+    }),
+    body: "Venus",
+    approximateDate: "2026-01-10T00:00:00.000Z"
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.targetRelativeLongitudeDegrees, 180);
+  assert.equal(result.conjunctionUTC, "2026-01-12T00:00:00.000Z");
+});
+
+test("uses superior conjunction only for an outer planet", () => {
+  const result = findNearestConjunctionAnchor({
+    astronomy: fakeConjunctionSearch({
+      0: ["2026-01-09T00:00:00.000Z"],
+      180: ["2026-01-12T00:00:00.000Z"]
+    }),
+    body: "Jupiter",
+    approximateDate: "2026-01-10T00:00:00.000Z"
+  });
+
+  assert.equal(result.targetRelativeLongitudeDegrees, 180);
+  assert.equal(result.conjunctionUTC, "2026-01-12T00:00:00.000Z");
+});
+
+test("returns ambiguous when inferior and superior conjunctions are equally near", () => {
+  const result = findNearestConjunctionAnchor({
+    astronomy: fakeConjunctionSearch({
+      0: ["2026-01-09T00:00:00.000Z"],
+      180: ["2026-01-11T00:00:00.000Z"]
+    }),
+    body: "Mercury",
+    approximateDate: "2026-01-10T00:00:00.000Z"
+  });
+
+  assert.equal(result.status, "ambiguous");
+  assert.equal(result.conjunctionUTC, null);
+});
+
+test("returns no-conjunction when no event is in the allowed window", () => {
+  const result = findNearestConjunctionAnchor({
+    astronomy: fakeConjunctionSearch({ 180: ["2026-08-01T00:00:00.000Z"] }),
+    body: "Saturn",
+    approximateDate: "2026-01-10T00:00:00.000Z",
+    maxDistanceDays: 30
+  });
+
+  assert.equal(result.status, "no-conjunction");
+  assert.equal(result.conjunctionUTC, null);
+});
+
