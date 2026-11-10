@@ -33,17 +33,19 @@
     {
       "date": "2028-04-03",
       "dateLabel": "3 अप्रैल",
-      "title": "मासिक दुर्गाष्टमी / चैत्र नवरात्र महाष्टमी — माँ महागौरी",
+      "title": "मासिक दुर्गाष्टमी / चैत्र नवरात्र महाष्टमी — माँ महागौरी / अशोकाष्टमी",
       "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। नवरात्रि की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल अष्टमी"
+      "hinduTithi": "चैत्र शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
     {
       "date": "2028-04-03",
       "dateLabel": "3 अप्रैल",
-      "title": "राम नवमी / चैत्र नवरात्र नवमी — माँ सिद्धिदात्री / तारा महाविद्या जयंती",
+      "title": "राम नवमी / चैत्र नवरात्र नवमी — माँ सिद्धिदात्री / तारा महाविद्या जयंती / महतारा जयंती",
       "description": "राम नवमी भगवान श्रीराम के जन्मोत्सव का पर्व है। राम-पूजन, रामायण-पाठ और कई परंपराओं में मध्याह्न जन्मोत्सव किया जाता है। स्मार्त तिथि-निर्णय संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है। नवरात्रि की नवमी पर माँ सिद्धिदात्री का पूजन किया जाता है। इस दिन नवमी हवन और नवरात्रि-पारण की परंपरा भी है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a> तारा महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Sadhana-Of-Tara-Mahavidya.html\" target=\"_blank\" rel=\"noopener noreferrer\">तारा महाविद्या</a> <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>।",
       "category": "पर्व",
       "reviewStatus": "approved",
@@ -85,6 +87,17 @@
       "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
     },
     {
+      "date": "2028-04-06",
+      "dateLabel": "6 अप्रैल",
+      "title": "वामन द्वादशी",
+      "description": "वामन द्वादशी के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028",
+      "hinduTithi": "चैत्र शुक्ल द्वादशी"
+    },
+    {
       "date": "2028-04-07",
       "dateLabel": "7 अप्रैल",
       "title": "शुक्र प्रदोष व्रत",
@@ -95,9 +108,19 @@
       "hinduTithi": "चैत्र शुक्ल पक्ष त्रयोदशी"
     },
     {
+      "date": "2028-04-08",
+      "dateLabel": "8 अप्रैल",
+      "title": "पंगुनी उत्तिरम",
+      "description": "पंगुनी उत्तिरम के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
+    },
+    {
       "date": "2028-04-09",
       "dateLabel": "9 अप्रैल",
-      "title": "चैत्र पूर्णिमा / हनुमान जयंती",
+      "title": "चैत्र पूर्णिमा / हनुमान जयंती / हनुमान जन्मोत्सव / स्वारोचिष मन्वादि",
       "description": "चैत्र पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। कई परंपराओं में इसी दिन हनुमान जयंती भी मनाई जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a> हनुमान जयंती पर श्रीहनुमान की पूजा, हनुमान चालीसा/सुंदरकाण्ड पाठ और मंत्र-जप की परंपरा है। तिथि-निर्णय संबंधित तिथि-व्याप्ति के आधार पर निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जयंती</a> <a href=\"https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीहनुमान जी की स्तोत्रात्मक साधना</a>",
       "category": "पूर्णिमा",
       "reviewStatus": "approved",
@@ -106,7 +129,41 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/About-Lord-Hanuman-Jayanti.html",
       "articleLabel": "श्रीहनुमान जयंती",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/04/About-Stotratmak-Pooja-Of-Hanuman-ji.html",
-      "secondaryArticleLabel": "श्रीहनुमान जी की स्तोत्रात्मक साधना"
+      "secondaryArticleLabel": "श्रीहनुमान जी की स्तोत्रात्मक साधना",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
+    },
+    {
+      "date": "2028-04-09",
+      "dateLabel": "9 अप्रैल",
+      "title": "अन्वाधान",
+      "description": "अन्वाधान के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028",
+      "hinduTithi": "चैत्र शुक्ल चतुर्दशी"
+    },
+    {
+      "date": "2028-04-10",
+      "dateLabel": "10 अप्रैल",
+      "title": "वैशाख मासारंभ (उत्तर)",
+      "description": "वैशाख मासारंभ (उत्तर) के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "मासारंभ",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028",
+      "hinduTithi": "वैशाख कृष्ण प्रतिपदा"
+    },
+    {
+      "date": "2028-04-10",
+      "dateLabel": "10 अप्रैल",
+      "title": "इष्टि",
+      "description": "इष्टि के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
     {
       "date": "2028-04-12",
@@ -146,30 +203,33 @@
       "showReviewStatus": false
     },
     {
-      "date": "2028-04-13",
-      "dateLabel": "13 अप्रैल",
-      "title": "विषु",
-      "description": "विषु केरल का सौर नववर्ष-पर्व है। विषुक्कणी दर्शन, दीप, पारिवारिक शुभकामनाएँ और पारंपरिक भोजन इसकी प्रमुख रीति हैं।",
-      "category": "पर्व",
+      "date": "2028-04-14",
+      "dateLabel": "14 अप्रैल",
+      "title": "पुथांडु / विषु कणि / पोहेला बोइशाख",
+      "description": "पुथांडु / विषु कणि / पोहेला बोइशाख के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "सौर नववर्ष",
       "reviewStatus": "approved",
-      "showReviewStatus": false
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
     {
       "date": "2028-04-16",
       "dateLabel": "16 अप्रैल",
-      "title": "मासिक कालाष्टमी",
+      "title": "मासिक कालाष्टमी / भानु सप्तमी / मासिक कृष्ण जन्माष्टमी",
       "description": "प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "वैशाख कृष्ण सप्तमी (अष्टमी व्याप्ति)",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
-      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+      "articleLabel": "भैरवाष्टमी की महिमा पढ़ें",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
     {
       "date": "2028-04-20",
       "dateLabel": "20 अप्रैल",
-      "title": "वरुथिनी एकादशी",
+      "title": "वरुथिनी एकादशी / वल्लभाचार्य जयंती",
       "description": "वरुथिनी एकादशी पर भगवान विष्णु की उपासना, व्रत, जप और दान की परंपरा है। पारण द्वादशी-व्याप्ति और हरिवासर के नियम देखकर तय करें। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a>",
       "category": "एकादशी",
       "reviewStatus": "approved",
@@ -179,17 +239,32 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
       "articleLabel": "एकादशी व्रत का पवित्र विधान",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
-      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि"
+      "secondaryArticleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
+    },
+    {
+      "date": "2028-04-21",
+      "dateLabel": "21 अप्रैल",
+      "title": "कृष्ण वामन द्वादशी",
+      "description": "कृष्ण वामन द्वादशी के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028",
+      "hinduTithi": "वैशाख कृष्ण द्वादशी"
     },
     {
       "date": "2028-04-22",
       "dateLabel": "22 अप्रैल",
-      "title": "शनि प्रदोष व्रत",
+      "title": "शनि प्रदोष व्रत / कुब्जिका जयंती",
       "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "वैशाख कृष्ण पक्ष त्रयोदशी",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
     {
       "date": "2028-04-22",
@@ -207,27 +282,63 @@
     {
       "date": "2028-04-24",
       "dateLabel": "24 अप्रैल",
-      "title": "सोमवती अमावस्या",
+      "title": "सोमवती अमावस्या / दर्श अमावस्या",
       "description": "सोमवार को पड़ने वाली अमावस्या को सोमवती अमावस्या कहा जाता है। स्नान, दान, जप और पितृ-तर्पण की परंपरा है। कर्म का समय उसके प्रकार और संबंधित काल-व्याप्ति के आधार पर निर्धारित होता है।",
       "category": "अमावस्या",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख कृष्ण अमावस्या"
+      "hinduTithi": "वैशाख कृष्ण अमावस्या",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
+    },
+    {
+      "date": "2028-04-24",
+      "dateLabel": "24 अप्रैल",
+      "title": "अन्वाधान",
+      "description": "अन्वाधान के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028",
+      "hinduTithi": "वैशाख कृष्ण चतुर्दशी"
+    },
+    {
+      "date": "2028-04-25",
+      "dateLabel": "25 अप्रैल",
+      "title": "पराशर ऋषि जयंती",
+      "description": "पराशर ऋषि जयंती के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "जयंती",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028",
+      "hinduTithi": "वैशाख शुक्ल प्रतिपदा"
+    },
+    {
+      "date": "2028-04-25",
+      "dateLabel": "25 अप्रैल",
+      "title": "इष्टि",
+      "description": "इष्टि के अवसर पर परंपरानुसार पूजा, व्रत और दान किया जाता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
     {
       "date": "2028-04-26",
       "dateLabel": "26 अप्रैल",
-      "title": "चन्द्र दर्शन",
+      "title": "चन्द्र दर्शन / मासिक कार्तिगाई",
       "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल द्वितीया"
+      "hinduTithi": "वैशाख शुक्ल द्वितीया",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
     {
       "date": "2028-04-27",
       "dateLabel": "27 अप्रैल",
-      "title": "त्रेतायुगादि तिथि (त्रेतायुग का आरंभ) / अक्षय तृतीया / मातंगी महाविद्या जयंती / परशुराम जयंती",
+      "title": "त्रेतायुगादि तिथि (त्रेतायुग का आरंभ) / अक्षय तृतीया / मातंगी महाविद्या जयंती / परशुराम जयंती / वर्षीतप पारणा",
       "description": "वैशाख शुक्ल तृतीया को त्रेतायुगादि माना जाता है। मान्यता है कि इसी तिथि से त्रेतायुग का आरंभ हुआ था। यही तिथि अक्षय तृतीया कहलाती है। इस दिन दान-पुण्य और शुभ कार्यों का विशेष महत्व है। अक्षय तृतीया दान, जप, पूजा और शुभ आरम्भ से जुड़ी तिथि है। <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Akshaya-Triteeya.html\" target=\"_blank\" rel=\"noopener noreferrer\">अक्षय तृतीया का महत्व पढ़ें</a> <a href=\"http://ourhindudharm.blogspot.com/2014/05/About-Lord-Parshuram-On-Parashuraam-jayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">संबंधित लेख</a> मातंगी महाविद्या जयंती पर देवी की स्तोत्रात्मक उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/08/About-MatangiMahavidya-ki-Stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">मातंगी महाविद्या</a> इसी दिन भगवान परशुराम जयंती भी मनाई जाती है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
@@ -253,22 +364,26 @@
     {
       "date": "2028-04-29",
       "dateLabel": "29 अप्रैल",
-      "title": "आदि शंकराचार्य जयंती",
+      "title": "आदि शंकराचार्य जयंती / सूरदास जयंती",
       "description": "आदि शंकराचार्य जयंती उनके जीवन, अद्वैत वेदान्त और गुरु-परंपरा के स्मरण का अवसर है। स्तोत्र-पाठ, अध्ययन और गुरु-स्मरण की परंपरा है।",
       "category": "जयंती",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल पंचमी"
+      "hinduTithi": "वैशाख शुक्ल पंचमी",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     },
     {
       "date": "2028-04-30",
       "dateLabel": "30 अप्रैल",
-      "title": "मासिक स्कन्द षष्ठी",
+      "title": "मासिक स्कन्द षष्ठी / रामानुजाचार्य जयंती",
       "description": "मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "वैशाख शुक्ल षष्ठी"
+      "hinduTithi": "वैशाख शुक्ल षष्ठी",
+      "sourceName": "Drik Panchang — April 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-april.html?year=2028"
     }
   ]
 }
