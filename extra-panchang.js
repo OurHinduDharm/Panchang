@@ -466,7 +466,7 @@ function buildDrikPlanetReferenceRows(dataset, location, selectedDate) {
   });
 }
 
-function renderDrikPlanetReferenceCard(location, selectedDate) {
+function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
   const renderVersion = ++planetReferenceRenderVersion;
   const loadingCard = createPlanetCard(PLANETS.map(planet => ({
     name: planet.name,
@@ -474,7 +474,7 @@ function renderDrikPlanetReferenceCard(location, selectedDate) {
     asta: null,
     udaya: null,
     sourceUrl: null
-  })));
+  })), dailyEvents);
   replaceOrPlacePanchangCard("planetRiseSetCard", loadingCard);
 
   loadDrikPithoragarhData().then(dataset => {
@@ -495,7 +495,7 @@ function renderDrikPlanetReferenceCard(location, selectedDate) {
           name: planet.name, status: "unavailable",
           reason: "dataset-unavailable", asta: null, udaya: null, sourceUrl: null
         }));
-    replaceOrPlacePanchangCard("planetRiseSetCard", createPlanetCard(rows));
+    replaceOrPlacePanchangCard("planetRiseSetCard", createPlanetCard(rows, dailyEvents));
     normalizePanchangCardOrder();
   });
 }
@@ -504,10 +504,21 @@ function renderDrikPlanetReferenceCard(location, selectedDate) {
    Card creation
    ========================================= */
 
-function createPlanetCard(data) {
+function createPlanetCard(data, dailyEvents = {}) {
   const card = document.createElement("div");
   card.className = "card full";
   card.id = "planetRiseSetCard";
+
+  const dailyRows = [
+    { name: "सूर्य", udaya: dailyEvents.sunrise || null, asta: dailyEvents.sunset || null },
+    { name: "चंद्रमा", udaya: dailyEvents.moonrise || null, asta: dailyEvents.moonset || null }
+  ].map(body => `
+    <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
+      <strong style="font-size:1.02em">${body.name}</strong>
+      <span>उदय — <b>${body.udaya || "गणना उपलब्ध नहीं"}</b></span>
+      <span>अस्त — <b>${body.asta || "गणना उपलब्ध नहीं"}</b></span>
+    </div>
+  `).join("");
 
   const rows = data.map(planet => {
     if (planet.status === "loading") {
@@ -543,7 +554,7 @@ function createPlanetCard(data) {
   );
   card.innerHTML = `
     <h3>🌌 ग्रहों का तारा अस्त एवं पुनः उदय</h3>
-    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}</div>
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${dailyRows}${rows}</div>
     <p class="planet-rise-set-note" style="margin:10px 0 0;font-size:.82em;line-height:1.4;color:var(--muted-color,#777)">
       ${cityUnavailable
         ? "अभी प्रत्यक्ष Drik डेटा केवल पिथौरागढ़ के लिए उपलब्ध है। दूसरे नगर का डेटा स्वतः लागू नहीं किया जाता।"
@@ -1324,7 +1335,13 @@ if(
    * =========================================================
    */
 
-  renderDrikPlanetReferenceCard(location, selectedDate);
+  const dailyEvents = {
+    sunrise: pHora.sunrise ? formatEventDateTime(new Date(pHora.sunrise)) : null,
+    sunset: pHora.sunset ? formatEventDateTime(new Date(pHora.sunset)) : null,
+    moonrise: pHora.moonrise ? formatEventDateTime(new Date(pHora.moonrise)) : null,
+    moonset: pHora.moonset ? formatEventDateTime(new Date(pHora.moonset)) : null
+  };
+  renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents);
   __ohdPerfMark("direct Drik reference lookup and card");
 
 
