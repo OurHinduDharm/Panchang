@@ -1284,10 +1284,12 @@
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2027-04-02",
       "labels": [
         "एकादशी श्रवण योग द्वादशी"
-      ]
+      ],
+      "observanceDate": "2027-04-02",
+      "dateRole": "special-observance-date",
+      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date."
     },
     {
       "year": 2027,
@@ -1354,10 +1356,12 @@
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2028-03-21",
       "labels": [
         "विष्णुशृंखला योग द्वादशी"
-      ]
+      ],
+      "observanceDate": "2028-03-21",
+      "dateRole": "special-observance-date",
+      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date."
     },
     {
       "year": 2028,
@@ -1434,10 +1438,12 @@
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2030-03-29",
       "labels": [
         "एकादशी श्रवण योग द्वादशी"
-      ]
+      ],
+      "observanceDate": "2030-03-29",
+      "dateRole": "special-observance-date",
+      "note": "Drik Panchang lists this named yoga observance on this date; the Dwadashi tithi itself begins after midnight on the following civil date."
     },
     {
       "year": 2030,
