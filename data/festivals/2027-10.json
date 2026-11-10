@@ -44,12 +44,23 @@
       "date": "2027-10-03",
       "dateLabel": "3 अक्टूबर",
       "title": "कपर्दीश चतुर्थी",
-      "description": "आश्विन शुक्ल चतुर्थी पर भगवान गणेश का पूजन, दूर्वा और मोदक अर्पण तथा गणपति-मंत्र का जप किया जाता है।",
+      "description": "आश्विन शुक्ल चतुर्थी पर भगवान गणेश की पूजा, दूर्वा और मोदक अर्पण तथा व्रत की परंपरा है।",
       "category": "गणेश व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल चतुर्थी"
+    },
+    {
+      "date": "2027-10-03",
+      "dateLabel": "3 अक्टूबर",
+      "title": "शारदीय नवरात्र चतुर्थी — माँ कूष्माण्डा",
+      "description": "नवरात्रि के चौथे दिन माँ कूष्माण्डा की पूजा, ध्यान और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा की पूजा पढ़ें</a>",
+      "category": "नवरात्र",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "articleLabel": "माँ कूष्माण्डा की पूजा पढ़ें"
     },
     {
       "date": "2027-10-03",
@@ -67,7 +78,7 @@
       "date": "2027-10-04",
       "dateLabel": "4 अक्टूबर",
       "title": "शारदीय नवरात्र पंचमी — माँ स्कन्दमाता",
-      "description": "शारदीय नवरात्र के पाँचवें दिन माँ स्कन्दमाता की आराधना की जाती है। संतान-सुख और कल्याण की कामना से देवी का पूजन करें।",
+      "description": "नवरात्रि के पाँचवें दिन माँ स्कन्दमाता की पूजा, ध्यान और मंत्र-जप किया जाता है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ स्कन्दमाता की पूजा पढ़ें</a>",
       "category": "शारदीय नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -81,8 +92,8 @@
       "date": "2027-10-04",
       "dateLabel": "4 अक्टूबर",
       "title": "उपांग ललिता व्रत",
-      "description": "आश्विन शुक्ल पंचमी को माँ ललिता की पूजा, व्रत-कथा और स्तोत्र-पाठ की परंपरा है।",
-      "category": "देवी व्रत",
+      "description": "आश्विन शुक्ल पंचमी को माँ ललिता त्रिपुरसुन्दरी की उपासना, व्रत-कथा और पूजन किया जाता है।",
+      "category": "देवी-व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल पंचमी",
@@ -112,20 +123,6 @@
       "hinduTithi": "आश्विन शुक्ल षष्ठी",
       "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
-    },
-    {
-      "date": "2027-10-05",
-      "dateLabel": "5 अक्टूबर",
-      "title": "शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। देवी को पुष्प, धूप, दीप और नैवेद्य अर्पित कर आराधना करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी की पूजा-विधि पढ़ें</a>",
-      "category": "नवरात्र",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल षष्ठी",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
-      "articleLabel": "माँ कात्यायनी की पूजा-विधि पढ़ें"
     },
     {
       "date": "2027-10-05",
@@ -166,28 +163,16 @@
     {
       "date": "2027-10-05",
       "dateLabel": "5 अक्टूबर",
-      "title": "दुर्गा पूजा आरम्भ / बिल्व निमन्त्रण / कल्पारम्भ / अकाल बोधन",
-      "description": "शारदीय दुर्गा पूजा के आरंभ में बिल्व-वृक्ष का निमन्त्रण, कल्पारम्भ और अकाल बोधन की परंपरा है। माँ दुर्गा का आवाहन कर पूजा-अनुष्ठान आरंभ किए जाते हैं।",
-      "category": "दुर्गा पूजा",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल षष्ठी",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
-    },
-    {
-      "date": "2027-10-05",
-      "dateLabel": "5 अक्टूबर",
       "title": "शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "शारदीय नवरात्र के छठे दिन माँ कात्यायनी की पूजा, ध्यान और मंत्र-जप किया जाता है।",
-      "category": "शारदीय नवरात्र",
+      "description": "नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। देवी को पुष्प, धूप, दीप और नैवेद्य अर्पित कर आराधना करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी की पूजा-विधि पढ़ें</a>",
+      "category": "नवरात्र",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आश्विन शुक्ल षष्ठी",
       "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
-      "articleLabel": "माँ कात्यायनी की पूजा पढ़ें"
+      "articleLabel": "माँ कात्यायनी की पूजा-विधि पढ़ें"
     },
     {
       "date": "2027-10-06",
@@ -205,7 +190,7 @@
       "date": "2027-10-06",
       "dateLabel": "6 अक्टूबर",
       "title": "देवी सरस्वती आवाहन / स्थापना",
-      "description": "शारदीय नवरात्र में सरस्वती-पूजन के लिए देवी का आवाहन और स्थापना की परंपरा है। आवाहन का समय मूल नक्षत्र और स्थानीय काल-व्याप्ति के अनुसार देखा जाता है।",
+      "description": "शारदीय नवरात्र में मूल नक्षत्र के संयोग पर माँ सरस्वती का आवाहन और स्थापना कर विद्या-पूजन की तैयारी की जाती है।",
       "category": "देवी पूजा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -262,18 +247,6 @@
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
     },
     {
-      "date": "2027-10-07",
-      "dateLabel": "7 अक्टूबर",
-      "title": "सरस्वती पूजा",
-      "description": "शारदीय नवरात्र में माँ सरस्वती की पूजा, विद्या-प्राप्ति की कामना और पुस्तक-पूजन किया जाता है।",
-      "category": "देवी पूजा",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल अष्टमी",
-      "sourceName": "Drik Panchang — 2027 October Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
-    },
-    {
       "date": "2027-10-08",
       "dateLabel": "8 अक्टूबर",
       "title": "महानवमी / माँ सिद्धिदात्री पूजन",
@@ -306,18 +279,6 @@
       "dateLabel": "8 अक्टूबर",
       "title": "सरस्वती बलिदान",
       "description": "दुर्गा पूजा की कुछ क्षेत्रीय परंपराओं में नवमी के दिन सरस्वती-पूजन से जुड़ा बलिदान-अनुष्ठान किया जाता है।",
-      "category": "दुर्गा पूजा",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल नवमी",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
-    },
-    {
-      "date": "2027-10-08",
-      "dateLabel": "8 अक्टूबर",
-      "title": "सरस्वती बलिदान",
-      "description": "शारदीय दुर्गा पूजा की परंपरा में नवमी तिथि पर सरस्वती बलिदान की विधि कुछ क्षेत्रों में की जाती है।",
       "category": "दुर्गा पूजा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -374,30 +335,6 @@
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
     },
     {
-      "date": "2027-10-09",
-      "dateLabel": "9 अक्टूबर",
-      "title": "सरस्वती विसर्जन",
-      "description": "शारदीय नवरात्र के उपरांत माँ सरस्वती की प्रतिमा का विसर्जन कर विद्या और बुद्धि की मंगलकामना की जाती है।",
-      "category": "देवी पूजा",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल दशमी",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
-    },
-    {
-      "date": "2027-10-09",
-      "dateLabel": "9 अक्टूबर",
-      "title": "आयुध पूजा",
-      "description": "दक्षिण भारत की परंपरा में विजयादशमी पर शस्त्रों, औजारों, वाहनों और कार्य-उपकरणों का पूजन किया जाता है।",
-      "category": "पूजा",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल दशमी",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027"
-    },
-    {
       "date": "2027-10-10",
       "dateLabel": "10 अक्टूबर",
       "title": "दुर्गा विसर्जन",
@@ -447,50 +384,6 @@
       "title": "काशी भरत मिलाप",
       "description": "काशी में विजयादशमी के बाद श्रीराम और भरत के मिलन की लीला का आयोजन किया जाता है।",
       "category": "रामलीला",
-      "reviewStatus": "approved",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027",
-      "hinduTithi": "आश्विन शुक्ल दशमी"
-    },
-    {
-      "date": "2027-10-10",
-      "dateLabel": "10 अक्टूबर",
-      "title": "बंगाल विजयादशमी",
-      "description": "बंगाल की परंपरा में विजयादशमी पर सिंदूर-खेला, देवी-दर्शन और माँ दुर्गा के विदाई-उत्सव का आयोजन किया जाता है।",
-      "category": "क्षेत्रीय दुर्गा-पर्व",
-      "reviewStatus": "approved",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027",
-      "hinduTithi": "आश्विन शुक्ल दशमी"
-    },
-    {
-      "date": "2027-10-10",
-      "dateLabel": "10 अक्टूबर",
-      "title": "विद्यारम्भम्",
-      "description": "केरल और दक्षिण भारत की परंपरा में विजयादशमी पर बच्चों का विद्यारम्भ संस्कार कराया जाता है। अक्षर-लेखन और सरस्वती-पूजन से शिक्षा का शुभारंभ किया जाता है।",
-      "category": "संस्कार",
-      "reviewStatus": "approved",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027",
-      "hinduTithi": "आश्विन शुक्ल दशमी"
-    },
-    {
-      "date": "2027-10-10",
-      "dateLabel": "10 अक्टूबर",
-      "title": "मैसूर दशहरा",
-      "description": "मैसूर में विजयादशमी का उत्सव राजपरंपरा, चामुंडेश्वरी पूजन और भव्य शोभायात्रा से जुड़ा है।",
-      "category": "क्षेत्रीय दशहरा",
-      "reviewStatus": "approved",
-      "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027",
-      "hinduTithi": "आश्विन शुक्ल दशमी"
-    },
-    {
-      "date": "2027-10-10",
-      "dateLabel": "10 अक्टूबर",
-      "title": "काशी भरत मिलाप",
-      "description": "काशी की परंपरा में भरत मिलाप के अवसर पर भगवान श्रीराम और भरत के मिलन की लीला का उत्सव मनाया जाता है।",
-      "category": "रामलीला-पर्व",
       "reviewStatus": "approved",
       "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027",
@@ -665,7 +558,7 @@
       "date": "2027-10-26",
       "dateLabel": "26 अक्टूबर",
       "title": "गोवत्स द्वादशी",
-      "description": "कार्तिक कृष्ण द्वादशी को गाय और बछड़े का पूजन कर गौमाता के प्रति कृतज्ञता व्यक्त की जाती है। संतान और परिवार के कल्याण की कामना से व्रत रखा जाता है।",
+      "description": "कार्तिक कृष्ण द्वादशी पर गाय और बछड़े का पूजन कर परिवार के मंगल की कामना की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">गोवत्स द्वादशी का महत्व पढ़ें</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -673,13 +566,13 @@
       "sourceName": "Drik Panchang — October 2027 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?year=2027",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Govats-Dwadashi-vrat.html",
-      "articleLabel": "गोवत्स द्वादशी व्रत-विधि पढ़ें"
+      "articleLabel": "गोवत्स द्वादशी का महत्व पढ़ें"
     },
     {
       "date": "2027-10-26",
       "dateLabel": "26 अक्टूबर",
       "title": "कृष्ण पद्मनाभ द्वादशी",
-      "description": "कार्तिक कृष्ण द्वादशी पर भगवान विष्णु के पद्मनाभ स्वरूप का स्मरण, पूजन और मंत्र-जप किया जाता है।",
+      "description": "कार्तिक कृष्ण द्वादशी पर भगवान विष्णु के पद्मनाभ स्वरूप का पूजन, मंत्र-जप और दान किया जाता है।",
       "category": "विष्णु व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
