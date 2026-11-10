@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   normalizeFestivalTitle,
-  synchronizeEventContent
+  synchronizeEventContent,
+  findMatchingFestivalTemplates
 } from "../scripts/sync-festival-content-from-master.mjs";
 
 test("normalizes Hindi festival titles and punctuation", () => {
@@ -92,4 +93,31 @@ test("escapes malformed HTML fragments in imported article labels", () => {
   assert.match(event.description, /<a href="https:\/\/example\.com\/safe"[^>]*>script<\/a>/);
   assert.doesNotMatch(event.description, /<script/);
   assert.match(event.description, /href="https:\/\/example\.com\/safe"/);
+});
+
+
+test("matches every explicit observance on combined cards without false partial matches", () => {
+  const templates = [
+    { key: "मासिक कालाष्टमी", articleUrl: "https://example.com/bhairav", articleLabel: "भैरवाष्टमी" },
+    { key: "मासिक कृष्ण जन्माष्टमी", articleUrl: "https://example.com/krishna", articleLabel: "कृष्ण जन्माष्टमी" },
+    { key: "महाशिवरात्रि मासिक शिवरात्रि व्रत", articleUrl: "https://example.com/maha-shiva", articleLabel: "महाशिवरात्रि" }
+  ];
+  const matched = findMatchingFestivalTemplates(
+    { title: "मासिक कालाष्टमी / मासिक कृष्ण जन्माष्टमी" },
+    templates
+  );
+  assert.deepEqual(matched.map(item => item.key), [
+    "मासिक कालाष्टमी",
+    "मासिक कृष्ण जन्माष्टमी"
+  ]);
+});
+
+test("applies specific Rama Ekadashi and Makar Sankranti aliases", () => {
+  const templates = [
+    { key: "रमा एकादशी व्रत", articleUrl: "https://example.com/rama", articleLabel: "रमा एकादशी" },
+    { key: "मकर संक्रांति सूर्य उत्तरायण प्रारम्भ", articleUrl: "https://example.com/makar", articleLabel: "मकर संक्रांति" }
+  ];
+  assert.equal(findMatchingFestivalTemplates({ title: "रमा एकादशी" }, templates)[0].key, "रमा एकादशी व्रत");
+  assert.equal(findMatchingFestivalTemplates({ title: "मकर संक्रांति / उत्तरायण / पोंगल" }, templates)[0].key,
+    "मकर संक्रांति सूर्य उत्तरायण प्रारम्भ");
 });
