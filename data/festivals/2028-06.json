@@ -160,12 +160,16 @@
     {
       "date": "2028-06-24",
       "dateLabel": "24 जून",
-      "title": "चन्द्र दर्शन",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "title": "चन्द्र दर्शन / आषाढ़ गुप्त नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। आषाढ़ गुप्त नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल द्वितीया"
+      "hinduTithi": "आषाढ़ शुक्ल द्वितीया",
+      "sourceName": "Drik Panchang — 2028 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
+      "articleLabel": "माँ ब्रह्मचारिणी"
     },
     {
       "date": "2028-06-24",
@@ -175,20 +179,6 @@
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false
-    },
-    {
-      "date": "2028-06-24",
-      "dateLabel": "24 जून",
-      "title": "आषाढ़ गुप्त नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
-      "description": "आषाढ़ गुप्त नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल द्वितीया",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
-      "articleLabel": "माँ ब्रह्मचारिणी",
-      "sourceName": "Drik Panchang — 2028 Ashadha Gupta Navratri",
-      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028"
     },
     {
       "date": "2028-06-25",
@@ -207,27 +197,17 @@
     {
       "date": "2028-06-26",
       "dateLabel": "26 जून",
-      "title": "अनिरुद्ध चतुर्थी",
-      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है।",
+      "title": "अनिरुद्ध चतुर्थी / आषाढ़ गुप्त नवरात्र चतुर्थी — माँ कूष्माण्डा",
+      "description": "शुक्ल पक्ष की चतुर्थी को विनायक चतुर्थी का व्रत किया जाता है। भगवान गणेश की पूजा, दूर्वा और मोदक/नैवेद्य अर्पण की परंपरा है। आषाढ़ गुप्त नवरात्र के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
-      "muhurtaRule": "vinayaka-chaturthi-madhyahna"
-    },
-    {
-      "date": "2028-06-26",
-      "dateLabel": "26 जून",
-      "title": "आषाढ़ गुप्त नवरात्र चतुर्थी — माँ कूष्माण्डा",
-      "description": "आषाढ़ गुप्त नवरात्र के चौथे दिन माँ कूष्माण्डा की पूजा की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कूष्माण्डा</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
-      "articleLabel": "माँ कूष्माण्डा",
+      "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "sourceName": "Drik Panchang — 2028 Ashadha Gupta Navratri",
-      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028"
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?time-format=24hour&year=2028",
+      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
+      "articleLabel": "माँ कूष्माण्डा"
     },
     {
       "date": "2028-06-27",
