@@ -28,9 +28,19 @@
     {
       "date": "2028-09-02",
       "dateLabel": "2 सितंबर",
-      "title": "अनंत चतुर्दशी / गणेश विसर्जन",
-      "description": "अनंत चतुर्दशी पर भगवान विष्णु के अनंत स्वरूप की पूजा और अनंत-सूत्र धारण करने की परंपरा है। कई स्थानों पर इसी दिन गणेश-विसर्जन भी होता है।",
-      "category": "पर्व",
+      "title": "अनंत चतुर्दशी",
+      "description": "भाद्रपद शुक्ल चतुर्दशी पर भगवान विष्णु के अनंत स्वरूप की पूजा और अनंत-सूत्र धारण करने की परंपरा है।",
+      "category": "विष्णु-व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "भाद्रपद शुक्ल चतुर्दशी"
+    },
+    {
+      "date": "2028-09-02",
+      "dateLabel": "2 सितंबर",
+      "title": "गणेश विसर्जन",
+      "description": "गणेशोत्सव के समापन पर भाद्रपद शुक्ल चतुर्दशी को भगवान गणेश की प्रतिमा का विसर्जन कर अगले वर्ष पुनः आगमन की प्रार्थना की जाती है।",
+      "category": "गणेश-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल चतुर्दशी"
@@ -363,14 +373,22 @@
     {
       "date": "2028-09-20",
       "dateLabel": "20 सितंबर",
-      "title": "चन्द्र दर्शन / शारदीय नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
-      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। नवरात्रि के दूसरे दिन माँ ब्रह्मचारिणी की पूजा की जाती है। तप, संयम और साधना की अधिष्ठात्री देवी का पूजन करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ ब्रह्मचारिणी</a>",
-      "category": "पर्व",
+      "title": "चन्द्र दर्शन",
+      "description": "अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व। चन्द्रमा को अर्घ्य देकर कल्याण की कामना की जाती है।",
+      "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल द्वितीया",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
-      "articleLabel": "माँ ब्रह्मचारिणी"
+      "hinduTithi": "आश्विन शुक्ल द्वितीया"
+    },
+    {
+      "date": "2028-09-20",
+      "dateLabel": "20 सितंबर",
+      "title": "शारदीय नवरात्र द्वितीया — माँ ब्रह्मचारिणी",
+      "description": "शारदीय नवरात्र के दूसरे दिन माँ ब्रह्मचारिणी की पूजा, तप, संयम और मंत्र-साधना की जाती है।",
+      "category": "नवरात्र",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल द्वितीया"
     },
     {
       "date": "2028-09-21",
@@ -436,14 +454,22 @@
     {
       "date": "2028-09-24",
       "dateLabel": "24 सितंबर",
-      "title": "दुर्गा पूजा / शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
-      "description": "दुर्गा पूजा में माँ दुर्गा की आराधना, पुष्पांजलि, भोग और आरती की परंपरा है; बंगाल सहित कई क्षेत्रों में अनुष्ठान अलग-अलग दिनों में होते हैं। नवरात्रि के छठे दिन माँ कात्यायनी की पूजा की जाती है। श्रद्धापूर्वक देवी का ध्यान, पूजन और जप करें। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ कात्यायनी</a>",
-      "category": "नवरात्रि",
+      "title": "दुर्गा पूजा — षष्ठी",
+      "description": "बंगाल की दुर्गा पूजा में षष्ठी को देवी दुर्गा का बोधन, आमंत्रण और अधिवास किया जाता है।",
+      "category": "दुर्गा पूजा",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल षष्ठी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
-      "articleLabel": "माँ कात्यायनी"
+      "hinduTithi": "आश्विन शुक्ल षष्ठी"
+    },
+    {
+      "date": "2028-09-24",
+      "dateLabel": "24 सितंबर",
+      "title": "शारदीय नवरात्र षष्ठी — माँ कात्यायनी",
+      "description": "शारदीय नवरात्र के छठे दिन माँ कात्यायनी की पूजा, ध्यान और मंत्र-जप किया जाता है।",
+      "category": "नवरात्र",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आश्विन शुक्ल षष्ठी"
     },
     {
       "date": "2028-09-24",
@@ -482,14 +508,24 @@
     {
       "date": "2028-09-26",
       "dateLabel": "26 सितंबर",
-      "title": "महाष्टमी / महानवमी — माँ महागौरी एवं सिद्धिदात्री",
-      "description": "शारदीय नवरात्र की अष्टमी पर माँ दुर्गा के महागौरी स्वरूप की पूजा की जाती है। दुर्गा-पूजन, व्रत और कई परंपराओं में हवन/कन्या-पूजन किया जाता है; तिथि-व्याप्ति से दिन तय करें। मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। नवरात्रि की अष्टमी पर माँ महागौरी की पूजा, कन्या-पूजन और कई परंपराओं में संधि-पूजा का विधान है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ महागौरी</a> <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ सिद्धिदात्री</a> <a href=\"https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">नवमी हवन विधि</a>।",
-      "category": "पर्व",
+      "title": "महाष्टमी — माँ महागौरी",
+      "description": "शारदीय नवरात्र की अष्टमी पर माँ महागौरी की पूजा, दुर्गा-सप्तशती पाठ और कन्या-पूजन की परंपरा है।",
+      "category": "नवरात्र",
       "reviewStatus": "approved",
       "hinduTithi": "आश्विन शुक्ल अष्टमी",
       "showReviewStatus": false,
-      "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/p/navratrihavanvidhi.html",
-      "secondaryArticleLabel": "नवमी हवन विधि",
+      "sourceName": "Drik Panchang — September 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2028"
+    },
+    {
+      "date": "2028-09-26",
+      "dateLabel": "26 सितंबर",
+      "title": "महानवमी — माँ सिद्धिदात्री",
+      "description": "नवरात्र की नवमी पर माँ सिद्धिदात्री की पूजा, हवन और कन्या-पूजन की परंपरा है।",
+      "category": "नवरात्र",
+      "reviewStatus": "approved",
+      "hinduTithi": "आश्विन शुक्ल अष्टमी",
+      "showReviewStatus": false,
       "sourceName": "Drik Panchang — September 2028 Hindu Festivals",
       "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2028"
     },
