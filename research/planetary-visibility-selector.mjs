@@ -71,8 +71,9 @@ function validateInput({ astronomy, body, observer, anchorDate, direction, bound
  * Research-only event selector.
  *
  * The model estimates the Sun's refracted altitude at the local planetary
- * horizon event as a linear function of the planet's apparent magnitude:
- *   sunAltitude = intercept + slope * apparentMagnitude
+ * horizon event. It accepts either a magnitude-only linear fit
+ * (intercept + slope * apparentMagnitude) or an intercept plus named feature
+ * coefficients such as apparentMagnitude and elongationDegrees.
  *
  * anchorDate is only a search-window centre. It is not used to fit the model.
  * Production use still requires an independent way to derive the search
