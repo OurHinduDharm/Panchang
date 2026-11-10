@@ -343,3 +343,26 @@ Licensing gate: wrapper GPL-3.0-or-later है और Swiss Ephemeris dual-lice
 Boundary report अब Astronomy Engine Illumination() से apparent magnitude/phase inputs भी निकालती है। Swiss test दस Pithoragarh Venus/Jupiter boundaries के आसपास vis_limit_mag() की seven-point time profile बनाता है। Browser workflow में ये assertions सफल हुए। Baseline Swiss model में boundary instant पर planet below horizon है और ऊपर-क्षितिज samples के visibility margins negative हैं; इसलिए यह physical naked-eye visibility model Drik के local rise/set timestamps के समान event definition नहीं है। इसे production में substitute नहीं करना है।
 
 अगला selector research candidate local daily planet rise/set sequence पर brightness/phase, Sun altitude, azimuth separation और Moon/atmospheric context साथ में रखेगा। कोई fixed twilight threshold या Swiss parameter tuning स्वीकार नहीं होगी। 64 boundary geometry/magnitude rows में source provenance की सीमा बनी रहेगी: केवल चार Venus 2025 boundaries indexed Drik evidence हैं; अन्य rows user-transcribed हैं। Main/production output अभी नहीं बदला।
+
+
+## 10 नवम्बर 2026 — multi-year horizon-clock और visibility-selector validation
+
+### जो अब प्रमाणित हुआ
+
+- Drik New Delhi 2022–2027 के 58 windows / 116 boundaries पर Astronomy Engine के सही local rise/set event का clock time: mean absolute difference **0.2528 मिनट**, maximum **0.66 मिनट**। यह city-label proxy comparison है; Drik के provider coordinates/elevation अज्ञात हैं।
+- Pithoragarh के independently indexed Venus 2025 के चार boundaries पर local horizon crossing का clock-time अंतर −0.351, +0.148, +0.459 और −0.318 मिनट है। इससे clock-event selection मजबूत हुआ; visibility boundary date selection अलग समस्या है।
+- Research-only planetary-visibility-selector module अब एक local planet horizon event के आसपास twilight residual crossing ढूँढता है। शून्य crossing पर no-crossing, एक पर candidate, एक से अधिक पर ambiguous देता है; ambiguous/no-crossing में कोई तारीख नहीं गढ़ता।
+- इसके पाँच unit tests पास हुए: unique Asta-start, unique Asta-end, no-crossing, ambiguous crossing और invalid input।
+- New Delhi के 2022–27 holdout से Mercury-specific magnitude model दोनों दिशाओं में 30/30 year-pair fits में constant baseline से बेहतर रहा। Asta-start MAE 0.513° बनाम 0.988°; Asta-end 0.478° बनाम 1.197°. 375 repeated date predictions में 184 exact, 153 ±1 दिन, 24 ±2 दिन, 14 ±3 दिन (ये repeated model predictions हैं, independent dates नहीं)।
+- अन्य ग्रहों पर cross-planet magnitude model का blind date holdout: Saturn 10/12 ±1 दिन और 12/12 ±2 दिन; Jupiter 5/8 ±1 दिन और 7/8 ±2 दिन। यह promising है, exact-date production gate अभी पूरा नहीं।
+- Venus पर वही cross-planet model असफल: 16 boundaries में MAE 4.125 दिन, अधिकतम 12 दिन। Venus को अलग model/अतिरिक्त predictors चाहिए। Mars में केवल दो windows हैं और चार boundaries पर MAE 10 दिन; अभी पर्याप्त reference नहीं।
+- Venus के लिए dedicated New Delhi-trained, same-apparition-excluded Pithoragarh holdout 4 में 3 exact और 4/4 ±1 दिन रहा; पर New Delhi leave-one-apparition-out में Asta-start पर −3/+1/0/−4/−1 दिन के errors भी मिले। इसलिए Venus model भी अभी production-ready नहीं।
+
+### Engineering निर्णय
+
+1. Clock-time engine का आधार अब local topocentric rise/set event रखा जा सकता है; इसे fixed geocentric angular threshold से न बदलें।
+2. Visibility date selector अभी research-only रहेगा। Mercury के लिए dedicated model, Saturn/Jupiter के लिए cross-planet model candidate हैं; Venus और Mars के लिए अतिरिक्त शोध आवश्यक है।
+3. Selector को extra-panchang.js या main Panchang UI में अभी integrate नहीं किया जाएगा। पहले exact-date acceptance cases, independent location references और model uncertainty handling पूरे हों।
+4. PR #278 Draft रहेगा; merge/release नहीं। Main Panchang performance और existing calculations untouched हैं।
+
+Latest validation run 42750287551 में Panchang feature tests सफल रहे; browser diagnostics और classical interval regression अलग workflows में भी सफल रहे।
