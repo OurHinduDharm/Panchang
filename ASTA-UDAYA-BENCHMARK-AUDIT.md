@@ -32,12 +32,12 @@
 
 ## नया स्वतंत्र सरकारी समय-संदर्भ (2026-11-10)
 
-Positional Astronomy Centre, IMD की Rashtriya Panchang `Heliacal Rising and setting of planets` तालिका (`https://packolkata.imd.gov.in/panchang/en/helical`) से Central Station of India (23°11′ N, 82°30′ E) के लिए:
+Positional Astronomy Centre, IMD की Rashtriya Panchang `Heliacal Rising and setting of planets` तालिका (`https://packolkata.imd.gov.in/panchang/en/helical`) में Central Station of India के लिए Mercury के 13, Venus के 2, Mars के 1, Jupiter के 2 और Saturn के 2 — कुल 20 अलग-अलग heliacal events दिए हैं। ये annual event entries हैं; हर event को स्वतः paired Tara Asta interval न समझें। इस तालिका में Central Station के नाम के अलावा coordinates/elevation प्रकाशित नहीं हैं।
 
 - Venus: पश्चिम में अस्त — 13 Oct 2026, 24:18 IST (अर्थात 14 Oct 2026, 00:18 IST); पूर्व में उदय — 28 Oct 2026, 07:36 IST।
 - Jupiter: पश्चिम में अस्त — 15 Jul 2026, 11:10 IST; पूर्व में उदय — 10 Aug 2026, 07:53 IST।
 
-ये exact-time सरकारी heliacal events हैं। इन्हें Drik Tara Asta/Udaya windows, date-only visibility table, Swiss heliacal diagnostics या Surya Siddhanta K/C परिणामों के साथ interchangeable न मानें। Source elevation प्रकाशित नहीं है; इसलिए latitude/longitude match होने पर भी पूर्ण observer equivalence सिद्ध नहीं होती। 24:18 को मूल रूप में और normalized अगले civil date के साथ रखें।
+ये exact-time सरकारी heliacal events हैं। पूरी 20-entry सूची benchmark JSON में source-printed date/clock और normalized IST timestamp सहित सुरक्षित है। `Sets in east/west` तथा `Rises in east/west` को ज्यों का त्यों रखा है; इन्हें स्वतः एकल 'तारा अस्त/उदय अवधि' में pair नहीं किया है। IMD पृष्ठ Central Station का नाम देता है, पर इस event table में latitude/longitude/elevation नहीं देता; इसलिए पुराने benchmark में लिखे 23°11′ N, 82°30′ E को इस तालिका से independently confirmed coordinate न मानें। Venus 24:18, Mercury 26:54, Mercury 24:38 और Mars 25:49 जैसे 24h-पार clock values को मूल रूप में तथा अगले civil date के normalized timestamp में रखें। इन्हें Drik Tara Asta/Udaya windows, date-only visibility table, Swiss heliacal diagnostics या Surya Siddhanta K/C परिणामों के साथ interchangeable न मानें।
 
 ## Candidate event models
 
