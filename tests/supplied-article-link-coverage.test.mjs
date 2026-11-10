@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { findMatchingFestivalTemplates, synchronizeEventContent } from "../scripts/sync-festival-content-from-master.mjs";
 
 const cache = new Map();
 const month = async (year, monthNumber) => {
@@ -70,4 +71,52 @@ test("All supplied OurHinduDharm articles are linked to their matching 2026-2030
       await assertArticle(year, monthNumber, date, pattern, urlPart);
     }
   }
+});
+
+
+const normalizeArticleUrl = value => String(value || "")
+  .replace(/^http:/i, "https:")
+  .replace(/[?&]m=1\\b/g, "")
+  .replace(/#.*$/, "");
+const articleUrls = event => [
+  event.articleUrl,
+  event.secondaryArticleUrl,
+  ...[...String(event.description || "").matchAll(/href=["']([^"']+)["']/g)].map(match => match[1])
+].filter(Boolean).map(normalizeArticleUrl);
+
+test("every linked master article is present on its matching 2026-2030 festival cards", async () => {
+  const master = JSON.parse(await readFile(new URL("../data/festival-content-master.json", import.meta.url), "utf8"));
+  const missing = [];
+  for (let year = 2026; year <= 2030; year++) {
+    for (let monthNumber = 1; monthNumber <= 12; monthNumber++) {
+      const key = String(year) + "-" + String(monthNumber).padStart(2, "0");
+      const data = await month(year, monthNumber);
+      for (const event of data.events || []) {
+        const simulated = JSON.parse(JSON.stringify(event));
+        for (const template of findMatchingFestivalTemplates(event, master.templates)) {
+          synchronizeEventContent(simulated, template);
+        }
+        const actual = new Set(articleUrls(event));
+        for (const url of articleUrls(simulated)) {
+          if (!actual.has(url)) missing.push({ date: event.date, title: event.title, url });
+        }
+      }
+    }
+  }
+  assert.deepEqual(missing, []);
+});
+
+test("public 2026-2030 festival cards contain no Vaishnava or Gauna Ekadashi entries", async () => {
+  const violations = [];
+  for (let year = 2026; year <= 2030; year++) {
+    for (let monthNumber = 1; monthNumber <= 12; monthNumber++) {
+      const data = await month(year, monthNumber);
+      for (const event of data.events || []) {
+        if (/एकादशी/.test(event.title || "") && /(वैष्णव|गौण)/.test(event.title || "")) {
+          violations.push({ date: event.date, title: event.title });
+        }
+      }
+    }
+  }
+  assert.deepEqual(violations, []);
 });
