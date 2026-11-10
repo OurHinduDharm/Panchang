@@ -1,5 +1,5 @@
 const CITY_ALIASES = [
-  { key: "New Delhi, NCT, India", pattern: /new delhi|\\bdelhi\\b|नई दिल्ली|दिल्ली/i },
+  { key: "New Delhi, NCT, India", pattern: /new delhi|\bdelhi\b|नई दिल्ली|दिल्ली/i },
   { key: "Mumbai, Maharashtra, India", pattern: /mumbai|मुंबई|बंबई/i },
   { key: "Ujjain, Madhya Pradesh, India", pattern: /ujjain|उज्जैन/i },
   { key: "Varanasi, Uttar Pradesh, India", pattern: /varanasi|वाराणसी|काशी/i },
