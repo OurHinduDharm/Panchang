@@ -64,29 +64,27 @@
     {
       "date": "2028-03-10",
       "dateLabel": "10 मार्च",
-      "title": "होलिका दहन",
-      "description": "होलिका-दहन प्रह्लाद और भक्ति की विजय से जुड़ा पर्व है। दहन का मुहूर्त फाल्गुन पूर्णिमा-व्याप्ति तथा भद्रा आदि के नियम देखकर समय संबंधित तिथि-व्याप्ति और नियमों से निर्धारित होता है। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">होलिका-दहन का महत्व पढ़ें</a>",
+      "title": "होलिका दहन / फाल्गुन पूर्णिमा / श्री महालक्ष्मी जयंती",
+      "description": "फाल्गुन पूर्णिमा पर होलिका-दहन प्रह्लाद और भक्ति की विजय का प्रतीक पर्व है। दहन का मुहूर्त पूर्णिमा-व्याप्ति और भद्रा के नियम देखकर निर्धारित होता है। इसी पूर्णिमा पर श्री महालक्ष्मी जयंती भी मनाई जाती है। देवी की उपासना और स्तोत्र-पाठ करें। <a href=\"http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html\" target=\"_blank\" rel=\"noopener noreferrer\">होलिका-दहन का महत्व पढ़ें</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी जयंती</a>",
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "muhurtaRule": "holika-dahan-pradosh",
       "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
       "articleUrl": "http://ourhindudharm.blogspot.com/2014/03/About-Holi-Holikotsav-Holika-Dahan-Ka-Mahatv.html",
-      "articleLabel": "होलिका-दहन का महत्व पढ़ें"
+      "articleLabel": "होलिका-दहन का महत्व पढ़ें",
+      "sourceName": "Drik Panchang — March 2028 Hindu Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2028"
     },
     {
       "date": "2028-03-11",
       "dateLabel": "11 मार्च",
-      "title": "होली / फाल्गुन पूर्णिमा / श्री महालक्ष्मी जयंती",
-      "description": "फाल्गुन पूर्णिमा होलिका-दहन और होली के पर्व-चक्र से जुड़ी है। व्रत और दहन का निर्णय पूर्णिमा-व्याप्ति तथा भद्रा के नियम देखकर करें। श्री महालक्ष्मी जयंती के अवसर पर देवी/भगवान का पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी जयंती</a>",
-      "category": "पूर्णिमा",
+      "title": "होली",
+      "description": "फाल्गुन पूर्णिमा पर होलिका-दहन के अगले दिन होली का रंगोत्सव मनाया जाता है। अब चैत्र कृष्ण प्रतिपदा में रंग, आनंद और आपसी सद्भाव के साथ पर्व मनाएँ।",
+      "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
-      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
-      "articleLabel": "श्री महालक्ष्मी जयंती",
-      "sourceName": "Drik Panchang — Phalguna Purnima",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/purnima/purnima-calendar.html?year=2028"
+      "hinduTithi": "चैत्र कृष्ण प्रतिपदा"
     },
     {
       "date": "2028-03-13",
