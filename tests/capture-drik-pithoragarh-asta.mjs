@@ -9,7 +9,7 @@ const TARGETS = [
   { planet: "Jupiter", slug: "guru", names: "Jupiter|Guru" },
   { planet: "Saturn", slug: "shani", names: "Saturn|Shani" }
 ];
-const YEARS = [2024, 2025, 2026, 2027];
+const YEARS = Array.from({ length: 11 }, (_, index) => 2020 + index);
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({
@@ -40,6 +40,8 @@ try {
         status: "not-attempted",
         httpStatus: null,
         title: null,
+        renderedYear: null,
+        requestedYearConfirmed: false,
         cityConfirmed: false,
         planetConfirmed: false,
         relevantLines: [],
@@ -55,6 +57,8 @@ try {
         capture.httpStatus = response?.status() ?? null;
         await page.waitForTimeout(500);
         capture.title = await page.title();
+        capture.renderedYear = Number(capture.title.match(/^(20\\d{2})/)?.[1] || NaN);
+        capture.requestedYearConfirmed = capture.renderedYear === year;
         const body = await page.locator("body").innerText({ timeout: 15000 });
         const lines = body.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
         capture.cityConfirmed = /Pithoragarh/i.test(body);
@@ -69,7 +73,7 @@ try {
         ).slice(0, 80);
 
         if (capture.httpStatus && capture.httpStatus >= 200 && capture.httpStatus < 400 &&
-            capture.cityConfirmed && capture.planetConfirmed &&
+            capture.cityConfirmed && capture.planetConfirmed && capture.requestedYearConfirmed &&
             /Asta/i.test(body) && !/Internal Error/i.test(body)) {
           capture.status = "page-loaded-city-and-planet-confirmed";
         } else {
@@ -89,7 +93,9 @@ try {
     policy: "No New Delhi fallback. A capture is eligible for review only when the page itself confirms Pithoragarh and the requested planet. Search-index text is not substituted for page content.",
     attempted: captures.length,
     verifiedPageLoads: captures.filter(x => x.status === "page-loaded-city-and-planet-confirmed").length,
-    verifiedEventRows: captures.reduce((sum, x) => sum + x.eventRows.length, 0),
+    requestedYearMismatches: captures.filter(x => x.cityConfirmed && x.planetConfirmed && !x.requestedYearConfirmed).length,
+    verifiedEventRows: captures.filter(x => x.status === "page-loaded-city-and-planet-confirmed").reduce((sum, x) => sum + x.eventRows.length, 0),
+    quarantinedEventRows: captures.filter(x => x.status !== "page-loaded-city-and-planet-confirmed").reduce((sum, x) => sum + x.eventRows.length, 0),
     captures
   };
   console.log(JSON.stringify(summary, null, 2));
