@@ -313,8 +313,13 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
           ? "needs-local-observation"
           : "needs-observation"
     };
-  }).sort((a, b) => MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month) ||
-    (a.adhika === b.adhika ? (a.paksha === "कृष्ण" ? -1 : 1) : (a.adhika ? -1 : 1)));
+  }).sort((a, b) => {
+    const monthOrder = MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month);
+    if (monthOrder) return monthOrder;
+    if (a.adhika !== b.adhika) return a.adhika ? -1 : 1;
+    if (a.paksha !== b.paksha) return a.paksha === "कृष्ण" ? -1 : 1;
+    return (a.occurrence || 1) - (b.occurrence || 1);
+  });
 
   const tithiDateMap = new Map();
   tithis.forEach(record => {
