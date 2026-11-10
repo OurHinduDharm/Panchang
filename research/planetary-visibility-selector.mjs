@@ -28,6 +28,19 @@ function dayNumber(dateString) {
   return Date.UTC(year, month - 1, day) / DAY_MS;
 }
 
+function thresholdAltitudeForModel(model, observables) {
+  if (model.coefficients && typeof model.coefficients === "object") {
+    return Object.entries(model.coefficients).reduce((sum, [key, coefficient]) => {
+      const value = observables[key];
+      if (!Number.isFinite(value)) {
+        throw new TypeError("Missing finite visibility feature: " + key);
+      }
+      return sum + coefficient * value;
+    }, model.intercept);
+  }
+  return model.intercept + model.slope * observables.apparentMagnitude;
+}
+
 function validateInput({ astronomy, body, observer, anchorDate, direction, boundaryName, model, searchDays, timeZone }) {
   if (!astronomy || typeof astronomy.SearchRiseSet !== "function" ||
       typeof astronomy.Equator !== "function" || typeof astronomy.Horizon !== "function" ||
@@ -87,8 +100,16 @@ export function findVisibilityBoundaryNearAnchor({
     const planet = astronomy.Equator(body, date, observer, true, true);
     const sunAltitude = astronomy.Horizon(date, observer, sun.ra, sun.dec, "normal").altitude;
     const planetAltitude = astronomy.Horizon(date, observer, planet.ra, planet.dec, "normal").altitude;
-    const apparentMagnitude = astronomy.Illumination(body, date).mag;
-    const thresholdAltitude = model.intercept + model.slope * apparentMagnitude;
+    const illumination = astronomy.Illumination(body, date);
+    const apparentMagnitude = illumination.mag;
+    const observables = {
+      apparentMagnitude,
+      elongationDegrees: typeof astronomy.AngleFromSun === "function"
+        ? astronomy.AngleFromSun(body, date)
+        : null,
+      illuminatedFraction: illumination.phase_fraction
+    };
+    const thresholdAltitude = thresholdAltitudeForModel(model, observables);
     const local = localDateTime(date, timeZone);
 
     samples.push({
