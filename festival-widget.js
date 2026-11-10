@@ -526,7 +526,7 @@
               !/pitri-tarpan-vidhi/i.test(descriptionHtml + " " + String(item.articleUrl || "") + " " + String(item.secondaryArticleUrl || ""))) {
             descriptionHtml += ' <a href="https://ourhindudharm.blogspot.com/p/pitri-tarpan-vidhi.html" target="_blank" rel="noopener noreferrer">पितृ तर्पण विधि</a>।';
           }
-          if (/महाशिवरात्रि|मासिक\\s*शिवरात्रि/i.test(String(item.title || "")) &&
+          if (/महाशिवरात्रि|मासिक\s*शिवरात्रि/i.test(String(item.title || "")) &&
               !/shivratri-prahar-pooja-vidhi/i.test(descriptionHtml + " " + String(item.articleUrl || "") + " " + String(item.secondaryArticleUrl || ""))) {
             descriptionHtml += ' <a href="https://ourhindudharm.blogspot.com/p/shivratri-prahar-pooja-vidhi.html" target="_blank" rel="noopener noreferrer">चारों प्रहर की पूजा-विधि पढ़ें</a>।';
           }
