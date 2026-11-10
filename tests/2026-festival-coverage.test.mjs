@@ -476,3 +476,28 @@ test("2026 December descriptions do not repeat the same article URL", async () =
       String(event.date) + ": duplicate article URL in " + event.title);
   }
 });
+
+test("2026 December includes verified regional observances without duplicate same-date/tithi cards", async () => {
+  const data = await month("12");
+  const checks = [
+    ["2026-12-14", /विवाह पंचमी \/ नाग पंचमी/, "मार्गशीर्ष शुक्ल पंचमी"],
+    ["2026-12-21", /सोम प्रदोष व्रत \/ मासिक कार्तिगाई/, "मार्गशीर्ष शुक्ल त्रयोदशी"],
+    ["2026-12-22", /हनुमान जयंती \(कन्नड़ परंपरा\)/, "मार्गशीर्ष शुक्ल त्रयोदशी"],
+    ["2026-12-24", /आर्द्रा दर्शन/, "पौष कृष्ण प्रतिपदा"],
+    ["2026-12-27", /मंडल पूजा \(सबरीमला\)/, undefined]
+  ];
+  for (const [date, title, tithi] of checks) {
+    const event = find(data, date, title);
+    assert.ok(event, date + " " + title);
+    assert.equal(event.reviewStatus, "approved");
+    if (tithi) assert.equal(event.hinduTithi, tithi);
+    assert.ok(event.sourceUrl, date + " source URL");
+  }
+  const seen = new Set();
+  for (const event of data.events) {
+    if (!event.hinduTithi) continue;
+    const key = event.date + "|" + event.hinduTithi;
+    assert.ok(!seen.has(key), "Duplicate same-date/tithi card: " + key);
+    seen.add(key);
+  }
+});
