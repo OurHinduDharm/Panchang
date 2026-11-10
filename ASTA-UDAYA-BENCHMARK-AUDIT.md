@@ -1031,3 +1031,12 @@ CI browser diagnostics, Panchang feature validation और classical interval te
 **4 में से 3 exact, सभी 4 एक दिन के भीतर।** यह New Delhi से Pithoragarh पर Venus के लिए promising location-transfer evidence है। Pithoragarh test observer project coordinates 29.5828° N, 80.2182° E, 1650 m हैं; Drik के internal coordinates प्रकाशित नहीं, इसलिए इसे exact observer equivalence न मानें। केवल दो Pithoragarh apparitions और छोटे training samples हैं; इससे अन्य ग्रहों के coefficients सिद्ध नहीं होते।
 
 **अगला कदम:** Venus के लिए इस candidate को अलग research module में स्थिर करना, फिर 2026/27 Pithoragarh user-provided windows और उपलब्ध अतिरिक्त independent same-city references पर blind/forward validation। Main Panchang में अभी कोई display या calculation नहीं जोड़ी गई।
+
+
+### Venus model caution — New Delhi leave-one-apparition-out
+
+Pithoragarh cross-location holdout का 3/4 exact परिणाम अकेले पर्याप्त नहीं। उसी candidate को New Delhi के पाँच Venus apparitions पर leave-one-apparition-out जाँचा:
+- Asta-start prediction errors: −3, +1, 0, −4, −1 दिन.
+- Asta-end: 0, 0, +1, 0, 0 दिन.
+
+अर्थात Asta-end पक्ष अभी मजबूत दिखता है, पर Asta-start में दो apparitions 3–4 दिन पहले predict हुए। इसलिए Venus का पूरा दो-सीमा selector अभी production-ready नहीं। Pithoragarh cross-location result promising है, लेकिन Asta-start की same-city generalization में कमजोरी बनी हुई है। अधिक historical windows और बेहतर brightness/phase model चाहिए।
