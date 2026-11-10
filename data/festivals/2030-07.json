@@ -33,8 +33,8 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल द्वितीया",
-      "sourceName": "Drik Panchang — 2030 Hindu Calendar",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030",
+      "sourceName": "Drik Panchang — 2030 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?year=2030",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Brahmacharini-Ma-On-Navaratri.html",
       "articleLabel": "माँ ब्रह्मचारिणी"
     },
@@ -49,20 +49,8 @@
       "hinduTithi": "आषाढ़ शुक्ल तृतीया / चतुर्थी",
       "muhurtaRule": "vinayaka-chaturthi-madhyahna",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
-      "articleLabel": "माँ चन्द्रघंटा"
-    },
-    {
-      "date": "2030-07-04",
-      "dateLabel": "4 जुलाई",
-      "title": "गुप्त नवरात्र तृतीया — माँ चन्द्रघंटा",
-      "description": "गुप्त नवरात्र के तीसरे दिन माँ चन्द्रघंटा की आराधना की जाती है। <a href=\"http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html\" target=\"_blank\" rel=\"noopener noreferrer\">माँ चन्द्रघंटा</a>",
-      "category": "नवरात्रि",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल तृतीया / चतुर्थी",
-      "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-ChadraghantaMaa-On-Navaratri.html",
       "articleLabel": "माँ चन्द्रघंटा",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2030 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?year=2030"
     },
     {
@@ -76,7 +64,7 @@
       "hinduTithi": "आषाढ़ शुक्ल चतुर्थी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KooshmandaMata-On-Navaratri.html",
       "articleLabel": "माँ कूष्माण्डा",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2030 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?year=2030"
     },
     {
@@ -89,7 +77,9 @@
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल पंचमी / षष्ठी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-BhagwatiSkandaMata-On-Navratri.html",
-      "articleLabel": "माँ स्कन्दमाता"
+      "articleLabel": "माँ स्कन्दमाता",
+      "sourceName": "Drik Panchang — 2030 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?year=2030"
     },
     {
       "date": "2030-07-07",
@@ -102,7 +92,7 @@
       "hinduTithi": "आषाढ़ शुक्ल षष्ठी / सप्तमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GodessKaatyaayani-On-Navratri.html",
       "articleLabel": "माँ कात्यायनी",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2030 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?year=2030",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-KalratriMaa-On-Navratri.html",
       "secondaryArticleLabel": "माँ कालरात्रि"
@@ -117,7 +107,9 @@
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-GoddessMahagauri-On-Mahaashtami-Of-Navratri.html",
-      "articleLabel": "माँ महागौरी"
+      "articleLabel": "माँ महागौरी",
+      "sourceName": "Drik Panchang — 2030 Ashadha Gupta Navratri",
+      "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?year=2030"
     },
     {
       "date": "2030-07-09",
@@ -130,7 +122,7 @@
       "hinduTithi": "आषाढ़ शुक्ल नवमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
       "articleLabel": "माँ सिद्धिदात्री",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2030 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?year=2030"
     },
     {
@@ -144,7 +136,7 @@
       "hinduTithi": "आषाढ़ शुक्ल दशमी",
       "articleUrl": "https://ourhindudharm.blogspot.com/p/kalashvisarjan.html",
       "articleLabel": "कलश-विसर्जन विधि",
-      "sourceName": "Drik Panchang — Ashadha Gupta Navratri",
+      "sourceName": "Drik Panchang — 2030 Ashadha Gupta Navratri",
       "sourceUrl": "https://www.drikpanchang.com/navratri/ashadha-gupta-navratri-dates.html?year=2030"
     },
     {
