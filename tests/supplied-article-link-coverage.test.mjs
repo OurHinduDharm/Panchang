@@ -203,6 +203,9 @@ test("Festival card renderers add the requested article links and muhurta rules"
     assert.ok(source.includes("वृषभ.*स्थिर लग्न"));
   }
   assert.match(compactWidget, /isMasikShivaratri/);
+  assert.match(widget, /मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी/);
+  assert.match(annualPage, /मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी/);
+  assert.match(compactWidget, /मासिक कृष्ण जन्माष्टमी पर कृष्ण पक्ष की अष्टमी/);
   assert.match(widget, /kali-chaudas-nishita/);
   assert.match(annualPage, /kali-chaudas-nishita/);
   assert.match(annualPage, /getKundli/);
