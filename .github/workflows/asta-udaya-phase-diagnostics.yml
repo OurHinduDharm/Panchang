@@ -48,6 +48,10 @@ on:
       - "research/drik-planetary-reference.mjs"
       - "tests/drik-planetary-reference.test.mjs"
       - "data/drik-planetary-reference-2024-2027.json"
+      - "data/drik-pithoragarh-asta-udaya-2021-2027.json"
+      - "tests/drik-pithoragarh-asta-extended-data.test.mjs"
+      - "tests/run-jpl-horizons-pithoragarh-crosscheck.mjs"
+      - "research/reports/jpl-horizons-pithoragarh-2021-2027-summary.md"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
 
 permissions:
