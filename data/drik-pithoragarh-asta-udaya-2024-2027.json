@@ -1,0 +1,2134 @@
+{
+  "schemaVersion": 1,
+  "title": "Drik Panchang Pithoragarh direct-page Tara Asta benchmark",
+  "capturedAt": "2026-11-10T07:00:16.578Z",
+  "captureMethod": "Playwright Chromium; HTTP 200; each page body and title independently confirmed Pithoragarh, Uttarakhand, India and the requested planet; no New Delhi fallback",
+  "sourceLocation": "Pithoragarh, Uttarakhand, India",
+  "sourceCityId": "1259503",
+  "timeZone": "Asia/Kolkata",
+  "sourceTimeFormat": "24plushour",
+  "normalizationRule": "For source clock HH:MM where HH >= 24, add floor(HH/24) civil days to the source-printed date and use HH mod 24 as local clock; preserve raw date/clock and normalized local/UTC instants.",
+  "provenancePolicy": "Direct named-city pages only. Source coordinates/elevation are undisclosed; use for same-city city-label validation, not strict coordinate-exact validation. The 2027 Mars page loaded and confirmed the city/planet but yielded no Asta boundary rows; this is recorded as no rows extracted, not proof of no event.",
+  "attemptedPages": 20,
+  "verifiedPages": 20,
+  "extractedBoundaryRows": 86,
+  "windowsCount": 43,
+  "sourcePages": [
+    {
+      "planet": "Mercury",
+      "year": 2024,
+      "url": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2024 Budha Tara Asta | Budha Moudhya | Budha Moudyami | Mercury Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 12
+    },
+    {
+      "planet": "Mercury",
+      "year": 2025,
+      "url": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2025 Budha Tara Asta | Budha Moudhya | Budha Moudyami | Mercury Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 12
+    },
+    {
+      "planet": "Mercury",
+      "year": 2026,
+      "url": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2026 Budha Tara Asta | Budha Moudhya | Budha Moudyami | Mercury Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 14
+    },
+    {
+      "planet": "Mercury",
+      "year": 2027,
+      "url": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2027 Budha Tara Asta | Budha Moudhya | Budha Moudyami | Mercury Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 14
+    },
+    {
+      "planet": "Venus",
+      "year": 2024,
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2024 Shukra Tara Asta | Shukra Moudhya | Shukra Moudyami | Venus Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Venus",
+      "year": 2025,
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2025 Shukra Tara Asta | Shukra Moudhya | Shukra Moudyami | Venus Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 4
+    },
+    {
+      "planet": "Venus",
+      "year": 2026,
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2026 Shukra Tara Asta | Shukra Moudhya | Shukra Moudyami | Venus Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 4
+    },
+    {
+      "planet": "Venus",
+      "year": 2027,
+      "url": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2027 Shukra Tara Asta | Shukra Moudhya | Shukra Moudyami | Venus Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Mars",
+      "year": 2024,
+      "url": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2024 Mangal Tara Asta | Mangal Moudhya | Mangal Moudyami | Mars Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Mars",
+      "year": 2025,
+      "url": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2025 Mangal Tara Asta | Mangal Moudhya | Mangal Moudyami | Mars Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Mars",
+      "year": 2026,
+      "url": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2026 Mangal Tara Asta | Mangal Moudhya | Mangal Moudyami | Mars Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Mars",
+      "year": 2027,
+      "url": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2027 Mangal Tara Asta | Mangal Moudhya | Mangal Moudyami | Mars Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "no-asta-event-rows-extracted",
+      "extractedBoundaryRows": 0
+    },
+    {
+      "planet": "Jupiter",
+      "year": 2024,
+      "url": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2024 Guru Tara Asta | Guru Moudhya | Guru Moudyami | Jupiter Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Jupiter",
+      "year": 2025,
+      "url": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2025 Guru Tara Asta | Guru Moudhya | Guru Moudyami | Jupiter Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Jupiter",
+      "year": 2026,
+      "url": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2026 Guru Tara Asta | Guru Moudhya | Guru Moudyami | Jupiter Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Jupiter",
+      "year": 2027,
+      "url": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2027 Guru Tara Asta | Guru Moudhya | Guru Moudyami | Jupiter Combustion Date and Time for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Saturn",
+      "year": 2024,
+      "url": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2024 Shani Tara Asta | Shani Moudhya | Shani Moudyami | Saturn Combustion for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Saturn",
+      "year": 2025,
+      "url": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2025 Shani Tara Asta | Shani Moudhya | Shani Moudyami | Saturn Combustion for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Saturn",
+      "year": 2026,
+      "url": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2026 Shani Tara Asta | Shani Moudhya | Shani Moudyami | Saturn Combustion for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    },
+    {
+      "planet": "Saturn",
+      "year": 2027,
+      "url": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "httpStatus": 200,
+      "title": "2027 Shani Tara Asta | Shani Moudhya | Shani Moudyami | Saturn Combustion for Pithoragarh, Uttarakhand, India",
+      "cityConfirmed": true,
+      "planetConfirmed": true,
+      "status": "events-extracted",
+      "extractedBoundaryRows": 2
+    }
+  ],
+  "windows": [
+    {
+      "id": "drik-pithoragarh-mercury-2024-window-1",
+      "planet": "Mercury",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 6, 2024",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "30:12+",
+          "normalizedLocalDateTime": "2024-02-07T06:12:00+05:30",
+          "normalizedUtcInstant": "2024-02-07T00:42:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "March 11, 2024",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "19:05",
+          "normalizedLocalDateTime": "2024-03-11T19:05:00+05:30",
+          "normalizedUtcInstant": "2024-03-11T13:35:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 34
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2024-window-2",
+      "planet": "Mercury",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "April 4, 2024",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "19:24",
+          "normalizedLocalDateTime": "2024-04-04T19:24:00+05:30",
+          "normalizedUtcInstant": "2024-04-04T13:54:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "May 1, 2024",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "28:23+",
+          "normalizedLocalDateTime": "2024-05-02T04:23:00+05:30",
+          "normalizedUtcInstant": "2024-05-01T22:53:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 28
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2024-window-3",
+      "planet": "Mercury",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "June 1, 2024",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "28:21+",
+          "normalizedLocalDateTime": "2024-06-02T04:21:00+05:30",
+          "normalizedUtcInstant": "2024-06-01T22:51:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "June 25, 2024",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "20:10",
+          "normalizedLocalDateTime": "2024-06-25T20:10:00+05:30",
+          "normalizedUtcInstant": "2024-06-25T14:40:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 24
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2024-window-4",
+      "planet": "Mercury",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "August 3, 2024",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "19:55",
+          "normalizedLocalDateTime": "2024-08-03T19:55:00+05:30",
+          "normalizedUtcInstant": "2024-08-03T14:25:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "August 27, 2024",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "28:44+",
+          "normalizedLocalDateTime": "2024-08-28T04:44:00+05:30",
+          "normalizedUtcInstant": "2024-08-27T23:14:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 25
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2024-window-5",
+      "planet": "Mercury",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "September 19, 2024",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "29:14+",
+          "normalizedLocalDateTime": "2024-09-20T05:14:00+05:30",
+          "normalizedUtcInstant": "2024-09-19T23:44:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "October 28, 2024",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "18:13",
+          "normalizedLocalDateTime": "2024-10-28T18:13:00+05:30",
+          "normalizedUtcInstant": "2024-10-28T12:43:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 39
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2024-window-6",
+      "planet": "Mercury",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "November 29, 2024",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "18:02",
+          "normalizedLocalDateTime": "2024-11-29T18:02:00+05:30",
+          "normalizedUtcInstant": "2024-11-29T12:32:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "December 11, 2024",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "29:52+",
+          "normalizedLocalDateTime": "2024-12-12T05:52:00+05:30",
+          "normalizedUtcInstant": "2024-12-12T00:22:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 13
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2025-window-1",
+      "planet": "Mercury",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "January 18, 2025",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "30:18+",
+          "normalizedLocalDateTime": "2025-01-19T06:18:00+05:30",
+          "normalizedUtcInstant": "2025-01-19T00:48:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 22, 2025",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "18:51",
+          "normalizedLocalDateTime": "2025-02-22T18:51:00+05:30",
+          "normalizedUtcInstant": "2025-02-22T13:21:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 35
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2025-window-2",
+      "planet": "Mercury",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "March 18, 2025",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "19:09",
+          "normalizedLocalDateTime": "2025-03-18T19:09:00+05:30",
+          "normalizedUtcInstant": "2025-03-18T13:39:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 8, 2025",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "28:50+",
+          "normalizedLocalDateTime": "2025-04-09T04:50:00+05:30",
+          "normalizedUtcInstant": "2025-04-08T23:20:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 22
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2025-window-3",
+      "planet": "Mercury",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "May 14, 2025",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "28:31+",
+          "normalizedLocalDateTime": "2025-05-15T04:31:00+05:30",
+          "normalizedUtcInstant": "2025-05-14T23:01:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "June 8, 2025",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "20:02",
+          "normalizedLocalDateTime": "2025-06-08T20:02:00+05:30",
+          "normalizedUtcInstant": "2025-06-08T14:32:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 25
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2025-window-4",
+      "planet": "Mercury",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "July 17, 2025",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "20:08",
+          "normalizedLocalDateTime": "2025-07-17T20:08:00+05:30",
+          "normalizedUtcInstant": "2025-07-17T14:38:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "August 11, 2025",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "28:29+",
+          "normalizedLocalDateTime": "2025-08-12T04:29:00+05:30",
+          "normalizedUtcInstant": "2025-08-11T22:59:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 26
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2025-window-5",
+      "planet": "Mercury",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "September 2, 2025",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "29:01+",
+          "normalizedLocalDateTime": "2025-09-03T05:01:00+05:30",
+          "normalizedUtcInstant": "2025-09-02T23:31:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "October 9, 2025",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "18:32",
+          "normalizedLocalDateTime": "2025-10-09T18:32:00+05:30",
+          "normalizedUtcInstant": "2025-10-09T13:02:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 37
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2025-window-6",
+      "planet": "Mercury",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "November 11, 2025",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "18:09",
+          "normalizedLocalDateTime": "2025-11-11T18:09:00+05:30",
+          "normalizedUtcInstant": "2025-11-11T12:39:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "November 26, 2025",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "29:37+",
+          "normalizedLocalDateTime": "2025-11-27T05:37:00+05:30",
+          "normalizedUtcInstant": "2025-11-27T00:07:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 16
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2026-window-1",
+      "planet": "Mercury",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "December 31, 2025",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "30:16+",
+          "normalizedLocalDateTime": "2026-01-01T06:16:00+05:30",
+          "normalizedUtcInstant": "2026-01-01T00:46:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 5, 2026",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "18:38",
+          "normalizedLocalDateTime": "2026-02-05T18:38:00+05:30",
+          "normalizedUtcInstant": "2026-02-05T13:08:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 36
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2026-window-2",
+      "planet": "Mercury",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "March 1, 2026",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "18:58",
+          "normalizedLocalDateTime": "2026-03-01T18:58:00+05:30",
+          "normalizedUtcInstant": "2026-03-01T13:28:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "March 18, 2026",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "29:15+",
+          "normalizedLocalDateTime": "2026-03-19T05:15:00+05:30",
+          "normalizedUtcInstant": "2026-03-18T23:45:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 18
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2026-window-3",
+      "planet": "Mercury",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "April 25, 2026",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "28:47+",
+          "normalizedLocalDateTime": "2026-04-26T04:47:00+05:30",
+          "normalizedUtcInstant": "2026-04-25T23:17:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "May 23, 2026",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "19:52",
+          "normalizedLocalDateTime": "2026-05-23T19:52:00+05:30",
+          "normalizedUtcInstant": "2026-05-23T14:22:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 28
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2026-window-4",
+      "planet": "Mercury",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "June 30, 2026",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "20:12",
+          "normalizedLocalDateTime": "2026-06-30T20:12:00+05:30",
+          "normalizedUtcInstant": "2026-06-30T14:42:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "July 25, 2026",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "28:17+",
+          "normalizedLocalDateTime": "2026-07-26T04:17:00+05:30",
+          "normalizedUtcInstant": "2026-07-25T22:47:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 26
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2026-window-5",
+      "planet": "Mercury",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "August 17, 2026",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "28:51+",
+          "normalizedLocalDateTime": "2026-08-18T04:51:00+05:30",
+          "normalizedUtcInstant": "2026-08-17T23:21:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "September 19, 2026",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "18:57",
+          "normalizedLocalDateTime": "2026-09-19T18:57:00+05:30",
+          "normalizedUtcInstant": "2026-09-19T13:27:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 33
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2026-window-6",
+      "planet": "Mercury",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "October 24, 2026",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "18:21",
+          "normalizedLocalDateTime": "2026-10-24T18:21:00+05:30",
+          "normalizedUtcInstant": "2026-10-24T12:51:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "November 10, 2026",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "29:29+",
+          "normalizedLocalDateTime": "2026-11-11T05:29:00+05:30",
+          "normalizedUtcInstant": "2026-11-10T23:59:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 18
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2026-window-7",
+      "planet": "Mercury",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "December 13, 2026",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "30:10+",
+          "normalizedLocalDateTime": "2026-12-14T06:10:00+05:30",
+          "normalizedUtcInstant": "2026-12-14T00:40:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "January 19, 2027",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "18:25",
+          "normalizedLocalDateTime": "2027-01-19T18:25:00+05:30",
+          "normalizedUtcInstant": "2027-01-19T12:55:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 37
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2027-window-1",
+      "planet": "Mercury",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "December 13, 2026",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "30:10+",
+          "normalizedLocalDateTime": "2026-12-14T06:10:00+05:30",
+          "normalizedUtcInstant": "2026-12-14T00:40:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "January 19, 2027",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "18:25",
+          "normalizedLocalDateTime": "2027-01-19T18:25:00+05:30",
+          "normalizedUtcInstant": "2027-01-19T12:55:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 37
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2027-window-2",
+      "planet": "Mercury",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 12, 2027",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "18:51",
+          "normalizedLocalDateTime": "2027-02-12T18:51:00+05:30",
+          "normalizedUtcInstant": "2027-02-12T13:21:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 27, 2027",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "29:36+",
+          "normalizedLocalDateTime": "2027-02-28T05:36:00+05:30",
+          "normalizedUtcInstant": "2027-02-28T00:06:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 16
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2027-window-3",
+      "planet": "Mercury",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "April 8, 2027",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "29:07+",
+          "normalizedLocalDateTime": "2027-04-09T05:07:00+05:30",
+          "normalizedUtcInstant": "2027-04-08T23:37:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "May 8, 2027",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "19:44",
+          "normalizedLocalDateTime": "2027-05-08T19:44:00+05:30",
+          "normalizedUtcInstant": "2027-05-08T14:14:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 30
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2027-window-4",
+      "planet": "Mercury",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "June 12, 2027",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "20:09",
+          "normalizedLocalDateTime": "2027-06-12T20:09:00+05:30",
+          "normalizedUtcInstant": "2027-06-12T14:39:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "July 8, 2027",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "28:06+",
+          "normalizedLocalDateTime": "2027-07-09T04:06:00+05:30",
+          "normalizedUtcInstant": "2027-07-08T22:36:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 27
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2027-window-5",
+      "planet": "Mercury",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "August 1, 2027",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "28:39+",
+          "normalizedLocalDateTime": "2027-08-02T04:39:00+05:30",
+          "normalizedUtcInstant": "2027-08-01T23:09:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "August 30, 2027",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "19:22",
+          "normalizedLocalDateTime": "2027-08-30T19:22:00+05:30",
+          "normalizedUtcInstant": "2027-08-30T13:52:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 29
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2027-window-6",
+      "planet": "Mercury",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "October 6, 2027",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "18:39",
+          "normalizedLocalDateTime": "2027-10-06T18:39:00+05:30",
+          "normalizedUtcInstant": "2027-10-06T13:09:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "October 26, 2027",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "29:15+",
+          "normalizedLocalDateTime": "2027-10-27T05:15:00+05:30",
+          "normalizedUtcInstant": "2027-10-26T23:45:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 21
+    },
+    {
+      "id": "drik-pithoragarh-mercury-2027-window-7",
+      "planet": "Mercury",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/budha-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "November 24, 2027",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "29:57+",
+          "normalizedLocalDateTime": "2027-11-25T05:57:00+05:30",
+          "normalizedUtcInstant": "2027-11-25T00:27:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "January 2, 2028",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "18:14",
+          "normalizedLocalDateTime": "2028-01-02T18:14:00+05:30",
+          "normalizedUtcInstant": "2028-01-02T12:44:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 39
+    },
+    {
+      "id": "drik-pithoragarh-venus-2024-window-1",
+      "planet": "Venus",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "April 23, 2024",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "29:07+",
+          "normalizedLocalDateTime": "2024-04-24T05:07:00+05:30",
+          "normalizedUtcInstant": "2024-04-23T23:37:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "June 29, 2024",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "19:43",
+          "normalizedLocalDateTime": "2024-06-29T19:43:00+05:30",
+          "normalizedUtcInstant": "2024-06-29T14:13:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 67
+    },
+    {
+      "id": "drik-pithoragarh-venus-2025-window-1",
+      "planet": "Venus",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "March 20, 2025",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "18:42",
+          "normalizedLocalDateTime": "2025-03-20T18:42:00+05:30",
+          "normalizedUtcInstant": "2025-03-20T13:12:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "March 22, 2025",
+          "sourcePrintedWeekday": "Saturday",
+          "sourcePrintedClock": "29:40+",
+          "normalizedLocalDateTime": "2025-03-23T05:40:00+05:30",
+          "normalizedUtcInstant": "2025-03-23T00:10:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 3
+    },
+    {
+      "id": "drik-pithoragarh-venus-2025-window-2",
+      "planet": "Venus",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "December 10, 2025",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "30:25+",
+          "normalizedLocalDateTime": "2025-12-11T06:25:00+05:30",
+          "normalizedUtcInstant": "2025-12-11T00:55:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 2, 2026",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "18:15",
+          "normalizedLocalDateTime": "2026-02-02T18:15:00+05:30",
+          "normalizedUtcInstant": "2026-02-02T12:45:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 54
+    },
+    {
+      "id": "drik-pithoragarh-venus-2026-window-1",
+      "planet": "Venus",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "December 10, 2025",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "30:25+",
+          "normalizedLocalDateTime": "2025-12-11T06:25:00+05:30",
+          "normalizedUtcInstant": "2025-12-11T00:55:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "February 2, 2026",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "18:15",
+          "normalizedLocalDateTime": "2026-02-02T18:15:00+05:30",
+          "normalizedUtcInstant": "2026-02-02T12:45:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 54
+    },
+    {
+      "id": "drik-pithoragarh-venus-2026-window-2",
+      "planet": "Venus",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "October 12, 2026",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "18:05",
+          "normalizedLocalDateTime": "2026-10-12T18:05:00+05:30",
+          "normalizedUtcInstant": "2026-10-12T12:35:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "October 28, 2026",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "29:49+",
+          "normalizedLocalDateTime": "2026-10-29T05:49:00+05:30",
+          "normalizedUtcInstant": "2026-10-29T00:19:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 17
+    },
+    {
+      "id": "drik-pithoragarh-venus-2027-window-1",
+      "planet": "Venus",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "July 20, 2027",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "28:54+",
+          "normalizedLocalDateTime": "2027-07-21T04:54:00+05:30",
+          "normalizedUtcInstant": "2027-07-20T23:24:00.000Z",
+          "dayRollover": 1
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "September 9, 2027",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "18:48",
+          "normalizedLocalDateTime": "2027-09-09T18:48:00+05:30",
+          "normalizedUtcInstant": "2027-09-09T13:18:00.000Z",
+          "dayRollover": 0
+        }
+      },
+      "sourceDurationDays": 51
+    },
+    {
+      "id": "drik-pithoragarh-mars-2024-window-1",
+      "planet": "Mars",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "September 11, 2023",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "19:19",
+          "normalizedLocalDateTime": "2023-09-11T19:19:00+05:30",
+          "normalizedUtcInstant": "2023-09-11T13:49:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "January 24, 2024",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "29:55+",
+          "normalizedLocalDateTime": "2024-01-25T05:55:00+05:30",
+          "normalizedUtcInstant": "2024-01-25T00:25:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 136
+    },
+    {
+      "id": "drik-pithoragarh-mars-2025-window-1",
+      "planet": "Mars",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "October 31, 2025",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "18:23",
+          "normalizedLocalDateTime": "2025-10-31T18:23:00+05:30",
+          "normalizedUtcInstant": "2025-10-31T12:53:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "May 3, 2026",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "28:14+",
+          "normalizedLocalDateTime": "2026-05-04T04:14:00+05:30",
+          "normalizedUtcInstant": "2026-05-03T22:44:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 185
+    },
+    {
+      "id": "drik-pithoragarh-mars-2026-window-1",
+      "planet": "Mars",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/mangal-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "October 31, 2025",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "18:23",
+          "normalizedLocalDateTime": "2025-10-31T18:23:00+05:30",
+          "normalizedUtcInstant": "2025-10-31T12:53:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "May 3, 2026",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "28:14+",
+          "normalizedLocalDateTime": "2026-05-04T04:14:00+05:30",
+          "normalizedUtcInstant": "2026-05-03T22:44:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 185
+    },
+    {
+      "id": "drik-pithoragarh-jupiter-2024-window-1",
+      "planet": "Jupiter",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "May 7, 2024",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "19:26",
+          "normalizedLocalDateTime": "2024-05-07T19:26:00+05:30",
+          "normalizedUtcInstant": "2024-05-07T13:56:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "June 5, 2024",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "28:22+",
+          "normalizedLocalDateTime": "2024-06-06T04:22:00+05:30",
+          "normalizedUtcInstant": "2024-06-05T22:52:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 30
+    },
+    {
+      "id": "drik-pithoragarh-jupiter-2025-window-1",
+      "planet": "Jupiter",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "June 12, 2025",
+          "sourcePrintedWeekday": "Thursday",
+          "sourcePrintedClock": "19:47",
+          "normalizedLocalDateTime": "2025-06-12T19:47:00+05:30",
+          "normalizedUtcInstant": "2025-06-12T14:17:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "July 9, 2025",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "28:27+",
+          "normalizedLocalDateTime": "2025-07-10T04:27:00+05:30",
+          "normalizedUtcInstant": "2025-07-09T22:57:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 28
+    },
+    {
+      "id": "drik-pithoragarh-jupiter-2026-window-1",
+      "planet": "Jupiter",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "July 15, 2026",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "19:49",
+          "normalizedLocalDateTime": "2026-07-15T19:49:00+05:30",
+          "normalizedUtcInstant": "2026-07-15T14:19:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "August 11, 2026",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "28:49+",
+          "normalizedLocalDateTime": "2026-08-12T04:49:00+05:30",
+          "normalizedUtcInstant": "2026-08-11T23:19:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 28
+    },
+    {
+      "id": "drik-pithoragarh-jupiter-2027-window-1",
+      "planet": "Jupiter",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "August 16, 2027",
+          "sourcePrintedWeekday": "Monday",
+          "sourcePrintedClock": "19:24",
+          "normalizedLocalDateTime": "2027-08-16T19:24:00+05:30",
+          "normalizedUtcInstant": "2027-08-16T13:54:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "September 12, 2027",
+          "sourcePrintedWeekday": "Sunday",
+          "sourcePrintedClock": "29:09+",
+          "normalizedLocalDateTime": "2027-09-13T05:09:00+05:30",
+          "normalizedUtcInstant": "2027-09-12T23:39:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 28
+    },
+    {
+      "id": "drik-pithoragarh-saturn-2024-window-1",
+      "planet": "Saturn",
+      "sourcePageYear": 2024,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2024&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 16, 2024",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "18:47",
+          "normalizedLocalDateTime": "2024-02-16T18:47:00+05:30",
+          "normalizedUtcInstant": "2024-02-16T13:17:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "March 26, 2024",
+          "sourcePrintedWeekday": "Tuesday",
+          "sourcePrintedClock": "29:06+",
+          "normalizedLocalDateTime": "2024-03-27T05:06:00+05:30",
+          "normalizedUtcInstant": "2024-03-26T23:36:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 40
+    },
+    {
+      "id": "drik-pithoragarh-saturn-2025-window-1",
+      "planet": "Saturn",
+      "sourcePageYear": 2025,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2025&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "February 28, 2025",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "18:53",
+          "normalizedLocalDateTime": "2025-02-28T18:53:00+05:30",
+          "normalizedUtcInstant": "2025-02-28T13:23:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 9, 2025",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "28:48+",
+          "normalizedLocalDateTime": "2025-04-10T04:48:00+05:30",
+          "normalizedUtcInstant": "2025-04-09T23:18:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 41
+    },
+    {
+      "id": "drik-pithoragarh-saturn-2026-window-1",
+      "planet": "Saturn",
+      "sourcePageYear": 2026,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2026&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "March 13, 2026",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "19:01",
+          "normalizedLocalDateTime": "2026-03-13T19:01:00+05:30",
+          "normalizedUtcInstant": "2026-03-13T13:31:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "April 22, 2026",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "28:33+",
+          "normalizedLocalDateTime": "2026-04-23T04:33:00+05:30",
+          "normalizedUtcInstant": "2026-04-22T23:03:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 41
+    },
+    {
+      "id": "drik-pithoragarh-saturn-2027-window-1",
+      "planet": "Saturn",
+      "sourcePageYear": 2027,
+      "eventModel": "drik-tara-asta-window",
+      "precision": "minute",
+      "sourceStatus": "direct-page-captured-browser-verified",
+      "acceptanceEligible": true,
+      "strictCoordinateAcceptanceEligible": false,
+      "comparisonLevel": "city-label-only",
+      "sourcePageUrl": "https://www.drikpanchang.com/planet/asta/shani-asta-date-time.html?geoname-id=1259503&year=2027&time-format=24plushour&lang=en",
+      "sourceLocation": "Pithoragarh, Uttarakhand, India",
+      "sourceCityId": "1259503",
+      "sourceObserver": {
+        "coordinates": null,
+        "coordinateStatus": "Drik page confirms named city but does not publish provider coordinates/elevation"
+      },
+      "testObserver": {
+        "latitude": 29.5828,
+        "longitude": 80.2182,
+        "elevationMeters": 1650,
+        "timeZone": "Asia/Kolkata",
+        "coordinateStatus": "project observer; not asserted to equal Drik internal coordinates"
+      },
+      "boundaries": {
+        "astaStart": {
+          "sourcePrintedDate": "March 26, 2027",
+          "sourcePrintedWeekday": "Friday",
+          "sourcePrintedClock": "19:09",
+          "normalizedLocalDateTime": "2027-03-26T19:09:00+05:30",
+          "normalizedUtcInstant": "2027-03-26T13:39:00.000Z",
+          "dayRollover": 0
+        },
+        "astaEnd": {
+          "sourcePrintedDate": "May 5, 2027",
+          "sourcePrintedWeekday": "Wednesday",
+          "sourcePrintedClock": "28:20+",
+          "normalizedLocalDateTime": "2027-05-06T04:20:00+05:30",
+          "normalizedUtcInstant": "2027-05-05T22:50:00.000Z",
+          "dayRollover": 1
+        }
+      },
+      "sourceDurationDays": 41
+    }
+  ],
+  "uniqueEventsCount": 40,
+  "duplicateAnnualPageReferences": 3
+}
