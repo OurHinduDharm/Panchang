@@ -65,3 +65,29 @@ test("The 2028 Bhishma Panchak start is not merged into Smarta Devutthani Ekadas
  assert.ok(d.events.some(e=>e.title==="देवोत्थानी एकादशी (स्मार्त)"));
  assert.ok(d.events.some(e=>e.title==="भीष्म पंचक प्रारम्भ"));
 });
+
+test("Margashirsha Kalabhairavashtami cards carry distinct prakatya and night-worship details", async () => {
+  const cases = [
+    ["2026-12", "2026-12-01"],
+    ["2027-11", "2027-11-20"],
+    ["2028-11", "2028-11-09"],
+    ["2029-11", "2029-11-28"],
+    ["2030-11", "2030-11-18"]
+  ];
+  for (const [month, date] of cases) {
+    const data = await readMonth(month);
+    const event = data.events.find(e => e.date === date && /कालभैरव जयंती/.test(e.title || ""));
+    assert.ok(event, "Kalabhairavashtami card missing in " + month);
+    assert.match(event.description, /मार्गशीर्ष कृष्ण अष्टमी/);
+    assert.match(event.description, /मध्याह्नकाल/);
+    assert.match(event.description, /रात्रिव्यापिनी अष्टमी/);
+    assert.match(event.description, /AboutBhairavashtamiOn-BhairavaJayanti/);
+  }
+});
+
+test("Bala Siddhavidya is explicitly identified as Bala Tripurasundari", async () => {
+  const data = await readMonth("2026-12");
+  const event = data.events.find(e => /बाला सिद्धविद्या जयंती/.test(e.title || ""));
+  assert.ok(event);
+  assert.match(event.description, /श्री बाला त्रिपुरसुंदरी/);
+});
