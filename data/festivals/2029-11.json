@@ -34,9 +34,20 @@
     {
       "date": "2029-11-04",
       "dateLabel": "4 नवंबर",
-      "title": "धनतेरस / रवि प्रदोष व्रत",
-      "description": "धनतेरस पर भगवान धन्वन्तरि की पूजा और दीपदान की परंपरा है। पूजा-मुहूर्त चुने गए नगर के अनुसार निकाला जाएगा। खरीदारी के लिए स्थानीय त्रयोदशी-व्याप्ति में शुभ चौघड़िया और पूजा के लिए त्रयोदशी-व्याप्ति वाला प्रदोष काल नीचे दिखाया जाएगा। त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "title": "धनतेरस",
+      "description": "कार्तिक कृष्ण त्रयोदशी को धनतेरस पर भगवान धन्वन्तरि और धन-समृद्धि के प्रतीक पूज्य देवताओं की आराधना की जाती है।",
       "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
+      "muhurtaRule": "dhanteras-muhurta"
+    },
+    {
+      "date": "2029-11-04",
+      "dateLabel": "4 नवंबर",
+      "title": "रवि प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है।",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
@@ -124,9 +135,19 @@
     {
       "date": "2029-11-07",
       "dateLabel": "7 नवंबर",
-      "title": "भैया दूज / चन्द्र दर्शन",
-      "description": "भैया दूज भाई-बहन के स्नेह और मंगलकामना का पर्व है। अमावस्या के बाद शुक्ल पक्ष में चन्द्रमा के प्रथम दर्शन का पर्व।",
+      "title": "भाई दूज / यम द्वितीया",
+      "description": "कार्तिक शुक्ल द्वितीया को बहनें भाइयों के मंगल और दीर्घायु की कामना से तिलक करती हैं।",
       "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल द्वितीया"
+    },
+    {
+      "date": "2029-11-07",
+      "dateLabel": "7 नवंबर",
+      "title": "चन्द्र दर्शन",
+      "description": "शुक्ल पक्ष की द्वितीया को चन्द्रदर्शन कर चन्द्रदेव को अर्घ्य दिया जाता है।",
+      "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल द्वितीया"
@@ -145,9 +166,20 @@
     {
       "date": "2029-11-11",
       "dateLabel": "11 नवंबर",
-      "title": "छठ पूजा / मासिक स्कन्द षष्ठी",
-      "description": "छठ पूजा में सूर्यदेव और छठी मैया की उपासना तथा अर्घ्य की परंपरा है। मासिक स्कन्द षष्ठी पर भगवान स्कन्द (कार्तिकेय) की पूजा और व्रत करें।",
+      "title": "छठ पूजा",
+      "description": "कार्तिक शुक्ल षष्ठी को सूर्यदेव और छठी मैया की उपासना में संध्या एवं प्रातःकालीन अर्घ्य दिया जाता है।",
       "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल षष्ठी",
+      "muhurtaRule": "chhath-arghya"
+    },
+    {
+      "date": "2029-11-11",
+      "dateLabel": "11 नवंबर",
+      "title": "मासिक स्कन्द षष्ठी",
+      "description": "शुक्ल पक्ष की षष्ठी को भगवान स्कन्द की पूजा और व्रत किया जाता है।",
+      "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल षष्ठी",
@@ -189,17 +221,28 @@
     {
       "date": "2029-11-16",
       "dateLabel": "16 नवंबर",
-      "title": "देवउठनी एकादशी (स्मार्त) / भीष्म पंचक प्रारंभ",
-      "description": "देवउठनी एकादशी पर भगवान विष्णु के योगनिद्रा से जागने और चातुर्मास समापन की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a> भीष्म पंचक व्रत पर भगवान विष्णु के अवतार का स्मरण, पूजन और स्तोत्र-पाठ करें। <a href=\"https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html\" target=\"_blank\" rel=\"noopener noreferrer\">भीष्म पंचक व्रत</a>",
+      "title": "देवोत्थानी एकादशी (स्मार्त)",
+      "description": "कार्तिक शुक्ल एकादशी पर भगवान विष्णु के योगनिद्रा से जागरण का पर्व मनाया जाता है।",
       "category": "एकादशी",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल एकादशी",
       "muhurtaRule": "ekadashi-parana",
+      "sourceName": "Drik Panchang — 2029 Hindu Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/11/About-Shree-Hari-Prabodhini-Ekaadashi.html",
-      "articleLabel": "देवोत्थानी एकादशी की महिमा पढ़ें",
-      "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान",
+      "articleLabel": "देवोत्थानी एकादशी की महिमा पढ़ें"
+    },
+    {
+      "date": "2029-11-16",
+      "dateLabel": "16 नवंबर",
+      "title": "भीष्म पंचक प्रारम्भ",
+      "description": "कार्तिक शुक्ल एकादशी से पूर्णिमा तक भीष्म पंचक व्रत का पालन किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल एकादशी",
+      "muhurtaRule": "ekadashi-parana",
       "sourceName": "Drik Panchang — 2029 Hindu Calendar",
       "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
     },
@@ -228,16 +271,28 @@
     {
       "date": "2029-11-21",
       "dateLabel": "21 नवंबर",
-      "title": "कार्तिक पूर्णिमा / देव दीपावली",
-      "description": "कार्तिक पूर्णिमा पर स्नान, दान, दीपदान और भगवान विष्णु/शिव की उपासना की परंपरा है। इसी दिन प्रदोष और सायंकाल में देव दीपावली का दीपोत्सव मनाया जाता है।",
+      "title": "कार्तिक पूर्णिमा",
+      "description": "कार्तिक शुक्ल पूर्णिमा पर स्नान, दान, दीपदान और भगवान विष्णु तथा शिव की पूजा की जाती है।",
+      "category": "पूर्णिमा व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक पूर्णिमा",
+      "sourceName": "Drik Panchang — November 2029 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
+    },
+    {
+      "date": "2029-11-21",
+      "dateLabel": "21 नवंबर",
+      "title": "देव दीपावली",
+      "description": "कार्तिक पूर्णिमा को काशी सहित अनेक तीर्थों में देव दीपावली के अवसर पर दीपदान किया जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक पूर्णिमा",
-      "articleUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
-      "articleLabel": "आकाशदीपदान की विधि पढ़ें",
       "sourceName": "Drik Panchang — November 2029 Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029",
+      "articleUrl": "https://ourhindudharm.blogspot.com/p/aakash-deep-daan-vidhi.html",
+      "articleLabel": "आकाशदीपदान की विधि पढ़ें"
     },
     {
       "date": "2029-11-24",
@@ -252,14 +307,24 @@
     {
       "date": "2029-11-28",
       "dateLabel": "28 नवंबर",
-      "title": "कालभैरव जयंती / मासिक कालाष्टमी",
-      "description": "कालभैरव जयंती पर भगवान भैरव की पूजा, जप और रात्रि-उपासना की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a> प्रत्येक माह के कृष्ण पक्ष की अष्टमी कालाष्टमी कहलाती है। इस दिन भगवान भैरव जी की पूजा की जाती है। शिवपूजन व रुद्राभिषेक किया जाता है। शास्त्रानुसार मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव मध्याह्न में प्रकट हुए थे। रात्रिव्रत होने के कारण इस व्रत के लिए रात्रिव्यापिनी अष्टमी को व्रत करना चाहिए। <a href=\"http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html\" target=\"_blank\" rel=\"noopener noreferrer\">भैरवाष्टमी की महिमा पढ़ें</a>",
-      "category": "जयंती",
+      "title": "कालभैरव जयंती",
+      "description": "मार्गशीर्ष कृष्ण अष्टमी को भगवान भैरव के प्राकट्य-पर्व के रूप में कालभैरव जयंती मनाई जाती है।",
+      "category": "देव पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/11/AboutBhairavashtamiOn-BhairavaJayanti.html",
       "articleLabel": "भैरवाष्टमी की महिमा पढ़ें"
+    },
+    {
+      "date": "2029-11-28",
+      "dateLabel": "28 नवंबर",
+      "title": "मासिक कालाष्टमी",
+      "description": "कृष्ण पक्ष की अष्टमी को भगवान भैरव की पूजा और व्रत किया जाता है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "मार्गशीर्ष कृष्ण अष्टमी"
     }
   ]
 }
