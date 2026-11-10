@@ -96,3 +96,6 @@ Swiss heliacal rising/setting एक भौतिक visibility candidate है
 ## स्रोत-स्थान निर्देशांक सीमा (2026-11-10 सुधार)
 
 `Heliacal Rising and setting of planets` तथा `Visibility of Planets` के उद्धृत IMD पृष्ठ Central Station of India का नाम देते हैं, लेकिन उन पृष्ठों पर उसके latitude/longitude/elevation नहीं देते। इसलिए इन entries को `city-label-only` रखा गया है। पहले benchmark में Central Station के लिए 23°11′ N, 82°30′ E को source-published coordinates कहना अधिक मजबूत दावा था; इसे हटाया गया है। जब तक अलग प्राथमिक स्रोत से स्टेशन निर्देशांक न मिलें, इन cases पर coordinate-exact validation नहीं लिखना है।
+
+
+IMD के अलग `Visibility of Planets` पृष्ठ (`https://packolkata.imd.gov.in/panchang/en/visibility`) की 28 date-only visibility periods भी Mercury, Venus, Mars, Jupiter और Saturn के लिए benchmark JSON में transcribe की गई हैं। ये exact heliacal event timestamps से अलग dataset हैं; date-only precision ही रखी गई है और इनसे कोई clock time interpolate नहीं किया गया।
