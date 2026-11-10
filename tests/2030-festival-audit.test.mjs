@@ -199,7 +199,6 @@ test("2030 Sankashti, Narak Chaturdashi and Diwali retain their specific timing 
 test("2030 every Pradosh observance has its correct local muhurta rule", () => {
   const allowed = new Set([
     "pradosh-kala",
-    "pradosh-and-masik-shivaratri",
     "dhanteras-muhurta",
     "dev-deepawali-pradosh"
   ]);
