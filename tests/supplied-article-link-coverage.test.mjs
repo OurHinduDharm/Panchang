@@ -106,7 +106,10 @@ test("every linked master article is present on its matching 2026-2030 festival 
   assert.deepEqual(missing, []);
 });
 
-test("public 2026-2030 festival cards contain no Vaishnava or Gauna Ekadashi entries", async () => {
+test("public 2026-2030 festival cards and content master contain no Vaishnava or Gauna Ekadashi entries", async () => {
+  const master = JSON.parse(await readFile(new URL("../data/festival-content-master.json", import.meta.url), "utf8"));
+  const masterViolations = master.templates.filter(item => /एकादशी/.test(item.key || "") && /(वैष्णव|गौण)/.test(item.key || "")).map(item => item.key);
+  assert.deepEqual(masterViolations, []);
   const violations = [];
   for (let year = 2026; year <= 2030; year++) {
     for (let monthNumber = 1; monthNumber <= 12; monthNumber++) {
