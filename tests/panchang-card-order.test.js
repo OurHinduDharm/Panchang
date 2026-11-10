@@ -133,7 +133,7 @@ test("Planetary Asta/Udaya card displays direct source labels and seven celestia
   assert.ok(cardSource.includes("Drik मूल स्रोत"));
   assert.ok(cardSource.includes("सूर्य"));
   assert.ok(cardSource.includes("चंद्रमा"));
-  assert.ok(cardSource.includes("Drik Panchang के पिथौरागढ़ नगर-पृष्ठ"));
+  assert.ok(cardSource.includes("स्रोत: Drik Panchang का"));
   assert.ok(!cardSource.includes("कोणीय अनुमानित"));
   assert.ok(!cardSource.includes("सत्यापनाधीन"));
 });
@@ -148,6 +148,6 @@ test("production Panchang no longer contains fixed-angle threshold or daily scan
     "getPlanetEvent"
   ]) assert.ok(!source.includes(legacy), legacy + " must be removed from production");
   assert.ok(source.includes("getDrikPlanetaryReference"));
-  assert.ok(source.includes("loadDrikPithoragarhData"));
-  assert.ok(source.includes("cache: \\"force-cache\\""));
+  assert.ok(source.includes("loadDrikPlanetaryReferenceData"));
+  assert.ok(source.includes("force-cache"));
 });
