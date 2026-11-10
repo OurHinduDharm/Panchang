@@ -208,7 +208,7 @@
       "date": "2028-10-16",
       "dateLabel": "16 अक्टूबर",
       "title": "काली चौदस",
-      "description": "काली चौदस पर निशीथकालीन माँ काली की उपासना और दीपदान की परंपरा है। यह रात्रिकालीन उपासना है; नरक चतुर्दशी का अभ्यंग-स्नान अलग प्रातःकालीन अनुष्ठान है। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>।",
+      "description": "काली चौदस पर निशीथकाल में माँ काली की विशेष उपासना और दीपदान किया जाता है। नीचे स्थानीय निशीथकाल का समय दिया गया है। यह रात्रिकालीन उपासना है; नरक चतुर्दशी का अभ्यंग-स्नान अलग प्रातःकालीन अनुष्ठान है। <a href=\"https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें</a>।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -216,7 +216,8 @@
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/09/Kakaradi-Kali-sahasranam-stotra.html",
       "articleLabel": "श्री काली ककारादि सहस्रनाम स्तोत्र पढ़ें",
       "sourceName": "Drik Panchang — October 2028 Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-october.html?lang=en&year=2028",
+      "muhurtaRule": "kali-chaudas-nishita"
     },
     {
       "date": "2028-10-16",
