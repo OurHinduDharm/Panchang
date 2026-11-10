@@ -1148,3 +1148,22 @@ Verified source pages:
 - Jupiter: https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?year=2023
 
 इन pages पर Drik स्वयं बताता है कि modern location-based algorithms उपयोग किए जाते हैं और Surya Siddhanta angular limits approximate हैं। स्रोत का शहर New Delhi है; provider observer coordinates/elevation प्रकाशित नहीं हैं।
+
+
+### Held-out planet की date prediction — 10 नवम्बर 2026
+
+Universal apparent-magnitude/twilight model को हर बार एक पूरा ग्रह training से हटाकर बाकी ग्रहों पर train किया और हटाए गए ग्रह की New Delhi windows की dates predict कीं:
+
+| ग्रह | boundaries | ±1 दिन | ±2 दिन | MAE | अधिकतम त्रुटि |
+|---|---:|---:|---:|---:|---:|
+| बुध | 76 | 60 | 72 | 0.99 दिन | 5 दिन |
+| शुक्र | 16 | 8 | 8 | 4.13 दिन | 12 दिन |
+| गुरु | 8 | 5 | 7 | 1.25 दिन | 3 दिन |
+| शनि | 12 | 10 | 12 | 0.92 दिन | 2 दिन |
+| मंगल | 4 | 0 | 0 | 10 दिन | 12 दिन |
+
+**अर्थ:** केवल apparent magnitude का universal model Venus/Mars के लिए स्वीकार्य नहीं। Jupiter/Saturn उपयोगी candidates हैं, पर 1–3 दिन की शेष त्रुटि exact published date के लिए अभी बहुत अधिक है। Mercury के लिए planet-specific multi-year fit बेहतर है; उसी ग्रह के 2022–27 year-pair holdouts का परिणाम ऊपर दर्ज है।
+
+यह date-only holdout है; clock-time validation अलग है। Local horizon clock engine New Delhi के 116 boundaries पर MAE 0.2528 minute और max 0.66 minute तक पहुँचा। Pithoragarh Venus 2025 के चार independently indexed boundaries पर max absolute clock difference 0.459 minute रहा।
+
+Research-only selector के पाँच unit tests सफल हैं। Selector एक ही crossing को candidate, zero को no-crossing और multiple को ambiguous बताता है; कोई fallback boundary नहीं बनाता। अभी production integration नहीं।
