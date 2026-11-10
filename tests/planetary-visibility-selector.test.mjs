@@ -18,7 +18,7 @@ function fakeAstronomy(sunAltitudeAt) {
       return { altitude: ra === 1 ? sunAltitudeAt(dayOffset) : 0.1, azimuth: ra === 1 ? 90 : 100 };
     },
     Illumination() {
-      return { mag: 1 };
+      return { mag: 1, phase_fraction: 0.5 };
     }
   };
 }
@@ -395,4 +395,34 @@ test("does not silently substitute direct motion when ephemeris motion vectors a
     astronomy: fakeAstronomy(dayOffset => dayOffset),
     model: { intercept: 0, coefficients: { retrograde: 1 } }
   }), /Missing finite visibility feature: retrograde/);
+});
+
+test("computes apparent elongation from topocentric equatorial positions when no AngleFromSun API exists", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { elongationDegrees: 1 } }
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.predictedBoundaryDate, "2026-01-25");
+  assert.equal(result.thresholdAltitudeDegrees, 15);
+});
+
+test("supports local azimuth separation and illuminated fraction as visibility features", () => {
+  const azimuthResult = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { azimuthSeparationDegrees: 1 } }
+  });
+  const phaseResult = findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { illuminatedFraction: 2 } }
+  });
+
+  assert.equal(azimuthResult.predictedBoundaryDate, "2026-01-20");
+  assert.equal(azimuthResult.thresholdAltitudeDegrees, 10);
+  assert.equal(phaseResult.predictedBoundaryDate, "2026-01-11");
+  assert.equal(phaseResult.thresholdAltitudeDegrees, 1);
 });
