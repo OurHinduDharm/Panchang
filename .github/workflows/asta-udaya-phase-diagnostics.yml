@@ -47,7 +47,7 @@ jobs:
           exit 1
       - name: Compare Swiss heliacal visibility with published and provisional Pithoragarh boundaries
         run: node tests/run-swiss-heliacal-comparison.mjs
-      - name: Capture Drik Pithoragarh Mercury/Jupiter named-city pages without city fallback
+      - name: Capture Drik Pithoragarh five-planet named-city pages without city fallback
         run: node tests/capture-drik-pithoragarh-asta.mjs
       - name: Verify opt-in counters and unchanged visible output
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
