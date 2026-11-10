@@ -38,6 +38,17 @@
       "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
     },
     {
+      "date": "2029-09-04",
+      "dateLabel": "4 सितंबर",
+      "title": "अगस्त्य अर्घ्य",
+      "description": "पितृपक्ष के आरंभ के समय अगस्त्य ऋषि को अर्घ्य देने की परंपरा है। अर्घ्य का समय स्थानीय पंचांग और सूर्यास्त के अनुसार निर्धारित होता है।",
+      "category": "पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "sourceName": "Drik Panchang — 2029 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
+    },
+    {
       "date": "2029-09-06",
       "dateLabel": "6 सितंबर",
       "title": "गुरु प्रदोष व्रत",
@@ -145,12 +156,14 @@
     {
       "date": "2029-09-17",
       "dateLabel": "17 सितंबर",
-      "title": "कन्या संक्रांति",
-      "description": "कन्या संक्रांति पर स्नान, दान और सूर्योपासना की परंपरा है।",
+      "title": "कन्या संक्रांति / विश्वकर्मा पूजा",
+      "description": "कन्या संक्रांति पर स्नान, दान और सूर्योपासना की परंपरा है। इसी दिन भगवान विश्वकर्मा तथा औज़ारों, उपकरणों और कार्यस्थल की पूजा की जाती है।",
       "category": "संक्रांति",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "सूर्य का कन्या राशि में प्रवेश"
+      "hinduTithi": "सूर्य का कन्या राशि में प्रवेश",
+      "sourceName": "Drik Panchang — September 2029 Festivals",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2029"
     },
     {
       "date": "2029-09-18",
