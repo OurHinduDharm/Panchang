@@ -14,6 +14,7 @@ on:
       - "tests/verified-horizon-crossing-check.mjs"
       - "tests/report-planet-horizon-twilight-boundaries.mjs"
       - "tests/report-new-delhi-twilight-threshold-holdout.mjs"
+      - "tests/report-venus-cross-location-threshold-holdout.mjs"
       - "ASTA-UDAYA-BENCHMARK-AUDIT.md"
       - "data/asta-udaya-benchmark.json"
       - ".github/workflows/asta-udaya-phase-diagnostics.yml"
@@ -58,6 +59,8 @@ jobs:
         run: node tests/report-planet-horizon-twilight-boundaries.mjs
       - name: Profile magnitude, phase, elongation, and twilight across 38 New Delhi holdout windows
         run: node tests/report-new-delhi-twilight-threshold-holdout.mjs
+      - name: Hold out Pithoragarh Venus apparitions from New Delhi magnitude calibration
+        run: node tests/report-venus-cross-location-threshold-holdout.mjs
       - name: Compare fixed-angle candidates with Drik New Delhi 2027 boundaries
         run: node tests/report-drik-longitude-threshold-boundaries.mjs
       - name: Diagnose fixed geocentric longitude thresholds against TRAC 2027 boundaries
