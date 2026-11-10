@@ -54,7 +54,7 @@ test("All supplied OurHinduDharm articles are linked to their matching 2026-2030
     [2029,9,"2029-09-01",/श्रीकृष्ण जन्माष्टमी/,"About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti"],
     [2029,11,"2029-11-04",/काली चौदस/,"Kakaradi-Kali-sahasranam-stotra"],
     [2029,11,"2029-11-16",/देवोत्थानी एकादशी/,"About-Shree-Hari-Prabodhini-Ekaadashi"],
-    [2029,11,"2029-11-21",/देव दीपावली/,"aakash-deep-daan-vidhi"],
+    [2029,11,"2029-11-21",/कार्तिक पूर्णिमा/,"aakash-deep-daan-vidhi"],
     [2030,3,"2030-03-02",/महाशिवरात्रि/,"shivratri-prahar-pooja-vidhi"],
     [2030,5,"2030-05-05",/अक्षय तृतीया/,"About-Akshaya-Triteeya"],
     [2030,8,"2030-08-20",/श्रीकृष्ण जन्माष्टमी/,"About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti"],
