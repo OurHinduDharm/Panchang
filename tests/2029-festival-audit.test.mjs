@@ -68,6 +68,8 @@ test("2029 major festivals and saint jayantis are represented", () => {
   assert.ok(has("2029-04-14", /बोहाग बिहू/));
   assert.ok(has("2029-05-09", /वरुथिनी एकादशी.*वल्लभाचार्य जयंती/));
   assert.ok(has("2029-05-18", /आदि शंकराचार्य जयंती.*सूरदास जयंती/));
+  assert.ok(has("2029-06-25", /वट पूर्णिमा व्रत.*ज्येष्ठ पूर्णिमा/));
+  assert.equal(events.filter(event => event.date === "2029-06-26" && /ज्येष्ठ पूर्णिमा/.test(event.title || "")).length, 0);
   assert.ok(has("2029-08-16", /गोस्वामी तुलसीदास जयंती/));
   assert.ok(has("2029-08-23", /रक्षाबंधन/));
   assert.ok(has("2029-08-22", /ओणम/));
