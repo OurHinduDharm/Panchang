@@ -57,7 +57,7 @@ try {
         capture.httpStatus = response?.status() ?? null;
         await page.waitForTimeout(500);
         capture.title = await page.title();
-        capture.renderedYear = Number(capture.title.match(/^(20\\d{2})/)?.[1] || NaN);
+        capture.renderedYear = Number(capture.title.match(/^(20\d{2})/)?.[1] || NaN);
         capture.requestedYearConfirmed = capture.renderedYear === year;
         const body = await page.locator("body").innerText({ timeout: 15000 });
         const lines = body.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
