@@ -155,5 +155,5 @@ test("2029 Pithoragarh total lunar eclipse has local contact timings", () => {
   assert.equal(eclipse.hinduTithi, "मार्गशीर्ष शुक्ल पूर्णिमा");
   assert.match(eclipse.description, /2:25 से सुबह 5:58 बजे तक/);
   assert.match(eclipse.description, /3:45 से 4:38 बजे तक/);
-  assert.match(eclipse.sourceUrl, /timeanddate\\.com\/eclipse\/in\/india\/pithoragarh/);
+  assert.ok(eclipse.sourceUrl.includes("timeanddate.com/eclipse/in/india/pithoragarh"));
 });
