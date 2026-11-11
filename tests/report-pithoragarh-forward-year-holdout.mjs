@@ -142,6 +142,34 @@ function eligible(entry) {
     entry.boundaries?.astaEnd?.normalizedUtcInstant;
 }
 
+function publishedConjunctionType(entry) {
+  const start = new Date(entry.boundaries.astaStart.normalizedUtcInstant);
+  const end = new Date(entry.boundaries.astaEnd.normalizedUtcInstant);
+  if (!Number.isFinite(start.getTime()) || !Number.isFinite(end.getTime()) ||
+      end.getTime() <= start.getTime()) return null;
+  const midpoint = new Date((start.getTime() + end.getTime()) / 2);
+  const innerPlanet = entry.planet === "Mercury" || entry.planet === "Venus";
+  const targets = innerPlanet ? [0, 180] : [0];
+  const candidates = [];
+  for (const targetRelLon of targets) {
+    const event = Astronomy.SearchRelativeLongitude(
+      entry.planet, targetRelLon, new Date(midpoint.getTime() - 90 * DAY_MS)
+    );
+    if (event?.date) {
+      const distanceDays = Math.abs(event.date.getTime() - midpoint.getTime()) / DAY_MS;
+      if (distanceDays <= 90) candidates.push({ targetRelLon, distanceDays });
+    }
+  }
+  candidates.sort((a, b) => a.distanceDays - b.distanceDays);
+  if (!candidates.length ||
+      (candidates.length > 1 && Math.abs(candidates[0].distanceDays - candidates[1].distanceDays) < 1)) {
+    return null;
+  }
+  return candidates[0].targetRelLon === 0
+    ? (innerPlanet ? "inferior" : "conjunction")
+    : "superior";
+}
+
 // The direct Pithoragarh ledger supplies 2021–2027 local history.
 // Other-city training rows come only from direct, accepted 2024–2027 captures.
 const localRows = localData.windows.filter(eligible).map(normalizeLocal);
@@ -238,20 +266,47 @@ for (const planet of Object.keys(variantsByPlanet)) {
         const used = new Set(), predictions = [];
         for (const entry of holdouts) {
           const publishedStart = entry.boundaries.astaStart.normalizedLocalDateTime;
-          const ranked = candidateRows.map((window, index) => ({
-            window, index,
-            error: dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedStart)
-          })).filter(item =>
+          const publishedEnd = entry.boundaries.astaEnd.normalizedLocalDateTime;
+          const expectedConjunctionType = publishedConjunctionType(entry);
+          const publishedAstaEvent = nearestEvent(
+            planet, observer, new Date(entry.boundaries.astaStart.normalizedUtcInstant)
+          );
+          const publishedUdayaEvent = nearestEvent(
+            planet, observer, new Date(entry.boundaries.astaEnd.normalizedUtcInstant)
+          );
+          const publishedAstaDirection = publishedAstaEvent?.direction === 1 ? "rise"
+            : publishedAstaEvent ? "set" : null;
+          const publishedUdayaDirection = publishedUdayaEvent?.direction === 1 ? "rise"
+            : publishedUdayaEvent ? "set" : null;
+          const ranked = candidateRows.map((window, index) => {
+            const astaError = dayNumber(window.asta.predictedBoundaryDate) - dayNumber(publishedStart);
+            const udayaError = dayNumber(window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd);
+            return {
+              window, index, astaError, udayaError,
+              score: Math.abs(astaError) + Math.abs(udayaError)
+            };
+          }).filter(item =>
             !used.has(item.index) &&
-            Math.abs(item.error) <= 30
-          ).sort((a, b) => Math.abs(a.error) - Math.abs(b.error));
+            expectedConjunctionType &&
+            item.window.conjunctionType === expectedConjunctionType &&
+            publishedAstaDirection &&
+            publishedUdayaDirection &&
+            item.window.asta.direction === publishedAstaDirection &&
+            item.window.udaya.direction === publishedUdayaDirection &&
+            Math.abs(item.astaError) <= 30 &&
+            Math.abs(item.udayaError) <= 30
+          ).sort((a, b) => a.score - b.score);
           const best = ranked[0];
           if (!best) {
-            predictions.push({ id: entry.id, matched: false });
+            predictions.push({
+              id: entry.id, matched: false,
+              expectedConjunctionType,
+              publishedAstaDirection,
+              publishedUdayaDirection
+            });
             continue;
           }
           used.add(best.index);
-          const publishedEnd = entry.boundaries.astaEnd.normalizedLocalDateTime;
           predictions.push({
             id: entry.id, matched: true,
             conjunctionType: best.window.conjunctionType,
@@ -261,13 +316,13 @@ for (const planet of Object.keys(variantsByPlanet)) {
             publishedAstaDate: publishedStart.slice(0, 10),
             predictedAstaTime: best.window.asta.predictedEventLocalTime,
             publishedAstaTime: publishedStart.slice(11, 16),
-            astaErrorDays: best.error,
+            astaErrorDays: best.astaError,
             astaClockErrorMinutes: clockError(best.window.asta.predictedEventLocalTime, publishedStart.slice(11, 16)),
             predictedUdayaDate: best.window.udaya.predictedBoundaryDate,
             publishedUdayaDate: publishedEnd.slice(0, 10),
             predictedUdayaTime: best.window.udaya.predictedEventLocalTime,
             publishedUdayaTime: publishedEnd.slice(11, 16),
-            udayaErrorDays: dayNumber(best.window.udaya.predictedBoundaryDate) - dayNumber(publishedEnd),
+            udayaErrorDays: best.udayaError,
             udayaClockErrorMinutes: clockError(best.window.udaya.predictedEventLocalTime, publishedEnd.slice(11, 16))
           });
         }
@@ -292,7 +347,7 @@ for (const planet of Object.keys(variantsByPlanet)) {
 
 console.log(JSON.stringify({
   title: "Pithoragarh forward-only Asta/Udaya validation",
-  method: "For each held-out Pithoragarh source-page year, fit per-planet visibility models using only earlier source-page years. The pooled model may use earlier-year records from other directly captured cities; the local-only baseline uses only earlier Pithoragarh years. No future-year records are allowed in either training fold.",
+  method: "For each held-out Pithoragarh source-page year, fit per-planet visibility models using only earlier source-page years. Match predictions only when conjunction family and both observed local rise/set directions agree; rank candidates by the combined Asta and Udaya date error. The pooled model may use earlier-year records from other directly captured cities; the local-only baseline uses only earlier Pithoragarh years. No future-year records are allowed in either training fold.",
   coverage: {
     acceptedRows: allEntries.length,
     pithoragarhWindows: targetRows.length,
