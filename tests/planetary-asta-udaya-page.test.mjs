@@ -67,3 +67,12 @@ test("formats boundaries in India Standard Time with Hindi date and clock", () =
   assert.match(formatted, /06:12|०६:१२/);
   assert.equal(formatPithoragarhBoundary("not-a-date"), "—");
 });
+
+test("main Panchang planetary card links to the annual reference page", () => {
+  const source = readFileSync(
+    new URL("../extra-panchang.js", import.meta.url),
+    "utf8"
+  );
+  assert.match(source, /https:\/\/ourhindudharm\.github\.io\/Panchang\/planetary-asta-udaya\.html/);
+  assert.match(source, /वर्षवार ग्रह तारा-अस्त एवं पुनः उदय सूची/);
+});
