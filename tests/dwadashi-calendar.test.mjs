@@ -497,10 +497,12 @@ test("special yoga observance dates do not override the actual Dwadashi tithi da
 
 
 
-test("Drik Panchang remains the primary date authority for named special observances", async () => {
+test("Smarta rules remain authoritative while Drik dates stay source references", async () => {
   const sourceRules=JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json",import.meta.url),"utf8"));
-  assert.equal(sourceRules.sourcePolicy.primaryCalendarSource,"Drik Panchang");
-  assert.match(sourceRules.sourcePolicy.conflictResolution,/must not decide or override/i);
+  assert.equal(sourceRules.sourcePolicy.primaryVrataRule,"Smarta");
+  assert.match(sourceRules.sourcePolicy.drikPanchangRole,/reference and timing cross-check/i);
+  assert.match(sourceRules.sourcePolicy.conflictResolution,/apply Smarta vrata rules/i);
+  assert.match(sourceRules.sourcePolicy.conflictResolution,/must not override/i);
   const cases=[
     {year:2027,observanceDate:"2027-04-02",label:"एकादशी श्रवण योग द्वादशी"},
     {year:2028,observanceDate:"2028-03-21",label:"विष्णुशृंखला योग द्वादशी"},
