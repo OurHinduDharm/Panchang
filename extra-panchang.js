@@ -21,30 +21,27 @@ import {
    ========================================= */
 
 const PLANETS = [
-  {
-    key: "mercury",
-    name: "बुध",
-    body: "Mercury"
-  },
-
-  {
-    key: "venus",
-    name: "शुक्र",
-    body: "Venus"
-  },
-
+  // सप्ताह के वार-क्रम में: मंगल, बुध, गुरु, शुक्र, शनि।
   {
     key: "mars",
     name: "मंगल",
     body: "Mars"
   },
-
+  {
+    key: "mercury",
+    name: "बुध",
+    body: "Mercury"
+  },
   {
     key: "jupiter",
     name: "गुरु",
     body: "Jupiter"
   },
-
+  {
+    key: "venus",
+    name: "शुक्र",
+    body: "Venus"
+  },
   {
     key: "saturn",
     name: "शनि",
@@ -446,7 +443,11 @@ function createPlanetCard(data, dailyEvents = {}) {
     </div>
   `).join("");
 
-  const rows = data.map(planet => {
+  // मंगल का दैनिक उदय-अस्त ऊपर दिखता है; केवल उसकी खाली
+  // "आगामी अस्त-अवधि उपलब्ध नहीं" पंक्ति दोहराव होगी।
+  const rows = data
+    .filter(planet => !(planet.name === "मंगल" && planet.status === "no-upcoming-reference"))
+    .map(planet => {
     if (planet.status === "loading") {
       return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>लोड हो रहा है…</span></div>`;
     }

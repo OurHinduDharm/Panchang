@@ -22,8 +22,17 @@ test("planet card does not add the long source-coordinate disclaimer", () => {
   assert.doesNotMatch(card, /Drik मूल स्रोत|planet\.sourceUrl|href=.*sourceUrl/);
 });
 
-test("missing Mars or unsupported city is shown briefly without a false zero-event claim", () => {
-  assert.match(card, /आगामी अस्त-अवधि उपलब्ध नहीं/);
+test("Mars empty upcoming-asta row is omitted because daily Mars events are already shown", () => {
+  assert.match(card, /name: "मंगल — अगला दैनिक उदय-अस्त"/);
+  assert.match(card, /planet\.status === "no-upcoming-reference"/);
+  assert.match(card, /planet\.name === "मंगल"/);
   assert.match(card, /इस स्थान के लिए जानकारी उपलब्ध नहीं/);
   assert.doesNotMatch(card, /कोई अस्त नहीं|zero events|अस्त नहीं होगा/);
+});
+
+test("planet reference order follows weekday order after Sun, Moon and daily Mars", () => {
+  const order = ["मंगल", "बुध", "गुरु", "शुक्र", "शनि"];
+  const positions = order.map(name => source.indexOf('name: "' + name + '"'));
+  assert.ok(positions.every(position => position >= 0));
+  assert.deepEqual(positions, [...positions].sort((a, b) => a - b));
 });
