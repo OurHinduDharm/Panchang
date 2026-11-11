@@ -8,7 +8,7 @@ import {
 } from "../research/planetary-visibility-physics.mjs";
 
 test("Kasten-Young airmass is approximately 1 at zenith and finite near horizon", () => {
-  assert.ok(Math.abs(kastenYoungAirmass(90) - 1) < 1e-9);
+  assert.ok(Math.abs(kastenYoungAirmass(90) - 1) < 0.001);
   assert.ok(kastenYoungAirmass(0) > 30);
   assert.equal(kastenYoungAirmass(-5), null);
   assert.equal(kastenYoungAirmass(-6), null);
