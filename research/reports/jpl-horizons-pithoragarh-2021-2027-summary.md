@@ -1,3 +1,16 @@
+> **2026-11-11 corrected run — use this result, not the historical 150-row tables below.** CI run [42978026277](https://github.com/OurHinduDharm/Panchang/actions/runs/42978026277) completed successfully and uploaded the fresh artifact `jpl-horizons-pithoragarh-2021-2027-crosscheck`. It deduplicates 75 annual-page rows into 71 unique windows and **142 unique boundaries** (Mercury 90, Venus 18, Mars 6, Jupiter 14, Saturn 14). All 142/142 boundaries are within 0.2° of -0.5° apparent altitude and within one minute of the interpolated -0.5° crossing. Overall mean absolute crossing offset: **0.360 min**; maximum: **0.861 min**; mean target altitude: **-0.569°**; mean absolute difference from -0.5°: **0.0739°**. Year-wise unique-boundary counts are 2021: 22, 2022: 20, 2023: 22, 2024: 18, 2025: 22, 2026: 20, 2027: 18. The 1.65 km observer height remains an unverified proxy, so this is a geometry-consistency check—not datum-corrected sub-minute location validation, nor proof of Drik's full algorithm or internal coordinates.
+
+| Planet | Unique boundaries | Mean planet elevation at Drik time | Mean absolute time offset | Maximum offset |
+|---|---:|---:|---:|---:|
+| Mercury | 90 | -0.5675° | 0.350 min | 0.821 min |
+| Venus | 18 | -0.5772° | 0.401 min | 0.821 min |
+| Mars | 6 | -0.5157° | 0.179 min | 0.653 min |
+| Jupiter | 14 | -0.5944° | 0.443 min | 0.829 min |
+| Saturn | 14 | -0.5660° | 0.368 min | 0.861 min |
+| **Total** | **142** | **-0.5690°** | **0.360 min** | **0.861 min** |
+
+---
+
 # JPL Horizons Cross-Check: Pithoragarh Planetary Asta/Udaya (2021–2027)
 
 **Status:** Research-only independent geometry validation  
@@ -8,7 +21,7 @@
 
 ## Result
 
-The 2021–2027 accepted Pithoragarh ledger contains 75 windows and 150 Asta/Udaya boundaries across five planets. At each published boundary, JPL Horizons apparent topocentric planet elevation was sampled at -10, 0 and +10 minutes. A linear interpolation between the two outer samples estimated when the planet crossed -0.5° apparent elevation.
+The historical, non-deduplicated run below counted 75 windows and 150 Asta/Udaya observations. These tables are retained for audit history only; their aggregates are superseded by the corrected 142-boundary result at the top of this report. At each published boundary, JPL Horizons apparent topocentric planet elevation was sampled at -10, 0 and +10 minutes. A linear interpolation between the two outer samples estimated when the planet crossed -0.5° apparent elevation.
 
 | Planet | Boundaries | Mean planet elevation at Drik time | Mean absolute time offset from -0.5° crossing | Maximum offset | Solar altitude range |
 |---|---:|---:|---:|---:|---:|
@@ -19,8 +32,8 @@ The 2021–2027 accepted Pithoragarh ledger contains 75 windows and 150 Asta/Uda
 | Saturn | 14 | -0.566° | 0.368 min | 0.861 min | -13.79° to -10.34° |
 | **Total** | **150** | **-0.5672° overall** | **0.353 min overall** | **0.861 min overall** | **-14.912° to -5.516°** |
 
-- All **150/150** published boundary instants were within one minute of the interpolated -0.5° local apparent-elevation crossing.
-- All **150/150** planet elevations at the published instants were within 0.2° of -0.5°.
+- In this historical duplicate-containing run, all **150/150** published boundary instants were within one minute of the interpolated -0.5° local apparent-elevation crossing.
+- In this historical duplicate-containing run, all **150/150** planet elevations at the published instants were within 0.2° of -0.5°.
 - Mean absolute elevation difference from -0.5° was 0.0723°.
 - The Sun's altitude varied substantially by planet and event; these results do **not** support assuming one universal solar-depression threshold.
 
@@ -96,7 +109,7 @@ A later audit compared the raw Pithoragarh source capture with the canonical mai
 - The 71 unique `(planet, AstaStart UTC, AstaEnd UTC)` keys exactly match the 71 Pithoragarh windows in the main-branch canonical reference file `data/drik-planetary-reference-2024-2027.json`.
 - Unique boundary counts: Mercury 90, Venus 18, Mars 6, Jupiter 14, Saturn 14.
 
-**Interpretation correction:** The 150 observations in the original table are raw boundary observations, not 150 independent published events. They comprise 142 unique boundaries plus 8 repeated observations arising from four duplicate annual-page window references. The original aggregate means, maxima and 150/150 statements describe the raw repeated-observation set; they must not be presented as deduplicated independent-sample statistics. A fresh unique-boundary JPL aggregation is required before reporting independent-sample error statistics. The raw checks remain a useful per-observation geometry cross-check, but this correction reduces the evidential sample count.
+**Interpretation correction:** The 150 observations in the original table are raw boundary observations, not 150 independent published events. They comprise 142 unique boundaries plus 8 repeated observations arising from four duplicate annual-page window references. The original aggregate means, maxima and 150/150 statements describe the raw repeated-observation set; they must not be presented as deduplicated independent-sample statistics. The required fresh unique-boundary JPL aggregation has now completed; use the corrected 142-boundary statistics at the top of this report. The raw checks remain a useful per-observation geometry cross-check, but this correction reduces the evidential sample count.
 
 ## India-specific geoid model metadata
 
@@ -112,7 +125,7 @@ The model page exposes both an original file and ISG-format file. The ISG format
 
 ## 2026-11-10 follow-up — unique-boundary runner corrected
 
-The JPL runner was updated in commit `9d152af7ec94b35beb27f0dd6547f109f1980fc4` to deduplicate annual-page overlap by `(planet, normalized UTC AstaStart, normalized UTC AstaEnd)` **before** requesting Horizons samples and calculating statistics. It records the 75 raw rows, 4 duplicate annual-page references and 71 unique windows in the generated JSON, and fails closed if the ledger no longer reconciles to those counts. A fresh execution will therefore evaluate 142 unique boundaries. The older raw artifact and its 150-observation aggregates remain historical and must not be cited as unique-sample statistics. Fresh unique-boundary JPL results are still pending.
+The JPL runner was updated in commit `9d152af7ec94b35beb27f0dd6547f109f1980fc4` to deduplicate annual-page overlap by `(planet, normalized UTC AstaStart, normalized UTC AstaEnd)` **before** requesting Horizons samples and calculating statistics. It records the 75 raw rows, 4 duplicate annual-page references and 71 unique windows in the generated JSON, and fails closed if the ledger no longer reconciles to those counts. A fresh execution will therefore evaluate 142 unique boundaries. The older raw artifact and its 150-observation aggregates remain historical and must not be cited as unique-sample statistics. Fresh unique-boundary JPL results completed successfully in run 42978026277; see the corrected result at the top of this report.
 
 
 ## 2026-11-10 follow-up — published elevation evidence at the project location
