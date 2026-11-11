@@ -156,18 +156,23 @@ for (const astaTarget of TARGETS) {
         continue;
       }
 
-      const candidates = generateVisibilityWindows({
-        astronomy: Astronomy,
-        body: "Venus",
-        observer,
-        modelByBoundary,
-        startDate: new Date(Date.UTC(holdoutYear, 0, 1)),
-        endDate: new Date(Date.UTC(holdoutYear, 11, 31, 23, 59, 59)),
-        searchDays: 60,
-        timeZone: TIME_ZONE
-      }).filter(window =>
-        window.status === "candidate" &&
-        window.asta.predictedBoundaryDate?.slice(0, 4) === String(holdoutYear)
+      const eventYears = [...new Set(holdouts.map(entry =>
+        Number(entry.boundaries.astaStart.normalizedLocalDateTime.slice(0, 4))
+      ))].sort((a, b) => a - b);
+      const candidates = eventYears.flatMap(eventYear =>
+        generateVisibilityWindows({
+          astronomy: Astronomy,
+          body: "Venus",
+          observer,
+          modelByBoundary,
+          startDate: new Date(Date.UTC(eventYear, 0, 1)),
+          endDate: new Date(Date.UTC(eventYear, 11, 31, 23, 59, 59)),
+          searchDays: 60,
+          timeZone: TIME_ZONE
+        }).filter(window =>
+          window.status === "candidate" &&
+          window.asta.predictedBoundaryDate?.slice(0, 4) === String(eventYear)
+        )
       );
 
       const used = new Set();
