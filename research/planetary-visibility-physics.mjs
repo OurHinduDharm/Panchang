@@ -98,3 +98,57 @@ export function computeVisibilityPhysics({
     status: airmass === null ? "airmass-out-of-domain" : "diagnostic-only"
   };
 }
+
+
+/**
+ * Samples Astronomy Engine's topocentric apparent sky geometry and feeds it
+ * into the auditable physical feature layer above.
+ */
+export function sampleAstronomyVisibilityPhysics({
+  astronomy,
+  body,
+  observer,
+  date,
+  atmosphere
+}) {
+  if (!astronomy || typeof astronomy.Equator !== "function" ||
+      typeof astronomy.Horizon !== "function" ||
+      typeof astronomy.Illumination !== "function") {
+    throw new TypeError("Astronomy Engine Equator, Horizon and Illumination APIs are required");
+  }
+  if (!body || !observer) throw new TypeError("body and observer are required");
+  const instant = new Date(date);
+  if (!Number.isFinite(instant.getTime())) throw new TypeError("date must be a valid instant");
+
+  const horizontal = target => {
+    const equatorial = astronomy.Equator(target, instant, observer, true, true);
+    const position = astronomy.Horizon(
+      instant, observer, equatorial.ra, equatorial.dec, "normal"
+    );
+    return { altitude: position.altitude, azimuth: position.azimuth };
+  };
+  const planetPosition = horizontal(body);
+  const sunPosition = horizontal("Sun");
+  const moonPosition = horizontal("Moon");
+  const planetIllumination = astronomy.Illumination(body, instant);
+  const moonIllumination = astronomy.Illumination("Moon", instant);
+  const result = computeVisibilityPhysics({
+    planet: {
+      ...planetPosition,
+      apparentMagnitude: planetIllumination.mag,
+      illuminatedFraction: planetIllumination.phase_fraction
+    },
+    sun: sunPosition,
+    moon: {
+      ...moonPosition,
+      illuminatedFraction: moonIllumination.phase_fraction
+    },
+    atmosphere
+  });
+  return {
+    ...result,
+    body,
+    instantUTC: instant.toISOString(),
+    coordinateModel: "Astronomy Engine topocentric equatorial-to-horizon; normal refraction"
+  };
+}
