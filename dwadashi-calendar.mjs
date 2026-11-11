@@ -309,15 +309,14 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     { id:"doodh", title:"दूध का त्याग", startDate:boundaries[2].selectedDate, endDate:boundaries[3].selectedDate, startTithi:"भाद्रपद शुक्ल द्वादशी", endTithi:"आश्विन शुक्ल द्वादशी", detail:"आरंभ में दही का दान करें।" },
     { id:"dal", title:"दालों का त्याग", startDate:boundaries[3].selectedDate, endDate:boundaries[4].selectedDate, startTithi:"आश्विन शुक्ल द्वादशी", endTithi:"कार्तिक शुक्ल एकादशी", detail:"आरंभ में दूध का दान करें; दालों अथवा किसी एक प्रकार की दाल का त्याग करें।" }
   ] : [];
-  // The Smarta Ekadashi is the Chaturmas completion observance; retain the final dietary restriction through the following civil day, then complete the vow on Dwadashi.
-  if (complete) {
-    const finalPhaseEnd = new Date(boundaries[4].selectedDate + "T00:00:00Z");
-    finalPhaseEnd.setUTCDate(finalPhaseEnd.getUTCDate() + 1);
-    phases[3].endDate = finalPhaseEnd.toISOString().slice(0, 10);
-  }
-  const last = complete ? new Date(boundaries[4].selectedDate + "T00:00:00Z") : null;
-  if (last) last.setUTCDate(last.getUTCDate() + 2);
-  const completionDate = last ? last.toISOString().slice(0, 10) : null;
+  // The final dietary restriction ends on Smarta Ekadashi.
+  // The vow is completed on the following Kartik Shukla Dwadashi.
+  const completion = complete ? new Date(boundaries[4].selectedDate + "T00:00:00Z") : null;
+  if (completion) completion.setUTCDate(completion.getUTCDate() + 1);
+  const completionDate = completion ? completion.toISOString().slice(0, 10) : null;
+  const visibleThrough = completion ? new Date(completion) : null;
+  if (visibleThrough) visibleThrough.setUTCDate(visibleThrough.getUTCDate() + 1);
+  const cardVisibleThroughDate = visibleThrough ? visibleThrough.toISOString().slice(0, 10) : null;
   const year = Number(dailyPanchang.find(day => day && day.date)?.date?.slice(0, 4));
   return {
     schemaVersion: 1,
@@ -338,7 +337,7 @@ export function buildChaturmasProposal(dailyPanchang, location = {}) {
     startDate: complete ? boundaries[0].selectedDate : null,
     endDate: complete ? boundaries[4].selectedDate : null,
     completionDate,
-    cardVisibleThroughDate: completionDate,
+    cardVisibleThroughDate,
     phases
   };
 }
