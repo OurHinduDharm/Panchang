@@ -684,7 +684,7 @@
         const d = parseDate(item.date);
         return d && d.getFullYear() === currentChaturmasYear &&
           !/वैष्णव|गौण/i.test(item.title || "") &&
-          /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "");
+          /देवोत्थानी|देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "");
       });
       let chaturmasYear = currentChaturmasYear;
       let chaturmasConfig = await fetchChaturmasConfig(currentChaturmasYear);
