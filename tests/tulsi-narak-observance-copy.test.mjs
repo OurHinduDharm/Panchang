@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const tulsiUrl = "https://ourhindudharm.blogspot.com/2013/11/About-Tulsi-vivah-On-Prabodhini-Ekadashi.html";
 const tulsiGuidance = "द्वादशी से पूर्णिमा तक किसी भी दिन यह कर सकते हैं। रविवार को तुलसी-स्पर्श शास्त्रानुसार वर्जित है।";
-const narakGuidance = "अभ्यंग स्नान: अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें।";
+const narakGuidance = "अरुणोदय में तैल-उबटन लगाएं। प्रति सदस्य पृथक अपामार्ग की टहनी, तोरई या लौकी मस्तक पर घुमाकर पैर से खंडित करें, फिर गृह-सीमा से बाहर फेंककर स्नान करें।";
 
 async function readMonth(name) {
   return JSON.parse(await readFile(new URL("../data/festivals/" + name + ".json", import.meta.url), "utf8"));
