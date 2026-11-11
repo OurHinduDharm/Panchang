@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="पिथौरागढ़ के लिए बुध, शुक्र, मंगल, गुरु और शनि के प्रकाशित तारा-अस्त तथा पुनः उदय समयों की वार्षिक सूची।">
+<title>ग्रहों का तारा-अस्त एवं पुनः उदय | OurHinduDharm</title>
+<style>
+:root{color-scheme:light;--ink:#28231d;--muted:#686157;--line:#e5dfd5;--paper:#fff;--bg:#f6f4ef;--accent:#81391f}
+*{box-sizing:border-box}
+body{margin:0;padding:18px;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,"Noto Sans Devanagari",sans-serif}
+main{max-width:920px;margin:auto}
+h1{font-size:1.55rem;line-height:1.35;margin:0 0 6px}
+h2{font-size:1.15rem;margin:0 0 12px}
+p{margin:7px 0}
+.muted{color:var(--muted);font-size:.92rem}
+.panel,.planet{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px;margin:14px 0}
+.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+label{font-weight:650}
+select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;background:white;min-width:120px}
+.planet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.planet{margin:0}
+.window{padding:10px 0;border-top:1px solid var(--line)}
+.window:first-of-type{border-top:0}
+.window strong{display:block;margin-bottom:5px}
+.times{display:grid;gap:4px;font-size:.94rem}
+.empty{color:var(--muted);font-size:.9rem}
+.status{padding:10px;border-radius:8px;background:#f1eee8}
+@media(max-width:480px){body{padding:12px}.panel,.planet{padding:12px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>ग्रहों का तारा-अस्त एवं पुनः उदय</h1>
+<p class="muted">OurHinduDharm · पिथौरागढ़, उत्तराखंड · वार्षिक सूची</p>
+</header>
+
+<section class="panel" aria-label="वर्ष चुनें">
+<div class="controls">
+<label for="year">वर्ष चुनें</label>
+<select id="year">
+<option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option selected>2026</option><option>2027</option>
+</select>
+<span id="count" class="muted" aria-live="polite"></span>
+</div>
+</section>
+
+<div id="results" class="planet-grid" aria-live="polite">
+<p class="status">वार्षिक संदर्भ-डेटा लोड हो रहा है…</p>
+</div>
+
+<section class="panel">
+<h2>समय-संदर्भ</h2>
+<p class="muted">यह सूची पिथौरागढ़ नाम से प्रकाशित वार्षिक नगर-संदर्भों से तैयार की गई है। समय भारतीय मानक समय (IST) में है। “अस्त प्रारम्भ” से “पुनः उदय” तक संबंधित तारा-अस्त अवधि दिखाई गई है।</p>
+<p class="muted">प्रकाशित स्रोत अपने आंतरिक अक्षांश, देशांतर और ऊँचाई नहीं बताते; इसलिए ये पिथौरागढ़-नगर के संदर्भ हैं, 29.5828° उ., 80.2182° पू. और 1650 मीटर पर स्वतंत्र रूप से प्रमाणित coordinate-exact गणना नहीं। जिस ग्रह/वर्ष के लिए सत्यापित पंक्ति उपलब्ध नहीं है, उसे शून्य अस्त नहीं माना गया है।</p>
+</section>
+</main>
+
+<script type="module">
+import { PLANET_ORDER, getPithoragarhAnnualWindows, formatPithoragarhBoundary } from "./planetary-asta-udaya-page.mjs";
+
+const results = document.getElementById("results");
+const yearSelect = document.getElementById("year");
+const count = document.getElementById("count");
+const planetNames = new Map(PLANET_ORDER.map(item => [item.key, item.name]));
+
+function addText(parent, tag, className, value) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  node.textContent = value;
+  parent.append(node);
+  return node;
+}
+
+function render(dataset) {
+  const year = Number(yearSelect.value);
+  const windows = getPithoragarhAnnualWindows(dataset, year);
+  count.textContent = windows.length + " सत्यापित अवधि";
+  results.replaceChildren();
+
+  for (const planet of PLANET_ORDER) {
+    const card = document.createElement("section");
+    card.className = "planet";
+    const entries = windows.filter(item => item.planet === planet.key);
+    addText(card, "h2", "", planet.name);
+
+    if (!entries.length) {
+      addText(card, "p", "empty", "इस वर्ष के स्रोत-पृष्ठ से कोई सत्यापित अस्त-अवधि पंक्ति उपलब्ध नहीं। इसका अर्थ शून्य अस्त होना नहीं है।");
+    } else {
+      for (const entry of entries) {
+        const item = document.createElement("div");
+        item.className = "window";
+        addText(item, "strong", "", "अस्त अवधि " + (entries.indexOf(entry) + 1));
+        const times = document.createElement("div");
+        times.className = "times";
+        addText(times, "span", "", "अस्त प्रारम्भ — " + formatPithoragarhBoundary(entry.astaStart));
+        addText(times, "span", "", "पुनः उदय — " + formatPithoragarhBoundary(entry.udaya));
+        item.append(times);
+        card.append(item);
+      }
+    }
+    results.append(card);
+  }
+}
+
+async function init() {
+  try {
+    const response = await fetch("./data/drik-planetary-reference-2024-2027.json", { cache: "force-cache" });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const dataset = await response.json();
+    if (!Array.isArray(dataset.windows)) throw new Error("अमान्य संदर्भ-डेटा");
+    render(dataset);
+    yearSelect.addEventListener("change", () => render(dataset));
+  } catch (error) {
+    results.replaceChildren();
+    addText(results, "p", "status", "वार्षिक संदर्भ-डेटा अभी उपलब्ध नहीं हो पाया। कृपया कुछ देर बाद पुनः प्रयास करें।");
+    count.textContent = "";
+    console.error("Planetary Asta/Udaya annual page:", error);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
