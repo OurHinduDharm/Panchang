@@ -33,6 +33,8 @@ on:
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "tests/planetary-visibility-selector.test.mjs"
       - "research/planetary-visibility-selector.mjs"
+      - "research/planetary-visibility-physics.mjs"
+      - "tests/planetary-visibility-physics.test.mjs"
       - "data/drik-pithoragarh-asta-udaya-2024-2027.json"
       - "data/drik-pithoragarh-asta-udaya-2021-2027.json"
       - "tests/drik-pithoragarh-asta-extended-data.test.mjs"
@@ -128,6 +130,8 @@ jobs:
           if-no-files-found: error
       - name: Test planetary visibility selector and retrograde/direct motion features
         run: node --test tests/planetary-visibility-selector.test.mjs
+      - name: Test research physical visibility feature layer
+        run: node --test tests/planetary-visibility-physics.test.mjs
       - name: Compare Mercury/Venus retrograde-aware model variants
         run: node tests/report-pithoragarh-motion-feature-holdout.mjs
       - name: Run five-city leave-one-city-out Asta/Udaya transfer validation
