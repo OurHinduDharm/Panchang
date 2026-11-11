@@ -1085,7 +1085,8 @@
       "referenceDate": "2026-05-13",
       "labels": [
         "कृष्ण परशुराम द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     },
     {
       "month": "ज्येष्ठ",
@@ -1095,7 +1096,8 @@
       "labels": [
         "उन्मीलिनी महाद्वादशी",
         "अधिक रामलक्ष्मण द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     },
     {
       "month": "ज्येष्ठ",
@@ -1104,7 +1106,8 @@
       "referenceDate": "2026-06-12",
       "labels": [
         "अधिक कृष्ण रामलक्ष्मण द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     },
     {
       "month": "ज्येष्ठ",
@@ -1115,7 +1118,8 @@
         "पक्षवर्द्धिनी महाद्वादशी",
         "रामलक्ष्मण द्वादशी",
         "चम्पक द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     },
     {
       "month": "आषाढ़",
@@ -1125,10 +1129,93 @@
       "labels": [
         "त्रिस्पर्शा महाद्वादशी",
         "कृष्ण रामलक्ष्मण द्वादशी"
-      ]
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2026-03-29",
+      "labels": [
+        "मदन द्वादशी",
+        "वामन द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "आषाढ़",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2026-07-25",
+      "labels": [
+        "वासुदेव द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2026-08-09",
+      "labels": [
+        "कृष्ण वासुदेव द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "कार्तिक",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2026-11-05",
+      "labels": [
+        "गोवत्स द्वादशी",
+        "कृष्ण पद्मनाभ द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "माघ",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2026-01-29",
+      "labels": [
+        "भीष्म द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "फाल्गुन",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2026-02-13",
+      "labels": [
+        "कृष्ण भीष्म द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
+    },
+    {
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2026-10-22",
+      "labels": [
+        "पद्मनाभ द्वादशी"
+      ],
+      "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?time-format=24hour&year=2026&geoname-id=1259503"
     }
   ],
   "drikSpecialObservances": [
+    {
+      "year": 2026,
+      "month": "चैत्र",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2026-03-15",
+      "labels": [
+        "विष्णुशृंखला योग द्वादशी"
+      ]
+    },
     {
       "year": 2026,
       "month": "ज्येष्ठ",
@@ -1193,6 +1280,18 @@
     },
     {
       "year": 2027,
+      "month": "माघ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2027-02-02",
+      "labels": [
+        "कृष्ण कूर्म द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
+    },
+    {
+      "year": 2027,
       "month": "फाल्गुन",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1207,10 +1306,37 @@
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2027-04-02",
       "labels": [
         "एकादशी श्रवण योग द्वादशी"
-      ]
+      ],
+      "observanceDate": "2027-04-02",
+      "dateRole": "special-observance-date",
+      "note": "तिथि-अंतराल और स्थानीय सूर्योदय का परीक्षण अलग से करें; व्रत/विशेष observance की संदर्भ-तिथि Drik Panchang के अनुसार ही रखें।"
+    },
+    {
+      "year": 2027,
+      "month": "चैत्र",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2027-04-17",
+      "labels": [
+        "वामन द्वादशी",
+        "मदन द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
+    },
+    {
+      "year": 2027,
+      "month": "ज्येष्ठ",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2027-06-01",
+      "labels": [
+        "कृष्ण परशुराम द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
     },
     {
       "year": 2027,
@@ -1241,6 +1367,19 @@
       "labels": [
         "एकादशी श्रवण योग द्वादशी"
       ]
+    },
+    {
+      "year": 2027,
+      "month": "कार्तिक",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2027-11-10",
+      "labels": [
+        "योगेश्वर द्वादशी",
+        "गरुड़ द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
     },
     {
       "year": 2028,
@@ -1277,10 +1416,36 @@
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2028-03-21",
       "labels": [
         "विष्णुशृंखला योग द्वादशी"
-      ]
+      ],
+      "observanceDate": "2028-03-21",
+      "dateRole": "special-observance-date",
+      "note": "तिथि-अंतराल और स्थानीय सूर्योदय का परीक्षण अलग से करें; व्रत/विशेष observance की संदर्भ-तिथि Drik Panchang के अनुसार ही रखें।"
+    },
+    {
+      "year": 2028,
+      "month": "वैशाख",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2028-05-05",
+      "labels": [
+        "परशुराम द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
+    },
+    {
+      "year": 2028,
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2028-08-01",
+      "labels": [
+        "दामोदर द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
     },
     {
       "year": 2028,
@@ -1304,6 +1469,18 @@
     },
     {
       "year": 2029,
+      "month": "फाल्गुन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2029-02-25",
+      "labels": [
+        "नृसिंह द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
+    },
+    {
+      "year": 2029,
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
@@ -1320,6 +1497,52 @@
       "referenceDate": "2029-04-25",
       "labels": [
         "त्रिस्पर्शा महाद्वादशी"
+      ]
+    },
+    {
+      "year": 2029,
+      "month": "वैशाख",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2029-05-09",
+      "labels": [
+        "कृष्ण वामन द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
+    },
+    {
+      "year": 2029,
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2029-08-06",
+      "labels": [
+        "कृष्ण वासुदेव द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
+    },
+    {
+      "year": 2029,
+      "month": "श्रावण",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2029-08-20",
+      "labels": [
+        "दामोदर द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
+    },
+    {
+      "year": 2029,
+      "month": "भाद्रपद",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2029-09-18",
+      "labels": [
+        "विष्णुशृंखला योग द्वादशी"
       ]
     },
     {
@@ -1357,30 +1580,12 @@
       "month": "चैत्र",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2030-03-29",
       "labels": [
         "एकादशी श्रवण योग द्वादशी"
-      ]
-    },
-    {
-      "year": 2030,
-      "month": "आश्विन",
-      "paksha": "शुक्ल",
-      "adhika": false,
-      "referenceDate": "2030-10-07",
-      "labels": [
-        "एकादशी श्रवण योग द्वादशी"
-      ]
-    },
-    {
-      "year": 2029,
-      "month": "भाद्रपद",
-      "paksha": "शुक्ल",
-      "adhika": false,
-      "referenceDate": "2029-09-18",
-      "labels": [
-        "विष्णुशृंखला योग द्वादशी"
-      ]
+      ],
+      "observanceDate": "2030-03-29",
+      "dateRole": "special-observance-date",
+      "note": "तिथि-अंतराल और स्थानीय सूर्योदय का परीक्षण अलग से करें; व्रत/विशेष observance की संदर्भ-तिथि Drik Panchang के अनुसार ही रखें।"
     },
     {
       "year": 2030,
@@ -1391,6 +1596,18 @@
       "labels": [
         "वंजुली महाद्वादशी"
       ]
+    },
+    {
+      "year": 2030,
+      "month": "श्रावण",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "referenceDate": "2030-07-26",
+      "labels": [
+        "कृष्ण वासुदेव द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
     },
     {
       "year": 2030,
@@ -1413,14 +1630,33 @@
       ]
     },
     {
-      "year": 2026,
-      "month": "चैत्र",
+      "year": 2030,
+      "month": "आश्विन",
+      "paksha": "शुक्ल",
+      "adhika": false,
+      "referenceDate": "2030-10-07",
+      "labels": [
+        "एकादशी श्रवण योग द्वादशी"
+      ]
+    },
+    {
+      "year": 2030,
+      "month": "कार्तिक",
       "paksha": "कृष्ण",
       "adhika": false,
-      "referenceDate": "2026-03-15",
+      "referenceDate": "2030-10-23",
       "labels": [
-        "विष्णुशृंखला योग द्वादशी"
-      ]
+        "कृष्ण पद्मनाभ द्वादशी",
+        "गोवत्स द्वादशी"
+      ],
+      "sourcePage": "dwadashi-dates",
+      "note": "Drik Panchang की वार्षिक द्वादशी सूची में दिया गया व्रत/विशेष द्वादशी दिवस। स्थानीय तिथि-अंतराल और सूर्योदय का मिलान अलग से किया जाएगा; Drik की संदर्भ-तिथि को अन्य कैलेंडर से नहीं बदला जाएगा।"
     }
-  ]
+  ],
+  "sourcePolicy": {
+    "primaryVrataRule": "Smarta",
+    "drikPanchangRole": "Named-observance date reference and timing cross-check; never an automatic approval or override of Smarta vrata rules.",
+    "conflictResolution": "When calendar dates conflict, apply Smarta vrata rules. Drik Panchang dates remain source references for review and Drik timings may be used, but a listed date must not override the applicable Smarta rule or be auto-approved.",
+    "localCalculationRole": "The local Panchanga engine inspects tithi intervals and sunrise observations against the source reference. A candidate remains review-required until the applicable Smarta vrata rule is confirmed."
+  }
 }
