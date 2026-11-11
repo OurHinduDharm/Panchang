@@ -12,6 +12,7 @@ const TARGET_IDS = {
   Saturn: "699"
 };
 const TIME_OFFSETS_MINUTES = [-10, 0, 10];
+const EXPECTED_UNIQUE_WINDOWS_BY_PLANET = { Mercury: 45, Venus: 9, Mars: 3, Jupiter: 7, Saturn: 7 };
 
 function parseHorizonsRow(row) {
   const fields = row.split(",").map(value => value.trim());
@@ -123,10 +124,15 @@ const windows = [...uniqueWindowMap.values()].sort((a, b) =>
   a.boundaries.astaStart.normalizedUtcInstant.localeCompare(b.boundaries.astaStart.normalizedUtcInstant)
 );
 const duplicateWindowReferences = rawWindows.length - windows.length;
-if (windows.length !== 71 || duplicateWindowReferences !== 4) {
+const uniqueWindowsByPlanet = Object.fromEntries(
+  Object.keys(EXPECTED_UNIQUE_WINDOWS_BY_PLANET).map(planet => [planet, windows.filter(window => window.planet === planet).length])
+);
+if (windows.length !== 71 || duplicateWindowReferences !== 4 ||
+    Object.entries(EXPECTED_UNIQUE_WINDOWS_BY_PLANET).some(([planet, count]) => uniqueWindowsByPlanet[planet] !== count)) {
   throw new Error("Unexpected deduplicated source ledger: " +
     windows.length + " unique windows from " + rawWindows.length +
-    " raw rows (" + duplicateWindowReferences + " duplicates); expected 71/75/4");
+    " raw rows (" + duplicateWindowReferences + " duplicates); expected 71/75/4 and " +
+    JSON.stringify(EXPECTED_UNIQUE_WINDOWS_BY_PLANET) + "; received " + JSON.stringify(uniqueWindowsByPlanet));
 }
 
 const grouped = new Map();
@@ -148,6 +154,12 @@ for (const window of windows) {
   }
 }
 
+const expectedBoundariesByPlanet = Object.fromEntries(Object.entries(EXPECTED_UNIQUE_WINDOWS_BY_PLANET).map(([planet, count]) => [planet, count * 2]));
+const actualBoundariesByPlanet = Object.fromEntries(Object.keys(expectedBoundariesByPlanet).map(planet => [planet, grouped.get(planet)?.length ?? 0]));
+if (Object.entries(expectedBoundariesByPlanet).some(([planet, count]) => actualBoundariesByPlanet[planet] !== count)) {
+  throw new Error("Unique JPL boundary counts do not reconcile: expected " + JSON.stringify(expectedBoundariesByPlanet) + "; received " + JSON.stringify(actualBoundariesByPlanet));
+}
+
 const report = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
@@ -163,8 +175,9 @@ const report = {
   },
   observer: {
     ...SITE,
-    altitudeUnit: "km above reference ellipsoid as supplied to Horizons",
-    caveat: "The project elevation 1650 m may be orthometric/MSL rather than ellipsoidal; this is a project-observer proxy, not proof of Drik internal coordinates."
+    altitudeUnit: "km supplied in Horizons SITE_COORD; vertical datum is unverified",
+    altitudeDatum: "unverified; 1.65 km is a project-observer proxy and is not confirmed ellipsoidal height",
+    caveat: "Horizons SITE_COORD requires ellipsoidal height. The project elevation 1650 m may be orthometric/MSL; do not interpret these samples as datum-corrected sub-minute validation or proof of Drik internal coordinates."
   },
   settings: {
     ephemerisType: "OBSERVER",
@@ -245,6 +258,7 @@ report.summary = {
   duplicateAnnualPageReferences: duplicateWindowReferences,
   uniqueWindows: windows.length,
   boundaries: totalBoundaries,
+  uniqueBoundariesByPlanet: actualBoundariesByPlanet,
   ephemerisRows: totalRows,
   apiQueries: report.planetResults.reduce((sum, item) => sum + 2 * item.target.batchCount, 0),
   meanTargetAltitudeAtPublishedBoundaryDeg: Number(meanTargetAltitude.toFixed(4)),
