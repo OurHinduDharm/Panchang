@@ -35,6 +35,7 @@ on:
       - "research/planetary-visibility-selector.mjs"
       - "research/planetary-visibility-physics.mjs"
       - "tests/planetary-visibility-physics.test.mjs"
+      - "tests/report-pithoragarh-visibility-physics-features.mjs"
       - "data/drik-pithoragarh-asta-udaya-2024-2027.json"
       - "data/drik-pithoragarh-asta-udaya-2021-2027.json"
       - "tests/drik-pithoragarh-asta-extended-data.test.mjs"
@@ -132,6 +133,8 @@ jobs:
         run: node --test tests/planetary-visibility-selector.test.mjs
       - name: Test research physical visibility feature layer
         run: node --test tests/planetary-visibility-physics.test.mjs
+      - name: Audit physical visibility features at Pithoragarh reference boundaries
+        run: node tests/report-pithoragarh-visibility-physics-features.mjs
       - name: Compare Mercury/Venus retrograde-aware model variants
         run: node tests/report-pithoragarh-motion-feature-holdout.mjs
       - name: Run five-city leave-one-city-out Asta/Udaya transfer validation
@@ -140,6 +143,13 @@ jobs:
         run: node --test tests/drik-planetary-reference.test.mjs
       - name: Verify direct Drik Panchang card, no provisional display and unchanged performance mode
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
+
+      - name: Upload Pithoragarh visibility physics feature audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: pithoragarh-visibility-physics-features-2021-2027
+          path: research/reports/pithoragarh-visibility-physics-features-2021-2027.json
+          if-no-files-found: error
 
       - name: Upload Pithoragarh Mars 2028 local event geometry
         uses: actions/upload-artifact@v4
