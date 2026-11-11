@@ -119,7 +119,7 @@
       /देवशयनी|हरिशयनी|चातुर्मास प्रारम्भ/i.test(item.title || "") && item.date);
     const end = events.find(item => isPublishable(item) &&
       !/वैष्णव|गौण/i.test(item.title || "") &&
-      /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "") && item.date);
+      /देवोत्थानी|देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "") && item.date);
     if (!start || !end) return null;
 
     const eventStartDate = parseDate(start.date);
@@ -684,7 +684,7 @@
         const d = parseDate(item.date);
         return d && d.getFullYear() === currentChaturmasYear &&
           !/वैष्णव|गौण/i.test(item.title || "") &&
-          /देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "");
+          /देवोत्थानी|देवउठनी|देवप्रबोधिनी|प्रबोधिनी/i.test(item.title || "");
       });
       let chaturmasYear = currentChaturmasYear;
       let chaturmasConfig = await fetchChaturmasConfig(currentChaturmasYear);
