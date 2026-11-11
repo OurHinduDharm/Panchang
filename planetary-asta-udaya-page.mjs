@@ -12,7 +12,7 @@ export const PLANET_ORDER = Object.freeze([
 
 function validBoundary(value) {
   return typeof value?.normalizedLocalDateTime === "string" &&
-    /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+05:30$/.test(value.normalizedLocalDateTime) &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+05:30$/.test(value.normalizedLocalDateTime) &&
     Number.isFinite(Date.parse(value.normalizedLocalDateTime));
 }
 
@@ -35,7 +35,7 @@ export function getPithoragarhAnnualWindows(dataset, sourceYear) {
       entry.sourceStatus === SOURCE_STATUS &&
       entry.acceptanceEligible === true &&
       entry.comparisonLevel === "city-label-only" &&
-      entry.strictCoordinateAcceptanceEligible === false &&
+      entry.strictCoordinateAcceptanceEligible !== true &&
       PLANET_ORDER.some(planet => planet.key === entry.planet) &&
       validBoundary(entry.boundaries?.astaStart) &&
       validBoundary(entry.boundaries?.astaEnd) &&
