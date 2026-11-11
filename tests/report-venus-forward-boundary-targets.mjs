@@ -85,7 +85,7 @@ function fit(samples, target) {
   ) / denominator;
   return { intercept: yMean - slope * xMean, slope, sampleCount: usable.length };
 }
-function summarize(values) {
+function summarizeDays(values) {
   const valid = values.filter(Number.isFinite);
   return {
     count: valid.length,
@@ -95,6 +95,18 @@ function summarize(values) {
       ? Number((valid.reduce((sum, value) => sum + Math.abs(value), 0) / valid.length).toFixed(3))
       : null,
     maxAbsoluteErrorDays: valid.length ? Math.max(...valid.map(Math.abs)) : null
+  };
+}
+function summarizeMinutes(values) {
+  const valid = values.filter(Number.isFinite);
+  return {
+    count: valid.length,
+    withinOneMinute: valid.filter(value => Math.abs(value) <= 1).length,
+    withinFiveMinutes: valid.filter(value => Math.abs(value) <= 5).length,
+    meanAbsoluteErrorMinutes: valid.length
+      ? Number((valid.reduce((sum, value) => sum + Math.abs(value), 0) / valid.length).toFixed(2))
+      : null,
+    maxAbsoluteErrorMinutes: valid.length ? Math.max(...valid.map(Math.abs)) : null
   };
 }
 function clockError(predicted, published) {
@@ -198,10 +210,10 @@ for (const astaTarget of TARGETS) {
       udayaTarget,
       matchedCount: matched.length,
       unavailableFolds: predictions.filter(item => item.available === false).length,
-      astaDates: summarize(matched.map(item => item.astaErrorDays)),
-      udayaDates: summarize(matched.map(item => item.udayaErrorDays)),
-      astaClockMinutes: summarize(matched.map(item => item.astaClockErrorMinutes)),
-      udayaClockMinutes: summarize(matched.map(item => item.udayaClockErrorMinutes)),
+      astaDates: summarizeDays(matched.map(item => item.astaErrorDays)),
+      udayaDates: summarizeDays(matched.map(item => item.udayaErrorDays)),
+      astaClockMinutes: summarizeMinutes(matched.map(item => item.astaClockErrorMinutes)),
+      udayaClockMinutes: summarizeMinutes(matched.map(item => item.udayaClockErrorMinutes)),
       predictions
     });
   }
