@@ -1654,9 +1654,9 @@
     }
   ],
   "sourcePolicy": {
-    "primaryCalendarSource": "Drik Panchang",
-    "observanceDateAuthority": "For Ekadashi/Dwadashi vrata and named Dwadashi observances, use the date listed by Drik Panchang as the primary reference date.",
-    "conflictResolution": "Do not change a Drik Panchang observance date merely because another calendar website lists a different date. Other websites may be consulted for context but must not decide or override the published date.",
-    "localCalculationRole": "The local Panchanga engine is used to inspect tithi intervals and sunrise observations for the selected Drik date; unresolved cases remain review-required until the applicable Smarta vrata rule is confirmed."
+    "primaryVrataRule": "Smarta",
+    "drikPanchangRole": "Named-observance date reference and timing cross-check; never an automatic approval or override of Smarta vrata rules.",
+    "conflictResolution": "When calendar dates conflict, apply Smarta vrata rules. Drik Panchang dates remain source references for review and Drik timings may be used, but a listed date must not override the applicable Smarta rule or be auto-approved.",
+    "localCalculationRole": "The local Panchanga engine inspects tithi intervals and sunrise observations against the source reference. A candidate remains review-required until the applicable Smarta vrata rule is confirmed."
   }
 }
