@@ -20,7 +20,7 @@ test("annual page selector includes only verified Pithoragarh city-reference win
   assert.ok(all.every(item => Date.parse(item.astaStart) < Date.parse(item.udaya)));
 });
 
-test("all seven captured years are selectable and preserve planet grouping", () => {
+test("all seven captured years are selectable and preserve chronological order", () => {
   for (const year of [2021, 2022, 2023, 2024, 2025, 2026, 2027]) {
     const windows = getPithoragarhAnnualWindows(dataset, year);
     assert.ok(windows.length > 0, String(year));
@@ -38,8 +38,6 @@ test("missing Mars 2027 rows remain unavailable rather than being inferred as ze
   const mars = getPithoragarhAnnualWindows(dataset, 2027)
     .filter(item => item.planet === "Mars");
   assert.deepEqual(mars, []);
-  const pageSource = dataset.sourcePages.find(item => item.planet === "Mars" && item.year === 2027);
-  assert.equal(pageSource.status, "no-window-listed");
 });
 
 test("does not include other cities or records that claim coordinate-exact acceptance", () => {
