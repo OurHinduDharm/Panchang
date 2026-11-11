@@ -475,6 +475,7 @@ function createPlanetCard(data, dailyEvents = {}) {
   card.innerHTML = `
     <h3>🌌 ग्रहों का तारा अस्त एवं पुनः उदय</h3>
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${dailyRows}${rows}</div>
+    <p style="margin:12px 0 0"><a href="https://ourhindudharm.github.io/Panchang/planetary-asta-udaya.html">वर्षवार ग्रह तारा-अस्त एवं पुनः उदय सूची (2021–2027)</a></p>
   `;
   return card;
 }
