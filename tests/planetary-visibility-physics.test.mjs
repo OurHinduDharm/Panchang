@@ -68,3 +68,37 @@ test("does not extrapolate the air-mass model below its declared domain", () => 
   assert.equal(result.status, "airmass-out-of-domain");
   assert.equal(result.extinctionCorrectedMagnitude, null);
 });
+
+
+test("samples topocentric planet, Sun and Moon positions through Astronomy Engine", async () => {
+  const { sampleAstronomyVisibilityPhysics } = await import("../research/planetary-visibility-physics.mjs");
+  const calls = [];
+  const astronomy = {
+    Equator(body, date, observer, ofDate, aberration) {
+      calls.push(["Equator", body, ofDate, aberration]);
+      return { ra: body === "Sun" ? 1 : body === "Moon" ? 2 : 3, dec: 10 };
+    },
+    Horizon(_date, _observer, ra, _dec, refraction) {
+      calls.push(["Horizon", ra, refraction]);
+      return { altitude: ra === 1 ? -8 : ra === 2 ? 20 : 4, azimuth: ra * 30 };
+    },
+    Illumination(body) {
+      return body === "Moon"
+        ? { mag: -12, phase_fraction: 0.5 }
+        : { mag: 1.1, phase_fraction: 0.75 };
+    }
+  };
+  const result = sampleAstronomyVisibilityPhysics({
+    astronomy,
+    body: "Venus",
+    observer: { latitude: 29.5828, longitude: 80.2182, height: 1650 },
+    date: "2026-11-11T12:00:00.000Z",
+    atmosphere: { extinctionCoefficientMagPerAirmass: 0.2 }
+  });
+  assert.equal(result.body, "Venus");
+  assert.equal(result.twilightClass, "nautical");
+  assert.equal(result.coordinateModel.includes("topocentric"), true);
+  assert.equal(calls.filter(call => call[0] === "Equator").length, 3);
+  assert.equal(calls.filter(call => call[0] === "Horizon").length, 3);
+  assert.ok(calls.filter(call => call[0] === "Equator").every(call => call[2] && call[3]));
+});
