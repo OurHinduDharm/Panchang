@@ -100,8 +100,12 @@ function fitFeatures(samples, keys, targetKey) {
   } : null;
 }
 function publishedConjunctionType(entry) {
-  const start = new Date(entry.boundaries.astaStart.instant);
-  const end = new Date(entry.boundaries.astaEnd.instant);
+  const startValue = entry.boundaries?.astaStart?.normalizedUtcInstant;
+  const endValue = entry.boundaries?.astaEnd?.normalizedUtcInstant;
+  const start = new Date(startValue);
+  const end = new Date(endValue);
+  if (!Number.isFinite(start.getTime()) || !Number.isFinite(end.getTime()) ||
+      end.getTime() <= start.getTime()) return null;
   const midpoint = new Date((start.getTime() + end.getTime()) / 2);
   const innerPlanet = entry.planet === 'Mercury' || entry.planet === 'Venus';
   const targets = innerPlanet ? [0, 180] : [0];
