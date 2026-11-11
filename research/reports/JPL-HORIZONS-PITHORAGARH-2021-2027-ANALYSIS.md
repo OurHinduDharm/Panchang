@@ -1,3 +1,7 @@
+> **Superseded — do not use the 150-boundary aggregates below as independent-sample results.**  
+> A later source-ledger audit found 4 duplicate annual-page references: 75 raw rows represent 71 unique windows and 142 unique Asta/Udaya boundaries. The 150-observation statistics in this historical report include repeated observations and are retained only for audit history. The corrected runner now asserts the per-planet unique counts (Mercury 90, Venus 18, Mars 6, Jupiter 14, Saturn 14) and records the 1,650 m observer height as datum-unverified. A fresh 142-boundary JPL run is required before publishing corrected aggregate statistics.  
+> Canonical audit: [jpl-horizons-pithoragarh-2021-2027-summary.md](./jpl-horizons-pithoragarh-2021-2027-summary.md).
+
 # JPL Horizons cross-check: Pithoragarh planetary Asta/Udaya (2021–2027)
 
 Generated from the independent JPL Horizons observer-ephemeris run on 2026-11-10.
