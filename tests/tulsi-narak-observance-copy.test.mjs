@@ -29,9 +29,10 @@ test("Narak Chaturdashi cards include the complete Abhyanga Snan procedure for 2
     const data = await readMonth(name);
     const event = data.events.find(item => /नरक चतुर्दशी/.test(item.title || ""));
     assert.ok(event, "Narak Chaturdashi card should exist in " + name);
+    assert.match(event.description, /अभ्यंग स्नान:/, "Abhyanga Snan section label should appear in " + name);
+    assert.match(event.description, /प्रति सदस्य पृथक अपामार्ग की टहनी/, "Complete traditional procedure should appear in " + name);
     if (name === "2030-10") {
       assert.match(event.description, /दूसरे दिन चंद्रोदय से सूर्योदय तक अभ्यंग-स्नान/);
-      assert.match(event.description, /प्रति सदस्य पृथक अपामार्ग की टहनी/);
       assert.match(event.description, /दोनों दिनों के अरुणोदय और चंद्रोदय में चतुर्दशी की व्याप्ति नहीं होने पर/);
     } else {
       assert.ok(event.description.includes(narakGuidance), "Abhyanga Snan procedure should appear in " + name);
