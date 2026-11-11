@@ -42,3 +42,9 @@ The GitHub connector available during this audit can retrieve runs associated wi
 ## Matching weakness retained as a required fix
 
 The current direction-year report runner selects a candidate primarily by nearest Asta-start date within a 30-day window, then reports the Udaya-end error. This can pair a published window with the wrong conjunction family if two candidate windows are close. Before trusting its aggregate scores, candidate matching must be constrained by: (a) conjunction family nearest the published window midpoint, (b) expected local rise/set direction for that family, and (c) both Asta-start and Asta-end date errors. Unmatched cases must remain unmatched; do not widen tolerances to force a match.
+
+## 11 November 2026 follow-up — matcher and JPL sample-count hardening
+
+The earlier note that the direction-year matcher still used nearest Asta-start matching alone is superseded by the current runner. It now requires the published window's nearest conjunction family, the observed local rise/set direction at both published boundaries, and both Asta-start and Asta-end civil-date errors within 30 days before a candidate can match. The report must still be reviewed record-by-record; a 30-day eligibility gate is not an accuracy pass.
+
+The JPL Horizons runner now fails closed unless the deduplicated ledger is exactly 71 windows / 142 boundaries, with per-planet boundary counts Mercury 90, Venus 18, Mars 6, Jupiter 14 and Saturn 14. It also labels the 1,650 m input's vertical datum as unverified rather than implying ellipsoidal-height correctness. The previously uploaded 150-boundary artifact is a historical duplicated-observation run and is not valid as a unique-sample aggregate. A fresh corrected 142-boundary artifact is still required before quoting updated JPL statistics.
