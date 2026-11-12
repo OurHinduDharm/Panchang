@@ -79,7 +79,7 @@ test("2029 Ekadashi cards follow the Smarta-only policy", () => {
 });
 
 test("2029 Krishna Janmashtami follows the Smarta Nishita date", () => {
-  const janmashtami = has("2029-08-31", /^श्रीकृष्ण जन्माष्टमी \\(स्मार्त\\)$/);
+  const janmashtami = events.find(event => event.date === "2029-08-31" && event.title === "श्रीकृष्ण जन्माष्टमी (स्मार्त)");
   assert.ok(janmashtami);
   assert.equal(janmashtami.hinduTithi, "भाद्रपद कृष्ण अष्टमी");
   assert.equal(janmashtami.sourceName, "MyPanchang — Janmashtami (Smarta) 2029");
