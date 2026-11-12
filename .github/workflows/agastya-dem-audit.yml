@@ -1,0 +1,40 @@
+name: Agastya GEDTM30 research extraction
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract-pithoragarh-window:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out research branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install raster tools
+        run: python -m pip install --upgrade pip rasterio numpy
+
+      - name: Extract source-georeferenced GEDTM30 window
+        run: |
+          python research/agastya/gedtm30_extract.py \
+            --out artifacts/GEDTM30_Pithoragarh_N29E080.tif \
+            --metadata artifacts/GEDTM30_Pithoragarh_N29E080.metadata.json
+
+      - name: Upload research artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: agastya-gedtm30-pithoragarh-audit
+          path: |
+            artifacts/GEDTM30_Pithoragarh_N29E080.tif
+            artifacts/GEDTM30_Pithoragarh_N29E080.metadata.json
+          if-no-files-found: error
+          retention-days: 14
