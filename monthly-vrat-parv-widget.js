@@ -527,7 +527,7 @@
     if(!ruleIds.length&&/वसंत पंचमी|श्रीपंचमी/i.test(eventTitle)) ruleIds=["vasant-panchami-saraswati"];
     if(!ruleIds.length&&/रथ\s*सप्तमी/i.test(eventTitle)) ruleIds=["ratha-saptami-arunodaya"];
     if(!ruleIds.length&&/राम नवमी/i.test(eventTitle)&&!/वैष्णव|गौण/i.test(eventTitle)) ruleIds=["ram-navami-madhyahna"];
-    if(!ruleIds.length&&/कृष्ण जन्माष्टमी/i.test(eventTitle)&&!/वैष्णव|इस्कॉन/i.test(eventTitle)) ruleIds=["janmashtami-nishita"];
+    if(/कृष्ण जन्माष्टमी/i.test(eventTitle)&&!/वैष्णव|इस्कॉन/i.test(eventTitle)&&ruleIds.indexOf("janmashtami-nishita")===-1) ruleIds.push("janmashtami-nishita");
     if(!ruleIds.length&&/रक्षाबंधन|रक्षा बंधन/i.test(eventTitle)) ruleIds=["raksha-bandhan-thread"];
     if(!ruleIds.length&&/महाशिवरात्रि|महा शिवरात्रि/i.test(eventTitle)) ruleIds=["mahashivaratri-four-prahar","mahashivaratri-nishita"];
     if(!ruleIds.length&&/काली\s*चौदस/i.test(String(item.title||""))) ruleIds=["kali-chaudas-nishita"];
