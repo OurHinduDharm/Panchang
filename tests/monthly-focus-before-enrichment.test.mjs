@@ -42,3 +42,16 @@ test("focus logic scrolls to the matching card without waiting for browser load 
   assert.ok(!/addEventListener\s*\(\s*["']load["']/.test(focusBody));
   assert.ok(!/adsbygoogle|adsense/i.test(focusBody));
 });
+
+test("deep-link focus waits for active user scrolling, then resumes automatically", () => {
+  const focusStart = source.indexOf("var focusScrollIdleTimer=null;");
+  const focusEnd = source.indexOf("\n  function categoryFor", focusStart);
+  const focusBody = source.slice(focusStart, focusEnd);
+  assert.ok(focusBody.includes('addEventListener("wheel",markFocusUserScroll,{passive:true})'), "mouse-wheel scrolling must be detected");
+  assert.ok(focusBody.includes('addEventListener("touchmove",markFocusUserScroll,{passive:true})'), "mobile touch scrolling must be detected");
+  assert.ok(focusBody.includes('addEventListener("keydown"'), "keyboard scrolling must be detected");
+  assert.ok(focusBody.includes("},700);"), "focus should wait until scrolling has been idle");
+  assert.match(focusBody, /if\(!focusPending\|\|focusUserScrollActive\)return;/, "active scrolling must defer focus without cancelling it");
+  assert.match(focusBody, /if\(focusPending\)focusFestivalCard\(\);/, "pending focus must resume when scrolling settles");
+  assert.match(focusBody, /if\(!target\.isConnected\|\|!focusPending\|\|focusUserScrollActive\)return;/, "a new scroll before the animation frame must prevent a jump");
+});
