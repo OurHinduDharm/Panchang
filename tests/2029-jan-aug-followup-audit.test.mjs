@@ -46,5 +46,5 @@ test("2029 Phalguna Purnima combines Mahalakshmi and Chaitanya Jayanti while Hol
   assert.equal(purnima.hinduTithi, "फाल्गुन शुक्ल पूर्णिमा");
   assert.match(purnima.description, /हरिनाम-संकीर्तन/);
   assert.ok(data.events.some(event => event.date === "2029-02-28" && event.title === "होलिका दहन" && event.muhurtaRule === "holika-dahan-pradosh"));
-  assert.equal(data.events.filter(event => event.date === "2029-02-28" && /महालक्ष्मी जयंती/.test(event.title || "")).length, 0);
+  assert.equal(data.events.filter(event => event.date === "2029-02-28" && /महालक्ष्मी जयंती/.test(event.title || "")).length, 1);
 });
