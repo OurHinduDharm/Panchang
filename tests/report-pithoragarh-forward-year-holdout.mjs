@@ -66,10 +66,15 @@ function featuresAt(entry, boundaryName) {
   const illumination = Astronomy.Illumination(entry.planet, current.date);
   const beforeAltitude = sunAltitude(previous.date, observer);
   const currentAltitude = sunAltitude(current.date, observer);
+  const conjunctionType = publishedConjunctionType(entry);
+  const conjunctionFamily = ({ inferior: 0, superior: 1, conjunction: 2 })[conjunctionType];
   return {
     apparentMagnitude: illumination.mag,
     eventDirection: current.direction,
     magnitudeDirectionInteraction: illumination.mag * current.direction,
+    conjunctionFamily: Number.isFinite(conjunctionFamily) ? conjunctionFamily : null,
+    conjunctionFamilyDirectionInteraction: Number.isFinite(conjunctionFamily)
+      ? conjunctionFamily * current.direction : null,
     thresholdMidpoint: (beforeAltitude + currentAltitude) / 2
   };
 }
@@ -194,6 +199,10 @@ const variantsByPlanet = {
     { name: "magnitude-only", keys: ["apparentMagnitude"] },
     { name: "magnitude+event-direction", keys: [
       "apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction"
+    ] },
+    { name: "magnitude+direction+conjunction-family", keys: [
+      "apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction",
+      "conjunctionFamily", "conjunctionFamilyDirectionInteraction"
     ] }
   ],
   Venus: [
