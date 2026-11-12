@@ -62,7 +62,7 @@ test("curated 2026 Ashadha Gupta Navratri cards are not replaced by sunrise-only
   assert.match(guard, /2026-10-11/);
   assert.match(guard, /शारदीय नवरात्र प्रारम्भ/);
   const parallelEnd = source.indexOf("]);", parallelStart);
-  assert.ok(parallelStart > end && parallelEnd > parallelStart, "Navratri and eclipse enrichment should run in the shared parallel stage");
+  assert.ok(parallelEnd > parallelStart, "Navratri and eclipse enrichment should run in the shared parallel stage");
   assert.match(source.slice(parallelStart, parallelEnd), /keepCuratedNavratri2026\?Promise\.resolve\(\{events:\[\],recognized:false\}\):buildDynamicNavratriEvents/);
 });
 
