@@ -468,3 +468,25 @@ test("exposes magnitude-direction interaction for event-specific visibility thre
   assert.equal(set.magnitudeDirectionInteraction, -1);
   assert.equal(set.thresholdAltitudeDegrees, -1);
 });
+
+
+test("uses conjunction family as an explicit visibility-model feature", () => {
+  const result = findVisibilityBoundaryNearAnchor({
+    ...base,
+    conjunctionType: "superior",
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { conjunctionFamily: 1 } }
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.predictedBoundaryDate, "2026-01-11");
+  assert.equal(result.thresholdAltitudeDegrees, 1);
+});
+
+test("does not silently substitute a conjunction family when it is unavailable", () => {
+  assert.throws(() => findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { conjunctionFamily: 1 } }
+  }), /Missing finite visibility feature: conjunctionFamily/);
+});
