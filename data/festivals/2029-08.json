@@ -77,9 +77,11 @@
       "category": "पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "श्रावण शुक्ल प्रतिपदा",
-      "sourceName": "Drik Panchang — August 2029 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2029"
+      "hinduTithi": "श्रावण शुक्ल द्वितीया",
+      "sourceName": "Drik Panchang — 2029 Chandra Darshan (Shukla Dwitiya)",
+      "sourceUrl": "https://www.drikpanchang.com/nepali/calendar/nepali-day-patro.html?date=11%2F08%2F2029&time-format=12hour",
+      "secondarySourceName": "Drik Panchang — 2029 Chandra Darshan (Pithoragarh local date cross-check)",
+      "secondarySourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=1259503"
     },
     {
       "date": "2029-08-12",
