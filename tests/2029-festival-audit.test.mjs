@@ -127,7 +127,7 @@ test("2029 Navratri days are independent from other same-tithi observances", () 
   assert.ok(has("2029-07-18", /^मासिक दुर्गाष्टमी \/ पार्वती जयंती$/));
   assert.equal(has("2029-07-19", /^मासिक दुर्गाष्टमी/), undefined);
   assert.ok(has("2029-10-09", /चन्द्र दर्शन/));
-  assert.equal(has("2029-08-11", /^चन्द्र दर्शन$/).hinduTithi, "श्रावण शुक्ल प्रतिपदा");
+  assert.equal(has("2029-08-11", /^चन्द्र दर्शन$/).hinduTithi, "श्रावण शुक्ल द्वितीया");
   assert.ok(has("2029-10-09", /शारदीय नवरात्र द्वितीय — माँ ब्रह्मचारिणी/));
 });
 
