@@ -304,3 +304,14 @@ test("2030 October-November-December source audit covers same-tithi and annual o
   assert.deepEqual(at(oct, "2030-10-26", /दीपावली.*लक्ष्मी-गणेश पूजन/)?.muhurtaRules, ["diwali-lakshmi-puja"]);
   assert.match(at(oct, "2030-10-25", /हनुमान पूजा/)?.description || "", /हनुमान जी की विशेष पूजा/);
 });
+
+
+test("2030 Kalashtami records never carry a Janmashtami rule unless Janmashtami is also named", () => {
+  for (const event of events.filter(event => /कालाष्टमी|कालभैरव/.test(event.title || ""))) {
+    const rules = Array.isArray(event.muhurtaRules) ? event.muhurtaRules : [event.muhurtaRule].filter(Boolean);
+    if (!/कृष्ण जन्माष्टमी/.test(event.title || "")) {
+      assert.equal(rules.includes("janmashtami-nishita"), false,
+        event.date + " " + event.title + " has an unrelated Janmashtami muhurta rule");
+    }
+  }
+});
