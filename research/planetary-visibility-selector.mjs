@@ -157,6 +157,7 @@ export function findVisibilityBoundaryNearAnchor({
     const motion = needsMotionFeatures
       ? geocentricMotionFeatures(astronomy, body, date)
       : { longitudeRateDegPerDay: null, retrograde: null, retrogradeState: null };
+    const conjunctionFamily = conjunctionFamilyCode(conjunctionType);
     const observables = {
       apparentMagnitude,
       magnitudeDirectionInteraction: apparentMagnitude * direction,
@@ -168,8 +169,9 @@ export function findVisibilityBoundaryNearAnchor({
       longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
       retrograde: motion.retrograde,
       eventDirection: direction,
-      conjunctionFamily: conjunctionFamilyCode(conjunctionType),
-      conjunctionFamilyDirectionInteraction: conjunctionFamilyCode(conjunctionType) * direction
+      conjunctionFamily,
+      conjunctionFamilyDirectionInteraction: conjunctionFamily === null
+        ? null : conjunctionFamily * direction
     };
     const thresholdAltitude = thresholdAltitudeForModel(model, observables);
     const local = localDateTime(date, timeZone);
