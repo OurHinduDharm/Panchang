@@ -1079,6 +1079,8 @@
   }
   window.addEventListener("wheel",markFocusUserScroll,{passive:true});
   window.addEventListener("touchmove",markFocusUserScroll,{passive:true});
+  // Touch inertia / smooth wheel scrolling may continue after the last input event.
+  window.addEventListener("scroll",function(){if(focusUserScrollActive)markFocusUserScroll();},{passive:true});
   window.addEventListener("keydown",function(event){
     if(["ArrowDown","ArrowUp","PageDown","PageUp","Home","End"," "].includes(event.key)&&!event.altKey&&!event.ctrlKey&&!event.metaKey){
       markFocusUserScroll();
