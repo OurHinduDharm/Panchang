@@ -75,7 +75,9 @@ function featuresAt(entry, boundaryName) {
     conjunctionFamily: Number.isFinite(conjunctionFamily) ? conjunctionFamily : null,
     conjunctionFamilyDirectionInteraction: Number.isFinite(conjunctionFamily)
       ? conjunctionFamily * current.direction : null,
-    thresholdMidpoint: (beforeAltitude + currentAltitude) / 2
+    thresholdCurrent: currentAltitude,
+    thresholdMidpoint: (beforeAltitude + currentAltitude) / 2,
+    thresholdPrevious: beforeAltitude
   };
 }
 function solve(matrix, vector) {
@@ -98,17 +100,17 @@ function solve(matrix, vector) {
   }
   return a.map(row => row[n]);
 }
-function fit(samples, keys) {
+function fit(samples, keys, targetKey = "thresholdMidpoint") {
   const size = keys.length + 1;
   const xtx = Array.from({ length: size }, () => Array(size).fill(0));
   const xty = Array(size).fill(0);
   let count = 0;
   for (const sample of samples) {
     const row = [1, ...keys.map(key => sample[key])];
-    if (row.some(value => !Number.isFinite(value))) continue;
+    if (row.some(value => !Number.isFinite(value)) || !Number.isFinite(sample[targetKey])) continue;
     count++;
     for (let i = 0; i < size; i++) {
-      xty[i] += row[i] * sample.thresholdMidpoint;
+      xty[i] += row[i] * sample[targetKey];
       for (let j = 0; j < size; j++) xtx[i][j] += row[i] * row[j];
     }
   }
@@ -203,7 +205,13 @@ const variantsByPlanet = {
     { name: "magnitude+direction+conjunction-family", keys: [
       "apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction",
       "conjunctionFamily", "conjunctionFamilyDirectionInteraction"
-    ] }
+    ] },
+    { name: "magnitude+event-direction-current-altitude-target", keys: [
+      "apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction"
+    ], targetKey: "thresholdCurrent" },
+    { name: "magnitude+event-direction-previous-altitude-target", keys: [
+      "apparentMagnitude", "eventDirection", "magnitudeDirectionInteraction"
+    ], targetKey: "thresholdPrevious" }
   ],
   Venus: [
     { name: "magnitude-only", keys: ["apparentMagnitude"] },
@@ -240,7 +248,7 @@ for (const planet of Object.keys(variantsByPlanet)) {
         for (const boundaryName of ["astaStart", "astaEnd"]) {
           const samples = training.map(entry => featuresAt(entry, boundaryName)).filter(Boolean);
           trainingCounts[boundaryName] = samples.length;
-          modelByBoundary[boundaryName] = fit(samples, variant.keys);
+          modelByBoundary[boundaryName] = fit(samples, variant.keys, variant.targetKey);
           if (!modelByBoundary[boundaryName]) ready = false;
         }
         if (!ready) {
