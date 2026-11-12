@@ -1,6 +1,9 @@
 name: Agastya GEDTM30 research extraction
 
 on:
+  push:
+    branches:
+      - research/agastya-gedtm30-cog-extraction
   workflow_dispatch:
 
 permissions:
