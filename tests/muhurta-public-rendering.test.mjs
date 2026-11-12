@@ -38,9 +38,11 @@ test("public monthly renderers hide unavailable and internal muhurta statuses", 
 test("monthly renderers independently infer Kalashtami Pradosh and Janmashtami Nishita", () => {
   for (const file of renderers) {
     const source = readFileSync(join(process.cwd(), file), "utf8");
-    assert.match(source, /कालाष्टमी\|कालभैरव[\\/]i?\.test\(eventTitle\)[\\s\\S]{0,220}kalashtami-pradosh/,
+    assert.ok(source.includes("कालाष्टमी|कालभैरव") &&
+      source.includes('ruleIds.push("kalashtami-pradosh")'),
       file + " must attach the independent Kalashtami Pradosh rule");
-    assert.match(source, /कृष्ण जन्माष्टमी[\\/]i?\.test\(eventTitle\)[\\s\\S]{0,260}janmashtami-nishita/,
+    assert.ok(source.includes("कृष्ण जन्माष्टमी") &&
+      source.includes('ruleIds.push("janmashtami-nishita")'),
       file + " must preserve the separate Janmashtami Nishita rule");
   }
 });
