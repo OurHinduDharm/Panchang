@@ -490,3 +490,12 @@ test("does not silently substitute a conjunction family when it is unavailable",
     model: { intercept: 0, coefficients: { conjunctionFamily: 1 } }
   }), /Missing finite visibility feature: conjunctionFamily/);
 });
+
+
+test("does not turn a missing conjunction family into a zero-valued interaction", () => {
+  assert.throws(() => findVisibilityBoundaryNearAnchor({
+    ...base,
+    astronomy: fakeAstronomy(dayOffset => dayOffset),
+    model: { intercept: 0, coefficients: { conjunctionFamilyDirectionInteraction: 1 } }
+  }), /Missing finite visibility feature: conjunctionFamilyDirectionInteraction/);
+});
