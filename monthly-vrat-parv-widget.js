@@ -1064,8 +1064,29 @@
       .replace(/[।॥,;:()\[\]{}·—–-]+/g," ")
       .trim();
   }
+  // डीप-लिंक डेटा तैयार होने के दौरान यूज़र स्क्रोल करे तो फोकस रद्द नहीं होगा।
+  // स्क्रोल/स्वाइप रुकने के 700ms बाद ही लंबित फोकस लागू होगा।
+  var focusScrollIdleTimer=null;
+  var focusUserScrollActive=false;
+  function markFocusUserScroll(){
+    focusUserScrollActive=true;
+    if(focusScrollIdleTimer)window.clearTimeout(focusScrollIdleTimer);
+    focusScrollIdleTimer=window.setTimeout(function(){
+      focusUserScrollActive=false;
+      focusScrollIdleTimer=null;
+      if(focusPending)focusFestivalCard();
+    },700);
+  }
+  window.addEventListener("wheel",markFocusUserScroll,{passive:true});
+  window.addEventListener("touchmove",markFocusUserScroll,{passive:true});
+  window.addEventListener("keydown",function(event){
+    if(["ArrowDown","ArrowUp","PageDown","PageUp","Home","End"," "].includes(event.key)&&!event.altKey&&!event.ctrlKey&&!event.metaKey){
+      markFocusUserScroll();
+    }
+  });
+
   function focusFestivalCard(){
-    if(!focusPending)return;
+    if(!focusPending||focusUserScrollActive)return;
     var cards=Array.from(eventsEl.querySelectorAll(".event"));
     var sameDate=cards.filter(function(card){return card.dataset.date===focusDate;});
     if(!sameDate.length)return;
@@ -1082,10 +1103,10 @@
     });
     if(!target)target=sameDate[0];
 
-    focusPending=false;
     target.style.scrollMarginTop="100px";
     window.requestAnimationFrame(function(){
-      if(!target.isConnected)return;
+      if(!target.isConnected||!focusPending||focusUserScrollActive)return;
+      focusPending=false;
       var top=target.getBoundingClientRect().top+window.pageYOffset-100;
       window.scrollTo({top:Math.max(0,top),behavior:"auto"});
       target.style.outline="3px solid #d97706";
