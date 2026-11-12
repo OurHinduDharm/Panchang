@@ -96,6 +96,10 @@ const report = events.map(event => {
     tithiAtMoonrise: tithiAt(intervals, moonrise)
   };
 });
+const chandraDarshan = report.find(row => row.date === "2029-08-11" && row.title === "चन्द्र दर्शन");
+if (!chandraDarshan || chandraDarshan.expectedTithi !== "श्रावण शुक्ल द्वितीया" || chandraDarshan.tithiAtMoonrise?.index !== 1) {
+  throw new Error("2029 Chandra Darshan must remain on 11 August with local Shukla Dwitiya at moonrise");
+}
 const missing = report.filter(row => !row.sunrise || !row.sunset || !row.tithiAtSunrise);
 console.log("OHD_2029_PITHORAGARH_FESTIVAL_DATE_AUDIT=" + JSON.stringify({
   location: { name: "Pithoragarh", latitude: 29.5828, longitude: 80.2182, elevation: 1650 },
