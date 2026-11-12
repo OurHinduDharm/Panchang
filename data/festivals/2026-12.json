@@ -48,7 +48,8 @@
       "description": "प्रदोष व्रत में त्रयोदशी तिथि के सूर्यास्त-समीप काल में भगवान शिव की पूजा की जाती है।",
       "category": "व्रत",
       "reviewStatus": "approved",
-      "hinduTithi": "मार्गशीर्ष कृष्ण त्रयोदशी"
+      "hinduTithi": "मार्गशीर्ष कृष्ण त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2026-12-07",
@@ -160,7 +161,8 @@
       "reviewStatus": "approved",
       "hinduTithi": "मार्गशीर्ष शुक्ल त्रयोदशी",
       "sourceName": "Drik Panchang — December 2026 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?year=2026"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-december.html?year=2026",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2026-12-22",

@@ -275,7 +275,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "पौष कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "पौष कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2027-12-25",
