@@ -45,7 +45,6 @@ test("selected Pithoragarh Sankashti dates have Krishna Chaturthi at moonrise", 
   assert.equal(EXPECTED_DATES.length, 12);
 });
 
-
 test("all 12 calculation-checked Sankashti dates are present once as approved records", () => {
   for (const isoDate of EXPECTED_DATES) {
     const month = isoDate.slice(5, 7);
@@ -60,20 +59,19 @@ test("all 12 calculation-checked Sankashti dates are present once as approved re
   }
 });
 
-test("December candidate stays out of public approval while neither candidate has Chaturthi at moonrise", () => {
+test("Drik-approved 27 December Sankashti date remains approved when moonrise is only a reference", () => {
   const dec26 = chaturthiAtMoonrise("2026-12-26");
   const dec27 = chaturthiAtMoonrise("2026-12-27");
-  console.log("December Sankashti local check:", JSON.stringify({
-    dec26: { qualifies:dec26.qualifies, moonrise:dec26.moonrise, tithi:dec26.tithi },
-    dec27: { qualifies:dec27.qualifies, moonrise:dec27.moonrise, tithi:dec27.tithi }
-  }));
   assert.equal(dec26.qualifies, false);
   assert.equal(dec27.qualifies, false);
+  assert.ok(dec27.moonrise, "27 December local moonrise must be available");
+
   const file = path.join(process.cwd(), "data", "festivals", "2026-12.json");
   const data = JSON.parse(fs.readFileSync(file, "utf8"));
   const candidate = (data.events || []).filter(item =>
-    item.date === "2026-12-26" && /संकष्टी/i.test(String(item.title || ""))
+    item.date === "2026-12-27" && /संकष्टी/i.test(String(item.title || ""))
   );
   assert.equal(candidate.length, 1);
-  assert.equal(candidate[0].reviewStatus, "needs-review");
+  assert.equal(candidate[0].reviewStatus, "approved");
+  assert.match(candidate[0].sourceName || "", /Drik Panchang.*Pithoragarh/);
 });
