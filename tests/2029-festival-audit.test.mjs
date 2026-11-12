@@ -199,5 +199,5 @@ test("2029 Champa Shashthi follows local Shashthi sunrise and stays distinct fro
   assert.equal(champa.hinduTithi, "मार्गशीर्ष शुक्ल षष्ठी");
   assert.equal(champa.sourceName, "Drik Panchang — 2029 Hindu Calendar");
   assert.equal(has("2029-12-10", /^चम्पा षष्ठी$/), undefined);
-  assert.ok(has("2029-12-10", /^मासिक स्कन्द षष्ठी$/));
+  assert.ok(has("2029-12-10", /^मासिक स्कन्द षष्ठी \/ सुब्रह्मण्य षष्ठी$/));
 });
