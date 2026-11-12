@@ -169,3 +169,13 @@ test("2029 Pithoragarh total lunar eclipse has local contact timings", () => {
   assert.match(eclipse.description, /चंद्रास्त सुबह 7:08 बजे/);
   assert.ok(eclipse.sourceUrl.includes("timeanddate.com/eclipse/in/india/pithoragarh"));
 });
+
+
+test("2029 Champa Shashthi follows local Shashthi sunrise and stays distinct from monthly Skanda Shashthi", () => {
+  const champa = has("2029-12-11", /^चम्पा षष्ठी$/);
+  assert.ok(champa);
+  assert.equal(champa.hinduTithi, "मार्गशीर्ष शुक्ल षष्ठी");
+  assert.equal(champa.sourceName, "Drik Panchang — 2029 Hindu Calendar");
+  assert.equal(has("2029-12-10", /^चम्पा षष्ठी$/), undefined);
+  assert.ok(has("2029-12-10", /^मासिक स्कन्द षष्ठी$/));
+});
