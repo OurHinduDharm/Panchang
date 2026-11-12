@@ -1289,9 +1289,9 @@
       if(eclipseFailureLink)eclipseFailureNote.appendChild(eclipseFailureLink);
       eventsEl.appendChild(eclipseFailureNote);
     }
-    // Deep-link focus must happen as soon as the static monthly cards exist.
-    // Do not wait for later Panchang enrichment, Dwadashi fetches, or AdSense load.
-    focusFestivalCard();
+    // Deep-link focus is intentionally deferred until all required monthly data
+    // has been merged and the final card list has been rendered. Focusing here
+    // would let later card insertion/re-rendering move the viewport away.
   }
   async function fetchDwadashiYear(year,signal){
     var url="https://ourhindudharm.github.io/Panchang/data/dwadashi/"+year+".json";
@@ -1432,18 +1432,22 @@
       // तथा महानवमी दोनों हैं। इन सत्यापित स्थिर कार्डों को sunrise-only
       // dynamic सूची से बदलना नहीं है।
       var keepCuratedNavratri2026=curatedAshadhaGupta2026||curatedSharadNavratri2026;
-      var dynamicNavratri=keepCuratedNavratri2026?{events:[],recognized:false}:await buildDynamicNavratriEvents(year,month,token);
+      // स्वतंत्र गणनाएँ समानांतर चलाएँ: नवरात्रि की तिथि-जाँच और स्थानीय ग्रहण-जाँच।
+      // इससे एक गणना पूरी होने तक दूसरी निष्क्रिय नहीं रहती।
+      var parallelResults=await Promise.all([
+        keepCuratedNavratri2026?Promise.resolve({events:[],recognized:false}):buildDynamicNavratriEvents(year,month,token),
+        buildLocationEclipseEvents(year,month,token)
+      ]);
       if(token!==requestToken)return;
+      var dynamicNavratri=parallelResults[0];
+      var locationEclipseEvents=parallelResults[1];
       // जब मास/तिथि से नवरात्रि सफलतापूर्वक पहचानी जाए, पुराने वर्ष-विशेष
       // दिनांक/मुहूर्त वाले दैनिक नवरात्र शीर्षकों को गतिशील प्रविष्टियों से बदलें।
       if(dynamicNavratri.recognized) storedEvents=storedEvents.filter(function(item){return !isLegacyNavratriDailyEvent(item);});
       data.events=storedEvents.concat(dynamicNavratri.events);
       var computedSaraswatiEvents=await buildSaraswatiNakshatraEvents(data,year,month,token);
       if(token!==requestToken)return;
-      data.events=data.events.concat(computedSaraswatiEvents);
-      var locationEclipseEvents=await buildLocationEclipseEvents(year,month,token);
-      if(token!==requestToken)return;
-      data.events=data.events.concat(locationEclipseEvents);
+      data.events=data.events.concat(computedSaraswatiEvents,locationEclipseEvents);
       var approvedDwadashiYear=await dwadashiYearPromise;
       if(token!==requestToken)return;
       data=mergeAnnualDwadashiEvents(data,approvedDwadashiYear,year,month);
