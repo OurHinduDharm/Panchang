@@ -49,6 +49,7 @@ test("deep-link focus waits for active user scrolling, then resumes automaticall
   const focusBody = source.slice(focusStart, focusEnd);
   assert.ok(focusBody.includes('addEventListener("wheel",markFocusUserScroll,{passive:true})'), "mouse-wheel scrolling must be detected");
   assert.ok(focusBody.includes('addEventListener("touchmove",markFocusUserScroll,{passive:true})'), "mobile touch scrolling must be detected");
+  assert.ok(focusBody.includes('addEventListener("scroll",function(){if(focusUserScrollActive)markFocusUserScroll();},{passive:true})'), "momentum scrolling must keep focus deferred");
   assert.ok(focusBody.includes('addEventListener("keydown"'), "keyboard scrolling must be detected");
   assert.ok(focusBody.includes("},700);"), "focus should wait until scrolling has been idle");
   assert.match(focusBody, /if\(!focusPending\|\|focusUserScrollActive\)return;/, "active scrolling must defer focus without cancelling it");
