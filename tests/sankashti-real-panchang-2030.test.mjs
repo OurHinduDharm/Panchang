@@ -32,8 +32,8 @@ test("all 2030 Pithoragarh Sankashti cards have Krishna Chaturthi at local moonr
     failures.push({date:event.date,reason:"expected sunrise Chaturthi ending before moonrise"});
    }else{
     const result=getFestivalMuhurta({muhurtaRule:"sankashti-chaturthi-moonrise"},{moonrise,tithis:p.tithis});
-    if(result.status!=="unavailable"||!/व्रत-तिथि स्वतः नहीं बदली गई/.test(result.message||"")){
-     failures.push({date:event.date,reason:"no-overlap exception must not invent a moonrise muhurta"});
+    if(result.status!=="reference"||!result.time||!/चंद्रोदय से पहले समाप्त/.test(result.note||"")||result.windows?.length){
+     failures.push({date:event.date,reason:"no-overlap exception must show moonrise as reference, not as a muhurta"});
     }
    }
   }else if(!overlaps)failures.push({date:event.date,reason:"Krishna Chaturthi absent at moonrise"});
