@@ -22,7 +22,9 @@ test("Sankashti moonrise is shown only when Krishna Chaturthi prevails", () => {
     ...day,
     tithis: [{ index: 18, startTime: "2027-04-15T21:00:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }]
   });
-  assert.equal(invalid.status, "unavailable");
+  assert.equal(invalid.status, "calculated");
+  assert.equal(invalid.time.getTime(), day.moonrise.getTime());
+  assert.match(invalid.note, /चंद्रोदय से पहले समाप्त/);
 });
 
 test("Pradosh muhurta is restricted to the local sunset window and Trayodashi", () => {
