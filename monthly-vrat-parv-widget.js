@@ -1289,9 +1289,9 @@
       if(eclipseFailureLink)eclipseFailureNote.appendChild(eclipseFailureLink);
       eventsEl.appendChild(eclipseFailureNote);
     }
-    // Deep-link focus is intentionally deferred until all required monthly data
-    // has been merged and the final card list has been rendered. Focusing here
-    // would let later card insertion/re-rendering move the viewport away.
+    // Keep intermediate renders free of deep-link scrolling. loadMonth() focuses
+    // only after the final enriched card list is rendered, so later card insertion
+    // cannot pull the visitor away from the requested festival.
   }
   async function fetchDwadashiYear(year,signal){
     var url="https://ourhindudharm.github.io/Panchang/data/dwadashi/"+year+".json";
