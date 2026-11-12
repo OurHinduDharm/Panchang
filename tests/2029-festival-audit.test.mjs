@@ -132,6 +132,7 @@ test("2029 approved saint jayantis are retained and explicitly excluded modern p
   assert.ok(has("2029-08-22", /ओणम/));
   assert.ok(has("2029-08-14", /^नाग पंचमी$/));
   assert.ok(has("2029-08-10", /^श्रावण अमावस्या \/ हरियाली अमावस्या$/));
+  assert.ok(has("2029-08-22", /^ऋग्वेदीय उपाकर्म$/));
   assert.ok(has("2029-08-23", /^यजुर्वेदीय उपाकर्म$/));
   assert.ok(has("2029-08-24", /^नारळी पूर्णिमा$/));
   assert.ok(has("2029-08-27", /^कजरी तीज$/));
