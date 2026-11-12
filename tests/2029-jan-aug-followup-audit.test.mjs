@@ -52,3 +52,23 @@ test("2029 Phalguna Purnima, Mahalakshmi and Chaitanya Jayanti retain independen
   assert.match(onDate.find(event => event.title === "श्री महालक्ष्मी जयंती").articleUrl, /About-Mahalakshmi/);
   assert.match(onDate.find(event => event.title === "चैतन्य महाप्रभु जयंती").description, /हरिनाम-संकीर्तन/);
 });
+
+
+test("2029 Chaitra Purnima and Hanuman Jayanti remain separate observances", () => {
+  const data = JSON.parse(readFileSync(join(folder, "2029-04.json"), "utf8"));
+  const onDate = data.events.filter(event => event.date === "2029-04-28");
+  assert.ok(onDate.some(event => event.title === "हनुमान जयंती"));
+  const purnima = onDate.find(event => event.title === "चैत्र पूर्णिमा");
+  assert.ok(purnima);
+  assert.equal(purnima.hinduTithi, "चैत्र पूर्णिमा");
+});
+
+test("2029 Buddha Purnima and Vaishakha Purnima retain separate cards", () => {
+  const data = JSON.parse(readFileSync(join(folder, "2029-05.json"), "utf8"));
+  const onDate = data.events.filter(event => event.date === "2029-05-27");
+  assert.ok(onDate.some(event => event.title === "बुद्ध पूर्णिमा"));
+  const purnima = onDate.find(event => event.title === "वैशाख पूर्णिमा");
+  assert.ok(purnima);
+  assert.equal(purnima.hinduTithi, "वैशाख शुक्ल पूर्णिमा");
+  assert.ok(onDate.some(event => event.title === "कूर्म अवतार जयंती"));
+});
