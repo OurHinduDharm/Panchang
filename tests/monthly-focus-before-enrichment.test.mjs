@@ -36,9 +36,9 @@ test("independent monthly enrichments run concurrently", () => {
 
 test("focus logic scrolls to the matching card without waiting for browser load or AdSense", () => {
   const focusStart = source.indexOf("function focusFestivalCard()");
-  const focusEnd = source.indexOf("\\n  function categoryFor", focusStart);
+  const focusEnd = source.indexOf("\n  function categoryFor", focusStart);
   const focusBody = source.slice(focusStart, focusEnd);
   assert.ok(focusBody.includes("window.scrollTo("), "focus must scroll to the target card");
-  assert.ok(!/addEventListener\\s*\\(\\s*["']load["']/.test(focusBody));
+  assert.ok(!/addEventListener\s*\(\s*["']load["']/.test(focusBody));
   assert.ok(!/adsbygoogle|adsense/i.test(focusBody));
 });
