@@ -14,7 +14,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "आषाढ़ कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2027-07-01",
@@ -345,7 +346,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "आषाढ़ शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2027-07-16",
@@ -575,7 +577,8 @@
       "showReviewStatus": false,
       "hinduTithi": "श्रावण कृष्ण पक्ष त्रयोदशी",
       "sourceName": "Drik Panchang — July 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2027"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-july.html?year=2027",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2027-07-31",

@@ -478,7 +478,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "कार्तिक शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2028-10-31",

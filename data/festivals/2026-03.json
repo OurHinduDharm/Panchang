@@ -12,7 +12,8 @@
       "category": "व्रत",
       "hinduTithi": "फाल्गुन शुक्ल त्रयोदशी",
       "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2026-03-03",
@@ -126,7 +127,8 @@
       "category": "व्रत",
       "hinduTithi": "चैत्र कृष्ण त्रयोदशी",
       "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2026-03-17",
@@ -418,7 +420,8 @@
       "category": "व्रत",
       "hinduTithi": "चैत्र शुक्ल त्रयोदशी",
       "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
-      "reviewStatus": "approved"
+      "reviewStatus": "approved",
+      "muhurtaRule": "pradosh-kala"
     }
   ]
 }

@@ -265,7 +265,8 @@
       "showReviewStatus": false,
       "hinduTithi": "श्रावण शुक्ल पक्ष त्रयोदशी",
       "sourceName": "Drik Panchang — August 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2027"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2027",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2027-08-16",
@@ -625,7 +626,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "भाद्रपद कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2027-08-30",
