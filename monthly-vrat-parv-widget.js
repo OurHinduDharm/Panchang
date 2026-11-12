@@ -660,6 +660,8 @@
             if(timeItem.note){var timeNote=document.createElement("div");timeNote.className="muhurta-window-note";timeNote.textContent=timeItem.note;row.appendChild(timeNote);}
             detail.appendChild(row);
           });
+        }else if(result.status==="reference"&&result.time){
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
