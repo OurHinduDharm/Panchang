@@ -317,6 +317,45 @@ const rules = {
     return { label: "श्रीराम नवमी — मध्याह्न पूजा मुहूर्त", status: "calculated", windows: [window], note: "मध्याह्न के मध्य-बिंदु पर श्रीराम जन्मोत्सव मनाएँ।" };
   },
 
+  "kalashtami-pradosh"(context) {
+    const sunset = validDate(context.sunset);
+    const nextSunrise = validDate(context.nextSunrise);
+    const ashtami = collectNamedIntervals(context.tithis, item => {
+      const raw = item && typeof item === "object" ? item.index ?? item.number ?? item.value : item;
+      return Number(raw) === 22 || /krishna.*ashtami|कृष्ण.*अष्टमी/.test(normalizedName(item));
+    });
+    if (!sunset || !nextSunrise || nextSunrise <= sunset || !ashtami.length) {
+      return {
+        label: "कालाष्टमी — प्रदोष पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय सूर्यास्त, अगले सूर्योदय और कृष्ण अष्टमी की वास्तविक अवधि उपलब्ध नहीं है; पूजा-समय अनुमानित नहीं किया गया।"
+      };
+    }
+    const nightDuration = nextSunrise.getTime() - sunset.getTime();
+    const pradoshEnd = new Date(sunset.getTime() + nightDuration / 5);
+    const requiredEnd = new Date(pradoshEnd.getTime() + 24 * 60000);
+    if (!ashtami.some(item => item.end >= requiredEnd && item.start < pradoshEnd)) {
+      return {
+        label: "कालाष्टमी — प्रदोष पूजा मुहूर्त",
+        status: "unavailable",
+        message: "प्रदोष काल के बाद कम-से-कम एक घटी तक कृष्ण अष्टमी की व्याप्ति नहीं मिली; अनुमानित पूजा-समय नहीं दिखाया गया।"
+      };
+    }
+    const window = windowWithin(
+      sunset, pradoshEnd, ashtami,
+      "कालाष्टमी — प्रदोष पूजा मुहूर्त",
+      "स्थानीय सूर्यास्त के बाद रात्रिमान के प्रथम पाँचवें भाग और कृष्ण अष्टमी की संयुक्त व्याप्ति।"
+    );
+    if (!window) {
+      return {
+        label: "कालाष्टमी — प्रदोष पूजा मुहूर्त",
+        status: "unavailable",
+        message: "स्थानीय प्रदोष काल में कृष्ण अष्टमी की व्याप्ति नहीं मिली; पूजा-समय अनुमानित नहीं किया गया।"
+      };
+    }
+    return { label: "कालाष्टमी — प्रदोष पूजा मुहूर्त", status: "calculated", windows: [window] };
+  },
+
   "janmashtami-nishita"(context) {
     const sunset = validDate(context.sunset), nextSunrise = validDate(context.nextSunrise);
     const ashtami = collectNamedIntervals(context.tithis, item => {
