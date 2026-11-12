@@ -606,7 +606,7 @@
       }
       usableRules.forEach(function(ruleItem){
         var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);
-        if(!result) return;
+        if(!result || (result.status!=="calculated" && result.status!=="reference")) return;
         var box=document.createElement("section");box.className="muhurta-box";
         var title=document.createElement("div");title.className="muhurta-heading";title.textContent=result.label||"मुहूर्त";box.appendChild(title);
         var detail=document.createElement("div");detail.className="muhurta-detail";
@@ -662,12 +662,14 @@
           });
         }else if(result.status==="reference"&&result.time){
           detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
+        }else if(result.status==="reference"&&result.time){
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
         }else{
-          detail.textContent=result.message||"इस समय की गणना उपलब्ध नहीं है।";
+          return;
         }
         box.appendChild(detail);
         if(result.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=result.note;box.appendChild(note);}

@@ -583,7 +583,7 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
       }
       usableRules.forEach(function(ruleItem){
         var result=muhurtaModule.getFestivalMuhurta(ruleItem,context);
-        if(!result) return;
+        if(!result || (result.status!=="calculated" && result.status!=="reference")) return;
         var box=document.createElement("section");box.className="muhurta-box";
         var title=document.createElement("div");title.className="muhurta-heading";title.textContent=result.label||"मुहूर्त";box.appendChild(title);
         var detail=document.createElement("div");detail.className="muhurta-detail";
@@ -633,12 +633,14 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
             if(timeItem.note){var note=document.createElement("div");note.className="muhurta-window-note";note.textContent=timeItem.note;row.appendChild(note);}
             detail.appendChild(row);
           });
+        }else if(result.status==="reference"&&result.time){
+          detail.textContent=muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.time){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.time);
         }else if(result.status==="calculated"&&result.start&&result.end){
           detail.textContent=paranaDatePrefix+muhurtaModule.formatFestivalMuhurtaTime(result.start)+" – "+muhurtaModule.formatFestivalMuhurtaTime(result.end);
         }else{
-          detail.textContent=result.message||"मुहूर्त उपलब्ध नहीं है।";
+          return;
         }
         box.appendChild(detail);
         if(result.note){var note=document.createElement("div");note.style.marginTop="3px";note.textContent=result.note;box.appendChild(note);}
