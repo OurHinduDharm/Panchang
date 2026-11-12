@@ -92,6 +92,9 @@ def main():
     p.add_argument("--csv", required=True)
     p.add_argument("--max-distance-m", type=int, default=20000)
     p.add_argument("--step-m", type=int, default=30)
+    p.add_argument("--source-label", default="GEDTM30 v1.2 official COG clip")
+    p.add_argument("--surface-model", action="store_true",
+                   help="Treat the input as a DSM; do not derive an observer-ground-plus-2m scenario.")
     args = p.parse_args()
 
     with rasterio.open(args.dem) as ds:
@@ -111,8 +114,11 @@ def main():
         azimuths = sorted(set(round(float(x), 3) for x in azimuths))
 
         scenarios = [
+            ("observer_at_project_1650m_assumed_egm2008", PROJECT_OBSERVER_ELEVATION_M,
+             "Conditional only: treats project 1650 m as EGM2008 orthometric height; datum/location not yet verified."),
+        ] if args.surface_model else [
             ("observer_at_dtm_ground_plus_2m", observer_ground + 2.0,
-             "Conditional: observer is 2 m above GEDTM30 sampled ground."),
+             "Conditional: observer is 2 m above the sampled DTM ground."),
             ("observer_at_project_1650m_assumed_egm2008", PROJECT_OBSERVER_ELEVATION_M,
              "Conditional only: treats project 1650 m as EGM2008 orthometric height; datum/location not yet verified."),
         ]
@@ -149,14 +155,14 @@ def main():
 
         out = {
             "status": "conditional_terrain_horizon_computed",
-            "source": "GEDTM30 v1.2 official COG clip",
+            "source": args.source_label,
             "dem": args.dem,
             "crs": crs,
             "raster_tags": tags,
             "observer": {
                 "latitude": LAT0,
                 "longitude": LON0,
-                "dtm_ground_sample_m_egm2008": round(observer_ground, 3),
+                "dem_observer_pixel_sample_m_egm2008": round(observer_ground, 3),
                 "project_elevation_m_datum_unverified": PROJECT_OBSERVER_ELEVATION_M,
                 "difference_m_uninterpreted": round(PROJECT_OBSERVER_ELEVATION_M - observer_ground, 3),
             },
@@ -167,12 +173,13 @@ def main():
                 "terrain_interpolation": "bilinear",
                 "earth_curvature": "7/6 effective Earth radius",
                 "refraction_model": "standard 7/6 effective-radius approximation",
-                "height_reference": "GEDTM30 EGM2008; 1650 m scenario is explicitly assumed, not verified",
+                "height_reference": "Input DEM vertical datum; 1650 m scenario is explicitly assumed, not verified",
             },
             "scenarios": scenario_reports,
             "limitations": [
                 "Terrain horizon only; not a Canopus rise/set or naked-eye visibility calculation.",
                 "The 1650 m observer datum and exact physical observer elevation remain unverified.",
+                "If the input is a DSM, canopy/building heights may raise the apparent horizon; it is not a bare-earth DTM.",
                 "DEM raster registration and observer pixel-center alignment require independent audit.",
                 "The 1-degree clip may limit coverage for some full-circle rays; inspect coverage_to_km in CSV.",
                 "No production Panchang or Festival data was changed.",
