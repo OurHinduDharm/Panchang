@@ -28,6 +28,7 @@ on:
       - "tests/independent-asta-udaya-crosschecks.test.mjs"
       - "tests/report-independent-asta-udaya-crosschecks.mjs"
       - "tests/run-jpl-horizons-pithoragarh-crosscheck.mjs"
+      - "tests/report-pithoragarh-event-topology-audit.mjs"
       - "tests/report-pithoragarh-motion-feature-holdout.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
       - "tests/report-drik-five-city-leave-one-city-out.mjs"
@@ -123,6 +124,14 @@ jobs:
         run: node tests/report-independent-asta-udaya-crosschecks.mjs
       - name: Cross-check direct Pithoragarh Drik boundaries with JPL Horizons topocentric geometry
         run: node tests/run-jpl-horizons-pithoragarh-crosscheck.mjs
+      - name: Enumerate both local rise and set events around every accepted Drik boundary
+        run: node tests/report-pithoragarh-event-topology-audit.mjs
+      - name: Upload both-direction Pithoragarh event topology audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: pithoragarh-event-topology-audit-2021-2027
+          path: research/reports/pithoragarh-event-topology-audit-2021-2027.json
+          if-no-files-found: error
       - name: Upload JPL Horizons independent geometry report
         uses: actions/upload-artifact@v4
         with:
