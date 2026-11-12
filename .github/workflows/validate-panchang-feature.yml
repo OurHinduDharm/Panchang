@@ -49,3 +49,44 @@ jobs:
         run: node tests/validate-asta-udaya-dataset.mjs
       - name: Measure six-hour vector interpolation error at every interval midpoint
         run: node tests/measure-asta-udaya-interpolation.mjs
+
+  agastya-copernicus-dem-crosscheck:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'research/agastya-gedtm30-cog-extraction'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GDAL_DISABLE_READDIR_ON_OPEN: EMPTY_DIR
+      CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif
+      GDAL_HTTP_TIMEOUT: "60"
+      GDAL_HTTP_MAX_RETRY: "3"
+      VSI_CACHE: "TRUE"
+      VSI_CACHE_SIZE: "50000000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install raster dependencies
+        run: python -m pip install --upgrade pip numpy rasterio
+      - name: Compute independent Copernicus GLO-30 DSM horizon
+        run: |
+          mkdir -p artifacts
+          TILE="Copernicus_DSM_COG_10_N29_00_E080_00_DEM"
+          URL="https://copernicus-dem-30m.s3.amazonaws.com/${TILE}/${TILE}.tif"
+          python research/agastya/terrain_horizon.py \
+            --dem "/vsicurl/${URL}" \
+            --source-label "Copernicus DEM GLO-30 DSM (public AWS COG)" \
+            --surface-model \
+            --max-distance-m 20000 \
+            --step-m 30 \
+            --json artifacts/agastya_copernicus_glo30_horizon.json \
+            --csv artifacts/agastya_copernicus_glo30_horizon.csv
+          test -s artifacts/agastya_copernicus_glo30_horizon.json
+          test -s artifacts/agastya_copernicus_glo30_horizon.csv
+      - name: Upload independent DEM horizon report
+        uses: actions/upload-artifact@v4
+        with:
+          name: agastya-copernicus-glo30-horizon
+          path: artifacts/agastya_copernicus_glo30_horizon.*
+          if-no-files-found: error
+          retention-days: 14
