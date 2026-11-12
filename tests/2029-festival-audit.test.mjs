@@ -78,6 +78,15 @@ test("2029 Ekadashi cards follow the Smarta-only policy", () => {
   assert.equal(events.filter(event => /उत्पन्ना एकादशी/.test(event.title || "")).length, 1);
 });
 
+test("2029 Krishna Janmashtami follows the Smarta Nishita date", () => {
+  const janmashtami = has("2029-08-31", /^श्रीकृष्ण जन्माष्टमी \\(स्मार्त\\)$/);
+  assert.ok(janmashtami);
+  assert.equal(janmashtami.hinduTithi, "भाद्रपद कृष्ण अष्टमी");
+  assert.equal(janmashtami.sourceName, "MyPanchang — Janmashtami (Smarta) 2029");
+  assert.equal(janmashtami.secondarySourceName, "Drik Panchang — 2029 tithi and Rohini timings (New Delhi)");
+  assert.equal(has("2029-09-01", /^श्रीकृष्ण जन्माष्टमी$/), undefined);
+});
+
 test("2029 Navratri days are independent from other same-tithi observances", () => {
   assert.ok(has("2029-01-16", /चन्द्र दर्शन/));
   assert.ok(has("2029-01-16", /माघ गुप्त नवरात्र द्वितीय — माँ ब्रह्मचारिणी/));
