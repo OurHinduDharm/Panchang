@@ -517,6 +517,11 @@
       if(ruleIds.indexOf("masik-shivaratri-four-prahar")===-1) ruleIds.push("masik-shivaratri-four-prahar");
     }
     var eventTitle=String(item.title||"");
+    // कालाष्टमी का प्रदोष-पूजन जन्माष्टमी के निशीथ मुहूर्त से अलग है।
+    // संयुक्त कार्ड पर दोनों नियम स्वतंत्र रूप से दिखाएँ।
+    if(/कालाष्टमी|कालभैरव/i.test(eventTitle)&&ruleIds.indexOf("kalashtami-pradosh")===-1){
+      ruleIds.push("kalashtami-pradosh");
+    }
     if(!ruleIds.length&&(/संक्रांति|संक्रान्ति|sankranti/i.test(eventTitle)||String(item.category||"")==="संक्रांति")) ruleIds=["sankranti-punya-kala"];
     if(!ruleIds.length&&/संकष्टी चतुर्थी|सकट चौथ/i.test(eventTitle)) ruleIds=["sankashti-chaturthi-moonrise"];
     if(!ruleIds.length&&/वसंत पंचमी|श्रीपंचमी/i.test(eventTitle)) ruleIds=["vasant-panchami-saraswati"];
