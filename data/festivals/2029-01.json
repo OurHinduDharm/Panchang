@@ -346,8 +346,8 @@
     {
       "date": "2029-01-30",
       "dateLabel": "30 जनवरी",
-      "title": "माघ पूर्णिमा / ललिता षोडशी महाविद्या जयंती / गुरु रविदास जयंती",
-      "description": "माघ पूर्णिमा पर पवित्र स्नान, दान, जप और चंद्र-पूजन की परंपरा है। ललिता षोडशी महाविद्या जयंती पर माँ ललिता त्रिपुरसुन्दरी की उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html\" target=\"_blank\" rel=\"noopener noreferrer\">ललिता षोडशी महाविद्या</a> गुरु रविदास जयंती पर संत रविदास के समता, भक्ति और सदाचार के संदेश का स्मरण किया जाता है।",
+      "title": "माघ पूर्णिमा",
+      "description": "माघ पूर्णिमा पर पवित्र स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
       "category": "पूर्णिमा व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -358,6 +358,32 @@
       "secondarySourceName": "Drik Panchang — 2029 Indian Calendar",
       "articleUrl": "https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html",
       "articleLabel": "ललिता षोडशी महाविद्या"
+    },
+    {
+      "date": "2029-01-30",
+      "dateLabel": "30 जनवरी",
+      "title": "ललिता षोडशी महाविद्या जयंती",
+      "description": "ललिता षोडशी महाविद्या जयंती पर माँ ललिता त्रिपुरसुन्दरी की उपासना करें। <a href=\"https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html\" target=\"_blank\" rel=\"noopener noreferrer\">ललिता षोडशी महाविद्या</a>",
+      "category": "देवी पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Magha Purnima",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=30%2F01%2F2029",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2021/07/Stotratmak-Worship-of-Shri-vidya-Shodashi-Lalita-Tripursundari-Shuddhashakti-khadgamala.html",
+      "articleLabel": "ललिता षोडशी महाविद्या"
+    },
+    {
+      "date": "2029-01-30",
+      "dateLabel": "30 जनवरी",
+      "title": "गुरु रविदास जयंती",
+      "description": "गुरु रविदास जयंती पर संत रविदास के समता, भक्ति और सदाचार के संदेश का स्मरण किया जाता है।",
+      "category": "संत जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "माघ शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Indian Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/indian/indiancalendar.html?lang=en&year=2029"
     }
   ]
 }
