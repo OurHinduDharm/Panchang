@@ -285,8 +285,8 @@
       "hinduTithi": "सूर्य का तुला राशि में प्रवेश"
     },
     {
-      "date": "2029-10-18",
-      "dateLabel": "18 अक्टूबर",
+      "date": "2029-10-17",
+      "dateLabel": "17 अक्टूबर",
       "title": "पापांकुशा एकादशी",
       "description": "पापांकुशा एकादशी पर भगवान विष्णु की पूजा, व्रत-कथा और जप की परंपरा है। <a href=\"http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत के उद्यापन की विस्तृत विधि</a> <a href=\"http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html\" target=\"_blank\" rel=\"noopener noreferrer\">एकादशी व्रत का पवित्र विधान</a>",
       "category": "एकादशी",
@@ -297,7 +297,11 @@
       "articleUrl": "http://ourhindudharm.blogspot.com/2019/12/About-Ekadashi-Vrat-Udyapan-vidhi.html",
       "articleLabel": "एकादशी व्रत के उद्यापन की विस्तृत विधि",
       "secondaryArticleUrl": "http://ourhindudharm.blogspot.com/2014/10/About-Ekadashi-Vrat-Vidhan.html",
-      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान"
+      "secondaryArticleLabel": "एकादशी व्रत का पवित्र विधान",
+      "sourceName": "पिथौरागढ़ — स्मार्त सूर्योदय-निर्णय",
+      "sourceUrl": "https://www.drikpanchang.com/vrats/ekadashidates.html?time-format=24plushour&year=2029",
+      "secondarySourceName": "Drik Panchang — 2029 तिथि-सीमा cross-check",
+      "secondarySourceUrl": "https://www.drikpanchang.com/vrats/ekadashidates.html?time-format=24plushour&year=2029"
     },
     {
       "date": "2029-10-18",
