@@ -35,7 +35,16 @@ test("2029 independent observances use separate cards without duplicate titles",
   assert.ok(titles("2029-01-22").some(x => /^नर्मदा जयंती$/.test(x)));
   assert.ok(titles("2029-01-22").some(x => /माघ गुप्त नवरात्र सप्तमी/.test(x)));
   assert.ok(titles("2029-02-28").some(x => /^होलिका दहन$/.test(x)));
-  assert.ok(titles("2029-02-28").some(x => /फाल्गुन पूर्णिमा.*श्री महालक्ष्मी जयंती.*चैतन्य महाप्रभु जयंती/.test(x)));
+  assert.ok(titles("2029-01-30").some(x => /^माघ पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-01-30").some(x => /^ललिता षोडशी महाविद्या जयंती$/.test(x)));
+  assert.ok(titles("2029-01-30").some(x => /^गुरु रविदास जयंती$/.test(x)));
+  assert.ok(titles("2029-02-28").some(x => /^फाल्गुन पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-02-28").some(x => /^श्री महालक्ष्मी जयंती$/.test(x)));
+  assert.ok(titles("2029-02-28").some(x => /^चैतन्य महाप्रभु जयंती$/.test(x)));
+  assert.ok(titles("2029-04-28").some(x => /^हनुमान जयंती$/.test(x)));
+  assert.ok(titles("2029-04-28").some(x => /^चैत्र पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-05-27").some(x => /^बुद्ध पूर्णिमा$/.test(x)));
+  assert.ok(titles("2029-05-27").some(x => /^वैशाख पूर्णिमा$/.test(x)));
   
   assert.ok(titles("2029-04-14").some(x => /^चैत्र नवरात्र प्रारम्भ$/.test(x)));
   assert.ok(titles("2029-04-14").some(x => /^गुड़ी पड़वा$/.test(x)));
