@@ -211,8 +211,10 @@
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल नवमी",
-      "sourceName": "Drik Panchang — 14 November 2029 Panchang",
-      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=14%2F11%2F2029"
+      "sourceName": "Drik Panchang — पिथौरागढ़",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=14%2F11%2F2029",
+      "secondarySourceName": "Drik Panchang — 14 November 2029 Panchang",
+      "secondarySourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=14%2F11%2F2029"
     },
     {
       "date": "2029-11-15",
