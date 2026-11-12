@@ -73,8 +73,12 @@ test("Ekadashi parana metadata is only attached to Ekadashi records", () => {
   for (const file of files) {
     const data = JSON.parse(readFileSync(join(folder, file), "utf8"));
     for (const event of data.events) {
-      if (event.muhurtaRule === "ekadashi-parana" || event.category === "एकादशी") {
+      if (event.muhurtaRule === "ekadashi-parana" || String(event.category || "").includes("एकादशी")) {
         assert.match(event.title, /एकादशी/i, `${file}: Ekadashi metadata on non-Ekadashi event ${event.title}`);
+      }
+      if (String(event.category || "").includes("एकादशी")) {
+        assert.equal(event.muhurtaRule, "ekadashi-parana",
+          `${file}: Ekadashi vrat is missing its parana calculation rule: ${event.title}`);
       }
     }
   }
