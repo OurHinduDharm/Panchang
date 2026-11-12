@@ -12,7 +12,7 @@ permissions:
 jobs:
   extract-pithoragarh-window:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Check out research branch
         uses: actions/checkout@v4
@@ -31,7 +31,16 @@ jobs:
             --out artifacts/GEDTM30_Pithoragarh_N29E080.tif \
             --metadata artifacts/GEDTM30_Pithoragarh_N29E080.metadata.json
 
-      - name: Upload research artifacts
+      - name: Compute conditional terrain horizon
+        run: |
+          python research/agastya/terrain_horizon.py \
+            --dem artifacts/GEDTM30_Pithoragarh_N29E080.tif \
+            --json artifacts/agastya_terrain_horizon.json \
+            --csv artifacts/agastya_terrain_horizon.csv \
+            --max-distance-m 20000 \
+            --step-m 30
+
+      - name: Upload DEM extraction artifacts
         uses: actions/upload-artifact@v4
         with:
           name: agastya-gedtm30-pithoragarh-audit
@@ -40,3 +49,13 @@ jobs:
             artifacts/GEDTM30_Pithoragarh_N29E080.metadata.json
           if-no-files-found: error
           retention-days: 14
+
+      - name: Upload compact terrain horizon report
+        uses: actions/upload-artifact@v4
+        with:
+          name: agastya-terrain-horizon-report
+          path: |
+            artifacts/agastya_terrain_horizon.json
+            artifacts/agastya_terrain_horizon.csv
+          if-no-files-found: error
+          retention-days: 30
