@@ -532,6 +532,10 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
 
   async function appendMuhurta(item,dateIso,content,token){
     var ruleIds=Array.isArray(item.muhurtaRules)?item.muhurtaRules:(item.muhurtaRule?[item.muhurtaRule]:[]);
+    var eventTitle=String(item.title||"");
+    // कालाष्टमी का प्रदोष-पूजन जन्माष्टमी के निशीथ मुहूर्त से अलग है।
+    if(/कालाष्टमी|कालभैरव/i.test(eventTitle)&&ruleIds.indexOf("kalashtami-pradosh")===-1)ruleIds.push("kalashtami-pradosh");
+    if(/कृष्ण जन्माष्टमी/i.test(eventTitle)&&!/वैष्णव|इस्कॉन/i.test(eventTitle)&&ruleIds.indexOf("janmashtami-nishita")===-1)ruleIds.push("janmashtami-nishita");
     if(/मासिक\s*शिवरात्रि/i.test(String(item.title||""))&&!/महाशिवरात्रि|महा\s*शिवरात्रि/i.test(String(item.title||""))){
       if(ruleIds.indexOf("masik-shivaratri-nishita")===-1)ruleIds.push("masik-shivaratri-nishita");
       if(ruleIds.indexOf("masik-shivaratri-four-prahar")===-1)ruleIds.push("masik-shivaratri-four-prahar");
