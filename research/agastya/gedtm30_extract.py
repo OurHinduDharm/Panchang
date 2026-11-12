@@ -13,6 +13,7 @@ it does not download the global raster in full.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import sys
@@ -23,11 +24,9 @@ import rasterio
 from rasterio.windows import from_bounds
 from rasterio.transform import rowcol
 
-DTM_URLS = (
+DTM_URL = (
     "https://opentopography.s3.sdsc.edu/raster/GEDTM30/GEDTM30_be/"
-    "gedtm_rf_m_30m_s_20060101_20151231_go_epsg.4326.3855_v1.2.tif",
-    "https://s3.opengeohub.org/global/dtm/v1.2/"
-    "gedtm_rf_m_30m_s_20060101_20151231_go_epsg.4326.3855_v1.2.tif",
+    "gedtm_rf_m_30m_s_20060101_20151231_go_epsg.4326.3855_v1.2.tif"
 )
 WEST, SOUTH, EAST, NORTH = 80.0, 29.0, 81.0, 30.0
 OBSERVER_LAT, OBSERVER_LON = 29.5828, 80.2182
@@ -60,26 +59,22 @@ def main() -> int:
     parser.add_argument("--out", default="GEDTM30_Pithoragarh_N29E080.tif")
     parser.add_argument("--metadata", default=None,
                         help="JSON sidecar path (default: OUT.metadata.json)")
+    parser.add_argument("--compare-existing", default=None,
+                        help="Optional old TIFF path; compares raw pixels against the source COG window in all four orientations.")
     args = parser.parse_args()
 
     out_path = Path(args.out)
     meta_path = Path(args.metadata) if args.metadata else Path(str(out_path) + ".metadata.json")
 
-    last_error = None
+    source_url = DTM_URL
     with rasterio.Env(**GDAL_ENV):
-        for url in DTM_URLS:
-            try:
-                src = rasterio.open("/vsicurl/" + url)
-                source_url = url
-                break
-            except Exception as exc:  # try documented mirror
-                last_error = exc
-        else:
+        try:
+            src = rasterio.open("/vsicurl/" + source_url)
+        except Exception as exc:
             raise RuntimeError(
-                "Could not open either documented GEDTM30 v1.2 COG host. "
-                "Check internet/DNS and GDAL /vsicurl/ support. Last error: "
-                + repr(last_error)
-            )
+                "Could not open the official GEDTM30 v1.2 COG. "
+                "Check internet/DNS and GDAL /vsicurl/ support. Error: " + repr(exc)
+            ) from exc
 
         with src:
             if src.crs is None or src.crs.to_epsg() != 4326:
@@ -139,6 +134,52 @@ def main() -> int:
                 if np.isfinite(sample) and sample < NODATA_FLOAT32_MAX:
                     observer_sample = float(sample)
 
+            comparison = None
+            if args.compare_existing:
+                old_path = Path(args.compare_existing)
+                with rasterio.open(old_path) as old_src:
+                    if old_src.count != 1 or (old_src.height, old_src.width) != data.shape:
+                        raise RuntimeError(
+                            f"Comparison TIFF must be one band with shape {data.shape}; "
+                            f"got count={old_src.count}, shape={(old_src.height, old_src.width)}"
+                        )
+                    old = old_src.read(1, masked=False)
+                candidates = {
+                    "same": data,
+                    "vertical_flip": np.flipud(data),
+                    "horizontal_flip": np.fliplr(data),
+                    "vertical_and_horizontal_flip": np.flipud(np.fliplr(data)),
+                }
+                orientation_scores = []
+                for orientation, candidate in candidates.items():
+                    valid_pair = np.isfinite(old) & np.isfinite(candidate)
+                    if nodata is not None:
+                        valid_pair &= old != nodata
+                        valid_pair &= candidate != nodata
+                    if not np.any(valid_pair):
+                        continue
+                    delta = old[valid_pair].astype(np.float64) - candidate[valid_pair].astype(np.float64)
+                    orientation_scores.append({
+                        "orientation": orientation,
+                        "valid_comparison_pixels": int(valid_pair.sum()),
+                        "exact_equal_pixels": int(np.count_nonzero(delta == 0.0)),
+                        "exact_match": bool(np.all(delta == 0.0)),
+                        "mae_m": float(np.mean(np.abs(delta))),
+                        "rmse_m": float(np.sqrt(np.mean(delta * delta))),
+                        "max_abs_difference_m": float(np.max(np.abs(delta))),
+                    })
+                orientation_scores.sort(key=lambda item: (item["rmse_m"], -item["exact_equal_pixels"]))
+                comparison = {
+                    "old_file": str(old_path),
+                    "old_file_sha256": hashlib.sha256(old_path.read_bytes()).hexdigest(),
+                    "old_embedded_transform_ignored": True,
+                    "orientation_scores_best_first": orientation_scores,
+                    "interpretation": (
+                        "Raw-array match only; it does not validate old TIFF georeferencing. "
+                        "Exact match in one orientation is strong source-pixel provenance evidence."
+                    ),
+                }
+
             profile = src.profile.copy()
             profile.update(
                 driver="GTiff",
@@ -196,6 +237,7 @@ def main() -> int:
                     "p95": float(np.percentile(valid_values, 95)),
                     "max": float(valid_values.max()),
                 },
+                "old_clip_comparison": comparison,
                 "observer": {
                     "latitude": OBSERVER_LAT,
                     "longitude": OBSERVER_LON,
