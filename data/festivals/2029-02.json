@@ -179,8 +179,8 @@
     {
       "date": "2029-02-28",
       "dateLabel": "28 फ़रवरी",
-      "title": "फाल्गुन पूर्णिमा / श्री महालक्ष्मी जयंती / चैतन्य महाप्रभु जयंती",
-      "description": "फाल्गुन पूर्णिमा पर स्नान, दान, जप और चंद्र-पूजन की परंपरा है। श्री महालक्ष्मी जयंती पर माँ महालक्ष्मी की पूजा और स्तुति करें। चैतन्य महाप्रभु जयंती पर श्रीकृष्ण-प्रेम और हरिनाम-संकीर्तन की भक्ति-परंपरा का स्मरण किया जाता है। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी जी की उपासना करें</a>",
+      "title": "फाल्गुन पूर्णिमा",
+      "description": "फाल्गुन पूर्णिमा पर पवित्र स्नान, दान, जप और चंद्र-पूजन की परंपरा है।",
       "category": "पूर्णिमा व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -189,6 +189,32 @@
       "sourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=28%2F02%2F2029",
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
       "articleLabel": "श्री महालक्ष्मी जी की उपासना करें"
+    },
+    {
+      "date": "2029-02-28",
+      "dateLabel": "28 फ़रवरी",
+      "title": "श्री महालक्ष्मी जयंती",
+      "description": "श्री महालक्ष्मी जयंती पर माँ महालक्ष्मी की पूजा और स्तुति करें। <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्री महालक्ष्मी जी की उपासना करें</a>",
+      "category": "देवी पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Phalguna Purnima",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=28%2F02%2F2029",
+      "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Mahalakshmi-Kamla-mahavidya-stotratmak-upasana.html",
+      "articleLabel": "श्री महालक्ष्मी जी की उपासना करें"
+    },
+    {
+      "date": "2029-02-28",
+      "dateLabel": "28 फ़रवरी",
+      "title": "चैतन्य महाप्रभु जयंती",
+      "description": "चैतन्य महाप्रभु जयंती पर श्रीकृष्ण-प्रेम, भक्ति और हरिनाम-संकीर्तन की परंपरा का स्मरण किया जाता है।",
+      "category": "संत जयंती",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "फाल्गुन शुक्ल पूर्णिमा",
+      "sourceName": "Drik Panchang — 2029 Phalguna Purnima",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=28%2F02%2F2029"
     }
   ]
 }
