@@ -486,10 +486,12 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद कृष्ण अष्टमी",
-      "sourceName": "Drik Panchang — August 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-august.html?year=2027",
+      "sourceName": "MyPanchang — Janmashtami (Smarta) 2027",
+      "sourceUrl": "https://www.mypanchang.com/newsite/janmashtami.php",
       "articleUrl": "https://ourhindudharm.blogspot.com/2013/08/About-Shree-Krishna-Janmaashtami-On-Lord-Krishna-Jayanti.html",
-      "articleLabel": "श्रीकृष्ण जन्माष्टमी की व्रत-विधि पढ़ें"
+      "articleLabel": "श्रीकृष्ण जन्माष्टमी की व्रत-विधि पढ़ें",
+      "secondarySourceName": "Drik Panchang — New Delhi, 2027 tithi and Rohini timings",
+      "secondarySourceUrl": "https://www.drikpanchang.com/dashavatara/lord-krishna/krishna-janmashtami-date-time.html?geoname-id=10086"
     },
     {
       "date": "2027-08-24",

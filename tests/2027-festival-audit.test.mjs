@@ -449,6 +449,10 @@ test("2027 August includes Vedic, regional, Smarta and seasonal observances", ()
     if (tithi) assert.equal(event.hinduTithi, tithi);
     assert.ok(event.sourceUrl, date + " source URL");
   }
+  const smartaJanmashtami = august.events.find(item => item.date === "2027-08-24" && item.title === "श्रीकृष्ण जन्माष्टमी (स्मार्त)");
+  assert.ok(smartaJanmashtami);
+  assert.equal(smartaJanmashtami.sourceName, "MyPanchang — Janmashtami (Smarta) 2027");
+  assert.equal(smartaJanmashtami.secondarySourceName, "Drik Panchang — New Delhi, 2027 tithi and Rohini timings");
   assert.equal(august.events.some(item => /गौण|वैष्णव/.test(item.title || "")), false);
 });
 
