@@ -45,6 +45,10 @@ function wrap180(degrees) {
   return ((degrees + 540) % 360) - 180;
 }
 
+function conjunctionFamilyCode(conjunctionType) {
+  return ({ inferior: 0, superior: 1, conjunction: 2 })[conjunctionType] ?? null;
+}
+
 function equatorialSeparationDegrees(a, b) {
   const radians = Math.PI / 180;
   const raDelta = (a.ra - b.ra) * 15 * radians;
@@ -120,6 +124,7 @@ export function findVisibilityBoundaryNearAnchor({
   anchorDate,
   direction,
   boundaryName,
+  conjunctionType = null,
   model,
   searchDays = 20,
   timeZone = "Asia/Kolkata"
@@ -162,7 +167,9 @@ export function findVisibilityBoundaryNearAnchor({
       azimuthSeparationDegrees,
       longitudeRateDegPerDay: motion.longitudeRateDegPerDay,
       retrograde: motion.retrograde,
-      eventDirection: direction
+      eventDirection: direction,
+      conjunctionFamily: conjunctionFamilyCode(conjunctionType),
+      conjunctionFamilyDirectionInteraction: conjunctionFamilyCode(conjunctionType) * direction
     };
     const thresholdAltitude = thresholdAltitudeForModel(model, observables);
     const local = localDateTime(date, timeZone);
@@ -376,6 +383,9 @@ export function generateVisibilityWindows({
       if (!(conjunctionDate instanceof Date) || !Number.isFinite(conjunctionDate.getTime())) break;
       if (conjunctionDate > searchFinish) break;
 
+      const conjunctionType = targetRelLon === 0
+        ? (body === "Mercury" || body === "Venus" ? "inferior" : "conjunction")
+        : "superior";
       const startDirection = (body === "Mercury" || body === "Venus") && targetRelLon === 180
         ? 1
         : -1;
@@ -387,6 +397,7 @@ export function generateVisibilityWindows({
         anchorDate: conjunctionDate,
         direction: startDirection,
         boundaryName: "astaStart",
+        conjunctionType,
         model: modelByBoundary.astaStart,
         searchDays,
         timeZone
@@ -398,6 +409,7 @@ export function generateVisibilityWindows({
         anchorDate: conjunctionDate,
         direction: endDirection,
         boundaryName: "astaEnd",
+        conjunctionType,
         model: modelByBoundary.astaEnd,
         searchDays,
         timeZone
@@ -411,9 +423,7 @@ export function generateVisibilityWindows({
       const hasBoth = asta.status === "candidate" && udaya.status === "candidate";
       windows.push({
         body,
-        conjunctionType: targetRelLon === 0
-          ? (body === "Mercury" || body === "Venus" ? "inferior" : "conjunction")
-          : "superior",
+        conjunctionType,
         conjunctionUTC: conjunctionDate.toISOString(),
         asta,
         udaya,
