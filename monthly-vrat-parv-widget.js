@@ -1289,6 +1289,9 @@
       if(eclipseFailureLink)eclipseFailureNote.appendChild(eclipseFailureLink);
       eventsEl.appendChild(eclipseFailureNote);
     }
+    // Deep-link focus must happen as soon as the static monthly cards exist.
+    // Do not wait for later Panchang enrichment, Dwadashi fetches, or AdSense load.
+    focusFestivalCard();
   }
   async function fetchDwadashiYear(year,signal){
     var url="https://ourhindudharm.github.io/Panchang/data/dwadashi/"+year+".json";

@@ -13,6 +13,8 @@ on:
       - 'tests/2030-festival-audit.test.mjs'
       - 'tests/festival-data-integrity.test.mjs'
       - 'tests/recurring-muhurta-rule-coverage-2026-2030.test.mjs'
+      - 'monthly-vrat-parv-widget.js'
+      - 'tests/monthly-focus-before-enrichment.test.mjs'
       - 'festival-muhurta.js'
       - 'scripts/generate-annual-dwadashi-review.mjs'
       - 'data/festivals/**'
@@ -37,6 +39,8 @@ on:
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - 'tests/2030-festival-audit.test.mjs'
+      - 'monthly-vrat-parv-widget.js'
+      - 'tests/monthly-focus-before-enrichment.test.mjs'
       - 'festival-muhurta.js'
       - 'scripts/generate-annual-dwadashi-review.mjs'
       - 'data/festivals/**'
@@ -72,7 +76,7 @@ jobs:
       - name: Run 2030 annual festival and muhurta regression audit
         run: node --test tests/2030-festival-audit.test.mjs
       - name: Run recurring Pradosh and Masik Shivaratri muhurta rule coverage
-        run: node --test tests/recurring-muhurta-rule-coverage-2026-2030.test.mjs
+        run: node --test tests/recurring-muhurta-rule-coverage-2026-2030.test.mjs tests/monthly-focus-before-enrichment.test.mjs
       - name: Run monthly festival data integrity tests
         run: node --test tests/festival-data-integrity.test.mjs
       - name: Audit every monthly festival catalog from 2026 through 2030
