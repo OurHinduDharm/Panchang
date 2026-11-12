@@ -1714,7 +1714,12 @@ const rules = {
     const moonrise = validDate(context.moonrise);
     const date = validDate(context.date);
     if (!moonrise || !date) return null;
-    const midnight = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0, 0);
+    // Use the selected Panchang date in Asia/Kolkata, not the viewer's
+    // browser timezone. The widget may be opened outside India.
+    const localDate = localDateKey(date);
+    if (!localDate) return null;
+    const [year, month, day] = localDate.split("-").map(Number);
+    const midnight = new Date(Date.UTC(year, month - 1, day + 1) - 330 * 60000);
     const result = interval(moonrise, midnight, "चंद्रमा के उदय से मध्यरात्रि तक");
     return result ? {
       ...result,
