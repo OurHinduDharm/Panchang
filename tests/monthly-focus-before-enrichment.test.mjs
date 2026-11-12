@@ -4,21 +4,37 @@ import { readFileSync } from "node:fs";
 
 const source = readFileSync("monthly-vrat-parv-widget.js", "utf8");
 
-test("deep-linked festival card is focused during the first synchronous render", () => {
+test("deep-link focus waits for the final enriched monthly card list", () => {
   const renderStart = source.indexOf("function render(data,year,month,token)");
   const fetchStart = source.indexOf("async function fetchDwadashiYear");
-  assert.ok(renderStart >= 0, "monthly render function must exist");
-  assert.ok(fetchStart > renderStart, "render function must precede asynchronous enrichment");
+  const loadStart = source.indexOf("async function loadMonth(preserveViewportAnchor)");
+  assert.ok(renderStart >= 0 && fetchStart > renderStart && loadStart > fetchStart);
 
   const renderBody = source.slice(renderStart, fetchStart);
-  const appendCards = renderBody.indexOf("card.appendChild(content);eventsEl.appendChild(card);");
-  const focusCall = renderBody.indexOf("focusFestivalCard();");
-  assert.ok(appendCards >= 0, "festival cards must be appended");
-  assert.ok(focusCall > appendCards, "focus must run after cards are in the DOM");
-  assert.ok(focusCall < renderBody.indexOf("\n  }"), "focus must run before render returns");
+  assert.ok(renderBody.includes("eventsEl.appendChild(card)"), "render must append festival cards");
+  assert.ok(!renderBody.includes("focusFestivalCard();"), "intermediate renders must not move the viewport");
+
+  const loadBody = source.slice(loadStart);
+  const finalRender = loadBody.indexOf("render(data,year,month,token);");
+  const finalFocus = loadBody.indexOf("focusFestivalCard();", finalRender);
+  assert.ok(finalRender >= 0, "final enriched list must be rendered");
+  assert.ok(finalFocus > finalRender, "focus must occur after the final render");
+  assert.ok(finalFocus < loadBody.indexOf("}catch(e)", finalRender), "focus must happen in the successful final-load path");
 });
 
-test("focus logic does not wait for the browser load event or AdSense", () => {
+test("independent monthly enrichments run concurrently", () => {
+  const loadStart = source.indexOf("async function loadMonth(preserveViewportAnchor)");
+  const loadBody = source.slice(loadStart);
+  const parallelStart = loadBody.indexOf("var parallelResults=await Promise.all([");
+  const parallelEnd = loadBody.indexOf("]);", parallelStart);
+  assert.ok(parallelStart >= 0 && parallelEnd > parallelStart, "independent enrichments must use Promise.all");
+  const parallelBlock = loadBody.slice(parallelStart, parallelEnd);
+  assert.ok(parallelBlock.includes("buildDynamicNavratriEvents"), "Navratri calculation must be included");
+  assert.ok(parallelBlock.includes("buildLocationEclipseEvents"), "local eclipse calculation must be included");
+  assert.ok(loadBody.indexOf("var dwadashiYearPromise=fetchDwadashiYear") < parallelStart, "Dwadashi fetch should already be running concurrently");
+});
+
+test("focus logic scrolls to the matching card without waiting for browser load or AdSense", () => {
   const focusStart = source.indexOf("function focusFestivalCard()");
   const focusEnd = source.indexOf("\n  function categoryFor", focusStart);
   const focusBody = source.slice(focusStart, focusEnd);

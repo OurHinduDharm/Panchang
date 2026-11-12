@@ -24,7 +24,6 @@ on:
       - 'data/ohd-annual-panchang-review-*.json'
       - 'data/dwadashi-vrata-rules.json'
       - 'samaveda-annual-review.js'
-      - 'festival-muhurta.js'
       - 'festival-year-review.html'
       - 'eclipse-panchang.js'
       - 'tests/audit-annual-publication-readiness.test.mjs'

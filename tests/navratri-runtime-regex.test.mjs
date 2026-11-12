@@ -49,9 +49,9 @@ test("dynamic Navratri recognition requires a valid Shukla tithi before replacin
 
 test("curated 2026 Ashadha Gupta Navratri cards are not replaced by sunrise-only dynamic entries", () => {
   const start = source.indexOf("var curatedAshadhaGupta2026=");
-  const end = source.indexOf("var dynamicNavratri=", start);
-  assert.ok(start >= 0 && end > start, "curated 2026 Gupta Navratri guard must run before dynamic generation");
-  const guard = source.slice(start, end);
+  const parallelStart = source.indexOf("var parallelResults=await Promise.all([", start);
+  assert.ok(start >= 0 && parallelStart > start, "curated 2026 Gupta Navratri guard must run before parallel enrichment");
+  const guard = source.slice(start, parallelStart);
   assert.match(guard, /year===2026&&month===7/);
   assert.match(guard, /2026-07-15/);
   assert.match(guard, /आषाढ़ गुप्त नवरात्र प्रारम्भ/);
@@ -61,7 +61,9 @@ test("curated 2026 Ashadha Gupta Navratri cards are not replaced by sunrise-only
   assert.match(guard, /year===2026&&month===10/);
   assert.match(guard, /2026-10-11/);
   assert.match(guard, /शारदीय नवरात्र प्रारम्भ/);
-  assert.match(source.slice(end, end + 220), /keepCuratedNavratri2026\?\{events:\[\],recognized:false\}:await buildDynamicNavratriEvents/);
+  const parallelEnd = source.indexOf("]);", parallelStart);
+  assert.ok(parallelEnd > parallelStart, "Navratri and eclipse enrichment should run in the shared parallel stage");
+  assert.match(source.slice(parallelStart, parallelEnd), /keepCuratedNavratri2026\?Promise\.resolve\(\{events:\[\],recognized:false\}\):buildDynamicNavratriEvents/);
 });
 
 
