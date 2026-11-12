@@ -194,23 +194,27 @@
     {
       "date": "2029-11-13",
       "dateLabel": "13 नवंबर",
-      "title": "मासिक दुर्गाष्टमी",
-      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें।",
+      "title": "मासिक दुर्गाष्टमी / गोपाष्टमी",
+      "description": "मासिक दुर्गाष्टमी पर माँ दुर्गा की पूजा, दुर्गा-सप्तशती पाठ और जप करें। गोपाष्टमी पर गौ-पूजन, गौ-सेवा और भगवान श्रीकृष्ण की गोचारण लीला का स्मरण किया जाता है।",
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "कार्तिक शुक्ल अष्टमी"
+      "hinduTithi": "कार्तिक शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — 13 November 2029 Panchang",
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=13%2F11%2F2029&lang=en"
     },
     {
       "date": "2029-11-14",
       "dateLabel": "14 नवंबर",
-      "title": "सतयुगादि तिथि (सतयुग का आरंभ)",
-      "description": "कार्तिक शुक्ल नवमी को सतयुगादि कहा जाता है। पुराणों के अनुसार इस तिथि से सतयुग का आरंभ हुआ था। यही तिथि अक्षय नवमी के रूप में भी प्रसिद्ध है। इस दिन जप, तप और दान को अक्षय पुण्यदायी माना गया है।",
+      "title": "अक्षय नवमी / सतयुगादि तिथि (सतयुग का आरंभ)",
+      "description": "कार्तिक शुक्ल नवमी को अक्षय नवमी और सतयुगादि तिथि कहा जाता है। पुराणों के अनुसार इस तिथि से सतयुग का आरंभ हुआ था। इस दिन जप, तप, आँवले के वृक्ष का पूजन और दान को अक्षय पुण्यदायी माना जाता है।",
       "category": "युगादि तिथि",
       "reviewStatus": "approved",
       "hinduTithi": "कार्तिक शुक्ल नवमी",
       "sourceName": "Drik Panchang — पिथौरागढ़",
-      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=14/11/2029"
+      "sourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=14%2F11%2F2029",
+      "secondarySourceName": "Drik Panchang — 14 November 2029 Panchang",
+      "secondarySourceUrl": "https://www.drikpanchang.com/panchang/month-panchang.html?date=14%2F11%2F2029"
     },
     {
       "date": "2029-11-15",
@@ -275,6 +279,20 @@
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक शुक्ल पक्ष त्रयोदशी",
       "muhurtaRule": "pradosh-kala"
+    },
+    {
+      "date": "2029-11-19",
+      "dateLabel": "19 नवंबर",
+      "title": "वैकुण्ठ चतुर्दशी",
+      "description": "कार्तिक शुक्ल चतुर्दशी को वैकुण्ठ चतुर्दशी मनाई जाती है। इस दिन भगवान विष्णु और भगवान शिव की संयुक्त उपासना तथा निशीथकाल में पूजन की परंपरा है।",
+      "category": "प्रमुख पर्व",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक शुक्ल चतुर्दशी",
+      "sourceName": "Drik Panchang — Vaikuntha Chaturdashi 2029",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/vaikuntha-chaturdashi/vaikuntha-chaturdashi-date-time.html?year=2029",
+      "secondarySourceName": "Drik Panchang — 2029 Vaikuntha Chaturdashi Nishita",
+      "secondarySourceUrl": "https://www.drikpanchang.com/festivals/vaikuntha-chaturdashi/vaikuntha-chaturdashi-date-time.html?time-format=24hour&year=2029"
     },
     {
       "date": "2029-11-20",

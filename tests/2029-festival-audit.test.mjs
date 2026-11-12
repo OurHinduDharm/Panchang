@@ -165,6 +165,18 @@ test("2029 approved saint jayantis are retained and explicitly excluded modern p
   assert.equal(events.some(event => /कबीर जयंती|कबीरदास जयंती|विवेकानंद जयंती|स्वामी विवेकानंद|दयानंद सरस्वती जयंती|गांधी जयंती|प्रभुपाद जयंती/.test(event.title || "")), false);
 });
 
+test("2029 November and December major observances are represented on their local tithi dates", () => {
+  const gopashtami = has("2029-11-13", /गोपाष्टमी/);
+  assert.ok(gopashtami);
+  assert.equal(gopashtami.hinduTithi, "कार्तिक शुक्ल अष्टमी");
+  assert.ok(has("2029-11-14", /अक्षय नवमी/));
+  const vaikuntha = has("2029-11-19", /^वैकुण्ठ चतुर्दशी$/);
+  assert.ok(vaikuntha);
+  assert.equal(vaikuntha.hinduTithi, "कार्तिक शुक्ल चतुर्दशी");
+  assert.ok(has("2029-12-10", /सुब्रह्मण्य षष्ठी/));
+  assert.ok(has("2029-12-20", /अन्नपूर्णा जयंती/));
+});
+
 test("2029 solar and June lunar eclipses are excluded because they are not visible in Pithoragarh", () => {
   assert.equal(events.filter(event => /ग्रहण/.test(event.title || "")).filter(event => event.date !== "2029-12-21").length, 0);
 });
@@ -187,5 +199,5 @@ test("2029 Champa Shashthi follows local Shashthi sunrise and stays distinct fro
   assert.equal(champa.hinduTithi, "मार्गशीर्ष शुक्ल षष्ठी");
   assert.equal(champa.sourceName, "Drik Panchang — 2029 Hindu Calendar");
   assert.equal(has("2029-12-10", /^चम्पा षष्ठी$/), undefined);
-  assert.ok(has("2029-12-10", /^मासिक स्कन्द षष्ठी$/));
+  assert.ok(has("2029-12-10", /^मासिक स्कन्द षष्ठी \/ सुब्रह्मण्य षष्ठी$/));
 });
