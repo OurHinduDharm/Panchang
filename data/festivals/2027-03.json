@@ -29,7 +29,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "फाल्गुन कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2027-03-05",
@@ -196,7 +197,8 @@
       "showReviewStatus": false,
       "hinduTithi": "फाल्गुन शुक्ल पक्ष त्रयोदशी",
       "sourceName": "Drik Panchang — March 2027 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-march.html?year=2027",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2027-03-21",

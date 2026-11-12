@@ -157,7 +157,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "माघ शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "माघ शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2028-02-10",
@@ -265,7 +266,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "फाल्गुन कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "फाल्गुन कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2028-02-23",

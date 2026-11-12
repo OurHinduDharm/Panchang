@@ -41,7 +41,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "आषाढ़ कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2029-07-09",
@@ -271,7 +272,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "आषाढ़ शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2029-07-25",

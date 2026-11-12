@@ -73,7 +73,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "भाद्रपद कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2029-09-06",
@@ -301,7 +302,8 @@
       "showReviewStatus": false,
       "hinduTithi": "भाद्रपद शुक्ल द्वादशी / त्रयोदशी व्याप्ति",
       "sourceName": "Drik Panchang — 2029 Vamana Jayanti",
-      "sourceUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2029"
+      "sourceUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2029",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2029-09-19",

@@ -14,7 +14,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "भाद्रपद शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "भाद्रपद शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2028-09-01",
@@ -291,7 +292,8 @@
       "showReviewStatus": false,
       "hinduTithi": "आश्विन कृष्ण पक्ष त्रयोदशी",
       "sourceName": "Drik Panchang — September 2028 Hindu Festivals",
-      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2028"
+      "sourceUrl": "https://www.drikpanchang.com/festivals/month/festivals-september.html?year=2028",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2028-09-16",
@@ -660,7 +662,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "आश्विन शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "आश्विन शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     }
   ]
 }

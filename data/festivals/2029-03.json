@@ -71,7 +71,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "चैत्र कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2029-03-13",
@@ -160,7 +161,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "अधिक चैत्र शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "अधिक चैत्र शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2029-03-30",

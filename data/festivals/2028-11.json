@@ -118,7 +118,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष कृष्ण पक्ष त्रयोदशी"
+      "hinduTithi": "मार्गशीर्ष कृष्ण पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2028-11-15",
@@ -130,7 +131,8 @@
       "showReviewStatus": false,
       "hinduTithi": "मार्गशीर्ष कृष्ण चतुर्दशी",
       "articleUrl": "https://ourhindudharm.blogspot.com/2015/02/MahaShivratri-Rahasya-Shivaratri-Katha-And-Shri-Shiv-Panchakshar-Stotra.html",
-      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें"
+      "articleLabel": "शिवरात्रि का माहात्म्य पढ़ें",
+      "muhurtaRule": "masik-shivaratri-nishita"
     },
     {
       "date": "2028-11-16",
@@ -261,7 +263,8 @@
       "category": "व्रत",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "मार्गशीर्ष शुक्ल पक्ष त्रयोदशी"
+      "hinduTithi": "मार्गशीर्ष शुक्ल पक्ष त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     }
   ]
 }
