@@ -75,3 +75,41 @@ test("moonlight-until-midnight returns no interval when moonrise is missing", ()
   });
   assert.equal(result, null);
 });
+
+
+test("Kalashtami uses Krishna Ashtami during local Pradosh, not Janmashtami Nishita", () => {
+  const sunset = date("2026-10-03T12:35:00.000Z");
+  const nextSunrise = date("2026-10-04T00:35:00.000Z");
+  const ashtamiStart = date("2026-10-03T02:29:00.000Z");
+  const ashtamiEnd = date("2026-10-03T23:51:00.000Z");
+  const result = getFestivalMuhurta({ muhurtaRule: "kalashtami-pradosh" }, {
+    sunset,
+    nextSunrise,
+    tithis: [{ index: 22, startTime: ashtamiStart, endTime: ashtamiEnd }]
+  });
+  assert.equal(result.status, "calculated");
+  assert.equal(result.label, "कालाष्टमी — प्रदोष पूजा मुहूर्त");
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
+  assert.equal(
+    result.windows[0].end.toISOString(),
+    new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5).toISOString()
+  );
+});
+
+test("Kalashtami does not publish a Pradosh window without one ghati of Ashtami after Pradosh", () => {
+  const sunset = date("2026-10-03T12:35:00.000Z");
+  const nextSunrise = date("2026-10-04T00:35:00.000Z");
+  const pradoshEnd = new Date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+  const result = getFestivalMuhurta({ muhurtaRule: "kalashtami-pradosh" }, {
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 22,
+      startTime: date("2026-10-03T02:29:00.000Z"),
+      endTime: new Date(pradoshEnd.getTime() + 23 * 60000)
+    }]
+  });
+  assert.equal(result.status, "unavailable");
+  assert.equal(result.windows, undefined);
+});
