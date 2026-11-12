@@ -356,14 +356,18 @@
       "articleLabel": "तारा महाविद्या की उपासना"
     },
     {
-      "date": "2029-04-23",
-      "dateLabel": "23 अप्रैल",
+      "date": "2029-04-22",
+      "dateLabel": "22 अप्रैल",
       "title": "श्रीराम नवमी",
-      "description": "चैत्र शुक्ल नवमी को भगवान श्रीराम के जन्मोत्सव के रूप में राम नवमी मनाई जाती है।",
+      "description": "चैत्र शुक्ल नवमी की मध्याह्न-व्याप्ति में भगवान श्रीराम का जन्मोत्सव मनाया जाता है।",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
-      "hinduTithi": "चैत्र शुक्ल नवमी"
+      "hinduTithi": "चैत्र शुक्ल नवमी (मध्याह्न-व्याप्ति)",
+      "sourceName": "Drik Panchang — Smarta Rama Navami 2029",
+      "sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1253914&year=2029",
+      "secondarySourceName": "Drik Panchang — Pandharpur Daily Panchang, 22 April 2029",
+      "secondarySourceUrl": "https://www.drikpanchang.com/panchang/day-panchang.html?date=22%2F04%2F2029"
     },
     {
       "date": "2029-04-23",
