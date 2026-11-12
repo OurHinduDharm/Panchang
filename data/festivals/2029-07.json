@@ -204,6 +204,18 @@
       "articleLabel": "माँ कालरात्रि"
     },
     {
+      "date": "2029-07-18",
+      "dateLabel": "18 जुलाई",
+      "title": "मासिक दुर्गाष्टमी / पार्वती जयंती",
+      "description": "आषाढ़ शुक्ल अष्टमी पर माँ दुर्गा की पूजा और व्रत किया जाता है। इसी तिथि पर माँ पार्वती की जयंती भी मनाई जाती है।",
+      "category": "देवी पर्व एवं व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "आषाढ़ शुक्ल अष्टमी",
+      "sourceName": "Drik Panchang — Ashadha 2086 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/lunar-month/festivals-ashadha.html?lunar-year=2086"
+    },
+    {
       "date": "2029-07-19",
       "dateLabel": "19 जुलाई",
       "title": "आषाढ़ गुप्त नवरात्र अष्टमी — माँ महागौरी",
@@ -220,24 +232,16 @@
     {
       "date": "2029-07-19",
       "dateLabel": "19 जुलाई",
-      "title": "मासिक दुर्गाष्टमी",
-      "description": "शुक्ल पक्ष की अष्टमी को माँ दुर्गा की पूजा और व्रत किया जाता है।",
-      "category": "व्रत",
-      "reviewStatus": "approved",
-      "showReviewStatus": false,
-      "hinduTithi": "आषाढ़ शुक्ल अष्टमी"
-    },
-    {
-      "date": "2029-07-19",
-      "dateLabel": "19 जुलाई",
-      "title": "आषाढ़ गुप्त नवरात्र नवमी — माँ सिद्धिदात्री",
-      "description": "आषाढ़ गुप्त नवरात्र के नौवें दिन माँ सिद्धिदात्री की पूजा की जाती है।",
+      "title": "आषाढ़ गुप्त नवरात्र नवमी / भड़ली नवमी — माँ सिद्धिदात्री",
+      "description": "आषाढ़ गुप्त नवरात्र के नौवें दिन माँ सिद्धिदात्री की पूजा की जाती है। इसी दिन भड़ली नवमी भी मनाई जाती है, जिसे मांगलिक कार्यों के लिए अबूझ मुहूर्त माना जाता है।",
       "category": "नवरात्रि",
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "आषाढ़ शुक्ल नवमी",
       "articleUrl": "http://ourhindudharm.blogspot.com/2013/10/About-Goddess-Siddhidaatri-On-MahaNavami-Of-Navratri.html",
-      "articleLabel": "माँ सिद्धिदात्री"
+      "articleLabel": "माँ सिद्धिदात्री",
+      "sourceName": "Drik Panchang — Ashadha 2086 Festival Calendar",
+      "sourceUrl": "https://www.drikpanchang.com/festivals/lunar-month/festivals-ashadha.html?lunar-year=2086"
     },
     {
       "date": "2029-07-20",
