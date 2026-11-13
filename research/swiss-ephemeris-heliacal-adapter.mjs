@@ -151,7 +151,7 @@ export function createSwissHeliacalAdapter({
       const toIso = value => {
         if (value == null || value === 0) return null;
         finiteRange(value, 1_000_000, 4_000_000, "heliacal visibility JD");
-        return new Date((value - UNIX_EPOCH_JD) * DAY_MS).toISOString();
+        return new Date(Math.round((value - UNIX_EPOCH_JD) * DAY_MS)).toISOString();
       };
       const begin = toIso(beginJD);
       const optimum = toIso(optimumJD);
