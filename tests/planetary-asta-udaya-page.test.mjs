@@ -12,6 +12,11 @@ const dataset = JSON.parse(readFileSync(
   "utf8"
 ));
 
+const calculatedDataset = JSON.parse(readFileSync(
+  new URL("../data/pithoragarh-guru-shukra-calculated-2028-2030.json", import.meta.url),
+  "utf8"
+));
+
 test("annual page selector includes only verified Pithoragarh city-reference windows", () => {
   const all = [2021, 2022, 2023, 2024, 2025, 2026, 2027]
     .flatMap(year => getPithoragarhAnnualWindows(dataset, year));
@@ -83,6 +88,8 @@ test("annual page builds its year selector from the available dataset and shows 
   const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
   assert.ok(page.includes("const years = [...new Set(["));
   assert.ok(page.includes("...agastya.years.map(entry => entry.year)"));
+  assert.ok(page.includes("./data/pithoragarh-guru-shukra-calculated-2028-2030.json"));
+  assert.ok(page.includes("...calculated.windows"));
   assert.ok(page.includes("yearSelect.append(option)"));
   assert.ok(!page.includes("<option>2021</option>"));
   assert.ok(!page.includes("http://") && !page.includes("https://"));
@@ -135,4 +142,54 @@ test("2028-2030 Agastya Arghya records retain direct Pithoragarh source evidence
   assert.deepEqual(future.map(item => item.arghyaStart), ["04:41", "04:43", "04:44"]);
   assert.deepEqual(future.map(item => item.duration), ["01 घंटा 08 मिनट", "01 घंटा 07 मिनट", "01 घंटा 05 मिनट"]);
   assert.deepEqual(future.map(item => item.taraSetDate), ["2028-04-14", "2029-04-15", "2030-04-15"]);
+});
+
+
+test("calculated Pithoragarh Guru-Shukra annual windows are available for 2028-2030", () => {
+  const expected = {
+    2028: 2,
+    2029: 2,
+    2030: 4
+  };
+  for (const [yearText, count] of Object.entries(expected)) {
+    const year = Number(yearText);
+    const windows = getPithoragarhAnnualWindows(dataset, year, calculatedDataset);
+    assert.equal(windows.length, count);
+    assert.ok(windows.every(item => item.sourceYear === year));
+    assert.ok(windows.every(item => ["Jupiter", "Venus"].includes(item.planet)));
+    assert.ok(windows.every(item => Date.parse(item.astaStart) < Date.parse(item.udaya)));
+  }
+  assert.equal(getPithoragarhAnnualWindows(dataset, 2031, calculatedDataset).length, 0);
+});
+
+test("future calculated records preserve the reviewed local Pithoragarh dates and times", () => {
+  const all = [2028, 2029, 2030].flatMap(year =>
+    getPithoragarhAnnualWindows(dataset, year, calculatedDataset)
+  );
+  const find = (planet, startPrefix) => all.find(item =>
+    item.planet === planet && item.astaStart.startsWith(startPrefix)
+  );
+  assert.equal(find("Jupiter", "2028-09-15").udaya, "2028-10-13T05:26:26+05:30");
+  assert.equal(find("Jupiter", "2029-10-17").udaya, "2029-11-12T05:47:14+05:30");
+  assert.equal(find("Jupiter", "2030-11-18").udaya, "2030-12-13T06:10:26+05:30");
+  assert.equal(find("Venus", "2028-05-29").udaya, "2028-06-08T04:32:38+05:30");
+  assert.equal(find("Venus", "2029-02-12").udaya, "2029-04-17T19:04:16+05:30");
+  assert.equal(find("Venus", "2030-01-04").udaya, "2030-01-09T06:35:34+05:30");
+  assert.equal(find("Venus", "2030-09-28").udaya, "2030-11-20T17:38:42+05:30");
+});
+
+test("calculated annual records are rejected if the observer profile does not match Pithoragarh", () => {
+  const wrongLocation = {
+    ...calculatedDataset,
+    location: { ...calculatedDataset.location, latitude: 28.6139 }
+  };
+  assert.equal(getPithoragarhAnnualWindows(dataset, 2028, wrongLocation).length, 0);
+});
+
+test("calculated annual records are rejected if the model identifier is unknown", () => {
+  const wrongModel = {
+    ...calculatedDataset,
+    calculation: { ...calculatedDataset.calculation, modelId: "unknown-model" }
+  };
+  assert.equal(getPithoragarhAnnualWindows(dataset, 2028, wrongModel).length, 0);
 });
