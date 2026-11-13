@@ -133,13 +133,18 @@ function median(values) {
 const trainingThresholds = {};
 for (const planet of ["Jupiter", "Venus"]) {
   for (const boundary of ["astaStart", "astaEnd"]) {
-    const values = results
-      .filter(row => row.planet === planet && row.boundary === boundary && row.sourceYear <= 2025)
-      .map(row => row.sourceGeometry.sunDepressionDeg);
-    trainingThresholds[planet + ":" + boundary] = {
-      sampleCount: values.length,
-      thresholdDepressionDeg: median(values)
-    };
+    for (const eventType of ["rise", "set"]) {
+      const values = results
+        .filter(row => row.planet === planet && row.boundary === boundary &&
+          row.sourceYear <= 2025 && row.nearestHorizonEvent?.type === eventType)
+        .map(row => row.sourceGeometry.sunDepressionDeg);
+      if (values.length) {
+        trainingThresholds[planet + ":" + boundary + ":" + eventType] = {
+          sampleCount: values.length,
+          thresholdDepressionDeg: median(values)
+        };
+      }
+    }
   }
 }
 
@@ -157,12 +162,18 @@ for (const planet of ["Jupiter", "Venus"]) {
 const thresholdPredictions = results
   .filter(row => row.sourceYear >= 2026)
   .map(row => {
-    const key = row.planet + ":" + row.boundary;
-    const threshold = trainingThresholds[key]?.thresholdDepressionDeg;
-    const candidates = findHorizonTwilightThresholdCrossings({
-      horizonSeries: holdoutHorizonSeries[row.planet],
-      thresholdDepressionDeg: threshold
-    });
+    const prefix = row.planet + ":" + row.boundary + ":";
+    const candidates = Object.entries(trainingThresholds)
+      .filter(([key]) => key.startsWith(prefix))
+      .flatMap(([key, value]) => findHorizonTwilightThresholdCrossings({
+        horizonSeries: holdoutHorizonSeries[row.planet],
+        thresholdDepressionDeg: value.thresholdDepressionDeg,
+        eventType: key.slice(prefix.length)
+      }).map(candidate => ({
+        ...candidate,
+        trainingThresholdDepressionDeg: value.thresholdDepressionDeg,
+        trainingSampleCount: value.sampleCount
+      })));
     const referenceMs = Date.parse(row.sourceUtcInstant);
     const nearest = candidates
       .map(candidate => ({
@@ -175,7 +186,6 @@ const thresholdPredictions = results
       planet: row.planet,
       sourceYear: row.sourceYear,
       boundary: row.boundary,
-      trainingThresholdDepressionDeg: threshold,
       nearestThresholdPrediction: nearest,
       within15Minutes: nearest ? Math.abs(nearest.errorMinutes) <= 15 : false,
       within1Hour: nearest ? Math.abs(nearest.errorMinutes) <= 60 : false,
