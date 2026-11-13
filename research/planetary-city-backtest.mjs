@@ -202,6 +202,30 @@ const thresholdPredictions = results
     };
   });
 
+function getSameCityDurationReference(planet) {
+  const durations = sourceRows
+    .filter(row => row.planet === planet && row.sourceLocation === "Pithoragarh, Uttarakhand, India")
+    .map(row => {
+      const start = Date.parse(row.boundaries?.astaStart?.normalizedUtcInstant);
+      const end = Date.parse(row.boundaries?.astaEnd?.normalizedUtcInstant);
+      return Number.isFinite(start) && Number.isFinite(end) && end > start
+        ? { days: (end - start) / 86_400_000, year: row.sourcePageYear }
+        : null;
+    })
+    .filter(Boolean);
+  if (!durations.length) return null;
+  return {
+    planet,
+    minDays: Number(Math.min(...durations.map(row => row.days)).toFixed(3)),
+    maxDays: Number(Math.max(...durations.map(row => row.days)).toFixed(3)),
+    sampleCount: durations.length,
+    years: [...new Set(durations.map(row => row.year))].sort((a, b) => a - b),
+    location: "Pithoragarh, Uttarakhand, India",
+    sourceDataset: "data/drik-planetary-reference-2024-2027.json",
+    comparisonLevel: "city-label-only"
+  };
+}
+
 const futureCandidates2028To2030 = ["Jupiter", "Venus"].map(planet => {
   const raw = calculateCityAstaUdayaCandidates({
     astronomy: Astronomy,
@@ -223,7 +247,8 @@ const futureCandidates2028To2030 = ["Jupiter", "Venus"].map(planet => {
     planet,
     candidates: raw.candidates,
     conjunctions,
-    maxDistanceDays: 90
+    maxDistanceDays: 90,
+    durationReference: getSameCityDurationReference(planet)
   });
   return {
     ...raw,
