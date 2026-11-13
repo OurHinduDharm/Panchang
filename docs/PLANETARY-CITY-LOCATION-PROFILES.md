@@ -13,7 +13,7 @@
 
 - `planetary-city-location.mjs`: शहर खोज, DEM elevation और observer profile।
 - `planetary-heliacal-visibility.mjs`: Schaefer (1985) twilight visibility criterion का pure-JavaScript evaluator।
-- `planetary-heliacal-ephemeris.mjs`: Astronomy Engine से गुरु/शुक्र के topocentric altitude/azimuth और `Illumination().mag` लेकर सुबह/शाम की दी हुई UTC window scan करता है; crossing को 30-second default tolerance तक refine करता है।
+- `planetary-city-heliacal-engine.mjs`: Astronomy Engine से प्रत्येक observer के लिए -18° astronomical dawn/dusk और स्थानीय sunrise/sunset windows बनाकर morning/evening scans चलाता है; evening last-visible transition को Asta candidate और morning first-visible transition को Udaya candidate कहता है। यह अभी भी research-only है।\n- `planetary-heliacal-ephemeris.mjs`: Astronomy Engine से गुरु/शुक्र के topocentric altitude/azimuth और `Illumination().mag` लेकर सुबह/शाम की दी हुई UTC window scan करता है; crossing को 30-second default tolerance तक refine करता है।
 - `agastya-canopus-position.mjs`: SIMBAD/HIP 30438 catalogue coordinates और proper motion को J2000 tangent plane में propagate करके Astronomy Engine के EQJ-to-HOR transform से Canopus का स्थानीय altitude/azimuth निकालता है; वही twilight visibility evaluator भी लागू करता है।
 
 ## महत्वपूर्ण सीमाएँ
