@@ -20,6 +20,14 @@ class CanopusTerrainProfileTests(unittest.TestCase):
         self.assertIsNone(MODULE.interpolate_horizon(profile, 139.9))
         self.assertIsNone(MODULE.interpolate_horizon(profile, 220.1))
 
+    def test_zero_margin_requires_clearance_and_positive_margin_is_enforced(self):
+        self.assertTrue(MODULE.clears_horizon(7.01, 7.0, 0.0))
+        self.assertFalse(MODULE.clears_horizon(7.0, 7.0, 0.0))
+        self.assertTrue(MODULE.clears_horizon(7.5, 7.0, 0.5))
+        self.assertFalse(MODULE.clears_horizon(7.49, 7.0, 0.5))
+        self.assertTrue(MODULE.clears_horizon(9.0, 7.0, 2.0))
+        self.assertFalse(MODULE.clears_horizon(8.99, 7.0, 2.0))
+
     def test_reads_each_observer_height_scenario_separately(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "horizon.csv"
