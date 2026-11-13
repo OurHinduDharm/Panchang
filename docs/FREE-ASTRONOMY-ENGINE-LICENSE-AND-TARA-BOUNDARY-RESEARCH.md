@@ -74,9 +74,41 @@ The script used Astronomy Engine 2.1.19 to inspect both boundaries of all direct
 
 ### What this does and does not establish
 
-This is a useful physical clue: the source boundaries are consistent with local planet horizon crossings near twilight. It explains why a simple geocentric longitude threshold cannot reproduce every published local timestamp.
+This is a useful physical clue: the source boundaries are local planet horizon crossings near twilight. The Astronomy Engine's nearest local rise/set event differs from the 32 source timestamps by less than one minute in every case:
 
-It does **not** yet establish a universal twilight threshold. The Sun-depression distributions are empirical summaries of a small city-label dataset, and the source observer coordinates are unknown. Do not hard-code their medians as production constants or fit and test on the same records.
+| Planet / boundary | Samples | Median engine-minus-source | Maximum absolute difference |
+|---|---:|---:|---:|
+| Guru Asta start (setting) | 7 | -0.694 min | 0.967 min |
+| Guru Udaya (rising) | 7 | +0.349 min | 0.784 min |
+| Shukra Asta start | 9 | -0.060 min | 0.742 min |
+| Shukra Udaya | 9 | -0.135 min | 0.937 min |
+
+This confirms that the **clock time** is the local planet horizon crossing. The remaining problem is selecting the correct civil date on which that crossing is the Asta/Udaya boundary.
+
+## Held-out local twilight model test
+
+Workflow: the same `free-engine-tara-boundary-geometry` workflow, with artifact `tara-boundary-geometry-and-holdout-backtest`.
+
+- Training: source boundary events dated 2021–2025 only.
+- Holdout: all available 2026–2027 Pithoragarh Guru/Shukra boundaries (9 total).
+- The model scans the planet's daily local rise/set events, then selects the date where the source-trained twilight/arcus proxy changes visibility state.
+- Candidate model choice is based on leave-one-out error within the training records. Constant median thresholds are retained where the azimuth correction does not improve training error. An azimuth correction is selected only for Shukra Asta-end while setting (training MAE 0.051° versus 0.190° for the constant median).
+- Holdout result: **9 of 9 boundaries matched**, with the calculated horizon-crossing clock times differing from the published times by less than one minute.
+
+This is strong evidence that a free, local calculation model can reproduce the 2026–2027 city-page event boundaries. It is not yet a universal visibility law: the training set is small, source coordinates are undisclosed, and the empirical arcus proxy should not be transferred blindly to other cities.
+
+## Internal future candidates
+
+The same model generated paired Pithoragarh candidates around each planetary conjunction for 2028–2035. These are research artifacts only; they have not been inserted into public annual JSON.
+
+For 2028–2030, manual comparison against Panchang Guru's separately computed **New Delhi** pages found:
+- Guru: same dates or one-day difference; clock times generally differed by about 10–20 minutes.
+- Shukra: same dates or one-day difference for the compared windows; clock times generally differed by about 10–20 minutes.
+- This is a cross-location sanity check, not exact Pithoragarh validation. Panchang Guru explicitly labels its values as New Delhi and states its moments are the planet's own rise/set. Do not copy its times into our Pithoragarh data.
+
+Reference pages: https://www.panchangguru.com/guru-asta and https://www.panchangguru.com/shukra-asta
+
+Do not publish 2031–2035 candidates yet. They need more independent checks and a wider held-out sample. The 2028–2030 candidates can move to a separate data-review PR after the current diagnostic and regression checks complete.
 
 ## Next engineering step
 
