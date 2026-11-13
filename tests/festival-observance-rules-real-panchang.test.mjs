@@ -202,7 +202,7 @@ test("real Pithoragarh 2030 Shravana Dwadashi checks local tithi-nakshatra yoga 
     const dayStart = current.sunrise;
     const dayEnd = next.sunrise;
     return {
-      date, dayStart, dayEnd,
+      date, dayStart, dayEnd, sunset: current.sunset, masa: masa(current), paksha: "शुक्ल पक्ष",
       tithis: intervals(previous, current, next),
       nakshatraIntervals: nakshatras(previous, current, next)
     };
@@ -211,7 +211,10 @@ test("real Pithoragarh 2030 Shravana Dwadashi checks local tithi-nakshatra yoga 
   console.log("OHD_SHRAVANA_2030_DIAGNOSTIC " + JSON.stringify({
     days: candidateDays.map(day => ({
       date: day.date,
-      tithis: day.tithis.filter(item => [11, 26].includes(item.index)).map(item => ({ index:item.index, start:new Date(item.startTime).toISOString(), end:new Date(item.endTime).toISOString() })),
+      sunrise: new Date(day.dayStart).toISOString(),
+      sunset: new Date(day.sunset).toISOString(),
+      nextSunrise: new Date(day.dayEnd).toISOString(),
+      tithis: day.tithis.filter(item => [10, 11, 25, 26].includes(item.index)).map(item => ({ index:item.index, start:new Date(item.startTime).toISOString(), end:new Date(item.endTime).toISOString() })),
       shravana: day.nakshatraIntervals.filter(item => item.index === 21).map(item => ({ start:new Date(item.startTime).toISOString(), end:new Date(item.endTime).toISOString() }))
     })),
     result
