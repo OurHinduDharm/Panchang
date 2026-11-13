@@ -42,5 +42,5 @@ jobs:
         run: node --test tests/drik-planetary-reference.test.mjs
       - name: Verify location scope and planetary direction regressions
         run: node --test tests/planetary-asta-udaya-location-scope.test.mjs tests/planetary-asta-udaya-direction.test.js tests/planetary-boundary-cache.test.mjs tests/panchang-card-order.test.js
-      - name: Verify seven-body Panchang display and unchanged performance mode
+      - name: Verify Guru-Shukra Panchang display and unchanged performance mode
         run: node --test tests/asta-udaya-phase-diagnostics.spec.mjs
