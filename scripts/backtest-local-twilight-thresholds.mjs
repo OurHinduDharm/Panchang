@@ -191,10 +191,6 @@ for (const thresholdRow of thresholds) {
         const a = previous.solarDepressionDegrees - previousThreshold;
         const b = current.solarDepressionDegrees - currentThreshold;
         if (a * b > 0 || b === a) continue;
-        const fraction = a === 0 ? 0 : b === 0 ? 1 :
-          (threshold - previous.solarDepressionDegrees) /
-          (current.solarDepressionDegrees - previous.solarDepressionDegrees);
-        if (!(fraction >= 0 && fraction <= 1)) continue;
         // The actual Asta/Udaya timestamp is the planet's local horizon
         // crossing on one civil date. Threshold crossing only selects which
         // daily rise/set event is the boundary; do not interpolate across
