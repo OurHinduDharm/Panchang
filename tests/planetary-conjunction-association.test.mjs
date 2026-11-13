@@ -109,3 +109,37 @@ test("rejects unsupported planets and invalid ranges", () => {
     planet: "Mars", candidates: [], conjunctions: []
   }), /Jupiter or Venus/);
 });
+
+
+test("duration reference flags outliers without dropping candidate windows", () => {
+  const result = pairCandidatesAroundConjunctions({
+    planet: "Jupiter",
+    conjunctions: [{ kind: "conjunction", instant: "2028-09-30T12:00:00Z" }],
+    candidates: [
+      { boundary: "astaStart", eventType: "set", instant: "2028-09-15T12:00:00Z" },
+      { boundary: "astaEnd", eventType: "rise", instant: "2028-10-12T12:00:00Z" }
+    ],
+    durationReference: {
+      planet: "Jupiter", minDays: 28, maxDays: 33,
+      sampleCount: 7, years: [2021, 2022, 2023, 2024, 2025, 2026, 2027],
+      location: "Pithoragarh, Uttarakhand, India"
+    }
+  });
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].durationDays, 27);
+  assert.equal(result.windows[0].durationPlausibility.status, "outside-observed-range-review");
+  assert.equal(result.windows[0].durationPlausibility.referenceSampleCount, 7);
+  assert.equal(result.windows[0].publicationEligible, false);
+});
+
+test("duration is explicitly unassessed without same-city reference data", () => {
+  const result = pairCandidatesAroundConjunctions({
+    planet: "Jupiter",
+    conjunctions: [{ kind: "conjunction", instant: "2028-09-30T12:00:00Z" }],
+    candidates: [
+      { boundary: "astaStart", eventType: "set", instant: "2028-09-15T12:00:00Z" },
+      { boundary: "astaEnd", eventType: "rise", instant: "2028-10-12T12:00:00Z" }
+    ]
+  });
+  assert.equal(result.windows[0].durationPlausibility.status, "not-assessed");
+});
