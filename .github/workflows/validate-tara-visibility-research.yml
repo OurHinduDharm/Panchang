@@ -5,7 +5,10 @@ on:
     branches: [feature/city-aware-tara-location-profiles]
     paths:
       - "planetary-city-heliacal-engine.mjs"
+      - "planetary-heliacal-ephemeris.mjs"
       - "planetary-city-horizon-threshold.mjs"
+      - "tests/planetary-city-heliacal-engine.test.mjs"
+      - "tests/planetary-heliacal-ephemeris.test.mjs"
       - "tests/planetary-city-horizon-threshold.test.mjs"
       - "research/planetary-city-backtest.mjs"
       - "research/planetary-conjunction-association.mjs"
