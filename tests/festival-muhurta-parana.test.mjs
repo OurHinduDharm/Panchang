@@ -5,11 +5,18 @@ import panchangPackage from "@ishubhamx/panchangam-js";
 
 const source = await readFile(new URL("../festival-muhurta.js", import.meta.url), "utf8");
 const helperSource = await readFile(new URL("../night-prahar.js", import.meta.url), "utf8");
+const observanceRulesSource = await readFile(new URL("../festival-observance-rules.mjs", import.meta.url), "utf8");
 const helperUrl = "data:text/javascript;base64," + Buffer.from(helperSource).toString("base64");
-const sourceWithHelper = source.replace(
-  'import { getNightPraharWindows } from "./night-prahar.js";',
-  `const { getNightPraharWindows } = await import("${helperUrl}");`
-);
+const observanceRulesUrl = "data:text/javascript;base64," + Buffer.from(observanceRulesSource).toString("base64");
+const sourceWithHelper = source
+  .replace(
+    'import { getNightPraharWindows } from "./night-prahar.js";',
+    `const { getNightPraharWindows } = await import("${helperUrl}");`
+  )
+  .replace(
+    'import { calculateEkadashiParanaWindow } from "./festival-observance-rules.mjs";',
+    `const { calculateEkadashiParanaWindow } = await import("${observanceRulesUrl}");`
+  );
 const engineUrl = "data:text/javascript;base64," + Buffer.from(sourceWithHelper).toString("base64");
 const { getFestivalMuhurta, getFestivalMuhurtaContext, getBhaiDoojDateDecision, areFestivalMuhurtaLabelsEquivalent } = await import(engineUrl);
 
@@ -65,7 +72,8 @@ test("Ekadashi parana prefers a morning window after Hari Vasara", () => {
   const result = calculate(context);
   assert.equal(result.status, "calculated");
   assert.equal(result.start.toISOString(), sunrise.toISOString());
-  assert.equal(result.end.toISOString(), date("2026-10-22T10:42:00+05:30").toISOString());
+  assert.equal(result.end.toISOString(), date("2026-10-22T08:21:00+05:30").toISOString());
+  assert.equal(result.calculationStatus, "morning-window");
   assert.match(result.dateLabel, /2026/);
 });
 
@@ -78,7 +86,22 @@ test("Hari Vasara delays parana when its first quarter continues after sunrise",
   const result = calculate(contextWithTithis({ fast: [dwadashi], parana: [dwadashi] }));
   assert.equal(result.status, "calculated");
   assert.equal(result.start.toISOString(), date("2026-10-22T06:15:00+05:30").toISOString());
+  assert.equal(result.end.toISOString(), date("2026-10-22T08:21:00+05:30").toISOString());
+  assert.equal(result.calculationStatus, "morning-window");
+});
+
+test("Ekadashi parana moves after Madhyahna when Hari Vasara exceeds Pratahkal", () => {
+  const dwadashi = {
+    index: 11,
+    startTime: date("2026-10-22T05:30:00+05:30"),
+    endTime: date("2026-10-22T22:00:00+05:30")
+  };
+  const result = calculate(contextWithTithis({ fast: [dwadashi], parana: [dwadashi] }));
+  assert.equal(result.status, "calculated");
+  assert.equal(result.start.toISOString(), date("2026-10-22T13:03:00+05:30").toISOString());
   assert.equal(result.end.toISOString(), dwadashi.endTime.toISOString());
+  assert.equal(result.calculationStatus, "afternoon-window");
+  assert.match(result.note, /मध्याह्न से बचकर उसके बाद/);
 });
 
 test("Dwadashi ended before sunrise uses the explicit sunrise exception", () => {
