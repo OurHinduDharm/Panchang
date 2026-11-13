@@ -1,0 +1,34 @@
+name: One-off Pithoragarh Agastya Arghya source capture 2028-2030
+
+on:
+  push:
+    branches:
+      - automation/capture-agastya-2028-2030
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned browser dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Capture traditional Agastya Arghya pages for Pithoragarh
+        env:
+          OUTPUT_PATH: artifacts/agastya-arghya-source-candidates-2028-2030.json
+        run: node scripts/capture-agastya-arghya-candidates.mjs
+      - name: Upload internal source review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: agastya-arghya-source-candidates-2028-2030
+          path: artifacts/agastya-arghya-source-candidates-2028-2030.json
+          if-no-files-found: error
+          retention-days: 30
