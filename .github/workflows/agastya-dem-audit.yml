@@ -25,6 +25,9 @@ jobs:
       - name: Install raster tools
         run: python -m pip install --upgrade pip rasterio numpy skyfield
 
+      - name: Test Canopus twilight and terrain-profile helpers
+        run: python -m unittest discover -s tests -p 'test_canopus*.py'
+
       - name: Extract source-georeferenced GEDTM30 window
         run: |
           python research/agastya/gedtm30_extract.py \
