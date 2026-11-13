@@ -11,7 +11,7 @@ const card = source.slice(start, end);
 test("planet card contains only Guru and Shukra Tara Asta dates", () => {
   assert.match(card, /अस्त प्रारम्भ/);
   assert.match(card, /पुनः उदय/);
-  assert.match(card, /गुरु एवं शुक्र/);
+  assert.match(card, /गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त/);
   assert.doesNotMatch(card, /सूर्य|चंद्रमा|मंगल|बुध|शनि/);
 });
 

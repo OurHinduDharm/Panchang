@@ -80,3 +80,35 @@ export function pairDrikEventRows(rows) {
   if (pendingStart) unpaired.push(pendingStart);
   return { windows, unpaired };
 }
+
+
+const VERIFIED_CAPTURE_STATUS = "source-page-identity-and-boundaries-captured";
+
+/**
+ * Counts source windows without allowing quarantined rows to appear as
+ * verified review candidates. Raw quarantined windows remain countable for
+ * audit, but never enter the verified bucket.
+ */
+export function summarizeSourceCaptures(captures) {
+  if (!Array.isArray(captures)) {
+    throw new TypeError("captures must be an array");
+  }
+  const verified = captures.filter(
+    capture => capture?.status === VERIFIED_CAPTURE_STATUS
+  );
+  const quarantined = captures.filter(
+    capture => capture?.status !== VERIFIED_CAPTURE_STATUS
+  );
+  const countWindows = rows => rows.reduce(
+    (sum, capture) => sum + (Array.isArray(capture?.windows) ? capture.windows.length : 0),
+    0
+  );
+  return Object.freeze({
+    attemptedPages: captures.length,
+    identityAndBoundaryVerifiedPages: verified.length,
+    quarantinedPages: quarantined.length,
+    verifiedCandidateWindows: countWindows(verified),
+    quarantinedCandidateWindows: countWindows(quarantined),
+    totalCandidateWindows: countWindows(captures)
+  });
+}

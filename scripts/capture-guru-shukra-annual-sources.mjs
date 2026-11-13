@@ -1,7 +1,7 @@
 import { chromium } from "playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import { pairDrikEventRows, parseDrikBoundary } from "./annual-tara-source-normalizer.mjs";
+import { pairDrikEventRows, parseDrikBoundary, summarizeSourceCaptures } from "./annual-tara-source-normalizer.mjs";
 
 const CITY = "Pithoragarh, Uttarakhand, India";
 const CITY_ID = "1259503";
@@ -121,14 +121,7 @@ try {
     requestedYears: years,
     city: CITY,
     policy: "Candidate capture only. Every page must confirm its requested city, planet and year. Raw source text is retained. Incomplete, mismatched or unparsed records are quarantined. This workflow never edits or publishes production data.",
-    attemptedPages: captures.length,
-    identityAndBoundaryVerifiedPages: captures.filter(x =>
-      x.status === "source-page-identity-and-boundaries-captured"
-    ).length,
-    quarantinedPages: captures.filter(x =>
-      x.status !== "source-page-identity-and-boundaries-captured"
-    ).length,
-    acceptedForReviewWindows: captures.reduce((sum, x) => sum + x.windows.length, 0),
+    ...summarizeSourceCaptures(captures),
     captures
   };
   const outputPath = resolve(process.env.OUTPUT_PATH || "artifacts/guru-shukra-source-candidates.json");
@@ -139,7 +132,9 @@ try {
     attemptedPages: summary.attemptedPages,
     identityAndBoundaryVerifiedPages: summary.identityAndBoundaryVerifiedPages,
     quarantinedPages: summary.quarantinedPages,
-    acceptedForReviewWindows: summary.acceptedForReviewWindows
+    verifiedCandidateWindows: summary.verifiedCandidateWindows,
+    quarantinedCandidateWindows: summary.quarantinedCandidateWindows,
+    totalCandidateWindows: summary.totalCandidateWindows
   }, null, 2));
 } finally {
   await browser.close();
