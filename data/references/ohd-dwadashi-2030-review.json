@@ -1127,8 +1127,7 @@
       "adhika": false,
       "tithi": "द्वादशी",
       "sunriseDates": [
-        "2030-01-01",
-        "2030-12-22"
+        "2030-01-01"
       ],
       "noonDates": [
         "2030-01-01"
@@ -1139,12 +1138,6 @@
           "sunrise": "2030-01-01T01:34:25.180Z",
           "tithiStartTime": "2029-12-31T13:42:12.152Z",
           "tithiEndTime": "2030-01-01T10:54:31.477Z"
-        },
-        {
-          "date": "2030-12-22",
-          "sunrise": "2030-12-22T01:30:33.432Z",
-          "tithiStartTime": "2030-12-21T07:03:11.523Z",
-          "tithiEndTime": "2030-12-22T04:11:50.353Z"
         }
       ],
       "noonObservations": [
@@ -1155,15 +1148,14 @@
         }
       ],
       "candidateDates": [
-        "2030-01-01",
-        "2030-12-22"
+        "2030-01-01"
       ],
       "referenceDate": null,
       "drikLabels": [],
       "drik2026Labels": [],
       "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "selectedDate": "2030-01-01",
+      "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [
         "रूप-व्रत"
       ],
@@ -1179,7 +1171,54 @@
       ],
       "conditionalObservances": [],
       "crossReferences": [],
-      "status": "needs-review"
+      "status": "needs-review",
+      "occurrence": 1
+    },
+    {
+      "id": "pausha-krishna-occurrence-2",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2030-12-22"
+      ],
+      "noonDates": [],
+      "sunriseObservations": [
+        {
+          "date": "2030-12-22",
+          "sunrise": "2030-12-22T01:30:33.432Z",
+          "tithiStartTime": "2030-12-21T07:03:11.523Z",
+          "tithiEndTime": "2030-12-22T04:11:50.353Z"
+        }
+      ],
+      "noonObservations": [],
+      "candidateDates": [
+        "2030-12-22"
+      ],
+      "referenceDate": null,
+      "drikLabels": [],
+      "drik2026Labels": [],
+      "drikSpecialObservances": [],
+      "selectedDate": "2030-12-22",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "रूप-व्रत"
+      ],
+      "observances": [
+        {
+          "id": "rupa",
+          "name": "रूप-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "दशमी से तैयारी, एकादशी-उपवास और जागरण; द्वादशी प्रातः विष्णु-पूजन, तिल-घृत से होम तथा पायस-भोजन और दान का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [],
+      "status": "needs-review",
+      "occurrence": 2
     },
     {
       "id": "pausha-shukla",
