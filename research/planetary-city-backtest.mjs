@@ -177,6 +177,8 @@ const thresholdPredictions = results
       boundary: row.boundary,
       trainingThresholdDepressionDeg: threshold,
       nearestThresholdPrediction: nearest,
+      within15Minutes: nearest ? Math.abs(nearest.errorMinutes) <= 15 : false,
+      within1Hour: nearest ? Math.abs(nearest.errorMinutes) <= 60 : false,
       within1Day: nearest ? Math.abs(nearest.errorMinutes) <= 1440 : false,
       within3Days: nearest ? Math.abs(nearest.errorMinutes) <= 4320 : false
     };
@@ -206,6 +208,8 @@ const report = {
   thresholdHoldout: {
     records: thresholdPredictions.length,
     matched: thresholdPredictions.filter(row => row.nearestThresholdPrediction).length,
+    within15Minutes: thresholdPredictions.filter(row => row.within15Minutes).length,
+    within1Hour: thresholdPredictions.filter(row => row.within1Hour).length,
     within1Day: thresholdPredictions.filter(row => row.within1Day).length,
     within3Days: thresholdPredictions.filter(row => row.within3Days).length,
     predictions: thresholdPredictions
