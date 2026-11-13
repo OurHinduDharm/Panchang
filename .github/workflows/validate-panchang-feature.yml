@@ -47,6 +47,8 @@ jobs:
         run: node tests/local-horizon-engine-smoke.mjs
       - name: Smoke-test real topocentric planetary observer snapshots
         run: node tests/planetary-observer-snapshot-smoke.mjs
+      - name: Smoke-test geocentric stations and angular combustion events
+        run: node tests/planetary-angular-events-smoke.mjs
       - name: Run planetary Asta/Udaya direction regression tests
         run: node --experimental-default-type=module --test tests/planetary-asta-udaya-direction.test.js
       - name: Validate uploaded Asta/Udaya data integrity and sampled vectors
