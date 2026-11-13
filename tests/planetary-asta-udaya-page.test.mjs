@@ -212,3 +212,33 @@ test("New Delhi sanity comparison records date mismatches separately from clock-
   assert.ok(comparison.result.includes("not Pithoragarh ground truth"));
 });
 
+
+const classicalReference = JSON.parse(readFileSync(
+  new URL("../data/classical-siddhanta-ujjain-guru-shukra-2028-2030.json", import.meta.url),
+  "utf8"
+));
+
+test("classical Ujjain Surya Siddhanta references remain a separate research-only series", () => {
+  assert.equal(classicalReference.status, "research-only-not-public");
+  assert.equal(classicalReference.observer.name, "Ujjain");
+  assert.equal(classicalReference.method.class, "surya-siddhanta-chapter-ix");
+  assert.ok(classicalReference.method.distinction.includes("never be averaged"));
+  assert.equal(classicalReference.records.length, 7);
+  assert.ok(classicalReference.records.every(item =>
+    ["Jupiter", "Venus"].includes(item.planet) &&
+    item.asta.endsWith("+05:30") &&
+    item.udaya.endsWith("+05:30") &&
+    Date.parse(item.asta) < Date.parse(item.udaya) &&
+    item.source.includes("divinenakshatra.com")
+  ));
+  assert.deepEqual(
+    classicalReference.records.filter(item => item.planet === "Jupiter").map(item => item.year),
+    [2028, 2029, 2030]
+  );
+  assert.deepEqual(
+    classicalReference.records.filter(item => item.planet === "Venus").map(item => item.year),
+    [2028, 2029, 2030, 2030]
+  );
+  const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
+  assert.ok(!page.includes("classical-siddhanta-ujjain-guru-shukra-2028-2030.json"));
+});
