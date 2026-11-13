@@ -53,7 +53,7 @@ function panchangFor(date) {
 }
 
 const events = [];
-for (let month = 1; month <= 8; month++) {
+for (let month = 1; month <= 12; month++) {
   const file = path.join(DATA_DIR, `2029-${String(month).padStart(2, "0")}.json`);
   if (!fs.existsSync(file)) throw new Error(`Missing month file: ${file}`);
   const data = JSON.parse(fs.readFileSync(file, "utf8"));
