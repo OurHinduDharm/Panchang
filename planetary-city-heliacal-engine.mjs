@@ -93,7 +93,10 @@ export function buildLocalTwilightWindows({ astronomy, observer, start, end }) {
  * morning and evening phases. Inner planets (especially Venus) can use all
  * four across inferior and superior conjunctions.
  */
-export function classifyHeliacalTransition(period, crossingType) {
+export function classifyHeliacalTransition(planet, period, crossingType) {
+  if (!["Jupiter", "Venus"].includes(planet)) {
+    throw new RangeError("planet must be Jupiter or Venus");
+  }
   if (!["morning", "evening"].includes(period)) {
     throw new RangeError("period must be morning or evening");
   }
@@ -101,10 +104,25 @@ export function classifyHeliacalTransition(period, crossingType) {
     throw new RangeError("crossingType must be first-visible or last-visible");
   }
   const visibilityPhase = period + "-" + crossingType;
+  const horizonDirection = period === "morning" ? "east" : "west";
+
+  // For superior planets such as Jupiter, evening-first and morning-last
+  // are acronychal/cosmical opposition-side events, not conjunction-side
+  // heliacal Asta/Udaya. Venus has all four relevant transitions.
+  const isJupiterHeliacal =
+    (period === "morning" && crossingType === "first-visible") ||
+    (period === "evening" && crossingType === "last-visible");
+  const isVenusHeliacal = true;
+  const isHeliacal = planet === "Jupiter" ? isJupiterHeliacal : isVenusHeliacal;
+
   return Object.freeze({
     visibilityPhase,
-    type: crossingType === "first-visible" ? "udaya-candidate" : "asta-candidate",
-    horizonDirection: period === "morning" ? "east" : "west"
+    type: !isHeliacal
+      ? "other-visibility-transition"
+      : crossingType === "first-visible"
+        ? "udaya-candidate"
+        : "asta-candidate",
+    horizonDirection
   });
 }
 
@@ -131,7 +149,7 @@ export function calculateCityHeliacalCandidates({
     });
     const transitions = result.crossings.map(crossing => {
       const classification = ["first-visible", "last-visible"].includes(crossing.type)
-        ? classifyHeliacalTransition(window.period, crossing.type)
+        ? classifyHeliacalTransition(planet, window.period, crossing.type)
         : {
             visibilityPhase: window.period + "-other-transition",
             type: "other-visibility-transition",
