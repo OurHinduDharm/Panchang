@@ -121,7 +121,7 @@ function ms(value) {
 
 function nearestOnSide(candidates, { boundary, type, conjunctionMs, side, maxDays }) {
   return candidates
-    .filter(candidate => candidate.boundary === boundary && candidate.type === type)
+    .filter(candidate => candidate.boundary === boundary && (candidate.eventType ?? candidate.type) === type)
     .map(candidate => ({ candidate, deltaDays: (ms(candidate.instant) - conjunctionMs) / PAIR_DAY_MS }))
     .filter(item => Number.isFinite(item.deltaDays) &&
       (side === "before" ? item.deltaDays < 0 : item.deltaDays > 0) &&
