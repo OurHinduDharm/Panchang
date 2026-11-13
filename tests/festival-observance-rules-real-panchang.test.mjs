@@ -206,6 +206,14 @@ test("real Pithoragarh 2030 Shravana Dwadashi checks local tithi-nakshatra yoga 
     };
   });
   const result = evaluateShravanaDwadashiYoga(candidateDays);
+  console.log("OHD_SHRAVANA_2030_DIAGNOSTIC " + JSON.stringify({
+    days: candidateDays.map(day => ({
+      date: day.date,
+      tithis: day.tithis.filter(item => [11, 26].includes(item.index)).map(item => ({ index:item.index, start:new Date(item.startTime).toISOString(), end:new Date(item.endTime).toISOString() })),
+      shravana: day.nakshatraIntervals.filter(item => item.index === 21).map(item => ({ start:new Date(item.startTime).toISOString(), end:new Date(item.endTime).toISOString() }))
+    })),
+    result
+  }));
   assert.ok(
     ["candidate-evidence-only", "manual-review", "brief-overlap-needs-review"].includes(result.status),
     "the detector must return an explicit evidence/review state"
