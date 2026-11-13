@@ -84,6 +84,6 @@ test("annual page builds its year selector from the available dataset and shows 
   assert.ok(page.includes("const years = [...new Set(dataset.windows"));
   assert.ok(page.includes("yearSelect.append(option)"));
   assert.ok(!page.includes("<option>2021</option>"));
-  assert.ok(!/https?:\\/\\//.test(page));
-  assert.ok(!/Drik Panchang|drikpanchang\\.com/i.test(page));
+  assert.ok(!page.includes("http://") && !page.includes("https://"));
+  assert.ok(!page.includes("Drik Panchang") && !page.includes("drikpanchang.com"));
 });
