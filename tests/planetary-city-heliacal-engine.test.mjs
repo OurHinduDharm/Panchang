@@ -88,27 +88,33 @@ test("rejects incomplete observers and reversed date ranges", () => {
   }), /end must be after start/);
 });
 
-test("classifies all four morning/evening heliacal transitions", () => {
-  assert.deepEqual(classifyHeliacalTransition("morning", "first-visible"), {
+test("classifies Guru and Shukra heliacal transitions by planet and twilight phase", () => {
+  assert.deepEqual(classifyHeliacalTransition("Venus", "morning", "first-visible"), {
     visibilityPhase: "morning-first-visible",
     type: "udaya-candidate",
     horizonDirection: "east"
   });
-  assert.deepEqual(classifyHeliacalTransition("morning", "last-visible"), {
+  assert.deepEqual(classifyHeliacalTransition("Venus", "morning", "last-visible"), {
     visibilityPhase: "morning-last-visible",
     type: "asta-candidate",
     horizonDirection: "east"
   });
-  assert.deepEqual(classifyHeliacalTransition("evening", "first-visible"), {
+  assert.deepEqual(classifyHeliacalTransition("Venus", "evening", "first-visible"), {
     visibilityPhase: "evening-first-visible",
     type: "udaya-candidate",
     horizonDirection: "west"
   });
-  assert.deepEqual(classifyHeliacalTransition("evening", "last-visible"), {
+  assert.deepEqual(classifyHeliacalTransition("Venus", "evening", "last-visible"), {
     visibilityPhase: "evening-last-visible",
     type: "asta-candidate",
     horizonDirection: "west"
   });
-  assert.throws(() => classifyHeliacalTransition("night", "first-visible"), /period/);
-  assert.throws(() => classifyHeliacalTransition("morning", "transit"), /crossingType/);
+
+  assert.equal(classifyHeliacalTransition("Jupiter", "morning", "first-visible").type, "udaya-candidate");
+  assert.equal(classifyHeliacalTransition("Jupiter", "evening", "last-visible").type, "asta-candidate");
+  assert.equal(classifyHeliacalTransition("Jupiter", "evening", "first-visible").type, "other-visibility-transition");
+  assert.equal(classifyHeliacalTransition("Jupiter", "morning", "last-visible").type, "other-visibility-transition");
+  assert.throws(() => classifyHeliacalTransition("Saturn", "morning", "first-visible"), /planet/);
+  assert.throws(() => classifyHeliacalTransition("Venus", "night", "first-visible"), /period/);
+  assert.throws(() => classifyHeliacalTransition("Venus", "morning", "transit"), /crossingType/);
 });
