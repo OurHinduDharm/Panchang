@@ -1,0 +1,27 @@
+name: Shastriya observance rule regression
+on:
+  push:
+    branches:
+      - main
+      - 'rules/**'
+    paths:
+      - 'festival-observance-rules.mjs'
+      - 'tests/festival-observance-rules.test.mjs'
+      - '.github/workflows/shastriya-observance-rules.yml'
+  pull_request:
+    paths:
+      - 'festival-observance-rules.mjs'
+      - 'tests/festival-observance-rules.test.mjs'
+      - '.github/workflows/shastriya-observance-rules.yml'
+permissions:
+  contents: read
+jobs:
+  rule-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run observance-rule regression suite
+        run: node --test tests/festival-observance-rules.test.mjs
