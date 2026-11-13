@@ -60,13 +60,35 @@ const sourceBoundaries = dataset.windows
   )
   .flatMap(row => ["astaStart", "astaEnd"].map(boundary => {
     const source = row.boundaries[boundary];
+    const sourceInstant = new Date(source.normalizedUtcInstant);
+    const localDate = source.normalizedLocalDateTime.slice(0, 10);
+    const sourceDay = findLocalRiseSet({
+      astronomy: Astronomy,
+      body: row.planet,
+      observer,
+      localDate,
+      timeZone: timezone
+    });
+    const nearest = ["rise", "set"]
+      .map(direction => ({
+        direction,
+        event: sourceDay[direction],
+        differenceMs: sourceDay[direction]
+          ? Math.abs(new Date(sourceDay[direction].instant).getTime() - sourceInstant.getTime())
+          : Number.POSITIVE_INFINITY
+      }))
+      .sort((a, b) => a.differenceMs - b.differenceMs)[0];
+    if (!nearest?.event || nearest.differenceMs > 5 * 60_000) {
+      throw new Error("Could not classify source horizon direction: " + row.id + ":" + boundary);
+    }
     return {
       id: row.id + ":" + boundary,
       windowId: row.id,
       planet: row.planet,
       boundary,
+      direction: nearest.direction,
       sourceDateTime: source.normalizedLocalDateTime,
-      sourceInstant: new Date(source.normalizedUtcInstant),
+      sourceInstant,
       sourceYear: Number(source.normalizedLocalDateTime.slice(0, 4))
     };
   }));
@@ -74,25 +96,29 @@ const sourceBoundaries = dataset.windows
 const thresholds = [];
 for (const planet of planets) {
   for (const boundary of ["astaStart", "astaEnd"]) {
-    const training = sourceBoundaries.filter(row =>
-      row.planet === planet && row.boundary === boundary && row.sourceYear <= trainingEndYear
-    );
-    if (!training.length) throw new Error("No training source boundaries for " + planet + " " + boundary);
-    const values = training.map(row => {
-      const instant = row.sourceInstant;
-      return solarDepression(instant);
-    });
-    thresholds.push({
-      planet,
-      boundary,
-      thresholdDegrees: median(values),
-      trainingSamples: training.length,
-      trainingYears: [...new Set(training.map(row => row.sourceYear))].sort()
-    });
+    for (const direction of ["rise", "set"]) {
+      const training = sourceBoundaries.filter(row =>
+        row.planet === planet && row.boundary === boundary &&
+        row.direction === direction && row.sourceYear <= trainingEndYear
+      );
+      if (!training.length) continue;
+      const values = training.map(row => solarDepression(row.sourceInstant));
+      thresholds.push({
+        planet,
+        boundary,
+        direction,
+        thresholdDegrees: median(values),
+        trainingSamples: training.length,
+        trainingYears: [...new Set(training.map(row => row.sourceYear))].sort()
+      });
+    }
   }
 }
 
-const thresholdMap = new Map(thresholds.map(row => [row.planet + ":" + row.boundary, row.thresholdDegrees]));
+const thresholdMap = new Map(thresholds.map(row => [
+  row.planet + ":" + row.boundary + ":" + row.direction,
+  row.thresholdDegrees
+]));
 const dailyEvents = new Map();
 const dates = dateRange(scanStart, scanEnd);
 
@@ -121,11 +147,10 @@ for (const planet of planets) {
 }
 
 const candidateRows = [];
-for (const planet of planets) {
+for (const thresholdRow of thresholds) {
+  const { planet, boundary, direction, thresholdDegrees: threshold } = thresholdRow;
   const eventsByDirection = dailyEvents.get(planet);
-  for (const boundary of ["astaStart", "astaEnd"]) {
-    const threshold = thresholdMap.get(planet + ":" + boundary);
-    for (const direction of ["rise", "set"]) {
+  {
       const series = eventsByDirection[direction];
       for (let index = 1; index < series.length; index++) {
         const previous = series[index - 1];
@@ -156,7 +181,6 @@ for (const planet of planets) {
           localDateTime: localDateTime(instant)
         });
       }
-    }
   }
 }
 
@@ -172,6 +196,7 @@ for (const source of holdout) {
     .filter(item =>
       item.candidate.planet === source.planet &&
       item.candidate.boundary === source.boundary &&
+      item.candidate.direction === source.direction &&
       !usedCandidates.has(item.index) &&
       Math.abs(item.differenceMinutes) <= maxMatchDays * 1440
     )
@@ -182,6 +207,7 @@ for (const source of holdout) {
       sourceBoundaryId: source.id,
       planet: source.planet,
       boundary: source.boundary,
+      direction: source.direction,
       sourceDateTime: source.sourceDateTime,
       matched: false
     });
@@ -192,6 +218,7 @@ for (const source of holdout) {
     sourceBoundaryId: source.id,
     planet: source.planet,
     boundary: source.boundary,
+    direction: source.direction,
     sourceDateTime: source.sourceDateTime,
     predictedDateTime: best.candidate.localDateTime,
     predictedDirection: best.candidate.direction,
@@ -236,10 +263,11 @@ for (const source of holdout) {
 const groupedSummary = [];
 for (const planet of planets) {
   for (const boundary of ["astaStart", "astaEnd"]) {
-    const rows = matched.filter(row => row.planet === planet && row.boundary === boundary && row.matched);
+    for (const direction of ["rise", "set"]) {
+    const rows = matched.filter(row => row.planet === planet && row.boundary === boundary && row.direction === direction && row.matched);
     const abs = rows.map(row => row.absoluteDifferenceMinutes);
     groupedSummary.push({
-      planet, boundary,
+      planet, boundary, direction,
       holdoutMatches: rows.length,
       holdoutUnmatched: matched.filter(row => row.planet === planet && row.boundary === boundary && !row.matched).length,
       medianAbsoluteErrorMinutes: abs.length ? Number(median(abs).toFixed(2)) : null,
@@ -251,6 +279,7 @@ for (const planet of planets) {
         differenceMinutes: row.differenceMinutes
       }))
     });
+    }
   }
 }
 
