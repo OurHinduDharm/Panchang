@@ -96,13 +96,13 @@ const agastya = JSON.parse(readFileSync(
 ));
 
 test("Pithoragarh Agastya Arghya records preserve supplied annual dates and local times", () => {
-  assert.deepEqual(agastya.years.map(item => item.year), [2024, 2025, 2026, 2027]);
+  assert.deepEqual(agastya.years.map(item => item.year), [2024, 2025, 2026, 2027, 2028, 2029, 2030]);
   assert.deepEqual(agastya.years.map(item => item.arghyaDate), [
-    "2024-09-07", "2025-09-07", "2026-09-07", "2027-09-07"
+    "2024-09-07", "2025-09-07", "2026-09-07", "2027-09-07", "2028-09-07", "2029-09-07", "2030-09-07"
   ]);
-  assert.deepEqual(agastya.years.map(item => item.taraRise), ["04:41", "04:43", "04:44", "04:45"]);
-  assert.deepEqual(agastya.years.map(item => item.arghyaEnd), ["05:50", "05:50", "05:49", "05:49"]);
-  assert.deepEqual(agastya.years.map(item => item.taraSet), ["19:46", "19:44", "19:44", "19:45"]);
+  assert.deepEqual(agastya.years.map(item => item.taraRise), ["04:41", "04:43", "04:44", "04:45", "04:41", "04:43", "04:44"]);
+  assert.deepEqual(agastya.years.map(item => item.arghyaEnd), ["05:50", "05:50", "05:49", "05:49", "05:50", "05:50", "05:49"]);
+  assert.deepEqual(agastya.years.map(item => item.taraSet), ["19:46", "19:44", "19:44", "19:45", "19:46", "19:44", "19:44"]);
   assert.equal(agastya.location.name, "पिथौरागढ़");
   assert.equal(agastya.location.timeZone, "Asia/Kolkata");
 });
@@ -113,4 +113,26 @@ test("annual iframe page renders Agastya data from its separate JSON dataset", (
   assert.ok(page.includes("renderAgastya"));
   assert.ok(page.includes("अगस्त्य तारा उदय एवं अर्घ्य"));
   assert.ok(page.includes("taraSetDate"));
+});
+
+
+test("2028-2030 Agastya Arghya records retain direct Pithoragarh source evidence", () => {
+  const future = agastya.years.filter(item => item.year >= 2028);
+  assert.equal(future.length, 3);
+  for (const item of future) {
+    assert.equal(item.source.provider, "Drik Panchang");
+    assert.equal(item.source.location, "Pithoragarh, Uttarakhand, India");
+    assert.equal(item.source.locationMatch, "city-label-only");
+    assert.equal(item.source.coordinateExact, false);
+    assert.equal(item.source.status, "source-page-identity-and-arghya-fields-captured");
+    assert.match(item.source.url, /geoname-id=1259503/);
+    assert.match(item.source.url, new RegExp("year=" + item.year));
+    assert.ok(item.source.raw.arghyaDate);
+    assert.ok(item.source.raw.arghyaWindow.includes("28:"));
+    assert.ok(item.source.raw.taraRise.includes("28:"));
+    assert.ok(item.source.raw.taraSet.includes("अप्रैल"));
+  }
+  assert.deepEqual(future.map(item => item.arghyaStart), ["04:41", "04:43", "04:44"]);
+  assert.deepEqual(future.map(item => item.duration), ["01 घंटा 08 मिनट", "01 घंटा 07 मिनट", "01 घंटा 05 मिनट"]);
+  assert.deepEqual(future.map(item => item.taraSetDate), ["2028-04-14", "2029-04-15", "2030-04-15"]);
 });
