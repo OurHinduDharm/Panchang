@@ -324,7 +324,11 @@ const output = {
   observer: { latitude: observer.latitude, longitude: observer.longitude, elevationMeters: observer.height, exactProviderCoordinates: false },
   trainingPolicy: "Only source boundaries whose local event year is <= 2025 fit a direction-specific linear arcus-visionis proxy: solar depression as a function of absolute Sun/planet azimuth separation. No 2026-2027 source boundary is used for fitting.",
   trainingEndYear,
-  thresholds: thresholds.map(row => ({ ...row, thresholdDegrees: Number(row.thresholdDegrees.toFixed(5)) })),
+  thresholds: thresholds.map(row => ({
+    ...row,
+    interceptDegrees: Number(row.interceptDegrees.toFixed(5)),
+    slopeDegreesPerAzimuthDegree: Number(row.slopeDegreesPerAzimuthDegree.toFixed(5))
+  })),
   scanRange: { start: scanStart, endExclusive: scanEnd, localDays: dates.length },
   candidateCount: candidateRows.length,
   holdoutBoundaryCount: holdout.length,
