@@ -13,10 +13,10 @@
 
 - `planetary-city-location.mjs`: शहर खोज, DEM elevation और observer profile।
 - `planetary-heliacal-visibility.mjs`: Schaefer (1985) twilight visibility criterion का pure-JavaScript evaluator।
-- `planetary-city-heliacal-engine.mjs`: Astronomy Engine से प्रत्येक observer के लिए -18° astronomical dawn/dusk और स्थानीय sunrise/sunset windows बनाकर morning/evening scans चलाता है; last-visible को Asta candidate और first-visible को Udaya candidate मानता है, चाहे घटना सुबह हो या शाम। यह अभी भी research-only है।
+- `planetary-city-heliacal-engine.mjs`: Astronomy Engine से प्रत्येक observer के लिए -18° astronomical dawn/dusk और स्थानीय sunrise/sunset windows बनाकर morning/evening scans चलाता है। यह चारों transitions अलग दर्ज करता है: morning-first-visible, morning-last-visible, evening-first-visible और evening-last-visible। प्रथम दृश्यता Udaya candidate तथा अंतिम दृश्यता Asta candidate है; सुबह/शाम और पूर्व/पश्चिम की जानकारी अलग रखी जाती है। यह अभी भी research-only है।
 - `planetary-city-horizon-threshold.mjs`: वास्तविक स्थानीय ग्रह-rise/set घटनाएँ निकालता है और उसी समय सूर्य के depression पर प्रशिक्षित सीमा के crossing से तारीख का candidate बनाता है; प्रदर्शित clock को वास्तविक rise/set event पर ही रखता है। `calculateCityAstaUdayaCandidates()` इसी calibrated profile से शोध-समय निकालता है।
 - `research/pithoragarh-horizon-thresholds-2021-2025.json`: पिथौरागढ़ के लिए अलग-अलग गुरु/शुक्र, AstaStart/AstaEnd और rise/set शाखाओं के training medians; केवल शोध के लिए।
-- `planetary-heliacal-ephemeris.mjs`: Astronomy Engine से गुरु/शुक्र के topocentric altitude/azimuth और `Illumination().mag` लेकर सुबह/शाम की दी हुई UTC window scan करता है; crossing को 30-second default tolerance तक refine करता है।
+- `planetary-heliacal-ephemeris.mjs`: Astronomy Engine से गुरु/शुक्र के topocentric altitude/azimuth और `Illumination().mag` लेकर सुबह/शाम की दी हुई UTC window scan करता है; crossing को 30-second default tolerance तक refine करता है। हर visibility crossing के वास्तविक क्षण पर ग्रह का altitude, azimuth और पूर्व/पश्चिम क्षितिज-पक्ष भी दर्ज करता है।
 - `agastya-canopus-position.mjs`: SIMBAD/HIP 30438 catalogue coordinates और proper motion को J2000 tangent plane में propagate करके Astronomy Engine के EQJ-to-HOR transform से Canopus का स्थानीय altitude/azimuth निकालता है; वही twilight visibility evaluator भी लागू करता है।
 
 ## पिथौरागढ़ का पहला वास्तविक बैकटेस्ट (2021–2027)
@@ -104,3 +104,19 @@ Latest successful CI artifact (workflow run 43419649580; pairing code from the t
 - The 2029 Venus 64.5-day window is an outlier against the 2027 Pithoragarh source interval (~51 days). It remains research-only and needs independent source confirmation. The very short Venus inferior-conjunction windows in 2028/2030 also need independent validation.
 
 The strict pairing tests, all existing visibility/city/Agastya tests, full Pithoragarh back-test, artifact upload and real Astronomy Engine smoke test passed in CI. CI success validates code execution and regression tests, not the astronomical correctness of the future dates.
+
+
+## सुबह-शाम और दिशा का स्पष्ट वर्गीकरण
+
+एक ही “पूर्व में उदय / पश्चिम में अस्त” नियम सभी ग्रहों पर लागू नहीं किया जा सकता। इसलिए दृश्यता इंजन अब चारों twilight transitions अलग रखता है:
+
+| घटना | समय-खंड | क्षितिज-पक्ष | वर्ग |
+|---|---|---|---|
+| Morning first-visible | सूर्योदय से पहले | पूर्व | Udaya candidate |
+| Morning last-visible | सूर्योदय से पहले | पूर्व | Asta candidate |
+| Evening first-visible | सूर्यास्त के बाद | पश्चिम | Udaya candidate |
+| Evening last-visible | सूर्यास्त के बाद | पश्चिम | Asta candidate |
+
+प्रत्येक crossing के क्षण पर Astronomy Engine से वास्तविक azimuth लेकर दिशा जाँची जाती है। सुबह/शाम के अपेक्षित पक्ष और वास्तविक azimuth में अंतर हो तो `directionConsistentWithTwilight: false` के रूप में समीक्षा हेतु रखा जाता है; उम्मीदवार को चुपचाप हटाया नहीं जाता।
+
+यह विशेष रूप से शुक्र के लिए जरूरी है: inferior और superior conjunction के आसपास सुबह तथा शाम की दृश्यता अलग क्रम में बदल सकती है। अतः केवल “morning rise = Udaya” और “evening set = Asta” मानकर सभी शुक्र चक्रों का वर्गीकरण नहीं होगा। अंतिम Asta/Udaya जोड़ी conjunction-side, वास्तविक horizon event और स्थानीय स्रोत-सत्यापन के बाद ही स्वीकार होगी।
