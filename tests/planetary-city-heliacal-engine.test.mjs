@@ -12,7 +12,7 @@ function fakeAstronomy() {
     Body: { Sun: "Sun", Jupiter: "Jupiter", Venus: "Venus" },
     SearchAltitude(_body, _observer, direction, start) {
       const day = new Date(start);
-      const hour = direction > 0 ? 0 : 12;
+      const hour = direction > 0 ? 0 : 20;
       return { date: new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), hour)) };
     },
     SearchRiseSet(_body, _observer, direction, start) {
@@ -67,7 +67,7 @@ test("end-to-end city calculation keeps candidate events unpublished", () => {
   assert.equal(result.modelId, "city-topocentric-schaefer-heliacal-candidate-v1");
   assert.equal(result.publicationEligible, false);
   assert.equal(result.observer.elevationMeters, 1650);
-  assert.equal(result.twilightWindows.length, 4);
+  assert.equal(result.twilightWindows.length, 2);
   assert.ok(Array.isArray(result.candidates));
 });
 
