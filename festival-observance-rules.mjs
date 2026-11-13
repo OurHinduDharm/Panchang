@@ -568,3 +568,68 @@ export function evaluateShravanaDwadashiYoga(candidateDays, options = {}) {
     ]
   };
 }
+
+
+/**
+ * Calculate the Smarta Ekadashi parana window from the local Dwadashi interval.
+ * Hari Vasara is the first quarter of Dwadashi. Prefer the first fifth of the
+ * local day (Pratahkal); if Hari Vasara runs beyond it, avoid Madhyahna and
+ * use the post-Madhyahna window. This function never changes the fast date.
+ */
+export function calculateEkadashiParanaWindow(context = {}) {
+  const sunrise = asDate(context.sunrise);
+  const sunset = asDate(context.sunset);
+  const dwadashiStart = asDate(context.dwadashiStart);
+  const dwadashiEnd = asDate(context.dwadashiEnd);
+  if (!sunrise || !sunset || sunset <= sunrise || !dwadashiStart || !dwadashiEnd || dwadashiEnd <= dwadashiStart) {
+    return {
+      status: "insufficient-data", windowStart: null, windowEnd: null,
+      hariVasaraEnd: null, finalDate: null, autoApproved: false,
+      warnings: ["sunrise-sunset-or-valid-dwadashi-interval-missing"]
+    };
+  }
+  const daylightMs = sunset.getTime() - sunrise.getTime();
+  const pratahEnd = new Date(sunrise.getTime() + daylightMs / 5);
+  const madhyahnaEnd = new Date(sunrise.getTime() + daylightMs * 3 / 5);
+  const hariVasaraEnd = new Date(
+    dwadashiStart.getTime() + (dwadashiEnd.getTime() - dwadashiStart.getTime()) / 4
+  );
+  if (dwadashiEnd <= sunrise) {
+    return {
+      status: "parana-after-dwadashi-ended-before-sunrise",
+      windowStart: sunrise.toISOString(), windowEnd: pratahEnd.toISOString(),
+      hariVasaraEnd: hariVasaraEnd.toISOString(),
+      pratahEnd: pratahEnd.toISOString(), madhyahnaEnd: madhyahnaEnd.toISOString(),
+      finalDate: null, autoApproved: false,
+      warnings: ["dwadashi-ended-before-sunrise-exception", "parana-date-still-requires-smarta-fast-day-validation"]
+    };
+  }
+  const morningStart = new Date(Math.max(sunrise.getTime(), hariVasaraEnd.getTime()));
+  const morningEnd = new Date(Math.min(pratahEnd.getTime(), dwadashiEnd.getTime()));
+  if (morningEnd > morningStart) return {
+    status: "morning-window",
+    windowStart: morningStart.toISOString(), windowEnd: morningEnd.toISOString(),
+    hariVasaraEnd: hariVasaraEnd.toISOString(),
+    pratahEnd: pratahEnd.toISOString(), madhyahnaEnd: madhyahnaEnd.toISOString(),
+    finalDate: null, autoApproved: false,
+    warnings: ["after-sunrise", "after-hari-vasara", "within-dwadashi", "pratahkal-preferred"]
+  };
+  if (hariVasaraEnd >= pratahEnd) {
+    const afternoonStart = new Date(Math.max(madhyahnaEnd.getTime(), hariVasaraEnd.getTime()));
+    if (dwadashiEnd > afternoonStart) return {
+      status: "afternoon-window",
+      windowStart: afternoonStart.toISOString(), windowEnd: dwadashiEnd.toISOString(),
+      hariVasaraEnd: hariVasaraEnd.toISOString(),
+      pratahEnd: pratahEnd.toISOString(), madhyahnaEnd: madhyahnaEnd.toISOString(),
+      finalDate: null, autoApproved: false,
+      warnings: ["hari-vasara-exceeds-pratahkal", "madhyahna-avoided", "parana-after-madhyahna", "within-dwadashi"]
+    };
+  }
+  return {
+    status: "manual-review", windowStart: null, windowEnd: null,
+    hariVasaraEnd: hariVasaraEnd.toISOString(),
+    pratahEnd: pratahEnd.toISOString(), madhyahnaEnd: madhyahnaEnd.toISOString(),
+    finalDate: null, autoApproved: false,
+    warnings: ["no-valid-parana-window-under-standard-smarta-rules", "special-exception-or-source-review-required"]
+  };
+}

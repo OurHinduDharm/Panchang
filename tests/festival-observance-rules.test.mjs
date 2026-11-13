@@ -494,3 +494,66 @@ test("Shravana Dwadashi yoga detector does not treat a short overlap as a comple
   assert.equal(result.finalDate, null);
   assert.ok(result.warnings.includes("overlap-shorter-than-one-muhurta"));
 });
+
+test("Ekadashi parana opens after sunrise and Hari Vasara, inside Pratahkal and Dwadashi", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-01T12:00:00Z", dwadashiEnd: "2030-01-02T04:30:00Z"
+  });
+  assert.equal(result.status, "morning-window");
+  assert.equal(result.windowStart, "2030-01-02T00:30:00.000Z");
+  assert.equal(result.windowEnd, "2030-01-02T02:54:00.000Z");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ekadashi parana waits until Hari Vasara ends when it crosses sunrise", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-02T00:00:00Z", dwadashiEnd: "2030-01-02T10:00:00Z"
+  });
+  assert.equal(result.status, "morning-window");
+  assert.equal(result.windowStart, "2030-01-02T02:30:00.000Z");
+});
+
+test("Ekadashi parana moves after Madhyahna when Hari Vasara exceeds Pratahkal", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-01T23:30:00Z", dwadashiEnd: "2030-01-02T18:30:00Z"
+  });
+  assert.equal(result.status, "afternoon-window");
+  assert.equal(result.windowStart, "2030-01-02T07:42:00.000Z");
+  assert.equal(result.windowEnd, "2030-01-02T18:30:00.000Z");
+  assert.ok(result.warnings.includes("madhyahna-avoided"));
+});
+
+test("Ekadashi parana uses the after-sunrise exception when Dwadashi ended before sunrise", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-01T06:00:00Z", dwadashiEnd: "2030-01-01T23:00:00Z"
+  });
+  assert.equal(result.status, "parana-after-dwadashi-ended-before-sunrise");
+  assert.equal(result.windowStart, "2030-01-02T00:30:00.000Z");
+  assert.equal(result.windowEnd, "2030-01-02T02:54:00.000Z");
+});
+
+test("Ekadashi parana refuses to invent a window when Dwadashi ends during Hari Vasara", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({
+    sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
+    dwadashiStart: "2030-01-02T02:00:00Z", dwadashiEnd: "2030-01-02T07:00:00Z"
+  });
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.windowStart, null);
+  assert.equal(result.autoApproved, false);
+});
+
+test("Ekadashi parana requires local sunrise, sunset and a valid Dwadashi interval", async () => {
+  const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
+  const result = calculateEkadashiParanaWindow({ sunrise: "2030-01-02T00:30:00Z" });
+  assert.equal(result.status, "insufficient-data");
+  assert.equal(result.windowStart, null);
+});
