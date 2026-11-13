@@ -98,3 +98,22 @@ test("source metadata distinguishes Pithoragarh primary from New Delhi secondary
   assert.equal(sources.primary.location, "Pithoragarh, Uttarakhand, India");
   assert.equal(sources.independent[0].location, "New Delhi, India");
 });
+
+
+test("Smarta Ekadashi Parana source model documents Hari Vasara, local day divisions and exceptions", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { fileURLToPath } = await import("node:url");
+  const { dirname, resolve } = await import("node:path");
+  const rules = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/dwadashi-vrata-rules.json"), "utf8"));
+  const model = rules.paranaAndConduct.calculationModel;
+  assert.equal(model.tradition, "smarta-general");
+  assert.equal(model.scope, "एकादशी-व्रत के पारण-काल की गणना; एकादशी-व्रत का दिन चुनने का नियम नहीं");
+  assert.equal(model.sequence.length, 7);
+  assert.match(model.sequence[1].rule, /प्रथम चतुर्थांश/);
+  assert.match(model.sequence[4].rule, /मध्याह्न/);
+  assert.match(model.sequence[5].rule, /सूर्योदय से पहले समाप्त/);
+  assert.match(model.sequence[6].rule, /manual review/);
+  assert.equal(model.timeDivisions.pratahkal, "स्थानीय सूर्योदय से दिनमान के 1/5 भाग तक");
+  assert.ok(model.sourceReview.some(x => x.reference === "पृष्ठ 70–71"));
+  assert.equal(model.approvalPolicy.includes("approve नहीं करता"), true);
+});
