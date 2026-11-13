@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import panchangPackage from "@ishubhamx/panchangam-js";
-import { evaluateObservanceRule, evaluateShravanaDwadashiYoga } from "../festival-observance-rules.mjs";
+import { evaluateObservanceRule, evaluateShravanaDwadashiYoga, resolveObservanceCandidates } from "../festival-observance-rules.mjs";
 
 const { getPanchangam, Observer } = panchangPackage;
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
@@ -217,4 +217,24 @@ test("real Pithoragarh 2030 Shravana Dwadashi checks local tithi-nakshatra yoga 
     result.matches.length > 0,
     "Pithoragarh 2030 Bhadrapada Shukla Dwadashi should be checked against real Shravana intervals"
   );
+});
+
+
+test("real Pithoragarh Nag Panchami candidates run through the Dharmasindhu resolver without auto-approval", () => {
+  const dates = ["2026-08-16", "2026-08-17"];
+  const candidates = dates.map(date => {
+    const previous = panchang(previousIsoDate(date));
+    const current = panchang(date);
+    const next = panchang(nextIsoDate(date));
+    return {
+      date, masa: masa(current), paksha: "शुक्ल पक्ष",
+      sunrise: current.sunrise, sunset: current.sunset,
+      tithis: intervals(previous, current, next)
+    };
+  });
+  const result = resolveObservanceCandidates("nag-panchami", candidates);
+  assert.notEqual(result.status, "insufficient-data");
+  assert.equal(result.autoApproved, false);
+  assert.equal(result.finalDate, null);
+  if (result.selectedDate) assert.ok(dates.includes(result.selectedDate));
 });
