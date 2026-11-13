@@ -20,6 +20,10 @@ import {
   findHorizonTwilightThresholdCrossings,
   calculateCityAstaUdayaCandidates
 } from "../planetary-city-horizon-threshold.mjs";
+import {
+  findPlanetConjunctions,
+  associateCandidatesWithConjunctions
+} from "./planetary-conjunction-association.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA_PATH = path.join(ROOT, "data/drik-planetary-reference-2024-2027.json");
@@ -197,16 +201,30 @@ const thresholdPredictions = results
     };
   });
 
-const futureCandidates2028To2030 = ["Jupiter", "Venus"].map(planet =>
-  calculateCityAstaUdayaCandidates({
+const futureCandidates2028To2030 = ["Jupiter", "Venus"].map(planet => {
+  const raw = calculateCityAstaUdayaCandidates({
     astronomy: Astronomy,
     planet,
     observer,
     start: "2028-01-01T00:00:00.000Z",
     end: "2031-01-01T00:00:00.000Z",
     thresholds: calibration.thresholdsDeg[planet]
-  })
-);
+  });
+  const conjunctions = findPlanetConjunctions({
+    astronomy: Astronomy, planet,
+    start: "2027-01-01T00:00:00.000Z",
+    end: "2031-01-01T00:00:00.000Z"
+  });
+  const annotatedCandidates = associateCandidatesWithConjunctions({
+    candidates: raw.candidates, conjunctions, maxDistanceDays: 180
+  });
+  return {
+    ...raw,
+    conjunctions,
+    candidates: annotatedCandidates,
+    interpretation: "Nearest conjunction is context only. No Asta window is automatically paired or approved."
+  };
+});
 
 const errors = results
   .map(row => row.nearestModelCandidate?.errorMinutes)
