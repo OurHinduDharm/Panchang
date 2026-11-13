@@ -110,12 +110,12 @@ const PROFILES = {
   },
   "nag-panchami-special-review": {
     id: "nag-panchami-special-review", aliases: ["nag-panchami", "nag-panchami-madhyahna"],
-    label: "नाग पंचमी — विशेष तिथि-नियम की जाँच बाकी", tithiIndices: [4], paksha: "शुक्ल पक्ष",
+    label: "नाग पंचमी — धर्मसिंधु के तीन-मुहूर्त नियम से गणना", tithiIndices: [4], paksha: "शुक्ल पक्ष",
     decisionMoment: "manual-review", windowLabel: "तीन मुहूर्त और तिथि-वेध",
     calculationBasis: "dharmasindhu-three-muhurta-para-viddha-and-short-tithi-exceptions",
     allowedMonths: ["श्रावण"], reviewOnly: true,
-    reviewNote: "धर्मसिंधु में नाग पंचमी के लिए सूर्योदय के बाद तीन मुहूर्त तक पंचमी और षष्ठी से संयोग का विशेष नियम है। छोटी पंचमी और चतुर्थी-स्पर्श के अपवाद भी हैं। केवल मध्याह्न-मिलान पर्याप्त नहीं; इसलिए अंतिम निर्णय अभी हाथ से जाँचना होगा।",
-    sourceReview: "dharmasindhu-special-rule-identified-full-exception-implementation-pending"
+    reviewNote: "धर्मसिंधु (पृ. 44) के अनुसार बाद के दिन सूर्योदय पर पंचमी तीन मुहूर्त तक रहे तो वही दिन लें। यदि पंचमी दो से तीन मुहूर्त रहे तो पूर्वदिन की सूर्योदय-व्याप्त चतुर्थी तीन मुहूर्त से अधिक होने पर बाद का दिन; तीन से कम होने पर पूर्वदिन का पंचमी-स्पर्श जाँचें। एक मुहूर्त या अस्पष्ट सीमा पर अनुमान न लगाएँ। गणना-रिज़ॉल्वर केवल तारीख़ का candidate देता है; स्रोत-स्वीकृति अलग है।",
+    sourceReview: "dharmasindhu-p44-and-nirnaya-sindhu-p164-rule-implemented-with-conservative-boundary-review"
   },
   "skanda-shashthi-kartika-review": {
     id: "skanda-shashthi-kartika-review", aliases: ["kanda-sashti", "soorasamharam"],
