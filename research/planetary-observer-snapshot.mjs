@@ -61,12 +61,11 @@ export function calculatePlanetObserverSnapshot({
     throw new Error("Astronomy Engine did not return valid topocentric equatorial coordinates");
   }
 
-  const refractionMode = refraction === "normal"
-    ? astronomy.Refraction?.Normal
-    : astronomy.Refraction?.None;
-  if (refractionMode === undefined) {
-    throw new TypeError("Astronomy Engine refraction mode is unavailable");
+  if (refraction !== "normal" && refraction !== "none") {
+    throw new RangeError("refraction must be normal or none");
   }
+  // Astronomy Engine's JavaScript API accepts "normal" or null (airless).
+  const refractionMode = refraction === "normal" ? "normal" : null;
   const horizontal = astronomy.Horizon(
     date, observer, equatorial.ra, equatorial.dec, refractionMode
   );
