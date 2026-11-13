@@ -650,13 +650,13 @@ export function resolveNagPanchamiCandidates(candidateDays) {
     return fail("insufficient-data", ["one-or-two-consecutive-local-days-required"]);
   }
   const days = candidateDays.slice().sort((a, b) => String(a.date).localeCompare(String(b.date)));
-  const dateValid = date => /^\\d{4}-\\d{2}-\\d{2}$/.test(String(date ?? ""));
+  const dateValid = date => /^\d{4}-\d{2}-\d{2}$/.test(String(date ?? ""));
   const dayInfo = days.map(day => {
     const sunrise = asDate(day?.sunrise);
     const sunset = asDate(day?.sunset);
     const tithis = Array.isArray(day?.tithis) ? day.tithis : [];
-    const masa = String(day?.masa ?? "").replace(/^अधिक\\s+/, "").trim();
-    const paksha = String(day?.paksha ?? "शुक्ल पक्ष").trim();
+    const masa = String(day?.masa ?? "").replace(/^अधिक\s+/, "").trim();
+    const paksha = String(day?.paksha ?? "").trim();
     if (!dateValid(day?.date) || !sunrise || !sunset || sunset <= sunrise ||
         masa !== "श्रावण" || !["शुक्ल", "शुक्ल पक्ष"].includes(paksha) || !tithis.length) return null;
     const daylightMs = sunset.getTime() - sunrise.getTime();
@@ -712,6 +712,7 @@ export function resolveNagPanchamiCandidates(candidateDays) {
     selectedDate = later.date;
     selectionBasis = "later-day-two-muhurta-panchami-with-earlier-chaturthi-over-three-muhurtas";
   } else if (laterPanchami >= laterTwo &&
+      earlier.chaturthiAfterSunriseMs > 0 &&
       earlier.chaturthiAfterSunriseMs < 3 * earlier.muhurtaMs &&
       earlier.panchamiDuringDay) {
     selectedDate = earlier.date;
