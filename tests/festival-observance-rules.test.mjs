@@ -557,3 +557,69 @@ test("Ekadashi parana requires local sunrise, sunset and a valid Dwadashi interv
   assert.equal(result.status, "insufficient-data");
   assert.equal(result.windowStart, null);
 });
+
+
+test("Nag Panchami selects the later day when Panchami lasts three muhurtas after its sunrise", async () => {
+  const { resolveObservanceCandidates } = await import("../festival-observance-rules.mjs");
+  const result = resolveObservanceCandidates("nag-panchami", [
+    { date: "2026-08-16", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-16T00:30:00Z", sunset: "2026-08-16T12:30:00Z",
+      tithis: [interval(3, "2026-08-15T20:00:00Z", "2026-08-16T06:00:00Z", "शुक्ल पक्ष"),
+        interval(4, "2026-08-16T06:00:00Z", "2026-08-17T08:30:00Z", "शुक्ल पक्ष")] },
+    { date: "2026-08-17", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:30:00Z",
+      tithis: [interval(4, "2026-08-16T06:00:00Z", "2026-08-17T03:00:00Z", "शुक्ल पक्ष")] }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2026-08-17");
+  assert.equal(result.selectionBasis, "later-day-panchami-prevails-three-muhurtas-after-sunrise");
+  assert.equal(result.autoApproved, false);
+});
+
+test("Nag Panchami uses the later day with two muhurtas when earlier Chaturthi exceeded three", async () => {
+  const { resolveObservanceCandidates } = await import("../festival-observance-rules.mjs");
+  const result = resolveObservanceCandidates("nag-panchami", [
+    { date: "2026-08-16", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-16T00:30:00Z", sunset: "2026-08-16T12:30:00Z",
+      tithis: [interval(3, "2026-08-15T20:00:00Z", "2026-08-16T03:00:00Z", "शुक्ल पक्ष"),
+        interval(4, "2026-08-16T03:00:00Z", "2026-08-17T01:30:00Z", "शुक्ल पक्ष")] },
+    { date: "2026-08-17", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:30:00Z",
+      tithis: [interval(4, "2026-08-16T03:00:00Z", "2026-08-17T02:06:00Z", "शुक्ल पक्ष")] }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2026-08-17");
+  assert.equal(result.selectionBasis, "later-day-two-muhurta-panchami-with-earlier-chaturthi-over-three-muhurtas");
+});
+
+test("Nag Panchami keeps the earlier day when earlier Chaturthi is under three and later Panchami has two", async () => {
+  const { resolveObservanceCandidates } = await import("../festival-observance-rules.mjs");
+  const result = resolveObservanceCandidates("nag-panchami", [
+    { date: "2026-08-16", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-16T00:30:00Z", sunset: "2026-08-16T12:30:00Z",
+      tithis: [interval(3, "2026-08-15T20:00:00Z", "2026-08-16T01:30:00Z", "शुक्ल पक्ष"),
+        interval(4, "2026-08-16T01:30:00Z", "2026-08-17T01:30:00Z", "शुक्ल पक्ष")] },
+    { date: "2026-08-17", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:30:00Z",
+      tithis: [interval(4, "2026-08-16T01:30:00Z", "2026-08-17T02:06:00Z", "शुक्ल पक्ष")] }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2026-08-16");
+  assert.equal(result.selectionBasis, "earlier-day-panchami-when-earlier-chaturthi-is-under-three-muhurtas");
+});
+
+test("Nag Panchami refuses to guess when later Panchami is shorter than two muhurtas", async () => {
+  const { resolveObservanceCandidates } = await import("../festival-observance-rules.mjs");
+  const result = resolveObservanceCandidates("nag-panchami", [
+    { date: "2026-08-16", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-16T00:30:00Z", sunset: "2026-08-16T12:30:00Z",
+      tithis: [interval(3, "2026-08-15T20:00:00Z", "2026-08-16T01:30:00Z", "शुक्ल पक्ष"),
+        interval(4, "2026-08-16T01:30:00Z", "2026-08-17T01:00:00Z", "शुक्ल पक्ष")] },
+    { date: "2026-08-17", masa: "श्रावण", paksha: "शुक्ल पक्ष",
+      sunrise: "2026-08-17T00:30:00Z", sunset: "2026-08-17T12:30:00Z",
+      tithis: [interval(4, "2026-08-16T01:30:00Z", "2026-08-17T01:00:00Z", "शुक्ल पक्ष")] }
+  ]);
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.selectedDate, null);
+  assert.equal(result.autoApproved, false);
+});
