@@ -35,6 +35,12 @@ SITES = {
                   "elevation_status": "approximate city-centre comparison elevation"},
 }
 SUN_DEPRESSION_LIMITS = (-6.0, -10.0, -12.0)
+CLEARANCE_MARGINS_DEG = (0.0, 0.5, 1.0, 2.0)
+
+
+def clears_horizon(star_altitude: float, horizon_altitude: float, margin: float) -> bool:
+    """Require an explicit apparent-altitude margin above the terrain horizon."""
+    return star_altitude > horizon_altitude if margin == 0 else star_altitude >= horizon_altitude + margin
 
 
 def read_horizon_profiles(path: str | None) -> dict[str, list[tuple[float, float]]]:
@@ -115,7 +121,10 @@ def scan_site(year: int, site_name: str, site: dict, eph, ts, profiles: dict):
 
     results = []
     first_by_scenario_limit = {
-        scenario: {limit: None for limit in SUN_DEPRESSION_LIMITS}
+        scenario: {
+            str(limit): {str(margin): None for margin in CLEARANCE_MARGINS_DEG}
+            for limit in SUN_DEPRESSION_LIMITS
+        }
         for scenario, _profile in scenario_profiles
     }
     start_day, end_day = date(year, 8, 15), date(year, 10, 31)
@@ -138,42 +147,40 @@ def scan_site(year: int, site_name: str, site: dict, eph, ts, profiles: dict):
             else:
                 terrain = [0.0] * len(star_azs)
             for limit in SUN_DEPRESSION_LIMITS:
-                candidates = []
-                for idx, (sa, solar, horizon) in enumerate(zip(star_alts, sun_alts, terrain)):
-                    if horizon is None:
-                        continue
-                    if solar <= limit and sa > horizon:
-                        candidates.append(idx)
-                if candidates:
-                    first_idx = candidates[0]
-                    candidate = {
-                        "site": site_name,
-                        "year": year,
-                        "terrain_scenario": scenario,
-                        "sun_apparent_altitude_limit_deg": limit,
-                        "first_candidate_local_ist": local_times[first_idx].isoformat(),
-                        "canopus_apparent_altitude_deg": round(float(star_alts[first_idx]), 4),
-                        "canopus_azimuth_deg": round(float(star_azs[first_idx]), 4),
-                        "terrain_horizon_altitude_deg": (
-                            round(float(terrain[first_idx]), 4) if terrain[first_idx] is not None else None
-                        ),
-                        "sun_apparent_altitude_deg": round(float(sun_alts[first_idx]), 4),
-                        "sample_interval_minutes": 1,
-                    }
-                    results.append(candidate)
-                    if first_by_scenario_limit[scenario][limit] is None:
-                        first_by_scenario_limit[scenario][limit] = candidate
+                for margin in CLEARANCE_MARGINS_DEG:
+                    candidates = []
+                    for idx, (sa, solar, horizon) in enumerate(zip(star_alts, sun_alts, terrain)):
+                        if horizon is None:
+                            continue
+                        if solar <= limit and clears_horizon(float(sa), float(horizon), margin):
+                            candidates.append(idx)
+                    if candidates:
+                        first_idx = candidates[0]
+                        candidate = {
+                            "site": site_name,
+                            "year": year,
+                            "terrain_scenario": scenario,
+                            "sun_apparent_altitude_limit_deg": limit,
+                            "minimum_clearance_above_horizon_deg": margin,
+                            "first_candidate_local_ist": local_times[first_idx].isoformat(),
+                            "canopus_apparent_altitude_deg": round(float(star_alts[first_idx]), 4),
+                            "canopus_azimuth_deg": round(float(star_azs[first_idx]), 4),
+                            "terrain_horizon_altitude_deg": round(float(terrain[first_idx]), 4),
+                            "actual_clearance_deg": round(float(star_alts[first_idx] - terrain[first_idx]), 4),
+                            "sun_apparent_altitude_deg": round(float(sun_alts[first_idx]), 4),
+                            "sample_interval_minutes": 1,
+                        }
+                        results.append(candidate)
+                        margin_key = str(margin)
+                        if first_by_scenario_limit[scenario][str(limit)][margin_key] is None:
+                            first_by_scenario_limit[scenario][str(limit)][margin_key] = candidate
         day += timedelta(days=1)
 
     return {
         "site": site_name,
         "observer": site,
         "status": "conditional_twilight_clearance_sweep",
-        "first_candidate_by_scenario_and_solar_depression": {
-            scenario: {str(limit): first_by_scenario_limit[scenario][limit]
-                       for limit in SUN_DEPRESSION_LIMITS}
-            for scenario, _profile in scenario_profiles
-        },
+        "first_candidate_by_scenario_solar_depression_and_clearance_margin": first_by_scenario_limit,
         "records": results,
     }
 
@@ -205,7 +212,8 @@ def main():
             "Pithoragarh 1650 m is a project assumption with unresolved site/datum; DTM+2m is a separate conditional case.",
             "Varanasi and New Delhi use flat geometric horizons, not local DEM terrain profiles.",
             "Canopus coordinates and proper motion are from SIMBAD; the ephemeris is JPL DE440s.",
-            "Minute sampling bounds timing only to the scan grid and does not establish a physical visibility instant."
+            "Minute sampling bounds timing only to the scan grid and does not establish a physical visibility instant.",
+            "A positive terrain-clearance margin is a geometric robustness test, not a calibrated naked-eye visibility threshold."
         ],
         "star_astrometry": STAR,
         "method": {
@@ -214,6 +222,7 @@ def main():
             "date_window": "15 August through 31 October inclusive",
             "daily_local_scan": "02:30–07:00 IST at 1-minute intervals",
             "solar_apparent_altitude_limits_deg": list(SUN_DEPRESSION_LIMITS),
+            "minimum_terrain_clearance_margins_deg": list(CLEARANCE_MARGINS_DEG),
             "refraction": "Skyfield standard refraction at 10 C; pressure scaled exponentially from 1010 hPa by site elevation",
             "terrain": "Pithoragarh GEDTM30 profile where available; flat geometric horizon for other cities",
         },
@@ -224,8 +233,9 @@ def main():
     Path(args.json).write_text(json.dumps(output, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     with open(args.csv, "w", newline="", encoding="utf-8") as handle:
         fields = ["site", "year", "terrain_scenario", "sun_apparent_altitude_limit_deg",
-                  "first_candidate_local_ist", "canopus_apparent_altitude_deg",
-                  "canopus_azimuth_deg", "terrain_horizon_altitude_deg",
+                  "minimum_clearance_above_horizon_deg", "first_candidate_local_ist",
+                  "canopus_apparent_altitude_deg", "canopus_azimuth_deg",
+                  "terrain_horizon_altitude_deg", "actual_clearance_deg",
                   "sun_apparent_altitude_deg", "sample_interval_minutes"]
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
