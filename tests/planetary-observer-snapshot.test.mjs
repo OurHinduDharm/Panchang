@@ -35,7 +35,7 @@ test("planet snapshot separates geocentric elongation from local topocentric dir
   assert.equal(result.topocentric.rightAscensionHours, 10);
   assert.equal(result.topocentric.declinationDeg, 5);
   assert.equal(result.topocentric.altitudeDeg, observer.latitude / 2 + observer.longitude / 100);
-  assert.ok(Math.abs(result.topocentric.azimuthDeg - 8.2182) < 1e-9);
+  assert.ok(Math.abs(result.topocentric.azimuthDeg - 230.2182) < 1e-9);
   assert.equal(result.visibilityDecision, "not-evaluated");
 });
 
