@@ -69,6 +69,11 @@ test("end-to-end city calculation keeps candidate events unpublished", () => {
   assert.equal(result.observer.elevationMeters, 1650);
   assert.equal(result.twilightWindows.length, 2);
   assert.ok(Array.isArray(result.candidates));
+  for (const candidate of result.candidates) {
+    assert.ok(["asta-candidate", "udaya-candidate", "other-visibility-transition"].includes(candidate.type));
+    if (candidate.type === "asta-candidate") assert.equal(candidate.period === "morning" || candidate.period === "evening", true);
+    if (candidate.type === "udaya-candidate") assert.equal(candidate.period === "morning" || candidate.period === "evening", true);
+  }
 });
 
 test("rejects incomplete observers and reversed date ranges", () => {
