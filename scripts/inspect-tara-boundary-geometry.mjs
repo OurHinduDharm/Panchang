@@ -78,8 +78,8 @@ for (const planet of targetPlanets) {
   for (const boundary of ["astaStart", "astaEnd"]) {
     const group = rows.filter(row => row.planet === planet && row.boundary === boundary);
     if (!group.length) continue;
-    const fieldStats = field => {
-      const values = group.map(row => row[field]).sort((a, b) => a - b);
+    const fieldStats = select => {
+      const values = group.map(select).sort((a, b) => a - b);
       return {
         min: Number(values[0].toFixed(4)),
         median: Number(median(values).toFixed(4)),
@@ -95,9 +95,9 @@ for (const planet of targetPlanets) {
           direction, group.filter(row => row.horizonDirection === direction).length
         ])
       ),
-      planetAltitudeDegrees: fieldStats("planetAltitudeDegrees"),
-      solarDepressionDegrees: fieldStats("solarDepressionDegrees"),
-      geocentricEclipticLongitudeSeparationDegrees: fieldStats("geocentricEclipticLongitudeSeparationDegrees")
+      planetAltitudeDegrees: fieldStats(row => row.planetTopocentric.altitudeDegrees),
+      solarDepressionDegrees: fieldStats(row => row.solarDepressionDegrees),
+      geocentricEclipticLongitudeSeparationDegrees: fieldStats(row => row.geocentricEclipticLongitudeSeparationDegrees)
     });
   }
 }
