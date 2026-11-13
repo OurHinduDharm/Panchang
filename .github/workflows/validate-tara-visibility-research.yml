@@ -6,6 +6,7 @@ on:
     paths:
       - "planetary-city-heliacal-engine.mjs"
       - "planetary-city-horizon-threshold.mjs"
+      - "tests/planetary-city-horizon-threshold.test.mjs"
       - "research/planetary-city-backtest.mjs"
       - "research/planetary-conjunction-association.mjs"
       - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
