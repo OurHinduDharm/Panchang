@@ -143,6 +143,10 @@ for (const planet of planets) {
           boundary,
           direction,
           thresholdDegrees: Number(threshold.toFixed(5)),
+          previousLocalDateTime: previous.localDateTime,
+          currentLocalDateTime: current.localDateTime,
+          previousSolarDepressionDegrees: Number(previous.solarDepressionDegrees.toFixed(5)),
+          currentSolarDepressionDegrees: Number(current.solarDepressionDegrees.toFixed(5)),
           instant,
           localDateTime: localDateTime(instant)
         });
@@ -186,9 +190,41 @@ for (const source of holdout) {
     sourceDateTime: source.sourceDateTime,
     predictedDateTime: best.candidate.localDateTime,
     predictedDirection: best.candidate.direction,
+    candidateBracket: {
+      previousLocalDateTime: best.candidate.previousLocalDateTime,
+      currentLocalDateTime: best.candidate.currentLocalDateTime,
+      previousSolarDepressionDegrees: best.candidate.previousSolarDepressionDegrees,
+      currentSolarDepressionDegrees: best.candidate.currentSolarDepressionDegrees
+    },
     differenceMinutes: Number(best.differenceMinutes.toFixed(2)),
     absoluteDifferenceMinutes: Number(Math.abs(best.differenceMinutes).toFixed(2)),
     matched: true
+  });
+}
+
+const sourceDayDiagnostics = [];
+for (const source of holdout) {
+  const localDate = source.sourceDateTime.slice(0, 10);
+  const day = findLocalRiseSet({
+    astronomy: Astronomy,
+    body: source.planet,
+    observer,
+    localDate,
+    timeZone: timezone
+  });
+  sourceDayDiagnostics.push({
+    sourceBoundaryId: source.id,
+    sourceDateTime: source.sourceDateTime,
+    rise: day.rise ? {
+      localDate: day.rise.localDate,
+      localTime: day.rise.localTime,
+      solarDepressionDegrees: Number(solarDepression(new Date(day.rise.instant)).toFixed(5))
+    } : null,
+    set: day.set ? {
+      localDate: day.set.localDate,
+      localTime: day.set.localTime,
+      solarDepressionDegrees: Number(solarDepression(new Date(day.set.instant)).toFixed(5))
+    } : null
   });
 }
 
@@ -225,6 +261,7 @@ const output = {
   candidateCount: candidateRows.length,
   holdoutBoundaryCount: holdout.length,
   matched,
+  sourceDayDiagnostics,
   groupedSummary,
   conclusion: "diagnostic-only; thresholds are empirical source-derived candidates, not approved universal visibility constants; no production values generated",
   limitations: [
