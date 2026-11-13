@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "title": "IMD Rashtriya Panchang 2026-27 heliacal planetary reference",
+  "purpose": "Internal independent comparison only; not a Pithoragarh source and not public display data.",
+  "source": {
+    "publisher": "India Meteorological Department, Positional Astronomical Centre, Kolkata",
+    "publication": "Rashtriya Panchang Saka Era 1948 / Kali Era 5126-27 (2026-2027 A.D.)",
+    "page": "https://packolkata.imd.gov.in/panchang/en/helical",
+    "explanation": "https://packolkata.imd.gov.in/panchang/en/explanation",
+    "capturedAt": "2026-11-13",
+    "statedStation": "Central Station of India",
+    "exactCoordinatesPublished": false,
+    "timeZone": "Asia/Kolkata",
+    "sourceEventClass": "published heliacal rising/setting of planets"
+  },
+  "policy": {
+    "use": "Cross-check event definitions and broad timing only.",
+    "excludedFromPithoragarhConsensus": true,
+    "excludedFromPublicAnnualData": true,
+    "doNotInferLocation": "Do not treat Central Station of India as Pithoragarh or Kolkata coordinates without source confirmation.",
+    "normalization": "Preserve printed Gregorian date and printed clock; when hour is 24 or greater, normalize to the following civil date while retaining the original notation."
+  },
+  "events": [
+    {
+      "id": "imd-2026-venus-heliacal-setting-west",
+      "planet": "Venus",
+      "event": "heliacal-setting-west",
+      "sourcePrintedDate": "2026-10-13",
+      "sourcePrintedClock": "24:18",
+      "normalizedLocalDateTime": "2026-10-14T00:18:00+05:30",
+      "rolloverDays": 1
+    },
+    {
+      "id": "imd-2026-venus-heliacal-rising-east",
+      "planet": "Venus",
+      "event": "heliacal-rising-east",
+      "sourcePrintedDate": "2026-10-28",
+      "sourcePrintedClock": "07:36",
+      "normalizedLocalDateTime": "2026-10-28T07:36:00+05:30",
+      "rolloverDays": 0
+    },
+    {
+      "id": "imd-2026-jupiter-heliacal-setting-west",
+      "planet": "Jupiter",
+      "event": "heliacal-setting-west",
+      "sourcePrintedDate": "2026-07-15",
+      "sourcePrintedClock": "11:10",
+      "normalizedLocalDateTime": "2026-07-15T11:10:00+05:30",
+      "rolloverDays": 0
+    },
+    {
+      "id": "imd-2026-jupiter-heliacal-rising-east",
+      "planet": "Jupiter",
+      "event": "heliacal-rising-east",
+      "sourcePrintedDate": "2026-08-10",
+      "sourcePrintedClock": "07:53",
+      "normalizedLocalDateTime": "2026-08-10T07:53:00+05:30",
+      "rolloverDays": 0
+    }
+  ]
+}
