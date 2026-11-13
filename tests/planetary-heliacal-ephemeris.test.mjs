@@ -73,3 +73,33 @@ test("rejects invalid scan intervals and step sizes", () => {
     stepMinutes: 60
   }), /stepMinutes/);
 });
+
+test("attaches measured local horizon geometry to a visibility crossing", () => {
+  const astronomy = {
+    Body: { Jupiter: "Jupiter", Venus: "Venus", Sun: "Sun" },
+    Equator(body) {
+      return body === "Sun" ? { ra: 1, dec: 2 } : { ra: 3, dec: 4 };
+    },
+    Horizon(date, _observer, ra) {
+      if (ra === 1) {
+        return { altitude: date.getUTCMinutes() < 1 ? -5 : -15, azimuth: 90 };
+      }
+      return { altitude: 20, azimuth: 100 };
+    },
+    Illumination() {
+      return { mag: 2, phase_angle: 12, phase_fraction: 0.9 };
+    }
+  };
+  const result = scanPlanetVisibilityWindow({
+    astronomy, planet: "Venus", observer,
+    start: "2028-01-01T00:00:00Z",
+    end: "2028-01-01T00:06:00Z",
+    stepMinutes: 2,
+    refineSeconds: 1
+  });
+  assert.equal(result.crossings.length, 1);
+  assert.equal(result.crossings[0].type, "first-visible");
+  assert.equal(result.crossings[0].planetAltitudeDeg, 20);
+  assert.equal(result.crossings[0].planetAzimuthDeg, 100);
+  assert.equal(result.crossings[0].horizonDirection, "east");
+});
