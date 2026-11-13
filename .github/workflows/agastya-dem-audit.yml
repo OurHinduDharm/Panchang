@@ -23,7 +23,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install raster tools
-        run: python -m pip install --upgrade pip rasterio numpy
+        run: python -m pip install --upgrade pip rasterio numpy skyfield
 
       - name: Extract source-georeferenced GEDTM30 window
         run: |
@@ -39,6 +39,14 @@ jobs:
             --csv artifacts/agastya_terrain_horizon.csv \
             --max-distance-m 20000 \
             --step-m 30
+
+      - name: Compute Canopus twilight and terrain-clearance candidates
+        run: |
+          python research/agastya/canopus_twilight_clearance.py \\
+            --horizon-csv artifacts/agastya_terrain_horizon.csv \\
+            --years 2026 2027 \\
+            --json artifacts/canopus_twilight_clearance.json \\
+            --csv artifacts/canopus_twilight_clearance.csv
 
       - name: Upload DEM extraction artifacts
         uses: actions/upload-artifact@v4
@@ -57,5 +65,7 @@ jobs:
           path: |
             artifacts/agastya_terrain_horizon.json
             artifacts/agastya_terrain_horizon.csv
+            artifacts/canopus_twilight_clearance.json
+            artifacts/canopus_twilight_clearance.csv
           if-no-files-found: error
           retention-days: 30
