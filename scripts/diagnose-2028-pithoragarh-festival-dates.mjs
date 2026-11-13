@@ -96,6 +96,10 @@ const report = events.map(event => {
     tithiAtMoonrise: tithiAt(intervals, moonrise)
   };
 });
+const chandraDarshan = report.find(row => row.date === "2028-07-23" && row.title === "चन्द्र दर्शन");
+if (!chandraDarshan || chandraDarshan.expectedTithi !== "श्रावण शुक्ल द्वितीया" || chandraDarshan.tithiAtMoonrise?.index !== 1) {
+  throw new Error("2028 Chandra Darshan must remain on 23 July with local Shukla Dwitiya at moonrise");
+}
 if (!report.length) throw new Error("No 2028 festival events found for Pithoragarh audit");
 const missing = report.filter(row => !row.sunrise || !row.sunset || !row.tithiAtSunrise);
 console.log("OHD_2028_PITHORAGARH_FESTIVAL_DATE_AUDIT=" + JSON.stringify({
