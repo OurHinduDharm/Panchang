@@ -7,6 +7,8 @@ on:
       - "planetary-heliacal-visibility.mjs"
       - "planetary-heliacal-ephemeris.mjs"
       - "planetary-city-heliacal-engine.mjs"
+      - "research/planetary-city-backtest.mjs"
+      - "data/drik-planetary-reference-2024-2027.json"
       - "planetary-city-location.mjs"
       - "agastya-canopus-position.mjs"
       - "tests/planetary-heliacal-visibility.test.mjs"
@@ -36,6 +38,14 @@ jobs:
           node --test tests/planetary-city-heliacal-engine.test.mjs
           node --test tests/planetary-city-location.test.mjs
           node --test tests/agastya-canopus-position.test.mjs
+      - name: Back-test city model against Pithoragarh Guru/Shukra records
+        run: node research/planetary-city-backtest.mjs --output planetary-city-backtest.json
+      - name: Upload research-only back-test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pithoragarh-guru-shukra-city-backtest
+          path: planetary-city-backtest.json
+          if-no-files-found: error
       - name: Smoke-test the real Astronomy Engine adapter
         run: |
           node --input-type=module -e 'import * as A from "astronomy-engine"; import {getCanopusHorizontalPosition} from "./agastya-canopus-position.mjs"; const p=getCanopusHorizontalPosition({astronomy:A,observer:new A.Observer(29.5828,80.2182,1650),instant:"2028-09-01T00:00:00Z"}); if(!Number.isFinite(p.altitudeDeg)||!Number.isFinite(p.azimuthDeg)) throw new Error(JSON.stringify(p)); console.log(JSON.stringify(p));'
