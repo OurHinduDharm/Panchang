@@ -89,6 +89,26 @@ export function buildLocalTwilightWindows({ astronomy, observer, start, end }) {
 }
 
 /**
+ * Classifies all four twilight visibility transitions without conflating
+ * morning and evening phases. Inner planets (especially Venus) can use all
+ * four across inferior and superior conjunctions.
+ */
+export function classifyHeliacalTransition(period, crossingType) {
+  if (!["morning", "evening"].includes(period)) {
+    throw new RangeError("period must be morning or evening");
+  }
+  if (!["first-visible", "last-visible"].includes(crossingType)) {
+    throw new RangeError("crossingType must be first-visible or last-visible");
+  }
+  const visibilityPhase = period + "-" + crossingType;
+  return Object.freeze({
+    visibilityPhase,
+    type: crossingType === "first-visible" ? "udaya-candidate" : "asta-candidate",
+    horizonDirection: period === "morning" ? "east" : "west"
+  });
+}
+
+/**
  * Scans every local morning/evening twilight window and labels transitions:
  * evening last-visible = Asta candidate; morning first-visible = Udaya candidate.
  * It intentionally reports all transitions for review rather than guessing
@@ -109,15 +129,20 @@ export function calculateCityHeliacalCandidates({
       refineSeconds,
       visibilityOptions
     });
-    const transitions = result.crossings.map(crossing => ({
-      type: crossing.type === "last-visible"
-        ? "asta-candidate"
-        : crossing.type === "first-visible"
-          ? "udaya-candidate"
-          : "other-visibility-transition",
-      period: window.period,
-      instant: crossing.instant
-    }));
+    const transitions = result.crossings.map(crossing => {
+      const classification = ["first-visible", "last-visible"].includes(crossing.type)
+        ? classifyHeliacalTransition(window.period, crossing.type)
+        : {
+            visibilityPhase: window.period + "-other-transition",
+            type: "other-visibility-transition",
+            horizonDirection: window.period === "morning" ? "east" : "west"
+          };
+      return {
+        ...classification,
+        period: window.period,
+        instant: crossing.instant
+      };
+    });
     return Object.freeze({ window, result, transitions });
   });
 
