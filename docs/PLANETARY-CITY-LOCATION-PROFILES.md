@@ -14,7 +14,8 @@
 - `planetary-city-location.mjs`: शहर खोज, DEM elevation और observer profile।
 - `planetary-heliacal-visibility.mjs`: Schaefer (1985) twilight visibility criterion का pure-JavaScript evaluator।
 - `planetary-city-heliacal-engine.mjs`: Astronomy Engine से प्रत्येक observer के लिए -18° astronomical dawn/dusk और स्थानीय sunrise/sunset windows बनाकर morning/evening scans चलाता है; last-visible को Asta candidate और first-visible को Udaya candidate मानता है, चाहे घटना सुबह हो या शाम। यह अभी भी research-only है।
-- `planetary-city-horizon-threshold.mjs`: वास्तविक स्थानीय ग्रह-rise/set घटनाएँ निकालता है और उसी समय सूर्य के depression पर प्रशिक्षित सीमा के crossing से तारीख का candidate बनाता है; प्रदर्शित clock को वास्तविक rise/set event पर ही रखता है।
+- `planetary-city-horizon-threshold.mjs`: वास्तविक स्थानीय ग्रह-rise/set घटनाएँ निकालता है और उसी समय सूर्य के depression पर प्रशिक्षित सीमा के crossing से तारीख का candidate बनाता है; प्रदर्शित clock को वास्तविक rise/set event पर ही रखता है। `calculateCityAstaUdayaCandidates()` इसी calibrated profile से शोध-समय निकालता है।
+- `research/pithoragarh-horizon-thresholds-2021-2025.json`: पिथौरागढ़ के लिए अलग-अलग गुरु/शुक्र, AstaStart/AstaEnd और rise/set शाखाओं के training medians; केवल शोध के लिए।
 - `planetary-heliacal-ephemeris.mjs`: Astronomy Engine से गुरु/शुक्र के topocentric altitude/azimuth और `Illumination().mag` लेकर सुबह/शाम की दी हुई UTC window scan करता है; crossing को 30-second default tolerance तक refine करता है।
 - `agastya-canopus-position.mjs`: SIMBAD/HIP 30438 catalogue coordinates और proper motion को J2000 tangent plane में propagate करके Astronomy Engine के EQJ-to-HOR transform से Canopus का स्थानीय altitude/azimuth निकालता है; वही twilight visibility evaluator भी लागू करता है।
 
@@ -53,8 +54,9 @@
 
 ## आगे का वैज्ञानिक सत्यापन
 
-1. Astronomy Engine adapter को वास्तविक Pithoragarh observer पर run करके planetary morning/evening windows बनाना।
-2. गुरु/शुक्र के लिए 2021–2027 के उपलब्ध Drik Pithoragarh direct-source windows के साथ blind back-test करना; training और holdout years अलग रखना।
+1. पिथौरागढ़ के 2028–2030 शोध-candidates को source validation के बिना सार्वजनिक न करना।
+2. Venus 2027 AstaEnd के लगभग 2-दिन mismatch का कारण जाँचना।
+3. अन्य शहरों के लिए अलग observer profile और same-city training/holdout बनाना; training और holdout years अलग रखना।
 3. Canopus की 2028–2030 पारंपरिक Arghya dates को physical heliacal visibility से अलग रखकर तुलना करना।
 4. स्थानीय skyline/horizon profile जोड़ने से पहले स्वतंत्र horizon survey या स्पष्टly documented DEM/terrain source लेना।
 5. जब तक error distribution और source acceptance criteria पूरे न हों, public annual list में नए model-generated times न डालना।
