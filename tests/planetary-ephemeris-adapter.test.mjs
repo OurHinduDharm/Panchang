@@ -21,16 +21,16 @@ test("adapter converts signed relative longitude to the smaller Sun separation",
 });
 
 test("detects direct-to-retrograde and retrograde-to-direct stations", () => {
-  // Synthetic longitude has a local maximum at day 5 and local minimum at day 15.
+  // Smooth apparent longitude with a local maximum at day 5 and minimum at day 15.
   const sampleLongitude = date => {
     const d = (date.getTime() - base) / DAY;
-    const raw = 100 + 0.12 * (d - 5) * (d - 15) * (d - 25) / 100;
+    const raw = 100 + 2 * Math.cos(2 * Math.PI * (d - 5) / 20);
     return ((raw % 360) + 360) % 360;
   };
   const stations = findGeocentricMotionStations({
     sampleLongitude,
-    start: new Date(base),
-    end: new Date(base + 30 * DAY),
+    start: new Date(base + DAY),
+    end: new Date(base + 19 * DAY),
     coarseStepHours: 12,
     derivativeHalfWindowHours: 2,
     toleranceSeconds: 10
