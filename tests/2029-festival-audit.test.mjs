@@ -85,10 +85,10 @@ test("2029 Ekadashi cards follow the Smarta sunrise rule and omit Vaishnava dupl
   assert.ok(papankusha);
   assert.equal(papankusha.hinduTithi, "आश्विन शुक्ल एकादशी");
   assert.equal(has("2029-10-18", /पापांकुशा एकादशी/), undefined);
-  const utpanna = has("2029-12-02", /उत्पन्ना एकादशी \(स्मार्त\)/);
+  const utpanna = has("2029-12-01", /उत्पन्ना एकादशी \(स्मार्त\)/);
   assert.ok(utpanna);
   assert.equal(utpanna.hinduTithi, "मार्गशीर्ष कृष्ण एकादशी");
-  assert.equal(has("2029-12-01", /उत्पन्ना एकादशी/), undefined);
+  assert.equal(has("2029-12-02", /उत्पन्ना एकादशी/), undefined);
   assert.equal(events.filter(event => /उत्पन्ना एकादशी/.test(event.title || "")).length, 1);
 });
 
