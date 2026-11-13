@@ -349,12 +349,14 @@ test("permanent month-paksha names remain the same in every year, including Adhi
     sunriseDay(year+"-01-01","माघ","कृष्ण","प्रतिपदा")
   ], {unifiedTithiIndex:{tithis:master},drik2026Calendar:refs});
   const y2026=make(2026), y2027=make(2027);
-  for (const id of ["vaishakha-krishna","jyeshtha-krishna","jyeshtha-shukla","jyeshtha-shukla-adhika","jyeshtha-krishna-adhika","ashadha-krishna"]) {
+  for (const id of ["vaishakha-krishna","jyeshtha-krishna","jyeshtha-shukla","ashadha-krishna"]) {
     assert.deepEqual(y2026.tithis.find(x=>x.id===id).displayNames,y2027.tithis.find(x=>x.id===id).displayNames);
   }
   assert.equal(y2026.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,"2026-07-11");
   assert.equal(y2027.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,null);
   assert.equal(y2026.tithis.find(x=>x.id==="jyeshtha-shukla-adhika").adhika,true);
+  assert.equal(y2026.tithis.find(x=>x.id==="jyeshtha-krishna-adhika").adhika,true);
+  assert.equal(y2027.tithis.some(x=>x.adhika),false);
 });
 
 test("annual reference dates do not provide or override permanent Dwadashi names", () => {
