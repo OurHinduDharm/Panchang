@@ -6,10 +6,12 @@ on:
     paths:
       - "planetary-heliacal-visibility.mjs"
       - "planetary-heliacal-ephemeris.mjs"
+      - "planetary-city-heliacal-engine.mjs"
       - "planetary-city-location.mjs"
       - "agastya-canopus-position.mjs"
       - "tests/planetary-heliacal-visibility.test.mjs"
       - "tests/planetary-heliacal-ephemeris.test.mjs"
+      - "tests/planetary-city-heliacal-engine.test.mjs"
       - "tests/planetary-city-location.test.mjs"
       - "tests/agastya-canopus-position.test.mjs"
       - ".github/workflows/validate-tara-visibility-research.yml"
@@ -31,6 +33,7 @@ jobs:
         run: |
           node --test tests/planetary-heliacal-visibility.test.mjs
           node --test tests/planetary-heliacal-ephemeris.test.mjs
+          node --test tests/planetary-city-heliacal-engine.test.mjs
           node --test tests/planetary-city-location.test.mjs
           node --test tests/agastya-canopus-position.test.mjs
       - name: Smoke-test the real Astronomy Engine adapter
