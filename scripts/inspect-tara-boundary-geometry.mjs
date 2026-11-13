@@ -52,6 +52,7 @@ const rows = dataset.windows
     const before = position(row.planet, new Date(date.getTime() - 5 * 60_000));
     const after = position(row.planet, new Date(date.getTime() + 5 * 60_000));
     const elongation = angle180(Astronomy.PairLongitude(Astronomy.Body[row.planet], Astronomy.Body.Sun, date));
+    const illumination = Astronomy.Illumination(Astronomy.Body[row.planet], date);
     return {
       sourceWindowId: row.id,
       planet: row.planet,
@@ -78,6 +79,9 @@ const rows = dataset.windows
         differenceFromSourceMinutes: Number(((nearestHorizonEvent.date - date) / 60_000).toFixed(3))
       } : null,
       solarDepressionDegrees: Number((-sun.altitudeDegrees).toFixed(6)),
+      apparentVisualMagnitude: Number(illumination.mag.toFixed(5)),
+      phaseAngleDegrees: Number(illumination.phase_angle.toFixed(5)),
+      illuminatedFraction: Number(illumination.phase_fraction.toFixed(6)),
       method: "Astronomy Engine 2.1.19: Equator + Horizon(normal) + PairLongitude",
       interpretation: "diagnostic-only; not a fitted visibility rule or a production Asta/Udaya prediction"
     };
