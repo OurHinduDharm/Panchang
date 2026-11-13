@@ -193,3 +193,22 @@ test("calculated annual records are rejected if the model identifier is unknown"
   };
   assert.equal(getPithoragarhAnnualWindows(dataset, 2028, wrongModel).length, 0);
 });
+
+test("New Delhi sanity comparison records date mismatches separately from clock-of-day offsets", () => {
+  const comparison = calculatedDataset.calculation.independentComparison;
+  assert.equal(comparison.location, "New Delhi, India");
+  assert.equal(comparison.comparisonClass, "separate-city-local-visibility-sanity-check");
+  assert.equal(comparison.notAcceptanceEvidence, true);
+  assert.equal(comparison.boundaryAudit.length, 14);
+  assert.equal(comparison.boundaryAudit.filter(item => item.dateDifferenceDays === 0).length, 8);
+  assert.equal(comparison.boundaryAudit.filter(item => Math.abs(item.dateDifferenceDays) === 1).length, 6);
+  assert.ok(comparison.boundaryAudit.every(item =>
+    Number.isInteger(item.dateDifferenceDays) &&
+    Number.isFinite(item.clockDifferenceMinutes) &&
+    Math.abs(item.clockDifferenceMinutes) >= 9 &&
+    Math.abs(item.clockDifferenceMinutes) <= 20
+  ));
+  assert.ok(comparison.result.includes("6 differ by one day"));
+  assert.ok(comparison.result.includes("not Pithoragarh ground truth"));
+});
+
