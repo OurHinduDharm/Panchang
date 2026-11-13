@@ -6,6 +6,8 @@
  * Proper motion is propagated in the tangent plane; Astronomy Engine then
  * transforms the J2000 vector to the observer's true horizontal frame.
  */
+import { evaluateSchaefer1985Visibility } from "./planetary-heliacal-visibility.mjs";
+
 const MAS_TO_RAD = Math.PI / (180 * 3600 * 1000);
 const JULIAN_YEAR_DAYS = 365.25;
 const J2000 = Date.UTC(2000, 0, 1, 12, 0, 0);
@@ -26,12 +28,6 @@ export const AGASTYA_CANOPUS_CATALOG = Object.freeze({
   properMotionReference: "2007A&A...474..653V",
   coordinatesReference: "2007A&A...474..653V"
 });
-
-function finite(value, label) {
-  const number = Number(value);
-  if (!Number.isFinite(number)) throw new TypeError(label + " must be finite");
-  return number;
-}
 
 function normalized(vector) {
   const length = Math.hypot(vector.x, vector.y, vector.z);
@@ -100,5 +96,31 @@ export function getCanopusHorizontalPosition({ astronomy, observer, instant, ref
     apparentMagnitude: AGASTYA_CANOPUS_CATALOG.apparentVisualMagnitude,
     referenceFrame: "J2000 propagated by proper motion, transformed to true horizontal frame",
     source: AGASTYA_CANOPUS_CATALOG.source
+  });
+}
+
+/** Adds the same twilight visibility criterion used for Jupiter and Venus. */
+export function getCanopusVisibilitySample({
+  astronomy, observer, instant, visibilityOptions = {}, refraction = "normal"
+}) {
+  const date = instant instanceof Date ? new Date(instant.getTime()) : new Date(instant);
+  const target = getCanopusHorizontalPosition({ astronomy, observer, instant: date, refraction });
+  if (typeof astronomy.Equator !== "function" || typeof astronomy.Horizon !== "function") {
+    throw new TypeError("Astronomy Engine Equator and Horizon APIs are required for the Sun");
+  }
+  const sunEq = astronomy.Equator(astronomy.Body.Sun, date, observer, true, true);
+  const sunHor = astronomy.Horizon(date, observer, sunEq.ra, sunEq.dec, refraction);
+  const geometry = {
+    objectAltitudeDeg: target.altitudeDeg,
+    objectAzimuthDeg: target.azimuthDeg,
+    sunAltitudeDeg: sunHor.altitude,
+    sunAzimuthDeg: sunHor.azimuth,
+    apparentMagnitude: target.apparentMagnitude
+  };
+  return Object.freeze({
+    ...target,
+    sunAltitudeDeg: sunHor.altitude,
+    sunAzimuthDeg: sunHor.azimuth,
+    visibility: evaluateSchaefer1985Visibility(geometry, visibilityOptions)
   });
 }
