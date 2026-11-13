@@ -22,8 +22,8 @@ function validBoundary(value) {
 }
 
 /**
- * Merges verified historical Pithoragarh source windows with the explicitly
- * scoped OurHinduDharm local calculation dataset for future years.
+ * Returns accepted Pithoragarh source windows and only explicitly accepted
+ * local calculation records. Candidate calculations stay research-only.
  */
 export function getPithoragarhAnnualWindows(dataset, sourceYear, calculatedDataset = null) {
   if (!dataset || !Array.isArray(dataset.windows)) {
@@ -68,6 +68,8 @@ export function getPithoragarhAnnualWindows(dataset, sourceYear, calculatedDatas
       .filter(entry =>
         entry.year === sourceYear &&
         entry.status === "calculated" &&
+        entry.acceptanceEligible === true &&
+        entry.publicationStatus === "accepted" &&
         PLANET_ORDER.some(planet => planet.key === entry.planet) &&
         validLocalDateTime(entry.astaStart) &&
         validLocalDateTime(entry.udaya) &&
