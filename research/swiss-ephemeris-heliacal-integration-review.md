@@ -69,3 +69,14 @@ The repository currently has no explicit license declaration in this research br
 - Compare several independent locations and hold out years from calibration.
 - Add Canopus as a fixed-star request only after its exact Swiss fixed-star catalog identifier and proper-motion handling are verified.
 - Add DEM horizon obstruction and report weather assumptions separately.
+
+
+## Canopus / Agastya fixed-star identity
+
+The official Astrodienst fixed-star selection list identifies `Agastya,alCar` and `Canopus,alCar` as the same Bayer-designated star. The Swiss fixed-star catalogue data also contains the traditional name `Agastya` with designation `alCar`. The new `research/agastya-heliacal-events.mjs` therefore uses the catalogue's Indian traditional name `Agastya` as its object key, while preserving Canopus and `alCar` as identity metadata.
+
+The module requests morning-first and evening-last heliacal events separately. It does not calculate or overwrite the traditional Agastya Arghya dates; those remain in `data/agastya-arghya-pithoragarh.json` as a separate rule/source layer.
+
+Sources:
+- Official Astrodienst fixed-star list: https://www.astro.com/swisseph/fstarlist.htm
+- Swiss Ephemeris fixed-star naming rules: https://www.astro.com/swisseph-download/doc/swephprg.2.10.htm
