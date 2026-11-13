@@ -121,6 +121,9 @@ for (const planet of targetPlanets) {
       ),
       planetAltitudeDegrees: fieldStats(row => row.planetTopocentric.altitudeDegrees),
       solarDepressionDegrees: fieldStats(row => row.solarDepressionDegrees),
+      apparentVisualMagnitude: fieldStats(row => row.apparentVisualMagnitude),
+      phaseAngleDegrees: fieldStats(row => row.phaseAngleDegrees),
+      illuminatedFraction: fieldStats(row => row.illuminatedFraction),
       geocentricEclipticLongitudeSeparationDegrees: fieldStats(row => row.geocentricEclipticLongitudeSeparationDegrees)
     });
   }
