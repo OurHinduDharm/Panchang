@@ -122,6 +122,20 @@ test("annual iframe page renders Agastya data from its separate JSON dataset", (
   assert.ok(page.includes("taraSetDate"));
 });
 
+test("public Agastya selector excludes legacy years without captured source provenance", () => {
+  const published = agastya.years.filter(item =>
+    item.source?.status === "source-page-identity-and-arghya-fields-captured"
+  );
+  assert.deepEqual(published.map(item => item.year), [2028, 2029, 2030]);
+  assert.deepEqual(agastya.years.filter(item => !item.source).map(item => item.year), [2024, 2025, 2026, 2027]);
+
+  const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
+  assert.ok(page.includes("const agastyaPublished = agastya.years.filter(entry =>"));
+  assert.ok(page.includes('entry.source?.status === "source-page-identity-and-arghya-fields-captured"'));
+  assert.ok(page.includes("...agastyaPublished.map(entry => entry.year)"));
+  assert.ok(page.includes("renderAgastya(agastyaPublished, year)"));
+});
+
 
 test("2028-2030 Agastya Arghya records retain direct Pithoragarh source evidence", () => {
   const future = agastya.years.filter(item => item.year >= 2028);
