@@ -12,5 +12,5 @@ test("direct Drik reference JSON is fetched once and browser-cacheable", () => {
 
 test("the production display does not run daily ephemeris scans or threshold bisection", () => {
   assert.doesNotMatch(source, /PLANET_ASTA_THRESHOLDS|findNearestAngularBoundary|findThresholdCrossingInstant|planetDailyCache|planetEventBracketCache/);
-  assert.ok(source.includes("direct Drik reference lookup and card"));
+  assert.ok(source.includes("planetary Asta/Udaya date lookup and card"));
 });
