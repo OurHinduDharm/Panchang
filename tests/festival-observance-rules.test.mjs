@@ -460,3 +460,37 @@ test("candidate resolver blocks selection when any candidate day lacks calculati
   assert.equal(result.finalDate, null);
   assert.equal(result.autoApproved, false);
 });
+
+
+test("Shravana Dwadashi yoga detector measures actual tithi-nakshatra overlap by local day", async () => {
+  const { evaluateShravanaDwadashiYoga } = await import("../festival-observance-rules.mjs");
+  const result = evaluateShravanaDwadashiYoga([
+    {
+      date: "2030-09-08", dayStart: "2030-09-07T18:30:00Z", dayEnd: "2030-09-08T18:30:00Z",
+      tithis: [interval(11, "2030-09-08T02:50:00Z", "2030-09-09T01:02:00Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T08:00:00Z", "2030-09-09T00:00:00Z")]
+    },
+    {
+      date: "2030-09-09", dayStart: "2030-09-08T18:30:00Z", dayEnd: "2030-09-09T18:30:00Z",
+      tithis: [interval(11, "2030-09-08T02:50:00Z", "2030-09-09T01:02:00Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T08:00:00Z", "2030-09-09T00:00:00Z")]
+    }
+  ]);
+  assert.equal(result.status, "manual-review");
+  assert.deepEqual(result.qualifyingDates, ["2030-09-08", "2030-09-09"]);
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+  assert.ok(result.warnings.includes("yoga-overlaps-multiple-local-days-explicit-tie-break-required"));
+});
+
+test("Shravana Dwadashi yoga detector does not treat a short overlap as a complete muhurta", async () => {
+  const { evaluateShravanaDwadashiYoga } = await import("../festival-observance-rules.mjs");
+  const result = evaluateShravanaDwadashiYoga([{
+    date: "2030-09-09", dayStart: "2030-09-08T18:30:00Z", dayEnd: "2030-09-09T18:30:00Z",
+    tithis: [interval(11, "2030-09-09T00:00:00Z", "2030-09-09T03:00:00Z", "शुक्ल पक्ष")],
+    nakshatraIntervals: [interval(21, "2030-09-09T02:30:00Z", "2030-09-09T05:00:00Z")]
+  }]);
+  assert.equal(result.status, "brief-overlap-needs-review");
+  assert.equal(result.finalDate, null);
+  assert.ok(result.warnings.includes("overlap-shorter-than-one-muhurta"));
+});

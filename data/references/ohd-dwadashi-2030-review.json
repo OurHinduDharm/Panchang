@@ -779,7 +779,49 @@
           "status": "date-condition-required"
         }
       ],
-      "status": "needs-review"
+      "status": "needs-review",
+      "ruleEvidence": {
+        "ruleId": "shravana-yoga-dwadashi-review",
+        "status": "needs-local-nakshatra-interval-and-fast-date-tie-break",
+        "criteria": [
+          "भाद्रपद शुक्ल द्वादशी और श्रवण नक्षत्र के वास्तविक समय-अंतराल का स्थानीय समय में overlap निकालना",
+          "एक मुहूर्त (48 मिनट) या अधिक संयोग को स्पष्ट योग-साक्ष्य मानना; इससे कम संयोग को स्वतः अस्वीकार न करके समीक्षा में रखना",
+          "योग का मिलना अपने-आप उपवास-दिन तय नहीं करता",
+          "एकादशी-द्वादशी एक ही दिन अथवा अलग-अलग दिनों में होने पर उपवास और पारण का अलग नियम लागू करना",
+          "यदि योग दो स्थानीय दिनों में फैले तो स्रोत-समर्थित tie-break के बिना चयन न करना"
+        ],
+        "localCandidates": {
+          "dateWithNoonDwadashi": "2030-09-08",
+          "dateWithSunriseDwadashi": "2030-09-09",
+          "localTithiStart": "2030-09-08T02:50:59.441Z",
+          "localTithiEnd": "2030-09-09T01:02:49.707Z",
+          "nakshatraIntervals": "not-yet-attached-to-this-review-record",
+          "selectedFastDate": null
+        },
+        "sources": [
+          {
+            "name": "धर्मसिंधु / निर्णयसिंधु — श्रवण-द्वादशी और विष्णुशृंखला उद्धरण",
+            "url": "https://jyotisham.github.io/jyotisha/output/sahakAra-nagar-bengaLUru/MULTI_NEW_MOON_SIDEREAL_MONTH_ADHIKA_AMAANTA__CHITRA_AT_180/gregorian/2000s/2020s/2024_monthly/2024-09/2024-09-15/",
+            "use": "शास्त्रीय उद्धरण और विष्णुशृंखला के अलग संयोग-निर्णय; पाठ-समीक्षा आवश्यक"
+          },
+          {
+            "name": "Drik Panchang — Shravana Yoga Dwadashi",
+            "url": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
+            "use": "एक मुहूर्त श्रवण-संयोग तथा एकादशी-द्वादशी उपवास/पारण विकल्प का द्वितीयक cross-check"
+          },
+          {
+            "name": "Drik Panchang — 2030 Dwadashi dates",
+            "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+            "use": "पिथौरागढ़ संदर्भित श्रवण योग द्वादशी नाम; स्थानीय नक्षत्र interval अभी अलग से सत्यापित करना है"
+          },
+          {
+            "name": "नारद पुराण, पूर्वार्ध, अध्याय 121",
+            "url": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
+            "use": "भाद्रपद शुक्ल द्वादशी के दामोदर और नीराजन व्रत के अलग विधान"
+          }
+        ],
+        "decisionPolicy": "No date selected until local tithi-nakshatra overlap and the Smarta fasting/parana tie-break are both verified."
+      }
     },
     {
       "id": "ashwin-krishna",
