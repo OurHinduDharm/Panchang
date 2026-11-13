@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import panchangPackage from "@ishubhamx/panchangam-js";
-import { evaluateObservanceRule } from "../festival-observance-rules.mjs";
+import { evaluateObservanceRule, evaluateShravanaDwadashiYoga } from "../festival-observance-rules.mjs";
 
 const { getPanchangam, Observer } = panchangPackage;
 const LOCATION = new Observer(29.5828, 80.2182, 1650);
@@ -188,4 +188,33 @@ test("real Pithoragarh Nag Panchami data remains manual until special three-muhu
   assert.match(result.reviewNote, /तीन मुहूर्त/);
   assert.equal(result.finalDate, null);
   assert.equal(result.autoApproved, false);
+});
+
+
+test("real Pithoragarh 2030 Shravana Dwadashi checks local tithi-nakshatra yoga without auto-selecting a fast date", () => {
+  const dates = ["2030-09-08", "2030-09-09"];
+  const candidateDays = dates.map(date => {
+    const previous = panchang(previousIsoDate(date));
+    const current = panchang(date);
+    const next = panchang(nextIsoDate(date));
+    const dayStart = new Date(date + "T00:00:00+05:30");
+    const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
+    return {
+      date, dayStart, dayEnd,
+      tithis: intervals(previous, current, next),
+      nakshatraIntervals: nakshatras(previous, current, next)
+    };
+  });
+  const result = evaluateShravanaDwadashiYoga(candidateDays);
+  assert.ok(
+    ["candidate-evidence-only", "manual-review", "brief-overlap-needs-review"].includes(result.status),
+    "the detector must return an explicit evidence/review state"
+  );
+  assert.equal(result.finalDate, null);
+  assert.equal(result.autoApproved, false);
+  assert.ok(result.warnings.includes("tithi-nakshatra-overlap-is-not-a-fast-date-decision"));
+  assert.ok(
+    result.matches.length > 0,
+    "Pithoragarh 2030 Bhadrapada Shukla Dwadashi should be checked against real Shravana intervals"
+  );
 });
