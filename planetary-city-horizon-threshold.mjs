@@ -119,15 +119,20 @@ export function findHorizonTwilightThresholdCrossings({
       } else if (a * b < 0) {
         const fraction = (thresholdDepressionDeg - previous.sunDepressionDeg) /
           (current.sunDepressionDeg - previous.sunDepressionDeg);
-        const instantMs = Date.parse(previous.instant) +
-          fraction * (Date.parse(current.instant) - Date.parse(previous.instant));
+        // The threshold predicts the civil date, while the displayed clock time
+        // must remain an actual local horizon crossing. Select the nearer of the
+        // two adjacent daily rise/set events instead of inventing an in-between
+        // clock time that is not a physical rise/set event.
+        const selectedEvent = fraction <= 0.5 ? previous : current;
         candidates.push({
           type,
-          instant: new Date(instantMs).toISOString(),
+          instant: selectedEvent.instant,
           thresholdDepressionDeg,
-          interpolation: "linear-between-adjacent-daily-horizon-events",
+          interpolation: "threshold-bracket-nearest-day-then-actual-horizon-clock",
           bracket: [previous.instant, current.instant],
-          bracketDepressionDeg: [previous.sunDepressionDeg, current.sunDepressionDeg]
+          bracketDepressionDeg: [previous.sunDepressionDeg, current.sunDepressionDeg],
+          bracketFraction: fraction,
+          selectedBracketEvent: selectedEvent.instant
         });
       }
     }
