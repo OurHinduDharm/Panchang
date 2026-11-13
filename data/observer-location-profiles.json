@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "description": "स्थान-विशिष्ट खगोलीय गणना के लिए observer profiles. किसी स्थान का डेटा दूसरे स्थान पर लागू नहीं होगा।",
+  "profiles": [
+    {
+      "id": "pithoragarh-uttarakhand",
+      "name": "पिथौरागढ़",
+      "state": "उत्तराखंड",
+      "country": "भारत",
+      "latitude": 29.5828,
+      "longitude": 80.2182,
+      "elevationMeters": 1650,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "user-confirmed-project-target",
+      "elevationSource": "user-confirmed-project-target",
+      "status": "active"
+    }
+  ]
+}
