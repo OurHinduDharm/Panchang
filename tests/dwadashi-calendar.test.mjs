@@ -548,3 +548,12 @@ test("Adhika catalogue rows remain available when that Adhika month occurs in th
   assert.ok(record);
   assert.equal(record.status, "needs-observation");
 });
+
+
+test("annual review drafts do not report non-occurring Adhika Jyeshtha as missing observations", async () => {
+  const review2029 = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2029-review.json", import.meta.url), "utf8"));
+  const review2030 = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  assert.deepEqual(review2029.tithis.filter(item => item.adhika).map(item => item.month), ["चैत्र", "चैत्र"]);
+  assert.equal(review2030.tithis.some(item => item.adhika), false);
+  assert.equal(review2030.tithis.filter(item => item.status === "needs-observation").length, 0);
+});
