@@ -163,6 +163,36 @@
       "profileKind": "imd-station-representative",
       "status": "benchmark",
       "calculationEligible": true
+    },
+    {
+      "id": "ujjain-madhya-pradesh",
+      "name": "उज्जैन",
+      "state": "मध्य प्रदेश",
+      "country": "भारत",
+      "latitude": 23.183333,
+      "longitude": 75.783333,
+      "elevationMeters": 527,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD-linked station inventory: 23°11′N 75°47′E",
+      "elevationSource": "IMD-linked station inventory elevation 527 m above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "varanasi-uttar-pradesh",
+      "name": "वाराणसी",
+      "state": "उत्तर प्रदेश",
+      "country": "भारत",
+      "latitude": 25.3,
+      "longitude": 83.016667,
+      "elevationMeters": 88,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 25°18′N 83°01′E",
+      "elevationSource": "IMD 1991–2020 station elevation 88 m above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
     }
   ],
   "pendingLocations": [
