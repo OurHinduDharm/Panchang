@@ -17,7 +17,8 @@ import {
 } from "../planetary-heliacal-ephemeris.mjs";
 import {
   scanPlanetHorizonEvents,
-  findHorizonTwilightThresholdCrossings
+  findHorizonTwilightThresholdCrossings,
+  calculateCityAstaUdayaCandidates
 } from "../planetary-city-horizon-threshold.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -31,6 +32,8 @@ const observer = new Astronomy.Observer(
   PROFILE.latitude, PROFILE.longitude, PROFILE.height
 );
 const data = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
+const CALIBRATION_PATH = path.join(ROOT, "research/pithoragarh-horizon-thresholds-2021-2025.json");
+const calibration = JSON.parse(fs.readFileSync(CALIBRATION_PATH, "utf8"));
 const sourceRows = data.windows.filter(row =>
   row.acceptanceEligible === true &&
   row.sourceLocation?.includes("Pithoragarh") &&
@@ -194,6 +197,17 @@ const thresholdPredictions = results
     };
   });
 
+const futureCandidates2028To2030 = ["Jupiter", "Venus"].map(planet =>
+  calculateCityAstaUdayaCandidates({
+    astronomy: Astronomy,
+    planet,
+    observer,
+    start: "2028-01-01T00:00:00.000Z",
+    end: "2031-01-01T00:00:00.000Z",
+    thresholds: calibration.thresholdsDeg[planet]
+  })
+);
+
 const errors = results
   .map(row => row.nearestModelCandidate?.errorMinutes)
   .filter(Number.isFinite)
@@ -209,6 +223,8 @@ const report = {
   model: "city-topocentric-schaefer-heliacal-candidate-v1",
   sourceDataset: "data/drik-planetary-reference-2024-2027.json",
   sourceScope: "directly captured Pithoragarh Jupiter/Venus reference boundaries",
+  futureCandidateRange: "2028-2030",
+  futureCandidates2028To2030,
   observer: PROFILE,
   timezoneForSourceDisplay: "Asia/Kolkata",
   records: results.length,
