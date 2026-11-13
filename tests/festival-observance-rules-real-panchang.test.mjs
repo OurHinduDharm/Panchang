@@ -197,8 +197,10 @@ test("real Pithoragarh 2030 Shravana Dwadashi checks local tithi-nakshatra yoga 
     const previous = panchang(previousIsoDate(date));
     const current = panchang(date);
     const next = panchang(nextIsoDate(date));
-    const dayStart = new Date(date + "T00:00:00+05:30");
-    const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
+    // A vrata-day runs from local sunrise to the following local sunrise,
+    // not civil midnight to midnight.
+    const dayStart = current.sunrise;
+    const dayEnd = next.sunrise;
     return {
       date, dayStart, dayEnd,
       tithis: intervals(previous, current, next),
