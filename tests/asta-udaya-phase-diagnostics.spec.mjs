@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { readFileSync } from "node:fs";
 
-test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", async () => {
+test("Guru-Shukra date display is compact and perf diagnostics remain opt-in", async () => {
   const browser = await chromium.launch({ headless: true });
   const errors = [];
   try {
@@ -35,22 +35,14 @@ test("Asta-Udaya perf diagnostics are opt-in and visible output stays stable", a
     assert.doesNotMatch(initialFingerprint, /आभासी कोणीय|सत्यापनाधीन|कोणीय अनुमानित/);
     assert.match(initialFingerprint, /अस्त प्रारम्भ/);
     assert.match(initialFingerprint, /पुनः उदय/);
-    assert.match(initialFingerprint, /सूर्य/);
-    assert.match(initialFingerprint, /चंद्रमा/);
-    assert.match(initialFingerprint, /मंगल — अगला दैनिक उदय-अस्त/);
+    assert.match(initialFingerprint, /गुरु/);
+    assert.match(initialFingerprint, /शुक्र/);
+    assert.doesNotMatch(initialFingerprint, /सूर्य|चंद्रमा|मंगल|बुध|शनि/);
     assert.match(initialFingerprint, /उदय/);
-    const initialMarsRow = await card.locator(".planet-rise-set-row").filter({ hasText: "मंगल — अगला दैनिक उदय-अस्त" }).innerText();
 
     await page.locator("#dateInput").fill("2026-11-01");
     await page.locator("#dateInput").dispatchEvent("change");
     await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetaryReference").length >= 2, null, { timeout: 180000 });
-    await page.waitForFunction((initial) => {
-      const row = [...document.querySelectorAll("#planetRiseSetCard .planet-rise-set-row")]
-        .find(element => element.innerText.includes("मंगल — अगला दैनिक उदय-अस्त"));
-      return row && row.innerText !== initial;
-    }, initialMarsRow, { timeout: 180000 });
-    const nextDateMarsRow = await card.locator(".planet-rise-set-row").filter({ hasText: "मंगल — अगला दैनिक उदय-अस्त" }).innerText();
-    assert.notEqual(nextDateMarsRow, initialMarsRow, "Mars rise/set should recalculate when the selected date changes");
     await page.locator("#dateInput").fill("2026-10-31");
     await page.locator("#dateInput").dispatchEvent("change");
     await page.waitForFunction(() => (document.querySelector("#ohd-perf-panel")?.textContent || "").split("planetaryReference").length >= 3, null, { timeout: 180000 });
