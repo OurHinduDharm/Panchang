@@ -9,7 +9,7 @@ const planets = ["Jupiter", "Venus"];
 const timezone = "Asia/Kolkata";
 const trainingEndYear = 2025;
 const scanStart = "2025-01-01";
-const scanEnd = "2028-01-01";
+const scanEnd = "2036-01-01";
 const maxMatchDays = 21;
 
 function localDateString(date) {
@@ -345,6 +345,23 @@ for (const planet of planets) {
   }
 }
 
+const futureCandidates = candidateRows
+  .filter(row => row.localDateTime.slice(0, 4) >= "2028")
+  .sort((a, b) => a.instant - b.instant)
+  .map(row => ({
+    planet: row.planet,
+    boundary: row.boundary,
+    direction: row.direction,
+    localDateTime: row.localDateTime,
+    thresholdModel: thresholds.find(model =>
+      model.planet === row.planet &&
+      model.boundary === row.boundary &&
+      model.direction === row.direction
+    )?.selectedModel ?? "unknown",
+    previousThresholdDegrees: row.previousThresholdDegrees,
+    currentThresholdDegrees: row.currentThresholdDegrees
+  }));
+
 const output = {
   schemaVersion: "1.0.0",
   generatedAtUtc: new Date().toISOString(),
@@ -359,6 +376,8 @@ const output = {
   })),
   scanRange: { start: scanStart, endExclusive: scanEnd, localDays: dates.length },
   candidateCount: candidateRows.length,
+  futureCandidateCount: futureCandidates.length,
+  futureCandidates,
   holdoutBoundaryCount: holdout.length,
   matched,
   sourceDayDiagnostics,
@@ -381,5 +400,7 @@ console.log(JSON.stringify({
   training: output.thresholds,
   holdoutBoundaryCount: output.holdoutBoundaryCount,
   groupedSummary,
+  futureCandidateCount: futureCandidates.length,
+  futureCandidates,
   outputPath
 }, null, 2));
