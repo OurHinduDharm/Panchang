@@ -366,8 +366,10 @@ function loadDrikPlanetaryReferenceData() {
   return drikPlanetaryReferenceDataPromise;
 }
 
+const TARA_ASTA_PLANETS = PLANETS.filter(planet => planet.key === "jupiter" || planet.key === "venus");
+
 function buildDrikPlanetReferenceRows(dataset, location, selectedDate) {
-  return PLANETS.map(planet => {
+  return TARA_ASTA_PLANETS.map(planet => {
     const reference = getDrikPlanetaryReference({
       dataset,
       location,
@@ -381,7 +383,6 @@ function buildDrikPlanetReferenceRows(dataset, location, selectedDate) {
       reason: reference.reason,
       asta: window ? formatDrikBoundary(window.boundaries.astaStart) : null,
       udaya: window ? formatDrikBoundary(window.boundaries.astaEnd) : null,
-      sourceUrl: window?.sourcePageUrl || null,
       sourcePageYear: window?.sourcePageYear ?? null,
       sourceLocation: reference.city || null
     };
@@ -390,12 +391,11 @@ function buildDrikPlanetReferenceRows(dataset, location, selectedDate) {
 
 function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
   const renderVersion = ++planetReferenceRenderVersion;
-  const loadingCard = createPlanetCard(PLANETS.map(planet => ({
+  const loadingCard = createPlanetCard(TARA_ASTA_PLANETS.map(planet => ({
     name: planet.name,
     status: "loading",
     asta: null,
     udaya: null,
-    sourceUrl: null
   })), dailyEvents);
   replaceOrPlacePanchangCard("planetRiseSetCard", loadingCard);
 
@@ -413,7 +413,7 @@ function renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents) {
 
     const rows = dataset
       ? buildDrikPlanetReferenceRows(dataset, latestLocation, selectedDate)
-      : PLANETS.map(planet => ({
+      : TARA_ASTA_PLANETS.map(planet => ({
           name: planet.name, status: "unavailable",
           reason: "dataset-unavailable", asta: null, udaya: null, sourceUrl: null
         }));
@@ -431,23 +431,7 @@ function createPlanetCard(data, dailyEvents = {}) {
   card.className = "card full";
   card.id = "planetRiseSetCard";
 
-  const dailyRows = [
-    { name: "सूर्य", udaya: dailyEvents.sunrise || null, asta: dailyEvents.sunset || null },
-    { name: "चंद्रमा", udaya: dailyEvents.moonrise || null, asta: dailyEvents.moonset || null },
-    { name: "मंगल — अगला दैनिक उदय-अस्त", udaya: dailyEvents.marsrise || null, asta: dailyEvents.marsset || null }
-  ].map(body => `
-    <div class="planet-rise-set-row" style="display:grid;gap:7px;padding:12px;border:1px solid var(--border-color,#d8dce2);border-radius:8px">
-      <strong style="font-size:1.02em">${body.name}</strong>
-      <span>उदय — <b>${body.udaya || "गणना उपलब्ध नहीं"}</b></span>
-      <span>अस्त — <b>${body.asta || "गणना उपलब्ध नहीं"}</b></span>
-    </div>
-  `).join("");
-
-  // मंगल का दैनिक उदय-अस्त ऊपर दिखता है; केवल उसकी खाली
-  // "आगामी अस्त-अवधि उपलब्ध नहीं" पंक्ति दोहराव होगी।
-  const rows = data
-    .filter(planet => !(planet.name === "मंगल" && planet.status === "no-upcoming-reference"))
-    .map(planet => {
+  const rows = data.map(planet => {
     if (planet.status === "loading") {
       return `<div class="planet-rise-set-row"><strong>${planet.name}</strong><span>लोड हो रहा है…</span></div>`;
     }
@@ -473,9 +457,9 @@ function createPlanetCard(data, dailyEvents = {}) {
   }).join("");
 
   card.innerHTML = `
-    <h3>🌌 ग्रहों का तारा अस्त एवं पुनः उदय</h3>
-    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${dailyRows}${rows}</div>
-    <p style="margin:12px 0 0"><a href="https://ourhindudharm.github.io/Panchang/planetary-asta-udaya.html">वर्षवार ग्रह तारा-अस्त एवं पुनः उदय सूची (2021–2027)</a></p>
+    <h3>🌟 गुरु एवं शुक्र का तारा-अस्त तथा पुनः उदय</h3>
+    <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}</div>
+    <p style="margin:12px 0 0"><a href="https://ourhindudharm.github.io/Panchang/planetary-asta-udaya.html">वर्षवार गुरु-शुक्र सूची देखें</a></p>
   `;
   return card;
 }
@@ -1264,7 +1248,7 @@ if(
     marsset: marsSetEvent?.date ? formatEventDateTime(marsSetEvent.date) : null
   };
   renderDrikPlanetReferenceCard(location, selectedDate, dailyEvents);
-  __ohdPerfMark("direct Drik reference lookup and card");
+  __ohdPerfMark("planetary Asta/Udaya date lookup and card");
 
 
   /*

@@ -76,5 +76,14 @@ test("main Panchang planetary card links to the annual reference page", () => {
     "utf8"
   );
   assert.match(source, /https:\/\/ourhindudharm\.github\.io\/Panchang\/planetary-asta-udaya\.html/);
-  assert.match(source, /वर्षवार ग्रह तारा-अस्त एवं पुनः उदय सूची/);
+  assert.match(source, /वर्षवार गुरु-शुक्र सूची देखें/);
+});
+
+test("annual page builds its year selector from the available dataset and shows no outside links", () => {
+  const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
+  assert.ok(page.includes("const years = [...new Set(dataset.windows"));
+  assert.ok(page.includes("yearSelect.append(option)"));
+  assert.ok(!page.includes("<option>2021</option>"));
+  assert.ok(!page.includes("http://") && !page.includes("https://"));
+  assert.ok(!page.includes("Drik Panchang") && !page.includes("drikpanchang.com"));
 });

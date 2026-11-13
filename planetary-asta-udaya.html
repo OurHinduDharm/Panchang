@@ -33,15 +33,13 @@ select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;
 <main>
 <header>
 <h1>गुरु एवं शुक्र का तारा-अस्त तथा पुनः उदय</h1>
-<p class="muted">OurHinduDharm · पिथौरागढ़, उत्तराखंड · वार्षिक सूची</p>
+<p class="muted">OurHinduDharm · पिथौरागढ़ · वार्षिक तारीख एवं समय</p>
 </header>
 
 <section class="panel" aria-label="वर्ष चुनें">
 <div class="controls">
 <label for="year">वर्ष चुनें</label>
-<select id="year">
-<option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option selected>2026</option><option>2027</option>
-</select>
+<select id="year" aria-label="वर्ष चुनें"></select>
 <span id="count" class="muted" aria-live="polite"></span>
 </div>
 </section>
@@ -51,9 +49,8 @@ select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;
 </div>
 
 <section class="panel">
-<h2>समय-संदर्भ</h2>
-<p class="muted">यह सूची पिथौरागढ़ नाम से प्रकाशित गुरु एवं शुक्र के वार्षिक नगर-संदर्भों से तैयार की गई है। समय भारतीय मानक समय (IST) में है। “अस्त प्रारम्भ” से “पुनः उदय” तक संबंधित तारा-अस्त अवधि दिखाई गई है।</p>
-<p class="muted">प्रकाशित स्रोत अपने आंतरिक अक्षांश, देशांतर और ऊँचाई नहीं बताते; इसलिए ये पिथौरागढ़-नगर के संदर्भ हैं, 29.5828° उ., 80.2182° पू. और 1650 मीटर पर स्वतंत्र रूप से प्रमाणित coordinate-exact गणना नहीं। जिस ग्रह/वर्ष के लिए सत्यापित पंक्ति उपलब्ध नहीं है, उसे शून्य अस्त नहीं माना गया है।</p>
+<h2>वार्षिक तारा-अस्त सूची</h2>
+<p class="muted">सभी तारीखें और समय भारतीय मानक समय (IST) में हैं। वर्ष चुनकर गुरु और शुक्र की अस्त अवधि देखें।</p>
 </section>
 </main>
 
@@ -110,6 +107,23 @@ async function init() {
     if (!response.ok) throw new Error("HTTP " + response.status);
     const dataset = await response.json();
     if (!Array.isArray(dataset.windows)) throw new Error("अमान्य संदर्भ-डेटा");
+    const years = [...new Set(dataset.windows
+      .filter(entry => entry.sourceLocation === "Pithoragarh, Uttarakhand, India" &&
+        entry.acceptanceEligible === true &&
+        ["Jupiter", "Venus"].includes(entry.planet))
+      .map(entry => entry.sourcePageYear))]
+      .filter(Number.isInteger)
+      .sort((a, b) => a - b);
+    yearSelect.replaceChildren();
+    for (const year of years) {
+      const option = document.createElement("option");
+      option.value = String(year);
+      option.textContent = String(year);
+      yearSelect.append(option);
+    }
+    if (!years.length) throw new Error("वार्षिक डेटा उपलब्ध नहीं");
+    const currentYear = new Date().getFullYear();
+    yearSelect.value = String(years.includes(currentYear) ? currentYear : years[years.length - 1]);
     render(dataset);
     yearSelect.addEventListener("change", () => render(dataset));
   } catch (error) {
