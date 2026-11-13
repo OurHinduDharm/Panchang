@@ -62,9 +62,9 @@ export function scanPlanetHorizonEvents({ astronomy, planet, observer, start, en
         sunDepressionDeg: -sample.sunAltitudeDeg,
         planetAltitudeDeg: sample.objectAltitudeDeg,
         planetAzimuthDeg: sample.objectAzimuthDeg,
-        horizonDirection: sample.objectAzimuthDeg >= 0 && sample.objectAzimuthDeg < 180
-          ? "east"
-          : "west",
+        horizonDirection: Number.isFinite(sample.objectAzimuthDeg)
+          ? (((sample.objectAzimuthDeg % 360) + 360) % 360) < 180 ? "east" : "west"
+          : null,
         apparentMagnitude: sample.apparentMagnitude
       }));
     }
@@ -196,7 +196,6 @@ export function calculateCityAstaUdayaCandidates({
           eventType,
           instant: crossing.instant,
           thresholdDepressionDeg,
-          eventType,
           planetAzimuthDeg: crossing.planetAzimuthDeg ?? null,
           horizonDirection: crossing.horizonDirection ?? null,
           interpolation: crossing.interpolation,
