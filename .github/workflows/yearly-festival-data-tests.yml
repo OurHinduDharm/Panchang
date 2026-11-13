@@ -11,12 +11,19 @@ on:
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - 'tests/2030-festival-audit.test.mjs'
+      - 'tests/2027-festival-audit.test.mjs'
+      - 'tests/2028-festival-audit.test.mjs'
+      - 'tests/2028-festival-card-separation.test.mjs'
+      - 'tests/2029-festival-audit.test.mjs'
+      - 'tests/2029-jan-aug-followup-audit.test.mjs'
       - 'tests/festival-data-integrity.test.mjs'
       - 'tests/recurring-muhurta-rule-coverage-2026-2030.test.mjs'
       - 'monthly-vrat-parv-widget.js'
       - 'tests/monthly-focus-before-enrichment.test.mjs'
       - 'festival-muhurta.js'
       - 'scripts/generate-annual-dwadashi-review.mjs'
+      - 'scripts/diagnose-2028-pithoragarh-festival-dates.mjs'
+      - 'scripts/diagnose-2029-pithoragarh-festival-dates.mjs'
       - 'data/festivals/**'
       - 'data/dwadashi/**'
       - 'data/chaturmas/**'
@@ -38,10 +45,17 @@ on:
       - 'scripts/audit-festival-catalog.mjs'
       - 'tests/festival-catalog-integrity.test.mjs'
       - 'tests/2030-festival-audit.test.mjs'
+      - 'tests/2027-festival-audit.test.mjs'
+      - 'tests/2028-festival-audit.test.mjs'
+      - 'tests/2028-festival-card-separation.test.mjs'
+      - 'tests/2029-festival-audit.test.mjs'
+      - 'tests/2029-jan-aug-followup-audit.test.mjs'
       - 'monthly-vrat-parv-widget.js'
       - 'tests/monthly-focus-before-enrichment.test.mjs'
       - 'festival-muhurta.js'
       - 'scripts/generate-annual-dwadashi-review.mjs'
+      - 'scripts/diagnose-2028-pithoragarh-festival-dates.mjs'
+      - 'scripts/diagnose-2029-pithoragarh-festival-dates.mjs'
       - 'data/festivals/**'
       - 'data/dwadashi/**'
       - 'data/chaturmas/**'
@@ -72,6 +86,16 @@ jobs:
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Run yearly migration, annual readiness, Samaveda decision, and local eclipse visibility tests
         run: node --test tests/merge-festival-months-to-yearly.test.mjs tests/audit-annual-publication-readiness.test.mjs tests/samaveda-annual-review.test.mjs tests/eclipse-panchang-visibility.test.mjs
+      - name: Diagnose all 2028 festival dates against Pithoragarh sunrise and observance times
+        run: node scripts/diagnose-2028-pithoragarh-festival-dates.mjs
+      - name: Diagnose all 2029 festival dates against Pithoragarh sunrise and observance times
+        run: node scripts/diagnose-2029-pithoragarh-festival-dates.mjs
+      - name: Run complete 2027 festival catalog regression audits
+        run: node --test tests/2027-festival-audit.test.mjs
+      - name: Run complete 2028 festival catalog regression audits
+        run: node --test tests/2028-festival-audit.test.mjs tests/2028-festival-card-separation.test.mjs
+      - name: Run complete 2029 festival catalog regression audits
+        run: node --test tests/2029-festival-audit.test.mjs tests/2029-jan-aug-followup-audit.test.mjs
       - name: Run 2030 annual festival and muhurta regression audit
         run: node --test tests/2030-festival-audit.test.mjs
       - name: Run recurring Pradosh and Masik Shivaratri muhurta rule coverage
