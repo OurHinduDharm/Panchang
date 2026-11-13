@@ -2146,7 +2146,7 @@
   "chaturmas": {
     "schemaVersion": 1,
     "year": 2030,
-    "status": "needs-review",
+    "status": "approved",
     "selectionMethod": "udayavyapini-smarta-first-sunrise-with-kartik-ekadashi-vrata-rule",
     "rulesArticleUrl": "http://ourhindudharm.blogspot.com/2014/07/About-Chaaturmaas.html",
     "location": {
@@ -2262,7 +2262,7 @@
     "missingBoundaries": [],
     "startDate": "2030-07-11",
     "endDate": "2030-11-05",
-    "completionDate": "2030-11-07",
+    "completionDate": "2030-11-06",
     "cardVisibleThroughDate": "2030-11-07",
     "phases": [
       {
@@ -2301,7 +2301,9 @@
         "endTithi": "कार्तिक शुक्ल एकादशी",
         "detail": "आरंभ में दूध का दान करें; दालों अथवा किसी एक प्रकार की दाल का त्याग करें।"
       }
-    ]
+    ],
+    "completionTithi": "कार्तिक शुक्ल द्वादशी",
+    "completionDetail": "त्यागी गई दालों का दान करके चातुर्मास्य व्रत पूर्ण करें।"
   },
   "sourceReview": {
     "status": "pending-manual-cross-check",
@@ -2372,6 +2374,57 @@
       "targetYearDays": 365,
       "precedingYearBufferDays": 0,
       "followingYearBufferDays": 31
-    }
+    },
+    "chaturmasBoundaryCrossChecks": [
+      {
+        "boundary": "start",
+        "date": "2030-07-11",
+        "tithi": "आषाढ़ शुक्ल एकादशी",
+        "rule": "उदयव्यापिनी स्मार्त एकादशी",
+        "source": "Drik Panchang — Devshayani Ekadashi / Ekadashi Dates",
+        "url": "https://www.drikpanchang.com/ekadashis/devshayani/devshayani-ekadashi-date-time.html?lang=en&year=2030"
+      },
+      {
+        "boundary": "shak-end",
+        "date": "2030-08-10",
+        "tithi": "श्रावण शुक्ल द्वादशी",
+        "rule": "स्थानीय सूर्योदय पर द्वादशी",
+        "source": "Drik Panchang — Dwadashi Dates",
+        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
+      },
+      {
+        "boundary": "dahi-end",
+        "date": "2030-09-09",
+        "tithi": "भाद्रपद शुक्ल द्वादशी",
+        "rule": "स्थानीय सूर्योदय पर द्वादशी",
+        "source": "Drik Panchang — Dwadashi Dates",
+        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
+      },
+      {
+        "boundary": "doodh-end",
+        "date": "2030-10-08",
+        "tithi": "आश्विन शुक्ल द्वादशी",
+        "rule": "स्थानीय सूर्योदय पर द्वादशी",
+        "source": "Drik Panchang — Dwadashi Dates",
+        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
+      },
+      {
+        "boundary": "end",
+        "date": "2030-11-05",
+        "tithi": "कार्तिक शुक्ल एकादशी",
+        "rule": "स्मार्त देवोत्थानी एकादशी",
+        "source": "Drik Panchang — Hindu Calendar / Ekadashi Dates",
+        "url": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2030"
+      },
+      {
+        "boundary": "completion",
+        "date": "2030-11-06",
+        "tithi": "कार्तिक शुक्ल द्वादशी",
+        "rule": "द्वादशी उदयव्याप्ति पर चातुर्मास समापन",
+        "source": "Drik Panchang — Dwadashi Dates",
+        "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030"
+      }
+    ],
+    "chaturmasBoundaryCrossChecksNote": "Drik तिथि-अंतराल को पिथौरागढ़ के स्थानीय सूर्योदय-निरीक्षण से मिलाकर observance dates चुनी गईं; Drik सूची में दर्शाई गई तिथि-प्रारम्भ तारीख़ को सीधे स्थानीय उदयव्याप्ति तारीख़ न माना जाए।"
   }
-}
+}\n
