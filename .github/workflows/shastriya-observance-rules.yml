@@ -7,11 +7,13 @@ on:
     paths:
       - 'festival-observance-rules.mjs'
       - 'tests/festival-observance-rules.test.mjs'
+      - 'tests/festival-observance-rules-real-panchang.test.mjs'
       - '.github/workflows/shastriya-observance-rules.yml'
   pull_request:
     paths:
       - 'festival-observance-rules.mjs'
       - 'tests/festival-observance-rules.test.mjs'
+      - 'tests/festival-observance-rules-real-panchang.test.mjs'
       - '.github/workflows/shastriya-observance-rules.yml'
 permissions:
   contents: read
@@ -23,5 +25,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Install pinned Panchang calculation engine
+        run: npm install --no-save --package-lock=false @ishubhamx/panchangam-js@3.0.0
       - name: Run observance-rule regression suite
-        run: node --test tests/festival-observance-rules.test.mjs
+        run: node --test tests/festival-observance-rules.test.mjs tests/festival-observance-rules-real-panchang.test.mjs
