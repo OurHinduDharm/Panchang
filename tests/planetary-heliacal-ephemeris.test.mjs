@@ -34,6 +34,7 @@ test("creates a topocentric Jupiter sample with magnitude and Sun geometry", () 
   assert.equal(sample.planet, "Jupiter");
   assert.equal(sample.apparentMagnitude, -2);
   assert.equal(sample.objectAltitudeDeg, 20);
+  assert.equal(sample.objectAzimuthDeg, 100);
   assert.equal(sample.sunAltitudeDeg, -10);
   assert.equal(sample.visibility.modelId, "schaefer-1985-twilight-visibility");
 });
