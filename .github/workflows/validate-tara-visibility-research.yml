@@ -1,0 +1,38 @@
+name: Validate Tara visibility research adapters
+
+on:
+  pull_request:
+    branches: [fix/agastya-public-source-gating]
+    paths:
+      - "planetary-heliacal-visibility.mjs"
+      - "planetary-heliacal-ephemeris.mjs"
+      - "planetary-city-location.mjs"
+      - "agastya-canopus-position.mjs"
+      - "tests/planetary-heliacal-visibility.test.mjs"
+      - "tests/planetary-heliacal-ephemeris.test.mjs"
+      - "tests/planetary-city-location.test.mjs"
+      - "tests/agastya-canopus-position.test.mjs"
+      - ".github/workflows/validate-tara-visibility-research.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  research-adapter-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned free astronomy engine
+        run: npm install --no-save astronomy-engine@2.1.19
+      - name: Run visibility, city-profile and Agastya tests
+        run: |
+          node --test tests/planetary-heliacal-visibility.test.mjs
+          node --test tests/planetary-heliacal-ephemeris.test.mjs
+          node --test tests/planetary-city-location.test.mjs
+          node --test tests/agastya-canopus-position.test.mjs
+      - name: Smoke-test the real Astronomy Engine adapter
+        run: |
+          node --input-type=module -e 'import * as A from "astronomy-engine"; import {getCanopusHorizontalPosition} from "./agastya-canopus-position.mjs"; const p=getCanopusHorizontalPosition({astronomy:A,observer:new A.Observer(29.5828,80.2182,1650),instant:"2028-09-01T00:00:00Z"}); if(!Number.isFinite(p.altitudeDeg)||!Number.isFinite(p.azimuthDeg)) throw new Error(JSON.stringify(p)); console.log(JSON.stringify(p));'
