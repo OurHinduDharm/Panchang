@@ -459,7 +459,7 @@ function createPlanetCard(data, dailyEvents = {}) {
   card.innerHTML = `
     <h3>🌟 गुरु एवं शुक्र का तारा-अस्त तथा पुनः उदय</h3>
     <div class="planet-rise-set-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${rows}</div>
-    <p style="margin:12px 0 0"><a href="https://ourhindudharm.github.io/Panchang/planetary-asta-udaya.html">वर्षवार गुरु-शुक्र सूची देखें</a></p>
+    <p style="margin:12px 0 0"><a href="https://ourhindudharm.blogspot.com/p/guru-shukra-agastya-tara-uday-ast.html">वर्षवार गुरु-शुक्र सूची देखें</a></p>
   `;
   return card;
 }
