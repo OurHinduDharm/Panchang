@@ -229,7 +229,7 @@ test("classical Ujjain Surya Siddhanta references remain a separate research-onl
     item.asta.endsWith("+05:30") &&
     item.udaya.endsWith("+05:30") &&
     Date.parse(item.asta) < Date.parse(item.udaya) &&
-    item.source.includes("divinenakshatra.com")
+    new URL(item.source).protocol === "https:" && new URL(item.source).hostname === "divinenakshatra.com"
   ));
   assert.deepEqual(
     classicalReference.records.filter(item => item.planet === "Jupiter").map(item => item.year),
