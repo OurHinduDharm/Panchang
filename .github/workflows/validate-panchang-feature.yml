@@ -22,6 +22,8 @@ jobs:
           node --experimental-default-type=module --check night-prahar.js
           node --experimental-default-type=module --check extra-panchang.js
           node --check local-horizon-events.mjs
+          node --check scripts/annual-tara-source-normalizer.mjs
+          node --check scripts/capture-guru-shukra-annual-sources.mjs
           node --experimental-default-type=module --check festivals.js
           node --experimental-default-type=module --check nivas.js
           node --experimental-default-type=module --check festival-filter.js
