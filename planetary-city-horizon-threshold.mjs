@@ -61,6 +61,10 @@ export function scanPlanetHorizonEvents({ astronomy, planet, observer, start, en
         sunAltitudeDeg: sample.sunAltitudeDeg,
         sunDepressionDeg: -sample.sunAltitudeDeg,
         planetAltitudeDeg: sample.objectAltitudeDeg,
+        planetAzimuthDeg: sample.objectAzimuthDeg,
+        horizonDirection: sample.objectAzimuthDeg >= 0 && sample.objectAzimuthDeg < 180
+          ? "east"
+          : "west",
         apparentMagnitude: sample.apparentMagnitude
       }));
     }
@@ -115,7 +119,14 @@ export function findHorizonTwilightThresholdCrossings({
       const a = previous.sunDepressionDeg - thresholdDepressionDeg;
       const b = current.sunDepressionDeg - thresholdDepressionDeg;
       if (a === 0) {
-        candidates.push({ type, instant: previous.instant, thresholdDepressionDeg, interpolation: "exact-sample" });
+        candidates.push({
+          type,
+          instant: previous.instant,
+          thresholdDepressionDeg,
+          interpolation: "exact-sample",
+          planetAzimuthDeg: previous.planetAzimuthDeg ?? null,
+          horizonDirection: previous.horizonDirection ?? null
+        });
       } else if (a * b < 0) {
         const fraction = (thresholdDepressionDeg - previous.sunDepressionDeg) /
           (current.sunDepressionDeg - previous.sunDepressionDeg);
@@ -132,7 +143,9 @@ export function findHorizonTwilightThresholdCrossings({
           bracket: [previous.instant, current.instant],
           bracketDepressionDeg: [previous.sunDepressionDeg, current.sunDepressionDeg],
           bracketFraction: fraction,
-          selectedBracketEvent: selectedEvent.instant
+          selectedBracketEvent: selectedEvent.instant,
+          planetAzimuthDeg: selectedEvent.planetAzimuthDeg ?? null,
+          horizonDirection: selectedEvent.horizonDirection ?? null
         });
       }
     }
@@ -183,6 +196,9 @@ export function calculateCityAstaUdayaCandidates({
           eventType,
           instant: crossing.instant,
           thresholdDepressionDeg,
+          eventType,
+          planetAzimuthDeg: crossing.planetAzimuthDeg ?? null,
+          horizonDirection: crossing.horizonDirection ?? null,
           interpolation: crossing.interpolation,
           bracket: crossing.bracket,
           bracketFraction: crossing.bracketFraction
