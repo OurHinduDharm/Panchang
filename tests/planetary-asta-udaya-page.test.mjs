@@ -87,7 +87,7 @@ test("main Panchang planetary card links to the annual reference page", () => {
 test("annual page builds its year selector from the available dataset and shows no outside links", () => {
   const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
   assert.ok(page.includes("const years = [...new Set(["));
-  assert.ok(page.includes("...agastya.years.map(entry => entry.year)"));
+  assert.ok(page.includes("...agastyaPublished.map(entry => entry.year)"));
   assert.ok(page.includes("./data/pithoragarh-guru-shukra-calculated-2028-2030.json"));
   assert.ok(page.includes("...calculated.windows"));
   assert.ok(page.includes("yearSelect.append(option)"));
