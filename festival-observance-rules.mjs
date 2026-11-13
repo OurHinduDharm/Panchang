@@ -110,12 +110,12 @@ const PROFILES = {
   },
   "nag-panchami-special-review": {
     id: "nag-panchami-special-review", aliases: ["nag-panchami", "nag-panchami-madhyahna"],
-    label: "नाग पंचमी — विशेष तिथि-नियम की जाँच बाकी", tithiIndices: [4], paksha: "शुक्ल पक्ष",
+    label: "नाग पंचमी — धर्मसिंधु के तीन-मुहूर्त नियम से गणना", tithiIndices: [4], paksha: "शुक्ल पक्ष",
     decisionMoment: "manual-review", windowLabel: "तीन मुहूर्त और तिथि-वेध",
     calculationBasis: "dharmasindhu-three-muhurta-para-viddha-and-short-tithi-exceptions",
     allowedMonths: ["श्रावण"], reviewOnly: true,
-    reviewNote: "धर्मसिंधु में नाग पंचमी के लिए सूर्योदय के बाद तीन मुहूर्त तक पंचमी और षष्ठी से संयोग का विशेष नियम है। छोटी पंचमी और चतुर्थी-स्पर्श के अपवाद भी हैं। केवल मध्याह्न-मिलान पर्याप्त नहीं; इसलिए अंतिम निर्णय अभी हाथ से जाँचना होगा।",
-    sourceReview: "dharmasindhu-special-rule-identified-full-exception-implementation-pending"
+    reviewNote: "धर्मसिंधु (पृ. 44) के अनुसार बाद के दिन सूर्योदय पर पंचमी तीन मुहूर्त तक रहे तो वही दिन लें। यदि पंचमी दो से तीन मुहूर्त रहे तो पूर्वदिन की सूर्योदय-व्याप्त चतुर्थी तीन मुहूर्त से अधिक होने पर बाद का दिन; तीन से कम होने पर पूर्वदिन का पंचमी-स्पर्श जाँचें। एक मुहूर्त या अस्पष्ट सीमा पर अनुमान न लगाएँ। गणना-रिज़ॉल्वर केवल तारीख़ का candidate देता है; स्रोत-स्वीकृति अलग है।",
+    sourceReview: "dharmasindhu-p44-and-nirnaya-sindhu-p164-rule-implemented-with-conservative-boundary-review"
   },
   "skanda-shashthi-kartika-review": {
     id: "skanda-shashthi-kartika-review", aliases: ["kanda-sashti", "soorasamharam"],
@@ -466,6 +466,7 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
     warnings: ["candidate-contexts-missing"],
     evaluations: [], finalDate: null, autoApproved: false
   };
+  if (profileId === "nag-panchami-special-review") return resolveNagPanchamiCandidates(candidateContexts);
   const dates = candidateContexts.map(item => String(item?.date ?? ""));
   if (dates.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
     return {
@@ -631,5 +632,109 @@ export function calculateEkadashiParanaWindow(context = {}) {
     pratahEnd: pratahEnd.toISOString(), madhyahnaEnd: madhyahnaEnd.toISOString(),
     finalDate: null, autoApproved: false,
     warnings: ["no-valid-parana-window-under-standard-smarta-rules", "special-exception-or-source-review-required"]
+  };
+}
+
+
+/**
+ * Resolve the two-day Shravana Shukla Nag Panchami rule described in
+ * Dharmasindhu (p.44) and Nirnaya Sindhu (p.164). Muhurtas are 1/15 of
+ * each local day's daylight. Ambiguous or incomplete cases stay in review.
+ */
+export function resolveNagPanchamiCandidates(candidateDays) {
+  const fail = (status, warnings, evidence = []) => ({
+    status, ruleId: "nag-panchami-special-review", evaluations: evidence,
+    selectedDate: null, finalDate: null, autoApproved: false, warnings
+  });
+  if (!Array.isArray(candidateDays) || !candidateDays.length || candidateDays.length > 2) {
+    return fail("insufficient-data", ["one-or-two-consecutive-local-days-required"]);
+  }
+  const days = candidateDays.slice().sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  const dateValid = date => /^\d{4}-\d{2}-\d{2}$/.test(String(date ?? ""));
+  const dayInfo = days.map(day => {
+    const sunrise = asDate(day?.sunrise);
+    const sunset = asDate(day?.sunset);
+    const tithis = Array.isArray(day?.tithis) ? day.tithis : [];
+    const masa = String(day?.masa ?? "").replace(/^अधिक\s+/, "").trim();
+    const paksha = String(day?.paksha ?? "").trim();
+    if (!dateValid(day?.date) || !sunrise || !sunset || sunset <= sunrise ||
+        masa !== "श्रावण" || !["शुक्ल", "शुक्ल पक्ष"].includes(paksha) || !tithis.length) return null;
+    const daylightMs = sunset.getTime() - sunrise.getTime();
+    const muhurtaMs = daylightMs / 15;
+    const intervals = tithis.map((row, index) => ({ row, interval: asInterval(row), index })).filter(x => x.interval);
+    const active = index => intervals.find(x => x.interval.index === index && x.interval.start <= sunrise && x.interval.end > sunrise);
+    const afterSunrise = index => {
+      const item = active(index);
+      return item ? item.interval.end.getTime() - sunrise.getTime() : 0;
+    };
+    const panchamiDuringDay = intervals.some(x => x.interval.index === 4 &&
+      overlap(x.interval, { start: sunrise, end: sunset }));
+    return {
+      date: day.date, sunrise, sunset, muhurtaMs,
+      chaturthiAfterSunriseMs: afterSunrise(3),
+      panchamiAfterSunriseMs: afterSunrise(4),
+      panchamiDuringDay
+    };
+  });
+  if (dayInfo.some(item => !item)) return fail("insufficient-data", [
+    "local-sunrise-sunset-shravana-masa-shukla-paksha-or-tithi-interval-missing"
+  ]);
+  if (dayInfo.length === 1) {
+    const day = dayInfo[0];
+    if (day.panchamiAfterSunriseMs >= 3 * day.muhurtaMs) return {
+      status: "date-selected-needs-source-approval",
+      ruleId: "nag-panchami-special-review", selectedDate: day.date, finalDate: day.date,
+      selectionBasis: "panchami-prevails-three-muhurtas-after-local-sunrise",
+      evaluations: dayInfo.map(x => ({
+        date: x.date, panchamiAfterSunriseMs: x.panchamiAfterSunriseMs,
+        threeMuhurtaMs: 3 * x.muhurtaMs, chaturthiAfterSunriseMs: x.chaturthiAfterSunriseMs
+      })),
+      warnings: ["unique-three-muhurta-candidate", "primary-source-and-publication-approval-still-required"],
+      autoApproved: false
+    };
+    return fail("manual-review", ["single-day-candidate-does-not-meet-three-muhurta-rule"], dayInfo);
+  }
+  const earlier = dayInfo[0], later = dayInfo[1];
+  const expectedNext = new Date(earlier.sunrise.getTime());
+  expectedNext.setUTCDate(expectedNext.getUTCDate() + 1);
+  const actualNext = new Date(later.sunrise.getTime());
+  if (expectedNext.toISOString().slice(0, 10) !== actualNext.toISOString().slice(0, 10)) {
+    return fail("insufficient-data", ["candidate-days-are-not-consecutive"]);
+  }
+  const laterPanchami = later.panchamiAfterSunriseMs;
+  const laterThree = 3 * later.muhurtaMs;
+  const laterTwo = 2 * later.muhurtaMs;
+  let selectedDate = null, selectionBasis = null;
+  if (laterPanchami >= laterThree) {
+    selectedDate = later.date;
+    selectionBasis = "later-day-panchami-prevails-three-muhurtas-after-sunrise";
+  } else if (laterPanchami >= laterTwo && earlier.chaturthiAfterSunriseMs > 3 * earlier.muhurtaMs) {
+    selectedDate = later.date;
+    selectionBasis = "later-day-two-muhurta-panchami-with-earlier-chaturthi-over-three-muhurtas";
+  } else if (laterPanchami >= laterTwo &&
+      earlier.chaturthiAfterSunriseMs > 0 &&
+      earlier.chaturthiAfterSunriseMs < 3 * earlier.muhurtaMs &&
+      earlier.panchamiDuringDay) {
+    selectedDate = earlier.date;
+    selectionBasis = "earlier-day-panchami-when-earlier-chaturthi-is-under-three-muhurtas";
+  }
+  const evaluations = dayInfo.map(x => ({
+    date: x.date, panchamiAfterSunriseMs: x.panchamiAfterSunriseMs,
+    twoMuhurtaMs: 2 * x.muhurtaMs, threeMuhurtaMs: 3 * x.muhurtaMs,
+    chaturthiAfterSunriseMs: x.chaturthiAfterSunriseMs,
+    earlierDayPanchamiPresent: x.panchamiDuringDay
+  }));
+  if (!selectedDate) return fail("manual-review", [
+    laterPanchami < laterTwo
+      ? "later-day-panchami-shorter-than-two-muhurtas"
+      : "source-tie-break-not-satisfied-or-exact-three-muhurta-boundary",
+    "no-date-selected-without-explicit-dharmasindhu-exception"
+  ], evaluations);
+  return {
+    status: "date-selected-needs-source-approval",
+    ruleId: "nag-panchami-special-review", selectedDate, finalDate: selectedDate,
+    selectionBasis, evaluations,
+    warnings: ["dharmasindhu-three-muhurta-rule-applied", "primary-source-and-publication-approval-still-required"],
+    autoApproved: false
   };
 }
