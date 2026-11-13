@@ -569,3 +569,21 @@ test("2030 annual review keeps the two Pausha Krishna Dwadashi occurrences separ
   assert.deepEqual(records.map(item => item.candidateDates), [["2030-01-01"], ["2030-12-22"]]);
   assert.ok(records.every(item => item.status === "needs-review"));
 });
+
+
+test("2030 complex Dwadashi records retain Drik dates as review candidates, not approvals", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  for (const [id, date, label] of [
+    ["shravana-krishna", "2030-07-26", "कृष्ण वासुदेव द्वादशी"],
+    ["kartika-krishna", "2030-10-23", "गोवत्स द्वादशी"]
+  ]) {
+    const record = review.tithis.find(item => item.id === id);
+    assert.equal(record.referenceDate, date);
+    assert.equal(record.selectedDate, date);
+    assert.ok(record.drikLabels.includes(label));
+    assert.equal(record.status, "needs-review");
+    assert.equal(record.drikSpecialObservances[0].status, "source-cross-reference-needs-local-rule-review");
+  }
+  const pausha = review.tithis.filter(item => item.id.startsWith("pausha-krishna"));
+  assert.ok(pausha.every(item => item.crossReferences.some(ref => ref.name === "कृष्ण मत्स्य द्वादशी")));
+});
