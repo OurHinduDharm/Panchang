@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   buildLocalTwilightWindows,
-  calculateCityHeliacalCandidates
+  calculateCityHeliacalCandidates,
+  classifyHeliacalTransition
 } from "../planetary-city-heliacal-engine.mjs";
 
 const observer = { latitude: 29.5828, longitude: 80.2182, height: 1650 };
@@ -85,4 +86,29 @@ test("rejects incomplete observers and reversed date ranges", () => {
     astronomy: fakeAstronomy(), observer,
     start: "2028-01-02T00:00:00Z", end: "2028-01-01T00:00:00Z"
   }), /end must be after start/);
+});
+
+test("classifies all four morning/evening heliacal transitions", () => {
+  assert.deepEqual(classifyHeliacalTransition("morning", "first-visible"), {
+    visibilityPhase: "morning-first-visible",
+    type: "udaya-candidate",
+    horizonDirection: "east"
+  });
+  assert.deepEqual(classifyHeliacalTransition("morning", "last-visible"), {
+    visibilityPhase: "morning-last-visible",
+    type: "asta-candidate",
+    horizonDirection: "east"
+  });
+  assert.deepEqual(classifyHeliacalTransition("evening", "first-visible"), {
+    visibilityPhase: "evening-first-visible",
+    type: "udaya-candidate",
+    horizonDirection: "west"
+  });
+  assert.deepEqual(classifyHeliacalTransition("evening", "last-visible"), {
+    visibilityPhase: "evening-last-visible",
+    type: "asta-candidate",
+    horizonDirection: "west"
+  });
+  assert.throws(() => classifyHeliacalTransition("night", "first-visible"), /period/);
+  assert.throws(() => classifyHeliacalTransition("morning", "transit"), /crossingType/);
 });
