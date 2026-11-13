@@ -16,7 +16,9 @@ test("interpolates a solar-depression threshold between adjacent horizon events"
   });
   assert.equal(candidates.length, 1);
   assert.equal(candidates[0].type, "rise");
-  assert.equal(candidates[0].instant, "2027-01-01T12:00:00.000Z");
+  assert.equal(candidates[0].instant, "2027-01-01T00:00:00.000Z");
+  assert.equal(candidates[0].bracketFraction, 0.5);
+  assert.equal(candidates[0].interpolation, "threshold-bracket-nearest-day-then-actual-horizon-clock");
 });
 
 test("does not emit a crossing when the threshold is not bracketed", () => {
