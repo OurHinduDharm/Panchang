@@ -8,6 +8,8 @@ on:
       - "planetary-city-horizon-threshold.mjs"
       - "research/planetary-city-backtest.mjs"
       - "research/planetary-conjunction-association.mjs"
+      - "data/pithoragarh-guru-shukra-calculated-2028-2030.json"
+      - "data/agastya-arghya-pithoragarh.json"
       - "tests/planetary-conjunction-association.test.mjs"
       - ".github/workflows/validate-tara-visibility-research.yml"
   pull_request:
