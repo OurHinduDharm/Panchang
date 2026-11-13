@@ -1,6 +1,15 @@
 name: Validate Tara visibility research adapters
 
 on:
+  push:
+    branches: [feature/city-aware-tara-location-profiles]
+    paths:
+      - "planetary-city-heliacal-engine.mjs"
+      - "planetary-city-horizon-threshold.mjs"
+      - "research/planetary-city-backtest.mjs"
+      - "research/planetary-conjunction-association.mjs"
+      - "tests/planetary-conjunction-association.test.mjs"
+      - ".github/workflows/validate-tara-visibility-research.yml"
   pull_request:
     branches: [fix/agastya-public-source-gating]
     paths:
