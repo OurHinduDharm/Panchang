@@ -1,0 +1,45 @@
+name: Annual Guru-Shukra source capture
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_year:
+        description: First source year (blank = current year)
+        required: false
+        type: string
+      end_year:
+        description: Last source year (blank = current year + 2)
+        required: false
+        type: string
+  schedule:
+    - cron: "17 2 15 1 *"
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned browser dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Capture Guru and Shukra source pages
+        env:
+          START_YEAR: ${{ github.event.inputs.start_year }}
+          END_YEAR: ${{ github.event.inputs.end_year }}
+          OUTPUT_PATH: artifacts/guru-shukra-source-candidates.json
+        run: node scripts/capture-guru-shukra-annual-sources.mjs
+      - name: Upload internal review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: guru-shukra-source-candidates-${{ github.run_number }}
+          path: artifacts/guru-shukra-source-candidates.json
+          if-no-files-found: error
+          retention-days: 30
