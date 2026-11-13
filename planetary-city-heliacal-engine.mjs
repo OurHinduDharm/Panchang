@@ -140,7 +140,13 @@ export function calculateCityHeliacalCandidates({
       return {
         ...classification,
         period: window.period,
-        instant: crossing.instant
+        instant: crossing.instant,
+        planetAltitudeDeg: crossing.planetAltitudeDeg ?? null,
+        planetAzimuthDeg: crossing.planetAzimuthDeg ?? null,
+        horizonDirection: crossing.horizonDirection ?? classification.horizonDirection,
+        directionConsistentWithTwilight:
+          crossing.horizonDirection == null ||
+          crossing.horizonDirection === classification.horizonDirection
       };
     });
     return Object.freeze({ window, result, transitions });
