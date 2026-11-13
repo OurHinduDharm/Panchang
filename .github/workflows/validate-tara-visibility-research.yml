@@ -7,6 +7,8 @@ on:
       - "planetary-heliacal-visibility.mjs"
       - "planetary-heliacal-ephemeris.mjs"
       - "planetary-city-heliacal-engine.mjs"
+      - "planetary-city-horizon-threshold.mjs"
+      - "tests/planetary-city-horizon-threshold.test.mjs"
       - "research/planetary-city-backtest.mjs"
       - "data/drik-planetary-reference-2024-2027.json"
       - "planetary-city-location.mjs"
@@ -36,6 +38,7 @@ jobs:
           node --test tests/planetary-heliacal-visibility.test.mjs
           node --test tests/planetary-heliacal-ephemeris.test.mjs
           node --test tests/planetary-city-heliacal-engine.test.mjs
+          node --test tests/planetary-city-horizon-threshold.test.mjs
           node --test tests/planetary-city-location.test.mjs
           node --test tests/agastya-canopus-position.test.mjs
       - name: Back-test city model against Pithoragarh Guru/Shukra records
