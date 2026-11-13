@@ -2,12 +2,11 @@ const SOURCE_CITY = "Pithoragarh, Uttarakhand, India";
 const SOURCE_STATUS = "direct-page-captured-browser-verified";
 const TIME_ZONE = "Asia/Kolkata";
 
+// Public annual Tara Asta/Udaya page is intentionally limited to the
+// two high-demand muhurta planets. Other planetary research stays internal.
 export const PLANET_ORDER = Object.freeze([
-  { key: "Mercury", name: "बुध" },
-  { key: "Venus", name: "शुक्र" },
-  { key: "Mars", name: "मंगल" },
   { key: "Jupiter", name: "गुरु" },
-  { key: "Saturn", name: "शनि" }
+  { key: "Venus", name: "शुक्र" }
 ]);
 
 function validBoundary(value) {
