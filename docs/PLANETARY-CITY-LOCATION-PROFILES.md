@@ -75,3 +75,21 @@
 - The Astronomy Engine relative-longitude convention is documented in its JavaScript reference. See https://github.com/cosinekitty/astronomy/blob/master/source/js/README.md
 
 The Venus 2027 AstaEnd holdout remains unresolved. At the captured source boundary (2027-09-09 18:48 IST), the local horizon event itself agrees within about 0.5 minute, while the source Sun depression is about 5.741°. The training median for the Venus AstaEnd/set branch is about 5.889°, and the resulting threshold candidate is roughly two days late. This points to a limitation in the fixed empirical threshold/date rule, not an error in the local planet horizon event. Do not tune the threshold on this holdout record; retain it as an explicit failure until an independent rule/source resolves it.
+
+
+## Strict conjunction-side pairing (research only)
+
+The raw candidate generator can emit two labels for the same physical rise/set event because it evaluates separate boundary thresholds. These are not four independent astronomical transitions. The new `pairCandidatesAroundConjunctions` diagnostic therefore requires both the correct side of conjunction and the expected local horizon direction:
+
+| Planet/event | AstaStart (before conjunction) | Udaya (after conjunction) |
+|---|---|---|
+| Jupiter superior conjunction | set | rise |
+| Venus inferior conjunction | set | rise |
+| Venus superior conjunction | rise | set |
+
+Wrong-side and wrong-direction candidates are not used in a paired window. The routine reports missing branches instead of guessing. A paired window remains `publicationEligible: false`.
+
+Initial Pithoragarh 2028–2030 research pairing from the current threshold calibration:
+- Jupiter: three conjunction-centred pairs (2028, 2029, 2030); the March/April candidate branches are excluded because they are not near the relevant solar conjunction.
+- Venus: four conjunction-centred pairs (2028 inferior, 2029 superior, 2030 inferior, 2030 superior).
+- These are model outputs, not Drik-verified dates. The 2029 Venus superior-conjunction window is notably longer than the 2027 source example and needs independent checking before the model can be accepted.
