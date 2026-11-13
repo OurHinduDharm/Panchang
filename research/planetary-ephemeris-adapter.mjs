@@ -106,10 +106,29 @@ export function findGeocentricMotionStations({
   const stepMs = coarseStepHours * HOUR_MS;
   const toleranceMs = toleranceSeconds * 1000;
   const stations = [];
+  const recordStation = instantMs => {
+    const beforeRate = rate(instantMs - 6 * HOUR_MS);
+    const afterRate = rate(instantMs + 6 * HOUR_MS);
+    if ((beforeRate < 0) !== (afterRate < 0)) {
+      stations.push(Object.freeze({
+        instant: new Date(instantMs).toISOString(),
+        transition: beforeRate < 0 ? "retrograde-to-direct" : "direct-to-retrograde",
+        motionBefore: beforeRate < 0 ? "retrograde" : "direct",
+        motionAfter: afterRate < 0 ? "retrograde" : "direct",
+        longitudeRateBeforeDegPerDay: beforeRate,
+        longitudeRateAfterDegPerDay: afterRate,
+        method: "geocentric-ecliptic-longitude-rate-root",
+        uncertaintySeconds: Math.ceil(toleranceMs / 1000)
+      }));
+    }
+  };
   let left = start.getTime();
   let leftRate = rate(left);
 
   while (left < end.getTime()) {
+    // A coarse sample can land exactly on a station. Handle that explicitly
+    // instead of losing the sign change on both adjacent intervals.
+    if (leftRate === 0) recordStation(left);
     const right = Math.min(left + stepMs, end.getTime());
     const rightRate = rate(right);
     if (leftRate !== 0 && rightRate !== 0 && ((leftRate < 0) !== (rightRate < 0))) {
@@ -132,18 +151,7 @@ export function findGeocentricMotionStations({
         }
       }
       const instantMs = Math.round((lo + hi) / 2);
-      const beforeRate = rate(instantMs - 6 * HOUR_MS);
-      const afterRate = rate(instantMs + 6 * HOUR_MS);
-      stations.push(Object.freeze({
-        instant: new Date(instantMs).toISOString(),
-        transition: beforeRate < 0 && afterRate > 0 ? "retrograde-to-direct" : "direct-to-retrograde",
-        motionBefore: beforeRate < 0 ? "retrograde" : "direct",
-        motionAfter: afterRate < 0 ? "retrograde" : "direct",
-        longitudeRateBeforeDegPerDay: beforeRate,
-        longitudeRateAfterDegPerDay: afterRate,
-        method: "geocentric-ecliptic-longitude-rate-root",
-        uncertaintySeconds: Math.ceil(toleranceMs / 1000)
-      }));
+      recordStation(instantMs);
     }
     left = right;
     leftRate = rightRate;
