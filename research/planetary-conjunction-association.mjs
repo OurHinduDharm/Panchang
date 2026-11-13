@@ -172,13 +172,26 @@ export function pairCandidatesAroundConjunctions({
         daysAfterConjunction: Number(end.deltaDays.toFixed(3)),
         durationDays: Number(((ms(end.candidate.instant) - ms(start.candidate.instant)) / DAY_MS).toFixed(3)),
         durationPlausibility: (() => {
-          const reference = durationReference?.planet === planet ? durationReference : null;
-          if (!reference || !Number.isFinite(reference.minDays) ||
+          // Venus has two physically different conjunction branches. Use the
+          // matching same-city event-family reference instead of pooling both.
+          // A legacy single reference remains supported for Jupiter/tests.
+          const reference = durationReference?.byConjunctionKind &&
+            typeof durationReference.byConjunctionKind === "object"
+            ? durationReference.byConjunctionKind[conjunction.kind]
+            : durationReference?.planet === planet &&
+                (!durationReference.conjunctionKind ||
+                  durationReference.conjunctionKind === conjunction.kind)
+              ? durationReference
+              : null;
+          if (!reference || reference.planet !== planet ||
+              (reference.conjunctionKind && reference.conjunctionKind !== conjunction.kind) ||
+              !Number.isFinite(reference.minDays) ||
               !Number.isFinite(reference.maxDays) || reference.minDays < 0 ||
               reference.maxDays < reference.minDays) {
             return Object.freeze({
               status: "not-assessed",
-              reason: "No valid same-city historical duration reference supplied"
+              conjunctionKind: conjunction.kind,
+              reason: "No valid same-city historical duration reference for this conjunction branch"
             });
           }
           const withinObservedRange =
@@ -186,12 +199,15 @@ export function pairCandidatesAroundConjunctions({
             ((ms(end.candidate.instant) - ms(start.candidate.instant)) / DAY_MS) <= reference.maxDays;
           return Object.freeze({
             status: withinObservedRange ? "within-observed-range" : "outside-observed-range-review",
+            conjunctionKind: conjunction.kind,
             referenceMinDays: reference.minDays,
             referenceMaxDays: reference.maxDays,
             referenceSampleCount: reference.sampleCount,
             referenceYears: reference.years,
             referenceLocation: reference.location,
-            rule: "empirical same-city range is a review flag only; it never removes or approves a candidate"
+            referenceEventTypes: reference.referenceEventTypes ?? null,
+            confidence: reference.confidence ?? "unspecified",
+            rule: "same-city, same-conjunction-branch duration is a review flag only; it never removes or approves a candidate"
           });
         })(),
         publicationEligible: false
