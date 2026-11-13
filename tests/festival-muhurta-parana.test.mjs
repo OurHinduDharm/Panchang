@@ -124,6 +124,41 @@ test("missing tithi intervals never produce an invented parana time", () => {
 });
 
 
+test("Pithoragarh Rama Ekadashi parana uses the real next-day Dwadashi and daylight", () => {
+  const context = realPanchangContext("2026-11-05");
+  const result = calculate(context);
+  assert.equal(result.status, "calculated");
+  assert.ok(result.date instanceof Date);
+  assert.equal(result.date.toISOString(), new Date(context.nextSunrise).toISOString());
+  const sunrise = new Date(context.nextSunrise);
+  const sunset = new Date(context.nextSunset);
+  const daylight = sunset.getTime() - sunrise.getTime();
+  assert.ok(daylight > 0);
+  if (result.time) {
+    assert.equal(result.time.toISOString(), sunrise.toISOString());
+    assert.match(result.note, /द्वादशी तिथि सूर्योदय से पहले समाप्त/);
+    return;
+  }
+  assert.ok(result.start instanceof Date && result.end instanceof Date);
+  assert.ok(result.end > result.start);
+  assert.ok(result.start >= sunrise);
+  const dwadashi = context.tithis.find(item => {
+    const index = Number(item.index ?? item.number ?? item.value);
+    const start = new Date(item.startTime ?? item.start);
+    const end = new Date(item.endTime ?? item.end);
+    return [11, 26].includes(index) && end > new Date(sunrise.getTime() - 36 * 60 * 60 * 1000) &&
+      start < new Date(sunrise.getTime() + 36 * 60 * 60 * 1000);
+  });
+  assert.ok(dwadashi, "the actual next-day Dwadashi interval must be present");
+  assert.ok(result.end <= new Date(dwadashi.endTime ?? dwadashi.end));
+  if (result.calculationStatus === "morning-window") {
+    assert.ok(result.end <= new Date(sunrise.getTime() + daylight / 5));
+  } else {
+    assert.equal(result.calculationStatus, "afternoon-window");
+    assert.ok(result.start >= new Date(sunrise.getTime() + daylight * 3 / 5));
+  }
+});
+
 test("Diwali returns Pradosh and special Nishita options only during Amavasya", async () => {
   const { getFestivalMuhurta } = await import(engineUrl);
   const sunset = date("2026-11-08T17:30:00+05:30");
