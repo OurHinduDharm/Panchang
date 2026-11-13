@@ -33,6 +33,22 @@ const sourceRows = data.windows.filter(row =>
   ["Jupiter", "Venus"].includes(row.planet)
 );
 
+function nearestHorizonEvent(planet, referenceMs) {
+  const body = Astronomy.Body[planet];
+  const searchStart = new Date(referenceMs - 12 * 60 * 60_000);
+  const rise = Astronomy.SearchRiseSet(body, observer, +1, searchStart, 1.5);
+  const set = Astronomy.SearchRiseSet(body, observer, -1, searchStart, 1.5);
+  const options = [
+    rise?.date ? { type: "rise", instant: rise.date.toISOString() } : null,
+    set?.date ? { type: "set", instant: set.date.toISOString() } : null
+  ].filter(Boolean).map(event => ({
+    ...event,
+    errorMinutes: (Date.parse(event.instant) - referenceMs) / 60_000
+  }));
+  options.sort((a, b) => Math.abs(a.errorMinutes) - Math.abs(b.errorMinutes));
+  return options[0] || null;
+}
+
 function nearestCandidate(candidates, expectedType, referenceMs) {
   const matching = candidates
     .filter(candidate => candidate.type === expectedType)
@@ -65,6 +81,7 @@ for (const row of sourceRows) {
       refineSeconds: 15
     });
     const nearest = nearestCandidate(calculated.candidates, expectedType, referenceMs);
+    const nearestHorizon = nearestHorizonEvent(row.planet, referenceMs);
     const atSource = getPlanetVisibilitySample({
       astronomy: Astronomy,
       planet: row.planet,
@@ -79,9 +96,11 @@ for (const row of sourceRows) {
       expectedTransition: expectedType,
       sourceLocalDateTime: boundary.normalizedLocalDateTime,
       sourceUtcInstant: boundary.normalizedUtcInstant,
+      nearestHorizonEvent: nearestHorizon,
       sourceGeometry: {
         planetAltitudeDeg: atSource.objectAltitudeDeg,
         sunAltitudeDeg: atSource.sunAltitudeDeg,
+        sunDepressionDeg: -atSource.sunAltitudeDeg,
         planetAzimuthDeg: atSource.objectAzimuthDeg,
         sunAzimuthDeg: atSource.sunAzimuthDeg,
         apparentMagnitude: atSource.apparentMagnitude,
@@ -91,6 +110,8 @@ for (const row of sourceRows) {
       },
       nearestModelCandidate: nearest,
       allNearbyCandidates: calculated.candidates,
+      horizonWithin1Minute: nearestHorizon ? Math.abs(nearestHorizon.errorMinutes) <= 1 : false,
+      horizonWithin5Minutes: nearestHorizon ? Math.abs(nearestHorizon.errorMinutes) <= 5 : false,
       within15Minutes: nearest ? Math.abs(nearest.errorMinutes) <= 15 : false,
       within1Hour: nearest ? Math.abs(nearest.errorMinutes) <= 60 : false,
       within1Day: nearest ? Math.abs(nearest.errorMinutes) <= 1440 : false
@@ -117,13 +138,20 @@ const report = {
   timezoneForSourceDisplay: "Asia/Kolkata",
   records: results.length,
   matchedBoundaries: results.filter(row => row.nearestModelCandidate).length,
+  nearestHorizonEventsFound: results.filter(row => row.nearestHorizonEvent).length,
+  horizonWithin1Minute: results.filter(row => row.horizonWithin1Minute).length,
+  horizonWithin5Minutes: results.filter(row => row.horizonWithin5Minutes).length,
+  horizonEventDirections: {
+    rise: results.filter(row => row.nearestHorizonEvent?.type === "rise").length,
+    set: results.filter(row => row.nearestHorizonEvent?.type === "set").length
+  },
   within15Minutes: results.filter(row => row.within15Minutes).length,
   within1Hour: results.filter(row => row.within1Hour).length,
   within1Day: results.filter(row => row.within1Day).length,
   medianAbsoluteErrorMinutes: median,
   maxAbsoluteErrorMinutes: errors.length ? errors.at(-1) : null,
   publicationEligible: false,
-  interpretation: "Diagnostic only. Model parameters are not calibrated by this report; no candidate is approved for public display.",
+  interpretation: "Schaefer visibility and nearest geometric horizon crossings are separate diagnostics. Horizon-event agreement does not by itself prove the heliacal classification or date-generation rule. No candidate is approved for public display.",
   results
 };
 
