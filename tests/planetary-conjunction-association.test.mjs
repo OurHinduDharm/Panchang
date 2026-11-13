@@ -61,3 +61,60 @@ test("rejects unsupported planet and malformed inputs", () => {
     candidates: [], conjunctions: [], maxDistanceDays: 0
   }), /positive/);
 });
+
+import test from "node:test";
+import assert from "node:assert/strict";
+import { pairCandidatesAroundConjunctions } from "../research/planetary-conjunction-association.mjs";
+
+test("pairs Jupiter AstaStart set before and AstaEnd rise after conjunction", () => {
+  const result = pairCandidatesAroundConjunctions({
+    planet: "Jupiter",
+    conjunctions: [{ kind: "conjunction", instant: "2028-09-30T12:00:00Z" }],
+    candidates: [
+      { boundary: "astaStart", type: "set", instant: "2028-09-15T12:00:00Z" },
+      { boundary: "astaEnd", type: "rise", instant: "2028-10-12T12:00:00Z" },
+      { boundary: "astaStart", type: "rise", instant: "2028-09-20T12:00:00Z" },
+      { boundary: "astaEnd", type: "set", instant: "2028-10-05T12:00:00Z" }
+    ]
+  });
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].durationDays, 27);
+  assert.equal(result.publicationEligible, false);
+});
+
+test("Venus inferior and superior conjunctions require opposite horizon branches", () => {
+  const candidates = [
+    { boundary: "astaStart", type: "set", instant: "2028-05-29T00:00:00Z" },
+    { boundary: "astaEnd", type: "rise", instant: "2028-06-07T00:00:00Z" },
+    { boundary: "astaStart", type: "rise", instant: "2029-02-12T00:00:00Z" },
+    { boundary: "astaEnd", type: "set", instant: "2029-04-17T00:00:00Z" }
+  ];
+  const result = pairCandidatesAroundConjunctions({
+    planet: "Venus",
+    conjunctions: [
+      { kind: "inferior-conjunction", instant: "2028-06-01T00:00:00Z" },
+      { kind: "superior-conjunction", instant: "2029-03-23T00:00:00Z" }
+    ],
+    candidates
+  });
+  assert.equal(result.windows.length, 2);
+  assert.equal(result.windows[0].astaStartEventType, "set");
+  assert.equal(result.windows[0].udayaEventType, "rise");
+  assert.equal(result.windows[1].astaStartEventType, "rise");
+  assert.equal(result.windows[1].udayaEventType, "set");
+});
+
+test("does not pair candidates from the wrong side or direction", () => {
+  const result = pairCandidatesAroundConjunctions({
+    planet: "Jupiter",
+    conjunctions: [{ kind: "conjunction", instant: "2028-09-30T00:00:00Z" }],
+    candidates: [
+      { boundary: "astaStart", type: "rise", instant: "2028-09-20T00:00:00Z" },
+      { boundary: "astaEnd", type: "set", instant: "2028-10-10T00:00:00Z" }
+    ]
+  });
+  assert.equal(result.windows.length, 0);
+  assert.deepEqual(result.rejectedConjunctions[0].missing, [
+    "astaStart:set:before", "astaEnd:rise:after"
+  ]);
+});
