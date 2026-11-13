@@ -84,7 +84,7 @@ export function associateCandidatesWithConjunctions({ candidates, conjunctions, 
     }
     const nearest = parsed.map(event => ({
       event,
-      signedDays: (candidateMs - event.ms) / PAIR_DAY_MS
+      signedDays: (candidateMs - event.ms) / DAY_MS
     })).sort((a, b) => Math.abs(a.signedDays) - Math.abs(b.signedDays))[0];
     const withinRange = nearest && Math.abs(nearest.signedDays) <= maxDistanceDays;
     return Object.freeze({
@@ -122,7 +122,7 @@ function ms(value) {
 function nearestOnSide(candidates, { boundary, type, conjunctionMs, side, maxDays }) {
   return candidates
     .filter(candidate => candidate.boundary === boundary && candidate.type === type)
-    .map(candidate => ({ candidate, deltaDays: (ms(candidate.instant) - conjunctionMs) / DAY_MS }))
+    .map(candidate => ({ candidate, deltaDays: (ms(candidate.instant) - conjunctionMs) / PAIR_DAY_MS }))
     .filter(item => Number.isFinite(item.deltaDays) &&
       (side === "before" ? item.deltaDays < 0 : item.deltaDays > 0) &&
       Math.abs(item.deltaDays) <= maxDays)
