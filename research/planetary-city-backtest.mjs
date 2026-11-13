@@ -187,7 +187,7 @@ const errors = results
   .filter(Number.isFinite)
   .map(Math.abs)
   .sort((a, b) => a - b);
-const median = errors.length
+const medianAbsoluteError = errors.length
   ? (errors.length % 2
       ? errors[(errors.length - 1) / 2]
       : (errors[errors.length / 2 - 1] + errors[errors.length / 2]) / 2)
@@ -221,7 +221,7 @@ const report = {
   within15Minutes: results.filter(row => row.within15Minutes).length,
   within1Hour: results.filter(row => row.within1Hour).length,
   within1Day: results.filter(row => row.within1Day).length,
-  medianAbsoluteErrorMinutes: median,
+  medianAbsoluteErrorMinutes: medianAbsoluteError,
   maxAbsoluteErrorMinutes: errors.length ? errors.at(-1) : null,
   publicationEligible: false,
   interpretation: "Schaefer visibility and nearest geometric horizon crossings are separate diagnostics. Horizon-event agreement does not by itself prove the heliacal classification or date-generation rule. No candidate is approved for public display.",
