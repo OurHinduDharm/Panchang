@@ -17,7 +17,7 @@ function fakeAstronomy() {
     },
     SearchRiseSet(_body, _observer, direction, start) {
       const day = new Date(start);
-      const hour = direction > 0 ? 6 : 18;
+      const hour = new Date(start).getUTCHours() >= 12 ? 18 : 6;
       return { date: new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), hour)) };
     },
     Equator(body) {
