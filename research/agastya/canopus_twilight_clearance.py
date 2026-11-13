@@ -79,13 +79,13 @@ def local_scan_datetimes(day: date):
 
 
 def scan_site(year: int, site_name: str, site: dict, eph, ts, profiles: dict):
-    from skyfield.api import Angle, Star, wgs84
+    from skyfield.api import Star, wgs84
 
     earth, sun = eph["earth"], eph["sun"]
     epoch = ts.tt_jd(2451545.0)
     canopus = Star(
-        ra=Angle(hours=STAR["ra_hours_j2000"]),
-        dec=Angle(degrees=STAR["dec_degrees_j2000"]),
+        ra_hours=STAR["ra_hours_j2000"],
+        dec_degrees=STAR["dec_degrees_j2000"],
         ra_mas_per_year=STAR["pm_ra_cosdec_mas_year"],
         dec_mas_per_year=STAR["pm_dec_mas_year"],
         parallax_mas=STAR["parallax_mas"],
