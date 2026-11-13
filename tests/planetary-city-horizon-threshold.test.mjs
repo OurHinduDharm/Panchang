@@ -60,7 +60,10 @@ test("calculates city-specific Asta/Udaya candidates without publication approva
         const day = date.getUTCDate();
         return { altitude: day === 2 ? -7 : -5, azimuth: 90 };
       }
-      return { altitude: 10, azimuth: 100 };
+      return {
+        altitude: 10,
+        azimuth: date.getUTCHours() >= 12 ? 260 : 100
+      };
     },
     Illumination() {
       return { mag: -2, phase_angle: 10, phase_fraction: 0.9 };
@@ -81,5 +84,12 @@ test("calculates city-specific Asta/Udaya candidates without publication approva
   assert.ok(result.candidates.length > 0);
   assert.ok(result.candidates.every(candidate =>
     ["astaStart", "astaEnd"].includes(candidate.boundary)
+  ));
+  assert.ok(result.candidates.some(candidate => candidate.horizonDirection === "east"));
+  assert.ok(result.candidates.some(candidate => candidate.horizonDirection === "west"));
+  assert.ok(result.candidates.every(candidate =>
+    Number.isFinite(candidate.planetAzimuthDeg) &&
+    ["east", "west"].includes(candidate.horizonDirection) &&
+    ["rise", "set"].includes(candidate.eventType)
   ));
 });
