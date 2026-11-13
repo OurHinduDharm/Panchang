@@ -1,5 +1,4 @@
 const HOUR_MS = 3_600_000;
-const DAY_MS = 86_400_000;
 
 function validDate(date, label) {
   if (!(date instanceof Date) || !Number.isFinite(date.getTime())) {
@@ -162,7 +161,8 @@ export function buildMotionThresholdSegments({
   start,
   end,
   stations,
-  thresholdByMotion
+  thresholdByMotion,
+  initialMotion
 }) {
   validDate(start, "start");
   validDate(end, "end");
@@ -190,15 +190,11 @@ export function buildMotionThresholdSegments({
 
   const segments = [];
   let cursor = start;
-  let motion = ordered.length ? null : null;
-
-  // Determine initial motion from the first station's before-state; if no
-  // station exists, caller must provide initialMotion explicitly.
-  if (arguments[0].initialMotion !== "direct" &&
-      arguments[0].initialMotion !== "retrograde") {
+  // Caller supplies the geocentric motion state at the start instant.
+  if (initialMotion !== "direct" && initialMotion !== "retrograde") {
     throw new TypeError("initialMotion must be direct or retrograde");
   }
-  motion = arguments[0].initialMotion;
+  let motion = initialMotion;
 
   for (const station of ordered) {
     segments.push(Object.freeze({
