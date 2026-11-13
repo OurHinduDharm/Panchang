@@ -187,8 +187,8 @@ const PROFILES = {
     decisionMoment: "manual-review", windowLabel: "द्वादशी तिथि और श्रवण नक्षत्र का वास्तविक संयोग",
     calculationBasis: "dharma-sindhu-shravana-dwadashi-tithi-nakshatra-yoga-with-separate-ekadashi-dwadashi-fast-decision",
     reviewOnly: true,
-    reviewNote: "द्वादशी तिथि और श्रवण नक्षत्र का वास्तविक संयोग अलग से जाँचा जाए। संयोग मिलना अपने-आप व्रत-दिन तय नहीं करता। एकादशी-द्वादशी एक ही दिन या अलग-अलग दिनों में पड़ने पर उपवास और पारण का पृथक निर्णय आवश्यक है। दो दिनों में संयोग होने पर स्रोत-आधारित tie-break के बिना तारीख़ न चुनें।",
-    sourceReview: "dharmasindhu-nirnaya-sindhu-shravana-yoga-rule-identified-date-selection-tie-break-pending"
+    reviewNote: "धर्मसिंधु के विष्णुशृंखला योग में, यदि पहले दिन सूर्योदय पर एकादशी हो, उसी दिन द्वादशी आरम्भ होकर अगले सूर्योदय तक चले, दोनों सूर्योदय-दिनों में द्वादशी-श्रवण संयोग हो और दूसरे दिन द्वादशी दो घटिका से अधिक न बचे, तो पहले दिन का व्रत-निर्णय किया जाता है। रात्रि के प्रथम प्रहर तक श्रवण-संयोग स्वीकार करने वाले मत को अलग से लागू किया गया है। यह चयन स्रोत/प्रकाशन अनुमोदन के अधीन है; अन्य द्वादशी-पूजन अलग रहेंगे।",
+    sourceReview: "dharmasindhu-vishnushrinkhala-rule-implemented-real-2030-pithoragarh-candidate-source-approval-pending"
   },
   "vamana-jayanti-madhyahna-review": {
     id: "vamana-jayanti-madhyahna-review", aliases: ["vamana-jayanti", "vamana-dwadashi", "vamana-avatara-jayanti"],
@@ -467,6 +467,7 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
     evaluations: [], finalDate: null, autoApproved: false
   };
   if (profileId === "nag-panchami-special-review") return resolveNagPanchamiCandidates(candidateContexts);
+  if (profileId === "shravana-yoga-dwadashi-review") return resolveShravanaDwadashiCandidates(candidateContexts);
   const dates = candidateContexts.map(item => String(item?.date ?? ""));
   if (dates.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
     return {
@@ -511,7 +512,7 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
 
 /**
  * Detect the actual overlap of Dwadashi and Shravana nakshatra within each
- * local civil day. This is evidence only; it deliberately does not decide
+ * local sunrise-to-following-sunrise vrata-day. This is evidence only; it deliberately does not decide
  * which day to fast when the yoga spans or repeats across adjacent dates.
  */
 export function evaluateShravanaDwadashiYoga(candidateDays, options = {}) {
@@ -568,6 +569,140 @@ export function evaluateShravanaDwadashiYoga(candidateDays, options = {}) {
       "ekadashi-dwadashi-fast-and-parana-rule-must-be-evaluated-separately"
     ]
   };
+}
+
+
+/**
+ * Resolve the special Bhadrapada Shukla Shravana-Dwadashi two-day case.
+ * Candidate day boundaries must be local sunrise-to-following-sunrise.
+ * The Dharmasindhu Vishnushrinkhala exception selects the earlier day when
+ * Ekadashi is active at its sunrise, Dwadashi begins later and continues
+ * through the following sunrise, and both vrata-days contain Dwadashi-
+ * Shravana yoga. The source's accepted first-night-prahara branch is checked
+ * explicitly; the short remaining Dwadashi on day two must be <= two ghatis.
+ */
+export function resolveShravanaDwadashiCandidates(candidateDays, options = {}) {
+  const twoGhatisMs = Number.isFinite(Number(options.twoGhatisMs))
+    ? Math.max(0, Number(options.twoGhatisMs))
+    : 48 * 60 * 1000;
+  const fail = (status, warnings, evaluations = []) => ({
+    status, ruleId: "shravana-yoga-dwadashi-review", evaluations,
+    selectedDate: null, finalDate: null, autoApproved: false, warnings
+  });
+  if (!Array.isArray(candidateDays) || candidateDays.length !== 2) {
+    return fail("insufficient-data", ["exactly-two-consecutive-vrata-days-required"]);
+  }
+  const days = candidateDays.slice().sort((a, b) => String(a?.date ?? "").localeCompare(String(b?.date ?? "")));
+  const info = days.map(day => {
+    const dayStart = asDate(day?.dayStart ?? day?.sunrise);
+    const dayEnd = asDate(day?.dayEnd ?? day?.nextSunrise);
+    const sunset = asDate(day?.sunset);
+    const masa = String(day?.masa ?? "").replace(/^अधिक\s+/, "").trim();
+    const paksha = String(day?.paksha ?? "").trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(day?.date ?? "")) ||
+        !dayStart || !dayEnd || !sunset || dayEnd <= dayStart ||
+        sunset <= dayStart || sunset >= dayEnd ||
+        masa !== "भाद्रपद" || !["शुक्ल", "शुक्ल पक्ष"].includes(paksha) ||
+        !Array.isArray(day?.tithis) || !Array.isArray(day?.nakshatraIntervals)) return null;
+    const collect = (rows, index) => rows.map(asInterval).filter(x => x && x.index === index)
+      .sort((a, b) => a.start - b.start)
+      .reduce((merged, item) => {
+        const last = merged[merged.length - 1];
+        if (last && item.start.getTime() <= last.end.getTime() + 1000) {
+          if (item.end > last.end) last.end = item.end;
+        } else merged.push({ start: new Date(item.start), end: new Date(item.end), index });
+        return merged;
+      }, []);
+    const ekadashi = collect(day.tithis, 10);
+    const dwadashi = collect(day.tithis, 11);
+    const shravana = collect(day.nakshatraIntervals, 21);
+    const activeAt = (rows, point) => rows.find(x => x.start <= point && x.end > point) ?? null;
+    const overlaps = (left, right, window) => {
+      const segments = [];
+      for (const a of left) for (const b of right) {
+        const both = overlap(a, b);
+        const clipped = both && overlap(both, window);
+        if (clipped) segments.push(clipped);
+      }
+      segments.sort((a, b) => a.start - b.start);
+      const union = [];
+      for (const item of segments) {
+        const last = union[union.length - 1];
+        if (last && item.start.getTime() <= last.end.getTime() + 1000) {
+          if (item.end > last.end) last.end = item.end;
+        } else union.push({ start: new Date(item.start), end: new Date(item.end) });
+      }
+      return union;
+    };
+    const fullDay = { start: dayStart, end: dayEnd };
+    const yoga = overlaps(dwadashi, shravana, fullDay);
+    const yogaMs = yoga.reduce((sum, x) => sum + x.end.getTime() - x.start.getTime(), 0);
+    const praharaEnd = new Date(sunset.getTime() + (dayEnd.getTime() - sunset.getTime()) / 4);
+    const acceptedNightWindow = { start: dayStart, end: praharaEnd };
+    const acceptedYoga = overlaps(dwadashi, shravana, acceptedNightWindow);
+    const acceptedYogaMs = acceptedYoga.reduce((sum, x) => sum + x.end.getTime() - x.start.getTime(), 0);
+    const atSunrise = activeAt(dwadashi, dayStart);
+    return {
+      date: day.date, dayStart, dayEnd, sunset,
+      ekadashiAtSunrise: Boolean(activeAt(ekadashi, dayStart)),
+      dwadashiStartsAfterSunrise: dwadashi.some(x => x.start > dayStart && x.start < dayEnd),
+      dwadashiAtSunrise: Boolean(atSunrise),
+      dwadashiRemainingAfterSunriseMs: atSunrise ? atSunrise.end.getTime() - dayStart.getTime() : 0,
+      shravanaDwadashiOverlapMs: yogaMs,
+      acceptedDayOrFirstPraharaOverlapMs: acceptedYogaMs,
+      overlaps: yoga.map(x => ({ start: x.start.toISOString(), end: x.end.toISOString() })),
+      firstPraharaEnd: praharaEnd.toISOString()
+    };
+  });
+  if (info.some(x => !x)) return fail("insufficient-data", [
+    "local-sunrise-sunset-bhadrapada-shukla-or-real-tithi-nakshatra-interval-missing"
+  ]);
+  const [earlier, later] = info;
+  if (Math.abs(earlier.dayEnd.getTime() - later.dayStart.getTime()) > 1000) {
+    return fail("insufficient-data", ["candidate-vrata-days-are-not-contiguous-sunrise-to-sunrise"]);
+  }
+  const previousDayVishnushrinkhala =
+    earlier.ekadashiAtSunrise &&
+    earlier.dwadashiStartsAfterSunrise &&
+    later.dwadashiAtSunrise &&
+    earlier.shravanaDwadashiOverlapMs > 0 &&
+    later.shravanaDwadashiOverlapMs > 0 &&
+    earlier.acceptedDayOrFirstPraharaOverlapMs >= 48 * 60 * 1000 &&
+    later.dwadashiRemainingAfterSunriseMs > 0 &&
+    later.dwadashiRemainingAfterSunriseMs <= twoGhatisMs;
+  if (previousDayVishnushrinkhala) return {
+    status: "date-selected-needs-source-approval",
+    ruleId: "shravana-yoga-dwadashi-review",
+    selectedDate: earlier.date, finalDate: earlier.date,
+    selectionBasis: "dharmasindhu-vishnushrinkhala-ekadashi-viddha-dwadashi-shravana-both-vrata-days-previous-day-only",
+    evaluations: info.map((x, i) => ({
+      date: x.date, ekadashiAtSunrise: x.ekadashiAtSunrise,
+      dwadashiStartsAfterSunrise: x.dwadashiStartsAfterSunrise,
+      dwadashiAtSunrise: x.dwadashiAtSunrise,
+      dwadashiRemainingAfterSunriseMs: x.dwadashiRemainingAfterSunriseMs,
+      shravanaDwadashiOverlapMs: x.shravanaDwadashiOverlapMs,
+      acceptedDayOrFirstPraharaOverlapMs: x.acceptedDayOrFirstPraharaOverlapMs,
+      overlaps: x.overlaps, firstPraharaEnd: x.firstPraharaEnd
+    })),
+    warnings: [
+      "dharmasindhu-vishnushrinkhala-selects-earlier-vrata-day-only",
+      "two-ghati-dwadashi-with-shravana-is-present-on-second-day",
+      "primary-source-and-publication-approval-still-required"
+    ],
+    autoApproved: false
+  };
+  return fail("manual-review", [
+    "shravana-dwadashi-special-two-day-rule-not-fully-matched",
+    "no-date-selected-without-the-dharmasindhu-vishnushrinkhala-conditions"
+  ], info.map(x => ({
+    date: x.date, ekadashiAtSunrise: x.ekadashiAtSunrise,
+    dwadashiStartsAfterSunrise: x.dwadashiStartsAfterSunrise,
+    dwadashiAtSunrise: x.dwadashiAtSunrise,
+    dwadashiRemainingAfterSunriseMs: x.dwadashiRemainingAfterSunriseMs,
+    shravanaDwadashiOverlapMs: x.shravanaDwadashiOverlapMs,
+    acceptedDayOrFirstPraharaOverlapMs: x.acceptedDayOrFirstPraharaOverlapMs,
+    overlaps: x.overlaps, firstPraharaEnd: x.firstPraharaEnd
+  })));
 }
 
 

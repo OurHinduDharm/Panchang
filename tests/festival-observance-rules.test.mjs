@@ -462,25 +462,82 @@ test("candidate resolver blocks selection when any candidate day lacks calculati
 });
 
 
-test("Shravana Dwadashi yoga detector measures actual tithi-nakshatra overlap by local day", async () => {
+test("Shravana Dwadashi yoga detector segments evidence by sunrise-to-sunrise vrata day", async () => {
   const { evaluateShravanaDwadashiYoga } = await import("../festival-observance-rules.mjs");
   const result = evaluateShravanaDwadashiYoga([
     {
-      date: "2030-09-08", dayStart: "2030-09-07T18:30:00Z", dayEnd: "2030-09-08T18:30:00Z",
-      tithis: [interval(11, "2030-09-08T02:50:00Z", "2030-09-09T01:02:00Z", "शुक्ल पक्ष")],
-      nakshatraIntervals: [interval(21, "2030-09-08T08:00:00Z", "2030-09-09T00:00:00Z")]
+      date: "2030-09-08", dayStart: "2030-09-08T00:20:24.921Z", dayEnd: "2030-09-09T00:20:56.105Z",
+      tithis: [interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T14:29:00.797Z", "2030-09-09T13:30:51.947Z")]
     },
     {
-      date: "2030-09-09", dayStart: "2030-09-08T18:30:00Z", dayEnd: "2030-09-09T18:30:00Z",
-      tithis: [interval(11, "2030-09-08T02:50:00Z", "2030-09-09T01:02:00Z", "शुक्ल पक्ष")],
-      nakshatraIntervals: [interval(21, "2030-09-08T08:00:00Z", "2030-09-09T00:00:00Z")]
+      date: "2030-09-09", dayStart: "2030-09-09T00:20:56.105Z", dayEnd: "2030-09-10T00:21:27.237Z",
+      tithis: [interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T14:29:00.797Z", "2030-09-09T13:30:51.947Z")]
     }
   ]);
-  assert.equal(result.status, "manual-review");
-  assert.deepEqual(result.qualifyingDates, ["2030-09-08", "2030-09-09"]);
+  assert.equal(result.status, "candidate-evidence-only");
+  assert.deepEqual(result.qualifyingDates, ["2030-09-08"]);
   assert.equal(result.finalDate, null);
   assert.equal(result.autoApproved, false);
-  assert.ok(result.warnings.includes("yoga-overlaps-multiple-local-days-explicit-tie-break-required"));
+  assert.equal(result.matches[0].durationMs, 35515308);
+  assert.equal(result.matches[1].durationMs, 2513615);
+});
+
+test("Dharmasindhu Vishnushrinkhala selects the earlier 2030 vrata day only with all two-day conditions", () => {
+  const candidateDays = [
+    {
+      date: "2030-09-08", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      dayStart: "2030-09-08T00:20:24.921Z", dayEnd: "2030-09-09T00:20:56.105Z",
+      sunset: "2030-09-08T12:52:52.114Z",
+      tithis: [
+        interval(10, "2030-09-07T04:48:24.531Z", "2030-09-08T02:50:59.472Z", "शुक्ल पक्ष"),
+        interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")
+      ],
+      nakshatraIntervals: [interval(21, "2030-09-08T14:29:00.797Z", "2030-09-09T13:30:51.947Z")]
+    },
+    {
+      date: "2030-09-09", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      dayStart: "2030-09-09T00:20:56.105Z", dayEnd: "2030-09-10T00:21:27.237Z",
+      sunset: "2030-09-09T12:51:39.237Z",
+      tithis: [interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T14:29:00.797Z", "2030-09-09T13:30:51.947Z")]
+    }
+  ];
+  const result = resolveObservanceCandidates("shravana-yoga-dwadashi-review", candidateDays);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2030-09-08");
+  assert.equal(result.finalDate, "2030-09-08");
+  assert.equal(result.selectionBasis, "dharmasindhu-vishnushrinkhala-ekadashi-viddha-dwadashi-shravana-both-vrata-days-previous-day-only");
+  assert.equal(result.evaluations[0].shravanaDwadashiOverlapMs, 35515308);
+  assert.equal(result.evaluations[1].dwadashiRemainingAfterSunriseMs, 2513615);
+  assert.equal(result.autoApproved, false);
+});
+
+test("Shravana Dwadashi special resolver refuses the earlier day when first-prahara overlap is absent", () => {
+  const candidateDays = [
+    {
+      date: "2030-09-08", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      dayStart: "2030-09-08T00:20:24.921Z", dayEnd: "2030-09-09T00:20:56.105Z",
+      sunset: "2030-09-08T12:52:52.114Z",
+      tithis: [
+        interval(10, "2030-09-07T04:48:24.531Z", "2030-09-08T02:50:59.472Z", "शुक्ल पक्ष"),
+        interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")
+      ],
+      nakshatraIntervals: [interval(21, "2030-09-08T16:00:00.000Z", "2030-09-09T13:30:51.947Z")]
+    },
+    {
+      date: "2030-09-09", masa: "भाद्रपद", paksha: "शुक्ल पक्ष",
+      dayStart: "2030-09-09T00:20:56.105Z", dayEnd: "2030-09-10T00:21:27.237Z",
+      sunset: "2030-09-09T12:51:39.237Z",
+      tithis: [interval(11, "2030-09-08T02:51:59.472Z", "2030-09-09T01:02:49.720Z", "शुक्ल पक्ष")],
+      nakshatraIntervals: [interval(21, "2030-09-08T16:00:00.000Z", "2030-09-09T13:30:51.947Z")]
+    }
+  ];
+  const result = resolveObservanceCandidates("shravana-yoga-dwadashi-review", candidateDays);
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.selectedDate, null);
+  assert.equal(result.autoApproved, false);
 });
 
 test("Shravana Dwadashi yoga detector does not treat a short overlap as a complete muhurta", async () => {

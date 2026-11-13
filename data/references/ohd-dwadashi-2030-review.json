@@ -782,45 +782,99 @@
       "status": "needs-review",
       "ruleEvidence": {
         "ruleId": "shravana-yoga-dwadashi-review",
-        "status": "needs-local-nakshatra-interval-and-fast-date-tie-break",
+        "status": "shravana-yoga-date-selected-on-earlier-vrata-day-source-approval-pending",
         "criteria": [
-          "भाद्रपद शुक्ल द्वादशी और श्रवण नक्षत्र के वास्तविक समय-अंतराल का स्थानीय समय में overlap निकालना",
-          "एक मुहूर्त (48 मिनट) या अधिक संयोग को स्पष्ट योग-साक्ष्य मानना; इससे कम संयोग को स्वतः अस्वीकार न करके समीक्षा में रखना",
-          "योग का मिलना अपने-आप उपवास-दिन तय नहीं करता",
-          "एकादशी-द्वादशी एक ही दिन अथवा अलग-अलग दिनों में होने पर उपवास और पारण का अलग नियम लागू करना",
-          "यदि योग दो स्थानीय दिनों में फैले तो स्रोत-समर्थित tie-break के बिना चयन न करना"
+          "स्थानीय व्रत-दिन का आरम्भ सूर्योदय और समाप्ति अगले सूर्योदय से निर्धारित करना",
+          "द्वादशी और श्रवण नक्षत्र का वास्तविक interval overlap दोनों लगातार सूर्योदय-दिनों में निकालना",
+          "एक मुहूर्त (48 मिनट) या अधिक संयोग को योग-साक्ष्य मानना; प्रथम रात्रि-प्रहर तक संयोग स्वीकार करने वाले धर्मसिंधु मत को अलग जाँचना",
+          "पहले दिन सूर्योदय पर एकादशी, दिन में द्वादशी-आरम्भ और अगले सूर्योदय तक द्वादशी की निरन्तरता जाँचना",
+          "यदि अगले दिन सूर्योदय पर द्वादशी और श्रवण साथ हों तथा द्वादशी दो घटिका (48 मिनट) से अधिक न बचे, तो विष्णुशृंखला योग के कारण पहले दिन का व्रत चुनना",
+          "श्रवण योग का चयन वामन, दामोदर, नीराजन और कल्कि के स्वतंत्र पूजन/व्रत-दिनों को स्वतः approve या merge नहीं करता"
         ],
         "localCandidates": {
           "dateWithNoonDwadashi": "2030-09-08",
           "dateWithSunriseDwadashi": "2030-09-09",
-          "localTithiStart": "2030-09-08T02:50:59.441Z",
-          "localTithiEnd": "2030-09-09T01:02:49.707Z",
-          "nakshatraIntervals": "not-yet-attached-to-this-review-record",
-          "selectedFastDate": null
+          "tithiIntervalFromEngine": "2030-09-08T02:51:59.472Z/2030-09-09T01:02:49.720Z",
+          "nakshatraIntervals": [
+            {
+              "name": "श्रवण",
+              "index": 21,
+              "start": "2030-09-08T14:29:00.797Z",
+              "end": "2030-09-09T13:30:51.947Z"
+            }
+          ],
+          "vrataDayBoundary": "local-sunrise-to-following-sunrise",
+          "shravanaYoga": {
+            "status": "date-selected-needs-source-approval",
+            "selectedFastDate": "2030-09-08",
+            "selectionRule": "dharmasindhu-vishnushrinkhala-ekadashi-viddha-dwadashi-shravana",
+            "qualifyingDates": [
+              "2030-09-08"
+            ],
+            "days": [
+              {
+                "date": "2030-09-08",
+                "sunrise": "2030-09-08T00:20:24.921Z",
+                "sunset": "2030-09-08T12:52:52.114Z",
+                "nextSunrise": "2030-09-09T00:20:56.105Z",
+                "ekadashiAtSunrise": true,
+                "dwadashiStartsAfterSunrise": true,
+                "dwadashiShravanaOverlap": {
+                  "start": "2030-09-08T14:29:00.797Z",
+                  "end": "2030-09-09T00:20:56.105Z",
+                  "durationMs": 35515308,
+                  "meetsOneMuhurta": true
+                },
+                "firstNightPraharaEnd": "2030-09-08T15:44:53.112Z",
+                "firstDayOrPraharaOverlapMs": 4552315,
+                "firstDayOrPraharaOverlapDuration": "1h 15m 52.315s"
+              },
+              {
+                "date": "2030-09-09",
+                "sunrise": "2030-09-09T00:20:56.105Z",
+                "sunset": "2030-09-09T12:51:39.237Z",
+                "nextSunrise": "2030-09-10T00:21:27.237Z",
+                "dwadashiAtSunrise": true,
+                "dwadashiRemainingAfterSunriseMs": 2513615,
+                "shravanaDwadashiOverlap": {
+                  "start": "2030-09-09T00:20:56.105Z",
+                  "end": "2030-09-09T01:02:49.720Z",
+                  "durationMs": 2513615,
+                  "meetsOneMuhurta": false
+                },
+                "remainingDwadashiUnderTwoGhatis": true
+              }
+            ],
+            "finalDate": "2030-09-08",
+            "autoApproved": false,
+            "publicationStatus": "source-approval-pending"
+          },
+          "selectedFastDate": null,
+          "note": "केवल श्रवण योग द्वादशी का निर्णय निकला है; इस वार्षिक रिकॉर्ड के अन्य नामित व्रत स्वतंत्र समीक्षा में हैं।"
         },
         "sources": [
           {
-            "name": "धर्मसिंधु / निर्णयसिंधु — श्रवण-द्वादशी और विष्णुशृंखला उद्धरण",
-            "url": "https://jyotisham.github.io/jyotisha/output/sahakAra-nagar-bengaLUru/MULTI_NEW_MOON_SIDEREAL_MONTH_ADHIKA_AMAANTA__CHITRA_AT_180/gregorian/2000s/2020s/2024_monthly/2024-09/2024-09-15/",
-            "use": "शास्त्रीय उद्धरण और विष्णुशृंखला के अलग संयोग-निर्णय; पाठ-समीक्षा आवश्यक"
+            "name": "धर्मसिंधु — श्रवणद्वादशीव्रत, विष्णुशृंखला योग और प्रथम प्रहर मत",
+            "url": "https://www.transliteral.org/pages/z80503221524/view",
+            "use": "भाद्रपद शुक्ल द्वादशी में एकादशी-स्पर्श, अगले सूर्योदय तक द्वादशी, दोनों दिनों में श्रवण योग और अगले दिन दो घटिका से कम द्वादशी होने पर पूर्वदिन-व्रत का विशेष निर्णय; प्रथम प्रहर तक रात्रि-योग स्वीकार करने वाला मत"
+          },
+          {
+            "name": "पद्म पुराण, उत्तरखण्ड, अध्याय 69",
+            "url": "https://www.wisdomlib.org/hinduism/book/the-padma-purana/d/doc365631.html",
+            "use": "भाद्रपद शुक्ल द्वादशी का श्रवण-नक्षत्र के साथ व्रत-योग"
           },
           {
             "name": "Drik Panchang — Shravana Yoga Dwadashi",
             "url": "https://www.drikpanchang.com/dwadashi/mahadwadashi/shravana-yoga-dwadashi.html",
-            "use": "एक मुहूर्त श्रवण-संयोग तथा एकादशी-द्वादशी उपवास/पारण विकल्प का द्वितीयक cross-check"
-          },
-          {
-            "name": "Drik Panchang — 2030 Dwadashi dates",
-            "url": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
-            "use": "पिथौरागढ़ संदर्भित श्रवण योग द्वादशी नाम; स्थानीय नक्षत्र interval अभी अलग से सत्यापित करना है"
+            "use": "48 मिनट द्वादशी-श्रवण संयोग की secondary timing cross-check; स्मार्त तारीख़ निर्णय का अकेला आधार नहीं"
           },
           {
             "name": "नारद पुराण, पूर्वार्ध, अध्याय 121",
             "url": "https://www.wisdomlib.org/hinduism/book/narada-purana-english/d/doc1857986.html",
-            "use": "भाद्रपद शुक्ल द्वादशी के दामोदर और नीराजन व्रत के अलग विधान"
+            "use": "वामन, दामोदर और नीराजन के पृथक व्रत-विधान; इन्हें श्रवण-योग दिन से स्वतः एक नहीं मानना"
           }
         ],
-        "decisionPolicy": "No date selected until local tithi-nakshatra overlap and the Smarta fasting/parana tie-break are both verified."
+        "decisionPolicy": "श्रवण योग द्वादशी के लिए पिथौरागढ़ में 8 सितम्बर 2030 का पूर्वदिन-निर्णय धर्मसिंधु के विष्णुशृंखला अपवाद से समर्थित candidate है; यह स्रोत/प्रकाशन अनुमोदन के अधीन है। वामन, दामोदर, नीराजन और कल्कि observances की तारीख़ें/कार्ड अलग समीक्षा के बिना न बदलें।"
       }
     },
     {
