@@ -51,29 +51,6 @@ function localDateTime(date) {
   return p.year + "-" + p.month + "-" + p.day + "T" + p.hour + ":" + p.minute + ":" + p.second;
 }
 
-// Interpolate the daily event's local date and wall-clock time separately.
-// Linear interpolation of absolute instants would incorrectly add almost
-// 24 hours between consecutive daily rise/set events.
-function interpolateDailyLocalEvent(previous, current, fraction) {
-  const offsetMinutes = 330; // Asia/Kolkata; no DST.
-  const dayStart = value => Date.parse(value.slice(0, 10) + "T00:00:00+05:30");
-  const minuteOfDay = value => {
-    const time = value.slice(11, 19).split(":").map(Number);
-    return time[0] * 60 + time[1] + time[2] / 60;
-  };
-  const start0 = dayStart(previous.localDateTime);
-  const start1 = dayStart(current.localDateTime);
-  const interpolatedDayStart = start0 + fraction * (start1 - start0);
-  const time0 = minuteOfDay(previous.localDateTime);
-  const time1 = minuteOfDay(current.localDateTime);
-  let timeDelta = time1 - time0;
-  if (timeDelta > 720) timeDelta -= 1440;
-  if (timeDelta < -720) timeDelta += 1440;
-  const interpolatedWallMinutes = time0 + fraction * timeDelta;
-  const localMilliseconds = interpolatedDayStart + interpolatedWallMinutes * 60_000;
-  return new Date(localMilliseconds - offsetMinutes * 60_000);
-}
-
 const sourceBoundaries = dataset.windows
   .filter(row =>
     row.sourceLocation === "Pithoragarh, Uttarakhand, India" &&
@@ -155,11 +132,17 @@ for (const planet of planets) {
         const current = series[index];
         const a = previous.solarDepressionDegrees - threshold;
         const b = current.solarDepressionDegrees - threshold;
-        if (a === 0 || b === 0 || a * b > 0 || b === a) continue;
-        const fraction = (threshold - previous.solarDepressionDegrees) /
+        if (a * b > 0 || b === a) continue;
+        const fraction = a === 0 ? 0 : b === 0 ? 1 :
+          (threshold - previous.solarDepressionDegrees) /
           (current.solarDepressionDegrees - previous.solarDepressionDegrees);
         if (!(fraction >= 0 && fraction <= 1)) continue;
-        const instant = interpolateDailyLocalEvent(previous, current, fraction);
+        // The actual Asta/Udaya timestamp is the planet's local horizon
+        // crossing on one civil date. Threshold crossing only selects which
+        // daily rise/set event is the boundary; do not interpolate across
+        // the ~24-hour spacing between consecutive daily events.
+        const chosen = Math.abs(a) <= Math.abs(b) ? previous : current;
+        const instant = chosen.instant;
         candidateRows.push({
           planet,
           boundary,
