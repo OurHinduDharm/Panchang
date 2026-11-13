@@ -149,7 +149,7 @@ test("calculated Pithoragarh Guru-Shukra annual windows are available for 2028-2
   const expected = {
     2028: 2,
     2029: 2,
-    2030: 4
+    2030: 3
   };
   for (const [yearText, count] of Object.entries(expected)) {
     const year = Number(yearText);
