@@ -42,10 +42,10 @@ jobs:
 
       - name: Compute Canopus twilight and terrain-clearance candidates
         run: |
-          python research/agastya/canopus_twilight_clearance.py \\
-            --horizon-csv artifacts/agastya_terrain_horizon.csv \\
-            --years 2026 2027 \\
-            --json artifacts/canopus_twilight_clearance.json \\
+          python research/agastya/canopus_twilight_clearance.py \
+            --horizon-csv artifacts/agastya_terrain_horizon.csv \
+            --years 2026 2027 \
+            --json artifacts/canopus_twilight_clearance.json \
             --csv artifacts/canopus_twilight_clearance.csv
 
       - name: Upload DEM extraction artifacts
