@@ -180,6 +180,16 @@ const PROFILES = {
     reviewNote: "राधाष्टमी पर भाद्रपद शुक्ल अष्टमी में मध्याह्न काल की पूजा-परंपरा है। सप्तमी-वेध और तिथि के विशेष संयोगों की पूरी जाँच के बाद ही अंतिम दिन तय होगा।",
     sourceReview: "drik-madhyahna-purana-crosscheck-exception-review-pending"
   },
+  "shravana-yoga-dwadashi-review": {
+    id: "shravana-yoga-dwadashi-review", aliases: ["shravana-yoga-dwadashi", "shravan-dwadashi-yoga"],
+    label: "श्रवण योग द्वादशी — संयोग और व्रत-दिन का विशेष निर्णय",
+    tithiIndices: [11, 26], paksha: null,
+    decisionMoment: "manual-review", windowLabel: "द्वादशी तिथि और श्रवण नक्षत्र का वास्तविक संयोग",
+    calculationBasis: "dharma-sindhu-shravana-dwadashi-tithi-nakshatra-yoga-with-separate-ekadashi-dwadashi-fast-decision",
+    reviewOnly: true,
+    reviewNote: "द्वादशी तिथि और श्रवण नक्षत्र का वास्तविक संयोग अलग से जाँचा जाए। संयोग मिलना अपने-आप व्रत-दिन तय नहीं करता। एकादशी-द्वादशी एक ही दिन या अलग-अलग दिनों में पड़ने पर उपवास और पारण का पृथक निर्णय आवश्यक है। दो दिनों में संयोग होने पर स्रोत-आधारित tie-break के बिना तारीख़ न चुनें।",
+    sourceReview: "dharmasindhu-nirnaya-sindhu-shravana-yoga-rule-identified-date-selection-tie-break-pending"
+  },
   "vamana-jayanti-madhyahna-review": {
     id: "vamana-jayanti-madhyahna-review", aliases: ["vamana-jayanti", "vamana-dwadashi", "vamana-avatara-jayanti"],
     label: "वामन जयंती — श्रवण नक्षत्र सहित जाँच", tithiIndices: [11], paksha: "शुक्ल पक्ष",
@@ -494,5 +504,67 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
     selectedDate: supported[0].date, finalDate: supported[0].date,
     warnings: ["unique-karmakala-match", "primary-source-and-publication-approval-still-required"],
     evaluations, autoApproved: false
+  };
+}
+
+
+/**
+ * Detect the actual overlap of Dwadashi and Shravana nakshatra within each
+ * local civil day. This is evidence only; it deliberately does not decide
+ * which day to fast when the yoga spans or repeats across adjacent dates.
+ */
+export function evaluateShravanaDwadashiYoga(candidateDays, options = {}) {
+  const minimumYogaMs = Number.isFinite(Number(options.minimumYogaMs))
+    ? Math.max(0, Number(options.minimumYogaMs))
+    : 48 * 60 * 1000;
+  if (!Array.isArray(candidateDays) || !candidateDays.length) return {
+    status: "insufficient-data", matches: [], finalDate: null, autoApproved: false,
+    warnings: ["candidate-days-missing"]
+  };
+  const matches = [];
+  const seenDates = new Set();
+  for (const day of candidateDays) {
+    const date = String(day?.date ?? "");
+    const dayStart = asDate(day?.dayStart);
+    const dayEnd = asDate(day?.dayEnd);
+    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || seenDates.has(date) ||
+        !dayStart || !dayEnd || dayEnd <= dayStart ||
+        !Array.isArray(day?.tithis) || !Array.isArray(day?.nakshatraIntervals)) {
+      return {
+        status: "insufficient-data", matches: [], finalDate: null, autoApproved: false,
+        warnings: ["invalid-or-incomplete-local-day-intervals"]
+      };
+    }
+    seenDates.add(date);
+    const dwadashis = day.tithis.map(asInterval).filter((item, index) =>
+      item && [11, 26].includes(item.index) &&
+      (!day.tithis[index]?.paksha || ["शुक्ल पक्ष", "कृष्ण पक्ष", "शुक्ल", "कृष्ण"].includes(day.tithis[index].paksha))
+    );
+    const shravanas = day.nakshatraIntervals.map(asInterval).filter(item => item && item.index === 21);
+    for (const tithi of dwadashis) for (const nakshatra of shravanas) {
+      const yoga = overlap(overlap(tithi, nakshatra) ?? { start: dayEnd, end: dayEnd }, { start: dayStart, end: dayEnd });
+      if (!yoga) continue;
+      const durationMs = yoga.end.getTime() - yoga.start.getTime();
+      if (durationMs <= 0) continue;
+      matches.push({
+        date, start: yoga.start.toISOString(), end: yoga.end.toISOString(),
+        durationMs, meetsOneMuhurta: durationMs >= minimumYogaMs
+      });
+    }
+  }
+  const qualifying = matches.filter(item => item.meetsOneMuhurta);
+  return {
+    status: qualifying.length > 1 ? "manual-review"
+      : qualifying.length === 1 ? "candidate-evidence-only"
+      : matches.length ? "brief-overlap-needs-review" : "candidate-not-supported",
+    matches,
+    qualifyingDates: [...new Set(qualifying.map(item => item.date))],
+    finalDate: null, autoApproved: false,
+    warnings: [
+      "tithi-nakshatra-overlap-is-not-a-fast-date-decision",
+      ...(qualifying.length > 1 ? ["yoga-overlaps-multiple-local-days-explicit-tie-break-required"] : []),
+      ...(matches.length && !qualifying.length ? ["overlap-shorter-than-one-muhurta"] : []),
+      "ekadashi-dwadashi-fast-and-parana-rule-must-be-evaluated-separately"
+    ]
   };
 }
