@@ -98,3 +98,96 @@ export function associateCandidatesWithConjunctions({ candidates, conjunctions, 
     });
   }));
 }
+
+/**
+ * Pair research-only Asta/Udaya candidates around actual solar conjunctions.
+ * The event direction is essential: a candidate on the wrong branch is rejected.
+ */
+const EXPECTED_BRANCH = Object.freeze({
+  Jupiter: Object.freeze({
+    conjunction: Object.freeze({ start: "set", end: "rise" })
+  }),
+  Venus: Object.freeze({
+    "inferior-conjunction": Object.freeze({ start: "set", end: "rise" }),
+    "superior-conjunction": Object.freeze({ start: "rise", end: "set" })
+  })
+});
+const DAY_MS = 86_400_000;
+
+function ms(value) {
+  const n = Date.parse(value);
+  return Number.isFinite(n) ? n : NaN;
+}
+
+function nearestOnSide(candidates, { boundary, type, conjunctionMs, side, maxDays }) {
+  return candidates
+    .filter(candidate => candidate.boundary === boundary && candidate.type === type)
+    .map(candidate => ({ candidate, deltaDays: (ms(candidate.instant) - conjunctionMs) / DAY_MS }))
+    .filter(item => Number.isFinite(item.deltaDays) &&
+      (side === "before" ? item.deltaDays < 0 : item.deltaDays > 0) &&
+      Math.abs(item.deltaDays) <= maxDays)
+    .sort((a, b) => Math.abs(a.deltaDays) - Math.abs(b.deltaDays))[0] ?? null;
+}
+
+/**
+ * Returns conjunction-centred windows with strict branch matching.
+ * This is a research diagnostic, never publication approval.
+ */
+export function pairCandidatesAroundConjunctions({
+  planet, candidates, conjunctions, maxDistanceDays = 90
+}) {
+  if (!EXPECTED_BRANCH[planet]) throw new RangeError("planet must be Jupiter or Venus");
+  if (!Array.isArray(candidates) || !Array.isArray(conjunctions)) {
+    throw new TypeError("candidate and conjunction arrays are required");
+  }
+  if (!Number.isFinite(maxDistanceDays) || maxDistanceDays <= 0) {
+    throw new RangeError("maxDistanceDays must be positive");
+  }
+
+  const windows = [];
+  const rejected = [];
+  for (const conjunction of conjunctions) {
+    const conjunctionMs = ms(conjunction.instant);
+    const branch = EXPECTED_BRANCH[planet][conjunction.kind];
+    if (!Number.isFinite(conjunctionMs) || !branch) continue;
+    const start = nearestOnSide(candidates, {
+      boundary: "astaStart", type: branch.start,
+      conjunctionMs, side: "before", maxDays: maxDistanceDays
+    });
+    const end = nearestOnSide(candidates, {
+      boundary: "astaEnd", type: branch.end,
+      conjunctionMs, side: "after", maxDays: maxDistanceDays
+    });
+    if (start && end && ms(start.candidate.instant) < ms(end.candidate.instant)) {
+      windows.push(Object.freeze({
+        planet,
+        conjunctionKind: conjunction.kind,
+        conjunctionInstant: conjunction.instant,
+        astaStart: start.candidate.instant,
+        udaya: end.candidate.instant,
+        astaStartEventType: branch.start,
+        udayaEventType: branch.end,
+        daysBeforeConjunction: Number(Math.abs(start.deltaDays).toFixed(3)),
+        daysAfterConjunction: Number(end.deltaDays.toFixed(3)),
+        durationDays: Number(((ms(end.candidate.instant) - ms(start.candidate.instant)) / DAY_MS).toFixed(3)),
+        publicationEligible: false
+      }));
+    } else {
+      rejected.push(Object.freeze({
+        conjunctionKind: conjunction.kind,
+        conjunctionInstant: conjunction.instant,
+        missing: Object.freeze([
+          ...(!start ? ["astaStart:" + branch.start + ":before"] : []),
+          ...(!end ? ["astaEnd:" + branch.end + ":after"] : [])
+        ])
+      }));
+    }
+  }
+  return Object.freeze({
+    planet,
+    windows: Object.freeze(windows),
+    rejectedConjunctions: Object.freeze(rejected),
+    publicationEligible: false,
+    rule: "strict conjunction-side and local horizon-event direction; research only"
+  });
+}
