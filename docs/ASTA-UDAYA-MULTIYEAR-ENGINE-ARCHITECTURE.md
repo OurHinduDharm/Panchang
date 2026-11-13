@@ -82,3 +82,12 @@
 ## वर्तमान स्थिति
 
 यह commit केवल architecture/specification जोड़ता है। Calculator UI, ephemeris generator, JSON export, local-city engine और production integration अभी लागू नहीं हैं।
+
+
+## 2026-11-13: स्थान-प्रोफाइल आधार का पहला कार्यान्वयन
+
+- `data/observer-location-profiles.json` में पिथौरागढ़ का explicit profile जोड़ा गया: 29.5828°N, 80.2182°E, 1650 m, `Asia/Kolkata`।
+- `research/observer-location-profiles.mjs` में profile validation, stable ID lookup और explicit custom-coordinate profile निर्माण जोड़ा गया।
+- अक्षांश/देशांतर/ऊँचाई/timezone अनिवार्य हैं; missing city पर पिथौरागढ़ fallback नहीं होता।
+- यह अभी location-profile foundation है, पूर्ण heliacal visibility calculator या public city selector नहीं।
+- अगला चरण: समान UTC ephemeris को कई observer profiles पर चलाकर local horizon/heliacal visibility के अलग परिणामों की गणना और independent validation।
