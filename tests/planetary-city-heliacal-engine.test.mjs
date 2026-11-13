@@ -12,12 +12,12 @@ function fakeAstronomy() {
     Body: { Sun: "Sun", Jupiter: "Jupiter", Venus: "Venus" },
     SearchAltitude(_body, _observer, direction, start) {
       const day = new Date(start);
-      const hour = new Date(start).getUTCHours() >= 12 ? 20 : 0;
+      const hour = direction > 0 ? 0 : 20;
       return { date: new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), hour)) };
     },
     SearchRiseSet(_body, _observer, direction, start) {
       const day = new Date(start);
-      const hour = new Date(start).getUTCHours() >= 12 ? 18 : 6;
+      const hour = direction > 0 ? 6 : 18;
       return { date: new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), hour)) };
     },
     Equator(body) {
