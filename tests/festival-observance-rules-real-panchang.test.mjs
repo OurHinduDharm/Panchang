@@ -208,28 +208,22 @@ test("real Pithoragarh 2030 Shravana Dwadashi checks local tithi-nakshatra yoga 
     };
   });
   const result = evaluateShravanaDwadashiYoga(candidateDays);
-  console.log("OHD_SHRAVANA_2030_DIAGNOSTIC " + JSON.stringify({
-    days: candidateDays.map(day => ({
-      date: day.date,
-      sunrise: new Date(day.dayStart).toISOString(),
-      sunset: new Date(day.sunset).toISOString(),
-      nextSunrise: new Date(day.dayEnd).toISOString(),
-      tithis: day.tithis.filter(item => [10, 11, 25, 26].includes(item.index)).map(item => ({ index:item.index, start:new Date(item.startTime).toISOString(), end:new Date(item.endTime).toISOString() })),
-      shravana: day.nakshatraIntervals.filter(item => item.index === 21).map(item => ({ start:new Date(item.startTime).toISOString(), end:new Date(item.endTime).toISOString() }))
-    })),
-    result
-  }));
-  assert.ok(
-    ["candidate-evidence-only", "manual-review", "brief-overlap-needs-review"].includes(result.status),
-    "the detector must return an explicit evidence/review state"
-  );
+  assert.equal(result.status, "candidate-evidence-only");
+  assert.deepEqual(result.qualifyingDates, ["2030-09-08"]);
   assert.equal(result.finalDate, null);
   assert.equal(result.autoApproved, false);
+  assert.equal(result.matches[0].durationMs, 35515308);
+  assert.equal(result.matches[1].durationMs, 2513615);
   assert.ok(result.warnings.includes("tithi-nakshatra-overlap-is-not-a-fast-date-decision"));
-  assert.ok(
-    result.matches.length > 0,
-    "Pithoragarh 2030 Bhadrapada Shukla Dwadashi should be checked against real Shravana intervals"
-  );
+
+  const selection = resolveObservanceCandidates("shravana-yoga-dwadashi-review", candidateDays);
+  assert.equal(selection.status, "date-selected-needs-source-approval");
+  assert.equal(selection.selectedDate, "2030-09-08");
+  assert.equal(selection.finalDate, "2030-09-08");
+  assert.equal(selection.selectionBasis, "dharmasindhu-vishnushrinkhala-ekadashi-viddha-dwadashi-shravana-both-vrata-days-previous-day-only");
+  assert.equal(selection.evaluations[0].shravanaDwadashiOverlapMs, 35515308);
+  assert.equal(selection.evaluations[1].dwadashiRemainingAfterSunriseMs, 2513615);
+  assert.equal(selection.autoApproved, false);
 });
 
 
