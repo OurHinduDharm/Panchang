@@ -533,6 +533,7 @@ test("Adhika catalogue rows are omitted when that Adhika month is absent from th
   assert.equal(result.tithis.some(item => item.adhika), false);
   assert.equal(result.tithis.some(item => item.id === "jyeshtha-krishna-adhika"), false);
   assert.equal(result.tithis.some(item => item.id === "jyeshtha-shukla-adhika"), false);
+  assert.equal(result.tithis.some(item => item.month === "ज्येष्ठ"), false);
 });
 
 test("Adhika catalogue rows remain available when that Adhika month occurs in the annual scan", () => {
