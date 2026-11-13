@@ -51,6 +51,41 @@ function solarDepression(date) {
   return localVisibilityGeometry("Jupiter", date).solarDepressionDegrees;
 }
 
+function signedElongation(planet, date) {
+  const raw = Astronomy.PairLongitude(Astronomy.Body[planet], Astronomy.Body.Sun, date);
+  return ((raw + 180) % 360 + 360) % 360 - 180;
+}
+
+function findConjunctions(planet, startDate, endDate) {
+  const roots = [];
+  let previousDate = new Date(startDate);
+  let previousValue = signedElongation(planet, previousDate);
+  for (let cursor = new Date(previousDate.getTime() + 86400_000); cursor <= endDate; cursor = new Date(cursor.getTime() + 86400_000)) {
+    const currentDate = cursor;
+    const currentValue = signedElongation(planet, currentDate);
+    if (previousValue * currentValue <= 0 && Math.abs(currentValue - previousValue) < 90) {
+      let lo = new Date(previousDate);
+      let hi = new Date(currentDate);
+      let loValue = previousValue;
+      for (let iteration = 0; iteration < 45; iteration++) {
+        const mid = new Date((lo.getTime() + hi.getTime()) / 2);
+        const midValue = signedElongation(planet, mid);
+        if (loValue * midValue <= 0) {
+          hi = mid;
+        } else {
+          lo = mid;
+          loValue = midValue;
+        }
+      }
+      const root = new Date((lo.getTime() + hi.getTime()) / 2);
+      if (!roots.length || root - roots[roots.length - 1] > 30 * 86400_000) roots.push(root);
+    }
+    previousDate = currentDate;
+    previousValue = currentValue;
+  }
+  return roots;
+}
+
 function median(values) {
   const sorted = [...values].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
@@ -358,9 +393,47 @@ const futureCandidates = candidateRows
       model.boundary === row.boundary &&
       model.direction === row.direction
     )?.selectedModel ?? "unknown",
+    signedElongationDegrees: Number(signedElongation(row.planet, row.instant).toFixed(5)),
     previousThresholdDegrees: row.previousThresholdDegrees,
     currentThresholdDegrees: row.currentThresholdDegrees
   }));
+
+const futureConjunctions = Object.fromEntries(planets.map(planet => [
+  planet,
+  findConjunctions(planet, new Date("2028-01-01T00:00:00Z"), new Date("2036-01-01T00:00:00Z"))
+]));
+
+const futureWindows = [];
+for (const planet of planets) {
+  for (const conjunction of futureConjunctions[planet]) {
+    const before = futureCandidates.filter(row =>
+      row.planet === planet && row.boundary === "astaStart" &&
+      new Date(row.localDateTime + "+05:30") < conjunction &&
+      conjunction - new Date(row.localDateTime + "+05:30") <= 75 * 86400_000 &&
+      ((row.direction === "set" && row.signedElongationDegrees > 0) ||
+       (row.direction === "rise" && row.signedElongationDegrees < 0))
+    ).sort((a, b) => new Date(b.localDateTime + "+05:30") - new Date(a.localDateTime + "+05:30"));
+    const after = futureCandidates.filter(row =>
+      row.planet === planet && row.boundary === "astaEnd" &&
+      new Date(row.localDateTime + "+05:30") > conjunction &&
+      new Date(row.localDateTime + "+05:30") - conjunction <= 75 * 86400_000 &&
+      ((row.direction === "set" && row.signedElongationDegrees > 0) ||
+       (row.direction === "rise" && row.signedElongationDegrees < 0))
+    ).sort((a, b) => new Date(a.localDateTime + "+05:30") - new Date(b.localDateTime + "+05:30"));
+    if (before[0] && after[0]) {
+      const start = new Date(before[0].localDateTime + "+05:30");
+      const end = new Date(after[0].localDateTime + "+05:30");
+      futureWindows.push({
+        planet,
+        conjunctionUtc: conjunction.toISOString(),
+        astaStart: before[0],
+        udaya: after[0],
+        durationDays: Number(((end - start) / 86400_000).toFixed(3)),
+        status: "internal-model-candidate-not-published"
+      });
+    }
+  }
+}
 
 const output = {
   schemaVersion: "1.0.0",
@@ -378,6 +451,10 @@ const output = {
   candidateCount: candidateRows.length,
   futureCandidateCount: futureCandidates.length,
   futureCandidates,
+  futureConjunctions: Object.fromEntries(Object.entries(futureConjunctions).map(([planet, dates]) => [
+    planet, dates.map(date => date.toISOString())
+  ])),
+  futureWindows,
   holdoutBoundaryCount: holdout.length,
   matched,
   sourceDayDiagnostics,
@@ -401,6 +478,6 @@ console.log(JSON.stringify({
   holdoutBoundaryCount: output.holdoutBoundaryCount,
   groupedSummary,
   futureCandidateCount: futureCandidates.length,
-  futureCandidates,
+  futureWindows,
   outputPath
 }, null, 2));
