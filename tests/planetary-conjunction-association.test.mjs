@@ -54,10 +54,10 @@ test("pairs Jupiter AstaStart set before and AstaEnd rise after conjunction", ()
     planet: "Jupiter",
     conjunctions: [{ kind: "conjunction", instant: "2028-09-30T12:00:00Z" }],
     candidates: [
-      { boundary: "astaStart", type: "set", instant: "2028-09-15T12:00:00Z" },
-      { boundary: "astaEnd", type: "rise", instant: "2028-10-12T12:00:00Z" },
-      { boundary: "astaStart", type: "rise", instant: "2028-09-20T12:00:00Z" },
-      { boundary: "astaEnd", type: "set", instant: "2028-10-05T12:00:00Z" }
+      { boundary: "astaStart", eventType: "set", instant: "2028-09-15T12:00:00Z" },
+      { boundary: "astaEnd", eventType: "rise", instant: "2028-10-12T12:00:00Z" },
+      { boundary: "astaStart", eventType: "rise", instant: "2028-09-20T12:00:00Z" },
+      { boundary: "astaEnd", eventType: "set", instant: "2028-10-05T12:00:00Z" }
     ]
   });
   assert.equal(result.windows.length, 1);
@@ -73,10 +73,10 @@ test("Venus inferior and superior conjunctions require opposite horizon branches
       { kind: "superior-conjunction", instant: "2029-03-23T00:00:00Z" }
     ],
     candidates: [
-      { boundary: "astaStart", type: "set", instant: "2028-05-29T00:00:00Z" },
-      { boundary: "astaEnd", type: "rise", instant: "2028-06-07T00:00:00Z" },
-      { boundary: "astaStart", type: "rise", instant: "2029-02-12T00:00:00Z" },
-      { boundary: "astaEnd", type: "set", instant: "2029-04-17T00:00:00Z" }
+      { boundary: "astaStart", eventType: "set", instant: "2028-05-29T00:00:00Z" },
+      { boundary: "astaEnd", eventType: "rise", instant: "2028-06-07T00:00:00Z" },
+      { boundary: "astaStart", eventType: "rise", instant: "2029-02-12T00:00:00Z" },
+      { boundary: "astaEnd", eventType: "set", instant: "2029-04-17T00:00:00Z" }
     ]
   });
   assert.equal(result.windows.length, 2);
@@ -91,8 +91,8 @@ test("rejects candidates on wrong side or wrong horizon direction", () => {
     planet: "Jupiter",
     conjunctions: [{ kind: "conjunction", instant: "2028-09-30T00:00:00Z" }],
     candidates: [
-      { boundary: "astaStart", type: "rise", instant: "2028-09-20T00:00:00Z" },
-      { boundary: "astaEnd", type: "set", instant: "2028-10-10T00:00:00Z" }
+      { boundary: "astaStart", eventType: "rise", instant: "2028-09-20T00:00:00Z" },
+      { boundary: "astaEnd", eventType: "set", instant: "2028-10-10T00:00:00Z" }
     ]
   });
   assert.equal(result.windows.length, 0);
