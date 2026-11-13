@@ -9,7 +9,8 @@ import {
 
 test("Pithoragarh observer profile preserves the project target coordinates and elevation", () => {
   const profiles = validateObserverProfileDataset(dataset);
-  assert.equal(profiles.length, 10);\n  assert.ok(profiles.every(profile => profile.calculationEligible === true));
+  assert.equal(profiles.length, 10);
+  assert.ok(profiles.every(profile => profile.calculationEligible === true));
   const pithoragarh = findObserverProfile(dataset, "pithoragarh-uttarakhand");
   assert.equal(pithoragarh.latitude, 29.5828);
   assert.equal(pithoragarh.longitude, 80.2182);
@@ -22,7 +23,20 @@ test("Pithoragarh observer profile preserves the project target coordinates and 
   });
 });
 
-test("major metro benchmark profiles are present and have explicit observer coordinates", () => {\n  for (const id of ["new-delhi", "mumbai", "kolkata", "chennai", "bengaluru", "hyderabad", "ahmedabad", "pune", "jaipur"]) {\n    const profile = findObserverProfile(dataset, id);\n    assert.ok(profile, "missing " + id);\n    assert.ok(Number.isFinite(profile.elevationMeters));\n    assert.equal(profile.timeZone, "Asia/Kolkata");\n  }\n});\n\ntest("Surat is explicitly pending and cannot be used as a calculation profile", () => {\n  assert.equal(dataset.pendingLocations.find(item => item.id === "surat").calculationEligible, false);\n});\n\ntest("unknown city does not silently fall back to Pithoragarh", () => {
+test("major metro benchmark profiles are present and have explicit observer coordinates", () => {
+  for (const id of ["new-delhi", "mumbai", "kolkata", "chennai", "bengaluru", "hyderabad", "ahmedabad", "pune", "jaipur"]) {
+    const profile = findObserverProfile(dataset, id);
+    assert.ok(profile, "missing " + id);
+    assert.ok(Number.isFinite(profile.elevationMeters));
+    assert.equal(profile.timeZone, "Asia/Kolkata");
+  }
+});
+
+test("Surat is explicitly pending and cannot be used as a calculation profile", () => {
+  assert.equal(dataset.pendingLocations.find(item => item.id === "surat").calculationEligible, false);
+});
+
+test("unknown city does not silently fall back to Pithoragarh", () => {
   assert.equal(findObserverProfile(dataset, "unknown-city"), null);
 });
 
