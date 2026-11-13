@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "title": "OurHinduDharm Pithoragarh Guru-Shukra local Asta-Udaya calculated annual windows",
+  "location": {
+    "name": "Pithoragarh, Uttarakhand, India",
+    "latitude": 29.5828,
+    "longitude": 80.2182,
+    "elevationMeters": 1650,
+    "timeZone": "Asia/Kolkata",
+    "observerProfile": "project-selected Pithoragarh reference point"
+  },
+  "calculation": {
+    "modelId": "local-twilight-threshold-v1",
+    "engine": "Astronomy Engine",
+    "engineVersion": "2.1.19",
+    "engineLicense": "MIT",
+    "method": "Topocentric daily planet horizon crossing with source-trained twilight/arcus-visionis boundary selection",
+    "trainingSource": "Direct Pithoragarh Guru-Shukra source boundaries 2021-2025",
+    "holdoutValidation": {
+      "years": [
+        2026,
+        2027
+      ],
+      "boundaryCount": 9,
+      "matchedBoundaries": 9,
+      "maximumClockDifferenceSeconds": 58.2,
+      "validationWorkflow": "https://github.com/OurHinduDharm/Panchang/actions/runs/43380320868"
+    },
+    "independentComparison": {
+      "provider": "Panchang Guru",
+      "location": "New Delhi, India",
+      "years": [
+        2028,
+        2029,
+        2030
+      ],
+      "result": "Dates matched or differed by one day; times were generally within about 10-20 minutes. This is a separate-location sanity check, not Pithoragarh ground truth.",
+      "sources": [
+        "https://www.panchangguru.com/guru-asta",
+        "https://www.panchangguru.com/shukra-asta"
+      ]
+    },
+    "generatedAt": "2026-11-13T06:40:42Z",
+    "publicDisplay": "Date and local time only"
+  },
+  "windows": [
+    {
+      "id": "ohd-pithoragarh-jupiter-2028",
+      "planet": "Jupiter",
+      "year": 2028,
+      "astaStart": "2028-09-15T18:48:10+05:30",
+      "udaya": "2028-10-13T05:26:26+05:30",
+      "conjunctionUtc": "2028-09-30T12:51:39.178Z",
+      "durationDays": 27.443,
+      "status": "calculated"
+    },
+    {
+      "id": "ohd-pithoragarh-jupiter-2029",
+      "planet": "Jupiter",
+      "year": 2029,
+      "astaStart": "2029-10-17T18:09:49+05:30",
+      "udaya": "2029-11-12T05:47:14+05:30",
+      "conjunctionUtc": "2029-10-30T23:55:41.165Z",
+      "durationDays": 25.484,
+      "status": "calculated"
+    },
+    {
+      "id": "ohd-pithoragarh-jupiter-2030",
+      "planet": "Jupiter",
+      "year": 2030,
+      "astaStart": "2030-11-18T17:47:29+05:30",
+      "udaya": "2030-12-13T06:10:26+05:30",
+      "conjunctionUtc": "2030-11-30T14:43:21.715Z",
+      "durationDays": 24.516,
+      "status": "calculated"
+    },
+    {
+      "id": "ohd-pithoragarh-venus-2028",
+      "planet": "Venus",
+      "year": 2028,
+      "astaStart": "2028-05-29T19:25:36+05:30",
+      "udaya": "2028-06-08T04:32:38+05:30",
+      "conjunctionUtc": "2028-06-01T09:59:54.239Z",
+      "durationDays": 9.38,
+      "status": "calculated"
+    },
+    {
+      "id": "ohd-pithoragarh-venus-2029",
+      "planet": "Venus",
+      "year": 2029,
+      "astaStart": "2029-02-12T06:25:07+05:30",
+      "udaya": "2029-04-17T19:04:16+05:30",
+      "conjunctionUtc": "2029-03-23T20:12:49.931Z",
+      "durationDays": 64.527,
+      "status": "calculated"
+    },
+    {
+      "id": "ohd-pithoragarh-venus-2030-jan",
+      "planet": "Venus",
+      "year": 2030,
+      "astaStart": "2030-01-04T17:45:17+05:30",
+      "udaya": "2030-01-09T06:35:34+05:30",
+      "conjunctionUtc": "2030-01-06T13:18:53.564Z",
+      "durationDays": 4.535,
+      "status": "calculated"
+    },
+    {
+      "id": "ohd-pithoragarh-venus-2030-sep",
+      "planet": "Venus",
+      "year": 2030,
+      "astaStart": "2030-09-28T05:34:31+05:30",
+      "udaya": "2030-11-20T17:38:42+05:30",
+      "conjunctionUtc": "2030-10-20T11:11:28.397Z",
+      "durationDays": 53.503,
+      "status": "calculated"
+    }
+  ]
+}

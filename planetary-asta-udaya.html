@@ -100,8 +100,8 @@ function renderAgastya(records, year) {
   addText(agastyaResult, "span", "", "अगस्त्य तारा अस्त — " + formatHindiDate(item.taraSetDate) + " · " + item.taraSet);
 }
 
-function renderPlanets(dataset, year) {
-  const windows = getPithoragarhAnnualWindows(dataset, year);
+function renderPlanets(dataset, calculatedDataset, year) {
+  const windows = getPithoragarhAnnualWindows(dataset, year, calculatedDataset);
   count.textContent = windows.length + " अवधि";
   results.replaceChildren();
 
@@ -132,14 +132,18 @@ function renderPlanets(dataset, year) {
 
 async function init() {
   try {
-    const [planetResponse, agastyaResponse] = await Promise.all([
+    const [planetResponse, calculatedResponse, agastyaResponse] = await Promise.all([
       fetch("./data/drik-planetary-reference-2024-2027.json", { cache: "no-cache" }),
+      fetch("./data/pithoragarh-guru-shukra-calculated-2028-2030.json", { cache: "no-cache" }),
       fetch("./data/agastya-arghya-pithoragarh.json", { cache: "no-cache" })
     ]);
-    if (!planetResponse.ok || !agastyaResponse.ok) throw new Error("वार्षिक डेटा लोड नहीं हुआ");
+    if (!planetResponse.ok || !calculatedResponse.ok || !agastyaResponse.ok) {
+      throw new Error("वार्षिक डेटा लोड नहीं हुआ");
+    }
     const dataset = await planetResponse.json();
+    const calculated = await calculatedResponse.json();
     const agastya = await agastyaResponse.json();
-    if (!Array.isArray(dataset.windows) || !Array.isArray(agastya.years)) {
+    if (!Array.isArray(dataset.windows) || !Array.isArray(calculated.windows) || !Array.isArray(agastya.years)) {
       throw new Error("अमान्य वार्षिक डेटा");
     }
 
@@ -149,6 +153,10 @@ async function init() {
           entry.acceptanceEligible === true &&
           ["Jupiter", "Venus"].includes(entry.planet))
         .map(entry => entry.sourcePageYear),
+      ...calculated.windows
+        .filter(entry => entry.status === "calculated" &&
+          ["Jupiter", "Venus"].includes(entry.planet))
+        .map(entry => entry.year),
       ...agastya.years.map(entry => entry.year)
     ])].filter(Number.isInteger).sort((a, b) => a - b);
 
@@ -165,7 +173,7 @@ async function init() {
 
     const render = () => {
       const year = Number(yearSelect.value);
-      renderPlanets(dataset, year);
+      renderPlanets(dataset, calculated, year);
       renderAgastya(agastya.years, year);
     };
     render();

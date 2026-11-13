@@ -1,0 +1,30 @@
+name: Validate calculated Tara boundaries with Skyfield and DE440s
+
+on:
+  push:
+    branches:
+      - feature/pithoragarh-guru-shukra-2028-2030
+
+permissions:
+  contents: read
+
+jobs:
+  skyfield:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install MIT-licensed Skyfield
+        run: pip install skyfield==1.53
+      - name: Independently verify all calculated horizon crossings with JPL DE440s
+        run: python scripts/validate-tara-candidates-skyfield.py
+      - name: Upload independent ephemeris report
+        uses: actions/upload-artifact@v4
+        with:
+          name: skyfield-de440s-pithoragarh-crosscheck
+          path: artifacts/skyfield-de440s-pithoragarh-crosscheck.json
+          if-no-files-found: error
+          retention-days: 30

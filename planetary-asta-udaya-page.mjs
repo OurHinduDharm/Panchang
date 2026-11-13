@@ -9,6 +9,12 @@ export const PLANET_ORDER = Object.freeze([
   { key: "Venus", name: "शुक्र" }
 ]);
 
+function validLocalDateTime(value) {
+  return typeof value === "string" &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+05:30$/.test(value) &&
+    Number.isFinite(Date.parse(value));
+}
+
 function validBoundary(value) {
   return typeof value?.normalizedLocalDateTime === "string" &&
     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+05:30$/.test(value.normalizedLocalDateTime) &&
@@ -16,10 +22,10 @@ function validBoundary(value) {
 }
 
 /**
- * Returns only directly captured Pithoragarh city-reference windows.
- * This is a published-reference listing, not a coordinate-exact prediction.
+ * Merges verified historical Pithoragarh source windows with the explicitly
+ * scoped OurHinduDharm local calculation dataset for future years.
  */
-export function getPithoragarhAnnualWindows(dataset, sourceYear) {
+export function getPithoragarhAnnualWindows(dataset, sourceYear, calculatedDataset = null) {
   if (!dataset || !Array.isArray(dataset.windows)) {
     throw new TypeError("A planetary reference dataset with windows is required");
   }
@@ -27,7 +33,7 @@ export function getPithoragarhAnnualWindows(dataset, sourceYear) {
     throw new TypeError("sourceYear must be an integer");
   }
 
-  return dataset.windows
+  const published = dataset.windows
     .filter(entry =>
       entry.sourceLocation === SOURCE_CITY &&
       entry.sourcePageYear === sourceYear &&
@@ -47,12 +53,40 @@ export function getPithoragarhAnnualWindows(dataset, sourceYear) {
       sourceYear: entry.sourcePageYear,
       astaStart: entry.boundaries.astaStart.normalizedLocalDateTime,
       udaya: entry.boundaries.astaEnd.normalizedLocalDateTime
-    }))
-    .sort((a, b) =>
-      Date.parse(a.astaStart) - Date.parse(b.astaStart) ||
-      PLANET_ORDER.findIndex(p => p.key === a.planet) -
-        PLANET_ORDER.findIndex(p => p.key === b.planet)
-    );
+    }));
+
+  const calculatedLocationMatches =
+    calculatedDataset?.location?.name === SOURCE_CITY &&
+    calculatedDataset.location.latitude === 29.5828 &&
+    calculatedDataset.location.longitude === 80.2182 &&
+    calculatedDataset.location.elevationMeters === 1650 &&
+    calculatedDataset.location.timeZone === TIME_ZONE &&
+    calculatedDataset?.calculation?.modelId === "local-twilight-threshold-v1";
+
+  const calculated = calculatedLocationMatches && Array.isArray(calculatedDataset.windows)
+    ? calculatedDataset.windows
+      .filter(entry =>
+        entry.year === sourceYear &&
+        entry.status === "calculated" &&
+        PLANET_ORDER.some(planet => planet.key === entry.planet) &&
+        validLocalDateTime(entry.astaStart) &&
+        validLocalDateTime(entry.udaya) &&
+        Date.parse(entry.udaya) > Date.parse(entry.astaStart)
+      )
+      .map(entry => ({
+        id: entry.id,
+        planet: entry.planet,
+        sourceYear: entry.year,
+        astaStart: entry.astaStart,
+        udaya: entry.udaya
+      }))
+    : [];
+
+  return [...published, ...calculated].sort((a, b) =>
+    Date.parse(a.astaStart) - Date.parse(b.astaStart) ||
+    PLANET_ORDER.findIndex(p => p.key === a.planet) -
+      PLANET_ORDER.findIndex(p => p.key === b.planet)
+  );
 }
 
 export function formatPithoragarhBoundary(value) {
