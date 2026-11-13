@@ -13,8 +13,20 @@
 
 - `planetary-city-location.mjs`: शहर खोज, DEM elevation और observer profile।
 - `planetary-heliacal-visibility.mjs`: Schaefer (1985) twilight visibility criterion का pure-JavaScript evaluator।
-- `planetary-city-heliacal-engine.mjs`: Astronomy Engine से प्रत्येक observer के लिए -18° astronomical dawn/dusk और स्थानीय sunrise/sunset windows बनाकर morning/evening scans चलाता है; evening last-visible transition को Asta candidate और morning first-visible transition को Udaya candidate कहता है। यह अभी भी research-only है।\n- `planetary-heliacal-ephemeris.mjs`: Astronomy Engine से गुरु/शुक्र के topocentric altitude/azimuth और `Illumination().mag` लेकर सुबह/शाम की दी हुई UTC window scan करता है; crossing को 30-second default tolerance तक refine करता है।
+- `planetary-city-heliacal-engine.mjs`: Astronomy Engine से प्रत्येक observer के लिए -18° astronomical dawn/dusk और स्थानीय sunrise/sunset windows बनाकर morning/evening scans चलाता है; last-visible को Asta candidate और first-visible को Udaya candidate मानता है, चाहे घटना सुबह हो या शाम। यह अभी भी research-only है।
+- `planetary-city-horizon-threshold.mjs`: वास्तविक स्थानीय ग्रह-rise/set घटनाएँ निकालता है और उसी समय सूर्य के depression पर प्रशिक्षित सीमा के crossing से तारीख का candidate बनाता है; प्रदर्शित clock को वास्तविक rise/set event पर ही रखता है।
+- `planetary-heliacal-ephemeris.mjs`: Astronomy Engine से गुरु/शुक्र के topocentric altitude/azimuth और `Illumination().mag` लेकर सुबह/शाम की दी हुई UTC window scan करता है; crossing को 30-second default tolerance तक refine करता है।
 - `agastya-canopus-position.mjs`: SIMBAD/HIP 30438 catalogue coordinates और proper motion को J2000 tangent plane में propagate करके Astronomy Engine के EQJ-to-HOR transform से Canopus का स्थानीय altitude/azimuth निकालता है; वही twilight visibility evaluator भी लागू करता है।
+
+## पिथौरागढ़ का पहला वास्तविक बैकटेस्ट (2021–2027)
+
+- 16 उपलब्ध Guru/Shukra windows के 32 start/end boundaries पर Astronomy Engine के निकटतम वास्तविक planet rise/set event का समय स्रोत के समय से 1 मिनट के भीतर मिला: 32/32।
+- स्रोत boundary के समय ग्रह की altitude लगभग 0° थी। इससे संकेत मिलता है कि प्रकाशित clock-time को स्थानीय ग्रह horizon crossing से निकालना चाहिए।
+- Sun-depression thresholds को 2021–2025 के records से अलग-अलग planet, boundary और rise/set direction के अनुसार median से fit किया गया।
+- 2026–2027 के 8 holdout boundaries में 8/8 threshold brackets मिले; 7/8 का चुना हुआ horizon clock स्रोत समय से 15 मिनट के भीतर रहा और 7/8 तारीखें 1 दिन के भीतर रहीं।
+- एक Venus 2027 AstaEnd boundary लगभग 2 दिन अलग रहा। इसे अभी सफल prediction नहीं माना गया है।
+- Schaefer visibility evaluator को उसी 32-boundary परीक्षण में केवल 4 candidate matches मिले; इसलिए इसे अभी इस तारीख-निर्धारण के लिए स्वीकार नहीं किया गया।
+- यह पिथौरागढ़-विशिष्ट exploratory validation है। इसे दूसरे शहरों पर लागू मानना या सार्वजनिक तारीखें प्रकाशित करना उचित नहीं। अगला चरण दूसरे शहरों पर स्वतंत्र same-city validation और Venus 2027 mismatch का कारण जाँचना है।
 
 ## महत्वपूर्ण सीमाएँ
 
