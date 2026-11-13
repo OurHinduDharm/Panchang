@@ -1,6 +1,13 @@
 name: Annual Guru-Shukra source capture
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/annual-tara-source-normalizer.mjs"
+      - "scripts/capture-guru-shukra-annual-sources.mjs"
+      - "tests/annual-tara-source-normalizer.test.mjs"
+      - ".github/workflows/annual-guru-shukra-source-capture.yml"
   workflow_dispatch:
     inputs:
       start_year:
@@ -18,7 +25,21 @@ permissions:
   contents: read
 
 jobs:
+  unit-tests:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test source normalization and event pairing
+        run: node --test tests/annual-tara-source-normalizer.test.mjs
+      - name: Check capture script syntax
+        run: node --check scripts/capture-guru-shukra-annual-sources.mjs
+
   capture:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
