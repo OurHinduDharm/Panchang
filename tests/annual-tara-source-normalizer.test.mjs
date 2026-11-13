@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   parseDrikBoundary,
-  pairDrikEventRows
+  pairDrikEventRows,
+  summarizeSourceCaptures
 } from "../scripts/annual-tara-source-normalizer.mjs";
 
 test("normalizes 24-plus source clocks without losing raw source text", () => {
@@ -52,4 +53,38 @@ test("quarantines incomplete and reversed boundaries instead of inventing a pair
   ]);
   assert.equal(result.windows.length, 0);
   assert.equal(result.unpaired.length, 2);
+});
+
+
+test("never counts quarantined source windows as verified review windows", () => {
+  const summary = summarizeSourceCaptures([
+    {
+      status: "quarantined-city-planet-or-year-mismatch",
+      windows: [{}, {}]
+    },
+    {
+      status: "source-page-identity-and-boundaries-captured",
+      windows: [{}]
+    },
+    {
+      status: "quarantined-incomplete-or-unparsed-event-boundaries",
+      windows: [{}, {}, {}]
+    }
+  ]);
+  assert.equal(summary.attemptedPages, 3);
+  assert.equal(summary.identityAndBoundaryVerifiedPages, 1);
+  assert.equal(summary.quarantinedPages, 2);
+  assert.equal(summary.verifiedCandidateWindows, 1);
+  assert.equal(summary.quarantinedCandidateWindows, 5);
+  assert.equal(summary.totalCandidateWindows, 6);
+});
+
+test("reports zero verified candidates when every requested page is quarantined", () => {
+  const summary = summarizeSourceCaptures([
+    { status: "quarantined-city-planet-or-year-mismatch", windows: [{}] },
+    { status: "quarantined-city-planet-or-year-mismatch", windows: [{}] }
+  ]);
+  assert.equal(summary.verifiedCandidateWindows, 0);
+  assert.equal(summary.quarantinedCandidateWindows, 2);
+  assert.equal(summary.totalCandidateWindows, 2);
 });
