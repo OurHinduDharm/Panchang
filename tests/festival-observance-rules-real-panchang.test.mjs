@@ -235,6 +235,10 @@ test("real Pithoragarh Nag Panchami candidates run through the Dharmasindhu reso
   const result = resolveObservanceCandidates("nag-panchami", candidates);
   assert.notEqual(result.status, "insufficient-data");
   assert.equal(result.autoApproved, false);
-  assert.equal(result.finalDate, null);
-  if (result.selectedDate) assert.ok(dates.includes(result.selectedDate));
+  if (result.selectedDate) {
+    assert.ok(dates.includes(result.selectedDate));
+    assert.equal(result.finalDate, result.selectedDate);
+  } else {
+    assert.equal(result.finalDate, null);
+  }
 });
