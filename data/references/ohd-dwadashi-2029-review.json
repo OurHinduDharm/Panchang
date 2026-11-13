@@ -345,63 +345,6 @@
       "status": "needs-review"
     },
     {
-      "id": "jyeshtha-krishna-adhika",
-      "month": "ज्येष्ठ",
-      "paksha": "कृष्ण",
-      "adhika": true,
-      "tithi": "द्वादशी",
-      "sunriseDates": [],
-      "noonDates": [],
-      "sunriseObservations": [],
-      "noonObservations": [],
-      "candidateDates": [],
-      "referenceDate": null,
-      "drikLabels": [],
-      "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "no-observation-in-scan-window",
-      "displayNames": [
-        "अधिक कृष्ण रामलक्ष्मण द्वादशी"
-      ],
-      "observances": [],
-      "conditionalObservances": [],
-      "crossReferences": [],
-      "status": "needs-observation"
-    },
-    {
-      "id": "jyeshtha-shukla-adhika",
-      "month": "ज्येष्ठ",
-      "paksha": "शुक्ल",
-      "adhika": true,
-      "tithi": "द्वादशी",
-      "sunriseDates": [],
-      "noonDates": [],
-      "sunriseObservations": [],
-      "noonObservations": [],
-      "candidateDates": [],
-      "referenceDate": null,
-      "drikLabels": [],
-      "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "no-observation-in-scan-window",
-      "displayNames": [
-        "अधिक रामलक्ष्मण द्वादशी"
-      ],
-      "observances": [],
-      "conditionalObservances": [
-        {
-          "id": "unmilini",
-          "name": "उन्मीलिनी महाद्वादशी",
-          "ruleRef": "mahaDwadashi.types.unmilini",
-          "status": "condition-required"
-        }
-      ],
-      "crossReferences": [],
-      "status": "needs-observation"
-    },
-    {
       "id": "jyeshtha-krishna",
       "month": "ज्येष्ठ",
       "paksha": "कृष्ण",

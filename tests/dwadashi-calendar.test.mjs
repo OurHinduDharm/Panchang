@@ -349,12 +349,14 @@ test("permanent month-paksha names remain the same in every year, including Adhi
     sunriseDay(year+"-01-01","माघ","कृष्ण","प्रतिपदा")
   ], {unifiedTithiIndex:{tithis:master},drik2026Calendar:refs});
   const y2026=make(2026), y2027=make(2027);
-  for (const id of ["vaishakha-krishna","jyeshtha-krishna","jyeshtha-shukla","jyeshtha-shukla-adhika","jyeshtha-krishna-adhika","ashadha-krishna"]) {
+  for (const id of ["vaishakha-krishna","jyeshtha-krishna","jyeshtha-shukla","ashadha-krishna"]) {
     assert.deepEqual(y2026.tithis.find(x=>x.id===id).displayNames,y2027.tithis.find(x=>x.id===id).displayNames);
   }
   assert.equal(y2026.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,"2026-07-11");
   assert.equal(y2027.tithis.find(x=>x.id==="ashadha-krishna").referenceDate,null);
   assert.equal(y2026.tithis.find(x=>x.id==="jyeshtha-shukla-adhika").adhika,true);
+  assert.equal(y2026.tithis.find(x=>x.id==="jyeshtha-krishna-adhika").adhika,true);
+  assert.equal(y2027.tithis.some(x=>x.adhika),false);
 });
 
 test("annual reference dates do not provide or override permanent Dwadashi names", () => {
@@ -516,4 +518,45 @@ test("Smarta rules remain authoritative while Drik dates stay source references"
     assert.equal(source.independentTithiCrossCheck,undefined);
     assert.ok(source.labels.includes(item.label));
   }
+});
+
+
+test("Adhika catalogue rows are omitted when that Adhika month is absent from the annual scan", () => {
+  const sourceRules = {
+    unifiedTithiIndex: { tithis: [
+      { month:"पौष", paksha:"कृष्ण", displayNames:["कृष्ण मत्स्य द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"कृष्ण", adhika:true, displayNames:["अधिक कृष्ण रामलक्ष्मण द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"शुक्ल", adhika:true, displayNames:["अधिक रामलक्ष्मण द्वादशी"] }
+    ] }
+  };
+  const result = buildDwadashiCalendar([
+    sunriseDay("2030-01-01","पौष","कृष्ण","द्वादशी")
+  ], sourceRules);
+  assert.equal(result.tithis.some(item => item.adhika), false);
+  assert.equal(result.tithis.some(item => item.id === "jyeshtha-krishna-adhika"), false);
+  assert.equal(result.tithis.some(item => item.id === "jyeshtha-shukla-adhika"), false);
+  assert.equal(result.tithis.some(item => item.month === "ज्येष्ठ"), false);
+});
+
+test("Adhika catalogue rows remain available when that Adhika month occurs in the annual scan", () => {
+  const sourceRules = {
+    unifiedTithiIndex: { tithis: [
+      { month:"ज्येष्ठ", paksha:"कृष्ण", adhika:true, displayNames:["अधिक कृष्ण रामलक्ष्मण द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"शुक्ल", adhika:true, displayNames:["अधिक रामलक्ष्मण द्वादशी"] }
+    ] }
+  };
+  const day = sunriseDay("2026-05-18","ज्येष्ठ","कृष्ण","एकादशी",true);
+  const result = buildDwadashiCalendar([day], sourceRules);
+  const record = result.tithis.find(item => item.id === "jyeshtha-krishna-adhika");
+  assert.ok(record);
+  assert.equal(record.status, "needs-observation");
+});
+
+
+test("annual review drafts do not report non-occurring Adhika Jyeshtha as missing observations", async () => {
+  const review2029 = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2029-review.json", import.meta.url), "utf8"));
+  const review2030 = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  assert.deepEqual(review2029.tithis.filter(item => item.adhika).map(item => item.month), ["चैत्र", "चैत्र"]);
+  assert.equal(review2030.tithis.some(item => item.adhika), false);
+  assert.equal(review2030.tithis.filter(item => item.status === "needs-observation").length, 0);
 });
