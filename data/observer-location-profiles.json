@@ -1,6 +1,18 @@
 {
   "schemaVersion": 1,
-  "description": "स्थान-विशिष्ट खगोलीय गणना के लिए observer profiles. किसी स्थान का डेटा दूसरे स्थान पर लागू नहीं होगा।",
+  "description": "भारत के प्रमुख महानगरों के प्रतिनिधि मौसम-स्टेशन observer profiles. ये benchmark locations हैं, पूरे महानगर के हर मोहल्ले का स्थान नहीं।",
+  "referenceSources": [
+    {
+      "id": "imd-radiation-normals-1991-2020",
+      "title": "IMD Pune: Radiation Normals 1991–2020, station latitude/longitude/elevation table",
+      "url": "https://imdpune.gov.in/library/Radiation_Normals_1991-2020.pdf"
+    },
+    {
+      "id": "geonames-india-largest-cities",
+      "title": "GeoNames India largest cities: city coverage and population ordering",
+      "url": "https://www.geonames.org/IN/largest-cities-in-india.html"
+    }
+  ],
   "profiles": [
     {
       "id": "pithoragarh-uttarakhand",
@@ -13,7 +25,159 @@
       "timeZone": "Asia/Kolkata",
       "coordinateSource": "user-confirmed-project-target",
       "elevationSource": "user-confirmed-project-target",
-      "status": "active"
+      "profileKind": "project-reference",
+      "status": "active",
+      "calculationEligible": true
+    },
+    {
+      "id": "new-delhi",
+      "name": "नई दिल्ली",
+      "state": "दिल्ली",
+      "country": "भारत",
+      "latitude": 28.583333,
+      "longitude": 77.2,
+      "elevationMeters": 211.4,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 28°35′N 77°12′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "mumbai",
+      "name": "मुंबई",
+      "state": "महाराष्ट्र",
+      "country": "भारत",
+      "latitude": 19.116667,
+      "longitude": 72.85,
+      "elevationMeters": 14.2,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 19°07′N 72°51′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "kolkata",
+      "name": "कोलकाता",
+      "state": "पश्चिम बंगाल",
+      "country": "भारत",
+      "latitude": 22.533333,
+      "longitude": 88.333333,
+      "elevationMeters": 6,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 22°32′N 88°20′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "chennai",
+      "name": "चेन्नई",
+      "state": "तमिलनाडु",
+      "country": "भारत",
+      "latitude": 13,
+      "longitude": 80.183333,
+      "elevationMeters": 15.52,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 13°00′N 80°11′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "bengaluru",
+      "name": "बेंगलुरु",
+      "state": "कर्नाटक",
+      "country": "भारत",
+      "latitude": 12.966667,
+      "longitude": 77.633333,
+      "elevationMeters": 923,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD Bengaluru ARU station: 12°58′N 77°38′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "hyderabad",
+      "name": "हैदराबाद",
+      "state": "तेलंगाना",
+      "country": "भारत",
+      "latitude": 17.466667,
+      "longitude": 78.466667,
+      "elevationMeters": 530.3,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 17°28′N 78°28′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "ahmedabad",
+      "name": "अहमदाबाद",
+      "state": "गुजरात",
+      "country": "भारत",
+      "latitude": 23.066667,
+      "longitude": 72.633333,
+      "elevationMeters": 55.5,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 23°04′N 72°38′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "pune",
+      "name": "पुणे",
+      "state": "महाराष्ट्र",
+      "country": "भारत",
+      "latitude": 18.533333,
+      "longitude": 73.85,
+      "elevationMeters": 555.8,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 18°32′N 73°51′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "jaipur",
+      "name": "जयपुर",
+      "state": "राजस्थान",
+      "country": "भारत",
+      "latitude": 26.9,
+      "longitude": 75.8,
+      "elevationMeters": 258,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "IMD station: 26°54′N 75°48′E",
+      "elevationSource": "IMD station elevation above MSL",
+      "profileKind": "imd-station-representative",
+      "status": "benchmark",
+      "calculationEligible": true
+    },
+    {
+      "id": "surat",
+      "name": "सूरत",
+      "state": "गुजरात",
+      "country": "भारत",
+      "latitude": 21.1959,
+      "longitude": 72.8302,
+      "elevationMeters": null,
+      "timeZone": "Asia/Kolkata",
+      "coordinateSource": "Approximate city-centre coordinates; GeoNames-style city point",
+      "elevationSource": "Not yet verified against DEM/IMD station",
+      "profileKind": "approximate-city-point",
+      "status": "pending-elevation",
+      "calculationEligible": false
     }
   ]
 }
