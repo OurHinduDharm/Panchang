@@ -203,27 +203,62 @@ const thresholdPredictions = results
   });
 
 function getSameCityDurationReference(planet) {
-  const durations = sourceRows
-    .filter(row => row.planet === planet && row.sourceLocation === "Pithoragarh, Uttarakhand, India")
-    .map(row => {
-      const start = Date.parse(row.boundaries?.astaStart?.normalizedUtcInstant);
-      const end = Date.parse(row.boundaries?.astaEnd?.normalizedUtcInstant);
-      return Number.isFinite(start) && Number.isFinite(end) && end > start
-        ? { days: (end - start) / 86_400_000, year: row.sourcePageYear }
-        : null;
-    })
-    .filter(Boolean);
-  if (!durations.length) return null;
-  return {
-    planet,
-    minDays: Number(Math.min(...durations.map(row => row.days)).toFixed(3)),
-    maxDays: Number(Math.max(...durations.map(row => row.days)).toFixed(3)),
-    sampleCount: durations.length,
-    years: [...new Set(durations.map(row => row.year))].sort((a, b) => a - b),
-    location: "Pithoragarh, Uttarakhand, India",
-    sourceDataset: "data/drik-planetary-reference-2024-2027.json",
-    comparisonLevel: "city-label-only"
-  };
+  // Match the exact local rise/set branch used to define each conjunction type.
+  // Mixing Venus inferior- and superior-conjunction windows creates an
+  // unhelpfully broad duration range, so keep those samples separate.
+  const branchDefinitions = planet === "Jupiter"
+    ? { conjunction: { astaStart: "set", astaEnd: "rise" } }
+    : {
+        "inferior-conjunction": { astaStart: "set", astaEnd: "rise" },
+        "superior-conjunction": { astaStart: "rise", astaEnd: "set" }
+      };
+  const observedByWindow = new Map();
+  for (const result of results) {
+    if (result.planet !== planet) continue;
+    if (!observedByWindow.has(result.sourceWindowId)) {
+      observedByWindow.set(result.sourceWindowId, {});
+    }
+    observedByWindow.get(result.sourceWindowId)[result.boundary] = result;
+  }
+
+  const byConjunctionKind = {};
+  for (const [conjunctionKind, eventTypes] of Object.entries(branchDefinitions)) {
+    const durations = sourceRows
+      .filter(row => row.planet === planet &&
+        row.sourceLocation === "Pithoragarh, Uttarakhand, India")
+      .map(row => {
+        const observed = observedByWindow.get(row.id);
+        const start = Date.parse(row.boundaries?.astaStart?.normalizedUtcInstant);
+        const end = Date.parse(row.boundaries?.astaEnd?.normalizedUtcInstant);
+        const startType = observed?.astaStart?.nearestHorizonEvent?.type;
+        const endType = observed?.astaEnd?.nearestHorizonEvent?.type;
+        if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start ||
+            startType !== eventTypes.astaStart || endType !== eventTypes.astaEnd) {
+          return null;
+        }
+        return { days: (end - start) / 86_400_000, year: row.sourcePageYear };
+      })
+      .filter(Boolean);
+    if (!durations.length) continue;
+
+    byConjunctionKind[conjunctionKind] = {
+      planet,
+      conjunctionKind,
+      minDays: Number(Math.min(...durations.map(row => row.days)).toFixed(3)),
+      maxDays: Number(Math.max(...durations.map(row => row.days)).toFixed(3)),
+      sampleCount: durations.length,
+      years: [...new Set(durations.map(row => row.year))].sort((a, b) => a - b),
+      location: "Pithoragarh, Uttarakhand, India",
+      sourceDataset: "data/drik-planetary-reference-2024-2027.json",
+      comparisonLevel: "city-label-only",
+      referenceEventTypes: eventTypes,
+      confidence: durations.length < 5
+        ? "small-sample-review-only"
+        : "historical-range-review-only"
+    };
+  }
+
+  return { planet, byConjunctionKind };
 }
 
 const futureCandidates2028To2030 = ["Jupiter", "Venus"].map(planet => {
@@ -243,19 +278,21 @@ const futureCandidates2028To2030 = ["Jupiter", "Venus"].map(planet => {
   const annotatedCandidates = associateCandidatesWithConjunctions({
     candidates: raw.candidates, conjunctions, maxDistanceDays: 180
   });
+  const durationReference = getSameCityDurationReference(planet);
   const pairing = pairCandidatesAroundConjunctions({
     planet,
     candidates: raw.candidates,
     conjunctions,
     maxDistanceDays: 90,
-    durationReference: getSameCityDurationReference(planet)
+    durationReference
   });
   return {
     ...raw,
     conjunctions,
     candidates: annotatedCandidates,
+    durationReference,
     conjunctionPairing: pairing,
-    interpretation: "Strict conjunction-side and horizon-event direction pairing is research-only; windows are not publication-approved."
+    interpretation: "Strict conjunction-side, local horizon-event direction and conjunction-specific duration pairing is research-only; windows are not publication-approved."
   };
 });
 
