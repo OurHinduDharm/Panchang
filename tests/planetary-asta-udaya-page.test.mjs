@@ -75,15 +75,42 @@ test("main Panchang planetary card links to the annual reference page", () => {
     new URL("../extra-panchang.js", import.meta.url),
     "utf8"
   );
-  assert.match(source, /https:\/\/ourhindudharm\.github\.io\/Panchang\/planetary-asta-udaya\.html/);
+  assert.match(source, /https:\/\/ourhindudharm\.blogspot\.com\/p\/guru-shukra-agastya-tara-uday-ast\.html/);
   assert.match(source, /वर्षवार गुरु-शुक्र सूची देखें/);
 });
 
 test("annual page builds its year selector from the available dataset and shows no outside links", () => {
   const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
-  assert.ok(page.includes("const years = [...new Set(dataset.windows"));
+  assert.ok(page.includes("const years = [...new Set(["));
+  assert.ok(page.includes("...agastya.years.map(entry => entry.year)"));
   assert.ok(page.includes("yearSelect.append(option)"));
   assert.ok(!page.includes("<option>2021</option>"));
   assert.ok(!page.includes("http://") && !page.includes("https://"));
   assert.ok(!page.includes("Drik Panchang") && !page.includes("drikpanchang.com"));
+});
+
+
+const agastya = JSON.parse(readFileSync(
+  new URL("../data/agastya-arghya-pithoragarh.json", import.meta.url),
+  "utf8"
+));
+
+test("Pithoragarh Agastya Arghya records preserve supplied annual dates and local times", () => {
+  assert.deepEqual(agastya.years.map(item => item.year), [2024, 2025, 2026, 2027]);
+  assert.deepEqual(agastya.years.map(item => item.arghyaDate), [
+    "2024-09-07", "2025-09-07", "2026-09-07", "2027-09-07"
+  ]);
+  assert.deepEqual(agastya.years.map(item => item.taraRise), ["04:41", "04:43", "04:44", "04:45"]);
+  assert.deepEqual(agastya.years.map(item => item.arghyaEnd), ["05:50", "05:50", "05:49", "05:49"]);
+  assert.deepEqual(agastya.years.map(item => item.taraSet), ["19:46", "19:44", "19:44", "19:45"]);
+  assert.equal(agastya.location.name, "पिथौरागढ़");
+  assert.equal(agastya.location.timeZone, "Asia/Kolkata");
+});
+
+test("annual iframe page renders Agastya data from its separate JSON dataset", () => {
+  const page = readFileSync(new URL("../planetary-asta-udaya.html", import.meta.url), "utf8");
+  assert.ok(page.includes("./data/agastya-arghya-pithoragarh.json"));
+  assert.ok(page.includes("renderAgastya"));
+  assert.ok(page.includes("अगस्त्य तारा उदय एवं अर्घ्य"));
+  assert.ok(page.includes("taraSetDate"));
 });

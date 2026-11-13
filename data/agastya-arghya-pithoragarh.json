@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "location": {
+    "name": "पिथौरागढ़",
+    "region": "उत्तराखंड",
+    "country": "भारत",
+    "timeZone": "Asia/Kolkata"
+  },
+  "event": "traditional-agastya-arghya",
+  "years": [
+    {
+      "year": 2024,
+      "arghyaDate": "2024-09-07",
+      "weekday": "शनिवार",
+      "arghyaStart": "04:41",
+      "arghyaEnd": "05:50",
+      "duration": "01 घंटा 08 मिनट",
+      "taraRise": "04:41",
+      "taraSetDate": "2024-04-14",
+      "taraSet": "19:46"
+    },
+    {
+      "year": 2025,
+      "arghyaDate": "2025-09-07",
+      "weekday": "रविवार",
+      "arghyaStart": "04:43",
+      "arghyaEnd": "05:50",
+      "duration": "01 घंटा 07 मिनट",
+      "taraRise": "04:43",
+      "taraSetDate": "2025-04-15",
+      "taraSet": "19:44"
+    },
+    {
+      "year": 2026,
+      "arghyaDate": "2026-09-07",
+      "weekday": "सोमवार",
+      "arghyaStart": "04:44",
+      "arghyaEnd": "05:49",
+      "duration": "01 घंटा 05 मिनट",
+      "taraRise": "04:44",
+      "taraSetDate": "2026-04-15",
+      "taraSet": "19:44"
+    },
+    {
+      "year": 2027,
+      "arghyaDate": "2027-09-07",
+      "weekday": "मंगलवार",
+      "arghyaStart": "04:45",
+      "arghyaEnd": "05:49",
+      "duration": "01 घंटा 05 मिनट",
+      "taraRise": "04:45",
+      "taraSetDate": "2027-04-15",
+      "taraSet": "19:45"
+    }
+  ]
+}
