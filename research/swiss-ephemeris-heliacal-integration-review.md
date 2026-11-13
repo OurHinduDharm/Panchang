@@ -80,3 +80,10 @@ The module requests morning-first and evening-last heliacal events separately. I
 Sources:
 - Official Astrodienst fixed-star list: https://www.astro.com/swisseph/fstarlist.htm
 - Swiss Ephemeris fixed-star naming rules: https://www.astro.com/swisseph-download/doc/swephprg.2.10.htm
+
+
+## DEM terrain-horizon profile layer
+
+Added `research/terrain-horizon-profile.mjs` to turn already-extracted DEM ray samples into an azimuth-dependent skyline. For each ray, it calculates the highest terrain elevation angle from observer eye height, absolute terrain elevation and horizontal distance, with optional effective-Earth-radius refraction correction. It then interpolates circularly between measured azimuths and refuses to bridge gaps larger than the declared maximum. The evaluator reports whether a topocentric apparent object altitude clears the local terrain horizon plus an explicit clearance margin.
+
+This is a pure numerical layer; it does not read GeoTIFF files and does not claim to have processed the user's DEM. The raster sampler must produce distance/elevation samples for all azimuths, with NoData gaps explicitly handled. A measured DEM profile is still needed before applying it to Pithoragarh outputs.
