@@ -210,12 +210,20 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     }
   };
 
-  // Keep every master month-paksha Dwadashi record visible every year.
-  // Names belong to the permanent month/paksha catalogue, not to a Gregorian year.
+  // Keep regular master month-paksha records visible every year. Adhika
+  // catalogue rows are only applicable when that Adhika month occurs inside
+  // this scan window; otherwise they create false "needs-observation" rows.
+  const scannedAdhikaMonths = new Set();
+  dailyPanchang.forEach(day => {
+    const masa = normalizeMonth(day?.sunriseTithi?.masa || day?.masa);
+    if (masa.month && masa.adhika) scannedAdhikaMonths.add(masa.month);
+  });
   catalog.forEach(item => {
     const masa = normalizeMonth(item.month);
     const paksha = normalizePaksha(item.paksha);
-    if (masa.month && paksha) ensureEmptyGroup(masa.month, paksha, !!item.adhika);
+    if (masa.month && paksha && (!masa.adhika || scannedAdhikaMonths.has(masa.month))) {
+      ensureEmptyGroup(masa.month, paksha, !!masa.adhika);
+    }
   });
 
   // Preserve user-approved 2026 Drik cross-references as review-only records
