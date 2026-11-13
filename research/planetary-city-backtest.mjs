@@ -22,7 +22,8 @@ import {
 } from "../planetary-city-horizon-threshold.mjs";
 import {
   findPlanetConjunctions,
-  associateCandidatesWithConjunctions
+  associateCandidatesWithConjunctions,
+  pairCandidatesAroundConjunctions
 } from "./planetary-conjunction-association.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -218,11 +219,18 @@ const futureCandidates2028To2030 = ["Jupiter", "Venus"].map(planet => {
   const annotatedCandidates = associateCandidatesWithConjunctions({
     candidates: raw.candidates, conjunctions, maxDistanceDays: 180
   });
+  const pairing = pairCandidatesAroundConjunctions({
+    planet,
+    candidates: raw.candidates,
+    conjunctions,
+    maxDistanceDays: 90
+  });
   return {
     ...raw,
     conjunctions,
     candidates: annotatedCandidates,
-    interpretation: "Nearest conjunction is context only. No Asta window is automatically paired or approved."
+    conjunctionPairing: pairing,
+    interpretation: "Strict conjunction-side and horizon-event direction pairing is research-only; windows are not publication-approved."
   };
 });
 
