@@ -62,3 +62,16 @@
 5. जब तक error distribution और source acceptance criteria पूरे न हों, public annual list में नए model-generated times न डालना।
 
 संदर्भ: Schaefer, B. E. (1985), “Predicting Heliacal Risings and Settings”, Sky & Telescope 70, 261–263; equations reconstruction हेतु MontuPython की प्रकाशित step-by-step technical documentation; Canopus astrometry हेतु CDS SIMBAD (HIP 30438).
+
+
+## Conjunction association for Guru/Shukra candidates
+
+`research/planetary-conjunction-association.mjs` adds an independent context layer to raw horizon-threshold candidates:
+
+- Jupiter uses relative longitude 180° for its solar conjunction; 0° would be opposition.
+- Venus records both 0° inferior conjunction and 180° superior conjunction.
+- Each raw candidate is annotated with the nearest conjunction, its kind, and signed day-distance (before/after).
+- This is a branch-review aid only. It does not automatically pair AstaStart/AstaEnd, discard candidates, or set `publicationEligible` to true.
+- The Astronomy Engine relative-longitude convention is documented in its JavaScript reference. See https://github.com/cosinekitty/astronomy/blob/master/source/js/README.md
+
+The Venus 2027 AstaEnd holdout remains unresolved. At the captured source boundary (2027-09-09 18:48 IST), the local horizon event itself agrees within about 0.5 minute, while the source Sun depression is about 5.741°. The training median for the Venus AstaEnd/set branch is about 5.889°, and the resulting threshold candidate is roughly two days late. This points to a limitation in the fixed empirical threshold/date rule, not an error in the local planet horizon event. Do not tune the threshold on this holdout record; retain it as an explicit failure until an independent rule/source resolves it.
