@@ -44,7 +44,7 @@ test("builds separate local morning and evening astronomical twilight windows", 
   assert.equal(windows[0].start, "2028-01-01T00:00:00.000Z");
   assert.equal(windows[0].end, "2028-01-01T06:00:00.000Z");
   assert.equal(windows[1].start, "2028-01-01T18:00:00.000Z");
-  assert.equal(windows[1].end, "2028-01-01T23:59:00.000Z");
+  assert.equal(windows[1].end, "2028-01-01T20:00:00.000Z");
 });
 
 test("does not invent twilight windows when astronomical events are absent", () => {
