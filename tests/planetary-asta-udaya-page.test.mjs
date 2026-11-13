@@ -15,18 +15,19 @@ const dataset = JSON.parse(readFileSync(
 test("annual page selector includes only verified Pithoragarh city-reference windows", () => {
   const all = [2021, 2022, 2023, 2024, 2025, 2026, 2027]
     .flatMap(year => getPithoragarhAnnualWindows(dataset, year));
-  assert.equal(all.length, 71);
+  assert.equal(all.length, 16);
+  assert.ok(all.every(item => ["Jupiter", "Venus"].includes(item.planet)));
   assert.ok(all.every(item => item.id && item.astaStart && item.udaya));
   assert.ok(all.every(item => Date.parse(item.astaStart) < Date.parse(item.udaya)));
 });
 
-test("all seven captured years are selectable and preserve chronological order", () => {
+test("all seven captured years expose only Guru and Shukra and preserve chronological order", () => {
   for (const year of [2021, 2022, 2023, 2024, 2025, 2026, 2027]) {
     const windows = getPithoragarhAnnualWindows(dataset, year);
     assert.ok(windows.length > 0, String(year));
     for (const item of windows) {
       assert.equal(item.sourceYear, year);
-      assert.ok(PLANET_ORDER.some(planet => planet.key === item.planet));
+      assert.ok(["Jupiter", "Venus"].includes(item.planet));
     }
     for (let index = 1; index < windows.length; index++) {
       assert.ok(Date.parse(windows[index - 1].astaStart) <= Date.parse(windows[index].astaStart));
