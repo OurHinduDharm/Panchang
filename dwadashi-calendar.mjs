@@ -221,8 +221,9 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   catalog.forEach(item => {
     const masa = normalizeMonth(item.month);
     const paksha = normalizePaksha(item.paksha);
-    if (masa.month && paksha && (!masa.adhika || scannedAdhikaMonths.has(masa.month))) {
-      ensureEmptyGroup(masa.month, paksha, !!masa.adhika);
+    const adhika = !!item.adhika || masa.adhika;
+    if (masa.month && paksha && (!adhika || scannedAdhikaMonths.has(masa.month))) {
+      ensureEmptyGroup(masa.month, paksha, adhika);
     }
   });
 
