@@ -109,6 +109,21 @@ const sourceBoundaries = dataset.windows
     };
   }));
 
+function linearFit(xs, ys) {
+  const meanX = xs.reduce((sum, value) => sum + value, 0) / xs.length;
+  const meanY = ys.reduce((sum, value) => sum + value, 0) / ys.length;
+  const varianceX = xs.reduce((sum, value) => sum + (value - meanX) ** 2, 0);
+  const slope = xs.length >= 2 && varianceX > 1e-9
+    ? xs.reduce((sum, value, index) => sum + (value - meanX) * (ys[index] - meanY), 0) / varianceX
+    : 0;
+  const boundedSlope = Math.max(-0.25, Math.min(0.25, slope));
+  return { intercept: meanY - boundedSlope * meanX, slope: boundedSlope };
+}
+
+function meanAbsolute(values) {
+  return values.length ? values.reduce((sum, value) => sum + Math.abs(value), 0) / values.length : Number.POSITIVE_INFINITY;
+}
+
 const thresholds = [];
 for (const planet of planets) {
   for (const boundary of ["astaStart", "astaEnd"]) {
@@ -120,26 +135,39 @@ for (const planet of planets) {
       if (!training.length) continue;
       const xs = training.map(row => row.azimuthDifferenceDegrees);
       const ys = training.map(row => row.solarDepressionDegrees);
-      const meanX = xs.reduce((sum, value) => sum + value, 0) / xs.length;
-      const meanY = ys.reduce((sum, value) => sum + value, 0) / ys.length;
-      const varianceX = xs.reduce((sum, value) => sum + (value - meanX) ** 2, 0);
-      const slope = training.length >= 3 && varianceX > 1e-9
-        ? xs.reduce((sum, value, index) => sum + (value - meanX) * (ys[index] - meanY), 0) / varianceX
-        : 0;
-      const boundedSlope = Math.max(-0.25, Math.min(0.25, slope));
-      const intercept = meanY - boundedSlope * meanX;
+      const medianThreshold = median(ys);
+      const looMedianErrors = [];
+      const looLinearErrors = [];
+      for (let index = 0; index < training.length; index++) {
+        const otherRows = training.filter((_, i) => i !== index);
+        if (!otherRows.length) continue;
+        const otherXs = otherRows.map(row => row.azimuthDifferenceDegrees);
+        const otherYs = otherRows.map(row => row.solarDepressionDegrees);
+        const medianPrediction = median(otherYs);
+        const fit = linearFit(otherXs, otherYs);
+        const row = training[index];
+        looMedianErrors.push(row.solarDepressionDegrees - medianPrediction);
+        looLinearErrors.push(row.solarDepressionDegrees - (
+          fit.intercept + fit.slope * row.azimuthDifferenceDegrees
+        ));
+      }
+      const looMedianMae = meanAbsolute(looMedianErrors);
+      const looLinearMae = meanAbsolute(looLinearErrors);
+      const useAzimuthCorrection = training.length >= 3 &&
+        looLinearMae < looMedianMae * 0.8;
+      const fullFit = linearFit(xs, ys);
       thresholds.push({
         planet,
         boundary,
         direction,
-        interceptDegrees: intercept,
-        slopeDegreesPerAzimuthDegree: boundedSlope,
+        selectedModel: useAzimuthCorrection ? "azimuth-corrected-linear-arcus-proxy" : "constant-median-arcus-proxy",
+        interceptDegrees: useAzimuthCorrection ? fullFit.intercept : medianThreshold,
+        slopeDegreesPerAzimuthDegree: useAzimuthCorrection ? fullFit.slope : 0,
+        medianThresholdDegrees: medianThreshold,
+        looMedianMaeDegrees: Number(looMedianMae.toFixed(5)),
+        looAzimuthModelMaeDegrees: Number(looLinearMae.toFixed(5)),
         trainingSamples: training.length,
-        trainingYears: [...new Set(training.map(row => row.sourceYear))].sort(),
-        trainingResidualsDegrees: training.map(row => Number((
-          row.solarDepressionDegrees -
-          (intercept + boundedSlope * row.azimuthDifferenceDegrees)
-        ).toFixed(5)))
+        trainingYears: [...new Set(training.map(row => row.sourceYear))].sort()
       });
     }
   }
