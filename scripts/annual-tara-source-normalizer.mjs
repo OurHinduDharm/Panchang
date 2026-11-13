@@ -18,7 +18,7 @@ function pad(value) {
 export function parseDrikBoundary(rawText) {
   if (typeof rawText !== "string") return null;
   const match = rawText.trim().match(
-    /^([A-Za-z]+)\\s+(\\d{1,2}),\\s*(\\d{4}),?\\s+[A-Za-z]+\\s+at\\s+(\\d{1,2}):(\\d{2})(\\+)?$/i
+    /^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4}),?\s+[A-Za-z]+\s+at\s+(\d{1,2}):(\d{2})(\+)?$/i
   );
   if (!match) return null;
 
