@@ -30,10 +30,25 @@ function dateRange(start, endExclusive) {
   return dates;
 }
 
+function horizontalPosition(body, date) {
+  const equatorial = Astronomy.Equator(body, date, observer, true, true);
+  return Astronomy.Horizon(date, observer, equatorial.ra, equatorial.dec, "normal");
+}
+
+function localVisibilityGeometry(planet, date) {
+  const planetHor = horizontalPosition(Astronomy.Body[planet], date);
+  const sunHor = horizontalPosition(Astronomy.Body.Sun, date);
+  const rawAzimuthDifference = Math.abs(
+    ((planetHor.azimuth - sunHor.azimuth + 540) % 360) - 180
+  );
+  return {
+    solarDepressionDegrees: -sunHor.altitude,
+    azimuthDifferenceDegrees: rawAzimuthDifference
+  };
+}
+
 function solarDepression(date) {
-  const sunEq = Astronomy.Equator(Astronomy.Body.Sun, date, observer, true, true);
-  const sunHor = Astronomy.Horizon(date, observer, sunEq.ra, sunEq.dec, "normal");
-  return -sunHor.altitude;
+  return localVisibilityGeometry("Jupiter", date).solarDepressionDegrees;
 }
 
 function median(values) {
@@ -89,6 +104,7 @@ const sourceBoundaries = dataset.windows
       direction: nearest.direction,
       sourceDateTime: source.normalizedLocalDateTime,
       sourceInstant,
+      ...localVisibilityGeometry(row.planet, sourceInstant),
       sourceYear: Number(source.normalizedLocalDateTime.slice(0, 4))
     };
   }));
@@ -102,14 +118,28 @@ for (const planet of planets) {
         row.direction === direction && row.sourceYear <= trainingEndYear
       );
       if (!training.length) continue;
-      const values = training.map(row => solarDepression(row.sourceInstant));
+      const xs = training.map(row => row.azimuthDifferenceDegrees);
+      const ys = training.map(row => row.solarDepressionDegrees);
+      const meanX = xs.reduce((sum, value) => sum + value, 0) / xs.length;
+      const meanY = ys.reduce((sum, value) => sum + value, 0) / ys.length;
+      const varianceX = xs.reduce((sum, value) => sum + (value - meanX) ** 2, 0);
+      const slope = training.length >= 3 && varianceX > 1e-9
+        ? xs.reduce((sum, value, index) => sum + (value - meanX) * (ys[index] - meanY), 0) / varianceX
+        : 0;
+      const boundedSlope = Math.max(-0.25, Math.min(0.25, slope));
+      const intercept = meanY - boundedSlope * meanX;
       thresholds.push({
         planet,
         boundary,
         direction,
-        thresholdDegrees: median(values),
+        interceptDegrees: intercept,
+        slopeDegreesPerAzimuthDegree: boundedSlope,
         trainingSamples: training.length,
-        trainingYears: [...new Set(training.map(row => row.sourceYear))].sort()
+        trainingYears: [...new Set(training.map(row => row.sourceYear))].sort(),
+        trainingResidualsDegrees: training.map(row => Number((
+          row.solarDepressionDegrees -
+          (intercept + boundedSlope * row.azimuthDifferenceDegrees)
+        ).toFixed(5)))
       });
     }
   }
@@ -117,7 +147,7 @@ for (const planet of planets) {
 
 const thresholdMap = new Map(thresholds.map(row => [
   row.planet + ":" + row.boundary + ":" + row.direction,
-  row.thresholdDegrees
+  row
 ]));
 const dailyEvents = new Map();
 const dates = dateRange(scanStart, scanEnd);
@@ -139,7 +169,7 @@ for (const planet of planets) {
       eventsByDirection[direction].push({
         instant,
         localDateTime: localDateTime(instant),
-        solarDepressionDegrees: solarDepression(instant)
+        ...localVisibilityGeometry(planet, instant)
       });
     }
   }
@@ -148,15 +178,18 @@ for (const planet of planets) {
 
 const candidateRows = [];
 for (const thresholdRow of thresholds) {
-  const { planet, boundary, direction, thresholdDegrees: threshold } = thresholdRow;
+  const { planet, boundary, direction, interceptDegrees, slopeDegreesPerAzimuthDegree } = thresholdRow;
+  const thresholdAt = event => interceptDegrees + slopeDegreesPerAzimuthDegree * event.azimuthDifferenceDegrees;
   const eventsByDirection = dailyEvents.get(planet);
   {
       const series = eventsByDirection[direction];
       for (let index = 1; index < series.length; index++) {
         const previous = series[index - 1];
         const current = series[index];
-        const a = previous.solarDepressionDegrees - threshold;
-        const b = current.solarDepressionDegrees - threshold;
+        const previousThreshold = thresholdAt(previous);
+        const currentThreshold = thresholdAt(current);
+        const a = previous.solarDepressionDegrees - previousThreshold;
+        const b = current.solarDepressionDegrees - currentThreshold;
         if (a * b > 0 || b === a) continue;
         const fraction = a === 0 ? 0 : b === 0 ? 1 :
           (threshold - previous.solarDepressionDegrees) /
@@ -172,11 +205,14 @@ for (const thresholdRow of thresholds) {
           planet,
           boundary,
           direction,
-          thresholdDegrees: Number(threshold.toFixed(5)),
+          previousThresholdDegrees: Number(previousThreshold.toFixed(5)),
+          currentThresholdDegrees: Number(currentThreshold.toFixed(5)),
           previousLocalDateTime: previous.localDateTime,
           currentLocalDateTime: current.localDateTime,
           previousSolarDepressionDegrees: Number(previous.solarDepressionDegrees.toFixed(5)),
           currentSolarDepressionDegrees: Number(current.solarDepressionDegrees.toFixed(5)),
+          previousAzimuthDifferenceDegrees: Number(previous.azimuthDifferenceDegrees.toFixed(5)),
+          currentAzimuthDifferenceDegrees: Number(current.azimuthDifferenceDegrees.toFixed(5)),
           instant,
           localDateTime: localDateTime(instant)
         });
@@ -226,7 +262,9 @@ for (const source of holdout) {
       previousLocalDateTime: best.candidate.previousLocalDateTime,
       currentLocalDateTime: best.candidate.currentLocalDateTime,
       previousSolarDepressionDegrees: best.candidate.previousSolarDepressionDegrees,
-      currentSolarDepressionDegrees: best.candidate.currentSolarDepressionDegrees
+      currentSolarDepressionDegrees: best.candidate.currentSolarDepressionDegrees,
+      previousAzimuthDifferenceDegrees: best.candidate.previousAzimuthDifferenceDegrees,
+      currentAzimuthDifferenceDegrees: best.candidate.currentAzimuthDifferenceDegrees
     },
     differenceMinutes: Number(best.differenceMinutes.toFixed(2)),
     absoluteDifferenceMinutes: Number(Math.abs(best.differenceMinutes).toFixed(2)),
@@ -288,7 +326,7 @@ const output = {
   generatedAtUtc: new Date().toISOString(),
   engine: "astronomy-engine@2.1.19 (MIT)",
   observer: { latitude: observer.latitude, longitude: observer.longitude, elevationMeters: observer.height, exactProviderCoordinates: false },
-  trainingPolicy: "Only source boundaries whose local event year is <= 2025 set median Sun-depression thresholds. No 2026-2027 source boundary is used for fitting.",
+  trainingPolicy: "Only source boundaries whose local event year is <= 2025 fit a direction-specific linear arcus-visionis proxy: solar depression as a function of absolute Sun/planet azimuth separation. No 2026-2027 source boundary is used for fitting.",
   trainingEndYear,
   thresholds: thresholds.map(row => ({ ...row, thresholdDegrees: Number(row.thresholdDegrees.toFixed(5)) })),
   scanRange: { start: scanStart, endExclusive: scanEnd, localDays: dates.length },
@@ -297,7 +335,7 @@ const output = {
   matched,
   sourceDayDiagnostics,
   groupedSummary,
-  conclusion: "diagnostic-only; thresholds are empirical source-derived candidates, not approved universal visibility constants; no production values generated",
+  conclusion: "diagnostic-only; the fitted azimuth correction is a small-sample empirical proxy, not a validated universal visibility law; no production values generated",
   limitations: [
     "The named-city source does not publish its exact observer coordinates/elevation.",
     "The model uses representative Pithoragarh coordinates and a fixed local atmosphere/refraction model.",
