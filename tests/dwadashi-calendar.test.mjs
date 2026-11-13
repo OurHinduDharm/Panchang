@@ -560,3 +560,12 @@ test("annual review drafts do not report non-occurring Adhika Jyeshtha as missin
   assert.equal(review2030.tithis.some(item => item.adhika), false);
   assert.equal(review2030.tithis.filter(item => item.status === "needs-observation").length, 0);
 });
+
+
+test("2030 annual review keeps the two Pausha Krishna Dwadashi occurrences separate", async () => {
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  const records = review.tithis.filter(item => item.id.startsWith("pausha-krishna"));
+  assert.deepEqual(records.map(item => item.id), ["pausha-krishna", "pausha-krishna-occurrence-2"]);
+  assert.deepEqual(records.map(item => item.candidateDates), [["2030-01-01"], ["2030-12-22"]]);
+  assert.ok(records.every(item => item.status === "needs-review"));
+});
