@@ -39,12 +39,11 @@ function utcMidnight(date) {
 function findTwilightDay(astronomy, observer, dayStart) {
   const sun = astronomy.Body.Sun;
   const searchDays = 1.25;
-  const localAfternoonSearchStart = new Date(dayStart.getTime() + 12 * 60 * 60 * 1000);
   const dawn = toDate(astronomy.SearchAltitude(sun, observer, +1, dayStart, searchDays, ASTRONOMICAL_TWILIGHT_DEG));
   const sunrise = toDate(astronomy.SearchRiseSet(sun, observer, +1, dayStart, searchDays));
-  // Search forward from local-day noon for that day's sunset and evening dusk.
-  const sunset = toDate(astronomy.SearchRiseSet(sun, observer, +1, localAfternoonSearchStart, searchDays));
-  const dusk = toDate(astronomy.SearchAltitude(sun, observer, +1, localAfternoonSearchStart, searchDays, ASTRONOMICAL_TWILIGHT_DEG));
+  // Direction selects rising (+1) or setting (-1); positive limitDays searches forward.
+  const sunset = toDate(astronomy.SearchRiseSet(sun, observer, -1, dayStart, searchDays));
+  const dusk = toDate(astronomy.SearchAltitude(sun, observer, -1, dayStart, searchDays, ASTRONOMICAL_TWILIGHT_DEG));
 
   const windows = [];
   if (dawn && sunrise && sunrise > dawn) {
