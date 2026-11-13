@@ -4,7 +4,7 @@
 
 ## 1. शहरों के डेटा का सही उपयोग
 
-`data/observer-location-profiles.json` में पिथौरागढ़ तथा प्रमुख महानगरों के representative observer points हैं। दिल्ली, मुंबई, कोलकाता, चेन्नई, बेंगलुरु, हैदराबाद, अहमदाबाद, पुणे और जयपुर के coordinates/elevation IMD 1991–2020 station table से लिए गए हैं। ये मौसम-स्टेशन के बिंदु हैं, पूरे शहर का औसत नहीं। सूरत की ऊँचाई अभी प्रमाणित नहीं; इसलिए उसका profile calculationEligible=false है।
+`data/observer-location-profiles.json` में पिथौरागढ़ तथा प्रमुख महानगरों के representative observer points हैं। दिल्ली, मुंबई, कोलकाता, चेन्नई, बेंगलुरु, हैदराबाद, अहमदाबाद, पुणे और जयपुर के coordinates/elevation IMD 1991–2020 station table से लिए गए हैं। ये मौसम-स्टेशन के बिंदु हैं, पूरे शहर का औसत नहीं। Drik reference dataset में पहले से मौजूद उज्जैन और वाराणसी के लिए भी station benchmark जोड़े गए हैं। सूरत की ऊँचाई अभी प्रमाणित नहीं; इसलिए उसका profile calculationEligible=false है।
 
 शहरों का डेटा किसी एक angular threshold को मनमाने ढंग से fit करने के लिए नहीं होगा। इसका उपयोग:
 - longitude/time-zone conversion और local date boundary जाँचने;
