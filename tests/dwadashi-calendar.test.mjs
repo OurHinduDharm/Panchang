@@ -517,3 +517,34 @@ test("Smarta rules remain authoritative while Drik dates stay source references"
     assert.ok(source.labels.includes(item.label));
   }
 });
+
+
+test("Adhika catalogue rows are omitted when that Adhika month is absent from the annual scan", () => {
+  const sourceRules = {
+    unifiedTithiIndex: { tithis: [
+      { month:"पौष", paksha:"कृष्ण", displayNames:["कृष्ण मत्स्य द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"कृष्ण", adhika:true, displayNames:["अधिक कृष्ण रामलक्ष्मण द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"शुक्ल", adhika:true, displayNames:["अधिक रामलक्ष्मण द्वादशी"] }
+    ] }
+  };
+  const result = buildDwadashiCalendar([
+    sunriseDay("2030-01-01","पौष","कृष्ण","द्वादशी")
+  ], sourceRules);
+  assert.equal(result.tithis.some(item => item.adhika), false);
+  assert.equal(result.tithis.some(item => item.id === "jyeshtha-krishna-adhika"), false);
+  assert.equal(result.tithis.some(item => item.id === "jyeshtha-shukla-adhika"), false);
+});
+
+test("Adhika catalogue rows remain available when that Adhika month occurs in the annual scan", () => {
+  const sourceRules = {
+    unifiedTithiIndex: { tithis: [
+      { month:"ज्येष्ठ", paksha:"कृष्ण", adhika:true, displayNames:["अधिक कृष्ण रामलक्ष्मण द्वादशी"] },
+      { month:"ज्येष्ठ", paksha:"शुक्ल", adhika:true, displayNames:["अधिक रामलक्ष्मण द्वादशी"] }
+    ] }
+  };
+  const day = sunriseDay("2026-05-18","ज्येष्ठ","कृष्ण","एकादशी",true);
+  const result = buildDwadashiCalendar([day], sourceRules);
+  const record = result.tithis.find(item => item.id === "jyeshtha-krishna-adhika");
+  assert.ok(record);
+  assert.equal(record.status, "needs-observation");
+});
