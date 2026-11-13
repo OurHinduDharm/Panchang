@@ -15,6 +15,10 @@ import {
 import {
   getPlanetVisibilitySample
 } from "../planetary-heliacal-ephemeris.mjs";
+import {
+  scanPlanetHorizonEvents,
+  findHorizonTwilightThresholdCrossings
+} from "../planetary-city-horizon-threshold.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA_PATH = path.join(ROOT, "data/drik-planetary-reference-2024-2027.json");
@@ -119,6 +123,65 @@ for (const row of sourceRows) {
   }
 }
 
+function median(values) {
+  const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
+  if (!sorted.length) return null;
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+}
+
+const trainingThresholds = {};
+for (const planet of ["Jupiter", "Venus"]) {
+  for (const boundary of ["astaStart", "astaEnd"]) {
+    const values = results
+      .filter(row => row.planet === planet && row.boundary === boundary && row.sourceYear <= 2025)
+      .map(row => row.sourceGeometry.sunDepressionDeg);
+    trainingThresholds[planet + ":" + boundary] = {
+      sampleCount: values.length,
+      thresholdDepressionDeg: median(values)
+    };
+  }
+}
+
+const holdoutHorizonSeries = {};
+for (const planet of ["Jupiter", "Venus"]) {
+  holdoutHorizonSeries[planet] = scanPlanetHorizonEvents({
+    astronomy: Astronomy,
+    planet,
+    observer,
+    start: "2026-01-01T00:00:00.000Z",
+    end: "2028-01-01T00:00:00.000Z"
+  });
+}
+
+const thresholdPredictions = results
+  .filter(row => row.sourceYear >= 2026)
+  .map(row => {
+    const key = row.planet + ":" + row.boundary;
+    const threshold = trainingThresholds[key]?.thresholdDepressionDeg;
+    const candidates = findHorizonTwilightThresholdCrossings({
+      horizonSeries: holdoutHorizonSeries[row.planet],
+      thresholdDepressionDeg: threshold
+    });
+    const referenceMs = Date.parse(row.sourceUtcInstant);
+    const nearest = candidates
+      .map(candidate => ({
+        ...candidate,
+        errorMinutes: (Date.parse(candidate.instant) - referenceMs) / 60_000
+      }))
+      .sort((a, b) => Math.abs(a.errorMinutes) - Math.abs(b.errorMinutes))[0] || null;
+    return {
+      sourceWindowId: row.sourceWindowId,
+      planet: row.planet,
+      sourceYear: row.sourceYear,
+      boundary: row.boundary,
+      trainingThresholdDepressionDeg: threshold,
+      nearestThresholdPrediction: nearest,
+      within1Day: nearest ? Math.abs(nearest.errorMinutes) <= 1440 : false,
+      within3Days: nearest ? Math.abs(nearest.errorMinutes) <= 4320 : false
+    };
+  });
+
 const errors = results
   .map(row => row.nearestModelCandidate?.errorMinutes)
   .filter(Number.isFinite)
@@ -137,6 +200,16 @@ const report = {
   observer: PROFILE,
   timezoneForSourceDisplay: "Asia/Kolkata",
   records: results.length,
+  horizonThresholdTrainingYears: "2021-2025",
+  horizonThresholdHoldoutYears: "2026-2027",
+  trainingThresholds,
+  thresholdHoldout: {
+    records: thresholdPredictions.length,
+    matched: thresholdPredictions.filter(row => row.nearestThresholdPrediction).length,
+    within1Day: thresholdPredictions.filter(row => row.within1Day).length,
+    within3Days: thresholdPredictions.filter(row => row.within3Days).length,
+    predictions: thresholdPredictions
+  },
   matchedBoundaries: results.filter(row => row.nearestModelCandidate).length,
   nearestHorizonEventsFound: results.filter(row => row.nearestHorizonEvent).length,
   horizonWithin1Minute: results.filter(row => row.horizonWithin1Minute).length,
