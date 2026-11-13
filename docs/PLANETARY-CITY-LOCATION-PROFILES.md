@@ -93,3 +93,14 @@ Initial Pithoragarh 2028–2030 research pairing from the current threshold cali
 - Jupiter: three conjunction-centred pairs (2028, 2029, 2030); the March/April candidate branches are excluded because they are not near the relevant solar conjunction.
 - Venus: four conjunction-centred pairs (2028 inferior, 2029 superior, 2030 inferior, 2030 superior).
 - These are model outputs, not Drik-verified dates. The 2029 Venus superior-conjunction window is notably longer than the 2027 source example and needs independent checking before the model can be accepted.
+
+
+### 2028–2030 paired candidate output (Pithoragarh observer)
+
+Latest successful CI artifact (workflow run 43419649580; pairing code from the tested branch) contains:
+- Jupiter: 3 paired windows — 15 Sep–12 Oct 2028 (27.443 d), 17 Oct–12 Nov 2029 (25.484 d), 18 Nov–13 Dec 2030 (24.516 d).
+- Venus: 4 paired windows — 29 May–7 Jun 2028 (9.380 d), 12 Feb–17 Apr 2029 (64.527 d), 4–9 Jan 2030 (4.535 d), 28 Sep–21 Nov 2030 (54.503 d).
+- The 2027 conjunctions at the beginning of the scan have no complete paired candidate inside the requested future range; they are explicitly reported as rejected/missing, not silently filled.
+- The 2029 Venus 64.5-day window is an outlier against the 2027 Pithoragarh source interval (~51 days). It remains research-only and needs independent source confirmation. The very short Venus inferior-conjunction windows in 2028/2030 also need independent validation.
+
+The strict pairing tests, all existing visibility/city/Agastya tests, full Pithoragarh back-test, artifact upload and real Astronomy Engine smoke test passed in CI. CI success validates code execution and regression tests, not the astronomical correctness of the future dates.
