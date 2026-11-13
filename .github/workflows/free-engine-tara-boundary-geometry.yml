@@ -1,0 +1,38 @@
+name: Free-engine Tara boundary geometry research
+
+on:
+  push:
+    branches:
+      - research/free-engine-tara-boundary-geometry
+
+permissions:
+  contents: read
+
+jobs:
+  geometry:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install MIT-licensed Astronomy Engine
+        run: npm install --no-save astronomy-engine@2.1.19
+      - name: Calculate geometry at published Pithoragarh Guru-Shukra boundaries
+        env:
+          OUTPUT_PATH: artifacts/tara-boundary-geometry-pithoragarh.json
+        run: node scripts/inspect-tara-boundary-geometry.mjs
+      - name: Backtest source-derived twilight thresholds on 2026-2027 holdout
+        env:
+          OUTPUT_PATH: artifacts/local-twilight-threshold-backtest.json
+        run: node scripts/backtest-local-twilight-thresholds.mjs
+      - name: Upload diagnostic reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: tara-boundary-geometry-and-holdout-backtest
+          path: |
+            artifacts/tara-boundary-geometry-pithoragarh.json
+            artifacts/local-twilight-threshold-backtest.json
+          if-no-files-found: error
+          retention-days: 30
