@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - research/agastya-gedtm30-cog-extraction
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "research/agastya/**"
+      - ".github/workflows/agastya-dem-audit.yml"
   workflow_dispatch:
 
 permissions:
