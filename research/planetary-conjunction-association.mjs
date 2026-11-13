@@ -84,7 +84,7 @@ export function associateCandidatesWithConjunctions({ candidates, conjunctions, 
     }
     const nearest = parsed.map(event => ({
       event,
-      signedDays: (candidateMs - event.ms) / DAY_MS
+      signedDays: (candidateMs - event.ms) / PAIR_DAY_MS
     })).sort((a, b) => Math.abs(a.signedDays) - Math.abs(b.signedDays))[0];
     const withinRange = nearest && Math.abs(nearest.signedDays) <= maxDistanceDays;
     return Object.freeze({
@@ -112,7 +112,7 @@ const EXPECTED_BRANCH = Object.freeze({
     "superior-conjunction": Object.freeze({ start: "rise", end: "set" })
   })
 });
-const DAY_MS = 86_400_000;
+const PAIR_DAY_MS = 86_400_000;
 
 function ms(value) {
   const n = Date.parse(value);
