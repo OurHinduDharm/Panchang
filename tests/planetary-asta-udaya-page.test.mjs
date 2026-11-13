@@ -75,7 +75,7 @@ test("main Panchang planetary card links to the annual reference page", () => {
     new URL("../extra-panchang.js", import.meta.url),
     "utf8"
   );
-  assert.match(source, /https:\/\/ourhindudharm\.github\.io\/Panchang\/planetary-asta-udaya\.html/);
+  assert.match(source, /https:\/\/ourhindudharm\.blogspot\.com\/p\/guru-shukra-agastya-tara-uday-ast\.html/);
   assert.match(source, /वर्षवार गुरु-शुक्र सूची देखें/);
 });
 
