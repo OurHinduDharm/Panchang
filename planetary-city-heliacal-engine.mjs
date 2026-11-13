@@ -111,9 +111,9 @@ export function calculateCityHeliacalCandidates({
       visibilityOptions
     });
     const transitions = result.crossings.map(crossing => ({
-      type: window.period === "evening" && crossing.type === "last-visible"
+      type: crossing.type === "last-visible"
         ? "asta-candidate"
-        : window.period === "morning" && crossing.type === "first-visible"
+        : crossing.type === "first-visible"
           ? "udaya-candidate"
           : "other-visibility-transition",
       period: window.period,
