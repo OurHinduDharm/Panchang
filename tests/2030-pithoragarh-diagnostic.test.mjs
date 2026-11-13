@@ -6,7 +6,7 @@ test("2030 Pithoragarh festival diagnostic scans every catalogued event at local
   const script = await readFile(new URL("../scripts/diagnose-2030-pithoragarh-festival-dates.mjs", import.meta.url), "utf8");
   assert.match(script, /new Observer\(29\.5828, 80\.2182, 1650\)/);
   assert.match(script, /calendarType: "purnimanta"/);
-  assert.match(script, /data\.festivals.*2030-/);
+  assert.match(script, /2030-\$\{String\(month\)/);
   assert.match(script, /tithiAtSunrise/);
   assert.match(script, /tithiAtMadhyahna/);
   assert.match(script, /tithiAtAparahna/);
