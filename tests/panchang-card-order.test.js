@@ -124,7 +124,7 @@ test("Extra Panchang placement helpers target the shared results grid", () => {
 test("Planetary Asta/Udaya card displays only Guru and Shukra without external source links", () => {
   const source = readFileSync(new URL("../extra-panchang.js", import.meta.url), "utf8");
   const start = source.indexOf("function createPlanetCard(");
-  const end = source.indexOf("\\nfunction createHoraCard(", start);
+  const end = source.indexOf("\nfunction createHoraCard(", start);
   assert.notEqual(start, -1);
   assert.notEqual(end, -1);
   const cardSource = source.slice(start, end);
