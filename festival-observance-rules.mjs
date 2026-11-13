@@ -457,7 +457,7 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
     evaluations: [], finalDate: null, autoApproved: false
   };
   const dates = candidateContexts.map(item => String(item?.date ?? ""));
-  if (dates.some(date => !/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
+  if (dates.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
     return {
       status: "insufficient-data", ruleId: profileId,
       warnings: ["candidate-dates-missing-or-duplicated"],
