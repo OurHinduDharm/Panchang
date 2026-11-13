@@ -527,7 +527,7 @@ export function evaluateShravanaDwadashiYoga(candidateDays, options = {}) {
     const date = String(day?.date ?? "");
     const dayStart = asDate(day?.dayStart);
     const dayEnd = asDate(day?.dayEnd);
-    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || seenDates.has(date) ||
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || seenDates.has(date) ||
         !dayStart || !dayEnd || dayEnd <= dayStart ||
         !Array.isArray(day?.tithis) || !Array.isArray(day?.nakshatraIntervals)) {
       return {
