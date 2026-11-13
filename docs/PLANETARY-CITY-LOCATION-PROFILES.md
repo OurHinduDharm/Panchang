@@ -110,13 +110,13 @@ The strict pairing tests, all existing visibility/city/Agastya tests, full Pitho
 
 एक ही “पूर्व में उदय / पश्चिम में अस्त” नियम सभी ग्रहों पर लागू नहीं किया जा सकता। इसलिए दृश्यता इंजन अब चारों twilight transitions अलग रखता है:
 
-| घटना | समय-खंड | क्षितिज-पक्ष | वर्ग |
-|---|---|---|---|
-| Morning first-visible | सूर्योदय से पहले | पूर्व | Udaya candidate |
-| Morning last-visible | सूर्योदय से पहले | पूर्व | Asta candidate |
-| Evening first-visible | सूर्यास्त के बाद | पश्चिम | Udaya candidate |
-| Evening last-visible | सूर्यास्त के बाद | पश्चिम | Asta candidate |
+| घटना | समय-खंड | क्षितिज-पक्ष | शुक्र | गुरु |
+|---|---|---|---|---|
+| Morning first-visible | सूर्योदय से पहले | पूर्व | Udaya candidate | Udaya candidate |
+| Morning last-visible | सूर्योदय से पहले | पूर्व | Asta candidate | अन्य दृश्यता घटना |
+| Evening first-visible | सूर्यास्त के बाद | पश्चिम | Udaya candidate | अन्य दृश्यता घटना |
+| Evening last-visible | सूर्यास्त के बाद | पश्चिम | Asta candidate | Asta candidate |
 
 प्रत्येक crossing के क्षण पर Astronomy Engine से वास्तविक azimuth लेकर दिशा जाँची जाती है। सुबह/शाम के अपेक्षित पक्ष और वास्तविक azimuth में अंतर हो तो `directionConsistentWithTwilight: false` के रूप में समीक्षा हेतु रखा जाता है; उम्मीदवार को चुपचाप हटाया नहीं जाता।
 
-यह विशेष रूप से शुक्र के लिए जरूरी है: inferior और superior conjunction के आसपास सुबह तथा शाम की दृश्यता अलग क्रम में बदल सकती है। अतः केवल “morning rise = Udaya” और “evening set = Asta” मानकर सभी शुक्र चक्रों का वर्गीकरण नहीं होगा। अंतिम Asta/Udaya जोड़ी conjunction-side, वास्तविक horizon event और स्थानीय स्रोत-सत्यापन के बाद ही स्वीकार होगी।
+यह विशेष रूप से शुक्र के लिए जरूरी है: inferior और superior conjunction के आसपास सुबह तथा शाम की दृश्यता अलग क्रम में बदल सकती है। गुरु जैसे superior planet के लिए opposition-पक्ष की evening-first और morning-last घटनाओं को heliacal Asta/Udaya नहीं माना जाता। अंतिम Asta/Udaya जोड़ी conjunction-side, वास्तविक horizon event और स्थानीय स्रोत-सत्यापन के बाद ही स्वीकार होगी।
