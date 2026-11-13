@@ -140,3 +140,71 @@ export function findHorizonTwilightThresholdCrossings({
   candidates.sort((a, b) => a.instant.localeCompare(b.instant));
   return Object.freeze(candidates.map(candidate => Object.freeze(candidate)));
 }
+
+
+/**
+ * Produces city-specific Asta-start and Asta-end date/time candidates from
+ * caller-supplied, same-city calibrated Sun-depression thresholds.
+ *
+ * thresholds shape:
+ * {
+ *   astaStart: { rise?: number, set?: number },
+ *   astaEnd:   { rise?: number, set?: number }
+ * }
+ *
+ * Missing branches remain missing; no neighboring-city/default threshold is
+ * silently substituted. All returned events are research-only.
+ */
+export function calculateCityAstaUdayaCandidates({
+  astronomy, planet, observer, start, end, thresholds
+}) {
+  if (!thresholds || typeof thresholds !== "object") {
+    throw new TypeError("Same-city calibrated thresholds are required");
+  }
+  const horizonSeries = scanPlanetHorizonEvents({
+    astronomy, planet, observer, start, end
+  });
+  const candidates = [];
+  for (const boundary of ["astaStart", "astaEnd"]) {
+    const branchThresholds = thresholds[boundary];
+    if (!branchThresholds || typeof branchThresholds !== "object") continue;
+    for (const eventType of ["rise", "set"]) {
+      const thresholdDepressionDeg = branchThresholds[eventType];
+      if (thresholdDepressionDeg === undefined) continue;
+      const crossings = findHorizonTwilightThresholdCrossings({
+        horizonSeries,
+        thresholdDepressionDeg,
+        eventType
+      });
+      for (const crossing of crossings) {
+        candidates.push(Object.freeze({
+          boundary,
+          planet,
+          eventType,
+          instant: crossing.instant,
+          thresholdDepressionDeg,
+          interpolation: crossing.interpolation,
+          bracket: crossing.bracket,
+          bracketFraction: crossing.bracketFraction
+        }));
+      }
+    }
+  }
+  candidates.sort((a, b) => a.instant.localeCompare(b.instant));
+  return Object.freeze({
+    modelId: "city-planet-horizon-twilight-threshold-v1",
+    status: candidates.length ? "candidate-events-found" : "no-threshold-crossing-found",
+    planet,
+    observer: horizonSeries.observer,
+    range: horizonSeries.range,
+    calibratedThresholds: thresholds,
+    candidates: Object.freeze(candidates),
+    publicationEligible: false,
+    limitations: [
+      "thresholds must be calibrated from the same city and observer profile",
+      "the Sun-depression threshold is empirical, not a universal visibility law",
+      "one Venus holdout boundary in the Pithoragarh 2026-2027 test differed by about two days",
+      "no terrain skyline, local weather, clouds or light pollution model is included"
+    ]
+  });
+}
