@@ -102,17 +102,22 @@ def scan_site(year: int, site_name: str, site: dict, eph, ts, profiles: dict):
 
     scenario_profiles = []
     if site_name == "Pithoragarh":
-        for key in (
+        required_profiles = (
             "observer_at_dtm_ground_plus_2m",
             "observer_at_project_1650m_assumed_egm2008",
-        ):
-            if key in profiles:
-                scenario_profiles.append((key, profiles[key]))
-    if not scenario_profiles:
+        )
+        missing = [key for key in required_profiles if key not in profiles]
+        if missing:
+            raise RuntimeError("Pithoragarh terrain profile missing; refusing flat-horizon fallback: " + ", ".join(missing))
+        scenario_profiles = [(key, profiles[key]) for key in required_profiles]
+    else:
         scenario_profiles = [("flat_geometric_horizon_no_local_terrain", [])]
 
     results = []
-    first_by_limit = {limit: None for limit in SUN_DEPRESSION_LIMITS}
+    first_by_scenario_limit = {
+        scenario: {limit: None for limit in SUN_DEPRESSION_LIMITS}
+        for scenario, _profile in scenario_profiles
+    }
     start_day, end_day = date(year, 8, 15), date(year, 10, 31)
     day = start_day
     while day <= end_day:
@@ -156,16 +161,18 @@ def scan_site(year: int, site_name: str, site: dict, eph, ts, profiles: dict):
                         "sample_interval_minutes": 1,
                     }
                     results.append(candidate)
-                    if first_by_limit[limit] is None:
-                        first_by_limit[limit] = candidate
+                    if first_by_scenario_limit[scenario][limit] is None:
+                        first_by_scenario_limit[scenario][limit] = candidate
         day += timedelta(days=1)
 
     return {
         "site": site_name,
         "observer": site,
         "status": "conditional_twilight_clearance_sweep",
-        "first_candidate_by_solar_depression": {
-            str(limit): first_by_limit[limit] for limit in SUN_DEPRESSION_LIMITS
+        "first_candidate_by_scenario_and_solar_depression": {
+            scenario: {str(limit): first_by_scenario_limit[scenario][limit]
+                       for limit in SUN_DEPRESSION_LIMITS}
+            for scenario, _profile in scenario_profiles
         },
         "records": results,
     }
