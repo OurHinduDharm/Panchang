@@ -9,7 +9,7 @@ import {
 
 test("Pithoragarh observer profile preserves the project target coordinates and elevation", () => {
   const profiles = validateObserverProfileDataset(dataset);
-  assert.equal(profiles.length, 10);
+  assert.equal(profiles.length, 12);
   assert.ok(profiles.every(profile => profile.calculationEligible === true));
   const pithoragarh = findObserverProfile(dataset, "pithoragarh-uttarakhand");
   assert.equal(pithoragarh.latitude, 29.5828);
@@ -24,7 +24,7 @@ test("Pithoragarh observer profile preserves the project target coordinates and 
 });
 
 test("major metro benchmark profiles are present and have explicit observer coordinates", () => {
-  for (const id of ["new-delhi", "mumbai", "kolkata", "chennai", "bengaluru", "hyderabad", "ahmedabad", "pune", "jaipur"]) {
+  for (const id of ["new-delhi", "mumbai", "kolkata", "chennai", "bengaluru", "hyderabad", "ahmedabad", "pune", "jaipur", "ujjain-madhya-pradesh", "varanasi-uttar-pradesh"]) {
     const profile = findObserverProfile(dataset, id);
     assert.ok(profile, "missing " + id);
     assert.ok(Number.isFinite(profile.elevationMeters));
