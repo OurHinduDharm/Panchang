@@ -131,12 +131,23 @@ export function scanPlanetVisibilityWindow({
     const b = current.visibility;
     if (!Number.isFinite(a.visibilityMargin) || !Number.isFinite(b.visibilityMargin)) continue;
     if (a.visible !== b.visible) {
+      const instant = interpolateCrossing(
+        astronomy, args, new Date(previous.instant), new Date(current.instant),
+        b.visible, toleranceMs
+      );
+      const crossingSample = getPlanetVisibilitySample({
+        ...args,
+        instant
+      });
+      const planetAzimuthDeg = crossingSample.objectAzimuthDeg;
       crossings.push({
         type: b.visible ? "first-visible" : "last-visible",
-        instant: interpolateCrossing(
-          astronomy, args, new Date(previous.instant), new Date(current.instant),
-          b.visible, toleranceMs
-        )
+        instant,
+        planetAltitudeDeg: crossingSample.objectAltitudeDeg,
+        planetAzimuthDeg,
+        horizonDirection: Number.isFinite(planetAzimuthDeg)
+          ? (planetAzimuthDeg >= 0 && planetAzimuthDeg < 180 ? "east" : "west")
+          : null
       });
     }
   }
