@@ -134,7 +134,8 @@ function nearestOnSide(candidates, { boundary, type, conjunctionMs, side, maxDay
  * This is a research diagnostic, never publication approval.
  */
 export function pairCandidatesAroundConjunctions({
-  planet, candidates, conjunctions, maxDistanceDays = 90
+  planet, candidates, conjunctions, maxDistanceDays = 90,
+  durationReference = null
 }) {
   if (!EXPECTED_BRANCH[planet]) throw new RangeError("planet must be Jupiter or Venus");
   if (!Array.isArray(candidates) || !Array.isArray(conjunctions)) {
@@ -170,6 +171,29 @@ export function pairCandidatesAroundConjunctions({
         daysBeforeConjunction: Number(Math.abs(start.deltaDays).toFixed(3)),
         daysAfterConjunction: Number(end.deltaDays.toFixed(3)),
         durationDays: Number(((ms(end.candidate.instant) - ms(start.candidate.instant)) / DAY_MS).toFixed(3)),
+        durationPlausibility: (() => {
+          const reference = durationReference?.planet === planet ? durationReference : null;
+          if (!reference || !Number.isFinite(reference.minDays) ||
+              !Number.isFinite(reference.maxDays) || reference.minDays < 0 ||
+              reference.maxDays < reference.minDays) {
+            return Object.freeze({
+              status: "not-assessed",
+              reason: "No valid same-city historical duration reference supplied"
+            });
+          }
+          const withinObservedRange =
+            ((ms(end.candidate.instant) - ms(start.candidate.instant)) / DAY_MS) >= reference.minDays &&
+            ((ms(end.candidate.instant) - ms(start.candidate.instant)) / DAY_MS) <= reference.maxDays;
+          return Object.freeze({
+            status: withinObservedRange ? "within-observed-range" : "outside-observed-range-review",
+            referenceMinDays: reference.minDays,
+            referenceMaxDays: reference.maxDays,
+            referenceSampleCount: reference.sampleCount,
+            referenceYears: reference.years,
+            referenceLocation: reference.location,
+            rule: "empirical same-city range is a review flag only; it never removes or approves a candidate"
+          });
+        })(),
         publicationEligible: false
       }));
     } else {
