@@ -511,10 +511,10 @@ test("Ekadashi parana waits until Hari Vasara ends when it crosses sunrise", asy
   const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
   const result = calculateEkadashiParanaWindow({
     sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
-    dwadashiStart: "2030-01-02T00:00:00Z", dwadashiEnd: "2030-01-02T14:00:00Z"
+    dwadashiStart: "2030-01-02T00:00:00Z", dwadashiEnd: "2030-01-02T10:00:00Z"
   });
   assert.equal(result.status, "morning-window");
-  assert.equal(result.windowStart, "2030-01-02T03:30:00.000Z");
+  assert.equal(result.windowStart, "2030-01-02T02:30:00.000Z");
 });
 
 test("Ekadashi parana moves after Madhyahna when Hari Vasara exceeds Pratahkal", async () => {
@@ -544,7 +544,7 @@ test("Ekadashi parana refuses to invent a window when Dwadashi ends during Hari 
   const { calculateEkadashiParanaWindow } = await import("../festival-observance-rules.mjs");
   const result = calculateEkadashiParanaWindow({
     sunrise: "2030-01-02T00:30:00Z", sunset: "2030-01-02T12:30:00Z",
-    dwadashiStart: "2030-01-02T00:25:00Z", dwadashiEnd: "2030-01-02T00:50:00Z"
+    dwadashiStart: "2030-01-02T02:00:00Z", dwadashiEnd: "2030-01-02T07:00:00Z"
   });
   assert.equal(result.status, "manual-review");
   assert.equal(result.windowStart, null);
