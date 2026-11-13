@@ -143,3 +143,67 @@ test("duration is explicitly unassessed without same-city reference data", () =>
   });
   assert.equal(result.windows[0].durationPlausibility.status, "not-assessed");
 });
+
+test("Venus duration checks use separate inferior and superior conjunction references", () => {
+  const result = pairCandidatesAroundConjunctions({
+    planet: "Venus",
+    conjunctions: [
+      { kind: "inferior-conjunction", instant: "2028-06-01T00:00:00Z" },
+      { kind: "superior-conjunction", instant: "2029-03-23T00:00:00Z" }
+    ],
+    candidates: [
+      { boundary: "astaStart", eventType: "set", instant: "2028-05-20T00:00:00Z" },
+      { boundary: "astaEnd", eventType: "rise", instant: "2028-06-09T00:00:00Z" },
+      { boundary: "astaStart", eventType: "rise", instant: "2029-02-12T00:00:00Z" },
+      { boundary: "astaEnd", eventType: "set", instant: "2029-04-02T00:00:00Z" }
+    ],
+    durationReference: {
+      planet: "Venus",
+      byConjunctionKind: {
+        "inferior-conjunction": {
+          planet: "Venus",
+          conjunctionKind: "inferior-conjunction",
+          minDays: 2.4,
+          maxDays: 16.5,
+          sampleCount: 4,
+          years: [2022, 2023, 2025, 2026],
+          location: "Pithoragarh, Uttarakhand, India",
+          referenceEventTypes: { astaStart: "set", astaEnd: "rise" },
+          confidence: "small-sample-review-only"
+        },
+        "superior-conjunction": {
+          planet: "Venus",
+          conjunctionKind: "superior-conjunction",
+          minDays: 50.5,
+          maxDays: 66.6,
+          sampleCount: 5,
+          years: [2021, 2022, 2024, 2025, 2027],
+          location: "Pithoragarh, Uttarakhand, India",
+          referenceEventTypes: { astaStart: "rise", astaEnd: "set" },
+          confidence: "historical-range-review-only"
+        }
+      }
+    }
+  });
+
+  assert.equal(result.windows.length, 2);
+  const inferior = result.windows.find(window => window.conjunctionKind === "inferior-conjunction");
+  const superior = result.windows.find(window => window.conjunctionKind === "superior-conjunction");
+  assert.equal(inferior.durationDays, 20);
+  assert.equal(inferior.durationPlausibility.referenceMinDays, 2.4);
+  assert.equal(inferior.durationPlausibility.referenceMaxDays, 16.5);
+  assert.equal(inferior.durationPlausibility.referenceSampleCount, 4);
+  assert.equal(inferior.durationPlausibility.status, "outside-observed-range-review");
+  assert.deepEqual(inferior.durationPlausibility.referenceEventTypes, {
+    astaStart: "set", astaEnd: "rise"
+  });
+  assert.equal(superior.durationDays, 49);
+  assert.equal(superior.durationPlausibility.referenceMinDays, 50.5);
+  assert.equal(superior.durationPlausibility.referenceMaxDays, 66.6);
+  assert.equal(superior.durationPlausibility.referenceSampleCount, 5);
+  assert.equal(superior.durationPlausibility.status, "outside-observed-range-review");
+  assert.deepEqual(superior.durationPlausibility.referenceEventTypes, {
+    astaStart: "rise", astaEnd: "set"
+  });
+  assert.ok(result.windows.every(window => window.publicationEligible === false));
+});
