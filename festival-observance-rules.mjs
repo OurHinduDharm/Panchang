@@ -187,8 +187,8 @@ const PROFILES = {
     decisionMoment: "manual-review", windowLabel: "द्वादशी तिथि और श्रवण नक्षत्र का वास्तविक संयोग",
     calculationBasis: "dharma-sindhu-shravana-dwadashi-tithi-nakshatra-yoga-with-separate-ekadashi-dwadashi-fast-decision",
     reviewOnly: true,
-    reviewNote: "द्वादशी तिथि और श्रवण नक्षत्र का वास्तविक संयोग अलग से जाँचा जाए। संयोग मिलना अपने-आप व्रत-दिन तय नहीं करता। एकादशी-द्वादशी एक ही दिन या अलग-अलग दिनों में पड़ने पर उपवास और पारण का पृथक निर्णय आवश्यक है। दो दिनों में संयोग होने पर स्रोत-आधारित tie-break के बिना तारीख़ न चुनें।",
-    sourceReview: "dharmasindhu-nirnaya-sindhu-shravana-yoga-rule-identified-date-selection-tie-break-pending"
+    reviewNote: "धर्मसिंधु के विष्णुशृंखला योग में, यदि पहले दिन सूर्योदय पर एकादशी हो, उसी दिन द्वादशी आरम्भ होकर अगले सूर्योदय तक चले, दोनों सूर्योदय-दिनों में द्वादशी-श्रवण संयोग हो और दूसरे दिन द्वादशी दो घटिका से अधिक न बचे, तो पहले दिन का व्रत-निर्णय किया जाता है। रात्रि के प्रथम प्रहर तक श्रवण-संयोग स्वीकार करने वाले मत को अलग से लागू किया गया है। यह चयन स्रोत/प्रकाशन अनुमोदन के अधीन है; अन्य द्वादशी-पूजन अलग रहेंगे।",
+    sourceReview: "dharmasindhu-vishnushrinkhala-rule-implemented-real-2030-pithoragarh-candidate-source-approval-pending"
   },
   "vamana-jayanti-madhyahna-review": {
     id: "vamana-jayanti-madhyahna-review", aliases: ["vamana-jayanti", "vamana-dwadashi", "vamana-avatara-jayanti"],
