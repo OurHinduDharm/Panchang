@@ -9,6 +9,12 @@ export const PLANET_ORDER = Object.freeze([
   { key: "Venus", name: "शुक्र" }
 ]);
 
+function validLocalDateTime(value) {
+  return typeof value === "string" &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+05:30$/.test(value) &&
+    Number.isFinite(Date.parse(value));
+}
+
 function validBoundary(value) {
   return typeof value?.normalizedLocalDateTime === "string" &&
     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+05:30$/.test(value.normalizedLocalDateTime) &&
@@ -16,8 +22,8 @@ function validBoundary(value) {
 }
 
 /**
- * Returns only directly captured Pithoragarh city-reference windows.
- * This is a published-reference listing, not a coordinate-exact prediction.
+ * Merges verified historical Pithoragarh source windows with the explicitly
+ * scoped OurHinduDharm local calculation dataset for future years.
  */
 export function getPithoragarhAnnualWindows(dataset, sourceYear, calculatedDataset = null) {
   if (!dataset || !Array.isArray(dataset.windows)) {
