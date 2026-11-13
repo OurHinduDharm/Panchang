@@ -163,7 +163,9 @@
       "profileKind": "imd-station-representative",
       "status": "benchmark",
       "calculationEligible": true
-    },
+    }
+  ],
+  "pendingLocations": [
     {
       "id": "surat",
       "name": "सूरत",
@@ -177,7 +179,8 @@
       "elevationSource": "Not yet verified against DEM/IMD station",
       "profileKind": "approximate-city-point",
       "status": "pending-elevation",
-      "calculationEligible": false
+      "calculationEligible": false,
+      "reason": "ऊँचाई को DEM/IMD station से सत्यापित करने के बाद ही गणना में शामिल करें"
     }
   ]
 }
