@@ -37,6 +37,18 @@ const rows = dataset.windows
     if (!Number.isFinite(date.getTime())) throw new Error("Invalid source boundary: " + row.id);
     const planet = position(row.planet, date);
     const sun = position("Sun", date);
+    const searchStart = new Date(date.getTime() - 12 * 3600_000);
+    const riseResult = Astronomy.SearchRiseSet(Astronomy.Body[row.planet], observer, 1, searchStart, 1.1, 0);
+    const setResult = Astronomy.SearchRiseSet(Astronomy.Body[row.planet], observer, -1, searchStart, 1.1, 0);
+    const riseDate = riseResult?.date instanceof Date ? riseResult.date : riseResult instanceof Date ? riseResult : null;
+    const setDate = setResult?.date instanceof Date ? setResult.date : setResult instanceof Date ? setResult : null;
+    const horizonCandidates = [
+      riseDate && { direction: "rising", date: riseDate },
+      setDate && { direction: "setting", date: setDate }
+    ].filter(Boolean);
+    const nearestHorizonEvent = horizonCandidates.sort((a, b) =>
+      Math.abs(a.date - date) - Math.abs(b.date - date)
+    )[0] ?? null;
     const before = position(row.planet, new Date(date.getTime() - 5 * 60_000));
     const after = position(row.planet, new Date(date.getTime() + 5 * 60_000));
     const elongation = angle180(Astronomy.PairLongitude(Astronomy.Body[row.planet], Astronomy.Body.Sun, date));
@@ -60,6 +72,11 @@ const rows = dataset.windows
       sunTopocentric: sun,
       planetAltitudeChangeOverTenMinutesDegrees: Number((after.altitudeDegrees - before.altitudeDegrees).toFixed(6)),
       horizonDirection: after.altitudeDegrees > before.altitudeDegrees ? "rising" : "setting",
+      engineNearestHorizonCrossing: nearestHorizonEvent ? {
+        direction: nearestHorizonEvent.direction,
+        utc: nearestHorizonEvent.date.toISOString(),
+        differenceFromSourceMinutes: Number(((nearestHorizonEvent.date - date) / 60_000).toFixed(3))
+      } : null,
       solarDepressionDegrees: Number((-sun.altitudeDegrees).toFixed(6)),
       method: "Astronomy Engine 2.1.19: Equator + Horizon(normal) + PairLongitude",
       interpretation: "diagnostic-only; not a fitted visibility rule or a production Asta/Udaya prediction"
@@ -94,6 +111,9 @@ for (const planet of targetPlanets) {
         [...new Set(group.map(row => row.horizonDirection))].map(direction => [
           direction, group.filter(row => row.horizonDirection === direction).length
         ])
+      ),
+      engineHorizonTimeDifferenceMinutes: fieldStats(row =>
+        row.engineNearestHorizonCrossing?.differenceFromSourceMinutes ?? Number.POSITIVE_INFINITY
       ),
       planetAltitudeDegrees: fieldStats(row => row.planetTopocentric.altitudeDegrees),
       solarDepressionDegrees: fieldStats(row => row.solarDepressionDegrees),
