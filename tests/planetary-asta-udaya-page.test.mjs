@@ -35,10 +35,11 @@ test("all seven captured years expose only Guru and Shukra and preserve chronolo
   }
 });
 
-test("missing Mars 2027 rows remain unavailable rather than being inferred as zero events", () => {
-  const mars = getPithoragarhAnnualWindows(dataset, 2027)
-    .filter(item => item.planet === "Mars");
-  assert.deepEqual(mars, []);
+test("Mercury, Mars and Saturn remain outside the public Guru-Shukra annual list", () => {
+  for (const year of [2021, 2022, 2023, 2024, 2025, 2026, 2027]) {
+    const windows = getPithoragarhAnnualWindows(dataset, year);
+    assert.ok(windows.every(item => ["Jupiter", "Venus"].includes(item.planet)));
+  }
 });
 
 test("does not include other cities or records that claim coordinate-exact acceptance", () => {
