@@ -90,6 +90,8 @@ test("annual page builds its year selector from the available dataset and shows 
   assert.ok(page.includes("...agastyaPublished.map(entry => entry.year)"));
   assert.ok(page.includes("./data/pithoragarh-guru-shukra-calculated-2028-2030.json"));
   assert.ok(page.includes("...calculated.windows"));
+  assert.ok(page.includes('entry.acceptanceEligible === true'));
+  assert.ok(page.includes('entry.publicationStatus === "accepted"'));
   assert.ok(page.includes("yearSelect.append(option)"));
   assert.ok(!page.includes("<option>2021</option>"));
   assert.ok(!page.includes("http://") && !page.includes("https://"));
@@ -159,27 +161,33 @@ test("2028-2030 Agastya Arghya records retain direct Pithoragarh source evidence
 });
 
 
-test("calculated Pithoragarh Guru-Shukra annual windows are available for 2028-2030", () => {
-  const expected = {
-    2028: 2,
-    2029: 2,
-    2030: 3
+test("unaccepted calculated Guru-Shukra candidates stay out of the public annual list", () => {
+  for (const year of [2028, 2029, 2030]) {
+    assert.equal(getPithoragarhAnnualWindows(dataset, year, calculatedDataset).length, 0);
+  }
+
+  const explicitlyAccepted = {
+    ...calculatedDataset,
+    windows: calculatedDataset.windows.map(entry => ({
+      ...entry,
+      acceptanceEligible: true,
+      publicationStatus: "accepted"
+    }))
   };
+  const expected = { 2028: 2, 2029: 2, 2030: 3 };
   for (const [yearText, count] of Object.entries(expected)) {
     const year = Number(yearText);
-    const windows = getPithoragarhAnnualWindows(dataset, year, calculatedDataset);
+    const windows = getPithoragarhAnnualWindows(dataset, year, explicitlyAccepted);
     assert.equal(windows.length, count);
     assert.ok(windows.every(item => item.sourceYear === year));
     assert.ok(windows.every(item => ["Jupiter", "Venus"].includes(item.planet)));
     assert.ok(windows.every(item => Date.parse(item.astaStart) < Date.parse(item.udaya)));
   }
-  assert.equal(getPithoragarhAnnualWindows(dataset, 2031, calculatedDataset).length, 0);
+  assert.equal(getPithoragarhAnnualWindows(dataset, 2031, explicitlyAccepted).length, 0);
 });
 
-test("future calculated records preserve the reviewed local Pithoragarh dates and times", () => {
-  const all = [2028, 2029, 2030].flatMap(year =>
-    getPithoragarhAnnualWindows(dataset, year, calculatedDataset)
-  );
+test("research-only future candidate timestamps remain intact in their calculation dataset", () => {
+  const all = calculatedDataset.windows;
   const find = (planet, startPrefix) => all.find(item =>
     item.planet === planet && item.astaStart.startsWith(startPrefix)
   );
@@ -190,6 +198,7 @@ test("future calculated records preserve the reviewed local Pithoragarh dates an
   assert.equal(find("Venus", "2029-02-12").udaya, "2029-04-17T19:04:16+05:30");
   assert.equal(find("Venus", "2030-01-04").udaya, "2030-01-09T06:35:34+05:30");
   assert.equal(find("Venus", "2030-09-28").udaya, "2030-11-20T17:38:42+05:30");
+  assert.ok(all.every(item => item.status === "calculated" && item.acceptanceEligible !== true));
 });
 
 test("calculated annual records are rejected if the observer profile does not match Pithoragarh", () => {
@@ -206,4 +215,11 @@ test("calculated annual records are rejected if the model identifier is unknown"
     calculation: { ...calculatedDataset.calculation, modelId: "unknown-model" }
   };
   assert.equal(getPithoragarhAnnualWindows(dataset, 2028, wrongModel).length, 0);
+});
+
+
+test("public annual module requires explicit acceptance before exposing calculated candidates", () => {
+  const source = readFileSync(new URL("../planetary-asta-udaya-page.mjs", import.meta.url), "utf8");
+  assert.ok(source.includes("entry.acceptanceEligible === true"));
+  assert.ok(source.includes('entry.publicationStatus === "accepted"'));
 });
