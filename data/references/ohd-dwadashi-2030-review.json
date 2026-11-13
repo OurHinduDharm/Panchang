@@ -518,12 +518,28 @@
         "2030-07-26",
         "2030-07-27"
       ],
-      "referenceDate": null,
-      "drikLabels": [],
+      "referenceDate": "2030-07-26",
+      "drikLabels": [
+        "कृष्ण वासुदेव द्वादशी"
+      ],
       "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "drikSpecialObservances": [
+        {
+          "year": 2030,
+          "month": "श्रावण",
+          "paksha": "कृष्ण",
+          "adhika": false,
+          "referenceDate": "2030-07-26",
+          "labels": [
+            "कृष्ण वासुदेव द्वादशी"
+          ],
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
+          "status": "source-cross-reference-needs-local-rule-review"
+        }
+      ],
+      "selectedDate": "2030-07-26",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "कृष्ण-वासुदेव द्वादशी"
       ],
@@ -918,12 +934,30 @@
         "2030-10-23",
         "2030-10-24"
       ],
-      "referenceDate": null,
-      "drikLabels": [],
+      "referenceDate": "2030-10-23",
+      "drikLabels": [
+        "गोवत्स द्वादशी",
+        "कृष्ण पद्मनाभ द्वादशी"
+      ],
       "drik2026Labels": [],
-      "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "drikSpecialObservances": [
+        {
+          "year": 2030,
+          "month": "कार्तिक",
+          "paksha": "कृष्ण",
+          "adhika": false,
+          "referenceDate": "2030-10-23",
+          "labels": [
+            "गोवत्स द्वादशी",
+            "कृष्ण पद्मनाभ द्वादशी"
+          ],
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
+          "status": "source-cross-reference-needs-local-rule-review"
+        }
+      ],
+      "selectedDate": "2030-10-23",
+      "dateSelection": "source-reference-date-candidate-review-required",
       "displayNames": [
         "गोवत्स द्वादशी",
         "कृष्ण-पद्मनाभ द्वादशी"
@@ -1127,8 +1161,7 @@
       "adhika": false,
       "tithi": "द्वादशी",
       "sunriseDates": [
-        "2030-01-01",
-        "2030-12-22"
+        "2030-01-01"
       ],
       "noonDates": [
         "2030-01-01"
@@ -1139,12 +1172,6 @@
           "sunrise": "2030-01-01T01:34:25.180Z",
           "tithiStartTime": "2029-12-31T13:42:12.152Z",
           "tithiEndTime": "2030-01-01T10:54:31.477Z"
-        },
-        {
-          "date": "2030-12-22",
-          "sunrise": "2030-12-22T01:30:33.432Z",
-          "tithiStartTime": "2030-12-21T07:03:11.523Z",
-          "tithiEndTime": "2030-12-22T04:11:50.353Z"
         }
       ],
       "noonObservations": [
@@ -1155,15 +1182,14 @@
         }
       ],
       "candidateDates": [
-        "2030-01-01",
-        "2030-12-22"
+        "2030-01-01"
       ],
       "referenceDate": null,
       "drikLabels": [],
       "drik2026Labels": [],
       "drikSpecialObservances": [],
-      "selectedDate": null,
-      "dateSelection": "requires-vrata-specific-rule",
+      "selectedDate": "2030-01-01",
+      "dateSelection": "single-observation-candidate-review-required",
       "displayNames": [
         "रूप-व्रत"
       ],
@@ -1178,8 +1204,69 @@
         }
       ],
       "conditionalObservances": [],
-      "crossReferences": [],
-      "status": "needs-review"
+      "crossReferences": [
+        {
+          "name": "कृष्ण मत्स्य द्वादशी",
+          "source": "Drik Panchang",
+          "relation": "Drik की 1 जनवरी सूची-प्रविष्टि; इसे नारद पुराण के रूप-व्रत का स्वतः पर्याय न मानें।",
+          "status": "cross-reference"
+        }
+      ],
+      "status": "needs-review",
+      "occurrence": 1
+    },
+    {
+      "id": "pausha-krishna-occurrence-2",
+      "month": "पौष",
+      "paksha": "कृष्ण",
+      "adhika": false,
+      "tithi": "द्वादशी",
+      "sunriseDates": [
+        "2030-12-22"
+      ],
+      "noonDates": [],
+      "sunriseObservations": [
+        {
+          "date": "2030-12-22",
+          "sunrise": "2030-12-22T01:30:33.432Z",
+          "tithiStartTime": "2030-12-21T07:03:11.523Z",
+          "tithiEndTime": "2030-12-22T04:11:50.353Z"
+        }
+      ],
+      "noonObservations": [],
+      "candidateDates": [
+        "2030-12-22"
+      ],
+      "referenceDate": null,
+      "drikLabels": [],
+      "drik2026Labels": [],
+      "drikSpecialObservances": [],
+      "selectedDate": "2030-12-22",
+      "dateSelection": "single-observation-candidate-review-required",
+      "displayNames": [
+        "रूप-व्रत"
+      ],
+      "observances": [
+        {
+          "id": "rupa",
+          "name": "रूप-व्रत",
+          "deity": "भगवान विष्णु",
+          "shortDetail": "दशमी से तैयारी, एकादशी-उपवास और जागरण; द्वादशी प्रातः विष्णु-पूजन, तिल-घृत से होम तथा पायस-भोजन और दान का विधान है।",
+          "sourceProfile": "naradaPurana",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121"
+        }
+      ],
+      "conditionalObservances": [],
+      "crossReferences": [
+        {
+          "name": "कृष्ण मत्स्य द्वादशी",
+          "source": "Drik Panchang",
+          "relation": "Drik सूची में तिथि 21 दिसंबर से आरम्भ; स्थानीय सूर्योदय-द्वादशी 22 दिसंबर। इसे नारद पुराण के रूप-व्रत का स्वतः पर्याय न मानें।",
+          "status": "cross-reference"
+        }
+      ],
+      "status": "needs-review",
+      "occurrence": 2
     },
     {
       "id": "pausha-shukla",
