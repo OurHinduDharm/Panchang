@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="पिथौरागढ़ नगर-संदर्भ के लिए गुरु और शुक्र के प्रकाशित तारा-अस्त तथा पुनः उदय समयों की वार्षिक सूची।">
-<title>गुरु-शुक्र तारा-अस्त एवं पुनः उदय | OurHinduDharm</title>
+<meta name="description" content="पिथौरागढ़ के लिए गुरु और शुक्र तारा अस्त-उदय तथा अगस्त्य तारा उदय और अर्घ्य की वर्षवार तिथि एवं समय।">
+<title>गुरु-शुक्र एवं अगस्त्य तारा उदय-अस्त पंचांग | OurHinduDharm</title>
 <style>
 :root{color-scheme:light;--ink:#28231d;--muted:#686157;--line:#e5dfd5;--paper:#fff;--bg:#f6f4ef;--accent:#81391f}
 *{box-sizing:border-box}
@@ -32,7 +32,7 @@ select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;
 <body>
 <main>
 <header>
-<h1>गुरु एवं शुक्र का तारा-अस्त तथा पुनः उदय</h1>
+<h1>गुरु, शुक्र एवं अगस्त्य तारा उदय-अस्त पंचांग</h1>
 <p class="muted">OurHinduDharm · पिथौरागढ़ · वार्षिक तारीख एवं समय</p>
 </header>
 
@@ -49,7 +49,13 @@ select{font:inherit;padding:9px 12px;border:1px solid #cfc8bc;border-radius:8px;
 </div>
 
 <section class="panel">
-<h2>वार्षिक तारा-अस्त सूची</h2>
+<h2>अगस्त्य तारा उदय एवं अर्घ्य</h2>
+<p class="muted">पिथौरागढ़ के लिए अगस्त्य अर्घ्य की तिथि, अर्घ्य का समय तथा तारा उदय और अस्त का समय देखें।</p>
+<div id="agastya-result" class="times" aria-live="polite"></div>
+</section>
+
+<section class="panel">
+<h2>वार्षिक गुरु-शुक्र तारा-अस्त सूची</h2>
 <p class="muted">सभी तारीखें और समय भारतीय मानक समय (IST) में हैं। वर्ष चुनकर गुरु और शुक्र की अस्त अवधि देखें।</p>
 </section>
 </main>
@@ -60,7 +66,7 @@ import { PLANET_ORDER, getPithoragarhAnnualWindows, formatPithoragarhBoundary } 
 const results = document.getElementById("results");
 const yearSelect = document.getElementById("year");
 const count = document.getElementById("count");
-const planetNames = new Map(PLANET_ORDER.map(item => [item.key, item.name]));
+const agastyaResult = document.getElementById("agastya-result");
 
 function addText(parent, tag, className, value) {
   const node = document.createElement(tag);
@@ -70,10 +76,33 @@ function addText(parent, tag, className, value) {
   return node;
 }
 
-function render(dataset) {
-  const year = Number(yearSelect.value);
+function formatHindiDate(value) {
+  const date = new Date(value + "T12:00:00+05:30");
+  return new Intl.DateTimeFormat("hi-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  }).format(date);
+}
+
+function renderAgastya(records, year) {
+  agastyaResult.replaceChildren();
+  const item = records.find(entry => entry.year === year);
+  if (!item) {
+    addText(agastyaResult, "p", "empty", "इस वर्ष का अगस्त्य अर्घ्य विवरण उपलब्ध नहीं है।");
+    return;
+  }
+  addText(agastyaResult, "strong", "", "अगस्त्य अर्घ्य — " + formatHindiDate(item.arghyaDate) + " (" + item.weekday + ")");
+  addText(agastyaResult, "span", "", "अर्घ्य का समय — " + item.arghyaStart + " से " + item.arghyaEnd);
+  addText(agastyaResult, "span", "", "अवधि — " + item.duration);
+  addText(agastyaResult, "span", "", "अगस्त्य तारा उदय — " + item.taraRise);
+  addText(agastyaResult, "span", "", "अगस्त्य तारा अस्त — " + formatHindiDate(item.taraSetDate) + " · " + item.taraSet);
+}
+
+function renderPlanets(dataset, year) {
   const windows = getPithoragarhAnnualWindows(dataset, year);
-  count.textContent = windows.length + " सत्यापित अवधि";
+  count.textContent = windows.length + " अवधि";
   results.replaceChildren();
 
   for (const planet of PLANET_ORDER) {
@@ -83,19 +112,19 @@ function render(dataset) {
     addText(card, "h2", "", planet.name);
 
     if (!entries.length) {
-      addText(card, "p", "empty", "इस वर्ष के स्रोत-पृष्ठ से कोई सत्यापित अस्त-अवधि पंक्ति उपलब्ध नहीं। इसका अर्थ शून्य अस्त होना नहीं है।");
+      addText(card, "p", "empty", "इस वर्ष की वार्षिक सूची में कोई अवधि उपलब्ध नहीं है।");
     } else {
-      for (const entry of entries) {
+      entries.forEach((entry, index) => {
         const item = document.createElement("div");
         item.className = "window";
-        addText(item, "strong", "", "अस्त अवधि " + (entries.indexOf(entry) + 1));
+        addText(item, "strong", "", "अस्त अवधि " + (index + 1));
         const times = document.createElement("div");
         times.className = "times";
         addText(times, "span", "", "अस्त प्रारम्भ — " + formatPithoragarhBoundary(entry.astaStart));
         addText(times, "span", "", "पुनः उदय — " + formatPithoragarhBoundary(entry.udaya));
         item.append(times);
         card.append(item);
-      }
+      });
     }
     results.append(card);
   }
@@ -103,17 +132,26 @@ function render(dataset) {
 
 async function init() {
   try {
-    const response = await fetch("./data/drik-planetary-reference-2024-2027.json", { cache: "force-cache" });
-    if (!response.ok) throw new Error("HTTP " + response.status);
-    const dataset = await response.json();
-    if (!Array.isArray(dataset.windows)) throw new Error("अमान्य संदर्भ-डेटा");
-    const years = [...new Set(dataset.windows
-      .filter(entry => entry.sourceLocation === "Pithoragarh, Uttarakhand, India" &&
-        entry.acceptanceEligible === true &&
-        ["Jupiter", "Venus"].includes(entry.planet))
-      .map(entry => entry.sourcePageYear))]
-      .filter(Number.isInteger)
-      .sort((a, b) => a - b);
+    const [planetResponse, agastyaResponse] = await Promise.all([
+      fetch("./data/drik-planetary-reference-2024-2027.json", { cache: "no-cache" }),
+      fetch("./data/agastya-arghya-pithoragarh.json", { cache: "no-cache" })
+    ]);
+    if (!planetResponse.ok || !agastyaResponse.ok) throw new Error("वार्षिक डेटा लोड नहीं हुआ");
+    const dataset = await planetResponse.json();
+    const agastya = await agastyaResponse.json();
+    if (!Array.isArray(dataset.windows) || !Array.isArray(agastya.years)) {
+      throw new Error("अमान्य वार्षिक डेटा");
+    }
+
+    const years = [...new Set([
+      ...dataset.windows
+        .filter(entry => entry.sourceLocation === "Pithoragarh, Uttarakhand, India" &&
+          entry.acceptanceEligible === true &&
+          ["Jupiter", "Venus"].includes(entry.planet))
+        .map(entry => entry.sourcePageYear),
+      ...agastya.years.map(entry => entry.year)
+    ])].filter(Number.isInteger).sort((a, b) => a - b);
+
     yearSelect.replaceChildren();
     for (const year of years) {
       const option = document.createElement("option");
@@ -124,13 +162,20 @@ async function init() {
     if (!years.length) throw new Error("वार्षिक डेटा उपलब्ध नहीं");
     const currentYear = new Date().getFullYear();
     yearSelect.value = String(years.includes(currentYear) ? currentYear : years[years.length - 1]);
-    render(dataset);
-    yearSelect.addEventListener("change", () => render(dataset));
+
+    const render = () => {
+      const year = Number(yearSelect.value);
+      renderPlanets(dataset, year);
+      renderAgastya(agastya.years, year);
+    };
+    render();
+    yearSelect.addEventListener("change", render);
   } catch (error) {
     results.replaceChildren();
-    addText(results, "p", "status", "वार्षिक संदर्भ-डेटा अभी उपलब्ध नहीं हो पाया। कृपया कुछ देर बाद पुनः प्रयास करें।");
+    agastyaResult.replaceChildren();
+    addText(results, "p", "status", "वार्षिक पंचांग लोड नहीं हो पाया। कृपया कुछ देर बाद पुनः प्रयास करें।");
     count.textContent = "";
-    console.error("Planetary Asta/Udaya annual page:", error);
+    console.error("Annual Tara Panchang:", error);
   }
 }
 
