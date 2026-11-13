@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { evaluateObservanceRule, getObservanceRuleProfile } from "../festival-observance-rules.mjs";
+import { evaluateObservanceRule, getObservanceRuleProfile, resolveObservanceCandidates } from "../festival-observance-rules.mjs";
 
 const interval = (index, startTime, endTime, paksha) => ({ index, startTime, endTime, paksha });
 
@@ -421,5 +421,42 @@ test("Jayanti review profiles reject a mismatched month instead of silently appl
   });
   assert.equal(result.status, "candidate-not-supported");
   assert.ok(result.warnings.includes("lunar-month-outside-profile"));
+  assert.equal(result.autoApproved, false);
+});
+
+
+test("candidate resolver selects only a unique local karmakala match and keeps source approval separate", () => {
+  const result = resolveObservanceCandidates("sankashti-moonrise", [
+    { date: "2026-11-26", masa: "कार्तिक", moonrise: "2026-11-26T12:00:00Z",
+      tithis: [interval(17, "2026-11-26T00:00:00Z", "2026-11-26T11:00:00Z", "कृष्ण पक्ष")] },
+    { date: "2026-11-27", masa: "कार्तिक", moonrise: "2026-11-27T12:00:00Z",
+      tithis: [interval(18, "2026-11-27T11:00:00Z", "2026-11-28T02:00:00Z", "कृष्ण पक्ष")] }
+  ]);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.finalDate, "2026-11-27");
+  assert.equal(result.autoApproved, false);
+  assert.ok(result.warnings.includes("primary-source-and-publication-approval-still-required"));
+});
+
+test("candidate resolver refuses to invent a tie-break when two days satisfy the same karmakala", () => {
+  const result = resolveObservanceCandidates("pradosh-trayodashi", [
+    { date: "2026-11-26", masa: "कार्तिक", sunset: "2026-11-26T12:00:00Z", nextSunrise: "2026-11-27T00:00:00Z",
+      tithis: [interval(12, "2026-11-26T12:00:00Z", "2026-11-27T18:00:00Z", "कृष्ण पक्ष")] },
+    { date: "2026-11-27", masa: "कार्तिक", sunset: "2026-11-27T12:00:00Z", nextSunrise: "2026-11-28T00:00:00Z",
+      tithis: [interval(12, "2026-11-26T12:00:00Z", "2026-11-28T00:00:00Z", "कृष्ण पक्ष")] }
+  ]);
+  assert.equal(result.status, "manual-review");
+  assert.equal(result.finalDate, null);
+  assert.ok(result.warnings.includes("multiple-days-cover-karmakala-explicit-shastriya-tie-break-required"));
+});
+
+test("candidate resolver blocks selection when any candidate day lacks calculation inputs", () => {
+  const result = resolveObservanceCandidates("sankashti-moonrise", [
+    { date: "2026-11-26", masa: "कार्तिक", moonrise: "2026-11-26T12:00:00Z", tithis: [] },
+    { date: "2026-11-27", masa: "कार्तिक", moonrise: "2026-11-27T12:00:00Z",
+      tithis: [interval(18, "2026-11-27T11:00:00Z", "2026-11-28T02:00:00Z", "कृष्ण पक्ष")] }
+  ]);
+  assert.equal(result.status, "insufficient-data");
+  assert.equal(result.finalDate, null);
   assert.equal(result.autoApproved, false);
 });

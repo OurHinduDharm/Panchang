@@ -286,7 +286,8 @@ export function getObservanceRuleProfile(ruleId) {
     id: profile.id, label: profile.label, tithiIndices: [...profile.tithiIndices],
     paksha: profile.paksha, allowedMonths: profile.allowedMonths ? [...profile.allowedMonths] : null, decisionMoment: profile.decisionMoment, nakshatraLabel: profile.nakshatraLabel ?? null, reviewOnly: Boolean(profile.reviewOnly), reviewNote: profile.reviewNote ?? null,
     windowLabel: profile.windowLabel, calculationBasis: profile.calculationBasis,
-    sourceReview: profile.sourceReview, ruleVersion: "0.2.0",
+    sourceReview: profile.sourceReview, ruleVersion: "0.3.0",
+    selectionPolicy: profile.reviewOnly ? "manual-review" : "unique-karmakala-match-only",
     tradition: "smarta-review-default"
   });
 }
@@ -434,5 +435,64 @@ export function evaluateObservanceRule(ruleId, context) {
     evidence, nakshatraEvidence, nakshatraLabel: profile.nakshatraLabel ?? null,
     warnings: ["candidate-evidence-only", "primary-source-and-exception-review-required", ...(profile.nakshatraIndices && !nakshatraEvidence.length ? [profile.nakshatraWarning ?? "required-nakshatra-not-confirmed"] : []), ...(profile.requireAllTithis && !allRequired ? ["both-transition-tithis-not-confirmed"] : [])],
     finalDate: null, autoApproved: false
+  };
+}
+
+
+/**
+ * Resolve a set of consecutive local-day candidates for one explicit rule.
+ * A unique karmakala match can select a date, but never certifies publication:
+ * source approval and any observance-specific tie-break remain separate gates.
+ */
+export function resolveObservanceCandidates(ruleId, candidateContexts) {
+  const profileId = ALIAS_TO_ID.get(String(ruleId ?? "").trim().toLowerCase());
+  if (!profileId) return {
+    status: "manual-review", ruleId: String(ruleId ?? ""),
+    warnings: ["unknown-or-unassigned-observance-rule"],
+    evaluations: [], finalDate: null, autoApproved: false
+  };
+  if (!Array.isArray(candidateContexts) || !candidateContexts.length) return {
+    status: "insufficient-data", ruleId: profileId,
+    warnings: ["candidate-contexts-missing"],
+    evaluations: [], finalDate: null, autoApproved: false
+  };
+  const dates = candidateContexts.map(item => String(item?.date ?? ""));
+  if (dates.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
+    return {
+      status: "insufficient-data", ruleId: profileId,
+      warnings: ["candidate-dates-missing-or-duplicated"],
+      evaluations: [], finalDate: null, autoApproved: false
+    };
+  }
+  const evaluations = candidateContexts
+    .slice()
+    .sort((a, b) => String(a.date).localeCompare(String(b.date)))
+    .map(context => evaluateObservanceRule(profileId, context));
+  if (evaluations.some(item => item.status === "insufficient-data")) return {
+    status: "insufficient-data", ruleId: profileId,
+    warnings: ["at-least-one-candidate-day-has-incomplete-calculation-data"],
+    evaluations, finalDate: null, autoApproved: false
+  };
+  if (evaluations.some(item => item.status === "manual-review")) return {
+    status: "manual-review", ruleId: profileId,
+    warnings: ["observance-has-unimplemented-or-source-dependent-special-rule"],
+    evaluations, finalDate: null, autoApproved: false
+  };
+  const supported = evaluations.filter(item => item.status === "candidate-supported");
+  if (!supported.length) return {
+    status: "candidate-not-supported", ruleId: profileId,
+    warnings: ["no-candidate-day-covers-the-required-karmakala"],
+    evaluations, finalDate: null, autoApproved: false
+  };
+  if (supported.length > 1) return {
+    status: "manual-review", ruleId: profileId,
+    warnings: ["multiple-days-cover-karmakala-explicit-shastriya-tie-break-required"],
+    evaluations, finalDate: null, autoApproved: false
+  };
+  return {
+    status: "date-selected-needs-source-approval", ruleId: profileId,
+    selectedDate: supported[0].date, finalDate: supported[0].date,
+    warnings: ["unique-karmakala-match", "primary-source-and-publication-approval-still-required"],
+    evaluations, autoApproved: false
   };
 }
