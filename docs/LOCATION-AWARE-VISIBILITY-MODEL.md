@@ -28,7 +28,7 @@
 `sin(alt) = sin(φ) sin(δ) + cos(φ) cos(δ) cos(H)`
 
 Azimuth convention उत्तर से पूर्व की ओर:
-`az = atan2(-sin(H) cos(δ), sin(δ) cos(φ) - cos(δ) sin(H))`
+`az = atan2(-cos(δ) sin(H), sin(δ) cos(φ) - cos(δ) sin(φ) cos(H))`
 
 सूर्य/ग्रह की apparent altitude में refraction, observer elevation से geometric horizon dip, और terrain obstruction को अलग terms में रखें। Elevation का प्रभाव केवल समय-क्षेत्र बदलकर नहीं निकलेगा।
 
