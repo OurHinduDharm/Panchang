@@ -1,0 +1,134 @@
+/**
+ * Same-location back-test of the city heliacal candidate model against
+ * directly captured Pithoragarh Guru/Shukra source boundaries.
+ *
+ * Usage: node research/planetary-city-backtest.mjs [--output file.json]
+ * This is a diagnostic only. It never changes accepted/public datasets.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import * as Astronomy from "astronomy-engine";
+import {
+  calculateCityHeliacalCandidates
+} from "../planetary-city-heliacal-engine.mjs";
+import {
+  getPlanetVisibilitySample
+} from "../planetary-heliacal-ephemeris.mjs";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const DATA_PATH = path.join(ROOT, "data/drik-planetary-reference-2024-2027.json");
+const PROFILE = Object.freeze({
+  latitude: 29.5828,
+  longitude: 80.2182,
+  height: 1650
+});
+const observer = new Astronomy.Observer(
+  PROFILE.latitude, PROFILE.longitude, PROFILE.height
+);
+const data = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
+const sourceRows = data.windows.filter(row =>
+  row.acceptanceEligible === true &&
+  row.sourceLocation?.includes("Pithoragarh") &&
+  ["Jupiter", "Venus"].includes(row.planet)
+);
+
+function nearestCandidate(candidates, expectedType, referenceMs) {
+  const matching = candidates
+    .filter(candidate => candidate.type === expectedType)
+    .map(candidate => ({
+      ...candidate,
+      errorMinutes: (Date.parse(candidate.instant) - referenceMs) / 60_000
+    }))
+    .sort((a, b) => Math.abs(a.errorMinutes) - Math.abs(b.errorMinutes));
+  return matching[0] || null;
+}
+
+const results = [];
+for (const row of sourceRows) {
+  for (const [boundaryName, expectedType] of [
+    ["astaStart", "asta-candidate"],
+    ["astaEnd", "udaya-candidate"]
+  ]) {
+    const boundary = row.boundaries?.[boundaryName];
+    if (!boundary?.normalizedUtcInstant) continue;
+    const referenceMs = Date.parse(boundary.normalizedUtcInstant);
+    const start = new Date(referenceMs - 36 * 60 * 60_000);
+    const end = new Date(referenceMs + 36 * 60 * 60_000);
+    const calculated = calculateCityHeliacalCandidates({
+      astronomy: Astronomy,
+      planet: row.planet,
+      observer,
+      start,
+      end,
+      stepMinutes: 2,
+      refineSeconds: 15
+    });
+    const nearest = nearestCandidate(calculated.candidates, expectedType, referenceMs);
+    const atSource = getPlanetVisibilitySample({
+      astronomy: Astronomy,
+      planet: row.planet,
+      observer,
+      instant: boundary.normalizedUtcInstant
+    });
+    results.push({
+      sourceWindowId: row.id,
+      planet: row.planet,
+      sourceYear: row.sourcePageYear,
+      boundary: boundaryName,
+      expectedTransition: expectedType,
+      sourceLocalDateTime: boundary.normalizedLocalDateTime,
+      sourceUtcInstant: boundary.normalizedUtcInstant,
+      sourceGeometry: {
+        planetAltitudeDeg: atSource.objectAltitudeDeg,
+        sunAltitudeDeg: atSource.sunAltitudeDeg,
+        planetAzimuthDeg: atSource.objectAzimuthDeg,
+        sunAzimuthDeg: atSource.sunAzimuthDeg,
+        apparentMagnitude: atSource.apparentMagnitude,
+        modelVisibility: atSource.visibility.visible,
+        visibilityMargin: atSource.visibility.visibilityMargin ?? null,
+        visibilityReason: atSource.visibility.reason
+      },
+      nearestModelCandidate: nearest,
+      allNearbyCandidates: calculated.candidates,
+      within15Minutes: nearest ? Math.abs(nearest.errorMinutes) <= 15 : false,
+      within1Hour: nearest ? Math.abs(nearest.errorMinutes) <= 60 : false,
+      within1Day: nearest ? Math.abs(nearest.errorMinutes) <= 1440 : false
+    });
+  }
+}
+
+const errors = results
+  .map(row => row.nearestModelCandidate?.errorMinutes)
+  .filter(Number.isFinite)
+  .map(Math.abs)
+  .sort((a, b) => a - b);
+const median = errors.length
+  ? (errors.length % 2
+      ? errors[(errors.length - 1) / 2]
+      : (errors[errors.length / 2 - 1] + errors[errors.length / 2]) / 2)
+  : null;
+const report = {
+  reportVersion: 1,
+  model: "city-topocentric-schaefer-heliacal-candidate-v1",
+  sourceDataset: "data/drik-planetary-reference-2024-2027.json",
+  sourceScope: "directly captured Pithoragarh Jupiter/Venus reference boundaries",
+  observer: PROFILE,
+  timezoneForSourceDisplay: "Asia/Kolkata",
+  records: results.length,
+  matchedBoundaries: results.filter(row => row.nearestModelCandidate).length,
+  within15Minutes: results.filter(row => row.within15Minutes).length,
+  within1Hour: results.filter(row => row.within1Hour).length,
+  within1Day: results.filter(row => row.within1Day).length,
+  medianAbsoluteErrorMinutes: median,
+  maxAbsoluteErrorMinutes: errors.length ? errors.at(-1) : null,
+  publicationEligible: false,
+  interpretation: "Diagnostic only. Model parameters are not calibrated by this report; no candidate is approved for public display.",
+  results
+};
+
+const outputArg = process.argv.indexOf("--output");
+if (outputArg >= 0 && process.argv[outputArg + 1]) {
+  fs.writeFileSync(process.argv[outputArg + 1], JSON.stringify(report, null, 2) + "\n");
+}
+console.log(JSON.stringify(report, null, 2));
