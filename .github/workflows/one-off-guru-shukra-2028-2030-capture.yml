@@ -1,0 +1,36 @@
+name: One-off Guru-Shukra 2028-2030 source capture
+
+on:
+  push:
+    branches:
+      - automation/capture-guru-shukra-2028-2030
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned browser dependency
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Capture Pithoragarh Guru and Shukra pages for 2028-2030
+        env:
+          START_YEAR: "2028"
+          END_YEAR: "2030"
+          OUTPUT_PATH: artifacts/guru-shukra-source-candidates-2028-2030.json
+        run: node scripts/capture-guru-shukra-annual-sources.mjs
+      - name: Upload internal review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: guru-shukra-source-candidates-2028-2030
+          path: artifacts/guru-shukra-source-candidates-2028-2030.json
+          if-no-files-found: error
+          retention-days: 30
