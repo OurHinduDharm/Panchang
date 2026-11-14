@@ -1,0 +1,84 @@
+{
+  "status": "research-only-not-approved",
+  "source": "@ishubhamx/panchangam-js@3.0.0",
+  "calendarType": "purnimanta",
+  "observer": {
+    "name": "Pithoragarh",
+    "latitude": 29.5828,
+    "longitude": 80.2182,
+    "elevation": 1650,
+    "timezone": "Asia/Kolkata",
+    "timezoneOffsetMinutes": 330
+  },
+  "years": [
+    2026,
+    2027,
+    2028,
+    2029,
+    2030
+  ],
+  "scan": {
+    "dayCount": 1826,
+    "panchangCalls": 3652,
+    "diagnostics": [],
+    "candidateCount": 4
+  },
+  "ruleProfile": "smarta-kalanirnaya-sindhu-chaitra-krishna-trayodashi-shatabhisha",
+  "candidates": [
+    {
+      "date": "2026-03-17",
+      "labels": [
+        "वारुणी योग"
+      ],
+      "startTime": "2026-03-17T00:52:08.083Z",
+      "endTime": "2026-03-17T03:53:26.360Z",
+      "status": "research-candidate",
+      "location": "Pithoragarh",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "date": "2027-04-04",
+      "labels": [
+        "वारुणी योग"
+      ],
+      "startTime": "2027-04-03T22:56:57.290Z",
+      "endTime": "2027-04-04T11:02:55.133Z",
+      "status": "research-candidate",
+      "location": "Pithoragarh",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "date": "2028-03-23",
+      "labels": [
+        "वारुणी योग"
+      ],
+      "startTime": "2028-03-23T05:52:19.768Z",
+      "endTime": "2028-03-24T00:03:52.731Z",
+      "status": "research-candidate",
+      "location": "Pithoragarh",
+      "timezone": "Asia/Kolkata",
+      "reviewNote": "Overlap ends only minutes before 24 March sunrise; calendar observance date unresolved."
+    },
+    {
+      "date": "2030-03-31",
+      "labels": [
+        "वारुणी योग"
+      ],
+      "startTime": "2030-03-30T19:12:52.734Z",
+      "endTime": "2030-03-31T14:19:26.614Z",
+      "status": "research-candidate",
+      "location": "Pithoragarh",
+      "timezone": "Asia/Kolkata",
+      "reviewNote": "Independent date-wise cross-check pending."
+    }
+  ],
+  "yearsWithoutCandidate": [
+    2029
+  ],
+  "reviewNotes": [
+    "All events are internal research candidates, not public-approved observances.",
+    "2027 and 2028 overlap intervals agree with an independent published calculation to the minute.",
+    "2026 has a source nomenclature conflict: one source calls it Maha Varuni despite Tuesday; the selected Smarta profile requires Saturday for Mahavaruni.",
+    "No Mahavaruni or Mahamahavaruni label was assigned in this first scan."
+  ]
+}
