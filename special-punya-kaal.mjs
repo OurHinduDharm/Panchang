@@ -17,6 +17,10 @@ const KRISHNA_NAMES = new Set(["कृष्ण", "कृष्ण पक्ष"
 const SHATABHISHA_NAMES = new Set(["शतभिषा", "शतभिषक्", "Shatabhisha", "Shatabhishak"]);
 const SHATABHISHA_INDEX = 23;
 const SHUBHA_NAMES = new Set(["शुभ", "Shubha"]);
+const AMAVASYA_NAMES = new Set(["अमावस्या", "अमावस", "Amavasya"]);
+const PAUSHA_MAGHA_NAMES = new Set(["पौष", "माघ", "Pausha", "Magha"]);
+const SHRAVANA_NAMES = new Set(["श्रवण", "श्रवणा", "Shravana"]);
+const VYATIPATA_NAMES = new Set(["व्यतीपात", "Vyatipata"]);
 
 function validTime(value) {
   if (value === null || value === undefined || value === "") return null;
@@ -89,6 +93,34 @@ function isShatabhisha(item) {
   return Number.isInteger(index) && index === SHATABHISHA_INDEX;
 }
 
+function isAmavasya(item) {
+  const name = textOf(item?.name ?? item?.tithi);
+  if (AMAVASYA_NAMES.has(name)) return true;
+  return Number(item?.index ?? item?.tithi) === 29;
+}
+
+function isPaushaOrMagha(day) {
+  return PAUSHA_MAGHA_NAMES.has(textOf(day?.masa ?? day?.month));
+}
+
+function isShravana(item) {
+  const name = textOf(item?.name ?? item?.nakshatra);
+  if (SHRAVANA_NAMES.has(name)) return true;
+  return Number(item?.index ?? item?.nakshatra) === 21;
+}
+
+function isVyatipata(item) {
+  const name = textOf(item?.name ?? item?.yoga);
+  if (VYATIPATA_NAMES.has(name)) return true;
+  return Number(item?.index ?? item?.yoga) === 16;
+}
+
+function localWeekday(isoDate) {
+  const match = String(isoDate || "").match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  if (!match) return null;
+  return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 6)).getUTCDay();
+}
+
 function isShubha(item) {
   const name = textOf(item?.name ?? item?.yoga);
   if (SHUBHA_NAMES.has(name)) return true;
@@ -132,6 +164,7 @@ function collectIntervals(days, field, predicate, options = {}) {
   const rows = [];
   for (const day of days) {
     if (options.requireChaitra && !isChaitra(day)) continue;
+    if (options.requirePaushaMagha && !isPaushaOrMagha(day)) continue;
     const items = normalizeTransitionIntervals(day?.[field]);
     for (const item of items) {
       if (!predicate(item)) continue;
@@ -219,12 +252,66 @@ export function buildVaruniCandidates(days, options = {}) {
   );
 }
 
+/**
+ * Mahodaya profile: Pausha/Magha Amavasya + Monday + Shravana +
+ * Vyatipata nitya-yoga, with the full conjunction present during local
+ * daylight. This is a research profile; source approval remains separate.
+ *
+ * Each day record requires { date, masa, sunrise, sunset, tithis,
+ * nakshatras, yogas }. Same-index intervals are joined across sunrise splits.
+ */
+export function buildMahodayaCandidates(days, options = {}) {
+  if (!Array.isArray(days)) throw new TypeError("days must be an array");
+  const tradition = options.tradition || "pausha-magha-somavati-amavasya-shravana-vyatipata-daytime";
+  if (tradition !== "pausha-magha-somavati-amavasya-shravana-vyatipata-daytime") {
+    throw new RangeError("Unsupported Mahodaya tradition profile");
+  }
+  const timezoneOffsetMinutes = Number(options.timezoneOffsetMinutes ?? 330);
+  if (!Number.isFinite(timezoneOffsetMinutes)) throw new TypeError("timezoneOffsetMinutes must be finite");
+
+  const amavasyas = collectIntervals(days, "tithis", isAmavasya, { requirePaushaMagha: true });
+  const shravanas = collectIntervals(days, "nakshatras", isShravana);
+  const vyatipatas = collectIntervals(days, "yogas", isVyatipata);
+  const candidates = [];
+
+  for (const day of days) {
+    if (!day?.date || !isPaushaOrMagha(day) || localWeekday(day.date) !== 1) continue;
+    const sunrise = validTime(day.sunrise);
+    const sunset = validTime(day.sunset);
+    if (sunrise === null || sunset === null || sunset <= sunrise) continue;
+    const daylight = { start: sunrise, end: sunset };
+
+    for (const amavasya of amavasyas) {
+      for (const nakshatra of shravanas) {
+        const tithiNakshatra = intersect(amavasya, nakshatra, daylight);
+        if (!tithiNakshatra) continue;
+        for (const yoga of vyatipatas) {
+          const overlap = intersect(tithiNakshatra, yoga);
+          if (!overlap) continue;
+          candidates.push({
+            date: day.date,
+            labels: ["महोदय योग"],
+            startTime: toIso(overlap.start),
+            endTime: toIso(overlap.end),
+            status: "research-candidate",
+            location: "Pithoragarh",
+            timezone: "Asia/Kolkata",
+            ruleProfile: tradition
+          });
+        }
+      }
+    }
+  }
+
+  return candidates.sort((a, b) => a.startTime.localeCompare(b.startTime));
+}
+
 export const SPECIAL_PUNYA_KAAL_POLICY = Object.freeze({
   years: [2026, 2027, 2028, 2029, 2030],
   location: { name: "Pithoragarh", latitude: 29.5828, longitude: 80.2182, elevation: 1650 },
   timezoneOffsetMinutes: 330,
   sankranti: "reuse-existing-display-and-calculation; never-duplicate",
   mahapata: "blocked-pending-reviewed-contact-definition",
-  mahodaya: "hidden-until-primary-rule-approved",
+  mahodaya: "pausha-magha-somavati-amavasya-shravana-vyatipata-daytime; research-only-pending-source-review",
   publicApprovalRequired: true
 });
