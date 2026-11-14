@@ -443,3 +443,21 @@ test("2030 Krishna Punarvasu Jayanti source conflict follows the Smarta-first po
   assert.equal(record.status,"needs-review");
   assert.equal(review.sourceReview.status,"pending-manual-cross-check");
 });
+
+
+test("2030 Bhadrapada Shukla Dwadashi rites retain distinct source-based dates", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const record=review.tithis.find(item=>item.id==="bhadrapada-shukla");
+  const dates=record.observanceDateReviews;
+  assert.deepEqual(dates.map(x=>x.observanceId),["vamana","damodara","niranjana","kalki"]);
+  assert.ok(dates.every(x=>x.selectedDate==="2030-09-08" && x.autoApproved===false));
+  assert.equal(dates[1].source,"नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 35b–38");
+  assert.equal(dates[2].ritualTime,"8 सितंबर रात्रि-संध्या");
+  assert.equal(dates[3].followingMorningActionDate,"2030-09-09");
+  assert.equal(dates[0].jayantiRuleConflict.result.includes("मध्याह्न में श्रवण नक्षत्र उपस्थित नहीं"),true);
+  assert.equal(record.status,"needs-review");
+  assert.equal(record.selectedDate,null);
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
