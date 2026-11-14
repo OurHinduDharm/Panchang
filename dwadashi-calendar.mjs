@@ -61,6 +61,80 @@ function findDwadashiIntervalOnLocalDate(dailyPanchang, date, month, paksha, adh
   return null;
 }
 
+function nextCalendarDate(date) {
+  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(date || ""))) return null;
+  const value = new Date(date + "T00:00:00Z");
+  if (!Number.isFinite(value.getTime())) return null;
+  value.setUTCDate(value.getUTCDate() + 1);
+  return value.toISOString().slice(0, 10);
+}
+
+function findSmartaTrisparshaObservations(dailyPanchang, rule) {
+  if (!rule || typeof rule !== "object") return [];
+  const byDate = new Map(dailyPanchang.filter(day => day && day.date).map(day => [day.date, day]));
+  const ordered = dailyPanchang.slice().filter(day => day && day.date).sort((a, b) => dateSort(a.date, b.date));
+  const found = [];
+
+  for (const day of ordered) {
+    if (normalizeTithi(day.noonTithi ?? day.tithi) !== "द्वादशी") continue;
+    const nextDate = nextCalendarDate(day.date);
+    const nextDay = nextDate ? byDate.get(nextDate) : null;
+    if (!nextDay) continue;
+
+    const firstSunrise = day.sunriseTithi;
+    const nextSunrise = nextDay.sunriseTithi;
+    if (!firstSunrise || !nextSunrise ||
+        normalizeTithi(firstSunrise.tithi) !== "एकादशी" ||
+        normalizeTithi(nextSunrise.tithi) !== "त्रयोदशी") continue;
+
+    const masa = normalizeMonth(day.masa);
+    const paksha = normalizePaksha(day.paksha);
+    const firstMasa = normalizeMonth(firstSunrise.masa || day.masa);
+    const nextMasa = normalizeMonth(nextSunrise.masa || nextDay.masa);
+    const firstPaksha = normalizePaksha(firstSunrise.paksha || day.paksha);
+    const nextPaksha = normalizePaksha(nextSunrise.paksha || nextDay.paksha);
+    if (!masa.month || !paksha ||
+        firstMasa.month !== masa.month || firstMasa.adhika !== masa.adhika ||
+        nextMasa.month !== masa.month || nextMasa.adhika !== masa.adhika ||
+        firstPaksha !== paksha || nextPaksha !== paksha) continue;
+
+    const sunriseStart = Date.parse(day.sunrise || "");
+    const sunriseEnd = Date.parse(nextDay.sunrise || "");
+    const dwadashiStart = Date.parse(day.noonTithiStartTime || day.tithiStartTime || "");
+    const dwadashiEnd = Date.parse(day.noonTithiEndTime || day.tithiEndTime || "");
+    if (![sunriseStart, sunriseEnd, dwadashiStart, dwadashiEnd].every(Number.isFinite) ||
+        !(sunriseStart < dwadashiStart && dwadashiStart < dwadashiEnd && dwadashiEnd < sunriseEnd)) continue;
+
+    // When the engine exposes both sunrise and noon boundaries, they must
+    // agree within one minute; missing boundary detail does not invent a value.
+    const ekadashiEnd = Date.parse(firstSunrise.tithiEndTime || "");
+    const trayodashiStart = Date.parse(nextSunrise.tithiStartTime || "");
+    if (Number.isFinite(ekadashiEnd) && Math.abs(ekadashiEnd - dwadashiStart) > 60_000) continue;
+    if (Number.isFinite(trayodashiStart) && Math.abs(trayodashiStart - dwadashiEnd) > 60_000) continue;
+
+    found.push({
+      id: "trisparsha",
+      name: rule.name || "त्रिस्पर्शा महाद्वादशी",
+      tradition: rule.tradition || "smarta",
+      month: masa.month,
+      paksha,
+      adhika: masa.adhika,
+      observanceDate: day.date,
+      followingSunriseDate: nextDay.date,
+      firstSunriseTime: new Date(sunriseStart).toISOString(),
+      dwadashiStartTime: new Date(dwadashiStart).toISOString(),
+      dwadashiEndTime: new Date(dwadashiEnd).toISOString(),
+      followingSunriseTime: new Date(sunriseEnd).toISOString(),
+      tithiSequence: ["एकादशी", "द्वादशी", "त्रयोदशी"],
+      source: rule.source || "धर्मसिंधु एवं निर्णयसिंधु",
+      sourceUrl: rule.sourceUrl || null,
+      scriptureSource: rule.scriptureSource || null,
+      status: "candidate-needs-manual-review"
+    });
+  }
+  return found;
+}
+
 function unique(values) {
   const seen = new Set();
   return values.filter(value => {
@@ -79,6 +153,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   const targetYearPrefix = Number.isFinite(year) ? String(year) + "-" : "";
   const groups = new Map();
   const groupBuckets = new Map();
+  const trisparshaCandidates = findSmartaTrisparshaObservations(dailyPanchang, rules?.mahaDwadashi?.trisparshaSmarta);
 
   // Process observations chronologically so separate lunar occurrences of
   // the same masa/paksha never collapse into one annual record.
@@ -264,6 +339,10 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     const observances = source && Array.isArray(source.observances) ? source.observances : [];
     const drik2026Entry = group.drik2026Entry || null;
     const drikSpecialEntries = group.drikSpecialEntries || [];
+    const specialTithiYogas = trisparshaCandidates.filter(item =>
+      item.month === group.month && item.paksha === group.paksha &&
+      !!item.adhika === !!group.adhika && group.noonDates.includes(item.observanceDate)
+    );
     const drikReferenceDate = group.referenceDate || drik2026Entry?.referenceDate || drikSpecialEntries.find(item => item.referenceDate)?.referenceDate || null;
     const sourceReferenceObservation = drikReferenceDate && !candidateDates.includes(drikReferenceDate)
       ? findDwadashiIntervalOnLocalDate(dailyPanchang, drikReferenceDate, group.month, group.paksha, group.adhika)
@@ -301,6 +380,8 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
           : null,
       dateSelection: drikReferenceDate && candidateDates.includes(drikReferenceDate)
         ? "source-reference-date-candidate-review-required"
+        : specialTithiYogas.length && candidateDates.length === 1 && candidateDates[0] === specialTithiYogas[0].observanceDate
+          ? "trisparsha-mahadwadashi-candidate-review-required"
         : drikReferenceDate && sourceReferenceObservation
           ? "source-reference-date-tithi-overlap-review-required"
           : drikReferenceDate && candidateDates.length && !candidateDates.includes(drikReferenceDate)
@@ -314,6 +395,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
                 : "no-observation-in-scan-window",
       displayNames: names,
       observances,
+      specialTithiYogas,
       // Conditional Mahadwadashi and calendar cross-reference labels are
       // preserved as metadata; they are not displayed as permanent names.
       conditionalObservances: source && Array.isArray(source.conditionalObservances) ? source.conditionalObservances : [],
