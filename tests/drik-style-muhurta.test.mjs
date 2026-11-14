@@ -109,3 +109,31 @@ test("Raksha Bandhan falls back to the Bhadra-free Pradosh interval", () => {
   assert.equal(result.windows[0].start.getTime(), bhadraEnd.getTime());
   assert.ok(result.windows[0].end > result.windows[0].start);
 });
+
+test("Govatsa Dwadashi Pradosh window requires Kartika Krishna Dwadashi", () => {
+  const event = { muhurtaRule: "govatsa-dwadashi-pradosh-kala" };
+  const valid = getFestivalMuhurta(event, {
+    ...day,
+    tithis: [{ index: 11, startTime: "2027-04-15T17:00:00+05:30", endTime: "2027-04-16T03:00:00+05:30" }]
+  });
+  assert.equal(valid.status, "calculated");
+  assert.equal(valid.label, "गोवत्स द्वादशी — प्रदोषकाल");
+  assert.equal(valid.windows.length, 1);
+  assert.equal(valid.windows[0].start.getTime(), day.sunset.getTime());
+  assert.ok(valid.windows[0].end < day.nextSunrise);
+  assert.match(valid.windows[0].note, /द्वादशी/);
+  assert.match(valid.note, /गाय और बछड़े/);
+
+  const wrongTithi = getFestivalMuhurta(event, {
+    ...day,
+    tithis: [{ index: 12, startTime: "2027-04-15T18:00:00+05:30", endTime: "2027-04-16T02:00:00+05:30" }]
+  });
+  assert.equal(wrongTithi.status, "unavailable");
+
+  const noPradoshOverlap = getFestivalMuhurta(event, {
+    ...day,
+    tithis: [{ index: 11, startTime: "2027-04-15T21:30:00+05:30", endTime: "2027-04-16T03:00:00+05:30" }]
+  });
+  assert.equal(noPradoshOverlap.status, "unavailable");
+});
+

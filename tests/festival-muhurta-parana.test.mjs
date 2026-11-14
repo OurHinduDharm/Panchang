@@ -1268,3 +1268,58 @@ test("Dev Deepawali can use the previous evening Pradosh when Purnima spans into
   assert.equal(result.windows[0].start.toISOString(),previousSunset.toISOString());
   assert.match(result.windows[0].label,/पूर्व संध्या/);
 });
+
+test("Govatsa Dwadashi Pradosh muhurta requires the Dwadashi interval during local Pradosh", () => {
+  const event = { muhurtaRule: "govatsa-dwadashi-pradosh-kala" };
+  const sunset = date("2030-10-23T17:30:00+05:30");
+  const nextSunrise = date("2030-10-24T06:10:00+05:30");
+  const valid = getFestivalMuhurta(event, {
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 11,
+      startTime: date("2030-10-23T10:20:00+05:30"),
+      endTime: date("2030-10-24T09:06:00+05:30")
+    }]
+  });
+  assert.equal(valid.status, "calculated");
+  assert.equal(valid.label, "गोवत्स द्वादशी — प्रदोषकाल");
+  assert.equal(valid.windows.length, 1);
+  assert.equal(valid.windows[0].start.toISOString(), sunset.toISOString());
+  assert.equal(valid.windows[0].end.toISOString(),
+    date("2030-10-23T20:02:00+05:30").toISOString());
+  assert.match(valid.note, /गाय और बछड़े/);
+
+  const wrongTithi = getFestivalMuhurta(event, {
+    sunset,
+    nextSunrise,
+    tithis: [{
+      index: 12,
+      startTime: date("2030-10-23T10:20:00+05:30"),
+      endTime: date("2030-10-24T09:06:00+05:30")
+    }]
+  });
+  assert.equal(wrongTithi.status, "unavailable");
+});
+
+test("Pithoragarh 2030 Govatsa Dwadashi has the local Dwadashi-Pradosh overlap", () => {
+  const context = realPanchangContext("2030-10-23");
+  const result = getFestivalMuhurta({ muhurtaRule: "govatsa-dwadashi-pradosh-kala" }, context);
+  assert.equal(result.status, "calculated");
+  assert.equal(result.windows.length, 1);
+  const sunset = date(context.sunset);
+  const nextSunrise = date(context.nextSunrise);
+  const pradoshEnd = date(sunset.getTime() + (nextSunrise.getTime() - sunset.getTime()) / 5);
+  const dwadashi = context.tithis.find(item => {
+    const index = Number(item.index ?? item.number ?? item.value);
+    const start = date(item.startTime ?? item.start);
+    const end = date(item.endTime ?? item.end);
+    return [11, 26].includes(index) && start < pradoshEnd && end > sunset;
+  });
+  assert.ok(dwadashi, "the actual local Dwadashi must overlap the Govatsa Pradosh window");
+  assert.equal(result.windows[0].start.toISOString(), sunset.toISOString());
+  assert.ok(result.windows[0].end <= pradoshEnd);
+  assert.ok(result.windows[0].end <= date(dwadashi.endTime ?? dwadashi.end));
+  assert.match(result.note, /गाय और बछड़े/);
+});
+
