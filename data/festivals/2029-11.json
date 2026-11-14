@@ -51,9 +51,7 @@
       "reviewStatus": "approved",
       "showReviewStatus": false,
       "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
-      "muhurtaRules": [
-        "pradosh-kala"
-      ]
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2029-11-04",
