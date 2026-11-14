@@ -15,15 +15,16 @@ const day = (overrides = {}) => ({
 });
 
 test("Varuni candidate is the exact overlap of Trayodashi, Shatabhisha and the Hindu day", () => {
-  const [result] = buildVaruniCandidates([day()]);
-  assert.equal(result.date, "2028-03-17");
-  assert.equal(result.startTime, "2028-03-17T04:00:00.000Z");
-  assert.equal(result.endTime, "2028-03-17T10:00:00.000Z");
-  assert.deepEqual(result.labels, ["वारुणी योग"]);
-  assert.equal(result.status, "research-candidate");
+  const results = buildVaruniCandidates([day()]);
+  assert.equal(results.length, 1);
+  assert.equal(results[0].date, "2028-03-17");
+  assert.equal(results[0].startTime, "2028-03-17T04:00:00.000Z");
+  assert.equal(results[0].endTime, "2028-03-17T10:00:00.000Z");
+  assert.deepEqual(results[0].labels, ["वारुणी योग"]);
+  assert.equal(results[0].status, "research-candidate");
 });
 
-test("Saturday adds Mahavaruni; Shubha yoga must overlap the exact conjunction for Mahamahavaruni", () => {
+test("Saturday adds Mahavaruni; Mahamahavaruni is limited to the exact Shubha overlap", () => {
   const saturday = day({
     date: "2028-03-18",
     sunrise: "2028-03-18T00:30:00.000Z",
@@ -32,8 +33,15 @@ test("Saturday adds Mahavaruni; Shubha yoga must overlap the exact conjunction f
     nakshatras: [{ index: 24, name: "Shatabhisha", startTime: "2028-03-18T04:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }],
     yogas: [{ index: 23, name: "Shubha", startTime: "2028-03-18T05:00:00.000Z", endTime: "2028-03-18T06:00:00.000Z" }]
   });
-  const [result] = buildVaruniCandidates([saturday]);
-  assert.deepEqual(result.labels, ["वारुणी योग", "महावारुणी योग", "महामहावारुणी योग"]);
+  const results = buildVaruniCandidates([saturday]);
+  const mahavaruni = results.find(item => item.labels[0] === "महावारुणी योग");
+  const mahama = results.find(item => item.labels[0] === "महामहावारुणी योग");
+  assert.ok(mahavaruni);
+  assert.ok(mahama);
+  assert.equal(mahavaruni.startTime, "2028-03-18T04:00:00.000Z");
+  assert.equal(mahavaruni.endTime, "2028-03-18T10:00:00.000Z");
+  assert.equal(mahama.startTime, "2028-03-18T05:00:00.000Z");
+  assert.equal(mahama.endTime, "2028-03-18T06:00:00.000Z");
 });
 
 test("a Shubha yoga outside the conjunction does not create Mahamahavaruni", () => {
@@ -45,8 +53,9 @@ test("a Shubha yoga outside the conjunction does not create Mahamahavaruni", () 
     nakshatras: [{ index: 24, name: "Shatabhisha", startTime: "2028-03-18T04:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }],
     yogas: [{ index: 23, name: "Shubha", startTime: "2028-03-18T11:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }]
   });
-  const [result] = buildVaruniCandidates([saturday]);
-  assert.deepEqual(result.labels, ["वारुणी योग", "महावारुणी योग"]);
+  const results = buildVaruniCandidates([saturday]);
+  assert.ok(results.some(item => item.labels[0] === "महावारुणी योग"));
+  assert.ok(!results.some(item => item.labels[0] === "महामहावारुणी योग"));
 });
 
 test("wrong paksha, month, tithi or nakshatra does not create a candidate", () => {
