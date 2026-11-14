@@ -587,3 +587,27 @@ test("2030 complex Dwadashi records retain Drik dates as review candidates, not 
   const pausha = review.tithis.filter(item => item.id.startsWith("pausha-krishna"));
   assert.ok(pausha.every(item => item.crossReferences.some(ref => ref.name === "कृष्ण मत्स्य द्वादशी")));
 });
+
+test("2030 Vaishakha Shukla Dwadashi keeps Madhava and Jamadagnyadvadashi as distinct source-backed observances", async () => {
+  const rules = JSON.parse(await readFile(new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"));
+  const review = JSON.parse(await readFile(new URL("../data/references/ohd-dwadashi-2030-review.json", import.meta.url), "utf8"));
+  const source = rules.unifiedTithiIndex.tithis.find(item => item.month === "वैशाख" && item.paksha === "शुक्ल");
+  assert.deepEqual(source.observances.map(item => item.id), ["madhava", "parashurama"]);
+  const parashurama = source.observances.find(item => item.id === "parashurama");
+  assert.equal(parashurama.source, "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत");
+  assert.equal(parashurama.sourceUrl, "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044");
+  const monthlySource = rules.profiles.varahaPurana.monthlyVratas.find(item => item.id === "parashurama");
+  assert.equal(monthlySource.source, parashurama.source);
+  assert.equal(monthlySource.sourceUrl, parashurama.sourceUrl);
+
+  const record = review.tithis.find(item => item.id === "vaishakha-shukla");
+  assert.ok(record);
+  assert.deepEqual(record.candidateDates, ["2030-05-14"]);
+  assert.deepEqual(record.sunriseDates, []);
+  assert.deepEqual(record.noonDates, ["2030-05-14"]);
+  assert.equal(record.dateSelection, "single-observation-candidate-review-required");
+  assert.equal(record.selectedDate, "2030-05-14");
+  assert.equal(record.status, "needs-review");
+  assert.deepEqual(record.observances.map(item => item.id), ["madhava", "parashurama"]);
+});
+
