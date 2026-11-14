@@ -81,7 +81,7 @@ test("2029–2030 Drik special Dwadashi labels use the exact source dates and na
   const { dirname, resolve } = await import("node:path");
   const rules = JSON.parse(await readFile(resolve(dirname(fileURLToPath(import.meta.url)), "../data/dwadashi-vrata-rules.json"), "utf8"));
   const specials = rules.drikSpecialObservances;
-  const find = (year, date) => specials.find(x => x.year === year && x.referenceDate === date);
+  const find = (year, date) => specials.find(x => x.year === year && (x.referenceDate === date || x.observanceDate === date));
   assert.deepEqual(find(2026,"2026-03-15")?.labels, ["विष्णुशृंखला योग द्वादशी"]);
   assert.equal(find(2026,"2026-06-26")?.sourcePage, "smarta-ekadashi");
   assert.equal(find(2026,"2026-07-11")?.sourcePage, "smarta-ekadashi");
