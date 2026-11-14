@@ -954,6 +954,11 @@ footer{text-align:center;font-size:11px;color:#8a7d6c;padding:18px 4px}
         time.textContent=startLabel+" : "+formatSpecialPunyaKaalTime(item.start)+" – "+endLabel+" : "+formatSpecialPunyaKaalTime(item.end);
         card.appendChild(time);
         if(item.type==="vyatipata-mahapat"||item.type==="vaidhriti-mahapat"){
+          var practice=document.createElement("div");practice.className="special-kaal-description";
+          practice.textContent="इस पातकाल में स्नान, जप, होम एवं दान करने का शास्त्रीय निर्देश मिलता है।";
+          card.appendChild(practice);
+        }
+        if(item.type==="vyatipata-mahapat"||item.type==="vaidhriti-mahapat"){
           var warning=document.createElement("div");warning.className="special-kaal-warning";
           warning.textContent="महापात को विवाह, गृह प्रवेश, गृह आरंभ, उपनयन आदि मांगलिक संस्कारों का मुहूर्त न मानें।";
           card.appendChild(warning);
