@@ -28,7 +28,7 @@
       "date": "2030-06-01",
       "dateLabel": "1 जून",
       "title": "आंशिक सूर्यग्रहण",
-      "description": "1 जून 2030 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा। ग्रहण दोपहर 3:57 बजे आरंभ होगा, अधिकतम ग्रहण शाम 5:15:56 बजे होगा और शाम 6:38:21 बजे समाप्त होगा।",
+      "description": "1 जून 2030 को पिथौरागढ़ में आंशिक सूर्यग्रहण दिखाई देगा।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -36,8 +36,9 @@
       "timingType": "eclipse-visibility",
       "articleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-Grahan-mantra-purashcharan.html",
       "articleLabel": "ग्रहण मंत्र-पुरश्चरण पढ़ें",
-      "sourceName": "Pithoragarh solar eclipse visibility table — local contacts",
-      "sourceUrl": "https://suryodaysuryast.in/sun-eclipse/pithoragarh"
+      "sourceName": "NASA 2030 eclipse catalog — event date; Pithoragarh visibility cross-check",
+      "sourceUrl": "https://eclipse.gsfc.nasa.gov/OH/OH2030.html",
+      "sourceNote": "Local contact times intentionally omitted: the previously captured city-table times conflict with the independent global eclipse timing."
     },
     {
       "date": "2030-06-02",
@@ -170,7 +171,7 @@
       "date": "2030-06-15",
       "dateLabel": "15 जून",
       "title": "आंशिक चंद्रग्रहण",
-      "description": "15–16 जून 2030 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 15 जून रात 10:51 बजे आरंभ होगा और 16 जून रात 1:15 बजे समाप्त होगा। ग्रहण का मध्यरात्रि अधिकतम 16 जून 12:03 बजे होगा। उपच्छाया चरण 2:22 बजे समाप्त होगा।",
+      "description": "15–16 जून 2030 को पिथौरागढ़ में आंशिक चंद्रग्रहण दिखाई देगा। आंशिक चरण 15 जून रात 10:51 बजे आरंभ होगा और 16 जून 1:15 बजे समाप्त होगा। ग्रहण का अधिकतम 16 जून 00:03 बजे तथा उपच्छाया चरण का अंत 2:22 बजे होगा।",
       "category": "व्रत-पर्व",
       "reviewStatus": "approved",
       "hinduTithi": "ज्येष्ठ शुक्ल पूर्णिमा",
