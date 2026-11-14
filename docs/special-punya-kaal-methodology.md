@@ -105,3 +105,19 @@
 The primary implementation profile is the Smarta nibandha formulation quoted in Kālanirṇaya-sindhu: Chaitra Krishna Trayodashi + Shatabhisha; Saturday upgrades it to Mahavaruni; an actually overlapping Shubha nitya-yoga upgrades it to Mahamahavaruni. The Nārada Purāṇa passage describing Chaitra Shukla Trayodashi + Saturday + Shatabhisha as Mahamaha is retained as a distinct textual variant and is not merged into this profile.
 
 The Panchangam engine uses zero-based indices: Shatabhisha = 23 and Shubha nitya-yoga = 22. Unit tests now assert those exact indices even when the engine does not supply localized names.
+
+
+## महापात — स्रोत-आधारित अगला चरण
+
+भास्कराचार्य के *करणकुतूहल*, पाताधिकार (अध्याय 9, विशेषतः श्लोक 5–15; उपलब्ध हिन्दी टीका के पृ. 184–185) में:
+- पातयुक्त चन्द्र के शर की गणना,
+- सूर्य/चन्द्र बिम्बमान,
+- पात-मध्यकाल,
+- शरखण्ड से पात की स्थिति,
+- स्पर्श और मोक्ष के लिए अलग समय-संशोधन
+
+दिए गए हैं। इस पद्धति को केवल `|सूर्य-चन्द्र क्रान्ति-अंतर| < दोनों बिम्ब-अर्धव्यासों का योग` जैसे अनुमानित नियम में नहीं घटाना है। पहले शरखण्ड-सारणी, अयन/पद-निर्णय और स्थिति-संशोधन को मूल पाठ से पुनः जाँचना होगा।
+
+*सूर्यसिद्धान्त*, पाताधिकार में वैधृति और व्यतीपात की पहचान के लिए क्रान्ति-साम्य के साथ सूर्य-चन्द्र की अयन/राशि-संबंधी शर्तें भी दी गई हैं। अतः दोनों प्रकारों का वर्गीकरण केवल एक root के sign से नहीं होगा।
+
+इस PR में `mahapata-root-solver.mjs` केवल सामान्य bracketed numerical root utility है। यह अभी महापात की खगोलीय परिभाषा नहीं लगाता और कोई तारीख/समय नहीं बनाता। Source-approved signed boundary function तैयार होने के बाद ही इसका उपयोग होगा।
