@@ -109,7 +109,6 @@ for (const target of [180, 0]) {
   for (const time of roots) {
     if (angularDistance(positions(time).longitudeSum, target) > 0.02) continue;
     const year = new Date(time).getUTCFullYear();
-    if (!YEARS.includes(year)) continue;
     meanPatas.push({
       time,
       year,
@@ -122,6 +121,7 @@ for (const target of [180, 0]) {
 meanPatas.sort((a, b) => a.time - b.time);
 
 const events = [];
+const reviewItems = [];
 for (const mean of meanPatas) {
   const searchStart = mean.time - 3 * DAY_MS;
   const searchEnd = mean.time + 3 * DAY_MS;
@@ -132,13 +132,12 @@ for (const mean of meanPatas) {
     HOUR_MS
   );
   if (!trueRoots.length) {
-    events.push({
-      year: mean.year,
+    reviewItems.push({
+      meanPataYear: mean.year,
       type: mean.type,
       meanPata: new Date(mean.time).toISOString(),
       meanPataIST: toIST(mean.time),
-      status: "no-true-crossing-within-three-day-search",
-      statusDetail: "research-only-not-approved"
+      status: "no-true-crossing-within-three-day-search"
     });
     continue;
   }
@@ -147,16 +146,18 @@ for (const mean of meanPatas) {
   const sample = positions(chosen);
   const contactRoots = rootsFor(
     time => positions(time)[mean.clearanceKey],
-    chosen - DAY_MS,
-    chosen + DAY_MS,
+    chosen - 3 * DAY_MS,
+    chosen + 3 * DAY_MS,
     15 * MINUTE_MS
   );
   const before = contactRoots.filter(time => time < chosen).at(-1);
   const after = contactRoots.find(time => time > chosen);
   const overlapExists = sample[mean.clearanceKey] < 0 && before !== undefined && after !== undefined;
 
-  events.push({
-    year: mean.year,
+  const displayYear = overlapExists ? new Date(before + IST_OFFSET_MS).getUTCFullYear() : new Date(chosen + IST_OFFSET_MS).getUTCFullYear();
+  const eventRecord = {
+    year: displayYear,
+    meanPataYear: mean.year,
     type: mean.type,
     meanPata: new Date(mean.time).toISOString(),
     meanPataIST: toIST(mean.time),
@@ -174,7 +175,11 @@ for (const mean of meanPatas) {
     status: overlapExists ? "research-only-not-approved" : "overlap-boundary-not-found",
     model: "geocentric-apparent-declination-disk-band-overlap",
     note: "Compare against Karana-Kutuhala shara-khanda method and Drik timings before approval."
-  });
+  };
+  if (YEARS.includes(displayYear)) {
+    if (overlapExists) events.push(eventRecord);
+    else reviewItems.push(eventRecord);
+  }
 }
 
 events.sort((a, b) => a.meanPata.localeCompare(b.meanPata));
@@ -187,5 +192,7 @@ console.log(JSON.stringify({
   sampleStepHours: 1,
   meanPataCount: meanPatas.length,
   eventCount: events.length,
-  events
+  reviewItemCount: reviewItems.length,
+  events,
+  reviewItems
 }, null, 2));
