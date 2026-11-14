@@ -40,7 +40,7 @@ jobs:
         run: |
           node --experimental-default-type=module --check app.js
           node --check monthly-religious-calendar.js
-          sed -n '/^<script type="module">$/,/^<\\/script>$/p' monthly-vrat-parv.html | sed '1d;$d' > /tmp/monthly-vrat-parv.mjs
+          sed -n '/^<script type="module">$/,/^<\/script>$/p' monthly-vrat-parv.html | sed '1d;$d' > /tmp/monthly-vrat-parv.mjs
           node --check /tmp/monthly-vrat-parv.mjs
           node --check special-punya-kaal.mjs
           node --check mahapata-root-solver.mjs
