@@ -547,3 +547,28 @@ test("2030 May 28 Vanjuli and August 25 Unmilini labels fail their local Smarta 
 function vanjuliRecordSelectedDate(record) {
   return record.selectedDate;
 }
+
+
+test("2030 Krishna Vasudeva Dwadashi retains 26 July vrata date with 27 July parana day", async () => {
+  const review=JSON.parse(await readFile(
+    new URL("../data/references/ohd-dwadashi-2030-review.json",import.meta.url),"utf8"
+  ));
+  const record=review.tithis.find(item=>item.id==="shravana-krishna");
+  const source=record.drikSpecialObservances.find(item=>
+    item.referenceDate==="2030-07-26" && item.labels.includes("कृष्ण वासुदेव द्वादशी")
+  );
+  assert.ok(source);
+  assert.equal(source.status,"local-tithi-interval-confirmed-source-date-review-pending");
+  assert.equal(source.localAssessment.vrataDate,"2030-07-26");
+  assert.equal(source.localAssessment.paranaDate,"2030-07-27");
+  assert.equal(source.localAssessment.tithiAtNoonOnVrataDate,true);
+  assert.equal(source.localAssessment.tithiAtNextSunrise,true);
+  assert.equal(record.selectedDate,"2030-07-26");
+  assert.deepEqual(record.candidateDates,["2030-07-26","2030-07-27"]);
+  const decision=record.observanceDateReviews.find(item=>item.observanceId==="krishna-vasudeva");
+  assert.equal(decision.selectedDate,"2030-07-26");
+  assert.equal(decision.paranaDate,"2030-07-27");
+  assert.equal(decision.autoApproved,false);
+  assert.equal(record.status,"needs-review");
+  assert.equal(review.sourceReview.status,"pending-manual-cross-check");
+});
