@@ -1,6 +1,6 @@
 # Special Punya-Kaal monthly data
 
-This directory is the public data source for the optional monthly **विशेष पुण्यकाल एवं धार्मिक साधना** section and its conditional daily-Panchang navigation link.
+This directory is the public data source for the optional monthly **विशेष साधना काल एवं पुण्यकाल** section and its conditional daily-Panchang navigation link.
 
 ## Publication gate
 
