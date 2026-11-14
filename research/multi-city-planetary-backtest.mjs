@@ -132,10 +132,15 @@ for (const profile of profiles) {
       const expectedHorizonEventType = conjunction
         ? expectedEventType(row.planet, conjunction.kind, boundary)
         : null;
-      const geometry = getPlanetVisibilitySample({
+      const sourceGeometry = getPlanetVisibilitySample({
         astronomy: Astronomy, planet: row.planet, observer,
         instant: source.normalizedUtcInstant
       });
+      const horizonGeometry = horizon?.instant ? getPlanetVisibilitySample({
+        astronomy: Astronomy, planet: row.planet, observer,
+        instant: horizon.instant
+      }) : null;
+      const calibrationGeometry = horizonGeometry || sourceGeometry;
       observations.push({
         sourceWindowId: row.id,
         city: profile.city,
@@ -145,6 +150,7 @@ for (const profile of profiles) {
         boundary,
         sourceLocalDateTime: source.normalizedLocalDateTime,
         sourceUtcInstant: source.normalizedUtcInstant,
+        horizonEventInstant: horizon?.instant ?? null,
         conjunctionKind: conjunction?.kind ?? null,
         conjunctionInstant: conjunction?.instant ?? null,
         expectedHorizonEventType,
@@ -154,11 +160,14 @@ for (const profile of profiles) {
           horizon?.type === expectedHorizonEventType
         ),
         horizonEventErrorMinutes: horizon?.errorMinutes ?? null,
-        sunDepressionDeg: -geometry.sunAltitudeDeg,
-        planetAltitudeDeg: geometry.objectAltitudeDeg,
-        planetAzimuthDeg: geometry.objectAzimuthDeg,
-        sunAzimuthDeg: geometry.sunAzimuthDeg,
-        apparentMagnitude: geometry.apparentMagnitude
+        sunDepressionDeg: -calibrationGeometry.sunAltitudeDeg,
+        horizonEventSunDepressionDeg: horizonGeometry ? -horizonGeometry.sunAltitudeDeg : null,
+        sourceSunDepressionDeg: -sourceGeometry.sunAltitudeDeg,
+        sunDepressionSampleBasis: horizonGeometry ? "actual-local-horizon-event" : "source-instant-fallback-not-training-eligible",
+        planetAltitudeDeg: calibrationGeometry.objectAltitudeDeg,
+        planetAzimuthDeg: calibrationGeometry.objectAzimuthDeg,
+        sunAzimuthDeg: calibrationGeometry.sunAzimuthDeg,
+        apparentMagnitude: calibrationGeometry.apparentMagnitude
       });
     }
   }
