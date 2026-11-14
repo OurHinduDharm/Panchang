@@ -9,7 +9,7 @@ const day = (overrides = {}) => ({
   sunrise: "2028-03-17T00:30:00.000Z",
   nextSunrise: "2028-03-18T00:30:00.000Z",
   tithis: [{ index: 27, name: "Trayodashi", paksha: "Krishna", startTime: "2028-03-17T02:00:00.000Z", endTime: "2028-03-17T10:00:00.000Z" }],
-  nakshatras: [{ index: 24, name: "Shatabhisha", startTime: "2028-03-17T04:00:00.000Z", endTime: "2028-03-17T12:00:00.000Z" }],
+  nakshatras: [{ index: 23, name: "Shatabhisha", startTime: "2028-03-17T04:00:00.000Z", endTime: "2028-03-17T12:00:00.000Z" }],
   yogas: [],
   ...overrides
 });
@@ -30,8 +30,8 @@ test("Saturday adds Mahavaruni; Mahamahavaruni is limited to the exact Shubha ov
     sunrise: "2028-03-18T00:30:00.000Z",
     nextSunrise: "2028-03-19T00:30:00.000Z",
     tithis: [{ index: 27, name: "Trayodashi", paksha: "Krishna", startTime: "2028-03-18T02:00:00.000Z", endTime: "2028-03-18T10:00:00.000Z" }],
-    nakshatras: [{ index: 24, name: "Shatabhisha", startTime: "2028-03-18T04:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }],
-    yogas: [{ index: 23, name: "Shubha", startTime: "2028-03-18T05:00:00.000Z", endTime: "2028-03-18T06:00:00.000Z" }]
+    nakshatras: [{ index: 23, name: "Shatabhisha", startTime: "2028-03-18T04:00:00.000Z", endTime: "2028-03-18T12:00:00.000Z" }],
+    yogas: [{ index: 22, name: "Shubha", startTime: "2028-03-18T05:00:00.000Z", endTime: "2028-03-18T06:00:00.000Z" }]
   });
   const results = buildVaruniCandidates([saturday]);
   const mahavaruni = results.find(item => item.labels[0] === "महावारुणी योग");
@@ -62,7 +62,24 @@ test("wrong paksha, month, tithi or nakshatra does not create a candidate", () =
   assert.deepEqual(buildVaruniCandidates([day({ masa: "Vaishakha" })]), []);
   assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 12, name: "Trayodashi", startTime: "2028-03-17T02:00:00Z", endTime: "2028-03-17T10:00:00Z" }] })]), []);
   assert.deepEqual(buildVaruniCandidates([day({ tithis: [{ index: 26, name: "Dwadashi", startTime: "2028-03-17T02:00:00Z", endTime: "2028-03-17T10:00:00Z" }] })]), []);
-  assert.deepEqual(buildVaruniCandidates([day({ nakshatras: [{ index: 23, name: "Dhanishtha", startTime: "2028-03-17T04:00:00Z", endTime: "2028-03-17T12:00:00Z" }] })]), []);
+  assert.deepEqual(buildVaruniCandidates([day({ nakshatras: [{ index: 22, name: "Dhanishtha", startTime: "2028-03-17T04:00:00Z", endTime: "2028-03-17T12:00:00Z" }] })]), []);
+});
+
+test("engine zero-based indexes identify Shatabhisha and Shubha even without names", () => {
+  const indexed = day({
+    nakshatras: [{ index: 23, startTime: "2028-03-17T04:00:00Z", endTime: "2028-03-17T12:00:00Z" }]
+  });
+  assert.equal(buildVaruniCandidates([indexed]).length, 1);
+  const saturday = day({
+    date: "2028-03-18",
+    sunrise: "2028-03-18T00:30:00.000Z",
+    nextSunrise: "2028-03-19T00:30:00.000Z",
+    tithis: [{ index: 27, startTime: "2028-03-18T02:00:00Z", endTime: "2028-03-18T10:00:00Z" }],
+    nakshatras: [{ index: 23, startTime: "2028-03-18T04:00:00Z", endTime: "2028-03-18T12:00:00Z" }],
+    yogas: [{ index: 22, startTime: "2028-03-18T05:00:00Z", endTime: "2028-03-18T06:00:00Z" }]
+  });
+  const results = buildVaruniCandidates([saturday]);
+  assert.ok(results.some(item => item.labels[0] === "महामहावारुणी योग"));
 });
 
 test("invalid or absent intervals are safely omitted", () => {
