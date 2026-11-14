@@ -285,8 +285,8 @@
     {
       "date": "2030-10-24",
       "dateLabel": "24 अक्टूबर",
-      "title": "धनतेरस / धन्वन्तरि जयंती / गुरु प्रदोष व्रत / यमदीपदान",
-      "description": "धनतेरस पर भगवान धन्वन्तरि, माता लक्ष्मी और कुबेर का पूजन तथा दीपदान किया जाता है। इस दिन शुभ खरीदारी और यमदीपदान की परंपरा भी प्रचलित है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a> त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "title": "धनतेरस / धन्वन्तरि जयंती / यमदीपदान",
+      "description": "धनतेरस पर भगवान धन्वन्तरि, माता लक्ष्मी और कुबेर का पूजन तथा दीपदान किया जाता है। इस दिन शुभ खरीदारी और यमदीपदान की परंपरा भी प्रचलित है। <a href=\"http://ourhindudharm.blogspot.com/2013/11/About-Dhanteras-DhanvantariJayanti-And-GotriraatraVrat.html\" target=\"_blank\" rel=\"noopener noreferrer\">धनतेरस की विधि</a> <a href=\"https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html\" target=\"_blank\" rel=\"noopener noreferrer\">श्रीधन्वन्तरि उपासना</a>",
       "category": "प्रमुख पर्व",
       "reviewStatus": "approved",
       "showReviewStatus": false,
@@ -297,10 +297,18 @@
       "articleLabel": "धनतेरस",
       "secondaryArticleUrl": "https://ourhindudharm.blogspot.com/2022/10/About-shri-dhanvantari-stotratmak-upasana-dhanteras.html",
       "secondaryArticleLabel": "श्रीधन्वन्तरि जयंती",
-      "muhurtaRules": [
-        "dhanteras-muhurta",
-        "pradosh-kala"
-      ]
+      "muhurtaRule": "dhanteras-muhurta"
+    },
+    {
+      "date": "2030-10-24",
+      "dateLabel": "24 अक्टूबर",
+      "title": "गुरु प्रदोष व्रत",
+      "description": "त्रयोदशी तिथि के प्रदोषकाल में भगवान शिव की पूजा की जाती है। इस दिन प्रदोष व्रत, शिवपूजन और दीपदान की परंपरा है।",
+      "category": "व्रत",
+      "reviewStatus": "approved",
+      "showReviewStatus": false,
+      "hinduTithi": "कार्तिक कृष्ण त्रयोदशी",
+      "muhurtaRule": "pradosh-kala"
     },
     {
       "date": "2030-10-25",
