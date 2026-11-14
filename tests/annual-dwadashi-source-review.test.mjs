@@ -90,6 +90,7 @@ test("2029–2030 Drik special Dwadashi labels use the exact source dates and na
   assert.deepEqual(find(2030,"2030-05-28")?.labels, ["वंजुली महाद्वादशी"]);
   assert.deepEqual(find(2030,"2030-08-25")?.labels, ["उन्मीलिनी महाद्वादशी"]);
   assert.deepEqual(find(2030,"2030-09-09")?.labels, ["श्रवण योग द्वादशी"]);
+  assert.deepEqual(find(2030,"2030-03-29")?.labels, ["एकादशी श्रवण योग द्वादशी"]);
   assert.equal(find(2030,"2030-05-14"), undefined);
 });
 
@@ -159,4 +160,46 @@ test("real Pithoragarh 2030 Vaishakha Shukla Trisparsha is recognized across con
   assert.equal(record.specialTithiYogas[0].tradition, "smarta");
   assert.equal(record.specialTithiYogas[0].status, "candidate-needs-manual-review");
   assert.equal(record.status, "needs-review", "recognition must never auto-approve");
+});
+
+test("real Pithoragarh 2030 Krishna Narasimha Dwadashi follows the local sunrise-day boundary", async () => {
+  const { getPanchangam, Observer } = panchangPackage;
+  const location = new Observer(29.5828, 80.2182, 1650);
+  const options = { timezoneOffset:330, calendarType:"purnimanta" };
+  const makeDay = isoDate => {
+    const instant = new Date(isoDate + "T06:30:00.000Z");
+    const raw = getPanchangam(instant, location, options);
+    const day = extractDwadashiDay(raw, isoDate, instant);
+    assert.ok(day.sunrise, isoDate + " must have a local sunrise");
+    const sunriseInstant = new Date(day.sunrise);
+    const sunriseRaw = getPanchangam(sunriseInstant, location, options);
+    const sunriseDay = extractDwadashiDay(sunriseRaw, isoDate, sunriseInstant);
+    day.sunriseTithi = {
+      tithi:sunriseDay.tithi,
+      paksha:sunriseDay.paksha,
+      masa:sunriseDay.masa,
+      tithiStartTime:sunriseDay.tithiStartTime,
+      tithiEndTime:sunriseDay.tithiEndTime
+    };
+    return day;
+  };
+  const first = makeDay("2030-03-29");
+  const following = makeDay("2030-03-30");
+  const rules = JSON.parse(await (await import("node:fs/promises")).readFile(
+    new URL("../data/dwadashi-vrata-rules.json", import.meta.url), "utf8"
+  ));
+  const result = buildDwadashiCalendar([first,following],rules);
+  const record = result.tithis.find(item => item.id === "chaitra-krishna");
+  const evidence = JSON.stringify({first,following,record},null,2);
+  assert.ok(record, "Chaitra Krishna record must exist");
+  assert.equal(first.sunriseTithi.tithi, "एकादशी", "29 March sunrise must carry Ekadashi: " + evidence);
+  assert.equal(following.sunriseTithi.tithi, "द्वादशी", "30 March sunrise must carry Dwadashi: " + evidence);
+  assert.deepEqual(record.candidateDates, ["2030-03-30"]);
+  assert.equal(record.referenceDate, "2030-03-29");
+  assert.equal(record.selectedDate, "2030-03-29");
+  assert.equal(record.dateSelection, "source-reference-date-tithi-overlap-review-required");
+  assert.equal(record.sourceReferenceObservation.date, "2030-03-29");
+  assert.equal(record.sourceReferenceObservation.sunriseDayStart, first.sunrise);
+  assert.equal(record.sourceReferenceObservation.sunriseDayEnd, following.sunrise);
+  assert.equal(record.status, "needs-review", "source date is a candidate, not approval");
 });

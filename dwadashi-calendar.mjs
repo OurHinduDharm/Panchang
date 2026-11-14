@@ -27,40 +27,59 @@ function dateSort(a, b) {
   return String(a).localeCompare(String(b));
 }
 
-function findDwadashiIntervalOnLocalDate(dailyPanchang, date, month, paksha, adhika) {
+function findDwadashiIntervalOnSunriseDay(dailyPanchang, date, month, paksha, adhika) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ""))) return null;
-  const start = Date.parse(date + "T00:00:00+05:30");
-  const next = new Date(date + "T00:00:00Z");
-  next.setUTCDate(next.getUTCDate() + 1);
-  const end = Date.parse(next.toISOString().slice(0, 10) + "T00:00:00+05:30");
-  if (![start, end].every(Number.isFinite)) return null;
 
-  for (const day of dailyPanchang) {
-    if (!day) continue;
-    const masa = normalizeMonth(day.masa);
-    if (masa.month !== month || masa.adhika !== !!adhika || normalizePaksha(day.paksha) !== paksha) continue;
+  // A Panchang date runs from its local sunrise to the following local
+  // sunrise. Civil-midnight bounds misclassify tithis beginning after
+  // midnight but before the next sunrise.
+  const byDate = new Map(
+    dailyPanchang.filter(day => day && day.date).map(day => [day.date, day])
+  );
+  const day = byDate.get(date);
+  const nextDate = nextCalendarDate(date);
+  const nextDay = nextDate ? byDate.get(nextDate) : null;
+  const dayStart = Date.parse(day?.sunrise || "");
+  const dayEnd = Date.parse(nextDay?.sunrise || "");
+  if (!Number.isFinite(dayStart) || !Number.isFinite(dayEnd) || dayEnd <= dayStart) return null;
+
+  for (const observation of dailyPanchang) {
+    if (!observation) continue;
+    const masa = normalizeMonth(observation.masa);
+    if (masa.month !== month || masa.adhika !== !!adhika ||
+        normalizePaksha(observation.paksha) !== paksha) continue;
     const intervals = [];
-    if (normalizeTithi(day.tithi) === "द्वादशी") {
-      intervals.push({start:day.tithiStartTime, end:day.tithiEndTime, basis:"daily-tithi-interval"});
+    if (normalizeTithi(observation.tithi) === "द्वादशी") {
+      intervals.push({start:observation.tithiStartTime, end:observation.tithiEndTime, basis:"daily-tithi-interval"});
     }
-    if (normalizeTithi(day.noonTithi) === "द्वादशी") {
-      intervals.push({start:day.noonTithiStartTime || day.tithiStartTime, end:day.noonTithiEndTime || day.tithiEndTime, basis:"noon-tithi-interval"});
+    if (normalizeTithi(observation.noonTithi) === "द्वादशी") {
+      intervals.push({start:observation.noonTithiStartTime || observation.tithiStartTime,
+        end:observation.noonTithiEndTime || observation.tithiEndTime, basis:"noon-tithi-interval"});
     }
-    const sunrise = day.sunriseTithi;
+    const sunrise = observation.sunriseTithi;
     if (sunrise && normalizeTithi(sunrise.tithi) === "द्वादशी") {
-      intervals.push({start:sunrise.tithiStartTime || day.tithiStartTime, end:sunrise.tithiEndTime || day.tithiEndTime, basis:"sunrise-tithi-interval"});
+      intervals.push({start:sunrise.tithiStartTime || observation.tithiStartTime,
+        end:sunrise.tithiEndTime || observation.tithiEndTime, basis:"sunrise-tithi-interval"});
     }
     for (const interval of intervals) {
       const intervalStart = Date.parse(interval.start || "");
       const intervalEnd = Date.parse(interval.end || "");
-      if (Number.isFinite(intervalStart) && Number.isFinite(intervalEnd) && intervalStart < end && intervalEnd > start) {
-        return {date, intervalStart:new Date(intervalStart).toISOString(), intervalEnd:new Date(intervalEnd).toISOString(), basis:interval.basis, source:"local-panchang-tithi-interval"};
+      if (Number.isFinite(intervalStart) && Number.isFinite(intervalEnd) &&
+          intervalStart < dayEnd && intervalEnd > dayStart) {
+        return {
+          date,
+          intervalStart:new Date(intervalStart).toISOString(),
+          intervalEnd:new Date(intervalEnd).toISOString(),
+          sunriseDayStart:new Date(dayStart).toISOString(),
+          sunriseDayEnd:new Date(dayEnd).toISOString(),
+          basis:interval.basis,
+          source:"local-panchang-sunrise-to-next-sunrise"
+        };
       }
     }
   }
   return null;
 }
-
 function nextCalendarDate(date) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ""))) return null;
   const value = new Date(date + "T00:00:00Z");
@@ -232,7 +251,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
         const dates = unique(group.sunriseDates.concat(group.noonDates));
         const exact = dates.includes(associationDate);
         const overlap = !!referenceDate && !exact &&
-          !!findDwadashiIntervalOnLocalDate(dailyPanchang, referenceDate, month, paksha, adhika);
+          !!findDwadashiIntervalOnSunriseDay(dailyPanchang, referenceDate, month, paksha, adhika);
         const distance = dates.length && Number.isFinite(associationNumber)
           ? Math.min(...dates.map(date => Math.abs(Date.parse(date + "T00:00:00Z") - associationNumber) / 86400000))
           : Infinity;
@@ -345,7 +364,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
     );
     const drikReferenceDate = group.referenceDate || drik2026Entry?.referenceDate || drikSpecialEntries.find(item => item.referenceDate)?.referenceDate || null;
     const sourceReferenceObservation = drikReferenceDate && !candidateDates.includes(drikReferenceDate)
-      ? findDwadashiIntervalOnLocalDate(dailyPanchang, drikReferenceDate, group.month, group.paksha, group.adhika)
+      ? findDwadashiIntervalOnSunriseDay(dailyPanchang, drikReferenceDate, group.month, group.paksha, group.adhika)
       : null;
     const drikLabels = unique(
       (Array.isArray(drik2026Entry?.labels) ? drik2026Entry.labels : [])
