@@ -37,6 +37,7 @@ jobs:
           node --check special-punya-kaal.mjs
           node --check mahapata-root-solver.mjs
           node --check scripts/generate-special-punya-kaal-review.mjs
+          node --check scripts/compare-mahapat-ephemeris.mjs
           node --experimental-default-type=module --check festival-muhurta.js
           sed -n '/^<script type="module">$/,/^<\/script>$/p' festival-year-review.html | sed '1d;$d' > /tmp/festival-year-review.mjs
           node --check /tmp/festival-year-review.mjs
@@ -54,7 +55,7 @@ jobs:
           name: special-punya-kaal-2026-2030-review-only
           path: data/reviews/special-punya-kaal-2026-2030-candidates.json
           if-no-files-found: error
-      - name: Smoke-test real Astronomy Engine local horizon events
+      - name: Run Mahapata geocentric contact comparison (research-only)\n        run: node --experimental-default-type=module scripts/compare-mahapat-ephemeris.mjs > data/reviews/mahapata-geocentric-comparison-2026-2030.json\n      - name: Upload Mahapata comparison data\n        uses: actions/upload-artifact@v4\n        with:\n          name: mahapata-geocentric-comparison-2026-2030\n          path: data/reviews/mahapata-geocentric-comparison-2026-2030.json\n          if-no-files-found: error\n      - name: Smoke-test real Astronomy Engine local horizon events
         run: node tests/local-horizon-engine-smoke.mjs
       - name: Run planetary Asta/Udaya direction regression tests
         run: node --experimental-default-type=module --test tests/planetary-asta-udaya-direction.test.js
