@@ -1387,7 +1387,7 @@
       var observances=Array.isArray(record.observances)?record.observances:[];
       function normalizeName(value){
         return String(value||"").normalize("NFC")
-          .replace(/[\\s\\-–—।|/.,:;()]+/g,"")
+          .replace(/[\s\-–—।|/.,:;()]+/g,"")
           .toLocaleLowerCase("hi");
       }
       function isMatchingDwadashiEvent(item){
@@ -1414,7 +1414,7 @@
           : "";
         if(existing){
           if(details&&!String(existing.description||"").includes(details)){
-            existing.description=[existing.description,details].filter(Boolean).join("\\n\\n");
+            existing.description=[existing.description,details].filter(Boolean).join("\n\n");
           }
           if(!Array.isArray(existing.dwadashiAliases))existing.dwadashiAliases=[];
           if(!existing.dwadashiAliases.includes(name))existing.dwadashiAliases.push(name);
