@@ -8,6 +8,7 @@ on:
       - "mahapata-root-solver.mjs"
       - "tests/special-punya-kaal.test.mjs"
       - "tests/mahapata-root-solver.test.mjs"
+      - "tests/mahapata-reference-check.test.mjs"
       - "scripts/generate-special-punya-kaal-review.mjs"
       - "scripts/compare-mahapat-ephemeris.mjs"
       - ".github/workflows/special-punya-kaal-tests.yml"
@@ -40,7 +41,7 @@ jobs:
         run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs
       - name: Run Mahapata geocentric contact comparison (research-only)
         run: node --experimental-default-type=module scripts/compare-mahapat-ephemeris.mjs > data/reviews/mahapata-geocentric-comparison-2026-2030.json
-      - name: Upload Mahapata comparison data
+      - name: Check Mahapata windows against pinned independent references\n        run: node --experimental-default-type=module --test tests/mahapata-reference-check.test.mjs\n      - name: Upload Mahapata comparison data
         uses: actions/upload-artifact@v4
         with:
           name: mahapata-geocentric-comparison-2026-2030
