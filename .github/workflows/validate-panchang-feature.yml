@@ -34,6 +34,8 @@ jobs:
           node --check /tmp/monthly-vrat-parv.mjs
           node --experimental-default-type=module --check festival-widget.js
           node --check dwadashi-calendar.mjs
+          node --check special-punya-kaal.mjs
+          node --check scripts/generate-special-punya-kaal-review.mjs
           node --experimental-default-type=module --check festival-muhurta.js
           sed -n '/^<script type="module">$/,/^<\/script>$/p' festival-year-review.html | sed '1d;$d' > /tmp/festival-year-review.mjs
           node --check /tmp/festival-year-review.mjs
@@ -41,8 +43,16 @@ jobs:
           node --check /tmp/asta-udaya-calculator.mjs
       - name: Install pinned astronomy engines for regression tests
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0 astronomy-engine@2.1.19
-      - name: Run Agnivasa/Shivavasa regression tests
+      - name: Run Agnivasa/Shivavasa and special punya-kaal regression tests
         run: node --experimental-default-type=module --test tests/*.test.mjs
+      - name: Generate 2026–2030 Pithoragarh special punya-kaal review candidates
+        run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs
+      - name: Upload special punya-kaal review-only data
+        uses: actions/upload-artifact@v4
+        with:
+          name: special-punya-kaal-2026-2030-review-only
+          path: data/reviews/special-punya-kaal-2026-2030-candidates.json
+          if-no-files-found: error
       - name: Smoke-test real Astronomy Engine local horizon events
         run: node tests/local-horizon-engine-smoke.mjs
       - name: Run planetary Asta/Udaya direction regression tests
