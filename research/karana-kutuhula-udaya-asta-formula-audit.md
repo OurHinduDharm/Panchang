@@ -3,9 +3,9 @@
 Status: research specification; **not a production calculation engine**.
 Updated: 2026-11-15 (source scan located; OCR transcription pending)
 
-## Objective
+## Objective and strict scope
 
-Extract the graha-udaya/asta and Agastya-udaya/asta procedures attributed to *Karaṇakutūhala* from a verifiable edition, translate each rule into explicit arithmetic, and test it independently against the project's existing references.
+Calculate only three bodies: **Guru (Jupiter), Shukra (Venus), and Agastya (Canopus)**. For Guru and Shukra, derive local Udaya/Asta dates and times and benchmark the two interval boundaries against the project's captured Drik references. For Agastya, keep the traditional Arghya rule distinct from astronomical Canopus rising/setting, and calculate only the event type actually supported by the verified source. Do not expand this work to other planets or the Sun/Moon.
 
 This document deliberately does not invent unverified Sanskrit readings, constants, or intermediate rules. A full 1991 Krishnadas Academy scan has now been located; image-verified transcription and worked-example reproduction remain required.
 
@@ -118,11 +118,9 @@ Treat the dedicated Agastya rule as its own algorithm. Establish from the text w
 - The Agastya Pithoragarh annual rows are direct single-provider captures, not independent consensus.
 - The Rashtriya Panchang heliacal table is a distinct official event list for Central Station; its rows are not interchangeable with Drik Tara Asta windows.
 
-## Immediate blocker and next required source artifact
+## Remaining verification work
 
-The Sarvakosh catalogue URL alone does not expose the page images/text to this workflow. Therefore the exact Karaṇakutūhala verse readings and numerical steps have **not** yet been independently verified here. Do not label the classical formulas complete and do not publish timestamps from a guessed transcription.
-
-Next source artifact needed: clear page images or a downloadable scan of the relevant Karaṇakutūhala graha-udaya/asta section and the dedicated Agastya verse, including commentary and worked examples. Once present, populate the extraction table, derive equations, add executable tests, and only then implement the classical calculation module.
+A complete scan is now located (link and edition details below). The remaining work is image-verified transcription of the relevant Guru/Shukra verses and the dedicated Agastya verse/commentary, resolution of units and sign conventions, and reproduction of the printed worked examples. Do not publish timestamps from OCR-only or guessed readings.
 
 
 ## Source scan located — formula extraction can now proceed
@@ -161,4 +159,4 @@ The commentary's kalāṃśa list appears to differ from the TKS/Sūrya-Siddhān
 
 ### Corrected source blocker
 
-The blocker is no longer absence of a scan. The scan is available at the URL above. The remaining blocker is careful image-verified transcription and interpretation of the relevant verse/commentary, including unit/sign conventions and worked examples. Until those checks pass, all Karaṇakutūhala calculations remain research-only.
+The scan is available at the URL above. The remaining blocker is image-verified transcription and interpretation of the three-body procedures, including unit/sign conventions and worked examples. Until those checks pass, Karaṇakutūhala calculations remain research-only.
