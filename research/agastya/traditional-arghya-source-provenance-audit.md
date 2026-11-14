@@ -55,3 +55,13 @@ tests/agastya-traditional-source-provenance.test.mjs यह सुनिश्�
 - audit से public dataset अनजाने में न बदले।
 
 यह report research-only है.
+
+## अतिरिक्त स्थान-तुलना — New Delhi 2028–2030 (14 नवम्बर 2026)
+
+Drik Panchang के New Delhi Hindu calendar में Agastya Arghya तीनों वर्षों में 4 सितम्बर दिया गया है:
+
+- 2028: 4 सितम्बर — https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1261481&year=2028
+- 2029: 4 सितम्बर — https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1261481&year=2029
+- 2030: 4 सितम्बर — https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?geoname-id=1261481&year=2030
+
+हमारे Pithoragarh Drik named-city captures में इन्हीं वर्षों की अर्घ्य तिथि 7 सितम्बर है। यह तीन दिन का same-provider/different-city अंतर है। इसे स्थान-निर्भरता के context evidence के रूप में सुरक्षित किया गया है, स्वतंत्र पुष्टि या Pithoragarh correction के रूप में नहीं। कोई सार्वजनिक तारीख नहीं बदली गई।
