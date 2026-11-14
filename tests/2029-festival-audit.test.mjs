@@ -210,3 +210,17 @@ test("2029 Champa Shashthi follows local Shashthi sunrise and stays distinct fro
   assert.equal(has("2029-12-10", /^चम्पा षष्ठी$/), undefined);
   assert.ok(has("2029-12-10", /^मासिक स्कन्द षष्ठी \/ सुब्रह्मण्य षष्ठी$/));
 });
+
+
+test("2029 Dhanteras and Chhath muhurtas belong only to their own observance cards", () => {
+  const dhanteras = has("2029-11-04", /^धनतेरस$/);
+  const pradosh = has("2029-11-04", /^रवि प्रदोष व्रत$/);
+  const chhath = has("2029-11-11", /^छठ पूजा$/);
+  const skanda = has("2029-11-11", /^मासिक स्कन्द षष्ठी$/);
+  assert.equal(dhanteras?.muhurtaRule, "dhanteras-muhurta");
+  assert.deepEqual(pradosh?.muhurtaRules, ["pradosh-kala"]);
+  assert.equal(pradosh?.muhurtaRule, undefined);
+  assert.equal(chhath?.muhurtaRule, "chhath-arghya");
+  assert.equal(skanda?.muhurtaRule, undefined);
+  assert.equal(skanda?.muhurtaRules, undefined);
+});
