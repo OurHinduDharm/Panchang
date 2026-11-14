@@ -20,12 +20,19 @@ test("Agastya source audit covers exactly the existing public years without chan
   }
 });
 
-test("legacy 2024-2027 records are never counted as source-verified or consensus eligible", () => {
-  const legacy = audit.records.filter(row => row.year >= 2024 && row.year <= 2027);
-  assert.equal(legacy.length, 4);
-  for (const row of legacy) {
-    assert.equal(row.evidenceStatus, "legacy-unverified");
-    assert.equal(row.sourceCapture, null);
+test("recovered 2024-2027 Pithoragarh pages preserve raw evidence but remain single-source only", () => {
+  const recovered = audit.records.filter(row => row.year >= 2024 && row.year <= 2027);
+  assert.equal(recovered.length, 4);
+  for (const row of recovered) {
+    assert.equal(row.evidenceStatus, "captured-single-source");
+    assert.equal(row.sourceCapture.provider, "Drik Panchang");
+    assert.equal(row.sourceCapture.captureRunId, 43555382341);
+    assert.equal(row.sourceCapture.cityConfirmed, true);
+    assert.equal(row.sourceCapture.eventConfirmed, true);
+    assert.equal(row.sourceCapture.requestedYearConfirmed, true);
+    assert.equal(row.sourceCapture.locationMatch, "city-label-only");
+    assert.equal(row.sourceCapture.coordinateExact, false);
+    assert.match(row.sourceCapture.rawTaraRise, /28:/);
     assert.equal(row.consensusEligible, false);
   }
 });
