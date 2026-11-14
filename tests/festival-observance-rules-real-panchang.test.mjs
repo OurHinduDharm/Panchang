@@ -45,6 +45,28 @@ function intervals(...days) {
     });
 }
 
+test("real Pithoragarh Panchang resolves 2027 Parashurama Jayanti Pradosha pair", () => {
+  const dates = ["2027-05-08", "2027-05-09"];
+  const contexts = dates.map(date => {
+    const previous = panchang(previousIsoDate(date));
+    const current = panchang(date);
+    const next = panchang(nextIsoDate(date));
+    return {
+      date,
+      masa: masa(current),
+      paksha: "शुक्ल पक्ष",
+      sunset: current.sunset,
+      nextSunrise: next.sunrise,
+      tithis: intervals(previous, current, next)
+    };
+  });
+  const result = resolveObservanceCandidates("parashurama-jayanti-pradosha-review", contexts);
+  assert.equal(result.status, "date-selected-needs-source-approval");
+  assert.equal(result.selectedDate, "2027-05-08");
+  assert.equal(result.selectionBasis, "dharmasindhu-not-both-days-pradosha-vyapti-earlier-day");
+  assert.equal(result.autoApproved, false);
+});
+
 test("real Pithoragarh Panchang resolves 2027 Vaishakha Shukla Narasimha Jayanti Pradosha", () => {
   const dates = ["2027-05-17", "2027-05-18"];
   const contexts = dates.map(date => {
