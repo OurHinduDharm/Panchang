@@ -57,3 +57,12 @@ These are model-dependent visibility candidates, not Drik Tara Udaya/Tara Asta e
 6. No production data or Panchang UI is changed by this report.
 
 **Status:** research-only validation; clock-time calculation passes the current city-label comparison within 1.87 minutes; annual date selection remains a separate research task.
+
+
+## Horizon directions
+
+The geometric crossing azimuths are stable across the seven source years:
+- Tara Udaya / rising: approximately 156.18° azimuth, south-southeast (SSE), on the eastern horizon.
+- Tara Asta / setting: approximately 203.82° azimuth, south-southwest (SSW), on the western horizon.
+
+Across 2024–2030, rise azimuth ranges from 156.177° to 156.189°; set azimuth ranges from 203.811° to 203.823°. These are calculated for the project Pithoragarh observer profile, not published Drik coordinates.
