@@ -194,6 +194,7 @@
     },
     {
       "id": "vaishakha-shukla",
+      "occurrence": 1,
       "month": "वैशाख",
       "paksha": "शुक्ल",
       "adhika": false,
@@ -214,11 +215,34 @@
         "2030-05-14"
       ],
       "referenceDate": null,
-      "drikLabels": [],
+      "sourceReferenceObservation": null,
+      "drikLabels": [
+        "त्रिस्पर्शा महाद्वादशी",
+        "परशुराम द्वादशी"
+      ],
       "drik2026Labels": [],
-      "drikSpecialObservances": [],
+      "drik2026SourceUrl": null,
+      "drikSpecialObservances": [
+        {
+          "year": 2030,
+          "month": "वैशाख",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "labels": [
+            "त्रिस्पर्शा महाद्वादशी",
+            "परशुराम द्वादशी"
+          ],
+          "observanceDate": "2030-05-14",
+          "dateRole": "special-observance-date",
+          "sourcePage": "dwadashi-dates",
+          "note": "Drik Panchang की 2030 द्वादशी सूची में 14 मई को त्रिस्पर्शा महाद्वादशी तथा परशुराम द्वादशी का संदर्भ है। स्थानीय स्मार्त त्रिस्पर्शा selector से अलग cross-check किया जाए; यह तारीख़ केवल source observation है।",
+          "source": "Drik Panchang",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030&geoname-id=1259503",
+          "status": "source-cross-reference-needs-local-rule-review"
+        }
+      ],
       "selectedDate": "2030-05-14",
-      "dateSelection": "single-observation-candidate-review-required",
+      "dateSelection": "trisparsha-mahadwadashi-candidate-review-required",
       "displayNames": [
         "माधव-द्वादशी व्रत",
         "परशुराम-द्वादशी"
@@ -238,7 +262,37 @@
           "deity": "भगवान परशुराम",
           "shortDetail": "परशु-धारी परशुराम की पूजा और परशुराम-प्रतिमा का विधान है।",
           "sourceProfile": "varahaPurana",
-          "source": "वराह पुराण, अध्याय 39–50 (मासिक द्वादशी-व्रत क्रम; अध्याय 39 में मार्गशीर्ष का सामान्य द्वादशी-व्रत)"
+          "source": "वराह पुराण, अध्याय 44 — जामदग्न्य-द्वादशी व्रत",
+          "sourceUrl": "https://vedicpeople.com/puranas/maha-puranas/varaha-purana/read/as-is-translation/chapter-044"
+        }
+      ],
+      "specialTithiYogas": [
+        {
+          "id": "trisparsha",
+          "name": "त्रिस्पर्शा महाद्वादशी",
+          "tradition": "smarta",
+          "month": "वैशाख",
+          "paksha": "शुक्ल",
+          "adhika": false,
+          "observanceDate": "2030-05-14",
+          "followingSunriseDate": "2030-05-15",
+          "firstSunriseTime": "2030-05-13T23:47:47.689Z",
+          "dwadashiStartTime": "2030-05-14T00:52:43.949Z",
+          "dwadashiEndTime": "2030-05-14T22:02:44.790Z",
+          "followingSunriseTime": "2030-05-14T23:47:10.428Z",
+          "tithiSequence": [
+            "एकादशी",
+            "द्वादशी",
+            "त्रयोदशी"
+          ],
+          "source": "धर्मसिंधु एवं निर्णयसिंधु",
+          "sourceUrl": "https://www.drikpanchang.com/dwadashi/mahadwadashi/trisparsha-mahadwadashi.html?lang=hi",
+          "scriptureSource": {
+            "source": "स्कन्द पुराण, प्रभासखण्ड, अध्याय 483, श्लोक 16 एवं 19",
+            "sourceUrl": "https://eternalraga.com/en/scriptures/puranas/skanda-purana/7/483",
+            "note": "श्लोक 16 वैशाख शुक्ल पक्ष की त्रिस्पर्शा द्वादशी का उल्लेख करता है; श्लोक 19 आरम्भ में अल्प एकादशी, मध्य में पूर्ण द्वादशी और अन्त में त्रयोदशी का लक्षण देता है।"
+          },
+          "status": "candidate-needs-manual-review"
         }
       ],
       "conditionalObservances": [],

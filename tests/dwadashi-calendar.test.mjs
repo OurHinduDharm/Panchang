@@ -605,10 +605,18 @@ test("2030 Vaishakha Shukla Dwadashi keeps Madhava and Jamadagnyadvadashi as dis
   assert.deepEqual(record.candidateDates, ["2030-05-14"]);
   assert.deepEqual(record.sunriseDates, []);
   assert.deepEqual(record.noonDates, ["2030-05-14"]);
-  assert.equal(record.dateSelection, "single-observation-candidate-review-required");
+  assert.equal(record.dateSelection, "trisparsha-mahadwadashi-candidate-review-required");
   assert.equal(record.selectedDate, "2030-05-14");
   assert.equal(record.status, "needs-review");
   assert.deepEqual(record.observances.map(item => item.id), ["madhava", "parashurama"]);
+  assert.deepEqual(record.drikLabels, ["त्रिस्पर्शा महाद्वादशी", "परशुराम द्वादशी"]);
+  assert.equal(record.specialTithiYogas.length, 1);
+  assert.equal(record.specialTithiYogas[0].id, "trisparsha");
+  assert.equal(record.specialTithiYogas[0].tradition, "smarta");
+  assert.equal(record.specialTithiYogas[0].observanceDate, "2030-05-14");
+  assert.equal(record.specialTithiYogas[0].followingSunriseDate, "2030-05-15");
+  assert.deepEqual(record.specialTithiYogas[0].tithiSequence, ["एकादशी", "द्वादशी", "त्रयोदशी"]);
+  assert.equal(record.specialTithiYogas[0].status, "candidate-needs-manual-review");
 });
 
 test("Smarta Trisparsha Mahadwadashi is detected only across consecutive local sunrises", async () => {
