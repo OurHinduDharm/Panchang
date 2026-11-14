@@ -154,6 +154,75 @@ function findSmartaTrisparshaObservations(dailyPanchang, rule) {
   return found;
 }
 
+function findPakshavardhiniObservations(dailyPanchang) {
+  const ordered = dailyPanchang.filter(day => day && day.date && day.sunrise && day.sunriseTithi)
+    .slice().sort((a,b) => dateSort(a.date,b.date));
+  const found = [];
+  for (let index=0; index<ordered.length-1; index+=1) {
+    const first = ordered[index];
+    const second = ordered[index+1];
+    if (nextCalendarDate(first.date) !== second.date) continue;
+    const boundaryTithi = normalizeTithi(first.sunriseTithi.tithi);
+    if (!["पूर्णिमा","अमावस्या"].includes(boundaryTithi) ||
+        normalizeTithi(second.sunriseTithi.tithi) !== boundaryTithi) continue;
+    const masa = normalizeMonth(first.sunriseTithi.masa || first.masa);
+    const nextMasa = normalizeMonth(second.sunriseTithi.masa || second.masa);
+    const paksha = normalizePaksha(first.sunriseTithi.paksha || first.paksha);
+    const nextPaksha = normalizePaksha(second.sunriseTithi.paksha || second.paksha);
+    if (!masa.month || masa.month !== nextMasa.month || masa.adhika !== nextMasa.adhika ||
+        !paksha || paksha !== nextPaksha ||
+        (boundaryTithi === "पूर्णिमा" && paksha !== "शुक्ल") ||
+        (boundaryTithi === "अमावस्या" && paksha !== "कृष्ण")) continue;
+
+    const firstSunrise = Date.parse(first.sunrise);
+    const secondSunrise = Date.parse(second.sunrise);
+    const firstStart = Date.parse(first.sunriseTithi.tithiStartTime || "");
+    const firstEnd = Date.parse(first.sunriseTithi.tithiEndTime || "");
+    const secondStart = Date.parse(second.sunriseTithi.tithiStartTime || "");
+    const secondEnd = Date.parse(second.sunriseTithi.tithiEndTime || "");
+    if (![firstSunrise,secondSunrise,firstStart,firstEnd,secondStart,secondEnd].every(Number.isFinite)) continue;
+    const intervalStart = Math.max(firstStart,secondStart);
+    const intervalEnd = Math.min(firstEnd,secondEnd);
+    if (!(intervalStart <= firstSunrise && intervalEnd > secondSunrise)) continue;
+
+    const firstNumber = Date.parse(first.date+"T00:00:00Z");
+    const precedingDwadashi = ordered.filter(day => {
+      const dateNumber = Date.parse(day.date+"T00:00:00Z");
+      const distance = (firstNumber-dateNumber)/86400000;
+      if (!(distance > 0 && distance <= 3)) return false;
+      const dayMasa = normalizeMonth(day.sunriseTithi?.masa || day.masa);
+      const dayPaksha = normalizePaksha(day.sunriseTithi?.paksha || day.paksha);
+      return dayMasa.month === masa.month && dayMasa.adhika === masa.adhika &&
+        dayPaksha === paksha &&
+        (normalizeTithi(day.noonTithi ?? day.tithi) === "द्वादशी" ||
+         normalizeTithi(day.sunriseTithi?.tithi) === "द्वादशी");
+    }).sort((a,b)=>dateSort(a.date,b.date))[0];
+    if (!precedingDwadashi) continue;
+
+    const id = boundaryTithi === "पूर्णिमा" ? "pakshavardhini-shukla" : "pakshavardhini-krishna";
+    found.push({
+      id:"mahadwadashi-smarta-pakshavardhini",
+      name:"पक्षवर्द्धिनी महाद्वादशी",
+      sourceProfile:"smartaDharmaSindhu",
+      source:"नारद पुराण एवं धर्मसिंधु; Drik Panchang cross-check",
+      sourceUrl:"https://www.drikpanchang.com/dwadashi/mahadwadashi/pakshavarddhini-mahadwadashi.html",
+      month:masa.month,
+      paksha,
+      adhika:masa.adhika,
+      fortnightTithi:boundaryTithi,
+      firstBoundarySunriseDate:first.date,
+      secondBoundarySunriseDate:second.date,
+      firstSunriseTime:new Date(firstSunrise).toISOString(),
+      secondSunriseTime:new Date(secondSunrise).toISOString(),
+      boundaryTithiStartTime:new Date(intervalStart).toISOString(),
+      boundaryTithiEndTime:new Date(intervalEnd).toISOString(),
+      observanceDate:precedingDwadashi.date,
+      status:"candidate-needs-manual-review"
+    });
+  }
+  return found;
+}
+
 function findConsecutiveSunriseMahadwadashiObservations(dailyPanchang) {
   const ordered = dailyPanchang.filter(day => day && day.date && day.sunrise && day.sunriseTithi)
     .slice().sort((a,b) => dateSort(a.date,b.date));
@@ -341,6 +410,7 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
   const groupBuckets = new Map();
   const trisparshaCandidates = findSmartaTrisparshaObservations(dailyPanchang, rules?.mahaDwadashi?.trisparshaSmarta);
   const consecutiveSunriseMahadwadashiCandidates = findConsecutiveSunriseMahadwadashiObservations(dailyPanchang);
+  const pakshavardhiniCandidates = findPakshavardhiniObservations(dailyPanchang);
   const nakshatraMahadwadashiCandidates = findDwadashiNakshatraObservations(
     dailyPanchang, rules?.mahaDwadashi?.sourceVariants
   );
@@ -536,6 +606,9 @@ export function buildDwadashiCalendar(dailyPanchang, rules) {
       item.month === group.month && item.paksha === group.paksha &&
       !!item.adhika === !!group.adhika &&
       candidateDates.some(date => Math.abs(Date.parse(date+"T00:00:00Z")-Date.parse(item.observanceDate+"T00:00:00Z")) <= 86400000)
+    )).concat(pakshavardhiniCandidates.filter(item =>
+      item.month === group.month && item.paksha === group.paksha &&
+      !!item.adhika === !!group.adhika && candidateDates.includes(item.observanceDate)
     )).concat(nakshatraMahadwadashiCandidates.filter(item =>
       item.month === group.month && item.paksha === group.paksha &&
       !!item.adhika === !!group.adhika && candidateDates.includes(item.observanceDate)
