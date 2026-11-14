@@ -1030,7 +1030,81 @@
           }
         ],
         "decisionPolicy": "श्रवण योग द्वादशी के लिए पिथौरागढ़ में 8 सितम्बर 2030 का पूर्वदिन-निर्णय धर्मसिंधु के विष्णुशृंखला अपवाद से समर्थित candidate है; यह स्रोत/प्रकाशन अनुमोदन के अधीन है। वामन, दामोदर, नीराजन और कल्कि observances की तारीख़ें/कार्ड अलग समीक्षा के बिना न बदलें।"
-      }
+      },
+      "observanceDateReviews": [
+        {
+          "observanceId": "vamana",
+          "name": "वामन-द्वादशी व्रत",
+          "selectedDate": "2030-09-08",
+          "decisionStatus": "date-selected-for-purana-dwadashi-vrata",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 23b–24",
+          "sourceBasis": "भाद्रपद शुक्ल द्वादशी पर भगवान वामन की पूजा, बारह ब्राह्मणों को पायस-भोजन और स्वर्ण-दक्षिणा का विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-09-08T08:21:59.472+05:30",
+            "end": "2030-09-09T06:32:49.720+05:30"
+          },
+          "localDayDecision": "8 सितंबर को द्वादशी सूर्योदय के बाद 08:21:59 IST से शुरू होकर मध्याह्न, दिन और रात्रि में रहती है। 9 सितंबर के सूर्योदय पर केवल लगभग 41 मिनट 53 सेकंड शेष रहते हैं; इसलिए द्वादशी-दिवस का वामन-व्रत 8 सितंबर के दिन-व्याप्ति पर रखा गया।",
+          "existingPublicCard": "वामन जयंती",
+          "publicCardDisposition": "same-Vamana-observance-day; no-duplicate-Vamana-Dwadashi-card",
+          "jayantiRuleConflict": {
+            "source": "धर्मसिंधु सार — भाद्रपद मास, वामन-जयंती निर्णय",
+            "sourceUrl": "https://www.kamakoti.org/kamakoti/dharmasindhu/bookview.php?chapnum=7",
+            "criterion": "द्वादशी और श्रवण नक्षत्र का मध्याह्न में संयोग",
+            "localShravanaStarts": "2030-09-08T19:59:00.797+05:30",
+            "result": "मध्याह्न में श्रवण नक्षत्र उपस्थित नहीं; वामन-द्वादशी व्रत की तिथि 8 सितंबर चुनी गई है, पर जयंती-विशिष्ट नक्षत्र-मत का स्रोत-अनुमोदन अलग लंबित है।",
+            "drikCrossCheck": "Drik Panchang 2030 Vamana Jayanti page lists 8 September but shows Shravana beginning at 19:58, after madhyahna.",
+            "drikUrl": "https://www.drikpanchang.com/dashavatara/vamana/vamana-jayanti-date-time.html?year=2030"
+          },
+          "autoApproved": false
+        },
+        {
+          "observanceId": "damodara",
+          "name": "दामोदर-द्वादशी व्रत",
+          "selectedDate": "2030-09-08",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 35b–38",
+          "sourceBasis": "भाद्रपद शुक्ल द्वादशी पर दामोदर-पूजन, बारह ब्राह्मणों को भोजन तथा जल-कलश, सुपारी, मिष्ठान्न और स्वर्ण-दक्षिणा का विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-09-08T08:21:59.472+05:30",
+            "end": "2030-09-09T06:32:49.720+05:30"
+          },
+          "localDayDecision": "द्वादशी 8 सितंबर को मध्याह्न और दिन के मुख्य भाग में उपस्थित है। 9 सितंबर को सूर्योदय के बाद 48 मिनट से कम समय तक ही रहती है; अतः दामोदर-द्वादशी का पूजन-दिन 8 सितंबर रखा गया।",
+          "autoApproved": false
+        },
+        {
+          "observanceId": "niranjana",
+          "name": "नीराजन-व्रत",
+          "selectedDate": "2030-09-08",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "नारद पुराण, पूर्वार्ध, अध्याय 121, श्लोक 39–43",
+          "sourceBasis": "उसी भाद्रपद शुक्ल द्वादशी के दिन रात्रि-संध्या में भगवान हरि, लक्ष्मी और अन्य देवशक्तियों का नीराजन; रजत-दीप, मंत्र और हवन का विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-09-08T08:21:59.472+05:30",
+            "end": "2030-09-09T06:32:49.720+05:30"
+          },
+          "ritualTime": "8 सितंबर रात्रि-संध्या",
+          "localDayDecision": "8 सितंबर की रात्रि-संध्या में द्वादशी तिथि बनी रहती है; अगले दिन 9 सितंबर को 06:32:49 IST पर तिथि समाप्त हो जाती है, अतः नीराजन-व्रत 8 सितंबर की रात्रि में ही होगा।",
+          "autoApproved": false
+        },
+        {
+          "observanceId": "kalki",
+          "name": "कल्कि-द्वादशी व्रत",
+          "selectedDate": "2030-09-08",
+          "decisionStatus": "date-confirmed-for-this-observance",
+          "source": "वराह पुराण, अध्याय 48, श्लोक 1–5 — कल्कि-द्वादशी व्रत",
+          "sourceBasis": "भाद्रपद शुक्ल द्वादशी पर संकल्पपूर्वक भगवान कल्कि के अंगों का पूजन, सुवर्ण-प्रतिमा की स्थापना और अगले प्रातः वेदज्ञ ब्राह्मण को दान का विधान।",
+          "localTithiIntervalIST": {
+            "start": "2030-09-08T08:21:59.472+05:30",
+            "end": "2030-09-09T06:32:49.720+05:30"
+          },
+          "localDayDecision": "8 सितंबर को द्वादशी मध्याह्न में उपस्थित है। 9 सितंबर सूर्योदय के बाद द्वादशी केवल 41 मिनट 53 सेकंड शेष रहती है, इसलिए द्वादशी-दिन का कल्कि-व्रत 8 सितंबर को रखा गया; प्रतिमा-दान 9 सितंबर प्रातः।",
+          "followingMorningActionDate": "2030-09-09",
+          "sourceCrossCheck": "Drik Panchang की 2030 सूची 8 सितंबर को कल्कि द्वादशी देती है और तिथि-अन्त 9 सितंबर 06:32 IST दिखाती है।",
+          "sourceCrossCheckUrl": "https://www.drikpanchang.com/dwadashi/dwadashi-dates.html?year=2030",
+          "autoApproved": false
+        }
+      ],
+      "sourceDateDecisionNote": "वामन, दामोदर, नीराजन और कल्कि के भाद्रपद शुक्ल द्वादशी-विधान के लिए 8 सितंबर 2030 चुना गया है: उस दिन द्वादशी मध्याह्न और रात्रि में विद्यमान है; 9 सितंबर सूर्योदय पर केवल 41 मिनट 53 सेकंड शेष हैं। विष्णुशृंखला/श्रवण-योग के विशेष व्रत-निर्णय को इन पुराणोक्त व्रतों का एकमात्र आधार नहीं बनाया गया। वामन-जयंती का मध्याह्न-श्रवण नक्षत्र मत अलग स्रोत-समीक्षा के अधीन है।"
     },
     {
       "id": "ashwin-krishna",
