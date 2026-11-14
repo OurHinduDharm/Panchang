@@ -1,0 +1,28 @@
+name: Special punya-kaal rule tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "special-punya-kaal.mjs"
+      - "tests/special-punya-kaal.test.mjs"
+      - ".github/workflows/special-punya-kaal-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interval-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check
+        run: node --check special-punya-kaal.mjs
+      - name: Run special yoga rule tests
+        run: node --test tests/special-punya-kaal.test.mjs
