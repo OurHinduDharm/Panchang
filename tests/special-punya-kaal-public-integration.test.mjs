@@ -9,7 +9,7 @@ test("monthly special punya-kaal section stays hidden unless approved monthly da
   assert.match(monthly, /id="special-punya-kaal"[^>]*hidden/);
   assert.match(monthly, /data\/special-punya-kaal\//);
   assert.match(monthly, /data\.status!=="approved"/);
-  assert.match(monthly, /item\.status==="approved"/);
+  assert.match(monthly, /item\.status!=="approved"/);
   assert.match(monthly, /sameObserver\(data\.observer,location\)/);
   assert.match(monthly, /if\(!approved\.length\)return/);
 });
