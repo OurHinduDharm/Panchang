@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - "special-punya-kaal.mjs"
+      - "mahapata-root-solver.mjs"
       - "tests/special-punya-kaal.test.mjs"
       - "scripts/generate-special-punya-kaal-review.mjs"
       - ".github/workflows/special-punya-kaal-tests.yml"
@@ -26,7 +27,7 @@ jobs:
       - name: Install pinned Panchang engine
         run: npm install --no-save @ishubhamx/panchangam-js@3.0.0
       - name: Syntax check
-        run: node --check special-punya-kaal.mjs && node --check scripts/generate-special-punya-kaal-review.mjs
+        run: node --check special-punya-kaal.mjs && node --check mahapata-root-solver.mjs && node --check scripts/generate-special-punya-kaal-review.mjs
       - name: Run special yoga rule tests
         run: node --experimental-default-type=module --test tests/special-punya-kaal.test.mjs
       - name: Generate 2026–2030 Pithoragarh research candidates
