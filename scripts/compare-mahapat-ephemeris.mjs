@@ -20,7 +20,6 @@ const AU_KM = 149597870.7;
 const SUN_RADIUS_AU = 695700 / AU_KM;
 const MOON_RADIUS_AU = 1737.4 / AU_KM;
 const HOUR_MS = 3600000;
-const DAY_MS = 86400000;
 const YEARS = [2026, 2027, 2028, 2029, 2030];
 const cache = new Map();
 
@@ -78,37 +77,37 @@ function classifyAt(timeMs) {
 }
 
 const events = [];
-for (const year of YEARS) {
-  const start = Date.UTC(year, 0, 1);
-  const end = Date.UTC(year + 1, 0, 1);
-  const roots = scanBracketedRoots(
-    time => positions(time).contactClearance,
-    start,
-    end,
-    HOUR_MS,
-    { timeTolerance: 250, valueTolerance: 1e-11, maxIterations: 80 }
-  );
-  for (let i = 0; i + 1 < roots.length; i++) {
-    const a = roots[i];
-    const b = roots[i + 1];
-    if (!(b > a)) continue;
-    const mid = (a + b) / 2;
-    if (positions(mid).contactClearance >= 0) continue;
-    const classification = classifyAt(mid);
-    events.push({
-      year,
-      type: classification.type,
-      startTime: new Date(a).toISOString(),
-      endTime: new Date(b).toISOString(),
-      midpoint: new Date(mid).toISOString(),
-      longitudeSum: classification.longitudeSum,
-      midpointDeclinationDifferenceDegrees: Number(classification.declinationDifference.toFixed(8)),
-      midpointContactClearanceDegrees: Number(classification.contactClearance.toFixed(8)),
-      status: "research-only-not-approved",
-      model: "geocentric-apparent-declination-disk-band-overlap",
-      note: "Compare against Karana-Kutuhala shara-khanda method and Drik timings before approval."
-    });
-  }
+const scanStart = Date.UTC(2025, 11, 30);
+const scanEnd = Date.UTC(2031, 0, 2);
+const roots = scanBracketedRoots(
+  time => positions(time).contactClearance,
+  scanStart,
+  scanEnd,
+  HOUR_MS,
+  { timeTolerance: 250, valueTolerance: 1e-11, maxIterations: 80 }
+);
+for (let i = 0; i + 1 < roots.length; i++) {
+  const a = roots[i];
+  const b = roots[i + 1];
+  if (!(b > a)) continue;
+  const mid = (a + b) / 2;
+  if (positions(mid).contactClearance >= 0) continue;
+  const year = new Date(mid).getUTCFullYear();
+  if (!YEARS.includes(year)) continue;
+  const classification = classifyAt(mid);
+  events.push({
+    year,
+    type: classification.type,
+    startTime: new Date(a).toISOString(),
+    endTime: new Date(b).toISOString(),
+    midpoint: new Date(mid).toISOString(),
+    longitudeSum: classification.longitudeSum,
+    midpointDeclinationDifferenceDegrees: Number(classification.declinationDifference.toFixed(8)),
+    midpointContactClearanceDegrees: Number(classification.contactClearance.toFixed(8)),
+    status: "research-only-not-approved",
+    model: "geocentric-apparent-declination-disk-band-overlap",
+    note: "Compare against Karana-Kutuhala shara-khanda method and Drik timings before approval."
+  });
 }
 
 console.log(JSON.stringify({
