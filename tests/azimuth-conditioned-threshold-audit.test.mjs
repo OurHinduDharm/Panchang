@@ -45,9 +45,40 @@ test("leave-one-year-out removes the entire target year and keeps holdout diagno
         sourceGeometry: { planetAzimuthDeg: 105, sunAzimuthDeg: 100, sunDepressionDeg: 5.2 } }
     ]
   });
-  const group = report.groups.find(item => item.group === "Venus:astaEnd:set");
+  const group = report.groups.find(item => item.group === "Pithoragarh:Venus:astaEnd:set");
   assert.equal(group.trainingSampleCount, 4);
   assert.equal(group.leaveOneYearOut.evaluatedSamples, 4);
   assert.equal(group.holdout[0].status, "diagnostic-only-no-event-time-prediction");
   assert.equal(report.publicationEligible, false);
+});
+
+test("multi-city observations keep city calibration separate and exclude branch mismatches", () => {
+  const cityRow = (city, year, branchMatchesConjunction = true) => ({
+    sourceWindowId: city + year, city, sourceYear: year,
+    planet: "Venus", boundary: "astaEnd",
+    branchMatchesConjunction, horizonEventType: "set",
+    sunDepressionDeg: 6 - (year - 2021) * 0.1,
+    planetAzimuthDeg: 100 + year - 2021,
+    sunAzimuthDeg: 99
+  });
+  const report = auditAzimuthConditionedThresholds({
+    cities: [
+      { city: "Pithoragarh", sourceObservations: [
+        cityRow("Pithoragarh", 2021), cityRow("Pithoragarh", 2022),
+        cityRow("Pithoragarh", 2023), cityRow("Pithoragarh", 2024),
+        cityRow("Pithoragarh", 2026)
+      ] },
+      { city: "Mumbai", sourceObservations: [
+        cityRow("Mumbai", 2021), cityRow("Mumbai", 2022),
+        cityRow("Mumbai", 2023), cityRow("Mumbai", 2024),
+        cityRow("Mumbai", 2026), cityRow("Mumbai", 2025, false)
+      ] }
+    ]
+  });
+  assert.ok(report.groups.some(item => item.group.startsWith("Pithoragarh:")));
+  assert.ok(report.groups.some(item => item.group.startsWith("Mumbai:")));
+  assert.ok(report.groups.every(item => item.trainingSampleCount === 4));
+  assert.ok(report.groups.every(item => item.group !== "Pithoragarh:Venus:astaEnd:set" ||
+    item.holdout.length === 1));
+  assert.equal(report.inputShape, "multi-city-source-observations");
 });
