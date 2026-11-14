@@ -147,9 +147,21 @@ The commentary describes the following sequence:
 
 Do not reduce this sequence to a fixed geocentric elongation threshold. The worked example in the commentary must be transcribed and reproduced before the code is considered verified.
 
+### Numeric details recovered from the scan text (OCR; image check still pending)
+
+The searchable text of the 1991 scan gives useful candidate constants. These are transcribed as **OCR-derived candidates**, not yet approved production constants:
+
+| Body | Karaṇakutūhala śīghra-kendra event markers in the commentary | Kalāṃśa, direct | Kalāṃśa, retrograde |
+|---|---|---:|---:|
+| Guru | The separate Guru section gives its own event construction; do not borrow Venus markers. | 11° | 10° |
+| Shukra | Western rise 24°; western set 177°; eastern rise 183°; eastern set 336°. | 9° | 8° |
+| Agastya | Dedicated verse 15; not part of the planetary śīghra-kendra procedure. | — | — |
+
+The Guru/Shukra kalāṃśa values above are from the commentary on verse 9. The retrograde values are one degree lower in the OCR text. The Venus event markers are from the commentary on verse 7. Their exact Sanskrit numerals, interpretation, and whether the markers are initial event-location criteria or final boundaries must be checked against the page images and the worked example before implementation.
+
 ### Agastya verse 15
 
-The commentary gives a separate latitude-dependent solar-longitude rule. Its OCR is dense and includes worked values; do not code from OCR alone. Transcribe the exact Sanskrit verse and Sumatiharṣa commentary from the page image, resolve the meaning and units of the latitude term (including the stated halving/multiplication/division), and reproduce the commentary's worked example. This is a dedicated Agastya rule, not the Guru/Shukra planetary algorithm.
+The searchable scan text gives a separate latitude-dependent solar-longitude rule and a worked example. The OCR appears to combine the observer's latitude with an 18° base quantity for the rising boundary, and to use a corresponding reduced quantity for setting; however, the exact arithmetic and the example's numeral grouping are not sufficiently reliable in OCR to encode. Transcribe the exact Sanskrit verse and Sumatiharṣa commentary from the page image, resolve the latitude term and units, and reproduce the commentary's worked example. This is a dedicated Agastya rule, not the Guru/Shukra planetary algorithm.
 
 ### Important comparison with Sūrya Siddhānta / TKS
 
