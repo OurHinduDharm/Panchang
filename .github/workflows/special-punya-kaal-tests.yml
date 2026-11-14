@@ -7,6 +7,7 @@ on:
       - "special-punya-kaal.mjs"
       - "mahapata-root-solver.mjs"
       - "tests/special-punya-kaal.test.mjs"
+      - "tests/mahodaya.test.mjs"
       - "tests/mahapata-root-solver.test.mjs"
       - "tests/mahapata-reference-check.test.mjs"
       - "scripts/generate-special-punya-kaal-review.mjs"
@@ -36,7 +37,7 @@ jobs:
           node --check scripts/generate-special-punya-kaal-review.mjs
           node --check scripts/compare-mahapat-ephemeris.mjs
       - name: Run special punya-kaal and Mahapata root tests
-        run: node --experimental-default-type=module --test tests/special-punya-kaal.test.mjs tests/mahapata-root-solver.test.mjs
+        run: node --experimental-default-type=module --test tests/special-punya-kaal.test.mjs tests/mahodaya.test.mjs tests/mahapata-root-solver.test.mjs
       - name: Generate 2026–2030 Pithoragarh research candidates
         run: node --experimental-default-type=module scripts/generate-special-punya-kaal-review.mjs
       - name: Run Mahapata geocentric contact comparison (research-only)
