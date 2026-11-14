@@ -105,11 +105,11 @@ export function associateCandidatesWithConjunctions({ candidates, conjunctions, 
  */
 const EXPECTED_BRANCH = Object.freeze({
   Jupiter: Object.freeze({
-    conjunction: Object.freeze({ start: "set", end: "rise", astaStart: "set", astaEnd: "rise" })
+    conjunction: Object.freeze({ start: "set", end: "rise" })
   }),
   Venus: Object.freeze({
-    "inferior-conjunction": Object.freeze({ start: "set", end: "rise", astaStart: "set", astaEnd: "rise" }),
-    "superior-conjunction": Object.freeze({ start: "rise", end: "set", astaStart: "rise", astaEnd: "set" })
+    "inferior-conjunction": Object.freeze({ start: "set", end: "rise" }),
+    "superior-conjunction": Object.freeze({ start: "rise", end: "set" })
   })
 });
 
@@ -118,7 +118,9 @@ export function expectedBoundaryEventType(planet, conjunctionKind, boundary) {
   if (!["astaStart", "astaEnd"].includes(boundary)) {
     throw new RangeError("boundary must be astaStart or astaEnd");
   }
-  return EXPECTED_BRANCH[planet][conjunctionKind]?.[boundary] ?? null;
+  const branch = EXPECTED_BRANCH[planet][conjunctionKind];
+  if (!branch) return null;
+  return boundary === "astaStart" ? branch.start : branch.end;
 }
 
 const PAIR_DAY_MS = 86_400_000;
