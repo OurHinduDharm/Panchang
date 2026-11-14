@@ -95,8 +95,9 @@
 - Mahavaruni and Mahamahavaruni are emitted as separate time intervals. Mahamahavaruni is restricted to the exact overlap with Shubha nitya-yoga; it must not inherit the full Varuni interval.
 - These records are `research-candidate` only. The primitive is not yet an approved annual calendar generator.
 - Automated unit tests cover exact overlap, Saturday condition, Shubha overlap, wrong tithi/nakshatra/month, and missing sunrise. Latest dedicated GitHub Actions run passed.
-- Important unresolved check before annual generation: confirm the textual tradition's Chaitra-Krishna month label against the project's Purnimanta calculation convention. Do not silently remap the month or publish candidates until this is settled.
-- Mahapata and Mahodaya remain unimplemented. No public page or public event dataset has been added.
+- The primary source profile is explicitly Chaitra Krishna Trayodashi in the project's Purnimanta calendar; no automatic Amanta/Purnimanta month remapping is permitted.
+- Mahapata and Mahodaya remain unimplemented. No public page or approved public event dataset has been added.
+- `scripts/generate-special-punya-kaal-review.mjs` now scans every local day from 2026–2030 using the pinned Panchangam engine and writes a research-only JSON candidate file. The existing PR validation workflow runs this generator and uploads its output as an artifact for manual review.
 
 
 ## Source decision update — Varuni family
