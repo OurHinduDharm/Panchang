@@ -901,3 +901,84 @@ test("Pakshavardhini is not inferred from a single sunrise or a boundary ending 
   assert.deepEqual(record.specialTithiYogas,[]);
 });
 
+
+
+test("general Shravana Yoga Dwadashi requires a real 48-minute overlap and remains review-only", () => {
+  const ruleSet = {
+    ...rules,
+    generalDwadashiYogas: {
+      shravana: {
+        id:"shravana-yoga-dwadashi",
+        name:"श्रवण योग द्वादशी",
+        minimumOverlapMinutes:48
+      }
+    }
+  };
+  const makeDays = (shravanaStart) => {
+    const first = sunriseDay("2030-03-01","फाल्गुन","कृष्ण","द्वादशी");
+    first.sunrise = "2030-03-01T01:05:28.051Z";
+    first.sunset = "2030-03-01T12:37:51.392Z";
+    first.tithiIntervals = [{
+      tithi:"द्वादशी", paksha:"कृष्ण पक्ष",
+      startTime:"2030-03-01T01:05:28.051Z",
+      endTime:"2030-03-01T07:35:25.632Z"
+    }];
+    first.nakshatraIntervals = [{
+      index:21, name:"Shravana",
+      startTime:shravanaStart,
+      endTime:"2030-03-02T01:04:23.775Z"
+    }];
+    const following = sunriseDay("2030-03-02","फाल्गुन","कृष्ण","त्रयोदशी");
+    following.sunrise = "2030-03-02T01:04:23.775Z";
+    following.sunset = "2030-03-02T12:37:30.000Z";
+    following.tithiIntervals = [{
+      tithi:"त्रयोदशी", paksha:"कृष्ण पक्ष",
+      startTime:"2030-03-01T07:36:25.632Z",
+      endTime:"2030-03-02T01:04:23.775Z"
+    }];
+    following.nakshatraIntervals = [];
+    return [first,following];
+  };
+
+  const qualifies = buildDwadashiCalendar(
+    makeDays("2030-03-01T06:44:57.705Z"),ruleSet
+  ).dwadashiYogas.find(item=>item.observanceDate==="2030-03-01");
+  assert.ok(qualifies);
+  assert.equal(qualifies.overlapMs,3027927);
+  assert.equal(qualifies.meetsOneMuhurta,true);
+  assert.equal(qualifies.status,"candidate-needs-manual-review");
+  assert.equal(qualifies.dateSelection,"evidence-only-no-fast-date-selected");
+  assert.equal(qualifies.autoApproved,false);
+
+  const short = buildDwadashiCalendar(
+    makeDays("2030-03-01T06:48:25.632Z"),ruleSet
+  ).dwadashiYogas.find(item=>item.observanceDate==="2030-03-01");
+  assert.ok(short);
+  assert.equal(short.overlapMs,2820000);
+  assert.equal(short.meetsOneMuhurta,false);
+  assert.equal(short.status,"not-qualified");
+  assert.equal(short.autoApproved,false);
+});
+
+test("general Shravana Yoga Dwadashi does not mix the opposite paksha or use civil-midnight boundaries", () => {
+  const ruleSet = {
+    ...rules,
+    generalDwadashiYogas: { shravana:{minimumOverlapMinutes:48} }
+  };
+  const first = sunriseDay("2030-03-01","फाल्गुन","कृष्ण","द्वादशी");
+  first.sunrise = "2030-03-01T01:05:28.051Z";
+  first.tithiIntervals = [{
+    tithi:"द्वादशी", paksha:"शुक्ल पक्ष",
+    startTime:"2030-03-01T06:00:00.000Z",
+    endTime:"2030-03-01T08:00:00.000Z"
+  }];
+  first.nakshatraIntervals = [{
+    index:21, name:"Shravana",
+    startTime:"2030-03-01T06:00:00.000Z",
+    endTime:"2030-03-01T08:00:00.000Z"
+  }];
+  const following = sunriseDay("2030-03-02","फाल्गुन","कृष्ण","त्रयोदशी");
+  following.sunrise = "2030-03-02T01:04:23.775Z";
+  const result = buildDwadashiCalendar([first,following],ruleSet);
+  assert.deepEqual(result.dwadashiYogas,[]);
+});
