@@ -81,3 +81,13 @@
 - महोदय/अर्धोदय का प्रारंभिक वर्णन: https://karmkandvidhi.in/ardhoday-yog/
 
 इन संदर्भों को सार्वजनिक पेज पर लिंक या स्रोत-बैज के रूप में नहीं दिखाना है।
+
+
+## Implementation checkpoint
+
+- `special-punya-kaal.mjs` now contains an interval-based Varuni-family candidate primitive. It intersects Trayodashi, Shatabhisha and the local sunrise-to-next-sunrise Hindu day.
+- Mahavaruni and Mahamahavaruni are emitted as separate time intervals. Mahamahavaruni is restricted to the exact overlap with Shubha nitya-yoga; it must not inherit the full Varuni interval.
+- These records are `research-candidate` only. The primitive is not yet an approved annual calendar generator.
+- Automated unit tests cover exact overlap, Saturday condition, Shubha overlap, wrong tithi/nakshatra/month, and missing sunrise. Latest dedicated GitHub Actions run passed.
+- Important unresolved check before annual generation: confirm the textual tradition's Chaitra-Krishna month label against the project's Purnimanta calculation convention. Do not silently remap the month or publish candidates until this is settled.
+- Mahapata and Mahodaya remain unimplemented. No public page or public event dataset has been added.
