@@ -40,14 +40,20 @@
 
 ## वारुणी-परिवार: प्रारंभिक नियम और आवश्यक cross-check
 
-एक प्रचलित स्कन्दपुराण-आधारित पाठ में:
-- वारुणी: चैत्र कृष्ण त्रयोदशी + शतभिषा नक्षत्र।
-- महावारुणी: उपर्युक्त संयोग + शनिवार।
-- महामहावारुणी: उपर्युक्त संयोग + शनिवार + शुभ नामक नित्य योग।
+### स्वीकृत प्राथमिक profile — स्मार्त निबन्ध परंपरा
 
-अन्य निबन्ध/क्षेत्रीय परंपराओं में मास और संयोग की व्याख्या में भिन्नता मिलती है। इसलिए implementation से पहले मूल उद्धरण का ग्रंथ-पाठ, मास-निर्णय (अमान्त/पूर्णिमान्त), दिन-निर्णय, और शुभ योग की exact identity जाँचें। केवल दिन के किसी हिस्से में overlap होने और सूर्योदय-आधारित पर्व-निर्णय को बिना विचार एक न मानें।
+काल-निर्णयसिन्धु में उद्धृत वारुणी-निर्णय के अनुसार इस परियोजना का प्राथमिक profile:
+- **वारुणी:** चैत्र कृष्ण त्रयोदशी + शतभिषा नक्षत्र का संयोग।
+- **महावारुणी:** उपर्युक्त संयोग + शनिवार।
+- **महामहावारुणी:** उपर्युक्त संयोग + शनिवार + शुभ नामक नित्ययोग।
 
-गणना में तिथि, नक्षत्र, वार और नित्य योग के वास्तविक intervals चाहिए; केवल noon snapshot पर्याप्त नहीं। किसी घटना का पूरा/आंशिक overlap किस प्रकार ग्राह्य होगा, यह source rule में दर्ज होना चाहिए।
+इस पाठ में महामहावारुणी के लिए शुभ योग को भी वास्तविक समय-अंतराल में संयोग के साथ उपस्थित होना चाहिए। केवल उसी दिन शुभ योग होना पर्याप्त नहीं।
+
+### पाठ-भेद जिन्हें प्राथमिक गणना में नहीं मिलाना है
+
+नारदपुराण के एक अन्य वर्णन में चैत्र शुक्ल त्रयोदशी, शनिवार और शतभिषा के संयोग को महामहा नाम से कहा गया है। कुछ अन्य संकलनों में महावारुणी/महामहावारुणी की शर्तें अलग तरह से संक्षेपित हैं। ये अलग पाठ-परंपराएँ हैं; इन्हें एक ही rule में जोड़ने से गलत अतिरिक्त तिथियाँ निकलेंगी। इस पंचांग में उपयोगकर्ता की स्मार्त-प्राथमिकता के अनुसार ऊपर दिया गया काल-निर्णयसिन्धु profile मुख्य रहेगा। वैकल्पिक पाठ को केवल आंतरिक शोध में रखा जाएगा, सार्वजनिक गणना में नहीं।
+
+परियोजना का calendarType `purnimanta` है; उसी पंचांग मास-नाम को लिया जाएगा। चैत्र कृष्ण पक्ष को किसी अन्य मास में स्वतः remap नहीं करना है। तिथि, नक्षत्र और शुभ योग के वास्तविक intervals लिए जाएँगे; केवल noon snapshot पर्याप्त नहीं। वार का निर्धारण पिथौरागढ़ के स्थानीय civil date से होगा।
 
 ## संक्रांति — मौजूदा सुविधा यथावत
 
@@ -91,3 +97,10 @@
 - Automated unit tests cover exact overlap, Saturday condition, Shubha overlap, wrong tithi/nakshatra/month, and missing sunrise. Latest dedicated GitHub Actions run passed.
 - Important unresolved check before annual generation: confirm the textual tradition's Chaitra-Krishna month label against the project's Purnimanta calculation convention. Do not silently remap the month or publish candidates until this is settled.
 - Mahapata and Mahodaya remain unimplemented. No public page or public event dataset has been added.
+
+
+## Source decision update — Varuni family
+
+The primary implementation profile is the Smarta nibandha formulation quoted in Kālanirṇaya-sindhu: Chaitra Krishna Trayodashi + Shatabhisha; Saturday upgrades it to Mahavaruni; an actually overlapping Shubha nitya-yoga upgrades it to Mahamahavaruni. The Nārada Purāṇa passage describing Chaitra Shukla Trayodashi + Saturday + Shatabhisha as Mahamaha is retained as a distinct textual variant and is not merged into this profile.
+
+The Panchangam engine uses zero-based indices: Shatabhisha = 23 and Shubha nitya-yoga = 22. Unit tests now assert those exact indices even when the engine does not supply localized names.
