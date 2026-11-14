@@ -17,7 +17,7 @@ import {
   scanPlanetHorizonEvents,
   findHorizonTwilightThresholdCrossings
 } from "../planetary-city-horizon-threshold.mjs";
-import { findPlanetConjunctions } from "./planetary-conjunction-association.mjs";
+import { findPlanetConjunctions, expectedBoundaryEventType } from "./planetary-conjunction-association.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SOURCE = path.join(ROOT, "data/drik-planetary-reference-2024-2027.json");
@@ -31,15 +31,6 @@ const PLANETS = ["Jupiter", "Venus"];
 const PITHORAGARH = Object.freeze({
   latitude: 29.5828, longitude: 80.2182, height: 1650,
   source: "project-verified-reference-profile"
-});
-const EXPECTED_BRANCH = Object.freeze({
-  Jupiter: Object.freeze({
-    conjunction: Object.freeze({ astaStart: "set", astaEnd: "rise" })
-  }),
-  Venus: Object.freeze({
-    "inferior-conjunction": Object.freeze({ astaStart: "set", astaEnd: "rise" }),
-    "superior-conjunction": Object.freeze({ astaStart: "rise", astaEnd: "set" })
-  })
 });
 const conjunctionsByPlanet = new Map(PLANETS.map(planet => [planet,
   findPlanetConjunctions({
@@ -83,7 +74,7 @@ function conjunctionForWindow(row) {
 }
 
 function expectedEventType(planet, conjunctionKind, boundary) {
-  return EXPECTED_BRANCH[planet]?.[conjunctionKind]?.[boundary] ?? null;
+  return expectedBoundaryEventType(planet, conjunctionKind, boundary);
 }
 
 function nearestCrossingOnConjunctionSide(
