@@ -812,9 +812,9 @@ export function resolveParashuramaJayantiCandidates(candidateDays) {
     const date = String(day?.date ?? "");
     const sunset = asDate(day?.sunset);
     const nextSunrise = asDate(day?.nextSunrise);
-    const masa = String(day?.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+    const masa = String(day?.masa ?? "").replace(/^अधिक\s+/, "").trim();
     const paksha = String(day?.paksha ?? "").trim();
-    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || !sunset || !nextSunrise ||
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !sunset || !nextSunrise ||
         nextSunrise <= sunset || masa !== "वैशाख" ||
         !["शुक्ल", "शुक्ल पक्ष"].includes(paksha) ||
         !Array.isArray(day?.tithis) || !day.tithis.length) return null;
