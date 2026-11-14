@@ -32,3 +32,10 @@ test("monthly festival page deduplicates links across description and metadata",
 test("monthly widget canonicalizes mobile query variants before link deduplication", () => {
   assert.match(widget, /parsed\.searchParams\.delete\("m"\)/);
 });
+
+test("monthly widget opens a directly requested year and month", () => {
+  assert.match(widget, /var requestedYear=Number\(pageParams\.get\("year"\)\)/);
+  assert.match(widget, /var requestedMonth=Number\(pageParams\.get\("month"\)\)/);
+  assert.match(widget, /validRequestedMonth/);
+  assert.match(widget, /initialDate=new Date\(requestedYear,requestedMonth-1,1,12,0,0\)/);
+});
