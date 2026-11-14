@@ -89,6 +89,7 @@ jobs:
           name: city-wise-guru-shukra-observer-backtest
           path: |
             city-observer-profiles.json
+            data/pac-heliacal-reference-central-station-2026-2027.json
             planetary-city-backtest.json
             multi-city-planetary-backtest.json
             multi-city-planetary-error-audit.json
