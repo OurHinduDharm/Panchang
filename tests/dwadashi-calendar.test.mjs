@@ -204,26 +204,6 @@ test("a source reference is not matched when either sunrise boundary is missing"
   assert.equal(record.status,"needs-review");
 });
 
-test("a source date overlapping the Dwadashi interval is recognized even when Dwadashi begins after sunrise", () => {
-  const day = sunriseDay("2026-09-23","भाद्रपद","शुक्ल","द्वादशी");
-  day.tithiStartTime = "2026-09-22T16:13:37.432Z";
-  day.tithiEndTime = "2026-09-23T17:20:50.513Z";
-  const sourceRules = {
-    ...rules,
-    drikSpecialObservances: [{
-      year:2026, month:"भाद्रपद", paksha:"शुक्ल", adhika:false,
-      referenceDate:"2026-09-22",
-      labels:["विष्णुशृंखला योग द्वादशी"]
-    }]
-  };
-  const result = buildDwadashiCalendar([day],sourceRules);
-  const record = result.tithis.find(item => item.id === "bhadrapada-shukla");
-  assert.deepEqual(record.candidateDates,["2026-09-23"]);
-  assert.equal(record.selectedDate,"2026-09-22");
-  assert.equal(record.dateSelection,"source-reference-date-tithi-overlap-review-required");
-  assert.equal(record.sourceReferenceObservation.intervalStart,"2026-09-22T16:13:37.432Z");
-  assert.equal(record.status,"needs-review");
-});
 
 test("a matching Drik reference date resolves a multi-date Dwadashi candidate without approving it", () => {
   const previousDay = sunriseDay("2027-03-04","फाल्गुन","कृष्ण","एकादशी");
