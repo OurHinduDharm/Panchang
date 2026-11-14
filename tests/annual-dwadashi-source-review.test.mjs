@@ -92,7 +92,8 @@ test("2029–2030 Drik special Dwadashi labels use the exact source dates and na
   assert.deepEqual(find(2030,"2030-09-09")?.labels, ["श्रवण योग द्वादशी"]);
   assert.deepEqual(find(2030,"2030-03-29")?.labels, ["एकादशी श्रवण योग द्वादशी"]);
   assert.deepEqual(find(2030,"2030-12-21")?.labels, ["कृष्ण मत्स्य द्वादशी"]);
-  assert.equal(find(2030,"2030-05-14"), undefined);
+  assert.equal(find(2030,"2030-05-14")?.dateRole, "special-observance-date");
+  assert.equal(find(2030,"2030-05-14")?.referenceDate, undefined);
 });
 
 test("source metadata distinguishes Pithoragarh primary from New Delhi secondary checks", () => {
