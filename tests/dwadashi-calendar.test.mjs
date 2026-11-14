@@ -982,3 +982,36 @@ test("general Shravana Yoga Dwadashi does not mix the opposite paksha or use civ
   const result = buildDwadashiCalendar([first,following],ruleSet);
   assert.deepEqual(result.dwadashiYogas,[]);
 });
+
+
+test("general Shravana Yoga Dwadashi review excludes adjacent-year buffer days", () => {
+  const ruleSet = {
+    ...rules,
+    generalDwadashiYogas: { shravana:{minimumOverlapMinutes:48} }
+  };
+  const lastYearDay = sunriseDay("2030-12-31","पौष","कृष्ण","एकादशी");
+  lastYearDay.sunrise = "2030-12-31T01:00:00.000Z";
+  lastYearDay.tithiIntervals = [{
+    tithi:"एकादशी", paksha:"कृष्ण पक्ष",
+    startTime:"2030-12-31T01:00:00.000Z",
+    endTime:"2030-12-31T22:00:00.000Z"
+  }];
+  const nextYearDwadashi = sunriseDay("2031-01-01","पौष","कृष्ण","द्वादशी");
+  nextYearDwadashi.sunrise = "2031-01-01T01:00:00.000Z";
+  nextYearDwadashi.tithiIntervals = [{
+    tithi:"द्वादशी", paksha:"कृष्ण पक्ष",
+    startTime:"2031-01-01T01:00:00.000Z",
+    endTime:"2031-01-01T03:00:00.000Z"
+  }];
+  nextYearDwadashi.nakshatraIntervals = [{
+    index:21,name:"Shravana",
+    startTime:"2031-01-01T01:00:00.000Z",
+    endTime:"2031-01-01T04:00:00.000Z"
+  }];
+  const finalDay = sunriseDay("2031-01-02","पौष","कृष्ण","त्रयोदशी");
+  finalDay.sunrise = "2031-01-02T01:00:00.000Z";
+  const result = buildDwadashiCalendar(
+    [lastYearDay,nextYearDwadashi,finalDay],ruleSet
+  );
+  assert.deepEqual(result.dwadashiYogas,[]);
+});
