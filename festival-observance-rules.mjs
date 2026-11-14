@@ -164,12 +164,12 @@ const PROFILES = {
   },
   "parashurama-jayanti-pradosha-review": {
     id: "parashurama-jayanti-pradosha-review", aliases: ["parashurama-jayanti", "parashuram-jayanti", "parashurama-avatara-jayanti"],
-    label: "परशुराम जयंती — प्रदोष-व्याप्ति की जाँच", tithiIndices: [2], paksha: "शुक्ल पक्ष",
-    decisionMoment: "manual-review", windowLabel: "प्रदोष काल में तृतीया-व्याप्ति",
-    calculationBasis: "vaishakha-shukla-tritiya-at-pradosha-second-day-if-two-day-vyapti",
+    label: "परशुराम जयंती — प्रदोष-व्याप्ति का विशेष निर्णय", tithiIndices: [2], paksha: "शुक्ल पक्ष",
+    decisionMoment: "pradosh", windowLabel: "सूर्यास्त से रात्रि के प्रथम तीन मुहूर्त",
+    calculationBasis: "vaishakha-shukla-tritiya-pradosha-two-day-partial-or-full-later-otherwise-earlier",
     allowedMonths: ["वैशाख"], reviewOnly: true,
-    reviewNote: "परशुराम जयंती का निर्णय केवल अक्षय तृतीया के नाम या सूर्योदय की तिथि से नहीं होगा। वैशाख शुक्ल तृतीया का प्रदोष काल में होना देखा जाता है; दो दिन प्रदोष-व्याप्ति होने पर दूसरे दिन का नियम भी जाँचना होगा।",
-    sourceReview: "drik-dedicated-parashurama-rule-crosschecked-primary-text-tie-break-pending"
+    reviewNote: "परशुराम जयंती के लिए वैशाख शुक्ल तृतीया का प्रदोष-व्याप्त होना देखा जाता है। दो दिनों में प्रदोष की पूर्ण या आंशिक व्याप्ति हो तो दूसरा दिन; अन्यथा पहला दिन। अक्षय तृतीया का मध्याह्न-नियम अलग रहेगा।",
+    sourceReview: "nirnaya-sindhu-dharmasindhu-parashurama-pradosha-two-day-rule-implemented-source-approval-pending"
   },
   "radha-ashtami-madhyahna-review": {
     id: "radha-ashtami-madhyahna-review", aliases: ["radha-ashtami", "radhashtami", "radha-jayanti"],
@@ -469,6 +469,7 @@ export function resolveObservanceCandidates(ruleId, candidateContexts) {
   if (profileId === "nag-panchami-special-review") return resolveNagPanchamiCandidates(candidateContexts);
   if (profileId === "ratha-saptami-review") return resolveRathaSaptamiCandidates(candidateContexts);
   if (profileId === "narasimha-jayanti-smarta-review") return resolveNarasimhaJayantiCandidates(candidateContexts);
+  if (profileId === "parashurama-jayanti-pradosha-review") return resolveParashuramaJayantiCandidates(candidateContexts);
   if (profileId === "shravana-yoga-dwadashi-review") return resolveShravanaDwadashiCandidates(candidateContexts);
   const dates = candidateContexts.map(item => String(item?.date ?? ""));
   if (dates.some(date => !/^\d{4}-\d{2}-\d{2}$/.test(date)) || new Set(dates).size !== dates.length) {
@@ -792,6 +793,82 @@ export function calculateEkadashiParanaWindow(context = {}) {
  * on both days or on neither day, take the second day to avoid Trayodashi
  * association. Candidate selection is not public-date approval.
  */
+/**
+ * Resolve Vaishakha Shukla Tritiya for Parashurama Jayanti.
+ * Nirnaya Sindhu/Dharmasindhu: if Tritiya touches Pradosha on both
+ * consecutive days (even partially), take the later day; otherwise take
+ * the earlier day. This is distinct from Akshaya Tritiya's daytime rule.
+ */
+export function resolveParashuramaJayantiCandidates(candidateDays) {
+  const fail = (status, warnings, evaluations = []) => ({
+    status, ruleId: "parashurama-jayanti-pradosha-review", evaluations,
+    selectedDate: null, finalDate: null, autoApproved: false, warnings
+  });
+  if (!Array.isArray(candidateDays) || candidateDays.length !== 2) {
+    return fail("insufficient-data", ["exactly-two-consecutive-local-days-required"]);
+  }
+  const days = candidateDays.slice().sort((a, b) => String(a?.date ?? "").localeCompare(String(b?.date ?? "")));
+  const info = days.map(day => {
+    const date = String(day?.date ?? "");
+    const sunset = asDate(day?.sunset);
+    const nextSunrise = asDate(day?.nextSunrise);
+    const masa = String(day?.masa ?? "").replace(/^अधिक\\s+/, "").trim();
+    const paksha = String(day?.paksha ?? "").trim();
+    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(date) || !sunset || !nextSunrise ||
+        nextSunrise <= sunset || masa !== "वैशाख" ||
+        !["शुक्ल", "शुक्ल पक्ष"].includes(paksha) ||
+        !Array.isArray(day?.tithis) || !day.tithis.length) return null;
+    const nightMs = nextSunrise.getTime() - sunset.getTime();
+    const pradosh = { start: sunset, end: new Date(sunset.getTime() + nightMs * 3 / 15) };
+    const tritiyas = day.tithis.map(row => asInterval(row)).filter(item => item && item.index === 2);
+    const covered = tritiyas.map(item => overlap(item, pradosh)).filter(Boolean);
+    const coverageMs = covered.reduce((sum, item) => sum + item.end.getTime() - item.start.getTime(), 0);
+    return {
+      date, sunset, nextSunrise, pradosh, tritiyas, coverageMs,
+      intervals: tritiyas.map(item => ({ start: item.start.toISOString(), end: item.end.toISOString() }))
+    };
+  });
+  if (info.some(item => !item)) return fail("insufficient-data", [
+    "local-sunset-next-sunrise-vaishakha-shukla-paksha-or-tritiya-data-missing"
+  ]);
+  const expected = new Date(info[0].sunset.getTime());
+  expected.setUTCDate(expected.getUTCDate() + 1);
+  if (expected.toISOString().slice(0, 10) !== info[1].sunset.toISOString().slice(0, 10)) {
+    return fail("insufficient-data", ["candidate-days-are-not-consecutive"]);
+  }
+  const allTithis = info.flatMap(day => day.tritiyas);
+  const cycleStart = info[0].sunset;
+  const cycleEnd = info[1].nextSunrise;
+  if (!allTithis.some(item => overlap(item, { start: cycleStart, end: cycleEnd }))) {
+    return fail("insufficient-data", ["vaishakha-shukla-tritiya-interval-not-found-in-candidate-cycle"]);
+  }
+  const coveredDays = info.filter(day => day.coverageMs > 0);
+  const bothDays = coveredDays.length === 2;
+  const selectedDate = bothDays ? info[1].date : info[0].date;
+  const selectionBasis = bothDays
+    ? "dharmasindhu-two-day-pradosha-vyapti-later-day"
+    : "dharmasindhu-not-both-days-pradosha-vyapti-earlier-day";
+  const evaluations = info.map(day => ({
+    date: day.date,
+    pradoshStart: day.pradosh.start.toISOString(),
+    pradoshEnd: day.pradosh.end.toISOString(),
+    tritiyaPradoshaCoverageMs: day.coverageMs,
+    tritiyaIntervals: day.intervals
+  }));
+  return {
+    status: "date-selected-needs-source-approval",
+    ruleId: "parashurama-jayanti-pradosha-review",
+    selectedDate, finalDate: selectedDate, selectionBasis,
+    evaluations,
+    warnings: [
+      "parashurama-jayanti-is-pradosha-first-prahara-not-akshaya-tritiya-madhyahna",
+      "partial-pradosha-overlap-counts-for-two-day-later-day-rule",
+      "source-and-publication-approval-required"
+    ],
+    autoApproved: false
+  };
+}
+
 export function resolveNarasimhaJayantiCandidates(candidateDays) {
   const fail = (status, warnings, evaluations = []) => ({
     status, ruleId: "narasimha-jayanti-smarta-review", evaluations,
