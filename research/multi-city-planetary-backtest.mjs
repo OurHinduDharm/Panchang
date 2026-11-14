@@ -194,12 +194,16 @@ for (const profile of profiles) {
   const leaveOneYearOut = leaveOneYearOutThresholdAudit(observations);
   const holdout = [];
   const pairingDiagnostics = {};
+  const horizonEventsByPlanet = {};
   for (const planet of PLANETS) {
     const horizonSeries = scanPlanetHorizonEvents({
       astronomy: Astronomy, planet, observer,
       start: "2026-01-01T00:00:00.000Z",
       end: "2028-01-01T00:00:00.000Z"
     });
+    // Preserve the complete local rise/set series so later research-only
+    // threshold models can be evaluated without using source dates to select events.
+    horizonEventsByPlanet[planet] = horizonSeries.events;
 
     // Generate every threshold crossing without consulting any reference date.
     const rawCandidates = [];
@@ -307,6 +311,7 @@ for (const profile of profiles) {
     sourceWindows: rows.length,
     sourceBoundaries: observations.length,
     sourceObservations: observations,
+    horizonEventsByPlanet,
     trainingYears: "available 2021-2025",
     holdoutYears: "2026-2027",
     trainingThresholds: training,
